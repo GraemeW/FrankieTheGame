@@ -7,22 +7,31 @@ namespace Frankie.Control
     public class PlayerController : MonoBehaviour
     {
         // Tunables
-        [SerializeField] float movementSpeed = 3.0f;
-        [SerializeField] float currentSpeed;
+        [SerializeField] float movementSpeed = 1.0f;
+        [SerializeField] float speedMoveThreshold = 0.05f;
 
         // State
         float inputHorizontal;
         float inputVertical;
         Vector2 lookDirection = new Vector2();
+        float currentSpeed;
 
         // Cached References
         Rigidbody2D playerRigidbody2D = null;
         Animator animator = null;
 
+        // Internal functions
+        static float Sign(float number)
+        {
+            return number < 0 ? -1 : (number > 0 ? 1 : 0);
+        }
+
+
         private void Start()
         {
             animator = GetComponent<Animator>();
             playerRigidbody2D = GetComponent<Rigidbody2D>();
+            InitializeLookDirection();
         }
 
         private void Update()
@@ -36,28 +45,46 @@ namespace Frankie.Control
             InteractWithMovement();
         }
 
+        private void InitializeLookDirection()
+        {
+            lookDirection = Vector2.down;
+        }
+
         private void InteractWithMovement()
         {
-            Vector2 move = new Vector2(inputHorizontal, inputVertical);
+            SetMovementParameters();
+            UpdateAnimator();
+            if (currentSpeed > speedMoveThreshold)
+            {
+                MovePlayer();
+            }
 
+        }
+
+        private void SetMovementParameters()
+        {
+            Vector2 move = new Vector2(inputHorizontal, inputVertical);
             if (!Mathf.Approximately(move.x, 0.0f) || !Mathf.Approximately(move.y, 0.0f))
             {
                 lookDirection.Set(move.x, move.y);
                 lookDirection.Normalize();
             }
-            animator.SetFloat("Speed", move.magnitude);
             currentSpeed = move.magnitude;
+        }
 
-            /* TODO:  Make assets for multi-dimensional looking ++ animation
-            animator.SetFloat("Look X", lookDirection.x);
-            animator.SetFloat("Look Y", lookDirection.y);
-            */
-
+        private void MovePlayer()
+        {
             Vector2 position = playerRigidbody2D.position;
-            position.x = position.x + movementSpeed * inputHorizontal * Time.deltaTime;
-            position.y = position.y + movementSpeed * inputVertical * Time.deltaTime;
-
+            position.x = position.x + movementSpeed * Sign(inputHorizontal) * Time.deltaTime;
+            position.y = position.y + movementSpeed * Sign(inputVertical) * Time.deltaTime;
             playerRigidbody2D.MovePosition(position);
+        }
+
+        private void UpdateAnimator()
+        {
+            animator.SetFloat("Speed", currentSpeed);
+            animator.SetFloat("xLook", lookDirection.x);
+            animator.SetFloat("yLook", lookDirection.y);
         }
     }
 }

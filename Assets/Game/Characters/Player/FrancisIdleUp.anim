@@ -6,7 +6,7 @@ AnimationClip:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: FrankieMove
+  m_Name: FrancisIdleUp
   serializedVersion: 6
   m_Legacy: 0
   m_Compressed: 0
@@ -20,14 +20,14 @@ AnimationClip:
   m_PPtrCurves:
   - curve:
     - time: 0
-      value: {fileID: 9043343614315922804, guid: fe27dfde1848f8c42b2481278705429e, type: 3}
-    - time: 0.16666667
-      value: {fileID: -6740002850987683481, guid: a25d0ee4f1cdc054d98fb53adcd3d24e, type: 3}
+      value: {fileID: 21300000, guid: 86f6b11276b5ca94a9d118b802dbe2c2, type: 3}
+    - time: 0.125
+      value: {fileID: 21300000, guid: 2979d2dd1b149fe43bccc40fac2bb353, type: 3}
     attribute: m_Sprite
     path: PlayerSprite
     classID: 212
     script: {fileID: 0}
-  m_SampleRate: 12
+  m_SampleRate: 8
   m_WrapMode: 0
   m_Bounds:
     m_Center: {x: 0, y: 0, z: 0}
@@ -42,8 +42,8 @@ AnimationClip:
       customType: 23
       isPPtrCurve: 1
     pptrCurveMapping:
-    - {fileID: 9043343614315922804, guid: fe27dfde1848f8c42b2481278705429e, type: 3}
-    - {fileID: -6740002850987683481, guid: a25d0ee4f1cdc054d98fb53adcd3d24e, type: 3}
+    - {fileID: 21300000, guid: 86f6b11276b5ca94a9d118b802dbe2c2, type: 3}
+    - {fileID: 21300000, guid: 2979d2dd1b149fe43bccc40fac2bb353, type: 3}
   m_AnimationClipSettings:
     serializedVersion: 2
     m_AdditiveReferencePoseClip: {fileID: 0}
