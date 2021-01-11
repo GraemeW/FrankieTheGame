@@ -183,9 +183,9 @@ namespace Frankie.Zone.Editor
             string newDetail = EditorGUILayout.TextField("Node Detail:", zoneNode.GetDetail());
             zoneNode.SetDetail(newDetail);
 
-            // Scene Reference
-            string newSceneReference = EditorGUILayout.TextField("Linked Scene (if any):", zoneNode.GetSceneReference());
-            zoneNode.SetSceneReference(newSceneReference);
+            // Zone Reference
+            string newZoneReference = EditorGUILayout.TextField("Linked Zone (if any):", zoneNode.GetLinkedZoneName());
+            zoneNode.SetLinkedZoneName(newZoneReference);
 
             // Additional Functionality
             GUILayout.FlexibleSpace();

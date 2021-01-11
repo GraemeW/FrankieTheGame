@@ -17,13 +17,15 @@ namespace Frankie.Zone
         // State
         [HideInInspector] [SerializeField] List<ZoneNode> zoneNodes = new List<ZoneNode>();
         [HideInInspector] [SerializeField] Dictionary<string, ZoneNode> nodeLookup = new Dictionary<string, ZoneNode>();
+        static Dictionary<string, Zone> zoneLookupCache;
 
-#if UNITY_EDITOR
         private void Awake()
         {
+#if UNITY_EDITOR
             CreateRootNodeIfMissing();
-        }
 #endif
+        }
+
         private void OnValidate()
         {
             nodeLookup = new Dictionary<string, ZoneNode>();
@@ -31,6 +33,28 @@ namespace Frankie.Zone
             {
                 nodeLookup.Add(zoneNode.name, zoneNode);
             }
+        }
+
+        public static Zone GetFromName(string zoneName)
+        {
+            if (zoneLookupCache == null)
+            {
+                zoneLookupCache = new Dictionary<string, Zone>();
+                Zone[] zoneList = Resources.LoadAll<Zone>("");
+                foreach (Zone zone in zoneList)
+                {
+                    if (zoneLookupCache.ContainsKey(zone.name))
+                    {
+                        Debug.LogError(string.Format("Looks like there's a duplicate ID for objects: {0} and {1}", zoneLookupCache[zone.name], zone));
+                        continue;
+                    }
+
+                    zoneLookupCache[zone.name] = zone;
+                }
+            }
+
+            if (zoneName == null || !zoneLookupCache.ContainsKey(zoneName)) return null;
+            return zoneLookupCache[zoneName];
         }
 
         public IEnumerable<ZoneNode> GetAllNodes()
@@ -84,6 +108,7 @@ namespace Frankie.Zone
             Undo.RegisterCreatedObjectUndo(zoneNode, "Created Zone Node Object");
             zoneNode.Initialize(nodeWidth, nodeHeight);
             zoneNode.name = System.Guid.NewGuid().ToString();
+            zoneNode.SetZoneName(this.name);
 
             Undo.RecordObject(this, "Add Zone Node");
             zoneNodes.Add(zoneNode);
@@ -164,6 +189,7 @@ namespace Frankie.Zone
             {
                 foreach (ZoneNode zoneNode in GetAllNodes())
                 {
+                    zoneNode.SetZoneName(this.name);
                     if (AssetDatabase.GetAssetPath(zoneNode) == "")
                     {
                         AssetDatabase.AddObjectToAsset(zoneNode, this);

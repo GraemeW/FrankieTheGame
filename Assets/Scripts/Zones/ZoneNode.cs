@@ -11,18 +11,19 @@ namespace Frankie.Zone
         [Header("Dialogue Properties")]
         [SerializeField] List<string> children = new List<string>();
         [SerializeField] string detail = null;
-        [SerializeField] string sceneReference = null;
+        [SerializeField] string zoneName = null;
+        [SerializeField] string linkedZoneName = null;
         [SerializeField] Rect rect = new Rect(30, 30, 430, 150);
         [HideInInspector] [SerializeField] Rect draggingRect = new Rect(0, 0, 430, 45);
 
-        public bool IsSceneReference()
+        public string GetZoneName()
         {
-            return !string.IsNullOrWhiteSpace(sceneReference);
+            return zoneName;
         }
 
-        public string GetSceneReference()
+        public string GetLinkedZoneName()
         {
-            return sceneReference;
+            return linkedZoneName;
         }
 
         public string GetDetail()
@@ -59,12 +60,22 @@ namespace Frankie.Zone
             EditorUtility.SetDirty(this);
         }
 
-        public void SetSceneReference(string sceneReference)
+        public void SetZoneName(string zoneName)
         {
-            if (sceneReference != this.sceneReference)
+            if (zoneName != this.zoneName)
             {
-                Undo.RecordObject(this, "Update Scene Reference");
-                this.sceneReference = sceneReference;
+                Undo.RecordObject(this, "Update Zone");
+                this.zoneName = zoneName;
+                EditorUtility.SetDirty(this);
+            }
+        }
+
+        public void SetLinkedZoneName(string linkedZoneName)
+        {
+            if (linkedZoneName != this.linkedZoneName)
+            {
+                Undo.RecordObject(this, "Update Linked Zone");
+                this.linkedZoneName = linkedZoneName;
                 EditorUtility.SetDirty(this);
             }
         }
