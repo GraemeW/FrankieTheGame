@@ -2,6 +2,7 @@ using Frankie.Control;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 namespace Frankie.Zone
 {
@@ -12,6 +13,9 @@ namespace Frankie.Zone
         [SerializeField] bool overrideDefaultInteractionDistance = false;
         [SerializeField] float interactionDistance = 0.3f;
         [SerializeField] Transform warpPosition = null;
+
+        // Events
+        public UnityEvent zoneInteraction;
 
         // Public Functions
         public ZoneNode GetZoneNode()
@@ -43,8 +47,19 @@ namespace Frankie.Zone
             {
                 if (nextNode == zoneHandler.GetZoneNode())
                 {
-                    if (warpPosition != null) { callingController.transform.position = zoneHandler.GetWarpPosition().position; }
+                    if (warpPosition != null) 
+                    { 
+                        callingController.transform.position = zoneHandler.GetWarpPosition().position;
+                        Vector2 lookDirection = zoneHandler.GetWarpPosition().position - zoneHandler.transform.position;
+                        lookDirection.Normalize();
+                        callingController.SetLookDirection(lookDirection);
+                    }
                     else { callingController.transform.position = zoneHandler.transform.position; }
+
+                    if (zoneInteraction != null)
+                    {
+                        zoneInteraction.Invoke();
+                    }
                 }
             }
         }

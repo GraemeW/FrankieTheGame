@@ -49,6 +49,11 @@ namespace Frankie.Control
             return sortedNonPlayerHits[0];
         }
 
+        public void SetLookDirection(Vector2 lookDirection)
+        {
+            this.lookDirection = lookDirection;
+        }
+
         // Internal functions
         static float Sign(float number)
         {
@@ -60,7 +65,7 @@ namespace Frankie.Control
         {
             animator = GetComponent<Animator>();
             playerRigidbody2D = GetComponent<Rigidbody2D>();
-            lookDirection = Vector2.down; // Initialize look direction to avoid wonky
+            SetLookDirection(Vector2.down); // Initialize look direction to avoid wonky
         }
 
         private void Update()

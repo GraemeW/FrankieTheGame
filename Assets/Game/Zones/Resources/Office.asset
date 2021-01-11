@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: 6a693c23-2efa-47ba-a1e2-3eb3c345b2d0
   m_EditorClassIdentifier: 
   children:
-  - 1b34c47f-6d98-4333-b17a-6afb62814036
+  - c79866f3-d759-46d8-b2df-be12e59f7c7f
   detail: Left Door
   zoneName: Office
   linkedZoneName: 
@@ -47,6 +47,97 @@ MonoBehaviour:
   zoneNodes:
   - {fileID: -4465313182537751535}
   - {fileID: 7265039216188601176}
+  - {fileID: 2923225544133778589}
+  - {fileID: 8894782445521224327}
+  - {fileID: 3365788838334092622}
+  - {fileID: 555700621989660187}
+--- !u!114 &555700621989660187
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3268536af8903a64da82aa6872733d1d, type: 3}
+  m_Name: 2aa39d2d-3d11-4b4e-9051-4ae9a7381f00
+  m_EditorClassIdentifier: 
+  children:
+  - d1e9ce8f-1ca5-4659-a2b7-574f6091ba79
+  detail: Closet
+  zoneName: Office
+  linkedZoneName: 
+  rect:
+    serializedVersion: 2
+    x: 1621
+    y: 202
+    width: 430
+    height: 150
+  draggingRect:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 430
+    height: 45
+--- !u!114 &2923225544133778589
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3268536af8903a64da82aa6872733d1d, type: 3}
+  m_Name: afae723d-07ee-4173-b77a-a7368ec14c39
+  m_EditorClassIdentifier: 
+  children:
+  - 1b34c47f-6d98-4333-b17a-6afb62814036
+  detail: Hallway Left
+  zoneName: Office
+  linkedZoneName: 
+  rect:
+    serializedVersion: 2
+    x: 1090
+    y: 30
+    width: 430
+    height: 150
+  draggingRect:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 430
+    height: 45
+--- !u!114 &3365788838334092622
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3268536af8903a64da82aa6872733d1d, type: 3}
+  m_Name: d1e9ce8f-1ca5-4659-a2b7-574f6091ba79
+  m_EditorClassIdentifier: 
+  children:
+  - 2aa39d2d-3d11-4b4e-9051-4ae9a7381f00
+  detail: Hallway Right
+  zoneName: Office
+  linkedZoneName: 
+  rect:
+    serializedVersion: 2
+    x: 1091
+    y: 202
+    width: 430
+    height: 150
+  draggingRect:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 430
+    height: 45
 --- !u!114 &7265039216188601176
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -60,7 +151,7 @@ MonoBehaviour:
   m_Name: 1b34c47f-6d98-4333-b17a-6afb62814036
   m_EditorClassIdentifier: 
   children:
-  - 6a693c23-2efa-47ba-a1e2-3eb3c345b2d0
+  - afae723d-07ee-4173-b77a-a7368ec14c39
   detail: Right Door
   zoneName: Office
   linkedZoneName: 
@@ -68,6 +159,35 @@ MonoBehaviour:
     serializedVersion: 2
     x: 560
     y: 30
+    width: 430
+    height: 150
+  draggingRect:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 430
+    height: 45
+--- !u!114 &8894782445521224327
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3268536af8903a64da82aa6872733d1d, type: 3}
+  m_Name: c79866f3-d759-46d8-b2df-be12e59f7c7f
+  m_EditorClassIdentifier: 
+  children:
+  - 6a693c23-2efa-47ba-a1e2-3eb3c345b2d0
+  detail: Open Work Concept Door
+  zoneName: Office
+  linkedZoneName: 
+  rect:
+    serializedVersion: 2
+    x: 30
+    y: 211
     width: 430
     height: 150
   draggingRect:
