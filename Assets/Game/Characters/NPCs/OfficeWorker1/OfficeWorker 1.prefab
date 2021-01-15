@@ -18,11 +18,15 @@ PrefabInstance:
     - target: {fileID: 6761616658462586549, guid: 1b473d8838e3d4d4c99f7ff6e30d07df, type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: 3bdf852169b791645a30929c2a3c0f1b, type: 3}
+      objectReference: {fileID: 21300000, guid: 856f2a065a11b5e45b959d28c612a917, type: 3}
     - target: {fileID: 6761616658462586549, guid: 1b473d8838e3d4d4c99f7ff6e30d07df, type: 3}
       propertyPath: m_WasSpriteAssigned
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 6761616658632847992, guid: 1b473d8838e3d4d4c99f7ff6e30d07df, type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 22100000, guid: e7d25f8194ce6674c94a52ccd21b6144, type: 2}
     - target: {fileID: 6761616658632847993, guid: 1b473d8838e3d4d4c99f7ff6e30d07df, type: 3}
       propertyPath: m_RootOrder
       value: 0
@@ -69,7 +73,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6761616658632847994, guid: 1b473d8838e3d4d4c99f7ff6e30d07df, type: 3}
       propertyPath: m_Name
-      value: OfficeWorker 3
+      value: OfficeWorker 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1b473d8838e3d4d4c99f7ff6e30d07df, type: 3}

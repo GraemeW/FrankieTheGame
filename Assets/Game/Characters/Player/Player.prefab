@@ -200,13 +200,13 @@ MonoBehaviour:
     texture: {fileID: 2800000, guid: 5913706450b54364e81fb38732a95c0c, type: 3}
     hotspot: {x: 0, y: 0}
   - type: 1
-    texture: {fileID: 2800000, guid: 3df0c4ee36fb6224baa4501a60ae38d7, type: 3}
+    texture: {fileID: 2800000, guid: 446522a0aa2388f418a17e52f70da9a8, type: 3}
     hotspot: {x: 0, y: 0}
   - type: 2
-    texture: {fileID: 2800000, guid: 80b39081ffe63254db5b87332037b9f0, type: 3}
+    texture: {fileID: 2800000, guid: 32f0a7dbb23f91b47af501e166a7b33d, type: 3}
     hotspot: {x: 0, y: 0}
   - type: 3
-    texture: {fileID: 2800000, guid: 65ed553aa301ff54da9a6dd86a568ce8, type: 3}
+    texture: {fileID: 2800000, guid: 83c4e472fe1ee254ca18b3708b85fe5e, type: 3}
     hotspot: {x: 0, y: 0}
   raycastRadius: 0.1
   interactionDistance: 0.5
