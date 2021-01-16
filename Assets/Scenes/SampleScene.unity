@@ -1122,6 +1122,34 @@ PrefabInstance:
       propertyPath: m_Name
       value: OfficeWorker1
       objectReference: {fileID: 0}
+    - target: {fileID: 9137650141004882914, guid: 30c6f3f30a3216e41bbc8a6ac45c57e0, type: 3}
+      propertyPath: initiateCombat.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9137650141004882914, guid: 30c6f3f30a3216e41bbc8a6ac45c57e0, type: 3}
+      propertyPath: initiateCombat.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9137650141004882914, guid: 30c6f3f30a3216e41bbc8a6ac45c57e0, type: 3}
+      propertyPath: initiateCombat.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1187850572}
+    - target: {fileID: 9137650141004882914, guid: 30c6f3f30a3216e41bbc8a6ac45c57e0, type: 3}
+      propertyPath: initiateCombat.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 9137650141004882914, guid: 30c6f3f30a3216e41bbc8a6ac45c57e0, type: 3}
+      propertyPath: initiateCombat.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: QueueBattleEntry
+      objectReference: {fileID: 0}
+    - target: {fileID: 9137650141004882914, guid: 30c6f3f30a3216e41bbc8a6ac45c57e0, type: 3}
+      propertyPath: initiateCombat.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: Frankie.Combat.UI.BattleTransition, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 9137650141004882914, guid: 30c6f3f30a3216e41bbc8a6ac45c57e0, type: 3}
+      propertyPath: initiateCombat.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 30c6f3f30a3216e41bbc8a6ac45c57e0, type: 3}
 --- !u!1 &553087199
@@ -1846,6 +1874,17 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 8937208100927724529, guid: 30c6f3f30a3216e41bbc8a6ac45c57e0, type: 3}
   m_PrefabInstance: {fileID: 542867047}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1187850572 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 232548042431411717, guid: 2141e92c6bc931e45a37409bd7e0ec3a, type: 3}
+  m_PrefabInstance: {fileID: 7680207136406593239}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 97796894fa2300243a3483ae1795c892, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1192180119
 GameObject:
   m_ObjectHideFlags: 0

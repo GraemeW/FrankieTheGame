@@ -1,6 +1,8 @@
+using Frankie.Combat;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 namespace Frankie.Control
 {
@@ -8,6 +10,7 @@ namespace Frankie.Control
     {
         // Tunables
         [SerializeField] Transform interactionCenterPoint = null;
+        [SerializeField] BattleEntryType battleEntryType = BattleEntryType.Good; // HACK -- TO REMOVE, TESTING
 
         // Cached References
         Animator animator = null;
@@ -16,6 +19,15 @@ namespace Frankie.Control
         // State
         Vector2 lookDirection = new Vector2();
         float currentSpeed = 0;
+
+        // Event
+        public BattleEvent initiateCombat;
+
+        // Data Structures
+        [System.Serializable]
+        public class BattleEvent : UnityEvent<BattleEntryType>
+        {
+        }
 
         private void Awake()
         {
@@ -33,6 +45,8 @@ namespace Frankie.Control
             Vector2 lookDirection = callingController.GetInteractionPosition() - (Vector2)interactionCenterPoint.position;
             SetLookDirection(lookDirection);
             UpdateAnimator();
+
+            initiateCombat.Invoke(battleEntryType);  // HACK -- TO REMOVE, TESTING
         }
 
         public void SetLookDirection(Vector2 lookDirection)
