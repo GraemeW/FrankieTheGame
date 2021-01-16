@@ -72,19 +72,23 @@ namespace Frankie.Zone
 
         public bool HandleRaycast(PlayerController callingController, string interactButtonOne = "Fire1", string interactButtonTwo = "Fire2")
         {
-            if (!overrideDefaultInteractionDistance) { interactionDistance = callingController.GetInteractionDistance(); }
-
-            RaycastHit2D playerCastToObject = callingController.PlayerCastToObject(transform.position);
-            if (!playerCastToObject) { return false; }
-            if (playerCastToObject.transform.gameObject != gameObject) { return false; } // obstructed
-            if (Vector2.Distance(callingController.transform.position, playerCastToObject.point) > interactionDistance) { return false; }
+            if (!this.CheckDistance(gameObject, transform.position, callingController, 
+                overrideDefaultInteractionDistance, interactionDistance)) 
+            { 
+                return false; 
+            }
 
             if (Input.GetButtonDown(interactButtonOne))
             {
                 WarpPlayerToNextNode(callingController);
             }
-
             return true;
+        }
+
+        bool IRaycastable.CheckDistanceTemplate()
+        {
+            // Not evaluated -> IRaycastableExtension
+            return false;
         }
     }
 

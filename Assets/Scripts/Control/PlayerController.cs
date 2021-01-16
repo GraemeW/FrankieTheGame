@@ -22,6 +22,7 @@ namespace Frankie.Control
         [SerializeField] CursorMapping[] cursorMappings = null;
         [SerializeField] float raycastRadius = 0.1f;
         [SerializeField] float interactionDistance = 0.5f;
+        [SerializeField] Transform interactionCenterPoint = null;
         [Header("Movement")]
         [SerializeField] float movementSpeed = 1.0f;
         [SerializeField] float speedMoveThreshold = 0.05f;
@@ -30,7 +31,7 @@ namespace Frankie.Control
         float inputHorizontal;
         float inputVertical;
         Vector2 lookDirection = new Vector2();
-        float currentSpeed;
+        float currentSpeed = 0;
 
         // Cached References
         Rigidbody2D playerRigidbody2D = null;
@@ -42,16 +43,25 @@ namespace Frankie.Control
             return interactionDistance;
         }
 
-        public RaycastHit2D PlayerCastToObject(Vector2 objectPosition)
+        public RaycastHit2D PlayerCastToObject(Vector3 objectPosition)
         {
-            RaycastHit2D[] hits = Physics2D.LinecastAll(transform.position, objectPosition);
-            List<RaycastHit2D> sortedNonPlayerHits = hits.Where(x => !x.transform.gameObject.CompareTag("Player")).OrderBy(x => x.distance).ToList();
-            return sortedNonPlayerHits[0];
+            Vector2 castDirection = objectPosition - interactionCenterPoint.position;
+            float castDistance = Vector2.Distance(objectPosition, interactionCenterPoint.position);
+            RaycastHit2D[] hits = Physics2D.CircleCastAll(interactionCenterPoint.position, raycastRadius, castDirection, castDistance);
+
+            List<RaycastHit2D> sortedInteractableHits = hits.Where(x => x.collider.transform.gameObject.CompareTag("Interactable")).OrderBy(x => x.distance).ToList();
+            if (sortedInteractableHits.Count == 0) { return new RaycastHit2D(); } // pass an empty hit
+            return sortedInteractableHits[0];
         }
 
         public void SetLookDirection(Vector2 lookDirection)
         {
             this.lookDirection = lookDirection;
+        }
+
+        public Vector2 GetInteractionPosition()
+        {
+            return interactionCenterPoint.position;
         }
 
         // Internal functions
@@ -60,11 +70,14 @@ namespace Frankie.Control
             return number < 0 ? -1 : (number > 0 ? 1 : 0);
         }
 
-
-        private void Start()
+        private void Awake()
         {
             animator = GetComponent<Animator>();
             playerRigidbody2D = GetComponent<Rigidbody2D>();
+        }
+
+        private void Start()
+        {
             SetLookDirection(Vector2.down); // Initialize look direction to avoid wonky
         }
 
@@ -72,7 +85,6 @@ namespace Frankie.Control
         {
             inputHorizontal = Input.GetAxis("Horizontal");
             inputVertical = Input.GetAxis("Vertical");
-            InteractWithComponent();
             if (InteractWithComponent()) return;
             SetCursor(CursorType.None);
         }
@@ -96,9 +108,9 @@ namespace Frankie.Control
         private bool InteractWithComponent()
         {
             RaycastHit2D hitInfo = RaycastToMouseLocation();
-            if (!hitInfo) { return false; }
+            if (hitInfo.collider == null) { return false; }
 
-            IRaycastable[] raycastables = hitInfo.transform.GetComponents<IRaycastable>();
+            IRaycastable[] raycastables = hitInfo.transform.GetComponentsInChildren<IRaycastable>();
             if (raycastables != null)
             {
                 foreach (IRaycastable raycastable in raycastables)
@@ -115,9 +127,10 @@ namespace Frankie.Control
 
         private RaycastHit2D RaycastToMouseLocation()
         {
-            // No need to sort multiple hits since colliders will not overlap in 2D -- 1 collider / cast
-            RaycastHit2D hitInfo = Physics2D.CircleCast(GetMouseRay(), raycastRadius, Vector2.zero);
-            return hitInfo;
+            RaycastHit2D[] hits = Physics2D.CircleCastAll(GetMouseRay(), raycastRadius, Vector2.zero);
+            RaycastHit2D[] nonPlayerHits = hits.Where(x => !x.collider.transform.gameObject.CompareTag("Player")).ToArray(); 
+            if (nonPlayerHits == null || nonPlayerHits.Length == 0) { return new RaycastHit2D(); } // pass an empty hit
+            return nonPlayerHits[0];
         }
 
         private void SetMovementParameters()

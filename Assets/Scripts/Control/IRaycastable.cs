@@ -6,7 +6,10 @@ namespace Frankie.Control
 {
     public interface IRaycastable
     {
-        public CursorType GetCursorType();
+        CursorType GetCursorType();
         bool HandleRaycast(PlayerController callingController, string interactButtonOne = "Fire1", string interactButtonTwo = "Fire2");
+
+        // Extended in IRaycastableExtension
+        bool CheckDistanceTemplate();
     }
 }

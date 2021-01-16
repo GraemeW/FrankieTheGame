@@ -352,7 +352,7 @@ GameObject:
   - component: {fileID: 271516660}
   m_Layer: 0
   m_Name: OfficeRoomLeftDoor
-  m_TagString: Untagged
+  m_TagString: Interactable
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -443,7 +443,7 @@ GameObject:
   - component: {fileID: 273757759}
   m_Layer: 0
   m_Name: OpenOfficeConceptRightDoor
-  m_TagString: Untagged
+  m_TagString: Interactable
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -647,7 +647,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 8937208100927724529, guid: f31311c0fa2493f4ba011ac26c785779, type: 3}
       propertyPath: m_RootOrder
-      value: 2
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8937208100927724529, guid: f31311c0fa2493f4ba011ac26c785779, type: 3}
       propertyPath: m_LocalPosition.x
@@ -1066,17 +1066,25 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1663618880}
     m_Modifications:
+    - target: {fileID: 619512926023172461, guid: 30c6f3f30a3216e41bbc8a6ac45c57e0, type: 3}
+      propertyPath: m_RootOrder
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3026967075931353921, guid: 30c6f3f30a3216e41bbc8a6ac45c57e0, type: 3}
+      propertyPath: m_RootOrder
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 8937208100927724529, guid: 30c6f3f30a3216e41bbc8a6ac45c57e0, type: 3}
       propertyPath: m_RootOrder
-      value: 4
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 8937208100927724529, guid: 30c6f3f30a3216e41bbc8a6ac45c57e0, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0.7290716
+      value: 6.0614767
       objectReference: {fileID: 0}
     - target: {fileID: 8937208100927724529, guid: 30c6f3f30a3216e41bbc8a6ac45c57e0, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0.68439686
+      value: -1.0845205
       objectReference: {fileID: 0}
     - target: {fileID: 8937208100927724529, guid: 30c6f3f30a3216e41bbc8a6ac45c57e0, type: 3}
       propertyPath: m_LocalPosition.z
@@ -1129,7 +1137,7 @@ GameObject:
   - component: {fileID: 553087201}
   m_Layer: 0
   m_Name: HallwayLeftDoor
-  m_TagString: Untagged
+  m_TagString: Interactable
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1251,7 +1259,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 8937208100927724529, guid: 776023ead685c794683df30f94ac97fe, type: 3}
       propertyPath: m_RootOrder
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8937208100927724529, guid: 776023ead685c794683df30f94ac97fe, type: 3}
       propertyPath: m_LocalPosition.x
@@ -1457,7 +1465,7 @@ GameObject:
   - component: {fileID: 782409597}
   m_Layer: 0
   m_Name: OfficeRoomRightDoor
-  m_TagString: Untagged
+  m_TagString: Interactable
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1755,7 +1763,7 @@ GameObject:
   - component: {fileID: 889159604}
   m_Layer: 0
   m_Name: HallwayRightDoor
-  m_TagString: Untagged
+  m_TagString: Interactable
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2082,7 +2090,7 @@ GameObject:
   - component: {fileID: 1415632959}
   m_Layer: 0
   m_Name: ClosetDoor
-  m_TagString: Untagged
+  m_TagString: Interactable
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2493,8 +2501,8 @@ Transform:
   m_Children:
   - {fileID: 698949175}
   - {fileID: 384052786}
-  - {fileID: 453644364}
   - {fileID: 1115368751}
+  - {fileID: 453644364}
   m_Father: {fileID: 361311719}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
