@@ -357,9 +357,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_IgnoreLayout: 0
   m_MinWidth: -1
-  m_MinHeight: 110
+  m_MinHeight: 80
   m_PreferredWidth: -1
-  m_PreferredHeight: 110
+  m_PreferredHeight: 80
   m_FlexibleWidth: 1
   m_FlexibleHeight: -1
   m_LayoutPriority: 1
@@ -619,9 +619,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_IgnoreLayout: 0
   m_MinWidth: 350
-  m_MinHeight: 400
+  m_MinHeight: 360
   m_PreferredWidth: 350
-  m_PreferredHeight: 400
+  m_PreferredHeight: 360
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
   m_LayoutPriority: 1
@@ -820,7 +820,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_IgnoreLayout: 0
   m_MinWidth: -1
-  m_MinHeight: 3
+  m_MinHeight: 5
   m_PreferredWidth: -1
   m_PreferredHeight: 5
   m_FlexibleWidth: 1
@@ -1159,8 +1159,8 @@ MonoBehaviour:
   m_Padding:
     m_Left: 10
     m_Right: 10
-    m_Top: 30
-    m_Bottom: 30
+    m_Top: 20
+    m_Bottom: 20
   m_ChildAlignment: 1
   m_Spacing: 30
   m_ChildForceExpandWidth: 0
@@ -1581,7 +1581,7 @@ MonoBehaviour:
     m_Top: 0
     m_Bottom: 0
   m_ChildAlignment: 7
-  m_Spacing: 50
+  m_Spacing: 40
   m_ChildForceExpandWidth: 0
   m_ChildForceExpandHeight: 0
   m_ChildControlWidth: 1
