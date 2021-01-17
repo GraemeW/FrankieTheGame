@@ -270,6 +270,8 @@ MonoBehaviour:
   goodBattleEntry: {fileID: 2792991010653004335}
   badBattleEntry: {fileID: 8906313726304546477}
   neutralBattleEntry: {fileID: 6952958116490533682}
+  fadeInTimer: 2
+  fadeOutTimer: 1
 --- !u!1 &6569745041582779776
 GameObject:
   m_ObjectHideFlags: 0

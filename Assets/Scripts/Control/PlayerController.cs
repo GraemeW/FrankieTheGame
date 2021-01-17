@@ -35,8 +35,6 @@ namespace Frankie.Control
         [Header("Movement")]
         [SerializeField] float movementSpeed = 1.0f;
         [SerializeField] float speedMoveThreshold = 0.05f;
-        [Header("CombatFader")]
-        [SerializeField] float faderTimeouts = 2.0f;
 
         // State
         float inputHorizontal;
@@ -49,6 +47,9 @@ namespace Frankie.Control
         // Cached References
         Rigidbody2D playerRigidbody2D = null;
         Animator animator = null;
+
+        // Events
+        public event Action stateChanged;
 
         // Public functions
         public float GetInteractionDistance()
@@ -79,7 +80,14 @@ namespace Frankie.Control
 
         public void EnterCombat(NPCController enemy, TransitionType transitionType)
         {
-            StartCoroutine(QueueFaders(transitionType));
+            playerState = PlayerState.inBattle;
+            this.transitionType = transitionType;
+            FindObjectOfType<Fader>().UpdateFadeState(transitionType);
+
+            if (stateChanged != null)
+            {
+                stateChanged();
+            }            
         }
 
         public PlayerState GetPlayerState()
@@ -90,11 +98,6 @@ namespace Frankie.Control
         public TransitionType GetTransitionType()
         {
             return transitionType;
-        }
-
-        public float GetFaderTimeouts()
-        {
-            return faderTimeouts;
         }
 
         // Internal functions
@@ -189,15 +192,6 @@ namespace Frankie.Control
             animator.SetFloat("Speed", currentSpeed);
             animator.SetFloat("xLook", lookDirection.x);
             animator.SetFloat("yLook", lookDirection.y);
-        }
-
-        private IEnumerator QueueFaders(TransitionType transitionType)
-        {
-            playerState = PlayerState.inTransition;
-            this.transitionType = transitionType;
-            yield return new WaitForSeconds(faderTimeouts);
-            playerState = PlayerState.inBattle;
-            this.transitionType = TransitionType.None;
         }
 
         // Mouse / Cursor Handling

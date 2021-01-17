@@ -37,7 +37,11 @@ namespace Frankie.Control
 
             if (Input.GetButtonDown(interactButtonOne))
             {
-                checkInteraction.Invoke(callingController);
+                if (checkInteraction != null)
+                {
+                    checkInteraction.Invoke(callingController);
+                }
+                
             }
             return true;
         }

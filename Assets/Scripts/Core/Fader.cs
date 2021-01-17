@@ -6,55 +6,54 @@ using UnityEngine.UI;
 
 namespace Frankie.Core
 {
-    public class FaderTransition : MonoBehaviour
+    public class Fader : MonoBehaviour
     {
         // Tunables
+        [Header("Linked Assets")]
         [SerializeField] Canvas battleCanvas = null;
         [SerializeField] Image nodeEntry = null; // TO IMPLEMENT -- SCENE CHANGE FADING
         [SerializeField] Image goodBattleEntry = null;
         [SerializeField] Image badBattleEntry = null;
         [SerializeField] Image neutralBattleEntry = null;
-
-        // Cached References
-        PlayerController playerController = null;
+        [Header("Fader Properties")]
+        [SerializeField] float fadeInTimer = 2.0f;
+        [SerializeField] float fadeOutTimer = 1.0f;
 
         // State
         Image currentTransition = null;
-        float faderTimeouts = 2.0f; // over-ride from player controller
         bool fading = false;
-
-        private void Awake()
-        {
-            playerController = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>();
-        }
 
         private void Start()
         {
             ResetOverlays();
-            faderTimeouts = playerController.GetFaderTimeouts();
         }
 
-        private void Update()
+        public void UpdateFadeState(TransitionType transitionType)
         {
-            if (playerController.GetPlayerState() == PlayerController.PlayerState.inTransition && fading == false)
+            if (fading == false)
             {
-                QueueFadeEntry(playerController.GetTransitionType());
+                StartCoroutine(Fade(transitionType));
             }
+            HandleBattleExit();
+        }
 
-            if (fading == true && playerController.GetPlayerState() == PlayerController.PlayerState.inBattle)
+        private IEnumerator Fade(TransitionType transitionType)
+        {
+            yield return QueueFadeEntry(transitionType);
+            
+            if (transitionType == TransitionType.Zone) 
+            { 
+                // TODO:  Implement fade handling for scene transitions
+                yield break; 
+            }
+            else
             {
                 battleCanvas.gameObject.SetActive(true);
-                StartCoroutine(QueueFadeExit());
-            }
-
-            if (fading == true && playerController.GetPlayerState() == PlayerController.PlayerState.inWorld)
-            {
-                QueueFadeExit();
-                StartCoroutine(QueueFadeExit());
+                yield return QueueFadeExit();
             }
         }
 
-        private void QueueFadeEntry(TransitionType transitionType)
+        private IEnumerator QueueFadeEntry(TransitionType transitionType)
         {
             fading = true;
             if (transitionType == TransitionType.BattleGood) 
@@ -72,19 +71,26 @@ namespace Frankie.Core
                 neutralBattleEntry.gameObject.SetActive(true);
                 currentTransition = neutralBattleEntry;
             }
-            if (currentTransition == null) { return; }
+            if (currentTransition == null) { yield break; }
 
             currentTransition.CrossFadeAlpha(0f, 0f, true);
-            currentTransition.CrossFadeAlpha(1, faderTimeouts, false);
+            currentTransition.CrossFadeAlpha(1, fadeInTimer, false);
+            yield return new WaitForSeconds(fadeInTimer);
         }
 
         IEnumerator QueueFadeExit()
         {
-            fading = false;
-            currentTransition.CrossFadeAlpha(0, faderTimeouts, false);
-            yield return new WaitForSeconds(faderTimeouts);
+            currentTransition.CrossFadeAlpha(0, fadeOutTimer, false);
+            yield return new WaitForSeconds(fadeOutTimer);
             currentTransition.gameObject.SetActive(false);
             currentTransition = null;
+            fading = false;
+        }
+
+        private void HandleBattleExit()
+        {
+            // TODO:  Implement some sort of fade back to world
+            battleCanvas.gameObject.SetActive(false);
         }
 
         private void ResetOverlays()

@@ -87,13 +87,14 @@ GameObject:
   - component: {fileID: 8837486854988665628}
   - component: {fileID: 4394974353133659221}
   - component: {fileID: 4940479885195773657}
+  - component: {fileID: 5980054871931248975}
   m_Layer: 0
   m_Name: Battle Canvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &6167615512816553700
 RectTransform:
   m_ObjectHideFlags: 0
@@ -175,3 +176,15 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
+--- !u!114 &5980054871931248975
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8280344366168738919}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 47f742ebd7f08584c96be72a8ddf186f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
