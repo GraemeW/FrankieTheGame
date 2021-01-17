@@ -164,7 +164,7 @@ GameObject:
   - component: {fileID: 8106268681669546574}
   - component: {fileID: 8756463170632450072}
   m_Layer: 0
-  m_Name: Battle Intro
+  m_Name: Fader
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -211,7 +211,7 @@ Canvas:
   m_SortingBucketNormalizedSize: 0
   m_AdditionalShaderChannelsFlag: 0
   m_SortingLayerID: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 3
   m_TargetDisplay: 0
 --- !u!114 &3243386399629071165
 MonoBehaviour:
@@ -265,10 +265,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 97796894fa2300243a3483ae1795c892, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GoodEntry: {fileID: 2792991010653004335}
-  BadEntry: {fileID: 8906313726304546477}
-  NeutralEntry: {fileID: 6952958116490533682}
-  fadeInDuration: 2
+  battleCanvas: {fileID: 0}
+  nodeEntry: {fileID: 0}
+  goodBattleEntry: {fileID: 2792991010653004335}
+  badBattleEntry: {fileID: 8906313726304546477}
+  neutralBattleEntry: {fileID: 6952958116490533682}
 --- !u!1 &6569745041582779776
 GameObject:
   m_ObjectHideFlags: 0

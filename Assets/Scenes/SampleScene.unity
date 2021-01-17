@@ -1123,6 +1123,10 @@ PrefabInstance:
       value: OfficeWorker1
       objectReference: {fileID: 0}
     - target: {fileID: 9137650141004882914, guid: 30c6f3f30a3216e41bbc8a6ac45c57e0, type: 3}
+      propertyPath: battleEntryType
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 9137650141004882914, guid: 30c6f3f30a3216e41bbc8a6ac45c57e0, type: 3}
       propertyPath: initiateCombat.m_PersistentCalls.m_Calls.Array.size
       value: 1
       objectReference: {fileID: 0}
@@ -3421,6 +3425,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 3790136320772186769, guid: 2141e92c6bc931e45a37409bd7e0ec3a, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7680207136550864598, guid: 2141e92c6bc931e45a37409bd7e0ec3a, type: 3}
       propertyPath: m_RootOrder
       value: 3

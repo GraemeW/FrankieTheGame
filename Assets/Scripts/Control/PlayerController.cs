@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
+using Frankie.Core;
 
 namespace Frankie.Control
 {
@@ -17,6 +18,14 @@ namespace Frankie.Control
             public Vector2 hotspot;
         }
 
+        [System.Serializable]
+        public enum PlayerState
+        {
+            inWorld,
+            inTransition,
+            inBattle
+        }
+
         // Tunables
         [Header("Interaction")]
         [SerializeField] CursorMapping[] cursorMappings = null;
@@ -26,12 +35,16 @@ namespace Frankie.Control
         [Header("Movement")]
         [SerializeField] float movementSpeed = 1.0f;
         [SerializeField] float speedMoveThreshold = 0.05f;
+        [Header("CombatFader")]
+        [SerializeField] float faderTimeouts = 2.0f;
 
         // State
         float inputHorizontal;
         float inputVertical;
         Vector2 lookDirection = new Vector2();
         float currentSpeed = 0;
+        PlayerState playerState = PlayerState.inWorld;
+        TransitionType transitionType = TransitionType.None;
 
         // Cached References
         Rigidbody2D playerRigidbody2D = null;
@@ -62,6 +75,26 @@ namespace Frankie.Control
         public Vector2 GetInteractionPosition()
         {
             return interactionCenterPoint.position;
+        }
+
+        public void EnterCombat(NPCController enemy, TransitionType transitionType)
+        {
+            StartCoroutine(QueueFaders(transitionType));
+        }
+
+        public PlayerState GetPlayerState()
+        {
+            return playerState;
+        }
+
+        public TransitionType GetTransitionType()
+        {
+            return transitionType;
+        }
+
+        public float GetFaderTimeouts()
+        {
+            return faderTimeouts;
         }
 
         // Internal functions
@@ -102,7 +135,6 @@ namespace Frankie.Control
             {
                 MovePlayer();
             }
-
         }
 
         private bool InteractWithComponent()
@@ -157,6 +189,15 @@ namespace Frankie.Control
             animator.SetFloat("Speed", currentSpeed);
             animator.SetFloat("xLook", lookDirection.x);
             animator.SetFloat("yLook", lookDirection.y);
+        }
+
+        private IEnumerator QueueFaders(TransitionType transitionType)
+        {
+            playerState = PlayerState.inTransition;
+            this.transitionType = transitionType;
+            yield return new WaitForSeconds(faderTimeouts);
+            playerState = PlayerState.inBattle;
+            this.transitionType = TransitionType.None;
         }
 
         // Mouse / Cursor Handling
