@@ -6,6 +6,9 @@ namespace Frankie.Combat.UI
 {
     public class BattleCanvas : MonoBehaviour
     {
+        public void Setup()
+        {
 
+        }
     }
 }
