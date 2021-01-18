@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
 using Frankie.Core;
+using Frankie.Combat;
 
 namespace Frankie.Control
 {
@@ -45,6 +46,7 @@ namespace Frankie.Control
         TransitionType transitionType = TransitionType.None;
 
         // Cached References
+        BattleHandler battleHandler = null;
         Rigidbody2D playerRigidbody2D = null;
         Animator animator = null;
 
@@ -78,11 +80,13 @@ namespace Frankie.Control
             return interactionCenterPoint.position;
         }
 
-        public void EnterCombat(NPCController enemy, TransitionType transitionType)
+        public void EnterCombat(List<CombatParticipant> enemies, TransitionType transitionType)
         {
+            // TODO:  Concept of 'pre-battle' where enemies can pile on ++ count up list of enemies -> transfer to battle
             playerState = PlayerState.inBattle;
             this.transitionType = transitionType;
             FindObjectOfType<Fader>().UpdateFadeState(transitionType);
+            battleHandler.Setup(enemies, transitionType);
 
             if (stateChanged != null)
             {
@@ -108,6 +112,7 @@ namespace Frankie.Control
 
         private void Awake()
         {
+            battleHandler = GetComponent<BattleHandler>();
             animator = GetComponent<Animator>();
             playerRigidbody2D = GetComponent<Rigidbody2D>();
         }

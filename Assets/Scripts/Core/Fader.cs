@@ -1,4 +1,5 @@
 using Frankie.Control;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -22,6 +23,10 @@ namespace Frankie.Core
         // State
         Image currentTransition = null;
         bool fading = false;
+
+        // Events
+        public event Action battleCanvasEnabled;
+        public event Action battleCanvasDisabled;
 
         private void Start()
         {
@@ -49,6 +54,10 @@ namespace Frankie.Core
             else
             {
                 battleCanvas.gameObject.SetActive(true);
+                if (battleCanvasEnabled != null)
+                {
+                    battleCanvasEnabled.Invoke();
+                }
                 yield return QueueFadeExit();
             }
         }
@@ -91,6 +100,10 @@ namespace Frankie.Core
         {
             // TODO:  Implement some sort of fade back to world
             battleCanvas.gameObject.SetActive(false);
+            if (battleCanvasDisabled != null)
+            {
+                battleCanvasDisabled.Invoke();
+            }
         }
 
         private void ResetOverlays()

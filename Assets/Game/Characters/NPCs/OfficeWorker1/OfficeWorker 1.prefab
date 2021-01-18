@@ -1,5 +1,20 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-5027003631223702913
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8937208100927724530}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1f15037888676594696e2cd95a77f996, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  friendly: 0
+  damageTimeSpan: 4
+  combatSprite: {fileID: 21300000, guid: 1c858d8fb5e60954cac7c6fa51165fd2, type: 3}
 --- !u!1001 &2436801356840233352
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -75,5 +90,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: OfficeWorker 1
       objectReference: {fileID: 0}
+    - target: {fileID: 6762723866359945157, guid: 1b473d8838e3d4d4c99f7ff6e30d07df, type: 3}
+      propertyPath: characterName
+      value: 2
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1b473d8838e3d4d4c99f7ff6e30d07df, type: 3}
+--- !u!1 &8937208100927724530 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6761616658632847994, guid: 1b473d8838e3d4d4c99f7ff6e30d07df, type: 3}
+  m_PrefabInstance: {fileID: 2436801356840233352}
+  m_PrefabAsset: {fileID: 0}

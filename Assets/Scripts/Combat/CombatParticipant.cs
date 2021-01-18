@@ -6,11 +6,13 @@ using Frankie.Stats;
 
 namespace Frankie.Combat
 {
+    [RequireComponent(typeof(BaseStats))]
     public class CombatParticipant : MonoBehaviour
     {
         // Tunables
         [SerializeField] bool friendly = false;
         [SerializeField] float damageTimeSpan = 4.0f;
+        [SerializeField] Sprite combatSprite = null;
 
         // Cached References
         BaseStats baseStats = null;
@@ -69,9 +71,27 @@ namespace Frankie.Combat
             CheckIfDead();
         }
 
+        public void AdjustAP(float points)
+        {
+            if (isDead) { return; }
+
+            float unsafeAP = currentAP.value + points;
+            currentAP.value = Mathf.Clamp(unsafeAP, 0f, baseStats.GetStat(Stat.AP));
+        }
+
         public float GetHP()
         {
             return currentHP.value;
+        }
+
+        public float GetAP()
+        {
+            return currentAP.value;
+        }
+
+        public Sprite GetCombatSprite()
+        {
+            return combatSprite;
         }
 
         public bool IsDead()

@@ -95,6 +95,7 @@ GameObject:
   - component: {fileID: 2829251969425687448}
   - component: {fileID: 2770910390378371091}
   - component: {fileID: 6853974573596150378}
+  - component: {fileID: 6762723866359945157}
   m_Layer: 0
   m_Name: NonPlayableCharacter
   m_TagString: Untagged
@@ -198,6 +199,23 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   interactionCenterPoint: {fileID: 851377592137554633}
+  battleEntryType: 2
+--- !u!114 &6762723866359945157
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6761616658632847994}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bc5fcb701043f594ca957befee143600, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  characterName: 0
+  defaultLevel: 1
+  shouldUseModifiers: 0
+  progression: {fileID: 11400000, guid: 6d544ce8c0b2cd34badc52fee9ceccf9, type: 2}
 --- !u!1 &8479994409347232063
 GameObject:
   m_ObjectHideFlags: 0

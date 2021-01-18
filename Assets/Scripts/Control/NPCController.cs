@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 using Frankie.Core;
+using Frankie.Combat;
 
 namespace Frankie.Control
 {
@@ -37,7 +38,11 @@ namespace Frankie.Control
             SetLookDirection(lookDirection);
             UpdateAnimator();
 
-            callingController.EnterCombat(this, battleEntryType);
+            // HACK:  Temporary to test combat
+            // TODO:  Remove, implement properly
+            List<CombatParticipant> enemies = new List<CombatParticipant>();
+            enemies.Add(GetComponent<CombatParticipant>());
+            callingController.EnterCombat(enemies, battleEntryType); 
         }
 
         public void SetLookDirection(Vector2 lookDirection)
