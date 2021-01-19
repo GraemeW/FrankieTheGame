@@ -4,9 +4,9 @@ namespace Frankie.Stats
     {
         None,
         Frankie,
-        OfficeWorker1,
-        OfficeWorker2,
-        OfficeWorker3,
+        HipsterOfficeWorker,
+        CleverOfficeWorker,
+        BroOfficeWorker,
         Horse
     }
 }

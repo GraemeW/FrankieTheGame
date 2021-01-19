@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Frankie.Utils;
 using Frankie.Stats;
+using System.Text.RegularExpressions;
 
 namespace Frankie.Combat
 {
@@ -92,6 +93,12 @@ namespace Frankie.Combat
         public Sprite GetCombatSprite()
         {
             return combatSprite;
+        }
+
+        public string GetCombatName()
+        {
+            // Split apart name on lower case followed by upper case w/ or w/out underscores
+            return Regex.Replace(baseStats.GetCharacterName().ToString("G"), "([a-z])_?([A-Z])", "$1 $2"); ;
         }
 
         public bool IsDead()

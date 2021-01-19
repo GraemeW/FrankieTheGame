@@ -49,6 +49,11 @@ namespace Frankie.Stats
             }
         }
 
+        public CharacterName GetCharacterName()
+        {
+            return characterName;
+        }
+
         public float GetStat(Stat stat)
         {
             return GetBaseStat(stat) + GetAdditiveModifiers(stat);
