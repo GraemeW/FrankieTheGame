@@ -124,15 +124,25 @@ namespace Frankie.Control
 
         private void Update()
         {
-            inputHorizontal = Input.GetAxis("Horizontal");
-            inputVertical = Input.GetAxis("Vertical");
-            if (InteractWithComponent()) return;
-            SetCursor(CursorType.None);
+            if (playerState == PlayerState.inWorld)
+            {
+                inputHorizontal = Input.GetAxis("Horizontal");
+                inputVertical = Input.GetAxis("Vertical");
+                if (InteractWithComponent()) return;
+                SetCursor(CursorType.None);
+            }
+            else if (playerState == PlayerState.inBattle)
+            {
+                // TODO-NEXT!:  Hook-up player controls for battle clicky clicky
+            }
         }
 
         private void FixedUpdate()
         {
-            InteractWithMovement();
+            if (playerState == PlayerState.inWorld)
+            {
+                InteractWithMovement();
+            }
         }
 
         private void InteractWithMovement()

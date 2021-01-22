@@ -115,8 +115,6 @@ namespace Frankie.Combat.UI
             }
 
             dialogueBox.GetComponent<DialogueBox>().AddSimpleText(entryMessage);
-            dialogueBox.GetComponent<DialogueBox>().AddSimpleText("Here is what he says:");
-            dialogueBox.GetComponent<DialogueBox>().AddSimpleSpeech("Prepare for your punishment");
         }
     }
 }

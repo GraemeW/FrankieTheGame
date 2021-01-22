@@ -10,14 +10,30 @@ namespace Frankie.Combat
     {
         // State
         List<CombatParticipant> activeEnemies = new List<CombatParticipant>();
+        bool isBattleActive = false;
 
         // Events
         public event Action enemiesUpdated;
 
+        // Public Functions
         public void Setup(List<CombatParticipant> enemies, TransitionType transitionType)
         {
             activeEnemies = enemies;
             FindObjectOfType<Fader>().battleCanvasEnabled += LoadEnemies;
+        }
+
+        public void SetBattleActive(bool state)
+        {
+            isBattleActive = state;
+        }
+
+        // Private Functions
+        private void Update()
+        {
+            if (isBattleActive)
+            {
+                // Main battle loop
+            }
         }
 
         private void LoadEnemies()
