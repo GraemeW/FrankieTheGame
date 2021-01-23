@@ -10,13 +10,13 @@ namespace Frankie.Combat
     public class SkillBranch : ScriptableObject
     {
         [Header("Dialogue Properties")]
-        [SerializeField] Skill upSkill = null;
+        [SerializeField] string upSkillReference = null;
         [SerializeField] string upBranch = null;
-        [SerializeField] Skill leftSkill = null;
+        [SerializeField] string leftSkillReference = null;
         [SerializeField] string leftBranch = null;
-        [SerializeField] Skill rightSkill = null;
+        [SerializeField] string rightSkillReference = null;
         [SerializeField] string rightBranch = null;
-        [SerializeField] Skill downSkill = null;
+        [SerializeField] string downSkillReference = null;
         [SerializeField] string downBranch = null;
         [SerializeField] string detail = null;
         [SerializeField] string skillBranchName = null;
@@ -30,11 +30,18 @@ namespace Frankie.Combat
 
         public Skill GetSkill(SkillBranchMapping skillBranchMapping)
         {
-            if (skillBranchMapping == SkillBranchMapping.up) { return upSkill; }
-            else if (skillBranchMapping == SkillBranchMapping.left) { return leftSkill; }
-            else if (skillBranchMapping == SkillBranchMapping.right) { return rightSkill; }
-            else if (skillBranchMapping == SkillBranchMapping.down) { return downSkill; }
+            if (skillBranchMapping == SkillBranchMapping.up) { return Skill.GetSkillFromName(upSkillReference); }
+            else if (skillBranchMapping == SkillBranchMapping.left) { return Skill.GetSkillFromName(leftSkillReference); }
+            else if (skillBranchMapping == SkillBranchMapping.right) { return Skill.GetSkillFromName(rightSkillReference); }
+            else if (skillBranchMapping == SkillBranchMapping.down) { return Skill.GetSkillFromName(downSkillReference); }
             return null;
+        }
+
+        private string GetValidSkillName(string skillReference)
+        {
+            Skill skill = Skill.GetSkillFromName(skillReference);
+            if (skill == null) { return "Invalid Skill"; }
+            return skill.name;
         }
 
         public string GetBranch(SkillBranchMapping skillBranchMapping)
