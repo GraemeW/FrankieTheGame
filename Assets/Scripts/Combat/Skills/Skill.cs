@@ -29,6 +29,8 @@ namespace Frankie.Combat
 
         public static Skill GetSkillFromName(string name)
         {
+            if (string.IsNullOrWhiteSpace(name)) { return null; }
+
             if (skillLookupCache == null)
             {
                 skillLookupCache = new Dictionary<string, Skill>();

@@ -190,6 +190,7 @@ namespace Frankie.Combat.Editor
 
             // Dragging Header
             GUILayout.BeginArea(skillBranch.GetDraggingRect(), currentStyle);
+            DrawBranchHeader(skillBranch);
             GUILayout.EndArea();
 
             // Additional Functionality
@@ -226,69 +227,89 @@ namespace Frankie.Combat.Editor
             }
         }
 
-        private void DrawBranchDetail(SkillBranch skillBranch, SkillBranchMapping skillBranchMapping)
+        private void DrawBranchHeader(SkillBranch skillBranch)
         {
             GUILayout.BeginHorizontal();
-            string equippedSkill = "No Skill";
-            if (skillBranch.GetSkill(skillBranchMapping) != null) { equippedSkill = skillBranch.GetSkill(skillBranchMapping).name; }
-            EditorGUIUtility.labelWidth = 60;
-            EditorGUILayout.LabelField(skillBranchMapping.ToString(), equippedSkill);
+            EditorGUIUtility.labelWidth = 120;
+            EditorGUILayout.LabelField("Branch Available");
             GUILayout.FlexibleSpace();
-            DrawAddRemoveButtons(skillBranch, skillBranchMapping);
+            DrawBranchRemoveButtons(skillBranch);
             GUILayout.EndHorizontal();
         }
 
-        private void DrawAddRemoveButtons(SkillBranch skillBranch, SkillBranchMapping skillBranchMapping)
+        private void DrawBranchDetail(SkillBranch skillBranch, SkillBranchMapping skillBranchMapping)
         {
-            // TODO:  remove + button if any branch exists (single mapping)
-
-            // Set tags to create/delete at end of OnGUI to avoid operating on list while iterating over it
             GUILayout.BeginHorizontal();
+            EditorGUIUtility.labelWidth = 10;
+            EditorGUILayout.LabelField(skillBranchMapping.ToString(), GUILayout.Height(22));
+
+            string equippedSkillName = "No Skill";
+            if (skillBranch.GetSkill(skillBranchMapping) != null) { equippedSkillName = skillBranch.GetSkill(skillBranchMapping).name; }
+            string newSkillName = EditorGUILayout.TextField(equippedSkillName, GUILayout.Width(110));
+            if (!string.IsNullOrWhiteSpace(newSkillName) && newSkillName != "No Skill")
+            {
+                skillBranch.SetSkill(newSkillName, skillBranchMapping);
+            }
+            
+            GUILayout.FlexibleSpace();
+            DrawBranchAddButtons(skillBranch, skillBranchMapping);
+            GUILayout.EndHorizontal();
+        }
+
+        private void DrawBranchRemoveButtons(SkillBranch skillBranch)
+        {
+            // Set tags to create/delete at end of OnGUI to avoid operating on list while iterating over it
             if (skillBranch != selectedSkillTree.GetRootSkillBranch())
             {
                 if (GUILayout.Button("-", GUILayout.Width(skillBranch.GetRect().width * addRemoveButtonMultiplier)))
                 {
                     deletingSkillBranch = skillBranch;
-                    deletingSkillBranchMapping = skillBranchMapping;
+                    deletingSkillBranchMapping = skillBranch.GetParentBranchMapping();
                 }
             }
+        }
 
-            if (GUILayout.Button("+", GUILayout.Width(skillBranch.GetRect().width * addRemoveButtonMultiplier)))
+        private void DrawBranchAddButtons(SkillBranch skillBranch, SkillBranchMapping skillBranchMapping)
+        {
+            // Set tags to create/delete at end of OnGUI to avoid operating on list while iterating over it
+            if (!skillBranch.HasBranch(skillBranchMapping))
             {
-                creatingSkillBranch = skillBranch;
-                creatingSkillBranchPosition = skillBranchMapping;
+                if (GUILayout.Button("+", GUILayout.Width(skillBranch.GetRect().width * addRemoveButtonMultiplier)))
+                {
+                    creatingSkillBranch = skillBranch;
+                    creatingSkillBranchPosition = skillBranchMapping;
+                }
             }
-            GUILayout.EndHorizontal();
         }
 
         private void DrawConnections(SkillBranch skillBranch)
         {
-            Vector2 startPoint = new Vector2(skillBranch.GetRect().xMax, skillBranch.GetRect().center.y);
-
             SkillBranch upSkillBranch = selectedSkillTree.GetChildSkillBranch(skillBranch, SkillBranchMapping.up);
             SkillBranch leftSkillBranch = selectedSkillTree.GetChildSkillBranch(skillBranch, SkillBranchMapping.left);
             SkillBranch rightSkillBranch = selectedSkillTree.GetChildSkillBranch(skillBranch, SkillBranchMapping.right);
             SkillBranch downSkillBranch = selectedSkillTree.GetChildSkillBranch(skillBranch, SkillBranchMapping.down);
 
-            // TODO:  Update offsets so they make sense on each position
             if (upSkillBranch != null)
             {
-                Vector2 endPoint = new Vector2(upSkillBranch.GetRect().xMin, upSkillBranch.GetRect().center.y);
-                float connectionBezierOffset = (endPoint.x - startPoint.x) * connectionBezierOffsetMultiplier;
+                Vector2 startPoint = new Vector2(skillBranch.GetRect().center.x, skillBranch.GetRect().yMin);
+                Vector2 endPoint = new Vector2(upSkillBranch.GetRect().center.x, upSkillBranch.GetRect().yMax);
+                float connectionBezierOffset = (endPoint.y - startPoint.y) * connectionBezierOffsetMultiplier;
                 Handles.DrawBezier(startPoint, endPoint,
-                    startPoint + Vector2.right * connectionBezierOffset, endPoint + Vector2.left * connectionBezierOffset,
+                    startPoint + Vector2.up * connectionBezierOffset, endPoint + Vector2.down * connectionBezierOffset,
                     Color.white, null, connectionBezierWidth);
             }
             if (leftSkillBranch != null)
             {
-                Vector2 endPoint = new Vector2(leftSkillBranch.GetRect().xMin, leftSkillBranch.GetRect().center.y);
-                float connectionBezierOffset = (endPoint.x - startPoint.x) * connectionBezierOffsetMultiplier;
+                Vector2 startPoint = new Vector2(skillBranch.GetRect().xMin, skillBranch.GetRect().center.y);
+                Vector2 endPoint = new Vector2(leftSkillBranch.GetRect().xMax, leftSkillBranch.GetRect().center.y);
+                float connectionBezierOffset = (startPoint.x - endPoint.x) * connectionBezierOffsetMultiplier;
                 Handles.DrawBezier(startPoint, endPoint,
-                    startPoint + Vector2.right * connectionBezierOffset, endPoint + Vector2.left * connectionBezierOffset,
+                    startPoint + Vector2.left * connectionBezierOffset, endPoint + Vector2.right * connectionBezierOffset,
                     Color.white, null, connectionBezierWidth);
             }
             if (rightSkillBranch != null)
             {
+                Vector2 startPoint = new Vector2(skillBranch.GetRect().xMax, skillBranch.GetRect().center.y);
                 Vector2 endPoint = new Vector2(rightSkillBranch.GetRect().xMin, rightSkillBranch.GetRect().center.y);
                 float connectionBezierOffset = (endPoint.x - startPoint.x) * connectionBezierOffsetMultiplier;
                 Handles.DrawBezier(startPoint, endPoint,
@@ -297,10 +318,11 @@ namespace Frankie.Combat.Editor
             }
             if (downSkillBranch != null)
             {
-                Vector2 endPoint = new Vector2(downSkillBranch.GetRect().xMin, downSkillBranch.GetRect().center.y);
-                float connectionBezierOffset = (endPoint.x - startPoint.x) * connectionBezierOffsetMultiplier;
+                Vector2 startPoint = new Vector2(skillBranch.GetRect().center.x, skillBranch.GetRect().yMax);
+                Vector2 endPoint = new Vector2(downSkillBranch.GetRect().center.x, downSkillBranch.GetRect().yMin);
+                float connectionBezierOffset = (startPoint.y - endPoint.y) * connectionBezierOffsetMultiplier;
                 Handles.DrawBezier(startPoint, endPoint,
-                    startPoint + Vector2.right * connectionBezierOffset, endPoint + Vector2.left * connectionBezierOffset,
+                    startPoint + Vector2.down * connectionBezierOffset, endPoint + Vector2.up * connectionBezierOffset,
                     Color.white, null, connectionBezierWidth);
             }
         }

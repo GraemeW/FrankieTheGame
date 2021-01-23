@@ -9,9 +9,11 @@ namespace Frankie.Combat
     {
         // Tunables
         [Header("Editor Settings")]
-        [SerializeField] Vector2 newBranchOffset = new Vector2(100f, 25f);
+        [SerializeField] Vector2 newBranchOffset = new Vector2(150f, 150f);
+        float upOffsetMultiplier = 2.0f;
+        float leftOffsetMultiplier = 2.5f;
         [SerializeField] int branchWidth = 250;
-        [SerializeField] int branchHeight = 150;
+        [SerializeField] int branchHeight = 155;
 
         // State
         [HideInInspector] [SerializeField] List<SkillBranch> skillBranches = new List<SkillBranch>();
@@ -71,11 +73,11 @@ namespace Frankie.Combat
 
         // Dialogue editing functionality
 #if UNITY_EDITOR
-        private SkillBranch CreateSkillBranch()
+        private SkillBranch CreateSkillBranch(SkillBranchMapping skillBranchMapping)
         {
             SkillBranch skillBranch = CreateInstance<SkillBranch>();
             Undo.RegisterCreatedObjectUndo(skillBranch, "Created Skill Branch Object");
-            skillBranch.Initialize(branchWidth, branchHeight);
+            skillBranch.Initialize(branchWidth, branchHeight, skillBranchMapping);
             skillBranch.name = System.Guid.NewGuid().ToString();
 
             Undo.RecordObject(this, "Add Skill Branch");
@@ -89,22 +91,44 @@ namespace Frankie.Combat
             if (parentSkillBranch == null) { return null; }
             // TODO:  Update offsets so they make sense on each position
 
-            SkillBranch childNode = CreateSkillBranch();
-            Vector2 offsetPosition = new Vector2(parentSkillBranch.GetRect().xMax + newBranchOffset.x,
-                parentSkillBranch.GetRect().yMin + (parentSkillBranch.GetRect().height + newBranchOffset.y));
-            childNode.SetPosition(offsetPosition);
+            SkillBranch childBranch = CreateSkillBranch(skillBranchMapping);
 
-            parentSkillBranch.AddChild(childNode.name, skillBranchMapping);
+            if (skillBranchMapping == SkillBranchMapping.up)
+            {
+                Vector2 offsetPosition = new Vector2(parentSkillBranch.GetRect().xMin,
+                    parentSkillBranch.GetRect().yMin - (float)(newBranchOffset.y * upOffsetMultiplier));
+                childBranch.SetPosition(offsetPosition);
+            }
+            else if (skillBranchMapping == SkillBranchMapping.left)
+            {
+                Vector2 offsetPosition = new Vector2(parentSkillBranch.GetRect().xMin - (float)(newBranchOffset.x * leftOffsetMultiplier),
+                    parentSkillBranch.GetRect().yMin);
+                childBranch.SetPosition(offsetPosition);
+            }
+            else if (skillBranchMapping == SkillBranchMapping.right)
+            {
+                Vector2 offsetPosition = new Vector2(parentSkillBranch.GetRect().xMax + newBranchOffset.x,
+                    parentSkillBranch.GetRect().yMin);
+                childBranch.SetPosition(offsetPosition);
+            }
+            else if (skillBranchMapping == SkillBranchMapping.down)
+            {
+                Vector2 offsetPosition = new Vector2(parentSkillBranch.GetRect().xMin,
+                    parentSkillBranch.GetRect().yMax + newBranchOffset.y);
+                childBranch.SetPosition(offsetPosition);
+            }
+
+            parentSkillBranch.AddChild(childBranch.name, skillBranchMapping);
             OnValidate();
 
-            return childNode;
+            return childBranch;
         }
 
         private SkillBranch CreateRootSkillBranchIfMissing()
         {
             if (skillBranches.Count == 0)
             {
-                SkillBranch rootSkillBranch = CreateSkillBranch();
+                SkillBranch rootSkillBranch = CreateSkillBranch(0);
 
                 OnValidate();
                 return rootSkillBranch;

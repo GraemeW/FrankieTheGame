@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b8d8f88416a3eaa479e5d149d93dcddb, type: 3}
   m_Name: New Skill Tree
   m_EditorClassIdentifier: 
-  newBranchOffset: {x: 100, y: 25}
+  newBranchOffset: {x: 150, y: 150}
   branchWidth: 250
-  branchHeight: 150
+  branchHeight: 155
   skillBranches:
   - {fileID: 0}

@@ -19,14 +19,10 @@ namespace Frankie.Combat
         [SerializeField] string downSkillReference = null;
         [SerializeField] string downBranch = null;
         [SerializeField] string detail = null;
-        [SerializeField] string skillBranchName = null;
-        [SerializeField] Rect rect = new Rect(30, 30, 250, 150);
+        [SerializeField] Rect rect = new Rect(30, 30, 250, 155);
         [HideInInspector] [SerializeField] Rect draggingRect = new Rect(0, 0, 250, 45);
-
-        public string GetSkillBranchName()
-        {
-            return skillBranchName;
-        }
+        [Header("Branch Properties")]
+        [HideInInspector] [SerializeField] SkillBranchMapping mappedFromBranch = default;
 
         public Skill GetSkill(SkillBranchMapping skillBranchMapping)
         {
@@ -35,13 +31,6 @@ namespace Frankie.Combat
             else if (skillBranchMapping == SkillBranchMapping.right) { return Skill.GetSkillFromName(rightSkillReference); }
             else if (skillBranchMapping == SkillBranchMapping.down) { return Skill.GetSkillFromName(downSkillReference); }
             return null;
-        }
-
-        private string GetValidSkillName(string skillReference)
-        {
-            Skill skill = Skill.GetSkillFromName(skillReference);
-            if (skill == null) { return "Invalid Skill"; }
-            return skill.name;
         }
 
         public string GetBranch(SkillBranchMapping skillBranchMapping)
@@ -61,6 +50,11 @@ namespace Frankie.Combat
             else if (skillBranchMapping == SkillBranchMapping.down) { downBranch = skillBranchReference; }
         }
 
+        public bool HasBranch(SkillBranchMapping skillBranchMapping)
+        {
+            return (!string.IsNullOrWhiteSpace(GetBranch(skillBranchMapping)));
+        }
+
         public Vector2 GetPosition()
         {
             return rect.position;
@@ -76,20 +70,34 @@ namespace Frankie.Combat
             return draggingRect;
         }
 
+        public SkillBranchMapping GetParentBranchMapping()
+        {
+            return mappedFromBranch;
+        }
+
 #if UNITY_EDITOR
-        public void Initialize(int width, int height)
+        public void Initialize(int width, int height, SkillBranchMapping mappedFromBranch)
         {
             rect.width = width;
             rect.height = height;
+            this.mappedFromBranch = mappedFromBranch;
             EditorUtility.SetDirty(this);
         }
 
-        public void SetSkillBranchName(string skillBranchName)
+        public void SetSkill(string skillName, SkillBranchMapping skillBranchMapping)
         {
-            if (skillBranchName != this.skillBranchName)
+            if (Skill.GetSkillFromName(skillName) == null) // Skill does not exist
             {
-                Undo.RecordObject(this, "Update Zone");
-                this.skillBranchName = skillBranchName;
+                skillName = ""; // override to whitespace, parses as null
+            }
+            
+            if (GetSkill(skillBranchMapping) == null || GetSkill(skillBranchMapping).name != skillName)
+            {
+                Undo.RecordObject(this, "Update Skill");
+                if (skillBranchMapping == SkillBranchMapping.up) { upSkillReference = skillName; }
+                else if (skillBranchMapping == SkillBranchMapping.left) { leftSkillReference = skillName; }
+                else if (skillBranchMapping == SkillBranchMapping.right) { rightSkillReference = skillName; }
+                else if (skillBranchMapping == SkillBranchMapping.down) { downSkillReference = skillName; }
                 EditorUtility.SetDirty(this);
             }
         }
