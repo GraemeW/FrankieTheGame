@@ -11,6 +11,7 @@ namespace Frankie.Combat.UI
     public class BattleCanvas : MonoBehaviour, IDialogueBoxCallbackReceiver
     {
         // Tunables
+        [Header("Parents and Prefabs")]
         [SerializeField] Transform playerPanelParent = null;
         [SerializeField] GameObject characterSlidePrefab = null;
         [SerializeField] Transform frontRowParent = null;
@@ -18,6 +19,7 @@ namespace Frankie.Combat.UI
         [SerializeField] GameObject enemyPrefab = null;
         [SerializeField] Transform infoChooseParent = null;
         [SerializeField] GameObject dialogueBoxPrefab = null;
+        [SerializeField] GameObject preCombatOptionsPrefab = null;
 
         // Cached References
         CombatParticipant playerCombatParticipant = null; // TODO:  Implement party concept
@@ -57,7 +59,7 @@ namespace Frankie.Combat.UI
             }
             else if (state == BattleState.PreCombat)
             {
-
+                SetupPreCombatChoices();
             }
         }
 
@@ -142,7 +144,8 @@ namespace Frankie.Combat.UI
 
         private void SetupPreCombatChoices()
         {
-            // TODO:  Implement pre-combat choices, then kick off combat loop in same way as intro
+            GameObject preCombatOptionsObject = Instantiate(preCombatOptionsPrefab, infoChooseParent);
+
         }
 
         private void ProcessPlayerStateChange(CombatParticipant combatParticipant, StateAlteredType stateAlteredType)

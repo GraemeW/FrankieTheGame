@@ -15,7 +15,8 @@ namespace Frankie.Dialogue.UI
         [SerializeField] GameObject speechTextPrefab = null;
         [SerializeField] Transform optionParent = null;
         [SerializeField] GameObject optionPrefab = null;
-        [Header("Presentation Parameters")]
+        [Header("Parameters")]
+        [SerializeField] bool handleGlobalInput = true;
         [SerializeField] float delayBetweenCharacters = 0.05f; // Seconds
         [SerializeField] float delayToDestroyWindow = 0.1f; // Seconds
 
@@ -168,6 +169,7 @@ namespace Frankie.Dialogue.UI
         // Global Input Handling
         public void HandleInput(string interactButtonOne = "Fire1")
         {
+            if (!handleGlobalInput) { return; }
             if (Input.GetButtonDown(interactButtonOne))
             {
                 if (isWriting)
