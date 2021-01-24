@@ -10,37 +10,48 @@ namespace Frankie.Combat
     {
         // State
         List<CombatParticipant> activeEnemies = new List<CombatParticipant>();
-        bool isBattleActive = false;
+        BattleState state = default;
 
         // Events
-        public event Action enemiesUpdated;
+        public event Action<BattleState> battleStateChanged;
+
+        // Data structures
+        public enum BattleState
+        {
+            Intro,
+            PreCombat,
+            Combat,
+            Outro
+        }
 
         // Public Functions
         public void Setup(List<CombatParticipant> enemies, TransitionType transitionType)
         {
+            // TODO:  Implement different battle transitions
             activeEnemies = enemies;
-            FindObjectOfType<Fader>().battleCanvasEnabled += LoadEnemies;
+            FindObjectOfType<Fader>().battleCanvasEnabled += InitiateBattle;
         }
 
-        public void SetBattleActive(bool state)
+        public void SetBattleState(BattleState state)
         {
-            isBattleActive = state;
+            this.state = state;
         }
 
         // Private Functions
         private void Update()
         {
-            if (isBattleActive)
+            if (state == BattleState.Combat)
             {
                 // Main battle loop
             }
         }
 
-        private void LoadEnemies()
+        private void InitiateBattle()
         {
-            if (enemiesUpdated != null)
+            if (battleStateChanged != null)
             {
-                enemiesUpdated.Invoke();
+                state = BattleState.Intro;
+                battleStateChanged.Invoke(state);
             }
         }
 

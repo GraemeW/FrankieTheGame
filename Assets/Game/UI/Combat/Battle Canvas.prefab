@@ -640,7 +640,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerPanelParent: {fileID: 6019651067335990555}
-  characterSlide: {fileID: 1857157206918601303, guid: aef38f633ef92174d805cd7a578a40c7, type: 3}
+  characterSlidePrefab: {fileID: 1857157206918601303, guid: aef38f633ef92174d805cd7a578a40c7, type: 3}
   frontRowParent: {fileID: 4859047428861698195}
   backRowParent: {fileID: 3363726339821156397}
   enemyPrefab: {fileID: 3482937601263179775, guid: 49f267588bcba8c42ab8efa84b2814dc, type: 3}

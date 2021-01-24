@@ -51,6 +51,7 @@ namespace Frankie.Control
         Animator animator = null;
 
         // Events
+        public event Action<string> globalInput;
         public event Action stateChanged;
 
         // Public functions
@@ -128,12 +129,13 @@ namespace Frankie.Control
             {
                 inputHorizontal = Input.GetAxis("Horizontal");
                 inputVertical = Input.GetAxis("Vertical");
+                if (InteractWithGlobals()) return;
                 if (InteractWithComponent()) return;
                 SetCursor(CursorType.None);
             }
             else if (playerState == PlayerState.inBattle)
             {
-                // TODO-NEXT!:  Hook-up player controls for battle clicky clicky
+                if (InteractWithGlobals()) return;
             }
         }
 
@@ -153,6 +155,17 @@ namespace Frankie.Control
             {
                 MovePlayer();
             }
+        }
+
+        private bool InteractWithGlobals()
+        {
+            if (globalInput != null)
+            {
+                SetCursor(CursorType.None);
+                globalInput.Invoke("Fire1");
+                return true;
+            }
+            return false;
         }
 
         private bool InteractWithComponent()

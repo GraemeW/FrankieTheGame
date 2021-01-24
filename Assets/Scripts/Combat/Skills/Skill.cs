@@ -10,6 +10,7 @@ namespace Frankie.Combat
         // Tunables
         [Header("Behaviour")]
         public bool isFriendly = false;
+        public float cooldown = 1.0f;
         [Header("Modifiers")]
         public float pointAdder = 0f;
         public int numberOfHits = 1;

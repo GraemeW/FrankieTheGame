@@ -4,6 +4,7 @@ using UnityEngine;
 using Frankie.Utils;
 using Frankie.Stats;
 using System.Text.RegularExpressions;
+using System;
 
 namespace Frankie.Combat
 {
@@ -24,6 +25,22 @@ namespace Frankie.Combat
         float deltaHPTimeFraction = 0.0f;
         LazyValue<float> currentHP;
         LazyValue<float> currentAP;
+        LinkedList<StatusEffect> statusEffects = new LinkedList<StatusEffect>();
+
+        // Events
+        public event Action<CombatParticipant, StateAlteredType> stateAltered;
+
+        // Data Structures
+        public enum StateAlteredType
+        {
+            DecreaseHP,
+            IncreaseHP,
+            IncreaseAP,
+            DecreaseAP,
+            Dead,
+            Resurrected,
+            StatusEffectApplied
+        }
 
         private void Awake()
         {
@@ -69,6 +86,12 @@ namespace Frankie.Combat
                 float unsafeHP = currentHP.value + points;
                 currentHP.value = Mathf.Clamp(unsafeHP, 0f, baseStats.GetStat(Stat.HP));
             }
+            if (stateAltered != null)
+            {
+                if (points < 0) { stateAltered.Invoke(this, StateAlteredType.DecreaseHP); }
+                else if (points > 0) { stateAltered.Invoke(this, StateAlteredType.IncreaseHP); }
+            }
+
             CheckIfDead();
         }
 
