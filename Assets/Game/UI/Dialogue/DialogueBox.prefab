@@ -127,7 +127,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 2227106547557423765}
-  m_RootOrder: 3
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -222,7 +222,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 2227106547557423765}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -304,7 +304,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 2227106547557423765}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -370,9 +370,9 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4173906959292693119}
+  - {fileID: 6344860583668609776}
   - {fileID: 4819427655758832652}
   - {fileID: 2827520980706274898}
-  - {fileID: 6344860583668609776}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -476,3 +476,6 @@ MonoBehaviour:
   speechTextPrefab: {fileID: 2827329066881810044, guid: 457c6052bdf60f4428eb78a1788169a4, type: 3}
   optionParent: {fileID: 2827520980706274898}
   optionPrefab: {fileID: 3358873790910023875, guid: 3ddb4c077d5422844bfe6e116ecd5650, type: 3}
+  handleGlobalInput: 1
+  delayBetweenCharacters: 0.05
+  delayToDestroyWindow: 0.1

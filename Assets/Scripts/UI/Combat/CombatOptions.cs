@@ -2,10 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using static Frankie.Combat.BattleHandler;
 
 namespace Frankie.Combat.UI
 {
-    public class PreCombatOptions : MonoBehaviour
+    public class CombatOptions : MonoBehaviour
     {
         // Tunables
         [SerializeField] Button fightButton = null;
@@ -15,8 +16,8 @@ namespace Frankie.Combat.UI
         [SerializeField] Button bargainButton = null;
 
         // Cached References
-        [SerializeField] BattleHandler battleHandler = null;
-        [SerializeField] BattleCanvas battleCanvas = null;
+        BattleHandler battleHandler = null;
+        BattleCanvas battleCanvas = null;
 
         private void Awake()
         {
@@ -24,9 +25,17 @@ namespace Frankie.Combat.UI
             battleCanvas = FindObjectOfType<BattleCanvas>();
         }
 
-        private void OnEnable()
+        public void InitiateCombat()
         {
-            // TODO:  Add button hookups
+            battleHandler.SetBattleState(BattleState.Combat);
+            gameObject.SetActive(false);
+        }
+
+        public void AttemptToRun()
+        {
+            // TODO:  Implement actual logic / odds calculations against escape
+            battleHandler.SetBattleOutcome(BattleOutcome.Ran);
+            battleHandler.SetBattleState(BattleState.Outro);
         }
     }
 }

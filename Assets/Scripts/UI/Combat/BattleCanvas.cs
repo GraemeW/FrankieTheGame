@@ -19,7 +19,7 @@ namespace Frankie.Combat.UI
         [SerializeField] GameObject enemyPrefab = null;
         [SerializeField] Transform infoChooseParent = null;
         [SerializeField] GameObject dialogueBoxPrefab = null;
-        [SerializeField] GameObject preCombatOptionsPrefab = null;
+        [SerializeField] GameObject combatOptionsPrefab = null;
 
         // Cached References
         CombatParticipant playerCombatParticipant = null; // TODO:  Implement party concept
@@ -28,6 +28,7 @@ namespace Frankie.Combat.UI
         // State
         Dictionary<CombatParticipant, CharacterSlide> playerLookup = new Dictionary<CombatParticipant, CharacterSlide>();
         Dictionary<CombatParticipant, EnemySlide> enemyLookup = new Dictionary<CombatParticipant, EnemySlide>();
+        CombatOptions combatOptions = null;
 
         // Static
         private static string DIALOGUE_CALLBACK_INTRO_COMPLETE = "INTRO_COMPLETE";
@@ -144,8 +145,8 @@ namespace Frankie.Combat.UI
 
         private void SetupPreCombatChoices()
         {
-            GameObject preCombatOptionsObject = Instantiate(preCombatOptionsPrefab, infoChooseParent);
-
+            GameObject combatOptionsObject = Instantiate(combatOptionsPrefab, infoChooseParent);
+            combatOptions = combatOptionsObject.GetComponent<CombatOptions>();
         }
 
         private void ProcessPlayerStateChange(CombatParticipant combatParticipant, StateAlteredType stateAlteredType)

@@ -10,7 +10,9 @@ namespace Frankie.Combat
     {
         // State
         List<CombatParticipant> activeEnemies = new List<CombatParticipant>();
+        bool pauseCombat = false;
         BattleState state = default;
+        BattleOutcome outcome = default;
 
         // Events
         public event Action<BattleState> battleStateChanged;
@@ -24,6 +26,15 @@ namespace Frankie.Combat
             Outro
         }
 
+        public enum BattleOutcome
+        {
+            Undetermined,
+            Won,
+            Lost,
+            Ran,
+            Bargained
+        }
+
         // Public Functions
         public void Setup(List<CombatParticipant> enemies, TransitionType transitionType)
         {
@@ -35,6 +46,15 @@ namespace Frankie.Combat
         public void SetBattleState(BattleState state)
         {
             this.state = state;
+            if (battleStateChanged != null)
+            {
+                battleStateChanged.Invoke(state);
+            }
+        }
+
+        public void SetBattleOutcome(BattleOutcome outcome)
+        {
+            this.outcome = outcome;
         }
 
         // Private Functions
@@ -48,9 +68,9 @@ namespace Frankie.Combat
 
         private void InitiateBattle()
         {
+            state = BattleState.Intro;
             if (battleStateChanged != null)
             {
-                state = BattleState.Intro;
                 battleStateChanged.Invoke(state);
             }
         }
