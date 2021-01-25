@@ -272,7 +272,7 @@ namespace Frankie.Combat.Editor
         private void DrawBranchAddButtons(SkillBranch skillBranch, SkillBranchMapping skillBranchMapping)
         {
             // Set tags to create/delete at end of OnGUI to avoid operating on list while iterating over it
-            if (!skillBranch.HasBranch(skillBranchMapping))
+            if (!skillBranch.HasBranch(skillBranchMapping) && skillBranch.HasSkill(skillBranchMapping)) // only allow branch if skill populated
             {
                 if (GUILayout.Button("+", GUILayout.Width(skillBranch.GetRect().width * addRemoveButtonMultiplier)))
                 {

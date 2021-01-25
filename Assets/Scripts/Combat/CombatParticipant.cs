@@ -9,6 +9,7 @@ using System;
 namespace Frankie.Combat
 {
     [RequireComponent(typeof(BaseStats))]
+    [RequireComponent(typeof(SkillHandler))]
     public class CombatParticipant : MonoBehaviour
     {
         // Tunables

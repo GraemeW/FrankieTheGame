@@ -46,13 +46,13 @@ namespace Frankie.Control
         TransitionType transitionType = TransitionType.None;
 
         // Cached References
-        BattleHandler battleHandler = null;
+        BattleController battleHandler = null;
         Rigidbody2D playerRigidbody2D = null;
         Animator animator = null;
 
         // Events
         public event Action<string> globalInput;
-        public event Action stateChanged;
+        public event Action playerStateChanged;
 
         // Public functions
         public float GetInteractionDistance()
@@ -89,9 +89,9 @@ namespace Frankie.Control
             FindObjectOfType<Fader>().UpdateFadeState(transitionType);
             battleHandler.Setup(enemies, transitionType);
 
-            if (stateChanged != null)
+            if (playerStateChanged != null)
             {
-                stateChanged();
+                playerStateChanged();
             }            
         }
 
@@ -113,7 +113,7 @@ namespace Frankie.Control
 
         private void Awake()
         {
-            battleHandler = GetComponent<BattleHandler>();
+            battleHandler = GetComponent<BattleController>();
             animator = GetComponent<Animator>();
             playerRigidbody2D = GetComponent<Rigidbody2D>();
         }
@@ -136,6 +136,7 @@ namespace Frankie.Control
             else if (playerState == PlayerState.inBattle)
             {
                 if (InteractWithGlobals()) return;
+                // Player Control in battle handled via BattleController
             }
         }
 

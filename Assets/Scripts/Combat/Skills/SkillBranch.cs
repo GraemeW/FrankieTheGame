@@ -1,4 +1,3 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEditor;
@@ -53,6 +52,11 @@ namespace Frankie.Combat
         public bool HasBranch(SkillBranchMapping skillBranchMapping)
         {
             return (!string.IsNullOrWhiteSpace(GetBranch(skillBranchMapping)));
+        }
+
+        public bool HasSkill(SkillBranchMapping skillBranchMapping)
+        {
+            return (GetSkill(skillBranchMapping) != null);
         }
 
         public Vector2 GetPosition()

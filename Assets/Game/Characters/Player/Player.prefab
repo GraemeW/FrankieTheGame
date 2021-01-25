@@ -127,6 +127,7 @@ GameObject:
   - component: {fileID: 4067455569022931219}
   - component: {fileID: -209914522063493666}
   - component: {fileID: 259409378292060571}
+  - component: {fileID: 2077763217757332101}
   - component: {fileID: -8986537024405552186}
   m_Layer: 0
   m_Name: Player
@@ -278,6 +279,19 @@ MonoBehaviour:
   friendly: 1
   damageTimeSpan: 4
   combatSprite: {fileID: 21300000, guid: e54bb40dc3352e5478c548cc91ce4ae4, type: 3}
+--- !u!114 &2077763217757332101
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7236940115477457823}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9500bc738f48a9b40a11b28b434aa2b9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  skillTree: {fileID: 11400000, guid: 04dead9955034474482cf14a5b110e21, type: 2}
 --- !u!114 &-8986537024405552186
 MonoBehaviour:
   m_ObjectHideFlags: 0

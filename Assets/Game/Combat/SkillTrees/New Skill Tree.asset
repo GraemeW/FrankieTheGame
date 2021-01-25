@@ -1,5 +1,107 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-6779240608487121565
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6b066201d64e5354387f385aa2872d22, type: 3}
+  m_Name: dc308eb9-3883-469b-8569-ed3c9b313d4b
+  m_EditorClassIdentifier: 
+  upSkillReference: Freeze
+  upBranch: 
+  leftSkillReference: 
+  leftBranch: 
+  rightSkillReference: Freeze
+  rightBranch: 
+  downSkillReference: 
+  downBranch: 
+  detail: 
+  rect:
+    serializedVersion: 2
+    x: 775
+    y: 300
+    width: 250
+    height: 155
+  draggingRect:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 250
+    height: 45
+  mappedFromBranch: 2
+--- !u!114 &-3353821147553634966
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6b066201d64e5354387f385aa2872d22, type: 3}
+  m_Name: 24d08760-f948-4c33-8340-7be6caf275d2
+  m_EditorClassIdentifier: 
+  upSkillReference: Thunder
+  upBranch: 
+  leftSkillReference: 
+  leftBranch: 
+  rightSkillReference: 
+  rightBranch: 
+  downSkillReference: Thunder
+  downBranch: 
+  detail: 
+  rect:
+    serializedVersion: 2
+    x: 375
+    y: 605
+    width: 250
+    height: 155
+  draggingRect:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 250
+    height: 45
+  mappedFromBranch: 3
+--- !u!114 &-649027457118669569
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6b066201d64e5354387f385aa2872d22, type: 3}
+  m_Name: 472f2278-2c20-4373-9dd1-32da1bc8a80b
+  m_EditorClassIdentifier: 
+  upSkillReference: Poke
+  upBranch: 
+  leftSkillReference: Poke
+  leftBranch: 
+  rightSkillReference: 
+  rightBranch: 
+  downSkillReference: Poke
+  downBranch: 
+  detail: 
+  rect:
+    serializedVersion: 2
+    x: 375
+    y: 0
+    width: 250
+    height: 155
+  draggingRect:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 250
+    height: 45
+  mappedFromBranch: 0
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -16,4 +118,76 @@ MonoBehaviour:
   branchWidth: 250
   branchHeight: 155
   skillBranches:
-  - {fileID: 0}
+  - {fileID: 2241163668109447344}
+  - {fileID: -649027457118669569}
+  - {fileID: 8383379391061020777}
+  - {fileID: -6779240608487121565}
+  - {fileID: -3353821147553634966}
+--- !u!114 &2241163668109447344
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6b066201d64e5354387f385aa2872d22, type: 3}
+  m_Name: b24c6602-240a-448a-b1ae-6c9886d3565f
+  m_EditorClassIdentifier: 
+  upSkillReference: Poke
+  upBranch: 472f2278-2c20-4373-9dd1-32da1bc8a80b
+  leftSkillReference: Fire
+  leftBranch: 2ec94fe8-f5f7-439e-a43e-5d20257bc238
+  rightSkillReference: Freeze
+  rightBranch: dc308eb9-3883-469b-8569-ed3c9b313d4b
+  downSkillReference: Thunder
+  downBranch: 24d08760-f948-4c33-8340-7be6caf275d2
+  detail: 
+  rect:
+    serializedVersion: 2
+    x: 375
+    y: 300
+    width: 250
+    height: 155
+  draggingRect:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 250
+    height: 45
+  mappedFromBranch: 0
+--- !u!114 &8383379391061020777
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6b066201d64e5354387f385aa2872d22, type: 3}
+  m_Name: 2ec94fe8-f5f7-439e-a43e-5d20257bc238
+  m_EditorClassIdentifier: 
+  upSkillReference: Fire
+  upBranch: 
+  leftSkillReference: Fire
+  leftBranch: 
+  rightSkillReference: Fire
+  rightBranch: 
+  downSkillReference: 
+  downBranch: 
+  detail: 
+  rect:
+    serializedVersion: 2
+    x: 0
+    y: 300
+    width: 250
+    height: 155
+  draggingRect:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 250
+    height: 45
+  mappedFromBranch: 1

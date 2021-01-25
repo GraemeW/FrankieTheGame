@@ -3,8 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
 using Frankie.Dialogue.UI;
-using static Frankie.Combat.BattleHandler;
+using static Frankie.Combat.BattleController;
 using static Frankie.Combat.CombatParticipant;
+using UnityEngine.UI;
 
 namespace Frankie.Combat.UI
 {
@@ -20,15 +21,17 @@ namespace Frankie.Combat.UI
         [SerializeField] Transform infoChooseParent = null;
         [SerializeField] GameObject dialogueBoxPrefab = null;
         [SerializeField] GameObject combatOptionsPrefab = null;
+        [SerializeField] GameObject skillSelectionPrefab = null;
 
         // Cached References
         CombatParticipant playerCombatParticipant = null; // TODO:  Implement party concept
-        BattleHandler battleHandler = null;
+        BattleController battleController = null;
 
         // State
-        Dictionary<CombatParticipant, CharacterSlide> playerLookup = new Dictionary<CombatParticipant, CharacterSlide>();
+        Dictionary<CombatParticipant, CharacterSlide> playerCharacterLookup = new Dictionary<CombatParticipant, CharacterSlide>();
         Dictionary<CombatParticipant, EnemySlide> enemyLookup = new Dictionary<CombatParticipant, EnemySlide>();
         CombatOptions combatOptions = null;
+        SkillSelection skillSelection = null;
 
         // Static
         private static string DIALOGUE_CALLBACK_INTRO_COMPLETE = "INTRO_COMPLETE";
@@ -40,13 +43,13 @@ namespace Frankie.Combat.UI
 
         private void OnEnable()
         {
-            battleHandler = FindObjectOfType<BattleHandler>();
-            battleHandler.battleStateChanged += Setup;
+            battleController = FindObjectOfType<BattleController>();
+            battleController.battleStateChanged += Setup;
         }
 
         private void OnDisable()
         {
-            battleHandler.battleStateChanged -= Setup;
+            battleController.battleStateChanged -= Setup;
         }
 
         public void Setup(BattleState state)
@@ -55,12 +58,16 @@ namespace Frankie.Combat.UI
             {
                 ClearBattleCanvas();
                 SetupPlayer();
-                SetupEnemies(battleHandler.GetEnemies());
-                SetupEntryMessage(battleHandler.GetEnemies());
+                SetupEnemies(battleController.GetEnemies());
+                SetupEntryMessage(battleController.GetEnemies());
             }
             else if (state == BattleState.PreCombat)
             {
-                SetupPreCombatChoices();
+                ActivateCombatOptions();
+            }
+            else if (state == BattleState.Combat)
+            {
+                ActivateSkillChoices();
             }
         }
 
@@ -92,9 +99,15 @@ namespace Frankie.Combat.UI
             characterSlide.UpdateName("Frankie"); // TODO:  Implement party concept, pull name from party
             characterSlide.UpdateHP(playerCombatParticipant.GetHP());
             characterSlide.UpdateAP(playerCombatParticipant.GetAP());
+            characterSlide.GetComponent<Button>().onClick.AddListener(delegate { battleController.SetActivePlayerCharacter(playerCombatParticipant); });
 
-            playerLookup.Add(playerCombatParticipant, characterSlide);
+            // First character only:
+            characterSlide.GetComponent<Button>().Select();
+            battleController.SetActivePlayerCharacter(playerCombatParticipant);
+
+            playerCharacterLookup.Add(playerCombatParticipant, characterSlide);
             playerCombatParticipant.stateAltered += ProcessPlayerStateChange;
+            // end loop iteration
         }
 
         private void SetupEnemies(IEnumerable enemies)
@@ -143,10 +156,30 @@ namespace Frankie.Combat.UI
             dialogueBox.SetDisableCallback(this, DIALOGUE_CALLBACK_INTRO_COMPLETE);
         }
 
-        private void SetupPreCombatChoices()
+        private void ActivateCombatOptions()
         {
-            GameObject combatOptionsObject = Instantiate(combatOptionsPrefab, infoChooseParent);
-            combatOptions = combatOptionsObject.GetComponent<CombatOptions>();
+            if (combatOptions == null)
+            {
+                GameObject combatOptionsObject = Instantiate(combatOptionsPrefab, infoChooseParent);
+                combatOptions = combatOptionsObject.GetComponent<CombatOptions>();
+            }
+            else
+            {
+                combatOptions.gameObject.SetActive(true);
+            }
+        }
+
+        private void ActivateSkillChoices()
+        {
+            if ( skillSelection == null)
+            {
+                GameObject skillSelectionObject = Instantiate(skillSelectionPrefab, infoChooseParent);
+                skillSelection = skillSelectionObject.GetComponent<SkillSelection>();
+            }
+            else
+            {
+                skillSelection.gameObject.SetActive(true);
+            }
         }
 
         private void ProcessPlayerStateChange(CombatParticipant combatParticipant, StateAlteredType stateAlteredType)
@@ -163,7 +196,7 @@ namespace Frankie.Combat.UI
         {
             if (callbackMessage == DIALOGUE_CALLBACK_INTRO_COMPLETE)
             {
-                battleHandler.SetBattleState(BattleState.PreCombat);
+                battleController.SetBattleState(BattleState.PreCombat);
             }
         }
     }

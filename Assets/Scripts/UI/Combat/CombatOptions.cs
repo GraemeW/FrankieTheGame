@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using static Frankie.Combat.BattleHandler;
+using static Frankie.Combat.BattleController;
 
 namespace Frankie.Combat.UI
 {
@@ -16,12 +16,12 @@ namespace Frankie.Combat.UI
         [SerializeField] Button bargainButton = null;
 
         // Cached References
-        BattleHandler battleHandler = null;
+        BattleController battleHandler = null;
         BattleCanvas battleCanvas = null;
 
         private void Awake()
         {
-            battleHandler = FindObjectOfType<BattleHandler>();
+            battleHandler = FindObjectOfType<BattleController>();
             battleCanvas = FindObjectOfType<BattleCanvas>();
         }
 
