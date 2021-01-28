@@ -12,7 +12,8 @@ namespace Frankie.Combat
         public bool isFriendly = false;
         public float cooldown = 1.0f;
         [Header("Modifiers")]
-        public float pointAdder = 0f;
+        public float apValue = 0f;
+        public float hpValue = 0f;
         public int numberOfHits = 1;
         public DamageType damageType = default;
         public StatusProbabilityPair[] statusEffects = null;
@@ -21,7 +22,7 @@ namespace Frankie.Combat
         [System.Serializable]
         public struct StatusProbabilityPair
         {
-            public StatusEffect statusEffect;
+            public ActiveStatusEffect statusEffect;
             [Range(0,1)] public float fractionalProbability;
         }
 

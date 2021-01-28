@@ -16,6 +16,19 @@ namespace Frankie.Combat.UI
         [SerializeField] TextMeshProUGUI currentAPTens = null;
         [SerializeField] TextMeshProUGUI currentAPOnes = null;
 
+        // State
+        CombatParticipant character = null;
+
+        // Cached References
+        BattleController battleController = null;
+
+        private void Awake()
+        {
+            battleController = FindObjectOfType<BattleController>();
+        }
+
+        // TODO:  Once party concept implemented, add SetupCharacter here -- replaces UpdateName
+        // Likewise, better to attach character and query directly -- needs some refactoring
         public void UpdateName(string name)
         {
             characterNameField.text = name;
@@ -48,6 +61,11 @@ namespace Frankie.Combat.UI
             hundreds = (int)number / 100;
             tens = ((int)number % 100) / 10;
             ones = (int)number % 10;
+        }
+
+        public void SelectCharacter()
+        {
+
         }
     }
 }

@@ -26,7 +26,7 @@ namespace Frankie.Combat
         float deltaHPTimeFraction = 0.0f;
         LazyValue<float> currentHP;
         LazyValue<float> currentAP;
-        LinkedList<StatusEffect> statusEffects = new LinkedList<StatusEffect>();
+        List<ActiveStatusEffect> currentStatusEffects = new List<ActiveStatusEffect>();
 
         // Events
         public event Action<CombatParticipant, StateAlteredType> stateAltered;
@@ -42,6 +42,7 @@ namespace Frankie.Combat
             Resurrected,
             StatusEffectApplied
         }
+
 
         private void Awake()
         {
@@ -67,10 +68,11 @@ namespace Frankie.Combat
             baseStats.onLevelUp -= RestoreHPOnLevelUp;
         }
 
-        private void FixedUpdate()
+        private void Update()
         {
             UpdateDamageDelayedHealth();
             CheckIfDead();
+            // TODO:  Add logic for status effects (figure out how to handle various/many effects without this blowing up)
         }
 
         public void AdjustHP(float points)
@@ -102,6 +104,20 @@ namespace Frankie.Combat
 
             float unsafeAP = currentAP.value + points;
             currentAP.value = Mathf.Clamp(unsafeAP, 0f, baseStats.GetStat(Stat.AP));
+        }
+
+        public void ApplyStatusEffect(ActiveStatusEffect newStatusEffect)
+        {
+            foreach (ActiveStatusEffect activeStatusEffect in currentStatusEffects)
+            {
+                if (activeStatusEffect.statusEffect == newStatusEffect.statusEffect)
+                {
+                    if (activeStatusEffect.value < newStatusEffect.value) { activeStatusEffect.value = newStatusEffect.value; } // Always take the higher value
+                    if (activeStatusEffect.timer < newStatusEffect.timer) { activeStatusEffect.timer = newStatusEffect.timer; } // Refresh to the higher timeout
+                    return;
+                }
+            }
+            currentStatusEffects.Add(newStatusEffect);
         }
 
         public float GetHP()

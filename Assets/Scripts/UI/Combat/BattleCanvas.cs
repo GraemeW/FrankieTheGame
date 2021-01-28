@@ -28,6 +28,7 @@ namespace Frankie.Combat.UI
         BattleController battleController = null;
 
         // State
+        // TODO:  Refactor -- better to just add the characters directly to the individual slides rather than handle centralized canvas
         Dictionary<CombatParticipant, CharacterSlide> playerCharacterLookup = new Dictionary<CombatParticipant, CharacterSlide>();
         Dictionary<CombatParticipant, EnemySlide> enemyLookup = new Dictionary<CombatParticipant, EnemySlide>();
         CombatOptions combatOptions = null;

@@ -66,26 +66,43 @@ namespace Frankie.Combat.UI
             if (down != null) { downField.text = down.name; } else { downField.text = defaultNoText; }
 
             Skill activeSkill = skillHandler.GetActiveSkill();
-            if (activeSkill != null) { skillField.text = activeSkill.name; } else { skillField.text = defaultNoText; }
+            if (activeSkill != null)
+            { 
+                skillField.text = activeSkill.name;
+                battleController.SetActiveSkill(activeSkill);
+            } 
+            else { skillField.text = defaultNoText; }
         }
 
         public void HandleInput(string input)
         {
-            SetBranch(input);
-            // TODO:  SelectSkill Behavior
+            if (SetBranch(input)) { return; }
+            if (ExecuteSkill()) { return; }
         }
 
-        private void SetBranch(string input)
+        private bool SetBranch(string input)
         {
+            bool validInput = false;
             SkillBranchMapping skillBranchMapping = default;
-            if (input == "up") { skillBranchMapping = SkillBranchMapping.up; }
-            else if (input == "left") { skillBranchMapping = SkillBranchMapping.left; }
-            else if (input == "right") { skillBranchMapping = SkillBranchMapping.right; }
-            else if (input == "down") { skillBranchMapping = SkillBranchMapping.down; }
+            if (input == "up") { skillBranchMapping = SkillBranchMapping.up; validInput = true; }
+            else if (input == "left") { skillBranchMapping = SkillBranchMapping.left; validInput = true; }
+            else if (input == "right") { skillBranchMapping = SkillBranchMapping.right; validInput = true; }
+            else if (input == "down") { skillBranchMapping = SkillBranchMapping.down; validInput = true; }
 
-            SkillHandler skillHandler = battleController.GetActivePlayerCharacter().GetComponent<SkillHandler>();
-            skillHandler.SetBranch(skillBranchMapping);
-            UpdateSkills(skillHandler);
+            if (validInput)
+            {
+                SkillHandler skillHandler = battleController.GetActivePlayerCharacter().GetComponent<SkillHandler>();
+                skillHandler.SetBranch(skillBranchMapping);
+                UpdateSkills(skillHandler);
+            }
+            return validInput;
+        }
+
+        private bool ExecuteSkill()
+        {
+            // TODO:  add some logic for selecting out via keyboard mapping here
+            // TODO:  add to the battle queue
+            return true;
         }
     }
 }

@@ -3,18 +3,28 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static Frankie.Combat.Skill;
 
 namespace Frankie.Combat
 {
     public class BattleController : MonoBehaviour
     {
+        // Tunables
+        [SerializeField] float battleQueueDelay = 0.5f;
+
         // State
         bool pauseCombat = false;
         BattleState state = default;
         BattleOutcome outcome = default;
+
         List<CombatParticipant> activePlayerCharacters = new List<CombatParticipant>();
         List<CombatParticipant> activeEnemies = new List<CombatParticipant>();
         CombatParticipant selectedPlayerCharacter = null;
+        Skill selectedSkill = null;
+
+        Queue<BattleSequence> battleSequenceQueue = new Queue<BattleSequence>();
+        bool haltBattleQueue = false;
+
 
         // Events
         public event Action<BattleState> battleStateChanged;
@@ -37,6 +47,13 @@ namespace Frankie.Combat
             Lost,
             Ran,
             Bargained
+        }
+
+        public struct BattleSequence
+        {
+            public CombatParticipant sender;
+            public CombatParticipant recipient;
+            public Skill skill;
         }
 
         // Public Functions
@@ -79,9 +96,30 @@ namespace Frankie.Combat
             return selectedPlayerCharacter;
         }
 
+        public void SetActiveSkill(Skill skill)
+        {
+            selectedSkill = skill;
+        }
+
+        public Skill GetActiveSkill()
+        {
+            return selectedSkill;
+        }
+
         public IEnumerable GetEnemies()
         {
             return activeEnemies;
+        }
+
+        public void AddToBattleQueue(CombatParticipant sender, CombatParticipant recipient, Skill skill)
+        {
+            BattleSequence battleSequence = new BattleSequence
+            {
+                sender = sender,
+                recipient = recipient,
+                skill = skill
+            };
+            battleSequenceQueue.Enqueue(battleSequence);
         }
 
         // Private Functions
@@ -91,6 +129,11 @@ namespace Frankie.Combat
             {
                 InteractWithInterrupts();
                 InteractWithSkill();
+                if (!haltBattleQueue)
+                {
+                    StartCoroutine(HaltBattleQueue(battleQueueDelay));
+                    ProcessNextBattleSequence();
+                }
             }
         }
 
@@ -140,6 +183,29 @@ namespace Frankie.Combat
             if (Input.GetButtonDown("Cancel"))
             {
                 SetBattleState(BattleState.PreCombat);
+            }
+        }
+
+        IEnumerator HaltBattleQueue(float seconds)
+        {
+            haltBattleQueue = true;
+            yield return new WaitForSeconds(seconds);
+            haltBattleQueue = false;
+        }
+
+        private void ProcessNextBattleSequence()
+        {
+            if (battleSequenceQueue.Count == 0) { return; }
+
+            BattleSequence battleSequence = battleSequenceQueue.Dequeue();
+            if (battleSequence.sender.IsDead() || battleSequence.recipient.IsDead()) { return; }
+
+            battleSequence.recipient.AdjustHP(battleSequence.skill.hpValue);
+            battleSequence.recipient.AdjustAP(battleSequence.skill.apValue);
+            foreach (StatusProbabilityPair activeStatusEffect in battleSequence.skill.statusEffects)
+            {
+                // TODO:  add logic for applying statuses, needs to be cleaner
+                battleSequence.recipient.ApplyStatusEffect(activeStatusEffect.statusEffect);
             }
         }
     }
