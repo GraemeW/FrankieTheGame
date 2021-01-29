@@ -29,7 +29,7 @@ namespace Frankie.Combat
         List<ActiveStatusEffect> currentStatusEffects = new List<ActiveStatusEffect>();
 
         // Events
-        public event Action<CombatParticipant, StateAlteredType> stateAltered;
+        public event Action<StateAlteredType> stateAltered;
 
         // Data Structures
         public enum StateAlteredType
@@ -91,8 +91,8 @@ namespace Frankie.Combat
             }
             if (stateAltered != null)
             {
-                if (points < 0) { stateAltered.Invoke(this, StateAlteredType.DecreaseHP); }
-                else if (points > 0) { stateAltered.Invoke(this, StateAlteredType.IncreaseHP); }
+                if (points < 0) { stateAltered.Invoke(StateAlteredType.DecreaseHP); }
+                else if (points > 0) { stateAltered.Invoke(StateAlteredType.IncreaseHP); }
             }
 
             CheckIfDead();
@@ -104,6 +104,12 @@ namespace Frankie.Combat
 
             float unsafeAP = currentAP.value + points;
             currentAP.value = Mathf.Clamp(unsafeAP, 0f, baseStats.GetStat(Stat.AP));
+
+            if (stateAltered != null)
+            {
+                if (points < 0) { stateAltered.Invoke(StateAlteredType.DecreaseAP); }
+                else if (points > 0) { stateAltered.Invoke(StateAlteredType.IncreaseAP); }
+            }
         }
 
         public void ApplyStatusEffect(ActiveStatusEffect newStatusEffect)
@@ -118,6 +124,13 @@ namespace Frankie.Combat
                 }
             }
             currentStatusEffects.Add(newStatusEffect);
+
+            if (stateAltered != null)
+            {
+                // TODO:  elaborate status effect applied -- this isn't enough information to handle the animation or whatever
+                // Alternatively status effect as linked list to grab last
+                stateAltered.Invoke(StateAlteredType.StatusEffectApplied);
+            }
         }
 
         public float GetHP()

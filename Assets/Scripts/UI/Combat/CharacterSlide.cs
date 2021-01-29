@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using static Frankie.Combat.CombatParticipant;
 
 namespace Frankie.Combat.UI
 {
@@ -19,17 +20,48 @@ namespace Frankie.Combat.UI
         // State
         CombatParticipant character = null;
 
-        // Cached References
-        BattleController battleController = null;
-
-        private void Awake()
+        // Static
+        private static void BreakApartNumber(float number, out int hundreds, out int tens, out int ones)
         {
-            battleController = FindObjectOfType<BattleController>();
+            hundreds = (int)number / 100;
+            tens = ((int)number % 100) / 10;
+            ones = (int)number % 10;
         }
 
-        // TODO:  Once party concept implemented, add SetupCharacter here -- replaces UpdateName
-        // Likewise, better to attach character and query directly -- needs some refactoring
-        public void UpdateName(string name)
+
+        private void OnDisable()
+        {
+            if (character != null)
+            {
+                character.stateAltered -= ParseCharacterState;
+            }
+        }
+
+        public void SetCharacter(CombatParticipant combatParticipant)
+        {
+            character = combatParticipant;
+            character.stateAltered += ParseCharacterState;
+            UpdateName(character.GetCombatName());
+            UpdateHP(character.GetHP());
+            UpdateAP(character.GetAP());
+        }
+
+        private void ParseCharacterState(StateAlteredType stateAlteredType)
+        {
+            // TODO:  update slide graphics / animation as a function of altered type input
+            if (stateAlteredType == StateAlteredType.IncreaseHP || stateAlteredType == StateAlteredType.DecreaseHP)
+            {
+                UpdateHP(character.GetHP());
+            }
+            else if (stateAlteredType == StateAlteredType.IncreaseAP || stateAlteredType == StateAlteredType.DecreaseAP)
+            {
+                UpdateAP(character.GetAP());
+            }
+
+            // TODO:  add behavior for other state altered types (death, etc.)
+        }
+
+        private void UpdateName(string name)
         {
             characterNameField.text = name;
         }
@@ -45,7 +77,7 @@ namespace Frankie.Combat.UI
                 else { currentHPOnes.text = "0"; }
         }
 
-        public void UpdateAP(float actionPoints)
+        private void UpdateAP(float actionPoints)
         {
             BreakApartNumber(actionPoints, out int hundreds, out int tens, out int ones);
             if (hundreds > 0) { currentAPHundreds.text = hundreds.ToString(); }
@@ -54,18 +86,6 @@ namespace Frankie.Combat.UI
             else { currentAPTens.text = ""; }
             if (ones > 0) { currentAPOnes.text = ones.ToString(); }
             else { currentAPOnes.text = "0"; }
-        }
-
-        private void BreakApartNumber(float number, out int hundreds, out int tens, out int ones)
-        {
-            hundreds = (int)number / 100;
-            tens = ((int)number % 100) / 10;
-            ones = (int)number % 10;
-        }
-
-        public void SelectCharacter()
-        {
-
         }
     }
 }

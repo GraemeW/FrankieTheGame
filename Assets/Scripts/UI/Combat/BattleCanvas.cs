@@ -4,7 +4,6 @@ using UnityEngine;
 using System.Linq;
 using Frankie.Dialogue.UI;
 using static Frankie.Combat.BattleController;
-using static Frankie.Combat.CombatParticipant;
 using UnityEngine.UI;
 
 namespace Frankie.Combat.UI
@@ -20,19 +19,15 @@ namespace Frankie.Combat.UI
         [SerializeField] GameObject enemyPrefab = null;
         [SerializeField] Transform infoChooseParent = null;
         [SerializeField] GameObject dialogueBoxPrefab = null;
-        [SerializeField] GameObject combatOptionsPrefab = null;
-        [SerializeField] GameObject skillSelectionPrefab = null;
+        [SerializeField] CombatOptions combatOptions = null;
+        [SerializeField] SkillSelection skillSelection = null;
 
         // Cached References
         CombatParticipant playerCombatParticipant = null; // TODO:  Implement party concept
         BattleController battleController = null;
 
         // State
-        // TODO:  Refactor -- better to just add the characters directly to the individual slides rather than handle centralized canvas
-        Dictionary<CombatParticipant, CharacterSlide> playerCharacterLookup = new Dictionary<CombatParticipant, CharacterSlide>();
-        Dictionary<CombatParticipant, EnemySlide> enemyLookup = new Dictionary<CombatParticipant, EnemySlide>();
-        CombatOptions combatOptions = null;
-        SkillSelection skillSelection = null;
+        List<EnemySlide> enemySlides = new List<EnemySlide>();
 
         // Static
         private static string DIALOGUE_CALLBACK_INTRO_COMPLETE = "INTRO_COMPLETE";
@@ -64,11 +59,12 @@ namespace Frankie.Combat.UI
             }
             else if (state == BattleState.PreCombat)
             {
-                ActivateCombatOptions();
+                combatOptions.gameObject.SetActive(true);
             }
             else if (state == BattleState.Combat)
             {
-                ActivateSkillChoices();
+                skillSelection.gameObject.SetActive(true);
+                skillSelection.SetupEnemySlideListeners(enemySlides);
             }
         }
 
@@ -88,6 +84,7 @@ namespace Frankie.Combat.UI
             }
             foreach (Transform child in infoChooseParent)
             {
+                if (child.gameObject != combatOptions || child.gameObject != skillSelection) { continue; }
                 Destroy(child.gameObject);
             }
         }
@@ -97,17 +94,13 @@ namespace Frankie.Combat.UI
             // TODO:  Implement party concept, iterate and spawn multiple slides
             GameObject characterObject = Instantiate(characterSlidePrefab, playerPanelParent);
             CharacterSlide characterSlide = characterObject.GetComponent<CharacterSlide>();
-            characterSlide.UpdateName("Frankie"); // TODO:  Implement party concept, pull name from party
-            characterSlide.UpdateHP(playerCombatParticipant.GetHP());
-            characterSlide.UpdateAP(playerCombatParticipant.GetAP());
+            characterSlide.SetCharacter(playerCombatParticipant);  // TODO:  Implement party concept, pull name from party
             characterSlide.GetComponent<Button>().onClick.AddListener(delegate { battleController.SetActivePlayerCharacter(playerCombatParticipant); });
 
             // First character only:
             characterSlide.GetComponent<Button>().Select();
             battleController.SetActivePlayerCharacter(playerCombatParticipant);
 
-            playerCharacterLookup.Add(playerCombatParticipant, characterSlide);
-            playerCombatParticipant.stateAltered += ProcessPlayerStateChange;
             // end loop iteration
         }
 
@@ -128,10 +121,8 @@ namespace Frankie.Combat.UI
                 }
                 GameObject enemyObject = Instantiate(enemyPrefab, parentSpawn);
                 EnemySlide enemySlide = enemyObject.GetComponent<EnemySlide>();
-                enemySlide.UpdateImage(enemy.GetCombatSprite());
-
-                enemyLookup.Add(enemy, enemySlide);
-                enemy.stateAltered += ProcessEnemyStateChange;
+                enemySlide.SetEnemy(enemy);
+                enemySlides.Add(enemySlide);
             }
         }
 
@@ -155,42 +146,6 @@ namespace Frankie.Combat.UI
             dialogueBox.AddPageBreak();
             dialogueBox.AddSimpleText("What do you want to do?");
             dialogueBox.SetDisableCallback(this, DIALOGUE_CALLBACK_INTRO_COMPLETE);
-        }
-
-        private void ActivateCombatOptions()
-        {
-            if (combatOptions == null)
-            {
-                GameObject combatOptionsObject = Instantiate(combatOptionsPrefab, infoChooseParent);
-                combatOptions = combatOptionsObject.GetComponent<CombatOptions>();
-            }
-            else
-            {
-                combatOptions.gameObject.SetActive(true);
-            }
-        }
-
-        private void ActivateSkillChoices()
-        {
-            if ( skillSelection == null)
-            {
-                GameObject skillSelectionObject = Instantiate(skillSelectionPrefab, infoChooseParent);
-                skillSelection = skillSelectionObject.GetComponent<SkillSelection>();
-            }
-            else
-            {
-                skillSelection.gameObject.SetActive(true);
-            }
-        }
-
-        private void ProcessPlayerStateChange(CombatParticipant combatParticipant, StateAlteredType stateAlteredType)
-        {
-
-        }
-
-        private void ProcessEnemyStateChange(CombatParticipant combatParticipant, StateAlteredType stateAlteredType)
-        {
-
         }
 
         public void HandleDialogueCallback(string callbackMessage)

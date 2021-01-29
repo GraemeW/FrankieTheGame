@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using UnityEngine.UI;
 
 namespace Frankie.Combat.UI
 {
@@ -35,6 +36,14 @@ namespace Frankie.Combat.UI
         {
             battleController.selectedPlayerCharacterChanged -= Setup;
             battleController.battleInput -= HandleInput;
+        }
+
+        public void SetupEnemySlideListeners(List<EnemySlide> enemySlides)
+        {
+            foreach (EnemySlide enemySlide in enemySlides)
+            {
+                enemySlide.GetComponent<Button>().onClick.AddListener(delegate { ExecuteSkill(enemySlide.GetEnemy()); });
+            }
         }
 
         private void Setup(CombatParticipant combatParticipant)
@@ -74,10 +83,10 @@ namespace Frankie.Combat.UI
             else { skillField.text = defaultNoText; }
         }
 
-        public void HandleInput(string input)
+        public void HandleInput(string input) // PUBLIC:  Called via unity events for button clicks (mouse + keyboard)
         {
             if (SetBranch(input)) { return; }
-            if (ExecuteSkill()) { return; }
+            // TODO:  Add skill for highlighting / selecting out enemy to attack using keyboard instead of mouse
         }
 
         private bool SetBranch(string input)
@@ -98,11 +107,12 @@ namespace Frankie.Combat.UI
             return validInput;
         }
 
-        private bool ExecuteSkill()
+        private void ExecuteSkill(CombatParticipant recipient)
         {
-            // TODO:  add some logic for selecting out via keyboard mapping here
-            // TODO:  add to the battle queue
-            return true;
+            if (battleController.GetActivePlayerCharacter() != null && battleController.GetActiveSkill() != null)
+            {
+                battleController.AddToBattleQueue(battleController.GetActivePlayerCharacter(), recipient, battleController.GetActiveSkill());
+            }
         }
     }
 }
