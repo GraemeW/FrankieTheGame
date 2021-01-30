@@ -25,6 +25,8 @@ namespace Frankie.Combat
         Queue<BattleSequence> battleSequenceQueue = new Queue<BattleSequence>();
         bool haltBattleQueue = false;
 
+        // Cached References
+        GameObject player = null;
 
         // Events
         public event Action<BattleState> battleStateChanged;
@@ -61,8 +63,7 @@ namespace Frankie.Combat
         {
             // TODO:  Implement different battle transitions
             // TODO:  Implement concept of party and multiple player members
-
-            activePlayerCharacters.Add(GetComponent<CombatParticipant>()); // HACK:  combat participant living on player, where battle handler lives -- see TODO
+            activePlayerCharacters.Add(player.GetComponent<CombatParticipant>());
             activeEnemies = enemies;
             FindObjectOfType<Fader>().battleCanvasEnabled += InitiateBattle;
         }
@@ -123,6 +124,12 @@ namespace Frankie.Combat
         }
 
         // Private Functions
+
+        private void Awake()
+        {
+            player = GameObject.FindGameObjectWithTag("Player");
+        }
+
         private void Update()
         {
             if (state == BattleState.Combat)

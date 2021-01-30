@@ -16,26 +16,26 @@ namespace Frankie.Combat.UI
         [SerializeField] Button bargainButton = null;
 
         // Cached References
-        BattleController battleHandler = null;
+        BattleController battleController = null;
         BattleCanvas battleCanvas = null;
 
         private void Awake()
         {
-            battleHandler = FindObjectOfType<BattleController>();
+            battleController = GameObject.FindGameObjectWithTag("BattleController").GetComponent<BattleController>();
             battleCanvas = FindObjectOfType<BattleCanvas>();
         }
 
         public void InitiateCombat()
         {
-            battleHandler.SetBattleState(BattleState.Combat);
+            battleController.SetBattleState(BattleState.Combat);
             gameObject.SetActive(false);
         }
 
         public void AttemptToRun()
         {
             // TODO:  Implement actual logic / odds calculations against escape
-            battleHandler.SetBattleOutcome(BattleOutcome.Ran);
-            battleHandler.SetBattleState(BattleState.Outro);
+            battleController.SetBattleOutcome(BattleOutcome.Ran);
+            battleController.SetBattleState(BattleState.Outro);
         }
     }
 }

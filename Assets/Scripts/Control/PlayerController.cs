@@ -46,7 +46,7 @@ namespace Frankie.Control
         TransitionType transitionType = TransitionType.None;
 
         // Cached References
-        BattleController battleHandler = null;
+        BattleController battleController = null;
         Rigidbody2D playerRigidbody2D = null;
         Animator animator = null;
 
@@ -87,7 +87,7 @@ namespace Frankie.Control
             playerState = PlayerState.inBattle;
             this.transitionType = transitionType;
             FindObjectOfType<Fader>().UpdateFadeState(transitionType);
-            battleHandler.Setup(enemies, transitionType);
+            battleController.Setup(enemies, transitionType);
 
             if (playerStateChanged != null)
             {
@@ -113,13 +113,13 @@ namespace Frankie.Control
 
         private void Awake()
         {
-            battleHandler = GetComponent<BattleController>();
             animator = GetComponent<Animator>();
             playerRigidbody2D = GetComponent<Rigidbody2D>();
         }
 
         private void Start()
         {
+            battleController = GameObject.FindGameObjectWithTag("BattleController").GetComponent<BattleController>(); // Call via start -- spawned by persistent object spawner on awake
             SetLookDirection(Vector2.down); // Initialize look direction to avoid wonky
         }
 
@@ -136,7 +136,7 @@ namespace Frankie.Control
             else if (playerState == PlayerState.inBattle)
             {
                 if (InteractWithGlobals()) return;
-                // Player Control in battle handled via BattleController
+                // Aside from globals, handled by BattleController
             }
         }
 

@@ -15,14 +15,17 @@ namespace Frankie.Combat.UI
         [SerializeField] TextMeshProUGUI rightField = null;
         [SerializeField] TextMeshProUGUI downField = null;
         [SerializeField] TextMeshProUGUI skillField = null;
-        [SerializeField] string defaultNoText = "--"; 
+        [SerializeField] string defaultNoText = "--";
+
+        // State
+        List<EnemySlide> enemySlides = null;
 
         // Cached References
         BattleController battleController = null;
 
         private void Awake()
         {
-            battleController = FindObjectOfType<BattleController>();
+            battleController = GameObject.FindGameObjectWithTag("BattleController").GetComponent<BattleController>();
         }
 
         private void OnEnable()
@@ -30,20 +33,33 @@ namespace Frankie.Combat.UI
             Setup(battleController.GetActivePlayerCharacter());
             battleController.selectedPlayerCharacterChanged += Setup;
             battleController.battleInput += HandleInput;
+            SetupEnemySlideButtons(true);
         }
 
         private void OnDisable()
         {
             battleController.selectedPlayerCharacterChanged -= Setup;
             battleController.battleInput -= HandleInput;
+            SetupEnemySlideButtons(false);
         }
 
-        public void SetupEnemySlideListeners(List<EnemySlide> enemySlides)
+        private void SetupEnemySlideButtons(bool enable)
         {
+            if (enemySlides == null) { return; }
             foreach (EnemySlide enemySlide in enemySlides)
             {
-                enemySlide.GetComponent<Button>().onClick.AddListener(delegate { ExecuteSkill(enemySlide.GetEnemy()); });
+                enemySlide.GetComponent<Button>().onClick.RemoveAllListeners();
+                if (enable)
+                {
+                    enemySlide.GetComponent<Button>().onClick.AddListener(delegate { ExecuteSkill(enemySlide.GetEnemy()); });
+                }
             }
+        }
+
+        public void SetEnemySlides(List<EnemySlide> enemySlides)
+        {
+            this.enemySlides = enemySlides;
+            if (gameObject.activeSelf) { SetupEnemySlideButtons(true); }
         }
 
         private void Setup(CombatParticipant combatParticipant)

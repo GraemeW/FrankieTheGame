@@ -28,6 +28,7 @@ namespace Frankie.Combat.UI
 
         // State
         List<EnemySlide> enemySlides = new List<EnemySlide>();
+        List<CharacterSlide> characterSlides = new List<CharacterSlide>();
 
         // Static
         private static string DIALOGUE_CALLBACK_INTRO_COMPLETE = "INTRO_COMPLETE";
@@ -39,7 +40,7 @@ namespace Frankie.Combat.UI
 
         private void OnEnable()
         {
-            battleController = FindObjectOfType<BattleController>();
+            battleController = GameObject.FindGameObjectWithTag("BattleController").GetComponent<BattleController>();
             battleController.battleStateChanged += Setup;
         }
 
@@ -64,7 +65,6 @@ namespace Frankie.Combat.UI
             else if (state == BattleState.Combat)
             {
                 skillSelection.gameObject.SetActive(true);
-                skillSelection.SetupEnemySlideListeners(enemySlides);
             }
         }
 
@@ -124,6 +124,7 @@ namespace Frankie.Combat.UI
                 enemySlide.SetEnemy(enemy);
                 enemySlides.Add(enemySlide);
             }
+            skillSelection.SetEnemySlides(enemySlides);
         }
 
         private void SetupEntryMessage(IEnumerable enemies)
