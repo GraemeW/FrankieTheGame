@@ -22,10 +22,12 @@ namespace Frankie.Combat.UI
 
         // Cached References
         BattleController battleController = null;
+        CanvasGroup canvasGroup = null;
 
         private void Awake()
         {
             battleController = GameObject.FindGameObjectWithTag("BattleController").GetComponent<BattleController>();
+            canvasGroup = GetComponent<CanvasGroup>();
         }
 
         private void OnEnable()
@@ -65,6 +67,7 @@ namespace Frankie.Combat.UI
         private void Setup(CombatParticipant combatParticipant)
         {
             if (combatParticipant == null) { SetAllFields(defaultNoText); return; }
+            canvasGroup.alpha = 1;
 
             selectedCharacterNameField.text = combatParticipant.GetCombatName();
             SkillHandler skillHandler = combatParticipant.GetComponent<SkillHandler>();
@@ -102,7 +105,6 @@ namespace Frankie.Combat.UI
         public void HandleInput(string input) // PUBLIC:  Called via unity events for button clicks (mouse + keyboard)
         {
             if (SetBranch(input)) { return; }
-            // TODO:  Add skill for highlighting / selecting out enemy to attack using keyboard instead of mouse
         }
 
         private bool SetBranch(string input)
@@ -128,6 +130,9 @@ namespace Frankie.Combat.UI
             if (battleController.GetActivePlayerCharacter() != null && battleController.GetActiveSkill() != null)
             {
                 battleController.AddToBattleQueue(battleController.GetActivePlayerCharacter(), recipient, battleController.GetActiveSkill());
+                battleController.SetActiveSkill(null);
+                battleController.SetActivePlayerCharacter(null);
+                canvasGroup.alpha = 0;
             }
         }
     }

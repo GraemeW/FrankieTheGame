@@ -4,6 +4,7 @@ using UnityEngine;
 
 namespace Frankie.Combat
 {
+    [System.Serializable]
     public class ActiveStatusEffect
     {
         public StatusEffect statusEffect;

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using static Frankie.Combat.CombatParticipant;
+using TMPro; // TEMP
 
 namespace Frankie.Combat.UI
 {
@@ -10,6 +11,7 @@ namespace Frankie.Combat.UI
     {
         // Tunables
         [SerializeField] Image image = null;
+        [SerializeField] TextMeshProUGUI tempHealthField = null;
 
         // State
         CombatParticipant enemy = null;
@@ -26,6 +28,7 @@ namespace Frankie.Combat.UI
         {
             enemy = combatParticipant;
             UpdateImage(enemy.GetCombatSprite());
+            TempUpdateHP();
             enemy.stateAltered += ParseEnemyState;
         }
 
@@ -37,7 +40,11 @@ namespace Frankie.Combat.UI
         private void ParseEnemyState(StateAlteredType stateAlteredType)
         {
             // TODO:  update slide graphics / animation as a function of altered type input
-            if (stateAlteredType == StateAlteredType.Dead)
+            if (stateAlteredType == StateAlteredType.IncreaseHP || stateAlteredType == StateAlteredType.DecreaseHP)
+            {
+                TempUpdateHP();
+            }
+            else if (stateAlteredType == StateAlteredType.Dead)
             {
                 // TODO:  add graphic here (nice fader or whatever)
                 gameObject.SetActive(false);
@@ -47,6 +54,11 @@ namespace Frankie.Combat.UI
         private void UpdateImage(Sprite sprite)
         {
             image.sprite = sprite;
+        }
+
+        private void TempUpdateHP()
+        {
+            tempHealthField.text = Mathf.RoundToInt(enemy.GetHP()).ToString();
         }
     }
 }

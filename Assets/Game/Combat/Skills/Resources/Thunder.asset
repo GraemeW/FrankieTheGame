@@ -13,8 +13,14 @@ MonoBehaviour:
   m_Name: Thunder
   m_EditorClassIdentifier: 
   isFriendly: 0
-  pointAdder: 5
+  cooldown: 1
+  apValue: 0
+  hpValue: -2
+  numberOfHits: 1
   damageType: 3
   statusEffects:
-  - statusEffect: 3
+  - statusEffect:
+      statusEffect: 3
+      value: 3
+      timer: 3
     fractionalProbability: 0.108

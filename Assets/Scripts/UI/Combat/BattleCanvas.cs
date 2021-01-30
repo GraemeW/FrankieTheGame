@@ -4,6 +4,7 @@ using UnityEngine;
 using System.Linq;
 using Frankie.Dialogue.UI;
 using static Frankie.Combat.BattleController;
+using Frankie.Stats;
 using UnityEngine.UI;
 
 namespace Frankie.Combat.UI
@@ -23,7 +24,7 @@ namespace Frankie.Combat.UI
         [SerializeField] SkillSelection skillSelection = null;
 
         // Cached References
-        CombatParticipant playerCombatParticipant = null; // TODO:  Implement party concept
+        Party party = null;
         BattleController battleController = null;
 
         // State
@@ -35,7 +36,7 @@ namespace Frankie.Combat.UI
 
         private void Awake()
         {
-            playerCombatParticipant = GameObject.FindGameObjectWithTag("Player").GetComponent<CombatParticipant>();
+            party = GameObject.FindGameObjectWithTag("Player").GetComponent<Party>();
         }
 
         private void OnEnable()
@@ -93,17 +94,21 @@ namespace Frankie.Combat.UI
 
         private void SetupPlayerCharacters()
         {
-            // TODO:  Implement party concept, iterate and spawn multiple slides
-            GameObject characterObject = Instantiate(characterSlidePrefab, playerPanelParent);
-            CharacterSlide characterSlide = characterObject.GetComponent<CharacterSlide>();
-            characterSlide.SetCharacter(playerCombatParticipant);  // TODO:  Implement party concept, pull name from party
-            characterSlides.Add(characterSlide);
+            bool firstCharacterToggle = false;
+            foreach (CombatParticipant character in party.GetParty())
+            {
+                GameObject characterObject = Instantiate(characterSlidePrefab, playerPanelParent);
+                CharacterSlide characterSlide = characterObject.GetComponent<CharacterSlide>();
+                characterSlide.SetCharacter(character);
+                characterSlides.Add(characterSlide);
 
-            // First character only:
-            characterSlide.GetComponent<Button>().Select();
-            battleController.SetActivePlayerCharacter(playerCombatParticipant);
-
-            // end loop iteration
+                if (!firstCharacterToggle)
+                {
+                    characterSlide.GetComponent<Button>().Select();
+                    battleController.SetActivePlayerCharacter(character);
+                    firstCharacterToggle = true;
+                }
+            }
             SetupCharacterSlideButtons(true);
         }
 

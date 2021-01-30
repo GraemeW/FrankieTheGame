@@ -6,7 +6,7 @@ AnimationClip:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: FrancisIdleRight
+  m_Name: FrancisRight
   serializedVersion: 6
   m_Legacy: 0
   m_Compressed: 0
@@ -21,11 +21,13 @@ AnimationClip:
   - curve:
     - time: 0
       value: {fileID: 21300000, guid: d771501adae379f488076d66f88b9c16, type: 3}
+    - time: 0.25
+      value: {fileID: 21300000, guid: 7ae813fa76c80b64fa3e2607d6d0c744, type: 3}
     attribute: m_Sprite
-    path: PlayerSprite
+    path: CharacterSprite
     classID: 212
     script: {fileID: 0}
-  m_SampleRate: 60
+  m_SampleRate: 4
   m_WrapMode: 0
   m_Bounds:
     m_Center: {x: 0, y: 0, z: 0}
@@ -33,7 +35,7 @@ AnimationClip:
   m_ClipBindingConstant:
     genericBindings:
     - serializedVersion: 2
-      path: 533382794
+      path: 3465527240
       attribute: 0
       script: {fileID: 0}
       typeID: 212
@@ -41,12 +43,13 @@ AnimationClip:
       isPPtrCurve: 1
     pptrCurveMapping:
     - {fileID: 21300000, guid: d771501adae379f488076d66f88b9c16, type: 3}
+    - {fileID: 21300000, guid: 7ae813fa76c80b64fa3e2607d6d0c744, type: 3}
   m_AnimationClipSettings:
     serializedVersion: 2
     m_AdditiveReferencePoseClip: {fileID: 0}
     m_AdditiveReferencePoseTime: 0
     m_StartTime: 0
-    m_StopTime: 0.016666668
+    m_StopTime: 0.5
     m_OrientationOffsetY: 0
     m_Level: 0
     m_CycleOffset: 0

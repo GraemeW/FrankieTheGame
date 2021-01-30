@@ -1,4 +1,5 @@
 using Frankie.Core;
+using Frankie.Stats;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -10,7 +11,7 @@ namespace Frankie.Combat
     public class BattleController : MonoBehaviour
     {
         // Tunables
-        [SerializeField] float battleQueueDelay = 0.5f;
+        [SerializeField] float battleQueueDelay = 0.3f;
 
         // State
         bool pauseCombat = false;
@@ -26,7 +27,7 @@ namespace Frankie.Combat
         bool haltBattleQueue = false;
 
         // Cached References
-        GameObject player = null;
+        Party party = null;
 
         // Events
         public event Action<BattleState> battleStateChanged;
@@ -62,8 +63,10 @@ namespace Frankie.Combat
         public void Setup(List<CombatParticipant> enemies, TransitionType transitionType)
         {
             // TODO:  Implement different battle transitions
-            // TODO:  Implement concept of party and multiple player members
-            activePlayerCharacters.Add(player.GetComponent<CombatParticipant>());
+            foreach (CombatParticipant character in party.GetParty())
+            {
+                activePlayerCharacters.Add(character);
+            }
             activeEnemies = enemies;
             FindObjectOfType<Fader>().battleCanvasEnabled += InitiateBattle;
         }
@@ -90,6 +93,10 @@ namespace Frankie.Combat
         public void SetActivePlayerCharacter(CombatParticipant playerCombatParticipant)
         {
             selectedPlayerCharacter = playerCombatParticipant;
+            if (selectedPlayerCharacterChanged != null)
+            {
+                selectedPlayerCharacterChanged.Invoke(selectedPlayerCharacter);
+            }
         }
 
         public CombatParticipant GetActivePlayerCharacter()
@@ -127,7 +134,7 @@ namespace Frankie.Combat
 
         private void Awake()
         {
-            player = GameObject.FindGameObjectWithTag("Player");
+            party = GameObject.FindGameObjectWithTag("Player").GetComponent<Party>();
         }
 
         private void Update()
@@ -135,7 +142,9 @@ namespace Frankie.Combat
             if (state == BattleState.Combat)
             {
                 InteractWithInterrupts();
-                InteractWithSkill();
+                // TODO:  add InteractWithPlayerSelect
+                InteractWithSkillSelect();
+                // TODO:  add InteractWithSkillExecute
                 if (!haltBattleQueue)
                 {
                     StartCoroutine(HaltBattleQueue(battleQueueDelay));
@@ -153,7 +162,7 @@ namespace Frankie.Combat
             }
         }
 
-        private void InteractWithSkill()
+        private void InteractWithSkillSelect()
         {
             // TODO:  Update input system to NEW input system
             if (selectedPlayerCharacter != null && !selectedPlayerCharacter.IsDead())

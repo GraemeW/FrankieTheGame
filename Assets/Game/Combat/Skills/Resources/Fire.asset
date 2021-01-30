@@ -13,8 +13,14 @@ MonoBehaviour:
   m_Name: Fire
   m_EditorClassIdentifier: 
   isFriendly: 0
-  pointAdder: 3
+  cooldown: 1
+  apValue: 0
+  hpValue: 2
+  numberOfHits: 1
   damageType: 1
   statusEffects:
-  - statusEffect: 1
+  - statusEffect:
+      statusEffect: 1
+      value: 10
+      timer: 5
     fractionalProbability: 0.427

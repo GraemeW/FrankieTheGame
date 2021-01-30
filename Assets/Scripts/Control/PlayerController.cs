@@ -5,6 +5,7 @@ using UnityEngine;
 using System.Linq;
 using Frankie.Core;
 using Frankie.Combat;
+using Frankie.Stats;
 
 namespace Frankie.Control
 {
@@ -48,7 +49,7 @@ namespace Frankie.Control
         // Cached References
         BattleController battleController = null;
         Rigidbody2D playerRigidbody2D = null;
-        Animator animator = null;
+        Party party = null;
 
         // Events
         public event Action<string> globalInput;
@@ -113,7 +114,7 @@ namespace Frankie.Control
 
         private void Awake()
         {
-            animator = GetComponent<Animator>();
+            party = GetComponent<Party>();
             playerRigidbody2D = GetComponent<Rigidbody2D>();
         }
 
@@ -151,7 +152,7 @@ namespace Frankie.Control
         private void InteractWithMovement()
         {
             SetMovementParameters();
-            UpdateAnimator();
+            party.UpdatePartyAnimation(currentSpeed, lookDirection.x, lookDirection.y);
             if (currentSpeed > speedMoveThreshold)
             {
                 MovePlayer();
@@ -214,13 +215,6 @@ namespace Frankie.Control
             position.x = position.x + movementSpeed * Sign(inputHorizontal) * Time.deltaTime;
             position.y = position.y + movementSpeed * Sign(inputVertical) * Time.deltaTime;
             playerRigidbody2D.MovePosition(position);
-        }
-
-        private void UpdateAnimator()
-        {
-            animator.SetFloat("Speed", currentSpeed);
-            animator.SetFloat("xLook", lookDirection.x);
-            animator.SetFloat("yLook", lookDirection.y);
         }
 
         // Mouse / Cursor Handling

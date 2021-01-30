@@ -13,8 +13,14 @@ MonoBehaviour:
   m_Name: Freeze
   m_EditorClassIdentifier: 
   isFriendly: 0
-  pointAdder: 0
+  cooldown: 1
+  apValue: 0
+  hpValue: -1
+  numberOfHits: 1
   damageType: 2
   statusEffects:
-  - statusEffect: 2
+  - statusEffect:
+      statusEffect: 2
+      value: 0
+      timer: 2
     fractionalProbability: 0.244

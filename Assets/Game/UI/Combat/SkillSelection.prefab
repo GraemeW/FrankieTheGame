@@ -776,6 +776,7 @@ GameObject:
   - component: {fileID: 6442782191674339376}
   - component: {fileID: 2633275418530863015}
   - component: {fileID: 819482298335442491}
+  - component: {fileID: 131384303553787240}
   m_Layer: 0
   m_Name: SkillSelection
   m_TagString: Untagged
@@ -894,6 +895,18 @@ MonoBehaviour:
   downField: {fileID: 8505604824979935863}
   skillField: {fileID: 5702553275079733856}
   defaultNoText: --
+--- !u!225 &131384303553787240
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6413694501190794285}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1 &8535193898265477035
 GameObject:
   m_ObjectHideFlags: 0
