@@ -46,6 +46,11 @@ namespace Frankie.Combat.UI
             UpdateAP(character.GetAP());
         }
 
+        public CombatParticipant GetCharacter()
+        {
+            return character;
+        }
+
         private void ParseCharacterState(StateAlteredType stateAlteredType)
         {
             // TODO:  update slide graphics / animation as a function of altered type input

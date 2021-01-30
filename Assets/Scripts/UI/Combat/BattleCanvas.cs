@@ -42,11 +42,13 @@ namespace Frankie.Combat.UI
         {
             battleController = GameObject.FindGameObjectWithTag("BattleController").GetComponent<BattleController>();
             battleController.battleStateChanged += Setup;
+            SetupCharacterSlideButtons(true);
         }
 
         private void OnDisable()
         {
             battleController.battleStateChanged -= Setup;
+            SetupCharacterSlideButtons(false);
         }
 
         public void Setup(BattleState state)
@@ -54,7 +56,7 @@ namespace Frankie.Combat.UI
             if (state == BattleState.Intro)
             {
                 ClearBattleCanvas();
-                SetupPlayer();
+                SetupPlayerCharacters();
                 SetupEnemies(battleController.GetEnemies());
                 SetupEntryMessage(battleController.GetEnemies());
             }
@@ -89,19 +91,33 @@ namespace Frankie.Combat.UI
             }
         }
 
-        private void SetupPlayer()
+        private void SetupPlayerCharacters()
         {
             // TODO:  Implement party concept, iterate and spawn multiple slides
             GameObject characterObject = Instantiate(characterSlidePrefab, playerPanelParent);
             CharacterSlide characterSlide = characterObject.GetComponent<CharacterSlide>();
             characterSlide.SetCharacter(playerCombatParticipant);  // TODO:  Implement party concept, pull name from party
-            characterSlide.GetComponent<Button>().onClick.AddListener(delegate { battleController.SetActivePlayerCharacter(playerCombatParticipant); });
+            characterSlides.Add(characterSlide);
 
             // First character only:
             characterSlide.GetComponent<Button>().Select();
             battleController.SetActivePlayerCharacter(playerCombatParticipant);
 
             // end loop iteration
+            SetupCharacterSlideButtons(true);
+        }
+
+        private void SetupCharacterSlideButtons(bool enable)
+        {
+            if (characterSlides == null) { return; }
+            foreach (CharacterSlide characterSlide in characterSlides)
+            {
+                characterSlide.GetComponent<Button>().onClick.RemoveAllListeners();
+                if (enable)
+                {
+                    characterSlide.GetComponent<Button>().onClick.AddListener(delegate { battleController.SetActivePlayerCharacter(characterSlide.GetCharacter()); });
+                }
+            }
         }
 
         private void SetupEnemies(IEnumerable enemies)
