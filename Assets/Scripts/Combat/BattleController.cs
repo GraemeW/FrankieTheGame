@@ -3,7 +3,9 @@ using Frankie.Stats;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
+using static Frankie.Combat.CombatParticipant;
 using static Frankie.Combat.Skill;
 
 namespace Frankie.Combat
@@ -18,9 +20,9 @@ namespace Frankie.Combat
         BattleState state = default;
         BattleOutcome outcome = default;
 
-        List<CombatParticipant> activePlayerCharacters = new List<CombatParticipant>();
+        List<CombatParticipant> activeCharacters = new List<CombatParticipant>();
         List<CombatParticipant> activeEnemies = new List<CombatParticipant>();
-        CombatParticipant selectedPlayerCharacter = null;
+        CombatParticipant selectedCharacter = null;
         Skill selectedSkill = null;
 
         Queue<BattleSequence> battleSequenceQueue = new Queue<BattleSequence>();
@@ -31,7 +33,7 @@ namespace Frankie.Combat
 
         // Events
         public event Action<BattleState> battleStateChanged;
-        public event Action<CombatParticipant> selectedPlayerCharacterChanged;
+        public event Action<CombatParticipant> selectedCharacterChanged;
         public event Action<string> battleInput;
 
         // Data structures
@@ -40,7 +42,9 @@ namespace Frankie.Combat
             Intro,
             PreCombat,
             Combat,
-            Outro
+            Outro,
+            LevelUp,
+            Complete
         }
 
         public enum BattleOutcome
@@ -62,12 +66,17 @@ namespace Frankie.Combat
         // Public Functions
         public void Setup(List<CombatParticipant> enemies, TransitionType transitionType)
         {
-            // TODO:  Implement different battle transitions
+            // TODO:  Implement different battle transition type impact to combat (i.e. advance attack, late attack, same-same)
             foreach (CombatParticipant character in party.GetParty())
             {
-                activePlayerCharacters.Add(character);
+                character.stateAltered += CheckForBattleEnd;
+                activeCharacters.Add(character);
             }
-            activeEnemies = enemies;
+            foreach (CombatParticipant enemy in enemies)
+            {
+                enemy.stateAltered += CheckForBattleEnd;
+                activeEnemies.Add(enemy);
+            }
             FindObjectOfType<Fader>().battleCanvasEnabled += InitiateBattle;
         }
 
@@ -90,18 +99,23 @@ namespace Frankie.Combat
             this.outcome = outcome;
         }
 
-        public void SetActivePlayerCharacter(CombatParticipant playerCombatParticipant)
+        public BattleOutcome GetBattleOutcome()
         {
-            selectedPlayerCharacter = playerCombatParticipant;
-            if (selectedPlayerCharacterChanged != null)
+            return outcome;
+        }
+
+        public void setSelectedCharacter(CombatParticipant character)
+        {
+            selectedCharacter = character;
+            if (selectedCharacterChanged != null)
             {
-                selectedPlayerCharacterChanged.Invoke(selectedPlayerCharacter);
+                selectedCharacterChanged.Invoke(selectedCharacter);
             }
         }
 
-        public CombatParticipant GetActivePlayerCharacter()
+        public CombatParticipant GetSelectedCharacter()
         {
-            return selectedPlayerCharacter;
+            return selectedCharacter;
         }
 
         public void SetActiveSkill(Skill skill)
@@ -112,6 +126,11 @@ namespace Frankie.Combat
         public Skill GetActiveSkill()
         {
             return selectedSkill;
+        }
+
+        public IEnumerable GetCharacters()
+        {
+            return activeCharacters;
         }
 
         public IEnumerable GetEnemies()
@@ -150,22 +169,20 @@ namespace Frankie.Combat
                     StartCoroutine(HaltBattleQueue(battleQueueDelay));
                     ProcessNextBattleSequence();
                 }
+                // TODO:  add check victory/loss conditions
             }
         }
 
         private void InitiateBattle()
         {
-            state = BattleState.Intro;
-            if (battleStateChanged != null)
-            {
-                battleStateChanged.Invoke(state);
-            }
+            FindObjectOfType<Fader>().battleCanvasEnabled -= InitiateBattle;
+            SetBattleState(BattleState.Intro);
         }
 
         private void InteractWithSkillSelect()
         {
             // TODO:  Update input system to NEW input system
-            if (selectedPlayerCharacter != null && !selectedPlayerCharacter.IsDead())
+            if (selectedCharacter != null && !selectedCharacter.IsDead())
             {
                 string input = null;
                 if (Input.GetKeyDown(KeyCode.W))
@@ -198,6 +215,8 @@ namespace Frankie.Combat
         {
             if (Input.GetButtonDown("Cancel"))
             {
+                selectedCharacter = null;
+                selectedSkill = null;
                 SetBattleState(BattleState.PreCombat);
             }
         }
@@ -223,6 +242,47 @@ namespace Frankie.Combat
                 // TODO:  add logic for applying statuses, needs to be cleaner
                 battleSequence.recipient.ApplyStatusEffect(activeStatusEffect.statusEffect);
             }
+        }
+
+        private void CheckForBattleEnd(StateAlteredType stateAlteredType)
+        {
+            if (stateAlteredType == StateAlteredType.Dead)
+            {
+                if (activeCharacters.All(x => x.IsDead() == true))
+                {
+                    SetBattleOutcome(BattleOutcome.Lost);
+                    CloseOutBattle();
+                    
+                }
+                else if (activeEnemies.All(x => x.IsDead() == true))
+                {
+                    SetBattleOutcome(BattleOutcome.Won);
+                    CloseOutBattle();
+                }
+            }
+        }
+
+        private void CloseOutBattle()
+        {
+            // Handle experience awards + levels ~ set state level up and handled full outro + level by canvas
+            CleanUpBattleBits();
+            SetBattleState(BattleState.Outro);
+        }
+
+        private void CleanUpBattleBits()
+        {
+            foreach (CombatParticipant character in activeCharacters)
+            {
+                character.stateAltered -= CheckForBattleEnd;
+            }
+            foreach (CombatParticipant enemy in activeEnemies)
+            {
+                enemy.stateAltered -= CheckForBattleEnd;
+            }
+            activeCharacters.Clear();
+            activeEnemies.Clear();
+            selectedCharacter = null;
+            selectedSkill = null;
         }
     }
 }

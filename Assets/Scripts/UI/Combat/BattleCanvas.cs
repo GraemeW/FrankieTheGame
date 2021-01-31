@@ -33,6 +33,7 @@ namespace Frankie.Combat.UI
 
         // Static
         private static string DIALOGUE_CALLBACK_INTRO_COMPLETE = "INTRO_COMPLETE";
+        private static string DIALOGUE_CALLBACK_OUTRO_COMPLETE = "OUTRO_COMPLETE";
 
         private void Awake()
         {
@@ -50,6 +51,9 @@ namespace Frankie.Combat.UI
         {
             battleController.battleStateChanged -= Setup;
             SetupCharacterSlideButtons(false);
+            characterSlides.Clear();
+            enemySlides.Clear();
+            ClearBattleCanvas();
         }
 
         public void Setup(BattleState state)
@@ -57,17 +61,28 @@ namespace Frankie.Combat.UI
             if (state == BattleState.Intro)
             {
                 ClearBattleCanvas();
-                SetupPlayerCharacters();
+                SetupPlayerCharacters(battleController.GetCharacters());
                 SetupEnemies(battleController.GetEnemies());
                 SetupEntryMessage(battleController.GetEnemies());
             }
             else if (state == BattleState.PreCombat)
             {
+                skillSelection.gameObject.SetActive(false);
                 combatOptions.gameObject.SetActive(true);
             }
             else if (state == BattleState.Combat)
             {
                 skillSelection.gameObject.SetActive(true);
+            }
+            else if (state == BattleState.Outro)
+            {
+                skillSelection.gameObject.SetActive(false);
+                SetupExitMessage();
+            }
+            else if (state == BattleState.LevelUp)
+            {
+                // TODO:  Handle level up ~ redundant of outro, but with extras
+                // alternatively, can handle as a follow-up to outro (though I don't love the chain)
             }
         }
 
@@ -92,10 +107,10 @@ namespace Frankie.Combat.UI
             }
         }
 
-        private void SetupPlayerCharacters()
+        private void SetupPlayerCharacters(IEnumerable characters)
         {
             bool firstCharacterToggle = false;
-            foreach (CombatParticipant character in party.GetParty())
+            foreach (CombatParticipant character in characters)
             {
                 GameObject characterObject = Instantiate(characterSlidePrefab, playerPanelParent);
                 CharacterSlide characterSlide = characterObject.GetComponent<CharacterSlide>();
@@ -105,7 +120,7 @@ namespace Frankie.Combat.UI
                 if (!firstCharacterToggle)
                 {
                     characterSlide.GetComponent<Button>().Select();
-                    battleController.SetActivePlayerCharacter(character);
+                    battleController.setSelectedCharacter(character);
                     firstCharacterToggle = true;
                 }
             }
@@ -120,7 +135,7 @@ namespace Frankie.Combat.UI
                 characterSlide.GetComponent<Button>().onClick.RemoveAllListeners();
                 if (enable)
                 {
-                    characterSlide.GetComponent<Button>().onClick.AddListener(delegate { battleController.SetActivePlayerCharacter(characterSlide.GetCharacter()); });
+                    characterSlide.GetComponent<Button>().onClick.AddListener(delegate { battleController.setSelectedCharacter(characterSlide.GetCharacter()); });
                 }
             }
         }
@@ -153,7 +168,7 @@ namespace Frankie.Combat.UI
             CombatParticipant enemy = enemies.Cast<CombatParticipant>().FirstOrDefault();
             GameObject dialogueBoxObject = Instantiate(dialogueBoxPrefab, infoChooseParent);
 
-            string entryMessage = "";
+            string entryMessage;
             if (enemies.Cast<CombatParticipant>().Count() > 1)
             {
                 entryMessage = string.Format("You have encountered {0} and its cohort.", enemy.GetCombatName());
@@ -170,11 +185,40 @@ namespace Frankie.Combat.UI
             dialogueBox.SetDisableCallback(this, DIALOGUE_CALLBACK_INTRO_COMPLETE);
         }
 
+        private void SetupExitMessage()
+        {
+            // TODO:  Handle other battle ending types
+            // TODO:  Add experience message
+            GameObject dialogueBoxObject = Instantiate(dialogueBoxPrefab, infoChooseParent);
+
+            string exitMessage = "";
+            if (battleController.GetBattleOutcome() == BattleOutcome.Won)
+            {
+                exitMessage = "You Won!  Congratulations!";
+            }
+            else if (battleController.GetBattleOutcome() == BattleOutcome.Lost)
+            {
+                exitMessage = "You lost.  Whoops!";
+            }
+            else if (battleController.GetBattleOutcome() == BattleOutcome.Ran)
+            {
+                exitMessage = "You ran away.";
+            }
+
+            DialogueBox dialogueBox = dialogueBoxObject.GetComponent<DialogueBox>();
+            dialogueBox.AddSimpleText(exitMessage);
+            dialogueBox.SetDisableCallback(this, DIALOGUE_CALLBACK_OUTRO_COMPLETE);
+        }
+
         public void HandleDialogueCallback(string callbackMessage)
         {
             if (callbackMessage == DIALOGUE_CALLBACK_INTRO_COMPLETE)
             {
                 battleController.SetBattleState(BattleState.PreCombat);
+            }
+            else if (callbackMessage == DIALOGUE_CALLBACK_OUTRO_COMPLETE)
+            {
+                battleController.SetBattleState(BattleState.Complete);
             }
         }
     }

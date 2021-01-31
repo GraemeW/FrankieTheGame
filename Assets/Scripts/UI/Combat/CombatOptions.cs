@@ -33,9 +33,9 @@ namespace Frankie.Combat.UI
 
         public void AttemptToRun()
         {
-            // TODO:  Implement actual logic / odds calculations against escape
             battleController.SetBattleOutcome(BattleOutcome.Ran);
             battleController.SetBattleState(BattleState.Outro);
+            gameObject.SetActive(false);
         }
     }
 }

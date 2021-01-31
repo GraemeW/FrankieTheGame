@@ -12,6 +12,7 @@ namespace Frankie.Combat.UI
         // Tunables
         [SerializeField] Image image = null;
         [SerializeField] TextMeshProUGUI tempHealthField = null;
+        [SerializeField] float deathFadeTime = 1.0f;
 
         // State
         CombatParticipant enemy = null;
@@ -46,8 +47,7 @@ namespace Frankie.Combat.UI
             }
             else if (stateAlteredType == StateAlteredType.Dead)
             {
-                // TODO:  add graphic here (nice fader or whatever)
-                gameObject.SetActive(false);
+                gameObject.GetComponent<Image>().CrossFadeAlpha(0f, deathFadeTime, false);
             }
         }
 

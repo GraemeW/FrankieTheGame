@@ -16,6 +16,7 @@ namespace Frankie.Core
         [SerializeField] Image goodBattleEntry = null;
         [SerializeField] Image badBattleEntry = null;
         [SerializeField] Image neutralBattleEntry = null;
+        [SerializeField] Image battleComplete = null;
         [Header("Fader Properties")]
         [SerializeField] float fadeInTimer = 2.0f;
         [SerializeField] float fadeOutTimer = 1.0f;
@@ -39,7 +40,6 @@ namespace Frankie.Core
             {
                 StartCoroutine(Fade(transitionType));
             }
-            HandleBattleExit();
         }
 
         private IEnumerator Fade(TransitionType transitionType)
@@ -51,6 +51,14 @@ namespace Frankie.Core
                 // TODO:  Implement fade handling for scene transitions
                 yield break; 
             }
+            else if (transitionType == TransitionType.BattleComplete)
+            {
+                battleCanvas.gameObject.SetActive(false);
+                if (battleCanvasDisabled != null)
+                {
+                    battleCanvasDisabled.Invoke();
+                }
+            }
             else
             {
                 battleCanvas.gameObject.SetActive(true);
@@ -58,8 +66,8 @@ namespace Frankie.Core
                 {
                     battleCanvasEnabled.Invoke();
                 }
-                yield return QueueFadeExit();
             }
+            yield return QueueFadeExit();
         }
 
         private IEnumerator QueueFadeEntry(TransitionType transitionType)
@@ -80,7 +88,12 @@ namespace Frankie.Core
                 neutralBattleEntry.gameObject.SetActive(true);
                 currentTransition = neutralBattleEntry;
             }
-            if (currentTransition == null) { yield break; }
+            else if (transitionType == TransitionType.BattleComplete)
+            {
+                battleComplete.gameObject.SetActive(true);
+                currentTransition = battleComplete;
+            }
+            if (currentTransition == null) { fading = false; yield break; }
 
             currentTransition.CrossFadeAlpha(0f, 0f, true);
             currentTransition.CrossFadeAlpha(1, fadeInTimer, false);
@@ -94,16 +107,6 @@ namespace Frankie.Core
             currentTransition.gameObject.SetActive(false);
             currentTransition = null;
             fading = false;
-        }
-
-        private void HandleBattleExit()
-        {
-            // TODO:  Implement some sort of fade back to world
-            battleCanvas.gameObject.SetActive(false);
-            if (battleCanvasDisabled != null)
-            {
-                battleCanvasDisabled.Invoke();
-            }
         }
 
         private void ResetOverlays()

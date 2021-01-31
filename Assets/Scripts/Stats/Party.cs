@@ -52,7 +52,6 @@ namespace Frankie.Stats
 
         public void UpdatePartyAnimation(float speed, float xLookDirection, float yLookDirection)
         {
-            UnityEngine.Debug.Log("dude");
             foreach (CombatParticipant character in party)
             {
                 animatorLookup[character].SetFloat("Speed", speed);

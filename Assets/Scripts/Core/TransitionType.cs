@@ -10,6 +10,7 @@ namespace Frankie.Core
         Zone,
         BattleGood,
         BattleBad,
-        BattleNeutral
+        BattleNeutral,
+        BattleComplete
     }
 }

@@ -133,6 +133,16 @@ namespace Frankie.Combat
             }
         }
 
+        public void ResurrectCharacter(float hp)
+        {
+            isDead = false;
+            currentHP.value = hp;
+            if (stateAltered != null)
+            {
+                stateAltered.Invoke(StateAlteredType.Resurrected);
+            }
+        }
+
         public float GetHP()
         {
             return currentHP.value;
@@ -159,7 +169,7 @@ namespace Frankie.Combat
             return isDead;
         }
 
-        public void SetMaxHealth()
+        public void SetMaxHP()
         {
             currentHP.value = baseStats.GetStat(Stat.HP);
         }
@@ -171,12 +181,12 @@ namespace Frankie.Combat
             AdjustHP(differenceToMaxHP);
         }
 
-        private float GetMaxHP()
+        public float GetMaxHP()
         {
             return baseStats.GetStat(Stat.HP);
         }
 
-        private float GetMaxAP()
+        public float GetMaxAP()
         {
             return baseStats.GetStat(Stat.AP);
         }
@@ -200,6 +210,10 @@ namespace Frankie.Combat
                 if (!friendly)
                 {
                     AwardExperience();
+                }
+                if (stateAltered != null)
+                {
+                    stateAltered.Invoke(StateAlteredType.Dead);
                 }
             }
         }

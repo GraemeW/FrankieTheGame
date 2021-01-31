@@ -89,7 +89,6 @@ namespace Frankie.Combat
         public SkillBranch CreateChildSkillBranch(SkillBranch parentSkillBranch, SkillBranchMapping skillBranchMapping)
         {
             if (parentSkillBranch == null) { return null; }
-            // TODO:  Update offsets so they make sense on each position
 
             SkillBranch childBranch = CreateSkillBranch(skillBranchMapping);
 

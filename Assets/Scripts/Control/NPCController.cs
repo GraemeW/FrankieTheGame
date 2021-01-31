@@ -41,7 +41,9 @@ namespace Frankie.Control
             // HACK:  Temporary to test combat
             // TODO:  Remove, implement properly
             List<CombatParticipant> enemies = new List<CombatParticipant>();
-            enemies.Add(GetComponent<CombatParticipant>());
+            CombatParticipant enemy = GetComponent<CombatParticipant>();
+            enemy.ResurrectCharacter(enemy.GetMaxHP());
+            enemies.Add(enemy);
             callingController.EnterCombat(enemies, battleEntryType); 
         }
 

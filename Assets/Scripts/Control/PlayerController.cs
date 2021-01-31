@@ -6,6 +6,7 @@ using System.Linq;
 using Frankie.Core;
 using Frankie.Combat;
 using Frankie.Stats;
+using static Frankie.Combat.BattleController;
 
 namespace Frankie.Control
 {
@@ -87,13 +88,37 @@ namespace Frankie.Control
             // TODO:  Concept of 'pre-battle' where enemies can pile on ++ count up list of enemies -> transfer to battle
             playerState = PlayerState.inBattle;
             this.transitionType = transitionType;
-            FindObjectOfType<Fader>().UpdateFadeState(transitionType);
-            battleController.Setup(enemies, transitionType);
+            Fader fader = FindObjectOfType<Fader>();
+            fader.UpdateFadeState(transitionType);
 
+            battleController.Setup(enemies, transitionType);
+            battleController.battleStateChanged += HandleCombatComplete;
             if (playerStateChanged != null)
             {
                 playerStateChanged();
             }            
+        }
+
+        public void HandleCombatComplete(BattleState battleState)
+        {
+            if (battleState != BattleState.Complete) { return; }
+            battleController.battleStateChanged -= HandleCombatComplete;
+
+            Fader fader = FindObjectOfType<Fader>();
+            fader.battleCanvasDisabled += ExitCombat;
+            transitionType = TransitionType.BattleComplete;
+            fader.UpdateFadeState(transitionType);
+        }
+
+        private void ExitCombat()
+        {
+            FindObjectOfType<Fader>().battleCanvasDisabled -= ExitCombat;
+            playerState = PlayerState.inWorld;
+            if (playerStateChanged != null)
+            {
+                playerStateChanged();
+            }
+            // TODO:  Handling for party death
         }
 
         public PlayerState GetPlayerState()

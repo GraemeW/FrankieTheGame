@@ -32,15 +32,15 @@ namespace Frankie.Combat.UI
 
         private void OnEnable()
         {
-            Setup(battleController.GetActivePlayerCharacter());
-            battleController.selectedPlayerCharacterChanged += Setup;
+            Setup(battleController.GetSelectedCharacter());
+            battleController.selectedCharacterChanged += Setup;
             battleController.battleInput += HandleInput;
             SetupEnemySlideButtons(true);
         }
 
         private void OnDisable()
         {
-            battleController.selectedPlayerCharacterChanged -= Setup;
+            battleController.selectedCharacterChanged -= Setup;
             battleController.battleInput -= HandleInput;
             SetupEnemySlideButtons(false);
         }
@@ -118,7 +118,7 @@ namespace Frankie.Combat.UI
 
             if (validInput)
             {
-                SkillHandler skillHandler = battleController.GetActivePlayerCharacter().GetComponent<SkillHandler>();
+                SkillHandler skillHandler = battleController.GetSelectedCharacter().GetComponent<SkillHandler>();
                 skillHandler.SetBranch(skillBranchMapping);
                 UpdateSkills(skillHandler);
             }
@@ -127,11 +127,11 @@ namespace Frankie.Combat.UI
 
         private void ExecuteSkill(CombatParticipant recipient)
         {
-            if (battleController.GetActivePlayerCharacter() != null && battleController.GetActiveSkill() != null)
+            if (battleController.GetSelectedCharacter() != null && battleController.GetActiveSkill() != null)
             {
-                battleController.AddToBattleQueue(battleController.GetActivePlayerCharacter(), recipient, battleController.GetActiveSkill());
+                battleController.AddToBattleQueue(battleController.GetSelectedCharacter(), recipient, battleController.GetActiveSkill());
                 battleController.SetActiveSkill(null);
-                battleController.SetActivePlayerCharacter(null);
+                battleController.setSelectedCharacter(null);
                 canvasGroup.alpha = 0;
             }
         }
