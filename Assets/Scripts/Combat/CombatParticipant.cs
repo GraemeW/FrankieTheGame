@@ -22,6 +22,8 @@ namespace Frankie.Combat
 
         // State
         bool isDead = false;
+        bool inCooldown = false;
+        float cooldownTimer = 0f;
         float targetHP = 1f;
         float deltaHPTimeFraction = 0.0f;
         LazyValue<float> currentHP;
@@ -40,7 +42,9 @@ namespace Frankie.Combat
             DecreaseAP,
             Dead,
             Resurrected,
-            StatusEffectApplied
+            StatusEffectApplied,
+            CooldownSet,
+            CooldownExpired
         }
 
 
@@ -61,6 +65,7 @@ namespace Frankie.Combat
         private void OnEnable()
         {
             baseStats.onLevelUp += RestoreHPOnLevelUp;
+            cooldownTimer = 0f;
         }
 
         private void OnDisable()
@@ -70,8 +75,9 @@ namespace Frankie.Combat
 
         private void Update()
         {
+            if (CheckIfDead()) { return; }
             UpdateDamageDelayedHealth();
-            CheckIfDead();
+            UpdateCooldown();
             // TODO:  Add logic for status effects (figure out how to handle various/many effects without this blowing up)
         }
 
@@ -137,9 +143,20 @@ namespace Frankie.Combat
         {
             isDead = false;
             currentHP.value = hp;
+            cooldownTimer = 0f;
             if (stateAltered != null)
             {
                 stateAltered.Invoke(StateAlteredType.Resurrected);
+            }
+        }
+
+        public void SetCooldown(float seconds)
+        {
+            inCooldown = true;
+            cooldownTimer = seconds;
+            if (stateAltered != null)
+            {
+                stateAltered.Invoke(StateAlteredType.CooldownSet);
             }
         }
 
@@ -169,6 +186,11 @@ namespace Frankie.Combat
             return isDead;
         }
 
+        public bool IsInCooldown()
+        {
+            return inCooldown;
+        }
+
         public void SetMaxHP()
         {
             currentHP.value = baseStats.GetStat(Stat.HP);
@@ -191,17 +213,8 @@ namespace Frankie.Combat
             return baseStats.GetStat(Stat.AP);
         }
 
-        private void UpdateDamageDelayedHealth()
-        {
-            if (friendly && !Mathf.Approximately(currentHP.value, targetHP))
-            {
-                deltaHPTimeFraction += (Time.deltaTime / damageTimeSpan);
-                float unsafeHP = Mathf.Lerp(currentHP.value, targetHP, deltaHPTimeFraction);
-                currentHP.value = Mathf.Clamp(unsafeHP, 0f, baseStats.GetStat(Stat.HP));
-            }
-        }
-
-        private void CheckIfDead()
+        // Private functions
+        private bool CheckIfDead()
         {
             if (Mathf.Approximately(currentHP.value, 0f) || currentHP.value < 0)
             {
@@ -214,6 +227,31 @@ namespace Frankie.Combat
                 if (stateAltered != null)
                 {
                     stateAltered.Invoke(StateAlteredType.Dead);
+                }
+            }
+            if (isDead) { return true; }
+            return false;
+        }
+
+        private void UpdateDamageDelayedHealth()
+        {
+            if (friendly && !Mathf.Approximately(currentHP.value, targetHP))
+            {
+                deltaHPTimeFraction += (Time.deltaTime / damageTimeSpan);
+                float unsafeHP = Mathf.Lerp(currentHP.value, targetHP, deltaHPTimeFraction);
+                currentHP.value = Mathf.Clamp(unsafeHP, 0f, baseStats.GetStat(Stat.HP));
+            }
+        }
+
+        private void UpdateCooldown()
+        {
+            if (cooldownTimer > 0) { cooldownTimer -= Time.deltaTime; }
+            if (inCooldown && cooldownTimer <= 0)
+            {
+                inCooldown = false;
+                if (stateAltered != null)
+                {
+                    stateAltered.Invoke(StateAlteredType.CooldownExpired);
                 }
             }
         }

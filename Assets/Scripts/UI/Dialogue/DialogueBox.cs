@@ -142,7 +142,7 @@ namespace Frankie.Dialogue.UI
 
         private void Choose()
         {
-            // TODO:  Implement choose action (dependent on dialogue system
+            // TODO:  Implement choose action (dependent on dialogue system OR simple actions for extended)
             // Takes DialogueNode as input instead of string;;
         }
 

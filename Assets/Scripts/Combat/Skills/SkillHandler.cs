@@ -28,6 +28,7 @@ namespace Frankie.Combat
         public void ResetCurrentBranch()
         {
             currentBranch = skillTree.GetRootSkillBranch();
+            activeSkill = null;
         }
 
         public void GetSkillsForCurrentBranch(out Skill up, out Skill left, out Skill right, out Skill down)

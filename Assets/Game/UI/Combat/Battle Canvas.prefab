@@ -628,6 +628,13 @@ MonoBehaviour:
   dialogueBoxPrefab: {fileID: 6413694501190794285, guid: a9829c1cb69a159479cbe82e68a5c629, type: 3}
   combatOptions: {fileID: 4334786330493280310}
   skillSelection: {fileID: 8555741105237380575}
+  selectedCharacterFrameColor: {r: 0.20726234, g: 0.7735849, b: 0.20726234, a: 1}
+  messageEncounterSingle: You have encountered {0}.
+  messageEncounterMultiple: You have encountered {0} and its cohort.
+  messageEncounterPreHype: What do you want to do?
+  messageBattleCompleteWon: You Won!  Congratulations!
+  messageBattleCompleteLost: You lost.  Whoops!
+  messageBattleCompleteRan: You ran away.
 --- !u!1 &9024676029994688379
 GameObject:
   m_ObjectHideFlags: 0

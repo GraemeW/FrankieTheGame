@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Thunder
   m_EditorClassIdentifier: 
   isFriendly: 0
-  cooldown: 1
+  cooldown: 2
   apValue: 0
   hpValue: -2
   numberOfHits: 1

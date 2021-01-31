@@ -45,7 +45,7 @@ namespace Frankie.Combat.UI
             SetupEnemySlideButtons(false);
         }
 
-        private void SetupEnemySlideButtons(bool enable)
+        private void SetupEnemySlideButtons(bool enable) // for button clicks (mouse)
         {
             if (enemySlides == null) { return; }
             foreach (EnemySlide enemySlide in enemySlides)
@@ -66,7 +66,12 @@ namespace Frankie.Combat.UI
 
         private void Setup(CombatParticipant combatParticipant)
         {
-            if (combatParticipant == null) { SetAllFields(defaultNoText); return; }
+            if (combatParticipant == null) 
+            { 
+                SetAllFields(defaultNoText);
+                canvasGroup.alpha = 0;
+                return; 
+            }
             canvasGroup.alpha = 1;
 
             selectedCharacterNameField.text = combatParticipant.GetCombatName();
@@ -102,9 +107,11 @@ namespace Frankie.Combat.UI
             else { skillField.text = defaultNoText; }
         }
 
-        public void HandleInput(string input) // PUBLIC:  Called via unity events for button clicks (mouse + keyboard)
+        public void HandleInput(string input) // PUBLIC:  Called via unity events for button clicks (mouse)
         {
+            if (battleController.GetSelectedCharacter() == null) { return; }
             if (SetBranch(input)) { return; }
+            // TODO:  handling for keyboard type input for other controls
         }
 
         private bool SetBranch(string input)
@@ -129,9 +136,8 @@ namespace Frankie.Combat.UI
         {
             if (battleController.GetSelectedCharacter() != null && battleController.GetActiveSkill() != null)
             {
+                battleController.GetSelectedCharacter().SetCooldown(Mathf.Infinity); // Character actions locked until cooldown set by BattleController
                 battleController.AddToBattleQueue(battleController.GetSelectedCharacter(), recipient, battleController.GetActiveSkill());
-                battleController.SetActiveSkill(null);
-                battleController.setSelectedCharacter(null);
                 canvasGroup.alpha = 0;
             }
         }

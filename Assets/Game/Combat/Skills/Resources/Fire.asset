@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Fire
   m_EditorClassIdentifier: 
   isFriendly: 0
-  cooldown: 1
+  cooldown: 3
   apValue: 0
   hpValue: 2
   numberOfHits: 1

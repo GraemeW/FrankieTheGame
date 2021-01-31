@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Poke
   m_EditorClassIdentifier: 
   isFriendly: 0
-  cooldown: 1
+  cooldown: 4
   apValue: 0
   hpValue: -5
   numberOfHits: 1

@@ -8,6 +8,8 @@ namespace Frankie.Combat.UI
 {
     public class CombatOptions : MonoBehaviour
     {
+        // TODO:  this should just extend dialogue box rather than have its own class, then use choose functionality
+
         // Tunables
         [SerializeField] Button fightButton = null;
         [SerializeField] Button itemButton = null;
@@ -17,12 +19,10 @@ namespace Frankie.Combat.UI
 
         // Cached References
         BattleController battleController = null;
-        BattleCanvas battleCanvas = null;
 
         private void Awake()
         {
             battleController = GameObject.FindGameObjectWithTag("BattleController").GetComponent<BattleController>();
-            battleCanvas = FindObjectOfType<BattleCanvas>();
         }
 
         public void InitiateCombat()
@@ -33,6 +33,7 @@ namespace Frankie.Combat.UI
 
         public void AttemptToRun()
         {
+            // TODO:  add logic for running (odds vs. speed, etc.)
             battleController.SetBattleOutcome(BattleOutcome.Ran);
             battleController.SetBattleState(BattleState.Outro);
             gameObject.SetActive(false);

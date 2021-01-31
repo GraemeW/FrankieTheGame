@@ -3,12 +3,14 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using static Frankie.Combat.CombatParticipant;
+using UnityEngine.UI;
 
 namespace Frankie.Combat.UI
 {
     public class CharacterSlide : MonoBehaviour
     {
         // Tunables
+        [Header("HookUps")]
         [SerializeField] TextMeshProUGUI characterNameField = null;
         [SerializeField] TextMeshProUGUI currentHPHundreds = null;
         [SerializeField] TextMeshProUGUI currentHPTens = null;
@@ -16,9 +18,15 @@ namespace Frankie.Combat.UI
         [SerializeField] TextMeshProUGUI currentAPHundreds = null;
         [SerializeField] TextMeshProUGUI currentAPTens = null;
         [SerializeField] TextMeshProUGUI currentAPOnes = null;
+        [SerializeField] Image selectHighlight = null;
+
+        [Header("Flavour")]
+        [SerializeField] Color selectedCharacterFrameColor = Color.green;
+        [SerializeField] Color cooldownCharacterFrameColor = Color.gray;
 
         // State
         CombatParticipant character = null;
+        SlideState slideState = default;
 
         // Static
         private static void BreakApartNumber(float number, out int hundreds, out int tens, out int ones)
@@ -28,7 +36,14 @@ namespace Frankie.Combat.UI
             ones = (int)number % 10;
         }
 
+        private enum SlideState
+        {
+            ready,
+            selected,
+            cooldown
+        }
 
+        // Functions
         private void OnDisable()
         {
             if (character != null)
@@ -51,9 +66,32 @@ namespace Frankie.Combat.UI
             return character;
         }
 
+        public void SetSelected(bool enable)
+        {
+            if (character.IsInCooldown()) { slideState = SlideState.cooldown; }
+            else if (enable) { slideState = SlideState.selected; }
+            else { slideState = SlideState.ready; }
+            UpdateColor();
+        }
+
+        private void UpdateColor()
+        {
+            if (slideState == SlideState.ready)
+            {
+                selectHighlight.color = Color.white;
+            }
+            else if (slideState == SlideState.selected)
+            {
+                selectHighlight.color = selectedCharacterFrameColor;
+            }
+            else if (slideState == SlideState.cooldown)
+            {
+                selectHighlight.color = cooldownCharacterFrameColor;
+            }
+        }
+
         private void ParseCharacterState(StateAlteredType stateAlteredType)
         {
-            // TODO:  update slide graphics / animation as a function of altered type input
             if (stateAlteredType == StateAlteredType.IncreaseHP || stateAlteredType == StateAlteredType.DecreaseHP)
             {
                 UpdateHP(character.GetHP());
@@ -62,8 +100,19 @@ namespace Frankie.Combat.UI
             {
                 UpdateAP(character.GetAP());
             }
-
             // TODO:  add behavior for other state altered types (death, etc.)
+            // TODO:  update slide graphics / animation for each behavior
+
+            if (stateAlteredType == StateAlteredType.CooldownSet)
+            {
+                slideState = SlideState.cooldown;
+                UpdateColor();
+            }
+            else if (stateAlteredType == StateAlteredType.CooldownExpired)
+            {
+                slideState = SlideState.ready;
+                UpdateColor();
+            }
         }
 
         private void UpdateName(string name)

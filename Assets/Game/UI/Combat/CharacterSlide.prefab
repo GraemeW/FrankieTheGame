@@ -433,6 +433,9 @@ MonoBehaviour:
   currentAPHundreds: {fileID: 621684899563121143}
   currentAPTens: {fileID: 3779205739022887581}
   currentAPOnes: {fileID: 1961126035102761917}
+  selectHighlight: {fileID: 1647188314353245822}
+  selectedCharacterFrameColor: {r: 0.4444464, g: 0.8207547, b: 0.4444464, a: 1}
+  cooldownCharacterFrameColor: {r: 0.745283, g: 0.745283, b: 0.745283, a: 1}
 --- !u!114 &6213697876024694788
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -457,7 +460,7 @@ MonoBehaviour:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
     m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
     m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
-    m_SelectedColor: {r: 0.81509435, g: 1, b: 0.82702374, a: 1}
+    m_SelectedColor: {r: 1, g: 1, b: 1, a: 1}
     m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
     m_ColorMultiplier: 1
     m_FadeDuration: 0.1

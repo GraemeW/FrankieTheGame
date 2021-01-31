@@ -16,14 +16,14 @@ namespace Frankie.Combat
         [SerializeField] float battleQueueDelay = 0.3f;
 
         // State
-        bool pauseCombat = false;
         BattleState state = default;
         BattleOutcome outcome = default;
+        bool outroCleanupCalled = false;
 
         List<CombatParticipant> activeCharacters = new List<CombatParticipant>();
         List<CombatParticipant> activeEnemies = new List<CombatParticipant>();
         CombatParticipant selectedCharacter = null;
-        Skill selectedSkill = null;
+        public Skill selectedSkill = null;
 
         Queue<BattleSequence> battleSequenceQueue = new Queue<BattleSequence>();
         bool haltBattleQueue = false;
@@ -104,13 +104,17 @@ namespace Frankie.Combat
             return outcome;
         }
 
-        public void setSelectedCharacter(CombatParticipant character)
+        public bool SetSelectedCharacter(CombatParticipant character)
         {
+            if (character != null) { if (character.IsDead() || character.IsInCooldown()) { return false; } }
+            if (character == null) { SetActiveSkill(null); }
+
             selectedCharacter = character;
             if (selectedCharacterChanged != null)
             {
                 selectedCharacterChanged.Invoke(selectedCharacter);
             }
+            return true;
         }
 
         public CombatParticipant GetSelectedCharacter()
@@ -120,6 +124,7 @@ namespace Frankie.Combat
 
         public void SetActiveSkill(Skill skill)
         {
+            if (selectedCharacter != null && skill == null) { selectedCharacter.GetComponent<SkillHandler>().ResetCurrentBranch(); }
             selectedSkill = skill;
         }
 
@@ -147,6 +152,7 @@ namespace Frankie.Combat
                 skill = skill
             };
             battleSequenceQueue.Enqueue(battleSequence);
+            SetSelectedCharacter(null);
         }
 
         // Private Functions
@@ -160,16 +166,34 @@ namespace Frankie.Combat
         {
             if (state == BattleState.Combat)
             {
-                InteractWithInterrupts();
-                // TODO:  add InteractWithPlayerSelect
-                InteractWithSkillSelect();
-                // TODO:  add InteractWithSkillExecute
-                if (!haltBattleQueue)
+                if (!haltBattleQueue) // BattleQueue takes priority, avoid user interaction stalling action queue
                 {
                     StartCoroutine(HaltBattleQueue(battleQueueDelay));
                     ProcessNextBattleSequence();
                 }
-                // TODO:  add check victory/loss conditions
+
+                // TODO:  Update input system to NEW input system
+                if (InteractWithInterrupts()) { return; }
+                if (InteractWithCharacterSelect()) { return; }
+                if (InteractWithSkillSelect()) { return; }
+                // TODO:  add InteractWithSkillExecute
+            }
+            else if (state == BattleState.Outro)
+            {
+                if (outroCleanupCalled) { return; }
+
+                outroCleanupCalled = true;
+                // TODO:  Handle experience awards + levels ~ set state level up and handled full outro + level by canvas
+                CleanUpBattleBits();
+            }
+            else if (state == BattleState.Complete && outroCleanupCalled) { outroCleanupCalled = false; }
+        }
+
+        private void LateUpdate()
+        {
+            if (state == BattleState.Combat)
+            {
+                AutoSelectCharacter();
             }
         }
 
@@ -179,9 +203,69 @@ namespace Frankie.Combat
             SetBattleState(BattleState.Intro);
         }
 
-        private void InteractWithSkillSelect()
+        private void AutoSelectCharacter()
         {
-            // TODO:  Update input system to NEW input system
+            if (activeCharacters == null || selectedCharacter != null) { return; }
+            CombatParticipant firstFreeCharacter = activeCharacters.Where(x => !x.IsInCooldown()).FirstOrDefault();
+            if (firstFreeCharacter != null) { SetSelectedCharacter(firstFreeCharacter); }
+        }
+
+        private bool InteractWithInterrupts()
+        {
+            if (Input.GetButtonDown("Cancel"))
+            {
+                // Move to Combat Options if nothing selected in skill selector
+                if (selectedSkill == null || selectedCharacter == null) 
+                {
+                    SetSelectedCharacter(null);
+                    SetBattleState(BattleState.PreCombat); return true; 
+                }
+
+                // Otherwise step out of selections
+                if (selectedSkill != null || selectedCharacter != null)
+                {
+                    SetSelectedCharacter(null);
+                }
+                return true;
+            }
+            return false;
+        }
+
+        private bool InteractWithCharacterSelect()
+        {
+            int numberOfPartyMembers = party.GetParty().Count;
+            bool validInput = false;
+            CombatParticipant candidateCharacter = null;
+
+            if (Input.GetKeyDown(KeyCode.Alpha1))
+            {
+                validInput = true;
+                candidateCharacter = party.GetParty()[0];
+            }
+            else if (Input.GetKeyDown(KeyCode.Alpha2) && numberOfPartyMembers >= 2)
+            {
+                validInput = true;
+                candidateCharacter = party.GetParty()[1];
+            }
+            else if (Input.GetKeyDown(KeyCode.Alpha3) && numberOfPartyMembers >= 3)
+            {
+                validInput = true;
+                candidateCharacter = party.GetParty()[2];
+            }
+            else if (Input.GetKeyDown(KeyCode.Alpha4) && numberOfPartyMembers >= 4)
+            {
+                validInput = true;
+                candidateCharacter = party.GetParty()[3];
+            }
+            if (validInput)
+            {
+                validInput = SetSelectedCharacter(candidateCharacter);
+            }
+            return validInput;
+        }
+
+        private bool InteractWithSkillSelect()
+        {
             if (selectedCharacter != null && !selectedCharacter.IsDead())
             {
                 string input = null;
@@ -207,18 +291,15 @@ namespace Frankie.Combat
                     {
                         battleInput.Invoke(input);
                     }
+                    return true;
                 }
             }
+            return false;
         }
 
-        private void InteractWithInterrupts()
+        private bool InteractWithSkillExecute()
         {
-            if (Input.GetButtonDown("Cancel"))
-            {
-                selectedCharacter = null;
-                selectedSkill = null;
-                SetBattleState(BattleState.PreCombat);
-            }
+            return false;
         }
 
         IEnumerator HaltBattleQueue(float seconds)
@@ -235,6 +316,7 @@ namespace Frankie.Combat
             BattleSequence battleSequence = battleSequenceQueue.Dequeue();
             if (battleSequence.sender.IsDead() || battleSequence.recipient.IsDead()) { return; }
 
+            battleSequence.sender.SetCooldown(battleSequence.skill.cooldown);
             battleSequence.recipient.AdjustHP(battleSequence.skill.hpValue);
             battleSequence.recipient.AdjustAP(battleSequence.skill.apValue);
             foreach (StatusProbabilityPair activeStatusEffect in battleSequence.skill.statusEffects)
@@ -251,22 +333,15 @@ namespace Frankie.Combat
                 if (activeCharacters.All(x => x.IsDead() == true))
                 {
                     SetBattleOutcome(BattleOutcome.Lost);
-                    CloseOutBattle();
-                    
+                    SetBattleState(BattleState.Outro);
+
                 }
                 else if (activeEnemies.All(x => x.IsDead() == true))
                 {
                     SetBattleOutcome(BattleOutcome.Won);
-                    CloseOutBattle();
+                    SetBattleState(BattleState.Outro);
                 }
             }
-        }
-
-        private void CloseOutBattle()
-        {
-            // Handle experience awards + levels ~ set state level up and handled full outro + level by canvas
-            CleanUpBattleBits();
-            SetBattleState(BattleState.Outro);
         }
 
         private void CleanUpBattleBits()
@@ -281,8 +356,7 @@ namespace Frankie.Combat
             }
             activeCharacters.Clear();
             activeEnemies.Clear();
-            selectedCharacter = null;
-            selectedSkill = null;
+            SetSelectedCharacter(null);
         }
     }
 }

@@ -23,8 +23,15 @@ namespace Frankie.Combat.UI
         [SerializeField] CombatOptions combatOptions = null;
         [SerializeField] SkillSelection skillSelection = null;
 
+        [Header("Messages")]
+        [Tooltip("Include {0} for enemy name")][SerializeField] string messageEncounterSingle = "You have encountered {0}.";
+        [Tooltip("Include {0} for enemy name")][SerializeField] string messageEncounterMultiple = "You have encountered {0} and its cohort.";
+        [Tooltip("Called after encounter message")] [SerializeField] string messageEncounterPreHype = "What do you want to do?";
+        [SerializeField] string messageBattleCompleteWon = "You Won!  Congratulations!";
+        [SerializeField] string messageBattleCompleteLost = "You lost.  Whoops!";
+        [SerializeField] string messageBattleCompleteRan = "You ran away.";
+
         // Cached References
-        Party party = null;
         BattleController battleController = null;
 
         // State
@@ -35,21 +42,18 @@ namespace Frankie.Combat.UI
         private static string DIALOGUE_CALLBACK_INTRO_COMPLETE = "INTRO_COMPLETE";
         private static string DIALOGUE_CALLBACK_OUTRO_COMPLETE = "OUTRO_COMPLETE";
 
-        private void Awake()
-        {
-            party = GameObject.FindGameObjectWithTag("Player").GetComponent<Party>();
-        }
-
         private void OnEnable()
         {
             battleController = GameObject.FindGameObjectWithTag("BattleController").GetComponent<BattleController>();
             battleController.battleStateChanged += Setup;
+            battleController.selectedCharacterChanged += HighlightCharacter;
             SetupCharacterSlideButtons(true);
         }
 
         private void OnDisable()
         {
             battleController.battleStateChanged -= Setup;
+            battleController.selectedCharacterChanged -= HighlightCharacter;
             SetupCharacterSlideButtons(false);
             characterSlides.Clear();
             enemySlides.Clear();
@@ -120,7 +124,7 @@ namespace Frankie.Combat.UI
                 if (!firstCharacterToggle)
                 {
                     characterSlide.GetComponent<Button>().Select();
-                    battleController.setSelectedCharacter(character);
+                    battleController.SetSelectedCharacter(character);
                     firstCharacterToggle = true;
                 }
             }
@@ -135,7 +139,24 @@ namespace Frankie.Combat.UI
                 characterSlide.GetComponent<Button>().onClick.RemoveAllListeners();
                 if (enable)
                 {
-                    characterSlide.GetComponent<Button>().onClick.AddListener(delegate { battleController.setSelectedCharacter(characterSlide.GetCharacter()); });
+                    characterSlide.GetComponent<Button>().onClick.AddListener(delegate { battleController.SetSelectedCharacter(characterSlide.GetCharacter()); });
+                }
+            }
+        }
+
+        public void HighlightCharacter(CombatParticipant character) // Updates on selectedCharacterChanged
+        {
+            foreach (CharacterSlide characterSlide in characterSlides)
+            {
+
+                // START HERE -- character highlighitng is buggy as hell because two things are operating on it!
+                if (characterSlide.GetCharacter() == character)
+                {
+                    characterSlide.SetSelected(true);
+                }
+                else
+                {
+                    characterSlide.SetSelected(false);
                 }
             }
         }
@@ -171,17 +192,17 @@ namespace Frankie.Combat.UI
             string entryMessage;
             if (enemies.Cast<CombatParticipant>().Count() > 1)
             {
-                entryMessage = string.Format("You have encountered {0} and its cohort.", enemy.GetCombatName());
+                entryMessage = string.Format(messageEncounterMultiple, enemy.GetCombatName());
             }
             else
             {
-                entryMessage = string.Format("You have encountered {0}.", enemy.GetCombatName());
+                entryMessage = string.Format(messageEncounterSingle, enemy.GetCombatName());
             }
 
             DialogueBox dialogueBox = dialogueBoxObject.GetComponent<DialogueBox>();
             dialogueBox.AddSimpleText(entryMessage);
             dialogueBox.AddPageBreak();
-            dialogueBox.AddSimpleText("What do you want to do?");
+            dialogueBox.AddSimpleText(messageEncounterPreHype);
             dialogueBox.SetDisableCallback(this, DIALOGUE_CALLBACK_INTRO_COMPLETE);
         }
 
@@ -194,15 +215,15 @@ namespace Frankie.Combat.UI
             string exitMessage = "";
             if (battleController.GetBattleOutcome() == BattleOutcome.Won)
             {
-                exitMessage = "You Won!  Congratulations!";
+                exitMessage = messageBattleCompleteWon;
             }
             else if (battleController.GetBattleOutcome() == BattleOutcome.Lost)
             {
-                exitMessage = "You lost.  Whoops!";
+                exitMessage = messageBattleCompleteLost;
             }
             else if (battleController.GetBattleOutcome() == BattleOutcome.Ran)
             {
-                exitMessage = "You ran away.";
+                exitMessage = messageBattleCompleteRan;
             }
 
             DialogueBox dialogueBox = dialogueBoxObject.GetComponent<DialogueBox>();
