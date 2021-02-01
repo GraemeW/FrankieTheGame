@@ -136,8 +136,8 @@ namespace Frankie.Combat.UI
         {
             if (battleController.GetSelectedCharacter() != null && battleController.GetActiveSkill() != null)
             {
-                battleController.GetSelectedCharacter().SetCooldown(Mathf.Infinity); // Character actions locked until cooldown set by BattleController
                 battleController.AddToBattleQueue(battleController.GetSelectedCharacter(), recipient, battleController.GetActiveSkill());
+                battleController.SetSelectedCharacter(null);
                 canvasGroup.alpha = 0;
             }
         }

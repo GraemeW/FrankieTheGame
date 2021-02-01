@@ -41,6 +41,32 @@ namespace Frankie.Combat
             down = currentBranch.GetSkill(SkillBranchMapping.down);
         }
 
+        public List<Skill> GetAvailableSkills()
+        {
+            if (currentBranch == null) { ResetCurrentBranch(); }
+
+            List<Skill> availableSkills = new List<Skill>();
+            if (currentBranch.HasSkill(SkillBranchMapping.up)) { availableSkills.Add(currentBranch.GetSkill(SkillBranchMapping.up)); }
+            if (currentBranch.HasSkill(SkillBranchMapping.left)) { availableSkills.Add(currentBranch.GetSkill(SkillBranchMapping.left)); }
+            if (currentBranch.HasSkill(SkillBranchMapping.right)) { availableSkills.Add(currentBranch.GetSkill(SkillBranchMapping.right)); }
+            if (currentBranch.HasSkill(SkillBranchMapping.down)) { availableSkills.Add(currentBranch.GetSkill(SkillBranchMapping.down)); }
+
+            return availableSkills;
+        }
+
+        public List<SkillBranchMapping> GetAvailableBranchMappings()
+        {
+            if (currentBranch == null) { ResetCurrentBranch(); }
+
+            List<SkillBranchMapping> availableBranches = new List<SkillBranchMapping>();
+            if (currentBranch.HasBranch(SkillBranchMapping.up)) { availableBranches.Add(SkillBranchMapping.up); }
+            if (currentBranch.HasBranch(SkillBranchMapping.left)) { availableBranches.Add(SkillBranchMapping.left); }
+            if (currentBranch.HasBranch(SkillBranchMapping.right)) { availableBranches.Add(SkillBranchMapping.right); }
+            if (currentBranch.HasBranch(SkillBranchMapping.down)) { availableBranches.Add(SkillBranchMapping.down); }
+
+            return availableBranches;
+        }
+
         public Skill GetActiveSkill()
         {
             return activeSkill;

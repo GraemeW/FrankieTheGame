@@ -1101,6 +1101,10 @@ PrefabInstance:
       propertyPath: m_RootOrder
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 1847374313339171279, guid: 30c6f3f30a3216e41bbc8a6ac45c57e0, type: 3}
+      propertyPath: skillTree
+      value: 
+      objectReference: {fileID: 11400000, guid: 04dead9955034474482cf14a5b110e21, type: 2}
     - target: {fileID: 3026967075931353921, guid: 30c6f3f30a3216e41bbc8a6ac45c57e0, type: 3}
       propertyPath: m_RootOrder
       value: 2
@@ -1671,6 +1675,7 @@ MonoBehaviour:
   interactionCenterPoint: {fileID: 7236940116842330230}
   movementSpeed: 1.25
   speedMoveThreshold: 0.05
+  battleControllerPrefab: {fileID: 195823895297305920, guid: 56c04806af7883a47bd3b232ea569090, type: 3}
 --- !u!114 &794453072
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2571,7 +2576,7 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 8937208100927724530, guid: 30c6f3f30a3216e41bbc8a6ac45c57e0, type: 3}
   m_PrefabInstance: {fileID: 542867047}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &1602656334
+--- !u!114 &1602656335
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -2580,10 +2585,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 1602656327}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9500bc738f48a9b40a11b28b434aa2b9, type: 3}
+  m_Script: {fileID: 11500000, guid: 292cbe0fa78f411468ca518291de60fb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  skillTree: {fileID: 11400000, guid: 04dead9955034474482cf14a5b110e21, type: 2}
+  probabilityToTraverseSkillTree: 0.8
 --- !u!1001 &1604098537
 PrefabInstance:
   m_ObjectHideFlags: 0

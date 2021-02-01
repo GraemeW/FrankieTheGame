@@ -92,7 +92,7 @@ namespace Frankie.Combat.UI
 
         private void ParseCharacterState(StateAlteredType stateAlteredType)
         {
-            if (stateAlteredType == StateAlteredType.IncreaseHP || stateAlteredType == StateAlteredType.DecreaseHP)
+            if (stateAlteredType == StateAlteredType.IncreaseHP || stateAlteredType == StateAlteredType.DecreaseHP || stateAlteredType == StateAlteredType.AdjustHPNonSpecific)
             {
                 UpdateHP(character.GetHP());
             }

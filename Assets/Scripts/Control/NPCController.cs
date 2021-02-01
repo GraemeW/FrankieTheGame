@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.Events;
 using Frankie.Core;
 using Frankie.Combat;
+using Frankie.Stats;
 
 namespace Frankie.Control
 {
@@ -43,6 +44,10 @@ namespace Frankie.Control
             List<CombatParticipant> enemies = new List<CombatParticipant>();
             CombatParticipant enemy = GetComponent<CombatParticipant>();
             enemy.ResurrectCharacter(enemy.GetMaxHP());
+            foreach (CombatParticipant character in callingController.GetComponent<Party>().GetParty())
+            {
+                character.ResurrectCharacter(character.GetMaxHP());
+            }
             enemies.Add(enemy);
             callingController.EnterCombat(enemies, battleEntryType); 
         }

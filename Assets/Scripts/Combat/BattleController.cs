@@ -23,7 +23,7 @@ namespace Frankie.Combat
         List<CombatParticipant> activeCharacters = new List<CombatParticipant>();
         List<CombatParticipant> activeEnemies = new List<CombatParticipant>();
         CombatParticipant selectedCharacter = null;
-        public Skill selectedSkill = null;
+        Skill selectedSkill = null;
 
         Queue<BattleSequence> battleSequenceQueue = new Queue<BattleSequence>();
         bool haltBattleQueue = false;
@@ -39,6 +39,7 @@ namespace Frankie.Combat
         // Data structures
         public enum BattleState
         {
+            Inactive,
             Intro,
             PreCombat,
             Combat,
@@ -69,11 +70,13 @@ namespace Frankie.Combat
             // TODO:  Implement different battle transition type impact to combat (i.e. advance attack, late attack, same-same)
             foreach (CombatParticipant character in party.GetParty())
             {
+                character.SetCombatActive(true);
                 character.stateAltered += CheckForBattleEnd;
                 activeCharacters.Add(character);
             }
             foreach (CombatParticipant enemy in enemies)
             {
+                enemy.SetCombatActive(true);
                 enemy.stateAltered += CheckForBattleEnd;
                 activeEnemies.Add(enemy);
             }
@@ -133,18 +136,19 @@ namespace Frankie.Combat
             return selectedSkill;
         }
 
-        public IEnumerable GetCharacters()
+        public List<CombatParticipant> GetCharacters()
         {
             return activeCharacters;
         }
 
-        public IEnumerable GetEnemies()
+        public List<CombatParticipant> GetEnemies()
         {
             return activeEnemies;
         }
 
         public void AddToBattleQueue(CombatParticipant sender, CombatParticipant recipient, Skill skill)
         {
+            sender.SetCooldown(Mathf.Infinity); // Character actions locked until cooldown set by BattleController
             BattleSequence battleSequence = new BattleSequence
             {
                 sender = sender,
@@ -152,7 +156,6 @@ namespace Frankie.Combat
                 skill = skill
             };
             battleSequenceQueue.Enqueue(battleSequence);
-            SetSelectedCharacter(null);
         }
 
         // Private Functions
@@ -299,6 +302,7 @@ namespace Frankie.Combat
 
         private bool InteractWithSkillExecute()
         {
+            // TODO:  Implement keyboard-based skill highlighting + execution
             return false;
         }
 
@@ -348,10 +352,12 @@ namespace Frankie.Combat
         {
             foreach (CombatParticipant character in activeCharacters)
             {
+                character.SetCombatActive(false);
                 character.stateAltered -= CheckForBattleEnd;
             }
             foreach (CombatParticipant enemy in activeEnemies)
             {
+                enemy.SetCombatActive(false);
                 enemy.stateAltered -= CheckForBattleEnd;
             }
             activeCharacters.Clear();

@@ -42,9 +42,13 @@ namespace Frankie.Combat.UI
         private static string DIALOGUE_CALLBACK_INTRO_COMPLETE = "INTRO_COMPLETE";
         private static string DIALOGUE_CALLBACK_OUTRO_COMPLETE = "OUTRO_COMPLETE";
 
-        private void OnEnable()
+        private void Awake()
         {
             battleController = GameObject.FindGameObjectWithTag("BattleController").GetComponent<BattleController>();
+        }
+
+        private void OnEnable()
+        {
             battleController.battleStateChanged += Setup;
             battleController.selectedCharacterChanged += HighlightCharacter;
             SetupCharacterSlideButtons(true);
@@ -184,13 +188,13 @@ namespace Frankie.Combat.UI
             skillSelection.SetEnemySlides(enemySlides);
         }
 
-        private void SetupEntryMessage(IEnumerable enemies)
+        private void SetupEntryMessage(List<CombatParticipant> enemies)
         {
-            CombatParticipant enemy = enemies.Cast<CombatParticipant>().FirstOrDefault();
+            CombatParticipant enemy = enemies.FirstOrDefault();
             GameObject dialogueBoxObject = Instantiate(dialogueBoxPrefab, infoChooseParent);
 
             string entryMessage;
-            if (enemies.Cast<CombatParticipant>().Count() > 1)
+            if (enemies.Count > 1)
             {
                 entryMessage = string.Format(messageEncounterMultiple, enemy.GetCombatName());
             }

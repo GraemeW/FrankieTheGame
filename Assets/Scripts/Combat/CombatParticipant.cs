@@ -21,6 +21,7 @@ namespace Frankie.Combat
         BaseStats baseStats = null;
 
         // State
+        bool inCombat = false;
         bool isDead = false;
         bool inCooldown = false;
         float cooldownTimer = 0f;
@@ -31,6 +32,7 @@ namespace Frankie.Combat
         List<ActiveStatusEffect> currentStatusEffects = new List<ActiveStatusEffect>();
 
         // Events
+        public event Action<bool> enterCombat;
         public event Action<StateAlteredType> stateAltered;
 
         // Data Structures
@@ -38,6 +40,7 @@ namespace Frankie.Combat
         {
             DecreaseHP,
             IncreaseHP,
+            AdjustHPNonSpecific,
             IncreaseAP,
             DecreaseAP,
             Dead,
@@ -75,10 +78,29 @@ namespace Frankie.Combat
 
         private void Update()
         {
+            if (!inCombat) { return; }
             if (CheckIfDead()) { return; }
-            UpdateDamageDelayedHealth();
             UpdateCooldown();
             // TODO:  Add logic for status effects (figure out how to handle various/many effects without this blowing up)
+        }
+
+        private void FixedUpdate()
+        {
+            UpdateDamageDelayedHealth();
+        }
+
+        public void SetCombatActive(bool enable)
+        {
+            inCombat = enable;
+            if (enterCombat != null)
+            {
+                enterCombat.Invoke(enable);
+            }
+        }
+
+        public bool IsInCombat()
+        {
+            return inCombat;
         }
 
         public void AdjustHP(float points)
@@ -95,13 +117,12 @@ namespace Frankie.Combat
                 float unsafeHP = currentHP.value + points;
                 currentHP.value = Mathf.Clamp(unsafeHP, 0f, baseStats.GetStat(Stat.HP));
             }
+
             if (stateAltered != null)
             {
                 if (points < 0) { stateAltered.Invoke(StateAlteredType.DecreaseHP); }
                 else if (points > 0) { stateAltered.Invoke(StateAlteredType.IncreaseHP); }
             }
-
-            CheckIfDead();
         }
 
         public void AdjustAP(float points)
@@ -158,6 +179,11 @@ namespace Frankie.Combat
             {
                 stateAltered.Invoke(StateAlteredType.CooldownSet);
             }
+        }
+
+        public bool GetFriendly()
+        {
+            return friendly;
         }
 
         public float GetHP()
@@ -240,6 +266,11 @@ namespace Frankie.Combat
                 deltaHPTimeFraction += (Time.deltaTime / damageTimeSpan);
                 float unsafeHP = Mathf.Lerp(currentHP.value, targetHP, deltaHPTimeFraction);
                 currentHP.value = Mathf.Clamp(unsafeHP, 0f, baseStats.GetStat(Stat.HP));
+
+                if (stateAltered != null)
+                {
+                     stateAltered.Invoke(StateAlteredType.AdjustHPNonSpecific);
+                }
             }
         }
 

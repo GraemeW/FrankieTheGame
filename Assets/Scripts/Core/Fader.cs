@@ -1,7 +1,5 @@
-using Frankie.Control;
 using System;
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -11,8 +9,8 @@ namespace Frankie.Core
     {
         // Tunables
         [Header("Linked Assets")]
-        [SerializeField] Canvas battleCanvas = null;
-        [SerializeField] Image nodeEntry = null; // TO IMPLEMENT -- SCENE CHANGE FADING
+        [SerializeField] Canvas battleCanvasPrefab = null;
+        [SerializeField] Image nodeEntry = null; // TODO: IMPLEMENT -- SCENE CHANGE FADING
         [SerializeField] Image goodBattleEntry = null;
         [SerializeField] Image badBattleEntry = null;
         [SerializeField] Image neutralBattleEntry = null;
@@ -24,6 +22,7 @@ namespace Frankie.Core
         // State
         Image currentTransition = null;
         bool fading = false;
+        Canvas battleCanvas = null;
 
         // Events
         public event Action battleCanvasEnabled;
@@ -58,9 +57,12 @@ namespace Frankie.Core
                 {
                     battleCanvasDisabled.Invoke();
                 }
+                Destroy(battleCanvas.gameObject);
+                battleCanvas = null;
             }
             else
             {
+                if (battleCanvas == null) { battleCanvas = Instantiate(battleCanvasPrefab); }
                 battleCanvas.gameObject.SetActive(true);
                 if (battleCanvasEnabled != null)
                 {
@@ -111,7 +113,7 @@ namespace Frankie.Core
 
         private void ResetOverlays()
         {
-            battleCanvas.gameObject.SetActive(false);
+            if (battleCanvas != null) { battleCanvas.gameObject.SetActive(false); }
             goodBattleEntry.gameObject.SetActive(false);
             badBattleEntry.gameObject.SetActive(false);
             neutralBattleEntry.gameObject.SetActive(false);

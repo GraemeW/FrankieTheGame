@@ -38,6 +38,8 @@ namespace Frankie.Control
         [Header("Movement")]
         [SerializeField] float movementSpeed = 1.0f;
         [SerializeField] float speedMoveThreshold = 0.05f;
+        [Header("Battle Handlers")]
+        [SerializeField] GameObject battleControllerPrefab = null;
 
         // State
         float inputHorizontal;
@@ -46,9 +48,9 @@ namespace Frankie.Control
         float currentSpeed = 0;
         PlayerState playerState = PlayerState.inWorld;
         TransitionType transitionType = TransitionType.None;
+        BattleController battleController = null;
 
         // Cached References
-        BattleController battleController = null;
         Rigidbody2D playerRigidbody2D = null;
         Party party = null;
 
@@ -88,6 +90,10 @@ namespace Frankie.Control
             // TODO:  Concept of 'pre-battle' where enemies can pile on ++ count up list of enemies -> transfer to battle
             playerState = PlayerState.inBattle;
             this.transitionType = transitionType;
+
+            GameObject battleControllerInstance = Instantiate(battleControllerPrefab);
+            battleController = battleControllerInstance.GetComponent<BattleController>();
+
             Fader fader = FindObjectOfType<Fader>();
             fader.UpdateFadeState(transitionType);
 
@@ -96,7 +102,7 @@ namespace Frankie.Control
             if (playerStateChanged != null)
             {
                 playerStateChanged();
-            }            
+            }
         }
 
         public void HandleCombatComplete(BattleState battleState)
@@ -113,12 +119,14 @@ namespace Frankie.Control
         private void ExitCombat()
         {
             FindObjectOfType<Fader>().battleCanvasDisabled -= ExitCombat;
+            // TODO:  Handling for party death
             playerState = PlayerState.inWorld;
             if (playerStateChanged != null)
             {
                 playerStateChanged();
             }
-            // TODO:  Handling for party death
+            Destroy(battleController.gameObject);
+            battleController = null;
         }
 
         public PlayerState GetPlayerState()
@@ -145,7 +153,6 @@ namespace Frankie.Control
 
         private void Start()
         {
-            battleController = GameObject.FindGameObjectWithTag("BattleController").GetComponent<BattleController>(); // Call via start -- spawned by persistent object spawner on awake
             SetLookDirection(Vector2.down); // Initialize look direction to avoid wonky
         }
 

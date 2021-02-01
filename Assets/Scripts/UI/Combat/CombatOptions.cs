@@ -10,7 +10,7 @@ namespace Frankie.Combat.UI
     {
         // TODO:  this should just extend dialogue box rather than have its own class, then use choose functionality
 
-        // Tunables
+        // Tunables -- TODO:  Linked up to use via keyboard command
         [SerializeField] Button fightButton = null;
         [SerializeField] Button itemButton = null;
         [SerializeField] Button statsButton = null;
