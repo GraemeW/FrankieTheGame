@@ -45,6 +45,7 @@ namespace Frankie.Combat.UI
         private void Awake()
         {
             battleController = GameObject.FindGameObjectWithTag("BattleController").GetComponent<BattleController>();
+            ClearBattleCanvas();
         }
 
         private void OnEnable()
@@ -59,6 +60,10 @@ namespace Frankie.Combat.UI
             battleController.battleStateChanged -= Setup;
             battleController.selectedCharacterChanged -= HighlightCharacter;
             SetupCharacterSlideButtons(false);
+        }
+
+        private void OnDestroy()
+        {
             characterSlides.Clear();
             enemySlides.Clear();
             ClearBattleCanvas();
@@ -68,7 +73,6 @@ namespace Frankie.Combat.UI
         {
             if (state == BattleState.Intro)
             {
-                ClearBattleCanvas();
                 SetupPlayerCharacters(battleController.GetCharacters());
                 SetupEnemies(battleController.GetEnemies());
                 SetupEntryMessage(battleController.GetEnemies());

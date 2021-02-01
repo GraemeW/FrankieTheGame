@@ -162,8 +162,10 @@ namespace Frankie.Combat
 
         public void ResurrectCharacter(float hp)
         {
+            // TODO:  Proper implementation of revives -- need to think on what portion immediate vs. rolling
             isDead = false;
             currentHP.value = hp;
+            targetHP = hp;
             cooldownTimer = 0f;
             if (stateAltered != null)
             {
@@ -245,6 +247,7 @@ namespace Frankie.Combat
             if (Mathf.Approximately(currentHP.value, 0f) || currentHP.value < 0)
             {
                 currentHP.value = 0f;
+                targetHP = 0f;
                 isDead = true;
                 if (!friendly)
                 {

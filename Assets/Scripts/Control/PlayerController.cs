@@ -1,5 +1,4 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
@@ -88,17 +87,18 @@ namespace Frankie.Control
         public void EnterCombat(List<CombatParticipant> enemies, TransitionType transitionType)
         {
             // TODO:  Concept of 'pre-battle' where enemies can pile on ++ count up list of enemies -> transfer to battle
-            playerState = PlayerState.inBattle;
             this.transitionType = transitionType;
 
             GameObject battleControllerInstance = Instantiate(battleControllerPrefab);
             battleController = battleControllerInstance.GetComponent<BattleController>();
+            battleController.Setup(enemies, transitionType);
 
             Fader fader = FindObjectOfType<Fader>();
             fader.UpdateFadeState(transitionType);
 
-            battleController.Setup(enemies, transitionType);
             battleController.battleStateChanged += HandleCombatComplete;
+
+            playerState = PlayerState.inBattle;
             if (playerStateChanged != null)
             {
                 playerStateChanged();
@@ -118,13 +118,15 @@ namespace Frankie.Control
 
         private void ExitCombat()
         {
-            FindObjectOfType<Fader>().battleCanvasDisabled -= ExitCombat;
             // TODO:  Handling for party death
+
             playerState = PlayerState.inWorld;
             if (playerStateChanged != null)
             {
                 playerStateChanged();
             }
+
+            FindObjectOfType<Fader>().battleCanvasDisabled -= ExitCombat;
             Destroy(battleController.gameObject);
             battleController = null;
         }
