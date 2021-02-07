@@ -10,17 +10,19 @@ namespace Frankie.Dialogue.UI
     {
         // Tunables
         [Header("Links And Prefabs")]
-        [SerializeField] Transform dialogueParent = null;
+        [SerializeField] protected Transform dialogueParent = null;
         [SerializeField] GameObject simpleTextPrefab = null;
         [SerializeField] GameObject speechTextPrefab = null;
-        [SerializeField] Transform optionParent = null;
+        [SerializeField] protected Transform optionParent = null;
         [SerializeField] GameObject optionPrefab = null;
         [Header("Parameters")]
         [SerializeField] bool handleGlobalInput = true;
         [SerializeField] float delayToDestroyWindow = 0.1f; // Seconds
         [SerializeField] float delayBetweenCharacters = 0.05f; // Seconds
+        [Header("Choices")]
+        [SerializeField] protected KeyCode choiceInteractKey = KeyCode.E;
 
-        // State
+        // State -- Message Writing
         bool isWriting = false;
         bool interruptWriting = false;
         bool queuePageClear = false;
@@ -28,6 +30,9 @@ namespace Frankie.Dialogue.UI
         List<GameObject> printedJobs = new List<GameObject>();
         bool destroyQueued = false;
         List<CallbackMessagePair> disableCallbacks = new List<CallbackMessagePair>();
+
+        // State -- Choices
+        protected DialogueChoiceOption highlightedChoiceOption = null;
 
         // Cached References
         PlayerController playerController = null;
@@ -52,12 +57,12 @@ namespace Frankie.Dialogue.UI
 
         protected virtual void OnEnable()
         {
-            playerController.globalInput += HandleInput;
+            playerController.globalInput += HandleGlobalInput;
         }
 
         protected virtual void OnDisable()
         {
-            playerController.globalInput -= HandleInput;
+            playerController.globalInput -= HandleGlobalInput;
             foreach(CallbackMessagePair callbackMessagePair in disableCallbacks)
             {
                 callbackMessagePair.receiver.HandleDialogueCallback(callbackMessagePair.message);
@@ -70,6 +75,7 @@ namespace Frankie.Dialogue.UI
             {
                 StartCoroutine(TextScan(printQueue.Dequeue()));
             }
+            HandleChoiceInput();
         }
 
         public void AddSimpleText(string text)
@@ -140,12 +146,6 @@ namespace Frankie.Dialogue.UI
             interruptWriting = false;
         }
 
-        private void Choose()
-        {
-            // TODO:  Implement choose action (dependent on dialogue system OR simple actions for extended)
-            // Takes DialogueNode as input instead of string;;
-        }
-
         private void ClearPrintedJobs()
         {
             foreach (GameObject printedJob in printedJobs)
@@ -154,20 +154,63 @@ namespace Frankie.Dialogue.UI
             }
         }
 
-        protected private void ClearDialogue()
+        private void HandleChoiceInput()
         {
-            foreach (Transform child in dialogueParent)
+            // TODO:  Hook up with dialogue system
+            // TODO:  Implement new unity input system
+            if (!IsChoiceAvailable()) { return; }
+
+            if (ShowCursorOnAnyInteraction()) { return; }
+            if (Choose()) { return; }
+            if (MoveCursor()) { return; }
+        }
+
+        protected virtual bool IsChoiceAvailable()
+        {
+            return false;
+            // TODO:  Hook up with dialogue system
+        }
+
+        protected virtual bool ShowCursorOnAnyInteraction()
+        {
+            if (highlightedChoiceOption == null && (Input.GetKeyDown(choiceInteractKey) ||
+                Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.D) ||
+                Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.S)))
             {
-                Destroy(child.gameObject);
+                // TODO:  Hook up with dialogue system
+                return true;
             }
-            foreach (Transform child in optionParent)
+            return false;
+        }
+
+        protected virtual bool MoveCursor()
+        {
+            if (highlightedChoiceOption == null) { return false; }
+
+            // TODO:  Hook up with dialogue system
+            if (Input.GetKeyDown(KeyCode.D) || Input.GetKeyDown(KeyCode.S))
             {
-                Destroy(child.gameObject);
+                return true;
             }
+            else if (Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.A))
+            {
+                return true;
+            }
+            return false;
+        }
+
+        private bool Choose()
+        {
+            if (Input.GetKeyDown(choiceInteractKey) && highlightedChoiceOption != null)
+            {
+                highlightedChoiceOption.GetComponent<Button>().onClick.Invoke();
+                return true;
+            }
+            return false;
         }
 
         // Global Input Handling
-        public void HandleInput(string interactButtonOne = "Fire1")
+        public void HandleGlobalInput(string interactButtonOne = "Fire1")
         {
             if (!handleGlobalInput) { return; }
             if (Input.GetButtonDown(interactButtonOne))

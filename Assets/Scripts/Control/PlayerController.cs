@@ -173,6 +173,8 @@ namespace Frankie.Control
                 if (InteractWithGlobals()) return;
                 // Aside from globals, handled by BattleController
             }
+            // Some level of input now also handled by dialogueBox && extensions -- I don't love this, think of a nicer way to handle
+            // Maybe fold into playerconversant (generalize to dialogue controller) && centralize interaction there?
         }
 
         private void FixedUpdate()

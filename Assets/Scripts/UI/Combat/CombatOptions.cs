@@ -5,7 +5,7 @@ using static Frankie.Combat.BattleController;
 
 namespace Frankie.Combat.UI
 {
-    public class CombatOptions : DialogueBox
+    public class CombatOptions : DialogueOptionBox
     {
         // Tunables -- TODO:  Linked up to use via keyboard command
         [SerializeField] Button fightButton = null;
