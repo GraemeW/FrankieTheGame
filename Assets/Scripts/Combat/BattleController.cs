@@ -35,6 +35,7 @@ namespace Frankie.Combat
         public event Action<BattleState> battleStateChanged;
         public event Action<CombatParticipant> selectedCharacterChanged;
         public event Action<string> battleInput;
+        public event Action<BattleSequence> battleSequenceProcessed;
 
         // Data structures
         public enum BattleState
@@ -319,6 +320,7 @@ namespace Frankie.Combat
 
             BattleSequence battleSequence = battleSequenceQueue.Dequeue();
             if (battleSequence.sender.IsDead() || battleSequence.recipient.IsDead()) { return; }
+            battleSequenceProcessed.Invoke(battleSequence);
 
             battleSequence.sender.SetCooldown(battleSequence.skill.cooldown);
             battleSequence.recipient.AdjustHP(battleSequence.skill.hpValue);
@@ -330,7 +332,7 @@ namespace Frankie.Combat
             }
         }
 
-        private void CheckForBattleEnd(StateAlteredType stateAlteredType)
+        private void CheckForBattleEnd(CombatParticipant combatParticipant, StateAlteredType stateAlteredType, float points)
         {
             if (stateAlteredType == StateAlteredType.Dead)
             {

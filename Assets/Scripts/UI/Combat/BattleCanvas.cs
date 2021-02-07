@@ -20,6 +20,7 @@ namespace Frankie.Combat.UI
         [SerializeField] GameObject enemyPrefab = null;
         [SerializeField] Transform infoChooseParent = null;
         [SerializeField] GameObject dialogueBoxPrefab = null;
+        [SerializeField] CombatLog combatLog = null;
         [SerializeField] CombatOptions combatOptions = null;
         [SerializeField] SkillSelection skillSelection = null;
 
@@ -84,10 +85,13 @@ namespace Frankie.Combat.UI
             }
             else if (state == BattleState.Combat)
             {
+                combatLog.AddCombatLogText("  Combat Started . . . ");
+                combatLog.gameObject.SetActive(true);
                 skillSelection.gameObject.SetActive(true);
             }
             else if (state == BattleState.Outro)
             {
+                combatLog.gameObject.SetActive(false);
                 skillSelection.gameObject.SetActive(false);
                 SetupExitMessage();
             }
@@ -128,6 +132,7 @@ namespace Frankie.Combat.UI
                 CharacterSlide characterSlide = characterObject.GetComponent<CharacterSlide>();
                 characterSlide.SetCharacter(character);
                 characterSlides.Add(characterSlide);
+                combatLog.AddCombatListener(character);
 
                 if (!firstCharacterToggle)
                 {
@@ -188,6 +193,7 @@ namespace Frankie.Combat.UI
                 EnemySlide enemySlide = enemyObject.GetComponent<EnemySlide>();
                 enemySlide.SetEnemy(enemy);
                 enemySlides.Add(enemySlide);
+                combatLog.AddCombatListener(enemy);
             }
             skillSelection.SetEnemySlides(enemySlides);
         }

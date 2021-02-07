@@ -397,7 +397,6 @@ GameObject:
   - component: {fileID: 9165638598010028551}
   - component: {fileID: 4125584263346831155}
   - component: {fileID: 2653761137607708041}
-  - component: {fileID: 6442782191674339376}
   - component: {fileID: 5009735244512277338}
   m_Layer: 0
   m_Name: CombatOptions
@@ -476,26 +475,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_HorizontalFit: 2
   m_VerticalFit: 2
---- !u!114 &6442782191674339376
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6413694501190794285}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5e5e4a99d41be2842b056f8cdf19fcd2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  dialogueParent: {fileID: 0}
-  simpleTextPrefab: {fileID: 1863244146844170633, guid: adbee8c8e42373e4b8e75745ee81bd6c, type: 3}
-  speechTextPrefab: {fileID: 2827329066881810044, guid: 457c6052bdf60f4428eb78a1788169a4, type: 3}
-  optionParent: {fileID: 2827520980706274898}
-  optionPrefab: {fileID: 3358873790910023875, guid: 3ddb4c077d5422844bfe6e116ecd5650, type: 3}
-  handleGlobalInput: 0
-  delayBetweenCharacters: 0.05
-  delayToDestroyWindow: 0.1
 --- !u!114 &5009735244512277338
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -508,6 +487,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2c942e2fc2e925f4680e9ffe4ea31acd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  dialogueParent: {fileID: 0}
+  simpleTextPrefab: {fileID: 1863244146844170633, guid: adbee8c8e42373e4b8e75745ee81bd6c, type: 3}
+  speechTextPrefab: {fileID: 2827329066881810044, guid: 457c6052bdf60f4428eb78a1788169a4, type: 3}
+  optionParent: {fileID: 2827520980706274898}
+  optionPrefab: {fileID: 3358873790910023875, guid: 3ddb4c077d5422844bfe6e116ecd5650, type: 3}
+  handleGlobalInput: 0
+  delayBetweenCharacters: 0.05
+  delayToDestroyWindow: 0.1
   fightButton: {fileID: 296641443703757541}
   itemButton: {fileID: 4995506241810553660}
   statsButton: {fileID: 5555303161703304216}

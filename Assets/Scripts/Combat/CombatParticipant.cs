@@ -33,7 +33,7 @@ namespace Frankie.Combat
 
         // Events
         public event Action<bool> enterCombat;
-        public event Action<StateAlteredType> stateAltered;
+        public event Action<CombatParticipant, StateAlteredType, float> stateAltered;
 
         // Data Structures
         public enum StateAlteredType
@@ -92,6 +92,7 @@ namespace Frankie.Combat
         public void SetCombatActive(bool enable)
         {
             inCombat = enable;
+            if (!enable){ HaltHPScroll(); }
             if (enterCombat != null)
             {
                 enterCombat.Invoke(enable);
@@ -120,9 +121,15 @@ namespace Frankie.Combat
 
             if (stateAltered != null)
             {
-                if (points < 0) { stateAltered.Invoke(StateAlteredType.DecreaseHP); }
-                else if (points > 0) { stateAltered.Invoke(StateAlteredType.IncreaseHP); }
+                if (points < 0) { stateAltered.Invoke(this, StateAlteredType.DecreaseHP, points); }
+                else if (points > 0) { stateAltered.Invoke(this, StateAlteredType.IncreaseHP, points); }
             }
+        }
+
+        public void HaltHPScroll()
+        {
+            deltaHPTimeFraction = 0f;
+            targetHP = currentHP.value;
         }
 
         public void AdjustAP(float points)
@@ -134,8 +141,8 @@ namespace Frankie.Combat
 
             if (stateAltered != null)
             {
-                if (points < 0) { stateAltered.Invoke(StateAlteredType.DecreaseAP); }
-                else if (points > 0) { stateAltered.Invoke(StateAlteredType.IncreaseAP); }
+                if (points < 0) { stateAltered.Invoke(this, StateAlteredType.DecreaseAP, points); }
+                else if (points > 0) { stateAltered.Invoke(this, StateAlteredType.IncreaseAP, points); }
             }
         }
 
@@ -156,7 +163,7 @@ namespace Frankie.Combat
             {
                 // TODO:  elaborate status effect applied -- this isn't enough information to handle the animation or whatever
                 // Alternatively status effect as linked list to grab last
-                stateAltered.Invoke(StateAlteredType.StatusEffectApplied);
+                stateAltered.Invoke(this, StateAlteredType.StatusEffectApplied, 0f);
             }
         }
 
@@ -169,7 +176,7 @@ namespace Frankie.Combat
             cooldownTimer = 0f;
             if (stateAltered != null)
             {
-                stateAltered.Invoke(StateAlteredType.Resurrected);
+                stateAltered.Invoke(this, StateAlteredType.Resurrected, 0f);
             }
         }
 
@@ -179,7 +186,7 @@ namespace Frankie.Combat
             cooldownTimer = seconds;
             if (stateAltered != null)
             {
-                stateAltered.Invoke(StateAlteredType.CooldownSet);
+                stateAltered.Invoke(this, StateAlteredType.CooldownSet, 0f);
             }
         }
 
@@ -255,7 +262,7 @@ namespace Frankie.Combat
                 }
                 if (stateAltered != null)
                 {
-                    stateAltered.Invoke(StateAlteredType.Dead);
+                    stateAltered.Invoke(this, StateAlteredType.Dead, 0f);
                 }
             }
             if (isDead) { return true; }
@@ -272,7 +279,7 @@ namespace Frankie.Combat
 
                 if (stateAltered != null)
                 {
-                     stateAltered.Invoke(StateAlteredType.AdjustHPNonSpecific);
+                     stateAltered.Invoke(this, StateAlteredType.AdjustHPNonSpecific, 0f);
                 }
             }
         }
@@ -285,7 +292,7 @@ namespace Frankie.Combat
                 inCooldown = false;
                 if (stateAltered != null)
                 {
-                    stateAltered.Invoke(StateAlteredType.CooldownExpired);
+                    stateAltered.Invoke(this, StateAlteredType.CooldownExpired, 0f);
                 }
             }
         }

@@ -467,7 +467,7 @@ MonoBehaviour:
     m_Top: 25
     m_Bottom: 25
   m_ChildAlignment: 4
-  m_Spacing: 50
+  m_Spacing: 10
   m_ChildForceExpandWidth: 0
   m_ChildForceExpandHeight: 0
   m_ChildControlWidth: 1
@@ -848,8 +848,8 @@ MonoBehaviour:
   optionParent: {fileID: 2827520980706274898}
   optionPrefab: {fileID: 3358873790910023875, guid: 3ddb4c077d5422844bfe6e116ecd5650, type: 3}
   handleGlobalInput: 0
-  delayBetweenCharacters: 0.05
   delayToDestroyWindow: 0.1
+  delayBetweenCharacters: 0.05
 --- !u!114 &2633275418530863015
 MonoBehaviour:
   m_ObjectHideFlags: 0

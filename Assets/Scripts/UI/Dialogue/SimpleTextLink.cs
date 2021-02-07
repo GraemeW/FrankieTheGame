@@ -17,6 +17,7 @@ namespace Frankie.Dialogue.UI
 
         public void Setup(string text)
         {
+            if (gameObject.activeSelf == false) { gameObject.SetActive(true); }
             textField.text = text;
         }
     }

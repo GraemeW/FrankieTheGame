@@ -1,15 +1,12 @@
-using System.Collections;
-using System.Collections.Generic;
+using Frankie.Dialogue.UI;
 using UnityEngine;
 using UnityEngine.UI;
 using static Frankie.Combat.BattleController;
 
 namespace Frankie.Combat.UI
 {
-    public class CombatOptions : MonoBehaviour
+    public class CombatOptions : DialogueBox
     {
-        // TODO:  this should just extend dialogue box rather than have its own class, then use choose functionality
-
         // Tunables -- TODO:  Linked up to use via keyboard command
         [SerializeField] Button fightButton = null;
         [SerializeField] Button itemButton = null;
@@ -20,8 +17,9 @@ namespace Frankie.Combat.UI
         // Cached References
         BattleController battleController = null;
 
-        private void Awake()
+        protected override void Awake()
         {
+            base.Awake();
             battleController = GameObject.FindGameObjectWithTag("BattleController").GetComponent<BattleController>();
         }
 

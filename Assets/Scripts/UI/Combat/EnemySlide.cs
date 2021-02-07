@@ -38,7 +38,7 @@ namespace Frankie.Combat.UI
             return enemy;
         }
 
-        private void ParseEnemyState(StateAlteredType stateAlteredType)
+        private void ParseEnemyState(CombatParticipant combatParticipant, StateAlteredType stateAlteredType, float points)
         {
             // TODO:  update slide graphics / animation as a function of altered type input
             if (stateAlteredType == StateAlteredType.IncreaseHP || stateAlteredType == StateAlteredType.DecreaseHP)

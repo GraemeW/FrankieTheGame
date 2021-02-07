@@ -17,8 +17,8 @@ namespace Frankie.Dialogue.UI
         [SerializeField] GameObject optionPrefab = null;
         [Header("Parameters")]
         [SerializeField] bool handleGlobalInput = true;
-        [SerializeField] float delayBetweenCharacters = 0.05f; // Seconds
         [SerializeField] float delayToDestroyWindow = 0.1f; // Seconds
+        [SerializeField] float delayBetweenCharacters = 0.05f; // Seconds
 
         // State
         bool isWriting = false;
@@ -45,17 +45,17 @@ namespace Frankie.Dialogue.UI
             public string message;
         }
 
-        private void Awake()
+        protected virtual void Awake()
         {
             playerController = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>();
         }
 
-        private void OnEnable()
+        protected virtual void OnEnable()
         {
             playerController.globalInput += HandleInput;
         }
 
-        private void OnDisable()
+        protected virtual void OnDisable()
         {
             playerController.globalInput -= HandleInput;
             foreach(CallbackMessagePair callbackMessagePair in disableCallbacks)
@@ -64,7 +64,7 @@ namespace Frankie.Dialogue.UI
             }
         }
 
-        private void Update()
+        protected virtual void Update()
         {
             if (!isWriting && printQueue.Count != 0)
             {
@@ -154,7 +154,7 @@ namespace Frankie.Dialogue.UI
             }
         }
 
-        private void ClearDialogue()
+        protected private void ClearDialogue()
         {
             foreach (Transform child in dialogueParent)
             {
