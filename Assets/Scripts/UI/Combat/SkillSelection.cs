@@ -110,8 +110,14 @@ namespace Frankie.Combat.UI
         public void HandleInput(string input) // PUBLIC:  Called via unity events for button clicks (mouse)
         {
             if (battleController.GetSelectedCharacter() == null) { return; }
-            if (SetBranch(input)) { return; }
-            // TODO:  handling for keyboard type input for other controls
+            if (!battleController.IsSkillArmed())
+            {
+                if (SetBranch(input)) { return; }
+            }
+            else
+            {
+                if (CheckForSkillExecution(input)) { return; }
+            }
         }
 
         private bool SetBranch(string input)
@@ -132,12 +138,21 @@ namespace Frankie.Combat.UI
             return validInput;
         }
 
+        private bool CheckForSkillExecution(string input)
+        {
+            if (input == "execute")
+            {
+                canvasGroup.alpha = 0;
+                return true;
+            }
+            return false;
+        }
+
         private void ExecuteSkill(CombatParticipant recipient)
         {
             if (battleController.GetSelectedCharacter() != null && battleController.GetActiveSkill() != null)
             {
                 battleController.AddToBattleQueue(battleController.GetSelectedCharacter(), recipient, battleController.GetActiveSkill());
-                battleController.SetSelectedCharacter(null);
                 canvasGroup.alpha = 0;
             }
         }

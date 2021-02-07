@@ -37,7 +37,6 @@ namespace Frankie.Combat.UI
 
         // State
         List<EnemySlide> enemySlides = new List<EnemySlide>();
-        List<CharacterSlide> characterSlides = new List<CharacterSlide>();
 
         // Static
         private static string DIALOGUE_CALLBACK_INTRO_COMPLETE = "INTRO_COMPLETE";
@@ -52,20 +51,15 @@ namespace Frankie.Combat.UI
         private void OnEnable()
         {
             battleController.battleStateChanged += Setup;
-            battleController.selectedCharacterChanged += HighlightCharacter;
-            SetupCharacterSlideButtons(true);
         }
 
         private void OnDisable()
         {
             battleController.battleStateChanged -= Setup;
-            battleController.selectedCharacterChanged -= HighlightCharacter;
-            SetupCharacterSlideButtons(false);
         }
 
         private void OnDestroy()
         {
-            characterSlides.Clear();
             enemySlides.Clear();
             ClearBattleCanvas();
         }
@@ -131,7 +125,6 @@ namespace Frankie.Combat.UI
                 GameObject characterObject = Instantiate(characterSlidePrefab, playerPanelParent);
                 CharacterSlide characterSlide = characterObject.GetComponent<CharacterSlide>();
                 characterSlide.SetCharacter(character);
-                characterSlides.Add(characterSlide);
                 combatLog.AddCombatListener(character);
 
                 if (!firstCharacterToggle)
@@ -139,37 +132,6 @@ namespace Frankie.Combat.UI
                     characterSlide.GetComponent<Button>().Select();
                     battleController.SetSelectedCharacter(character);
                     firstCharacterToggle = true;
-                }
-            }
-            SetupCharacterSlideButtons(true);
-        }
-
-        private void SetupCharacterSlideButtons(bool enable)
-        {
-            if (characterSlides == null) { return; }
-            foreach (CharacterSlide characterSlide in characterSlides)
-            {
-                characterSlide.GetComponent<Button>().onClick.RemoveAllListeners();
-                if (enable)
-                {
-                    characterSlide.GetComponent<Button>().onClick.AddListener(delegate { battleController.SetSelectedCharacter(characterSlide.GetCharacter()); });
-                }
-            }
-        }
-
-        public void HighlightCharacter(CombatParticipant character) // Updates on selectedCharacterChanged
-        {
-            foreach (CharacterSlide characterSlide in characterSlides)
-            {
-
-                // START HERE -- character highlighitng is buggy as hell because two things are operating on it!
-                if (characterSlide.GetCharacter() == character)
-                {
-                    characterSlide.SetSelected(true);
-                }
-                else
-                {
-                    characterSlide.SetSelected(false);
                 }
             }
         }

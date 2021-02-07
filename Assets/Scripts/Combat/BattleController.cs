@@ -24,6 +24,8 @@ namespace Frankie.Combat
         List<CombatParticipant> activeEnemies = new List<CombatParticipant>();
         CombatParticipant selectedCharacter = null;
         Skill selectedSkill = null;
+        bool skillArmed = false;
+        CombatParticipant selectedEnemy = null;
 
         Queue<BattleSequence> battleSequenceQueue = new Queue<BattleSequence>();
         bool haltBattleQueue = false;
@@ -34,6 +36,7 @@ namespace Frankie.Combat
         // Events
         public event Action<BattleState> battleStateChanged;
         public event Action<CombatParticipant> selectedCharacterChanged;
+        public event Action<CombatParticipant> selectedEnemyChanged;
         public event Action<string> battleInput;
         public event Action<BattleSequence> battleSequenceProcessed;
 
@@ -120,8 +123,8 @@ namespace Frankie.Combat
 
         public bool SetSelectedCharacter(CombatParticipant character)
         {
-            if (character != null) { if (character.IsDead() || character.IsInCooldown()) { return false; } }
             if (character == null) { SetActiveSkill(null); }
+            if (character != null) { if (character.IsDead() || character.IsInCooldown()) { return false; } }
 
             selectedCharacter = character;
             if (selectedCharacterChanged != null)
@@ -136,9 +139,19 @@ namespace Frankie.Combat
             return selectedCharacter;
         }
 
+        public CombatParticipant GetSelectedEnemy()
+        {
+            return selectedEnemy;
+        }
+
         public void SetActiveSkill(Skill skill)
         {
-            if (selectedCharacter != null && skill == null) { selectedCharacter.GetComponent<SkillHandler>().ResetCurrentBranch(); }
+            if (skill == null)
+            {
+                SetSkillArmed(false);
+                if (selectedCharacter != null) { selectedCharacter.GetComponent<SkillHandler>().ResetCurrentBranch(); }
+            }
+
             selectedSkill = skill;
         }
 
@@ -167,6 +180,7 @@ namespace Frankie.Combat
                 skill = skill
             };
             battleSequenceQueue.Enqueue(battleSequence);
+            SetSelectedCharacter(null);
         }
 
         // Private Functions
@@ -292,6 +306,8 @@ namespace Frankie.Combat
 
         private bool InteractWithSkillSelect()
         {
+            if (skillArmed) { return false; }
+
             if (selectedCharacter != null && !selectedCharacter.IsDead())
             {
                 string input = null;
@@ -311,6 +327,10 @@ namespace Frankie.Combat
                 {
                     input = "down";
                 }
+                else if (Input.GetKeyDown(KeyCode.E))
+                {
+                    SetSkillArmed(true);
+                }
                 if (!string.IsNullOrWhiteSpace(input))
                 {
                     if (battleInput != null)
@@ -323,9 +343,60 @@ namespace Frankie.Combat
             return false;
         }
 
+        public void SetSkillArmed(bool enable)
+        {
+            if (!enable) { selectedEnemy = null; skillArmed = false; return; }
+
+            CombatParticipant[] livingEnemies = activeEnemies.Where(x => !x.IsDead()).ToArray();
+            if (livingEnemies.Length > 0)
+            {
+                skillArmed = enable;
+                selectedEnemy = livingEnemies[0];
+                selectedEnemyChanged.Invoke(selectedEnemy);
+            }
+        }
+
+        public bool IsSkillArmed()
+        {
+            return skillArmed;
+        }
+
         private bool InteractWithSkillExecute()
         {
-            // TODO:  Implement keyboard-based skill highlighting + execution
+            if (!skillArmed || selectedCharacter == null || selectedSkill == null) { return false; }
+
+            string input = null;
+            if (Input.GetKeyDown(KeyCode.W))
+            {
+                input = "up";
+            }
+            else if (Input.GetKeyDown(KeyCode.A))
+            {
+                input = "left";
+            }
+            else if (Input.GetKeyDown(KeyCode.D))
+            {
+                input = "right";
+            }
+            else if (Input.GetKeyDown(KeyCode.S))
+            {
+                input = "down";
+            }
+            else if (Input.GetKeyDown(KeyCode.E))
+            {
+                if (selectedEnemy == null) { return false; }
+                AddToBattleQueue(GetSelectedCharacter(), GetSelectedEnemy(), GetActiveSkill());
+                input = "execute";
+            }
+            if (!string.IsNullOrWhiteSpace(input))
+            {
+                if (battleInput != null)
+                {
+                    battleInput.Invoke(input);
+                }
+                return true;
+            }
+
             return false;
         }
 

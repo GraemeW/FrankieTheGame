@@ -28,6 +28,9 @@ namespace Frankie.Combat.UI
         CombatParticipant character = null;
         SlideState slideState = default;
 
+        // Cached References
+        BattleController battleController = null;
+
         // Static
         private static void BreakApartNumber(float number, out int hundreds, out int tens, out int ones)
         {
@@ -44,8 +47,21 @@ namespace Frankie.Combat.UI
         }
 
         // Functions
+        private void Awake()
+        {
+            battleController = GameObject.FindGameObjectWithTag("BattleController").GetComponent<BattleController>();
+        }
+
+        private void OnEnable()
+        {
+            GetComponent<Button>().onClick.AddListener(delegate { battleController.SetSelectedCharacter(GetCharacter()); });
+            battleController.selectedCharacterChanged += HighlightCharacter;
+        }
+
         private void OnDisable()
         {
+            GetComponent<Button>().onClick.RemoveAllListeners();
+            battleController.selectedCharacterChanged += HighlightCharacter;
             if (character != null)
             {
                 character.stateAltered -= ParseCharacterState;
@@ -66,7 +82,19 @@ namespace Frankie.Combat.UI
             return character;
         }
 
-        public void SetSelected(bool enable)
+        private void HighlightCharacter(CombatParticipant combatParticipant)
+        {
+            if (combatParticipant == character)
+            {
+                SetSelected(true);
+            }
+            else
+            {
+                SetSelected(false);
+            }
+        }
+
+        private void SetSelected(bool enable)
         {
             if (character.IsInCooldown()) { slideState = SlideState.cooldown; }
             else if (enable) { slideState = SlideState.selected; }
