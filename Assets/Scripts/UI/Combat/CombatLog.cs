@@ -131,8 +131,6 @@ namespace Frankie.Combat.UI
 
         private void ParseCombatParticipantState(CombatParticipant combatParticipant, StateAlteredType stateAlteredType, float points)
         {
-            // TODO:  Add parsing for other state altered types -- namely status effects
-
             string combatText = "";
             if (stateAlteredType == StateAlteredType.IncreaseHP)
             {

@@ -71,7 +71,7 @@ namespace Frankie.Combat
             // TODO:  Implement different battle transition type impact to combat (i.e. advance attack, late attack, same-same)
             foreach (CombatParticipant character in party.GetParty())
             {
-                character.SetCombatActive(true);
+                
                 character.stateAltered += CheckForBattleEnd;
                 activeCharacters.Add(character);
             }
@@ -87,6 +87,16 @@ namespace Frankie.Combat
         public void SetBattleState(BattleState state)
         {
             this.state = state;
+
+            if (state == BattleState.Combat)
+            {
+                ToggleCombatParticipants(true);
+            }
+            else
+            {
+                ToggleCombatParticipants(false);
+            }
+
             if (battleStateChanged != null)
             {
                 battleStateChanged.Invoke(state);
@@ -212,6 +222,18 @@ namespace Frankie.Combat
             if (activeCharacters == null || selectedCharacter != null) { return; }
             CombatParticipant firstFreeCharacter = activeCharacters.Where(x => !x.IsInCooldown()).FirstOrDefault();
             if (firstFreeCharacter != null) { SetSelectedCharacter(firstFreeCharacter); }
+        }
+
+        private void ToggleCombatParticipants(bool enable)
+        {
+            foreach (CombatParticipant character in activeCharacters)
+            {
+                character.SetCombatActive(enable);
+            }
+            foreach (CombatParticipant enemy in activeEnemies)
+            {
+                enemy.SetCombatActive(enable);
+            }
         }
 
         private bool InteractWithInterrupts()
