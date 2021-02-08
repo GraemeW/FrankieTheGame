@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
+using static Frankie.Combat.BattleController;
 
 namespace Frankie.Combat.UI
 {
@@ -107,12 +108,12 @@ namespace Frankie.Combat.UI
             else { skillField.text = defaultNoText; }
         }
 
-        public void HandleInput(string input) // PUBLIC:  Called via unity events for button clicks (mouse)
+        public void HandleInput(BattleInputType input) // PUBLIC:  Called via unity events for button clicks (mouse)
         {
             if (battleController.GetSelectedCharacter() == null) { return; }
             if (!battleController.IsSkillArmed())
             {
-                if (SetBranch(input)) { return; }
+                if (SetBranchOrSkill(input)) { return; }
             }
             else
             {
@@ -120,27 +121,27 @@ namespace Frankie.Combat.UI
             }
         }
 
-        private bool SetBranch(string input)
+        private bool SetBranchOrSkill(BattleInputType input)
         {
             bool validInput = false;
             SkillBranchMapping skillBranchMapping = default;
-            if (input == "up") { skillBranchMapping = SkillBranchMapping.up; validInput = true; }
-            else if (input == "left") { skillBranchMapping = SkillBranchMapping.left; validInput = true; }
-            else if (input == "right") { skillBranchMapping = SkillBranchMapping.right; validInput = true; }
-            else if (input == "down") { skillBranchMapping = SkillBranchMapping.down; validInput = true; }
+            if (input == BattleInputType.NavigateUp) { skillBranchMapping = SkillBranchMapping.up; validInput = true; }
+            else if (input == BattleInputType.NavigateLeft) { skillBranchMapping = SkillBranchMapping.left; validInput = true; }
+            else if (input == BattleInputType.NavigateRight) { skillBranchMapping = SkillBranchMapping.right; validInput = true; }
+            else if (input == BattleInputType.NavigateDown) { skillBranchMapping = SkillBranchMapping.down; validInput = true; }
 
             if (validInput)
             {
                 SkillHandler skillHandler = battleController.GetSelectedCharacter().GetComponent<SkillHandler>();
-                skillHandler.SetBranch(skillBranchMapping);
+                skillHandler.SetBranchOrSkill(skillBranchMapping);
                 UpdateSkills(skillHandler);
             }
             return validInput;
         }
 
-        private bool CheckForSkillExecution(string input)
+        private bool CheckForSkillExecution(BattleInputType input)
         {
-            if (input == "execute")
+            if (input == BattleInputType.Execute)
             {
                 canvasGroup.alpha = 0;
                 return true;

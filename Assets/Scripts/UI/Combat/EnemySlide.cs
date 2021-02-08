@@ -17,8 +17,22 @@ namespace Frankie.Combat.UI
         // State
         CombatParticipant enemy = null;
 
+        // Cached References
+        BattleController battleController = null;
+
+        private void Awake()
+        {
+            battleController = GameObject.FindGameObjectWithTag("BattleController").GetComponent<BattleController>();
+        }
+
+        private void OnEnable()
+        {
+            battleController.selectedEnemyChanged += HighlightEnemy;
+        }
+
         private void OnDisable()
         {
+            battleController.selectedEnemyChanged -= HighlightEnemy;
             if (enemy != null)
             {
                 enemy.stateAltered -= ParseEnemyState;
@@ -55,6 +69,21 @@ namespace Frankie.Combat.UI
                 GetComponent<Button>().enabled = true;
                 GetComponent<Image>().CrossFadeAlpha(1f, deathFadeTime, false);
             }
+        }
+
+        private void HighlightEnemy(CombatParticipant combatParticipant)
+        {
+            if (combatParticipant == enemy)
+            {
+                SetSelected(true);
+            }
+            else
+                SetSelected(false);
+        }
+
+        private void SetSelected(bool enable)
+        {
+            GetComponent<Shadow>().enabled = enable;
         }
 
         private void UpdateImage(Sprite sprite)

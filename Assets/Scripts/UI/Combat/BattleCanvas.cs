@@ -35,9 +35,6 @@ namespace Frankie.Combat.UI
         // Cached References
         BattleController battleController = null;
 
-        // State
-        List<EnemySlide> enemySlides = new List<EnemySlide>();
-
         // Static
         private static string DIALOGUE_CALLBACK_INTRO_COMPLETE = "INTRO_COMPLETE";
         private static string DIALOGUE_CALLBACK_OUTRO_COMPLETE = "OUTRO_COMPLETE";
@@ -60,7 +57,6 @@ namespace Frankie.Combat.UI
 
         private void OnDestroy()
         {
-            enemySlides.Clear();
             ClearBattleCanvas();
         }
 
@@ -139,6 +135,9 @@ namespace Frankie.Combat.UI
         private void SetupEnemies(IEnumerable enemies)
         {
             // TODO:  Add support for two different types of presentation -- two-row small format, one-row large format
+
+            // State
+            List<EnemySlide> enemySlides = new List<EnemySlide>();
 
             foreach (CombatParticipant enemy in enemies)
             {

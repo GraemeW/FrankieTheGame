@@ -13,16 +13,34 @@ namespace Frankie.Combat
         SkillBranch currentBranch = null;
         Skill activeSkill = null;
 
-        public void SetBranch(SkillBranchMapping skillBranchMapping)
+        public void SetBranchOrSkill(SkillBranchMapping skillBranchMapping)
         {
-            if (currentBranch == null) { ResetCurrentBranch(); }
+            // Attempts to set branch first;  otherwise sets skill
+            if (SetBranch(skillBranchMapping)) { return; }
+            if (SetSkill(skillBranchMapping)) { return; }
+        }
 
-            string nextBranch = currentBranch.GetBranch(skillBranchMapping);
-            if (!string.IsNullOrWhiteSpace(nextBranch)) 
+        public bool SetBranch(SkillBranchMapping skillBranchMapping)
+        {
+            if (currentBranch == null) { ResetCurrentBranch(); return true; }
+
+            if (currentBranch.HasBranch(skillBranchMapping)) 
             {
                 activeSkill = currentBranch.GetSkill(skillBranchMapping);
-                currentBranch = skillTree.GetSkillBranchFromID(nextBranch); 
+                currentBranch = skillTree.GetSkillBranchFromID(currentBranch.GetBranch(skillBranchMapping));
+                return true;
             }
+            return false;
+        }
+
+        private bool SetSkill(SkillBranchMapping skillBranchMapping)
+        {
+            if (currentBranch.HasSkill(skillBranchMapping))
+            {
+                activeSkill = currentBranch.GetSkill(skillBranchMapping);
+                return true;
+            }
+            return false;
         }
 
         public void ResetCurrentBranch()

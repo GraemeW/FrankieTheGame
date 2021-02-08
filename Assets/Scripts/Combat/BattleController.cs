@@ -37,7 +37,7 @@ namespace Frankie.Combat
         public event Action<BattleState> battleStateChanged;
         public event Action<CombatParticipant> selectedCharacterChanged;
         public event Action<CombatParticipant> selectedEnemyChanged;
-        public event Action<string> battleInput;
+        public event Action<BattleInputType> battleInput;
         public event Action<BattleSequence> battleSequenceProcessed;
 
         // Data structures
@@ -59,6 +59,16 @@ namespace Frankie.Combat
             Lost,
             Ran,
             Bargained
+        }
+
+        public enum BattleInputType
+        {
+            DefaultNone,
+            NavigateUp,
+            NavigateLeft,
+            NavigateRight,
+            NavigateDown,
+            Execute
         }
 
         public struct BattleSequence
@@ -139,6 +149,18 @@ namespace Frankie.Combat
             return selectedCharacter;
         }
 
+        public bool SetSelectedEnemy(CombatParticipant enemy)
+        {
+            if (enemy != null) { if (enemy.IsDead()) { return false; } }
+
+            selectedEnemy = enemy;
+            if (selectedEnemyChanged != null)
+            {
+                selectedEnemyChanged.Invoke(selectedEnemy);
+            }
+            return true;
+        }
+
         public CombatParticipant GetSelectedEnemy()
         {
             return selectedEnemy;
@@ -180,7 +202,7 @@ namespace Frankie.Combat
                 skill = skill
             };
             battleSequenceQueue.Enqueue(battleSequence);
-            SetSelectedCharacter(null);
+            if (activeCharacters.Contains(sender)) { SetSelectedCharacter(null); SetSelectedEnemy(null); } // Clear out selection on player execution
         }
 
         // Private Functions
@@ -204,7 +226,7 @@ namespace Frankie.Combat
                 if (InteractWithInterrupts()) { return; }
                 if (InteractWithCharacterSelect()) { return; }
                 if (InteractWithSkillSelect()) { return; }
-                // TODO:  add InteractWithSkillExecute
+                if (InteractWithSkillExecute()) { return; }
             }
             else if (state == BattleState.Outro)
             {
@@ -310,28 +332,14 @@ namespace Frankie.Combat
 
             if (selectedCharacter != null && !selectedCharacter.IsDead())
             {
-                string input = null;
-                if (Input.GetKeyDown(KeyCode.W))
-                {
-                    input = "up";
-                }
-                else if (Input.GetKeyDown(KeyCode.A))
-                {
-                    input = "left";
-                }
-                else if (Input.GetKeyDown(KeyCode.D))
-                {
-                    input = "right";
-                }
-                else if (Input.GetKeyDown(KeyCode.S))
-                {
-                    input = "down";
-                }
-                else if (Input.GetKeyDown(KeyCode.E))
+                BattleInputType input = GetPlayerInput();
+                if (input == BattleInputType.Execute)
                 {
                     SetSkillArmed(true);
+                    return true;
                 }
-                if (!string.IsNullOrWhiteSpace(input))
+
+                if (input != BattleInputType.DefaultNone)
                 {
                     if (battleInput != null)
                     {
@@ -347,12 +355,9 @@ namespace Frankie.Combat
         {
             if (!enable) { selectedEnemy = null; skillArmed = false; return; }
 
-            CombatParticipant[] livingEnemies = activeEnemies.Where(x => !x.IsDead()).ToArray();
-            if (livingEnemies.Length > 0)
+            if (SelectFirstLivingEnemy())
             {
                 skillArmed = enable;
-                selectedEnemy = livingEnemies[0];
-                selectedEnemyChanged.Invoke(selectedEnemy);
             }
         }
 
@@ -361,43 +366,94 @@ namespace Frankie.Combat
             return skillArmed;
         }
 
+        private bool SelectFirstLivingEnemy()
+        {
+            CombatParticipant[] livingEnemies = activeEnemies.Where(x => !x.IsDead()).ToArray();
+            if (livingEnemies.Length > 0)
+            {
+                return SetSelectedEnemy(livingEnemies[0]);
+            }
+            return false;
+        }
+
         private bool InteractWithSkillExecute()
         {
             if (!skillArmed || selectedCharacter == null || selectedSkill == null) { return false; }
 
-            string input = null;
-            if (Input.GetKeyDown(KeyCode.W))
+            BattleInputType input = GetPlayerInput();
+
+            if (input != BattleInputType.DefaultNone)
             {
-                input = "up";
-            }
-            else if (Input.GetKeyDown(KeyCode.A))
-            {
-                input = "left";
-            }
-            else if (Input.GetKeyDown(KeyCode.D))
-            {
-                input = "right";
-            }
-            else if (Input.GetKeyDown(KeyCode.S))
-            {
-                input = "down";
-            }
-            else if (Input.GetKeyDown(KeyCode.E))
-            {
-                if (selectedEnemy == null) { return false; }
-                AddToBattleQueue(GetSelectedCharacter(), GetSelectedEnemy(), GetActiveSkill());
-                input = "execute";
-            }
-            if (!string.IsNullOrWhiteSpace(input))
-            {
+                if (input == BattleInputType.Execute)
+                {
+                    if (selectedEnemy == null) { return false; }
+                    AddToBattleQueue(GetSelectedCharacter(), GetSelectedEnemy(), GetActiveSkill());
+                }
+                else
+                {
+                    if (input == BattleInputType.NavigateRight || input == BattleInputType.NavigateDown)
+                    {
+                        SetSelectedEnemy(GetNextLivingEnemy(GetSelectedEnemy(), true));
+                    }
+                    else if (input == BattleInputType.NavigateLeft || input == BattleInputType.NavigateUp)
+                    {
+                        SetSelectedEnemy(GetNextLivingEnemy(GetSelectedEnemy(), false));
+                    }
+                }
+
                 if (battleInput != null)
                 {
                     battleInput.Invoke(input);
                 }
                 return true;
             }
-
             return false;
+        }
+
+        private CombatParticipant GetNextLivingEnemy(CombatParticipant currentEnemy, bool traverseForward)
+        {
+            if (selectedEnemy == null) { SelectFirstLivingEnemy(); return selectedEnemy; }
+
+            int currentIndex = activeEnemies.IndexOf(currentEnemy);
+            if (traverseForward)
+            {
+                if (currentIndex + 1 >= activeEnemies.Count) { currentIndex = 0; }
+                else { currentIndex++; }
+            }
+            else
+            {
+                if (currentIndex <= 0) { currentIndex = activeEnemies.Count - 1; }
+                else { currentIndex--; }
+            }
+
+            if (activeEnemies[currentIndex].IsDead()) { return GetNextLivingEnemy(activeEnemies[currentIndex], traverseForward); }
+            return activeEnemies[currentIndex];
+        }
+
+        private BattleInputType GetPlayerInput()
+        {
+            BattleInputType input = BattleInputType.DefaultNone;
+            if (Input.GetKeyDown(KeyCode.W))
+            {
+                input = BattleInputType.NavigateUp;
+            }
+            else if (Input.GetKeyDown(KeyCode.A))
+            {
+                input = BattleInputType.NavigateLeft;
+            }
+            else if (Input.GetKeyDown(KeyCode.D))
+            {
+                input = BattleInputType.NavigateRight;
+            }
+            else if (Input.GetKeyDown(KeyCode.S))
+            {
+                input = BattleInputType.NavigateDown;
+            }
+            else if (Input.GetKeyDown(KeyCode.E))
+            {
+                input = BattleInputType.Execute;
+            }
+            return input;
         }
 
         IEnumerator HaltBattleQueue(float seconds)

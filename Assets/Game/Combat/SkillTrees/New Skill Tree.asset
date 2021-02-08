@@ -23,7 +23,7 @@ MonoBehaviour:
   detail: 
   rect:
     serializedVersion: 2
-    x: 775
+    x: 1150
     y: 300
     width: 250
     height: 155
@@ -57,7 +57,7 @@ MonoBehaviour:
   detail: 
   rect:
     serializedVersion: 2
-    x: 375
+    x: 750
     y: 605
     width: 250
     height: 155
@@ -86,12 +86,12 @@ MonoBehaviour:
   leftBranch: 
   rightSkillReference: 
   rightBranch: 
-  downSkillReference: Poke
+  downSkillReference: Freeze
   downBranch: 
   detail: 
   rect:
     serializedVersion: 2
-    x: 375
+    x: 750
     y: 0
     width: 250
     height: 155
@@ -146,7 +146,7 @@ MonoBehaviour:
   detail: 
   rect:
     serializedVersion: 2
-    x: 375
+    x: 750
     y: 300
     width: 250
     height: 155
@@ -171,7 +171,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   upSkillReference: Fire
   upBranch: 
-  leftSkillReference: Fire
+  leftSkillReference: Poke
   leftBranch: 
   rightSkillReference: Fire
   rightBranch: 
@@ -180,7 +180,7 @@ MonoBehaviour:
   detail: 
   rect:
     serializedVersion: 2
-    x: 0
+    x: 375
     y: 300
     width: 250
     height: 155
