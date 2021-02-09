@@ -166,6 +166,7 @@ namespace Frankie.Control
                 inputVertical = Input.GetAxis("Vertical");
                 if (InteractWithGlobals()) return;
                 if (InteractWithComponent()) return;
+                if (InteractWithComponentManual()) return;
                 SetCursor(CursorType.None);
             }
             else if (playerState == PlayerState.inBattle)
@@ -185,6 +186,7 @@ namespace Frankie.Control
             }
         }
 
+        // TODO:  Implement new unity input system
         private void InteractWithMovement()
         {
             SetMovementParameters();
@@ -226,10 +228,41 @@ namespace Frankie.Control
             return false;
         }
 
+        private bool InteractWithComponentManual()
+        {
+            if (Input.GetKeyDown(KeyCode.E))
+            {
+                RaycastHit2D hitInfo = RaycastFromPlayerInLookDirection();
+                if (hitInfo.collider == null) { return false; }
+
+                IRaycastable[] raycastables = hitInfo.transform.GetComponentsInChildren<IRaycastable>();
+                if (raycastables != null)
+                {
+                    foreach (IRaycastable raycastable in raycastables)
+                    {
+                        if (raycastable.HandleRaycast(this, KeyCode.E))
+                        {
+                            return true;
+                        }
+                    }
+                }
+                return false;
+            }
+            return false;
+        }
+
         private RaycastHit2D RaycastToMouseLocation()
         {
             RaycastHit2D[] hits = Physics2D.CircleCastAll(GetMouseRay(), raycastRadius, Vector2.zero);
             RaycastHit2D[] nonPlayerHits = hits.Where(x => !x.collider.transform.gameObject.CompareTag("Player")).ToArray(); 
+            if (nonPlayerHits == null || nonPlayerHits.Length == 0) { return new RaycastHit2D(); } // pass an empty hit
+            return nonPlayerHits[0];
+        }
+
+        private RaycastHit2D RaycastFromPlayerInLookDirection()
+        {
+            RaycastHit2D[] hits = Physics2D.CircleCastAll(interactionCenterPoint.position, raycastRadius, lookDirection);
+            RaycastHit2D[] nonPlayerHits = hits.Where(x => !x.collider.transform.gameObject.CompareTag("Player")).ToArray();
             if (nonPlayerHits == null || nonPlayerHits.Length == 0) { return new RaycastHit2D(); } // pass an empty hit
             return nonPlayerHits[0];
         }

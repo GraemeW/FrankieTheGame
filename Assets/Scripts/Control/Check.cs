@@ -46,6 +46,25 @@ namespace Frankie.Control
             return true;
         }
 
+        public bool HandleRaycast(PlayerController callingController, KeyCode interactKeyOne = KeyCode.E, KeyCode interactKeyTwo = KeyCode.Return)
+        {
+            if (!this.CheckDistance(gameObject, transform.position, callingController,
+                overrideDefaultInteractionDistance, interactionDistance))
+            {
+                return false;
+            }
+
+            if (Input.GetKeyDown(interactKeyOne))
+            {
+                if (checkInteraction != null)
+                {
+                    checkInteraction.Invoke(callingController);
+                }
+
+            }
+            return true;
+        }
+
         bool IRaycastable.CheckDistanceTemplate()
         {
             // Not evaluated -> IRaycastableExtension

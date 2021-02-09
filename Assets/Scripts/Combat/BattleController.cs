@@ -279,6 +279,7 @@ namespace Frankie.Combat
                 // Move to Combat Options if nothing selected in skill selector
                 if (selectedSkill == null || selectedCharacter == null) 
                 {
+                    SetSelectedEnemy(null);
                     SetSelectedCharacter(null);
                     SetBattleState(BattleState.PreCombat); return true; 
                 }
@@ -286,6 +287,7 @@ namespace Frankie.Combat
                 // Otherwise step out of selections
                 if (selectedSkill != null || selectedCharacter != null)
                 {
+                    SetSelectedEnemy(null);
                     SetSelectedCharacter(null);
                 }
                 return true;
@@ -351,31 +353,6 @@ namespace Frankie.Combat
             return false;
         }
 
-        public void SetSkillArmed(bool enable)
-        {
-            if (!enable) { selectedEnemy = null; skillArmed = false; return; }
-
-            if (SelectFirstLivingEnemy())
-            {
-                skillArmed = enable;
-            }
-        }
-
-        public bool IsSkillArmed()
-        {
-            return skillArmed;
-        }
-
-        private bool SelectFirstLivingEnemy()
-        {
-            CombatParticipant[] livingEnemies = activeEnemies.Where(x => !x.IsDead()).ToArray();
-            if (livingEnemies.Length > 0)
-            {
-                return SetSelectedEnemy(livingEnemies[0]);
-            }
-            return false;
-        }
-
         private bool InteractWithSkillExecute()
         {
             if (!skillArmed || selectedCharacter == null || selectedSkill == null) { return false; }
@@ -410,26 +387,6 @@ namespace Frankie.Combat
             return false;
         }
 
-        private CombatParticipant GetNextLivingEnemy(CombatParticipant currentEnemy, bool traverseForward)
-        {
-            if (selectedEnemy == null) { SelectFirstLivingEnemy(); return selectedEnemy; }
-
-            int currentIndex = activeEnemies.IndexOf(currentEnemy);
-            if (traverseForward)
-            {
-                if (currentIndex + 1 >= activeEnemies.Count) { currentIndex = 0; }
-                else { currentIndex++; }
-            }
-            else
-            {
-                if (currentIndex <= 0) { currentIndex = activeEnemies.Count - 1; }
-                else { currentIndex--; }
-            }
-
-            if (activeEnemies[currentIndex].IsDead()) { return GetNextLivingEnemy(activeEnemies[currentIndex], traverseForward); }
-            return activeEnemies[currentIndex];
-        }
-
         private BattleInputType GetPlayerInput()
         {
             BattleInputType input = BattleInputType.DefaultNone;
@@ -454,6 +411,51 @@ namespace Frankie.Combat
                 input = BattleInputType.Execute;
             }
             return input;
+        }
+
+        public void SetSkillArmed(bool enable)
+        {
+            if (!enable) { selectedEnemy = null; skillArmed = false; return; }
+
+            if (SelectFirstLivingEnemy())
+            {
+                skillArmed = enable;
+            }
+        }
+
+        public bool IsSkillArmed()
+        {
+            return skillArmed;
+        }
+
+        private bool SelectFirstLivingEnemy()
+        {
+            CombatParticipant[] livingEnemies = activeEnemies.Where(x => !x.IsDead()).ToArray();
+            if (livingEnemies.Length > 0)
+            {
+                return SetSelectedEnemy(livingEnemies[0]);
+            }
+            return false;
+        }
+
+        private CombatParticipant GetNextLivingEnemy(CombatParticipant currentEnemy, bool traverseForward)
+        {
+            if (selectedEnemy == null) { SelectFirstLivingEnemy(); return selectedEnemy; }
+
+            int currentIndex = activeEnemies.IndexOf(currentEnemy);
+            if (traverseForward)
+            {
+                if (currentIndex + 1 >= activeEnemies.Count) { currentIndex = 0; }
+                else { currentIndex++; }
+            }
+            else
+            {
+                if (currentIndex <= 0) { currentIndex = activeEnemies.Count - 1; }
+                else { currentIndex--; }
+            }
+
+            if (activeEnemies[currentIndex].IsDead()) { return GetNextLivingEnemy(activeEnemies[currentIndex], traverseForward); }
+            return activeEnemies[currentIndex];
         }
 
         IEnumerator HaltBattleQueue(float seconds)
