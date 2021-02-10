@@ -19,10 +19,15 @@ namespace Frankie.Combat.UI
         [SerializeField] TextMeshProUGUI currentAPTens = null;
         [SerializeField] TextMeshProUGUI currentAPOnes = null;
         [SerializeField] Image selectHighlight = null;
+        [SerializeField] DamageTextSpawner damageTextSpawner = null;
 
         [Header("Flavour")]
         [SerializeField] Color selectedCharacterFrameColor = Color.green;
         [SerializeField] Color cooldownCharacterFrameColor = Color.gray;
+
+        [Header("Damage Effects")]
+        [SerializeField] float damageShake = 50f;
+        [SerializeField] float criticalDamageShakeMultiplier = 2.0f;
 
         // State
         CombatParticipant character = null;
@@ -123,6 +128,16 @@ namespace Frankie.Combat.UI
             if (stateAlteredType == StateAlteredType.IncreaseHP || stateAlteredType == StateAlteredType.DecreaseHP || stateAlteredType == StateAlteredType.AdjustHPNonSpecific)
             {
                 UpdateHP(character.GetHP());
+                if (stateAlteredType != StateAlteredType.IncreaseHP)
+                {
+                    damageTextSpawner.Spawn(points);
+                }
+                else if (stateAlteredType != StateAlteredType.DecreaseHP)
+                {
+                    damageTextSpawner.Spawn(points);
+                    Vector2 currentPosition = gameObject.transform.position;
+                    // TODO:  add shake on damage
+                }
             }
             else if (stateAlteredType == StateAlteredType.IncreaseAP || stateAlteredType == StateAlteredType.DecreaseAP)
             {
