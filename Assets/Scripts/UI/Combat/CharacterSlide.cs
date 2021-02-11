@@ -7,7 +7,7 @@ using UnityEngine.UI;
 
 namespace Frankie.Combat.UI
 {
-    public class CharacterSlide : MonoBehaviour
+    public class CharacterSlide : BattleSlide
     {
         // Tunables
         [Header("HookUps")]
@@ -25,16 +25,9 @@ namespace Frankie.Combat.UI
         [SerializeField] Color selectedCharacterFrameColor = Color.green;
         [SerializeField] Color cooldownCharacterFrameColor = Color.gray;
 
-        [Header("Damage Effects")]
-        [SerializeField] float damageShake = 50f;
-        [SerializeField] float criticalDamageShakeMultiplier = 2.0f;
-
         // State
-        CombatParticipant character = null;
         SlideState slideState = default;
 
-        // Cached References
-        BattleController battleController = null;
 
         // Static
         private static void BreakApartNumber(float number, out int hundreds, out int tens, out int ones)
@@ -52,96 +45,54 @@ namespace Frankie.Combat.UI
         }
 
         // Functions
-        private void Awake()
+        protected override void OnEnable()
         {
-            battleController = GameObject.FindGameObjectWithTag("BattleController").GetComponent<BattleController>();
+            base.OnEnable();
+            GetComponent<Button>().onClick.AddListener(delegate { battleController.SetSelectedCharacter(GetCombatParticipant()); });
         }
 
-        private void OnEnable()
+        protected override void OnDisable()
         {
-            GetComponent<Button>().onClick.AddListener(delegate { battleController.SetSelectedCharacter(GetCharacter()); });
-            battleController.selectedCharacterChanged += HighlightCharacter;
-        }
-
-        private void OnDisable()
-        {
+            base.OnDisable();
             GetComponent<Button>().onClick.RemoveAllListeners();
-            battleController.selectedCharacterChanged += HighlightCharacter;
-            if (character != null)
-            {
-                character.stateAltered -= ParseCharacterState;
-            }
         }
 
-        public void SetCharacter(CombatParticipant combatParticipant)
+        public override void SetCombatParticipant(CombatParticipant combatParticipant)
         {
-            character = combatParticipant;
-            character.stateAltered += ParseCharacterState;
-            UpdateName(character.GetCombatName());
-            UpdateHP(character.GetHP());
-            UpdateAP(character.GetAP());
+            base.SetCombatParticipant(combatParticipant);
+            UpdateName(this.combatParticipant.GetCombatName());
+            UpdateHP(this.combatParticipant.GetHP());
+            UpdateAP(this.combatParticipant.GetAP());
         }
 
-        public CombatParticipant GetCharacter()
+        protected override void SetSelected(bool enable)
         {
-            return character;
-        }
-
-        private void HighlightCharacter(CombatParticipant combatParticipant)
-        {
-            if (combatParticipant == character)
-            {
-                SetSelected(true);
-            }
-            else
-            {
-                SetSelected(false);
-            }
-        }
-
-        private void SetSelected(bool enable)
-        {
-            if (character.IsInCooldown()) { slideState = SlideState.cooldown; }
+            if (combatParticipant.IsInCooldown()) { slideState = SlideState.cooldown; }
             else if (enable) { slideState = SlideState.selected; }
             else { slideState = SlideState.ready; }
             UpdateColor();
         }
 
-        private void UpdateColor()
-        {
-            if (slideState == SlideState.ready)
-            {
-                selectHighlight.color = Color.white;
-            }
-            else if (slideState == SlideState.selected)
-            {
-                selectHighlight.color = selectedCharacterFrameColor;
-            }
-            else if (slideState == SlideState.cooldown)
-            {
-                selectHighlight.color = cooldownCharacterFrameColor;
-            }
-        }
-
-        private void ParseCharacterState(CombatParticipant combatParticipant, StateAlteredType stateAlteredType, float points)
+        protected override void ParseState(CombatParticipant combatParticipant, StateAlteredType stateAlteredType, float points)
         {
             if (stateAlteredType == StateAlteredType.IncreaseHP || stateAlteredType == StateAlteredType.DecreaseHP || stateAlteredType == StateAlteredType.AdjustHPNonSpecific)
             {
-                UpdateHP(character.GetHP());
-                if (stateAlteredType != StateAlteredType.IncreaseHP)
+                UpdateHP(this.combatParticipant.GetHP());
+                if (stateAlteredType == StateAlteredType.IncreaseHP)
                 {
                     damageTextSpawner.Spawn(points);
                 }
-                else if (stateAlteredType != StateAlteredType.DecreaseHP)
+                else if (stateAlteredType == StateAlteredType.DecreaseHP)
                 {
                     damageTextSpawner.Spawn(points);
-                    Vector2 currentPosition = gameObject.transform.position;
-                    // TODO:  add shake on damage
+                    bool strongShakeEnable = false;
+                    if (points > combatParticipant.GetHP()) { strongShakeEnable = true; }
+                    ShakeSlide(strongShakeEnable);
                 }
             }
             else if (stateAlteredType == StateAlteredType.IncreaseAP || stateAlteredType == StateAlteredType.DecreaseAP)
             {
-                UpdateAP(character.GetAP());
+                UpdateAP(this.combatParticipant.GetAP());
             }
             // TODO:  add behavior for other state altered types (death, etc.)
             // TODO:  update slide graphics / animation for each behavior
@@ -158,12 +109,29 @@ namespace Frankie.Combat.UI
             }
         }
 
+        // Private functions
+        private void UpdateColor()
+        {
+            if (slideState == SlideState.ready)
+            {
+                selectHighlight.color = Color.white;
+            }
+            else if (slideState == SlideState.selected)
+            {
+                selectHighlight.color = selectedCharacterFrameColor;
+            }
+            else if (slideState == SlideState.cooldown)
+            {
+                selectHighlight.color = cooldownCharacterFrameColor;
+            }
+        }
+
         private void UpdateName(string name)
         {
             characterNameField.text = name;
         }
 
-        public void UpdateHP(float hitPoints)
+        private void UpdateHP(float hitPoints)
         {
             BreakApartNumber(hitPoints, out int hundreds, out int tens, out int ones);
             if (hundreds > 0) { currentHPHundreds.text = hundreds.ToString(); }

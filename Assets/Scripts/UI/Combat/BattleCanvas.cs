@@ -120,7 +120,7 @@ namespace Frankie.Combat.UI
             {
                 GameObject characterObject = Instantiate(characterSlidePrefab, playerPanelParent);
                 CharacterSlide characterSlide = characterObject.GetComponent<CharacterSlide>();
-                characterSlide.SetCharacter(character);
+                characterSlide.SetCombatParticipant(character);
                 combatLog.AddCombatListener(character);
 
                 if (!firstCharacterToggle)
@@ -152,7 +152,7 @@ namespace Frankie.Combat.UI
                 }
                 GameObject enemyObject = Instantiate(enemyPrefab, parentSpawn);
                 EnemySlide enemySlide = enemyObject.GetComponent<EnemySlide>();
-                enemySlide.SetEnemy(enemy);
+                enemySlide.SetCombatParticipant(enemy);
                 enemySlides.Add(enemySlide);
                 combatLog.AddCombatListener(enemy);
             }

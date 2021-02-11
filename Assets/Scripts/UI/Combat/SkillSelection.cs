@@ -54,7 +54,7 @@ namespace Frankie.Combat.UI
                 enemySlide.GetComponent<Button>().onClick.RemoveAllListeners();
                 if (enable)
                 {
-                    enemySlide.GetComponent<Button>().onClick.AddListener(delegate { ExecuteSkill(enemySlide.GetEnemy()); });
+                    enemySlide.GetComponent<Button>().onClick.AddListener(delegate { ExecuteSkill(enemySlide.GetCombatParticipant()); });
                 }
             }
         }

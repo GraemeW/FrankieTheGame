@@ -6,56 +6,39 @@ using static Frankie.Combat.CombatParticipant;
 
 namespace Frankie.Combat.UI
 {
-    public class EnemySlide : MonoBehaviour
+    public class EnemySlide : BattleSlide
     {
         // Tunables
         [SerializeField] Image image = null;
         [SerializeField] float deathFadeTime = 1.0f;
         [SerializeField] DamageTextSpawner damageTextSpawner = null;
 
-        // State
-        CombatParticipant enemy = null;
-
-        // Cached References
-        BattleController battleController = null;
-
-        private void Awake()
+        protected override void OnEnable()
         {
-            battleController = GameObject.FindGameObjectWithTag("BattleController").GetComponent<BattleController>();
+            base.OnEnable();
         }
 
-        private void OnEnable()
+        protected override void OnDisable()
         {
-            battleController.selectedEnemyChanged += HighlightEnemy;
+            base.OnDisable();
         }
 
-        private void OnDisable()
+        public override void SetCombatParticipant(CombatParticipant combatParticipant)
         {
-            battleController.selectedEnemyChanged -= HighlightEnemy;
-            if (enemy != null)
-            {
-                enemy.stateAltered -= ParseEnemyState;
-            }
+            base.SetCombatParticipant(combatParticipant);
+            UpdateImage(this.combatParticipant.GetCombatSprite());
         }
 
-        public void SetEnemy(CombatParticipant combatParticipant)
-        {
-            enemy = combatParticipant;
-            UpdateImage(enemy.GetCombatSprite());
-            enemy.stateAltered += ParseEnemyState;
-        }
-
-        public CombatParticipant GetEnemy()
-        {
-            return enemy;
-        }
-
-        private void ParseEnemyState(CombatParticipant combatParticipant, StateAlteredType stateAlteredType, float points)
+        protected override void ParseState(CombatParticipant combatParticipant, StateAlteredType stateAlteredType, float points)
         {
             // TODO:  update slide graphics / animation as a function of altered type input
             if (stateAlteredType == StateAlteredType.IncreaseHP || stateAlteredType == StateAlteredType.DecreaseHP)
             {
                 damageTextSpawner.Spawn(points);
+                if (stateAlteredType == StateAlteredType.DecreaseHP)
+                {
+                    ShakeSlide(false);   
+                }
             }
             else if (stateAlteredType == StateAlteredType.Dead)
             {
@@ -69,21 +52,12 @@ namespace Frankie.Combat.UI
             }
         }
 
-        private void HighlightEnemy(CombatParticipant combatParticipant)
-        {
-            if (combatParticipant == enemy)
-            {
-                SetSelected(true);
-            }
-            else
-                SetSelected(false);
-        }
-
-        private void SetSelected(bool enable)
+        protected override void SetSelected(bool enable)
         {
             GetComponent<Shadow>().enabled = enable;
         }
 
+        // Private Functions
         private void UpdateImage(Sprite sprite)
         {
             image.sprite = sprite;
