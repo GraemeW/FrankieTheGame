@@ -73,17 +73,19 @@ namespace Frankie.Combat.UI
             UpdateColor();
         }
 
-        protected override void ParseState(CombatParticipant combatParticipant, StateAlteredType stateAlteredType, float points)
+        protected override void ParseState(CombatParticipant combatParticipant, StateAlteredType stateAlteredType, object stateDetail)
         {
             if (stateAlteredType == StateAlteredType.IncreaseHP || stateAlteredType == StateAlteredType.DecreaseHP || stateAlteredType == StateAlteredType.AdjustHPNonSpecific)
             {
                 UpdateHP(this.combatParticipant.GetHP());
                 if (stateAlteredType == StateAlteredType.IncreaseHP)
                 {
+                    float points = (float)stateDetail;
                     damageTextSpawner.Spawn(points);
                 }
                 else if (stateAlteredType == StateAlteredType.DecreaseHP)
                 {
+                    float points = (float)stateDetail;
                     damageTextSpawner.Spawn(points);
                     bool strongShakeEnable = false;
                     if (points > combatParticipant.GetHP()) { strongShakeEnable = true; }

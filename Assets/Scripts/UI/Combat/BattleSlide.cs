@@ -13,7 +13,7 @@ namespace Frankie.Combat.UI
         float damageShakeMagnitude = 10f;
         float criticalDamageShakeMultiplier = 2.0f;
         float shakeDuration = 0.4f;
-        float shakeTimeStepDuration = 0.1f;
+        int shakeCount = 4;
 
         // State
         protected CombatParticipant combatParticipant = null;
@@ -54,12 +54,12 @@ namespace Frankie.Combat.UI
         {
             if (currentShakeTime > shakeDuration) { return; }
 
-            if (currentShakeTimeStep > shakeTimeStepDuration)
+            if (currentShakeTimeStep > (shakeDuration / shakeCount))
             {
                 SetTargetShakeRotation();
                 currentShakeTimeStep = 0f;
             }
-            gameObject.transform.rotation = Quaternion.Euler(0f,0f, Mathf.Lerp(lastRotationTarget, currentRotationTarget, currentShakeTimeStep / shakeTimeStepDuration));
+            gameObject.transform.rotation = Quaternion.Euler(0f,0f, Mathf.Lerp(lastRotationTarget, currentRotationTarget, currentShakeTimeStep / (shakeDuration / shakeCount)));
 
             currentShakeTimeStep += Time.deltaTime;
             currentShakeTime += Time.deltaTime;
@@ -67,7 +67,7 @@ namespace Frankie.Combat.UI
 
         private void SetTargetShakeRotation()
         {
-            currentShakeMagnitude = Mathf.Max(0f, currentShakeMagnitude - damageShakeMagnitude / (shakeDuration / shakeTimeStepDuration));
+            currentShakeMagnitude = Mathf.Max(0f, currentShakeMagnitude - damageShakeMagnitude / shakeCount);
             lastRotationTarget = currentRotationTarget;
             currentRotationTarget = Random.Range(-currentShakeMagnitude, currentShakeMagnitude);
         }
@@ -110,7 +110,7 @@ namespace Frankie.Combat.UI
             // implemented in child classes
         }
 
-        protected virtual void ParseState(CombatParticipant combatParticipant, StateAlteredType stateAlteredType, float points)
+        protected virtual void ParseState(CombatParticipant combatParticipant, StateAlteredType stateAlteredType, object stateDetail)
         {
             // implemented in child classes
         }

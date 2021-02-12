@@ -129,23 +129,27 @@ namespace Frankie.Combat.UI
             stringToPrint += "  " + combatText;
         }
 
-        private void ParseCombatParticipantState(CombatParticipant combatParticipant, StateAlteredType stateAlteredType, float points)
+        private void ParseCombatParticipantState(CombatParticipant combatParticipant, StateAlteredType stateAlteredType, object stateDetail)
         {
             string combatText = "";
             if (stateAlteredType == StateAlteredType.IncreaseHP)
             {
+                float points = (float)stateDetail;
                 combatText = string.Format(messageIncreaseHP, combatParticipant.GetCombatName(), Mathf.RoundToInt(points).ToString()); 
             }
             else if (stateAlteredType == StateAlteredType.DecreaseHP)
             {
+                float points = (float)stateDetail;
                 combatText = string.Format(messageDecreaseHP, combatParticipant.GetCombatName(), Mathf.RoundToInt(points).ToString());
             }
             else if (stateAlteredType == StateAlteredType.IncreaseAP)
             {
+                float points = (float)stateDetail;
                 combatText = string.Format(messageIncreaseAP, combatParticipant.GetCombatName(), Mathf.RoundToInt(points).ToString());
             }
             else if (stateAlteredType == StateAlteredType.DecreaseAP)
             {
+                float points = (float)stateDetail;
                 combatText = string.Format(messageDecreaseAP, combatParticipant.GetCombatName(), Mathf.RoundToInt(points).ToString());
             }
             else if (stateAlteredType == StateAlteredType.Dead)

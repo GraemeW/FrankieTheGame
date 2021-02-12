@@ -19,8 +19,5 @@ MonoBehaviour:
   numberOfHits: 1
   damageType: 0
   statusEffects:
-  - statusEffect:
-      statusEffect: 0
-      value: 20
-      timer: 5
+  - statusEffect: {fileID: 11400000, guid: 028ea63a3bb333744b11383d9bbd9548, type: 2}
     fractionalProbability: 0.194

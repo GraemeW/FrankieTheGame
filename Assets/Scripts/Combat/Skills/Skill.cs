@@ -22,7 +22,7 @@ namespace Frankie.Combat
         [System.Serializable]
         public struct StatusProbabilityPair
         {
-            public ActiveStatusEffect statusEffect;
+            public StatusEffect statusEffect;
             [Range(0,1)] public float fractionalProbability;
         }
 

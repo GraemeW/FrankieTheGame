@@ -483,7 +483,7 @@ namespace Frankie.Combat
             }
         }
 
-        private void CheckForBattleEnd(CombatParticipant combatParticipant, StateAlteredType stateAlteredType, float points)
+        private void CheckForBattleEnd(CombatParticipant combatParticipant, StateAlteredType stateAlteredType, object points)
         {
             if (stateAlteredType == StateAlteredType.Dead)
             {

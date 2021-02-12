@@ -121,6 +121,13 @@ namespace Frankie.Combat.UI
             }
         }
 
+        public void HandleInput(int input)
+        {
+            // Because Unity hates handling enums
+            BattleInputType battleInputType = (BattleInputType)input;
+            HandleInput(battleInputType);
+        }
+
         private bool SetBranchOrSkill(BattleInputType input)
         {
             bool validInput = false;

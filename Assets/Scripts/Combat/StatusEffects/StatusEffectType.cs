@@ -1,7 +1,8 @@
 namespace Frankie.Combat
 {
-    public enum StatusEffect
+    public enum StatusEffectType
     {
+        None,
         Bleeding,
         Burning,
         Frozen,

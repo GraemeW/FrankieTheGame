@@ -29,11 +29,11 @@ namespace Frankie.Combat.UI
             UpdateImage(this.combatParticipant.GetCombatSprite());
         }
 
-        protected override void ParseState(CombatParticipant combatParticipant, StateAlteredType stateAlteredType, float points)
+        protected override void ParseState(CombatParticipant combatParticipant, StateAlteredType stateAlteredType, object stateDetail)
         {
-            // TODO:  update slide graphics / animation as a function of altered type input
             if (stateAlteredType == StateAlteredType.IncreaseHP || stateAlteredType == StateAlteredType.DecreaseHP)
             {
+                float points = (float)stateDetail;
                 damageTextSpawner.Spawn(points);
                 if (stateAlteredType == StateAlteredType.DecreaseHP)
                 {

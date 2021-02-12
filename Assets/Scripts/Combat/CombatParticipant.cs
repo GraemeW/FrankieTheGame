@@ -13,9 +13,13 @@ namespace Frankie.Combat
     public class CombatParticipant : MonoBehaviour
     {
         // Tunables
+        [Header("Behavior, Hookups")]
         [SerializeField] bool friendly = false;
-        [SerializeField] float damageTimeSpan = 4.0f;
         [SerializeField] Sprite combatSprite = null;
+
+        [Header("Combat Properties")]
+        [SerializeField] float damageTimeSpan = 4.0f;
+        [SerializeField] float fractionOfHPInstantOnRevival = 0.5f;
 
         // Cached References
         BaseStats baseStats = null;
@@ -29,11 +33,10 @@ namespace Frankie.Combat
         float deltaHPTimeFraction = 0.0f;
         LazyValue<float> currentHP;
         LazyValue<float> currentAP;
-        List<ActiveStatusEffect> currentStatusEffects = new List<ActiveStatusEffect>();
 
         // Events
         public event Action<bool> enterCombat;
-        public event Action<CombatParticipant, StateAlteredType, float> stateAltered;
+        public event Action<CombatParticipant, StateAlteredType, object> stateAltered;
 
         // Data Structures
         public enum StateAlteredType
@@ -81,7 +84,6 @@ namespace Frankie.Combat
             if (!inCombat) { return; }
             if (CheckIfDead()) { return; }
             UpdateCooldown();
-            // TODO:  Add logic for status effects (figure out how to handle various/many effects without this blowing up)
         }
 
         private void FixedUpdate()
@@ -146,32 +148,21 @@ namespace Frankie.Combat
             }
         }
 
-        public void ApplyStatusEffect(ActiveStatusEffect newStatusEffect)
+        public void ApplyStatusEffect(StatusEffect statusEffect)
         {
-            foreach (ActiveStatusEffect activeStatusEffect in currentStatusEffects)
-            {
-                if (activeStatusEffect.statusEffect == newStatusEffect.statusEffect)
-                {
-                    if (activeStatusEffect.value < newStatusEffect.value) { activeStatusEffect.value = newStatusEffect.value; } // Always take the higher value
-                    if (activeStatusEffect.timer < newStatusEffect.timer) { activeStatusEffect.timer = newStatusEffect.timer; } // Refresh to the higher timeout
-                    return;
-                }
-            }
-            currentStatusEffects.Add(newStatusEffect);
+            ActiveStatusEffect activeStatusEffect = gameObject.AddComponent(typeof(ActiveStatusEffect)) as ActiveStatusEffect;
+            activeStatusEffect.Setup(statusEffect);
 
             if (stateAltered != null)
             {
-                // TODO:  elaborate status effect applied -- this isn't enough information to handle the animation or whatever
-                // Alternatively status effect as linked list to grab last
-                stateAltered.Invoke(this, StateAlteredType.StatusEffectApplied, 0f);
+                stateAltered.Invoke(this, StateAlteredType.StatusEffectApplied, statusEffect.statusEffectType);
             }
         }
 
         public void ResurrectCharacter(float hp)
         {
-            // TODO:  Proper implementation of revives -- need to think on what portion immediate vs. rolling
             isDead = false;
-            currentHP.value = hp;
+            currentHP.value = hp * fractionOfHPInstantOnRevival;
             targetHP = hp;
             cooldownTimer = 0f;
             if (stateAltered != null)
