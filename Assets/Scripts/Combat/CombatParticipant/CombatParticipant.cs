@@ -36,23 +36,7 @@ namespace Frankie.Combat
 
         // Events
         public event Action<bool> enterCombat;
-        public event Action<CombatParticipant, StateAlteredType, object> stateAltered;
-
-        // Data Structures
-        public enum StateAlteredType
-        {
-            DecreaseHP,
-            IncreaseHP,
-            AdjustHPNonSpecific,
-            IncreaseAP,
-            DecreaseAP,
-            Dead,
-            Resurrected,
-            StatusEffectApplied,
-            CooldownSet,
-            CooldownExpired
-        }
-
+        public event Action<CombatParticipant, StateAlteredData> stateAltered;
 
         private void Awake()
         {
@@ -123,8 +107,8 @@ namespace Frankie.Combat
 
             if (stateAltered != null)
             {
-                if (points < 0) { stateAltered.Invoke(this, StateAlteredType.DecreaseHP, points); }
-                else if (points > 0) { stateAltered.Invoke(this, StateAlteredType.IncreaseHP, points); }
+                if (points < 0) { stateAltered.Invoke(this, new StateAlteredData(StateAlteredType.DecreaseHP, points)); }
+                else if (points > 0) { stateAltered.Invoke(this, new StateAlteredData(StateAlteredType.IncreaseHP, points)); }
             }
         }
 
@@ -143,8 +127,8 @@ namespace Frankie.Combat
 
             if (stateAltered != null)
             {
-                if (points < 0) { stateAltered.Invoke(this, StateAlteredType.DecreaseAP, points); }
-                else if (points > 0) { stateAltered.Invoke(this, StateAlteredType.IncreaseAP, points); }
+                if (points < 0) { stateAltered.Invoke(this, new StateAlteredData(StateAlteredType.DecreaseAP, points)); }
+                else if (points > 0) { stateAltered.Invoke(this, new StateAlteredData(StateAlteredType.IncreaseAP, points)); }
             }
         }
 
@@ -155,7 +139,7 @@ namespace Frankie.Combat
 
             if (stateAltered != null)
             {
-                stateAltered.Invoke(this, StateAlteredType.StatusEffectApplied, statusEffect.statusEffectType);
+                stateAltered.Invoke(this, new StateAlteredData(StateAlteredType.StatusEffectApplied, statusEffect.statusEffectType));
             }
         }
 
@@ -167,7 +151,7 @@ namespace Frankie.Combat
             cooldownTimer = 0f;
             if (stateAltered != null)
             {
-                stateAltered.Invoke(this, StateAlteredType.Resurrected, 0f);
+                stateAltered.Invoke(this, new StateAlteredData(StateAlteredType.Resurrected));
             }
         }
 
@@ -177,7 +161,7 @@ namespace Frankie.Combat
             cooldownTimer = seconds;
             if (stateAltered != null)
             {
-                stateAltered.Invoke(this, StateAlteredType.CooldownSet, 0f);
+                stateAltered.Invoke(this, new StateAlteredData(StateAlteredType.CooldownSet));
             }
         }
 
@@ -253,7 +237,7 @@ namespace Frankie.Combat
                 }
                 if (stateAltered != null)
                 {
-                    stateAltered.Invoke(this, StateAlteredType.Dead, 0f);
+                    stateAltered.Invoke(this, new StateAlteredData(StateAlteredType.Dead));
                 }
             }
             if (isDead) { return true; }
@@ -270,7 +254,7 @@ namespace Frankie.Combat
 
                 if (stateAltered != null)
                 {
-                     stateAltered.Invoke(this, StateAlteredType.AdjustHPNonSpecific, 0f);
+                     stateAltered.Invoke(this, new StateAlteredData(StateAlteredType.AdjustHPNonSpecific));
                 }
             }
         }
@@ -283,7 +267,7 @@ namespace Frankie.Combat
                 inCooldown = false;
                 if (stateAltered != null)
                 {
-                    stateAltered.Invoke(this, StateAlteredType.CooldownExpired, 0f);
+                    stateAltered.Invoke(this, new StateAlteredData(StateAlteredType.CooldownExpired));
                 }
             }
         }

@@ -5,7 +5,6 @@ using System.Linq;
 using Frankie.Core;
 using Frankie.Combat;
 using Frankie.Stats;
-using static Frankie.Combat.BattleController;
 
 namespace Frankie.Control
 {
@@ -18,14 +17,6 @@ namespace Frankie.Control
             public CursorType type;
             public Texture2D texture;
             public Vector2 hotspot;
-        }
-
-        [System.Serializable]
-        public enum PlayerState
-        {
-            inWorld,
-            inTransition,
-            inBattle
         }
 
         // Tunables
@@ -111,24 +102,27 @@ namespace Frankie.Control
             battleController.battleStateChanged -= HandleCombatComplete;
 
             Fader fader = FindObjectOfType<Fader>();
-            fader.battleCanvasDisabled += ExitCombat;
+            fader.battleCanvasStateChanged += ExitCombat;
             transitionType = TransitionType.BattleComplete;
             fader.UpdateFadeState(transitionType);
         }
 
-        private void ExitCombat()
+        private void ExitCombat(bool isBattleCanvasEnabled)
         {
-            // TODO:  Handling for party death
-
-            playerState = PlayerState.inWorld;
-            if (playerStateChanged != null)
+            if (!isBattleCanvasEnabled)
             {
-                playerStateChanged();
-            }
+                // TODO:  Handling for party death
 
-            FindObjectOfType<Fader>().battleCanvasDisabled -= ExitCombat;
-            Destroy(battleController.gameObject);
-            battleController = null;
+                playerState = PlayerState.inWorld;
+                if (playerStateChanged != null)
+                {
+                    playerStateChanged();
+                }
+
+                FindObjectOfType<Fader>().battleCanvasStateChanged -= ExitCombat;
+                Destroy(battleController.gameObject);
+                battleController = null;
+            }
         }
 
         public PlayerState GetPlayerState()

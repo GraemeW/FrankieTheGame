@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
-using static Frankie.Combat.BattleController;
 
 namespace Frankie.Combat.UI
 {

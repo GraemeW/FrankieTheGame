@@ -25,8 +25,7 @@ namespace Frankie.Core
         Canvas battleCanvas = null;
 
         // Events
-        public event Action battleCanvasEnabled;
-        public event Action battleCanvasDisabled;
+        public event Action<bool> battleCanvasStateChanged;
 
         private void Start()
         {
@@ -53,9 +52,9 @@ namespace Frankie.Core
             else if (transitionType == TransitionType.BattleComplete)
             {
                 battleCanvas.gameObject.SetActive(false);
-                if (battleCanvasDisabled != null)
+                if (battleCanvasStateChanged != null)
                 {
-                    battleCanvasDisabled.Invoke();
+                    battleCanvasStateChanged.Invoke(false);
                 }
                 Destroy(battleCanvas.gameObject);
                 battleCanvas = null;
@@ -64,9 +63,9 @@ namespace Frankie.Core
             {
                 if (battleCanvas == null) { battleCanvas = Instantiate(battleCanvasPrefab); }
                 battleCanvas.gameObject.SetActive(true);
-                if (battleCanvasEnabled != null)
+                if (battleCanvasStateChanged != null)
                 {
-                    battleCanvasEnabled.Invoke();
+                    battleCanvasStateChanged.Invoke(true);
                 }
             }
             yield return QueueFadeExit();

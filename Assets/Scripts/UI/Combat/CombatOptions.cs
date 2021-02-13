@@ -1,7 +1,6 @@
 using Frankie.Dialogue.UI;
 using UnityEngine;
 using UnityEngine.UI;
-using static Frankie.Combat.BattleController;
 
 namespace Frankie.Combat.UI
 {

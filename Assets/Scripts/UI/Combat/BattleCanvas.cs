@@ -3,8 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
 using Frankie.Dialogue.UI;
-using static Frankie.Combat.BattleController;
-using Frankie.Stats;
 using UnityEngine.UI;
 
 namespace Frankie.Combat.UI

@@ -2,7 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
-using static Frankie.Combat.CombatParticipant;
 using UnityEngine.UI;
 
 namespace Frankie.Combat.UI
@@ -48,12 +47,14 @@ namespace Frankie.Combat.UI
         protected override void OnEnable()
         {
             base.OnEnable();
+            battleController.selectedCharacterChanged += HighlightSlide;
             GetComponent<Button>().onClick.AddListener(delegate { battleController.SetSelectedCharacter(GetCombatParticipant()); });
         }
 
         protected override void OnDisable()
         {
             base.OnDisable();
+            battleController.selectedCharacterChanged -= HighlightSlide;
             GetComponent<Button>().onClick.RemoveAllListeners();
         }
 
@@ -73,38 +74,41 @@ namespace Frankie.Combat.UI
             UpdateColor();
         }
 
-        protected override void ParseState(CombatParticipant combatParticipant, StateAlteredType stateAlteredType, object stateDetail)
+        protected override void ParseState(CombatParticipant combatParticipant, StateAlteredData stateAlteredData)
         {
-            if (stateAlteredType == StateAlteredType.IncreaseHP || stateAlteredType == StateAlteredType.DecreaseHP || stateAlteredType == StateAlteredType.AdjustHPNonSpecific)
+            if (stateAlteredData.stateAlteredType == StateAlteredType.IncreaseHP 
+                || stateAlteredData.stateAlteredType == StateAlteredType.DecreaseHP 
+                || stateAlteredData.stateAlteredType == StateAlteredType.AdjustHPNonSpecific)
             {
                 UpdateHP(this.combatParticipant.GetHP());
-                if (stateAlteredType == StateAlteredType.IncreaseHP)
+                if (stateAlteredData.stateAlteredType == StateAlteredType.IncreaseHP)
                 {
-                    float points = (float)stateDetail;
+                    float points = stateAlteredData.points;
                     damageTextSpawner.Spawn(points);
                 }
-                else if (stateAlteredType == StateAlteredType.DecreaseHP)
+                else if (stateAlteredData.stateAlteredType == StateAlteredType.DecreaseHP)
                 {
-                    float points = (float)stateDetail;
+                    float points = stateAlteredData.points;
                     damageTextSpawner.Spawn(points);
                     bool strongShakeEnable = false;
                     if (points > combatParticipant.GetHP()) { strongShakeEnable = true; }
                     ShakeSlide(strongShakeEnable);
                 }
             }
-            else if (stateAlteredType == StateAlteredType.IncreaseAP || stateAlteredType == StateAlteredType.DecreaseAP)
+            else if (stateAlteredData.stateAlteredType == StateAlteredType.IncreaseAP 
+                || stateAlteredData.stateAlteredType == StateAlteredType.DecreaseAP)
             {
                 UpdateAP(this.combatParticipant.GetAP());
             }
             // TODO:  add behavior for other state altered types (death, etc.)
             // TODO:  update slide graphics / animation for each behavior
 
-            if (stateAlteredType == StateAlteredType.CooldownSet)
+            if (stateAlteredData.stateAlteredType == StateAlteredType.CooldownSet)
             {
                 slideState = SlideState.cooldown;
                 UpdateColor();
             }
-            else if (stateAlteredType == StateAlteredType.CooldownExpired)
+            else if (stateAlteredData.stateAlteredType == StateAlteredType.CooldownExpired)
             {
                 slideState = SlideState.ready;
                 UpdateColor();

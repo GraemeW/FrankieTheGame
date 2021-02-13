@@ -5,7 +5,6 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-using static Frankie.Combat.CombatParticipant;
 using static Frankie.Combat.Skill;
 
 namespace Frankie.Combat
@@ -40,44 +39,6 @@ namespace Frankie.Combat
         public event Action<BattleInputType> battleInput;
         public event Action<BattleSequence> battleSequenceProcessed;
 
-        // Data structures
-        public enum BattleState
-        {
-            Inactive,
-            Intro,
-            PreCombat,
-            Combat,
-            Outro,
-            LevelUp,
-            Complete
-        }
-
-        public enum BattleOutcome
-        {
-            Undetermined,
-            Won,
-            Lost,
-            Ran,
-            Bargained
-        }
-
-        public enum BattleInputType
-        {
-            DefaultNone,
-            NavigateUp,
-            NavigateLeft,
-            NavigateRight,
-            NavigateDown,
-            Execute
-        }
-
-        public struct BattleSequence
-        {
-            public CombatParticipant sender;
-            public CombatParticipant recipient;
-            public Skill skill;
-        }
-
         // Public Functions
         public void Setup(List<CombatParticipant> enemies, TransitionType transitionType)
         {
@@ -94,7 +55,7 @@ namespace Frankie.Combat
                 enemy.stateAltered += CheckForBattleEnd;
                 activeEnemies.Add(enemy);
             }
-            FindObjectOfType<Fader>().battleCanvasEnabled += InitiateBattle;
+            FindObjectOfType<Fader>().battleCanvasStateChanged += InitiateBattle;
         }
 
         public void SetBattleState(BattleState state)
@@ -247,10 +208,13 @@ namespace Frankie.Combat
             }
         }
 
-        private void InitiateBattle()
+        private void InitiateBattle(bool isBattleCanvasEnabled)
         {
-            FindObjectOfType<Fader>().battleCanvasEnabled -= InitiateBattle;
-            SetBattleState(BattleState.Intro);
+            if (isBattleCanvasEnabled)
+            {
+                FindObjectOfType<Fader>().battleCanvasStateChanged -= InitiateBattle;
+                SetBattleState(BattleState.Intro);
+            }
         }
 
         private void AutoSelectCharacter()
@@ -483,9 +447,9 @@ namespace Frankie.Combat
             }
         }
 
-        private void CheckForBattleEnd(CombatParticipant combatParticipant, StateAlteredType stateAlteredType, object points)
+        private void CheckForBattleEnd(CombatParticipant combatParticipant, StateAlteredData stateAlteredData)
         {
-            if (stateAlteredType == StateAlteredType.Dead)
+            if (stateAlteredData.stateAlteredType == StateAlteredType.Dead)
             {
                 if (activeCharacters.All(x => x.IsDead() == true))
                 {

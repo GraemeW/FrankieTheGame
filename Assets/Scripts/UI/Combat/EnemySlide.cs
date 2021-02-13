@@ -2,7 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using static Frankie.Combat.CombatParticipant;
 
 namespace Frankie.Combat.UI
 {
@@ -16,11 +15,13 @@ namespace Frankie.Combat.UI
         protected override void OnEnable()
         {
             base.OnEnable();
+            battleController.selectedEnemyChanged += HighlightSlide;
         }
 
         protected override void OnDisable()
         {
             base.OnDisable();
+            battleController.selectedEnemyChanged -= HighlightSlide;
         }
 
         public override void SetCombatParticipant(CombatParticipant combatParticipant)
@@ -29,23 +30,24 @@ namespace Frankie.Combat.UI
             UpdateImage(this.combatParticipant.GetCombatSprite());
         }
 
-        protected override void ParseState(CombatParticipant combatParticipant, StateAlteredType stateAlteredType, object stateDetail)
+        protected override void ParseState(CombatParticipant combatParticipant, StateAlteredData stateAlteredData)
         {
-            if (stateAlteredType == StateAlteredType.IncreaseHP || stateAlteredType == StateAlteredType.DecreaseHP)
+            if (stateAlteredData.stateAlteredType == StateAlteredType.IncreaseHP 
+                || stateAlteredData.stateAlteredType == StateAlteredType.DecreaseHP)
             {
-                float points = (float)stateDetail;
+                float points = stateAlteredData.points;
                 damageTextSpawner.Spawn(points);
-                if (stateAlteredType == StateAlteredType.DecreaseHP)
+                if (stateAlteredData.stateAlteredType == StateAlteredType.DecreaseHP)
                 {
                     ShakeSlide(false);   
                 }
             }
-            else if (stateAlteredType == StateAlteredType.Dead)
+            else if (stateAlteredData.stateAlteredType == StateAlteredType.Dead)
             {
                 GetComponent<Button>().enabled = false;
                 GetComponent<Image>().CrossFadeAlpha(0f, deathFadeTime, false);
             }
-            else if (stateAlteredType == StateAlteredType.Resurrected)
+            else if (stateAlteredData.stateAlteredType == StateAlteredType.Resurrected)
             {
                 GetComponent<Button>().enabled = true;
                 GetComponent<Image>().CrossFadeAlpha(1f, deathFadeTime, false);

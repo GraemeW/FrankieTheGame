@@ -2,7 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using static Frankie.Combat.CombatParticipant;
 
 namespace Frankie.Combat.UI
 {
@@ -33,12 +32,11 @@ namespace Frankie.Combat.UI
 
         protected virtual void OnEnable()
         {
-            battleController.selectedCharacterChanged += HighlightSlide;
+            // implemented in child classes
         }
 
         protected virtual void OnDisable()
         {
-            battleController.selectedCharacterChanged -= HighlightSlide;
             if (combatParticipant != null)
             {
                 combatParticipant.stateAltered -= ParseState;
@@ -110,7 +108,7 @@ namespace Frankie.Combat.UI
             // implemented in child classes
         }
 
-        protected virtual void ParseState(CombatParticipant combatParticipant, StateAlteredType stateAlteredType, object stateDetail)
+        protected virtual void ParseState(CombatParticipant combatParticipant, StateAlteredData stateAlteredData)
         {
             // implemented in child classes
         }

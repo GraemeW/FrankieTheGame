@@ -5,6 +5,7 @@ using UnityEngine;
 
 namespace Frankie.Combat
 {
+    [RequireComponent(typeof(CombatParticipant))]
     public class ActiveStatusEffect : MonoBehaviour
     {
         // State
