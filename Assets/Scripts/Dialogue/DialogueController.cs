@@ -9,6 +9,8 @@ namespace Frankie.Dialogue
 {
     public class DialogueController : MonoBehaviour
     {
+        [SerializeField] GameObject dialogueBoxPrefab = null;
+
         // State
         Dialogue currentDialogue = null;
         DialogueNode currentNode = null;
@@ -40,6 +42,8 @@ namespace Frankie.Dialogue
 
             currentNode = currentDialogue.GetRootNode();
             if (currentDialogue.skipRootNode) { Next(false); }
+
+            Instantiate(dialogueBoxPrefab);
             TriggerEnterAction();
             if (dialogueUpdated != null)
             {
@@ -99,11 +103,13 @@ namespace Frankie.Dialogue
 
         public bool HasNext()
         {
+            if (currentDialogue == null) { return false; }
             return FilterOnCondition(currentNode.GetChildren()).Count() > 0;
         }
 
         public bool IsChoosing()
         {
+            if (currentDialogue == null) { return false; }
             return (GetChoiceCount() > 1 && GetNextSpeakerType() == SpeakerType.playerSpeaker);
         }
 

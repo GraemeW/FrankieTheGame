@@ -1,10 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Events;
 using Frankie.Core;
-using Frankie.Combat;
 using Frankie.Stats;
+using System.Text.RegularExpressions;
 
 namespace Frankie.Control
 {
@@ -12,11 +11,12 @@ namespace Frankie.Control
     {
         // Tunables
         [SerializeField] Transform interactionCenterPoint = null;
+        [Tooltip("Used if not found via base stats")] [SerializeField] string defaultName = "";
         [SerializeField] TransitionType battleEntryType = TransitionType.BattleGood; // HACK -- TO REMOVE, TESTING
 
         // Cached References
         Animator animator = null;
-        Rigidbody2D npcRigidBody2D = null;
+        BaseStats baseStats = null;
 
         // State
         Vector2 lookDirection = new Vector2();
@@ -25,12 +25,22 @@ namespace Frankie.Control
         private void Awake()
         {
             animator = GetComponent<Animator>();
-            npcRigidBody2D = GetComponent<Rigidbody2D>();
+            baseStats = GetComponent<BaseStats>();
         }
 
         private void Start()
         {
             lookDirection = Vector2.down;
+        }
+
+        public string GetName()
+        {
+            if (baseStats != null)
+            {
+                // Split apart name on lower case followed by upper case w/ or w/out underscores
+                return Regex.Replace(baseStats.GetCharacterName().ToString("G"), "([a-z])_?([A-Z])", "$1 $2");
+            }
+            return defaultName;
         }
 
         public void SetLookDirectionToPlayer(PlayerController callingController) // Unity Event

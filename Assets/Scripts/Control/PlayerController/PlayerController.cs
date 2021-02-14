@@ -107,7 +107,7 @@ namespace Frankie.Control
             fader.UpdateFadeState(transitionType);
         }
 
-        private void ExitCombat(bool isBattleCanvasEnabled)
+        public void ExitCombat(bool isBattleCanvasEnabled)
         {
             if (!isBattleCanvasEnabled)
             {

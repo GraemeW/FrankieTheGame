@@ -261,6 +261,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   selectionMarker: {fileID: 587053370915415545}
+  choiceOrder: 0
+  textField: {fileID: 5879544326553776133}
 --- !u!114 &366570592541661994
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -1,5 +1,106 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-5573000722113546104
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 09c07c7c6f4c666429a0bbc8d18232b2, type: 3}
+  m_Name: 44905298-6673-49b0-85a5-93849d601ace
+  m_EditorClassIdentifier: 
+  speakerType: 1
+  npcController: {fileID: 9137650141004882914, guid: 0daf9a7076465e146968c9d960d30ad1, type: 3}
+  speakerName: Default
+  text: Default Text to Overwrite
+  children:
+  - eeb786df-169e-42ce-92cb-44e2a9b58789
+  rect:
+    serializedVersion: 2
+    x: 2530
+    y: 30
+    width: 400
+    height: 225
+  draggingRect:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 400
+    height: 45
+  onEnterAction: 
+  onExitAction: 
+  condition:
+    and: []
+--- !u!114 &-4714613411660496932
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 09c07c7c6f4c666429a0bbc8d18232b2, type: 3}
+  m_Name: eeb786df-169e-42ce-92cb-44e2a9b58789
+  m_EditorClassIdentifier: 
+  speakerType: 0
+  npcController: {fileID: 0}
+  speakerName: Frankie
+  text: Default Text to Overwrite
+  children: []
+  rect:
+    serializedVersion: 2
+    x: 3030
+    y: 30
+    width: 400
+    height: 225
+  draggingRect:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 400
+    height: 45
+  onEnterAction: 
+  onExitAction: 
+  condition:
+    and: []
+--- !u!114 &-1038225091412654303
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 09c07c7c6f4c666429a0bbc8d18232b2, type: 3}
+  m_Name: cf269ebb-37db-4449-ad26-60a2571fc5d0
+  m_EditorClassIdentifier: 
+  speakerType: 1
+  npcController: {fileID: 9137650141004882914, guid: 30c6f3f30a3216e41bbc8a6ac45c57e0, type: 3}
+  speakerName: Default
+  text: Default Text to Overwrite
+  children:
+  - 44905298-6673-49b0-85a5-93849d601ace
+  rect:
+    serializedVersion: 2
+    x: 2030
+    y: 30
+    width: 400
+    height: 225
+  draggingRect:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 400
+    height: 45
+  onEnterAction: 
+  onExitAction: 
+  condition:
+    and: []
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -16,12 +117,51 @@ MonoBehaviour:
   newNodeOffset: {x: 100, y: 25}
   nodeWidth: 400
   nodeHeight: 225
-  aiSpeakers:
-  - {fileID: 3525205838266827032, guid: 30c6f3f30a3216e41bbc8a6ac45c57e0, type: 3}
+  activeNPCs:
+  - {fileID: 9137650141004882914, guid: 30c6f3f30a3216e41bbc8a6ac45c57e0, type: 3}
+  - {fileID: 9137650141004882914, guid: 0daf9a7076465e146968c9d960d30ad1, type: 3}
   dialogueNodes:
   - {fileID: 3905423182183052059}
   - {fileID: 3512824541218326437}
   - {fileID: 6303746657202670022}
+  - {fileID: 808212098087165959}
+  - {fileID: 7841665877052730249}
+  - {fileID: -1038225091412654303}
+  - {fileID: -5573000722113546104}
+  - {fileID: -4714613411660496932}
+--- !u!114 &808212098087165959
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 09c07c7c6f4c666429a0bbc8d18232b2, type: 3}
+  m_Name: 0ed42d8f-93ed-441b-92b6-c0fe8c639ed9
+  m_EditorClassIdentifier: 
+  speakerType: 0
+  npcController: {fileID: 0}
+  speakerName: Frankie
+  text: Default Text to Overwrite
+  children: []
+  rect:
+    serializedVersion: 2
+    x: 530
+    y: 280
+    width: 400
+    height: 225
+  draggingRect:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 400
+    height: 45
+  onEnterAction: 
+  onExitAction: 
+  condition:
+    and: []
 --- !u!114 &3512824541218326437
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -35,8 +175,8 @@ MonoBehaviour:
   m_Name: d671e2c8-4455-44bb-9dec-ed11f477f317
   m_EditorClassIdentifier: 
   speakerType: 0
-  aiSpeaker: {fileID: 0}
-  speakerName: Default
+  npcController: {fileID: 0}
+  speakerName: Frankie
   text: Default Text to Overwrite
   children:
   - aa10c776-c520-4da3-9309-c550c7d348c8
@@ -69,11 +209,12 @@ MonoBehaviour:
   m_Name: af70d2fc-c964-49e1-83d9-e5118dfd5c27
   m_EditorClassIdentifier: 
   speakerType: 1
-  aiSpeaker: {fileID: 3525205838266827032, guid: 30c6f3f30a3216e41bbc8a6ac45c57e0, type: 3}
-  speakerName: fdfdadsasd
+  npcController: {fileID: 9137650141004882914, guid: 30c6f3f30a3216e41bbc8a6ac45c57e0, type: 3}
+  speakerName: Default
   text: Default Text to Overwrite
   children:
   - d671e2c8-4455-44bb-9dec-ed11f477f317
+  - 0ed42d8f-93ed-441b-92b6-c0fe8c639ed9
   rect:
     serializedVersion: 2
     x: 30
@@ -103,13 +244,48 @@ MonoBehaviour:
   m_Name: aa10c776-c520-4da3-9309-c550c7d348c8
   m_EditorClassIdentifier: 
   speakerType: 1
-  aiSpeaker: {fileID: 3525205838266827032, guid: 30c6f3f30a3216e41bbc8a6ac45c57e0, type: 3}
-  speakerName: fdfdadsasd
+  npcController: {fileID: 9137650141004882914, guid: 30c6f3f30a3216e41bbc8a6ac45c57e0, type: 3}
+  speakerName: Default
   text: Default Text to Overwrite
-  children: []
+  children:
+  - 3ec369ef-44a5-45ff-9dc3-dcd491316e7d
   rect:
     serializedVersion: 2
     x: 1030
+    y: 30
+    width: 400
+    height: 225
+  draggingRect:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 400
+    height: 45
+  onEnterAction: 
+  onExitAction: 
+  condition:
+    and: []
+--- !u!114 &7841665877052730249
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 09c07c7c6f4c666429a0bbc8d18232b2, type: 3}
+  m_Name: 3ec369ef-44a5-45ff-9dc3-dcd491316e7d
+  m_EditorClassIdentifier: 
+  speakerType: 0
+  npcController: {fileID: 0}
+  speakerName: Frankie
+  text: Default Text to Overwrite
+  children:
+  - cf269ebb-37db-4449-ad26-60a2571fc5d0
+  rect:
+    serializedVersion: 2
+    x: 1530
     y: 30
     width: 400
     height: 225

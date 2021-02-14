@@ -5,6 +5,7 @@ using UnityEditor;
 using UnityEditor.Callbacks;
 using UnityEngine;
 using Frankie.Dialogue;
+using Frankie.Control;
 
 namespace Frankie.Dialogue.Editor
 {
@@ -75,7 +76,7 @@ namespace Frankie.Dialogue.Editor
             speakerNameToFill = "";
         }
 
-        private string SetupNodeSpeaker(SpeakerType speaker, string speakerName)
+        private string SetupNodeSpeaker(DialogueNode dialogueNode, SpeakerType speaker, string speakerName)
         {
             speakerNameToFill = speakerName;
 
@@ -85,11 +86,12 @@ namespace Frankie.Dialogue.Editor
             }
             else if (speaker == SpeakerType.aiSpeaker)
             {
-                List<AIConversant> aiSpeakers = selectedDialogue.GetAISpeakers();
-                if (aiSpeakers.Count > 0)
+                List<NPCController> activeSpeakers = selectedDialogue.GetAISpeakers();
+                if (activeSpeakers.Count > 0)
                 {
-                    for (int i = 0; i < aiSpeakers.Count; i++)
+                    for (int i = 0; i < activeSpeakers.Count; i++)
                     {
+                        if (activeSpeakers[i] != dialogueNode.GetNPC()) { continue; }
                         if (i == 0) { nodeStyle.normal.background = EditorGUIUtility.Load("node1") as Texture2D; }
                         else if (i == 1) { nodeStyle.normal.background = EditorGUIUtility.Load("node2") as Texture2D; }
                         else if (i == 2) { nodeStyle.normal.background = EditorGUIUtility.Load("node5") as Texture2D; }
@@ -99,6 +101,7 @@ namespace Frankie.Dialogue.Editor
                 }
                 else { nodeStyle.normal.background = EditorGUIUtility.Load("node0") as Texture2D; }
             }
+            else { nodeStyle.normal.background = EditorGUIUtility.Load("node0") as Texture2D; }
             if (string.IsNullOrWhiteSpace(speakerNameToFill)) { speakerNameToFill = "Default"; }
 
             return speakerNameToFill;
@@ -207,7 +210,7 @@ namespace Frankie.Dialogue.Editor
 
         private void DrawNode(DialogueNode dialogueNode)
         {
-            SetupNodeSpeaker(dialogueNode.GetSpeakerType(), dialogueNode.GetSpeakerName());
+            SetupNodeSpeaker(dialogueNode, dialogueNode.GetSpeakerType(), dialogueNode.GetSpeakerName());
             GUILayout.BeginArea(dialogueNode.GetRect(), nodeStyle);
 
             // Dragging Header
@@ -232,12 +235,12 @@ namespace Frankie.Dialogue.Editor
             if (newSpeakerType != dialogueNode.GetSpeakerType())
             {
                 dialogueNode.SetSpeakerType(newSpeakerType);
-                dialogueNode.SetSpeakerName(SetupNodeSpeaker(newSpeakerType, ""));
+                dialogueNode.SetSpeakerName(SetupNodeSpeaker(dialogueNode, newSpeakerType, ""));
             }
 
             if (newSpeakerType != SpeakerType.playerSpeaker && speakerNameChanged)
             {
-                selectedDialogue.UpdateSpeakerName(dialogueNode.GetSpeaker(), newSpeakerName);
+                selectedDialogue.UpdateSpeakerName(dialogueNode.GetNPC(), newSpeakerName);
             }
             EditorGUILayout.Space(nodeBorder, false);
             EditorGUILayout.EndHorizontal();

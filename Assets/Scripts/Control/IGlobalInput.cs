@@ -6,6 +6,7 @@ namespace Frankie.Control
 {
     public interface IGlobalInput
     {
-        void HandleGlobalInput(string interactButtonOne = "Fire1");
+        bool HandleGlobalInput(string interactButtonOne = "Fire1");
+        bool HandleGlobalInput(KeyCode interactKeyOne = KeyCode.E);
     }
 }

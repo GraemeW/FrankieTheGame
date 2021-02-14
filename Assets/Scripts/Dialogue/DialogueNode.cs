@@ -1,3 +1,4 @@
+using Frankie.Control;
 using Frankie.Core;
 using System.Collections;
 using System.Collections.Generic;
@@ -11,7 +12,7 @@ namespace Frankie.Dialogue
     {
         [Header("Dialogue Properties")]
         [SerializeField] SpeakerType speakerType = SpeakerType.aiSpeaker;
-        [SerializeField] AIConversant aiSpeaker = null;
+        [SerializeField] NPCController npcController = null;
         [SerializeField] string speakerName = ""; // value gets over-written at runtime w/ value defined by aiConversant
         [SerializeField] string text = "";
         [SerializeField] List<string> children = new List<string>();
@@ -22,9 +23,9 @@ namespace Frankie.Dialogue
         [SerializeField] string onExitAction = "";
         [SerializeField] Condition condition = null;
 
-        public AIConversant GetSpeaker()
+        public NPCController GetNPC()
         {
-            return aiSpeaker;
+            return npcController;
         }
 
         public SpeakerType GetSpeakerType()

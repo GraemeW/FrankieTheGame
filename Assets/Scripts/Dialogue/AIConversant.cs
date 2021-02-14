@@ -1,8 +1,6 @@
 using Frankie.Control;
 using Frankie.Stats;
-using System.Collections;
-using System.Collections.Generic;
-using System.Text.RegularExpressions;
+using System;
 using UnityEngine;
 
 namespace Frankie.Dialogue
@@ -10,19 +8,17 @@ namespace Frankie.Dialogue
     public class AIConversant : Check
     {
         // Tunables
-        [Tooltip("Override by AIConversant attached to dialogue node")][SerializeField] string defaultName = "";
         [SerializeField] Dialogue dialogue = null;
-
-        // State
-        BaseStats baseStats = null;
 
         private void Awake()
         {
-            baseStats = GetComponentInParent<BaseStats>(); // Standard implementation has conversant on a childed game object to override 2D collider
-            if (baseStats == null)
-            {
-                baseStats = GetComponent<BaseStats>();
-            }
+            CheckForNPCControllerInParent();
+        }
+
+        private void CheckForNPCControllerInParent()
+        {
+            NPCController npcController = GetComponentInParent<NPCController>();
+            if (npcController == null) { throw new ArgumentException("Parameter cannot be null", nameof(npcController)); }
         }
 
         private void Start()
@@ -31,16 +27,6 @@ namespace Frankie.Dialogue
             {
                 dialogue.OverrideSpeakerNames();
             }
-        }
-
-        public string GetConversantName()
-        {
-            if (baseStats != null)
-            {
-                // Split apart name on lower case followed by upper case w/ or w/out underscores
-                return Regex.Replace(baseStats.GetCharacterName().ToString("G"), "([a-z])_?([A-Z])", "$1 $2");
-            }
-            return defaultName;
         }
 
         public override bool HandleRaycast(PlayerController callingController, string interactButtonOne = "Fire1", string interactButtonTwo = "Fire2")
