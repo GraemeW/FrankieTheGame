@@ -33,7 +33,7 @@ namespace Frankie.Control
             lookDirection = Vector2.down;
         }
 
-        public void SetLookDirectionToPlayer(PlayerController callingController)
+        public void SetLookDirectionToPlayer(PlayerController callingController) // Unity Event
         {
             Vector2 lookDirection = callingController.GetInteractionPosition() - (Vector2)interactionCenterPoint.position;
             SetLookDirection(lookDirection);
@@ -41,6 +41,7 @@ namespace Frankie.Control
 
             // HACK:  Temporary to test combat
             // TODO:  Remove, implement properly
+            /*
             List<CombatParticipant> enemies = new List<CombatParticipant>();
             CombatParticipant enemy = GetComponent<CombatParticipant>();
             enemy.ResurrectCharacter(enemy.GetMaxHP());
@@ -49,7 +50,7 @@ namespace Frankie.Control
                 character.ResurrectCharacter(character.GetMaxHP());
             }
             enemies.Add(enemy);
-            callingController.EnterCombat(enemies, battleEntryType); 
+            callingController.EnterCombat(enemies, battleEntryType); */
         }
 
         public void SetLookDirection(Vector2 lookDirection)

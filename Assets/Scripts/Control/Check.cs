@@ -9,8 +9,8 @@ namespace Frankie.Control
     public class Check : MonoBehaviour, IRaycastable
     {
         // Tunables
-        [SerializeField] bool overrideDefaultInteractionDistance = false;
-        [SerializeField] float interactionDistance = 0.3f;
+        [SerializeField] protected bool overrideDefaultInteractionDistance = false;
+        [SerializeField] protected float interactionDistance = 0.3f;
 
         // Events
         public InteractionEvent checkInteraction;
@@ -22,12 +22,12 @@ namespace Frankie.Control
         }
 
         // Raycastable Interface Implementation
-        public CursorType GetCursorType()
+        public virtual CursorType GetCursorType()
         {
             return CursorType.Check;
         }
 
-        public bool HandleRaycast(PlayerController callingController, string interactButtonOne = "Fire1", string interactButtonTwo = "Fire2")
+        public virtual bool HandleRaycast(PlayerController callingController, string interactButtonOne = "Fire1", string interactButtonTwo = "Fire2")
         {
             if (!this.CheckDistance(gameObject, transform.position, callingController,
                 overrideDefaultInteractionDistance, interactionDistance))
@@ -41,12 +41,11 @@ namespace Frankie.Control
                 {
                     checkInteraction.Invoke(callingController);
                 }
-                
             }
             return true;
         }
 
-        public bool HandleRaycast(PlayerController callingController, KeyCode interactKeyOne = KeyCode.E, KeyCode interactKeyTwo = KeyCode.Return)
+        public virtual bool HandleRaycast(PlayerController callingController, KeyCode interactKeyOne = KeyCode.E, KeyCode interactKeyTwo = KeyCode.Return)
         {
             if (!this.CheckDistance(gameObject, transform.position, callingController,
                 overrideDefaultInteractionDistance, interactionDistance))

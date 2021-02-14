@@ -13,8 +13,35 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   friendly: 0
-  damageTimeSpan: 4
   combatSprite: {fileID: 21300000, guid: 1c858d8fb5e60954cac7c6fa51165fd2, type: 3}
+  damageTimeSpan: 4
+  fractionOfHPInstantOnRevival: 0.5
+--- !u!114 &1387745738153086068
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8937208100927724530}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 292cbe0fa78f411468ca518291de60fb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  probabilityToTraverseSkillTree: 0.8
+--- !u!114 &8207874701663177892
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8937208100927724530}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9500bc738f48a9b40a11b28b434aa2b9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  skillTree: {fileID: 11400000, guid: 04dead9955034474482cf14a5b110e21, type: 2}
 --- !u!1001 &2436801356840233352
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -88,7 +115,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6761616658632847994, guid: 1b473d8838e3d4d4c99f7ff6e30d07df, type: 3}
       propertyPath: m_Name
-      value: OfficeWorker 1
+      value: HipsterOfficeWorker
       objectReference: {fileID: 0}
     - target: {fileID: 6762723866359945157, guid: 1b473d8838e3d4d4c99f7ff6e30d07df, type: 3}
       propertyPath: characterName
