@@ -11,8 +11,7 @@ namespace Frankie.Control
     {
         // Tunables
         [SerializeField] Transform interactionCenterPoint = null;
-        [Tooltip("Used if not found via base stats")] [SerializeField] string defaultName = "";
-        [SerializeField] TransitionType battleEntryType = TransitionType.BattleGood; // HACK -- TO REMOVE, TESTING
+        [Tooltip("Only used if not found via base stats")] [SerializeField] string defaultName = "";
 
         // Cached References
         Animator animator = null;
@@ -38,7 +37,7 @@ namespace Frankie.Control
             if (baseStats != null)
             {
                 // Split apart name on lower case followed by upper case w/ or w/out underscores
-                return Regex.Replace(baseStats.GetCharacterName().ToString("G"), "([a-z])_?([A-Z])", "$1 $2");
+                return baseStats.GetCharacterNamePretty();
             }
             return defaultName;
         }

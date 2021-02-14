@@ -26,6 +26,7 @@ namespace Frankie.Dialogue.UI
         bool isWriting = false;
         bool interruptWriting = false;
         bool queuePageClear = false;
+        Coroutine activeTextScan = null;
         Queue<ReceptacleTextPair> printQueue = new Queue<ReceptacleTextPair>();
         List<GameObject> printedJobs = new List<GameObject>();
         bool destroyQueued = false;
@@ -42,6 +43,7 @@ namespace Frankie.Dialogue.UI
         {
             public GameObject receptacle;
             public string text;
+            public bool isChoice;
         }
 
         private struct CallbackMessagePair
@@ -53,6 +55,7 @@ namespace Frankie.Dialogue.UI
         protected virtual void Awake()
         {
             dialogueController = GameObject.FindGameObjectWithTag("Player").GetComponent<DialogueController>();
+            destroyQueued = false;
         }
 
         protected virtual void OnEnable()
@@ -71,9 +74,11 @@ namespace Frankie.Dialogue.UI
 
         protected virtual void Update()
         {
+            if (destroyQueued) { return; }
+
             if (!isWriting && printQueue.Count != 0)
             {
-                StartCoroutine(TextScan(printQueue.Dequeue()));
+                activeTextScan = StartCoroutine(TextScan(printQueue.Dequeue()));
             }
 
             if (!dialogueController.IsChoosing())
@@ -83,28 +88,46 @@ namespace Frankie.Dialogue.UI
             if (HandleChoiceInput()) { return; }
         }
 
+        public void SetDisableCallback(IDialogueBoxCallbackReceiver callbackReceiver, string callbackMessage)
+        {
+            CallbackMessagePair callbackMessagePair = new CallbackMessagePair
+            {
+                receiver = callbackReceiver,
+                message = callbackMessage
+            };
+            disableCallbacks.Add(callbackMessagePair);
+        }
+
         public void Choose(string nodeID)
         {
+            StopCoroutine(activeTextScan);
             dialogueController.NextWithID(nodeID);
         }
 
         private void UpdateUI()
         {
+            if (!dialogueController.IsActive()) { QueueDialogueCompletion(); return; }
+
             ResetUI();
             SetSimpleText();
             if (dialogueController.IsChoosing())
             {
                 SetChoiceList();
             }
-            else
-            {
-                dialogueController.gameObject.SetActive(dialogueController.HasNext());
-            }
         }
 
         private void ResetUI()
         {
             ClearOldDialogue();
+        }
+
+        private void QueueDialogueCompletion()
+        {
+            if (!destroyQueued)
+            {
+                destroyQueued = true;
+                Destroy(gameObject, delayToDestroyWindow);
+            }
         }
 
         private void SetSimpleText()
@@ -147,18 +170,20 @@ namespace Frankie.Dialogue.UI
         public void AddSimpleText(string text)
         {
             GameObject textObject = Instantiate(simpleTextPrefab, dialogueParent);
-            QueueTextForPrinting(textObject, text);
+            textObject.SetActive(false);
+            QueueTextForPrinting(textObject, text, false);
         }
 
         public void AddSimpleSpeech(string text)
         {
             GameObject textObject = Instantiate(speechTextPrefab, dialogueParent);
-            QueueTextForPrinting(textObject, text);
+            textObject.SetActive(false);
+            QueueTextForPrinting(textObject, text, false);
         }
 
         public void AddPageBreak()
         {
-            QueueTextForPrinting(null, "BREAK");
+            QueueTextForPrinting(null, "BREAK", false);
         }
 
         public void AddChoice(DialogueNode choiceNode, int choiceIndex = 0)
@@ -167,26 +192,19 @@ namespace Frankie.Dialogue.UI
             DialogueChoiceOption dialogueChoiceOption = choiceObject.GetComponent<DialogueChoiceOption>();
             dialogueChoiceOption.SetChoiceOrder(choiceIndex);
             dialogueChoiceOption.SetText(choiceNode.GetText());
-
             choiceObject.GetComponent<Button>().onClick.AddListener(delegate { Choose(choiceNode.name); });
+            choiceObject.SetActive(false);
+
+            QueueTextForPrinting(choiceObject, null, true);
         }
 
-        public void SetDisableCallback(IDialogueBoxCallbackReceiver callbackReceiver, string callbackMessage)
-        {
-            CallbackMessagePair callbackMessagePair = new CallbackMessagePair
-            {
-                receiver = callbackReceiver,
-                message = callbackMessage
-            };
-            disableCallbacks.Add(callbackMessagePair);
-        }
-
-        private void QueueTextForPrinting(GameObject textObject, string text)
+        private void QueueTextForPrinting(GameObject textObject, string text, bool isChoice)
         {
             ReceptacleTextPair receptacleTextPair = new ReceptacleTextPair
             {
                 receptacle = textObject,
-                text = text
+                text = text,
+                isChoice = isChoice
             };
             printQueue.Enqueue(receptacleTextPair);
         }
@@ -195,11 +213,33 @@ namespace Frankie.Dialogue.UI
         {
             if (receptacleTextPair.receptacle == null)
             {
-                isWriting = true;
-                queuePageClear = true;
-                yield break;
+                yield return PrintPageBreak();
             }
+            else if (receptacleTextPair.isChoice == true)
+            {
+                yield return PrintChoices(receptacleTextPair.receptacle);
+            }
+            else
+            {
+                yield return PrintText(receptacleTextPair);
+            }
+        }
 
+        private IEnumerator PrintPageBreak()
+        {
+            isWriting = true;
+            queuePageClear = true;
+            yield break;
+        }
+
+        private IEnumerator PrintChoices(GameObject choiceObject)
+        {
+            choiceObject.SetActive(true);
+            yield break;
+        }
+
+        private IEnumerator PrintText(ReceptacleTextPair receptacleTextPair)
+        {
             if (string.IsNullOrWhiteSpace(receptacleTextPair.text)) { yield break; }
             receptacleTextPair.receptacle.SetActive(true);
 
@@ -299,11 +339,6 @@ namespace Frankie.Dialogue.UI
                 else
                 {
                     dialogueController.EndConversation();
-                    if (!destroyQueued)
-                    {
-                        destroyQueued = true;
-                        Destroy(gameObject, delayToDestroyWindow);
-                    }
                 }
                 return true;
             }

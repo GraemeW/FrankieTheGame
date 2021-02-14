@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: 44905298-6673-49b0-85a5-93849d601ace
   m_EditorClassIdentifier: 
   speakerType: 1
-  npcController: {fileID: 9137650141004882914, guid: 0daf9a7076465e146968c9d960d30ad1, type: 3}
-  speakerName: Default
+  characterName: 3
+  speakerName: Clever Office Worker
   text: Default Text to Overwrite
   children:
   - eeb786df-169e-42ce-92cb-44e2a9b58789
@@ -47,7 +47,7 @@ MonoBehaviour:
   m_Name: eeb786df-169e-42ce-92cb-44e2a9b58789
   m_EditorClassIdentifier: 
   speakerType: 0
-  npcController: {fileID: 0}
+  characterName: 0
   speakerName: Frankie
   text: Default Text to Overwrite
   children: []
@@ -80,8 +80,8 @@ MonoBehaviour:
   m_Name: cf269ebb-37db-4449-ad26-60a2571fc5d0
   m_EditorClassIdentifier: 
   speakerType: 1
-  npcController: {fileID: 9137650141004882914, guid: 30c6f3f30a3216e41bbc8a6ac45c57e0, type: 3}
-  speakerName: Default
+  characterName: 3
+  speakerName: Clever Office Worker
   text: Default Text to Overwrite
   children:
   - 44905298-6673-49b0-85a5-93849d601ace
@@ -117,9 +117,7 @@ MonoBehaviour:
   newNodeOffset: {x: 100, y: 25}
   nodeWidth: 400
   nodeHeight: 225
-  activeNPCs:
-  - {fileID: 9137650141004882914, guid: 30c6f3f30a3216e41bbc8a6ac45c57e0, type: 3}
-  - {fileID: 9137650141004882914, guid: 0daf9a7076465e146968c9d960d30ad1, type: 3}
+  activeNPCs: 0200000003000000
   dialogueNodes:
   - {fileID: 3905423182183052059}
   - {fileID: 3512824541218326437}
@@ -142,9 +140,9 @@ MonoBehaviour:
   m_Name: 0ed42d8f-93ed-441b-92b6-c0fe8c639ed9
   m_EditorClassIdentifier: 
   speakerType: 0
-  npcController: {fileID: 0}
+  characterName: 0
   speakerName: Frankie
-  text: Default Text to Overwrite
+  text: No
   children: []
   rect:
     serializedVersion: 2
@@ -175,9 +173,9 @@ MonoBehaviour:
   m_Name: d671e2c8-4455-44bb-9dec-ed11f477f317
   m_EditorClassIdentifier: 
   speakerType: 0
-  npcController: {fileID: 0}
+  characterName: 0
   speakerName: Frankie
-  text: Default Text to Overwrite
+  text: Yes
   children:
   - aa10c776-c520-4da3-9309-c550c7d348c8
   rect:
@@ -209,9 +207,9 @@ MonoBehaviour:
   m_Name: af70d2fc-c964-49e1-83d9-e5118dfd5c27
   m_EditorClassIdentifier: 
   speakerType: 1
-  npcController: {fileID: 9137650141004882914, guid: 30c6f3f30a3216e41bbc8a6ac45c57e0, type: 3}
-  speakerName: Default
-  text: Default Text to Overwrite
+  characterName: 2
+  speakerName: Hipster Office Worker
+  text: Sup Bru?
   children:
   - d671e2c8-4455-44bb-9dec-ed11f477f317
   - 0ed42d8f-93ed-441b-92b6-c0fe8c639ed9
@@ -244,9 +242,9 @@ MonoBehaviour:
   m_Name: aa10c776-c520-4da3-9309-c550c7d348c8
   m_EditorClassIdentifier: 
   speakerType: 1
-  npcController: {fileID: 9137650141004882914, guid: 30c6f3f30a3216e41bbc8a6ac45c57e0, type: 3}
-  speakerName: Default
-  text: Default Text to Overwrite
+  characterName: 2
+  speakerName: Hipster Office Worker
+  text: My man!
   children:
   - 3ec369ef-44a5-45ff-9dc3-dcd491316e7d
   rect:
@@ -278,7 +276,7 @@ MonoBehaviour:
   m_Name: 3ec369ef-44a5-45ff-9dc3-dcd491316e7d
   m_EditorClassIdentifier: 
   speakerType: 0
-  npcController: {fileID: 0}
+  characterName: 0
   speakerName: Frankie
   text: Default Text to Overwrite
   children:

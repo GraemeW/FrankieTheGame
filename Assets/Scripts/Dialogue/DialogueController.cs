@@ -18,6 +18,7 @@ namespace Frankie.Dialogue
 
         // Cached References
         Party party = null;
+        WorldCanvas worldCanvas = null;
 
         // Events
         public event Action dialogueUpdated;
@@ -26,6 +27,7 @@ namespace Frankie.Dialogue
         private void Awake()
         {
             party = GetComponent<Party>();
+            worldCanvas = GameObject.FindGameObjectWithTag("WorldCanvas").GetComponent<WorldCanvas>();
         }
 
         public string GetPlayerName()
@@ -37,17 +39,16 @@ namespace Frankie.Dialogue
         {
             currentConversant = newConversant;
             currentDialogue = newDialogue;
-            currentDialogue.SetPlayer(this);
-            currentDialogue.OverrideSpeakerNames();
+            currentDialogue.OverrideSpeakerNames(GetPlayerName());
 
             currentNode = currentDialogue.GetRootNode();
             if (currentDialogue.skipRootNode) { Next(false); }
 
-            Instantiate(dialogueBoxPrefab);
+            Instantiate(dialogueBoxPrefab, worldCanvas.transform);
             TriggerEnterAction();
             if (dialogueUpdated != null)
             {
-                dialogueUpdated();
+                dialogueUpdated.Invoke();
             }
         }
 
@@ -59,7 +60,7 @@ namespace Frankie.Dialogue
             currentNode = null;
             if (dialogueUpdated != null)
             {
-                dialogueUpdated();
+                dialogueUpdated.Invoke();
             }
         }
 
@@ -128,7 +129,7 @@ namespace Frankie.Dialogue
                 {
                     if (dialogueUpdated != null)
                     {
-                        dialogueUpdated();
+                        dialogueUpdated.Invoke();
                         TriggerEnterAction();
                     }
                 }
@@ -146,7 +147,7 @@ namespace Frankie.Dialogue
                 if (withTriggers) { TriggerEnterAction(); }
                 if (dialogueUpdated != null)
                 {
-                    dialogueUpdated();
+                    dialogueUpdated.Invoke();
                 }
             }
         }

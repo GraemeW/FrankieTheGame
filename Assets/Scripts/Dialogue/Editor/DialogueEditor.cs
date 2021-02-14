@@ -4,8 +4,7 @@ using System.Collections.Generic;
 using UnityEditor;
 using UnityEditor.Callbacks;
 using UnityEngine;
-using Frankie.Dialogue;
-using Frankie.Control;
+using Frankie.Stats;
 
 namespace Frankie.Dialogue.Editor
 {
@@ -86,12 +85,12 @@ namespace Frankie.Dialogue.Editor
             }
             else if (speaker == SpeakerType.aiSpeaker)
             {
-                List<NPCController> activeSpeakers = selectedDialogue.GetAISpeakers();
+                List<CharacterName> activeSpeakers = selectedDialogue.GetActiveCharacterNames();
                 if (activeSpeakers.Count > 0)
                 {
                     for (int i = 0; i < activeSpeakers.Count; i++)
                     {
-                        if (activeSpeakers[i] != dialogueNode.GetNPC()) { continue; }
+                        if (activeSpeakers[i] != dialogueNode.GetCharacterName()) { continue; }
                         if (i == 0) { nodeStyle.normal.background = EditorGUIUtility.Load("node1") as Texture2D; }
                         else if (i == 1) { nodeStyle.normal.background = EditorGUIUtility.Load("node2") as Texture2D; }
                         else if (i == 2) { nodeStyle.normal.background = EditorGUIUtility.Load("node5") as Texture2D; }
@@ -240,7 +239,7 @@ namespace Frankie.Dialogue.Editor
 
             if (newSpeakerType != SpeakerType.playerSpeaker && speakerNameChanged)
             {
-                selectedDialogue.UpdateSpeakerName(dialogueNode.GetNPC(), newSpeakerName);
+                selectedDialogue.UpdateSpeakerName(dialogueNode.GetCharacterName(), newSpeakerName);
             }
             EditorGUILayout.Space(nodeBorder, false);
             EditorGUILayout.EndHorizontal();

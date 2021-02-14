@@ -3,11 +3,15 @@ using System.Collections.Generic;
 using UnityEngine;
 using Frankie.Utils;
 using System;
+using System.Text.RegularExpressions;
 
 namespace Frankie.Stats
 {
     public class BaseStats : MonoBehaviour
     {
+        // TODO:  Rethink character name:
+        // Quick thoughts -- define a CharacterProperty scriptable object, maintain static dictionary lookup on base stats;  progression pulls on those scriptable objects
+
         // Tunables
         [SerializeField] CharacterName characterName = CharacterName.None;
         [Range(1, 99)] [SerializeField] int defaultLevel = 1;
@@ -49,9 +53,14 @@ namespace Frankie.Stats
             }
         }
 
-        public CharacterName GetCharacterName()
+        public static string GetStaticCharacterNamePretty(CharacterName characterName)
         {
-            return characterName;
+            return Regex.Replace(characterName.ToString("G"), "([a-z])_?([A-Z])", "$1 $2");
+        }
+
+        public string GetCharacterNamePretty()
+        {
+            return Regex.Replace(characterName.ToString("G"), "([a-z])_?([A-Z])", "$1 $2");
         }
 
         public float GetStat(Stat stat)

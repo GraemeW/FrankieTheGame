@@ -4,6 +4,7 @@ namespace Frankie.Control
     public enum PlayerState
     {
         inWorld,
+        inDialogue,
         inTransition,
         inBattle
     }

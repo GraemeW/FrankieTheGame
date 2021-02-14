@@ -25,7 +25,7 @@ namespace Frankie.Dialogue
         {
             if (dialogue != null)
             {
-                dialogue.OverrideSpeakerNames();
+                dialogue.OverrideSpeakerNames(null);
             }
         }
 

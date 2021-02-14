@@ -92,7 +92,7 @@ namespace Frankie.Control
             playerState = PlayerState.inBattle;
             if (playerStateChanged != null)
             {
-                playerStateChanged();
+                playerStateChanged.Invoke();
             }
         }
 
@@ -113,16 +113,26 @@ namespace Frankie.Control
             {
                 // TODO:  Handling for party death
 
-                playerState = PlayerState.inWorld;
-                if (playerStateChanged != null)
-                {
-                    playerStateChanged();
-                }
-
                 FindObjectOfType<Fader>().battleCanvasStateChanged -= ExitCombat;
                 Destroy(battleController.gameObject);
                 battleController = null;
+
+                playerState = PlayerState.inWorld;
+                if (playerStateChanged != null)
+                {
+                    playerStateChanged.Invoke();
+                }
             }
+        }
+
+        public void EnterDialogue()
+        {
+            // TODO:  refactor to pull out dialogue controller as spawned entity
+        }
+
+        public void ExitDialogue()
+        {
+
         }
 
         public PlayerState GetPlayerState()
@@ -156,17 +166,14 @@ namespace Frankie.Control
         {
             if (playerState == PlayerState.inWorld)
             {
+                KillRogueControllers();
+
                 inputHorizontal = Input.GetAxis("Horizontal");
                 inputVertical = Input.GetAxis("Vertical");
                 if (InteractWithGlobals()) return;
                 if (InteractWithComponent()) return;
                 if (InteractWithComponentManual()) return;
                 SetCursor(CursorType.None);
-            }
-            else if (playerState == PlayerState.inBattle)
-            {
-                if (InteractWithGlobals()) return;
-                // Aside from globals, handled by BattleController
             }
             // Some level of input now also handled by dialogueBox && extensions -- I don't love this, think of a nicer way to handle
             // Maybe fold into playerconversant (generalize to dialogue controller) && centralize interaction there?
@@ -178,6 +185,15 @@ namespace Frankie.Control
             {
                 InteractWithMovement();
             }
+        }
+
+        private void KillRogueControllers()
+        {
+            if (battleController != null)
+            {
+                HandleCombatComplete(BattleState.Complete);
+            }
+            // TODO:  same for dialogue, once implemented
         }
 
         // TODO:  Implement new unity input system

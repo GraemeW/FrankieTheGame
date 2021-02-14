@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Interactable
   - BattleController
+  - WorldCanvas
   layers:
   - Default
   - TransparentFX
