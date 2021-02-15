@@ -42,7 +42,6 @@ GameObject:
   - component: {fileID: 9140000498525693429}
   - component: {fileID: 9140000498525693418}
   - component: {fileID: 9140000498525693419}
-  - component: {fileID: -3045276945660388784}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -78,6 +77,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fdf60f211944627448699ea1fcd66c3d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  interactSkipButton: Fire1
+  interactInspectButton: Fire2
+  interactInspectKey: 101
   cursorMappings:
   - type: 0
     texture: {fileID: 2800000, guid: 5913706450b54364e81fb38732a95c0c, type: 3}
@@ -134,19 +136,6 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 1
   m_Constraints: 4
---- !u!114 &-3045276945660388784
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9140000498525693431}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9290cc3b2b17f1d489b5b52b8e0748ba, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  dialogueBoxPrefab: {fileID: 6413694501190794285, guid: a9829c1cb69a159479cbe82e68a5c629, type: 3}
 --- !u!1 &9140000498835536799
 GameObject:
   m_ObjectHideFlags: 0

@@ -1,4 +1,4 @@
-namespace Frankie.Dialogue
+namespace Frankie.Speech
 {
     public enum SpeakerType
     {

@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using Frankie.Control;
 
-namespace Frankie.Dialogue.UI
+namespace Frankie.Speech.UI
 {
     public class DialogueBox : MonoBehaviour, IGlobalInput
     {
@@ -16,24 +16,23 @@ namespace Frankie.Dialogue.UI
         [SerializeField] protected Transform optionParent = null;
         [SerializeField] GameObject optionPrefab = null;
         [Header("Parameters")]
-        [SerializeField] bool handleGlobalInput = true;
+        [SerializeField] protected bool handleGlobalInput = true;
         [SerializeField] float delayToDestroyWindow = 0.1f; // Seconds
         [SerializeField] float delayBetweenCharacters = 0.05f; // Seconds
         [Header("Choices")]
         [SerializeField] protected KeyCode choiceInteractKey = KeyCode.E;
 
-        // State -- Message Writing
+        // State -- Toggles
         bool isWriting = false;
         bool interruptWriting = false;
         bool queuePageClear = false;
+        bool destroyQueued = false;
+
+        // State -- Stored references
         Coroutine activeTextScan = null;
         Queue<ReceptacleTextPair> printQueue = new Queue<ReceptacleTextPair>();
         List<GameObject> printedJobs = new List<GameObject>();
-        bool destroyQueued = false;
         List<CallbackMessagePair> disableCallbacks = new List<CallbackMessagePair>();
-
-        // State -- Choices
-        protected DialogueChoiceOption highlightedChoiceOption = null;
 
         // Cached References
         DialogueController dialogueController = null;
@@ -60,12 +59,20 @@ namespace Frankie.Dialogue.UI
 
         protected virtual void OnEnable()
         {
-            dialogueController.dialogueUpdated += UpdateUI;
+            if (dialogueController != null)
+            {
+                dialogueController.globalInput += HandleGlobalInput;
+                dialogueController.dialogueUpdated += UpdateUI;
+            }
         }
 
         protected virtual void OnDisable()
         {
-            dialogueController.dialogueUpdated -= UpdateUI;
+            if (dialogueController != null)
+            {
+                dialogueController.globalInput -= HandleGlobalInput;
+                dialogueController.dialogueUpdated -= UpdateUI;
+            }
             foreach (CallbackMessagePair callbackMessagePair in disableCallbacks)
             {
                 callbackMessagePair.receiver.HandleDialogueCallback(callbackMessagePair.message);
@@ -80,12 +87,6 @@ namespace Frankie.Dialogue.UI
             {
                 activeTextScan = StartCoroutine(TextScan(printQueue.Dequeue()));
             }
-
-            if (!dialogueController.IsChoosing())
-            {
-                if (HandleGlobalInput("Fire1") || HandleGlobalInput(KeyCode.E)) { return; }
-            }
-            if (HandleChoiceInput()) { return; }
         }
 
         public void SetDisableCallback(IDialogueBoxCallbackReceiver callbackReceiver, string callbackMessage)
@@ -98,27 +99,16 @@ namespace Frankie.Dialogue.UI
             disableCallbacks.Add(callbackMessagePair);
         }
 
-        public void Choose(string nodeID)
-        {
-            StopCoroutine(activeTextScan);
-            dialogueController.NextWithID(nodeID);
-        }
-
         private void UpdateUI()
         {
             if (!dialogueController.IsActive()) { QueueDialogueCompletion(); return; }
 
-            ResetUI();
+            ClearOldDialogue();
             SetSimpleText();
             if (dialogueController.IsChoosing())
             {
                 SetChoiceList();
             }
-        }
-
-        private void ResetUI()
-        {
-            ClearOldDialogue();
         }
 
         private void QueueDialogueCompletion()
@@ -127,6 +117,20 @@ namespace Frankie.Dialogue.UI
             {
                 destroyQueued = true;
                 Destroy(gameObject, delayToDestroyWindow);
+            }
+        }
+
+        private void SetBusyWriting(bool enable)
+        {
+            if (enable)
+            {
+                isWriting = enable;
+                dialogueController.dialogueUpdated -= UpdateUI; // unsubscribe from updates - prevent dialogue controller moving on while writing
+            }
+            else
+            {
+                isWriting = enable;
+                dialogueController.dialogueUpdated += UpdateUI;
             }
         }
 
@@ -190,6 +194,7 @@ namespace Frankie.Dialogue.UI
         {
             GameObject choiceObject = Instantiate(optionPrefab, optionParent);
             DialogueChoiceOption dialogueChoiceOption = choiceObject.GetComponent<DialogueChoiceOption>();
+            dialogueChoiceOption.Setup(dialogueController, choiceNode);
             dialogueChoiceOption.SetChoiceOrder(choiceIndex);
             dialogueChoiceOption.SetText(choiceNode.GetText());
             choiceObject.GetComponent<Button>().onClick.AddListener(delegate { Choose(choiceNode.name); });
@@ -227,7 +232,7 @@ namespace Frankie.Dialogue.UI
 
         private IEnumerator PrintPageBreak()
         {
-            isWriting = true;
+            SetBusyWriting(true);
             queuePageClear = true;
             yield break;
         }
@@ -243,7 +248,7 @@ namespace Frankie.Dialogue.UI
             if (string.IsNullOrWhiteSpace(receptacleTextPair.text)) { yield break; }
             receptacleTextPair.receptacle.SetActive(true);
 
-            isWriting = true;
+            SetBusyWriting(true);
             SimpleTextLink simpleTextLink = receptacleTextPair.receptacle.GetComponent<SimpleTextLink>();
 
             int letterIndex = 0;
@@ -258,7 +263,7 @@ namespace Frankie.Dialogue.UI
             }
             simpleTextLink.Setup(receptacleTextPair.text);
             printedJobs.Add(receptacleTextPair.receptacle);
-            isWriting = false;
+            SetBusyWriting(false);
             interruptWriting = false;
         }
 
@@ -275,79 +280,59 @@ namespace Frankie.Dialogue.UI
             return dialogueController.IsChoosing();
         }
 
-        protected virtual bool ShowCursorOnAnyInteraction()
+        protected virtual bool ShowCursorOnAnyInteraction(PlayerInputType playerInputType)
         {
-            if (highlightedChoiceOption == null && (Input.GetKeyDown(choiceInteractKey) ||
-                Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.D) ||
-                Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.S)))
+            if (playerInputType != PlayerInputType.DefaultNone)
             {
+                
                 return true;
             }
             return false;
         }
 
-        protected virtual bool MoveCursor()
+        protected virtual bool MoveCursor(PlayerInputType playerInputType)
         {
-            if (highlightedChoiceOption == null) { return false; }
-
-            if (Input.GetKeyDown(KeyCode.D) || Input.GetKeyDown(KeyCode.S))
-            {
-                return true;
-            }
-            else if (Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.A))
-            {
-                return true;
-            }
-            return false;
+            // Used in alternate implementations
+            return true;
         }
 
-        private bool Choose()
+        protected virtual bool Choose(string nodeID)
         {
-            if (Input.GetKeyDown(choiceInteractKey) && highlightedChoiceOption != null)
-            {
-                highlightedChoiceOption.GetComponent<Button>().onClick.Invoke();
-                return true;
-            }
-            return false;
+            dialogueController.NextWithID(nodeID);
+            return ChooseWithAction(PlayerInputType.Execute);
         }
 
-        // Input Handling
-        private bool HandleChoiceInput()
+        protected virtual bool ChooseWithAction(PlayerInputType playerInputType)
         {
-            // TODO:  Implement new unity input system
-            if (!IsChoiceAvailable()) { return false; }
-
-            if (ShowCursorOnAnyInteraction()) { return true; }
-            if (Choose()) { return true; }
-            if (MoveCursor()) { return true; }
-            return false;
-        }
-
-        public bool HandleGlobalInput(string interactButtonOne = "Fire1")
-        {
-            if (!handleGlobalInput) { return false; }
-            if (Input.GetButtonDown(interactButtonOne))
+            if (playerInputType == PlayerInputType.Execute)
             {
-                if (isWriting)
+                if (isWriting) // Safety against choice during writing
                 {
-                    SkipToEndOfPage();
-                }
-                else if (dialogueController.HasNext())
-                {
-                    dialogueController.Next();
-                }
-                else
-                {
-                    dialogueController.EndConversation();
+                    if (activeTextScan != null) { StopCoroutine(activeTextScan); }
+                    SetBusyWriting(false);
                 }
                 return true;
             }
             return false;
         }
 
-        public bool HandleGlobalInput(KeyCode interactKeyOne = KeyCode.E)
+        public virtual void HandleGlobalInput(PlayerInputType playerInputType)
         {
-            return HandleGlobalInput("Fire1");
+            if (!handleGlobalInput) { return; }
+
+            if (playerInputType == PlayerInputType.Execute)
+            {
+                if (dialogueController != null)
+                {
+                    SkipToEndOfPage(); return;
+                }
+                else 
+                {
+                    // Default behavior for a standard dialogue box pop-up without dialogue controller
+                    if (isWriting) { SkipToEndOfPage(); return; }
+                    else { QueueDialogueCompletion(); }
+                }
+            }
         }
 
         private void SkipToEndOfPage()
@@ -356,7 +341,7 @@ namespace Frankie.Dialogue.UI
             if (queuePageClear)
             {
                 ClearPrintedJobs();
-                isWriting = false;
+                SetBusyWriting(false);
                 interruptWriting = false;
                 queuePageClear = false;
             }

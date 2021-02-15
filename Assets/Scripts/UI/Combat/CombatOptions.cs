@@ -1,4 +1,4 @@
-using Frankie.Dialogue.UI;
+using Frankie.Speech.UI;
 using UnityEngine;
 using UnityEngine.UI;
 

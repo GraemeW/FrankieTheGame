@@ -1,33 +1,181 @@
 using Frankie.Core;
 using Frankie.Stats;
+using Frankie.Control;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-namespace Frankie.Dialogue
+namespace Frankie.Speech
 {
-    public class DialogueController : MonoBehaviour
+    public class DialogueController : MonoBehaviour, IPlayerInput
     {
+        // Tunables
+        [Header("Controller Properties")]
         [SerializeField] GameObject dialogueBoxPrefab = null;
+
+        [Header("Interaction")]
+        [SerializeField] string interactExecuteButton = "Fire1";
+        [SerializeField] KeyCode interactExecuteKey = KeyCode.E;
+        [SerializeField] KeyCode interactUp = KeyCode.W;
+        [SerializeField] KeyCode interactLeft = KeyCode.A;
+        [SerializeField] KeyCode interactRight = KeyCode.D;
+        [SerializeField] KeyCode interactDown = KeyCode.S;
 
         // State
         Dialogue currentDialogue = null;
         DialogueNode currentNode = null;
         AIConversant currentConversant = null;
+        DialogueNode highlightedNode = null;
 
         // Cached References
         Party party = null;
         WorldCanvas worldCanvas = null;
 
         // Events
+        public event Action<PlayerInputType> globalInput;
+        public event Action<DialogueNode> highlightedNodeChanged;
         public event Action dialogueUpdated;
 
         // Methods
         private void Awake()
         {
-            party = GetComponent<Party>();
+            party = GameObject.FindGameObjectWithTag("Player").GetComponent<Party>();
             worldCanvas = GameObject.FindGameObjectWithTag("WorldCanvas").GetComponent<WorldCanvas>();
+        }
+
+        private void Update()
+        {
+            // TODO:  Implement new unity input system
+            PlayerInputType playerInputType = GetPlayerInput();
+            if (IsChoosing())
+            {
+                if (InteractWithChoices(playerInputType)) { return; }
+            }
+            if (InteractWithNext(playerInputType)) { return; }
+            if (InteractWithGlobals()) { return; }
+        }
+
+        private bool InteractWithGlobals()
+        {
+            if (Input.GetButtonDown(interactExecuteButton) || Input.GetKeyDown(interactExecuteKey))
+            {
+                if (globalInput != null)
+                {
+                    globalInput.Invoke(PlayerInputType.Execute); // handle text skip on dialogue box
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        private bool InteractWithNext(PlayerInputType playerInputType)
+        {
+            if (IsChoosing()) { return false; }
+
+            if (dialogueUpdated != null // check if dialogue box can receive messages (toggled off during text-scans)
+                && playerInputType == PlayerInputType.Execute)
+            {
+                if (HasNext())
+                {
+                    Next();
+                    return true;
+                }
+                else
+                {
+                    EndConversation();
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        private bool InteractWithChoices(PlayerInputType playerInputType)
+        {
+            if (playerInputType == PlayerInputType.DefaultNone) { return false; }
+
+            if (highlightedNode == null)
+            {
+                SetHighlightedNodeToDefault();
+                return true;
+            }
+            
+            if (playerInputType == PlayerInputType.Execute)
+            {
+                NextWithID(highlightedNode.name);
+            }
+            else
+            {
+                List<DialogueNode> currentOptions = GetChoices().ToList();
+
+                if (!currentOptions.Contains(highlightedNode))
+                {
+                    SetHighlightedNodeToDefault();
+                    return true;
+                }
+                else
+                {
+                    HighlightNextNode(currentOptions, playerInputType);
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        private void SetHighlightedNodeToDefault()
+        {
+            highlightedNode = GetChoices().FirstOrDefault();
+            if (highlightedNodeChanged != null)
+            {
+                highlightedNodeChanged.Invoke(highlightedNode);
+            }
+        }
+
+        private void HighlightNextNode(List<DialogueNode> currentOptions, PlayerInputType playerInputType)
+        {
+            int choiceIndex = currentOptions.IndexOf(highlightedNode);
+            if (playerInputType == PlayerInputType.NavigateRight || playerInputType == PlayerInputType.NavigateDown)
+            {
+                if (choiceIndex + 1 >= currentOptions.Count) { choiceIndex = 0; }
+                else { choiceIndex++; }
+            }
+            else if (playerInputType == PlayerInputType.NavigateUp || playerInputType == PlayerInputType.NavigateLeft)
+            {
+                if (choiceIndex <= 0) { choiceIndex = currentOptions.Count - 1; }
+                else { choiceIndex--; }
+            }
+
+            highlightedNode = currentOptions[choiceIndex];
+            if (highlightedNodeChanged != null)
+            {
+                highlightedNodeChanged.Invoke(highlightedNode);
+            }
+        }
+
+        public PlayerInputType GetPlayerInput()
+        {
+            PlayerInputType input = PlayerInputType.DefaultNone;
+            if (Input.GetKeyDown(interactUp))
+            {
+                input = PlayerInputType.NavigateUp;
+            }
+            else if (Input.GetKeyDown(interactLeft))
+            {
+                input = PlayerInputType.NavigateLeft;
+            }
+            else if (Input.GetKeyDown(interactRight))
+            {
+                input = PlayerInputType.NavigateRight;
+            }
+            else if (Input.GetKeyDown(interactDown))
+            {
+                input = PlayerInputType.NavigateDown;
+            }
+            else if (Input.GetButtonDown(interactExecuteButton) || Input.GetKeyDown(interactExecuteKey))
+            {
+                input = PlayerInputType.Execute;
+            }
+            return input;
         }
 
         public string GetPlayerName()
@@ -62,6 +210,7 @@ namespace Frankie.Dialogue
             {
                 dialogueUpdated.Invoke();
             }
+            Destroy(gameObject);
         }
 
         public bool IsActive()

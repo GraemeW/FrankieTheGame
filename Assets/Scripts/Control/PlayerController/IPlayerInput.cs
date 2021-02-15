@@ -4,8 +4,8 @@ using UnityEngine;
 
 namespace Frankie.Control
 {
-    public interface IGlobalInput
+    public interface IPlayerInput
     {
-        void HandleGlobalInput(PlayerInputType playerInputType);
+        PlayerInputType GetPlayerInput();
     }
 }

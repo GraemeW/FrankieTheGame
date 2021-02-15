@@ -1,6 +1,6 @@
-namespace Frankie.Combat
+namespace Frankie.Control
 {
-    public enum BattleInputType
+    public enum PlayerInputType
     {
         DefaultNone,
         NavigateUp,

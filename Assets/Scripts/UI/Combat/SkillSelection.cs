@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
+using Frankie.Control;
 
 namespace Frankie.Combat.UI
 {
@@ -107,7 +108,7 @@ namespace Frankie.Combat.UI
             else { skillField.text = defaultNoText; }
         }
 
-        public void HandleInput(BattleInputType input) // PUBLIC:  Called via unity events for button clicks (mouse)
+        public void HandleInput(PlayerInputType input) // PUBLIC:  Called via unity events for button clicks (mouse)
         {
             if (battleController.GetSelectedCharacter() == null) { return; }
             if (!battleController.IsSkillArmed())
@@ -123,18 +124,18 @@ namespace Frankie.Combat.UI
         public void HandleInput(int input)
         {
             // Because Unity hates handling enums
-            BattleInputType battleInputType = (BattleInputType)input;
+            PlayerInputType battleInputType = (PlayerInputType)input;
             HandleInput(battleInputType);
         }
 
-        private bool SetBranchOrSkill(BattleInputType input)
+        private bool SetBranchOrSkill(PlayerInputType input)
         {
             bool validInput = false;
             SkillBranchMapping skillBranchMapping = default;
-            if (input == BattleInputType.NavigateUp) { skillBranchMapping = SkillBranchMapping.up; validInput = true; }
-            else if (input == BattleInputType.NavigateLeft) { skillBranchMapping = SkillBranchMapping.left; validInput = true; }
-            else if (input == BattleInputType.NavigateRight) { skillBranchMapping = SkillBranchMapping.right; validInput = true; }
-            else if (input == BattleInputType.NavigateDown) { skillBranchMapping = SkillBranchMapping.down; validInput = true; }
+            if (input == PlayerInputType.NavigateUp) { skillBranchMapping = SkillBranchMapping.up; validInput = true; }
+            else if (input == PlayerInputType.NavigateLeft) { skillBranchMapping = SkillBranchMapping.left; validInput = true; }
+            else if (input == PlayerInputType.NavigateRight) { skillBranchMapping = SkillBranchMapping.right; validInput = true; }
+            else if (input == PlayerInputType.NavigateDown) { skillBranchMapping = SkillBranchMapping.down; validInput = true; }
 
             if (validInput)
             {
@@ -145,9 +146,9 @@ namespace Frankie.Combat.UI
             return validInput;
         }
 
-        private bool CheckForSkillExecution(BattleInputType input)
+        private bool CheckForSkillExecution(PlayerInputType input)
         {
-            if (input == BattleInputType.Execute)
+            if (input == PlayerInputType.Execute)
             {
                 canvasGroup.alpha = 0;
                 return true;

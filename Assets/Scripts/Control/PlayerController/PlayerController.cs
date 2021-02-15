@@ -5,6 +5,7 @@ using System.Linq;
 using Frankie.Core;
 using Frankie.Combat;
 using Frankie.Stats;
+using Frankie.Speech;
 
 namespace Frankie.Control
 {
@@ -21,6 +22,9 @@ namespace Frankie.Control
 
         // Tunables
         [Header("Interaction")]
+        [SerializeField] string interactSkipButton = "Fire1";
+        [SerializeField] string interactInspectButton = "Fire2";
+        [SerializeField] KeyCode interactInspectKey = KeyCode.E;
         [SerializeField] CursorMapping[] cursorMappings = null;
         [SerializeField] float raycastRadius = 0.1f;
         [SerializeField] float interactionDistance = 0.5f;
@@ -28,8 +32,9 @@ namespace Frankie.Control
         [Header("Movement")]
         [SerializeField] float movementSpeed = 1.0f;
         [SerializeField] float speedMoveThreshold = 0.05f;
-        [Header("Battle Handlers")]
+        [Header("Other Controllers")]
         [SerializeField] GameObject battleControllerPrefab = null;
+        [SerializeField] GameObject dialogueControllerPrefab = null;
 
         // State
         float inputHorizontal;
@@ -45,7 +50,7 @@ namespace Frankie.Control
         Party party = null;
 
         // Events
-        public event Action<string> globalInput;
+        public event Action<PlayerInputType> globalInput;
         public event Action playerStateChanged;
 
         // Public functions
@@ -125,14 +130,11 @@ namespace Frankie.Control
             }
         }
 
-        public void EnterDialogue()
+        public void EnterDialogue(AIConversant newConversant, Dialogue newDialogue)
         {
-            // TODO:  refactor to pull out dialogue controller as spawned entity
-        }
-
-        public void ExitDialogue()
-        {
-
+            GameObject dialogueControllerObject = Instantiate(dialogueControllerPrefab);
+            DialogueController dialogueController = dialogueControllerObject.GetComponent<DialogueController>();
+            dialogueController.InitiateConversation(newConversant, newDialogue);
         }
 
         public PlayerState GetPlayerState()
@@ -209,11 +211,13 @@ namespace Frankie.Control
 
         private bool InteractWithGlobals()
         {
-            if (globalInput != null)
+            if (Input.GetButtonDown(interactSkipButton))
             {
-                SetCursor(CursorType.None);
-                globalInput.Invoke("Fire1");
-                return true;
+                if (globalInput != null)
+                {
+                    globalInput.Invoke(PlayerInputType.Execute);
+                    return true;
+                }
             }
             return false;
         }
@@ -228,7 +232,7 @@ namespace Frankie.Control
             {
                 foreach (IRaycastable raycastable in raycastables)
                 {
-                    if (raycastable.HandleRaycast(this, "Fire2", "Fire1"))
+                    if (raycastable.HandleRaycast(this, interactInspectButton, interactSkipButton))
                     {
                         SetCursor(raycastable.GetCursorType());
                         return true;
@@ -240,7 +244,7 @@ namespace Frankie.Control
 
         private bool InteractWithComponentManual()
         {
-            if (Input.GetKeyDown(KeyCode.E))
+            if (Input.GetKeyDown(interactInspectKey))
             {
                 RaycastHit2D hitInfo = RaycastFromPlayerInLookDirection();
                 if (hitInfo.collider == null) { return false; }

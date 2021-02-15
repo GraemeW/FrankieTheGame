@@ -3,14 +3,16 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
 using UnityEngine.UI;
+using Frankie.Control;
 
-namespace Frankie.Dialogue.UI
+namespace Frankie.Speech.UI
 {
     public class DialogueOptionBox : DialogueBox
     {
         // State
         bool isChoiceAvailable = false;
-        public List<DialogueChoiceOption> choiceOptions = new List<DialogueChoiceOption>();
+        List<DialogueChoiceOption> choiceOptions = new List<DialogueChoiceOption>();
+        DialogueChoiceOption highlightedChoiceOption = null;
 
         protected override void OnEnable()
         {
@@ -33,13 +35,19 @@ namespace Frankie.Dialogue.UI
             else { isChoiceAvailable = false; }
         }
 
-        // TODO:  Implement new unity input system
-
-        protected override bool ShowCursorOnAnyInteraction()
+        public override void HandleGlobalInput(PlayerInputType playerInputType)
         {
-            if (highlightedChoiceOption == null && (Input.GetKeyDown(choiceInteractKey) ||
-                Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.D) ||
-                Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.S)))
+            if (!handleGlobalInput) { return; }
+
+            if (!IsChoiceAvailable()) { return; }
+            if (ShowCursorOnAnyInteraction(playerInputType)) { return; }
+            if (ChooseWithAction(playerInputType)) { return; }
+            if (MoveCursor(playerInputType)) { return; }
+        }
+
+        protected override bool ShowCursorOnAnyInteraction(PlayerInputType playerInputType)
+        {
+            if (highlightedChoiceOption == null && playerInputType != PlayerInputType.DefaultNone)
             {
                 highlightedChoiceOption = choiceOptions[0];
                 highlightedChoiceOption.Highlight(true);
@@ -53,19 +61,19 @@ namespace Frankie.Dialogue.UI
             return isChoiceAvailable;
         }
 
-        protected override bool MoveCursor()
+        protected override bool MoveCursor(PlayerInputType playerInputType)
         {
             if (highlightedChoiceOption == null) { return false; }
 
             bool validInput = false;
             int choiceIndex = choiceOptions.IndexOf(highlightedChoiceOption);
-            if (Input.GetKeyDown(KeyCode.D) || Input.GetKeyDown(KeyCode.S))
+            if (playerInputType == PlayerInputType.NavigateRight || playerInputType == PlayerInputType.NavigateDown)
             {
                 if (choiceIndex + 1 >= choiceOptions.Count) { choiceIndex = 0; }
                 else { choiceIndex++; }
                 validInput = true;
             }
-            else if (Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.A))
+            else if (playerInputType == PlayerInputType.NavigateUp || playerInputType == PlayerInputType.NavigateLeft)
             {
                 if (choiceIndex <= 0) { choiceIndex = choiceOptions.Count - 1; }
                 else { choiceIndex--; }
@@ -77,6 +85,25 @@ namespace Frankie.Dialogue.UI
                 ClearChoiceSelections();
                 highlightedChoiceOption = choiceOptions[choiceIndex];
                 choiceOptions[choiceIndex].Highlight(true);
+                return true;
+            }
+            return false;
+        }
+
+        protected override bool ChooseWithAction(PlayerInputType playerInputType)
+        {
+            if (playerInputType == PlayerInputType.Execute)
+            {
+                return Choose(null);
+            }
+            return false;
+        }
+
+        protected override bool Choose(string nodeID)
+        {
+            if (highlightedChoiceOption != null)
+            {
+                highlightedChoiceOption.GetComponent<Button>().onClick.Invoke();
                 return true;
             }
             return false;

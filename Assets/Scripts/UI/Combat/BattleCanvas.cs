@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
-using Frankie.Dialogue.UI;
+using Frankie.Speech.UI;
 using UnityEngine.UI;
 
 namespace Frankie.Combat.UI

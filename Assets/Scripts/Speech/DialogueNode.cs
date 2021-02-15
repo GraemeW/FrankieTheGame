@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 
-namespace Frankie.Dialogue
+namespace Frankie.Speech
 {
     [System.Serializable]
     public class DialogueNode : ScriptableObject

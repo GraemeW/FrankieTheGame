@@ -1,11 +1,9 @@
-using Frankie.Control;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 using Frankie.Stats;
 
-namespace Frankie.Dialogue
+namespace Frankie.Speech
 {
     [CreateAssetMenu(fileName = "New Dialogue", menuName = "Dialogue/New Dialogue")]
     public class Dialogue : ScriptableObject, ISerializationCallbackReceiver

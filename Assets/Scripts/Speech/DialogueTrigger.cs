@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
-namespace Frankie.Dialogue
+namespace Frankie.Speech
 {
     public class DialogueTrigger : MonoBehaviour
     {

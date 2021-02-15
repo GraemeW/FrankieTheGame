@@ -3,7 +3,7 @@ using Frankie.Stats;
 using System;
 using UnityEngine;
 
-namespace Frankie.Dialogue
+namespace Frankie.Speech
 {
     public class AIConversant : Check
     {
@@ -45,7 +45,7 @@ namespace Frankie.Dialogue
                 {
                     checkInteraction.Invoke(callingController);
                 }
-                callingController.GetComponent<DialogueController>().InitiateConversation(this, dialogue);
+                callingController.EnterDialogue(this, dialogue);
             }
             return true;
         }
@@ -66,7 +66,7 @@ namespace Frankie.Dialogue
                 {
                     checkInteraction.Invoke(callingController);
                 }
-                callingController.GetComponent<DialogueController>().InitiateConversation(this, dialogue);
+                callingController.EnterDialogue(this, dialogue);
             }
             return true;
         }

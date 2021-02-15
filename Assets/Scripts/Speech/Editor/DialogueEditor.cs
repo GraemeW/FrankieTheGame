@@ -6,7 +6,7 @@ using UnityEditor.Callbacks;
 using UnityEngine;
 using Frankie.Stats;
 
-namespace Frankie.Dialogue.Editor
+namespace Frankie.Speech.Editor
 {
     public class DialogueEditor : EditorWindow
     {
