@@ -319,7 +319,7 @@ namespace Frankie.Combat
 
             if (selectedCharacter != null && !selectedCharacter.IsDead())
             {
-                if (playerInputType == PlayerInputType.Execute)
+                if (playerInputType == PlayerInputType.Execute && selectedSkill != null)
                 {
                     SetSkillArmed(true);
                     return true;

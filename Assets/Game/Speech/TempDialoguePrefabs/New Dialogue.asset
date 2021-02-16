@@ -1,72 +1,5 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &-5573000722113546104
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 09c07c7c6f4c666429a0bbc8d18232b2, type: 3}
-  m_Name: 44905298-6673-49b0-85a5-93849d601ace
-  m_EditorClassIdentifier: 
-  speakerType: 1
-  characterName: 3
-  speakerName: Clever Office Worker
-  text: Default Text to Overwrite
-  children:
-  - eeb786df-169e-42ce-92cb-44e2a9b58789
-  rect:
-    serializedVersion: 2
-    x: 2530
-    y: 30
-    width: 400
-    height: 225
-  draggingRect:
-    serializedVersion: 2
-    x: 0
-    y: 0
-    width: 400
-    height: 45
-  onEnterAction: 
-  onExitAction: 
-  condition:
-    and: []
---- !u!114 &-4714613411660496932
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 09c07c7c6f4c666429a0bbc8d18232b2, type: 3}
-  m_Name: eeb786df-169e-42ce-92cb-44e2a9b58789
-  m_EditorClassIdentifier: 
-  speakerType: 0
-  characterName: 0
-  speakerName: Frankie
-  text: Default Text to Overwrite
-  children: []
-  rect:
-    serializedVersion: 2
-    x: 3030
-    y: 30
-    width: 400
-    height: 225
-  draggingRect:
-    serializedVersion: 2
-    x: 0
-    y: 0
-    width: 400
-    height: 45
-  onEnterAction: 
-  onExitAction: 
-  condition:
-    and: []
 --- !u!114 &-1038225091412654303
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -80,11 +13,10 @@ MonoBehaviour:
   m_Name: cf269ebb-37db-4449-ad26-60a2571fc5d0
   m_EditorClassIdentifier: 
   speakerType: 1
-  characterName: 3
-  speakerName: Clever Office Worker
-  text: Default Text to Overwrite
-  children:
-  - 44905298-6673-49b0-85a5-93849d601ace
+  characterName: 2
+  speakerName: Hipster Office Worker
+  text: I dig it
+  children: []
   rect:
     serializedVersion: 2
     x: 2030
@@ -117,7 +49,7 @@ MonoBehaviour:
   newNodeOffset: {x: 100, y: 25}
   nodeWidth: 400
   nodeHeight: 225
-  activeNPCs: 0200000003000000
+  activeNPCs: 02000000
   dialogueNodes:
   - {fileID: 3905423182183052059}
   - {fileID: 3512824541218326437}
@@ -125,8 +57,6 @@ MonoBehaviour:
   - {fileID: 808212098087165959}
   - {fileID: 7841665877052730249}
   - {fileID: -1038225091412654303}
-  - {fileID: -5573000722113546104}
-  - {fileID: -4714613411660496932}
 --- !u!114 &808212098087165959
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -278,7 +208,7 @@ MonoBehaviour:
   speakerType: 0
   characterName: 0
   speakerName: Frankie
-  text: Default Text to Overwrite
+  text: Beers after work?
   children:
   - cf269ebb-37db-4449-ad26-60a2571fc5d0
   rect:
