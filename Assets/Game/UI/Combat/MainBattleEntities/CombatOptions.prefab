@@ -549,11 +549,10 @@ MonoBehaviour:
   speechTextPrefab: {fileID: 2827329066881810044, guid: 457c6052bdf60f4428eb78a1788169a4, type: 3}
   optionParent: {fileID: 3567840514475693783}
   optionPrefab: {fileID: 3358873790910023875, guid: 3ddb4c077d5422844bfe6e116ecd5650, type: 3}
-  handleGlobalInput: 0
+  handleGlobalInput: 1
   delayToDestroyWindow: 0.1
   delayBetweenCharacters: 0.05
   choiceInteractKey: 101
-  choiceOptions: []
   fightButton: {fileID: 296641443703757541}
   itemButton: {fileID: 4995506241810553660}
   statsButton: {fileID: 5555303161703304216}

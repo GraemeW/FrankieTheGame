@@ -53,7 +53,8 @@ namespace Frankie.Speech.UI
 
         protected virtual void Awake()
         {
-            dialogueController = GameObject.FindGameObjectWithTag("DialogueController").GetComponent<DialogueController>();
+            GameObject dialogueControllerObject = GameObject.FindGameObjectWithTag("DialogueController");
+            if (dialogueControllerObject != null) { dialogueController = dialogueControllerObject.GetComponent<DialogueController>(); }
             destroyQueued = false;
         }
 
@@ -77,7 +78,7 @@ namespace Frankie.Speech.UI
             }
             foreach (CallbackMessagePair callbackMessagePair in disableCallbacks)
             {
-                callbackMessagePair.receiver.HandleDialogueCallback(callbackMessagePair.message);
+                callbackMessagePair.receiver.HandleDialogueCallback(this, callbackMessagePair.message);
             }
         }
 
@@ -91,7 +92,7 @@ namespace Frankie.Speech.UI
             }
         }
 
-        public void SetDisableCallback(IDialogueBoxCallbackReceiver callbackReceiver, string callbackMessage)
+        public void SetDisableCallback(IDialogueBoxCallbackReceiver callbackReceiver, DialogueBox dialogueBox, string callbackMessage)
         {
             CallbackMessagePair callbackMessagePair = new CallbackMessagePair
             {
@@ -127,12 +128,12 @@ namespace Frankie.Speech.UI
             if (enable)
             {
                 isWriting = enable;
-                dialogueController.dialogueUpdated -= UpdateUI; // unsubscribe from updates - prevent dialogue controller moving on while writing
+                if (dialogueController != null) { dialogueController.dialogueUpdated -= UpdateUI; } // unsubscribe from updates - prevent dialogue controller moving on while writing
             }
             else
             {
                 isWriting = enable;
-                dialogueController.dialogueUpdated += UpdateUI;
+                if (dialogueController != null) { dialogueController.dialogueUpdated += UpdateUI; }
             }
         }
 

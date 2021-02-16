@@ -22,6 +22,18 @@ namespace Frankie.Combat.UI
             battleController = GameObject.FindGameObjectWithTag("BattleController").GetComponent<BattleController>();
         }
 
+        protected override void OnEnable()
+        {
+            base.OnEnable();
+            battleController.globalInput += HandleGlobalInput;
+        }
+
+        protected override void OnDisable()
+        {
+            base.OnDisable();
+            battleController.globalInput -= HandleGlobalInput;
+        }
+
         public void InitiateCombat()
         {
             battleController.SetBattleState(BattleState.Combat);

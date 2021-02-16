@@ -4,6 +4,7 @@ using UnityEngine;
 using Frankie.Core;
 using Frankie.Stats;
 using System.Text.RegularExpressions;
+using Frankie.Combat;
 
 namespace Frankie.Control
 {
@@ -42,29 +43,25 @@ namespace Frankie.Control
             return defaultName;
         }
 
-        public void SetLookDirectionToPlayer(PlayerController callingController) // Unity Event
+        public void SetLookDirectionToPlayer(PlayerController callingController) // called via Unity Event
         {
             Vector2 lookDirection = callingController.GetInteractionPosition() - (Vector2)interactionCenterPoint.position;
             SetLookDirection(lookDirection);
             UpdateAnimator();
-
-            // HACK:  Temporary to test combat
-            // TODO:  Remove, implement properly
-            /*
-            List<CombatParticipant> enemies = new List<CombatParticipant>();
-            CombatParticipant enemy = GetComponent<CombatParticipant>();
-            enemy.ResurrectCharacter(enemy.GetMaxHP());
-            foreach (CombatParticipant character in callingController.GetComponent<Party>().GetParty())
-            {
-                character.ResurrectCharacter(character.GetMaxHP());
-            }
-            enemies.Add(enemy);
-            callingController.EnterCombat(enemies, battleEntryType); */
         }
 
         public void SetLookDirection(Vector2 lookDirection)
         {
             this.lookDirection = lookDirection;
+        }
+
+        public void InitiateCombat(PlayerController callingController)  // called via Unity Event
+        {
+            List<CombatParticipant> enemies = new List<CombatParticipant>();
+            CombatParticipant enemy = GetComponent<CombatParticipant>();
+            enemies.Add(enemy);
+            // TODO:  Implement pile-on / swarm system
+            callingController.EnterCombat(enemies, TransitionType.BattleNeutral);
         }
 
         private void UpdateAnimator()

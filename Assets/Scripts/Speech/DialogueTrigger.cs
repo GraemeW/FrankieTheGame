@@ -1,3 +1,4 @@
+using Frankie.Control;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -8,13 +9,19 @@ namespace Frankie.Speech
     public class DialogueTrigger : MonoBehaviour
     {
         [SerializeField] string action;
-        [SerializeField] UnityEvent onTrigger;
+        [SerializeField] UnityEventWithCallingController onTriggerWithCallingController;
 
-        public void Trigger(string actionToTrigger)
+        // Data Structures
+        [System.Serializable]
+        public class UnityEventWithCallingController : UnityEvent<PlayerController>
+        {
+        }
+
+        public void Trigger(string actionToTrigger, PlayerController playerController)
         {
             if (actionToTrigger == action)
             {
-                onTrigger.Invoke();
+                onTriggerWithCallingController.Invoke(playerController);
             }
         }
     }

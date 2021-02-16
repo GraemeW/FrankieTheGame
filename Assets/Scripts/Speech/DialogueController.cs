@@ -28,6 +28,7 @@ namespace Frankie.Speech
         DialogueNode currentNode = null;
         AIConversant currentConversant = null;
         DialogueNode highlightedNode = null;
+        string finalTriggerAction = null;
 
         // Cached References
         WorldCanvas worldCanvas = null;
@@ -67,8 +68,7 @@ namespace Frankie.Speech
 
         public void EndConversation()
         {
-            TriggerExitAction();
-            currentConversant = null;
+            QueueFinalTriggerAction();
             currentDialogue = null;
             currentNode = null;
             if (dialogueUpdated != null)
@@ -76,6 +76,10 @@ namespace Frankie.Speech
                 dialogueUpdated.Invoke();
             }
             playerController.ExitDialogue();
+
+            TriggerFinalAction();
+            currentConversant = null; // Do not release currentConversant until final action triggered
+
             Destroy(gameObject);
         }
 
@@ -164,10 +168,13 @@ namespace Frankie.Speech
 
         private void SetHighlightedNodeToDefault()
         {
-            highlightedNode = GetChoices().FirstOrDefault();
-            if (highlightedNodeChanged != null)
+            if (Input.GetKeyDown(interactExecuteKey)) // specific to key; avoid mouse click forcing
             {
-                highlightedNodeChanged.Invoke(highlightedNode);
+                highlightedNode = GetChoices().FirstOrDefault();
+                if (highlightedNodeChanged != null)
+                {
+                    highlightedNodeChanged.Invoke(highlightedNode);
+                }
             }
         }
 
@@ -321,16 +328,34 @@ namespace Frankie.Speech
             TriggerAction(currentNode.GetOnExitAction());
         }
 
+        private void QueueFinalTriggerAction()
+        {
+            finalTriggerAction = currentNode.GetOnExitAction();
+        }
+
         private void TriggerAction(string action)
         {
             if (currentNode != null && !string.IsNullOrWhiteSpace(action))
             {
-                DialogueTrigger[] dialogueTriggers = currentConversant.GetComponents<DialogueTrigger>();
+                DialogueTrigger[] dialogueTriggers = currentConversant.GetComponents<DialogueTrigger>();  // N.B.  Dialogue triggers need to live on same game object as conversant component
                 foreach (DialogueTrigger dialogueTrigger in dialogueTriggers)
                 {
-                    dialogueTrigger.Trigger(action);
+                    dialogueTrigger.Trigger(action, playerController);
                 }
             }
+        }
+
+        private void TriggerFinalAction()
+        {
+            if (!string.IsNullOrWhiteSpace(finalTriggerAction))
+            {
+                DialogueTrigger[] dialogueTriggers = currentConversant.GetComponents<DialogueTrigger>();  // N.B.  Dialogue triggers need to live on same game object as conversant component
+                foreach (DialogueTrigger dialogueTrigger in dialogueTriggers)
+                {
+                    dialogueTrigger.Trigger(finalTriggerAction, playerController);
+                }
+            }
+            finalTriggerAction = null;
         }
 
         private IEnumerable<string> FilterOnCondition(List<string> dialogueNodeIDs)

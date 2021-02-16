@@ -176,7 +176,8 @@ namespace Frankie.Combat.UI
             dialogueBox.AddSimpleText(entryMessage);
             dialogueBox.AddPageBreak();
             dialogueBox.AddSimpleText(messageEncounterPreHype);
-            dialogueBox.SetDisableCallback(this, DIALOGUE_CALLBACK_INTRO_COMPLETE);
+            battleController.globalInput += dialogueBox.HandleGlobalInput;
+            dialogueBox.SetDisableCallback(this, dialogueBox, DIALOGUE_CALLBACK_INTRO_COMPLETE);
         }
 
         private void SetupExitMessage()
@@ -201,18 +202,21 @@ namespace Frankie.Combat.UI
 
             DialogueBox dialogueBox = dialogueBoxObject.GetComponent<DialogueBox>();
             dialogueBox.AddSimpleText(exitMessage);
-            dialogueBox.SetDisableCallback(this, DIALOGUE_CALLBACK_OUTRO_COMPLETE);
+            battleController.globalInput += dialogueBox.HandleGlobalInput;
+            dialogueBox.SetDisableCallback(this, dialogueBox, DIALOGUE_CALLBACK_OUTRO_COMPLETE);
         }
 
-        public void HandleDialogueCallback(string callbackMessage)
+        public void HandleDialogueCallback(DialogueBox dialogueBox, string callbackMessage)
         {
             if (callbackMessage == DIALOGUE_CALLBACK_INTRO_COMPLETE)
             {
                 battleController.SetBattleState(BattleState.PreCombat);
+                battleController.globalInput -= dialogueBox.HandleGlobalInput;
             }
             else if (callbackMessage == DIALOGUE_CALLBACK_OUTRO_COMPLETE)
             {
                 battleController.SetBattleState(BattleState.Complete);
+                battleController.globalInput -= dialogueBox.HandleGlobalInput;
             }
         }
     }

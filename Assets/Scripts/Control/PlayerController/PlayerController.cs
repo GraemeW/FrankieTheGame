@@ -186,10 +186,10 @@ namespace Frankie.Control
 
         private void Update()
         {
+            KillRogueControllers(playerState);
+
             if (playerState == PlayerState.inWorld)
             {
-                KillRogueControllers();
-
                 inputHorizontal = Input.GetAxis("Horizontal");
                 inputVertical = Input.GetAxis("Vertical");
                 if (InteractWithGlobals()) return;
@@ -207,15 +207,32 @@ namespace Frankie.Control
             }
         }
 
-        private void KillRogueControllers()
+        private void KillRogueControllers(PlayerState playerState)
         {
-            if (battleController != null)
+            if (playerState == PlayerState.inWorld)
             {
-                HandleCombatComplete(BattleState.Complete);
+                if (battleController != null)
+                {
+                    HandleCombatComplete(BattleState.Complete);
+                }
+                if (dialogueController != null)
+                {
+                    ExitDialogue();
+                }
             }
-            if (dialogueController != null)
+            else if (playerState == PlayerState.inBattle)
             {
-                ExitDialogue();
+                if (dialogueController != null)
+                {
+                    ExitDialogue();
+                }
+            }
+            else if (playerState == PlayerState.inDialogue)
+            {
+                if (battleController != null)
+                {
+                    HandleCombatComplete(BattleState.Complete);
+                }
             }
         }
 

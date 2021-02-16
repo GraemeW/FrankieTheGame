@@ -157,7 +157,7 @@ MonoBehaviour:
     width: 400
     height: 45
   onEnterAction: 
-  onExitAction: 
+  onExitAction: fight
   condition:
     and: []
 --- !u!114 &3512824541218326437

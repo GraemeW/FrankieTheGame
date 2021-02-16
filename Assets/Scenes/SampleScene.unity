@@ -2124,6 +2124,39 @@ Transform:
   m_Father: {fileID: 782409595}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1296488908 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7197847034387441074, guid: 30c6f3f30a3216e41bbc8a6ac45c57e0, type: 3}
+  m_PrefabInstance: {fileID: 542867047}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1296488912
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1296488908}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 47c843d51c92e854f95fb02bd7be9471, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  action: fight
+  onTriggerWithCallingController:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1429182160}
+        m_TargetAssemblyTypeName: Frankie.Control.NPCController, Assembly-CSharp
+        m_MethodName: InitiateCombat
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!4 &1396065169 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1002866377844484779, guid: 7c05e981e35cdf94ebdfcd51b1b232b7, type: 3}
@@ -2220,6 +2253,17 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &1429182160 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 9137650141004882914, guid: 30c6f3f30a3216e41bbc8a6ac45c57e0, type: 3}
+  m_PrefabInstance: {fileID: 542867047}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7bd0180a3f707c1489e04d0bfa6742c9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1437805453
 GameObject:
   m_ObjectHideFlags: 0

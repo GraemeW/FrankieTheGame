@@ -6,6 +6,6 @@ namespace Frankie.Speech.UI
 {
     public interface IDialogueBoxCallbackReceiver
     {
-        public void HandleDialogueCallback(string callbackMessage);
+        public void HandleDialogueCallback(DialogueBox dialogueBox, string callbackMessage);
     }
 }
