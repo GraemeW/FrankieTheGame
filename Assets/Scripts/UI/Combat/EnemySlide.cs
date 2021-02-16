@@ -12,18 +12,6 @@ namespace Frankie.Combat.UI
         [SerializeField] float deathFadeTime = 1.0f;
         [SerializeField] DamageTextSpawner damageTextSpawner = null;
 
-        protected override void OnEnable()
-        {
-            base.OnEnable();
-            battleController.selectedEnemyChanged += HighlightSlide;
-        }
-
-        protected override void OnDisable()
-        {
-            base.OnDisable();
-            battleController.selectedEnemyChanged -= HighlightSlide;
-        }
-
         public override void SetCombatParticipant(CombatParticipant combatParticipant)
         {
             base.SetCombatParticipant(combatParticipant);
@@ -54,8 +42,9 @@ namespace Frankie.Combat.UI
             }
         }
 
-        protected override void SetSelected(bool enable)
+        protected override void SetSelected(CombatParticipantType combatParticipantType, bool enable)
         {
+            if (combatParticipantType != CombatParticipantType.Enemy) { return; }
             GetComponent<Shadow>().enabled = enable;
         }
 

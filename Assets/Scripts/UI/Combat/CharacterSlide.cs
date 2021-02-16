@@ -47,14 +47,12 @@ namespace Frankie.Combat.UI
         protected override void OnEnable()
         {
             base.OnEnable();
-            battleController.selectedCharacterChanged += HighlightSlide;
             GetComponent<Button>().onClick.AddListener(delegate { battleController.SetSelectedCharacter(GetCombatParticipant()); });
         }
 
         protected override void OnDisable()
         {
             base.OnDisable();
-            battleController.selectedCharacterChanged -= HighlightSlide;
             GetComponent<Button>().onClick.RemoveAllListeners();
         }
 
@@ -66,8 +64,10 @@ namespace Frankie.Combat.UI
             UpdateAP(this.combatParticipant.GetAP());
         }
 
-        protected override void SetSelected(bool enable)
+        protected override void SetSelected(CombatParticipantType combatParticipantType, bool enable)
         {
+            if (combatParticipantType != CombatParticipantType.Character) { return; }
+
             if (combatParticipant.IsInCooldown()) { slideState = SlideState.cooldown; }
             else if (enable) { slideState = SlideState.selected; }
             else { slideState = SlideState.ready; }

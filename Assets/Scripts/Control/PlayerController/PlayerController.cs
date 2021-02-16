@@ -9,7 +9,7 @@ using Frankie.Speech;
 
 namespace Frankie.Control
 {
-    public class PlayerController : MonoBehaviour
+    public class PlayerController : MonoBehaviour, IStandardPlayerInputCaller
     {
         // Data Types
         [System.Serializable]
@@ -25,6 +25,7 @@ namespace Frankie.Control
         [SerializeField] string interactSkipButton = "Fire1";
         [SerializeField] string interactInspectButton = "Fire2";
         [SerializeField] KeyCode interactInspectKey = KeyCode.E;
+        [SerializeField] string interactCancelButton = "Cancel";
         [SerializeField] CursorMapping[] cursorMappings = null;
         [SerializeField] float raycastRadius = 0.1f;
         [SerializeField] float interactionDistance = 0.5f;
@@ -32,9 +33,11 @@ namespace Frankie.Control
         [Header("Movement")]
         [SerializeField] float movementSpeed = 1.0f;
         [SerializeField] float speedMoveThreshold = 0.05f;
-        [Header("Other Controllers")]
+        [Header("Other Controller Prefabs")]
         [SerializeField] GameObject battleControllerPrefab = null;
         [SerializeField] GameObject dialogueControllerPrefab = null;
+        [Header("Messages")]
+        [SerializeField] string messageCannotFight = "You are wounded and cannot fight.";
 
         // State
         float inputHorizontal;
@@ -84,11 +87,12 @@ namespace Frankie.Control
 
         public void EnterCombat(List<CombatParticipant> enemies, TransitionType transitionType)
         {
+            if (!party.IsAnyMemberAlive()) { OpenSimpleDialogue(messageCannotFight); return; }
+
             // TODO:  Concept of 'pre-battle' where enemies can pile on ++ count up list of enemies -> transfer to battle
             this.transitionType = transitionType;
 
-            GameObject battleControllerInstance = Instantiate(battleControllerPrefab);
-            battleController = battleControllerInstance.GetComponent<BattleController>();
+            battleController = GetUniqueBattleController();
             battleController.Setup(enemies, transitionType);
 
             Fader fader = FindObjectOfType<Fader>();
@@ -96,11 +100,7 @@ namespace Frankie.Control
 
             battleController.battleStateChanged += HandleCombatComplete;
 
-            playerState = PlayerState.inBattle;
-            if (playerStateChanged != null)
-            {
-                playerStateChanged.Invoke();
-            }
+            SetPlayerState(PlayerState.inBattle);
         }
 
         public void HandleCombatComplete(BattleState battleState)
@@ -119,15 +119,13 @@ namespace Frankie.Control
             if (!isBattleCanvasEnabled)
             {
                 // TODO:  Handling for party death
-
                 FindObjectOfType<Fader>().battleCanvasStateChanged -= ExitCombat;
                 Destroy(battleController.gameObject);
                 battleController = null;
 
-                playerState = PlayerState.inWorld;
-                if (playerStateChanged != null)
+                if (playerState == PlayerState.inBattle)
                 {
-                    playerStateChanged.Invoke();
+                    SetPlayerState(PlayerState.inWorld);
                 }
             }
         }
@@ -139,17 +137,31 @@ namespace Frankie.Control
             dialogueController.Setup(worldCanvas, this, party);
             dialogueController.InitiateConversation(newConversant, newDialogue);
 
-            playerState = PlayerState.inDialogue;
-            if (playerStateChanged != null)
-            {
-                playerStateChanged.Invoke();
-            }
+            SetPlayerState(PlayerState.inDialogue);
+        }
+
+        public void OpenSimpleDialogue(string message)
+        {
+            dialogueController = GetUniqueDialogueController();
+            dialogueController.Setup(worldCanvas, this, party);
+            dialogueController.InitiateSimpleMessage(message);
+
+            SetPlayerState(PlayerState.inDialogue);
         }
 
         public void ExitDialogue()
         {
             dialogueController = null;
-            playerState = PlayerState.inWorld;
+            if (playerState == PlayerState.inDialogue)
+            {
+                SetPlayerState(PlayerState.inWorld);
+            }
+        }
+
+        public void SetPlayerState(PlayerState playerState)
+        {
+            this.playerState = playerState;
+            SetCursor(CursorType.None);
             if (playerStateChanged != null)
             {
                 playerStateChanged.Invoke();
@@ -164,6 +176,22 @@ namespace Frankie.Control
         public TransitionType GetTransitionType()
         {
             return transitionType;
+        }
+
+        public PlayerInputType GetPlayerInput()
+        {
+            // TODO:  Implement new unity input system
+            PlayerInputType input = PlayerInputType.DefaultNone;
+
+            if (Input.GetKeyDown(interactInspectKey) || Input.GetButtonDown(interactInspectButton))
+            {
+                input = PlayerInputType.Execute;
+            }
+            else if (Input.GetButtonDown(interactCancelButton))
+            {
+                input = PlayerInputType.Cancel;
+            }
+            return input;
         }
 
         // Internal functions
@@ -207,6 +235,54 @@ namespace Frankie.Control
             }
         }
 
+        private DialogueController GetUniqueDialogueController()
+        {
+            if (dialogueController != null) { return dialogueController; }
+
+            GameObject dialogueControllerObject = GameObject.FindGameObjectWithTag("DialogueController");
+            DialogueController existingDialogueController = null;
+            if (dialogueControllerObject != null)
+            {
+                existingDialogueController = dialogueControllerObject.GetComponent<DialogueController>();
+            }
+            
+            if (existingDialogueController == null)
+            {
+                GameObject newDialogueControllerObject = Instantiate(dialogueControllerPrefab);
+                dialogueController = newDialogueControllerObject.GetComponent<DialogueController>();
+            }
+            else
+            {
+                dialogueController = existingDialogueController;
+            }
+
+            return dialogueController;
+        }
+
+        private BattleController GetUniqueBattleController()
+        {
+            if (battleController != null) { return battleController; }
+
+            GameObject battleControllerObject = GameObject.FindGameObjectWithTag("BattleController");
+            BattleController existingBattleControllerController = null;
+            if (battleControllerObject != null)
+            {
+                existingBattleControllerController = battleControllerObject.GetComponent<BattleController>();
+            }
+
+            if (existingBattleControllerController == null)
+            {
+                GameObject newBattleControllerObject = Instantiate(battleControllerPrefab);
+                battleController = newBattleControllerObject.GetComponent<BattleController>();
+            }
+            else
+            {
+                battleController = existingBattleControllerController;
+            }
+
+            return battleController;
+        }
+
         private void KillRogueControllers(PlayerState playerState)
         {
             if (playerState == PlayerState.inWorld)
@@ -236,7 +312,6 @@ namespace Frankie.Control
             }
         }
 
-        // TODO:  Implement new unity input system
         private void InteractWithMovement()
         {
             SetMovementParameters();
@@ -249,7 +324,7 @@ namespace Frankie.Control
 
         private bool InteractWithGlobals()
         {
-            if (Input.GetButtonDown(interactSkipButton))
+            if (Input.GetButtonDown(interactSkipButton) || Input.GetKeyDown(interactInspectKey))
             {
                 if (globalInput != null)
                 {

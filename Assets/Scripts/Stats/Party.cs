@@ -50,6 +50,16 @@ namespace Frankie.Stats
             return party;
         }
 
+        public bool IsAnyMemberAlive()
+        {
+            bool alive = false;
+            foreach (CombatParticipant combatParticipant in party)
+            {
+                if (!combatParticipant.IsDead()) { alive = true; }
+            }
+            return alive;
+        }
+
         public void UpdatePartyAnimation(float speed, float xLookDirection, float yLookDirection)
         {
             foreach (CombatParticipant character in party)

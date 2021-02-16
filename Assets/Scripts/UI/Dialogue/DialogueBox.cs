@@ -6,7 +6,7 @@ using Frankie.Control;
 
 namespace Frankie.Speech.UI
 {
-    public class DialogueBox : MonoBehaviour, IGlobalInput
+    public class DialogueBox : MonoBehaviour, IGlobalInputReceiver
     {
         // Tunables
         [Header("Links And Prefabs")]
@@ -33,6 +33,7 @@ namespace Frankie.Speech.UI
         Queue<ReceptacleTextPair> printQueue = new Queue<ReceptacleTextPair>();
         List<GameObject> printedJobs = new List<GameObject>();
         List<CallbackMessagePair> disableCallbacks = new List<CallbackMessagePair>();
+        IStandardPlayerInputCaller alternateController = null;
 
         // Cached References
         DialogueController dialogueController = null;
@@ -60,11 +61,15 @@ namespace Frankie.Speech.UI
 
         protected virtual void OnEnable()
         {
-            if (dialogueController != null)
+            if (dialogueController != null && handleGlobalInput)
             {
-                dialogueController.globalInput += HandleGlobalInput;
+                if (handleGlobalInput) { dialogueController.globalInput += HandleGlobalInput; }
                 dialogueController.dialogueInput += HandleDialogueInput;
                 dialogueController.dialogueUpdated += UpdateUI;
+            }
+            if (alternateController != null && handleGlobalInput)
+            {
+                alternateController.globalInput += HandleGlobalInput;
             }
         }
 
@@ -72,13 +77,31 @@ namespace Frankie.Speech.UI
         {
             if (dialogueController != null)
             {
-                dialogueController.globalInput -= HandleGlobalInput;
+                if (handleGlobalInput) { dialogueController.globalInput -= HandleGlobalInput; }
                 dialogueController.dialogueInput -= HandleDialogueInput;
                 dialogueController.dialogueUpdated -= UpdateUI;
             }
+            if (alternateController != null && handleGlobalInput)
+            {
+                alternateController.globalInput -= HandleGlobalInput;
+            }
+
             foreach (CallbackMessagePair callbackMessagePair in disableCallbacks)
             {
                 callbackMessagePair.receiver.HandleDialogueCallback(this, callbackMessagePair.message);
+            }
+        }
+
+        private void Start()
+        {
+            SetupSimpleMessage();
+        }
+
+        private void SetupSimpleMessage()
+        {
+            if (dialogueController != null && dialogueController.IsSimpleMessage())
+            {
+                AddText(dialogueController.GetSimpleMessage());
             }
         }
 
@@ -90,6 +113,12 @@ namespace Frankie.Speech.UI
             {
                 activeTextScan = StartCoroutine(TextScan(printQueue.Dequeue()));
             }
+        }
+
+        public void SetGlobalCallbacks(IStandardPlayerInputCaller globalCallbackSender)
+        {
+            handleGlobalInput = true;
+            globalCallbackSender.globalInput += HandleGlobalInput;
         }
 
         public void SetDisableCallback(IDialogueBoxCallbackReceiver callbackReceiver, DialogueBox dialogueBox, string callbackMessage)
@@ -104,13 +133,22 @@ namespace Frankie.Speech.UI
 
         private void UpdateUI()
         {
+            KillDialogueForNoControllers();
             if (!dialogueController.IsActive()) { QueueDialogueCompletion(); return; }
 
             ClearOldDialogue();
-            SetSimpleText();
+            SetText();
             if (dialogueController.IsChoosing())
             {
                 SetChoiceList();
+            }
+        }
+
+        private void KillDialogueForNoControllers()
+        {
+            if (dialogueController == null && alternateController == null)
+            {
+                QueueDialogueCompletion();
             }
         }
 
@@ -137,16 +175,16 @@ namespace Frankie.Speech.UI
             }
         }
 
-        private void SetSimpleText()
+        private void SetText()
         {
             if (dialogueController.GetCurrentSpeakerType() == SpeakerType.playerSpeaker || dialogueController.GetCurrentSpeakerType() == SpeakerType.aiSpeaker)
             {
-                AddSimpleText(dialogueController.GetCurrentSpeakerName() + ":");
-                AddSimpleSpeech(dialogueController.GetText());
+                AddText(dialogueController.GetCurrentSpeakerName() + ":");
+                AddSpeech(dialogueController.GetText());
             }
             else if (dialogueController.GetCurrentSpeakerType() == SpeakerType.narratorDirection)
             {
-                AddSimpleSpeech(dialogueController.GetText());
+                AddSpeech(dialogueController.GetText());
             }
         }
 
@@ -174,14 +212,14 @@ namespace Frankie.Speech.UI
             }
         }
 
-        public void AddSimpleText(string text)
+        public void AddText(string text)
         {
             GameObject textObject = Instantiate(simpleTextPrefab, dialogueParent);
             textObject.SetActive(false);
             QueueTextForPrinting(textObject, text, false);
         }
 
-        public void AddSimpleSpeech(string text)
+        public void AddSpeech(string text)
         {
             GameObject textObject = Instantiate(speechTextPrefab, dialogueParent);
             textObject.SetActive(false);
@@ -260,11 +298,12 @@ namespace Frankie.Speech.UI
             {
                 if (interruptWriting) { break; }
                 textFragment += receptacleTextPair.text[letterIndex];
+                if (simpleTextLink == null) { break; }
                 simpleTextLink.Setup(textFragment);
                 letterIndex++;
                 yield return new WaitForSeconds(delayBetweenCharacters);
             }
-            simpleTextLink.Setup(receptacleTextPair.text);
+            if (simpleTextLink != null) { simpleTextLink.Setup(receptacleTextPair.text); }
             printedJobs.Add(receptacleTextPair.receptacle);
             SetBusyWriting(false);
             interruptWriting = false;
@@ -274,8 +313,9 @@ namespace Frankie.Speech.UI
         {
             foreach (GameObject printedJob in printedJobs)
             {
-                Destroy(printedJob);
+                if (printedJob != null) { Destroy(printedJob); }
             }
+            printedJobs = new List<GameObject>();
         }
 
         protected virtual bool IsChoiceAvailable()
@@ -328,15 +368,12 @@ namespace Frankie.Speech.UI
 
             if (playerInputType == PlayerInputType.Execute)
             {
-                if (dialogueController != null)
+                if (isWriting) { SkipToEndOfPage(); return; }
+
+                if (dialogueController != null && !dialogueController.IsSimpleMessage()) { return; } // dialogue completion handled by dialogue controller
+                else
                 {
-                    if (isWriting) { SkipToEndOfPage(); return; }
-                }
-                else 
-                {
-                    // Default behavior for a standard dialogue box pop-up without dialogue controller
-                    if (isWriting) { SkipToEndOfPage(); return; }
-                    else { QueueDialogueCompletion(); }
+                    QueueDialogueCompletion(); // otherwise queue for deletion on click through
                 }
             }
         }

@@ -13,6 +13,7 @@ namespace Frankie.Control
         // Tunables
         [SerializeField] Transform interactionCenterPoint = null;
         [Tooltip("Only used if not found via base stats")] [SerializeField] string defaultName = "";
+        [Tooltip("Include {0} for enemy name")] [SerializeField] string messageCannotFight = "{0} is wounded and cannot fight.";
 
         // Cached References
         Animator animator = null;
@@ -57,11 +58,19 @@ namespace Frankie.Control
 
         public void InitiateCombat(PlayerController callingController)  // called via Unity Event
         {
-            List<CombatParticipant> enemies = new List<CombatParticipant>();
             CombatParticipant enemy = GetComponent<CombatParticipant>();
-            enemies.Add(enemy);
-            // TODO:  Implement pile-on / swarm system
-            callingController.EnterCombat(enemies, TransitionType.BattleNeutral);
+
+            if (enemy.IsDead())
+            {
+                callingController.OpenSimpleDialogue(string.Format(messageCannotFight, enemy.GetCombatName()));
+            }
+            else
+            {
+                List<CombatParticipant> enemies = new List<CombatParticipant>();
+                enemies.Add(enemy);
+                // TODO:  Implement pile-on / swarm system
+                callingController.EnterCombat(enemies, TransitionType.BattleNeutral);
+            }
         }
 
         private void UpdateAnimator()

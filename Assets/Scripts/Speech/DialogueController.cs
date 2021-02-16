@@ -1,7 +1,6 @@
 using Frankie.Core;
 using Frankie.Stats;
 using Frankie.Control;
-using Frankie.Speech.UI;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,7 +8,7 @@ using UnityEngine;
 
 namespace Frankie.Speech
 {
-    public class DialogueController : MonoBehaviour, IPlayerInput
+    public class DialogueController : MonoBehaviour, IStandardPlayerInputCaller
     {
         // Tunables
         [Header("Controller Properties")]
@@ -29,6 +28,10 @@ namespace Frankie.Speech
         AIConversant currentConversant = null;
         DialogueNode highlightedNode = null;
         string finalTriggerAction = null;
+
+        bool isSimpleMessage = false;
+        string simpleMessage = "";
+
 
         // Cached References
         WorldCanvas worldCanvas = null;
@@ -51,6 +54,7 @@ namespace Frankie.Speech
 
         public void InitiateConversation(AIConversant newConversant, Dialogue newDialogue)
         {
+            isSimpleMessage = false;
             currentConversant = newConversant;
             currentDialogue = newDialogue;
             currentDialogue.OverrideSpeakerNames(GetPlayerName());
@@ -66,6 +70,13 @@ namespace Frankie.Speech
             }
         }
 
+        public void InitiateSimpleMessage(string message)
+        {
+            isSimpleMessage = true;
+            Instantiate(dialogueBoxPrefab, worldCanvas.transform);
+            simpleMessage = message;
+        }
+
         public void EndConversation()
         {
             QueueFinalTriggerAction();
@@ -79,17 +90,28 @@ namespace Frankie.Speech
 
             TriggerFinalAction();
             currentConversant = null; // Do not release currentConversant until final action triggered
-
-            Destroy(gameObject);
         }
 
         private void Update()
         {
-            // TODO:  Implement new unity input system
-            PlayerInputType playerInputType = GetPlayerInput();
-            if (InteractWithChoices(playerInputType)) { return; }
-            if (InteractWithNext(playerInputType)) { return; }
+            KillControllerForNoReceivers();
+            if (!isSimpleMessage)
+            {
+                // TODO:  Implement new unity input system
+                PlayerInputType playerInputType = GetPlayerInput();
+                if (InteractWithChoices(playerInputType)) { return; }
+                if (InteractWithNext(playerInputType)) { return; }
+            }
             if (InteractWithGlobals()) { return; }
+        }
+
+        private void KillControllerForNoReceivers()
+        {
+            if (globalInput == null && dialogueInput == null && dialogueUpdated == null)
+            {
+                playerController.ExitDialogue();
+                Destroy(gameObject);
+            }
         }
 
         private bool InteractWithGlobals()
@@ -164,6 +186,16 @@ namespace Frankie.Speech
                 }
             }
             return false;
+        }
+
+        public bool IsSimpleMessage()
+        {
+            return isSimpleMessage;
+        }
+
+        public string GetSimpleMessage()
+        {
+            return simpleMessage;
         }
 
         private void SetHighlightedNodeToDefault()
@@ -320,16 +352,19 @@ namespace Frankie.Speech
 
         private void TriggerEnterAction()
         {
+            if (currentNode == null) { return; }
             TriggerAction(currentNode.GetOnEnterAction());
         }
 
         private void TriggerExitAction()
         {
+            if (currentNode == null) { return; }
             TriggerAction(currentNode.GetOnExitAction());
         }
 
         private void QueueFinalTriggerAction()
         {
+            if (currentNode == null) { return; }
             finalTriggerAction = currentNode.GetOnExitAction();
         }
 

@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Frankie.Control
 {
-    public interface IGlobalInput
+    public interface IGlobalInputReceiver
     {
         void HandleGlobalInput(PlayerInputType playerInputType);
     }

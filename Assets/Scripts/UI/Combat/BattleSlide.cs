@@ -32,7 +32,11 @@ namespace Frankie.Combat.UI
 
         protected virtual void OnEnable()
         {
-            // implemented in child classes
+            if (combatParticipant != null)
+            {
+                combatParticipant.stateAltered += ParseState;
+            }
+            battleController.selectedCombatParticipantChanged += HighlightSlide;
         }
 
         protected virtual void OnDisable()
@@ -41,6 +45,7 @@ namespace Frankie.Combat.UI
             {
                 combatParticipant.stateAltered -= ParseState;
             }
+            battleController.selectedCombatParticipantChanged -= HighlightSlide;
         }
 
         private void FixedUpdate()
@@ -83,15 +88,15 @@ namespace Frankie.Combat.UI
             return combatParticipant;
         }
 
-        protected void HighlightSlide(CombatParticipant combatParticipant)
+        protected void HighlightSlide(CombatParticipantType combatParticipantType, CombatParticipant combatParticipant)
         {
             if (combatParticipant == this.combatParticipant)
             {
-                SetSelected(true);
+                SetSelected(combatParticipantType, true);
             }
             else
             {
-                SetSelected(false);
+                SetSelected(combatParticipantType, false);
             }
         }
 
@@ -103,7 +108,7 @@ namespace Frankie.Combat.UI
             currentShakeTime = 0f;
         }
 
-        protected virtual void SetSelected(bool enable)
+        protected virtual void SetSelected(CombatParticipantType combatParticipantType, bool enable)
         {
             // implemented in child classes
         }

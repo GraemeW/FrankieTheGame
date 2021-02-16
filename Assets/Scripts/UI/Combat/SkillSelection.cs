@@ -33,15 +33,15 @@ namespace Frankie.Combat.UI
 
         private void OnEnable()
         {
-            Setup(battleController.GetSelectedCharacter());
-            battleController.selectedCharacterChanged += Setup;
+            Setup(CombatParticipantType.Character, battleController.GetSelectedCharacter());
+            battleController.selectedCombatParticipantChanged += Setup;
             battleController.battleInput += HandleInput;
             SetupEnemySlideButtons(true);
         }
 
         private void OnDisable()
         {
-            battleController.selectedCharacterChanged -= Setup;
+            battleController.selectedCombatParticipantChanged -= Setup;
             battleController.battleInput -= HandleInput;
             SetupEnemySlideButtons(false);
         }
@@ -65,8 +65,9 @@ namespace Frankie.Combat.UI
             if (gameObject.activeSelf) { SetupEnemySlideButtons(true); }
         }
 
-        private void Setup(CombatParticipant combatParticipant)
+        private void Setup(CombatParticipantType combatParticipantType, CombatParticipant combatParticipant)
         {
+            if (combatParticipantType != CombatParticipantType.Character) { return; }
             if (combatParticipant == null) 
             { 
                 SetAllFields(defaultNoText);
@@ -108,7 +109,7 @@ namespace Frankie.Combat.UI
             else { skillField.text = defaultNoText; }
         }
 
-        public void HandleInput(PlayerInputType input) // PUBLIC:  Called via unity events for button clicks (mouse)
+        public void HandleInput(PlayerInputType input) 
         {
             if (battleController.GetSelectedCharacter() == null) { return; }
             if (!battleController.IsSkillArmed())
@@ -121,7 +122,7 @@ namespace Frankie.Combat.UI
             }
         }
 
-        public void HandleInput(int input)
+        public void HandleInput(int input) // PUBLIC:  Called via unity events for button clicks (mouse)
         {
             // Because Unity hates handling enums
             PlayerInputType battleInputType = (PlayerInputType)input;

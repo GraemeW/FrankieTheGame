@@ -7,6 +7,7 @@ namespace Frankie.Control
         NavigateLeft,
         NavigateRight,
         NavigateDown,
-        Execute
+        Execute,
+        Cancel
     }
 }

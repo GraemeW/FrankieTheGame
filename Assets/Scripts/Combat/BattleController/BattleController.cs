@@ -10,7 +10,7 @@ using static Frankie.Combat.Skill;
 
 namespace Frankie.Combat
 {
-    public class BattleController : MonoBehaviour, IPlayerInput
+    public class BattleController : MonoBehaviour, IStandardPlayerInputCaller
     {
         // Tunables
         [Header("Controller Properties")]
@@ -49,11 +49,10 @@ namespace Frankie.Combat
 
         // Events
         public event Action<BattleState> battleStateChanged;
-        public event Action<CombatParticipant> selectedCharacterChanged;
-        public event Action<CombatParticipant> selectedEnemyChanged;
+        public event Action<CombatParticipantType, CombatParticipant> selectedCombatParticipantChanged;
         public event Action<PlayerInputType> battleInput;
-        public event Action<BattleSequence> battleSequenceProcessed;
         public event Action<PlayerInputType> globalInput;
+        public event Action<BattleSequence> battleSequenceProcessed;
 
         // Public Functions
         public void Setup(List<CombatParticipant> enemies, TransitionType transitionType)
@@ -114,9 +113,9 @@ namespace Frankie.Combat
             if (character != null) { if (character.IsDead() || character.IsInCooldown()) { return false; } }
 
             selectedCharacter = character;
-            if (selectedCharacterChanged != null)
+            if (selectedCombatParticipantChanged != null)
             {
-                selectedCharacterChanged.Invoke(selectedCharacter);
+                selectedCombatParticipantChanged.Invoke(CombatParticipantType.Character, selectedCharacter);
             }
             return true;
         }
@@ -131,9 +130,9 @@ namespace Frankie.Combat
             if (enemy != null) { if (enemy.IsDead()) { return false; } }
 
             selectedEnemy = enemy;
-            if (selectedEnemyChanged != null)
+            if (selectedCombatParticipantChanged != null)
             {
-                selectedEnemyChanged.Invoke(selectedEnemy);
+                selectedCombatParticipantChanged.Invoke(CombatParticipantType.Enemy, selectedEnemy);
             }
             return true;
         }
@@ -191,6 +190,8 @@ namespace Frankie.Combat
 
         private void Update()
         {
+            // TODO:  Update input system to NEW input system
+            PlayerInputType playerInputType = GetPlayerInput();
             if (state == BattleState.Combat)
             {
                 if (!haltBattleQueue) // BattleQueue takes priority, avoid user interaction stalling action queue
@@ -198,24 +199,23 @@ namespace Frankie.Combat
                     StartCoroutine(HaltBattleQueue(battleQueueDelay));
                     ProcessNextBattleSequence();
                 }
-
-                // TODO:  Update input system to NEW input system
-                PlayerInputType playerInputType = GetPlayerInput();
-                if (InteractWithInterrupts()) { return; }
+                if (InteractWithInterrupts(playerInputType)) { return; }
                 if (InteractWithCharacterSelect()) { return; }
                 if (InteractWithSkillSelect(playerInputType)) { return; }
                 if (InteractWithSkillExecute(playerInputType)) { return; }
-                if (InteractWithGlobals(playerInputType)) { return; }
             }
             else if (state == BattleState.Outro)
             {
-                if (outroCleanupCalled) { return; }
-
-                outroCleanupCalled = true;
-                // TODO:  Handle experience awards + levels ~ set state level up and handled full outro + level by canvas
-                CleanUpBattleBits();
+                if (!outroCleanupCalled)
+                {
+                    outroCleanupCalled = true;
+                    // TODO:  Handle experience awards + levels ~ set state level up and handled full outro + level by canvas
+                    CleanUpBattleBits();
+                }
             }
             else if (state == BattleState.Complete && outroCleanupCalled) { outroCleanupCalled = false; }
+
+            if (InteractWithGlobals(playerInputType)) { return; }  // Final call to globals, avoid short circuit
         }
 
         private void LateUpdate()
@@ -254,9 +254,9 @@ namespace Frankie.Combat
             }
         }
 
-        private bool InteractWithInterrupts()
+        private bool InteractWithInterrupts(PlayerInputType playerInputType)
         {
-            if (Input.GetButtonDown(interactCancelButton))
+            if (playerInputType == PlayerInputType.Cancel)
             {
                 // Move to Combat Options if nothing selected in skill selector
                 if (selectedSkill == null || selectedCharacter == null) 
@@ -279,6 +279,8 @@ namespace Frankie.Combat
 
         private bool InteractWithCharacterSelect()
         {
+            if (GetBattleState() !=  BattleState.Combat) { return false; }
+
             int numberOfPartyMembers = party.GetParty().Count;
             bool validInput = false;
             CombatParticipant candidateCharacter = null;
@@ -312,6 +314,7 @@ namespace Frankie.Combat
 
         private bool InteractWithSkillSelect(PlayerInputType playerInputType)
         {
+            if (GetBattleState() != BattleState.Combat) { return false; }
             if (skillArmed) { return false; }
 
             if (selectedCharacter != null && !selectedCharacter.IsDead())
@@ -336,6 +339,7 @@ namespace Frankie.Combat
 
         private bool InteractWithSkillExecute(PlayerInputType playerInputType)
         {
+            if (GetBattleState() != BattleState.Combat) { return false; }
             if (!skillArmed || selectedCharacter == null || selectedSkill == null) { return false; }
 
             if (playerInputType != PlayerInputType.DefaultNone)
@@ -368,7 +372,15 @@ namespace Frankie.Combat
 
         private bool InteractWithGlobals(PlayerInputType playerInputType)
         {
-            if (Input.GetButtonDown(interactExecuteButton) || Input.GetKeyDown(interactExecuteKey))
+            if (Input.GetButtonDown(interactExecuteButton) || Input.GetKeyDown(interactExecuteKey)) // Override to allow both mouse click and keyboard input
+            {
+                if (globalInput != null)
+                {
+                    globalInput.Invoke(PlayerInputType.Execute);
+                    return true;
+                }
+            }
+            else
             {
                 if (globalInput != null)
                 {
@@ -401,6 +413,10 @@ namespace Frankie.Combat
             else if (Input.GetKeyDown(interactExecuteKey))
             {
                 input = PlayerInputType.Execute;
+            }
+            else if (Input.GetButtonDown(interactCancelButton))
+            {
+                input = PlayerInputType.Cancel;
             }
             return input;
         }
