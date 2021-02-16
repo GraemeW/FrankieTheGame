@@ -41,7 +41,7 @@ namespace Frankie.Speech.UI
 
             if (!IsChoiceAvailable()) { return; }
             if (ShowCursorOnAnyInteraction(playerInputType)) { return; }
-            if (ChooseWithAction(playerInputType)) { return; }
+            if (PrepareChooseAction(playerInputType)) { return; }
             if (MoveCursor(playerInputType)) { return; }
         }
 
@@ -90,7 +90,7 @@ namespace Frankie.Speech.UI
             return false;
         }
 
-        protected override bool ChooseWithAction(PlayerInputType playerInputType)
+        protected override bool PrepareChooseAction(PlayerInputType playerInputType)
         {
             if (playerInputType == PlayerInputType.Execute)
             {

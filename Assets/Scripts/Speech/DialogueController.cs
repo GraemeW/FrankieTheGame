@@ -1,6 +1,7 @@
 using Frankie.Core;
 using Frankie.Stats;
 using Frankie.Control;
+using Frankie.Speech.UI;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -29,29 +30,60 @@ namespace Frankie.Speech
         DialogueNode highlightedNode = null;
 
         // Cached References
-        Party party = null;
         WorldCanvas worldCanvas = null;
+        PlayerController playerController = null;
+        Party party = null;
 
         // Events
         public event Action<PlayerInputType> globalInput;
+        public event Action<PlayerInputType> dialogueInput;
         public event Action<DialogueNode> highlightedNodeChanged;
         public event Action dialogueUpdated;
 
         // Methods
-        private void Awake()
+        public void Setup(WorldCanvas worldCanvas, PlayerController playerController, Party party)
         {
-            party = GameObject.FindGameObjectWithTag("Player").GetComponent<Party>();
-            worldCanvas = GameObject.FindGameObjectWithTag("WorldCanvas").GetComponent<WorldCanvas>();
+            this.worldCanvas = worldCanvas;
+            this.playerController = playerController;
+            this.party = party;
+        }
+
+        public void InitiateConversation(AIConversant newConversant, Dialogue newDialogue)
+        {
+            currentConversant = newConversant;
+            currentDialogue = newDialogue;
+            currentDialogue.OverrideSpeakerNames(GetPlayerName());
+
+            currentNode = currentDialogue.GetRootNode();
+            if (currentDialogue.skipRootNode) { Next(false); }
+
+            Instantiate(dialogueBoxPrefab, worldCanvas.transform);
+            TriggerEnterAction();
+            if (dialogueUpdated != null)
+            {
+                dialogueUpdated.Invoke();
+            }
+        }
+
+        public void EndConversation()
+        {
+            TriggerExitAction();
+            currentConversant = null;
+            currentDialogue = null;
+            currentNode = null;
+            if (dialogueUpdated != null)
+            {
+                dialogueUpdated.Invoke();
+            }
+            playerController.ExitDialogue();
+            Destroy(gameObject);
         }
 
         private void Update()
         {
             // TODO:  Implement new unity input system
             PlayerInputType playerInputType = GetPlayerInput();
-            if (IsChoosing())
-            {
-                if (InteractWithChoices(playerInputType)) { return; }
-            }
+            if (InteractWithChoices(playerInputType)) { return; }
             if (InteractWithNext(playerInputType)) { return; }
             if (InteractWithGlobals()) { return; }
         }
@@ -71,10 +103,10 @@ namespace Frankie.Speech
 
         private bool InteractWithNext(PlayerInputType playerInputType)
         {
-            if (IsChoosing()) { return false; }
+            if (IsChoosing() || playerInputType == PlayerInputType.DefaultNone) { return false; }
+            if (dialogueUpdated == null) { return false; }  // check if dialogue box can receive messages (toggled off during text-scans)
 
-            if (dialogueUpdated != null // check if dialogue box can receive messages (toggled off during text-scans)
-                && playerInputType == PlayerInputType.Execute)
+            if (playerInputType == PlayerInputType.Execute)
             {
                 if (HasNext())
                 {
@@ -92,7 +124,8 @@ namespace Frankie.Speech
 
         private bool InteractWithChoices(PlayerInputType playerInputType)
         {
-            if (playerInputType == PlayerInputType.DefaultNone) { return false; }
+            if (!IsChoosing() || playerInputType == PlayerInputType.DefaultNone) { return false; }
+            if (dialogueUpdated == null) { return false; }  // check if dialogue box can receive messages (toggled off during text-scans)
 
             if (highlightedNode == null)
             {
@@ -102,9 +135,16 @@ namespace Frankie.Speech
             
             if (playerInputType == PlayerInputType.Execute)
             {
+                if (dialogueInput != null)
+                {
+                    dialogueInput.Invoke(playerInputType);
+                }
                 NextWithID(highlightedNode.name);
+                highlightedNode = null;
+                return true;
             }
-            else
+            else if (playerInputType == PlayerInputType.NavigateUp || playerInputType == PlayerInputType.NavigateLeft
+                || playerInputType == PlayerInputType.NavigateRight || playerInputType == PlayerInputType.NavigateDown)
             {
                 List<DialogueNode> currentOptions = GetChoices().ToList();
 
@@ -181,36 +221,6 @@ namespace Frankie.Speech
         public string GetPlayerName()
         {
             return party.GetParty()[0].GetCombatName();
-        }
-
-        public void InitiateConversation(AIConversant newConversant, Dialogue newDialogue)
-        {
-            currentConversant = newConversant;
-            currentDialogue = newDialogue;
-            currentDialogue.OverrideSpeakerNames(GetPlayerName());
-
-            currentNode = currentDialogue.GetRootNode();
-            if (currentDialogue.skipRootNode) { Next(false); }
-
-            Instantiate(dialogueBoxPrefab, worldCanvas.transform);
-            TriggerEnterAction();
-            if (dialogueUpdated != null)
-            {
-                dialogueUpdated.Invoke();
-            }
-        }
-
-        public void EndConversation()
-        {
-            TriggerExitAction();
-            currentConversant = null;
-            currentDialogue = null;
-            currentNode = null;
-            if (dialogueUpdated != null)
-            {
-                dialogueUpdated.Invoke();
-            }
-            Destroy(gameObject);
         }
 
         public bool IsActive()

@@ -53,7 +53,7 @@ namespace Frankie.Speech.UI
 
         protected virtual void Awake()
         {
-            dialogueController = GameObject.FindGameObjectWithTag("Player").GetComponent<DialogueController>();
+            dialogueController = GameObject.FindGameObjectWithTag("DialogueController").GetComponent<DialogueController>();
             destroyQueued = false;
         }
 
@@ -62,6 +62,7 @@ namespace Frankie.Speech.UI
             if (dialogueController != null)
             {
                 dialogueController.globalInput += HandleGlobalInput;
+                dialogueController.dialogueInput += HandleDialogueInput;
                 dialogueController.dialogueUpdated += UpdateUI;
             }
         }
@@ -71,6 +72,7 @@ namespace Frankie.Speech.UI
             if (dialogueController != null)
             {
                 dialogueController.globalInput -= HandleGlobalInput;
+                dialogueController.dialogueInput -= HandleDialogueInput;
                 dialogueController.dialogueUpdated -= UpdateUI;
             }
             foreach (CallbackMessagePair callbackMessagePair in disableCallbacks)
@@ -277,17 +279,14 @@ namespace Frankie.Speech.UI
 
         protected virtual bool IsChoiceAvailable()
         {
-            return dialogueController.IsChoosing();
+            // Used in alternate implementations
+            return true;
         }
 
         protected virtual bool ShowCursorOnAnyInteraction(PlayerInputType playerInputType)
         {
-            if (playerInputType != PlayerInputType.DefaultNone)
-            {
-                
-                return true;
-            }
-            return false;
+            // Used in alternate implementations
+            return true;
         }
 
         protected virtual bool MoveCursor(PlayerInputType playerInputType)
@@ -298,15 +297,16 @@ namespace Frankie.Speech.UI
 
         protected virtual bool Choose(string nodeID)
         {
-            dialogueController.NextWithID(nodeID);
-            return ChooseWithAction(PlayerInputType.Execute);
+            bool choose = PrepareChooseAction(PlayerInputType.Execute);
+            if (choose) { dialogueController.NextWithID(nodeID); }
+            return choose;
         }
 
-        protected virtual bool ChooseWithAction(PlayerInputType playerInputType)
+        protected virtual bool PrepareChooseAction(PlayerInputType playerInputType)
         {
             if (playerInputType == PlayerInputType.Execute)
             {
-                if (isWriting) // Safety against choice during writing
+                if (isWriting)
                 {
                     if (activeTextScan != null) { StopCoroutine(activeTextScan); }
                     SetBusyWriting(false);
@@ -314,6 +314,11 @@ namespace Frankie.Speech.UI
                 return true;
             }
             return false;
+        }
+
+        private void HandleDialogueInput(PlayerInputType playerInputType)
+        {
+            PrepareChooseAction(playerInputType);
         }
 
         public virtual void HandleGlobalInput(PlayerInputType playerInputType)
@@ -324,7 +329,7 @@ namespace Frankie.Speech.UI
             {
                 if (dialogueController != null)
                 {
-                    SkipToEndOfPage(); return;
+                    if (isWriting) { SkipToEndOfPage(); return; }
                 }
                 else 
                 {

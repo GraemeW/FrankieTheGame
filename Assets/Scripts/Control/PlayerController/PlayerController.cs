@@ -44,10 +44,12 @@ namespace Frankie.Control
         PlayerState playerState = PlayerState.inWorld;
         TransitionType transitionType = TransitionType.None;
         BattleController battleController = null;
+        DialogueController dialogueController = null;
 
         // Cached References
         Rigidbody2D playerRigidbody2D = null;
         Party party = null;
+        WorldCanvas worldCanvas = null;
 
         // Events
         public event Action<PlayerInputType> globalInput;
@@ -133,8 +135,25 @@ namespace Frankie.Control
         public void EnterDialogue(AIConversant newConversant, Dialogue newDialogue)
         {
             GameObject dialogueControllerObject = Instantiate(dialogueControllerPrefab);
-            DialogueController dialogueController = dialogueControllerObject.GetComponent<DialogueController>();
+            dialogueController = dialogueControllerObject.GetComponent<DialogueController>();
+            dialogueController.Setup(worldCanvas, this, party);
             dialogueController.InitiateConversation(newConversant, newDialogue);
+
+            playerState = PlayerState.inDialogue;
+            if (playerStateChanged != null)
+            {
+                playerStateChanged.Invoke();
+            }
+        }
+
+        public void ExitDialogue()
+        {
+            dialogueController = null;
+            playerState = PlayerState.inWorld;
+            if (playerStateChanged != null)
+            {
+                playerStateChanged.Invoke();
+            }
         }
 
         public PlayerState GetPlayerState()
@@ -157,6 +176,7 @@ namespace Frankie.Control
         {
             party = GetComponent<Party>();
             playerRigidbody2D = GetComponent<Rigidbody2D>();
+            worldCanvas = GameObject.FindGameObjectWithTag("WorldCanvas").GetComponent<WorldCanvas>();
         }
 
         private void Start()
@@ -177,8 +197,6 @@ namespace Frankie.Control
                 if (InteractWithComponentManual()) return;
                 SetCursor(CursorType.None);
             }
-            // Some level of input now also handled by dialogueBox && extensions -- I don't love this, think of a nicer way to handle
-            // Maybe fold into playerconversant (generalize to dialogue controller) && centralize interaction there?
         }
 
         private void FixedUpdate()
@@ -195,7 +213,10 @@ namespace Frankie.Control
             {
                 HandleCombatComplete(BattleState.Complete);
             }
-            // TODO:  same for dialogue, once implemented
+            if (dialogueController != null)
+            {
+                ExitDialogue();
+            }
         }
 
         // TODO:  Implement new unity input system
