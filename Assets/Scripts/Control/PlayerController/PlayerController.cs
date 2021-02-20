@@ -109,7 +109,7 @@ namespace Frankie.Control
             battleController.battleStateChanged -= HandleCombatComplete;
 
             Fader fader = FindObjectOfType<Fader>();
-            fader.battleCanvasStateChanged += ExitCombat;
+            fader.battleUIStateChanged += ExitCombat;
             transitionType = TransitionType.BattleComplete;
             fader.UpdateFadeState(transitionType);
         }
@@ -119,7 +119,7 @@ namespace Frankie.Control
             if (!isBattleCanvasEnabled)
             {
                 // TODO:  Handling for party death
-                FindObjectOfType<Fader>().battleCanvasStateChanged -= ExitCombat;
+                FindObjectOfType<Fader>().battleUIStateChanged -= ExitCombat;
                 Destroy(battleController.gameObject);
                 battleController = null;
 

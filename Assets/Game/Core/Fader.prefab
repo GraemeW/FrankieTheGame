@@ -341,7 +341,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 97796894fa2300243a3483ae1795c892, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  battleCanvasPrefab: {fileID: 8837486854988665628, guid: 704954e38f2858a44b4ce5c8da5850bc, type: 3}
+  battleUIPrefab: {fileID: 877524597382831827, guid: 4a9e93a3ac9fb5243a42c837677d7fd0, type: 3}
   nodeEntry: {fileID: 0}
   goodBattleEntry: {fileID: 2792991010653004335}
   badBattleEntry: {fileID: 8906313726304546477}

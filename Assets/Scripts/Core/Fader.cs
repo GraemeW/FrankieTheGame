@@ -9,7 +9,7 @@ namespace Frankie.Core
     {
         // Tunables
         [Header("Linked Assets")]
-        [SerializeField] Canvas battleCanvasPrefab = null;
+        [SerializeField] GameObject battleUIPrefab = null;
         [SerializeField] Image nodeEntry = null; // TODO: IMPLEMENT -- SCENE CHANGE FADING
         [SerializeField] Image goodBattleEntry = null;
         [SerializeField] Image badBattleEntry = null;
@@ -22,10 +22,10 @@ namespace Frankie.Core
         // State
         Image currentTransition = null;
         bool fading = false;
-        Canvas battleCanvas = null;
+        GameObject battleUI = null;
 
         // Events
-        public event Action<bool> battleCanvasStateChanged;
+        public event Action<bool> battleUIStateChanged;
 
         private void Start()
         {
@@ -51,21 +51,21 @@ namespace Frankie.Core
             }
             else if (transitionType == TransitionType.BattleComplete)
             {
-                battleCanvas.gameObject.SetActive(false);
-                if (battleCanvasStateChanged != null)
+                battleUI.gameObject.SetActive(false);
+                if (battleUIStateChanged != null)
                 {
-                    battleCanvasStateChanged.Invoke(false);
+                    battleUIStateChanged.Invoke(false);
                 }
-                Destroy(battleCanvas.gameObject);
-                battleCanvas = null;
+                Destroy(battleUI.gameObject);
+                battleUI = null;
             }
             else
             {
-                if (battleCanvas == null) { battleCanvas = Instantiate(battleCanvasPrefab); }
-                battleCanvas.gameObject.SetActive(true);
-                if (battleCanvasStateChanged != null)
+                if (battleUI == null) { battleUI = Instantiate(battleUIPrefab); }
+                battleUI.gameObject.SetActive(true);
+                if (battleUIStateChanged != null)
                 {
-                    battleCanvasStateChanged.Invoke(true);
+                    battleUIStateChanged.Invoke(true);
                 }
             }
             yield return QueueFadeExit();
@@ -112,7 +112,7 @@ namespace Frankie.Core
 
         private void ResetOverlays()
         {
-            if (battleCanvas != null) { battleCanvas.gameObject.SetActive(false); }
+            if (battleUI != null) { battleUI.gameObject.SetActive(false); }
             goodBattleEntry.gameObject.SetActive(false);
             badBattleEntry.gameObject.SetActive(false);
             neutralBattleEntry.gameObject.SetActive(false);

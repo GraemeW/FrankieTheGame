@@ -70,7 +70,7 @@ namespace Frankie.Combat
                 enemy.stateAltered += CheckForBattleEnd;
                 activeEnemies.Add(enemy);
             }
-            FindObjectOfType<Fader>().battleCanvasStateChanged += InitiateBattle;
+            FindObjectOfType<Fader>().battleUIStateChanged += InitiateBattle;
         }
 
         public void SetBattleState(BattleState state)
@@ -230,7 +230,7 @@ namespace Frankie.Combat
         {
             if (isBattleCanvasEnabled)
             {
-                FindObjectOfType<Fader>().battleCanvasStateChanged -= InitiateBattle;
+                FindObjectOfType<Fader>().battleUIStateChanged -= InitiateBattle;
                 SetBattleState(BattleState.Intro);
             }
         }
