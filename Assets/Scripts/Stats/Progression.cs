@@ -11,26 +11,26 @@ namespace Frankie.Stats
         [SerializeField] ProgressionCharacterClass[] characterClasses = default;
 
         // State
-        Dictionary<CharacterName, Dictionary<Stat, float[]>> lookupTable = null;
+        Dictionary<CharacterProperties, Dictionary<Stat, float[]>> lookupTable = null;
 
-        public float GetStat(Stat stat, CharacterName characterName, int level)
+        public float GetStat(Stat stat, CharacterProperties characterProperties, int level)
         {
             BuildLookup();
-            float[] levels = lookupTable[characterName][stat];
+            float[] levels = lookupTable[characterProperties][stat];
             int safeLevel = Mathf.Clamp(level - 1, 0, levels.Length - 1);
             return levels[safeLevel];
         }
 
-        public int GetLevels(Stat stat, CharacterName characterName)
+        public int GetLevels(Stat stat, CharacterProperties characterProperties)
         {
             BuildLookup();
-            return lookupTable[characterName][stat].Length;
+            return lookupTable[characterProperties][stat].Length;
         }
 
         private void BuildLookup()
         {
             if (lookupTable != null) { return; }
-            lookupTable = new Dictionary<CharacterName, Dictionary<Stat, float[]>>();
+            lookupTable = new Dictionary<CharacterProperties, Dictionary<Stat, float[]>>();
 
             foreach (ProgressionCharacterClass progressionCharacterClass in characterClasses)
             {
@@ -39,7 +39,7 @@ namespace Frankie.Stats
                 {
                     statDictionary[progressionStat.stat] = progressionStat.levels;
                 }
-                lookupTable[progressionCharacterClass.characterName] = statDictionary;
+                lookupTable[progressionCharacterClass.characterProperties] = statDictionary;
             }
         }
 
@@ -47,7 +47,7 @@ namespace Frankie.Stats
         [System.Serializable]
         class ProgressionCharacterClass
         {
-            public CharacterName characterName = CharacterName.None;
+            public CharacterProperties characterProperties = null;
             public ProgressionStat[] stats = default;
         }
 

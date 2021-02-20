@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: CoreProgression
   m_EditorClassIdentifier: 
   characterClasses:
-  - characterName: 1
+  - characterProperties: {fileID: 11400000, guid: b50f84a2f36107a44825b11881f88adf, type: 2}
     stats:
     - stat: 0
       levels:
@@ -27,7 +27,7 @@ MonoBehaviour:
     - stat: 3
       levels:
       - 15
-  - characterName: 2
+  - characterProperties: {fileID: 11400000, guid: 56186947ccacc0a4598067f4b80c5c25, type: 2}
     stats:
     - stat: 0
       levels:

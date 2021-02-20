@@ -79,26 +79,25 @@ namespace Frankie.Speech.Editor
         {
             speakerNameToFill = speakerName;
 
+            nodeStyle.normal.background = EditorGUIUtility.Load("node0") as Texture2D; // Default behavior
             if (speaker == SpeakerType.playerSpeaker)
             {
                 nodeStyle.normal.background = EditorGUIUtility.Load("node3") as Texture2D;
             }
             else if (speaker == SpeakerType.aiSpeaker)
             {
-                List<CharacterName> activeSpeakers = selectedDialogue.GetActiveCharacterNames();
+                List<CharacterProperties> activeSpeakers = selectedDialogue.GetActiveCharacters();
                 if (activeSpeakers.Count > 0)
                 {
                     for (int i = 0; i < activeSpeakers.Count; i++)
                     {
-                        if (activeSpeakers[i] != dialogueNode.GetCharacterName()) { continue; }
+                        if (activeSpeakers[i] != dialogueNode.GetCharacterProperties()) { continue; }
                         if (i == 0) { nodeStyle.normal.background = EditorGUIUtility.Load("node1") as Texture2D; }
                         else if (i == 1) { nodeStyle.normal.background = EditorGUIUtility.Load("node2") as Texture2D; }
                         else if (i == 2) { nodeStyle.normal.background = EditorGUIUtility.Load("node5") as Texture2D; }
                         else if (i == 3) { nodeStyle.normal.background = EditorGUIUtility.Load("node6") as Texture2D; }
-                        else { nodeStyle.normal.background = EditorGUIUtility.Load("node0") as Texture2D; }
                     }
                 }
-                else { nodeStyle.normal.background = EditorGUIUtility.Load("node0") as Texture2D; }
             }
             else { nodeStyle.normal.background = EditorGUIUtility.Load("node0") as Texture2D; }
             if (string.IsNullOrWhiteSpace(speakerNameToFill)) { speakerNameToFill = "Default"; }

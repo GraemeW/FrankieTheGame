@@ -39,7 +39,7 @@ namespace Frankie.Control
             if (baseStats != null)
             {
                 // Split apart name on lower case followed by upper case w/ or w/out underscores
-                return baseStats.GetCharacterNamePretty();
+                return baseStats.GetCharacterProperties().GetCharacterNamePretty();
             }
             return defaultName;
         }

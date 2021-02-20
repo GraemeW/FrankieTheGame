@@ -1,47 +1,5 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &-5027003631223702913
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8937208100927724530}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1f15037888676594696e2cd95a77f996, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  friendly: 0
-  combatSprite: {fileID: 21300000, guid: 1c858d8fb5e60954cac7c6fa51165fd2, type: 3}
-  damageTimeSpan: 4
-  fractionOfHPInstantOnRevival: 0.5
---- !u!114 &1387745738153086068
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8937208100927724530}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 292cbe0fa78f411468ca518291de60fb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  probabilityToTraverseSkillTree: 0.8
---- !u!114 &8207874701663177892
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8937208100927724530}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9500bc738f48a9b40a11b28b434aa2b9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  skillTree: {fileID: 11400000, guid: 04dead9955034474482cf14a5b110e21, type: 2}
 --- !u!1001 &2436801356840233352
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -49,6 +7,22 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2829251969425687448, guid: 1b473d8838e3d4d4c99f7ff6e30d07df, type: 3}
+      propertyPath: m_Size.x
+      value: 0.45162603
+      objectReference: {fileID: 0}
+    - target: {fileID: 2829251969425687448, guid: 1b473d8838e3d4d4c99f7ff6e30d07df, type: 3}
+      propertyPath: m_Size.y
+      value: 0.091210574
+      objectReference: {fileID: 0}
+    - target: {fileID: 2829251969425687448, guid: 1b473d8838e3d4d4c99f7ff6e30d07df, type: 3}
+      propertyPath: m_Offset.x
+      value: -0.048464492
+      objectReference: {fileID: 0}
+    - target: {fileID: 2829251969425687448, guid: 1b473d8838e3d4d4c99f7ff6e30d07df, type: 3}
+      propertyPath: m_Offset.y
+      value: 0.049879864
+      objectReference: {fileID: 0}
     - target: {fileID: 6761616658462586549, guid: 1b473d8838e3d4d4c99f7ff6e30d07df, type: 3}
       propertyPath: m_Size.x
       value: 0.4
@@ -60,7 +34,7 @@ PrefabInstance:
     - target: {fileID: 6761616658462586549, guid: 1b473d8838e3d4d4c99f7ff6e30d07df, type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: 856f2a065a11b5e45b959d28c612a917, type: 3}
+      objectReference: {fileID: 21300000, guid: e92357c37073d7542a4b9a48cf1a1896, type: 3}
     - target: {fileID: 6761616658462586549, guid: 1b473d8838e3d4d4c99f7ff6e30d07df, type: 3}
       propertyPath: m_WasSpriteAssigned
       value: 1
@@ -68,7 +42,7 @@ PrefabInstance:
     - target: {fileID: 6761616658632847992, guid: 1b473d8838e3d4d4c99f7ff6e30d07df, type: 3}
       propertyPath: m_Controller
       value: 
-      objectReference: {fileID: 22100000, guid: e7d25f8194ce6674c94a52ccd21b6144, type: 2}
+      objectReference: {fileID: 22100000, guid: bf5debf8f6cdf23429c161439d2534ee, type: 2}
     - target: {fileID: 6761616658632847993, guid: 1b473d8838e3d4d4c99f7ff6e30d07df, type: 3}
       propertyPath: m_RootOrder
       value: 0
@@ -115,16 +89,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6761616658632847994, guid: 1b473d8838e3d4d4c99f7ff6e30d07df, type: 3}
       propertyPath: m_Name
-      value: HipsterOfficeWorker
+      value: Horse
       objectReference: {fileID: 0}
     - target: {fileID: 6762723866359945157, guid: 1b473d8838e3d4d4c99f7ff6e30d07df, type: 3}
-      propertyPath: characterName
-      value: 2
-      objectReference: {fileID: 0}
+      propertyPath: characterProperties
+      value: 
+      objectReference: {fileID: 11400000, guid: bb8eacf5d6e151548ae677e3ff4d1109, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1b473d8838e3d4d4c99f7ff6e30d07df, type: 3}
---- !u!1 &8937208100927724530 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 6761616658632847994, guid: 1b473d8838e3d4d4c99f7ff6e30d07df, type: 3}
-  m_PrefabInstance: {fileID: 2436801356840233352}
-  m_PrefabAsset: {fileID: 0}

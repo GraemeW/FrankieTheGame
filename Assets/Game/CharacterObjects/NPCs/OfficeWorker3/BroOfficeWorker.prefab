@@ -18,7 +18,7 @@ PrefabInstance:
     - target: {fileID: 6761616658462586549, guid: 1b473d8838e3d4d4c99f7ff6e30d07df, type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: 4ffd5cf059ad5ea40a7d38217fdefd99, type: 3}
+      objectReference: {fileID: 21300000, guid: 3bdf852169b791645a30929c2a3c0f1b, type: 3}
     - target: {fileID: 6761616658462586549, guid: 1b473d8838e3d4d4c99f7ff6e30d07df, type: 3}
       propertyPath: m_WasSpriteAssigned
       value: 1
@@ -26,7 +26,7 @@ PrefabInstance:
     - target: {fileID: 6761616658632847992, guid: 1b473d8838e3d4d4c99f7ff6e30d07df, type: 3}
       propertyPath: m_Controller
       value: 
-      objectReference: {fileID: 22100000, guid: f5b03c167efecea47a9aa01da8fb8ea4, type: 2}
+      objectReference: {fileID: 22100000, guid: 38c0e73b1c6e46b478fffac66e1f4dc8, type: 2}
     - target: {fileID: 6761616658632847993, guid: 1b473d8838e3d4d4c99f7ff6e30d07df, type: 3}
       propertyPath: m_RootOrder
       value: 0
@@ -73,7 +73,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6761616658632847994, guid: 1b473d8838e3d4d4c99f7ff6e30d07df, type: 3}
       propertyPath: m_Name
-      value: OfficeWorker 2
+      value: BroOfficeWorker
       objectReference: {fileID: 0}
+    - target: {fileID: 6762723866359945157, guid: 1b473d8838e3d4d4c99f7ff6e30d07df, type: 3}
+      propertyPath: characterProperties
+      value: 
+      objectReference: {fileID: 11400000, guid: 15a456ac7051b7946ba9d4575fddb1ba, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1b473d8838e3d4d4c99f7ff6e30d07df, type: 3}

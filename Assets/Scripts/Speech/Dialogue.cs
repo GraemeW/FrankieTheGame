@@ -17,7 +17,7 @@ namespace Frankie.Speech
         [SerializeField] int nodeHeight = 225;
 
         // State
-        [HideInInspector] [SerializeField] List<CharacterName> activeNPCs = null;
+        [HideInInspector] [SerializeField] List<CharacterProperties> activeNPCs = null;
         [HideInInspector] [SerializeField] List<DialogueNode> dialogueNodes = new List<DialogueNode>();
         [HideInInspector] [SerializeField] Dictionary<string, DialogueNode> nodeLookup = new Dictionary<string, DialogueNode>();
 
@@ -31,13 +31,13 @@ namespace Frankie.Speech
         private void OnValidate()
         {
             nodeLookup = new Dictionary<string, DialogueNode>();
-            activeNPCs = new List<CharacterName>();
+            activeNPCs = new List<CharacterProperties>();
             foreach (DialogueNode dialogueNode in dialogueNodes)
             {
                 nodeLookup.Add(dialogueNode.name, dialogueNode);
-                if (dialogueNode.GetCharacterName() != default && !activeNPCs.Contains(dialogueNode.GetCharacterName()))
+                if (dialogueNode.GetCharacterProperties() != null && !activeNPCs.Contains(dialogueNode.GetCharacterProperties()))
                 {
-                    activeNPCs.Add(dialogueNode.GetCharacterName());
+                    activeNPCs.Add(dialogueNode.GetCharacterProperties());
                 }
             }
         }
@@ -93,7 +93,7 @@ namespace Frankie.Speech
                 if (speakerType == SpeakerType.playerSpeaker && IsPlayerNameOverrideable(playerName)) { dialogueNode.SetSpeakerName(playerName); }
                 else if (speakerType == SpeakerType.aiSpeaker && IsSpeakerNameOverrideable(speakerType, dialogueNode))
                 { 
-                    dialogueNode.SetSpeakerName(BaseStats.GetStaticCharacterNamePretty(dialogueNode.GetCharacterName())); 
+                    dialogueNode.SetSpeakerName(CharacterProperties.GetStaticCharacterNamePretty(dialogueNode.GetCharacterName())); 
                 }
             }
         }
@@ -109,12 +109,12 @@ namespace Frankie.Speech
             if (speakerType == SpeakerType.aiSpeaker) 
             { 
                 return (dialogueNode.GetCharacterName() != default 
-                    && !string.IsNullOrWhiteSpace(BaseStats.GetStaticCharacterNamePretty(dialogueNode.GetCharacterName()))); 
+                    && !string.IsNullOrWhiteSpace(CharacterProperties.GetStaticCharacterNamePretty(dialogueNode.GetCharacterName()))); 
             }
             return false;
         }
 
-        public List<CharacterName> GetActiveCharacterNames()
+        public List<CharacterProperties> GetActiveCharacters()
         {
             return activeNPCs;
         }
@@ -204,7 +204,7 @@ namespace Frankie.Speech
             OnValidate();
         }
 
-        public void UpdateSpeakerName(CharacterName speaker, string newSpeakerName)
+        public void UpdateSpeakerName(string speaker, string newSpeakerName)
         {
             foreach (DialogueNode dialogueNode in dialogueNodes)
             {

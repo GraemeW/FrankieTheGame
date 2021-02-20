@@ -1,0 +1,126 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aac27b8e802ced743b3f275e283ab9df, type: 3}
+  m_Name: Hanstron
+  m_EditorClassIdentifier: 
+  skipRootNode: 0
+  newNodeOffset: {x: 100, y: 25}
+  nodeWidth: 400
+  nodeHeight: 225
+  activeNPCs:
+  - {fileID: 11400000, guid: b50f84a2f36107a44825b11881f88adf, type: 2}
+  - {fileID: 11400000, guid: 90d76accd2678ec4a831bc862fdccb8c, type: 2}
+  dialogueNodes:
+  - {fileID: 1987251324777001120}
+  - {fileID: 7439915670087680864}
+  - {fileID: 1132866765042226830}
+--- !u!114 &1132866765042226830
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 09c07c7c6f4c666429a0bbc8d18232b2, type: 3}
+  m_Name: b46f3d67-4361-420e-aa0b-e145381c14fa
+  m_EditorClassIdentifier: 
+  speakerType: 0
+  characterProperties: {fileID: 11400000, guid: b50f84a2f36107a44825b11881f88adf, type: 2}
+  speakerName: Frankie
+  text: Default Text to Overwrite
+  children: []
+  rect:
+    serializedVersion: 2
+    x: 1030
+    y: 30
+    width: 400
+    height: 225
+  draggingRect:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 400
+    height: 45
+  onEnterAction: 
+  onExitAction: 
+  condition:
+    and: []
+--- !u!114 &1987251324777001120
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 09c07c7c6f4c666429a0bbc8d18232b2, type: 3}
+  m_Name: 6a994036-be60-4f63-ad22-ca2f50305afa
+  m_EditorClassIdentifier: 
+  speakerType: 0
+  characterProperties: {fileID: 11400000, guid: b50f84a2f36107a44825b11881f88adf, type: 2}
+  speakerName: Frankie
+  text: Default Text to Overwrite
+  children:
+  - 6131d54f-2cfa-4bcd-ac59-67a7f7e84f40
+  rect:
+    serializedVersion: 2
+    x: 30
+    y: 30
+    width: 400
+    height: 225
+  draggingRect:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 400
+    height: 45
+  onEnterAction: 
+  onExitAction: 
+  condition:
+    and: []
+--- !u!114 &7439915670087680864
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 09c07c7c6f4c666429a0bbc8d18232b2, type: 3}
+  m_Name: 6131d54f-2cfa-4bcd-ac59-67a7f7e84f40
+  m_EditorClassIdentifier: 
+  speakerType: 1
+  characterProperties: {fileID: 11400000, guid: 90d76accd2678ec4a831bc862fdccb8c, type: 2}
+  speakerName: Clever Office Worker
+  text: Default Text to Overwrite
+  children:
+  - b46f3d67-4361-420e-aa0b-e145381c14fa
+  rect:
+    serializedVersion: 2
+    x: 530
+    y: 30
+    width: 400
+    height: 225
+  draggingRect:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 400
+    height: 45
+  onEnterAction: 
+  onExitAction: 
+  condition:
+    and: []

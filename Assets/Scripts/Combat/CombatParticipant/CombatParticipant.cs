@@ -188,7 +188,7 @@ namespace Frankie.Combat
         public string GetCombatName()
         {
             // Split apart name on lower case followed by upper case w/ or w/out underscores
-            return baseStats.GetCharacterNamePretty();
+            return baseStats.GetCharacterProperties().GetCharacterNamePretty();
         }
 
         public bool IsDead()

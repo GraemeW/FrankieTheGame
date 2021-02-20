@@ -9,11 +9,8 @@ namespace Frankie.Stats
 {
     public class BaseStats : MonoBehaviour
     {
-        // TODO:  Rethink character name:
-        // Quick thoughts -- define a CharacterProperty scriptable object, maintain static dictionary lookup on base stats;  progression pulls on those scriptable objects
-
         // Tunables
-        [SerializeField] CharacterName characterName = CharacterName.None;
+        [SerializeField] CharacterProperties characterProperties = null;
         [Range(1, 99)] [SerializeField] int defaultLevel = 1;
         [SerializeField] bool shouldUseModifiers = false;
         [SerializeField] Progression progression = null;
@@ -53,14 +50,9 @@ namespace Frankie.Stats
             }
         }
 
-        public static string GetStaticCharacterNamePretty(CharacterName characterName)
+        public CharacterProperties GetCharacterProperties()
         {
-            return Regex.Replace(characterName.ToString("G"), "([a-z])_?([A-Z])", "$1 $2");
-        }
-
-        public string GetCharacterNamePretty()
-        {
-            return Regex.Replace(characterName.ToString("G"), "([a-z])_?([A-Z])", "$1 $2");
+            return characterProperties;
         }
 
         public float GetStat(Stat stat)
@@ -70,7 +62,7 @@ namespace Frankie.Stats
 
         public float GetBaseStat(Stat stat)
         {
-            return progression.GetStat(stat, characterName, GetLevel());
+            return progression.GetStat(stat, characterProperties, GetLevel());
         }
 
         private float GetAdditiveModifiers(Stat stat)
@@ -83,7 +75,7 @@ namespace Frankie.Stats
 
         public float GetStatForLevel(Stat stat, int level)
         {
-            return progression.GetStat(stat, characterName, level);
+            return progression.GetStat(stat, characterProperties, level);
         }
 
         public int GetLevel()
@@ -114,10 +106,10 @@ namespace Frankie.Stats
             if (experience == null) { return defaultLevel; } // Default behavior
 
             float currentExperiencePoints = experience.GetPoints();
-            int penultimateLevel = progression.GetLevels(Stat.ExperienceToLevelUp, characterName);
+            int penultimateLevel = progression.GetLevels(Stat.ExperienceToLevelUp, characterProperties);
             for (int level = 1; level <= penultimateLevel; level++)
             {
-                float experienceToLevelUp = progression.GetStat(Stat.ExperienceToLevelUp, characterName, level);
+                float experienceToLevelUp = progression.GetStat(Stat.ExperienceToLevelUp, characterProperties, level);
                 if (experienceToLevelUp > currentExperiencePoints)
                 {
                     return level;

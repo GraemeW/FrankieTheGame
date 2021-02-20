@@ -12,7 +12,7 @@ namespace Frankie.Speech
     {
         [Header("Dialogue Properties")]
         [SerializeField] SpeakerType speakerType = SpeakerType.aiSpeaker;
-        [SerializeField] CharacterName characterName = default;
+        [SerializeField] CharacterProperties characterProperties = null;
         [SerializeField] string speakerName = ""; // value gets over-written at runtime w/ value defined by aiConversant
         [SerializeField] string text = "";
         [SerializeField] List<string> children = new List<string>();
@@ -23,9 +23,18 @@ namespace Frankie.Speech
         [SerializeField] string onExitAction = "";
         [SerializeField] Condition condition = null;
 
-        public CharacterName GetCharacterName()
+        public string GetCharacterName()
         {
-            return characterName;
+            if (characterProperties != null)
+            {
+                return characterProperties.name;
+            }
+            return GetSpeakerName();
+        }
+
+        public CharacterProperties GetCharacterProperties()
+        {
+            return characterProperties;
         }
 
         public SpeakerType GetSpeakerType()
@@ -82,6 +91,11 @@ namespace Frankie.Speech
 #endif
                 this.speakerName = speakerName;
 #if UNITY_EDITOR
+                if (CharacterProperties.GetCharacterFromName(speakerName) != null)
+                {
+                    characterProperties = CharacterProperties.GetCharacterFromName(speakerName);
+                }
+
                 EditorUtility.SetDirty(this);
 #endif
                 return true;
