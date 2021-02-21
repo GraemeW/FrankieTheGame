@@ -3583,10 +3583,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 9140000498525693429, guid: 9bf5874c37e0a404a9bd916129a14959, type: 3}
-      propertyPath: dialogueControllerPrefab
-      value: 
-      objectReference: {fileID: 417524482563996126, guid: 0918560ff2a56d3489ca626a5a667040, type: 3}
     - target: {fileID: 9140000498525693431, guid: 9bf5874c37e0a404a9bd916129a14959, type: 3}
       propertyPath: m_Name
       value: Player

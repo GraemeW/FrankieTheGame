@@ -1,4 +1,4 @@
-using Frankie.Core;
+using Frankie.SceneManagement;
 using Frankie.Stats;
 using Frankie.Control;
 using System;

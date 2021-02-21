@@ -1,6 +1,4 @@
 using Frankie.Control;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -52,7 +50,7 @@ namespace Frankie.Zone
                         callingController.transform.position = zoneHandler.GetWarpPosition().position;
                         Vector2 lookDirection = zoneHandler.GetWarpPosition().position - zoneHandler.transform.position;
                         lookDirection.Normalize();
-                        callingController.SetLookDirection(lookDirection);
+                        callingController.GetPlayerMover().SetLookDirection(lookDirection);
                     }
                     else { callingController.transform.position = zoneHandler.transform.position; }
 

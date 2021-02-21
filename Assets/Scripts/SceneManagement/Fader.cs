@@ -3,7 +3,7 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace Frankie.Core
+namespace Frankie.SceneManagement
 {
     public class Fader : MonoBehaviour
     {
@@ -22,6 +22,7 @@ namespace Frankie.Core
         // State
         Image currentTransition = null;
         bool fading = false;
+        bool fadedInOnZoneTransition = false;
         GameObject battleUI = null;
 
         // Events
@@ -45,9 +46,8 @@ namespace Frankie.Core
             yield return QueueFadeEntry(transitionType);
             
             if (transitionType == TransitionType.Zone) 
-            { 
-                // TODO:  Implement fade handling for scene transitions
-                yield break; 
+            {
+                // No special handling during fade -- managed by Zone scripts
             }
             else if (transitionType == TransitionType.BattleComplete)
             {
@@ -68,7 +68,7 @@ namespace Frankie.Core
                     battleUIStateChanged.Invoke(true);
                 }
             }
-            yield return QueueFadeExit();
+            yield return QueueFadeExit(transitionType);
         }
 
         private IEnumerator QueueFadeEntry(TransitionType transitionType)
@@ -94,6 +94,12 @@ namespace Frankie.Core
                 battleComplete.gameObject.SetActive(true);
                 currentTransition = battleComplete;
             }
+            else if (transitionType == TransitionType.Zone)
+            {
+                if (fadedInOnZoneTransition) { yield break; }
+                nodeEntry.gameObject.SetActive(true);
+                currentTransition = nodeEntry;
+            }
             if (currentTransition == null) { fading = false; yield break; }
 
             currentTransition.CrossFadeAlpha(0f, 0f, true);
@@ -101,8 +107,17 @@ namespace Frankie.Core
             yield return new WaitForSeconds(fadeInTimer);
         }
 
-        IEnumerator QueueFadeExit()
+        IEnumerator QueueFadeExit(TransitionType transitionType)
         {
+            if (transitionType == TransitionType.Zone)
+            {
+                if (!fadedInOnZoneTransition)
+                {
+                    fadedInOnZoneTransition = true;
+                    yield break; 
+                }
+            }
+
             currentTransition.CrossFadeAlpha(0, fadeOutTimer, false);
             yield return new WaitForSeconds(fadeOutTimer);
             currentTransition.gameObject.SetActive(false);
@@ -116,6 +131,15 @@ namespace Frankie.Core
             goodBattleEntry.gameObject.SetActive(false);
             badBattleEntry.gameObject.SetActive(false);
             neutralBattleEntry.gameObject.SetActive(false);
+            nodeEntry.gameObject.SetActive(false);
+        }
+
+        public void FadeOutImmediate()
+        {
+            nodeEntry.gameObject.SetActive(true);
+            currentTransition = nodeEntry;
+            currentTransition.CrossFadeAlpha(1, 0f, true);
+            fadedInOnZoneTransition = true;
         }
     }
 }

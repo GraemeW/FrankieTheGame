@@ -1,9 +1,7 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using Frankie.Core;
+using Frankie.SceneManagement;
 using Frankie.Stats;
-using System.Text.RegularExpressions;
 using Frankie.Combat;
 
 namespace Frankie.Control

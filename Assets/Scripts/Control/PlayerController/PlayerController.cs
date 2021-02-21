@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
-using Frankie.Core;
+using Frankie.SceneManagement;
 using Frankie.Combat;
 using Frankie.Stats;
 using Frankie.Speech;
@@ -30,9 +30,6 @@ namespace Frankie.Control
         [SerializeField] float raycastRadius = 0.1f;
         [SerializeField] float interactionDistance = 0.5f;
         [SerializeField] Transform interactionCenterPoint = null;
-        [Header("Movement")]
-        [SerializeField] float movementSpeed = 1.0f;
-        [SerializeField] float speedMoveThreshold = 0.05f;
         [Header("Other Controller Prefabs")]
         [SerializeField] GameObject battleControllerPrefab = null;
         [SerializeField] GameObject dialogueControllerPrefab = null;
@@ -40,17 +37,13 @@ namespace Frankie.Control
         [SerializeField] string messageCannotFight = "You are wounded and cannot fight.";
 
         // State
-        float inputHorizontal;
-        float inputVertical;
-        Vector2 lookDirection = new Vector2();
-        float currentSpeed = 0;
         PlayerState playerState = PlayerState.inWorld;
         TransitionType transitionType = TransitionType.None;
         BattleController battleController = null;
         DialogueController dialogueController = null;
 
         // Cached References
-        Rigidbody2D playerRigidbody2D = null;
+        PlayerMover playerMover = null;
         Party party = null;
         WorldCanvas worldCanvas = null;
 
@@ -73,11 +66,6 @@ namespace Frankie.Control
             List<RaycastHit2D> sortedInteractableHits = hits.Where(x => x.collider.transform.gameObject.CompareTag("Interactable")).OrderBy(x => x.distance).ToList();
             if (sortedInteractableHits.Count == 0) { return new RaycastHit2D(); } // pass an empty hit
             return sortedInteractableHits[0];
-        }
-
-        public void SetLookDirection(Vector2 lookDirection)
-        {
-            this.lookDirection = lookDirection;
         }
 
         public Vector2 GetInteractionPosition()
@@ -173,6 +161,11 @@ namespace Frankie.Control
             return playerState;
         }
 
+        public PlayerMover GetPlayerMover()
+        {
+            return playerMover;
+        }
+
         public TransitionType GetTransitionType()
         {
             return transitionType;
@@ -195,21 +188,12 @@ namespace Frankie.Control
         }
 
         // Internal functions
-        static float Sign(float number)
-        {
-            return number < 0 ? -1 : (number > 0 ? 1 : 0);
-        }
 
         private void Awake()
         {
+            playerMover = GetComponent<PlayerMover>();
             party = GetComponent<Party>();
-            playerRigidbody2D = GetComponent<Rigidbody2D>();
             worldCanvas = GameObject.FindGameObjectWithTag("WorldCanvas").GetComponent<WorldCanvas>();
-        }
-
-        private void Start()
-        {
-            SetLookDirection(Vector2.down); // Initialize look direction to avoid wonky
         }
 
         private void Update()
@@ -218,20 +202,10 @@ namespace Frankie.Control
 
             if (playerState == PlayerState.inWorld)
             {
-                inputHorizontal = Input.GetAxis("Horizontal");
-                inputVertical = Input.GetAxis("Vertical");
                 if (InteractWithGlobals()) return;
                 if (InteractWithComponent()) return;
                 if (InteractWithComponentManual()) return;
                 SetCursor(CursorType.None);
-            }
-        }
-
-        private void FixedUpdate()
-        {
-            if (playerState == PlayerState.inWorld)
-            {
-                InteractWithMovement();
             }
         }
 
@@ -312,16 +286,6 @@ namespace Frankie.Control
             }
         }
 
-        private void InteractWithMovement()
-        {
-            SetMovementParameters();
-            party.UpdatePartyAnimation(currentSpeed, lookDirection.x, lookDirection.y);
-            if (currentSpeed > speedMoveThreshold)
-            {
-                MovePlayer();
-            }
-        }
-
         private bool InteractWithGlobals()
         {
             if (Input.GetButtonDown(interactSkipButton) || Input.GetKeyDown(interactInspectKey))
@@ -388,29 +352,10 @@ namespace Frankie.Control
 
         private RaycastHit2D RaycastFromPlayerInLookDirection()
         {
-            RaycastHit2D[] hits = Physics2D.CircleCastAll(interactionCenterPoint.position, raycastRadius, lookDirection);
+            RaycastHit2D[] hits = Physics2D.CircleCastAll(interactionCenterPoint.position, raycastRadius, playerMover.GetLookDirection());
             RaycastHit2D[] nonPlayerHits = hits.Where(x => !x.collider.transform.gameObject.CompareTag("Player")).ToArray();
             if (nonPlayerHits == null || nonPlayerHits.Length == 0) { return new RaycastHit2D(); } // pass an empty hit
             return nonPlayerHits[0];
-        }
-
-        private void SetMovementParameters()
-        {
-            Vector2 move = new Vector2(inputHorizontal, inputVertical);
-            if (!Mathf.Approximately(move.x, 0.0f) || !Mathf.Approximately(move.y, 0.0f))
-            {
-                lookDirection.Set(move.x, move.y);
-                lookDirection.Normalize();
-            }
-            currentSpeed = move.magnitude;
-        }
-
-        private void MovePlayer()
-        {
-            Vector2 position = playerRigidbody2D.position;
-            position.x = position.x + movementSpeed * Sign(inputHorizontal) * Time.deltaTime;
-            position.y = position.y + movementSpeed * Sign(inputVertical) * Time.deltaTime;
-            playerRigidbody2D.MovePosition(position);
         }
 
         // Mouse / Cursor Handling
