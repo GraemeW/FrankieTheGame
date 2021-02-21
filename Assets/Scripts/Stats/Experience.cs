@@ -1,12 +1,11 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using Frankie.Utils;
 using System;
+using Frankie.Saving;
 
 namespace Frankie.Stats
 {
-    public class Experience : MonoBehaviour
+    public class Experience : MonoBehaviour, ISaveable
     {
         // Tunables
         [SerializeField] float initialPoints = 0f;
@@ -54,6 +53,16 @@ namespace Frankie.Stats
         public float GetPoints()
         {
             return currentPoints.value;
+        }
+
+        public object CaptureState()
+        {
+            return currentPoints.value;
+        }
+
+        public void RestoreState(object state)
+        {
+            currentPoints.value = (float)state;
         }
     }
 }

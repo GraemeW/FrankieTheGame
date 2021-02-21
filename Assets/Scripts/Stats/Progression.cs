@@ -21,6 +21,18 @@ namespace Frankie.Stats
             return levels[safeLevel];
         }
 
+        public Dictionary<Stat, float> GetStatSheet(CharacterProperties characterProperties, int level)
+        {
+            BuildLookup();
+            Dictionary<Stat, float> statSheet = new Dictionary<Stat, float>();
+            Dictionary<Stat, float[]> statBook = lookupTable[characterProperties];
+            foreach (Stat stat in statBook.Keys)
+            {
+                statSheet[stat] = GetStat(stat, characterProperties, level);
+            }
+            return statSheet;
+        }
+
         public int GetLevels(Stat stat, CharacterProperties characterProperties)
         {
             BuildLookup();

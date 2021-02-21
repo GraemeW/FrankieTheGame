@@ -1,16 +1,14 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using Frankie.Utils;
 using Frankie.Stats;
-using System.Text.RegularExpressions;
+using Frankie.Saving;
 using System;
 
 namespace Frankie.Combat
 {
     [RequireComponent(typeof(BaseStats))]
     [RequireComponent(typeof(SkillHandler))]
-    public class CombatParticipant : MonoBehaviour
+    public class CombatParticipant : MonoBehaviour, ISaveable
     {
         // Tunables
         [Header("Behavior, Hookups")]
@@ -26,11 +24,11 @@ namespace Frankie.Combat
 
         // State
         bool inCombat = false;
-        bool isDead = false;
         bool inCooldown = false;
         float cooldownTimer = 0f;
         float targetHP = 1f;
         float deltaHPTimeFraction = 0.0f;
+        LazyValue<bool> isDead;
         LazyValue<float> currentHP;
         LazyValue<float> currentAP;
 
@@ -43,12 +41,14 @@ namespace Frankie.Combat
             baseStats = GetComponent<BaseStats>();
             currentHP = new LazyValue<float>(GetMaxHP);
             currentAP = new LazyValue<float>(GetMaxAP);
+            isDead = new LazyValue<bool>(SpawnAlive);
         }
 
         private void Start()
         {
             currentHP.ForceInit();
             currentAP.ForceInit();
+            isDead.ForceInit();
             targetHP = currentHP.value;
         }
 
@@ -92,7 +92,7 @@ namespace Frankie.Combat
 
         public void AdjustHP(float points)
         {
-            if (isDead) { return; }
+            if (isDead.value) { return; }
 
             if (friendly) // Damage dealt is delayed, occurs over damageTimeSpan seconds
             {
@@ -120,7 +120,7 @@ namespace Frankie.Combat
 
         public void AdjustAP(float points)
         {
-            if (isDead) { return; }
+            if (isDead.value) { return; }
 
             float unsafeAP = currentAP.value + points;
             currentAP.value = Mathf.Clamp(unsafeAP, 0f, baseStats.GetStat(Stat.AP));
@@ -145,7 +145,7 @@ namespace Frankie.Combat
 
         public void ResurrectCharacter(float hp)
         {
-            isDead = false;
+            isDead.value = false;
             currentHP.value = hp * fractionOfHPInstantOnRevival;
             targetHP = hp;
             cooldownTimer = 0f;
@@ -193,7 +193,7 @@ namespace Frankie.Combat
 
         public bool IsDead()
         {
-            return isDead;
+            return isDead.value;
         }
 
         public bool IsInCooldown()
@@ -223,6 +223,11 @@ namespace Frankie.Combat
             return baseStats.GetStat(Stat.AP);
         }
 
+        private bool SpawnAlive()
+        {
+            return false;
+        }
+
         // Private functions
         private bool CheckIfDead()
         {
@@ -230,7 +235,7 @@ namespace Frankie.Combat
             {
                 currentHP.value = 0f;
                 targetHP = 0f;
-                isDead = true;
+                isDead.value = true;
                 if (!friendly)
                 {
                     AwardExperience();
@@ -240,7 +245,7 @@ namespace Frankie.Combat
                     stateAltered.Invoke(this, new StateAlteredData(StateAlteredType.Dead));
                 }
             }
-            if (isDead) { return true; }
+            if (isDead.value) { return true; }
             return false;
         }
 
@@ -275,6 +280,34 @@ namespace Frankie.Combat
         private void AwardExperience()
         {
             // TODO:  Implement experience awards (requires first:  party concept)
+        }
+
+        // Save State
+        [System.Serializable]
+        struct CombatParticipantSaveData
+        {
+            public bool isDead;
+            public float currentHP;
+            public float currentAP;
+        }
+
+        public object CaptureState()
+        {
+            CombatParticipantSaveData combatParticipantSaveData = new CombatParticipantSaveData
+            {
+                isDead = isDead.value,
+                currentHP = currentHP.value,
+                currentAP = currentAP.value
+            };
+            return combatParticipantSaveData;
+        }
+
+        public void RestoreState(object state)
+        {
+            CombatParticipantSaveData data = (CombatParticipantSaveData)state;
+            isDead.value = data.isDead;
+            currentHP.value = data.currentHP;
+            currentAP.value = data.currentAP;
         }
     }
 }

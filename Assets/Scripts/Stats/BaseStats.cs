@@ -1,13 +1,12 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Frankie.Utils;
 using System;
-using System.Text.RegularExpressions;
+using Frankie.Saving;
 
 namespace Frankie.Stats
 {
-    public class BaseStats : MonoBehaviour
+    public class BaseStats : MonoBehaviour, ISaveable
     {
         // Tunables
         [SerializeField] CharacterProperties characterProperties = null;
@@ -17,6 +16,7 @@ namespace Frankie.Stats
 
         // State
         LazyValue<int> currentLevel;
+        Dictionary<Stat, float> activeStatSheet = null;
 
         // Cached Reference
         Experience experience = null;
@@ -62,7 +62,19 @@ namespace Frankie.Stats
 
         public float GetBaseStat(Stat stat)
         {
-            return progression.GetStat(stat, characterProperties, GetLevel());
+            if (activeStatSheet == null)
+            {
+                BuildActiveStatSheet();
+            }
+            if (activeStatSheet.ContainsKey(stat)) { return activeStatSheet[stat]; }
+
+            return progression.GetStat(stat, characterProperties, GetLevel()); // Default behavior from original implementation
+        }
+
+        private void BuildActiveStatSheet()
+        {
+            activeStatSheet = progression.GetStatSheet(characterProperties, GetLevel());
+
         }
 
         private float GetAdditiveModifiers(Stat stat)
@@ -116,6 +128,31 @@ namespace Frankie.Stats
                 }
             }
             return penultimateLevel + 1;
+        }
+
+        // Save State
+        [System.Serializable]
+        struct BaseStatsSaveData
+        {
+            public int level;
+            public Dictionary<Stat, float> statSheet;
+        }
+
+        public object CaptureState()
+        {
+            BaseStatsSaveData baseStatsSaveData = new BaseStatsSaveData
+            {
+                level = currentLevel.value,
+                statSheet = activeStatSheet
+            };
+            return baseStatsSaveData;
+        }
+
+        public void RestoreState(object state)
+        {
+            BaseStatsSaveData data = (BaseStatsSaveData)state;
+            currentLevel.value = data.level;
+            activeStatSheet = data.statSheet;
         }
     }
 }
