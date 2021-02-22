@@ -41,7 +41,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9500bc738f48a9b40a11b28b434aa2b9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  skillTree: {fileID: 11400000, guid: 04dead9955034474482cf14a5b110e21, type: 2}
+  skillTree: {fileID: 11400000, guid: 1139a4ff516b2804da0ed018014f020b, type: 2}
 --- !u!1001 &2436801356840233352
 PrefabInstance:
   m_ObjectHideFlags: 0

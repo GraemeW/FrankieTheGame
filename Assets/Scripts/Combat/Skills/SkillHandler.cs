@@ -4,6 +4,7 @@ using UnityEngine;
 
 namespace Frankie.Combat
 {
+    [RequireComponent(typeof(CombatParticipant))]
     public class SkillHandler : MonoBehaviour
     {
         // Tunables

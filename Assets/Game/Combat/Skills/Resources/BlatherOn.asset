@@ -10,12 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 2d638f604ff65db4f9e75a2cc6eb7bd3, type: 3}
-  m_Name: PresentDashboard
+  m_Name: BlatherOn
   m_EditorClassIdentifier: 
-  cooldown: 3
-  stat: 2
+  cooldown: 1
+  stat: 6
   apValue: 0
-  hpValue: -3
+  hpValue: -0.5
   numberOfHits: 1
   damageType: 0
   statusEffects: []

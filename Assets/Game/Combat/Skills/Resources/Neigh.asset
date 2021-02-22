@@ -10,14 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 2d638f604ff65db4f9e75a2cc6eb7bd3, type: 3}
-  m_Name: Freeze
+  m_Name: Neigh
   m_EditorClassIdentifier: 
-  isFriendly: 0
-  cooldown: 1
+  cooldown: 2
+  stat: 6
   apValue: 0
-  hpValue: -1
+  hpValue: 2
   numberOfHits: 1
-  damageType: 2
-  statusEffects:
-  - statusEffect: {fileID: 11400000, guid: 383e264234c9bdb4aadfb89c005c7fec, type: 2}
-    fractionalProbability: 0.244
+  damageType: 0
+  statusEffects: []

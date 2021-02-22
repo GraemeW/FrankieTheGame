@@ -43,5 +43,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 157cf851fa5196043a472382cf957cc5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  battleCanvasPrefab: {fileID: 8837486854988665628, guid: 704954e38f2858a44b4ce5c8da5850bc, type: 3}
-  battleQueueDelay: 0.3
+  battleQueueDelay: 0.6
+  interactExecuteButton: Fire1
+  interactExecuteKey: 101
+  interactCancelButton: Cancel
+  interactUp: 119
+  interactLeft: 97
+  interactRight: 100
+  interactDown: 115
+  interactPartyMember1: 49
+  interactPartyMember2: 50
+  interactPartyMember3: 51
+  interactPartyMember4: 52

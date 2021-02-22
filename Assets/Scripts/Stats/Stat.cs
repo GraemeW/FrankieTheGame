@@ -4,6 +4,7 @@ namespace Frankie.Stats
     {
         HP,
         AP,
+        EffectiveLevel,
         ExperienceReward,
         ExperienceToLevelUp,
         Brawn,

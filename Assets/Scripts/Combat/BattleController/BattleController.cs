@@ -14,7 +14,7 @@ namespace Frankie.Combat
     {
         // Tunables
         [Header("Controller Properties")]
-        [SerializeField] float battleQueueDelay = 0.3f;
+        [SerializeField] float battleQueueDelay = 1.0f;
 
         [Header("Interaction")]
         [SerializeField] string interactExecuteButton = "Fire1";
@@ -196,8 +196,7 @@ namespace Frankie.Combat
             {
                 if (!haltBattleQueue) // BattleQueue takes priority, avoid user interaction stalling action queue
                 {
-                    StartCoroutine(HaltBattleQueue(battleQueueDelay));
-                    ProcessNextBattleSequence();
+                    StartCoroutine(ProcessNextBattleSequence());
                 }
                 if (InteractWithInterrupts(playerInputType)) { return; }
                 if (InteractWithCharacterSelect()) { return; }
@@ -466,29 +465,26 @@ namespace Frankie.Combat
             return activeEnemies[currentIndex];
         }
 
-        IEnumerator HaltBattleQueue(float seconds)
+        IEnumerator ProcessNextBattleSequence()
         {
-            haltBattleQueue = true;
-            yield return new WaitForSeconds(seconds);
-            haltBattleQueue = false;
-        }
-
-        private void ProcessNextBattleSequence()
-        {
-            if (battleSequenceQueue.Count == 0) { return; }
-
+            if (battleSequenceQueue.Count == 0) { yield break; }
             BattleSequence battleSequence = battleSequenceQueue.Dequeue();
-            if (battleSequence.sender.IsDead() || battleSequence.recipient.IsDead()) { return; }
+            if (battleSequence.sender.IsDead() || battleSequence.recipient.IsDead()) { yield break; }
             battleSequenceProcessed.Invoke(battleSequence);
 
-            battleSequence.sender.SetCooldown(battleSequence.skill.cooldown);
-            battleSequence.recipient.AdjustHP(battleSequence.skill.hpValue);
-            battleSequence.recipient.AdjustAP(battleSequence.skill.apValue);
-            foreach (StatusProbabilityPair activeStatusEffect in battleSequence.skill.statusEffects)
+            haltBattleQueue = true;
+            for (int i = 0; i < battleSequence.skill.numberOfHits; i++)
             {
-                // TODO:  add logic for applying statuses, needs to be cleaner
-                battleSequence.recipient.ApplyStatusEffect(activeStatusEffect.statusEffect);
+                battleSequence.sender.SetCooldown(battleSequence.sender.GetCooldownForSkill(battleSequence.skill));
+                battleSequence.recipient.AdjustHP(battleSequence.sender.GetHPValueForSkill(battleSequence.skill));
+                battleSequence.recipient.AdjustAP(battleSequence.sender.GetAPValueForSkill(battleSequence.skill));
+                foreach (StatusProbabilityPair activeStatusEffect in battleSequence.skill.statusEffects)
+                {
+                    battleSequence.recipient.ApplyStatusEffect(activeStatusEffect.statusEffect);
+                }
+                yield return new WaitForSeconds(battleQueueDelay);
             }
+            haltBattleQueue = false;
         }
 
         private void CheckForBattleEnd(CombatParticipant combatParticipant, StateAlteredData stateAlteredData)

@@ -1101,7 +1101,7 @@ PrefabInstance:
     - target: {fileID: 4568557669858787536, guid: 30c6f3f30a3216e41bbc8a6ac45c57e0, type: 3}
       propertyPath: dialogue
       value: 
-      objectReference: {fileID: 11400000, guid: b5200e6f75fd28e49987871946db59f6, type: 2}
+      objectReference: {fileID: 11400000, guid: 4f94e6ca4b90a6740b0536613dc1d840, type: 2}
     - target: {fileID: 8937208100927724529, guid: 30c6f3f30a3216e41bbc8a6ac45c57e0, type: 3}
       propertyPath: m_RootOrder
       value: 2
@@ -3555,10 +3555,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 4814599021096453497, guid: 9bf5874c37e0a404a9bd916129a14959, type: 3}
-      propertyPath: uniqueIdentifier
-      value: 482f5ebc-6452-46d1-a4aa-f3425281b53f
-      objectReference: {fileID: 0}
     - target: {fileID: 9140000498525693428, guid: 9bf5874c37e0a404a9bd916129a14959, type: 3}
       propertyPath: m_RootOrder
       value: 3

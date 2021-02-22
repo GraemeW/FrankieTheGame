@@ -10,14 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 2d638f604ff65db4f9e75a2cc6eb7bd3, type: 3}
-  m_Name: Thunder
+  m_Name: AskForHelp
   m_EditorClassIdentifier: 
-  isFriendly: 0
   cooldown: 2
+  stat: 5
   apValue: 0
   hpValue: -2
   numberOfHits: 1
-  damageType: 3
-  statusEffects:
-  - statusEffect: {fileID: 11400000, guid: 2e1740701240d2448ae02eaa70071e13, type: 2}
-    fractionalProbability: 0.108
+  damageType: 0
+  statusEffects: []

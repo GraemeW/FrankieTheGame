@@ -10,14 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 2d638f604ff65db4f9e75a2cc6eb7bd3, type: 3}
-  m_Name: Poke
+  m_Name: PresentBiceps
   m_EditorClassIdentifier: 
-  isFriendly: 0
   cooldown: 4
+  stat: 1
   apValue: 0
-  hpValue: -5
+  hpValue: -3
   numberOfHits: 1
   damageType: 0
-  statusEffects:
-  - statusEffect: {fileID: 11400000, guid: 028ea63a3bb333744b11383d9bbd9548, type: 2}
-    fractionalProbability: 0.194
+  statusEffects: []

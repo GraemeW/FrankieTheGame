@@ -10,12 +10,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 2d638f604ff65db4f9e75a2cc6eb7bd3, type: 3}
-  m_Name: PresentDashboard
+  m_Name: ShootTheShit
   m_EditorClassIdentifier: 
-  cooldown: 3
-  stat: 2
+  isFriendly: 0
+  cooldown: 1
+  stat: 5
   apValue: 0
-  hpValue: -3
+  hpValue: 2
   numberOfHits: 1
   damageType: 0
   statusEffects: []

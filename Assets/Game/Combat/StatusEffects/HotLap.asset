@@ -10,9 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f2b7846fb1b65d84bb10d8b59e2be6ae, type: 3}
-  m_Name: SuperFlames
+  m_Name: HotLap
   m_EditorClassIdentifier: 
   statusEffectType: 2
-  value: 3
-  timer: 10
-  numberOfTicks: 4
+  value: 1
+  timer: 6
+  numberOfTicks: 3

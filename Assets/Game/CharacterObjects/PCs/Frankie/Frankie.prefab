@@ -10,11 +10,15 @@ PrefabInstance:
     - target: {fileID: 726526304575199942, guid: b3d57c5ca0835dc44b0b91ac427342b7, type: 3}
       propertyPath: skillTree
       value: 
-      objectReference: {fileID: 11400000, guid: 04dead9955034474482cf14a5b110e21, type: 2}
+      objectReference: {fileID: 11400000, guid: 12e0bb1042778d448af43167b6259ca8, type: 2}
     - target: {fileID: 1538271764270950872, guid: b3d57c5ca0835dc44b0b91ac427342b7, type: 3}
       propertyPath: combatSprite
       value: 
       objectReference: {fileID: 21300000, guid: e54bb40dc3352e5478c548cc91ce4ae4, type: 3}
+    - target: {fileID: 7722166093997427972, guid: b3d57c5ca0835dc44b0b91ac427342b7, type: 3}
+      propertyPath: uniqueIdentifier
+      value: frankie
+      objectReference: {fileID: 0}
     - target: {fileID: 7770585857665752477, guid: b3d57c5ca0835dc44b0b91ac427342b7, type: 3}
       propertyPath: characterName
       value: 1

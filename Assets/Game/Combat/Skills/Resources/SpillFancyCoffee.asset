@@ -10,14 +10,14 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 2d638f604ff65db4f9e75a2cc6eb7bd3, type: 3}
-  m_Name: Fire
+  m_Name: SpillFancyCoffee
   m_EditorClassIdentifier: 
-  isFriendly: 0
   cooldown: 3
+  stat: 4
   apValue: 0
-  hpValue: 2
+  hpValue: -4
   numberOfHits: 1
-  damageType: 1
+  damageType: 2
   statusEffects:
-  - statusEffect: {fileID: 11400000, guid: 830ae6ba8d4b3f0449e6b69117acee07, type: 2}
-    fractionalProbability: 0.427
+  - statusEffect: {fileID: 11400000, guid: 8f0eaa44303c7794083a7c589e8661b9, type: 2}
+    fractionalProbability: 0.3

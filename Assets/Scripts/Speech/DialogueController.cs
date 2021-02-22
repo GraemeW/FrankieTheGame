@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using Frankie.Combat;
 
 namespace Frankie.Speech
 {
@@ -31,7 +32,6 @@ namespace Frankie.Speech
 
         bool isSimpleMessage = false;
         string simpleMessage = "";
-
 
         // Cached References
         WorldCanvas worldCanvas = null;
@@ -406,8 +406,16 @@ namespace Frankie.Speech
 
         private IEnumerable<IPredicateEvaluator> GetEvaluators()
         {
-            return GetComponents<IPredicateEvaluator>().Concat(
-                currentConversant.GetComponents<IPredicateEvaluator>());
+            // Evaluator locations . . . 
+            // A) Player -> 
+            //     1.  PlayerController
+            //     2.  Party (childed to player controller)
+            // B) AI conversant -- childed to character;  Grab Parent & GetComponentsInChildren traverses both the parent & children
+
+            var predicateEvaluators = playerController.GetComponentsInChildren<IPredicateEvaluator>().Concat( // A
+                currentConversant.transform.parent.gameObject.GetComponentsInChildren<IPredicateEvaluator>()); // B
+
+            return predicateEvaluators;
         }
     }
 }

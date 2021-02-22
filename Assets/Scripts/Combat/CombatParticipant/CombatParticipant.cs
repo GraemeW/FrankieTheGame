@@ -3,12 +3,13 @@ using Frankie.Utils;
 using Frankie.Stats;
 using Frankie.Saving;
 using System;
+using Frankie.Core;
 
 namespace Frankie.Combat
 {
     [RequireComponent(typeof(BaseStats))]
     [RequireComponent(typeof(SkillHandler))]
-    public class CombatParticipant : MonoBehaviour, ISaveable
+    public class CombatParticipant : MonoBehaviour, ISaveable, IPredicateEvaluator
     {
         // Tunables
         [Header("Behavior, Hookups")]
@@ -35,6 +36,9 @@ namespace Frankie.Combat
         // Events
         public event Action<bool> enterCombat;
         public event Action<CombatParticipant, StateAlteredData> stateAltered;
+
+        // Static
+        static string[] PREDICATES_ARRAY = { "IsAnyoneDead", "IsAnyoneDead"};
 
         private void Awake()
         {
@@ -85,6 +89,30 @@ namespace Frankie.Combat
             }
         }
 
+        public float GetHPValueForSkill(Skill skill)
+        {
+            // TODO:  Implement buff/debuff logic for adjusting this parameter
+
+            if (Mathf.Approximately(skill.hpValue, 0f)) { return 0f; }
+            float baseStatsModifier = Mathf.Sign(skill.hpValue) * GetBaseStatsModifier(skill);
+            return baseStatsModifier + skill.hpValue;
+        }
+
+        public float GetAPValueForSkill(Skill skill)
+        {
+            // TODO:  Implement buff/debuff logic for adjusting this parameter
+
+            if (Mathf.Approximately(skill.apValue, 0f)) { return 0f; }
+            float baseStatsModifier = Mathf.Sign(skill.hpValue) * GetBaseStatsModifier(skill);
+            return baseStatsModifier + skill.apValue;
+        }
+
+        public float GetCooldownForSkill(Skill skill)
+        {
+            // TODO:  Implement buff/debuff logic for adjusting this parameter
+            return skill.cooldown;
+        }
+
         public bool IsInCombat()
         {
             return inCombat;
@@ -96,7 +124,8 @@ namespace Frankie.Combat
 
             if (friendly) // Damage dealt is delayed, occurs over damageTimeSpan seconds
             {
-                targetHP += points;
+                float unsafeHP = currentHP.value + points;
+                targetHP = Mathf.Min(unsafeHP, baseStats.GetStat(Stat.HP));
                 deltaHPTimeFraction = (Time.deltaTime / damageTimeSpan);
             }
             else
@@ -282,6 +311,18 @@ namespace Frankie.Combat
             // TODO:  Implement experience awards (requires first:  party concept)
         }
 
+        private float GetBaseStatsModifier(Skill skill)
+        {
+            float baseStatsModifier = 0f;
+            if (skill.stat != SkillStat.None)
+            {
+                Stat stat = (Stat)Enum.Parse(typeof(Stat), skill.stat.ToString()); // Enum-to-enum match; SkillStat is a subset of Stat
+                baseStatsModifier = baseStats.GetStat(stat);
+            }
+
+            return baseStatsModifier;
+        }
+
         // Save State
         [System.Serializable]
         struct CombatParticipantSaveData
@@ -308,6 +349,51 @@ namespace Frankie.Combat
             isDead.value = data.isDead;
             currentHP.value = data.currentHP;
             currentAP.value = data.currentAP;
+        }
+
+        // Predicate Evaluation
+        public bool? Evaluate(string predicate, string[] parameters)
+        {
+            string matchingPredicate = this.MatchToPredicates(predicate, PREDICATES_ARRAY);
+            if (string.IsNullOrWhiteSpace(matchingPredicate)) { return null; }
+
+            if (predicate == PREDICATES_ARRAY[0])
+            {
+                return PredicateEvaluateIsAnyoneDead(parameters);
+            }
+            else if (predicate == PREDICATES_ARRAY[1])
+            {
+                return PredicateEvaluateIsCharacterDead(parameters);
+            }
+            return null;
+        }
+
+        string IPredicateEvaluator.MatchToPredicatesTemplate()
+        {
+            // Not evaluated -> PredicateEvaluatorExtension
+            return null;
+        }
+
+        private bool? PredicateEvaluateIsAnyoneDead(string[] parameters)
+        {
+            if (IsDead())
+            {
+                return IsDead();
+            }
+            return null;
+        }
+
+        private bool? PredicateEvaluateIsCharacterDead(string[] parameters)
+        {
+            foreach (string characterName in parameters)
+            {
+                if (string.Equals(baseStats.GetCharacterProperties().name, characterName) && IsDead())
+                {
+                    return IsDead();
+                }
+            }
+
+            return null;
         }
     }
 }
