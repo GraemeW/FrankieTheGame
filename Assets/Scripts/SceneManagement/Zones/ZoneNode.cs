@@ -8,7 +8,7 @@ namespace Frankie.Zone
     [System.Serializable]
     public class ZoneNode : ScriptableObject
     {
-        [Header("Dialogue Properties")]
+        [Header("Zone Node Properties")]
         [SerializeField] List<string> children = new List<string>();
         [SerializeField] string detail = null;
         [SerializeField] string zoneName = null;

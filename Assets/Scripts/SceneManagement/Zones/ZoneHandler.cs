@@ -11,7 +11,10 @@ namespace Frankie.Zone
         [SerializeField] bool overrideDefaultInteractionDistance = false;
         [SerializeField] float interactionDistance = 0.3f;
         [SerializeField] Transform warpPosition = null;
-
+        [Header("Game Object (Dis)Enablement")]
+        [SerializeField] bool disableOnExit = true;
+        [SerializeField] GameObject roomParent = null; 
+        
         // Events
         public UnityEvent zoneInteraction;
 
@@ -24,6 +27,14 @@ namespace Frankie.Zone
         public Transform GetWarpPosition()
         {
             return warpPosition;
+        }
+
+        public void EnableRoomParent(bool enable)
+        {
+            if (roomParent != null)
+            {
+                roomParent.SetActive(enable);
+            }
         }
 
         // Private Functions
@@ -45,7 +56,7 @@ namespace Frankie.Zone
             {
                 if (nextNode == zoneHandler.GetZoneNode())
                 {
-                    if (warpPosition != null) 
+                    if (GetWarpPosition() != null) 
                     { 
                         callingController.transform.position = zoneHandler.GetWarpPosition().position;
                         Vector2 lookDirection = zoneHandler.GetWarpPosition().position - zoneHandler.transform.position;
@@ -54,12 +65,24 @@ namespace Frankie.Zone
                     }
                     else { callingController.transform.position = zoneHandler.transform.position; }
 
+                    ToggleParentGameObjects(zoneHandler);
+
                     if (zoneInteraction != null)
                     {
                         zoneInteraction.Invoke();
                     }
+                    break; // Node transport complete, no need to complete loop
                 }
             }
+        }
+
+        private void ToggleParentGameObjects(ZoneHandler nextZoneHandler)
+        {
+            if (disableOnExit)
+            {
+                EnableRoomParent(false);
+            }
+            nextZoneHandler.EnableRoomParent(true);
         }
 
         // IRaycastable Implementation

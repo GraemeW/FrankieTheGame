@@ -157,7 +157,7 @@ MonoBehaviour:
   linkedZoneName: 
   rect:
     serializedVersion: 2
-    x: 560
+    x: 558
     y: 30
     width: 430
     height: 150
@@ -187,7 +187,7 @@ MonoBehaviour:
   rect:
     serializedVersion: 2
     x: 30
-    y: 211
+    y: 209
     width: 430
     height: 150
   draggingRect:

@@ -415,6 +415,8 @@ MonoBehaviour:
   overrideDefaultInteractionDistance: 0
   interactionDistance: 0.1
   warpPosition: {fileID: 1987478342}
+  disableOnExit: 1
+  roomParent: {fileID: 496885797}
   zoneInteraction:
     m_PersistentCalls:
       m_Calls:
@@ -506,6 +508,8 @@ MonoBehaviour:
   overrideDefaultInteractionDistance: 0
   interactionDistance: 0.1
   warpPosition: {fileID: 1845389048}
+  disableOnExit: 1
+  roomParent: {fileID: 1663618879}
   zoneInteraction:
     m_PersistentCalls:
       m_Calls:
@@ -723,7 +727,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8937208100927724529, guid: 0daf9a7076465e146968c9d960d30ad1, type: 3}
       propertyPath: m_RootOrder
-      value: 3
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 8937208100927724529, guid: 0daf9a7076465e146968c9d960d30ad1, type: 3}
       propertyPath: m_LocalPosition.x
@@ -816,6 +820,7 @@ Transform:
   - {fileID: 1604385589}
   - {fileID: 763651044}
   - {fileID: 30965043}
+  - {fileID: 1115368751}
   m_Father: {fileID: 361311719}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1000,7 +1005,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
-    m_TransformParent: {fileID: 1663618880}
+    m_TransformParent: {fileID: 496885798}
     m_Modifications:
     - target: {fileID: 619512926023172461, guid: 30c6f3f30a3216e41bbc8a6ac45c57e0, type: 3}
       propertyPath: m_RootOrder
@@ -1032,15 +1037,15 @@ PrefabInstance:
       objectReference: {fileID: 11400000, guid: 4f94e6ca4b90a6740b0536613dc1d840, type: 2}
     - target: {fileID: 8937208100927724529, guid: 30c6f3f30a3216e41bbc8a6ac45c57e0, type: 3}
       propertyPath: m_RootOrder
-      value: 2
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 8937208100927724529, guid: 30c6f3f30a3216e41bbc8a6ac45c57e0, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 6.0614767
+      value: 0.6879003
       objectReference: {fileID: 0}
     - target: {fileID: 8937208100927724529, guid: 30c6f3f30a3216e41bbc8a6ac45c57e0, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -1.0845205
+      value: 0.6710795
       objectReference: {fileID: 0}
     - target: {fileID: 8937208100927724529, guid: 30c6f3f30a3216e41bbc8a6ac45c57e0, type: 3}
       propertyPath: m_LocalPosition.z
@@ -1192,6 +1197,8 @@ MonoBehaviour:
   overrideDefaultInteractionDistance: 0
   interactionDistance: 0.1
   warpPosition: {fileID: 697200041}
+  disableOnExit: 1
+  roomParent: {fileID: 1192180119}
   zoneInteraction:
     m_PersistentCalls:
       m_Calls:
@@ -1263,10 +1270,10 @@ PolygonCollider2D:
   m_AutoTiling: 0
   m_Points:
     m_Paths:
-    - - {x: 10.052774, y: 3.2617352}
-      - {x: -9.634556, y: 3.2779088}
-      - {x: -9.655525, y: -1.3675237}
-      - {x: 10.162491, y: -1.4162617}
+    - - {x: 10.082155, y: 4.907062}
+      - {x: -10.07527, y: 4.8644733}
+      - {x: -10.037476, y: -2.3664713}
+      - {x: 10.0743475, y: -2.297686}
 --- !u!4 &585047821 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6064117322999955929, guid: 94488ab9b2a166046873d77b7a3babf8, type: 3}
@@ -1558,6 +1565,8 @@ MonoBehaviour:
   overrideDefaultInteractionDistance: 0
   interactionDistance: 0.1
   warpPosition: {fileID: 1269347746}
+  disableOnExit: 1
+  roomParent: {fileID: 496885797}
   zoneInteraction:
     m_PersistentCalls:
       m_Calls:
@@ -1882,6 +1891,8 @@ MonoBehaviour:
   overrideDefaultInteractionDistance: 0
   interactionDistance: 0.1
   warpPosition: {fileID: 86464426}
+  disableOnExit: 1
+  roomParent: {fileID: 1192180119}
   zoneInteraction:
     m_PersistentCalls:
       m_Calls:
@@ -2247,6 +2258,8 @@ MonoBehaviour:
   overrideDefaultInteractionDistance: 0
   interactionDistance: 0.1
   warpPosition: {fileID: 1437805454}
+  disableOnExit: 1
+  roomParent: {fileID: 822531025}
   zoneInteraction:
     m_PersistentCalls:
       m_Calls:
@@ -2606,7 +2619,6 @@ Transform:
   m_Children:
   - {fileID: 698949175}
   - {fileID: 384052786}
-  - {fileID: 1115368751}
   - {fileID: 453644364}
   m_Father: {fileID: 361311719}
   m_RootOrder: 4
@@ -3495,6 +3507,10 @@ PrefabInstance:
       propertyPath: m_Follow
       value: 
       objectReference: {fileID: 1166383030}
+    - target: {fileID: 6748405756017321319, guid: 7d6634333e185754d96c189f3df7c163, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 1.2368109
+      objectReference: {fileID: 0}
     - target: {fileID: 6748405756017321321, guid: 7d6634333e185754d96c189f3df7c163, type: 3}
       propertyPath: m_BoundingShape2D
       value: 
@@ -3559,10 +3575,26 @@ PrefabInstance:
       propertyPath: m_Follow
       value: 
       objectReference: {fileID: 1166383030}
+    - target: {fileID: 6748405756263700701, guid: 7d6634333e185754d96c189f3df7c163, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 1.2368109
+      objectReference: {fileID: 0}
     - target: {fileID: 6748405756263700703, guid: 7d6634333e185754d96c189f3df7c163, type: 3}
       propertyPath: m_BoundingShape2D
       value: 
       objectReference: {fileID: 566954979}
+    - target: {fileID: 6748405756474271262, guid: 7d6634333e185754d96c189f3df7c163, type: 3}
+      propertyPath: orthographic size
+      value: 2.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6748405756474271457, guid: 7d6634333e185754d96c189f3df7c163, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -0.23368514
+      objectReference: {fileID: 0}
+    - target: {fileID: 6748405756474271457, guid: 7d6634333e185754d96c189f3df7c163, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 1.2368109
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7d6634333e185754d96c189f3df7c163, type: 3}
 --- !u!1001 &7704979873188849705
