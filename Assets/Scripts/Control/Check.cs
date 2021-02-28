@@ -27,7 +27,7 @@ namespace Frankie.Control
             return CursorType.Check;
         }
 
-        public virtual bool HandleRaycast(PlayerController callingController, string interactButtonOne = "Fire1", string interactButtonTwo = "Fire2")
+        public virtual bool HandleRaycast(PlayerController callingController, PlayerInputType inputType, PlayerInputType matchType)
         {
             if (!this.CheckDistance(gameObject, transform.position, callingController,
                 overrideDefaultInteractionDistance, interactionDistance))
@@ -35,31 +35,12 @@ namespace Frankie.Control
                 return false;
             }
 
-            if (Input.GetButtonDown(interactButtonOne))
+            if (inputType == matchType)
             {
                 if (checkInteraction != null)
                 {
                     checkInteraction.Invoke(callingController);
                 }
-            }
-            return true;
-        }
-
-        public virtual bool HandleRaycast(PlayerController callingController, KeyCode interactKeyOne = KeyCode.E, KeyCode interactKeyTwo = KeyCode.Return)
-        {
-            if (!this.CheckDistance(gameObject, transform.position, callingController,
-                overrideDefaultInteractionDistance, interactionDistance))
-            {
-                return false;
-            }
-
-            if (Input.GetKeyDown(interactKeyOne))
-            {
-                if (checkInteraction != null)
-                {
-                    checkInteraction.Invoke(callingController);
-                }
-
             }
             return true;
         }

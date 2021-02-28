@@ -91,7 +91,7 @@ namespace Frankie.Zone
             return CursorType.Zone;
         }
 
-        public bool HandleRaycast(PlayerController callingController, string interactButtonOne = "Fire1", string interactButtonTwo = "Fire2")
+        public bool HandleRaycast(PlayerController callingController, PlayerInputType inputType, PlayerInputType matchType)
         {
             if (!this.CheckDistance(gameObject, transform.position, callingController, 
                 overrideDefaultInteractionDistance, interactionDistance)) 
@@ -99,22 +99,7 @@ namespace Frankie.Zone
                 return false; 
             }
 
-            if (Input.GetButtonDown(interactButtonOne))
-            {
-                WarpPlayerToNextNode(callingController);
-            }
-            return true;
-        }
-
-        public bool HandleRaycast(PlayerController callingController, KeyCode interactKeyOne = KeyCode.E, KeyCode interactKeyTwo = KeyCode.Return)
-        {
-            if (!this.CheckDistance(gameObject, transform.position, callingController,
-                overrideDefaultInteractionDistance, interactionDistance))
-            {
-                return false;
-            }
-
-            if (Input.GetKeyDown(interactKeyOne))
+            if (inputType == matchType)
             {
                 WarpPlayerToNextNode(callingController);
             }

@@ -7,8 +7,7 @@ namespace Frankie.Control
     public interface IRaycastable
     {
         CursorType GetCursorType();
-        bool HandleRaycast(PlayerController callingController, string interactButtonOne = "Fire1", string interactButtonTwo = "Fire2");
-        bool HandleRaycast(PlayerController callingController, KeyCode interactKeyOne = KeyCode.E, KeyCode interactKeyTwo = KeyCode.Return);
+        bool HandleRaycast(PlayerController callingController, PlayerInputType inputType, PlayerInputType matchType);
 
         // Extended in IRaycastableExtension
         bool CheckDistanceTemplate();

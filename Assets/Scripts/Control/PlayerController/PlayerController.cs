@@ -22,9 +22,14 @@ namespace Frankie.Control
 
         // Tunables
         [Header("Interaction")]
+        [SerializeField] KeyCode interactUp = KeyCode.W;
+        [SerializeField] KeyCode interactLeft = KeyCode.A;
+        [SerializeField] KeyCode interactRight = KeyCode.D;
+        [SerializeField] KeyCode interactDown = KeyCode.S;
         [SerializeField] string interactSkipButton = "Fire1";
         [SerializeField] string interactInspectButton = "Fire2";
         [SerializeField] KeyCode interactInspectKey = KeyCode.E;
+        [SerializeField] KeyCode interactOptionKey = KeyCode.Tab;
         [SerializeField] string interactCancelButton = "Cancel";
         [SerializeField] CursorMapping[] cursorMappings = null;
         [SerializeField] float raycastRadius = 0.1f;
@@ -173,10 +178,25 @@ namespace Frankie.Control
 
         public PlayerInputType GetPlayerInput()
         {
-            // TODO:  Implement new unity input system
             PlayerInputType input = PlayerInputType.DefaultNone;
 
-            if (Input.GetKeyDown(interactInspectKey) || Input.GetButtonDown(interactInspectButton))
+            if (Input.GetKeyDown(interactUp))
+            {
+                input = PlayerInputType.NavigateUp;
+            }
+            else if (Input.GetKeyDown(interactLeft))
+            {
+                input = PlayerInputType.NavigateLeft;
+            }
+            else if (Input.GetKeyDown(interactRight))
+            {
+                input = PlayerInputType.NavigateRight;
+            }
+            else if (Input.GetKeyDown(interactDown))
+            {
+                input = PlayerInputType.NavigateDown;
+            }
+            else if (Input.GetKeyDown(interactInspectKey) || Input.GetButtonDown(interactInspectButton) || Input.GetButtonDown(interactSkipButton))
             {
                 input = PlayerInputType.Execute;
             }
@@ -184,6 +204,11 @@ namespace Frankie.Control
             {
                 input = PlayerInputType.Cancel;
             }
+            else if (Input.GetKeyDown(interactOptionKey))
+            {
+                input = PlayerInputType.Option;
+            }
+
             return input;
         }
 
@@ -202,9 +227,10 @@ namespace Frankie.Control
 
             if (playerState == PlayerState.inWorld)
             {
-                if (InteractWithGlobals()) return;
-                if (InteractWithComponent()) return;
-                if (InteractWithComponentManual()) return;
+                PlayerInputType playerInputType = GetPlayerInput();
+                if (InteractWithGlobals(playerInputType)) return;
+                if (InteractWithComponent(playerInputType)) return;
+                if (InteractWithComponentManual(playerInputType)) return;
                 SetCursor(CursorType.None);
             }
         }
@@ -286,20 +312,18 @@ namespace Frankie.Control
             }
         }
 
-        private bool InteractWithGlobals()
+        private bool InteractWithGlobals(PlayerInputType playerInputType)
         {
-            if (Input.GetButtonDown(interactSkipButton) || Input.GetKeyDown(interactInspectKey))
+
+            if (globalInput != null)
             {
-                if (globalInput != null)
-                {
-                    globalInput.Invoke(PlayerInputType.Execute);
-                    return true;
-                }
+                globalInput.Invoke(playerInputType);
+                return true;
             }
             return false;
         }
 
-        private bool InteractWithComponent()
+        private bool InteractWithComponent(PlayerInputType playerInputType)
         {
             RaycastHit2D hitInfo = RaycastToMouseLocation();
             if (hitInfo.collider == null) { return false; }
@@ -309,7 +333,7 @@ namespace Frankie.Control
             {
                 foreach (IRaycastable raycastable in raycastables)
                 {
-                    if (raycastable.HandleRaycast(this, interactInspectButton, interactSkipButton))
+                    if (raycastable.HandleRaycast(this, playerInputType, PlayerInputType.Execute))
                     {
                         SetCursor(raycastable.GetCursorType());
                         return true;
@@ -319,9 +343,9 @@ namespace Frankie.Control
             return false;
         }
 
-        private bool InteractWithComponentManual()
+        private bool InteractWithComponentManual(PlayerInputType playerInputType)
         {
-            if (Input.GetKeyDown(interactInspectKey))
+            if (playerInputType == PlayerInputType.Execute)
             {
                 RaycastHit2D hitInfo = RaycastFromPlayerInLookDirection();
                 if (hitInfo.collider == null) { return false; }
@@ -331,7 +355,7 @@ namespace Frankie.Control
                 {
                     foreach (IRaycastable raycastable in raycastables)
                     {
-                        if (raycastable.HandleRaycast(this, KeyCode.E))
+                        if (raycastable.HandleRaycast(this, playerInputType, PlayerInputType.Execute))
                         {
                             return true;
                         }

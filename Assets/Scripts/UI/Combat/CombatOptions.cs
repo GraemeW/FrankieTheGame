@@ -6,7 +6,7 @@ namespace Frankie.Combat.UI
 {
     public class CombatOptions : DialogueOptionBox
     {
-        // Tunables -- TODO:  Linked up to use via keyboard command
+        // Tunables 
         [SerializeField] Button fightButton = null;
         [SerializeField] Button itemButton = null;
         [SerializeField] Button statsButton = null;

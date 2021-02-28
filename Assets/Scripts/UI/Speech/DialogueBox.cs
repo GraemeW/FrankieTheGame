@@ -6,7 +6,7 @@ using Frankie.Control;
 
 namespace Frankie.Speech.UI
 {
-    public class DialogueBox : MonoBehaviour, IGlobalInputReceiver
+    public class DialogueBox : MonoBehaviour, IGlobalInputReceiver, IDialogueBoxCallbackReceiver
     {
         // Tunables
         [Header("Links And Prefabs")]
@@ -37,6 +37,9 @@ namespace Frankie.Speech.UI
 
         // Cached References
         DialogueController dialogueController = null;
+
+        // Static
+        protected static string DIALOGUE_CALLBACK_ENABLE_INPUT = "ENABLE_INPUT";
 
         // Structures
         private struct ReceptacleTextPair
@@ -387,6 +390,14 @@ namespace Frankie.Speech.UI
                 SetBusyWriting(false);
                 interruptWriting = false;
                 queuePageClear = false;
+            }
+        }
+
+        public void HandleDialogueCallback(DialogueBox dialogueBox, string callbackMessage)
+        {
+            if (callbackMessage == DIALOGUE_CALLBACK_ENABLE_INPUT)
+            {
+                handleGlobalInput = true;
             }
         }
     }

@@ -29,7 +29,7 @@ namespace Frankie.Speech
             }
         }
 
-        public override bool HandleRaycast(PlayerController callingController, string interactButtonOne = "Fire1", string interactButtonTwo = "Fire2")
+        public override bool HandleRaycast(PlayerController callingController, PlayerInputType inputType, PlayerInputType matchType)
         {
             if (dialogue == null) { return false; }
 
@@ -39,28 +39,7 @@ namespace Frankie.Speech
                 return false;
             }
 
-            if (Input.GetButtonDown(interactButtonOne))
-            {
-                if (checkInteraction != null)
-                {
-                    checkInteraction.Invoke(callingController);
-                }
-                callingController.EnterDialogue(this, dialogue);
-            }
-            return true;
-        }
-
-        public override bool HandleRaycast(PlayerController callingController, KeyCode interactKeyOne = KeyCode.E, KeyCode interactKeyTwo = KeyCode.Return)
-        {
-            if (dialogue == null) { return false; }
-
-            if (!this.CheckDistance(gameObject, transform.position, callingController,
-                overrideDefaultInteractionDistance, interactionDistance))
-            {
-                return false;
-            }
-
-            if (Input.GetKeyDown(interactKeyOne))
+            if (inputType == matchType)
             {
                 if (checkInteraction != null)
                 {
