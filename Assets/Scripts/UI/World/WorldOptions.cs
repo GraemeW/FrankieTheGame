@@ -8,11 +8,16 @@ namespace Frankie.Control.UI
 {
     public class WorldOptions : DialogueOptionBox
     {
+        // Tunables
         [SerializeField] Button knapsackButton = null;
         [SerializeField] Button abilitiesButton = null;
         [SerializeField] Button statusButton = null;
         [SerializeField] Button mapButton = null;
-
+        [Header("Option Game Objects")]
+        [SerializeField] GameObject knapsackPrefab = null;
+        [SerializeField] GameObject abilitiesPrefab = null;
+        [SerializeField] GameObject statusPrefab = null;
+        [SerializeField] GameObject mapPrefab = null;
 
         // Cached References
         PlayerController playerController = null;
@@ -23,16 +28,20 @@ namespace Frankie.Control.UI
             playerController = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>();
         }
 
-        protected override void OnEnable()
+        protected override void Start()
         {
-            base.OnEnable();
-            playerController.globalInput += HandleGlobalInput;
+            SetGlobalCallbacks(playerController); // input handled via player controller, immediate override
         }
 
-        protected override void OnDisable()
+        private void OnDestroy()
         {
-            base.OnDisable();
-            playerController.globalInput -= HandleGlobalInput;
+            playerController.SetPlayerState(PlayerState.inWorld);
+        }
+
+        public void OpenStatus()
+        {
+            handleGlobalInput = false;
+            //GameObject dialogueBoxObject = Instantiate(dialogueBoxPrefab, infoChooseParent);
         }
     }
 }

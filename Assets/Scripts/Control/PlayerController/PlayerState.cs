@@ -6,6 +6,7 @@ namespace Frankie.Control
         inWorld,
         inDialogue,
         inTransition,
-        inBattle
+        inBattle,
+        inOptions
     }
 }

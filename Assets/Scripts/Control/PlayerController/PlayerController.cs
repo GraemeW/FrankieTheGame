@@ -38,6 +38,8 @@ namespace Frankie.Control
         [Header("Other Controller Prefabs")]
         [SerializeField] GameObject battleControllerPrefab = null;
         [SerializeField] GameObject dialogueControllerPrefab = null;
+        [Header("World UI Game Objects")]
+        [SerializeField] GameObject worldOptionsPrefab = null;
         [Header("Messages")]
         [SerializeField] string messageCannotFight = "You are wounded and cannot fight.";
 
@@ -231,7 +233,13 @@ namespace Frankie.Control
                 if (InteractWithGlobals(playerInputType)) return;
                 if (InteractWithComponent(playerInputType)) return;
                 if (InteractWithComponentManual(playerInputType)) return;
+                if (InteractWithOptions(playerInputType)) return;
                 SetCursor(CursorType.None);
+            }
+            else if (playerState == PlayerState.inOptions)
+            {
+                PlayerInputType playerInputType = GetPlayerInput();
+                if (InteractWithGlobals(playerInputType)) return;
             }
         }
 
@@ -314,7 +322,6 @@ namespace Frankie.Control
 
         private bool InteractWithGlobals(PlayerInputType playerInputType)
         {
-
             if (globalInput != null)
             {
                 globalInput.Invoke(playerInputType);
@@ -362,6 +369,17 @@ namespace Frankie.Control
                     }
                 }
                 return false;
+            }
+            return false;
+        }
+
+        private bool InteractWithOptions(PlayerInputType playerInputType)
+        {
+            if (playerInputType == PlayerInputType.Option)
+            {
+                Instantiate(worldOptionsPrefab, worldCanvas.gameObject.transform);
+                SetPlayerState(PlayerState.inOptions);
+                return true;
             }
             return false;
         }

@@ -33,7 +33,7 @@ namespace Frankie.Speech.UI
         Queue<ReceptacleTextPair> printQueue = new Queue<ReceptacleTextPair>();
         List<GameObject> printedJobs = new List<GameObject>();
         List<CallbackMessagePair> disableCallbacks = new List<CallbackMessagePair>();
-        IStandardPlayerInputCaller alternateController = null;
+        protected IStandardPlayerInputCaller alternateController = null;
 
         // Cached References
         DialogueController dialogueController = null;
@@ -95,7 +95,7 @@ namespace Frankie.Speech.UI
             }
         }
 
-        private void Start()
+        protected virtual void Start()
         {
             SetupSimpleMessage();
         }
@@ -121,7 +121,8 @@ namespace Frankie.Speech.UI
         public void SetGlobalCallbacks(IStandardPlayerInputCaller globalCallbackSender)
         {
             handleGlobalInput = true;
-            globalCallbackSender.globalInput += HandleGlobalInput;
+            alternateController = globalCallbackSender;
+            globalCallbackSender.globalInput += HandleGlobalInput; // Unsubscribed on OnDisable
         }
 
         public void SetDisableCallback(IDialogueBoxCallbackReceiver callbackReceiver, DialogueBox dialogueBox, string callbackMessage)

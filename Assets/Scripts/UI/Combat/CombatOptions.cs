@@ -22,27 +22,20 @@ namespace Frankie.Combat.UI
             battleController = GameObject.FindGameObjectWithTag("BattleController").GetComponent<BattleController>();
         }
 
-        protected override void OnEnable()
+        protected override void Start()
         {
-            base.OnEnable();
-            battleController.globalInput += HandleGlobalInput;
+            SetGlobalCallbacks(battleController); // input handled via player controller, immediate override
         }
 
-        protected override void OnDisable()
-        {
-            base.OnDisable();
-            battleController.globalInput -= HandleGlobalInput;
-        }
-
-        public void InitiateCombat()
+        public void InitiateCombat() // Called via unity events
         {
             battleController.SetBattleState(BattleState.Combat);
             gameObject.SetActive(false);
         }
 
-        public void AttemptToRun()
+        public void AttemptToRun() // Called via unity events
         {
-            // TODO:  add logic for running (odds vs. speed, etc.)
+            // TODO:  add logic for running (odds vs. speed, etc.) -- should be calculated on party / combat participants
             battleController.SetBattleOutcome(BattleOutcome.Ran);
             battleController.SetBattleState(BattleState.Outro);
             gameObject.SetActive(false);

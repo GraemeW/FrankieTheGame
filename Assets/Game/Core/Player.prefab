@@ -79,9 +79,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fdf60f211944627448699ea1fcd66c3d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  interactUp: 119
+  interactLeft: 97
+  interactRight: 100
+  interactDown: 115
   interactSkipButton: Fire1
   interactInspectButton: Fire2
   interactInspectKey: 101
+  interactOptionKey: 9
   interactCancelButton: Cancel
   cursorMappings:
   - type: 0
@@ -101,6 +106,7 @@ MonoBehaviour:
   interactionCenterPoint: {fileID: 1925579894594943436}
   battleControllerPrefab: {fileID: 195823895297305920, guid: 56c04806af7883a47bd3b232ea569090, type: 3}
   dialogueControllerPrefab: {fileID: 417524482563996126, guid: 0918560ff2a56d3489ca626a5a667040, type: 3}
+  worldOptionsPrefab: {fileID: 6413694501190794285, guid: ef7e6848c65ed704882473869f5b49d1, type: 3}
   messageCannotFight: You are wounded and cannot fight.
 --- !u!114 &6558820224858072559
 MonoBehaviour:
