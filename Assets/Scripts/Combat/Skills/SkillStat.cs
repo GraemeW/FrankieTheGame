@@ -8,6 +8,7 @@ namespace Frankie.Combat
         Smarts,
         Nimble,
         Luck,
-        Pluck
+        Pluck,
+        Stoic
     }
 }

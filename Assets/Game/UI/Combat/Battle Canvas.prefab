@@ -660,6 +660,9 @@ MonoBehaviour:
   messageEncounterSingle: You have encountered {0}.
   messageEncounterMultiple: You have encountered {0} and its cohort.
   messageEncounterPreHype: What do you want to do?
+  messageGainedExperience: Your party has gained {0} experience.
+  messageCharacterLevelUp: '{0} has leveled up to level {1}!'
+  messageCharacterStatGained: '{0} has increased by {1}.'
   messageBattleCompleteWon: You Won!  Congratulations!
   messageBattleCompleteLost: You lost.  Whoops!
   messageBattleCompleteRan: You ran away.

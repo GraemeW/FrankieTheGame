@@ -4,6 +4,7 @@ using Frankie.Stats;
 using Frankie.Saving;
 using System;
 using Frankie.Core;
+using System.Collections.Generic;
 
 namespace Frankie.Combat
 {
@@ -27,7 +28,7 @@ namespace Frankie.Combat
         bool inCombat = false;
         bool inCooldown = false;
         float cooldownTimer = 0f;
-        float targetHP = 1f;
+        public float targetHP = 1f;
         float deltaHPTimeFraction = 0.0f;
         LazyValue<bool> isDead;
         LazyValue<float> currentHP;
@@ -36,9 +37,10 @@ namespace Frankie.Combat
         // Events
         public event Action<bool> enterCombat;
         public event Action<CombatParticipant, StateAlteredData> stateAltered;
+        public event Action<CombatParticipant, int, List<Tuple<string, int>>> characterLevelUp;
 
         // Static
-        static string[] PREDICATES_ARRAY = { "IsAnyoneDead", "IsAnyoneDead"};
+        static string[] PREDICATES_ARRAY = { "IsAnyoneDead", "IsAnyoneAlive", "IsCharacterDead"};
 
         private void Awake()
         {
@@ -48,23 +50,22 @@ namespace Frankie.Combat
             isDead = new LazyValue<bool>(SpawnAlive);
         }
 
+        private void OnEnable()
+        {
+            baseStats.onLevelUp += PassLevelUpMessage;
+        }
+
+        private void OnDisable()
+        {
+            baseStats.onLevelUp -= PassLevelUpMessage;
+        }
+
         private void Start()
         {
             currentHP.ForceInit();
             currentAP.ForceInit();
             isDead.ForceInit();
             targetHP = currentHP.value;
-        }
-
-        private void OnEnable()
-        {
-            baseStats.onLevelUp += RestoreHPOnLevelUp;
-            cooldownTimer = 0f;
-        }
-
-        private void OnDisable()
-        {
-            baseStats.onLevelUp -= RestoreHPOnLevelUp;
         }
 
         private void Update()
@@ -143,6 +144,7 @@ namespace Frankie.Combat
 
         public void HaltHPScroll()
         {
+            if (targetHP > currentHP.value) { return; } // Allow healing to occur post-battle
             deltaHPTimeFraction = 0f;
             targetHP = currentHP.value;
         }
@@ -235,13 +237,6 @@ namespace Frankie.Combat
             currentHP.value = baseStats.GetStat(Stat.HP);
         }
 
-        public void RestoreHPOnLevelUp()
-        {
-            float maxHP = baseStats.GetStat(Stat.HP);
-            float differenceToMaxHP = Mathf.Clamp((maxHP - currentHP.value), 0, maxHP);
-            AdjustHP(differenceToMaxHP);
-        }
-
         public float GetMaxHP()
         {
             return baseStats.GetStat(Stat.HP);
@@ -250,6 +245,16 @@ namespace Frankie.Combat
         public float GetMaxAP()
         {
             return baseStats.GetStat(Stat.AP);
+        }
+
+        public float GetExperienceReward()
+        {
+            return baseStats.GetStat(Stat.ExperienceReward);
+        }
+
+        public int GetLevel()
+        {
+            return baseStats.GetLevel();
         }
 
         private bool SpawnAlive()
@@ -265,10 +270,7 @@ namespace Frankie.Combat
                 currentHP.value = 0f;
                 targetHP = 0f;
                 isDead.value = true;
-                if (!friendly)
-                {
-                    AwardExperience();
-                }
+
                 if (stateAltered != null)
                 {
                     stateAltered.Invoke(this, new StateAlteredData(StateAlteredType.Dead));
@@ -306,11 +308,6 @@ namespace Frankie.Combat
             }
         }
 
-        private void AwardExperience()
-        {
-            // TODO:  Implement experience awards (requires first:  party concept)
-        }
-
         private float GetBaseStatsModifier(Skill skill)
         {
             float baseStatsModifier = 0f;
@@ -321,6 +318,21 @@ namespace Frankie.Combat
             }
 
             return baseStatsModifier;
+        }
+
+        private void PassLevelUpMessage(int level, Dictionary<Stat, float> levelUpSheet)
+        {
+            List<Tuple<string, int>> statNameValuePairs = new List<Tuple<string, int>>();
+            foreach (KeyValuePair<Stat, float> entry in levelUpSheet)
+            {
+                if (entry.Key == Stat.HP) { AdjustHP(entry.Value); }
+                if (entry.Key == Stat.AP) { AdjustAP(entry.Value); }
+
+                Tuple<string, int> statNameValuePair = new Tuple<string, int>(entry.Key.ToString(), Mathf.RoundToInt(entry.Value));
+                statNameValuePairs.Add(statNameValuePair);
+            }
+
+            characterLevelUp.Invoke(this, level, statNameValuePairs);
         }
 
         // Save State
@@ -363,6 +375,10 @@ namespace Frankie.Combat
             }
             else if (predicate == PREDICATES_ARRAY[1])
             {
+                return PredicateEvaluateIsAnyoneAlive(parameters);
+            }
+            else if (predicate == PREDICATES_ARRAY[2])
+            {
                 return PredicateEvaluateIsCharacterDead(parameters);
             }
             return null;
@@ -378,7 +394,16 @@ namespace Frankie.Combat
         {
             if (IsDead())
             {
-                return IsDead();
+                return true;
+            }
+            return null;
+        }
+
+        private bool? PredicateEvaluateIsAnyoneAlive(string[] parameters)
+        {
+            if (!IsDead())
+            {
+                return true;
             }
             return null;
         }
@@ -387,12 +412,11 @@ namespace Frankie.Combat
         {
             foreach (string characterName in parameters)
             {
-                if (string.Equals(baseStats.GetCharacterProperties().name, characterName) && IsDead())
+                if (string.Equals(baseStats.GetCharacterProperties().name, characterName))
                 {
                     return IsDead();
                 }
             }
-
             return null;
         }
     }

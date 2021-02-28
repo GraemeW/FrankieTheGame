@@ -1,5 +1,6 @@
 namespace Frankie.Stats
 {
+    // Note:  If updating, also update SkillStat enum
     public enum Stat
     {
         HP,
@@ -12,6 +13,7 @@ namespace Frankie.Stats
         Smarts,
         Nimble,
         Luck,
-        Pluck
+        Pluck,
+        Stoic
     }
 }

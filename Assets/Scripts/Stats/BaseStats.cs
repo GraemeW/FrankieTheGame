@@ -11,8 +11,11 @@ namespace Frankie.Stats
         // Tunables
         [SerializeField] CharacterProperties characterProperties = null;
         [Range(1, 99)] [SerializeField] int defaultLevel = 1;
+        [Range(1, 99)] [SerializeField] int maxLevel = 99;
         [SerializeField] bool shouldUseModifiers = false;
         [SerializeField] Progression progression = null;
+        [Range(0, 1)][SerializeField] float bonusStatOnLevelMidProbability = 0.3f;
+        [Range(0, 1)][SerializeField] float bonusStatOnLevelHighProbability = 0.1f;
 
         // State
         LazyValue<int> currentLevel;
@@ -22,32 +25,17 @@ namespace Frankie.Stats
         Experience experience = null;
 
         // Events
-        public event Action onLevelUp;
+        public event Action<int, Dictionary<Stat, float>> onLevelUp;
 
         private void Awake()
         {
             experience = GetComponent<Experience>();
-            currentLevel = new LazyValue<int>(CalculateLevel);
+            currentLevel = new LazyValue<int>(GetDefaultLevel);
         }
 
         private void Start()
         {
             currentLevel.ForceInit();
-        }
-        private void OnEnable()
-        {
-            if (experience != null)
-            {
-                experience.onExperienceGained += UpdateLevel;
-            }
-        }
-
-        private void OnDisable()
-        {
-            if (experience != null)
-            {
-                experience.onExperienceGained -= UpdateLevel;
-            }
         }
 
         public CharacterProperties GetCharacterProperties()
@@ -69,6 +57,11 @@ namespace Frankie.Stats
             if (activeStatSheet.ContainsKey(stat)) { return activeStatSheet[stat]; }
 
             return progression.GetStat(stat, characterProperties, GetLevel()); // Default behavior from original implementation
+        }
+
+        private float GetProgressionStat(Stat stat)
+        {
+            return progression.GetStat(stat, characterProperties, GetLevel());
         }
 
         private void BuildActiveStatSheet()
@@ -100,34 +93,66 @@ namespace Frankie.Stats
             currentLevel.ForceInit();
         }
 
-        public void UpdateLevel()
+        public bool UpdateLevel()
         {
-            int newLevel = CalculateLevel();
-            if (newLevel > currentLevel.value)
+            if (GetLevel() >= maxLevel) { return false; }
+
+            if (experience.GetPoints() > GetStat(Stat.ExperienceToLevelUp))
             {
-                currentLevel.value = newLevel;
+                float experienceBalance = experience.GetPoints() - GetStat(Stat.ExperienceToLevelUp);
+                experience.ResetPoints();
+                currentLevel.value++;
+
+                Dictionary<Stat, float> levelUpSheet = IncrementStatsOnLevelUp();
+
                 if (onLevelUp != null)
                 {
-                    onLevelUp();
+                    onLevelUp.Invoke(GetLevel(), levelUpSheet);
                 }
+
+                experience.GainExperienceToLevel(experienceBalance); // Adjust the balance up, can re-call present function for multi-levels
+                return true;
             }
+            return false;
         }
 
-        private int CalculateLevel()
+        private Dictionary<Stat, float> IncrementStatsOnLevelUp()
         {
-            if (experience == null) { return defaultLevel; } // Default behavior
+            Dictionary<Stat, float> levelUpSheet = new Dictionary<Stat, float>();
+            levelUpSheet[Stat.HP] = GetProgressionStat(Stat.Stoic) * (1 + GetBonusMultiplier());
+            levelUpSheet[Stat.AP] = GetProgressionStat(Stat.Smarts) * (1 + GetBonusMultiplier());
+            levelUpSheet[Stat.Brawn] = GetProgressionStat(Stat.Brawn) * (1 + GetBonusMultiplier());
+            levelUpSheet[Stat.Beauty] = GetProgressionStat(Stat.Beauty) * (1 + GetBonusMultiplier());
+            levelUpSheet[Stat.Smarts] = GetProgressionStat(Stat.Smarts) * (1 + GetBonusMultiplier());
+            levelUpSheet[Stat.Nimble] = GetProgressionStat(Stat.Nimble) * (1 + GetBonusMultiplier());
+            levelUpSheet[Stat.Luck] = GetProgressionStat(Stat.Luck) * (1 + GetBonusMultiplier());
+            levelUpSheet[Stat.Pluck] = GetProgressionStat(Stat.Pluck) * (1 + GetBonusMultiplier());
+            levelUpSheet[Stat.Stoic] = GetProgressionStat(Stat.Stoic); // No bonus points for Stoic
 
-            float currentExperiencePoints = experience.GetPoints();
-            int penultimateLevel = progression.GetLevels(Stat.ExperienceToLevelUp, characterProperties);
-            for (int level = 1; level <= penultimateLevel; level++)
-            {
-                float experienceToLevelUp = progression.GetStat(Stat.ExperienceToLevelUp, characterProperties, level);
-                if (experienceToLevelUp > currentExperiencePoints)
-                {
-                    return level;
-                }
-            }
-            return penultimateLevel + 1;
+            activeStatSheet[Stat.HP] += levelUpSheet[Stat.HP];
+            activeStatSheet[Stat.AP] += levelUpSheet[Stat.AP];
+            activeStatSheet[Stat.Brawn] += levelUpSheet[Stat.Brawn];
+            activeStatSheet[Stat.Beauty] += levelUpSheet[Stat.Beauty];
+            activeStatSheet[Stat.Smarts] += levelUpSheet[Stat.Smarts];
+            activeStatSheet[Stat.Nimble] += levelUpSheet[Stat.Nimble];
+            activeStatSheet[Stat.Luck] += levelUpSheet[Stat.Luck];
+            activeStatSheet[Stat.Pluck] += levelUpSheet[Stat.Pluck];
+            activeStatSheet[Stat.Stoic] += levelUpSheet[Stat.Stoic];
+
+            return levelUpSheet;
+        }
+
+        private int GetBonusMultiplier()
+        {
+            float randomSeed = UnityEngine.Random.Range(0f, 1f);
+            if (randomSeed <= bonusStatOnLevelHighProbability) { return 2; }
+            else if (randomSeed <= (bonusStatOnLevelMidProbability + bonusStatOnLevelHighProbability)) { return 1; }
+            else { return 0; }
+        }
+
+        private int GetDefaultLevel()
+        {
+            return defaultLevel;
         }
 
         // Save State

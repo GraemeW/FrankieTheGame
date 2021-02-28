@@ -33,6 +33,8 @@ namespace Frankie.Combat
         BattleState state = default;
         BattleOutcome outcome = default;
         bool outroCleanupCalled = false;
+        bool handleLevelUp = false;
+        float battleExperienceReward = 0f;
 
         List<CombatParticipant> activeCharacters = new List<CombatParticipant>();
         List<CombatParticipant> activeEnemies = new List<CombatParticipant>();
@@ -105,6 +107,11 @@ namespace Frankie.Combat
         public BattleOutcome GetBattleOutcome()
         {
             return outcome;
+        }
+
+        public void SetHandleLevelUp(bool enable)
+        {
+            handleLevelUp = enable;
         }
 
         public bool SetSelectedCharacter(CombatParticipant character)
@@ -205,10 +212,9 @@ namespace Frankie.Combat
             }
             else if (state == BattleState.Outro)
             {
-                if (!outroCleanupCalled)
+                if (!handleLevelUp && !outroCleanupCalled)
                 {
                     outroCleanupCalled = true;
-                    // TODO:  Handle experience awards + levels ~ set state level up and handled full outro + level by canvas
                     CleanUpBattleBits();
                 }
             }
@@ -500,9 +506,38 @@ namespace Frankie.Combat
                 else if (activeEnemies.All(x => x.IsDead() == true))
                 {
                     SetBattleOutcome(BattleOutcome.Won);
+                    AwardExperience();
                     SetBattleState(BattleState.Outro);
                 }
             }
+        }
+
+        private void AwardExperience()
+        {
+            foreach (CombatParticipant character in GetCharacters())
+            {
+                Experience experience = character.GetComponent<Experience>();
+                float scaledExperienceReward = 0f;
+
+                foreach (CombatParticipant enemy in GetEnemies())
+                {
+                    float rawExperienceReward = enemy.GetExperienceReward();
+                    battleExperienceReward += rawExperienceReward;
+
+                    int levelDelta = character.GetLevel() - enemy.GetLevel();
+                    scaledExperienceReward += Experience.GetScaledExperience(rawExperienceReward, levelDelta, experience.GetExperienceScaling());
+                }
+
+                if (experience.GainExperienceToLevel(scaledExperienceReward))
+                {
+                    handleLevelUp = true;
+                }
+            }
+        }
+
+        public float GetBattleExperienceReward()
+        {
+            return battleExperienceReward;
         }
 
         private void CleanUpBattleBits()

@@ -4,6 +4,7 @@ using UnityEngine;
 using System.Linq;
 using Frankie.Speech.UI;
 using UnityEngine.UI;
+using System;
 
 namespace Frankie.Combat.UI
 {
@@ -26,9 +27,17 @@ namespace Frankie.Combat.UI
         [Tooltip("Include {0} for enemy name")][SerializeField] string messageEncounterSingle = "You have encountered {0}.";
         [Tooltip("Include {0} for enemy name")][SerializeField] string messageEncounterMultiple = "You have encountered {0} and its cohort.";
         [Tooltip("Called after encounter message")] [SerializeField] string messageEncounterPreHype = "What do you want to do?";
+        [Tooltip("Include {0} for experience value")][SerializeField] string messageGainedExperience = "Your party has gained {0} experience.";
+        [Tooltip("Include {0} for character name, {1} for level")][SerializeField] string messageCharacterLevelUp = "{0} has leveled up to level {1}!";
+        [Tooltip("Include {0} for stat name, {1} for value")] [SerializeField] string messageCharacterStatGained = "{0} has increased by {1}.";
         [SerializeField] string messageBattleCompleteWon = "You Won!  Congratulations!";
         [SerializeField] string messageBattleCompleteLost = "You lost.  Whoops!";
         [SerializeField] string messageBattleCompleteRan = "You ran away.";
+
+        // State
+        Queue<Action> queuedUISequences = new Queue<Action>();
+        List<CharacterLevelUpSheetPair> queuedLevelUps = new List<CharacterLevelUpSheetPair>();
+        bool busyWithSerialAction = false;
 
         // Cached References
         BattleController battleController = null;
@@ -36,6 +45,15 @@ namespace Frankie.Combat.UI
         // Static
         private static string DIALOGUE_CALLBACK_INTRO_COMPLETE = "INTRO_COMPLETE";
         private static string DIALOGUE_CALLBACK_OUTRO_COMPLETE = "OUTRO_COMPLETE";
+        private static string DIALOGUE_CALLBACK_SERIAL_ACTION_COMPLETE = "SERIAL_ACTION_COMPLETE";
+
+        // Data Structures
+        public struct CharacterLevelUpSheetPair
+        {
+            public CombatParticipant character;
+            public int level;
+            public List<Tuple<string, int>> statNameValuePairs;
+        }
 
         private void Awake()
         {
@@ -56,6 +74,15 @@ namespace Frankie.Combat.UI
         private void OnDestroy()
         {
             ClearBattleCanvas();
+        }
+
+        private void Update()
+        {
+            if (!busyWithSerialAction && queuedUISequences.Count != 0)
+            {
+                Action nextUISequence = queuedUISequences.Dequeue();
+                StartSerialAction(nextUISequence);
+            }
         }
 
         public void Setup(BattleState state)
@@ -81,12 +108,8 @@ namespace Frankie.Combat.UI
             {
                 combatLog.gameObject.SetActive(false);
                 skillSelection.gameObject.SetActive(false);
-                SetupExitMessage();
-            }
-            else if (state == BattleState.LevelUp)
-            {
-                // TODO:  Handle level up ~ redundant of outro, but with extras
-                // alternatively, can handle as a follow-up to outro (though I don't love the chain)
+                queuedUISequences.Enqueue(SetupExperienceMessage);
+                queuedUISequences.Enqueue(SetupExitMessage);
             }
         }
 
@@ -127,16 +150,13 @@ namespace Frankie.Combat.UI
                     battleController.SetSelectedCharacter(character);
                     firstCharacterToggle = true;
                 }
+                character.characterLevelUp += HandleLevelUp; 
             }
         }
 
         private void SetupEnemies(IEnumerable enemies)
         {
-            // TODO:  Add support for two different types of presentation -- two-row small format, one-row large format
-
-            // State
             List<EnemySlide> enemySlides = new List<EnemySlide>();
-
             foreach (CombatParticipant enemy in enemies)
             {
                 Transform parentSpawn = null;
@@ -180,10 +200,60 @@ namespace Frankie.Combat.UI
             dialogueBox.SetDisableCallback(this, dialogueBox, DIALOGUE_CALLBACK_INTRO_COMPLETE);
         }
 
+        private void StartSerialAction(Action action)
+        {
+            // !! It is the responsibility of the called action to reset busyWithSerialAction toggle !!
+            busyWithSerialAction = true;
+            action.Invoke();
+        }
+
+        private void HandleLevelUp(CombatParticipant character, int level, List<Tuple<string, int>> statNameValuePairs)
+        {
+            CharacterLevelUpSheetPair characterLevelUpSheetPair = new CharacterLevelUpSheetPair
+            {
+                character = character,
+                level = level,
+                statNameValuePairs = statNameValuePairs
+            };
+            queuedLevelUps.Add(characterLevelUpSheetPair);
+        }
+
+        private void SetupExperienceMessage()
+        {
+            if (battleController.GetBattleOutcome() != BattleOutcome.Won) { busyWithSerialAction = false; return; }
+
+            GameObject dialogueBoxObject = Instantiate(dialogueBoxPrefab, infoChooseParent);
+            DialogueBox dialogueBox = dialogueBoxObject.GetComponent<DialogueBox>();
+            dialogueBox.AddText(string.Format(messageGainedExperience, battleController.GetBattleExperienceReward().ToString()));
+
+            foreach (CharacterLevelUpSheetPair characterLevelUpSheetPair in queuedLevelUps)
+            {
+                dialogueBox.AddPageBreak();
+
+                dialogueBox.AddText(string.Format(messageCharacterLevelUp, characterLevelUpSheetPair.character.GetCombatName(), characterLevelUpSheetPair.level.ToString()));
+                int pageClearReset = 0;
+
+                foreach (Tuple<string, int> statNameValuePair in characterLevelUpSheetPair.statNameValuePairs)
+                {
+                    if (pageClearReset > 2)
+                    {
+                        dialogueBox.AddPageBreak();
+                        pageClearReset = 0;
+                    }
+
+                    dialogueBox.AddText(string.Format(messageCharacterStatGained, statNameValuePair.Item1, statNameValuePair.Item2.ToString()));
+                    pageClearReset++;
+                }
+
+                characterLevelUpSheetPair.character.characterLevelUp -= HandleLevelUp;
+                    // Unsubscribe to messages -- not the cleanest location, but the only one available
+            }
+            dialogueBox.SetGlobalCallbacks(battleController);
+            dialogueBox.SetDisableCallback(this, dialogueBox, DIALOGUE_CALLBACK_SERIAL_ACTION_COMPLETE);
+        }
+
         private void SetupExitMessage()
         {
-            // TODO:  Handle other battle ending types
-            // TODO:  Add experience message
             GameObject dialogueBoxObject = Instantiate(dialogueBoxPrefab, infoChooseParent);
 
             string exitMessage = "";
@@ -204,6 +274,7 @@ namespace Frankie.Combat.UI
             dialogueBox.AddText(exitMessage);
             dialogueBox.SetGlobalCallbacks(battleController);
             dialogueBox.SetDisableCallback(this, dialogueBox, DIALOGUE_CALLBACK_OUTRO_COMPLETE);
+            battleController.SetHandleLevelUp(false);
         }
 
         public void HandleDialogueCallback(DialogueBox dialogueBox, string callbackMessage)
@@ -214,7 +285,12 @@ namespace Frankie.Combat.UI
             }
             else if (callbackMessage == DIALOGUE_CALLBACK_OUTRO_COMPLETE)
             {
+                busyWithSerialAction = false;
                 battleController.SetBattleState(BattleState.Complete);
+            }
+            else if (callbackMessage == DIALOGUE_CALLBACK_SERIAL_ACTION_COMPLETE)
+            {
+                busyWithSerialAction = false;
             }
         }
     }

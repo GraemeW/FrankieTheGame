@@ -20,8 +20,8 @@ MonoBehaviour:
   - f96f821b-925f-41e8-91ea-1af4d12eb23d
   rect:
     serializedVersion: 2
-    x: 496
-    y: 304
+    x: 526
+    y: 274
     width: 400
     height: 225
   draggingRect:
@@ -35,9 +35,10 @@ MonoBehaviour:
   condition:
     and:
     - or:
-      - predicate: IsAnyoneDead
+      - predicate: IsCharacterDead
         negate: 0
-        parameters: []
+        parameters:
+        - HipsterOfficeWorker
 --- !u!114 &-5789612486919439308
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -74,9 +75,10 @@ MonoBehaviour:
   condition:
     and:
     - or:
-      - predicate: IsAnyoneDead
+      - predicate: IsCharacterDead
         negate: 1
-        parameters: []
+        parameters:
+        - HipsterOfficeWorker
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
