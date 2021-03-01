@@ -47,7 +47,7 @@ namespace Frankie.Combat.UI
         protected override void OnEnable()
         {
             base.OnEnable();
-            GetComponent<Button>().onClick.AddListener(delegate { battleController.SetSelectedCharacter(GetCombatParticipant()); });
+            if (battleController != null) { GetComponent<Button>().onClick.AddListener(delegate { battleController.SetSelectedCharacter(GetCombatParticipant()); }); }
         }
 
         protected override void OnDisable()

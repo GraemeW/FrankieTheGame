@@ -65,6 +65,11 @@ namespace Frankie.Stats
             return experienceScalingPerLevelDelta;
         }
 
+        public int GetExperienceRequiredToLevel()
+        {
+            return Mathf.RoundToInt((baseStats.GetStat(Stat.ExperienceToLevelUp) - GetPoints()));
+        }
+
         // Save State
         public object CaptureState()
         {

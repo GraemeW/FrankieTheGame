@@ -127,7 +127,7 @@ namespace Frankie.Stats
             levelUpSheet[Stat.Nimble] = GetProgressionStat(Stat.Nimble) * (1 + GetBonusMultiplier());
             levelUpSheet[Stat.Luck] = GetProgressionStat(Stat.Luck) * (1 + GetBonusMultiplier());
             levelUpSheet[Stat.Pluck] = GetProgressionStat(Stat.Pluck) * (1 + GetBonusMultiplier());
-            levelUpSheet[Stat.Stoic] = GetProgressionStat(Stat.Stoic); // No bonus points for Stoic
+            levelUpSheet[Stat.Stoic] = GetProgressionStat(Stat.Stoic) / 2; // Stoic treatment different
 
             activeStatSheet[Stat.HP] += levelUpSheet[Stat.HP];
             activeStatSheet[Stat.AP] += levelUpSheet[Stat.AP];
@@ -142,11 +142,11 @@ namespace Frankie.Stats
             return levelUpSheet;
         }
 
-        private int GetBonusMultiplier()
+        private float GetBonusMultiplier()
         {
             float randomSeed = UnityEngine.Random.Range(0f, 1f);
-            if (randomSeed <= bonusStatOnLevelHighProbability) { return 2; }
-            else if (randomSeed <= (bonusStatOnLevelMidProbability + bonusStatOnLevelHighProbability)) { return 1; }
+            if (randomSeed <= bonusStatOnLevelHighProbability) { return 0.5f; }
+            else if (randomSeed <= (bonusStatOnLevelMidProbability + bonusStatOnLevelHighProbability)) { return 0.25f; }
             else { return 0; }
         }
 

@@ -14,7 +14,7 @@ namespace Frankie.Speech.UI
         [SerializeField] GameObject simpleTextPrefab = null;
         [SerializeField] GameObject speechTextPrefab = null;
         [SerializeField] protected Transform optionParent = null;
-        [SerializeField] GameObject optionPrefab = null;
+        [SerializeField] protected GameObject optionPrefab = null;
         [Header("Parameters")]
         [SerializeField] protected bool handleGlobalInput = true;
         [SerializeField] float delayToDestroyWindow = 0.1f; // Seconds
@@ -125,7 +125,7 @@ namespace Frankie.Speech.UI
             globalCallbackSender.globalInput += HandleGlobalInput; // Unsubscribed on OnDisable
         }
 
-        public void SetDisableCallback(IDialogueBoxCallbackReceiver callbackReceiver, DialogueBox dialogueBox, string callbackMessage)
+        public void SetDisableCallback(IDialogueBoxCallbackReceiver callbackReceiver, string callbackMessage)
         {
             CallbackMessagePair callbackMessagePair = new CallbackMessagePair
             {

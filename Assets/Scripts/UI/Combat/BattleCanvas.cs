@@ -197,7 +197,7 @@ namespace Frankie.Combat.UI
             dialogueBox.AddPageBreak();
             dialogueBox.AddText(messageEncounterPreHype);
             dialogueBox.SetGlobalCallbacks(battleController);
-            dialogueBox.SetDisableCallback(this, dialogueBox, DIALOGUE_CALLBACK_INTRO_COMPLETE);
+            dialogueBox.SetDisableCallback(this, DIALOGUE_CALLBACK_INTRO_COMPLETE);
         }
 
         private void StartSerialAction(Action action)
@@ -249,7 +249,7 @@ namespace Frankie.Combat.UI
                     // Unsubscribe to messages -- not the cleanest location, but the only one available
             }
             dialogueBox.SetGlobalCallbacks(battleController);
-            dialogueBox.SetDisableCallback(this, dialogueBox, DIALOGUE_CALLBACK_SERIAL_ACTION_COMPLETE);
+            dialogueBox.SetDisableCallback(this, DIALOGUE_CALLBACK_SERIAL_ACTION_COMPLETE);
         }
 
         private void SetupExitMessage()
@@ -273,7 +273,7 @@ namespace Frankie.Combat.UI
             DialogueBox dialogueBox = dialogueBoxObject.GetComponent<DialogueBox>();
             dialogueBox.AddText(exitMessage);
             dialogueBox.SetGlobalCallbacks(battleController);
-            dialogueBox.SetDisableCallback(this, dialogueBox, DIALOGUE_CALLBACK_OUTRO_COMPLETE);
+            dialogueBox.SetDisableCallback(this, DIALOGUE_CALLBACK_OUTRO_COMPLETE);
             battleController.SetHandleLevelUp(false);
         }
 

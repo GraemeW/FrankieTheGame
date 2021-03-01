@@ -48,6 +48,7 @@ namespace Frankie.Control
         TransitionType transitionType = TransitionType.None;
         BattleController battleController = null;
         DialogueController dialogueController = null;
+        GameObject worldOptions = null;
 
         // Cached References
         PlayerMover playerMover = null;
@@ -153,6 +154,18 @@ namespace Frankie.Control
             }
         }
 
+        public void EnterWorldOptions()
+        {
+            worldOptions = Instantiate(worldOptionsPrefab, worldCanvas.gameObject.transform);
+            SetPlayerState(PlayerState.inOptions);
+        }
+
+        public void ExitWorldOptions()
+        {
+            worldOptions = null;
+            SetPlayerState(PlayerState.inWorld);
+        }
+
         public void SetPlayerState(PlayerState playerState)
         {
             this.playerState = playerState;
@@ -240,6 +253,7 @@ namespace Frankie.Control
             {
                 PlayerInputType playerInputType = GetPlayerInput();
                 if (InteractWithGlobals(playerInputType)) return;
+                if (InteractWithOptions(playerInputType)) return;
             }
         }
 
@@ -377,8 +391,7 @@ namespace Frankie.Control
         {
             if (playerInputType == PlayerInputType.Option)
             {
-                Instantiate(worldOptionsPrefab, worldCanvas.gameObject.transform);
-                SetPlayerState(PlayerState.inOptions);
+                EnterWorldOptions();
                 return true;
             }
             return false;

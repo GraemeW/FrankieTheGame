@@ -26,7 +26,7 @@ namespace Frankie.Speech.UI
             ClearChoiceSelections();
         }
 
-        private void SetUpChoiceOptions()
+        protected void SetUpChoiceOptions()
         {
             choiceOptions.Clear();
             choiceOptions.AddRange(optionParent.gameObject.GetComponentsInChildren<DialogueChoiceOption>().OrderBy(x => x.choiceOrder).ToList());

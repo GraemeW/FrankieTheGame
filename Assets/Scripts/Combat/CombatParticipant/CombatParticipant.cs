@@ -257,6 +257,11 @@ namespace Frankie.Combat
             return baseStats.GetLevel();
         }
 
+        public BaseStats GetBaseStats()
+        {
+            return baseStats;
+        }
+
         private bool SpawnAlive()
         {
             return false;
