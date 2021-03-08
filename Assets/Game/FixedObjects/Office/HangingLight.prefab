@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1002866377844484779}
   - component: {fileID: 1002866377844484778}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: HangingLight
   m_TagString: Untagged
   m_Icon: {fileID: 0}

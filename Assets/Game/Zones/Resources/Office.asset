@@ -29,6 +29,35 @@ MonoBehaviour:
     y: 0
     width: 430
     height: 45
+--- !u!114 &-1975871994103071365
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3268536af8903a64da82aa6872733d1d, type: 3}
+  m_Name: 5da55d72-acdc-4df9-9ba3-ab4076d5fa94
+  m_EditorClassIdentifier: 
+  children:
+  - 396ee6f5-2b12-4bce-b8d9-a7e6a203dfba
+  detail: Elevator
+  zoneName: Office
+  linkedZoneName: 
+  rect:
+    serializedVersion: 2
+    x: 576
+    y: 444
+    width: 430
+    height: 150
+  draggingRect:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 430
+    height: 45
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -51,6 +80,8 @@ MonoBehaviour:
   - {fileID: 8894782445521224327}
   - {fileID: 3365788838334092622}
   - {fileID: 555700621989660187}
+  - {fileID: -1975871994103071365}
+  - {fileID: 4440517529566508213}
 --- !u!114 &555700621989660187
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -130,6 +161,35 @@ MonoBehaviour:
     serializedVersion: 2
     x: 1091
     y: 202
+    width: 430
+    height: 150
+  draggingRect:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 430
+    height: 45
+--- !u!114 &4440517529566508213
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3268536af8903a64da82aa6872733d1d, type: 3}
+  m_Name: 396ee6f5-2b12-4bce-b8d9-a7e6a203dfba
+  m_EditorClassIdentifier: 
+  children:
+  - 5da55d72-acdc-4df9-9ba3-ab4076d5fa94
+  detail: Kitchen
+  zoneName: Office
+  linkedZoneName: 
+  rect:
+    serializedVersion: 2
+    x: 1065
+    y: 444
     width: 430
     height: 150
   draggingRect:

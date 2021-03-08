@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 5163575220664821584}
   - component: {fileID: 5163575220664821586}
   - component: {fileID: 2435122922595890214}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: BigCrate
   m_TagString: Untagged
   m_Icon: {fileID: 0}
