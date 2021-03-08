@@ -203,3 +203,79 @@ MonoBehaviour:
     - stat: 11
       levels:
       - 3
+  - characterProperties: {fileID: 11400000, guid: df2799c36af32ce4d8fd6788f660323d, type: 2}
+    stats:
+    - stat: 0
+      levels:
+      - 50
+    - stat: 1
+      levels:
+      - 0
+    - stat: 2
+      levels:
+      - 1
+    - stat: 3
+      levels:
+      - 40
+    - stat: 4
+      levels:
+      - 0
+    - stat: 5
+      levels:
+      - 4
+    - stat: 6
+      levels:
+      - 4
+    - stat: 7
+      levels:
+      - 4
+    - stat: 8
+      levels:
+      - 4
+    - stat: 9
+      levels:
+      - 4
+    - stat: 10
+      levels:
+      - 4
+    - stat: 11
+      levels:
+      - 4
+  - characterProperties: {fileID: 11400000, guid: c8752c77bccb9f145aea101a1d9673a5, type: 2}
+    stats:
+    - stat: 0
+      levels:
+      - 80
+    - stat: 1
+      levels:
+      - 20
+    - stat: 2
+      levels:
+      - 1
+    - stat: 3
+      levels:
+      - 40
+    - stat: 4
+      levels:
+      - 0
+    - stat: 5
+      levels:
+      - 4
+    - stat: 6
+      levels:
+      - 6
+    - stat: 7
+      levels:
+      - 6
+    - stat: 8
+      levels:
+      - 6
+    - stat: 9
+      levels:
+      - 8
+    - stat: 10
+      levels:
+      - 6
+    - stat: 11
+      levels:
+      - 5
