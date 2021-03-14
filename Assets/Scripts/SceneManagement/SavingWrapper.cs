@@ -27,8 +27,7 @@ namespace Frankie.SceneManagement
             yield return GetComponent<SavingSystem>().LoadLastScene(defaultSaveFile);
 
             Fader fader = FindObjectOfType<Fader>();
-            fader.FadeOutImmediate();
-            fader.UpdateFadeState(TransitionType.Zone);
+            fader.UpdateFadeStateImmediate();
         }
 
         private void Update()

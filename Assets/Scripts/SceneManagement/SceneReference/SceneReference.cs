@@ -37,10 +37,11 @@ namespace Frankie.SceneManagement
             }
         }
 
-        public static implicit operator string(SceneReference sceneReference)
+        public static implicit operator string(SceneReference? sceneReference)
         {
             if (sceneReference == null) { return null; }
-            return sceneReference.sceneName;
+            SceneReference functionalSceneReference = (SceneReference)sceneReference;
+            return functionalSceneReference.sceneName;
         }
 
         public static implicit operator SceneReference(string sceneName)

@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
+using Frankie.SceneManagement;
+using System;
 
 namespace Frankie.Zone
 {
@@ -11,9 +13,10 @@ namespace Frankie.Zone
         [Header("Zone Node Properties")]
         [SerializeField] List<string> children = new List<string>();
         [SerializeField] string detail = null;
-        [SerializeField] string zoneName = null;
-        [SerializeField] string linkedZoneName = null;
+        [SerializeField] string linkedZoneID = null;
+        [SerializeField] string linkedNodeID = null;
         [SerializeField] Rect rect = new Rect(30, 30, 430, 150);
+        [HideInInspector] [SerializeField] string zoneName = null;
         [HideInInspector] [SerializeField] Rect draggingRect = new Rect(0, 0, 430, 45);
 
         public string GetZoneName()
@@ -21,18 +24,36 @@ namespace Frankie.Zone
             return zoneName;
         }
 
-        public string GetLinkedZoneName()
-        {
-            return linkedZoneName;
-        }
-
         public string GetDetail()
         {
             return detail;
         }
 
+        public bool HasSceneReference()
+        {
+            // Level 1:  Variables set
+            bool variableCheck = (linkedZoneID != null && !string.IsNullOrWhiteSpace(linkedNodeID));
+            if (!variableCheck) { return variableCheck; }
+
+            // Level 2:  Zone existence
+            Zone linkedZone = Zone.GetFromName(linkedZoneID);
+            bool zoneCheck = (linkedZone != null);
+            if (!zoneCheck) { return zoneCheck; }
+
+            // Level 3:  Scene existence
+            bool sceneExistenceCheck = (linkedZone.GetSceneReference() != null);
+            return (variableCheck && zoneCheck && sceneExistenceCheck);
+        }
+
+        public Tuple<string, string> GetSceneReferenceNodePair()
+        {
+            Tuple<string, string> zoneIDNodeIDPair = new Tuple<string, string>(linkedZoneID, linkedNodeID);
+            return zoneIDNodeIDPair;
+        }
+
         public List<string> GetChildren()
         {
+            if (children.Count == 0) { return null; }
             return children;
         }
 
@@ -66,16 +87,6 @@ namespace Frankie.Zone
             {
                 Undo.RecordObject(this, "Update Zone");
                 this.zoneName = zoneName;
-                EditorUtility.SetDirty(this);
-            }
-        }
-
-        public void SetLinkedZoneName(string linkedZoneName)
-        {
-            if (linkedZoneName != this.linkedZoneName)
-            {
-                Undo.RecordObject(this, "Update Linked Zone");
-                this.linkedZoneName = linkedZoneName;
                 EditorUtility.SetDirty(this);
             }
         }

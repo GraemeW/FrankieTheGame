@@ -20,6 +20,9 @@ namespace Frankie.SceneManagement
         // State
         int currentSceneIndex = 0;
 
+        // Cached Reference
+
+
         private void Awake()
         {
             SetCurrentSceneIndex();
@@ -27,9 +30,6 @@ namespace Frankie.SceneManagement
 
         private void Start()
         {
-            UnityEngine.Debug.Log(SceneManager.GetActiveScene().name);
-            UnityEngine.Debug.Log(splashScreen.SceneName);
-
             if (SceneManager.GetActiveScene().name.Equals(splashScreen.SceneName))
             {
                 StartCoroutine(SplashDelayToLoad());
@@ -60,7 +60,7 @@ namespace Frankie.SceneManagement
             SetCurrentSceneIndex();
         }
 
-        IEnumerator LoadNewSceneAsync(SceneReference sceneReference)
+        public IEnumerator LoadNewSceneAsync(SceneReference sceneReference)
         {
             yield return SceneManager.LoadSceneAsync(sceneReference.SceneName);
             SetCurrentSceneIndex();

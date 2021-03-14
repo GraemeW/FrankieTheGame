@@ -239,6 +239,7 @@ namespace Frankie.Control
         private void Update()
         {
             KillRogueControllers(playerState);
+            if (playerState == PlayerState.inTransition) { return; }
 
             if (playerState == PlayerState.inWorld)
             {

@@ -1,0 +1,51 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 71bdebc52d51af440b8f8417df534a79, type: 3}
+  m_Name: OfficeBuildingOutside
+  m_EditorClassIdentifier: 
+  newNodeOffset: {x: 100, y: 25}
+  nodeWidth: 430
+  nodeHeight: 150
+  sceneReference:
+    sceneAsset: {fileID: 102900000, guid: 2711c36e71bc89a4083f2a005e848602, type: 3}
+    sceneName: OfficeBuildingOutside
+  zoneNodes:
+  - {fileID: 7904139768458627740}
+--- !u!114 &7904139768458627740
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3268536af8903a64da82aa6872733d1d, type: 3}
+  m_Name: 2451fc47-cbf0-489f-aa93-024a9a67fa25
+  m_EditorClassIdentifier: 
+  children: []
+  detail: OfficeBuildingEntrance
+  linkedZoneID: OfficeBuilding
+  linkedNodeID: 5da55d72-acdc-4df9-9ba3-ab4076d5fa94
+  rect:
+    serializedVersion: 2
+    x: 30
+    y: 30
+    width: 430
+    height: 150
+  zoneName: OfficeBuildingOutside
+  draggingRect:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 430
+    height: 45

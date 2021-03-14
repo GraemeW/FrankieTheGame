@@ -492,6 +492,17 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
+--- !u!114 &144512386 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2366363061461443372, guid: 33df09f22a66b9745a1198e418b127b5, type: 3}
+  m_PrefabInstance: {fileID: 766388656}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7d92abaff543d4a4498f7173bd00113e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &182523743
 GameObject:
   m_ObjectHideFlags: 0
@@ -530,6 +541,17 @@ Transform:
   m_Father: {fileID: 361311719}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &183009607 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2366363061461443372, guid: 33df09f22a66b9745a1198e418b127b5, type: 3}
+  m_PrefabInstance: {fileID: 205897705}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7d92abaff543d4a4498f7173bd00113e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &205897705
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -592,28 +614,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 2366363061461443363, guid: 33df09f22a66b9745a1198e418b127b5, type: 3}
   m_PrefabInstance: {fileID: 205897705}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &205897707 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 2366363061461443372, guid: 33df09f22a66b9745a1198e418b127b5, type: 3}
-  m_PrefabInstance: {fileID: 205897705}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7d92abaff543d4a4498f7173bd00113e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &250787803 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 2366363061461443372, guid: 33df09f22a66b9745a1198e418b127b5, type: 3}
-  m_PrefabInstance: {fileID: 1503454605}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7d92abaff543d4a4498f7173bd00113e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &271516658
 GameObject:
   m_ObjectHideFlags: 0
@@ -690,12 +690,13 @@ MonoBehaviour:
   overrideDefaultInteractionDistance: 0
   interactionDistance: 0.1
   warpPosition: {fileID: 1987478342}
+  delayToDestroyAfterSceneLoading: 0.1
   disableOnExit: 1
   roomParent: {fileID: 496885797}
   zoneInteraction:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 250787803}
+      - m_Target: {fileID: 1503454607}
         m_TargetAssemblyTypeName: Frankie.Core.SoundEffects, Assembly-CSharp
         m_MethodName: PlayRandomClip
         m_Mode: 1
@@ -783,12 +784,13 @@ MonoBehaviour:
   overrideDefaultInteractionDistance: 0
   interactionDistance: 0.1
   warpPosition: {fileID: 1845389048}
+  delayToDestroyAfterSceneLoading: 0.1
   disableOnExit: 1
   roomParent: {fileID: 1663618879}
   zoneInteraction:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1604098539}
+      - m_Target: {fileID: 1859247303}
         m_TargetAssemblyTypeName: Frankie.Core.SoundEffects, Assembly-CSharp
         m_MethodName: PlayRandomClip
         m_Mode: 1
@@ -810,17 +812,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 2366363061461443363, guid: 33df09f22a66b9745a1198e418b127b5, type: 3}
   m_PrefabInstance: {fileID: 2366363061217125764}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &292554408 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 2366363061461443372, guid: 33df09f22a66b9745a1198e418b127b5, type: 3}
-  m_PrefabInstance: {fileID: 2366363061217125764}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7d92abaff543d4a4498f7173bd00113e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!4 &306088803 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4698734748075433819, guid: 8fffbb0bdedaaa6488a5477fa90c03a4, type: 3}
@@ -1000,6 +991,17 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 4484117035451051702, guid: 120322cf421335644a2026459f208e06, type: 3}
   m_PrefabInstance: {fileID: 4484117035128023883}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &417486781 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2366363061461443372, guid: 33df09f22a66b9745a1198e418b127b5, type: 3}
+  m_PrefabInstance: {fileID: 2366363061217125764}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7d92abaff543d4a4498f7173bd00113e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &453644363
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1587,12 +1589,13 @@ MonoBehaviour:
   overrideDefaultInteractionDistance: 0
   interactionDistance: 0.1
   warpPosition: {fileID: 697200041}
+  delayToDestroyAfterSceneLoading: 0.1
   disableOnExit: 1
   roomParent: {fileID: 1192180119}
   zoneInteraction:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 766388658}
+      - m_Target: {fileID: 144512386}
         m_TargetAssemblyTypeName: Frankie.Core.SoundEffects, Assembly-CSharp
         m_MethodName: PlayRandomClip
         m_Mode: 1
@@ -1770,6 +1773,17 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 7704979872744781372, guid: dfdb9ff2f4dfabd488c32f19bc136c8a, type: 3}
   m_PrefabInstance: {fileID: 7704979873188849705}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &715054773 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2366363061461443372, guid: 33df09f22a66b9745a1198e418b127b5, type: 3}
+  m_PrefabInstance: {fileID: 1192306599}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7d92abaff543d4a4498f7173bd00113e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &763651043
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1832,6 +1846,17 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 5531109907208507106, guid: ff5dd31d1267d794c8297ab9cf5e1776, type: 3}
   m_PrefabInstance: {fileID: 763651043}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &766350695 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2366363061461443372, guid: 33df09f22a66b9745a1198e418b127b5, type: 3}
+  m_PrefabInstance: {fileID: 2133787554}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7d92abaff543d4a4498f7173bd00113e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &766388656
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1894,17 +1919,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 2366363061461443363, guid: 33df09f22a66b9745a1198e418b127b5, type: 3}
   m_PrefabInstance: {fileID: 766388656}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &766388658 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 2366363061461443372, guid: 33df09f22a66b9745a1198e418b127b5, type: 3}
-  m_PrefabInstance: {fileID: 766388656}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7d92abaff543d4a4498f7173bd00113e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &782409594
 GameObject:
   m_ObjectHideFlags: 0
@@ -1955,12 +1969,13 @@ MonoBehaviour:
   overrideDefaultInteractionDistance: 0
   interactionDistance: 0.1
   warpPosition: {fileID: 1269347746}
+  delayToDestroyAfterSceneLoading: 0.1
   disableOnExit: 1
   roomParent: {fileID: 496885797}
   zoneInteraction:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 292554408}
+      - m_Target: {fileID: 417486781}
         m_TargetAssemblyTypeName: Frankie.Core.SoundEffects, Assembly-CSharp
         m_MethodName: PlayRandomClip
         m_Mode: 1
@@ -2416,12 +2431,13 @@ MonoBehaviour:
   overrideDefaultInteractionDistance: 0
   interactionDistance: 0.1
   warpPosition: {fileID: 86464426}
+  delayToDestroyAfterSceneLoading: 0.1
   disableOnExit: 1
   roomParent: {fileID: 1192180119}
   zoneInteraction:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 2133787556}
+      - m_Target: {fileID: 766350695}
         m_TargetAssemblyTypeName: Frankie.Core.SoundEffects, Assembly-CSharp
         m_MethodName: PlayRandomClip
         m_Mode: 1
@@ -2509,12 +2525,13 @@ MonoBehaviour:
   overrideDefaultInteractionDistance: 0
   interactionDistance: 0.1
   warpPosition: {fileID: 1213355524}
+  delayToDestroyAfterSceneLoading: 0.1
   disableOnExit: 1
   roomParent: {fileID: 135076789}
   zoneInteraction:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1192306601}
+      - m_Target: {fileID: 715054773}
         m_TargetAssemblyTypeName: Frankie.Core.SoundEffects, Assembly-CSharp
         m_MethodName: PlayRandomClip
         m_Mode: 1
@@ -2844,17 +2861,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 2366363061461443363, guid: 33df09f22a66b9745a1198e418b127b5, type: 3}
   m_PrefabInstance: {fileID: 1192306599}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &1192306601 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 2366363061461443372, guid: 33df09f22a66b9745a1198e418b127b5, type: 3}
-  m_PrefabInstance: {fileID: 1192306599}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7d92abaff543d4a4498f7173bd00113e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1213355523
 GameObject:
   m_ObjectHideFlags: 0
@@ -3015,17 +3021,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 2366363061461443363, guid: 33df09f22a66b9745a1198e418b127b5, type: 3}
   m_PrefabInstance: {fileID: 1297775010}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &1297775012 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 2366363061461443372, guid: 33df09f22a66b9745a1198e418b127b5, type: 3}
-  m_PrefabInstance: {fileID: 1297775010}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7d92abaff543d4a4498f7173bd00113e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1314178547
 GameObject:
   m_ObjectHideFlags: 0
@@ -3102,14 +3097,15 @@ MonoBehaviour:
   overrideDefaultInteractionDistance: 0
   interactionDistance: 0.1
   warpPosition: {fileID: 1340834138}
-  disableOnExit: 1
-  roomParent: {fileID: 496885797}
+  delayToDestroyAfterSceneLoading: 0.1
+  disableOnExit: 0
+  roomParent: {fileID: 0}
   zoneInteraction:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1297775012}
+      - m_Target: {fileID: 2104286233}
         m_TargetAssemblyTypeName: Frankie.Core.SoundEffects, Assembly-CSharp
-        m_MethodName: PlayRandomClip
+        m_MethodName: PlayRandomClipAfterDestroy
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -3235,12 +3231,13 @@ MonoBehaviour:
   overrideDefaultInteractionDistance: 0
   interactionDistance: 0.1
   warpPosition: {fileID: 1437805454}
+  delayToDestroyAfterSceneLoading: 0.1
   disableOnExit: 1
   roomParent: {fileID: 822531025}
   zoneInteraction:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 205897707}
+      - m_Target: {fileID: 183009607}
         m_TargetAssemblyTypeName: Frankie.Core.SoundEffects, Assembly-CSharp
         m_MethodName: PlayRandomClip
         m_Mode: 1
@@ -3427,6 +3424,17 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 2366363061461443363, guid: 33df09f22a66b9745a1198e418b127b5, type: 3}
   m_PrefabInstance: {fileID: 1503454605}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1503454607 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2366363061461443372, guid: 33df09f22a66b9745a1198e418b127b5, type: 3}
+  m_PrefabInstance: {fileID: 1503454605}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7d92abaff543d4a4498f7173bd00113e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!4 &1529977929 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 121950059216269072, guid: 87798213a6f87e04bb090d6464b295ce, type: 3}
@@ -3494,17 +3502,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 2366363061461443363, guid: 33df09f22a66b9745a1198e418b127b5, type: 3}
   m_PrefabInstance: {fileID: 1604098537}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &1604098539 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 2366363061461443372, guid: 33df09f22a66b9745a1198e418b127b5, type: 3}
-  m_PrefabInstance: {fileID: 1604098537}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7d92abaff543d4a4498f7173bd00113e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1001 &1604385588
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3936,6 +3933,17 @@ Transform:
   m_Father: {fileID: 273757758}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1859247303 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2366363061461443372, guid: 33df09f22a66b9745a1198e418b127b5, type: 3}
+  m_PrefabInstance: {fileID: 1604098537}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7d92abaff543d4a4498f7173bd00113e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!4 &1935962881 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7237574331970397817, guid: 0180200b3db5ee44ea33cce2766c76c6, type: 3}
@@ -4161,6 +4169,17 @@ Transform:
   m_Father: {fileID: 271516659}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2104286233 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2366363061461443372, guid: 33df09f22a66b9745a1198e418b127b5, type: 3}
+  m_PrefabInstance: {fileID: 1297775010}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7d92abaff543d4a4498f7173bd00113e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &2133787554
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -4223,17 +4242,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 2366363061461443363, guid: 33df09f22a66b9745a1198e418b127b5, type: 3}
   m_PrefabInstance: {fileID: 2133787554}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &2133787556 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 2366363061461443372, guid: 33df09f22a66b9745a1198e418b127b5, type: 3}
-  m_PrefabInstance: {fileID: 2133787554}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7d92abaff543d4a4498f7173bd00113e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1001 &121950058493899609
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -5276,8 +5284,12 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1166383030}
     - target: {fileID: 6748405756017321319, guid: 7d6634333e185754d96c189f3df7c163, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -1.5366676
+      objectReference: {fileID: 0}
+    - target: {fileID: 6748405756017321319, guid: 7d6634333e185754d96c189f3df7c163, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 1.2368109
+      value: 0.9861115
       objectReference: {fileID: 0}
     - target: {fileID: 6748405756017321321, guid: 7d6634333e185754d96c189f3df7c163, type: 3}
       propertyPath: m_BoundingShape2D
@@ -5344,8 +5356,12 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1166383030}
     - target: {fileID: 6748405756263700701, guid: 7d6634333e185754d96c189f3df7c163, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -1.5366676
+      objectReference: {fileID: 0}
+    - target: {fileID: 6748405756263700701, guid: 7d6634333e185754d96c189f3df7c163, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 1.2368109
+      value: 0.9861115
       objectReference: {fileID: 0}
     - target: {fileID: 6748405756263700703, guid: 7d6634333e185754d96c189f3df7c163, type: 3}
       propertyPath: m_BoundingShape2D
@@ -5353,15 +5369,15 @@ PrefabInstance:
       objectReference: {fileID: 566954979}
     - target: {fileID: 6748405756474271262, guid: 7d6634333e185754d96c189f3df7c163, type: 3}
       propertyPath: orthographic size
-      value: 3
+      value: 3.5
       objectReference: {fileID: 0}
     - target: {fileID: 6748405756474271457, guid: 7d6634333e185754d96c189f3df7c163, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -0.23368514
+      value: -1.5366676
       objectReference: {fileID: 0}
     - target: {fileID: 6748405756474271457, guid: 7d6634333e185754d96c189f3df7c163, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 1.2368109
+      value: 0.9861115
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7d6634333e185754d96c189f3df7c163, type: 3}
@@ -5557,11 +5573,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9140000498525693428, guid: 9bf5874c37e0a404a9bd916129a14959, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -0.23368514
+      value: -1.5366676
       objectReference: {fileID: 0}
     - target: {fileID: 9140000498525693428, guid: 9bf5874c37e0a404a9bd916129a14959, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 1.2368109
+      value: 0.9861115
       objectReference: {fileID: 0}
     - target: {fileID: 9140000498525693428, guid: 9bf5874c37e0a404a9bd916129a14959, type: 3}
       propertyPath: m_LocalPosition.z

@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
+using Frankie.SceneManagement;
 
 namespace Frankie.Zone
 {
@@ -13,6 +14,7 @@ namespace Frankie.Zone
         [SerializeField] Vector2 newNodeOffset = new Vector2(100f, 25f);
         [SerializeField] int nodeWidth = 430;
         [SerializeField] int nodeHeight = 150;
+        [SerializeField] SceneReference sceneReference = null;
 
         // State
         [HideInInspector] [SerializeField] List<ZoneNode> zoneNodes = new List<ZoneNode>();
@@ -55,6 +57,11 @@ namespace Frankie.Zone
 
             if (zoneName == null || !zoneLookupCache.ContainsKey(zoneName)) return null;
             return zoneLookupCache[zoneName];
+        }
+
+        public SceneReference GetSceneReference()
+        {
+            return sceneReference;
         }
 
         public IEnumerable<ZoneNode> GetAllNodes()
@@ -108,7 +115,7 @@ namespace Frankie.Zone
             Undo.RegisterCreatedObjectUndo(zoneNode, "Created Zone Node Object");
             zoneNode.Initialize(nodeWidth, nodeHeight);
             zoneNode.name = System.Guid.NewGuid().ToString();
-            zoneNode.SetZoneName(this.name);
+            zoneNode.SetZoneName(sceneReference.SceneName);
 
             Undo.RecordObject(this, "Add Zone Node");
             zoneNodes.Add(zoneNode);
@@ -189,7 +196,7 @@ namespace Frankie.Zone
             {
                 foreach (ZoneNode zoneNode in GetAllNodes())
                 {
-                    zoneNode.SetZoneName(this.name);
+                    zoneNode.SetZoneName(sceneReference.SceneName);
                     if (AssetDatabase.GetAssetPath(zoneNode) == "")
                     {
                         AssetDatabase.AddObjectToAsset(zoneNode, this);

@@ -10,7 +10,7 @@ namespace Frankie.SceneManagement
         // Tunables
         [Header("Linked Assets")]
         [SerializeField] GameObject battleUIPrefab = null;
-        [SerializeField] Image nodeEntry = null; // TODO: IMPLEMENT -- SCENE CHANGE FADING
+        [SerializeField] Image nodeEntry = null;
         [SerializeField] Image goodBattleEntry = null;
         [SerializeField] Image badBattleEntry = null;
         [SerializeField] Image neutralBattleEntry = null;
@@ -18,15 +18,25 @@ namespace Frankie.SceneManagement
         [Header("Fader Properties")]
         [SerializeField] float fadeInTimer = 2.0f;
         [SerializeField] float fadeOutTimer = 1.0f;
+        [SerializeField] float zoneFadeTimerMultiplier = 0.25f;
 
         // State
         Image currentTransition = null;
         bool fading = false;
-        bool fadedInOnZoneTransition = false;
         GameObject battleUI = null;
+
+        // Cached References
+        SceneLoader sceneLoader = null;
 
         // Events
         public event Action<bool> battleUIStateChanged;
+        public event Action sceneTransitionComplete;
+        public event Action fadeComplete;
+
+        private void Awake()
+        {
+            sceneLoader = FindObjectOfType<SceneLoader>();
+        }
 
         private void Start()
         {
@@ -41,13 +51,29 @@ namespace Frankie.SceneManagement
             }
         }
 
+        public void UpdateFadeState(TransitionType transitionType, SceneReference sceneReference)
+        {
+            if (fading == false)
+            {
+                StartCoroutine(Fade(transitionType, sceneReference));
+            }
+        }
+
+        public void UpdateFadeStateImmediate()
+        {
+            if (fading == false)
+            {
+                StartCoroutine(FadeImmediate());
+            }
+        }
+
         private IEnumerator Fade(TransitionType transitionType)
         {
             yield return QueueFadeEntry(transitionType);
             
             if (transitionType == TransitionType.Zone) 
             {
-                // No special handling during fade -- managed by Zone scripts
+                // No special handling during simple room fades -- managed by Zone scripts
             }
             else if (transitionType == TransitionType.BattleComplete)
             {
@@ -69,6 +95,31 @@ namespace Frankie.SceneManagement
                 }
             }
             yield return QueueFadeExit(transitionType);
+        }
+
+        private IEnumerator Fade(TransitionType transitionType, SceneReference sceneReference)
+        {
+            if (transitionType == TransitionType.Zone)
+            {
+                yield return QueueFadeEntry(transitionType);
+                yield return sceneLoader.LoadNewSceneAsync(sceneReference.SceneName);
+                if (sceneTransitionComplete != null)
+                {
+                    sceneTransitionComplete.Invoke();
+                }
+
+                yield return QueueFadeExit(transitionType);
+            }
+            yield break;
+        }
+
+        private IEnumerator FadeImmediate()
+        {
+            fading = true;
+            nodeEntry.gameObject.SetActive(true);
+            currentTransition = nodeEntry;
+            currentTransition.CrossFadeAlpha(1, 0f, true);
+            yield return QueueFadeExit(TransitionType.Zone);
         }
 
         private IEnumerator QueueFadeEntry(TransitionType transitionType)
@@ -96,33 +147,27 @@ namespace Frankie.SceneManagement
             }
             else if (transitionType == TransitionType.Zone)
             {
-                if (fadedInOnZoneTransition) { yield break; }
                 nodeEntry.gameObject.SetActive(true);
                 currentTransition = nodeEntry;
             }
             if (currentTransition == null) { fading = false; yield break; }
 
             currentTransition.CrossFadeAlpha(0f, 0f, true);
-            currentTransition.CrossFadeAlpha(1, fadeInTimer, false);
-            yield return new WaitForSeconds(fadeInTimer);
+            currentTransition.CrossFadeAlpha(1, GetFadeTime(true, transitionType), false);
+            yield return new WaitForSeconds(GetFadeTime(true, transitionType));
         }
 
-        IEnumerator QueueFadeExit(TransitionType transitionType)
+        private IEnumerator QueueFadeExit(TransitionType transitionType)
         {
-            if (transitionType == TransitionType.Zone)
-            {
-                if (!fadedInOnZoneTransition)
-                {
-                    fadedInOnZoneTransition = true;
-                    yield break; 
-                }
-            }
-
-            currentTransition.CrossFadeAlpha(0, fadeOutTimer, false);
-            yield return new WaitForSeconds(fadeOutTimer);
+            currentTransition.CrossFadeAlpha(0, GetFadeTime(false, transitionType), false);
+            yield return new WaitForSeconds(GetFadeTime(false, transitionType));
             currentTransition.gameObject.SetActive(false);
             currentTransition = null;
             fading = false;
+            if (fadeComplete != null)
+            {
+                fadeComplete.Invoke();
+            }
         }
 
         private void ResetOverlays()
@@ -134,12 +179,14 @@ namespace Frankie.SceneManagement
             nodeEntry.gameObject.SetActive(false);
         }
 
-        public void FadeOutImmediate()
+        private float GetFadeTime(bool isFadeIn, TransitionType transitionType)
         {
-            nodeEntry.gameObject.SetActive(true);
-            currentTransition = nodeEntry;
-            currentTransition.CrossFadeAlpha(1, 0f, true);
-            fadedInOnZoneTransition = true;
+            float fadeTime = 1.0f;
+            if (isFadeIn) { fadeTime *= fadeInTimer; }
+            else { fadeTime *= fadeOutTimer; }
+            if (transitionType == TransitionType.Zone) { fadeTime *= zoneFadeTimerMultiplier; }
+
+            return fadeTime;
         }
     }
 }

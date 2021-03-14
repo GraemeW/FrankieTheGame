@@ -183,10 +183,6 @@ namespace Frankie.Zone.Editor
             string newDetail = EditorGUILayout.TextField("Node Detail:", zoneNode.GetDetail());
             zoneNode.SetDetail(newDetail);
 
-            // Zone Reference
-            string newZoneReference = EditorGUILayout.TextField("Linked Zone (if any):", zoneNode.GetLinkedZoneName());
-            zoneNode.SetLinkedZoneName(newZoneReference);
-
             // Additional Functionality
             GUILayout.FlexibleSpace();
             DrawLinkButtons(zoneNode);

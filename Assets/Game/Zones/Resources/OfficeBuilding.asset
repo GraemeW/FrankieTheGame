@@ -15,14 +15,44 @@ MonoBehaviour:
   children:
   - c79866f3-d759-46d8-b2df-be12e59f7c7f
   detail: Left Door
-  zoneName: Office
-  linkedZoneName: 
+  linkedZoneID: 
+  linkedNodeID: 
   rect:
     serializedVersion: 2
     x: 30
     y: 30
     width: 430
     height: 150
+  zoneName: OfficeBuilding
+  draggingRect:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 430
+    height: 45
+--- !u!114 &-4057840778342270844
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3268536af8903a64da82aa6872733d1d, type: 3}
+  m_Name: 51c6c652-4b21-4e91-94bc-9d9d12170694
+  m_EditorClassIdentifier: 
+  children: []
+  detail: OutsideBuilding
+  linkedZoneID: 
+  linkedNodeID: 
+  rect:
+    serializedVersion: 2
+    x: 1104
+    y: 625
+    width: 430
+    height: 150
+  zoneName: OfficeBuilding
   draggingRect:
     serializedVersion: 2
     x: 0
@@ -41,17 +71,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3268536af8903a64da82aa6872733d1d, type: 3}
   m_Name: 5da55d72-acdc-4df9-9ba3-ab4076d5fa94
   m_EditorClassIdentifier: 
-  children:
-  - 396ee6f5-2b12-4bce-b8d9-a7e6a203dfba
+  children: []
   detail: Elevator
-  zoneName: Office
-  linkedZoneName: 
+  linkedZoneID: OfficeBuildingOutside
+  linkedNodeID: 2451fc47-cbf0-489f-aa93-024a9a67fa25
   rect:
     serializedVersion: 2
-    x: 576
-    y: 444
+    x: 540
+    y: 323
     width: 430
     height: 150
+  zoneName: OfficeBuilding
   draggingRect:
     serializedVersion: 2
     x: 0
@@ -68,11 +98,14 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 71bdebc52d51af440b8f8417df534a79, type: 3}
-  m_Name: Office
+  m_Name: OfficeBuilding
   m_EditorClassIdentifier: 
   newNodeOffset: {x: 100, y: 25}
   nodeWidth: 430
   nodeHeight: 150
+  sceneReference:
+    sceneAsset: {fileID: 102900000, guid: 2cda990e2423bbf4892e6590ba056729, type: 3}
+    sceneName: OfficeBuilding
   zoneNodes:
   - {fileID: -4465313182537751535}
   - {fileID: 7265039216188601176}
@@ -97,14 +130,15 @@ MonoBehaviour:
   children:
   - d1e9ce8f-1ca5-4659-a2b7-574f6091ba79
   detail: Closet
-  zoneName: Office
-  linkedZoneName: 
+  linkedZoneID: 
+  linkedNodeID: 
   rect:
     serializedVersion: 2
     x: 1621
     y: 202
     width: 430
     height: 150
+  zoneName: OfficeBuilding
   draggingRect:
     serializedVersion: 2
     x: 0
@@ -126,14 +160,15 @@ MonoBehaviour:
   children:
   - 1b34c47f-6d98-4333-b17a-6afb62814036
   detail: Hallway Left
-  zoneName: Office
-  linkedZoneName: 
+  linkedZoneID: 
+  linkedNodeID: 
   rect:
     serializedVersion: 2
     x: 1090
     y: 30
     width: 430
     height: 150
+  zoneName: OfficeBuilding
   draggingRect:
     serializedVersion: 2
     x: 0
@@ -155,14 +190,15 @@ MonoBehaviour:
   children:
   - 2aa39d2d-3d11-4b4e-9051-4ae9a7381f00
   detail: Hallway Right
-  zoneName: Office
-  linkedZoneName: 
+  linkedZoneID: 
+  linkedNodeID: 
   rect:
     serializedVersion: 2
     x: 1091
     y: 202
     width: 430
     height: 150
+  zoneName: OfficeBuilding
   draggingRect:
     serializedVersion: 2
     x: 0
@@ -181,17 +217,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3268536af8903a64da82aa6872733d1d, type: 3}
   m_Name: 396ee6f5-2b12-4bce-b8d9-a7e6a203dfba
   m_EditorClassIdentifier: 
-  children:
-  - 5da55d72-acdc-4df9-9ba3-ab4076d5fa94
+  children: []
   detail: Kitchen
-  zoneName: Office
-  linkedZoneName: 
+  linkedZoneID: 
+  linkedNodeID: 
   rect:
     serializedVersion: 2
-    x: 1065
-    y: 444
+    x: 1086
+    y: 446
     width: 430
     height: 150
+  zoneName: OfficeBuilding
   draggingRect:
     serializedVersion: 2
     x: 0
@@ -213,14 +249,15 @@ MonoBehaviour:
   children:
   - afae723d-07ee-4173-b77a-a7368ec14c39
   detail: Right Door
-  zoneName: Office
-  linkedZoneName: 
+  linkedZoneID: 
+  linkedNodeID: 
   rect:
     serializedVersion: 2
     x: 558
     y: 30
     width: 430
     height: 150
+  zoneName: OfficeBuilding
   draggingRect:
     serializedVersion: 2
     x: 0
@@ -242,14 +279,15 @@ MonoBehaviour:
   children:
   - 6a693c23-2efa-47ba-a1e2-3eb3c345b2d0
   detail: Open Work Concept Door
-  zoneName: Office
-  linkedZoneName: 
+  linkedZoneID: 
+  linkedNodeID: 
   rect:
     serializedVersion: 2
     x: 30
     y: 209
     width: 430
     height: 150
+  zoneName: OfficeBuilding
   draggingRect:
     serializedVersion: 2
     x: 0
