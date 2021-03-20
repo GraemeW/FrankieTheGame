@@ -2,10 +2,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
-using Frankie.SceneManagement;
-using Frankie.Combat;
-using Frankie.Stats;
-using Frankie.Speech;
+using Frankie.Core;
 
 namespace Frankie.Control
 {
@@ -35,29 +32,13 @@ namespace Frankie.Control
         [SerializeField] float raycastRadius = 0.1f;
         [SerializeField] float interactionDistance = 0.5f;
         [SerializeField] Transform interactionCenterPoint = null;
-        [Header("Other Controller Prefabs")]
-        [SerializeField] GameObject battleControllerPrefab = null;
-        [SerializeField] GameObject dialogueControllerPrefab = null;
-        [Header("World UI Game Objects")]
-        [SerializeField] GameObject worldOptionsPrefab = null;
-        [Header("Messages")]
-        [SerializeField] string messageCannotFight = "You are wounded and cannot fight.";
-
-        // State
-        PlayerState playerState = PlayerState.inWorld;
-        TransitionType transitionType = TransitionType.None;
-        BattleController battleController = null;
-        DialogueController dialogueController = null;
-        GameObject worldOptions = null;
 
         // Cached References
         PlayerMover playerMover = null;
-        Party party = null;
-        WorldCanvas worldCanvas = null;
+        PlayerStateHandler playerStateHandler = null;
 
         // Events
         public event Action<PlayerInputType> globalInput;
-        public event Action playerStateChanged;
 
         // Public functions
         public float GetInteractionDistance()
@@ -81,114 +62,9 @@ namespace Frankie.Control
             return interactionCenterPoint.position;
         }
 
-        public void EnterCombat(List<CombatParticipant> enemies, TransitionType transitionType)
-        {
-            if (!party.IsAnyMemberAlive()) { OpenSimpleDialogue(messageCannotFight); return; }
-
-            // TODO:  Concept of 'pre-battle' where enemies can pile on ++ count up list of enemies -> transfer to battle
-            this.transitionType = transitionType;
-
-            battleController = GetUniqueBattleController();
-            battleController.Setup(enemies, transitionType);
-
-            Fader fader = FindObjectOfType<Fader>();
-            fader.UpdateFadeState(transitionType);
-
-            battleController.battleStateChanged += HandleCombatComplete;
-
-            SetPlayerState(PlayerState.inBattle);
-        }
-
-        public void HandleCombatComplete(BattleState battleState)
-        {
-            if (battleState != BattleState.Complete) { return; }
-            battleController.battleStateChanged -= HandleCombatComplete;
-
-            Fader fader = FindObjectOfType<Fader>();
-            fader.battleUIStateChanged += ExitCombat;
-            transitionType = TransitionType.BattleComplete;
-            fader.UpdateFadeState(transitionType);
-        }
-
-        public void ExitCombat(bool isBattleCanvasEnabled)
-        {
-            if (!isBattleCanvasEnabled)
-            {
-                // TODO:  Handling for party death
-                FindObjectOfType<Fader>().battleUIStateChanged -= ExitCombat;
-                Destroy(battleController.gameObject);
-                battleController = null;
-
-                if (playerState == PlayerState.inBattle)
-                {
-                    SetPlayerState(PlayerState.inWorld);
-                }
-            }
-        }
-
-        public void EnterDialogue(AIConversant newConversant, Dialogue newDialogue)
-        {
-            GameObject dialogueControllerObject = Instantiate(dialogueControllerPrefab);
-            dialogueController = dialogueControllerObject.GetComponent<DialogueController>();
-            dialogueController.Setup(worldCanvas, this, party);
-            dialogueController.InitiateConversation(newConversant, newDialogue);
-
-            SetPlayerState(PlayerState.inDialogue);
-        }
-
-        public void OpenSimpleDialogue(string message)
-        {
-            dialogueController = GetUniqueDialogueController();
-            dialogueController.Setup(worldCanvas, this, party);
-            dialogueController.InitiateSimpleMessage(message);
-
-            SetPlayerState(PlayerState.inDialogue);
-        }
-
-        public void ExitDialogue()
-        {
-            dialogueController = null;
-            if (playerState == PlayerState.inDialogue)
-            {
-                SetPlayerState(PlayerState.inWorld);
-            }
-        }
-
-        public void EnterWorldOptions()
-        {
-            worldOptions = Instantiate(worldOptionsPrefab, worldCanvas.gameObject.transform);
-            SetPlayerState(PlayerState.inOptions);
-        }
-
-        public void ExitWorldOptions()
-        {
-            worldOptions = null;
-            SetPlayerState(PlayerState.inWorld);
-        }
-
-        public void SetPlayerState(PlayerState playerState)
-        {
-            this.playerState = playerState;
-            SetCursor(CursorType.None);
-            if (playerStateChanged != null)
-            {
-                playerStateChanged.Invoke();
-            }
-        }
-
-        public PlayerState GetPlayerState()
-        {
-            return playerState;
-        }
-
         public PlayerMover GetPlayerMover()
         {
             return playerMover;
-        }
-
-        public TransitionType GetTransitionType()
-        {
-            return transitionType;
         }
 
         public PlayerInputType GetPlayerInput()
@@ -232,23 +108,29 @@ namespace Frankie.Control
         private void Awake()
         {
             playerMover = GetComponent<PlayerMover>();
-            party = GetComponent<Party>();
+            playerStateHandler = GetComponent<PlayerStateHandler>();
         }
 
-        public void SetWorldCanvas()
+        private void OnEnable()
         {
-            if (worldCanvas == null)
-            {
-                worldCanvas = GameObject.FindGameObjectWithTag("WorldCanvas").GetComponent<WorldCanvas>();
-            }
+            playerStateHandler.playerStateChanged += ResetCursor;
+        }
+
+        private void OnDisable()
+        {
+            playerStateHandler.playerStateChanged -= ResetCursor;
+        }
+
+        private void ResetCursor()
+        {
+            SetCursor(CursorType.None);
         }
 
         private void Update()
         {
-            KillRogueControllers(playerState);
-            if (playerState == PlayerState.inTransition) { return; }
+            if (playerStateHandler.GetPlayerState() == PlayerState.inTransition) { return; }
 
-            if (playerState == PlayerState.inWorld)
+            if (playerStateHandler.GetPlayerState() == PlayerState.inWorld)
             {
                 PlayerInputType playerInputType = GetPlayerInput();
                 if (InteractWithGlobals(playerInputType)) return;
@@ -257,88 +139,11 @@ namespace Frankie.Control
                 if (InteractWithOptions(playerInputType)) return;
                 SetCursor(CursorType.None);
             }
-            else if (playerState == PlayerState.inOptions)
+            else if (playerStateHandler.GetPlayerState() == PlayerState.inOptions)
             {
                 PlayerInputType playerInputType = GetPlayerInput();
                 if (InteractWithGlobals(playerInputType)) return;
                 if (InteractWithOptions(playerInputType)) return;
-            }
-        }
-
-        private DialogueController GetUniqueDialogueController()
-        {
-            if (dialogueController != null) { return dialogueController; }
-
-            GameObject dialogueControllerObject = GameObject.FindGameObjectWithTag("DialogueController");
-            DialogueController existingDialogueController = null;
-            if (dialogueControllerObject != null)
-            {
-                existingDialogueController = dialogueControllerObject.GetComponent<DialogueController>();
-            }
-            
-            if (existingDialogueController == null)
-            {
-                GameObject newDialogueControllerObject = Instantiate(dialogueControllerPrefab);
-                dialogueController = newDialogueControllerObject.GetComponent<DialogueController>();
-            }
-            else
-            {
-                dialogueController = existingDialogueController;
-            }
-
-            return dialogueController;
-        }
-
-        private BattleController GetUniqueBattleController()
-        {
-            if (battleController != null) { return battleController; }
-
-            GameObject battleControllerObject = GameObject.FindGameObjectWithTag("BattleController");
-            BattleController existingBattleControllerController = null;
-            if (battleControllerObject != null)
-            {
-                existingBattleControllerController = battleControllerObject.GetComponent<BattleController>();
-            }
-
-            if (existingBattleControllerController == null)
-            {
-                GameObject newBattleControllerObject = Instantiate(battleControllerPrefab);
-                battleController = newBattleControllerObject.GetComponent<BattleController>();
-            }
-            else
-            {
-                battleController = existingBattleControllerController;
-            }
-
-            return battleController;
-        }
-
-        private void KillRogueControllers(PlayerState playerState)
-        {
-            if (playerState == PlayerState.inWorld)
-            {
-                if (battleController != null)
-                {
-                    HandleCombatComplete(BattleState.Complete);
-                }
-                if (dialogueController != null)
-                {
-                    ExitDialogue();
-                }
-            }
-            else if (playerState == PlayerState.inBattle)
-            {
-                if (dialogueController != null)
-                {
-                    ExitDialogue();
-                }
-            }
-            else if (playerState == PlayerState.inDialogue)
-            {
-                if (battleController != null)
-                {
-                    HandleCombatComplete(BattleState.Complete);
-                }
             }
         }
 
@@ -362,7 +167,7 @@ namespace Frankie.Control
             {
                 foreach (IRaycastable raycastable in raycastables)
                 {
-                    if (raycastable.HandleRaycast(this, playerInputType, PlayerInputType.Execute))
+                    if (raycastable.HandleRaycast(playerStateHandler, this, playerInputType, PlayerInputType.Execute))
                     {
                         SetCursor(raycastable.GetCursorType());
                         return true;
@@ -384,7 +189,7 @@ namespace Frankie.Control
                 {
                     foreach (IRaycastable raycastable in raycastables)
                     {
-                        if (raycastable.HandleRaycast(this, playerInputType, PlayerInputType.Execute))
+                        if (raycastable.HandleRaycast(playerStateHandler, this, playerInputType, PlayerInputType.Execute))
                         {
                             return true;
                         }
@@ -399,7 +204,7 @@ namespace Frankie.Control
         {
             if (playerInputType == PlayerInputType.Option)
             {
-                EnterWorldOptions();
+                playerStateHandler.EnterWorldOptions();
                 return true;
             }
             return false;

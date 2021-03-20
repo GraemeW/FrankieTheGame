@@ -1,5 +1,6 @@
 using Frankie.Combat;
 using Frankie.Combat.UI;
+using Frankie.Core;
 using Frankie.Speech.UI;
 using Frankie.Stats;
 using Frankie.Stats.UI;
@@ -26,6 +27,7 @@ namespace Frankie.Control.UI
         [SerializeField] GameObject mapPrefab = null;
 
         // Cached References
+        PlayerStateHandler playerStateHandler = null;
         PlayerController playerController = null;
         WorldCanvas worldCanvas = null;
         Party party = null;
@@ -34,9 +36,10 @@ namespace Frankie.Control.UI
         protected override void Awake()
         {
             base.Awake();
-            playerController = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>();
             worldCanvas = GameObject.FindGameObjectWithTag("WorldCanvas").GetComponent<WorldCanvas>();
-            party = playerController.GetComponent<Party>();
+            playerStateHandler = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerStateHandler>();
+            playerController = playerStateHandler.GetComponent<PlayerController>();
+            party = playerStateHandler.GetComponent<Party>();
         }
 
         protected override void Start()
@@ -62,7 +65,7 @@ namespace Frankie.Control.UI
             {
                 Destroy(childCharacterPanel.gameObject);
             }
-            playerController.ExitWorldOptions();
+            playerStateHandler.ExitWorldOptions();
         }
 
         public override void HandleGlobalInput(PlayerInputType playerInputType)

@@ -1,6 +1,7 @@
 using Frankie.Stats;
 using UnityEngine;
 using Frankie.Saving;
+using Frankie.Core;
 
 namespace Frankie.Control
 {
@@ -18,7 +19,7 @@ namespace Frankie.Control
         float currentSpeed = 0;
 
         // Cached References
-        PlayerController playerController = null;
+        PlayerStateHandler playerStateHandler = null;
         Rigidbody2D playerRigidbody2D = null;
         Party party = null;
 
@@ -30,7 +31,7 @@ namespace Frankie.Control
         private void Awake()
         {
             playerRigidbody2D = GetComponent<Rigidbody2D>();
-            playerController = GetComponent<PlayerController>();
+            playerStateHandler = GetComponent<PlayerStateHandler>();
             party = GetComponent<Party>();
         }
 
@@ -47,7 +48,7 @@ namespace Frankie.Control
 
         private void FixedUpdate()
         {
-            if (playerController.GetPlayerState() == PlayerState.inWorld)
+            if (playerStateHandler.GetPlayerState() == PlayerState.inWorld)
             {
                 InteractWithMovement();
             }

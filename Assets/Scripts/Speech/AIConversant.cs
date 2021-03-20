@@ -1,4 +1,5 @@
 using Frankie.Control;
+using Frankie.Core;
 using Frankie.Stats;
 using System;
 using UnityEngine;
@@ -29,11 +30,11 @@ namespace Frankie.Speech
             }
         }
 
-        public override bool HandleRaycast(PlayerController callingController, PlayerInputType inputType, PlayerInputType matchType)
+        public override bool HandleRaycast(PlayerStateHandler playerStateHandler, PlayerController playerController, PlayerInputType inputType, PlayerInputType matchType)
         {
             if (dialogue == null) { return false; }
 
-            if (!this.CheckDistance(gameObject, transform.position, callingController,
+            if (!this.CheckDistance(gameObject, transform.position, playerController,
                 overrideDefaultInteractionDistance, interactionDistance))
             {
                 return false;
@@ -43,9 +44,9 @@ namespace Frankie.Speech
             {
                 if (checkInteraction != null)
                 {
-                    checkInteraction.Invoke(callingController);
+                    checkInteraction.Invoke(playerStateHandler);
                 }
-                callingController.EnterDialogue(this, dialogue);
+                playerStateHandler.EnterDialogue(this, dialogue);
             }
             return true;
         }

@@ -1,6 +1,5 @@
 using Frankie.Control;
-using System.Collections;
-using System.Collections.Generic;
+using Frankie.Core;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -13,15 +12,15 @@ namespace Frankie.Speech
 
         // Data Structures
         [System.Serializable]
-        public class UnityEventWithCallingController : UnityEvent<PlayerController>
+        public class UnityEventWithCallingController : UnityEvent<PlayerStateHandler>
         {
         }
 
-        public void Trigger(string actionToTrigger, PlayerController playerController)
+        public void Trigger(string actionToTrigger, PlayerStateHandler playerStateHandler)
         {
             if (actionToTrigger == action)
             {
-                onTriggerWithCallingController.Invoke(playerController);
+                onTriggerWithCallingController.Invoke(playerStateHandler);
             }
         }
     }

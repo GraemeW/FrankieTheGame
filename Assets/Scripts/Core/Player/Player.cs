@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 using Frankie.Control;
 using Frankie.Stats;
-using Frankie.SceneManagement;
 using UnityEngine.SceneManagement;
 
 namespace Frankie.Core
 {
+    [RequireComponent(typeof(PlayerStateHandler))]
     [RequireComponent(typeof(PlayerController))]
     [RequireComponent(typeof(PlayerMover))]
     [RequireComponent(typeof(Party))]
@@ -15,7 +15,7 @@ namespace Frankie.Core
     public class Player : MonoBehaviour
     {
         // Cached References
-        PlayerController playerController = null;
+        PlayerStateHandler playerStateHandler = null;
 
         private void Awake()
         {
@@ -29,7 +29,7 @@ namespace Frankie.Core
             {
                 DontDestroyOnLoad(gameObject);
             }
-            playerController = GetComponent<PlayerController>();
+            playerStateHandler = GetComponent<PlayerStateHandler>();
         }
 
         private void OnEnable()
@@ -44,7 +44,7 @@ namespace Frankie.Core
 
         private void UpdateReferencesForNewScene(Scene scene, LoadSceneMode loadSceneMode)
         {
-            playerController.SetWorldCanvas();
+            playerStateHandler.SetWorldCanvas();
         }
     }
 

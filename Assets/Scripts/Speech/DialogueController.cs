@@ -35,7 +35,7 @@ namespace Frankie.Speech
 
         // Cached References
         WorldCanvas worldCanvas = null;
-        PlayerController playerController = null;
+        PlayerStateHandler playerStateHandler = null;
         Party party = null;
 
         // Events
@@ -45,10 +45,10 @@ namespace Frankie.Speech
         public event Action dialogueUpdated;
 
         // Methods
-        public void Setup(WorldCanvas worldCanvas, PlayerController playerController, Party party)
+        public void Setup(WorldCanvas worldCanvas, PlayerStateHandler playerStateHandler, Party party)
         {
             this.worldCanvas = worldCanvas;
-            this.playerController = playerController;
+            this.playerStateHandler = playerStateHandler;
             this.party = party;
         }
 
@@ -86,7 +86,7 @@ namespace Frankie.Speech
             {
                 dialogueUpdated.Invoke();
             }
-            playerController.ExitDialogue();
+            playerStateHandler.ExitDialogue();
 
             TriggerFinalAction();
             currentConversant = null; // Do not release currentConversant until final action triggered
@@ -109,7 +109,7 @@ namespace Frankie.Speech
         {
             if (globalInput == null && dialogueInput == null && dialogueUpdated == null)
             {
-                playerController.ExitDialogue();
+                playerStateHandler.ExitDialogue();
                 Destroy(gameObject);
             }
         }
@@ -375,7 +375,7 @@ namespace Frankie.Speech
                 DialogueTrigger[] dialogueTriggers = currentConversant.GetComponents<DialogueTrigger>();  // N.B.  Dialogue triggers need to live on same game object as conversant component
                 foreach (DialogueTrigger dialogueTrigger in dialogueTriggers)
                 {
-                    dialogueTrigger.Trigger(action, playerController);
+                    dialogueTrigger.Trigger(action, playerStateHandler);
                 }
             }
         }
@@ -387,7 +387,7 @@ namespace Frankie.Speech
                 DialogueTrigger[] dialogueTriggers = currentConversant.GetComponents<DialogueTrigger>();  // N.B.  Dialogue triggers need to live on same game object as conversant component
                 foreach (DialogueTrigger dialogueTrigger in dialogueTriggers)
                 {
-                    dialogueTrigger.Trigger(finalTriggerAction, playerController);
+                    dialogueTrigger.Trigger(finalTriggerAction, playerStateHandler);
                 }
             }
             finalTriggerAction = null;
@@ -412,7 +412,7 @@ namespace Frankie.Speech
             //     2.  Party (childed to player controller)
             // B) AI conversant -- childed to character;  Grab Parent & GetComponentsInChildren traverses both the parent & children
 
-            var predicateEvaluators = playerController.GetComponentsInChildren<IPredicateEvaluator>().Concat( // A
+            var predicateEvaluators = playerStateHandler.GetComponentsInChildren<IPredicateEvaluator>().Concat( // A
                 currentConversant.transform.parent.gameObject.GetComponentsInChildren<IPredicateEvaluator>()); // B
 
             return predicateEvaluators;

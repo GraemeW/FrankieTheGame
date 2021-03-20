@@ -3,6 +3,7 @@ using UnityEngine;
 using UnityEngine.Events;
 using Frankie.SceneManagement;
 using System;
+using Frankie.Core;
 
 namespace Frankie.Zone
 {
@@ -54,23 +55,23 @@ namespace Frankie.Zone
         }
 
         // Private Functions
-        private void WarpPlayerToNextNode(PlayerController callingController)
+        private void WarpPlayerToNextNode(PlayerStateHandler playerStateHandler, PlayerController playerController)
         {
-            ZoneNode nextNode = SetUpNextNode(callingController);
+            ZoneNode nextNode = SetUpNextNode(playerStateHandler);
             if (nextNode == null) { return; }
 
             if (!inTransitToNextScene) // On scene transition, called via fader (sceneTransitionComplete)
             {
-                MoveToNextNode(callingController, nextNode);
+                MoveToNextNode(playerController, nextNode);
             }
         }
 
-        private ZoneNode SetUpNextNode(PlayerController callingController)
+        private ZoneNode SetUpNextNode(PlayerStateHandler playerStateHandler)
         {
             ZoneNode nextNode = null;
             if (zoneNode.HasSceneReference())
             {
-                callingController.SetPlayerState(PlayerState.inTransition);
+                playerStateHandler.SetPlayerState(PlayerState.inTransition);
                 SetZoneHandlerToPersistOnSceneTransition();
 
                 Tuple<string, string> zoneIDNodeIDPair = zoneNode.GetSceneReferenceNodePair();
@@ -78,7 +79,7 @@ namespace Frankie.Zone
                 nextNode = ZoneHandler.SelectNodeFromIDs(zoneIDNodeIDPair.Item1, zoneIDNodeIDPair.Item2);
 
                 TransitionToNextScene(nextNode, sceneReference);
-                callingController.SetPlayerState(PlayerState.inWorld);
+                playerStateHandler.SetPlayerState(PlayerState.inWorld);
             }
             else
             {
@@ -102,7 +103,7 @@ namespace Frankie.Zone
             fader.UpdateFadeState(TransitionType.Zone, sceneReference);
         }
 
-        private void MoveToNextNode(PlayerController callingController, ZoneNode nextNode)
+        private void MoveToNextNode(PlayerController playerController, ZoneNode nextNode)
         {
             ZoneHandler[] availableZoneHandlers = FindObjectsOfType<ZoneHandler>();
             foreach (ZoneHandler zoneHandler in availableZoneHandlers)
@@ -111,12 +112,12 @@ namespace Frankie.Zone
                 {
                     if (GetWarpPosition() != null)
                     {
-                        callingController.transform.position = zoneHandler.GetWarpPosition().position;
+                        playerController.transform.position = zoneHandler.GetWarpPosition().position;
                         Vector2 lookDirection = zoneHandler.GetWarpPosition().position - zoneHandler.transform.position;
                         lookDirection.Normalize();
-                        callingController.GetPlayerMover().SetLookDirection(lookDirection);
+                        playerController.GetPlayerMover().SetLookDirection(lookDirection);
                     }
-                    else { callingController.transform.position = zoneHandler.transform.position; }
+                    else { playerController.transform.position = zoneHandler.transform.position; }
 
                     ToggleParentGameObjects(zoneHandler);
                     if (zoneInteraction != null) // Unity event, linked via Unity Editor
@@ -172,9 +173,9 @@ namespace Frankie.Zone
             return CursorType.Zone;
         }
 
-        public bool HandleRaycast(PlayerController callingController, PlayerInputType inputType, PlayerInputType matchType)
+        public bool HandleRaycast(PlayerStateHandler playerStateHandler, PlayerController playerController, PlayerInputType inputType, PlayerInputType matchType)
         {
-            if (!this.CheckDistance(gameObject, transform.position, callingController, 
+            if (!this.CheckDistance(gameObject, transform.position, playerController, 
                 overrideDefaultInteractionDistance, interactionDistance)) 
             { 
                 return false; 
@@ -182,7 +183,7 @@ namespace Frankie.Zone
 
             if (inputType == matchType)
             {
-                WarpPlayerToNextNode(callingController);
+                WarpPlayerToNextNode(playerStateHandler, playerController);
             }
             return true;
         }

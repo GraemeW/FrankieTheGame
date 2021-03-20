@@ -1,5 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
+using Frankie.Core;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -17,7 +16,7 @@ namespace Frankie.Control
 
         // Data Structures
         [System.Serializable]
-        public class InteractionEvent : UnityEvent<PlayerController>
+        public class InteractionEvent : UnityEvent<PlayerStateHandler>
         {
         }
 
@@ -27,9 +26,9 @@ namespace Frankie.Control
             return CursorType.Check;
         }
 
-        public virtual bool HandleRaycast(PlayerController callingController, PlayerInputType inputType, PlayerInputType matchType)
+        public virtual bool HandleRaycast(PlayerStateHandler playerStateHandler, PlayerController playerController, PlayerInputType inputType, PlayerInputType matchType)
         {
-            if (!this.CheckDistance(gameObject, transform.position, callingController,
+            if (!this.CheckDistance(gameObject, transform.position, playerController,
                 overrideDefaultInteractionDistance, interactionDistance))
             {
                 return false;
@@ -39,7 +38,7 @@ namespace Frankie.Control
             {
                 if (checkInteraction != null)
                 {
-                    checkInteraction.Invoke(callingController);
+                    checkInteraction.Invoke(playerStateHandler);
                 }
             }
             return true;

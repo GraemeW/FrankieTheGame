@@ -3,6 +3,7 @@ using UnityEngine;
 using Frankie.SceneManagement;
 using Frankie.Stats;
 using Frankie.Combat;
+using Frankie.Core;
 
 namespace Frankie.Control
 {
@@ -54,20 +55,20 @@ namespace Frankie.Control
             this.lookDirection = lookDirection;
         }
 
-        public void InitiateCombat(PlayerController callingController)  // called via Unity Event
+        public void InitiateCombat(PlayerStateHandler playerStateHandler)  // called via Unity Event
         {
             CombatParticipant enemy = GetComponent<CombatParticipant>();
 
             if (enemy.IsDead())
             {
-                callingController.OpenSimpleDialogue(string.Format(messageCannotFight, enemy.GetCombatName()));
+                playerStateHandler.OpenSimpleDialogue(string.Format(messageCannotFight, enemy.GetCombatName()));
             }
             else
             {
                 List<CombatParticipant> enemies = new List<CombatParticipant>();
                 enemies.Add(enemy);
                 // TODO:  Implement pile-on / swarm system
-                callingController.EnterCombat(enemies, TransitionType.BattleNeutral);
+                playerStateHandler.EnterCombat(enemies, TransitionType.BattleNeutral);
             }
         }
 

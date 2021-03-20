@@ -40,6 +40,7 @@ GameObject:
   m_Component:
   - component: {fileID: 9140000498525693428}
   - component: {fileID: 6409765397982713383}
+  - component: {fileID: 7545476640367148252}
   - component: {fileID: 9140000498525693429}
   - component: {fileID: 6558820224858072559}
   - component: {fileID: 9140000498525693418}
@@ -80,6 +81,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1a4e004a8c7804947b4117bc99759e6a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &7545476640367148252
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9140000498525693431}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 589b68d4a46f75343b8c4473402d01ba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  battleControllerPrefab: {fileID: 195823895297305920, guid: 56c04806af7883a47bd3b232ea569090, type: 3}
+  dialogueControllerPrefab: {fileID: 417524482563996126, guid: 0918560ff2a56d3489ca626a5a667040, type: 3}
+  worldOptionsPrefab: {fileID: 6413694501190794285, guid: ef7e6848c65ed704882473869f5b49d1, type: 3}
+  messageCannotFight: You are wounded and cannot fight.
 --- !u!114 &9140000498525693429
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -117,10 +134,6 @@ MonoBehaviour:
   raycastRadius: 0.1
   interactionDistance: 0.5
   interactionCenterPoint: {fileID: 1925579894594943436}
-  battleControllerPrefab: {fileID: 195823895297305920, guid: 56c04806af7883a47bd3b232ea569090, type: 3}
-  dialogueControllerPrefab: {fileID: 417524482563996126, guid: 0918560ff2a56d3489ca626a5a667040, type: 3}
-  worldOptionsPrefab: {fileID: 6413694501190794285, guid: ef7e6848c65ed704882473869f5b49d1, type: 3}
-  messageCannotFight: You are wounded and cannot fight.
 --- !u!114 &6558820224858072559
 MonoBehaviour:
   m_ObjectHideFlags: 0

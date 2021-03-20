@@ -1,13 +1,11 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+using Frankie.Core;
 
 namespace Frankie.Control
 {
     public interface IRaycastable
     {
         CursorType GetCursorType();
-        bool HandleRaycast(PlayerController callingController, PlayerInputType inputType, PlayerInputType matchType);
+        bool HandleRaycast(PlayerStateHandler playerStateHandler, PlayerController playerController, PlayerInputType inputType, PlayerInputType matchType);
 
         // Extended in IRaycastableExtension
         bool CheckDistanceTemplate();
