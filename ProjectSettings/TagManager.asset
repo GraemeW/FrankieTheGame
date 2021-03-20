@@ -8,6 +8,7 @@ TagManager:
   - BattleController
   - DialogueController
   - WorldCanvas
+  - SceneLoader
   layers:
   - Default
   - TransparentFX

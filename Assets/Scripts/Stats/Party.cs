@@ -16,16 +16,22 @@ namespace Frankie.Stats
         // State
         Dictionary<CombatParticipant, Animator> animatorLookup = new Dictionary<CombatParticipant, Animator>();
 
-        // Cached References
-        CinemachineStateDrivenCamera stateCamera = null;
-
         private void Awake()
         {
             foreach (CombatParticipant character in party)
             {
                 animatorLookup.Add(character, character.GetComponent<Animator>());
             }
-            stateCamera = FindObjectOfType<CinemachineStateDrivenCamera>();
+        }
+
+        public void SetPartyLeader(CombatParticipant character)
+        {
+            // TODO:  Implement, call event to update camera controller
+        }
+
+        public Animator GetLeadCharacterAnimator()
+        {
+            return animatorLookup[party[0]];
         }
 
         public bool AddToParty(CombatParticipant character)
@@ -73,11 +79,6 @@ namespace Frankie.Stats
                 animatorLookup[character].SetFloat("xLook", xLookDirection);
                 animatorLookup[character].SetFloat("yLook", yLookDirection);
             }
-        }
-
-        public void SetPartyLeader(CombatParticipant character)
-        {
-            // TODO:  Implement, update the animator target for cinemachine state camera
         }
     }
 }

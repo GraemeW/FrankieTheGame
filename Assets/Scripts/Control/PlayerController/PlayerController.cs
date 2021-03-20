@@ -233,7 +233,14 @@ namespace Frankie.Control
         {
             playerMover = GetComponent<PlayerMover>();
             party = GetComponent<Party>();
-            worldCanvas = GameObject.FindGameObjectWithTag("WorldCanvas").GetComponent<WorldCanvas>();
+        }
+
+        public void SetWorldCanvas()
+        {
+            if (worldCanvas == null)
+            {
+                worldCanvas = GameObject.FindGameObjectWithTag("WorldCanvas").GetComponent<WorldCanvas>();
+            }
         }
 
         private void Update()

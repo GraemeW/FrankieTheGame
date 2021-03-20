@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -19,9 +20,6 @@ namespace Frankie.SceneManagement
 
         // State
         int currentSceneIndex = 0;
-
-        // Cached Reference
-
 
         private void Awake()
         {
