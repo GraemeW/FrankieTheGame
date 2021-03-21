@@ -1,8 +1,6 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-namespace Frankie.SceneManagement
+namespace Frankie.ZoneManagement
 {
     [System.Serializable]
     public struct SceneReference

@@ -141,5 +141,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   volume: 0.2
-  musicFadeDuration: 3
+  musicFadeDuration: 1.5
   audioMixer: {fileID: 24100000, guid: c9eb74919f363694fbbb45aa77e99ec3, type: 2}

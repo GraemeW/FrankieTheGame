@@ -1,8 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
-namespace Frankie.SceneManagement
+namespace Frankie.Core
 {
     public enum TransitionType
     {

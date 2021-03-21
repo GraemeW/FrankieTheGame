@@ -16,6 +16,7 @@ namespace Frankie.Combat
         [Header("Behavior, Hookups")]
         [SerializeField] bool friendly = false;
         [SerializeField] Sprite combatSprite = null;
+        [SerializeField] AudioClip combatAudio = null;
 
         [Header("Combat Properties")]
         [SerializeField] float damageTimeSpan = 4.0f;
@@ -214,6 +215,11 @@ namespace Frankie.Combat
         public Sprite GetCombatSprite()
         {
             return combatSprite;
+        }
+
+        public AudioClip GetAudioClip()
+        {
+            return combatAudio;
         }
 
         public string GetCombatName()

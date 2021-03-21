@@ -106,6 +106,8 @@ MonoBehaviour:
   sceneReference:
     sceneAsset: {fileID: 102900000, guid: 2cda990e2423bbf4892e6590ba056729, type: 3}
     sceneName: OfficeBuilding
+  zoneAudio: {fileID: 8300000, guid: c797fa32c25f2a745a9645e37347fe95, type: 3}
+  isZoneAudioLooping: 1
   zoneNodes:
   - {fileID: -4465313182537751535}
   - {fileID: 7265039216188601176}

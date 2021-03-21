@@ -40,6 +40,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   friendly: 0
   combatSprite: {fileID: 21300000, guid: 5323669003e30954a800877f5fa15b37, type: 3}
+  combatAudio: {fileID: 8300000, guid: d808ce0e402239348b99f94cc628f2e4, type: 3}
   damageTimeSpan: 4
   fractionOfHPInstantOnRevival: 0.5
   targetHP: 1

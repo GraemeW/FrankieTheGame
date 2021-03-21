@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
-using Frankie.SceneManagement;
+using Frankie.ZoneManagement;
 using Frankie.Stats;
 using Frankie.Combat;
 using Frankie.Core;

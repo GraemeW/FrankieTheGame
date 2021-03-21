@@ -2,10 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
-using Frankie.SceneManagement;
 using System;
 
-namespace Frankie.Zone
+namespace Frankie.ZoneManagement
 {
     [System.Serializable]
     public class ZoneNode : ScriptableObject
@@ -45,7 +44,7 @@ namespace Frankie.Zone
             return (variableCheck && zoneCheck && sceneExistenceCheck);
         }
 
-        public Tuple<string, string> GetSceneReferenceNodePair()
+        public Tuple<string, string> GetZoneReferenceNodeReferencePair()
         {
             Tuple<string, string> zoneIDNodeIDPair = new Tuple<string, string>(linkedZoneID, linkedNodeID);
             return zoneIDNodeIDPair;

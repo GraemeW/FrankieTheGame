@@ -1,10 +1,8 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
-using Frankie.SceneManagement;
 
-namespace Frankie.Zone
+namespace Frankie.ZoneManagement
 {
     [CreateAssetMenu(fileName = "New Zone", menuName = "Zone/New Zone")]
     public class Zone : ScriptableObject, ISerializationCallbackReceiver
@@ -14,12 +12,16 @@ namespace Frankie.Zone
         [SerializeField] Vector2 newNodeOffset = new Vector2(100f, 25f);
         [SerializeField] int nodeWidth = 430;
         [SerializeField] int nodeHeight = 150;
+        [Header("Zone Properties")]
         [SerializeField] SceneReference sceneReference = null;
+        [SerializeField] AudioClip zoneAudio = null;
+        [SerializeField] bool isZoneAudioLooping = true;
 
         // State
         [HideInInspector] [SerializeField] List<ZoneNode> zoneNodes = new List<ZoneNode>();
         [HideInInspector] [SerializeField] Dictionary<string, ZoneNode> nodeLookup = new Dictionary<string, ZoneNode>();
         static Dictionary<string, Zone> zoneLookupCache;
+        static Dictionary<string, Zone> sceneReferenceCache;
 
         private void Awake()
         {
@@ -41,27 +43,55 @@ namespace Frankie.Zone
         {
             if (zoneLookupCache == null)
             {
-                zoneLookupCache = new Dictionary<string, Zone>();
-                Zone[] zoneList = Resources.LoadAll<Zone>("");
-                foreach (Zone zone in zoneList)
-                {
-                    if (zoneLookupCache.ContainsKey(zone.name))
-                    {
-                        Debug.LogError(string.Format("Looks like there's a duplicate ID for objects: {0} and {1}", zoneLookupCache[zone.name], zone));
-                        continue;
-                    }
-
-                    zoneLookupCache[zone.name] = zone;
-                }
+                BuildCaches();
             }
 
             if (zoneName == null || !zoneLookupCache.ContainsKey(zoneName)) return null;
             return zoneLookupCache[zoneName];
         }
 
+        public static Zone GetFromSceneReference(string sceneReference)
+        {
+            if (sceneReferenceCache == null)
+            {
+                BuildCaches();
+            }
+
+            if (sceneReference == null || !sceneReferenceCache.ContainsKey(sceneReference)) return null;
+            return sceneReferenceCache[sceneReference];
+        }
+
+        private static void BuildCaches()
+        {
+            zoneLookupCache = new Dictionary<string, Zone>();
+            sceneReferenceCache = new Dictionary<string, Zone>();
+            Zone[] zoneList = Resources.LoadAll<Zone>("");
+            foreach (Zone zone in zoneList)
+            {
+                if (zoneLookupCache.ContainsKey(zone.name) || sceneReferenceCache.ContainsKey(zone.GetSceneReference().SceneName))
+                {
+                    Debug.LogError(string.Format("Looks like there's a duplicate ID for objects: {0} and {1}", zoneLookupCache[zone.name], zone));
+                    continue;
+                }
+
+                zoneLookupCache[zone.name] = zone;
+                sceneReferenceCache[zone.GetSceneReference().SceneName] = zone;
+            }
+        }
+
         public SceneReference GetSceneReference()
         {
             return sceneReference;
+        }
+
+        public AudioClip GetZoneAudio()
+        {
+            return zoneAudio;
+        }
+
+        public bool IsZoneAudioLooping()
+        {
+            return isZoneAudioLooping;
         }
 
         public IEnumerable<ZoneNode> GetAllNodes()

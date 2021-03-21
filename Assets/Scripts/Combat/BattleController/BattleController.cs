@@ -1,4 +1,4 @@
-using Frankie.SceneManagement;
+using Frankie.Core;
 using Frankie.Stats;
 using Frankie.Control;
 using System;
@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using static Frankie.Combat.Skill;
+using Frankie.ZoneManagement;
 
 namespace Frankie.Combat
 {

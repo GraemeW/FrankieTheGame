@@ -1,11 +1,10 @@
 using Frankie.Control;
 using UnityEngine;
 using UnityEngine.Events;
-using Frankie.SceneManagement;
 using System;
 using Frankie.Core;
 
-namespace Frankie.Zone
+namespace Frankie.ZoneManagement
 {
     public class ZoneHandler : MonoBehaviour, IRaycastable
     {
@@ -74,11 +73,11 @@ namespace Frankie.Zone
                 playerStateHandler.SetPlayerState(PlayerState.inTransition);
                 SetZoneHandlerToPersistOnSceneTransition();
 
-                Tuple<string, string> zoneIDNodeIDPair = zoneNode.GetSceneReferenceNodePair();
-                SceneReference sceneReference = Zone.GetFromName(zoneIDNodeIDPair.Item1).GetSceneReference();
+                Tuple<string, string> zoneIDNodeIDPair = zoneNode.GetZoneReferenceNodeReferencePair();
+                Zone nextZone = Zone.GetFromName(zoneIDNodeIDPair.Item1);
                 nextNode = ZoneHandler.SelectNodeFromIDs(zoneIDNodeIDPair.Item1, zoneIDNodeIDPair.Item2);
 
-                TransitionToNextScene(nextNode, sceneReference);
+                TransitionToNextScene(nextZone, nextNode);
                 playerStateHandler.SetPlayerState(PlayerState.inWorld);
             }
             else
@@ -95,12 +94,12 @@ namespace Frankie.Zone
             DontDestroyOnLoad(gameObject);
         }
 
-        private void TransitionToNextScene(ZoneNode nextNode, SceneReference sceneReference)
+        private void TransitionToNextScene(Zone nextZone, ZoneNode nextNode)
         {
             if (fader == null) { fader = FindObjectOfType<Fader>(); }
             queuedZoneNode = nextNode;
-            fader.sceneTransitionComplete += QueuedMoveToNextNode;
-            fader.UpdateFadeState(TransitionType.Zone, sceneReference);
+            fader.fadeComplete += QueuedMoveToNextNode;
+            fader.UpdateFadeState(TransitionType.Zone, nextZone);
         }
 
         private void MoveToNextNode(PlayerController playerController, ZoneNode nextNode)
@@ -135,7 +134,7 @@ namespace Frankie.Zone
         private void RemoveZoneHandler()
         {
             if (fader == null) { fader = FindObjectOfType<Fader>(); }
-            fader.sceneTransitionComplete -= QueuedMoveToNextNode;
+            fader.fadeComplete -= QueuedMoveToNextNode;
             Destroy(gameObject, delayToDestroyAfterSceneLoading);
         }
 

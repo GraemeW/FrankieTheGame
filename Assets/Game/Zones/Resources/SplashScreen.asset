@@ -10,19 +10,19 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 71bdebc52d51af440b8f8417df534a79, type: 3}
-  m_Name: OfficeBuildingOutside
+  m_Name: SplashScreen
   m_EditorClassIdentifier: 
   newNodeOffset: {x: 100, y: 25}
   nodeWidth: 430
   nodeHeight: 150
   sceneReference:
-    sceneAsset: {fileID: 102900000, guid: 2711c36e71bc89a4083f2a005e848602, type: 3}
-    sceneName: OfficeBuildingOutside
-  zoneAudio: {fileID: 8300000, guid: 840503d4a3e71484a94da9a50830ba88, type: 3}
-  isZoneAudioLooping: 1
+    sceneAsset: {fileID: 102900000, guid: bdbc1e0ce13a1f14ebbd17a6311fb5d4, type: 3}
+    sceneName: SplashScreen
+  zoneAudio: {fileID: 8300000, guid: aacc40c19a73d174baf7f1f4b432fdf9, type: 3}
+  isZoneAudioLooping: 0
   zoneNodes:
-  - {fileID: 7904139768458627740}
---- !u!114 &7904139768458627740
+  - {fileID: 6442850709047324980}
+--- !u!114 &6442850709047324980
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -32,19 +32,19 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3268536af8903a64da82aa6872733d1d, type: 3}
-  m_Name: 2451fc47-cbf0-489f-aa93-024a9a67fa25
+  m_Name: 1dbab023-f9ef-4289-9884-649149c40a0a
   m_EditorClassIdentifier: 
   children: []
-  detail: OfficeBuildingEntrance
-  linkedZoneID: OfficeBuilding
-  linkedNodeID: 5da55d72-acdc-4df9-9ba3-ab4076d5fa94
+  detail: 
+  linkedZoneID: 
+  linkedNodeID: 
   rect:
     serializedVersion: 2
     x: 30
     y: 30
     width: 430
     height: 150
-  zoneName: OfficeBuildingOutside
+  zoneName: SplashScreen
   draggingRect:
     serializedVersion: 2
     x: 0

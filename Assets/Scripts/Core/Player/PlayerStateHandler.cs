@@ -1,9 +1,8 @@
 using Frankie.Combat;
-using Frankie.SceneManagement;
+using Frankie.ZoneManagement;
 using Frankie.Speech;
 using Frankie.Stats;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -25,14 +24,13 @@ namespace Frankie.Core
         TransitionType transitionType = TransitionType.None;
         BattleController battleController = null;
         DialogueController dialogueController = null;
-        GameObject worldOptions = null;
 
         // Cached References
         Party party = null;
         WorldCanvas worldCanvas = null;
 
         // Events
-        public event Action playerStateChanged;
+        public event Action<PlayerState> playerStateChanged;
 
         // Public Functions
         public void SetWorldCanvas()
@@ -48,7 +46,7 @@ namespace Frankie.Core
             this.playerState = playerState;
             if (playerStateChanged != null)
             {
-                playerStateChanged.Invoke();
+                playerStateChanged.Invoke(playerState);
             }
         }
 
@@ -137,13 +135,12 @@ namespace Frankie.Core
 
         public void EnterWorldOptions()
         {
-            worldOptions = Instantiate(worldOptionsPrefab, worldCanvas.gameObject.transform);
+            Instantiate(worldOptionsPrefab, worldCanvas.gameObject.transform);
             SetPlayerState(PlayerState.inOptions);
         }
 
         public void ExitWorldOptions()
         {
-            worldOptions = null;
             SetPlayerState(PlayerState.inWorld);
         }
 

@@ -2,8 +2,9 @@ using System;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
+using Frankie.Core;
 
-namespace Frankie.SceneManagement
+namespace Frankie.ZoneManagement
 {
     public class Fader : MonoBehaviour
     {
@@ -30,7 +31,6 @@ namespace Frankie.SceneManagement
 
         // Events
         public event Action<bool> battleUIStateChanged;
-        public event Action sceneTransitionComplete;
         public event Action fadeComplete;
 
         private void Awake()
@@ -51,11 +51,11 @@ namespace Frankie.SceneManagement
             }
         }
 
-        public void UpdateFadeState(TransitionType transitionType, SceneReference sceneReference)
+        public void UpdateFadeState(TransitionType transitionType, Zone nextZone)
         {
             if (fading == false)
             {
-                StartCoroutine(Fade(transitionType, sceneReference));
+                StartCoroutine(Fade(transitionType, nextZone));
             }
         }
 
@@ -97,18 +97,17 @@ namespace Frankie.SceneManagement
             yield return QueueFadeExit(transitionType);
         }
 
-        private IEnumerator Fade(TransitionType transitionType, SceneReference sceneReference)
+        private IEnumerator Fade(TransitionType transitionType, Zone zone)
         {
             if (transitionType == TransitionType.Zone)
             {
                 yield return QueueFadeEntry(transitionType);
-                yield return sceneLoader.LoadNewSceneAsync(sceneReference.SceneName);
-                if (sceneTransitionComplete != null)
-                {
-                    sceneTransitionComplete.Invoke();
-                }
-
+                yield return sceneLoader.LoadNewSceneAsync(zone);
                 yield return QueueFadeExit(transitionType);
+                if (fadeComplete != null)
+                {
+                    fadeComplete.Invoke();
+                }
             }
             yield break;
         }
@@ -164,10 +163,6 @@ namespace Frankie.SceneManagement
             currentTransition.gameObject.SetActive(false);
             currentTransition = null;
             fading = false;
-            if (fadeComplete != null)
-            {
-                fadeComplete.Invoke();
-            }
         }
 
         private void ResetOverlays()

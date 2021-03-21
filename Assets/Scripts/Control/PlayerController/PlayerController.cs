@@ -121,7 +121,7 @@ namespace Frankie.Control
             playerStateHandler.playerStateChanged -= ResetCursor;
         }
 
-        private void ResetCursor()
+        private void ResetCursor(PlayerState playerState)
         {
             SetCursor(CursorType.None);
         }

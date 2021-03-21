@@ -1,8 +1,9 @@
 using System.Collections;
 using UnityEngine;
 using Frankie.Saving;
+using Frankie.ZoneManagement;
 
-namespace Frankie.SceneManagement
+namespace Frankie.Core
 {
     public class SavingWrapper : MonoBehaviour
     {
