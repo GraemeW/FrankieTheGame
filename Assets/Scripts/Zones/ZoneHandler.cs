@@ -98,7 +98,7 @@ namespace Frankie.ZoneManagement
         {
             if (fader == null) { fader = FindObjectOfType<Fader>(); }
             queuedZoneNode = nextNode;
-            fader.fadeComplete += QueuedMoveToNextNode;
+            fader.fadingOut += QueuedMoveToNextNode;
             fader.UpdateFadeState(TransitionType.Zone, nextZone);
         }
 
@@ -134,7 +134,7 @@ namespace Frankie.ZoneManagement
         private void RemoveZoneHandler()
         {
             if (fader == null) { fader = FindObjectOfType<Fader>(); }
-            fader.fadeComplete -= QueuedMoveToNextNode;
+            fader.fadingOut -= QueuedMoveToNextNode;
             Destroy(gameObject, delayToDestroyAfterSceneLoading);
         }
 

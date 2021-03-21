@@ -31,7 +31,7 @@ namespace Frankie.ZoneManagement
 
         // Events
         public event Action<bool> battleUIStateChanged;
-        public event Action fadeComplete;
+        public event Action fadingOut;
 
         private void Awake()
         {
@@ -103,11 +103,11 @@ namespace Frankie.ZoneManagement
             {
                 yield return QueueFadeEntry(transitionType);
                 yield return sceneLoader.LoadNewSceneAsync(zone);
-                yield return QueueFadeExit(transitionType);
-                if (fadeComplete != null)
+                if (fadingOut != null)
                 {
-                    fadeComplete.Invoke();
+                    fadingOut.Invoke();
                 }
+                yield return QueueFadeExit(transitionType);
             }
             yield break;
         }

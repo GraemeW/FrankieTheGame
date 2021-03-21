@@ -80,5 +80,10 @@ namespace Frankie.ZoneManagement
                 zoneUpdated.Invoke(currentZone);
             }
         }
+
+        public void SetCurrentZoneToCurrentScene()
+        {
+            SetCurrentZone(Zone.GetFromSceneReference(SceneManager.GetActiveScene().name));
+        }
     }
 }

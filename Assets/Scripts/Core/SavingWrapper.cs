@@ -27,6 +27,8 @@ namespace Frankie.Core
             }
             yield return GetComponent<SavingSystem>().LoadLastScene(defaultSaveFile);
 
+            SceneLoader sceneLoader = GameObject.FindGameObjectWithTag("SceneLoader").GetComponent<SceneLoader>();
+            sceneLoader.SetCurrentZoneToCurrentScene();
             Fader fader = FindObjectOfType<Fader>();
             fader.UpdateFadeStateImmediate();
         }
