@@ -4,15 +4,24 @@ using UnityEngine;
 using System.Linq;
 using UnityEngine.UI;
 using Frankie.Control;
+using Frankie.Core;
+using System;
 
 namespace Frankie.Speech.UI
 {
     public class DialogueOptionBox : DialogueBox
     {
+        [SerializeField] bool clearVolatileOptionsOnEnable = true;
+
         // State
         bool isChoiceAvailable = false;
         List<DialogueChoiceOption> choiceOptions = new List<DialogueChoiceOption>();
         DialogueChoiceOption highlightedChoiceOption = null;
+
+        protected override void Start()
+        {
+            SetupSimpleChoices();
+        }
 
         protected override void OnEnable()
         {
@@ -28,11 +37,53 @@ namespace Frankie.Speech.UI
 
         protected void SetUpChoiceOptions()
         {
-            choiceOptions.Clear();
+            if (clearVolatileOptionsOnEnable) { choiceOptions.Clear(); }
             choiceOptions.AddRange(optionParent.gameObject.GetComponentsInChildren<DialogueChoiceOption>().OrderBy(x => x.choiceOrder).ToList());
 
             if (choiceOptions.Count > 0) { isChoiceAvailable = true; }
             else { isChoiceAvailable = false; }
+        }
+
+        private void SetupSimpleChoices()
+        {
+            if (dialogueController != null && dialogueController.IsSimpleMessage())
+            {
+                AddText(dialogueController.GetSimpleMessage());
+
+                choiceOptions.Clear();
+                foreach (ChoiceActionPair choiceActionPair in dialogueController.GetSimpleChoices())
+                {
+                    if (choiceActionPair.isComplexAction)
+                    {
+                        AddChoiceOption(choiceActionPair.choice, choiceActionPair.complexAction, choiceActionPair.complexActionParameter);
+                    }
+                    else if (!choiceActionPair.isComplexAction)
+                    {
+                        AddChoiceOption(choiceActionPair.choice, choiceActionPair.action);
+                    }
+                }
+                isChoiceAvailable = true;
+            }
+        }
+
+        private void AddChoiceOption(string choiceText, Action functionCall)
+        {
+            GameObject choiceObject = Instantiate(optionPrefab, optionParent);
+            DialogueChoiceOption dialogueChoiceOption = choiceObject.GetComponent<DialogueChoiceOption>();
+            dialogueChoiceOption.SetChoiceOrder(choiceOptions.Count + 1);
+            dialogueChoiceOption.SetText(choiceText);
+            choiceOptions.Add(dialogueChoiceOption);
+            choiceObject.GetComponent<Button>().onClick.AddListener(delegate { functionCall.Invoke();  Destroy(gameObject); });
+        }
+
+        private void AddChoiceOption(string choiceText, Action<string> functionCall, string functionParameter)
+        {
+            GameObject choiceObject = Instantiate(optionPrefab, optionParent);
+            DialogueChoiceOption dialogueChoiceOption = choiceObject.GetComponent<DialogueChoiceOption>();
+            dialogueChoiceOption.SetChoiceOrder(choiceOptions.Count + 1);
+            dialogueChoiceOption.SetText(choiceText);
+            choiceOptions.Add(dialogueChoiceOption);
+            choiceObject.GetComponent<Button>().onClick.AddListener(delegate { functionCall.Invoke(functionParameter); Destroy(gameObject); });
         }
 
         public override void HandleGlobalInput(PlayerInputType playerInputType)

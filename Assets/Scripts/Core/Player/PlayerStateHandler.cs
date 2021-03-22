@@ -124,6 +124,15 @@ namespace Frankie.Core
             SetPlayerState(PlayerState.inDialogue);
         }
 
+        public void OpenSimpleChoiceDialogue(string message, List<ChoiceActionPair> choiceActionPairs)
+        {
+            dialogueController = GetUniqueDialogueController();
+            dialogueController.Setup(worldCanvas, this, party);
+            dialogueController.InitiateSimpleOption(message, choiceActionPairs);
+
+            SetPlayerState(PlayerState.inDialogue);
+        }
+
         public void ExitDialogue()
         {
             dialogueController = null;

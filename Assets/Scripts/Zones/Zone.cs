@@ -130,6 +130,8 @@ namespace Frankie.ZoneManagement
 
         public bool IsRelated(ZoneNode parentNode, ZoneNode childNode)
         {
+            if (parentNode.GetChildren() == null) { return false; }
+
             if (parentNode.GetChildren().Contains(childNode.name))
             {
                 return true;
@@ -144,8 +146,8 @@ namespace Frankie.ZoneManagement
             ZoneNode zoneNode = CreateInstance<ZoneNode>();
             Undo.RegisterCreatedObjectUndo(zoneNode, "Created Zone Node Object");
             zoneNode.Initialize(nodeWidth, nodeHeight);
-            zoneNode.name = System.Guid.NewGuid().ToString();
-            zoneNode.SetZoneName(sceneReference.SceneName);
+            zoneNode.SetNodeID(System.Guid.NewGuid().ToString());
+            zoneNode.SetZoneName(this.name);
 
             Undo.RecordObject(this, "Add Zone Node");
             zoneNodes.Add(zoneNode);
@@ -158,11 +160,12 @@ namespace Frankie.ZoneManagement
             if (parentNode == null) { return null; }
 
             ZoneNode childNode = CreateNode();
+            parentNode.AddChild(childNode.name);
+
             Vector2 offsetPosition = new Vector2(parentNode.GetRect().xMax + newNodeOffset.x,
-                parentNode.GetRect().yMin + (parentNode.GetRect().height + newNodeOffset.y) * parentNode.GetChildren().Count);
+                parentNode.GetRect().yMin + (parentNode.GetRect().height + newNodeOffset.y) * (parentNode.GetChildren().Count - 1)); // Offset position by 1 since child just added
             childNode.SetPosition(offsetPosition);
 
-            parentNode.AddChild(childNode.name);
             OnValidate();
 
             return childNode;
@@ -201,6 +204,17 @@ namespace Frankie.ZoneManagement
             }
         }
 
+        public void UpdateNodeID(string oldNodeID, string newNodeID)
+        {
+            foreach (ZoneNode zoneNode in zoneNodes)
+            {
+                if (zoneNode.GetChildren() == null) { continue; }
+
+                zoneNode.UpdateChildNodeID(oldNodeID, newNodeID);
+            }
+            OnValidate();
+        }
+
         public void ToggleRelation(ZoneNode parentNode, ZoneNode childNode)
         {
             if (IsRelated(parentNode, childNode))
@@ -226,7 +240,7 @@ namespace Frankie.ZoneManagement
             {
                 foreach (ZoneNode zoneNode in GetAllNodes())
                 {
-                    zoneNode.SetZoneName(sceneReference.SceneName);
+                    zoneNode.SetZoneName(this.name);
                     if (AssetDatabase.GetAssetPath(zoneNode) == "")
                     {
                         AssetDatabase.AddObjectToAsset(zoneNode, this);

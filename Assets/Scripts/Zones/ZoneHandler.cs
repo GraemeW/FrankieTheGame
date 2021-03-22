@@ -3,6 +3,7 @@ using UnityEngine;
 using UnityEngine.Events;
 using System;
 using Frankie.Core;
+using System.Collections.Generic;
 
 namespace Frankie.ZoneManagement
 {
@@ -17,10 +18,15 @@ namespace Frankie.ZoneManagement
         [Header("Game Object (Dis)Enablement")]
         [SerializeField] bool disableOnExit = true;
         [SerializeField] GameObject roomParent = null;
+        [Header("Warp Properties")]
+        [SerializeField] bool randomizeChoice = true;
+        [SerializeField] string choiceMessage = "Where do you want to go?";
 
         // State
         bool inTransitToNextScene = false;
         ZoneNode queuedZoneNode = null;
+        PlayerStateHandler currentPlayerStateHandler = null;
+        PlayerController currentPlayerController = null;
 
         // Cached References
         Fader fader = null;
@@ -65,25 +71,52 @@ namespace Frankie.ZoneManagement
             }
         }
 
+        private void WarpPlayerToNode(string nodeID)
+        {
+            ZoneNode nextNode = SetUpNextNode(nodeID);
+            if (nextNode == null) { return; }
+
+            if (!inTransitToNextScene) // On scene transition, called via fader (sceneTransitionComplete)
+            {
+                MoveToNextNode(currentPlayerController, nextNode);
+            }
+            currentPlayerStateHandler = null;
+            currentPlayerController = null;
+        }
+
         private ZoneNode SetUpNextNode(PlayerStateHandler playerStateHandler)
         {
-            ZoneNode nextNode = null;
-            if (zoneNode.HasSceneReference())
+            ZoneNode nextNode = SelectRandomNodeFromChildren();
+            if (nextNode == null) { return null; }
+
+            nextNode = GetNodeOnSceneTransition(playerStateHandler, nextNode);
+            return nextNode;
+        }
+
+        private ZoneNode SetUpNextNode(string nodeID)
+        {
+            ZoneNode nextNode = Zone.GetFromName(zoneNode.GetZoneName()).GetNodeFromID(nodeID);
+            if (nextNode == null) { return null; }
+
+            nextNode = GetNodeOnSceneTransition(currentPlayerStateHandler, nextNode);
+            return nextNode;
+        }
+
+        private ZoneNode GetNodeOnSceneTransition(PlayerStateHandler playerStateHandler, ZoneNode nextNode)
+        {
+            if (nextNode.HasSceneReference())
             {
                 playerStateHandler.SetPlayerState(PlayerState.inTransition);
                 SetZoneHandlerToPersistOnSceneTransition();
 
-                Tuple<string, string> zoneIDNodeIDPair = zoneNode.GetZoneReferenceNodeReferencePair();
-                Zone nextZone = Zone.GetFromName(zoneIDNodeIDPair.Item1);
-                nextNode = ZoneHandler.SelectNodeFromIDs(zoneIDNodeIDPair.Item1, zoneIDNodeIDPair.Item2);
+                ZoneIDNodeIDPair zoneIDNodeIDPair = nextNode.GetZoneReferenceNodeReferencePair();
+                Zone nextZone = Zone.GetFromName(zoneIDNodeIDPair.zoneID);
+                nextNode = ZoneHandler.SelectNodeFromIDs(zoneIDNodeIDPair.zoneID, zoneIDNodeIDPair.nodeID);
 
                 TransitionToNextScene(nextZone, nextNode);
                 playerStateHandler.SetPlayerState(PlayerState.inWorld);
             }
-            else
-            {
-                nextNode = SelectRandomNodeFromChildren();
-            }
+
             return nextNode;
         }
 
@@ -166,6 +199,34 @@ namespace Frankie.ZoneManagement
             nextZoneHandler.EnableRoomParent(true);
         }
 
+        private bool? IsSimpleWarp()
+        {
+            if (zoneNode == null || zoneNode.GetChildren() == null) { return null; }
+
+            if (zoneNode.GetChildren().Count == 1 || randomizeChoice)
+            {
+                return true;
+            }
+            return false;
+        }
+
+        private void SetUpCurrentReferences(PlayerStateHandler playerStateHandler, PlayerController playerController)
+        {
+            currentPlayerStateHandler = playerStateHandler;
+            currentPlayerController = playerController;
+        }
+
+        private List<ChoiceActionPair> GetChoiceActionPairs()
+        {
+            List<ChoiceActionPair> choiceActionPairs = new List<ChoiceActionPair>();
+            foreach (string childNode in zoneNode.GetChildren())
+            {
+                ChoiceActionPair choiceActionPair = new ChoiceActionPair(childNode, WarpPlayerToNode, childNode);
+                choiceActionPairs.Add(choiceActionPair);
+            }
+            return choiceActionPairs;
+        }
+
         // IRaycastable Implementation
         public CursorType GetCursorType()
         {
@@ -182,7 +243,15 @@ namespace Frankie.ZoneManagement
 
             if (inputType == matchType)
             {
-                WarpPlayerToNextNode(playerStateHandler, playerController);
+                if (IsSimpleWarp() == true)
+                {
+                    WarpPlayerToNextNode(playerStateHandler, playerController);
+                }
+                else if (IsSimpleWarp() == false)
+                {
+                    SetUpCurrentReferences(playerStateHandler, playerController);
+                    playerStateHandler.OpenSimpleChoiceDialogue(choiceMessage, GetChoiceActionPairs());
+                }
             }
             return true;
         }

@@ -14,6 +14,7 @@ namespace Frankie.Speech
         // Tunables
         [Header("Controller Properties")]
         [SerializeField] GameObject dialogueBoxPrefab = null;
+        [SerializeField] GameObject dialogueOptionBoxPrefab = null;
 
         [Header("Interaction")]
         [SerializeField] string interactExecuteButton = "Fire1";
@@ -32,6 +33,7 @@ namespace Frankie.Speech
 
         bool isSimpleMessage = false;
         string simpleMessage = "";
+        List<ChoiceActionPair> simpleChoices = new List<ChoiceActionPair>();
 
         // Cached References
         WorldCanvas worldCanvas = null;
@@ -77,6 +79,14 @@ namespace Frankie.Speech
             simpleMessage = message;
         }
 
+        public void InitiateSimpleOption(string message, List<ChoiceActionPair> choiceActionPairs)
+        {
+            isSimpleMessage = true;
+            Instantiate(dialogueOptionBoxPrefab, worldCanvas.transform);
+            simpleMessage = message;
+            simpleChoices = choiceActionPairs;
+        }
+
         public void EndConversation()
         {
             QueueFinalTriggerAction();
@@ -95,14 +105,14 @@ namespace Frankie.Speech
         private void Update()
         {
             KillControllerForNoReceivers();
+            PlayerInputType playerInputType = GetPlayerInput();
             if (!isSimpleMessage)
             {
                 // TODO:  Implement new unity input system
-                PlayerInputType playerInputType = GetPlayerInput();
                 if (InteractWithChoices(playerInputType)) { return; }
                 if (InteractWithNext(playerInputType)) { return; }
             }
-            if (InteractWithGlobals()) { return; }
+            if (InteractWithGlobals(playerInputType)) { return; }
         }
 
         private void KillControllerForNoReceivers()
@@ -114,15 +124,12 @@ namespace Frankie.Speech
             }
         }
 
-        private bool InteractWithGlobals()
+        private bool InteractWithGlobals(PlayerInputType playerInputType)
         {
-            if (Input.GetButtonDown(interactExecuteButton) || Input.GetKeyDown(interactExecuteKey))
+            if (globalInput != null)
             {
-                if (globalInput != null)
-                {
-                    globalInput.Invoke(PlayerInputType.Execute); // handle text skip on dialogue box
-                    return true;
-                }
+                globalInput.Invoke(playerInputType); // handle text skip on dialogue box
+                return true;
             }
             return false;
         }
@@ -198,6 +205,11 @@ namespace Frankie.Speech
             return simpleMessage;
         }
 
+        public List<ChoiceActionPair> GetSimpleChoices()
+        {
+            return simpleChoices;
+        }
+
         private void SetHighlightedNodeToDefault()
         {
             if (Input.GetKeyDown(interactExecuteKey)) // specific to key; avoid mouse click forcing
@@ -256,6 +268,8 @@ namespace Frankie.Speech
             }
             return input;
         }
+
+
 
         public string GetPlayerName()
         {

@@ -78,8 +78,8 @@ MonoBehaviour:
   children: []
   rect:
     serializedVersion: 2
-    x: 530
-    y: 280
+    x: 546
+    y: 269
     width: 400
     height: 225
   draggingRect:

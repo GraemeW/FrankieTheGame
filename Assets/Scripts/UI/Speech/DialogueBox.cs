@@ -36,7 +36,7 @@ namespace Frankie.Speech.UI
         protected IStandardPlayerInputCaller alternateController = null;
 
         // Cached References
-        DialogueController dialogueController = null;
+        protected DialogueController dialogueController = null;
 
         // Static
         protected static string DIALOGUE_CALLBACK_ENABLE_INPUT = "ENABLE_INPUT";

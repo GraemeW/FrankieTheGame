@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEditor;
 using UnityEditor.Callbacks;
 using UnityEngine;
+using System.Linq;
 
 namespace Frankie.ZoneManagement.Editor
 {
@@ -29,6 +30,7 @@ namespace Frankie.ZoneManagement.Editor
         [NonSerialized] ZoneNode creatingNode = null;
         [NonSerialized] ZoneNode deletingNode = null;
         [NonSerialized] ZoneNode linkingParentNode = null;
+        [NonSerialized] Tuple<ZoneNode, string> nodeIDUpdate = new Tuple<ZoneNode, string>(null, null);
         [NonSerialized] Vector2 scrollPosition = new Vector2();
         [NonSerialized] float scrollMaxX = 1;
         [NonSerialized] float scrollMaxY = 1;
@@ -108,6 +110,18 @@ namespace Frankie.ZoneManagement.Editor
                     ZoneNode newChildNode = selectedZone.CreateChildNode(creatingNode);
                     creatingNode = null;
                 }
+                if (nodeIDUpdate.Item1 != null && nodeIDUpdate.Item2 != null)
+                {
+                    if (selectedZone.GetNodeFromID(nodeIDUpdate.Item2) == null)
+                    {
+                        string oldNodeID = nodeIDUpdate.Item1.GetNodeID();
+                        if (nodeIDUpdate.Item1.SetNodeID(nodeIDUpdate.Item2))
+                        {
+                            selectedZone.UpdateNodeID(oldNodeID, nodeIDUpdate.Item2);
+                        }
+                        nodeIDUpdate = new Tuple<ZoneNode, string>(null, null);
+                    }
+                }
             }
         }
 
@@ -180,8 +194,12 @@ namespace Frankie.ZoneManagement.Editor
 
             // Detail
             EditorGUILayout.Space(nodeBorder / 2, false);
-            string newDetail = EditorGUILayout.TextField("Node Detail:", zoneNode.GetDetail());
-            zoneNode.SetDetail(newDetail);
+            string oldID = zoneNode.GetNodeID();
+            string newID = EditorGUILayout.TextField("Override ID:", oldID);
+            if (oldID != newID)
+            {
+                nodeIDUpdate = new Tuple<ZoneNode, string>(zoneNode, newID);
+            }
 
             // Additional Functionality
             GUILayout.FlexibleSpace();

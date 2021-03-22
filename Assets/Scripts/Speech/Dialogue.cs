@@ -78,6 +78,8 @@ namespace Frankie.Speech
 
         public bool IsRelated(DialogueNode parentNode, DialogueNode childNode)
         {
+            if (parentNode.GetChildren() == null) { return false; }
+
             if (parentNode.GetChildren().Contains(childNode.name))
             {
                 return true;
@@ -140,9 +142,6 @@ namespace Frankie.Speech
             if (parentNode == null) { return null; }
 
             DialogueNode childNode = CreateNode();
-            Vector2 offsetPosition = new Vector2(parentNode.GetRect().xMax + newNodeOffset.x,
-                parentNode.GetRect().yMin + (parentNode.GetRect().height + newNodeOffset.y) * parentNode.GetChildren().Count);
-            childNode.SetPosition(offsetPosition);
             if (parentNode.GetSpeakerType() == SpeakerType.playerSpeaker)
             {
                 childNode.SetSpeakerType(SpeakerType.aiSpeaker);
@@ -151,8 +150,12 @@ namespace Frankie.Speech
             {
                 childNode.SetSpeakerType(SpeakerType.playerSpeaker);
             }
-
             parentNode.AddChild(childNode.name);
+
+            Vector2 offsetPosition = new Vector2(parentNode.GetRect().xMax + newNodeOffset.x,
+                parentNode.GetRect().yMin + (parentNode.GetRect().height + newNodeOffset.y) * (parentNode.GetChildren().Count - 1));  // Offset position by 1 since child just added
+            childNode.SetPosition(offsetPosition);
+
             OnValidate();
 
             return childNode;

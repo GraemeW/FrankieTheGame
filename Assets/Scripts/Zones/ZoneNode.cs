@@ -11,7 +11,6 @@ namespace Frankie.ZoneManagement
     {
         [Header("Zone Node Properties")]
         [SerializeField] List<string> children = new List<string>();
-        [SerializeField] string detail = null;
         [SerializeField] string linkedZoneID = null;
         [SerializeField] string linkedNodeID = null;
         [SerializeField] Rect rect = new Rect(30, 30, 430, 150);
@@ -23,9 +22,9 @@ namespace Frankie.ZoneManagement
             return zoneName;
         }
 
-        public string GetDetail()
+        public string GetNodeID()
         {
-            return detail;
+            return name;
         }
 
         public bool HasSceneReference()
@@ -44,9 +43,9 @@ namespace Frankie.ZoneManagement
             return (variableCheck && zoneCheck && sceneExistenceCheck);
         }
 
-        public Tuple<string, string> GetZoneReferenceNodeReferencePair()
+        public ZoneIDNodeIDPair GetZoneReferenceNodeReferencePair()
         {
-            Tuple<string, string> zoneIDNodeIDPair = new Tuple<string, string>(linkedZoneID, linkedNodeID);
+            ZoneIDNodeIDPair zoneIDNodeIDPair = new ZoneIDNodeIDPair(linkedZoneID, linkedNodeID);
             return zoneIDNodeIDPair;
         }
 
@@ -54,6 +53,14 @@ namespace Frankie.ZoneManagement
         {
             if (children.Count == 0) { return null; }
             return children;
+        }
+
+        public void UpdateChildNodeID(string oldID, string newID)
+        {
+            if (!children.Contains(oldID)) { return; }
+
+            children.Remove(oldID);
+            children.Add(newID);
         }
 
         public Vector2 GetPosition()
@@ -90,14 +97,16 @@ namespace Frankie.ZoneManagement
             }
         }
 
-        public void SetDetail(string detail)
+        public bool SetNodeID(string id)
         {
-            if (detail != this.detail)
+            if (id != name)
             {
                 Undo.RecordObject(this, "Update Detail");
-                this.detail = detail;
+                name = id;
                 EditorUtility.SetDirty(this);
+                return true;
             }
+            return false;
         }
 
         public void AddChild(string childID)

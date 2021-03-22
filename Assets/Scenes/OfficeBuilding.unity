@@ -693,6 +693,8 @@ MonoBehaviour:
   delayToDestroyAfterSceneLoading: 0.1
   disableOnExit: 1
   roomParent: {fileID: 496885797}
+  randomizeChoice: 1
+  choiceMessage: Where do you want to go?
   zoneInteraction:
     m_PersistentCalls:
       m_Calls:
@@ -787,6 +789,8 @@ MonoBehaviour:
   delayToDestroyAfterSceneLoading: 0.1
   disableOnExit: 1
   roomParent: {fileID: 1663618879}
+  randomizeChoice: 1
+  choiceMessage: Where do you want to go?
   zoneInteraction:
     m_PersistentCalls:
       m_Calls:
@@ -1592,6 +1596,8 @@ MonoBehaviour:
   delayToDestroyAfterSceneLoading: 0.1
   disableOnExit: 1
   roomParent: {fileID: 1192180119}
+  randomizeChoice: 1
+  choiceMessage: Where do you want to go?
   zoneInteraction:
     m_PersistentCalls:
       m_Calls:
@@ -1972,6 +1978,8 @@ MonoBehaviour:
   delayToDestroyAfterSceneLoading: 0.1
   disableOnExit: 1
   roomParent: {fileID: 496885797}
+  randomizeChoice: 1
+  choiceMessage: Where do you want to go?
   zoneInteraction:
     m_PersistentCalls:
       m_Calls:
@@ -2434,6 +2442,8 @@ MonoBehaviour:
   delayToDestroyAfterSceneLoading: 0.1
   disableOnExit: 1
   roomParent: {fileID: 1192180119}
+  randomizeChoice: 1
+  choiceMessage: Where do you want to go?
   zoneInteraction:
     m_PersistentCalls:
       m_Calls:
@@ -2528,6 +2538,8 @@ MonoBehaviour:
   delayToDestroyAfterSceneLoading: 0.1
   disableOnExit: 1
   roomParent: {fileID: 135076789}
+  randomizeChoice: 1
+  choiceMessage: Where do you want to go?
   zoneInteraction:
     m_PersistentCalls:
       m_Calls:
@@ -3098,8 +3110,10 @@ MonoBehaviour:
   interactionDistance: 0.1
   warpPosition: {fileID: 1340834138}
   delayToDestroyAfterSceneLoading: 0.1
-  disableOnExit: 0
-  roomParent: {fileID: 0}
+  disableOnExit: 1
+  roomParent: {fileID: 496885797}
+  randomizeChoice: 0
+  choiceMessage: Where do you want to go?
   zoneInteraction:
     m_PersistentCalls:
       m_Calls:
@@ -3234,6 +3248,8 @@ MonoBehaviour:
   delayToDestroyAfterSceneLoading: 0.1
   disableOnExit: 1
   roomParent: {fileID: 822531025}
+  randomizeChoice: 1
+  choiceMessage: Where do you want to go?
   zoneInteraction:
     m_PersistentCalls:
       m_Calls:
@@ -4354,6 +4370,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Microwave
       objectReference: {fileID: 0}
+    - target: {fileID: 5519946973473899509, guid: c09446928de1cdd47b11fb8583b5abb5, type: 3}
+      propertyPath: checkMessage
+      value: This microwave has been busted for years
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c09446928de1cdd47b11fb8583b5abb5, type: 3}
 --- !u!1001 &749246050971628654
@@ -4581,6 +4601,18 @@ PrefabInstance:
     - target: {fileID: 1917619251628278351, guid: 60c5b40f92c9bf64e89d9db827f914c0, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4721354099419651422, guid: 60c5b40f92c9bf64e89d9db827f914c0, type: 3}
+      propertyPath: checkInteraction.m_PersistentCalls.m_Calls.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4721354099419651422, guid: 60c5b40f92c9bf64e89d9db827f914c0, type: 3}
+      propertyPath: checkInteraction.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4721354099419651422, guid: 60c5b40f92c9bf64e89d9db827f914c0, type: 3}
+      propertyPath: checkInteraction.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 60c5b40f92c9bf64e89d9db827f914c0, type: 3}
