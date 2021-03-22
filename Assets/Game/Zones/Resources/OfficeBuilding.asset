@@ -76,8 +76,8 @@ MonoBehaviour:
   linkedNodeID: 
   rect:
     serializedVersion: 2
-    x: 429
-    y: 403
+    x: 446
+    y: 357
     width: 430
     height: 150
   zoneName: OfficeBuilding
