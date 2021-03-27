@@ -121,7 +121,10 @@ namespace Frankie.Core
             dialogueController.Setup(worldCanvas, this, party);
             dialogueController.InitiateSimpleMessage(message);
 
-            SetPlayerState(PlayerState.inDialogue);
+            if (playerState != PlayerState.inTransition) // do not override state if in transition
+            {
+                SetPlayerState(PlayerState.inDialogue);
+            }
         }
 
         public void OpenSimpleChoiceDialogue(string message, List<ChoiceActionPair> choiceActionPairs)
@@ -130,7 +133,10 @@ namespace Frankie.Core
             dialogueController.Setup(worldCanvas, this, party);
             dialogueController.InitiateSimpleOption(message, choiceActionPairs);
 
-            SetPlayerState(PlayerState.inDialogue);
+            if (playerState != PlayerState.inTransition) // do not override state if in transition
+            {
+                SetPlayerState(PlayerState.inDialogue);
+            }
         }
 
         public void ExitDialogue()

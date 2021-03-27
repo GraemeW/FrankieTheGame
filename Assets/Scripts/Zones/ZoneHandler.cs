@@ -60,14 +60,14 @@ namespace Frankie.ZoneManagement
         }
 
         // Private Functions
-        private void WarpPlayerToNextNode(PlayerStateHandler playerStateHandler, PlayerController playerController)
+        private void WarpPlayerToNextNode()
         {
-            ZoneNode nextNode = SetUpNextNode(playerStateHandler);
+            ZoneNode nextNode = SetUpNextNode();
             if (nextNode == null) { return; }
 
             if (!inTransitToNextScene) // On scene transition, called via fader (sceneTransitionComplete)
             {
-                MoveToNextNode(playerController, nextNode);
+                MoveToNextNode(nextNode);
             }
         }
 
@@ -78,18 +78,16 @@ namespace Frankie.ZoneManagement
 
             if (!inTransitToNextScene) // On scene transition, called via fader (sceneTransitionComplete)
             {
-                MoveToNextNode(currentPlayerController, nextNode);
+                MoveToNextNode(nextNode);
             }
-            currentPlayerStateHandler = null;
-            currentPlayerController = null;
         }
 
-        private ZoneNode SetUpNextNode(PlayerStateHandler playerStateHandler)
+        private ZoneNode SetUpNextNode()
         {
             ZoneNode nextNode = SelectRandomNodeFromChildren();
             if (nextNode == null) { return null; }
 
-            nextNode = GetNodeOnSceneTransition(playerStateHandler, nextNode);
+            nextNode = GetNodeOnSceneTransition(nextNode);
             return nextNode;
         }
 
@@ -98,23 +96,22 @@ namespace Frankie.ZoneManagement
             ZoneNode nextNode = Zone.GetFromName(zoneNode.GetZoneName()).GetNodeFromID(nodeID);
             if (nextNode == null) { return null; }
 
-            nextNode = GetNodeOnSceneTransition(currentPlayerStateHandler, nextNode);
+            nextNode = GetNodeOnSceneTransition(nextNode);
             return nextNode;
         }
 
-        private ZoneNode GetNodeOnSceneTransition(PlayerStateHandler playerStateHandler, ZoneNode nextNode)
+        private ZoneNode GetNodeOnSceneTransition(ZoneNode nextNode)
         {
             if (nextNode.HasSceneReference())
             {
-                playerStateHandler.SetPlayerState(PlayerState.inTransition);
+                currentPlayerStateHandler.SetPlayerState(PlayerState.inTransition);
                 SetZoneHandlerToPersistOnSceneTransition();
 
                 ZoneIDNodeIDPair zoneIDNodeIDPair = nextNode.GetZoneReferenceNodeReferencePair();
                 Zone nextZone = Zone.GetFromName(zoneIDNodeIDPair.zoneID);
                 nextNode = ZoneHandler.SelectNodeFromIDs(zoneIDNodeIDPair.zoneID, zoneIDNodeIDPair.nodeID);
 
-                TransitionToNextScene(nextZone, nextNode);
-                playerStateHandler.SetPlayerState(PlayerState.inWorld);
+                TransitionToNextScene(nextZone, nextNode); // NOTE:  Exit inTransition done on queued move
             }
 
             return nextNode;
@@ -135,7 +132,7 @@ namespace Frankie.ZoneManagement
             fader.UpdateFadeState(TransitionType.Zone, nextZone);
         }
 
-        private void MoveToNextNode(PlayerController playerController, ZoneNode nextNode)
+        private void MoveToNextNode(ZoneNode nextNode)
         {
             ZoneHandler[] availableZoneHandlers = FindObjectsOfType<ZoneHandler>();
             foreach (ZoneHandler zoneHandler in availableZoneHandlers)
@@ -144,12 +141,12 @@ namespace Frankie.ZoneManagement
                 {
                     if (GetWarpPosition() != null)
                     {
-                        playerController.transform.position = zoneHandler.GetWarpPosition().position;
+                        currentPlayerController.transform.position = zoneHandler.GetWarpPosition().position;
                         Vector2 lookDirection = zoneHandler.GetWarpPosition().position - zoneHandler.transform.position;
                         lookDirection.Normalize();
-                        playerController.GetPlayerMover().SetLookDirection(lookDirection);
+                        currentPlayerController.GetPlayerMover().SetLookDirection(lookDirection);
                     }
-                    else { playerController.transform.position = zoneHandler.transform.position; }
+                    else { currentPlayerController.transform.position = zoneHandler.transform.position; }
 
                     ToggleParentGameObjects(zoneHandler);
                     if (zoneInteraction != null) // Unity event, linked via Unity Editor
@@ -157,11 +154,19 @@ namespace Frankie.ZoneManagement
                         zoneInteraction.Invoke();
                     }
 
-                    if (inTransitToNextScene) { RemoveZoneHandler(); }
                     break; // Node transport complete, no need to complete loop
                 }
             }
+
+            // Failsafe -- no movement
+            ExitMove();
+        }
+
+        private void ExitMove()
+        {
+            currentPlayerStateHandler.SetPlayerState(PlayerState.inWorld);
             if (inTransitToNextScene) { RemoveZoneHandler(); }
+            SetUpCurrentReferences(null, null);
         }
 
         private void RemoveZoneHandler()
@@ -178,8 +183,7 @@ namespace Frankie.ZoneManagement
                 RemoveZoneHandler();
                 return; 
             }
-            PlayerController playerController = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>();
-            MoveToNextNode(playerController, queuedZoneNode);
+            MoveToNextNode(queuedZoneNode);
         }
 
         private ZoneNode SelectRandomNodeFromChildren()
@@ -243,13 +247,13 @@ namespace Frankie.ZoneManagement
 
             if (inputType == matchType)
             {
+                SetUpCurrentReferences(playerStateHandler, playerController);
                 if (IsSimpleWarp() == true)
                 {
-                    WarpPlayerToNextNode(playerStateHandler, playerController);
+                    WarpPlayerToNextNode();
                 }
                 else if (IsSimpleWarp() == false)
                 {
-                    SetUpCurrentReferences(playerStateHandler, playerController);
                     playerStateHandler.OpenSimpleChoiceDialogue(choiceMessage, GetChoiceActionPairs());
                 }
             }
