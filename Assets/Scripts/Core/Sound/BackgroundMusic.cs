@@ -4,6 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Audio;
+using Frankie.Settings;
 
 namespace Frankie.Core
 {
@@ -61,6 +62,10 @@ namespace Frankie.Core
 
         private void Start()
         {
+            if (PlayerPrefsController.VolumeKeyExist())
+            {
+                volume = PlayerPrefsController.GetMasterVolume();
+            }
             audioSource.volume = volume;
 
             // Note:  Cached references obtained in Start

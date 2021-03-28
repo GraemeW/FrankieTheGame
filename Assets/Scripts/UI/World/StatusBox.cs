@@ -26,6 +26,11 @@ namespace Frankie.Stats.UI
         CombatParticipant selectedCharacter = null;
         Party party = null;
 
+        protected override void Start()
+        {
+            // Do Nothing (skip base implementation)
+        }
+
         public void Setup(IStandardPlayerInputCaller standardPlayerInputCaller, Party party)
         {
             SetGlobalCallbacks(standardPlayerInputCaller);

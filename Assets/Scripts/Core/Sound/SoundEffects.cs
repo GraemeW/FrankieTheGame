@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Frankie.Settings;
 
 namespace Frankie.Core
 {
@@ -10,11 +11,21 @@ namespace Frankie.Core
         [SerializeField] AudioClip[] audioClips = null;
 
         // State
+        float volume = 0.3f;
         AudioSource audioSource = null;
 
-        public void Awake()
+        private void Awake()
         {
             audioSource = GetComponent<AudioSource>();
+        }
+
+        private void Start()
+        {
+            if (PlayerPrefsController.VolumeKeyExist())
+            {
+                volume = PlayerPrefsController.GetMasterVolume();
+            }
+            audioSource.volume = volume;
         }
 
         public void PlayRandomClip()

@@ -8,11 +8,15 @@ namespace Frankie.Speech.UI
     public class SimpleTextLink : MonoBehaviour
     {
         [SerializeField] TextMeshProUGUI textField = null;
+        [SerializeField] bool disableOnLoad = true;
 
         private void Start()
         {
-            textField.text = "";
-            gameObject.SetActive(false);
+            if (disableOnLoad)
+            {
+                textField.text = "";
+                gameObject.SetActive(false);
+            }
         }
 
         public void Setup(string text)
