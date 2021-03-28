@@ -96,6 +96,7 @@ MonoBehaviour:
   battleControllerPrefab: {fileID: 195823895297305920, guid: 56c04806af7883a47bd3b232ea569090, type: 3}
   dialogueControllerPrefab: {fileID: 417524482563996126, guid: 0918560ff2a56d3489ca626a5a667040, type: 3}
   worldOptionsPrefab: {fileID: 6413694501190794285, guid: ef7e6848c65ed704882473869f5b49d1, type: 3}
+  escapeMenuPrefab: {fileID: 6413694501190794285, guid: d40dace2943729145967e187c1801093, type: 3}
   messageCannotFight: You are wounded and cannot fight.
 --- !u!114 &9140000498525693429
 MonoBehaviour:

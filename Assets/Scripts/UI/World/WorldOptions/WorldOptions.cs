@@ -1,15 +1,15 @@
 using Frankie.Combat;
 using Frankie.Combat.UI;
 using Frankie.Core;
-using Frankie.Speech.UI;
 using Frankie.Stats;
 using Frankie.Stats.UI;
+using Frankie.Control;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace Frankie.Control.UI
+namespace Frankie.Speech.UI
 {
     public class WorldOptions : DialogueOptionBox
     {

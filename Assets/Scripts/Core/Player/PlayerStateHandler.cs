@@ -16,6 +16,7 @@ namespace Frankie.Core
         [SerializeField] GameObject dialogueControllerPrefab = null;
         [Header("World UI Game Objects")]
         [SerializeField] GameObject worldOptionsPrefab = null;
+        [SerializeField] GameObject escapeMenuPrefab = null;
         [Header("Messages")]
         [SerializeField] string messageCannotFight = "You are wounded and cannot fight.";
 
@@ -155,6 +156,17 @@ namespace Frankie.Core
         }
 
         public void ExitWorldOptions()
+        {
+            SetPlayerState(PlayerState.inWorld);
+        }
+
+        public void EnterEscapeMenu()
+        {
+            Instantiate(escapeMenuPrefab, worldCanvas.gameObject.transform);
+            SetPlayerState(PlayerState.inOptions);
+        }
+
+        public void ExitEscapeMenu()
         {
             SetPlayerState(PlayerState.inWorld);
         }

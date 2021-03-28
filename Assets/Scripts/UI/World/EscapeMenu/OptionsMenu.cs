@@ -8,7 +8,7 @@ using Frankie.Control;
 
 namespace Frankie.Speech.UI
 {
-    public class MenuOptions : DialogueOptionBox
+    public class OptionsMenu : DialogueOptionBox
     {
         // Tunables
         [SerializeField] Slider volumeSlider = null;
@@ -56,6 +56,11 @@ namespace Frankie.Speech.UI
             if (ShowCursorOnAnyInteraction(playerInputType)) { return; }
             if (PrepareChooseAction(playerInputType)) { return; }
             if (MoveCursor(playerInputType)) { return; }
+
+            if (playerInputType == PlayerInputType.Cancel)
+            {
+                Cancel();
+            }
         }
     }
 

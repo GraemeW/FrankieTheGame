@@ -50,7 +50,7 @@ namespace Frankie.Control
         public void LoadOptions()
         {
             GameObject optionsObject = Instantiate(optionsPrefab, startCanvas.transform);
-            MenuOptions menuOptions = optionsObject.GetComponent<MenuOptions>();
+            OptionsMenu menuOptions = optionsObject.GetComponent<OptionsMenu>();
             menuOptions.SetGlobalCallbacks(this);
         }
 

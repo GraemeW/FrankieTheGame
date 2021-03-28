@@ -404,7 +404,7 @@ GameObject:
   - component: {fileID: 7059383636684509040}
   - component: {fileID: 7889705894971298121}
   m_Layer: 0
-  m_Name: OptionsMenu
+  m_Name: OptionsList
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -540,6 +540,7 @@ MonoBehaviour:
   delayToDestroyWindow: 0.1
   delayBetweenCharacters: 0.05
   choiceInteractKey: 101
+  clearVolatileOptionsOnEnable: 1
   knapsackButton: {fileID: 296641443703757541}
   abilitiesButton: {fileID: 4995506241810553660}
   statusButton: {fileID: 5555303161703304216}
@@ -731,7 +732,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8589988555541508693, guid: 3ddb4c077d5422844bfe6e116ecd5650, type: 3}
       propertyPath: m_Name
-      value: StatsOption
+      value: MapOption
       objectReference: {fileID: 0}
     - target: {fileID: 9018364781043791588, guid: 3ddb4c077d5422844bfe6e116ecd5650, type: 3}
       propertyPath: m_HorizontalAlignment
@@ -1028,7 +1029,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8589988555541508693, guid: 3ddb4c077d5422844bfe6e116ecd5650, type: 3}
       propertyPath: m_Name
-      value: FightOption
+      value: KnapsackOption
       objectReference: {fileID: 0}
     - target: {fileID: 9018364781043791588, guid: 3ddb4c077d5422844bfe6e116ecd5650, type: 3}
       propertyPath: m_HorizontalAlignment
@@ -1233,7 +1234,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8589988555541508693, guid: 3ddb4c077d5422844bfe6e116ecd5650, type: 3}
       propertyPath: m_Name
-      value: ItemOption
+      value: AbilitiesOption
       objectReference: {fileID: 0}
     - target: {fileID: 9018364781043791588, guid: 3ddb4c077d5422844bfe6e116ecd5650, type: 3}
       propertyPath: m_HorizontalAlignment

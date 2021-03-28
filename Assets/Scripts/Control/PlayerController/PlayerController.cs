@@ -136,14 +136,14 @@ namespace Frankie.Control
                 if (InteractWithGlobals(playerInputType)) return;
                 if (InteractWithComponent(playerInputType)) return;
                 if (InteractWithComponentManual(playerInputType)) return;
-                if (InteractWithOptions(playerInputType)) return;
+                if (InteractWithMenusOptions(playerInputType)) return;
                 SetCursor(CursorType.None);
             }
             else if (playerStateHandler.GetPlayerState() == PlayerState.inOptions)
             {
                 PlayerInputType playerInputType = GetPlayerInput();
                 if (InteractWithGlobals(playerInputType)) return;
-                if (InteractWithOptions(playerInputType)) return;
+                if (InteractWithMenusOptions(playerInputType)) return;
             }
         }
 
@@ -200,11 +200,16 @@ namespace Frankie.Control
             return false;
         }
 
-        private bool InteractWithOptions(PlayerInputType playerInputType)
+        private bool InteractWithMenusOptions(PlayerInputType playerInputType)
         {
             if (playerInputType == PlayerInputType.Option)
             {
                 playerStateHandler.EnterWorldOptions();
+                return true;
+            }
+            else if (playerStateHandler.GetPlayerState() == PlayerState.inWorld && playerInputType == PlayerInputType.Cancel)
+            {
+                playerStateHandler.EnterEscapeMenu();
                 return true;
             }
             return false;
