@@ -19,8 +19,6 @@ namespace Frankie.Speech.UI
         [SerializeField] protected bool handleGlobalInput = true;
         [SerializeField] float delayToDestroyWindow = 0.1f; // Seconds
         [SerializeField] float delayBetweenCharacters = 0.05f; // Seconds
-        [Header("Choices")]
-        [SerializeField] protected KeyCode choiceInteractKey = KeyCode.E;
 
         // State -- Toggles
         bool isWriting = false;
@@ -370,7 +368,7 @@ namespace Frankie.Speech.UI
         {
             if (!handleGlobalInput) { return; }
 
-            if (playerInputType == PlayerInputType.Execute)
+            if (playerInputType == PlayerInputType.Execute || playerInputType == PlayerInputType.Skip)
             {
                 if (isWriting) { SkipToEndOfPage(); return; }
 

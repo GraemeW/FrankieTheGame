@@ -87,7 +87,7 @@ namespace Frankie.Control
             {
                 input = PlayerInputType.NavigateDown;
             }
-            else if (Input.GetKeyDown(interactInspectKey) || Input.GetButtonDown(interactInspectButton) || Input.GetButtonDown(interactSkipButton))
+            else if (Input.GetKeyDown(interactInspectKey) || Input.GetButtonDown(interactInspectButton))
             {
                 input = PlayerInputType.Execute;
             }
@@ -98,6 +98,10 @@ namespace Frankie.Control
             else if (Input.GetKeyDown(interactOptionKey))
             {
                 input = PlayerInputType.Option;
+            }
+            else if (Input.GetButtonDown(interactSkipButton))
+            {
+                input = PlayerInputType.Skip;
             }
 
             return input;

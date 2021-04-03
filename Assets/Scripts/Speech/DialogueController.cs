@@ -17,7 +17,7 @@ namespace Frankie.Speech
         [SerializeField] GameObject dialogueOptionBoxPrefab = null;
 
         [Header("Interaction")]
-        [SerializeField] string interactExecuteButton = "Fire1";
+        [SerializeField] string interactSkipButton = "Fire1";
         [SerializeField] KeyCode interactExecuteKey = KeyCode.E;
         [SerializeField] KeyCode interactUp = KeyCode.W;
         [SerializeField] KeyCode interactLeft = KeyCode.A;
@@ -262,9 +262,13 @@ namespace Frankie.Speech
             {
                 input = PlayerInputType.NavigateDown;
             }
-            else if (Input.GetButtonDown(interactExecuteButton) || Input.GetKeyDown(interactExecuteKey))
+            else if (Input.GetKeyDown(interactExecuteKey))
             {
                 input = PlayerInputType.Execute;
+            }
+            else if (Input.GetButtonDown(interactSkipButton))
+            {
+                input = PlayerInputType.Skip;
             }
             return input;
         }
