@@ -67,7 +67,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3268536af8903a64da82aa6872733d1d, type: 3}
-  m_Name: Elevator
+  m_Name: ElevatorInside
   m_EditorClassIdentifier: 
   children:
   - Outdoor
@@ -245,7 +245,7 @@ MonoBehaviour:
   m_Name: Kitchen
   m_EditorClassIdentifier: 
   children:
-  - Elevator
+  - ElevatorInside
   linkedZoneID: 
   linkedNodeID: 
   rect:

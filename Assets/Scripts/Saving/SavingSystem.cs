@@ -28,6 +28,13 @@ namespace Frankie.Saving
             SaveFile(saveFile, state);
         }
 
+        public void CopySessionToSave(string sessionFile, string saveFile)
+        {
+            Dictionary<string, object> state = LoadFile(sessionFile);
+            CaptureState(state);
+            SaveFile(saveFile, state);
+        }
+
         public void Load(string saveFile)
         {
             RestoreState(LoadFile(saveFile));

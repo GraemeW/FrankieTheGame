@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &3645485370633520662
+--- !u!1 &8342028283336635979
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,39 +8,40 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 3645485370633520657}
-  - component: {fileID: 3645485370633520659}
-  - component: {fileID: 3645485370633520656}
+  - component: {fileID: 8342028283336635978}
+  - component: {fileID: 8342028283336635980}
+  - component: {fileID: 8342028283336635981}
+  - component: {fileID: -2400056879693157440}
   m_Layer: 0
-  m_Name: SimpleNode-Top
+  m_Name: SimpleNode
   m_TagString: Interactable
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &3645485370633520657
+--- !u!4 &8342028283336635978
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3645485370633520662}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.27404332, y: 1.752345, z: 0}
+  m_GameObject: {fileID: 8342028283336635979}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
-  - {fileID: 3645485370654704319}
-  - {fileID: 1315155596293691748}
+  - {fileID: 8342028284851336959}
+  - {fileID: 5986361616881070871}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &3645485370633520659
+--- !u!114 &8342028283336635980
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3645485370633520662}
+  m_GameObject: {fileID: 8342028283336635979}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b18b197bcf3e2d04aa24c146512e0f90, type: 3}
@@ -49,13 +50,16 @@ MonoBehaviour:
   zoneNode: {fileID: 0}
   overrideDefaultInteractionDistance: 0
   interactionDistance: 0.1
-  warpPosition: {fileID: 3645485370654704319}
+  warpPosition: {fileID: 8342028284851336959}
+  delayToDestroyAfterSceneLoading: 0.1
   disableOnExit: 1
   roomParent: {fileID: 0}
+  randomizeChoice: 1
+  choiceMessage: Where do you want to go?
   zoneInteraction:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1315155596293691755}
+      - m_Target: {fileID: 5986361616881070872}
         m_TargetAssemblyTypeName: Frankie.Core.SoundEffects, Assembly-CSharp
         m_MethodName: PlayRandomClip
         m_Mode: 1
@@ -67,20 +71,20 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
---- !u!61 &3645485370633520656
+--- !u!61 &8342028283336635981
 BoxCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3645485370633520662}
+  m_GameObject: {fileID: 8342028283336635979}
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.044112623, y: -0.053252578}
+  m_Offset: {x: 0.0060993433, y: 0.036597043}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -91,9 +95,22 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.36278057, y: 0.6739125}
+  m_Size: {x: 0.23146176, y: 0.85361177}
   m_EdgeRadius: 0
---- !u!1 &3645485370654704316
+--- !u!114 &-2400056879693157440
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8342028283336635979}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c708eed4772dbc14e95f0fb9be8bb48e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  uniqueIdentifier: 
+--- !u!1 &8342028284851336956
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -101,34 +118,34 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 3645485370654704319}
+  - component: {fileID: 8342028284851336959}
   m_Layer: 0
   m_Name: WarpPosition
   m_TagString: Untagged
-  m_Icon: {fileID: 0}
+  m_Icon: {fileID: 6519382022992737161, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &3645485370654704319
+--- !u!4 &8342028284851336959
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3645485370654704316}
+  m_GameObject: {fileID: 8342028284851336956}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.049503893, y: -0.5119562, z: 0}
+  m_LocalPosition: {x: 0.2979052, y: -0.09935188, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 3645485370633520657}
+  m_Father: {fileID: 8342028283336635978}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1001 &3645485370615806535
+--- !u!1001 &8342028284556038196
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
-    m_TransformParent: {fileID: 3645485370633520657}
+    m_TransformParent: {fileID: 8342028283336635978}
     m_Modifications:
     - target: {fileID: 2366363061461443362, guid: 33df09f22a66b9745a1198e418b127b5, type: 3}
       propertyPath: m_Name
@@ -180,15 +197,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 33df09f22a66b9745a1198e418b127b5, type: 3}
---- !u!4 &1315155596293691748 stripped
+--- !u!4 &5986361616881070871 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2366363061461443363, guid: 33df09f22a66b9745a1198e418b127b5, type: 3}
-  m_PrefabInstance: {fileID: 3645485370615806535}
+  m_PrefabInstance: {fileID: 8342028284556038196}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &1315155596293691755 stripped
+--- !u!114 &5986361616881070872 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 2366363061461443372, guid: 33df09f22a66b9745a1198e418b127b5, type: 3}
-  m_PrefabInstance: {fileID: 3645485370615806535}
+  m_PrefabInstance: {fileID: 8342028284556038196}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 0}
   m_Enabled: 1

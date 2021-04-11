@@ -4,10 +4,11 @@ using UnityEngine.Events;
 using System;
 using Frankie.Core;
 using System.Collections.Generic;
+using Frankie.Saving;
 
 namespace Frankie.ZoneManagement
 {
-    public class ZoneHandler : MonoBehaviour, IRaycastable
+    public class ZoneHandler : MonoBehaviour, IRaycastable, ISaveable
     {
         // Tunables 
         [SerializeField] ZoneNode zoneNode = null;
@@ -60,6 +61,7 @@ namespace Frankie.ZoneManagement
         }
 
         // Private Functions
+
         private void WarpPlayerToNextNode()
         {
             ZoneNode nextNode = SetUpNextNode();
@@ -264,6 +266,20 @@ namespace Frankie.ZoneManagement
         {
             // Not evaluated -> IRaycastableExtension
             return false;
+        }
+
+        public object CaptureState()
+        {
+            if (roomParent != null)
+            {
+                return roomParent.activeSelf;
+            }
+            else return true;
+        }
+
+        public void RestoreState(object state)
+        {
+            EnableRoomParent((bool)state);
         }
     }
 

@@ -28,6 +28,7 @@ namespace Frankie.ZoneManagement
 
         // Cached References
         SceneLoader sceneLoader = null;
+        SavingWrapper savingWrapper = null;
 
         // Events
         public event Action<bool> battleUIStateChanged;
@@ -36,6 +37,7 @@ namespace Frankie.ZoneManagement
         private void Awake()
         {
             sceneLoader = FindObjectOfType<SceneLoader>();
+            savingWrapper = FindObjectOfType<SavingWrapper>();
         }
 
         private void Start()
@@ -70,12 +72,7 @@ namespace Frankie.ZoneManagement
         private IEnumerator Fade(TransitionType transitionType)
         {
             yield return QueueFadeEntry(transitionType);
-            
-            if (transitionType == TransitionType.Zone) 
-            {
-                // No special handling during simple room fades -- managed by Zone scripts
-            }
-            else if (transitionType == TransitionType.BattleComplete)
+            if (transitionType == TransitionType.BattleComplete)
             {
                 battleUI.gameObject.SetActive(false);
                 if (battleUIStateChanged != null)
@@ -85,7 +82,7 @@ namespace Frankie.ZoneManagement
                 Destroy(battleUI.gameObject);
                 battleUI = null;
             }
-            else
+            else if (transitionType == TransitionType.BattleGood || transitionType == TransitionType.BattleNeutral || transitionType == TransitionType.BattleBad)
             {
                 if (battleUI == null) { battleUI = Instantiate(battleUIPrefab); }
                 battleUI.gameObject.SetActive(true);
@@ -102,12 +99,15 @@ namespace Frankie.ZoneManagement
             if (transitionType == TransitionType.Zone)
             {
                 yield return QueueFadeEntry(transitionType);
+                savingWrapper.SaveSession(); // Save world state
                 yield return sceneLoader.LoadNewSceneAsync(zone);
+                savingWrapper.LoadSession(); // Load world state
                 if (fadingOut != null)
                 {
                     fadingOut.Invoke();
                 }
                 yield return QueueFadeExit(transitionType);
+                FindObjectOfType<SavingWrapper>().SaveSession();
             }
             yield break;
         }

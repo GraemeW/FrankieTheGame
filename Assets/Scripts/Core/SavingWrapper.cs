@@ -8,24 +8,21 @@ namespace Frankie.Core
     public class SavingWrapper : MonoBehaviour
     {
         const string defaultSaveFile = "save";
+        const string defaultSessionFile = "session";
         [SerializeField] bool deleteSaveFileOnStart = false;
         [SerializeField] KeyCode saveKey = KeyCode.P;
         [SerializeField] KeyCode loadKey = KeyCode.L;
         [SerializeField] KeyCode deleteKey = KeyCode.Delete;
 
-        private void Awake()
-        {
-            StartCoroutine(LoadLastScene());
-        }
-
-        IEnumerator LoadLastScene()
+        IEnumerator FullLoadFromSave(string saveFile)
         {
             if (deleteSaveFileOnStart)
             {
                 Delete();
                 yield break;
             }
-            yield return GetComponent<SavingSystem>().LoadLastScene(defaultSaveFile);
+            Destroy(GameObject.FindGameObjectWithTag("Player")); // Player reconstructed after scene load (prevents control lock-up)
+            yield return GetComponent<SavingSystem>().LoadLastScene(saveFile);
 
             SceneLoader sceneLoader = GameObject.FindGameObjectWithTag("SceneLoader").GetComponent<SceneLoader>();
             sceneLoader.SetCurrentZoneToCurrentScene();
@@ -37,7 +34,7 @@ namespace Frankie.Core
         {
             if (Input.GetKeyDown(loadKey))
             {
-                LoadFull();
+                Load();
             }
             if (Input.GetKeyDown(saveKey))
             {
@@ -49,19 +46,24 @@ namespace Frankie.Core
             }
         }
 
-        public void Load()
+        public void LoadSession()
         {
-            GetComponent<SavingSystem>().Load(defaultSaveFile);
+            GetComponent<SavingSystem>().LoadLastScene(defaultSessionFile);
         }
 
-        private void LoadFull()
+        private void Load()
         {
-            StartCoroutine(LoadLastScene());
+            StartCoroutine(FullLoadFromSave(defaultSaveFile));
+        }
+
+        public void SaveSession()
+        {
+            GetComponent<SavingSystem>().Save(defaultSessionFile);
         }
 
         public void Save()
         {
-            GetComponent<SavingSystem>().Save(defaultSaveFile);
+            GetComponent<SavingSystem>().CopySessionToSave(defaultSessionFile, defaultSaveFile);
         }
 
         public void Delete()
