@@ -120,7 +120,18 @@ namespace Frankie.Speech.UI
         {
             handleGlobalInput = true;
             alternateController = globalCallbackSender;
-            globalCallbackSender.globalInput += HandleGlobalInput; // Unsubscribed on OnDisable
+
+            SubscribeToCallbackSender(globalCallbackSender);
+            
+        }
+
+        private void SubscribeToCallbackSender(IStandardPlayerInputCaller globalCallbackSender)
+        {
+            if (gameObject.activeSelf)
+            {
+                globalCallbackSender.globalInput += HandleGlobalInput; // Unsubscribed on OnDisable
+            }
+            // No behavior if disabled, will subscribe by OnEnable
         }
 
         public void SetDisableCallback(IDialogueBoxCallbackReceiver callbackReceiver, string callbackMessage)

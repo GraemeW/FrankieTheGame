@@ -5,6 +5,7 @@ using System.Linq;
 using Frankie.Speech.UI;
 using UnityEngine.UI;
 using System;
+using Frankie.Stats;
 
 namespace Frankie.Combat.UI
 {
@@ -40,6 +41,7 @@ namespace Frankie.Combat.UI
         bool busyWithSerialAction = false;
 
         // Cached References
+        Party party = null;
         BattleController battleController = null;
 
         // Static
@@ -58,6 +60,10 @@ namespace Frankie.Combat.UI
         private void Awake()
         {
             battleController = GameObject.FindGameObjectWithTag("BattleController").GetComponent<BattleController>();
+            party = GameObject.FindGameObjectWithTag("Player").GetComponent<Party>();
+
+            combatOptions.Setup(battleController, this, party);
+
             ClearBattleCanvas();
         }
 
