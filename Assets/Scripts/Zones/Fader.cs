@@ -99,15 +99,17 @@ namespace Frankie.ZoneManagement
             if (transitionType == TransitionType.Zone)
             {
                 yield return QueueFadeEntry(transitionType);
+
                 savingWrapper.SaveSession(); // Save world state
                 yield return sceneLoader.LoadNewSceneAsync(zone);
+
                 savingWrapper.LoadSession(); // Load world state
                 if (fadingOut != null)
                 {
                     fadingOut.Invoke();
                 }
                 yield return QueueFadeExit(transitionType);
-                FindObjectOfType<SavingWrapper>().SaveSession();
+                savingWrapper.SaveSession();
             }
             yield break;
         }

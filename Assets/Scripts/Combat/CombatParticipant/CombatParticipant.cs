@@ -363,6 +363,7 @@ namespace Frankie.Combat
                 currentHP = currentHP.value,
                 currentAP = currentAP.value
             };
+
             return combatParticipantSaveData;
         }
 
@@ -372,6 +373,7 @@ namespace Frankie.Combat
             isDead.value = data.isDead;
             currentHP.value = data.currentHP;
             currentAP.value = data.currentAP;
+            targetHP = currentHP.value;
         }
 
         // Predicate Evaluation

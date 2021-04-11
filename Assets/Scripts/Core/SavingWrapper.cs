@@ -14,14 +14,16 @@ namespace Frankie.Core
         [SerializeField] KeyCode loadKey = KeyCode.L;
         [SerializeField] KeyCode deleteKey = KeyCode.Delete;
 
-        IEnumerator FullLoadFromSave(string saveFile)
+        IEnumerator LoadFromSave(string saveFile)
         {
             if (deleteSaveFileOnStart)
             {
                 Delete();
                 yield break;
             }
-            Destroy(GameObject.FindGameObjectWithTag("Player")); // Player reconstructed after scene load (prevents control lock-up)
+            GameObject playerGameObject = GameObject.FindGameObjectWithTag("Player"); 
+            if (playerGameObject != null) { Destroy(playerGameObject); } // Player reconstructed after scene load (prevents control lock-up)
+
             yield return GetComponent<SavingSystem>().LoadLastScene(saveFile);
 
             SceneLoader sceneLoader = GameObject.FindGameObjectWithTag("SceneLoader").GetComponent<SceneLoader>();
@@ -48,12 +50,13 @@ namespace Frankie.Core
 
         public void LoadSession()
         {
-            GetComponent<SavingSystem>().LoadLastScene(defaultSessionFile);
+            GetComponent<SavingSystem>().LoadWithinScene(defaultSessionFile);
         }
 
         private void Load()
         {
-            StartCoroutine(FullLoadFromSave(defaultSaveFile));
+            StartCoroutine(LoadFromSave(defaultSaveFile));
+            GetComponent<SavingSystem>().CopySessionToSave(defaultSaveFile, defaultSessionFile);
         }
 
         public void SaveSession()

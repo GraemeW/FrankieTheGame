@@ -9,6 +9,7 @@ TagManager:
   - DialogueController
   - WorldCanvas
   - SceneLoader
+  - World
   layers:
   - Default
   - TransparentFX

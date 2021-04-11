@@ -5,6 +5,7 @@ using System;
 using Frankie.Core;
 using System.Collections.Generic;
 using Frankie.Saving;
+using Frankie.Utils;
 
 namespace Frankie.ZoneManagement
 {
@@ -17,13 +18,15 @@ namespace Frankie.ZoneManagement
         [SerializeField] Transform warpPosition = null;
         [SerializeField] float delayToDestroyAfterSceneLoading = 0.1f;
         [Header("Game Object (Dis)Enablement")]
-        [SerializeField] bool disableOnExit = true;
         [SerializeField] GameObject roomParent = null;
+        [SerializeField] bool disableOnStart = false;
+        [SerializeField] bool disableOnExit = true;
         [Header("Warp Properties")]
         [SerializeField] bool randomizeChoice = true;
         [SerializeField] string choiceMessage = "Where do you want to go?";
 
         // State
+        bool roomParentSetBySave = false;
         bool inTransitToNextScene = false;
         ZoneNode queuedZoneNode = null;
         PlayerStateHandler currentPlayerStateHandler = null;
@@ -46,12 +49,14 @@ namespace Frankie.ZoneManagement
             return warpPosition;
         }
 
-        public void EnableRoomParent(bool enable)
+        public bool EnableRoomParent(bool enable)
         {
             if (roomParent != null)
             {
                 roomParent.SetActive(enable);
+                return true;
             }
+            return false;
         }
 
         // Static functions
@@ -61,6 +66,10 @@ namespace Frankie.ZoneManagement
         }
 
         // Private Functions
+        private void Start()
+        {
+            if (disableOnStart && !roomParentSetBySave) { EnableRoomParent(false); }
+        }
 
         private void WarpPlayerToNextNode()
         {
@@ -279,7 +288,7 @@ namespace Frankie.ZoneManagement
 
         public void RestoreState(object state)
         {
-            EnableRoomParent((bool)state);
+            if (EnableRoomParent((bool)state)) { roomParentSetBySave = true; }
         }
     }
 

@@ -256,6 +256,14 @@ PrefabInstance:
       propertyPath: roomParent
       value: 
       objectReference: {fileID: 822531025}
+    - target: {fileID: 8342028283336635980, guid: a3bfc966469855547b6bedf12d844bdb, type: 3}
+      propertyPath: disableOnAwake
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8342028283336635980, guid: a3bfc966469855547b6bedf12d844bdb, type: 3}
+      propertyPath: disableOnStart
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8342028284851336959, guid: a3bfc966469855547b6bedf12d844bdb, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0.262
@@ -293,7 +301,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &135076790
 Transform:
   m_ObjectHideFlags: 0
@@ -499,7 +507,47 @@ CompositeCollider2D:
   m_GeometryType: 0
   m_GenerationType: 0
   m_EdgeRadius: 0
-  m_ColliderPaths: []
+  m_ColliderPaths:
+  - m_Collider: {fileID: 135076793}
+    m_ColliderPaths:
+    - - X: 11526537
+        Y: -4970032
+      - X: 11526537
+        Y: 10450000
+      - X: -11506946
+        Y: 10449707
+      - X: -11506653
+        Y: -4970032
+  - m_Collider: {fileID: 135076792}
+    m_ColliderPaths:
+    - - X: -11027651
+        Y: 10546544
+      - X: -13903455
+        Y: 7222466
+      - X: -14000000
+        Y: -10450000
+      - X: -11053079
+        Y: -4609109
+  - m_Collider: {fileID: 135076795}
+    m_ColliderPaths:
+    - - X: 11246167
+        Y: -4850465
+      - X: 14000000
+        Y: -10450000
+      - X: 13903455
+        Y: 7319009
+      - X: 11172465
+        Y: 10401728
+  - m_Collider: {fileID: 135076794}
+    m_ColliderPaths:
+    - - X: 14144523
+        Y: -11753339
+      - X: 14144523
+        Y: -10306886
+      - X: -14193087
+        Y: -10307179
+      - X: -14192794
+        Y: -11753339
   m_CompositePaths:
     m_Paths:
     - - {x: 1.414423, y: -1.1753339}
@@ -580,7 +628,7 @@ Transform:
   - {fileID: 1342609228}
   - {fileID: 516252618}
   m_Father: {fileID: 361311719}
-  m_RootOrder: 1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!95 &281964065 stripped
 Animator:
@@ -667,9 +715,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 361311719}
+  - component: {fileID: 361311720}
   m_Layer: 0
   m_Name: World
-  m_TagString: Untagged
+  m_TagString: World
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -685,8 +734,8 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
-  - {fileID: 496885798}
   - {fileID: 182523744}
+  - {fileID: 496885798}
   - {fileID: 1192180120}
   - {fileID: 822531026}
   - {fileID: 1663618880}
@@ -695,6 +744,18 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &361311720
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 361311718}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1c85c089640857049bcde17529a0529c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &384052785
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -875,7 +936,7 @@ Transform:
   - {fileID: 763651044}
   - {fileID: 30965043}
   m_Father: {fileID: 361311719}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &496885799
 SpriteRenderer:
@@ -1208,6 +1269,14 @@ PrefabInstance:
       propertyPath: roomParent
       value: 
       objectReference: {fileID: 1663618879}
+    - target: {fileID: 8342028283336635980, guid: a3bfc966469855547b6bedf12d844bdb, type: 3}
+      propertyPath: disableOnAwake
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8342028283336635980, guid: a3bfc966469855547b6bedf12d844bdb, type: 3}
+      propertyPath: disableOnStart
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8342028284851336959, guid: a3bfc966469855547b6bedf12d844bdb, type: 3}
       propertyPath: m_LocalPosition.x
       value: -0.269
@@ -1491,6 +1560,14 @@ PrefabInstance:
       propertyPath: roomParent
       value: 
       objectReference: {fileID: 1192180119}
+    - target: {fileID: 8342028283336635980, guid: a3bfc966469855547b6bedf12d844bdb, type: 3}
+      propertyPath: disableOnAwake
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8342028283336635980, guid: a3bfc966469855547b6bedf12d844bdb, type: 3}
+      propertyPath: disableOnStart
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8342028284851336959, guid: a3bfc966469855547b6bedf12d844bdb, type: 3}
       propertyPath: m_LocalPosition.x
       value: -0.363
@@ -1737,7 +1814,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &822531026
 Transform:
   m_ObjectHideFlags: 0
@@ -1937,7 +2014,47 @@ CompositeCollider2D:
   m_GeometryType: 0
   m_GenerationType: 0
   m_EdgeRadius: 0
-  m_ColliderPaths: []
+  m_ColliderPaths:
+  - m_Collider: {fileID: 822531029}
+    m_ColliderPaths:
+    - - X: -5695660
+        Y: 10286411
+      - X: -8550000
+        Y: 7195657
+      - X: -8550000
+        Y: -10450000
+      - X: -5681930
+        Y: -4888094
+  - m_Collider: {fileID: 822531028}
+    m_ColliderPaths:
+    - - X: 5845518
+        Y: -5051679
+      - X: 8550000
+        Y: -10450000
+      - X: 8550000
+        Y: 7095657
+      - X: 5841036
+        Y: 10450000
+  - m_Collider: {fileID: 822531031}
+    m_ColliderPaths:
+    - - X: 6259511
+        Y: -5051679
+      - X: 6259511
+        Y: 10204619
+      - X: -6096220
+        Y: 10204326
+      - X: -6095927
+        Y: -5051679
+  - m_Collider: {fileID: 822531030}
+    m_ColliderPaths:
+    - - X: 8549707
+        Y: -11349719
+      - X: 8549707
+        Y: -10079973
+      - X: -8550000
+        Y: -10080266
+      - X: -8549707
+        Y: -11349719
   m_CompositePaths:
     m_Paths:
     - - {x: 0.8549414, y: -1.1349719}
@@ -2018,7 +2135,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1192180120
 Transform:
   m_ObjectHideFlags: 0
@@ -2211,7 +2328,47 @@ CompositeCollider2D:
   m_GeometryType: 0
   m_GenerationType: 0
   m_EdgeRadius: 0
-  m_ColliderPaths: []
+  m_ColliderPaths:
+  - m_Collider: {fileID: 1192180125}
+    m_ColliderPaths:
+    - - X: -20101382
+        Y: 10640532
+      - X: -23000000
+        Y: 7151382
+      - X: -23000000
+        Y: -10450000
+      - X: -20055728
+        Y: -4956395
+  - m_Collider: {fileID: 1192180124}
+    m_ColliderPaths:
+    - - X: 20213626
+        Y: -4988938
+      - X: 23000000
+        Y: -10450000
+      - X: 23000000
+        Y: 7295979
+      - X: 20245982
+        Y: 10450000
+  - m_Collider: {fileID: 1192180123}
+    m_ColliderPaths:
+    - - X: 20807813
+        Y: -5028819
+      - X: 20807813
+        Y: 10450000
+      - X: -20625448
+        Y: 10449707
+      - X: -20625155
+        Y: -5028819
+  - m_Collider: {fileID: 1192180122}
+    m_ColliderPaths:
+    - - X: 23574927
+        Y: -12824547
+      - X: 23574927
+        Y: -10085351
+      - X: -23287612
+        Y: -10085644
+      - X: -23287319
+        Y: -12824547
   m_CompositePaths:
     m_Paths:
     - - {x: 2.3574634, y: -1.2824547}
@@ -2638,6 +2795,14 @@ PrefabInstance:
       propertyPath: roomParent
       value: 
       objectReference: {fileID: 135076789}
+    - target: {fileID: 8342028283336635980, guid: a3bfc966469855547b6bedf12d844bdb, type: 3}
+      propertyPath: disableOnAwake
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8342028283336635980, guid: a3bfc966469855547b6bedf12d844bdb, type: 3}
+      propertyPath: disableOnStart
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8342028284851336959, guid: a3bfc966469855547b6bedf12d844bdb, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0.247
@@ -2747,7 +2912,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1663618880
 Transform:
   m_ObjectHideFlags: 0
@@ -2945,7 +3110,47 @@ CompositeCollider2D:
   m_GeometryType: 0
   m_GenerationType: 0
   m_EdgeRadius: 0
-  m_ColliderPaths: []
+  m_ColliderPaths:
+  - m_Collider: {fileID: 1663618884}
+    m_ColliderPaths:
+    - - X: -26222376
+        Y: 1989214
+      - X: -26159172
+        Y: -17974600
+      - X: -17474696
+        Y: -431956
+      - X: -17526316
+        Y: 12073690
+  - m_Collider: {fileID: 1663618883}
+    m_ColliderPaths:
+    - - X: 15459185
+        Y: 11827223
+      - X: 15615523
+        Y: -678428
+      - X: 24326312
+        Y: -17847384
+      - X: 24500000
+        Y: 2100000
+  - m_Collider: {fileID: 1663618882}
+    m_ColliderPaths:
+    - - X: 16278231
+        Y: -267739
+      - X: 16278231
+        Y: 11904935
+      - X: -18536492
+        Y: 11904642
+      - X: -18536199
+        Y: -267739
+  - m_Collider: {fileID: 1663618885}
+    m_ColliderPaths:
+    - - X: 24962713
+        Y: -18157764
+      - X: 24962713
+        Y: -16927526
+      - X: -26699896
+        Y: -16927819
+      - X: -26699603
+        Y: -18157764
   m_CompositePaths:
     m_Paths:
     - - {x: 2.496242, y: -1.8157765}
@@ -3321,6 +3526,14 @@ PrefabInstance:
       propertyPath: roomParent
       value: 
       objectReference: {fileID: 1192180119}
+    - target: {fileID: 8342028283336635980, guid: a3bfc966469855547b6bedf12d844bdb, type: 3}
+      propertyPath: disableOnAwake
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8342028283336635980, guid: a3bfc966469855547b6bedf12d844bdb, type: 3}
+      propertyPath: disableOnStart
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8342028284851336959, guid: a3bfc966469855547b6bedf12d844bdb, type: 3}
       propertyPath: m_LocalPosition.y
       value: -0.259

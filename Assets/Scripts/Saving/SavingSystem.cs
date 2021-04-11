@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Runtime.Serialization.Formatters.Binary;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -9,6 +10,19 @@ namespace Frankie.Saving
 {
     public class SavingSystem : MonoBehaviour
     {
+        private static List<SaveableEntity> GetAllSaveableEntities()
+        {
+            List<SaveableEntity> saveableEntities = FindObjectsOfType<SaveableEntity>().ToList();
+            foreach (SaveableRoot saveableRoot in FindObjectsOfType<SaveableRoot>()) // Captures inactive game objects
+            {
+                List<SaveableEntity> rootSaveableEntities = saveableRoot.gameObject.GetComponentsInChildren<SaveableEntity>(true).ToList();
+                List<SaveableEntity> combinedSaveableEntities = saveableEntities.Union(rootSaveableEntities).ToList();
+                saveableEntities = combinedSaveableEntities;
+            }
+
+            return saveableEntities;
+        }
+
         public IEnumerator LoadLastScene(string saveFile)
         {
             Dictionary<string, object> state = LoadFile(saveFile);
@@ -18,6 +32,12 @@ namespace Frankie.Saving
                 buildIndex = (int)state["lastSceneBuildIndex"];
             }
             yield return SceneManager.LoadSceneAsync(buildIndex);
+            RestoreState(state);
+        }
+
+        public void LoadWithinScene(string saveFile)
+        {
+            Dictionary<string, object> state = LoadFile(saveFile);
             RestoreState(state);
         }
 
@@ -33,11 +53,6 @@ namespace Frankie.Saving
             Dictionary<string, object> state = LoadFile(sessionFile);
             CaptureState(state);
             SaveFile(saveFile, state);
-        }
-
-        public void Load(string saveFile)
-        {
-            RestoreState(LoadFile(saveFile));
         }
 
         public void Delete(string saveFile)
@@ -72,7 +87,9 @@ namespace Frankie.Saving
 
         private void CaptureState(Dictionary<string, object> state)
         {
-            foreach (SaveableEntity saveable in FindObjectsOfType<SaveableEntity>())
+            List<SaveableEntity> saveableEntities = GetAllSaveableEntities();
+
+            foreach (SaveableEntity saveable in saveableEntities)
             {
                 state[saveable.GetUniqueIdentifier()] = saveable.CaptureState();
             }
@@ -80,9 +97,13 @@ namespace Frankie.Saving
             state["lastSceneBuildIndex"] = SceneManager.GetActiveScene().buildIndex;
         }
 
+
+
         private void RestoreState(Dictionary<string, object> state)
         {
-            foreach (SaveableEntity saveable in FindObjectsOfType<SaveableEntity>())
+            List<SaveableEntity> saveableEntities = GetAllSaveableEntities();
+
+            foreach (SaveableEntity saveable in saveableEntities)
             {
                 string id = saveable.GetUniqueIdentifier();
                 if (state.ContainsKey(id))
