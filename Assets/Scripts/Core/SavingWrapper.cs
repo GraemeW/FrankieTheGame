@@ -56,7 +56,6 @@ namespace Frankie.Core
         private void Load()
         {
             StartCoroutine(LoadFromSave(defaultSaveFile));
-            GetComponent<SavingSystem>().CopySessionToSave(defaultSaveFile, defaultSessionFile);
         }
 
         public void SaveSession()
