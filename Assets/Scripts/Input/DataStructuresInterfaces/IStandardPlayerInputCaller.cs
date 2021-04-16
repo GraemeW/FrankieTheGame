@@ -7,8 +7,9 @@ namespace Frankie.Control
 {
     public interface IStandardPlayerInputCaller
     {
-        PlayerInputType GetPlayerInput();
-
         public event Action<PlayerInputType> globalInput;
+
+        // Extended in IStandardPlayerInputCallerExtension
+        PlayerInputType NavigationVectorToInputTypeTemplate(Vector2 navigationVector);
     }
 }

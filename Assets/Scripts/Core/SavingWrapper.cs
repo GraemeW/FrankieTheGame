@@ -7,12 +7,16 @@ namespace Frankie.Core
 {
     public class SavingWrapper : MonoBehaviour
     {
+        // Tunables
         const string defaultSaveFile = "save";
         const string defaultSessionFile = "session";
         [SerializeField] bool deleteSaveFileOnStart = false;
         [SerializeField] KeyCode saveKey = KeyCode.P;
         [SerializeField] KeyCode loadKey = KeyCode.L;
         [SerializeField] KeyCode deleteKey = KeyCode.Delete;
+
+        // Cached References
+        PlayerInput playerInput = null;
 
         IEnumerator LoadFromSave(string saveFile)
         {
@@ -32,20 +36,23 @@ namespace Frankie.Core
             fader.UpdateFadeStateImmediate();
         }
 
-        private void Update()
+        private void Awake()
         {
-            if (Input.GetKeyDown(loadKey))
-            {
-                Load();
-            }
-            if (Input.GetKeyDown(saveKey))
-            {
-                Save();
-            }
-            if (Input.GetKeyDown(deleteKey))
-            {
-                Delete();
-            }
+            playerInput = new PlayerInput();
+
+            playerInput.Debug.Save.performed += context => Save();
+            playerInput.Debug.Load.performed += context => Load();
+            playerInput.Debug.Delete.performed += context => Delete();
+        }
+
+        private void OnEnable()
+        {
+            playerInput.Debug.Enable();
+        }
+
+        private void OnDisable()
+        {
+            playerInput.Debug.Disable();
         }
 
         public void LoadSession()

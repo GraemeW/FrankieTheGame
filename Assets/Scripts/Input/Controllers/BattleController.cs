@@ -18,13 +18,6 @@ namespace Frankie.Combat
         [SerializeField] float battleQueueDelay = 1.0f;
 
         [Header("Interaction")]
-        [SerializeField] string interactExecuteButton = "Fire1";
-        [SerializeField] KeyCode interactExecuteKey = KeyCode.E;
-        [SerializeField] string interactCancelButton = "Cancel";
-        [SerializeField] KeyCode interactUp = KeyCode.W;
-        [SerializeField] KeyCode interactLeft = KeyCode.A;
-        [SerializeField] KeyCode interactRight = KeyCode.D;
-        [SerializeField] KeyCode interactDown = KeyCode.S;
         [SerializeField] KeyCode interactPartyMember1 = KeyCode.Alpha1;
         [SerializeField] KeyCode interactPartyMember2 = KeyCode.Alpha2;
         [SerializeField] KeyCode interactPartyMember3 = KeyCode.Alpha3;
@@ -48,6 +41,7 @@ namespace Frankie.Combat
         bool haltBattleQueue = false;
 
         // Cached References
+        PlayerInput playerInput = null;
         Party party = null;
 
         // Events
@@ -57,7 +51,180 @@ namespace Frankie.Combat
         public event Action<PlayerInputType> globalInput;
         public event Action<BattleSequence> battleSequenceProcessed;
 
-        // Public Functions
+        // Interaction
+        private void Awake()
+        {
+            party = GameObject.FindGameObjectWithTag("Player").GetComponent<Party>();
+
+            playerInput = new PlayerInput();
+            playerInput.Menu.Navigate.performed += context => ParseDirectionalInput(context.ReadValue<Vector2>());
+            playerInput.Menu.Execute.performed += context => HandleUserInput(PlayerInputType.Execute);
+            playerInput.Menu.Cancel.performed += context => HandleUserInput(PlayerInputType.Cancel);
+            playerInput.Menu.Skip.performed += context => HandleUserInput(PlayerInputType.Skip);
+            playerInput.Menu.Select1.performed += context => InteractWithCharacterSelect(0);
+            playerInput.Menu.Select2.performed += context => InteractWithCharacterSelect(1);
+            playerInput.Menu.Select3.performed += context => InteractWithCharacterSelect(2);
+            playerInput.Menu.Select4.performed += context => InteractWithCharacterSelect(3);
+        }
+
+        private void OnEnable()
+        {
+            playerInput.Menu.Enable();
+        }
+
+        private void OnDisable()
+        {
+            playerInput.Menu.Disable();
+        }
+
+        private void ParseDirectionalInput(Vector2 directionalInput)
+        {
+            PlayerInputType playerInputType = this.NavigationVectorToInputType(directionalInput);
+            HandleUserInput(playerInputType);
+        }
+
+        private void HandleUserInput(PlayerInputType playerInputType)
+        {
+            if (state == BattleState.Combat)
+            {
+                if (InteractWithInterrupts(playerInputType)) { return; }
+                if (InteractWithSkillSelect(playerInputType)) { return; }
+                if (InteractWithSkillExecute(playerInputType)) { return; }
+            }
+
+            // Final call to globals, avoid short circuit
+            if (InteractWithGlobals(playerInputType)) { return; }
+        }
+
+        private void Update()
+        {
+            if (state == BattleState.Combat)
+            {
+                if (!haltBattleQueue) // BattleQueue takes priority, avoid user interaction stalling action queue
+                {
+                    StartCoroutine(ProcessNextBattleSequence());
+                }
+
+            }
+            else if (state == BattleState.Outro)
+            {
+                if (!handleLevelUp && !outroCleanupCalled)
+                {
+                    outroCleanupCalled = true;
+                    CleanUpBattleBits();
+                }
+            }
+            else if (state == BattleState.Complete && outroCleanupCalled) { outroCleanupCalled = false; }
+        }
+
+        private void LateUpdate()
+        {
+            if (state == BattleState.Combat)
+            {
+                AutoSelectCharacter();
+            }
+        }
+
+        private bool InteractWithInterrupts(PlayerInputType playerInputType)
+        {
+            if (playerInputType == PlayerInputType.Cancel)
+            {
+                // Move to Combat Options if nothing selected in skill selector
+                if (selectedSkill == null || selectedCharacter == null)
+                {
+                    SetSelectedEnemy(null);
+                    SetSelectedCharacter(null);
+                    SetBattleState(BattleState.PreCombat); return true;
+                }
+
+                // Otherwise step out of selections
+                if (selectedSkill != null || selectedCharacter != null)
+                {
+                    SetSelectedEnemy(null);
+                    SetSelectedCharacter(null);
+                }
+                return true;
+            }
+            return false;
+        }
+
+        private void InteractWithCharacterSelect(int partyMemberSelect)
+        {
+            if (GetBattleState() != BattleState.Combat) { return; }
+            if (partyMemberSelect >= party.GetParty().Count) { return; } // >= since indexing off by 1 from count
+
+            SetSelectedCharacter(party.GetParty()[partyMemberSelect]);
+        }
+
+        private bool InteractWithSkillSelect(PlayerInputType playerInputType)
+        {
+            if (GetBattleState() != BattleState.Combat) { return false; }
+            if (skillArmed) { return false; }
+
+            if (selectedCharacter != null && !selectedCharacter.IsDead())
+            {
+                if (playerInputType == PlayerInputType.Execute && selectedSkill != null)
+                {
+                    SetSkillArmed(true);
+                    return true;
+                }
+
+                if (playerInputType != PlayerInputType.DefaultNone)
+                {
+                    if (battleInput != null)
+                    {
+                        battleInput.Invoke(playerInputType);
+                    }
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        private bool InteractWithSkillExecute(PlayerInputType playerInputType)
+        {
+            if (GetBattleState() != BattleState.Combat) { return false; }
+            if (!skillArmed || selectedCharacter == null || selectedSkill == null) { return false; }
+
+            if (playerInputType != PlayerInputType.DefaultNone)
+            {
+                if (playerInputType == PlayerInputType.Execute)
+                {
+                    if (selectedEnemy == null) { return false; }
+                    AddToBattleQueue(GetSelectedCharacter(), GetSelectedEnemy(), GetActiveSkill());
+                }
+                else
+                {
+                    if (playerInputType == PlayerInputType.NavigateRight || playerInputType == PlayerInputType.NavigateDown)
+                    {
+                        SetSelectedEnemy(GetNextLivingEnemy(GetSelectedEnemy(), true));
+                    }
+                    else if (playerInputType == PlayerInputType.NavigateLeft || playerInputType == PlayerInputType.NavigateUp)
+                    {
+                        SetSelectedEnemy(GetNextLivingEnemy(GetSelectedEnemy(), false));
+                    }
+                }
+
+                if (battleInput != null)
+                {
+                    battleInput.Invoke(playerInputType);
+                }
+                return true;
+            }
+            return false;
+        }
+
+        private bool InteractWithGlobals(PlayerInputType playerInputType)
+        {
+            if (playerInputType != PlayerInputType.DefaultNone && globalInput != null)
+            {
+                globalInput.Invoke(playerInputType);
+                return true;
+            }
+            return false;
+        }
+
+        // External Setup
         public void Setup(List<CombatParticipant> enemies, TransitionType transitionType)
         {
             // TODO:  Implement different battle transition type impact to combat (i.e. advance attack, late attack, same-same)
@@ -189,49 +356,7 @@ namespace Frankie.Combat
             if (activeCharacters.Contains(sender)) { SetSelectedCharacter(null); SetSelectedEnemy(null); } // Clear out selection on player execution
         }
 
-        // Private Functions
-
-        private void Awake()
-        {
-            party = GameObject.FindGameObjectWithTag("Player").GetComponent<Party>();
-        }
-
-        private void Update()
-        {
-            // TODO:  Update input system to NEW input system
-            PlayerInputType playerInputType = GetPlayerInput();
-            if (state == BattleState.Combat)
-            {
-                if (!haltBattleQueue) // BattleQueue takes priority, avoid user interaction stalling action queue
-                {
-                    StartCoroutine(ProcessNextBattleSequence());
-                }
-                if (InteractWithInterrupts(playerInputType)) { return; }
-                if (InteractWithCharacterSelect()) { return; }
-                if (InteractWithSkillSelect(playerInputType)) { return; }
-                if (InteractWithSkillExecute(playerInputType)) { return; }
-            }
-            else if (state == BattleState.Outro)
-            {
-                if (!handleLevelUp && !outroCleanupCalled)
-                {
-                    outroCleanupCalled = true;
-                    CleanUpBattleBits();
-                }
-            }
-            else if (state == BattleState.Complete && outroCleanupCalled) { outroCleanupCalled = false; }
-
-            if (InteractWithGlobals(playerInputType)) { return; }  // Final call to globals, avoid short circuit
-        }
-
-        private void LateUpdate()
-        {
-            if (state == BattleState.Combat)
-            {
-                AutoSelectCharacter();
-            }
-        }
-
+        // Battle Handling
         private void InitiateBattle(bool isBattleCanvasEnabled)
         {
             if (isBattleCanvasEnabled)
@@ -258,173 +383,6 @@ namespace Frankie.Combat
             {
                 enemy.SetCombatActive(enable);
             }
-        }
-
-        private bool InteractWithInterrupts(PlayerInputType playerInputType)
-        {
-            if (playerInputType == PlayerInputType.Cancel)
-            {
-                // Move to Combat Options if nothing selected in skill selector
-                if (selectedSkill == null || selectedCharacter == null) 
-                {
-                    SetSelectedEnemy(null);
-                    SetSelectedCharacter(null);
-                    SetBattleState(BattleState.PreCombat); return true; 
-                }
-
-                // Otherwise step out of selections
-                if (selectedSkill != null || selectedCharacter != null)
-                {
-                    SetSelectedEnemy(null);
-                    SetSelectedCharacter(null);
-                }
-                return true;
-            }
-            return false;
-        }
-
-        private bool InteractWithCharacterSelect()
-        {
-            if (GetBattleState() !=  BattleState.Combat) { return false; }
-
-            int numberOfPartyMembers = party.GetParty().Count;
-            bool validInput = false;
-            CombatParticipant candidateCharacter = null;
-
-            if (Input.GetKeyDown(interactPartyMember1))
-            {
-                validInput = true;
-                candidateCharacter = party.GetParty()[0];
-            }
-            else if (Input.GetKeyDown(interactPartyMember2) && numberOfPartyMembers >= 2)
-            {
-                validInput = true;
-                candidateCharacter = party.GetParty()[1];
-            }
-            else if (Input.GetKeyDown(interactPartyMember3) && numberOfPartyMembers >= 3)
-            {
-                validInput = true;
-                candidateCharacter = party.GetParty()[2];
-            }
-            else if (Input.GetKeyDown(interactPartyMember4) && numberOfPartyMembers >= 4)
-            {
-                validInput = true;
-                candidateCharacter = party.GetParty()[3];
-            }
-            if (validInput)
-            {
-                validInput = SetSelectedCharacter(candidateCharacter);
-            }
-            return validInput;
-        }
-
-        private bool InteractWithSkillSelect(PlayerInputType playerInputType)
-        {
-            if (GetBattleState() != BattleState.Combat) { return false; }
-            if (skillArmed) { return false; }
-
-            if (selectedCharacter != null && !selectedCharacter.IsDead())
-            {
-                if (playerInputType == PlayerInputType.Execute && selectedSkill != null)
-                {
-                    SetSkillArmed(true);
-                    return true;
-                }
-
-                if (playerInputType != PlayerInputType.DefaultNone)
-                {
-                    if (battleInput != null)
-                    {
-                        battleInput.Invoke(playerInputType);
-                    }
-                    return true;
-                }
-            }
-            return false;
-        }
-
-        private bool InteractWithSkillExecute(PlayerInputType playerInputType)
-        {
-            if (GetBattleState() != BattleState.Combat) { return false; }
-            if (!skillArmed || selectedCharacter == null || selectedSkill == null) { return false; }
-
-            if (playerInputType != PlayerInputType.DefaultNone)
-            {
-                if (playerInputType == PlayerInputType.Execute)
-                {
-                    if (selectedEnemy == null) { return false; }
-                    AddToBattleQueue(GetSelectedCharacter(), GetSelectedEnemy(), GetActiveSkill());
-                }
-                else
-                {
-                    if (playerInputType == PlayerInputType.NavigateRight || playerInputType == PlayerInputType.NavigateDown)
-                    {
-                        SetSelectedEnemy(GetNextLivingEnemy(GetSelectedEnemy(), true));
-                    }
-                    else if (playerInputType == PlayerInputType.NavigateLeft || playerInputType == PlayerInputType.NavigateUp)
-                    {
-                        SetSelectedEnemy(GetNextLivingEnemy(GetSelectedEnemy(), false));
-                    }
-                }
-
-                if (battleInput != null)
-                {
-                    battleInput.Invoke(playerInputType);
-                }
-                return true;
-            }
-            return false;
-        }
-
-        private bool InteractWithGlobals(PlayerInputType playerInputType)
-        {
-            if (Input.GetButtonDown(interactExecuteButton) || Input.GetKeyDown(interactExecuteKey)) // Override to allow both mouse click and keyboard input
-            {
-                if (globalInput != null)
-                {
-                    globalInput.Invoke(PlayerInputType.Execute);
-                    return true;
-                }
-            }
-            else
-            {
-                if (globalInput != null)
-                {
-                    globalInput.Invoke(playerInputType);
-                    return true;
-                }
-            }
-            return false;
-        }
-
-        public PlayerInputType GetPlayerInput()
-        {
-            PlayerInputType input = PlayerInputType.DefaultNone;
-            if (Input.GetKeyDown(interactUp))
-            {
-                input = PlayerInputType.NavigateUp;
-            }
-            else if (Input.GetKeyDown(interactLeft))
-            {
-                input = PlayerInputType.NavigateLeft;
-            }
-            else if (Input.GetKeyDown(interactRight))
-            {
-                input = PlayerInputType.NavigateRight;
-            }
-            else if (Input.GetKeyDown(interactDown))
-            {
-                input = PlayerInputType.NavigateDown;
-            }
-            else if (Input.GetKeyDown(interactExecuteKey))
-            {
-                input = PlayerInputType.Execute;
-            }
-            else if (Input.GetButtonDown(interactCancelButton))
-            {
-                input = PlayerInputType.Cancel;
-            }
-            return input;
         }
 
         public void SetSkillArmed(bool enable)
@@ -556,6 +514,12 @@ namespace Frankie.Combat
             activeCharacters.Clear();
             activeEnemies.Clear();
             SetSelectedCharacter(null);
+        }
+
+        public PlayerInputType NavigationVectorToInputTypeTemplate(Vector2 navigationVector)
+        {
+            // Not evaluated -> IStandardPlayerInputCallerExtension
+            return PlayerInputType.DefaultNone;
         }
     }
 }

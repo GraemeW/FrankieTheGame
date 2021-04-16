@@ -40,18 +40,17 @@ namespace Frankie.Control
             SetLookDirection(Vector2.down); // Initialize look direction to avoid wonky
         }
 
-        private void Update()
-        {
-            inputHorizontal = Input.GetAxis("Horizontal");
-            inputVertical = Input.GetAxis("Vertical");
-        }
-
         private void FixedUpdate()
         {
             if (playerStateHandler.GetPlayerState() == PlayerState.inWorld)
             {
                 InteractWithMovement();
             }
+        }
+        public void ParseMovement(Vector2 directionalInput)
+        {
+            inputHorizontal = Vector2.Dot(directionalInput, Vector2.right);
+            inputVertical = Vector2.Dot(directionalInput, Vector2.up);
         }
 
         public void SetLookDirection(Vector2 lookDirection)

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
 using Frankie.Core;
+using UnityEngine.InputSystem;
 
 namespace Frankie.Control
 {
@@ -19,21 +20,13 @@ namespace Frankie.Control
 
         // Tunables
         [Header("Interaction")]
-        [SerializeField] KeyCode interactUp = KeyCode.W;
-        [SerializeField] KeyCode interactLeft = KeyCode.A;
-        [SerializeField] KeyCode interactRight = KeyCode.D;
-        [SerializeField] KeyCode interactDown = KeyCode.S;
-        [SerializeField] string interactSkipButton = "Fire1";
-        [SerializeField] string interactInspectButton = "Fire2";
-        [SerializeField] KeyCode interactInspectKey = KeyCode.E;
-        [SerializeField] KeyCode interactOptionKey = KeyCode.Tab;
-        [SerializeField] string interactCancelButton = "Cancel";
         [SerializeField] CursorMapping[] cursorMappings = null;
         [SerializeField] float raycastRadius = 0.1f;
         [SerializeField] float interactionDistance = 0.5f;
         [SerializeField] Transform interactionCenterPoint = null;
 
         // Cached References
+        PlayerInput playerInput = null;
         PlayerMover playerMover = null;
         PlayerStateHandler playerStateHandler = null;
 
@@ -67,62 +60,36 @@ namespace Frankie.Control
             return playerMover;
         }
 
-        public PlayerInputType GetPlayerInput()
-        {
-            PlayerInputType input = PlayerInputType.DefaultNone;
-
-            if (Input.GetKeyDown(interactUp))
-            {
-                input = PlayerInputType.NavigateUp;
-            }
-            else if (Input.GetKeyDown(interactLeft))
-            {
-                input = PlayerInputType.NavigateLeft;
-            }
-            else if (Input.GetKeyDown(interactRight))
-            {
-                input = PlayerInputType.NavigateRight;
-            }
-            else if (Input.GetKeyDown(interactDown))
-            {
-                input = PlayerInputType.NavigateDown;
-            }
-            else if (Input.GetKeyDown(interactInspectKey) || Input.GetButtonDown(interactInspectButton))
-            {
-                input = PlayerInputType.Execute;
-            }
-            else if (Input.GetButtonDown(interactCancelButton))
-            {
-                input = PlayerInputType.Cancel;
-            }
-            else if (Input.GetKeyDown(interactOptionKey))
-            {
-                input = PlayerInputType.Option;
-            }
-            else if (Input.GetButtonDown(interactSkipButton))
-            {
-                input = PlayerInputType.Skip;
-            }
-
-            return input;
-        }
-
         // Internal functions
 
         private void Awake()
         {
             playerMover = GetComponent<PlayerMover>();
             playerStateHandler = GetComponent<PlayerStateHandler>();
+
+            playerInput = new PlayerInput();
+
+            playerInput.Player.Navigate.performed += context => playerMover.ParseMovement(context.ReadValue<Vector2>());
+            playerInput.Player.Navigate.canceled += context => playerMover.ParseMovement(Vector2.zero);
+
+            playerInput.Player.Navigate.performed += context => ParseDirectionalInput(context.ReadValue<Vector2>());
+            playerInput.Player.Pointer.performed += context => HandleMouseMovement(PlayerInputType.DefaultNone);
+            playerInput.Player.Execute.performed += context => HandleUserInput(PlayerInputType.Execute);
+            playerInput.Player.Cancel.performed += context => HandleUserInput(PlayerInputType.Cancel);
+            playerInput.Player.Option.performed += context => HandleUserInput(PlayerInputType.Option);
+            playerInput.Player.Skip.performed += context => HandleUserInput(PlayerInputType.Skip);
         }
 
         private void OnEnable()
         {
             playerStateHandler.playerStateChanged += ResetCursor;
+            playerInput.Player.Enable();
         }
 
         private void OnDisable()
         {
             playerStateHandler.playerStateChanged -= ResetCursor;
+            playerInput.Player.Disable();
         }
 
         private void ResetCursor(PlayerState playerState)
@@ -130,13 +97,18 @@ namespace Frankie.Control
             SetCursor(CursorType.None);
         }
 
-        private void Update()
+        private void ParseDirectionalInput(Vector2 directionalInput)
+        {
+            PlayerInputType playerInputType = this.NavigationVectorToInputType(directionalInput);
+            HandleUserInput(playerInputType);
+        }
+
+        private void HandleUserInput(PlayerInputType playerInputType)
         {
             if (playerStateHandler.GetPlayerState() == PlayerState.inTransition) { return; }
 
             if (playerStateHandler.GetPlayerState() == PlayerState.inWorld)
             {
-                PlayerInputType playerInputType = GetPlayerInput();
                 if (InteractWithGlobals(playerInputType)) return;
                 if (InteractWithComponent(playerInputType)) return;
                 if (InteractWithComponentManual(playerInputType)) return;
@@ -145,10 +117,14 @@ namespace Frankie.Control
             }
             else if (playerStateHandler.GetPlayerState() == PlayerState.inOptions)
             {
-                PlayerInputType playerInputType = GetPlayerInput();
                 if (InteractWithGlobals(playerInputType)) return;
                 if (InteractWithMenusOptions(playerInputType)) return;
             }
+        }
+
+        private void HandleMouseMovement(PlayerInputType playerInputType)
+        {
+            if (InteractWithComponentManual(playerInputType)) return;
         }
 
         private bool InteractWithGlobals(PlayerInputType playerInputType)
@@ -256,7 +232,13 @@ namespace Frankie.Control
 
         private static Vector2 GetMouseRay()
         {
-            return Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            return Camera.main.ScreenToWorldPoint(Mouse.current.position.ReadValue());
+        }
+
+        public PlayerInputType NavigationVectorToInputTypeTemplate(Vector2 navigationVector)
+        {
+            // Not evaluated -> IStandardPlayerInputCallerExtension
+            return PlayerInputType.DefaultNone;
         }
     }
 }
