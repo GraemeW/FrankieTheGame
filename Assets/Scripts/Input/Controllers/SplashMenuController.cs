@@ -7,11 +7,6 @@ namespace Frankie.Control
     public class SplashMenuController : MonoBehaviour, IStandardPlayerInputCaller
     {
         // Tunables
-        [Header("Input Parameters")]
-        [SerializeField] string interactButtonOne = "Fire1";
-        [SerializeField] string interactButtonTwo = "Fire2";
-        [SerializeField] KeyCode interactKeyOne = KeyCode.E;
-        [SerializeField] KeyCode interactKeyTwo = KeyCode.Escape;
         [Header("Scene Parameters")]
         [SerializeField] float splashDelayTime = 15.0f;
 

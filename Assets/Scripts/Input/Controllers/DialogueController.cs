@@ -16,14 +16,6 @@ namespace Frankie.Speech
         [SerializeField] GameObject dialogueBoxPrefab = null;
         [SerializeField] GameObject dialogueOptionBoxPrefab = null;
 
-        [Header("Interaction")]
-        [SerializeField] string interactSkipButton = "Fire1";
-        [SerializeField] KeyCode interactExecuteKey = KeyCode.E;
-        [SerializeField] KeyCode interactUp = KeyCode.W;
-        [SerializeField] KeyCode interactLeft = KeyCode.A;
-        [SerializeField] KeyCode interactRight = KeyCode.D;
-        [SerializeField] KeyCode interactDown = KeyCode.S;
-
         // State
         Dialogue currentDialogue = null;
         DialogueNode currentNode = null;

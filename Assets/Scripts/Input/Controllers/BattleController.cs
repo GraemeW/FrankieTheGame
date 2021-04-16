@@ -17,12 +17,6 @@ namespace Frankie.Combat
         [Header("Controller Properties")]
         [SerializeField] float battleQueueDelay = 1.0f;
 
-        [Header("Interaction")]
-        [SerializeField] KeyCode interactPartyMember1 = KeyCode.Alpha1;
-        [SerializeField] KeyCode interactPartyMember2 = KeyCode.Alpha2;
-        [SerializeField] KeyCode interactPartyMember3 = KeyCode.Alpha3;
-        [SerializeField] KeyCode interactPartyMember4 = KeyCode.Alpha4;
-
         // State
         BattleState state = default;
         BattleOutcome outcome = default;
