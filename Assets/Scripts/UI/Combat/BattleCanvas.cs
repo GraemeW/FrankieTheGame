@@ -18,6 +18,8 @@ namespace Frankie.Combat.UI
         [SerializeField] Transform frontRowParent = null;
         [SerializeField] Transform backRowParent = null;
         [SerializeField] GameObject enemyPrefab = null;
+        [SerializeField] Image backgroundFill = null;
+        [SerializeField] MovingBackgroundProperties defaultMovingBackgroundProperties;
         [SerializeField] Transform infoChooseParent = null;
         [SerializeField] GameObject dialogueBoxPrefab = null;
         [SerializeField] CombatLog combatLog = null;
@@ -97,6 +99,7 @@ namespace Frankie.Combat.UI
             {
                 SetupPlayerCharacters(battleController.GetCharacters());
                 SetupEnemies(battleController.GetEnemies());
+                SetupBackgroundFill(battleController.GetEnemies());
                 SetupEntryMessage(battleController.GetEnemies());
             }
             else if (state == BattleState.PreCombat)
@@ -181,6 +184,22 @@ namespace Frankie.Combat.UI
                 combatLog.AddCombatListener(enemy);
             }
             skillSelection.SetEnemySlides(enemySlides);
+        }
+
+        private void SetupBackgroundFill(List<CombatParticipant> enemies)
+        {
+            int enemyIndex = UnityEngine.Random.Range(0, enemies.Count);
+            MovingBackgroundProperties movingBackgroundProperties = enemies[enemyIndex].GetMovingBackgroundProperties();
+            if (movingBackgroundProperties.tileSpriteImage == null || movingBackgroundProperties.shaderMaterial == null)
+            {
+                backgroundFill.sprite = defaultMovingBackgroundProperties.tileSpriteImage;
+                backgroundFill.material = defaultMovingBackgroundProperties.shaderMaterial;
+            }
+            else
+            {
+                backgroundFill.sprite = movingBackgroundProperties.tileSpriteImage;
+                backgroundFill.material = movingBackgroundProperties.shaderMaterial;
+            }
         }
 
         private void SetupEntryMessage(List<CombatParticipant> enemies)

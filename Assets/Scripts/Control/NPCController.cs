@@ -43,8 +43,9 @@ namespace Frankie.Control
             return defaultName;
         }
 
-        public void SetLookDirectionToPlayer(PlayerController callingController) // called via Unity Event
+        public void SetLookDirectionToPlayer(PlayerStateHandler playerStateHandler) // called via Unity Event
         {
+            PlayerController callingController = playerStateHandler.GetComponent<PlayerController>();
             Vector2 lookDirection = callingController.GetInteractionPosition() - (Vector2)interactionCenterPoint.position;
             SetLookDirection(lookDirection);
             UpdateAnimator();

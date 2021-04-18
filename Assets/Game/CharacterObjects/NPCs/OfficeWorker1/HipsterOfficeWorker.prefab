@@ -15,6 +15,9 @@ MonoBehaviour:
   friendly: 0
   combatSprite: {fileID: 21300000, guid: 1c858d8fb5e60954cac7c6fa51165fd2, type: 3}
   combatAudio: {fileID: 8300000, guid: 6bcafcb32d2d24e45bea5b704a3341e6, type: 3}
+  movingBackgroundProperties:
+    tileSpriteImage: {fileID: 21300000, guid: 39f9cba13c94a084c94a0aee041992dc, type: 3}
+    shaderMaterial: {fileID: 2100000, guid: f0e33ad55b3f107428a94269b6f3f3c9, type: 2}
   damageTimeSpan: 4
   fractionOfHPInstantOnRevival: 0.5
   targetHP: 1

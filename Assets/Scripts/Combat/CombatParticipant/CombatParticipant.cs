@@ -17,6 +17,7 @@ namespace Frankie.Combat
         [SerializeField] bool friendly = false;
         [SerializeField] Sprite combatSprite = null;
         [SerializeField] AudioClip combatAudio = null;
+        [SerializeField] MovingBackgroundProperties movingBackgroundProperties;
 
         [Header("Combat Properties")]
         [SerializeField] float damageTimeSpan = 4.0f;
@@ -220,6 +221,11 @@ namespace Frankie.Combat
         public AudioClip GetAudioClip()
         {
             return combatAudio;
+        }
+        
+        public MovingBackgroundProperties GetMovingBackgroundProperties()
+        {
+            return movingBackgroundProperties;
         }
 
         public string GetCombatName()

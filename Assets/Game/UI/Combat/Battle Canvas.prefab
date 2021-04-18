@@ -652,6 +652,10 @@ MonoBehaviour:
   frontRowParent: {fileID: 4859047428861698195}
   backRowParent: {fileID: 3363726339821156397}
   enemyPrefab: {fileID: 3482937601263179775, guid: 49f267588bcba8c42ab8efa84b2814dc, type: 3}
+  backgroundFill: {fileID: 4169620784574253078}
+  defaultMovingBackgroundProperties:
+    tileSpriteImage: {fileID: 21300000, guid: e29be70c9febd64428840a5f7cb924d8, type: 3}
+    shaderMaterial: {fileID: 2100000, guid: f0e33ad55b3f107428a94269b6f3f3c9, type: 2}
   infoChooseParent: {fileID: 6429177127699189047}
   dialogueBoxPrefab: {fileID: 6413694501190794285, guid: a9829c1cb69a159479cbe82e68a5c629, type: 3}
   combatLog: {fileID: 3973297245203531870}

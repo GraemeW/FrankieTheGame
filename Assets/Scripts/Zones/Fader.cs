@@ -34,6 +34,9 @@ namespace Frankie.ZoneManagement
         public event Action<bool> battleUIStateChanged;
         public event Action fadingOut;
 
+        // Static
+        static string GLOBAL_SHADER_PHASE_REFERENCE = "_Phase";
+
         private void Awake()
         {
             sceneLoader = FindObjectOfType<SceneLoader>();
@@ -130,16 +133,19 @@ namespace Frankie.ZoneManagement
             { 
                 goodBattleEntry.gameObject.SetActive(true);
                 currentTransition = goodBattleEntry;
+                currentTransition.material.SetFloat(GLOBAL_SHADER_PHASE_REFERENCE, Time.time);
             }
             else if (transitionType == TransitionType.BattleBad) 
             { 
                 badBattleEntry.gameObject.SetActive(true);
                 currentTransition = badBattleEntry;
+                currentTransition.material.SetFloat(GLOBAL_SHADER_PHASE_REFERENCE, Time.time);
             }
             else if (transitionType == TransitionType.BattleNeutral) 
             { 
                 neutralBattleEntry.gameObject.SetActive(true);
                 currentTransition = neutralBattleEntry;
+                currentTransition.material.SetFloat(GLOBAL_SHADER_PHASE_REFERENCE, Time.time);
             }
             else if (transitionType == TransitionType.BattleComplete)
             {
