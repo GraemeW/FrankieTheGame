@@ -54,6 +54,8 @@ namespace Frankie.Stats.UI
         {
             if (character != selectedCharacter)
             {
+                OnDialogueBoxModified(DialogueBoxModifiedType.itemSelected, true);
+
                 selectedCharacter = character;
                 CleanUpOldStats();
 

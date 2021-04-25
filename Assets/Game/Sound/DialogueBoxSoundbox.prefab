@@ -10,9 +10,9 @@ GameObject:
   m_Component:
   - component: {fileID: 2366363061461443363}
   - component: {fileID: 2366363061461443373}
-  - component: {fileID: 2366363061461443372}
+  - component: {fileID: 1482892425982219451}
   m_Layer: 0
-  m_Name: DoorSoundbox
+  m_Name: DialogueBoxSoundbox
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -41,10 +41,10 @@ AudioSource:
   m_GameObject: {fileID: 2366363061461443362}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 0}
-  m_PlayOnAwake: 1
-  m_Volume: 0.2
+  OutputAudioMixerGroup: {fileID: 24300002, guid: c9eb74919f363694fbbb45aa77e99ec3, type: 2}
+  m_audioClip: {fileID: 8300000, guid: 1e6f82457a0ff384fa392747ebcd45e8, type: 3}
+  m_PlayOnAwake: 0
+  m_Volume: 0.4
   m_Pitch: 1
   Loop: 0
   Mute: 0
@@ -128,7 +128,7 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
---- !u!114 &2366363061461443372
+--- !u!114 &1482892425982219451
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -137,8 +137,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 2366363061461443362}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7d92abaff543d4a4498f7173bd00113e, type: 3}
+  m_Script: {fileID: 11500000, guid: 83ec55ceb687ab74bbada214ac95dded, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  audioClips:
-  - {fileID: 8300000, guid: 988315e3fe20e6047abff0066cd60009, type: 3}
+  audioClips: []
+  dialogueBox: {fileID: 0}
+  textScanAudioClip: {fileID: 8300000, guid: 1e6f82457a0ff384fa392747ebcd45e8, type: 3}
+  chooseAudioClip: {fileID: 8300000, guid: 335b4df6edd73a74894d7fac1cc694dd, type: 3}
+  textScanLoopDelay: 0.08

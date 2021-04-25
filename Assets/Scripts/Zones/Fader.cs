@@ -31,6 +31,7 @@ namespace Frankie.ZoneManagement
         SavingWrapper savingWrapper = null;
 
         // Events
+        public event Action<TransitionType> fadingIn;
         public event Action<bool> battleUIStateChanged;
         public event Action fadingOut;
 
@@ -75,6 +76,7 @@ namespace Frankie.ZoneManagement
         private IEnumerator Fade(TransitionType transitionType)
         {
             yield return QueueFadeEntry(transitionType);
+            
             if (transitionType == TransitionType.BattleComplete)
             {
                 battleUI.gameObject.SetActive(false);
@@ -161,6 +163,10 @@ namespace Frankie.ZoneManagement
 
             currentTransition.CrossFadeAlpha(0f, 0f, true);
             currentTransition.CrossFadeAlpha(1, GetFadeTime(true, transitionType), false);
+            if (fadingIn != null)
+            {
+                fadingIn.Invoke(transitionType);
+            }
             yield return new WaitForSeconds(GetFadeTime(true, transitionType));
         }
 

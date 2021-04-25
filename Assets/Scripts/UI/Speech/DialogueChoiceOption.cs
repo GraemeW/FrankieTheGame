@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
+using UnityEngine.Events;
 
 namespace Frankie.Speech.UI
 {
@@ -18,6 +19,9 @@ namespace Frankie.Speech.UI
 
         // Cached Reference
         DialogueController dialogueController = null;
+
+        // Unity Events
+        public UnityEvent itemHighlighted;
 
         private void OnDestroy()
         {
@@ -50,6 +54,10 @@ namespace Frankie.Speech.UI
             if (this.dialogueNode == dialogueNode)
             {
                 selectionMarker.SetActive(true);
+                if (itemHighlighted != null)
+                {
+                    itemHighlighted.Invoke();
+                }
             }
             else
             {
@@ -60,6 +68,10 @@ namespace Frankie.Speech.UI
         public void Highlight(bool enable)
         {
             selectionMarker.SetActive(enable);
+            if (enable && itemHighlighted != null)
+            {
+                itemHighlighted.Invoke();
+            }
         }
     }
 }

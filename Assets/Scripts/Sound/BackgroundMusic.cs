@@ -5,13 +5,14 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Audio;
 using Frankie.Settings;
+using Frankie.Core;
 
-namespace Frankie.Core
+namespace Frankie.Sound
 {
     public class BackgroundMusic : MonoBehaviour
     {
         // Tunables
-        [SerializeField] float volume = 0.2f;
+        [SerializeField] float volume = 0.4f;
         [SerializeField] float musicFadeDuration = 3.0f;
         [SerializeField] AudioMixer audioMixer = null;
 
@@ -27,7 +28,7 @@ namespace Frankie.Core
         SceneLoader sceneLoader = null;
 
         // Static Functions
-        private static string MIXER_VOLUME_REFERENCE = "backgroundVolume";
+        private static string MIXER_VOLUME_REFERENCE = "masterVolume";
 
         // Public Functions
         public void SetVolume(float volume)
@@ -62,12 +63,6 @@ namespace Frankie.Core
 
         private void Start()
         {
-            if (PlayerPrefsController.VolumeKeyExist())
-            {
-                volume = PlayerPrefsController.GetMasterVolume();
-            }
-            audioSource.volume = volume;
-
             // Note:  Cached references obtained in Start
             // Persistent objects not reliable to attempt to get within Awake -- hence fancy footwork on OnEnable/Disable
             SetUpSceneLoader();
@@ -76,6 +71,8 @@ namespace Frankie.Core
 
         private void OnEnable()
         {
+            InitializeVolume();
+
             if (playerStateHandler != null)
             {
                 playerStateHandler.playerStateChanged += ParsePlayerState;
@@ -98,6 +95,22 @@ namespace Frankie.Core
                 if (playerStateHandler == null) { sceneLoader.zoneUpdated -= AttemptToSetUpPlayerReference; }
                 sceneLoader.zoneUpdated -= ParseZoneUpdate;
             }
+        }
+
+        private void InitializeVolume()
+        {
+            if (PlayerPrefsController.MasterVolumeKeyExists())
+            {
+                if (PlayerPrefsController.BackgroundVolumeKeyExists())
+                {
+                    volume = PlayerPrefsController.GetMasterVolume() * PlayerPrefsController.GetBackgroundVolume();
+                }
+                else
+                {
+                    volume = PlayerPrefsController.GetMasterVolume();
+                }
+            }
+            audioSource.volume = volume;
         }
 
         private void SetUpSceneLoader()

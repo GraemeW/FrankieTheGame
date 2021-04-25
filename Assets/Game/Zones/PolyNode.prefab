@@ -194,16 +194,17 @@ MonoBehaviour:
   interactionDistance: 0.1
   warpPosition: {fileID: 3913122519781112630}
   delayToDestroyAfterSceneLoading: 0.1
-  disableOnExit: 1
   roomParent: {fileID: 0}
+  disableOnStart: 0
+  disableOnExit: 1
   randomizeChoice: 1
   choiceMessage: Where do you want to go?
   zoneInteraction:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1628392768576159441}
-        m_TargetAssemblyTypeName: Frankie.Core.SoundEffects, Assembly-CSharp
-        m_MethodName: PlayRandomClip
+        m_TargetAssemblyTypeName: Frankie.Sound.SoundEffects, Assembly-CSharp
+        m_MethodName: PlayClip
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

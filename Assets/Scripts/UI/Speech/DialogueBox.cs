@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using Frankie.Control;
+using System;
 
 namespace Frankie.Speech.UI
 {
@@ -35,6 +36,9 @@ namespace Frankie.Speech.UI
 
         // Cached References
         protected DialogueController dialogueController = null;
+
+        // Events
+        public event Action<DialogueBoxModifiedType, bool> dialogueBoxModified;
 
         // Static
         protected static string DIALOGUE_CALLBACK_ENABLE_INPUT = "ENABLE_INPUT";
@@ -76,6 +80,8 @@ namespace Frankie.Speech.UI
 
         protected virtual void OnDisable()
         {
+            SetBusyWriting(false);
+
             if (dialogueController != null)
             {
                 if (handleGlobalInput) { dialogueController.globalInput -= HandleGlobalInput; }
@@ -186,6 +192,8 @@ namespace Frankie.Speech.UI
                 isWriting = enable;
                 if (dialogueController != null) { dialogueController.dialogueUpdated += UpdateUI; }
             }
+
+            OnDialogueBoxModified(DialogueBoxModifiedType.writingStateChanged, enable);
         }
 
         private void SetText()
@@ -287,6 +295,8 @@ namespace Frankie.Speech.UI
         private IEnumerator PrintPageBreak()
         {
             SetBusyWriting(true);
+            OnDialogueBoxModified(DialogueBoxModifiedType.writingStateChanged, false); // override printing to false, since not really printing -- wait for user input for next step
+
             queuePageClear = true;
             yield break;
         }
@@ -349,10 +359,22 @@ namespace Frankie.Speech.UI
             return true;
         }
 
+        protected virtual void OnDialogueBoxModified(DialogueBoxModifiedType dialogueBoxModifiedType, bool enable)
+        {
+            if (dialogueBoxModified != null)
+            {
+                dialogueBoxModified.Invoke(dialogueBoxModifiedType, enable);
+            }
+        }
+
         protected virtual bool Choose(string nodeID)
         {
             bool choose = PrepareChooseAction(PlayerInputType.Execute);
-            if (choose) { dialogueController.NextWithID(nodeID); }
+            if (choose)
+            {
+                OnDialogueBoxModified(DialogueBoxModifiedType.itemSelected, true);
+                dialogueController.NextWithID(nodeID);
+            }
             return choose;
         }
 
