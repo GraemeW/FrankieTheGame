@@ -9,6 +9,7 @@ namespace Frankie.Sound
     {
         [SerializeField] CombatParticipant combatParticipant = null;
         [SerializeField] AudioClip decreaseHPAudioClip = null;
+        [SerializeField] AudioClip increaseHPAudioClip = null;
         [SerializeField] AudioClip deadAudioClip = null;
 
         protected override void OnEnable()
@@ -28,6 +29,10 @@ namespace Frankie.Sound
             if (stateAlteredData.stateAlteredType == StateAlteredType.DecreaseHP)
             {
                 PlayClip(decreaseHPAudioClip);
+            }
+            else if (stateAlteredData.stateAlteredType == StateAlteredType.IncreaseHP)
+            {
+                PlayClip(increaseHPAudioClip);
             }
             else if (stateAlteredData.stateAlteredType == StateAlteredType.Dead)
             {
