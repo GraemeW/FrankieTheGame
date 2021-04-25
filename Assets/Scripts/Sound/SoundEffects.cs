@@ -107,5 +107,17 @@ namespace Frankie.Sound
             destroyAfterPlay = true;
         }
 
+        public void PlayClipSmart(bool acrossSceneTransition)
+        {
+            if (acrossSceneTransition)
+            {
+                PlayClipAndPersistOnSceneTransition();
+            }
+            else
+            {
+                PlayClipAfterDestroy();
+            }
+        }
+
     }
 }

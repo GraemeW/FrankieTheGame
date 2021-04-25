@@ -36,7 +36,7 @@ namespace Frankie.ZoneManagement
         Fader fader = null;
 
         // Events
-        public UnityEvent zoneInteraction;
+        public UnityEvent<bool> zoneInteraction;
 
         // Public Functions
         public ZoneNode GetZoneNode()
@@ -160,10 +160,8 @@ namespace Frankie.ZoneManagement
                     else { currentPlayerController.transform.position = zoneHandler.transform.position; }
 
                     ToggleParentGameObjects(zoneHandler);
-                    if (zoneInteraction != null) // Unity event, linked via Unity Editor
-                    {
-                        zoneInteraction.Invoke();
-                    }
+                    OnZoneInteraction();
+                    queuedZoneNode = null;
 
                     break; // Node transport complete, no need to complete loop
                 }
@@ -171,6 +169,21 @@ namespace Frankie.ZoneManagement
 
             // Failsafe -- no movement
             ExitMove();
+        }
+
+        private void OnZoneInteraction()
+        {
+            if (zoneInteraction != null)
+            {
+                if (queuedZoneNode == null)
+                {
+                    zoneInteraction.Invoke(false);
+                }
+                else
+                {
+                    zoneInteraction.Invoke(true);
+                }
+            }
         }
 
         private void ExitMove()

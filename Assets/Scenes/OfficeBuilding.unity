@@ -1676,6 +1676,17 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 8342028283336635978, guid: a3bfc966469855547b6bedf12d844bdb, type: 3}
   m_PrefabInstance: {fileID: 622289211}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &630879022 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5986361616881070872, guid: a3bfc966469855547b6bedf12d844bdb, type: 3}
+  m_PrefabInstance: {fileID: 1342609227}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7d92abaff543d4a4498f7173bd00113e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &639277474
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2813,6 +2824,10 @@ PrefabInstance:
       propertyPath: audioClips.Array.data[0]
       value: 
       objectReference: {fileID: 8300000, guid: 7079d8e628720174bb833e918da8ff2c, type: 3}
+    - target: {fileID: 5986361616881070873, guid: a3bfc966469855547b6bedf12d844bdb, type: 3}
+      propertyPath: OutputAudioMixerGroup
+      value: 
+      objectReference: {fileID: 805561496896087151, guid: c9eb74919f363694fbbb45aa77e99ec3, type: 2}
     - target: {fileID: 8342028283336635978, guid: a3bfc966469855547b6bedf12d844bdb, type: 3}
       propertyPath: m_RootOrder
       value: 6
@@ -2874,8 +2889,40 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8342028283336635980, guid: a3bfc966469855547b6bedf12d844bdb, type: 3}
+      propertyPath: acrossZoneInteraction.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8342028283336635980, guid: a3bfc966469855547b6bedf12d844bdb, type: 3}
+      propertyPath: zoneInteraction.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8342028283336635980, guid: a3bfc966469855547b6bedf12d844bdb, type: 3}
+      propertyPath: acrossZoneInteraction.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8342028283336635980, guid: a3bfc966469855547b6bedf12d844bdb, type: 3}
       propertyPath: zoneInteraction.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: PlayClipSmart
+      objectReference: {fileID: 0}
+    - target: {fileID: 8342028283336635980, guid: a3bfc966469855547b6bedf12d844bdb, type: 3}
+      propertyPath: acrossZoneInteraction.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 630879022}
+    - target: {fileID: 8342028283336635980, guid: a3bfc966469855547b6bedf12d844bdb, type: 3}
+      propertyPath: acrossZoneInteraction.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8342028283336635980, guid: a3bfc966469855547b6bedf12d844bdb, type: 3}
+      propertyPath: acrossZoneInteraction.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
       value: PlayClipAndPersistOnSceneTransition
+      objectReference: {fileID: 0}
+    - target: {fileID: 8342028283336635980, guid: a3bfc966469855547b6bedf12d844bdb, type: 3}
+      propertyPath: acrossZoneInteraction.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: Frankie.Sound.SoundEffects, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 8342028283336635980, guid: a3bfc966469855547b6bedf12d844bdb, type: 3}
+      propertyPath: acrossZoneInteraction.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
     - target: {fileID: 8342028283336635981, guid: a3bfc966469855547b6bedf12d844bdb, type: 3}
       propertyPath: m_Size.x
