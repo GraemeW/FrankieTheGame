@@ -97,10 +97,11 @@ namespace Frankie.Sound
             AudioSource.PlayClipAtPoint(currentClip, Camera.main.transform.position, audioSource.volume);
         }
 
-        public void PlayRandomClipAndPersistOnSceneTransition()
+        public void PlayClipAndPersistOnSceneTransition()
         {
             if (audioClips == null) { return; }
             InitializeVolume();
+            gameObject.transform.parent = null;
             DontDestroyOnLoad(gameObject);
             PlayClip();
             destroyAfterPlay = true;
