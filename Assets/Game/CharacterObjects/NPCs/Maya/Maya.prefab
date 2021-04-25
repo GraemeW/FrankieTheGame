@@ -26,7 +26,7 @@ PrefabInstance:
     - target: {fileID: 2085418849946982719, guid: e4be3ce2d5464c3498c884ae5d9223d4, type: 3}
       propertyPath: characterProperties
       value: 
-      objectReference: {fileID: 11400000, guid: df2799c36af32ce4d8fd6788f660323d, type: 2}
+      objectReference: {fileID: 11400000, guid: c8752c77bccb9f145aea101a1d9673a5, type: 2}
     - target: {fileID: 2088815241072228431, guid: e4be3ce2d5464c3498c884ae5d9223d4, type: 3}
       propertyPath: m_Size.x
       value: 0.4
