@@ -79,7 +79,6 @@ namespace Frankie.Speech
         private void Update()
         {
             KillControllerForNoReceivers();
-
         }
 
         private void KillControllerForNoReceivers()

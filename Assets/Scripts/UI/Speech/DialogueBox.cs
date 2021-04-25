@@ -80,8 +80,6 @@ namespace Frankie.Speech.UI
 
         protected virtual void OnDisable()
         {
-            SetBusyWriting(false);
-
             if (dialogueController != null)
             {
                 if (handleGlobalInput) { dialogueController.globalInput -= HandleGlobalInput; }
