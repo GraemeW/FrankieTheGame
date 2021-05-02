@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: ColdFeet
   m_EditorClassIdentifier: 
   statusEffectType: 3
-  value: 0
-  timer: 4
+  primaryValue: 2
+  secondaryValue: 0
+  duration: 5
   numberOfTicks: 0

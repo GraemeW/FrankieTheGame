@@ -8,8 +8,9 @@ namespace Frankie.Combat
     public class StatusEffect : ScriptableObject
     {
         public StatusEffectType statusEffectType;
-        public float value;
-        public float timer;
+        public float primaryValue;
+        public float secondaryValue;
+        public float duration;
         public int numberOfTicks;
     }
 }

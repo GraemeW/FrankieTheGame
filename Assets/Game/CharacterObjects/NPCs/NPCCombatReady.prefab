@@ -18,6 +18,7 @@ MonoBehaviour:
   movingBackgroundProperties:
     tileSpriteImage: {fileID: 0}
     shaderMaterial: {fileID: 0}
+  battleStartCooldown: 2
   damageTimeSpan: 4
   fractionOfHPInstantOnRevival: 0.5
   targetHP: 1

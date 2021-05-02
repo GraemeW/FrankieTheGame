@@ -12,10 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2d638f604ff65db4f9e75a2cc6eb7bd3, type: 3}
   m_Name: IgnoreYou
   m_EditorClassIdentifier: 
-  cooldown: 1
+  cooldown: 2
   stat: 3
   apValue: 0
-  hpValue: -5
+  hpValue: 0
   numberOfHits: 1
   damageType: 0
-  statusEffects: []
+  statusEffects:
+  - statusEffect: {fileID: 11400000, guid: 028ea63a3bb333744b11383d9bbd9548, type: 2}
+    fractionalProbability: 1

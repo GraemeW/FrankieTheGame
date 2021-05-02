@@ -221,16 +221,29 @@ namespace Frankie.Combat
         // External Setup
         public void Setup(List<CombatParticipant> enemies, TransitionType transitionType)
         {
-            // TODO:  Implement different battle transition type impact to combat (i.e. advance attack, late attack, same-same)
             foreach (CombatParticipant character in party.GetParty())
             {
-                
+                if (transitionType == TransitionType.BattleGood)
+                {
+                    character.SetCooldown(0f);
+                }
+                else
+                {
+                    character.SetCooldown(character.GetBattleStartCooldown());
+                }
                 character.stateAltered += CheckForBattleEnd;
                 activeCharacters.Add(character);
             }
             foreach (CombatParticipant enemy in enemies)
             {
-                enemy.SetCombatActive(true);
+                if (transitionType == TransitionType.BattleBad)
+                {
+                    enemy.SetCooldown(0f);
+                }
+                else
+                {
+                    enemy.SetCooldown(enemy.GetBattleStartCooldown());
+                }
                 enemy.stateAltered += CheckForBattleEnd;
                 activeEnemies.Add(enemy);
             }

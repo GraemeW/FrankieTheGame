@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: BloodyNose
   m_EditorClassIdentifier: 
   statusEffectType: 1
-  value: 1
-  timer: 5
-  numberOfTicks: 10
+  primaryValue: -1
+  secondaryValue: 0
+  duration: 15
+  numberOfTicks: 6

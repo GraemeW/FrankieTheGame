@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: HotLap
   m_EditorClassIdentifier: 
   statusEffectType: 2
-  value: 1
-  timer: 6
+  primaryValue: -2
+  secondaryValue: 0
+  duration: 6
   numberOfTicks: 3

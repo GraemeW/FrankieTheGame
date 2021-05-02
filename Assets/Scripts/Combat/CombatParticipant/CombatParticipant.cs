@@ -20,6 +20,8 @@ namespace Frankie.Combat
         [SerializeField] MovingBackgroundProperties movingBackgroundProperties;
 
         [Header("Combat Properties")]
+        [SerializeField] float battleStartCooldown = 1.0f;
+        [SerializeField] float cooldownMultiplier = 1f;
         [SerializeField] float damageTimeSpan = 4.0f;
         [SerializeField] float fractionOfHPInstantOnRevival = 0.5f;
 
@@ -94,8 +96,6 @@ namespace Frankie.Combat
 
         public float GetHPValueForSkill(Skill skill)
         {
-            // TODO:  Implement buff/debuff logic for adjusting this parameter
-
             if (Mathf.Approximately(skill.hpValue, 0f)) { return 0f; }
             float baseStatsModifier = Mathf.Sign(skill.hpValue) * GetBaseStatsModifier(skill);
             return baseStatsModifier + skill.hpValue;
@@ -103,8 +103,6 @@ namespace Frankie.Combat
 
         public float GetAPValueForSkill(Skill skill)
         {
-            // TODO:  Implement buff/debuff logic for adjusting this parameter
-
             if (Mathf.Approximately(skill.apValue, 0f)) { return 0f; }
             float baseStatsModifier = Mathf.Sign(skill.hpValue) * GetBaseStatsModifier(skill);
             return baseStatsModifier + skill.apValue;
@@ -112,8 +110,29 @@ namespace Frankie.Combat
 
         public float GetCooldownForSkill(Skill skill)
         {
-            // TODO:  Implement buff/debuff logic for adjusting this parameter
             return skill.cooldown;
+        }
+
+        public float GetBattleStartCooldown()
+        {
+            return battleStartCooldown;
+        }
+
+        public void SetCooldownMultiplier(float cooldownMultiplier)
+        {
+            if (Mathf.Approximately(this.cooldownMultiplier, 0f))
+            {
+                this.cooldownMultiplier = cooldownMultiplier;
+            }
+            else
+            {
+                this.cooldownMultiplier *= cooldownMultiplier;
+            }
+        }
+
+        public float GetCooldownMultiplier()
+        {
+            return cooldownMultiplier;
         }
 
         public bool IsInCombat()
@@ -168,7 +187,7 @@ namespace Frankie.Combat
         public void ApplyStatusEffect(StatusEffect statusEffect)
         {
             ActiveStatusEffect activeStatusEffect = gameObject.AddComponent(typeof(ActiveStatusEffect)) as ActiveStatusEffect;
-            activeStatusEffect.Setup(statusEffect);
+            activeStatusEffect.Setup(statusEffect, this);
 
             if (stateAltered != null)
             {
@@ -191,7 +210,7 @@ namespace Frankie.Combat
         public void SetCooldown(float seconds)
         {
             inCooldown = true;
-            cooldownTimer = seconds;
+            cooldownTimer = seconds * cooldownMultiplier;
             if (stateAltered != null)
             {
                 stateAltered.Invoke(this, new StateAlteredData(StateAlteredType.CooldownSet));
