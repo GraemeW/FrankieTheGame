@@ -302,6 +302,16 @@ namespace Frankie.Combat.UI
             battleController.SetHandleLevelUp(false);
         }
 
+        public DialogueBox SetupRunFailureMessage()
+        {
+            GameObject dialogueBoxObject = Instantiate(dialogueBoxPrefab, infoChooseParent);
+            DialogueBox dialogueBox = dialogueBoxObject.GetComponent<DialogueBox>();
+            dialogueBox.AddText("Failed to run away.");
+            dialogueBox.SetGlobalCallbacks(battleController);
+
+            return dialogueBox;
+        }
+
         public void HandleDialogueCallback(DialogueBox dialogueBox, string callbackMessage)
         {
             if (callbackMessage == DIALOGUE_CALLBACK_INTRO_COMPLETE)

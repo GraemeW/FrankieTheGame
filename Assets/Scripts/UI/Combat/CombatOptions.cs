@@ -23,6 +23,9 @@ namespace Frankie.Combat.UI
         BattleCanvas battleCanvas = null;
         Party party = null;
 
+        // Static
+        protected static string DIALOGUE_CALLBACK_DISABLE_COMBAT_OPTIONS = "DISABLE_COMBAT_OPTIONS";
+
         protected override void Awake()
         {
             // Override default behavior, null implementation
@@ -59,10 +62,26 @@ namespace Frankie.Combat.UI
 
         public void AttemptToRun() // Called via unity events
         {
-            // TODO:  add logic for running (odds vs. speed, etc.) -- should be calculated on party / combat participants in battle controller
-            battleController.SetBattleOutcome(BattleOutcome.Ran);
-            battleController.SetBattleState(BattleState.Outro);
-            gameObject.SetActive(false);
+            if (battleController.AttemptToRun())
+            {
+                gameObject.SetActive(false);
+            }
+            else
+            {
+                handleGlobalInput = false;
+                DialogueBox runFailureDialogueBox = battleCanvas.SetupRunFailureMessage();
+                runFailureDialogueBox.SetDisableCallback(this, DIALOGUE_CALLBACK_DISABLE_COMBAT_OPTIONS);
+            }
+        }
+
+        public override void HandleDialogueCallback(DialogueBox dialogueBox, string callbackMessage)
+        {
+            base.HandleDialogueCallback(dialogueBox, callbackMessage);
+            if (callbackMessage == DIALOGUE_CALLBACK_DISABLE_COMBAT_OPTIONS)
+            {
+                handleGlobalInput = true;
+                InitiateCombat();
+            }
         }
     }
 }

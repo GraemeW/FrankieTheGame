@@ -16,6 +16,7 @@ namespace Frankie.Combat
         // Tunables
         [Header("Controller Properties")]
         [SerializeField] float battleQueueDelay = 1.0f;
+        [SerializeField] float runFailureCooldown = 3.0f;
 
         // State
         BattleState state = default;
@@ -521,6 +522,40 @@ namespace Frankie.Combat
             activeCharacters.Clear();
             activeEnemies.Clear();
             SetSelectedCharacter(null);
+        }
+
+        public bool AttemptToRun()
+        {
+            float partySpeed = 0f;
+            float enemySpeed = 0f;
+
+            foreach (CombatParticipant character in activeCharacters)
+            {
+                partySpeed += character.GetBaseStats().GetBaseStat(Stat.Nimble);
+            }
+
+            foreach (CombatParticipant enemy in activeEnemies)
+            {
+                enemySpeed += enemy.GetBaseStats().GetBaseStat(Stat.Nimble);
+            }
+
+            if (partySpeed > enemySpeed)
+            {
+                SetBattleOutcome(BattleOutcome.Ran);
+                SetBattleState(BattleState.Outro);
+                return true;
+            }
+            else
+            {
+                foreach (CombatParticipant character in activeCharacters)
+                {
+                    if (character.GetCooldown() < runFailureCooldown)
+                    {
+                        character.SetCooldown(runFailureCooldown);
+                    }
+                }
+                return false;
+            }
         }
 
         public PlayerInputType NavigationVectorToInputTypeTemplate(Vector2 navigationVector)

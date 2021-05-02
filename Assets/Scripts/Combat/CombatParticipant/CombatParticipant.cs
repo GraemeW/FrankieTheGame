@@ -217,6 +217,11 @@ namespace Frankie.Combat
             }
         }
 
+        public float GetCooldown()
+        {
+            return cooldownTimer;
+        }
+
         public bool GetFriendly()
         {
             return friendly;

@@ -42,6 +42,7 @@ namespace Frankie.Speech.UI
 
         // Static
         protected static string DIALOGUE_CALLBACK_ENABLE_INPUT = "ENABLE_INPUT";
+        protected static string DIALOGUE_CALLBACK_DESTROY = "DESTROY";
 
         // Structures
         private struct ReceptacleTextPair
@@ -423,11 +424,15 @@ namespace Frankie.Speech.UI
             }
         }
 
-        public void HandleDialogueCallback(DialogueBox dialogueBox, string callbackMessage)
+        public virtual void HandleDialogueCallback(DialogueBox dialogueBox, string callbackMessage)
         {
             if (callbackMessage == DIALOGUE_CALLBACK_ENABLE_INPUT)
             {
                 handleGlobalInput = true;
+            }
+            else if (callbackMessage == DIALOGUE_CALLBACK_DESTROY)
+            {
+                Destroy(gameObject);
             }
         }
     }
