@@ -3,34 +3,21 @@ using UnityEngine;
 using Frankie.ZoneManagement;
 using Frankie.Stats;
 using Frankie.Combat;
-using Frankie.Core;
 
 namespace Frankie.Control
 {
-    public class NPCController : MonoBehaviour
+    public class NPCStateHandler : MonoBehaviour
     {
         // Tunables
-        [SerializeField] Transform interactionCenterPoint = null;
         [Tooltip("Only used if not found via base stats")] [SerializeField] string defaultName = "";
         [Tooltip("Include {0} for enemy name")] [SerializeField] string messageCannotFight = "{0} is wounded and cannot fight.";
 
         // Cached References
-        Animator animator = null;
         BaseStats baseStats = null;
-
-        // State
-        Vector2 lookDirection = new Vector2();
-        float currentSpeed = 0;
 
         private void Awake()
         {
-            animator = GetComponent<Animator>();
             baseStats = GetComponent<BaseStats>();
-        }
-
-        private void Start()
-        {
-            lookDirection = Vector2.down;
         }
 
         public string GetName()
@@ -41,19 +28,6 @@ namespace Frankie.Control
                 return baseStats.GetCharacterProperties().GetCharacterNamePretty();
             }
             return defaultName;
-        }
-
-        public void SetLookDirectionToPlayer(PlayerStateHandler playerStateHandler) // called via Unity Event
-        {
-            PlayerController callingController = playerStateHandler.GetComponent<PlayerController>();
-            Vector2 lookDirection = callingController.GetInteractionPosition() - (Vector2)interactionCenterPoint.position;
-            SetLookDirection(lookDirection);
-            UpdateAnimator();
-        }
-
-        public void SetLookDirection(Vector2 lookDirection)
-        {
-            this.lookDirection = lookDirection;
         }
 
         public void InitiateCombat(PlayerStateHandler playerStateHandler)  // called via Unity Event
@@ -71,13 +45,6 @@ namespace Frankie.Control
                 // TODO:  Implement pile-on / swarm system
                 playerStateHandler.EnterCombat(enemies, TransitionType.BattleNeutral);
             }
-        }
-
-        private void UpdateAnimator()
-        {
-            animator.SetFloat("Speed", currentSpeed);
-            animator.SetFloat("xLook", lookDirection.x);
-            animator.SetFloat("yLook", lookDirection.y);
         }
     }
 }

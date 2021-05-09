@@ -17,7 +17,6 @@ namespace Frankie.Combat
         [SerializeField] string rightBranch = null;
         [SerializeField] string downSkillReference = null;
         [SerializeField] string downBranch = null;
-        [SerializeField] string detail = null;
         [SerializeField] Rect rect = new Rect(30, 30, 250, 155);
         [HideInInspector] [SerializeField] Rect draggingRect = new Rect(0, 0, 250, 45);
         [Header("Branch Properties")]

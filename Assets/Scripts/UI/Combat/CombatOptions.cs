@@ -9,13 +9,6 @@ namespace Frankie.Combat.UI
     public class CombatOptions : DialogueOptionBox
     {
         // Tunables 
-        [Header("Button HookUps")]
-        [SerializeField] Button fightButton = null;
-        [SerializeField] Button itemButton = null;
-        [SerializeField] Button statsButton = null;
-        [SerializeField] Button runButton = null;
-        [SerializeField] Button bargainButton = null;
-        [Header("Option Game Objects")]
         [SerializeField] GameObject statusPrefab = null;
 
         // Cached References

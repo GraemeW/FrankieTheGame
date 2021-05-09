@@ -4,8 +4,6 @@ using Frankie.Core;
 using Frankie.Stats;
 using Frankie.Stats.UI;
 using Frankie.Control;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -14,10 +12,6 @@ namespace Frankie.Speech.UI
     public class WorldOptions : DialogueOptionBox
     {
         // Tunables
-        [SerializeField] Button knapsackButton = null;
-        [SerializeField] Button abilitiesButton = null;
-        [SerializeField] Button statusButton = null;
-        [SerializeField] Button mapButton = null;
         [SerializeField] Transform characterPanelTransform = null;
         [Header("Option Game Objects")]
         [SerializeField] GameObject characterSlidePrefab = null;

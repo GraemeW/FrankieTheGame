@@ -10,7 +10,6 @@ namespace Frankie.Stats
     {
         // Tunables
         [SerializeField][Range(1,4)] int partyLimit = 4;
-        [SerializeField] Transform partyContainer = null;
         [SerializeField] List<CombatParticipant> party = new List<CombatParticipant>();
 
         // State

@@ -36,6 +36,11 @@ namespace Frankie.ZoneManagement
             yield return LoadStartScreen();
         }
 
+        public void QueueSplashScreen()
+        {
+            StartCoroutine(LoadSplashScreen());
+        }
+
         public void QueueStartScreen()
         {
             StartCoroutine(LoadStartScreen());
@@ -44,6 +49,12 @@ namespace Frankie.ZoneManagement
         public void QueueNewGame()
         {
             StartCoroutine(LoadNewGame());
+        }
+
+        private IEnumerator LoadSplashScreen()
+        {
+            yield return SceneManager.LoadSceneAsync(splashScreen.GetSceneReference().SceneName);
+            SetCurrentZone(splashScreen);
         }
 
         private IEnumerator LoadStartScreen()

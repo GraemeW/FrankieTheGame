@@ -11,9 +11,6 @@ namespace Frankie.Core
         const string defaultSaveFile = "save";
         const string defaultSessionFile = "session";
         [SerializeField] bool deleteSaveFileOnStart = false;
-        [SerializeField] KeyCode saveKey = KeyCode.P;
-        [SerializeField] KeyCode loadKey = KeyCode.L;
-        [SerializeField] KeyCode deleteKey = KeyCode.Delete;
 
         // Cached References
         PlayerInput playerInput = null;

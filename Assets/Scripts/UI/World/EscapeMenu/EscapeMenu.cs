@@ -11,9 +11,6 @@ namespace Frankie.Speech.UI
     public class EscapeMenu : DialogueOptionBox
     {
         // Tunables
-        [SerializeField] Button optionsMenuButton = null;
-        [SerializeField] Button quitGameMenuButton = null;
-        [Header("Option Game Objects")]
         [SerializeField] GameObject optionsMenuPrefab = null;
 
         // Cached References

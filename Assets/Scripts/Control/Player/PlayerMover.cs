@@ -1,43 +1,28 @@
 using Frankie.Stats;
 using UnityEngine;
 using Frankie.Saving;
-using Frankie.Core;
 
 namespace Frankie.Control
 {
     [RequireComponent(typeof(PlayerController))]
-    public class PlayerMover : MonoBehaviour, ISaveable
+    public class PlayerMover : Mover
     {
         // Tunables
-        [SerializeField] float movementSpeed = 1.0f;
         [SerializeField] float speedMoveThreshold = 0.05f;
 
         // State
         float inputHorizontal;
         float inputVertical;
-        Vector2 lookDirection = new Vector2();
-        float currentSpeed = 0;
 
         // Cached References
         PlayerStateHandler playerStateHandler = null;
-        Rigidbody2D playerRigidbody2D = null;
         Party party = null;
 
-        static float Sign(float number)
+        protected override void Awake()
         {
-            return number < 0 ? -1 : (number > 0 ? 1 : 0);
-        }
-
-        private void Awake()
-        {
-            playerRigidbody2D = GetComponent<Rigidbody2D>();
+            base.Awake();
             playerStateHandler = GetComponent<PlayerStateHandler>();
             party = GetComponent<Party>();
-        }
-
-        private void Start()
-        {
-            SetLookDirection(Vector2.down); // Initialize look direction to avoid wonky
         }
 
         private void FixedUpdate()
@@ -51,16 +36,6 @@ namespace Frankie.Control
         {
             inputHorizontal = Vector2.Dot(directionalInput, Vector2.right);
             inputVertical = Vector2.Dot(directionalInput, Vector2.up);
-        }
-
-        public void SetLookDirection(Vector2 lookDirection)
-        {
-            this.lookDirection = lookDirection;
-        }
-
-        public Vector2 GetLookDirection()
-        {
-            return lookDirection;
         }
 
         private void InteractWithMovement()
@@ -91,28 +66,5 @@ namespace Frankie.Control
             position.y = position.y + movementSpeed * Sign(inputVertical) * Time.deltaTime;
             playerRigidbody2D.MovePosition(position);
         }
-
-        // Save State
-        [System.Serializable]
-        struct MoverSaveData
-        {
-            public SerializableVector2 position;
-        }
-
-        public object CaptureState()
-        {
-            MoverSaveData data = new MoverSaveData
-            {
-                position = new SerializableVector2(transform.position)
-            };
-            return data;
-        }
-
-        public void RestoreState(object state)
-        {
-            MoverSaveData data = (MoverSaveData)state;
-            transform.position = data.position.ToVector();
-        }
     }
-
 }

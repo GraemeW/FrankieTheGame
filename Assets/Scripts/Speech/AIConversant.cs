@@ -18,7 +18,7 @@ namespace Frankie.Speech
 
         private void CheckForNPCControllerInParent()
         {
-            NPCController npcController = GetComponentInParent<NPCController>();
+            NPCStateHandler npcController = GetComponentInParent<NPCStateHandler>();
             if (npcController == null) { throw new ArgumentException("Parameter cannot be null", nameof(npcController)); }
         }
 
