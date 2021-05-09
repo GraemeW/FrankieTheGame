@@ -48,6 +48,10 @@ namespace Frankie.Control
         {
             if (skipSplashRoutine != null) { StopCoroutine(skipSplashRoutine); skipSplashRoutine = null; }
             sceneLoader.QueueStartScreen();
+            if (globalInput != null)
+            {
+                globalInput.Invoke(PlayerInputType.Execute);
+            }
         }
 
         public PlayerInputType NavigationVectorToInputTypeTemplate(Vector2 navigationVector)

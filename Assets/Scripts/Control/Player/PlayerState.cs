@@ -1,4 +1,4 @@
-namespace Frankie.Core
+namespace Frankie.Control
 {
     [System.Serializable]
     public enum PlayerState

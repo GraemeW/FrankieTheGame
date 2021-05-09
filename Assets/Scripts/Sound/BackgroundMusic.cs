@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Audio;
 using Frankie.Settings;
-using Frankie.Core;
+using Frankie.Control;
 
 namespace Frankie.Sound
 {
