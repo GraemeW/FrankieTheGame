@@ -25,8 +25,10 @@ namespace Frankie.Control
             party = GetComponent<Party>();
         }
 
-        private void FixedUpdate()
+        protected override void FixedUpdate()
         {
+            // TODO:  Add cutscene support (override user input)
+
             if (playerStateHandler.GetPlayerState() == PlayerState.inWorld)
             {
                 InteractWithMovement();
@@ -61,10 +63,15 @@ namespace Frankie.Control
 
         private void MovePlayer()
         {
-            Vector2 position = playerRigidbody2D.position;
+            Vector2 position = rigidBody2D.position;
             position.x = position.x + movementSpeed * Sign(inputHorizontal) * Time.deltaTime;
             position.y = position.y + movementSpeed * Sign(inputVertical) * Time.deltaTime;
-            playerRigidbody2D.MovePosition(position);
+            rigidBody2D.MovePosition(position);
+        }
+
+        protected override void UpdateAnimator()
+        {
+            playerStateHandler.GetParty().UpdatePartyAnimation(movementSpeed, lookDirection.x, lookDirection.y);
         }
     }
 }

@@ -9,27 +9,49 @@ namespace Frankie.Control
     {
         // Tunables
         [SerializeField] protected float movementSpeed = 1.0f;
+        [SerializeField] protected float defaultTargetDistanceTolerance = 0.15f;
 
         // State
+        protected Vector2 originalPosition = new Vector2();
+        protected Vector2? moveTargetCoordinate = null;
+        protected GameObject moveTargetObject = null;
         protected Vector2 lookDirection = new Vector2();
         protected float currentSpeed = 0;
+        float targetDistanceTolerance = 0.15f;
 
         // Cached References
-        protected Rigidbody2D playerRigidbody2D = null;
+        protected Rigidbody2D rigidBody2D = null;
+
+        // Static
+        static float SIGN_FLOOR_THRESHOLD = 0.1f;
 
         protected static float Sign(float number)
         {
             return number < 0 ? -1 : (number > 0 ? 1 : 0);
         }
 
+        protected static float SignFloored(float number)
+        {
+            if (Mathf.Abs(number) < SIGN_FLOOR_THRESHOLD) { return 0; }
+            else { return Sign(number); }
+        }
+
         protected virtual void Awake()
         {
-            playerRigidbody2D = GetComponent<Rigidbody2D>();
+            originalPosition = transform.position;
+            targetDistanceTolerance = defaultTargetDistanceTolerance;
+            rigidBody2D = GetComponent<Rigidbody2D>();
         }
 
         protected virtual void Start()
         {
+            ClearMoveTargets();
             SetLookDirection(Vector2.down); // Initialize look direction to avoid wonky
+        }
+
+        protected virtual void FixedUpdate()
+        {
+            MoveToTarget();
         }
 
         public void SetLookDirection(Vector2 lookDirection)
@@ -40,6 +62,80 @@ namespace Frankie.Control
         public Vector2 GetLookDirection()
         {
             return lookDirection;
+        }
+
+        public void SetMoveTarget(Vector2 target)
+        {
+            moveTargetCoordinate = target;
+        }
+
+        public void SetMoveTarget(GameObject gameObject)
+        {
+            moveTargetObject = gameObject;
+            targetDistanceTolerance = 0f;
+        }
+
+        public void ClearMoveTargets()
+        {
+            moveTargetCoordinate = null;
+            moveTargetObject = null;
+            targetDistanceTolerance = defaultTargetDistanceTolerance;
+            currentSpeed = 0f;
+        }
+
+        public void MoveToOriginalPosition()
+        {
+            SetMoveTarget(originalPosition);
+        }
+
+        protected bool MoveToTarget()
+        {
+            if (moveTargetCoordinate == null && moveTargetObject == null) { return false; }
+
+            Vector2 position = rigidBody2D.position;
+            Vector2 target = ReckonTarget();
+            if (ArrivedAtTarget(target)) { return false; }
+
+            Vector2 direction = target - position;
+            lookDirection.Set(direction.x, direction.y);
+            lookDirection.Normalize();
+            currentSpeed = movementSpeed;
+
+            position.x = position.x + currentSpeed * SignFloored(lookDirection.x) * Time.deltaTime;
+            position.y = position.y + currentSpeed * SignFloored(lookDirection.y) * Time.deltaTime;
+            rigidBody2D.MovePosition(position);
+            UpdateAnimator();
+
+            return true;
+        }
+
+        private Vector2 ReckonTarget()
+        {
+            Vector2 target = Vector2.zero;
+            if (moveTargetCoordinate != null)
+            {
+                target = moveTargetCoordinate.Value;
+            }
+            else if (moveTargetObject != null)
+            {
+                target = moveTargetObject.transform.position;
+            }
+
+            return target;
+        }
+
+        private bool ArrivedAtTarget(Vector2 target)
+        {
+            if (Mathf.Abs(Vector2.Distance(rigidBody2D.position, target)) < targetDistanceTolerance)
+            {
+                return true;
+            }
+            return false;
+        }
+
+        protected virtual void UpdateAnimator()
+        {
+            // Base implementation blank
         }
 
         // Save State

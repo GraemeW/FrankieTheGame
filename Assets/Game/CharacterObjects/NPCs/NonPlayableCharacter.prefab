@@ -175,7 +175,7 @@ Rigidbody2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6761616658632847994}
-  m_BodyType: 2
+  m_BodyType: 1
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
@@ -184,7 +184,7 @@ Rigidbody2D:
   m_AngularDrag: 0.05
   m_GravityScale: 0
   m_Material: {fileID: 0}
-  m_Interpolate: 0
+  m_Interpolate: 1
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
@@ -202,6 +202,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   defaultName: 
   messageCannotFight: '{0} is wounded and cannot fight.'
+  willChasePlayer: 0
+  chaseDistance: 10
+  aggravationTime: 3
+  suspicionTime: 3
+  shoutDistance: 10
+  collidedWithPlayer:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!114 &6762723866359945157
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -247,7 +255,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   movementSpeed: 1
+  defaultTargetDistanceTolerance: 0.15
   interactionCenterPoint: {fileID: 851377592137554633}
+  patrolPath: {fileID: 0}
+  waypointDwellTime: 2
 --- !u!1 &8479994409347232063
 GameObject:
   m_ObjectHideFlags: 0

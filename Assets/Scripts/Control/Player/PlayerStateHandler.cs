@@ -61,6 +61,11 @@ namespace Frankie.Control
             return transitionType;
         }
 
+        public Party GetParty()
+        {
+            return party;
+        }
+
         public void EnterCombat(List<CombatParticipant> enemies, TransitionType transitionType)
         {
             if (!party.IsAnyMemberAlive()) { OpenSimpleDialogue(messageCannotFight); return; }

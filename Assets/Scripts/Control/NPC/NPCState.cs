@@ -6,8 +6,9 @@ namespace Frankie.Control
 {
     public enum NPCState
     {
-        inWorldFriendly,
-        inWorldAggravated,
-        inBattle
+        idle,
+        aggravated,
+        suspicious,
+        occupied
     }
 }

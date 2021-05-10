@@ -60,6 +60,18 @@ namespace Frankie.Stats
             return party;
         }
 
+        public bool HasMember(CombatParticipant member)
+        {
+            foreach (CombatParticipant combatParticipant in party)
+            {
+                if (combatParticipant == member)
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+
         public bool IsAnyMemberAlive()
         {
             bool alive = false;
