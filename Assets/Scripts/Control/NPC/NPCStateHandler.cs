@@ -16,10 +16,10 @@ namespace Frankie.Control
         [Tooltip("Include {0} for enemy name")] [SerializeField] string messageCannotFight = "{0} is wounded and cannot fight.";
         [Header("Chase Properties")]
         [SerializeField] bool willChasePlayer = false;
-        [SerializeField] float chaseDistance = 10.0f;
+        [SerializeField] float chaseDistance = 3.0f;
         [SerializeField] float aggravationTime = 3.0f;
         [SerializeField] float suspicionTime = 3.0f;
-        [SerializeField] float shoutDistance = 10.0f;
+        [SerializeField] float shoutDistance = 2.0f;
 
         // State
         NPCState npcState = NPCState.idle;
@@ -110,6 +110,8 @@ namespace Frankie.Control
 
         public void SetNPCState(NPCState npcState)
         {
+            if (this.npcState == npcState) { return; }
+
             this.npcState = npcState;
             if (npcState == NPCState.aggravated)
             {
@@ -125,7 +127,6 @@ namespace Frankie.Control
             }
         }
 
-        #region NPCBehaviors
         private void CheckForPlayerProximity()
         {
             float distanceToPlayer = Vector2.Distance(npcMover.GetInteractionPosition(), playerController.GetInteractionPosition());
@@ -149,9 +150,7 @@ namespace Frankie.Control
 
             timeSinceLastSawPlayer += Time.deltaTime;
         }
-        #endregion
 
-        #region NPCActions
         public void InitiateCombat(PlayerStateHandler playerStateHandler)  // called via Unity Event
         {
             CombatParticipant enemy = GetComponent<CombatParticipant>();
@@ -169,7 +168,6 @@ namespace Frankie.Control
                 playerStateHandler.EnterCombat(enemies, TransitionType.BattleNeutral);
             }
         }
-        #endregion
 
 #if UNITY_EDITOR
         private void OnDrawGizmosSelected()
