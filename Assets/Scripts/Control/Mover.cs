@@ -66,31 +66,34 @@ namespace Frankie.Control
 
         public void SetMoveTarget(Vector2 target)
         {
+            moveTargetObject = null;
             moveTargetCoordinate = target;
         }
 
         public void SetMoveTarget(GameObject gameObject)
         {
+            moveTargetCoordinate = null;
             moveTargetObject = gameObject;
             targetDistanceTolerance = 0f;
         }
 
         public void ClearMoveTargets()
         {
+            EndMovement();
+            targetDistanceTolerance = defaultTargetDistanceTolerance;
             moveTargetCoordinate = null;
             moveTargetObject = null;
-            targetDistanceTolerance = defaultTargetDistanceTolerance;
-            currentSpeed = 0f;
         }
 
         public void MoveToOriginalPosition()
         {
+            targetDistanceTolerance = defaultTargetDistanceTolerance;
             SetMoveTarget(originalPosition);
         }
 
-        protected bool MoveToTarget()
+        protected bool? MoveToTarget()
         {
-            if (moveTargetCoordinate == null && moveTargetObject == null) { return false; }
+            if (moveTargetCoordinate == null && moveTargetObject == null) { return null; }
 
             Vector2 position = rigidBody2D.position;
             Vector2 target = ReckonTarget();
@@ -131,6 +134,13 @@ namespace Frankie.Control
                 return true;
             }
             return false;
+        }
+
+        protected void EndMovement()
+        {
+            SetLookDirection(Vector2.down);
+            currentSpeed = 0f;
+            UpdateAnimator();
         }
 
         protected virtual void UpdateAnimator()

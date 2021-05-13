@@ -27,14 +27,26 @@ namespace Frankie.Control
             npcStateHandler = GetComponent<NPCStateHandler>();
         }
 
+        protected override void Start()
+        {
+            base.Start();
+            SetNextPatrolTarget();
+        }
+
         protected override void FixedUpdate()
         {
             if (npcStateHandler.GetNPCState() == NPCState.occupied) { return; }
 
-            bool hasMoved = MoveToTarget();
-            if (!hasMoved)
+            bool? hasMoved = MoveToTarget();
+            if (hasMoved == null) { return; }
+
+            if (!(bool)hasMoved)
             {
-                SetNextPatrolTarget();
+                bool isPatrolling = SetNextPatrolTarget();
+                if (!isPatrolling)
+                {
+                    EndMovement();
+                }
             }
         }
 
@@ -51,20 +63,20 @@ namespace Frankie.Control
             UpdateAnimator();
         }
 
-        private void SetNextPatrolTarget()
+        private bool SetNextPatrolTarget()
         {
-            if (patrolPath != null)
+            if (patrolPath == null) { return false; }
+
+            currentSpeed = 0f;
+            UpdateAnimator();
+            if (timeSinceArrivedAtWaypoint > waypointDwellTime)
             {
-                currentSpeed = 0f;
-                UpdateAnimator();
-                if (timeSinceArrivedAtWaypoint > waypointDwellTime)
-                {
-                    CycleWaypoint();
-                    Vector2 nextPosition = GetCurrentWaypoint();
-                    SetMoveTarget(nextPosition);
-                }
-                timeSinceArrivedAtWaypoint += Time.deltaTime;
+                CycleWaypoint();
+                Vector2 nextPosition = GetCurrentWaypoint();
+                SetMoveTarget(nextPosition);
             }
+            timeSinceArrivedAtWaypoint += Time.deltaTime;
+            return true;
         }
 
         private Vector3 GetCurrentWaypoint()
