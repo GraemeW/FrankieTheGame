@@ -195,7 +195,7 @@ namespace Frankie.Combat
             }
         }
 
-        public void ResurrectCharacter(float hp)
+        public void Revive(float hp)
         {
             isDead.value = false;
             currentHP.value = hp * fractionOfHPInstantOnRevival;
