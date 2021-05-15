@@ -179,7 +179,7 @@ Rigidbody2D:
   m_Simulated: 1
   m_UseFullKinematicContacts: 1
   m_UseAutoMass: 0
-  m_Mass: 1000000
+  m_Mass: 100000
   m_LinearDrag: 1000000
   m_AngularDrag: 1000000
   m_GravityScale: 0
@@ -256,6 +256,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   movementSpeed: 1
   defaultTargetDistanceTolerance: 0.15
+  resetPositionOnEnable: 1
   interactionCenterPoint: {fileID: 851377592137554633}
   patrolPath: {fileID: 0}
   waypointDwellTime: 2

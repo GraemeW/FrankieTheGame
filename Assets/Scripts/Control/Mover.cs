@@ -10,6 +10,7 @@ namespace Frankie.Control
         // Tunables
         [SerializeField] protected float movementSpeed = 1.0f;
         [SerializeField] protected float defaultTargetDistanceTolerance = 0.15f;
+        [SerializeField] bool resetPositionOnEnable = false;
 
         // State
         protected Vector2 originalPosition = new Vector2();
@@ -54,6 +55,15 @@ namespace Frankie.Control
             MoveToTarget();
         }
 
+        private void OnEnable()
+        {
+            if (resetPositionOnEnable)
+            {
+                transform.position = originalPosition;
+                lookDirection = Vector2.down;
+            }
+        }
+
         public void SetLookDirection(Vector2 lookDirection)
         {
             this.lookDirection = lookDirection;
@@ -93,7 +103,7 @@ namespace Frankie.Control
 
         protected bool? MoveToTarget()
         {
-            if (moveTargetCoordinate == null && moveTargetObject == null) { return null; }
+            if (IsStaticForNoTarget()) { return null; }
 
             Vector2 position = rigidBody2D.position;
             Vector2 target = ReckonTarget();
@@ -125,6 +135,20 @@ namespace Frankie.Control
             }
 
             return target;
+        }
+
+        private bool IsStaticForNoTarget()
+        {
+            if (moveTargetCoordinate == null && moveTargetObject == null)
+            {
+                rigidBody2D.bodyType = RigidbodyType2D.Static;
+                return true;
+            }
+            else
+            {
+                rigidBody2D.bodyType = RigidbodyType2D.Dynamic;
+                return false;
+            }
         }
 
         private bool ArrivedAtTarget(Vector2 target)
