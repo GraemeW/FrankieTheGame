@@ -111,15 +111,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fdf60f211944627448699ea1fcd66c3d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  interactUp: 119
-  interactLeft: 97
-  interactRight: 100
-  interactDown: 115
-  interactSkipButton: Fire1
-  interactInspectButton: Fire2
-  interactInspectKey: 101
-  interactOptionKey: 9
-  interactCancelButton: Cancel
   cursorMappings:
   - type: 0
     texture: {fileID: 2800000, guid: 5913706450b54364e81fb38732a95c0c, type: 3}
@@ -149,6 +140,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   movementSpeed: 1
+  defaultTargetDistanceTolerance: 0.15
+  resetPositionOnEnable: 0
   speedMoveThreshold: 0.05
 --- !u!114 &9140000498525693418
 MonoBehaviour:
@@ -163,7 +156,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   partyLimit: 4
-  partyContainer: {fileID: 9140000498835536796}
   party:
   - {fileID: 4369419007490498981}
 --- !u!114 &1878790955754810938
@@ -191,9 +183,9 @@ Rigidbody2D:
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
-  m_Mass: 1
-  m_LinearDrag: 0
-  m_AngularDrag: 0.05
+  m_Mass: 1000000
+  m_LinearDrag: 1000000
+  m_AngularDrag: 1000000
   m_GravityScale: 0
   m_Material: {fileID: 0}
   m_Interpolate: 0

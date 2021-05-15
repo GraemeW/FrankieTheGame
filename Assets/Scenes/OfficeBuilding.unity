@@ -1765,7 +1765,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8456762765274448979, guid: 04f5506a3c6980342b86a87faa9be780, type: 3}
       propertyPath: collidedWithPlayer.m_PersistentCalls.m_Calls.Array.size
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8456762765274448979, guid: 04f5506a3c6980342b86a87faa9be780, type: 3}
       propertyPath: collidedWithPlayer.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
@@ -1781,7 +1781,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8456762765274448979, guid: 04f5506a3c6980342b86a87faa9be780, type: 3}
       propertyPath: collidedWithPlayer.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: InitiateCombat
+      value: InitiateDialogue
       objectReference: {fileID: 0}
     - target: {fileID: 8456762765274448979, guid: 04f5506a3c6980342b86a87faa9be780, type: 3}
       propertyPath: collidedWithPlayer.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
@@ -1882,6 +1882,34 @@ MonoBehaviour:
         m_TargetAssemblyTypeName: Frankie.Control.NPCController, Assembly-CSharp
         m_MethodName: InitiateCombat
         m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!114 &639277482
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 639277476}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 47c843d51c92e854f95fb02bd7be9471, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  action: stopchase
+  onTriggerWithCallingController:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 639277477}
+        m_TargetAssemblyTypeName: Frankie.Control.NPCStateHandler, Assembly-CSharp
+        m_MethodName: SetChasePlayerDisposition
+        m_Mode: 6
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -5299,18 +5327,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 9140000498525693419, guid: 9bf5874c37e0a404a9bd916129a14959, type: 3}
-      propertyPath: m_Mass
-      value: 1000000
-      objectReference: {fileID: 0}
-    - target: {fileID: 9140000498525693419, guid: 9bf5874c37e0a404a9bd916129a14959, type: 3}
-      propertyPath: m_LinearDrag
-      value: 1000000
-      objectReference: {fileID: 0}
-    - target: {fileID: 9140000498525693419, guid: 9bf5874c37e0a404a9bd916129a14959, type: 3}
-      propertyPath: m_AngularDrag
-      value: 1000000
-      objectReference: {fileID: 0}
     - target: {fileID: 9140000498525693428, guid: 9bf5874c37e0a404a9bd916129a14959, type: 3}
       propertyPath: m_RootOrder
       value: 2

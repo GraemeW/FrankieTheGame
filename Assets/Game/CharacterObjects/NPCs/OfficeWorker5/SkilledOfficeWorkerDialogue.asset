@@ -29,7 +29,7 @@ MonoBehaviour:
     y: 0
     width: 400
     height: 45
-  onEnterAction: 
+  onEnterAction: stopchase
   onExitAction: fight
   condition:
     and: []

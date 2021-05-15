@@ -45,7 +45,7 @@ namespace Frankie.Control
                 bool isPatrolling = SetNextPatrolTarget();
                 if (!isPatrolling)
                 {
-                    EndMovement();
+                    ClearMoveTargets();
                 }
             }
         }

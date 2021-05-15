@@ -5,6 +5,7 @@ using Frankie.Stats;
 using Frankie.Combat;
 using UnityEngine.Events;
 using System;
+using Frankie.Speech;
 
 namespace Frankie.Control
 {
@@ -24,6 +25,7 @@ namespace Frankie.Control
         // State
         NPCState npcState = NPCState.idle;
         float timeSinceLastSawPlayer = Mathf.Infinity;
+        bool currentChasePlayerDisposition = false;
 
         // Cached References
         BaseStats baseStats = null;
@@ -48,6 +50,7 @@ namespace Frankie.Control
             GameObject player = GameObject.FindGameObjectWithTag("Player");
             playerStateHandler = player.GetComponent<PlayerStateHandler>();
             playerController = player.GetComponent<PlayerController>();
+            currentChasePlayerDisposition = willChasePlayer;
         }
 
         private void OnEnable()
@@ -62,7 +65,7 @@ namespace Frankie.Control
 
         private void Update()
         {
-            if (!willChasePlayer || npcState == NPCState.occupied) { return; }
+            if (!currentChasePlayerDisposition || npcState == NPCState.occupied) { return; }
 
             CheckForPlayerProximity();
             timeSinceLastSawPlayer += Time.deltaTime;
@@ -70,12 +73,9 @@ namespace Frankie.Control
 
         private void OnCollisionEnter2D(Collision2D collision)
         {
-            if (collidedWithPlayer == null) { return; }
+            if (!collision.gameObject.CompareTag("Player")) { return; }
 
-            CombatParticipant combatParticipant = collision.gameObject.GetComponent<CombatParticipant>();
-            if (combatParticipant == null) { return; }
-
-            if (playerStateHandler.GetParty().HasMember(combatParticipant))
+            if (collidedWithPlayer != null)
             {
                 collidedWithPlayer.Invoke(playerStateHandler);
             }
@@ -127,6 +127,11 @@ namespace Frankie.Control
             }
         }
 
+        public void SetChasePlayerDisposition(bool enable)
+        {
+            currentChasePlayerDisposition = enable;
+        }
+
         private void CheckForPlayerProximity()
         {
             float distanceToPlayer = Vector2.Distance(npcMover.GetInteractionPosition(), playerController.GetInteractionPosition());
@@ -167,6 +172,17 @@ namespace Frankie.Control
                 // TODO:  Implement battle type / transition types
                 playerStateHandler.EnterCombat(enemies, TransitionType.BattleNeutral);
             }
+        }
+
+        public void InitiateDialogue(PlayerStateHandler playerStateHandler) // called via Unity Event
+        {
+            AIConversant aiConversant = GetComponentInChildren<AIConversant>();
+            if (aiConversant == null) { return; }
+
+            Dialogue dialogue = aiConversant.GetDialogue();
+            if (dialogue == null) { return; }
+
+            playerStateHandler.EnterDialogue(aiConversant, dialogue);
         }
 
 #if UNITY_EDITOR

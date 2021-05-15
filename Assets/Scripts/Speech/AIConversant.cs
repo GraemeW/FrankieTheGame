@@ -30,6 +30,11 @@ namespace Frankie.Speech
             }
         }
 
+        public Dialogue GetDialogue()
+        {
+            return dialogue;
+        }
+
         public override bool HandleRaycast(PlayerStateHandler playerStateHandler, PlayerController playerController, PlayerInputType inputType, PlayerInputType matchType)
         {
             if (dialogue == null) { return false; }
