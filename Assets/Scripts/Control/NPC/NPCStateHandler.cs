@@ -34,11 +34,11 @@ namespace Frankie.Control
         PlayerController playerController = null;
 
         // Events
-        public InteractionEvent collidedWithPlayer;
+        public CollisionEvent collidedWithPlayer;
 
         // Data Structures
         [System.Serializable]
-        public class InteractionEvent : UnityEvent<PlayerStateHandler>
+        public class CollisionEvent : UnityEvent<PlayerStateHandler, TransitionType>
         {
         }
 
@@ -77,7 +77,31 @@ namespace Frankie.Control
 
             if (collidedWithPlayer != null)
             {
-                collidedWithPlayer.Invoke(playerStateHandler);
+                TransitionType battleEntryType = GetBattleEntryType(collision);
+                collidedWithPlayer.Invoke(playerStateHandler, battleEntryType);
+            }
+        }
+
+        private TransitionType GetBattleEntryType(Collision2D collision)
+        {
+            Vector2 contactPoint = collision.GetContact(0).point;
+            Vector2 npcPosition = collision.otherCollider.bounds.center;
+            Vector2 playerPosition = collision.collider.bounds.center; 
+
+            float npcLookMagnitudeToContact = Vector2.Dot(contactPoint - npcPosition, npcMover.GetLookDirection());
+            float playerLookMagnitudeToContact = Vector2.Dot(contactPoint - playerPosition, playerController.GetPlayerMover().GetLookDirection());
+
+            if (playerLookMagnitudeToContact > 0 && npcLookMagnitudeToContact < 0)
+            {
+                return TransitionType.BattleGood;
+            }
+            else if (npcLookMagnitudeToContact > 0 && playerLookMagnitudeToContact < 0)
+            {
+                return TransitionType.BattleBad;
+            }
+            else
+            {
+                return TransitionType.BattleNeutral;
             }
         }
 
@@ -158,6 +182,11 @@ namespace Frankie.Control
 
         public void InitiateCombat(PlayerStateHandler playerStateHandler)  // called via Unity Event
         {
+            InitiateCombat(playerStateHandler, TransitionType.BattleNeutral);
+        }
+
+        public void InitiateCombat(PlayerStateHandler playerStateHandler, TransitionType transitionType)  // called via Unity Event
+        {
             CombatParticipant enemy = GetComponent<CombatParticipant>();
 
             if (enemy.IsDead())
@@ -169,12 +198,16 @@ namespace Frankie.Control
                 List<CombatParticipant> enemies = new List<CombatParticipant>();
                 enemies.Add(enemy);
                 // TODO:  Implement pile-on / swarm system;
-                // TODO:  Implement battle type / transition types
-                playerStateHandler.EnterCombat(enemies, TransitionType.BattleNeutral);
+                playerStateHandler.EnterCombat(enemies, transitionType);
             }
         }
 
         public void InitiateDialogue(PlayerStateHandler playerStateHandler) // called via Unity Event
+        {
+            InitiateDialogue(playerStateHandler, TransitionType.None);
+        }
+
+        public void InitiateDialogue(PlayerStateHandler playerStateHandler, TransitionType transitionType) // called via Unity Event
         {
             AIConversant aiConversant = GetComponentInChildren<AIConversant>();
             if (aiConversant == null) { return; }
