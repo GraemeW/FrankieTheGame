@@ -4,7 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Frankie.Control
+namespace Frankie.Control.Specialization
 {
     public class WorldHealer : MonoBehaviour
     {
