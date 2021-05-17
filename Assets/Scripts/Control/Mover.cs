@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Frankie.Saving;
+using Frankie.Utils;
 
 namespace Frankie.Control
 {
@@ -153,7 +154,7 @@ namespace Frankie.Control
 
         private bool ArrivedAtTarget(Vector2 target)
         {
-            if (Mathf.Abs(Vector2.Distance(rigidBody2D.position, target)) < targetDistanceTolerance)
+            if (SmartVector2.CheckDistance(rigidBody2D.position, target, targetDistanceTolerance))
             {
                 return true;
             }

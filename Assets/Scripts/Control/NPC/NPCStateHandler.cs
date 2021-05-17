@@ -6,6 +6,7 @@ using Frankie.Combat;
 using UnityEngine.Events;
 using System;
 using Frankie.Speech;
+using Frankie.Utils;
 
 namespace Frankie.Control
 {
@@ -158,8 +159,7 @@ namespace Frankie.Control
 
         private void CheckForPlayerProximity()
         {
-            float distanceToPlayer = Vector2.Distance(npcMover.GetInteractionPosition(), playerController.GetInteractionPosition());
-            if (distanceToPlayer < chaseDistance)
+            if (SmartVector2.CheckDistance(npcMover.GetInteractionPosition(), playerController.GetInteractionPosition(), chaseDistance))
             { 
                 timeSinceLastSawPlayer = 0f;
             }

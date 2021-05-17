@@ -30,6 +30,9 @@ namespace Frankie.Control
         PlayerMover playerMover = null;
         PlayerStateHandler playerStateHandler = null;
 
+        // Static
+        string STATIC_TAG_INTERACTABLE = "Interactable";
+
         // Events
         public event Action<PlayerInputType> globalInput;
 
@@ -42,10 +45,10 @@ namespace Frankie.Control
         public RaycastHit2D PlayerCastToObject(Vector3 objectPosition)
         {
             Vector2 castDirection = objectPosition - interactionCenterPoint.position;
-            float castDistance = Vector2.Distance(objectPosition, interactionCenterPoint.position);
+            float castDistance = Vector2.Distance(objectPosition, interactionCenterPoint.position); // TODO:  Refactor to avoid square root here
             RaycastHit2D[] hits = Physics2D.CircleCastAll(interactionCenterPoint.position, raycastRadius, castDirection, castDistance);
 
-            List<RaycastHit2D> sortedInteractableHits = hits.Where(x => x.collider.transform.gameObject.CompareTag("Interactable")).OrderBy(x => x.distance).ToList();
+            List<RaycastHit2D> sortedInteractableHits = hits.Where(x => x.collider.transform.gameObject.CompareTag(STATIC_TAG_INTERACTABLE)).OrderBy(x => x.distance).ToList();
             if (sortedInteractableHits.Count == 0) { return new RaycastHit2D(); } // pass an empty hit
             return sortedInteractableHits[0];
         }

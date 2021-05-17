@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Frankie.Utils;
 
 namespace Frankie.Control
 {
@@ -13,7 +14,7 @@ namespace Frankie.Control
             RaycastHit2D playerCastToObject = callingController.PlayerCastToObject(position);
             if (playerCastToObject.collider == null) { return false; }
             if (playerCastToObject.collider.transform.gameObject != gameObject) { return false; } // obstructed
-            if (Vector2.Distance(callingController.GetInteractionPosition(), playerCastToObject.point) > interactionDistance) { return false; }
+            if (!SmartVector2.CheckDistance(callingController.GetInteractionPosition(), playerCastToObject.point, interactionDistance)) { return false; }
             
             return true;
         }
