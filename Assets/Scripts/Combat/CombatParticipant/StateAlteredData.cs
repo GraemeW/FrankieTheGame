@@ -1,3 +1,5 @@
+using Frankie.Stats;
+
 namespace Frankie.Combat
 {
     public class StateAlteredData
@@ -5,6 +7,7 @@ namespace Frankie.Combat
         public StateAlteredType stateAlteredType;
         public float points;
         public StatusEffectType statusEffectType;
+        public Stat stat;
 
         public StateAlteredData(StateAlteredType stateAlteredType)
         {
@@ -21,6 +24,12 @@ namespace Frankie.Combat
         {
             this.stateAlteredType = stateAlteredType;
             this.statusEffectType = statusEffectType;
+        }
+
+        public StateAlteredData(StateAlteredType stateAlteredType, Stat stat)
+        {
+            this.stateAlteredType = stateAlteredType;
+            this.stat = stat;
         }
     }
 }

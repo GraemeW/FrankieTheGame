@@ -10,6 +10,7 @@ namespace Frankie.Combat
         Dead,
         Resurrected,
         StatusEffectApplied,
+        BaseStateEffectApplied,
         CooldownSet,
         CooldownExpired
     }

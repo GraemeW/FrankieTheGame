@@ -184,14 +184,58 @@ namespace Frankie.Combat
             }
         }
 
-        public void ApplyStatusEffect(StatusEffect statusEffect)
+        public void ApplyStatusEffect(StatusEffectProbabilityPair statusEffectProbabilityPair)
         {
+            float chanceRoll = UnityEngine.Random.Range(0f, 1f);
+            if (statusEffectProbabilityPair.fractionalProbability < chanceRoll) { return; }
+
             ActiveStatusEffect activeStatusEffect = gameObject.AddComponent(typeof(ActiveStatusEffect)) as ActiveStatusEffect;
-            activeStatusEffect.Setup(statusEffect, this);
+            activeStatusEffect.Setup(statusEffectProbabilityPair.statusEffect, this);
 
             if (stateAltered != null)
             {
-                stateAltered.Invoke(this, new StateAlteredData(StateAlteredType.StatusEffectApplied, statusEffect.statusEffectType));
+                stateAltered.Invoke(this, new StateAlteredData(StateAlteredType.StatusEffectApplied, statusEffectProbabilityPair.statusEffect.statusEffectType));
+            }
+        }
+
+        public void ApplyBaseStatEffect(BaseStatModifier baseStatModifier)
+        {
+            float baseStatModifierValue = UnityEngine.Random.Range(baseStatModifier.minValue, baseStatModifier.maxValue);
+
+            if (baseStatModifier.permanent)
+            {
+                GetBaseStats().AdjustStat(baseStatModifier.stat, baseStatModifierValue);
+            }
+            else
+            {
+                ActiveBaseStatEffect activeBaseStatEffect = gameObject.AddComponent(typeof(ActiveBaseStatEffect)) as ActiveBaseStatEffect;
+                activeBaseStatEffect.Setup(baseStatModifier.stat, baseStatModifierValue, baseStatModifier.duration);
+            }
+
+            if (stateAltered != null)
+            {
+                stateAltered.Invoke(this, new StateAlteredData(StateAlteredType.BaseStateEffectApplied, baseStatModifier.stat));
+            }
+        }
+
+        public void RemoveStatusEffects(StatusEffectProbabilityPair statusEffectProbabilityPair)
+        {
+            float chanceRoll = UnityEngine.Random.Range(0f, 1f);
+            if (statusEffectProbabilityPair.fractionalProbability < chanceRoll) { return; }
+
+            ActiveStatusEffect[] activeStatusEffects = GetComponents<ActiveStatusEffect>();
+            if (activeStatusEffects == null) { return; }
+
+            foreach (ActiveStatusEffect activeStatusEffect in activeStatusEffects)
+            {
+                if (statusEffectProbabilityPair.statusEffect == null)
+                {
+                    Destroy(activeStatusEffect);
+                }
+                else if (activeStatusEffect.GetStatusEffect().name == statusEffectProbabilityPair.statusEffect.name)
+                {
+                    Destroy(activeStatusEffect);
+                }
             }
         }
 

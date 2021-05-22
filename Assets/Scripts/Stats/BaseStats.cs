@@ -67,7 +67,6 @@ namespace Frankie.Stats
         private void BuildActiveStatSheet()
         {
             activeStatSheet = progression.GetStatSheet(characterProperties, GetLevel());
-
         }
 
         private float GetAdditiveModifiers(Stat stat)
@@ -91,6 +90,16 @@ namespace Frankie.Stats
         public void RefreshLevel()
         {
             currentLevel.ForceInit();
+        }
+
+        public void AdjustStat(Stat stat, float value)
+        {
+            if (activeStatSheet == null)
+            {
+                BuildActiveStatSheet();
+            }
+
+            activeStatSheet[stat] += value;
         }
 
         public bool UpdateLevel()

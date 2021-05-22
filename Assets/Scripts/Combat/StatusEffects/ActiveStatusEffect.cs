@@ -1,3 +1,4 @@
+using Frankie.Stats;
 using System.Collections;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
@@ -74,6 +75,11 @@ namespace Frankie.Combat
             battleController.battleStateChanged += HandleBattleState;
 
             HandleInstantEffects();
+        }
+
+        public StatusEffect GetStatusEffect()
+        {
+            return statusEffect;
         }
 
         public string GetEffectName()

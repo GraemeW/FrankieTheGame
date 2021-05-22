@@ -16,15 +16,7 @@ namespace Frankie.Combat
         public float hpValue = 0f;
         public int numberOfHits = 1;
         public DamageType damageType = default;
-        public StatusProbabilityPair[] statusEffects = null;
-
-        // Data Structures
-        [System.Serializable]
-        public struct StatusProbabilityPair
-        {
-            public StatusEffect statusEffect;
-            [Range(0,1)] public float fractionalProbability;
-        }
+        public StatusEffectProbabilityPair[] statusEffects = null;
 
         // State
         static Dictionary<string, Skill> skillLookupCache;

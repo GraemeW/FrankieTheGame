@@ -451,9 +451,9 @@ namespace Frankie.Combat
                 battleSequence.sender.SetCooldown(battleSequence.sender.GetCooldownForSkill(battleSequence.skill));
                 battleSequence.recipient.AdjustHP(battleSequence.sender.GetHPValueForSkill(battleSequence.skill));
                 battleSequence.recipient.AdjustAP(battleSequence.sender.GetAPValueForSkill(battleSequence.skill));
-                foreach (StatusProbabilityPair activeStatusEffect in battleSequence.skill.statusEffects)
+                foreach (StatusEffectProbabilityPair statusEffectProbabilityPair in battleSequence.skill.statusEffects)
                 {
-                    battleSequence.recipient.ApplyStatusEffect(activeStatusEffect.statusEffect);
+                    battleSequence.recipient.ApplyStatusEffect(statusEffectProbabilityPair);
                 }
                 yield return new WaitForSeconds(battleQueueDelay);
             }
