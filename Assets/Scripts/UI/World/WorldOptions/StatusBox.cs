@@ -24,7 +24,6 @@ namespace Frankie.Stats.UI
 
         // State
         CombatParticipant selectedCharacter = null;
-        Party party = null;
 
         protected override void Start()
         {
@@ -34,7 +33,6 @@ namespace Frankie.Stats.UI
         public void Setup(IStandardPlayerInputCaller standardPlayerInputCaller, Party party)
         {
             SetGlobalCallbacks(standardPlayerInputCaller);
-            this.party = party;
             int choiceIndex = 0;
             foreach (CombatParticipant character in party.GetParty())
             {

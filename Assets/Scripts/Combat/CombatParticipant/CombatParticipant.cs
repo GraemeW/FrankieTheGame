@@ -32,7 +32,7 @@ namespace Frankie.Combat
         bool inCombat = false;
         bool inCooldown = false;
         float cooldownTimer = 0f;
-        public float targetHP = 1f;
+        float targetHP = 1f;
         float deltaHPTimeFraction = 0.0f;
         LazyValue<bool> isDead;
         LazyValue<float> currentHP;
@@ -184,13 +184,13 @@ namespace Frankie.Combat
             }
         }
 
-        public void ApplyStatusEffect(StatusEffectProbabilityPair statusEffectProbabilityPair)
+        public void ApplyStatusEffect(StatusEffectProbabilityPair statusEffectProbabilityPair, bool persistAfterBattle = false)
         {
             float chanceRoll = UnityEngine.Random.Range(0f, 1f);
             if (statusEffectProbabilityPair.fractionalProbability < chanceRoll) { return; }
 
             ActiveStatusEffect activeStatusEffect = gameObject.AddComponent(typeof(ActiveStatusEffect)) as ActiveStatusEffect;
-            activeStatusEffect.Setup(statusEffectProbabilityPair.statusEffect, this);
+            activeStatusEffect.Setup(statusEffectProbabilityPair.statusEffect, this, persistAfterBattle);
 
             if (stateAltered != null)
             {
@@ -232,7 +232,7 @@ namespace Frankie.Combat
                 {
                     Destroy(activeStatusEffect);
                 }
-                else if (activeStatusEffect.GetStatusEffect().name == statusEffectProbabilityPair.statusEffect.name)
+                else if (object.ReferenceEquals(activeStatusEffect.GetStatusEffect(), statusEffectProbabilityPair.statusEffect))
                 {
                     Destroy(activeStatusEffect);
                 }
@@ -429,7 +429,7 @@ namespace Frankie.Combat
             public float currentAP;
         }
 
-        public object CaptureState()
+        object ISaveable.CaptureState()
         {
             CombatParticipantSaveData combatParticipantSaveData = new CombatParticipantSaveData
             {
@@ -441,7 +441,7 @@ namespace Frankie.Combat
             return combatParticipantSaveData;
         }
 
-        public void RestoreState(object state)
+        void ISaveable.RestoreState(object state)
         {
             CombatParticipantSaveData data = (CombatParticipantSaveData)state;
             isDead.value = data.isDead;

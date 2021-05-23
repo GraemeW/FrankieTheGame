@@ -166,10 +166,10 @@ GameObject:
   - component: {fileID: 7488898841496054785}
   - component: {fileID: 6979050400895390953}
   - component: {fileID: 3740176654272905581}
-  - component: {fileID: 1308104655737474530}
   - component: {fileID: 366570592541661994}
+  - component: {fileID: -7229577654974374248}
   m_Layer: 0
-  m_Name: ChoiceOption
+  m_Name: InventoryItemField
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -262,37 +262,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
---- !u!114 &1308104655737474530
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3358873790910023875}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 486aac308d23db249877da43bf4f63c7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  selectionMarker: {fileID: 587053370915415545}
-  choiceOrder: 0
-  textField: {fileID: 5879544326553776133}
-  button: {fileID: 3740176654272905581}
-  itemHighlighted:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 8962660539164098962}
-        m_TargetAssemblyTypeName: Frankie.Sound.SoundEffects, Assembly-CSharp
-        m_MethodName: PlayClip
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
 --- !u!114 &366570592541661994
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -319,6 +288,37 @@ MonoBehaviour:
   m_ChildScaleWidth: 1
   m_ChildScaleHeight: 1
   m_ReverseArrangement: 0
+--- !u!114 &-7229577654974374248
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3358873790910023875}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 26efd835dea4b68469d90b8853d56ec9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  selectionMarker: {fileID: 587053370915415545}
+  choiceOrder: 0
+  textField: {fileID: 5879544326553776133}
+  button: {fileID: 3740176654272905581}
+  itemHighlighted:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 5571382845279801174}
+        m_TargetAssemblyTypeName: Frankie.Sound.SoundEffects, Assembly-CSharp
+        m_MethodName: PlayClip
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &8589988555541508693
 GameObject:
   m_ObjectHideFlags: 0
@@ -540,17 +540,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 2366363061461443363, guid: 9fe4f716a2cae1644a0e1dc7d044c757, type: 3}
   m_PrefabInstance: {fileID: 6680745816703525566}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &8962660539164098962 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 2366363061461443372, guid: 9fe4f716a2cae1644a0e1dc7d044c757, type: 3}
-  m_PrefabInstance: {fileID: 6680745816703525566}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7d92abaff543d4a4498f7173bd00113e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1001 &7892142213232618618
 PrefabInstance:
   m_ObjectHideFlags: 0

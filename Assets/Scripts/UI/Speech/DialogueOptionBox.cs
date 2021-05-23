@@ -14,9 +14,9 @@ namespace Frankie.Speech.UI
         [SerializeField] bool clearVolatileOptionsOnEnable = true;
 
         // State
-        bool isChoiceAvailable = false;
-        List<DialogueChoiceOption> choiceOptions = new List<DialogueChoiceOption>();
-        DialogueChoiceOption highlightedChoiceOption = null;
+        protected bool isChoiceAvailable = false;
+        protected List<DialogueChoiceOption> choiceOptions = new List<DialogueChoiceOption>();
+        protected DialogueChoiceOption highlightedChoiceOption = null;
 
         protected override void Start()
         {
@@ -35,7 +35,7 @@ namespace Frankie.Speech.UI
             ClearChoiceSelections();
         }
 
-        protected void SetUpChoiceOptions()
+        protected virtual void SetUpChoiceOptions()
         {
             if (clearVolatileOptionsOnEnable) { choiceOptions.Clear(); }
             choiceOptions.AddRange(optionParent.gameObject.GetComponentsInChildren<DialogueChoiceOption>().OrderBy(x => x.choiceOrder).ToList());
@@ -73,7 +73,7 @@ namespace Frankie.Speech.UI
             dialogueChoiceOption.SetChoiceOrder(choiceOptions.Count + 1);
             dialogueChoiceOption.SetText(choiceText);
             choiceOptions.Add(dialogueChoiceOption);
-            choiceObject.GetComponent<Button>().onClick.AddListener(delegate { functionCall.Invoke();  Destroy(gameObject); });
+            dialogueChoiceOption.GetButton().onClick.AddListener(delegate { functionCall.Invoke();  Destroy(gameObject); });
         }
 
         private void AddChoiceOption(string choiceText, Action<string> functionCall, string functionParameter)
@@ -83,7 +83,7 @@ namespace Frankie.Speech.UI
             dialogueChoiceOption.SetChoiceOrder(choiceOptions.Count + 1);
             dialogueChoiceOption.SetText(choiceText);
             choiceOptions.Add(dialogueChoiceOption);
-            choiceObject.GetComponent<Button>().onClick.AddListener(delegate { functionCall.Invoke(functionParameter); Destroy(gameObject); });
+            dialogueChoiceOption.GetButton().onClick.AddListener(delegate { functionCall.Invoke(functionParameter); Destroy(gameObject); });
         }
 
         public override void HandleGlobalInput(PlayerInputType playerInputType)
@@ -98,6 +98,8 @@ namespace Frankie.Speech.UI
 
         protected override bool ShowCursorOnAnyInteraction(PlayerInputType playerInputType)
         {
+            if (choiceOptions.Count == 0) { return false; }
+
             if (highlightedChoiceOption == null && playerInputType != PlayerInputType.DefaultNone)
             {
                 highlightedChoiceOption = choiceOptions[0];
@@ -154,13 +156,13 @@ namespace Frankie.Speech.UI
         {
             if (highlightedChoiceOption != null)
             {
-                highlightedChoiceOption.GetComponent<Button>().onClick.Invoke();
+                highlightedChoiceOption.GetButton().onClick.Invoke();
                 return true;
             }
             return false;
         }
 
-        private void ClearChoiceSelections()
+        protected void ClearChoiceSelections()
         {
             highlightedChoiceOption = null;
             foreach (DialogueChoiceOption choiceOption in choiceOptions)

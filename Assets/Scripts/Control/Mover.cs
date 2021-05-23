@@ -180,7 +180,7 @@ namespace Frankie.Control
             public SerializableVector2 position;
         }
 
-        public object CaptureState()
+        object ISaveable.CaptureState()
         {
             MoverSaveData data = new MoverSaveData
             {
@@ -189,7 +189,7 @@ namespace Frankie.Control
             return data;
         }
 
-        public void RestoreState(object state)
+        void ISaveable.RestoreState(object state)
         {
             MoverSaveData data = (MoverSaveData)state;
             transform.position = data.position.ToVector();

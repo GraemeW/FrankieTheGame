@@ -6,6 +6,7 @@ using Frankie.Stats.UI;
 using Frankie.Control;
 using UnityEngine;
 using UnityEngine.UI;
+using Frankie.Inventory.UI;
 
 namespace Frankie.Speech.UI
 {
@@ -87,6 +88,15 @@ namespace Frankie.Speech.UI
             StatusBox statusBox = childOption.GetComponent<StatusBox>();
             statusBox.Setup(playerController, party);
             statusBox.SetDisableCallback(this, DIALOGUE_CALLBACK_ENABLE_INPUT);
+        }
+
+        public void OpenKnapsack() // Called via Unity Events
+        {
+            handleGlobalInput = false;
+            GameObject childOption = Instantiate(knapsackPrefab, worldCanvas.gameObject.transform);
+            InventoryBox inventoryBox = childOption.GetComponent<InventoryBox>();
+            inventoryBox.Setup(playerController, party);
+            inventoryBox.SetDisableCallback(this, DIALOGUE_CALLBACK_ENABLE_INPUT);
         }
     }
 }

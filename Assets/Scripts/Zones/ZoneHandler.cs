@@ -290,7 +290,7 @@ namespace Frankie.ZoneManagement
             return false;
         }
 
-        public object CaptureState()
+        object ISaveable.CaptureState()
         {
             if (roomParent != null)
             {
@@ -299,7 +299,7 @@ namespace Frankie.ZoneManagement
             else return true;
         }
 
-        public void RestoreState(object state)
+        void ISaveable.RestoreState(object state)
         {
             if (EnableRoomParent((bool)state)) { roomParentSetBySave = true; }
         }

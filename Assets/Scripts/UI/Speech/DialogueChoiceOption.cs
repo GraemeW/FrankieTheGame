@@ -10,9 +10,10 @@ namespace Frankie.Speech.UI
     public class DialogueChoiceOption : MonoBehaviour
     {
         // Tunables
-        [SerializeField] GameObject selectionMarker = null;
+        [SerializeField] protected GameObject selectionMarker = null;
         [Tooltip("Smallest values select first")] public int choiceOrder = 0;
         [SerializeField] TextMeshProUGUI textField = null;
+        [SerializeField] Button button = null;
 
         // State
         DialogueNode dialogueNode = null;
@@ -25,7 +26,7 @@ namespace Frankie.Speech.UI
 
         private void OnDestroy()
         {
-            GetComponent<Button>().onClick.RemoveAllListeners();
+            button.onClick.RemoveAllListeners();
             if (dialogueController != null)
             {
                 dialogueController.highlightedNodeChanged -= Highlight;
@@ -37,6 +38,11 @@ namespace Frankie.Speech.UI
             this.dialogueController = dialogueController;
             this.dialogueNode = dialogueNode;
             dialogueController.highlightedNodeChanged += Highlight;
+        }
+
+        public Button GetButton()
+        {
+            return button;
         }
 
         public void SetChoiceOrder(int choiceOrder)
@@ -65,7 +71,7 @@ namespace Frankie.Speech.UI
             }
         }
 
-        public void Highlight(bool enable)
+        public virtual void Highlight(bool enable)
         {
             selectionMarker.SetActive(enable);
             if (enable && itemHighlighted != null)

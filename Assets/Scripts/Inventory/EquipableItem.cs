@@ -9,9 +9,15 @@ namespace Frankie.Inventory
     [CreateAssetMenu(menuName = ("Inventory/Equipable Item"))]
     public class EquipableItem : InventoryItem, IModifierProvider
     {
+        // Config Data
         [SerializeField] EquipLocation equipLocation;
         [SerializeField] BaseStatModifier[] baseStatModifiers = null;
-        [SerializeField] StatusEffect[] statusEffectProbabilityPairs = null;
+        [SerializeField] StatusEffect[] statusEffects = null;
+
+        public IEnumerable<StatusEffect> GetStatusEffects()
+        {
+            return statusEffects;
+        }
 
         public IEnumerable<float> GetAdditiveModifiers(Stat stat)
         {

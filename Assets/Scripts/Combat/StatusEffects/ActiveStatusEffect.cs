@@ -1,3 +1,4 @@
+using Frankie.Control;
 using Frankie.Stats;
 using System.Collections;
 using System.Collections.Generic;
@@ -12,12 +13,14 @@ namespace Frankie.Combat
         // State
         StatusEffect statusEffect = null;
         bool active = false;
+        bool persistAfterBattle = false;
         float timer = 0f;
         float tickTimer = 0f;
         int tickCount = 1;
         bool queuedTick = false;
 
         // Cached References
+        PlayerStateHandler playerStateHandler = null;
         BattleController battleController = null;
         CombatParticipant combatParticipant = null;
 
@@ -40,18 +43,14 @@ namespace Frankie.Combat
 
         private void OnEnable()
         {
-            if (battleController != null)
-            {
-                battleController.battleStateChanged += HandleBattleState;
-            }
+            if (playerStateHandler != null) { playerStateHandler.playerStateChanged += HandlePlayerState; }
+            if (battleController != null) { battleController.battleStateChanged += HandleBattleState; }
         }
 
         private void OnDisable()
         {
-            if (battleController != null)
-            {
-                battleController.battleStateChanged -= HandleBattleState;
-            }
+            if (playerStateHandler != null) { playerStateHandler.playerStateChanged -= HandlePlayerState; }
+            if (battleController != null) { battleController.battleStateChanged -= HandleBattleState; }
         }
 
         private void OnDestroy()
@@ -66,15 +65,43 @@ namespace Frankie.Combat
             }
         }
 
-        public void Setup(StatusEffect statusEffect, CombatParticipant combatParticipant)
+        public void Setup(StatusEffect statusEffect, CombatParticipant combatParticipant, bool persistAfterBattle = false)
         {
             this.statusEffect = statusEffect;
             this.combatParticipant = combatParticipant;
-            active = true;
-            battleController = GameObject.FindGameObjectWithTag("BattleController").GetComponent<BattleController>();
-            battleController.battleStateChanged += HandleBattleState;
+            this.persistAfterBattle = persistAfterBattle;
+            SetupPlayerStateHandler();
+            SetupBattleController();
 
             HandleInstantEffects();
+        }
+
+        private void SetupPlayerStateHandler()
+        {
+            playerStateHandler = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerStateHandler>();
+            playerStateHandler.playerStateChanged += HandlePlayerState;
+        }
+
+        private void SetupBattleController()
+        {
+            battleController = GameObject.FindGameObjectWithTag("BattleController").GetComponent<BattleController>();
+            if (battleController != null)
+            {
+                if (battleController.GetBattleState() != BattleState.Combat)
+                {
+                    active = false;
+                }
+                else
+                {
+                    active = true;
+                }
+                battleController.battleStateChanged += HandleBattleState;
+            }
+            else
+            {
+                if (persistAfterBattle) { active = true; }
+                else { Destroy(this); } // Should not be called
+            }
         }
 
         public StatusEffect GetStatusEffect()
@@ -146,14 +173,28 @@ namespace Frankie.Combat
             {
                 active = false;
             }
-            else
-            {
-                active = true;
-            }
 
             if (battleState == BattleState.Complete)
             {
-                Destroy(this); // Default behavior -- remove buffs/debuffs after combat
+                battleController.battleStateChanged -= HandleBattleState;
+                battleController = null;
+
+                if (persistAfterBattle)
+                {
+                    active = true;
+                }
+                else
+                {
+                    Destroy(this); // Default behavior -- remove buffs/debuffs after combat
+                }
+            }
+        }
+
+        private void HandlePlayerState(PlayerState playerState)
+        {
+            if (playerState == PlayerState.inBattle)
+            {
+                SetupBattleController();
             }
         }
     }   
