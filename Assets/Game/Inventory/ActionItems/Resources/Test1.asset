@@ -13,9 +13,9 @@ MonoBehaviour:
   m_Name: Test1
   m_EditorClassIdentifier: 
   itemID: 9e7c3a60-6807-4018-9b1e-0d5c3fb00785
-  displayName: Test1
-  description: Test Item 1
-  consumable: 1
+  displayName: A Big YoYo
+  description: Very big
+  consumable: 0
   removeStatus: 0
   baseStatModifiers: []
   statusEffectProbabilityPairs: []

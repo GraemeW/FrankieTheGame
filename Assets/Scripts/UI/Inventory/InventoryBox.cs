@@ -55,13 +55,14 @@ namespace Frankie.Inventory.UI
 
         protected override void SetUpChoiceOptions()
         {
+            choiceOptions.Clear();
             if (browsingInventory)
             {
-                choiceOptions = inventoryItemChoiceOptions.Cast<DialogueChoiceOption>().ToList();
+                choiceOptions.AddRange(inventoryItemChoiceOptions.Cast<DialogueChoiceOption>().OrderBy(x => x.choiceOrder).ToList());
             }
             else
             {
-                choiceOptions = playerSelectChoiceOptions;
+                choiceOptions.AddRange(playerSelectChoiceOptions.OrderBy(x => x.choiceOrder).ToList());
             }
 
             if (choiceOptions.Count > 0) { isChoiceAvailable = true; }
@@ -80,7 +81,12 @@ namespace Frankie.Inventory.UI
 
                 bool validInput = false;
                 int choiceIndex = choiceOptions.IndexOf(highlightedChoiceOption);
-                if (playerInputType == PlayerInputType.NavigateRight)
+                if (choiceOptions.Count == 1)
+                {
+                    choiceIndex = 0;
+                    validInput = true;
+                }
+                else if (playerInputType == PlayerInputType.NavigateRight)
                 {
                     if (choiceIndex + 1 >= choiceOptions.Count) { choiceIndex = 0; }
                     else { choiceIndex++; }
@@ -94,13 +100,13 @@ namespace Frankie.Inventory.UI
                 }
                 else if (playerInputType == PlayerInputType.NavigateDown)
                 {
-                    if (choiceIndex + 1 >= choiceOptions.Count) { choiceIndex = 0; }
+                    if (choiceIndex + 1 >= choiceOptions.Count || choiceOptions.Count == 2) { choiceIndex = 0; }
                     else { choiceIndex++; choiceIndex++; }
                     validInput = true;
                 }
                 else if (playerInputType == PlayerInputType.NavigateUp)
                 {
-                    if (choiceIndex <= 0) { choiceIndex = choiceOptions.Count - 1; }
+                    if (choiceIndex <= 0 || choiceOptions.Count == 2) { choiceIndex = choiceOptions.Count - 1; }
                     else { choiceIndex--; choiceIndex--; }
                     validInput = true;
                 }
@@ -126,9 +132,9 @@ namespace Frankie.Inventory.UI
                 selectedCharacterNameField.text = selectedCharacter.GetCombatName();
 
                 GenerateKnapsack(character);
-                browsingInventory = true;
-                SetUpChoiceOptions();
             }
+            browsingInventory = true;
+            SetUpChoiceOptions();
         }
 
         private void Choose(Inventory inventory, int inventorySlot)
