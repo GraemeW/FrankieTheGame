@@ -104,7 +104,7 @@ namespace Frankie.Combat.UI
             if (activeSkill != null)
             { 
                 skillField.text = Skill.GetSkillNamePretty(activeSkill.name);
-                battleController.SetActiveSkill(activeSkill);
+                battleController.SetActiveBattleAction(new BattleAction(activeSkill));
             } 
             else { skillField.text = defaultNoText; }
         }
@@ -161,7 +161,7 @@ namespace Frankie.Combat.UI
         {
             if (battleController.GetSelectedCharacter() != null && battleController.GetActiveSkill() != null)
             {
-                battleController.AddToBattleQueue(battleController.GetSelectedCharacter(), recipient, battleController.GetActiveSkill());
+                battleController.AddToBattleQueue(battleController.GetSelectedCharacter(), recipient, new BattleAction(battleController.GetActiveSkill()));
                 canvasGroup.alpha = 0;
             }
         }

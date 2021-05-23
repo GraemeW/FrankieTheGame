@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Text.RegularExpressions;
 using UnityEngine;
 
 namespace Frankie.Inventory
@@ -37,6 +38,11 @@ namespace Frankie.Inventory
 
             if (itemID == null || !itemLookupCache.ContainsKey(itemID)) return null;
             return itemLookupCache[itemID];
+        }
+
+        public static string GetItemNamePretty(string itemName)
+        {
+            return Regex.Replace(itemName, "([a-z])_?([A-Z])", "$1 $2");
         }
 
         public string GetItemID()

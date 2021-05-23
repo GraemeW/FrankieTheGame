@@ -118,10 +118,11 @@ namespace Frankie.Combat.UI
 
         private void ParseBattleSequence(BattleSequence battleSequence)
         {
-            if (battleSequence.sender == null || battleSequence.recipient == null || battleSequence.skill == null) { return; }
+            if (battleSequence.sender == null || battleSequence.recipient == null || (battleSequence.battleAction.battleActionType == BattleActionType.None)) { return; }
+
 
             string combatText = battleSequence.sender.GetCombatName()
-                + " used " + battleSequence.skill.name
+                + " used " + battleSequence.battleAction.name
                 + " on " + battleSequence.recipient.GetCombatName() + ".";
 
             stringToPrint += "  " + combatText;

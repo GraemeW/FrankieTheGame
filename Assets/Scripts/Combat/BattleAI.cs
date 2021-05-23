@@ -63,7 +63,7 @@ namespace Frankie.Combat
                 Skill skill = GetSkill();
 
                 if (combatParticipant == null || target == null || skill == null) { return; }
-                battleController.AddToBattleQueue(combatParticipant, target, skill);
+                battleController.AddToBattleQueue(combatParticipant, target, new BattleAction(skill));
                 ClearSelectionMemory();
             }
         }

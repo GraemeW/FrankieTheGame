@@ -31,6 +31,7 @@ namespace Frankie.Combat
         List<CombatParticipant> activeEnemies = new List<CombatParticipant>();
         CombatParticipant selectedCharacter = null;
         Skill selectedSkill = null;
+        ActionItem selectedItem = null;
         BattleActionType battleActionArmed = BattleActionType.None;
         CombatParticipant selectedEnemy = null;
 
@@ -86,7 +87,7 @@ namespace Frankie.Combat
             {
                 if (InteractWithInterrupts(playerInputType)) { return; }
                 if (InteractWithSkillSelect(playerInputType)) { return; }
-                if (InteractWithSkillExecute(playerInputType)) { return; }
+                if (InteractWithBattleActionExecute(playerInputType)) { return; }
             }
 
             // Final call to globals, avoid short circuit
@@ -162,7 +163,7 @@ namespace Frankie.Combat
             {
                 if (playerInputType == PlayerInputType.Execute && selectedSkill != null)
                 {
-                    SetSkillArmed(true);
+                    SetBattleActionArmed(BattleActionType.Skill);
                     return true;
                 }
 
@@ -178,7 +179,7 @@ namespace Frankie.Combat
             return false;
         }
 
-        private bool InteractWithSkillExecute(PlayerInputType playerInputType)
+        private bool InteractWithBattleActionExecute(PlayerInputType playerInputType)
         {
             if (GetBattleState() != BattleState.Combat) { return false; }
             if (!IsBattleActionArmed() || selectedCharacter == null || selectedSkill == null) { return false; }
@@ -188,7 +189,14 @@ namespace Frankie.Combat
                 if (playerInputType == PlayerInputType.Execute)
                 {
                     if (selectedEnemy == null) { return false; }
-                    AddToBattleQueue(GetSelectedCharacter(), GetSelectedEnemy(), GetActiveSkill());
+                    if (battleActionArmed == BattleActionType.Skill)
+                    {
+                        AddToBattleQueue(GetSelectedCharacter(), GetSelectedEnemy(), new BattleAction(GetActiveSkill()));
+                    }
+                    else if (battleActionArmed == BattleActionType.ActionItem)
+                    {
+                        AddToBattleQueue(GetSelectedCharacter(), GetSelectedEnemy(), new BattleAction(GetActiveItem()));
+                    }
                 }
                 else
                 {
@@ -294,7 +302,7 @@ namespace Frankie.Combat
 
         public bool SetSelectedCharacter(CombatParticipant character)
         {
-            if (character == null) { SetActiveSkill(null); }
+            if (character == null) { SetActiveBattleAction(null); }
             if (character != null) { if (character.IsDead() || character.IsInCooldown()) { return false; } }
 
             selectedCharacter = character;
@@ -327,20 +335,35 @@ namespace Frankie.Combat
             return selectedEnemy;
         }
 
-        public void SetActiveSkill(Skill skill)
+        public void SetActiveBattleAction(BattleAction battleAction)
         {
-            if (skill == null)
+            if (battleAction == null || battleAction.battleActionType == BattleActionType.None)
             {
-                SetSkillArmed(false);
+                SetBattleActionArmed(BattleActionType.None);
                 if (selectedCharacter != null) { selectedCharacter.GetComponent<SkillHandler>().ResetCurrentBranch(); }
+                selectedSkill = null;
+                selectedItem = null;
             }
-
-            selectedSkill = skill;
+            else if (battleAction.battleActionType == BattleActionType.Skill)
+            {
+                selectedSkill = battleAction.skill;
+                selectedItem = null;
+            }
+            else if (battleAction.battleActionType == BattleActionType.ActionItem)
+            {
+                selectedItem = battleAction.actionItem;
+                selectedSkill = null;
+            }
         }
 
         public Skill GetActiveSkill()
         {
             return selectedSkill;
+        }
+
+        public ActionItem GetActiveItem()
+        {
+            return selectedItem;
         }
 
         public List<CombatParticipant> GetCharacters()
@@ -353,28 +376,13 @@ namespace Frankie.Combat
             return activeEnemies;
         }
 
-        public void AddToBattleQueue(CombatParticipant sender, CombatParticipant recipient, Skill skill)
+        public void AddToBattleQueue(CombatParticipant sender, CombatParticipant recipient, BattleAction battleAction)
         {
             BattleSequence battleSequence = new BattleSequence
             {
-                battleActionType = BattleActionType.Skill,
+                battleAction = battleAction,
                 sender = sender,
                 recipient = recipient,
-                skill = skill,
-                actionItem = null
-            };
-            AddToBattleQueue(sender, battleSequence);
-        }
-
-        public void AddToBattleQueue(CombatParticipant sender, CombatParticipant recipient, ActionItem actionItem)
-        {
-            BattleSequence battleSequence = new BattleSequence
-            {
-                battleActionType = BattleActionType.ActionItem,
-                sender = sender,
-                recipient = recipient,
-                skill = null,
-                actionItem = actionItem
             };
             AddToBattleQueue(sender, battleSequence);
         }
@@ -415,13 +423,13 @@ namespace Frankie.Combat
             }
         }
 
-        public void SetSkillArmed(bool enable)
+        public void SetBattleActionArmed(BattleActionType battleActionType)
         {
-            if (!enable) { selectedEnemy = null; battleActionArmed = BattleActionType.None; return; }
+            if (battleActionType == BattleActionType.None) { selectedEnemy = null; battleActionArmed = BattleActionType.None; return; }
 
             if (SelectFirstLivingEnemy())
             {
-                battleActionArmed = BattleActionType.Skill;
+                battleActionArmed = battleActionType;
             }
         }
 
@@ -468,11 +476,11 @@ namespace Frankie.Combat
             battleSequenceProcessed.Invoke(battleSequence);
 
             haltBattleQueue = true;
-            if (battleSequence.battleActionType == BattleActionType.Skill)
+            if (battleSequence.battleAction.battleActionType == BattleActionType.Skill)
             {
                 yield return ProcessBattleSequenceSkill(battleSequence);
             }
-            else if (battleSequence.battleActionType == BattleActionType.ActionItem)
+            else if (battleSequence.battleAction.battleActionType == BattleActionType.ActionItem)
             {
                 yield return ProcessBattleSequenceInventoryItem(battleSequence);
             }
@@ -482,13 +490,13 @@ namespace Frankie.Combat
 
         private IEnumerator ProcessBattleSequenceSkill(BattleSequence battleSequence)
         {
-            yield return SkillHandler.Use(battleSequence.skill, battleSequence.sender, battleSequence.recipient, battleQueueDelay);
+            yield return SkillHandler.Use(battleSequence.battleAction.skill, battleSequence.sender, battleSequence.recipient, battleQueueDelay);
         }
 
         private IEnumerator ProcessBattleSequenceInventoryItem(BattleSequence battleSequence)
         {
             battleSequence.sender.SetCooldown(itemCooldown);
-            battleSequence.sender.GetKnapsack().UseItem(battleSequence.actionItem, battleSequence.recipient);
+            battleSequence.sender.GetKnapsack().UseItem(battleSequence.battleAction.actionItem, battleSequence.recipient);
             yield return new WaitForSeconds(battleQueueDelay);
         }
 
