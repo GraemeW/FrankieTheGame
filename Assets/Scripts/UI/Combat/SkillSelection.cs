@@ -159,9 +159,8 @@ namespace Frankie.Combat.UI
 
         private void ExecuteSkill(CombatParticipant recipient)
         {
-            if (battleController.GetSelectedCharacter() != null && battleController.GetActiveSkill() != null)
+            if (battleController.AddToBattleQueue(recipient))
             {
-                battleController.AddToBattleQueue(battleController.GetSelectedCharacter(), recipient, new BattleAction(battleController.GetActiveSkill()));
                 canvasGroup.alpha = 0;
             }
         }

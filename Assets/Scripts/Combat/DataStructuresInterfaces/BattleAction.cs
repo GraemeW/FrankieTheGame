@@ -5,12 +5,14 @@ using UnityEngine;
 
 namespace Frankie.Combat
 {
-    public class BattleAction
+    public struct BattleAction
     {
-        public BattleActionType battleActionType { get; } = BattleActionType.None;
-        public Skill skill { get; } = null;
-        public ActionItem actionItem { get; } = null;
-        public string name { get; } = null;
+        public BattleActionType battleActionType { get; }
+        public Skill skill { get; }
+        public ActionItem actionItem { get; }
+        public string name { get; }
+
+        public static BattleAction None { get; } = new BattleAction();
 
         public BattleAction(Skill skill)
         {
@@ -27,7 +29,5 @@ namespace Frankie.Combat
             this.name = InventoryItem.GetItemNamePretty(actionItem.name);
             this.skill = null;
         }
-
     }
-
 }
