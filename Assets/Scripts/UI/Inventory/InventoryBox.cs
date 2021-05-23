@@ -27,14 +27,17 @@ namespace Frankie.Inventory.UI
         bool browsingInventory = false;
         List<DialogueChoiceOption> playerSelectChoiceOptions = new List<DialogueChoiceOption>();
         List<InventoryItemField> inventoryItemChoiceOptions = new List<InventoryItemField>();
+        BattleController battleController = null;
 
         protected override void Start()
         {
             // Do Nothing (skip base implementation)
         }
 
-        public void Setup(IStandardPlayerInputCaller standardPlayerInputCaller, Party party)
+        public void Setup(IStandardPlayerInputCaller standardPlayerInputCaller, Party party, bool inCombat = false)
         {
+            if (inCombat) { battleController = standardPlayerInputCaller as BattleController; }
+
             SetGlobalCallbacks(standardPlayerInputCaller);
             int choiceIndex = 0;
             foreach (CombatParticipant character in party.GetParty())
@@ -43,9 +46,9 @@ namespace Frankie.Inventory.UI
                 DialogueChoiceOption dialogueChoiceOption = characterFieldObject.GetComponent<DialogueChoiceOption>();
                 dialogueChoiceOption.SetChoiceOrder(choiceIndex);
                 dialogueChoiceOption.SetText(character.GetCombatName());
-                characterFieldObject.GetComponent<Button>().onClick.AddListener(delegate { Choose(character); });
+                characterFieldObject.GetComponent<Button>().onClick.AddListener(delegate { ChooseCharacter(character); });
 
-                if (choiceIndex == 0) { Choose(character); browsingInventory = false; }
+                if (choiceIndex == 0) { ChooseCharacter(character); browsingInventory = false; }
                 choiceIndex++;
 
                 playerSelectChoiceOptions.Add(dialogueChoiceOption);
@@ -122,7 +125,7 @@ namespace Frankie.Inventory.UI
             }
         }
 
-        private void Choose(CombatParticipant character)
+        private void ChooseCharacter(CombatParticipant character)
         {
             if (character != selectedCharacter)
             {
@@ -137,9 +140,31 @@ namespace Frankie.Inventory.UI
             SetUpChoiceOptions();
         }
 
-        private void Choose(Knapsack knapsack, int inventorySlot)
+        private void ChooseItem(CombatParticipant character, Knapsack knapsack, int inventorySlot)
         {
+            if (knapsack.GetItemInSlot(inventorySlot).GetType() == typeof(ActionItem))
+            {
+                // TODO:  Implement in world behavior
 
+                if (battleController != null)
+                {
+                    if (battleController.SetSelectedCharacter(character)) // Check for cooldown
+                    {
+                        battleController.SetActiveBattleAction(new BattleAction(knapsack.GetItemInSlot(inventorySlot) as ActionItem));
+                        battleController.SetBattleActionArmed(true);
+                        battleController.SetBattleState(BattleState.Combat);
+                        Destroy(gameObject);
+                    }
+                    else
+                    {
+                        // TODO:  Add message for in cooldown
+                    }
+                }
+            }
+            else
+            {
+                // TODO:  Implement other item behavior
+            }
         }
 
         private void GenerateKnapsack(CombatParticipant character)
@@ -151,22 +176,22 @@ namespace Frankie.Inventory.UI
                 if (knapsack.GetItemInSlot(i) == null) { continue; }
                 if (i % 2 == 0)
                 {
-                    SetupInventoryItem(leftItemContainer, knapsack, i);
+                    SetupInventoryItem(leftItemContainer, character, knapsack, i);
                 }
                 else
                 {
-                    SetupInventoryItem(rightItemContainer, knapsack, i);
+                    SetupInventoryItem(rightItemContainer, character, knapsack, i);
                 }
             }
         }
 
-        private void SetupInventoryItem(Transform container, Knapsack knapsack, int slot)
+        private void SetupInventoryItem(Transform container, CombatParticipant character, Knapsack knapsack, int slot)
         {
             GameObject inventoryItemFieldObject = Instantiate(inventoryItemFieldPrefab, container);
             InventoryItemField inventoryItemField = inventoryItemFieldObject.GetComponent<InventoryItemField>();
             inventoryItemField.SetChoiceOrder(slot);
             inventoryItemField.SetText(knapsack.GetItemInSlot(slot).GetDisplayName());
-            inventoryItemField.GetButton().onClick.AddListener(delegate { Choose(knapsack, slot); });
+            inventoryItemField.GetButton().onClick.AddListener(delegate { ChooseItem(character, knapsack, slot); });
 
             inventoryItemChoiceOptions.Add(inventoryItemField);
         }

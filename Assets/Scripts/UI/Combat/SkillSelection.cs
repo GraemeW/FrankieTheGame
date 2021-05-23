@@ -68,7 +68,9 @@ namespace Frankie.Combat.UI
         private void Setup(CombatParticipantType combatParticipantType, CombatParticipant combatParticipant)
         {
             if (combatParticipantType != CombatParticipantType.Character) { return; }
-            if (combatParticipant == null) 
+
+            if (combatParticipant == null ||
+                battleController.GetActiveBattleAction().battleActionType == BattleActionType.ActionItem) // Do not pop skill selection if using an item
             { 
                 SetAllFields(defaultNoText);
                 canvasGroup.alpha = 0;

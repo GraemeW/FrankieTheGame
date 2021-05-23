@@ -3,6 +3,7 @@ using Frankie.Stats.UI;
 using Frankie.Stats;
 using UnityEngine;
 using UnityEngine.UI;
+using Frankie.Inventory.UI;
 
 namespace Frankie.Combat.UI
 {
@@ -10,6 +11,7 @@ namespace Frankie.Combat.UI
     {
         // Tunables 
         [SerializeField] GameObject statusPrefab = null;
+        [SerializeField] GameObject knapsackPrefab = null;
 
         // Cached References
         BattleController battleController = null;
@@ -51,6 +53,14 @@ namespace Frankie.Combat.UI
             StatusBox statusBox = childOption.GetComponent<StatusBox>();
             statusBox.Setup(battleController, party);
             statusBox.SetDisableCallback(this, DIALOGUE_CALLBACK_ENABLE_INPUT);
+        }
+
+        public void OpenKnapsack() // Called via unity events
+        {
+            GameObject childOption = Instantiate(knapsackPrefab, battleCanvas.transform);
+            InventoryBox inventoryBox = childOption.GetComponent<InventoryBox>();
+            inventoryBox.Setup(battleController, party, true);
+            gameObject.SetActive(false);
         }
 
         public void AttemptToRun() // Called via unity events

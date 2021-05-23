@@ -6,9 +6,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-using static Frankie.Combat.Skill;
 using Frankie.ZoneManagement;
-using Frankie.Inventory;
 
 namespace Frankie.Combat
 {
@@ -29,10 +27,10 @@ namespace Frankie.Combat
 
         List<CombatParticipant> activeCharacters = new List<CombatParticipant>();
         List<CombatParticipant> activeEnemies = new List<CombatParticipant>();
-        CombatParticipant selectedCharacter = null;
-        BattleAction selectedBattleAction = BattleAction.None;
-        bool battleActionArmed = false;
-        CombatParticipant selectedEnemy = null;
+        [SerializeField] CombatParticipant selectedCharacter = null; // Serialized for Debug
+        [SerializeField] BattleAction selectedBattleAction = BattleAction.None;
+        [SerializeField] bool battleActionArmed = false;
+        [SerializeField] CombatParticipant selectedEnemy = null;
 
         Queue<BattleSequence> battleSequenceQueue = new Queue<BattleSequence>();
         bool haltBattleQueue = false;
@@ -116,7 +114,8 @@ namespace Frankie.Combat
 
         private void LateUpdate()
         {
-            if (state == BattleState.Combat)
+            if (state == BattleState.Combat &&
+                selectedBattleAction.battleActionType != BattleActionType.ActionItem) // Item use handling;  suppresses character selection -> Skill Selection visible
             {
                 AutoSelectCharacter();
             }
@@ -138,7 +137,9 @@ namespace Frankie.Combat
                 if (selectedBattleAction.battleActionType != BattleActionType.None || selectedCharacter != null)
                 {
                     SetSelectedEnemy(null);
+                    SetActiveBattleAction(BattleAction.None);
                     SetSelectedCharacter(null);
+                    SetBattleState(BattleState.Combat);
                 }
                 return true;
             }
@@ -180,6 +181,7 @@ namespace Frankie.Combat
 
         private bool InteractWithBattleActionExecute(PlayerInputType playerInputType)
         {
+
             if (GetBattleState() != BattleState.Combat) { return false; }
             if (!IsBattleActionArmed() || selectedCharacter == null || selectedBattleAction.battleActionType == BattleActionType.None) { return false; }
 
@@ -341,6 +343,11 @@ namespace Frankie.Combat
             }
         }
 
+        public BattleAction GetActiveBattleAction()
+        {
+            return selectedBattleAction;
+        }
+
         public List<CombatParticipant> GetCharacters()
         {
             return activeCharacters;
@@ -376,7 +383,8 @@ namespace Frankie.Combat
         {
             sender.SetCooldown(Mathf.Infinity); // Character actions locked until cooldown set by BattleController
             battleSequenceQueue.Enqueue(battleSequence);
-            if (activeCharacters.Contains(sender)) { SetSelectedCharacter(null); SetSelectedEnemy(null); } // Clear out selection on player execution
+
+            if (activeCharacters.Contains(sender)) { SetSelectedEnemy(null); SetActiveBattleAction(BattleAction.None); SetSelectedCharacter(null);  } // Clear out selection on player execution
         }
 
         // Battle Handling
