@@ -137,7 +137,7 @@ namespace Frankie.Inventory.UI
             SetUpChoiceOptions();
         }
 
-        private void Choose(Inventory inventory, int inventorySlot)
+        private void Choose(Knapsack knapsack, int inventorySlot)
         {
 
         }
@@ -145,28 +145,28 @@ namespace Frankie.Inventory.UI
         private void GenerateKnapsack(CombatParticipant character)
         {
             CleanUpOldKnapsack();
-            Inventory inventory = character.GetComponent<Inventory>();
-            for (int i =0; i < inventory.GetSize(); i++)
+            Knapsack knapsack = character.GetComponent<Knapsack>();
+            for (int i =0; i < knapsack.GetSize(); i++)
             {
-                if (inventory.GetItemInSlot(i) == null) { continue; }
+                if (knapsack.GetItemInSlot(i) == null) { continue; }
                 if (i % 2 == 0)
                 {
-                    SetupInventoryItem(leftItemContainer, inventory, i);
+                    SetupInventoryItem(leftItemContainer, knapsack, i);
                 }
                 else
                 {
-                    SetupInventoryItem(rightItemContainer, inventory, i);
+                    SetupInventoryItem(rightItemContainer, knapsack, i);
                 }
             }
         }
 
-        private void SetupInventoryItem(Transform container, Inventory inventory, int slot)
+        private void SetupInventoryItem(Transform container, Knapsack knapsack, int slot)
         {
             GameObject inventoryItemFieldObject = Instantiate(inventoryItemFieldPrefab, container);
             InventoryItemField inventoryItemField = inventoryItemFieldObject.GetComponent<InventoryItemField>();
             inventoryItemField.SetChoiceOrder(slot);
-            inventoryItemField.SetText(inventory.GetItemInSlot(slot).GetDisplayName());
-            inventoryItemField.GetButton().onClick.AddListener(delegate { Choose(inventory, slot); });
+            inventoryItemField.SetText(knapsack.GetItemInSlot(slot).GetDisplayName());
+            inventoryItemField.GetButton().onClick.AddListener(delegate { Choose(knapsack, slot); });
 
             inventoryItemChoiceOptions.Add(inventoryItemField);
         }

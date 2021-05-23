@@ -8,6 +8,7 @@ using System.Linq;
 using UnityEngine;
 using static Frankie.Combat.Skill;
 using Frankie.ZoneManagement;
+using Frankie.Inventory;
 
 namespace Frankie.Combat
 {
@@ -17,6 +18,7 @@ namespace Frankie.Combat
         [Header("Controller Properties")]
         [SerializeField] float battleQueueDelay = 1.0f;
         [SerializeField] float runFailureCooldown = 3.0f;
+        [SerializeField] float itemCooldown = 3.0f;
 
         // State
         BattleState state = default;
@@ -29,7 +31,7 @@ namespace Frankie.Combat
         List<CombatParticipant> activeEnemies = new List<CombatParticipant>();
         CombatParticipant selectedCharacter = null;
         Skill selectedSkill = null;
-        bool skillArmed = false;
+        BattleActionType battleActionArmed = BattleActionType.None;
         CombatParticipant selectedEnemy = null;
 
         Queue<BattleSequence> battleSequenceQueue = new Queue<BattleSequence>();
@@ -154,7 +156,7 @@ namespace Frankie.Combat
         private bool InteractWithSkillSelect(PlayerInputType playerInputType)
         {
             if (GetBattleState() != BattleState.Combat) { return false; }
-            if (skillArmed) { return false; }
+            if (IsBattleActionArmed()) { return false; }
 
             if (selectedCharacter != null && !selectedCharacter.IsDead())
             {
@@ -179,7 +181,7 @@ namespace Frankie.Combat
         private bool InteractWithSkillExecute(PlayerInputType playerInputType)
         {
             if (GetBattleState() != BattleState.Combat) { return false; }
-            if (!skillArmed || selectedCharacter == null || selectedSkill == null) { return false; }
+            if (!IsBattleActionArmed() || selectedCharacter == null || selectedSkill == null) { return false; }
 
             if (playerInputType != PlayerInputType.DefaultNone)
             {
@@ -353,13 +355,33 @@ namespace Frankie.Combat
 
         public void AddToBattleQueue(CombatParticipant sender, CombatParticipant recipient, Skill skill)
         {
-            sender.SetCooldown(Mathf.Infinity); // Character actions locked until cooldown set by BattleController
             BattleSequence battleSequence = new BattleSequence
             {
+                battleActionType = BattleActionType.Skill,
                 sender = sender,
                 recipient = recipient,
-                skill = skill
+                skill = skill,
+                actionItem = null
             };
+            AddToBattleQueue(sender, battleSequence);
+        }
+
+        public void AddToBattleQueue(CombatParticipant sender, CombatParticipant recipient, ActionItem actionItem)
+        {
+            BattleSequence battleSequence = new BattleSequence
+            {
+                battleActionType = BattleActionType.ActionItem,
+                sender = sender,
+                recipient = recipient,
+                skill = null,
+                actionItem = actionItem
+            };
+            AddToBattleQueue(sender, battleSequence);
+        }
+
+        private void AddToBattleQueue(CombatParticipant sender, BattleSequence battleSequence)
+        {
+            sender.SetCooldown(Mathf.Infinity); // Character actions locked until cooldown set by BattleController
             battleSequenceQueue.Enqueue(battleSequence);
             if (activeCharacters.Contains(sender)) { SetSelectedCharacter(null); SetSelectedEnemy(null); } // Clear out selection on player execution
         }
@@ -395,17 +417,17 @@ namespace Frankie.Combat
 
         public void SetSkillArmed(bool enable)
         {
-            if (!enable) { selectedEnemy = null; skillArmed = false; return; }
+            if (!enable) { selectedEnemy = null; battleActionArmed = BattleActionType.None; return; }
 
             if (SelectFirstLivingEnemy())
             {
-                skillArmed = enable;
+                battleActionArmed = BattleActionType.Skill;
             }
         }
 
-        public bool IsSkillArmed()
+        public bool IsBattleActionArmed()
         {
-            return skillArmed;
+            return (battleActionArmed != BattleActionType.None);
         }
 
         private bool SelectFirstLivingEnemy()
@@ -446,18 +468,28 @@ namespace Frankie.Combat
             battleSequenceProcessed.Invoke(battleSequence);
 
             haltBattleQueue = true;
-            for (int i = 0; i < battleSequence.skill.numberOfHits; i++)
+            if (battleSequence.battleActionType == BattleActionType.Skill)
             {
-                battleSequence.sender.SetCooldown(battleSequence.sender.GetCooldownForSkill(battleSequence.skill));
-                battleSequence.recipient.AdjustHP(battleSequence.sender.GetHPValueForSkill(battleSequence.skill));
-                battleSequence.recipient.AdjustAP(battleSequence.sender.GetAPValueForSkill(battleSequence.skill));
-                foreach (StatusEffectProbabilityPair statusEffectProbabilityPair in battleSequence.skill.statusEffects)
-                {
-                    battleSequence.recipient.ApplyStatusEffect(statusEffectProbabilityPair);
-                }
-                yield return new WaitForSeconds(battleQueueDelay);
+                yield return ProcessBattleSequenceSkill(battleSequence);
             }
+            else if (battleSequence.battleActionType == BattleActionType.ActionItem)
+            {
+                yield return ProcessBattleSequenceInventoryItem(battleSequence);
+            }
+
             haltBattleQueue = false;
+        }
+
+        private IEnumerator ProcessBattleSequenceSkill(BattleSequence battleSequence)
+        {
+            yield return SkillHandler.Use(battleSequence.skill, battleSequence.sender, battleSequence.recipient, battleQueueDelay);
+        }
+
+        private IEnumerator ProcessBattleSequenceInventoryItem(BattleSequence battleSequence)
+        {
+            battleSequence.sender.SetCooldown(itemCooldown);
+            battleSequence.sender.GetKnapsack().UseItem(battleSequence.actionItem, battleSequence.recipient);
+            yield return new WaitForSeconds(battleQueueDelay);
         }
 
         private void CheckForBattleEnd(CombatParticipant combatParticipant, StateAlteredData stateAlteredData)
@@ -483,7 +515,8 @@ namespace Frankie.Combat
         {
             foreach (CombatParticipant character in GetCharacters())
             {
-                Experience experience = character.GetComponent<Experience>();
+                Experience experience = character.GetExperience();
+                if (experience == null) { return; } // Handling for characters who do not level
                 float scaledExperienceReward = 0f;
 
                 foreach (CombatParticipant enemy in GetEnemies())

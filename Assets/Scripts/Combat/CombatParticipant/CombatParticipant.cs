@@ -5,6 +5,7 @@ using Frankie.Saving;
 using System;
 using Frankie.Core;
 using System.Collections.Generic;
+using Frankie.Inventory;
 
 namespace Frankie.Combat
 {
@@ -27,6 +28,8 @@ namespace Frankie.Combat
 
         // Cached References
         BaseStats baseStats = null;
+        Experience experience = null;
+        Knapsack knapsack = null;
 
         // State
         bool inCombat = false;
@@ -49,6 +52,8 @@ namespace Frankie.Combat
         private void Awake()
         {
             baseStats = GetComponent<BaseStats>();
+            experience = GetComponent<Experience>();
+            knapsack = GetComponent<Knapsack>();
             currentHP = new LazyValue<float>(GetMaxHP);
             currentAP = new LazyValue<float>(GetMaxAP);
             isDead = new LazyValue<bool>(SpawnAlive);
@@ -82,6 +87,16 @@ namespace Frankie.Combat
         private void FixedUpdate()
         {
             UpdateDamageDelayedHealth();
+        }
+
+        public Experience GetExperience()
+        {
+            return experience;
+        }
+
+        public Knapsack GetKnapsack()
+        {
+            return knapsack;
         }
 
         public void SetCombatActive(bool enable)

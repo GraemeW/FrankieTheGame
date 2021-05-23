@@ -8,7 +8,7 @@ using UnityEngine;
 
 namespace Frankie.Inventory
 {
-    public class Inventory : MonoBehaviour, IPredicateEvaluator, ISaveable
+    public class Knapsack : MonoBehaviour, IPredicateEvaluator, ISaveable
     {
         // Tunables
         [SerializeField] int inventorySize = 16;
@@ -24,6 +24,7 @@ namespace Frankie.Inventory
 
         private void Awake()
         {
+            // Commented out for test purposes -- TODO:  ENABLE ONCE DONE TESTING
             //slots = new InventoryItem[inventorySize];
         }
 
@@ -121,6 +122,15 @@ namespace Frankie.Inventory
             if (actionItem.IsConsumable()) { RemoveFromSlot(slot); }
             return true;
         }
+
+        public bool UseItem(InventoryItem inventoryItem, CombatParticipant combatParticipant)
+        {
+            // Uses the first instance of the item
+            List<int> slots = FindSlotsWithItem(inventoryItem);
+            if (slots == null) { return false; }
+
+            return UseItemInSlot(slots[0], combatParticipant);
+        }
         #endregion
 
         #region PrivateFunctions
@@ -156,7 +166,7 @@ namespace Frankie.Inventory
             List<int> slotsWithItem = new List<int>();
             for (int i = 0; i < slots.Length; i++)
             {
-                if (slots[i] == null)
+                if (object.ReferenceEquals(slots[i], inventoryItem))
                 {
                     slotsWithItem.Add(i);
                 }

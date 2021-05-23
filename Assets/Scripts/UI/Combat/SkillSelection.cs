@@ -112,7 +112,7 @@ namespace Frankie.Combat.UI
         public void HandleInput(PlayerInputType input) 
         {
             if (battleController.GetSelectedCharacter() == null) { return; }
-            if (!battleController.IsSkillArmed())
+            if (!battleController.IsBattleActionArmed())
             {
                 if (SetBranchOrSkill(input)) { return; }
             }
