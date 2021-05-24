@@ -26,7 +26,7 @@ namespace Frankie.Combat
         {
             battleActionType = BattleActionType.ActionItem;
             this.actionItem = actionItem;
-            this.name = InventoryItem.GetItemNamePretty(actionItem.name);
+            this.name = actionItem.GetDisplayName();
             this.skill = null;
         }
     }

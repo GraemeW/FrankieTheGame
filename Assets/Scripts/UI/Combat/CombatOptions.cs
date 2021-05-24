@@ -20,6 +20,7 @@ namespace Frankie.Combat.UI
 
         // Static
         protected static string DIALOGUE_CALLBACK_DISABLE_COMBAT_OPTIONS = "DISABLE_COMBAT_OPTIONS";
+        protected static string DIALOGUE_CALLBACK_ENABLE_COMBAT_OPTIONS = "ENABLE_COMBAT_OPTIONS";
 
         protected override void Awake()
         {
@@ -60,6 +61,7 @@ namespace Frankie.Combat.UI
             GameObject childOption = Instantiate(knapsackPrefab, battleCanvas.transform);
             InventoryBox inventoryBox = childOption.GetComponent<InventoryBox>();
             inventoryBox.Setup(battleController, party, true);
+            inventoryBox.SetDisableCallback(this, DIALOGUE_CALLBACK_ENABLE_COMBAT_OPTIONS);
             gameObject.SetActive(false);
         }
 
@@ -84,6 +86,11 @@ namespace Frankie.Combat.UI
             {
                 handleGlobalInput = true;
                 InitiateCombat();
+            }
+            else if (callbackMessage == DIALOGUE_CALLBACK_ENABLE_COMBAT_OPTIONS)
+            {
+                handleGlobalInput = true;
+                gameObject.SetActive(true);
             }
         }
     }

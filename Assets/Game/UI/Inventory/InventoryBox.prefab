@@ -634,7 +634,6 @@ GameObject:
   m_Component:
   - component: {fileID: 2227106547557423765}
   - component: {fileID: 9165638598010028551}
-  - component: {fileID: 5466184857450505434}
   - component: {fileID: 4125584263346831155}
   - component: {fileID: 2653761137607708041}
   - component: {fileID: 2437136854184657}
@@ -678,36 +677,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6413694501190794285}
   m_CullTransparentMesh: 1
---- !u!114 &5466184857450505434
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6413694501190794285}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 0}
-  m_RaycastTarget: 1
-  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
-  m_Maskable: 1
-  m_OnCullStateChanged:
-    m_PersistentCalls:
-      m_Calls: []
-  m_Sprite: {fileID: 0}
-  m_Type: 1
-  m_PreserveAspect: 0
-  m_FillCenter: 1
-  m_FillMethod: 4
-  m_FillAmount: 1
-  m_FillClockwise: 1
-  m_FillOrigin: 0
-  m_UseSpriteMesh: 0
-  m_PixelsPerUnitMultiplier: 1
 --- !u!114 &4125584263346831155
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -772,7 +741,9 @@ MonoBehaviour:
   selectedCharacterNameField: {fileID: 9194726771461153638}
   leftItemContainer: {fileID: 4808833409950686781}
   rightItemContainer: {fileID: 2801211723359414022}
+  dialogueBoxPrefab: {fileID: 6413694501190794285, guid: a9829c1cb69a159479cbe82e68a5c629, type: 3}
   inventoryItemFieldPrefab: {fileID: 3358873790910023875, guid: e49114d2a61e8cc46bd0caffe110c05d, type: 3}
+  messageBusyInCooldown: '{0} is busy twirling, twirling.'
 --- !u!1 &7418628792628982881
 GameObject:
   m_ObjectHideFlags: 0

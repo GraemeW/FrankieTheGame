@@ -123,11 +123,12 @@ namespace Frankie.Speech.UI
 
         public void SetGlobalCallbacks(IStandardPlayerInputCaller globalCallbackSender)
         {
+            if (globalCallbackSender == null) { handleGlobalInput = false; return; }
+
             handleGlobalInput = true;
             alternateController = globalCallbackSender;
 
             SubscribeToCallbackSender(globalCallbackSender);
-            
         }
 
         private void SubscribeToCallbackSender(IStandardPlayerInputCaller globalCallbackSender)
@@ -147,6 +148,11 @@ namespace Frankie.Speech.UI
                 message = callbackMessage
             };
             disableCallbacks.Add(callbackMessagePair);
+        }
+
+        public void ClearDisableCallbacks()
+        {
+            disableCallbacks.Clear();
         }
 
         private void UpdateUI()

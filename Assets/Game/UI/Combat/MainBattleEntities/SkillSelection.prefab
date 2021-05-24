@@ -850,7 +850,6 @@ MonoBehaviour:
   handleGlobalInput: 0
   delayToDestroyWindow: 0.1
   delayBetweenCharacters: 0.05
-  choiceInteractKey: 101
 --- !u!114 &2633275418530863015
 MonoBehaviour:
   m_ObjectHideFlags: 0

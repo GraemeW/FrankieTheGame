@@ -20,7 +20,10 @@ namespace Frankie.Inventory.UI
         [SerializeField] Transform leftItemContainer = null;
         [SerializeField] Transform rightItemContainer = null;
         [Header("Prefabs")]
+        [SerializeField] GameObject dialogueBoxPrefab = null;
         [SerializeField] GameObject inventoryItemFieldPrefab = null;
+        [Header("Messages")]
+        [Tooltip("Include {0} for character name")] [SerializeField] string messageBusyInCooldown = "{0} is busy twirling, twirling.";
 
         // State
         CombatParticipant selectedCharacter = null;
@@ -54,6 +57,7 @@ namespace Frankie.Inventory.UI
                 playerSelectChoiceOptions.Add(dialogueChoiceOption);
             }
             SetUpChoiceOptions();
+            ShowCursorOnAnyInteraction(PlayerInputType.Execute);
         }
 
         protected override void SetUpChoiceOptions()
@@ -70,6 +74,7 @@ namespace Frankie.Inventory.UI
 
             if (choiceOptions.Count > 0) { isChoiceAvailable = true; }
             else { isChoiceAvailable = false; }
+            MoveCursor(PlayerInputType.NavigateRight); // Initialize Highlight
         }
         protected override bool MoveCursor(PlayerInputType playerInputType)
         {
@@ -153,11 +158,17 @@ namespace Frankie.Inventory.UI
                         battleController.SetActiveBattleAction(new BattleAction(knapsack.GetItemInSlot(inventorySlot) as ActionItem));
                         battleController.SetBattleActionArmed(true);
                         battleController.SetBattleState(BattleState.Combat);
+                        ClearDisableCallbacks(); // Prevent combat options from triggering -> proceed directly to target selection
                         Destroy(gameObject);
                     }
                     else
                     {
-                        // TODO:  Add message for in cooldown
+                        handleGlobalInput = false;
+                        GameObject dialogueBoxObject = Instantiate(dialogueBoxPrefab, transform.parent);
+                        DialogueBox dialogueBox = dialogueBoxObject.GetComponent<DialogueBox>();
+                        dialogueBox.AddText(string.Format(messageBusyInCooldown, character.GetCombatName()));
+                        dialogueBox.SetGlobalCallbacks(battleController);
+                        dialogueBox.SetDisableCallback(this, DIALOGUE_CALLBACK_ENABLE_INPUT);
                     }
                 }
             }

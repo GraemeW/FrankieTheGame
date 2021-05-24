@@ -42,6 +42,7 @@ namespace Frankie.Combat
         // Events
         public event Action<BattleState> battleStateChanged;
         public event Action<CombatParticipantType, CombatParticipant> selectedCombatParticipantChanged;
+        public event Action<BattleAction> battleActionArmedStateChanged;
         public event Action<PlayerInputType> battleInput;
         public event Action<PlayerInputType> globalInput;
         public event Action<BattleSequence> battleSequenceProcessed;
@@ -418,11 +419,20 @@ namespace Frankie.Combat
 
         public void SetBattleActionArmed(bool enable)
         {
-            if (!enable) { selectedEnemy = null; battleActionArmed = false; return; }
-
-            if (SelectFirstLivingEnemy())
+            if (!enable) 
+            { 
+                selectedEnemy = null; 
+                battleActionArmed = false; 
+            }
+            else if (SelectFirstLivingEnemy())
             {
                 battleActionArmed = true;
+            }
+            else { return; }
+
+            if (battleActionArmedStateChanged != null)
+            {
+                battleActionArmedStateChanged.Invoke(selectedBattleAction);
             }
         }
 
