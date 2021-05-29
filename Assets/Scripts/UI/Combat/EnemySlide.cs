@@ -44,7 +44,7 @@ namespace Frankie.Combat.UI
 
         protected override void SetSelected(CombatParticipantType combatParticipantType, bool enable)
         {
-            if (combatParticipantType != CombatParticipantType.Enemy) { return; }
+            if (combatParticipantType != CombatParticipantType.Target) { return; }
             GetComponent<Shadow>().enabled = enable;
         }
 

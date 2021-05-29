@@ -30,7 +30,7 @@ namespace Frankie.Combat
         [SerializeField] CombatParticipant selectedCharacter = null; // Serialized for Debug
         [SerializeField] BattleAction selectedBattleAction = BattleAction.None;
         [SerializeField] bool battleActionArmed = false;
-        [SerializeField] CombatParticipant selectedEnemy = null;
+        [SerializeField] CombatParticipant selectedTarget = null;
 
         Queue<BattleSequence> battleSequenceQueue = new Queue<BattleSequence>();
         bool haltBattleQueue = false;
@@ -129,7 +129,7 @@ namespace Frankie.Combat
                 // Move to Combat Options if nothing selected in skill selector
                 if (selectedBattleAction.battleActionType == BattleActionType.None || selectedCharacter == null)
                 {
-                    SetSelectedEnemy(null);
+                    SetSelectedTarget(null);
                     SetSelectedCharacter(null);
                     SetBattleState(BattleState.PreCombat); return true;
                 }
@@ -137,7 +137,7 @@ namespace Frankie.Combat
                 // Otherwise step out of selections
                 if (selectedBattleAction.battleActionType != BattleActionType.None || selectedCharacter != null)
                 {
-                    SetSelectedEnemy(null);
+                    SetSelectedTarget(null);
                     SetActiveBattleAction(BattleAction.None);
                     SetSelectedCharacter(null);
                     SetBattleState(BattleState.Combat);
@@ -190,18 +190,19 @@ namespace Frankie.Combat
             {
                 if (playerInputType == PlayerInputType.Execute)
                 {
-                    if (selectedEnemy == null) { return false; }
-                    AddToBattleQueue(GetSelectedCharacter(), GetSelectedEnemy(), selectedBattleAction);
+                    if (selectedTarget == null) { return false; }
+                    AddToBattleQueue(GetSelectedCharacter(), GetSelectedTarget(), selectedBattleAction);
                 }
                 else
                 {
+
                     if (playerInputType == PlayerInputType.NavigateRight || playerInputType == PlayerInputType.NavigateDown)
                     {
-                        SetSelectedEnemy(GetNextLivingEnemy(GetSelectedEnemy(), true));
+                        SetSelectedTarget(GetNextLivingTarget(GetSelectedTarget(), true));
                     }
                     else if (playerInputType == PlayerInputType.NavigateLeft || playerInputType == PlayerInputType.NavigateUp)
                     {
-                        SetSelectedEnemy(GetNextLivingEnemy(GetSelectedEnemy(), false));
+                        SetSelectedTarget(GetNextLivingTarget(GetSelectedTarget(), false));
                     }
                 }
 
@@ -313,21 +314,21 @@ namespace Frankie.Combat
             return selectedCharacter;
         }
 
-        public bool SetSelectedEnemy(CombatParticipant enemy)
+        public bool SetSelectedTarget(CombatParticipant target)
         {
-            if (enemy != null) { if (enemy.IsDead()) { return false; } }
+            if (target != null) { if (target.IsDead()) { return false; } }
 
-            selectedEnemy = enemy;
+            selectedTarget = target;
             if (selectedCombatParticipantChanged != null)
             {
-                selectedCombatParticipantChanged.Invoke(CombatParticipantType.Enemy, selectedEnemy);
+                selectedCombatParticipantChanged.Invoke(CombatParticipantType.Target, selectedTarget);
             }
             return true;
         }
 
-        public CombatParticipant GetSelectedEnemy()
+        public CombatParticipant GetSelectedTarget()
         {
-            return selectedEnemy;
+            return selectedTarget;
         }
 
         public void SetActiveBattleAction(BattleAction battleAction)
@@ -385,7 +386,7 @@ namespace Frankie.Combat
             sender.SetCooldown(Mathf.Infinity); // Character actions locked until cooldown set by BattleController
             battleSequenceQueue.Enqueue(battleSequence);
 
-            if (activeCharacters.Contains(sender)) { SetSelectedEnemy(null); SetActiveBattleAction(BattleAction.None); SetSelectedCharacter(null);  } // Clear out selection on player execution
+            if (activeCharacters.Contains(sender)) { SetSelectedTarget(null); SetActiveBattleAction(BattleAction.None); SetSelectedCharacter(null);  } // Clear out selection on player execution
         }
 
         // Battle Handling
@@ -421,10 +422,10 @@ namespace Frankie.Combat
         {
             if (!enable) 
             { 
-                selectedEnemy = null; 
+                selectedTarget = null; 
                 battleActionArmed = false; 
             }
-            else if (SelectFirstLivingEnemy())
+            else if (SelectFirstLivingTarget(activeEnemies))
             {
                 battleActionArmed = true;
             }
@@ -441,34 +442,54 @@ namespace Frankie.Combat
             return battleActionArmed;
         }
 
-        private bool SelectFirstLivingEnemy()
+        private bool SelectFirstLivingTarget(List<CombatParticipant> targets)
         {
-            CombatParticipant[] livingEnemies = activeEnemies.Where(x => !x.IsDead()).ToArray();
-            if (livingEnemies.Length > 0)
+            CombatParticipant[] livingTargets = targets.Where(x => !x.IsDead()).ToArray();
+            if (livingTargets.Length > 0)
             {
-                return SetSelectedEnemy(livingEnemies[0]);
+                return SetSelectedTarget(livingTargets[0]);
             }
             return false;
         }
 
-        private CombatParticipant GetNextLivingEnemy(CombatParticipant currentEnemy, bool traverseForward)
+        private CombatParticipant GetNextLivingTarget(CombatParticipant currentTarget, bool traverseForward, bool friendlyAction = false)
         {
-            if (selectedEnemy == null) { SelectFirstLivingEnemy(); return selectedEnemy; }
+            if (selectedTarget == null)
+            {
+                if (friendlyAction)
+                {
+                    SelectFirstLivingTarget(activeCharacters); return selectedTarget;
+                }
+                else
+                {
+                    SelectFirstLivingTarget(activeEnemies); return selectedTarget;
+                }
+            }
 
-            int currentIndex = activeEnemies.IndexOf(currentEnemy);
+            List<CombatParticipant> potentialTargets = new List<CombatParticipant>();
+            if (friendlyAction)
+            {
+                potentialTargets = activeCharacters.Concat(activeEnemies).ToList();
+            }
+            else
+            {
+                potentialTargets = activeEnemies.Concat(activeCharacters).ToList();
+            }
+
+            int currentIndex = potentialTargets.IndexOf(currentTarget);
             if (traverseForward)
             {
-                if (currentIndex + 1 >= activeEnemies.Count) { currentIndex = 0; }
+                if (currentIndex + 1 >= potentialTargets.Count) { currentIndex = 0; }
                 else { currentIndex++; }
             }
             else
             {
-                if (currentIndex <= 0) { currentIndex = activeEnemies.Count - 1; }
+                if (currentIndex <= 0) { currentIndex = potentialTargets.Count - 1; }
                 else { currentIndex--; }
             }
 
-            if (activeEnemies[currentIndex].IsDead()) { return GetNextLivingEnemy(activeEnemies[currentIndex], traverseForward); }
-            return activeEnemies[currentIndex];
+            if (potentialTargets[currentIndex].IsDead()) { return GetNextLivingTarget(potentialTargets[currentIndex], traverseForward); }
+            return potentialTargets[currentIndex];
         }
 
         IEnumerator ProcessNextBattleSequence()

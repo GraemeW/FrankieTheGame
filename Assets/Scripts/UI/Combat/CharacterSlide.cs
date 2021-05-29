@@ -23,10 +23,11 @@ namespace Frankie.Combat.UI
         [Header("Flavour")]
         [SerializeField] Color selectedCharacterFrameColor = Color.green;
         [SerializeField] Color cooldownCharacterFrameColor = Color.gray;
+        [SerializeField] Color targetedCharacterFrameColor = Color.red;
 
         // State
-        SlideState slideState = default;
-
+        [SerializeField] SlideState slideState = default;
+        [SerializeField] SlideState lastSlideState = default;
 
         // Static
         private static void BreakApartNumber(float number, out int hundreds, out int tens, out int ones)
@@ -40,7 +41,8 @@ namespace Frankie.Combat.UI
         {
             ready,
             selected,
-            cooldown
+            cooldown,
+            target
         }
 
         // Functions
@@ -66,11 +68,19 @@ namespace Frankie.Combat.UI
 
         protected override void SetSelected(CombatParticipantType combatParticipantType, bool enable)
         {
-            if (combatParticipantType != CombatParticipantType.Character) { return; }
+            if (combatParticipantType == CombatParticipantType.DefaultNone) { return; }
 
-            if (combatParticipant.IsInCooldown()) { slideState = SlideState.cooldown; }
-            else if (enable) { slideState = SlideState.selected; }
-            else { slideState = SlideState.ready; }
+            if (combatParticipantType == CombatParticipantType.Character)
+            {
+                if (combatParticipant.IsInCooldown()) { slideState = SlideState.cooldown; }
+                else if (enable) { slideState = SlideState.selected; }
+                else { slideState = SlideState.ready; }
+            }
+            else if (combatParticipantType == CombatParticipantType.Target)
+            {
+                if (enable) { lastSlideState = slideState; slideState = SlideState.target; }
+                else { slideState = lastSlideState; }
+            }
             UpdateColor();
         }
 
@@ -129,6 +139,10 @@ namespace Frankie.Combat.UI
             else if (slideState == SlideState.cooldown)
             {
                 selectHighlight.color = cooldownCharacterFrameColor;
+            }
+            else if (slideState == SlideState.target)
+            {
+                selectHighlight.color = targetedCharacterFrameColor;
             }
         }
 

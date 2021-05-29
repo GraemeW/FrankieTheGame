@@ -4,6 +4,6 @@ namespace Frankie.Combat
     {
         DefaultNone,
         Character,
-        Enemy
+        Target
     }
 }
