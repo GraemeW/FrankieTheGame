@@ -21,16 +21,29 @@ namespace Frankie.Inventory.UI
         [SerializeField] Transform rightItemContainer = null;
         [Header("Prefabs")]
         [SerializeField] GameObject dialogueBoxPrefab = null;
+        [SerializeField] GameObject dialogueOptionBoxPrefab = null;
         [SerializeField] GameObject inventoryItemFieldPrefab = null;
-        [Header("Messages")]
+        [Header("Info/Messages")]
+        [SerializeField] string optionInspect = "Inspect";
+        [SerializeField] string optionEquip = "Equip";
+        [SerializeField] string optionUse = "Use";
         [Tooltip("Include {0} for character name")] [SerializeField] string messageBusyInCooldown = "{0} is busy twirling, twirling.";
 
         // State
-        CombatParticipant selectedCharacter = null;
         bool browsingInventory = false;
+        CombatParticipant selectedCharacter = null;
+        Knapsack selectedKnapsack = null;
         List<DialogueChoiceOption> playerSelectChoiceOptions = new List<DialogueChoiceOption>();
         List<InventoryItemField> inventoryItemChoiceOptions = new List<InventoryItemField>();
+
+        // Cached References
+        IStandardPlayerInputCaller standardPlayerInputCaller = null;
         BattleController battleController = null;
+
+        protected override void Awake()
+        {
+            base.Awake();
+        }
 
         protected override void Start()
         {
@@ -39,6 +52,7 @@ namespace Frankie.Inventory.UI
 
         public void Setup(IStandardPlayerInputCaller standardPlayerInputCaller, Party party, bool inCombat = false)
         {
+            this.standardPlayerInputCaller = standardPlayerInputCaller;
             if (inCombat) { battleController = standardPlayerInputCaller as BattleController; }
 
             SetGlobalCallbacks(standardPlayerInputCaller);
@@ -138,71 +152,74 @@ namespace Frankie.Inventory.UI
 
                 selectedCharacter = character;
                 selectedCharacterNameField.text = selectedCharacter.GetCombatName();
-
-                GenerateKnapsack(character);
+                GenerateKnapsack();
             }
             browsingInventory = true;
             SetUpChoiceOptions();
         }
 
-        private void ChooseItem(CombatParticipant character, Knapsack knapsack, int inventorySlot)
+        private void ChooseItem(int inventorySlot)
         {
-            if (knapsack.GetItemInSlot(inventorySlot).GetType() == typeof(ActionItem))
-            {
-                // TODO:  Implement in world behavior
-
-                if (battleController != null)
-                {
-                    if (battleController.SetSelectedCharacter(character)) // Check for cooldown
-                    {
-                        battleController.SetActiveBattleAction(new BattleAction(knapsack.GetItemInSlot(inventorySlot) as ActionItem));
-                        battleController.SetBattleActionArmed(true);
-                        battleController.SetBattleState(BattleState.Combat);
-                        ClearDisableCallbacks(); // Prevent combat options from triggering -> proceed directly to target selection
-                        Destroy(gameObject);
-                    }
-                    else
-                    {
-                        handleGlobalInput = false;
-                        GameObject dialogueBoxObject = Instantiate(dialogueBoxPrefab, transform.parent);
-                        DialogueBox dialogueBox = dialogueBoxObject.GetComponent<DialogueBox>();
-                        dialogueBox.AddText(string.Format(messageBusyInCooldown, character.GetCombatName()));
-                        dialogueBox.SetGlobalCallbacks(battleController);
-                        dialogueBox.SetDisableCallback(this, DIALOGUE_CALLBACK_ENABLE_INPUT);
-                    }
-                }
-            }
-            else
-            {
-                // TODO:  Implement other item behavior
-            }
+            handleGlobalInput = false;
+            GameObject dialogueOptionBoxObject = Instantiate(dialogueOptionBoxPrefab, transform.parent);
+            DialogueOptionBox dialogueOptionBox = dialogueOptionBoxObject.GetComponent<DialogueOptionBox>();
+            dialogueOptionBox.SetupSimpleChoices(GetChoiceActionPairs(inventorySlot));
+            dialogueOptionBox.SetGlobalCallbacks(standardPlayerInputCaller);
+            // Note:  Do not re-enable input control on callback
+            // Control is passed via ChoiceActionPair action menu
         }
 
-        private void GenerateKnapsack(CombatParticipant character)
+        private List<ChoiceActionPair> GetChoiceActionPairs(int inventorySlot)
+        {
+            List<ChoiceActionPair> choiceActionPairs = new List<ChoiceActionPair>();
+            // Use
+            if (selectedKnapsack.GetItemInSlot(inventorySlot).GetType() == typeof(ActionItem))
+            {
+                ChoiceActionPair useActionPair = new ChoiceActionPair(optionUse, Use, inventorySlot);
+                choiceActionPairs.Add(useActionPair);
+            }
+            // Equip
+            if (battleController == null)
+            {
+                if (selectedKnapsack.GetItemInSlot(inventorySlot).GetType() == typeof(EquipableItem))
+                {
+                    ChoiceActionPair equipActionPair = new ChoiceActionPair(optionEquip, Equip, inventorySlot);
+                    choiceActionPairs.Add(equipActionPair);
+                }
+            }
+            // Inspect
+            ChoiceActionPair inspectActionPair = new ChoiceActionPair(optionInspect, Inspect, inventorySlot);
+            choiceActionPairs.Add(inspectActionPair);
+
+            return choiceActionPairs;
+        }
+
+        private void GenerateKnapsack()
         {
             CleanUpOldKnapsack();
-            Knapsack knapsack = character.GetComponent<Knapsack>();
-            for (int i =0; i < knapsack.GetSize(); i++)
+            selectedKnapsack = selectedCharacter.GetComponent<Knapsack>();
+            for (int i =0; i < selectedKnapsack.GetSize(); i++)
             {
-                if (knapsack.GetItemInSlot(i) == null) { continue; }
+                if (selectedKnapsack.GetItemInSlot(i) == null) { continue; }
                 if (i % 2 == 0)
                 {
-                    SetupInventoryItem(leftItemContainer, character, knapsack, i);
+                    SetupInventoryItem(leftItemContainer, i);
                 }
                 else
                 {
-                    SetupInventoryItem(rightItemContainer, character, knapsack, i);
+                    SetupInventoryItem(rightItemContainer, i);
                 }
             }
+            
         }
 
-        private void SetupInventoryItem(Transform container, CombatParticipant character, Knapsack knapsack, int slot)
+        private void SetupInventoryItem(Transform container, int slot)
         {
             GameObject inventoryItemFieldObject = Instantiate(inventoryItemFieldPrefab, container);
             InventoryItemField inventoryItemField = inventoryItemFieldObject.GetComponent<InventoryItemField>();
             inventoryItemField.SetChoiceOrder(slot);
-            inventoryItemField.SetText(knapsack.GetItemInSlot(slot).GetDisplayName());
-            inventoryItemField.GetButton().onClick.AddListener(delegate { ChooseItem(character, knapsack, slot); });
+            inventoryItemField.SetText(selectedKnapsack.GetItemInSlot(slot).GetDisplayName());
+            inventoryItemField.GetButton().onClick.AddListener(delegate { ChooseItem(slot); });
 
             inventoryItemChoiceOptions.Add(inventoryItemField);
         }
@@ -212,7 +229,71 @@ namespace Frankie.Inventory.UI
             inventoryItemChoiceOptions.Clear();
             foreach (Transform child in leftItemContainer) { Destroy(child.gameObject); }
             foreach (Transform child in rightItemContainer) { Destroy(child.gameObject); }
+            selectedKnapsack = null;
         }
+
+        private void Inspect(int inventorySlot)
+        {
+            handleGlobalInput = false;
+            GameObject dialogueBoxObject = Instantiate(dialogueBoxPrefab, transform.parent);
+            DialogueBox dialogueBox = dialogueBoxObject.GetComponent<DialogueBox>();
+            dialogueBox.AddText(selectedKnapsack.GetItemInSlot(inventorySlot).GetDescription());
+            dialogueBox.SetGlobalCallbacks(standardPlayerInputCaller);
+            dialogueBox.SetDisableCallback(this, DIALOGUE_CALLBACK_ENABLE_INPUT);
+        }
+
+        private void Equip(int inventorySlot)
+        {
+            // TODO:  Implement equipment screen
+            handleGlobalInput = false;
+            GameObject dialogueBoxObject = Instantiate(dialogueBoxPrefab, transform.parent);
+            DialogueBox dialogueBox = dialogueBoxObject.GetComponent<DialogueBox>();
+            dialogueBox.AddText("This is where we would go to the equipment screen, if we had implemented it");
+            dialogueBox.SetGlobalCallbacks(standardPlayerInputCaller);
+            dialogueBox.SetDisableCallback(this, DIALOGUE_CALLBACK_ENABLE_INPUT);
+        }
+
+        private void Use(int inventorySlot)
+        {
+            if (selectedKnapsack.GetItemInSlot(inventorySlot).GetType() != typeof(ActionItem)) { return; }
+
+            if (battleController != null)
+            {
+                if (battleController.SetSelectedCharacter(selectedCharacter)) // Check for cooldown
+                {
+                    battleController.SetActiveBattleAction(new BattleAction(selectedKnapsack.GetItemInSlot(inventorySlot) as ActionItem));
+                    battleController.SetBattleActionArmed(true);
+                    battleController.SetBattleState(BattleState.Combat);
+                    ClearDisableCallbacks(); // Prevent combat options from triggering -> proceed directly to target selection
+                    Destroy(gameObject);
+                }
+                else
+                {
+                    DisplayCharacterInCooldownMessage(selectedCharacter);
+                }
+            }
+            else
+            {
+                // TODO:  Implement world behavior
+                handleGlobalInput = false;
+                GameObject dialogueBoxObject = Instantiate(dialogueBoxPrefab, transform.parent);
+                DialogueBox dialogueBox = dialogueBoxObject.GetComponent<DialogueBox>();
+                dialogueBox.AddText("This is where we would use an item in the world, if we had implemented it");
+                dialogueBox.SetGlobalCallbacks(standardPlayerInputCaller);
+                dialogueBox.SetDisableCallback(this, DIALOGUE_CALLBACK_ENABLE_INPUT);
+            }
+        }
+
+        private void DisplayCharacterInCooldownMessage(CombatParticipant character)
+        {
+            handleGlobalInput = false;
+            GameObject dialogueBoxObject = Instantiate(dialogueBoxPrefab, transform.parent);
+            DialogueBox dialogueBox = dialogueBoxObject.GetComponent<DialogueBox>();
+            dialogueBox.AddText(string.Format(messageBusyInCooldown, character.GetCombatName()));
+            dialogueBox.SetGlobalCallbacks(battleController);
+            dialogueBox.SetDisableCallback(this, DIALOGUE_CALLBACK_ENABLE_INPUT);
+        }
+
 
         public override void HandleGlobalInput(PlayerInputType playerInputType)
         {

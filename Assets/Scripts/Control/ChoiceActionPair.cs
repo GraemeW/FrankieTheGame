@@ -9,27 +9,45 @@ namespace Frankie.Control
     {
         public ChoiceActionPair(string choice, Action action)
         {
-            isComplexAction = false;
+            choiceActionPairType = ChoiceActionPairType.Simple;
             this.choice = choice;
-            this.action = action;
-            this.complexAction = null;
-            this.complexActionParameter = null;
+            this.simpleAction = action;
+            this.simpleStringAction = null;
+            this.simpleIntAction = null;
+            this.stringActionParameter = null;
+            this.intActionParameter = 0;
         }
 
         public ChoiceActionPair(string choice, Action<string> action, string parameter)
         {
-            isComplexAction = true;
+            choiceActionPairType = ChoiceActionPairType.SimpleString;
             this.choice = choice;
-            this.action = null;
-            this.complexAction = action;
-            this.complexActionParameter = parameter;
+            this.simpleAction = null;
+            this.simpleStringAction = action;
+            this.simpleIntAction = null;
+            this.stringActionParameter = parameter;
+            this.intActionParameter = 0;
         }
 
-        public bool isComplexAction;
+        public ChoiceActionPair(string choice, Action<int> action, int parameter)
+        {
+            choiceActionPairType = ChoiceActionPairType.SimpleInt;
+            this.choice = choice;
+            this.simpleAction = null;
+            this.simpleStringAction = null;
+            this.simpleIntAction = action;
+            this.stringActionParameter = null;
+            this.intActionParameter = parameter;
+
+        }
+
+        public ChoiceActionPairType choiceActionPairType;
         public string choice;
-        public Action action;
-        public Action<string> complexAction;
-        public string complexActionParameter;
+        public Action simpleAction;
+        public Action<string> simpleStringAction;
+        public Action<int> simpleIntAction;
+        public string stringActionParameter;
+        public int intActionParameter;
     }
 
 }

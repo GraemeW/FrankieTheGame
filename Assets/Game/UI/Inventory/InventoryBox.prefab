@@ -742,7 +742,11 @@ MonoBehaviour:
   leftItemContainer: {fileID: 4808833409950686781}
   rightItemContainer: {fileID: 2801211723359414022}
   dialogueBoxPrefab: {fileID: 6413694501190794285, guid: a9829c1cb69a159479cbe82e68a5c629, type: 3}
+  dialogueOptionBoxPrefab: {fileID: 6413694501190794285, guid: cfcc3c74158936342a4d3c72aa65bde0, type: 3}
   inventoryItemFieldPrefab: {fileID: 3358873790910023875, guid: e49114d2a61e8cc46bd0caffe110c05d, type: 3}
+  optionInspect: Inspect
+  optionEquip: Equip
+  optionUse: Use
   messageBusyInCooldown: '{0} is busy twirling, twirling.'
 --- !u!1 &7418628792628982881
 GameObject:

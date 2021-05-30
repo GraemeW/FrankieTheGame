@@ -12,6 +12,7 @@ namespace Frankie.Speech.UI
     public class DialogueOptionBox : DialogueBox
     {
         [SerializeField] bool clearVolatileOptionsOnEnable = true;
+        [SerializeField] string defaultOptionText = "What do you want to do?";
 
         // State
         protected bool isChoiceAvailable = false;
@@ -20,7 +21,7 @@ namespace Frankie.Speech.UI
 
         protected override void Start()
         {
-            SetupSimpleChoices();
+            if (dialogueController != null) { SetupSimpleChoices(dialogueController.GetSimpleChoices(), true); }
         }
 
         protected override void OnEnable()
@@ -44,46 +45,62 @@ namespace Frankie.Speech.UI
             else { isChoiceAvailable = false; }
         }
 
-        private void SetupSimpleChoices()
+        public void SetupSimpleChoices(List<ChoiceActionPair> choiceActionPairs, bool usingDialogueController = false)
         {
-            if (dialogueController != null && dialogueController.IsSimpleMessage())
+            if (usingDialogueController && dialogueController.IsSimpleMessage())
             {
                 AddText(dialogueController.GetSimpleMessage());
-
-                choiceOptions.Clear();
-                foreach (ChoiceActionPair choiceActionPair in dialogueController.GetSimpleChoices())
-                {
-                    if (choiceActionPair.isComplexAction)
-                    {
-                        AddChoiceOption(choiceActionPair.choice, choiceActionPair.complexAction, choiceActionPair.complexActionParameter);
-                    }
-                    else if (!choiceActionPair.isComplexAction)
-                    {
-                        AddChoiceOption(choiceActionPair.choice, choiceActionPair.action);
-                    }
-                }
-                isChoiceAvailable = true;
             }
+            else
+            {
+                AddText(defaultOptionText);
+            }
+
+            choiceOptions.Clear();
+            foreach (ChoiceActionPair choiceActionPair in choiceActionPairs)
+            {
+                if (choiceActionPair.choiceActionPairType == ChoiceActionPairType.SimpleString)
+                {
+                    AddChoiceOption(choiceActionPair.choice, choiceActionPair.simpleStringAction, choiceActionPair.stringActionParameter);
+                }
+                else if (choiceActionPair.choiceActionPairType == ChoiceActionPairType.SimpleInt)
+                {
+                    AddChoiceOption(choiceActionPair.choice, choiceActionPair.simpleIntAction, choiceActionPair.intActionParameter);
+                }
+                else if (choiceActionPair.choiceActionPairType == ChoiceActionPairType.Simple)
+                {
+                    AddChoiceOption(choiceActionPair.choice, choiceActionPair.simpleAction);
+                }
+            }
+            isChoiceAvailable = true;
         }
 
         private void AddChoiceOption(string choiceText, Action functionCall)
         {
-            GameObject choiceObject = Instantiate(optionPrefab, optionParent);
-            DialogueChoiceOption dialogueChoiceOption = choiceObject.GetComponent<DialogueChoiceOption>();
-            dialogueChoiceOption.SetChoiceOrder(choiceOptions.Count + 1);
-            dialogueChoiceOption.SetText(choiceText);
-            choiceOptions.Add(dialogueChoiceOption);
+            DialogueChoiceOption dialogueChoiceOption = AddChoiceOptionTemplate(choiceText);
             dialogueChoiceOption.GetButton().onClick.AddListener(delegate { functionCall.Invoke();  Destroy(gameObject); });
         }
 
         private void AddChoiceOption(string choiceText, Action<string> functionCall, string functionParameter)
         {
+            DialogueChoiceOption dialogueChoiceOption = AddChoiceOptionTemplate(choiceText);
+            dialogueChoiceOption.GetButton().onClick.AddListener(delegate { functionCall.Invoke(functionParameter); Destroy(gameObject); });
+        }
+
+        private void AddChoiceOption(string choiceText, Action<int> functionCall, int functionParameter)
+        {
+            DialogueChoiceOption dialogueChoiceOption = AddChoiceOptionTemplate(choiceText);
+            dialogueChoiceOption.GetButton().onClick.AddListener(delegate { functionCall.Invoke(functionParameter); Destroy(gameObject); });
+        }
+
+        private DialogueChoiceOption AddChoiceOptionTemplate(string choiceText)
+        {
             GameObject choiceObject = Instantiate(optionPrefab, optionParent);
             DialogueChoiceOption dialogueChoiceOption = choiceObject.GetComponent<DialogueChoiceOption>();
             dialogueChoiceOption.SetChoiceOrder(choiceOptions.Count + 1);
             dialogueChoiceOption.SetText(choiceText);
             choiceOptions.Add(dialogueChoiceOption);
-            dialogueChoiceOption.GetButton().onClick.AddListener(delegate { functionCall.Invoke(functionParameter); Destroy(gameObject); });
+            return dialogueChoiceOption;
         }
 
         public override void HandleGlobalInput(PlayerInputType playerInputType)
@@ -145,6 +162,7 @@ namespace Frankie.Speech.UI
 
         protected override bool PrepareChooseAction(PlayerInputType playerInputType)
         {
+            // Choose(null) since not passing a nodeID, not a standard dialogue -- irrelevant in context of override
             if (playerInputType == PlayerInputType.Execute)
             {
                 return Choose(null);
