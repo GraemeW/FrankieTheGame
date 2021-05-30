@@ -92,7 +92,7 @@ namespace Frankie.Combat.UI
             return combatParticipant;
         }
 
-        protected void HighlightSlide(CombatParticipantType combatParticipantType, CombatParticipant combatParticipant)
+        public void HighlightSlide(CombatParticipantType combatParticipantType, CombatParticipant combatParticipant)
         {
             if (combatParticipant == this.combatParticipant)
             {

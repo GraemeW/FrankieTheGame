@@ -13,7 +13,7 @@ namespace Frankie.Speech.UI
         [SerializeField] protected GameObject selectionMarker = null;
         [Tooltip("Smallest values select first")] public int choiceOrder = 0;
         [SerializeField] TextMeshProUGUI textField = null;
-        [SerializeField] Button button = null;
+        [SerializeField] protected Button button = null;
 
         // State
         DialogueNode dialogueNode = null;

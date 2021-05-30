@@ -60,7 +60,7 @@ namespace Frankie.Combat.UI
         {
             GameObject childOption = Instantiate(knapsackPrefab, battleCanvas.transform);
             InventoryBox inventoryBox = childOption.GetComponent<InventoryBox>();
-            inventoryBox.Setup(battleController, party, true);
+            inventoryBox.Setup(battleController, party);
             inventoryBox.SetDisableCallback(this, DIALOGUE_CALLBACK_ENABLE_COMBAT_OPTIONS);
             gameObject.SetActive(false);
         }

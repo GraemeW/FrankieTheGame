@@ -7,6 +7,7 @@ using Frankie.Control;
 using UnityEngine;
 using UnityEngine.UI;
 using Frankie.Inventory.UI;
+using System.Collections.Generic;
 
 namespace Frankie.Speech.UI
 {
@@ -20,6 +21,9 @@ namespace Frankie.Speech.UI
         [SerializeField] GameObject abilitiesPrefab = null;
         [SerializeField] GameObject statusPrefab = null;
         [SerializeField] GameObject mapPrefab = null;
+
+        // State
+        List<CharacterSlide> characterSlides = new List<CharacterSlide>();
 
         // Cached References
         PlayerStateHandler playerStateHandler = null;
@@ -45,11 +49,13 @@ namespace Frankie.Speech.UI
 
         private void SetupCharacterSlides()
         {
+            characterSlides.Clear();
             foreach (CombatParticipant character in party.GetParty())
             {
                 GameObject characterObject = Instantiate(characterSlidePrefab, characterPanelTransform);
                 CharacterSlide characterSlide = characterObject.GetComponent<CharacterSlide>();
                 characterSlide.SetCombatParticipant(character);
+                characterSlides.Add(characterSlide);
             }
         }
 
@@ -95,7 +101,7 @@ namespace Frankie.Speech.UI
             handleGlobalInput = false;
             GameObject childOption = Instantiate(knapsackPrefab, worldCanvas.gameObject.transform);
             InventoryBox inventoryBox = childOption.GetComponent<InventoryBox>();
-            inventoryBox.Setup(playerController, party);
+            inventoryBox.Setup(playerController, party, characterSlides);
             inventoryBox.SetDisableCallback(this, DIALOGUE_CALLBACK_ENABLE_INPUT);
         }
     }
