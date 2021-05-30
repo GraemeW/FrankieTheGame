@@ -12,11 +12,22 @@ namespace Frankie.Inventory
         // Config Data
         [SerializeField] bool consumable = true;
         [SerializeField] bool removeStatus = false;
+        [SerializeField] float hpValue = 0f;
+        [SerializeField] float apValue = 0f;
         [SerializeField] BaseStatModifier[] baseStatModifiers = null;
         [SerializeField] StatusEffectProbabilityPair[] statusEffectProbabilityPairs = null;
 
         public void Use(CombatParticipant combatParticipant)
         {
+            if (!Mathf.Approximately(hpValue, 0f))
+            {
+                combatParticipant.AdjustHP(hpValue);
+            }
+            if (!Mathf.Approximately(apValue, 0f))
+            {
+                combatParticipant.AdjustAP(apValue);
+            }
+
             foreach (BaseStatModifier baseStatModifier in baseStatModifiers)
             {
                 combatParticipant.ApplyBaseStatEffect(baseStatModifier);
