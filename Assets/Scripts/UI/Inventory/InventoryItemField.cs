@@ -16,11 +16,13 @@ namespace Frankie.Inventory.UI
         private void OnEnable()
         {
             ToggleButtonActive(true);
+            if (inventoryBox != null) { inventoryBox.inventoryBoxStateChanged += HandleInventoryBoxStateChange; }
         }
 
         private void OnDisable()
         {
             ToggleButtonActive(false);
+            if (inventoryBox != null) { inventoryBox.inventoryBoxStateChanged -= HandleInventoryBoxStateChange; }
         }
 
         public void SetupButtonAction(InventoryBox inventoryBox, Action<int> action, int value)
@@ -36,14 +38,11 @@ namespace Frankie.Inventory.UI
         private void ToggleButtonActive(bool enable)
         {
             if (action == null) { return; }
+            button.onClick.RemoveAllListeners();
 
             if (enable)
             {
                 button.onClick.AddListener(delegate { action.Invoke(value); });
-            }
-            else
-            {
-                button.onClick.RemoveAllListeners();
             }
         }
 
