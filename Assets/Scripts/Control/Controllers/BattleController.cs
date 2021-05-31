@@ -195,14 +195,15 @@ namespace Frankie.Combat
                 }
                 else
                 {
+                    bool isFriendly = selectedBattleAction.isFriendly;
 
                     if (playerInputType == PlayerInputType.NavigateRight || playerInputType == PlayerInputType.NavigateDown)
                     {
-                        SetSelectedTarget(GetNextLivingTarget(GetSelectedTarget(), true));
+                        SetSelectedTarget(GetNextLivingTarget(GetSelectedTarget(), true, isFriendly));
                     }
                     else if (playerInputType == PlayerInputType.NavigateLeft || playerInputType == PlayerInputType.NavigateUp)
                     {
-                        SetSelectedTarget(GetNextLivingTarget(GetSelectedTarget(), false));
+                        SetSelectedTarget(GetNextLivingTarget(GetSelectedTarget(), false, isFriendly));
                     }
                 }
 
@@ -425,7 +426,7 @@ namespace Frankie.Combat
                 selectedTarget = null; 
                 battleActionArmed = false; 
             }
-            else if (SelectFirstLivingTarget(activeEnemies))
+            else if (GetNextLivingTarget(null, true, selectedBattleAction.isFriendly))
             {
                 battleActionArmed = true;
             }

@@ -16,10 +16,11 @@ MonoBehaviour:
   displayName: A Big YoYo
   description: Very big
   consumable: 0
-  removeStatus: 1
+  friendly: 1
   hpValue: 30
   apValue: 0
   baseStatModifiers: []
+  removeStatus: 1
   statusEffectProbabilityPairs:
   - statusEffect: {fileID: 0}
     fractionalProbability: 1

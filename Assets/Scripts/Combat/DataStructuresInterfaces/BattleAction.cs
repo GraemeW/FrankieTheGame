@@ -11,6 +11,7 @@ namespace Frankie.Combat
         public Skill skill { get; }
         public ActionItem actionItem { get; }
         public string name { get; }
+        public bool isFriendly { get; }
 
         public static BattleAction None { get; } = new BattleAction();
 
@@ -20,6 +21,7 @@ namespace Frankie.Combat
             this.skill = skill;
             this.name = Skill.GetSkillNamePretty(skill.name);
             this.actionItem = null;
+            this.isFriendly = skill.IsFriendly();
         }
 
         public BattleAction(ActionItem actionItem)
@@ -28,6 +30,7 @@ namespace Frankie.Combat
             this.actionItem = actionItem;
             this.name = actionItem.GetDisplayName();
             this.skill = null;
+            this.isFriendly = actionItem.IsFriendly();
         }
     }
 }

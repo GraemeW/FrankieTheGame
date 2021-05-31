@@ -10,6 +10,7 @@ namespace Frankie.Combat
         // Tunables
         [Header("Behaviour")]
         public float cooldown = 1.0f;
+        [Tooltip("This only changes the sorting order")] [SerializeField] bool friendly = false;
         [Header("Modifiers")]
         public SkillStat stat = default;
         public float apValue = 0f;
@@ -52,6 +53,11 @@ namespace Frankie.Combat
 
                 skillLookupCache[skill.name] = skill;
             }
+        }
+
+        public bool IsFriendly()
+        {
+            return friendly;
         }
 
         public void OnBeforeSerialize()

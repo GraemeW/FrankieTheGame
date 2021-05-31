@@ -10,12 +10,16 @@ namespace Frankie.Inventory
     public class ActionItem : InventoryItem
     {
         // Config Data
+        [Header("Behavior")]
         [SerializeField] bool consumable = true;
-        [SerializeField] bool removeStatus = false;
+        [Tooltip("This only changes the sorting order")] [SerializeField] bool friendly = false;
+        [Header("Modifiers")]
         [SerializeField] float hpValue = 0f;
         [SerializeField] float apValue = 0f;
         [SerializeField] BaseStatModifier[] baseStatModifiers = null;
+        [SerializeField] bool removeStatus = false;
         [SerializeField] StatusEffectProbabilityPair[] statusEffectProbabilityPairs = null;
+
 
         public void Use(CombatParticipant combatParticipant)
         {
@@ -48,6 +52,11 @@ namespace Frankie.Inventory
         public bool IsConsumable()
         {
             return consumable;
+        }
+
+        public bool IsFriendly()
+        {
+            return friendly;
         }
     }
 
