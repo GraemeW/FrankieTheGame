@@ -30,22 +30,26 @@ namespace Frankie.Inventory.UI
         [SerializeField] string optionEquip = "Equip";
         [SerializeField] string optionUse = "Use";
         [Tooltip("Include {0} for character name")] [SerializeField] string messageBusyInCooldown = "{0} is busy twirling, twirling.";
+        [Tooltip("Include {0} for user, {1} for item, {2} for target")] [SerializeField] string messageUseItemInWorld = "{0} used {1} on {2}";
 
         // State
         InventoryBoxState inventoryBoxState = InventoryBoxState.inCharacterSelection;
-        CombatParticipant selectedCharacter = null;
-        Knapsack selectedKnapsack = null;
         List<DialogueChoiceOption> playerSelectChoiceOptions = new List<DialogueChoiceOption>();
         List<InventoryItemField> inventoryItemChoiceOptions = new List<InventoryItemField>();
+        CombatParticipant selectedCharacter = null;
+        Knapsack selectedKnapsack = null;
+        int selectedItemSlot = -1;
+        CombatParticipant targetCharacter = null;
 
         // Cached References
         IStandardPlayerInputCaller standardPlayerInputCaller = null;
         BattleController battleController = null;
+        Party party = null;
         List<CharacterSlide> characterSlides = null;
 
         // Events
         public event Action<InventoryBoxState> inventoryBoxStateChanged;
-        public event Action<CombatParticipantType, CombatParticipant> selectedCharacterTargetChanged;
+        public event Action<CombatParticipantType, CombatParticipant> targetCharacterChanged;
 
         protected override void Awake()
         {
@@ -72,6 +76,7 @@ namespace Frankie.Inventory.UI
         public void Setup(IStandardPlayerInputCaller standardPlayerInputCaller, Party party, List<CharacterSlide> characterSlides = null)
         {
             this.standardPlayerInputCaller = standardPlayerInputCaller;
+            this.party = party;
             if (standardPlayerInputCaller.GetType() == typeof(BattleController))
             {
                 battleController = standardPlayerInputCaller as BattleController;
@@ -109,11 +114,11 @@ namespace Frankie.Inventory.UI
                 {
                     if (enable)
                     {
-                        selectedCharacterTargetChanged += characterSlide.HighlightSlide;
+                        targetCharacterChanged += characterSlide.HighlightSlide;
                     }
                     else
                     {
-                        selectedCharacterTargetChanged -= characterSlide.HighlightSlide;
+                        targetCharacterChanged -= characterSlide.HighlightSlide;
                     }
                 }
             }
@@ -135,13 +140,14 @@ namespace Frankie.Inventory.UI
             else { isChoiceAvailable = false; }
             MoveCursor(PlayerInputType.NavigateRight); // Initialize Highlight
         }
+
         protected override bool MoveCursor(PlayerInputType playerInputType)
         {
-            if (inventoryBoxState != InventoryBoxState.inKnapsack)
+            if (inventoryBoxState == InventoryBoxState.inCharacterSelection)
             {
                 return base.MoveCursor(playerInputType);
             }
-            else
+            else if (inventoryBoxState == InventoryBoxState.inKnapsack)
             {
                 // Support for 2-D movement across the inventory items
                 if (highlightedChoiceOption == null) { return false; }
@@ -185,7 +191,47 @@ namespace Frankie.Inventory.UI
                     choiceOptions[choiceIndex].Highlight(true);
                     return true;
                 }
-                return false;
+            }
+            else if (inventoryBoxState == InventoryBoxState.inCharacterTargeting)
+            {
+                if (playerInputType == PlayerInputType.NavigateRight || playerInputType == PlayerInputType.NavigateDown)
+                {
+                    GetNextTarget(true);
+                }
+                else if (playerInputType == PlayerInputType.NavigateLeft || playerInputType == PlayerInputType.NavigateUp)
+                {
+                    GetNextTarget(false);
+                }
+            }
+            return false;
+        }
+
+        protected override bool Choose(string nodeID)
+        {
+            if (inventoryBoxState != InventoryBoxState.inCharacterTargeting)
+            {
+                return base.Choose(null);
+            }
+            else
+            {
+                if (selectedKnapsack.UseItemInSlot(selectedItemSlot, targetCharacter))
+                {
+                    handleGlobalInput = false;
+                    GameObject dialogueBoxObject = Instantiate(dialogueBoxPrefab, transform.parent);
+                    DialogueBox dialogueBox = dialogueBoxObject.GetComponent<DialogueBox>();
+                    dialogueBox.AddText(string.Format(messageUseItemInWorld, 
+                        selectedCharacter.GetCombatName(), 
+                        selectedKnapsack.GetItemInSlot(selectedItemSlot).GetDisplayName(), 
+                        targetCharacter.GetCombatName()));
+                    dialogueBox.SetGlobalCallbacks(standardPlayerInputCaller);
+                    dialogueBox.SetDisableCallback(this, DIALOGUE_CALLBACK_ENABLE_INPUT);
+
+                    return true;
+                }
+                else
+                { 
+                    return false; 
+                }
             }
         }
 
@@ -329,14 +375,47 @@ namespace Frankie.Inventory.UI
             }
             else
             {
-                // TODO:  Implement world behavior
-                handleGlobalInput = false;
-                GameObject dialogueBoxObject = Instantiate(dialogueBoxPrefab, transform.parent);
-                DialogueBox dialogueBox = dialogueBoxObject.GetComponent<DialogueBox>();
-                dialogueBox.AddText("This is where we would use an item in the world, if we had implemented it");
-                dialogueBox.SetGlobalCallbacks(standardPlayerInputCaller);
-                dialogueBox.SetDisableCallback(this, DIALOGUE_CALLBACK_ENABLE_INPUT);
+                handleGlobalInput = true;
+                selectedItemSlot = inventorySlot;
+                SetInventoryBoxState(InventoryBoxState.inCharacterTargeting);
+                GetNextTarget(true);
             }
+        }
+
+        private void GetNextTarget(bool traverseForward)
+        {
+            List<CombatParticipant> activeCharacters = party.GetParty();
+            
+            // Simple case
+            if (targetCharacter == null || activeCharacters.Count == 1)
+            {
+                targetCharacter = activeCharacters[0];
+            }
+            else if (activeCharacters.Count == 2)
+            {
+                targetCharacter = activeCharacters[1];
+            }
+            else
+            {
+                // Normal handling
+                for (int index = 0; index < activeCharacters.Count; index++)
+                {
+                    if (targetCharacter != activeCharacters[index]) { continue; }
+
+                    if (traverseForward)
+                    {
+                        if (index == activeCharacters.Count - 1) { targetCharacter = activeCharacters[0]; }
+                        else { targetCharacter = activeCharacters[index + 1]; }
+                    }
+                    else
+                    {
+                        if (index == 0) { targetCharacter = activeCharacters[activeCharacters.Count - 1]; }
+                        else { targetCharacter = activeCharacters[index - 1]; }
+                    }
+                }
+            }
+
+            targetCharacterChanged.Invoke(CombatParticipantType.Target, targetCharacter);
         }
 
         private void DisplayCharacterInCooldownMessage(CombatParticipant character)
@@ -374,6 +453,10 @@ namespace Frankie.Inventory.UI
         {
             if (callbackMessage == DIALOGUE_CALLBACK_ENABLE_INPUT)
             {
+                selectedItemSlot = -1;
+                targetCharacter = null;
+                targetCharacterChanged.Invoke(CombatParticipantType.Target, null);
+
                 handleGlobalInput = true;
                 SetInventoryBoxState(InventoryBoxState.inKnapsack);
             }
