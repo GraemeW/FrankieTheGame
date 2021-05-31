@@ -16,6 +16,7 @@ GameObject:
   - component: {fileID: 726526304575199942}
   - component: {fileID: -8535015448183063659}
   - component: {fileID: 4647657545221406645}
+  - component: {fileID: 6205572641082529027}
   - component: {fileID: 7722166093997427972}
   m_Layer: 0
   m_Name: Character
@@ -167,6 +168,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   inventorySize: 16
   slots: []
+--- !u!114 &6205572641082529027
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8263638854090363868}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 04cd00d421be6294b9c849d9e1d9d349, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &7722166093997427972
 MonoBehaviour:
   m_ObjectHideFlags: 0

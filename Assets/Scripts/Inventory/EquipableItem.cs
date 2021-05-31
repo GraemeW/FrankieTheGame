@@ -14,6 +14,16 @@ namespace Frankie.Inventory
         [SerializeField] BaseStatModifier[] baseStatModifiers = null;
         [SerializeField] StatusEffect[] statusEffects = null;
 
+        public EquipLocation GetEquipLocation()
+        {
+            return equipLocation;
+        }
+
+        public IEnumerable<BaseStatModifier> GetBaseStatModifiers()
+        {
+            return baseStatModifiers;
+        }
+
         public IEnumerable<StatusEffect> GetStatusEffects()
         {
             return statusEffects;

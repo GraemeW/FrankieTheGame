@@ -14,7 +14,7 @@ namespace Frankie.Inventory
         [SerializeField] int inventorySize = 16;
 
         // State
-        [SerializeField] InventoryItem[] slots; // Serialized for test purposes
+        [SerializeField] InventoryItem[] slots;
 
         // Static
         static string[] PREDICATES_ARRAY = { "HasInventoryItem" };
