@@ -384,36 +384,8 @@ namespace Frankie.Inventory.UI
 
         private void GetNextTarget(bool traverseForward)
         {
-            List<CombatParticipant> activeCharacters = party.GetParty();
-            
-            // Simple case
-            if (targetCharacter == null || activeCharacters.Count == 1)
-            {
-                targetCharacter = activeCharacters[0];
-            }
-            else if (activeCharacters.Count == 2)
-            {
-                targetCharacter = activeCharacters[1];
-            }
-            else
-            {
-                // Normal handling
-                for (int index = 0; index < activeCharacters.Count; index++)
-                {
-                    if (targetCharacter != activeCharacters[index]) { continue; }
-
-                    if (traverseForward)
-                    {
-                        if (index == activeCharacters.Count - 1) { targetCharacter = activeCharacters[0]; }
-                        else { targetCharacter = activeCharacters[index + 1]; }
-                    }
-                    else
-                    {
-                        if (index == 0) { targetCharacter = activeCharacters[activeCharacters.Count - 1]; }
-                        else { targetCharacter = activeCharacters[index - 1]; }
-                    }
-                }
-            }
+            CombatParticipant newTargetCharacter = party.GetNextMember(targetCharacter, traverseForward);
+            targetCharacter = newTargetCharacter;
 
             targetCharacterChanged.Invoke(CombatParticipantType.Target, targetCharacter);
         }

@@ -72,6 +72,42 @@ namespace Frankie.Stats
             return false;
         }
 
+        public CombatParticipant GetNextMember(CombatParticipant currentMember, bool traverseForward)
+        {
+            CombatParticipant nextMember = null;
+
+            // Simple case
+            if (currentMember == null || party.Count == 1)
+            {
+                nextMember = party[0];
+            }
+            else if (party.Count == 2)
+            {
+                nextMember = party[1];
+            }
+            else
+            {
+                // Normal handling
+                for (int index = 0; index < party.Count; index++)
+                {
+                    if (currentMember != party[index]) { continue; }
+
+                    if (traverseForward)
+                    {
+                        if (index == party.Count - 1) { nextMember = party[0]; }
+                        else { nextMember = party[index + 1]; }
+                    }
+                    else
+                    {
+                        if (index == 0) { nextMember = party[party.Count - 1]; }
+                        else { nextMember = party[index - 1]; }
+                    }
+                }
+            }
+
+            return nextMember;
+        }
+
         public bool IsAnyMemberAlive()
         {
             bool alive = false;
