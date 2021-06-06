@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Frankie.Combat;
 using Cinemachine;
+using Frankie.Control;
 
 namespace Frankie.Stats
 {

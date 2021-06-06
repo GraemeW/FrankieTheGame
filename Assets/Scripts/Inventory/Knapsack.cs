@@ -14,7 +14,7 @@ namespace Frankie.Inventory
         [SerializeField] int inventorySize = 16;
 
         // State
-        [SerializeField] InventoryItem[] slots;
+        InventoryItem[] slots;
 
         // Static
         static string[] PREDICATES_ARRAY = { "HasInventoryItem" };
@@ -24,8 +24,7 @@ namespace Frankie.Inventory
 
         private void Awake()
         {
-            // Commented out for test purposes -- TODO:  ENABLE ONCE DONE TESTING
-            //slots = new InventoryItem[inventorySize];
+            slots = new InventoryItem[inventorySize];
         }
 
         #region PublicFunctions

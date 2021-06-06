@@ -61,13 +61,14 @@ namespace Frankie.Control
             if (resetPositionOnEnable)
             {
                 transform.position = originalPosition;
-                lookDirection = Vector2.down;
+                SetLookDirection(Vector2.down);
             }
         }
 
         public void SetLookDirection(Vector2 lookDirection)
         {
             this.lookDirection = lookDirection;
+            UpdateAnimator();
         }
 
         public Vector2 GetLookDirection()
