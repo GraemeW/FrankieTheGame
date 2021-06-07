@@ -182,13 +182,16 @@ namespace Frankie.Control
 
         public void InitiateCombat(PlayerStateHandler playerStateHandler)  // called via Unity Event
         {
+            if (playerStateHandler.GetPlayerState() != PlayerState.inWorld) { return; }
+
             InitiateCombat(playerStateHandler, TransitionType.BattleNeutral);
         }
 
         public void InitiateCombat(PlayerStateHandler playerStateHandler, TransitionType transitionType)  // called via Unity Event
         {
-            CombatParticipant enemy = GetComponent<CombatParticipant>();
+            if (playerStateHandler.GetPlayerState() != PlayerState.inWorld) { return; }
 
+            CombatParticipant enemy = GetComponent<CombatParticipant>();
             if (enemy.IsDead())
             {
                 playerStateHandler.OpenSimpleDialogue(string.Format(messageCannotFight, enemy.GetCombatName()));

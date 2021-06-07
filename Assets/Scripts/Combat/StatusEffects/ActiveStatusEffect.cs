@@ -84,6 +84,8 @@ namespace Frankie.Combat
 
         private void SetupBattleController()
         {
+            if (battleController != null) { return; }
+
             battleController = GameObject.FindGameObjectWithTag("BattleController").GetComponent<BattleController>();
             if (battleController != null)
             {

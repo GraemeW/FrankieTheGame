@@ -96,7 +96,8 @@ namespace Frankie.Combat.UI
 
         public void Setup(BattleState state)
         {
-            if (state == lastBattleState) { return; }
+            if (state == lastBattleState) { return; } // Only act on state changes
+            lastBattleState = state;
 
             if (state == BattleState.Intro)
             {
