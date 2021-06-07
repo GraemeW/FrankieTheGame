@@ -69,6 +69,16 @@ namespace Frankie.Stats
             activeStatSheet = progression.GetStatSheet(characterProperties, GetLevel());
         }
 
+        public Dictionary<Stat, float> GetActiveStatSheet()
+        {
+            return activeStatSheet;
+        }
+
+        public void SetActiveStatSheet(Dictionary<Stat, float> activeStatSheet)
+        {
+            this.activeStatSheet = activeStatSheet;
+        }
+
         private float GetAdditiveModifiers(Stat stat)
         {
             if (!shouldUseModifiers) return 0;

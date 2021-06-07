@@ -30,7 +30,7 @@ MonoBehaviour:
     width: 400
     height: 45
   onEnterAction: 
-  onExitAction: 
+  onExitAction: joinParty
   condition:
     and: []
 --- !u!114 &11400000
@@ -49,6 +49,7 @@ MonoBehaviour:
   newNodeOffset: {x: 100, y: 25}
   nodeWidth: 400
   nodeHeight: 225
-  activeNPCs: []
+  activeNPCs:
+  - {fileID: 11400000, guid: b10029ac6f311c441a516db78ca01efd, type: 2}
   dialogueNodes:
   - {fileID: -7182139537527727821}

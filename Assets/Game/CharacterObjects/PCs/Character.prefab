@@ -18,6 +18,7 @@ GameObject:
   - component: {fileID: 4647657545221406645}
   - component: {fileID: 6205572641082529027}
   - component: {fileID: 7722166093997427972}
+  - component: {fileID: 7718304423591506186}
   m_Layer: 0
   m_Name: Character
   m_TagString: Untagged
@@ -167,7 +168,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   inventorySize: 16
-  slots: []
 --- !u!114 &6205572641082529027
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -193,6 +193,22 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   uniqueIdentifier: 
+--- !u!114 &7718304423591506186
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8263638854090363868}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bce5b12bc486dc641b36c0b1102e4dbf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  characterPrefab: {fileID: 0}
+  characterNPCPrefab: {fileID: 0}
+  baseStats: {fileID: 7770585857665752477}
+  combatParticipant: {fileID: 1538271764270950872}
 --- !u!1 &8263638854299470662
 GameObject:
   m_ObjectHideFlags: 0

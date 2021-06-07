@@ -15,6 +15,14 @@ PrefabInstance:
       propertyPath: combatSprite
       value: 
       objectReference: {fileID: 21300000, guid: fc8084fdbecc4fb4d8abe0e19b7ae1a7, type: 3}
+    - target: {fileID: 7718304423591506186, guid: b3d57c5ca0835dc44b0b91ac427342b7, type: 3}
+      propertyPath: characterPrefab
+      value: 
+      objectReference: {fileID: 6731012523550855050}
+    - target: {fileID: 7718304423591506186, guid: b3d57c5ca0835dc44b0b91ac427342b7, type: 3}
+      propertyPath: characterNPCPrefab
+      value: 
+      objectReference: {fileID: 2398833644461657395, guid: cf0c598dcc5acb140ad2c34c48d6aa9c, type: 3}
     - target: {fileID: 7722166093997427972, guid: b3d57c5ca0835dc44b0b91ac427342b7, type: 3}
       propertyPath: uniqueIdentifier
       value: tilly
@@ -85,3 +93,8 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b3d57c5ca0835dc44b0b91ac427342b7, type: 3}
+--- !u!1 &6731012523550855050 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8263638854090363868, guid: b3d57c5ca0835dc44b0b91ac427342b7, type: 3}
+  m_PrefabInstance: {fileID: 3442733613330226262}
+  m_PrefabAsset: {fileID: 0}

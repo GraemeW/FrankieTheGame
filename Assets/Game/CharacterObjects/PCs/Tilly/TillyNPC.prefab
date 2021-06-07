@@ -75,6 +75,14 @@ PrefabInstance:
       propertyPath: uniqueIdentifier
       value: tillyNPC
       objectReference: {fileID: 0}
+    - target: {fileID: 3812642534766768824, guid: 53771d00282eaa34ba616b313732c1b7, type: 3}
+      propertyPath: characterPrefab
+      value: 
+      objectReference: {fileID: 6731012523550855050, guid: 0556de498fd05e247980b8376415a392, type: 3}
+    - target: {fileID: 3812642534766768824, guid: 53771d00282eaa34ba616b313732c1b7, type: 3}
+      propertyPath: characterNPCPrefab
+      value: 
+      objectReference: {fileID: 2398833644461657395}
     - target: {fileID: 5380918446169795178, guid: 53771d00282eaa34ba616b313732c1b7, type: 3}
       propertyPath: combatAudio
       value: 
@@ -97,3 +105,8 @@ PrefabInstance:
       objectReference: {fileID: 11400000, guid: b0900cf41680b4840bc54d87b0be59b1, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 53771d00282eaa34ba616b313732c1b7, type: 3}
+--- !u!1 &2398833644461657395 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3268347881412759662, guid: 53771d00282eaa34ba616b313732c1b7, type: 3}
+  m_PrefabInstance: {fileID: 869721847798078813}
+  m_PrefabAsset: {fileID: 0}

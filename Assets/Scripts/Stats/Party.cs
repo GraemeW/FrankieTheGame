@@ -12,6 +12,7 @@ namespace Frankie.Stats
         // Tunables
         [SerializeField][Range(1,4)] int partyLimit = 4;
         [SerializeField] List<CombatParticipant> party = new List<CombatParticipant>();
+        [SerializeField] Transform partyContainer = null;
 
         // State
         Dictionary<CombatParticipant, Animator> animatorLookup = new Dictionary<CombatParticipant, Animator>();
@@ -29,6 +30,11 @@ namespace Frankie.Stats
             // TODO:  Implement, call event to update camera controller
         }
 
+        public CombatParticipant GetPartyLeader()
+        {
+            return party[0];
+        }
+
         public Animator GetLeadCharacterAnimator()
         {
             return animatorLookup[party[0]];
@@ -36,18 +42,30 @@ namespace Frankie.Stats
 
         public bool AddToParty(CombatParticipant character)
         {
-            // TODO:  Add GameObject Instatiation && Transform offsetting for multiple characters
             if (party.Count >= partyLimit) { return false; }
-            party.Add(character);
-            animatorLookup.Add(character, character.GetComponent<Animator>());
+
+            CharacterNPCSwapper worldNPC = character.GetComponent<CharacterNPCSwapper>();
+            if (worldNPC == null) { return false; }
+
+            CharacterNPCSwapper partyCharacter = worldNPC.SwapToCharacter(partyContainer);
+            Destroy(worldNPC.gameObject);
+
+            party.Add(partyCharacter.GetCombatParticipant());
+            animatorLookup.Add(partyCharacter.GetCombatParticipant(), partyCharacter.GetComponent<Animator>());
             return true;
         }
 
-        public bool RemoveFromParty(CombatParticipant character)
+        public bool RemoveFromParty(CombatParticipant character, Transform worldTransform)
         {
             if (party.Count <= 1) { return false; }
             party.Remove(character);
             animatorLookup.Remove(character);
+
+            CharacterNPCSwapper partyCharacter = character.GetComponent<CharacterNPCSwapper>();
+            if (partyCharacter == null) { return false; }
+
+            CharacterNPCSwapper worldNPC = partyCharacter.SwapToNPC(worldTransform);
+            Destroy(partyCharacter.gameObject);
             return true;
         }
 

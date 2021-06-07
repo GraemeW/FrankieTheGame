@@ -3751,6 +3751,50 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 3797661492977225364, guid: 19b72c5a448064542b67dee2cac7a310, type: 3}
   m_PrefabInstance: {fileID: 3797661492537148418}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1714376155 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4105283153373425637, guid: cf0c598dcc5acb140ad2c34c48d6aa9c, type: 3}
+  m_PrefabInstance: {fileID: 2068905520}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bce5b12bc486dc641b36c0b1102e4dbf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!1 &1871047134 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5431315688517095583, guid: cf0c598dcc5acb140ad2c34c48d6aa9c, type: 3}
+  m_PrefabInstance: {fileID: 2068905520}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1871047135
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1871047134}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 47c843d51c92e854f95fb02bd7be9471, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  action: joinParty
+  onTriggerWithCallingController:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1714376155}
+        m_TargetAssemblyTypeName: Frankie.Control.CharacterNPCSwapper, Assembly-CSharp
+        m_MethodName: JoinParty
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!4 &1935962881 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7237574331970397817, guid: 0180200b3db5ee44ea33cce2766c76c6, type: 3}
@@ -5196,7 +5240,7 @@ PrefabInstance:
       objectReference: {fileID: 566954979}
     - target: {fileID: 6748405756474271262, guid: 7d6634333e185754d96c189f3df7c163, type: 3}
       propertyPath: orthographic size
-      value: 3
+      value: 3.5
       objectReference: {fileID: 0}
     - target: {fileID: 6748405756474271457, guid: 7d6634333e185754d96c189f3df7c163, type: 3}
       propertyPath: m_LocalPosition.x
