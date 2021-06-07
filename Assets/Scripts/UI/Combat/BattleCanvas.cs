@@ -38,6 +38,7 @@ namespace Frankie.Combat.UI
         [SerializeField] string messageBattleCompleteRan = "You ran away.";
 
         // State
+        BattleState lastBattleState = BattleState.Inactive;
         Queue<Action> queuedUISequences = new Queue<Action>();
         List<CharacterLevelUpSheetPair> queuedLevelUps = new List<CharacterLevelUpSheetPair>();
         bool busyWithSerialAction = false;
@@ -95,6 +96,8 @@ namespace Frankie.Combat.UI
 
         public void Setup(BattleState state)
         {
+            if (state == lastBattleState) { return; }
+
             if (state == BattleState.Intro)
             {
                 SetupPlayerCharacters(battleController.GetCharacters());

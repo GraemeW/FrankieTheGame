@@ -38,6 +38,15 @@ namespace Frankie.Inventory
             return FindEmptySlot() >= 0;
         }
 
+        public bool IsEmpty()
+        {
+            for (int i = 0; i < slots.Length; i++)
+            {
+                if (slots[i] != null) { return false; }
+            }
+            return true;
+        }
+
         public bool HasItem(InventoryItem inventoryItem)
         {
             for (int i = 0; i < slots.Length; i++)

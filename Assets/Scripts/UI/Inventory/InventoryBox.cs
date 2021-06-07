@@ -126,6 +126,8 @@ namespace Frankie.Inventory.UI
 
         protected override void SetUpChoiceOptions()
         {
+            if (selectedKnapsack != null && selectedKnapsack.IsEmpty()) { return; }
+
             choiceOptions.Clear();
             if (inventoryBoxState == InventoryBoxState.inKnapsack)
             {
