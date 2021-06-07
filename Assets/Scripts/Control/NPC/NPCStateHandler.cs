@@ -189,7 +189,7 @@ namespace Frankie.Control
 
         public void InitiateCombat(PlayerStateHandler playerStateHandler, TransitionType transitionType)  // called via Unity Event
         {
-            if (playerStateHandler.GetPlayerState() == PlayerState.inBattle || playerStateHandler.GetPlayerState() != PlayerState.inOptions) { return; }
+            if (playerStateHandler.GetPlayerState() == PlayerState.inBattle) { return; }
 
             CombatParticipant enemy = GetComponent<CombatParticipant>();
             if (enemy.IsDead())
