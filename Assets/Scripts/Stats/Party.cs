@@ -5,6 +5,7 @@ using Frankie.Combat;
 using Cinemachine;
 using Frankie.Control;
 using Frankie.Utils;
+using System;
 
 namespace Frankie.Stats
 {
@@ -139,33 +140,50 @@ namespace Frankie.Stats
             return alive;
         }
 
-        public void UpdatePartyAnimation(float speed, float xLookDirection, float yLookDirection)
+        public void UpdateLeaderAnimation(float speed, float xLookDirection, float yLookDirection)
         {
+            CombatParticipant character = party[0];
+            animatorLookup[character].SetFloat("Speed", speed);
+            animatorLookup[character].SetFloat("xLook", xLookDirection);
+            animatorLookup[character].SetFloat("yLook", yLookDirection);
+        }
+
+        public void UpdatePartySpeed(float speed)
+        {
+            int characterIndex = 0;
             foreach (CombatParticipant character in party)
             {
+                if (characterIndex == 0) { characterIndex++; continue; }
                 animatorLookup[character].SetFloat("Speed", speed);
-                animatorLookup[character].SetFloat("xLook", xLookDirection);
-                animatorLookup[character].SetFloat("yLook", yLookDirection);
+                characterIndex++;
             }
         }
 
-        public void UpdatePartyOffsets(CircularBuffer<Vector2> movementHistory)
+        public void UpdatePartyOffsets(CircularBuffer<Tuple<Vector2, Vector2>> movementHistory)
         {
-            Vector2 leaderPosition = movementHistory.GetFirstEntry();
+            Vector2 leaderPosition = movementHistory.GetFirstEntry().Item1;
 
             int characterIndex = 0;
             foreach (CombatParticipant character in party)
             {
                 if (characterIndex == 0) { characterIndex++; continue; }
 
+                Vector2 localPosition = Vector2.zero;
+                Vector2 lookDirection = Vector2.zero;
                 if (characterIndex*partyOffset >= movementHistory.GetCurrentSize())
                 {
-                    character.gameObject.transform.localPosition = movementHistory.GetLastEntry() - leaderPosition;
+                    localPosition = movementHistory.GetLastEntry().Item1 - leaderPosition;
+                    lookDirection = movementHistory.GetLastEntry().Item2;
                 }
                 else
                 {
-                    character.gameObject.transform.localPosition = movementHistory.GetEntryAtPosition(characterIndex * partyOffset) - leaderPosition;
+                    localPosition = movementHistory.GetEntryAtPosition(characterIndex * partyOffset).Item1 - leaderPosition;
+                    lookDirection = movementHistory.GetEntryAtPosition(characterIndex * partyOffset).Item2;
                 }
+                character.gameObject.transform.localPosition = localPosition;
+                animatorLookup[character].SetFloat("xLook", lookDirection.x);
+                animatorLookup[character].SetFloat("yLook", lookDirection.y);
+
                 characterIndex++;
             }
         }

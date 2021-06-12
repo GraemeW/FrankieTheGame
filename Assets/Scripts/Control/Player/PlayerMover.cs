@@ -2,6 +2,7 @@ using Frankie.Stats;
 using UnityEngine;
 using Frankie.Saving;
 using Frankie.Utils;
+using System;
 
 namespace Frankie.Control
 {
@@ -15,7 +16,7 @@ namespace Frankie.Control
         // State
         float inputHorizontal;
         float inputVertical;
-        CircularBuffer<Vector2> movementHistory;
+        CircularBuffer<Tuple<Vector2, Vector2>> movementHistory;
 
         // Cached References
         PlayerStateHandler playerStateHandler = null;
@@ -26,7 +27,7 @@ namespace Frankie.Control
             base.Awake();
             playerStateHandler = GetComponent<PlayerStateHandler>();
             party = GetComponent<Party>();
-            movementHistory = new CircularBuffer<Vector2>(playerMovementHistoryLength);
+            movementHistory = new CircularBuffer<Tuple<Vector2, Vector2>>(playerMovementHistoryLength);
         }
 
         protected override void FixedUpdate()
@@ -47,14 +48,15 @@ namespace Frankie.Control
         public void ResetHistory(Vector2 newPosition)
         {
             movementHistory.Clear();
-            movementHistory.Add(newPosition);
+            movementHistory.Add(new Tuple<Vector2, Vector2>(newPosition, new Vector2(lookDirection.x, lookDirection.y)));
             party.ResetPartyOffsets();
         }
 
         private void InteractWithMovement()
         {
             SetMovementParameters();
-            party.UpdatePartyAnimation(currentSpeed, lookDirection.x, lookDirection.y);
+            party.UpdateLeaderAnimation(currentSpeed, lookDirection.x, lookDirection.y);
+            party.UpdatePartySpeed(currentSpeed);
             if (currentSpeed > speedMoveThreshold)
             {
                 MovePlayer();
@@ -75,7 +77,7 @@ namespace Frankie.Control
         private void MovePlayer()
         {
             Vector2 position = rigidBody2D.position;
-            movementHistory.Add(position);
+            movementHistory.Add(new Tuple<Vector2, Vector2>(position, new Vector2(lookDirection.x, lookDirection.y)));
 
             position.x = position.x + movementSpeed * Sign(inputHorizontal) * Time.deltaTime;
             position.y = position.y + movementSpeed * Sign(inputVertical) * Time.deltaTime;
@@ -85,7 +87,7 @@ namespace Frankie.Control
 
         protected override void UpdateAnimator()
         {
-            party.UpdatePartyAnimation(movementSpeed, lookDirection.x, lookDirection.y);
+            party.UpdateLeaderAnimation(movementSpeed, lookDirection.x, lookDirection.y);
         }
     }
 }
