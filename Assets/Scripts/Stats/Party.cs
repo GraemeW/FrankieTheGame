@@ -20,12 +20,23 @@ namespace Frankie.Stats
         // State
         Dictionary<CombatParticipant, Animator> animatorLookup = new Dictionary<CombatParticipant, Animator>();
 
+        // Cached References
+        PlayerMover playerMover = null;
+
         private void Awake()
         {
+            playerMover = GetComponent<PlayerMover>();
             foreach (CombatParticipant character in party)
             {
                 animatorLookup.Add(character, character.GetComponent<Animator>());
             }
+        }
+
+        private void OnEnable()
+        {
+            playerMover.movementHistoryReset += ResetPartyOffsets;
+            playerMover.leaderAnimatorUpdated += UpdateLeaderAnimation;
+            playerMover.playerMoved += UpdatePartyOffsets;
         }
 
         public void SetPartyLeader(CombatParticipant character)
@@ -146,9 +157,10 @@ namespace Frankie.Stats
             animatorLookup[character].SetFloat("Speed", speed);
             animatorLookup[character].SetFloat("xLook", xLookDirection);
             animatorLookup[character].SetFloat("yLook", yLookDirection);
+            UpdatePartySpeed(speed);
         }
 
-        public void UpdatePartySpeed(float speed)
+        private void UpdatePartySpeed(float speed)
         {
             int characterIndex = 0;
             foreach (CombatParticipant character in party)
@@ -159,7 +171,7 @@ namespace Frankie.Stats
             }
         }
 
-        public void UpdatePartyOffsets(CircularBuffer<Tuple<Vector2, Vector2>> movementHistory)
+        private void UpdatePartyOffsets(CircularBuffer<Tuple<Vector2, Vector2>> movementHistory)
         {
             Vector2 leaderPosition = movementHistory.GetFirstEntry().Item1;
 
@@ -188,7 +200,7 @@ namespace Frankie.Stats
             }
         }
 
-        public void ResetPartyOffsets()
+        private void ResetPartyOffsets()
         {
             foreach (CombatParticipant character in party)
             {

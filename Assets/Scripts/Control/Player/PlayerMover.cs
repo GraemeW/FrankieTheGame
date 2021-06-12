@@ -11,22 +11,26 @@ namespace Frankie.Control
     {
         // Tunables
         [SerializeField] float speedMoveThreshold = 0.05f;
-        [SerializeField] int playerMovementHistoryLength = 256;
+        [SerializeField] int playerMovementHistoryLength = 128;
 
         // State
         float inputHorizontal;
         float inputVertical;
         CircularBuffer<Tuple<Vector2, Vector2>> movementHistory;
+        bool historyResetThisFrame = false;
 
         // Cached References
         PlayerStateHandler playerStateHandler = null;
-        Party party = null;
+
+        // Events
+        public event Action movementHistoryReset;
+        public event Action<float, float, float> leaderAnimatorUpdated;
+        public event Action<CircularBuffer<Tuple<Vector2, Vector2>>> playerMoved;
 
         protected override void Awake()
         {
             base.Awake();
             playerStateHandler = GetComponent<PlayerStateHandler>();
-            party = GetComponent<Party>();
             movementHistory = new CircularBuffer<Tuple<Vector2, Vector2>>(playerMovementHistoryLength);
         }
 
@@ -49,14 +53,20 @@ namespace Frankie.Control
         {
             movementHistory.Clear();
             movementHistory.Add(new Tuple<Vector2, Vector2>(newPosition, new Vector2(lookDirection.x, lookDirection.y)));
-            party.ResetPartyOffsets();
+            if (movementHistoryReset != null)
+            {
+                movementHistoryReset.Invoke();
+            }
+
+            historyResetThisFrame = true;
         }
 
         private void InteractWithMovement()
         {
+            if (historyResetThisFrame) { historyResetThisFrame = false; return; }
+
             SetMovementParameters();
-            party.UpdateLeaderAnimation(currentSpeed, lookDirection.x, lookDirection.y);
-            party.UpdatePartySpeed(currentSpeed);
+            UpdateAnimator();
             if (currentSpeed > speedMoveThreshold)
             {
                 MovePlayer();
@@ -77,17 +87,23 @@ namespace Frankie.Control
         private void MovePlayer()
         {
             Vector2 position = rigidBody2D.position;
-            movementHistory.Add(new Tuple<Vector2, Vector2>(position, new Vector2(lookDirection.x, lookDirection.y)));
-
             position.x = position.x + movementSpeed * Sign(inputHorizontal) * Time.deltaTime;
             position.y = position.y + movementSpeed * Sign(inputVertical) * Time.deltaTime;
             rigidBody2D.MovePosition(position);
-            party.UpdatePartyOffsets(movementHistory);
+
+            movementHistory.Add(new Tuple<Vector2, Vector2>(position, new Vector2(lookDirection.x, lookDirection.y)));
+            if (playerMoved != null)
+            {
+                playerMoved.Invoke(movementHistory);
+            }
         }
 
         protected override void UpdateAnimator()
         {
-            party.UpdateLeaderAnimation(movementSpeed, lookDirection.x, lookDirection.y);
+            if (leaderAnimatorUpdated != null)
+            {
+                leaderAnimatorUpdated.Invoke(currentSpeed, lookDirection.x, lookDirection.y);
+            }
         }
     }
 }

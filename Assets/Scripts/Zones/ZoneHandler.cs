@@ -164,7 +164,6 @@ namespace Frankie.ZoneManagement
                         currentPlayerController.GetPlayerMover().ResetHistory(zoneHandler.transform.position);
                     }
 
-
                     ToggleParentGameObjects(zoneHandler);
                     OnZoneInteraction();
                     queuedZoneNode = null;

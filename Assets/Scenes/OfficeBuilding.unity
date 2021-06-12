@@ -898,7 +898,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6042270818697435736, guid: 81700f25dde360541a871aea797ae963, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.2
+      value: 0.265
       objectReference: {fileID: 0}
     - target: {fileID: 6042270818697435736, guid: 81700f25dde360541a871aea797ae963, type: 3}
       propertyPath: m_LocalPosition.z
@@ -1175,7 +1175,7 @@ PolygonCollider2D:
     - - {x: -1.631849, y: 1.7397181}
       - {x: -1.638052, y: 2.9423158}
       - {x: -2.513958, y: 1.9379159}
-      - {x: -2.5209718, y: -0.02104187}
+      - {x: -2.6020055, y: -0.19931597}
 --- !u!60 &496885801
 PolygonCollider2D:
   m_ObjectHideFlags: 0
@@ -1203,7 +1203,7 @@ PolygonCollider2D:
     m_Paths:
     - - {x: 1.6462927, y: 2.9070103}
       - {x: 1.6282476, y: 1.7303746}
-      - {x: 2.5349998, y: -0.03737688}
+      - {x: 2.624137, y: -0.21565104}
       - {x: 2.5479894, y: 1.9280418}
 --- !u!61 &496885802
 BoxCollider2D:
@@ -1244,7 +1244,7 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 1
-  m_Offset: {x: 0, y: -0.09206903}
+  m_Offset: {x: 0.0040516853, y: -0.10827577}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0}
@@ -1255,7 +1255,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 5.07, y: 0.27301502}
+  m_Size: {x: 5.2239647, y: 0.24060154}
   m_EdgeRadius: 0
 --- !u!66 &496885804
 CompositeCollider2D:
@@ -1283,16 +1283,16 @@ CompositeCollider2D:
         Y: 29423158
       - X: -25139580
         Y: 19379160
-      - X: -25209718
-        Y: -210418
+      - X: -26020054
+        Y: -1993159
   - m_Collider: {fileID: 496885801}
     m_ColliderPaths:
     - - X: 16462927
         Y: 29070104
       - X: 16282476
         Y: 17303746
-      - X: 25349998
-        Y: -373768
+      - X: 26241370
+        Y: -2156510
       - X: 25479894
         Y: 19280418
   - m_Collider: {fileID: 496885802}
@@ -1307,31 +1307,32 @@ CompositeCollider2D:
         Y: 17112808
   - m_Collider: {fileID: 496885803}
     m_ColliderPaths:
-    - - X: 25349707
+    - - X: 26160047
         Y: -2285765
-      - X: 25349707
-        Y: 444384
-      - X: -25350000
-        Y: 444091
-      - X: -25349707
+      - X: 26160047
+        Y: 120249
+      - X: -26079306
+        Y: 119956
+      - X: -26079013
         Y: -2285765
   m_CompositePaths:
     m_Paths:
-    - - {x: 2.5349414, y: -0.2285765}
-      - {x: 2.5349998, y: -0.0373763}
-      - {x: 2.5479825, y: 1.9280492}
+    - - {x: 2.6159754, y: -0.2285765}
+      - {x: 2.6160812, y: -0.1999096}
+      - {x: 2.6241305, y: -0.2154663}
+      - {x: 2.547983, y: 1.9280488}
       - {x: 1.6714926, y: 2.8796613}
       - {x: 1.6714634, y: 2.9200501}
       - {x: -1.6379372, y: 2.9200501}
       - {x: -1.6381164, y: 2.9422421}
-      - {x: -2.513958, y: 1.9379064}
-      - {x: -2.5207667, y: 0.0444092}
-      - {x: -2.535, y: 0.0443798}
-      - {x: -2.5349414, y: -0.2285765}
-    - - {x: -2.487868, y: 0.0444094}
-      - {x: -1.6461923, y: 1.7112808}
-      - {x: 1.6380492, y: 1.711266}
-      - {x: 2.4929798, y: 0.044438202}
+      - {x: -2.5139585, y: 1.9379069}
+      - {x: -2.593328, y: 0.0119957}
+      - {x: -2.6079307, y: 0.0119663}
+      - {x: -2.607872, y: -0.2285765}
+    - - {x: -2.4962268, y: 0.0119962}
+      - {x: -1.6460605, y: 1.7112808}
+      - {x: 1.6380265, y: 1.7112663}
+      - {x: 2.5075693, y: 0.0120243}
   m_VertexDistance: 0.0005
   m_OffsetDistance: 0.00005
 --- !u!50 &496885805
@@ -5240,7 +5241,7 @@ PrefabInstance:
       objectReference: {fileID: 566954979}
     - target: {fileID: 6748405756474271262, guid: 7d6634333e185754d96c189f3df7c163, type: 3}
       propertyPath: orthographic size
-      value: 3.5
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 6748405756474271457, guid: 7d6634333e185754d96c189f3df7c163, type: 3}
       propertyPath: m_LocalPosition.x
@@ -5438,6 +5439,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 6558820224858072559, guid: 9bf5874c37e0a404a9bd916129a14959, type: 3}
+      propertyPath: playerMovementHistoryLength
+      value: 128
+      objectReference: {fileID: 0}
     - target: {fileID: 7603635839682770888, guid: 9bf5874c37e0a404a9bd916129a14959, type: 3}
       propertyPath: slots.Array.size
       value: 16
