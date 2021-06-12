@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 3912013125334914390}
   - component: {fileID: 3912013125334914392}
   - component: {fileID: -6209153743317209051}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: MopBucket
   m_TagString: Untagged
   m_Icon: {fileID: 0}

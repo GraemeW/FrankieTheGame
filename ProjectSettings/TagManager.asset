@@ -14,10 +14,10 @@ TagManager:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - LeadCharacter
   - Water
   - UI
-  - 
+  - CharactersEnemiesNPCs
   - 
   - 
   - 

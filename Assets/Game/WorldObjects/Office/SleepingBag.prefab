@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1134242656034721789}
   - component: {fileID: 1134242656034721762}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: SleepingBag
   m_TagString: Untagged
   m_Icon: {fileID: 0}

@@ -19,7 +19,7 @@ GameObject:
   - component: {fileID: 6205572641082529027}
   - component: {fileID: 7722166093997427972}
   - component: {fileID: 7718304423591506186}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Character
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -219,7 +219,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8263638854299470657}
   - component: {fileID: 8263638854299470656}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: CharacterSprite
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -301,6 +301,10 @@ PrefabInstance:
     - target: {fileID: 2366363061461443362, guid: c08399674dab63349bf5a2c9c8ebbcaa, type: 3}
       propertyPath: m_Name
       value: CombatParticipantSoundbox
+      objectReference: {fileID: 0}
+    - target: {fileID: 2366363061461443362, guid: c08399674dab63349bf5a2c9c8ebbcaa, type: 3}
+      propertyPath: m_Layer
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 2366363061461443363, guid: c08399674dab63349bf5a2c9c8ebbcaa, type: 3}
       propertyPath: m_RootOrder

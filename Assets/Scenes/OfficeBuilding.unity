@@ -5241,7 +5241,7 @@ PrefabInstance:
       objectReference: {fileID: 566954979}
     - target: {fileID: 6748405756474271262, guid: 7d6634333e185754d96c189f3df7c163, type: 3}
       propertyPath: orthographic size
-      value: 3
+      value: 3.5
       objectReference: {fileID: 0}
     - target: {fileID: 6748405756474271457, guid: 7d6634333e185754d96c189f3df7c163, type: 3}
       propertyPath: m_LocalPosition.x
@@ -5439,9 +5439,21 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 6022225782888727257, guid: 9bf5874c37e0a404a9bd916129a14959, type: 3}
+      propertyPath: m_Layer
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 6558820224858072559, guid: 9bf5874c37e0a404a9bd916129a14959, type: 3}
       propertyPath: playerMovementHistoryLength
       value: 128
+      objectReference: {fileID: 0}
+    - target: {fileID: 6580909876086676385, guid: 9bf5874c37e0a404a9bd916129a14959, type: 3}
+      propertyPath: m_Layer
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 6580909876163068731, guid: 9bf5874c37e0a404a9bd916129a14959, type: 3}
+      propertyPath: m_Layer
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 7603635839682770888, guid: 9bf5874c37e0a404a9bd916129a14959, type: 3}
       propertyPath: slots.Array.size

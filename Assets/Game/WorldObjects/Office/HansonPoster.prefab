@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6748012768298087332}
   - component: {fileID: 6748012768298087333}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: HansonPoster
   m_TagString: Untagged
   m_Icon: {fileID: 0}
