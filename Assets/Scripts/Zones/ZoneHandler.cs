@@ -156,8 +156,14 @@ namespace Frankie.ZoneManagement
                         Vector2 lookDirection = zoneHandler.GetWarpPosition().position - zoneHandler.transform.position;
                         lookDirection.Normalize();
                         currentPlayerController.GetPlayerMover().SetLookDirection(lookDirection);
+                        currentPlayerController.GetPlayerMover().ResetHistory(zoneHandler.GetWarpPosition().position);
                     }
-                    else { currentPlayerController.transform.position = zoneHandler.transform.position; }
+                    else 
+                    { 
+                        currentPlayerController.transform.position = zoneHandler.transform.position;
+                        currentPlayerController.GetPlayerMover().ResetHistory(zoneHandler.transform.position);
+                    }
+
 
                     ToggleParentGameObjects(zoneHandler);
                     OnZoneInteraction();

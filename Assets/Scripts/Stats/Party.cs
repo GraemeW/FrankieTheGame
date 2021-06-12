@@ -4,6 +4,7 @@ using UnityEngine;
 using Frankie.Combat;
 using Cinemachine;
 using Frankie.Control;
+using Frankie.Utils;
 
 namespace Frankie.Stats
 {
@@ -13,6 +14,7 @@ namespace Frankie.Stats
         [SerializeField][Range(1,4)] int partyLimit = 4;
         [SerializeField] List<CombatParticipant> party = new List<CombatParticipant>();
         [SerializeField] Transform partyContainer = null;
+        [SerializeField] int partyOffset = 16;
 
         // State
         Dictionary<CombatParticipant, Animator> animatorLookup = new Dictionary<CombatParticipant, Animator>();
@@ -144,6 +146,35 @@ namespace Frankie.Stats
                 animatorLookup[character].SetFloat("Speed", speed);
                 animatorLookup[character].SetFloat("xLook", xLookDirection);
                 animatorLookup[character].SetFloat("yLook", yLookDirection);
+            }
+        }
+
+        public void UpdatePartyOffsets(CircularBuffer<Vector2> movementHistory)
+        {
+            Vector2 leaderPosition = movementHistory.GetFirstEntry();
+
+            int characterIndex = 0;
+            foreach (CombatParticipant character in party)
+            {
+                if (characterIndex == 0) { characterIndex++; continue; }
+
+                if (characterIndex*partyOffset >= movementHistory.GetCurrentSize())
+                {
+                    character.gameObject.transform.localPosition = movementHistory.GetLastEntry() - leaderPosition;
+                }
+                else
+                {
+                    character.gameObject.transform.localPosition = movementHistory.GetEntryAtPosition(characterIndex * partyOffset) - leaderPosition;
+                }
+                characterIndex++;
+            }
+        }
+
+        public void ResetPartyOffsets()
+        {
+            foreach (CombatParticipant character in party)
+            {
+                character.gameObject.transform.localPosition = Vector2.zero;
             }
         }
     }

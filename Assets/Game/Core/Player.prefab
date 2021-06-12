@@ -143,6 +143,7 @@ MonoBehaviour:
   defaultTargetDistanceTolerance: 0.15
   resetPositionOnEnable: 0
   speedMoveThreshold: 0.05
+  playerMovementHistoryLength: 256
 --- !u!114 &9140000498525693418
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -159,6 +160,7 @@ MonoBehaviour:
   party:
   - {fileID: 4369419007490498981}
   partyContainer: {fileID: 9140000498835536796}
+  partyOffset: 16
 --- !u!114 &1878790955754810938
 MonoBehaviour:
   m_ObjectHideFlags: 0

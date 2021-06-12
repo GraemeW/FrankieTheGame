@@ -1,6 +1,7 @@
 using Frankie.Stats;
 using UnityEngine;
 using Frankie.Saving;
+using Frankie.Utils;
 
 namespace Frankie.Control
 {
@@ -9,10 +10,12 @@ namespace Frankie.Control
     {
         // Tunables
         [SerializeField] float speedMoveThreshold = 0.05f;
+        [SerializeField] int playerMovementHistoryLength = 256;
 
         // State
         float inputHorizontal;
         float inputVertical;
+        CircularBuffer<Vector2> movementHistory;
 
         // Cached References
         PlayerStateHandler playerStateHandler = null;
@@ -23,6 +26,7 @@ namespace Frankie.Control
             base.Awake();
             playerStateHandler = GetComponent<PlayerStateHandler>();
             party = GetComponent<Party>();
+            movementHistory = new CircularBuffer<Vector2>(playerMovementHistoryLength);
         }
 
         protected override void FixedUpdate()
@@ -38,6 +42,13 @@ namespace Frankie.Control
         {
             inputHorizontal = Vector2.Dot(directionalInput, Vector2.right);
             inputVertical = Vector2.Dot(directionalInput, Vector2.up);
+        }
+
+        public void ResetHistory(Vector2 newPosition)
+        {
+            movementHistory.Clear();
+            movementHistory.Add(newPosition);
+            party.ResetPartyOffsets();
         }
 
         private void InteractWithMovement()
@@ -64,15 +75,17 @@ namespace Frankie.Control
         private void MovePlayer()
         {
             Vector2 position = rigidBody2D.position;
+            movementHistory.Add(position);
 
             position.x = position.x + movementSpeed * Sign(inputHorizontal) * Time.deltaTime;
             position.y = position.y + movementSpeed * Sign(inputVertical) * Time.deltaTime;
             rigidBody2D.MovePosition(position);
+            party.UpdatePartyOffsets(movementHistory);
         }
 
         protected override void UpdateAnimator()
         {
-            playerStateHandler.GetParty().UpdatePartyAnimation(movementSpeed, lookDirection.x, lookDirection.y);
+            party.UpdatePartyAnimation(movementSpeed, lookDirection.x, lookDirection.y);
         }
     }
 }
