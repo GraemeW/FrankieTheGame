@@ -42,6 +42,7 @@ namespace Frankie.Stats
         public void SetPartyLeader(CombatParticipant character)
         {
             // TODO:  Implement, call event to update camera controller
+            // TODO:  update the layers (i.e. put the new leader onto party leader layer;  put old leader onto other characters layer)
         }
 
         public CombatParticipant GetPartyLeader()

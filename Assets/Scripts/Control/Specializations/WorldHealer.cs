@@ -8,7 +8,7 @@ namespace Frankie.Control.Specialization
 {
     public class WorldHealer : MonoBehaviour
     {
-        public void HealParty(PlayerStateHandler playerStateHandler)
+        public void HealParty(PlayerStateHandler playerStateHandler) // Called via Unity events
         {
             foreach (CombatParticipant combatParticipant in playerStateHandler.GetParty().GetParty())
             {
