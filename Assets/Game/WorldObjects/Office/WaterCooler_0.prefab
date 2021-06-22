@@ -146,6 +146,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7a8ffb219a78b5d42bca9c71bad9ffb7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  messagePartyHealed: 
 --- !u!1001 &919240495150957186
 PrefabInstance:
   m_ObjectHideFlags: 0

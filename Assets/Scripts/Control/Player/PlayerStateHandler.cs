@@ -66,6 +66,16 @@ namespace Frankie.Control
             return party;
         }
 
+        public DialogueController GetCurrentDialogueController()
+        {
+            return dialogueController;
+        }
+
+        public BattleController GetCurrentBattleController()
+        {
+            return battleController;
+        }
+
         public void EnterCombat(List<CombatParticipant> enemies, TransitionType transitionType)
         {
             if (!party.IsAnyMemberAlive()) { OpenSimpleDialogue(messageCannotFight); return; }

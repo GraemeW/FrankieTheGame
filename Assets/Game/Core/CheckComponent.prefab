@@ -67,10 +67,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 6564381309038757640}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d9720fc8ad862de43a6058d7f71f092d, type: 3}
+  m_Script: {fileID: 11500000, guid: 303b2c16e2df2e14ca54206970c2fe58, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  overrideDefaultInteractionDistance: 1
+  overrideDefaultInteractionDistance: 0
   interactionDistance: 0.3
   checkInteraction:
     m_PersistentCalls:

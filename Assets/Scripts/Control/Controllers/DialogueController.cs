@@ -26,6 +26,7 @@ namespace Frankie.Speech
         bool isSimpleMessage = false;
         string simpleMessage = "";
         List<ChoiceActionPair> simpleChoices = new List<ChoiceActionPair>();
+        InteractionEvent onDestroyCallbackActions = null;
 
         // Cached References
         PlayerInput playerInput = null;
@@ -58,6 +59,19 @@ namespace Frankie.Speech
         private void OnDisable()
         {
             playerInput.Menu.Disable();
+        }
+
+        private void OnDestroy()
+        {
+            InvokeDestroyCallbackActions();
+        }
+
+        private void InvokeDestroyCallbackActions()
+        {
+            if (onDestroyCallbackActions != null)
+            {
+                onDestroyCallbackActions.Invoke(playerStateHandler);
+            }
         }
 
         private void ParseDirectionalInput(Vector2 directionalInput)
@@ -168,6 +182,11 @@ namespace Frankie.Speech
                 }
             }
             return false;
+        }
+
+        public void SetDestroyCallbackActions(InteractionEvent interactionEvent)
+        {
+            onDestroyCallbackActions = interactionEvent;
         }
 
         // Dialogue Handling

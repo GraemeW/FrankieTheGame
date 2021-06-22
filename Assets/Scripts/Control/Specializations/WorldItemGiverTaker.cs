@@ -10,6 +10,8 @@ namespace Frankie.Control.Specialization
     public class WorldItemGiverTaker : MonoBehaviour
     {
         [SerializeField] InventoryItem inventoryItem = null;
+        [SerializeField] string messageFoundItem = "Wow!  Looks like {0} found {1}";
+        [SerializeField] string messageInventoryFull = "Whoops, looks like everyones' knapsacks are full.";
 
         public void GiveItem(PlayerStateHandler playerStateHandler) // Called via Unity events
         {
@@ -22,9 +24,12 @@ namespace Frankie.Control.Specialization
                 Knapsack knapsack = character.GetKnapsack();
                 if (knapsack.AddToFirstEmptySlot(inventoryItem))
                 {
-                    break;
+                    playerStateHandler.OpenSimpleDialogue(string.Format(messageFoundItem, character.GetCombatName(), inventoryItem.GetDisplayName()));
+                    return;
                 }
             }
+
+            playerStateHandler.OpenSimpleDialogue(messageInventoryFull);
         }
     }
 

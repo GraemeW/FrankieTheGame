@@ -14,12 +14,6 @@ namespace Frankie.Control
         // Events
         public InteractionEvent checkInteraction;
 
-        // Data Structures
-        [System.Serializable]
-        public class InteractionEvent : UnityEvent<PlayerStateHandler>
-        {
-        }
-
         // Raycastable Interface Implementation
         public virtual CursorType GetCursorType()
         {

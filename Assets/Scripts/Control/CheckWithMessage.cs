@@ -1,11 +1,15 @@
 using Frankie.Core;
+using Frankie.Speech;
 using UnityEngine;
 
 namespace Frankie.Control
 {
-    public class CheckSimple : Check
+    public class CheckWithMessage : Check
     {
+        // Tunables
         [SerializeField] string checkMessage = "";
+        // Events
+        public InteractionEvent postMessageCheckInteraction;
 
         public override bool HandleRaycast(PlayerStateHandler playerStateHandler, PlayerController playerController, PlayerInputType inputType, PlayerInputType matchType)
         {
@@ -20,12 +24,23 @@ namespace Frankie.Control
             if (inputType == matchType)
             {
                 playerStateHandler.OpenSimpleDialogue(checkMessage);
+                SetupPostCheckActions(playerStateHandler);
+
                 if (checkInteraction != null)
                 {
                     checkInteraction.Invoke(playerStateHandler);
                 }
             }
             return true;
+        }
+
+        private void SetupPostCheckActions(PlayerStateHandler playerStateHandler)
+        {
+            DialogueController dialogueController = playerStateHandler.GetCurrentDialogueController();
+            if (dialogueController != null && postMessageCheckInteraction != null)
+            {
+                dialogueController.SetDestroyCallbackActions(postMessageCheckInteraction);
+            }
         }
     }
 
