@@ -13,7 +13,7 @@ using System;
 
 namespace Frankie.Inventory.UI
 {
-    public class InventoryBox : DialogueOptionBox
+    public class InventoryBox : DialogueOptionBox, IUIItemHandler
     {
         // Tunables
         [Header("Data Links")]
@@ -48,13 +48,8 @@ namespace Frankie.Inventory.UI
         List<CharacterSlide> characterSlides = null;
 
         // Events
-        public event Action<InventoryBoxState> inventoryBoxStateChanged;
+        public event Action<Enum> uiBoxStateChanged;
         public event Action<CombatParticipantType, CombatParticipant> targetCharacterChanged;
-
-        protected override void Awake()
-        {
-            base.Awake();
-        }
 
         protected override void Start()
         {
@@ -240,9 +235,9 @@ namespace Frankie.Inventory.UI
         private void SetInventoryBoxState(InventoryBoxState inventoryBoxState)
         {
             this.inventoryBoxState = inventoryBoxState;
-            if (inventoryBoxStateChanged != null)
+            if (uiBoxStateChanged != null)
             {
-                inventoryBoxStateChanged.Invoke(inventoryBoxState);
+                uiBoxStateChanged.Invoke(inventoryBoxState);
             }
         }
 
@@ -306,23 +301,23 @@ namespace Frankie.Inventory.UI
                 if (selectedKnapsack.GetItemInSlot(i) == null) { continue; }
                 if (i % 2 == 0)
                 {
-                    SetupInventoryItem(leftItemContainer, i);
+                    SetupItem(inventoryItemFieldPrefab, leftItemContainer, i);
                 }
                 else
                 {
-                    SetupInventoryItem(rightItemContainer, i);
+                    SetupItem(inventoryItemFieldPrefab, rightItemContainer, i);
                 }
             }
             
         }
 
-        private void SetupInventoryItem(Transform container, int slot)
+        public void SetupItem(GameObject inventoryItemFieldPrefab, Transform container, int selector)
         {
             GameObject inventoryItemFieldObject = Instantiate(inventoryItemFieldPrefab, container);
             InventoryItemField inventoryItemField = inventoryItemFieldObject.GetComponent<InventoryItemField>();
-            inventoryItemField.SetChoiceOrder(slot);
-            inventoryItemField.SetText(selectedKnapsack.GetItemInSlot(slot).GetDisplayName());
-            inventoryItemField.SetupButtonAction(this, ChooseItem, slot);
+            inventoryItemField.SetChoiceOrder(selector);
+            inventoryItemField.SetText(selectedKnapsack.GetItemInSlot(selector).GetDisplayName());
+            inventoryItemField.SetupButtonAction(this, ChooseItem, selector);
 
             inventoryItemChoiceOptions.Add(inventoryItemField);
         }

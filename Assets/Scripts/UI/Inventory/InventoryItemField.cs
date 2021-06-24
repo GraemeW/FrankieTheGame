@@ -9,30 +9,60 @@ namespace Frankie.Inventory.UI
     public class InventoryItemField : DialogueChoiceOption
     {
         // State
-        InventoryBox inventoryBox = null;
+        IUIItemHandler uiItemHandler = null;
         Action<int> action = null;
         int value = -1;
 
         private void OnEnable()
         {
             ToggleButtonActive(true);
-            if (inventoryBox != null) { inventoryBox.inventoryBoxStateChanged += HandleInventoryBoxStateChange; }
+            ListenToUIBoxState(true);
+            if (uiItemHandler != null) {  }
         }
 
         private void OnDisable()
         {
             ToggleButtonActive(false);
-            if (inventoryBox != null) { inventoryBox.inventoryBoxStateChanged -= HandleInventoryBoxStateChange; }
+            ListenToUIBoxState(false);
+            if (uiItemHandler != null) { }
         }
 
-        public void SetupButtonAction(InventoryBox inventoryBox, Action<int> action, int value)
+        public void SetupButtonAction(IUIItemHandler uiItemHandler, Action<int> action, int value)
         {
-            this.inventoryBox = inventoryBox;
-            inventoryBox.inventoryBoxStateChanged += HandleInventoryBoxStateChange;
+            this.uiItemHandler = uiItemHandler;
+            ListenToUIBoxState(true);
 
             this.action = action;
             this.value = value;
             ToggleButtonActive(true);
+        }
+
+        private void ListenToUIBoxState(bool enable)
+        {
+            if (uiItemHandler == null) { return; }
+            
+            if (enable)
+            {
+                if (uiItemHandler.GetType() == typeof(InventoryBox))
+                {
+                    uiItemHandler.uiBoxStateChanged += HandleInventoryBoxStateChange;
+                }
+                else if (uiItemHandler.GetType() == typeof(EquipmentBox))
+                {
+                    uiItemHandler.uiBoxStateChanged += HandleEquipmentBoxStateChange;
+                }
+            }
+            else
+            {
+                if (uiItemHandler.GetType() == typeof(InventoryBox))
+                {
+                    uiItemHandler.uiBoxStateChanged -= HandleInventoryBoxStateChange;
+                }
+                else if (uiItemHandler.GetType() == typeof(EquipmentBox))
+                {
+                    uiItemHandler.uiBoxStateChanged -= HandleEquipmentBoxStateChange;
+                }
+            }
         }
 
         private void ToggleButtonActive(bool enable)
@@ -46,8 +76,9 @@ namespace Frankie.Inventory.UI
             }
         }
 
-        private void HandleInventoryBoxStateChange(InventoryBoxState inventoryBoxState)
+        private void HandleInventoryBoxStateChange(Enum uiBoxState)
         {
+            InventoryBoxState inventoryBoxState = (InventoryBoxState)uiBoxState;
             if (inventoryBoxState == InventoryBoxState.inKnapsack || inventoryBoxState == InventoryBoxState.inCharacterSelection)
             {
                 ToggleButtonActive(true);
@@ -56,6 +87,12 @@ namespace Frankie.Inventory.UI
             {
                 ToggleButtonActive(false);
             }
+        }
+
+        private void HandleEquipmentBoxStateChange(Enum uiBoxState)
+        {
+            EquipmentBoxState equipmentBoxState = (EquipmentBoxState)uiBoxState;
+            // TODO:  Implement
         }
     }
 }

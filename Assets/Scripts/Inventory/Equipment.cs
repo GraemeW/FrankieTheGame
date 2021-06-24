@@ -15,6 +15,11 @@ namespace Frankie.Inventory
         // Events
         public event Action equipmentUpdated;
 
+        public bool HasItemInSlot(EquipLocation equipLocation)
+        {
+            return equippedItems.ContainsKey(equipLocation);
+        }
+
         public EquipableItem GetItemInSlot(EquipLocation equipLocation)
         {
             if (!equippedItems.ContainsKey(equipLocation)) { return null; }

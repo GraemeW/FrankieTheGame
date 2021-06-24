@@ -18,6 +18,7 @@ namespace Frankie.Speech.UI
         [Header("Option Game Objects")]
         [SerializeField] GameObject characterSlidePrefab = null;
         [SerializeField] GameObject knapsackPrefab = null;
+        [SerializeField] GameObject equipmentPrefab = null;
         [SerializeField] GameObject abilitiesPrefab = null;
         [SerializeField] GameObject statusPrefab = null;
         [SerializeField] GameObject mapPrefab = null;
@@ -103,6 +104,15 @@ namespace Frankie.Speech.UI
             InventoryBox inventoryBox = childOption.GetComponent<InventoryBox>();
             inventoryBox.Setup(playerController, party, characterSlides);
             inventoryBox.SetDisableCallback(this, DIALOGUE_CALLBACK_ENABLE_INPUT);
+        }
+
+        public void OpenEquipment() // Called via Unity Events
+        {
+            handleGlobalInput = false;
+            GameObject childOption = Instantiate(equipmentPrefab, worldCanvas.gameObject.transform);
+            EquipmentBox equipmentBox = childOption.GetComponent<EquipmentBox>();
+            equipmentBox.Setup(playerController, party);
+            equipmentBox.SetDisableCallback(this, DIALOGUE_CALLBACK_ENABLE_INPUT);
         }
     }
 }

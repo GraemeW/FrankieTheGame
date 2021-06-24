@@ -30,6 +30,7 @@ namespace Frankie.Combat
         BaseStats baseStats = null;
         Experience experience = null;
         Knapsack knapsack = null;
+        Equipment equipment = null;
 
         // State
         bool inCombat = false;
@@ -54,6 +55,7 @@ namespace Frankie.Combat
             baseStats = GetComponent<BaseStats>();
             experience = GetComponent<Experience>();
             knapsack = GetComponent<Knapsack>();
+            equipment = GetComponent<Equipment>();
             currentHP = new LazyValue<float>(GetMaxHP);
             currentAP = new LazyValue<float>(GetMaxAP);
             isDead = new LazyValue<bool>(SpawnAlive);
@@ -97,6 +99,11 @@ namespace Frankie.Combat
         public Knapsack GetKnapsack()
         {
             return knapsack;
+        }
+
+        public Equipment GetEquipment()
+        {
+            return equipment;
         }
 
         public void SetCombatActive(bool enable)
