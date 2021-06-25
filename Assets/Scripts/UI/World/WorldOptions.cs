@@ -90,8 +90,9 @@ namespace Frankie.Speech.UI
 
         public void OpenStatus() // Called via Unity Events
         {
+            ResetWorldOptions();
             handleGlobalInput = false;
-            GameObject childOption = Instantiate(statusPrefab, worldCanvas.gameObject.transform);
+            childOption = Instantiate(statusPrefab, worldCanvas.GetWorldOptionsParent());
             StatusBox statusBox = childOption.GetComponent<StatusBox>();
             statusBox.Setup(playerController, party);
             statusBox.SetDisableCallback(this, DIALOGUE_CALLBACK_ENABLE_INPUT);
@@ -99,8 +100,9 @@ namespace Frankie.Speech.UI
 
         public void OpenKnapsack() // Called via Unity Events
         {
+            ResetWorldOptions();
             handleGlobalInput = false;
-            GameObject childOption = Instantiate(knapsackPrefab, worldCanvas.gameObject.transform);
+            childOption = Instantiate(knapsackPrefab, worldCanvas.GetWorldOptionsParent());
             InventoryBox inventoryBox = childOption.GetComponent<InventoryBox>();
             inventoryBox.Setup(playerController, party, characterSlides);
             inventoryBox.SetDisableCallback(this, DIALOGUE_CALLBACK_ENABLE_INPUT);
@@ -108,11 +110,19 @@ namespace Frankie.Speech.UI
 
         public void OpenEquipment() // Called via Unity Events
         {
+            ResetWorldOptions();
             handleGlobalInput = false;
-            GameObject childOption = Instantiate(equipmentPrefab, worldCanvas.gameObject.transform);
+            childOption = Instantiate(equipmentPrefab, worldCanvas.GetWorldOptionsParent());
             EquipmentBox equipmentBox = childOption.GetComponent<EquipmentBox>();
             equipmentBox.Setup(playerController, party);
             equipmentBox.SetDisableCallback(this, DIALOGUE_CALLBACK_ENABLE_INPUT);
+        }
+
+        private void ResetWorldOptions()
+        {
+            childOption = null;
+            worldCanvas.DestroyExistingWorldOptions();
+            handleGlobalInput = true;
         }
     }
 }

@@ -27,6 +27,7 @@ namespace Frankie.Inventory.UI
         [SerializeField] GameObject dialogueBoxPrefab = null;
         [SerializeField] GameObject dialogueOptionBoxPrefab = null;
         [SerializeField] GameObject inventoryItemFieldPrefab = null;
+        [SerializeField] GameObject inventoryBoxPrefab = null;
 
         // State
         EquipmentBoxState equipmentBoxState = EquipmentBoxState.inCharacterSelection;
@@ -34,6 +35,7 @@ namespace Frankie.Inventory.UI
         List<InventoryItemField> equipableItemChoiceOptions = new List<InventoryItemField>();
         CombatParticipant selectedCharacter = null;
         Equipment selectedEquipment = null;
+        EquipLocation selectedEquipLocation = EquipLocation.None;
         EquipableItem selectedItem = null;
 
         // Cached References
@@ -103,6 +105,8 @@ namespace Frankie.Inventory.UI
             int i = 0;
             foreach (EquipLocation equipLocation in Enum.GetValues(typeof(EquipLocation)))
             {
+                if (equipLocation == EquipLocation.None) { continue; }
+
                 if (i % 2 == 0)
                 {
                     SetupItem(inventoryItemFieldPrefab, leftEquipment, (int)equipLocation);
@@ -140,9 +144,13 @@ namespace Frankie.Inventory.UI
             MoveCursor(PlayerInputType.NavigateRight); // Initialize Highlight
         }
 
-        private void ChooseItem(int selector)
+        private void ChooseEquipLocation(int selector)
         {
+            EquipLocation equipLocation = (EquipLocation)selector;
+            if (equipLocation == EquipLocation.None) { return; }
 
+            selectedEquipLocation = equipLocation;
+            // NEXT -- spawn inventory window, pass back inventory item reference, handle it
         }
 
         protected override bool MoveCursor(PlayerInputType playerInputType)
@@ -186,7 +194,7 @@ namespace Frankie.Inventory.UI
             GameObject inventoryItemFieldObject = Instantiate(inventoryItemFieldPrefab, container);
             InventoryItemField inventoryItemField = inventoryItemFieldObject.GetComponent<InventoryItemField>();
             inventoryItemField.SetText(fieldName);
-            inventoryItemField.SetupButtonAction(this, ChooseItem, selector);
+            inventoryItemField.SetupButtonAction(this, ChooseEquipLocation, selector);
             equipableItemChoiceOptions.Add(inventoryItemField);
         }
         #endregion
