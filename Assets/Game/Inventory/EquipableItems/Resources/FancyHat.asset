@@ -15,6 +15,6 @@ MonoBehaviour:
   itemID: 079a8a43-db4c-4475-be28-5df63192d8dc
   displayName: Zigzag Hat
   description: Allo?
-  equipLocation: 0
+  equipLocation: 4
   baseStatModifiers: []
   statusEffects: []

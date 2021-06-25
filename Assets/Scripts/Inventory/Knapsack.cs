@@ -59,6 +59,25 @@ namespace Frankie.Inventory
             return false;
         }
 
+        public bool HasAnyEquipableItem()
+        {
+            for (int i = 0; i < slots.Length; i++)
+            {
+                if (slots[i] != null && slots[i].GetType() == typeof(EquipableItem))
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        public bool HasEquipableItemInSlot(int slot)
+        {
+            if (slots[slot] == null) { return false; }
+
+            return (slots[slot].GetType() == typeof(EquipableItem));
+        }
+
         public InventoryItem GetItemInSlot(int slot)
         {
             return slots[slot];

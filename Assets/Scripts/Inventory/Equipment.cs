@@ -10,7 +10,7 @@ namespace Frankie.Inventory
     public class Equipment : MonoBehaviour, ISaveable
     {
         // State
-        Dictionary<EquipLocation, EquipableItem> equippedItems = new Dictionary<EquipLocation, EquipableItem>();
+        Dictionary<EquipLocation, EquipableItem> equippedItems = new Dictionary<EquipLocation, EquipableItem>(); // TODO:  REMOVE SERIALIZE, FOR DEBUG
 
         // Events
         public event Action equipmentUpdated;

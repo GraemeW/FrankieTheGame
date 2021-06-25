@@ -1,4 +1,5 @@
 using Frankie.Combat;
+using Frankie.Combat.UI;
 using Frankie.Control;
 using Frankie.Speech.UI;
 using Frankie.Stats;
@@ -16,7 +17,8 @@ namespace Frankie.Inventory.UI
     {
         // Tunables
         [Header("Data Links")]
-        [SerializeField] TextMeshProUGUI selectedCharacterNameField;
+        [SerializeField] TextMeshProUGUI selectedCharacterNameField = null;
+        [SerializeField] CanvasGroup canvasGroup = null;
         [Header("Parents")]
         [SerializeField] Transform leftEquipment = null;
         [SerializeField] Transform rightEquipment = null;
@@ -27,7 +29,9 @@ namespace Frankie.Inventory.UI
         [SerializeField] GameObject dialogueBoxPrefab = null;
         [SerializeField] GameObject dialogueOptionBoxPrefab = null;
         [SerializeField] GameObject inventoryItemFieldPrefab = null;
-        [SerializeField] GameObject inventoryBoxPrefab = null;
+        [SerializeField] GameObject equipmentInventoryBoxPrefab = null;
+        [Header("Messages")]
+        [Tooltip("Include {0} for character name")] [SerializeField] string messageNoValidItems = "There's nothing in the knapsack to equip.";
 
         // State
         EquipmentBoxState equipmentBoxState = EquipmentBoxState.inCharacterSelection;
@@ -41,18 +45,24 @@ namespace Frankie.Inventory.UI
         // Cached References
         IStandardPlayerInputCaller standardPlayerInputCaller = null;
         Party party = null;
+        List<CharacterSlide> characterSlides = null;
 
+        // Events
         public event Action<Enum> uiBoxStateChanged;
+
+        // Static
+        protected static string DIALOGUE_CALLBACK_RESTORE_ALPHA = "RESTORE_ALPHA";
 
         protected override void Start()
         {
             // Do Nothing (skip base implementation)
         }
 
-        public void Setup(IStandardPlayerInputCaller standardPlayerInputCaller, Party party)
+        public void Setup(IStandardPlayerInputCaller standardPlayerInputCaller, Party party, List<CharacterSlide> characterSlides = null)
         {
             this.standardPlayerInputCaller = standardPlayerInputCaller;
             this.party = party;
+            this.characterSlides = characterSlides;
 
             SetGlobalCallbacks(standardPlayerInputCaller);
             int choiceIndex = 0;
@@ -150,7 +160,54 @@ namespace Frankie.Inventory.UI
             if (equipLocation == EquipLocation.None) { return; }
 
             selectedEquipLocation = equipLocation;
-            // NEXT -- spawn inventory window, pass back inventory item reference, handle it
+
+            if (HasAnyEquipableItems())
+            {
+                SpawnInventoryBox();
+            }
+            else
+            {
+                SpawnNoValidItemsMessage();
+            }
+
+        }
+
+        private bool HasAnyEquipableItems()
+        {
+            foreach (CombatParticipant character in party.GetParty())
+            {
+                Knapsack knapsack = character.GetKnapsack();
+                if (knapsack.HasAnyEquipableItem())
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        private void SpawnNoValidItemsMessage()
+        {
+            handleGlobalInput = false;
+            GameObject dialogueBoxObject = Instantiate(dialogueBoxPrefab, transform.parent);
+            DialogueBox dialogueBox = dialogueBoxObject.GetComponent<DialogueBox>();
+            dialogueBox.AddText(messageNoValidItems);
+            dialogueBox.SetGlobalCallbacks(standardPlayerInputCaller);
+            dialogueBox.SetDisableCallback(this, DIALOGUE_CALLBACK_ENABLE_INPUT);
+        }
+
+        private void SpawnInventoryBox()
+        {
+            if (selectedEquipLocation == EquipLocation.None) { return; }
+
+            handleGlobalInput = false;
+            GameObject inventoryBoxObject = Instantiate(equipmentInventoryBoxPrefab, transform.parent.transform);
+            EquipmentInventoryBox inventoryBox = inventoryBoxObject.GetComponent<EquipmentInventoryBox>();
+            inventoryBox.Setup(standardPlayerInputCaller, party, this, selectedEquipLocation, characterSlides);
+            inventoryBox.SetDisableCallback(this, DIALOGUE_CALLBACK_ENABLE_INPUT);
+
+            canvasGroup.alpha = 0.0f;
+            inventoryBox.SetDisableCallback(this, DIALOGUE_CALLBACK_RESTORE_ALPHA);
+            // NEXT:  Finish implementation
         }
 
         protected override bool MoveCursor(PlayerInputType playerInputType)
@@ -178,6 +235,15 @@ namespace Frankie.Inventory.UI
             // TODO:  Implement other state selections
 
             return false;
+        }
+
+        public override void HandleDialogueCallback(DialogueBox dialogueBox, string callbackMessage)
+        {
+            base.HandleDialogueCallback(dialogueBox, callbackMessage);
+            if (callbackMessage == DIALOGUE_CALLBACK_RESTORE_ALPHA)
+            {
+                canvasGroup.alpha = 1.0f;
+            }
         }
 
         #region Interfaces

@@ -114,7 +114,7 @@ namespace Frankie.Speech.UI
             handleGlobalInput = false;
             childOption = Instantiate(equipmentPrefab, worldCanvas.GetWorldOptionsParent());
             EquipmentBox equipmentBox = childOption.GetComponent<EquipmentBox>();
-            equipmentBox.Setup(playerController, party);
+            equipmentBox.Setup(playerController, party, characterSlides);
             equipmentBox.SetDisableCallback(this, DIALOGUE_CALLBACK_ENABLE_INPUT);
         }
 

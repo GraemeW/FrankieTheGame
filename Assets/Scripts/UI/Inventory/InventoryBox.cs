@@ -17,35 +17,38 @@ namespace Frankie.Inventory.UI
     {
         // Tunables
         [Header("Data Links")]
-        [SerializeField] TextMeshProUGUI selectedCharacterNameField;
+        [SerializeField] TextMeshProUGUI selectedCharacterNameField = null;
+        [SerializeField] CanvasGroup canvasGroup = null;
         [Header("Parents")]
         [SerializeField] Transform leftItemContainer = null;
         [SerializeField] Transform rightItemContainer = null;
         [Header("Prefabs")]
-        [SerializeField] GameObject dialogueBoxPrefab = null;
-        [SerializeField] GameObject dialogueOptionBoxPrefab = null;
-        [SerializeField] GameObject inventoryItemFieldPrefab = null;
+        [SerializeField] protected GameObject dialogueBoxPrefab = null;
+        [SerializeField] protected GameObject dialogueOptionBoxPrefab = null;
+        [SerializeField] protected GameObject inventoryItemFieldPrefab = null;
         [Header("Info/Messages")]
-        [SerializeField] string optionInspect = "Inspect";
-        [SerializeField] string optionEquip = "Equip";
-        [SerializeField] string optionUse = "Use";
+        [SerializeField] protected string optionInspect = "Inspect";
+        [SerializeField] protected string optionEquip = "Equip";
+        [SerializeField] protected string optionUse = "Use";
         [Tooltip("Include {0} for character name")] [SerializeField] string messageBusyInCooldown = "{0} is busy twirling, twirling.";
         [Tooltip("Include {0} for user, {1} for item, {2} for target")] [SerializeField] string messageUseItemInWorld = "{0} used {1} on {2}";
 
         // State
         InventoryBoxState inventoryBoxState = InventoryBoxState.inCharacterSelection;
         List<DialogueChoiceOption> playerSelectChoiceOptions = new List<DialogueChoiceOption>();
-        List<InventoryItemField> inventoryItemChoiceOptions = new List<InventoryItemField>();
         CombatParticipant selectedCharacter = null;
-        Knapsack selectedKnapsack = null;
+        protected List<InventoryItemField> inventoryItemChoiceOptions = new List<InventoryItemField>();
+        protected Knapsack selectedKnapsack = null;
         int selectedItemSlot = -1;
         CombatParticipant targetCharacter = null;
 
         // Cached References
-        IStandardPlayerInputCaller standardPlayerInputCaller = null;
+        protected IStandardPlayerInputCaller standardPlayerInputCaller = null;
         BattleController battleController = null;
         Party party = null;
         List<CharacterSlide> characterSlides = null;
+
+        // Optional Cached References
 
         // Events
         public event Action<Enum> uiBoxStateChanged;
@@ -225,7 +228,7 @@ namespace Frankie.Inventory.UI
             SetUpChoiceOptions();
         }
 
-        private void ChooseItem(int inventorySlot)
+        protected void ChooseItem(int inventorySlot)
         {
             handleGlobalInput = false;
             SetInventoryBoxState(InventoryBoxState.inItemDetail);
@@ -237,7 +240,7 @@ namespace Frankie.Inventory.UI
             // Control is setup and then passed back via ChoiceActionPair action menu
         }
 
-        private List<ChoiceActionPair> GetChoiceActionPairs(int inventorySlot)
+        protected virtual List<ChoiceActionPair> GetChoiceActionPairs(int inventorySlot)
         {
             List<ChoiceActionPair> choiceActionPairs = new List<ChoiceActionPair>();
             // Use
@@ -281,7 +284,7 @@ namespace Frankie.Inventory.UI
             
         }
 
-        public void SetupItem(GameObject inventoryItemFieldPrefab, Transform container, int selector)
+        public virtual void SetupItem(GameObject inventoryItemFieldPrefab, Transform container, int selector)
         {
             GameObject inventoryItemFieldObject = Instantiate(inventoryItemFieldPrefab, container);
             InventoryItemField inventoryItemField = inventoryItemFieldObject.GetComponent<InventoryItemField>();
@@ -310,7 +313,7 @@ namespace Frankie.Inventory.UI
             dialogueBox.SetDisableCallback(this, DIALOGUE_CALLBACK_ENABLE_INPUT);
         }
 
-        private void Equip(int inventorySlot)
+        protected virtual void Equip(int inventorySlot)
         {
             // TODO:  Implement equipment screen
             handleGlobalInput = false;

@@ -637,6 +637,7 @@ GameObject:
   - component: {fileID: 4125584263346831155}
   - component: {fileID: 2653761137607708041}
   - component: {fileID: 2437136854184657}
+  - component: {fileID: 5152362595830125493}
   m_Layer: 0
   m_Name: InventoryBox
   m_TagString: Untagged
@@ -740,6 +741,7 @@ MonoBehaviour:
   clearVolatileOptionsOnEnable: 1
   defaultOptionText: What do you want to do?
   selectedCharacterNameField: {fileID: 9194726771461153638}
+  canvasGroup: {fileID: 5152362595830125493}
   leftItemContainer: {fileID: 4808833409950686781}
   rightItemContainer: {fileID: 2801211723359414022}
   dialogueBoxPrefab: {fileID: 6413694501190794285, guid: a9829c1cb69a159479cbe82e68a5c629, type: 3}
@@ -750,6 +752,18 @@ MonoBehaviour:
   optionUse: Use
   messageBusyInCooldown: '{0} is busy twirling, twirling.'
   messageUseItemInWorld: '{0} used {1} on {2}'
+--- !u!225 &5152362595830125493
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6413694501190794285}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1 &7418628792628982881
 GameObject:
   m_ObjectHideFlags: 0

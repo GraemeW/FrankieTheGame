@@ -14,6 +14,8 @@ namespace Frankie.Speech.UI
         [Tooltip("Smallest values select first")] public int choiceOrder = 0;
         [SerializeField] TextMeshProUGUI textField = null;
         [SerializeField] protected Button button = null;
+        [SerializeField] Color validChoiceColor = Color.white;
+        [SerializeField] Color invalidChoiceColor = Color.gray;
 
         // State
         DialogueNode dialogueNode = null;
@@ -53,6 +55,18 @@ namespace Frankie.Speech.UI
         public void SetText(string text)
         {
             textField.text = text;
+        }
+
+        public void SetValidColor(bool enable)
+        {
+            if (enable)
+            {
+                textField.color = validChoiceColor;
+            }
+            else
+            {
+                textField.color = invalidChoiceColor;
+            }
         }
 
         public void Highlight(DialogueNode dialogueNode)
