@@ -160,6 +160,41 @@ namespace Frankie.Speech.UI
             return false;
         }
 
+        protected bool MoveCursor2D(PlayerInputType playerInputType, ref int choiceIndex)
+        {
+            bool validInput = false;
+            if (choiceOptions.Count == 1)
+            {
+                choiceIndex = 0;
+                validInput = true;
+            }
+            else if (playerInputType == PlayerInputType.NavigateRight)
+            {
+                if (choiceIndex + 1 >= choiceOptions.Count) { choiceIndex = 0; }
+                else { choiceIndex++; }
+                validInput = true;
+            }
+            else if (playerInputType == PlayerInputType.NavigateLeft)
+            {
+                if (choiceIndex <= 0) { choiceIndex = choiceOptions.Count - 1; }
+                else { choiceIndex--; }
+                validInput = true;
+            }
+            else if (playerInputType == PlayerInputType.NavigateDown)
+            {
+                if (choiceIndex + 2 >= choiceOptions.Count) { choiceIndex = 0; }
+                else { choiceIndex++; choiceIndex++; }
+                validInput = true;
+            }
+            else if (playerInputType == PlayerInputType.NavigateUp)
+            {
+                if (choiceIndex <= 1) { choiceIndex = choiceOptions.Count - 1; }
+                else { choiceIndex--; choiceIndex--; }
+                validInput = true;
+            }
+            return validInput;
+        }
+
         protected override bool PrepareChooseAction(PlayerInputType playerInputType)
         {
             // Choose(null) since not passing a nodeID, not a standard dialogue -- irrelevant in context of override

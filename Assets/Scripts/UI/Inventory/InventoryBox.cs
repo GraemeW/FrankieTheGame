@@ -148,39 +148,9 @@ namespace Frankie.Inventory.UI
             {
                 // Support for 2-D movement across the inventory items
                 if (highlightedChoiceOption == null) { return false; }
-
-                bool validInput = false;
                 int choiceIndex = choiceOptions.IndexOf(highlightedChoiceOption);
-                if (choiceOptions.Count == 1)
-                {
-                    choiceIndex = 0;
-                    validInput = true;
-                }
-                else if (playerInputType == PlayerInputType.NavigateRight)
-                {
-                    if (choiceIndex + 1 >= choiceOptions.Count) { choiceIndex = 0; }
-                    else { choiceIndex++; }
-                    validInput = true;
-                }
-                else if (playerInputType == PlayerInputType.NavigateLeft)
-                {
-                    if (choiceIndex <= 0) { choiceIndex = choiceOptions.Count - 1; }
-                    else { choiceIndex--; }
-                    validInput = true;
-                }
-                else if (playerInputType == PlayerInputType.NavigateDown)
-                {
-                    if (choiceIndex + 1 >= choiceOptions.Count || choiceOptions.Count == 2) { choiceIndex = 0; }
-                    else { choiceIndex++; choiceIndex++; }
-                    validInput = true;
-                }
-                else if (playerInputType == PlayerInputType.NavigateUp)
-                {
-                    if (choiceIndex <= 0 || choiceOptions.Count == 2) { choiceIndex = choiceOptions.Count - 1; }
-                    else { choiceIndex--; choiceIndex--; }
-                    validInput = true;
-                }
 
+                bool validInput = MoveCursor2D(playerInputType, ref choiceIndex);
                 if (validInput)
                 {
                     ClearChoiceSelections();

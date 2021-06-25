@@ -74,6 +74,10 @@ namespace Frankie.Inventory.UI
         private void SetEquipmentBoxState(EquipmentBoxState equipmentBoxState)
         {
             this.equipmentBoxState = equipmentBoxState;
+            if (uiBoxStateChanged != null)
+            {
+                uiBoxStateChanged.Invoke(equipmentBoxState);
+            }
         }
 
 
@@ -93,6 +97,7 @@ namespace Frankie.Inventory.UI
 
         private void GenerateEquipment()
         {
+            CleanUpOldEquipment();
             selectedEquipment = selectedCharacter.GetEquipment();
 
             int i = 0;
@@ -110,10 +115,16 @@ namespace Frankie.Inventory.UI
             }
         }
 
+        private void CleanUpOldEquipment()
+        {
+            equipableItemChoiceOptions.Clear();
+            foreach (Transform child in leftEquipment) { Destroy(child.gameObject); }
+            foreach (Transform child in rightEquipment) { Destroy(child.gameObject); }
+            selectedEquipment = null;
+        }
+
         protected override void SetUpChoiceOptions()
         {
-            if (selectedEquipment != null) { return; }
-
             choiceOptions.Clear();
             if (equipmentBoxState == EquipmentBoxState.inEquipmentSelection)
             {
@@ -132,6 +143,33 @@ namespace Frankie.Inventory.UI
         private void ChooseItem(int selector)
         {
 
+        }
+
+        protected override bool MoveCursor(PlayerInputType playerInputType)
+        {
+            if (equipmentBoxState == EquipmentBoxState.inCharacterSelection)
+            {
+                return base.MoveCursor(playerInputType);
+            }
+            else if (equipmentBoxState == EquipmentBoxState.inEquipmentSelection)
+            {
+                // Support for 2-D movement across the inventory items
+                if (highlightedChoiceOption == null) { return false; }
+                int choiceIndex = choiceOptions.IndexOf(highlightedChoiceOption);
+
+                bool validInput = MoveCursor2D(playerInputType, ref choiceIndex);
+
+                if (validInput)
+                {
+                    ClearChoiceSelections();
+                    highlightedChoiceOption = choiceOptions[choiceIndex];
+                    choiceOptions[choiceIndex].Highlight(true);
+                    return true;
+                }
+            }
+            // TODO:  Implement other state selections
+
+            return false;
         }
 
         #region Interfaces
