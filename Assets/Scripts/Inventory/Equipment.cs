@@ -3,12 +3,15 @@ using Frankie.Stats;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 namespace Frankie.Inventory
 {
     public class Equipment : MonoBehaviour, ISaveable
     {
+        
+
         // State
         Dictionary<EquipLocation, EquipableItem> equippedItems = new Dictionary<EquipLocation, EquipableItem>(); // TODO:  REMOVE SERIALIZE, FOR DEBUG
 
@@ -30,15 +33,15 @@ namespace Frankie.Inventory
         public Dictionary<Stat, float> CompareEquipableItem(EquipLocation equipLocation, EquipableItem equipableItem)
         {
             Dictionary<Stat, float> comparisonStatSheet = new Dictionary<Stat, float>();
-            comparisonStatSheet[Stat.HP] = 0f;
-            comparisonStatSheet[Stat.AP] = 0f;
-            comparisonStatSheet[Stat.Brawn] = 0f;
-            comparisonStatSheet[Stat.Beauty] = 0f;
-            comparisonStatSheet[Stat.Smarts] = 0f;
-            comparisonStatSheet[Stat.Nimble] = 0f;
-            comparisonStatSheet[Stat.Luck] = 0f;
-            comparisonStatSheet[Stat.Pluck] = 0f;
-            comparisonStatSheet[Stat.Stoic] = 0f;
+            Stat[] nonModifyingStats = BaseStats.GetNonModifyingStats();
+
+            foreach (Stat stat in Enum.GetValues(typeof(Stat)))
+            {
+                if (nonModifyingStats.Contains(stat)) { continue; }
+
+                comparisonStatSheet[stat] = 0f;
+            }
+
             if (equippedItems.ContainsKey(equipLocation))
             {
                 foreach (BaseStatModifier baseStatModifier in equippedItems[equipLocation].GetBaseStatModifiers())

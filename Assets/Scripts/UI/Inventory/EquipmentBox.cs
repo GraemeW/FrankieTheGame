@@ -23,13 +23,13 @@ namespace Frankie.Inventory.UI
         [SerializeField] Transform leftEquipment = null;
         [SerializeField] Transform rightEquipment = null;
         [SerializeField] GameObject equipmentChangeMenu = null;
-        [SerializeField] Transform oldStatColumn = null;
-        [SerializeField] Transform newStatColumn = null;
+        [SerializeField] Transform statSheetParent = null;
         [Header("Prefabs")]
         [SerializeField] GameObject dialogueBoxPrefab = null;
         [SerializeField] GameObject dialogueOptionBoxPrefab = null;
         [SerializeField] GameObject inventoryItemFieldPrefab = null;
         [SerializeField] GameObject equipmentInventoryBoxPrefab = null;
+        [SerializeField] GameObject statChangeFieldPrefab = null;
         [Header("Messages")]
         [Tooltip("Include {0} for character name")] [SerializeField] string messageNoValidItems = "There's nothing in the knapsack to equip.";
 
@@ -83,9 +83,27 @@ namespace Frankie.Inventory.UI
             ShowCursorOnAnyInteraction(PlayerInputType.Execute);
         }
 
+        public void SetSelectedItem(EquipableItem equipableItem)
+        {
+            if (equipableItem == null) { return; }
+
+            selectedItem = equipableItem;
+            GenerateStatConfirmationMenu();
+            SetEquipmentBoxState(EquipmentBoxState.inStatConfirmation);
+        }
+
         private void SetEquipmentBoxState(EquipmentBoxState equipmentBoxState)
         {
             this.equipmentBoxState = equipmentBoxState;
+            if (equipmentBoxState == EquipmentBoxState.inStatConfirmation)
+            {
+                equipmentChangeMenu.SetActive(true);
+            }
+            else
+            {
+                equipmentChangeMenu.SetActive(false);
+            }
+
             if (uiBoxStateChanged != null)
             {
                 uiBoxStateChanged.Invoke(equipmentBoxState);
@@ -137,6 +155,31 @@ namespace Frankie.Inventory.UI
             selectedEquipment = null;
         }
 
+        private void GenerateStatConfirmationMenu()
+        {
+            Dictionary<Stat, float> activeStatSheet = selectedCharacter.GetBaseStats().GetActiveStatSheet();
+            Dictionary<Stat, float> statDeltas = selectedEquipment.CompareEquipableItem(selectedEquipLocation, selectedItem);
+
+            Stat[] nonModifyingStats = BaseStats.GetNonModifyingStats();
+
+            foreach (KeyValuePair<Stat, float> statEntry in activeStatSheet)
+            {
+                Stat stat = statEntry.Key;
+                if (nonModifyingStats.Contains(stat)) { continue; }
+                
+                float oldValue = statEntry.Value;
+                float newValue = oldValue;
+                if (statDeltas.ContainsKey(stat))
+                {
+                    newValue += statDeltas[stat];
+                }
+
+                GameObject statChangeFieldObject = Instantiate(statChangeFieldPrefab, statSheetParent);
+                StatChangeField statChangeField = statChangeFieldObject.GetComponent<StatChangeField>();
+                statChangeField.Setup(stat, oldValue, newValue);
+            }
+        }
+
         protected override void SetUpChoiceOptions()
         {
             choiceOptions.Clear();
@@ -161,7 +204,7 @@ namespace Frankie.Inventory.UI
 
             selectedEquipLocation = equipLocation;
 
-            if (HasAnyEquipableItems())
+            if (HasAnyEquipableItems(selectedEquipLocation))
             {
                 SpawnInventoryBox();
             }
@@ -169,15 +212,14 @@ namespace Frankie.Inventory.UI
             {
                 SpawnNoValidItemsMessage();
             }
-
         }
 
-        private bool HasAnyEquipableItems()
+        private bool HasAnyEquipableItems(EquipLocation equipLocation)
         {
             foreach (CombatParticipant character in party.GetParty())
             {
                 Knapsack knapsack = character.GetKnapsack();
-                if (knapsack.HasAnyEquipableItem())
+                if (knapsack.HasAnyEquipableItem(equipLocation))
                 {
                     return true;
                 }
@@ -207,7 +249,6 @@ namespace Frankie.Inventory.UI
 
             canvasGroup.alpha = 0.0f;
             inventoryBox.SetDisableCallback(this, DIALOGUE_CALLBACK_RESTORE_ALPHA);
-            // NEXT:  Finish implementation
         }
 
         protected override bool MoveCursor(PlayerInputType playerInputType)

@@ -16,5 +16,10 @@ MonoBehaviour:
   displayName: Zigzag Hat
   description: Allo?
   equipLocation: 4
-  baseStatModifiers: []
+  baseStatModifiers:
+  - stat: 0
+    minValue: 50
+    maxValue: 50
+    permanent: 0
+    duration: 0
   statusEffects: []

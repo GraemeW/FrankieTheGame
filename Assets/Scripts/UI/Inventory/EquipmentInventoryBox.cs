@@ -11,7 +11,7 @@ namespace Frankie.Inventory.UI
     public class EquipmentInventoryBox : InventoryBox
     {
         [Header("EquipmentInventory Messages")]
-        [SerializeField] string messageCannotEquip = "This item cannot be equipped.";
+        [SerializeField] string messageCannotEquip = "This item cannot be equipped in this spot.";
 
         // Cached References
         EquipmentBox equipmentBox = null;
@@ -54,13 +54,11 @@ namespace Frankie.Inventory.UI
 
         protected override void Equip(int inventorySlot)
         {
-            // TODO:  Finish implementation -- call to equipmentBox to give it the item
-            handleGlobalInput = false;
-            GameObject dialogueBoxObject = Instantiate(dialogueBoxPrefab, transform.parent);
-            DialogueBox dialogueBox = dialogueBoxObject.GetComponent<DialogueBox>();
-            dialogueBox.AddText("This is where we would go to the equipment screen, if we had implemented it");
-            dialogueBox.SetGlobalCallbacks(standardPlayerInputCaller);
-            dialogueBox.SetDisableCallback(this, DIALOGUE_CALLBACK_ENABLE_INPUT);
+            EquipableItem equipableItem = selectedKnapsack.GetItemInSlot(inventorySlot) as EquipableItem;
+            if (equipableItem == null) { return; }
+
+            equipmentBox.SetSelectedItem(equipableItem);
+            Destroy(gameObject);
         }
 
         public override void SetupItem(GameObject inventoryItemFieldPrefab, Transform container, int selector)
@@ -69,7 +67,7 @@ namespace Frankie.Inventory.UI
             InventoryItemField inventoryItemField = inventoryItemFieldObject.GetComponent<InventoryItemField>();
             inventoryItemField.SetChoiceOrder(selector);
             inventoryItemField.SetText(selectedKnapsack.GetItemInSlot(selector).GetDisplayName());
-            if (selectedKnapsack.HasEquipableItemInSlot(selector))
+            if (selectedKnapsack.HasEquipableItemInSlot(selector, equipLocation))
             {
                 inventoryItemField.SetValidColor(true);
             }
@@ -79,7 +77,6 @@ namespace Frankie.Inventory.UI
             }
 
             inventoryItemField.SetupButtonAction(this, ChooseItem, selector);
-
             inventoryItemChoiceOptions.Add(inventoryItemField);
         }
     }

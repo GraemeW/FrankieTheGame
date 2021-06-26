@@ -27,6 +27,13 @@ namespace Frankie.Stats
         // Events
         public event Action<int, Dictionary<Stat, float>> onLevelUp;
 
+        // Static
+        public static Stat[] GetNonModifyingStats()
+        {
+            Stat[] nonModifyingStats = new Stat[] { Stat.EffectiveLevel, Stat.ExperienceReward, Stat.ExperienceToLevelUp };
+            return nonModifyingStats;
+        }
+
         private void Awake()
         {
             experience = GetComponent<Experience>();
