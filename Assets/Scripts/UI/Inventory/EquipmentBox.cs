@@ -19,6 +19,7 @@ namespace Frankie.Inventory.UI
         [Header("Data Links")]
         [SerializeField] TextMeshProUGUI selectedCharacterNameField = null;
         [SerializeField] CanvasGroup canvasGroup = null;
+        [Tooltip("Hook these up to confirm/reject in ConfirmationOptions")][SerializeField] List<DialogueChoiceOption> equipmentChangeConfirmOptions = new List<DialogueChoiceOption>();
         [Header("Parents")]
         [SerializeField] Transform leftEquipment = null;
         [SerializeField] Transform rightEquipment = null;
@@ -58,13 +59,25 @@ namespace Frankie.Inventory.UI
             // Do Nothing (skip base implementation)
         }
 
+        protected override void OnEnable()
+        {
+            base.OnEnable();
+            ListenToSelectedEquipment(true);
+        }
+
+        protected override void OnDisable()
+        {
+            base.OnDisable();
+            ListenToSelectedEquipment(false);
+        }
+
         public void Setup(IStandardPlayerInputCaller standardPlayerInputCaller, Party party, List<CharacterSlide> characterSlides = null)
         {
             this.standardPlayerInputCaller = standardPlayerInputCaller;
             this.party = party;
             this.characterSlides = characterSlides;
-
             SetGlobalCallbacks(standardPlayerInputCaller);
+
             int choiceIndex = 0;
             foreach (CombatParticipant character in party.GetParty())
             {
@@ -83,6 +96,31 @@ namespace Frankie.Inventory.UI
             ShowCursorOnAnyInteraction(PlayerInputType.Execute);
         }
 
+        private void SetSelectedEquipment(Equipment equipment)
+        {
+            if (selectedEquipment != null)
+            {
+                ListenToSelectedEquipment(false);
+            }
+
+            selectedEquipment = equipment;
+            ListenToSelectedEquipment(true);
+        }
+
+        private void ListenToSelectedEquipment(bool enable)
+        {
+            if (selectedEquipment == null) { return; }
+
+            if (enable)
+            {
+                selectedEquipment.equipmentUpdated += HandleEquipmentUpdated;
+            }
+            else
+            {
+                selectedEquipment.equipmentUpdated -= HandleEquipmentUpdated;
+            }
+        }
+
         public void SetSelectedItem(EquipableItem equipableItem)
         {
             if (equipableItem == null) { return; }
@@ -90,6 +128,7 @@ namespace Frankie.Inventory.UI
             selectedItem = equipableItem;
             GenerateStatConfirmationMenu();
             SetEquipmentBoxState(EquipmentBoxState.inStatConfirmation);
+            SetUpChoiceOptions();
         }
 
         private void SetEquipmentBoxState(EquipmentBoxState equipmentBoxState)
@@ -111,9 +150,12 @@ namespace Frankie.Inventory.UI
         }
 
 
-        private void ChooseCharacter(CombatParticipant character)
+        private void ChooseCharacter(CombatParticipant character, bool forceChoose = false)
         {
-            if (character != selectedCharacter)
+            selectedEquipLocation = EquipLocation.None;
+            selectedItem = null;
+
+            if (character != selectedCharacter || forceChoose)
             {
                 OnDialogueBoxModified(DialogueBoxModifiedType.itemSelected, true);
 
@@ -128,7 +170,7 @@ namespace Frankie.Inventory.UI
         private void GenerateEquipment()
         {
             CleanUpOldEquipment();
-            selectedEquipment = selectedCharacter.GetEquipment();
+            SetSelectedEquipment(selectedCharacter.GetEquipment());
 
             int i = 0;
             foreach (EquipLocation equipLocation in Enum.GetValues(typeof(EquipLocation)))
@@ -152,11 +194,13 @@ namespace Frankie.Inventory.UI
             equipableItemChoiceOptions.Clear();
             foreach (Transform child in leftEquipment) { Destroy(child.gameObject); }
             foreach (Transform child in rightEquipment) { Destroy(child.gameObject); }
-            selectedEquipment = null;
+            SetSelectedEquipment(null);
         }
 
         private void GenerateStatConfirmationMenu()
         {
+            CleanOldStatSheet();
+
             Dictionary<Stat, float> activeStatSheet = selectedCharacter.GetBaseStats().GetActiveStatSheet();
             Dictionary<Stat, float> statDeltas = selectedEquipment.CompareEquipableItem(selectedEquipLocation, selectedItem);
 
@@ -166,7 +210,7 @@ namespace Frankie.Inventory.UI
             {
                 Stat stat = statEntry.Key;
                 if (nonModifyingStats.Contains(stat)) { continue; }
-                
+
                 float oldValue = statEntry.Value;
                 float newValue = oldValue;
                 if (statDeltas.ContainsKey(stat))
@@ -180,6 +224,14 @@ namespace Frankie.Inventory.UI
             }
         }
 
+        private void CleanOldStatSheet()
+        {
+            foreach (Transform child in statSheetParent)
+            {
+                Destroy(child.gameObject);
+            }
+        }
+
         protected override void SetUpChoiceOptions()
         {
             choiceOptions.Clear();
@@ -190,6 +242,10 @@ namespace Frankie.Inventory.UI
             else if (equipmentBoxState == EquipmentBoxState.inCharacterSelection)
             {
                 choiceOptions.AddRange(playerSelectChoiceOptions.OrderBy(x => x.choiceOrder).ToList());
+            }
+            else if (equipmentBoxState == EquipmentBoxState.inStatConfirmation)
+            {
+                choiceOptions.AddRange(equipmentChangeConfirmOptions);
             }
 
             if (choiceOptions.Count > 0) { isChoiceAvailable = true; }
@@ -251,9 +307,37 @@ namespace Frankie.Inventory.UI
             inventoryBox.SetDisableCallback(this, DIALOGUE_CALLBACK_RESTORE_ALPHA);
         }
 
+        public void ConfirmEquipmentChange(bool confirm) // Called via equipmentChangeConfirmOptions buttons, hooked up in Unity
+        {
+            if (confirm)
+            {
+                selectedEquipment.AddSwapOrRemoveItem(selectedEquipLocation, selectedItem);
+            }
+            else
+            {
+                ChooseCharacter(selectedCharacter, true); // Resets chosen item & slot -> pulls to equipment selection
+            }
+        }
+
+        private void HandleEquipmentUpdated()
+        {
+            if (selectedCharacter != null)
+            {
+                ChooseCharacter(selectedCharacter, true); // Resets chosen item & slot -> pulls to equipment selection
+            }
+            else
+            {
+                selectedItem = null;
+                selectedEquipLocation = EquipLocation.None;
+                SetSelectedEquipment(null);
+                ChooseCharacter(party.GetPartyLeader()); 
+                SetEquipmentBoxState(EquipmentBoxState.inCharacterSelection);
+            }
+        }
+
         protected override bool MoveCursor(PlayerInputType playerInputType)
         {
-            if (equipmentBoxState == EquipmentBoxState.inCharacterSelection)
+            if (equipmentBoxState == EquipmentBoxState.inCharacterSelection || equipmentBoxState == EquipmentBoxState.inStatConfirmation)
             {
                 return base.MoveCursor(playerInputType);
             }
@@ -273,7 +357,6 @@ namespace Frankie.Inventory.UI
                     return true;
                 }
             }
-            // TODO:  Implement other state selections
 
             return false;
         }

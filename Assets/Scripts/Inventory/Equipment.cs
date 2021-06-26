@@ -10,10 +10,8 @@ namespace Frankie.Inventory
 {
     public class Equipment : MonoBehaviour, ISaveable
     {
-        
-
         // State
-        Dictionary<EquipLocation, EquipableItem> equippedItems = new Dictionary<EquipLocation, EquipableItem>(); // TODO:  REMOVE SERIALIZE, FOR DEBUG
+        Dictionary<EquipLocation, EquipableItem> equippedItems = new Dictionary<EquipLocation, EquipableItem>();
 
         // Events
         public event Action equipmentUpdated;
@@ -57,11 +55,22 @@ namespace Frankie.Inventory
             return comparisonStatSheet;
         }
 
-        public void AddItem(EquipLocation equipLocation, EquipableItem equipableItem)
+        public void AddSwapOrRemoveItem(EquipLocation equipLocation, EquipableItem equipableItem)
         {
-            if (equipableItem.GetEquipLocation() != equipLocation) { return; }
+            if (equipableItem == null)
+            {
+                equippedItems.Remove(equipLocation);
+            }
+            else
+            {
+                if (equipLocation == EquipLocation.None || equipableItem.GetEquipLocation() != equipLocation) { return; }
 
-            equippedItems[equipLocation] = equipableItem;
+                if (HasItemInSlot(equipLocation))
+                {
+                    RemoveItem(equipLocation);
+                }
+                AddItem(equipLocation, equipableItem);
+            }
 
             if (equipmentUpdated != null)
             {
@@ -69,14 +78,14 @@ namespace Frankie.Inventory
             }
         }
 
-        public void RemoveItem(EquipLocation equipLocation)
+        private void AddItem(EquipLocation equipLocation, EquipableItem equipableItem)
+        {
+            equippedItems[equipLocation] = equipableItem;
+        }
+
+        private void RemoveItem(EquipLocation equipLocation)
         {
             equippedItems.Remove(equipLocation);
-
-            if (equipmentUpdated != null)
-            {
-                equipmentUpdated.Invoke();
-            }
         }
 
         public IEnumerable<EquipLocation> GetAllPopulatedSlots()
