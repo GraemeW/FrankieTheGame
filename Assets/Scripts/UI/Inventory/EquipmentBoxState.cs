@@ -8,6 +8,7 @@ namespace Frankie.Inventory.UI
     {
         inCharacterSelection,
         inEquipmentSelection,
+        inEquipmentOptionMenu,
         inKnapsack,
         inStatConfirmation
     }

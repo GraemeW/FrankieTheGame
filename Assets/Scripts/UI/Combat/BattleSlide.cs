@@ -104,6 +104,11 @@ namespace Frankie.Combat.UI
             }
         }
 
+        public void HighlightSlide(CombatParticipantType combatParticipantType, bool enable)
+        {
+            SetSelected(combatParticipantType, enable);
+        }
+
         protected void ShakeSlide(bool strongShakeEnable)
         {
             currentShakeMagnitude = damageShakeMagnitude;

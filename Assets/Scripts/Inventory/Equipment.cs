@@ -59,6 +59,7 @@ namespace Frankie.Inventory
         {
             if (equipableItem == null)
             {
+                if (!equippedItems.ContainsKey(equipLocation)) { return; }
                 equippedItems.Remove(equipLocation);
             }
             else

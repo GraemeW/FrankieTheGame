@@ -41,6 +41,22 @@ namespace Frankie.Control
 
         }
 
+        public void ExecuteAction()
+        {
+            if (choiceActionPairType == ChoiceActionPairType.SimpleString)
+            {
+                simpleStringAction.Invoke(stringActionParameter);
+            }
+            else if (choiceActionPairType == ChoiceActionPairType.SimpleInt)
+            {
+                simpleIntAction.Invoke(intActionParameter);
+            }
+            else if (choiceActionPairType == ChoiceActionPairType.Simple)
+            {
+                simpleAction.Invoke();
+            }
+        }
+
         public ChoiceActionPairType choiceActionPairType;
         public string choice;
         public Action simpleAction;

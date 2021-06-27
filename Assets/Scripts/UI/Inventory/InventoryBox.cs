@@ -34,7 +34,7 @@ namespace Frankie.Inventory.UI
         [Tooltip("Include {0} for user, {1} for item, {2} for target")] [SerializeField] string messageUseItemInWorld = "{0} used {1} on {2}";
 
         // State
-        InventoryBoxState inventoryBoxState = InventoryBoxState.inCharacterSelection;
+        protected InventoryBoxState inventoryBoxState = InventoryBoxState.inCharacterSelection;
         List<DialogueChoiceOption> playerSelectChoiceOptions = new List<DialogueChoiceOption>();
         CombatParticipant selectedCharacter = null;
         protected List<InventoryItemField> inventoryItemChoiceOptions = new List<InventoryItemField>();
@@ -230,11 +230,19 @@ namespace Frankie.Inventory.UI
 
         protected void ChooseItem(int inventorySlot)
         {
+            List<ChoiceActionPair> choiceActionPairs = GetChoiceActionPairs(inventorySlot);
+            if (choiceActionPairs.Count == 0) { return; }
+            else if (choiceActionPairs.Count == 1)
+            {
+                choiceActionPairs[0].ExecuteAction();
+                return;
+            }
+
             handleGlobalInput = false;
             SetInventoryBoxState(InventoryBoxState.inItemDetail);
             GameObject dialogueOptionBoxObject = Instantiate(dialogueOptionBoxPrefab, transform.parent);
             DialogueOptionBox dialogueOptionBox = dialogueOptionBoxObject.GetComponent<DialogueOptionBox>();
-            dialogueOptionBox.SetupSimpleChoices(GetChoiceActionPairs(inventorySlot));
+            dialogueOptionBox.SetupSimpleChoices(choiceActionPairs);
             dialogueOptionBox.SetGlobalCallbacks(standardPlayerInputCaller);
             // Note:  Do not re-enable input control on callback
             // Control is setup and then passed back via ChoiceActionPair action menu

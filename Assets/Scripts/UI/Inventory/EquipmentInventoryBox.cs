@@ -79,5 +79,26 @@ namespace Frankie.Inventory.UI
             inventoryItemField.SetupButtonAction(this, ChooseItem, selector);
             inventoryItemChoiceOptions.Add(inventoryItemField);
         }
+
+        public override void HandleGlobalInput(PlayerInputType playerInputType)
+        {
+            if (!handleGlobalInput) { return; }
+
+            if (playerInputType == PlayerInputType.Option || playerInputType == PlayerInputType.Cancel)
+            {
+                if (inventoryBoxState == InventoryBoxState.inKnapsack)
+                {
+                    ClearChoiceSelections();
+                    inventoryBoxState = InventoryBoxState.inCharacterSelection;
+                    SetUpChoiceOptions();
+                }
+                else
+                {
+                    equipmentBox.ResetEquipmentBox(false);
+                    Destroy(gameObject);
+                }
+            }
+            base.HandleGlobalInput(playerInputType);
+        }
     }
 }

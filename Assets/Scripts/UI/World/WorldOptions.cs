@@ -122,6 +122,10 @@ namespace Frankie.Speech.UI
         {
             childOption = null;
             worldCanvas.DestroyExistingWorldOptions();
+            foreach (CharacterSlide characterSlide in characterSlides)
+            {
+                characterSlide.HighlightSlide(CombatParticipantType.Character, false);
+            }
             handleGlobalInput = true;
         }
     }

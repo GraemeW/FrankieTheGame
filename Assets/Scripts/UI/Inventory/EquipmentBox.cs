@@ -31,8 +31,10 @@ namespace Frankie.Inventory.UI
         [SerializeField] GameObject inventoryItemFieldPrefab = null;
         [SerializeField] GameObject equipmentInventoryBoxPrefab = null;
         [SerializeField] GameObject statChangeFieldPrefab = null;
-        [Header("Messages")]
+        [Header("Info/Messages")]
         [Tooltip("Include {0} for character name")] [SerializeField] string messageNoValidItems = "There's nothing in the knapsack to equip.";
+        [SerializeField] string optionEquip = "Put on";
+        [SerializeField] string optionRemove = "Take off";
 
         // State
         EquipmentBoxState equipmentBoxState = EquipmentBoxState.inCharacterSelection;
@@ -87,12 +89,12 @@ namespace Frankie.Inventory.UI
                 dialogueChoiceOption.SetText(character.GetCombatName());
                 characterFieldObject.GetComponent<Button>().onClick.AddListener(delegate { ChooseCharacter(character); });
 
-                if (choiceIndex == 0) { ChooseCharacter(character); SetEquipmentBoxState(EquipmentBoxState.inCharacterSelection); }
+                if (choiceIndex == 0) { ChooseCharacter(character); } // Initialize box with first character stats
                 choiceIndex++;
 
                 playerSelectChoiceOptions.Add(dialogueChoiceOption);
             }
-            SetUpChoiceOptions();
+            ResetEquipmentBox(true);
             ShowCursorOnAnyInteraction(PlayerInputType.Execute);
         }
 
@@ -256,18 +258,52 @@ namespace Frankie.Inventory.UI
         private void ChooseEquipLocation(int selector)
         {
             EquipLocation equipLocation = (EquipLocation)selector;
-            if (equipLocation == EquipLocation.None) { return; }
+            if (equipLocation == EquipLocation.None || selectedEquipment == null) { return; }
 
-            selectedEquipLocation = equipLocation;
-
-            if (HasAnyEquipableItems(selectedEquipLocation))
+            if (selectedEquipment.HasItemInSlot(equipLocation))
             {
+                List<ChoiceActionPair> choiceActionPairs = new List<ChoiceActionPair>();
+                ChoiceActionPair equipActionPair = new ChoiceActionPair(optionEquip, ExecuteChooseEquipLocation, selector);
+                choiceActionPairs.Add(equipActionPair);
+                ChoiceActionPair removeActionPair = new ChoiceActionPair(optionRemove, ExecuteRemoveEquipment, selector);
+                choiceActionPairs.Add(removeActionPair);
+
+                handleGlobalInput = false;
+                GameObject dialogueOptionBoxObject = Instantiate(dialogueOptionBoxPrefab, transform.parent);
+                DialogueOptionBox equipmentOptionMenu = dialogueOptionBoxObject.GetComponent<DialogueOptionBox>();
+                equipmentOptionMenu.SetupSimpleChoices(choiceActionPairs);
+                equipmentOptionMenu.SetGlobalCallbacks(standardPlayerInputCaller);
+                equipmentOptionMenu.SetDisableCallback(this, DIALOGUE_CALLBACK_ENABLE_INPUT);
+                SetEquipmentBoxState(EquipmentBoxState.inEquipmentOptionMenu);
+            }
+            else
+            {
+                ExecuteChooseEquipLocation(selector);
+            }
+        }
+
+        private void ExecuteChooseEquipLocation(int selector)
+        {
+            EquipLocation equipLocation = (EquipLocation)selector;
+
+            if (HasAnyEquipableItems(equipLocation))
+            {
+                selectedEquipLocation = equipLocation;
                 SpawnInventoryBox();
             }
             else
             {
+                selectedEquipLocation = EquipLocation.None;
                 SpawnNoValidItemsMessage();
             }
+        }
+
+        private void ExecuteRemoveEquipment(int selector)
+        {
+            if (selectedEquipment == null) { return; }
+
+            EquipLocation equipLocation = (EquipLocation)selector;
+            selectedEquipment.AddSwapOrRemoveItem(equipLocation, null);
         }
 
         private bool HasAnyEquipableItems(EquipLocation equipLocation)
@@ -321,7 +357,12 @@ namespace Frankie.Inventory.UI
 
         private void HandleEquipmentUpdated()
         {
-            if (selectedCharacter != null)
+            ResetEquipmentBox(false);
+        }
+
+        public void ResetEquipmentBox(bool clearSelectedCharacter)
+        {
+            if (selectedCharacter != null && !clearSelectedCharacter)
             {
                 ChooseCharacter(selectedCharacter, true); // Resets chosen item & slot -> pulls to equipment selection
             }
@@ -330,9 +371,11 @@ namespace Frankie.Inventory.UI
                 selectedItem = null;
                 selectedEquipLocation = EquipLocation.None;
                 SetSelectedEquipment(null);
-                ChooseCharacter(party.GetPartyLeader()); 
+                ChooseCharacter(party.GetPartyLeader());
                 SetEquipmentBoxState(EquipmentBoxState.inCharacterSelection);
+                selectedCharacter = null;
             }
+            SetUpChoiceOptions();
         }
 
         protected override bool MoveCursor(PlayerInputType playerInputType)
@@ -359,6 +402,31 @@ namespace Frankie.Inventory.UI
             }
 
             return false;
+        }
+
+        public override void HandleGlobalInput(PlayerInputType playerInputType)
+        {
+            if (!handleGlobalInput) { return; }
+
+            if (playerInputType == PlayerInputType.Option || playerInputType == PlayerInputType.Cancel)
+            {
+                if (equipmentBoxState == EquipmentBoxState.inStatConfirmation)
+                {
+                    ClearChoiceSelections();
+                    ResetEquipmentBox(false);
+                }
+                else if (equipmentBoxState == EquipmentBoxState.inEquipmentSelection)
+                {
+                    ClearChoiceSelections();
+                    ResetEquipmentBox(true);
+                }
+                else if (equipmentBoxState == EquipmentBoxState.inCharacterSelection)
+                {
+                    Destroy(gameObject);
+                }
+                // inKnapsack handled by the EquipmentInventoryBox
+            }
+            base.HandleGlobalInput(playerInputType);
         }
 
         public override void HandleDialogueCallback(DialogueBox dialogueBox, string callbackMessage)
