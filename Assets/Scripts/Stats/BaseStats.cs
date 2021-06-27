@@ -76,7 +76,7 @@ namespace Frankie.Stats
             activeStatSheet = progression.GetStatSheet(characterProperties, GetLevel());
         }
 
-        public Dictionary<Stat, float> GetActiveStatSheet()
+        public Dictionary<Stat, float> GetActiveStatSheet() // NOTE:  Does NOT contain modifiers
         {
             return activeStatSheet;
         }
@@ -90,8 +90,16 @@ namespace Frankie.Stats
         {
             if (!shouldUseModifiers) return 0;
 
-            // TODO:  Implement additive modifiers
-            return 0;
+            float sumModifier = 0f;
+            IModifierProvider[] modifierProviders = GetComponents<IModifierProvider>();
+            foreach (IModifierProvider modifierProvider in modifierProviders)
+            {
+                foreach (float modifier in modifierProvider.GetAdditiveModifiers(stat))
+                {
+                    sumModifier += modifier;
+                }
+            }
+            return sumModifier;
         }
 
         public float GetStatForLevel(Stat stat, int level)

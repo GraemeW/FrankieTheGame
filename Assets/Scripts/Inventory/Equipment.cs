@@ -8,7 +8,7 @@ using UnityEngine;
 
 namespace Frankie.Inventory
 {
-    public class Equipment : MonoBehaviour, ISaveable
+    public class Equipment : MonoBehaviour, ISaveable, IModifierProvider
     {
         // State
         Dictionary<EquipLocation, EquipableItem> equippedItems = new Dictionary<EquipLocation, EquipableItem>();
@@ -96,6 +96,20 @@ namespace Frankie.Inventory
 
 
         #region Interfaces
+        public IEnumerable<float> GetAdditiveModifiers(Stat stat)
+        {
+            foreach (EquipLocation slot in GetAllPopulatedSlots())
+            {
+                IModifierProvider item = GetItemInSlot(slot) as IModifierProvider;
+                if (item == null) { continue; }
+
+                foreach (float modifier in item.GetAdditiveModifiers(stat))
+                {
+                    yield return modifier;
+                }
+            }
+        }
+
         public object CaptureState()
         {
             Dictionary<EquipLocation, string> equippedItemsForSerialization = new Dictionary<EquipLocation, string>();

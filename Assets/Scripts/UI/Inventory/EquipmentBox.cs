@@ -203,17 +203,17 @@ namespace Frankie.Inventory.UI
         {
             CleanOldStatSheet();
 
-            Dictionary<Stat, float> activeStatSheet = selectedCharacter.GetBaseStats().GetActiveStatSheet();
+            BaseStats baseStats = selectedCharacter.GetBaseStats();
+            Dictionary<Stat, float> activeStatSheetWithModifiers = baseStats.GetActiveStatSheet();
             Dictionary<Stat, float> statDeltas = selectedEquipment.CompareEquipableItem(selectedEquipLocation, selectedItem);
 
             Stat[] nonModifyingStats = BaseStats.GetNonModifyingStats();
-
-            foreach (KeyValuePair<Stat, float> statEntry in activeStatSheet)
+            foreach (KeyValuePair<Stat, float> statEntry in activeStatSheetWithModifiers)
             {
                 Stat stat = statEntry.Key;
                 if (nonModifyingStats.Contains(stat)) { continue; }
 
-                float oldValue = statEntry.Value;
+                float oldValue = baseStats.GetStat(stat); // Pull from actual stat, since active stat sheet does not contain modifiers
                 float newValue = oldValue;
                 if (statDeltas.ContainsKey(stat))
                 {

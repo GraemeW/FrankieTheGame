@@ -12,7 +12,7 @@ namespace Frankie.Control.Specialization
         {
             foreach (CombatParticipant combatParticipant in playerStateHandler.GetParty().GetParty())
             {
-                combatParticipant.Revive(combatParticipant.GetBaseStats().GetBaseStat(Stat.HP));
+                combatParticipant.Revive(combatParticipant.GetBaseStats().GetStat(Stat.HP));
             }
         }
     }

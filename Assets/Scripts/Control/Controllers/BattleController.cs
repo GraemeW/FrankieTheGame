@@ -587,12 +587,12 @@ namespace Frankie.Combat
 
             foreach (CombatParticipant character in activeCharacters)
             {
-                partySpeed += character.GetBaseStats().GetBaseStat(Stat.Nimble);
+                partySpeed += character.GetBaseStats().GetStat(Stat.Nimble);
             }
 
             foreach (CombatParticipant enemy in activeEnemies)
             {
-                enemySpeed += enemy.GetBaseStats().GetBaseStat(Stat.Nimble);
+                enemySpeed += enemy.GetBaseStats().GetStat(Stat.Nimble);
             }
 
             if (partySpeed > enemySpeed)

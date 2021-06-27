@@ -102,7 +102,7 @@ MonoBehaviour:
   characterProperties: {fileID: 0}
   defaultLevel: 1
   maxLevel: 99
-  shouldUseModifiers: 0
+  shouldUseModifiers: 1
   progression: {fileID: 11400000, guid: 6d544ce8c0b2cd34badc52fee9ceccf9, type: 2}
   bonusStatOnLevelMidProbability: 0.3
   bonusStatOnLevelHighProbability: 0.1
