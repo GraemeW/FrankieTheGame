@@ -30,6 +30,7 @@ namespace Frankie.Inventory.UI
         [SerializeField] protected string optionInspect = "Inspect";
         [SerializeField] protected string optionEquip = "Equip";
         [SerializeField] protected string optionUse = "Use";
+        [SerializeField] protected string optionMove = "Move";
         [Tooltip("Include {0} for character name")] [SerializeField] string messageBusyInCooldown = "{0} is busy twirling, twirling.";
         [Tooltip("Include {0} for user, {1} for item, {2} for target")] [SerializeField] string messageUseItemInWorld = "{0} used {1} on {2}";
 
@@ -101,6 +102,26 @@ namespace Frankie.Inventory.UI
                 playerSelectChoiceOptions.Add(dialogueChoiceOption);
             }
             SetUpChoiceOptions();
+            ShowCursorOnAnyInteraction(PlayerInputType.Execute);
+        }
+
+        public void Setup(IStandardPlayerInputCaller standardPlayerInputCaller, CombatParticipant character, List<CharacterSlide> characterSlides = null)
+        {
+            // Single party member instantiation for specific application
+
+            this.standardPlayerInputCaller = standardPlayerInputCaller;
+            this.characterSlides = characterSlides;
+            SubscribeCharacterSlides(true);
+            SetGlobalCallbacks(standardPlayerInputCaller);
+
+            GameObject characterFieldObject = Instantiate(optionPrefab, optionParent);
+            DialogueChoiceOption dialogueChoiceOption = characterFieldObject.GetComponent<DialogueChoiceOption>();
+            dialogueChoiceOption.SetChoiceOrder(0);
+            dialogueChoiceOption.SetText(character.GetCombatName());
+            characterFieldObject.GetComponent<Button>().onClick.AddListener(delegate { ChooseCharacter(character); });
+            playerSelectChoiceOptions.Add(dialogueChoiceOption);
+            ChooseCharacter(character);
+
             ShowCursorOnAnyInteraction(PlayerInputType.Execute);
         }
 
@@ -214,7 +235,7 @@ namespace Frankie.Inventory.UI
             }
         }
 
-        private void ChooseCharacter(CombatParticipant character)
+        protected void ChooseCharacter(CombatParticipant character)
         {
             if (character != selectedCharacter)
             {
@@ -270,6 +291,10 @@ namespace Frankie.Inventory.UI
             ChoiceActionPair inspectActionPair = new ChoiceActionPair(optionInspect, Inspect, inventorySlot);
             choiceActionPairs.Add(inspectActionPair);
 
+            // Move
+            ChoiceActionPair moveActionPair = new ChoiceActionPair(optionMove, Move, inventorySlot);
+            choiceActionPairs.Add(moveActionPair);
+
             return choiceActionPairs;
         }
 
@@ -321,9 +346,14 @@ namespace Frankie.Inventory.UI
             dialogueBox.SetDisableCallback(this, DIALOGUE_CALLBACK_ENABLE_INPUT);
         }
 
+        private void Move(int inventorySlot)
+        {
+            // TODO:  implement move
+        }
+
         protected virtual void Equip(int inventorySlot)
         {
-            // TODO:  Implement equipment screen
+            // TODO:  Implement equipment screen from inventory
             handleGlobalInput = false;
             GameObject dialogueBoxObject = Instantiate(dialogueBoxPrefab, transform.parent);
             DialogueBox dialogueBox = dialogueBoxObject.GetComponent<DialogueBox>();
@@ -362,6 +392,8 @@ namespace Frankie.Inventory.UI
 
         private void GetNextTarget(bool traverseForward)
         {
+            if (party == null) { return; }
+
             CombatParticipant newTargetCharacter = party.GetNextMember(targetCharacter, traverseForward);
             targetCharacter = newTargetCharacter;
 

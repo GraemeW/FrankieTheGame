@@ -1,3 +1,4 @@
+using Frankie.Combat;
 using Frankie.Combat.UI;
 using Frankie.Control;
 using Frankie.Speech.UI;
@@ -17,11 +18,11 @@ namespace Frankie.Inventory.UI
         EquipmentBox equipmentBox = null;
         EquipLocation equipLocation = EquipLocation.None;
 
-        public void Setup(IStandardPlayerInputCaller standardPlayerInputCaller, Party party, EquipmentBox equipmentBox, EquipLocation equipLocation, List<CharacterSlide> characterSlides = null)
+        public void Setup(IStandardPlayerInputCaller standardPlayerInputCaller, Party party, EquipmentBox equipmentBox, EquipLocation equipLocation, CombatParticipant selectedCharacter, List<CharacterSlide> characterSlides = null)
         {
             this.equipmentBox = equipmentBox;
             this.equipLocation = equipLocation;
-            Setup(standardPlayerInputCaller, party, characterSlides);
+            Setup(standardPlayerInputCaller, selectedCharacter, characterSlides);
         }
 
         protected override List<ChoiceActionPair> GetChoiceActionPairs(int inventorySlot)
@@ -86,17 +87,8 @@ namespace Frankie.Inventory.UI
 
             if (playerInputType == PlayerInputType.Option || playerInputType == PlayerInputType.Cancel)
             {
-                if (inventoryBoxState == InventoryBoxState.inKnapsack)
-                {
-                    ClearChoiceSelections();
-                    inventoryBoxState = InventoryBoxState.inCharacterSelection;
-                    SetUpChoiceOptions();
-                }
-                else
-                {
-                    equipmentBox.ResetEquipmentBox(false);
-                    Destroy(gameObject);
-                }
+                equipmentBox.ResetEquipmentBox(false);
+                Destroy(gameObject);
             }
             base.HandleGlobalInput(playerInputType);
         }

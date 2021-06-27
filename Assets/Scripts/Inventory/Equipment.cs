@@ -55,21 +55,25 @@ namespace Frankie.Inventory
             return comparisonStatSheet;
         }
 
-        public void AddSwapOrRemoveItem(EquipLocation equipLocation, EquipableItem equipableItem)
+        public bool AddSwapOrRemoveItem(EquipLocation equipLocation, EquipableItem equipableItem, Knapsack knapsack = null)
         {
             if (equipableItem == null)
             {
-                if (!equippedItems.ContainsKey(equipLocation)) { return; }
+                // Remove
+                if (!equippedItems.ContainsKey(equipLocation)) { return false; }
                 equippedItems.Remove(equipLocation);
             }
             else
             {
-                if (equipLocation == EquipLocation.None || equipableItem.GetEquipLocation() != equipLocation) { return; }
+                if (knapsack == null || !knapsack.HasItem(equipableItem)) { return false; }
+                if (equipLocation == EquipLocation.None || equipableItem.GetEquipLocation() != equipLocation) { return false; }
 
+                // Swap
                 if (HasItemInSlot(equipLocation))
                 {
                     RemoveItem(equipLocation);
                 }
+                // & Add
                 AddItem(equipLocation, equipableItem);
             }
 
@@ -77,6 +81,7 @@ namespace Frankie.Inventory
             {
                 equipmentUpdated.Invoke();
             }
+            return true;
         }
 
         private void AddItem(EquipLocation equipLocation, EquipableItem equipableItem)

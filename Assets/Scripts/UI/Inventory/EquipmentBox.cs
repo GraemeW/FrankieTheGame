@@ -4,7 +4,6 @@ using Frankie.Control;
 using Frankie.Speech.UI;
 using Frankie.Stats;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using TMPro;
@@ -286,7 +285,7 @@ namespace Frankie.Inventory.UI
         {
             EquipLocation equipLocation = (EquipLocation)selector;
 
-            if (HasAnyEquipableItems(equipLocation))
+            if (selectedCharacter.GetKnapsack().HasAnyEquipableItem(equipLocation))
             {
                 selectedEquipLocation = equipLocation;
                 SpawnInventoryBox();
@@ -306,19 +305,6 @@ namespace Frankie.Inventory.UI
             selectedEquipment.AddSwapOrRemoveItem(equipLocation, null);
         }
 
-        private bool HasAnyEquipableItems(EquipLocation equipLocation)
-        {
-            foreach (CombatParticipant character in party.GetParty())
-            {
-                Knapsack knapsack = character.GetKnapsack();
-                if (knapsack.HasAnyEquipableItem(equipLocation))
-                {
-                    return true;
-                }
-            }
-            return false;
-        }
-
         private void SpawnNoValidItemsMessage()
         {
             handleGlobalInput = false;
@@ -336,7 +322,7 @@ namespace Frankie.Inventory.UI
             handleGlobalInput = false;
             GameObject inventoryBoxObject = Instantiate(equipmentInventoryBoxPrefab, transform.parent.transform);
             EquipmentInventoryBox inventoryBox = inventoryBoxObject.GetComponent<EquipmentInventoryBox>();
-            inventoryBox.Setup(standardPlayerInputCaller, party, this, selectedEquipLocation, characterSlides);
+            inventoryBox.Setup(standardPlayerInputCaller, party, this, selectedEquipLocation, selectedCharacter, characterSlides);
             inventoryBox.SetDisableCallback(this, DIALOGUE_CALLBACK_ENABLE_INPUT);
 
             canvasGroup.alpha = 0.0f;
@@ -347,7 +333,7 @@ namespace Frankie.Inventory.UI
         {
             if (confirm)
             {
-                selectedEquipment.AddSwapOrRemoveItem(selectedEquipLocation, selectedItem);
+                selectedEquipment.AddSwapOrRemoveItem(selectedEquipLocation, selectedItem, selectedCharacter.GetKnapsack());
             }
             else
             {
