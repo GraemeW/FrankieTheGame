@@ -215,7 +215,7 @@ namespace Frankie.Speech.UI
             return false;
         }
 
-        protected void ClearChoiceSelections()
+        protected virtual void ClearChoiceSelections()
         {
             highlightedChoiceOption = null;
             foreach (DialogueChoiceOption choiceOption in choiceOptions)

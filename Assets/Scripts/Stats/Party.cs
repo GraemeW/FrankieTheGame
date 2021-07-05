@@ -115,10 +115,6 @@ namespace Frankie.Stats
             {
                 nextMember = party[0];
             }
-            else if (party.Count == 2)
-            {
-                nextMember = party[1];
-            }
             else
             {
                 // Normal handling

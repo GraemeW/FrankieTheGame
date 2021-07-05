@@ -38,8 +38,8 @@ namespace Frankie.Inventory.UI
         // State
         protected InventoryBoxState inventoryBoxState = InventoryBoxState.inCharacterSelection;
         List<DialogueChoiceOption> playerSelectChoiceOptions = new List<DialogueChoiceOption>();
-        protected CombatParticipant selectedCharacter = null;
         protected List<InventoryItemField> inventoryItemChoiceOptions = new List<InventoryItemField>();
+        protected CombatParticipant selectedCharacter = null;
         protected Knapsack selectedKnapsack = null;
         int selectedItemSlot = -1;
         CombatParticipant targetCharacter = null;
@@ -261,13 +261,18 @@ namespace Frankie.Inventory.UI
                 selectedCharacter = character;
                 selectedCharacterNameField.text = selectedCharacter.GetCombatName();
                 RefreshKnapsackContents();
-                SetInventoryBoxState(InventoryBoxState.inKnapsack);
+            }
+            SetInventoryBoxState(InventoryBoxState.inKnapsack);
+
+            if (IsChoiceAvailable())
+            {
+                if (initializeCursor) { MoveCursor(PlayerInputType.NavigateRight); }
             }
             else
             {
-                SetInventoryBoxState(InventoryBoxState.inKnapsack);
+                SetInventoryBoxState(InventoryBoxState.inCharacterSelection);
             }
-            if (initializeCursor) { MoveCursor(PlayerInputType.NavigateRight); }
+
         }
 
         private void SoftChooseCharacter(CombatParticipant character)
@@ -534,12 +539,39 @@ namespace Frankie.Inventory.UI
 
                 if (selectedCharacter == null || selectedKnapsack == null)
                 {
-                    ChooseCharacter(null);
+                    ReInitializeToCharacterSelection();
                 }
                 else
                 {
-                    SetInventoryBoxState(InventoryBoxState.inKnapsack);
+                    if (selectedKnapsack.IsEmpty())
+                    {
+                        ReInitializeToCharacterSelection();
+                    }
+                    else
+                    {
+                        SetInventoryBoxState(InventoryBoxState.inKnapsack);
+                    }
                 }
+            }
+        }
+
+        private void ReInitializeToCharacterSelection()
+        {
+            ClearChoiceSelections();
+            ChooseCharacter(null);
+            ShowCursorOnAnyInteraction(PlayerInputType.Execute);
+        }
+
+        protected override void ClearChoiceSelections()
+        {
+            highlightedChoiceOption = null;
+            foreach (DialogueChoiceOption dialogueChoiceOption in playerSelectChoiceOptions)
+            {
+                dialogueChoiceOption.Highlight(false);
+            }
+            foreach (InventoryItemField inventoryItemField in inventoryItemChoiceOptions)
+            {
+                inventoryItemField.Highlight(false);
             }
         }
         #endregion
