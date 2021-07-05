@@ -65,18 +65,6 @@ namespace Frankie.Inventory
             return true;
         }
 
-        public bool HasAnyEquipableItem()
-        {
-            for (int i = 0; i < slots.Length; i++)
-            {
-                if (slots[i] != null && slots[i].GetType() == typeof(EquipableItem))
-                {
-                    return true;
-                }
-            }
-            return false;
-        }
-
         public bool HasAnyEquipableItem(EquipLocation equipLocation)
         {
             for (int i = 0; i < slots.Length; i++)
@@ -183,10 +171,10 @@ namespace Frankie.Inventory
         public bool UseItem(InventoryItem inventoryItem, CombatParticipant combatParticipant)
         {
             // Uses the first instance of the item
-            List<int> slots = FindSlotsWithItem(inventoryItem);
-            if (slots == null) { return false; }
+            int slot = FindSlotWithItem(inventoryItem);
+            if (slot < 0) { return false; }
 
-            return UseItemInSlot(slots[0], combatParticipant);
+            return UseItemInSlot(slot, combatParticipant);
         }
 
         public void MoveItem(int sourceSlot, Knapsack destinationKnapsack, int destinationSlot, bool announceUpdate = true)
@@ -249,6 +237,18 @@ namespace Frankie.Inventory
                 }
             }
             return slotsWithItem;
+        }
+
+        private int FindSlotWithItem(InventoryItem inventoryItem)
+        {
+            for (int i = 0; i < slots.Length; i++)
+            {
+                if (object.ReferenceEquals(slots[i], inventoryItem))
+                {
+                    return i;
+                }
+            }
+            return -1;
         }
 
         private void SquishItemsInKnapsack(bool announceUpdate = true)

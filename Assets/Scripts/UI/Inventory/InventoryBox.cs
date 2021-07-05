@@ -245,10 +245,14 @@ namespace Frankie.Inventory.UI
 
                 selectedCharacter = character;
                 selectedCharacterNameField.text = selectedCharacter.GetCombatName();
+                SetInventoryBoxState(InventoryBoxState.inKnapsack);
                 GenerateKnapsack();
             }
-            SetInventoryBoxState(InventoryBoxState.inKnapsack);
-            SetUpChoiceOptions();
+            else
+            {
+                SetInventoryBoxState(InventoryBoxState.inKnapsack);
+                SetUpChoiceOptions();
+            }
         }
 
         protected virtual void ChooseItem(int inventorySlot)
@@ -447,6 +451,7 @@ namespace Frankie.Inventory.UI
 
             CombatParticipant newTargetCharacter = party.GetNextMember(targetCharacter, traverseForward);
             targetCharacter = newTargetCharacter;
+
 
             if (targetCharacterChanged != null)
             {

@@ -64,11 +64,19 @@ namespace Frankie.Combat
         private void OnEnable()
         {
             baseStats.onLevelUp += PassLevelUpMessage;
+            if (equipment != null)
+            {
+                equipment.equipmentUpdated += ReconcileHPAP;
+            }
         }
 
         private void OnDisable()
         {
             baseStats.onLevelUp -= PassLevelUpMessage;
+            if (equipment != null)
+            {
+                equipment.equipmentUpdated -= ReconcileHPAP;
+            }
         }
 
         private void Start()
@@ -334,11 +342,6 @@ namespace Frankie.Combat
             return inCooldown;
         }
 
-        public void SetMaxHP()
-        {
-            currentHP.value = baseStats.GetStat(Stat.HP);
-        }
-
         public float GetMaxHP()
         {
             return baseStats.GetStat(Stat.HP);
@@ -440,6 +443,18 @@ namespace Frankie.Combat
             }
 
             characterLevelUp.Invoke(this, level, statNameValuePairs);
+        }
+
+        private void ReconcileHPAP()
+        {
+            if (currentHP.value > baseStats.GetStat(Stat.HP))
+            {
+                currentHP.value = baseStats.GetStat(Stat.HP);
+            }
+            if (currentAP.value > baseStats.GetStat(Stat.AP))
+            {
+                currentAP.value = baseStats.GetStat(Stat.AP);
+            }
         }
 
         // Save State
