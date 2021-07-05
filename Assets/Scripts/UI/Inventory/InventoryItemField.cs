@@ -27,6 +27,12 @@ namespace Frankie.Inventory.UI
             if (uiItemHandler != null) { }
         }
 
+        public bool HasAction()
+        {
+            if (action != null) { return true; }
+            return false;
+        }
+
         public void SetupButtonAction(IUIItemHandler uiItemHandler, Action<int> action, int value)
         {
             this.uiItemHandler = uiItemHandler;

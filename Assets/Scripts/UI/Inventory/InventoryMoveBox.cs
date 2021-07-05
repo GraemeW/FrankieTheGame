@@ -34,5 +34,18 @@ namespace Frankie.Inventory.UI
             // Skip listening to knapsack -- window only exists momentarily and then killed
             return;
         }
+
+        public override InventoryItemField SetupItem(GameObject inventoryItemFieldPrefab, Transform container, int selector)
+        {
+            InventoryItemField inventoryItemField = base.SetupItem(inventoryItemFieldPrefab, container, selector);
+            if (!inventoryItemField.HasAction())
+            {
+                // Force setup actions -- even allow for choice if item does not exist (move to blank space)
+                inventoryItemField.SetupButtonAction(this, ChooseItem, selector);
+                inventoryItemChoiceOptions.Add(inventoryItemField);
+            }
+
+            return inventoryItemField;
+        }
     }
 }

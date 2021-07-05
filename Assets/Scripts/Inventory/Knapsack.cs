@@ -206,10 +206,7 @@ namespace Frankie.Inventory
                 AddItemToSlot(swapItem, sourceSlot, false);
             }
 
-            if (knapsackUpdated != null)
-            {
-                knapsackUpdated.Invoke();
-            }
+            SquishItemsInKnapsack(true);
         }
         #endregion
 
@@ -252,6 +249,31 @@ namespace Frankie.Inventory
                 }
             }
             return slotsWithItem;
+        }
+
+        private void SquishItemsInKnapsack(bool announceUpdate = true)
+        {
+            Queue<InventoryItem> knapsackQueue = new Queue<InventoryItem>();
+            for (int i = 0; i < slots.Length; i++)
+            {
+                if (HasItemInSlot(i))
+                {
+                    knapsackQueue.Enqueue(slots[i]);
+                    RemoveFromSlot(i);
+                }
+            }
+
+            int itemIndex = 0;
+            while (knapsackQueue.Count > 0)
+            {
+                slots[itemIndex] = knapsackQueue.Dequeue();
+                itemIndex++;
+            }
+
+            if (announceUpdate && knapsackUpdated != null)
+            {
+                knapsackUpdated.Invoke();
+            }
         }
         #endregion
 

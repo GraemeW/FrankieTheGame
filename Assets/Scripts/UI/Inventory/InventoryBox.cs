@@ -448,7 +448,10 @@ namespace Frankie.Inventory.UI
             CombatParticipant newTargetCharacter = party.GetNextMember(targetCharacter, traverseForward);
             targetCharacter = newTargetCharacter;
 
-            targetCharacterChanged.Invoke(CombatParticipantType.Target, targetCharacter);
+            if (targetCharacterChanged != null)
+            {
+                targetCharacterChanged.Invoke(CombatParticipantType.Target, targetCharacter);
+            }
         }
 
         private void DisplayCharacterInCooldownMessage(CombatParticipant character)
@@ -489,6 +492,10 @@ namespace Frankie.Inventory.UI
             if (callbackMessage == DIALOGUE_CALLBACK_ENABLE_INPUT)
             {
                 selectedItemSlot = -1;
+                if (targetCharacterChanged != null)
+                {
+                    targetCharacterChanged.Invoke(CombatParticipantType.Target, null);
+                }
 
                 if (targetCharacter == null)
                 {
