@@ -168,6 +168,26 @@ namespace Frankie.Inventory.UI
             }
         }
 
+        private void ReInitializeToCharacterSelection()
+        {
+            ClearChoiceSelections();
+            ChooseCharacter(null);
+            ShowCursorOnAnyInteraction(PlayerInputType.Execute);
+        }
+
+        protected override void ClearChoiceSelections()
+        {
+            highlightedChoiceOption = null;
+            foreach (DialogueChoiceOption dialogueChoiceOption in playerSelectChoiceOptions)
+            {
+                dialogueChoiceOption.Highlight(false);
+            }
+            foreach (InventoryItemField inventoryItemField in inventoryItemChoiceOptions)
+            {
+                inventoryItemField.Highlight(false);
+            }
+        }
+
         public void SetInventoryBoxState(InventoryBoxState inventoryBoxState)
         {
             this.inventoryBoxState = inventoryBoxState;
@@ -302,7 +322,7 @@ namespace Frankie.Inventory.UI
         }
         #endregion
 
-        #region
+        #region KnapsackBehaviour
         protected virtual void RefreshKnapsackContents()
         {
             CleanUpOldKnapsack();
@@ -348,7 +368,7 @@ namespace Frankie.Inventory.UI
                 selectedKnapsack.knapsackUpdated -= RefreshKnapsackContents;
             }
         }
-        #endregion KnapsackBehaviour
+        #endregion
 
         #region ItemBehaviour
         protected virtual List<ChoiceActionPair> GetChoiceActionPairs(int inventorySlot)
@@ -552,26 +572,6 @@ namespace Frankie.Inventory.UI
                         SetInventoryBoxState(InventoryBoxState.inKnapsack);
                     }
                 }
-            }
-        }
-
-        private void ReInitializeToCharacterSelection()
-        {
-            ClearChoiceSelections();
-            ChooseCharacter(null);
-            ShowCursorOnAnyInteraction(PlayerInputType.Execute);
-        }
-
-        protected override void ClearChoiceSelections()
-        {
-            highlightedChoiceOption = null;
-            foreach (DialogueChoiceOption dialogueChoiceOption in playerSelectChoiceOptions)
-            {
-                dialogueChoiceOption.Highlight(false);
-            }
-            foreach (InventoryItemField inventoryItemField in inventoryItemChoiceOptions)
-            {
-                inventoryItemField.Highlight(false);
             }
         }
         #endregion
