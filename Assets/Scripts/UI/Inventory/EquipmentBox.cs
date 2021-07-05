@@ -412,7 +412,7 @@ namespace Frankie.Inventory.UI
         }
 
         #region Interfaces
-        public void SetupItem(GameObject inventoryItemFieldPrefab, Transform container, int selector)
+        public InventoryItemField SetupItem(GameObject inventoryItemFieldPrefab, Transform container, int selector)
         {
             EquipLocation equipLocation = (EquipLocation)selector;
             string itemName = "Empty";
@@ -427,6 +427,8 @@ namespace Frankie.Inventory.UI
             inventoryItemField.SetText(fieldName);
             inventoryItemField.SetupButtonAction(this, ChooseEquipLocation, selector);
             equipableItemChoiceOptions.Add(inventoryItemField);
+
+            return inventoryItemField;
         }
         #endregion
     }

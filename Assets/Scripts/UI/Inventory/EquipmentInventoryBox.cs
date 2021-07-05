@@ -62,12 +62,9 @@ namespace Frankie.Inventory.UI
             Destroy(gameObject);
         }
 
-        public override void SetupItem(GameObject inventoryItemFieldPrefab, Transform container, int selector)
+        public override InventoryItemField SetupItem(GameObject inventoryItemFieldPrefab, Transform container, int selector)
         {
-            GameObject inventoryItemFieldObject = Instantiate(inventoryItemFieldPrefab, container);
-            InventoryItemField inventoryItemField = inventoryItemFieldObject.GetComponent<InventoryItemField>();
-            inventoryItemField.SetChoiceOrder(selector);
-            inventoryItemField.SetText(selectedKnapsack.GetItemInSlot(selector).GetDisplayName());
+            InventoryItemField inventoryItemField =  base.SetupItem(inventoryItemFieldPrefab, container, selector);
             if (selectedKnapsack.HasEquipableItemInSlot(selector, equipLocation))
             {
                 inventoryItemField.SetValidColor(true);
@@ -76,9 +73,7 @@ namespace Frankie.Inventory.UI
             {
                 inventoryItemField.SetValidColor(false);
             }
-
-            inventoryItemField.SetupButtonAction(this, ChooseItem, selector);
-            inventoryItemChoiceOptions.Add(inventoryItemField);
+            return inventoryItemField;
         }
 
         public override void HandleGlobalInput(PlayerInputType playerInputType)

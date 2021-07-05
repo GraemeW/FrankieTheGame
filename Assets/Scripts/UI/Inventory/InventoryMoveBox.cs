@@ -21,23 +21,6 @@ namespace Frankie.Inventory.UI
             Setup(standardPlayerInputCaller, party, characterSlides);
         }
 
-        protected override void RefreshKnapsackContents()
-        {
-            CleanUpOldKnapsack();
-            for (int i = 0; i < selectedKnapsack.GetSize(); i++)
-            {
-                // Remove skip on null check, allow empty entries for moving to empty spots
-                if (i % 2 == 0)
-                {
-                    SetupItem(inventoryItemFieldPrefab, leftItemContainer, i);
-                }
-                else
-                {
-                    SetupItem(inventoryItemFieldPrefab, rightItemContainer, i);
-                }
-            }
-        }
-
         protected override void ChooseItem(int inventorySlot)
         {
             if (selectedKnapsack == null) { return; }
@@ -49,7 +32,6 @@ namespace Frankie.Inventory.UI
         protected override void ListenToKnapsack(bool enable)
         {
             // Skip listening to knapsack -- window only exists momentarily and then killed
-            // Avoid any race condition between the Destroy call and move action
             return;
         }
     }

@@ -311,7 +311,6 @@ namespace Frankie.Inventory.UI
             CleanUpOldKnapsack();
             for (int i = 0; i < selectedKnapsack.GetSize(); i++)
             {
-                if (selectedKnapsack.GetItemInSlot(i) == null) { continue; }
                 if (i % 2 == 0)
                 {
                     SetupItem(inventoryItemFieldPrefab, leftItemContainer, i);
@@ -352,11 +351,13 @@ namespace Frankie.Inventory.UI
             }
         }
 
-        public virtual void SetupItem(GameObject inventoryItemFieldPrefab, Transform container, int selector)
+        public virtual InventoryItemField SetupItem(GameObject inventoryItemFieldPrefab, Transform container, int selector)
         {
+            bool itemExists = false;
             string itemName = "    ";
             if (selectedKnapsack.HasItemInSlot(selector))
             {
+                itemExists = true;
                 itemName = selectedKnapsack.GetItemInSlot(selector).GetDisplayName();
             }
 
@@ -364,9 +365,13 @@ namespace Frankie.Inventory.UI
             InventoryItemField inventoryItemField = inventoryItemFieldObject.GetComponent<InventoryItemField>();
             inventoryItemField.SetChoiceOrder(selector);
             inventoryItemField.SetText(itemName);
-            inventoryItemField.SetupButtonAction(this, ChooseItem, selector);
+            if (itemExists)
+            {
+                inventoryItemField.SetupButtonAction(this, ChooseItem, selector);
+                inventoryItemChoiceOptions.Add(inventoryItemField);
+            }
 
-            inventoryItemChoiceOptions.Add(inventoryItemField);
+            return inventoryItemField;
         }
 
         private void Inspect(int inventorySlot)
