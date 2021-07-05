@@ -9,6 +9,7 @@ namespace Frankie.Inventory.UI
         inCharacterSelection,
         inKnapsack,
         inItemDetail,
-        inCharacterTargeting
+        inCharacterTargeting,
+        inItemMoving
     }
 }

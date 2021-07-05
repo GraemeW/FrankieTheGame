@@ -350,6 +350,7 @@ GameObject:
   - component: {fileID: 4125584263346831155}
   - component: {fileID: 2653761137607708041}
   - component: {fileID: 6442782191674339376}
+  - component: {fileID: -9126222842676821729}
   m_Layer: 0
   m_Name: DialogueBox
   m_TagString: Untagged
@@ -441,6 +442,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5e5e4a99d41be2842b056f8cdf19fcd2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  canvasGroup: {fileID: -9126222842676821729}
   dialogueParent: {fileID: 4819427655758832652}
   simpleTextPrefab: {fileID: 1863244146844170633, guid: adbee8c8e42373e4b8e75745ee81bd6c, type: 3}
   speechTextPrefab: {fileID: 2827329066881810044, guid: 457c6052bdf60f4428eb78a1788169a4, type: 3}
@@ -449,6 +451,18 @@ MonoBehaviour:
   handleGlobalInput: 1
   delayToDestroyWindow: 0.1
   delayBetweenCharacters: 0.05
+--- !u!225 &-9126222842676821729
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6413694501190794285}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1001 &5963560452231706074
 PrefabInstance:
   m_ObjectHideFlags: 0

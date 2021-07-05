@@ -20,7 +20,7 @@ namespace Frankie.Inventory
         static string[] PREDICATES_ARRAY = { "HasInventoryItem" };
 
         // Events
-        public event Action inventoryUpdated;
+        public event Action knapsackUpdated;
 
         private void Awake()
         {
@@ -57,6 +57,12 @@ namespace Frankie.Inventory
                 }
             }
             return false;
+        }
+
+        public bool HasItemInSlot(int slot)
+        {
+            if (slots[slot] == null) { return false; }
+            return true;
         }
 
         public bool HasAnyEquipableItem()
@@ -107,16 +113,16 @@ namespace Frankie.Inventory
             return slots[slot];
         }
 
-        public bool AddToFirstEmptySlot(InventoryItem inventoryItem)
+        public bool AddToFirstEmptySlot(InventoryItem inventoryItem, bool announceUpdate = true)
         {
             int slot = FindEmptySlot();
             if (slot < 0) { return false; }
 
             slots[slot] = inventoryItem;
 
-            if (inventoryUpdated != null)
+            if (announceUpdate && knapsackUpdated != null)
             {
-                inventoryUpdated();
+                knapsackUpdated.Invoke(); ;
             }
             return true;
         }
@@ -128,17 +134,17 @@ namespace Frankie.Inventory
             return false;
         }
 
-        public void RemoveFromSlot(int slot)
+        public void RemoveFromSlot(int slot, bool announceUpdate = true)
         {
             slots[slot] = null;
 
-            if (inventoryUpdated != null)
+            if (announceUpdate && knapsackUpdated != null)
             {
-                inventoryUpdated();
+                knapsackUpdated.Invoke();
             }
         }
 
-        public bool RemoveItem(InventoryItem inventoryItem, bool removeAll = true)
+        public bool RemoveItem(InventoryItem inventoryItem, bool announceUpdate = true, bool removeAll = true)
         {
             List<int> slotsWithItem = FindSlotsWithItem(inventoryItem);
             if (slotsWithItem.Count == 0) { return false; }
@@ -156,9 +162,9 @@ namespace Frankie.Inventory
                 slots[slotsWithItem[0]] = null;
             }
 
-            if (inventoryUpdated != null)
+            if (announceUpdate && knapsackUpdated != null)
             {
-                inventoryUpdated();
+                knapsackUpdated.Invoke();
             }
             return true;
         }
@@ -182,6 +188,29 @@ namespace Frankie.Inventory
 
             return UseItemInSlot(slots[0], combatParticipant);
         }
+
+        public void MoveItem(int sourceSlot, Knapsack destinationKnapsack, int destinationSlot, bool announceUpdate = true)
+        {
+            InventoryItem swapItem = null;
+            if (destinationKnapsack.HasItemInSlot(destinationSlot))
+            {
+                swapItem = destinationKnapsack.GetItemInSlot(destinationSlot);
+                destinationKnapsack.RemoveFromSlot(destinationSlot, false);
+            }
+            InventoryItem sourceItem = GetItemInSlot(sourceSlot);
+            RemoveFromSlot(sourceSlot, false);
+
+            destinationKnapsack.AddItemToSlot(sourceItem, destinationSlot, false);
+            if (swapItem != null)
+            {
+                AddItemToSlot(swapItem, sourceSlot, false);
+            }
+
+            if (knapsackUpdated != null)
+            {
+                knapsackUpdated.Invoke();
+            }
+        }
         #endregion
 
         #region PrivateFunctions
@@ -199,15 +228,15 @@ namespace Frankie.Inventory
             return -1;
         }
 
-        private bool AddItemToSlot(InventoryItem inventoryItem, int slot)
+        private bool AddItemToSlot(InventoryItem inventoryItem, int slot, bool announceUpdate = true)
         {
             if (slots[slot] != null) { return false; }
 
             slots[slot] = inventoryItem;
 
-            if (inventoryUpdated != null)
+            if (announceUpdate && knapsackUpdated != null)
             {
-                inventoryUpdated();
+                knapsackUpdated.Invoke();
             }
             return true;
         }
@@ -281,9 +310,9 @@ namespace Frankie.Inventory
                 slots[i] = InventoryItem.GetFromID(slotStrings[i]);
             }
 
-            if (inventoryUpdated != null)
+            if (knapsackUpdated != null)
             {
-                inventoryUpdated();
+                knapsackUpdated();
             }
         }
         #endregion

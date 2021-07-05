@@ -993,7 +993,7 @@ GameObject:
   - component: {fileID: 4125584263346831155}
   - component: {fileID: 2653761137607708041}
   - component: {fileID: 5904610809290143616}
-  - component: {fileID: 855690763135774361}
+  - component: {fileID: 7931030931547762203}
   m_Layer: 0
   m_Name: EquipmentBox
   m_TagString: Untagged
@@ -1086,6 +1086,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9819306b468056a4082f0d4d75592c16, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  canvasGroup: {fileID: 7931030931547762203}
   dialogueParent: {fileID: 4819427655758832652}
   simpleTextPrefab: {fileID: 1863244146844170633, guid: adbee8c8e42373e4b8e75745ee81bd6c, type: 3}
   speechTextPrefab: {fileID: 2827329066881810044, guid: 457c6052bdf60f4428eb78a1788169a4, type: 3}
@@ -1097,7 +1098,6 @@ MonoBehaviour:
   clearVolatileOptionsOnEnable: 1
   defaultOptionText: What do you want to do?
   selectedCharacterNameField: {fileID: 9194726771461153638}
-  canvasGroup: {fileID: 855690763135774361}
   equipmentChangeConfirmOptions:
   - {fileID: 6815818785964330737}
   - {fileID: 3794529900718615428}
@@ -1111,7 +1111,9 @@ MonoBehaviour:
   equipmentInventoryBoxPrefab: {fileID: 6413694501190794285, guid: 4b7a6d86130957d46bf858c8779af887, type: 3}
   statChangeFieldPrefab: {fileID: 3079065947153896786, guid: de2b0f8d2f51c3e4da7f0b370ea24fa5, type: 3}
   messageNoValidItems: There's nothing in the knapsack to equip.
---- !u!225 &855690763135774361
+  optionEquip: Put on
+  optionRemove: Take off
+--- !u!225 &7931030931547762203
 CanvasGroup:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

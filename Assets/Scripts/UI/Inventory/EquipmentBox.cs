@@ -17,7 +17,6 @@ namespace Frankie.Inventory.UI
         // Tunables
         [Header("Data Links")]
         [SerializeField] TextMeshProUGUI selectedCharacterNameField = null;
-        [SerializeField] CanvasGroup canvasGroup = null;
         [Tooltip("Hook these up to confirm/reject in ConfirmationOptions")][SerializeField] List<DialogueChoiceOption> equipmentChangeConfirmOptions = new List<DialogueChoiceOption>();
         [Header("Parents")]
         [SerializeField] Transform leftEquipment = null;
@@ -51,9 +50,6 @@ namespace Frankie.Inventory.UI
 
         // Events
         public event Action<Enum> uiBoxStateChanged;
-
-        // Static
-        protected static string DIALOGUE_CALLBACK_RESTORE_ALPHA = "RESTORE_ALPHA";
 
         protected override void Start()
         {
@@ -322,7 +318,7 @@ namespace Frankie.Inventory.UI
             handleGlobalInput = false;
             GameObject inventoryBoxObject = Instantiate(equipmentInventoryBoxPrefab, transform.parent.transform);
             EquipmentInventoryBox inventoryBox = inventoryBoxObject.GetComponent<EquipmentInventoryBox>();
-            inventoryBox.Setup(standardPlayerInputCaller, party, this, selectedEquipLocation, selectedCharacter, characterSlides);
+            inventoryBox.Setup(standardPlayerInputCaller, this, selectedEquipLocation, selectedCharacter, characterSlides);
             inventoryBox.SetDisableCallback(this, DIALOGUE_CALLBACK_ENABLE_INPUT);
 
             canvasGroup.alpha = 0.0f;
@@ -413,15 +409,6 @@ namespace Frankie.Inventory.UI
                 // inKnapsack handled by the EquipmentInventoryBox
             }
             base.HandleGlobalInput(playerInputType);
-        }
-
-        public override void HandleDialogueCallback(DialogueBox dialogueBox, string callbackMessage)
-        {
-            base.HandleDialogueCallback(dialogueBox, callbackMessage);
-            if (callbackMessage == DIALOGUE_CALLBACK_RESTORE_ALPHA)
-            {
-                canvasGroup.alpha = 1.0f;
-            }
         }
 
         #region Interfaces

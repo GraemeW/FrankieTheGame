@@ -18,7 +18,7 @@ namespace Frankie.Inventory.UI
         EquipmentBox equipmentBox = null;
         EquipLocation equipLocation = EquipLocation.None;
 
-        public void Setup(IStandardPlayerInputCaller standardPlayerInputCaller, Party party, EquipmentBox equipmentBox, EquipLocation equipLocation, CombatParticipant selectedCharacter, List<CharacterSlide> characterSlides = null)
+        public void Setup(IStandardPlayerInputCaller standardPlayerInputCaller, EquipmentBox equipmentBox, EquipLocation equipLocation, CombatParticipant selectedCharacter, List<CharacterSlide> characterSlides = null)
         {
             this.equipmentBox = equipmentBox;
             this.equipLocation = equipLocation;

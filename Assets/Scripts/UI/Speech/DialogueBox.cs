@@ -11,6 +11,7 @@ namespace Frankie.Speech.UI
     {
         // Tunables
         [Header("Links And Prefabs")]
+        [SerializeField] protected CanvasGroup canvasGroup = null;
         [SerializeField] protected Transform dialogueParent = null;
         [SerializeField] GameObject simpleTextPrefab = null;
         [SerializeField] GameObject speechTextPrefab = null;
@@ -43,6 +44,7 @@ namespace Frankie.Speech.UI
         // Static
         protected static string DIALOGUE_CALLBACK_ENABLE_INPUT = "ENABLE_INPUT";
         protected static string DIALOGUE_CALLBACK_DESTROY = "DESTROY";
+        protected static string DIALOGUE_CALLBACK_RESTORE_ALPHA = "RESTORE_ALPHA";
 
         // Structures
         private struct ReceptacleTextPair
@@ -439,6 +441,10 @@ namespace Frankie.Speech.UI
             else if (callbackMessage == DIALOGUE_CALLBACK_DESTROY)
             {
                 Destroy(gameObject);
+            }
+            else if (callbackMessage == DIALOGUE_CALLBACK_RESTORE_ALPHA)
+            {
+                canvasGroup.alpha = 1.0f;
             }
         }
     }
