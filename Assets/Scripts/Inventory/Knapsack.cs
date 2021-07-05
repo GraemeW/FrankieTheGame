@@ -195,6 +195,10 @@ namespace Frankie.Inventory
             }
 
             SquishItemsInKnapsack(true);
+            if (this != destinationKnapsack)
+            {
+                destinationKnapsack.SquishItemsInKnapsack(true);
+            }
         }
         #endregion
 
@@ -251,7 +255,7 @@ namespace Frankie.Inventory
             return -1;
         }
 
-        private void SquishItemsInKnapsack(bool announceUpdate = true)
+        public void SquishItemsInKnapsack(bool announceUpdate = true)
         {
             Queue<InventoryItem> knapsackQueue = new Queue<InventoryItem>();
             for (int i = 0; i < slots.Length; i++)

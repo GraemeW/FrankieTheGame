@@ -4,6 +4,7 @@ using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
 using UnityEngine.Events;
+using System;
 
 namespace Frankie.Speech.UI
 {
@@ -19,12 +20,35 @@ namespace Frankie.Speech.UI
 
         // State
         DialogueNode dialogueNode = null;
+        List<UnityAction> onHighlightExtraListeners = new List<UnityAction>();
 
         // Cached Reference
         DialogueController dialogueController = null;
 
         // Unity Events
         public UnityEvent itemHighlighted;
+
+        private void OnEnable()
+        {
+            if (onHighlightExtraListeners != null && onHighlightExtraListeners.Count > 0)
+            {
+                foreach (UnityAction unityAction in onHighlightExtraListeners)
+                {
+                    itemHighlighted.AddListener(unityAction);
+                }
+            }
+        }
+
+        private void OnDisable()
+        {
+            if (onHighlightExtraListeners != null && onHighlightExtraListeners.Count > 0)
+            {
+                foreach (UnityAction unityAction in onHighlightExtraListeners)
+                {
+                    itemHighlighted.RemoveListener(unityAction);
+                }
+            }
+        }
 
         private void OnDestroy()
         {
@@ -33,6 +57,7 @@ namespace Frankie.Speech.UI
             {
                 dialogueController.highlightedNodeChanged -= Highlight;
             }
+            itemHighlighted.RemoveAllListeners();
         }
 
         public void Setup(DialogueController dialogueController, DialogueNode dialogueNode)
@@ -66,6 +91,16 @@ namespace Frankie.Speech.UI
             else
             {
                 textField.color = invalidChoiceColor;
+            }
+        }
+
+        public void AddOnHighlightListener(UnityAction unityAction)
+        {
+            onHighlightExtraListeners.Add(unityAction);
+
+            if (gameObject.activeSelf)
+            {
+                itemHighlighted.AddListener(unityAction);
             }
         }
 
