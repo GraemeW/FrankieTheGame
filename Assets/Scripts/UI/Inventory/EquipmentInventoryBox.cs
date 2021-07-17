@@ -11,7 +11,8 @@ namespace Frankie.Inventory.UI
 {
     public class EquipmentInventoryBox : InventoryBox
     {
-        [Header("EquipmentInventory Messages")]
+        [Header("Info/Messages")]
+        [SerializeField] string optionEquip = "Equip";
         [SerializeField] string messageCannotEquip = "This item cannot be equipped in this spot.";
 
         // Cached References
@@ -53,7 +54,7 @@ namespace Frankie.Inventory.UI
             dialogueBox.SetDisableCallback(this, DIALOGUE_CALLBACK_ENABLE_INPUT);
         }
 
-        protected override void Equip(int inventorySlot)
+        private void Equip(int inventorySlot)
         {
             EquipableItem equipableItem = selectedKnapsack.GetItemInSlot(inventorySlot) as EquipableItem;
             if (equipableItem == null) { return; }

@@ -14,7 +14,7 @@ namespace Frankie.Inventory
         [SerializeField] int inventorySize = 16;
 
         // State
-        InventoryItem[] slots;
+        ActiveInventoryItem[] slots;
 
         // Static
         static string[] PREDICATES_ARRAY = { "HasInventoryItem" };
@@ -24,7 +24,7 @@ namespace Frankie.Inventory
 
         private void Awake()
         {
-            slots = new InventoryItem[inventorySize];
+            slots = new ActiveInventoryItem[inventorySize];
         }
 
         #region PublicFunctions
@@ -51,7 +51,7 @@ namespace Frankie.Inventory
         {
             for (int i = 0; i < slots.Length; i++)
             {
-                if (object.ReferenceEquals(slots[i], inventoryItem))
+                if (object.ReferenceEquals(slots[i].GetInventoryItem(), inventoryItem))
                 {
                     return true;
                 }
@@ -69,9 +69,9 @@ namespace Frankie.Inventory
         {
             for (int i = 0; i < slots.Length; i++)
             {
-                if (slots[i] != null && slots[i].GetType() == typeof(EquipableItem))
+                if (slots[i] != null && slots[i].GetInventoryItem().GetType() == typeof(EquipableItem))
                 {
-                    EquipableItem equipableItem = slots[i] as EquipableItem;
+                    EquipableItem equipableItem = slots[i].GetInventoryItem() as EquipableItem;
                     if (equipableItem.GetEquipLocation() == equipLocation)
                     {
                         return true;
@@ -85,20 +85,20 @@ namespace Frankie.Inventory
         {
             if (slots[slot] == null) { return false; }
 
-            return (slots[slot].GetType() == typeof(EquipableItem));
+            return (slots[slot].GetInventoryItem().GetType() == typeof(EquipableItem));
         }
 
         public bool HasEquipableItemInSlot(int slot, EquipLocation equipLocation)
         {
             if (!HasEquipableItemInSlot(slot)) { return false; }
 
-            EquipableItem equipableItem = slots[slot] as EquipableItem;
+            EquipableItem equipableItem = slots[slot].GetInventoryItem() as EquipableItem;
             return (equipableItem.GetEquipLocation() == equipLocation);
         }
 
         public InventoryItem GetItemInSlot(int slot)
         {
-            return slots[slot];
+            return slots[slot].GetInventoryItem();
         }
 
         public bool AddToFirstEmptySlot(InventoryItem inventoryItem, bool announceUpdate = true)
@@ -106,7 +106,7 @@ namespace Frankie.Inventory
             int slot = FindEmptySlot();
             if (slot < 0) { return false; }
 
-            slots[slot] = inventoryItem;
+            slots[slot] = new ActiveInventoryItem(inventoryItem);
 
             if (announceUpdate && knapsackUpdated != null)
             {
@@ -180,20 +180,34 @@ namespace Frankie.Inventory
         public void MoveItem(int sourceSlot, Knapsack destinationKnapsack, int destinationSlot, bool announceUpdate = true)
         {
             InventoryItem swapItem = null;
+            bool preserveSourceEquippedState = false;
+            bool preserveDestinationEquippedState = false;
+
+            // Check if swapping or only simple move
+            if (this == destinationKnapsack) { if (slots[sourceSlot] != null && slots[sourceSlot].IsEquipped()) { preserveSourceEquippedState = true; } }
             if (destinationKnapsack.HasItemInSlot(destinationSlot))
             {
                 swapItem = destinationKnapsack.GetItemInSlot(destinationSlot);
+                if (this == destinationKnapsack) { if (slots[destinationSlot] != null && slots[destinationSlot].IsEquipped()) { preserveSourceEquippedState = true; } }
                 destinationKnapsack.RemoveFromSlot(destinationSlot, false);
             }
+
+            // Remove item from source
             InventoryItem sourceItem = GetItemInSlot(sourceSlot);
             RemoveFromSlot(sourceSlot, false);
 
+            // Add item to destination
             destinationKnapsack.AddItemToSlot(sourceItem, destinationSlot, false);
+            slots[destinationSlot].SetEquipped(preserveSourceEquippedState);
+
+            // Complete swap if swapping
             if (swapItem != null)
             {
                 AddItemToSlot(swapItem, sourceSlot, false);
+                slots[sourceSlot].SetEquipped(preserveDestinationEquippedState);
             }
 
+            // Re-order items in knapsack
             SquishItemsInKnapsack(true);
             if (this != destinationKnapsack)
             {
@@ -221,7 +235,7 @@ namespace Frankie.Inventory
         {
             if (slots[slot] != null) { return false; }
 
-            slots[slot] = inventoryItem;
+            slots[slot] = new ActiveInventoryItem(inventoryItem); ;
 
             if (announceUpdate && knapsackUpdated != null)
             {
@@ -235,7 +249,7 @@ namespace Frankie.Inventory
             List<int> slotsWithItem = new List<int>();
             for (int i = 0; i < slots.Length; i++)
             {
-                if (object.ReferenceEquals(slots[i], inventoryItem))
+                if (object.ReferenceEquals(slots[i].GetInventoryItem(), inventoryItem))
                 {
                     slotsWithItem.Add(i);
                 }
@@ -247,7 +261,7 @@ namespace Frankie.Inventory
         {
             for (int i = 0; i < slots.Length; i++)
             {
-                if (object.ReferenceEquals(slots[i], inventoryItem))
+                if (object.ReferenceEquals(slots[i].GetInventoryItem(), inventoryItem))
                 {
                     return i;
                 }
@@ -257,7 +271,7 @@ namespace Frankie.Inventory
 
         public void SquishItemsInKnapsack(bool announceUpdate = true)
         {
-            Queue<InventoryItem> knapsackQueue = new Queue<InventoryItem>();
+            Queue<ActiveInventoryItem> knapsackQueue = new Queue<ActiveInventoryItem>();
             for (int i = 0; i < slots.Length; i++)
             {
                 if (HasItemInSlot(i))
@@ -315,25 +329,45 @@ namespace Frankie.Inventory
         }
 
         // Saving System
+        [System.Serializable]
+        struct SaveableActiveItem
+        {
+            public string inventoryItemID;
+            public bool equipped;
+        }
+
         object ISaveable.CaptureState()
         {
-            string[] slotsStrings = new string[inventorySize];
+            SaveableActiveItem[] slotsActiveItemStrings = new SaveableActiveItem[inventorySize];
             for (int i = 0; i < inventorySize; i++)
             {
                 if (slots[i] != null)
                 {
-                    slotsStrings[i] = slots[i].GetItemID();
+                    SaveableActiveItem saveableActiveItem = new SaveableActiveItem
+                    {
+                        inventoryItemID = slots[i].GetInventoryItem().GetItemID(),
+                        equipped = slots[i].IsEquipped()
+                    };
+                    slotsActiveItemStrings[i] = saveableActiveItem;
                 }
             }
-            return slotsStrings;
+
+            return slotsActiveItemStrings;
         }
 
         void ISaveable.RestoreState(object state)
         {
-            string[] slotStrings = (string[])state;
+            SaveableActiveItem[] slotsActiveItemStrings = (SaveableActiveItem[])state;
+
             for (int i = 0; i < inventorySize; i++)
             {
-                slots[i] = InventoryItem.GetFromID(slotStrings[i]);
+                if (string.IsNullOrEmpty(slotsActiveItemStrings[i].inventoryItemID)) { continue; }
+
+                string inventoryItemID = slotsActiveItemStrings[i].inventoryItemID;
+                ActiveInventoryItem activeInventoryItem = new ActiveInventoryItem(InventoryItem.GetFromID(inventoryItemID));
+                activeInventoryItem.SetEquipped(slotsActiveItemStrings[i].equipped);
+
+                slots[i] = activeInventoryItem;
             }
 
             if (knapsackUpdated != null)

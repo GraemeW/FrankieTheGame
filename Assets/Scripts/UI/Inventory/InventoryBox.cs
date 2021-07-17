@@ -29,7 +29,6 @@ namespace Frankie.Inventory.UI
         [SerializeField] GameObject inventoryMoveBoxPrefab = null;
         [Header("Info/Messages")]
         [SerializeField] protected string optionInspect = "Inspect";
-        [SerializeField] protected string optionEquip = "Equip";
         [SerializeField] protected string optionUse = "Use";
         [SerializeField] protected string optionMove = "Move";
         [Tooltip("Include {0} for character name")] [SerializeField] string messageBusyInCooldown = "{0} is busy twirling, twirling.";
@@ -380,15 +379,6 @@ namespace Frankie.Inventory.UI
                 ChoiceActionPair useActionPair = new ChoiceActionPair(optionUse, Use, inventorySlot);
                 choiceActionPairs.Add(useActionPair);
             }
-            // Equip
-            if (battleController == null)
-            {
-                if (selectedKnapsack.GetItemInSlot(inventorySlot).GetType() == typeof(EquipableItem))
-                {
-                    ChoiceActionPair equipActionPair = new ChoiceActionPair(optionEquip, Equip, inventorySlot);
-                    choiceActionPairs.Add(equipActionPair);
-                }
-            }
             // Inspect
             ChoiceActionPair inspectActionPair = new ChoiceActionPair(optionInspect, Inspect, inventorySlot);
             choiceActionPairs.Add(inspectActionPair);
@@ -460,17 +450,6 @@ namespace Frankie.Inventory.UI
             inventoryMoveBox.SetDisableCallback(this, DIALOGUE_CALLBACK_RESTORE_ALPHA);
 
             SetInventoryBoxState(InventoryBoxState.inItemMoving);
-        }
-
-        protected virtual void Equip(int inventorySlot)
-        {
-            // TODO:  Implement equipment screen from inventory
-            handleGlobalInput = false;
-            GameObject dialogueBoxObject = Instantiate(dialogueBoxPrefab, transform.parent);
-            DialogueBox dialogueBox = dialogueBoxObject.GetComponent<DialogueBox>();
-            dialogueBox.AddText("This is where we would go to the equipment screen, if we had implemented it");
-            dialogueBox.SetGlobalCallbacks(standardPlayerInputCaller);
-            dialogueBox.SetDisableCallback(this, DIALOGUE_CALLBACK_ENABLE_INPUT);
         }
 
         private void Use(int inventorySlot)
