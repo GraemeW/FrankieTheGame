@@ -31,8 +31,12 @@ namespace Frankie.Inventory.UI
         [SerializeField] protected string optionInspect = "Inspect";
         [SerializeField] protected string optionUse = "Use";
         [SerializeField] protected string optionMove = "Move";
+        [SerializeField] protected string optionDrop = "Drop";
+        [SerializeField] protected string confirmChoiceAffirmative = "Yes";
+        [SerializeField] protected string confirmChoiceNegative = "No";
         [Tooltip("Include {0} for character name")] [SerializeField] string messageBusyInCooldown = "{0} is busy twirling, twirling.";
         [Tooltip("Include {0} for user, {1} for item, {2} for target")] [SerializeField] string messageUseItemInWorld = "{0} used {1} on {2}";
+        [Tooltip("Include {0} for item name")] [SerializeField] string messageDropItem = "Are you sure you want to abandon {0}?"; 
 
         // State
         protected InventoryBoxState inventoryBoxState = InventoryBoxState.inCharacterSelection;
@@ -379,8 +383,12 @@ namespace Frankie.Inventory.UI
         protected virtual List<ChoiceActionPair> GetChoiceActionPairs(int inventorySlot)
         {
             List<ChoiceActionPair> choiceActionPairs = new List<ChoiceActionPair>();
+            if (selectedKnapsack == null) { return choiceActionPairs; }
+            InventoryItem inventoryItem = selectedKnapsack.GetItemInSlot(inventorySlot);
+            if (inventoryItem == null) { return choiceActionPairs; }
+
             // Use
-            if (selectedKnapsack.GetItemInSlot(inventorySlot).GetType() == typeof(ActionItem))
+            if (inventoryItem.GetType() == typeof(ActionItem))
             {
                 ChoiceActionPair useActionPair = new ChoiceActionPair(optionUse, Use, inventorySlot);
                 choiceActionPairs.Add(useActionPair);
@@ -392,6 +400,13 @@ namespace Frankie.Inventory.UI
             // Move
             ChoiceActionPair moveActionPair = new ChoiceActionPair(optionMove, Move, inventorySlot);
             choiceActionPairs.Add(moveActionPair);
+
+            // Drop
+            if (inventoryItem.IsDroppable())
+            {
+                ChoiceActionPair dropActionPair = new ChoiceActionPair(optionDrop, Drop, inventorySlot);
+                choiceActionPairs.Add(dropActionPair);
+            }
 
             return choiceActionPairs;
         }
@@ -456,6 +471,34 @@ namespace Frankie.Inventory.UI
             inventoryMoveBox.SetDisableCallback(this, DIALOGUE_CALLBACK_RESTORE_ALPHA);
 
             SetInventoryBoxState(InventoryBoxState.inItemMoving);
+        }
+
+        private void Drop(int inventorySlot)
+        {
+            if (selectedKnapsack == null) { return; }
+            if (!selectedKnapsack.HasItemInSlot(inventorySlot)) { return; }
+
+            handleGlobalInput = false;
+            GameObject dialogueOptionBoxObject = Instantiate(dialogueOptionBoxPrefab, transform.parent);
+            DialogueOptionBox dialogueOptionBox = dialogueOptionBoxObject.GetComponent<DialogueOptionBox>();
+
+            List<ChoiceActionPair> choiceActionPairs = new List<ChoiceActionPair>();
+            ChoiceActionPair confirmDrop = new ChoiceActionPair(confirmChoiceAffirmative, ExecuteDrop, inventorySlot);
+            choiceActionPairs.Add(confirmDrop);
+            ChoiceActionPair rejectDrop = new ChoiceActionPair(confirmChoiceNegative, ExecuteDrop, -1);
+            choiceActionPairs.Add(rejectDrop);
+
+            dialogueOptionBox.SetupSimpleChoices(choiceActionPairs, false, string.Format(messageDropItem, selectedKnapsack.GetItemInSlot(inventorySlot).GetDisplayName()));
+            dialogueOptionBox.SetGlobalCallbacks(standardPlayerInputCaller);
+            dialogueOptionBox.SetDisableCallback(this, DIALOGUE_CALLBACK_ENABLE_INPUT);
+        }
+
+        private void ExecuteDrop(int inventorySlot)
+        {
+            if (inventorySlot != -1)
+            {
+                selectedKnapsack.DropItem(inventorySlot);
+            }
         }
 
         private void Use(int inventorySlot)

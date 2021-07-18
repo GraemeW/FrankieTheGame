@@ -45,7 +45,7 @@ namespace Frankie.Speech.UI
             else { isChoiceAvailable = false; }
         }
 
-        public void SetupSimpleChoices(List<ChoiceActionPair> choiceActionPairs, bool usingDialogueController = false)
+        public void SetupSimpleChoices(List<ChoiceActionPair> choiceActionPairs, bool usingDialogueController = false, string optionText = null)
         {
             if (usingDialogueController && dialogueController.IsSimpleMessage())
             {
@@ -53,7 +53,14 @@ namespace Frankie.Speech.UI
             }
             else
             {
-                AddText(defaultOptionText);
+                if (string.IsNullOrEmpty(optionText))
+                {
+                    AddText(defaultOptionText);
+                }
+                else
+                {
+                    AddText(optionText);
+                }
             }
 
             choiceOptions.Clear();

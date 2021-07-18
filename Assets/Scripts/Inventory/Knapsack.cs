@@ -112,6 +112,7 @@ namespace Frankie.Inventory
 
         public InventoryItem GetItemInSlot(int slot)
         {
+            if (slots[slot] == null) { return null; }
             return slots[slot].GetInventoryItem();
         }
 
@@ -199,16 +200,19 @@ namespace Frankie.Inventory
 
         public void MoveItem(int sourceSlot, Knapsack destinationKnapsack, int destinationSlot, bool announceUpdate = true)
         {
+            if (slots[sourceSlot] == null) { return; }
+            if (this == destinationKnapsack && sourceSlot == destinationSlot) { return; } // move from same position to same position
+
             InventoryItem swapItem = null;
             bool preserveSourceEquippedState = false;
             bool preserveDestinationEquippedState = false;
 
             // Check if swapping or only simple move
-            if (this == destinationKnapsack) { if (slots[sourceSlot] != null && slots[sourceSlot].IsEquipped()) { preserveSourceEquippedState = true; } }
+            if (this == destinationKnapsack && slots[sourceSlot].IsEquipped()) { preserveSourceEquippedState = true; }
             if (destinationKnapsack.HasItemInSlot(destinationSlot))
             {
                 swapItem = destinationKnapsack.GetItemInSlot(destinationSlot);
-                if (this == destinationKnapsack) { if (slots[destinationSlot] != null && slots[destinationSlot].IsEquipped()) { preserveSourceEquippedState = true; } }
+                if (this == destinationKnapsack && slots[destinationSlot] != null && slots[destinationSlot].IsEquipped()) { preserveDestinationEquippedState = true; }
                 destinationKnapsack.RemoveFromSlot(destinationSlot, false);
             }
 
@@ -234,6 +238,22 @@ namespace Frankie.Inventory
                 destinationKnapsack.SquishItemsInKnapsack(true);
             }
         }
+
+        public void DropItem(int slot)
+        {
+            if (slots[slot] == null) { return; }
+            if (!slots[slot].GetInventoryItem().IsDroppable()) { return; }
+
+            if (slots[slot].IsEquipped())
+            {
+                EquipableItem equipableItem = slots[slot].GetInventoryItem() as EquipableItem;
+                EquipLocation equipLocation = equipableItem.GetEquipLocation();
+                equipment.AddSwapOrRemoveItem(equipLocation, null);
+            }
+
+            RemoveFromSlot(slot);
+            SquishItemsInKnapsack();
+        }
         #endregion
 
         #region PrivateFunctions
@@ -253,7 +273,7 @@ namespace Frankie.Inventory
 
         private bool AddItemToSlot(InventoryItem inventoryItem, int slot, bool announceUpdate = true)
         {
-            if (slots[slot] != null) { return false; }
+            if (slots[slot] != null || inventoryItem == null) { return false; }
 
             slots[slot] = new ActiveInventoryItem(inventoryItem); ;
 

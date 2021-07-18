@@ -14,6 +14,7 @@ namespace Frankie.Inventory
         [SerializeField] string displayName = null;
         [Tooltip("Item description on inspection")]
         [SerializeField] [TextArea] string description = null;
+        [SerializeField] protected bool droppable = true;
 
         // State
         static Dictionary<string, InventoryItem> itemLookupCache;
@@ -58,6 +59,11 @@ namespace Frankie.Inventory
         public string GetDescription()
         {
             return description;
+        }
+
+        public bool IsDroppable()
+        {
+            return droppable;
         }
 
         void ISerializationCallbackReceiver.OnBeforeSerialize()

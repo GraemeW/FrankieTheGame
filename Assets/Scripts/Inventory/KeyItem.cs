@@ -7,7 +7,9 @@ namespace Frankie.Inventory
     [CreateAssetMenu(menuName = ("Inventory/Key Item"))]
     public class KeyItem : InventoryItem
     {
-        // Key Item, follows InventoryItem implementation
-        // TBD if further functionality required
+        private void Awake()
+        {
+            droppable = false;
+        }
     }
 }
