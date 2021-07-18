@@ -14,7 +14,7 @@ namespace Frankie.Inventory
         Dictionary<EquipLocation, EquipableItem> equippedItems = new Dictionary<EquipLocation, EquipableItem>();
 
         // Events
-        public event Action equipmentUpdated;
+        public event Action<EquipLocation, EquipableItem> equipmentUpdated;
 
         public bool HasItemInSlot(EquipLocation equipLocation)
         {
@@ -79,7 +79,7 @@ namespace Frankie.Inventory
 
             if (equipmentUpdated != null)
             {
-                equipmentUpdated.Invoke();
+                equipmentUpdated.Invoke(equipLocation, equipableItem);
             }
             return true;
         }

@@ -329,13 +329,19 @@ namespace Frankie.Inventory.UI
 
             for (int i = 0; i < selectedKnapsack.GetSize(); i++)
             {
+                InventoryItemField inventoryItemField = null;
                 if (i % 2 == 0)
                 {
-                    SetupItem(inventoryItemFieldPrefab, leftItemContainer, i);
+                    inventoryItemField = SetupItem(inventoryItemFieldPrefab, leftItemContainer, i);
                 }
                 else
                 {
-                    SetupItem(inventoryItemFieldPrefab, rightItemContainer, i);
+                    inventoryItemField = SetupItem(inventoryItemFieldPrefab, rightItemContainer, i);
+                }
+
+                if (selectedKnapsack.IsItemInSlotEquipped(i))
+                {
+                    inventoryItemField.SetEquipped(true);
                 }
             }
         }

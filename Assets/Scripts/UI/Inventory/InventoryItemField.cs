@@ -8,6 +8,9 @@ namespace Frankie.Inventory.UI
 {
     public class InventoryItemField : DialogueChoiceOption
     {
+        // Tunables
+        [SerializeField] GameObject equippedMarker = null;
+
         // State
         IUIItemHandler uiItemHandler = null;
         Action<int> action = null;
@@ -41,6 +44,11 @@ namespace Frankie.Inventory.UI
             this.action = action;
             this.value = value;
             ToggleButtonActive(true);
+        }
+
+        public void SetEquipped(bool enable)
+        {
+            equippedMarker.SetActive(enable);
         }
 
         private void ListenToUIBoxState(bool enable)

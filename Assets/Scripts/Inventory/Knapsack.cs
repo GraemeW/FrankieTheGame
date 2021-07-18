@@ -16,6 +16,9 @@ namespace Frankie.Inventory
         // State
         ActiveInventoryItem[] slots;
 
+        // Cached References
+        Equipment equipment = null;
+
         // Static
         static string[] PREDICATES_ARRAY = { "HasInventoryItem" };
 
@@ -25,6 +28,17 @@ namespace Frankie.Inventory
         private void Awake()
         {
             slots = new ActiveInventoryItem[inventorySize];
+            equipment = GetComponent<Equipment>();
+        }
+
+        private void OnEnable()
+        {
+            equipment.equipmentUpdated += HandleEquipmentUpdated; 
+        }
+
+        private void OnDisable()
+        {
+            equipment.equipmentUpdated -= HandleEquipmentUpdated;
         }
 
         #region PublicFunctions
@@ -99,6 +113,12 @@ namespace Frankie.Inventory
         public InventoryItem GetItemInSlot(int slot)
         {
             return slots[slot].GetInventoryItem();
+        }
+
+        public bool IsItemInSlotEquipped(int slot)
+        {
+            if (slots[slot] != null) { return slots[slot].IsEquipped(); }
+            return false;
         }
 
         public bool AddToFirstEmptySlot(InventoryItem inventoryItem, bool announceUpdate = true)
@@ -249,6 +269,8 @@ namespace Frankie.Inventory
             List<int> slotsWithItem = new List<int>();
             for (int i = 0; i < slots.Length; i++)
             {
+                if (slots[i] == null) { continue; }
+
                 if (object.ReferenceEquals(slots[i].GetInventoryItem(), inventoryItem))
                 {
                     slotsWithItem.Add(i);
@@ -261,6 +283,8 @@ namespace Frankie.Inventory
         {
             for (int i = 0; i < slots.Length; i++)
             {
+                if (slots[i] == null) { continue; }
+
                 if (object.ReferenceEquals(slots[i].GetInventoryItem(), inventoryItem))
                 {
                     return i;
@@ -291,6 +315,39 @@ namespace Frankie.Inventory
             if (announceUpdate && knapsackUpdated != null)
             {
                 knapsackUpdated.Invoke();
+            }
+        }
+
+        private void HandleEquipmentUpdated(EquipLocation equipLocation, EquipableItem equipableItem)
+        {
+            ResetEquippedFlag(equipLocation);
+            int equippedItemSlot = FindSlotWithItem(equipableItem);
+            if (equippedItemSlot != -1)
+            {
+                slots[equippedItemSlot].SetEquipped(true);
+            }
+
+            if (knapsackUpdated != null)
+            {
+                knapsackUpdated.Invoke();
+            }
+        }
+
+        private void ResetEquippedFlag(EquipLocation equipLocation)
+        {
+            for (int i = 0; i < slots.Length; i++)
+            {
+                if (slots[i] != null && slots[i].IsEquipped())
+                {
+                    EquipableItem equipableItem = slots[i].GetInventoryItem() as EquipableItem;
+                    if (equipableItem != null)
+                    {
+                        if (equipableItem.GetEquipLocation() == equipLocation)
+                        {
+                            slots[i].SetEquipped(false);
+                        }
+                    }
+                }
             }
         }
         #endregion

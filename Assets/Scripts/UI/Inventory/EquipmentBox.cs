@@ -128,7 +128,7 @@ namespace Frankie.Inventory.UI
             MoveCursor(PlayerInputType.NavigateRight);
         }
 
-        private void HandleEquipmentUpdated()
+        private void HandleEquipmentUpdated(EquipLocation equipLocation, EquipableItem equipableItem)
         {
             ResetEquipmentBox(false);
         }
