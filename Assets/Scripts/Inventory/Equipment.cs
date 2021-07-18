@@ -13,8 +13,37 @@ namespace Frankie.Inventory
         // State
         Dictionary<EquipLocation, EquipableItem> equippedItems = new Dictionary<EquipLocation, EquipableItem>();
 
+        // Cached References
+        Knapsack knapsack;
+
         // Events
         public event Action<EquipLocation, EquipableItem> equipmentUpdated;
+
+        private void Awake()
+        {
+            knapsack = GetComponent<Knapsack>();
+        }
+
+        private void Start()
+        {
+            ReconcileEquipment();
+        }
+
+        private void ReconcileEquipment()
+        {
+            foreach (EquipLocation equipLocation in Enum.GetValues(typeof(EquipLocation)))
+            {
+                if (equipLocation == EquipLocation.None) { continue; }
+
+                if (equippedItems.ContainsKey(equipLocation))
+                {
+                    if (!knapsack.HasItem(equippedItems[equipLocation]))
+                    {
+                        RemoveItem(equipLocation);
+                    }
+                }
+            }
+        }
 
         public bool HasItemInSlot(EquipLocation equipLocation)
         {
