@@ -295,18 +295,25 @@ namespace Frankie.ZoneManagement
             return false;
         }
 
-        object ISaveable.CaptureState()
+        public LoadPriority GetLoadPriority()
         {
-            if (roomParent != null)
-            {
-                return roomParent.activeSelf;
-            }
-            else return true;
+            return LoadPriority.ObjectProperty;
         }
 
-        void ISaveable.RestoreState(object state)
+        SaveState ISaveable.CaptureState()
         {
-            if (EnableRoomParent((bool)state)) { roomParentSetBySave = true; }
+            bool isActive = true;
+            if (roomParent != null)
+            {
+                isActive = roomParent.activeSelf;
+            }
+            SaveState saveState = new SaveState(GetLoadPriority(), isActive);
+            return saveState;
+        }
+
+        void ISaveable.RestoreState(SaveState saveState)
+        {
+            if (EnableRoomParent((bool)saveState.GetState())) { roomParentSetBySave = true; }
         }
     }
 

@@ -12,3 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 00fbef4dec9dc7846811859f8a74c138, type: 3}
   m_Name: HipsterOfficeWorker
   m_EditorClassIdentifier: 
+  characterPrefab: {fileID: 0}
+  characterNPCPrefab: {fileID: 5507729041372677064, guid: 30c6f3f30a3216e41bbc8a6ac45c57e0, type: 3}

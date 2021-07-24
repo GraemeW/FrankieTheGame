@@ -2,7 +2,8 @@ namespace Frankie.Saving
 {
     public interface ISaveable
     {
-        object CaptureState();
-        void RestoreState(object state);
+        LoadPriority GetLoadPriority();
+        SaveState CaptureState();
+        void RestoreState(SaveState state);
     }
 }

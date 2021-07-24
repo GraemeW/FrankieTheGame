@@ -8,11 +8,15 @@ namespace Frankie.Control
 {
     public class CharacterNPCSwapper : MonoBehaviour
     {
-        // Tunables
-        [SerializeField] GameObject characterPrefab = null;
-        [SerializeField] GameObject characterNPCPrefab = null;
-        [SerializeField] BaseStats baseStats = null;
-        [SerializeField] CombatParticipant combatParticipant = null;
+        // Cached References
+        BaseStats baseStats = null;
+        CombatParticipant combatParticipant = null;
+
+        private void Awake()
+        {
+            baseStats = GetComponent<BaseStats>();
+            combatParticipant = GetComponent<CombatParticipant>();
+        }
 
         public CombatParticipant GetCombatParticipant()
         {
@@ -21,7 +25,8 @@ namespace Frankie.Control
 
         public CharacterNPCSwapper SwapToCharacter(Transform partyContainer)
         {
-            if (characterPrefab == null || characterNPCPrefab == null) { return null; }
+            GameObject characterPrefab = baseStats.GetCharacterProperties().GetCharacterPrefab();
+            if (characterPrefab == null) { return null; }
 
             GameObject character = Instantiate(characterPrefab, partyContainer);
             BaseStats characterBaseStats = character.GetComponent<BaseStats>();
@@ -32,7 +37,8 @@ namespace Frankie.Control
 
         public CharacterNPCSwapper SwapToNPC(Transform worldTransform)
         {
-            if (characterPrefab == null || characterNPCPrefab == null) { return null; }
+            GameObject characterNPCPrefab = baseStats.GetCharacterProperties().GetCharacterNPCPrefab();
+            if (characterNPCPrefab == null) { return null; }
 
             GameObject character = Instantiate(characterNPCPrefab, worldTransform);
             BaseStats characterNPCBaseStats = character.GetComponent<BaseStats>();

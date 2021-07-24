@@ -26,15 +26,23 @@ namespace Frankie.Saving
             return state;
         }
 
-        public void RestoreState(object state)
+        public void RestoreState(object state, LoadPriority loadPriority)
         {
+            if (state == null) { return; }
+
             Dictionary<string, object> stateDict = (Dictionary<string, object>)state;
             foreach (ISaveable saveable in GetComponents<ISaveable>())
             {
                 string typeString = saveable.GetType().ToString();
                 if (stateDict.ContainsKey(typeString))
                 {
-                    saveable.RestoreState(stateDict[typeString]);
+                    SaveState saveState = stateDict[typeString] as SaveState;
+                    if (saveState == null) { return; }
+
+                    if (saveState.GetLoadPriority() == loadPriority)
+                    {
+                        saveable.RestoreState(saveState);
+                    }
                 }
             }
         }

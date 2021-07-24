@@ -457,6 +457,7 @@ namespace Frankie.Combat
             }
         }
 
+        #region Interfaces
         // Save State
         [System.Serializable]
         struct CombatParticipantSaveData
@@ -465,8 +466,12 @@ namespace Frankie.Combat
             public float currentHP;
             public float currentAP;
         }
+        public LoadPriority GetLoadPriority()
+        {
+            return LoadPriority.ObjectProperty;
+        }
 
-        object ISaveable.CaptureState()
+        SaveState ISaveable.CaptureState()
         {
             CombatParticipantSaveData combatParticipantSaveData = new CombatParticipantSaveData
             {
@@ -474,13 +479,14 @@ namespace Frankie.Combat
                 currentHP = currentHP.value,
                 currentAP = currentAP.value
             };
+            SaveState saveState = new SaveState(GetLoadPriority(), combatParticipantSaveData);
 
-            return combatParticipantSaveData;
+            return saveState;
         }
 
-        void ISaveable.RestoreState(object state)
+        void ISaveable.RestoreState(SaveState saveState)
         {
-            CombatParticipantSaveData data = (CombatParticipantSaveData)state;
+            CombatParticipantSaveData data = (CombatParticipantSaveData)saveState.GetState();
             isDead.value = data.isDead;
             currentHP.value = data.currentHP;
             currentAP.value = data.currentAP;
@@ -543,5 +549,6 @@ namespace Frankie.Combat
             }
             return null;
         }
+        #endregion
     }
 }

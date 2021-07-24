@@ -6,10 +6,11 @@ using Cinemachine;
 using Frankie.Control;
 using Frankie.Utils;
 using System;
+using Frankie.Saving;
 
 namespace Frankie.Stats
 {
-    public class Party : MonoBehaviour
+    public class Party : MonoBehaviour, ISaveable
     {
         // Tunables
         [SerializeField][Range(1,4)] int partyLimit = 4;
@@ -26,10 +27,7 @@ namespace Frankie.Stats
         private void Awake()
         {
             playerMover = GetComponent<PlayerMover>();
-            foreach (CombatParticipant character in party)
-            {
-                animatorLookup.Add(character, character.GetComponent<Animator>());
-            }
+            RefreshAnimatorLookup();
         }
 
         private void OnEnable()
@@ -37,6 +35,15 @@ namespace Frankie.Stats
             playerMover.movementHistoryReset += ResetPartyOffsets;
             playerMover.leaderAnimatorUpdated += UpdateLeaderAnimation;
             playerMover.playerMoved += UpdatePartyOffsets;
+        }
+
+        private void RefreshAnimatorLookup()
+        {
+            animatorLookup.Clear();
+            foreach (CombatParticipant character in party)
+            {
+                animatorLookup.Add(character, character.GetComponent<Animator>());
+            }
         }
 
         public void SetPartyLeader(CombatParticipant character)
@@ -204,5 +211,22 @@ namespace Frankie.Stats
                 character.gameObject.transform.localPosition = Vector2.zero;
             }
         }
+
+        #region Interfaces
+        public LoadPriority GetLoadPriority()
+        {
+            return LoadPriority.ObjectInstantiation;
+        }
+        public SaveState CaptureState()
+        {
+            SaveState saveState = new SaveState(GetLoadPriority(), 1);
+            return saveState;
+        }
+
+        public void RestoreState(SaveState saveState)
+        {
+            
+        }
+        #endregion
     }
 }

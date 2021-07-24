@@ -413,7 +413,12 @@ namespace Frankie.Inventory
             public bool equipped;
         }
 
-        object ISaveable.CaptureState()
+        public LoadPriority GetLoadPriority()
+        {
+            return LoadPriority.ObjectProperty;
+        }
+
+        SaveState ISaveable.CaptureState()
         {
             SaveableActiveItem[] slotsActiveItemStrings = new SaveableActiveItem[inventorySize];
             for (int i = 0; i < inventorySize; i++)
@@ -428,13 +433,14 @@ namespace Frankie.Inventory
                     slotsActiveItemStrings[i] = saveableActiveItem;
                 }
             }
+            SaveState saveState = new SaveState(GetLoadPriority(), slotsActiveItemStrings);
 
-            return slotsActiveItemStrings;
+            return saveState;
         }
 
-        void ISaveable.RestoreState(object state)
+        void ISaveable.RestoreState(SaveState saveState)
         {
-            SaveableActiveItem[] slotsActiveItemStrings = (SaveableActiveItem[])state;
+            SaveableActiveItem[] slotsActiveItemStrings = (SaveableActiveItem[])saveState.GetState();
 
             for (int i = 0; i < inventorySize; i++)
             {

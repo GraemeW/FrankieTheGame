@@ -91,9 +91,9 @@ namespace Frankie.Speech
 #endif
                 this.speakerName = speakerName;
 #if UNITY_EDITOR
-                if (CharacterProperties.GetCharacterFromName(speakerName) != null)
+                if (CharacterProperties.GetCharacterPropertiesFromName(speakerName) != null)
                 {
-                    characterProperties = CharacterProperties.GetCharacterFromName(speakerName);
+                    characterProperties = CharacterProperties.GetCharacterPropertiesFromName(speakerName);
                 }
 
                 EditorUtility.SetDirty(this);

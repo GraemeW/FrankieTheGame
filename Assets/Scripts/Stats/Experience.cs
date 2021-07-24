@@ -70,15 +70,24 @@ namespace Frankie.Stats
             return Mathf.RoundToInt((baseStats.GetStat(Stat.ExperienceToLevelUp) - GetPoints()));
         }
 
+        #region Interfaces
         // Save State
-        public object CaptureState()
+        public LoadPriority GetLoadPriority()
         {
-            return currentPoints.value;
+            return LoadPriority.ObjectProperty;
         }
 
-        public void RestoreState(object state)
+        public SaveState CaptureState()
         {
-            currentPoints.value = (float)state;
+            SaveState saveState = new SaveState(GetLoadPriority(), currentPoints.value);
+            return saveState;
         }
+
+        public void RestoreState(SaveState saveState)
+        {
+            float points = (float)saveState.GetState();
+            currentPoints.value = points;
+        }
+        #endregion
     }
 }

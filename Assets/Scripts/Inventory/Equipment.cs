@@ -144,21 +144,27 @@ namespace Frankie.Inventory
             }
         }
 
-        public object CaptureState()
+        public LoadPriority GetLoadPriority()
+        {
+            return LoadPriority.ObjectProperty;
+        }
+
+        public SaveState CaptureState()
         {
             Dictionary<EquipLocation, string> equippedItemsForSerialization = new Dictionary<EquipLocation, string>();
             foreach (KeyValuePair<EquipLocation, EquipableItem> pair in equippedItems)
             {
                 equippedItemsForSerialization[pair.Key] = pair.Value.GetItemID();
             }
-            return equippedItemsForSerialization;
+            SaveState saveState = new SaveState(GetLoadPriority(), equippedItemsForSerialization);
+            return saveState;
         }
 
-        public void RestoreState(object state)
+        public void RestoreState(SaveState saveState)
         {
             equippedItems = new Dictionary<EquipLocation, EquipableItem>();
 
-            Dictionary<EquipLocation, string> equippedItemsForSerialization = (Dictionary<EquipLocation, string>)state;
+            Dictionary<EquipLocation, string> equippedItemsForSerialization = (Dictionary<EquipLocation, string>)saveState.GetState();
 
             foreach (KeyValuePair<EquipLocation, string> pair in equippedItemsForSerialization)
             {

@@ -101,14 +101,25 @@ namespace Frankie.Saving
 
         private void RestoreState(Dictionary<string, object> state)
         {
+            // First Pass -- Object instantiation
             List<SaveableEntity> saveableEntities = GetAllSaveableEntities();
-
             foreach (SaveableEntity saveable in saveableEntities)
             {
                 string id = saveable.GetUniqueIdentifier();
                 if (state.ContainsKey(id))
                 {
-                    saveable.RestoreState(state[id]);
+                    saveable.RestoreState(state[id], LoadPriority.ObjectInstantiation);
+                }
+            }
+
+            // Second Pass -- Property loading
+            saveableEntities = GetAllSaveableEntities();
+            foreach (SaveableEntity saveable in saveableEntities)
+            {
+                string id = saveable.GetUniqueIdentifier();
+                if (state.ContainsKey(id))
+                {
+                    saveable.RestoreState(state[id], LoadPriority.ObjectProperty);
                 }
             }
         }

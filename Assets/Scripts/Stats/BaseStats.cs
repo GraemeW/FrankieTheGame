@@ -189,6 +189,7 @@ namespace Frankie.Stats
             return defaultLevel;
         }
 
+        #region Interfaces
         // Save State
         [System.Serializable]
         struct BaseStatsSaveData
@@ -197,21 +198,28 @@ namespace Frankie.Stats
             public Dictionary<Stat, float> statSheet;
         }
 
-        public object CaptureState()
+        public LoadPriority GetLoadPriority()
+        {
+            return LoadPriority.ObjectProperty;
+        }
+
+        public SaveState CaptureState()
         {
             BaseStatsSaveData baseStatsSaveData = new BaseStatsSaveData
             {
                 level = currentLevel.value,
                 statSheet = activeStatSheet
             };
-            return baseStatsSaveData;
+            SaveState saveState = new SaveState(GetLoadPriority(), baseStatsSaveData);
+            return saveState;
         }
 
-        public void RestoreState(object state)
+        public void RestoreState(SaveState saveState)
         {
-            BaseStatsSaveData data = (BaseStatsSaveData)state;
+            BaseStatsSaveData data = (BaseStatsSaveData)saveState.GetState();
             currentLevel.value = data.level;
             activeStatSheet = data.statSheet;
         }
+        #endregion
     }
 }

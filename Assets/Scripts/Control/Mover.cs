@@ -174,6 +174,7 @@ namespace Frankie.Control
             // Base implementation blank
         }
 
+        #region Interfaces
         // Save State
         [System.Serializable]
         struct MoverSaveData
@@ -181,19 +182,26 @@ namespace Frankie.Control
             public SerializableVector2 position;
         }
 
-        object ISaveable.CaptureState()
+        public LoadPriority GetLoadPriority()
+        {
+            return LoadPriority.ObjectProperty;
+        }
+
+        SaveState ISaveable.CaptureState()
         {
             MoverSaveData data = new MoverSaveData
             {
                 position = new SerializableVector2(transform.position)
             };
-            return data;
+            SaveState saveState = new SaveState(GetLoadPriority(), data);
+            return saveState;
         }
 
-        void ISaveable.RestoreState(object state)
+        void ISaveable.RestoreState(SaveState saveState)
         {
-            MoverSaveData data = (MoverSaveData)state;
+            MoverSaveData data = (MoverSaveData)saveState.GetState();
             transform.position = data.position.ToVector();
         }
+        #endregion
     }
 }
