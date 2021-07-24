@@ -60,15 +60,18 @@ namespace Frankie.Combat
             return friendly;
         }
 
-        public void OnBeforeSerialize()
+        #region Interfaces
+        void ISerializationCallbackReceiver.OnBeforeSerialize()
         {
 #if UNITY_EDITOR
             BuildSkillCache(); // Force reload of skill cache to populate skill look-up in editor
 #endif
         }
 
-        public void OnAfterDeserialize()  // Unused, required for interface
+         void ISerializationCallbackReceiver.OnAfterDeserialize()
         {
+            // Unused, required for interface
         }
+        #endregion
     }
 }

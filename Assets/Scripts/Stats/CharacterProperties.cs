@@ -6,7 +6,7 @@ using UnityEngine;
 namespace Frankie.Stats
 {
     [CreateAssetMenu(fileName = "New Character", menuName = "Characters/New Character")]
-    public class CharacterProperties : ScriptableObject, ISerializationCallbackReceiver
+    public class CharacterProperties : ScriptableObject
     {
         // Properties
         public GameObject characterPrefab = null;
@@ -68,18 +68,5 @@ namespace Frankie.Stats
         {
             return characterNPCPrefab;
         }
-
-        #region Interfaces
-        public void OnBeforeSerialize()
-        {
-#if UNITY_EDITOR
-            GenerateCharacterPropertiesLookupCache(); // Force reload of character cache to populate look-ups in editor
-#endif
-        }
-
-        public void OnAfterDeserialize()
-        {
-        }
-        #endregion
     }
 }

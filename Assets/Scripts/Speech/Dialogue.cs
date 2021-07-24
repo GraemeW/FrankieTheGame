@@ -219,7 +219,7 @@ namespace Frankie.Speech
         }
 #endif
 
-        public void OnBeforeSerialize()
+        void ISerializationCallbackReceiver.OnBeforeSerialize()
         {
 #if UNITY_EDITOR
             if (AssetDatabase.GetAssetPath(this) != "")
@@ -235,8 +235,9 @@ namespace Frankie.Speech
 #endif
         }
 
-        public void OnAfterDeserialize() // Unused, required for interface
+        void ISerializationCallbackReceiver.OnAfterDeserialize() 
         {
+            // Unused, required for interface
         }
     }
 }

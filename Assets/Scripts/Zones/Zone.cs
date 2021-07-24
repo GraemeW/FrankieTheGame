@@ -229,11 +229,8 @@ namespace Frankie.ZoneManagement
         }
 #endif
 
-        public void OnAfterDeserialize()// Unused, required for interface
-        {
-        }
-
-        public void OnBeforeSerialize() 
+        #region Interfaces
+        void ISerializationCallbackReceiver.OnBeforeSerialize() 
         {
 #if UNITY_EDITOR
             if (AssetDatabase.GetAssetPath(this) != "")
@@ -249,6 +246,12 @@ namespace Frankie.ZoneManagement
             }
 #endif
         }
+
+        void ISerializationCallbackReceiver.OnAfterDeserialize()
+        {
+            // Unused, required for interface
+        }
+        #endregion
     }
 
 }

@@ -15,18 +15,16 @@ namespace Frankie.ZoneManagement
 
         // State
         Zone currentZone = null;
-        int currentSceneIndex = 0;
 
         // Events
         public event Action<Zone> zoneUpdated;
 
-        private void Awake()
-        {
-            currentZone = Zone.GetFromSceneReference(SceneManager.GetActiveScene().name);
-        }
-
         public Zone GetCurrentZone()
         {
+            if (currentZone == null)
+            {
+                currentZone = Zone.GetFromSceneReference(SceneManager.GetActiveScene().name);
+            }
             return currentZone;
         }
 
@@ -83,7 +81,6 @@ namespace Frankie.ZoneManagement
         private void SetCurrentZone(Zone zone)
         {
             currentZone = zone;
-            currentSceneIndex = SceneManager.GetActiveScene().buildIndex;
             if (zoneUpdated != null)
             {
                 zoneUpdated.Invoke(currentZone);
