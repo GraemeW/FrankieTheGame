@@ -65,6 +65,8 @@ namespace Frankie.Inventory
         {
             for (int i = 0; i < slots.Length; i++)
             {
+                if (slots[i] == null) { continue; }
+
                 if (object.ReferenceEquals(slots[i].GetInventoryItem(), inventoryItem))
                 {
                     return true;
@@ -208,7 +210,7 @@ namespace Frankie.Inventory
                 if (HasItemInSlot(i))
                 {
                     knapsackQueue.Enqueue(slots[i]);
-                    RemoveFromSlot(i, false);
+                    slots[i] = null;
                 }
             }
 
