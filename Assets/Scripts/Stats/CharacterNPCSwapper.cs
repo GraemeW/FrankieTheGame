@@ -1,10 +1,10 @@
 using Frankie.Combat;
-using Frankie.Stats;
+using Frankie.Control;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Frankie.Control
+namespace Frankie.Stats
 {
     public class CharacterNPCSwapper : MonoBehaviour
     {
@@ -18,9 +18,36 @@ namespace Frankie.Control
             combatParticipant = GetComponent<CombatParticipant>();
         }
 
+        public static GameObject SpawnCharacter(string characterName, Transform partyTransform)
+        {
+            if (characterName == null || partyTransform == null) { return null; }
+
+            CharacterProperties characterProperties = CharacterProperties.GetCharacterPropertiesFromName(characterName);
+            GameObject characterPrefab = characterProperties.GetCharacterPrefab();
+
+            GameObject character = Instantiate(characterPrefab, partyTransform);
+            return character;
+        }
+
+        public static GameObject SpawnNPC(string characterName, Transform worldContainer)
+        {
+            if (characterName == null || worldContainer == null) { return null; }
+
+            CharacterProperties characterProperties = CharacterProperties.GetCharacterPropertiesFromName(characterName);
+            GameObject characterNPCPrefab = characterProperties.GetCharacterNPCPrefab();
+
+            GameObject characterNPC = Instantiate(characterNPCPrefab, worldContainer);
+            return characterNPC;
+        }
+
         public CombatParticipant GetCombatParticipant()
         {
             return combatParticipant;
+        }
+
+        public BaseStats GetBaseStats()
+        {
+            return baseStats;
         }
 
         public CharacterNPCSwapper SwapToCharacter(Transform partyContainer)
@@ -35,12 +62,12 @@ namespace Frankie.Control
             return partyCharacter;
         }
 
-        public CharacterNPCSwapper SwapToNPC(Transform worldTransform)
+        public CharacterNPCSwapper SwapToNPC(Transform worldContainer)
         {
             GameObject characterNPCPrefab = baseStats.GetCharacterProperties().GetCharacterNPCPrefab();
             if (characterNPCPrefab == null) { return null; }
 
-            GameObject character = Instantiate(characterNPCPrefab, worldTransform);
+            GameObject character = Instantiate(characterNPCPrefab, worldContainer);
             BaseStats characterNPCBaseStats = character.GetComponent<BaseStats>();
             characterNPCBaseStats.SetActiveStatSheet(baseStats.GetActiveStatSheet());
             CharacterNPCSwapper worldNPC = character.GetComponent<CharacterNPCSwapper>();

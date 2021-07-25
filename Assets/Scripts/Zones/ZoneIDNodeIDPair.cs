@@ -1,11 +1,14 @@
-public struct ZoneIDNodeIDPair
+namespace Frankie.ZoneManagement
 {
-    public ZoneIDNodeIDPair(string zoneID, string nodeID)
+    public struct ZoneIDNodeIDPair
     {
-        this.zoneID = zoneID;
-        this.nodeID = nodeID;
-    }
+        public ZoneIDNodeIDPair(string zoneID, string nodeID)
+        {
+            this.zoneID = zoneID;
+            this.nodeID = nodeID;
+        }
 
-    public string zoneID;
-    public string nodeID;
+        public string zoneID;
+        public string nodeID;
+    }
 }
