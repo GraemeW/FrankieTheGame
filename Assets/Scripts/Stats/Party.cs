@@ -118,6 +118,19 @@ namespace Frankie.Stats
             return false;
         }
 
+        public CombatParticipant GetMember(string member)
+        {
+            foreach (CombatParticipant combatParticipant in party)
+            {
+                string characterName = combatParticipant.GetBaseStats().GetCharacterProperties().name;
+                if (characterName == member)
+                {
+                    return combatParticipant;
+                }
+            }
+            return null;
+        }
+
         public CombatParticipant GetNextMember(CombatParticipant currentMember, bool traverseForward)
         {
             CombatParticipant nextMember = null;

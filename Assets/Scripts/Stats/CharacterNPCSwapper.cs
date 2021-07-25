@@ -9,13 +9,32 @@ namespace Frankie.Stats
     public class CharacterNPCSwapper : MonoBehaviour
     {
         // Cached References
+
         BaseStats baseStats = null;
         CombatParticipant combatParticipant = null;
+        Party party = null;
 
         private void Awake()
         {
             baseStats = GetComponent<BaseStats>();
             combatParticipant = GetComponent<CombatParticipant>();
+            party = GameObject.FindGameObjectWithTag("Player").GetComponent<Party>();
+        }
+
+        private void Start()
+        {
+            DeleteNPCIfInParty();
+        }
+
+        private void DeleteNPCIfInParty()
+        {
+            string characterName = baseStats.GetCharacterProperties().name;
+            CombatParticipant characterInParty = party.GetMember(characterName);
+
+            if (characterInParty != null && characterInParty != combatParticipant)
+            {
+                Destroy(gameObject);
+            }
         }
 
         public static GameObject SpawnCharacter(string characterName, Transform partyTransform)

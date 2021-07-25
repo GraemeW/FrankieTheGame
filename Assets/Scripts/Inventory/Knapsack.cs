@@ -42,6 +42,11 @@ namespace Frankie.Inventory
         }
 
         #region PublicFunctions
+        public ActiveInventoryItem[] GetSlots()
+        {
+            return slots;
+        }
+        
         public int GetSize()
         {
             return slots.Length;
@@ -222,7 +227,7 @@ namespace Frankie.Inventory
 
             // Add item to destination
             destinationKnapsack.AddItemToSlot(sourceItem, destinationSlot, false);
-            slots[destinationSlot].SetEquipped(preserveSourceEquippedState);
+            destinationKnapsack.GetSlots()[destinationSlot].SetEquipped(preserveSourceEquippedState);
 
             // Complete swap if swapping
             if (swapItem != null)
