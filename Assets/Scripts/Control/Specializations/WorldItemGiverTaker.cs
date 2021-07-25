@@ -22,7 +22,7 @@ namespace Frankie.Control.Specialization
             foreach (CombatParticipant character in party.GetParty())
             {
                 Knapsack knapsack = character.GetKnapsack();
-                if (knapsack.AddToFirstEmptySlot(inventoryItem))
+                if (knapsack.AddToFirstEmptySlot(inventoryItem, true))
                 {
                     playerStateHandler.OpenSimpleDialogue(string.Format(messageFoundItem, character.GetCombatName(), inventoryItem.GetDisplayName()));
                     return;

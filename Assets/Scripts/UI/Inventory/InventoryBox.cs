@@ -328,9 +328,9 @@ namespace Frankie.Inventory.UI
         #region KnapsackBehaviour
         protected virtual void RefreshKnapsackContents()
         {
-            CleanUpOldKnapsack();
-            SetSelectedKnapsack(selectedCharacter.GetComponent<Knapsack>());
+            if (!CleanUpOldKnapsack()) { return; } // Error handling for message received during deconstruction
 
+            SetSelectedKnapsack(selectedCharacter.GetComponent<Knapsack>());
             for (int i = 0; i < selectedKnapsack.GetSize(); i++)
             {
                 InventoryItemField inventoryItemField = null;
@@ -350,11 +350,14 @@ namespace Frankie.Inventory.UI
             }
         }
 
-        protected void CleanUpOldKnapsack()
+        protected bool CleanUpOldKnapsack()
         {
+            if (leftItemContainer == null || rightItemContainer == null) { return false; } // Error handling for message received during deconstruction
+
             inventoryItemChoiceOptions.Clear();
             foreach (Transform child in leftItemContainer) { Destroy(child.gameObject); }
             foreach (Transform child in rightItemContainer) { Destroy(child.gameObject); }
+            return true;
         }
 
         private void SetSelectedKnapsack(Knapsack knapsack)

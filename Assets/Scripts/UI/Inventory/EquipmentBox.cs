@@ -128,7 +128,7 @@ namespace Frankie.Inventory.UI
             MoveCursor(PlayerInputType.NavigateRight);
         }
 
-        private void HandleEquipmentUpdated(EquipLocation equipLocation, EquipableItem equipableItem)
+        private void HandleEquipmentUpdated(EquipableItem equipableItem)
         {
             ResetEquipmentBox(false);
         }
@@ -378,7 +378,7 @@ namespace Frankie.Inventory.UI
             if (selectedEquipment == null) { return; }
 
             EquipLocation equipLocation = (EquipLocation)selector;
-            selectedEquipment.AddSwapOrRemoveItem(equipLocation, null);
+            selectedEquipment.RemoveEquipment(equipLocation, true);
         }
 
         private void SpawnNoValidItemsMessage()
@@ -409,7 +409,7 @@ namespace Frankie.Inventory.UI
         {
             if (confirm)
             {
-                selectedEquipment.AddSwapOrRemoveItem(selectedEquipLocation, selectedItem, selectedCharacter.GetKnapsack());
+                selectedEquipment.AddEquipment(selectedItem, true);
             }
             else
             {

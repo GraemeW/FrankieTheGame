@@ -17,7 +17,7 @@ namespace Frankie.Inventory
         Knapsack knapsack;
 
         // Events
-        public event Action<EquipLocation, EquipableItem> equipmentUpdated;
+        public event Action<EquipableItem> equipmentUpdated;
 
         private void Awake()
         {
@@ -26,25 +26,10 @@ namespace Frankie.Inventory
 
         private void Start()
         {
-            ReconcileEquipment();
+            ReconcileEquipment(true);
         }
 
-        private void ReconcileEquipment()
-        {
-            foreach (EquipLocation equipLocation in Enum.GetValues(typeof(EquipLocation)))
-            {
-                if (equipLocation == EquipLocation.None) { continue; }
-
-                if (equippedItems.ContainsKey(equipLocation))
-                {
-                    if (!knapsack.HasItem(equippedItems[equipLocation]))
-                    {
-                        RemoveItem(equipLocation);
-                    }
-                }
-            }
-        }
-
+        #region CheckEquipment
         public bool HasItemInSlot(EquipLocation equipLocation)
         {
             return equippedItems.ContainsKey(equipLocation);
@@ -55,6 +40,11 @@ namespace Frankie.Inventory
             if (!equippedItems.ContainsKey(equipLocation)) { return null; }
 
             return equippedItems[equipLocation];
+        }
+
+        public IEnumerable<EquipLocation> GetAllPopulatedSlots()
+        {
+            return equippedItems.Keys;
         }
 
         public Dictionary<Stat, float> CompareEquipableItem(EquipLocation equipLocation, EquipableItem equipableItem)
@@ -83,51 +73,60 @@ namespace Frankie.Inventory
             }
             return comparisonStatSheet;
         }
+        #endregion
 
-        public bool AddSwapOrRemoveItem(EquipLocation equipLocation, EquipableItem equipableItem, Knapsack knapsack = null)
+        #region ModifyEquipment
+        public bool AddEquipment(EquipableItem equipableItem, bool announceUpdate)
         {
-            if (equipableItem == null)
-            {
-                // Remove
-                if (!equippedItems.ContainsKey(equipLocation)) { return false; }
-                equippedItems.Remove(equipLocation);
-            }
-            else
-            {
-                if (knapsack == null || !knapsack.HasItem(equipableItem)) { return false; }
-                if (equipLocation == EquipLocation.None || equipableItem.GetEquipLocation() != equipLocation) { return false; }
+            if (knapsack == null || !knapsack.HasItem(equipableItem)) { return false; }
+            EquipLocation equipLocation = equipableItem.GetEquipLocation();
 
-                // Swap
-                if (HasItemInSlot(equipLocation))
-                {
-                    RemoveItem(equipLocation);
-                }
-                // & Add
-                AddItem(equipLocation, equipableItem);
-            }
-
-            if (equipmentUpdated != null)
+            // Swap
+            if (HasItemInSlot(equipLocation))
             {
-                equipmentUpdated.Invoke(equipLocation, equipableItem);
+                RemoveEquipment(equipLocation, false);
+            }
+            // Add
+            equippedItems[equipLocation] = equipableItem;
+
+            if (equipmentUpdated != null && announceUpdate)
+            {
+                equipmentUpdated.Invoke(equipableItem);
             }
             return true;
         }
 
-        private void AddItem(EquipLocation equipLocation, EquipableItem equipableItem)
-        {
-            equippedItems[equipLocation] = equipableItem;
-        }
-
-        private void RemoveItem(EquipLocation equipLocation)
+        public void RemoveEquipment(EquipLocation equipLocation, bool announceUpdate)
         {
             equippedItems.Remove(equipLocation);
+
+            if (equipmentUpdated != null && announceUpdate)
+            {
+                equipmentUpdated.Invoke(null);
+            }
         }
 
-        public IEnumerable<EquipLocation> GetAllPopulatedSlots()
+        public void ReconcileEquipment(bool announceUpdate)
         {
-            return equippedItems.Keys;
-        }
+            foreach (EquipLocation equipLocation in Enum.GetValues(typeof(EquipLocation)))
+            {
+                if (equipLocation == EquipLocation.None) { continue; }
 
+                if (equippedItems.ContainsKey(equipLocation))
+                {
+                    if (!knapsack.HasItem(equippedItems[equipLocation]))
+                    {
+                        RemoveEquipment(equipLocation, false);
+                    }
+                }
+            }
+
+            if (equipmentUpdated != null && announceUpdate)
+            {
+                equipmentUpdated.Invoke(null);
+            }
+        }
+        #endregion
 
         #region Interfaces
         public IEnumerable<float> GetAdditiveModifiers(Stat stat)

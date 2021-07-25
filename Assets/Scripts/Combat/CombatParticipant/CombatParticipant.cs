@@ -445,7 +445,7 @@ namespace Frankie.Combat
             characterLevelUp.Invoke(this, level, statNameValuePairs);
         }
 
-        private void ReconcileHPAP(EquipLocation equipLocation, EquipableItem equipableItem)
+        private void ReconcileHPAP(EquipableItem equipableItem)
         {
             if (currentHP.value > baseStats.GetStat(Stat.HP))
             {
