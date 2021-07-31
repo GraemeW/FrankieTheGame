@@ -50,13 +50,13 @@ namespace Frankie.Combat.UI
         protected override void OnEnable()
         {
             base.OnEnable();
-            if (battleController != null) { GetComponent<Button>().onClick.AddListener(delegate { battleController.SetSelectedCharacter(GetCombatParticipant()); }); }
+            if (battleController != null) { button.onClick.AddListener(delegate { battleController.SetSelectedCharacter(GetCombatParticipant()); }); }
         }
 
         protected override void OnDisable()
         {
             base.OnDisable();
-            GetComponent<Button>().onClick.RemoveAllListeners();
+            button.onClick.RemoveAllListeners();
         }
 
         public override void SetCombatParticipant(CombatParticipant combatParticipant)

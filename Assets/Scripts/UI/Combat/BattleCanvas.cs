@@ -187,7 +187,6 @@ namespace Frankie.Combat.UI
                 enemySlides.Add(enemySlide);
                 combatLog.AddCombatListener(enemy);
             }
-            skillSelection.SetEnemySlides(enemySlides);
         }
 
         private void SetupBackgroundFill(List<CombatParticipant> enemies)

@@ -32,12 +32,12 @@ namespace Frankie.Combat.UI
             }
             else if (stateAlteredData.stateAlteredType == StateAlteredType.Dead)
             {
-                GetComponent<Button>().enabled = false;
+                button.enabled = false;
                 GetComponent<Image>().CrossFadeAlpha(0f, deathFadeTime, false);
             }
             else if (stateAlteredData.stateAlteredType == StateAlteredType.Resurrected)
             {
-                GetComponent<Button>().enabled = true;
+                button.enabled = true;
                 GetComponent<Image>().CrossFadeAlpha(1f, deathFadeTime, false);
             }
         }

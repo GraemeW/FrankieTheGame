@@ -36,33 +36,12 @@ namespace Frankie.Combat.UI
             Setup(CombatParticipantType.Character, battleController.GetSelectedCharacter());
             battleController.selectedCombatParticipantChanged += Setup;
             battleController.battleInput += HandleInput;
-            SetupEnemySlideButtons(true);
         }
 
         private void OnDisable()
         {
             battleController.selectedCombatParticipantChanged -= Setup;
             battleController.battleInput -= HandleInput;
-            SetupEnemySlideButtons(false);
-        }
-
-        private void SetupEnemySlideButtons(bool enable) // for button clicks (mouse)
-        {
-            if (enemySlides == null) { return; }
-            foreach (EnemySlide enemySlide in enemySlides)
-            {
-                enemySlide.GetComponent<Button>().onClick.RemoveAllListeners();
-                if (enable)
-                {
-                    enemySlide.GetComponent<Button>().onClick.AddListener(delegate { ExecuteSkill(enemySlide.GetCombatParticipant()); });
-                }
-            }
-        }
-
-        public void SetEnemySlides(List<EnemySlide> enemySlides)
-        {
-            this.enemySlides = enemySlides;
-            if (gameObject.activeSelf) { SetupEnemySlideButtons(true); }
         }
 
         private void Setup(CombatParticipantType combatParticipantType, CombatParticipant combatParticipant)
@@ -118,10 +97,6 @@ namespace Frankie.Combat.UI
             {
                 if (SetBranchOrSkill(input)) { return; }
             }
-            else
-            {
-                if (CheckForSkillExecution(input)) { return; }
-            }
         }
 
         public void HandleInput(int input) // PUBLIC:  Called via unity events for button clicks (mouse)
@@ -147,24 +122,6 @@ namespace Frankie.Combat.UI
                 UpdateSkills(skillHandler);
             }
             return validInput;
-        }
-
-        private bool CheckForSkillExecution(PlayerInputType input)
-        {
-            if (input == PlayerInputType.Execute)
-            {
-                canvasGroup.alpha = 0;
-                return true;
-            }
-            return false;
-        }
-
-        private void ExecuteSkill(CombatParticipant recipient)
-        {
-            if (battleController.AddToBattleQueue(recipient))
-            {
-                canvasGroup.alpha = 0;
-            }
         }
     }
 }

@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.UI;
 
 namespace Frankie.Combat.UI
@@ -24,6 +25,7 @@ namespace Frankie.Combat.UI
 
         // Cached References
         protected BattleController battleController = null;
+        protected Button button = null;
 
         private void Awake()
         {
@@ -32,6 +34,9 @@ namespace Frankie.Combat.UI
             {
                 battleController = battleControllerGameObject.GetComponent<BattleController>();
             }
+
+            button = GetComponent<Button>();
+            button.onClick.AddListener(delegate { TryAddBattleQueue(); });
         }
 
         protected virtual void OnEnable()
@@ -40,7 +45,10 @@ namespace Frankie.Combat.UI
             {
                 combatParticipant.stateAltered += ParseState;
             }
-            if (battleController != null) { battleController.selectedCombatParticipantChanged += HighlightSlide; }
+            if (battleController != null)
+            {
+                battleController.selectedCombatParticipantChanged += HighlightSlide;
+            }
         }
 
         protected virtual void OnDisable()
@@ -49,7 +57,10 @@ namespace Frankie.Combat.UI
             {
                 combatParticipant.stateAltered -= ParseState;
             }
-            if (battleController != null) { battleController.selectedCombatParticipantChanged -= HighlightSlide; }
+            if (battleController != null)
+            {
+                battleController.selectedCombatParticipantChanged -= HighlightSlide;
+            }
         }
 
         private void FixedUpdate()
@@ -66,7 +77,7 @@ namespace Frankie.Combat.UI
                 SetTargetShakeRotation();
                 currentShakeTimeStep = 0f;
             }
-            gameObject.transform.rotation = Quaternion.Euler(0f,0f, Mathf.Lerp(lastRotationTarget, currentRotationTarget, currentShakeTimeStep / (shakeDuration / shakeCount)));
+            gameObject.transform.rotation = Quaternion.Euler(0f, 0f, Mathf.Lerp(lastRotationTarget, currentRotationTarget, currentShakeTimeStep / (shakeDuration / shakeCount)));
 
             currentShakeTimeStep += Time.deltaTime;
             currentShakeTime += Time.deltaTime;
@@ -115,6 +126,13 @@ namespace Frankie.Combat.UI
             if (strongShakeEnable) { currentShakeMagnitude *= criticalDamageShakeMultiplier; }
             SetTargetShakeRotation();
             currentShakeTime = 0f;
+        }
+
+        private void TryAddBattleQueue()
+        {
+            if (battleController == null || !battleController.IsBattleActionArmed()) { return; }
+
+            battleController.AddToBattleQueue(combatParticipant);
         }
 
         protected virtual void SetSelected(CombatParticipantType combatParticipantType, bool enable)

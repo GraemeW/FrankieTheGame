@@ -27,10 +27,10 @@ namespace Frankie.Combat
 
         List<CombatParticipant> activeCharacters = new List<CombatParticipant>();
         List<CombatParticipant> activeEnemies = new List<CombatParticipant>();
-        [SerializeField] CombatParticipant selectedCharacter = null; // Serialized for Debug
-        [SerializeField] BattleAction selectedBattleAction = BattleAction.None;
-        [SerializeField] bool battleActionArmed = false;
-        [SerializeField] CombatParticipant selectedTarget = null;
+        CombatParticipant selectedCharacter = null;
+        BattleAction selectedBattleAction = BattleAction.None;
+        bool battleActionArmed = false;
+        CombatParticipant selectedTarget = null;
 
         Queue<BattleSequence> battleSequenceQueue = new Queue<BattleSequence>();
         bool haltBattleQueue = false;
@@ -40,11 +40,11 @@ namespace Frankie.Combat
         Party party = null;
 
         // Events
+        public event Action<PlayerInputType> battleInput;
+        public event Action<PlayerInputType> globalInput;
         public event Action<BattleState> battleStateChanged;
         public event Action<CombatParticipantType, CombatParticipant> selectedCombatParticipantChanged;
         public event Action<BattleAction> battleActionArmedStateChanged;
-        public event Action<PlayerInputType> battleInput;
-        public event Action<PlayerInputType> globalInput;
         public event Action<BattleSequence> battleSequenceProcessed;
 
         // Interaction
@@ -66,11 +66,31 @@ namespace Frankie.Combat
         private void OnEnable()
         {
             playerInput.Menu.Enable();
+            SubscribeToCharacters(true);
         }
 
         private void OnDisable()
         {
             playerInput.Menu.Disable();
+            SubscribeToCharacters(false);
+        }
+
+        private void SubscribeToCharacters(bool enable)
+        {
+            if (enable)
+            {
+                foreach (CombatParticipant character in activeCharacters)
+                {
+                    character.stateAltered += HandleCharacterDeath;
+                }
+            }
+            else
+            {
+                foreach (CombatParticipant character in activeCharacters)
+                {
+                    character.stateAltered -= HandleCharacterDeath;
+                }
+            }
         }
 
         private void ParseDirectionalInput(Vector2 directionalInput)
@@ -242,6 +262,8 @@ namespace Frankie.Combat
                 character.stateAltered += CheckForBattleEnd;
                 activeCharacters.Add(character);
             }
+            if (gameObject.activeSelf) { SubscribeToCharacters(true); }
+
             foreach (CombatParticipant enemy in enemies)
             {
                 if (transitionType == TransitionType.BattleBad)
@@ -299,7 +321,9 @@ namespace Frankie.Combat
 
         public bool SetSelectedCharacter(CombatParticipant character)
         {
-            if (character == null) { SetActiveBattleAction(BattleAction.None); }
+            if (character == null) { 
+                SetActiveBattleAction(BattleAction.None); 
+            }
             if (character != null) { if (character.IsDead() || character.IsInCooldown()) { return false; } }
 
             selectedCharacter = character;
@@ -366,7 +390,7 @@ namespace Frankie.Combat
             // Called via SkillSelection UI Buttons
             // Using selected character and battle action
             if (GetSelectedCharacter() == null || selectedBattleAction.battleActionType == BattleActionType.None) { return false; }
-            
+
             AddToBattleQueue(GetSelectedCharacter(), recipient, selectedBattleAction);
             return true;
         }
@@ -513,6 +537,21 @@ namespace Frankie.Combat
             }
 
             haltBattleQueue = false;
+        }
+
+        private void HandleCharacterDeath(CombatParticipant combatParticipant, StateAlteredData stateAlteredData)
+        {
+            if (stateAlteredData.stateAlteredType != StateAlteredType.Dead) { return; }
+
+            if (selectedCharacter == combatParticipant)
+            {
+                SetSelectedTarget(null); SetActiveBattleAction(BattleAction.None); SetSelectedCharacter(null);
+            }
+
+            if (selectedTarget == combatParticipant)
+            {
+                SetSelectedTarget(null);
+            }
         }
 
         private void CheckForBattleEnd(CombatParticipant combatParticipant, StateAlteredData stateAlteredData)
