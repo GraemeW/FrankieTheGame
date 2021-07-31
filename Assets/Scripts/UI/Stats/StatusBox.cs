@@ -40,15 +40,22 @@ namespace Frankie.Stats.UI
                 DialogueChoiceOption dialogueChoiceOption = characterFieldObject.GetComponent<DialogueChoiceOption>();
                 dialogueChoiceOption.SetChoiceOrder(choiceIndex);
                 dialogueChoiceOption.SetText(character.GetCombatName());
-                characterFieldObject.GetComponent<Button>().onClick.AddListener(delegate { Choose(character); });
+                characterFieldObject.GetComponent<Button>().onClick.AddListener(delegate { ChooseCharacter(character); });
+                dialogueChoiceOption.AddOnHighlightListener(delegate { SoftChooseCharacter(character); });
 
-                if (choiceIndex == 0) { Choose(character); }
+                if (choiceIndex == 0) { SoftChooseCharacter(character); }
                 choiceIndex++;
             }
             SetUpChoiceOptions();
         }
 
-        private void Choose(CombatParticipant character)
+        private void ChooseCharacter(CombatParticipant character)
+        {
+            // No actions currently available in character choice
+            // TODO:  Implement pop-up to remove character from party
+        }
+
+        private void SoftChooseCharacter(CombatParticipant character)
         {
             if (character != selectedCharacter)
             {

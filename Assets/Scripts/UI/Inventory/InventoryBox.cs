@@ -53,8 +53,6 @@ namespace Frankie.Inventory.UI
         Party party = null;
         List<CharacterSlide> characterSlides = null;
 
-        // Optional Cached References
-
         // Events
         public event Action<Enum> uiBoxStateChanged;
         public event Action<CombatParticipantType, CombatParticipant> targetCharacterChanged;
