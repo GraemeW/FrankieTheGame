@@ -155,23 +155,47 @@ namespace Frankie.Combat.UI
         private void UpdateHP(float hitPoints)
         {
             BreakApartNumber(hitPoints, out int hundreds, out int tens, out int ones);
-            if (hundreds > 0) { currentHPHundreds.text = hundreds.ToString(); }
-                else { currentHPHundreds.text = ""; }
-            if (tens > 0) { currentHPTens.text = tens.ToString(); }
-                else { currentHPTens.text = ""; }
-            if (ones > 0) { currentHPOnes.text = ones.ToString(); }
-                else { currentHPOnes.text = "0"; }
+            if (hundreds > 0)
+            { 
+                currentHPHundreds.text = hundreds.ToString();
+                currentHPTens.text = tens.ToString();
+                currentHPOnes.text = ones.ToString();
+            }
+            else if (tens > 0)
+            {
+                currentHPHundreds.text = "";
+                currentHPTens.text = tens.ToString();
+                currentHPOnes.text = ones.ToString();
+            }
+            else
+            {
+                currentHPHundreds.text = "";
+                currentHPTens.text = "";
+                currentHPOnes.text = ones.ToString();
+            }
         }
 
         private void UpdateAP(float actionPoints)
         {
             BreakApartNumber(actionPoints, out int hundreds, out int tens, out int ones);
-            if (hundreds > 0) { currentAPHundreds.text = hundreds.ToString(); }
-            else { currentAPHundreds.text = ""; }
-            if (tens > 0) { currentAPTens.text = tens.ToString(); }
-            else { currentAPTens.text = ""; }
-            if (ones > 0) { currentAPOnes.text = ones.ToString(); }
-            else { currentAPOnes.text = "0"; }
+            if (hundreds > 0)
+            {
+                currentAPHundreds.text = hundreds.ToString();
+                currentAPTens.text = tens.ToString();
+                currentAPOnes.text = ones.ToString();
+            }
+            else if (tens > 0)
+            {
+                currentAPHundreds.text = "";
+                currentAPTens.text = tens.ToString();
+                currentAPOnes.text = ones.ToString();
+            }
+            else
+            {
+                currentAPHundreds.text = "";
+                currentAPTens.text = "";
+                currentAPOnes.text = ones.ToString();
+            }
         }
     }
 }

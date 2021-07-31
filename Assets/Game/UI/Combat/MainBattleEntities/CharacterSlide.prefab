@@ -461,6 +461,8 @@ MonoBehaviour:
   selectedCharacterFrameColor: {r: 0.4444464, g: 0.8207547, b: 0.4444464, a: 1}
   cooldownCharacterFrameColor: {r: 0.745283, g: 0.745283, b: 0.745283, a: 1}
   targetedCharacterFrameColor: {r: 0.4440726, g: 0.6320765, b: 0.9339623, a: 1}
+  slideState: 0
+  lastSlideState: 0
 --- !u!114 &6213697876024694788
 MonoBehaviour:
   m_ObjectHideFlags: 0

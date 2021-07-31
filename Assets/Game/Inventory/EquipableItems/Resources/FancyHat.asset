@@ -15,11 +15,12 @@ MonoBehaviour:
   itemID: 079a8a43-db4c-4475-be28-5df63192d8dc
   displayName: Zigzag Hat
   description: Allo?
+  droppable: 1
   equipLocation: 4
   baseStatModifiers:
   - stat: 0
-    minValue: 50
-    maxValue: 50
+    minValue: 70
+    maxValue: 70
     permanent: 0
     duration: 0
   statusEffects: []
