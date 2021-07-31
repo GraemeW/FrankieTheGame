@@ -57,6 +57,3 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   deleteSaveFileOnStart: 0
-  saveKey: 112
-  loadKey: 108
-  deleteKey: 127

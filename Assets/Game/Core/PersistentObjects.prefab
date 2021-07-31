@@ -135,7 +135,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1441898276565267754, guid: 73751a98285a444428dfaf8378528e09, type: 3}
       propertyPath: m_Name
-      value: Saving
+      value: Saver
+      objectReference: {fileID: 0}
+    - target: {fileID: 1441898276565267754, guid: 73751a98285a444428dfaf8378528e09, type: 3}
+      propertyPath: m_TagString
+      value: Saver
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 73751a98285a444428dfaf8378528e09, type: 3}

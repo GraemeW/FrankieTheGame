@@ -10,6 +10,7 @@ TagManager:
   - WorldCanvas
   - SceneLoader
   - World
+  - Saver
   layers:
   - Default
   - TransparentFX

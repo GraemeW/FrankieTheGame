@@ -57,7 +57,7 @@ namespace Frankie.Core
             GetComponent<SavingSystem>().LoadWithinScene(defaultSessionFile);
         }
 
-        private void Load()
+        public void Load()
         {
             StartCoroutine(LoadFromSave(defaultSaveFile));
         }

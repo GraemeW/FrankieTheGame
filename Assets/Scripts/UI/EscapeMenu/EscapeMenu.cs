@@ -5,6 +5,7 @@ using Frankie.Control;
 using UnityEngine.UI;
 using Frankie.Core;
 using Frankie.Stats;
+using System;
 
 namespace Frankie.Speech.UI
 {
@@ -18,6 +19,9 @@ namespace Frankie.Speech.UI
         PlayerController playerController = null;
         WorldCanvas worldCanvas = null;
         GameObject childOption = null;
+
+        // Events
+        public event Action escapeMenuItemSelected;
 
         protected override void Awake()
         {
@@ -57,9 +61,16 @@ namespace Frankie.Speech.UI
 
         public void OpenOptionsMenu() // Called via Unity Events
         {
+            // Frontload event calling -- despawns any open windows
+            if (escapeMenuItemSelected != null)
+            {
+                escapeMenuItemSelected.Invoke();
+            }
+
             handleGlobalInput = false;
             GameObject childOption = Instantiate(optionsMenuPrefab, worldCanvas.gameObject.transform);
             OptionsMenu optionsMenu = childOption.GetComponent<OptionsMenu>();
+            optionsMenu.Setup(this);
             optionsMenu.SetGlobalCallbacks(playerController);
             optionsMenu.SetDisableCallback(this, DIALOGUE_CALLBACK_ENABLE_INPUT);
         }

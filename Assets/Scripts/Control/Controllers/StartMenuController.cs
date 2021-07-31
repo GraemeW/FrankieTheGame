@@ -2,6 +2,7 @@ using Frankie.ZoneManagement;
 using Frankie.Speech.UI;
 using System;
 using UnityEngine;
+using Frankie.Core;
 
 namespace Frankie.Control
 {
@@ -15,6 +16,7 @@ namespace Frankie.Control
         // Cached References
         SceneLoader sceneLoader = null;
         PlayerInput playerInput = null;
+        SavingWrapper savingWrapper = null;
 
         // Events
         public event Action<PlayerInputType> globalInput;
@@ -26,7 +28,6 @@ namespace Frankie.Control
             playerInput.Menu.Execute.performed += context => HandleUserInput(PlayerInputType.Execute);
             playerInput.Menu.Cancel.performed += context => HandleUserInput(PlayerInputType.Cancel);
         }
-
         private void OnEnable()
         {
             playerInput.Menu.Enable();
@@ -39,8 +40,9 @@ namespace Frankie.Control
 
         private void Start()
         {
+            // SceneLoader & saver are persistent objects, thus can only be found after Awake -- so find in Start
             sceneLoader = GameObject.FindGameObjectWithTag("SceneLoader").GetComponent<SceneLoader>();
-            // SceneLoader is a persistent object, thus can only be found after Awake -- so find in Start
+            savingWrapper = GameObject.FindGameObjectWithTag("Saver").GetComponent<SavingWrapper>();
         }
 
         private void ParseDirectionalInput(Vector2 directionalInput)
@@ -60,6 +62,11 @@ namespace Frankie.Control
         public void NewGame()
         {
             sceneLoader.QueueNewGame();
+        }
+
+        public void LoadGame()
+        {
+            savingWrapper.Load();
         }
 
         public void LoadOptions()

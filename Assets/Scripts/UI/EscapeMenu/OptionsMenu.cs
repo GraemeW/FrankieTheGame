@@ -20,6 +20,7 @@ namespace Frankie.Speech.UI
 
         // Cached References
         BackgroundMusic backgroundMusic = null;
+        EscapeMenu escapeMenu = null;
 
         protected override void Start()
         {
@@ -27,6 +28,37 @@ namespace Frankie.Speech.UI
 
             backgroundMusic = FindObjectOfType<BackgroundMusic>();
             // find in Start since persistent object, spawned during Awake
+        }
+
+        public void Setup(EscapeMenu escapeMenu)
+        {
+            this.escapeMenu = escapeMenu;
+            if (gameObject.activeSelf) { SubscribeToEscapeMenu(true); }
+        }
+
+        protected override void OnEnable()
+        {
+            base.OnEnable();
+            SubscribeToEscapeMenu(true);
+        }
+
+        protected override void OnDisable()
+        {
+            base.OnDisable();
+            SubscribeToEscapeMenu(false);
+        }
+
+        private void SubscribeToEscapeMenu(bool enable)
+        {
+            if (escapeMenu == null) { return; }
+            if (enable)
+            {
+                escapeMenu.escapeMenuItemSelected += Cancel;
+            }
+            else
+            {
+                escapeMenu.escapeMenuItemSelected -= Cancel;
+            }
         }
 
         private void InitializeSoundEffectsSliders()
