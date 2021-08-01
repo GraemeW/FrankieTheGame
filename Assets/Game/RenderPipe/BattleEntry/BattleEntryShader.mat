@@ -36,6 +36,6 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Floats:
-    - _Phase: 4.06
+    - _Phase: 5.323731
     m_Colors: []
   m_BuildTextureStacks: []

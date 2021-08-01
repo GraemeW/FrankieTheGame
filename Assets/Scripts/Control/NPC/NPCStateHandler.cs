@@ -18,6 +18,8 @@ namespace Frankie.Control
         [Tooltip("Include {0} for enemy name")] [SerializeField] string messageCannotFight = "{0} is wounded and cannot fight.";
         [Header("Chase Properties")]
         [SerializeField] bool willChasePlayer = false;
+        [SerializeField] bool disableCollisionEventsWhenDead = false;
+        [SerializeField] bool disableCollisionEventsWhenIdle = true;
         [SerializeField] float chaseDistance = 3.0f;
         [SerializeField] float aggravationTime = 3.0f;
         [SerializeField] float suspicionTime = 3.0f;
@@ -31,6 +33,7 @@ namespace Frankie.Control
         // Cached References
         BaseStats baseStats = null;
         NPCMover npcMover = null;
+        CombatParticipant combatParticipant = null;
         PlayerStateHandler playerStateHandler = null;
         PlayerController playerController = null;
 
@@ -47,6 +50,7 @@ namespace Frankie.Control
         {
             baseStats = GetComponent<BaseStats>();
             npcMover = GetComponent<NPCMover>();
+            combatParticipant = GetComponent<CombatParticipant>();
 
             GameObject player = GameObject.FindGameObjectWithTag("Player");
             playerStateHandler = player.GetComponent<PlayerStateHandler>();
@@ -84,6 +88,8 @@ namespace Frankie.Control
         private void OnCollisionEnter2D(Collision2D collision)
         {
             if (!collision.gameObject.CompareTag("Player")) { return; }
+            if (disableCollisionEventsWhenDead && combatParticipant.IsDead()) { return; }
+            if (disableCollisionEventsWhenIdle && npcState == NPCState.idle) { return; }
 
             if (collidedWithPlayer != null)
             {
@@ -161,7 +167,7 @@ namespace Frankie.Control
             }
         }
 
-        public void SetChasePlayerDisposition(bool enable)
+        public void SetChasePlayerDisposition(bool enable) // Called via Unity Events
         {
             currentChasePlayerDisposition = enable;
         }

@@ -1900,7 +1900,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8456762765274448979, guid: 04f5506a3c6980342b86a87faa9be780, type: 3}
       propertyPath: collidedWithPlayer.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: InitiateCombat
+      value: InitiateDialogue
       objectReference: {fileID: 0}
     - target: {fileID: 8456762765274448979, guid: 04f5506a3c6980342b86a87faa9be780, type: 3}
       propertyPath: collidedWithPlayer.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
@@ -3608,6 +3608,7 @@ MonoBehaviour:
   itemQuantity: 1
   messageFoundItem: Wow!  Looks like {0} found {1}
   messageInventoryFull: Whoops, looks like everyones' knapsacks are full.
+  messageNothing: Oh, looks like it's NOTHING
 --- !u!114 &1501661386
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4222,6 +4223,7 @@ MonoBehaviour:
   itemQuantity: 2
   messageFoundItem: Wow!  Looks like {0} found {1}
   messageInventoryFull: Whoops, looks like everyones' knapsacks are full.
+  messageNothing: Oh, looks like it's NOTHING
 --- !u!114 &1908581082
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4385,6 +4387,7 @@ MonoBehaviour:
   itemQuantity: 1
   messageFoundItem: Wow!  Looks like {0} found {1}
   messageInventoryFull: Whoops, looks like everyones' knapsacks are full.
+  messageNothing: Oh, looks like it's NOTHING
 --- !u!1001 &2021621754
 PrefabInstance:
   m_ObjectHideFlags: 0
