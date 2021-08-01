@@ -29,8 +29,8 @@ namespace Frankie.Control
         [Tooltip("If this is set, will ONLY aggro those in list")][SerializeField] List<NPCStateHandler> shoutGroup = new List<NPCStateHandler>();
 
         // State
-        [SerializeField] NPCState npcState = NPCState.idle;
-        [SerializeField] bool npcOccupied = false;
+        NPCState npcState = NPCState.idle;
+        bool npcOccupied = false;
         float timeSinceLastSawPlayer = Mathf.Infinity;
         bool currentChasePlayerDisposition = false;
         bool collisionsOverriddenToEnterCombat = false;
