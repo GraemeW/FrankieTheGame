@@ -21,9 +21,6 @@ namespace Frankie.Control
         int currentWaypointIndex = 0;
         float timeSinceArrivedAtWaypoint = Mathf.Infinity;
 
-        // Static
-        string STATIC_TAG_INTERACTABLE = "Interactable";
-
         protected override void Awake()
         {
             base.Awake();

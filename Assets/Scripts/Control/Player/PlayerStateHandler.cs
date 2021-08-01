@@ -5,6 +5,7 @@ using Frankie.Stats;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Collections;
 
 namespace Frankie.Control
 {
@@ -25,6 +26,7 @@ namespace Frankie.Control
         TransitionType transitionType = TransitionType.None;
         BattleController battleController = null;
         DialogueController dialogueController = null;
+        List<CombatParticipant> enemiesInTransition = new List<CombatParticipant>();
 
         // Cached References
         Party party = null;
@@ -80,18 +82,44 @@ namespace Frankie.Control
         {
             if (!party.IsAnyMemberAlive()) { OpenSimpleDialogue(messageCannotFight); return; }
 
-            // TODO:  Concept of 'pre-battle' where enemies can pile on ++ count up list of enemies -> transfer to battle
-            this.transitionType = transitionType;
+            if (GetPlayerState() == PlayerState.inWorld || GetPlayerState() == PlayerState.inDialogue)
+            {
+                SetPlayerState(PlayerState.inTransition);
+                this.transitionType = transitionType;
+                battleController = GetUniqueBattleController();
+                battleController.battleStateChanged += HandleCombatComplete;
 
-            battleController = GetUniqueBattleController();
-            battleController.Setup(enemies, transitionType);
+                enemiesInTransition.Clear();
+                AddToEnemiesInTransition(enemies);
 
+                StartCoroutine(QueueBattleTransition(transitionType));
+            }
+            else if (GetPlayerState() == PlayerState.inTransition)
+            {
+                AddToEnemiesInTransition(enemies);
+            }
+        }
+
+        private IEnumerator QueueBattleTransition(TransitionType transitionType)
+        {
             Fader fader = FindObjectOfType<Fader>();
-            fader.UpdateFadeState(transitionType);
+            if (fader.IsFading() == true) { yield break; }
 
-            battleController.battleStateChanged += HandleCombatComplete;
-
+            yield return fader.QueueFadeEntry(transitionType);
+            battleController.Setup(enemiesInTransition, transitionType);
+            yield return fader.QueueFadeExit(transitionType);
             SetPlayerState(PlayerState.inBattle);
+        }
+
+        private void AddToEnemiesInTransition(List<CombatParticipant> enemies)
+        {
+            foreach (CombatParticipant enemy in enemies)
+            {
+                if (!enemiesInTransition.Contains(enemy))
+                {
+                    enemiesInTransition.Add(enemy);
+                }
+            }
         }
 
         public void HandleCombatComplete(BattleState battleState)
@@ -99,25 +127,25 @@ namespace Frankie.Control
             if (battleState != BattleState.Complete) { return; }
             battleController.battleStateChanged -= HandleCombatComplete;
 
-            Fader fader = FindObjectOfType<Fader>();
-            fader.battleUIStateChanged += ExitCombat;
             transitionType = TransitionType.BattleComplete;
-            fader.UpdateFadeState(transitionType);
+            StartCoroutine(QueueExitCombat());
         }
 
-        public void ExitCombat(bool isBattleCanvasEnabled)
+        private IEnumerator QueueExitCombat()
         {
-            if (!isBattleCanvasEnabled)
-            {
-                // TODO:  Handling for party death
-                FindObjectOfType<Fader>().battleUIStateChanged -= ExitCombat;
-                Destroy(battleController.gameObject);
-                battleController = null;
+            Fader fader = FindObjectOfType<Fader>();
+            if (fader.IsFading() == true) { yield break; }
 
-                if (playerState == PlayerState.inBattle)
-                {
-                    SetPlayerState(PlayerState.inWorld);
-                }
+            yield return fader.QueueFadeEntry(transitionType);
+
+            // TODO:  Handling for party death
+            Destroy(battleController.gameObject);
+            battleController = null;
+
+            yield return fader.QueueFadeExit(transitionType);
+            if (playerState == PlayerState.inBattle)
+            {
+                SetPlayerState(PlayerState.inWorld);
             }
         }
 

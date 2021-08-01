@@ -29,7 +29,8 @@ namespace Frankie.Control
         [Tooltip("If this is set, will ONLY aggro those in list")][SerializeField] List<NPCStateHandler> shoutGroup = new List<NPCStateHandler>();
 
         // State
-        NPCState npcState = NPCState.idle;
+        [SerializeField] NPCState npcState = NPCState.idle;
+        [SerializeField] bool npcOccupied = false;
         float timeSinceLastSawPlayer = Mathf.Infinity;
         bool currentChasePlayerDisposition = false;
 
@@ -81,9 +82,8 @@ namespace Frankie.Control
 
         private void Update()
         {
-            if (!currentChasePlayerDisposition || npcState == NPCState.occupied) { return; }
+            if (!currentChasePlayerDisposition || GetNPCState() == NPCState.occupied) { return; }
 
-            CalmDownForNoTarget();
             CheckForPlayerProximity();
             timeSinceLastSawPlayer += Time.deltaTime;
         }
@@ -92,7 +92,7 @@ namespace Frankie.Control
         {
             if (!collision.gameObject.CompareTag("Player")) { return; }
             if (disableCollisionEventsWhenDead && combatParticipant.IsDead()) { return; }
-            if (disableCollisionEventsWhenIdle && npcState == NPCState.idle) { return; }
+            if (disableCollisionEventsWhenIdle && GetNPCState() == NPCState.idle) { return; }
 
             if (collidedWithPlayer != null)
             {
@@ -126,9 +126,18 @@ namespace Frankie.Control
 
         private void HandlePlayerStateChange(PlayerState playerState)
         {
-            if (playerState == PlayerState.inWorld)
+            if (playerState == PlayerState.inTransition)
             {
-                SetNPCState(NPCState.idle);
+                TransitionType transitionType = playerStateHandler.GetTransitionType();
+                if (transitionType == TransitionType.Zone || transitionType == TransitionType.BattleComplete)
+                {
+                    SetNPCState(NPCState.occupied);
+                }
+                // Non-zone & battle-end transitions, allow enemy movement -- swarm mechanic
+            }
+            else if (playerState == PlayerState.inWorld)
+            {
+                npcOccupied = false;
             }
             else
             {
@@ -148,6 +157,7 @@ namespace Frankie.Control
 
         public NPCState GetNPCState()
         {
+            if (npcOccupied) { return NPCState.occupied; }
             return npcState;
         }
 
@@ -158,10 +168,17 @@ namespace Frankie.Control
 
         public void SetNPCState(NPCState npcState, bool shoutOnAggravation = true)
         {
-            if (this.npcState == npcState) { return; }
+            if (GetNPCState() == npcState) { return; }
 
-            this.npcState = npcState;
-            if (npcState == NPCState.aggravated)
+            // Occupied treated as a pseudo-state to allow for state persistence
+            if (npcState == NPCState.occupied) { npcOccupied = true; }
+            else
+            {
+                npcOccupied = false;
+                this.npcState = npcState;
+            }
+
+            if (GetNPCState() == NPCState.aggravated)
             {
                 if (shoutOnAggravation && shoutDistance > 0f)
                 {
@@ -170,26 +187,13 @@ namespace Frankie.Control
 
                 npcMover.SetMoveTarget(playerController.gameObject);
             }
-            else if (npcState == NPCState.suspicious)
+            else if (GetNPCState() == NPCState.suspicious)
             {
                 npcMover.ClearMoveTargets();
             }
-            else if (npcState == NPCState.idle)
+            else if (GetNPCState() == NPCState.idle)
             {
                 npcMover.MoveToOriginalPosition();
-            }
-        }
-
-        public void SetChasePlayerDisposition(bool enable) // Called via Unity Events
-        {
-            currentChasePlayerDisposition = enable;
-        }
-
-        private void CalmDownForNoTarget()
-        {
-            if (GetNPCState() == NPCState.aggravated && !npcMover.HasMoveTarget())
-            {
-                SetNPCState(NPCState.idle);
             }
         }
 
@@ -203,6 +207,7 @@ namespace Frankie.Control
                     if (!npcInRange.IsShoutable()) { continue; }
                     if (shoutGroup.Count == 0 || shoutGroup.Contains(npcInRange))
                     {
+                        npcInRange.SetChasePlayerDisposition(true);
                         npcInRange.SetNPCState(NPCState.aggravated, false); // Do not chain shouts (shout on aggravation set to false)
                     }
                 }
@@ -229,7 +234,18 @@ namespace Frankie.Control
                 SetNPCState(NPCState.idle);
             }
 
+            // Reset player target if already aggravated (avoid loss of target)
+            if (GetNPCState() == NPCState.aggravated && !npcMover.HasMoveTarget())
+            {
+                npcMover.SetMoveTarget(playerController.gameObject);
+            }
+
             timeSinceLastSawPlayer += Time.deltaTime;
+        }
+
+        public void SetChasePlayerDisposition(bool enable) // Called via Unity Events
+        {
+            currentChasePlayerDisposition = enable;
         }
 
         public void InitiateCombat(PlayerStateHandler playerStateHandler)  // called via Unity Event
@@ -252,7 +268,6 @@ namespace Frankie.Control
             {
                 List<CombatParticipant> enemies = new List<CombatParticipant>();
                 enemies.Add(enemy);
-                // TODO:  Implement pile-on / swarm system;
                 playerStateHandler.EnterCombat(enemies, transitionType);
             }
         }
