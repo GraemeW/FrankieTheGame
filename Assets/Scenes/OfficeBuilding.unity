@@ -1895,6 +1895,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 647656754}
     - target: {fileID: 8456762765274448979, guid: 04f5506a3c6980342b86a87faa9be780, type: 3}
+      propertyPath: disableCollisionEventsWhenDead
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8456762765274448979, guid: 04f5506a3c6980342b86a87faa9be780, type: 3}
       propertyPath: collidedWithPlayer.m_PersistentCalls.m_Calls.Array.size
       value: 1
       objectReference: {fileID: 0}

@@ -203,10 +203,16 @@ MonoBehaviour:
   defaultName: 
   messageCannotFight: '{0} is wounded and cannot fight.'
   willChasePlayer: 0
+  disableCollisionEventsWhenDead: 1
+  disableCollisionEventsWhenIdle: 1
   chaseDistance: 3
   aggravationTime: 3
   suspicionTime: 3
+  canBeShoutedAt: 1
   shoutDistance: 2
+  shoutGroup: []
+  npcState: 0
+  npcOccupied: 0
   collidedWithPlayer:
     m_PersistentCalls:
       m_Calls: []

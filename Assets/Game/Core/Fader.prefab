@@ -349,7 +349,7 @@ MonoBehaviour:
   badBattleEntry: {fileID: 8906313726304546477}
   neutralBattleEntry: {fileID: 6952958116490533682}
   battleComplete: {fileID: 8453829634185128961}
-  fadeInTimer: 2
+  fadeInTimer: 3.5
   fadeOutTimer: 1
   zoneFadeTimerMultiplier: 0.25
 --- !u!1 &6569745041582779776

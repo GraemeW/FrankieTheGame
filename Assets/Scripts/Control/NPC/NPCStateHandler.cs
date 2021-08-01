@@ -18,7 +18,7 @@ namespace Frankie.Control
         [Tooltip("Include {0} for enemy name")] [SerializeField] string messageCannotFight = "{0} is wounded and cannot fight.";
         [Header("Chase Properties")]
         [SerializeField] bool willChasePlayer = false;
-        [SerializeField] bool disableCollisionEventsWhenDead = false;
+        [SerializeField] bool disableCollisionEventsWhenDead = true;
         [SerializeField] bool disableCollisionEventsWhenIdle = true;
         [SerializeField] float chaseDistance = 3.0f;
         [SerializeField] float aggravationTime = 3.0f;
@@ -33,6 +33,7 @@ namespace Frankie.Control
         [SerializeField] bool npcOccupied = false;
         float timeSinceLastSawPlayer = Mathf.Infinity;
         bool currentChasePlayerDisposition = false;
+        bool collisionsOverriddenToEnterCombat = false;
 
         // Cached References
         BaseStats baseStats = null;
@@ -94,7 +95,12 @@ namespace Frankie.Control
             if (disableCollisionEventsWhenDead && combatParticipant.IsDead()) { return; }
             if (disableCollisionEventsWhenIdle && GetNPCState() == NPCState.idle) { return; }
 
-            if (collidedWithPlayer != null)
+            if (collisionsOverriddenToEnterCombat)
+            {
+                TransitionType battleEntryType = GetBattleEntryType(collision);
+                InitiateCombat(playerStateHandler, battleEntryType);
+            }
+            else if (collidedWithPlayer != null)
             {
                 TransitionType battleEntryType = GetBattleEntryType(collision);
                 collidedWithPlayer.Invoke(playerStateHandler, battleEntryType);
@@ -129,9 +135,14 @@ namespace Frankie.Control
             if (playerState == PlayerState.inTransition)
             {
                 TransitionType transitionType = playerStateHandler.GetTransitionType();
-                if (transitionType == TransitionType.Zone || transitionType == TransitionType.BattleComplete)
+                if (transitionType == TransitionType.Zone)
                 {
                     SetNPCState(NPCState.occupied);
+                }
+                else if (transitionType == TransitionType.BattleComplete)
+                {
+                    SetNPCState(NPCState.occupied);
+                    OverrideCollisionToEnterCombat(false);
                 }
                 // Non-zone & battle-end transitions, allow enemy movement -- swarm mechanic
             }
@@ -197,6 +208,11 @@ namespace Frankie.Control
             }
         }
 
+        public void OverrideCollisionToEnterCombat(bool enable)
+        {
+            collisionsOverriddenToEnterCombat = enable;
+        }
+
         private void ShoutToNearbyNPCs()
         {
             RaycastHit2D[] hits = npcMover.NPCCastFromSelf(shoutDistance);
@@ -209,6 +225,7 @@ namespace Frankie.Control
                     {
                         npcInRange.SetChasePlayerDisposition(true);
                         npcInRange.SetNPCState(NPCState.aggravated, false); // Do not chain shouts (shout on aggravation set to false)
+                        npcInRange.OverrideCollisionToEnterCombat(true);
                     }
                 }
             }
