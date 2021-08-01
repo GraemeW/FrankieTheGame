@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 namespace Frankie.Control
@@ -19,6 +20,9 @@ namespace Frankie.Control
         // State
         int currentWaypointIndex = 0;
         float timeSinceArrivedAtWaypoint = Mathf.Infinity;
+
+        // Static
+        string STATIC_TAG_INTERACTABLE = "Interactable";
 
         protected override void Awake()
         {
@@ -65,6 +69,12 @@ namespace Frankie.Control
             Vector2 lookDirection = callingController.GetInteractionPosition() - (Vector2)interactionCenterPoint.position;
             SetLookDirection(lookDirection);
             UpdateAnimator();
+        }
+
+        public RaycastHit2D[] NPCCastFromSelf(float raycastRadius)
+        {
+            RaycastHit2D[] hits = Physics2D.CircleCastAll(interactionCenterPoint.position, raycastRadius, Vector2.zero);
+            return hits;
         }
 
         private bool SetNextPatrolTarget()

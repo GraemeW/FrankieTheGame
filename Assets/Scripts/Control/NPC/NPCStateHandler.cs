@@ -23,7 +23,10 @@ namespace Frankie.Control
         [SerializeField] float chaseDistance = 3.0f;
         [SerializeField] float aggravationTime = 3.0f;
         [SerializeField] float suspicionTime = 3.0f;
-        [SerializeField] float shoutDistance = 2.0f;
+        [Header("Other Mob Properties")]
+        [Tooltip("Must be true to be shouted at, regardless of group")][SerializeField] bool canBeShoutedAt = true;
+        [Tooltip("From interaction center point of NPC")][SerializeField] float shoutDistance = 2.0f;
+        [Tooltip("If this is set, will ONLY aggro those in list")][SerializeField] List<NPCStateHandler> shoutGroup = new List<NPCStateHandler>();
 
         // State
         NPCState npcState = NPCState.idle;
@@ -148,13 +151,23 @@ namespace Frankie.Control
             return npcState;
         }
 
-        public void SetNPCState(NPCState npcState)
+        public bool IsShoutable()
+        {
+            return canBeShoutedAt;
+        }
+
+        public void SetNPCState(NPCState npcState, bool shoutOnAggravation = true)
         {
             if (this.npcState == npcState) { return; }
 
             this.npcState = npcState;
             if (npcState == NPCState.aggravated)
             {
+                if (shoutOnAggravation && shoutDistance > 0f)
+                {
+                    ShoutToNearbyNPCs();
+                }
+
                 npcMover.SetMoveTarget(playerController.gameObject);
             }
             else if (npcState == NPCState.suspicious)
@@ -177,6 +190,22 @@ namespace Frankie.Control
             if (GetNPCState() == NPCState.aggravated && !npcMover.HasMoveTarget())
             {
                 SetNPCState(NPCState.idle);
+            }
+        }
+
+        private void ShoutToNearbyNPCs()
+        {
+            RaycastHit2D[] hits = npcMover.NPCCastFromSelf(shoutDistance);
+            foreach (RaycastHit2D hit in hits)
+            {
+                if (hit.collider.gameObject.TryGetComponent(out NPCStateHandler npcInRange))
+                {
+                    if (!npcInRange.IsShoutable()) { continue; }
+                    if (shoutGroup.Count == 0 || shoutGroup.Contains(npcInRange))
+                    {
+                        npcInRange.SetNPCState(NPCState.aggravated, false); // Do not chain shouts (shout on aggravation set to false)
+                    }
+                }
             }
         }
 
@@ -249,6 +278,8 @@ namespace Frankie.Control
         {
             Gizmos.color = Color.blue;
             Gizmos.DrawWireSphere(transform.position, chaseDistance);
+            Gizmos.color = Color.red;
+            Gizmos.DrawWireSphere(transform.position, shoutDistance);
         }
 #endif
     }
