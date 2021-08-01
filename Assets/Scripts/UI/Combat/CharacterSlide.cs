@@ -29,7 +29,6 @@ namespace Frankie.Combat.UI
         // State
         SlideState slideState = default;
         SlideState lastSlideState = default;
-        InventoryBox inventoryBox = null;
 
         // Static
         private static void BreakApartNumber(float number, out int hundreds, out int tens, out int ones)
@@ -52,8 +51,7 @@ namespace Frankie.Combat.UI
         protected override void OnEnable()
         {
             base.OnEnable();
-            if (battleController != null) { button.onClick.AddListener(delegate { battleController.SetSelectedCharacter(GetCombatParticipant()); }); }
-            if (inventoryBox != null) { button.onClick.AddListener(delegate { inventoryBox.UseItemOnTarget(combatParticipant); }); }
+            if (battleController != null) { AddButtonClickEvent( delegate { battleController.SetSelectedCharacter(GetCombatParticipant()); }); }
         }
 
         protected override void OnDisable()
@@ -86,17 +84,6 @@ namespace Frankie.Combat.UI
                 else { slideState = lastSlideState; }
             }
             UpdateColor();
-        }
-
-        public void SetupInventoryBox(InventoryBox inventoryBox)
-        {
-            if (inventoryBox == null || this.inventoryBox != null) { return; }
-
-            this.inventoryBox = inventoryBox;
-            if (gameObject.activeSelf)
-            {
-                button.onClick.AddListener(delegate { inventoryBox.UseItemOnTarget(combatParticipant); });
-            }
         }
 
         protected override void ParseState(CombatParticipant combatParticipant, StateAlteredData stateAlteredData)

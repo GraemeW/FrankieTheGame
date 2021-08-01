@@ -46,7 +46,7 @@ namespace Frankie.Combat.UI
             if (battleController != null)
             {
                 battleController.selectedCombatParticipantChanged += HighlightSlide;
-                button.onClick.AddListener(delegate { TryAddBattleQueue(); });
+                AddButtonClickEvent( delegate{ TryAddBattleQueue(); });
             }
         }
 
@@ -67,6 +67,11 @@ namespace Frankie.Combat.UI
         private void FixedUpdate()
         {
             HandleSlideShaking();
+        }
+
+        public virtual void AddButtonClickEvent(UnityAction unityAction)
+        {
+            button.onClick.AddListener(unityAction);
         }
 
         private void HandleSlideShaking()

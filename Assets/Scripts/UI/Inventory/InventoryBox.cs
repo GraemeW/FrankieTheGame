@@ -135,12 +135,13 @@ namespace Frankie.Inventory.UI
                 {
                     if (enable)
                     {
-                        characterSlide.SetupInventoryBox(this);
                         targetCharacterChanged += characterSlide.HighlightSlide;
+                        characterSlide.AddButtonClickEvent(delegate { UseItemOnTarget(characterSlide.GetCombatParticipant()); });
                     }
                     else
                     {
                         targetCharacterChanged -= characterSlide.HighlightSlide;
+                        // Note:  Remove button click event listeners handled on battleSlide on disable (removes all listeners)
                     }
                 }
             }
