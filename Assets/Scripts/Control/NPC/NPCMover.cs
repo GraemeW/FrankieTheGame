@@ -52,7 +52,11 @@ namespace Frankie.Control
 
         public Vector2 GetInteractionPosition()
         {
-            return interactionCenterPoint.position;
+            if (interactionCenterPoint != null)
+            {
+                return interactionCenterPoint.position;
+            }
+            return Vector2.zero;
         }
 
         public void SetLookDirectionToPlayer(PlayerStateHandler playerStateHandler) // called via Unity Event

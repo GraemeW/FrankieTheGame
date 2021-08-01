@@ -97,6 +97,11 @@ namespace Frankie.Control
             moveTargetObject = null;
         }
 
+        public bool HasMoveTarget()
+        {
+            return (moveTargetCoordinate != null || moveTargetObject != null);
+        }
+
         public void MoveToOriginalPosition()
         {
             targetDistanceTolerance = defaultTargetDistanceTolerance;

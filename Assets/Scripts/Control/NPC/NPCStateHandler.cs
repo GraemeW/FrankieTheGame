@@ -51,12 +51,13 @@ namespace Frankie.Control
             GameObject player = GameObject.FindGameObjectWithTag("Player");
             playerStateHandler = player.GetComponent<PlayerStateHandler>();
             playerController = player.GetComponent<PlayerController>();
-            currentChasePlayerDisposition = willChasePlayer;
         }
 
         private void OnEnable()
         {
             playerStateHandler.playerStateChanged += HandlePlayerStateChange;
+            ResetNPCState();
+
         }
 
         private void OnDisable()
@@ -64,10 +65,18 @@ namespace Frankie.Control
             playerStateHandler.playerStateChanged -= HandlePlayerStateChange;
         }
 
+        private void ResetNPCState()
+        {
+            SetNPCState(NPCState.idle);
+            timeSinceLastSawPlayer = Mathf.Infinity;
+            currentChasePlayerDisposition = willChasePlayer;
+        }
+
         private void Update()
         {
             if (!currentChasePlayerDisposition || npcState == NPCState.occupied) { return; }
 
+            CalmDownForNoTarget();
             CheckForPlayerProximity();
             timeSinceLastSawPlayer += Time.deltaTime;
         }
@@ -155,6 +164,14 @@ namespace Frankie.Control
         public void SetChasePlayerDisposition(bool enable)
         {
             currentChasePlayerDisposition = enable;
+        }
+
+        private void CalmDownForNoTarget()
+        {
+            if (GetNPCState() == NPCState.aggravated && !npcMover.HasMoveTarget())
+            {
+                SetNPCState(NPCState.idle);
+            }
         }
 
         private void CheckForPlayerProximity()
