@@ -29,14 +29,12 @@ namespace Frankie.Combat.UI
 
         private void Awake()
         {
+            button = GetComponent<Button>();
             GameObject battleControllerGameObject = GameObject.FindGameObjectWithTag("BattleController");
             if (battleControllerGameObject != null)
             {
                 battleController = battleControllerGameObject.GetComponent<BattleController>();
             }
-
-            button = GetComponent<Button>();
-            button.onClick.AddListener(delegate { TryAddBattleQueue(); });
         }
 
         protected virtual void OnEnable()
@@ -48,11 +46,14 @@ namespace Frankie.Combat.UI
             if (battleController != null)
             {
                 battleController.selectedCombatParticipantChanged += HighlightSlide;
+                button.onClick.AddListener(delegate { TryAddBattleQueue(); });
             }
         }
 
         protected virtual void OnDisable()
         {
+            button.onClick.RemoveAllListeners();
+
             if (combatParticipant != null)
             {
                 combatParticipant.stateAltered -= ParseState;

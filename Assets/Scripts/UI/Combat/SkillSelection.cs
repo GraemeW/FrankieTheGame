@@ -18,9 +18,6 @@ namespace Frankie.Combat.UI
         [SerializeField] TextMeshProUGUI skillField = null;
         [SerializeField] string defaultNoText = "--";
 
-        // State
-        List<EnemySlide> enemySlides = null;
-
         // Cached References
         BattleController battleController = null;
         CanvasGroup canvasGroup = null;

@@ -135,6 +135,7 @@ namespace Frankie.Inventory.UI
                 {
                     if (enable)
                     {
+                        characterSlide.SetupInventoryBox(this);
                         targetCharacterChanged += characterSlide.HighlightSlide;
                     }
                     else
@@ -541,6 +542,19 @@ namespace Frankie.Inventory.UI
             {
                 targetCharacterChanged.Invoke(CombatParticipantType.Target, targetCharacter);
             }
+        }
+
+        public void UseItemOnTarget(CombatParticipant combatParticipant)
+        {
+            if (inventoryBoxState != InventoryBoxState.inCharacterTargeting) { return; }
+
+            targetCharacter = combatParticipant;
+            if (targetCharacterChanged != null)
+            {
+                targetCharacterChanged.Invoke(CombatParticipantType.Target, combatParticipant);
+            }
+
+            Choose(null);
         }
 
         private void DisplayCharacterInCooldownMessage(CombatParticipant character)

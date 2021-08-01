@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
+using Frankie.Inventory.UI;
 
 namespace Frankie.Combat.UI
 {
@@ -26,8 +27,9 @@ namespace Frankie.Combat.UI
         [SerializeField] Color targetedCharacterFrameColor = Color.red;
 
         // State
-        [SerializeField] SlideState slideState = default;
-        [SerializeField] SlideState lastSlideState = default;
+        SlideState slideState = default;
+        SlideState lastSlideState = default;
+        InventoryBox inventoryBox = null;
 
         // Static
         private static void BreakApartNumber(float number, out int hundreds, out int tens, out int ones)
@@ -51,12 +53,13 @@ namespace Frankie.Combat.UI
         {
             base.OnEnable();
             if (battleController != null) { button.onClick.AddListener(delegate { battleController.SetSelectedCharacter(GetCombatParticipant()); }); }
+            if (inventoryBox != null) { button.onClick.AddListener(delegate { inventoryBox.UseItemOnTarget(combatParticipant); }); }
         }
 
         protected override void OnDisable()
         {
+            // Base implementation removes all button listeners
             base.OnDisable();
-            button.onClick.RemoveAllListeners();
         }
 
         public override void SetCombatParticipant(CombatParticipant combatParticipant)
@@ -83,6 +86,17 @@ namespace Frankie.Combat.UI
                 else { slideState = lastSlideState; }
             }
             UpdateColor();
+        }
+
+        public void SetupInventoryBox(InventoryBox inventoryBox)
+        {
+            if (inventoryBox == null || this.inventoryBox != null) { return; }
+
+            this.inventoryBox = inventoryBox;
+            if (gameObject.activeSelf)
+            {
+                button.onClick.AddListener(delegate { inventoryBox.UseItemOnTarget(combatParticipant); });
+            }
         }
 
         protected override void ParseState(CombatParticipant combatParticipant, StateAlteredData stateAlteredData)
