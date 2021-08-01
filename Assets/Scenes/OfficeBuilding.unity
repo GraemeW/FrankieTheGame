@@ -3605,8 +3605,22 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   inventoryItem: {fileID: 11400000, guid: 7f4fe94d0d4d1f34bb73c1f0c5ec3f76, type: 2}
+  itemQuantity: 1
   messageFoundItem: Wow!  Looks like {0} found {1}
   messageInventoryFull: Whoops, looks like everyones' knapsacks are full.
+--- !u!114 &1501661386
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1501661384}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c708eed4772dbc14e95f0fb9be8bb48e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  uniqueIdentifier: bbdee6b7-8d80-40d3-9943-1d0800401a01
 --- !u!1001 &1509255177
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -4205,8 +4219,22 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   inventoryItem: {fileID: 11400000, guid: 7e830021c43731b46a320da9191579ca, type: 2}
+  itemQuantity: 2
   messageFoundItem: Wow!  Looks like {0} found {1}
   messageInventoryFull: Whoops, looks like everyones' knapsacks are full.
+--- !u!114 &1908581082
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1908581080}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c708eed4772dbc14e95f0fb9be8bb48e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  uniqueIdentifier: 3fff855e-b55b-4c94-92d6-8cd059de5806
 --- !u!4 &1935962881 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7237574331970397817, guid: 0180200b3db5ee44ea33cce2766c76c6, type: 3}
@@ -4354,6 +4382,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   inventoryItem: {fileID: 11400000, guid: 24916726de610b841ba75ff9f0606c20, type: 2}
+  itemQuantity: 1
   messageFoundItem: Wow!  Looks like {0} found {1}
   messageInventoryFull: Whoops, looks like everyones' knapsacks are full.
 --- !u!1001 &2021621754
