@@ -141,6 +141,7 @@ namespace Frankie.Control
                 }
                 else if (transitionType == TransitionType.BattleComplete)
                 {
+                    SetNPCState(NPCState.idle);
                     SetNPCState(NPCState.occupied);
                     OverrideCollisionToEnterCombat(false);
                 }
@@ -177,9 +178,10 @@ namespace Frankie.Control
             return canBeShoutedAt;
         }
 
-        public void SetNPCState(NPCState npcState, bool shoutOnAggravation = true)
+        public bool SetNPCState(NPCState npcState, bool shoutOnAggravation = true)
         {
-            if (GetNPCState() == npcState) { return; }
+            if (GetNPCState() == npcState) { return false; }
+            if (npcState == NPCState.aggravated && !playerStateHandler.GetParty().IsAnyMemberAlive()) { return false; }
 
             // Occupied treated as a pseudo-state to allow for state persistence
             if (npcState == NPCState.occupied) { npcOccupied = true; }
@@ -206,6 +208,7 @@ namespace Frankie.Control
             {
                 npcMover.MoveToOriginalPosition();
             }
+            return true;
         }
 
         public void OverrideCollisionToEnterCombat(bool enable)
@@ -215,6 +218,8 @@ namespace Frankie.Control
 
         private void ShoutToNearbyNPCs()
         {
+            if (combatParticipant.IsDead()) { return; }
+
             RaycastHit2D[] hits = npcMover.NPCCastFromSelf(shoutDistance);
             foreach (RaycastHit2D hit in hits)
             {
@@ -223,9 +228,11 @@ namespace Frankie.Control
                     if (!npcInRange.IsShoutable()) { continue; }
                     if (shoutGroup.Count == 0 || shoutGroup.Contains(npcInRange))
                     {
-                        npcInRange.SetChasePlayerDisposition(true);
-                        npcInRange.SetNPCState(NPCState.aggravated, false); // Do not chain shouts (shout on aggravation set to false)
-                        npcInRange.OverrideCollisionToEnterCombat(true);
+                        if (npcInRange.SetNPCState(NPCState.aggravated, false)) // Do not chain shouts (shout on aggravation set to false)
+                        {
+                            // Override colissions if successfully aggro'd to allow swarm
+                            npcInRange.OverrideCollisionToEnterCombat(true);
+                        }
                     }
                 }
             }
@@ -280,12 +287,15 @@ namespace Frankie.Control
             if (enemy.IsDead())
             {
                 playerStateHandler.OpenSimpleDialogue(string.Format(messageCannotFight, enemy.GetCombatName()));
+                SetNPCState(NPCState.idle);
             }
             else
             {
                 List<CombatParticipant> enemies = new List<CombatParticipant>();
                 enemies.Add(enemy);
-                playerStateHandler.EnterCombat(enemies, transitionType);
+                bool enteredCombat = playerStateHandler.EnterCombat(enemies, transitionType);
+
+                if (!enteredCombat) { SetNPCState(NPCState.idle); }
             }
         }
 

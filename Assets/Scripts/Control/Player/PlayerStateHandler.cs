@@ -78,14 +78,12 @@ namespace Frankie.Control
             return battleController;
         }
 
-        public void EnterCombat(List<CombatParticipant> enemies, TransitionType transitionType)
+        public bool EnterCombat(List<CombatParticipant> enemies, TransitionType transitionType)
         {
-            if (!party.IsAnyMemberAlive()) { OpenSimpleDialogue(messageCannotFight); return; }
+            if (!party.IsAnyMemberAlive()) { OpenSimpleDialogue(messageCannotFight); return false; }
 
             if (GetPlayerState() == PlayerState.inWorld || GetPlayerState() == PlayerState.inDialogue)
             {
-                SetPlayerState(PlayerState.inTransition);
-                this.transitionType = transitionType;
                 battleController = GetUniqueBattleController();
                 battleController.battleStateChanged += HandleCombatComplete;
 
@@ -93,11 +91,15 @@ namespace Frankie.Control
                 AddToEnemiesInTransition(enemies);
 
                 StartCoroutine(QueueBattleTransition(transitionType));
+                return true;
             }
             else if (GetPlayerState() == PlayerState.inTransition)
             {
                 AddToEnemiesInTransition(enemies);
+                return true;
             }
+
+            return false;
         }
 
         private IEnumerator QueueBattleTransition(TransitionType transitionType)
@@ -105,9 +107,13 @@ namespace Frankie.Control
             Fader fader = FindObjectOfType<Fader>();
             if (fader.IsFading() == true) { yield break; }
 
+            this.transitionType = transitionType;
+            SetPlayerState(PlayerState.inTransition);
+
             yield return fader.QueueFadeEntry(transitionType);
             battleController.Setup(enemiesInTransition, transitionType);
             yield return fader.QueueFadeExit(transitionType);
+
             SetPlayerState(PlayerState.inBattle);
         }
 
@@ -127,7 +133,6 @@ namespace Frankie.Control
             if (battleState != BattleState.Complete) { return; }
             battleController.battleStateChanged -= HandleCombatComplete;
 
-            transitionType = TransitionType.BattleComplete;
             StartCoroutine(QueueExitCombat());
         }
 
@@ -136,17 +141,16 @@ namespace Frankie.Control
             Fader fader = FindObjectOfType<Fader>();
             if (fader.IsFading() == true) { yield break; }
 
-            yield return fader.QueueFadeEntry(transitionType);
+            transitionType = TransitionType.BattleComplete;
+            SetPlayerState(PlayerState.inTransition);
 
+            yield return fader.QueueFadeEntry(transitionType);
             // TODO:  Handling for party death
             Destroy(battleController.gameObject);
             battleController = null;
-
             yield return fader.QueueFadeExit(transitionType);
-            if (playerState == PlayerState.inBattle)
-            {
-                SetPlayerState(PlayerState.inWorld);
-            }
+
+            SetPlayerState(PlayerState.inWorld);
         }
 
         public void EnterDialogue(AIConversant newConversant, Dialogue newDialogue)
