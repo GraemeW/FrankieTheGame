@@ -420,6 +420,16 @@ namespace Frankie.Speech.UI
             }
         }
 
+        protected void HandleClientEntry()
+        {
+            OnDialogueBoxModified(DialogueBoxModifiedType.clientEnter, true);
+        }
+
+        protected void HandleClientExit()
+        {
+            OnDialogueBoxModified(DialogueBoxModifiedType.clientExit, true);
+        }
+
         private void SkipToEndOfPage()
         {
             interruptWriting = true;

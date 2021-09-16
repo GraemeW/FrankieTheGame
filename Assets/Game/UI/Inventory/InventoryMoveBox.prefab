@@ -662,6 +662,7 @@ RectTransform:
   - {fileID: 2827520980706274898}
   - {fileID: 1867343157349279220}
   - {fileID: 4819427655758832652}
+  - {fileID: 928127473212558479}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -761,11 +762,14 @@ MonoBehaviour:
   inventoryItemFieldPrefab: {fileID: 3358873790910023875, guid: e49114d2a61e8cc46bd0caffe110c05d, type: 3}
   inventoryMoveBoxPrefab: {fileID: 6413694501190794285}
   optionInspect: Inspect
-  optionEquip: Equip
   optionUse: Use
   optionMove: Move
+  optionDrop: Drop
+  confirmChoiceAffirmative: Yes
+  confirmChoiceNegative: No
   messageBusyInCooldown: '{0} is busy twirling, twirling.'
   messageUseItemInWorld: '{0} used {1} on {2}'
+  messageDropItem: Are you sure you want to abandon {0}?
 --- !u!1 &7418628792628982881
 GameObject:
   m_ObjectHideFlags: 0
@@ -1039,3 +1043,69 @@ MonoBehaviour:
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
   m_LayoutPriority: 1
+--- !u!1001 &3185836789442965420
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 2227106547557423765}
+    m_Modifications:
+    - target: {fileID: 1482892425982219451, guid: eacfa704d056afc478864cbd60733a44, type: 3}
+      propertyPath: dialogueBox
+      value: 
+      objectReference: {fileID: -8547875359365488180}
+    - target: {fileID: 2366363061461443362, guid: eacfa704d056afc478864cbd60733a44, type: 3}
+      propertyPath: m_Name
+      value: DialogueBoxSoundbox
+      objectReference: {fileID: 0}
+    - target: {fileID: 2366363061461443363, guid: eacfa704d056afc478864cbd60733a44, type: 3}
+      propertyPath: m_RootOrder
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 2366363061461443363, guid: eacfa704d056afc478864cbd60733a44, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2366363061461443363, guid: eacfa704d056afc478864cbd60733a44, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2366363061461443363, guid: eacfa704d056afc478864cbd60733a44, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2366363061461443363, guid: eacfa704d056afc478864cbd60733a44, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2366363061461443363, guid: eacfa704d056afc478864cbd60733a44, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2366363061461443363, guid: eacfa704d056afc478864cbd60733a44, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2366363061461443363, guid: eacfa704d056afc478864cbd60733a44, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2366363061461443363, guid: eacfa704d056afc478864cbd60733a44, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2366363061461443363, guid: eacfa704d056afc478864cbd60733a44, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2366363061461443363, guid: eacfa704d056afc478864cbd60733a44, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: eacfa704d056afc478864cbd60733a44, type: 3}
+--- !u!4 &928127473212558479 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 2366363061461443363, guid: eacfa704d056afc478864cbd60733a44, type: 3}
+  m_PrefabInstance: {fileID: 3185836789442965420}
+  m_PrefabAsset: {fileID: 0}

@@ -6,6 +6,8 @@ namespace Frankie.Speech.UI
     public enum DialogueBoxModifiedType
     {
         writingStateChanged,
-        itemSelected
+        itemSelected,
+        clientEnter,
+        clientExit
     }
 }

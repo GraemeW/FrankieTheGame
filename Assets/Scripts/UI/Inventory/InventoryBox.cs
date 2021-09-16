@@ -583,6 +583,7 @@ namespace Frankie.Inventory.UI
                 }
                 else
                 {
+                    HandleClientExit();
                     Destroy(gameObject);
                 }
             }

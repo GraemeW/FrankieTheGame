@@ -11,6 +11,8 @@ namespace Frankie.Sound
         [SerializeField] DialogueBox dialogueBox = null;
         [SerializeField] AudioClip textScanAudioClip = null;
         [SerializeField] AudioClip chooseAudioClip = null;
+        [SerializeField] AudioClip enterClip = null;
+        [SerializeField] AudioClip exitClip = null;
         [SerializeField] float textScanLoopDelay = 0.1f;
 
         // State
@@ -42,6 +44,14 @@ namespace Frankie.Sound
             else if (dialogueBoxModifiedType == DialogueBoxModifiedType.itemSelected)
             {
                 PlayClipAfterDestroy(chooseAudioClip);
+            }
+            else if (dialogueBoxModifiedType == DialogueBoxModifiedType.clientEnter)
+            {
+                PlayClipAfterDestroy(enterClip);
+            }
+            else if (dialogueBoxModifiedType == DialogueBoxModifiedType.clientExit)
+            {
+                PlayClipAfterDestroy(exitClip);
             }
         }
 

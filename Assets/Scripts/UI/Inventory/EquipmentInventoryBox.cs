@@ -84,6 +84,7 @@ namespace Frankie.Inventory.UI
             if (playerInputType == PlayerInputType.Option || playerInputType == PlayerInputType.Cancel)
             {
                 equipmentBox.ResetEquipmentBox(false);
+                HandleClientExit();
                 Destroy(gameObject);
             }
             base.HandleGlobalInput(playerInputType);

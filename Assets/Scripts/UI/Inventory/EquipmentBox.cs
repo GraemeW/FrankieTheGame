@@ -435,6 +435,7 @@ namespace Frankie.Inventory.UI
                 }
                 else if (equipmentBoxState == EquipmentBoxState.inCharacterSelection)
                 {
+                    HandleClientExit();
                     Destroy(gameObject);
                 }
                 // inKnapsack handled by the EquipmentInventoryBox

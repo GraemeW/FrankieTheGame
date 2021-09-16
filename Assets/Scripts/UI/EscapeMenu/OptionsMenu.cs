@@ -110,19 +110,20 @@ namespace Frankie.Speech.UI
 
         public void Cancel()
         {
+            HandleClientExit();
             Destroy(gameObject);
         }
 
         public override void HandleGlobalInput(PlayerInputType playerInputType)
         {
-            if (ShowCursorOnAnyInteraction(playerInputType)) { return; }
-            if (PrepareChooseAction(playerInputType)) { return; }
-            if (MoveCursor(playerInputType)) { return; }
-
-            if (playerInputType == PlayerInputType.Cancel)
+            if (playerInputType == PlayerInputType.Option || playerInputType == PlayerInputType.Cancel)
             {
                 Cancel();
             }
+
+            if (ShowCursorOnAnyInteraction(playerInputType)) { return; }
+            if (PrepareChooseAction(playerInputType)) { return; }
+            if (MoveCursor(playerInputType)) { return; }
         }
     }
 

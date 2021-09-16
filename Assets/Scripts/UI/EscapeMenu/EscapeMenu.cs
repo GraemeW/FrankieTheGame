@@ -34,6 +34,7 @@ namespace Frankie.Speech.UI
         protected override void Start()
         {
             SetGlobalCallbacks(playerController); // input handled via player controller, immediate override
+            HandleClientEntry();
         }
 
         private void OnDestroy()
@@ -45,7 +46,7 @@ namespace Frankie.Speech.UI
         {
             if (!handleGlobalInput) { return; }
 
-            if (playerInputType == PlayerInputType.Cancel)
+            if (playerInputType == PlayerInputType.Option || playerInputType == PlayerInputType.Cancel)
             {
                 if (childOption != null)
                 {
@@ -53,6 +54,7 @@ namespace Frankie.Speech.UI
                 }
                 else
                 {
+                    HandleClientExit();
                     Destroy(gameObject);
                 }
             }

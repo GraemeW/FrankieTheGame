@@ -44,7 +44,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 24300002, guid: c9eb74919f363694fbbb45aa77e99ec3, type: 2}
   m_audioClip: {fileID: 8300000, guid: 1e6f82457a0ff384fa392747ebcd45e8, type: 3}
   m_PlayOnAwake: 0
-  m_Volume: 0.4
+  m_Volume: 0.2
   m_Pitch: 1
   Loop: 0
   Mute: 0
@@ -143,5 +143,7 @@ MonoBehaviour:
   audioClips: []
   dialogueBox: {fileID: 0}
   textScanAudioClip: {fileID: 8300000, guid: 1e6f82457a0ff384fa392747ebcd45e8, type: 3}
-  chooseAudioClip: {fileID: 8300000, guid: 335b4df6edd73a74894d7fac1cc694dd, type: 3}
+  chooseAudioClip: {fileID: 8300000, guid: 46fd5fc62de75524796929d2c19975dc, type: 3}
+  enterClip: {fileID: 8300000, guid: a8d807a7fc1c07643a42980dde1ffbdc, type: 3}
+  exitClip: {fileID: 8300000, guid: f68fa5e337cf192478ac33cd6694206f, type: 3}
   textScanLoopDelay: 0.08

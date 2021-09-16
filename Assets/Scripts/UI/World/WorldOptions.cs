@@ -46,6 +46,7 @@ namespace Frankie.Speech.UI
         {
             SetGlobalCallbacks(playerController); // input handled via player controller, immediate override
             SetupCharacterSlides();
+            HandleClientEntry();
         }
 
         private void SetupCharacterSlides()
@@ -82,6 +83,7 @@ namespace Frankie.Speech.UI
                 }
                 else
                 {
+                    HandleClientExit();
                     Destroy(gameObject);
                 }
             }

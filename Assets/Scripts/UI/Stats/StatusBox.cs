@@ -114,6 +114,7 @@ namespace Frankie.Stats.UI
 
             if (playerInputType == PlayerInputType.Option || playerInputType == PlayerInputType.Cancel)
             {
+                HandleClientExit();
                 Destroy(gameObject);
             }
             base.HandleGlobalInput(playerInputType);
