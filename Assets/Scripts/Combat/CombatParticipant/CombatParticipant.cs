@@ -375,7 +375,7 @@ namespace Frankie.Combat
         // Private functions
         private bool CheckIfDead()
         {
-            if (Mathf.Approximately(currentHP.value, 0f) || currentHP.value < 0)
+            if ((Mathf.Approximately(currentHP.value, 0f) || currentHP.value < 0) && isDead.value != true)
             {
                 currentHP.value = 0f;
                 targetHP = 0f;
@@ -386,7 +386,8 @@ namespace Frankie.Combat
                     stateAltered.Invoke(this, new StateAlteredData(StateAlteredType.Dead));
                 }
             }
-            if (isDead.value) { return true; }
+
+            if (isDead.value == true) { return true; }
             return false;
         }
 
