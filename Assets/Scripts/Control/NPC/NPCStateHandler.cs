@@ -7,6 +7,7 @@ using UnityEngine.Events;
 using System;
 using Frankie.Speech;
 using Frankie.Utils;
+using System.Linq;
 
 namespace Frankie.Control
 {
@@ -33,8 +34,10 @@ namespace Frankie.Control
         bool npcOccupied = false;
         float timeSinceLastSawPlayer = Mathf.Infinity;
         bool currentChasePlayerDisposition = false;
-        bool touchingPlayer = false;
         bool collisionsOverriddenToEnterCombat = false;
+
+        bool touchingPlayer = false;
+        List<NPCStateHandler> currentNPCCollisions = new List<NPCStateHandler>();
 
         // Cached References
         BaseStats baseStats = null;
@@ -101,8 +104,14 @@ namespace Frankie.Control
 
         private void OnCollisionExit2D(Collision2D collision)
         {
-            if (!collision.gameObject.CompareTag("Player")) { return; }
-            touchingPlayer = false;
+            if (collision.gameObject.CompareTag("Player")) { touchingPlayer = false; }
+
+            collision.gameObject.TryGetComponent(out NPCStateHandler collisionNPC);
+            if (collisionNPC != null)
+            {
+                currentNPCCollisions.Remove(collisionNPC);
+            }
+
         }
 
         private bool HandlePlayerCollisions(Collision2D collision)
@@ -129,12 +138,12 @@ namespace Frankie.Control
         {
             if (!collisionsOverriddenToEnterCombat) { return false; }
 
-            collision.gameObject.TryGetComponent(out NPCStateHandler npcStateHandler);
-            if (npcStateHandler == null) { return false; }
+            collision.gameObject.TryGetComponent(out NPCStateHandler collisionNPC);
+            if (collisionNPC == null) { return false; }
 
-            if (npcStateHandler.IsTouchingPlayer())
+            if (collisionNPC.IsTouchingPlayer())
             {
-                touchingPlayer = true;
+                if (!currentNPCCollisions.Contains(collisionNPC)) { currentNPCCollisions.Add(collisionNPC); }
 
                 TransitionType battleEntryType = GetBattleEntryType(collision);
                 InitiateCombat(playerStateHandler, battleEntryType);
@@ -305,10 +314,11 @@ namespace Frankie.Control
 
         public bool IsTouchingPlayer()
         {
-            return touchingPlayer;
+            bool touchingNPCTouchingPlayer = currentNPCCollisions.Any(x => x.IsTouchingPlayer());
+            return touchingPlayer || touchingNPCTouchingPlayer;
         }
 
-        public void SetChasePlayerDisposition(bool enable) // Called via Unity Events
+        public void SetChasePlayerDisposition(bool enable) // Called via Unity Event
         {
             currentChasePlayerDisposition = enable;
         }
