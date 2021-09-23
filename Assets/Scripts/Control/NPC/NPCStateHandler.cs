@@ -33,6 +33,7 @@ namespace Frankie.Control
         bool npcOccupied = false;
         float timeSinceLastSawPlayer = Mathf.Infinity;
         bool currentChasePlayerDisposition = false;
+        bool touchingPlayer = false;
         bool collisionsOverriddenToEnterCombat = false;
 
         // Cached References
@@ -91,20 +92,55 @@ namespace Frankie.Control
 
         private void OnCollisionEnter2D(Collision2D collision)
         {
-            if (!collision.gameObject.CompareTag("Player")) { return; }
             if (disableCollisionEventsWhenDead && combatParticipant.IsDead()) { return; }
             if (disableCollisionEventsWhenIdle && GetNPCState() == NPCState.idle) { return; }
 
-            if (collisionsOverriddenToEnterCombat)
+            if (HandlePlayerCollisions(collision)) { return; }
+            if (HandleNPCCollisions(collision)) { return; }
+        }
+
+        private void OnCollisionExit2D(Collision2D collision)
+        {
+            if (!collision.gameObject.CompareTag("Player")) { return; }
+            touchingPlayer = false;
+        }
+
+        private bool HandlePlayerCollisions(Collision2D collision)
+        {
+            if (!collision.gameObject.CompareTag("Player")) { return false; }
+            touchingPlayer = true;
+
+            if (collisionsOverriddenToEnterCombat) // Applied for aggro situations
             {
                 TransitionType battleEntryType = GetBattleEntryType(collision);
                 InitiateCombat(playerStateHandler, battleEntryType);
+                return true;
             }
-            else if (collidedWithPlayer != null)
+            else if (collidedWithPlayer != null) // Event hooked up in Unity
             {
                 TransitionType battleEntryType = GetBattleEntryType(collision);
                 collidedWithPlayer.Invoke(playerStateHandler, battleEntryType);
+                return true;
             }
+            return false;
+        }
+
+        private bool HandleNPCCollisions(Collision2D collision)
+        {
+            if (!collisionsOverriddenToEnterCombat) { return false; }
+
+            collision.gameObject.TryGetComponent(out NPCStateHandler npcStateHandler);
+            if (npcStateHandler == null) { return false; }
+
+            if (npcStateHandler.IsTouchingPlayer())
+            {
+                touchingPlayer = true;
+
+                TransitionType battleEntryType = GetBattleEntryType(collision);
+                InitiateCombat(playerStateHandler, battleEntryType);
+                return true;
+            }
+            return false;
         }
 
         private TransitionType GetBattleEntryType(Collision2D collision)
@@ -265,6 +301,11 @@ namespace Frankie.Control
             }
 
             timeSinceLastSawPlayer += Time.deltaTime;
+        }
+
+        public bool IsTouchingPlayer()
+        {
+            return touchingPlayer;
         }
 
         public void SetChasePlayerDisposition(bool enable) // Called via Unity Events
