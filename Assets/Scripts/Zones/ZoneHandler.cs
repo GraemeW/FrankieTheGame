@@ -283,7 +283,7 @@ namespace Frankie.ZoneManagement
                 }
                 else if (IsSimpleWarp() == false)
                 {
-                    playerStateHandler.OpenSimpleChoiceDialogue(choiceMessage, GetChoiceActionPairs());
+                    playerStateHandler.EnterDialogue(choiceMessage, GetChoiceActionPairs());
                 }
             }
             return true;

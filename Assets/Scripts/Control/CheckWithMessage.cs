@@ -23,7 +23,7 @@ namespace Frankie.Control
 
             if (inputType == matchType)
             {
-                playerStateHandler.OpenSimpleDialogue(checkMessage);
+                playerStateHandler.EnterDialogue(checkMessage);
                 SetupPostCheckActions(playerStateHandler);
 
                 if (checkInteraction != null)

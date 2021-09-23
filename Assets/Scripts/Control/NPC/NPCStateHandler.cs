@@ -286,7 +286,7 @@ namespace Frankie.Control
             CombatParticipant enemy = GetComponent<CombatParticipant>();
             if (enemy.IsDead())
             {
-                playerStateHandler.OpenSimpleDialogue(string.Format(messageCannotFight, enemy.GetCombatName()));
+                playerStateHandler.EnterDialogue(string.Format(messageCannotFight, enemy.GetCombatName()));
                 SetNPCState(NPCState.idle);
             }
             else

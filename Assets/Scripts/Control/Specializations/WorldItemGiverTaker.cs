@@ -36,7 +36,7 @@ namespace Frankie.Control.Specialization
             if (inventoryItem == null) { return; }
             if (currentItemQuantity.value <= 0)
             {
-                playerStateHandler.OpenSimpleDialogue(messageNothing);
+                playerStateHandler.EnterDialogue(messageNothing);
                 return; 
             }
 
@@ -48,12 +48,12 @@ namespace Frankie.Control.Specialization
                 if (knapsack.AddToFirstEmptySlot(inventoryItem, true))
                 {
                     currentItemQuantity.value--;
-                    playerStateHandler.OpenSimpleDialogue(string.Format(messageFoundItem, character.GetCombatName(), inventoryItem.GetDisplayName()));
+                    playerStateHandler.EnterDialogue(string.Format(messageFoundItem, character.GetCombatName(), inventoryItem.GetDisplayName()));
                     return;
                 }
             }
 
-            playerStateHandler.OpenSimpleDialogue(messageInventoryFull);
+            playerStateHandler.EnterDialogue(messageInventoryFull);
         }
 
         private int GetMaxItemQuantity()

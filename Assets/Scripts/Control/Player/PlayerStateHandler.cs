@@ -80,9 +80,10 @@ namespace Frankie.Control
 
         public bool EnterCombat(List<CombatParticipant> enemies, TransitionType transitionType)
         {
-            if (!party.IsAnyMemberAlive()) { OpenSimpleDialogue(messageCannotFight); return false; }
+            if (!party.IsAnyMemberAlive()) { EnterDialogue(messageCannotFight); return false; }
+            if (GetPlayerState() == PlayerState.inDialogue) { ExitDialogue(); }
 
-            if (GetPlayerState() == PlayerState.inWorld || GetPlayerState() == PlayerState.inDialogue)
+            if (GetPlayerState() == PlayerState.inWorld)
             {
                 battleController = GetUniqueBattleController();
                 battleController.battleStateChanged += HandleCombatComplete;
@@ -155,6 +156,8 @@ namespace Frankie.Control
 
         public void EnterDialogue(AIConversant newConversant, Dialogue newDialogue)
         {
+            if (!IsDialoguePossible()) { return; }
+
             GameObject dialogueControllerObject = Instantiate(dialogueControllerPrefab);
             dialogueController = dialogueControllerObject.GetComponent<DialogueController>();
             dialogueController.Setup(worldCanvas, this, party);
@@ -163,28 +166,35 @@ namespace Frankie.Control
             SetPlayerState(PlayerState.inDialogue);
         }
 
-        public void OpenSimpleDialogue(string message)
+        public void EnterDialogue(string message)
         {
+            if (!IsDialoguePossible()) { return; }
+
             dialogueController = GetUniqueDialogueController();
             dialogueController.Setup(worldCanvas, this, party);
             dialogueController.InitiateSimpleMessage(message);
 
-            if (playerState != PlayerState.inTransition) // do not override state if in transition
-            {
-                SetPlayerState(PlayerState.inDialogue);
-            }
+            SetPlayerState(PlayerState.inDialogue);
         }
 
-        public void OpenSimpleChoiceDialogue(string message, List<ChoiceActionPair> choiceActionPairs)
+        public void EnterDialogue(string message, List<ChoiceActionPair> choiceActionPairs)
         {
+            if (!IsDialoguePossible()) { return; }
+
             dialogueController = GetUniqueDialogueController();
             dialogueController.Setup(worldCanvas, this, party);
             dialogueController.InitiateSimpleOption(message, choiceActionPairs);
 
-            if (playerState != PlayerState.inTransition) // do not override state if in transition
+            SetPlayerState(PlayerState.inDialogue);
+        }
+
+        private bool IsDialoguePossible()
+        {
+            if (GetPlayerState() != PlayerState.inTransition)
             {
-                SetPlayerState(PlayerState.inDialogue);
+                return true;
             }
+            return false;
         }
 
         public void ExitDialogue()
