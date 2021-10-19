@@ -79,7 +79,7 @@ namespace Frankie.Sound
             }
             if (sceneLoader != null)
             {
-                if (playerStateHandler == null) { sceneLoader.zoneUpdated += AttemptToSetUpPlayerReference; }
+                if (playerStateHandler == null) { sceneLoader.zoneUpdated += (Zone zone) => AttemptToSetUpPlayerReference(); }
                 sceneLoader.zoneUpdated += ParseZoneUpdate;
             }
         }
@@ -92,7 +92,7 @@ namespace Frankie.Sound
             }
             if (sceneLoader != null)
             {
-                if (playerStateHandler == null) { sceneLoader.zoneUpdated -= AttemptToSetUpPlayerReference; }
+                if (playerStateHandler == null) { sceneLoader.zoneUpdated -= (Zone zone) => AttemptToSetUpPlayerReference(); }
                 sceneLoader.zoneUpdated -= ParseZoneUpdate;
             }
         }
@@ -116,7 +116,7 @@ namespace Frankie.Sound
         private void SetUpSceneLoader()
         {
             sceneLoader = GameObject.FindGameObjectWithTag("SceneLoader").GetComponent<SceneLoader>();
-            sceneLoader.zoneUpdated += AttemptToSetUpPlayerReference;
+            sceneLoader.zoneUpdated += (Zone zone) => AttemptToSetUpPlayerReference();
             sceneLoader.zoneUpdated += ParseZoneUpdate;
 
             Zone currentZone = sceneLoader.GetCurrentZone();
@@ -134,14 +134,9 @@ namespace Frankie.Sound
                 {
                     playerStateHandler = playerGameObject.GetComponent<PlayerStateHandler>();
                     playerStateHandler.playerStateChanged += ParsePlayerState;
-                    sceneLoader.zoneUpdated -= AttemptToSetUpPlayerReference;
+                    sceneLoader.zoneUpdated -= (Zone zone) => AttemptToSetUpPlayerReference();
                 }
             }
-        }
-
-        private void AttemptToSetUpPlayerReference(Zone zone)
-        {
-            AttemptToSetUpPlayerReference();
         }
 
         private void ParsePlayerState(PlayerState playerState)
