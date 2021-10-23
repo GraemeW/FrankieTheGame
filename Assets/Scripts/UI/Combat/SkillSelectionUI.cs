@@ -4,10 +4,11 @@ using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
 using Frankie.Control;
+using Frankie.Speech.UI;
 
 namespace Frankie.Combat.UI
 {
-    public class SkillSelection : MonoBehaviour
+    public class SkillSelectionUI : DialogueBox
     {
         // Tunables
         [SerializeField] TextMeshProUGUI selectedCharacterNameField = null;
@@ -20,22 +21,20 @@ namespace Frankie.Combat.UI
 
         // Cached References
         BattleController battleController = null;
-        CanvasGroup canvasGroup = null;
 
-        private void Awake()
+        protected override void Awake()
         {
             battleController = GameObject.FindGameObjectWithTag("BattleController").GetComponent<BattleController>();
-            canvasGroup = GetComponent<CanvasGroup>();
         }
 
-        private void OnEnable()
+        protected override void OnEnable()
         {
             Setup(CombatParticipantType.Character, battleController.GetSelectedCharacter());
             battleController.selectedCombatParticipantChanged += Setup;
             battleController.battleInput += HandleInput;
         }
 
-        private void OnDisable()
+        protected override void OnDisable()
         {
             battleController.selectedCombatParticipantChanged -= Setup;
             battleController.battleInput -= HandleInput;
@@ -83,6 +82,7 @@ namespace Frankie.Combat.UI
             { 
                 skillField.text = Skill.GetSkillNamePretty(activeSkill.name);
                 battleController.SetActiveBattleAction(new BattleAction(activeSkill));
+                OnDialogueBoxModified(DialogueBoxModifiedType.itemSelected, true);
             } 
             else { skillField.text = defaultNoText; }
         }

@@ -36,7 +36,7 @@ namespace Frankie.ZoneManagement
         Fader fader = null;
 
         // Events
-        public UnityEvent<bool> zoneInteraction;
+        public UnityEvent zoneInteraction;
 
         // Public Functions
         public ZoneNode GetZoneNode()
@@ -180,14 +180,7 @@ namespace Frankie.ZoneManagement
         {
             if (zoneInteraction != null)
             {
-                if (queuedZoneNode == null)
-                {
-                    zoneInteraction.Invoke(false);
-                }
-                else
-                {
-                    zoneInteraction.Invoke(true);
-                }
+                zoneInteraction.Invoke();
             }
         }
 

@@ -24,7 +24,7 @@ namespace Frankie.Combat.UI
         [SerializeField] GameObject dialogueBoxPrefab = null;
         [SerializeField] CombatLog combatLog = null;
         [SerializeField] CombatOptions combatOptions = null;
-        [SerializeField] SkillSelection skillSelection = null;
+        [SerializeField] SkillSelectionUI skillSelection = null;
 
         [Header("Messages")]
         [Tooltip("Include {0} for enemy name")][SerializeField] string messageEncounterSingle = "You have encountered {0}.";

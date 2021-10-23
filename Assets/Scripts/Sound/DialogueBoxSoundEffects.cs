@@ -43,11 +43,11 @@ namespace Frankie.Sound
             }
             else if (dialogueBoxModifiedType == DialogueBoxModifiedType.itemSelected)
             {
-                PlayClipAfterDestroy(chooseAudioClip);
+                PlayClip(chooseAudioClip);
             }
             else if (dialogueBoxModifiedType == DialogueBoxModifiedType.clientEnter)
             {
-                PlayClipAfterDestroy(enterClip);
+                PlayClip(enterClip);
             }
             else if (dialogueBoxModifiedType == DialogueBoxModifiedType.clientExit)
             {

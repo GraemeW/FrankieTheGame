@@ -7,6 +7,8 @@ namespace Frankie.Sound
 {
     public class SoundEffects : MonoBehaviour
     {
+        // Note:  Functions called via Unity Events, ignore '0 references' messages
+
         // Tunables
         [SerializeField] AudioClip[] audioClips = null;
 
@@ -38,6 +40,13 @@ namespace Frankie.Sound
             }
         }
 
+        public void Setup(float defaultVolume, bool destroyAfterPlay)
+        {
+            volume = defaultVolume;
+            InitializeVolume();
+            this.destroyAfterPlay = destroyAfterPlay;
+        }
+
         protected void InitializeVolume()
         {
             if (PlayerPrefsController.MasterVolumeKeyExists())
@@ -52,6 +61,16 @@ namespace Frankie.Sound
                 }
             }
             audioSource.volume = volume;
+        }
+
+        protected void GeneratePersistentSoundEffect(AudioClip audioClip, float defaultVolume)
+        {
+            if (audioClip == null) { return; }
+            SoundEffects newSoundEffects = Instantiate(this);
+            newSoundEffects.transform.parent = null;
+            newSoundEffects.Setup(defaultVolume, true);
+            DontDestroyOnLoad(newSoundEffects);
+            newSoundEffects.PlayClip(audioClip);
         }
 
         public void SetLooping(bool isLooping)
@@ -70,54 +89,27 @@ namespace Frankie.Sound
         public void PlayClip()
         {
             if (audioClips == null) { return; }
-            InitializeVolume();
-            audioSource.clip = audioClips[Random.Range(0, audioClips.Length - 1)];
-            if (!audioSource.isPlaying) { audioSource.Play(); }
+            AudioClip audioClip = audioClips[Random.Range(0, audioClips.Length - 1)];
+            PlayClip(audioClip);
         }
 
         public void PlayClipAfterDestroy(AudioClip audioClip)
         {
             if (audioClips == null) { return; }
-            InitializeVolume();
-            AudioSource.PlayClipAtPoint(audioClip, Camera.main.transform.position, audioSource.volume);
+            GeneratePersistentSoundEffect(audioClip, audioSource.volume);
         }
 
         public void PlayClipAfterDestroy(int clipIndex)
         {
             if (audioClips == null) { return; }
-            InitializeVolume();
-            AudioSource.PlayClipAtPoint(audioClips[clipIndex], Camera.main.transform.position, audioSource.volume);
+            PlayClipAfterDestroy(audioClips[clipIndex]);
         }
 
         public void PlayClipAfterDestroy()
         {
             if (audioClips == null) { return; }
-            InitializeVolume();
             AudioClip currentClip = audioClips[Random.Range(0, audioClips.Length - 1)];
-            AudioSource.PlayClipAtPoint(currentClip, Camera.main.transform.position, audioSource.volume);
+            PlayClipAfterDestroy(currentClip);
         }
-
-        public void PlayClipAndPersistOnSceneTransition()
-        {
-            if (audioClips == null) { return; }
-            InitializeVolume();
-            gameObject.transform.parent = null;
-            DontDestroyOnLoad(gameObject);
-            PlayClip();
-            destroyAfterPlay = true;
-        }
-
-        public void PlayClipSmart(bool acrossSceneTransition)
-        {
-            if (acrossSceneTransition)
-            {
-                PlayClipAndPersistOnSceneTransition();
-            }
-            else
-            {
-                PlayClipAfterDestroy();
-            }
-        }
-
     }
 }
