@@ -109,15 +109,17 @@ namespace Frankie.Combat.UI
             return combatParticipant;
         }
 
-        public void HighlightSlide(CombatParticipantType combatParticipantType, CombatParticipant combatParticipant)
+        public void HighlightSlide(CombatParticipantType combatParticipantType, IEnumerable<CombatParticipant> combatParticipants)
         {
-            if (combatParticipant == this.combatParticipant)
+            SetSelected(combatParticipantType, false);
+            if (combatParticipants == null) { return; }
+
+            foreach (CombatParticipant combatParticipant in combatParticipants)
             {
-                SetSelected(combatParticipantType, true);
-            }
-            else
-            {
-                SetSelected(combatParticipantType, false);
+                if (combatParticipant == this.combatParticipant)
+                {
+                    SetSelected(combatParticipantType, true);
+                }
             }
         }
 
@@ -138,7 +140,7 @@ namespace Frankie.Combat.UI
         {
             if (battleController == null || !battleController.IsBattleActionArmed()) { return; }
 
-            battleController.AddToBattleQueue(combatParticipant);
+            battleController.AddToBattleQueue(new[] { combatParticipant });
         }
 
         protected virtual void SetSelected(CombatParticipantType combatParticipantType, bool enable)

@@ -12,7 +12,6 @@ namespace Frankie.Inventory
         // Config Data
         [SerializeField] EquipLocation equipLocation;
         [SerializeField] BaseStatModifier[] baseStatModifiers = null;
-        [SerializeField] StatusEffect[] statusEffects = null;
 
         public EquipLocation GetEquipLocation()
         {
@@ -22,11 +21,6 @@ namespace Frankie.Inventory
         public IEnumerable<BaseStatModifier> GetBaseStatModifiers()
         {
             return baseStatModifiers;
-        }
-
-        public IEnumerable<StatusEffect> GetStatusEffects()
-        {
-            return statusEffects;
         }
 
         public IEnumerable<float> GetAdditiveModifiers(Stat stat)

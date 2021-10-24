@@ -5,6 +5,7 @@ using TMPro;
 using UnityEngine.UI;
 using Frankie.Control;
 using Frankie.Speech.UI;
+using System.Linq;
 
 namespace Frankie.Combat.UI
 {
@@ -30,13 +31,13 @@ namespace Frankie.Combat.UI
         protected override void OnEnable()
         {
             Setup(CombatParticipantType.Character, battleController.GetSelectedCharacter());
-            battleController.selectedCombatParticipantChanged += Setup;
+            battleController.selectedCombatParticipantChanged += (CombatParticipantType combatParticipantType, IEnumerable<CombatParticipant> combatParticipants) => { Setup(combatParticipantType, combatParticipants.First()); };
             battleController.battleInput += HandleInput;
         }
 
         protected override void OnDisable()
         {
-            battleController.selectedCombatParticipantChanged -= Setup;
+            battleController.selectedCombatParticipantChanged -= (CombatParticipantType combatParticipantType, IEnumerable<CombatParticipant> combatParticipants) => { Setup(combatParticipantType, combatParticipants.First()); };
             battleController.battleInput -= HandleInput;
         }
 
@@ -44,8 +45,7 @@ namespace Frankie.Combat.UI
         {
             if (combatParticipantType != CombatParticipantType.Character) { return; }
 
-            if (combatParticipant == null ||
-                battleController.GetActiveBattleAction().battleActionType == BattleActionType.ActionItem) // Do not pop skill selection if using an item
+            if (combatParticipant == null || battleController.GetActiveBattleAction().IsItem()) // Do not pop skill selection if using an item
             { 
                 SetAllFields(defaultNoText);
                 canvasGroup.alpha = 0;
@@ -81,7 +81,7 @@ namespace Frankie.Combat.UI
             if (activeSkill != null)
             { 
                 skillField.text = Skill.GetSkillNamePretty(activeSkill.name);
-                battleController.SetActiveBattleAction(new BattleAction(activeSkill));
+                battleController.SetActiveBattleAction(activeSkill);
                 OnDialogueBoxModified(DialogueBoxModifiedType.itemSelected, true);
             } 
             else { skillField.text = defaultNoText; }

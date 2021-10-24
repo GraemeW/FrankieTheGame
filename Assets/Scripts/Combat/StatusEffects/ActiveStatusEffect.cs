@@ -7,11 +7,12 @@ using UnityEngine;
 
 namespace Frankie.Combat
 {
+    // TODO:  Remove the guts, rely on the effect strategy to control
     [RequireComponent(typeof(CombatParticipant))]
     public class ActiveStatusEffect : MonoBehaviour
     {
         // State
-        StatusEffect statusEffect = null;
+        EffectStrategy statusEffect = null;
         bool active = false;
         bool persistAfterBattle = false;
         float timer = 0f;
@@ -23,16 +24,6 @@ namespace Frankie.Combat
         PlayerStateHandler playerStateHandler = null;
         BattleController battleController = null;
         CombatParticipant combatParticipant = null;
-
-        // ActiveStatusEffect -- Behavior Chart:
-        // Frozen:  Slows combat participant 
-        //    -- Applied instantly, multiplicative effect on cooldown, expires after time & reverts
-        // Electrified:  Speeds combat participant, causes tick damage
-        //    -- Speed applied instantly, multuplicative effect on cooldown (primary), tick damage (secondary), expires after time & reverts speed
-        // Bleeding:  Causes tick damage that increases over time
-        //    -- Tick increases by primary value for each iteration (1*primary, 2*primary, 3*primary, ...)
-        // Burning:  Causes tick damage
-        //    -- Tick at primary damage each hit
 
 
         private void Update()
@@ -55,17 +46,10 @@ namespace Frankie.Combat
 
         private void OnDestroy()
         {
-            if (statusEffect.statusEffectType == StatusEffectType.Frozen)
-            {
-                combatParticipant.SetCooldownMultiplier(1 / statusEffect.primaryValue);
-            }
-            else if (statusEffect.statusEffectType == StatusEffectType.Electrified)
-            {
-                combatParticipant.SetCooldownMultiplier(1 / statusEffect.primaryValue);
-            }
+
         }
 
-        public void Setup(StatusEffect statusEffect, CombatParticipant combatParticipant, bool persistAfterBattle = false)
+        public void Setup(EffectStrategy statusEffect, CombatParticipant combatParticipant, bool persistAfterBattle = false)
         {
             this.statusEffect = statusEffect;
             this.combatParticipant = combatParticipant;
@@ -106,11 +90,6 @@ namespace Frankie.Combat
             }
         }
 
-        public StatusEffect GetStatusEffect()
-        {
-            return statusEffect;
-        }
-
         public string GetEffectName()
         {
             // Split apart name on lower case followed by upper case w/ or w/out underscores
@@ -119,6 +98,7 @@ namespace Frankie.Combat
 
         private void UpdateTimers()
         {
+            /*
             if (!active) { return; }
 
             timer += Time.deltaTime;
@@ -133,11 +113,12 @@ namespace Frankie.Combat
             if (timer > statusEffect.duration)
             {
                 Destroy(this);
-            }
+            }*/
         }
 
         private void HandleInstantEffects()
         {
+            /*
             if (statusEffect.statusEffectType == StatusEffectType.Frozen)
             {
                 combatParticipant.SetCooldownMultiplier(statusEffect.primaryValue);
@@ -146,10 +127,12 @@ namespace Frankie.Combat
             {
                 combatParticipant.SetCooldownMultiplier(statusEffect.primaryValue);
             }
+            */
         }
 
         private void HandleRecurringEffects()
         {
+            /*
             if (!queuedTick || !active) { return; }
 
             if (statusEffect.statusEffectType == StatusEffectType.Bleeding)
@@ -167,6 +150,7 @@ namespace Frankie.Combat
 
             tickCount++;
             queuedTick = false;
+            */
         }
 
         private void HandleBattleState(BattleState battleState)

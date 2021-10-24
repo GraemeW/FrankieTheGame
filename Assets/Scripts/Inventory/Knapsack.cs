@@ -17,6 +17,7 @@ namespace Frankie.Inventory
         ActiveInventoryItem[] slots;
 
         // Cached References
+        CombatParticipant character = null;
         Equipment equipment = null;
 
         // Static
@@ -29,6 +30,7 @@ namespace Frankie.Inventory
         {
             slots = new ActiveInventoryItem[inventorySize];
             equipment = GetComponent<Equipment>();
+            character = GetComponent<CombatParticipant>();
         }
 
         private void OnEnable()
@@ -202,6 +204,14 @@ namespace Frankie.Inventory
             }
         }
 
+        public void RemoveItem(InventoryItem inventoryItem, bool announceUpdate)
+        {
+            int slot = FindSlotWithItem(inventoryItem);
+            if (slot < 0) { return; }
+
+            RemoveFromSlot(slot, announceUpdate);
+        }
+
         public void SquishItemsInKnapsack(bool announceUpdate)
         {
             Queue<ActiveInventoryItem> knapsackQueue = new Queue<ActiveInventoryItem>();
@@ -228,29 +238,16 @@ namespace Frankie.Inventory
         }
 
         // Complex & Combination Functions
-        // Include one or ultiple calls to base functions
-        public bool UseItemInSlot(int slot, CombatParticipant combatParticipant)
+        // Include one or multiple calls to base functions
+        public bool UseItemInSlot(int slot, IEnumerable<CombatParticipant> combatParticipants)
         {
             InventoryItem inventoryItem = GetItemInSlot(slot);
             ActionItem actionItem = inventoryItem as ActionItem;
             if (actionItem == null) { return false; }
 
-            actionItem.Use(combatParticipant);
-            if (actionItem.IsConsumable())
-            { 
-                RemoveFromSlot(slot, false);
-                SquishItemsInKnapsack(true);
-            }
+            actionItem.Use(character, combatParticipants, null);
+                // Note:  item removal handled via ActionItem
             return true;
-        }
-
-        public bool UseItem(InventoryItem inventoryItem, CombatParticipant combatParticipant)
-        {
-            // Uses the first instance of the item
-            int slot = FindSlotWithItem(inventoryItem);
-            if (slot < 0) { return false; }
-
-            return UseItemInSlot(slot, combatParticipant);
         }
 
         public void DropItem(int slot)

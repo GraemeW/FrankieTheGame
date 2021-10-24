@@ -70,7 +70,7 @@ namespace Frankie.Combat.UI
 
         protected override void SetSelected(CombatParticipantType combatParticipantType, bool enable)
         {
-            if (combatParticipantType == CombatParticipantType.DefaultNone) { return; }
+            if (combatParticipantType == CombatParticipantType.Either) { return; }
 
             if (combatParticipantType == CombatParticipantType.Character)
             {

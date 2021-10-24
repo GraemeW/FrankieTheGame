@@ -2,7 +2,7 @@ namespace Frankie.Combat
 {
     public enum CombatParticipantType
     {
-        DefaultNone,
+        Either,
         Character,
         Target
     }

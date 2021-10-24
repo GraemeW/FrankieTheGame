@@ -1,5 +1,6 @@
 using Frankie.Combat;
 using Frankie.Stats;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -7,56 +8,54 @@ using UnityEngine;
 namespace Frankie.Inventory
 {
     [CreateAssetMenu(menuName = ("Inventory/Action Item"))]
-    public class ActionItem : InventoryItem
+    public class ActionItem : InventoryItem, IBattleActionUser
     {
         // Config Data
-        [Header("Behavior")]
         [SerializeField] bool consumable = true;
-        [Tooltip("This only changes the sorting order")] [SerializeField] bool friendly = false;
-        [Header("Modifiers")]
-        [SerializeField] float hpValue = 0f;
-        [SerializeField] float apValue = 0f;
-        [SerializeField] BaseStatModifier[] baseStatModifiers = null;
-        [SerializeField] bool removeStatus = false;
-        [SerializeField] StatusEffectProbabilityPair[] statusEffectProbabilityPairs = null;
-
-
-        public void Use(CombatParticipant combatParticipant)
-        {
-            if (!Mathf.Approximately(hpValue, 0f))
-            {
-                combatParticipant.AdjustHP(hpValue);
-            }
-            if (!Mathf.Approximately(apValue, 0f))
-            {
-                combatParticipant.AdjustAP(apValue);
-            }
-
-            foreach (BaseStatModifier baseStatModifier in baseStatModifiers)
-            {
-                combatParticipant.ApplyBaseStatEffect(baseStatModifier);
-            }
-            foreach (StatusEffectProbabilityPair statusEffectProbabilityPair in statusEffectProbabilityPairs)
-            {
-                if (removeStatus)
-                {
-                    combatParticipant.RemoveStatusEffects(statusEffectProbabilityPair);
-                }
-                else
-                {
-                    combatParticipant.ApplyStatusEffect(statusEffectProbabilityPair);
-                }
-            }
-        }
+        [SerializeField] BattleAction battleAction = null;
 
         public bool IsConsumable()
         {
             return consumable;
         }
 
-        public bool IsFriendly()
+        public void Use(CombatParticipant sender, IEnumerable<CombatParticipant> recipients, Action finished)
         {
-            return friendly;
+            if (battleAction == null) { return; }
+
+            battleAction.Use(sender, recipients);
+
+            if (IsConsumable())
+            {
+                Knapsack knapsack = sender.GetKnapsack();
+                knapsack.RemoveItem(this, false);
+                knapsack.SquishItemsInKnapsack(true);
+            }
+
+            if (finished != null)
+            {
+                finished.Invoke();
+            }
+        }
+
+        public IEnumerable<CombatParticipant> GetTargets(bool? traverseForward, IEnumerable<CombatParticipant> currentTargets, IEnumerable<CombatParticipant> activeCharacters, IEnumerable<CombatParticipant> activeEnemies)
+        {
+            if (battleAction == null) { yield break; }
+
+            foreach(CombatParticipant combatParticipant in battleAction.GetTargets(traverseForward, currentTargets, activeCharacters, activeEnemies))
+            {
+                yield return combatParticipant;
+            }
+        }
+
+        public bool IsItem()
+        {
+            return true;
+        }
+
+        public string GetName()
+        {
+            return GetItemNamePretty(name);
         }
     }
 

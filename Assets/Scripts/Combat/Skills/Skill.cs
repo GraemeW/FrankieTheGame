@@ -1,3 +1,5 @@
+using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using UnityEngine;
@@ -5,19 +7,11 @@ using UnityEngine;
 namespace Frankie.Combat
 {
     [CreateAssetMenu(fileName = "New Skill", menuName = "Skills/New Skill")]
-    public class Skill : ScriptableObject, ISerializationCallbackReceiver
+    public class Skill : ScriptableObject, IBattleActionUser, ISerializationCallbackReceiver
     {
         // Tunables
-        [Header("Behaviour")]
-        public float cooldown = 1.0f;
-        [Tooltip("This only changes the sorting order")] [SerializeField] bool friendly = false;
-        [Header("Modifiers")]
         public SkillStat stat = default;
-        public float apValue = 0f;
-        public float hpValue = 0f;
-        public int numberOfHits = 1;
-        public DamageType damageType = default;
-        public StatusEffectProbabilityPair[] statusEffects = null;
+        [SerializeField] BattleAction battleAction = null;
 
         // State
         static Dictionary<string, Skill> skillLookupCache;
@@ -34,9 +28,9 @@ namespace Frankie.Combat
             return skillLookupCache[name];
         }
 
-        public static string GetSkillNamePretty(string skillName)
+        public static string GetSkillNamePretty(string name)
         {
-            return Regex.Replace(skillName, "([a-z])_?([A-Z])", "$1 $2");
+            return Regex.Replace(name, "([a-z])_?([A-Z])", "$1 $2");
         }
 
         private static void BuildSkillCache()
@@ -55,9 +49,29 @@ namespace Frankie.Combat
             }
         }
 
-        public bool IsFriendly()
+        public void Use(CombatParticipant sender, IEnumerable<CombatParticipant> recipients, Action finished)
         {
-            return friendly;
+            battleAction.Use(sender, recipients);
+
+            if (finished != null)
+            {
+                finished.Invoke();
+            }
+        }
+
+        public IEnumerable<CombatParticipant> GetTargets(bool? traverseForward, IEnumerable<CombatParticipant> currentTarget, IEnumerable<CombatParticipant> activeCharacters, IEnumerable<CombatParticipant> activeEnemies)
+        {
+            return battleAction.GetTargets(traverseForward, currentTarget, activeCharacters, activeEnemies);
+        }
+
+        public bool IsItem()
+        {
+            return false;
+        }
+
+        public string GetName()
+        {
+            return GetSkillNamePretty(name);
         }
 
         #region Interfaces

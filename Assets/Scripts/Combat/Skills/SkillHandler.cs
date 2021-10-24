@@ -14,21 +14,6 @@ namespace Frankie.Combat
         SkillBranch currentBranch = null;
         Skill activeSkill = null;
 
-        public static IEnumerator Use(Skill skill, CombatParticipant sender, CombatParticipant recipient, float delay)
-        {
-            for (int i = 0; i < skill.numberOfHits; i++)
-            {
-                sender.SetCooldown(sender.GetCooldownForSkill(skill));
-                recipient.AdjustHP(sender.GetHPValueForSkill(skill));
-                recipient.AdjustAP(sender.GetAPValueForSkill(skill));
-                foreach (StatusEffectProbabilityPair statusEffectProbabilityPair in skill.statusEffects)
-                {
-                    recipient.ApplyStatusEffect(statusEffectProbabilityPair);
-                }
-                yield return new WaitForSeconds(delay);
-            }
-        }
-
         public void SetBranchOrSkill(SkillBranchMapping skillBranchMapping)
         {
             // Attempts to set branch first;  otherwise sets skill

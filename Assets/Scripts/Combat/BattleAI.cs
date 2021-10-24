@@ -51,31 +51,21 @@ namespace Frankie.Combat
                 && combatParticipant.IsInCombat()
                 && !combatParticipant.IsInCooldown())
             {
-                CombatParticipant target = null;
+                Skill skill = GetSkill();
+                IEnumerable<CombatParticipant> targets;
                 if (combatParticipant.GetFriendly())
                 {
-                    target = GetTarget(battleController.GetEnemies().Where(x => !x.IsDead()).ToList());
+                    targets = skill.GetTargets(true, null, battleController.GetCharacters(), battleController.GetEnemies());
                 }
                 else
                 {
-                    target = GetTarget(battleController.GetCharacters().Where(x => !x.IsDead()).ToList());
+                    targets = skill.GetTargets(true, null, battleController.GetEnemies(), battleController.GetCharacters());
                 }
-                Skill skill = GetSkill();
 
-                if (combatParticipant == null || target == null || skill == null) { return; }
-                battleController.AddToBattleQueue(combatParticipant, target, new BattleAction(skill));
+                if (combatParticipant == null || targets == null || skill == null) { return; }
+                battleController.AddToBattleQueue(combatParticipant, targets, skill);
                 ClearSelectionMemory();
             }
-        }
-
-        public virtual CombatParticipant GetTarget(List<CombatParticipant> targets)
-        {
-            // Simple implementation -- choose at random
-            int targetCount = targets.Count;
-            if (targetCount == 0) { return null; }
-
-            int targetIndex = Random.Range(0, targetCount);
-            return targets[targetIndex];
         }
 
         public virtual Skill GetSkill()

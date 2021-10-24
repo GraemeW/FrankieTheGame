@@ -1,11 +1,12 @@
 using Frankie.Inventory;
+using System.Collections.Generic;
 
 namespace Frankie.Combat
 {
     public struct BattleSequence
     {
-        public BattleAction battleAction;
+        public IBattleActionUser battleAction;
         public CombatParticipant sender;
-        public CombatParticipant recipient;
+        public IEnumerable<CombatParticipant> recipients;
     }
 }
