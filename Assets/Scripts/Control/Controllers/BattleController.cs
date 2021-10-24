@@ -335,14 +335,14 @@ namespace Frankie.Combat
 
         public bool SetSelectedTarget(IEnumerable<CombatParticipant> targets)
         {
-            if (targets == null || targets.Count() == 0) { return false; }
-            if (targets.All(x => x.IsDead())) { return false; }
-
             selectedTargets = targets;
             if (selectedCombatParticipantChanged != null)
             {
                 selectedCombatParticipantChanged.Invoke(CombatParticipantType.Target, selectedTargets);
             }
+
+            if (targets == null || targets.Count() == 0) { return false; }
+            if (targets.All(x => x.IsDead())) { return false; }
             return true;
         }
 
@@ -447,7 +447,7 @@ namespace Frankie.Combat
             }
             else if (selectedBattleAction != null)
             {
-                selectedTargets = selectedBattleAction.GetTargets(true, null, activeCharacters, activeEnemies);
+                SetSelectedTarget(selectedBattleAction.GetTargets(true, null, activeCharacters, activeEnemies));
                 battleActionArmed = true;
             }
             else { return; }
