@@ -6,8 +6,8 @@ using UnityEngine;
 
 namespace Frankie.Combat
 {
-    [CreateAssetMenu(fileName = "New Stat Effect", menuName = "BattleAction/Effects/Stat Effect")]
-    public class PersistentStatEffect : EffectStrategy
+    [CreateAssetMenu(fileName = "New Persistent Stat Effect", menuName = "BattleAction/Effects/Persistent Stat Effect")]
+    public class ApplyPersistentStatEffect : EffectStrategy
     {
         [SerializeField] [Range(0, 1)] float fractionProbabilityToApply = 0.5f;
         [SerializeField] StatusType statusEffectType = default;

@@ -21,11 +21,12 @@ namespace Frankie.Combat
 
         public IEnumerable<float> GetAdditiveModifiers(Stat stat)
         {
+            if (!active) { yield break; }
+
             if (this.stat == stat)
             {
                 yield return value;
             }
-            yield break;
         }
     }
 

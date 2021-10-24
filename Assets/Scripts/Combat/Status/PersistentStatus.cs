@@ -9,7 +9,7 @@ namespace Frankie.Combat
     public class PersistentStatus : MonoBehaviour
     {
         // Tunables
-        protected StatusType statusEffectType = default;
+        protected StatusType statusType = default;
         protected float duration = Mathf.Infinity;
         protected bool persistAfterBattle = false;
 
@@ -37,9 +37,14 @@ namespace Frankie.Combat
             if (battleController != null) { battleController.battleStateChanged -= HandleBattleState; }
         }
 
-        protected void Setup(StatusType statusEffectType, float duration, bool persistAfterBattle = false)
+        public StatusType GetStatusType()
         {
-            this.statusEffectType = statusEffectType;
+            return statusType;
+        }
+
+        protected void Setup(StatusType statusType, float duration, bool persistAfterBattle = false)
+        {
+            this.statusType = statusType;
             this.duration = duration;
             this.persistAfterBattle = persistAfterBattle;
 
