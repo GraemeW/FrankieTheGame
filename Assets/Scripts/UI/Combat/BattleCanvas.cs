@@ -116,6 +116,7 @@ namespace Frankie.Combat.UI
                 combatLog.AddCombatLogText("  Combat Started . . . ");
                 combatLog.gameObject.SetActive(true);
                 skillSelection.gameObject.SetActive(true);
+                battleController.SetSelectedCharacter(null);
             }
             else if (state == BattleState.Outro)
             {

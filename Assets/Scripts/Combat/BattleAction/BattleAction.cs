@@ -13,17 +13,20 @@ namespace Frankie.Combat
         [SerializeField] EffectStrategy[] effectStrategies = null;
         [Header("Other Inputs")]
         [SerializeField] float cooldown = 0f;
-        [SerializeField] float manaCost = 0f;
+        [SerializeField] float apCost = 0f;
 
         public void Use(CombatParticipant sender, IEnumerable<CombatParticipant> recipients)
         {
+            // TODO:  check if have enough AP to decide if we're doin' this
+            // TODO:  any other checks?  recipients sanity check?
+
             if (effectStrategies == null) { return; }
             foreach(EffectStrategy effectStrategy in effectStrategies)
             {
                 effectStrategy.StartEffect(sender, recipients);
             }
             sender.SetCooldown(cooldown);
-            sender.AdjustAP(-manaCost);
+            sender.AdjustAP(-apCost);
         }
 
         public IEnumerable<CombatParticipant> GetTargets(bool? traverseForward, IEnumerable<CombatParticipant> currentTargets, IEnumerable<CombatParticipant> activeCharacters, IEnumerable<CombatParticipant> activeEnemies)

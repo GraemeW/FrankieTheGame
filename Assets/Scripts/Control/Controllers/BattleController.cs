@@ -134,7 +134,7 @@ namespace Frankie.Combat
 
         private void LateUpdate()
         {
-            if (state == BattleState.Combat && selectedBattleAction != null && selectedBattleAction.IsItem()) // Item use handling;  suppresses character selection -> Skill Selection visible
+            if (state == BattleState.Combat)
             {
                 AutoSelectCharacter();
             }
@@ -316,9 +316,7 @@ namespace Frankie.Combat
 
         public bool SetSelectedCharacter(CombatParticipant character)
         {
-            if (character == null) { 
-                SetActiveBattleAction(null); 
-            }
+            if (character == null) { SetActiveBattleAction(null); }
             if (character != null) { if (character.IsDead() || character.IsInCooldown()) { return false; } }
 
             selectedCharacter = character;
@@ -331,6 +329,7 @@ namespace Frankie.Combat
 
         public CombatParticipant GetSelectedCharacter()
         {
+            AutoSelectCharacter();
             return selectedCharacter;
         }
 
@@ -354,7 +353,7 @@ namespace Frankie.Combat
 
         public void SetActiveBattleAction(IBattleActionUser battleAction)
         {
-            if (battleAction ==null)
+            if (battleAction == null)
             {
                 SetBattleActionArmed(false);
                 if (selectedCharacter != null) { selectedCharacter.GetComponent<SkillHandler>().ResetCurrentBranch(); }

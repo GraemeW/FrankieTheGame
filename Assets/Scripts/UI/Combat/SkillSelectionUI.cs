@@ -20,6 +20,9 @@ namespace Frankie.Combat.UI
         [SerializeField] TextMeshProUGUI skillField = null;
         [SerializeField] string defaultNoText = "--";
 
+        // State
+        CombatParticipant currentCombatParticipant = null;
+
         // Cached References
         BattleController battleController = null;
 
@@ -30,33 +33,42 @@ namespace Frankie.Combat.UI
 
         protected override void OnEnable()
         {
-            Setup(CombatParticipantType.Character, battleController.GetSelectedCharacter());
-            battleController.selectedCombatParticipantChanged += (CombatParticipantType combatParticipantType, IEnumerable<CombatParticipant> combatParticipants) => { Setup(combatParticipantType, combatParticipants.First()); };
+            battleController.selectedCombatParticipantChanged += Setup;
             battleController.battleInput += HandleInput;
         }
 
         protected override void OnDisable()
         {
-            battleController.selectedCombatParticipantChanged -= (CombatParticipantType combatParticipantType, IEnumerable<CombatParticipant> combatParticipants) => { Setup(combatParticipantType, combatParticipants.First()); };
+            battleController.selectedCombatParticipantChanged -= Setup;
             battleController.battleInput -= HandleInput;
         }
 
-        private void Setup(CombatParticipantType combatParticipantType, CombatParticipant combatParticipant)
+        private void Setup(CombatParticipantType combatParticipantType, IEnumerable<CombatParticipant> combatParticipants)
         {
             if (combatParticipantType != CombatParticipantType.Character) { return; }
+            if (combatParticipants == null) { ResetUI(); return; }
 
-            if (combatParticipant == null || battleController.GetActiveBattleAction().IsItem()) // Do not pop skill selection if using an item
-            { 
-                SetAllFields(defaultNoText);
-                canvasGroup.alpha = 0;
+            CombatParticipant combatParticipant = combatParticipants.First(); // Expectation is single entry, handling edge case
+            currentCombatParticipant = combatParticipant;
+
+            if (currentCombatParticipant == null || 
+                (battleController.GetActiveBattleAction() != null && battleController.GetActiveBattleAction().IsItem())) // Do not pop skill selection if using an item
+            {
+                ResetUI();
                 return; 
             }
             canvasGroup.alpha = 1;
 
-            selectedCharacterNameField.text = combatParticipant.GetCombatName();
-            SkillHandler skillHandler = combatParticipant.GetComponent<SkillHandler>();
+            selectedCharacterNameField.text = currentCombatParticipant.GetCombatName();
+            SkillHandler skillHandler = currentCombatParticipant.GetComponent<SkillHandler>();
             skillHandler.ResetCurrentBranch();
             UpdateSkills(skillHandler);
+        }
+
+        private void ResetUI()
+        {
+            SetAllFields(defaultNoText);
+            canvasGroup.alpha = 0;
         }
 
         private void SetAllFields(string text)
