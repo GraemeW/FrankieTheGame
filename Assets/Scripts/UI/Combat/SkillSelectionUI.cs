@@ -46,19 +46,16 @@ namespace Frankie.Combat.UI
         private void Setup(CombatParticipantType combatParticipantType, IEnumerable<CombatParticipant> combatParticipants)
         {
             if (combatParticipantType != CombatParticipantType.Character) { return; }
+            if (battleController.GetActiveBattleAction() != null && battleController.GetActiveBattleAction().IsItem()) { return; } // Do not pop skill selection if using an item
             if (combatParticipants == null) { ResetUI(); return; }
 
             CombatParticipant combatParticipant = combatParticipants.First(); // Expectation is single entry, handling edge case
             currentCombatParticipant = combatParticipant;
 
-            if (currentCombatParticipant == null || 
-                (battleController.GetActiveBattleAction() != null && battleController.GetActiveBattleAction().IsItem())) // Do not pop skill selection if using an item
-            {
-                ResetUI();
-                return; 
-            }
-            canvasGroup.alpha = 1;
+            if (currentCombatParticipant == null) { ResetUI(); return; }
 
+            // Otherwise set up the skill handler
+            canvasGroup.alpha = 1;
             selectedCharacterNameField.text = currentCombatParticipant.GetCombatName();
             SkillHandler skillHandler = currentCombatParticipant.GetComponent<SkillHandler>();
             skillHandler.ResetCurrentBranch();
