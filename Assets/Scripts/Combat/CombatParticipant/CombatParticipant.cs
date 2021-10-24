@@ -22,7 +22,6 @@ namespace Frankie.Combat
 
         [Header("Combat Properties")]
         [SerializeField] float battleStartCooldown = 1.0f;
-        [SerializeField] float cooldownMultiplier = 1f;
         [SerializeField] float damageTimeSpan = 4.0f;
         [SerializeField] float fractionOfHPInstantOnRevival = 0.5f;
 
@@ -58,7 +57,7 @@ namespace Frankie.Combat
             equipment = GetComponent<Equipment>();
             currentHP = new LazyValue<float>(GetMaxHP);
             currentAP = new LazyValue<float>(GetMaxAP);
-            isDead = new LazyValue<bool>(SpawnAlive);
+            isDead = new LazyValue<bool>(() => false);
         }
 
         private void OnEnable()
@@ -126,24 +125,12 @@ namespace Frankie.Combat
 
         public float GetBattleStartCooldown()
         {
-            return battleStartCooldown;
-        }
-
-        public void SetCooldownMultiplier(float cooldownMultiplier)
-        {
-            if (Mathf.Approximately(this.cooldownMultiplier, 0f))
-            {
-                this.cooldownMultiplier = cooldownMultiplier;
-            }
-            else
-            {
-                this.cooldownMultiplier *= cooldownMultiplier;
-            }
+            return battleStartCooldown * GetCooldownMultiplier();
         }
 
         public float GetCooldownMultiplier()
         {
-            return cooldownMultiplier;
+            return baseStats.GetCalculatedStat(CalculatedStat.CooldownFraction);
         }
 
         public bool IsInCombat()
@@ -210,7 +197,7 @@ namespace Frankie.Combat
         public void SetCooldown(float seconds)
         {
             inCooldown = true;
-            cooldownTimer = seconds * cooldownMultiplier;
+            cooldownTimer = seconds * GetCooldownMultiplier();
             if (stateAltered != null)
             {
                 stateAltered.Invoke(this, new StateAlteredData(StateAlteredType.CooldownSet));
@@ -293,9 +280,14 @@ namespace Frankie.Combat
             return baseStats;
         }
 
-        private bool SpawnAlive()
+        public void AnnounceStateUpdate(StateAlteredData stateAlteredData)
         {
-            return false;
+            if (stateAlteredData == null) { return; }
+
+            if (stateAltered != null)
+            {
+                stateAltered.Invoke(this, stateAlteredData);
+            }
         }
 
         // Private functions
@@ -343,18 +335,6 @@ namespace Frankie.Combat
                     stateAltered.Invoke(this, new StateAlteredData(StateAlteredType.CooldownExpired));
                 }
             }
-        }
-
-        private float GetBaseStatsModifier(Skill skill)
-        {
-            float baseStatsModifier = 0f;
-            if (skill.stat != SkillStat.None)
-            {
-                Stat stat = (Stat)Enum.Parse(typeof(Stat), skill.stat.ToString()); // Enum-to-enum match; SkillStat is a subset of Stat
-                baseStatsModifier = baseStats.GetStat(stat);
-            }
-
-            return baseStatsModifier;
         }
 
         private void PassLevelUpMessage(int level, Dictionary<Stat, float> levelUpSheet)

@@ -9,8 +9,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2d638f604ff65db4f9e75a2cc6eb7bd3, type: 3}
-  m_Name: ShootTheShit
+  m_Script: {fileID: 11500000, guid: 0e30d0381f78b344394e8c35b72a4583, type: 3}
+  m_Name: DoActualWorkDoT
   m_EditorClassIdentifier: 
-  stat: 5
-  battleAction: {fileID: 11400000, guid: f53c87ce42556f04f93ae4e4cc9110a4, type: 2}
+  fractionProbabilityToApply: 0.5
+  statusEffectType: 0
+  duration: 10
+  tickPeriod: 0.5
+  healthChangePerTick: -1

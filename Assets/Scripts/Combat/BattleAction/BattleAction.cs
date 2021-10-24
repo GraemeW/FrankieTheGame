@@ -15,6 +15,38 @@ namespace Frankie.Combat
         [SerializeField] float cooldown = 0f;
         [SerializeField] float apCost = 0f;
 
+        // State
+        static Dictionary<string, BattleAction> battleActionLookupCache;
+
+        public static BattleAction GetBattleActionFromName(string name)
+        {
+            if (string.IsNullOrWhiteSpace(name)) { return null; }
+
+            if (battleActionLookupCache == null)
+            {
+                BuildBattleActionCache();
+            }
+            if (name == null || !battleActionLookupCache.ContainsKey(name)) return null;
+            return battleActionLookupCache[name];
+        }
+
+        private static void BuildBattleActionCache()
+        {
+            battleActionLookupCache = new Dictionary<string, BattleAction>();
+            BattleAction[] battleActionList = Resources.LoadAll<BattleAction>("");
+            foreach (BattleAction battleAction in battleActionList)
+            {
+                if (battleActionLookupCache.ContainsKey(battleAction.name))
+                {
+                    Debug.LogError(string.Format("Looks like there's a duplicate ID for objects: {0} and {1}", battleActionLookupCache[battleAction.name], battleAction));
+                    continue;
+                }
+
+                battleActionLookupCache[battleAction.name] = battleAction;
+            }
+        }
+
+
         public void Use(CombatParticipant sender, IEnumerable<CombatParticipant> recipients)
         {
             // TODO:  check if have enough AP to decide if we're doin' this

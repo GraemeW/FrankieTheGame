@@ -8,11 +8,14 @@ namespace Frankie.Stats
 {
     public class BaseStats : MonoBehaviour, ISaveable
     {
+        // Behavior Detail
+        // Progression defines 1) Stats at level 1 --> pulled to the active stat sheet, which is what is saved
+        // 2)  Modifiers used as basis for subsequent levels --> multiplied out by a random factor, and then added to active stat sheet
+
         // Tunables
         [SerializeField] CharacterProperties characterProperties = null;
         [Range(1, 99)] [SerializeField] int defaultLevel = 1;
         [Range(1, 99)] [SerializeField] int maxLevel = 99;
-        [SerializeField] bool shouldUseModifiers = false;
         [SerializeField] Progression progression = null;
         [Range(0, 1)][SerializeField] float bonusStatOnLevelMidProbability = 0.3f;
         [Range(0, 1)][SerializeField] float bonusStatOnLevelHighProbability = 0.1f;
@@ -30,6 +33,7 @@ namespace Frankie.Stats
         // Static
         public static Stat[] GetNonModifyingStats()
         {
+            // Subset enum for those equipment should not touch
             Stat[] nonModifyingStats = new Stat[] { Stat.EffectiveLevel, Stat.ExperienceReward, Stat.ExperienceToLevelUp };
             return nonModifyingStats;
         }
@@ -37,7 +41,7 @@ namespace Frankie.Stats
         private void Awake()
         {
             experience = GetComponent<Experience>();
-            currentLevel = new LazyValue<int>(GetDefaultLevel);
+            currentLevel = new LazyValue<int>(() => defaultLevel);
         }
 
         private void Start()
@@ -63,12 +67,24 @@ namespace Frankie.Stats
             }
             if (activeStatSheet.ContainsKey(stat)) { return activeStatSheet[stat]; }
 
-            return progression.GetStat(stat, characterProperties, GetLevel()); // Default behavior from original implementation
+            return GetProgressionStat(stat);
         }
 
         private float GetProgressionStat(Stat stat)
         {
+            // Default behavior from original implementation
+            // Carried forward for level-up behavior
+
             return progression.GetStat(stat, characterProperties, GetLevel());
+        }
+
+        public float GetCalculatedStat(CalculatedStat calculatedStat)
+        {
+            if (CalculatedStats.GetStatModifier(calculatedStat, out Stat statModifier))
+            {
+                return CalculatedStats.GetCalculatedStat(calculatedStat, GetLevel(), GetStat(statModifier));
+            }
+            return 0f;
         }
 
         private void BuildActiveStatSheet()
@@ -88,8 +104,6 @@ namespace Frankie.Stats
 
         private float GetAdditiveModifiers(Stat stat)
         {
-            if (!shouldUseModifiers) return 0;
-
             float sumModifier = 0f;
             IModifierProvider[] modifierProviders = GetComponents<IModifierProvider>();
             foreach (IModifierProvider modifierProvider in modifierProviders)
@@ -102,19 +116,9 @@ namespace Frankie.Stats
             return sumModifier;
         }
 
-        public float GetStatForLevel(Stat stat, int level)
-        {
-            return progression.GetStat(stat, characterProperties, level);
-        }
-
         public int GetLevel()
         {
             return currentLevel.value;
-        }
-
-        public void RefreshLevel()
-        {
-            currentLevel.ForceInit();
         }
 
         public void AdjustStat(Stat stat, float value)
@@ -182,11 +186,6 @@ namespace Frankie.Stats
             if (randomSeed <= bonusStatOnLevelHighProbability) { return 0.5f; }
             else if (randomSeed <= (bonusStatOnLevelMidProbability + bonusStatOnLevelHighProbability)) { return 0.25f; }
             else { return 0; }
-        }
-
-        private int GetDefaultLevel()
-        {
-            return defaultLevel;
         }
 
         #region Interfaces

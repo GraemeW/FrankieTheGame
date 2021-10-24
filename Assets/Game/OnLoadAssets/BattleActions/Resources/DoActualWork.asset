@@ -9,8 +9,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2d638f604ff65db4f9e75a2cc6eb7bd3, type: 3}
+  m_Script: {fileID: 11500000, guid: 3e8ff82454b5c704385bdc320a0c9aaf, type: 3}
   m_Name: DoActualWork
   m_EditorClassIdentifier: 
-  stat: 6
-  battleAction: {fileID: 11400000, guid: 48f3b0baf98a52742baba0cdb1f4b9c4, type: 2}
+  targetingStrategy: {fileID: 11400000, guid: a2948b2748da27843bd0d733c7049147, type: 2}
+  effectStrategies:
+  - {fileID: 11400000, guid: 07271d4466288da42a78d875ee44b004, type: 2}
+  cooldown: 1
+  apCost: 0

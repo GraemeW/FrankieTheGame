@@ -49,6 +49,16 @@ namespace Frankie.Combat
             }
         }
 
+        private void AttemptToSetBattleAction()
+        {
+            BattleAction battleActionFromName = BattleAction.GetBattleActionFromName(name);
+            if (battleActionFromName != null && battleActionFromName != battleAction)
+            {
+                battleAction = battleActionFromName;
+                Debug.Log($"Battle action updated to: {battleActionFromName}");
+            }
+        }
+
         public void Use(CombatParticipant sender, IEnumerable<CombatParticipant> recipients, Action finished)
         {
             battleAction.Use(sender, recipients);
@@ -79,6 +89,7 @@ namespace Frankie.Combat
         {
 #if UNITY_EDITOR
             BuildSkillCache(); // Force reload of skill cache to populate skill look-up in editor
+            AttemptToSetBattleAction();
 #endif
         }
 
