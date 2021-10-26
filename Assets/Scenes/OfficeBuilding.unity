@@ -222,7 +222,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 47c843d51c92e854f95fb02bd7be9471, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  action: fight
+  dialogueTriggerType: 2
+  triggerNode: {fileID: 1570589005771257271, guid: 0ff830ad00da1a54f9eabecbfbb72aba, type: 2}
   onTriggerWithCallingController:
     m_PersistentCalls:
       m_Calls:
@@ -340,7 +341,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 47c843d51c92e854f95fb02bd7be9471, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  action: fight
+  dialogueTriggerType: 2
+  triggerNode: {fileID: 6847376204229358862, guid: fecb156f8f30deb478815893d0c153cf, type: 2}
   onTriggerWithCallingController:
     m_PersistentCalls:
       m_Calls:
@@ -1746,12 +1748,42 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 47c843d51c92e854f95fb02bd7be9471, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  action: fight
+  dialogueTriggerType: 2
+  triggerNode: {fileID: 5483484024122596795, guid: 4f94e6ca4b90a6740b0536613dc1d840, type: 2}
   onTriggerWithCallingController:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 596216395}
         m_TargetAssemblyTypeName: Frankie.Control.NPCController, Assembly-CSharp
+        m_MethodName: InitiateCombat
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!114 &596216400
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 596216394}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 47c843d51c92e854f95fb02bd7be9471, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  dialogueTriggerType: 2
+  triggerNode: {fileID: 2088064155005426061, guid: 4f94e6ca4b90a6740b0536613dc1d840, type: 2}
+  onTriggerWithCallingController:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 596216395}
+        m_TargetAssemblyTypeName: Frankie.Control.NPCStateHandler, Assembly-CSharp
         m_MethodName: InitiateCombat
         m_Mode: 0
         m_Arguments:
@@ -2009,7 +2041,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 47c843d51c92e854f95fb02bd7be9471, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  action: fight
+  dialogueTriggerType: 2
+  triggerNode: {fileID: -5822392920620821437, guid: 513f9619ce9a950449f3a2a7e06cf5be, type: 2}
   onTriggerWithCallingController:
     m_PersistentCalls:
       m_Calls:
@@ -2037,7 +2070,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 47c843d51c92e854f95fb02bd7be9471, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  action: stopchase
+  dialogueTriggerType: 2
+  triggerNode: {fileID: -5822392920620821437, guid: 513f9619ce9a950449f3a2a7e06cf5be, type: 2}
   onTriggerWithCallingController:
     m_PersistentCalls:
       m_Calls:
@@ -2151,7 +2185,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 47c843d51c92e854f95fb02bd7be9471, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  action: fight
+  dialogueTriggerType: 2
+  triggerNode: {fileID: 4572544580911562930, guid: f07cd3c1f51c529489daf834d7a4218d, type: 2}
   onTriggerWithCallingController:
     m_PersistentCalls:
       m_Calls:
@@ -2790,7 +2825,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 47c843d51c92e854f95fb02bd7be9471, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  action: fight
+  dialogueTriggerType: 2
+  triggerNode: {fileID: -6124424448896261617, guid: 7382b1a7f806c584294949ba4f8e9aa7, type: 2}
   onTriggerWithCallingController:
     m_PersistentCalls:
       m_Calls:
@@ -4202,7 +4238,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 47c843d51c92e854f95fb02bd7be9471, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  action: joinParty
+  dialogueTriggerType: 2
+  triggerNode: {fileID: -7182139537527727821, guid: b9c8fc0bd96239c4180e4a69933e331d, type: 2}
   onTriggerWithCallingController:
     m_PersistentCalls:
       m_Calls:

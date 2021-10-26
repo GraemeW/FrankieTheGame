@@ -19,8 +19,6 @@ namespace Frankie.Speech
         [SerializeField] Rect rect = new Rect(30, 30, 400, 200);
         [HideInInspector] [SerializeField] Rect draggingRect = new Rect(0, 0, 400, 45);
         [Header("Additional Properties")]
-        [SerializeField] string onEnterAction = "";
-        [SerializeField] string onExitAction = "";
         [SerializeField] Condition condition = null;
 
         public string GetCharacterName()
@@ -70,16 +68,6 @@ namespace Frankie.Speech
         public Rect GetDraggingRect()
         {
             return draggingRect;
-        }
-
-        public string GetOnEnterAction()
-        {
-            return onEnterAction;
-        }
-
-        public string GetOnExitAction()
-        {
-            return onExitAction;
         }
 
         public bool SetSpeakerName(string speakerName)

@@ -21,7 +21,6 @@ namespace Frankie.Speech
         DialogueNode currentNode = null;
         AIConversant currentConversant = null;
         DialogueNode highlightedNode = null;
-        string finalTriggerAction = null;
 
         bool isSimpleMessage = false;
         string simpleMessage = "";
@@ -38,7 +37,10 @@ namespace Frankie.Speech
         public event Action<PlayerInputType> globalInput;
         public event Action<PlayerInputType> dialogueInput;
         public event Action<DialogueNode> highlightedNodeChanged;
+        public event Action<DialogueNode> dialogueNodeEntered;
+        public event Action<DialogueNode> dialogueNodeExited;
         public event Action dialogueUpdated;
+        public event Action dialogueComplete;
 
         // Interaction
         private void Awake()
@@ -204,14 +206,24 @@ namespace Frankie.Speech
             currentDialogue = newDialogue;
             currentDialogue.OverrideSpeakerNames(GetPlayerName());
 
-            currentNode = currentDialogue.GetRootNode();
+            SetupDialogueTriggers();
+
+            SetCurrentNode(currentDialogue.GetRootNode());
             if (currentDialogue.skipRootNode) { Next(false); }
 
             Instantiate(dialogueBoxPrefab, worldCanvas.transform);
-            TriggerEnterAction();
             if (dialogueUpdated != null)
             {
                 dialogueUpdated.Invoke();
+            }
+        }
+
+        private void SetupDialogueTriggers()
+        {
+            DialogueTrigger[] dialogueTriggers = currentConversant.GetComponents<DialogueTrigger>();  // N.B.  Dialogue triggers need to live on same game object as conversant component
+            foreach (DialogueTrigger dialogueTrigger in dialogueTriggers)
+            {
+                dialogueTrigger.Setup(this, playerStateHandler);
             }
         }
 
@@ -232,17 +244,16 @@ namespace Frankie.Speech
 
         public void EndConversation()
         {
-            QueueFinalTriggerAction();
             currentDialogue = null;
-            currentNode = null;
+            SetCurrentNode(null);
             if (dialogueUpdated != null)
             {
                 dialogueUpdated.Invoke();
             }
             playerStateHandler.ExitDialogue();
 
-            TriggerFinalAction();
-            currentConversant = null; // Do not release currentConversant until final action triggered
+            dialogueComplete.Invoke();
+            currentConversant = null;
         }
 
         public bool IsSimpleMessage()
@@ -352,9 +363,7 @@ namespace Frankie.Speech
         {
             if (HasNext())
             {
-                TriggerExitAction();
-                currentNode = currentDialogue.GetNodeFromID(nodeID);
-                TriggerEnterAction();
+                SetCurrentNode(currentDialogue.GetNodeFromID(nodeID));
                 if (HasNext()) // Skip re-showing the player choice
                 {
                     Next();
@@ -364,7 +373,6 @@ namespace Frankie.Speech
                     if (dialogueUpdated != null)
                     {
                         dialogueUpdated.Invoke();
-                        TriggerEnterAction();
                     }
                 }
             }
@@ -376,9 +384,7 @@ namespace Frankie.Speech
             {
                 List<string> filteredDialogueOptions = FilterOnCondition(currentNode.GetChildren()).ToList();
                 int nodeIndex = UnityEngine.Random.Range(0, filteredDialogueOptions.Count);
-                if (withTriggers) { TriggerExitAction(); }
-                currentNode = currentDialogue.GetNodeFromID(filteredDialogueOptions[nodeIndex]);
-                if (withTriggers) { TriggerEnterAction(); }
+                SetCurrentNode(currentDialogue.GetNodeFromID(filteredDialogueOptions[nodeIndex]));
                 if (dialogueUpdated != null)
                 {
                     dialogueUpdated.Invoke();
@@ -386,47 +392,21 @@ namespace Frankie.Speech
             }
         }
 
-        private void TriggerEnterAction()
+        private void SetCurrentNode(DialogueNode dialogueNode)
         {
-            if (currentNode == null) { return; }
-            TriggerAction(currentNode.GetOnEnterAction());
-        }
+            if (currentNode == dialogueNode) { return; }
 
-        private void TriggerExitAction()
-        {
-            if (currentNode == null) { return; }
-            TriggerAction(currentNode.GetOnExitAction());
-        }
-
-        private void QueueFinalTriggerAction()
-        {
-            if (currentNode == null) { return; }
-            finalTriggerAction = currentNode.GetOnExitAction();
-        }
-
-        private void TriggerAction(string action)
-        {
-            if (currentNode != null && !string.IsNullOrWhiteSpace(action))
+            if (dialogueNodeExited != null)
             {
-                DialogueTrigger[] dialogueTriggers = currentConversant.GetComponents<DialogueTrigger>();  // N.B.  Dialogue triggers need to live on same game object as conversant component
-                foreach (DialogueTrigger dialogueTrigger in dialogueTriggers)
-                {
-                    dialogueTrigger.Trigger(action, playerStateHandler);
-                }
+                dialogueNodeExited.Invoke(currentNode);
             }
-        }
 
-        private void TriggerFinalAction()
-        {
-            if (!string.IsNullOrWhiteSpace(finalTriggerAction))
+            currentNode = dialogueNode;
+
+            if (dialogueNodeEntered != null)
             {
-                DialogueTrigger[] dialogueTriggers = currentConversant.GetComponents<DialogueTrigger>();  // N.B.  Dialogue triggers need to live on same game object as conversant component
-                foreach (DialogueTrigger dialogueTrigger in dialogueTriggers)
-                {
-                    dialogueTrigger.Trigger(finalTriggerAction, playerStateHandler);
-                }
+                dialogueNodeEntered.Invoke(currentNode);
             }
-            finalTriggerAction = null;
         }
 
         private IEnumerable<string> FilterOnCondition(List<string> dialogueNodeIDs)

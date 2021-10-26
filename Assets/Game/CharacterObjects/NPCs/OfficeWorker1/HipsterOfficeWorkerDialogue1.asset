@@ -30,8 +30,6 @@ MonoBehaviour:
     y: 0
     width: 400
     height: 45
-  onEnterAction: 
-  onExitAction: 
   condition:
     and:
     - or:
@@ -70,8 +68,6 @@ MonoBehaviour:
     y: 0
     width: 400
     height: 45
-  onEnterAction: 
-  onExitAction: 
   condition:
     and:
     - or:
@@ -136,8 +132,6 @@ MonoBehaviour:
     y: 0
     width: 400
     height: 45
-  onEnterAction: 
-  onExitAction: 
   condition:
     and: []
 --- !u!114 &1614191798481415639
@@ -159,8 +153,8 @@ MonoBehaviour:
   children: []
   rect:
     serializedVersion: 2
-    x: 1028
-    y: 540
+    x: 1060
+    y: 552
     width: 400
     height: 225
   draggingRect:
@@ -169,8 +163,6 @@ MonoBehaviour:
     y: 0
     width: 400
     height: 45
-  onEnterAction: 
-  onExitAction: 
   condition:
     and: []
 --- !u!114 &2088064155005426061
@@ -192,8 +184,8 @@ MonoBehaviour:
   children: []
   rect:
     serializedVersion: 2
-    x: 1030
-    y: 280
+    x: 1034
+    y: 273
     width: 400
     height: 225
   draggingRect:
@@ -202,8 +194,6 @@ MonoBehaviour:
     y: 0
     width: 400
     height: 45
-  onEnterAction: 
-  onExitAction: fight
   condition:
     and: []
 --- !u!114 &5483484024122596795
@@ -235,7 +225,5 @@ MonoBehaviour:
     y: 0
     width: 400
     height: 45
-  onEnterAction: 
-  onExitAction: fight
   condition:
     and: []
