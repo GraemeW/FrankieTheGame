@@ -73,7 +73,7 @@ namespace Frankie.Speech.UI
             {
                 if (handleGlobalInput) { dialogueController.globalInput += HandleGlobalInput; }
                 dialogueController.dialogueInput += HandleDialogueInput;
-                dialogueController.dialogueUpdated += UpdateUI;
+                dialogueController.triggerUIUpdates += UpdateUI;
             }
             if (alternateController != null && handleGlobalInput)
             {
@@ -87,7 +87,7 @@ namespace Frankie.Speech.UI
             {
                 if (handleGlobalInput) { dialogueController.globalInput -= HandleGlobalInput; }
                 dialogueController.dialogueInput -= HandleDialogueInput;
-                dialogueController.dialogueUpdated -= UpdateUI;
+                dialogueController.triggerUIUpdates -= UpdateUI;
             }
             if (alternateController != null && handleGlobalInput)
             {
@@ -191,14 +191,13 @@ namespace Frankie.Speech.UI
         {
             if (enable)
             {
-                isWriting = enable;
-                if (dialogueController != null) { dialogueController.dialogueUpdated -= UpdateUI; } // unsubscribe from updates - prevent dialogue controller moving on while writing
+                if (dialogueController != null) { dialogueController.triggerUIUpdates -= UpdateUI; } // unsubscribe from updates - prevent dialogue controller moving on while writing
             }
             else
             {
-                isWriting = enable;
-                if (dialogueController != null) { dialogueController.dialogueUpdated += UpdateUI; }
+                if (dialogueController != null) { dialogueController.triggerUIUpdates += UpdateUI; }
             }
+            isWriting = enable;
 
             OnDialogueBoxModified(DialogueBoxModifiedType.writingStateChanged, enable);
         }

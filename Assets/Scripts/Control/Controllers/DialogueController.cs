@@ -37,10 +37,8 @@ namespace Frankie.Speech
         public event Action<PlayerInputType> globalInput;
         public event Action<PlayerInputType> dialogueInput;
         public event Action<DialogueNode> highlightedNodeChanged;
-        public event Action<DialogueNode> dialogueNodeEntered;
-        public event Action<DialogueNode> dialogueNodeExited;
-        public event Action dialogueUpdated;
-        public event Action dialogueComplete;
+        public event Action triggerUIUpdates;
+        public event Action<DialogueUpdateType, DialogueNode> dialogueUpdated;
 
         // Interaction
         private void Awake()
@@ -119,7 +117,7 @@ namespace Frankie.Speech
         private bool InteractWithNext(PlayerInputType playerInputType)
         {
             if (IsChoosing() || playerInputType == PlayerInputType.DefaultNone) { return false; }
-            if (dialogueUpdated == null) { return false; }  // check if dialogue box can receive messages (toggled off during text-scans)
+            if (triggerUIUpdates == null) { return false; }  // check if dialogue box can receive messages (toggled off during text-scans)
 
             if (playerInputType == PlayerInputType.Execute)
             {
@@ -208,14 +206,14 @@ namespace Frankie.Speech
 
             SetupDialogueTriggers();
 
-            SetCurrentNode(currentDialogue.GetRootNode());
+            currentNode = currentDialogue.GetRootNode(); 
+                // Call without announcing, dialogue not (officially) existing
+                // Note:  No triggers on root node entry, but on dialogue entry
             if (currentDialogue.skipRootNode) { Next(false); }
 
             Instantiate(dialogueBoxPrefab, worldCanvas.transform);
-            if (dialogueUpdated != null)
-            {
-                dialogueUpdated.Invoke();
-            }
+            dialogueUpdated?.Invoke(DialogueUpdateType.DialogueInitiated, null);
+            triggerUIUpdates?.Invoke();
         }
 
         private void SetupDialogueTriggers()
@@ -246,14 +244,11 @@ namespace Frankie.Speech
         {
             currentDialogue = null;
             SetCurrentNode(null);
-            if (dialogueUpdated != null)
-            {
-                dialogueUpdated.Invoke();
-            }
+            triggerUIUpdates?.Invoke();
             playerStateHandler.ExitDialogue();
-
-            dialogueComplete.Invoke();
             currentConversant = null;
+
+            dialogueUpdated?.Invoke(DialogueUpdateType.DialogueComplete, null);
         }
 
         public bool IsSimpleMessage()
@@ -370,10 +365,7 @@ namespace Frankie.Speech
                 }
                 else // Unless it's the last stem in the dialogue tree
                 {
-                    if (dialogueUpdated != null)
-                    {
-                        dialogueUpdated.Invoke();
-                    }
+                    dialogueUpdated?.Invoke(DialogueUpdateType.DialogueNodeEntry, currentNode);
                 }
             }
         }
@@ -385,10 +377,6 @@ namespace Frankie.Speech
                 List<string> filteredDialogueOptions = FilterOnCondition(currentNode.GetChildren()).ToList();
                 int nodeIndex = UnityEngine.Random.Range(0, filteredDialogueOptions.Count);
                 SetCurrentNode(currentDialogue.GetNodeFromID(filteredDialogueOptions[nodeIndex]));
-                if (dialogueUpdated != null)
-                {
-                    dialogueUpdated.Invoke();
-                }
             }
         }
 
@@ -396,17 +384,12 @@ namespace Frankie.Speech
         {
             if (currentNode == dialogueNode) { return; }
 
-            if (dialogueNodeExited != null)
-            {
-                dialogueNodeExited.Invoke(currentNode);
-            }
+            dialogueUpdated?.Invoke(DialogueUpdateType.DialogueNodeExit, currentNode);
 
             currentNode = dialogueNode;
 
-            if (dialogueNodeEntered != null)
-            {
-                dialogueNodeEntered.Invoke(currentNode);
-            }
+            dialogueUpdated?.Invoke(DialogueUpdateType.DialogueNodeEntry, currentNode);
+            triggerUIUpdates?.Invoke();
         }
 
         private IEnumerable<string> FilterOnCondition(List<string> dialogueNodeIDs)

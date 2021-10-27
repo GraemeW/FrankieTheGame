@@ -8,7 +8,7 @@ namespace Frankie.Speech
     public class DialogueTrigger : MonoBehaviour
     {
         // Tunables
-        [SerializeField] DialogueTriggerType dialogueTriggerType = DialogueTriggerType.onDialogueComplete;
+        [SerializeField] DialogueUpdateType dialogueUpdateType = DialogueUpdateType.DialogueComplete;
         [SerializeField] DialogueNode triggerNode;
         [SerializeField] UnityEventWithCallingController onTriggerWithCallingController;
 
@@ -26,50 +26,36 @@ namespace Frankie.Speech
         {
             this.playerStateHandler = playerStateHandler;
             this.dialogueController = dialogueController;
-            dialogueController.dialogueNodeEntered += TriggerOnEntry;
-            dialogueController.dialogueNodeExited += TriggerOnExit;
-            dialogueController.dialogueComplete += TriggerOnComplete;
+            dialogueController.dialogueUpdated += Trigger;
         }
 
-        private void OnDestroy()
+        private void Trigger(DialogueUpdateType dialogueUpdateType, DialogueNode dialogueNode)
         {
-            if (dialogueController != null)
+            if (triggerNode == null) { return; }
+            if (this.dialogueUpdateType != dialogueUpdateType) { return; }
+
+            // Node entry & exit conditions
+            if (dialogueUpdateType == DialogueUpdateType.DialogueNodeEntry || dialogueUpdateType == DialogueUpdateType.DialogueNodeExit
+                && triggerNode == dialogueNode)
             {
-                dialogueController.dialogueNodeEntered -= TriggerOnEntry;
-                dialogueController.dialogueNodeExited -= TriggerOnExit;
-                dialogueController.dialogueComplete -= TriggerOnComplete;
+                if (onTriggerWithCallingController != null)
+                {
+                    onTriggerWithCallingController.Invoke(playerStateHandler);
+                }
             }
-        }
-
-        private void TriggerOnEntry(DialogueNode dialogueNode)
-        {
-            if (triggerNode == null) { return; }
-            if (dialogueTriggerType != DialogueTriggerType.onDialogueNodeEntry) { return; }
-
-            Trigger();
-        }
-
-        private void TriggerOnExit(DialogueNode dialogueNode)
-        {
-            if (triggerNode == null) { return; }
-            if (dialogueTriggerType != DialogueTriggerType.onDialogueNodeExit) { return; }
-
-            Trigger();
-        }
-
-        private void TriggerOnComplete()
-        {
-            if (triggerNode == null) { return; }
-            if (dialogueTriggerType != DialogueTriggerType.onDialogueComplete) { return; }
-
-            Trigger();
-        }
-
-        private void Trigger()
-        {
-            if (onTriggerWithCallingController != null)
+            // Dialogue main state conditions
+            else if (dialogueUpdateType == DialogueUpdateType.DialogueInitiated || dialogueUpdateType == DialogueUpdateType.DialogueComplete)
             {
-                onTriggerWithCallingController.Invoke(playerStateHandler);
+                if (onTriggerWithCallingController != null)
+                {
+                    onTriggerWithCallingController.Invoke(playerStateHandler);
+                }
+            }
+
+            // Unsubscribe
+            if (dialogueUpdateType == DialogueUpdateType.DialogueComplete)
+            {
+                dialogueController.dialogueUpdated -= Trigger;
             }
         }
     }
