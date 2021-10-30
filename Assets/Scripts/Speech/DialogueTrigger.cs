@@ -1,5 +1,7 @@
 using Frankie.Control;
 using Frankie.Core;
+using System;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -10,7 +12,11 @@ namespace Frankie.Speech
         // Tunables
         [SerializeField] DialogueUpdateType dialogueUpdateType = DialogueUpdateType.DialogueComplete;
         [SerializeField] DialogueNode triggerNode;
-        [SerializeField] UnityEventWithCallingController onTriggerWithCallingController;
+        [SerializeField][Tooltip("Use for anything not requiring player state change")] UnityEventWithCallingController onTriggerImmediate;
+        [SerializeField] [Tooltip("Use for anything that force player state change")] UnityEventWithCallingController onTriggerConversationComplete;
+
+        // State
+        bool queuedTrigger = false;
 
         // Cached References
         DialogueController dialogueController = null;
@@ -31,32 +37,38 @@ namespace Frankie.Speech
 
         private void Trigger(DialogueUpdateType dialogueUpdateType, DialogueNode dialogueNode)
         {
-            if (triggerNode == null) { return; }
-            if (this.dialogueUpdateType != dialogueUpdateType) { return; }
-
-            // Node entry & exit conditions
-            if (dialogueUpdateType == DialogueUpdateType.DialogueNodeEntry || dialogueUpdateType == DialogueUpdateType.DialogueNodeExit
-                && triggerNode == dialogueNode)
-            {
-                if (onTriggerWithCallingController != null)
-                {
-                    onTriggerWithCallingController.Invoke(playerStateHandler);
-                }
-            }
-            // Dialogue main state conditions
-            else if (dialogueUpdateType == DialogueUpdateType.DialogueInitiated || dialogueUpdateType == DialogueUpdateType.DialogueComplete)
-            {
-                if (onTriggerWithCallingController != null)
-                {
-                    onTriggerWithCallingController.Invoke(playerStateHandler);
-                }
-            }
-
-            // Unsubscribe
             if (dialogueUpdateType == DialogueUpdateType.DialogueComplete)
             {
                 dialogueController.dialogueUpdated -= Trigger;
+                if (queuedTrigger) { onTriggerConversationComplete?.Invoke(playerStateHandler); }
             }
+
+            if (this.dialogueUpdateType != dialogueUpdateType) { return; }
+            if (HandleNodeEntryExit(dialogueUpdateType, dialogueNode)) { return; }
+            if (HandleDialogueState(dialogueUpdateType)) { return; }
+        }
+
+        private bool HandleNodeEntryExit(DialogueUpdateType dialogueUpdateType, DialogueNode dialogueNode)
+        {
+            if ((dialogueUpdateType == DialogueUpdateType.DialogueNodeEntry || dialogueUpdateType == DialogueUpdateType.DialogueNodeExit)
+                            && (triggerNode != null && triggerNode == dialogueNode))
+            {
+                onTriggerImmediate?.Invoke(playerStateHandler);
+                queuedTrigger = true;
+                return true;
+            }
+            return false;
+        }
+
+        private bool HandleDialogueState(DialogueUpdateType dialogueUpdateType)
+        {
+            if (dialogueUpdateType == DialogueUpdateType.DialogueInitiated || dialogueUpdateType == DialogueUpdateType.DialogueComplete)
+            {
+                onTriggerImmediate?.Invoke(playerStateHandler);
+                return true;
+            }
+
+            return false;
         }
     }
 }

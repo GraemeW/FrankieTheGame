@@ -222,13 +222,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 47c843d51c92e854f95fb02bd7be9471, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dialogueTriggerType: 2
+  dialogueUpdateType: 2
   triggerNode: {fileID: 1570589005771257271, guid: 0ff830ad00da1a54f9eabecbfbb72aba, type: 2}
-  onTriggerWithCallingController:
+  onTriggerImmediate:
+    m_PersistentCalls:
+      m_Calls: []
+  onTriggerConversationComplete:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 23236895}
-        m_TargetAssemblyTypeName: Frankie.Control.NPCController, Assembly-CSharp
+        m_TargetAssemblyTypeName: Frankie.Control.NPCStateHandler, Assembly-CSharp
         m_MethodName: InitiateCombat
         m_Mode: 0
         m_Arguments:
@@ -341,13 +344,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 47c843d51c92e854f95fb02bd7be9471, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dialogueTriggerType: 2
+  dialogueUpdateType: 3
   triggerNode: {fileID: 6847376204229358862, guid: fecb156f8f30deb478815893d0c153cf, type: 2}
-  onTriggerWithCallingController:
+  onTriggerImmediate:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 71018638}
-        m_TargetAssemblyTypeName: Frankie.Control.NPCController, Assembly-CSharp
+        m_TargetAssemblyTypeName: Frankie.Control.NPCStateHandler, Assembly-CSharp
         m_MethodName: InitiateCombat
         m_Mode: 0
         m_Arguments:
@@ -358,6 +361,9 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  onTriggerConversationComplete:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1001 &95137028
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1748,38 +1754,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 47c843d51c92e854f95fb02bd7be9471, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dialogueTriggerType: 2
+  dialogueUpdateType: 3
   triggerNode: {fileID: 5483484024122596795, guid: 4f94e6ca4b90a6740b0536613dc1d840, type: 2}
-  onTriggerWithCallingController:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 596216395}
-        m_TargetAssemblyTypeName: Frankie.Control.NPCController, Assembly-CSharp
-        m_MethodName: InitiateCombat
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
---- !u!114 &596216400
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 596216394}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 47c843d51c92e854f95fb02bd7be9471, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  dialogueTriggerType: 2
-  triggerNode: {fileID: 2088064155005426061, guid: 4f94e6ca4b90a6740b0536613dc1d840, type: 2}
-  onTriggerWithCallingController:
+  onTriggerImmediate:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 596216395}
@@ -1794,6 +1771,29 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  onTriggerConversationComplete:
+    m_PersistentCalls:
+      m_Calls: []
+--- !u!114 &596216400
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 596216394}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 47c843d51c92e854f95fb02bd7be9471, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  dialogueUpdateType: 3
+  triggerNode: {fileID: 2088064155005426061, guid: 4f94e6ca4b90a6740b0536613dc1d840, type: 2}
+  onTriggerImmediate:
+    m_PersistentCalls:
+      m_Calls: []
+  onTriggerConversationComplete:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1001 &622289211
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2041,13 +2041,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 47c843d51c92e854f95fb02bd7be9471, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dialogueTriggerType: 2
+  dialogueUpdateType: 3
   triggerNode: {fileID: -5822392920620821437, guid: 513f9619ce9a950449f3a2a7e06cf5be, type: 2}
-  onTriggerWithCallingController:
+  onTriggerImmediate:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 639277477}
-        m_TargetAssemblyTypeName: Frankie.Control.NPCController, Assembly-CSharp
+        m_TargetAssemblyTypeName: Frankie.Control.NPCStateHandler, Assembly-CSharp
         m_MethodName: InitiateCombat
         m_Mode: 0
         m_Arguments:
@@ -2058,6 +2058,9 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  onTriggerConversationComplete:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!114 &639277482
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2070,23 +2073,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 47c843d51c92e854f95fb02bd7be9471, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dialogueTriggerType: 2
+  dialogueUpdateType: 3
   triggerNode: {fileID: -5822392920620821437, guid: 513f9619ce9a950449f3a2a7e06cf5be, type: 2}
-  onTriggerWithCallingController:
+  onTriggerImmediate:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 639277477}
-        m_TargetAssemblyTypeName: Frankie.Control.NPCStateHandler, Assembly-CSharp
-        m_MethodName: SetChasePlayerDisposition
-        m_Mode: 6
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
+  onTriggerConversationComplete:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1001 &647656751
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2185,13 +2179,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 47c843d51c92e854f95fb02bd7be9471, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dialogueTriggerType: 2
+  dialogueUpdateType: 3
   triggerNode: {fileID: 4572544580911562930, guid: f07cd3c1f51c529489daf834d7a4218d, type: 2}
-  onTriggerWithCallingController:
+  onTriggerImmediate:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 647656754}
-        m_TargetAssemblyTypeName: Frankie.Control.NPCController, Assembly-CSharp
+        m_TargetAssemblyTypeName: Frankie.Control.NPCStateHandler, Assembly-CSharp
         m_MethodName: InitiateCombat
         m_Mode: 0
         m_Arguments:
@@ -2202,6 +2196,9 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  onTriggerConversationComplete:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1001 &674874982
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2825,13 +2822,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 47c843d51c92e854f95fb02bd7be9471, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dialogueTriggerType: 2
+  dialogueUpdateType: 3
   triggerNode: {fileID: -6124424448896261617, guid: 7382b1a7f806c584294949ba4f8e9aa7, type: 2}
-  onTriggerWithCallingController:
+  onTriggerImmediate:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1120515126}
-        m_TargetAssemblyTypeName: Frankie.Control.NPCController, Assembly-CSharp
+        m_TargetAssemblyTypeName: Frankie.Control.NPCStateHandler, Assembly-CSharp
         m_MethodName: InitiateCombat
         m_Mode: 0
         m_Arguments:
@@ -2842,6 +2839,9 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  onTriggerConversationComplete:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!4 &1166383030 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 9140000498525693428, guid: 9bf5874c37e0a404a9bd916129a14959, type: 3}
@@ -4238,13 +4238,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 47c843d51c92e854f95fb02bd7be9471, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dialogueTriggerType: 2
+  dialogueUpdateType: 3
   triggerNode: {fileID: -7182139537527727821, guid: b9c8fc0bd96239c4180e4a69933e331d, type: 2}
-  onTriggerWithCallingController:
+  onTriggerImmediate:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1714376155}
-        m_TargetAssemblyTypeName: Frankie.Control.CharacterNPCSwapper, Assembly-CSharp
+        m_TargetAssemblyTypeName: Frankie.Stats.CharacterNPCSwapper, Assembly-CSharp
         m_MethodName: JoinParty
         m_Mode: 0
         m_Arguments:
@@ -4255,6 +4255,9 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  onTriggerConversationComplete:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &1908581080 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 2486909085588467926, guid: 7c58f619aeb04524c8f3db61d1d2a630, type: 3}
@@ -5757,7 +5760,7 @@ PrefabInstance:
       objectReference: {fileID: 566954979}
     - target: {fileID: 6748405756474271262, guid: 7d6634333e185754d96c189f3df7c163, type: 3}
       propertyPath: orthographic size
-      value: 3.5
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 6748405756474271457, guid: 7d6634333e185754d96c189f3df7c163, type: 3}
       propertyPath: m_LocalPosition.x
