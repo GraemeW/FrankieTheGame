@@ -50,8 +50,10 @@ namespace Frankie.Combat
         private void Awake()
         {
             party = GameObject.FindGameObjectWithTag("Player").GetComponent<Party>();
-
             playerInput = new PlayerInput();
+
+            VerifyUnique();
+            
             playerInput.Menu.Navigate.performed += context => ParseDirectionalInput(context.ReadValue<Vector2>());
             playerInput.Menu.Execute.performed += context => HandleUserInput(PlayerInputType.Execute);
             playerInput.Menu.Cancel.performed += context => HandleUserInput(PlayerInputType.Cancel);
@@ -61,6 +63,15 @@ namespace Frankie.Combat
             playerInput.Menu.Select2.performed += context => InteractWithCharacterSelect(1);
             playerInput.Menu.Select3.performed += context => InteractWithCharacterSelect(2);
             playerInput.Menu.Select4.performed += context => InteractWithCharacterSelect(3);
+        }
+
+        public void VerifyUnique()
+        {
+            BattleController[] battleControllers = FindObjectsOfType<BattleController>();
+            if (battleControllers.Length > 1)
+            {
+                Destroy(gameObject);
+            }
         }
 
         private void OnEnable()

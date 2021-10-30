@@ -22,9 +22,21 @@ namespace Frankie.Control
         private void Awake()
         {
             playerInput = new PlayerInput();
+
+            VerifyUnique();
+
             playerInput.Menu.Execute.performed += context => SkipSplash();
             playerInput.Menu.Cancel.performed += context => SkipSplash();
             playerInput.Menu.Skip.performed += context => SkipSplash();
+        }
+
+        public void VerifyUnique()
+        {
+            SplashMenuController[] splashMenuControllers = FindObjectsOfType<SplashMenuController>();
+            if (splashMenuControllers.Length > 1)
+            {
+                Destroy(gameObject);
+            }
         }
 
         private void OnEnable()

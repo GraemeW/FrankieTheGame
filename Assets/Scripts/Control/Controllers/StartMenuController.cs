@@ -24,10 +24,23 @@ namespace Frankie.Control
         private void Awake()
         {
             playerInput = new PlayerInput();
+
+            VerifyUnique();
+
             playerInput.Menu.Navigate.performed += context => ParseDirectionalInput(context.ReadValue<Vector2>());
             playerInput.Menu.Execute.performed += context => HandleUserInput(PlayerInputType.Execute);
             playerInput.Menu.Cancel.performed += context => HandleUserInput(PlayerInputType.Cancel);
         }
+
+        public void VerifyUnique()
+        {
+            StartMenuController[] startMenuControllers = FindObjectsOfType<StartMenuController>();
+            if (startMenuControllers.Length > 1)
+            {
+                Destroy(gameObject);
+            }
+        }
+
         private void OnEnable()
         {
             playerInput.Menu.Enable();

@@ -302,16 +302,26 @@ namespace Frankie.Control
             }
             else if (playerState == PlayerState.inBattle)
             {
-                if (dialogueController != null)
+                if (dialogueController != null) // Dialogue controller active during battle
                 {
                     ExitDialogue();
+                }
+
+                if (battleController == null) // Stuck in battle with no battle controller present
+                {
+                    SetPlayerState(PlayerState.inWorld);
                 }
             }
             else if (playerState == PlayerState.inDialogue)
             {
-                if (battleController != null)
+                if (battleController != null) // Battle controller active during dialogue
                 {
                     HandleCombatComplete(BattleState.Complete);
+                }
+
+                if (dialogueController == null)
+                {
+                    SetPlayerState(PlayerState.inWorld);
                 }
             }
         }

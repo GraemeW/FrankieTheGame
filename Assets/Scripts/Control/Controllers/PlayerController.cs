@@ -73,8 +73,9 @@ namespace Frankie.Control
         {
             playerMover = GetComponent<PlayerMover>();
             playerStateHandler = GetComponent<PlayerStateHandler>();
-
             playerInput = new PlayerInput();
+
+            VerifyUnique();
 
             playerInput.Player.Navigate.performed += context => playerMover.ParseMovement(context.ReadValue<Vector2>());
             playerInput.Player.Navigate.canceled += context => playerMover.ParseMovement(Vector2.zero);
@@ -85,6 +86,15 @@ namespace Frankie.Control
             playerInput.Player.Cancel.performed += context => HandleUserInput(PlayerInputType.Cancel);
             playerInput.Player.Option.performed += context => HandleUserInput(PlayerInputType.Option);
             playerInput.Player.Skip.performed += context => HandleUserInput(PlayerInputType.Skip);
+        }
+
+        public void VerifyUnique()
+        {
+            PlayerController[] playerControllers = FindObjectsOfType<PlayerController>();
+            if (playerControllers.Length > 1)
+            {
+                Destroy(gameObject);
+            }
         }
 
         private void OnEnable()

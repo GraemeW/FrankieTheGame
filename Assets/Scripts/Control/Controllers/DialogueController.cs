@@ -45,10 +45,21 @@ namespace Frankie.Speech
         {
             playerInput = new PlayerInput();
 
+            VerifyUnique();
+
             playerInput.Menu.Navigate.performed += context => ParseDirectionalInput(context.ReadValue<Vector2>());
             playerInput.Menu.Execute.performed += context => HandleUserInput(PlayerInputType.Execute);
             playerInput.Menu.Cancel.performed += context => HandleUserInput(PlayerInputType.Cancel);
             playerInput.Menu.Skip.performed += context => HandleUserInput(PlayerInputType.Skip);
+        }
+
+        public void VerifyUnique()
+        {
+            DialogueController[] dialogueControllers = FindObjectsOfType<DialogueController>();
+            if (dialogueControllers.Length > 1)
+            {
+                Destroy(gameObject);
+            }
         }
 
         private void OnEnable()
