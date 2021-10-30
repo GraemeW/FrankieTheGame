@@ -1,4 +1,5 @@
 using Frankie.Speech.UI;
+using Frankie.Utils;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -26,30 +27,30 @@ namespace Frankie.Sound
         protected override void OnEnable()
         {
             base.OnEnable();
-            dialogueBox.dialogueBoxModified += HandleDialogueBoxUpdate;
+            dialogueBox.uiBoxModified += HandleDialogueBoxUpdate;
         }
 
         protected override void OnDisable()
         {
             base.OnDisable();
-            dialogueBox.dialogueBoxModified -= HandleDialogueBoxUpdate;
+            dialogueBox.uiBoxModified -= HandleDialogueBoxUpdate;
         }
 
-        private void HandleDialogueBoxUpdate(DialogueBoxModifiedType dialogueBoxModifiedType, bool enable)
+        private void HandleDialogueBoxUpdate(UIBoxModifiedType uiBoxModifiedType, bool enable)
         {
-            if (dialogueBoxModifiedType == DialogueBoxModifiedType.writingStateChanged)
+            if (uiBoxModifiedType == UIBoxModifiedType.writingStateChanged)
             {
                 ConfigureTextScanAudio(enable);
             }
-            else if (dialogueBoxModifiedType == DialogueBoxModifiedType.itemSelected)
+            else if (uiBoxModifiedType == UIBoxModifiedType.itemSelected)
             {
                 PlayClip(chooseAudioClip);
             }
-            else if (dialogueBoxModifiedType == DialogueBoxModifiedType.clientEnter)
+            else if (uiBoxModifiedType == UIBoxModifiedType.clientEnter)
             {
                 PlayClip(enterClip);
             }
-            else if (dialogueBoxModifiedType == DialogueBoxModifiedType.clientExit)
+            else if (uiBoxModifiedType == UIBoxModifiedType.clientExit)
             {
                 PlayClipAfterDestroy(exitClip);
             }

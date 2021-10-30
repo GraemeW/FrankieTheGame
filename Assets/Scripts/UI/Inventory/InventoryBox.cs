@@ -11,6 +11,7 @@ using UnityEngine.UI;
 using System.Linq;
 using System;
 using UnityEngine.Events;
+using Frankie.Utils;
 
 namespace Frankie.Inventory.UI
 {
@@ -267,7 +268,7 @@ namespace Frankie.Inventory.UI
                     
                     dialogueBox.AddText(string.Format(messageUseItemInWorld, senderName, itemName, targetCharacterNames));
                     dialogueBox.SetGlobalCallbacks(standardPlayerInputCaller);
-                    dialogueBox.SetDisableCallback(this, DIALOGUE_CALLBACK_ENABLE_INPUT);
+                    dialogueBox.SetDisableCallback(this, () => EnableInput(true));
 
                     return true;
                 }
@@ -289,7 +290,7 @@ namespace Frankie.Inventory.UI
 
             if (character != selectedCharacter)
             {
-                OnDialogueBoxModified(DialogueBoxModifiedType.itemSelected, true);
+                OnUIBoxModified(UIBoxModifiedType.itemSelected, true);
 
                 selectedCharacter = character;
                 selectedCharacterNameField.text = selectedCharacter.GetCombatName();
@@ -467,7 +468,7 @@ namespace Frankie.Inventory.UI
             DialogueBox dialogueBox = dialogueBoxObject.GetComponent<DialogueBox>();
             dialogueBox.AddText(selectedKnapsack.GetItemInSlot(inventorySlot).GetDescription());
             dialogueBox.SetGlobalCallbacks(standardPlayerInputCaller);
-            dialogueBox.SetDisableCallback(this, DIALOGUE_CALLBACK_ENABLE_INPUT);
+            dialogueBox.SetDisableCallback(this, () => EnableInput(true));
         }
 
         private void Move(int inventorySlot)
@@ -478,10 +479,10 @@ namespace Frankie.Inventory.UI
             GameObject inventoryMoveBoxObject = Instantiate(inventoryMoveBoxPrefab, transform.parent);
             InventoryMoveBox inventoryMoveBox = inventoryMoveBoxObject.GetComponent<InventoryMoveBox>();
             inventoryMoveBox.Setup(standardPlayerInputCaller, party, selectedKnapsack, inventorySlot, characterSlides);
-            inventoryMoveBox.SetDisableCallback(this, DIALOGUE_CALLBACK_ENABLE_INPUT);
+            inventoryMoveBox.SetDisableCallback(this, () => EnableInput(true));
 
             canvasGroup.alpha = 0.0f;
-            inventoryMoveBox.SetDisableCallback(this, DIALOGUE_CALLBACK_RESTORE_ALPHA);
+            inventoryMoveBox.SetDisableCallback(this, () => SetVisible(true));
 
             SetInventoryBoxState(InventoryBoxState.inItemMoving);
         }
@@ -503,7 +504,7 @@ namespace Frankie.Inventory.UI
 
             dialogueOptionBox.SetupSimpleChoices(choiceActionPairs, false, string.Format(messageDropItem, selectedKnapsack.GetItemInSlot(inventorySlot).GetDisplayName()));
             dialogueOptionBox.SetGlobalCallbacks(standardPlayerInputCaller);
-            dialogueOptionBox.SetDisableCallback(this, DIALOGUE_CALLBACK_ENABLE_INPUT);
+            dialogueOptionBox.SetDisableCallback(this, () => EnableInput(true));
         }
 
         private void ExecuteDrop(int inventorySlot)
@@ -588,14 +589,14 @@ namespace Frankie.Inventory.UI
             DialogueBox dialogueBox = dialogueBoxObject.GetComponent<DialogueBox>();
             dialogueBox.AddText(string.Format(messageBusyInCooldown, character.GetCombatName()));
             dialogueBox.SetGlobalCallbacks(battleController);
-            dialogueBox.SetDisableCallback(this, DIALOGUE_CALLBACK_ENABLE_INPUT);
+            dialogueBox.SetDisableCallback(this, () => EnableInput(true));
         }
         #endregion
 
         #region Interfaces
-        public override void HandleGlobalInput(PlayerInputType playerInputType)
+        public override bool HandleGlobalInput(PlayerInputType playerInputType)
         {
-            if (!handleGlobalInput) { return; }
+            if (!handleGlobalInput) { return true; } // Spoof:  Cannot accept input, so treat as if global input already handled
 
             if (playerInputType == PlayerInputType.Option || playerInputType == PlayerInputType.Cancel)
             {
@@ -603,42 +604,35 @@ namespace Frankie.Inventory.UI
                 {
                     ClearChoiceSelections();
                     SetInventoryBoxState(InventoryBoxState.inCharacterSelection);
-                }
-                else
-                {
-                    HandleClientExit();
-                    Destroy(gameObject);
+                    return true;
                 }
             }
-            base.HandleGlobalInput(playerInputType);
+            return base.HandleGlobalInput(playerInputType);
         }
 
-        public override void HandleDialogueCallback(DialogueBox dialogueBox, string callbackMessage)
+        protected override void EnableInput(bool enable)
         {
-            base.HandleDialogueCallback(dialogueBox, callbackMessage);
+            if (!enable) { return; }
 
-            if (callbackMessage == DIALOGUE_CALLBACK_ENABLE_INPUT)
+            selectedItemSlot = -1;
+            if (targetCharacterChanged != null)
             {
-                selectedItemSlot = -1;
-                if (targetCharacterChanged != null)
-                {
-                    targetCharacterChanged.Invoke(CombatParticipantType.Target, null);
-                }
+                targetCharacterChanged.Invoke(CombatParticipantType.Target, null);
+            }
 
-                if (selectedCharacter == null || selectedKnapsack == null)
+            if (selectedCharacter == null || selectedKnapsack == null)
+            {
+                ReInitializeToCharacterSelection();
+            }
+            else
+            {
+                if (selectedKnapsack.IsEmpty())
                 {
                     ReInitializeToCharacterSelection();
                 }
                 else
                 {
-                    if (selectedKnapsack.IsEmpty())
-                    {
-                        ReInitializeToCharacterSelection();
-                    }
-                    else
-                    {
-                        SetInventoryBoxState(InventoryBoxState.inKnapsack);
-                    }
+                    SetInventoryBoxState(InventoryBoxState.inKnapsack);
                 }
             }
         }

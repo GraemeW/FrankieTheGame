@@ -4,47 +4,32 @@ using UnityEngine;
 using UnityEngine.UI;
 using Frankie.Control;
 using System;
+using Frankie.Utils;
 
 namespace Frankie.Speech.UI
 {
-    public class DialogueBox : MonoBehaviour, IGlobalInputReceiver, IDialogueBoxCallbackReceiver
+    public class DialogueBox : UIBox
     {
         // Tunables
         [Header("Links And Prefabs")]
-        [SerializeField] protected CanvasGroup canvasGroup = null;
         [SerializeField] protected Transform dialogueParent = null;
         [SerializeField] GameObject simpleTextPrefab = null;
         [SerializeField] GameObject speechTextPrefab = null;
         [SerializeField] protected Transform optionParent = null;
         [SerializeField] protected GameObject optionPrefab = null;
         [Header("Parameters")]
-        [SerializeField] protected bool handleGlobalInput = true;
-        [SerializeField] float delayToDestroyWindow = 0.1f; // Seconds
         [SerializeField] float delayBetweenCharacters = 0.05f; // Seconds
 
         // State -- Toggles
         bool isWriting = false;
         bool interruptWriting = false;
         bool queuePageClear = false;
-        bool destroyQueued = false;
-
-        // State -- Stored references
         Coroutine activeTextScan = null;
         Queue<ReceptacleTextPair> printQueue = new Queue<ReceptacleTextPair>();
         List<GameObject> printedJobs = new List<GameObject>();
-        List<CallbackMessagePair> disableCallbacks = new List<CallbackMessagePair>();
-        protected IStandardPlayerInputCaller alternateController = null;
 
         // Cached References
         protected DialogueController dialogueController = null;
-
-        // Events
-        public event Action<DialogueBoxModifiedType, bool> dialogueBoxModified;
-
-        // Static
-        protected static string DIALOGUE_CALLBACK_ENABLE_INPUT = "ENABLE_INPUT";
-        protected static string DIALOGUE_CALLBACK_DESTROY = "DESTROY";
-        protected static string DIALOGUE_CALLBACK_RESTORE_ALPHA = "RESTORE_ALPHA";
 
         // Structures
         private struct ReceptacleTextPair
@@ -54,50 +39,31 @@ namespace Frankie.Speech.UI
             public bool isChoice;
         }
 
-        private struct CallbackMessagePair
-        {
-            public IDialogueBoxCallbackReceiver receiver;
-            public string message;
-        }
-
         protected virtual void Awake()
         {
             GameObject dialogueControllerObject = GameObject.FindGameObjectWithTag("DialogueController");
-            if (dialogueControllerObject != null) { dialogueController = dialogueControllerObject.GetComponent<DialogueController>(); }
-            destroyQueued = false;
+            if (dialogueControllerObject != null) { controller = dialogueControllerObject.GetComponent<DialogueController>(); dialogueController = controller as DialogueController; }
         }
 
-        protected virtual void OnEnable()
+        protected override void OnEnable()
         {
-            if (dialogueController != null && handleGlobalInput)
+            base.OnEnable();
+            if (dialogueController != null)
             {
-                if (handleGlobalInput) { dialogueController.globalInput += HandleGlobalInput; }
                 dialogueController.dialogueInput += HandleDialogueInput;
                 dialogueController.triggerUIUpdates += UpdateUI;
             }
-            if (alternateController != null && handleGlobalInput)
-            {
-                alternateController.globalInput += HandleGlobalInput;
-            }
+
         }
 
-        protected virtual void OnDisable()
+        protected override void OnDisable()
         {
             if (dialogueController != null)
             {
-                if (handleGlobalInput) { dialogueController.globalInput -= HandleGlobalInput; }
                 dialogueController.dialogueInput -= HandleDialogueInput;
                 dialogueController.triggerUIUpdates -= UpdateUI;
             }
-            if (alternateController != null && handleGlobalInput)
-            {
-                alternateController.globalInput -= HandleGlobalInput;
-            }
-
-            foreach (CallbackMessagePair callbackMessagePair in disableCallbacks)
-            {
-                callbackMessagePair.receiver.HandleDialogueCallback(this, callbackMessagePair.message);
-            }
+            base.OnDisable();
         }
 
         protected virtual void Start()
@@ -123,41 +89,7 @@ namespace Frankie.Speech.UI
             }
         }
 
-        public void SetGlobalCallbacks(IStandardPlayerInputCaller globalCallbackSender)
-        {
-            if (globalCallbackSender == null) { handleGlobalInput = false; return; }
-
-            handleGlobalInput = true;
-            alternateController = globalCallbackSender;
-
-            SubscribeToCallbackSender(globalCallbackSender);
-        }
-
-        private void SubscribeToCallbackSender(IStandardPlayerInputCaller globalCallbackSender)
-        {
-            if (gameObject.activeSelf)
-            {
-                globalCallbackSender.globalInput += HandleGlobalInput; // Unsubscribed on OnDisable
-            }
-            // No behavior if disabled, will subscribe by OnEnable
-        }
-
-        public void SetDisableCallback(IDialogueBoxCallbackReceiver callbackReceiver, string callbackMessage)
-        {
-            CallbackMessagePair callbackMessagePair = new CallbackMessagePair
-            {
-                receiver = callbackReceiver,
-                message = callbackMessage
-            };
-            disableCallbacks.Add(callbackMessagePair);
-        }
-
-        public void ClearDisableCallbacks()
-        {
-            disableCallbacks.Clear();
-        }
-
-        private void UpdateUI()
+        protected virtual void UpdateUI()
         {
             KillDialogueForNoControllers();
             if (!dialogueController.IsActive()) { QueueDialogueCompletion(); return; }
@@ -172,7 +104,7 @@ namespace Frankie.Speech.UI
 
         private void KillDialogueForNoControllers()
         {
-            if (dialogueController == null && alternateController == null)
+            if (dialogueController == null && base.controller == null)
             {
                 QueueDialogueCompletion();
             }
@@ -180,11 +112,7 @@ namespace Frankie.Speech.UI
 
         private void QueueDialogueCompletion()
         {
-            if (!destroyQueued)
-            {
-                destroyQueued = true;
-                Destroy(gameObject, delayToDestroyWindow);
-            }
+            destroyQueued = true;
         }
 
         private void SetBusyWriting(bool enable)
@@ -199,7 +127,7 @@ namespace Frankie.Speech.UI
             }
             isWriting = enable;
 
-            OnDialogueBoxModified(DialogueBoxModifiedType.writingStateChanged, enable);
+            OnUIBoxModified(UIBoxModifiedType.writingStateChanged, enable);
         }
 
         private void SetText()
@@ -223,6 +151,19 @@ namespace Frankie.Speech.UI
                 AddChoice(choiceNode, choiceIndex);
                 choiceIndex++;
             }
+        }
+
+        public void AddChoice(DialogueNode choiceNode, int choiceIndex = 0)
+        {
+            GameObject choiceObject = Instantiate(optionPrefab, optionParent);
+            DialogueChoiceOption dialogueChoiceOption = choiceObject.GetComponent<DialogueChoiceOption>();
+            dialogueChoiceOption.Setup(dialogueController, choiceNode);
+            dialogueChoiceOption.SetChoiceOrder(choiceIndex);
+            dialogueChoiceOption.SetText(choiceNode.GetText());
+            choiceObject.GetComponent<Button>().onClick.AddListener(delegate { Choose(choiceNode.name); });
+            choiceObject.SetActive(false);
+
+            QueueTextForPrinting(choiceObject, null, true);
         }
 
         private void ClearOldDialogue()
@@ -258,20 +199,7 @@ namespace Frankie.Speech.UI
             QueueTextForPrinting(null, "BREAK", false);
         }
 
-        public void AddChoice(DialogueNode choiceNode, int choiceIndex = 0)
-        {
-            GameObject choiceObject = Instantiate(optionPrefab, optionParent);
-            DialogueChoiceOption dialogueChoiceOption = choiceObject.GetComponent<DialogueChoiceOption>();
-            dialogueChoiceOption.Setup(dialogueController, choiceNode);
-            dialogueChoiceOption.SetChoiceOrder(choiceIndex);
-            dialogueChoiceOption.SetText(choiceNode.GetText());
-            choiceObject.GetComponent<Button>().onClick.AddListener(delegate { Choose(choiceNode.name); });
-            choiceObject.SetActive(false);
-
-            QueueTextForPrinting(choiceObject, null, true);
-        }
-
-        private void QueueTextForPrinting(GameObject textObject, string text, bool isChoice)
+        protected void QueueTextForPrinting(GameObject textObject, string text, bool isChoice)
         {
             ReceptacleTextPair receptacleTextPair = new ReceptacleTextPair
             {
@@ -301,7 +229,7 @@ namespace Frankie.Speech.UI
         private IEnumerator PrintPageBreak()
         {
             SetBusyWriting(true);
-            OnDialogueBoxModified(DialogueBoxModifiedType.writingStateChanged, false); // override printing to false, since not really printing -- wait for user input for next step
+            OnUIBoxModified(UIBoxModifiedType.writingStateChanged, false); // override printing to false, since not really printing -- wait for user input for next step
 
             queuePageClear = true;
             yield break;
@@ -347,38 +275,12 @@ namespace Frankie.Speech.UI
             printedJobs = new List<GameObject>();
         }
 
-        protected virtual bool IsChoiceAvailable()
-        {
-            // Used in alternate implementations
-            return true;
-        }
-
-        protected virtual bool ShowCursorOnAnyInteraction(PlayerInputType playerInputType)
-        {
-            // Used in alternate implementations
-            return true;
-        }
-
-        protected virtual bool MoveCursor(PlayerInputType playerInputType)
-        {
-            // Used in alternate implementations
-            return true;
-        }
-
-        protected virtual void OnDialogueBoxModified(DialogueBoxModifiedType dialogueBoxModifiedType, bool enable)
-        {
-            if (dialogueBoxModified != null)
-            {
-                dialogueBoxModified.Invoke(dialogueBoxModifiedType, enable);
-            }
-        }
-
         protected virtual bool Choose(string nodeID)
         {
             bool choose = PrepareChooseAction(PlayerInputType.Execute);
             if (choose)
             {
-                OnDialogueBoxModified(DialogueBoxModifiedType.itemSelected, true);
+                OnUIBoxModified(UIBoxModifiedType.itemSelected, true);
                 dialogueController.NextWithID(nodeID);
             }
             return choose;
@@ -403,32 +305,6 @@ namespace Frankie.Speech.UI
             PrepareChooseAction(playerInputType);
         }
 
-        public virtual void HandleGlobalInput(PlayerInputType playerInputType)
-        {
-            if (!handleGlobalInput) { return; }
-
-            if (playerInputType == PlayerInputType.Execute || playerInputType == PlayerInputType.Skip)
-            {
-                if (isWriting) { SkipToEndOfPage(); return; }
-
-                if (dialogueController != null && !dialogueController.IsSimpleMessage()) { return; } // dialogue completion handled by dialogue controller
-                else
-                {
-                    QueueDialogueCompletion(); // otherwise queue for deletion on click through
-                }
-            }
-        }
-
-        protected void HandleClientEntry()
-        {
-            OnDialogueBoxModified(DialogueBoxModifiedType.clientEnter, true);
-        }
-
-        protected void HandleClientExit()
-        {
-            OnDialogueBoxModified(DialogueBoxModifiedType.clientExit, true);
-        }
-
         private void SkipToEndOfPage()
         {
             interruptWriting = true;
@@ -441,20 +317,48 @@ namespace Frankie.Speech.UI
             }
         }
 
-        public virtual void HandleDialogueCallback(DialogueBox dialogueBox, string callbackMessage)
+        // Abstract Method Implementation
+        public override bool HandleGlobalInput(PlayerInputType playerInputType)
         {
-            if (callbackMessage == DIALOGUE_CALLBACK_ENABLE_INPUT)
+            if (base.HandleGlobalInput(playerInputType)) { return true; } // Already handled
+
+            if (playerInputType == PlayerInputType.Execute || playerInputType == PlayerInputType.Skip)
             {
-                handleGlobalInput = true;
+                if (isWriting) { SkipToEndOfPage(); return true; }
+                if (dialogueController != null)
+                {
+                    if (!dialogueController.IsSimpleMessage())
+                    { 
+                        return true;  // dialogue completion handled by dialogue controller
+                    } 
+                }
+
+                if (!IsChoiceAvailable())
+                {
+                    QueueDialogueCompletion(); // otherwise queue for deletion on click through
+                    return true;
+                }
             }
-            else if (callbackMessage == DIALOGUE_CALLBACK_DESTROY)
-            {
-                Destroy(gameObject);
-            }
-            else if (callbackMessage == DIALOGUE_CALLBACK_RESTORE_ALPHA)
-            {
-                canvasGroup.alpha = 1.0f;
-            }
+
+            return false;
+        }
+
+        protected override bool IsChoiceAvailable()
+        {
+            // Used in alternate implementations
+            return false;
+        }
+
+        protected override bool ShowCursorOnAnyInteraction(PlayerInputType playerInputType)
+        {
+            // No interactions available in simple dialogue box
+            return false;
+        }
+
+        protected override bool MoveCursor(PlayerInputType playerInputType)
+        {
+            // No cursor available in simple dialogue box
+            return false;
         }
     }
 }

@@ -18,10 +18,6 @@ namespace Frankie.Combat.UI
         BattleCanvas battleCanvas = null;
         Party party = null;
 
-        // Static
-        protected static string DIALOGUE_CALLBACK_DISABLE_COMBAT_OPTIONS = "DISABLE_COMBAT_OPTIONS";
-        protected static string DIALOGUE_CALLBACK_ENABLE_COMBAT_OPTIONS = "ENABLE_COMBAT_OPTIONS";
-
         protected override void Awake()
         {
             // Override default behavior, null implementation
@@ -53,7 +49,7 @@ namespace Frankie.Combat.UI
             GameObject childOption = Instantiate(statusPrefab, battleCanvas.transform);
             StatusBox statusBox = childOption.GetComponent<StatusBox>();
             statusBox.Setup(battleController, party);
-            statusBox.SetDisableCallback(this, DIALOGUE_CALLBACK_ENABLE_INPUT);
+            statusBox.SetDisableCallback(this, () => EnableInput(true));
         }
 
         public void OpenKnapsack() // Called via unity events
@@ -61,7 +57,7 @@ namespace Frankie.Combat.UI
             GameObject childOption = Instantiate(knapsackPrefab, battleCanvas.transform);
             InventoryBox inventoryBox = childOption.GetComponent<InventoryBox>();
             inventoryBox.Setup(battleController, party);
-            inventoryBox.SetDisableCallback(this, DIALOGUE_CALLBACK_ENABLE_COMBAT_OPTIONS);
+            inventoryBox.SetDisableCallback(this, () => SetCombatOptions(true));
             gameObject.SetActive(false);
         }
 
@@ -75,19 +71,18 @@ namespace Frankie.Combat.UI
             {
                 handleGlobalInput = false;
                 DialogueBox runFailureDialogueBox = battleCanvas.SetupRunFailureMessage();
-                runFailureDialogueBox.SetDisableCallback(this, DIALOGUE_CALLBACK_DISABLE_COMBAT_OPTIONS);
+                runFailureDialogueBox.SetDisableCallback(this, () => SetCombatOptions(false));
             }
         }
 
-        public override void HandleDialogueCallback(DialogueBox dialogueBox, string callbackMessage)
+        private void SetCombatOptions(bool enable)
         {
-            base.HandleDialogueCallback(dialogueBox, callbackMessage);
-            if (callbackMessage == DIALOGUE_CALLBACK_DISABLE_COMBAT_OPTIONS)
+            if (!enable)
             {
                 handleGlobalInput = true;
                 InitiateCombat();
             }
-            else if (callbackMessage == DIALOGUE_CALLBACK_ENABLE_COMBAT_OPTIONS)
+            else
             {
                 handleGlobalInput = true;
                 gameObject.SetActive(true);

@@ -71,23 +71,19 @@ namespace Frankie.Speech.UI
             playerStateHandler.ExitWorldOptions();
         }
 
-        public override void HandleGlobalInput(PlayerInputType playerInputType)
+        public override bool HandleGlobalInput(PlayerInputType playerInputType)
         {
-            if (!handleGlobalInput) { return; }
+            if (!handleGlobalInput) { return true; } // Spoof:  Cannot accept input, so treat as if global input already handled
 
             if (playerInputType == PlayerInputType.Option || playerInputType == PlayerInputType.Cancel)
             {
                 if (childOption != null)
                 {
                     Destroy(childOption);
-                }
-                else
-                {
-                    HandleClientExit();
-                    Destroy(gameObject);
+                    return true;
                 }
             }
-            base.HandleGlobalInput(playerInputType);
+            return base.HandleGlobalInput(playerInputType);
         }
 
         public void OpenStatus() // Called via Unity Events
@@ -97,7 +93,7 @@ namespace Frankie.Speech.UI
             childOption = Instantiate(statusPrefab, worldCanvas.GetWorldOptionsParent());
             StatusBox statusBox = childOption.GetComponent<StatusBox>();
             statusBox.Setup(playerController, party);
-            statusBox.SetDisableCallback(this, DIALOGUE_CALLBACK_ENABLE_INPUT);
+            statusBox.SetDisableCallback(this, () => EnableInput(true));
         }
 
         public void OpenKnapsack() // Called via Unity Events
@@ -107,7 +103,7 @@ namespace Frankie.Speech.UI
             childOption = Instantiate(knapsackPrefab, worldCanvas.GetWorldOptionsParent());
             InventoryBox inventoryBox = childOption.GetComponent<InventoryBox>();
             inventoryBox.Setup(playerController, party, characterSlides);
-            inventoryBox.SetDisableCallback(this, DIALOGUE_CALLBACK_ENABLE_INPUT);
+            inventoryBox.SetDisableCallback(this, () => EnableInput(true));
         }
 
         public void OpenEquipment() // Called via Unity Events
@@ -117,7 +113,7 @@ namespace Frankie.Speech.UI
             childOption = Instantiate(equipmentPrefab, worldCanvas.GetWorldOptionsParent());
             EquipmentBox equipmentBox = childOption.GetComponent<EquipmentBox>();
             equipmentBox.Setup(playerController, party, characterSlides);
-            equipmentBox.SetDisableCallback(this, DIALOGUE_CALLBACK_ENABLE_INPUT);
+            equipmentBox.SetDisableCallback(this, () => EnableInput(true));
         }
 
         private void ResetWorldOptions()

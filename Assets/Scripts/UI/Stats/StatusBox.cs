@@ -7,6 +7,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using System;
+using Frankie.Utils;
 
 namespace Frankie.Stats.UI
 {
@@ -59,7 +60,7 @@ namespace Frankie.Stats.UI
         {
             if (character != selectedCharacter)
             {
-                OnDialogueBoxModified(DialogueBoxModifiedType.itemSelected, true);
+                OnUIBoxModified(UIBoxModifiedType.itemSelected, true);
 
                 selectedCharacter = character;
                 CleanUpOldStats();
@@ -106,18 +107,6 @@ namespace Frankie.Stats.UI
                 float statValue = character.GetBaseStats().GetStat(stat);
                 statFieldObject.GetComponent<StatField>().Setup(stat, statValue);
             }
-        }
-
-        public override void HandleGlobalInput(PlayerInputType playerInputType)
-        {
-            if (!handleGlobalInput) { return; }
-
-            if (playerInputType == PlayerInputType.Option || playerInputType == PlayerInputType.Cancel)
-            {
-                HandleClientExit();
-                Destroy(gameObject);
-            }
-            base.HandleGlobalInput(playerInputType);
         }
     }
 }

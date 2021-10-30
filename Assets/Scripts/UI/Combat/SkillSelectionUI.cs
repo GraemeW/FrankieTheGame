@@ -6,6 +6,7 @@ using UnityEngine.UI;
 using Frankie.Control;
 using Frankie.Speech.UI;
 using System.Linq;
+using Frankie.Utils;
 
 namespace Frankie.Combat.UI
 {
@@ -91,7 +92,7 @@ namespace Frankie.Combat.UI
             { 
                 skillField.text = Skill.GetSkillNamePretty(activeSkill.name);
                 battleController.SetActiveBattleAction(activeSkill);
-                OnDialogueBoxModified(DialogueBoxModifiedType.itemSelected, true);
+                OnUIBoxModified(UIBoxModifiedType.itemSelected, true);
             } 
             else { skillField.text = defaultNoText; }
         }

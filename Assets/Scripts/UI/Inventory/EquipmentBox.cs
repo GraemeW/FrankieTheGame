@@ -3,6 +3,7 @@ using Frankie.Combat.UI;
 using Frankie.Control;
 using Frankie.Speech.UI;
 using Frankie.Stats;
+using Frankie.Utils;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -243,7 +244,7 @@ namespace Frankie.Inventory.UI
 
             if (character != selectedCharacter || forceChoose)
             {
-                OnDialogueBoxModified(DialogueBoxModifiedType.itemSelected, true);
+                OnUIBoxModified(UIBoxModifiedType.itemSelected, true);
 
                 selectedCharacter = character;
                 selectedCharacterNameField.text = selectedCharacter.GetCombatName();
@@ -348,7 +349,7 @@ namespace Frankie.Inventory.UI
                 DialogueOptionBox equipmentOptionMenu = dialogueOptionBoxObject.GetComponent<DialogueOptionBox>();
                 equipmentOptionMenu.SetupSimpleChoices(choiceActionPairs);
                 equipmentOptionMenu.SetGlobalCallbacks(standardPlayerInputCaller);
-                equipmentOptionMenu.SetDisableCallback(this, DIALOGUE_CALLBACK_ENABLE_INPUT);
+                equipmentOptionMenu.SetDisableCallback(this, () => EnableInput(true));
                 SetEquipmentBoxState(EquipmentBoxState.inEquipmentOptionMenu);
             }
             else
@@ -388,7 +389,7 @@ namespace Frankie.Inventory.UI
             DialogueBox dialogueBox = dialogueBoxObject.GetComponent<DialogueBox>();
             dialogueBox.AddText(messageNoValidItems);
             dialogueBox.SetGlobalCallbacks(standardPlayerInputCaller);
-            dialogueBox.SetDisableCallback(this, DIALOGUE_CALLBACK_ENABLE_INPUT);
+            dialogueBox.SetDisableCallback(this, () => EnableInput(true));
         }
 
         private void SpawnInventoryBox()
@@ -399,10 +400,10 @@ namespace Frankie.Inventory.UI
             GameObject inventoryBoxObject = Instantiate(equipmentInventoryBoxPrefab, transform.parent.transform);
             EquipmentInventoryBox inventoryBox = inventoryBoxObject.GetComponent<EquipmentInventoryBox>();
             inventoryBox.Setup(standardPlayerInputCaller, this, selectedEquipLocation, selectedCharacter, characterSlides);
-            inventoryBox.SetDisableCallback(this, DIALOGUE_CALLBACK_ENABLE_INPUT);
+            inventoryBox.SetDisableCallback(this, () => EnableInput(true));
 
             canvasGroup.alpha = 0.0f;
-            inventoryBox.SetDisableCallback(this, DIALOGUE_CALLBACK_RESTORE_ALPHA);
+            inventoryBox.SetDisableCallback(this, () => SetVisible(true));
         }
 
         public void ConfirmEquipmentChange(bool confirm) // Called via equipmentChangeConfirmOptions buttons, hooked up in Unity
@@ -419,28 +420,26 @@ namespace Frankie.Inventory.UI
         #endregion
 
         #region Interfaces
-        public override void HandleGlobalInput(PlayerInputType playerInputType)
+        public override bool HandleGlobalInput(PlayerInputType playerInputType)
         {
-            if (!handleGlobalInput) { return; }
+            if (!handleGlobalInput) { return true; } // Spoof:  Cannot accept input, so treat as if global input already handled
 
             if (playerInputType == PlayerInputType.Option || playerInputType == PlayerInputType.Cancel)
             {
                 if (equipmentBoxState == EquipmentBoxState.inStatConfirmation)
                 {
                     ResetEquipmentBox(false);
+                    return true;
                 }
                 else if (equipmentBoxState == EquipmentBoxState.inEquipmentSelection)
                 {
                     ResetEquipmentBox(true);
-                }
-                else if (equipmentBoxState == EquipmentBoxState.inCharacterSelection)
-                {
-                    HandleClientExit();
-                    Destroy(gameObject);
+                    return true;
                 }
                 // inKnapsack handled by the EquipmentInventoryBox
             }
-            base.HandleGlobalInput(playerInputType);
+            
+            return base.HandleGlobalInput(playerInputType);
         }
 
         public InventoryItemField SetupItem(GameObject inventoryItemFieldPrefab, Transform container, int selector)

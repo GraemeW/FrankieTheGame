@@ -6,10 +6,11 @@ using Frankie.Speech.UI;
 using UnityEngine.UI;
 using System;
 using Frankie.Stats;
+using Frankie.Utils;
 
 namespace Frankie.Combat.UI
 {
-    public class BattleCanvas : MonoBehaviour, IDialogueBoxCallbackReceiver
+    public class BattleCanvas : MonoBehaviour, IUIBoxCallbackReceiver
     {
         // Tunables
         [Header("Parents and Prefabs")]
@@ -46,11 +47,6 @@ namespace Frankie.Combat.UI
         // Cached References
         Party party = null;
         BattleController battleController = null;
-
-        // Static
-        private static string DIALOGUE_CALLBACK_INTRO_COMPLETE = "INTRO_COMPLETE";
-        private static string DIALOGUE_CALLBACK_OUTRO_COMPLETE = "OUTRO_COMPLETE";
-        private static string DIALOGUE_CALLBACK_SERIAL_ACTION_COMPLETE = "SERIAL_ACTION_COMPLETE";
 
         // Data Structures
         public struct CharacterLevelUpSheetPair
@@ -225,7 +221,7 @@ namespace Frankie.Combat.UI
             dialogueBox.AddPageBreak();
             dialogueBox.AddText(messageEncounterPreHype);
             dialogueBox.SetGlobalCallbacks(battleController);
-            dialogueBox.SetDisableCallback(this, DIALOGUE_CALLBACK_INTRO_COMPLETE);
+            dialogueBox.SetDisableCallback(this, () => battleController.SetBattleState(BattleState.PreCombat));
         }
 
         private void StartSerialAction(Action action)
@@ -277,7 +273,7 @@ namespace Frankie.Combat.UI
                     // Unsubscribe to messages -- not the cleanest location, but the only one available
             }
             dialogueBox.SetGlobalCallbacks(battleController);
-            dialogueBox.SetDisableCallback(this, DIALOGUE_CALLBACK_SERIAL_ACTION_COMPLETE);
+            dialogueBox.SetDisableCallback(this, () => busyWithSerialAction = false);
         }
 
         private void SetupExitMessage()
@@ -301,7 +297,7 @@ namespace Frankie.Combat.UI
             DialogueBox dialogueBox = dialogueBoxObject.GetComponent<DialogueBox>();
             dialogueBox.AddText(exitMessage);
             dialogueBox.SetGlobalCallbacks(battleController);
-            dialogueBox.SetDisableCallback(this, DIALOGUE_CALLBACK_OUTRO_COMPLETE);
+            dialogueBox.SetDisableCallback(this, () => { busyWithSerialAction = false; battleController.SetBattleState(BattleState.Complete); });
             battleController.SetHandleLevelUp(false);
         }
 
@@ -315,20 +311,11 @@ namespace Frankie.Combat.UI
             return dialogueBox;
         }
 
-        public void HandleDialogueCallback(DialogueBox dialogueBox, string callbackMessage)
+        public void HandleDisableCallback(IUIBoxCallbackReceiver dialogueBox, Action action)
         {
-            if (callbackMessage == DIALOGUE_CALLBACK_INTRO_COMPLETE)
+            if (action != null)
             {
-                battleController.SetBattleState(BattleState.PreCombat);
-            }
-            else if (callbackMessage == DIALOGUE_CALLBACK_OUTRO_COMPLETE)
-            {
-                busyWithSerialAction = false;
-                battleController.SetBattleState(BattleState.Complete);
-            }
-            else if (callbackMessage == DIALOGUE_CALLBACK_SERIAL_ACTION_COMPLETE)
-            {
-                busyWithSerialAction = false;
+                action.Invoke();
             }
         }
     }

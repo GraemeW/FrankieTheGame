@@ -51,7 +51,7 @@ namespace Frankie.Inventory.UI
             DialogueBox dialogueBox = dialogueBoxObject.GetComponent<DialogueBox>();
             dialogueBox.AddText(messageCannotEquip);
             dialogueBox.SetGlobalCallbacks(standardPlayerInputCaller);
-            dialogueBox.SetDisableCallback(this, DIALOGUE_CALLBACK_ENABLE_INPUT);
+            dialogueBox.SetDisableCallback(this, () => EnableInput(true));
         }
 
         private void Equip(int inventorySlot)
@@ -77,17 +77,15 @@ namespace Frankie.Inventory.UI
             return inventoryItemField;
         }
 
-        public override void HandleGlobalInput(PlayerInputType playerInputType)
+        public override bool HandleGlobalInput(PlayerInputType playerInputType)
         {
-            if (!handleGlobalInput) { return; }
+            if (!handleGlobalInput) { return true; } // Spoof:  Cannot accept input, so treat as if global input already handled
 
             if (playerInputType == PlayerInputType.Option || playerInputType == PlayerInputType.Cancel)
             {
                 equipmentBox.ResetEquipmentBox(false);
-                HandleClientExit();
-                Destroy(gameObject);
             }
-            base.HandleGlobalInput(playerInputType);
+            return base.HandleGlobalInput(playerInputType); // Destruction to be handled in base
         }
     }
 }

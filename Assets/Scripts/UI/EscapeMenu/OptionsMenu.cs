@@ -93,6 +93,8 @@ namespace Frankie.Speech.UI
 
         protected override void Update()
         {
+            base.Update();
+
             if (backgroundMusic != null)
             {
                 float calculatedVolume = masterVolumeSlider.value * backgroundVolumeSlider.value;
@@ -112,18 +114,6 @@ namespace Frankie.Speech.UI
         {
             HandleClientExit();
             Destroy(gameObject);
-        }
-
-        public override void HandleGlobalInput(PlayerInputType playerInputType)
-        {
-            if (playerInputType == PlayerInputType.Option || playerInputType == PlayerInputType.Cancel)
-            {
-                Cancel();
-            }
-
-            if (ShowCursorOnAnyInteraction(playerInputType)) { return; }
-            if (PrepareChooseAction(playerInputType)) { return; }
-            if (MoveCursor(playerInputType)) { return; }
         }
     }
 

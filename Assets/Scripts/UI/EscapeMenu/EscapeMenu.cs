@@ -2,9 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Frankie.Control;
-using UnityEngine.UI;
-using Frankie.Core;
-using Frankie.Stats;
 using System;
 
 namespace Frankie.Speech.UI
@@ -42,23 +39,20 @@ namespace Frankie.Speech.UI
             playerStateHandler.ExitEscapeMenu();
         }
 
-        public override void HandleGlobalInput(PlayerInputType playerInputType)
+        public override bool HandleGlobalInput(PlayerInputType playerInputType)
         {
-            if (!handleGlobalInput) { return; }
+            if (!handleGlobalInput) { return true; } // Spoof:  Cannot accept input, so treat as if global input already handled
 
             if (playerInputType == PlayerInputType.Option || playerInputType == PlayerInputType.Cancel)
             {
                 if (childOption != null)
                 {
                     Destroy(childOption);
-                }
-                else
-                {
-                    HandleClientExit();
-                    Destroy(gameObject);
+                    return true;
                 }
             }
-            base.HandleGlobalInput(playerInputType);
+
+            return base.HandleGlobalInput(playerInputType);
         }
 
         public void OpenOptionsMenu() // Called via Unity Events
@@ -74,7 +68,7 @@ namespace Frankie.Speech.UI
             OptionsMenu optionsMenu = childOption.GetComponent<OptionsMenu>();
             optionsMenu.Setup(this);
             optionsMenu.SetGlobalCallbacks(playerController);
-            optionsMenu.SetDisableCallback(this, DIALOGUE_CALLBACK_ENABLE_INPUT);
+            optionsMenu.SetDisableCallback(this, () => EnableInput(true));
         }
 
         public void QuitGame() // Called via Unity Events

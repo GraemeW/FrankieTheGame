@@ -110,14 +110,17 @@ namespace Frankie.Speech.UI
             return dialogueChoiceOption;
         }
 
-        public override void HandleGlobalInput(PlayerInputType playerInputType)
+        // Abstract Method Implementation
+        public override bool HandleGlobalInput(PlayerInputType playerInputType)
         {
-            if (!handleGlobalInput) { return; }
+            if (base.HandleGlobalInput(playerInputType)) { return true; }
 
-            if (!IsChoiceAvailable()) { return; }
-            if (ShowCursorOnAnyInteraction(playerInputType)) { return; }
-            if (PrepareChooseAction(playerInputType)) { return; }
-            if (MoveCursor(playerInputType)) { return; }
+            if (!IsChoiceAvailable()) { return false; } // Childed objects can still accept input on no choices available
+            if (ShowCursorOnAnyInteraction(playerInputType)) { return true; }
+            if (PrepareChooseAction(playerInputType)) { return true; }
+            if (MoveCursor(playerInputType)) { return true; }
+
+            return false;
         }
 
         protected override bool ShowCursorOnAnyInteraction(PlayerInputType playerInputType)
@@ -142,20 +145,8 @@ namespace Frankie.Speech.UI
         {
             if (highlightedChoiceOption == null) { return false; }
 
-            bool validInput = false;
             int choiceIndex = choiceOptions.IndexOf(highlightedChoiceOption);
-            if (playerInputType == PlayerInputType.NavigateRight || playerInputType == PlayerInputType.NavigateDown)
-            {
-                if (choiceIndex + 1 >= choiceOptions.Count) { choiceIndex = 0; }
-                else { choiceIndex++; }
-                validInput = true;
-            }
-            else if (playerInputType == PlayerInputType.NavigateUp || playerInputType == PlayerInputType.NavigateLeft)
-            {
-                if (choiceIndex <= 0) { choiceIndex = choiceOptions.Count - 1; }
-                else { choiceIndex--; }
-                validInput = true;
-            }
+            bool validInput = base.MoveCursor(playerInputType, ref choiceIndex, choiceOptions.Count);
 
             if (validInput)
             {
@@ -169,37 +160,7 @@ namespace Frankie.Speech.UI
 
         protected bool MoveCursor2D(PlayerInputType playerInputType, ref int choiceIndex)
         {
-            bool validInput = false;
-            if (choiceOptions.Count == 1)
-            {
-                choiceIndex = 0;
-                validInput = true;
-            }
-            else if (playerInputType == PlayerInputType.NavigateRight)
-            {
-                if (choiceIndex + 1 >= choiceOptions.Count) { choiceIndex = 0; }
-                else { choiceIndex++; }
-                validInput = true;
-            }
-            else if (playerInputType == PlayerInputType.NavigateLeft)
-            {
-                if (choiceIndex <= 0) { choiceIndex = choiceOptions.Count - 1; }
-                else { choiceIndex--; }
-                validInput = true;
-            }
-            else if (playerInputType == PlayerInputType.NavigateDown)
-            {
-                if (choiceIndex + 2 >= choiceOptions.Count) { choiceIndex = 0; }
-                else { choiceIndex++; choiceIndex++; }
-                validInput = true;
-            }
-            else if (playerInputType == PlayerInputType.NavigateUp)
-            {
-                if (choiceIndex <= 1) { choiceIndex = choiceOptions.Count - 1; }
-                else { choiceIndex--; choiceIndex--; }
-                validInput = true;
-            }
-            return validInput;
+            return base.MoveCursor2D(playerInputType, ref choiceIndex, choiceOptions.Count);
         }
 
         protected override bool PrepareChooseAction(PlayerInputType playerInputType)
