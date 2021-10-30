@@ -55,7 +55,6 @@ namespace Frankie.Combat
             if (battleActionFromName != null && battleActionFromName != battleAction)
             {
                 battleAction = battleActionFromName;
-                Debug.Log($"Battle action updated to: {battleActionFromName}");
             }
         }
 

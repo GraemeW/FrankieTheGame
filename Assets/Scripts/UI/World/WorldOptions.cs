@@ -42,9 +42,9 @@ namespace Frankie.Speech.UI
             party = playerStateHandler.GetComponent<Party>();
         }
 
-        protected override void Start()
+        public override void Setup(string optionText)
         {
-            SetGlobalCallbacks(playerController); // input handled via player controller, immediate override
+            SetGlobalInputHandler(playerController); // input handled via player controller, immediate override
             SetupCharacterSlides();
             HandleClientEntry();
         }

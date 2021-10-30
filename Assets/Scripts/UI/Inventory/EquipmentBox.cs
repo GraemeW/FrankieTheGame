@@ -52,7 +52,7 @@ namespace Frankie.Inventory.UI
         // Events
         public event Action<Enum> uiBoxStateChanged;
 
-        protected override void Start()
+        public override void Setup(string optionText)
         {
             // Do Nothing (skip base implementation)
         }
@@ -75,7 +75,7 @@ namespace Frankie.Inventory.UI
             this.standardPlayerInputCaller = standardPlayerInputCaller;
             this.party = party;
             this.characterSlides = characterSlides;
-            SetGlobalCallbacks(standardPlayerInputCaller);
+            SetGlobalInputHandler(standardPlayerInputCaller);
 
             int choiceIndex = 0;
             foreach (CombatParticipant character in party.GetParty())
@@ -348,7 +348,7 @@ namespace Frankie.Inventory.UI
                 GameObject dialogueOptionBoxObject = Instantiate(dialogueOptionBoxPrefab, transform.parent);
                 DialogueOptionBox equipmentOptionMenu = dialogueOptionBoxObject.GetComponent<DialogueOptionBox>();
                 equipmentOptionMenu.SetupSimpleChoices(choiceActionPairs);
-                equipmentOptionMenu.SetGlobalCallbacks(standardPlayerInputCaller);
+                equipmentOptionMenu.SetGlobalInputHandler(standardPlayerInputCaller);
                 equipmentOptionMenu.SetDisableCallback(this, () => EnableInput(true));
                 SetEquipmentBoxState(EquipmentBoxState.inEquipmentOptionMenu);
             }
@@ -388,7 +388,7 @@ namespace Frankie.Inventory.UI
             GameObject dialogueBoxObject = Instantiate(dialogueBoxPrefab, transform.parent);
             DialogueBox dialogueBox = dialogueBoxObject.GetComponent<DialogueBox>();
             dialogueBox.AddText(messageNoValidItems);
-            dialogueBox.SetGlobalCallbacks(standardPlayerInputCaller);
+            dialogueBox.SetGlobalInputHandler(standardPlayerInputCaller);
             dialogueBox.SetDisableCallback(this, () => EnableInput(true));
         }
 

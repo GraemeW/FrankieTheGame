@@ -22,7 +22,7 @@ namespace Frankie.Speech.UI
         BackgroundMusic backgroundMusic = null;
         EscapeMenu escapeMenu = null;
 
-        protected override void Start()
+        public override void Setup(string optionText)
         {
             InitializeSoundEffectsSliders();
 

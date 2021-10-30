@@ -23,7 +23,7 @@ namespace Frankie.Combat.UI
             // Override default behavior, null implementation
         }
 
-        protected override void Start()
+        public override void Setup(string optionText)
         {
             // Override default behavior, null implementation
         }
@@ -34,7 +34,7 @@ namespace Frankie.Combat.UI
             this.battleCanvas = battleCanvas;
             this.party = party;
 
-            SetGlobalCallbacks(battleController); // input handled via player controller, immediate override
+            SetGlobalInputHandler(battleController); // input handled via player controller, immediate override
         }
 
         public void InitiateCombat() // Called via unity events

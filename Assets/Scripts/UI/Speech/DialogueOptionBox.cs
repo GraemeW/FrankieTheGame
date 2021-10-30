@@ -2,9 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
-using UnityEngine.UI;
 using Frankie.Control;
-using Frankie.Core;
 using System;
 
 namespace Frankie.Speech.UI
@@ -12,17 +10,11 @@ namespace Frankie.Speech.UI
     public class DialogueOptionBox : DialogueBox
     {
         [SerializeField] bool clearVolatileOptionsOnEnable = true;
-        [SerializeField] string defaultOptionText = "What do you want to do?";
 
         // State
         protected bool isChoiceAvailable = false;
         protected List<DialogueChoiceOption> choiceOptions = new List<DialogueChoiceOption>();
         protected DialogueChoiceOption highlightedChoiceOption = null;
-
-        protected override void Start()
-        {
-            if (dialogueController != null) { SetupSimpleChoices(dialogueController.GetSimpleChoices(), true); }
-        }
 
         protected override void OnEnable()
         {
@@ -36,6 +28,14 @@ namespace Frankie.Speech.UI
             ClearChoiceSelections();
         }
 
+        public override void Setup(string optionText)
+        {
+            base.Setup(optionText);
+
+            if (dialogueController == null) { return; }
+            SetupSimpleChoices(dialogueController.GetSimpleChoices());
+        }
+
         protected virtual void SetUpChoiceOptions()
         {
             if (clearVolatileOptionsOnEnable) { choiceOptions.Clear(); }
@@ -45,24 +45,8 @@ namespace Frankie.Speech.UI
             else { isChoiceAvailable = false; }
         }
 
-        public void SetupSimpleChoices(List<ChoiceActionPair> choiceActionPairs, bool usingDialogueController = false, string optionText = null)
+        public void SetupSimpleChoices(List<ChoiceActionPair> choiceActionPairs)
         {
-            if (usingDialogueController && dialogueController.IsSimpleMessage())
-            {
-                AddText(dialogueController.GetSimpleMessage());
-            }
-            else
-            {
-                if (string.IsNullOrEmpty(optionText))
-                {
-                    AddText(defaultOptionText);
-                }
-                else
-                {
-                    AddText(optionText);
-                }
-            }
-
             choiceOptions.Clear();
             foreach (ChoiceActionPair choiceActionPair in choiceActionPairs)
             {

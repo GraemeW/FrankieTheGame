@@ -28,9 +28,9 @@ namespace Frankie.Speech.UI
             playerController = playerStateHandler.GetComponent<PlayerController>();
         }
 
-        protected override void Start()
+        public override void Setup(string optionText)
         {
-            SetGlobalCallbacks(playerController); // input handled via player controller, immediate override
+            SetGlobalInputHandler(playerController); // input handled via player controller, immediate override
             HandleClientEntry();
         }
 
@@ -67,7 +67,7 @@ namespace Frankie.Speech.UI
             GameObject childOption = Instantiate(optionsMenuPrefab, worldCanvas.gameObject.transform);
             OptionsMenu optionsMenu = childOption.GetComponent<OptionsMenu>();
             optionsMenu.Setup(this);
-            optionsMenu.SetGlobalCallbacks(playerController);
+            optionsMenu.SetGlobalInputHandler(playerController);
             optionsMenu.SetDisableCallback(this, () => EnableInput(true));
         }
 

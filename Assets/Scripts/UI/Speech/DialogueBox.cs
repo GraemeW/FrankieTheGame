@@ -66,16 +66,22 @@ namespace Frankie.Speech.UI
             base.OnDisable();
         }
 
-        protected virtual void Start()
+        private void Start()
         {
-            SetupSimpleMessage();
+            Setup(null);
         }
 
-        private void SetupSimpleMessage()
+        public virtual void Setup(string optionText)
         {
             if (dialogueController != null && dialogueController.IsSimpleMessage())
             {
                 AddText(dialogueController.GetSimpleMessage());
+            }
+            else
+            {
+                if (string.IsNullOrEmpty(optionText)) { return; }
+
+                AddText(optionText);
             }
         }
 

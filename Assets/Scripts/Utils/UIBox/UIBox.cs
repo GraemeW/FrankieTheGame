@@ -142,22 +142,17 @@ namespace Frankie.Utils
             return validInput;
         }
 
-        // Callback handling
-        public void SetGlobalCallbacks(IStandardPlayerInputCaller globalCallbackSender)
+        // Input Handler & Callbacks
+        public void SetGlobalInputHandler(IStandardPlayerInputCaller globalInputHandler)
         {
-            if (globalCallbackSender == null) { handleGlobalInput = false; return; }
+            if (globalInputHandler == null) { handleGlobalInput = false; return; }
 
             handleGlobalInput = true;
-            controller = globalCallbackSender;
+            controller = globalInputHandler;
 
-            SubscribeToCallbackSender(globalCallbackSender);
-        }
-
-        private void SubscribeToCallbackSender(IStandardPlayerInputCaller globalCallbackSender)
-        {
             if (gameObject.activeSelf)
             {
-                globalCallbackSender.globalInput += HandleGlobalInputWrapper; // Unsubscribed on OnDisable
+                globalInputHandler.globalInput += HandleGlobalInputWrapper; // Unsubscribed on OnDisable
             }
             // No behavior if disabled, will subscribe by OnEnable
         }

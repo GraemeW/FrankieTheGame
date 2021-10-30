@@ -220,7 +220,7 @@ namespace Frankie.Combat.UI
             dialogueBox.AddText(entryMessage);
             dialogueBox.AddPageBreak();
             dialogueBox.AddText(messageEncounterPreHype);
-            dialogueBox.SetGlobalCallbacks(battleController);
+            dialogueBox.SetGlobalInputHandler(battleController);
             dialogueBox.SetDisableCallback(this, () => battleController.SetBattleState(BattleState.PreCombat));
         }
 
@@ -272,7 +272,7 @@ namespace Frankie.Combat.UI
                 characterLevelUpSheetPair.character.characterLevelUp -= HandleLevelUp;
                     // Unsubscribe to messages -- not the cleanest location, but the only one available
             }
-            dialogueBox.SetGlobalCallbacks(battleController);
+            dialogueBox.SetGlobalInputHandler(battleController);
             dialogueBox.SetDisableCallback(this, () => busyWithSerialAction = false);
         }
 
@@ -296,7 +296,7 @@ namespace Frankie.Combat.UI
 
             DialogueBox dialogueBox = dialogueBoxObject.GetComponent<DialogueBox>();
             dialogueBox.AddText(exitMessage);
-            dialogueBox.SetGlobalCallbacks(battleController);
+            dialogueBox.SetGlobalInputHandler(battleController);
             dialogueBox.SetDisableCallback(this, () => { busyWithSerialAction = false; battleController.SetBattleState(BattleState.Complete); });
             battleController.SetHandleLevelUp(false);
         }
@@ -306,7 +306,7 @@ namespace Frankie.Combat.UI
             GameObject dialogueBoxObject = Instantiate(dialogueBoxPrefab, infoChooseParent);
             DialogueBox dialogueBox = dialogueBoxObject.GetComponent<DialogueBox>();
             dialogueBox.AddText("Failed to run away.");
-            dialogueBox.SetGlobalCallbacks(battleController);
+            dialogueBox.SetGlobalInputHandler(battleController);
 
             return dialogueBox;
         }

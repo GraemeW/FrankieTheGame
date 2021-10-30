@@ -50,7 +50,7 @@ namespace Frankie.Inventory.UI
             GameObject dialogueBoxObject = Instantiate(dialogueBoxPrefab, transform.parent);
             DialogueBox dialogueBox = dialogueBoxObject.GetComponent<DialogueBox>();
             dialogueBox.AddText(messageCannotEquip);
-            dialogueBox.SetGlobalCallbacks(standardPlayerInputCaller);
+            dialogueBox.SetGlobalInputHandler(standardPlayerInputCaller);
             dialogueBox.SetDisableCallback(this, () => EnableInput(true));
         }
 

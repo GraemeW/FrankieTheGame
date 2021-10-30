@@ -26,14 +26,14 @@ namespace Frankie.Stats.UI
         // State
         CombatParticipant selectedCharacter = null;
 
-        protected override void Start()
+        public override void Setup(string optionText)
         {
             // Do Nothing (skip base implementation)
         }
 
         public void Setup(IStandardPlayerInputCaller standardPlayerInputCaller, Party party)
         {
-            SetGlobalCallbacks(standardPlayerInputCaller);
+            SetGlobalInputHandler(standardPlayerInputCaller);
             int choiceIndex = 0;
             foreach (CombatParticipant character in party.GetParty())
             {

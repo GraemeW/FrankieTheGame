@@ -73,7 +73,7 @@ namespace Frankie.Control
         {
             GameObject optionsObject = Instantiate(optionsPrefab, startCanvas.transform);
             OptionsMenu menuOptions = optionsObject.GetComponent<OptionsMenu>();
-            menuOptions.SetGlobalCallbacks(this);
+            menuOptions.SetGlobalInputHandler(this);
         }
 
         public void ExitGame()
