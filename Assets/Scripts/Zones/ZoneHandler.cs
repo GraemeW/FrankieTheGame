@@ -247,7 +247,7 @@ namespace Frankie.ZoneManagement
             List<ChoiceActionPair> choiceActionPairs = new List<ChoiceActionPair>();
             foreach (string childNode in zoneNode.GetChildren())
             {
-                ChoiceActionPair choiceActionPair = new ChoiceActionPair(childNode, WarpPlayerToNode, childNode);
+                ChoiceActionPair choiceActionPair = new ChoiceActionPair(childNode, () => WarpPlayerToNode(childNode));
                 choiceActionPairs.Add(choiceActionPair);
             }
             return choiceActionPairs;

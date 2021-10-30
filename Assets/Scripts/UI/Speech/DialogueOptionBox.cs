@@ -13,6 +13,7 @@ namespace Frankie.Speech.UI
 
         // State
         protected bool isChoiceAvailable = false;
+        private bool clearDisableCallbacksOnChoose = false;
         protected List<DialogueChoiceOption> choiceOptions = new List<DialogueChoiceOption>();
         protected DialogueChoiceOption highlightedChoiceOption = null;
 
@@ -50,38 +51,27 @@ namespace Frankie.Speech.UI
             choiceOptions.Clear();
             foreach (ChoiceActionPair choiceActionPair in choiceActionPairs)
             {
-                if (choiceActionPair.choiceActionPairType == ChoiceActionPairType.SimpleString)
-                {
-                    AddChoiceOption(choiceActionPair.choice, choiceActionPair.simpleStringAction, choiceActionPair.stringActionParameter);
-                }
-                else if (choiceActionPair.choiceActionPairType == ChoiceActionPairType.SimpleInt)
-                {
-                    AddChoiceOption(choiceActionPair.choice, choiceActionPair.simpleIntAction, choiceActionPair.intActionParameter);
-                }
-                else if (choiceActionPair.choiceActionPairType == ChoiceActionPairType.Simple)
-                {
-                    AddChoiceOption(choiceActionPair.choice, choiceActionPair.simpleAction);
-                }
+                AddChoiceOption(choiceActionPair.choice, choiceActionPair.action);
             }
             isChoiceAvailable = true;
         }
 
-        private void AddChoiceOption(string choiceText, Action functionCall)
+        public void ClearDisableCallbacksOnChoose(bool enable)
         {
-            DialogueChoiceOption dialogueChoiceOption = AddChoiceOptionTemplate(choiceText);
-            dialogueChoiceOption.GetButton().onClick.AddListener(delegate { functionCall.Invoke();  Destroy(gameObject); });
+            clearDisableCallbacksOnChoose = enable;
         }
 
-        private void AddChoiceOption(string choiceText, Action<string> functionCall, string functionParameter)
+        private void AddChoiceOption(string choiceText, Action action)
         {
             DialogueChoiceOption dialogueChoiceOption = AddChoiceOptionTemplate(choiceText);
-            dialogueChoiceOption.GetButton().onClick.AddListener(delegate { functionCall.Invoke(functionParameter); Destroy(gameObject); });
+            dialogueChoiceOption.GetButton().onClick.AddListener(delegate { StandardChoiceExecution(action); });
         }
 
-        private void AddChoiceOption(string choiceText, Action<int> functionCall, int functionParameter)
+        private void StandardChoiceExecution(Action action)
         {
-            DialogueChoiceOption dialogueChoiceOption = AddChoiceOptionTemplate(choiceText);
-            dialogueChoiceOption.GetButton().onClick.AddListener(delegate { functionCall.Invoke(functionParameter); Destroy(gameObject); });
+            if (clearDisableCallbacksOnChoose) { ClearDisableCallbacks(); }
+            action?.Invoke();
+            Destroy(gameObject);
         }
 
         private DialogueChoiceOption AddChoiceOptionTemplate(string choiceText)

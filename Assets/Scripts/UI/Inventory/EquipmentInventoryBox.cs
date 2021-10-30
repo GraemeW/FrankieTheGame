@@ -32,12 +32,12 @@ namespace Frankie.Inventory.UI
             // Equip
             if (selectedKnapsack.GetItemInSlot(inventorySlot).GetType() == typeof(EquipableItem))
             {
-                ChoiceActionPair equipActionPair = new ChoiceActionPair(optionEquip, Equip, inventorySlot);
+                ChoiceActionPair equipActionPair = new ChoiceActionPair(optionEquip, () => Equip(inventorySlot));
                 choiceActionPairs.Add(equipActionPair);
             }
             else
             {
-                ChoiceActionPair inspectActionPair = new ChoiceActionPair(optionInspect, CannotEquip, inventorySlot);
+                ChoiceActionPair inspectActionPair = new ChoiceActionPair(optionInspect, () => CannotEquip(inventorySlot));
                 choiceActionPairs.Add(inspectActionPair);
             }
 

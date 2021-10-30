@@ -322,7 +322,7 @@ namespace Frankie.Inventory.UI
             if (choiceActionPairs.Count == 0) { return; }
             else if (choiceActionPairs.Count == 1)
             {
-                choiceActionPairs[0].ExecuteAction();
+                choiceActionPairs[0].action?.Invoke();
                 return;
             }
 
@@ -333,8 +333,8 @@ namespace Frankie.Inventory.UI
             dialogueOptionBox.Setup(optionText);
             dialogueOptionBox.SetupSimpleChoices(choiceActionPairs);
             dialogueOptionBox.SetGlobalInputHandler(standardPlayerInputCaller);
-            // Note:  Do not re-enable input control on callback
-            // Control is setup and then passed back via ChoiceActionPair action menu
+            dialogueOptionBox.SetDisableCallback(this, () => EnableInput(true));
+            dialogueOptionBox.ClearDisableCallbacksOnChoose(true);
         }
         #endregion
 
@@ -406,21 +406,21 @@ namespace Frankie.Inventory.UI
             // Use
             if (inventoryItem.GetType() == typeof(ActionItem))
             {
-                ChoiceActionPair useActionPair = new ChoiceActionPair(optionUse, Use, inventorySlot);
+                ChoiceActionPair useActionPair = new ChoiceActionPair(optionUse, () => Use(inventorySlot));
                 choiceActionPairs.Add(useActionPair);
             }
             // Inspect
-            ChoiceActionPair inspectActionPair = new ChoiceActionPair(optionInspect, Inspect, inventorySlot);
+            ChoiceActionPair inspectActionPair = new ChoiceActionPair(optionInspect, () => Inspect(inventorySlot));
             choiceActionPairs.Add(inspectActionPair);
 
             // Move
-            ChoiceActionPair moveActionPair = new ChoiceActionPair(optionMove, Move, inventorySlot);
+            ChoiceActionPair moveActionPair = new ChoiceActionPair(optionMove, () => Move(inventorySlot));
             choiceActionPairs.Add(moveActionPair);
 
             // Drop
             if (inventoryItem.IsDroppable())
             {
-                ChoiceActionPair dropActionPair = new ChoiceActionPair(optionDrop, Drop, inventorySlot);
+                ChoiceActionPair dropActionPair = new ChoiceActionPair(optionDrop, () => Drop(inventorySlot));
                 choiceActionPairs.Add(dropActionPair);
             }
 
@@ -461,6 +461,13 @@ namespace Frankie.Inventory.UI
         #endregion
 
         #region UserBehaviour
+        private void StandardInventoryOption()
+        {
+            if (selectedKnapsack == null) { return; }
+
+
+        }
+
         private void Inspect(int inventorySlot)
         {
             if (selectedKnapsack == null) { return; }
@@ -499,9 +506,9 @@ namespace Frankie.Inventory.UI
             DialogueOptionBox dialogueOptionBox = dialogueOptionBoxObject.GetComponent<DialogueOptionBox>();
 
             List<ChoiceActionPair> choiceActionPairs = new List<ChoiceActionPair>();
-            ChoiceActionPair confirmDrop = new ChoiceActionPair(confirmChoiceAffirmative, ExecuteDrop, inventorySlot);
+            ChoiceActionPair confirmDrop = new ChoiceActionPair(confirmChoiceAffirmative, () => ExecuteDrop(inventorySlot));
             choiceActionPairs.Add(confirmDrop);
-            ChoiceActionPair rejectDrop = new ChoiceActionPair(confirmChoiceNegative, ExecuteDrop, -1);
+            ChoiceActionPair rejectDrop = new ChoiceActionPair(confirmChoiceNegative, () => ExecuteDrop(-1));
             choiceActionPairs.Add(rejectDrop);
 
             dialogueOptionBox.Setup(string.Format(messageDropItem, selectedKnapsack.GetItemInSlot(inventorySlot).GetDisplayName()));

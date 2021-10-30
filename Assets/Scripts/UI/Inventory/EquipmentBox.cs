@@ -339,9 +339,9 @@ namespace Frankie.Inventory.UI
             if (selectedEquipment.HasItemInSlot(equipLocation))
             {
                 List<ChoiceActionPair> choiceActionPairs = new List<ChoiceActionPair>();
-                ChoiceActionPair equipActionPair = new ChoiceActionPair(optionEquip, ExecuteChooseEquipLocation, selector);
+                ChoiceActionPair equipActionPair = new ChoiceActionPair(optionEquip, () => ExecuteChooseEquipLocation(selector));
                 choiceActionPairs.Add(equipActionPair);
-                ChoiceActionPair removeActionPair = new ChoiceActionPair(optionRemove, ExecuteRemoveEquipment, selector);
+                ChoiceActionPair removeActionPair = new ChoiceActionPair(optionRemove, () => ExecuteRemoveEquipment(selector));
                 choiceActionPairs.Add(removeActionPair);
 
                 handleGlobalInput = false;
