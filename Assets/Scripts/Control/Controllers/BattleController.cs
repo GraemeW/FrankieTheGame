@@ -55,6 +55,7 @@ namespace Frankie.Combat
             playerInput.Menu.Navigate.performed += context => ParseDirectionalInput(context.ReadValue<Vector2>());
             playerInput.Menu.Execute.performed += context => HandleUserInput(PlayerInputType.Execute);
             playerInput.Menu.Cancel.performed += context => HandleUserInput(PlayerInputType.Cancel);
+            playerInput.Menu.Option.performed += context => HandleUserInput(PlayerInputType.Option);
             playerInput.Menu.Skip.performed += context => HandleUserInput(PlayerInputType.Skip);
             playerInput.Menu.Select1.performed += context => InteractWithCharacterSelect(0);
             playerInput.Menu.Select2.performed += context => InteractWithCharacterSelect(1);

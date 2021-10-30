@@ -17,6 +17,7 @@ namespace Frankie.Combat
         public override void StartEffect(CombatParticipant sender, IEnumerable<CombatParticipant> recipients)
         {
             if (!removePersistentRecurring && !removePersistentStatModifier) { return; }
+            if (recipients == null) { return; }
 
             foreach (CombatParticipant combatParticipant in recipients)
             {

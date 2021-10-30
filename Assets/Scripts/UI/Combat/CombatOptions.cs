@@ -4,6 +4,7 @@ using Frankie.Stats;
 using UnityEngine;
 using UnityEngine.UI;
 using Frankie.Inventory.UI;
+using Frankie.Control;
 
 namespace Frankie.Combat.UI
 {
@@ -87,6 +88,18 @@ namespace Frankie.Combat.UI
                 handleGlobalInput = true;
                 gameObject.SetActive(true);
             }
+        }
+
+        public override bool HandleGlobalInput(PlayerInputType playerInputType)
+        {
+            if (!handleGlobalInput) { return true; } // Spoof:  Cannot accept input, so treat as if global input already handled
+
+            if (!IsChoiceAvailable()) { return false; } // Childed objects can still accept input on no choices available
+            if (ShowCursorOnAnyInteraction(playerInputType)) { return true; }
+            if (PrepareChooseAction(playerInputType)) { return true; }
+            if (MoveCursor(playerInputType)) { return true; }
+
+            return false;
         }
     }
 }

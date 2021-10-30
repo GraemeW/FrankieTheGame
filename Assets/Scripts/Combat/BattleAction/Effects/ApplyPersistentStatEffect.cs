@@ -19,6 +19,7 @@ namespace Frankie.Combat
         public override void StartEffect(CombatParticipant sender, IEnumerable<CombatParticipant> recipients)
         {
             if (BaseStats.GetNonModifyingStats().Contains(stat)) { return; }
+            if (recipients == null) { return; }
 
             foreach (CombatParticipant combatParticipant in recipients)
             {

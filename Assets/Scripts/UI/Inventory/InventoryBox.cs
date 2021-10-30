@@ -461,13 +461,6 @@ namespace Frankie.Inventory.UI
         #endregion
 
         #region UserBehaviour
-        private void StandardInventoryOption()
-        {
-            if (selectedKnapsack == null) { return; }
-
-
-        }
-
         private void Inspect(int inventorySlot)
         {
             if (selectedKnapsack == null) { return; }

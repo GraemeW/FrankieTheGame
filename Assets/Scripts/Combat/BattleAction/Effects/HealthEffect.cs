@@ -11,6 +11,8 @@ namespace Frankie.Combat
 
         public override void StartEffect(CombatParticipant sender, IEnumerable<CombatParticipant> recipients)
         {
+            if (recipients == null) { return; }
+
             foreach (CombatParticipant recipient in recipients)
             {
                 recipient.AdjustHP(healthChange);

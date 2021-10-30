@@ -17,6 +17,8 @@ namespace Frankie.Combat
 
         public override void StartEffect(CombatParticipant sender, IEnumerable<CombatParticipant> recipients)
         {
+            if (recipients == null) { return; }
+
             foreach (CombatParticipant combatParticipant in recipients)
             {
                 float chanceRoll = UnityEngine.Random.Range(0f, 1f);
