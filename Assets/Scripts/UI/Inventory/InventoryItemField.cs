@@ -107,7 +107,7 @@ namespace Frankie.Inventory.UI
         private void HandleEquipmentBoxStateChange(Enum uiBoxState)
         {
             EquipmentBoxState equipmentBoxState = (EquipmentBoxState)uiBoxState;
-            if (equipmentBoxState == EquipmentBoxState.inEquipmentSelection)
+            if (equipmentBoxState == EquipmentBoxState.inEquipmentSelection || equipmentBoxState == EquipmentBoxState.inCharacterSelection)
             {
                 ToggleButtonActive(true);
             }

@@ -31,6 +31,7 @@ namespace Frankie.Inventory.UI
         [SerializeField] GameObject statChangeFieldPrefab = null;
         [Header("Info/Messages")]
         [Tooltip("Include {0} for character name")] [SerializeField] string messageNoValidItems = "There's nothing in the knapsack to equip.";
+        [SerializeField] string optionText = "What do you want to do?";
         [SerializeField] string optionEquip = "Put on";
         [SerializeField] string optionRemove = "Take off";
 
@@ -72,8 +73,11 @@ namespace Frankie.Inventory.UI
             SetGlobalInputHandler(standardPlayerInputCaller);
 
             int choiceIndex = 0;
+            CombatParticipant firstCharacter = null;
             foreach (CombatParticipant character in party.GetParty())
             {
+                if (firstCharacter != null) { firstCharacter = character; }
+
                 GameObject uiChoiceOptionObject = Instantiate(optionPrefab, optionParent);
                 UIChoiceOption uiChoiceOption = uiChoiceOptionObject.GetComponent<UIChoiceOption>();
                 uiChoiceOption.SetChoiceOrder(choiceIndex);
@@ -340,6 +344,7 @@ namespace Frankie.Inventory.UI
                 handleGlobalInput = false;
                 GameObject dialogueOptionBoxObject = Instantiate(dialogueOptionBoxPrefab, transform.parent);
                 DialogueOptionBox equipmentOptionMenu = dialogueOptionBoxObject.GetComponent<DialogueOptionBox>();
+                equipmentOptionMenu.Setup(optionText);
                 equipmentOptionMenu.OverrideChoiceOptions(choiceActionPairs);
                 equipmentOptionMenu.SetGlobalInputHandler(standardPlayerInputCaller);
                 equipmentOptionMenu.SetDisableCallback(this, () => EnableInput(true));

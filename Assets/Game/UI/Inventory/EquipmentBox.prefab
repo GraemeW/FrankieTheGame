@@ -1488,7 +1488,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5879544326553776133, guid: 9193413aa0e976e439049a2689f4fa41, type: 3}
       propertyPath: m_text
-      value: Okay
+      value: Nah
       objectReference: {fileID: 0}
     - target: {fileID: 5879544326553776133, guid: 9193413aa0e976e439049a2689f4fa41, type: 3}
       propertyPath: m_HorizontalAlignment
