@@ -9,16 +9,15 @@ using System.Collections.Generic;
 using System.Linq;
 using TMPro;
 using UnityEngine;
-using UnityEngine.UI;
 
 namespace Frankie.Inventory.UI
 {
-    public class EquipmentBox : DialogueOptionBox, IUIItemHandler
+    public class EquipmentBox : UIBox, IUIItemHandler
     {
         // Tunables
         [Header("Data Links")]
         [SerializeField] TextMeshProUGUI selectedCharacterNameField = null;
-        [Tooltip("Hook these up to confirm/reject in ConfirmationOptions")][SerializeField] List<DialogueChoiceOption> equipmentChangeConfirmOptions = new List<DialogueChoiceOption>();
+        [Tooltip("Hook these up to confirm/reject in ConfirmationOptions")] [SerializeField] UIChoiceOption[] equipmentChangeConfirmOptions;
         [Header("Parents")]
         [SerializeField] Transform leftEquipment = null;
         [SerializeField] Transform rightEquipment = null;
@@ -37,7 +36,7 @@ namespace Frankie.Inventory.UI
 
         // State
         EquipmentBoxState equipmentBoxState = EquipmentBoxState.inCharacterSelection;
-        List<DialogueChoiceOption> playerSelectChoiceOptions = new List<DialogueChoiceOption>();
+        List<UIChoiceOption> playerSelectChoiceOptions = new List<UIChoiceOption>();
         List<InventoryItemField> equipableItemChoiceOptions = new List<InventoryItemField>();
         CombatParticipant selectedCharacter = null;
         Equipment selectedEquipment = null;
@@ -51,11 +50,6 @@ namespace Frankie.Inventory.UI
 
         // Events
         public event Action<Enum> uiBoxStateChanged;
-
-        public override void Setup(string optionText)
-        {
-            // Do Nothing (skip base implementation)
-        }
 
         protected override void OnEnable()
         {
@@ -80,14 +74,14 @@ namespace Frankie.Inventory.UI
             int choiceIndex = 0;
             foreach (CombatParticipant character in party.GetParty())
             {
-                GameObject characterFieldObject = Instantiate(optionPrefab, optionParent);
-                DialogueChoiceOption dialogueChoiceOption = characterFieldObject.GetComponent<DialogueChoiceOption>();
-                dialogueChoiceOption.SetChoiceOrder(choiceIndex);
-                dialogueChoiceOption.SetText(character.GetCombatName());
-                characterFieldObject.GetComponent<Button>().onClick.AddListener(delegate { ChooseCharacter(character, true); });
-                dialogueChoiceOption.AddOnHighlightListener(delegate { SoftChooseCharacter(character); });
+                GameObject uiChoiceOptionObject = Instantiate(optionPrefab, optionParent);
+                UIChoiceOption uiChoiceOption = uiChoiceOptionObject.GetComponent<UIChoiceOption>();
+                uiChoiceOption.SetChoiceOrder(choiceIndex);
+                uiChoiceOption.SetText(character.GetCombatName());
+                uiChoiceOption.GetButton().onClick.AddListener(delegate { ChooseCharacter(character, true); });
+                uiChoiceOption.AddOnHighlightListener(delegate { SoftChooseCharacter(character); });
 
-                playerSelectChoiceOptions.Add(dialogueChoiceOption);
+                playerSelectChoiceOptions.Add(uiChoiceOption);
                 choiceIndex++;
             }
             SetEquipmentBoxState(EquipmentBoxState.inCharacterSelection);
@@ -139,7 +133,7 @@ namespace Frankie.Inventory.UI
             choiceOptions.Clear();
             if (equipmentBoxState == EquipmentBoxState.inEquipmentSelection)
             {
-                choiceOptions.AddRange(equipableItemChoiceOptions.Cast<DialogueChoiceOption>().OrderBy(x => x.choiceOrder).ToList());
+                choiceOptions.AddRange(equipableItemChoiceOptions.Cast<UIChoiceOption>().OrderBy(x => x.choiceOrder).ToList());
             }
             else if (equipmentBoxState == EquipmentBoxState.inCharacterSelection)
             {
@@ -170,7 +164,7 @@ namespace Frankie.Inventory.UI
         protected override void ClearChoiceSelections()
         {
             highlightedChoiceOption = null;
-            foreach (DialogueChoiceOption dialogueChoiceOption in playerSelectChoiceOptions)
+            foreach (UIChoiceOption dialogueChoiceOption in playerSelectChoiceOptions)
             {
                 dialogueChoiceOption.Highlight(false);
             }
@@ -178,7 +172,7 @@ namespace Frankie.Inventory.UI
             {
                 inventoryItemField.Highlight(false);
             }
-            foreach (DialogueChoiceOption dialogueChoiceOption in equipmentChangeConfirmOptions)
+            foreach (UIChoiceOption dialogueChoiceOption in equipmentChangeConfirmOptions)
             {
                 dialogueChoiceOption.Highlight(false);
             }
@@ -347,7 +341,7 @@ namespace Frankie.Inventory.UI
                 handleGlobalInput = false;
                 GameObject dialogueOptionBoxObject = Instantiate(dialogueOptionBoxPrefab, transform.parent);
                 DialogueOptionBox equipmentOptionMenu = dialogueOptionBoxObject.GetComponent<DialogueOptionBox>();
-                equipmentOptionMenu.SetupSimpleChoices(choiceActionPairs);
+                equipmentOptionMenu.OverrideChoiceOptions(choiceActionPairs);
                 equipmentOptionMenu.SetGlobalInputHandler(standardPlayerInputCaller);
                 equipmentOptionMenu.SetDisableCallback(this, () => EnableInput(true));
                 SetEquipmentBoxState(EquipmentBoxState.inEquipmentOptionMenu);

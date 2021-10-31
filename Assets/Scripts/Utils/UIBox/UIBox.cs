@@ -2,6 +2,7 @@ using Frankie.Control;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 namespace Frankie.Utils
@@ -12,11 +13,21 @@ namespace Frankie.Utils
         [Header("UI Box Parameters")]
         [SerializeField] protected CanvasGroup canvasGroup = null;
         [SerializeField] protected bool handleGlobalInput = true;
+        [SerializeField] bool clearVolatileOptionsOnEnable = true;
+        [Header("Choice Behavior")]
+        [SerializeField] protected Transform optionParent = null;
+        [SerializeField] protected GameObject optionPrefab = null;
 
-        // State
+        // State -- Standard
         protected bool destroyQueued = false;
         List<CallbackMessagePair> disableCallbacks = new List<CallbackMessagePair>();
         protected IStandardPlayerInputCaller controller = null;
+
+        // State -- Choices
+        protected bool isChoiceAvailable = false;
+        private bool clearDisableCallbacksOnChoose = false;
+        protected List<UIChoiceOption> choiceOptions = new List<UIChoiceOption>();
+        protected UIChoiceOption highlightedChoiceOption = null;
 
         // Data Structures
         protected struct CallbackMessagePair
@@ -28,22 +39,20 @@ namespace Frankie.Utils
         // Events
         public event Action<UIBoxModifiedType, bool> uiBoxModified;
 
-        // Abstract Methods
-        protected abstract bool ShowCursorOnAnyInteraction(PlayerInputType playerInputType);
-        protected abstract bool IsChoiceAvailable();
-        protected abstract bool MoveCursor(PlayerInputType playerInputType);
-
-        // Default Methods
+        #region Standard
         protected virtual void OnEnable()
         {
             if (controller != null && handleGlobalInput)
             {
                 controller.globalInput += HandleGlobalInputWrapper;
             }
+            SetUpChoiceOptions();
         }
 
         protected virtual void OnDisable()
         {
+            ClearChoiceSelections();
+
             if (controller != null && handleGlobalInput)
             {
                 controller.globalInput -= HandleGlobalInputWrapper;
@@ -87,9 +96,127 @@ namespace Frankie.Utils
         {
             OnUIBoxModified(UIBoxModifiedType.clientExit, true);
         }
+        #endregion
 
-        // Input Handling
-        protected bool MoveCursor(PlayerInputType playerInputType, ref int currentSelectionIndex, int optionsCount)
+        #region ChoiceBehavior
+        protected virtual bool IsChoiceAvailable()
+        {
+            return isChoiceAvailable;
+        }
+
+        protected virtual void SetUpChoiceOptions()
+        {
+            if (clearVolatileOptionsOnEnable) { choiceOptions.Clear(); }
+            choiceOptions.AddRange(optionParent.gameObject.GetComponentsInChildren<UIChoiceOption>().OrderBy(x => x.choiceOrder).ToList());
+
+            if (choiceOptions.Count > 0) { isChoiceAvailable = true; }
+            else { isChoiceAvailable = false; }
+        }
+
+        public void OverrideChoiceOptions(List<ChoiceActionPair> choiceActionPairs)
+        {
+            choiceOptions.Clear();
+            foreach (ChoiceActionPair choiceActionPair in choiceActionPairs)
+            {
+                AddChoiceOption(choiceActionPair.choice, choiceActionPair.action);
+            }
+            isChoiceAvailable = true;
+        }
+
+        private void AddChoiceOption(string choiceText, Action action)
+        {
+            UIChoiceOption dialogueChoiceOption = AddChoiceOptionTemplate(choiceText);
+            dialogueChoiceOption.GetButton().onClick.AddListener(delegate { StandardChoiceExecution(action); });
+        }
+
+        protected virtual UIChoiceOption AddChoiceOptionTemplate(string choiceText)
+        {
+            GameObject uiChoiceOptionObject = Instantiate(optionPrefab, optionParent);
+            UIChoiceOption uiChoiceOption = uiChoiceOptionObject.GetComponent<UIChoiceOption>();
+            uiChoiceOption.SetChoiceOrder(choiceOptions.Count + 1);
+            uiChoiceOption.SetText(choiceText);
+            choiceOptions.Add(uiChoiceOption);
+            return uiChoiceOption;
+        }
+
+        protected virtual void ClearChoiceSelections()
+        {
+            highlightedChoiceOption = null;
+            foreach (UIChoiceOption choiceOption in choiceOptions)
+            {
+                choiceOption.Highlight(false);
+            }
+        }
+
+        // Pass through implementations
+        protected virtual bool PrepareChooseAction(PlayerInputType playerInputType)
+        {
+            return StandardPrepareChooseAction(playerInputType);
+        }
+        protected bool StandardPrepareChooseAction(PlayerInputType playerInputType)
+        {
+            // Choose(null) since not passing a nodeID, not a standard dialogue -- irrelevant in context of override
+            if (playerInputType == PlayerInputType.Execute)
+            {
+                return Choose(null);
+            }
+            return false;
+        }
+
+        protected virtual bool Choose(string nodeID)
+        {
+            return StandardChoose(nodeID);
+        }
+
+        protected bool StandardChoose(string chooseDetail)
+        {
+            if (highlightedChoiceOption != null)
+            {
+                highlightedChoiceOption.GetButton().onClick.Invoke();
+                return true;
+            }
+            return false;
+        }
+
+        private void StandardChoiceExecution(Action action)
+        {
+            if (clearDisableCallbacksOnChoose) { ClearDisableCallbacks(); }
+            action?.Invoke();
+            Destroy(gameObject);
+        }
+        #endregion
+
+        #region InputHandling
+        protected virtual bool ShowCursorOnAnyInteraction(PlayerInputType playerInputType)
+        {
+            if (!isChoiceAvailable || choiceOptions.Count == 0) { return false; }
+
+            if (highlightedChoiceOption == null && playerInputType != PlayerInputType.DefaultNone)
+            {
+                highlightedChoiceOption = choiceOptions[0];
+                highlightedChoiceOption.Highlight(true);
+                return true;
+            }
+            return false;
+        }
+        protected virtual bool MoveCursor(PlayerInputType playerInputType)
+        {
+            if (highlightedChoiceOption == null) { return false; }
+
+            int choiceIndex = choiceOptions.IndexOf(highlightedChoiceOption);
+            bool validInput = MoveCursor(playerInputType, ref choiceIndex, choiceOptions.Count);
+
+            if (validInput)
+            {
+                ClearChoiceSelections();
+                highlightedChoiceOption = choiceOptions[choiceIndex];
+                choiceOptions[choiceIndex].Highlight(true);
+                return true;
+            }
+            return false;
+        }
+
+        private bool MoveCursor(PlayerInputType playerInputType, ref int currentSelectionIndex, int optionsCount)
         {
             bool validInput = false;
             if (playerInputType == PlayerInputType.NavigateRight || playerInputType == PlayerInputType.NavigateDown)
@@ -105,6 +232,11 @@ namespace Frankie.Utils
                 validInput = true;
             }
             return validInput;
+        }
+
+        protected bool MoveCursor2D(PlayerInputType playerInputType, ref int choiceIndex)
+        {
+            return MoveCursor2D(playerInputType, ref choiceIndex, choiceOptions.Count);
         }
 
         protected bool MoveCursor2D(PlayerInputType playerInputType, ref int choiceIndex, int optionsCount)
@@ -141,8 +273,9 @@ namespace Frankie.Utils
             }
             return validInput;
         }
+        #endregion
 
-        // Input Handler & Callbacks
+        #region InterfacesCallbacks
         public void SetGlobalInputHandler(IStandardPlayerInputCaller globalInputHandler)
         {
             if (globalInputHandler == null) { handleGlobalInput = false; return; }
@@ -157,6 +290,42 @@ namespace Frankie.Utils
             // No behavior if disabled, will subscribe by OnEnable
         }
 
+        private void HandleGlobalInputWrapper(PlayerInputType playerInputType)
+        {
+            HandleGlobalInput(playerInputType);
+        }
+
+        public virtual bool HandleGlobalInput(PlayerInputType playerInputType)
+        {
+            return StandardHandleGlobalInput(playerInputType);
+        }
+
+        // Pass through implementations
+        protected bool StandardHandleGlobalInput(PlayerInputType playerInputType)
+        {
+            if (HandleGlobalInputSpoofAndExit(playerInputType)) { return true; }
+
+            if (!IsChoiceAvailable()) { return false; } // Childed objects can still accept input on no choices available
+            if (ShowCursorOnAnyInteraction(playerInputType)) { return true; }
+            if (PrepareChooseAction(playerInputType)) { return true; }
+            if (MoveCursor(playerInputType)) { return true; }
+
+            return false;
+        }
+
+        protected bool HandleGlobalInputSpoofAndExit(PlayerInputType playerInputType)
+        {
+            if (!handleGlobalInput) { return true; } // Spoof:  Cannot accept input, so treat as if global input already handled
+
+            if (playerInputType == PlayerInputType.Cancel || playerInputType == PlayerInputType.Option)
+            {
+                HandleClientExit();
+                destroyQueued = true;
+                return true;
+            }
+            return false;
+        }
+
         public void SetDisableCallback(IUIBoxCallbackReceiver callbackReceiver, Action action)
         {
             CallbackMessagePair callbackMessagePair = new CallbackMessagePair
@@ -167,30 +336,14 @@ namespace Frankie.Utils
             disableCallbacks.Add(callbackMessagePair);
         }
 
+        public void ClearDisableCallbacksOnChoose(bool enable)
+        {
+            clearDisableCallbacksOnChoose = enable;
+        }
+
         public void ClearDisableCallbacks()
         {
             disableCallbacks.Clear();
-        }
-
-
-        // Interfaces
-        private void HandleGlobalInputWrapper(PlayerInputType playerInputType)
-        {
-            HandleGlobalInput(playerInputType);
-        }
-
-        public virtual bool HandleGlobalInput(PlayerInputType playerInputType)
-        {
-            if (!handleGlobalInput) { return true; } // Spoof:  Cannot accept input, so treat as if global input already handled
-
-            if (playerInputType == PlayerInputType.Cancel || playerInputType == PlayerInputType.Option)
-            {
-                HandleClientExit();
-                destroyQueued = true;
-                return true;
-            }
-
-            return false;
         }
 
         public void HandleDisableCallback(IUIBoxCallbackReceiver uiBox, Action action)
@@ -200,5 +353,6 @@ namespace Frankie.Utils
                 action.Invoke();
             }
         }
+        #endregion
     }
 }

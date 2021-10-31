@@ -443,13 +443,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   canvasGroup: {fileID: -9126222842676821729}
+  handleGlobalInput: 1
+  clearVolatileOptionsOnEnable: 1
+  optionParent: {fileID: 2827520980706274898}
+  optionPrefab: {fileID: 3358873790910023875, guid: 3ddb4c077d5422844bfe6e116ecd5650, type: 3}
   dialogueParent: {fileID: 4819427655758832652}
   simpleTextPrefab: {fileID: 1863244146844170633, guid: adbee8c8e42373e4b8e75745ee81bd6c, type: 3}
   speechTextPrefab: {fileID: 2827329066881810044, guid: 457c6052bdf60f4428eb78a1788169a4, type: 3}
-  optionParent: {fileID: 2827520980706274898}
-  optionPrefab: {fileID: 3358873790910023875, guid: 3ddb4c077d5422844bfe6e116ecd5650, type: 3}
-  handleGlobalInput: 1
-  delayToDestroyWindow: 0.1
   delayBetweenCharacters: 0.05
 --- !u!225 &-9126222842676821729
 CanvasGroup:
@@ -470,6 +470,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 2227106547557423765}
     m_Modifications:
+    - target: {fileID: 1482892425982219451, guid: eacfa704d056afc478864cbd60733a44, type: 3}
+      propertyPath: uiBox
+      value: 
+      objectReference: {fileID: 6442782191674339376}
     - target: {fileID: 1482892425982219451, guid: eacfa704d056afc478864cbd60733a44, type: 3}
       propertyPath: dialogueBox
       value: 

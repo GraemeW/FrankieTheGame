@@ -7,15 +7,13 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
-using UnityEngine.UI;
 using System.Linq;
 using System;
-using UnityEngine.Events;
 using Frankie.Utils;
 
 namespace Frankie.Inventory.UI
 {
-    public class InventoryBox : DialogueOptionBox, IUIItemHandler
+    public class InventoryBox : UIBox, IUIItemHandler
     {
         // Tunables
         [Header("Data Links")]
@@ -42,7 +40,7 @@ namespace Frankie.Inventory.UI
 
         // State
         protected InventoryBoxState inventoryBoxState = InventoryBoxState.inCharacterSelection;
-        List<DialogueChoiceOption> playerSelectChoiceOptions = new List<DialogueChoiceOption>();
+        List<UIChoiceOption> playerSelectChoiceOptions = new List<UIChoiceOption>();
         protected List<InventoryItemField> inventoryItemChoiceOptions = new List<InventoryItemField>();
         protected CombatParticipant selectedCharacter = null;
         protected Knapsack selectedKnapsack = null;
@@ -58,11 +56,6 @@ namespace Frankie.Inventory.UI
         // Events
         public event Action<Enum> uiBoxStateChanged;
         public event Action<CombatParticipantType, IEnumerable<CombatParticipant>> targetCharacterChanged;
-
-        public override void Setup(string optionText)
-        {
-            // Do Nothing (skip base implementation)
-        }
 
         protected override void OnEnable()
         {
@@ -97,14 +90,14 @@ namespace Frankie.Inventory.UI
             int choiceIndex = 0;
             foreach (CombatParticipant character in party.GetParty())
             {
-                GameObject characterFieldObject = Instantiate(optionPrefab, optionParent);
-                DialogueChoiceOption dialogueChoiceOption = characterFieldObject.GetComponent<DialogueChoiceOption>();
-                dialogueChoiceOption.SetChoiceOrder(choiceIndex);
-                dialogueChoiceOption.SetText(character.GetCombatName());
-                characterFieldObject.GetComponent<Button>().onClick.AddListener(delegate { ChooseCharacter(character); });
-                dialogueChoiceOption.AddOnHighlightListener(delegate { SoftChooseCharacter(character); });
+                GameObject uiChoiceOptionObject = Instantiate(optionPrefab, optionParent);
+                UIChoiceOption uiChoiceOption = uiChoiceOptionObject.GetComponent<UIChoiceOption>();
+                uiChoiceOption.SetChoiceOrder(choiceIndex);
+                uiChoiceOption.SetText(character.GetCombatName());
+                uiChoiceOption.GetButton().onClick.AddListener(delegate { ChooseCharacter(character); });
+                uiChoiceOption.AddOnHighlightListener(delegate { SoftChooseCharacter(character); });
 
-                playerSelectChoiceOptions.Add(dialogueChoiceOption);
+                playerSelectChoiceOptions.Add(uiChoiceOption);
                 choiceIndex++;
             }
             SetInventoryBoxState(InventoryBoxState.inCharacterSelection);
@@ -120,12 +113,12 @@ namespace Frankie.Inventory.UI
             SubscribeCharacterSlides(true);
             SetGlobalInputHandler(standardPlayerInputCaller);
 
-            GameObject characterFieldObject = Instantiate(optionPrefab, optionParent);
-            DialogueChoiceOption dialogueChoiceOption = characterFieldObject.GetComponent<DialogueChoiceOption>();
-            dialogueChoiceOption.SetChoiceOrder(0);
-            dialogueChoiceOption.SetText(character.GetCombatName());
-            characterFieldObject.GetComponent<Button>().onClick.AddListener(delegate { ChooseCharacter(character); });
-            playerSelectChoiceOptions.Add(dialogueChoiceOption);
+            GameObject uiChoiceOptionObject = Instantiate(optionPrefab, optionParent);
+            UIChoiceOption uiChoiceOption = uiChoiceOptionObject.GetComponent<UIChoiceOption>();
+            uiChoiceOption.SetChoiceOrder(0);
+            uiChoiceOption.SetText(character.GetCombatName());
+            uiChoiceOption.GetButton().onClick.AddListener(delegate { ChooseCharacter(character); });
+            playerSelectChoiceOptions.Add(uiChoiceOption);
             ChooseCharacter(character);
         }
 
@@ -157,7 +150,7 @@ namespace Frankie.Inventory.UI
                 selectedItemSlot = -1;
                 if (inventoryBoxState == InventoryBoxState.inKnapsack)
                 {
-                    choiceOptions.AddRange(inventoryItemChoiceOptions.Cast<DialogueChoiceOption>().OrderBy(x => x.choiceOrder).ToList());
+                    choiceOptions.AddRange(inventoryItemChoiceOptions.Cast<UIChoiceOption>().OrderBy(x => x.choiceOrder).ToList());
                 }
                 else if (inventoryBoxState == InventoryBoxState.inCharacterSelection)
                 {
@@ -184,7 +177,7 @@ namespace Frankie.Inventory.UI
         protected override void ClearChoiceSelections()
         {
             highlightedChoiceOption = null;
-            foreach (DialogueChoiceOption dialogueChoiceOption in playerSelectChoiceOptions)
+            foreach (UIChoiceOption dialogueChoiceOption in playerSelectChoiceOptions)
             {
                 dialogueChoiceOption.Highlight(false);
             }
@@ -331,7 +324,7 @@ namespace Frankie.Inventory.UI
             GameObject dialogueOptionBoxObject = Instantiate(dialogueOptionBoxPrefab, transform.parent);
             DialogueOptionBox dialogueOptionBox = dialogueOptionBoxObject.GetComponent<DialogueOptionBox>();
             dialogueOptionBox.Setup(optionText);
-            dialogueOptionBox.SetupSimpleChoices(choiceActionPairs);
+            dialogueOptionBox.OverrideChoiceOptions(choiceActionPairs);
             dialogueOptionBox.SetGlobalInputHandler(standardPlayerInputCaller);
             dialogueOptionBox.SetDisableCallback(this, () => EnableInput(true));
             dialogueOptionBox.ClearDisableCallbacksOnChoose(true);
@@ -505,7 +498,7 @@ namespace Frankie.Inventory.UI
             choiceActionPairs.Add(rejectDrop);
 
             dialogueOptionBox.Setup(string.Format(messageDropItem, selectedKnapsack.GetItemInSlot(inventorySlot).GetDisplayName()));
-            dialogueOptionBox.SetupSimpleChoices(choiceActionPairs);
+            dialogueOptionBox.OverrideChoiceOptions(choiceActionPairs);
             dialogueOptionBox.SetGlobalInputHandler(standardPlayerInputCaller);
             dialogueOptionBox.SetDisableCallback(this, () => EnableInput(true));
         }

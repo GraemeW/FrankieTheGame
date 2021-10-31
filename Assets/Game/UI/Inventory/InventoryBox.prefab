@@ -732,16 +732,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   canvasGroup: {fileID: 4029012818950736550}
-  dialogueParent: {fileID: 4819427655758832652}
-  simpleTextPrefab: {fileID: 1863244146844170633, guid: adbee8c8e42373e4b8e75745ee81bd6c, type: 3}
-  speechTextPrefab: {fileID: 2827329066881810044, guid: 457c6052bdf60f4428eb78a1788169a4, type: 3}
-  optionParent: {fileID: 2827520980706274898}
-  optionPrefab: {fileID: 3358873790910023875, guid: 3ddb4c077d5422844bfe6e116ecd5650, type: 3}
   handleGlobalInput: 1
-  delayToDestroyWindow: 0.1
-  delayBetweenCharacters: 0.05
   clearVolatileOptionsOnEnable: 1
-  defaultOptionText: What do you want to do?
+  optionParent: {fileID: 2827520980706274898}
+  optionPrefab: {fileID: 3358873790910023875, guid: 9193413aa0e976e439049a2689f4fa41, type: 3}
   selectedCharacterNameField: {fileID: 9194726771461153638}
   leftItemContainer: {fileID: 4808833409950686781}
   rightItemContainer: {fileID: 2801211723359414022}
@@ -749,6 +743,7 @@ MonoBehaviour:
   dialogueOptionBoxPrefab: {fileID: 6413694501190794285, guid: cfcc3c74158936342a4d3c72aa65bde0, type: 3}
   inventoryItemFieldPrefab: {fileID: 3358873790910023875, guid: e49114d2a61e8cc46bd0caffe110c05d, type: 3}
   inventoryMoveBoxPrefab: {fileID: 6413694501190794285, guid: c11a1f4a70caf0e4783fb042888f8799, type: 3}
+  optionText: What do you want to do?
   optionInspect: Inspect
   optionUse: Use
   optionMove: Move
@@ -1051,12 +1046,16 @@ PrefabInstance:
     m_TransformParent: {fileID: 2227106547557423765}
     m_Modifications:
     - target: {fileID: 1482892425982219451, guid: eacfa704d056afc478864cbd60733a44, type: 3}
-      propertyPath: dialogueBox
+      propertyPath: uiBox
       value: 
       objectReference: {fileID: 2437136854184657}
+    - target: {fileID: 1482892425982219451, guid: eacfa704d056afc478864cbd60733a44, type: 3}
+      propertyPath: dialogueBox
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 2366363061461443362, guid: eacfa704d056afc478864cbd60733a44, type: 3}
       propertyPath: m_Name
-      value: DialogueBoxSoundbox
+      value: uiBoxSoundbox
       objectReference: {fileID: 0}
     - target: {fileID: 2366363061461443363, guid: eacfa704d056afc478864cbd60733a44, type: 3}
       propertyPath: m_RootOrder

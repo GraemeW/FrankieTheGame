@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 using Frankie.Control;
 using System;
+using Frankie.Utils;
 
 namespace Frankie.Speech.UI
 {
-    public class EscapeMenu : DialogueOptionBox
+    public class EscapeMenu : UIBox
     {
         // Tunables
         [SerializeField] GameObject optionsMenuPrefab = null;
@@ -20,15 +21,14 @@ namespace Frankie.Speech.UI
         // Events
         public event Action escapeMenuItemSelected;
 
-        protected override void Awake()
+        private void Awake()
         {
-            base.Awake();
             worldCanvas = GameObject.FindGameObjectWithTag("WorldCanvas").GetComponent<WorldCanvas>();
             playerStateHandler = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerStateHandler>();
             playerController = playerStateHandler.GetComponent<PlayerController>();
         }
 
-        public override void Setup(string optionText)
+        private void Start()
         {
             SetGlobalInputHandler(playerController); // input handled via player controller, immediate override
             HandleClientEntry();

@@ -15,8 +15,6 @@ namespace Frankie.Speech.UI
         [SerializeField] protected Transform dialogueParent = null;
         [SerializeField] GameObject simpleTextPrefab = null;
         [SerializeField] GameObject speechTextPrefab = null;
-        [SerializeField] protected Transform optionParent = null;
-        [SerializeField] protected GameObject optionPrefab = null;
         [Header("Parameters")]
         [SerializeField] float delayBetweenCharacters = 0.05f; // Seconds
 
@@ -161,15 +159,15 @@ namespace Frankie.Speech.UI
 
         public void AddChoice(DialogueNode choiceNode, int choiceIndex = 0)
         {
-            GameObject choiceObject = Instantiate(optionPrefab, optionParent);
-            DialogueChoiceOption dialogueChoiceOption = choiceObject.GetComponent<DialogueChoiceOption>();
+            GameObject dialogueChoiceOptionObject = Instantiate(optionPrefab, optionParent);
+            DialogueChoiceOption dialogueChoiceOption = dialogueChoiceOptionObject.GetComponent<DialogueChoiceOption>();
             dialogueChoiceOption.Setup(dialogueController, choiceNode);
             dialogueChoiceOption.SetChoiceOrder(choiceIndex);
             dialogueChoiceOption.SetText(choiceNode.GetText());
-            choiceObject.GetComponent<Button>().onClick.AddListener(delegate { Choose(choiceNode.name); });
-            choiceObject.SetActive(false);
+            dialogueChoiceOption.GetButton().onClick.AddListener(delegate { Choose(choiceNode.name); });
+            dialogueChoiceOption.gameObject.SetActive(false);
 
-            QueueTextForPrinting(choiceObject, null, true);
+            QueueTextForPrinting(dialogueChoiceOption.gameObject, null, true);
         }
 
         private void ClearOldDialogue()
@@ -281,7 +279,7 @@ namespace Frankie.Speech.UI
             printedJobs = new List<GameObject>();
         }
 
-        protected virtual bool Choose(string nodeID)
+        protected override bool Choose(string nodeID)
         {
             bool choose = PrepareChooseAction(PlayerInputType.Execute);
             if (choose)
@@ -292,7 +290,7 @@ namespace Frankie.Speech.UI
             return choose;
         }
 
-        protected virtual bool PrepareChooseAction(PlayerInputType playerInputType)
+        protected override bool PrepareChooseAction(PlayerInputType playerInputType)
         {
             if (playerInputType == PlayerInputType.Execute)
             {
@@ -326,7 +324,7 @@ namespace Frankie.Speech.UI
         // Abstract Method Implementation
         public override bool HandleGlobalInput(PlayerInputType playerInputType)
         {
-            if (base.HandleGlobalInput(playerInputType)) { return true; } // Already handled
+            if (HandleGlobalInputSpoofAndExit(playerInputType)) { return true; }
 
             if (playerInputType == PlayerInputType.Execute || playerInputType == PlayerInputType.Skip)
             {
@@ -346,12 +344,6 @@ namespace Frankie.Speech.UI
                 }
             }
 
-            return false;
-        }
-
-        protected override bool IsChoiceAvailable()
-        {
-            // Used in alternate implementations
             return false;
         }
 

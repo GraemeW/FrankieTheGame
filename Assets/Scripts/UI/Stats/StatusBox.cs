@@ -11,7 +11,7 @@ using Frankie.Utils;
 
 namespace Frankie.Stats.UI
 {
-    public class StatusBox : DialogueOptionBox
+    public class StatusBox : UIBox
     {
         // Tunables
         [Header("Data Links")]
@@ -26,23 +26,18 @@ namespace Frankie.Stats.UI
         // State
         CombatParticipant selectedCharacter = null;
 
-        public override void Setup(string optionText)
-        {
-            // Do Nothing (skip base implementation)
-        }
-
         public void Setup(IStandardPlayerInputCaller standardPlayerInputCaller, Party party)
         {
             SetGlobalInputHandler(standardPlayerInputCaller);
             int choiceIndex = 0;
             foreach (CombatParticipant character in party.GetParty())
             {
-                GameObject characterFieldObject = Instantiate(optionPrefab, optionParent);
-                DialogueChoiceOption dialogueChoiceOption = characterFieldObject.GetComponent<DialogueChoiceOption>();
-                dialogueChoiceOption.SetChoiceOrder(choiceIndex);
-                dialogueChoiceOption.SetText(character.GetCombatName());
-                characterFieldObject.GetComponent<Button>().onClick.AddListener(delegate { ChooseCharacter(character); });
-                dialogueChoiceOption.AddOnHighlightListener(delegate { SoftChooseCharacter(character); });
+                GameObject uiChoiceOptionObject = Instantiate(optionPrefab, optionParent);
+                UIChoiceOption uiChoiceOption = uiChoiceOptionObject.GetComponent<UIChoiceOption>();
+                uiChoiceOption.SetChoiceOrder(choiceIndex);
+                uiChoiceOption.SetText(character.GetCombatName());
+                uiChoiceOption.GetButton().onClick.AddListener(delegate { ChooseCharacter(character); });
+                uiChoiceOption.AddOnHighlightListener(delegate { SoftChooseCharacter(character); });
 
                 if (choiceIndex == 0) { SoftChooseCharacter(character); }
                 choiceIndex++;

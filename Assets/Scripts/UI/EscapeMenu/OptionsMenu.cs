@@ -3,12 +3,12 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using Frankie.Settings;
-using Frankie.Control;
 using Frankie.Sound;
+using Frankie.Utils;
 
 namespace Frankie.Speech.UI
 {
-    public class OptionsMenu : DialogueOptionBox
+    public class OptionsMenu : UIBox
     {
         // Tunables
         [SerializeField] Slider masterVolumeSlider = null;
@@ -22,7 +22,7 @@ namespace Frankie.Speech.UI
         BackgroundMusic backgroundMusic = null;
         EscapeMenu escapeMenu = null;
 
-        public override void Setup(string optionText)
+        private void Start()
         {
             InitializeSoundEffectsSliders();
 
@@ -91,10 +91,8 @@ namespace Frankie.Speech.UI
             }
         }
 
-        protected override void Update()
+        private void Update()
         {
-            base.Update();
-
             if (backgroundMusic != null)
             {
                 float calculatedVolume = masterVolumeSlider.value * backgroundVolumeSlider.value;

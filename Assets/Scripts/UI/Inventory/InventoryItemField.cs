@@ -1,4 +1,5 @@
 using Frankie.Speech.UI;
+using Frankie.Utils;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -6,7 +7,7 @@ using UnityEngine;
 
 namespace Frankie.Inventory.UI
 {
-    public class InventoryItemField : DialogueChoiceOption
+    public class InventoryItemField : UIChoiceOption
     {
         // Tunables
         [SerializeField] GameObject equippedMarker = null;

@@ -1,4 +1,5 @@
 using Frankie.Speech.UI;
+using Frankie.Utils;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -7,7 +8,7 @@ using UnityEngine;
 
 namespace Frankie.Combat.UI
 {
-    public class CombatLog : DialogueBox
+    public class CombatLog : UIBox
     {
         // Tunables
         [Header("Presentation")]
@@ -36,9 +37,8 @@ namespace Frankie.Combat.UI
         // Cached References
         BattleController battleController = null;
 
-        protected override void Awake()
+        private void Awake()
         {
-            base.Awake();
             battleController = GameObject.FindGameObjectWithTag("BattleController").GetComponent<BattleController>();
 
             combatLogDelay = delayBetweenCharactersSlowDown;
@@ -58,11 +58,6 @@ namespace Frankie.Combat.UI
             battleController.battleSequenceProcessed -= ParseBattleSequence;
             ToggleCombatParticipantListeners(false);
             StopCoroutine(marquee);
-        }
-
-        protected override void Update()
-        {
-            // Unused for combat log -- continuously marquee
         }
 
         private void ToggleCombatParticipantListeners(bool enable)

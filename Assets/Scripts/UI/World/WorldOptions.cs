@@ -1,17 +1,16 @@
 using Frankie.Combat;
 using Frankie.Combat.UI;
-using Frankie.Core;
 using Frankie.Stats;
 using Frankie.Stats.UI;
 using Frankie.Control;
 using UnityEngine;
-using UnityEngine.UI;
 using Frankie.Inventory.UI;
 using System.Collections.Generic;
+using Frankie.Utils;
 
 namespace Frankie.Speech.UI
 {
-    public class WorldOptions : DialogueOptionBox
+    public class WorldOptions : UIBox
     {
         // Tunables
         [SerializeField] Transform characterPanelTransform = null;
@@ -33,16 +32,15 @@ namespace Frankie.Speech.UI
         Party party = null;
         GameObject childOption = null;
 
-        protected override void Awake()
+        private void Awake()
         {
-            base.Awake();
             worldCanvas = GameObject.FindGameObjectWithTag("WorldCanvas").GetComponent<WorldCanvas>();
             playerStateHandler = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerStateHandler>();
             playerController = playerStateHandler.GetComponent<PlayerController>();
             party = playerStateHandler.GetComponent<Party>();
         }
 
-        public override void Setup(string optionText)
+        private void Start()
         {
             SetGlobalInputHandler(playerController); // input handled via player controller, immediate override
             SetupCharacterSlides();

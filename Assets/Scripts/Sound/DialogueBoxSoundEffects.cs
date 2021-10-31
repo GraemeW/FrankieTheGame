@@ -9,7 +9,7 @@ namespace Frankie.Sound
     public class DialogueBoxSoundEffects : SoundEffects
     {
         // Tunables
-        [SerializeField] DialogueBox dialogueBox = null;
+        [SerializeField] UIBox uiBox = null;
         [SerializeField] AudioClip textScanAudioClip = null;
         [SerializeField] AudioClip chooseAudioClip = null;
         [SerializeField] AudioClip enterClip = null;
@@ -27,13 +27,13 @@ namespace Frankie.Sound
         protected override void OnEnable()
         {
             base.OnEnable();
-            dialogueBox.uiBoxModified += HandleDialogueBoxUpdate;
+            uiBox.uiBoxModified += HandleDialogueBoxUpdate;
         }
 
         protected override void OnDisable()
         {
             base.OnDisable();
-            dialogueBox.uiBoxModified -= HandleDialogueBoxUpdate;
+            uiBox.uiBoxModified -= HandleDialogueBoxUpdate;
         }
 
         private void HandleDialogueBoxUpdate(UIBoxModifiedType uiBoxModifiedType, bool enable)

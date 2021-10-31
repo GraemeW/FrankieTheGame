@@ -2,13 +2,13 @@ using Frankie.Speech.UI;
 using Frankie.Stats.UI;
 using Frankie.Stats;
 using UnityEngine;
-using UnityEngine.UI;
 using Frankie.Inventory.UI;
 using Frankie.Control;
+using Frankie.Utils;
 
 namespace Frankie.Combat.UI
 {
-    public class CombatOptions : DialogueOptionBox
+    public class CombatOptions : UIBox
     {
         // Tunables 
         [SerializeField] GameObject statusPrefab = null;
@@ -18,16 +18,6 @@ namespace Frankie.Combat.UI
         BattleController battleController = null;
         BattleCanvas battleCanvas = null;
         Party party = null;
-
-        protected override void Awake()
-        {
-            // Override default behavior, null implementation
-        }
-
-        public override void Setup(string optionText)
-        {
-            // Override default behavior, null implementation
-        }
 
         public void Setup(BattleController battleController, BattleCanvas battleCanvas, Party party)
         {

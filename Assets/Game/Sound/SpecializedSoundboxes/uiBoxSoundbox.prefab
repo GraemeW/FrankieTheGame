@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 2366363061461443373}
   - component: {fileID: 1482892425982219451}
   m_Layer: 0
-  m_Name: DialogueBoxSoundbox
+  m_Name: uiBoxSoundbox
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
