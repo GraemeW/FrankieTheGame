@@ -157,12 +157,11 @@ namespace Frankie.Inventory.UI
                     choiceOptions.AddRange(playerSelectChoiceOptions.OrderBy(x => x.choiceOrder).ToList());
                 }
 
-                if (choiceOptions.Count > 0) { isChoiceAvailable = true; }
-                else { isChoiceAvailable = false; }
+                SetChoiceAvailable(choiceOptions.Count > 0);
             }
             else
             {
-                isChoiceAvailable = true; // avoid short circuit on user control for other states
+                SetChoiceAvailable(true) ; // avoid short circuit on user control for other states
                 return;
             }
         }

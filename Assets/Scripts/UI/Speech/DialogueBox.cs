@@ -37,6 +37,7 @@ namespace Frankie.Speech.UI
             public bool isChoice;
         }
 
+        #region StandardMethods
         protected virtual void Awake()
         {
             GameObject dialogueControllerObject = GameObject.FindGameObjectWithTag("DialogueController");
@@ -119,6 +120,20 @@ namespace Frankie.Speech.UI
             destroyQueued = true;
         }
 
+        private void SkipToEndOfPage()
+        {
+            interruptWriting = true;
+            if (queuePageClear)
+            {
+                ClearPrintedJobs();
+                SetBusyWriting(false);
+                interruptWriting = false;
+                queuePageClear = false;
+            }
+        }
+        #endregion
+
+        #region WritingFunctionality
         private void SetBusyWriting(bool enable)
         {
             if (enable)
@@ -145,29 +160,6 @@ namespace Frankie.Speech.UI
             {
                 AddSpeech(dialogueController.GetText());
             }
-        }
-
-        private void SetChoiceList()
-        {
-            int choiceIndex = 0;
-            foreach (DialogueNode choiceNode in dialogueController.GetChoices())
-            {
-                AddChoice(choiceNode, choiceIndex);
-                choiceIndex++;
-            }
-        }
-
-        public void AddChoice(DialogueNode choiceNode, int choiceIndex = 0)
-        {
-            GameObject dialogueChoiceOptionObject = Instantiate(optionPrefab, optionParent);
-            DialogueChoiceOption dialogueChoiceOption = dialogueChoiceOptionObject.GetComponent<DialogueChoiceOption>();
-            dialogueChoiceOption.Setup(dialogueController, choiceNode);
-            dialogueChoiceOption.SetChoiceOrder(choiceIndex);
-            dialogueChoiceOption.SetText(choiceNode.GetText());
-            dialogueChoiceOption.GetButton().onClick.AddListener(delegate { Choose(choiceNode.name); });
-            dialogueChoiceOption.gameObject.SetActive(false);
-
-            QueueTextForPrinting(dialogueChoiceOption.gameObject, null, true);
         }
 
         private void ClearOldDialogue()
@@ -239,12 +231,6 @@ namespace Frankie.Speech.UI
             yield break;
         }
 
-        private IEnumerator PrintChoices(GameObject choiceObject)
-        {
-            choiceObject.SetActive(true);
-            yield break;
-        }
-
         private IEnumerator PrintText(ReceptacleTextPair receptacleTextPair)
         {
             if (string.IsNullOrWhiteSpace(receptacleTextPair.text)) { yield break; }
@@ -278,6 +264,37 @@ namespace Frankie.Speech.UI
             }
             printedJobs = new List<GameObject>();
         }
+        #endregion
+
+        #region ChoiceFunctionality
+        private void SetChoiceList()
+        {
+            int choiceIndex = 0;
+            foreach (DialogueNode choiceNode in dialogueController.GetChoices())
+            {
+                AddChoice(choiceNode, choiceIndex);
+                choiceIndex++;
+            }
+        }
+
+        public void AddChoice(DialogueNode choiceNode, int choiceIndex = 0)
+        {
+            GameObject dialogueChoiceOptionObject = Instantiate(optionPrefab, optionParent);
+            DialogueChoiceOption dialogueChoiceOption = dialogueChoiceOptionObject.GetComponent<DialogueChoiceOption>();
+            dialogueChoiceOption.Setup(dialogueController, choiceNode);
+            dialogueChoiceOption.SetChoiceOrder(choiceIndex);
+            dialogueChoiceOption.SetText(choiceNode.GetText());
+            dialogueChoiceOption.GetButton().onClick.AddListener(delegate { Choose(choiceNode.name); });
+            dialogueChoiceOption.gameObject.SetActive(false);
+
+            QueueTextForPrinting(dialogueChoiceOption.gameObject, null, true);
+        }
+
+        private IEnumerator PrintChoices(GameObject choiceObject)
+        {
+            choiceObject.SetActive(true);
+            yield break;
+        }
 
         protected override bool Choose(string nodeID)
         {
@@ -303,25 +320,9 @@ namespace Frankie.Speech.UI
             }
             return false;
         }
+        #endregion
 
-        private void HandleDialogueInput(PlayerInputType playerInputType)
-        {
-            PrepareChooseAction(playerInputType);
-        }
-
-        private void SkipToEndOfPage()
-        {
-            interruptWriting = true;
-            if (queuePageClear)
-            {
-                ClearPrintedJobs();
-                SetBusyWriting(false);
-                interruptWriting = false;
-                queuePageClear = false;
-            }
-        }
-
-        // Abstract Method Implementation
+        #region InputHandling
         public override bool HandleGlobalInput(PlayerInputType playerInputType)
         {
             if (HandleGlobalInputSpoofAndExit(playerInputType)) { return true; }
@@ -347,16 +348,12 @@ namespace Frankie.Speech.UI
             return false;
         }
 
-        protected override bool ShowCursorOnAnyInteraction(PlayerInputType playerInputType)
+        private void HandleDialogueInput(PlayerInputType playerInputType)
         {
-            // No interactions available in simple dialogue box
-            return false;
+            PrepareChooseAction(playerInputType);
         }
+        #endregion
 
-        protected override bool MoveCursor(PlayerInputType playerInputType)
-        {
-            // No cursor available in simple dialogue box
-            return false;
-        }
+
     }
 }

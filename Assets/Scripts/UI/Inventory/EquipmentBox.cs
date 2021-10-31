@@ -144,8 +144,7 @@ namespace Frankie.Inventory.UI
                 choiceOptions.AddRange(equipmentChangeConfirmOptions);
             }
 
-            if (choiceOptions.Count > 0) { isChoiceAvailable = true; }
-            else { isChoiceAvailable = false; }
+            SetChoiceAvailable(choiceOptions.Count > 0);
         }
 
         public void ResetEquipmentBox(bool clearSelectedCharacter)

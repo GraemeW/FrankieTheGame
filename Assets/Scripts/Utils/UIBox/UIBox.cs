@@ -24,8 +24,8 @@ namespace Frankie.Utils
         protected IStandardPlayerInputCaller controller = null;
 
         // State -- Choices
-        protected bool isChoiceAvailable = false;
-        private bool clearDisableCallbacksOnChoose = false;
+        bool isChoiceAvailable = false;
+        bool clearDisableCallbacksOnChoose = false;
         protected List<UIChoiceOption> choiceOptions = new List<UIChoiceOption>();
         protected UIChoiceOption highlightedChoiceOption = null;
 
@@ -99,9 +99,15 @@ namespace Frankie.Utils
         #endregion
 
         #region ChoiceBehavior
-        protected virtual bool IsChoiceAvailable()
+        protected bool IsChoiceAvailable()
         {
-            return isChoiceAvailable;
+            // Use state variable instead of counting for co-ex with dialogue system
+            return isChoiceAvailable; 
+        }
+
+        protected void SetChoiceAvailable(bool enable)
+        {
+            isChoiceAvailable = enable;
         }
 
         protected virtual void SetUpChoiceOptions()
@@ -187,7 +193,7 @@ namespace Frankie.Utils
         #endregion
 
         #region InputHandling
-        protected virtual bool ShowCursorOnAnyInteraction(PlayerInputType playerInputType)
+        protected bool ShowCursorOnAnyInteraction(PlayerInputType playerInputType)
         {
             if (!isChoiceAvailable || choiceOptions.Count == 0) { return false; }
 
@@ -199,9 +205,10 @@ namespace Frankie.Utils
             }
             return false;
         }
+
         protected virtual bool MoveCursor(PlayerInputType playerInputType)
         {
-            if (highlightedChoiceOption == null) { return false; }
+            if (!isChoiceAvailable || highlightedChoiceOption == null) { return false; }
 
             int choiceIndex = choiceOptions.IndexOf(highlightedChoiceOption);
             bool validInput = MoveCursor(playerInputType, ref choiceIndex, choiceOptions.Count);

@@ -32,6 +32,7 @@ namespace Frankie.Speech
         {
             this.playerStateHandler = playerStateHandler;
             this.dialogueController = dialogueController;
+            queuedTrigger = false; // Reset state on new conversation (avoids triggering on unrelated nodes on subsequent conversations)
             dialogueController.dialogueUpdated += Trigger;
         }
 

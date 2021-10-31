@@ -27,7 +27,6 @@ namespace Frankie.Speech.UI
         {
             return StandardPrepareChooseAction(playerInputType);
         }
-
         public override bool HandleGlobalInput(PlayerInputType playerInputType)
         {
             return StandardHandleGlobalInput(playerInputType);
