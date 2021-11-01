@@ -417,7 +417,7 @@ GameObject:
   - component: {fileID: 207459755}
   - component: {fileID: 207459756}
   m_Layer: 5
-  m_Name: NewGameButton
+  m_Name: ContinueGameButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -489,7 +489,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1593896549}
         m_TargetAssemblyTypeName: Frankie.Control.StartMenuController, Assembly-CSharp
-        m_MethodName: NewGame
+        m_MethodName: Continue
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -981,7 +981,7 @@ GameObject:
   - component: {fileID: 1329136996}
   - component: {fileID: 1329136995}
   m_Layer: 5
-  m_Name: NewGameField
+  m_Name: ContinueGameField
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1026,7 +1026,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: New Game
+  m_text: Continue Game
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: d8f5db432f88c754ab82bab761716254, type: 2}
   m_sharedMaterial: {fileID: -682910395561788682, guid: d8f5db432f88c754ab82bab761716254, type: 2}
@@ -1159,25 +1159,17 @@ MonoBehaviour:
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
   m_LayoutPriority: 1
---- !u!1 &1593896548 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 1652440945069373202, guid: 260fdcc750a1b7b44b0f3332e6a57e6f, type: 3}
+--- !u!114 &1593896549 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1593896549, guid: 260fdcc750a1b7b44b0f3332e6a57e6f, type: 3}
   m_PrefabInstance: {fileID: 1652440943743949174}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &1593896549
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1593896548}
+  m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b075075066953fc449ca91e8f3c4e2fa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  startCanvas: {fileID: 11044726}
-  optionsPrefab: {fileID: 3816388286053691981, guid: ad042c32a9c9fdd4a80f11ae49d15a20, type: 3}
 --- !u!1 &1807987466
 GameObject:
   m_ObjectHideFlags: 0
@@ -1799,6 +1791,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1593896549, guid: 260fdcc750a1b7b44b0f3332e6a57e6f, type: 3}
+      propertyPath: startCanvas
+      value: 
+      objectReference: {fileID: 11044726}
     - target: {fileID: 1652440945069373202, guid: 260fdcc750a1b7b44b0f3332e6a57e6f, type: 3}
       propertyPath: m_Name
       value: StartMenuController

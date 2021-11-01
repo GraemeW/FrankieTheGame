@@ -9,6 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1652440945069373203}
+  - component: {fileID: 1593896549}
   m_Layer: 0
   m_Name: StartMenuController
   m_TagString: Untagged
@@ -30,3 +31,18 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1593896549
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1652440945069373202}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b075075066953fc449ca91e8f3c4e2fa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  startCanvas: {fileID: 0}
+  optionsPrefab: {fileID: 7923113534490889839, guid: ad042c32a9c9fdd4a80f11ae49d15a20, type: 3}
+  loadGamePrefab: {fileID: 8289910384818935068, guid: 0d0cc8cd45c352f45b6711238aa9527f, type: 3}

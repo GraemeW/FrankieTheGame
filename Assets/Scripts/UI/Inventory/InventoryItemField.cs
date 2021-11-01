@@ -1,5 +1,4 @@
-using Frankie.Speech.UI;
-using Frankie.Utils;
+using Frankie.Utils.UI;
 using System;
 using System.Collections;
 using System.Collections.Generic;

@@ -10,6 +10,8 @@ namespace Frankie.Saving
 {
     public class SavingSystem : MonoBehaviour
     {
+        const string SAVE_FILE_EXTENSION = ".sav";
+
         private static List<SaveableEntity> GetAllSaveableEntities()
         {
             List<SaveableEntity> saveableEntities = FindObjectsOfType<SaveableEntity>().ToList();
@@ -58,6 +60,18 @@ namespace Frankie.Saving
         public void Delete(string saveFile)
         {
             File.Delete(GetPathFromSaveFile(saveFile));
+        }
+
+        public IEnumerable<string> ListSaves()
+        {
+            List<string> saveFiles = Directory.EnumerateFiles(Application.persistentDataPath).ToList();
+            foreach (string path in saveFiles)
+            {
+                if (Path.GetExtension(path) == SAVE_FILE_EXTENSION)
+                {
+                    yield return Path.GetFileNameWithoutExtension(path);
+                }
+            }
         }
 
         private Dictionary<string, object> LoadFile(string saveFile)

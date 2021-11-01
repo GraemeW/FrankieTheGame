@@ -1,12 +1,11 @@
-using Frankie.Speech.UI;
-using Frankie.Utils;
+using Frankie.Utils.UI;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 namespace Frankie.Sound
 {
-    public class DialogueBoxSoundEffects : SoundEffects
+    public class UIBoxSoundEffects : SoundEffects
     {
         // Tunables
         [SerializeField] UIBox uiBox = null;

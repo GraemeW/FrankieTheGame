@@ -1,12 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using TMPro;
-using UnityEngine.UI;
 using Frankie.Control;
 using Frankie.Speech.UI;
-using System.Linq;
-using Frankie.Utils;
+using Frankie.Utils.UI;
 
 namespace Frankie.Combat.UI
 {

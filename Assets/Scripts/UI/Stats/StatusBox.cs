@@ -1,13 +1,12 @@
 using Frankie.Combat;
 using Frankie.Control;
-using Frankie.Speech.UI;
+using Frankie.Utils.UI;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using System;
-using Frankie.Utils;
 
 namespace Frankie.Stats.UI
 {

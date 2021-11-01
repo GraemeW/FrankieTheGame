@@ -1,14 +1,15 @@
 using Frankie.Combat;
-using Frankie.Combat.UI;
 using Frankie.Stats;
+using Frankie.Utils.UI;
+using Frankie.Combat.UI;
 using Frankie.Stats.UI;
+using Frankie.Inventory.UI;
 using Frankie.Control;
 using UnityEngine;
-using Frankie.Inventory.UI;
 using System.Collections.Generic;
-using Frankie.Utils;
 
-namespace Frankie.Speech.UI
+
+namespace Frankie.Menu.UI
 {
     public class WorldOptions : UIBox
     {

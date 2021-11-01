@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-namespace Frankie.Utils
+namespace Frankie.Utils.UI
 {
     public abstract class UIBox : MonoBehaviour, IGlobalInputReceiver, IUIBoxCallbackReceiver
     {

@@ -11,9 +11,9 @@ GameObject:
   - component: {fileID: 7764666934433544137}
   - component: {fileID: 2707184082843642924}
   - component: {fileID: 4442584724333405627}
-  - component: {fileID: 7279383479650295534}
+  - component: {fileID: 2677499815960731892}
   m_Layer: 0
-  m_Name: SimpleTextPrefab
+  m_Name: StandardTextElement
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -66,8 +66,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum ac
-    auctor ex. Duis vel vehicula magna, eu posuere.
+  m_text: Standard Text
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: d8f5db432f88c754ab82bab761716254, type: 2}
   m_sharedMaterial: {fileID: -682910395561788682, guid: d8f5db432f88c754ab82bab761716254, type: 2}
@@ -136,7 +135,7 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
---- !u!114 &7279383479650295534
+--- !u!114 &2677499815960731892
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -145,7 +144,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 1863244146844170633}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 86a22c78bf7a1ae40a4389526850914b, type: 3}
+  m_Script: {fileID: 11500000, guid: 306cc8c2b49d7114eaa3623786fc2126, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  textField: {fileID: 4442584724333405627}
+  m_IgnoreLayout: 0
+  m_MinWidth: 200
+  m_MinHeight: -1
+  m_PreferredWidth: 200
+  m_PreferredHeight: -1
+  m_FlexibleWidth: -1
+  m_FlexibleHeight: -1
+  m_LayoutPriority: 1

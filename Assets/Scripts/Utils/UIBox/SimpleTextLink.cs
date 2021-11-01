@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 
-namespace Frankie.Speech.UI
+namespace Frankie.Utils.UI
 {
     public class SimpleTextLink : MonoBehaviour
     {

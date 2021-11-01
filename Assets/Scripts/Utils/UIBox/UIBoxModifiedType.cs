@@ -1,4 +1,4 @@
-﻿namespace Frankie.Utils
+﻿namespace Frankie.Utils.UI
 {
     public enum UIBoxModifiedType
     {

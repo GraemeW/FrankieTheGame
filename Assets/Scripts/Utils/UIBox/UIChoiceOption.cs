@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
 
-namespace Frankie.Utils
+namespace Frankie.Utils.UI
 {
     public class UIChoiceOption : MonoBehaviour
     {

@@ -4,9 +4,9 @@ using UnityEngine;
 using UnityEngine.UI;
 using Frankie.Settings;
 using Frankie.Sound;
-using Frankie.Utils;
+using Frankie.Utils.UI;
 
-namespace Frankie.Speech.UI
+namespace Frankie.Menu.UI
 {
     public class OptionsMenu : UIBox
     {

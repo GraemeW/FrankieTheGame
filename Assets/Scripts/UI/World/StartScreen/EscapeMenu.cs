@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using Frankie.Control;
 using System;
-using Frankie.Utils;
+using Frankie.Utils.UI;
 
-namespace Frankie.Speech.UI
+namespace Frankie.Menu.UI
 {
     public class EscapeMenu : UIBox
     {

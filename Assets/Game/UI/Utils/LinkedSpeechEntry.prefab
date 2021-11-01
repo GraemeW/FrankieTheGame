@@ -146,7 +146,7 @@ GameObject:
   - component: {fileID: 6914468153019577514}
   - component: {fileID: 6140993127050232721}
   m_Layer: 0
-  m_Name: SpeechEntryPrefab
+  m_Name: LinkedSpeechEntry
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

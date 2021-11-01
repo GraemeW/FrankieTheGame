@@ -1,5 +1,5 @@
 using Frankie.ZoneManagement;
-using Frankie.Speech.UI;
+using Frankie.Menu.UI;
 using System;
 using UnityEngine;
 using Frankie.Core;
@@ -11,10 +11,10 @@ namespace Frankie.Control
         // Tunables
         [Header("Links and Prefabs")]
         [SerializeField] Canvas startCanvas = null;
-        [SerializeField] GameObject optionsPrefab = null;
+        [SerializeField] OptionsMenu optionsPrefab = null;
+        [SerializeField] LoadGameMenu loadGamePrefab = null;
 
         // Cached References
-        SceneLoader sceneLoader = null;
         PlayerInput playerInput = null;
         SavingWrapper savingWrapper = null;
 
@@ -53,8 +53,7 @@ namespace Frankie.Control
 
         private void Start()
         {
-            // SceneLoader & saver are persistent objects, thus can only be found after Awake -- so find in Start
-            sceneLoader = GameObject.FindGameObjectWithTag("SceneLoader").GetComponent<SceneLoader>();
+            // SavingWrapper is a persistent object, thus can only be found after Awake -- so find in Start
             savingWrapper = GameObject.FindGameObjectWithTag("Saver").GetComponent<SavingWrapper>();
         }
 
@@ -72,24 +71,24 @@ namespace Frankie.Control
             }
         }
 
-        public void NewGame()
+        public void LoadGame() // Called via Unity Events
         {
-            sceneLoader.QueueNewGame();
+            LoadGameMenu loadGameMenu = Instantiate(loadGamePrefab, startCanvas.transform);
+            loadGameMenu.SetGlobalInputHandler(this);
         }
 
-        public void LoadGame()
+        public void Continue() // Called via Unity Events
         {
-            savingWrapper.Load();
+            savingWrapper.Continue();
         }
 
-        public void LoadOptions()
+        public void LoadOptions() // Called via Unity Events
         {
-            GameObject optionsObject = Instantiate(optionsPrefab, startCanvas.transform);
-            OptionsMenu menuOptions = optionsObject.GetComponent<OptionsMenu>();
+            OptionsMenu menuOptions = Instantiate(optionsPrefab, startCanvas.transform);
             menuOptions.SetGlobalInputHandler(this);
         }
 
-        public void ExitGame()
+        public void ExitGame() // Called via Unity Events
         {
             Application.Quit();
         }

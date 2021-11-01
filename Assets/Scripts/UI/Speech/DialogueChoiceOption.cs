@@ -1,11 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using TMPro;
-using UnityEngine.UI;
-using UnityEngine.Events;
 using System;
-using Frankie.Utils;
+using Frankie.Utils.UI;
 
 namespace Frankie.Speech.UI
 {
