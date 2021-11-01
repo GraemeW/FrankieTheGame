@@ -436,7 +436,7 @@ MonoBehaviour:
   currentAPHundreds: {fileID: 621684899563121143}
   currentAPTens: {fileID: 3779205739022887581}
   currentAPOnes: {fileID: 1961126035102761917}
-  selectHighlight: {fileID: 0}
+  selectHighlight: {fileID: 4469655348132733684}
   damageTextSpawner: {fileID: 8474882480370079151}
   selectedCharacterFrameColor: {r: 0.4444464, g: 0.8207547, b: 0.4444464, a: 1}
   cooldownCharacterFrameColor: {r: 0.745283, g: 0.745283, b: 0.745283, a: 1}
@@ -2344,6 +2344,17 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 8120674585450076846, guid: f87bb994db6da2a48ab3be635b9f50fb, type: 3}
   m_PrefabInstance: {fileID: 4657982943703282350}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &4469655348132733684 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 9125169247971135578, guid: f87bb994db6da2a48ab3be635b9f50fb, type: 3}
+  m_PrefabInstance: {fileID: 4657982943703282350}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &6890808834534996912
 PrefabInstance:
   m_ObjectHideFlags: 0
