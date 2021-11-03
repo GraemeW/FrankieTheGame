@@ -4,6 +4,7 @@ using UnityEngine;
 using Frankie.Control;
 using System;
 using Frankie.Utils.UI;
+using Frankie.Core;
 
 namespace Frankie.Menu.UI
 {
@@ -13,6 +14,7 @@ namespace Frankie.Menu.UI
         [SerializeField] GameObject optionsMenuPrefab = null;
 
         // Cached References
+        SavingWrapper savingWrapper = null;
         PlayerStateHandler playerStateHandler = null;
         PlayerController playerController = null;
         WorldCanvas worldCanvas = null;
@@ -30,6 +32,9 @@ namespace Frankie.Menu.UI
 
         private void Start()
         {
+            savingWrapper = GameObject.FindGameObjectWithTag("Saver").GetComponent<SavingWrapper>();
+            // SceneLoader is a persistent object, thus can only be found after Awake -- so find in Start
+
             SetGlobalInputHandler(playerController); // input handled via player controller, immediate override
             HandleClientEntry();
         }
@@ -73,7 +78,7 @@ namespace Frankie.Menu.UI
 
         public void QuitGame() // Called via Unity Events
         {
-            Application.Quit();
+            savingWrapper.LoadStartMenu();
         }
     }
 

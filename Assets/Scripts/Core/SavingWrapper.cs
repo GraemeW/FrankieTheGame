@@ -61,6 +61,12 @@ namespace Frankie.Core
             PlayerPrefs.SetInt(GetPrefsKey(PrefsKeyType.Level, saveName), level);
         }
 
+        private static void DeletePlayerForSceneLoad()
+        {
+            GameObject playerGameObject = GameObject.FindGameObjectWithTag("Player");
+            if (playerGameObject != null) { Destroy(playerGameObject); } // Player reconstructed after scene load (prevents control lock-up)
+        }
+
         IEnumerator LoadFromSave(string saveFile)
         {
             if (deleteSaveFileOnStart)
@@ -68,8 +74,7 @@ namespace Frankie.Core
                 Delete();
                 yield break;
             }
-            GameObject playerGameObject = GameObject.FindGameObjectWithTag("Player"); 
-            if (playerGameObject != null) { Destroy(playerGameObject); } // Player reconstructed after scene load (prevents control lock-up)
+            DeletePlayerForSceneLoad();
 
             yield return GetComponent<SavingSystem>().LoadLastScene(saveFile);
 
@@ -127,8 +132,20 @@ namespace Frankie.Core
             return false;
         }
 
+        public void LoadStartMenu()
+        {
+            DeletePlayerForSceneLoad();
+
+            SceneLoader sceneLoader = GameObject.FindGameObjectWithTag("SceneLoader").GetComponent<SceneLoader>();
+            sceneLoader.QueueStartScreen();
+            Fader fader = FindObjectOfType<Fader>();
+            fader.UpdateFadeStateImmediate();
+        }
+
         public void NewGame(string saveName)
         {
+            DeletePlayerForSceneLoad();
+
             SetCurrentSave(saveName);
             SceneLoader sceneLoader = GameObject.FindGameObjectWithTag("SceneLoader").GetComponent<SceneLoader>();
             sceneLoader.QueueNewGame();

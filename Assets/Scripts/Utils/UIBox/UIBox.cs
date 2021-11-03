@@ -14,6 +14,7 @@ namespace Frankie.Utils.UI
         [SerializeField] protected CanvasGroup canvasGroup = null;
         [SerializeField] protected bool handleGlobalInput = true;
         [SerializeField] bool clearVolatileOptionsOnEnable = true;
+        [SerializeField] bool preventEscapeOptionExit = false;
         [Header("Choice Behavior")]
         [SerializeField] protected Transform optionParent = null;
         [SerializeField] protected GameObject optionPrefab = null;
@@ -324,6 +325,7 @@ namespace Frankie.Utils.UI
         {
             if (!handleGlobalInput) { return true; } // Spoof:  Cannot accept input, so treat as if global input already handled
 
+            if (preventEscapeOptionExit) { return false; } // Used for main menus that cannot be bypassed -- e.g. start menu
             if (playerInputType == PlayerInputType.Cancel || playerInputType == PlayerInputType.Option)
             {
                 HandleClientExit();
