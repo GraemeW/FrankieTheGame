@@ -283,10 +283,35 @@ namespace Frankie.Utils.UI
         }
         #endregion
 
-        #region InterfacesCallbacks
-        public void SetGlobalInputHandler(IStandardPlayerInputCaller globalInputHandler)
+        #region Input Handling
+        public void TakeControl(IStandardPlayerInputCaller standardPlayerInputCaller, IUIBoxCallbackReceiver callbackReceiver, IEnumerable<Action> actions)
         {
-            if (globalInputHandler == null) { handleGlobalInput = false; return; }
+            // This should only be called from a non UIBox -> UIBox (e.g. canvas, controller or otherwise)
+            SetGlobalInputHandler(standardPlayerInputCaller);
+            SetDisableCallback(callbackReceiver, actions);
+        }
+
+        public void PassControl(UIBox delegateUIBox)
+        {
+            PassControl(this, new Action[] { () => EnableInput(true) }, delegateUIBox, controller);
+        }
+
+        public void PassControl(IUIBoxCallbackReceiver callbackReceiver, IEnumerable<Action> actions, UIBox delegateUIBox, IStandardPlayerInputCaller standardPlayerInputCaller)
+        {
+            // Disable callback MUST include a re-enable
+            EnableInput(false);
+            delegateUIBox.SetGlobalInputHandler(standardPlayerInputCaller);
+            delegateUIBox.SetDisableCallback(callbackReceiver, actions);
+        }
+
+        public void SetGlobalInput(bool enable)
+        {
+            handleGlobalInput = enable;
+        }
+
+        private void SetGlobalInputHandler(IStandardPlayerInputCaller globalInputHandler)
+        {
+            if (globalInputHandler == null) { return; }
 
             handleGlobalInput = true;
             controller = globalInputHandler;
@@ -307,8 +332,43 @@ namespace Frankie.Utils.UI
         {
             return StandardHandleGlobalInput(playerInputType);
         }
+        #endregion
 
-        // Pass through implementations
+        #region CallbackHandling
+        private void SetDisableCallback(IUIBoxCallbackReceiver callbackReceiver, IEnumerable<Action> actions)
+        {
+            if (actions == null) { return; }
+            foreach (Action action in actions)
+            {
+                CallbackMessagePair callbackMessagePair = new CallbackMessagePair
+                {
+                    receiver = callbackReceiver,
+                    action = action
+                };
+                disableCallbacks.Add(callbackMessagePair);
+            }
+        }
+
+        public void ClearDisableCallbacksOnChoose(bool enable)
+        {
+            clearDisableCallbacksOnChoose = enable;
+        }
+
+        public void ClearDisableCallbacks()
+        {
+            disableCallbacks.Clear();
+        }
+
+        public void HandleDisableCallback(IUIBoxCallbackReceiver uiBox, Action action)
+        {
+            if (action != null)
+            {
+                action.Invoke();
+            }
+        }
+        #endregion
+
+        #region PassThrough
         protected bool StandardHandleGlobalInput(PlayerInputType playerInputType)
         {
             if (HandleGlobalInputSpoofAndExit(playerInputType)) { return true; }
@@ -333,34 +393,6 @@ namespace Frankie.Utils.UI
                 return true;
             }
             return false;
-        }
-
-        public void SetDisableCallback(IUIBoxCallbackReceiver callbackReceiver, Action action)
-        {
-            CallbackMessagePair callbackMessagePair = new CallbackMessagePair
-            {
-                receiver = callbackReceiver,
-                action = action
-            };
-            disableCallbacks.Add(callbackMessagePair);
-        }
-
-        public void ClearDisableCallbacksOnChoose(bool enable)
-        {
-            clearDisableCallbacksOnChoose = enable;
-        }
-
-        public void ClearDisableCallbacks()
-        {
-            disableCallbacks.Clear();
-        }
-
-        public void HandleDisableCallback(IUIBoxCallbackReceiver uiBox, Action action)
-        {
-            if (action != null)
-            {
-                action.Invoke();
-            }
         }
         #endregion
     }

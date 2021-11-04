@@ -62,6 +62,7 @@ namespace Frankie.Combat.UI
             party = GameObject.FindGameObjectWithTag("Player").GetComponent<Party>();
 
             combatOptions.Setup(battleController, this, party);
+            combatOptions.TakeControl(battleController, this, null);
 
             ClearBattleCanvas();
         }
@@ -220,8 +221,7 @@ namespace Frankie.Combat.UI
             dialogueBox.AddText(entryMessage);
             dialogueBox.AddPageBreak();
             dialogueBox.AddText(messageEncounterPreHype);
-            dialogueBox.SetGlobalInputHandler(battleController);
-            dialogueBox.SetDisableCallback(this, () => battleController.SetBattleState(BattleState.PreCombat));
+            dialogueBox.TakeControl(battleController, this, new Action[] { () => battleController.SetBattleState(BattleState.PreCombat) });
         }
 
         private void StartSerialAction(Action action)
@@ -272,8 +272,8 @@ namespace Frankie.Combat.UI
                 characterLevelUpSheetPair.character.characterLevelUp -= HandleLevelUp;
                     // Unsubscribe to messages -- not the cleanest location, but the only one available
             }
-            dialogueBox.SetGlobalInputHandler(battleController);
-            dialogueBox.SetDisableCallback(this, () => busyWithSerialAction = false);
+
+            dialogueBox.TakeControl(battleController, this, new Action[] { () => busyWithSerialAction = false });
         }
 
         private void SetupExitMessage()
@@ -296,17 +296,16 @@ namespace Frankie.Combat.UI
 
             DialogueBox dialogueBox = dialogueBoxObject.GetComponent<DialogueBox>();
             dialogueBox.AddText(exitMessage);
-            dialogueBox.SetGlobalInputHandler(battleController);
-            dialogueBox.SetDisableCallback(this, () => { busyWithSerialAction = false; battleController.SetBattleState(BattleState.Complete); });
+            dialogueBox.TakeControl(battleController, this, new Action[] { () => { busyWithSerialAction = false; battleController.SetBattleState(BattleState.Complete); } });
             battleController.SetHandleLevelUp(false);
         }
 
-        public DialogueBox SetupRunFailureMessage()
+        public DialogueBox SetupRunFailureMessage(IUIBoxCallbackReceiver callbackReceiver, Action[] actions)
         {
             GameObject dialogueBoxObject = Instantiate(dialogueBoxPrefab, infoChooseParent);
             DialogueBox dialogueBox = dialogueBoxObject.GetComponent<DialogueBox>();
             dialogueBox.AddText("Failed to run away.");
-            dialogueBox.SetGlobalInputHandler(battleController);
+            dialogueBox.TakeControl(battleController, callbackReceiver, actions);
 
             return dialogueBox;
         }

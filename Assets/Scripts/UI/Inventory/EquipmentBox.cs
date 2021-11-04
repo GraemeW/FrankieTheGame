@@ -45,8 +45,6 @@ namespace Frankie.Inventory.UI
         EquipableItem selectedItem = null;
 
         // Cached References
-        IStandardPlayerInputCaller standardPlayerInputCaller = null;
-        Party party = null;
         List<CharacterSlide> characterSlides = null;
 
         // Events
@@ -67,10 +65,8 @@ namespace Frankie.Inventory.UI
         #region Setup
         public void Setup(IStandardPlayerInputCaller standardPlayerInputCaller, Party party, List<CharacterSlide> characterSlides = null)
         {
-            this.standardPlayerInputCaller = standardPlayerInputCaller;
-            this.party = party;
+            controller = standardPlayerInputCaller;
             this.characterSlides = characterSlides;
-            SetGlobalInputHandler(standardPlayerInputCaller);
 
             int choiceIndex = 0;
             CombatParticipant firstCharacter = null;
@@ -341,13 +337,11 @@ namespace Frankie.Inventory.UI
                 ChoiceActionPair removeActionPair = new ChoiceActionPair(optionRemove, () => ExecuteRemoveEquipment(selector));
                 choiceActionPairs.Add(removeActionPair);
 
-                handleGlobalInput = false;
                 GameObject dialogueOptionBoxObject = Instantiate(dialogueOptionBoxPrefab, transform.parent);
                 DialogueOptionBox equipmentOptionMenu = dialogueOptionBoxObject.GetComponent<DialogueOptionBox>();
                 equipmentOptionMenu.Setup(optionText);
                 equipmentOptionMenu.OverrideChoiceOptions(choiceActionPairs);
-                equipmentOptionMenu.SetGlobalInputHandler(standardPlayerInputCaller);
-                equipmentOptionMenu.SetDisableCallback(this, () => EnableInput(true));
+                PassControl(equipmentOptionMenu);
                 SetEquipmentBoxState(EquipmentBoxState.inEquipmentOptionMenu);
             }
             else
@@ -386,8 +380,7 @@ namespace Frankie.Inventory.UI
             GameObject dialogueBoxObject = Instantiate(dialogueBoxPrefab, transform.parent);
             DialogueBox dialogueBox = dialogueBoxObject.GetComponent<DialogueBox>();
             dialogueBox.AddText(messageNoValidItems);
-            dialogueBox.SetGlobalInputHandler(standardPlayerInputCaller);
-            dialogueBox.SetDisableCallback(this, () => EnableInput(true));
+            PassControl(dialogueBox);
         }
 
         private void SpawnInventoryBox()
@@ -397,11 +390,9 @@ namespace Frankie.Inventory.UI
             handleGlobalInput = false;
             GameObject inventoryBoxObject = Instantiate(equipmentInventoryBoxPrefab, transform.parent.transform);
             EquipmentInventoryBox inventoryBox = inventoryBoxObject.GetComponent<EquipmentInventoryBox>();
-            inventoryBox.Setup(standardPlayerInputCaller, this, selectedEquipLocation, selectedCharacter, characterSlides);
-            inventoryBox.SetDisableCallback(this, () => EnableInput(true));
-
+            inventoryBox.Setup(controller, this, selectedEquipLocation, selectedCharacter, characterSlides);
             canvasGroup.alpha = 0.0f;
-            inventoryBox.SetDisableCallback(this, () => SetVisible(true));
+            PassControl(this, new Action[] { () => EnableInput(true), () => SetVisible(true) }, inventoryBox, controller);
         }
 
         public void ConfirmEquipmentChange(bool confirm) // Called via equipmentChangeConfirmOptions buttons, hooked up in Unity

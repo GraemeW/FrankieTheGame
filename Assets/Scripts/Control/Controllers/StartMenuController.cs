@@ -27,7 +27,7 @@ namespace Frankie.Control
             playerInput.Menu.Navigate.performed += context => ParseDirectionalInput(context.ReadValue<Vector2>());
             playerInput.Menu.Execute.performed += context => HandleUserInput(PlayerInputType.Execute);
             playerInput.Menu.Cancel.performed += context => HandleUserInput(PlayerInputType.Cancel);
-            playerInput.Menu.Cancel.performed += context => HandleUserInput(PlayerInputType.Option);
+            playerInput.Menu.Option.performed += context => HandleUserInput(PlayerInputType.Option);
         }
 
         public void VerifyUnique()
@@ -41,7 +41,8 @@ namespace Frankie.Control
 
         private void Start()
         {
-            startMenu.Setup(this, startCanvas);
+            startMenu.Setup(startCanvas);
+            startMenu.TakeControl(this, startMenu, null);
         }
 
         private void OnEnable()

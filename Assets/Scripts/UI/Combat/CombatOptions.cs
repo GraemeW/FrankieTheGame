@@ -5,6 +5,7 @@ using Frankie.Stats.UI;
 using Frankie.Inventory.UI;
 using UnityEngine;
 using Frankie.Control;
+using System;
 
 namespace Frankie.Combat.UI
 {
@@ -24,8 +25,6 @@ namespace Frankie.Combat.UI
             this.battleController = battleController;
             this.battleCanvas = battleCanvas;
             this.party = party;
-
-            SetGlobalInputHandler(battleController); // input handled via player controller, immediate override
         }
 
         public void InitiateCombat() // Called via unity events
@@ -36,11 +35,10 @@ namespace Frankie.Combat.UI
 
         public void OpenStats() // Called via unity events
         {
-            handleGlobalInput = false;
             GameObject childOption = Instantiate(statusPrefab, battleCanvas.transform);
             StatusBox statusBox = childOption.GetComponent<StatusBox>();
-            statusBox.Setup(battleController, party);
-            statusBox.SetDisableCallback(this, () => EnableInput(true));
+            statusBox.Setup(party);
+            PassControl(this, new Action[] { () => EnableInput(true) }, statusBox, battleController);
         }
 
         public void OpenKnapsack() // Called via unity events
@@ -48,7 +46,7 @@ namespace Frankie.Combat.UI
             GameObject childOption = Instantiate(knapsackPrefab, battleCanvas.transform);
             InventoryBox inventoryBox = childOption.GetComponent<InventoryBox>();
             inventoryBox.Setup(battleController, party);
-            inventoryBox.SetDisableCallback(this, () => SetCombatOptions(true));
+            PassControl(this, new Action[] { () => SetCombatOptions(true) }, inventoryBox, battleController);
             gameObject.SetActive(false);
         }
 
@@ -61,8 +59,7 @@ namespace Frankie.Combat.UI
             else
             {
                 handleGlobalInput = false;
-                DialogueBox runFailureDialogueBox = battleCanvas.SetupRunFailureMessage();
-                runFailureDialogueBox.SetDisableCallback(this, () => SetCombatOptions(false));
+                battleCanvas.SetupRunFailureMessage(this, new Action[] { () => SetCombatOptions(false) });
             }
         }
 

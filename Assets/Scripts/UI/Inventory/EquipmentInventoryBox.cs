@@ -46,12 +46,10 @@ namespace Frankie.Inventory.UI
 
         private void CannotEquip(int inventorySlot)
         {
-            handleGlobalInput = false;
             GameObject dialogueBoxObject = Instantiate(dialogueBoxPrefab, transform.parent);
             DialogueBox dialogueBox = dialogueBoxObject.GetComponent<DialogueBox>();
             dialogueBox.AddText(messageCannotEquip);
-            dialogueBox.SetGlobalInputHandler(standardPlayerInputCaller);
-            dialogueBox.SetDisableCallback(this, () => EnableInput(true));
+            PassControl(dialogueBox);
         }
 
         private void Equip(int inventorySlot)

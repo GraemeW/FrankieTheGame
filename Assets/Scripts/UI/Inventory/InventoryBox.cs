@@ -48,7 +48,6 @@ namespace Frankie.Inventory.UI
         IEnumerable<CombatParticipant> targetCharacters = null;
 
         // Cached References
-        protected IStandardPlayerInputCaller standardPlayerInputCaller = null;
         BattleController battleController = null;
         Party party = null;
         List<CharacterSlide> characterSlides = null;
@@ -74,7 +73,7 @@ namespace Frankie.Inventory.UI
         #region Setup
         public void Setup(IStandardPlayerInputCaller standardPlayerInputCaller, Party party, List<CharacterSlide> characterSlides = null)
         {
-            this.standardPlayerInputCaller = standardPlayerInputCaller;
+            controller = standardPlayerInputCaller;
             this.party = party;
             if (standardPlayerInputCaller.GetType() == typeof(BattleController))
             {
@@ -85,7 +84,6 @@ namespace Frankie.Inventory.UI
                 this.characterSlides = characterSlides;
                 SubscribeCharacterSlides(true);
             }
-            SetGlobalInputHandler(standardPlayerInputCaller);
 
             int choiceIndex = 0;
             foreach (CombatParticipant character in party.GetParty())
@@ -108,10 +106,9 @@ namespace Frankie.Inventory.UI
         {
             // Single party member instantiation for specific application
 
-            this.standardPlayerInputCaller = standardPlayerInputCaller;
+            controller = standardPlayerInputCaller;
             this.characterSlides = characterSlides;
             SubscribeCharacterSlides(true);
-            SetGlobalInputHandler(standardPlayerInputCaller);
 
             GameObject uiChoiceOptionObject = Instantiate(optionPrefab, optionParent);
             UIChoiceOption uiChoiceOption = uiChoiceOptionObject.GetComponent<UIChoiceOption>();
@@ -255,13 +252,11 @@ namespace Frankie.Inventory.UI
 
                 if (selectedKnapsack.UseItemInSlot(selectedItemSlot, targetCharacters))
                 {
-                    handleGlobalInput = false;
                     GameObject dialogueBoxObject = Instantiate(dialogueBoxPrefab, transform.parent);
                     DialogueBox dialogueBox = dialogueBoxObject.GetComponent<DialogueBox>();
                     
                     dialogueBox.AddText(string.Format(messageUseItemInWorld, senderName, itemName, targetCharacterNames));
-                    dialogueBox.SetGlobalInputHandler(standardPlayerInputCaller);
-                    dialogueBox.SetDisableCallback(this, () => EnableInput(true));
+                    PassControl(dialogueBox);
 
                     return true;
                 }
@@ -318,14 +313,12 @@ namespace Frankie.Inventory.UI
                 return;
             }
 
-            handleGlobalInput = false;
             SetInventoryBoxState(InventoryBoxState.inItemDetail);
             GameObject dialogueOptionBoxObject = Instantiate(dialogueOptionBoxPrefab, transform.parent);
             DialogueOptionBox dialogueOptionBox = dialogueOptionBoxObject.GetComponent<DialogueOptionBox>();
             dialogueOptionBox.Setup(optionText);
             dialogueOptionBox.OverrideChoiceOptions(choiceActionPairs);
-            dialogueOptionBox.SetGlobalInputHandler(standardPlayerInputCaller);
-            dialogueOptionBox.SetDisableCallback(this, () => EnableInput(true));
+            PassControl(dialogueOptionBox);
             dialogueOptionBox.ClearDisableCallbacksOnChoose(true);
         }
         #endregion
@@ -457,26 +450,21 @@ namespace Frankie.Inventory.UI
         {
             if (selectedKnapsack == null) { return; }
 
-            handleGlobalInput = false;
             GameObject dialogueBoxObject = Instantiate(dialogueBoxPrefab, transform.parent);
             DialogueBox dialogueBox = dialogueBoxObject.GetComponent<DialogueBox>();
             dialogueBox.AddText(selectedKnapsack.GetItemInSlot(inventorySlot).GetDescription());
-            dialogueBox.SetGlobalInputHandler(standardPlayerInputCaller);
-            dialogueBox.SetDisableCallback(this, () => EnableInput(true));
+            PassControl(dialogueBox);
         }
 
         private void Move(int inventorySlot)
         {
             if (selectedKnapsack == null) { return; }
 
-            handleGlobalInput = false;
             GameObject inventoryMoveBoxObject = Instantiate(inventoryMoveBoxPrefab, transform.parent);
             InventoryMoveBox inventoryMoveBox = inventoryMoveBoxObject.GetComponent<InventoryMoveBox>();
-            inventoryMoveBox.Setup(standardPlayerInputCaller, party, selectedKnapsack, inventorySlot, characterSlides);
-            inventoryMoveBox.SetDisableCallback(this, () => EnableInput(true));
-
+            inventoryMoveBox.Setup(controller, party, selectedKnapsack, inventorySlot, characterSlides);
             canvasGroup.alpha = 0.0f;
-            inventoryMoveBox.SetDisableCallback(this, () => SetVisible(true));
+            PassControl(this, new Action[] { () => EnableInput(true), () => SetVisible(true) }, inventoryMoveBox, controller);
 
             SetInventoryBoxState(InventoryBoxState.inItemMoving);
         }
@@ -486,7 +474,6 @@ namespace Frankie.Inventory.UI
             if (selectedKnapsack == null) { return; }
             if (!selectedKnapsack.HasItemInSlot(inventorySlot)) { return; }
 
-            handleGlobalInput = false;
             GameObject dialogueOptionBoxObject = Instantiate(dialogueOptionBoxPrefab, transform.parent);
             DialogueOptionBox dialogueOptionBox = dialogueOptionBoxObject.GetComponent<DialogueOptionBox>();
 
@@ -498,8 +485,7 @@ namespace Frankie.Inventory.UI
 
             dialogueOptionBox.Setup(string.Format(messageDropItem, selectedKnapsack.GetItemInSlot(inventorySlot).GetDisplayName()));
             dialogueOptionBox.OverrideChoiceOptions(choiceActionPairs);
-            dialogueOptionBox.SetGlobalInputHandler(standardPlayerInputCaller);
-            dialogueOptionBox.SetDisableCallback(this, () => EnableInput(true));
+            PassControl(dialogueOptionBox);
         }
 
         private void ExecuteDrop(int inventorySlot)
@@ -583,8 +569,7 @@ namespace Frankie.Inventory.UI
             GameObject dialogueBoxObject = Instantiate(dialogueBoxPrefab, transform.parent);
             DialogueBox dialogueBox = dialogueBoxObject.GetComponent<DialogueBox>();
             dialogueBox.AddText(string.Format(messageBusyInCooldown, character.GetCombatName()));
-            dialogueBox.SetGlobalInputHandler(battleController);
-            dialogueBox.SetDisableCallback(this, () => EnableInput(true));
+            PassControl(dialogueBox);
         }
         #endregion
 

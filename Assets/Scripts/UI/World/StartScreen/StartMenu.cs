@@ -24,10 +24,9 @@ namespace Frankie.Menu.UI
             savingWrapper = GameObject.FindGameObjectWithTag("Saver").GetComponent<SavingWrapper>();
         }
 
-        public void Setup(IStandardPlayerInputCaller standardPlayerInputCaller, Canvas startCanvas)
+        public void Setup(Canvas startCanvas)
         {
             this.startCanvas = startCanvas;
-            SetGlobalInputHandler(standardPlayerInputCaller);
 
             // Toggle to set up global input handling
             gameObject.SetActive(false);
@@ -38,8 +37,7 @@ namespace Frankie.Menu.UI
         {
             LoadGameMenu loadGameMenu = Instantiate(loadGamePrefab, startCanvas.transform);
             EnableInput(false);
-            loadGameMenu.SetGlobalInputHandler(controller);
-            loadGameMenu.SetDisableCallback(this, () => EnableInput(true));
+            PassControl(loadGameMenu);
         }
 
         public void Continue() // Called via Unity Events
@@ -50,9 +48,7 @@ namespace Frankie.Menu.UI
         public void LoadOptions() // Called via Unity Events
         {
             OptionsMenu menuOptions = Instantiate(optionsPrefab, startCanvas.transform);
-            EnableInput(false);
-            menuOptions.SetGlobalInputHandler(controller);
-            menuOptions.SetDisableCallback(this, () => EnableInput(true));
+            PassControl(menuOptions);
         }
 
         public void ExitGame() // Called via Unity Events

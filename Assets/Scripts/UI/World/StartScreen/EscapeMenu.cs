@@ -16,7 +16,6 @@ namespace Frankie.Menu.UI
         // Cached References
         SavingWrapper savingWrapper = null;
         PlayerStateHandler playerStateHandler = null;
-        PlayerController playerController = null;
         WorldCanvas worldCanvas = null;
         GameObject childOption = null;
 
@@ -27,7 +26,7 @@ namespace Frankie.Menu.UI
         {
             worldCanvas = GameObject.FindGameObjectWithTag("WorldCanvas").GetComponent<WorldCanvas>();
             playerStateHandler = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerStateHandler>();
-            playerController = playerStateHandler.GetComponent<PlayerController>();
+            controller = playerStateHandler.GetComponent<PlayerController>();
         }
 
         private void Start()
@@ -35,7 +34,7 @@ namespace Frankie.Menu.UI
             savingWrapper = GameObject.FindGameObjectWithTag("Saver").GetComponent<SavingWrapper>();
             // SceneLoader is a persistent object, thus can only be found after Awake -- so find in Start
 
-            SetGlobalInputHandler(playerController); // input handled via player controller, immediate override
+            TakeControl(controller, this, null); // input handled via player controller, immediate override
             HandleClientEntry();
         }
 
@@ -68,12 +67,10 @@ namespace Frankie.Menu.UI
                 escapeMenuItemSelected.Invoke();
             }
 
-            handleGlobalInput = false;
             GameObject childOption = Instantiate(optionsMenuPrefab, worldCanvas.gameObject.transform);
             OptionsMenu optionsMenu = childOption.GetComponent<OptionsMenu>();
             optionsMenu.Setup(this);
-            optionsMenu.SetGlobalInputHandler(playerController);
-            optionsMenu.SetDisableCallback(this, () => EnableInput(true));
+            PassControl(optionsMenu);
         }
 
         public void QuitGame() // Called via Unity Events

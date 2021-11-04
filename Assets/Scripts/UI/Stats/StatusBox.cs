@@ -25,9 +25,8 @@ namespace Frankie.Stats.UI
         // State
         CombatParticipant selectedCharacter = null;
 
-        public void Setup(IStandardPlayerInputCaller standardPlayerInputCaller, Party party)
+        public void Setup(Party party)
         {
-            SetGlobalInputHandler(standardPlayerInputCaller);
             int choiceIndex = 0;
             foreach (CombatParticipant character in party.GetParty())
             {

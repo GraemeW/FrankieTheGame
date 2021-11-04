@@ -39,7 +39,7 @@ public class CombatMessages : MonoBehaviour
             GameObject dialogueBoxObject = Instantiate(dialogueBoxPrefab, messageParent);
             DialogueBox dialogueBox = dialogueBoxObject.GetComponent<DialogueBox>();
             dialogueBox.AddText(string.Format(messageItemToBeUsed, battleAction.GetName()));
-            dialogueBox.SetGlobalInputHandler(null);
+            dialogueBox.SetGlobalInput(false);
         }
         else
         {

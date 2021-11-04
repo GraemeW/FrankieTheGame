@@ -43,7 +43,7 @@ namespace Frankie.Menu.UI
 
         private void Start()
         {
-            SetGlobalInputHandler(playerController); // input handled via player controller, immediate override
+            TakeControl(playerController, this, null); // input handled via player controller, immediate override
             SetupCharacterSlides();
             HandleClientEntry();
         }
@@ -88,31 +88,28 @@ namespace Frankie.Menu.UI
         public void OpenStatus() // Called via Unity Events
         {
             ResetWorldOptions();
-            handleGlobalInput = false;
             childOption = Instantiate(statusPrefab, worldCanvas.GetWorldOptionsParent());
             StatusBox statusBox = childOption.GetComponent<StatusBox>();
-            statusBox.Setup(playerController, party);
-            statusBox.SetDisableCallback(this, () => EnableInput(true));
+            statusBox.Setup(party);
+            PassControl(statusBox);
         }
 
         public void OpenKnapsack() // Called via Unity Events
         {
             ResetWorldOptions();
-            handleGlobalInput = false;
             childOption = Instantiate(knapsackPrefab, worldCanvas.GetWorldOptionsParent());
             InventoryBox inventoryBox = childOption.GetComponent<InventoryBox>();
             inventoryBox.Setup(playerController, party, characterSlides);
-            inventoryBox.SetDisableCallback(this, () => EnableInput(true));
+            PassControl(inventoryBox);
         }
 
         public void OpenEquipment() // Called via Unity Events
         {
             ResetWorldOptions();
-            handleGlobalInput = false;
             childOption = Instantiate(equipmentPrefab, worldCanvas.GetWorldOptionsParent());
             EquipmentBox equipmentBox = childOption.GetComponent<EquipmentBox>();
             equipmentBox.Setup(playerController, party, characterSlides);
-            equipmentBox.SetDisableCallback(this, () => EnableInput(true));
+            PassControl(equipmentBox);
         }
 
         private void ResetWorldOptions()
