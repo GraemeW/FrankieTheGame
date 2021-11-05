@@ -50,6 +50,7 @@ namespace Frankie.Speech
             playerInput.Menu.Navigate.performed += context => ParseDirectionalInput(context.ReadValue<Vector2>());
             playerInput.Menu.Execute.performed += context => HandleUserInput(PlayerInputType.Execute);
             playerInput.Menu.Cancel.performed += context => HandleUserInput(PlayerInputType.Cancel);
+            playerInput.Menu.Option.performed += context => HandleUserInput(PlayerInputType.Option);
             playerInput.Menu.Skip.performed += context => HandleUserInput(PlayerInputType.Skip);
         }
 
@@ -158,7 +159,7 @@ namespace Frankie.Speech
         private bool InteractWithChoices(PlayerInputType playerInputType)
         {
             if (!IsChoosing() || playerInputType == PlayerInputType.DefaultNone) { return false; }
-            if (dialogueUpdated == null) { return false; }  // check if dialogue box can receive messages (toggled off during text-scans)
+            if (triggerUIUpdates == null) { return false; }  // check if dialogue box can receive messages (toggled off during text-scans)
 
             if (highlightedNode == null)
             {
@@ -260,6 +261,11 @@ namespace Frankie.Speech
             currentConversant = null;
 
             dialogueUpdated?.Invoke(DialogueUpdateType.DialogueComplete, null);
+        }
+
+        public bool HasDialogue()
+        {
+            return (currentDialogue != null);
         }
 
         public bool IsSimpleMessage()

@@ -70,6 +70,15 @@ namespace Frankie.Speech.UI
             Setup(null);
         }
 
+        private void OnDestroy()
+        {
+            // Called after disable unsubscribes, safety behavior for dialogue box killed without controller knowing
+            if (dialogueController != null && dialogueController.HasDialogue())
+            {
+                dialogueController.EndConversation();
+            }
+        }
+
         public virtual void Setup(string optionText)
         {
             if (dialogueController != null && dialogueController.IsSimpleMessage())
@@ -109,7 +118,7 @@ namespace Frankie.Speech.UI
 
         private void KillDialogueForNoControllers()
         {
-            if (dialogueController == null && base.controller == null)
+            if (dialogueController == null && controller == null)
             {
                 QueueDialogueCompletion();
             }

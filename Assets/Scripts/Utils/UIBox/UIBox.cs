@@ -136,7 +136,7 @@ namespace Frankie.Utils.UI
             dialogueChoiceOption.GetButton().onClick.AddListener(delegate { StandardChoiceExecution(action); });
         }
 
-        protected virtual UIChoiceOption AddChoiceOptionTemplate(string choiceText)
+        private UIChoiceOption AddChoiceOptionTemplate(string choiceText)
         {
             GameObject uiChoiceOptionObject = Instantiate(optionPrefab, optionParent);
             UIChoiceOption uiChoiceOption = uiChoiceOptionObject.GetComponent<UIChoiceOption>();
