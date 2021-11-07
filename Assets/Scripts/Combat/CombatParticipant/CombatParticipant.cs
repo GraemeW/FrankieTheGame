@@ -168,6 +168,11 @@ namespace Frankie.Combat
             targetHP = currentHP.value;
         }
 
+        public bool HasAP(float points)
+        {
+            return currentAP.value >= points;
+        }
+
         public void AdjustAP(float points)
         {
             if (isDead.value) { return; }

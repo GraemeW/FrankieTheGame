@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -14,7 +15,7 @@ namespace Frankie.Combat
         [Tooltip("Set to 0 to remove all")][Min(0)] [SerializeField] int numberOfEffectsToRemove = 0;
         [Tooltip("Set to none for any")] [SerializeField] StatusType statusType = StatusType.None;
 
-        public override void StartEffect(CombatParticipant sender, IEnumerable<CombatParticipant> recipients)
+        public override void StartEffect(CombatParticipant sender, IEnumerable<CombatParticipant> recipients, Action<EffectStrategy> finished)
         {
             if (!removePersistentRecurring && !removePersistentStatModifier) { return; }
             if (recipients == null) { return; }
@@ -39,6 +40,8 @@ namespace Frankie.Combat
                     i++;
                 }
             }
+
+            finished.Invoke(this);
         }
 
         private IEnumerable<PersistentStatus> Filter(IEnumerable<PersistentStatus> statuses, StatusType statusType)

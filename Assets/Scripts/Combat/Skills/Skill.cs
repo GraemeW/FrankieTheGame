@@ -60,12 +60,7 @@ namespace Frankie.Combat
 
         public void Use(CombatParticipant sender, IEnumerable<CombatParticipant> recipients, Action finished)
         {
-            battleAction.Use(sender, recipients);
-
-            if (finished != null)
-            {
-                finished.Invoke();
-            }
+            battleAction.Use(sender, recipients, finished);
         }
 
         public IEnumerable<CombatParticipant> GetTargets(bool? traverseForward, IEnumerable<CombatParticipant> currentTarget, IEnumerable<CombatParticipant> activeCharacters, IEnumerable<CombatParticipant> activeEnemies)

@@ -1,6 +1,8 @@
 using Frankie.Inventory;
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 namespace Frankie.Combat
@@ -47,18 +49,31 @@ namespace Frankie.Combat
         }
 
 
-        public void Use(CombatParticipant sender, IEnumerable<CombatParticipant> recipients)
+        public void Use(CombatParticipant sender, IEnumerable<CombatParticipant> recipients, Action finished)
         {
-            // TODO:  check if have enough AP to decide if we're doin' this
-            // TODO:  any other checks?  recipients sanity check?
-
-            if (effectStrategies == null) { return; }
-            foreach(EffectStrategy effectStrategy in effectStrategies)
-            {
-                effectStrategy.StartEffect(sender, recipients);
+            if (effectStrategies == null || !sender.HasAP(apCost))
+            { 
+                finished?.Invoke();
+                return;
             }
-            sender.SetCooldown(cooldown);
-            sender.AdjustAP(-apCost);
+
+            foreach (EffectStrategy effectStrategy in effectStrategies)
+            {
+                effectStrategy.StartEffect(sender, recipients,
+                    (EffectStrategy childEffectStrategy) => EffectFinished(sender, childEffectStrategy, finished));
+            }
+
+        }
+
+        private void EffectFinished(CombatParticipant sender, EffectStrategy effectStrategy, Action finished)
+        {
+            if (effectStrategy.GetType() == typeof(TriggerResourcesCooldownsEffect))
+            {
+                sender.SetCooldown(cooldown);
+                sender.AdjustAP(-apCost);
+
+                finished?.Invoke();
+            }
         }
 
         public IEnumerable<CombatParticipant> GetTargets(bool? traverseForward, IEnumerable<CombatParticipant> currentTargets, IEnumerable<CombatParticipant> activeCharacters, IEnumerable<CombatParticipant> activeEnemies)

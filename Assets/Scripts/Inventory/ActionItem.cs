@@ -23,18 +23,13 @@ namespace Frankie.Inventory
         {
             if (battleAction == null) { return; }
 
-            battleAction.Use(sender, recipients);
+            battleAction.Use(sender, recipients, finished);
 
             if (IsConsumable())
             {
                 Knapsack knapsack = sender.GetKnapsack();
                 knapsack.RemoveItem(this, false);
                 knapsack.SquishItemsInKnapsack(true);
-            }
-
-            if (finished != null)
-            {
-                finished.Invoke();
             }
         }
 

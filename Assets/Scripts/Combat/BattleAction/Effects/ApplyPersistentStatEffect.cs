@@ -1,4 +1,5 @@
 using Frankie.Stats;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,7 +17,7 @@ namespace Frankie.Combat
         [SerializeField] float value = 1f;
         [SerializeField] bool persistAfterCombat = false;
 
-        public override void StartEffect(CombatParticipant sender, IEnumerable<CombatParticipant> recipients)
+        public override void StartEffect(CombatParticipant sender, IEnumerable<CombatParticipant> recipients, Action<EffectStrategy> finished)
         {
             if (BaseStats.GetNonModifyingStats().Contains(stat)) { return; }
             if (recipients == null) { return; }
@@ -31,6 +32,8 @@ namespace Frankie.Combat
 
                 combatParticipant.AnnounceStateUpdate(new StateAlteredData(StateAlteredType.StatusEffectApplied, statusEffectType));
             }
+
+            finished.Invoke(this);
         }
     }
 }

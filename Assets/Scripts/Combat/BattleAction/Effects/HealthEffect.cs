@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -9,7 +10,7 @@ namespace Frankie.Combat
     {
         [SerializeField] float healthChange = 0f;
 
-        public override void StartEffect(CombatParticipant sender, IEnumerable<CombatParticipant> recipients)
+        public override void StartEffect(CombatParticipant sender, IEnumerable<CombatParticipant> recipients, Action<EffectStrategy> finished)
         {
             if (recipients == null) { return; }
 
@@ -17,6 +18,8 @@ namespace Frankie.Combat
             {
                 recipient.AdjustHP(healthChange);
             }
+
+            finished.Invoke(this);
         }
     }
 }

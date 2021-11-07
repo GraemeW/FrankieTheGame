@@ -15,7 +15,7 @@ namespace Frankie.Combat
         [SerializeField] float healthChangePerTick = -10f;
         [SerializeField] bool persistAfterCombat = false;
 
-        public override void StartEffect(CombatParticipant sender, IEnumerable<CombatParticipant> recipients)
+        public override void StartEffect(CombatParticipant sender, IEnumerable<CombatParticipant> recipients, Action<EffectStrategy> finished)
         {
             if (recipients == null) { return; }
 
@@ -29,6 +29,8 @@ namespace Frankie.Combat
 
                 combatParticipant.AnnounceStateUpdate(new StateAlteredData(StateAlteredType.StatusEffectApplied, statusEffectType));
             }
+
+            finished.Invoke(this);
         }
     }
 }

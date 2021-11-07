@@ -33,6 +33,7 @@ namespace Frankie.Combat
 
         Queue<BattleSequence> battleSequenceQueue = new Queue<BattleSequence>();
         bool haltBattleQueue = false;
+        bool battleSequenceInProgress = false;
 
         // Cached References
         PlayerInput playerInput = null;
@@ -127,7 +128,7 @@ namespace Frankie.Combat
         {
             if (state == BattleState.Combat)
             {
-                if (!haltBattleQueue) // BattleQueue takes priority, avoid user interaction stalling action queue
+                if (!haltBattleQueue && !battleSequenceInProgress) // BattleQueue takes priority, avoid user interaction stalling action queue
                 {
                     StartCoroutine(ProcessNextBattleSequence());
                 }
@@ -482,8 +483,13 @@ namespace Frankie.Combat
             if (battleSequence.sender.IsDead() || battleSequence.recipients.All(x => x.IsDead())) { yield break; }
             battleSequenceProcessed.Invoke(battleSequence);
 
+            // Two flags to flip to re-enable battle:
+            // A) global battle queue delay, handled by coroutine
+            // B) battle sequence, handled by callback (e.g. for handling effects)
             haltBattleQueue = true;
-            battleSequence.battleAction.Use(battleSequence.sender, battleSequence.recipients, null);
+            battleSequenceInProgress = true;
+
+            battleSequence.battleAction.Use(battleSequence.sender, battleSequence.recipients, () => { battleSequenceInProgress = false; });
             yield return new WaitForSeconds(battleQueueDelay);
 
             haltBattleQueue = false;
