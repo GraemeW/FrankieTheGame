@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 9082544895610178822}
   - component: {fileID: 1609911611986995269}
   - component: {fileID: 8906313726304546477}
+  - component: {fileID: 492450014358705402}
   m_Layer: 0
   m_Name: BadEntry
   m_TagString: Untagged
@@ -75,6 +76,19 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &492450014358705402
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 469488801545363236}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 78bdda18a67cbed4486b50846981b433, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  material: {fileID: 2100000, guid: c75350375cf238d4a9d636ef31f683c4, type: 2}
 --- !u!1 &825634449633230457
 GameObject:
   m_ObjectHideFlags: 0
@@ -86,6 +100,7 @@ GameObject:
   - component: {fileID: 7001055583474005567}
   - component: {fileID: 7141957346828843826}
   - component: {fileID: 2792991010653004335}
+  - component: {fileID: 6940362421417643667}
   m_Layer: 0
   m_Name: GoodEntry
   m_TagString: Untagged
@@ -150,6 +165,19 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &6940362421417643667
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 825634449633230457}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 78bdda18a67cbed4486b50846981b433, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  material: {fileID: 2100000, guid: c75350375cf238d4a9d636ef31f683c4, type: 2}
 --- !u!1 &1963334951410391846
 GameObject:
   m_ObjectHideFlags: 0
@@ -363,6 +391,7 @@ GameObject:
   - component: {fileID: 6393150506963666209}
   - component: {fileID: 4313259969468181760}
   - component: {fileID: 6952958116490533682}
+  - component: {fileID: 3500218073976067258}
   m_Layer: 0
   m_Name: NeutralEntry
   m_TagString: Untagged
@@ -427,6 +456,19 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &3500218073976067258
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6569745041582779776}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 78bdda18a67cbed4486b50846981b433, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  material: {fileID: 2100000, guid: c75350375cf238d4a9d636ef31f683c4, type: 2}
 --- !u!1 &8380406030711835112
 GameObject:
   m_ObjectHideFlags: 0

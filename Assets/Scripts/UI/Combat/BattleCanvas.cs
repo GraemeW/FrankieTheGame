@@ -14,6 +14,7 @@ namespace Frankie.Combat.UI
     {
         // Tunables
         [Header("Parents and Prefabs")]
+        [SerializeField] Canvas canvas = null;
         [SerializeField] Transform playerPanelParent = null;
         [SerializeField] GameObject characterSlidePrefab = null;
         [SerializeField] Transform frontRowParent = null;
@@ -39,6 +40,7 @@ namespace Frankie.Combat.UI
         [SerializeField] string messageBattleCompleteRan = "You ran away.";
 
         // State
+        Dictionary<CombatParticipant, EnemySlide> enemySlideLookup = new Dictionary<CombatParticipant, EnemySlide>();
         BattleState lastBattleState = BattleState.Inactive;
         Queue<Action> queuedUISequences = new Queue<Action>();
         List<CharacterLevelUpSheetPair> queuedLevelUps = new List<CharacterLevelUpSheetPair>();
@@ -123,6 +125,18 @@ namespace Frankie.Combat.UI
             }
         }
 
+        public EnemySlide GetEnemySlide(CombatParticipant combatParticipant)
+        {
+            if (!enemySlideLookup.ContainsKey(combatParticipant)) { return null; }
+
+            return enemySlideLookup[combatParticipant];
+        }
+
+        public Canvas GetCanvas()
+        {
+            return canvas;
+        }
+
         private void ClearBattleCanvas()
         {
             foreach (Transform child in playerPanelParent)
@@ -166,7 +180,6 @@ namespace Frankie.Combat.UI
 
         private void SetupEnemies(IEnumerable enemies)
         {
-            List<EnemySlide> enemySlides = new List<EnemySlide>();
             foreach (CombatParticipant enemy in enemies)
             {
                 Transform parentSpawn = null;
@@ -181,8 +194,9 @@ namespace Frankie.Combat.UI
                 GameObject enemyObject = Instantiate(enemyPrefab, parentSpawn);
                 EnemySlide enemySlide = enemyObject.GetComponent<EnemySlide>();
                 enemySlide.SetCombatParticipant(enemy);
-                enemySlides.Add(enemySlide);
                 combatLog.AddCombatListener(enemy);
+
+                enemySlideLookup[enemy] = enemySlide;
             }
         }
 

@@ -6,7 +6,7 @@ using UnityEngine;
 namespace Frankie.Combat
 {
     [CreateAssetMenu(fileName = "New DoT Effect", menuName = "BattleAction/Effects/DoT Effect")]
-    public class HealthEffectOverTime : EffectStrategy
+    public class HealthOverTimeEffect : EffectStrategy
     {
         [SerializeField] [Range(0, 1)] float fractionProbabilityToApply = 0.5f;
         [SerializeField] StatusType statusEffectType = default;

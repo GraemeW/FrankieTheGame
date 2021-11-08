@@ -548,7 +548,7 @@ GameObject:
   - component: {fileID: 5980054871931248975}
   m_Layer: 0
   m_Name: Battle Canvas
-  m_TagString: Untagged
+  m_TagString: BattleCanvas
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -648,6 +648,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 47f742ebd7f08584c96be72a8ddf186f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  canvas: {fileID: 8837486854988665628}
   playerPanelParent: {fileID: 6019651067335990555}
   characterSlidePrefab: {fileID: 1857157206918601303, guid: aef38f633ef92174d805cd7a578a40c7, type: 3}
   frontRowParent: {fileID: 4859047428861698195}
@@ -1922,6 +1923,6 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 18fb9f68d9968c4498dcce5f5639f153, type: 3}
+  m_Script: {fileID: 11500000, guid: 6eba863fb00925e4492c9639d92b5148, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 

@@ -11,6 +11,7 @@ TagManager:
   - SceneLoader
   - World
   - Saver
+  - BattleCanvas
   layers:
   - Default
   - TransparentFX
