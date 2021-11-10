@@ -37,16 +37,16 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Floats:
     - Vector1_7ab76210b1bd497babdb7dec70f33f90: 10.61
-    - _Phase: 20.890118
+    - _Phase: 20.666784
     - crispness: 0.01
-    - frequency: 60
+    - frequency: 30
     - isHorizontal: 0
-    - speed: 0.3
-    - subSpeed: 10
-    - thickness: 0.08
-    - width: 2
+    - speed: 1.5
+    - subSpeed: 1
+    - thickness: 0.2
+    - width: 0.9
     m_Colors:
     - backgroundColor: {r: 0, g: 0, b: 0, a: 0}
-    - drawColor: {r: 1, g: 0, b: 0, a: 0}
+    - drawColor: {r: 1, g: 0.06700325, b: 0, a: 0}
     - minMax: {r: 0.25, g: 0.75, b: 0, a: 0}
   m_BuildTextureStacks: []

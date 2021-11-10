@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace Frankie.Combat
 {
-    [CreateAssetMenu(fileName = "New Remove Status Effect", menuName = "BattleAction/Effects/Remove Status Effect")]
+    [CreateAssetMenu(fileName = "New Delay Composite Effect", menuName = "BattleAction/Effects/Delay Composite Effect")]
     public class DelayCompositeEffect : EffectStrategy
     {
         [SerializeField] float delay = 0f;
