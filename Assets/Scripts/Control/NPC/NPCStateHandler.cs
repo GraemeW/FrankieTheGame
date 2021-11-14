@@ -25,9 +25,9 @@ namespace Frankie.Control
         [SerializeField] float aggravationTime = 3.0f;
         [SerializeField] float suspicionTime = 3.0f;
         [Header("Other Mob Properties")]
-        [Tooltip("Must be true to be shouted at, regardless of group")][SerializeField] bool canBeShoutedAt = true;
-        [Tooltip("From interaction center point of NPC")][SerializeField] float shoutDistance = 2.0f;
-        [Tooltip("If this is set, will ONLY aggro those in list")][SerializeField] List<NPCStateHandler> shoutGroup = new List<NPCStateHandler>();
+        [Tooltip("Must be true to be shouted at, regardless of group")] [SerializeField] bool canBeShoutedAt = true;
+        [Tooltip("From interaction center point of NPC")] [SerializeField] float shoutDistance = 2.0f;
+        [Tooltip("Set to nothing to aggro everything shoutable")] [SerializeField] NPCStateHandler[] shoutGroup = null;
 
         // State
         NPCState npcState = NPCState.idle;
@@ -43,8 +43,9 @@ namespace Frankie.Control
         BaseStats baseStats = null;
         NPCMover npcMover = null;
         CombatParticipant combatParticipant = null;
-        PlayerStateHandler playerStateHandler = null;
-        PlayerController playerController = null;
+        GameObject player = null;
+        ReInitLazyValue<PlayerStateHandler> playerStateHandler;
+        ReInitLazyValue<PlayerController> playerController;
 
         // Events
         public CollisionEvent collidedWithPlayer;
@@ -55,27 +56,45 @@ namespace Frankie.Control
         {
         }
 
+        #region UnityStandardMethods
         private void Awake()
         {
             baseStats = GetComponent<BaseStats>();
             npcMover = GetComponent<NPCMover>();
             combatParticipant = GetComponent<CombatParticipant>();
 
-            GameObject player = GameObject.FindGameObjectWithTag("Player");
-            playerStateHandler = player.GetComponent<PlayerStateHandler>();
-            playerController = player.GetComponent<PlayerController>();
+            player = GameObject.FindGameObjectWithTag("Player");
+            playerStateHandler = new ReInitLazyValue<PlayerStateHandler>(SetupPlayerStateHandler);
+            playerController = new ReInitLazyValue<PlayerController>(SetupPlayerController);
+        }
+
+        private void Start()
+        {
+            playerStateHandler.ForceInit();
+            playerController.ForceInit();
+        }
+
+        private PlayerStateHandler SetupPlayerStateHandler()
+        {
+            if (player == null) { player = GameObject.FindGameObjectWithTag("Player"); }
+            return player.GetComponent<PlayerStateHandler>();
+        }
+
+        private PlayerController SetupPlayerController()
+        {
+            if (player == null) { player = GameObject.FindGameObjectWithTag("Player"); }
+            return player.GetComponent<PlayerController>();
         }
 
         private void OnEnable()
         {
-            playerStateHandler.playerStateChanged += HandlePlayerStateChange;
+            playerStateHandler.value.playerStateChanged += HandlePlayerStateChange;
             ResetNPCState();
-
         }
 
         private void OnDisable()
         {
-            playerStateHandler.playerStateChanged -= HandlePlayerStateChange;
+            playerStateHandler.value.playerStateChanged -= HandlePlayerStateChange;
         }
 
         private void ResetNPCState()
@@ -85,8 +104,11 @@ namespace Frankie.Control
             currentChasePlayerDisposition = willChasePlayer;
         }
 
-        private void Update()
+        private void Update() 
         {
+            // Calling as late update instead of late to prevent Start() methods on other objects getting called AFTER another object's Update()
+            // i.e. for shouting behavior -- yes, this actually happens after scene loading
+
             if (!currentChasePlayerDisposition || GetNPCState() == NPCState.occupied) { return; }
 
             CheckForPlayerProximity();
@@ -122,13 +144,13 @@ namespace Frankie.Control
             if (collisionsOverriddenToEnterCombat) // Applied for aggro situations
             {
                 TransitionType battleEntryType = GetBattleEntryType(collision);
-                InitiateCombat(playerStateHandler, battleEntryType);
+                InitiateCombat(playerStateHandler.value, battleEntryType);
                 return true;
             }
             else if (collidedWithPlayer != null) // Event hooked up in Unity
             {
                 TransitionType battleEntryType = GetBattleEntryType(collision);
-                collidedWithPlayer.Invoke(playerStateHandler, battleEntryType);
+                collidedWithPlayer.Invoke(playerStateHandler.value, battleEntryType);
                 return true;
             }
             return false;
@@ -146,62 +168,14 @@ namespace Frankie.Control
                 if (!currentNPCCollisions.Contains(collisionNPC)) { currentNPCCollisions.Add(collisionNPC); }
 
                 TransitionType battleEntryType = GetBattleEntryType(collision);
-                InitiateCombat(playerStateHandler, battleEntryType);
+                InitiateCombat(playerStateHandler.value, battleEntryType);
                 return true;
             }
             return false;
         }
+        #endregion
 
-        private TransitionType GetBattleEntryType(Collision2D collision)
-        {
-            Vector2 contactPoint = collision.GetContact(0).point;
-            Vector2 npcPosition = collision.otherCollider.bounds.center;
-            Vector2 playerPosition = collision.collider.bounds.center; 
-
-            float npcLookMagnitudeToContact = Vector2.Dot(contactPoint - npcPosition, npcMover.GetLookDirection());
-            float playerLookMagnitudeToContact = Vector2.Dot(contactPoint - playerPosition, playerController.GetPlayerMover().GetLookDirection());
-
-            if (playerLookMagnitudeToContact > 0 && npcLookMagnitudeToContact < 0)
-            {
-                return TransitionType.BattleGood;
-            }
-            else if (npcLookMagnitudeToContact > 0 && playerLookMagnitudeToContact < 0)
-            {
-                return TransitionType.BattleBad;
-            }
-            else
-            {
-                return TransitionType.BattleNeutral;
-            }
-        }
-
-        private void HandlePlayerStateChange(PlayerState playerState)
-        {
-            if (playerState == PlayerState.inTransition)
-            {
-                TransitionType transitionType = playerStateHandler.GetTransitionType();
-                if (transitionType == TransitionType.Zone)
-                {
-                    SetNPCState(NPCState.occupied);
-                }
-                else if (transitionType == TransitionType.BattleComplete)
-                {
-                    SetNPCState(NPCState.idle);
-                    SetNPCState(NPCState.occupied);
-                    OverrideCollisionToEnterCombat(false);
-                }
-                // Non-zone & battle-end transitions, allow enemy movement -- swarm mechanic
-            }
-            else if (playerState == PlayerState.inWorld)
-            {
-                npcOccupied = false;
-            }
-            else
-            {
-                SetNPCState(NPCState.occupied);
-            }
-        }
-
+        #region PublicMethods
         public string GetName()
         {
             if (baseStats != null)
@@ -226,33 +200,21 @@ namespace Frankie.Control
         public bool SetNPCState(NPCState npcState, bool shoutOnAggravation = true)
         {
             if (GetNPCState() == npcState) { return false; }
-            if (npcState == NPCState.aggravated && !playerStateHandler.GetParty().IsAnyMemberAlive()) { return false; }
+            if (npcState == NPCState.aggravated && !playerStateHandler.value.GetParty().IsAnyMemberAlive()) { return false; }
 
             // Occupied treated as a pseudo-state to allow for state persistence
             if (npcState == NPCState.occupied) { npcOccupied = true; }
             else
             {
                 npcOccupied = false;
-                this.npcState = npcState;
             }
 
-            if (GetNPCState() == NPCState.aggravated)
-            {
-                if (shoutOnAggravation && shoutDistance > 0f)
-                {
-                    ShoutToNearbyNPCs();
-                }
+            // Set State
+            this.npcState = npcState;
 
-                npcMover.SetMoveTarget(playerController.gameObject);
-            }
-            else if (GetNPCState() == NPCState.suspicious)
-            {
-                npcMover.ClearMoveTargets();
-            }
-            else if (GetNPCState() == NPCState.idle)
-            {
-                npcMover.MoveToOriginalPosition();
-            }
+            // Adjust reaction
+            AdjustReactionForState(shoutOnAggravation);
+
             return true;
         }
 
@@ -271,7 +233,7 @@ namespace Frankie.Control
                 if (hit.collider.gameObject.TryGetComponent(out NPCStateHandler npcInRange))
                 {
                     if (!npcInRange.IsShoutable()) { continue; }
-                    if (shoutGroup.Count == 0 || shoutGroup.Contains(npcInRange))
+                    if (shoutGroup.Length == 0 || shoutGroup.Contains(npcInRange)) // Default behavior, not set, aggro everything shoutable
                     {
                         if (npcInRange.SetNPCState(NPCState.aggravated, false)) // Do not chain shouts (shout on aggravation set to false)
                         {
@@ -283,41 +245,14 @@ namespace Frankie.Control
             }
         }
 
-        private void CheckForPlayerProximity()
-        {
-            if (SmartVector2.CheckDistance(npcMover.GetInteractionPosition(), playerController.GetInteractionPosition(), chaseDistance))
-            { 
-                timeSinceLastSawPlayer = 0f;
-            }
-
-            if (timeSinceLastSawPlayer < aggravationTime)
-            {
-                SetNPCState(NPCState.aggravated);
-            }
-            else if (timeSinceLastSawPlayer > aggravationTime && (timeSinceLastSawPlayer - aggravationTime) < suspicionTime)
-            {
-                SetNPCState(NPCState.suspicious);
-            }
-            else if ((timeSinceLastSawPlayer - aggravationTime) > suspicionTime)
-            {
-                SetNPCState(NPCState.idle);
-            }
-
-            // Reset player target if already aggravated (avoid loss of target)
-            if (GetNPCState() == NPCState.aggravated && !npcMover.HasMoveTarget())
-            {
-                npcMover.SetMoveTarget(playerController.gameObject);
-            }
-
-            timeSinceLastSawPlayer += Time.deltaTime;
-        }
-
         public bool IsTouchingPlayer()
         {
             bool touchingNPCTouchingPlayer = currentNPCCollisions.Any(x => x.IsTouchingPlayer());
             return touchingPlayer || touchingNPCTouchingPlayer;
         }
+        #endregion
 
+        #region UnityCalledMethods
         public void SetChasePlayerDisposition(bool enable) // Called via Unity Event
         {
             currentChasePlayerDisposition = enable;
@@ -365,6 +300,109 @@ namespace Frankie.Control
 
             playerStateHandler.EnterDialogue(aiConversant, dialogue);
         }
+        #endregion
+
+        #region PrivateMethods
+        private void CheckForPlayerProximity()
+        {
+            if (SmartVector2.CheckDistance(npcMover.GetInteractionPosition(), playerController.value.GetInteractionPosition(), chaseDistance))
+            {
+                timeSinceLastSawPlayer = 0f;
+            }
+
+            if (timeSinceLastSawPlayer < aggravationTime)
+            {
+                SetNPCState(NPCState.aggravated);
+            }
+            else if (timeSinceLastSawPlayer > aggravationTime && (timeSinceLastSawPlayer - aggravationTime) < suspicionTime)
+            {
+                SetNPCState(NPCState.suspicious);
+            }
+            else if ((timeSinceLastSawPlayer - aggravationTime) > suspicionTime)
+            {
+                SetNPCState(NPCState.idle);
+            }
+
+            // Reset player target if already aggravated (avoid loss of target)
+            if (GetNPCState() == NPCState.aggravated && !npcMover.HasMoveTarget())
+            {
+                npcMover.SetMoveTarget(playerController.value.gameObject);
+            }
+
+            timeSinceLastSawPlayer += Time.deltaTime;
+        }
+
+        private void HandlePlayerStateChange(PlayerState playerState)
+        {
+            if (playerState == PlayerState.inTransition)
+            {
+                TransitionType transitionType = playerStateHandler.value.GetTransitionType();
+                if (transitionType == TransitionType.Zone)
+                {
+                    SetNPCState(NPCState.occupied);
+                }
+                else if (transitionType == TransitionType.BattleComplete)
+                {
+                    SetNPCState(NPCState.idle);
+                    SetNPCState(NPCState.occupied);
+                    OverrideCollisionToEnterCombat(false);
+                }
+                // Non-zone & battle-end transitions, allow enemy movement -- swarm mechanic
+            }
+            else if (playerState == PlayerState.inWorld)
+            {
+                npcOccupied = false;
+            }
+            else
+            {
+                SetNPCState(NPCState.occupied);
+            }
+        }
+
+        private void AdjustReactionForState(bool shoutOnAggravation)
+        {
+            if (GetNPCState() == NPCState.aggravated)
+            {
+                if (shoutOnAggravation && shoutDistance > 0f)
+                {
+                    ShoutToNearbyNPCs();
+                }
+
+                npcMover.SetMoveTarget(playerController.value.gameObject);
+            }
+            else if (GetNPCState() == NPCState.suspicious)
+            {
+                npcMover.ClearMoveTargets();
+            }
+            else if (GetNPCState() == NPCState.idle)
+            {
+                npcMover.MoveToOriginalPosition();
+            }
+        }
+
+        private TransitionType GetBattleEntryType(Collision2D collision)
+        {
+            Vector2 contactPoint = collision.GetContact(0).point;
+            Vector2 npcPosition = collision.otherCollider.bounds.center;
+            Vector2 playerPosition = collision.collider.bounds.center;
+
+            float npcLookMagnitudeToContact = Vector2.Dot(contactPoint - npcPosition, npcMover.GetLookDirection());
+            float playerLookMagnitudeToContact = Vector2.Dot(contactPoint - playerPosition, playerController.value.GetPlayerMover().GetLookDirection());
+
+            if (playerLookMagnitudeToContact > 0 && npcLookMagnitudeToContact < 0)
+            {
+                return TransitionType.BattleGood;
+            }
+            else if (npcLookMagnitudeToContact > 0 && playerLookMagnitudeToContact < 0)
+            {
+                return TransitionType.BattleBad;
+            }
+            else
+            {
+                return TransitionType.BattleNeutral;
+            }
+        }
+        #endregion
 
 #if UNITY_EDITOR
         private void OnDrawGizmosSelected()

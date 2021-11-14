@@ -15,7 +15,7 @@ namespace Frankie.Core
 
         // Constants
         const string defaultSaveFile = "save";
-        const string defaultSessionFile = "session";
+        const string sessionFile = "session";
         const string PLAYER_PREFS_CURRENT_SAVE = "currentSave";
 
         // Cached References
@@ -154,8 +154,7 @@ namespace Frankie.Core
 
         public void LoadSession()
         {
-            string currentSave = GetCurrentSave();
-            GetComponent<SavingSystem>().LoadWithinScene(currentSave);
+            GetComponent<SavingSystem>().LoadWithinScene(sessionFile);
         }
 
         public void Load(string saveName)
@@ -176,8 +175,7 @@ namespace Frankie.Core
 
         public void SaveSession()
         {
-            string currentSave = GetCurrentSave();
-            GetComponent<SavingSystem>().Save(currentSave);
+            GetComponent<SavingSystem>().Save(sessionFile);
         }
 
         public void Save()
@@ -196,7 +194,7 @@ namespace Frankie.Core
                 SetSavePrefs(saveName, characterName, level);
             }
 
-            GetComponent<SavingSystem>().CopySessionToSave(defaultSessionFile, saveName);
+            GetComponent<SavingSystem>().CopySessionToSave(sessionFile, saveName);
         }
 
         public void Delete()

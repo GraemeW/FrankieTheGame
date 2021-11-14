@@ -47,7 +47,9 @@ namespace Frankie.Control
 
         protected virtual void Start()
         {
-            ClearMoveTargets();
+            // N.B. Deliberately NOT calling clear move targets here to avoid order of operations issues
+            // In some edge cases Start() can be called after Update(), which can cause shouts to fail
+
             SetLookDirection(Vector2.down); // Initialize look direction to avoid wonky
         }
 
@@ -82,10 +84,10 @@ namespace Frankie.Control
             moveTargetCoordinate = target;
         }
 
-        public void SetMoveTarget(GameObject gameObject)
+        public void SetMoveTarget(GameObject target)
         {
             moveTargetCoordinate = null;
-            moveTargetObject = gameObject;
+            moveTargetObject = target;
             targetDistanceTolerance = 0f;
         }
 

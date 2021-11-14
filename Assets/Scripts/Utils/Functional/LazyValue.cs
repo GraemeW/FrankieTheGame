@@ -6,9 +6,9 @@
     /// </summary>
     public class LazyValue<T>
     {
-        private T _value;
-        private bool _initialized = false;
-        private InitializerDelegate _initializer;
+        protected T _value;
+        protected bool _initialized = false;
+        protected InitializerDelegate _initializer;
 
         public delegate T InitializerDelegate();
 
@@ -49,13 +49,18 @@
         /// <summary>
         /// Force the initialisation of the value via the delegate.
         /// </summary>
-        public void ForceInit()
+        public virtual void ForceInit()
         {
             if (!_initialized)
             {
-                _value = _initializer();
-                _initialized = true;
+                Initialize();
             }
+        }
+
+        protected void Initialize()
+        {
+            _value = _initializer();
+            _initialized = true;
         }
     }
 }
