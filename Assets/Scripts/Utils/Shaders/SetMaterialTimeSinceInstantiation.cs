@@ -1,20 +1,19 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace Frankie.Utils
 {
     public class SetMaterialTimeSinceInstantiation : MonoBehaviour
     {
-        [SerializeField] Material material = null;
-
+        [SerializeField] Image image = null;
         static string GLOBAL_SHADER_PHASE_REFERENCE = "_Phase";
 
         private void OnEnable()
         {
-            if (material == null) { return; }
-
-            material.SetFloat(GLOBAL_SHADER_PHASE_REFERENCE, Time.time);
+            if (image == null || image.material == null) { return; }
+            image.material.SetFloat(GLOBAL_SHADER_PHASE_REFERENCE, Time.time);
         }
 
     }

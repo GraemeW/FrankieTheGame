@@ -140,6 +140,17 @@ namespace Frankie.Combat
 
         public void AdjustHP(float points)
         {
+            AdjustHPQuietly(points);
+
+            if (stateAltered != null)
+            {
+                if (points < 0) { stateAltered.Invoke(this, new StateAlteredData(StateAlteredType.DecreaseHP, points)); }
+                else if (points > 0) { stateAltered.Invoke(this, new StateAlteredData(StateAlteredType.IncreaseHP, points)); }
+            }
+        }
+
+        public void AdjustHPQuietly(float points)
+        {
             if (isDead.value) { return; }
 
             if (friendly) // Damage dealt is delayed, occurs over damageTimeSpan seconds
@@ -152,12 +163,6 @@ namespace Frankie.Combat
             {
                 float unsafeHP = currentHP.value + points;
                 currentHP.value = Mathf.Clamp(unsafeHP, 0f, baseStats.GetStat(Stat.HP));
-            }
-
-            if (stateAltered != null)
-            {
-                if (points < 0) { stateAltered.Invoke(this, new StateAlteredData(StateAlteredType.DecreaseHP, points)); }
-                else if (points > 0) { stateAltered.Invoke(this, new StateAlteredData(StateAlteredType.IncreaseHP, points)); }
             }
         }
 

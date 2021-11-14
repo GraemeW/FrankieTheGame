@@ -12,4 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2296a696ff7b80140ab1509f2d4bc48a, type: 3}
   m_Name: AskForHelpDamage
   m_EditorClassIdentifier: 
-  healthChange: -3
+  healthChange: -2
+  jitter: 2

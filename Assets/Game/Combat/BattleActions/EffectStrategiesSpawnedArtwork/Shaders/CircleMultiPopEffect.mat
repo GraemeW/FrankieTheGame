@@ -7,8 +7,8 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: BattleEntryShader
-  m_Shader: {fileID: -6465566751694194690, guid: 58edf1c3558913e428a93dbb06d078bf, type: 3}
+  m_Name: CircleMultiPopEffect
+  m_Shader: {fileID: -6465566751694194690, guid: 0bd5e003df394634d863abfc37f91eee, type: 3}
   m_ShaderKeywords: 
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
@@ -20,7 +20,7 @@ Material:
     serializedVersion: 3
     m_TexEnvs:
     - _MainTex:
-        m_Texture: {fileID: 2800000, guid: 48853a5670350a84bb46b94fcdb31459, type: 3}
+        m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - unity_Lightmaps:
@@ -36,6 +36,18 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Floats:
-    - _Phase: 2.9246778
-    m_Colors: []
+    - _Phase: 12.592458
+    - crispness: 0.05
+    - initialThickness: 0.05
+    - radiusGrowthFactor: 0.3
+    - thicknessShrinkFactor: 10
+    - timeOffsetA: 0
+    - timeOffsetB: 0.25
+    - timeOffsetC: 0.5
+    m_Colors:
+    - backgroundColor: {r: 0, g: 0, b: 0, a: 0}
+    - drawColor: {r: 1, g: 1, b: 1, a: 0}
+    - positionA: {r: 0.3, g: 0.3, b: 0, a: 0}
+    - positionB: {r: 0.45, g: 0.7, b: 0, a: 0}
+    - positionC: {r: 0.7, g: 0.25, b: 0, a: 0}
   m_BuildTextureStacks: []
