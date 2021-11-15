@@ -19,11 +19,11 @@ namespace Frankie.Inventory.UI
         EquipmentBox equipmentBox = null;
         EquipLocation equipLocation = EquipLocation.None;
 
-        public void Setup(IStandardPlayerInputCaller standardPlayerInputCaller, EquipmentBox equipmentBox, EquipLocation equipLocation, CombatParticipant selectedCharacter, List<CharacterSlide> characterSlides = null)
+        public void Setup(EquipmentBox equipmentBox, EquipLocation equipLocation, CombatParticipant selectedCharacter, List<CharacterSlide> characterSlides = null)
         {
             this.equipmentBox = equipmentBox;
             this.equipLocation = equipLocation;
-            Setup(standardPlayerInputCaller, selectedCharacter, characterSlides);
+            Setup(selectedCharacter, characterSlides);
         }
 
         protected override List<ChoiceActionPair> GetChoiceActionPairs(int inventorySlot)
@@ -77,13 +77,7 @@ namespace Frankie.Inventory.UI
 
         public override bool HandleGlobalInput(PlayerInputType playerInputType)
         {
-            if (!handleGlobalInput) { return true; } // Spoof:  Cannot accept input, so treat as if global input already handled
-
-            if (playerInputType == PlayerInputType.Option || playerInputType == PlayerInputType.Cancel)
-            {
-                equipmentBox.ResetEquipmentBox(false);
-            }
-            return base.HandleGlobalInput(playerInputType); // Destruction to be handled in base
+            return StandardHandleGlobalInput(playerInputType);
         }
     }
 }

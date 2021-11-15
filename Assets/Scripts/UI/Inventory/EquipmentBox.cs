@@ -390,9 +390,9 @@ namespace Frankie.Inventory.UI
             handleGlobalInput = false;
             GameObject inventoryBoxObject = Instantiate(equipmentInventoryBoxPrefab, transform.parent.transform);
             EquipmentInventoryBox inventoryBox = inventoryBoxObject.GetComponent<EquipmentInventoryBox>();
-            inventoryBox.Setup(controller, this, selectedEquipLocation, selectedCharacter, characterSlides);
+            inventoryBox.Setup(this, selectedEquipLocation, selectedCharacter, characterSlides);
             canvasGroup.alpha = 0.0f;
-            PassControl(this, new Action[] { () => EnableInput(true), () => SetVisible(true) }, inventoryBox, controller);
+            PassControl(this, new Action[] { () => ResetEquipmentBox(false), () => EnableInput(true), () => SetVisible(true) }, inventoryBox, controller);
         }
 
         public void ConfirmEquipmentChange(bool confirm) // Called via equipmentChangeConfirmOptions buttons, hooked up in Unity

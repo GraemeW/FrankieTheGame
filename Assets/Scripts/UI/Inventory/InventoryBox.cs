@@ -102,11 +102,9 @@ namespace Frankie.Inventory.UI
             ShowCursorOnAnyInteraction(PlayerInputType.Execute);
         }
 
-        public void Setup(IStandardPlayerInputCaller standardPlayerInputCaller, CombatParticipant character, List<CharacterSlide> characterSlides = null)
+        public void Setup(CombatParticipant character, List<CharacterSlide> characterSlides = null)
         {
             // Single party member instantiation for specific application
-
-            controller = standardPlayerInputCaller;
             this.characterSlides = characterSlides;
             SubscribeCharacterSlides(true);
 

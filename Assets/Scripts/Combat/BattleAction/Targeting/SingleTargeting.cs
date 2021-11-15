@@ -13,16 +13,20 @@ namespace Frankie.Combat
 
         public override IEnumerable<CombatParticipant> GetTargets(bool? traverseForward, IEnumerable<CombatParticipant> currentTargets, IEnumerable<CombatParticipant> activeCharacters, IEnumerable<CombatParticipant> activeEnemies)
         {
+            CombatParticipant[] localCurrentTargets = currentTargets != null ? currentTargets.ToArray() : null;
+            CombatParticipant[] localActiveCharacters = activeCharacters != null ? activeCharacters.ToArray() : null;
+            CombatParticipant[] localActiveEnemies = activeEnemies != null ? activeEnemies.ToArray() : null;
+
             // Special handling for no traverse -- pass back the target
             if (traverseForward == null)
             {
-                CombatParticipant defaultCharacter = currentTargets.First();
-                if (defaultCharacter != null) { yield return currentTargets.First(); }
+                CombatParticipant defaultCharacter = localCurrentTargets.First();
+                if (defaultCharacter != null) { yield return localCurrentTargets.First(); }
                 yield break;
             }
 
             // Separate out overall set
-            IEnumerable<CombatParticipant> potentialTargets = this.GetCombatParticipantsByType(combatParticipantType, activeCharacters, activeEnemies);
+            IEnumerable<CombatParticipant> potentialTargets = this.GetCombatParticipantsByType(combatParticipantType, localActiveCharacters, localActiveEnemies);
 
             // Filter
             if (filterStrategies != null)
@@ -35,7 +39,7 @@ namespace Frankie.Combat
             if (potentialTargets.Count() == 0) { yield break; }
 
             // Special handling no current target
-            if (currentTargets == null || currentTargets.Count() == 0)
+            if (localCurrentTargets == null || localCurrentTargets.Count() == 0)
             {
                 CombatParticipant defaultTarget = potentialTargets.First();
                 if (defaultTarget != null) { yield return defaultTarget; }
@@ -43,7 +47,7 @@ namespace Frankie.Combat
             }
 
             // Find next target
-            CombatParticipant currentTarget = currentTargets.First(); // Expectation is this would be single target, handling edge case
+            CombatParticipant currentTarget = localCurrentTargets.First(); // Expectation is this would be single target, handling edge case
 
             bool returnOnNextIteration = false;
             if (traverseForward == true)
@@ -73,6 +77,7 @@ namespace Frankie.Combat
                     if (returnOnNextIteration)
                     {
                         yield return combatParticipant;
+                        yield break;
                     }
 
                     if (combatParticipant == currentTarget) { returnOnNextIteration = true; }
