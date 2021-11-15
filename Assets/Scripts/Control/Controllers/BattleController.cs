@@ -435,7 +435,7 @@ namespace Frankie.Combat
         private void AutoSelectCharacter()
         {
             if (activeCharacters == null || selectedCharacter != null) { return; }
-            CombatParticipant firstFreeCharacter = activeCharacters.Where(x => !x.IsInCooldown()).FirstOrDefault();
+            CombatParticipant firstFreeCharacter = activeCharacters.Where(x => !x.IsDead() && !x.IsInCooldown()).FirstOrDefault();
             if (firstFreeCharacter != null) { SetSelectedCharacter(firstFreeCharacter); }
         }
 

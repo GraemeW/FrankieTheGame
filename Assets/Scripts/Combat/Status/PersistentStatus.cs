@@ -17,8 +17,14 @@ namespace Frankie.Combat
         protected bool active = false;
 
         // Cached References
+        CombatParticipant combatParticipant = null;
         protected PlayerStateHandler playerStateHandler = null;
         protected BattleController battleController = null;
+
+        private void Awake()
+        {
+            combatParticipant = GetComponent<CombatParticipant>();
+        }
 
         protected virtual void Update()
         {
@@ -27,12 +33,16 @@ namespace Frankie.Combat
 
         private void OnEnable()
         {
+            combatParticipant.stateAltered += HandleCombatState;
+
             if (playerStateHandler != null) { playerStateHandler.playerStateChanged += HandlePlayerState; }
             if (battleController != null) { battleController.battleStateChanged += HandleBattleState; }
         }
 
         private void OnDisable()
         {
+            combatParticipant.stateAltered -= HandleCombatState;
+
             if (playerStateHandler != null) { playerStateHandler.playerStateChanged -= HandlePlayerState; }
             if (battleController != null) { battleController.battleStateChanged -= HandleBattleState; }
         }
@@ -118,6 +128,14 @@ namespace Frankie.Combat
             if (playerState == PlayerState.inBattle)
             {
                 SyncToBattleController();
+            }
+        }
+
+        private void HandleCombatState(CombatParticipant combatParticipant, StateAlteredData stateAlteredData)
+        {
+            if (stateAlteredData.stateAlteredType == StateAlteredType.Dead)
+            {
+                Destroy(this);
             }
         }
     }

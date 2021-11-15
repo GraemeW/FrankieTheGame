@@ -24,7 +24,8 @@ namespace Frankie.Combat.UI
         [Header("Flavour")]
         [SerializeField] Color selectedCharacterFrameColor = Color.green;
         [SerializeField] Color cooldownCharacterFrameColor = Color.gray;
-        [SerializeField] Color targetedCharacterFrameColor = Color.red;
+        [SerializeField] Color targetedCharacterFrameColor = Color.blue;
+        [SerializeField] Color deadCharacterFrameColor = Color.red;
 
         // State
         SlideState slideState = default;
@@ -41,10 +42,11 @@ namespace Frankie.Combat.UI
 
         private enum SlideState
         {
-            ready,
-            selected,
-            cooldown,
-            target
+            Ready,
+            Selected,
+            Cooldown,
+            Target,
+            Dead
         }
 
         // Functions
@@ -71,16 +73,18 @@ namespace Frankie.Combat.UI
         protected override void SetSelected(CombatParticipantType combatParticipantType, bool enable)
         {
             if (combatParticipantType == CombatParticipantType.Either) { return; }
+            
 
             if (combatParticipantType == CombatParticipantType.Character)
             {
-                if (combatParticipant.IsInCooldown()) { slideState = SlideState.cooldown; }
-                else if (enable) { slideState = SlideState.selected; }
-                else { slideState = SlideState.ready; }
+                if (combatParticipant.IsDead()) { slideState = SlideState.Dead; }
+                else if (combatParticipant.IsInCooldown()) { slideState = SlideState.Cooldown; }
+                else if (enable) { slideState = SlideState.Selected; }
+                else { slideState = SlideState.Ready; }
             }
             else if (combatParticipantType == CombatParticipantType.Target)
             {
-                if (enable) { lastSlideState = slideState; slideState = SlideState.target; }
+                if (enable) { lastSlideState = slideState; slideState = SlideState.Target; }
                 else { slideState = lastSlideState; }
             }
             UpdateColor();
@@ -112,17 +116,25 @@ namespace Frankie.Combat.UI
             {
                 UpdateAP(this.combatParticipant.GetAP());
             }
-            // TODO:  add behavior for other state altered types (death, etc.)
-            // TODO:  update slide graphics / animation for each behavior
 
             if (stateAlteredData.stateAlteredType == StateAlteredType.CooldownSet)
             {
-                slideState = SlideState.cooldown;
+                slideState = SlideState.Cooldown;
                 UpdateColor();
             }
             else if (stateAlteredData.stateAlteredType == StateAlteredType.CooldownExpired)
             {
-                slideState = SlideState.ready;
+                slideState = SlideState.Ready;
+                UpdateColor();
+            }
+            else if (stateAlteredData.stateAlteredType == StateAlteredType.Dead)
+            {
+                slideState = SlideState.Dead;
+                UpdateColor();
+            }
+            else if (stateAlteredData.stateAlteredType == StateAlteredType.Resurrected)
+            {
+                slideState = SlideState.Ready;
                 UpdateColor();
             }
         }
@@ -130,21 +142,25 @@ namespace Frankie.Combat.UI
         // Private functions
         private void UpdateColor()
         {
-            if (slideState == SlideState.ready)
+            if (slideState == SlideState.Ready)
             {
                 selectHighlight.color = Color.white;
             }
-            else if (slideState == SlideState.selected)
+            else if (slideState == SlideState.Selected)
             {
                 selectHighlight.color = selectedCharacterFrameColor;
             }
-            else if (slideState == SlideState.cooldown)
+            else if (slideState == SlideState.Cooldown)
             {
                 selectHighlight.color = cooldownCharacterFrameColor;
             }
-            else if (slideState == SlideState.target)
+            else if (slideState == SlideState.Target)
             {
                 selectHighlight.color = targetedCharacterFrameColor;
+            }
+            else if (slideState == SlideState.Dead)
+            {
+                selectHighlight.color = deadCharacterFrameColor;
             }
         }
 

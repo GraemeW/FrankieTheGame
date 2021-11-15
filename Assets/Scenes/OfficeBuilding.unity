@@ -1895,6 +1895,9 @@ MonoBehaviour:
   triggerNode: {fileID: 5483484024122596795, guid: 4f94e6ca4b90a6740b0536613dc1d840, type: 2}
   onTriggerImmediate:
     m_PersistentCalls:
+      m_Calls: []
+  onTriggerConversationComplete:
+    m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 596216395}
         m_TargetAssemblyTypeName: Frankie.Control.NPCStateHandler, Assembly-CSharp
@@ -1908,9 +1911,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-  onTriggerConversationComplete:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!114 &596216397
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1927,6 +1927,9 @@ MonoBehaviour:
   triggerNode: {fileID: 2088064155005426061, guid: 4f94e6ca4b90a6740b0536613dc1d840, type: 2}
   onTriggerImmediate:
     m_PersistentCalls:
+      m_Calls: []
+  onTriggerConversationComplete:
+    m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 596216395}
         m_TargetAssemblyTypeName: Frankie.Control.NPCStateHandler, Assembly-CSharp
@@ -1940,9 +1943,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-  onTriggerConversationComplete:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!1001 &622289211
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -5938,7 +5938,7 @@ PrefabInstance:
       objectReference: {fileID: 566954979}
     - target: {fileID: 6748405756474271262, guid: 7d6634333e185754d96c189f3df7c163, type: 3}
       propertyPath: orthographic size
-      value: 3
+      value: 3.5
       objectReference: {fileID: 0}
     - target: {fileID: 6748405756474271457, guid: 7d6634333e185754d96c189f3df7c163, type: 3}
       propertyPath: m_LocalPosition.x

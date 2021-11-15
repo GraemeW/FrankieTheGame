@@ -197,8 +197,9 @@ namespace Frankie.Utils.UI
         protected bool ShowCursorOnAnyInteraction(PlayerInputType playerInputType)
         {
             if (!isChoiceAvailable || choiceOptions.Count == 0) { return false; }
+            if (playerInputType == PlayerInputType.DefaultNone || playerInputType == PlayerInputType.Cancel || playerInputType == PlayerInputType.Option) { return false; }
 
-            if (highlightedChoiceOption == null && playerInputType != PlayerInputType.DefaultNone)
+            if (highlightedChoiceOption == null)
             {
                 highlightedChoiceOption = choiceOptions[0];
                 highlightedChoiceOption.Highlight(true);

@@ -184,8 +184,8 @@ MonoBehaviour:
   children: []
   rect:
     serializedVersion: 2
-    x: 1034
-    y: 273
+    x: 1035
+    y: 263
     width: 400
     height: 225
   draggingRect:

@@ -34,7 +34,6 @@ namespace Frankie.Menu.UI
             savingWrapper = GameObject.FindGameObjectWithTag("Saver").GetComponent<SavingWrapper>();
             // SceneLoader is a persistent object, thus can only be found after Awake -- so find in Start
 
-            TakeControl(controller, this, null); // input handled via player controller, immediate override
             HandleClientEntry();
         }
 

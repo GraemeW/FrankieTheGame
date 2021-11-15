@@ -207,10 +207,10 @@ namespace Frankie.Control
             else
             {
                 npcOccupied = false;
-            }
 
-            // Set State
-            this.npcState = npcState;
+                // Set State
+                this.npcState = npcState;
+            }
 
             // Adjust reaction
             AdjustReactionForState(shoutOnAggravation);
