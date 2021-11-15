@@ -30,7 +30,8 @@ namespace Frankie.Inventory.UI
         [SerializeField] GameObject equipmentInventoryBoxPrefab = null;
         [SerializeField] GameObject statChangeFieldPrefab = null;
         [Header("Info/Messages")]
-        [Tooltip("Include {0} for character name")] [SerializeField] string messageNoValidItems = "There's nothing in the knapsack to equip.";
+        [SerializeField] string messageNoValidItems = "There's nothing in the knapsack to equip.";
+        [SerializeField] string messageUnequip = "Guess we're goin' nude";
         [SerializeField] string optionText = "What do you want to do?";
         [SerializeField] string optionEquip = "Put on";
         [SerializeField] string optionRemove = "Take off";
@@ -341,7 +342,9 @@ namespace Frankie.Inventory.UI
                 DialogueOptionBox equipmentOptionMenu = dialogueOptionBoxObject.GetComponent<DialogueOptionBox>();
                 equipmentOptionMenu.Setup(optionText);
                 equipmentOptionMenu.OverrideChoiceOptions(choiceActionPairs);
-                PassControl(equipmentOptionMenu);
+
+                PassControl(this, new Action[] { () => ResetEquipmentBox(false), () => EnableInput(true) }, equipmentOptionMenu, controller);
+                equipmentOptionMenu.ClearDisableCallbacksOnChoose(true);
                 SetEquipmentBoxState(EquipmentBoxState.inEquipmentOptionMenu);
             }
             else
@@ -362,7 +365,7 @@ namespace Frankie.Inventory.UI
             else
             {
                 selectedEquipLocation = EquipLocation.None;
-                SpawnNoValidItemsMessage();
+                SpawnMessage(messageNoValidItems);
             }
         }
 
@@ -372,14 +375,16 @@ namespace Frankie.Inventory.UI
 
             EquipLocation equipLocation = (EquipLocation)selector;
             selectedEquipment.RemoveEquipment(equipLocation, true);
+
+            SpawnMessage(messageUnequip);
         }
 
-        private void SpawnNoValidItemsMessage()
+        private void SpawnMessage(string message)
         {
             handleGlobalInput = false;
             GameObject dialogueBoxObject = Instantiate(dialogueBoxPrefab, transform.parent);
             DialogueBox dialogueBox = dialogueBoxObject.GetComponent<DialogueBox>();
-            dialogueBox.AddText(messageNoValidItems);
+            dialogueBox.AddText(message);
             PassControl(dialogueBox);
         }
 
@@ -392,7 +397,7 @@ namespace Frankie.Inventory.UI
             EquipmentInventoryBox inventoryBox = inventoryBoxObject.GetComponent<EquipmentInventoryBox>();
             inventoryBox.Setup(this, selectedEquipLocation, selectedCharacter, characterSlides);
             canvasGroup.alpha = 0.0f;
-            PassControl(this, new Action[] { () => ResetEquipmentBox(false), () => EnableInput(true), () => SetVisible(true) }, inventoryBox, controller);
+            PassControl(this, new Action[] { () => EnableInput(true), () => SetVisible(true) }, inventoryBox, controller);
         }
 
         public void ConfirmEquipmentChange(bool confirm) // Called via equipmentChangeConfirmOptions buttons, hooked up in Unity
