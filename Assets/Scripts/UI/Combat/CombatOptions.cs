@@ -38,7 +38,7 @@ namespace Frankie.Combat.UI
             GameObject childOption = Instantiate(statusPrefab, battleCanvas.transform);
             StatusBox statusBox = childOption.GetComponent<StatusBox>();
             statusBox.Setup(party);
-            PassControl(this, new Action[] { () => EnableInput(true) }, statusBox, battleController);
+            PassControl(this, new Action[] { () => SetCombatOptions(true) }, statusBox, battleController);
         }
 
         public void OpenKnapsack() // Called via unity events
@@ -63,17 +63,16 @@ namespace Frankie.Combat.UI
             }
         }
 
-        private void SetCombatOptions(bool enable)
+        public void SetCombatOptions(bool enable)
         {
             if (!enable)
             {
-                handleGlobalInput = true;
                 InitiateCombat();
             }
             else
             {
-                handleGlobalInput = true;
                 gameObject.SetActive(true);
+                EnableInput(true);
             }
         }
 

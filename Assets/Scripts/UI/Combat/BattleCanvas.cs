@@ -108,7 +108,7 @@ namespace Frankie.Combat.UI
             else if (state == BattleState.PreCombat)
             {
                 skillSelection.gameObject.SetActive(false);
-                combatOptions.gameObject.SetActive(true);
+                combatOptions.SetCombatOptions(true);
             }
             else if (state == BattleState.Combat)
             {

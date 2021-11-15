@@ -59,10 +59,6 @@ namespace Frankie.Combat
                 characters.Shuffle();
                 List<CombatParticipant> enemies = battleController.GetEnemies();
                 enemies.Shuffle();
-                foreach (CombatParticipant combatParticipant in characters)
-                {
-                    UnityEngine.Debug.Log($"character: {combatParticipant.gameObject.name}");
-                }
 
                 if (combatParticipant.GetFriendly())
                 {

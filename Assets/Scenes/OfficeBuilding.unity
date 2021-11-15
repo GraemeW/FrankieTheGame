@@ -1891,7 +1891,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 47c843d51c92e854f95fb02bd7be9471, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dialogueUpdateType: 3
+  dialogueUpdateType: 1
   triggerNode: {fileID: 5483484024122596795, guid: 4f94e6ca4b90a6740b0536613dc1d840, type: 2}
   onTriggerImmediate:
     m_PersistentCalls:
@@ -1923,7 +1923,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 47c843d51c92e854f95fb02bd7be9471, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dialogueUpdateType: 3
+  dialogueUpdateType: 1
   triggerNode: {fileID: 2088064155005426061, guid: 4f94e6ca4b90a6740b0536613dc1d840, type: 2}
   onTriggerImmediate:
     m_PersistentCalls:
@@ -5938,7 +5938,7 @@ PrefabInstance:
       objectReference: {fileID: 566954979}
     - target: {fileID: 6748405756474271262, guid: 7d6634333e185754d96c189f3df7c163, type: 3}
       propertyPath: orthographic size
-      value: 3.5
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 6748405756474271457, guid: 7d6634333e185754d96c189f3df7c163, type: 3}
       propertyPath: m_LocalPosition.x
