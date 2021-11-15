@@ -1,21 +1,21 @@
 using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
 
 public static class ListExtensions
 {
+
+    private static System.Random randomNumberGenerator = new System.Random();
+
     public static void Shuffle<T>(this IList<T> list)
     {
-        System.Random random = new System.Random();
         int n = list.Count;
-
-        for (int i = n - 1; i > 1; i--)
+        while (n > 1)
         {
-            int rnd = random.Next(i + 1);
-
-            T value = list[rnd];
-            list[rnd] = list[i];
-            list[i] = value;
+            n--;
+            int k = randomNumberGenerator.Next(n + 1);
+            T value = list[k];
+            list[k] = list[n];
+            list[n] = value;
         }
     }
 }

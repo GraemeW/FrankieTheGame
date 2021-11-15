@@ -53,13 +53,24 @@ namespace Frankie.Combat
             {
                 Skill skill = GetSkill();
                 IEnumerable<CombatParticipant> targets;
+
+                // Randomize input combat participants selections
+                List<CombatParticipant> characters = battleController.GetCharacters();
+                characters.Shuffle();
+                List<CombatParticipant> enemies = battleController.GetEnemies();
+                enemies.Shuffle();
+                foreach (CombatParticipant combatParticipant in characters)
+                {
+                    UnityEngine.Debug.Log($"character: {combatParticipant.gameObject.name}");
+                }
+
                 if (combatParticipant.GetFriendly())
                 {
-                    targets = skill.GetTargets(true, null, battleController.GetCharacters(), battleController.GetEnemies());
+                    targets = skill.GetTargets(true, null, characters, enemies);
                 }
                 else
                 {
-                    targets = skill.GetTargets(true, null, battleController.GetEnemies(), battleController.GetCharacters());
+                    targets = skill.GetTargets(true, null, enemies, characters);
                 }
 
                 if (combatParticipant == null || targets == null || skill == null) { return; }
