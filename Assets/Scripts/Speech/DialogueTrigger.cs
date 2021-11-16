@@ -12,8 +12,7 @@ namespace Frankie.Speech
         // Tunables
         [SerializeField] DialogueUpdateType dialogueUpdateType = DialogueUpdateType.DialogueComplete;
         [SerializeField] DialogueNode triggerNode;
-        [SerializeField][Tooltip("Use for anything not requiring player state change")] UnityEventWithCallingController onTriggerImmediate;
-        [SerializeField] [Tooltip("Use for anything that force player state change")] UnityEventWithCallingController onTriggerConversationComplete;
+        [SerializeField][Tooltip("Trigger immediate for node-based entry/exit not requiring player state change")] DialogueTriggeredEvent dialogueTriggeredEvent; 
 
         // State
         bool queuedTrigger = false;
@@ -23,6 +22,13 @@ namespace Frankie.Speech
         PlayerStateHandler playerStateHandler = null;
 
         // Data Structures
+        [System.Serializable]
+        public struct DialogueTriggeredEvent
+        {
+            public bool triggerImmediate;
+            public UnityEventWithCallingController onTriggerEvent;
+        }
+
         [System.Serializable]
         public class UnityEventWithCallingController : UnityEvent<PlayerStateHandler>
         {
@@ -41,7 +47,7 @@ namespace Frankie.Speech
             if (dialogueUpdateType == DialogueUpdateType.DialogueComplete)
             {
                 dialogueController.dialogueUpdated -= Trigger;
-                if (queuedTrigger) { onTriggerConversationComplete?.Invoke(playerStateHandler); }
+                if (queuedTrigger) { dialogueTriggeredEvent.onTriggerEvent?.Invoke(playerStateHandler); }
             }
 
             if (this.dialogueUpdateType != dialogueUpdateType) { return; }
@@ -54,7 +60,10 @@ namespace Frankie.Speech
             if ((dialogueUpdateType == DialogueUpdateType.DialogueNodeEntry || dialogueUpdateType == DialogueUpdateType.DialogueNodeExit)
                             && (triggerNode != null && triggerNode == dialogueNode))
             {
-                onTriggerImmediate?.Invoke(playerStateHandler);
+                if (dialogueTriggeredEvent.triggerImmediate)
+                {
+                    dialogueTriggeredEvent.onTriggerEvent?.Invoke(playerStateHandler);
+                }
                 queuedTrigger = true;
                 return true;
             }
@@ -65,7 +74,7 @@ namespace Frankie.Speech
         {
             if (dialogueUpdateType == DialogueUpdateType.DialogueInitiated || dialogueUpdateType == DialogueUpdateType.DialogueComplete)
             {
-                onTriggerImmediate?.Invoke(playerStateHandler);
+                dialogueTriggeredEvent.onTriggerEvent?.Invoke(playerStateHandler);
                 return true;
             }
 
