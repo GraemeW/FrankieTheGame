@@ -850,7 +850,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5226738402773197790, guid: 3ea47d49370c98e4e8dda14fd66b947b, type: 3}
       propertyPath: checkInteraction.m_PersistentCalls.m_Calls.Array.size
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5226738402773197790, guid: 3ea47d49370c98e4e8dda14fd66b947b, type: 3}
       propertyPath: checkInteraction.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
@@ -890,7 +890,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5226738402773197790, guid: 3ea47d49370c98e4e8dda14fd66b947b, type: 3}
       propertyPath: checkInteraction.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: Frankie.Control.Specialization.WorldInventoryHandler, Assembly-CSharp
+      value: Frankie.Control.Specialization.WorldItemGiverTaker, Assembly-CSharp
       objectReference: {fileID: 0}
     - target: {fileID: 5226738402773197790, guid: 3ea47d49370c98e4e8dda14fd66b947b, type: 3}
       propertyPath: postMessageCheckInteraction.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
@@ -1002,143 +1002,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 4698734748075433819, guid: 8fffbb0bdedaaa6488a5477fa90c03a4, type: 3}
   m_PrefabInstance: {fileID: 4698734748379157560}
   m_PrefabAsset: {fileID: 0}
---- !u!1001 &330386083
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    m_TransformParent: {fileID: 585047821}
-    m_Modifications:
-    - target: {fileID: 5226738402773197790, guid: 3ea47d49370c98e4e8dda14fd66b947b, type: 3}
-      propertyPath: checkMessage
-      value: Frankie's workstation . . . let's write down some thoughts and feelings
-      objectReference: {fileID: 0}
-    - target: {fileID: 5226738402773197790, guid: 3ea47d49370c98e4e8dda14fd66b947b, type: 3}
-      propertyPath: checkInteraction.m_PersistentCalls.m_Calls.Array.size
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5226738402773197790, guid: 3ea47d49370c98e4e8dda14fd66b947b, type: 3}
-      propertyPath: checkInteraction.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5226738402773197790, guid: 3ea47d49370c98e4e8dda14fd66b947b, type: 3}
-      propertyPath: postMessageCheckInteraction.m_PersistentCalls.m_Calls.Array.size
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5226738402773197790, guid: 3ea47d49370c98e4e8dda14fd66b947b, type: 3}
-      propertyPath: checkInteraction.m_PersistentCalls.m_Calls.Array.data[0].m_Target
-      value: 
-      objectReference: {fileID: 1501661385}
-    - target: {fileID: 5226738402773197790, guid: 3ea47d49370c98e4e8dda14fd66b947b, type: 3}
-      propertyPath: checkInteraction.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 5226738402773197790, guid: 3ea47d49370c98e4e8dda14fd66b947b, type: 3}
-      propertyPath: checkInteraction.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: GiveItem
-      objectReference: {fileID: 0}
-    - target: {fileID: 5226738402773197790, guid: 3ea47d49370c98e4e8dda14fd66b947b, type: 3}
-      propertyPath: postMessageCheckInteraction.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5226738402773197790, guid: 3ea47d49370c98e4e8dda14fd66b947b, type: 3}
-      propertyPath: postMessageCheckInteraction.m_PersistentCalls.m_Calls.Array.data[0].m_Target
-      value: 
-      objectReference: {fileID: 702233928}
-    - target: {fileID: 5226738402773197790, guid: 3ea47d49370c98e4e8dda14fd66b947b, type: 3}
-      propertyPath: postMessageCheckInteraction.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 5226738402773197790, guid: 3ea47d49370c98e4e8dda14fd66b947b, type: 3}
-      propertyPath: postMessageCheckInteraction.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: Save
-      objectReference: {fileID: 0}
-    - target: {fileID: 5226738402773197790, guid: 3ea47d49370c98e4e8dda14fd66b947b, type: 3}
-      propertyPath: checkInteraction.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: Frankie.Control.Specialization.WorldInventoryHandler, Assembly-CSharp
-      objectReference: {fileID: 0}
-    - target: {fileID: 5226738402773197790, guid: 3ea47d49370c98e4e8dda14fd66b947b, type: 3}
-      propertyPath: postMessageCheckInteraction.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: Frankie.Control.Specialization.WorldSaver, Assembly-CSharp
-      objectReference: {fileID: 0}
-    - target: {fileID: 5226738402773197790, guid: 3ea47d49370c98e4e8dda14fd66b947b, type: 3}
-      propertyPath: checkInteraction.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
-      value: UnityEngine.Object, UnityEngine
-      objectReference: {fileID: 0}
-    - target: {fileID: 5226738402773197790, guid: 3ea47d49370c98e4e8dda14fd66b947b, type: 3}
-      propertyPath: postMessageCheckInteraction.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
-      value: UnityEngine.Object, UnityEngine
-      objectReference: {fileID: 0}
-    - target: {fileID: 6564381309038757639, guid: 3ea47d49370c98e4e8dda14fd66b947b, type: 3}
-      propertyPath: m_Size.x
-      value: 0.28769827
-      objectReference: {fileID: 0}
-    - target: {fileID: 6564381309038757639, guid: 3ea47d49370c98e4e8dda14fd66b947b, type: 3}
-      propertyPath: m_Size.y
-      value: 0.5206521
-      objectReference: {fileID: 0}
-    - target: {fileID: 6564381309038757639, guid: 3ea47d49370c98e4e8dda14fd66b947b, type: 3}
-      propertyPath: m_Offset.x
-      value: -0.011199713
-      objectReference: {fileID: 0}
-    - target: {fileID: 6564381309038757639, guid: 3ea47d49370c98e4e8dda14fd66b947b, type: 3}
-      propertyPath: m_Offset.y
-      value: 0.3382314
-      objectReference: {fileID: 0}
-    - target: {fileID: 6564381309038757640, guid: 3ea47d49370c98e4e8dda14fd66b947b, type: 3}
-      propertyPath: m_Name
-      value: CheckComponent
-      objectReference: {fileID: 0}
-    - target: {fileID: 6564381309038757641, guid: 3ea47d49370c98e4e8dda14fd66b947b, type: 3}
-      propertyPath: m_RootOrder
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6564381309038757641, guid: 3ea47d49370c98e4e8dda14fd66b947b, type: 3}
-      propertyPath: m_LocalScale.z
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6564381309038757641, guid: 3ea47d49370c98e4e8dda14fd66b947b, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6564381309038757641, guid: 3ea47d49370c98e4e8dda14fd66b947b, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6564381309038757641, guid: 3ea47d49370c98e4e8dda14fd66b947b, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6564381309038757641, guid: 3ea47d49370c98e4e8dda14fd66b947b, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6564381309038757641, guid: 3ea47d49370c98e4e8dda14fd66b947b, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6564381309038757641, guid: 3ea47d49370c98e4e8dda14fd66b947b, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6564381309038757641, guid: 3ea47d49370c98e4e8dda14fd66b947b, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6564381309038757641, guid: 3ea47d49370c98e4e8dda14fd66b947b, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6564381309038757641, guid: 3ea47d49370c98e4e8dda14fd66b947b, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6564381309038757641, guid: 3ea47d49370c98e4e8dda14fd66b947b, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: 3ea47d49370c98e4e8dda14fd66b947b, type: 3}
 --- !u!1001 &342463827
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2373,7 +2236,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5226738402773197790, guid: 3ea47d49370c98e4e8dda14fd66b947b, type: 3}
       propertyPath: checkInteraction.m_PersistentCalls.m_Calls.Array.size
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5226738402773197790, guid: 3ea47d49370c98e4e8dda14fd66b947b, type: 3}
       propertyPath: checkInteraction.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
@@ -2386,7 +2249,7 @@ PrefabInstance:
     - target: {fileID: 5226738402773197790, guid: 3ea47d49370c98e4e8dda14fd66b947b, type: 3}
       propertyPath: checkInteraction.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 1501661385}
+      objectReference: {fileID: 2002541009}
     - target: {fileID: 5226738402773197790, guid: 3ea47d49370c98e4e8dda14fd66b947b, type: 3}
       propertyPath: checkInteraction.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
       value: 2
@@ -2413,7 +2276,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5226738402773197790, guid: 3ea47d49370c98e4e8dda14fd66b947b, type: 3}
       propertyPath: checkInteraction.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: Frankie.Control.Specialization.WorldInventoryHandler, Assembly-CSharp
+      value: Frankie.Control.Specialization.WorldItemGiverTaker, Assembly-CSharp
       objectReference: {fileID: 0}
     - target: {fileID: 5226738402773197790, guid: 3ea47d49370c98e4e8dda14fd66b947b, type: 3}
       propertyPath: postMessageCheckInteraction.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
@@ -2897,6 +2760,95 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
+--- !u!1001 &1049280714
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 585047821}
+    m_Modifications:
+    - target: {fileID: -1689039458495120514, guid: 71d598481a579c2448140b70660e15c0, type: 3}
+      propertyPath: checkMessage
+      value: Frankie's workstation . . . write down some thoughts?
+      objectReference: {fileID: 0}
+    - target: {fileID: -1689039458495120514, guid: 71d598481a579c2448140b70660e15c0, type: 3}
+      propertyPath: checkInteraction.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -1689039458495120514, guid: 71d598481a579c2448140b70660e15c0, type: 3}
+      propertyPath: checkInteraction.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -1689039458495120514, guid: 71d598481a579c2448140b70660e15c0, type: 3}
+      propertyPath: checkInteraction.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 702233928}
+    - target: {fileID: -1689039458495120514, guid: 71d598481a579c2448140b70660e15c0, type: 3}
+      propertyPath: checkInteraction.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: -1689039458495120514, guid: 71d598481a579c2448140b70660e15c0, type: 3}
+      propertyPath: checkInteraction.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: Save
+      objectReference: {fileID: 0}
+    - target: {fileID: -1689039458495120514, guid: 71d598481a579c2448140b70660e15c0, type: 3}
+      propertyPath: checkInteraction.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: Frankie.Control.Specialization.WorldSaver, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: -1689039458495120514, guid: 71d598481a579c2448140b70660e15c0, type: 3}
+      propertyPath: checkInteraction.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
+    - target: {fileID: 6564381309038757640, guid: 71d598481a579c2448140b70660e15c0, type: 3}
+      propertyPath: m_Name
+      value: CheckWithConfirmationComponent
+      objectReference: {fileID: 0}
+    - target: {fileID: 6564381309038757641, guid: 71d598481a579c2448140b70660e15c0, type: 3}
+      propertyPath: m_RootOrder
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6564381309038757641, guid: 71d598481a579c2448140b70660e15c0, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6564381309038757641, guid: 71d598481a579c2448140b70660e15c0, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6564381309038757641, guid: 71d598481a579c2448140b70660e15c0, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6564381309038757641, guid: 71d598481a579c2448140b70660e15c0, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6564381309038757641, guid: 71d598481a579c2448140b70660e15c0, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6564381309038757641, guid: 71d598481a579c2448140b70660e15c0, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6564381309038757641, guid: 71d598481a579c2448140b70660e15c0, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6564381309038757641, guid: 71d598481a579c2448140b70660e15c0, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6564381309038757641, guid: 71d598481a579c2448140b70660e15c0, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6564381309038757641, guid: 71d598481a579c2448140b70660e15c0, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 71d598481a579c2448140b70660e15c0, type: 3}
 --- !u!4 &1120497056 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8110672953395402400, guid: 8a14401d61850da468c7dd2e768c20ce, type: 3}
@@ -3338,7 +3290,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5226738402773197790, guid: 3ea47d49370c98e4e8dda14fd66b947b, type: 3}
       propertyPath: checkInteraction.m_PersistentCalls.m_Calls.Array.size
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5226738402773197790, guid: 3ea47d49370c98e4e8dda14fd66b947b, type: 3}
       propertyPath: checkInteraction.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
@@ -3351,7 +3303,7 @@ PrefabInstance:
     - target: {fileID: 5226738402773197790, guid: 3ea47d49370c98e4e8dda14fd66b947b, type: 3}
       propertyPath: checkInteraction.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 1501661385}
+      objectReference: {fileID: 1908581081}
     - target: {fileID: 5226738402773197790, guid: 3ea47d49370c98e4e8dda14fd66b947b, type: 3}
       propertyPath: checkInteraction.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
       value: 2
@@ -3378,7 +3330,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5226738402773197790, guid: 3ea47d49370c98e4e8dda14fd66b947b, type: 3}
       propertyPath: checkInteraction.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: Frankie.Control.Specialization.WorldInventoryHandler, Assembly-CSharp
+      value: Frankie.Control.Specialization.WorldItemGiverTaker, Assembly-CSharp
       objectReference: {fileID: 0}
     - target: {fileID: 5226738402773197790, guid: 3ea47d49370c98e4e8dda14fd66b947b, type: 3}
       propertyPath: postMessageCheckInteraction.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
@@ -5436,6 +5388,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: WaterCooler_0
       objectReference: {fileID: 0}
+    - target: {fileID: 8629859662256976117, guid: 19b72c5a448064542b67dee2cac7a310, type: 3}
+      propertyPath: checkAtStartOfInteraction
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 19b72c5a448064542b67dee2cac7a310, type: 3}
 --- !u!1001 &3912013124536061921
@@ -5549,6 +5505,10 @@ PrefabInstance:
     - target: {fileID: 4484117035451051703, guid: 120322cf421335644a2026459f208e06, type: 3}
       propertyPath: m_Name
       value: Fridge
+      objectReference: {fileID: 0}
+    - target: {fileID: 5353090059196399923, guid: 120322cf421335644a2026459f208e06, type: 3}
+      propertyPath: checkMessage
+      value: P-to-the-I-to-the-ZZA pockets
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 120322cf421335644a2026459f208e06, type: 3}
@@ -5938,7 +5898,7 @@ PrefabInstance:
       objectReference: {fileID: 566954979}
     - target: {fileID: 6748405756474271262, guid: 7d6634333e185754d96c189f3df7c163, type: 3}
       propertyPath: orthographic size
-      value: 3
+      value: 3.5
       objectReference: {fileID: 0}
     - target: {fileID: 6748405756474271457, guid: 7d6634333e185754d96c189f3df7c163, type: 3}
       propertyPath: m_LocalPosition.x

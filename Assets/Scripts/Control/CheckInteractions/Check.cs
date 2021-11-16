@@ -12,7 +12,7 @@ namespace Frankie.Control
         [SerializeField] protected float interactionDistance = 0.3f;
 
         // Events
-        public InteractionEvent checkInteraction;
+        [SerializeField] protected InteractionEvent checkInteraction = null;
 
         // Raycastable Interface Implementation
         public virtual CursorType GetCursorType()
@@ -22,11 +22,7 @@ namespace Frankie.Control
 
         public virtual bool HandleRaycast(PlayerStateHandler playerStateHandler, PlayerController playerController, PlayerInputType inputType, PlayerInputType matchType)
         {
-            if (!this.CheckDistance(gameObject, transform.position, playerController,
-                overrideDefaultInteractionDistance, interactionDistance))
-            {
-                return false;
-            }
+            if (!IsInRange(playerController)) { return false; }
 
             if (inputType == matchType)
             {
@@ -34,6 +30,15 @@ namespace Frankie.Control
                 {
                     checkInteraction.Invoke(playerStateHandler);
                 }
+            }
+            return true;
+        }
+
+        protected bool IsInRange(PlayerController playerController)
+        {
+            if (!this.CheckDistance(gameObject, transform.position, playerController, overrideDefaultInteractionDistance, interactionDistance))
+            {
+                return false;
             }
             return true;
         }
