@@ -64,7 +64,10 @@ namespace Frankie.Speech
                 {
                     dialogueTriggeredEvent.onTriggerEvent?.Invoke(playerStateHandler);
                 }
-                queuedTrigger = true;
+                else
+                {
+                    queuedTrigger = true;
+                }
                 return true;
             }
             return false;
