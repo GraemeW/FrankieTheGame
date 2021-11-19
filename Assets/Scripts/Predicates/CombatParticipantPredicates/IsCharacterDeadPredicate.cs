@@ -1,0 +1,28 @@
+using Frankie.Combat;
+using Frankie.Stats;
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+namespace Frankie.Core
+{
+    [CreateAssetMenu(fileName = "New Is Character Dead Predicate", menuName = "Predicates/CombatParticipant/Is Character Dead")]
+    public class IsCharacterDeadPredicate : PredicateCombatParticipant
+    {
+        public override bool? Evaluate(CombatParticipant combatParticipant)
+        {
+            if (characters == null) { return null; }
+            BaseStats baseStats = combatParticipant.GetComponent<BaseStats>();
+            CharacterProperties characterProperties = baseStats.GetCharacterProperties();
+
+            foreach (CharacterProperties characterPropertiesToCompare in characters)
+            {
+                if (characterProperties == characterPropertiesToCompare)
+                {
+                    return combatParticipant.IsDead();
+                }
+            }
+            return null;
+        }
+    }
+}

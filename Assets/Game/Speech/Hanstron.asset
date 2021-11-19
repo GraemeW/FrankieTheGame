@@ -52,10 +52,13 @@ MonoBehaviour:
     y: 0
     width: 400
     height: 45
-  onEnterAction: 
-  onExitAction: 
   condition:
-    and: []
+    and:
+    - or:
+      - predicate: 
+        negate: 0
+        parameters:
+        - 
 --- !u!114 &1987251324777001120
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -86,8 +89,6 @@ MonoBehaviour:
     y: 0
     width: 400
     height: 45
-  onEnterAction: 
-  onExitAction: 
   condition:
     and: []
 --- !u!114 &7439915670087680864
@@ -120,7 +121,5 @@ MonoBehaviour:
     y: 0
     width: 400
     height: 45
-  onEnterAction: 
-  onExitAction: 
   condition:
     and: []
