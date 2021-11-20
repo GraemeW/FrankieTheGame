@@ -33,10 +33,8 @@ MonoBehaviour:
   condition:
     and:
     - or:
-      - predicate: IsCharacterDead
+      - predicate: {fileID: 11400000, guid: b4f4212310cc3474e8a46849d61d2456, type: 2}
         negate: 0
-        parameters:
-        - HipsterOfficeWorker
 --- !u!114 &-5789612486919439308
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -71,10 +69,8 @@ MonoBehaviour:
   condition:
     and:
     - or:
-      - predicate: IsCharacterDead
+      - predicate: {fileID: 11400000, guid: b4f4212310cc3474e8a46849d61d2456, type: 2}
         negate: 1
-        parameters:
-        - HipsterOfficeWorker
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0

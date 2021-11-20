@@ -411,60 +411,10 @@ namespace Frankie.Combat
         }
 
         // Predicate Evaluation
-        public bool? Evaluate(string predicate, string[] parameters)
+        public bool? Evaluate(Predicate predicate)
         {
-            string matchingPredicate = this.MatchToPredicates(predicate, PREDICATES_ARRAY);
-            if (string.IsNullOrWhiteSpace(matchingPredicate)) { return null; }
-
-            if (predicate == PREDICATES_ARRAY[0])
-            {
-                return PredicateEvaluateIsAnyoneDead(parameters);
-            }
-            else if (predicate == PREDICATES_ARRAY[1])
-            {
-                return PredicateEvaluateIsAnyoneAlive(parameters);
-            }
-            else if (predicate == PREDICATES_ARRAY[2])
-            {
-                return PredicateEvaluateIsCharacterDead(parameters);
-            }
-            return null;
-        }
-
-        string IPredicateEvaluator.MatchToPredicatesTemplate()
-        {
-            // Not evaluated -> PredicateEvaluatorExtension
-            return null;
-        }
-
-        private bool? PredicateEvaluateIsAnyoneDead(string[] parameters)
-        {
-            if (IsDead())
-            {
-                return true;
-            }
-            return null;
-        }
-
-        private bool? PredicateEvaluateIsAnyoneAlive(string[] parameters)
-        {
-            if (!IsDead())
-            {
-                return true;
-            }
-            return null;
-        }
-
-        private bool? PredicateEvaluateIsCharacterDead(string[] parameters)
-        {
-            foreach (string characterName in parameters)
-            {
-                if (string.Equals(baseStats.GetCharacterProperties().name, characterName))
-                {
-                    return IsDead();
-                }
-            }
-            return null;
+            PredicateCombatParticipant predicateCombatParticipant = predicate as PredicateCombatParticipant;
+            return predicateCombatParticipant != null ? predicateCombatParticipant.Evaluate(this) : null;
         }
         #endregion
     }

@@ -336,22 +336,10 @@ namespace Frankie.Inventory
 
         #region Interfaces
         // Predicate Evaluator
-        public bool? Evaluate(string predicate, string[] parameters)
+        public bool? Evaluate(Predicate predicate)
         {
-            string matchingPredicate = this.MatchToPredicates(predicate, PREDICATES_ARRAY);
-            if (string.IsNullOrWhiteSpace(matchingPredicate)) { return null; }
-
-            if (predicate == PREDICATES_ARRAY[0])
-            {
-                return PredicateEvaluateHasItem(parameters);
-            }
-            return null;
-        }
-
-        string IPredicateEvaluator.MatchToPredicatesTemplate()
-        {
-            // Not evaluated -> PredicateEvaluatorExtension
-            return null;
+            PredicateKnapsack predicateKnapsack = predicate as PredicateKnapsack;
+            return predicateKnapsack != null ? predicateKnapsack.Evaluate(this) : null;
         }
 
         private bool PredicateEvaluateHasItem(string[] parameters)

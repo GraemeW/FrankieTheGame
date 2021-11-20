@@ -26,13 +26,13 @@ namespace Frankie.Core
         class Disjunction
         {
             [SerializeField]
-            Predicate[] or;
+            PredicateWrapper[] or;
 
             public bool Check(IEnumerable<IPredicateEvaluator> evaluators)
             {
-                foreach (Predicate predicate in or) // logical 'OR' implementation for Disjunction
+                foreach (PredicateWrapper predicateWrapper in or) // logical 'OR' implementation for Disjunction
                 {
-                    if (predicate.Check(evaluators))
+                    if (predicateWrapper.Check(evaluators))
                     {
                         return true;
                     }
@@ -42,19 +42,18 @@ namespace Frankie.Core
         }
 
         [System.Serializable]
-        class Predicate
+        class PredicateWrapper
         {
-            [SerializeField] string predicate;
+            [SerializeField] Predicate predicate;
             [SerializeField] bool negate;
-            [SerializeField] string[] parameters;
 
             public bool Check(IEnumerable<IPredicateEvaluator> evaluators)
             {
-                if (string.IsNullOrWhiteSpace(predicate)) { return true; }
+                if (predicate == null) { return true; }
 
                 foreach (IPredicateEvaluator evaluator in evaluators)
                 {
-                    bool? result = evaluator.Evaluate(predicate, parameters);
+                    bool? result = evaluator.Evaluate(predicate);
 
                     if (result == null) { continue; }
                     if (result == negate) { return false; }

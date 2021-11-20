@@ -18,7 +18,7 @@ namespace Frankie.Core
                     return true;
                 }
             }
-            return null;
+            return false;
         }
     }
 }
