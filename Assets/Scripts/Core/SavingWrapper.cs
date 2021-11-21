@@ -18,9 +18,6 @@ namespace Frankie.Core
         const string sessionFile = "session";
         const string PLAYER_PREFS_CURRENT_SAVE = "currentSave";
 
-        // Cached References
-        PlayerInput playerInput = null;
-
         // Static Methods
         public static string GetSaveNameForIndex(int index)
         {
@@ -82,25 +79,6 @@ namespace Frankie.Core
             sceneLoader.SetCurrentZoneToCurrentScene();
             Fader fader = FindObjectOfType<Fader>();
             fader.UpdateFadeStateImmediate();
-        }
-
-        private void Awake()
-        {
-            playerInput = new PlayerInput();
-
-            playerInput.Debug.Save.performed += context => Save();
-            playerInput.Debug.Load.performed += context => Continue();
-            playerInput.Debug.Delete.performed += context => Delete();
-        }
-
-        private void OnEnable()
-        {
-            playerInput.Debug.Enable();
-        }
-
-        private void OnDisable()
-        {
-            playerInput.Debug.Disable();
         }
 
         private void SetCurrentSave(string saveFile)
