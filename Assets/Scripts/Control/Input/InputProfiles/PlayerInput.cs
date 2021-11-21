@@ -650,6 +650,14 @@ public class @PlayerInput : IInputActionCollection, IDisposable
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """"
+                },
+                {
+                    ""name"": ""QuestLog"",
+                    ""type"": ""Button"",
+                    ""id"": ""c70f5974-676a-48ad-a641-d800a8c5c1bf"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
                 }
             ],
             ""bindings"": [
@@ -683,6 +691,17 @@ public class @PlayerInput : IInputActionCollection, IDisposable
                     ""processors"": """",
                     ""groups"": ""Keyboard&Mouse"",
                     ""action"": ""Delete"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""f8677eae-9458-449f-b0d7-6868a4bc5079"",
+                    ""path"": ""<Keyboard>/0"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard&Mouse"",
+                    ""action"": ""QuestLog"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -776,6 +795,7 @@ public class @PlayerInput : IInputActionCollection, IDisposable
         m_Debug_Save = m_Debug.FindAction("Save", throwIfNotFound: true);
         m_Debug_Load = m_Debug.FindAction("Load", throwIfNotFound: true);
         m_Debug_Delete = m_Debug.FindAction("Delete", throwIfNotFound: true);
+        m_Debug_QuestLog = m_Debug.FindAction("QuestLog", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -998,6 +1018,7 @@ public class @PlayerInput : IInputActionCollection, IDisposable
     private readonly InputAction m_Debug_Save;
     private readonly InputAction m_Debug_Load;
     private readonly InputAction m_Debug_Delete;
+    private readonly InputAction m_Debug_QuestLog;
     public struct DebugActions
     {
         private @PlayerInput m_Wrapper;
@@ -1005,6 +1026,7 @@ public class @PlayerInput : IInputActionCollection, IDisposable
         public InputAction @Save => m_Wrapper.m_Debug_Save;
         public InputAction @Load => m_Wrapper.m_Debug_Load;
         public InputAction @Delete => m_Wrapper.m_Debug_Delete;
+        public InputAction @QuestLog => m_Wrapper.m_Debug_QuestLog;
         public InputActionMap Get() { return m_Wrapper.m_Debug; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -1023,6 +1045,9 @@ public class @PlayerInput : IInputActionCollection, IDisposable
                 @Delete.started -= m_Wrapper.m_DebugActionsCallbackInterface.OnDelete;
                 @Delete.performed -= m_Wrapper.m_DebugActionsCallbackInterface.OnDelete;
                 @Delete.canceled -= m_Wrapper.m_DebugActionsCallbackInterface.OnDelete;
+                @QuestLog.started -= m_Wrapper.m_DebugActionsCallbackInterface.OnQuestLog;
+                @QuestLog.performed -= m_Wrapper.m_DebugActionsCallbackInterface.OnQuestLog;
+                @QuestLog.canceled -= m_Wrapper.m_DebugActionsCallbackInterface.OnQuestLog;
             }
             m_Wrapper.m_DebugActionsCallbackInterface = instance;
             if (instance != null)
@@ -1036,6 +1061,9 @@ public class @PlayerInput : IInputActionCollection, IDisposable
                 @Delete.started += instance.OnDelete;
                 @Delete.performed += instance.OnDelete;
                 @Delete.canceled += instance.OnDelete;
+                @QuestLog.started += instance.OnQuestLog;
+                @QuestLog.performed += instance.OnQuestLog;
+                @QuestLog.canceled += instance.OnQuestLog;
             }
         }
     }
@@ -1111,5 +1139,6 @@ public class @PlayerInput : IInputActionCollection, IDisposable
         void OnSave(InputAction.CallbackContext context);
         void OnLoad(InputAction.CallbackContext context);
         void OnDelete(InputAction.CallbackContext context);
+        void OnQuestLog(InputAction.CallbackContext context);
     }
 }

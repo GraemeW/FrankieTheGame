@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dbd8cf865509ead44b7c06cc9699edc8, type: 3}
+  m_Name: TestQuest
+  m_EditorClassIdentifier: 
+  uniqueID: 5103333c-e177-409f-bad7-53cefce20200
+  detail: Wander through the office, battle the unscrupulous employees
+  objectives:
+  - uniqueID: a1d96e94-9afa-4f4e-aaf8-97f80109fc3a
+    description: Find the subway card
+  - uniqueID: 8145a345-8f38-42f3-849d-d96b82559837
+    description: Destroy the horse
+  rewards:
+  - item: {fileID: 11400000, guid: 7e830021c43731b46a320da9191579ca, type: 2}
