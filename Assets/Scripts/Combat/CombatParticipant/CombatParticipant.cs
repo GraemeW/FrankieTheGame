@@ -46,9 +46,6 @@ namespace Frankie.Combat
         public event Action<CombatParticipant, StateAlteredData> stateAltered;
         public event Action<CombatParticipant, int, List<Tuple<string, int>>> characterLevelUp;
 
-        // Static
-        static string[] PREDICATES_ARRAY = { "IsAnyoneDead", "IsAnyoneAlive", "IsCharacterDead"};
-
         private void Awake()
         {
             baseStats = GetComponent<BaseStats>();

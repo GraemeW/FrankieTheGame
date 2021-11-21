@@ -4,6 +4,7 @@ using Frankie.Saving;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 namespace Frankie.Inventory
@@ -19,9 +20,6 @@ namespace Frankie.Inventory
         // Cached References
         CombatParticipant character = null;
         Equipment equipment = null;
-
-        // Static
-        static string[] PREDICATES_ARRAY = { "HasInventoryItem" };
 
         // Events
         public event Action knapsackUpdated;
@@ -52,6 +50,11 @@ namespace Frankie.Inventory
         private Equipment GetEquipment()
         {
             return equipment;
+        }
+
+        public CombatParticipant GetCharacter()
+        {
+            return character;
         }
 
         public bool IsEmpty()
@@ -122,9 +125,10 @@ namespace Frankie.Inventory
         #endregion
 
         #region RetrieveFromKnapsack
-        private ActiveInventoryItem[] GetSlots()
+
+        public int GetNumberOfFreeSlots()
         {
-            return slots;
+            return slots.Where(x => x == null).Count();
         }
 
         public InventoryItem GetItemInSlot(int slot)

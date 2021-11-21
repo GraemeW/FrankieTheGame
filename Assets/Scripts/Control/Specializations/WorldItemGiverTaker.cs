@@ -40,19 +40,16 @@ namespace Frankie.Control.Specialization
                 return; 
             }
 
-            Party party = playerStateHandler.GetParty();
-
-            foreach (CombatParticipant character in party.GetParty())
+            PartyKnapsackConduit partyKnapsackConduit = playerStateHandler.GetComponent<PartyKnapsackConduit>();
+            CombatParticipant receivingCharacter = partyKnapsackConduit.AddToFirstEmptyPartySlot(inventoryItem);
+            if (receivingCharacter != null)
             {
-                Knapsack knapsack = character.GetKnapsack();
-                if (knapsack.AddToFirstEmptySlot(inventoryItem, true))
-                {
-                    currentItemQuantity.value--;
-                    playerStateHandler.EnterDialogue(string.Format(messageFoundItem, character.GetCombatName(), inventoryItem.GetDisplayName()));
-                    return;
-                }
+                currentItemQuantity.value--;
+                playerStateHandler.EnterDialogue(string.Format(messageFoundItem, receivingCharacter.GetCombatName(), inventoryItem.GetDisplayName()));
+                return;
             }
 
+            // Failsafe --> full inventory
             playerStateHandler.EnterDialogue(messageInventoryFull);
         }
 

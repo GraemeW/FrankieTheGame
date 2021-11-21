@@ -26,6 +26,9 @@ namespace Frankie.Stats
         // Cached References
         PlayerMover playerMover = null;
 
+        // Events
+        public event Action partyUpdated;
+
         private void Awake()
         {
             playerMover = GetComponent<PlayerMover>();
@@ -77,6 +80,8 @@ namespace Frankie.Stats
 
             party.Add(partyCharacter.GetCombatParticipant());
             RefreshAnimatorLookup();
+
+            partyUpdated?.Invoke();
             return true;
         }
 
@@ -93,6 +98,7 @@ namespace Frankie.Stats
             UpdateWorldLookup(true, worldNPC);
             Destroy(partyCharacter.gameObject);
 
+            partyUpdated?.Invoke();
             return true;
         }
 
