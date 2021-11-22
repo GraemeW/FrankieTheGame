@@ -5,6 +5,7 @@ using UnityEngine;
 
 namespace Frankie.Core
 {
+    [CreateAssetMenu(fileName = "New Quest Completed Predicate", menuName = "Predicates/QuestList/Quest Completed")]
     public class QuestCompletedPredicate : PredicateQuestList
     {
         public override bool? Evaluate(QuestList questList)
