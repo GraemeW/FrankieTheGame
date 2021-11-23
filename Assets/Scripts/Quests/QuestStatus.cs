@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 namespace Frankie.Quests
@@ -8,7 +9,7 @@ namespace Frankie.Quests
     {
         // State
         Quest quest;
-        List<string> completedObjectives = new List<string>();
+        List<QuestObjective> completedObjectives = new List<QuestObjective>();
         bool rewardGiven = false;
 
         // Methods
@@ -20,7 +21,7 @@ namespace Frankie.Quests
         public QuestStatus(SerializableQuestStatus restoreState)
         {
             quest = Quest.GetFromID(restoreState.questID);
-            completedObjectives = restoreState.completedObjectives;
+            completedObjectives = restoreState.completedObjectiveIDs.Select(c => QuestObjective.GetFromID(c)).ToList();
         }
 
         public Quest GetQuest()
@@ -33,23 +34,23 @@ namespace Frankie.Quests
             return completedObjectives.Count;
         }
 
-        public bool GetStatusForObjectiveID(string objectiveID)
+        public bool GetStatusForObjective(QuestObjective objective)
         {
-            return completedObjectives.Contains(objectiveID);
+            return completedObjectives.Contains(objective);
         }
 
-        public void SetObjective(string objectiveID, bool isComplete)
+        public void SetObjective(QuestObjective objective, bool isComplete)
         {
-            if (!quest.HasObjective(objectiveID)) { return; }
+            if (!quest.HasObjective(objective)) { return; }
 
-            if (isComplete && !completedObjectives.Contains(objectiveID))
+            if (isComplete && !completedObjectives.Contains(objective))
             {
-                completedObjectives.Add(objectiveID);
+                completedObjectives.Add(objective);
             }
 
-            if (!isComplete && completedObjectives.Contains(objectiveID))
+            if (!isComplete && completedObjectives.Contains(objective))
             {
-                completedObjectives.Remove(objectiveID);
+                completedObjectives.Remove(objective);
             }
         }
 
@@ -73,7 +74,12 @@ namespace Frankie.Quests
         {
             SerializableQuestStatus serializableQuestStatus = new SerializableQuestStatus();
             serializableQuestStatus.questID = quest.GetUniqueID();
-            serializableQuestStatus.completedObjectives = completedObjectives;
+            List<string> completedObjectiveIDs = completedObjectives.Select(c => c.uniqueID).ToList();
+            foreach (string completedObjectiveID in completedObjectiveIDs)
+            {
+                UnityEngine.Debug.Log(completedObjectiveID);
+            }
+            serializableQuestStatus.completedObjectiveIDs = completedObjectiveIDs;
             return serializableQuestStatus;
         }
     }

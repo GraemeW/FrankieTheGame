@@ -20,6 +20,12 @@ namespace Frankie.Quests
         // Events
         public event Action questListUpdated;
 
+        public static QuestList GetQuestList(ref GameObject player)
+        {
+            if (player == null) { player = GameObject.FindGameObjectWithTag("Player"); }
+            return player.GetComponent<QuestList>();
+        }
+
         #region UnityMethods
         private void Awake()
         {
@@ -58,6 +64,7 @@ namespace Frankie.Quests
 
             QuestStatus newQuestStatus = new QuestStatus(quest);
             questStatuses.Add(newQuestStatus);
+            CompleteObjectivesForItemsInKnapsack();
 
             if (questListUpdated != null)
             {
@@ -65,13 +72,13 @@ namespace Frankie.Quests
             }
         }
 
-        public void CompleteObjective(Quest quest, string objectiveID)
+        public void CompleteObjective(Quest quest, QuestObjective objective)
         {
             QuestStatus questStatus = GetQuestStatus(quest);
             if (questStatus == null) { return; }
             if (questStatus.IsComplete() && questStatus.IsRewardGiven()) { return; } // Disallow completion of quests // disbursement of rewards multiple times
 
-            questStatus.SetObjective(objectiveID, true);
+            questStatus.SetObjective(objective, true);
 
             // Standard reward handling otherwise
             if (questStatus.IsComplete() && !questStatus.IsRewardGiven())
@@ -99,6 +106,14 @@ namespace Frankie.Quests
                 partyKnapsackConduit.AddToFirstEmptyPartySlot(reward.item);
             }
             return true;
+        }
+
+        private void CompleteObjectivesForItemsInKnapsack()
+        {
+            foreach (Knapsack knapsack in partyKnapsackConduit.GetKnapsacks())
+            {
+                knapsack.CompleteObjective();
+            }
         }
         #endregion
 

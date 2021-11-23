@@ -1,5 +1,6 @@
 using Frankie.Combat;
 using Frankie.Stats;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -13,6 +14,9 @@ namespace Frankie.Inventory
 
         // Cached References
         Party party = null;
+
+        // Events
+        public event Action partyKnapsackUpdated;
 
         #region UnityMethods
         private void Awake()
@@ -35,18 +39,51 @@ namespace Frankie.Inventory
             party.partyUpdated -= RefreshKnapsacks;
         }
 
+        #endregion
+
+        #region PrivateMethods
         private void RefreshKnapsacks()
         {
+            SubscribeToKnapsackEvents(false);
             knapsacks.Clear();
             foreach (CombatParticipant character in party.GetParty())
             {
                 Knapsack knapsack = character.GetKnapsack();
                 knapsacks.Add(knapsack);
             }
+            SubscribeToKnapsackEvents(true);
+        }
+
+        private void SubscribeToKnapsackEvents(bool enable)
+        {
+            if (enable)
+            {
+                foreach (Knapsack knapsack in knapsacks)
+                {
+                    knapsack.knapsackUpdated += HandleKnapsackUpdates;
+                }
+            }
+            else
+            {
+                foreach (Knapsack knapsack in knapsacks)
+                {
+                    knapsack.knapsackUpdated -= HandleKnapsackUpdates;
+                }
+            }
+        }
+
+        private void HandleKnapsackUpdates()
+        {
+            partyKnapsackUpdated?.Invoke();
         }
         #endregion
 
         #region PublicMethods
+        public IEnumerable<Knapsack> GetKnapsacks()
+        {
+            return knapsacks;
+        }
+
         public CombatParticipant AddToFirstEmptyPartySlot(InventoryItem inventoryItem)
         {
             foreach (Knapsack knapsack in knapsacks)
@@ -68,7 +105,6 @@ namespace Frankie.Inventory
             }
             return freeSlots;
         }
-
         #endregion
     }
 }

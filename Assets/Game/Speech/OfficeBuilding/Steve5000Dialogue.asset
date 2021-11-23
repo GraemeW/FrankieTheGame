@@ -15,7 +15,8 @@ MonoBehaviour:
   speakerType: 1
   characterProperties: {fileID: 11400000, guid: ec6ec75df6f1e3e4ea3cf0953f1b4eab, type: 2}
   speakerName: Steve5000
-  text: Quickly, find the subway card, subdue the horse and get out of here!
+  text: The Arch-PM Lazarus, he led us down here to code in this hellhole. The bastard
+    led us into a trap!
   children:
   - 44a320c0-6116-4bf7-8fed-54b41d3fa47b
   rect:

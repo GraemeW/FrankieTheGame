@@ -29,7 +29,7 @@ namespace Frankie.Inventory
             {
                 Knapsack knapsack = sender.GetKnapsack();
                 knapsack.RemoveItem(this, false);
-                knapsack.SquishItemsInKnapsack(true);
+                knapsack.SquishItemsInKnapsack();
             }
         }
 

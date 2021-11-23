@@ -9,6 +9,6 @@ namespace Frankie.Quests
     public struct SerializableQuestStatus
     {
         public string questID;
-        public List<string> completedObjectives;
+        public List<string> completedObjectiveIDs;
     }
 }

@@ -14,7 +14,7 @@ namespace Frankie.Inventory
         [SerializeField] string displayName = null;
         [Tooltip("Item description on inspection")]
         [SerializeField] [TextArea] string description = null;
-        [SerializeField] protected bool droppable = true;
+        [SerializeField] [Tooltip("Overwritten for Key Items")] protected bool droppable = true;
 
         // State
         static Dictionary<string, InventoryItem> itemLookupCache;

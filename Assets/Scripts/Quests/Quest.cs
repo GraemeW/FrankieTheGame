@@ -13,7 +13,7 @@ namespace Frankie.Quests
         [Tooltip("Auto-generated UUID for saving/loading. Clear this field if you want to generate a new one.")]
         [SerializeField] string uniqueID = null;
         [SerializeField] string detail = "";
-        [SerializeField] List<Objective> objectives = new List<Objective>();
+        [SerializeField] List<QuestObjective> objectives = new List<QuestObjective>();
         [SerializeField] List<Reward> rewards = new List<Reward>();
 
         // State
@@ -52,9 +52,9 @@ namespace Frankie.Quests
             return detail;
         }
 
-        public bool HasObjective(string objectiveID)
+        public bool HasObjective(QuestObjective objective)
         {
-            return objectives.Select(c => c.uniqueID).ToArray().Contains(objectiveID);
+            return objectives.Contains(objective);
         }
 
         public int GetObjectiveCount()
@@ -62,7 +62,7 @@ namespace Frankie.Quests
             return objectives.Count;
         }
 
-        public IEnumerable<Objective> GetObjective()
+        public IEnumerable<QuestObjective> GetObjective()
         {
             return objectives;
         }

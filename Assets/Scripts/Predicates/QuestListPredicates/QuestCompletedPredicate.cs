@@ -12,7 +12,7 @@ namespace Frankie.Core
         {
             QuestStatus questStatus = questList.GetQuestStatus(quest);
             if (questStatus == null) { return false; }
-            bool objectiveStatus = questStatus.GetStatusForObjectiveID(objective);
+            bool objectiveStatus = questStatus.GetStatusForObjective(objective);
             return objectiveStatus;
         }
     }

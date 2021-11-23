@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Frankie.Utils;
 using Frankie.Quests;
+using System.Linq;
 
 namespace Frankie.Core
 {
@@ -25,7 +26,7 @@ namespace Frankie.Core
             player = GameObject.FindGameObjectWithTag("Player");
             saver = GameObject.FindGameObjectWithTag("Saver");
             savingWrapper = new ReInitLazyValue<SavingWrapper>(SetupSavingWrapper);
-            questList = new ReInitLazyValue<QuestList>(SetupQuestList);
+            questList = new ReInitLazyValue<QuestList>(() => QuestList.GetQuestList(ref player));
 
             // Debug Hook-Ups
             playerInput.Debug.Save.performed += context => Save();
@@ -75,12 +76,6 @@ namespace Frankie.Core
         #endregion
 
         #region QuestListDebug
-        private QuestList SetupQuestList()
-        {
-            if (player == null) { player = GameObject.FindGameObjectWithTag("Player"); }
-            return player.GetComponent<QuestList>();
-        }
-
         private void PrintQuests()
         {
             UnityEngine.Debug.Log("Printing Quests:");

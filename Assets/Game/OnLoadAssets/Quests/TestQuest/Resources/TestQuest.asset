@@ -15,9 +15,7 @@ MonoBehaviour:
   uniqueID: 5103333c-e177-409f-bad7-53cefce20200
   detail: Wander through the office, battle the unscrupulous employees
   objectives:
-  - uniqueID: a1d96e94-9afa-4f4e-aaf8-97f80109fc3a
-    description: Find the subway card
-  - uniqueID: 8145a345-8f38-42f3-849d-d96b82559837
-    description: Destroy the horse
+  - {fileID: 11400000, guid: a2c1f6c6e7325794da424a506739bdca, type: 2}
+  - {fileID: 11400000, guid: cd44ccc6084a0ba46a7a3349af1188f3, type: 2}
   rewards:
   - item: {fileID: 11400000, guid: 7e830021c43731b46a320da9191579ca, type: 2}

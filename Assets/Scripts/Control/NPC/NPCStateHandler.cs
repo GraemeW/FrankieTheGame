@@ -326,7 +326,8 @@ namespace Frankie.Control
             // Reset player target if already aggravated (avoid loss of target)
             if (GetNPCState() == NPCState.aggravated && !npcMover.HasMoveTarget())
             {
-                npcMover.SetMoveTarget(playerController.value.gameObject);
+                GameObject moveTarget = playerController.value != null ? playerController.value.gameObject : null;
+                if (moveTarget != null) { npcMover.SetMoveTarget(playerController.value.gameObject); }   
             }
 
             timeSinceLastSawPlayer += Time.deltaTime;

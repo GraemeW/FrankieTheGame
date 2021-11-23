@@ -1077,6 +1077,26 @@ Animator:
   m_CorrespondingSourceObject: {fileID: 6580909876086676387, guid: 9bf5874c37e0a404a9bd916129a14959, type: 3}
   m_PrefabInstance: {fileID: 9140000499286540730}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &295752964 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 9135147353912846156, guid: e5b2dd736debcc24a83caba30bd0c03f, type: 3}
+  m_PrefabInstance: {fileID: 1120515123}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &295752974
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 295752964}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6ccc2c5ff326dbb4fba8755e943be4b8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  quest: {fileID: 11400000, guid: 2b823bbc411efb64f8ea840e07c3e7c2, type: 2}
+  objective: {fileID: 11400000, guid: cd44ccc6084a0ba46a7a3349af1188f3, type: 2}
+  typeToMatch: 5
 --- !u!4 &306088803 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4698734748075433819, guid: 8fffbb0bdedaaa6488a5477fa90c03a4, type: 3}
@@ -2108,7 +2128,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8456762765274448979, guid: 04f5506a3c6980342b86a87faa9be780, type: 3}
       propertyPath: shoutDistance
-      value: 2
+      value: 1.25
       objectReference: {fileID: 0}
     - target: {fileID: 8456762765274448979, guid: 04f5506a3c6980342b86a87faa9be780, type: 3}
       propertyPath: willChasePlayer
@@ -2204,7 +2224,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8616608626347457603, guid: 04f5506a3c6980342b86a87faa9be780, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 04f5506a3c6980342b86a87faa9be780, type: 3}
@@ -2326,6 +2346,14 @@ PrefabInstance:
     - target: {fileID: 1204194326691089235, guid: b755f1c23f46b2a4fba44873acc4a9d8, type: 3}
       propertyPath: m_Name
       value: CleverOfficeWorker
+      objectReference: {fileID: 0}
+    - target: {fileID: 4613052352910209963, guid: b755f1c23f46b2a4fba44873acc4a9d8, type: 3}
+      propertyPath: patrolPath
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 4613052352910209963, guid: b755f1c23f46b2a4fba44873acc4a9d8, type: 3}
+      propertyPath: waypointDwellTime
+      value: 0.2
       objectReference: {fileID: 0}
     - target: {fileID: 5865293079716729140, guid: b755f1c23f46b2a4fba44873acc4a9d8, type: 3}
       propertyPath: uniqueIdentifier
@@ -3156,7 +3184,7 @@ MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 8939279221797003100, guid: e5b2dd736debcc24a83caba30bd0c03f, type: 3}
   m_PrefabInstance: {fileID: 1120515123}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
+  m_GameObject: {fileID: 295752964}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7bd0180a3f707c1489e04d0bfa6742c9, type: 3}
@@ -3645,7 +3673,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1269388550}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1.2658315, y: -0.11730325, z: 0}
+  m_LocalPosition: {x: 0.824893, y: -0.117302895, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 405448690}
@@ -3680,7 +3708,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1295766824}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -2.7991714, y: -0.15, z: 0}
+  m_LocalPosition: {x: -2.4611187, y: -0.15000015, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 405448690}

@@ -1,6 +1,8 @@
 using Frankie.Combat;
 using Frankie.Core;
+using Frankie.Quests;
 using Frankie.Saving;
+using Frankie.Utils;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -9,7 +11,9 @@ using UnityEngine;
 
 namespace Frankie.Inventory
 {
-    public class Knapsack : MonoBehaviour, IPredicateEvaluator, ISaveable
+    [RequireComponent(typeof(Equipment))]
+    [RequireComponent(typeof(CombatParticipant))]
+    public class Knapsack : MonoBehaviour, IPredicateEvaluator, ISaveable, IQuestEvaluator
     {
         // Tunables
         [SerializeField] int inventorySize = 16;
@@ -18,28 +22,43 @@ namespace Frankie.Inventory
         ActiveInventoryItem[] slots;
 
         // Cached References
+        GameObject player = null;
+        ReInitLazyValue<QuestList> questList = null;
         CombatParticipant character = null;
         Equipment equipment = null;
 
         // Events
         public event Action knapsackUpdated;
 
+        #region UnityMethods
         private void Awake()
         {
             slots = new ActiveInventoryItem[inventorySize];
+
+            player = GameObject.FindGameObjectWithTag("Player");
+            questList = new ReInitLazyValue<QuestList>(() => QuestList.GetQuestList(ref player));
+
             equipment = GetComponent<Equipment>();
             character = GetComponent<CombatParticipant>();
         }
 
+        private void Start()
+        {
+            questList.ForceInit();
+        }
+
         private void OnEnable()
         {
+            knapsackUpdated += CompleteObjective;
             equipment.equipmentUpdated += HandleEquipmentUpdated; 
         }
 
         private void OnDisable()
         {
+            knapsackUpdated -= CompleteObjective;
             equipment.equipmentUpdated -= HandleEquipmentUpdated;
         }
+        #endregion
 
         #region CheckKnapsack
         public int GetSize()
@@ -137,6 +156,20 @@ namespace Frankie.Inventory
             return slots[slot].GetInventoryItem();
         }
 
+        public IEnumerable<KeyItem> GetKeyItems()
+        {
+            for (int i = 0; i < slots.Length; i++)
+            {
+                if (slots[i] == null) { continue; }
+
+                KeyItem keyItem = slots[i].GetInventoryItem() as KeyItem;
+                if (keyItem != null)
+                {
+                    yield return keyItem;
+                }
+            }
+        }
+
         private int FindEmptySlot()
         {
             // Returns slot index of first empty slot
@@ -216,7 +249,7 @@ namespace Frankie.Inventory
             RemoveFromSlot(slot, announceUpdate);
         }
 
-        public void SquishItemsInKnapsack(bool announceUpdate)
+        public void SquishItemsInKnapsack()
         {
             Queue<ActiveInventoryItem> knapsackQueue = new Queue<ActiveInventoryItem>();
             for (int i = 0; i < slots.Length; i++)
@@ -235,10 +268,7 @@ namespace Frankie.Inventory
                 itemIndex++;
             }
 
-            if (knapsackUpdated != null)
-            {
-                knapsackUpdated.Invoke();
-            }
+            knapsackUpdated?.Invoke();
         }
 
         // Complex & Combination Functions
@@ -259,7 +289,7 @@ namespace Frankie.Inventory
             if (slots[slot] == null) { return; }
             if (!slots[slot].GetInventoryItem().IsDroppable()) { return; }
             RemoveFromSlot(slot, false);
-            SquishItemsInKnapsack(true);
+            SquishItemsInKnapsack();
         }
 
         public void MoveItem(int sourceSlot, Knapsack destinationKnapsack, int destinationSlot)
@@ -298,11 +328,11 @@ namespace Frankie.Inventory
             }
 
             // Re-order items in knapsack & reconcile equipment
-            SquishItemsInKnapsack(true);
+            SquishItemsInKnapsack();
             equipment.ReconcileEquipment(true);
             if (this != destinationKnapsack)
             {
-                destinationKnapsack.SquishItemsInKnapsack(true);
+                destinationKnapsack.SquishItemsInKnapsack();
                 destinationKnapsack.GetEquipment().ReconcileEquipment(true);
             }
         }
@@ -322,10 +352,7 @@ namespace Frankie.Inventory
                 }
             }
 
-            if (knapsackUpdated != null)
-            {
-                knapsackUpdated.Invoke();
-            }
+            knapsackUpdated?.Invoke();
         }
 
         private void ResetEquippedFlags()
@@ -346,17 +373,16 @@ namespace Frankie.Inventory
             return predicateKnapsack != null ? predicateKnapsack.Evaluate(this) : null;
         }
 
-        private bool PredicateEvaluateHasItem(string[] parameters)
+        // Quest Evaluator
+        public void CompleteObjective()
         {
-            // Match on ANY of the items present in parameters
-            foreach (string itemID in parameters)
+            foreach (KeyItem keyItem in GetKeyItems())
             {
-                if (HasItem(InventoryItem.GetFromID(itemID)))
+                foreach (QuestObjectivePair questObjectivePair in keyItem.GetQuestObjectivePairs())
                 {
-                    return true;
+                    questList.value.CompleteObjective(questObjectivePair.quest, questObjectivePair.objective);
                 }
             }
-            return false;
         }
 
         // Saving System
@@ -407,10 +433,7 @@ namespace Frankie.Inventory
                 slots[i] = activeInventoryItem;
             }
 
-            if (knapsackUpdated != null)
-            {
-                knapsackUpdated();
-            }
+            knapsackUpdated?.Invoke();
         }
         #endregion
     }
