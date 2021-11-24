@@ -83,9 +83,10 @@ namespace Frankie.Quests
             // Standard reward handling otherwise
             if (questStatus.IsComplete() && !questStatus.IsRewardGiven())
             {
-                if (TryGiveReward(quest))
+                questStatus.SetRewardGiven(true); // Initially set reward given BEFORE giving reward to prevent knapsackUpdated loops
+                if (!TryGiveReward(quest))
                 {
-                    questStatus.SetRewardGiven();
+                    questStatus.SetRewardGiven(false); // Allow re-tries on giving awards if failing
                 }
             }
 

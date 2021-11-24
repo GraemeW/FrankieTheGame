@@ -60,9 +60,9 @@ namespace Frankie.Quests
         }
 
 
-        public void SetRewardGiven()
+        public void SetRewardGiven(bool enable)
         {
-            rewardGiven = true;
+            rewardGiven = enable;
         }
 
         public bool IsRewardGiven()
@@ -75,10 +75,6 @@ namespace Frankie.Quests
             SerializableQuestStatus serializableQuestStatus = new SerializableQuestStatus();
             serializableQuestStatus.questID = quest.GetUniqueID();
             List<string> completedObjectiveIDs = completedObjectives.Select(c => c.uniqueID).ToList();
-            foreach (string completedObjectiveID in completedObjectiveIDs)
-            {
-                UnityEngine.Debug.Log(completedObjectiveID);
-            }
             serializableQuestStatus.completedObjectiveIDs = completedObjectiveIDs;
             return serializableQuestStatus;
         }

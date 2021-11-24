@@ -4,6 +4,7 @@ using UnityEngine;
 using Frankie.Utils;
 using Frankie.Quests;
 using System.Linq;
+using UnityEngine.SceneManagement;
 
 namespace Frankie.Core
 {
@@ -44,11 +45,13 @@ namespace Frankie.Core
         private void OnEnable()
         {
             playerInput.Debug.Enable();
+            SceneManager.sceneLoaded += ResetQuestListReference;
         }
 
         private void OnDisable()
         {
             playerInput.Debug.Disable();
+            SceneManager.sceneLoaded -= ResetQuestListReference;
         }
         #endregion
 
@@ -76,6 +79,15 @@ namespace Frankie.Core
         #endregion
 
         #region QuestListDebug
+        private void ResetQuestListReference(Scene scene, LoadSceneMode loadSceneMode)
+        {
+            // Since Debugger is a persistent object, force reset on scene load
+            questList = null;
+            questList = new ReInitLazyValue<QuestList>(() => QuestList.GetQuestList(ref player));
+
+            questList.ForceInit();
+        }
+
         private void PrintQuests()
         {
             UnityEngine.Debug.Log("Printing Quests:");
