@@ -94,11 +94,12 @@ namespace Frankie.Stats.UI
             foreach (SkillStat skillStat in skillStats)
             {
                 if (skillStat == SkillStat.None) { continue; }
-                Stat stat = (Stat)Enum.Parse(typeof(Stat), skillStat.ToString());
-
-                GameObject statFieldObject = Instantiate(statFieldPrefab, leftStatParent);
-                float statValue = character.GetBaseStats().GetStat(stat);
-                statFieldObject.GetComponent<StatField>().Setup(stat, statValue);
+                if (Enum.TryParse(skillStat.ToString(), out Stat stat))
+                {
+                    GameObject statFieldObject = Instantiate(statFieldPrefab, leftStatParent);
+                    float statValue = character.GetBaseStats().GetStat(stat);
+                    statFieldObject.GetComponent<StatField>().Setup(stat, statValue);
+                }
             }
         }
     }
