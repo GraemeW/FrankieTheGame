@@ -19,7 +19,7 @@ MonoBehaviour:
   rightSkillReference: AskForHelp
   rightBranch: 
   downSkillReference: ShootTheShit
-  downBranch: 
+  downBranch: ceef5421-52eb-4652-a833-da47e445a2af
   rect:
     serializedVersion: 2
     x: 45
@@ -33,6 +33,39 @@ MonoBehaviour:
     width: 250
     height: 45
   mappedFromBranch: 0
+--- !u!114 &-491013285403934819
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6b066201d64e5354387f385aa2872d22, type: 3}
+  m_Name: ceef5421-52eb-4652-a833-da47e445a2af
+  m_EditorClassIdentifier: 
+  upSkillReference: BlatherOn
+  upBranch: 
+  leftSkillReference: 
+  leftBranch: 
+  rightSkillReference: 
+  rightBranch: 
+  downSkillReference: 
+  downBranch: 
+  rect:
+    serializedVersion: 2
+    x: 45
+    y: 371
+    width: 250
+    height: 155
+  draggingRect:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 250
+    height: 45
+  mappedFromBranch: 3
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -50,3 +83,4 @@ MonoBehaviour:
   branchHeight: 155
   skillBranches:
   - {fileID: -6008867730600426705}
+  - {fileID: -491013285403934819}

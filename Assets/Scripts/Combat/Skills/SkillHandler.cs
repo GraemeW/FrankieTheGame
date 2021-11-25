@@ -58,11 +58,18 @@ namespace Frankie.Combat
 
             if (currentBranch.HasBranch(skillBranchMapping)) 
             {
+                // Check if available skills exist after filtering
                 Skill tryActiveSkill = FilterSkillByTrait(currentBranch.GetSkill(skillBranchMapping));
                 if (tryActiveSkill == null) { return false; }
                 else { activeSkill = tryActiveSkill; }
 
-                currentBranch = skillTree.GetSkillBranchFromID(currentBranch.GetBranch(skillBranchMapping));
+                // Check if meaningful to traverse branch after filtering
+                SkillBranch tryCurrentBranch = skillTree.GetSkillBranchFromID(currentBranch.GetBranch(skillBranchMapping));
+                int availableSkillCount = GetAvailableSkills(tryCurrentBranch, skillTreeLevel + 1).Count;
+
+                if (availableSkillCount == 0) { return false; }
+
+                currentBranch = tryCurrentBranch;
                 skillTreeLevel++;
                 return true;
             }
@@ -83,40 +90,48 @@ namespace Frankie.Combat
             }
             return false;
         }
-
-        private Skill FilterSkillByTrait(Skill skill)
-        {
-            SkillStat skillStat = skill.GetStat();
-            if (skillStat == SkillStat.None) { return null; }
-
-            if (Enum.TryParse(skillStat.ToString(), out Stat stat))
-            {
-                float value = baseStats.GetStat(stat);
-                return (value >= skillTreeLevel * skillTreeLevelMultiplierForStatUnlock) ? skill : null;
-            }
-            return null;
-        }
-
-        public void ResetCurrentBranch()
-        {
-            currentBranch = skillTree.GetRootSkillBranch();
-            activeSkill = null;
-            skillTreeLevel = 0;
-        }
         #endregion
 
-        #region AIBehaviour
-        public List<Skill> GetAvailableSkills()
+        #region Utility
+        public List<Skill> GetUnfilteredSkills(SkillBranch skillBranch)
         {
             if (currentBranch == null) { ResetCurrentBranch(); }
 
             List<Skill> availableSkills = new List<Skill>();
-            if (currentBranch.HasSkill(SkillBranchMapping.up)) { availableSkills.Add(currentBranch.GetSkill(SkillBranchMapping.up)); }
-            if (currentBranch.HasSkill(SkillBranchMapping.left)) { availableSkills.Add(currentBranch.GetSkill(SkillBranchMapping.left)); }
-            if (currentBranch.HasSkill(SkillBranchMapping.right)) { availableSkills.Add(currentBranch.GetSkill(SkillBranchMapping.right)); }
-            if (currentBranch.HasSkill(SkillBranchMapping.down)) { availableSkills.Add(currentBranch.GetSkill(SkillBranchMapping.down)); }
+            foreach (Skill skill in skillBranch.GetAllSkills())
+            {
+                if (skill != null)
+                {
+                    availableSkills.Add(skill);
+                }
+            }
 
             return availableSkills;
+        }
+
+        public List<Skill> GetUnfilteredSkills()
+        {
+            return GetUnfilteredSkills(currentBranch);
+        }
+
+        public List<Skill> GetAvailableSkills(SkillBranch skillBranch, int filterLevel = -1)
+        {
+            List<Skill> availableSkills = new List<Skill>();
+            foreach (Skill skill in skillBranch.GetAllSkills())
+            {
+                Skill filteredSkill = FilterSkillByTrait(skill, filterLevel);
+                if (filteredSkill != null)
+                {
+                    availableSkills.Add(filteredSkill);
+                }
+            }
+
+            return availableSkills;
+        }
+
+        public List<Skill> GetAvailableSkills()
+        {
+            return GetAvailableSkills(currentBranch);
         }
 
         public List<SkillBranchMapping> GetAvailableBranchMappings()
@@ -130,6 +145,29 @@ namespace Frankie.Combat
             if (currentBranch.HasBranch(SkillBranchMapping.down)) { availableBranches.Add(SkillBranchMapping.down); }
 
             return availableBranches;
+        }
+
+        private Skill FilterSkillByTrait(Skill skill, int levelForEvaluation = -1)
+        {
+            if (skill == null) { return null; }
+            if (levelForEvaluation == -1) { levelForEvaluation = skillTreeLevel; }
+
+            SkillStat skillStat = skill.GetStat();
+            if (skillStat == SkillStat.None) { return null; }
+
+            if (Enum.TryParse(skillStat.ToString(), out Stat stat))
+            {
+                float value = baseStats.GetStat(stat);
+                return (value >= levelForEvaluation * skillTreeLevelMultiplierForStatUnlock) ? skill : null;
+            }
+            return null;
+        }
+
+        public void ResetCurrentBranch()
+        {
+            currentBranch = skillTree.GetRootSkillBranch();
+            activeSkill = null;
+            skillTreeLevel = 0;
         }
         #endregion
     }

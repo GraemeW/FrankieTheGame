@@ -95,7 +95,7 @@ namespace Frankie.Combat
             }
 
             // Otherwise just select skill from existing options
-            List<Skill> skillOptions = skillHandler.GetAvailableSkills();
+            List<Skill> skillOptions = skillHandler.GetUnfilteredSkills();
             int skillCount = skillOptions.Count;
             if (skillCount == 0) { return null; }
 

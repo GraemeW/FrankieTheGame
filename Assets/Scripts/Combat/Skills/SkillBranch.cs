@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEditor;
@@ -29,6 +30,17 @@ namespace Frankie.Combat
             else if (skillBranchMapping == SkillBranchMapping.right) { return Skill.GetSkillFromName(rightSkillReference); }
             else if (skillBranchMapping == SkillBranchMapping.down) { return Skill.GetSkillFromName(downSkillReference); }
             return null;
+        }
+
+        public IEnumerable<Skill> GetAllSkills()
+        {
+            foreach (SkillBranchMapping skillBranchMapping in Enum.GetValues(typeof(SkillBranchMapping)))
+            {
+                if (HasSkill(skillBranchMapping))
+                {
+                    yield return GetSkill(skillBranchMapping);
+                }
+            }
         }
 
         public string GetBranch(SkillBranchMapping skillBranchMapping)
