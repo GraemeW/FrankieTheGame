@@ -1,3 +1,5 @@
+using Frankie.Stats;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -5,14 +7,43 @@ using UnityEngine;
 namespace Frankie.Combat
 {
     [RequireComponent(typeof(CombatParticipant))]
+    [RequireComponent(typeof(BaseStats))]
     public class SkillHandler : MonoBehaviour
     {
         // Tunables
         [SerializeField] SkillTree skillTree = null;
+        [SerializeField] float skillTreeLevelMultiplierForStatUnlock = 10f;
 
         // State
         SkillBranch currentBranch = null;
         Skill activeSkill = null;
+        int skillTreeLevel = 0;
+
+        // Cached References
+        BaseStats baseStats = null;
+
+        #region UnityMethods
+        private void Awake()
+        {
+            baseStats = GetComponent<BaseStats>();
+        }
+        #endregion
+
+        #region PlayerBehaviour
+        public Skill GetActiveSkill()
+        {
+            return activeSkill;
+        }
+
+        public void GetSkillsForCurrentBranch(out Skill up, out Skill left, out Skill right, out Skill down)
+        {
+            if (currentBranch == null) { ResetCurrentBranch(); }
+
+            up = FilterSkillByTrait(currentBranch.GetSkill(SkillBranchMapping.up));
+            left = FilterSkillByTrait(currentBranch.GetSkill(SkillBranchMapping.left));
+            right = FilterSkillByTrait(currentBranch.GetSkill(SkillBranchMapping.right));
+            down = FilterSkillByTrait(currentBranch.GetSkill(SkillBranchMapping.down));
+        }
 
         public void SetBranchOrSkill(SkillBranchMapping skillBranchMapping)
         {
@@ -27,8 +58,12 @@ namespace Frankie.Combat
 
             if (currentBranch.HasBranch(skillBranchMapping)) 
             {
-                activeSkill = currentBranch.GetSkill(skillBranchMapping);
+                Skill tryActiveSkill = FilterSkillByTrait(currentBranch.GetSkill(skillBranchMapping));
+                if (tryActiveSkill == null) { return false; }
+                else { activeSkill = tryActiveSkill; }
+
                 currentBranch = skillTree.GetSkillBranchFromID(currentBranch.GetBranch(skillBranchMapping));
+                skillTreeLevel++;
                 return true;
             }
             return false;
@@ -38,28 +73,37 @@ namespace Frankie.Combat
         {
             if (currentBranch.HasSkill(skillBranchMapping))
             {
-                activeSkill = currentBranch.GetSkill(skillBranchMapping);
-                return true;
+                Skill tryActiveSkill = FilterSkillByTrait(currentBranch.GetSkill(skillBranchMapping));
+                if (tryActiveSkill == null){ return false; }
+                else 
+                { 
+                    activeSkill = tryActiveSkill; 
+                    return true; 
+                }
             }
             return false;
+        }
+
+        private Skill FilterSkillByTrait(Skill skill)
+        {
+            SkillStat skillStat = skill.GetStat();
+            if (skillStat == SkillStat.None) { return null; }
+
+            Stat stat = (Stat)Enum.Parse(typeof(Stat), skillStat.ToString());
+            float value = baseStats.GetStat(stat);
+
+            return (value >= skillTreeLevel * skillTreeLevelMultiplierForStatUnlock) ? skill : null;
         }
 
         public void ResetCurrentBranch()
         {
             currentBranch = skillTree.GetRootSkillBranch();
             activeSkill = null;
+            skillTreeLevel = 0;
         }
+        #endregion
 
-        public void GetSkillsForCurrentBranch(out Skill up, out Skill left, out Skill right, out Skill down)
-        {
-            if (currentBranch == null) { ResetCurrentBranch(); }
-
-            up = currentBranch.GetSkill(SkillBranchMapping.up);
-            left = currentBranch.GetSkill(SkillBranchMapping.left);
-            right = currentBranch.GetSkill(SkillBranchMapping.right);
-            down = currentBranch.GetSkill(SkillBranchMapping.down);
-        }
-
+        #region AIBehaviour
         public List<Skill> GetAvailableSkills()
         {
             if (currentBranch == null) { ResetCurrentBranch(); }
@@ -85,11 +129,6 @@ namespace Frankie.Combat
 
             return availableBranches;
         }
-
-        public Skill GetActiveSkill()
-        {
-            return activeSkill;
-        }
-
+        #endregion
     }
 }

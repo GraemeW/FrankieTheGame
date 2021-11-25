@@ -10,12 +10,13 @@ namespace Frankie.Combat
     public class Skill : ScriptableObject, IBattleActionUser, ISerializationCallbackReceiver
     {
         // Tunables
-        public SkillStat stat = default;
+        [SerializeField] SkillStat stat = default;
         [SerializeField] BattleAction battleAction = null;
 
         // State
         static Dictionary<string, Skill> skillLookupCache;
 
+        #region SkillToNameCaching
         public static Skill GetSkillFromName(string name)
         {
             if (string.IsNullOrWhiteSpace(name)) { return null; }
@@ -48,16 +49,16 @@ namespace Frankie.Combat
                 skillLookupCache[skill.name] = skill;
             }
         }
+        #endregion
 
-        private void AttemptToSetBattleAction()
+        #region PublicMethods
+        public SkillStat GetStat()
         {
-            BattleAction battleActionFromName = BattleAction.GetBattleActionFromName(name);
-            if (battleActionFromName != null && battleActionFromName != battleAction)
-            {
-                battleAction = battleActionFromName;
-            }
+            return stat;
         }
+        #endregion
 
+        #region BattleActionUserInterface
         public void Use(CombatParticipant sender, IEnumerable<CombatParticipant> recipients, Action finished)
         {
             battleAction.Use(sender, recipients, finished);
@@ -77,8 +78,9 @@ namespace Frankie.Combat
         {
             return GetSkillNamePretty(name);
         }
+        #endregion
 
-        #region Interfaces
+        #region SerializationInterface
         void ISerializationCallbackReceiver.OnBeforeSerialize()
         {
 #if UNITY_EDITOR
@@ -87,7 +89,16 @@ namespace Frankie.Combat
 #endif
         }
 
-         void ISerializationCallbackReceiver.OnAfterDeserialize()
+        private void AttemptToSetBattleAction()
+        {
+            BattleAction battleActionFromName = BattleAction.GetBattleActionFromName(name);
+            if (battleActionFromName != null && battleActionFromName != battleAction)
+            {
+                battleAction = battleActionFromName;
+            }
+        }
+
+        void ISerializationCallbackReceiver.OnAfterDeserialize()
         {
             // Unused, required for interface
         }
