@@ -21,7 +21,6 @@ namespace Frankie.Combat
         BattleState state = default;
         BattleOutcome outcome = default;
         bool outroCleanupCalled = false;
-        bool handleLevelUp = false;
         float battleExperienceReward = 0f;
 
         List<CombatParticipant> activeCharacters = new List<CombatParticipant>();
@@ -136,7 +135,7 @@ namespace Frankie.Combat
             }
             else if (state == BattleState.Outro)
             {
-                if (!handleLevelUp && !outroCleanupCalled)
+                if (!outroCleanupCalled)
                 {
                     outroCleanupCalled = true;
                     CleanUpBattleBits();
@@ -320,11 +319,6 @@ namespace Frankie.Combat
         public BattleOutcome GetBattleOutcome()
         {
             return outcome;
-        }
-
-        public void SetHandleLevelUp(bool enable)
-        {
-            handleLevelUp = enable;
         }
 
         public bool SetSelectedCharacter(CombatParticipant character)
@@ -519,23 +513,29 @@ namespace Frankie.Combat
                 {
                     SetBattleOutcome(BattleOutcome.Lost);
                     SetBattleState(BattleState.Outro);
-
                 }
                 else if (activeEnemies.All(x => x.IsDead() == true))
                 {
                     SetBattleOutcome(BattleOutcome.Won);
-                    AwardExperience();
-                    SetBattleState(BattleState.Outro);
+                    if (AwardExperienceToLevelUp())
+                    {
+                        SetBattleState(BattleState.OutroLevelUp);
+                    }
+                    else
+                    {
+                        SetBattleState(BattleState.Outro);
+                    }
                 }
             }
         }
 
-        private void AwardExperience()
+        private bool AwardExperienceToLevelUp()
         {
+            bool levelUpTriggered = false;
             foreach (CombatParticipant character in GetCharacters())
             {
                 Experience experience = character.GetExperience();
-                if (experience == null) { return; } // Handling for characters who do not level
+                if (experience == null) { continue; } // Handling for characters who do not level
                 float scaledExperienceReward = 0f;
 
                 foreach (CombatParticipant enemy in GetEnemies())
@@ -549,9 +549,11 @@ namespace Frankie.Combat
 
                 if (experience.GainExperienceToLevel(scaledExperienceReward))
                 {
-                    handleLevelUp = true;
+                    levelUpTriggered = true;
                 }
             }
+
+            return levelUpTriggered;
         }
 
         public float GetBattleExperienceReward()

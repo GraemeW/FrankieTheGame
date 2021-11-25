@@ -45,6 +45,7 @@ namespace Frankie.Combat.UI
         Queue<Action> queuedUISequences = new Queue<Action>();
         List<CharacterLevelUpSheetPair> queuedLevelUps = new List<CharacterLevelUpSheetPair>();
         bool busyWithSerialAction = false;
+        bool outroQueued = false;
 
         // Cached References
         Party party = null;
@@ -116,12 +117,15 @@ namespace Frankie.Combat.UI
                 combatLog.gameObject.SetActive(true);
                 skillSelection.gameObject.SetActive(true);
             }
-            else if (state == BattleState.Outro)
+            else if (state == BattleState.Outro || state == BattleState.OutroLevelUp)
             {
+                if (outroQueued) { return; }
+
                 combatLog.gameObject.SetActive(false);
                 skillSelection.gameObject.SetActive(false);
                 queuedUISequences.Enqueue(SetupExperienceMessage);
                 queuedUISequences.Enqueue(SetupExitMessage);
+                outroQueued = true;
             }
         }
 
@@ -311,7 +315,8 @@ namespace Frankie.Combat.UI
             DialogueBox dialogueBox = dialogueBoxObject.GetComponent<DialogueBox>();
             dialogueBox.AddText(exitMessage);
             dialogueBox.TakeControl(battleController, this, new Action[] { () => { busyWithSerialAction = false; battleController.SetBattleState(BattleState.Complete); } });
-            battleController.SetHandleLevelUp(false);
+
+            battleController.SetBattleState(BattleState.Outro);
         }
 
         public DialogueBox SetupRunFailureMessage(IUIBoxCallbackReceiver callbackReceiver, Action[] actions)
