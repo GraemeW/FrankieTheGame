@@ -11,7 +11,6 @@ namespace Frankie.ZoneManagement
         // Tunables
         [SerializeField] Camera subCamera = null;
         [SerializeField] RenderTexture mapRenderTexture = null;
-        [SerializeField] CinemachineVirtualCamera cinemachineVirtualCamera = null;
         [SerializeField] bool subscribeToSceneEvents = false;
 
         // Cached References
@@ -83,11 +82,9 @@ namespace Frankie.ZoneManagement
 
         private void SetupPlayerFollow()
         {
-            if (cinemachineVirtualCamera.Follow == null)
-            {
-                Transform playerTransform = GameObject.FindGameObjectWithTag("Player").transform;
-                cinemachineVirtualCamera.Follow = playerTransform;
-            }
+            Transform playerTransform = GameObject.FindGameObjectWithTag("Player").transform;
+            Vector3 newCameraPosition = new Vector3(playerTransform.position.x, playerTransform.position.y, subCamera.transform.position.z);
+            subCamera.transform.position = newCameraPosition;
         }
     }
 }

@@ -89,7 +89,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   subCamera: {fileID: 2978751928915114738}
   mapRenderTexture: {fileID: 8400000, guid: 8e0950af32c78c94ca431e24f3eced61, type: 2}
-  cinemachineVirtualCamera: {fileID: 2978751928915114736}
   subscribeToSceneEvents: 0
 --- !u!1 &2978751928915114740
 GameObject:
@@ -102,7 +101,6 @@ GameObject:
   - component: {fileID: 2978751928915114739}
   - component: {fileID: 2978751928915114738}
   - component: {fileID: 2978751928915114741}
-  - component: {fileID: 2978751928915114736}
   m_Layer: 7
   m_Name: SubCamera
   m_TagString: MainCamera
@@ -201,38 +199,3 @@ MonoBehaviour:
   m_RequiresDepthTexture: 0
   m_RequiresColorTexture: 0
   m_Version: 2
---- !u!114 &2978751928915114736
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2978751928915114740}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 45e653bab7fb20e499bda25e1b646fea, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_ExcludedPropertiesInInspector:
-  - m_Script
-  m_LockStageInInspector: 
-  m_StreamingVersion: 20170927
-  m_Priority: 10
-  m_StandbyUpdate: 2
-  m_LookAt: {fileID: 0}
-  m_Follow: {fileID: 0}
-  m_Lens:
-    FieldOfView: 40
-    OrthographicSize: 10
-    NearClipPlane: 0.1
-    FarClipPlane: 5000
-    Dutch: 0
-    LensShift: {x: 0, y: 0}
-  m_Transitions:
-    m_BlendHint: 0
-    m_InheritPosition: 0
-    m_OnCameraLive:
-      m_PersistentCalls:
-        m_Calls: []
-  m_LegacyBlendHint: 0
-  m_ComponentOwner: {fileID: 2978751927305950494}
