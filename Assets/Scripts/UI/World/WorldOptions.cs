@@ -7,7 +7,7 @@ using Frankie.Inventory.UI;
 using Frankie.Control;
 using UnityEngine;
 using System.Collections.Generic;
-
+using Frankie.ZoneManagement.UI;
 
 namespace Frankie.Menu.UI
 {
@@ -110,6 +110,14 @@ namespace Frankie.Menu.UI
             EquipmentBox equipmentBox = childOption.GetComponent<EquipmentBox>();
             equipmentBox.Setup(playerController, party, characterSlides);
             PassControl(equipmentBox);
+        }
+
+        public void OpenMap() // Called via Unity Events
+        {
+            ResetWorldOptions();
+            childOption = Instantiate(mapPrefab, worldCanvas.GetWorldOptionsParent());
+            MapSuper mapSuper = childOption.GetComponent<MapSuper>();
+            PassControl(mapSuper);
         }
 
         private void ResetWorldOptions()

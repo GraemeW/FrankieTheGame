@@ -14,6 +14,7 @@ namespace Frankie.ZoneManagement
         [SerializeField] int nodeHeight = 150;
         [Header("Zone Properties")]
         [SerializeField] SceneReference sceneReference = null;
+        [SerializeField] bool updateMap = false;
         [SerializeField] AudioClip zoneAudio = null;
         [SerializeField] bool isZoneAudioLooping = true;
 
@@ -137,6 +138,11 @@ namespace Frankie.ZoneManagement
                 return true;
             }
             return false;
+        }
+
+        public bool ShouldUpdateMap()
+        {
+            return updateMap;
         }
 
         // Dialogue editing functionality

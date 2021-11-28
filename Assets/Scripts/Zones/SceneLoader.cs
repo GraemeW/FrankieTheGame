@@ -14,9 +14,11 @@ namespace Frankie.ZoneManagement
         [SerializeField] Zone newGame = null;
 
         // State
+        Zone lastZone = null;
         Zone currentZone = null;
 
         // Events
+        public event Action<Zone> leavingZone;
         public event Action<Zone> zoneUpdated;
 
         public Zone GetCurrentZone()
@@ -69,6 +71,7 @@ namespace Frankie.ZoneManagement
 
         public IEnumerator LoadNewSceneAsync(Zone zone)
         {
+            SetLastZone();
             yield return SceneManager.LoadSceneAsync(zone.GetSceneReference().SceneName);
             SetCurrentZone(zone);
         }
@@ -78,13 +81,16 @@ namespace Frankie.ZoneManagement
             Application.Quit();
         }
 
+        private void SetLastZone()
+        {
+            lastZone = currentZone;
+            leavingZone?.Invoke(lastZone);
+        }
+
         private void SetCurrentZone(Zone zone)
         {
             currentZone = zone;
-            if (zoneUpdated != null)
-            {
-                zoneUpdated.Invoke(currentZone);
-            }
+            zoneUpdated?.Invoke(currentZone);
         }
 
         public void SetCurrentZoneToCurrentScene()
