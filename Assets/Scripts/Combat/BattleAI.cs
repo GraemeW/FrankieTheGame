@@ -6,6 +6,7 @@ using UnityEngine;
 namespace Frankie.Combat
 {
     [RequireComponent(typeof(CombatParticipant))]
+    [RequireComponent(typeof(SkillHandler))]
     public class BattleAI : MonoBehaviour
     {
         // Tunables

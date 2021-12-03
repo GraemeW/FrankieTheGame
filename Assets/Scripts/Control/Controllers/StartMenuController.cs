@@ -63,10 +63,7 @@ namespace Frankie.Control
 
         private void HandleUserInput(PlayerInputType playerInputType)
         {
-            if (globalInput != null)
-            {
-                globalInput.Invoke(playerInputType);
-            }
+            globalInput?.Invoke(playerInputType);
         }
 
         public PlayerInputType NavigationVectorToInputTypeTemplate(Vector2 navigationVector)

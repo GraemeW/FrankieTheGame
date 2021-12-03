@@ -13,9 +13,9 @@ namespace Frankie.Combat
 
         public override IEnumerable<CombatParticipant> GetTargets(bool? traverseForward, IEnumerable<CombatParticipant> currentTargets, IEnumerable<CombatParticipant> activeCharacters, IEnumerable<CombatParticipant> activeEnemies)
         {
-            CombatParticipant[] localCurrentTargets = currentTargets != null ? currentTargets.ToArray() : null;
-            CombatParticipant[] localActiveCharacters = activeCharacters != null ? activeCharacters.ToArray() : null;
-            CombatParticipant[] localActiveEnemies = activeEnemies != null ? activeEnemies.ToArray() : null;
+            CombatParticipant[] localCurrentTargets = currentTargets?.ToArray();
+            CombatParticipant[] localActiveCharacters = activeCharacters?.ToArray();
+            CombatParticipant[] localActiveEnemies = activeEnemies?.ToArray();
 
             // Special handling for no traverse -- pass back the target
             if (traverseForward == null)
@@ -60,7 +60,7 @@ namespace Frankie.Combat
                         yield break;
                     }
 
-                    if (combatParticipant == currentTarget) { returnOnNextIteration = true; }
+                    returnOnNextIteration = (combatParticipant == currentTarget);
                 }
 
                 if (returnOnNextIteration) 
@@ -80,7 +80,7 @@ namespace Frankie.Combat
                         yield break;
                     }
 
-                    if (combatParticipant == currentTarget) { returnOnNextIteration = true; }
+                    returnOnNextIteration = (combatParticipant == currentTarget);
                 }
 
                 if (returnOnNextIteration)

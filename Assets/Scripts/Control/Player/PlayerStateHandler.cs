@@ -10,12 +10,13 @@ using System.Linq;
 
 namespace Frankie.Control
 {
+    [RequireComponent(typeof(Party))]
     public class PlayerStateHandler : MonoBehaviour
     {
         // Tunables
         [Header("Other Controller Prefabs")]
-        [SerializeField] GameObject battleControllerPrefab = null;
-        [SerializeField] GameObject dialogueControllerPrefab = null;
+        [SerializeField] BattleController battleControllerPrefab = null;
+        [SerializeField] DialogueController dialogueControllerPrefab = null;
         [Header("World UI Game Objects")]
         [SerializeField] GameObject worldOptionsPrefab = null;
         [SerializeField] GameObject escapeMenuPrefab = null;
@@ -70,10 +71,7 @@ namespace Frankie.Control
             this.playerState = playerState;
             stateChangedThisFrame = true;
 
-            if (playerStateChanged != null)
-            {
-                playerStateChanged.Invoke(playerState);
-            }
+            playerStateChanged?.Invoke(playerState);
         }
 
         private bool PullFromActionQueue()
@@ -118,17 +116,11 @@ namespace Frankie.Control
         {
             if (dialogueController != null) { return dialogueController; }
 
-            GameObject dialogueControllerObject = GameObject.FindGameObjectWithTag("DialogueController");
-            DialogueController existingDialogueController = null;
-            if (dialogueControllerObject != null)
-            {
-                existingDialogueController = dialogueControllerObject.GetComponent<DialogueController>();
-            }
+            DialogueController existingDialogueController = GameObject.FindGameObjectWithTag("DialogueController")?.GetComponent<DialogueController>();
 
             if (existingDialogueController == null)
             {
-                GameObject newDialogueControllerObject = Instantiate(dialogueControllerPrefab);
-                dialogueController = newDialogueControllerObject.GetComponent<DialogueController>();
+                dialogueController = Instantiate(dialogueControllerPrefab);
             }
             else
             {
@@ -151,8 +143,7 @@ namespace Frankie.Control
 
             if (existingBattleControllerController == null)
             {
-                GameObject newBattleControllerObject = Instantiate(battleControllerPrefab);
-                battleController = newBattleControllerObject.GetComponent<BattleController>();
+                battleController = Instantiate(battleControllerPrefab);
             }
             else
             {
@@ -204,8 +195,7 @@ namespace Frankie.Control
             if (ShouldQueueAction()) { queuedActions.Push(() => EnterDialogue(newConversant, newDialogue)); return; }
             if (!IsDialoguePossible()) { return; }
 
-            GameObject dialogueControllerObject = Instantiate(dialogueControllerPrefab);
-            dialogueController = dialogueControllerObject.GetComponent<DialogueController>();
+            dialogueController = Instantiate(dialogueControllerPrefab);
             dialogueController.Setup(worldCanvas, this, party);
             dialogueController.InitiateConversation(newConversant, newDialogue);
 

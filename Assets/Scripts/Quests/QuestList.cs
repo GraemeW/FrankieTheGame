@@ -22,8 +22,8 @@ namespace Frankie.Quests
 
         public static QuestList GetQuestList(ref GameObject player)
         {
-            if (player == null) { player = GameObject.FindGameObjectWithTag("Player"); }
-            return player.GetComponent<QuestList>();
+            player ??= GameObject.FindGameObjectWithTag("Player");
+            return player?.GetComponent<QuestList>();
         }
 
         #region UnityMethods
@@ -66,10 +66,7 @@ namespace Frankie.Quests
             questStatuses.Add(newQuestStatus);
             CompleteObjectivesForItemsInKnapsack();
 
-            if (questListUpdated != null)
-            {
-                questListUpdated();
-            }
+            questListUpdated?.Invoke();
         }
 
         public void CompleteObjective(Quest quest, QuestObjective objective)
@@ -151,10 +148,7 @@ namespace Frankie.Quests
                 questStatuses.Add(questStatus);
             }
 
-            if (questListUpdated != null)
-            {
-                questListUpdated();
-            }
+            questListUpdated?.Invoke();
         }
 
         public LoadPriority GetLoadPriority()

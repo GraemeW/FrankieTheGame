@@ -12,7 +12,7 @@ namespace Frankie.Control.Specialization
 
         private void Start()
         {
-            savingWrapper = GameObject.FindGameObjectWithTag("Saver").GetComponent<SavingWrapper>();
+            savingWrapper = GameObject.FindGameObjectWithTag("Saver")?.GetComponent<SavingWrapper>();
             // SceneLoader is a persistent object, thus can only be found after Awake -- so find in Start
         }
 

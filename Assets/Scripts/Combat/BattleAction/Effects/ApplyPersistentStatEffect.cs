@@ -33,7 +33,7 @@ namespace Frankie.Combat
                 combatParticipant.AnnounceStateUpdate(new StateAlteredData(StateAlteredType.StatusEffectApplied, statusEffectType));
             }
 
-            finished.Invoke(this);
+            finished?.Invoke(this);
         }
     }
 }

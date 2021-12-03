@@ -51,19 +51,19 @@ namespace Frankie.Control
 
         private void Start()
         {
-            sceneLoader = GameObject.FindGameObjectWithTag("SceneLoader").GetComponent<SceneLoader>();
+            sceneLoader = GameObject.FindGameObjectWithTag("SceneLoader")?.GetComponent<SceneLoader>();
                 // SceneLoader is a persistent object, thus can only be found after Awake -- so find in Start
-            skipSplashRoutine = StartCoroutine(sceneLoader.SplashDelayToLoad(splashDelayTime));
+            if (sceneLoader != null)
+            {
+                skipSplashRoutine = StartCoroutine(sceneLoader.SplashDelayToLoad(splashDelayTime));
+            }
         }
 
         private void SkipSplash()
         {
             if (skipSplashRoutine != null) { StopCoroutine(skipSplashRoutine); skipSplashRoutine = null; }
             sceneLoader.QueueStartScreen();
-            if (globalInput != null)
-            {
-                globalInput.Invoke(PlayerInputType.Execute);
-            }
+            globalInput?.Invoke(PlayerInputType.Execute);
         }
 
         public PlayerInputType NavigationVectorToInputTypeTemplate(Vector2 navigationVector)

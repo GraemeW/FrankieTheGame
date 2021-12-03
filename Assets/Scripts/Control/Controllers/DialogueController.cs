@@ -75,15 +75,7 @@ namespace Frankie.Speech
 
         private void OnDestroy()
         {
-            InvokeDestroyCallbackActions();
-        }
-
-        private void InvokeDestroyCallbackActions()
-        {
-            if (onDestroyCallbackActions != null)
-            {
-                onDestroyCallbackActions.Invoke(playerStateHandler);
-            }
+            onDestroyCallbackActions?.Invoke(playerStateHandler);
         }
 
         private void ParseDirectionalInput(Vector2 directionalInput)
@@ -169,10 +161,7 @@ namespace Frankie.Speech
 
             if (playerInputType == PlayerInputType.Execute)
             {
-                if (dialogueInput != null)
-                {
-                    dialogueInput.Invoke(playerInputType);
-                }
+                dialogueInput?.Invoke(playerInputType);
                 NextWithID(highlightedNode.name);
                 highlightedNode = null;
                 return true;
@@ -288,10 +277,7 @@ namespace Frankie.Speech
             if (playerInputType == PlayerInputType.Execute)
             {
                 highlightedNode = GetChoices().FirstOrDefault();
-                if (highlightedNodeChanged != null)
-                {
-                    highlightedNodeChanged.Invoke(highlightedNode);
-                }
+                highlightedNodeChanged?.Invoke(highlightedNode);
             }
         }
 
@@ -310,10 +296,7 @@ namespace Frankie.Speech
             }
 
             highlightedNode = currentOptions[choiceIndex];
-            if (highlightedNodeChanged != null)
-            {
-                highlightedNodeChanged.Invoke(highlightedNode);
-            }
+            highlightedNodeChanged?.Invoke(highlightedNode);
         }
 
         public string GetPlayerName()
@@ -397,15 +380,15 @@ namespace Frankie.Speech
             }
         }
 
-        private void SetCurrentNode(DialogueNode dialogueNode)
+        private void SetCurrentNode(DialogueNode dialogueNode, bool withTriggers = true)
         {
             if (currentNode == dialogueNode) { return; }
 
-            dialogueUpdated?.Invoke(DialogueUpdateType.DialogueNodeExit, currentNode);
+            if (withTriggers) { dialogueUpdated?.Invoke(DialogueUpdateType.DialogueNodeExit, currentNode); }
 
             currentNode = dialogueNode;
 
-            dialogueUpdated?.Invoke(DialogueUpdateType.DialogueNodeEntry, currentNode);
+            if (withTriggers) { dialogueUpdated?.Invoke(DialogueUpdateType.DialogueNodeEntry, currentNode); }
             triggerUIUpdates?.Invoke();
         }
 

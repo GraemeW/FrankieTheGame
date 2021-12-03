@@ -49,7 +49,7 @@ namespace Frankie.Combat
         // Interaction
         private void Awake()
         {
-            party = GameObject.FindGameObjectWithTag("Player").GetComponent<Party>();
+            party = GameObject.FindGameObjectWithTag("Player")?.GetComponent<Party>();
             playerInput = new PlayerInput();
 
             VerifyUnique();
@@ -200,11 +200,7 @@ namespace Frankie.Combat
 
                 if (playerInputType != PlayerInputType.DefaultNone)
                 {
-                    if (battleInput != null)
-                    {
-                        battleInput.Invoke(playerInputType);
-                    }
-                    return true;
+                    battleInput?.Invoke(playerInputType);
                 }
             }
             return false;
@@ -234,10 +230,8 @@ namespace Frankie.Combat
                         SetSelectedTarget(selectedBattleAction.GetTargets(false, GetSelectedTargets(), activeCharacters, activeEnemies));
                     }
                 }
-                if (battleInput != null)
-                {
-                    battleInput.Invoke(playerInputType);
-                }
+                battleInput?.Invoke(playerInputType);
+
                 return true;
             }
             return false;
@@ -245,9 +239,9 @@ namespace Frankie.Combat
 
         private bool InteractWithGlobals(PlayerInputType playerInputType)
         {
-            if (playerInputType != PlayerInputType.DefaultNone && globalInput != null)
+            if (playerInputType != PlayerInputType.DefaultNone)
             {
-                globalInput.Invoke(playerInputType);
+                globalInput?.Invoke(playerInputType);
                 return true;
             }
             return false;
@@ -300,10 +294,7 @@ namespace Frankie.Combat
                 ToggleCombatParticipants(false);
             }
 
-            if (battleStateChanged != null)
-            {
-                battleStateChanged.Invoke(state);
-            }
+            battleStateChanged?.Invoke(state);
         }
 
         public BattleState GetBattleState()
@@ -327,10 +318,8 @@ namespace Frankie.Combat
             if (character != null) { if (character.IsDead() || character.IsInCooldown()) { return false; } }
 
             selectedCharacter = character;
-            if (selectedCombatParticipantChanged != null)
-            {
-                selectedCombatParticipantChanged.Invoke(CombatParticipantType.Character, new[] { selectedCharacter });
-            }
+            selectedCombatParticipantChanged?.Invoke(CombatParticipantType.Character, new[] { selectedCharacter });
+
             return true;
         }
 
@@ -343,10 +332,7 @@ namespace Frankie.Combat
         public bool SetSelectedTarget(IEnumerable<CombatParticipant> targets)
         {
             selectedTargets = targets;
-            if (selectedCombatParticipantChanged != null)
-            {
-                selectedCombatParticipantChanged.Invoke(CombatParticipantType.Target, selectedTargets);
-            }
+            selectedCombatParticipantChanged?.Invoke(CombatParticipantType.Target, selectedTargets);
 
             if (targets == null || targets.Count() == 0) { return false; }
             if (targets.All(x => x.IsDead())) { return false; }
@@ -363,7 +349,7 @@ namespace Frankie.Combat
             if (battleAction == null)
             {
                 SetBattleActionArmed(false);
-                if (selectedCharacter != null) { selectedCharacter.GetComponent<SkillHandler>().ResetCurrentBranch(); }
+                selectedCharacter?.GetComponent<SkillHandler>().ResetCurrentBranch();
                 selectedBattleAction = null;
             }
             else
@@ -459,10 +445,7 @@ namespace Frankie.Combat
             }
             else { return; }
 
-            if (battleActionArmedStateChanged != null)
-            {
-                battleActionArmedStateChanged.Invoke(selectedBattleAction);
-            }
+            battleActionArmedStateChanged?.Invoke(selectedBattleAction);
         }
 
         public bool IsBattleActionArmed()
@@ -475,7 +458,7 @@ namespace Frankie.Combat
             if (battleSequenceQueue.Count == 0) { yield break; }
             BattleSequence battleSequence = battleSequenceQueue.Dequeue();
             if (battleSequence.sender.IsDead() || battleSequence.recipients.All(x => x.IsDead())) { yield break; }
-            battleSequenceProcessed.Invoke(battleSequence);
+            battleSequenceProcessed?.Invoke(battleSequence);
 
             // Two flags to flip to re-enable battle:
             // A) global battle queue delay, handled by coroutine

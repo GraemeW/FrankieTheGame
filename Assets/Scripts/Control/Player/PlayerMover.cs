@@ -7,6 +7,7 @@ using System;
 namespace Frankie.Control
 {
     [RequireComponent(typeof(PlayerController))]
+    [RequireComponent(typeof(PlayerStateHandler))]
     public class PlayerMover : Mover
     {
         // Tunables
@@ -53,10 +54,7 @@ namespace Frankie.Control
         {
             movementHistory.Clear();
             movementHistory.Add(new Tuple<Vector2, Vector2>(newPosition, new Vector2(lookDirection.x, lookDirection.y)));
-            if (movementHistoryReset != null)
-            {
-                movementHistoryReset.Invoke();
-            }
+            movementHistoryReset?.Invoke();
 
             historyResetThisFrame = true;
         }
@@ -92,10 +90,7 @@ namespace Frankie.Control
             rigidBody2D.MovePosition(position);
 
             movementHistory.Add(new Tuple<Vector2, Vector2>(position, new Vector2(lookDirection.x, lookDirection.y)));
-            if (playerMoved != null)
-            {
-                playerMoved.Invoke(movementHistory);
-            }
+            playerMoved?.Invoke(movementHistory);
         }
 
         protected override void UpdateAnimator()

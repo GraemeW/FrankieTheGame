@@ -7,6 +7,8 @@ using UnityEngine.InputSystem;
 
 namespace Frankie.Control
 {
+    [RequireComponent(typeof(PlayerMover))]
+    [RequireComponent(typeof(PlayerStateHandler))]
     public class PlayerController : MonoBehaviour, IStandardPlayerInputCaller
     {
         // Data Types

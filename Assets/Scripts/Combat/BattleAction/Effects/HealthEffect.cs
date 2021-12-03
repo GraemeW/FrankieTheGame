@@ -21,7 +21,7 @@ namespace Frankie.Combat
                 recipient.AdjustHP(healthChange + randomJitter);
             }
 
-            finished.Invoke(this);
+            finished?.Invoke(this);
         }
     }
 }

@@ -16,10 +16,8 @@ namespace Frankie.Combat
 
         public override void StartEffect(CombatParticipant sender, IEnumerable<CombatParticipant> recipients, Action<EffectStrategy> finished)
         {
-            GameObject battleCanvasObject = GameObject.FindGameObjectWithTag("BattleCanvas");
-            if (battleCanvasObject == null) { return; }
-
-            BattleCanvas battleCanvas = battleCanvasObject.GetComponent<BattleCanvas>();
+            BattleCanvas battleCanvas = GameObject.FindGameObjectWithTag("BattleCanvas")?.GetComponent<BattleCanvas>();
+            if (battleCanvas == null) { return; }
 
             foreach (Vector3 position in GetPositions(recipients, battleCanvas))
             {
@@ -31,6 +29,8 @@ namespace Frankie.Combat
                     Destroy(spawnedGraphic.gameObject, destroyAfterSeconds);
                 }
             }
+
+            finished?.Invoke(this);
         }
 
         private IEnumerable<Vector3> GetPositions(IEnumerable<CombatParticipant> recipients, BattleCanvas battleCanvas)

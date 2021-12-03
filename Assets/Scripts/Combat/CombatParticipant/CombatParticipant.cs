@@ -10,7 +10,6 @@ using Frankie.Inventory;
 namespace Frankie.Combat
 {
     [RequireComponent(typeof(BaseStats))]
-    [RequireComponent(typeof(SkillHandler))]
     public class CombatParticipant : MonoBehaviour, ISaveable, IPredicateEvaluator
     {
         // Tunables
@@ -48,10 +47,14 @@ namespace Frankie.Combat
 
         private void Awake()
         {
+            // Hard requirement
             baseStats = GetComponent<BaseStats>();
+            // Not strictly necessary -- will fail elegantly
             experience = GetComponent<Experience>();
             knapsack = GetComponent<Knapsack>();
             equipment = GetComponent<Equipment>();
+
+            // State parameters
             currentHP = new LazyValue<float>(GetMaxHP);
             currentAP = new LazyValue<float>(GetMaxAP);
             isDead = new LazyValue<bool>(() => false);
@@ -114,10 +117,7 @@ namespace Frankie.Combat
         {
             inCombat = enable;
             if (!enable){ HaltHPScroll(); }
-            if (enterCombat != null)
-            {
-                enterCombat.Invoke(enable);
-            }
+            enterCombat?.Invoke(enable);
         }
 
         public float GetBattleStartCooldown()
@@ -195,20 +195,14 @@ namespace Frankie.Combat
             currentHP.value = hp * fractionOfHPInstantOnRevival;
             targetHP = hp;
             cooldownTimer = 0f;
-            if (stateAltered != null)
-            {
-                stateAltered.Invoke(this, new StateAlteredData(StateAlteredType.Resurrected));
-            }
+            stateAltered?.Invoke(this, new StateAlteredData(StateAlteredType.Resurrected));
         }
 
         public void SetCooldown(float seconds)
         {
             inCooldown = true;
             cooldownTimer = seconds * GetCooldownMultiplier();
-            if (stateAltered != null)
-            {
-                stateAltered.Invoke(this, new StateAlteredData(StateAlteredType.CooldownSet));
-            }
+            stateAltered?.Invoke(this, new StateAlteredData(StateAlteredType.CooldownSet));
         }
 
         public float GetCooldown()
@@ -291,10 +285,7 @@ namespace Frankie.Combat
         {
             if (stateAlteredData == null) { return; }
 
-            if (stateAltered != null)
-            {
-                stateAltered.Invoke(this, stateAlteredData);
-            }
+            stateAltered?.Invoke(this, stateAlteredData);
         }
 
         // Private functions
@@ -306,10 +297,7 @@ namespace Frankie.Combat
                 targetHP = 0f;
                 isDead.value = true;
 
-                if (stateAltered != null)
-                {
-                    stateAltered.Invoke(this, new StateAlteredData(StateAlteredType.Dead));
-                }
+                stateAltered?.Invoke(this, new StateAlteredData(StateAlteredType.Dead));
             }
 
             if (isDead.value == true) { return true; }
@@ -324,10 +312,7 @@ namespace Frankie.Combat
                 float unsafeHP = Mathf.Lerp(currentHP.value, targetHP, deltaHPTimeFraction);
                 currentHP.value = Mathf.Clamp(unsafeHP, 0f, baseStats.GetStat(Stat.HP));
 
-                if (stateAltered != null)
-                {
-                     stateAltered.Invoke(this, new StateAlteredData(StateAlteredType.AdjustHPNonSpecific));
-                }
+                stateAltered?.Invoke(this, new StateAlteredData(StateAlteredType.AdjustHPNonSpecific));
             }
         }
 
@@ -337,10 +322,7 @@ namespace Frankie.Combat
             if (inCooldown && cooldownTimer <= 0)
             {
                 inCooldown = false;
-                if (stateAltered != null)
-                {
-                    stateAltered.Invoke(this, new StateAlteredData(StateAlteredType.CooldownExpired));
-                }
+                stateAltered?.Invoke(this, new StateAlteredData(StateAlteredType.CooldownExpired));
             }
         }
 
@@ -356,7 +338,7 @@ namespace Frankie.Combat
                 statNameValuePairs.Add(statNameValuePair);
             }
 
-            characterLevelUp.Invoke(this, level, statNameValuePairs);
+            characterLevelUp?.Invoke(this, level, statNameValuePairs);
         }
 
         private void ReconcileHPAP(EquipableItem equipableItem)

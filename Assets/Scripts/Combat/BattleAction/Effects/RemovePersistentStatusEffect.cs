@@ -41,7 +41,7 @@ namespace Frankie.Combat
                 }
             }
 
-            finished.Invoke(this);
+            finished?.Invoke(this);
         }
 
         private IEnumerable<PersistentStatus> Filter(IEnumerable<PersistentStatus> statuses, StatusType statusType)

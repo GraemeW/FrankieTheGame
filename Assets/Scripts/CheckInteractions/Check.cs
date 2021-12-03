@@ -26,10 +26,7 @@ namespace Frankie.Control
 
             if (inputType == matchType)
             {
-                if (checkInteraction != null)
-                {
-                    checkInteraction.Invoke(playerStateHandler);
-                }
+                checkInteraction?.Invoke(playerStateHandler);
             }
             return true;
         }

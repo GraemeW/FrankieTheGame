@@ -5,6 +5,8 @@ using UnityEngine;
 
 namespace Frankie.Control
 {
+    [RequireComponent(typeof(Animator))]
+    [RequireComponent(typeof(NPCStateHandler))]
     public class NPCMover : Mover
     {
         // Tunables
@@ -111,7 +113,7 @@ namespace Frankie.Control
 #if UNITY_EDITOR
         private void OnDrawGizmosSelected()
         {
-            if (patrolPath != null) { patrolPath.OnDrawGizmosSelected(); }
+            patrolPath?.OnDrawGizmosSelected();
         }
 #endif
     }

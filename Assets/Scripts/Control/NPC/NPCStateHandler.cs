@@ -11,6 +11,8 @@ using System.Linq;
 
 namespace Frankie.Control
 {
+
+
     public class NPCStateHandler : MonoBehaviour
     {
         // Tunables
@@ -59,10 +61,13 @@ namespace Frankie.Control
         #region UnityStandardMethods
         private void Awake()
         {
-            baseStats = GetComponent<BaseStats>();
+            // Hard requirement
             npcMover = GetComponent<NPCMover>();
+            // Not strictly necessary -- will fail elegantly
+            baseStats = GetComponent<BaseStats>();
             combatParticipant = GetComponent<CombatParticipant>();
 
+            // Cached
             player = GameObject.FindGameObjectWithTag("Player");
             playerStateHandler = new ReInitLazyValue<PlayerStateHandler>(SetupPlayerStateHandler);
             playerController = new ReInitLazyValue<PlayerController>(SetupPlayerController);
@@ -76,14 +81,14 @@ namespace Frankie.Control
 
         private PlayerStateHandler SetupPlayerStateHandler()
         {
-            if (player == null) { player = GameObject.FindGameObjectWithTag("Player"); }
-            return player.GetComponent<PlayerStateHandler>();
+            player ??= GameObject.FindGameObjectWithTag("Player");
+            return player?.GetComponent<PlayerStateHandler>();
         }
 
         private PlayerController SetupPlayerController()
         {
-            if (player == null) { player = GameObject.FindGameObjectWithTag("Player"); }
-            return player.GetComponent<PlayerController>();
+            player ??= GameObject.FindGameObjectWithTag("Player");
+            return player?.GetComponent<PlayerController>();
         }
 
         private void OnEnable()
@@ -117,7 +122,7 @@ namespace Frankie.Control
 
         private void OnCollisionEnter2D(Collision2D collision)
         {
-            if (disableCollisionEventsWhenDead && combatParticipant.IsDead()) { return; }
+            if (disableCollisionEventsWhenDead && (combatParticipant != null && combatParticipant.IsDead())) { return; }
             if (disableCollisionEventsWhenIdle && GetNPCState() == NPCState.idle) { return; }
 
             if (HandlePlayerCollisions(collision)) { return; }
@@ -178,12 +183,8 @@ namespace Frankie.Control
         #region PublicMethods
         public string GetName()
         {
-            if (baseStats != null)
-            {
-                // Split apart name on lower case followed by upper case w/ or w/out underscores
-                return baseStats.GetCharacterProperties().GetCharacterNamePretty();
-            }
-            return defaultName;
+            // Split apart name on lower case followed by upper case w/ or w/out underscores
+            return (baseStats != null) ? baseStats.GetCharacterProperties().GetCharacterNamePretty() : defaultName;
         }
 
         public NPCState GetNPCState()
@@ -225,7 +226,7 @@ namespace Frankie.Control
 
         private void ShoutToNearbyNPCs()
         {
-            if (combatParticipant.IsDead()) { return; }
+            if (combatParticipant != null && combatParticipant.IsDead()) { return; }
 
             RaycastHit2D[] hits = npcMover.NPCCastFromSelf(shoutDistance);
             foreach (RaycastHit2D hit in hits)
@@ -269,16 +270,15 @@ namespace Frankie.Control
         {
             if (playerStateHandler.GetPlayerState() == PlayerState.inBattle) { return; }
 
-            CombatParticipant enemy = GetComponent<CombatParticipant>();
-            if (enemy.IsDead())
+            if (combatParticipant.IsDead())
             {
-                playerStateHandler.EnterDialogue(string.Format(messageCannotFight, enemy.GetCombatName()));
+                playerStateHandler.EnterDialogue(string.Format(messageCannotFight, combatParticipant.GetCombatName()));
                 SetNPCState(NPCState.idle);
             }
             else
             {
                 List<CombatParticipant> enemies = new List<CombatParticipant>();
-                enemies.Add(enemy);
+                enemies.Add(combatParticipant);
                 bool enteredCombat = playerStateHandler.EnterCombat(enemies, transitionType);
 
                 if (!enteredCombat) { SetNPCState(NPCState.idle); }
@@ -326,7 +326,7 @@ namespace Frankie.Control
             // Reset player target if already aggravated (avoid loss of target)
             if (GetNPCState() == NPCState.aggravated && !npcMover.HasMoveTarget())
             {
-                GameObject moveTarget = playerController.value != null ? playerController.value.gameObject : null;
+                GameObject moveTarget = playerController.value?.gameObject;
                 if (moveTarget != null) { npcMover.SetMoveTarget(playerController.value.gameObject); }   
             }
 

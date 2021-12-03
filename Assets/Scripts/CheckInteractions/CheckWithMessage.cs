@@ -20,10 +20,7 @@ namespace Frankie.Control
                 playerStateHandler.EnterDialogue(checkMessage);
                 if (checkAtStartOfInteraction)
                 {
-                    if (checkInteraction != null)
-                    {
-                        checkInteraction.Invoke(playerStateHandler);
-                    }
+                    checkInteraction?.Invoke(playerStateHandler);
                 }
                 else
                 {
