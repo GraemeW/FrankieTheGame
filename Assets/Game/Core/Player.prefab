@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1925579894594943436}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: InteractionCenterPoint
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -48,7 +48,7 @@ GameObject:
   - component: {fileID: 7671963437768288763}
   - component: {fileID: 1878790955754810938}
   - component: {fileID: 9140000498525693419}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Player
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -229,7 +229,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 9140000498835536796}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: PartyContainer
   m_TagString: Untagged
   m_Icon: {fileID: 0}

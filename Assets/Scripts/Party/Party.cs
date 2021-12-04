@@ -54,7 +54,7 @@ namespace Frankie.Stats
         public void SetPartyLeader(CombatParticipant character)
         {
             // TODO:  Implement, call event to update camera controller
-            // TODO:  update the layers (i.e. put the new leader onto party leader layer;  put old leader onto other characters layer)
+            // TODO:  Set old party leader to trigger, new party leader to not trigger
         }
 
         public CombatParticipant GetPartyLeader()
@@ -81,6 +81,7 @@ namespace Frankie.Stats
             party.Add(partyCharacter.GetCombatParticipant());
             RefreshAnimatorLookup();
 
+            if (party.Count > 1) { partyCharacter.GetComponent<Collider2D>().isTrigger = true; }
             partyUpdated?.Invoke();
             return true;
         }

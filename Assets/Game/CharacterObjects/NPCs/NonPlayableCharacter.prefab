@@ -200,6 +200,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7bd0180a3f707c1489e04d0bfa6742c9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerCollisionMask:
+    serializedVersion: 2
+    m_Bits: 8
   defaultName: 
   messageCannotFight: '{0} is wounded and cannot fight.'
   willChasePlayer: 0
@@ -229,7 +232,6 @@ MonoBehaviour:
   characterProperties: {fileID: 0}
   defaultLevel: 1
   maxLevel: 99
-  shouldUseModifiers: 1
   progression: {fileID: 11400000, guid: 6d544ce8c0b2cd34badc52fee9ceccf9, type: 2}
   bonusStatOnLevelMidProbability: 0.3
   bonusStatOnLevelHighProbability: 0.1

@@ -6,6 +6,8 @@ using UnityEngine;
 
 namespace Frankie.Stats
 {
+    [RequireComponent(typeof(BaseStats))]
+    [RequireComponent(typeof(CombatParticipant))]
     public class CharacterNPCSwapper : MonoBehaviour
     {
         // Cached References
@@ -18,7 +20,7 @@ namespace Frankie.Stats
         {
             baseStats = GetComponent<BaseStats>();
             combatParticipant = GetComponent<CombatParticipant>();
-            party = GameObject.FindGameObjectWithTag("Player").GetComponent<Party>();
+            party = GameObject.FindGameObjectWithTag("Player")?.GetComponent<Party>();
         }
 
         private void Start()

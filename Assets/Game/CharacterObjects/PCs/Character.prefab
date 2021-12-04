@@ -19,7 +19,7 @@ GameObject:
   - component: {fileID: 6205572641082529027}
   - component: {fileID: 7722166093997427972}
   - component: {fileID: 7718304423591506186}
-  m_Layer: 6
+  m_Layer: 3
   m_Name: Character
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -102,7 +102,6 @@ MonoBehaviour:
   characterProperties: {fileID: 0}
   defaultLevel: 1
   maxLevel: 99
-  shouldUseModifiers: 1
   progression: {fileID: 11400000, guid: 6d544ce8c0b2cd34badc52fee9ceccf9, type: 2}
   bonusStatOnLevelMidProbability: 0.3
   bonusStatOnLevelHighProbability: 0.1
@@ -125,7 +124,6 @@ MonoBehaviour:
     tileSpriteImage: {fileID: 0}
     shaderMaterial: {fileID: 0}
   battleStartCooldown: 1
-  cooldownMultiplier: 1
   damageTimeSpan: 4
   fractionOfHPInstantOnRevival: 0.5
 --- !u!114 &726526304575199942
@@ -141,6 +139,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   skillTree: {fileID: 0}
+  skillTreeLevelMultiplierForStatUnlock: 10
 --- !u!114 &-8535015448183063659
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -205,10 +204,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bce5b12bc486dc641b36c0b1102e4dbf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  characterPrefab: {fileID: 0}
-  characterNPCPrefab: {fileID: 0}
-  baseStats: {fileID: 7770585857665752477}
-  combatParticipant: {fileID: 1538271764270950872}
 --- !u!1 &8263638854299470662
 GameObject:
   m_ObjectHideFlags: 0
@@ -219,7 +214,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8263638854299470657}
   - component: {fileID: 8263638854299470656}
-  m_Layer: 6
+  m_Layer: 3
   m_Name: CharacterSprite
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -304,7 +299,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2366363061461443362, guid: c08399674dab63349bf5a2c9c8ebbcaa, type: 3}
       propertyPath: m_Layer
-      value: 6
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 2366363061461443363, guid: c08399674dab63349bf5a2c9c8ebbcaa, type: 3}
       propertyPath: m_RootOrder

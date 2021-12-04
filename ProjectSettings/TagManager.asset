@@ -16,10 +16,10 @@ TagManager:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - LeadCharacter
+  - Player
   - Water
   - UI
-  - CharactersEnemiesNPCs
+  - EnemiesNPCs
   - MiniMap
   - 
   - 

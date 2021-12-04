@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2666196632901393418}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: InteractionCenterPoint
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -30,80 +30,6 @@ Transform:
   m_Father: {fileID: 3268347881412759661}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!50 &2192619549475451142
-Rigidbody2D:
-  serializedVersion: 4
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3268347881412759662}
-  m_BodyType: 0
-  m_Simulated: 1
-  m_UseFullKinematicContacts: 1
-  m_UseAutoMass: 0
-  m_Mass: 100000
-  m_LinearDrag: 1000000
-  m_AngularDrag: 1000000
-  m_GravityScale: 0
-  m_Material: {fileID: 0}
-  m_Interpolate: 1
-  m_SleepingMode: 1
-  m_CollisionDetection: 1
-  m_Constraints: 4
---- !u!114 &2189069832891847419
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3268347881412759662}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ae64d0078a8ee6e4d8bece5ce559d360, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  movementSpeed: 1
-  defaultTargetDistanceTolerance: 0.15
-  resetPositionOnEnable: 1
-  interactionCenterPoint: {fileID: 2666196632901393418}
-  patrolPath: {fileID: 0}
-  waypointDwellTime: 2
---- !u!114 &5735266784123818870
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3268347881412759662}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7bd0180a3f707c1489e04d0bfa6742c9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  defaultName: 
-  messageCannotFight: '{0} is wounded and cannot fight.'
-  willChasePlayer: 0
-  chaseDistance: 3
-  aggravationTime: 3
-  suspicionTime: 3
-  shoutDistance: 2
-  collidedWithPlayer:
-    m_PersistentCalls:
-      m_Calls: []
---- !u!114 &8799100898494828469
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3268347881412759662}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 292cbe0fa78f411468ca518291de60fb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  probabilityToTraverseSkillTree: 0.8
 --- !u!1001 &2042217209611143882
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -142,6 +68,10 @@ PrefabInstance:
     - target: {fileID: 6564381309038757640, guid: 3ba2ab0c1cea63442a5dec585154a263, type: 3}
       propertyPath: m_Name
       value: ConversantComponent
+      objectReference: {fileID: 0}
+    - target: {fileID: 6564381309038757640, guid: 3ba2ab0c1cea63442a5dec585154a263, type: 3}
+      propertyPath: m_Layer
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 6564381309038757641, guid: 3ba2ab0c1cea63442a5dec585154a263, type: 3}
       propertyPath: m_RootOrder
@@ -204,6 +134,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: CharacterNPC
       objectReference: {fileID: 0}
+    - target: {fileID: 8263638854090363868, guid: b3d57c5ca0835dc44b0b91ac427342b7, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
     - target: {fileID: 8263638854090363871, guid: b3d57c5ca0835dc44b0b91ac427342b7, type: 3}
       propertyPath: m_RootOrder
       value: 0
@@ -248,6 +182,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8263638854299470662, guid: b3d57c5ca0835dc44b0b91ac427342b7, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 8820721096293976740, guid: b3d57c5ca0835dc44b0b91ac427342b7, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b3d57c5ca0835dc44b0b91ac427342b7, type: 3}
 --- !u!1 &3268347881412759662 stripped
@@ -260,3 +202,81 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 8263638854090363871, guid: b3d57c5ca0835dc44b0b91ac427342b7, type: 3}
   m_PrefabInstance: {fileID: 6914669016303666098}
   m_PrefabAsset: {fileID: 0}
+--- !u!50 &2192619549475451142
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3268347881412759662}
+  m_BodyType: 0
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 1
+  m_UseAutoMass: 0
+  m_Mass: 100000
+  m_LinearDrag: 1000000
+  m_AngularDrag: 1000000
+  m_GravityScale: 0
+  m_Material: {fileID: 0}
+  m_Interpolate: 1
+  m_SleepingMode: 1
+  m_CollisionDetection: 1
+  m_Constraints: 4
+--- !u!114 &2189069832891847419
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3268347881412759662}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ae64d0078a8ee6e4d8bece5ce559d360, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  movementSpeed: 1
+  defaultTargetDistanceTolerance: 0.15
+  resetPositionOnEnable: 1
+  interactionCenterPoint: {fileID: 2666196632901393418}
+  patrolPath: {fileID: 0}
+  waypointDwellTime: 2
+--- !u!114 &5735266784123818870
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3268347881412759662}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7bd0180a3f707c1489e04d0bfa6742c9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  defaultName: 
+  messageCannotFight: '{0} is wounded and cannot fight.'
+  willChasePlayer: 0
+  disableCollisionEventsWhenDead: 1
+  disableCollisionEventsWhenIdle: 1
+  chaseDistance: 3
+  aggravationTime: 3
+  suspicionTime: 3
+  canBeShoutedAt: 1
+  shoutDistance: 2
+  shoutGroup: []
+  collidedWithPlayer:
+    m_PersistentCalls:
+      m_Calls: []
+--- !u!114 &8799100898494828469
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3268347881412759662}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 292cbe0fa78f411468ca518291de60fb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  probabilityToTraverseSkillTree: 0.8

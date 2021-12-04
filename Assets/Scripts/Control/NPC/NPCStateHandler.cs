@@ -17,6 +17,7 @@ namespace Frankie.Control
     {
         // Tunables
         [Header("Base Properties")]
+        [SerializeField] LayerMask playerCollisionMask = new LayerMask();
         [Tooltip("Only used if not found via base stats")] [SerializeField] string defaultName = "";
         [Tooltip("Include {0} for enemy name")] [SerializeField] string messageCannotFight = "{0} is wounded and cannot fight.";
         [Header("Chase Properties")]
@@ -125,54 +126,88 @@ namespace Frankie.Control
             if (disableCollisionEventsWhenDead && (combatParticipant != null && combatParticipant.IsDead())) { return; }
             if (disableCollisionEventsWhenIdle && GetNPCState() == NPCState.idle) { return; }
 
-            if (HandlePlayerCollisions(collision)) { return; }
-            if (HandleNPCCollisions(collision)) { return; }
+            Vector2 contactPoint = collision.GetContact(0).point;
+            Vector2 npcPosition = collision.otherCollider.bounds.center;
+            Vector2 playerPosition = collision.collider.bounds.center;
+
+            HandleAllCollisionEntries(collision.gameObject, contactPoint, npcPosition, playerPosition);
+        }
+
+        private void OnTriggerEnter2D(Collider2D collision)
+        {
+            if (disableCollisionEventsWhenDead && (combatParticipant != null && combatParticipant.IsDead())) { return; }
+            if (disableCollisionEventsWhenIdle && GetNPCState() == NPCState.idle) { return; }
+
+            Vector2 npcPosition = GetComponent<Collider2D>().bounds.center;
+            Vector2 contactPoint = collision.ClosestPoint(npcPosition);
+            Vector2 playerPosition = collision.GetComponent<Collider2D>().bounds.center;
+
+            HandleAllCollisionEntries(collision.gameObject, contactPoint, npcPosition, playerPosition);
+        }
+
+        private void HandleAllCollisionEntries(GameObject collisionGameObject, Vector2 contactPoint, Vector2 npcPosition, Vector2 playerPosition)
+        {
+            if (playerCollisionMask == (playerCollisionMask | (1 << collisionGameObject.layer)))
+            {
+                if (HandlePlayerCollisions(contactPoint, npcPosition, playerPosition)) { return; }
+            }
+
+            collisionGameObject.TryGetComponent(out NPCStateHandler collisionNPC);
+            if (collisionNPC != null)
+            {
+                if (HandleNPCCollisions(collisionNPC, contactPoint, npcPosition, playerPosition)) { return; }
+            }
         }
 
         private void OnCollisionExit2D(Collision2D collision)
         {
-            if (collision.gameObject.CompareTag("Player")) { touchingPlayer = false; }
+            HandleAllCollisionExits(collision.gameObject);
+        }
 
-            collision.gameObject.TryGetComponent(out NPCStateHandler collisionNPC);
+        private void OnTriggerExit2D(Collider2D collision)
+        {
+            HandleAllCollisionExits(collision.gameObject);
+        }
+
+        private void HandleAllCollisionExits(GameObject collisionGameObject)
+        {
+            if (collisionGameObject.CompareTag("Player")) { touchingPlayer = false; }
+
+            collisionGameObject.TryGetComponent(out NPCStateHandler collisionNPC);
             if (collisionNPC != null)
             {
                 currentNPCCollisions.Remove(collisionNPC);
             }
-
         }
 
-        private bool HandlePlayerCollisions(Collision2D collision)
+        private bool HandlePlayerCollisions(Vector2 contactPoint, Vector2 npcPosition, Vector2 playerPosition)
         {
-            if (!collision.gameObject.CompareTag("Player")) { return false; }
             touchingPlayer = true;
 
             if (collisionsOverriddenToEnterCombat) // Applied for aggro situations
             {
-                TransitionType battleEntryType = GetBattleEntryType(collision);
+                TransitionType battleEntryType = GetBattleEntryType(contactPoint, npcPosition, playerPosition);
                 InitiateCombat(playerStateHandler.value, battleEntryType);
                 return true;
             }
             else if (collidedWithPlayer != null) // Event hooked up in Unity
             {
-                TransitionType battleEntryType = GetBattleEntryType(collision);
+                TransitionType battleEntryType = GetBattleEntryType(contactPoint, npcPosition, playerPosition);
                 collidedWithPlayer.Invoke(playerStateHandler.value, battleEntryType);
                 return true;
             }
             return false;
         }
 
-        private bool HandleNPCCollisions(Collision2D collision)
+        private bool HandleNPCCollisions(NPCStateHandler collisionNPC, Vector2 contactPoint, Vector2 npcPosition, Vector2 playerPosition)
         {
             if (!collisionsOverriddenToEnterCombat) { return false; }
-
-            collision.gameObject.TryGetComponent(out NPCStateHandler collisionNPC);
-            if (collisionNPC == null) { return false; }
 
             if (collisionNPC.IsTouchingPlayer())
             {
                 if (!currentNPCCollisions.Contains(collisionNPC)) { currentNPCCollisions.Add(collisionNPC); }
 
-                TransitionType battleEntryType = GetBattleEntryType(collision);
+                TransitionType battleEntryType = GetBattleEntryType(contactPoint, npcPosition, playerPosition);
                 InitiateCombat(playerStateHandler.value, battleEntryType);
                 return true;
             }
@@ -381,12 +416,8 @@ namespace Frankie.Control
             }
         }
 
-        private TransitionType GetBattleEntryType(Collision2D collision)
+        private TransitionType GetBattleEntryType(Vector2 contactPoint, Vector2 npcPosition, Vector2 playerPosition)
         {
-            Vector2 contactPoint = collision.GetContact(0).point;
-            Vector2 npcPosition = collision.otherCollider.bounds.center;
-            Vector2 playerPosition = collision.collider.bounds.center;
-
             float npcLookMagnitudeToContact = Vector2.Dot(contactPoint - npcPosition, npcMover.GetLookDirection());
             float playerLookMagnitudeToContact = Vector2.Dot(contactPoint - playerPosition, playerController.value.GetPlayerMover().GetLookDirection());
 

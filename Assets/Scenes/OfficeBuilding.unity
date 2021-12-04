@@ -5403,7 +5403,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 121950059216269072, guid: 87798213a6f87e04bb090d6464b295ce, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0.71511257
+      value: -0.757
       objectReference: {fileID: 0}
     - target: {fileID: 121950059216269072, guid: 87798213a6f87e04bb090d6464b295ce, type: 3}
       propertyPath: m_LocalPosition.z
@@ -6208,7 +6208,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3912013125334914393, guid: 8df96e93ad84df543ac612ffead2117d, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0.8251126
+      value: -0.867
       objectReference: {fileID: 0}
     - target: {fileID: 3912013125334914393, guid: 8df96e93ad84df543ac612ffead2117d, type: 3}
       propertyPath: m_LocalPosition.z
@@ -6460,7 +6460,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5163575220664821587, guid: bdd6cc71d9df0ec4481b6083dcc36703, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0.69911253
+      value: -0.741
       objectReference: {fileID: 0}
     - target: {fileID: 5163575220664821587, guid: bdd6cc71d9df0ec4481b6083dcc36703, type: 3}
       propertyPath: m_LocalPosition.z
@@ -6950,6 +6950,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 496885798}
     m_Modifications:
+    - target: {fileID: 6064117322999955908, guid: 94488ab9b2a166046873d77b7a3babf8, type: 3}
+      propertyPath: m_Size.x
+      value: 0.76986337
+      objectReference: {fileID: 0}
+    - target: {fileID: 6064117322999955908, guid: 94488ab9b2a166046873d77b7a3babf8, type: 3}
+      propertyPath: m_Offset.x
+      value: -0.017672136
+      objectReference: {fileID: 0}
     - target: {fileID: 6064117322999955928, guid: 94488ab9b2a166046873d77b7a3babf8, type: 3}
       propertyPath: m_Name
       value: Desk
@@ -7219,7 +7227,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6748405756474271262, guid: 7d6634333e185754d96c189f3df7c163, type: 3}
       propertyPath: orthographic size
-      value: 3
+      value: 3.5
       objectReference: {fileID: 0}
     - target: {fileID: 6748405756474271262, guid: 7d6634333e185754d96c189f3df7c163, type: 3}
       propertyPath: m_CullingMask.m_Bits
@@ -7786,21 +7794,9 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 6022225782888727257, guid: 9bf5874c37e0a404a9bd916129a14959, type: 3}
-      propertyPath: m_Layer
-      value: 3
-      objectReference: {fileID: 0}
     - target: {fileID: 6558820224858072559, guid: 9bf5874c37e0a404a9bd916129a14959, type: 3}
       propertyPath: playerMovementHistoryLength
       value: 128
-      objectReference: {fileID: 0}
-    - target: {fileID: 6580909876086676385, guid: 9bf5874c37e0a404a9bd916129a14959, type: 3}
-      propertyPath: m_Layer
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 6580909876163068731, guid: 9bf5874c37e0a404a9bd916129a14959, type: 3}
-      propertyPath: m_Layer
-      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 7603635839682770888, guid: 9bf5874c37e0a404a9bd916129a14959, type: 3}
       propertyPath: slots.Array.size
