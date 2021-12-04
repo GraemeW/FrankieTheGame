@@ -8,9 +8,6 @@ using UnityEngine.SceneManagement;
 namespace Frankie.Core
 {
     [RequireComponent(typeof(PlayerStateHandler))]
-    [RequireComponent(typeof(PlayerController))]
-    [RequireComponent(typeof(PlayerMover))]
-    [RequireComponent(typeof(Party))]
 
     public class Player : MonoBehaviour
     {

@@ -14,12 +14,17 @@ namespace Frankie.Core
 
         // Cached References
         Player player = null;
-        Party party = null; // TODO:  Listen for party events, update animator, etc. accordingly
+        Party party = null;
 
         private void Awake()
         {
             stateCamera = GetComponentInChildren<CinemachineStateDrivenCamera>();
             virtualCameras = GetComponentsInChildren<CinemachineVirtualCamera>().ToList();
+            SetupPlayerReferences();
+        }
+
+        private void SetupPlayerReferences()
+        {
             GameObject playerGameObject = GameObject.FindGameObjectWithTag("Player");
             if (playerGameObject != null)
             {

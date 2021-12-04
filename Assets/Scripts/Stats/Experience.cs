@@ -5,6 +5,7 @@ using Frankie.Saving;
 
 namespace Frankie.Stats
 {
+    [RequireComponent(typeof(BaseStats))]
     public class Experience : MonoBehaviour, ISaveable
     {
         // Tunables
@@ -47,7 +48,24 @@ namespace Frankie.Stats
         public bool GainExperienceToLevel(float points)
         {
             currentPoints.value += points;
-            return baseStats.UpdateLevel();
+            return UpdateLevel();
+        }
+
+        private bool UpdateLevel()
+        {
+            if (!baseStats.CanLevelUp()) { return false; }
+
+            if (GetPoints() > baseStats.GetStat(Stat.ExperienceToLevelUp))
+            {
+                float experienceBalance = GetPoints() - baseStats.GetStat(Stat.ExperienceToLevelUp);
+                ResetPoints();
+                baseStats.IncrementLevel();
+
+                GainExperienceToLevel(experienceBalance); // Adjust the balance up, can re-call present function for multi-levels
+
+                return true;
+            }
+            return false;
         }
 
         public float GetPoints()

@@ -95,10 +95,7 @@ namespace Frankie.Control
 
         protected override void UpdateAnimator()
         {
-            if (leaderAnimatorUpdated != null)
-            {
-                leaderAnimatorUpdated.Invoke(currentSpeed, lookDirection.x, lookDirection.y);
-            }
+            leaderAnimatorUpdated?.Invoke(currentSpeed, lookDirection.x, lookDirection.y);
         }
     }
 }

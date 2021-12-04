@@ -6,6 +6,7 @@ using Frankie.Utils;
 
 namespace Frankie.Control
 {
+    [RequireComponent(typeof(Rigidbody2D))]
     public class Mover : MonoBehaviour, ISaveable
     {
         // Tunables

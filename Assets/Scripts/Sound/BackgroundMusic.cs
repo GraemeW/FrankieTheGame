@@ -9,6 +9,7 @@ using Frankie.Control;
 
 namespace Frankie.Sound
 {
+    [RequireComponent(typeof(AudioSource))]
     public class BackgroundMusic : MonoBehaviour
     {
         // Tunables
@@ -45,20 +46,23 @@ namespace Frankie.Sound
             // Note:  Cached references obtained in Start
             // Persistent objects not reliable to attempt to get within Awake -- hence fancy footwork on OnEnable/Disable
             SetUpSceneLoader();
-            AttemptToSetUpPlayerReference();
+            AttemptToSetUpPlayerReference(null);
         }
 
         private void OnEnable()
         {
             InitializeVolume();
 
-            if (playerStateHandler != null)
-            {
-                playerStateHandler.playerStateChanged += ParsePlayerState;
-            }
+            if (playerStateHandler != null) { playerStateHandler.playerStateChanged += ParsePlayerState; }
+
             if (sceneLoader != null)
             {
-                if (playerStateHandler == null) { sceneLoader.zoneUpdated += (Zone zone) => AttemptToSetUpPlayerReference(); }
+                if (playerStateHandler == null)
+                { 
+                    // sceneLoader exists, but playerStateHandler doesn't, implies wasn't found in past Enable
+                    // -- since wasn't found, re-subscribe to events
+                    sceneLoader.zoneUpdated += AttemptToSetUpPlayerReference; 
+                }
                 sceneLoader.zoneUpdated += ParseZoneUpdate;
             }
         }
@@ -71,7 +75,12 @@ namespace Frankie.Sound
             }
             if (sceneLoader != null)
             {
-                if (playerStateHandler == null) { sceneLoader.zoneUpdated -= (Zone zone) => AttemptToSetUpPlayerReference(); }
+                if (playerStateHandler == null)
+                {
+                    // sceneLoader exists, but playerStateHandler doesn't, implies never found
+                    // -- since never found, unsubscribe to events
+                    sceneLoader.zoneUpdated -= AttemptToSetUpPlayerReference; 
+                }
                 sceneLoader.zoneUpdated -= ParseZoneUpdate;
             }
         }
@@ -122,28 +131,25 @@ namespace Frankie.Sound
 
         private void SetUpSceneLoader()
         {
-            sceneLoader = GameObject.FindGameObjectWithTag("SceneLoader").GetComponent<SceneLoader>();
-            sceneLoader.zoneUpdated += (Zone zone) => AttemptToSetUpPlayerReference();
+            sceneLoader = GameObject.FindGameObjectWithTag("SceneLoader")?.GetComponent<SceneLoader>();
+            if (sceneLoader == null) { return; }
+
+            sceneLoader.zoneUpdated += AttemptToSetUpPlayerReference;
             sceneLoader.zoneUpdated += ParseZoneUpdate;
 
             Zone currentZone = sceneLoader.GetCurrentZone();
             ConfigureNewWorldAudio(currentZone.GetZoneAudio(), currentZone.IsZoneAudioLooping(), true);
         }
 
-        private void AttemptToSetUpPlayerReference()
+        private void AttemptToSetUpPlayerReference(Zone zone)
         {
             // Player object is not always present, e.g. on intro splash screens
             // Special handling to check for existence on each scene load until found
-            if (playerStateHandler == null)
-            {
-                GameObject playerGameObject = GameObject.FindGameObjectWithTag("Player");
-                if (playerGameObject != null)
-                {
-                    playerStateHandler = playerGameObject.GetComponent<PlayerStateHandler>();
-                    playerStateHandler.playerStateChanged += ParsePlayerState;
-                    sceneLoader.zoneUpdated -= (Zone zone) => AttemptToSetUpPlayerReference();
-                }
-            }
+            playerStateHandler ??= GameObject.FindGameObjectWithTag("Player")?.GetComponent<PlayerStateHandler>();
+            if (playerStateHandler == null) { return; }
+
+            playerStateHandler.playerStateChanged += ParsePlayerState;
+            if (sceneLoader != null) { sceneLoader.zoneUpdated -= AttemptToSetUpPlayerReference; }
         }
         #endregion
 
@@ -175,8 +181,7 @@ namespace Frankie.Sound
         {
             if (playerState == PlayerState.inBattle)
             {
-                GameObject battleControllerObject = GameObject.FindGameObjectWithTag("BattleController");
-                battleController = battleControllerObject != null ? battleControllerObject.GetComponent<BattleController>() : null;
+                battleController ??= GameObject.FindGameObjectWithTag("BattleController")?.GetComponent<BattleController>();
                 AudioClip audioClip = GetBattleAudioClip();
                 SetBattleMusic(audioClip);
 

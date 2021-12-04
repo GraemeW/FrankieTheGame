@@ -208,10 +208,7 @@ namespace Frankie.Inventory
             if (slots[slot] != null || inventoryItem == null) { return false; }
             slots[slot] = new ActiveInventoryItem(inventoryItem); ;
 
-            if (knapsackUpdated != null && announceUpdate)
-            {
-                knapsackUpdated.Invoke();
-            }
+            if (announceUpdate) { knapsackUpdated?.Invoke(); }
             return true;
         }
 
@@ -235,10 +232,7 @@ namespace Frankie.Inventory
             }
             slots[slot] = null;
 
-            if (knapsackUpdated != null & announceUpdate)
-            {
-                knapsackUpdated.Invoke();
-            }
+            if (announceUpdate) { knapsackUpdated?.Invoke(); }
         }
 
         public void RemoveItem(InventoryItem inventoryItem, bool announceUpdate)

@@ -24,10 +24,7 @@ namespace Frankie.Speech
 
         private void Start()
         {
-            if (dialogue != null)
-            {
-                dialogue.OverrideSpeakerNames(null);
-            }
+            dialogue?.OverrideSpeakerNames(null);
         }
 
         public Dialogue GetDialogue()
@@ -47,10 +44,7 @@ namespace Frankie.Speech
 
             if (inputType == matchType)
             {
-                if (checkInteraction != null)
-                {
-                    checkInteraction.Invoke(playerStateHandler);
-                }
+                checkInteraction?.Invoke(playerStateHandler);
                 playerStateHandler.EnterDialogue(this, dialogue);
             }
             return true;

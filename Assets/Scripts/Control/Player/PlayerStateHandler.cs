@@ -60,10 +60,7 @@ namespace Frankie.Control
         #region SettersGetters
         public void SetWorldCanvas()
         {
-            if (worldCanvas == null)
-            {
-                worldCanvas = GameObject.FindGameObjectWithTag("WorldCanvas").GetComponent<WorldCanvas>();
-            }
+            worldCanvas ??= GameObject.FindGameObjectWithTag("WorldCanvas")?.GetComponent<WorldCanvas>();
         }
 
         public void SetPlayerState(PlayerState playerState)
@@ -117,7 +114,6 @@ namespace Frankie.Control
             if (dialogueController != null) { return dialogueController; }
 
             DialogueController existingDialogueController = GameObject.FindGameObjectWithTag("DialogueController")?.GetComponent<DialogueController>();
-
             if (existingDialogueController == null)
             {
                 dialogueController = Instantiate(dialogueControllerPrefab);
@@ -134,20 +130,14 @@ namespace Frankie.Control
         {
             if (battleController != null) { return battleController; }
 
-            GameObject battleControllerObject = GameObject.FindGameObjectWithTag("BattleController");
-            BattleController existingBattleControllerController = null;
-            if (battleControllerObject != null)
-            {
-                existingBattleControllerController = battleControllerObject.GetComponent<BattleController>();
-            }
-
-            if (existingBattleControllerController == null)
+            BattleController existingBattleController = GameObject.FindGameObjectWithTag("BattleController")?.GetComponent<BattleController>();
+            if (existingBattleController == null)
             {
                 battleController = Instantiate(battleControllerPrefab);
             }
             else
             {
-                battleController = existingBattleControllerController;
+                battleController = existingBattleController;
             }
 
             return battleController;

@@ -11,6 +11,7 @@ using UnityEngine.SceneManagement;
 
 namespace Frankie.Stats
 {
+    [RequireComponent(typeof(PlayerMover))]
     public class Party : MonoBehaviour, ISaveable
     {
         // Tunables

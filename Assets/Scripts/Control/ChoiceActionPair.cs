@@ -16,5 +16,4 @@ namespace Frankie.Control
         public string choice;
         public Action action;
     }
-
 }

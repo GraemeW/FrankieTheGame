@@ -30,9 +30,10 @@ namespace Frankie.Stats
 
         private void DeleteNPCIfInParty()
         {
+            if (party ==  null) { return; }
+
             string characterName = baseStats.GetCharacterProperties().name;
             CombatParticipant characterInParty = party.GetMember(characterName);
-
             if (characterInParty != null && characterInParty != combatParticipant)
             {
                 Destroy(gameObject);

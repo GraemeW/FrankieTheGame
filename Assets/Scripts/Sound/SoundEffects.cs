@@ -5,6 +5,7 @@ using Frankie.Settings;
 
 namespace Frankie.Sound
 {
+    [RequireComponent(typeof(AudioSource))]
     public class SoundEffects : MonoBehaviour
     {
         // Note:  Functions called via Unity Events, ignore '0 references' messages

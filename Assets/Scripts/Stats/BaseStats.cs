@@ -24,9 +24,6 @@ namespace Frankie.Stats
         LazyValue<int> currentLevel;
         Dictionary<Stat, float> activeStatSheet = null;
 
-        // Cached Reference
-        Experience experience = null;
-
         // Events
         public event Action<int, Dictionary<Stat, float>> onLevelUp;
 
@@ -40,7 +37,6 @@ namespace Frankie.Stats
 
         private void Awake()
         {
-            experience = GetComponent<Experience>();
             currentLevel = new LazyValue<int>(() => defaultLevel);
         }
 
@@ -116,11 +112,6 @@ namespace Frankie.Stats
             return sumModifier;
         }
 
-        public int GetLevel()
-        {
-            return currentLevel.value;
-        }
-
         public void AdjustStat(Stat stat, float value)
         {
             if (activeStatSheet == null)
@@ -131,27 +122,21 @@ namespace Frankie.Stats
             activeStatSheet[stat] += value;
         }
 
-        public bool UpdateLevel()
+        public int GetLevel()
         {
-            if (GetLevel() >= maxLevel) { return false; }
+            return currentLevel.value;
+        }
 
-            if (experience.GetPoints() > GetStat(Stat.ExperienceToLevelUp))
-            {
-                float experienceBalance = experience.GetPoints() - GetStat(Stat.ExperienceToLevelUp);
-                experience.ResetPoints();
-                currentLevel.value++;
+        public bool CanLevelUp()
+        {
+            return GetLevel() < maxLevel;
+        }
 
-                Dictionary<Stat, float> levelUpSheet = IncrementStatsOnLevelUp();
-
-                if (onLevelUp != null)
-                {
-                    onLevelUp.Invoke(GetLevel(), levelUpSheet);
-                }
-
-                experience.GainExperienceToLevel(experienceBalance); // Adjust the balance up, can re-call present function for multi-levels
-                return true;
-            }
-            return false;
+        public void IncrementLevel()
+        {
+            currentLevel.value++;
+            Dictionary<Stat, float> levelUpSheet = IncrementStatsOnLevelUp();
+            onLevelUp?.Invoke(GetLevel(), levelUpSheet);
         }
 
         private Dictionary<Stat, float> IncrementStatsOnLevelUp()

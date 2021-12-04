@@ -8,6 +8,7 @@ using UnityEngine;
 
 namespace Frankie.Inventory
 {
+    [RequireComponent(typeof(Knapsack))]
     public class Equipment : MonoBehaviour, ISaveable, IModifierProvider
     {
         // State
@@ -89,10 +90,7 @@ namespace Frankie.Inventory
             // Add
             equippedItems[equipLocation] = equipableItem;
 
-            if (equipmentUpdated != null && announceUpdate)
-            {
-                equipmentUpdated.Invoke(equipableItem);
-            }
+            if (announceUpdate) { equipmentUpdated?.Invoke(equipableItem); }
             return true;
         }
 
@@ -100,10 +98,7 @@ namespace Frankie.Inventory
         {
             equippedItems.Remove(equipLocation);
 
-            if (equipmentUpdated != null && announceUpdate)
-            {
-                equipmentUpdated.Invoke(null);
-            }
+            if (announceUpdate) { equipmentUpdated?.Invoke(null); }
         }
 
         public void ReconcileEquipment(bool announceUpdate)
@@ -121,10 +116,7 @@ namespace Frankie.Inventory
                 }
             }
 
-            if (equipmentUpdated != null && announceUpdate)
-            {
-                equipmentUpdated.Invoke(null);
-            }
+            if (announceUpdate) { equipmentUpdated?.Invoke(null); }
         }
         #endregion
 
