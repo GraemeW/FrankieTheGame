@@ -23,7 +23,7 @@ namespace Frankie.ZoneManagement
 
         public Zone GetCurrentZone()
         {
-            currentZone ??= Zone.GetFromSceneReference(SceneManager.GetActiveScene().name);
+            if (currentZone == null) { currentZone = Zone.GetFromSceneReference(SceneManager.GetActiveScene().name); }
             return currentZone;
         }
 

@@ -145,7 +145,7 @@ namespace Frankie.Sound
         {
             // Player object is not always present, e.g. on intro splash screens
             // Special handling to check for existence on each scene load until found
-            playerStateHandler ??= GameObject.FindGameObjectWithTag("Player")?.GetComponent<PlayerStateHandler>();
+            playerStateHandler = GameObject.FindGameObjectWithTag("Player")?.GetComponent<PlayerStateHandler>();
             if (playerStateHandler == null) { return; }
 
             playerStateHandler.playerStateChanged += ParsePlayerState;
@@ -181,7 +181,7 @@ namespace Frankie.Sound
         {
             if (playerState == PlayerState.inBattle)
             {
-                battleController ??= GameObject.FindGameObjectWithTag("BattleController")?.GetComponent<BattleController>();
+                if (battleController == null) { battleController = GameObject.FindGameObjectWithTag("BattleController")?.GetComponent<BattleController>(); }
                 AudioClip audioClip = GetBattleAudioClip();
                 SetBattleMusic(audioClip);
 

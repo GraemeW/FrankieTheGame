@@ -28,8 +28,8 @@ namespace Frankie.Quests
 
         private QuestList SetupQuestList()
         {
-            player ??= GameObject.FindGameObjectWithTag("Player");
-            return player.GetComponent<QuestList>();
+            if (player == null) { player = GameObject.FindGameObjectWithTag("Player"); }
+            return player?.GetComponent<QuestList>();
         }
 
         public void GiveQuest()

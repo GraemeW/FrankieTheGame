@@ -11,7 +11,7 @@ namespace Frankie.Menu.UI
     public class EscapeMenu : UIBox
     {
         // Tunables
-        [SerializeField] GameObject optionsMenuPrefab = null;
+        [SerializeField] OptionsMenu optionsMenuPrefab = null;
 
         // Cached References
         SavingWrapper savingWrapper = null;
@@ -63,8 +63,7 @@ namespace Frankie.Menu.UI
             // Frontload event calling -- despawns any open windows
             escapeMenuItemSelected?.Invoke();
 
-            GameObject childOption = Instantiate(optionsMenuPrefab, worldCanvas.gameObject.transform);
-            OptionsMenu optionsMenu = childOption.GetComponent<OptionsMenu>();
+            OptionsMenu optionsMenu = Instantiate(optionsMenuPrefab, worldCanvas.gameObject.transform);
             optionsMenu.Setup(this);
             PassControl(optionsMenu);
         }

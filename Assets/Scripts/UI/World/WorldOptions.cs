@@ -16,12 +16,12 @@ namespace Frankie.Menu.UI
         // Tunables
         [SerializeField] Transform characterPanelTransform = null;
         [Header("Option Game Objects")]
-        [SerializeField] GameObject characterSlidePrefab = null;
-        [SerializeField] GameObject knapsackPrefab = null;
-        [SerializeField] GameObject equipmentPrefab = null;
-        [SerializeField] GameObject abilitiesPrefab = null;
-        [SerializeField] GameObject statusPrefab = null;
-        [SerializeField] GameObject mapPrefab = null;
+        [SerializeField] CharacterSlide characterSlidePrefab = null;
+        [SerializeField] InventoryBox inventoryBoxPrefab = null;
+        [SerializeField] EquipmentBox equipmentBoxPrefab = null;
+        [SerializeField] GameObject abilitiesBoxPrefab = null;
+        [SerializeField] StatusBox statusBoxPrefab = null;
+        [SerializeField] MapSuper mapSuperPrefab = null;
 
         // State
         List<CharacterSlide> characterSlides = new List<CharacterSlide>();
@@ -53,8 +53,7 @@ namespace Frankie.Menu.UI
             characterSlides.Clear();
             foreach (CombatParticipant character in party.GetParty())
             {
-                GameObject characterObject = Instantiate(characterSlidePrefab, characterPanelTransform);
-                CharacterSlide characterSlide = characterObject.GetComponent<CharacterSlide>();
+                CharacterSlide characterSlide = Instantiate(characterSlidePrefab, characterPanelTransform);
                 characterSlide.SetCombatParticipant(character);
                 characterSlides.Add(characterSlide);
             }
@@ -88,8 +87,8 @@ namespace Frankie.Menu.UI
         public void OpenStatus() // Called via Unity Events
         {
             ResetWorldOptions();
-            childOption = Instantiate(statusPrefab, worldCanvas.GetWorldOptionsParent());
-            StatusBox statusBox = childOption.GetComponent<StatusBox>();
+            StatusBox statusBox = Instantiate(statusBoxPrefab, worldCanvas.GetWorldOptionsParent());
+            childOption = statusBox.gameObject;
             statusBox.Setup(party);
             PassControl(statusBox);
         }
@@ -97,8 +96,8 @@ namespace Frankie.Menu.UI
         public void OpenKnapsack() // Called via Unity Events
         {
             ResetWorldOptions();
-            childOption = Instantiate(knapsackPrefab, worldCanvas.GetWorldOptionsParent());
-            InventoryBox inventoryBox = childOption.GetComponent<InventoryBox>();
+            InventoryBox inventoryBox = Instantiate(inventoryBoxPrefab, worldCanvas.GetWorldOptionsParent());
+            childOption = inventoryBox.gameObject;
             inventoryBox.Setup(playerController, party, characterSlides);
             PassControl(inventoryBox);
         }
@@ -106,8 +105,8 @@ namespace Frankie.Menu.UI
         public void OpenEquipment() // Called via Unity Events
         {
             ResetWorldOptions();
-            childOption = Instantiate(equipmentPrefab, worldCanvas.GetWorldOptionsParent());
-            EquipmentBox equipmentBox = childOption.GetComponent<EquipmentBox>();
+            EquipmentBox equipmentBox = Instantiate(equipmentBoxPrefab, worldCanvas.GetWorldOptionsParent());
+            childOption = equipmentBox.gameObject;
             equipmentBox.Setup(playerController, party, characterSlides);
             PassControl(equipmentBox);
         }
@@ -115,8 +114,8 @@ namespace Frankie.Menu.UI
         public void OpenMap() // Called via Unity Events
         {
             ResetWorldOptions();
-            childOption = Instantiate(mapPrefab, worldCanvas.GetWorldOptionsParent());
-            MapSuper mapSuper = childOption.GetComponent<MapSuper>();
+            MapSuper mapSuper = Instantiate(mapSuperPrefab, worldCanvas.GetWorldOptionsParent());
+            childOption = mapSuper.gameObject;
             PassControl(mapSuper);
         }
 

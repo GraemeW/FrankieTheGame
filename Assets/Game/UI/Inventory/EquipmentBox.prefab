@@ -720,6 +720,7 @@ MonoBehaviour:
   canvasGroup: {fileID: 7931030931547762203}
   handleGlobalInput: 1
   clearVolatileOptionsOnEnable: 1
+  preventEscapeOptionExit: 0
   optionParent: {fileID: 2827520980706274898}
   optionPrefab: {fileID: 3358873790910023875, guid: 9193413aa0e976e439049a2689f4fa41, type: 3}
   selectedCharacterNameField: {fileID: 9194726771461153638}
@@ -730,12 +731,13 @@ MonoBehaviour:
   rightEquipment: {fileID: 2017014464284531185}
   equipmentChangeMenu: {fileID: 7943404947919532540}
   statSheetParent: {fileID: 5521227728359719399}
-  dialogueBoxPrefab: {fileID: 6413694501190794285, guid: a9829c1cb69a159479cbe82e68a5c629, type: 3}
-  dialogueOptionBoxPrefab: {fileID: 6413694501190794285, guid: cfcc3c74158936342a4d3c72aa65bde0, type: 3}
-  inventoryItemFieldPrefab: {fileID: 3358873790910023875, guid: e49114d2a61e8cc46bd0caffe110c05d, type: 3}
-  equipmentInventoryBoxPrefab: {fileID: 6413694501190794285, guid: 4b7a6d86130957d46bf858c8779af887, type: 3}
-  statChangeFieldPrefab: {fileID: 3079065947153896786, guid: de2b0f8d2f51c3e4da7f0b370ea24fa5, type: 3}
+  dialogueBoxPrefab: {fileID: 6442782191674339376, guid: a9829c1cb69a159479cbe82e68a5c629, type: 3}
+  dialogueOptionBoxPrefab: {fileID: 3084176042462386772, guid: cfcc3c74158936342a4d3c72aa65bde0, type: 3}
+  inventoryItemFieldPrefab: {fileID: -7229577654974374248, guid: e49114d2a61e8cc46bd0caffe110c05d, type: 3}
+  equipmentInventoryBoxPrefab: {fileID: 1399885947647641316, guid: 4b7a6d86130957d46bf858c8779af887, type: 3}
+  statChangeFieldPrefab: {fileID: 4895827502126253176, guid: de2b0f8d2f51c3e4da7f0b370ea24fa5, type: 3}
   messageNoValidItems: There's nothing in the knapsack to equip.
+  messageUnequip: Guess we're goin' nude
   optionText: What do you want to do?
   optionEquip: Put on
   optionRemove: Take off

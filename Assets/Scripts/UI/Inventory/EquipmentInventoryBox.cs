@@ -46,8 +46,7 @@ namespace Frankie.Inventory.UI
 
         private void CannotEquip(int inventorySlot)
         {
-            GameObject dialogueBoxObject = Instantiate(dialogueBoxPrefab, transform.parent);
-            DialogueBox dialogueBox = dialogueBoxObject.GetComponent<DialogueBox>();
+            DialogueBox dialogueBox = Instantiate(dialogueBoxPrefab, transform.parent);
             dialogueBox.AddText(messageCannotEquip);
             PassControl(dialogueBox);
         }
@@ -61,7 +60,7 @@ namespace Frankie.Inventory.UI
             Destroy(gameObject);
         }
 
-        public override InventoryItemField SetupItem(GameObject inventoryItemFieldPrefab, Transform container, int selector)
+        public override InventoryItemField SetupItem(InventoryItemField inventoryItemFieldPrefab, Transform container, int selector)
         {
             InventoryItemField inventoryItemField =  base.SetupItem(inventoryItemFieldPrefab, container, selector);
             if (selectedKnapsack.HasEquipableItemInSlot(selector, equipLocation))

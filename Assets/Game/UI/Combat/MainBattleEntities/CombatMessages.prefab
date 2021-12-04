@@ -91,5 +91,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   messageParent: {fileID: 5476277323413269905}
-  dialogueBoxPrefab: {fileID: 6413694501190794285, guid: a9829c1cb69a159479cbe82e68a5c629, type: 3}
+  dialogueBoxPrefab: {fileID: 6442782191674339376, guid: a9829c1cb69a159479cbe82e68a5c629, type: 3}
   messageItemToBeUsed: Use the item {0} on which foe?

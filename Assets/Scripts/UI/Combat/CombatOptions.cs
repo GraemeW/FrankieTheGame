@@ -1,6 +1,5 @@
 using Frankie.Stats;
 using Frankie.Utils.UI;
-using Frankie.Speech.UI;
 using Frankie.Stats.UI;
 using Frankie.Inventory.UI;
 using UnityEngine;
@@ -12,8 +11,8 @@ namespace Frankie.Combat.UI
     public class CombatOptions : UIBox
     {
         // Tunables 
-        [SerializeField] GameObject statusPrefab = null;
-        [SerializeField] GameObject knapsackPrefab = null;
+        [SerializeField] StatusBox statusBoxPrefab = null;
+        [SerializeField] InventoryBox inventoryBoxPrefab = null;
 
         // Cached References
         BattleController battleController = null;
@@ -35,16 +34,14 @@ namespace Frankie.Combat.UI
 
         public void OpenStats() // Called via unity events
         {
-            GameObject childOption = Instantiate(statusPrefab, battleCanvas.transform);
-            StatusBox statusBox = childOption.GetComponent<StatusBox>();
+            StatusBox statusBox = Instantiate(statusBoxPrefab, battleCanvas.transform);
             statusBox.Setup(party);
             PassControl(this, new Action[] { () => SetCombatOptions(true) }, statusBox, battleController);
         }
 
         public void OpenKnapsack() // Called via unity events
         {
-            GameObject childOption = Instantiate(knapsackPrefab, battleCanvas.transform);
-            InventoryBox inventoryBox = childOption.GetComponent<InventoryBox>();
+            InventoryBox inventoryBox = Instantiate(inventoryBoxPrefab, battleCanvas.transform);
             inventoryBox.Setup(battleController, party);
             PassControl(this, new Action[] { () => SetCombatOptions(true) }, inventoryBox, battleController);
             gameObject.SetActive(false);

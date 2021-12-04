@@ -60,7 +60,7 @@ namespace Frankie.Control
         #region SettersGetters
         public void SetWorldCanvas()
         {
-            worldCanvas ??= GameObject.FindGameObjectWithTag("WorldCanvas")?.GetComponent<WorldCanvas>();
+            worldCanvas = GameObject.FindGameObjectWithTag("WorldCanvas")?.GetComponent<WorldCanvas>();
         }
 
         public void SetPlayerState(PlayerState playerState)

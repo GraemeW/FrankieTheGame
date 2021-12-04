@@ -35,7 +35,7 @@ namespace Frankie.Inventory.UI
             return;
         }
 
-        public override InventoryItemField SetupItem(GameObject inventoryItemFieldPrefab, Transform container, int selector)
+        public override InventoryItemField SetupItem(InventoryItemField inventoryItemFieldPrefab, Transform container, int selector)
         {
             InventoryItemField inventoryItemField = base.SetupItem(inventoryItemFieldPrefab, container, selector);
             if (!inventoryItemField.HasAction())

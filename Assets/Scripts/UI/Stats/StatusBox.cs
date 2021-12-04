@@ -20,7 +20,7 @@ namespace Frankie.Stats.UI
         [SerializeField] Transform leftStatParent = null;
         [SerializeField] Transform rightStatParent = null;
         [Header("Prefabs")]
-        [SerializeField] GameObject statFieldPrefab = null;
+        [SerializeField] StatField statFieldPrefab = null;
 
         // State
         CombatParticipant selectedCharacter = null;
@@ -75,17 +75,17 @@ namespace Frankie.Stats.UI
 
         private void GenerateLevel(CombatParticipant character)
         {
-            GameObject levelFieldObject = Instantiate(statFieldPrefab, leftStatParent);
-            levelFieldObject.GetComponent<StatField>().Setup("Level", character.GetLevel());
+            StatField levelFieldObject = Instantiate(statFieldPrefab, leftStatParent);
+            levelFieldObject.Setup("Level", character.GetLevel());
         }
 
         private void GenerateHPAP(CombatParticipant character)
         {
-            GameObject hpFieldObject = Instantiate(statFieldPrefab, rightStatParent);
-            hpFieldObject.GetComponent<StatField>().Setup("HP", character.GetHP(), character.GetMaxHP());
+            StatField hpFieldObject = Instantiate(statFieldPrefab, rightStatParent);
+            hpFieldObject.Setup("HP", character.GetHP(), character.GetMaxHP());
 
-            GameObject apFieldObject = Instantiate(statFieldPrefab, rightStatParent);
-            apFieldObject.GetComponent<StatField>().Setup("AP", character.GetAP(), character.GetMaxAP());
+            StatField apFieldObject = Instantiate(statFieldPrefab, rightStatParent);
+            apFieldObject.Setup("AP", character.GetAP(), character.GetMaxAP());
         }
 
         private void GenerateSkillStats(CombatParticipant character)
@@ -96,9 +96,9 @@ namespace Frankie.Stats.UI
                 if (skillStat == SkillStat.None) { continue; }
                 if (Enum.TryParse(skillStat.ToString(), out Stat stat))
                 {
-                    GameObject statFieldObject = Instantiate(statFieldPrefab, leftStatParent);
+                    StatField statField = Instantiate(statFieldPrefab, leftStatParent);
                     float statValue = character.GetBaseStats().GetStat(stat);
-                    statFieldObject.GetComponent<StatField>().Setup(stat, statValue);
+                    statField.Setup(stat, statValue);
                 }
             }
         }

@@ -145,7 +145,7 @@ namespace Frankie.ZoneManagement
         {
             if (transitionType == TransitionType.BattleGood || transitionType == TransitionType.BattleNeutral || transitionType == TransitionType.BattleBad)
             {
-                battleUI ??= Instantiate(battleUIPrefab);
+                if (battleUI == null) { battleUI = Instantiate(battleUIPrefab); }
                 battleUI.gameObject.SetActive(true);
                 battleUIStateChanged?.Invoke(true);
             }

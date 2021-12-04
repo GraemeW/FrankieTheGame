@@ -361,12 +361,12 @@ MonoBehaviour:
   optionParent: {fileID: 3567840514475693783}
   optionPrefab: {fileID: 3358873790910023875, guid: 9193413aa0e976e439049a2689f4fa41, type: 3}
   characterPanelTransform: {fileID: 4290631732117095911}
-  characterSlidePrefab: {fileID: 1857157206918601303, guid: aef38f633ef92174d805cd7a578a40c7, type: 3}
-  knapsackPrefab: {fileID: 6413694501190794285, guid: 45098d9dff6ed3c45a7908991cfceabe, type: 3}
-  equipmentPrefab: {fileID: 6413694501190794285, guid: cec1f16c9da529c4290d6fe89d23bdee, type: 3}
-  abilitiesPrefab: {fileID: 0}
-  statusPrefab: {fileID: 6413694501190794285, guid: 7d05b565d2a0bad43827b072d7a67303, type: 3}
-  mapPrefab: {fileID: 6046279554098339096, guid: 7d69ea78fa630904a853208d15130b26, type: 3}
+  characterSlidePrefab: {fileID: 3712678563809887521, guid: aef38f633ef92174d805cd7a578a40c7, type: 3}
+  inventoryBoxPrefab: {fileID: 2437136854184657, guid: 45098d9dff6ed3c45a7908991cfceabe, type: 3}
+  equipmentBoxPrefab: {fileID: 5904610809290143616, guid: cec1f16c9da529c4290d6fe89d23bdee, type: 3}
+  abilitiesBoxPrefab: {fileID: 0}
+  statusBoxPrefab: {fileID: 3802850994652793957, guid: 7d05b565d2a0bad43827b072d7a67303, type: 3}
+  mapSuperPrefab: {fileID: 3420972397399472212, guid: 7d69ea78fa630904a853208d15130b26, type: 3}
 --- !u!1001 &200782606255947736
 PrefabInstance:
   m_ObjectHideFlags: 0

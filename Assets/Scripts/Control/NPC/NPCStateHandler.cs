@@ -82,13 +82,13 @@ namespace Frankie.Control
 
         private PlayerStateHandler SetupPlayerStateHandler()
         {
-            player ??= GameObject.FindGameObjectWithTag("Player");
+            if (player == null) { player = GameObject.FindGameObjectWithTag("Player"); }
             return player?.GetComponent<PlayerStateHandler>();
         }
 
         private PlayerController SetupPlayerController()
         {
-            player ??= GameObject.FindGameObjectWithTag("Player");
+            if (player == null) { player = GameObject.FindGameObjectWithTag("Player"); }
             return player?.GetComponent<PlayerController>();
         }
 

@@ -24,11 +24,11 @@ namespace Frankie.Inventory.UI
         [SerializeField] GameObject equipmentChangeMenu = null;
         [SerializeField] Transform statSheetParent = null;
         [Header("Prefabs")]
-        [SerializeField] GameObject dialogueBoxPrefab = null;
-        [SerializeField] GameObject dialogueOptionBoxPrefab = null;
-        [SerializeField] GameObject inventoryItemFieldPrefab = null;
-        [SerializeField] GameObject equipmentInventoryBoxPrefab = null;
-        [SerializeField] GameObject statChangeFieldPrefab = null;
+        [SerializeField] DialogueBox dialogueBoxPrefab = null;
+        [SerializeField] DialogueOptionBox dialogueOptionBoxPrefab = null;
+        [SerializeField] InventoryItemField inventoryItemFieldPrefab = null;
+        [SerializeField] EquipmentInventoryBox equipmentInventoryBoxPrefab = null;
+        [SerializeField] StatChangeField statChangeFieldPrefab = null;
         [Header("Info/Messages")]
         [SerializeField] string messageNoValidItems = "There's nothing in the knapsack to equip.";
         [SerializeField] string messageUnequip = "Guess we're goin' nude";
@@ -306,8 +306,7 @@ namespace Frankie.Inventory.UI
                     newValue += statDeltas[stat];
                 }
 
-                GameObject statChangeFieldObject = Instantiate(statChangeFieldPrefab, statSheetParent);
-                StatChangeField statChangeField = statChangeFieldObject.GetComponent<StatChangeField>();
+                StatChangeField statChangeField = Instantiate(statChangeFieldPrefab, statSheetParent);
                 statChangeField.Setup(stat, oldValue, newValue);
             }
         }
@@ -335,8 +334,7 @@ namespace Frankie.Inventory.UI
                 ChoiceActionPair removeActionPair = new ChoiceActionPair(optionRemove, () => ExecuteRemoveEquipment(selector));
                 choiceActionPairs.Add(removeActionPair);
 
-                GameObject dialogueOptionBoxObject = Instantiate(dialogueOptionBoxPrefab, transform.parent);
-                DialogueOptionBox equipmentOptionMenu = dialogueOptionBoxObject.GetComponent<DialogueOptionBox>();
+                DialogueOptionBox equipmentOptionMenu = Instantiate(dialogueOptionBoxPrefab, transform.parent);
                 equipmentOptionMenu.Setup(optionText);
                 equipmentOptionMenu.OverrideChoiceOptions(choiceActionPairs);
 
@@ -379,8 +377,7 @@ namespace Frankie.Inventory.UI
         private void SpawnMessage(string message)
         {
             handleGlobalInput = false;
-            GameObject dialogueBoxObject = Instantiate(dialogueBoxPrefab, transform.parent);
-            DialogueBox dialogueBox = dialogueBoxObject.GetComponent<DialogueBox>();
+            DialogueBox dialogueBox = Instantiate(dialogueBoxPrefab, transform.parent);
             dialogueBox.AddText(message);
             PassControl(dialogueBox);
         }
@@ -390,8 +387,7 @@ namespace Frankie.Inventory.UI
             if (selectedEquipLocation == EquipLocation.None) { return; }
 
             handleGlobalInput = false;
-            GameObject inventoryBoxObject = Instantiate(equipmentInventoryBoxPrefab, transform.parent.transform);
-            EquipmentInventoryBox inventoryBox = inventoryBoxObject.GetComponent<EquipmentInventoryBox>();
+            EquipmentInventoryBox inventoryBox = Instantiate(equipmentInventoryBoxPrefab, transform.parent.transform);
             inventoryBox.Setup(this, selectedEquipLocation, selectedCharacter, characterSlides);
             canvasGroup.alpha = 0.0f;
             PassControl(this, new Action[] { () => EnableInput(true), () => SetVisible(true) }, inventoryBox, controller);
@@ -433,7 +429,7 @@ namespace Frankie.Inventory.UI
             return base.HandleGlobalInput(playerInputType);
         }
 
-        public InventoryItemField SetupItem(GameObject inventoryItemFieldPrefab, Transform container, int selector)
+        public InventoryItemField SetupItem(InventoryItemField inventoryItemFieldPrefab, Transform container, int selector)
         {
             EquipLocation equipLocation = (EquipLocation)selector;
             string itemName = "Empty";
@@ -443,8 +439,7 @@ namespace Frankie.Inventory.UI
             }
             string fieldName = string.Format("{0}:  {1}", equipLocation.ToString(), itemName);
 
-            GameObject inventoryItemFieldObject = Instantiate(inventoryItemFieldPrefab, container);
-            InventoryItemField inventoryItemField = inventoryItemFieldObject.GetComponent<InventoryItemField>();
+            InventoryItemField inventoryItemField = Instantiate(inventoryItemFieldPrefab, container);
             inventoryItemField.SetText(fieldName);
             inventoryItemField.SetupButtonAction(this, ChooseEquipLocation, selector);
             equipableItemChoiceOptions.Add(inventoryItemField);

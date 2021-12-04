@@ -9,7 +9,7 @@ public class CombatMessages : MonoBehaviour
     // Tunables
     [Header("Hook-Ups")]
     [SerializeField] Transform messageParent = null;
-    [SerializeField] GameObject dialogueBoxPrefab = null;
+    [SerializeField] DialogueBox dialogueBoxPrefab = null;
     [Header("Messages")]
     [Tooltip("Include {0} for item")] [SerializeField] string messageItemToBeUsed = "Use the item {0} on which foe?";
 
@@ -36,8 +36,7 @@ public class CombatMessages : MonoBehaviour
     {
         if (battleAction != null && battleAction.IsItem())
         {
-            GameObject dialogueBoxObject = Instantiate(dialogueBoxPrefab, messageParent);
-            DialogueBox dialogueBox = dialogueBoxObject.GetComponent<DialogueBox>();
+            DialogueBox dialogueBox = Instantiate(dialogueBoxPrefab, messageParent);
             dialogueBox.AddText(string.Format(messageItemToBeUsed, battleAction.GetName()));
             dialogueBox.SetGlobalInput(false);
         }

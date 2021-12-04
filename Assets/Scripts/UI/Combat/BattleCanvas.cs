@@ -16,14 +16,14 @@ namespace Frankie.Combat.UI
         [Header("Parents and Prefabs")]
         [SerializeField] Canvas canvas = null;
         [SerializeField] Transform playerPanelParent = null;
-        [SerializeField] GameObject characterSlidePrefab = null;
+        [SerializeField] CharacterSlide characterSlidePrefab = null;
         [SerializeField] Transform frontRowParent = null;
         [SerializeField] Transform backRowParent = null;
-        [SerializeField] GameObject enemyPrefab = null;
+        [SerializeField] EnemySlide enemySlidePrefab = null;
         [SerializeField] Image backgroundFill = null;
         [SerializeField] MovingBackgroundProperties defaultMovingBackgroundProperties;
         [SerializeField] Transform infoChooseParent = null;
-        [SerializeField] GameObject dialogueBoxPrefab = null;
+        [SerializeField] DialogueBox dialogueBoxPrefab = null;
         [SerializeField] CombatLog combatLog = null;
         [SerializeField] CombatOptions combatOptions = null;
         [SerializeField] SkillSelectionUI skillSelection = null;
@@ -167,8 +167,7 @@ namespace Frankie.Combat.UI
             bool firstCharacterToggle = false;
             foreach (CombatParticipant character in characters)
             {
-                GameObject characterObject = Instantiate(characterSlidePrefab, playerPanelParent);
-                CharacterSlide characterSlide = characterObject.GetComponent<CharacterSlide>();
+                CharacterSlide characterSlide = Instantiate(characterSlidePrefab, playerPanelParent);
                 characterSlide.SetCombatParticipant(character);
                 combatLog.AddCombatListener(character);
 
@@ -187,8 +186,7 @@ namespace Frankie.Combat.UI
             foreach (CombatParticipant enemy in enemies)
             {
                 Transform parentSpawn = (frontRowParent.childCount - 1 > backRowParent.childCount) ? backRowParent : frontRowParent;
-                GameObject enemyObject = Instantiate(enemyPrefab, parentSpawn);
-                EnemySlide enemySlide = enemyObject.GetComponent<EnemySlide>();
+                EnemySlide enemySlide = Instantiate(enemySlidePrefab, parentSpawn);
                 enemySlide.SetCombatParticipant(enemy);
                 combatLog.AddCombatListener(enemy);
 
@@ -215,10 +213,9 @@ namespace Frankie.Combat.UI
         private void SetupEntryMessage(List<CombatParticipant> enemies)
         {
             CombatParticipant enemy = enemies.FirstOrDefault();
-            GameObject dialogueBoxObject = Instantiate(dialogueBoxPrefab, infoChooseParent);
-
             string entryMessage = (enemies.Count > 1) ? string.Format(messageEncounterMultiple, enemy.GetCombatName()) : string.Format(messageEncounterSingle, enemy.GetCombatName());
-            DialogueBox dialogueBox = dialogueBoxObject.GetComponent<DialogueBox>();
+            
+            DialogueBox dialogueBox = Instantiate(dialogueBoxPrefab, infoChooseParent);
             dialogueBox.AddText(entryMessage);
             dialogueBox.AddPageBreak();
             dialogueBox.AddText(messageEncounterPreHype);
@@ -250,8 +247,7 @@ namespace Frankie.Combat.UI
         {
             if (battleController.GetBattleOutcome() != BattleOutcome.Won) { busyWithSerialAction = false; return; }
 
-            GameObject dialogueBoxObject = Instantiate(dialogueBoxPrefab, infoChooseParent);
-            DialogueBox dialogueBox = dialogueBoxObject.GetComponent<DialogueBox>();
+            DialogueBox dialogueBox = Instantiate(dialogueBoxPrefab, infoChooseParent);
             dialogueBox.AddText(string.Format(messageGainedExperience, battleController.GetBattleExperienceReward().ToString()));
 
             foreach (CharacterLevelUpSheetPair characterLevelUpSheetPair in queuedLevelUps)
@@ -282,8 +278,6 @@ namespace Frankie.Combat.UI
 
         private void SetupExitMessage()
         {
-            GameObject dialogueBoxObject = Instantiate(dialogueBoxPrefab, infoChooseParent);
-
             string exitMessage = "";
             if (battleController.GetBattleOutcome() == BattleOutcome.Won)
             {
@@ -298,7 +292,7 @@ namespace Frankie.Combat.UI
                 exitMessage = messageBattleCompleteRan;
             }
 
-            DialogueBox dialogueBox = dialogueBoxObject.GetComponent<DialogueBox>();
+            DialogueBox dialogueBox = Instantiate(dialogueBoxPrefab, infoChooseParent);
             dialogueBox.AddText(exitMessage);
             dialogueBox.TakeControl(battleController, this, new Action[] { () => { busyWithSerialAction = false; battleController.SetBattleState(BattleState.Complete); } });
 
@@ -307,8 +301,7 @@ namespace Frankie.Combat.UI
 
         public DialogueBox SetupRunFailureMessage(IUIBoxCallbackReceiver callbackReceiver, Action[] actions)
         {
-            GameObject dialogueBoxObject = Instantiate(dialogueBoxPrefab, infoChooseParent);
-            DialogueBox dialogueBox = dialogueBoxObject.GetComponent<DialogueBox>();
+            DialogueBox dialogueBox = Instantiate(dialogueBoxPrefab, infoChooseParent);
             dialogueBox.AddText("Failed to run away.");
             dialogueBox.TakeControl(battleController, callbackReceiver, actions);
 

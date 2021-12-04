@@ -556,13 +556,14 @@ MonoBehaviour:
   canvasGroup: {fileID: 6199171800157644376}
   handleGlobalInput: 1
   clearVolatileOptionsOnEnable: 1
+  preventEscapeOptionExit: 0
   optionParent: {fileID: 2827520980706274898}
   optionPrefab: {fileID: 3358873790910023875, guid: 9193413aa0e976e439049a2689f4fa41, type: 3}
   selectedCharacterNameField: {fileID: 3299577515372848116}
   experienceToLevel: {fileID: 9120243650038732359}
   leftStatParent: {fileID: 4808833409950686781}
   rightStatParent: {fileID: 2801211723359414022}
-  statFieldPrefab: {fileID: 8159549405606610984, guid: e83dc3cde8a11c940a000c47ed81983c, type: 3}
+  statFieldPrefab: {fileID: 7507632006392117863, guid: e83dc3cde8a11c940a000c47ed81983c, type: 3}
 --- !u!1 &7418628792628982881
 GameObject:
   m_ObjectHideFlags: 0

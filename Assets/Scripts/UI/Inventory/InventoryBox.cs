@@ -22,9 +22,9 @@ namespace Frankie.Inventory.UI
         [SerializeField] protected Transform leftItemContainer = null;
         [SerializeField] protected Transform rightItemContainer = null;
         [Header("Prefabs")]
-        [SerializeField] protected GameObject dialogueBoxPrefab = null;
-        [SerializeField] protected GameObject dialogueOptionBoxPrefab = null;
-        [SerializeField] protected GameObject inventoryItemFieldPrefab = null;
+        [SerializeField] protected DialogueBox dialogueBoxPrefab = null;
+        [SerializeField] protected DialogueOptionBox dialogueOptionBoxPrefab = null;
+        [SerializeField] protected InventoryItemField inventoryItemFieldPrefab = null;
         [SerializeField] GameObject inventoryMoveBoxPrefab = null;
         [Header("Info/Messages")]
         [SerializeField] protected string optionText = "What do you want to do?";
@@ -250,9 +250,8 @@ namespace Frankie.Inventory.UI
 
                 if (selectedKnapsack.UseItemInSlot(selectedItemSlot, targetCharacters))
                 {
-                    GameObject dialogueBoxObject = Instantiate(dialogueBoxPrefab, transform.parent);
-                    DialogueBox dialogueBox = dialogueBoxObject.GetComponent<DialogueBox>();
-                    
+                    DialogueBox dialogueBox = Instantiate(dialogueBoxPrefab, transform.parent);
+
                     dialogueBox.AddText(string.Format(messageUseItemInWorld, senderName, itemName, targetCharacterNames));
                     PassControl(dialogueBox);
 
@@ -312,8 +311,7 @@ namespace Frankie.Inventory.UI
             }
 
             SetInventoryBoxState(InventoryBoxState.inItemDetail);
-            GameObject dialogueOptionBoxObject = Instantiate(dialogueOptionBoxPrefab, transform.parent);
-            DialogueOptionBox dialogueOptionBox = dialogueOptionBoxObject.GetComponent<DialogueOptionBox>();
+            DialogueOptionBox dialogueOptionBox = Instantiate(dialogueOptionBoxPrefab, transform.parent);
             dialogueOptionBox.Setup(optionText);
             dialogueOptionBox.OverrideChoiceOptions(choiceActionPairs);
             PassControl(dialogueOptionBox);
@@ -329,15 +327,9 @@ namespace Frankie.Inventory.UI
             SetSelectedKnapsack(selectedCharacter.GetComponent<Knapsack>());
             for (int i = 0; i < selectedKnapsack.GetSize(); i++)
             {
-                InventoryItemField inventoryItemField = null;
-                if (i % 2 == 0)
-                {
-                    inventoryItemField = SetupItem(inventoryItemFieldPrefab, leftItemContainer, i);
-                }
-                else
-                {
-                    inventoryItemField = SetupItem(inventoryItemFieldPrefab, rightItemContainer, i);
-                }
+                InventoryItemField inventoryItemField = (i % 2 == 0) ?
+                    SetupItem(inventoryItemFieldPrefab, leftItemContainer, i) :
+                    SetupItem(inventoryItemFieldPrefab, rightItemContainer, i);
 
                 if (selectedKnapsack.IsItemInSlotEquipped(i))
                 {
@@ -410,16 +402,15 @@ namespace Frankie.Inventory.UI
             return choiceActionPairs;
         }
 
-        public virtual InventoryItemField SetupItem(GameObject inventoryItemFieldPrefab, Transform container, int selector)
+        public virtual InventoryItemField SetupItem(InventoryItemField inventoryItemFieldPrefab, Transform container, int selector)
         {
             CheckItemExists(selectedKnapsack, selector, out bool itemExists, out string itemName);
             return SpawnInventoryItemField(itemExists, itemName, inventoryItemFieldPrefab, container, selector);
         }
 
-        private InventoryItemField SpawnInventoryItemField(bool itemExists, string itemName, GameObject inventoryItemFieldPrefab, Transform container, int selector)
+        private InventoryItemField SpawnInventoryItemField(bool itemExists, string itemName, InventoryItemField inventoryItemFieldPrefab, Transform container, int selector)
         {
-            GameObject inventoryItemFieldObject = Instantiate(inventoryItemFieldPrefab, container);
-            InventoryItemField inventoryItemField = inventoryItemFieldObject.GetComponent<InventoryItemField>();
+            InventoryItemField inventoryItemField = Instantiate(inventoryItemFieldPrefab, container);
             inventoryItemField.SetChoiceOrder(selector);
             inventoryItemField.SetText(itemName);
             if (itemExists)
@@ -448,8 +439,7 @@ namespace Frankie.Inventory.UI
         {
             if (selectedKnapsack == null) { return; }
 
-            GameObject dialogueBoxObject = Instantiate(dialogueBoxPrefab, transform.parent);
-            DialogueBox dialogueBox = dialogueBoxObject.GetComponent<DialogueBox>();
+            DialogueBox dialogueBox = Instantiate(dialogueBoxPrefab, transform.parent);
             dialogueBox.AddText(selectedKnapsack.GetItemInSlot(inventorySlot).GetDescription());
             PassControl(dialogueBox);
         }
@@ -472,8 +462,7 @@ namespace Frankie.Inventory.UI
             if (selectedKnapsack == null) { return; }
             if (!selectedKnapsack.HasItemInSlot(inventorySlot)) { return; }
 
-            GameObject dialogueOptionBoxObject = Instantiate(dialogueOptionBoxPrefab, transform.parent);
-            DialogueOptionBox dialogueOptionBox = dialogueOptionBoxObject.GetComponent<DialogueOptionBox>();
+            DialogueOptionBox dialogueOptionBox = Instantiate(dialogueOptionBoxPrefab, transform.parent);
 
             List<ChoiceActionPair> choiceActionPairs = new List<ChoiceActionPair>();
             ChoiceActionPair confirmDrop = new ChoiceActionPair(confirmChoiceAffirmative, () => ExecuteDrop(inventorySlot));
@@ -557,8 +546,7 @@ namespace Frankie.Inventory.UI
         private void DisplayCharacterInCooldownMessage(CombatParticipant character)
         {
             handleGlobalInput = false;
-            GameObject dialogueBoxObject = Instantiate(dialogueBoxPrefab, transform.parent);
-            DialogueBox dialogueBox = dialogueBoxObject.GetComponent<DialogueBox>();
+            DialogueBox dialogueBox = Instantiate(dialogueBoxPrefab, transform.parent);
             dialogueBox.AddText(string.Format(messageBusyInCooldown, character.GetCombatName()));
             PassControl(dialogueBox);
         }
