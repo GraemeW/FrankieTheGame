@@ -35,10 +35,10 @@ namespace Frankie.Menu.UI
 
         private void Awake()
         {
-            worldCanvas = GameObject.FindGameObjectWithTag("WorldCanvas").GetComponent<WorldCanvas>();
-            playerStateHandler = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerStateHandler>();
-            playerController = playerStateHandler.GetComponent<PlayerController>();
-            party = playerStateHandler.GetComponent<Party>();
+            worldCanvas = GameObject.FindGameObjectWithTag("WorldCanvas")?.GetComponent<WorldCanvas>();
+            playerStateHandler = GameObject.FindGameObjectWithTag("Player")?.GetComponent<PlayerStateHandler>();
+            playerController = playerStateHandler?.GetComponent<PlayerController>();
+            party = playerStateHandler?.GetComponent<Party>();
         }
 
         private void Start()
@@ -67,7 +67,7 @@ namespace Frankie.Menu.UI
             {
                 Destroy(childCharacterPanel.gameObject);
             }
-            playerStateHandler.ExitWorldOptions();
+            playerStateHandler?.ExitWorldOptions();
         }
 
         public override bool HandleGlobalInput(PlayerInputType playerInputType)

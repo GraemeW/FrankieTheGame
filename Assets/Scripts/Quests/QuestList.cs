@@ -22,7 +22,7 @@ namespace Frankie.Quests
 
         public static QuestList GetQuestList(ref GameObject player)
         {
-            player ??= GameObject.FindGameObjectWithTag("Player");
+            player = GameObject.FindGameObjectWithTag("Player");
             return player?.GetComponent<QuestList>();
         }
 

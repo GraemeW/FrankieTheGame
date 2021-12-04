@@ -137,7 +137,9 @@ namespace Frankie.ZoneManagement
 
         private void TransitionToNextScene(Zone nextZone, ZoneNode nextNode)
         {
-            if (fader == null) { fader = FindObjectOfType<Fader>(); }
+            fader ??= FindObjectOfType<Fader>();
+            if (fader == null) { return; }
+
             queuedZoneNode = nextNode;
             fader.fadingOut += QueuedMoveToNextNode;
             fader.UpdateFadeState(TransitionType.Zone, nextZone);
@@ -178,10 +180,7 @@ namespace Frankie.ZoneManagement
 
         private void OnZoneInteraction()
         {
-            if (zoneInteraction != null)
-            {
-                zoneInteraction.Invoke();
-            }
+            zoneInteraction?.Invoke();
         }
 
         private void ExitMove()
@@ -193,7 +192,9 @@ namespace Frankie.ZoneManagement
 
         private void RemoveZoneHandler()
         {
-            if (fader == null) { fader = FindObjectOfType<Fader>(); }
+            fader ??= FindObjectOfType<Fader>();
+            if (fader == null) { return; }
+
             fader.fadingOut -= QueuedMoveToNextNode;
             Destroy(gameObject, delayToDestroyAfterSceneLoading);
         }

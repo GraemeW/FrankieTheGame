@@ -539,10 +539,7 @@ namespace Frankie.Inventory.UI
                 return false;
             }
 
-            if (targetCharacterChanged != null)
-            {
-                targetCharacterChanged.Invoke(CombatParticipantType.Target, targetCharacters);
-            }
+            targetCharacterChanged?.Invoke(CombatParticipantType.Target, targetCharacters);
             return true;
         }
 
@@ -553,11 +550,7 @@ namespace Frankie.Inventory.UI
             targetCharacters = new[] { combatParticipant };
             if (!GetNextTarget(null)) { SetInventoryBoxState(InventoryBoxState.inKnapsack); return; }
 
-            if (targetCharacterChanged != null)
-            {
-                targetCharacterChanged.Invoke(CombatParticipantType.Target, new[] { combatParticipant });
-            }
-
+            targetCharacterChanged?.Invoke(CombatParticipantType.Target, new[] { combatParticipant });
             Choose(null);
         }
 
@@ -593,10 +586,7 @@ namespace Frankie.Inventory.UI
             if (!enable) { handleGlobalInput = false; return; }
 
             selectedItemSlot = -1;
-            if (targetCharacterChanged != null)
-            {
-                targetCharacterChanged.Invoke(CombatParticipantType.Target, null);
-            }
+            targetCharacterChanged?.Invoke(CombatParticipantType.Target, null);
 
             if (selectedCharacter == null || selectedKnapsack == null)
             {

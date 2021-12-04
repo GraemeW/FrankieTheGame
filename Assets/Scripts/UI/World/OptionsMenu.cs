@@ -93,11 +93,8 @@ namespace Frankie.Menu.UI
 
         private void Update()
         {
-            if (backgroundMusic != null)
-            {
-                float calculatedVolume = masterVolumeSlider.value * backgroundVolumeSlider.value;
-                backgroundMusic.SetVolume(calculatedVolume);
-            }
+            float calculatedVolume = masterVolumeSlider.value * backgroundVolumeSlider.value;
+            backgroundMusic?.SetVolume(calculatedVolume);
         }
 
         public void SaveAndExit()

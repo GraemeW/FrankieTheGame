@@ -24,14 +24,14 @@ namespace Frankie.Menu.UI
 
         private void Awake()
         {
-            worldCanvas = GameObject.FindGameObjectWithTag("WorldCanvas").GetComponent<WorldCanvas>();
-            playerStateHandler = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerStateHandler>();
-            controller = playerStateHandler.GetComponent<PlayerController>();
+            worldCanvas = GameObject.FindGameObjectWithTag("WorldCanvas")?.GetComponent<WorldCanvas>();
+            playerStateHandler = GameObject.FindGameObjectWithTag("Player")?.GetComponent<PlayerStateHandler>();
+            controller = playerStateHandler?.GetComponent<PlayerController>();
         }
 
         private void Start()
         {
-            savingWrapper = GameObject.FindGameObjectWithTag("Saver").GetComponent<SavingWrapper>();
+            savingWrapper = GameObject.FindGameObjectWithTag("Saver")?.GetComponent<SavingWrapper>();
             // SceneLoader is a persistent object, thus can only be found after Awake -- so find in Start
 
             HandleClientEntry();
@@ -39,7 +39,7 @@ namespace Frankie.Menu.UI
 
         private void OnDestroy()
         {
-            playerStateHandler.ExitEscapeMenu();
+            playerStateHandler?.ExitEscapeMenu();
         }
 
         public override bool HandleGlobalInput(PlayerInputType playerInputType)
@@ -61,10 +61,7 @@ namespace Frankie.Menu.UI
         public void OpenOptionsMenu() // Called via Unity Events
         {
             // Frontload event calling -- despawns any open windows
-            if (escapeMenuItemSelected != null)
-            {
-                escapeMenuItemSelected.Invoke();
-            }
+            escapeMenuItemSelected?.Invoke();
 
             GameObject childOption = Instantiate(optionsMenuPrefab, worldCanvas.gameObject.transform);
             OptionsMenu optionsMenu = childOption.GetComponent<OptionsMenu>();
@@ -74,7 +71,7 @@ namespace Frankie.Menu.UI
 
         public void QuitGame() // Called via Unity Events
         {
-            savingWrapper.LoadStartMenu();
+            savingWrapper?.LoadStartMenu();
         }
     }
 

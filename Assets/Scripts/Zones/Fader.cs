@@ -80,10 +80,8 @@ namespace Frankie.ZoneManagement
                 yield return sceneLoader.LoadNewSceneAsync(zone);
 
                 savingWrapper.LoadSession(); // Load world state
-                if (fadingOut != null)
-                {
-                    fadingOut.Invoke();
-                }
+                fadingOut?.Invoke();
+
                 yield return QueueFadeExit(transitionType);
                 savingWrapper.SaveSession();
             }
@@ -131,19 +129,13 @@ namespace Frankie.ZoneManagement
 
             currentTransition.CrossFadeAlpha(0f, 0f, true);
             currentTransition.CrossFadeAlpha(1, GetFadeTime(true, transitionType), false);
-            if (fadingIn != null)
-            {
-                fadingIn.Invoke(transitionType);
-            }
+            fadingIn?.Invoke(transitionType);
             yield return new WaitForSeconds(GetFadeTime(true, transitionType));
 
             if (transitionType == TransitionType.BattleComplete)
             {
                 battleUI.gameObject.SetActive(false);
-                if (battleUIStateChanged != null)
-                {
-                    battleUIStateChanged.Invoke(false);
-                }
+                battleUIStateChanged?.Invoke(false);
                 Destroy(battleUI.gameObject);
                 battleUI = null;
             }
@@ -153,12 +145,9 @@ namespace Frankie.ZoneManagement
         {
             if (transitionType == TransitionType.BattleGood || transitionType == TransitionType.BattleNeutral || transitionType == TransitionType.BattleBad)
             {
-                if (battleUI == null) { battleUI = Instantiate(battleUIPrefab); }
+                battleUI ??= Instantiate(battleUIPrefab);
                 battleUI.gameObject.SetActive(true);
-                if (battleUIStateChanged != null)
-                {
-                    battleUIStateChanged.Invoke(true);
-                }
+                battleUIStateChanged?.Invoke(true);
             }
 
             currentTransition.CrossFadeAlpha(0, GetFadeTime(false, transitionType), false);
@@ -170,7 +159,7 @@ namespace Frankie.ZoneManagement
 
         private void ResetOverlays()
         {
-            if (battleUI != null) { battleUI.gameObject.SetActive(false); }
+            battleUI?.gameObject.SetActive(false);
             goodBattleEntry.gameObject.SetActive(false);
             badBattleEntry.gameObject.SetActive(false);
             neutralBattleEntry.gameObject.SetActive(false);

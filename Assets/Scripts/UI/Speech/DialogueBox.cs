@@ -40,8 +40,8 @@ namespace Frankie.Speech.UI
         #region StandardMethods
         protected virtual void Awake()
         {
-            GameObject dialogueControllerObject = GameObject.FindGameObjectWithTag("DialogueController");
-            if (dialogueControllerObject != null) { controller = dialogueControllerObject.GetComponent<DialogueController>(); dialogueController = controller as DialogueController; }
+            controller = GameObject.FindGameObjectWithTag("DialogueController")?.GetComponent<DialogueController>();
+            if (controller != null) {  dialogueController = controller as DialogueController; }
         }
 
         protected override void OnEnable()
@@ -339,12 +339,9 @@ namespace Frankie.Speech.UI
             if (playerInputType == PlayerInputType.Execute || playerInputType == PlayerInputType.Skip)
             {
                 if (isWriting) { SkipToEndOfPage(); return true; }
-                if (dialogueController != null)
+                if (dialogueController != null && !dialogueController.IsSimpleMessage())
                 {
-                    if (!dialogueController.IsSimpleMessage())
-                    { 
-                        return true;  // dialogue completion handled by dialogue controller
-                    } 
+                    return true;  // dialogue completion handled by dialogue controller
                 }
 
                 if (!IsChoiceAvailable())

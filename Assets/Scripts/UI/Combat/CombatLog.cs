@@ -38,8 +38,7 @@ namespace Frankie.Combat.UI
 
         private void Awake()
         {
-            battleController = GameObject.FindGameObjectWithTag("BattleController").GetComponent<BattleController>();
-
+            battleController = GameObject.FindGameObjectWithTag("BattleController")?.GetComponent<BattleController>();
             combatLogDelay = delayBetweenCharactersSlowDown;
         }
 
@@ -107,7 +106,6 @@ namespace Frankie.Combat.UI
                 textLink.Setup(stringPrinted);
                 yield return new WaitForSeconds(combatLogDelay);
             }
-
         }
 
         private void ParseBattleSequence(BattleSequence battleSequence)

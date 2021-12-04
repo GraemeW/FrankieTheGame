@@ -19,7 +19,7 @@ public class CombatMessages : MonoBehaviour
 
     private void Awake()
     {
-        battleController = GameObject.FindGameObjectWithTag("BattleController").GetComponent<BattleController>();
+        battleController = GameObject.FindGameObjectWithTag("BattleController")?.GetComponent<BattleController>();
     }
 
     private void OnEnable()

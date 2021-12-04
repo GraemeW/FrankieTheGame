@@ -362,10 +362,7 @@ namespace Frankie.Utils.UI
 
         public void HandleDisableCallback(IUIBoxCallbackReceiver uiBox, Action action)
         {
-            if (action != null)
-            {
-                action.Invoke();
-            }
+            action?.Invoke();
         }
         #endregion
 

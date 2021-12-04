@@ -61,8 +61,8 @@ namespace Frankie.Combat.UI
 
         private void Awake()
         {
-            battleController = GameObject.FindGameObjectWithTag("BattleController").GetComponent<BattleController>();
-            party = GameObject.FindGameObjectWithTag("Player").GetComponent<Party>();
+            battleController = GameObject.FindGameObjectWithTag("BattleController")?.GetComponent<BattleController>();
+            party = GameObject.FindGameObjectWithTag("Player")?.GetComponent<Party>();
 
             combatOptions.Setup(battleController, this, party);
             combatOptions.TakeControl(battleController, this, null);
@@ -186,15 +186,7 @@ namespace Frankie.Combat.UI
         {
             foreach (CombatParticipant enemy in enemies)
             {
-                Transform parentSpawn = null;
-                if (frontRowParent.childCount - 1 > backRowParent.childCount)
-                {
-                    parentSpawn = backRowParent;
-                }
-                else
-                {
-                    parentSpawn = frontRowParent;
-                }
+                Transform parentSpawn = (frontRowParent.childCount - 1 > backRowParent.childCount) ? backRowParent : frontRowParent;
                 GameObject enemyObject = Instantiate(enemyPrefab, parentSpawn);
                 EnemySlide enemySlide = enemyObject.GetComponent<EnemySlide>();
                 enemySlide.SetCombatParticipant(enemy);
@@ -225,16 +217,7 @@ namespace Frankie.Combat.UI
             CombatParticipant enemy = enemies.FirstOrDefault();
             GameObject dialogueBoxObject = Instantiate(dialogueBoxPrefab, infoChooseParent);
 
-            string entryMessage;
-            if (enemies.Count > 1)
-            {
-                entryMessage = string.Format(messageEncounterMultiple, enemy.GetCombatName());
-            }
-            else
-            {
-                entryMessage = string.Format(messageEncounterSingle, enemy.GetCombatName());
-            }
-
+            string entryMessage = (enemies.Count > 1) ? string.Format(messageEncounterMultiple, enemy.GetCombatName()) : string.Format(messageEncounterSingle, enemy.GetCombatName());
             DialogueBox dialogueBox = dialogueBoxObject.GetComponent<DialogueBox>();
             dialogueBox.AddText(entryMessage);
             dialogueBox.AddPageBreak();
@@ -245,8 +228,11 @@ namespace Frankie.Combat.UI
         private void StartSerialAction(Action action)
         {
             // !! It is the responsibility of the called action to reset busyWithSerialAction toggle !!
-            busyWithSerialAction = true;
-            action.Invoke();
+            if (action != null)
+            {
+                busyWithSerialAction = true;
+                action.Invoke();
+            }
         }
 
         private void HandleLevelUp(CombatParticipant character, int level, List<Tuple<string, int>> statNameValuePairs)
@@ -331,10 +317,7 @@ namespace Frankie.Combat.UI
 
         public void HandleDisableCallback(IUIBoxCallbackReceiver dialogueBox, Action action)
         {
-            if (action != null)
-            {
-                action.Invoke();
-            }
+            action?.Invoke();
         }
     }
 }
