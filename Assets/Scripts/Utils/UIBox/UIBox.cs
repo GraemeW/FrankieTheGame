@@ -40,8 +40,13 @@ namespace Frankie.Utils.UI
         // Events
         public event Action<UIBoxModifiedType, bool> uiBoxModified;
 
-        #region Standard
+        #region UnityMethods
         protected virtual void OnEnable()
+        {
+            StandardOnEnable();
+        }
+
+        protected void StandardOnEnable()
         {
             if (controller != null && handleGlobalInput)
             {
@@ -51,6 +56,11 @@ namespace Frankie.Utils.UI
         }
 
         protected virtual void OnDisable()
+        {
+            StandardOnDisable();
+        }
+
+        protected void StandardOnDisable()
         {
             ClearChoiceSelections();
 

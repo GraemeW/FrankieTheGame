@@ -19,7 +19,7 @@ namespace Frankie.Menu.UI
         [SerializeField] CharacterSlide characterSlidePrefab = null;
         [SerializeField] InventoryBox inventoryBoxPrefab = null;
         [SerializeField] EquipmentBox equipmentBoxPrefab = null;
-        [SerializeField] GameObject abilitiesBoxPrefab = null;
+        [SerializeField] AbilitiesBox abilitiesBoxPrefab = null;
         [SerializeField] StatusBox statusBoxPrefab = null;
         [SerializeField] MapSuper mapSuperPrefab = null;
 
@@ -117,6 +117,15 @@ namespace Frankie.Menu.UI
             MapSuper mapSuper = Instantiate(mapSuperPrefab, worldCanvas.GetWorldOptionsParent());
             childOption = mapSuper.gameObject;
             PassControl(mapSuper);
+        }
+
+        public void OpenAbilities() // Called via Unity Events
+        {
+            ResetWorldOptions();
+            AbilitiesBox abilitiesBox = Instantiate(abilitiesBoxPrefab, worldCanvas.GetWorldOptionsParent());
+            childOption = abilitiesBox.gameObject;
+            abilitiesBox.Setup(playerController, party);
+            PassControl(abilitiesBox);
         }
 
         private void ResetWorldOptions()

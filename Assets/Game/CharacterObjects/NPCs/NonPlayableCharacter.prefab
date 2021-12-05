@@ -91,13 +91,13 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6761616658632847993}
+  - component: {fileID: 6762723866359945157}
   - component: {fileID: 6761616658632847992}
   - component: {fileID: 2829251969425687448}
   - component: {fileID: 2770910390378371091}
-  - component: {fileID: 6853974573596150378}
-  - component: {fileID: 6762723866359945157}
-  - component: {fileID: -7204200158466627555}
   - component: {fileID: 965147417343429250}
+  - component: {fileID: 6853974573596150378}
+  - component: {fileID: -7204200158466627555}
   m_Layer: 6
   m_Name: NonPlayableCharacter
   m_TagString: Untagged
@@ -122,6 +122,24 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &6762723866359945157
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6761616658632847994}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bc5fcb701043f594ca957befee143600, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  characterProperties: {fileID: 0}
+  defaultLevel: 1
+  maxLevel: 99
+  progression: {fileID: 11400000, guid: 6d544ce8c0b2cd34badc52fee9ceccf9, type: 2}
+  bonusStatOnLevelMidProbability: 0.3
+  bonusStatOnLevelHighProbability: 0.1
 --- !u!95 &6761616658632847992
 Animator:
   serializedVersion: 3
@@ -188,6 +206,24 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 1
   m_Constraints: 4
+--- !u!114 &965147417343429250
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6761616658632847994}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ae64d0078a8ee6e4d8bece5ce559d360, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  movementSpeed: 1
+  defaultTargetDistanceTolerance: 0.15
+  resetPositionOnEnable: 1
+  interactionCenterPoint: {fileID: 851377592137554633}
+  patrolPath: {fileID: 0}
+  waypointDwellTime: 2
 --- !u!114 &6853974573596150378
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -217,24 +253,6 @@ MonoBehaviour:
   collidedWithPlayer:
     m_PersistentCalls:
       m_Calls: []
---- !u!114 &6762723866359945157
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6761616658632847994}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bc5fcb701043f594ca957befee143600, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  characterProperties: {fileID: 0}
-  defaultLevel: 1
-  maxLevel: 99
-  progression: {fileID: 11400000, guid: 6d544ce8c0b2cd34badc52fee9ceccf9, type: 2}
-  bonusStatOnLevelMidProbability: 0.3
-  bonusStatOnLevelHighProbability: 0.1
 --- !u!114 &-7204200158466627555
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -248,24 +266,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   uniqueIdentifier: 
---- !u!114 &965147417343429250
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6761616658632847994}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ae64d0078a8ee6e4d8bece5ce559d360, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  movementSpeed: 1
-  defaultTargetDistanceTolerance: 0.15
-  resetPositionOnEnable: 1
-  interactionCenterPoint: {fileID: 851377592137554633}
-  patrolPath: {fileID: 0}
-  waypointDwellTime: 2
 --- !u!1 &8479994409347232063
 GameObject:
   m_ObjectHideFlags: 0

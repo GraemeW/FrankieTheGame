@@ -364,7 +364,7 @@ MonoBehaviour:
   characterSlidePrefab: {fileID: 3712678563809887521, guid: aef38f633ef92174d805cd7a578a40c7, type: 3}
   inventoryBoxPrefab: {fileID: 2437136854184657, guid: 45098d9dff6ed3c45a7908991cfceabe, type: 3}
   equipmentBoxPrefab: {fileID: 5904610809290143616, guid: cec1f16c9da529c4290d6fe89d23bdee, type: 3}
-  abilitiesBoxPrefab: {fileID: 0}
+  abilitiesBoxPrefab: {fileID: 5012810135103552638, guid: fb9878ca3ca266c4e821732036552e98, type: 3}
   statusBoxPrefab: {fileID: 3802850994652793957, guid: 7d05b565d2a0bad43827b072d7a67303, type: 3}
   mapSuperPrefab: {fileID: 3420972397399472212, guid: 7d69ea78fa630904a853208d15130b26, type: 3}
 --- !u!1001 &200782606255947736
@@ -1023,6 +1023,34 @@ PrefabInstance:
     - target: {fileID: 3358873790910023875, guid: 9193413aa0e976e439049a2689f4fa41, type: 3}
       propertyPath: m_Name
       value: Abilities
+      objectReference: {fileID: 0}
+    - target: {fileID: 3740176654272905581, guid: 9193413aa0e976e439049a2689f4fa41, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3740176654272905581, guid: 9193413aa0e976e439049a2689f4fa41, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3740176654272905581, guid: 9193413aa0e976e439049a2689f4fa41, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Target
+      value: 
+      objectReference: {fileID: 2721003124092381402}
+    - target: {fileID: 3740176654272905581, guid: 9193413aa0e976e439049a2689f4fa41, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3740176654272905581, guid: 9193413aa0e976e439049a2689f4fa41, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_MethodName
+      value: OpenAbilities
+      objectReference: {fileID: 0}
+    - target: {fileID: 3740176654272905581, guid: 9193413aa0e976e439049a2689f4fa41, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_TargetAssemblyTypeName
+      value: Frankie.Menu.UI.WorldOptions, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 3740176654272905581, guid: 9193413aa0e976e439049a2689f4fa41, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
     - target: {fileID: 5879544326553776133, guid: 9193413aa0e976e439049a2689f4fa41, type: 3}
       propertyPath: m_text

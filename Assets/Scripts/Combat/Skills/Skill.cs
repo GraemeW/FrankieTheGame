@@ -12,6 +12,7 @@ namespace Frankie.Combat
         // Tunables
         [SerializeField] SkillStat stat = default;
         [SerializeField] BattleAction battleAction = null;
+        [SerializeField] string detail = "";
 
         // State
         static Dictionary<string, Skill> skillLookupCache;
@@ -77,6 +78,11 @@ namespace Frankie.Combat
         public string GetName()
         {
             return GetSkillNamePretty(name);
+        }
+
+        public string GetDetail()
+        {
+            return detail;
         }
         #endregion
 

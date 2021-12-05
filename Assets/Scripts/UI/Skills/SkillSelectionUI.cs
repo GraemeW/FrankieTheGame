@@ -9,7 +9,7 @@ using Frankie.Utils.UI;
 
 namespace Frankie.Combat.UI
 {
-    public class SkillSelectionUI : DialogueBox
+    public class SkillSelectionUI : UIBox
     {
         // Tunables
         [SerializeField] TextMeshProUGUI selectedCharacterNameField = null;
@@ -18,17 +18,19 @@ namespace Frankie.Combat.UI
         [SerializeField] TextMeshProUGUI rightField = null;
         [SerializeField] TextMeshProUGUI downField = null;
         [SerializeField] TextMeshProUGUI skillField = null;
-        [SerializeField] string defaultNoText = "--";
+        [SerializeField] protected string defaultNoText = "--";
 
         // State
-        CombatParticipant currentCombatParticipant = null;
+        protected CombatParticipant currentCombatParticipant = null;
 
         // Cached References
         BattleController battleController = null;
 
-        protected override void Awake()
+        #region VirtualMethods
+        protected virtual void Awake()
         {
-            battleController = GameObject.FindGameObjectWithTag("BattleController").GetComponent<BattleController>();
+            controller = GameObject.FindGameObjectWithTag("BattleController")?.GetComponent<BattleController>();
+            battleController = controller as BattleController;
         }
 
         protected override void OnEnable()
@@ -43,10 +45,49 @@ namespace Frankie.Combat.UI
             battleController.battleInput -= HandleInput;
         }
 
-        private void Setup(CombatParticipantType combatParticipantType, IEnumerable<CombatParticipant> combatParticipants)
+        protected virtual SkillHandler GetSelectedCharacter()
+        {
+            return battleController.GetSelectedCharacter().GetComponent<SkillHandler>();
+        }
+
+        protected virtual void HandleInput(PlayerInputType input)
+        {
+            if (battleController.GetSelectedCharacter() == null) { return; }
+            if (!battleController.IsBattleActionArmed())
+            {
+                if (SetBranchOrSkill(input)) { return; }
+            }
+        }
+
+        public void HandleInput(int input) // PUBLIC:  Called via unity events for button clicks (mouse)
+        {
+            // Because Unity hates handling enums
+            PlayerInputType battleInputType = (PlayerInputType)input;
+            HandleInput(battleInputType);
+        }
+
+        protected virtual void PassSkillFlavour(SkillStat skillStat, string detail)
+        {
+            // Null implementation, for parsing in alternate context
+        }
+
+        protected virtual void ResetUI()
+        {
+            SetAllFields(defaultNoText);
+            canvasGroup.alpha = 0;
+        }
+        #endregion
+
+        #region PrivateMethods
+        protected void Setup(CombatParticipantType combatParticipantType, IEnumerable<CombatParticipant> combatParticipants)
         {
             if (combatParticipantType != CombatParticipantType.Character) { return; }
-            if (battleController.GetActiveBattleAction() != null && battleController.GetActiveBattleAction().IsItem()) { return; } // Do not pop skill selection if using an item
+            if (battleController != null)
+            {
+                // Do not pop skill selection if using an item
+                if (battleController.GetActiveBattleAction() != null && battleController.GetActiveBattleAction().IsItem()) { return; } 
+            }
+
             if (combatParticipants == null) { ResetUI(); return; }
 
             CombatParticipant combatParticipant = combatParticipants.First(); // Expectation is single entry, handling edge case
@@ -54,7 +95,13 @@ namespace Frankie.Combat.UI
 
             if (currentCombatParticipant == null) { ResetUI(); return; }
 
-            // Otherwise set up the skill handler
+            RefreshSkills();
+        }
+
+        protected void RefreshSkills()
+        {
+            if (currentCombatParticipant == null) { return; }
+
             canvasGroup.alpha = 1;
             selectedCharacterNameField.text = currentCombatParticipant.GetCombatName();
             SkillHandler skillHandler = currentCombatParticipant.GetComponent<SkillHandler>();
@@ -62,13 +109,7 @@ namespace Frankie.Combat.UI
             UpdateSkills(skillHandler);
         }
 
-        private void ResetUI()
-        {
-            SetAllFields(defaultNoText);
-            canvasGroup.alpha = 0;
-        }
-
-        private void SetAllFields(string text)
+        protected void SetAllFields(string text)
         {
             selectedCharacterNameField.text = text;
             upField.text = text;
@@ -90,30 +131,22 @@ namespace Frankie.Combat.UI
             if (activeSkill != null)
             { 
                 skillField.text = Skill.GetSkillNamePretty(activeSkill.name);
-                battleController.SetActiveBattleAction(activeSkill);
+                if (battleController != null) { battleController.SetActiveBattleAction(activeSkill); }
                 OnUIBoxModified(UIBoxModifiedType.itemSelected, true);
             } 
             else { skillField.text = defaultNoText; }
         }
 
-        public void HandleInput(PlayerInputType input) 
+        protected bool SetBranchOrSkill(PlayerInputType input)
         {
-            if (battleController.GetSelectedCharacter() == null) { return; }
-            if (!battleController.IsBattleActionArmed())
-            {
-                if (SetBranchOrSkill(input)) { return; }
-            }
+            currentCombatParticipant = battleController.GetSelectedCharacter();
+            return SetBranchOrSkill(currentCombatParticipant, input);
         }
 
-        public void HandleInput(int input) // PUBLIC:  Called via unity events for button clicks (mouse)
+        protected bool SetBranchOrSkill(CombatParticipant combatParticipant, PlayerInputType input)
         {
-            // Because Unity hates handling enums
-            PlayerInputType battleInputType = (PlayerInputType)input;
-            HandleInput(battleInputType);
-        }
+            if (combatParticipant == null) { return false; }
 
-        private bool SetBranchOrSkill(PlayerInputType input)
-        {
             bool validInput = false;
             SkillBranchMapping skillBranchMapping = default;
             if (input == PlayerInputType.NavigateUp) { skillBranchMapping = SkillBranchMapping.up; validInput = true; }
@@ -123,11 +156,23 @@ namespace Frankie.Combat.UI
 
             if (validInput)
             {
-                SkillHandler skillHandler = battleController.GetSelectedCharacter().GetComponent<SkillHandler>();
+                SkillHandler skillHandler = combatParticipant.GetComponent<SkillHandler>();
                 skillHandler.SetBranchOrSkill(skillBranchMapping);
                 UpdateSkills(skillHandler);
+                Skill activeSkill = skillHandler.GetActiveSkill();
+                if (activeSkill != null)
+                {
+                    PassSkillFlavour(activeSkill.GetStat(), activeSkill.GetDetail());
+                }
             }
             return validInput;
         }
+
+        protected void ResetSkillHandler(CombatParticipant combatParticipant)
+        {
+            SkillHandler skillHandler = combatParticipant.GetComponent<SkillHandler>();
+            skillHandler.ResetCurrentBranch();
+        }
+        #endregion
     }
 }

@@ -309,6 +309,8 @@ namespace Frankie.Stats
                 if (combatParticipant == null) { Destroy(character); return; }
 
                 party.Add(combatParticipant);
+
+                if (party.Count > 1) { character.GetComponent<Collider2D>().isTrigger = true; }
             }
             RefreshAnimatorLookup();
 

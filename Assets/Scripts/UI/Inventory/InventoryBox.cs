@@ -186,10 +186,7 @@ namespace Frankie.Inventory.UI
             this.inventoryBoxState = inventoryBoxState;
             SetUpChoiceOptions();
 
-            if (uiBoxStateChanged != null)
-            {
-                uiBoxStateChanged.Invoke(inventoryBoxState);
-            }
+            uiBoxStateChanged?.Invoke(inventoryBoxState);
         }
         #endregion
 
