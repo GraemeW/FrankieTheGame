@@ -293,7 +293,7 @@ namespace Frankie.Speech.UI
             dialogueChoiceOption.Setup(dialogueController, choiceNode);
             dialogueChoiceOption.SetChoiceOrder(choiceIndex);
             dialogueChoiceOption.SetText(choiceNode.GetText());
-            dialogueChoiceOption.GetButton().onClick.AddListener(delegate { Choose(choiceNode.name); });
+            dialogueChoiceOption.AddOnClickListener(delegate { Choose(choiceNode.name); });
             dialogueChoiceOption.gameObject.SetActive(false);
 
             QueueTextForPrinting(dialogueChoiceOption.gameObject, null, true);

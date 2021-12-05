@@ -16,6 +16,7 @@ MonoBehaviour:
   displayName: Zigzag Hat
   description: Allo?
   droppable: 1
+  price: 35
   equipLocation: 4
   baseStatModifiers:
   - stat: 0
@@ -23,4 +24,3 @@ MonoBehaviour:
     maxValue: 70
     permanent: 0
     duration: 0
-  statusEffects: []

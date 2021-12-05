@@ -143,7 +143,7 @@ namespace Frankie.Utils.UI
         private void AddChoiceOption(string choiceText, Action action)
         {
             UIChoiceOption dialogueChoiceOption = AddChoiceOptionTemplate(choiceText);
-            dialogueChoiceOption.GetButton().onClick.AddListener(delegate { StandardChoiceExecution(action); });
+            dialogueChoiceOption.AddOnClickListener(delegate { StandardChoiceExecution(action); });
         }
 
         private UIChoiceOption AddChoiceOptionTemplate(string choiceText)

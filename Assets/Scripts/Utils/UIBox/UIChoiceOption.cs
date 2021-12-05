@@ -78,8 +78,17 @@ namespace Frankie.Utils.UI
             }
         }
 
+        public void AddOnClickListener(UnityAction unityAction)
+        {
+            if (unityAction == null) { return; }
+
+            button.onClick.AddListener(unityAction);
+        }
+
         public void AddOnHighlightListener(UnityAction unityAction)
         {
+            if (unityAction == null) { return; }
+
             onHighlightExtraListeners.Add(unityAction);
 
             if (gameObject.activeSelf)

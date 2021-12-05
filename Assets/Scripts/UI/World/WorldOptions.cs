@@ -25,18 +25,20 @@ namespace Frankie.Menu.UI
 
         // State
         List<CharacterSlide> characterSlides = new List<CharacterSlide>();
+        GameObject childOption = null;
 
         // Cached References
         PlayerStateHandler playerStateHandler = null;
         PlayerController playerController = null;
         WorldCanvas worldCanvas = null;
         Party party = null;
-        GameObject childOption = null;
-
+        
         private void Awake()
         {
             worldCanvas = GameObject.FindGameObjectWithTag("WorldCanvas")?.GetComponent<WorldCanvas>();
             playerStateHandler = GameObject.FindGameObjectWithTag("Player")?.GetComponent<PlayerStateHandler>();
+            if (worldCanvas == null || playerStateHandler == null) { Destroy(gameObject); }
+
             playerController = playerStateHandler?.GetComponent<PlayerController>();
             party = playerStateHandler?.GetComponent<Party>();
         }

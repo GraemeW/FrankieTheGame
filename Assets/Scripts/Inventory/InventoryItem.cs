@@ -15,6 +15,7 @@ namespace Frankie.Inventory
         [Tooltip("Item description on inspection")]
         [SerializeField] [TextArea] string description = null;
         [SerializeField] [Tooltip("Overwritten for Key Items")] protected bool droppable = true;
+        [SerializeField] [Min(0)] int price = 0;
 
         // State
         static Dictionary<string, InventoryItem> itemLookupCache;
@@ -64,6 +65,11 @@ namespace Frankie.Inventory
         public bool IsDroppable()
         {
             return droppable;
+        }
+
+        public int GetPrice()
+        {
+            return price;
         }
 
         void ISerializationCallbackReceiver.OnBeforeSerialize()

@@ -26,6 +26,8 @@ namespace Frankie.Menu.UI
         {
             worldCanvas = GameObject.FindGameObjectWithTag("WorldCanvas")?.GetComponent<WorldCanvas>();
             playerStateHandler = GameObject.FindGameObjectWithTag("Player")?.GetComponent<PlayerStateHandler>();
+            if (worldCanvas == null || playerStateHandler == null) { Destroy(gameObject); }
+
             controller = playerStateHandler?.GetComponent<PlayerController>();
         }
 

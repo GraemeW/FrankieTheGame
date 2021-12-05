@@ -7,17 +7,20 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Collections;
 using System.Linq;
+using Frankie.Inventory;
 
 namespace Frankie.Control
 {
     [RequireComponent(typeof(Party))]
+    [RequireComponent(typeof(Shopper))]
     public class PlayerStateHandler : MonoBehaviour
     {
         // Tunables
         [Header("Other Controller Prefabs")]
         [SerializeField] BattleController battleControllerPrefab = null;
         [SerializeField] DialogueController dialogueControllerPrefab = null;
-        [Header("World UI Game Objects")]
+        [Header("Menu Game Objects")]
+        [SerializeField] GameObject shopBoxPrefab = null;
         [SerializeField] GameObject worldOptionsPrefab = null;
         [SerializeField] GameObject escapeMenuPrefab = null;
         [Header("Messages")]
@@ -34,6 +37,7 @@ namespace Frankie.Control
 
         // Cached References
         Party party = null;
+        Shopper shopper = null;
         WorldCanvas worldCanvas = null;
 
         // Events
@@ -43,6 +47,7 @@ namespace Frankie.Control
         private void Awake()
         {
             party = GetComponent<Party>();
+            shopper = GetComponent<Shopper>();
         }
 
         private void Update()
@@ -216,6 +221,21 @@ namespace Frankie.Control
             SetPlayerState(PlayerState.inDialogue);
         }
 
+        public void EnterShop(Shop shop)
+        {
+            if (shopper == null || shop == null) { return; }
+
+            shopper.SetShop(shop);
+            Instantiate(shopBoxPrefab, worldCanvas.gameObject.transform);
+            SetPlayerState(PlayerState.inMenus);
+        }
+
+        public void ExitShop()
+        {
+            shopper.SetShop(null);
+            SetPlayerState(PlayerState.inWorld);
+        }
+
         public void ExitDialogue()
         {
             dialogueController = null;
@@ -228,7 +248,7 @@ namespace Frankie.Control
         public void EnterWorldOptions()
         {
             Instantiate(worldOptionsPrefab, worldCanvas.gameObject.transform);
-            SetPlayerState(PlayerState.inOptions);
+            SetPlayerState(PlayerState.inMenus);
         }
 
         public void ExitWorldOptions()
@@ -239,7 +259,7 @@ namespace Frankie.Control
         public void EnterEscapeMenu()
         {
             Instantiate(escapeMenuPrefab, worldCanvas.gameObject.transform);
-            SetPlayerState(PlayerState.inOptions);
+            SetPlayerState(PlayerState.inMenus);
         }
 
         public void ExitEscapeMenu()

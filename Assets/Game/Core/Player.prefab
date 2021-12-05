@@ -45,6 +45,8 @@ GameObject:
   - component: {fileID: 6558820224858072559}
   - component: {fileID: 9140000498525693418}
   - component: {fileID: 3401100091813777421}
+  - component: {fileID: 6016771343012816018}
+  - component: {fileID: 759616250253560844}
   - component: {fileID: 7671963437768288763}
   - component: {fileID: 1878790955754810938}
   - component: {fileID: 9140000498525693419}
@@ -97,6 +99,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   battleControllerPrefab: {fileID: 1733041111156872079, guid: 56c04806af7883a47bd3b232ea569090, type: 3}
   dialogueControllerPrefab: {fileID: 417524482563996096, guid: 0918560ff2a56d3489ca626a5a667040, type: 3}
+  shopBoxPrefab: {fileID: 6413694501190794285, guid: 60295d70ab71d9b4f8d7f754ef1667d0, type: 3}
   worldOptionsPrefab: {fileID: 6413694501190794285, guid: ef7e6848c65ed704882473869f5b49d1, type: 3}
   escapeMenuPrefab: {fileID: 6413694501190794285, guid: d40dace2943729145967e187c1801093, type: 3}
   messageCannotFight: You are wounded and cannot fight.
@@ -172,6 +175,31 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fbfdc66bce6c7eb44aa6f9005b1a3f11, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &6016771343012816018
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9140000498525693431}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2a7737ca10ad3c7459d9362e9a2e6078, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  initialCash: 50
+--- !u!114 &759616250253560844
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9140000498525693431}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 34a6c8aa48b85e14c90192a72f065a8c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!114 &7671963437768288763

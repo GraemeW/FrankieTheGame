@@ -79,7 +79,7 @@ namespace Frankie.Inventory.UI
                 UIChoiceOption uiChoiceOption = uiChoiceOptionObject.GetComponent<UIChoiceOption>();
                 uiChoiceOption.SetChoiceOrder(choiceIndex);
                 uiChoiceOption.SetText(character.GetCombatName());
-                uiChoiceOption.GetButton().onClick.AddListener(delegate { ChooseCharacter(character, true); });
+                uiChoiceOption.AddOnClickListener(delegate { ChooseCharacter(character, true); });
                 uiChoiceOption.AddOnHighlightListener(delegate { SoftChooseCharacter(character); });
 
                 playerSelectChoiceOptions.Add(uiChoiceOption);

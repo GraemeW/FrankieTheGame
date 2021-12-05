@@ -134,7 +134,7 @@ namespace Frankie.Control
                 if (InteractWithMenusOptions(playerInputType)) return;
                 SetCursor(CursorType.None);
             }
-            else if (playerStateHandler.GetPlayerState() == PlayerState.inOptions)
+            else if (playerStateHandler.GetPlayerState() == PlayerState.inMenus)
             {
                 if (InteractWithGlobals(playerInputType)) return;
                 if (InteractWithMenusOptions(playerInputType)) return;

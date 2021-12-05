@@ -16,5 +16,6 @@ MonoBehaviour:
   displayName: A Big YoYo
   description: Very big
   droppable: 1
+  price: 20
   consumable: 0
   battleAction: {fileID: 11400000, guid: 12b2443a534dc244b9b87bd5001994c1, type: 2}
