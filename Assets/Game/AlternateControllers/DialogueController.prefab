@@ -44,10 +44,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   dialogueBoxPrefab: {fileID: 6413694501190794285, guid: a9829c1cb69a159479cbe82e68a5c629, type: 3}
-  dialogueOptionBoxPrefab: {fileID: 6413694501190794285, guid: cfcc3c74158936342a4d3c72aa65bde0, type: 3}
-  interactExecuteButton: Fire1
-  interactExecuteKey: 101
-  interactUp: 119
-  interactLeft: 97
-  interactRight: 100
-  interactDown: 115
+  dialogueOptionBox_Horizontal_Prefab: {fileID: 6413694501190794285, guid: cfcc3c74158936342a4d3c72aa65bde0, type: 3}
+  dialogueOptionBox_Vertical_Prefab: {fileID: 6413694501190794285, guid: 380f81ab79b7b314bbe8d0535cd33e9f, type: 3}
+  horizontalToVerticalOptionThreshold: 2

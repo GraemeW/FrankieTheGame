@@ -6,6 +6,7 @@ using Frankie.Core;
 using System.Collections.Generic;
 using Frankie.Saving;
 using Frankie.Utils;
+using System.Text.RegularExpressions;
 
 namespace Frankie.ZoneManagement
 {
@@ -63,6 +64,11 @@ namespace Frankie.ZoneManagement
         public static ZoneNode SelectNodeFromIDs(string zoneID, string nodeID)
         {
             return Zone.GetFromName(zoneID).GetNodeFromID(nodeID);
+        }
+
+        public static string GetStaticZoneNamePretty(string zoneName)
+        {
+            return Regex.Replace(zoneName, "([a-z])_?([A-Z])", "$1 $2");
         }
 
         // Private Functions
@@ -243,12 +249,13 @@ namespace Frankie.ZoneManagement
             currentPlayerController = playerController;
         }
 
-        private List<ChoiceActionPair> GetChoiceActionPairs()
+        private List<ChoiceActionPair> GetZoneNameZoneNodePairs()
         {
             List<ChoiceActionPair> choiceActionPairs = new List<ChoiceActionPair>();
             foreach (string childNode in zoneNode.GetChildren())
             {
-                ChoiceActionPair choiceActionPair = new ChoiceActionPair(childNode, () => WarpPlayerToNode(childNode));
+                string childNodeNamePretty = GetStaticZoneNamePretty(childNode);
+                ChoiceActionPair choiceActionPair = new ChoiceActionPair(childNodeNamePretty, () => WarpPlayerToNode(childNode));
                 choiceActionPairs.Add(choiceActionPair);
             }
             return choiceActionPairs;
@@ -277,7 +284,7 @@ namespace Frankie.ZoneManagement
                 }
                 else if (IsSimpleWarp() == false)
                 {
-                    playerStateHandler.EnterDialogue(choiceMessage, GetChoiceActionPairs());
+                    playerStateHandler.EnterDialogue(choiceMessage, GetZoneNameZoneNodePairs());
                 }
             }
             return true;

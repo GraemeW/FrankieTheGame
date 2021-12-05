@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   children: []
   linkedZoneID: OfficeBuilding
-  linkedNodeID: ElevatorInside
+  linkedNodeID: Office
   rect:
     serializedVersion: 2
     x: 560

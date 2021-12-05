@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 2543667310359335487}
   - component: {fileID: 2543667310359335486}
   m_Layer: 2
-  m_Name: KitchenDoor
+  m_Name: LeftDoor
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

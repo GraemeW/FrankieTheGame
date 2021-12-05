@@ -92,7 +92,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2827520980706274898}
-  - component: {fileID: 6707329827795657708}
+  - component: {fileID: 8416335845131680279}
   m_Layer: 0
   m_Name: PlayerChoice
   m_TagString: Untagged
@@ -119,7 +119,7 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &6707329827795657708
+--- !u!114 &8416335845131680279
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -128,7 +128,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 3501852595519245942}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 30649d3a9faa99c48a7b1166b86bf2a0, type: 3}
+  m_Script: {fileID: 11500000, guid: 59f8146938fff824cb5fd77236b75775, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   m_Padding:
@@ -160,7 +160,7 @@ GameObject:
   - component: {fileID: 3084176042462386772}
   - component: {fileID: 5257144902321780821}
   m_Layer: 0
-  m_Name: DialogueOptionBox
+  m_Name: DialogueOptionBox_VerticalOptions
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -253,6 +253,7 @@ MonoBehaviour:
   canvasGroup: {fileID: 5257144902321780821}
   handleGlobalInput: 1
   clearVolatileOptionsOnEnable: 0
+  preventEscapeOptionExit: 0
   optionParent: {fileID: 2827520980706274898}
   optionPrefab: {fileID: 3358873790910023875, guid: 3ddb4c077d5422844bfe6e116ecd5650, type: 3}
   dialogueParent: {fileID: 4819427655758832652}

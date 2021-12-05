@@ -67,11 +67,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3268536af8903a64da82aa6872733d1d, type: 3}
-  m_Name: ElevatorInside
+  m_Name: Office
   m_EditorClassIdentifier: 
   children:
   - Outdoor
   - Kitchen
+  - VendingMachines
   linkedZoneID: 
   linkedNodeID: 
   rect:
@@ -105,6 +106,7 @@ MonoBehaviour:
   sceneReference:
     sceneAsset: {fileID: 102900000, guid: 2cda990e2423bbf4892e6590ba056729, type: 3}
     sceneName: OfficeBuilding
+  updateMap: 0
   zoneAudio: {fileID: 8300000, guid: c797fa32c25f2a745a9645e37347fe95, type: 3}
   isZoneAudioLooping: 1
   zoneNodes:
@@ -117,6 +119,7 @@ MonoBehaviour:
   - {fileID: -1975871994103071365}
   - {fileID: 4440517529566508213}
   - {fileID: 110455986757545823}
+  - {fileID: 3292163222206305006}
 --- !u!114 &110455986757545823
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -134,8 +137,8 @@ MonoBehaviour:
   linkedNodeID: OfficeDoor
   rect:
     serializedVersion: 2
-    x: 927
-    y: 402
+    x: 1189
+    y: 446
     width: 430
     height: 150
   zoneName: OfficeBuilding
@@ -203,6 +206,36 @@ MonoBehaviour:
     y: 0
     width: 430
     height: 45
+--- !u!114 &3292163222206305006
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3268536af8903a64da82aa6872733d1d, type: 3}
+  m_Name: VendingMachines
+  m_EditorClassIdentifier: 
+  children:
+  - Kitchen
+  - Office
+  linkedZoneID: 
+  linkedNodeID: 
+  rect:
+    serializedVersion: 2
+    x: 156
+    y: 693
+    width: 430
+    height: 150
+  zoneName: OfficeBuilding
+  draggingRect:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 430
+    height: 45
 --- !u!114 &3365788838334092622
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -245,13 +278,14 @@ MonoBehaviour:
   m_Name: Kitchen
   m_EditorClassIdentifier: 
   children:
-  - ElevatorInside
+  - Office
+  - VendingMachines
   linkedZoneID: 
   linkedNodeID: 
   rect:
     serializedVersion: 2
-    x: 427
-    y: 602
+    x: 759
+    y: 640
     width: 430
     height: 150
   zoneName: OfficeBuilding
