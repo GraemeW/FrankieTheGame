@@ -1,9 +1,6 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 
-namespace Frankie.Control
+namespace Frankie.Utils
 {
     public struct ChoiceActionPair
     {

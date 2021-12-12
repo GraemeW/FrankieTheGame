@@ -2,7 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Frankie.Combat;
-using Cinemachine;
 using Frankie.Control;
 using Frankie.Utils;
 using System;

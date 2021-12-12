@@ -158,6 +158,11 @@ namespace Frankie.Core
             string currentSave = GetCurrentSave();
             GetComponent<SavingSystem>().Delete(currentSave);
         }
+
+        public void Delete(string saveName)
+        {
+            GetComponent<SavingSystem>().Delete(saveName);
+        }
         #endregion
 
         #region PrivateMethods

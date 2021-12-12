@@ -17,6 +17,7 @@ namespace Frankie.Menu.UI
         [SerializeField] Transform characterPanelTransform = null;
         [Header("Option Game Objects")]
         [SerializeField] CharacterSlide characterSlidePrefab = null;
+        [SerializeField] WalletUI walletUIPrefab = null;
         [SerializeField] InventoryBox inventoryBoxPrefab = null;
         [SerializeField] EquipmentBox equipmentBoxPrefab = null;
         [SerializeField] AbilitiesBox abilitiesBoxPrefab = null;
@@ -25,6 +26,7 @@ namespace Frankie.Menu.UI
 
         // State
         List<CharacterSlide> characterSlides = new List<CharacterSlide>();
+        WalletUI walletUI = null;
         GameObject childOption = null;
 
         // Cached References
@@ -47,6 +49,7 @@ namespace Frankie.Menu.UI
         {
             TakeControl(playerController, this, null); // input handled via player controller, immediate override
             SetupCharacterSlides();
+            SetupWallet();
             HandleClientEntry();
         }
 
@@ -61,6 +64,11 @@ namespace Frankie.Menu.UI
             }
         }
 
+        private void SetupWallet()
+        {
+            walletUI = Instantiate(walletUIPrefab, worldCanvas.transform);
+        }
+
         private void OnDestroy()
         {
             if (childOption != null) { Destroy(childOption); }
@@ -68,6 +76,7 @@ namespace Frankie.Menu.UI
             {
                 Destroy(childCharacterPanel.gameObject);
             }
+            if (walletUI != null) { Destroy(walletUI.gameObject); }
             playerStateHandler?.ExitWorldOptions();
         }
 

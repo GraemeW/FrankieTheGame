@@ -122,10 +122,20 @@ MonoBehaviour:
   canvasGroup: {fileID: 7305521238110298209}
   handleGlobalInput: 1
   clearVolatileOptionsOnEnable: 1
+  preventEscapeOptionExit: 0
   optionParent: {fileID: 7923113532571445376}
   optionPrefab: {fileID: 6092369236026263450, guid: 07845f983d1818c48b89a3c9cbcab62c, type: 3}
   maxSaves: 5
+  optionNewGameText: New Game
+  optionLoadGameText: Load Game
+  optionDeleteGameText: Delete Game
+  messageGameSelectOptionText: What do you want to do?
+  messageConfirmDeletionText: Are you really sure?
+  messageAffirmative: Yeah
+  messageNegative: Nah
   cancelOption: {fileID: 172556376393491805}
+  dialogueBoxPrefab: {fileID: 6442782191674339376, guid: a9829c1cb69a159479cbe82e68a5c629, type: 3}
+  dialogueOptionBoxPrefab: {fileID: 3084176042462386772, guid: cfcc3c74158936342a4d3c72aa65bde0, type: 3}
 --- !u!1 &7923113532571445379
 GameObject:
   m_ObjectHideFlags: 0

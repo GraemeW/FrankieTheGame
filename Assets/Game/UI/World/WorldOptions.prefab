@@ -362,6 +362,7 @@ MonoBehaviour:
   optionPrefab: {fileID: 3358873790910023875, guid: 9193413aa0e976e439049a2689f4fa41, type: 3}
   characterPanelTransform: {fileID: 4290631732117095911}
   characterSlidePrefab: {fileID: 3712678563809887521, guid: aef38f633ef92174d805cd7a578a40c7, type: 3}
+  walletUIPrefab: {fileID: 3399884933549309670, guid: fa1c608bd62d3d94392523e931df8915, type: 3}
   inventoryBoxPrefab: {fileID: 2437136854184657, guid: 45098d9dff6ed3c45a7908991cfceabe, type: 3}
   equipmentBoxPrefab: {fileID: 5904610809290143616, guid: cec1f16c9da529c4290d6fe89d23bdee, type: 3}
   abilitiesBoxPrefab: {fileID: 5012810135103552638, guid: fb9878ca3ca266c4e821732036552e98, type: 3}

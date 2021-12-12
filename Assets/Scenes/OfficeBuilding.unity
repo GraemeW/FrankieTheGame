@@ -1777,6 +1777,17 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 1134242656034721789, guid: 813d9fe494a69cc4ba39855e88efd463, type: 3}
   m_PrefabInstance: {fileID: 1134242655499707149}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &551020849 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2191851057834085231, guid: bacc30e7b6274514fa44ffc73b87b908, type: 3}
+  m_PrefabInstance: {fileID: 795228521}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bce5b12bc486dc641b36c0b1102e4dbf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &563903656
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2783,6 +2794,72 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 3243576137044866236, guid: 80db0ad100d3ecd42b4f1f1049059ab5, type: 3}
   m_PrefabInstance: {fileID: 3243576136418143060}
   m_PrefabAsset: {fileID: 0}
+--- !u!1001 &795228521
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 908167172}
+    m_Modifications:
+    - target: {fileID: 565694158762715577, guid: bacc30e7b6274514fa44ffc73b87b908, type: 3}
+      propertyPath: m_Name
+      value: PhilTooNPC
+      objectReference: {fileID: 0}
+    - target: {fileID: 565694158762715578, guid: bacc30e7b6274514fa44ffc73b87b908, type: 3}
+      propertyPath: m_RootOrder
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 565694158762715578, guid: bacc30e7b6274514fa44ffc73b87b908, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -0.44364738
+      objectReference: {fileID: 0}
+    - target: {fileID: 565694158762715578, guid: bacc30e7b6274514fa44ffc73b87b908, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -0.9551017
+      objectReference: {fileID: 0}
+    - target: {fileID: 565694158762715578, guid: bacc30e7b6274514fa44ffc73b87b908, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 565694158762715578, guid: bacc30e7b6274514fa44ffc73b87b908, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 565694158762715578, guid: bacc30e7b6274514fa44ffc73b87b908, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 565694158762715578, guid: bacc30e7b6274514fa44ffc73b87b908, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 565694158762715578, guid: bacc30e7b6274514fa44ffc73b87b908, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 565694158762715578, guid: bacc30e7b6274514fa44ffc73b87b908, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 565694158762715578, guid: bacc30e7b6274514fa44ffc73b87b908, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 565694158762715578, guid: bacc30e7b6274514fa44ffc73b87b908, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3551418429975531895, guid: bacc30e7b6274514fa44ffc73b87b908, type: 3}
+      propertyPath: dialogue
+      value: 
+      objectReference: {fileID: 11400000, guid: 7185a300a41ed1c44834e5ff98cbdb14, type: 2}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: bacc30e7b6274514fa44ffc73b87b908, type: 3}
+--- !u!4 &795228522 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 565694158762715578, guid: bacc30e7b6274514fa44ffc73b87b908, type: 3}
+  m_PrefabInstance: {fileID: 795228521}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &807520922
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2845,6 +2922,42 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 8110672953395402400, guid: 5b506601a3824f349944b614a4a1f188, type: 3}
   m_PrefabInstance: {fileID: 807520922}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &814355165 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7911709081229161493, guid: bacc30e7b6274514fa44ffc73b87b908, type: 3}
+  m_PrefabInstance: {fileID: 795228521}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &814355166
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 814355165}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 47c843d51c92e854f95fb02bd7be9471, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  dialogueUpdateType: 3
+  triggerNode: {fileID: -4814688820789648900, guid: 7185a300a41ed1c44834e5ff98cbdb14, type: 2}
+  dialogueTriggeredEvent:
+    triggerImmediate: 0
+    onTriggerEvent:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 551020849}
+          m_TargetAssemblyTypeName: Frankie.Stats.CharacterNPCSwapper, Assembly-CSharp
+          m_MethodName: JoinParty
+          m_Mode: 0
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
 --- !u!4 &820222648 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3912013125334914393, guid: 8df96e93ad84df543ac612ffead2117d, type: 3}
@@ -3202,6 +3315,7 @@ Transform:
   - {fileID: 563903657}
   - {fileID: 464900741}
   - {fileID: 499504893}
+  - {fileID: 795228522}
   m_Father: {fileID: 361311719}
   m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -8098,7 +8212,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6748405756474271262, guid: 7d6634333e185754d96c189f3df7c163, type: 3}
       propertyPath: orthographic size
-      value: 3.5
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 6748405756474271262, guid: 7d6634333e185754d96c189f3df7c163, type: 3}
       propertyPath: m_CullingMask.m_Bits

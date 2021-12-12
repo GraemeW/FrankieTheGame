@@ -1,6 +1,7 @@
 using Frankie.Combat;
 using Frankie.Control;
 using Frankie.Stats;
+using Frankie.Utils;
 using Frankie.Utils.UI;
 using Frankie.Speech.UI;
 using Frankie.Combat.UI;

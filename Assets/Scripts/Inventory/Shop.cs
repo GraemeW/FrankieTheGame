@@ -10,6 +10,8 @@ namespace Frankie.Inventory
         // Tunables
         [Header("Base Attributes")]
         [SerializeField] InventoryItem[] stock = null;
+        [SerializeField] ShopType shopType = ShopType.Both;
+        [SerializeField] float saleDiscount = 0.7f;
         [Header("Interaction Texts")]
         [SerializeField] string messageIntro = "What'cha want to buy?";
         [SerializeField] string messageSuccess = "Thanks, want anything else?";
@@ -48,6 +50,16 @@ namespace Frankie.Inventory
             {
                 yield return inventoryItem;
             }
+        }
+
+        public ShopType GetShopType()
+        {
+            return shopType;
+        }
+
+        public float GetSaleDiscount()
+        {
+            return saleDiscount;
         }
     }
 }

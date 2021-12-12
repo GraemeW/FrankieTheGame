@@ -1,10 +1,10 @@
 using Frankie.Combat;
 using Frankie.Control;
+using Frankie.Utils;
 using Frankie.Utils.UI;
 using Frankie.Speech.UI;
 using Frankie.Combat.UI;
 using Frankie.Stats;
-using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
@@ -261,7 +261,28 @@ namespace Frankie.Inventory.UI
             }
         }
 
-        protected void ChooseCharacter(CombatParticipant character, bool initializeCursor = true)
+        protected virtual void ChooseCharacter(CombatParticipant character, bool initializeCursor = true)
+        {
+            UpdateKnapsackView(character);
+            SetInventoryBoxState(InventoryBoxState.inKnapsack);
+
+            if (IsChoiceAvailable())
+            {
+                if (initializeCursor) { MoveCursor(PlayerInputType.NavigateRight); }
+            }
+            else
+            {
+                SetInventoryBoxState(InventoryBoxState.inCharacterSelection);
+            }
+        }
+
+        protected virtual void SoftChooseCharacter(CombatParticipant character)
+        {
+            ChooseCharacter(character, false);
+            SetInventoryBoxState(InventoryBoxState.inCharacterSelection);
+        }
+
+        protected void UpdateKnapsackView(CombatParticipant character)
         {
             if (character == null)
             {
@@ -278,23 +299,6 @@ namespace Frankie.Inventory.UI
                 selectedCharacterNameField.text = selectedCharacter.GetCombatName();
                 RefreshKnapsackContents();
             }
-            SetInventoryBoxState(InventoryBoxState.inKnapsack);
-
-            if (IsChoiceAvailable())
-            {
-                if (initializeCursor) { MoveCursor(PlayerInputType.NavigateRight); }
-            }
-            else
-            {
-                SetInventoryBoxState(InventoryBoxState.inCharacterSelection);
-            }
-
-        }
-
-        private void SoftChooseCharacter(CombatParticipant character)
-        {
-            ChooseCharacter(character, false);
-            SetInventoryBoxState(InventoryBoxState.inCharacterSelection);
         }
 
         protected virtual void ChooseItem(int inventorySlot)

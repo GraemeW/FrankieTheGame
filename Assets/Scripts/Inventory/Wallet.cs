@@ -1,5 +1,6 @@
 using Frankie.Saving;
 using Frankie.Utils;
+using System;
 using UnityEngine;
 
 namespace Frankie.Inventory
@@ -8,10 +9,14 @@ namespace Frankie.Inventory
     {
         // Tunables
         [SerializeField] int initialCash = 50;
+        [SerializeField] int maxCash = 999999999;
 
         // State
         LazyValue<int> cash;
         int pendingCash = 0;
+
+        // Events
+        public event Action walletUpdated;
 
         #region UnityMethods
         private void Awake()
@@ -31,9 +36,9 @@ namespace Frankie.Inventory
         #endregion
 
         #region PublicMethods
-        public void UpdateCash(int value)
+        public bool HasFunds(int value)
         {
-            cash.value += value;
+            return cash.value >= value;
         }
 
         public int GetCash()
@@ -41,9 +46,16 @@ namespace Frankie.Inventory
             return cash.value;
         }
 
-        public bool HasFunds(int value)
+        public int GetPendingCash()
         {
-            return cash.value >= value;
+            return pendingCash;
+        }
+
+        public void UpdateCash(int value)
+        {
+            cash.value = Mathf.Min(cash.value + value, maxCash);
+
+            walletUpdated?.Invoke();
         }
 
         public void UpdatePendingCash(int value)
@@ -51,14 +63,25 @@ namespace Frankie.Inventory
             pendingCash += value;
         }
 
-        public void TransferToWallet(int value)
+        public bool TransferToWallet(int value)
         {
-            if (value == 0) { return; }
-            if (value > 0 && value > pendingCash) { value = pendingCash; } // Bank -> Wallet
-            if (value < 0 && -value > cash.value) { value = cash.value; } // Wallet -> Bank
+            if (value == 0) { return false; }
+
+            // Bank -> Wallet
+            if (value > 0)
+            {
+                if (cash.value + value > maxCash) { value = maxCash - (cash.value + value); } // Set to delta(max, addition)
+                if (value > pendingCash) { value = pendingCash; } // Set to max transferrable from bank if over
+            }
+
+            // Wallet -> Bank
+            if (value < 0 && -value > cash.value) { value = cash.value; } // Set to max transferrable form wallet if over
 
             cash.value += value;
             pendingCash -= value;
+
+            walletUpdated?.Invoke();
+            return true;
         }
         #endregion
 

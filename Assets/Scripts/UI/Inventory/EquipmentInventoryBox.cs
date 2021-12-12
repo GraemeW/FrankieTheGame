@@ -2,7 +2,7 @@ using Frankie.Combat;
 using Frankie.Combat.UI;
 using Frankie.Control;
 using Frankie.Speech.UI;
-using Frankie.Stats;
+using Frankie.Utils;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;

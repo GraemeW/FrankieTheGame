@@ -105,6 +105,11 @@ namespace Frankie.Inventory
             }
             return freeSlots;
         }
+
+        public bool HasFreeSpace()
+        {
+            return GetNumberOfFreeSlotsInParty() > 0;
+        }
         #endregion
     }
 }

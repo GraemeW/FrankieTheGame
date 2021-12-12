@@ -85,6 +85,11 @@ namespace Frankie.Inventory
             return true;
         }
 
+        public bool HasFreeSpace()
+        {
+            return GetNumberOfFreeSlots() > 0;
+        }
+
         public bool HasItem(InventoryItem inventoryItem)
         {
             for (int i = 0; i < slots.Length; i++)

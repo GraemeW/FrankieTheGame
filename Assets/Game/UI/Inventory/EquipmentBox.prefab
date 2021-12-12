@@ -731,7 +731,7 @@ MonoBehaviour:
   rightEquipment: {fileID: 2017014464284531185}
   equipmentChangeMenu: {fileID: 7943404947919532540}
   statSheetParent: {fileID: 5521227728359719399}
-  dialogueBoxPrefab: {fileID: 6442782191674339376, guid: a9829c1cb69a159479cbe82e68a5c629, type: 3}
+  dialogueBoxPrefab: {fileID: 4320783885461854465, guid: a9829c1cb69a159479cbe82e68a5c629, type: 3}
   dialogueOptionBoxPrefab: {fileID: 3084176042462386772, guid: cfcc3c74158936342a4d3c72aa65bde0, type: 3}
   inventoryItemFieldPrefab: {fileID: -7229577654974374248, guid: e49114d2a61e8cc46bd0caffe110c05d, type: 3}
   equipmentInventoryBoxPrefab: {fileID: 1399885947647641316, guid: 4b7a6d86130957d46bf858c8779af887, type: 3}

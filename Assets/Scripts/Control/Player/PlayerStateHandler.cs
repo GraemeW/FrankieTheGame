@@ -2,12 +2,13 @@ using Frankie.Combat;
 using Frankie.ZoneManagement;
 using Frankie.Speech;
 using Frankie.Stats;
+using Frankie.Inventory;
+using Frankie.Utils;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
 using System.Collections;
 using System.Linq;
-using Frankie.Inventory;
 
 namespace Frankie.Control
 {
@@ -20,7 +21,7 @@ namespace Frankie.Control
         [SerializeField] BattleController battleControllerPrefab = null;
         [SerializeField] DialogueController dialogueControllerPrefab = null;
         [Header("Menu Game Objects")]
-        [SerializeField] GameObject shopBoxPrefab = null;
+        [SerializeField] GameObject shopSelectPrefab = null;
         [SerializeField] GameObject worldOptionsPrefab = null;
         [SerializeField] GameObject escapeMenuPrefab = null;
         [Header("Messages")]
@@ -226,7 +227,7 @@ namespace Frankie.Control
             if (shopper == null || shop == null) { return; }
 
             shopper.SetShop(shop);
-            Instantiate(shopBoxPrefab, worldCanvas.gameObject.transform);
+            Instantiate(shopSelectPrefab, worldCanvas.gameObject.transform);
             SetPlayerState(PlayerState.inMenus);
         }
 

@@ -1,11 +1,11 @@
 using Frankie.Core;
 using Frankie.Stats;
 using Frankie.Control;
+using Frankie.Utils;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-using Frankie.Combat;
 
 namespace Frankie.Speech
 {

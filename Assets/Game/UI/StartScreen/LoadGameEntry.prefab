@@ -800,11 +800,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2677499815960731892, guid: d9812907a2f6eac44ade16914c20d7a5, type: 3}
       propertyPath: m_MinWidth
-      value: 25
+      value: 50
       objectReference: {fileID: 0}
     - target: {fileID: 2677499815960731892, guid: d9812907a2f6eac44ade16914c20d7a5, type: 3}
       propertyPath: m_PreferredWidth
-      value: 25
+      value: 50
       objectReference: {fileID: 0}
     - target: {fileID: 4442584724333405627, guid: d9812907a2f6eac44ade16914c20d7a5, type: 3}
       propertyPath: m_text

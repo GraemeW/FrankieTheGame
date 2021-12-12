@@ -271,6 +271,9 @@ MonoBehaviour:
   optionPrefab: {fileID: 2579604403596197489, guid: b426e9614d255c043994f26d8057687c, type: 3}
   shopInfoField: {fileID: 5442080066330885235}
   stockRowPrefab: {fileID: 4402643301952536208, guid: b426e9614d255c043994f26d8057687c, type: 3}
+  walletUIPrefab: {fileID: 3399884933549309670, guid: fa1c608bd62d3d94392523e931df8915, type: 3}
+  inventoryShopBoxPrefab: {fileID: 6226882711923951055, guid: a00aa89767cf49543b8fc44068b93f08, type: 3}
+  dialogueBoxPrefab: {fileID: 4320783885461854465, guid: a9829c1cb69a159479cbe82e68a5c629, type: 3}
 --- !u!1001 &6451051398701878834
 PrefabInstance:
   m_ObjectHideFlags: 0

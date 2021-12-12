@@ -1,0 +1,87 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &3063079707874605527
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 3268347881354742002, guid: 53771d00282eaa34ba616b313732c1b7, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: d8df5b128d1a22547b290dda471c94c1, type: 3}
+    - target: {fileID: 3268347881354742002, guid: 53771d00282eaa34ba616b313732c1b7, type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3268347881412759660, guid: 53771d00282eaa34ba616b313732c1b7, type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 22100000, guid: 9e32dd7d457e3b149953a785a864203b, type: 2}
+    - target: {fileID: 3268347881412759661, guid: 53771d00282eaa34ba616b313732c1b7, type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3268347881412759661, guid: 53771d00282eaa34ba616b313732c1b7, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3268347881412759661, guid: 53771d00282eaa34ba616b313732c1b7, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3268347881412759661, guid: 53771d00282eaa34ba616b313732c1b7, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3268347881412759661, guid: 53771d00282eaa34ba616b313732c1b7, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3268347881412759661, guid: 53771d00282eaa34ba616b313732c1b7, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3268347881412759661, guid: 53771d00282eaa34ba616b313732c1b7, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3268347881412759661, guid: 53771d00282eaa34ba616b313732c1b7, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3268347881412759661, guid: 53771d00282eaa34ba616b313732c1b7, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3268347881412759661, guid: 53771d00282eaa34ba616b313732c1b7, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3268347881412759661, guid: 53771d00282eaa34ba616b313732c1b7, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3268347881412759662, guid: 53771d00282eaa34ba616b313732c1b7, type: 3}
+      propertyPath: m_Name
+      value: PhilTooNPC
+      objectReference: {fileID: 0}
+    - target: {fileID: 3756983401055870511, guid: 53771d00282eaa34ba616b313732c1b7, type: 3}
+      propertyPath: characterProperties
+      value: 
+      objectReference: {fileID: 11400000, guid: 336237e6ae4959340b7902131ce0e59d, type: 2}
+    - target: {fileID: 3809891300135030454, guid: 53771d00282eaa34ba616b313732c1b7, type: 3}
+      propertyPath: uniqueIdentifier
+      value: philTooNPC
+      objectReference: {fileID: 0}
+    - target: {fileID: 5380918446169795178, guid: 53771d00282eaa34ba616b313732c1b7, type: 3}
+      propertyPath: combatSprite
+      value: 
+      objectReference: {fileID: 21300000, guid: d8df5b128d1a22547b290dda471c94c1, type: 3}
+    - target: {fileID: 6188215296675846516, guid: 53771d00282eaa34ba616b313732c1b7, type: 3}
+      propertyPath: skillTree
+      value: 
+      objectReference: {fileID: 11400000, guid: 2aa082baee61f2c4eaabf42f5711a6c0, type: 2}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 53771d00282eaa34ba616b313732c1b7, type: 3}

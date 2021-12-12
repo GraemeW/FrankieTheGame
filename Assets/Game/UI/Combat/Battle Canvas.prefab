@@ -659,7 +659,7 @@ MonoBehaviour:
     tileSpriteImage: {fileID: 21300000, guid: e29be70c9febd64428840a5f7cb924d8, type: 3}
     shaderMaterial: {fileID: 2100000, guid: f0e33ad55b3f107428a94269b6f3f3c9, type: 2}
   infoChooseParent: {fileID: 6429177127699189047}
-  dialogueBoxPrefab: {fileID: 6442782191674339376, guid: a9829c1cb69a159479cbe82e68a5c629, type: 3}
+  dialogueBoxPrefab: {fileID: 4320783885461854465, guid: a9829c1cb69a159479cbe82e68a5c629, type: 3}
   combatLog: {fileID: 3973297245203531870}
   combatOptions: {fileID: 4334786330493280310}
   skillSelection: {fileID: 8555741105237380575}

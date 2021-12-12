@@ -1000,7 +1000,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1078369046174692924, guid: 1c8b62c9f42ae8f419b0c29af9435146, type: 3}
       propertyPath: m_Name
-      value: StandardHeaderElement
+      value: SelectedCharacterNameField
       objectReference: {fileID: 0}
     - target: {fileID: 8243368733805387137, guid: 1c8b62c9f42ae8f419b0c29af9435146, type: 3}
       propertyPath: m_Pivot.x
