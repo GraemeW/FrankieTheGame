@@ -95,6 +95,8 @@ namespace Frankie.Inventory.UI
                 uiChoiceOption.AddOnClickListener(delegate { ChooseCharacter(character); });
                 uiChoiceOption.AddOnHighlightListener(delegate { SoftChooseCharacter(character); });
 
+                if (choiceIndex == 0) { SoftChooseCharacter(character); }
+
                 playerSelectChoiceOptions.Add(uiChoiceOption);
                 choiceIndex++;
             }

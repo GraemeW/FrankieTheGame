@@ -49,7 +49,15 @@ namespace Frankie.Inventory
             }
 
             wallet.UpdateCash(transactionFee);
-            characterKnapsack.AddToFirstEmptySlot(inventoryItem, true);
+
+            if (saleType == ShopType.Buy)
+            {
+                characterKnapsack.AddToFirstEmptySlot(inventoryItem, true);
+            }
+            else if (saleType == ShopType.Sell)
+            {
+                characterKnapsack.RemoveItem(inventoryItem, true);
+            }
         }
     }
 }

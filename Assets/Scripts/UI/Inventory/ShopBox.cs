@@ -47,20 +47,22 @@ namespace Frankie.Inventory.UI
         private void OnDestroy()
         {
             if (walletUI != null) { Destroy(walletUI.gameObject); }
+
+            HandleClientExit();
             playerStateHandler?.ExitShop();
         }
         #endregion
 
         #region PublicMethods
-        public void Setup(WorldCanvas worldCanvas, PlayerStateHandler playerStateHandler, PlayerController playerController, Shopper shopper)
+        public void Setup(WorldCanvas worldCanvas, PlayerStateHandler playerStateHandler, PlayerController playerController, Party party, Shopper shopper)
         {
             this.worldCanvas = worldCanvas;
             this.playerStateHandler = playerStateHandler;
             this.playerController = playerController;
+            this.party = party;
             this.shopper = shopper;
 
             SetupShopBox();
-            party = playerStateHandler.GetParty();
             partyKnapsackConduit = party.GetComponent<PartyKnapsackConduit>();
             wallet = shopper.GetWallet();
 
@@ -124,7 +126,7 @@ namespace Frankie.Inventory.UI
         private void SpawnInventoryShopBox(InventoryItem inventoryItem)
         {
             InventoryShopBox inventoryShopBox = Instantiate(inventoryShopBoxPrefab, worldCanvas.transform);
-            inventoryShopBox.Setup(playerController, party, this, shopper, inventoryItem, shop.GetMessageNoSpace());
+            inventoryShopBox.Setup(playerController, party, shopper, this, inventoryItem, shop.GetMessageNoSpace());
             PassControl(inventoryShopBox);
         }
         #endregion

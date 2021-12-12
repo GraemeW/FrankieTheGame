@@ -272,6 +272,7 @@ MonoBehaviour:
   optionParent: {fileID: 2827520980706274898}
   optionPrefab: {fileID: 3358873790910023875, guid: 9193413aa0e976e439049a2689f4fa41, type: 3}
   shopBoxPrefab: {fileID: 4223525061245129038, guid: 60295d70ab71d9b4f8d7f754ef1667d0, type: 3}
+  inventoryShopBoxPrefab: {fileID: 6226882711923951055, guid: a00aa89767cf49543b8fc44068b93f08, type: 3}
 --- !u!1001 &485828227994898614
 PrefabInstance:
   m_ObjectHideFlags: 0

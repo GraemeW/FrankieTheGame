@@ -17,6 +17,8 @@ namespace Frankie.Inventory
         [SerializeField] string messageSuccess = "Thanks, want anything else?";
         [SerializeField] string messageNoFunds = "Whoops, looks like you don't have enough cash for that";
         [SerializeField] string messageNoSpace = "Whoops, looks like you don't have enough space for that";
+        [Tooltip("{0} for sale amount")][SerializeField] string messageForSale = "I can give you {0} for that";
+        [SerializeField] string messageCannotSell = "I can't accept that item";
 
         public void InitiateBargain(PlayerStateHandler playerStateHandler) // Called via Unity events
         {
@@ -42,6 +44,21 @@ namespace Frankie.Inventory
         public string GetMessageNoSpace()
         {
             return messageNoSpace;
+        }
+
+        public string GetMessageForSale()
+        {
+            return messageForSale;
+        }
+
+        public string GetMessageCannotSell()
+        {
+            return messageCannotSell;
+        }
+
+        public bool HasInventory()
+        {
+            return stock.Length > 0;
         }
 
         public IEnumerable<InventoryItem> GetShopStock()

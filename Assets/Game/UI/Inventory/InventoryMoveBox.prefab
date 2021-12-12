@@ -560,7 +560,7 @@ MonoBehaviour:
   selectedCharacterNameField: {fileID: 3511601292740054661}
   leftItemContainer: {fileID: 4808833409950686781}
   rightItemContainer: {fileID: 2801211723359414022}
-  dialogueBoxPrefab: {fileID: 6442782191674339376, guid: a9829c1cb69a159479cbe82e68a5c629, type: 3}
+  dialogueBoxPrefab: {fileID: 4320783885461854465, guid: a9829c1cb69a159479cbe82e68a5c629, type: 3}
   dialogueOptionBoxPrefab: {fileID: 3084176042462386772, guid: cfcc3c74158936342a4d3c72aa65bde0, type: 3}
   inventoryItemFieldPrefab: {fileID: -7229577654974374248, guid: e49114d2a61e8cc46bd0caffe110c05d, type: 3}
   inventoryMoveBoxPrefab: {fileID: 6413694501190794285}
