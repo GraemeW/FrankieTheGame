@@ -62,6 +62,11 @@ namespace Frankie.Stats
             return party[0];
         }
 
+        public string GetPartyLeaderName()
+        {
+            return party[0].GetCombatName();
+        }
+
         public Animator GetLeadCharacterAnimator()
         {
             return animatorLookup[party[0]];

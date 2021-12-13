@@ -12,6 +12,8 @@ GameObject:
   - component: {fileID: 4484117035451051339}
   - component: {fileID: 4484117035451051700}
   - component: {fileID: 4484117035451051701}
+  - component: {fileID: 8046040528659215491}
+  - component: {fileID: 791367639294811858}
   m_Layer: 2
   m_Name: CoinMachine
   m_TagString: Untagged
@@ -132,6 +134,40 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.24667868, y: 0.09529841}
   m_EdgeRadius: 0
+--- !u!114 &8046040528659215491
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4484117035451051703}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 933b5099f968b914f87aaf35e5812d29, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  transactionCash: 3
+  infiniteTransactions: 0
+  numberTransactions: 5
+  messageTransactionPositive: Wow!  Looks like {0} found ${1}.
+  messageTransactionNegative: Yikes!  {0} just lost ${1}.
+  messageWalletFull: Doesn't look like {0} can hold any more cash.
+  messageWalletEmpty: '{0} is already broke, can''t get more broke.'
+  announceNothing: 1
+  messageNothing: Oh, looks like it's NOTHING.
+--- !u!114 &791367639294811858
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4484117035451051703}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c708eed4772dbc14e95f0fb9be8bb48e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  uniqueIdentifier: 
 --- !u!1001 &198411196152668909
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -139,13 +175,45 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 4484117035451051702}
     m_Modifications:
+    - target: {fileID: 5226738402773197790, guid: 3ea47d49370c98e4e8dda14fd66b947b, type: 3}
+      propertyPath: checkMessage
+      value: Here is your change.
+      objectReference: {fileID: 0}
+    - target: {fileID: 5226738402773197790, guid: 3ea47d49370c98e4e8dda14fd66b947b, type: 3}
+      propertyPath: checkInteraction.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5226738402773197790, guid: 3ea47d49370c98e4e8dda14fd66b947b, type: 3}
+      propertyPath: checkInteraction.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5226738402773197790, guid: 3ea47d49370c98e4e8dda14fd66b947b, type: 3}
+      propertyPath: checkInteraction.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 8046040528659215491}
+    - target: {fileID: 5226738402773197790, guid: 3ea47d49370c98e4e8dda14fd66b947b, type: 3}
+      propertyPath: checkInteraction.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5226738402773197790, guid: 3ea47d49370c98e4e8dda14fd66b947b, type: 3}
+      propertyPath: checkInteraction.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: ConductTransaction
+      objectReference: {fileID: 0}
+    - target: {fileID: 5226738402773197790, guid: 3ea47d49370c98e4e8dda14fd66b947b, type: 3}
+      propertyPath: checkInteraction.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: Frankie.Control.Specialization.WorldCashGiverTaker, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 5226738402773197790, guid: 3ea47d49370c98e4e8dda14fd66b947b, type: 3}
+      propertyPath: checkInteraction.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
     - target: {fileID: 6564381309038757639, guid: 3ea47d49370c98e4e8dda14fd66b947b, type: 3}
       propertyPath: m_Size.x
       value: 0.2407074
       objectReference: {fileID: 0}
     - target: {fileID: 6564381309038757639, guid: 3ea47d49370c98e4e8dda14fd66b947b, type: 3}
       propertyPath: m_Size.y
-      value: 0.3736787
+      value: 0.2685472
       objectReference: {fileID: 0}
     - target: {fileID: 6564381309038757639, guid: 3ea47d49370c98e4e8dda14fd66b947b, type: 3}
       propertyPath: m_Offset.x
@@ -153,7 +221,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6564381309038757639, guid: 3ea47d49370c98e4e8dda14fd66b947b, type: 3}
       propertyPath: m_Offset.y
-      value: 0.18768264
+      value: 0.2402484
       objectReference: {fileID: 0}
     - target: {fileID: 6564381309038757640, guid: 3ea47d49370c98e4e8dda14fd66b947b, type: 3}
       propertyPath: m_Name

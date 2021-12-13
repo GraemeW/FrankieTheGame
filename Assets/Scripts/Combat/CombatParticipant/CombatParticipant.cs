@@ -20,6 +20,7 @@ namespace Frankie.Combat
         [SerializeField] MovingBackgroundProperties movingBackgroundProperties;
 
         [Header("Combat Properties")]
+        [SerializeField] bool usesAP = true;
         [SerializeField] float battleStartCooldown = 1.0f;
         [SerializeField] float damageTimeSpan = 4.0f;
         [SerializeField] float fractionOfHPInstantOnRevival = 0.5f;
@@ -178,6 +179,7 @@ namespace Frankie.Combat
         public void AdjustAP(float points)
         {
             if (isDead.value) { return; }
+            if (!usesAP) { return; }
 
             float unsafeAP = currentAP.value + points;
             currentAP.value = Mathf.Clamp(unsafeAP, 0f, baseStats.GetStat(Stat.AP));
@@ -222,6 +224,7 @@ namespace Frankie.Combat
 
         public float GetAP()
         {
+            if (!usesAP) { return Mathf.Infinity; }
             return currentAP.value;
         }
 
@@ -263,6 +266,7 @@ namespace Frankie.Combat
 
         public float GetMaxAP()
         {
+            if (!usesAP) { return Mathf.Infinity; }
             return baseStats.GetStat(Stat.AP);
         }
 
@@ -349,7 +353,8 @@ namespace Frankie.Combat
             }
             if (currentAP.value > baseStats.GetStat(Stat.AP))
             {
-                currentAP.value = baseStats.GetStat(Stat.AP);
+                if (!usesAP) { currentAP.value = Mathf.Infinity; }
+                else { currentAP.value = baseStats.GetStat(Stat.AP); }
             }
         }
 

@@ -84,6 +84,12 @@ namespace Frankie.Combat
         {
             return detail;
         }
+
+        public float GetAPCost()
+        {
+            if (battleAction == null) { return 0f; }
+            return battleAction.GetAPCost();
+        }
         #endregion
 
         #region SerializationInterface

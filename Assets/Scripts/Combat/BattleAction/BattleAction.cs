@@ -48,11 +48,16 @@ namespace Frankie.Combat
             }
         }
 
+        public float GetAPCost()
+        {
+            return apCost;
+        }
 
         public void Use(CombatParticipant sender, IEnumerable<CombatParticipant> recipients, Action finished)
         {
             if (effectStrategies == null || !sender.HasAP(apCost))
-            { 
+            {
+                sender.SetCooldown(0f);
                 finished?.Invoke();
                 return;
             }

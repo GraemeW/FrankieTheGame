@@ -40,6 +40,16 @@ namespace Frankie.Inventory
         {
             return cash.value >= value;
         }
+        
+        public bool IsWalletFull()
+        {
+            return cash.value >= maxCash;
+        }
+
+        public bool IsWalletEmpty()
+        {
+            return cash.value <= 0;
+        }
 
         public int GetCash()
         {
@@ -53,7 +63,7 @@ namespace Frankie.Inventory
 
         public void UpdateCash(int value)
         {
-            cash.value = Mathf.Min(cash.value + value, maxCash);
+            cash.value = Mathf.Clamp(cash.value + value, 0, maxCash);
 
             walletUpdated?.Invoke();
         }

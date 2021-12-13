@@ -1,7 +1,6 @@
 using Frankie.Combat;
 using Frankie.Inventory;
 using Frankie.Saving;
-using Frankie.Stats;
 using Frankie.Utils;
 using System.Collections;
 using System.Collections.Generic;
@@ -14,9 +13,10 @@ namespace Frankie.Control.Specialization
         // Tunables
         [SerializeField] InventoryItem inventoryItem = null;
         [SerializeField] int itemQuantity = 1;
-        [SerializeField] string messageFoundItem = "Wow!  Looks like {0} found {1}";
+        [SerializeField][Tooltip("{0} for character name, {1} for item")] string messageFoundItem = "Wow!  Looks like {0} found {1}.";
         [SerializeField] string messageInventoryFull = "Whoops, looks like everyones' knapsacks are full.";
-        [SerializeField] string messageNothing = "Oh, looks like it's NOTHING";
+        [SerializeField] bool announceNothing = true;
+        [SerializeField] string messageNothing = "Oh, looks like it's NOTHING.";
 
         // State
         LazyValue<int> currentItemQuantity;
@@ -36,7 +36,7 @@ namespace Frankie.Control.Specialization
             if (inventoryItem == null) { return; }
             if (currentItemQuantity.value <= 0)
             {
-                playerStateHandler.EnterDialogue(messageNothing);
+                if (announceNothing) { playerStateHandler.EnterDialogue(messageNothing); }
                 return; 
             }
 

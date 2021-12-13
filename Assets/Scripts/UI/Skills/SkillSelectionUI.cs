@@ -121,7 +121,7 @@ namespace Frankie.Combat.UI
 
         private void UpdateSkills(SkillHandler skillHandler)
         {
-            skillHandler.GetSkillsForCurrentBranch(out Skill up, out Skill left, out Skill right, out Skill down);
+            skillHandler.GetPlayerSkillsForCurrentBranch(out Skill up, out Skill left, out Skill right, out Skill down);
             if (up != null) { upField.text = Skill.GetSkillNamePretty(up.name); } else { upField.text = defaultNoText; }
             if (left != null) { leftField.text = Skill.GetSkillNamePretty(left.name); } else { leftField.text = defaultNoText; }
             if (right != null) { rightField.text = Skill.GetSkillNamePretty(right.name); } else { rightField.text = defaultNoText; }
@@ -157,7 +157,7 @@ namespace Frankie.Combat.UI
             if (validInput)
             {
                 SkillHandler skillHandler = combatParticipant.GetComponent<SkillHandler>();
-                skillHandler.SetBranchOrSkill(skillBranchMapping);
+                skillHandler.SetBranchOrSkill(skillBranchMapping, SkillFilterType.All);
                 UpdateSkills(skillHandler);
                 Skill activeSkill = skillHandler.GetActiveSkill();
                 if (activeSkill != null)

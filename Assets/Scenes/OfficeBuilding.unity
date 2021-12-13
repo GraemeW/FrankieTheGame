@@ -1795,6 +1795,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 908167172}
     m_Modifications:
+    - target: {fileID: 791367639294811858, guid: 50a0956d9c45bee489e989971722cdeb, type: 3}
+      propertyPath: uniqueIdentifier
+      value: 77631bb5-5363-43b1-86f2-5de003956105
+      objectReference: {fileID: 0}
     - target: {fileID: 4484117035451051702, guid: 50a0956d9c45bee489e989971722cdeb, type: 3}
       propertyPath: m_RootOrder
       value: 4
@@ -1842,6 +1846,18 @@ PrefabInstance:
     - target: {fileID: 4484117035451051703, guid: 50a0956d9c45bee489e989971722cdeb, type: 3}
       propertyPath: m_Name
       value: CoinMachine
+      objectReference: {fileID: 0}
+    - target: {fileID: 5353090059196399923, guid: 50a0956d9c45bee489e989971722cdeb, type: 3}
+      propertyPath: checkMessage
+      value: '*cough* BZZT I THINK I HAVE A COLD *AAACHOO*'
+      objectReference: {fileID: 0}
+    - target: {fileID: 8046040528659215491, guid: 50a0956d9c45bee489e989971722cdeb, type: 3}
+      propertyPath: transactionCash
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 8046040528659215491, guid: 50a0956d9c45bee489e989971722cdeb, type: 3}
+      propertyPath: infiniteTransactions
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 50a0956d9c45bee489e989971722cdeb, type: 3}
@@ -3637,7 +3653,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7800942803558028165, guid: 8252584bd86ddec408582ff28d4f7db6, type: 3}
       propertyPath: stock.Array.size
-      value: 2
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 7800942803558028165, guid: 8252584bd86ddec408582ff28d4f7db6, type: 3}
       propertyPath: stock.Array.data[0]
@@ -3647,6 +3663,10 @@ PrefabInstance:
       propertyPath: stock.Array.data[1]
       value: 
       objectReference: {fileID: 11400000, guid: 7f4fe94d0d4d1f34bb73c1f0c5ec3f76, type: 2}
+    - target: {fileID: 7800942803558028165, guid: 8252584bd86ddec408582ff28d4f7db6, type: 3}
+      propertyPath: stock.Array.data[2]
+      value: 
+      objectReference: {fileID: 11400000, guid: 9105dfbd6e6afbe4ea13b4836a1a23a8, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8252584bd86ddec408582ff28d4f7db6, type: 3}
 --- !u!4 &942958139 stripped
@@ -5028,6 +5048,7 @@ MonoBehaviour:
   itemQuantity: 1
   messageFoundItem: Wow!  Looks like {0} found {1}
   messageInventoryFull: Whoops, looks like everyones' knapsacks are full.
+  announceNothing: 1
   messageNothing: Oh, looks like it's NOTHING
 --- !u!114 &1501661386
 MonoBehaviour:
@@ -5795,6 +5816,7 @@ MonoBehaviour:
   itemQuantity: 2
   messageFoundItem: Wow!  Looks like {0} found {1}
   messageInventoryFull: Whoops, looks like everyones' knapsacks are full.
+  announceNothing: 1
   messageNothing: Oh, looks like it's NOTHING
 --- !u!114 &1908581082
 MonoBehaviour:
@@ -5967,6 +5989,7 @@ MonoBehaviour:
   itemQuantity: 1
   messageFoundItem: Wow!  Looks like {0} found {1}
   messageInventoryFull: Whoops, looks like everyones' knapsacks are full.
+  announceNothing: 1
   messageNothing: Oh, looks like it's NOTHING
 --- !u!1001 &2021621754
 PrefabInstance:
@@ -8212,7 +8235,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6748405756474271262, guid: 7d6634333e185754d96c189f3df7c163, type: 3}
       propertyPath: orthographic size
-      value: 3
+      value: 3.5
       objectReference: {fileID: 0}
     - target: {fileID: 6748405756474271262, guid: 7d6634333e185754d96c189f3df7c163, type: 3}
       propertyPath: m_CullingMask.m_Bits

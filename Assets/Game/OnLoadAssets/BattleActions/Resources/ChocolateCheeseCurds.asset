@@ -10,11 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3e8ff82454b5c704385bdc320a0c9aaf, type: 3}
-  m_Name: ShootTheShit
+  m_Name: ChocolateCheeseCurds
   m_EditorClassIdentifier: 
-  targetingStrategy: {fileID: 11400000, guid: a2948b2748da27843bd0d733c7049147, type: 2}
+  targetingStrategy: {fileID: 11400000, guid: 332eb86cf7d19a84e8cd3976763e5d07, type: 2}
   effectStrategies:
-  - {fileID: 11400000, guid: f78860d0f87e2524398c97d2271121c1, type: 2}
-  - {fileID: 11400000, guid: 6935b1f3d13e7ca4eb56a7ac5403b4aa, type: 2}
-  cooldown: 2
-  apCost: 5
+  - {fileID: 11400000, guid: c73a3396fc4ddaf40a04279c0b910a02, type: 2}
+  - {fileID: 11400000, guid: 072bd61a483358e4cacc9f3aa945d82b, type: 2}
+  cooldown: 3
+  apCost: 0

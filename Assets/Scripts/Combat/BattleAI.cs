@@ -90,7 +90,7 @@ namespace Frankie.Combat
                 if (probabilityToTraverseSkillTree >= traverseChance)
                 {
                     // Walk to next branch, recurse through tree
-                    skillHandler.SetBranch(availableBranches[branchIndex]);
+                    skillHandler.SetBranch(availableBranches[branchIndex], SkillFilterType.None);
                     return GetSkill();
                 }
             }
