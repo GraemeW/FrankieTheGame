@@ -509,6 +509,7 @@ namespace Frankie.Inventory.UI
             {
                 selectedItemSlot = inventorySlot;
                 handleGlobalInput = true;
+                targetCharacters = new CombatParticipant[] { null };
                 if (GetNextTarget(true))
                 {
                     SetInventoryBoxState(InventoryBoxState.inCharacterTargeting);

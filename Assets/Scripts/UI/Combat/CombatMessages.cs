@@ -11,7 +11,7 @@ public class CombatMessages : MonoBehaviour
     [SerializeField] Transform messageParent = null;
     [SerializeField] DialogueBox dialogueBoxPrefab = null;
     [Header("Messages")]
-    [Tooltip("Include {0} for item")] [SerializeField] string messageItemToBeUsed = "Use the item {0} on which foe?";
+    [Tooltip("Include {0} for item")] [SerializeField] string messageItemToBeUsed = "Use the item {0} on whom?";
 
 
     // Cached References
