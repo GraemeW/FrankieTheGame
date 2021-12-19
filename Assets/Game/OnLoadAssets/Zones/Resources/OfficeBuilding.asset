@@ -1,5 +1,94 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-6386437526637462605
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3268536af8903a64da82aa6872733d1d, type: 3}
+  m_Name: BasementRedRight
+  m_EditorClassIdentifier: 
+  children:
+  - BasementOrangeLeft
+  linkedZoneID: 
+  linkedNodeID: 
+  rect:
+    serializedVersion: 2
+    x: 453
+    y: 1243
+    width: 430
+    height: 150
+  zoneName: OfficeBuilding
+  draggingRect:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 430
+    height: 45
+--- !u!114 &-4638392102373118088
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3268536af8903a64da82aa6872733d1d, type: 3}
+  m_Name: Basement
+  m_EditorClassIdentifier: 
+  children:
+  - Office
+  - VendingMachines
+  - Kitchen
+  linkedZoneID: 
+  linkedNodeID: 
+  rect:
+    serializedVersion: 2
+    x: 450
+    y: 923
+    width: 430
+    height: 150
+  zoneName: OfficeBuilding
+  draggingRect:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 430
+    height: 45
+--- !u!114 &-4552250556933761657
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3268536af8903a64da82aa6872733d1d, type: 3}
+  m_Name: BasementYellowLeft
+  m_EditorClassIdentifier: 
+  children:
+  - BasementOrangeRight
+  linkedZoneID: 
+  linkedNodeID: 
+  rect:
+    serializedVersion: 2
+    x: 0
+    y: 922
+    width: 430
+    height: 150
+  zoneName: OfficeBuilding
+  draggingRect:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 430
+    height: 45
 --- !u!114 &-4465313182537751535
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -57,6 +146,34 @@ MonoBehaviour:
     y: 0
     width: 430
     height: 45
+--- !u!114 &-3351987806331986439
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3268536af8903a64da82aa6872733d1d, type: 3}
+  m_Name: BasementGreenRoyalePole
+  m_EditorClassIdentifier: 
+  children: []
+  linkedZoneID: 
+  linkedNodeID: 
+  rect:
+    serializedVersion: 2
+    x: 20
+    y: 1620
+    width: 430
+    height: 150
+  zoneName: OfficeBuilding
+  draggingRect:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 430
+    height: 45
 --- !u!114 &-1975871994103071365
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -73,12 +190,42 @@ MonoBehaviour:
   - Outdoor
   - Kitchen
   - VendingMachines
+  - Basement
   linkedZoneID: 
   linkedNodeID: 
   rect:
     serializedVersion: 2
     x: 446
     y: 357
+    width: 430
+    height: 150
+  zoneName: OfficeBuilding
+  draggingRect:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 430
+    height: 45
+--- !u!114 &-1052802634103716745
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3268536af8903a64da82aa6872733d1d, type: 3}
+  m_Name: BasementOrangeLeft
+  m_EditorClassIdentifier: 
+  children:
+  - BasementRedRight
+  linkedZoneID: 
+  linkedNodeID: 
+  rect:
+    serializedVersion: 2
+    x: -1
+    y: 1078
     width: 430
     height: 150
   zoneName: OfficeBuilding
@@ -120,6 +267,15 @@ MonoBehaviour:
   - {fileID: 4440517529566508213}
   - {fileID: 110455986757545823}
   - {fileID: 3292163222206305006}
+  - {fileID: -4638392102373118088}
+  - {fileID: -4552250556933761657}
+  - {fileID: 5767256973045592914}
+  - {fileID: -1052802634103716745}
+  - {fileID: -6386437526637462605}
+  - {fileID: 8331828719241585159}
+  - {fileID: 6402608277413373370}
+  - {fileID: -3351987806331986439}
+  - {fileID: 2503006660355953933}
 --- !u!114 &110455986757545823
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -177,6 +333,35 @@ MonoBehaviour:
     y: 0
     width: 430
     height: 45
+--- !u!114 &2503006660355953933
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3268536af8903a64da82aa6872733d1d, type: 3}
+  m_Name: OpenOfficePole
+  m_EditorClassIdentifier: 
+  children:
+  - BasementGreenRoyalePole
+  linkedZoneID: 
+  linkedNodeID: 
+  rect:
+    serializedVersion: 2
+    x: 591
+    y: 1447
+    width: 430
+    height: 150
+  zoneName: OfficeBuilding
+  draggingRect:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 430
+    height: 45
 --- !u!114 &2923225544133778589
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -221,12 +406,13 @@ MonoBehaviour:
   children:
   - Kitchen
   - Office
+  - Basement
   linkedZoneID: 
   linkedNodeID: 
   rect:
     serializedVersion: 2
-    x: 156
-    y: 693
+    x: 154
+    y: 640
     width: 430
     height: 150
   zoneName: OfficeBuilding
@@ -280,12 +466,71 @@ MonoBehaviour:
   children:
   - Office
   - VendingMachines
+  - Basement
   linkedZoneID: 
   linkedNodeID: 
   rect:
     serializedVersion: 2
     x: 759
     y: 640
+    width: 430
+    height: 150
+  zoneName: OfficeBuilding
+  draggingRect:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 430
+    height: 45
+--- !u!114 &5767256973045592914
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3268536af8903a64da82aa6872733d1d, type: 3}
+  m_Name: BasementOrangeRight
+  m_EditorClassIdentifier: 
+  children:
+  - BasementYellowLeft
+  linkedZoneID: 
+  linkedNodeID: 
+  rect:
+    serializedVersion: 2
+    x: 449
+    y: 1080
+    width: 430
+    height: 150
+  zoneName: OfficeBuilding
+  draggingRect:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 430
+    height: 45
+--- !u!114 &6402608277413373370
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3268536af8903a64da82aa6872733d1d, type: 3}
+  m_Name: BasementGreenRoyaleDoor
+  m_EditorClassIdentifier: 
+  children:
+  - BasementRedLeft
+  linkedZoneID: 
+  linkedNodeID: 
+  rect:
+    serializedVersion: 2
+    x: 7
+    y: 1427
     width: 430
     height: 150
   zoneName: OfficeBuilding
@@ -315,6 +560,35 @@ MonoBehaviour:
     serializedVersion: 2
     x: 546
     y: 21
+    width: 430
+    height: 150
+  zoneName: OfficeBuilding
+  draggingRect:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 430
+    height: 45
+--- !u!114 &8331828719241585159
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3268536af8903a64da82aa6872733d1d, type: 3}
+  m_Name: BasementRedLeft
+  m_EditorClassIdentifier: 
+  children:
+  - BasementGreenRoyaleDoor
+  linkedZoneID: 
+  linkedNodeID: 
+  rect:
+    serializedVersion: 2
+    x: 4
+    y: 1268
     width: 430
     height: 150
   zoneName: OfficeBuilding

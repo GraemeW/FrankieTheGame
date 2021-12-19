@@ -393,3 +393,155 @@ MonoBehaviour:
     - stat: 11
       levels:
       - 5
+  - characterProperties: {fileID: 11400000, guid: 530bc654984fc6b478566ee056083f8b, type: 2}
+    stats:
+    - stat: 0
+      levels:
+      - 15
+    - stat: 1
+      levels:
+      - 10
+    - stat: 2
+      levels:
+      - 0
+    - stat: 3
+      levels:
+      - 5
+    - stat: 4
+      levels:
+      - 10
+    - stat: 5
+      levels:
+      - 2
+    - stat: 6
+      levels:
+      - 2
+    - stat: 7
+      levels:
+      - 2
+    - stat: 8
+      levels:
+      - 2
+    - stat: 9
+      levels:
+      - 2
+    - stat: 10
+      levels:
+      - 2
+    - stat: 11
+      levels:
+      - 4
+  - characterProperties: {fileID: 11400000, guid: 44e5b74a59991d14e972988012c4557e, type: 2}
+    stats:
+    - stat: 0
+      levels:
+      - 15
+    - stat: 1
+      levels:
+      - 10
+    - stat: 2
+      levels:
+      - 0
+    - stat: 3
+      levels:
+      - 5
+    - stat: 4
+      levels:
+      - 10
+    - stat: 5
+      levels:
+      - 2
+    - stat: 6
+      levels:
+      - 2
+    - stat: 7
+      levels:
+      - 2
+    - stat: 8
+      levels:
+      - 2
+    - stat: 9
+      levels:
+      - 2
+    - stat: 10
+      levels:
+      - 2
+    - stat: 11
+      levels:
+      - 4
+  - characterProperties: {fileID: 11400000, guid: 86aecc43b78f58145815657f0856ac5b, type: 2}
+    stats:
+    - stat: 0
+      levels:
+      - 15
+    - stat: 1
+      levels:
+      - 10
+    - stat: 2
+      levels:
+      - 0
+    - stat: 3
+      levels:
+      - 5
+    - stat: 4
+      levels:
+      - 10
+    - stat: 5
+      levels:
+      - 2
+    - stat: 6
+      levels:
+      - 2
+    - stat: 7
+      levels:
+      - 2
+    - stat: 8
+      levels:
+      - 2
+    - stat: 9
+      levels:
+      - 2
+    - stat: 10
+      levels:
+      - 2
+    - stat: 11
+      levels:
+      - 4
+  - characterProperties: {fileID: 11400000, guid: 9fe41bb8f767c374a974d7afca7cf995, type: 2}
+    stats:
+    - stat: 0
+      levels:
+      - 15
+    - stat: 1
+      levels:
+      - 10
+    - stat: 2
+      levels:
+      - 0
+    - stat: 3
+      levels:
+      - 5
+    - stat: 4
+      levels:
+      - 10
+    - stat: 5
+      levels:
+      - 2
+    - stat: 6
+      levels:
+      - 2
+    - stat: 7
+      levels:
+      - 2
+    - stat: 8
+      levels:
+      - 2
+    - stat: 9
+      levels:
+      - 2
+    - stat: 10
+      levels:
+      - 2
+    - stat: 11
+      levels:
+      - 4

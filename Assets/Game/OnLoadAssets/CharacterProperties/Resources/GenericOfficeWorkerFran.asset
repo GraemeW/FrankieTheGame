@@ -1,0 +1,16 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 00fbef4dec9dc7846811859f8a74c138, type: 3}
+  m_Name: GenericOfficeWorkerFran
+  m_EditorClassIdentifier: 
+  characterPrefab: {fileID: 0}
+  characterNPCPrefab: {fileID: 5783961971192114869, guid: 85e454fc5088ab64cbf94d522f93ecc7, type: 3}

@@ -199,19 +199,23 @@ namespace Frankie.Control
             return false;
         }
 
-        private bool HandleNPCCollisions(NPCStateHandler collisionNPC, Vector2 contactPoint, Vector2 npcPosition, Vector2 playerPosition)
+        private bool HandleNPCCollisions(NPCStateHandler collisionNPC, TransitionType battleEntryType)
         {
-            if (!collisionsOverriddenToEnterCombat) { return false; }
+            if (!currentNPCCollisions.Contains(collisionNPC) && collisionNPC != this) { currentNPCCollisions.Add(collisionNPC); }
+            if (!collisionsOverriddenToEnterCombat || npcState == NPCState.occupied) { return false; }
 
-            if (collisionNPC.IsTouchingPlayer())
+            if (touchingPlayer || collisionNPC.IsNPCGraphTouchingPlayer())
             {
-                if (!currentNPCCollisions.Contains(collisionNPC)) { currentNPCCollisions.Add(collisionNPC); }
-
-                TransitionType battleEntryType = GetBattleEntryType(contactPoint, npcPosition, playerPosition);
                 InitiateCombat(playerStateHandler.value, battleEntryType);
                 return true;
             }
             return false;
+        }
+
+        private bool HandleNPCCollisions(NPCStateHandler collisionNPC, Vector2 contactPoint, Vector2 npcPosition, Vector2 playerPosition)
+        {
+            TransitionType battleEntryType = GetBattleEntryType(contactPoint, npcPosition, playerPosition);
+            return HandleNPCCollisions(collisionNPC, battleEntryType);
         }
         #endregion
 
@@ -226,6 +230,11 @@ namespace Frankie.Control
         {
             if (npcOccupied) { return NPCState.occupied; }
             return npcState;
+        }
+
+        public CombatParticipant GetCombatParticipant()
+        {
+            return combatParticipant;
         }
 
         public bool IsShoutable()
@@ -283,8 +292,29 @@ namespace Frankie.Control
 
         public bool IsTouchingPlayer()
         {
-            bool touchingNPCTouchingPlayer = currentNPCCollisions.Any(x => x.IsTouchingPlayer());
-            return touchingPlayer || touchingNPCTouchingPlayer;
+            return touchingPlayer;
+        }
+
+        public bool IsNPCGraphTouchingPlayer()
+        {
+            if (touchingPlayer) { return true; } // short circuit on simple condition
+
+            List<NPCStateHandler> npcCollisionGraph = new List<NPCStateHandler>();
+            GetNPCCollisionGraph(ref npcCollisionGraph);
+
+            return npcCollisionGraph.Any(x => x.IsTouchingPlayer());
+        }
+
+        private void GetNPCCollisionGraph(ref List<NPCStateHandler> npcCollisionGraph)
+        {
+            foreach (NPCStateHandler npcInContact in currentNPCCollisions)
+            {
+                if (!npcCollisionGraph.Contains(npcInContact))
+                {
+                    npcCollisionGraph.Add(npcInContact);
+                    npcInContact.GetNPCCollisionGraph(ref npcCollisionGraph);
+                }
+            }
         }
         #endregion
 
@@ -304,6 +334,7 @@ namespace Frankie.Control
         public void InitiateCombat(PlayerStateHandler playerStateHandler, TransitionType transitionType)  // called via Unity Event
         {
             if (playerStateHandler.GetPlayerState() == PlayerState.inBattle) { return; }
+            if (npcState == NPCState.occupied) { return; }
 
             if (combatParticipant.IsDead())
             {
@@ -314,9 +345,14 @@ namespace Frankie.Control
             {
                 List<CombatParticipant> enemies = new List<CombatParticipant>();
                 enemies.Add(combatParticipant);
-                bool enteredCombat = playerStateHandler.EnterCombat(enemies, transitionType);
+                foreach (NPCStateHandler npcInContact in currentNPCCollisions)
+                {
+                    enemies.Add(npcInContact.GetCombatParticipant());
+                }
 
-                if (!enteredCombat) { SetNPCState(NPCState.idle); }
+                bool enteredCombat = playerStateHandler.EnterCombat(enemies, transitionType);
+                if (enteredCombat) { SetNPCState(NPCState.occupied); }
+                else { SetNPCState(NPCState.idle); }
             }
         }
 

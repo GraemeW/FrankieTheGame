@@ -153,12 +153,17 @@ namespace Frankie.Control
         #region StateTransitions
         public bool EnterCombat(List<CombatParticipant> enemies, TransitionType transitionType)
         {
-            if (ShouldQueueAction()) { queuedActions.Push(() => EnterCombat(enemies, transitionType)); return false; }
+            if (ShouldQueueAction(transitionType)) { queuedActions.Push(() => EnterCombat(enemies, transitionType)); return false; }
 
             if (!party.IsAnyMemberAlive()) { EnterDialogue(messageCannotFight); return false; }
             if (enemies.All(x => x.IsDead())) { return false; }
 
-            if (GetPlayerState() == PlayerState.inWorld)
+            if (GetPlayerState() == PlayerState.inTransition)
+            {
+                AddToEnemiesInTransition(enemies);
+                return true;
+            }
+            else if (GetPlayerState() == PlayerState.inWorld)
             {
                 battleController = GetUniqueBattleController();
                 battleController.battleStateChanged += ExitCombat;
@@ -167,11 +172,7 @@ namespace Frankie.Control
                 AddToEnemiesInTransition(enemies);
 
                 StartCoroutine(QueueBattleTransition(transitionType));
-                return true;
-            }
-            else if (GetPlayerState() == PlayerState.inTransition)
-            {
-                AddToEnemiesInTransition(enemies);
+                SetPlayerState(PlayerState.inTransition);
                 return true;
             }
 
@@ -188,7 +189,7 @@ namespace Frankie.Control
 
         public void EnterDialogue(AIConversant newConversant, Dialogue newDialogue)
         {
-            if (ShouldQueueAction()) { queuedActions.Push(() => EnterDialogue(newConversant, newDialogue)); return; }
+            if (ShouldQueueAction(TransitionType.None)) { queuedActions.Push(() => EnterDialogue(newConversant, newDialogue)); return; }
             if (!IsDialoguePossible()) { return; }
 
             dialogueController = Instantiate(dialogueControllerPrefab);
@@ -200,7 +201,7 @@ namespace Frankie.Control
 
         public void EnterDialogue(string message)
         {
-            if (ShouldQueueAction()) { queuedActions.Push(() => EnterDialogue(message));  return; }
+            if (ShouldQueueAction(TransitionType.None)) { queuedActions.Push(() => EnterDialogue(message));  return; }
             if (!IsDialoguePossible()) { return; }
 
             dialogueController = GetUniqueDialogueController();
@@ -212,7 +213,7 @@ namespace Frankie.Control
 
         public void EnterDialogue(string message, List<ChoiceActionPair> choiceActionPairs)
         {
-            if (ShouldQueueAction()) { queuedActions.Push(() => EnterDialogue(message, choiceActionPairs));  return; }
+            if (ShouldQueueAction(TransitionType.None)) { queuedActions.Push(() => EnterDialogue(message, choiceActionPairs));  return; }
             if (!IsDialoguePossible()) { return; }
 
             dialogueController = GetUniqueDialogueController();
@@ -325,16 +326,26 @@ namespace Frankie.Control
         }
 
         // Utility
-        private bool ShouldQueueAction()
+        private bool ShouldQueueAction(TransitionType transitionType)
         {
-            if (stateChangedThisFrame) { return true; }
+            // Handling for same-frame contact swarm mechanic
+            if (HadMultipleCombatEntriesOnSameFrame(transitionType)) { return false; }
 
+            // Queue otherwise
+            if (stateChangedThisFrame) { return true; }
             if (playerState == PlayerState.inBattle || playerState == PlayerState.inDialogue)
             {
                 return true;
             }
 
             return false;
+        }
+
+        private bool HadMultipleCombatEntriesOnSameFrame(TransitionType transitionType)
+        {
+            return stateChangedThisFrame
+                && (transitionType == TransitionType.BattleNeutral || transitionType == TransitionType.BattleGood || transitionType == TransitionType.BattleBad)
+                && (GetPlayerState() == PlayerState.inTransition);
         }
 
         private void KillRogueControllers(PlayerState playerState)
