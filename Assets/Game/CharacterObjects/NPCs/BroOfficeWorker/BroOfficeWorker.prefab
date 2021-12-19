@@ -45,7 +45,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2088815242785209472, guid: e4be3ce2d5464c3498c884ae5d9223d4, type: 3}
       propertyPath: m_Name
-      value: BroOfficeWorker2
+      value: BroOfficeWorker
       objectReference: {fileID: 0}
     - target: {fileID: 2088815242785209474, guid: e4be3ce2d5464c3498c884ae5d9223d4, type: 3}
       propertyPath: m_Controller

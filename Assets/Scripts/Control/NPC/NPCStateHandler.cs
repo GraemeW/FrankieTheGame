@@ -28,6 +28,7 @@ namespace Frankie.Control
         [SerializeField] float aggravationTime = 3.0f;
         [SerializeField] float suspicionTime = 3.0f;
         [Header("Other Mob Properties")]
+        [SerializeField] bool willDestroySelfOnDeath = true;
         [Tooltip("Must be true to be shouted at, regardless of group")] [SerializeField] bool canBeShoutedAt = true;
         [Tooltip("From interaction center point of NPC")] [SerializeField] float shoutDistance = 2.0f;
         [Tooltip("Set to nothing to aggro everything shoutable")] [SerializeField] NPCStateHandler[] shoutGroup = null;
@@ -41,6 +42,8 @@ namespace Frankie.Control
 
         bool touchingPlayer = false;
         List<NPCStateHandler> currentNPCCollisions = new List<NPCStateHandler>();
+
+        bool queueDeathOnNextPlayerStateChange = false;
 
         // Cached References
         BaseStats baseStats = null;
@@ -95,12 +98,14 @@ namespace Frankie.Control
         private void OnEnable()
         {
             playerStateHandler.value.playerStateChanged += HandlePlayerStateChange;
+            combatParticipant.stateAltered += HandleNPCCombatStateChange;
             ResetNPCState();
         }
 
         private void OnDisable()
         {
             playerStateHandler.value.playerStateChanged -= HandlePlayerStateChange;
+            combatParticipant.stateAltered -= HandleNPCCombatStateChange;
         }
 
         private void ResetNPCState()
@@ -202,7 +207,7 @@ namespace Frankie.Control
         private bool HandleNPCCollisions(NPCStateHandler collisionNPC, TransitionType battleEntryType)
         {
             if (!currentNPCCollisions.Contains(collisionNPC) && collisionNPC != this) { currentNPCCollisions.Add(collisionNPC); }
-            if (!collisionsOverriddenToEnterCombat || npcState == NPCState.occupied) { return false; }
+            if (!collisionsOverriddenToEnterCombat || GetNPCState() == NPCState.occupied) { return false; }
 
             if (touchingPlayer || collisionNPC.IsNPCGraphTouchingPlayer())
             {
@@ -268,28 +273,6 @@ namespace Frankie.Control
             collisionsOverriddenToEnterCombat = enable;
         }
 
-        private void ShoutToNearbyNPCs()
-        {
-            if (combatParticipant != null && combatParticipant.IsDead()) { return; }
-
-            RaycastHit2D[] hits = npcMover.NPCCastFromSelf(shoutDistance);
-            foreach (RaycastHit2D hit in hits)
-            {
-                if (hit.collider.gameObject.TryGetComponent(out NPCStateHandler npcInRange))
-                {
-                    if (!npcInRange.IsShoutable()) { continue; }
-                    if (shoutGroup.Length == 0 || shoutGroup.Contains(npcInRange)) // Default behavior, not set, aggro everything shoutable
-                    {
-                        if (npcInRange.SetNPCState(NPCState.aggravated, false)) // Do not chain shouts (shout on aggravation set to false)
-                        {
-                            // Override colissions if successfully aggro'd to allow swarm
-                            npcInRange.OverrideCollisionToEnterCombat(true);
-                        }
-                    }
-                }
-            }
-        }
-
         public bool IsTouchingPlayer()
         {
             return touchingPlayer;
@@ -334,7 +317,7 @@ namespace Frankie.Control
         public void InitiateCombat(PlayerStateHandler playerStateHandler, TransitionType transitionType)  // called via Unity Event
         {
             if (playerStateHandler.GetPlayerState() == PlayerState.inBattle) { return; }
-            if (npcState == NPCState.occupied) { return; }
+            if (GetNPCState() == NPCState.occupied) { return; }
 
             if (combatParticipant.IsDead())
             {
@@ -406,6 +389,11 @@ namespace Frankie.Control
 
         private void HandlePlayerStateChange(PlayerState playerState)
         {
+            if (queueDeathOnNextPlayerStateChange)
+            {
+                Destroy(gameObject);
+            }
+
             if (playerState == PlayerState.inTransition)
             {
                 TransitionType transitionType = playerStateHandler.value.GetTransitionType();
@@ -468,6 +456,36 @@ namespace Frankie.Control
             else
             {
                 return TransitionType.BattleNeutral;
+            }
+        }
+
+        private void ShoutToNearbyNPCs()
+        {
+            if (combatParticipant != null && combatParticipant.IsDead()) { return; }
+
+            RaycastHit2D[] hits = npcMover.NPCCastFromSelf(shoutDistance);
+            foreach (RaycastHit2D hit in hits)
+            {
+                if (hit.collider.gameObject.TryGetComponent(out NPCStateHandler npcInRange))
+                {
+                    if (!npcInRange.IsShoutable()) { continue; }
+                    if (shoutGroup.Length == 0 || shoutGroup.Contains(npcInRange)) // Default behavior, not set, aggro everything shoutable
+                    {
+                        if (npcInRange.SetNPCState(NPCState.aggravated, false)) // Do not chain shouts (shout on aggravation set to false)
+                        {
+                            // Override colissions if successfully aggro'd to allow swarm
+                            npcInRange.OverrideCollisionToEnterCombat(true);
+                        }
+                    }
+                }
+            }
+        }
+
+        private void HandleNPCCombatStateChange(CombatParticipant combatParticipant, StateAlteredData stateAlteredData)
+        {
+            if (stateAlteredData.stateAlteredType == StateAlteredType.Dead && willDestroySelfOnDeath)
+            {
+                queueDeathOnNextPlayerStateChange = true;
             }
         }
         #endregion

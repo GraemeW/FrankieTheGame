@@ -247,6 +247,7 @@ MonoBehaviour:
   chaseDistance: 3
   aggravationTime: 3
   suspicionTime: 3
+  willDestroySelfOnDeath: 1
   canBeShoutedAt: 1
   shoutDistance: 2
   shoutGroup: []
