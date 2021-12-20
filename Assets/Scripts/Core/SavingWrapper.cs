@@ -64,6 +64,30 @@ namespace Frankie.Core
             GameObject playerGameObject = GameObject.FindGameObjectWithTag("Player");
             if (playerGameObject != null) { Destroy(playerGameObject); } // Player reconstructed after scene load (prevents control lock-up)
         }
+
+        public static void LoadStartScene()
+        {
+            DeletePlayerForSceneLoad();
+
+            SceneLoader sceneLoader = GameObject.FindGameObjectWithTag("SceneLoader")?.GetComponent<SceneLoader>();
+            if (sceneLoader == null) { return; }
+
+            sceneLoader.QueueStartScreen();
+            Fader fader = FindObjectOfType<Fader>();
+            fader?.UpdateFadeStateImmediate();
+        }
+
+        public static void LoadGameOverScene()
+        {
+            DeletePlayerForSceneLoad();
+
+            SceneLoader sceneLoader = GameObject.FindGameObjectWithTag("SceneLoader")?.GetComponent<SceneLoader>();
+            if (sceneLoader == null) { return; }
+
+            sceneLoader.QueueGameOverScreen();
+            Fader fader = FindObjectOfType<Fader>();
+            fader?.UpdateFadeStateImmediate();
+        }
         #endregion
 
         #region PublicMethods
@@ -82,18 +106,6 @@ namespace Frankie.Core
                 }
             }
             return false;
-        }
-
-        public void LoadStartMenu()
-        {
-            DeletePlayerForSceneLoad();
-
-            SceneLoader sceneLoader = GameObject.FindGameObjectWithTag("SceneLoader")?.GetComponent<SceneLoader>();
-            if (sceneLoader == null) { return; }
-
-            sceneLoader.QueueStartScreen();
-            Fader fader = FindObjectOfType<Fader>();
-            fader?.UpdateFadeStateImmediate();
         }
 
         public void NewGame(string saveName)

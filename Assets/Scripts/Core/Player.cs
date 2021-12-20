@@ -8,13 +8,22 @@ using UnityEngine.SceneManagement;
 namespace Frankie.Core
 {
     [RequireComponent(typeof(PlayerStateHandler))]
+    [RequireComponent(typeof(Party))]
 
     public class Player : MonoBehaviour
     {
         // Cached References
         PlayerStateHandler playerStateHandler = null;
+        Party party = null;
 
         private void Awake()
+        {
+            VerifySingleton();
+            playerStateHandler = GetComponent<PlayerStateHandler>();
+            party = GetComponent<Party>();
+        }
+
+        private void VerifySingleton()
         {
             int numberOfPlayers = FindObjectsOfType<Player>().Length;
             if (numberOfPlayers > 1)
@@ -26,23 +35,35 @@ namespace Frankie.Core
             {
                 DontDestroyOnLoad(gameObject);
             }
-            playerStateHandler = GetComponent<PlayerStateHandler>();
         }
 
         private void OnEnable()
         {
             SceneManager.sceneLoaded += UpdateReferencesForNewScene;
+            playerStateHandler.playerStateChanged += HandlePlayerStateChanged;
         }
 
         private void OnDisable()
         {
             SceneManager.sceneLoaded -= UpdateReferencesForNewScene;
+            playerStateHandler.playerStateChanged -= HandlePlayerStateChanged;
         }
 
         private void UpdateReferencesForNewScene(Scene scene, LoadSceneMode loadSceneMode)
         {
             playerStateHandler.SetWorldCanvas();
         }
-    }
 
+        private void HandlePlayerStateChanged(PlayerState playerState)
+        {
+            // Any player scene change when party is completely wiped out -> shift to game over
+            // Will naturally call on combat end during transition
+            if (party == null) { return; }
+
+            if (!party.IsAnyMemberAlive())
+            {
+                SavingWrapper.LoadGameOverScene();
+            }
+        }
+    }
 }

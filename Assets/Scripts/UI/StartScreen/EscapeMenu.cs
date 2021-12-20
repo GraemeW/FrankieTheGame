@@ -72,7 +72,7 @@ namespace Frankie.Menu.UI
 
         public void QuitGame() // Called via Unity Events
         {
-            savingWrapper?.LoadStartMenu();
+            SavingWrapper.LoadStartScene();
         }
     }
 

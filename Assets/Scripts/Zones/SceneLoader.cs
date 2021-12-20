@@ -11,6 +11,7 @@ namespace Frankie.ZoneManagement
         [Header("Core Scene Listing")]
         [SerializeField] Zone splashScreen = null;
         [SerializeField] Zone startScreen = null;
+        [SerializeField] Zone gameOverScreen = null;
         [SerializeField] Zone newGame = null;
 
         // State
@@ -43,6 +44,11 @@ namespace Frankie.ZoneManagement
             StartCoroutine(LoadStartScreen());
         }
 
+        public void QueueGameOverScreen()
+        {
+            StartCoroutine(LoadGameOverScreen());
+        }
+
         public void QueueNewGame()
         {
             StartCoroutine(LoadNewGame());
@@ -58,6 +64,12 @@ namespace Frankie.ZoneManagement
         {
             yield return SceneManager.LoadSceneAsync(startScreen.GetSceneReference().SceneName);
             SetCurrentZone(startScreen);
+        }
+
+        private IEnumerator LoadGameOverScreen()
+        {
+            yield return SceneManager.LoadSceneAsync(gameOverScreen.GetSceneReference().SceneName);
+            SetCurrentZone(gameOverScreen);
         }
 
         private IEnumerator LoadNewGame()

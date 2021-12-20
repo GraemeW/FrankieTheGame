@@ -33,6 +33,11 @@ namespace Frankie.Menu.UI
             gameObject.SetActive(true);
         }
 
+        public void ReloadStartScreen() // Called via Unity Events
+        {
+            SavingWrapper.LoadStartScene();
+        }
+
         public void LoadGame() // Called via Unity Events
         {
             LoadGameMenu loadGameMenu = Instantiate(loadGamePrefab, startCanvas.transform);
@@ -55,7 +60,5 @@ namespace Frankie.Menu.UI
         {
             Application.Quit();
         }
-
-        
     }
 }

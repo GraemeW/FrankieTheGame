@@ -307,7 +307,6 @@ namespace Frankie.Control
             SetPlayerState(PlayerState.inTransition);
 
             yield return fader.QueueFadeEntry(transitionType);
-            // TODO:  Handling for party death
             Destroy(battleController.gameObject);
             battleController = null;
             yield return fader.QueueFadeExit(transitionType);

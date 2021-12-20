@@ -1,0 +1,53 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 71bdebc52d51af440b8f8417df534a79, type: 3}
+  m_Name: GameOverScreen
+  m_EditorClassIdentifier: 
+  newNodeOffset: {x: 100, y: 25}
+  nodeWidth: 430
+  nodeHeight: 150
+  sceneReference:
+    sceneAsset: {fileID: 102900000, guid: c904f3148156b38488efe90bfa1101b6, type: 3}
+    sceneName: GameOverScreen
+  updateMap: 0
+  zoneAudio: {fileID: 8300000, guid: 5f5f2bd17ac13e04c8d5da1b8b92ab19, type: 3}
+  isZoneAudioLooping: 1
+  zoneNodes:
+  - {fileID: 7004222880900461513}
+--- !u!114 &7004222880900461513
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3268536af8903a64da82aa6872733d1d, type: 3}
+  m_Name: d91c7f33-5d2a-491e-8013-9af610ede985
+  m_EditorClassIdentifier: 
+  children: []
+  linkedZoneID: 
+  linkedNodeID: 
+  rect:
+    serializedVersion: 2
+    x: 30
+    y: 30
+    width: 430
+    height: 150
+  zoneName: GameOverScreen
+  draggingRect:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 430
+    height: 45

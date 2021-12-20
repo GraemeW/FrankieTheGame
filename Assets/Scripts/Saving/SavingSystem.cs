@@ -11,6 +11,7 @@ namespace Frankie.Saving
     public class SavingSystem : MonoBehaviour
     {
         const string SAVE_FILE_EXTENSION = ".sav";
+        const string SAVE_LAST_SCENE_BUILD_INDEX = "lastSceneBuildIndex";
 
         private static List<SaveableEntity> GetAllSaveableEntities()
         {
@@ -28,12 +29,15 @@ namespace Frankie.Saving
         public IEnumerator LoadLastScene(string saveFile)
         {
             Dictionary<string, object> state = LoadFile(saveFile);
-            int buildIndex = SceneManager.GetActiveScene().buildIndex;
-            if (state.ContainsKey("lastSceneBuildIndex"))
+            string sceneName = SceneManager.GetActiveScene().name;
+            if (state.ContainsKey(SAVE_LAST_SCENE_BUILD_INDEX))
             {
-                buildIndex = (int)state["lastSceneBuildIndex"];
+                string trySceneName = state[SAVE_LAST_SCENE_BUILD_INDEX] as string;
+                if (!string.IsNullOrWhiteSpace(trySceneName)) { sceneName = trySceneName; }
             }
-            yield return SceneManager.LoadSceneAsync(buildIndex);
+            yield return SceneManager.LoadSceneAsync(sceneName); 
+                // Note:  will throw scene existence error if saved scene name does not exist
+                // i.e. scene name changes -> will corrupt save on those scenes -- so don't do it, or prepare for consequences
             RestoreState(state);
         }
 
@@ -108,7 +112,7 @@ namespace Frankie.Saving
                 state[saveable.GetUniqueIdentifier()] = saveable.CaptureState();
             }
 
-            state["lastSceneBuildIndex"] = SceneManager.GetActiveScene().buildIndex;
+            state[SAVE_LAST_SCENE_BUILD_INDEX] = SceneManager.GetActiveScene().name;
         }
 
 

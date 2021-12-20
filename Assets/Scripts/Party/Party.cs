@@ -42,6 +42,13 @@ namespace Frankie.Stats
             playerMover.playerMoved += UpdatePartyOffsets;
         }
 
+        private void OnDisable()
+        {
+                playerMover.movementHistoryReset -= ResetPartyOffsets;
+                playerMover.leaderAnimatorUpdated -= UpdateLeaderAnimation;
+                playerMover.playerMoved -= UpdatePartyOffsets;
+        }
+
         private void RefreshAnimatorLookup()
         {
             animatorLookup.Clear();

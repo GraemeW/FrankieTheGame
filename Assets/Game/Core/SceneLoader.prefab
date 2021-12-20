@@ -45,4 +45,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   splashScreen: {fileID: 11400000, guid: 926f3a267d474dd4f8b730a4c5a85e53, type: 2}
   startScreen: {fileID: 11400000, guid: 529f7c5a0d799b24680ec79ef928a637, type: 2}
+  gameOverScreen: {fileID: 11400000, guid: 131a324e3cb2b7142b27461e5f3c19be, type: 2}
   newGame: {fileID: 11400000, guid: 4cefccbbdefab574180b39e93ea48243, type: 2}
