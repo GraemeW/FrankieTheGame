@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: ElevatorOutside
   m_EditorClassIdentifier: 
   children: []
-  linkedZoneID: OfficeBuilding
-  linkedNodeID: Office
+  linkedZone: {fileID: 11400000, guid: 4cefccbbdefab574180b39e93ea48243, type: 2}
+  linkedZoneNode: {fileID: -1975871994103071365, guid: 4cefccbbdefab574180b39e93ea48243, type: 2}
   rect:
     serializedVersion: 2
     x: 560
@@ -66,8 +66,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   children:
   - ElevatorOutside
-  linkedZoneID: 
-  linkedNodeID: 
+  linkedZone: {fileID: 0}
+  linkedZoneNode: {fileID: 0}
   rect:
     serializedVersion: 2
     x: 30

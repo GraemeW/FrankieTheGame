@@ -124,11 +124,9 @@ namespace Frankie.ZoneManagement
                 currentPlayerStateHandler.SetPlayerState(PlayerState.inTransition);
                 SetZoneHandlerToPersistOnSceneTransition();
 
-                ZoneIDNodeIDPair zoneIDNodeIDPair = nextNode.GetZoneReferenceNodeReferencePair();
-                Zone nextZone = Zone.GetFromName(zoneIDNodeIDPair.zoneID);
-                nextNode = ZoneHandler.SelectNodeFromIDs(zoneIDNodeIDPair.zoneID, zoneIDNodeIDPair.nodeID);
+                ZoneNodePair zoneNodePair = nextNode.GetZoneReferenceNodeReferencePair();
 
-                TransitionToNextScene(nextZone, nextNode); // NOTE:  Exit inTransition done on queued move
+                TransitionToNextScene(zoneNodePair.zone, zoneNodePair.zoneNode); // NOTE:  Exit inTransition done on queued move
             }
 
             return nextNode;

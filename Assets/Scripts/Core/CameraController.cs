@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using Frankie.Stats;
+using Frankie.Utils;
 
 namespace Frankie.Core
 {
@@ -13,45 +14,59 @@ namespace Frankie.Core
         List<CinemachineVirtualCamera> virtualCameras = new List<CinemachineVirtualCamera>();
 
         // Cached References
-        Player player = null;
-        Party party = null;
+        GameObject playerGameObject = null;
+        ReInitLazyValue<Player> player;
+        ReInitLazyValue<Party> party;
 
         private void Awake()
         {
             stateCamera = GetComponentInChildren<CinemachineStateDrivenCamera>();
             virtualCameras = GetComponentsInChildren<CinemachineVirtualCamera>().ToList();
-            SetupPlayerReferences();
+
+            player = new ReInitLazyValue<Player>(SetupPlayerReference);
+            party = new ReInitLazyValue<Party>(SetupPartyReference);
         }
 
-        private void SetupPlayerReferences()
+        private void OnEnable()
         {
-            GameObject playerGameObject = GameObject.FindGameObjectWithTag("Player");
-            if (playerGameObject != null)
-            {
-                player = playerGameObject.GetComponent<Player>();
-                party = player.GetComponent<Party>();
-            }
+            party.value.partyUpdated += SetUpStateDrivenCamera;
+        }
+
+        private void OnDisable()
+        {
+            party.value.partyUpdated -= SetUpStateDrivenCamera;
         }
 
         private void Start()
         {
-            if (player != null)
-            {
-                SetUpStateDrivenCamera();
-                SetUpVirtualCameraFollowers();
-            }
+            player.ForceInit();
+            party.ForceInit();
+            SetUpStateDrivenCamera();
+            SetUpVirtualCameraFollowers();
+        }
+
+        private Player SetupPlayerReference()
+        {
+            if (playerGameObject == null) { playerGameObject = GameObject.FindGameObjectWithTag("Player"); }
+            return playerGameObject?.GetComponent<Player>();
+        }
+
+        private Party SetupPartyReference()
+        {
+            if (playerGameObject == null) { playerGameObject = GameObject.FindGameObjectWithTag("Player"); }
+            return playerGameObject?.GetComponent<Party>();
         }
 
         private void SetUpStateDrivenCamera()
         {
-            UpdateStateAnimator(party.GetLeadCharacterAnimator());
+            UpdateStateAnimator(party.value.GetLeadCharacterAnimator());
         }
 
         private void SetUpVirtualCameraFollowers()
         {
             foreach (CinemachineVirtualCamera virtualCamera in virtualCameras)
             {
-                virtualCamera.Follow = player.transform;
+                virtualCamera.Follow = player.value.transform;
             }
         }
 

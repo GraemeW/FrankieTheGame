@@ -11,8 +11,8 @@ namespace Frankie.ZoneManagement
     {
         [Header("Zone Node Properties")]
         [SerializeField] List<string> children = new List<string>();
-        [SerializeField] string linkedZoneID = null;
-        [SerializeField] string linkedNodeID = null;
+        [SerializeField] Zone linkedZone = null;
+        [SerializeField] ZoneNode linkedZoneNode = null;
         [SerializeField] Rect rect = new Rect(30, 30, 430, 150);
         [HideInInspector] [SerializeField] string zoneName = null;
         [HideInInspector] [SerializeField] Rect draggingRect = new Rect(0, 0, 430, 45);
@@ -29,24 +29,15 @@ namespace Frankie.ZoneManagement
 
         public bool HasSceneReference()
         {
-            // Level 1:  Variables set
-            bool variableCheck = (linkedZoneID != null && !string.IsNullOrWhiteSpace(linkedNodeID));
-            if (!variableCheck) { return variableCheck; }
+            if (linkedZone == null || linkedZoneNode == null) { return false; }
 
-            // Level 2:  Zone existence
-            Zone linkedZone = Zone.GetFromName(linkedZoneID);
-            bool zoneCheck = (linkedZone != null);
-            if (!zoneCheck) { return zoneCheck; }
-
-            // Level 3:  Scene existence
-            bool sceneExistenceCheck = (linkedZone.GetSceneReference() != null);
-            return (variableCheck && zoneCheck && sceneExistenceCheck);
+            return (linkedZone.GetSceneReference() != null);
         }
 
-        public ZoneIDNodeIDPair GetZoneReferenceNodeReferencePair()
+        public ZoneNodePair GetZoneReferenceNodeReferencePair()
         {
-            ZoneIDNodeIDPair zoneIDNodeIDPair = new ZoneIDNodeIDPair(linkedZoneID, linkedNodeID);
-            return zoneIDNodeIDPair;
+            ZoneNodePair zoneNodePair = new ZoneNodePair(linkedZone, linkedZoneNode);
+            return zoneNodePair;
         }
 
         public List<string> GetChildren()

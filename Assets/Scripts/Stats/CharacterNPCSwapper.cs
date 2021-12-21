@@ -34,7 +34,7 @@ namespace Frankie.Stats
 
             string characterName = baseStats.GetCharacterProperties().name;
             CombatParticipant characterInParty = party.GetMember(characterName);
-            if (characterInParty != null && characterInParty != combatParticipant)
+            if (characterInParty != null && characterInParty != this.combatParticipant)
             {
                 Destroy(gameObject);
             }

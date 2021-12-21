@@ -29,6 +29,7 @@ namespace Frankie.Stats
         // Events
         public event Action partyUpdated;
 
+        #region UnityMethods
         private void Awake()
         {
             playerMover = GetComponent<PlayerMover>();
@@ -48,22 +49,9 @@ namespace Frankie.Stats
                 playerMover.leaderAnimatorUpdated -= UpdateLeaderAnimation;
                 playerMover.playerMoved -= UpdatePartyOffsets;
         }
+        #endregion
 
-        private void RefreshAnimatorLookup()
-        {
-            animatorLookup.Clear();
-            foreach (CombatParticipant character in party)
-            {
-                animatorLookup.Add(character, character.GetComponent<Animator>());
-            }
-        }
-
-        public void SetPartyLeader(CombatParticipant character)
-        {
-            // TODO:  Implement, call event to update camera controller
-            // TODO:  Set old party leader to trigger, new party leader to not trigger
-        }
-
+        #region PublicGetters
         public CombatParticipant GetPartyLeader()
         {
             return party[0];
@@ -77,47 +65,6 @@ namespace Frankie.Stats
         public Animator GetLeadCharacterAnimator()
         {
             return animatorLookup[party[0]];
-        }
-
-        public bool AddToParty(CombatParticipant character)
-        {
-            if (party.Count >= partyLimit) { return false; }
-
-            CharacterNPCSwapper worldNPC = character.GetComponent<CharacterNPCSwapper>();
-            if (worldNPC == null) { return false; }
-
-            CharacterNPCSwapper partyCharacter = worldNPC.SwapToCharacter(partyContainer);
-            UpdateWorldLookup(false, partyCharacter);
-            Destroy(worldNPC.gameObject);
-
-            party.Add(partyCharacter.GetCombatParticipant());
-            RefreshAnimatorLookup();
-
-            if (party.Count > 1) { partyCharacter.GetComponent<Collider2D>().isTrigger = true; }
-            partyUpdated?.Invoke();
-            return true;
-        }
-
-        public bool RemoveFromParty(CombatParticipant character, Transform worldTransform)
-        {
-            if (party.Count <= 1) { return false; }
-            party.Remove(character);
-            animatorLookup.Remove(character);
-
-            CharacterNPCSwapper partyCharacter = character.GetComponent<CharacterNPCSwapper>();
-            if (partyCharacter == null) { return false; }
-
-            CharacterNPCSwapper worldNPC = partyCharacter.SwapToNPC(worldTransform);
-            UpdateWorldLookup(true, worldNPC);
-            Destroy(partyCharacter.gameObject);
-
-            partyUpdated?.Invoke();
-            return true;
-        }
-
-        public void OverrideParty(List<CombatParticipant> party)
-        {
-            this.party = party;
         }
 
         public List<CombatParticipant> GetParty()
@@ -135,6 +82,16 @@ namespace Frankie.Stats
                 }
             }
             return false;
+        }
+
+        public bool IsAnyMemberAlive()
+        {
+            bool alive = false;
+            foreach (CombatParticipant combatParticipant in party)
+            {
+                if (!combatParticipant.IsDead()) { alive = true; }
+            }
+            return alive;
         }
 
         public CombatParticipant GetMember(string member)
@@ -181,15 +138,68 @@ namespace Frankie.Stats
 
             return nextMember;
         }
+        #endregion
 
-        public bool IsAnyMemberAlive()
+        #region PublicMethodsOther
+        public void SetPartyLeader(CombatParticipant character)
         {
-            bool alive = false;
-            foreach (CombatParticipant combatParticipant in party)
+            if (!party.Contains(character)) { return; }
+
+            party.Remove(character);
+            party.Insert(0, character);
+
+            int index = 0;
+            foreach (CombatParticipant partyCharacter in party)
             {
-                if (!combatParticipant.IsDead()) { alive = true; }
+                Collider2D collider2D = partyCharacter.GetComponent<Collider2D>();
+                collider2D.isTrigger = index == 0 ? false : true;
+                index++;
             }
-            return alive;
+            playerMover.ResetHistory(character.transform.position);
+            RefreshAnimatorLookup();
+            partyUpdated?.Invoke();
+        }
+
+        public bool AddToParty(CombatParticipant character)
+        {
+            if (party.Count >= partyLimit) { return false; }
+
+            CharacterNPCSwapper worldNPC = character.GetComponent<CharacterNPCSwapper>();
+            if (worldNPC == null) { return false; }
+
+            CharacterNPCSwapper partyCharacter = worldNPC.SwapToCharacter(partyContainer);
+            UpdateWorldLookup(false, partyCharacter);
+            Destroy(worldNPC.gameObject);
+
+            party.Add(partyCharacter.GetCombatParticipant());
+            RefreshAnimatorLookup();
+
+            if (party.Count > 1) { partyCharacter.GetComponent<Collider2D>().isTrigger = true; }
+            partyUpdated?.Invoke();
+            return true;
+        }
+
+        public bool RemoveFromParty(CombatParticipant character, Transform worldTransform)
+        {
+            if (party.Count <= 1) { return false; }
+            party.Remove(character);
+            animatorLookup.Remove(character);
+
+            CharacterNPCSwapper partyCharacter = character.GetComponent<CharacterNPCSwapper>();
+            if (partyCharacter == null) { return false; }
+
+            CharacterNPCSwapper worldNPC = partyCharacter.SwapToNPC(worldTransform);
+            UpdateWorldLookup(true, worldNPC);
+            Destroy(partyCharacter.gameObject);
+
+            partyUpdated?.Invoke();
+            return true;
+        }
+
+        public void OverrideParty(List<CombatParticipant> party)
+        {
+            this.party = party;
+            partyUpdated?.Invoke();
         }
 
         public void UpdateLeaderAnimation(float speed, float xLookDirection, float yLookDirection)
@@ -199,6 +209,17 @@ namespace Frankie.Stats
             animatorLookup[character].SetFloat("xLook", xLookDirection);
             animatorLookup[character].SetFloat("yLook", yLookDirection);
             UpdatePartySpeed(speed);
+        }
+        #endregion
+
+        #region PrivateMethods
+        private void RefreshAnimatorLookup()
+        {
+            animatorLookup.Clear();
+            foreach (CombatParticipant character in party)
+            {
+                animatorLookup.Add(character, character.GetComponent<Animator>());
+            }
         }
 
         private void UpdateWorldLookup(bool addToLookUp, CharacterNPCSwapper characterNPCSwapper)
@@ -266,6 +287,7 @@ namespace Frankie.Stats
                 character.gameObject.transform.localPosition = Vector2.zero;
             }
         }
+        #endregion
 
         #region Interfaces
         [System.Serializable]
@@ -301,17 +323,18 @@ namespace Frankie.Stats
         public void RestoreState(SaveState saveState)
         {
             PartySaveData data = (PartySaveData)saveState.GetState();
-            // Instantiate current party
-            List<string> currentPartyStrings = new List<string>();
+            // Clear characters in existing party in scene
             foreach (CombatParticipant combatParticipant in party)
             {
-                currentPartyStrings.Add(combatParticipant.GetBaseStats().GetCharacterProperties().name);
+                Destroy(combatParticipant.gameObject);
             }
+            party.Clear();
 
+            // Pull characters from save
             List<string> addPartyStrings = data.partyStrings;
             foreach(string characterName in addPartyStrings)
             {
-                if (currentPartyStrings.Contains(characterName)) { continue; }
+                if (party.Count > partyLimit) { break; } // Failsafe
 
                 GameObject character = CharacterNPCSwapper.SpawnCharacter(characterName, partyContainer);
                 if (character == null) { return; }

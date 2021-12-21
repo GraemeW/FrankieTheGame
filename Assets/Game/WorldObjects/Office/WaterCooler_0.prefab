@@ -146,7 +146,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7a8ffb219a78b5d42bca9c71bad9ffb7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  messagePartyHealed: 
 --- !u!1001 &919240495150957186
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -233,7 +232,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 5226738402773197790, guid: 3ea47d49370c98e4e8dda14fd66b947b, type: 3}
       propertyPath: checkMessage
-      value: '*gulp* Frankie feels HYDRATED.'
+      value: '*gulp* {0} feels HYDRATED.'
+      objectReference: {fileID: 0}
+    - target: {fileID: 5226738402773197790, guid: 3ea47d49370c98e4e8dda14fd66b947b, type: 3}
+      propertyPath: checkAtStartOfInteraction
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5226738402773197790, guid: 3ea47d49370c98e4e8dda14fd66b947b, type: 3}
       propertyPath: checkInteraction.m_PersistentCalls.m_Calls.Array.size
