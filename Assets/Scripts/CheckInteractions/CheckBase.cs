@@ -32,5 +32,4 @@ namespace Frankie.Control
             return false;
         }
     }
-
 }

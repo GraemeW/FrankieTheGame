@@ -74,34 +74,34 @@ namespace Frankie.Stats
 
         public CharacterNPCSwapper SwapToCharacter(Transform partyContainer)
         {
-            GameObject characterPrefab = baseStats.GetCharacterProperties().GetCharacterPrefab();
-            if (characterPrefab == null) { return null; }
+            string characterName = baseStats.GetCharacterProperties().name;
+            GameObject character = SpawnCharacter(characterName, partyContainer);
 
-            GameObject character = Instantiate(characterPrefab, partyContainer);
+            // Pass stats back/forth NPC -> Character
             BaseStats characterBaseStats = character.GetComponent<BaseStats>();
             characterBaseStats.SetActiveStatSheet(baseStats.GetActiveStatSheet());
+
             CharacterNPCSwapper partyCharacter = character.GetComponent<CharacterNPCSwapper>();
             return partyCharacter;
         }
 
         public CharacterNPCSwapper SwapToNPC(Transform worldContainer)
         {
-            GameObject characterNPCPrefab = baseStats.GetCharacterProperties().GetCharacterNPCPrefab();
-            if (characterNPCPrefab == null) { return null; }
+            string characterName = baseStats.GetCharacterProperties().name;
+            GameObject characterNPC = SpawnNPC(characterName, worldContainer);
 
-            GameObject character = Instantiate(characterNPCPrefab, worldContainer);
-            BaseStats characterNPCBaseStats = character.GetComponent<BaseStats>();
+            // Pass stats back/forth Character -> NPC
+            BaseStats characterNPCBaseStats = characterNPC.GetComponent<BaseStats>();
             characterNPCBaseStats.SetActiveStatSheet(baseStats.GetActiveStatSheet());
-            CharacterNPCSwapper worldNPC = character.GetComponent<CharacterNPCSwapper>();
+
+            CharacterNPCSwapper worldNPC = characterNPC.GetComponent<CharacterNPCSwapper>();
             return worldNPC;
         }
 
-        public void JoinParty(PlayerStateHandler playerStateHandler)
+        public void JoinParty(PlayerStateHandler playerStateHandler) // Called via Unity Events
         {
             Party party = playerStateHandler.GetParty();
-            party.AddToParty(GetCombatParticipant());
-
-            transform.position = party.GetPartyLeader().transform.position;
+            party.AddToParty(this);
         }
     }
 

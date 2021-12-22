@@ -7,6 +7,7 @@ using Frankie.Utils;
 using System;
 using Frankie.Saving;
 using UnityEngine.SceneManagement;
+using System.Linq;
 
 namespace Frankie.Stats
 {
@@ -20,6 +21,7 @@ namespace Frankie.Stats
         [SerializeField] int partyOffset = 16;
 
         // State
+        List<CharacterProperties> unlockedCharacters = new List<CharacterProperties>();
         Dictionary<string, Tuple<string, string>> worldNPCLookup = new Dictionary<string, Tuple<string, string>>();
         Dictionary<CombatParticipant, Animator> animatorLookup = new Dictionary<CombatParticipant, Animator>();
 
@@ -34,6 +36,11 @@ namespace Frankie.Stats
         {
             playerMover = GetComponent<PlayerMover>();
             RefreshAnimatorLookup();
+        }
+
+        private void Start()
+        {
+            InitializeUnlockedCharacters();
         }
 
         private void OnEnable()
@@ -62,6 +69,11 @@ namespace Frankie.Stats
             return party[0].GetCombatName();
         }
 
+        public bool IsPartyLeader(CombatParticipant combatParticipant)
+        {
+            return party[0] == combatParticipant;
+        }
+
         public Animator GetLeadCharacterAnimator()
         {
             return animatorLookup[party[0]];
@@ -70,6 +82,11 @@ namespace Frankie.Stats
         public List<CombatParticipant> GetParty()
         {
             return party;
+        }
+
+        public int GetPartySize()
+        {
+            return party.Count;
         }
 
         public bool HasMember(CombatParticipant member)
@@ -138,6 +155,18 @@ namespace Frankie.Stats
 
             return nextMember;
         }
+
+        public List<CharacterProperties> GetAvailableCharactersToAdd()
+        {
+            List<CharacterProperties> charactersInParty = new List<CharacterProperties>();
+            foreach (CombatParticipant character in party)
+            {
+                charactersInParty.Add(character.GetBaseStats().GetCharacterProperties());
+            }
+
+            return unlockedCharacters.Except(charactersInParty).ToList();
+        }
+
         #endregion
 
         #region PublicMethodsOther
@@ -163,41 +192,82 @@ namespace Frankie.Stats
         public bool AddToParty(CombatParticipant character)
         {
             if (party.Count >= partyLimit) { return false; }
+            if (character == null) { return false; } // Failsafe
 
-            CharacterNPCSwapper worldNPC = character.GetComponent<CharacterNPCSwapper>();
-            if (worldNPC == null) { return false; }
-
-            CharacterNPCSwapper partyCharacter = worldNPC.SwapToCharacter(partyContainer);
-            UpdateWorldLookup(false, partyCharacter);
-            Destroy(worldNPC.gameObject);
-
-            party.Add(partyCharacter.GetCombatParticipant());
+            party.Add(character);
+            AddToUnlockedCharacters(character);
             RefreshAnimatorLookup();
 
-            if (party.Count > 1) { partyCharacter.GetComponent<Collider2D>().isTrigger = true; }
+            if (party.Count > 1) { character.GetComponent<Collider2D>().isTrigger = true; }
             partyUpdated?.Invoke();
+            return true;
+        }
+
+        public bool AddToParty(CharacterNPCSwapper characterNPCSwapper)
+        {
+            // For direct interaction with world NPCs -> characters
+            if (party.Count >= partyLimit) { return false; }
+            if (characterNPCSwapper == null) { return false; } // Failsafe
+
+            CharacterNPCSwapper partyCharacter = characterNPCSwapper.SwapToCharacter(partyContainer);
+            UpdateWorldLookup(false, partyCharacter);
+            Destroy(characterNPCSwapper.gameObject);
+
+            return AddToParty(partyCharacter.GetCombatParticipant());
+        }
+
+        public bool AddToParty(CharacterProperties characterProperties)
+        {
+            // For instantiation through other means (i.e. no character exists on screen)
+            if (party.Count >= partyLimit) { return false; }
+            if (characterProperties == null) { return false; } // Failsafe
+
+            GameObject characterObject = CharacterNPCSwapper.SpawnCharacter(characterProperties.name, partyContainer);
+            // MAJOR TODO:  Initialize stats -- need to figure out a way to save/persist through saves (new component with list of inactive characters / basestats)
+
+            CombatParticipant character = characterObject.GetComponent<CombatParticipant>();
+            return AddToParty(character);
+        }
+
+        public bool RemoveFromParty(CombatParticipant character)
+        {
+            if (party.Count <= 1) { return false; }
+            if (character == null) { return false; } // Failsafe
+
+            // If character to remove is leader, swap leadership to second character first
+            if (IsPartyLeader(character))
+            {
+                SetPartyLeader(party[1]); // Guaranteed to exist because count > 1
+            }
+
+            party.Remove(character);
+            animatorLookup.Remove(character);
+
+            Destroy(character.gameObject);
+            partyUpdated?.Invoke();
+
             return true;
         }
 
         public bool RemoveFromParty(CombatParticipant character, Transform worldTransform)
         {
             if (party.Count <= 1) { return false; }
-            party.Remove(character);
-            animatorLookup.Remove(character);
+            if (character == null) { return false; } // Failsafe
 
+            // Instantiates an NPC at defined location
             CharacterNPCSwapper partyCharacter = character.GetComponent<CharacterNPCSwapper>();
             if (partyCharacter == null) { return false; }
 
             CharacterNPCSwapper worldNPC = partyCharacter.SwapToNPC(worldTransform);
             UpdateWorldLookup(true, worldNPC);
-            Destroy(partyCharacter.gameObject);
 
-            partyUpdated?.Invoke();
-            return true;
+            return RemoveFromParty(character);
         }
 
         public void OverrideParty(List<CombatParticipant> party)
         {
+            if (party == null || party.Count == 0) { return; } // Failsafe
+
             this.party = party;
             partyUpdated?.Invoke();
         }
@@ -213,6 +283,34 @@ namespace Frankie.Stats
         #endregion
 
         #region PrivateMethods
+        private void InitializeUnlockedCharacters()
+        {
+            foreach (CombatParticipant combatParticipant in party)
+            {
+                AddToUnlockedCharacters(combatParticipant);
+            }
+        }
+
+        private void AddToUnlockedCharacters(CombatParticipant combatParticipant)
+        {
+            CharacterProperties characterProperties = combatParticipant.GetBaseStats().GetCharacterProperties();
+            AddToUnlockedCharacters(characterProperties);
+        }
+
+        private void AddToUnlockedCharacters(CharacterProperties characterProperties)
+        {
+            if (!unlockedCharacters.Contains(characterProperties))
+            {
+                unlockedCharacters.Add(characterProperties);
+            }
+        }
+
+        private void RemoveFromUnlockedCharacters(CombatParticipant combatParticipant)
+        {
+            CharacterProperties characterProperties = combatParticipant.GetBaseStats().GetCharacterProperties();
+            unlockedCharacters.Remove(characterProperties);
+        }
+
         private void RefreshAnimatorLookup()
         {
             animatorLookup.Clear();
@@ -294,11 +392,13 @@ namespace Frankie.Stats
         struct PartySaveData
         {
             public List<string> partyStrings;
+            public List<string> unlockedCharacterStrings;
             public Dictionary<string, Tuple<string, string>> worldNPCLookup;
 
-            public PartySaveData(List<string> currentParty, Dictionary<string, Tuple<string, string>> worldNPCLookup)
+            public PartySaveData(List<string> currentParty, List<string> unlockedCharacterStrings, Dictionary<string, Tuple<string, string>> worldNPCLookup)
             {
                 this.partyStrings = currentParty;
+                this.unlockedCharacterStrings = unlockedCharacterStrings;
                 this.worldNPCLookup = worldNPCLookup;
             }
         }
@@ -314,8 +414,13 @@ namespace Frankie.Stats
             {
                 currentPartyStrings.Add(combatParticipant.GetBaseStats().GetCharacterProperties().name);
             }
+            List<string> unlockedCharacterStrings = new List<string>();
+            foreach (CharacterProperties characterProperties in unlockedCharacters)
+            {
+                unlockedCharacterStrings.Add(characterProperties.name);
+            }
 
-            PartySaveData partySaveState = new PartySaveData(currentPartyStrings, worldNPCLookup);
+            PartySaveData partySaveState = new PartySaveData(currentPartyStrings, unlockedCharacterStrings, worldNPCLookup);
             SaveState saveState = new SaveState(GetLoadPriority(), partySaveState);
             return saveState;
         }
@@ -332,32 +437,49 @@ namespace Frankie.Stats
 
             // Pull characters from save
             List<string> addPartyStrings = data.partyStrings;
-            foreach(string characterName in addPartyStrings)
+            if (addPartyStrings != null)
             {
-                if (party.Count > partyLimit) { break; } // Failsafe
+                foreach (string characterName in addPartyStrings)
+                {
+                    if (party.Count > partyLimit) { break; } // Failsafe
 
-                GameObject character = CharacterNPCSwapper.SpawnCharacter(characterName, partyContainer);
-                if (character == null) { return; }
+                    GameObject character = CharacterNPCSwapper.SpawnCharacter(characterName, partyContainer);
+                    if (character == null) { return; }
 
-                CombatParticipant combatParticipant = character.GetComponent<CombatParticipant>();
-                if (combatParticipant == null) { Destroy(character); return; }
+                    CombatParticipant combatParticipant = character.GetComponent<CombatParticipant>();
+                    if (combatParticipant == null) { Destroy(character); return; }
 
-                party.Add(combatParticipant);
+                    party.Add(combatParticipant);
 
-                if (party.Count > 1) { character.GetComponent<Collider2D>().isTrigger = true; }
+                    if (party.Count > 1) { character.GetComponent<Collider2D>().isTrigger = true; }
+                }
+                RefreshAnimatorLookup();
             }
-            RefreshAnimatorLookup();
+
+            // Build up unlocked characters list
+            List<string> unlockedCharacterStrings = data.unlockedCharacterStrings;
+            if (unlockedCharacterStrings != null)
+            {
+                foreach (string characterName in unlockedCharacterStrings)
+                {
+                    CharacterProperties characterProperties = CharacterProperties.GetCharacterPropertiesFromName(characterName);
+                    AddToUnlockedCharacters(characterProperties);
+                }
+            }
 
             // Instantiate world NPCs
             worldNPCLookup = data.worldNPCLookup;
-            foreach(KeyValuePair<string, Tuple<string, string>> worldNPCEntry in worldNPCLookup)
+            if (worldNPCLookup != null)
             {
-                if (worldNPCEntry.Value.Item1 == SceneManager.GetActiveScene().name)
+                foreach (KeyValuePair<string, Tuple<string, string>> worldNPCEntry in worldNPCLookup)
                 {
-                    GameObject parent = GameObject.Find(worldNPCEntry.Value.Item2);
-                    if (parent == null) { return; }
+                    if (worldNPCEntry.Value.Item1 == SceneManager.GetActiveScene().name)
+                    {
+                        GameObject parent = GameObject.Find(worldNPCEntry.Value.Item2);
+                        if (parent == null) { return; }
 
-                    CharacterNPCSwapper.SpawnNPC(worldNPCEntry.Key, parent.transform);
+                        CharacterNPCSwapper.SpawnNPC(worldNPCEntry.Key, parent.transform);
+                    }
                 }
             }
         }
