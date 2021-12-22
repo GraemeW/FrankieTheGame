@@ -11,8 +11,6 @@ using System.Linq;
 
 namespace Frankie.Control
 {
-
-
     public class NPCStateHandler : MonoBehaviour
     {
         // Tunables
@@ -98,14 +96,14 @@ namespace Frankie.Control
         private void OnEnable()
         {
             playerStateHandler.value.playerStateChanged += HandlePlayerStateChange;
-            combatParticipant.stateAltered += HandleNPCCombatStateChange;
+            if (combatParticipant != null) { combatParticipant.stateAltered += HandleNPCCombatStateChange; }
             ResetNPCState();
         }
 
         private void OnDisable()
         {
             playerStateHandler.value.playerStateChanged -= HandlePlayerStateChange;
-            combatParticipant.stateAltered -= HandleNPCCombatStateChange;
+            if (combatParticipant != null) { combatParticipant.stateAltered -= HandleNPCCombatStateChange; }
         }
 
         private void ResetNPCState()
