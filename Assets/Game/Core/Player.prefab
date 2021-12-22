@@ -44,6 +44,7 @@ GameObject:
   - component: {fileID: 9140000498525693429}
   - component: {fileID: 6558820224858072559}
   - component: {fileID: 9140000498525693418}
+  - component: {fileID: 4166409808191719099}
   - component: {fileID: 3401100091813777421}
   - component: {fileID: 6016771343012816018}
   - component: {fileID: 759616250253560844}
@@ -165,6 +166,18 @@ MonoBehaviour:
   - {fileID: 4369419007490498981}
   partyContainer: {fileID: 9140000498835536796}
   partyOffset: 16
+--- !u!114 &4166409808191719099
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9140000498525693431}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a698eb2770f005f4a8c5f13da4ef3b1c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &3401100091813777421
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -190,6 +203,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   initialCash: 50
+  maxCash: 999999999
 --- !u!114 &759616250253560844
 MonoBehaviour:
   m_ObjectHideFlags: 0

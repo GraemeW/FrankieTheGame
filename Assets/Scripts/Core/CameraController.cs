@@ -29,12 +29,12 @@ namespace Frankie.Core
 
         private void OnEnable()
         {
-            party.value.partyUpdated += SetUpStateDrivenCamera;
+            if (party.value != null) { party.value.partyUpdated += SetUpStateDrivenCamera; }   
         }
 
         private void OnDisable()
         {
-            party.value.partyUpdated -= SetUpStateDrivenCamera;
+            if (party.value != null) { party.value.partyUpdated -= SetUpStateDrivenCamera; }
         }
 
         private void Start()
@@ -59,11 +59,16 @@ namespace Frankie.Core
 
         private void SetUpStateDrivenCamera()
         {
-            UpdateStateAnimator(party.value.GetLeadCharacterAnimator());
+            if (party.value != null)
+            {
+                UpdateStateAnimator(party.value.GetLeadCharacterAnimator());
+            }
         }
 
         private void SetUpVirtualCameraFollowers()
         {
+            if (party.value == null) { return; }
+
             foreach (CinemachineVirtualCamera virtualCamera in virtualCameras)
             {
                 virtualCamera.Follow = player.value.transform;

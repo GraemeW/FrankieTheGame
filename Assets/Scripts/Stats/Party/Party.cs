@@ -12,6 +12,7 @@ using System.Linq;
 namespace Frankie.Stats
 {
     [RequireComponent(typeof(PlayerMover))]
+    [RequireComponent(typeof(InactiveParty))]
     public class Party : MonoBehaviour, ISaveable
     {
         // Tunables
@@ -27,6 +28,7 @@ namespace Frankie.Stats
 
         // Cached References
         PlayerMover playerMover = null;
+        InactiveParty inactiveParty = null;
 
         // Events
         public event Action partyUpdated;
@@ -35,6 +37,7 @@ namespace Frankie.Stats
         private void Awake()
         {
             playerMover = GetComponent<PlayerMover>();
+            inactiveParty = GetComponent<InactiveParty>();
             RefreshAnimatorLookup();
         }
 
@@ -189,6 +192,7 @@ namespace Frankie.Stats
             partyUpdated?.Invoke();
         }
 
+        // AddToParty -- Parent
         public bool AddToParty(CombatParticipant character)
         {
             if (party.Count >= partyLimit) { return false; }
@@ -197,12 +201,15 @@ namespace Frankie.Stats
             party.Add(character);
             AddToUnlockedCharacters(character);
             RefreshAnimatorLookup();
+            inactiveParty.RestoreCharacterState(ref character); // restore character stats, exp, equipment, inventory (if previously in party)
+            inactiveParty.RemoveFromInactiveStorage(character); // stop tracking in inactive storage (i.e. since in active party)
 
             if (party.Count > 1) { character.GetComponent<Collider2D>().isTrigger = true; }
             partyUpdated?.Invoke();
             return true;
         }
 
+        // AddToParty -- Derivative
         public bool AddToParty(CharacterNPCSwapper characterNPCSwapper)
         {
             // For direct interaction with world NPCs -> characters
@@ -216,6 +223,7 @@ namespace Frankie.Stats
             return AddToParty(partyCharacter.GetCombatParticipant());
         }
 
+        // AddToParty -- Derivative
         public bool AddToParty(CharacterProperties characterProperties)
         {
             // For instantiation through other means (i.e. no character exists on screen)
@@ -223,12 +231,12 @@ namespace Frankie.Stats
             if (characterProperties == null) { return false; } // Failsafe
 
             GameObject characterObject = CharacterNPCSwapper.SpawnCharacter(characterProperties.name, partyContainer);
-            // MAJOR TODO:  Initialize stats -- need to figure out a way to save/persist through saves (new component with list of inactive characters / basestats)
 
             CombatParticipant character = characterObject.GetComponent<CombatParticipant>();
             return AddToParty(character);
         }
 
+        // RemoveFromParty -- Parent
         public bool RemoveFromParty(CombatParticipant character)
         {
             if (party.Count <= 1) { return false; }
@@ -240,6 +248,7 @@ namespace Frankie.Stats
                 SetPartyLeader(party[1]); // Guaranteed to exist because count > 1
             }
 
+            inactiveParty.CaptureCharacterState(character);
             party.Remove(character);
             animatorLookup.Remove(character);
 
@@ -249,6 +258,7 @@ namespace Frankie.Stats
             return true;
         }
 
+        // RemoveFromParty -- Derivative
         public bool RemoveFromParty(CombatParticipant character, Transform worldTransform)
         {
             if (party.Count <= 1) { return false; }
@@ -262,14 +272,6 @@ namespace Frankie.Stats
             UpdateWorldLookup(true, worldNPC);
 
             return RemoveFromParty(character);
-        }
-
-        public void OverrideParty(List<CombatParticipant> party)
-        {
-            if (party == null || party.Count == 0) { return; } // Failsafe
-
-            this.party = party;
-            partyUpdated?.Invoke();
         }
 
         public void UpdateLeaderAnimation(float speed, float xLookDirection, float yLookDirection)
