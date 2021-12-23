@@ -6,8 +6,8 @@ namespace Frankie.Combat
         Intro,
         PreCombat,
         Combat,
+        PreOutro,
         Outro,
-        OutroLevelUp,
         Complete
     }
 }

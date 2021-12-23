@@ -9,12 +9,16 @@ namespace Frankie.Inventory
     public class LootDispenser : MonoBehaviour
     {
         // Tunables
+        [Header("Item Loot")]
         [SerializeField] [Range(0, 10)] int minItems = 0;
         [SerializeField] [Range(0, 10)] int maxItems = 1;
         [SerializeField] LootEntry<InventoryItem>[] lootEntries = null;
+        [Header("Cash Loot")]
+        [SerializeField] [Min(0)] int minCash = 0;
+        [SerializeField] [Min(0)] int maxCash = 10;
 
         // Static
-        int ABSOLUTE_MAX_LOOT = 10;
+        static int ABSOLUTE_MAX_LOOT = 10;
 
         // Data Structures
         [System.Serializable]
@@ -41,7 +45,12 @@ namespace Frankie.Inventory
         }
 
         // Methods
-        public IEnumerable<InventoryItem> GetLoot()
+        public bool HasLootReward()
+        {
+            return (lootEntries != null && lootEntries.Length > 0) || (maxCash > 0);
+        }
+
+        public IEnumerable<InventoryItem> GetItemReward()
         {
             if (lootEntries == null || lootEntries.Length == 0) { yield break; }
 
@@ -54,7 +63,10 @@ namespace Frankie.Inventory
 
             for (int i = 0; i < numberOfItems; i++)
             {
-                yield return GetInventoryItemFromLootTable();
+                InventoryItem inventoryItem = GetInventoryItemFromLootTable();
+                if (inventoryItem == null) { continue; }
+
+                yield return inventoryItem;
             }
         }
 
@@ -62,6 +74,15 @@ namespace Frankie.Inventory
         {
             InventoryItem inventoryItem = ProbabilityPairOperation<InventoryItem>.GetRandomObject(lootEntries);
             return inventoryItem;
+        }
+
+        public int GetCashReward()
+        {
+            // Edge case protection
+            int minimum = Mathf.Max(0, minCash);
+            int maximum = Mathf.Max(minimum, maxCash);
+
+            return Random.Range(minimum, maximum + 1); // +1 offset since random exclusive w/ ints
         }
     }
 }

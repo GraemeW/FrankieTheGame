@@ -120,7 +120,7 @@ namespace Frankie.Combat.UI
                 combatLog.gameObject.SetActive(true);
                 skillSelection.gameObject.SetActive(true);
             }
-            else if (state == BattleState.Outro || state == BattleState.OutroLevelUp)
+            else if (state == BattleState.Outro || state == BattleState.PreOutro)
             {
                 if (outroQueued) { return; }
 

@@ -189,3 +189,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   probabilityToTraverseSkillTree: 0.8
+--- !u!114 &-6302713147965282841
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2088815242785209472}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 73fd0205c870ba141996d7b6636a97ab, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  minItems: 0
+  maxItems: 1
+  lootEntries: []
+  minCash: 0
+  maxCash: 10

@@ -47,6 +47,7 @@ namespace Frankie.Combat
         public event Action<CombatParticipant, StateAlteredData> stateAltered;
         public event Action<CombatParticipant, int, List<Tuple<string, int>>> characterLevelUp;
 
+        #region UnityMethods
         private void Awake()
         {
             // Hard requirement
@@ -100,7 +101,10 @@ namespace Frankie.Combat
         {
             UpdateDamageDelayedHealth();
         }
+        #endregion
 
+        #region PublicGetters
+        // Reference Passing
         public Experience GetExperience()
         {
             return experience;
@@ -116,11 +120,70 @@ namespace Frankie.Combat
             return equipment;
         }
 
-        public void SetCombatActive(bool enable)
+        public BaseStats GetBaseStats()
         {
-            inCombat = enable;
-            if (!enable){ HaltHPScroll(); }
-            enterCombat?.Invoke(enable);
+            return baseStats;
+        }
+
+        public LootDispenser GetLootDispenser()
+        {
+            return lootDispenser;
+        }
+
+        // Core Properties
+        public string GetCombatName()
+        {
+            // Split apart name on lower case followed by upper case w/ or w/out underscores
+            return baseStats.GetCharacterProperties().GetCharacterNamePretty();
+        }
+
+        public Sprite GetCombatSprite()
+        {
+            return combatSprite;
+        }
+
+        public MovingBackgroundProperties GetMovingBackgroundProperties()
+        {
+            return movingBackgroundProperties;
+        }
+
+        public AudioClip GetAudioClip()
+        {
+            return combatAudio;
+        }
+
+        public bool GetFriendly()
+        {
+            return friendly;
+        }
+
+        public bool HasLoot()
+        {
+            if (lootDispenser == null) { return false; }
+
+            return lootDispenser.HasLootReward();
+        }
+
+        // Stats
+        public int GetLevel()
+        {
+            return baseStats.GetLevel();
+        }
+
+        public float GetMaxHP()
+        {
+            return baseStats.GetStat(Stat.HP);
+        }
+
+        public float GetMaxAP()
+        {
+            if (!usesAP) { return Mathf.Infinity; }
+            return baseStats.GetStat(Stat.AP);
+        }
+
+        public float GetExperienceReward()
+        {
+            return baseStats.GetStat(Stat.ExperienceReward);
         }
 
         public float GetBattleStartCooldown()
@@ -133,9 +196,58 @@ namespace Frankie.Combat
             return baseStats.GetCalculatedStat(CalculatedStat.CooldownFraction);
         }
 
+        // Combat State
         public bool IsInCombat()
         {
             return inCombat;
+        }
+
+        public bool IsInCooldown()
+        {
+            return inCooldown;
+        }
+
+        public float GetCooldown()
+        {
+            return cooldownTimer;
+        }
+
+        public bool IsDead()
+        {
+            return isDead.value;
+        }
+
+        public float GetHP()
+        {
+            return currentHP.value;
+        }
+
+
+        public bool HasAP(float points)
+        {
+            return currentAP.value >= points;
+        }
+
+        public float GetAP()
+        {
+            if (!usesAP) { return Mathf.Infinity; }
+            return currentAP.value;
+        }
+        #endregion
+
+        #region PublicUtility
+        public void SetCombatActive(bool enable)
+        {
+            inCombat = enable;
+            if (!enable){ HaltHPScroll(); }
+            enterCombat?.Invoke(enable);
+        }
+
+        public void SetCooldown(float seconds)
+        {
+            inCooldown = true;
+            cooldownTimer = seconds * GetCooldownMultiplier();
+            stateAltered?.Invoke(this, new StateAlteredData(StateAlteredType.CooldownSet));
         }
 
         public void AdjustHP(float points)
@@ -173,11 +285,6 @@ namespace Frankie.Combat
             targetHP = currentHP.value;
         }
 
-        public bool HasAP(float points)
-        {
-            return currentAP.value >= points;
-        }
-
         public void AdjustAP(float points)
         {
             if (isDead.value) { return; }
@@ -202,99 +309,15 @@ namespace Frankie.Combat
             stateAltered?.Invoke(this, new StateAlteredData(StateAlteredType.Resurrected));
         }
 
-        public void SetCooldown(float seconds)
-        {
-            inCooldown = true;
-            cooldownTimer = seconds * GetCooldownMultiplier();
-            stateAltered?.Invoke(this, new StateAlteredData(StateAlteredType.CooldownSet));
-        }
-
-        public float GetCooldown()
-        {
-            return cooldownTimer;
-        }
-
-        public bool GetFriendly()
-        {
-            return friendly;
-        }
-
-        public float GetHP()
-        {
-            return currentHP.value;
-        }
-
-        public float GetAP()
-        {
-            if (!usesAP) { return Mathf.Infinity; }
-            return currentAP.value;
-        }
-
-        public Sprite GetCombatSprite()
-        {
-            return combatSprite;
-        }
-
-        public AudioClip GetAudioClip()
-        {
-            return combatAudio;
-        }
-        
-        public MovingBackgroundProperties GetMovingBackgroundProperties()
-        {
-            return movingBackgroundProperties;
-        }
-
-        public string GetCombatName()
-        {
-            // Split apart name on lower case followed by upper case w/ or w/out underscores
-            return baseStats.GetCharacterProperties().GetCharacterNamePretty();
-        }
-
-        public bool IsDead()
-        {
-            return isDead.value;
-        }
-
-        public bool IsInCooldown()
-        {
-            return inCooldown;
-        }
-
-        public float GetMaxHP()
-        {
-            return baseStats.GetStat(Stat.HP);
-        }
-
-        public float GetMaxAP()
-        {
-            if (!usesAP) { return Mathf.Infinity; }
-            return baseStats.GetStat(Stat.AP);
-        }
-
-        public float GetExperienceReward()
-        {
-            return baseStats.GetStat(Stat.ExperienceReward);
-        }
-
-        public int GetLevel()
-        {
-            return baseStats.GetLevel();
-        }
-
-        public BaseStats GetBaseStats()
-        {
-            return baseStats;
-        }
-
         public void AnnounceStateUpdate(StateAlteredData stateAlteredData)
         {
             if (stateAlteredData == null) { return; }
 
             stateAltered?.Invoke(this, stateAlteredData);
         }
+        #endregion
 
-        // Private functions
+        #region PrivateUtility
         private bool CheckIfDead()
         {
             if ((Mathf.Approximately(currentHP.value, 0f) || currentHP.value < 0) && isDead.value != true)
@@ -359,6 +382,7 @@ namespace Frankie.Combat
                 else { currentAP.value = baseStats.GetStat(Stat.AP); }
             }
         }
+        #endregion
 
         #region Interfaces
         // Save State

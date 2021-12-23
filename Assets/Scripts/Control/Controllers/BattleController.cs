@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using Frankie.ZoneManagement;
+using Frankie.Inventory;
 
 namespace Frankie.Combat
 {
@@ -539,9 +540,12 @@ namespace Frankie.Combat
                 else if (activeEnemies.All(x => x.IsDead() == true))
                 {
                     SetBattleOutcome(BattleOutcome.Won);
-                    if (AwardExperienceToLevelUp())
+                    bool isLevelUpPending = AwardExperienceToLevelUp();
+                    bool isLootPending = AwardLoot();
+
+                    if (AwardExperienceToLevelUp() || isLootPending)
                     {
-                        SetBattleState(BattleState.OutroLevelUp);
+                        SetBattleState(BattleState.PreOutro);
                     }
                     else
                     {
@@ -576,6 +580,30 @@ namespace Frankie.Combat
             }
 
             return levelUpTriggered;
+        }
+
+        private bool AwardLoot()
+        {
+            PartyKnapsackConduit partyKnapsackConduit = party.GetComponent<PartyKnapsackConduit>();
+            Wallet wallet = party.GetComponent<Wallet>();
+            if (partyKnapsackConduit == null || wallet == null) { return false; } // Failsafe, this should not happen
+
+            bool lootAvailable = false;
+            foreach (CombatParticipant enemy in GetEnemies())
+            {
+                if (!enemy.HasLoot()) { continue; }
+
+                LootDispenser lootDispenser = enemy.GetLootDispenser();
+                lootAvailable = true;
+
+                foreach (InventoryItem inventoryItem in lootDispenser.GetItemReward())
+                {
+                    partyKnapsackConduit.AddToFirstEmptyPartySlot(inventoryItem);
+                }
+
+                wallet.UpdatePendingCash(lootDispenser.GetCashReward());
+            }
+            return lootAvailable;
         }
 
         private void CleanUpBattleBits()
