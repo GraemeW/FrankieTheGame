@@ -47,6 +47,7 @@ namespace Frankie.Combat
         public event Action<BattleSequence> battleSequenceProcessed;
 
         // Interaction
+        #region UnityMethods
         private void Awake()
         {
             party = GameObject.FindGameObjectWithTag("Player")?.GetComponent<Party>();
@@ -63,15 +64,6 @@ namespace Frankie.Combat
             playerInput.Menu.Select2.performed += context => InteractWithCharacterSelect(1);
             playerInput.Menu.Select3.performed += context => InteractWithCharacterSelect(2);
             playerInput.Menu.Select4.performed += context => InteractWithCharacterSelect(3);
-        }
-
-        public void VerifyUnique()
-        {
-            BattleController[] battleControllers = FindObjectsOfType<BattleController>();
-            if (battleControllers.Length > 1)
-            {
-                Destroy(gameObject);
-            }
         }
 
         private void OnEnable()
@@ -104,25 +96,6 @@ namespace Frankie.Combat
             }
         }
 
-        private void ParseDirectionalInput(Vector2 directionalInput)
-        {
-            PlayerInputType playerInputType = this.NavigationVectorToInputType(directionalInput);
-            HandleUserInput(playerInputType);
-        }
-
-        private void HandleUserInput(PlayerInputType playerInputType)
-        {
-            if (state == BattleState.Combat)
-            {
-                if (InteractWithInterrupts(playerInputType)) { return; }
-                if (InteractWithSkillSelect(playerInputType)) { return; }
-                if (InteractWithBattleActionExecute(playerInputType)) { return; }
-            }
-
-            // Final call to globals, avoid short circuit
-            if (InteractWithGlobals(playerInputType)) { return; }
-        }
-
         private void Update()
         {
             if (state == BattleState.Combat)
@@ -150,6 +123,248 @@ namespace Frankie.Combat
             {
                 AutoSelectCharacter();
             }
+        }
+        #endregion
+
+        #region PublicSettersGetters
+        // Setters
+        public void Setup(List<CombatParticipant> enemies, TransitionType transitionType)
+        {
+            foreach (CombatParticipant character in party.GetParty())
+            {
+                if (transitionType == TransitionType.BattleGood)
+                {
+                    character.SetCooldown(0f);
+                }
+                else
+                {
+                    character.SetCooldown(character.GetBattleStartCooldown());
+                }
+                character.stateAltered += CheckForBattleEnd;
+                activeCharacters.Add(character);
+            }
+            if (gameObject.activeSelf) { SubscribeToCharacters(true); }
+
+            foreach (CombatParticipant enemy in enemies)
+            {
+                if (transitionType == TransitionType.BattleBad)
+                {
+                    enemy.SetCooldown(0f);
+                }
+                else
+                {
+                    enemy.SetCooldown(enemy.GetBattleStartCooldown());
+                }
+                enemy.stateAltered += CheckForBattleEnd;
+                activeEnemies.Add(enemy);
+            }
+            FindObjectOfType<Fader>().battleUIStateChanged += InitiateBattle;
+        }
+
+        public void SetBattleState(BattleState state)
+        {
+            this.state = state;
+
+            if (state == BattleState.Combat)
+            {
+                ToggleCombatParticipants(true);
+            }
+            else
+            {
+                ToggleCombatParticipants(false);
+            }
+
+            battleStateChanged?.Invoke(state);
+        }
+
+        public void SetBattleOutcome(BattleOutcome outcome)
+        {
+            this.outcome = outcome;
+        }
+
+        public bool SetSelectedCharacter(CombatParticipant character)
+        {
+            if (character == null) { SetActiveBattleAction(null); }
+            if (character != null) { if (character.IsDead() || character.IsInCooldown()) { return false; } }
+
+            selectedCharacter = character;
+            selectedCombatParticipantChanged?.Invoke(CombatParticipantType.Character, new[] { selectedCharacter });
+
+            return true;
+        }
+
+        public bool SetSelectedTarget(IEnumerable<CombatParticipant> targets)
+        {
+            selectedTargets = targets;
+            selectedCombatParticipantChanged?.Invoke(CombatParticipantType.Target, selectedTargets);
+
+            if (targets == null || targets.Count() == 0) { return false; }
+            if (targets.All(x => x.IsDead())) { return false; }
+            return true;
+        }
+
+        public void SetActiveBattleAction(IBattleActionUser battleAction)
+        {
+            if (battleAction == null)
+            {
+                SetBattleActionArmed(false);
+                selectedCharacter?.GetComponent<SkillHandler>().ResetCurrentBranch();
+                selectedBattleAction = null;
+            }
+            else
+            {
+                selectedBattleAction = battleAction;
+            }
+        }
+
+        public void SetBattleActionArmed(bool enable)
+        {
+            if (!enable)
+            {
+                selectedTargets = null;
+                battleActionArmed = false;
+            }
+            else if (selectedBattleAction != null)
+            {
+                SetSelectedTarget(selectedBattleAction.GetTargets(true, null, activeCharacters, activeEnemies));
+                battleActionArmed = true;
+            }
+            else { return; }
+
+            battleActionArmedStateChanged?.Invoke(selectedBattleAction);
+        }
+
+        // Getters
+        public BattleState GetBattleState()
+        {
+            return state;
+        }
+
+        public BattleOutcome GetBattleOutcome()
+        {
+            return outcome;
+        }
+
+        public CombatParticipant GetSelectedCharacter()
+        {
+            AutoSelectCharacter();
+            return selectedCharacter;
+        }
+
+        public IEnumerable<CombatParticipant> GetSelectedTargets()
+        {
+            return selectedTargets;
+        }
+
+        public IBattleActionUser GetActiveBattleAction()
+        {
+            return selectedBattleAction;
+        }
+
+        public List<CombatParticipant> GetCharacters()
+        {
+            return activeCharacters;
+        }
+
+        public List<CombatParticipant> GetEnemies()
+        {
+            return activeEnemies;
+        }
+
+        public bool IsBattleActionArmed()
+        {
+            return battleActionArmed;
+        }
+
+        public float GetBattleExperienceReward()
+        {
+            return battleExperienceReward;
+        }
+        #endregion
+
+        #region PublicBattleHandling
+        public bool AddToBattleQueue(IEnumerable<CombatParticipant> recipients)
+        {
+            // Called via SkillSelection UI Buttons
+            // Using selected character and battle action
+            if (GetSelectedCharacter() == null || selectedBattleAction == null) { return false; }
+
+            AddToBattleQueue(GetSelectedCharacter(), recipients, selectedBattleAction);
+            return true;
+        }
+
+        public void AddToBattleQueue(CombatParticipant sender, IEnumerable<CombatParticipant> recipients, IBattleActionUser battleAction)
+        {
+            BattleSequence battleSequence = new BattleSequence
+            {
+                battleAction = battleAction,
+                sender = sender,
+                recipients = recipients,
+            };
+            AddToBattleQueue(sender, battleSequence);
+        }
+
+        private void AddToBattleQueue(CombatParticipant sender, BattleSequence battleSequence)
+        {
+            sender.SetCooldown(Mathf.Infinity); // Character actions locked until cooldown set by BattleController
+            battleSequenceQueue.Enqueue(battleSequence);
+
+            if (activeCharacters.Contains(sender)) { SetSelectedTarget(null); SetActiveBattleAction(null); SetSelectedCharacter(null); } // Clear out selection on player execution
+        }
+
+        public bool AttemptToRun()
+        {
+            float partySpeed = 0f;
+            float enemySpeed = 0f;
+
+            foreach (CombatParticipant character in activeCharacters)
+            {
+                partySpeed += character.GetBaseStats().GetStat(Stat.Nimble);
+            }
+
+            foreach (CombatParticipant enemy in activeEnemies)
+            {
+                enemySpeed += enemy.GetBaseStats().GetStat(Stat.Nimble);
+            }
+
+            if (partySpeed > enemySpeed)
+            {
+                SetBattleOutcome(BattleOutcome.Ran);
+                SetBattleState(BattleState.Outro);
+                return true;
+            }
+            else
+            {
+                foreach (CombatParticipant character in activeCharacters)
+                {
+                    if (character.GetCooldown() < runFailureCooldown)
+                    {
+                        character.SetCooldown(runFailureCooldown);
+                    }
+                }
+                return false;
+            }
+        }
+        #endregion
+
+        #region PrivateInteraction
+        private void ParseDirectionalInput(Vector2 directionalInput)
+        {
+            PlayerInputType playerInputType = this.NavigationVectorToInputType(directionalInput);
+            HandleUserInput(playerInputType);
+        }
+
+        private void HandleUserInput(PlayerInputType playerInputType)
+        {
+            if (state == BattleState.Combat)
+            {
+                if (InteractWithInterrupts(playerInputType)) { return; }
+                if (InteractWithSkillSelect(playerInputType)) { return; }
+                if (InteractWithBattleActionExecute(playerInputType)) { return; }
+            }
+
+            // Final call to globals, avoid short circuit
+            if (InteractWithGlobals(playerInputType)) { return; }
         }
 
         private bool InteractWithInterrupts(PlayerInputType playerInputType)
@@ -246,163 +461,9 @@ namespace Frankie.Combat
             }
             return false;
         }
+        #endregion
 
-        // External Setup
-        public void Setup(List<CombatParticipant> enemies, TransitionType transitionType)
-        {
-            foreach (CombatParticipant character in party.GetParty())
-            {
-                if (transitionType == TransitionType.BattleGood)
-                {
-                    character.SetCooldown(0f);
-                }
-                else
-                {
-                    character.SetCooldown(character.GetBattleStartCooldown());
-                }
-                character.stateAltered += CheckForBattleEnd;
-                activeCharacters.Add(character);
-            }
-            if (gameObject.activeSelf) { SubscribeToCharacters(true); }
-
-            foreach (CombatParticipant enemy in enemies)
-            {
-                if (transitionType == TransitionType.BattleBad)
-                {
-                    enemy.SetCooldown(0f);
-                }
-                else
-                {
-                    enemy.SetCooldown(enemy.GetBattleStartCooldown());
-                }
-                enemy.stateAltered += CheckForBattleEnd;
-                activeEnemies.Add(enemy);
-            }
-            FindObjectOfType<Fader>().battleUIStateChanged += InitiateBattle;
-        }
-
-        public void SetBattleState(BattleState state)
-        {
-            this.state = state;
-
-            if (state == BattleState.Combat)
-            {
-                ToggleCombatParticipants(true);
-            }
-            else
-            {
-                ToggleCombatParticipants(false);
-            }
-
-            battleStateChanged?.Invoke(state);
-        }
-
-        public BattleState GetBattleState()
-        {
-            return state;
-        }
-
-        public void SetBattleOutcome(BattleOutcome outcome)
-        {
-            this.outcome = outcome;
-        }
-
-        public BattleOutcome GetBattleOutcome()
-        {
-            return outcome;
-        }
-
-        public bool SetSelectedCharacter(CombatParticipant character)
-        {
-            if (character == null) { SetActiveBattleAction(null); }
-            if (character != null) { if (character.IsDead() || character.IsInCooldown()) { return false; } }
-
-            selectedCharacter = character;
-            selectedCombatParticipantChanged?.Invoke(CombatParticipantType.Character, new[] { selectedCharacter });
-
-            return true;
-        }
-
-        public CombatParticipant GetSelectedCharacter()
-        {
-            AutoSelectCharacter();
-            return selectedCharacter;
-        }
-
-        public bool SetSelectedTarget(IEnumerable<CombatParticipant> targets)
-        {
-            selectedTargets = targets;
-            selectedCombatParticipantChanged?.Invoke(CombatParticipantType.Target, selectedTargets);
-
-            if (targets == null || targets.Count() == 0) { return false; }
-            if (targets.All(x => x.IsDead())) { return false; }
-            return true;
-        }
-
-        public IEnumerable<CombatParticipant> GetSelectedTargets()
-        {
-            return selectedTargets;
-        }
-
-        public void SetActiveBattleAction(IBattleActionUser battleAction)
-        {
-            if (battleAction == null)
-            {
-                SetBattleActionArmed(false);
-                selectedCharacter?.GetComponent<SkillHandler>().ResetCurrentBranch();
-                selectedBattleAction = null;
-            }
-            else
-            {
-                selectedBattleAction = battleAction;
-            }
-        }
-
-        public IBattleActionUser GetActiveBattleAction()
-        {
-            return selectedBattleAction;
-        }
-
-        public List<CombatParticipant> GetCharacters()
-        {
-            return activeCharacters;
-        }
-
-        public List<CombatParticipant> GetEnemies()
-        {
-            return activeEnemies;
-        }
-
-        public bool AddToBattleQueue(IEnumerable<CombatParticipant> recipients)
-        {
-            // Called via SkillSelection UI Buttons
-            // Using selected character and battle action
-            if (GetSelectedCharacter() == null || selectedBattleAction == null) { return false; }
-
-            AddToBattleQueue(GetSelectedCharacter(), recipients, selectedBattleAction);
-            return true;
-        }
-
-        public void AddToBattleQueue(CombatParticipant sender, IEnumerable<CombatParticipant> recipients, IBattleActionUser battleAction)
-        {
-            BattleSequence battleSequence = new BattleSequence
-            {
-                battleAction = battleAction,
-                sender = sender,
-                recipients = recipients,
-            };
-            AddToBattleQueue(sender, battleSequence);
-        }
-
-        private void AddToBattleQueue(CombatParticipant sender, BattleSequence battleSequence)
-        {
-            sender.SetCooldown(Mathf.Infinity); // Character actions locked until cooldown set by BattleController
-            battleSequenceQueue.Enqueue(battleSequence);
-
-            if (activeCharacters.Contains(sender)) { SetSelectedTarget(null); SetActiveBattleAction(null); SetSelectedCharacter(null);  } // Clear out selection on player execution
-        }
-
-        // Battle Handling
+        #region PrivateBattleHandling
         private void InitiateBattle(bool isBattleCanvasEnabled)
         {
             if (isBattleCanvasEnabled)
@@ -429,28 +490,6 @@ namespace Frankie.Combat
             {
                 enemy.SetCombatActive(enable);
             }
-        }
-
-        public void SetBattleActionArmed(bool enable)
-        {
-            if (!enable) 
-            { 
-                selectedTargets = null; 
-                battleActionArmed = false; 
-            }
-            else if (selectedBattleAction != null)
-            {
-                SetSelectedTarget(selectedBattleAction.GetTargets(true, null, activeCharacters, activeEnemies));
-                battleActionArmed = true;
-            }
-            else { return; }
-
-            battleActionArmedStateChanged?.Invoke(selectedBattleAction);
-        }
-
-        public bool IsBattleActionArmed()
-        {
-            return battleActionArmed;
         }
 
         IEnumerator ProcessNextBattleSequence()
@@ -539,11 +578,6 @@ namespace Frankie.Combat
             return levelUpTriggered;
         }
 
-        public float GetBattleExperienceReward()
-        {
-            return battleExperienceReward;
-        }
-
         private void CleanUpBattleBits()
         {
             foreach (CombatParticipant character in activeCharacters)
@@ -560,38 +594,15 @@ namespace Frankie.Combat
             activeEnemies.Clear();
             SetSelectedCharacter(null);
         }
+        #endregion
 
-        public bool AttemptToRun()
+        #region Interfaces
+        public void VerifyUnique()
         {
-            float partySpeed = 0f;
-            float enemySpeed = 0f;
-
-            foreach (CombatParticipant character in activeCharacters)
+            BattleController[] battleControllers = FindObjectsOfType<BattleController>();
+            if (battleControllers.Length > 1)
             {
-                partySpeed += character.GetBaseStats().GetStat(Stat.Nimble);
-            }
-
-            foreach (CombatParticipant enemy in activeEnemies)
-            {
-                enemySpeed += enemy.GetBaseStats().GetStat(Stat.Nimble);
-            }
-
-            if (partySpeed > enemySpeed)
-            {
-                SetBattleOutcome(BattleOutcome.Ran);
-                SetBattleState(BattleState.Outro);
-                return true;
-            }
-            else
-            {
-                foreach (CombatParticipant character in activeCharacters)
-                {
-                    if (character.GetCooldown() < runFailureCooldown)
-                    {
-                        character.SetCooldown(runFailureCooldown);
-                    }
-                }
-                return false;
+                Destroy(gameObject);
             }
         }
 
@@ -600,5 +611,6 @@ namespace Frankie.Combat
             // Not evaluated -> IStandardPlayerInputCallerExtension
             return PlayerInputType.DefaultNone;
         }
+        #endregion
     }
 }

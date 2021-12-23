@@ -30,6 +30,7 @@ namespace Frankie.Combat
         Experience experience = null;
         Knapsack knapsack = null;
         Equipment equipment = null;
+        LootDispenser lootDispenser = null;
 
         // State
         bool inCombat = false;
@@ -54,6 +55,7 @@ namespace Frankie.Combat
             experience = GetComponent<Experience>();
             knapsack = GetComponent<Knapsack>();
             equipment = GetComponent<Equipment>();
+            lootDispenser = GetComponent<LootDispenser>();
 
             // State parameters
             currentHP = new LazyValue<float>(GetMaxHP);

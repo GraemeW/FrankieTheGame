@@ -24,10 +24,9 @@ namespace Frankie.Combat.Spawner
 
                 // Edge case
                 int minimum = Mathf.Max(enemyConfiguration.minimum, 0);
-                int maximum = Mathf.Max(enemyConfiguration.maximum + 1, 0); // +1 since int exclusive
-                if (minimum > maximum) { minimum = maximum; }
+                int maximum = Mathf.Max(minimum, enemyConfiguration.maximum); // +1 offset since random exclusive w/ ints
 
-                int quantityToSpawn = Random.Range(minimum, maximum);
+                int quantityToSpawn = Random.Range(minimum, maximum + 1);
                 for (int i = 0; i < quantityToSpawn; i++)
                 {
                     yield return enemyConfiguration.characterProperties;

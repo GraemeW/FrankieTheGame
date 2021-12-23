@@ -59,6 +59,7 @@ namespace Frankie.Combat.UI
             public List<Tuple<string, int>> statNameValuePairs;
         }
 
+        #region UnityMethods
         private void Awake()
         {
             battleController = GameObject.FindGameObjectWithTag("BattleController")?.GetComponent<BattleController>();
@@ -93,7 +94,9 @@ namespace Frankie.Combat.UI
                 StartSerialAction(nextUISequence);
             }
         }
+        #endregion
 
+        #region PublicMethods
         public void Setup(BattleState state)
         {
             if (state == lastBattleState) { return; } // Only act on state changes
@@ -129,6 +132,15 @@ namespace Frankie.Combat.UI
             }
         }
 
+        public DialogueBox SetupRunFailureMessage(IUIBoxCallbackReceiver callbackReceiver, Action[] actions)
+        {
+            DialogueBox dialogueBox = Instantiate(dialogueBoxPrefab, infoChooseParent);
+            dialogueBox.AddText("Failed to run away.");
+            dialogueBox.TakeControl(battleController, callbackReceiver, actions);
+
+            return dialogueBox;
+        }
+
         public EnemySlide GetEnemySlide(CombatParticipant combatParticipant)
         {
             if (!enemySlideLookup.ContainsKey(combatParticipant)) { return null; }
@@ -140,7 +152,9 @@ namespace Frankie.Combat.UI
         {
             return canvas;
         }
+        #endregion
 
+        #region PrivateInitialization
         private void ClearBattleCanvas()
         {
             foreach (Transform child in playerPanelParent)
@@ -209,19 +223,9 @@ namespace Frankie.Combat.UI
                 backgroundFill.material = movingBackgroundProperties.shaderMaterial;
             }
         }
+        #endregion
 
-        private void SetupEntryMessage(List<CombatParticipant> enemies)
-        {
-            CombatParticipant enemy = enemies.FirstOrDefault();
-            string entryMessage = (enemies.Count > 1) ? string.Format(messageEncounterMultiple, enemy.GetCombatName()) : string.Format(messageEncounterSingle, enemy.GetCombatName());
-            
-            DialogueBox dialogueBox = Instantiate(dialogueBoxPrefab, infoChooseParent);
-            dialogueBox.AddText(entryMessage);
-            dialogueBox.AddPageBreak();
-            dialogueBox.AddText(messageEncounterPreHype);
-            dialogueBox.TakeControl(battleController, this, new Action[] { () => battleController.SetBattleState(BattleState.PreCombat) });
-        }
-
+        #region PrivateUtility
         private void StartSerialAction(Action action)
         {
             // !! It is the responsibility of the called action to reset busyWithSerialAction toggle !!
@@ -241,6 +245,18 @@ namespace Frankie.Combat.UI
                 statNameValuePairs = statNameValuePairs
             };
             queuedLevelUps.Add(characterLevelUpSheetPair);
+        }
+
+        private void SetupEntryMessage(List<CombatParticipant> enemies)
+        {
+            CombatParticipant enemy = enemies.FirstOrDefault();
+            string entryMessage = (enemies.Count > 1) ? string.Format(messageEncounterMultiple, enemy.GetCombatName()) : string.Format(messageEncounterSingle, enemy.GetCombatName());
+
+            DialogueBox dialogueBox = Instantiate(dialogueBoxPrefab, infoChooseParent);
+            dialogueBox.AddText(entryMessage);
+            dialogueBox.AddPageBreak();
+            dialogueBox.AddText(messageEncounterPreHype);
+            dialogueBox.TakeControl(battleController, this, new Action[] { () => battleController.SetBattleState(BattleState.PreCombat) });
         }
 
         private void SetupExperienceMessage()
@@ -298,19 +314,13 @@ namespace Frankie.Combat.UI
 
             battleController.SetBattleState(BattleState.Outro);
         }
+        #endregion
 
-        public DialogueBox SetupRunFailureMessage(IUIBoxCallbackReceiver callbackReceiver, Action[] actions)
-        {
-            DialogueBox dialogueBox = Instantiate(dialogueBoxPrefab, infoChooseParent);
-            dialogueBox.AddText("Failed to run away.");
-            dialogueBox.TakeControl(battleController, callbackReceiver, actions);
-
-            return dialogueBox;
-        }
-
+        #region Interfaces
         public void HandleDisableCallback(IUIBoxCallbackReceiver dialogueBox, Action action)
         {
             action?.Invoke();
         }
+        #endregion
     }
 }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
 using Frankie.Stats;
+using Frankie.Utils;
 
 namespace Frankie.Combat.Spawner
 {
@@ -11,7 +12,7 @@ namespace Frankie.Combat.Spawner
         // Tunables
         [SerializeField] float xJitterDistance = 1.0f;
         [SerializeField] float yJitterDistance = 1.0f;
-        [SerializeField] SpawnConfigurationProbabilityPair[] spawnConfigurations = null;
+        [SerializeField] SpawnConfigurationProbabilityPair<SpawnConfiguration>[] spawnConfigurations = null;
 
         private void OnEnable()
         {
@@ -47,19 +48,8 @@ namespace Frankie.Combat.Spawner
 
         private SpawnConfiguration GetSpawnConfiguration()
         {
-            int probabilityDenominator = spawnConfigurations.Sum(x => x.probability);
-            int randomRoll = Random.Range(0, probabilityDenominator);
-
-            int accumulatingProbability = 0;
-            foreach (SpawnConfigurationProbabilityPair spawnConfigurationProbabilityPair in spawnConfigurations)
-            {
-                accumulatingProbability += spawnConfigurationProbabilityPair.probability;
-                if (randomRoll < accumulatingProbability)
-                {
-                    return spawnConfigurationProbabilityPair.spawnConfiguration;
-                }
-            }
-            return null;
+            SpawnConfiguration spawnConfiguration = GetObjectFromProbabilityPairList<SpawnConfiguration>.GetRandomObject(spawnConfigurations);
+            return spawnConfiguration;
         }
 
         private void DespawnEnemies()

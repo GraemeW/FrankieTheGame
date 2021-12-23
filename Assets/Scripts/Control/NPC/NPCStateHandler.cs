@@ -314,6 +314,7 @@ namespace Frankie.Control
 
         public void InitiateCombat(PlayerStateHandler playerStateHandler, TransitionType transitionType)  // called via Unity Event
         {
+            if (combatParticipant == null) { return; }
             if (playerStateHandler.GetPlayerState() == PlayerState.inBattle) { return; }
             if (GetNPCState() == NPCState.occupied) { return; }
 

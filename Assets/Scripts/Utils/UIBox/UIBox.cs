@@ -295,11 +295,11 @@ namespace Frankie.Utils.UI
         #endregion
 
         #region Input Handling
-        public void TakeControl(IStandardPlayerInputCaller standardPlayerInputCaller, IUIBoxCallbackReceiver callbackReceiver, IEnumerable<Action> actions)
+        public void TakeControl(IStandardPlayerInputCaller standardPlayerInputCaller, IUIBoxCallbackReceiver callbackReceiver, IEnumerable<Action> onDisableActions)
         {
             // Only use for passing from non-UI box to UI box
             SetGlobalInputHandler(standardPlayerInputCaller);
-            SetDisableCallback(callbackReceiver, actions);
+            SetDisableCallback(callbackReceiver, onDisableActions);
         }
 
         public void PassControl(UIBox delegateUIBox)
