@@ -48,7 +48,7 @@ namespace Frankie.Combat.Spawner
 
         private SpawnConfiguration GetSpawnConfiguration()
         {
-            SpawnConfiguration spawnConfiguration = GetObjectFromProbabilityPairList<SpawnConfiguration>.GetRandomObject(spawnConfigurations);
+            SpawnConfiguration spawnConfiguration = ProbabilityPairOperation<SpawnConfiguration>.GetRandomObject(spawnConfigurations);
             return spawnConfiguration;
         }
 

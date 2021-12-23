@@ -60,8 +60,8 @@ namespace Frankie.Inventory
 
         public InventoryItem GetInventoryItemFromLootTable()
         {
-            //InventoryItem inventoryItem = GetObjectFromProbabilityPairList.GetRandomObject();
-            return null;
+            InventoryItem inventoryItem = ProbabilityPairOperation<InventoryItem>.GetRandomObject(lootEntries);
+            return inventoryItem;
         }
     }
 }

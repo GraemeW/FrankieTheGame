@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace Frankie.Utils
 {
-    public static class GetObjectFromProbabilityPairList<T>
+    public static class ProbabilityPairOperation<T>
     {
         public static T GetRandomObject(IObjectProbabilityPair<T>[] objectProbabilityPairs)
         {
