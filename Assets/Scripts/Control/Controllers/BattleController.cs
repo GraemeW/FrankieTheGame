@@ -35,6 +35,9 @@ namespace Frankie.Combat
         bool haltBattleQueue = false;
         bool battleSequenceInProgress = false;
 
+        List<Tuple<string,InventoryItem>> allocatedLootCart = new List<Tuple<string,InventoryItem>>();
+        List<Tuple<string, InventoryItem>> unallocatedLootCart = new List<Tuple<string, InventoryItem>>();
+
         // Cached References
         PlayerInput playerInput = null;
         Party party = null;
@@ -281,6 +284,32 @@ namespace Frankie.Combat
         {
             return battleExperienceReward;
         }
+
+        public List<Tuple<string, InventoryItem>> GetAllocatedLootCart()
+        {
+            return allocatedLootCart;
+        }
+
+        public List<Tuple<string, InventoryItem>> GetUnallocatedLootCart()
+        {
+            return unallocatedLootCart;
+        }
+
+        public bool HasLootCart()
+        {
+            return HasAllocatedLootCart() || HasUnallocatedLootCart();
+        }
+
+        public bool HasAllocatedLootCart()
+        {
+            return allocatedLootCart != null && allocatedLootCart.Count > 0;
+        }
+
+        public bool HasUnallocatedLootCart()
+        {
+            return unallocatedLootCart != null && unallocatedLootCart.Count > 0;
+        }
+
         #endregion
 
         #region PublicBattleHandling
@@ -598,7 +627,16 @@ namespace Frankie.Combat
 
                 foreach (InventoryItem inventoryItem in lootDispenser.GetItemReward())
                 {
-                    partyKnapsackConduit.AddToFirstEmptyPartySlot(inventoryItem);
+                    CombatParticipant receivingCharacter = partyKnapsackConduit.AddToFirstEmptyPartySlot(inventoryItem);
+                    Tuple<string, InventoryItem> enemyItemPair = new Tuple<string, InventoryItem>(enemy.GetCombatName(), inventoryItem);
+                    if (receivingCharacter != null)
+                    {
+                        allocatedLootCart.Add(enemyItemPair);
+                    }
+                    else
+                    {
+                        unallocatedLootCart.Add(enemyItemPair);
+                    }
                 }
 
                 wallet.UpdatePendingCash(lootDispenser.GetCashReward());

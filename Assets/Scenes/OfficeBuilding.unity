@@ -269,11 +269,19 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7219401495844517842, guid: 3e8aa571b6fd5cd4c83d58166eabf29c, type: 3}
-      propertyPath: lootEntries.Array.size
+      propertyPath: minItems
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7219401495844517842, guid: 3e8aa571b6fd5cd4c83d58166eabf29c, type: 3}
+      propertyPath: lootEntries.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7219401495844517842, guid: 3e8aa571b6fd5cd4c83d58166eabf29c, type: 3}
       propertyPath: lootEntries.Array.data[0].probability
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7219401495844517842, guid: 3e8aa571b6fd5cd4c83d58166eabf29c, type: 3}
+      propertyPath: lootEntries.Array.data[1].probability
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7219401495844517842, guid: 3e8aa571b6fd5cd4c83d58166eabf29c, type: 3}
@@ -283,7 +291,7 @@ PrefabInstance:
     - target: {fileID: 7219401495844517842, guid: 3e8aa571b6fd5cd4c83d58166eabf29c, type: 3}
       propertyPath: lootEntries.Array.data[1].inventoryItem
       value: 
-      objectReference: {fileID: 11400000, guid: 9105dfbd6e6afbe4ea13b4836a1a23a8, type: 2}
+      objectReference: {fileID: 11400000, guid: 7e830021c43731b46a320da9191579ca, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3e8aa571b6fd5cd4c83d58166eabf29c, type: 3}
 --- !u!4 &39459626 stripped
@@ -8374,7 +8382,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   inventoryItem: {fileID: 11400000, guid: 7f4fe94d0d4d1f34bb73c1f0c5ec3f76, type: 2}
-  itemQuantity: 1
+  itemQuantity: 20
   messageFoundItem: Wow!  Looks like {0} found {1}
   messageInventoryFull: Whoops, looks like everyones' knapsacks are full.
   announceNothing: 1
@@ -9277,6 +9285,22 @@ PrefabInstance:
     - target: {fileID: 5911111898172062454, guid: 39d8967ccafbd0445919bceb2c78a8b4, type: 3}
       propertyPath: checkInteraction.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
       value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
+    - target: {fileID: 6564381309038757639, guid: 39d8967ccafbd0445919bceb2c78a8b4, type: 3}
+      propertyPath: m_Size.x
+      value: 0.3529912
+      objectReference: {fileID: 0}
+    - target: {fileID: 6564381309038757639, guid: 39d8967ccafbd0445919bceb2c78a8b4, type: 3}
+      propertyPath: m_Size.y
+      value: 0.51562953
+      objectReference: {fileID: 0}
+    - target: {fileID: 6564381309038757639, guid: 39d8967ccafbd0445919bceb2c78a8b4, type: 3}
+      propertyPath: m_Offset.x
+      value: -0.013710991
+      objectReference: {fileID: 0}
+    - target: {fileID: 6564381309038757639, guid: 39d8967ccafbd0445919bceb2c78a8b4, type: 3}
+      propertyPath: m_Offset.y
+      value: 0.29553986
       objectReference: {fileID: 0}
     - target: {fileID: 6564381309038757640, guid: 39d8967ccafbd0445919bceb2c78a8b4, type: 3}
       propertyPath: m_Name

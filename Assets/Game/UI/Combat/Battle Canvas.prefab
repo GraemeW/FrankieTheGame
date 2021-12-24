@@ -650,25 +650,34 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   canvas: {fileID: 8837486854988665628}
   playerPanelParent: {fileID: 6019651067335990555}
-  characterSlidePrefab: {fileID: 3712678563809887521, guid: aef38f633ef92174d805cd7a578a40c7, type: 3}
   frontRowParent: {fileID: 4859047428861698195}
   backRowParent: {fileID: 3363726339821156397}
-  enemySlidePrefab: {fileID: 3277041609757203646, guid: 49f267588bcba8c42ab8efa84b2814dc, type: 3}
   backgroundFill: {fileID: 4169620784574253078}
   defaultMovingBackgroundProperties:
     tileSpriteImage: {fileID: 21300000, guid: e29be70c9febd64428840a5f7cb924d8, type: 3}
     shaderMaterial: {fileID: 2100000, guid: f0e33ad55b3f107428a94269b6f3f3c9, type: 2}
   infoChooseParent: {fileID: 6429177127699189047}
-  dialogueBoxPrefab: {fileID: 4320783885461854465, guid: a9829c1cb69a159479cbe82e68a5c629, type: 3}
   combatLog: {fileID: 3973297245203531870}
   combatOptions: {fileID: 4334786330493280310}
   skillSelection: {fileID: 8555741105237380575}
+  characterSlidePrefab: {fileID: 3712678563809887521, guid: aef38f633ef92174d805cd7a578a40c7, type: 3}
+  enemySlidePrefab: {fileID: 3277041609757203646, guid: 49f267588bcba8c42ab8efa84b2814dc, type: 3}
+  dialogueBoxPrefab: {fileID: 4320783885461854465, guid: a9829c1cb69a159479cbe82e68a5c629, type: 3}
+  dialogueOptionBoxPrefab: {fileID: 3084176042462386772, guid: cfcc3c74158936342a4d3c72aa65bde0, type: 3}
+  inventorySwapBoxPrefab: {fileID: 4084456244048047709, guid: 1eb72627d5c49a14f93d6ad39270faf1, type: 3}
   messageEncounterSingle: You have encountered {0}.
   messageEncounterMultiple: You have encountered {0} and its cohort.
   messageEncounterPreHype: What do you want to do?
   messageGainedExperience: Your party has gained {0} experience.
   messageCharacterLevelUp: '{0} has leveled up to level {1}!'
   messageCharacterStatGained: '{0} has increased by {1}.'
+  messageGainedLoot: Wait, {0} found something.
+  messageEnemyDroppedLoot: '{0} dropped {1}, and you stashed it in your knapsack.'
+  messageEnemyDroppedLootNoRoom: '{0} dropped {1}, but you don''t have any room. 
+    Do you want to throw something out?'
+  optionChuckItemAffirmative: Yeah
+  optionChuckItemNegative: Nah
+  messageConfirmThrowOut: Are you sure you want to abandon {0}?
   messageBattleCompleteWon: You Won!  Congratulations!
   messageBattleCompleteLost: You lost.  Whoops!
   messageBattleCompleteRan: You ran away.
@@ -742,7 +751,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5476277323413269905, guid: a1121f1f6416b1440be9e62de637c8c5, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5476277323413269905, guid: a1121f1f6416b1440be9e62de637c8c5, type: 3}
       propertyPath: m_AnchorMin.x
@@ -750,7 +759,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5476277323413269905, guid: a1121f1f6416b1440be9e62de637c8c5, type: 3}
       propertyPath: m_AnchorMin.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5476277323413269905, guid: a1121f1f6416b1440be9e62de637c8c5, type: 3}
       propertyPath: m_SizeDelta.x

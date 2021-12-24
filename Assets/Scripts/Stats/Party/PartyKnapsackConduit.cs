@@ -86,6 +86,8 @@ namespace Frankie.Inventory
 
         public CombatParticipant AddToFirstEmptyPartySlot(InventoryItem inventoryItem)
         {
+            // Returns character who received item on success,
+            // Returns null on knapsacks full
             foreach (Knapsack knapsack in knapsacks)
             {
                 if (knapsack.AddToFirstEmptySlot(inventoryItem, true))

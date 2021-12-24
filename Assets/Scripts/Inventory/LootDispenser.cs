@@ -81,6 +81,7 @@ namespace Frankie.Inventory
             // Edge case protection
             int minimum = Mathf.Max(0, minCash);
             int maximum = Mathf.Max(minimum, maxCash);
+            if (maximum == 0) { return 0; }
 
             return Random.Range(minimum, maximum + 1); // +1 offset since random exclusive w/ ints
         }
