@@ -14,6 +14,7 @@ namespace Frankie.Control
         [Header("Patrol Properties")]
         [SerializeField] PatrolPath patrolPath = null;
         [SerializeField] float waypointDwellTime = 2.0f;
+        [SerializeField] float giveUpOnPatrolTargetTime = 10.0f;
 
         // Cached References
         Animator animator = null;
@@ -22,6 +23,7 @@ namespace Frankie.Control
         // State
         int currentWaypointIndex = 0;
         float timeSinceArrivedAtWaypoint = Mathf.Infinity;
+        float timeSinceNewPatrolTarget = 0f;
 
         protected override void Awake()
         {
@@ -50,6 +52,14 @@ namespace Frankie.Control
                 {
                     ClearMoveTargets();
                 }
+            }
+            else
+            {
+                if (timeSinceNewPatrolTarget > giveUpOnPatrolTargetTime)
+                {
+                    ForceNextPatrolTarget();
+                }
+                timeSinceNewPatrolTarget += Time.deltaTime; 
             }
         }
 
@@ -84,12 +94,18 @@ namespace Frankie.Control
             UpdateAnimator();
             if (timeSinceArrivedAtWaypoint > waypointDwellTime)
             {
-                CycleWaypoint();
-                Vector2 nextPosition = GetCurrentWaypoint();
-                SetMoveTarget(nextPosition);
+                ForceNextPatrolTarget();
             }
             timeSinceArrivedAtWaypoint += Time.deltaTime;
             return true;
+        }
+
+        private void ForceNextPatrolTarget()
+        {
+            CycleWaypoint();
+            Vector2 nextPosition = GetCurrentWaypoint();
+            SetMoveTarget(nextPosition);
+            timeSinceNewPatrolTarget = 0f;
         }
 
         private Vector3 GetCurrentWaypoint()
