@@ -334,18 +334,11 @@ namespace Frankie.Combat.UI
             if (!battleController.HasAllocatedLootCart()) { busyWithSerialAction = false; return; }
             
             DialogueBox dialogueBox = Instantiate(dialogueBoxPrefab, infoChooseParent);
-            int pageClearReset = 0;
 
             foreach (Tuple<string, InventoryItem> enemyItemPair in battleController.GetAllocatedLootCart())
             {
-                if (pageClearReset > 2)
-                {
-                    dialogueBox.AddPageBreak();
-                    pageClearReset = 0;
-                }
-
                 dialogueBox.AddText(string.Format(messageEnemyDroppedLoot, enemyItemPair.Item1, enemyItemPair.Item2.GetDisplayName()));
-                pageClearReset++;
+                dialogueBox.AddPageBreak();
             }
 
             dialogueBox.TakeControl(battleController, this, new Action[] { () => busyWithSerialAction = false });

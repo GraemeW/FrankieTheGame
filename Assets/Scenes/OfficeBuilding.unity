@@ -269,8 +269,12 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7219401495844517842, guid: 3e8aa571b6fd5cd4c83d58166eabf29c, type: 3}
+      propertyPath: maxItems
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 7219401495844517842, guid: 3e8aa571b6fd5cd4c83d58166eabf29c, type: 3}
       propertyPath: minItems
-      value: 1
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 7219401495844517842, guid: 3e8aa571b6fd5cd4c83d58166eabf29c, type: 3}
       propertyPath: lootEntries.Array.size
@@ -8382,7 +8386,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   inventoryItem: {fileID: 11400000, guid: 7f4fe94d0d4d1f34bb73c1f0c5ec3f76, type: 2}
-  itemQuantity: 20
+  itemQuantity: 50
   messageFoundItem: Wow!  Looks like {0} found {1}
   messageInventoryFull: Whoops, looks like everyones' knapsacks are full.
   announceNothing: 1
