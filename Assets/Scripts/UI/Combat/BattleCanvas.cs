@@ -359,10 +359,9 @@ namespace Frankie.Combat.UI
             List<ChoiceActionPair> choiceActionPairs = new List<ChoiceActionPair>();
             choiceActionPairs.Add(new ChoiceActionPair(optionChuckItemAffirmative, () => { SetupInventorySwapBox(enemyName, inventoryItem); Destroy(dialogueOptionBox.gameObject); } ));
             choiceActionPairs.Add(new ChoiceActionPair(optionChuckItemNegative, () => { SetupConfirmThrowOutItemMessage(enemyName, inventoryItem); Destroy(dialogueOptionBox.gameObject); } ));
-
             dialogueOptionBox.OverrideChoiceOptions(choiceActionPairs);
-            dialogueOptionBox.ClearDisableCallbacksOnChoose(true); // Clear window re-spawn (see below) on successful choice selection
 
+            dialogueOptionBox.ClearDisableCallbacksOnChoose(true); // Clear window re-spawn (see below) on successful choice selection
             dialogueOptionBox.TakeControl(battleController, this, new Action[] { () => SetupUnallocatedLootMessage(enemyName, inventoryItem) }); // If user tabs out of this window, re-spawn it (avoid lost loot)
         }
 
@@ -384,7 +383,6 @@ namespace Frankie.Combat.UI
             List<ChoiceActionPair> choiceActionPairs = new List<ChoiceActionPair>();
             choiceActionPairs.Add(new ChoiceActionPair(optionChuckItemAffirmative, () => { dialogueOptionBox.ClearDisableCallbacks(); busyWithSerialAction = false; Destroy(dialogueOptionBox); })); // Exit and close out serial action
             choiceActionPairs.Add(new ChoiceActionPair(optionChuckItemNegative, () => { Destroy(dialogueOptionBox); })); // Otherwise loop back & re-spawn
-
             dialogueOptionBox.OverrideChoiceOptions(choiceActionPairs);
 
             dialogueOptionBox.TakeControl(battleController, this, new Action[] { () => SetupUnallocatedLootMessage(enemyName, inventoryItem) });

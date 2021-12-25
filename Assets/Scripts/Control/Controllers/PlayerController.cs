@@ -225,6 +225,7 @@ namespace Frankie.Control
         private RaycastHit2D RaycastFromPlayerInLookDirection()
         {
             RaycastHit2D[] hits = Physics2D.CircleCastAll(interactionCenterPoint.position, raycastRadius, playerMover.GetLookDirection());
+
             RaycastHit2D[] nonPlayerHits = hits.Where(x => !x.collider.transform.gameObject.CompareTag("Player")).ToArray();
             if (nonPlayerHits == null || nonPlayerHits.Length == 0) { return new RaycastHit2D(); } // pass an empty hit
             return nonPlayerHits[0];
