@@ -22,6 +22,7 @@ namespace Frankie.Control
         [SerializeField] DialogueController dialogueControllerPrefab = null;
         [Header("Menu Game Objects")]
         [SerializeField] GameObject shopSelectPrefab = null;
+        [SerializeField] GameObject cashTransferPrefab = null;
         [SerializeField] GameObject worldOptionsPrefab = null;
         [SerializeField] GameObject escapeMenuPrefab = null;
         [Header("Messages")]
@@ -235,6 +236,21 @@ namespace Frankie.Control
         public void ExitShop()
         {
             shopper.SetShop(null);
+            SetPlayerState(PlayerState.inWorld);
+        }
+
+        public void EnterBank(BankType bankType)
+        {
+            if (bankType == BankType.None) { return; }
+
+            shopper.SetBankType(bankType);
+            Instantiate(cashTransferPrefab, worldCanvas.gameObject.transform);
+            SetPlayerState(PlayerState.inMenus);
+        }
+
+        public void ExitBank()
+        {
+            shopper.SetBankType(BankType.None);
             SetPlayerState(PlayerState.inWorld);
         }
 

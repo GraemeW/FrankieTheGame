@@ -9,6 +9,7 @@ namespace Frankie.Inventory
     {
         // State
         Shop currentShop = null;
+        BankType bankType = BankType.None;
         
         // Cached References
         Wallet wallet = null;
@@ -23,9 +24,19 @@ namespace Frankie.Inventory
             currentShop = shop;
         }
 
+        public void SetBankType(BankType bankType)
+        {
+            this.bankType = bankType;
+        }
+
         public Shop GetCurrentShop()
         {
             return currentShop;
+        }
+
+        public BankType GetBankType()
+        {
+            return bankType;
         }
 
         public Wallet GetWallet()

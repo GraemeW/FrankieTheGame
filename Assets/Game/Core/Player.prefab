@@ -101,6 +101,7 @@ MonoBehaviour:
   battleControllerPrefab: {fileID: 1733041111156872079, guid: 56c04806af7883a47bd3b232ea569090, type: 3}
   dialogueControllerPrefab: {fileID: 417524482563996096, guid: 0918560ff2a56d3489ca626a5a667040, type: 3}
   shopSelectPrefab: {fileID: 6413694501190794285, guid: 9b74208be0ef0dc488bb5a574e48fa42, type: 3}
+  cashTransferPrefab: {fileID: 6413694501190794285, guid: 28e6cb6ef5c9cf149b31602989d2844c, type: 3}
   worldOptionsPrefab: {fileID: 6413694501190794285, guid: ef7e6848c65ed704882473869f5b49d1, type: 3}
   escapeMenuPrefab: {fileID: 6413694501190794285, guid: d40dace2943729145967e187c1801093, type: 3}
   messageCannotFight: You are wounded and cannot fight.

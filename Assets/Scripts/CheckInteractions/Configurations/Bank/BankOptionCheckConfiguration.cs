@@ -2,6 +2,7 @@ using Frankie.Utils;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Frankie.Inventory;
 
 namespace Frankie.Control
 {
@@ -12,10 +13,8 @@ namespace Frankie.Control
         [SerializeField] string messageBankOptions = "What would you like to do?";
         [SerializeField] bool toggleDeposit = true;
         [SerializeField] string optionDeposit = "Deposit";
-        [SerializeField] CheckConfiguration depositConfiguration = null;
         [SerializeField] bool toggleWithdraw = true;
         [SerializeField] string optionWithdraw = "Withdraw";
-        [SerializeField] CheckConfiguration withdrawConfiguration = null;
 
         // Implementation
         public override List<ChoiceActionPair> GetChoiceActionPairs(PlayerStateHandler playerStateHandler)
@@ -23,11 +22,13 @@ namespace Frankie.Control
             List<ChoiceActionPair> interactActions = new List<ChoiceActionPair>();
             if (toggleWithdraw)
             {
-                AddDialogueSpawnOptionForConfiguration(ref interactActions, playerStateHandler, optionWithdraw, withdrawConfiguration);
+                ChoiceActionPair withdrawAction = new ChoiceActionPair(optionWithdraw, () => playerStateHandler.EnterBank(BankType.Withdraw));
+                interactActions.Add(withdrawAction);
             }
             if (toggleDeposit)
             {
-                AddDialogueSpawnOptionForConfiguration(ref interactActions, playerStateHandler, optionDeposit, depositConfiguration);
+                ChoiceActionPair depositAction = new ChoiceActionPair(optionDeposit, () => playerStateHandler.EnterBank(BankType.Deposit));
+                interactActions.Add(depositAction);
             }
 
             return interactActions;
