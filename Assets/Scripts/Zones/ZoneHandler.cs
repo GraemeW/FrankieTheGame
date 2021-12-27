@@ -301,12 +301,12 @@ namespace Frankie.ZoneManagement
 
         SaveState ISaveable.CaptureState()
         {
-            bool isActive = true;
+            bool isRoomActive = true;
             if (roomParent != null)
             {
-                isActive = roomParent.activeSelf;
+                isRoomActive = roomParent.activeSelf;
             }
-            SaveState saveState = new SaveState(GetLoadPriority(), isActive);
+            SaveState saveState = new SaveState(GetLoadPriority(), isRoomActive);
             return saveState;
         }
 

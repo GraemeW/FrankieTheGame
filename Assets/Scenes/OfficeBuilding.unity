@@ -1467,6 +1467,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1501661383}
     m_Modifications:
+    - target: {fileID: 1288609124729262166, guid: 3ea47d49370c98e4e8dda14fd66b947b, type: 3}
+      propertyPath: uniqueIdentifier
+      value: 879cbb8e-eaee-4714-8b7b-9379712f3527
+      objectReference: {fileID: 0}
     - target: {fileID: 5226738402773197790, guid: 3ea47d49370c98e4e8dda14fd66b947b, type: 3}
       propertyPath: checkMessage
       value: Hey, what's this?
@@ -2920,6 +2924,10 @@ PrefabInstance:
       propertyPath: uniqueIdentifier
       value: 77631bb5-5363-43b1-86f2-5de003956105
       objectReference: {fileID: 0}
+    - target: {fileID: 1378922569636475579, guid: 50a0956d9c45bee489e989971722cdeb, type: 3}
+      propertyPath: uniqueIdentifier
+      value: 5ed2b950-083c-4254-8d2a-2492744f7a45
+      objectReference: {fileID: 0}
     - target: {fileID: 4484117035451051702, guid: 50a0956d9c45bee489e989971722cdeb, type: 3}
       propertyPath: m_RootOrder
       value: 4
@@ -3787,6 +3795,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 30965043}
     m_Modifications:
+    - target: {fileID: 1288609124729262166, guid: 3ea47d49370c98e4e8dda14fd66b947b, type: 3}
+      propertyPath: uniqueIdentifier
+      value: ac96ff9d-38a9-4fea-9e23-f97b26ce867f
+      objectReference: {fileID: 0}
     - target: {fileID: 5226738402773197790, guid: 3ea47d49370c98e4e8dda14fd66b947b, type: 3}
       propertyPath: checkMessage
       value: Hey, what's this?
@@ -5025,6 +5037,10 @@ PrefabInstance:
       propertyPath: checkConfiguration
       value: 
       objectReference: {fileID: 11400000, guid: d64ecd5579be35b43a461139a2b402ff, type: 2}
+    - target: {fileID: 360463939806289904, guid: bba889551c5f31544b36e98e1add3969, type: 3}
+      propertyPath: uniqueIdentifier
+      value: a5d19bc4-ba07-4b67-934c-566c8c946691
+      objectReference: {fileID: 0}
     - target: {fileID: 6564381309038757639, guid: bba889551c5f31544b36e98e1add3969, type: 3}
       propertyPath: m_Size.y
       value: 0.36559665
@@ -5527,6 +5543,10 @@ PrefabInstance:
       propertyPath: stock.Array.data[2]
       value: 
       objectReference: {fileID: 11400000, guid: 9105dfbd6e6afbe4ea13b4836a1a23a8, type: 2}
+    - target: {fileID: 9006925480361006661, guid: 8252584bd86ddec408582ff28d4f7db6, type: 3}
+      propertyPath: uniqueIdentifier
+      value: 6302e6a4-a12b-4e85-bc8f-373d1f9e2320
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8252584bd86ddec408582ff28d4f7db6, type: 3}
 --- !u!4 &942958139 stripped
@@ -5943,6 +5963,10 @@ PrefabInstance:
     - target: {fileID: -1689039458495120514, guid: 71d598481a579c2448140b70660e15c0, type: 3}
       propertyPath: checkInteraction.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
       value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
+    - target: {fileID: 3909491133308750609, guid: 71d598481a579c2448140b70660e15c0, type: 3}
+      propertyPath: uniqueIdentifier
+      value: b8672c12-ec8b-4522-bfcf-a952a0df21db
       objectReference: {fileID: 0}
     - target: {fileID: 6564381309038757640, guid: 71d598481a579c2448140b70660e15c0, type: 3}
       propertyPath: m_Name
@@ -6968,6 +6992,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1604385589}
     m_Modifications:
+    - target: {fileID: 1288609124729262166, guid: 3ea47d49370c98e4e8dda14fd66b947b, type: 3}
+      propertyPath: uniqueIdentifier
+      value: 817bf12c-f86f-4693-91ff-3e37f136ef12
+      objectReference: {fileID: 0}
     - target: {fileID: 5226738402773197790, guid: 3ea47d49370c98e4e8dda14fd66b947b, type: 3}
       propertyPath: checkMessage
       value: Hey, what's this?
@@ -9221,6 +9249,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: VendingMachineB
       objectReference: {fileID: 0}
+    - target: {fileID: 9006925480361006661, guid: 8252584bd86ddec408582ff28d4f7db6, type: 3}
+      propertyPath: uniqueIdentifier
+      value: 6154f397-10a6-48a0-9dbe-35bdb2d60a40
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8252584bd86ddec408582ff28d4f7db6, type: 3}
 --- !u!4 &1766284779 stripped
@@ -9297,6 +9329,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 39459626}
     m_Modifications:
+    - target: {fileID: 3691375639142348268, guid: 39d8967ccafbd0445919bceb2c78a8b4, type: 3}
+      propertyPath: uniqueIdentifier
+      value: b1c91442-dd69-4b02-9d1a-9054d727178f
+      objectReference: {fileID: 0}
     - target: {fileID: 5911111898172062454, guid: 39d8967ccafbd0445919bceb2c78a8b4, type: 3}
       propertyPath: checkInteraction.m_PersistentCalls.m_Calls.Array.size
       value: 1
@@ -9673,6 +9709,10 @@ PrefabInstance:
       propertyPath: checkConfiguration
       value: 
       objectReference: {fileID: 11400000, guid: 5c297a16e5da3214db939cf270cd300c, type: 2}
+    - target: {fileID: -699335155612969768, guid: 6e662329e84c3754da3e251380722378, type: 3}
+      propertyPath: uniqueIdentifier
+      value: 3e24fe05-25c0-443c-bbdd-f422fc83d7e0
+      objectReference: {fileID: 0}
     - target: {fileID: 6564381309038757639, guid: 6e662329e84c3754da3e251380722378, type: 3}
       propertyPath: m_Size.y
       value: 0.766079
@@ -10543,6 +10583,10 @@ PrefabInstance:
       propertyPath: m_StaticEditorFlags
       value: 4294967295
       objectReference: {fileID: 0}
+    - target: {fileID: 1581290477498888317, guid: c09446928de1cdd47b11fb8583b5abb5, type: 3}
+      propertyPath: uniqueIdentifier
+      value: 69327017-33bb-4180-8883-a43d25a4f966
+      objectReference: {fileID: 0}
     - target: {fileID: 5519946973473899509, guid: c09446928de1cdd47b11fb8583b5abb5, type: 3}
       propertyPath: checkMessage
       value: This microwave has been busted for years
@@ -10668,6 +10712,10 @@ PrefabInstance:
     - target: {fileID: 749246050096737039, guid: 39ca0744b8227ae4f8db5a4c1a8e4f2a, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1983787788902675646, guid: 39ca0744b8227ae4f8db5a4c1a8e4f2a, type: 3}
+      propertyPath: uniqueIdentifier
+      value: 0c0759a7-5614-4672-a58c-78da2ad36db6
       objectReference: {fileID: 0}
     - target: {fileID: 5871714616213873632, guid: 39ca0744b8227ae4f8db5a4c1a8e4f2a, type: 3}
       propertyPath: m_StaticEditorFlags
@@ -10796,6 +10844,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 135076790}
     m_Modifications:
+    - target: {fileID: 828327698992892430, guid: 60c5b40f92c9bf64e89d9db827f914c0, type: 3}
+      propertyPath: uniqueIdentifier
+      value: 561daa15-21fe-44b9-8584-dd2a46a2c0de
+      objectReference: {fileID: 0}
     - target: {fileID: 1917619251628278350, guid: 60c5b40f92c9bf64e89d9db827f914c0, type: 3}
       propertyPath: m_Name
       value: Kettle
@@ -11174,6 +11226,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 496885798}
     m_Modifications:
+    - target: {fileID: 3362076118326461309, guid: 19b72c5a448064542b67dee2cac7a310, type: 3}
+      propertyPath: uniqueIdentifier
+      value: 9cd3f94b-179c-4ada-a0f9-50f42a70af60
+      objectReference: {fileID: 0}
     - target: {fileID: 3797661492977225364, guid: 19b72c5a448064542b67dee2cac7a310, type: 3}
       propertyPath: m_RootOrder
       value: 0
@@ -11288,6 +11344,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 135076790}
     m_Modifications:
+    - target: {fileID: 1378922569636475579, guid: 120322cf421335644a2026459f208e06, type: 3}
+      propertyPath: uniqueIdentifier
+      value: dc3d8e5c-334b-41f1-becf-c80c4ba55b54
+      objectReference: {fileID: 0}
     - target: {fileID: 4484117035451051702, guid: 120322cf421335644a2026459f208e06, type: 3}
       propertyPath: m_RootOrder
       value: 5

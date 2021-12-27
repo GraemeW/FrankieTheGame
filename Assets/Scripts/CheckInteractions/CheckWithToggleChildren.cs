@@ -1,58 +1,56 @@
 using Frankie.Core;
+using Frankie.Saving;
 using Frankie.Stats;
-using Frankie.Utils;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 namespace Frankie.Control
 {
-    [CreateAssetMenu(fileName = "New Toggle Check Configuration", menuName = "CheckConfigurations/ToggleChildObjects")]
-    public class ToggleChildrenCheckConfiguration : CheckConfiguration
+    public class CheckWithToggleChildren : CheckBase
     {
         // Tunables
         [SerializeField] [Tooltip("Use {0} for party leader")] string messageOnToggle = "*CLICK* Oh, it looks like {0} got the door open";
         [SerializeField] [Tooltip("Use {0} for party leader")] string messageOnConditionNotMet = "Huh, it appears to be locked";
+        [SerializeField] string defaultPartyLeaderName = "Frankie";
         [SerializeField] [Tooltip("True for enable, false for disable")] bool toggleToConditionMet = true;
         [SerializeField] Condition condition = null;
 
-        // Static
-        static string DEFAULT_OPTION_TEXT = "Toggle";
-        static string DEFAULT_PARTY_LEADER_NAME = "Frankie";
+        // Events
+        [SerializeField] protected InteractionEvent checkInteraction = null;
+        [SerializeField] protected InteractionEvent checkInteractionOnConditionNotMet = null;
 
-        public override List<ChoiceActionPair> GetChoiceActionPairs(PlayerStateHandler playerStateHandler, CheckWithConfiguration callingCheck)
+        public override bool HandleRaycast(PlayerStateHandler playerStateHandler, PlayerController playerController, PlayerInputType inputType, PlayerInputType matchType)
         {
-            List<ChoiceActionPair> choiceActionPairs = new List<ChoiceActionPair>();
-            ChoiceActionPair choiceActionPair = new ChoiceActionPair(DEFAULT_OPTION_TEXT, () => ToggleChildren(playerStateHandler, callingCheck));
-                // Single check implementation, option text never called
-            choiceActionPairs.Add(choiceActionPair);
-            return choiceActionPairs;
+            if (!IsInRange(playerController)) { return false; }
+
+            if (inputType == matchType)
+            {
+                ToggleChildren(playerStateHandler);
+            }
+            return true;
         }
 
-        public override string GetMessage()
+        private void ToggleChildren(PlayerStateHandler playerStateHandler)
         {
-            // Single check implementation, message never called
-            return DEFAULT_OPTION_TEXT;
-        }
-
-        private void ToggleChildren(PlayerStateHandler playerStateHandler, CheckWithConfiguration callingCheck)
-        {
-            if (callingCheck.transform.childCount == 0) { return; }
+            if (transform.childCount == 0) { return; }
 
             string partyLeaderName = playerStateHandler.GetComponent<Party>()?.GetPartyLeaderName();
-            partyLeaderName ??= DEFAULT_PARTY_LEADER_NAME;
+            partyLeaderName ??= defaultPartyLeaderName;
 
             if (CheckCondition(playerStateHandler))
             {
-                foreach(Transform child in callingCheck.transform)
+                foreach (Transform child in transform)
                 {
                     child.gameObject.SetActive(toggleToConditionMet);
                 }
+                SetActiveCheck(false);
+                checkInteraction?.Invoke(playerStateHandler);
                 playerStateHandler.EnterDialogue(string.Format(messageOnToggle, partyLeaderName));
-                callingCheck.SetActiveCheck(false);
             }
             else
             {
+                checkInteractionOnConditionNotMet?.Invoke(playerStateHandler);
                 playerStateHandler.EnterDialogue(string.Format(messageOnConditionNotMet, partyLeaderName));
             }
         }
@@ -67,6 +65,19 @@ namespace Frankie.Control
         private IEnumerable<IPredicateEvaluator> GetEvaluators(PlayerStateHandler playerStateHandler)
         {
             return playerStateHandler.GetComponentsInChildren<IPredicateEvaluator>();
+        }
+
+        public override void RestoreState(SaveState state)
+        {
+            if (!(bool)state.GetState())
+            {
+                // Reset children, as condition was met on prior save
+                foreach (Transform child in transform)
+                {
+                    child.gameObject.SetActive(toggleToConditionMet);
+                }
+            }
+            base.RestoreState(state);
         }
     }
 }

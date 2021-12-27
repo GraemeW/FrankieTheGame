@@ -10,7 +10,8 @@ GameObject:
   m_Component:
   - component: {fileID: 6564381309038757641}
   - component: {fileID: 6564381309038757639}
-  - component: {fileID: -8972477469818525122}
+  - component: {fileID: -699335155612969768}
+  - component: {fileID: 4971948613120259957}
   m_Layer: 0
   m_Name: CheckWithToggleChildren
   m_TagString: Interactable
@@ -58,7 +59,7 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.28769827, y: 0.5206521}
   m_EdgeRadius: 0
---- !u!114 &-8972477469818525122
+--- !u!114 &-699335155612969768
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -67,9 +68,42 @@ MonoBehaviour:
   m_GameObject: {fileID: 6564381309038757640}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 40b64d7fa36583746a24e3797dfe7aa5, type: 3}
+  m_Script: {fileID: 11500000, guid: c708eed4772dbc14e95f0fb9be8bb48e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  uniqueIdentifier: 
+--- !u!114 &4971948613120259957
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6564381309038757640}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 65775d9a39d292c4f9addcf2e4bb41d6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   overrideDefaultInteractionDistance: 0
   interactionDistance: 0.3
-  checkConfiguration: {fileID: 0}
+  layerOnActive:
+    serializedVersion: 2
+    m_Bits: 1
+  layerOnInactive:
+    serializedVersion: 2
+    m_Bits: 4
+  messageOnToggle: '*CLICK* Oh, it looks like {0} got the door open'
+  messageOnConditionNotMet: Huh, it appears to be locked
+  defaultPartyLeaderName: Frankie
+  toggleToConditionMet: 1
+  condition:
+    and:
+    - or:
+      - predicate: {fileID: 11400000, guid: 9c962c1d663622d46ac71df44b618db6, type: 2}
+        negate: 0
+  checkInteraction:
+    m_PersistentCalls:
+      m_Calls: []
+  checkInteractionOnConditionNotMet:
+    m_PersistentCalls:
+      m_Calls: []

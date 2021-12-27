@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 6564381309038757641}
   - component: {fileID: 6564381309038757639}
   - component: {fileID: -1689039458495120514}
+  - component: {fileID: 3909491133308750609}
   m_Layer: 0
   m_Name: CheckWithConfirmationComponent
   m_TagString: Interactable
@@ -72,11 +73,33 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   overrideDefaultInteractionDistance: 0
   interactionDistance: 0.3
+  layerOnActive:
+    serializedVersion: 2
+    m_Bits: 1
+  layerOnInactive:
+    serializedVersion: 2
+    m_Bits: 4
   checkInteraction:
     m_PersistentCalls:
       m_Calls: []
   checkMessage: 
+  defaultPartyLeaderName: Frankie
   checkAtStartOfInteraction: 0
+  messageAccept: OK!
+  messageReject: Nah
   rejectInteraction:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &3909491133308750609
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6564381309038757640}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c708eed4772dbc14e95f0fb9be8bb48e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  uniqueIdentifier: 

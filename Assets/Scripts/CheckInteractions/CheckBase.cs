@@ -1,10 +1,11 @@
+using Frankie.Saving;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 namespace Frankie.Control
 {
-    public abstract class CheckBase : MonoBehaviour, IRaycastable
+    public abstract class CheckBase : MonoBehaviour, IRaycastable, ISaveable
     {
         // Tunables
         [SerializeField] protected bool overrideDefaultInteractionDistance = false;
@@ -12,6 +13,10 @@ namespace Frankie.Control
 
         // State
         bool activeCheck = true;
+
+        // Static
+        static string DEFAULT_LAYER_MASK = "Default";
+        static string INACTIVE_LAYER_MASK = "Ignore Raycast";
 
         public virtual CursorType GetCursorType()
         {
@@ -40,6 +45,30 @@ namespace Frankie.Control
         public void SetActiveCheck(bool enable)
         {
             activeCheck = enable;
+            if (enable)
+            {
+                gameObject.layer = LayerMask.NameToLayer(DEFAULT_LAYER_MASK);
+            }
+            else
+            {
+                gameObject.layer = LayerMask.NameToLayer(INACTIVE_LAYER_MASK);
+            }
+        }
+
+        public LoadPriority GetLoadPriority()
+        {
+            return LoadPriority.ObjectProperty;
+        }
+
+        public SaveState CaptureState()
+        {
+            SaveState saveState = new SaveState(GetLoadPriority(), activeCheck);
+            return saveState;
+        }
+
+        public virtual void RestoreState(SaveState state)
+        {
+            SetActiveCheck((bool)state.GetState());
         }
     }
 }

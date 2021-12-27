@@ -13,7 +13,6 @@ namespace Frankie.Control
 
         public override bool HandleRaycast(PlayerStateHandler playerStateHandler, PlayerController playerController, PlayerInputType inputType, PlayerInputType matchType)
         {
-            
             if (!IsInRange(playerController)) { return false; }
 
             if (inputType == matchType)
