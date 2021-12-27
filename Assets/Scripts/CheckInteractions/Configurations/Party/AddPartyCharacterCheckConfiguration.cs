@@ -12,7 +12,7 @@ namespace Frankie.Control
         [SerializeField] string messageAddToParty = "Who do you want to tag along?";
         [SerializeField] string messagePartyFull = "Hey Neve, this isn't a party of five";
 
-        public override List<ChoiceActionPair> GetChoiceActionPairs(PlayerStateHandler playerStateHandler)
+        public override List<ChoiceActionPair> GetChoiceActionPairs(PlayerStateHandler playerStateHandler, CheckWithConfiguration callingCheck)
         {
             Party party = playerStateHandler.GetParty();
 

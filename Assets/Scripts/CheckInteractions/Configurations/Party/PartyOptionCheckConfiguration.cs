@@ -19,22 +19,22 @@ namespace Frankie.Control
         [SerializeField] string optionRemoveFromParty = "Remove from party";
         [SerializeField] CheckConfiguration removeFromPartyConfiguration = null;
 
-        public override List<ChoiceActionPair> GetChoiceActionPairs(PlayerStateHandler playerStateHandler)
+        public override List<ChoiceActionPair> GetChoiceActionPairs(PlayerStateHandler playerStateHandler, CheckWithConfiguration callingCheck)
         {
             List<ChoiceActionPair> interactActions = new List<ChoiceActionPair>();
             if (toggleLeaderAdjust)
             {
-                AddDialogueSpawnOptionForConfiguration(ref interactActions, playerStateHandler, optionLeaderAdjust, partyLeaderConfiguration);
+                AddDialogueSpawnOptionForConfiguration(ref interactActions, playerStateHandler, callingCheck, optionLeaderAdjust, partyLeaderConfiguration);
             }
 
             if (toggleAddToParty)
             {
-                AddDialogueSpawnOptionForConfiguration(ref interactActions, playerStateHandler, optionAddToParty, addToPartyConfiguration);
+                AddDialogueSpawnOptionForConfiguration(ref interactActions, playerStateHandler, callingCheck, optionAddToParty, addToPartyConfiguration);
             }
 
             if (toggleRemoveFromParty)
             {
-                AddDialogueSpawnOptionForConfiguration(ref interactActions, playerStateHandler, optionRemoveFromParty, removeFromPartyConfiguration);
+                AddDialogueSpawnOptionForConfiguration(ref interactActions, playerStateHandler, callingCheck, optionRemoveFromParty, removeFromPartyConfiguration);
             }
             return interactActions;
         }

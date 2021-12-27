@@ -20,7 +20,7 @@ namespace Frankie.Control
             {
                 string message = checkConfiguration.GetMessage();
                 message ??= "";
-                List<ChoiceActionPair> interactActions = checkConfiguration.GetChoiceActionPairs(playerStateHandler);
+                List<ChoiceActionPair> interactActions = checkConfiguration.GetChoiceActionPairs(playerStateHandler, this);
                 if (interactActions == null) { return false; }
                 if (interactActions.Count == 0) { return false; }
 

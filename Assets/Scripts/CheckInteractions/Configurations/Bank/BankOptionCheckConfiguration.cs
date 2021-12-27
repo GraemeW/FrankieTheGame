@@ -17,7 +17,7 @@ namespace Frankie.Control
         [SerializeField] string optionWithdraw = "Withdraw";
 
         // Implementation
-        public override List<ChoiceActionPair> GetChoiceActionPairs(PlayerStateHandler playerStateHandler)
+        public override List<ChoiceActionPair> GetChoiceActionPairs(PlayerStateHandler playerStateHandler, CheckWithConfiguration callingCheck)
         {
             List<ChoiceActionPair> interactActions = new List<ChoiceActionPair>();
             if (toggleWithdraw)

@@ -8,17 +8,20 @@ namespace Frankie.Core
     [CreateAssetMenu(fileName = "New Has Item Predicate", menuName = "Predicates/Knapsack/Has Item")]
     public class HasItemPredicate : PredicateKnapsack
     {
-        public override bool? Evaluate(Knapsack knapsack)
+        public override bool? Evaluate(PartyKnapsackConduit partyKnapsackConduit)
         {
-            // Match on ANY of the items present in parameters
-            foreach (InventoryItem inventoryItem in inventoryItems)
+            foreach (Knapsack knapsack in partyKnapsackConduit.GetKnapsacks())
             {
-                if (knapsack.HasItem(inventoryItem))
+                // Match on ANY of the items present in parameters
+                foreach (InventoryItem inventoryItem in inventoryItems)
                 {
-                    return true;
+                    if (knapsack.HasItem(inventoryItem))
+                    {
+                        return true;
+                    }
                 }
             }
-            return null;
+            return false;
         }
     }
 }

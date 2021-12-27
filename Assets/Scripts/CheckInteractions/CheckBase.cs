@@ -10,6 +10,9 @@ namespace Frankie.Control
         [SerializeField] protected bool overrideDefaultInteractionDistance = false;
         [SerializeField] protected float interactionDistance = 0.3f;
 
+        // State
+        bool activeCheck = true;
+
         public virtual CursorType GetCursorType()
         {
             return CursorType.Check;
@@ -19,6 +22,8 @@ namespace Frankie.Control
 
         protected bool IsInRange(PlayerController playerController)
         {
+            if (!activeCheck) { return false; }
+
             if (!this.CheckDistance(gameObject, transform.position, playerController, overrideDefaultInteractionDistance, interactionDistance))
             {
                 return false;
@@ -30,6 +35,11 @@ namespace Frankie.Control
         {
             // Not evaluated -> IRaycastableExtension
             return false;
+        }
+
+        public void SetActiveCheck(bool enable)
+        {
+            activeCheck = enable;
         }
     }
 }

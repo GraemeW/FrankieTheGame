@@ -13,7 +13,7 @@ namespace Frankie.Inventory
 {
     [RequireComponent(typeof(Equipment))]
     [RequireComponent(typeof(CombatParticipant))]
-    public class Knapsack : MonoBehaviour, IPredicateEvaluator, ISaveable, IQuestEvaluator
+    public class Knapsack : MonoBehaviour, ISaveable, IQuestEvaluator
     {
         // Tunables
         [SerializeField] int inventorySize = 16;
@@ -365,13 +365,6 @@ namespace Frankie.Inventory
         #endregion
 
         #region Interfaces
-        // Predicate Evaluator
-        public bool? Evaluate(Predicate predicate)
-        {
-            PredicateKnapsack predicateKnapsack = predicate as PredicateKnapsack;
-            return predicateKnapsack != null ? predicateKnapsack.Evaluate(this) : null;
-        }
-
         // Quest Evaluator
         public void CompleteObjective()
         {

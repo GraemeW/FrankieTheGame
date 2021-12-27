@@ -8,13 +8,13 @@ namespace Frankie.Control
     public abstract class CheckConfiguration : ScriptableObject
     {
         public abstract string GetMessage();
-        public abstract List<ChoiceActionPair> GetChoiceActionPairs(PlayerStateHandler playerStateHandler);
+        public abstract List<ChoiceActionPair> GetChoiceActionPairs(PlayerStateHandler playerStateHandler, CheckWithConfiguration callingCheck);
 
-        public void AddDialogueSpawnOptionForConfiguration(ref List<ChoiceActionPair> interactActions, PlayerStateHandler playerStateHandler, 
+        public void AddDialogueSpawnOptionForConfiguration(ref List<ChoiceActionPair> interactActions, PlayerStateHandler playerStateHandler, CheckWithConfiguration callingCheck, 
             string choiceOption, CheckConfiguration checkConfiguration)
         {
             string message = checkConfiguration.GetMessage();
-            List<ChoiceActionPair> subInteractActions = checkConfiguration.GetChoiceActionPairs(playerStateHandler);
+            List<ChoiceActionPair> subInteractActions = checkConfiguration.GetChoiceActionPairs(playerStateHandler, callingCheck);
 
             if (subInteractActions != null && subInteractActions.Count > 0)
             {

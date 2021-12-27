@@ -9,6 +9,6 @@ namespace Frankie.Core
     {
         [SerializeField] [Tooltip("Optional, depending on implementation")] protected InventoryItem[] inventoryItems = null;
 
-        public abstract bool? Evaluate(Knapsack knapsack);
+        public abstract bool? Evaluate(PartyKnapsackConduit partyKnapsackConduit);
     }
 }

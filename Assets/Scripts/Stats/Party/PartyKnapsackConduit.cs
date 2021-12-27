@@ -1,4 +1,5 @@
 using Frankie.Combat;
+using Frankie.Core;
 using Frankie.Stats;
 using System;
 using System.Collections;
@@ -7,7 +8,7 @@ using UnityEngine;
 
 namespace Frankie.Inventory
 {
-    public class PartyKnapsackConduit : MonoBehaviour
+    public class PartyKnapsackConduit : MonoBehaviour, IPredicateEvaluator
     {
         // State
         List<Knapsack> knapsacks = new List<Knapsack>();
@@ -111,6 +112,13 @@ namespace Frankie.Inventory
         public bool HasFreeSpace()
         {
             return GetNumberOfFreeSlotsInParty() > 0;
+        }
+
+        // Predicate Evaluator
+        public bool? Evaluate(Predicate predicate)
+        {
+            PredicateKnapsack predicateKnapsack = predicate as PredicateKnapsack;
+            return predicateKnapsack != null ? predicateKnapsack.Evaluate(this) : null;
         }
         #endregion
     }

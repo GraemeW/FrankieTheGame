@@ -16,7 +16,7 @@ namespace Frankie.Control
         [SerializeField] List<CharacterProperties> unremovableCharacters = new List<CharacterProperties>();
         [SerializeField] string messageMinimumParty = "Er, what is consciousness without a vessel in which it can exist?";
 
-        public override List<ChoiceActionPair> GetChoiceActionPairs(PlayerStateHandler playerStateHandler)
+        public override List<ChoiceActionPair> GetChoiceActionPairs(PlayerStateHandler playerStateHandler, CheckWithConfiguration callingCheck)
         {
             Party party = playerStateHandler.GetParty();
 
