@@ -139,6 +139,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 749246050096737039}
     m_Modifications:
+    - target: {fileID: 2308409281053914736, guid: 3ea47d49370c98e4e8dda14fd66b947b, type: 3}
+      propertyPath: checkMessage
+      value: Judge Judy is playing
+      objectReference: {fileID: 0}
     - target: {fileID: 6564381309038757638, guid: 3ea47d49370c98e4e8dda14fd66b947b, type: 3}
       propertyPath: interactionDistance
       value: 0.5

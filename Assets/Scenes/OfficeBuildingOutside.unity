@@ -269,6 +269,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1584137188}
     m_Modifications:
+    - target: {fileID: 2229260957899451408, guid: 8adaabdeb3231364f9419b18bfbf028d, type: 3}
+      propertyPath: uniqueIdentifier
+      value: b93a96b5-d20e-4d0c-bc6a-8c6e91731d70
+      objectReference: {fileID: 0}
+    - target: {fileID: 3388110098072078902, guid: 8adaabdeb3231364f9419b18bfbf028d, type: 3}
+      propertyPath: checkMessage
+      value: 'It says:  Famous Zak''''s Tacos - CLOSED, due to vole infestation'
+      objectReference: {fileID: 0}
     - target: {fileID: 5153517440920887192, guid: 8adaabdeb3231364f9419b18bfbf028d, type: 3}
       propertyPath: checkMessage
       value: 'It says:  Famous Zak''s Tacos - CLOSED, due to vole infestation'
@@ -1355,15 +1363,15 @@ PrefabInstance:
       objectReference: {fileID: 1290031700}
     - target: {fileID: 6748405756474271262, guid: 7d6634333e185754d96c189f3df7c163, type: 3}
       propertyPath: orthographic size
-      value: 3
+      value: 3.5
       objectReference: {fileID: 0}
     - target: {fileID: 6748405756474271457, guid: 7d6634333e185754d96c189f3df7c163, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0.22
+      value: 0.1617777
       objectReference: {fileID: 0}
     - target: {fileID: 6748405756474271457, guid: 7d6634333e185754d96c189f3df7c163, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0.83418834
+      value: -0.83279264
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7d6634333e185754d96c189f3df7c163, type: 3}

@@ -6,10 +6,11 @@ using UnityEngine;
 
 namespace Frankie.Speech
 {
-    public class AIConversant : Check
+    public class AIConversant : CheckBase
     {
         // Tunables
         [SerializeField] Dialogue dialogue = null;
+        [SerializeField] protected InteractionEvent checkInteraction = null;
 
         private void Awake()
         {

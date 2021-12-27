@@ -90,6 +90,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1917619251628278351}
     m_Modifications:
+    - target: {fileID: 2308409281053914736, guid: 3ea47d49370c98e4e8dda14fd66b947b, type: 3}
+      propertyPath: checkMessage
+      value: There's only one outlet and it's occupied by the busted microwave
+      objectReference: {fileID: 0}
     - target: {fileID: 6564381309038757638, guid: 3ea47d49370c98e4e8dda14fd66b947b, type: 3}
       propertyPath: interactionDistance
       value: 0.5
