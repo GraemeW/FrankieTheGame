@@ -27,7 +27,7 @@ namespace Frankie.Inventory
 
             if (IsConsumable())
             {
-                Knapsack knapsack = sender.GetKnapsack();
+                if (!sender.TryGetComponent(out Knapsack knapsack)) { return; }
                 knapsack.RemoveItem(this, false);
                 knapsack.SquishItemsInKnapsack();
             }

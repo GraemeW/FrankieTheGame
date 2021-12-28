@@ -589,7 +589,7 @@ namespace Frankie.Combat
             bool levelUpTriggered = false;
             foreach (CombatParticipant character in GetCharacters())
             {
-                Experience experience = character.GetExperience();
+                Experience experience = character.GetComponent<Experience>();
                 if (experience == null) { continue; } // Handling for characters who do not level
                 float scaledExperienceReward = 0f;
 
@@ -621,8 +621,7 @@ namespace Frankie.Combat
             foreach (CombatParticipant enemy in GetEnemies())
             {
                 if (!enemy.HasLoot()) { continue; }
-
-                LootDispenser lootDispenser = enemy.GetLootDispenser();
+                if (!enemy.TryGetComponent(out LootDispenser lootDispenser)) { continue; }
                 lootAvailable = true;
 
                 foreach (InventoryItem inventoryItem in lootDispenser.GetItemReward())

@@ -5,6 +5,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 namespace Frankie.Inventory
 {
@@ -49,8 +50,10 @@ namespace Frankie.Inventory
             knapsacks.Clear();
             foreach (CombatParticipant character in party.GetParty())
             {
-                Knapsack knapsack = character.GetKnapsack();
-                knapsacks.Add(knapsack);
+                if (character.TryGetComponent(out Knapsack knapsack))
+                {
+                    knapsacks.Add(knapsack);
+                }
             }
             SubscribeToKnapsackEvents(true);
         }
@@ -89,11 +92,11 @@ namespace Frankie.Inventory
         {
             // Returns character who received item on success,
             // Returns null on knapsacks full
-            foreach (Knapsack knapsack in knapsacks)
+            foreach (Knapsack knapsack in GetKnapsacks())
             {
                 if (knapsack.AddToFirstEmptySlot(inventoryItem, true))
                 {
-                    return knapsack.GetCharacter();
+                    return knapsack?.GetComponent<CombatParticipant>();
                 }
             }
             return null;

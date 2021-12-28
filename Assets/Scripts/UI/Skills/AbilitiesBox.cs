@@ -16,6 +16,7 @@ namespace Frankie.Combat.UI
         [Header("Abilities Box Attributes")]
         [SerializeField] TMP_Text statText = null;
         [SerializeField] TMP_Text skillDetailText = null;
+        [SerializeField] TMP_Text apCostText = null;
 
         // State
         AbilitiesBoxState abilitiesBoxState = AbilitiesBoxState.inCharacterSelection;
@@ -127,7 +128,7 @@ namespace Frankie.Combat.UI
             if (SetBranchOrSkill(currentCombatParticipant, input)) { return; }
         }
 
-        protected override void PassSkillFlavour(SkillStat skillStat, string detail)
+        protected override void PassSkillFlavour(SkillStat skillStat, string detail, float apCost)
         {
             if (skillStat != SkillStat.None)
             {
@@ -137,6 +138,7 @@ namespace Frankie.Combat.UI
             {
                 skillDetailText.text = detail;
             }
+            apCostText.text = $"{apCost:N0}";
         }
         #endregion
 
@@ -165,6 +167,7 @@ namespace Frankie.Combat.UI
                     ResetSkillHandler(currentCombatParticipant);
                     statText.text = "";
                     skillDetailText.text = "";
+                    apCostText.text = "";
                     SetAbilitiesBoxState(AbilitiesBoxState.inCharacterSelection);
                     return true;
                 }

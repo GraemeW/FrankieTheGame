@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -13,6 +14,9 @@ namespace Frankie.Inventory
         
         // Cached References
         Wallet wallet = null;
+
+        // Events
+        public event Action transactionCompleted;
 
         private void Awake()
         {
@@ -69,6 +73,8 @@ namespace Frankie.Inventory
             {
                 characterKnapsack.RemoveItem(inventoryItem, true);
             }
+
+            transactionCompleted?.Invoke();
         }
     }
 }

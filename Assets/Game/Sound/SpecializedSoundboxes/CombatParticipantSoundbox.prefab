@@ -145,3 +145,4 @@ MonoBehaviour:
   decreaseHPAudioClip: {fileID: 8300000, guid: 7c690c297ba6d41469d44641881ade57, type: 3}
   increaseHPAudioClip: {fileID: 8300000, guid: 9c0816a4cf725f14f9ac8fe2f4c88763, type: 3}
   deadAudioClip: {fileID: 8300000, guid: ab7a08f6a1e7fd847937db88d0e8725d, type: 3}
+  restoreAPClip: {fileID: 8300000, guid: c7786d59d6f7962409c787cd070fdb9c, type: 3}

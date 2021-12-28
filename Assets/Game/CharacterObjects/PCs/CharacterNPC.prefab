@@ -119,6 +119,63 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3ba2ab0c1cea63442a5dec585154a263, type: 3}
+--- !u!1001 &4685641856091884804
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 3268347881412759661}
+    m_Modifications:
+    - target: {fileID: 7449252406376362644, guid: c89449279f6c118438093880f5edd229, type: 3}
+      propertyPath: m_Name
+      value: CharacterJoinPartySoundbox
+      objectReference: {fileID: 0}
+    - target: {fileID: 7449252406376362645, guid: c89449279f6c118438093880f5edd229, type: 3}
+      propertyPath: m_RootOrder
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 7449252406376362645, guid: c89449279f6c118438093880f5edd229, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7449252406376362645, guid: c89449279f6c118438093880f5edd229, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7449252406376362645, guid: c89449279f6c118438093880f5edd229, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7449252406376362645, guid: c89449279f6c118438093880f5edd229, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7449252406376362645, guid: c89449279f6c118438093880f5edd229, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7449252406376362645, guid: c89449279f6c118438093880f5edd229, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7449252406376362645, guid: c89449279f6c118438093880f5edd229, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7449252406376362645, guid: c89449279f6c118438093880f5edd229, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7449252406376362645, guid: c89449279f6c118438093880f5edd229, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7449252406376362645, guid: c89449279f6c118438093880f5edd229, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: c89449279f6c118438093880f5edd229, type: 3}
 --- !u!1001 &6914669016303666098
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -241,6 +298,7 @@ MonoBehaviour:
   interactionCenterPoint: {fileID: 2666196632901393418}
   patrolPath: {fileID: 0}
   waypointDwellTime: 2
+  giveUpOnPatrolTargetTime: 10
 --- !u!114 &5735266784123818870
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -253,6 +311,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7bd0180a3f707c1489e04d0bfa6742c9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerCollisionMask:
+    serializedVersion: 2
+    m_Bits: 0
   defaultName: 
   messageCannotFight: '{0} is wounded and cannot fight.'
   willChasePlayer: 0
@@ -261,6 +322,7 @@ MonoBehaviour:
   chaseDistance: 3
   aggravationTime: 3
   suspicionTime: 3
+  willDestroySelfOnDeath: 1
   canBeShoutedAt: 1
   shoutDistance: 2
   shoutGroup: []

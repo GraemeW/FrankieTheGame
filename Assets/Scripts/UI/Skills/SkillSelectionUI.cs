@@ -66,7 +66,7 @@ namespace Frankie.Combat.UI
             HandleInput(battleInputType);
         }
 
-        protected virtual void PassSkillFlavour(SkillStat skillStat, string detail)
+        protected virtual void PassSkillFlavour(SkillStat skillStat, string detail, float apCost)
         {
             // Null implementation, for parsing in alternate context
         }
@@ -162,7 +162,7 @@ namespace Frankie.Combat.UI
                 Skill activeSkill = skillHandler.GetActiveSkill();
                 if (activeSkill != null)
                 {
-                    PassSkillFlavour(activeSkill.GetStat(), activeSkill.GetDetail());
+                    PassSkillFlavour(activeSkill.GetStat(), activeSkill.GetDetail(), activeSkill.GetAPCost());
                 }
             }
             return validInput;

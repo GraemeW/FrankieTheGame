@@ -66,16 +66,6 @@ namespace Frankie.Inventory
             return slots.Length;
         }
 
-        private Equipment GetEquipment()
-        {
-            return equipment;
-        }
-
-        public CombatParticipant GetCharacter()
-        {
-            return character;
-        }
-
         public bool IsEmpty()
         {
             for (int i = 0; i < slots.Length; i++)
@@ -332,7 +322,7 @@ namespace Frankie.Inventory
             if (this != destinationKnapsack)
             {
                 destinationKnapsack.SquishItemsInKnapsack();
-                destinationKnapsack.GetEquipment().ReconcileEquipment(true);
+                destinationKnapsack.GetComponent<Equipment>()?.ReconcileEquipment(true);
             }
         }
         #endregion

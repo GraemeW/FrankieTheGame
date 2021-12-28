@@ -11,6 +11,7 @@ namespace Frankie.Sound
         [SerializeField] AudioClip decreaseHPAudioClip = null;
         [SerializeField] AudioClip increaseHPAudioClip = null;
         [SerializeField] AudioClip deadAudioClip = null;
+        [SerializeField] AudioClip restoreAPClip = null;
 
         protected override void OnEnable()
         {
@@ -37,6 +38,10 @@ namespace Frankie.Sound
             else if (stateAlteredData.stateAlteredType == StateAlteredType.Dead)
             {
                 PlayClipAfterDestroy(deadAudioClip);
+            }
+            else if (stateAlteredData.stateAlteredType == StateAlteredType.IncreaseAP)
+            {
+                PlayClipAfterDestroy(restoreAPClip);
             }
         }
     }

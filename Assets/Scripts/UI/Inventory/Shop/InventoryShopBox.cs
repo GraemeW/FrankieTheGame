@@ -82,10 +82,11 @@ namespace Frankie.Inventory.UI
                 UpdateKnapsackView(character);
                 SetInventoryBoxState(InventoryBoxState.inCharacterSelection);
 
-                Knapsack characterKnapsack = selectedCharacter.GetKnapsack();
-                if (characterKnapsack == null) { return; }
+                Knapsack characterKnapsack = selectedCharacter.GetComponent<Knapsack>();
+                Knapsack selectedCharacterKnapsack = selectedCharacter.GetComponent<Knapsack>();
+                if (characterKnapsack == null || selectedCharacterKnapsack == null) { return; }
 
-                if (selectedCharacter.GetKnapsack().HasFreeSpace())
+                if (selectedCharacterKnapsack.HasFreeSpace())
                 {
                     shopper.CompleteTransaction(ShopType.Buy, buyItem, characterKnapsack);
                     Destroy(gameObject);
@@ -125,8 +126,11 @@ namespace Frankie.Inventory.UI
                 if (inventoryItem == null) { return choiceActionPairs; }
 
                 // Sell
-                ChoiceActionPair useActionPair = new ChoiceActionPair(messageOptionSell, () => shopper.CompleteTransaction(ShopType.Sell, inventoryItem, selectedCharacter.GetKnapsack()));
-                choiceActionPairs.Add(useActionPair);
+                if (selectedCharacter.TryGetComponent(out Knapsack selectedCharacterKnapsack))
+                {
+                    ChoiceActionPair sellActionPair = new ChoiceActionPair(messageOptionSell, () => shopper.CompleteTransaction(ShopType.Sell, inventoryItem, selectedCharacterKnapsack));
+                    choiceActionPairs.Add(sellActionPair);
+                }
 
                 // Cancel
                 ChoiceActionPair cancelActionPair = new ChoiceActionPair(messageOptionCancelSale, () => { });

@@ -32,6 +32,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1503146279309485216}
+  - {fileID: 8531870645628414306}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -154,6 +155,21 @@ MonoBehaviour:
   messageNoSpace: SMALL HUMAN HRK GET SOME HRK SPACE
   messageForSale: TAKE THESE FEEBLE {0} COINS
   messageCannotSell: NO BUENO MUCHAHO
+  transactionCompleted:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 8531870645628414317}
+        m_TargetAssemblyTypeName: Frankie.Sound.SoundEffects, Assembly-CSharp
+        m_MethodName: PlayClip
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1001 &5748107800186790825
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -264,3 +280,76 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 6564381309038757641, guid: 39d8967ccafbd0445919bceb2c78a8b4, type: 3}
   m_PrefabInstance: {fileID: 5748107800186790825}
   m_PrefabAsset: {fileID: 0}
+--- !u!1001 &9104006662028118792
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 4484117035451051702}
+    m_Modifications:
+    - target: {fileID: 590155131186209386, guid: b9629a652978b8945b9c872d85045827, type: 3}
+      propertyPath: m_RootOrder
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 590155131186209386, guid: b9629a652978b8945b9c872d85045827, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 590155131186209386, guid: b9629a652978b8945b9c872d85045827, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 590155131186209386, guid: b9629a652978b8945b9c872d85045827, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 590155131186209386, guid: b9629a652978b8945b9c872d85045827, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 590155131186209386, guid: b9629a652978b8945b9c872d85045827, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 590155131186209386, guid: b9629a652978b8945b9c872d85045827, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 590155131186209386, guid: b9629a652978b8945b9c872d85045827, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 590155131186209386, guid: b9629a652978b8945b9c872d85045827, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 590155131186209386, guid: b9629a652978b8945b9c872d85045827, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 590155131186209386, guid: b9629a652978b8945b9c872d85045827, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 590155131186209387, guid: b9629a652978b8945b9c872d85045827, type: 3}
+      propertyPath: m_Name
+      value: ShopSoundbox
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: b9629a652978b8945b9c872d85045827, type: 3}
+--- !u!4 &8531870645628414306 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 590155131186209386, guid: b9629a652978b8945b9c872d85045827, type: 3}
+  m_PrefabInstance: {fileID: 9104006662028118792}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &8531870645628414317 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 590155131186209381, guid: b9629a652978b8945b9c872d85045827, type: 3}
+  m_PrefabInstance: {fileID: 9104006662028118792}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7d92abaff543d4a4498f7173bd00113e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

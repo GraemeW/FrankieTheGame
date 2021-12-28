@@ -60,9 +60,17 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 8300000, guid: 1c8c4309afdd094428342b8815c69682, type: 3}
     - target: {fileID: 2748663006084487090, guid: c08399674dab63349bf5a2c9c8ebbcaa, type: 3}
+      propertyPath: restoreAPClip
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 2748663006084487090, guid: c08399674dab63349bf5a2c9c8ebbcaa, type: 3}
       propertyPath: combatParticipant
       value: 
       objectReference: {fileID: 1182436157161314237}
+    - target: {fileID: 2748663006084487090, guid: c08399674dab63349bf5a2c9c8ebbcaa, type: 3}
+      propertyPath: decreaseAPAudioClip
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 2748663006084487090, guid: c08399674dab63349bf5a2c9c8ebbcaa, type: 3}
       propertyPath: decreaseHPAudioClip
       value: 
@@ -140,6 +148,23 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 6761616658632847993, guid: 1b473d8838e3d4d4c99f7ff6e30d07df, type: 3}
   m_PrefabInstance: {fileID: 4695812830112157434}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &-6302713147965282841
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2088815242785209472}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 73fd0205c870ba141996d7b6636a97ab, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  minItems: 0
+  maxItems: 1
+  lootEntries: []
+  minCash: 0
+  maxCash: 10
 --- !u!114 &1182436157161314237
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -189,20 +214,3 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   probabilityToTraverseSkillTree: 0.8
---- !u!114 &-6302713147965282841
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2088815242785209472}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 73fd0205c870ba141996d7b6636a97ab, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  minItems: 0
-  maxItems: 1
-  lootEntries: []
-  minCash: 0
-  maxCash: 10

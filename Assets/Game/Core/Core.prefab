@@ -46,6 +46,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   persistentObjectPrefab: {fileID: 5309234070201104609, guid: b69b48705c8f9614cb43e069701199d3, type: 3}
+  playerPrefab: {fileID: 9140000498525693431, guid: 9bf5874c37e0a404a9bd916129a14959, type: 3}
 --- !u!1001 &683631211555299684
 PrefabInstance:
   m_ObjectHideFlags: 0

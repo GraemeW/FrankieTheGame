@@ -85,7 +85,7 @@ namespace Frankie.Stats
 
         public int GetExperienceRequiredToLevel()
         {
-            return Mathf.RoundToInt((baseStats.GetStat(Stat.ExperienceToLevelUp) - GetPoints()));
+            return Mathf.CeilToInt((baseStats.GetStat(Stat.ExperienceToLevelUp) - GetPoints()));
         }
 
         #region Interfaces

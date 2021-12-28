@@ -457,6 +457,7 @@ namespace Frankie.Stats
                 }
                 RefreshAnimatorLookup();
             }
+            partyUpdated?.Invoke();
 
             // Build up unlocked characters list
             List<string> unlockedCharacterStrings = data.unlockedCharacterStrings;

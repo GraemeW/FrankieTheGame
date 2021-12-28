@@ -18,23 +18,8 @@ namespace Frankie.Core
 
         private void Awake()
         {
-            VerifySingleton();
             playerStateHandler = GetComponent<PlayerStateHandler>();
             party = GetComponent<Party>();
-        }
-
-        private void VerifySingleton()
-        {
-            int numberOfPlayers = FindObjectsOfType<Player>().Length;
-            if (numberOfPlayers > 1)
-            {
-                gameObject.SetActive(false);
-                Destroy(gameObject);
-            }
-            else
-            {
-                DontDestroyOnLoad(gameObject);
-            }
         }
 
         private void OnEnable()

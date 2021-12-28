@@ -39,7 +39,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3268536af8903a64da82aa6872733d1d, type: 3}
-  m_Name: ElevatorOutside
+  m_Name: SceneToOffice
   m_EditorClassIdentifier: 
   children: []
   linkedZone: {fileID: 11400000, guid: 4cefccbbdefab574180b39e93ea48243, type: 2}
@@ -124,7 +124,7 @@ MonoBehaviour:
   m_Name: OfficeDoor
   m_EditorClassIdentifier: 
   children:
-  - ElevatorOutside
+  - SceneToOffice
   linkedZone: {fileID: 0}
   linkedZoneNode: {fileID: 0}
   rect:

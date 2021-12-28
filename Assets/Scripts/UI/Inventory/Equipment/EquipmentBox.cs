@@ -259,7 +259,9 @@ namespace Frankie.Inventory.UI
         private void RefreshEquipment()
         {
             CleanUpOldEquipment();
-            SetSelectedEquipment(selectedCharacter.GetEquipment());
+
+            if (!selectedCharacter.TryGetComponent(out Equipment selectedCharacterEquipment)) { return; }
+            SetSelectedEquipment(selectedCharacterEquipment);
 
             int i = 0;
             foreach (EquipLocation equipLocation in Enum.GetValues(typeof(EquipLocation)))
@@ -353,7 +355,9 @@ namespace Frankie.Inventory.UI
         {
             EquipLocation equipLocation = (EquipLocation)selector;
 
-            if (selectedCharacter.GetKnapsack().HasAnyEquipableItem(equipLocation))
+            if (!selectedCharacter.TryGetComponent(out Knapsack knapsack)) { return; }
+
+            if (knapsack.HasAnyEquipableItem(equipLocation))
             {
                 selectedEquipLocation = equipLocation;
                 SpawnInventoryBox();

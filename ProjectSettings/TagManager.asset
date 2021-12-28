@@ -12,6 +12,7 @@ TagManager:
   - World
   - Saver
   - BattleCanvas
+  - PlayerSpawner
   layers:
   - Default
   - TransparentFX

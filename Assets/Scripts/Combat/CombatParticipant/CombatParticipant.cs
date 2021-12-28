@@ -105,29 +105,10 @@ namespace Frankie.Combat
 
         #region PublicGetters
         // Reference Passing
-        public Experience GetExperience()
-        {
-            return experience;
-        }
-
-        public Knapsack GetKnapsack()
-        {
-            return knapsack;
-        }
-
-        public Equipment GetEquipment()
-        {
-            return equipment;
-        }
 
         public BaseStats GetBaseStats()
         {
             return baseStats;
-        }
-
-        public LootDispenser GetLootDispenser()
-        {
-            return lootDispenser;
         }
 
         // Core Properties
@@ -307,6 +288,7 @@ namespace Frankie.Combat
             targetHP = hp;
             cooldownTimer = 0f;
             stateAltered?.Invoke(this, new StateAlteredData(StateAlteredType.Resurrected));
+            stateAltered?.Invoke(this, new StateAlteredData(StateAlteredType.IncreaseHP));
         }
 
         public void AnnounceStateUpdate(StateAlteredData stateAlteredData)

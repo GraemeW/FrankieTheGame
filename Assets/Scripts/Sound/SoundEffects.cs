@@ -96,7 +96,7 @@ namespace Frankie.Sound
 
         public void PlayClipAfterDestroy(AudioClip audioClip)
         {
-            if (audioClips == null) { return; }
+            if (audioClip == null) { return; }
             GeneratePersistentSoundEffect(audioClip, audioSource.volume);
         }
 
