@@ -4,6 +4,7 @@ using UnityEngine;
 using Frankie.Stats;
 using Frankie.Control;
 using UnityEngine.SceneManagement;
+using System;
 
 namespace Frankie.Core
 {
@@ -16,8 +17,12 @@ namespace Frankie.Core
         PlayerStateHandler playerStateHandler = null;
         Party party = null;
 
+        // Events
+        public event Action playerDestroyImminent;
+
         private void Awake()
         {
+            VerifySingleton();
             playerStateHandler = GetComponent<PlayerStateHandler>();
             party = GetComponent<Party>();
         }
@@ -32,6 +37,20 @@ namespace Frankie.Core
         {
             SceneManager.sceneLoaded -= UpdateReferencesForNewScene;
             playerStateHandler.playerStateChanged -= HandlePlayerStateChanged;
+        }
+
+        private void VerifySingleton()
+        {
+            int numberOfPlayers = FindObjectsOfType<Player>().Length;
+            if (numberOfPlayers > 1)
+            {
+                gameObject.SetActive(false);
+                Destroy(gameObject);
+            }
+            else
+            {
+                DontDestroyOnLoad(gameObject);
+            }
         }
 
         private void UpdateReferencesForNewScene(Scene scene, LoadSceneMode loadSceneMode)
