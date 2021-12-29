@@ -14,3 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   healthChange: 5
   jitter: 1
+  canMiss: 0
+  canCrit: 1
+  critMultiplier: 2

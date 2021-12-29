@@ -228,18 +228,15 @@ namespace Frankie.Combat
         {
             inCooldown = true;
             cooldownTimer = seconds * GetCooldownMultiplier();
-            stateAltered?.Invoke(this, new StateAlteredData(StateAlteredType.CooldownSet));
+            AnnounceStateUpdate(new StateAlteredData(StateAlteredType.CooldownSet));
         }
 
         public void AdjustHP(float points)
         {
             AdjustHPQuietly(points);
 
-            if (stateAltered != null)
-            {
-                if (points < 0) { stateAltered.Invoke(this, new StateAlteredData(StateAlteredType.DecreaseHP, points)); }
-                else if (points > 0) { stateAltered.Invoke(this, new StateAlteredData(StateAlteredType.IncreaseHP, points)); }
-            }
+            if (points < 0) { AnnounceStateUpdate(new StateAlteredData(StateAlteredType.DecreaseHP, points)); }
+            else if (points > 0) { AnnounceStateUpdate(new StateAlteredData(StateAlteredType.IncreaseHP, points)); }
         }
 
         public void AdjustHPQuietly(float points)
@@ -274,11 +271,8 @@ namespace Frankie.Combat
             float unsafeAP = currentAP.value + points;
             currentAP.value = Mathf.Clamp(unsafeAP, 0f, baseStats.GetStat(Stat.AP));
 
-            if (stateAltered != null)
-            {
-                if (points < 0) { stateAltered.Invoke(this, new StateAlteredData(StateAlteredType.DecreaseAP, points)); }
-                else if (points > 0) { stateAltered.Invoke(this, new StateAlteredData(StateAlteredType.IncreaseAP, points)); }
-            }
+            if (points < 0) { AnnounceStateUpdate(new StateAlteredData(StateAlteredType.DecreaseAP, points)); }
+            else if (points > 0) { AnnounceStateUpdate(new StateAlteredData(StateAlteredType.IncreaseAP, points)); }
         }
 
         public void Revive(float hp)
@@ -287,8 +281,8 @@ namespace Frankie.Combat
             currentHP.value = hp * fractionOfHPInstantOnRevival;
             targetHP = hp;
             cooldownTimer = 0f;
-            stateAltered?.Invoke(this, new StateAlteredData(StateAlteredType.Resurrected));
-            stateAltered?.Invoke(this, new StateAlteredData(StateAlteredType.IncreaseHP));
+            AnnounceStateUpdate(new StateAlteredData(StateAlteredType.Resurrected));
+            AnnounceStateUpdate(new StateAlteredData(StateAlteredType.IncreaseHP));
         }
 
         public void AnnounceStateUpdate(StateAlteredData stateAlteredData)
@@ -308,7 +302,7 @@ namespace Frankie.Combat
                 targetHP = 0f;
                 isDead.value = true;
 
-                stateAltered?.Invoke(this, new StateAlteredData(StateAlteredType.Dead));
+                AnnounceStateUpdate(new StateAlteredData(StateAlteredType.Dead));
             }
 
             if (isDead.value == true) { return true; }
@@ -323,7 +317,7 @@ namespace Frankie.Combat
                 float unsafeHP = Mathf.Lerp(currentHP.value, targetHP, deltaHPTimeFraction);
                 currentHP.value = Mathf.Clamp(unsafeHP, 0f, baseStats.GetStat(Stat.HP));
 
-                stateAltered?.Invoke(this, new StateAlteredData(StateAlteredType.AdjustHPNonSpecific));
+                AnnounceStateUpdate(new StateAlteredData(StateAlteredType.AdjustHPNonSpecific));
             }
         }
 
@@ -333,7 +327,7 @@ namespace Frankie.Combat
             if (inCooldown && cooldownTimer <= 0)
             {
                 inCooldown = false;
-                stateAltered?.Invoke(this, new StateAlteredData(StateAlteredType.CooldownExpired));
+                AnnounceStateUpdate(new StateAlteredData(StateAlteredType.CooldownExpired));
             }
         }
 

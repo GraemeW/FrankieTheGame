@@ -17,9 +17,6 @@ namespace Frankie.Core
         PlayerStateHandler playerStateHandler = null;
         Party party = null;
 
-        // Events
-        public event Action playerDestroyImminent;
-
         private void Awake()
         {
             VerifySingleton();

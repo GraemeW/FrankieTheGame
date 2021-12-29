@@ -6,7 +6,7 @@ using UnityEngine.UI;
 
 namespace Frankie.Combat.UI
 {
-    public class BattleSlide : MonoBehaviour
+    public abstract class BattleSlide : MonoBehaviour
     {
         // Tunables
         [Header("Damage Effects")]
@@ -139,14 +139,8 @@ namespace Frankie.Combat.UI
             battleController.AddToBattleQueue(new[] { combatParticipant });
         }
 
-        protected virtual void SetSelected(CombatParticipantType combatParticipantType, bool enable)
-        {
-            // implemented in child classes
-        }
+        protected abstract void SetSelected(CombatParticipantType combatParticipantType, bool enable);
 
-        protected virtual void ParseState(CombatParticipant combatParticipant, StateAlteredData stateAlteredData)
-        {
-            // implemented in child classes
-        }
+        protected abstract void ParseState(CombatParticipant combatParticipant, StateAlteredData stateAlteredData);
     }
 }

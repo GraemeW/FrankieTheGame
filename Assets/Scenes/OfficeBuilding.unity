@@ -3117,7 +3117,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 9140000498525693428, guid: 9bf5874c37e0a404a9bd916129a14959, type: 3}
       propertyPath: m_RootOrder
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 9140000498525693428, guid: 9bf5874c37e0a404a9bd916129a14959, type: 3}
       propertyPath: m_LocalPosition.x
@@ -12382,7 +12382,7 @@ PrefabInstance:
       objectReference: {fileID: 566954979}
     - target: {fileID: 6748405756206951134, guid: 7d6634333e185754d96c189f3df7c163, type: 3}
       propertyPath: m_RootOrder
-      value: 2
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 6748405756206951134, guid: 7d6634333e185754d96c189f3df7c163, type: 3}
       propertyPath: m_LocalPosition.x
@@ -12459,10 +12459,6 @@ PrefabInstance:
     - target: {fileID: 6748405756474271262, guid: 7d6634333e185754d96c189f3df7c163, type: 3}
       propertyPath: orthographic size
       value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 6748405756474271262, guid: 7d6634333e185754d96c189f3df7c163, type: 3}
-      propertyPath: m_CullingMask.m_Bits
-      value: 109
       objectReference: {fileID: 0}
     - target: {fileID: 6748405756474271457, guid: 7d6634333e185754d96c189f3df7c163, type: 3}
       propertyPath: m_LocalPosition.x

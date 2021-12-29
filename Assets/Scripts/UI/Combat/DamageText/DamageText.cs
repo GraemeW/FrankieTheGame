@@ -19,6 +19,11 @@ namespace Frankie.Combat.UI
             damageTextElement.text = Mathf.Abs(Mathf.RoundToInt(damageAmount)).ToString();
         }
 
+        public void SetText(string text)
+        {
+            damageTextElement.text = text;
+        }
+
         public void SetColor(Color color)
         {
             damageTextElement.color = color;

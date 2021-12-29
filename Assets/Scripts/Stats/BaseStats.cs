@@ -31,7 +31,7 @@ namespace Frankie.Stats
         public static Stat[] GetNonModifyingStats()
         {
             // Subset enum for those equipment should not touch
-            Stat[] nonModifyingStats = new Stat[] { Stat.EffectiveLevel, Stat.ExperienceReward, Stat.ExperienceToLevelUp };
+            Stat[] nonModifyingStats = new Stat[] { Stat.ExperienceReward, Stat.ExperienceToLevelUp };
             return nonModifyingStats;
         }
 
@@ -74,11 +74,14 @@ namespace Frankie.Stats
             return progression.GetStat(stat, characterProperties, GetLevel());
         }
 
-        public float GetCalculatedStat(CalculatedStat calculatedStat)
+        public float GetCalculatedStat(CalculatedStat calculatedStat, BaseStats opponentBaseStats = null)
         {
             if (CalculatedStats.GetStatModifier(calculatedStat, out Stat statModifier))
             {
-                return CalculatedStats.GetCalculatedStat(calculatedStat, GetLevel(), GetStat(statModifier));
+                float stat = GetStat(statModifier);
+                float opponentStat = opponentBaseStats != null ? opponentBaseStats.GetStat(statModifier) : 0f;
+
+                return CalculatedStats.GetCalculatedStat(calculatedStat, GetLevel(), stat, opponentStat);
             }
             return 0f;
         }
@@ -142,15 +145,15 @@ namespace Frankie.Stats
         private Dictionary<Stat, float> IncrementStatsOnLevelUp()
         {
             Dictionary<Stat, float> levelUpSheet = new Dictionary<Stat, float>();
-            levelUpSheet[Stat.HP] = GetProgressionStat(Stat.Stoic) * (1 + GetBonusMultiplier());
-            levelUpSheet[Stat.AP] = GetProgressionStat(Stat.Smarts) * (1 + GetBonusMultiplier());
             levelUpSheet[Stat.Brawn] = GetProgressionStat(Stat.Brawn) * (1 + GetBonusMultiplier());
             levelUpSheet[Stat.Beauty] = GetProgressionStat(Stat.Beauty) * (1 + GetBonusMultiplier());
-            levelUpSheet[Stat.Smarts] = GetProgressionStat(Stat.Smarts) * (1 + GetBonusMultiplier());
             levelUpSheet[Stat.Nimble] = GetProgressionStat(Stat.Nimble) * (1 + GetBonusMultiplier());
             levelUpSheet[Stat.Luck] = GetProgressionStat(Stat.Luck) * (1 + GetBonusMultiplier());
             levelUpSheet[Stat.Pluck] = GetProgressionStat(Stat.Pluck) * (1 + GetBonusMultiplier());
-            levelUpSheet[Stat.Stoic] = GetProgressionStat(Stat.Stoic) / 2; // Stoic treatment different
+            levelUpSheet[Stat.Stoic] = GetProgressionStat(Stat.Stoic) * (1 + GetBonusMultiplier()); // Used for HP adjust
+            levelUpSheet[Stat.Smarts] = GetProgressionStat(Stat.Smarts) * (1 + GetBonusMultiplier()); // Used for AP adjust
+            levelUpSheet[Stat.HP] = (GetBaseStat(Stat.Stoic) / GetLevel()) * (1 + 4 * GetBonusMultiplier()); // Take overall stat normalized to level, bonus swing larger for HP
+            levelUpSheet[Stat.AP] = (GetBaseStat(Stat.Smarts) / GetLevel()) * (1 + 4 * GetBonusMultiplier()); // Take overall stat normalized to level, bonus swing larger for AP
 
             activeStatSheet[Stat.HP] += levelUpSheet[Stat.HP];
             activeStatSheet[Stat.AP] += levelUpSheet[Stat.AP];

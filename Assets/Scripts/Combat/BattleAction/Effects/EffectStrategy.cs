@@ -13,5 +13,37 @@ namespace Frankie.Combat
         {
             sender.GetComponent<MonoBehaviour>().StartCoroutine(coroutine);
         }
+
+        protected bool DoesAttackHit(bool canMiss, CombatParticipant sender, CombatParticipant recipient)
+        {
+            if (!canMiss) { return true; }
+
+            float hitChance = sender.GetBaseStats().GetCalculatedStat(Stats.CalculatedStat.HitChance, recipient.GetBaseStats());
+            float hitRoll = UnityEngine.Random.Range(0f, 1f);
+
+            // Need to invert for miss -- e.g. hitChance = 0.75, 75% chance to hit
+            // hitRoll > hitChance = 25%, or 25% chance to miss -> skip adjust HP, call out the miss on the target
+            if (hitRoll > hitChance)
+            {
+                recipient.AnnounceStateUpdate(new StateAlteredData(StateAlteredType.HitMiss));
+                return false;
+            }
+            return true;
+        }
+
+        protected float GetCritModifier(bool canCrit, float critMultiplier, CombatParticipant sender, CombatParticipant recipient)
+        {
+            if (!canCrit) { return 1.0f; }
+
+            float critChance = sender.GetBaseStats().GetCalculatedStat(Stats.CalculatedStat.CritChance, recipient.GetBaseStats());
+            float critRoll = UnityEngine.Random.Range(0f, 1f);
+
+            if (critRoll <= critChance)
+            {
+                recipient.AnnounceStateUpdate(new StateAlteredData(StateAlteredType.HitCrit));
+                return critMultiplier;
+            }
+            return 1.0f;
+        }
     }
 }

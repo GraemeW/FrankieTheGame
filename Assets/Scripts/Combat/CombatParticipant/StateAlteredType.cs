@@ -12,6 +12,8 @@ namespace Frankie.Combat
         StatusEffectApplied,
         BaseStateEffectApplied,
         CooldownSet,
-        CooldownExpired
+        CooldownExpired,
+        HitMiss,
+        HitCrit
     }
 }

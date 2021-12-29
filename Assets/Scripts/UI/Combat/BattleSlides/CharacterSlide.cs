@@ -92,76 +92,71 @@ namespace Frankie.Combat.UI
 
         protected override void ParseState(CombatParticipant combatParticipant, StateAlteredData stateAlteredData)
         {
-            if (stateAlteredData.stateAlteredType == StateAlteredType.IncreaseHP 
-                || stateAlteredData.stateAlteredType == StateAlteredType.DecreaseHP 
-                || stateAlteredData.stateAlteredType == StateAlteredType.AdjustHPNonSpecific)
+            switch (stateAlteredData.stateAlteredType)
             {
-                UpdateHP(this.combatParticipant.GetHP());
-                if (stateAlteredData.stateAlteredType == StateAlteredType.IncreaseHP)
-                {
-                    float points = stateAlteredData.points;
-                    damageTextSpawner.Spawn(points);
-                }
-                else if (stateAlteredData.stateAlteredType == StateAlteredType.DecreaseHP)
-                {
-                    float points = stateAlteredData.points;
-                    damageTextSpawner.Spawn(points);
-                    bool strongShakeEnable = false;
-                    if (points > combatParticipant.GetHP()) { strongShakeEnable = true; }
-                    ShakeSlide(strongShakeEnable);
-                }
-            }
-            else if (stateAlteredData.stateAlteredType == StateAlteredType.IncreaseAP 
-                || stateAlteredData.stateAlteredType == StateAlteredType.DecreaseAP)
-            {
-                UpdateAP(this.combatParticipant.GetAP());
-            }
-
-            if (stateAlteredData.stateAlteredType == StateAlteredType.CooldownSet)
-            {
-                slideState = SlideState.Cooldown;
-                UpdateColor();
-            }
-            else if (stateAlteredData.stateAlteredType == StateAlteredType.CooldownExpired)
-            {
-                slideState = SlideState.Ready;
-                UpdateColor();
-            }
-            else if (stateAlteredData.stateAlteredType == StateAlteredType.Dead)
-            {
-                slideState = SlideState.Dead;
-                UpdateColor();
-            }
-            else if (stateAlteredData.stateAlteredType == StateAlteredType.Resurrected)
-            {
-                slideState = SlideState.Ready;
-                UpdateColor();
+                case StateAlteredType.CooldownSet:
+                    slideState = SlideState.Cooldown;
+                    UpdateColor();
+                    break;
+                case StateAlteredType.CooldownExpired:
+                    slideState = SlideState.Ready;
+                    UpdateColor();
+                    break;
+                case StateAlteredType.IncreaseHP:
+                case StateAlteredType.DecreaseHP:
+                case StateAlteredType.AdjustHPNonSpecific:
+                    UpdateHP(this.combatParticipant.GetHP());
+                    if (stateAlteredData.stateAlteredType == StateAlteredType.IncreaseHP)
+                    {
+                        float points = stateAlteredData.points;
+                        damageTextSpawner.AddToQueue(new DamageTextData(DamageTextType.HealthChanged, points));
+                    }
+                    else if (stateAlteredData.stateAlteredType == StateAlteredType.DecreaseHP)
+                    {
+                        float points = stateAlteredData.points;
+                        damageTextSpawner.AddToQueue(new DamageTextData(DamageTextType.HealthChanged, points));
+                        bool strongShakeEnable = false;
+                        if (points > combatParticipant.GetHP()) { strongShakeEnable = true; }
+                        ShakeSlide(strongShakeEnable);
+                    }
+                    break;
+                case StateAlteredType.IncreaseAP:
+                case StateAlteredType.DecreaseAP:
+                    UpdateAP(this.combatParticipant.GetAP());
+                    damageTextSpawner.AddToQueue(new DamageTextData(DamageTextType.APChanged, stateAlteredData.points));
+                    break;
+                case StateAlteredType.HitMiss:
+                    damageTextSpawner.AddToQueue(new DamageTextData(DamageTextType.HitMiss));
+                    break;
+                case StateAlteredType.HitCrit:
+                    damageTextSpawner.AddToQueue(new DamageTextData(DamageTextType.HitCrit));
+                    break;
+                case StateAlteredType.StatusEffectApplied:
+                case StateAlteredType.BaseStateEffectApplied:
+                    break;
+                case StateAlteredType.Dead:
+                    slideState = SlideState.Dead;
+                    UpdateColor();
+                    break;
+                case StateAlteredType.Resurrected:
+                    slideState = SlideState.Ready;
+                    UpdateColor();
+                    break;
             }
         }
 
         // Private functions
         private void UpdateColor()
         {
-            if (slideState == SlideState.Ready)
+            selectHighlight.color = slideState switch
             {
-                selectHighlight.color = Color.white;
-            }
-            else if (slideState == SlideState.Selected)
-            {
-                selectHighlight.color = selectedCharacterFrameColor;
-            }
-            else if (slideState == SlideState.Cooldown)
-            {
-                selectHighlight.color = cooldownCharacterFrameColor;
-            }
-            else if (slideState == SlideState.Target)
-            {
-                selectHighlight.color = targetedCharacterFrameColor;
-            }
-            else if (slideState == SlideState.Dead)
-            {
-                selectHighlight.color = deadCharacterFrameColor;
-            }
+                SlideState.Ready => Color.white,
+                SlideState.Selected => selectedCharacterFrameColor,
+                SlideState.Cooldown => cooldownCharacterFrameColor,
+                SlideState.Target => targetedCharacterFrameColor,
+                SlideState.Dead => deadCharacterFrameColor,
+                _ => Color.white,
+            };
         }
 
         private void UpdateName(string name)

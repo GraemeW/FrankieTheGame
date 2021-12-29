@@ -13,4 +13,7 @@ MonoBehaviour:
   m_Name: DoActualWorkDamage
   m_EditorClassIdentifier: 
   healthChange: -1
-  jitter: 1
+  jitter: 0
+  canMiss: 0
+  canCrit: 0
+  critMultiplier: 2

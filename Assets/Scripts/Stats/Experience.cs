@@ -54,10 +54,12 @@ namespace Frankie.Stats
         private bool UpdateLevel()
         {
             if (!baseStats.CanLevelUp()) { return false; }
+            float experienceToLevel = baseStats.GetStat(Stat.ExperienceToLevelUp);
+            if (experienceToLevel <= 0f) { return false; } // Failsafe on invalid settings
 
-            if (GetPoints() > baseStats.GetStat(Stat.ExperienceToLevelUp))
+            if (GetPoints() > experienceToLevel)
             {
-                float experienceBalance = GetPoints() - baseStats.GetStat(Stat.ExperienceToLevelUp);
+                float experienceBalance = GetPoints() - experienceToLevel;
                 ResetPoints();
                 baseStats.IncrementLevel();
 
