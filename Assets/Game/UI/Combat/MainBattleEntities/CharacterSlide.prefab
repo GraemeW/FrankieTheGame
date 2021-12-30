@@ -329,6 +329,7 @@ GameObject:
   - component: {fileID: 8756953218385205577}
   - component: {fileID: 3712678563809887521}
   - component: {fileID: 6213697876024694788}
+  - component: {fileID: 5256506194092441770}
   m_Layer: 0
   m_Name: CharacterSlide
   m_TagString: Untagged
@@ -430,12 +431,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cooldownTimer: {fileID: 959795849705674}
   damageTextSpawner: {fileID: 8474882480370079151}
+  canvasGroup: {fileID: 5256506194092441770}
   damageShakeMagnitude: 10
   criticalDamageShakeMultiplier: 2
   shakeDuration: 0.4
   shakeCount: 4
-  lastRotationTarget: 0
-  currentRotationTarget: 0
+  dimmingMin: 0.7
+  halfDimmingTime: 0.05
   characterNameField: {fileID: 3703810190225392327}
   currentHPHundreds: {fileID: 1405946292593259412}
   currentHPTens: {fileID: 5641846717285115944}
@@ -492,6 +494,18 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
+--- !u!225 &5256506194092441770
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1857157206918601303}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1 &2544880161989782868
 GameObject:
   m_ObjectHideFlags: 0

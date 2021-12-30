@@ -12,25 +12,33 @@ namespace Frankie.Combat.UI
         [Header("Hook-Ups")]
         [SerializeField] protected CooldownTimer cooldownTimer = null;
         [SerializeField] protected DamageTextSpawner damageTextSpawner = null;
+        [SerializeField] protected CanvasGroup canvasGroup = null;
 
-        [Header("Damage Effects")]
+        [Header("Shake Effects")]
         [SerializeField] float damageShakeMagnitude = 10f;
         [SerializeField] float criticalDamageShakeMultiplier = 2.0f;
         [SerializeField] float shakeDuration = 0.4f;
         [SerializeField] int shakeCount = 4;
 
+        [Header("Dimming Effects")]
+        [SerializeField] float dimmingMin = 0.7f;
+        [SerializeField] [Tooltip("in seconds")] float halfDimmingTime = 0.05f;
+
         // State
         protected CombatParticipant combatParticipant = null;
+        Coroutine canvasDimming = null;
         float currentShakeMagnitude = 0f;
         float currentShakeTime = Mathf.Infinity;
         float currentShakeTimeStep = 0f;
-        public float lastRotationTarget = 0f;
-        public float currentRotationTarget = 0f;
+        float lastRotationTarget = 0f;
+        float currentRotationTarget = 0f;
+        float fadeTarget = 1f;
 
         // Cached References
         protected BattleController battleController = null;
         protected Button button = null;
 
+        #region UnityMethods
         private void Awake()
         {
             button = GetComponent<Button>();
@@ -54,6 +62,9 @@ namespace Frankie.Combat.UI
         {
             button.onClick.RemoveAllListeners();
 
+            if (canvasDimming != null) { StopCoroutine(canvasDimming); }
+            canvasDimming = null;
+
             if (combatParticipant != null)
             {
                 combatParticipant.stateAltered -= ParseState;
@@ -67,35 +78,18 @@ namespace Frankie.Combat.UI
         private void FixedUpdate()
         {
             HandleSlideShaking();
+            HandleSlideFading();
         }
+        #endregion
 
-        public virtual void AddButtonClickEvent(UnityAction unityAction)
-        {
-            button.onClick.AddListener(unityAction);
-        }
+        #region AbstractMethods
+        protected abstract void SetSelected(CombatParticipantType combatParticipantType, bool enable);
 
-        private void HandleSlideShaking()
-        {
-            if (currentShakeTime > shakeDuration) { return; }
+        protected abstract void ParseState(CombatParticipant combatParticipant, StateAlteredData stateAlteredData);
 
-            if (currentShakeTimeStep > (shakeDuration / shakeCount))
-            {
-                SetTargetShakeRotation();
-                currentShakeTimeStep = 0f;
-            }
-            gameObject.transform.rotation = Quaternion.Euler(0f, 0f, Mathf.Lerp(lastRotationTarget, currentRotationTarget, currentShakeTimeStep / (shakeDuration / shakeCount)));
+        #endregion
 
-            currentShakeTimeStep += Time.deltaTime;
-            currentShakeTime += Time.deltaTime;
-        }
-
-        private void SetTargetShakeRotation()
-        {
-            currentShakeMagnitude = Mathf.Max(0f, currentShakeMagnitude - damageShakeMagnitude / shakeCount);
-            lastRotationTarget = currentRotationTarget;
-            currentRotationTarget = Random.Range(-currentShakeMagnitude, currentShakeMagnitude);
-        }
-
+        #region PublicSettersGetters
         public virtual void SetCombatParticipant(CombatParticipant combatParticipant)
         {
             if (this.combatParticipant != null) { this.combatParticipant.stateAltered -= ParseState; }
@@ -104,11 +98,18 @@ namespace Frankie.Combat.UI
             this.combatParticipant.stateAltered += ParseState;
         }
 
+        public virtual void AddButtonClickEvent(UnityAction unityAction)
+        {
+            button.onClick.AddListener(unityAction);
+        }
+
         public CombatParticipant GetCombatParticipant()
         {
             return combatParticipant;
         }
+        #endregion
 
+        #region PublicMethodsOther
         public void HighlightSlide(CombatParticipantType combatParticipantType, IEnumerable<CombatParticipant> combatParticipants)
         {
             SetSelected(combatParticipantType, false);
@@ -136,6 +137,20 @@ namespace Frankie.Combat.UI
             currentShakeTime = 0f;
         }
 
+        protected void BlipFadeSlide()
+        {
+            if (canvasDimming != null)
+            {
+                StopCoroutine(canvasDimming);
+                canvasGroup.alpha = 1.0f;
+                canvasDimming = null;
+            }
+
+            canvasDimming = StartCoroutine(BlipFade());
+        }
+        #endregion
+
+        #region PrivateMethods
         private void TryAddBattleQueue()
         {
             if (battleController == null || !battleController.IsBattleActionArmed()) { return; }
@@ -143,8 +158,41 @@ namespace Frankie.Combat.UI
             battleController.AddToBattleQueue(new[] { combatParticipant });
         }
 
-        protected abstract void SetSelected(CombatParticipantType combatParticipantType, bool enable);
+        private void HandleSlideShaking()
+        {
+            if (currentShakeTime > shakeDuration) { return; }
 
-        protected abstract void ParseState(CombatParticipant combatParticipant, StateAlteredData stateAlteredData);
+            if (currentShakeTimeStep > (shakeDuration / shakeCount))
+            {
+                SetTargetShakeRotation();
+                currentShakeTimeStep = 0f;
+            }
+            gameObject.transform.rotation = Quaternion.Euler(0f, 0f, Mathf.Lerp(lastRotationTarget, currentRotationTarget, currentShakeTimeStep / (shakeDuration / shakeCount)));
+
+            currentShakeTimeStep += Time.deltaTime;
+            currentShakeTime += Time.deltaTime;
+        }
+
+        private void SetTargetShakeRotation()
+        {
+            currentShakeMagnitude = Mathf.Max(0f, currentShakeMagnitude - damageShakeMagnitude / shakeCount);
+            lastRotationTarget = currentRotationTarget;
+            currentRotationTarget = Random.Range(-currentShakeMagnitude, currentShakeMagnitude);
+        }
+
+        private IEnumerator BlipFade()
+        {
+            fadeTarget = dimmingMin;
+            yield return new WaitForSeconds(halfDimmingTime);
+            fadeTarget = 1.0f;
+        }
+
+        private void HandleSlideFading()
+        {
+            if (Mathf.Approximately(canvasGroup.alpha, fadeTarget)) { return; }
+
+            canvasGroup.alpha = Mathf.MoveTowards(canvasGroup.alpha, fadeTarget, (1f - dimmingMin) / halfDimmingTime);
+        }
+        #endregion
     }
 }

@@ -36,6 +36,7 @@ namespace Frankie.Combat.UI
                     if (stateAlteredData.stateAlteredType == StateAlteredType.DecreaseHP)
                     {
                         ShakeSlide(false);
+                        BlipFadeSlide();
                     }
                     break;
                 case StateAlteredType.IncreaseAP:

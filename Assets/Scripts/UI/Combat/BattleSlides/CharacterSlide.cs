@@ -119,6 +119,7 @@ namespace Frankie.Combat.UI
                         bool strongShakeEnable = false;
                         if (points > combatParticipant.GetHP()) { strongShakeEnable = true; }
                         ShakeSlide(strongShakeEnable);
+                        BlipFadeSlide();
                     }
                     break;
                 case StateAlteredType.IncreaseAP:
