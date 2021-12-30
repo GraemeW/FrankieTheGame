@@ -9,11 +9,15 @@ namespace Frankie.Combat.UI
     public abstract class BattleSlide : MonoBehaviour
     {
         // Tunables
+        [Header("Hook-Ups")]
+        [SerializeField] protected CooldownTimer cooldownTimer = null;
+        [SerializeField] protected DamageTextSpawner damageTextSpawner = null;
+
         [Header("Damage Effects")]
-        float damageShakeMagnitude = 10f;
-        float criticalDamageShakeMultiplier = 2.0f;
-        float shakeDuration = 0.4f;
-        int shakeCount = 4;
+        [SerializeField] float damageShakeMagnitude = 10f;
+        [SerializeField] float criticalDamageShakeMultiplier = 2.0f;
+        [SerializeField] float shakeDuration = 0.4f;
+        [SerializeField] int shakeCount = 4;
 
         // State
         protected CombatParticipant combatParticipant = null;

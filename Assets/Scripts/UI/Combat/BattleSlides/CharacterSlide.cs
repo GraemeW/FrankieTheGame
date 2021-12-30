@@ -10,7 +10,7 @@ namespace Frankie.Combat.UI
     public class CharacterSlide : BattleSlide
     {
         // Tunables
-        [Header("HookUps")]
+        [Header("Character Slide HookUps")]
         [SerializeField] TextMeshProUGUI characterNameField = null;
         [SerializeField] TextMeshProUGUI currentHPHundreds = null;
         [SerializeField] TextMeshProUGUI currentHPTens = null;
@@ -19,9 +19,8 @@ namespace Frankie.Combat.UI
         [SerializeField] TextMeshProUGUI currentAPTens = null;
         [SerializeField] TextMeshProUGUI currentAPOnes = null;
         [SerializeField] Image selectHighlight = null;
-        [SerializeField] DamageTextSpawner damageTextSpawner = null;
 
-        [Header("Flavour")]
+        [Header("Highlight Colors")]
         [SerializeField] Color selectedCharacterFrameColor = Color.green;
         [SerializeField] Color cooldownCharacterFrameColor = Color.gray;
         [SerializeField] Color targetedCharacterFrameColor = Color.blue;
@@ -96,10 +95,12 @@ namespace Frankie.Combat.UI
             {
                 case StateAlteredType.CooldownSet:
                     slideState = SlideState.Cooldown;
+                    cooldownTimer.ResetTimer(stateAlteredData.points);
                     UpdateColor();
                     break;
                 case StateAlteredType.CooldownExpired:
                     slideState = SlideState.Ready;
+                    cooldownTimer.ResetTimer(0f);
                     UpdateColor();
                     break;
                 case StateAlteredType.IncreaseHP:

@@ -228,7 +228,7 @@ namespace Frankie.Combat
         {
             inCooldown = true;
             cooldownTimer = seconds * GetCooldownMultiplier();
-            AnnounceStateUpdate(new StateAlteredData(StateAlteredType.CooldownSet));
+            AnnounceStateUpdate(new StateAlteredData(StateAlteredType.CooldownSet, cooldownTimer));
         }
 
         public void AdjustHP(float points)

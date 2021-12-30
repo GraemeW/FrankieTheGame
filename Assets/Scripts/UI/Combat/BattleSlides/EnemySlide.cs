@@ -8,9 +8,9 @@ namespace Frankie.Combat.UI
     public class EnemySlide : BattleSlide
     {
         // Tunables
+        [Header("Enemy Slide Settings")]
         [SerializeField] Image image = null;
         [SerializeField] float deathFadeTime = 1.0f;
-        [SerializeField] DamageTextSpawner damageTextSpawner = null;
 
         public override void SetCombatParticipant(CombatParticipant combatParticipant)
         {
@@ -23,7 +23,10 @@ namespace Frankie.Combat.UI
             switch (stateAlteredData.stateAlteredType)
             {
                 case StateAlteredType.CooldownSet:
+                    cooldownTimer.ResetTimer(stateAlteredData.points);
+                    break;
                 case StateAlteredType.CooldownExpired:
+                    cooldownTimer.ResetTimer(0f);
                     break;
                 case StateAlteredType.AdjustHPNonSpecific:
                 case StateAlteredType.IncreaseHP:
