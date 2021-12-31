@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: BlatherOn
   m_EditorClassIdentifier: 
   stat: 6
-  battleAction: {fileID: 11400000, guid: 81fec7ccc57d205409e6ed7f75602679, type: 2}
-  detail: Keep going and going and going and going and . . .
+  battleAction: {fileID: 11400000, guid: 2b0af00a64676434aafa7952fea369e7, type: 2}
+  detail: Gunk up the works and slow your foe down

@@ -10,7 +10,7 @@ using System.Text.RegularExpressions;
 
 namespace Frankie.ZoneManagement
 {
-    public class ZoneHandler : MonoBehaviour, IRaycastable, ISaveable
+    public class ZoneHandler : MonoBehaviour, IRaycastable
     {
         // Tunables 
         [SerializeField] ZoneNode zoneNode = null;
@@ -19,15 +19,13 @@ namespace Frankie.ZoneManagement
         [SerializeField] Transform warpPosition = null;
         [SerializeField] float delayToDestroyAfterSceneLoading = 0.1f;
         [Header("Game Object (Dis)Enablement")]
-        [SerializeField] GameObject roomParent = null;
-        [SerializeField] bool disableOnStart = false;
+        [SerializeField] Room roomParent = null;
         [SerializeField] bool disableOnExit = true;
         [Header("Warp Properties")]
         [SerializeField] bool randomizeChoice = true;
         [SerializeField] string choiceMessage = "Where do you want to go?";
 
         // State
-        bool roomParentSetBySave = false;
         bool inTransitToNextScene = false;
         ZoneNode queuedZoneNode = null;
         PlayerStateHandler currentPlayerStateHandler = null;
@@ -54,7 +52,7 @@ namespace Frankie.ZoneManagement
         {
             if (roomParent != null)
             {
-                roomParent.SetActive(enable);
+                roomParent.gameObject.SetActive(enable);
                 return true;
             }
             return false;
@@ -72,11 +70,6 @@ namespace Frankie.ZoneManagement
         }
 
         // Private Functions
-        private void Start()
-        {
-            if (disableOnStart && !roomParentSetBySave) { EnableRoomParent(false); }
-        }
-
         private void WarpPlayerToNextNode()
         {
             ZoneNode nextNode = SetUpNextNode();
@@ -293,27 +286,5 @@ namespace Frankie.ZoneManagement
             // Not evaluated -> IRaycastableExtension
             return false;
         }
-
-        public LoadPriority GetLoadPriority()
-        {
-            return LoadPriority.ObjectProperty;
-        }
-
-        SaveState ISaveable.CaptureState()
-        {
-            bool isRoomActive = true;
-            if (roomParent != null)
-            {
-                isRoomActive = roomParent.activeSelf;
-            }
-            SaveState saveState = new SaveState(GetLoadPriority(), isRoomActive);
-            return saveState;
-        }
-
-        void ISaveable.RestoreState(SaveState saveState)
-        {
-            if (EnableRoomParent((bool)saveState.GetState())) { roomParentSetBySave = true; }
-        }
     }
-
 }

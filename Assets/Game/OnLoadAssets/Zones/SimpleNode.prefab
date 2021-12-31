@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 8342028283336635978}
   - component: {fileID: 8342028283336635980}
   - component: {fileID: 8342028283336635981}
-  - component: {fileID: -2400056879693157440}
   m_Layer: 0
   m_Name: SimpleNode
   m_TagString: Interactable
@@ -53,7 +52,6 @@ MonoBehaviour:
   warpPosition: {fileID: 8342028284851336959}
   delayToDestroyAfterSceneLoading: 0.1
   roomParent: {fileID: 0}
-  disableOnStart: 0
   disableOnExit: 1
   randomizeChoice: 1
   choiceMessage: Where do you want to go?
@@ -98,19 +96,6 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.23146176, y: 0.85361177}
   m_EdgeRadius: 0
---- !u!114 &-2400056879693157440
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8342028283336635979}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c708eed4772dbc14e95f0fb9be8bb48e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  uniqueIdentifier: 
 --- !u!1 &8342028284851336956
 GameObject:
   m_ObjectHideFlags: 0

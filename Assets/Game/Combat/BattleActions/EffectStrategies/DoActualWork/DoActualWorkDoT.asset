@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   fractionProbabilityToApply: 0.5
   statusEffectType: 0
-  duration: 10
-  tickPeriod: 2
-  healthChangePerTick: -3
+  duration: 12
+  tickPeriod: 3
+  healthChangePerTick: -2
   persistAfterCombat: 0

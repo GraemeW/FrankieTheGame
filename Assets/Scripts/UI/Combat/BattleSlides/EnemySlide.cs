@@ -53,11 +53,13 @@ namespace Frankie.Combat.UI
                     break;
                 case StateAlteredType.Dead:
                     button.enabled = false;
-                    GetComponent<Image>().CrossFadeAlpha(0f, deathFadeTime, false);
+                    image.CrossFadeAlpha(0f, deathFadeTime, false);
+                    cooldownTimer?.gameObject.SetActive(false);
                     break;
                 case StateAlteredType.Resurrected:
                     button.enabled = true;
-                    GetComponent<Image>().CrossFadeAlpha(1f, deathFadeTime, false);
+                    image.CrossFadeAlpha(1f, deathFadeTime, false);
+                    cooldownTimer?.gameObject.SetActive(true);
                     break;
             }
         }

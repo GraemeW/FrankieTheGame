@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6b066201d64e5354387f385aa2872d22, type: 3}
   m_Name: 73adc878-e733-45e4-b379-e8ed9124153c
   m_EditorClassIdentifier: 
-  upSkillReference: PresentDashboard
+  upSkillReference: ShowOffCode
   upBranch: 
   leftSkillReference: DoActualWork
   leftBranch: 

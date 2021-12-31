@@ -10,11 +10,19 @@ PrefabInstance:
     - target: {fileID: 1182436157161314237, guid: e4be3ce2d5464c3498c884ae5d9223d4, type: 3}
       propertyPath: combatAudio
       value: 
-      objectReference: {fileID: 8300000, guid: c1bc045e54aa45a4089dd272ac98c7f7, type: 3}
+      objectReference: {fileID: 8300000, guid: 8e94f989a65871649974f116718f33dd, type: 3}
     - target: {fileID: 1182436157161314237, guid: e4be3ce2d5464c3498c884ae5d9223d4, type: 3}
       propertyPath: combatSprite
       value: 
       objectReference: {fileID: 21300000, guid: 38488748205c1324985a0359a47eae95, type: 3}
+    - target: {fileID: 1182436157161314237, guid: e4be3ce2d5464c3498c884ae5d9223d4, type: 3}
+      propertyPath: movingBackgroundProperties.shaderMaterial
+      value: 
+      objectReference: {fileID: 2100000, guid: 32b4c139a5c79ce46a7bfae5b269ac9b, type: 2}
+    - target: {fileID: 1182436157161314237, guid: e4be3ce2d5464c3498c884ae5d9223d4, type: 3}
+      propertyPath: movingBackgroundProperties.tileSpriteImage
+      value: 
+      objectReference: {fileID: 21300000, guid: ddb16bd4924822f46819b6456c10ce9f, type: 3}
     - target: {fileID: 2085418849946982719, guid: e4be3ce2d5464c3498c884ae5d9223d4, type: 3}
       propertyPath: characterProperties
       value: 
@@ -85,6 +93,14 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2088815242785209475, guid: e4be3ce2d5464c3498c884ae5d9223d4, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2176599180704515216, guid: e4be3ce2d5464c3498c884ae5d9223d4, type: 3}
+      propertyPath: canBeShoutedAt
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2176599180704515216, guid: e4be3ce2d5464c3498c884ae5d9223d4, type: 3}
+      propertyPath: willDestroySelfOnDeath
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6346925829285501531, guid: e4be3ce2d5464c3498c884ae5d9223d4, type: 3}

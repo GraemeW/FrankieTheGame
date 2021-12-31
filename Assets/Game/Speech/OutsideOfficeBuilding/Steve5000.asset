@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &-8087348194363726682
+--- !u!114 &-8877599338786768631
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -10,18 +10,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 09c07c7c6f4c666429a0bbc8d18232b2, type: 3}
-  m_Name: dd5bb35d-5c71-430e-9d03-6155723607bb
+  m_Name: 80e92ca4-aa0a-4ac7-aecf-eab776aad139
   m_EditorClassIdentifier: 
   speakerType: 1
   characterProperties: {fileID: 11400000, guid: ec6ec75df6f1e3e4ea3cf0953f1b4eab, type: 2}
   speakerName: Steve5000
-  text: The Arch-PM Lazarus, he led us down here to code in this hellhole. The bastard
-    led us into a trap!
-  children:
-  - 44a320c0-6116-4bf7-8fed-54b41d3fa47b
+  text: Let's brush up your combat skills, I don't want you to get embarrassed by
+    some fresh grad.
+  children: []
   rect:
     serializedVersion: 2
-    x: 1018
+    x: 2030
     y: 30
     width: 400
     height: 225
@@ -33,7 +32,7 @@ MonoBehaviour:
     height: 45
   condition:
     and: []
---- !u!114 &-6239560753091108740
+--- !u!114 &-5303683922038676400
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -43,51 +42,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 09c07c7c6f4c666429a0bbc8d18232b2, type: 3}
-  m_Name: 3bae300e-8c34-41fe-a495-167fe56e7eac
+  m_Name: f0cc4e70-23e3-46a3-afea-bd2a7e3f5afa
   m_EditorClassIdentifier: 
   speakerType: 1
   characterProperties: {fileID: 11400000, guid: ec6ec75df6f1e3e4ea3cf0953f1b4eab, type: 2}
   speakerName: Steve5000
-  text: Ho there, wanderer. Stay thy course a moment to indulge an old man.
+  text: Root Node Skipped
   children:
-  - dd5bb35d-5c71-430e-9d03-6155723607bb
+  - bc3fdfb8-ef8b-4789-b958-5c2b9d36a458
+  - d84612ca-8aeb-4f95-9f06-dfdadc8f419f
   rect:
     serializedVersion: 2
-    x: 518
-    y: 30
-    width: 400
-    height: 225
-  draggingRect:
-    serializedVersion: 2
-    x: 0
-    y: 0
-    width: 400
-    height: 45
-  condition:
-    and:
-    - or:
-      - predicate: {fileID: 11400000, guid: b7b5c1c902674df42919891ac90b7210, type: 2}
-        negate: 1
---- !u!114 &-5136861124685097403
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 09c07c7c6f4c666429a0bbc8d18232b2, type: 3}
-  m_Name: 44a320c0-6116-4bf7-8fed-54b41d3fa47b
-  m_EditorClassIdentifier: 
-  speakerType: 1
-  characterProperties: {fileID: 11400000, guid: ec6ec75df6f1e3e4ea3cf0953f1b4eab, type: 2}
-  speakerName: Steve5000
-  text: Quickly, find the subway card, subdue the horse and get out of here!
-  children: []
-  rect:
-    serializedVersion: 2
-    x: 1518
+    x: 30
     y: 30
     width: 400
     height: 225
@@ -99,7 +65,7 @@ MonoBehaviour:
     height: 45
   condition:
     and: []
---- !u!114 &-3327923513085265471
+--- !u!114 &-4225616288265176491
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -109,17 +75,50 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 09c07c7c6f4c666429a0bbc8d18232b2, type: 3}
-  m_Name: 5b095211-12f2-426a-8dba-7316f5bb6ca3
+  m_Name: 889d5a8c-f5aa-4e60-9a01-4d9018f5714c
   m_EditorClassIdentifier: 
   speakerType: 1
   characterProperties: {fileID: 11400000, guid: ec6ec75df6f1e3e4ea3cf0953f1b4eab, type: 2}
   speakerName: Steve5000
-  text: Fly, you fools!
+  text: Hey, look -- before you go in there, you should know -- the interns have
+    been acting really weird.
+  children:
+  - 80e92ca4-aa0a-4ac7-aecf-eab776aad139
+  rect:
+    serializedVersion: 2
+    x: 1530
+    y: 30
+    width: 400
+    height: 225
+  draggingRect:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 400
+    height: 45
+  condition:
+    and: []
+--- !u!114 &-810070769804634399
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 09c07c7c6f4c666429a0bbc8d18232b2, type: 3}
+  m_Name: d84612ca-8aeb-4f95-9f06-dfdadc8f419f
+  m_EditorClassIdentifier: 
+  speakerType: 1
+  characterProperties: {fileID: 11400000, guid: ec6ec75df6f1e3e4ea3cf0953f1b4eab, type: 2}
+  speakerName: Steve5000
+  text: Nice fightin' buddy.  Get in there and show them who's boss.
   children: []
   rect:
     serializedVersion: 2
-    x: 511
-    y: 286
+    x: 530
+    y: 280
     width: 400
     height: 225
   draggingRect:
@@ -131,7 +130,7 @@ MonoBehaviour:
   condition:
     and:
     - or:
-      - predicate: {fileID: 11400000, guid: b7b5c1c902674df42919891ac90b7210, type: 2}
+      - predicate: {fileID: 11400000, guid: f577012c6ef0b9747a778f7588e92553, type: 2}
         negate: 0
 --- !u!114 &11400000
 MonoBehaviour:
@@ -143,7 +142,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: aac27b8e802ced743b3f275e283ab9df, type: 3}
-  m_Name: Steve5000Dialogue
+  m_Name: Steve5000
   m_EditorClassIdentifier: 
   skipRootNode: 1
   newNodeOffset: {x: 100, y: 25}
@@ -152,12 +151,13 @@ MonoBehaviour:
   activeNPCs:
   - {fileID: 11400000, guid: ec6ec75df6f1e3e4ea3cf0953f1b4eab, type: 2}
   dialogueNodes:
-  - {fileID: 1656727551450428809}
-  - {fileID: -6239560753091108740}
-  - {fileID: -8087348194363726682}
-  - {fileID: -3327923513085265471}
-  - {fileID: -5136861124685097403}
---- !u!114 &1656727551450428809
+  - {fileID: -5303683922038676400}
+  - {fileID: 1021114778521504117}
+  - {fileID: -810070769804634399}
+  - {fileID: 8357326375626679247}
+  - {fileID: -4225616288265176491}
+  - {fileID: -8877599338786768631}
+--- !u!114 &1021114778521504117
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -167,18 +167,53 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 09c07c7c6f4c666429a0bbc8d18232b2, type: 3}
-  m_Name: 22be0db3-cb08-48ef-93fd-94656681a7b9
+  m_Name: bc3fdfb8-ef8b-4789-b958-5c2b9d36a458
   m_EditorClassIdentifier: 
   speakerType: 1
   characterProperties: {fileID: 11400000, guid: ec6ec75df6f1e3e4ea3cf0953f1b4eab, type: 2}
   speakerName: Steve5000
-  text: Root Node Skip
+  text: Oh, hey Francis . . . err, Frankie.
   children:
-  - 3bae300e-8c34-41fe-a495-167fe56e7eac
-  - 5b095211-12f2-426a-8dba-7316f5bb6ca3
+  - 0f451692-e105-427a-a628-68d1abbcb70b
   rect:
     serializedVersion: 2
-    x: 30
+    x: 530
+    y: 30
+    width: 400
+    height: 225
+  draggingRect:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 400
+    height: 45
+  condition:
+    and:
+    - or:
+      - predicate: {fileID: 11400000, guid: f577012c6ef0b9747a778f7588e92553, type: 2}
+        negate: 1
+--- !u!114 &8357326375626679247
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 09c07c7c6f4c666429a0bbc8d18232b2, type: 3}
+  m_Name: 0f451692-e105-427a-a628-68d1abbcb70b
+  m_EditorClassIdentifier: 
+  speakerType: 1
+  characterProperties: {fileID: 11400000, guid: ec6ec75df6f1e3e4ea3cf0953f1b4eab, type: 2}
+  speakerName: Steve5000
+  text: Oh, did you forget your key card again?  You can borrow mine, I'm just on
+    my out.
+  children:
+  - 889d5a8c-f5aa-4e60-9a01-4d9018f5714c
+  rect:
+    serializedVersion: 2
+    x: 1030
     y: 30
     width: 400
     height: 225

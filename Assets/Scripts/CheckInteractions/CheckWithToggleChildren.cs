@@ -69,6 +69,8 @@ namespace Frankie.Control
 
         public override void RestoreState(SaveState state)
         {
+            if (state == null) { return; }
+
             if (!(bool)state.GetState())
             {
                 // Reset children, as condition was met on prior save

@@ -29,13 +29,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6b066201d64e5354387f385aa2872d22, type: 3}
   m_Name: 56e64a4f-b7c9-4c31-a6ae-d3eb82a8050c
   m_EditorClassIdentifier: 
-  upSkillReference: SmileMenacingly
+  upSkillReference: InstillSelfDoubt
   upBranch: 
-  leftSkillReference: Whinny
+  leftSkillReference: 
   leftBranch: 
-  rightSkillReference: Whinny
+  rightSkillReference: 
   rightBranch: 
-  downSkillReference: FlipOut
+  downSkillReference: 
   downBranch: 
   rect:
     serializedVersion: 2

@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2296a696ff7b80140ab1509f2d4bc48a, type: 3}
   m_Name: ShootTheShitHealing
   m_EditorClassIdentifier: 
-  healthChange: 5
-  jitter: 1
-  canMiss: 0
+  healthChange: 1
+  jitter: 5
+  canMiss: 1
   canCrit: 1
   critMultiplier: 2

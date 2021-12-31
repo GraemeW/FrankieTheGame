@@ -14,4 +14,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   stat: 5
   battleAction: {fileID: 11400000, guid: f53c87ce42556f04f93ae4e4cc9110a4, type: 2}
-  detail: Gunks up the works
+  detail: Seems to make your office mates happy

@@ -8,12 +8,13 @@ using System;
 using Frankie.Saving;
 using UnityEngine.SceneManagement;
 using System.Linq;
+using Frankie.Core;
 
 namespace Frankie.Stats
 {
     [RequireComponent(typeof(PlayerMover))]
     [RequireComponent(typeof(InactiveParty))]
-    public class Party : MonoBehaviour, ISaveable
+    public class Party : MonoBehaviour, ISaveable, IPredicateEvaluator
     {
         // Tunables
         [SerializeField][Range(1,4)] int partyLimit = 4;
@@ -485,6 +486,12 @@ namespace Frankie.Stats
                     }
                 }
             }
+        }
+
+        public bool? Evaluate(Predicate predicate)
+        {
+            PredicateParty predicateParty = predicate as PredicateParty;
+            return predicateParty != null ? predicateParty.Evaluate(this) : null;
         }
         #endregion
     }

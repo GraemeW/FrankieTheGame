@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: -699335155612969768}
   - component: {fileID: 4971948613120259957}
   m_Layer: 0
-  m_Name: CheckWithToggleChildren
+  m_Name: CheckToUnlockEnable
   m_TagString: Interactable
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -86,12 +86,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   overrideDefaultInteractionDistance: 0
   interactionDistance: 0.3
-  layerOnActive:
-    serializedVersion: 2
-    m_Bits: 1
-  layerOnInactive:
-    serializedVersion: 2
-    m_Bits: 4
   messageOnToggle: '*CLICK* Oh, it looks like {0} got the door open'
   messageOnConditionNotMet: Huh, it appears to be locked
   defaultPartyLeaderName: Frankie
@@ -99,7 +93,7 @@ MonoBehaviour:
   condition:
     and:
     - or:
-      - predicate: {fileID: 11400000, guid: 9c962c1d663622d46ac71df44b618db6, type: 2}
+      - predicate: {fileID: 0}
         negate: 0
   checkInteraction:
     m_PersistentCalls:
