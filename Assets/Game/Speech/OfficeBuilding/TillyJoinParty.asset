@@ -15,8 +15,9 @@ MonoBehaviour:
   speakerType: 1
   characterProperties: {fileID: 11400000, guid: b10029ac6f311c441a516db78ca01efd, type: 2}
   speakerName: Tilly
-  text: Want me to walk around with you?
-  children: []
+  text: Huh?  No, I don't need rescuing.
+  children:
+  - 5af9e51e-e53a-48c3-b642-c1a7de7e2f32
   rect:
     serializedVersion: 2
     x: 30
@@ -29,8 +30,38 @@ MonoBehaviour:
     y: 0
     width: 400
     height: 45
-  onEnterAction: 
-  onExitAction: joinParty
+  condition:
+    and: []
+--- !u!114 &-6662535426857840519
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 09c07c7c6f4c666429a0bbc8d18232b2, type: 3}
+  m_Name: 5af9e51e-e53a-48c3-b642-c1a7de7e2f32
+  m_EditorClassIdentifier: 
+  speakerType: 1
+  characterProperties: {fileID: 11400000, guid: b10029ac6f311c441a516db78ca01efd, type: 2}
+  speakerName: Tilly
+  text: I've just been trying to show these nerds how to do their job.
+  children:
+  - 308b98b7-742f-4b9b-8ca9-1be49cd7c3bb
+  rect:
+    serializedVersion: 2
+    x: 530
+    y: 30
+    width: 400
+    height: 225
+  draggingRect:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 400
+    height: 45
   condition:
     and: []
 --- !u!114 &11400000
@@ -53,3 +84,37 @@ MonoBehaviour:
   - {fileID: 11400000, guid: b10029ac6f311c441a516db78ca01efd, type: 2}
   dialogueNodes:
   - {fileID: -7182139537527727821}
+  - {fileID: -6662535426857840519}
+  - {fileID: 846675544101494500}
+--- !u!114 &846675544101494500
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 09c07c7c6f4c666429a0bbc8d18232b2, type: 3}
+  m_Name: 308b98b7-742f-4b9b-8ca9-1be49cd7c3bb
+  m_EditorClassIdentifier: 
+  speakerType: 1
+  characterProperties: {fileID: 11400000, guid: b10029ac6f311c441a516db78ca01efd, type: 2}
+  speakerName: Tilly
+  text: Anyway, let's get out of here Frankie, we have some work to do with Maya
+    upstairs.
+  children: []
+  rect:
+    serializedVersion: 2
+    x: 1030
+    y: 30
+    width: 400
+    height: 225
+  draggingRect:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 400
+    height: 45
+  condition:
+    and: []

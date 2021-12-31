@@ -321,7 +321,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b29a3a98a34c59448ad553101362c476, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  quest: {fileID: 0}
+  quest: {fileID: 11400000, guid: 1c384b154e472324cacb2381484bd3bc, type: 2}
 --- !u!1 &82363299 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 7418550396487708495, guid: a87622f06df9ac54e90516e57e833835, type: 3}
@@ -2325,7 +2325,7 @@ MonoBehaviour:
       - minimum: 0
         maximum: 1
         characterProperties: {fileID: 11400000, guid: 9fe41bb8f767c374a974d7afca7cf995, type: 2}
-    probability: 2
+    probability: 3
   - spawnConfiguration:
       maxQuantity: 0
       enemyConfigurations: []
@@ -3950,6 +3950,42 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 91148b27a55a6c941a1c74aa1c90f7e9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &728958892 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8725522589070577935, guid: a87622f06df9ac54e90516e57e833835, type: 3}
+  m_PrefabInstance: {fileID: 71018635}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &728958896
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 728958892}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 47c843d51c92e854f95fb02bd7be9471, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  dialogueUpdateType: 2
+  triggerNode: {fileID: 3476252524299954001, guid: fecb156f8f30deb478815893d0c153cf, type: 2}
+  dialogueTriggeredEvent:
+    triggerImmediate: 1
+    onTriggerEvent:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 71018638}
+          m_TargetAssemblyTypeName: Frankie.Quests.QuestGiver, Assembly-CSharp
+          m_MethodName: GiveQuest
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
 --- !u!1001 &750893887
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -4663,7 +4699,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8594577352249687105, guid: 5ea656d2b5c6d7c40a644cfe526999f9, type: 3}
       propertyPath: m_RootOrder
-      value: 9
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 8594577352249687105, guid: 5ea656d2b5c6d7c40a644cfe526999f9, type: 3}
       propertyPath: m_LocalPosition.x
@@ -4943,7 +4979,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
-    m_TransformParent: {fileID: 1873962078}
+    m_TransformParent: {fileID: 352433257}
     m_Modifications:
     - target: {fileID: 565694158762715577, guid: bacc30e7b6274514fa44ffc73b87b908, type: 3}
       propertyPath: m_Name
@@ -4951,15 +4987,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 565694158762715578, guid: bacc30e7b6274514fa44ffc73b87b908, type: 3}
       propertyPath: m_RootOrder
-      value: 7
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 565694158762715578, guid: bacc30e7b6274514fa44ffc73b87b908, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -0.44364738
+      value: -1.6512513
       objectReference: {fileID: 0}
     - target: {fileID: 565694158762715578, guid: bacc30e7b6274514fa44ffc73b87b908, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0.9551017
+      value: -1.1297333
       objectReference: {fileID: 0}
     - target: {fileID: 565694158762715578, guid: bacc30e7b6274514fa44ffc73b87b908, type: 3}
       propertyPath: m_LocalPosition.z
@@ -7917,81 +7953,21 @@ MonoBehaviour:
   yJitterDistance: 0.2
   spawnConfigurations:
   - spawnConfiguration:
-      maxQuantity: 3
+      maxQuantity: 2
       enemyConfigurations:
       - minimum: 0
         maximum: 1
-        characterProperties: {fileID: 11400000, guid: 530bc654984fc6b478566ee056083f8b, type: 2}
-      - minimum: 0
-        maximum: 1
-        characterProperties: {fileID: 11400000, guid: 44e5b74a59991d14e972988012c4557e, type: 2}
+        characterProperties: {fileID: 11400000, guid: 9fe41bb8f767c374a974d7afca7cf995, type: 2}
       - minimum: 0
         maximum: 1
         characterProperties: {fileID: 11400000, guid: 86aecc43b78f58145815657f0856ac5b, type: 2}
       - minimum: 0
         maximum: 1
-        characterProperties: {fileID: 11400000, guid: 9fe41bb8f767c374a974d7afca7cf995, type: 2}
-    probability: 3
-  - spawnConfiguration:
-      maxQuantity: 0
-      enemyConfigurations: []
-    probability: 1
---- !u!1 &1032978881
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1032978882}
-  - component: {fileID: 1032978883}
-  m_Layer: 2
-  m_Name: EnemySpawner (1)
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1032978882
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1032978881}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.52, y: -0.36000013, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 750893888}
-  m_RootOrder: 6
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1032978883
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1032978881}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 34000378f749ac4418d18b87c7822a5d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  xJitterDistance: 0.3
-  yJitterDistance: 0.05
-  spawnConfigurations:
-  - spawnConfiguration:
-      maxQuantity: 1
-      enemyConfigurations:
-      - minimum: 0
-        maximum: 1
         characterProperties: {fileID: 11400000, guid: 530bc654984fc6b478566ee056083f8b, type: 2}
       - minimum: 0
         maximum: 1
         characterProperties: {fileID: 11400000, guid: 44e5b74a59991d14e972988012c4557e, type: 2}
-    probability: 2
+    probability: 3
   - spawnConfiguration:
       maxQuantity: 0
       enemyConfigurations: []
@@ -11873,6 +11849,25 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7c05e981e35cdf94ebdfcd51b1b232b7, type: 3}
+--- !u!1 &1680452115 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2398833644461657395, guid: cf0c598dcc5acb140ad2c34c48d6aa9c, type: 3}
+  m_PrefabInstance: {fileID: 2068905520}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1680452130
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1680452115}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 150976398f981a94ebab2b787e92fa26, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  quest: {fileID: 11400000, guid: 1c384b154e472324cacb2381484bd3bc, type: 2}
+  objective: {fileID: 11400000, guid: 1668b91476fac90448edeb1802fe0843, type: 2}
 --- !u!1001 &1704453642
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -11935,7 +11930,7 @@ MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 4105283153373425637, guid: cf0c598dcc5acb140ad2c34c48d6aa9c, type: 3}
   m_PrefabInstance: {fileID: 2068905520}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
+  m_GameObject: {fileID: 1680452115}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: bce5b12bc486dc641b36c0b1102e4dbf, type: 3}
@@ -12077,7 +12072,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   dialogueUpdateType: 3
-  triggerNode: {fileID: -7182139537527727821, guid: b9c8fc0bd96239c4180e4a69933e331d, type: 2}
+  triggerNode: {fileID: 846675544101494500, guid: b9c8fc0bd96239c4180e4a69933e331d, type: 2}
   dialogueTriggeredEvent:
     triggerImmediate: 0
     onTriggerEvent:
@@ -12099,6 +12094,37 @@ MonoBehaviour:
           m_TargetAssemblyTypeName: Frankie.Stats.CharacterNPCSwapper, Assembly-CSharp
           m_MethodName: JoinParty
           m_Mode: 0
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+--- !u!114 &1871047139
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1871047134}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 47c843d51c92e854f95fb02bd7be9471, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  dialogueUpdateType: 2
+  triggerNode: {fileID: -7182139537527727821, guid: b9c8fc0bd96239c4180e4a69933e331d, type: 2}
+  dialogueTriggeredEvent:
+    triggerImmediate: 1
+    onTriggerEvent:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 1680452130}
+          m_TargetAssemblyTypeName: Frankie.Quests.QuestCompleter, Assembly-CSharp
+          m_MethodName: CompleteObjective
+          m_Mode: 1
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
             m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine

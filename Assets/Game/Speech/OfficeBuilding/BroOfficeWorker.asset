@@ -1,0 +1,341 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-7356467215503114066
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 09c07c7c6f4c666429a0bbc8d18232b2, type: 3}
+  m_Name: a91dee97-2e66-4384-b770-eabce050f541
+  m_EditorClassIdentifier: 
+  speakerType: 1
+  characterProperties: {fileID: 11400000, guid: 15a456ac7051b7946ba9d4575fddb1ba, type: 2}
+  speakerName: Bro Office Worker
+  text: Watch out for the interns, they're really riled up about something.
+  children: []
+  rect:
+    serializedVersion: 2
+    x: 2530
+    y: 30
+    width: 400
+    height: 225
+  draggingRect:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 400
+    height: 45
+  condition:
+    and: []
+--- !u!114 &-5998344830628953181
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 09c07c7c6f4c666429a0bbc8d18232b2, type: 3}
+  m_Name: ca545322-7018-421c-92f2-847e398c6744
+  m_EditorClassIdentifier: 
+  speakerType: 1
+  characterProperties: {fileID: 11400000, guid: 15a456ac7051b7946ba9d4575fddb1ba, type: 2}
+  speakerName: Bro Office Worker
+  text: Oh no oh no oh no oh no.
+  children:
+  - 7cced6a7-aa14-43da-af92-b6f683e0cc1e
+  rect:
+    serializedVersion: 2
+    x: 530
+    y: 30
+    width: 400
+    height: 225
+  draggingRect:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 400
+    height: 45
+  condition:
+    and:
+    - or:
+      - predicate: {fileID: 11400000, guid: c8b61f602399fce4dbe43274e0792ca2, type: 2}
+        negate: 1
+--- !u!114 &-4270344729461033555
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 09c07c7c6f4c666429a0bbc8d18232b2, type: 3}
+  m_Name: 0a6e81b3-7454-463b-b4b0-08fc2367a947
+  m_EditorClassIdentifier: 
+  speakerType: 1
+  characterProperties: {fileID: 11400000, guid: 15a456ac7051b7946ba9d4575fddb1ba, type: 2}
+  speakerName: Bro Office Worker
+  text: Thanks Frankie, I really owe ya one.
+  children: []
+  rect:
+    serializedVersion: 2
+    x: 530
+    y: 780
+    width: 400
+    height: 225
+  draggingRect:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 400
+    height: 45
+  condition:
+    and:
+    - or:
+      - predicate: {fileID: 11400000, guid: 155aad549decfe04794ff6d113eb9221, type: 2}
+        negate: 0
+    - or:
+      - predicate: {fileID: 11400000, guid: a7bbc4f4f2f05314088fea20cb40007e, type: 2}
+        negate: 1
+--- !u!114 &-428547552200927087
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 09c07c7c6f4c666429a0bbc8d18232b2, type: 3}
+  m_Name: 3212fdaf-29d8-4955-88ef-217f0293681b
+  m_EditorClassIdentifier: 
+  speakerType: 1
+  characterProperties: {fileID: 11400000, guid: 15a456ac7051b7946ba9d4575fddb1ba, type: 2}
+  speakerName: Bro Office Worker
+  text: Look, Horse locked the door to the ballpit room, but you can make your way
+    down to Tilly in the basement with the elevator.
+  children:
+  - a91dee97-2e66-4384-b770-eabce050f541
+  rect:
+    serializedVersion: 2
+    x: 2030
+    y: 30
+    width: 400
+    height: 225
+  draggingRect:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 400
+    height: 45
+  condition:
+    and: []
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aac27b8e802ced743b3f275e283ab9df, type: 3}
+  m_Name: BroOfficeWorker
+  m_EditorClassIdentifier: 
+  skipRootNode: 1
+  newNodeOffset: {x: 100, y: 25}
+  nodeWidth: 400
+  nodeHeight: 225
+  activeNPCs:
+  - {fileID: 11400000, guid: 15a456ac7051b7946ba9d4575fddb1ba, type: 2}
+  dialogueNodes:
+  - {fileID: 6847376204229358862}
+  - {fileID: -5998344830628953181}
+  - {fileID: 3476252524299954001}
+  - {fileID: 7293643478838555954}
+  - {fileID: -428547552200927087}
+  - {fileID: 3513724569078580669}
+  - {fileID: 2493417784762777328}
+  - {fileID: -4270344729461033555}
+  - {fileID: -7356467215503114066}
+--- !u!114 &2493417784762777328
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 09c07c7c6f4c666429a0bbc8d18232b2, type: 3}
+  m_Name: 4fe1eddc-058d-436d-b31d-4f98fcd8214f
+  m_EditorClassIdentifier: 
+  speakerType: 1
+  characterProperties: {fileID: 11400000, guid: 15a456ac7051b7946ba9d4575fddb1ba, type: 2}
+  speakerName: Bro Office Worker
+  text: Oh, uh, hi Tilly.  Good to uh . . . see you again . . . in good spirits.
+  children: []
+  rect:
+    serializedVersion: 2
+    x: 530
+    y: 530
+    width: 400
+    height: 225
+  draggingRect:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 400
+    height: 45
+  condition:
+    and:
+    - or:
+      - predicate: {fileID: 11400000, guid: 155aad549decfe04794ff6d113eb9221, type: 2}
+        negate: 0
+    - or:
+      - predicate: {fileID: 11400000, guid: a7bbc4f4f2f05314088fea20cb40007e, type: 2}
+        negate: 0
+--- !u!114 &3476252524299954001
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 09c07c7c6f4c666429a0bbc8d18232b2, type: 3}
+  m_Name: 7cced6a7-aa14-43da-af92-b6f683e0cc1e
+  m_EditorClassIdentifier: 
+  speakerType: 1
+  characterProperties: {fileID: 11400000, guid: 15a456ac7051b7946ba9d4575fddb1ba, type: 2}
+  speakerName: Bro Office Worker
+  text: Frankie!  I need your help, I really messed up this time.
+  children:
+  - e74ee188-b77d-4267-a3a2-d15f64bf9aa3
+  rect:
+    serializedVersion: 2
+    x: 1030
+    y: 30
+    width: 400
+    height: 225
+  draggingRect:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 400
+    height: 45
+  condition:
+    and: []
+--- !u!114 &3513724569078580669
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 09c07c7c6f4c666429a0bbc8d18232b2, type: 3}
+  m_Name: 5a466fa7-6db9-4d91-88c6-e462fe16dfd3
+  m_EditorClassIdentifier: 
+  speakerType: 1
+  characterProperties: {fileID: 11400000, guid: 15a456ac7051b7946ba9d4575fddb1ba, type: 2}
+  speakerName: Bro Office Worker
+  text: Come on Frankie, please go find Tilly.  She'll kill me if we just leave her
+    down there.
+  children: []
+  rect:
+    serializedVersion: 2
+    x: 530
+    y: 280
+    width: 400
+    height: 225
+  draggingRect:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 400
+    height: 45
+  condition:
+    and:
+    - or:
+      - predicate: {fileID: 11400000, guid: c8b61f602399fce4dbe43274e0792ca2, type: 2}
+        negate: 0
+    - or:
+      - predicate: {fileID: 11400000, guid: 155aad549decfe04794ff6d113eb9221, type: 2}
+        negate: 1
+--- !u!114 &6847376204229358862
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 09c07c7c6f4c666429a0bbc8d18232b2, type: 3}
+  m_Name: ba8964c5-6021-421a-a210-5b511e08a3b8
+  m_EditorClassIdentifier: 
+  speakerType: 1
+  characterProperties: {fileID: 11400000, guid: 15a456ac7051b7946ba9d4575fddb1ba, type: 2}
+  speakerName: Bro Office Worker
+  text: Skip Root
+  children:
+  - ca545322-7018-421c-92f2-847e398c6744
+  - 5a466fa7-6db9-4d91-88c6-e462fe16dfd3
+  - 4fe1eddc-058d-436d-b31d-4f98fcd8214f
+  - 0a6e81b3-7454-463b-b4b0-08fc2367a947
+  rect:
+    serializedVersion: 2
+    x: 30
+    y: 30
+    width: 400
+    height: 225
+  draggingRect:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 400
+    height: 45
+  condition:
+    and: []
+--- !u!114 &7293643478838555954
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 09c07c7c6f4c666429a0bbc8d18232b2, type: 3}
+  m_Name: e74ee188-b77d-4267-a3a2-d15f64bf9aa3
+  m_EditorClassIdentifier: 
+  speakerType: 1
+  characterProperties: {fileID: 11400000, guid: 15a456ac7051b7946ba9d4575fddb1ba, type: 2}
+  speakerName: Bro Office Worker
+  text: I dared Tilly to hop down the fireman's pole in the ballpit room and SHE
+    DID.  Now she's trapped with the interns.
+  children:
+  - 3212fdaf-29d8-4955-88ef-217f0293681b
+  rect:
+    serializedVersion: 2
+    x: 1530
+    y: 30
+    width: 400
+    height: 225
+  draggingRect:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 400
+    height: 45
+  condition:
+    and: []

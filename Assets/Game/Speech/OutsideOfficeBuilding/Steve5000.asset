@@ -15,8 +15,7 @@ MonoBehaviour:
   speakerType: 1
   characterProperties: {fileID: 11400000, guid: ec6ec75df6f1e3e4ea3cf0953f1b4eab, type: 2}
   speakerName: Steve5000
-  text: Let's brush up your combat skills, I don't want you to get embarrassed by
-    some fresh grad.
+  text: Let's brush up your combat skills, I don't want you to get embarrassed.
   children: []
   rect:
     serializedVersion: 2

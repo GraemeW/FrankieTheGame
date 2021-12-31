@@ -14,5 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   uniqueID: c3d74bcb-76e3-46e2-bbc4-678052a09037
   detail: Rescue Tilly from the rogue interns
-  objectives: []
+  objectives:
+  - {fileID: 11400000, guid: 1668b91476fac90448edeb1802fe0843, type: 2}
   rewards: []
