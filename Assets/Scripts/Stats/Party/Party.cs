@@ -95,9 +95,16 @@ namespace Frankie.Stats
 
         public bool HasMember(CombatParticipant member)
         {
-            foreach (CombatParticipant combatParticipant in party)
+            CharacterProperties characterProperties = member.GetBaseStats()?.GetCharacterProperties();
+            return HasMember(characterProperties);
+        }
+
+        public bool HasMember(CharacterProperties member)
+        {
+            foreach (CombatParticipant character in party)
             {
-                if (combatParticipant == member)
+                CharacterProperties characterProperties = character.GetBaseStats()?.GetCharacterProperties();
+                if (characterProperties == member)
                 {
                     return true;
                 }
@@ -198,12 +205,13 @@ namespace Frankie.Stats
         {
             if (party.Count >= partyLimit) { return false; }
             if (character == null) { return false; } // Failsafe
+            if (HasMember(character)) { return false; } // Verify no dupe characters to party
 
             party.Add(character);
             AddToUnlockedCharacters(character);
             RefreshAnimatorLookup();
-            inactiveParty.RestoreCharacterState(ref character); // restore character stats, exp, equipment, inventory (if previously in party)
-            inactiveParty.RemoveFromInactiveStorage(character); // stop tracking in inactive storage (i.e. since in active party)
+            inactiveParty.RestoreCharacterState(ref character); // Restore character stats, exp, equipment, inventory (if previously in party)
+            inactiveParty.RemoveFromInactiveStorage(character); // Stop tracking in inactive storage (i.e. since in active party)
 
             if (party.Count > 1) { character.GetComponent<Collider2D>().isTrigger = true; }
             partyUpdated?.Invoke();

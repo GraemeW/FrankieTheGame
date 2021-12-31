@@ -541,7 +541,7 @@ namespace Frankie.Inventory.UI
             if (inventoryBoxState != InventoryBoxState.inCharacterTargeting) { return; }
 
             targetCharacters = new[] { combatParticipant };
-            if (!GetNextTarget(null)) { SetInventoryBoxState(InventoryBoxState.inKnapsack); return; }
+            if (!GetNextTarget(null)) { SetInventoryBoxState(InventoryBoxState.inKnapsack); return; } // Verify passed combatParticipant is valid target
 
             targetCharacterChanged?.Invoke(CombatParticipantType.Target, new[] { combatParticipant });
             Choose(null);

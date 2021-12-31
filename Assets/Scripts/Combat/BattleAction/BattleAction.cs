@@ -53,13 +53,13 @@ namespace Frankie.Combat
             return apCost;
         }
 
-        public void Use(CombatParticipant sender, IEnumerable<CombatParticipant> recipients, Action finished)
+        public bool Use(CombatParticipant sender, IEnumerable<CombatParticipant> recipients, Action finished)
         {
             if (effectStrategies == null || !sender.HasAP(apCost))
             {
                 sender.SetCooldown(0f);
                 finished?.Invoke();
-                return;
+                return false;
             }
 
             foreach (EffectStrategy effectStrategy in effectStrategies)
@@ -67,7 +67,7 @@ namespace Frankie.Combat
                 effectStrategy.StartEffect(sender, recipients,
                     (EffectStrategy childEffectStrategy) => EffectFinished(sender, childEffectStrategy, finished));
             }
-
+            return true;
         }
 
         private void EffectFinished(CombatParticipant sender, EffectStrategy effectStrategy, Action finished)

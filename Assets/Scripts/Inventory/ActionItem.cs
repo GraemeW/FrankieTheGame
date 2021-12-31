@@ -19,18 +19,19 @@ namespace Frankie.Inventory
             return consumable;
         }
 
-        public void Use(CombatParticipant sender, IEnumerable<CombatParticipant> recipients, Action finished)
+        public bool Use(CombatParticipant sender, IEnumerable<CombatParticipant> recipients, Action finished)
         {
-            if (battleAction == null) { return; }
+            if (battleAction == null) { return false; }
 
             battleAction.Use(sender, recipients, finished);
 
             if (IsConsumable())
             {
-                if (!sender.TryGetComponent(out Knapsack knapsack)) { return; }
+                if (!sender.TryGetComponent(out Knapsack knapsack)) { return true; }
                 knapsack.RemoveItem(this, false);
                 knapsack.SquishItemsInKnapsack();
             }
+            return true;
         }
 
         public IEnumerable<CombatParticipant> GetTargets(bool? traverseForward, IEnumerable<CombatParticipant> currentTargets, IEnumerable<CombatParticipant> activeCharacters, IEnumerable<CombatParticipant> activeEnemies)

@@ -79,13 +79,14 @@ namespace Frankie.Combat.UI
 
         private bool SpawnAPChange(DamageText damageTextInstance, float amount)
         {
-            damageTextInstance.SetText(amount);
             if (amount > 0)
             {
+                damageTextInstance.SetText($"+{amount:n0}");
                 damageTextInstance.SetColor(gainAPTextColor);
             }
             else if (amount < 0)
             {
+                damageTextInstance.SetText($"{amount:n0}");
                 damageTextInstance.SetColor(loseAPTextColor);
             }
             return true;

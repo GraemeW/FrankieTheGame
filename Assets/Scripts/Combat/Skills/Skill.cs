@@ -60,9 +60,9 @@ namespace Frankie.Combat
         #endregion
 
         #region BattleActionUserInterface
-        public void Use(CombatParticipant sender, IEnumerable<CombatParticipant> recipients, Action finished)
+        public bool Use(CombatParticipant sender, IEnumerable<CombatParticipant> recipients, Action finished)
         {
-            battleAction.Use(sender, recipients, finished);
+            return battleAction.Use(sender, recipients, finished);
         }
 
         public IEnumerable<CombatParticipant> GetTargets(bool? traverseForward, IEnumerable<CombatParticipant> currentTarget, IEnumerable<CombatParticipant> activeCharacters, IEnumerable<CombatParticipant> activeEnemies)

@@ -135,7 +135,7 @@ namespace Frankie.Menu.UI
             ResetWorldOptions();
             AbilitiesBox abilitiesBox = Instantiate(abilitiesBoxPrefab, worldCanvas.GetWorldOptionsParent());
             childOption = abilitiesBox.gameObject;
-            abilitiesBox.Setup(playerController, party);
+            abilitiesBox.Setup(playerController, party, characterSlides);
             PassControl(abilitiesBox);
         }
 

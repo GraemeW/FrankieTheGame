@@ -17,7 +17,7 @@ namespace Frankie.Combat.UI
         [SerializeField] TextMeshProUGUI leftField = null;
         [SerializeField] TextMeshProUGUI rightField = null;
         [SerializeField] TextMeshProUGUI downField = null;
-        [SerializeField] TextMeshProUGUI skillField = null;
+        [SerializeField] protected TextMeshProUGUI skillField = null;
         [SerializeField] protected string defaultNoText = "--";
 
         // State

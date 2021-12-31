@@ -60,7 +60,7 @@ namespace Frankie.Control.Specialization
 
         public LoadPriority GetLoadPriority()
         {
-            throw new System.NotImplementedException();
+            return LoadPriority.ObjectProperty;
         }
 
         public SaveState CaptureState()

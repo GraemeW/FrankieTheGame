@@ -1,4 +1,5 @@
 using Frankie.Control;
+using Frankie.Speech.UI;
 using Frankie.Stats;
 using Frankie.Utils.UI;
 using System;
@@ -17,20 +18,35 @@ namespace Frankie.Combat.UI
         [SerializeField] TMP_Text statText = null;
         [SerializeField] TMP_Text skillDetailText = null;
         [SerializeField] TMP_Text apCostText = null;
+        [Header("Prefabs")]
+        [SerializeField] DialogueBox dialogueBoxPrefab = null;
+        [Header("Messages")]
+        [Tooltip("Include {0} for user, {1} for skill, {2} for target")] [SerializeField] string messageUseSkillInWorld = "{0} used {1} on {2}.";
+        [Tooltip("Include {0} for user, {1} for item, {2} for target")] [SerializeField] string messageNotEnoughAP = "Not enough AP.";
 
-        // State
+        // State -- UI
         AbilitiesBoxState abilitiesBoxState = AbilitiesBoxState.inCharacterSelection;
         List<UIChoiceOption> playerSelectChoiceOptions = new List<UIChoiceOption>();
+
+        // State -- Objects
+        Party party = null;
+        IEnumerable<CombatParticipant> targetCharacters = null;
+
+        // Cached References
+        List<CharacterSlide> characterSlides = null;
+
+        // Events
+        public event Action<CombatParticipantType, IEnumerable<CombatParticipant>> targetCharacterChanged;
 
         #region UnityMethods
         // Revert to standard UIBox implementations
         protected override void Awake() { }
-        protected override void OnEnable() { StandardOnEnable(); }
-        protected override void OnDisable() { StandardOnDisable(); }
+        protected override void OnEnable() { SubscribeCharacterSlides(true); StandardOnEnable();  }
+        protected override void OnDisable() { SubscribeCharacterSlides(false); StandardOnDisable(); }
         #endregion
 
         #region PublicMethods
-        public void Setup(IStandardPlayerInputCaller standardPlayerInputCaller, Party party)
+        public void Setup(IStandardPlayerInputCaller standardPlayerInputCaller, Party party, List<CharacterSlide> characterSlides)
         {
             controller = standardPlayerInputCaller;
 
@@ -47,34 +63,76 @@ namespace Frankie.Combat.UI
                 playerSelectChoiceOptions.Add(uiChoiceOption);
                 choiceIndex++;
             }
+            this.party = party;
             Setup(CombatParticipantType.Character, party.GetParty());
+
+            this.characterSlides = characterSlides;
+            SubscribeCharacterSlides(true);
+
             SetAbilitiesBoxState(AbilitiesBoxState.inCharacterSelection);
             ShowCursorOnAnyInteraction(PlayerInputType.Execute);
+        }
+
+        private void SubscribeCharacterSlides(bool enable)
+        {
+            if (characterSlides != null)
+            {
+                foreach (CharacterSlide characterSlide in characterSlides)
+                {
+                    if (enable)
+                    {
+                        targetCharacterChanged += characterSlide.HighlightSlide;
+                        characterSlide.AddButtonClickEvent(delegate { UseSkillOnTarget(characterSlide.GetCombatParticipant()); });
+                    }
+                    else
+                    {
+                        targetCharacterChanged -= characterSlide.HighlightSlide;
+                        // Note:  Remove button click event listeners handled on battleSlide on disable (removes all listeners)
+                    }
+                }
+            }
         }
         #endregion
 
         #region Interaction
-        protected override bool MoveCursor(PlayerInputType playerInputType)
+        protected override void SetUpChoiceOptions()
         {
+            choiceOptions.Clear();
             if (abilitiesBoxState == AbilitiesBoxState.inCharacterSelection)
             {
-                return base.MoveCursor(playerInputType);
+                choiceOptions.AddRange(playerSelectChoiceOptions.OrderBy(x => x.choiceOrder).ToList());
+                SetChoiceAvailable(choiceOptions.Count > 0);
             }
-            else if (abilitiesBoxState == AbilitiesBoxState.inAbilitiesSelection)
+            else
             {
-                HandleInput(playerInputType);
-                return true;
+                SetChoiceAvailable(true); // avoid short circuit on user control for other states
+                return;
             }
-            return false;
         }
 
         protected override bool Choose(string nodeID)
         {
-            if (abilitiesBoxState == AbilitiesBoxState.inCharacterSelection)
+            switch (abilitiesBoxState)
             {
-                return base.Choose(null);
+                case AbilitiesBoxState.inCharacterSelection:
+                    return base.Choose(null);
+                case AbilitiesBoxState.inAbilitiesSelection:
+                    SkillHandler skillHandler = currentCombatParticipant?.GetComponent<SkillHandler>();
+                    Skill activeSkill = skillHandler?.GetActiveSkill();
+                    if (activeSkill == null) { return false; }
+
+                    SetAbilitiesBoxState(AbilitiesBoxState.inCharacterTargeting);
+                    if (!GetNextTarget(true))
+                    {
+                        SetAbilitiesBoxState(AbilitiesBoxState.inAbilitiesSelection);
+                        return false;
+                    }
+                    return true;
+                case AbilitiesBoxState.inCharacterTargeting:
+                    return ChooseSkill();
+                default:
+                    return false;
             }
-            return false;
         }
 
         protected void ChooseCharacter(CombatParticipant character, bool initializeCursor = true)
@@ -107,25 +165,111 @@ namespace Frankie.Combat.UI
             SetAbilitiesBoxState(AbilitiesBoxState.inCharacterSelection);
         }
 
-        protected override void SetUpChoiceOptions()
+        private bool ChooseSkill()
         {
-            choiceOptions.Clear();
-            if (abilitiesBoxState == AbilitiesBoxState.inCharacterSelection)
+            if (currentCombatParticipant == null) { return false; }
+
+            SkillHandler skillHandler = currentCombatParticipant.GetComponent<SkillHandler>();
+            Skill activeSkill = skillHandler?.GetActiveSkill();
+            if (activeSkill == null) { return false; }
+
+            string senderName = currentCombatParticipant.GetCombatName();
+            string skillName = activeSkill.GetName();
+            string targetCharacterNames = string.Join(", ", targetCharacters.Select(x => x.GetCombatName()).ToList());
+
+            bool skillUsedSuccessfully = activeSkill.Use(currentCombatParticipant, targetCharacters, null);
+            SetAbilitiesBoxState(AbilitiesBoxState.inAbilitiesSelection);
+
+            DialogueBox dialogueBox = Instantiate(dialogueBoxPrefab, transform.parent);
+            if (skillUsedSuccessfully)
             {
-                choiceOptions.AddRange(playerSelectChoiceOptions.OrderBy(x => x.choiceOrder).ToList());
-                SetChoiceAvailable(choiceOptions.Count > 0);
+                dialogueBox.AddText(string.Format(messageUseSkillInWorld, senderName, skillName, targetCharacterNames));
+                PassControl(dialogueBox);
+                return true;
             }
             else
             {
-                SetChoiceAvailable(true); // avoid short circuit on user control for other states
-                return;
+                dialogueBox.AddText(string.Format(messageNotEnoughAP, senderName, skillName, targetCharacterNames));
+                PassControl(dialogueBox);
+                return false;
             }
+        }
+
+        protected override bool MoveCursor(PlayerInputType playerInputType)
+        {
+            switch (abilitiesBoxState)
+            {
+                case AbilitiesBoxState.inCharacterSelection:
+                    return base.MoveCursor(playerInputType);
+                case AbilitiesBoxState.inAbilitiesSelection:
+                    return HandleInputWithReturn(playerInputType);
+                case AbilitiesBoxState.inCharacterTargeting:
+                    if (playerInputType == PlayerInputType.NavigateRight || playerInputType == PlayerInputType.NavigateDown)
+                    {
+                        if (!GetNextTarget(true))
+                        {
+                            SetAbilitiesBoxState(AbilitiesBoxState.inAbilitiesSelection);
+                            return false;
+                        }
+                    }
+                    else if (playerInputType == PlayerInputType.NavigateLeft || playerInputType == PlayerInputType.NavigateUp)
+                    {
+                        if (!GetNextTarget(false))
+                        {
+                            SetAbilitiesBoxState(AbilitiesBoxState.inAbilitiesSelection);
+                            return false;
+                        }
+                    }
+                    return true;
+                default:
+                    return false;
+            }
+        }
+
+        private bool HandleInputWithReturn(PlayerInputType input)
+        {
+            if (currentCombatParticipant == null) { return false; }
+            if (SetBranchOrSkill(currentCombatParticipant, input)) { return true; }
+
+            return false;
         }
 
         protected override void HandleInput(PlayerInputType input)
         {
-            if (currentCombatParticipant == null) { return; }
-            if (SetBranchOrSkill(currentCombatParticipant, input)) { return; }
+            HandleInputWithReturn(input);
+
+            // Note:  Function re-use since standard implementation for SkillSelectionUI
+            // Used explicitlyselect skill && extended with Unity Events for mouse clicks
+        }
+
+        private bool GetNextTarget(bool? traverseForward)
+        {
+            if (abilitiesBoxState != AbilitiesBoxState.inCharacterTargeting) { return false; }
+            if (currentCombatParticipant == null) { return false; }
+
+            SkillHandler skillHandler = currentCombatParticipant.GetComponent<SkillHandler>();
+            Skill activeSkill = skillHandler?.GetActiveSkill();
+            if (activeSkill == null) { return false; }
+
+            targetCharacters = activeSkill.GetTargets(traverseForward, targetCharacters, party.GetParty(), null);
+            if (targetCharacters == null || targetCharacters.Count() == 0)
+            {
+                return false;
+            }
+
+            targetCharacterChanged?.Invoke(CombatParticipantType.Target, targetCharacters);
+            return true;
+        }
+
+        public void UseSkillOnTarget(CombatParticipant combatParticipant)
+        {
+            if (abilitiesBoxState != AbilitiesBoxState.inCharacterTargeting) { return; }
+
+            targetCharacters = new[] { combatParticipant };
+            if (!GetNextTarget(null)) { SetAbilitiesBoxState(AbilitiesBoxState.inAbilitiesSelection); return; }
+
+            targetCharacterChanged?.Invoke(CombatParticipantType.Target, new[] { combatParticipant });
+            Choose(null);
         }
 
         protected override void PassSkillFlavour(SkillStat skillStat, string detail, float apCost)
@@ -147,6 +291,14 @@ namespace Frankie.Combat.UI
         {
             this.abilitiesBoxState = abilitiesBoxState;
             SetUpChoiceOptions();
+
+            if (abilitiesBoxState != AbilitiesBoxState.inCharacterTargeting)
+            {
+                targetCharacters = null;
+                targetCharacterChanged?.Invoke(CombatParticipantType.Target, targetCharacters);
+            }
+
+            OnUIBoxModified(UIBoxModifiedType.itemSelected, true);
         }
 
         protected override void ResetUI()
@@ -162,9 +314,16 @@ namespace Frankie.Combat.UI
 
             if (playerInputType == PlayerInputType.Option || playerInputType == PlayerInputType.Cancel)
             {
-                if (abilitiesBoxState == AbilitiesBoxState.inAbilitiesSelection)
+                if (abilitiesBoxState == AbilitiesBoxState.inCharacterTargeting)
                 {
                     ResetSkillHandler(currentCombatParticipant);
+                    SetAbilitiesBoxState(AbilitiesBoxState.inAbilitiesSelection);
+                    return true;
+                }
+                else if (abilitiesBoxState == AbilitiesBoxState.inAbilitiesSelection)
+                {
+                    ResetSkillHandler(currentCombatParticipant);
+                    skillField.text = defaultNoText;
                     statText.text = "";
                     skillDetailText.text = "";
                     apCostText.text = "";

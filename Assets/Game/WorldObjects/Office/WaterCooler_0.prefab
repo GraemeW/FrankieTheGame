@@ -236,7 +236,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2308409281053914736, guid: 3ea47d49370c98e4e8dda14fd66b947b, type: 3}
       propertyPath: checkMessage
-      value: '*gulp* {0} feels HYDRATED.'
+      value: '*gulp* {0} feels HYDRATED.  Party AP restored.'
       objectReference: {fileID: 0}
     - target: {fileID: 2308409281053914736, guid: 3ea47d49370c98e4e8dda14fd66b947b, type: 3}
       propertyPath: checkAtStartOfInteraction
@@ -272,7 +272,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2308409281053914736, guid: 3ea47d49370c98e4e8dda14fd66b947b, type: 3}
       propertyPath: checkInteraction.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: HealParty
+      value: RestorePartyAP
       objectReference: {fileID: 0}
     - target: {fileID: 2308409281053914736, guid: 3ea47d49370c98e4e8dda14fd66b947b, type: 3}
       propertyPath: checkInteraction.m_PersistentCalls.m_Calls.Array.data[1].m_MethodName
@@ -280,7 +280,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2308409281053914736, guid: 3ea47d49370c98e4e8dda14fd66b947b, type: 3}
       propertyPath: checkInteraction.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: Frankie.Control.Specialization.WorldHealer, Assembly-CSharp
+      value: Frankie.Control.Specialization.WorldPointRestorer, Assembly-CSharp
       objectReference: {fileID: 0}
     - target: {fileID: 2308409281053914736, guid: 3ea47d49370c98e4e8dda14fd66b947b, type: 3}
       propertyPath: checkInteraction.m_PersistentCalls.m_Calls.Array.data[1].m_TargetAssemblyTypeName

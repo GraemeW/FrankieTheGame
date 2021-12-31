@@ -6,13 +6,21 @@ using UnityEngine;
 
 namespace Frankie.Control.Specialization
 {
-    public class WorldHealer : MonoBehaviour
+    public class WorldPointRestorer : MonoBehaviour
     {
         public void HealParty(PlayerStateHandler playerStateHandler) // Called via Unity events
         {
             foreach (CombatParticipant combatParticipant in playerStateHandler.GetParty().GetParty())
             {
                 combatParticipant.Revive(combatParticipant.GetBaseStats().GetStat(Stat.HP));
+            }
+        }
+
+        public void RestorePartyAP(PlayerStateHandler playerStateHandler) // Called via Unity Events
+        {
+            foreach (CombatParticipant combatParticipant in playerStateHandler.GetParty().GetParty())
+            {
+                combatParticipant.AdjustAP(combatParticipant.GetBaseStats().GetStat(Stat.AP));
             }
         }
     }

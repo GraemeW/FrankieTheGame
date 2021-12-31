@@ -806,6 +806,8 @@ MonoBehaviour:
   statText: {fileID: 5773395744174837997}
   skillDetailText: {fileID: 7196605626055229703}
   apCostText: {fileID: 7045934872290278051}
+  dialogueBoxPrefab: {fileID: 4320783885461854465, guid: a9829c1cb69a159479cbe82e68a5c629, type: 3}
+  messageUseSkillInWorld: '{0} used {1} on {2}'
 --- !u!1 &6580744005983360694
 GameObject:
   m_ObjectHideFlags: 0
@@ -1257,7 +1259,7 @@ PrefabInstance:
     - target: {fileID: 3740176654272905581, guid: 3ddb4c077d5422844bfe6e116ecd5650, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 5012810135103552638}
     - target: {fileID: 3740176654272905581, guid: 3ddb4c077d5422844bfe6e116ecd5650, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
       value: 2
@@ -1268,7 +1270,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3740176654272905581, guid: 3ddb4c077d5422844bfe6e116ecd5650, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: Frankie.Combat.UI.SkillSelection, Assembly-CSharp
+      value: Frankie.Combat.UI.SkillSelectionUI, Assembly-CSharp
       objectReference: {fileID: 0}
     - target: {fileID: 3740176654272905581, guid: 3ddb4c077d5422844bfe6e116ecd5650, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_IntArgument
@@ -1446,7 +1448,7 @@ PrefabInstance:
     - target: {fileID: 3740176654272905581, guid: 3ddb4c077d5422844bfe6e116ecd5650, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 5012810135103552638}
     - target: {fileID: 3740176654272905581, guid: 3ddb4c077d5422844bfe6e116ecd5650, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
       value: 2
@@ -1457,7 +1459,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3740176654272905581, guid: 3ddb4c077d5422844bfe6e116ecd5650, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: Frankie.Combat.UI.SkillSelection, Assembly-CSharp
+      value: Frankie.Combat.UI.SkillSelectionUI, Assembly-CSharp
       objectReference: {fileID: 0}
     - target: {fileID: 3740176654272905581, guid: 3ddb4c077d5422844bfe6e116ecd5650, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_IntArgument
@@ -2496,7 +2498,7 @@ PrefabInstance:
     - target: {fileID: 3740176654272905581, guid: 3ddb4c077d5422844bfe6e116ecd5650, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 5012810135103552638}
     - target: {fileID: 3740176654272905581, guid: 3ddb4c077d5422844bfe6e116ecd5650, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
       value: 2
@@ -2507,7 +2509,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3740176654272905581, guid: 3ddb4c077d5422844bfe6e116ecd5650, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: Frankie.Combat.UI.SkillSelection, Assembly-CSharp
+      value: Frankie.Combat.UI.SkillSelectionUI, Assembly-CSharp
       objectReference: {fileID: 0}
     - target: {fileID: 3740176654272905581, guid: 3ddb4c077d5422844bfe6e116ecd5650, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_IntArgument
@@ -2685,7 +2687,7 @@ PrefabInstance:
     - target: {fileID: 3740176654272905581, guid: 3ddb4c077d5422844bfe6e116ecd5650, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 5012810135103552638}
     - target: {fileID: 3740176654272905581, guid: 3ddb4c077d5422844bfe6e116ecd5650, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
       value: 2
@@ -2696,7 +2698,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3740176654272905581, guid: 3ddb4c077d5422844bfe6e116ecd5650, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: Frankie.Combat.UI.SkillSelection, Assembly-CSharp
+      value: Frankie.Combat.UI.SkillSelectionUI, Assembly-CSharp
       objectReference: {fileID: 0}
     - target: {fileID: 3740176654272905581, guid: 3ddb4c077d5422844bfe6e116ecd5650, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_IntArgument
