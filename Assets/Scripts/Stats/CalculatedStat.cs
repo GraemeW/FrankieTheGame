@@ -5,6 +5,9 @@ namespace Frankie.Stats
     {
         CooldownFraction,
         HitChance,
-        CritChance
+        CritChance,
+        PhysicalAdder,
+        MagicalAdder,
+        Defense
     }
 }

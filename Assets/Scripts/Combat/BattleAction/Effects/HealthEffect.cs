@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Frankie.Stats;
 
 namespace Frankie.Combat
 {
@@ -14,15 +15,23 @@ namespace Frankie.Combat
         [SerializeField] bool canCrit = true;
         [SerializeField][Min(1f)] float critMultiplier = 2f;
 
-        public override void StartEffect(CombatParticipant sender, IEnumerable<CombatParticipant> recipients, Action<EffectStrategy> finished)
+        public override void StartEffect(CombatParticipant sender, IEnumerable<CombatParticipant> recipients, DamageType damageType, Action<EffectStrategy> finished)
         {
             if (recipients == null) { return; }
 
+            float sign = Mathf.Sign(healthChange);
             foreach (CombatParticipant recipient in recipients)
             {
                 if (!DoesAttackHit(canMiss, sender, recipient)) { continue; }
 
-                float modifiedHealthChange = healthChange + Mathf.Sign(healthChange) * UnityEngine.Random.Range(0f, jitter);
+                float modifiedHealthChange = healthChange + sign * UnityEngine.Random.Range(0f, jitter);
+                modifiedHealthChange += damageType switch
+                {
+                    DamageType.None => 0f,
+                    DamageType.Physical => GetPhysicalModifier(sign, sender, recipient),
+                    DamageType.Magical => GetMagicalModifier(sign, sender, recipient),
+                    _ => 0f,
+                };
                 modifiedHealthChange *= GetCritModifier(canCrit, critMultiplier, sender, recipient);
 
                 recipient.AdjustHP(modifiedHealthChange);

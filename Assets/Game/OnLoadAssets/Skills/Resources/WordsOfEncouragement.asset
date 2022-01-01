@@ -12,6 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2d638f604ff65db4f9e75a2cc6eb7bd3, type: 3}
   m_Name: WordsOfEncouragement
   m_EditorClassIdentifier: 
-  stat: 3
+  stat: 2
   battleAction: {fileID: 11400000, guid: 8b9903ce68496a24b8280a50ce67aa86, type: 2}
   detail: These kind words heal your foe

@@ -15,7 +15,7 @@ namespace Frankie.Combat
         [Tooltip("Set to 0 to remove all")][Min(0)] [SerializeField] int numberOfEffectsToRemove = 0;
         [Tooltip("Set to none for any")] [SerializeField] StatusType statusType = StatusType.None;
 
-        public override void StartEffect(CombatParticipant sender, IEnumerable<CombatParticipant> recipients, Action<EffectStrategy> finished)
+        public override void StartEffect(CombatParticipant sender, IEnumerable<CombatParticipant> recipients, DamageType damageType, Action<EffectStrategy> finished)
         {
             if (!removePersistentRecurring && !removePersistentStatModifier) { return; }
             if (recipients == null) { return; }

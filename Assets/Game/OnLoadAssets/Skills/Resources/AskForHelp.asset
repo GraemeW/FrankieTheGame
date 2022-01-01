@@ -12,6 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2d638f604ff65db4f9e75a2cc6eb7bd3, type: 3}
   m_Name: AskForHelp
   m_EditorClassIdentifier: 
-  stat: 5
+  stat: 4
   battleAction: {fileID: 11400000, guid: 81fec7ccc57d205409e6ed7f75602679, type: 2}
   detail: Heal a small amount of hit points for one ally.

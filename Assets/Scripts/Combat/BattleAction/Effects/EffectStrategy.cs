@@ -2,12 +2,13 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Frankie.Stats;
 
 namespace Frankie.Combat
 {
     public abstract class EffectStrategy : ScriptableObject
     {
-        public abstract void StartEffect(CombatParticipant sender, IEnumerable<CombatParticipant> recipients, Action<EffectStrategy> finished);
+        public abstract void StartEffect(CombatParticipant sender, IEnumerable<CombatParticipant> recipients, DamageType damageType, Action<EffectStrategy> finished);
 
         public static void StartCoroutine(CombatParticipant sender, IEnumerator coroutine)
         {
@@ -44,6 +45,24 @@ namespace Frankie.Combat
                 return critMultiplier;
             }
             return 1.0f;
+        }
+
+        protected float GetPhysicalModifier(float sign, CombatParticipant sender, CombatParticipant recipient)
+        {
+            if (sign > 0)
+            {
+                return sign * Mathf.Max(0f, sender.GetBaseStats().GetCalculatedStat(CalculatedStat.PhysicalAdder));
+            }
+            else if (sign < 0)
+            {
+                return sign * Mathf.Max(0f, sender.GetBaseStats().GetCalculatedStat(CalculatedStat.PhysicalAdder) - recipient.GetBaseStats().GetCalculatedStat(CalculatedStat.Defense));
+            }
+            return 0f;
+        }
+
+        protected float GetMagicalModifier(float sign, CombatParticipant sender, CombatParticipant recipient)
+        {
+            return sign * Mathf.Max(0f, sender.GetBaseStats().GetCalculatedStat(CalculatedStat.MagicalAdder));
         }
     }
 }

@@ -14,7 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   targetingStrategy: {fileID: 11400000, guid: 332eb86cf7d19a84e8cd3976763e5d07, type: 2}
   effectStrategies:
-  - {fileID: 11400000, guid: 0c2c61dc818593e4f9f1d25783ac8375, type: 2}
-  - {fileID: 11400000, guid: 60c9c3e0ecbd1864598a525812212869, type: 2}
+  - {fileID: 11400000, guid: 23123aef36c04c84987a2d2b12f0c3af, type: 2}
+  - {fileID: 11400000, guid: 072bd61a483358e4cacc9f3aa945d82b, type: 2}
+  damageType: 2
   cooldown: 4
   apCost: 5

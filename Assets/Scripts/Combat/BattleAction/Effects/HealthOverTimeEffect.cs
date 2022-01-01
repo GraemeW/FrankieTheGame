@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Frankie.Stats;
 
 namespace Frankie.Combat
 {
@@ -15,19 +16,31 @@ namespace Frankie.Combat
         [SerializeField] float healthChangePerTick = -10f;
         [SerializeField] bool persistAfterCombat = false;
 
-        public override void StartEffect(CombatParticipant sender, IEnumerable<CombatParticipant> recipients, Action<EffectStrategy> finished)
+        public override void StartEffect(CombatParticipant sender, IEnumerable<CombatParticipant> recipients, DamageType damageType, Action<EffectStrategy> finished)
         {
             if (recipients == null) { return; }
 
-            foreach (CombatParticipant combatParticipant in recipients)
+            float numberOfTicks = duration / tickPeriod;
+            float sign = Mathf.Sign(healthChangePerTick);
+            foreach (CombatParticipant recipient in recipients)
             {
                 float chanceRoll = UnityEngine.Random.Range(0f, 1f);
                 if (fractionProbabilityToApply < chanceRoll) { return; }
 
-                PersistentRecurringStatus activeStatusEffect = combatParticipant.gameObject.AddComponent(typeof(PersistentRecurringStatus)) as PersistentRecurringStatus;
-                activeStatusEffect.Setup(statusEffectType, duration, tickPeriod, () => combatParticipant.AdjustHP(healthChangePerTick), persistAfterCombat);
+                PersistentRecurringStatus activeStatusEffect = recipient.gameObject.AddComponent(typeof(PersistentRecurringStatus)) as PersistentRecurringStatus;
 
-                combatParticipant.AnnounceStateUpdate(new StateAlteredData(StateAlteredType.StatusEffectApplied, statusEffectType));
+                float modifiedHealthChangePerTick = healthChangePerTick;
+                modifiedHealthChangePerTick += damageType switch
+                {
+                    DamageType.None => 0f,
+                    DamageType.Physical => GetPhysicalModifier(sign, sender, recipient) / numberOfTicks,
+                    DamageType.Magical => GetMagicalModifier(sign, sender, recipient) / numberOfTicks,
+                    _ => 0f,
+                };
+
+                activeStatusEffect.Setup(statusEffectType, duration, tickPeriod, () => recipient.AdjustHP(modifiedHealthChangePerTick), persistAfterCombat);
+
+                recipient.AnnounceStateUpdate(new StateAlteredData(StateAlteredType.StatusEffectApplied, statusEffectType));
             }
 
             finished?.Invoke(this);

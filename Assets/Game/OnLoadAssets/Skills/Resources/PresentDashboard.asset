@@ -12,6 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2d638f604ff65db4f9e75a2cc6eb7bd3, type: 3}
   m_Name: PresentDashboard
   m_EditorClassIdentifier: 
-  stat: 2
+  stat: 1
   battleAction: {fileID: 11400000, guid: 6adee8298bc0c6642b44f7f3ad0eaaa4, type: 2}
   detail: And on slide 5 you can see

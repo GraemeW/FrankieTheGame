@@ -169,7 +169,6 @@ namespace Frankie.Combat
             if (levelForEvaluation == -1) { levelForEvaluation = skillTreeLevel; }
 
             SkillStat skillStat = skill.GetStat();
-            if (skillStat == SkillStat.None) { return null; }
 
             if (Enum.TryParse(skillStat.ToString(), out Stat stat))
             {

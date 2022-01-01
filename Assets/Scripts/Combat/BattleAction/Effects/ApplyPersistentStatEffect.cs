@@ -17,7 +17,7 @@ namespace Frankie.Combat
         [SerializeField] float value = 1f;
         [SerializeField] bool persistAfterCombat = false;
 
-        public override void StartEffect(CombatParticipant sender, IEnumerable<CombatParticipant> recipients, Action<EffectStrategy> finished)
+        public override void StartEffect(CombatParticipant sender, IEnumerable<CombatParticipant> recipients, DamageType damageType, Action<EffectStrategy> finished)
         {
             if (BaseStats.GetNonModifyingStats().Contains(stat)) { return; }
             if (recipients == null) { return; }

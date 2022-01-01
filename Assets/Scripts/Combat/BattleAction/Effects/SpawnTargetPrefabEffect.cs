@@ -14,7 +14,7 @@ namespace Frankie.Combat
         [SerializeField] bool isGlobalEffect = false;
         [SerializeField] [Tooltip("Set to min to never destroy")] [Min(0f)] float destroyAfterSeconds = 2.0f;
 
-        public override void StartEffect(CombatParticipant sender, IEnumerable<CombatParticipant> recipients, Action<EffectStrategy> finished)
+        public override void StartEffect(CombatParticipant sender, IEnumerable<CombatParticipant> recipients, DamageType damageType, Action<EffectStrategy> finished)
         {
             BattleCanvas battleCanvas = GameObject.FindGameObjectWithTag("BattleCanvas")?.GetComponent<BattleCanvas>();
             if (battleCanvas == null) { return; }

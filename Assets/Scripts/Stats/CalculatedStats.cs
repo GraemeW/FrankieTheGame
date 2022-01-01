@@ -22,6 +22,9 @@ namespace Frankie.Stats
                 CalculatedStat.CooldownFraction => Stat.Nimble,
                 CalculatedStat.HitChance => Stat.Luck,
                 CalculatedStat.CritChance => Stat.Pluck,
+                CalculatedStat.PhysicalAdder => Stat.Brawn,
+                CalculatedStat.MagicalAdder => Stat.Beauty,
+                CalculatedStat.Defense => Stat.Nimble,
                 _ => Stat.ExperienceReward,
             };
 
@@ -29,15 +32,18 @@ namespace Frankie.Stats
             return true;
         }
 
-        public static float GetCalculatedStat(CalculatedStat calculatedStat, int level, float attackerModifier, float defenderModifier = 0f)
+        public static float GetCalculatedStat(CalculatedStat calculatedStat, int level, float callerModifier, float contestModifier = 0f)
         {
             if (level < 1) { level = 1; }
 
             return calculatedStat switch
             {
-                CalculatedStat.CooldownFraction => GetCooldownFraction(level, attackerModifier),
-                CalculatedStat.HitChance => GetHitChance(attackerModifier, defenderModifier),
-                CalculatedStat.CritChance => GetCritChance(attackerModifier, defenderModifier),
+                CalculatedStat.CooldownFraction => GetCooldownFraction(level, callerModifier),
+                CalculatedStat.HitChance => GetHitChance(callerModifier, contestModifier),
+                CalculatedStat.CritChance => GetCritChance(callerModifier, contestModifier),
+                CalculatedStat.PhysicalAdder => GetPhysicalAdder(callerModifier),
+                CalculatedStat.MagicalAdder => GetMagicalAdder(callerModifier),
+                CalculatedStat.Defense => GetDefense(callerModifier),
                 _ => 0f,
             };
         }
@@ -65,6 +71,21 @@ namespace Frankie.Stats
             return Mathf.Clamp(
                 0.5f + Mathf.Atan((deltaModifier - 8) / 6) / Mathf.PI,
                 critChanceMin, critChanceMax);
+        }
+
+        private static float GetPhysicalAdder(float modifier)
+        {
+            return Mathf.Max(0f, modifier);
+        }
+
+        private static float GetMagicalAdder(float modifier)
+        {
+            return Mathf.Max(0f, modifier);
+        }
+
+        private static float GetDefense(float modifier)
+        {
+            return Mathf.Max(0f, modifier);
         }
         #endregion
     }

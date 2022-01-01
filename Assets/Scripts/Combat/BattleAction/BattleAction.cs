@@ -14,6 +14,7 @@ namespace Frankie.Combat
         [SerializeField] TargetingStrategy targetingStrategy = null;
         [SerializeField] EffectStrategy[] effectStrategies = null;
         [Header("Other Inputs")]
+        [SerializeField] DamageType damageType = default;
         [SerializeField] float cooldown = 0f;
         [SerializeField] float apCost = 0f;
 
@@ -64,7 +65,7 @@ namespace Frankie.Combat
 
             foreach (EffectStrategy effectStrategy in effectStrategies)
             {
-                effectStrategy.StartEffect(sender, recipients,
+                effectStrategy.StartEffect(sender, recipients, damageType,
                     (EffectStrategy childEffectStrategy) => EffectFinished(sender, childEffectStrategy, finished));
             }
             return true;

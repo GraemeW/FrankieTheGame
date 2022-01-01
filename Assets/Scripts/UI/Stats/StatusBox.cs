@@ -93,7 +93,6 @@ namespace Frankie.Stats.UI
             Array skillStats = Enum.GetValues(typeof(SkillStat));
             foreach (SkillStat skillStat in skillStats)
             {
-                if (skillStat == SkillStat.None) { continue; }
                 if (Enum.TryParse(skillStat.ToString(), out Stat stat))
                 {
                     StatField statField = Instantiate(statFieldPrefab, leftStatParent);
