@@ -11,7 +11,8 @@
                     "id": "159a8e43-5c21-4f8a-8db3-c2da68b7e3d5",
                     "expectedControlType": "Vector2",
                     "processors": "",
-                    "interactions": ""
+                    "interactions": "",
+                    "initialStateCheck": true
                 },
                 {
                     "name": "Execute",
@@ -19,7 +20,8 @@
                     "id": "c85ad316-bd55-40f5-953e-fb5723cf014b",
                     "expectedControlType": "Button",
                     "processors": "",
-                    "interactions": ""
+                    "interactions": "",
+                    "initialStateCheck": false
                 },
                 {
                     "name": "Cancel",
@@ -27,7 +29,8 @@
                     "id": "6f60837c-0c57-411e-ad9c-267a7cb93c63",
                     "expectedControlType": "Button",
                     "processors": "",
-                    "interactions": ""
+                    "interactions": "",
+                    "initialStateCheck": false
                 },
                 {
                     "name": "Option",
@@ -35,7 +38,8 @@
                     "id": "54af357d-a906-4c54-a7aa-caa40005ed6c",
                     "expectedControlType": "Button",
                     "processors": "",
-                    "interactions": ""
+                    "interactions": "",
+                    "initialStateCheck": false
                 },
                 {
                     "name": "Skip",
@@ -43,7 +47,8 @@
                     "id": "312910ed-f2ca-4023-bc62-cc9408f87530",
                     "expectedControlType": "Button",
                     "processors": "",
-                    "interactions": ""
+                    "interactions": "",
+                    "initialStateCheck": false
                 },
                 {
                     "name": "Pointer",
@@ -51,7 +56,8 @@
                     "id": "a9840735-ba02-4f85-9172-1d217bcef3c6",
                     "expectedControlType": "Vector2",
                     "processors": "",
-                    "interactions": ""
+                    "interactions": "",
+                    "initialStateCheck": true
                 }
             ],
             "bindings": [
@@ -287,7 +293,8 @@
                     "id": "6bd37875-b02c-4004-99b3-26741b8b12c1",
                     "expectedControlType": "Vector2",
                     "processors": "",
-                    "interactions": ""
+                    "interactions": "",
+                    "initialStateCheck": true
                 },
                 {
                     "name": "Execute",
@@ -295,7 +302,8 @@
                     "id": "833225b9-42a7-4e1f-91e7-aea53f53589c",
                     "expectedControlType": "Button",
                     "processors": "",
-                    "interactions": ""
+                    "interactions": "",
+                    "initialStateCheck": false
                 },
                 {
                     "name": "Cancel",
@@ -303,7 +311,8 @@
                     "id": "05c0140f-841f-43b1-89af-6632c126cf9c",
                     "expectedControlType": "Button",
                     "processors": "",
-                    "interactions": ""
+                    "interactions": "",
+                    "initialStateCheck": false
                 },
                 {
                     "name": "Option",
@@ -311,7 +320,8 @@
                     "id": "5e72b347-ec1d-410b-a773-55b59634cc28",
                     "expectedControlType": "Button",
                     "processors": "",
-                    "interactions": ""
+                    "interactions": "",
+                    "initialStateCheck": false
                 },
                 {
                     "name": "Skip",
@@ -319,7 +329,8 @@
                     "id": "058ffc6a-f372-45d5-9606-bb680f8bf426",
                     "expectedControlType": "Button",
                     "processors": "",
-                    "interactions": ""
+                    "interactions": "",
+                    "initialStateCheck": false
                 },
                 {
                     "name": "Select1",
@@ -327,7 +338,8 @@
                     "id": "9808d97c-a310-4bf6-8b75-7f708ad2770b",
                     "expectedControlType": "Button",
                     "processors": "",
-                    "interactions": ""
+                    "interactions": "",
+                    "initialStateCheck": false
                 },
                 {
                     "name": "Select2",
@@ -335,7 +347,8 @@
                     "id": "2b5c408c-ad01-4d27-9243-2d34ed349559",
                     "expectedControlType": "Button",
                     "processors": "",
-                    "interactions": ""
+                    "interactions": "",
+                    "initialStateCheck": false
                 },
                 {
                     "name": "Select3",
@@ -343,7 +356,8 @@
                     "id": "f0208375-dbb8-4fc8-a3ee-97522d3a2a17",
                     "expectedControlType": "Button",
                     "processors": "",
-                    "interactions": ""
+                    "interactions": "",
+                    "initialStateCheck": false
                 },
                 {
                     "name": "Select4",
@@ -351,7 +365,8 @@
                     "id": "3b8f63ec-35a0-4d21-bb2a-630e274240cf",
                     "expectedControlType": "Button",
                     "processors": "",
-                    "interactions": ""
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -620,7 +635,8 @@
                     "id": "fae00a56-b0d7-4965-8225-166595711aa9",
                     "expectedControlType": "Button",
                     "processors": "",
-                    "interactions": ""
+                    "interactions": "",
+                    "initialStateCheck": false
                 },
                 {
                     "name": "Load",
@@ -628,7 +644,8 @@
                     "id": "2361b146-abc9-4a12-ad66-4cce197e0f90",
                     "expectedControlType": "Button",
                     "processors": "",
-                    "interactions": ""
+                    "interactions": "",
+                    "initialStateCheck": false
                 },
                 {
                     "name": "Delete",
@@ -636,7 +653,8 @@
                     "id": "c129bb2a-0507-403f-87eb-8ed1b891431b",
                     "expectedControlType": "Button",
                     "processors": "",
-                    "interactions": ""
+                    "interactions": "",
+                    "initialStateCheck": false
                 },
                 {
                     "name": "QuestLog",
@@ -644,7 +662,17 @@
                     "id": "c70f5974-676a-48ad-a641-d800a8c5c1bf",
                     "expectedControlType": "Button",
                     "processors": "",
-                    "interactions": ""
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "LevelUpParty",
+                    "type": "Button",
+                    "id": "78e1fb14-095b-4447-a39b-96259625753c",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -689,6 +717,17 @@
                     "processors": "",
                     "groups": "Keyboard&Mouse",
                     "action": "QuestLog",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "57a21518-3e83-4277-86fc-31732be37a01",
+                    "path": "<Keyboard>/9",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard&Mouse",
+                    "action": "LevelUpParty",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

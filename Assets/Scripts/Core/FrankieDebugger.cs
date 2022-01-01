@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using Frankie.Utils;
 using Frankie.Quests;
+using Frankie.Stats;
+using Frankie.Combat;
 using System.Linq;
 using UnityEngine.SceneManagement;
 
@@ -18,6 +20,7 @@ namespace Frankie.Core
         // Lazy Values
         ReInitLazyValue<SavingWrapper> savingWrapper = null;
         ReInitLazyValue<QuestList> questList = null;
+        ReInitLazyValue<Party> party = null;
 
         #region UnityMethods
         private void Awake()
@@ -28,18 +31,21 @@ namespace Frankie.Core
             saver = GameObject.FindGameObjectWithTag("Saver");
             savingWrapper = new ReInitLazyValue<SavingWrapper>(SetupSavingWrapper);
             questList = new ReInitLazyValue<QuestList>(() => QuestList.GetQuestList(ref player));
+            party = new ReInitLazyValue<Party>(SetupParty);
 
             // Debug Hook-Ups
             playerInput.Debug.Save.performed += context => Save();
             playerInput.Debug.Load.performed += context => Continue();
             playerInput.Debug.Delete.performed += context => Delete();
             playerInput.Debug.QuestLog.performed += context => PrintQuests();
+            playerInput.Debug.LevelUpParty.performed += context => LevelUpParty();
         }
 
         private void Start()
         {
             savingWrapper.ForceInit();
             questList.ForceInit();
+            party.ForceInit();
         }
 
         private void OnEnable()
@@ -60,6 +66,12 @@ namespace Frankie.Core
         {
             if (saver == null) { saver = GameObject.FindGameObjectWithTag("Saver"); }
             return saver.GetComponent<SavingWrapper>();
+        }
+
+        private Party SetupParty()
+        {
+            if (player == null) { player = GameObject.FindGameObjectWithTag("Player"); }
+            return player.GetComponent<Party>();
         }
 
         private void Save()
@@ -98,6 +110,16 @@ namespace Frankie.Core
                 UnityEngine.Debug.Log($"Completed:  {questStatus.GetCompletedObjectiveCount()} of {quest.GetObjectiveCount()} objectives");
                 UnityEngine.Debug.Log($"Status:  {questStatus.IsComplete()}, Reward Disposition:  {questStatus.IsRewardGiven()})");
                 UnityEngine.Debug.Log("---Fin---");
+            }
+        }
+
+        private void LevelUpParty()
+        {
+            UnityEngine.Debug.Log("Leveling up party:");
+            foreach (CombatParticipant combatParticipant in party.value.GetParty())
+            {
+                UnityEngine.Debug.Log($"{combatParticipant.name} has gained a level");
+                combatParticipant.GetBaseStats().IncrementLevel();
             }
         }
         #endregion

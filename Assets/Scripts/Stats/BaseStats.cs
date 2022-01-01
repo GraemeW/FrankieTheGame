@@ -152,8 +152,8 @@ namespace Frankie.Stats
             levelUpSheet[Stat.Pluck] = GetProgressionStat(Stat.Pluck) * (1 + GetBonusMultiplier());
             levelUpSheet[Stat.Stoic] = GetProgressionStat(Stat.Stoic) * (1 + GetBonusMultiplier()); // Used for HP adjust
             levelUpSheet[Stat.Smarts] = GetProgressionStat(Stat.Smarts) * (1 + GetBonusMultiplier()); // Used for AP adjust
-            levelUpSheet[Stat.HP] = (GetBaseStat(Stat.Stoic) / GetLevel()) * (1 + 4 * GetBonusMultiplier()); // Take overall stat normalized to level, bonus swing larger for HP
-            levelUpSheet[Stat.AP] = (GetBaseStat(Stat.Smarts) / GetLevel()) * (1 + 4 * GetBonusMultiplier()); // Take overall stat normalized to level, bonus swing larger for AP
+            levelUpSheet[Stat.HP] = (2 * GetBaseStat(Stat.Stoic) / GetLevel()) * (1 + 4 * GetBonusMultiplier()); // Take overall stat normalized to level, bonus swing larger for HP
+            levelUpSheet[Stat.AP] = (2 * GetBaseStat(Stat.Smarts) / GetLevel()) * (1 + 4 * GetBonusMultiplier()); // Take overall stat normalized to level, bonus swing larger for AP
 
             activeStatSheet[Stat.HP] += levelUpSheet[Stat.HP];
             activeStatSheet[Stat.AP] += levelUpSheet[Stat.AP];
@@ -170,9 +170,9 @@ namespace Frankie.Stats
 
         private float GetBonusMultiplier()
         {
-            float randomSeed = UnityEngine.Random.Range(0f, 1f);
-            if (randomSeed <= bonusStatOnLevelHighProbability) { return 0.5f; }
-            else if (randomSeed <= (bonusStatOnLevelMidProbability + bonusStatOnLevelHighProbability)) { return 0.25f; }
+            float roll = UnityEngine.Random.Range(0f, 1f);
+            if (roll <= bonusStatOnLevelHighProbability) { return 0.5f; }
+            else if (roll <= (bonusStatOnLevelMidProbability + bonusStatOnLevelHighProbability)) { return 0.25f; }
             else { return 0; }
         }
 

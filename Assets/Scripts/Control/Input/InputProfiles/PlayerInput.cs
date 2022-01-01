@@ -686,6 +686,15 @@ public partial class @PlayerInput : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""LevelUpParty"",
+                    ""type"": ""Button"",
+                    ""id"": ""78e1fb14-095b-4447-a39b-96259625753c"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -730,6 +739,17 @@ public partial class @PlayerInput : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": ""Keyboard&Mouse"",
                     ""action"": ""QuestLog"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""57a21518-3e83-4277-86fc-31732be37a01"",
+                    ""path"": ""<Keyboard>/9"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard&Mouse"",
+                    ""action"": ""LevelUpParty"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -824,6 +844,7 @@ public partial class @PlayerInput : IInputActionCollection2, IDisposable
         m_Debug_Load = m_Debug.FindAction("Load", throwIfNotFound: true);
         m_Debug_Delete = m_Debug.FindAction("Delete", throwIfNotFound: true);
         m_Debug_QuestLog = m_Debug.FindAction("QuestLog", throwIfNotFound: true);
+        m_Debug_LevelUpParty = m_Debug.FindAction("LevelUpParty", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -1057,6 +1078,7 @@ public partial class @PlayerInput : IInputActionCollection2, IDisposable
     private readonly InputAction m_Debug_Load;
     private readonly InputAction m_Debug_Delete;
     private readonly InputAction m_Debug_QuestLog;
+    private readonly InputAction m_Debug_LevelUpParty;
     public struct DebugActions
     {
         private @PlayerInput m_Wrapper;
@@ -1065,6 +1087,7 @@ public partial class @PlayerInput : IInputActionCollection2, IDisposable
         public InputAction @Load => m_Wrapper.m_Debug_Load;
         public InputAction @Delete => m_Wrapper.m_Debug_Delete;
         public InputAction @QuestLog => m_Wrapper.m_Debug_QuestLog;
+        public InputAction @LevelUpParty => m_Wrapper.m_Debug_LevelUpParty;
         public InputActionMap Get() { return m_Wrapper.m_Debug; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -1086,6 +1109,9 @@ public partial class @PlayerInput : IInputActionCollection2, IDisposable
                 @QuestLog.started -= m_Wrapper.m_DebugActionsCallbackInterface.OnQuestLog;
                 @QuestLog.performed -= m_Wrapper.m_DebugActionsCallbackInterface.OnQuestLog;
                 @QuestLog.canceled -= m_Wrapper.m_DebugActionsCallbackInterface.OnQuestLog;
+                @LevelUpParty.started -= m_Wrapper.m_DebugActionsCallbackInterface.OnLevelUpParty;
+                @LevelUpParty.performed -= m_Wrapper.m_DebugActionsCallbackInterface.OnLevelUpParty;
+                @LevelUpParty.canceled -= m_Wrapper.m_DebugActionsCallbackInterface.OnLevelUpParty;
             }
             m_Wrapper.m_DebugActionsCallbackInterface = instance;
             if (instance != null)
@@ -1102,6 +1128,9 @@ public partial class @PlayerInput : IInputActionCollection2, IDisposable
                 @QuestLog.started += instance.OnQuestLog;
                 @QuestLog.performed += instance.OnQuestLog;
                 @QuestLog.canceled += instance.OnQuestLog;
+                @LevelUpParty.started += instance.OnLevelUpParty;
+                @LevelUpParty.performed += instance.OnLevelUpParty;
+                @LevelUpParty.canceled += instance.OnLevelUpParty;
             }
         }
     }
@@ -1178,5 +1207,6 @@ public partial class @PlayerInput : IInputActionCollection2, IDisposable
         void OnLoad(InputAction.CallbackContext context);
         void OnDelete(InputAction.CallbackContext context);
         void OnQuestLog(InputAction.CallbackContext context);
+        void OnLevelUpParty(InputAction.CallbackContext context);
     }
 }
