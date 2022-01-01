@@ -9,10 +9,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 91a8eaf862c9a124893bff0c35851e4a, type: 3}
-  m_Name: ShowOffCodeDelayComposite
+  m_Script: {fileID: 11500000, guid: a7943a0dbe5c50144af1043fdf583048, type: 3}
+  m_Name: HasKeyToBallPit
   m_EditorClassIdentifier: 
-  delay: 0
-  effectStrategies:
-  - {fileID: 11400000, guid: 8f8f3a9ecb077a24a9f2be6531c64d0d, type: 2}
-  - {fileID: 11400000, guid: 072bd61a483358e4cacc9f3aa945d82b, type: 2}
+  inventoryItems:
+  - {fileID: 11400000, guid: 2f316297c17d2c54880d9c8a7f79b081, type: 2}

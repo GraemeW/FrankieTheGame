@@ -12,13 +12,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6b066201d64e5354387f385aa2872d22, type: 3}
   m_Name: 0e4ed988-4fb0-418a-907f-028dc91b0420
   m_EditorClassIdentifier: 
-  upSkillReference: AskForHelp
+  upSkillReference: InstillSelfDoubt
   upBranch: 
-  leftSkillReference: FlipOut
+  leftSkillReference: SmileMenacingly
   leftBranch: 
-  rightSkillReference: ShowOffCode
+  rightSkillReference: InstillSelfDoubt
   rightBranch: 
-  downSkillReference: BlatherOn
+  downSkillReference: 
   downBranch: 
   rect:
     serializedVersion: 2

@@ -67,7 +67,7 @@ namespace Frankie.Combat
 
         public IEnumerable<CombatParticipant> GetTargets(bool? traverseForward, IEnumerable<CombatParticipant> currentTarget, IEnumerable<CombatParticipant> activeCharacters, IEnumerable<CombatParticipant> activeEnemies)
         {
-            return battleAction.GetTargets(traverseForward, currentTarget, activeCharacters, activeEnemies);
+            return battleAction?.GetTargets(traverseForward, currentTarget, activeCharacters, activeEnemies);
         }
 
         public bool IsItem()
@@ -106,6 +106,7 @@ namespace Frankie.Combat
             BattleAction battleActionFromName = BattleAction.GetBattleActionFromName(name);
             if (battleActionFromName != null && battleActionFromName != battleAction)
             {
+                UnityEngine.Debug.Log($"Set battle action from name: {battleActionFromName}");
                 battleAction = battleActionFromName;
             }
         }

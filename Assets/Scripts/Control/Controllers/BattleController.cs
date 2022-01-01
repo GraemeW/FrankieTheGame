@@ -463,6 +463,7 @@ namespace Frankie.Combat
                 {
                     if (selectedTargets == null || selectedTargets.Count() == 0) { return false; }
                     AddToBattleQueue(GetSelectedCharacter(), GetSelectedTargets(), selectedBattleAction);
+                    SetSelectedTarget(null);
                 }
                 else
                 {
@@ -572,7 +573,7 @@ namespace Frankie.Combat
                     bool isLevelUpPending = AwardExperienceToLevelUp();
                     bool isLootPending = AwardLoot();
 
-                    if (AwardExperienceToLevelUp() || isLootPending)
+                    if (isLevelUpPending || isLootPending)
                     {
                         SetBattleState(BattleState.PreOutro);
                     }

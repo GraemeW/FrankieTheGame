@@ -26,6 +26,7 @@ namespace Frankie.Control
         [SerializeField] float aggravationTime = 3.0f;
         [SerializeField] float suspicionTime = 3.0f;
         [Header("Other Mob Properties")]
+        [SerializeField] bool collisionsOverriddenToEnterCombat = false;
         [SerializeField] bool willDestroySelfOnDeath = true;
         [Tooltip("Must be true to be shouted at, regardless of group")] [SerializeField] bool canBeShoutedAt = true;
         [Tooltip("From interaction center point of NPC")] [SerializeField] float shoutDistance = 2.0f;
@@ -36,7 +37,6 @@ namespace Frankie.Control
         bool npcOccupied = false;
         float timeSinceLastSawPlayer = Mathf.Infinity;
         bool currentChasePlayerDisposition = false;
-        bool collisionsOverriddenToEnterCombat = false;
 
         bool touchingPlayer = false;
         List<NPCStateHandler> currentNPCCollisions = new List<NPCStateHandler>();
@@ -155,7 +155,7 @@ namespace Frankie.Control
                 if (HandlePlayerCollisions(contactPoint, npcPosition, playerPosition)) { return; }
             }
 
-            collisionGameObject.TryGetComponent(out NPCStateHandler collisionNPC);
+            NPCStateHandler collisionNPC = collisionGameObject.GetComponent<NPCStateHandler>();
             if (collisionNPC != null)
             {
                 if (HandleNPCCollisions(collisionNPC, contactPoint, npcPosition, playerPosition)) { return; }
@@ -327,6 +327,7 @@ namespace Frankie.Control
             {
                 List<CombatParticipant> enemies = new List<CombatParticipant>();
                 enemies.Add(combatParticipant);
+
                 foreach (NPCStateHandler npcInContact in currentNPCCollisions)
                 {
                     enemies.Add(npcInContact.GetCombatParticipant());

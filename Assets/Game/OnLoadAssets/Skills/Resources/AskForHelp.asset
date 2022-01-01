@@ -14,4 +14,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   stat: 5
   battleAction: {fileID: 11400000, guid: 81fec7ccc57d205409e6ed7f75602679, type: 2}
-  detail: Heal a small amount of hit points for one ally
+  detail: Heal a small amount of hit points for one ally.

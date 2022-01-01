@@ -66,6 +66,9 @@ MonoBehaviour:
     - or:
       - predicate: {fileID: 11400000, guid: c8b61f602399fce4dbe43274e0792ca2, type: 2}
         negate: 1
+    - or:
+      - predicate: {fileID: 11400000, guid: a7bbc4f4f2f05314088fea20cb40007e, type: 2}
+        negate: 1
 --- !u!114 &-4270344729461033555
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -195,9 +198,6 @@ MonoBehaviour:
     height: 45
   condition:
     and:
-    - or:
-      - predicate: {fileID: 11400000, guid: 155aad549decfe04794ff6d113eb9221, type: 2}
-        negate: 0
     - or:
       - predicate: {fileID: 11400000, guid: a7bbc4f4f2f05314088fea20cb40007e, type: 2}
         negate: 0

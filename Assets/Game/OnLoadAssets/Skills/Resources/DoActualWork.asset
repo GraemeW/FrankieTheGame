@@ -14,4 +14,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   stat: 6
   battleAction: {fileID: 11400000, guid: 48f3b0baf98a52742baba0cdb1f4b9c4, type: 2}
-  detail: Working hard pays in dividends -- your foe takes damage over time
+  detail: Working hard pays in dividends -- your foe takes damage over time.

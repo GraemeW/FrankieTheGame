@@ -313,7 +313,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerCollisionMask:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 8
   defaultName: 
   messageCannotFight: '{0} is wounded and cannot fight.'
   willChasePlayer: 0
