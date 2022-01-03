@@ -2746,8 +2746,8 @@ PrefabInstance:
       value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 8046040528659215491, guid: 50a0956d9c45bee489e989971722cdeb, type: 3}
-      propertyPath: infiniteTransactions
-      value: 1
+      propertyPath: numberTransactions
+      value: 4
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 50a0956d9c45bee489e989971722cdeb, type: 3}
@@ -3068,6 +3068,26 @@ PrefabInstance:
       propertyPath: willDestroySelfOnDeath
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8654748381369162415, guid: 30c6f3f30a3216e41bbc8a6ac45c57e0, type: 3}
+      propertyPath: maxCash
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 8654748381369162415, guid: 30c6f3f30a3216e41bbc8a6ac45c57e0, type: 3}
+      propertyPath: minCash
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 8654748381369162415, guid: 30c6f3f30a3216e41bbc8a6ac45c57e0, type: 3}
+      propertyPath: lootEntries.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8654748381369162415, guid: 30c6f3f30a3216e41bbc8a6ac45c57e0, type: 3}
+      propertyPath: lootEntries.Array.data[0].probability
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8654748381369162415, guid: 30c6f3f30a3216e41bbc8a6ac45c57e0, type: 3}
+      propertyPath: lootEntries.Array.data[0].inventoryItem
+      value: 
+      objectReference: {fileID: 11400000, guid: 7ee49b28e67844b4aa875d8e147226c7, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 30c6f3f30a3216e41bbc8a6ac45c57e0, type: 3}
 --- !u!1 &596216394 stripped
@@ -3086,37 +3106,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7bd0180a3f707c1489e04d0bfa6742c9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &596216396
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 596216394}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 47c843d51c92e854f95fb02bd7be9471, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  dialogueUpdateType: 1
-  triggerNode: {fileID: 5483484024122596795, guid: 4f94e6ca4b90a6740b0536613dc1d840, type: 2}
-  dialogueTriggeredEvent:
-    triggerImmediate: 0
-    onTriggerEvent:
-      m_PersistentCalls:
-        m_Calls:
-        - m_Target: {fileID: 596216395}
-          m_TargetAssemblyTypeName: Frankie.Control.NPCStateHandler, Assembly-CSharp
-          m_MethodName: InitiateCombat
-          m_Mode: 0
-          m_Arguments:
-            m_ObjectArgument: {fileID: 0}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 0
-            m_FloatArgument: 0
-            m_StringArgument: 
-            m_BoolArgument: 0
-          m_CallState: 2
 --- !u!114 &596216397
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3130,7 +3119,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   dialogueUpdateType: 1
-  triggerNode: {fileID: 2088064155005426061, guid: 4f94e6ca4b90a6740b0536613dc1d840, type: 2}
+  triggerNode: {fileID: 1528891652825582186, guid: 4f94e6ca4b90a6740b0536613dc1d840, type: 2}
   dialogueTriggeredEvent:
     triggerImmediate: 0
     onTriggerEvent:
@@ -6728,20 +6717,20 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7800942803558028165, guid: 8252584bd86ddec408582ff28d4f7db6, type: 3}
       propertyPath: stock.Array.size
-      value: 3
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 7800942803558028165, guid: 8252584bd86ddec408582ff28d4f7db6, type: 3}
       propertyPath: stock.Array.data[0]
       value: 
-      objectReference: {fileID: 11400000, guid: 7e830021c43731b46a320da9191579ca, type: 2}
+      objectReference: {fileID: 11400000, guid: 9105dfbd6e6afbe4ea13b4836a1a23a8, type: 2}
     - target: {fileID: 7800942803558028165, guid: 8252584bd86ddec408582ff28d4f7db6, type: 3}
       propertyPath: stock.Array.data[1]
       value: 
-      objectReference: {fileID: 11400000, guid: 7f4fe94d0d4d1f34bb73c1f0c5ec3f76, type: 2}
+      objectReference: {fileID: 11400000, guid: a4bc75f4802bcf24fb78d4fe3084b398, type: 2}
     - target: {fileID: 7800942803558028165, guid: 8252584bd86ddec408582ff28d4f7db6, type: 3}
       propertyPath: stock.Array.data[2]
       value: 
-      objectReference: {fileID: 11400000, guid: 9105dfbd6e6afbe4ea13b4836a1a23a8, type: 2}
+      objectReference: {fileID: 11400000, guid: 7ee49b28e67844b4aa875d8e147226c7, type: 2}
     - target: {fileID: 9006925480361006661, guid: 8252584bd86ddec408582ff28d4f7db6, type: 3}
       propertyPath: uniqueIdentifier
       value: 6302e6a4-a12b-4e85-bc8f-373d1f9e2320

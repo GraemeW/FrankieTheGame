@@ -597,10 +597,10 @@ namespace Frankie.Combat
                 foreach (CombatParticipant enemy in GetEnemies())
                 {
                     float rawExperienceReward = enemy.GetExperienceReward();
-                    battleExperienceReward += rawExperienceReward;
 
                     int levelDelta = character.GetLevel() - enemy.GetLevel();
-                    scaledExperienceReward += Experience.GetScaledExperience(rawExperienceReward, levelDelta, experience.GetExperienceScaling());
+                    scaledExperienceReward += Experience.GetScaledExperience(rawExperienceReward, levelDelta);
+                    battleExperienceReward += scaledExperienceReward;
                 }
 
                 if (experience.GainExperienceToLevel(scaledExperienceReward))

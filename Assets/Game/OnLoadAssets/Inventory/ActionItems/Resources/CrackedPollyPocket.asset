@@ -10,12 +10,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 75a8e8b21386c444d8c573cdb7c263f6, type: 3}
-  m_Name: BigYoYo
+  m_Name: CrackedPollyPocket
   m_EditorClassIdentifier: 
-  itemID: 9e7c3a60-6807-4018-9b1e-0d5c3fb00785
-  displayName: A Big YoYo
-  description: Very big
+  itemID: a2c028a6-71f5-44c8-9d55-05196056fce0
+  displayName: Cracked Polly Pocket
+  description: Oh, it has a little mirror inside.  Using this would permanently increase
+    your (perceived) beauty.
   droppable: 1
-  price: 20
-  consumable: 0
-  battleAction: {fileID: 11400000, guid: 12b2443a534dc244b9b87bd5001994c1, type: 2}
+  price: 1
+  consumable: 1
+  battleAction: {fileID: 11400000, guid: c322d176890b8b44b9376c494cd8978b, type: 2}

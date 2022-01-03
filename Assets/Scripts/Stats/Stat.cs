@@ -10,9 +10,9 @@ namespace Frankie.Stats
         Brawn, // Physical offense
         Beauty, // Magic offense + healing
         Smarts, // Mana on level
-        Nimble, // Cooldown + defense
+        Nimble, // Physical defense
         Luck, // Chance to hit + dodge
-        Pluck, // Chance to crit + avoid crits
+        Pluck, // Cooldown && Chance to crit + avoid crits
         Stoic // HP on level
     }
 }

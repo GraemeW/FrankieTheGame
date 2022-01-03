@@ -19,7 +19,7 @@ namespace Frankie.Stats
         {
             stat = calculatedStat switch
             {
-                CalculatedStat.CooldownFraction => Stat.Nimble,
+                CalculatedStat.CooldownFraction => Stat.Pluck,
                 CalculatedStat.HitChance => Stat.Luck,
                 CalculatedStat.CritChance => Stat.Pluck,
                 CalculatedStat.PhysicalAdder => Stat.Brawn,
@@ -69,7 +69,7 @@ namespace Frankie.Stats
         {
             float deltaModifier = attackerModifier - defenderModifier;
             return Mathf.Clamp(
-                0.5f + Mathf.Atan((deltaModifier - 8) / 6) / Mathf.PI,
+                0.5f + Mathf.Atan((deltaModifier - 20) / 10) / Mathf.PI,
                 critChanceMin, critChanceMax);
         }
 

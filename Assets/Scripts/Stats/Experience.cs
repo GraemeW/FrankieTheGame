@@ -10,7 +10,9 @@ namespace Frankie.Stats
     {
         // Tunables
         [SerializeField] float initialPoints = 0f;
-        [SerializeField] float experienceScalingPerLevelDelta = 0.4f;
+
+        // Static
+        static float experienceScalingPerLevelDelta = 0.1f; // Not serialiazed since force universal for every character
 
         // State
         LazyValue<float> currentPoints;
@@ -34,12 +36,12 @@ namespace Frankie.Stats
             currentPoints.ForceInit();
         }
 
-        public static float GetScaledExperience(float experience, int levelDelta, float experienceScaleFactor)
+        public static float GetScaledExperience(float experience, int levelDelta)
         {
             float preMultiplier = 1f;
             if (levelDelta != 0)
             {
-                preMultiplier = Mathf.Pow((1 - Mathf.Sign(levelDelta) * experienceScaleFactor), Mathf.Abs(levelDelta));
+                preMultiplier = Mathf.Pow((1 - Mathf.Sign(levelDelta) * experienceScalingPerLevelDelta), Mathf.Abs(levelDelta));
             }
 
             return experience * preMultiplier;
@@ -78,11 +80,6 @@ namespace Frankie.Stats
         public void ResetPoints()
         {
             currentPoints.value = 0f;
-        }
-
-        public float GetExperienceScaling()
-        {
-            return experienceScalingPerLevelDelta;
         }
 
         public int GetExperienceRequiredToLevel()

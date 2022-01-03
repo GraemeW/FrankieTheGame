@@ -10,12 +10,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 75a8e8b21386c444d8c573cdb7c263f6, type: 3}
-  m_Name: ChocolateCheeseCurds
+  m_Name: RoughHay
   m_EditorClassIdentifier: 
-  itemID: b03c0139-809f-4783-8a90-8eb88631e3c4
-  displayName: Chocolate Cheese Curds
-  description: Chocolatey cheesey goodness (TM).
+  itemID: 09c14207-b932-45d7-a461-02734a56a96b
+  displayName: Rough Hay
+  description: For chewing I guess?  This is the only healthy food (?) available
+    in the office.
   droppable: 1
-  price: 17
+  price: 7
   consumable: 1
-  battleAction: {fileID: 11400000, guid: 16de4cc07f9488e4e9504a67e63a73a2, type: 2}
+  battleAction: {fileID: 11400000, guid: 2e90298a33d647b42af0204415782c18, type: 2}

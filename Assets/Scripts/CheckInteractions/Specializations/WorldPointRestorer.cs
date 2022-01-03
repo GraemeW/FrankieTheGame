@@ -23,5 +23,12 @@ namespace Frankie.Control.Specialization
                 combatParticipant.AdjustAP(combatParticipant.GetBaseStats().GetStat(Stat.AP));
             }
         }
+
+        public void HealAttachedCharacter(PlayerStateHandler playerStateHandler) // Called via Unity Events
+        {
+            if (!gameObject.TryGetComponent(out CombatParticipant combatParticipant)) { return; }
+
+            combatParticipant.Revive(combatParticipant.GetBaseStats().GetStat(Stat.HP));
+        }
     }
 }

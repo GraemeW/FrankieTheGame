@@ -311,7 +311,7 @@ namespace Frankie.Speech
 
         public string GetPlayerName()
         {
-            return party.GetParty()[0].GetCombatName();
+            return party.GetPartyLeaderName();
         }
 
         public bool IsActive()
@@ -369,14 +369,6 @@ namespace Frankie.Speech
             if (HasNext())
             {
                 SetCurrentNode(currentDialogue.GetNodeFromID(nodeID));
-                if (HasNext()) // Skip re-showing the player choice
-                {
-                    Next();
-                }
-                else // Unless it's the last stem in the dialogue tree
-                {
-                    dialogueUpdated?.Invoke(DialogueUpdateType.DialogueNodeEntry, currentNode);
-                }
             }
         }
 

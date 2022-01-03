@@ -24,8 +24,8 @@ namespace Frankie.Inventory
         [System.Serializable]
         public class LootEntry<T> : IObjectProbabilityPair<T> where T : InventoryItem
         {
-            public InventoryItem inventoryItem;
-            public int probability;
+            [SerializeField] public InventoryItem inventoryItem = null;
+            [SerializeField] [Min(1)] public int probability = 1;
 
             public LootEntry(InventoryItem inventoryItem, int probability)
             {

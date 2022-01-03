@@ -9,9 +9,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2d638f604ff65db4f9e75a2cc6eb7bd3, type: 3}
-  m_Name: IgnoreYou
+  m_Script: {fileID: 11500000, guid: 8ba5e8eff1da65148869c08ad2464249, type: 3}
+  m_Name: PermanentIncrementBeautyLarge
   m_EditorClassIdentifier: 
-  stat: 2
-  battleAction: {fileID: 11400000, guid: 262bcd3a8f871984c90f937e6fb19ebb, type: 2}
-  detail: The most aggressive aggression is passive. Reduces nimble temporarily.
+  stat: 5
+  value: 10
