@@ -9,11 +9,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 24d36376087b7164285845d555086b00, type: 3}
-  m_Name: PresentDashboardStatusClear
+  m_Script: {fileID: 11500000, guid: 2296a696ff7b80140ab1509f2d4bc48a, type: 3}
+  m_Name: DeductHPTouch
   m_EditorClassIdentifier: 
-  removePersistentRecurring: 1
-  removePersistentStatModifier: 1
-  fractionProbabilityToRemove: 1
-  numberOfEffectsToRemove: 0
-  statusType: 0
+  healthChange: -1
+  jitter: 0
+  canMiss: 0
+  canCrit: 0
+  critMultiplier: 2

@@ -52,7 +52,7 @@ MonoBehaviour:
     stats:
     - stat: 0
       levels:
-      - 30
+      - 65
     - stat: 1
       levels:
       - 15
@@ -64,25 +64,25 @@ MonoBehaviour:
       - 10
     - stat: 4
       levels:
-      - 2
+      - 5
     - stat: 5
       levels:
-      - 2
+      - 8
     - stat: 6
       levels:
-      - 2
+      - 7
     - stat: 7
       levels:
-      - 2
+      - 5
     - stat: 8
       levels:
-      - 2
+      - 6
     - stat: 9
       levels:
-      - 2
+      - 6
     - stat: 10
       levels:
-      - 2
+      - 6
   - characterProperties: {fileID: 11400000, guid: 90d76accd2678ec4a831bc862fdccb8c, type: 2}
     stats:
     - stat: 0

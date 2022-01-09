@@ -150,6 +150,13 @@ namespace Frankie.Combat.UI
         // Private functions
         private void UpdateColor()
         {
+            if (combatParticipant.IsDead() && // Bypass irrelevant slide states on character death
+                (slideState == SlideState.Ready || slideState == SlideState.Selected || slideState == SlideState.Cooldown))
+            {
+                selectHighlight.color = deadCharacterFrameColor;
+                return;
+            }
+
             selectHighlight.color = slideState switch
             {
                 SlideState.Ready => Color.white,

@@ -17,11 +17,13 @@ namespace Frankie.Combat
             CombatParticipant[] localActiveCharacters = activeCharacters?.ToArray();
             CombatParticipant[] localActiveEnemies = activeEnemies?.ToArray();
 
-            // Special handling for no traverse -- pass back the target
+            CombatParticipant currentTarget = localCurrentTargets?.First();
+
+            // Special handling
+            // No traversing -- pass the target back
             if (traverseForward == null)
             {
-                CombatParticipant defaultCharacter = localCurrentTargets.First();
-                if (defaultCharacter != null) { yield return localCurrentTargets.First(); }
+                if (currentTarget != null) { yield return currentTarget; }
                 yield break;
             }
 
@@ -38,16 +40,14 @@ namespace Frankie.Combat
             }
             if (potentialTargets.Count() == 0) { yield break; }
 
-            // Special handling no current target
+            // Special handling
+            // No current target -- pass first target back
             if (localCurrentTargets == null || localCurrentTargets.Count() == 0)
             {
                 CombatParticipant defaultTarget = potentialTargets.First();
                 if (defaultTarget != null) { yield return defaultTarget; }
                 yield break;
             }
-
-            // Find next target
-            CombatParticipant currentTarget = localCurrentTargets.First(); // Expectation is this would be single target, handling edge case
 
             bool returnOnNextIteration = false;
             if (traverseForward == true)

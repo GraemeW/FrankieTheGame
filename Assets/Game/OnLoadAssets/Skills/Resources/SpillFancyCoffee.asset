@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: SpillFancyCoffee
   m_EditorClassIdentifier: 
   stat: 3
-  battleAction: {fileID: 11400000, guid: 81fec7ccc57d205409e6ed7f75602679, type: 2}
-  detail: Shit!  Gonna have to get another, this burns
+  battleAction: {fileID: 11400000, guid: afcb601a5ff04ef4ba3d85c2ebd6be07, type: 2}
+  detail: Shit!  Gonna have to get another, this burns.  Causes damage over time.

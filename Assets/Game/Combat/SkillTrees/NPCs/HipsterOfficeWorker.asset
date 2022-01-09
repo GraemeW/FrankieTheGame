@@ -12,15 +12,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6b066201d64e5354387f385aa2872d22, type: 3}
   m_Name: e4207de8-3f8e-4699-b60f-cacc92cfe5cd
   m_EditorClassIdentifier: 
-  upSkillReference: ShootTheShit
+  upSkillReference: SpillFancyCoffee
   upBranch: 
-  leftSkillReference: RequestETC
+  leftSkillReference: InstillSelfDoubt
   leftBranch: 
-  rightSkillReference: RequestDashboard
+  rightSkillReference: SmileMenacingly
   rightBranch: 
-  downSkillReference: SpillFancyCoffee
+  downSkillReference: 
   downBranch: 
-  detail: 
   rect:
     serializedVersion: 2
     x: 30
