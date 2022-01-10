@@ -341,6 +341,30 @@ PrefabInstance:
       propertyPath: dialogue
       value: 
       objectReference: {fileID: 11400000, guid: 0ff830ad00da1a54f9eabecbfbb72aba, type: 2}
+    - target: {fileID: 6410608619545107928, guid: 0933637bb54f1cb4480c3b6eaceeee40, type: 3}
+      propertyPath: maxCash
+      value: 25
+      objectReference: {fileID: 0}
+    - target: {fileID: 6410608619545107928, guid: 0933637bb54f1cb4480c3b6eaceeee40, type: 3}
+      propertyPath: minCash
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 6410608619545107928, guid: 0933637bb54f1cb4480c3b6eaceeee40, type: 3}
+      propertyPath: minItems
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6410608619545107928, guid: 0933637bb54f1cb4480c3b6eaceeee40, type: 3}
+      propertyPath: lootEntries.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6410608619545107928, guid: 0933637bb54f1cb4480c3b6eaceeee40, type: 3}
+      propertyPath: lootEntries.Array.data[0].probability
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6410608619545107928, guid: 0933637bb54f1cb4480c3b6eaceeee40, type: 3}
+      propertyPath: lootEntries.Array.data[0].inventoryItem
+      value: 
+      objectReference: {fileID: 11400000, guid: 2f316297c17d2c54880d9c8a7f79b081, type: 2}
     - target: {fileID: 7819299255556850876, guid: 0933637bb54f1cb4480c3b6eaceeee40, type: 3}
       propertyPath: m_RootOrder
       value: 6
@@ -3075,6 +3099,10 @@ PrefabInstance:
     - target: {fileID: 8654748381369162415, guid: 30c6f3f30a3216e41bbc8a6ac45c57e0, type: 3}
       propertyPath: minCash
       value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 8654748381369162415, guid: 30c6f3f30a3216e41bbc8a6ac45c57e0, type: 3}
+      propertyPath: minItems
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8654748381369162415, guid: 30c6f3f30a3216e41bbc8a6ac45c57e0, type: 3}
       propertyPath: lootEntries.Array.size
@@ -14768,6 +14796,63 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 120322cf421335644a2026459f208e06, type: 3}
+--- !u!1001 &4668139347560604547
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 585047821}
+    m_Modifications:
+    - target: {fileID: 4668139346695624478, guid: b92535201247d2c42bf7ce6964d623bf, type: 3}
+      propertyPath: m_RootOrder
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4668139346695624478, guid: b92535201247d2c42bf7ce6964d623bf, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -0.0051
+      objectReference: {fileID: 0}
+    - target: {fileID: 4668139346695624478, guid: b92535201247d2c42bf7ce6964d623bf, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.7555
+      objectReference: {fileID: 0}
+    - target: {fileID: 4668139346695624478, guid: b92535201247d2c42bf7ce6964d623bf, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4668139346695624478, guid: b92535201247d2c42bf7ce6964d623bf, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4668139346695624478, guid: b92535201247d2c42bf7ce6964d623bf, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4668139346695624478, guid: b92535201247d2c42bf7ce6964d623bf, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4668139346695624478, guid: b92535201247d2c42bf7ce6964d623bf, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4668139346695624478, guid: b92535201247d2c42bf7ce6964d623bf, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4668139346695624478, guid: b92535201247d2c42bf7ce6964d623bf, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4668139346695624478, guid: b92535201247d2c42bf7ce6964d623bf, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4668139346695624479, guid: b92535201247d2c42bf7ce6964d623bf, type: 3}
+      propertyPath: m_Name
+      value: PCScreenSaver
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: b92535201247d2c42bf7ce6964d623bf, type: 3}
 --- !u!1001 &4698734748379157560
 PrefabInstance:
   m_ObjectHideFlags: 0

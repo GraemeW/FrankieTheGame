@@ -58,7 +58,7 @@ MonoBehaviour:
       - 15
     - stat: 2
       levels:
-      - 800
+      - 650
     - stat: 3
       levels:
       - 10
@@ -227,37 +227,37 @@ MonoBehaviour:
     stats:
     - stat: 0
       levels:
-      - 30
+      - 70
     - stat: 1
       levels:
       - 15
     - stat: 2
       levels:
-      - 600
+      - 800
     - stat: 3
       levels:
       - 999
     - stat: 4
       levels:
-      - 2
+      - 9
     - stat: 5
       levels:
-      - 2
+      - 6
     - stat: 6
       levels:
-      - 2
+      - 6
     - stat: 7
       levels:
-      - 2
+      - 5
     - stat: 8
       levels:
-      - 2
+      - 7
     - stat: 9
       levels:
-      - 2
+      - 7
     - stat: 10
       levels:
-      - 2
+      - 6
   - characterProperties: {fileID: 11400000, guid: b10029ac6f311c441a516db78ca01efd, type: 2}
     stats:
     - stat: 0

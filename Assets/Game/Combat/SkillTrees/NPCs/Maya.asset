@@ -14,13 +14,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   upSkillReference: IgnoreYou
   upBranch: 
-  leftSkillReference: IgnoreYou
+  leftSkillReference: InstillSelfDoubt
   leftBranch: 
-  rightSkillReference: SmileMenacingly
+  rightSkillReference: IgnoreYou
   rightBranch: 
-  downSkillReference: DoActualWork
+  downSkillReference: 
   downBranch: 
-  detail: 
   rect:
     serializedVersion: 2
     x: 30

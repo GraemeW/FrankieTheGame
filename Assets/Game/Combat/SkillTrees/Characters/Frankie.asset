@@ -45,13 +45,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6b066201d64e5354387f385aa2872d22, type: 3}
   m_Name: ceef5421-52eb-4652-a833-da47e445a2af
   m_EditorClassIdentifier: 
-  upSkillReference: BlatherOn
+  upSkillReference: 
   upBranch: 
   leftSkillReference: 
   leftBranch: 
   rightSkillReference: 
   rightBranch: 
-  downSkillReference: 
+  downSkillReference: BlatherOn
   downBranch: 
   rect:
     serializedVersion: 2

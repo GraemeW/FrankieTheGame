@@ -7,8 +7,8 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: BattleEntryShader
-  m_Shader: {fileID: -6465566751694194690, guid: 58edf1c3558913e428a93dbb06d078bf, type: 3}
+  m_Name: FrankiePC
+  m_Shader: {fileID: -6465566751694194690, guid: 2f345acf05874f847a0db1296001bbdc, type: 3}
   m_ShaderKeywords: 
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
@@ -20,7 +20,7 @@ Material:
     serializedVersion: 3
     m_TexEnvs:
     - _MainTex:
-        m_Texture: {fileID: 2800000, guid: 48853a5670350a84bb46b94fcdb31459, type: 3}
+        m_Texture: {fileID: 2800000, guid: c56f5b446bab66f479a84a0230649b10, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - unity_Lightmaps:
@@ -36,6 +36,10 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Floats:
-    - _Phase: 3.5023534
+    - Vector1_aa76617f00504ee1814b39d61345e2b8: 0
+    - Vector1_c0bf298b1c6e4ee6bcab23fa2ad243c4: 200
+    - _PeriodA: 30
+    - _PeriodB: 3
+    - _TilePixelsPerUnit: 200
     m_Colors: []
   m_BuildTextureStacks: []

@@ -82,7 +82,8 @@ namespace Frankie.Control
                 interactActions.Add(new ChoiceActionPair(messageAccept, () => checkInteraction.Invoke(playerStateHandler)));
                 interactActions.Add(new ChoiceActionPair(messageReject, () => rejectInteraction.Invoke(playerStateHandler)));
 
-                playerStateHandler.EnterDialogue(checkMessage, interactActions);
+                string partyLeaderName = playerStateHandler.GetParty().GetParty()[0].GetCombatName();
+                playerStateHandler.EnterDialogue(string.Format(checkMessage, partyLeaderName), interactActions);
             }
             return true;
         }

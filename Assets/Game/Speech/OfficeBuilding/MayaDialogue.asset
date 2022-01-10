@@ -20,6 +20,7 @@ MonoBehaviour:
   - cdac874a-b3fc-4ac5-bfa1-725930ae6ef6
   - e1b519de-b573-447f-a6bf-e9d7f1b230e5
   - e58ef526-a236-4f6f-9b0b-e3aaf9d6a3b2
+  - 89af5048-d7d4-43b9-a6d0-78978f195179
   rect:
     serializedVersion: 2
     x: 30
@@ -32,8 +33,6 @@ MonoBehaviour:
     y: 0
     width: 400
     height: 45
-  onEnterAction: 
-  onExitAction: 
   condition:
     and: []
 --- !u!114 &-6761488399315501527
@@ -51,7 +50,8 @@ MonoBehaviour:
   speakerType: 1
   characterProperties: {fileID: 11400000, guid: c8752c77bccb9f145aea101a1d9673a5, type: 2}
   speakerName: Maya
-  text: 'Could you come back later?  '
+  text: What's that?  You say you saw me at the PortaBank (TM)?  I don't know what
+    you're talking about, I work here.
   children: []
   rect:
     serializedVersion: 2
@@ -65,10 +65,43 @@ MonoBehaviour:
     y: 0
     width: 400
     height: 45
-  onEnterAction: 
-  onExitAction: 
   condition:
     and: []
+--- !u!114 &-3390296426863366547
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 09c07c7c6f4c666429a0bbc8d18232b2, type: 3}
+  m_Name: 89af5048-d7d4-43b9-a6d0-78978f195179
+  m_EditorClassIdentifier: 
+  speakerType: 1
+  characterProperties: {fileID: 11400000, guid: c8752c77bccb9f145aea101a1d9673a5, type: 2}
+  speakerName: Maya
+  text: Hi Tilly, nice hair, I mean, nice outfit, I mean . . . anyway, did you want
+    to hang out this weekend?
+  children: []
+  rect:
+    serializedVersion: 2
+    x: 530
+    y: 780
+    width: 400
+    height: 225
+  draggingRect:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 400
+    height: 45
+  condition:
+    and:
+    - or:
+      - predicate: {fileID: 11400000, guid: a7bbc4f4f2f05314088fea20cb40007e, type: 2}
+        negate: 0
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -79,7 +112,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: aac27b8e802ced743b3f275e283ab9df, type: 3}
-  m_Name: zzz_MayaDialogue
+  m_Name: MayaDialogue
   m_EditorClassIdentifier: 
   skipRootNode: 1
   newNodeOffset: {x: 100, y: 25}
@@ -92,6 +125,7 @@ MonoBehaviour:
   - {fileID: -6761488399315501527}
   - {fileID: 7830810597490469308}
   - {fileID: 1570589005771257271}
+  - {fileID: -3390296426863366547}
 --- !u!114 &1570589005771257271
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -107,7 +141,7 @@ MonoBehaviour:
   speakerType: 1
   characterProperties: {fileID: 11400000, guid: c8752c77bccb9f145aea101a1d9673a5, type: 2}
   speakerName: Maya
-  text: Alright, let's tango
+  text: You want the key to the ballpit?  Alright, let's tango.
   children: []
   rect:
     serializedVersion: 2
@@ -121,10 +155,11 @@ MonoBehaviour:
     y: 0
     width: 400
     height: 45
-  onEnterAction: 
-  onExitAction: fight
   condition:
-    and: []
+    and:
+    - or:
+      - predicate: {fileID: 11400000, guid: 909f3f55c1621084b86a62ae4a8ac0bd, type: 2}
+        negate: 1
 --- !u!114 &7830810597490469308
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -140,7 +175,7 @@ MonoBehaviour:
   speakerType: 1
   characterProperties: {fileID: 11400000, guid: c8752c77bccb9f145aea101a1d9673a5, type: 2}
   speakerName: Maya
-  text: Aside from you and Horse I'm literally the only person who does work around
+  text: Aside from you and Horse, I'm literally the only person who does work around
     here
   children: []
   rect:
@@ -155,7 +190,5 @@ MonoBehaviour:
     y: 0
     width: 400
     height: 45
-  onEnterAction: 
-  onExitAction: 
   condition:
     and: []

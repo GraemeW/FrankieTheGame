@@ -14,6 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   delay: 0.5
   effectStrategies:
-  - {fileID: 11400000, guid: deda9105c58099148bfd7ccc74fe4680, type: 2}
-  - {fileID: 11400000, guid: 6317feb5c1667324d863985fa0ec43f2, type: 2}
+  - {fileID: 11400000, guid: 1c454ae599830ad4388d5ad08717952f, type: 2}
+  - {fileID: 11400000, guid: 46dde1bd578368c40bda69a97b36a2e8, type: 2}
   - {fileID: 11400000, guid: 072bd61a483358e4cacc9f3aa945d82b, type: 2}

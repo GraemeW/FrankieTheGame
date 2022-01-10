@@ -115,7 +115,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: aac27b8e802ced743b3f275e283ab9df, type: 3}
-  m_Name: zzz_HipsterOfficeWorkerDialogue
+  m_Name: HipsterOfficeWorkerDialogue
   m_EditorClassIdentifier: 
   skipRootNode: 1
   newNodeOffset: {x: 100, y: 25}
