@@ -278,7 +278,7 @@ namespace Frankie.Combat.UI
             if (battleController.GetBattleOutcome() != BattleOutcome.Won) { busyWithSerialAction = false; return; }
 
             DialogueBox dialogueBox = Instantiate(dialogueBoxPrefab, infoChooseParent);
-            dialogueBox.AddText(string.Format(messageGainedExperience, battleController.GetBattleExperienceReward().ToString()));
+            dialogueBox.AddText(string.Format(messageGainedExperience, Mathf.RoundToInt(battleController.GetBattleExperienceReward()).ToString()));
 
             foreach (CharacterLevelUpSheetPair characterLevelUpSheetPair in queuedLevelUps)
             {

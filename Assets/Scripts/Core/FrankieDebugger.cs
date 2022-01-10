@@ -71,7 +71,7 @@ namespace Frankie.Core
         private Party SetupParty()
         {
             if (player == null) { player = GameObject.FindGameObjectWithTag("Player"); }
-            return player.GetComponent<Party>();
+            return player?.GetComponent<Party>();
         }
 
         private void Save()
