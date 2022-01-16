@@ -35,14 +35,6 @@ namespace Frankie.Combat
             // Separate out overall set
             IEnumerable<CombatParticipant> potentialTargets = this.GetCombatParticipantsByType(combatParticipantType, localActiveCharacters, localActiveEnemies);
 
-            UnityEngine.Debug.Log($"Targeting initiated - current target: {currentTarget}");
-            string thePotentialTargets = "";
-            foreach (CombatParticipant dude in potentialTargets)
-            {
-                thePotentialTargets += dude.name + ",";
-            }
-            UnityEngine.Debug.Log($"Potential targets: {thePotentialTargets}");
-
             // Filter
             if (filterStrategies != null)
             {
