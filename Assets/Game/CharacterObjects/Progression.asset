@@ -12,494 +12,341 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: acb6e2d9e32ffbd4c83879b149348503, type: 3}
   m_Name: Progression
   m_EditorClassIdentifier: 
+  defaultStatValueIfMissing: 1
   characterClasses:
   - characterProperties: {fileID: 11400000, guid: b50f84a2f36107a44825b11881f88adf, type: 2}
     stats:
     - stat: 0
-      levels:
-      - 30
+      value: 30
     - stat: 1
-      levels:
-      - 15
+      value: 15
     - stat: 2
-      levels:
-      - 5
+      value: 200
     - stat: 3
-      levels:
-      - 999
+      value: 999
     - stat: 4
-      levels:
-      - 2
+      value: 2
     - stat: 5
-      levels:
-      - 2
+      value: 2
     - stat: 6
-      levels:
-      - 2
+      value: 2
     - stat: 7
-      levels:
-      - 3
+      value: 3
     - stat: 8
-      levels:
-      - 2
+      value: 2
     - stat: 9
-      levels:
-      - 3
+      value: 3
     - stat: 10
-      levels:
-      - 3
+      value: 3
   - characterProperties: {fileID: 11400000, guid: 56186947ccacc0a4598067f4b80c5c25, type: 2}
     stats:
     - stat: 0
-      levels:
-      - 65
+      value: 65
     - stat: 1
-      levels:
-      - 15
+      value: 15
     - stat: 2
-      levels:
-      - 650
+      value: 650
     - stat: 3
-      levels:
-      - 10
+      value: 999
     - stat: 4
-      levels:
-      - 5
+      value: 5
     - stat: 5
-      levels:
-      - 8
+      value: 8
     - stat: 6
-      levels:
-      - 7
+      value: 7
     - stat: 7
-      levels:
-      - 5
+      value: 5
     - stat: 8
-      levels:
-      - 6
+      value: 6
     - stat: 9
-      levels:
-      - 6
+      value: 6
     - stat: 10
-      levels:
-      - 6
+      value: 6
   - characterProperties: {fileID: 11400000, guid: 90d76accd2678ec4a831bc862fdccb8c, type: 2}
     stats:
     - stat: 0
-      levels:
-      - 30
+      value: 30
     - stat: 1
-      levels:
-      - 15
+      value: 15
     - stat: 2
-      levels:
-      - 800
+      value: 800
     - stat: 3
-      levels:
-      - 10
+      value: 999
     - stat: 4
-      levels:
-      - 2
+      value: 2
     - stat: 5
-      levels:
-      - 2
+      value: 2
     - stat: 6
-      levels:
-      - 2
+      value: 2
     - stat: 7
-      levels:
-      - 2
+      value: 2
     - stat: 8
-      levels:
-      - 2
+      value: 2
     - stat: 9
-      levels:
-      - 2
+      value: 2
     - stat: 10
-      levels:
-      - 2
+      value: 2
   - characterProperties: {fileID: 11400000, guid: 15a456ac7051b7946ba9d4575fddb1ba, type: 2}
     stats:
     - stat: 0
-      levels:
-      - 30
+      value: 30
     - stat: 1
-      levels:
-      - 15
+      value: 15
     - stat: 2
-      levels:
-      - 600
+      value: 600
     - stat: 3
-      levels:
-      - 10
+      value: 999
     - stat: 4
-      levels:
-      - 2
+      value: 2
     - stat: 5
-      levels:
-      - 2
+      value: 2
     - stat: 6
-      levels:
-      - 2
+      value: 2
     - stat: 7
-      levels:
-      - 2
+      value: 2
     - stat: 8
-      levels:
-      - 2
+      value: 2
     - stat: 9
-      levels:
-      - 2
+      value: 2
     - stat: 10
-      levels:
-      - 2
+      value: 2
   - characterProperties: {fileID: 11400000, guid: bb8eacf5d6e151548ae677e3ff4d1109, type: 2}
     stats:
     - stat: 0
-      levels:
-      - 30
+      value: 30
     - stat: 1
-      levels:
-      - 15
+      value: 15
     - stat: 2
-      levels:
-      - 1500
+      value: 1500
     - stat: 3
-      levels:
-      - 10
+      value: 999
     - stat: 4
-      levels:
-      - 2
+      value: 2
     - stat: 5
-      levels:
-      - 2
+      value: 2
     - stat: 6
-      levels:
-      - 2
+      value: 2
     - stat: 7
-      levels:
-      - 2
+      value: 2
     - stat: 8
-      levels:
-      - 2
+      value: 2
     - stat: 9
-      levels:
-      - 2
+      value: 2
     - stat: 10
-      levels:
-      - 2
+      value: 2
   - characterProperties: {fileID: 11400000, guid: df2799c36af32ce4d8fd6788f660323d, type: 2}
     stats:
     - stat: 0
-      levels:
-      - 30
+      value: 30
     - stat: 1
-      levels:
-      - 15
+      value: 15
     - stat: 2
-      levels:
-      - 1000
+      value: 1000
     - stat: 3
-      levels:
-      - 10
+      value: 999
     - stat: 4
-      levels:
-      - 2
+      value: 2
     - stat: 5
-      levels:
-      - 2
+      value: 2
     - stat: 6
-      levels:
-      - 2
+      value: 2
     - stat: 7
-      levels:
-      - 2
+      value: 2
     - stat: 8
-      levels:
-      - 2
+      value: 2
     - stat: 9
-      levels:
-      - 2
+      value: 2
     - stat: 10
-      levels:
-      - 2
+      value: 2
   - characterProperties: {fileID: 11400000, guid: c8752c77bccb9f145aea101a1d9673a5, type: 2}
     stats:
     - stat: 0
-      levels:
-      - 70
+      value: 70
     - stat: 1
-      levels:
-      - 15
+      value: 15
     - stat: 2
-      levels:
-      - 800
+      value: 800
     - stat: 3
-      levels:
-      - 999
+      value: 999
     - stat: 4
-      levels:
-      - 9
+      value: 9
     - stat: 5
-      levels:
-      - 6
+      value: 6
     - stat: 6
-      levels:
-      - 6
+      value: 6
     - stat: 7
-      levels:
-      - 5
+      value: 5
     - stat: 8
-      levels:
-      - 7
+      value: 7
     - stat: 9
-      levels:
-      - 7
+      value: 7
     - stat: 10
-      levels:
-      - 6
+      value: 6
   - characterProperties: {fileID: 11400000, guid: b10029ac6f311c441a516db78ca01efd, type: 2}
     stats:
     - stat: 0
-      levels:
-      - 35
+      value: 35
     - stat: 1
-      levels:
-      - 10
+      value: 10
     - stat: 2
-      levels:
-      - 1
+      value: 1
     - stat: 3
-      levels:
-      - 999
+      value: 999
     - stat: 4
-      levels:
-      - 3
+      value: 3
     - stat: 5
-      levels:
-      - 2
+      value: 2
     - stat: 6
-      levels:
-      - 2
+      value: 2
     - stat: 7
-      levels:
-      - 2
+      value: 2
     - stat: 8
-      levels:
-      - 3
+      value: 3
     - stat: 9
-      levels:
-      - 3
+      value: 3
     - stat: 10
-      levels:
-      - 2
+      value: 2
   - characterProperties: {fileID: 11400000, guid: 336237e6ae4959340b7902131ce0e59d, type: 2}
     stats:
     - stat: 0
-      levels:
-      - 25
+      value: 25
     - stat: 1
-      levels:
-      - 15
+      value: 20
     - stat: 2
-      levels:
-      - 1
+      value: 1
     - stat: 3
-      levels:
-      - 999
+      value: 999
     - stat: 4
-      levels:
-      - 2
+      value: 2
     - stat: 5
-      levels:
-      - 3
+      value: 3
     - stat: 6
-      levels:
-      - 3
+      value: 3
     - stat: 7
-      levels:
-      - 2
+      value: 2
     - stat: 8
-      levels:
-      - 3
+      value: 3
     - stat: 9
-      levels:
-      - 2
+      value: 2
     - stat: 10
-      levels:
-      - 2
+      value: 2
   - characterProperties: {fileID: 11400000, guid: ec6ec75df6f1e3e4ea3cf0953f1b4eab, type: 2}
     stats:
     - stat: 0
-      levels:
-      - 20
+      value: 20
     - stat: 1
-      levels:
-      - 15
+      value: 15
     - stat: 2
-      levels:
-      - 500
+      value: 500
     - stat: 3
-      levels:
-      - 999
+      value: 999
     - stat: 4
-      levels:
-      - 2
+      value: 2
     - stat: 5
-      levels:
-      - 2
+      value: 2
     - stat: 6
-      levels:
-      - 2
+      value: 2
     - stat: 7
-      levels:
-      - 2
+      value: 2
     - stat: 8
-      levels:
-      - 2
+      value: 2
     - stat: 9
-      levels:
-      - 2
+      value: 2
     - stat: 10
-      levels:
-      - 2
+      value: 2
   - characterProperties: {fileID: 11400000, guid: 530bc654984fc6b478566ee056083f8b, type: 2}
     stats:
     - stat: 0
-      levels:
-      - 20
+      value: 20
     - stat: 1
-      levels:
-      - 15
+      value: 15
     - stat: 2
-      levels:
-      - 200
+      value: 200
     - stat: 3
-      levels:
-      - 10
+      value: 999
     - stat: 4
-      levels:
-      - 2
+      value: 2
     - stat: 5
-      levels:
-      - 2
+      value: 2
     - stat: 6
-      levels:
-      - 2
+      value: 2
     - stat: 7
-      levels:
-      - 2
+      value: 2
     - stat: 8
-      levels:
-      - 2
+      value: 2
     - stat: 9
-      levels:
-      - 2
+      value: 2
     - stat: 10
-      levels:
-      - 2
+      value: 2
   - characterProperties: {fileID: 11400000, guid: 44e5b74a59991d14e972988012c4557e, type: 2}
     stats:
     - stat: 0
-      levels:
-      - 20
+      value: 20
     - stat: 1
-      levels:
-      - 15
+      value: 15
     - stat: 2
-      levels:
-      - 200
+      value: 200
     - stat: 3
-      levels:
-      - 10
+      value: 999
     - stat: 4
-      levels:
-      - 2
+      value: 2
     - stat: 5
-      levels:
-      - 2
+      value: 2
     - stat: 6
-      levels:
-      - 2
+      value: 2
     - stat: 7
-      levels:
-      - 2
+      value: 2
     - stat: 8
-      levels:
-      - 2
+      value: 2
     - stat: 9
-      levels:
-      - 2
+      value: 2
     - stat: 10
-      levels:
-      - 2
+      value: 2
   - characterProperties: {fileID: 11400000, guid: 86aecc43b78f58145815657f0856ac5b, type: 2}
     stats:
     - stat: 0
-      levels:
-      - 25
+      value: 25
     - stat: 1
-      levels:
-      - 15
+      value: 15
     - stat: 2
-      levels:
-      - 250
+      value: 250
     - stat: 3
-      levels:
-      - 10
+      value: 999
     - stat: 4
-      levels:
-      - 4
+      value: 4
     - stat: 5
-      levels:
-      - 4
+      value: 4
     - stat: 6
-      levels:
-      - 4
+      value: 4
     - stat: 7
-      levels:
-      - 4
+      value: 4
     - stat: 8
-      levels:
-      - 4
+      value: 4
     - stat: 9
-      levels:
-      - 4
+      value: 4
     - stat: 10
-      levels:
-      - 4
+      value: 4
   - characterProperties: {fileID: 11400000, guid: 9fe41bb8f767c374a974d7afca7cf995, type: 2}
     stats:
     - stat: 0
-      levels:
-      - 30
+      value: 30
     - stat: 1
-      levels:
-      - 15
+      value: 15
     - stat: 2
-      levels:
-      - 250
+      value: 250
     - stat: 3
-      levels:
-      - 10
+      value: 999
     - stat: 4
-      levels:
-      - 4
+      value: 4
     - stat: 5
-      levels:
-      - 4
+      value: 4
     - stat: 6
-      levels:
-      - 4
+      value: 4
     - stat: 7
-      levels:
-      - 4
+      value: 4
     - stat: 8
-      levels:
-      - 4
+      value: 4
     - stat: 9
-      levels:
-      - 4
+      value: 4
     - stat: 10
-      levels:
-      - 4
+      value: 4

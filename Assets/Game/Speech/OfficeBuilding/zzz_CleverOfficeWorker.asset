@@ -18,7 +18,7 @@ MonoBehaviour:
   nodeHeight: 225
   activeNPCs:
   - {fileID: 11400000, guid: 90d76accd2678ec4a831bc862fdccb8c, type: 2}
-  - {fileID: 11400000, guid: b50f84a2f36107a44825b11881f88adf, type: 2}
+  - {fileID: 11400000, guid: b10029ac6f311c441a516db78ca01efd, type: 2}
   dialogueNodes:
   - {fileID: 3876667673261360452}
   - {fileID: 4572544580911562930}
@@ -52,8 +52,6 @@ MonoBehaviour:
     y: 0
     width: 400
     height: 45
-  onEnterAction: 
-  onExitAction: 
   condition:
     and: []
 --- !u!114 &4572544580911562930
@@ -69,8 +67,8 @@ MonoBehaviour:
   m_Name: 0643a067-81a1-4d7e-8327-951356097f15
   m_EditorClassIdentifier: 
   speakerType: 0
-  characterProperties: {fileID: 11400000, guid: b50f84a2f36107a44825b11881f88adf, type: 2}
-  speakerName: Frankie
+  characterProperties: {fileID: 11400000, guid: b10029ac6f311c441a516db78ca01efd, type: 2}
+  speakerName: Tilly
   text: Ok?
   children: []
   rect:
@@ -85,7 +83,5 @@ MonoBehaviour:
     y: 0
     width: 400
     height: 45
-  onEnterAction: 
-  onExitAction: fight
   condition:
     and: []

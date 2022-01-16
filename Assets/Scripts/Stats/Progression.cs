@@ -1,3 +1,5 @@
+using System;
+using System.Linq;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -8,49 +10,54 @@ namespace Frankie.Stats
     public class Progression : ScriptableObject
     {
         // Tunables
+        [SerializeField] float defaultStatValueIfMissing = 1f;
         [SerializeField] ProgressionCharacterClass[] characterClasses = default;
 
         // State
-        Dictionary<CharacterProperties, Dictionary<Stat, float[]>> lookupTable = null;
+        Dictionary<CharacterProperties, Dictionary<Stat, float>> lookupTable = null;
 
-        public float GetStat(Stat stat, CharacterProperties characterProperties, int level)
+        public float GetStat(Stat stat, CharacterProperties characterProperties)
         {
             BuildLookup();
-            float[] levels = lookupTable[characterProperties][stat];
-            int safeLevel = Mathf.Clamp(level - 1, 0, levels.Length - 1);
-            return levels[safeLevel];
+            return lookupTable[characterProperties][stat];
         }
 
-        public Dictionary<Stat, float> GetStatSheet(CharacterProperties characterProperties, int level)
+        public Dictionary<Stat, float> GetStatSheet(CharacterProperties characterProperties)
         {
             BuildLookup();
             Dictionary<Stat, float> statSheet = new Dictionary<Stat, float>();
-            Dictionary<Stat, float[]> statBook = lookupTable[characterProperties];
+            Dictionary<Stat, float> statBook = lookupTable[characterProperties];
             foreach (Stat stat in statBook.Keys)
             {
-                statSheet[stat] = GetStat(stat, characterProperties, level);
+                statSheet[stat] = GetStat(stat, characterProperties);
             }
             return statSheet;
-        }
-
-        public int GetLevels(Stat stat, CharacterProperties characterProperties)
-        {
-            BuildLookup();
-            return lookupTable[characterProperties][stat].Length;
         }
 
         private void BuildLookup()
         {
             if (lookupTable != null) { return; }
-            lookupTable = new Dictionary<CharacterProperties, Dictionary<Stat, float[]>>();
+            lookupTable = new Dictionary<CharacterProperties, Dictionary<Stat, float>>();
 
             foreach (ProgressionCharacterClass progressionCharacterClass in characterClasses)
             {
-                Dictionary<Stat, float[]> statDictionary = new Dictionary<Stat, float[]>();
-                foreach (ProgressionStat progressionStat in progressionCharacterClass.stats)
+                Dictionary<Stat, float> statDictionary = new Dictionary<Stat, float>();
+
+                foreach (Stat stat in Enum.GetValues(typeof(Stat)))
                 {
-                    statDictionary[progressionStat.stat] = progressionStat.levels;
+                    bool foundStat = false;
+                    foreach (ProgressionStat progressionStat in progressionCharacterClass.stats)
+                    {
+                        if (progressionStat.stat == stat)
+                        {
+                            statDictionary[stat] = progressionStat.value;
+                            foundStat = true;
+                            break;
+                        }
+                    }
+                    if (!foundStat) { statDictionary[stat] = defaultStatValueIfMissing; }
                 }
+
                 lookupTable[progressionCharacterClass.characterProperties] = statDictionary;
             }
         }
@@ -67,7 +74,7 @@ namespace Frankie.Stats
         class ProgressionStat
         {
             public Stat stat = default;
-            public float[] levels = default;
+            public float value = default;
         }
     }
 }

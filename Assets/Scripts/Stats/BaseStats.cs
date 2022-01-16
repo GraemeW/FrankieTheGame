@@ -71,7 +71,7 @@ namespace Frankie.Stats
             // Default behavior from original implementation
             // Carried forward for level-up behavior
 
-            return progression.GetStat(stat, characterProperties, GetLevel());
+            return progression.GetStat(stat, characterProperties);
         }
 
         public float GetCalculatedStat(CalculatedStat calculatedStat, BaseStats opponentBaseStats = null)
@@ -88,7 +88,7 @@ namespace Frankie.Stats
 
         private void BuildActiveStatSheet()
         {
-            activeStatSheet = progression.GetStatSheet(characterProperties, GetLevel());
+            activeStatSheet = progression.GetStatSheet(characterProperties);
         }
 
         public Dictionary<Stat, float> GetActiveStatSheet() // NOTE:  Does NOT contain modifiers

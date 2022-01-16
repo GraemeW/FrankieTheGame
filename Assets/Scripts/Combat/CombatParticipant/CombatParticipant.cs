@@ -265,14 +265,19 @@ namespace Frankie.Combat
 
         public void AdjustAP(float points)
         {
+            AdjustAPQuietly(points);
+
+            if (points < 0) { AnnounceStateUpdate(new StateAlteredData(StateAlteredType.DecreaseAP, points)); }
+            else if (points > 0) { AnnounceStateUpdate(new StateAlteredData(StateAlteredType.IncreaseAP, points)); }
+        }
+
+        public void AdjustAPQuietly(float points)
+        {
             if (isDead.value) { return; }
             if (!usesAP) { return; }
 
             float unsafeAP = currentAP.value + points;
             currentAP.value = Mathf.Clamp(unsafeAP, 0f, baseStats.GetStat(Stat.AP));
-
-            if (points < 0) { AnnounceStateUpdate(new StateAlteredData(StateAlteredType.DecreaseAP, points)); }
-            else if (points > 0) { AnnounceStateUpdate(new StateAlteredData(StateAlteredType.IncreaseAP, points)); }
         }
 
         public void Revive(float hp)
@@ -336,8 +341,8 @@ namespace Frankie.Combat
             List<Tuple<string, int>> statNameValuePairs = new List<Tuple<string, int>>();
             foreach (KeyValuePair<Stat, float> entry in levelUpSheet)
             {
-                if (entry.Key == Stat.HP) { AdjustHP(entry.Value); }
-                if (entry.Key == Stat.AP) { AdjustAP(entry.Value); }
+                if (entry.Key == Stat.HP) { AdjustHPQuietly(entry.Value); }
+                if (entry.Key == Stat.AP) { AdjustAPQuietly(entry.Value); }
 
                 Tuple<string, int> statNameValuePair = new Tuple<string, int>(entry.Key.ToString(), Mathf.RoundToInt(entry.Value));
                 statNameValuePairs.Add(statNameValuePair);
