@@ -33,9 +33,9 @@ MonoBehaviour:
   upBranch: 
   leftSkillReference: DoActualWork
   leftBranch: 
-  rightSkillReference: SmileMenacingly
+  rightSkillReference: 
   rightBranch: 
-  downSkillReference: IgnoreYou
+  downSkillReference: 
   downBranch: 
   rect:
     serializedVersion: 2

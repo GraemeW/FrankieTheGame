@@ -12,7 +12,7 @@ namespace Frankie.Combat
     {
         // Tunables
         [SerializeField] SkillTree skillTree = null;
-        [SerializeField] float skillTreeLevelMultiplierForStatUnlock = 10f;
+        [SerializeField][Min(0)] float skillTreeLevelMultiplierForStatUnlock = 10f;
 
         // State
         SkillBranch currentBranch = null;

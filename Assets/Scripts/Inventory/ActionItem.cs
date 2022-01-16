@@ -3,6 +3,7 @@ using Frankie.Stats;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 namespace Frankie.Inventory
@@ -34,14 +35,16 @@ namespace Frankie.Inventory
             return true;
         }
 
-        public IEnumerable<CombatParticipant> GetTargets(bool? traverseForward, IEnumerable<CombatParticipant> currentTargets, IEnumerable<CombatParticipant> activeCharacters, IEnumerable<CombatParticipant> activeEnemies)
+        public List<CombatParticipant> GetTargets(bool? traverseForward, IEnumerable<CombatParticipant> currentTargets, IEnumerable<CombatParticipant> activeCharacters, IEnumerable<CombatParticipant> activeEnemies)
         {
-            if (battleAction == null) { yield break; }
+            List<CombatParticipant> targets = new List<CombatParticipant>();
+            if (battleAction == null) { return targets; }
 
-            foreach(CombatParticipant combatParticipant in battleAction.GetTargets(traverseForward, currentTargets, activeCharacters, activeEnemies))
+            foreach (CombatParticipant target in battleAction.GetTargets(traverseForward, currentTargets, activeCharacters, activeEnemies))
             {
-                yield return combatParticipant;
+                targets.Add(target);
             }
+            return targets;
         }
 
         public bool IsItem()

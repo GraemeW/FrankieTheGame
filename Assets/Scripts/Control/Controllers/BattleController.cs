@@ -29,7 +29,7 @@ namespace Frankie.Combat
         CombatParticipant selectedCharacter = null;
         IBattleActionUser selectedBattleAction = null;
         bool battleActionArmed = false;
-        IEnumerable<CombatParticipant> selectedTargets = null;
+        List<CombatParticipant> selectedTargets = new List<CombatParticipant>();
 
         Queue<BattleSequence> battleSequenceQueue = new Queue<BattleSequence>();
         bool haltBattleQueue = false;
@@ -197,13 +197,20 @@ namespace Frankie.Combat
             return true;
         }
 
-        public bool SetSelectedTarget(IEnumerable<CombatParticipant> targets)
+        public bool SetSelectedTarget(List<CombatParticipant> targets)
         {
-            selectedTargets = targets;
+            if (targets != null)
+            {
+                selectedTargets = targets;
+            }
+            else
+            {
+                selectedTargets.Clear();
+            }
             selectedCombatParticipantChanged?.Invoke(CombatParticipantType.Target, selectedTargets);
 
-            if (targets == null || targets.Count() == 0) { return false; }
-            if (targets.All(x => x.IsDead())) { return false; }
+            if (selectedTargets.Count() == 0) { return false; }
+            if (selectedTargets.All(x => x.IsDead())) { return false; }
             return true;
         }
 
@@ -225,7 +232,7 @@ namespace Frankie.Combat
         {
             if (!enable)
             {
-                selectedTargets = null;
+                SetSelectedTarget(null);
                 battleActionArmed = false;
             }
             else if (selectedBattleAction != null)
@@ -255,7 +262,7 @@ namespace Frankie.Combat
             return selectedCharacter;
         }
 
-        public IEnumerable<CombatParticipant> GetSelectedTargets()
+        public List<CombatParticipant> GetSelectedTargets()
         {
             return selectedTargets;
         }
@@ -313,7 +320,7 @@ namespace Frankie.Combat
         #endregion
 
         #region PublicBattleHandling
-        public bool AddToBattleQueue(IEnumerable<CombatParticipant> recipients)
+        public bool AddToBattleQueue(List<CombatParticipant> recipients)
         {
             // Called via SkillSelection UI Buttons
             // Using selected character and battle action
@@ -323,13 +330,13 @@ namespace Frankie.Combat
             return true;
         }
 
-        public void AddToBattleQueue(CombatParticipant sender, IEnumerable<CombatParticipant> recipients, IBattleActionUser battleAction)
+        public void AddToBattleQueue(CombatParticipant sender, List<CombatParticipant> recipients, IBattleActionUser battleAction)
         {
             BattleSequence battleSequence = new BattleSequence
             {
                 battleAction = battleAction,
                 sender = sender,
-                recipients = recipients,
+                recipients = new List<CombatParticipant>(recipients),
             };
             AddToBattleQueue(sender, battleSequence);
         }
@@ -461,7 +468,7 @@ namespace Frankie.Combat
             {
                 if (playerInputType == PlayerInputType.Execute)
                 {
-                    if (selectedTargets == null || selectedTargets.Count() == 0) { return false; }
+                    if (selectedTargets.Count() == 0) { return false; }
                     AddToBattleQueue(GetSelectedCharacter(), GetSelectedTargets(), selectedBattleAction);
                     SetSelectedTarget(null);
                 }
@@ -552,7 +559,7 @@ namespace Frankie.Combat
                 return;
             }
 
-            if (selectedTargets != null && selectedTargets.Contains(combatParticipant))
+            if (selectedTargets.Count > 0 && selectedTargets.Contains(combatParticipant))
             {
                 SetSelectedTarget(null);
             }

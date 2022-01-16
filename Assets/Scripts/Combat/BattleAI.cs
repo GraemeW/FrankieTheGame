@@ -53,7 +53,7 @@ namespace Frankie.Combat
                 && !combatParticipant.IsInCooldown())
             {
                 Skill skill = GetSkill();
-                IEnumerable<CombatParticipant> targets;
+                List<CombatParticipant> targets;
 
                 // Randomize input combat participants selections
                 List<CombatParticipant> characters = battleController.GetCharacters();

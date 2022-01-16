@@ -17,18 +17,31 @@ namespace Frankie.Combat
             CombatParticipant[] localActiveCharacters = activeCharacters?.ToArray();
             CombatParticipant[] localActiveEnemies = activeEnemies?.ToArray();
 
-            CombatParticipant currentTarget = localCurrentTargets?.First();
+            CombatParticipant currentTarget = null;
+            if (localCurrentTargets != null && localCurrentTargets.Length > 0)
+            {
+                currentTarget = localCurrentTargets.First();
+            }
+
 
             // Special handling
             // No traversing -- pass the target back
-            if (traverseForward == null)
+            if (traverseForward == null && currentTarget != null)
             {
-                if (currentTarget != null) { yield return currentTarget; }
+                yield return currentTarget;
                 yield break;
             }
 
             // Separate out overall set
             IEnumerable<CombatParticipant> potentialTargets = this.GetCombatParticipantsByType(combatParticipantType, localActiveCharacters, localActiveEnemies);
+
+            UnityEngine.Debug.Log($"Targeting initiated - current target: {currentTarget}");
+            string thePotentialTargets = "";
+            foreach (CombatParticipant dude in potentialTargets)
+            {
+                thePotentialTargets += dude.name + ",";
+            }
+            UnityEngine.Debug.Log($"Potential targets: {thePotentialTargets}");
 
             // Filter
             if (filterStrategies != null)

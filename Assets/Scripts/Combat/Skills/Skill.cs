@@ -65,7 +65,7 @@ namespace Frankie.Combat
             return battleAction.Use(sender, recipients, finished);
         }
 
-        public IEnumerable<CombatParticipant> GetTargets(bool? traverseForward, IEnumerable<CombatParticipant> currentTarget, IEnumerable<CombatParticipant> activeCharacters, IEnumerable<CombatParticipant> activeEnemies)
+        public List<CombatParticipant> GetTargets(bool? traverseForward, IEnumerable<CombatParticipant> currentTarget, IEnumerable<CombatParticipant> activeCharacters, IEnumerable<CombatParticipant> activeEnemies)
         {
             return battleAction?.GetTargets(traverseForward, currentTarget, activeCharacters, activeEnemies);
         }

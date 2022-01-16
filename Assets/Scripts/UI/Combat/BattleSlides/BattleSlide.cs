@@ -155,7 +155,7 @@ namespace Frankie.Combat.UI
         {
             if (battleController == null || !battleController.IsBattleActionArmed()) { return; }
 
-            battleController.AddToBattleQueue(new[] { combatParticipant });
+            battleController.AddToBattleQueue(new List<CombatParticipant> { combatParticipant });
         }
 
         private void HandleSlideShaking()

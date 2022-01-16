@@ -29,13 +29,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6b066201d64e5354387f385aa2872d22, type: 3}
   m_Name: 0be1b6c6-e1a9-410e-9a50-cf63ccae1cae
   m_EditorClassIdentifier: 
-  upSkillReference: LoudlyProclaim
+  upSkillReference: 
   upBranch: 
-  leftSkillReference: PresentBiceps
+  leftSkillReference: SpillFancyCoffee
   leftBranch: 
-  rightSkillReference: ShowOffCode
+  rightSkillReference: 
   rightBranch: 
-  downSkillReference: SpillFancyCoffee
+  downSkillReference: SmileMenacingly
   downBranch: 
   rect:
     serializedVersion: 2

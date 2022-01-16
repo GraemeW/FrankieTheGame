@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   upSkillReference: ShowOffCode
   upBranch: 
-  leftSkillReference: DoActualWork
+  leftSkillReference: 
   leftBranch: 
   rightSkillReference: AskForHelp
   rightBranch: 

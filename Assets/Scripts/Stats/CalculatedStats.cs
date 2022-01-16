@@ -11,7 +11,6 @@ namespace Frankie.Stats
         static float cooldownMax = 10f;
         static float hitChanceMin = 0.2f;
         static float hitChanceMax = 1.0f;
-        static float critChanceMin = 0f;
         static float critChanceMax = 1.0f;
 
         #region Getters
@@ -68,9 +67,7 @@ namespace Frankie.Stats
         private static float GetCritChance(float attackerModifier, float defenderModifier)
         {
             float deltaModifier = attackerModifier - defenderModifier;
-            return Mathf.Clamp(
-                0.5f + Mathf.Atan((deltaModifier - 20) / 10) / Mathf.PI,
-                critChanceMin, critChanceMax);
+            return critChanceMax * (0.5f + Mathf.Atan((deltaModifier - 20) / 10) / Mathf.PI);
         }
 
         private static float GetPhysicalAdder(float modifier)

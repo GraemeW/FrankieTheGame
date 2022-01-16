@@ -82,10 +82,13 @@ namespace Frankie.Combat
             }
         }
 
-        public IEnumerable<CombatParticipant> GetTargets(bool? traverseForward, IEnumerable<CombatParticipant> currentTargets, IEnumerable<CombatParticipant> activeCharacters, IEnumerable<CombatParticipant> activeEnemies)
+        public List<CombatParticipant> GetTargets(bool? traverseForward, IEnumerable<CombatParticipant> currentTargets, IEnumerable<CombatParticipant> activeCharacters, IEnumerable<CombatParticipant> activeEnemies)
         {
-            IEnumerable<CombatParticipant> targets = targetingStrategy.GetTargets(traverseForward, currentTargets, activeCharacters, activeEnemies);
-
+            List<CombatParticipant> targets = new List<CombatParticipant>();
+            foreach (CombatParticipant target in targetingStrategy.GetTargets(traverseForward, currentTargets, activeCharacters, activeEnemies))
+            {
+                targets.Add(target);
+            }
             return targets;
         }
     }

@@ -190,6 +190,10 @@ PrefabInstance:
       propertyPath: willChasePlayer
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5948377482001946277, guid: 73abebb9364d02b44886802930dfc1f8, type: 3}
+      propertyPath: willDestroySelfOnDeath
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 73abebb9364d02b44886802930dfc1f8, type: 3}
 --- !u!1 &30507272 stripped
@@ -774,6 +778,10 @@ PrefabInstance:
       propertyPath: willChasePlayer
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5948377482001946277, guid: f11fb3d93df053e40af1074609ecd08f, type: 3}
+      propertyPath: willDestroySelfOnDeath
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f11fb3d93df053e40af1074609ecd08f, type: 3}
 --- !u!1 &655497731 stripped
@@ -1056,6 +1064,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5948377482001946277, guid: 85e454fc5088ab64cbf94d522f93ecc7, type: 3}
       propertyPath: willChasePlayer
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5948377482001946277, guid: 85e454fc5088ab64cbf94d522f93ecc7, type: 3}
+      propertyPath: willDestroySelfOnDeath
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
@@ -1426,6 +1438,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Maya
       objectReference: {fileID: 0}
+    - target: {fileID: 7947613333109079215, guid: 0933637bb54f1cb4480c3b6eaceeee40, type: 3}
+      propertyPath: willDestroySelfOnDeath
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8315632734596250367, guid: 0933637bb54f1cb4480c3b6eaceeee40, type: 3}
       propertyPath: m_IsActive
       value: 0
@@ -1758,6 +1774,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5667570573382892504, guid: 30c6f3f30a3216e41bbc8a6ac45c57e0, type: 3}
+      propertyPath: willDestroySelfOnDeath
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6020141406999707016, guid: 30c6f3f30a3216e41bbc8a6ac45c57e0, type: 3}
       propertyPath: m_IsActive
       value: 0
@@ -1999,6 +2019,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5948377482001946277, guid: 3e8aa571b6fd5cd4c83d58166eabf29c, type: 3}
       propertyPath: willChasePlayer
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5948377482001946277, guid: 3e8aa571b6fd5cd4c83d58166eabf29c, type: 3}
+      propertyPath: willDestroySelfOnDeath
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []

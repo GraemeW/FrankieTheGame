@@ -17,5 +17,5 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 59c12f1664a79ed4ab58f425ec2c1741, type: 2}
   - {fileID: 11400000, guid: 072bd61a483358e4cacc9f3aa945d82b, type: 2}
   damageType: 1
-  cooldown: 6
+  cooldown: 5
   apCost: 0
