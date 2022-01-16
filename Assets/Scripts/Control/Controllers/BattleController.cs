@@ -336,7 +336,7 @@ namespace Frankie.Combat
             {
                 battleAction = battleAction,
                 sender = sender,
-                recipients = new List<CombatParticipant>(recipients),
+                recipients = new List<CombatParticipant>(recipients), // Create a copy of the list since reference will be cleared
             };
             AddToBattleQueue(sender, battleSequence);
         }

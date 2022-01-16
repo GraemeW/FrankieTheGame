@@ -56,9 +56,9 @@ namespace Frankie.Combat
                 List<CombatParticipant> targets;
 
                 // Randomize input combat participants selections
-                List<CombatParticipant> characters = battleController.GetCharacters();
+                List<CombatParticipant> characters = new List<CombatParticipant>(battleController.GetCharacters()); // Local copy since shuffling done in place
                 characters.Shuffle();
-                List<CombatParticipant> enemies = battleController.GetEnemies();
+                List<CombatParticipant> enemies = new List<CombatParticipant>(battleController.GetEnemies()); // Local copy since shuffling done in place
                 enemies.Shuffle();
 
                 if (combatParticipant.GetFriendly())
