@@ -85,7 +85,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speakerType: 1
   characterProperties: {fileID: 11400000, guid: bb8eacf5d6e151548ae677e3ff4d1109, type: 2}
-  speakerName: Default
+  speakerName: Horse
   text: Whinny.  Neigh. (congratulations Frankie, you did it, you really did it you
     son of a bitch)
   children: []
@@ -116,7 +116,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: aac27b8e802ced743b3f275e283ab9df, type: 3}
-  m_Name: zzz_HorseDialogue
+  m_Name: HorseDialogue
   m_EditorClassIdentifier: 
   skipRootNode: 1
   newNodeOffset: {x: 100, y: 25}
@@ -129,6 +129,7 @@ MonoBehaviour:
   - {fileID: -1300078063289001611}
   - {fileID: 2227885351415462380}
   - {fileID: -1293388238197688145}
+  - {fileID: 5223803142758871047}
 --- !u!114 &2227885351415462380
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -145,7 +146,8 @@ MonoBehaviour:
   characterProperties: {fileID: 11400000, guid: bb8eacf5d6e151548ae677e3ff4d1109, type: 2}
   speakerName: Horse
   text: Neeeeiiiigh. (is that Hay I smell?)
-  children: []
+  children:
+  - a98197fc-bd0b-49d1-8083-a98d7c242431
   rect:
     serializedVersion: 2
     x: 530
@@ -166,3 +168,34 @@ MonoBehaviour:
     - or:
       - predicate: {fileID: 11400000, guid: a0b51cdc601d47943a191dae2924e75a, type: 2}
         negate: 0
+--- !u!114 &5223803142758871047
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 09c07c7c6f4c666429a0bbc8d18232b2, type: 3}
+  m_Name: a98197fc-bd0b-49d1-8083-a98d7c242431
+  m_EditorClassIdentifier: 
+  speakerType: 1
+  characterProperties: {fileID: 11400000, guid: bb8eacf5d6e151548ae677e3ff4d1109, type: 2}
+  speakerName: Default
+  text: 'Snort. (give it to me, it''s mine) '
+  children: []
+  rect:
+    serializedVersion: 2
+    x: 1030
+    y: 280
+    width: 400
+    height: 225
+  draggingRect:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 400
+    height: 45
+  condition:
+    and: []

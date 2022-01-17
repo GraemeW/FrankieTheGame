@@ -133,6 +133,8 @@ namespace Frankie.Utils.UI
         public void OverrideChoiceOptions(List<ChoiceActionPair> choiceActionPairs)
         {
             choiceOptions.Clear();
+            if (choiceActionPairs == null) { isChoiceAvailable = false; return; }
+
             foreach (ChoiceActionPair choiceActionPair in choiceActionPairs)
             {
                 AddChoiceOption(choiceActionPair.choice, choiceActionPair.action);

@@ -17,6 +17,7 @@ namespace Frankie.Speech.UI
         [SerializeField] GameObject speechTextPrefab = null;
         [Header("Parameters")]
         [SerializeField] float delayBetweenCharacters = 0.05f; // Seconds
+        [SerializeField] bool reconfigureLayoutOnOptionSize = true;
         [SerializeField][Tooltip("Greater than this value will change options to vertical configuration")] int choiceNumberThresholdToReconfigureVertical = 2;
 
         // Option Field Configurables
@@ -313,8 +314,10 @@ namespace Frankie.Speech.UI
             ConfigureChoiceLayoutToVertical(choiceIndex);
         }
 
-        private void ConfigureChoiceLayoutToVertical(int choiceCount)
+        protected void ConfigureChoiceLayoutToVertical(int choiceCount)
         {
+            if (!reconfigureLayoutOnOptionSize || choiceCount == 0) { return; }
+
             if (choiceCount > choiceNumberThresholdToReconfigureVertical)
             {
                 if (optionParent.TryGetComponent(out HorizontalLayoutGroup horizontalLayoutGroup))

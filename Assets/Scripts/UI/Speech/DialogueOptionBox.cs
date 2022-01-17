@@ -1,9 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using System.Linq;
 using Frankie.Control;
-using System;
+using Frankie.Utils;
 
 namespace Frankie.Speech.UI
 {
@@ -14,7 +13,9 @@ namespace Frankie.Speech.UI
             base.Setup(optionText);
 
             if (dialogueController == null) { return; }
-            OverrideChoiceOptions(dialogueController.GetSimpleChoices());
+            List<ChoiceActionPair> choiceActionPairs = dialogueController.GetSimpleChoices();
+            OverrideChoiceOptions(choiceActionPairs);
+            ConfigureChoiceLayoutToVertical(choiceActionPairs.Count);
         }
 
         // Pass through implementations

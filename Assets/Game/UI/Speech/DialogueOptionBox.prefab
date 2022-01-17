@@ -160,7 +160,7 @@ GameObject:
   - component: {fileID: 3084176042462386772}
   - component: {fileID: 5257144902321780821}
   m_Layer: 0
-  m_Name: DialogueOptionBox_HorizontalOptions
+  m_Name: DialogueOptionBox
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

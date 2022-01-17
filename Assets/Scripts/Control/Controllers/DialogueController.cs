@@ -14,9 +14,7 @@ namespace Frankie.Speech
         // Tunables
         [Header("Controller Properties")]
         [SerializeField] GameObject dialogueBoxPrefab = null;
-        [SerializeField] GameObject dialogueOptionBox_Horizontal_Prefab = null;
-        [SerializeField] GameObject dialogueOptionBox_Vertical_Prefab = null;
-        [Tooltip("Inclusive")][SerializeField] int horizontalToVerticalOptionThreshold = 2;
+        [SerializeField] GameObject dialogueOptionBox = null;
 
         // State
         Dialogue currentDialogue = null;
@@ -238,14 +236,7 @@ namespace Frankie.Speech
         public void InitiateSimpleOption(string message, List<ChoiceActionPair> choiceActionPairs)
         {
             isSimpleMessage = true;
-            if (choiceActionPairs.Count <= horizontalToVerticalOptionThreshold)
-            {
-                Instantiate(dialogueOptionBox_Horizontal_Prefab, worldCanvas.transform);
-            }
-            else
-            {
-                Instantiate(dialogueOptionBox_Vertical_Prefab, worldCanvas.transform);
-            }
+            Instantiate(dialogueOptionBox, worldCanvas.transform);
 
             simpleMessage = message;
             simpleChoices = choiceActionPairs;

@@ -8123,8 +8123,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 47c843d51c92e854f95fb02bd7be9471, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dialogueUpdateType: 3
-  triggerNode: {fileID: -6124424448896261617, guid: 7382b1a7f806c584294949ba4f8e9aa7, type: 2}
+  dialogueUpdateType: 2
+  triggerNode: {fileID: 5223803142758871047, guid: 7382b1a7f806c584294949ba4f8e9aa7, type: 2}
   dialogueTriggeredEvent:
     triggerImmediate: 0
     onTriggerEvent:
