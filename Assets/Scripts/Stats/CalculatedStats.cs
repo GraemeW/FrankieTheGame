@@ -11,7 +11,7 @@ namespace Frankie.Stats
         static float cooldownMax = 10f;
         static float hitChanceMin = 0.2f;
         static float hitChanceMax = 1.0f;
-        static float critChanceMax = 1.0f;
+        static float critChanceMax = 0.5f;
 
         #region Getters
         public static bool GetStatModifier(CalculatedStat calculatedStat, out Stat stat)

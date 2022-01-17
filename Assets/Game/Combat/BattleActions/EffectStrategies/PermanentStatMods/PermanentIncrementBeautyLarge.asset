@@ -13,4 +13,4 @@ MonoBehaviour:
   m_Name: PermanentIncrementBeautyLarge
   m_EditorClassIdentifier: 
   stat: 5
-  value: 10
+  value: 15

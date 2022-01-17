@@ -610,6 +610,7 @@ namespace Frankie.Combat
                     battleExperienceReward += scaledExperienceReward;
                 }
 
+                scaledExperienceReward = Mathf.Min(scaledExperienceReward, Experience.GetMaxExperienceReward());
                 if (experience.GainExperienceToLevel(scaledExperienceReward))
                 {
                     levelUpTriggered = true;

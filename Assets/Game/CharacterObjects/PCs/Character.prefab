@@ -123,6 +123,7 @@ MonoBehaviour:
   movingBackgroundProperties:
     tileSpriteImage: {fileID: 0}
     shaderMaterial: {fileID: 0}
+  usesAP: 1
   battleStartCooldown: 1
   damageTimeSpan: 4
   fractionOfHPInstantOnRevival: 0.5
@@ -139,7 +140,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   skillTree: {fileID: 0}
-  skillTreeLevelMultiplierForStatUnlock: 10
+  skillTreeLevelMultiplierForStatUnlock: 20
 --- !u!114 &-8535015448183063659
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -153,7 +154,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   initialPoints: 0
-  experienceScalingPerLevelDelta: 0.4
 --- !u!114 &4647657545221406645
 MonoBehaviour:
   m_ObjectHideFlags: 0

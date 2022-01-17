@@ -14,9 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   upSkillReference: IgnoreYou
   upBranch: 
-  leftSkillReference: InstillSelfDoubt
+  leftSkillReference: ShowOffCode
   leftBranch: 
-  rightSkillReference: IgnoreYou
+  rightSkillReference: ShowOffCode
   rightBranch: 
   downSkillReference: 
   downBranch: 

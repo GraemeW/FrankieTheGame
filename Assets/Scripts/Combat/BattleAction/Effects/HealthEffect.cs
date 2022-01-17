@@ -11,6 +11,7 @@ namespace Frankie.Combat
     {
         [Tooltip("Effective minimum change")][SerializeField] float healthChange = 0f;
         [Tooltip("Added on top as range (0 to jitter), sign based on health change")][SerializeField][Min(0f)] float jitter = 0f;
+        [SerializeField] bool applyDamageTypeModifiers = true;
         [SerializeField] bool canMiss = true;
         [SerializeField] bool canCrit = true;
         [SerializeField][Min(1f)] float critMultiplier = 2f;
@@ -25,13 +26,17 @@ namespace Frankie.Combat
                 if (!DoesAttackHit(canMiss, sender, recipient)) { continue; }
 
                 float modifiedHealthChange = healthChange + sign * UnityEngine.Random.Range(0f, jitter);
-                modifiedHealthChange += damageType switch
+                if (applyDamageTypeModifiers)
                 {
-                    DamageType.None => 0f,
-                    DamageType.Physical => GetPhysicalModifier(sign, sender, recipient),
-                    DamageType.Magical => GetMagicalModifier(sign, sender, recipient),
-                    _ => 0f,
-                };
+                    modifiedHealthChange += damageType switch
+                    {
+                        DamageType.None => 0f,
+                        DamageType.Physical => GetPhysicalModifier(sign, sender, recipient),
+                        DamageType.Magical => GetMagicalModifier(sign, sender, recipient),
+                        _ => 0f,
+                    };
+                }
+
                 modifiedHealthChange *= GetCritModifier(canCrit, critMultiplier, sender, recipient);
 
                 recipient.AdjustHP(modifiedHealthChange);

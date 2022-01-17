@@ -27,8 +27,6 @@ namespace Frankie.Combat
 
         // Cached References
         BaseStats baseStats = null;
-        Experience experience = null;
-        Knapsack knapsack = null;
         Equipment equipment = null;
         LootDispenser lootDispenser = null;
 
@@ -53,8 +51,6 @@ namespace Frankie.Combat
             // Hard requirement
             baseStats = GetComponent<BaseStats>();
             // Not strictly necessary -- will fail elegantly
-            experience = GetComponent<Experience>();
-            knapsack = GetComponent<Knapsack>();
             equipment = GetComponent<Equipment>();
             lootDispenser = GetComponent<LootDispenser>();
 
@@ -220,7 +216,16 @@ namespace Frankie.Combat
         public void SetCombatActive(bool enable)
         {
             inCombat = enable;
-            if (!enable){ HaltHPScroll(); }
+            if (enable)
+            {
+                if (inCooldown) { AnnounceStateUpdate(new StateAlteredData(StateAlteredType.CooldownSet, cooldownTimer)); }
+            }
+            else
+            {
+                HaltHPScroll();
+                if (inCooldown) { AnnounceStateUpdate(new StateAlteredData(StateAlteredType.CooldownSet, Mathf.Infinity)); }
+            }
+            
             enterCombat?.Invoke(enable);
         }
 

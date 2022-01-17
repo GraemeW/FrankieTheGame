@@ -16,6 +16,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300000, guid: 4ffd5cf059ad5ea40a7d38217fdefd99, type: 3}
     - target: {fileID: 1182436157161314237, guid: e4be3ce2d5464c3498c884ae5d9223d4, type: 3}
+      propertyPath: battleStartCooldown
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 1182436157161314237, guid: e4be3ce2d5464c3498c884ae5d9223d4, type: 3}
       propertyPath: movingBackgroundProperties.shaderMaterial
       value: 
       objectReference: {fileID: 2100000, guid: a1f510c152223b1459ecbd541982ef2e, type: 2}
@@ -23,6 +27,10 @@ PrefabInstance:
       propertyPath: movingBackgroundProperties.tileSpriteImage
       value: 
       objectReference: {fileID: 21300000, guid: bfdfdc8c78e277341b92f4c46aef0eaf, type: 3}
+    - target: {fileID: 2085418849946982719, guid: e4be3ce2d5464c3498c884ae5d9223d4, type: 3}
+      propertyPath: defaultLevel
+      value: 5
+      objectReference: {fileID: 0}
     - target: {fileID: 2085418849946982719, guid: e4be3ce2d5464c3498c884ae5d9223d4, type: 3}
       propertyPath: characterProperties
       value: 

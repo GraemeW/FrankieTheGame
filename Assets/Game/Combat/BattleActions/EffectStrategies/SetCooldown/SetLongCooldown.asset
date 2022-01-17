@@ -9,9 +9,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2d638f604ff65db4f9e75a2cc6eb7bd3, type: 3}
-  m_Name: FlipOut
+  m_Script: {fileID: 11500000, guid: a8dba856e40de69439a630619accf95b, type: 3}
+  m_Name: SetLongCooldown
   m_EditorClassIdentifier: 
-  stat: 0
-  battleAction: {fileID: 11400000, guid: 81fec7ccc57d205409e6ed7f75602679, type: 2}
-  detail: Yow!
+  cooldown: 8

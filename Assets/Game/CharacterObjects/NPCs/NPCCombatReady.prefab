@@ -200,7 +200,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   skillTree: {fileID: 0}
-  skillTreeLevelMultiplierForStatUnlock: 10
+  skillTreeLevelMultiplierForStatUnlock: 20
 --- !u!114 &6351010188415245609
 MonoBehaviour:
   m_ObjectHideFlags: 0

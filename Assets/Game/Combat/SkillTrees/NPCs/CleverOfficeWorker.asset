@@ -31,13 +31,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   upSkillReference: RequestETC
   upBranch: 
-  leftSkillReference: RequestDashboard
+  leftSkillReference: ShowOffCode
   leftBranch: 
   rightSkillReference: ShowOffCode
   rightBranch: 
-  downSkillReference: BlatherOn
+  downSkillReference: 
   downBranch: 
-  detail: 
   rect:
     serializedVersion: 2
     x: 30

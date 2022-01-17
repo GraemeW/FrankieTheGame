@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   fractionProbabilityToApply: 1
   statusEffectType: 0
-  duration: 10
+  duration: 20
   stat: 8
   value: -4
   persistAfterCombat: 0

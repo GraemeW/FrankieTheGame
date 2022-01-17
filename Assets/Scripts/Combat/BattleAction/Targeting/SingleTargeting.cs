@@ -8,102 +8,74 @@ namespace Frankie.Combat
     [CreateAssetMenu(fileName = "New Single Targeting", menuName = "BattleAction/Targeting/Single Target")]
     public class SingleTargeting : TargetingStrategy
     {
-        [SerializeField] CombatParticipantType combatParticipantType = default;
-        [SerializeField] FilterStrategy[] filterStrategies = null;
-
         public override IEnumerable<CombatParticipant> GetTargets(bool? traverseForward, IEnumerable<CombatParticipant> currentTargets, IEnumerable<CombatParticipant> activeCharacters, IEnumerable<CombatParticipant> activeEnemies)
         {
-            CombatParticipant[] localCurrentTargets = currentTargets?.ToArray();
-            CombatParticipant[] localActiveCharacters = activeCharacters?.ToArray();
-            CombatParticipant[] localActiveEnemies = activeEnemies?.ToArray();
-
-            CombatParticipant currentTarget = null;
-            if (localCurrentTargets != null && localCurrentTargets.Length > 0)
+            // Collapse target list to single target -- pull first if available
+            CombatParticipant[] passedOriginalTargets = currentTargets?.ToArray();
+            CombatParticipant newTarget = null;
+            if (passedOriginalTargets != null && passedOriginalTargets.Length > 0)
             {
-                currentTarget = localCurrentTargets.First();
+                newTarget = passedOriginalTargets.First();
             }
-
 
             // Special handling
             // No traversing -- pass the target back
-            if (traverseForward == null && currentTarget != null)
+            if (traverseForward == null && newTarget != null)
             {
-                yield return currentTarget;
+                yield return newTarget;
                 yield break;
             }
 
-            // Separate out overall set
-            IEnumerable<CombatParticipant> potentialTargets = this.GetCombatParticipantsByType(combatParticipantType, localActiveCharacters, localActiveEnemies);
-
-            // Filter
-            if (filterStrategies != null)
-            {
-                foreach (FilterStrategy filterStrategy in filterStrategies)
-                {
-                    potentialTargets = filterStrategy.Filter(potentialTargets);
-                }
-            }
-            if (potentialTargets.Count() == 0) { yield break; }
+            // Separate out overall set & filter
+            // Note:  No need to declare local copies of characters &  enemies enumerables -- placed in new list via GetCombatParticipantByType
+            List<CombatParticipant> potentialTargets = this.GetCombatParticipantsByType(combatParticipantType, 
+                FilterTargets(activeCharacters, filterStrategies), 
+                FilterTargets(activeEnemies, filterStrategies));
+            if (potentialTargets.Count == 0) { yield break; }
 
             // Special handling
             // No current target -- pass first target back
-            if (localCurrentTargets == null || localCurrentTargets.Count() == 0)
+            if (passedOriginalTargets == null || passedOriginalTargets.Length == 0)
             {
-                CombatParticipant defaultTarget = potentialTargets.First();
+                CombatParticipant defaultTarget = potentialTargets.FirstOrDefault();
                 if (defaultTarget != null) { yield return defaultTarget; }
                 yield break;
             }
 
+            // Finally iterate through to find next targets
             bool returnOnNextIteration = false;
-            if (traverseForward == true)
+            if (traverseForward == false)
             {
-                foreach(CombatParticipant combatParticipant in potentialTargets)
-                {
-                    if (returnOnNextIteration)
-                    {
-                        yield return combatParticipant;
-                        yield break;
-                    }
-
-                    returnOnNextIteration = (combatParticipant == currentTarget);
-                }
-
-                if (returnOnNextIteration) 
-                {
-                    currentTarget = potentialTargets.First();
-                    if (currentTarget != null) { yield return currentTarget; }
-                    yield break;
-                }
+                potentialTargets.Reverse();
             }
-            else if (traverseForward == false)
+            foreach (CombatParticipant combatParticipant in potentialTargets)
             {
-                foreach(CombatParticipant combatParticipant in potentialTargets.Reverse())
-                {
-                    if (returnOnNextIteration)
-                    {
-                        yield return combatParticipant;
-                        yield break;
-                    }
-
-                    returnOnNextIteration = (combatParticipant == currentTarget);
-                }
-
                 if (returnOnNextIteration)
                 {
-                    currentTarget = potentialTargets.Last();
-                    if (currentTarget != null) { yield return currentTarget; }
+                    yield return combatParticipant;
                     yield break;
                 }
+
+                returnOnNextIteration = (combatParticipant == newTarget); // Match to current index -- return on next target
+            }
+
+            // Matched on last index -- return top of the list
+            if (returnOnNextIteration)
+            {
+                if (traverseForward == true) { newTarget = potentialTargets.First(); }
+                else if (traverseForward == false) { newTarget = potentialTargets.Last(); }
+                yield return newTarget;
+                yield break;
             }
 
             // Special case -- never matched to current target, send first available up the chain
             yield return potentialTargets.First(); yield break;
         }
 
-        protected override IEnumerable<CombatParticipant> GetCombatParticipantsByTypeTemplate(CombatParticipantType combatParticipantType, IEnumerable<CombatParticipant> activeCharacters, IEnumerable<CombatParticipant> activeEnemies)
+        protected override List<CombatParticipant> GetCombatParticipantsByTypeTemplate(CombatParticipantType combatParticipantType, IEnumerable<CombatParticipant> activeCharacters, IEnumerable<CombatParticipant> activeEnemies)
         {
             // Not evaluated -> TargetingStrategyExtension
-            yield break;
+            return new List<CombatParticipant>();
         }
     }
 }
