@@ -15,10 +15,11 @@ MonoBehaviour:
   speakerType: 1
   characterProperties: {fileID: 11400000, guid: bb8eacf5d6e151548ae677e3ff4d1109, type: 2}
   speakerName: Horse
-  text: Neigh
+  text: Skip Root Node
   children:
   - c755254a-7a4c-4c57-a9dc-2f511decc438
   - 0d89d2f7-e66c-473a-938b-58e365c55c52
+  - 2d40125e-b6b7-4090-9b0f-8f7aed458f08
   rect:
     serializedVersion: 2
     x: 30
@@ -48,7 +49,7 @@ MonoBehaviour:
   speakerType: 1
   characterProperties: {fileID: 11400000, guid: bb8eacf5d6e151548ae677e3ff4d1109, type: 2}
   speakerName: Horse
-  text: Neigh
+  text: Neigh. (go away, I'm busy)
   children: []
   rect:
     serializedVersion: 2
@@ -65,8 +66,46 @@ MonoBehaviour:
   condition:
     and:
     - or:
-      - predicate: {fileID: 11400000, guid: 9c962c1d663622d46ac71df44b618db6, type: 2}
+      - predicate: {fileID: 11400000, guid: 69e801767cf748441b9658a6c1d8345c, type: 2}
         negate: 1
+    - or:
+      - predicate: {fileID: 11400000, guid: a0b51cdc601d47943a191dae2924e75a, type: 2}
+        negate: 1
+--- !u!114 &-1293388238197688145
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 09c07c7c6f4c666429a0bbc8d18232b2, type: 3}
+  m_Name: 2d40125e-b6b7-4090-9b0f-8f7aed458f08
+  m_EditorClassIdentifier: 
+  speakerType: 1
+  characterProperties: {fileID: 11400000, guid: bb8eacf5d6e151548ae677e3ff4d1109, type: 2}
+  speakerName: Default
+  text: Whinny.  Neigh. (congratulations Frankie, you did it, you really did it you
+    son of a bitch)
+  children: []
+  rect:
+    serializedVersion: 2
+    x: 530
+    y: 530
+    width: 400
+    height: 225
+  draggingRect:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 400
+    height: 45
+  condition:
+    and:
+    - or:
+      - predicate: {fileID: 11400000, guid: 69e801767cf748441b9658a6c1d8345c, type: 2}
+        negate: 0
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -89,6 +128,7 @@ MonoBehaviour:
   - {fileID: -6124424448896261617}
   - {fileID: -1300078063289001611}
   - {fileID: 2227885351415462380}
+  - {fileID: -1293388238197688145}
 --- !u!114 &2227885351415462380
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -104,7 +144,7 @@ MonoBehaviour:
   speakerType: 1
   characterProperties: {fileID: 11400000, guid: bb8eacf5d6e151548ae677e3ff4d1109, type: 2}
   speakerName: Horse
-  text: Neeeeiiiigh (nice subway card!)
+  text: Neeeeiiiigh. (is that Hay I smell?)
   children: []
   rect:
     serializedVersion: 2
@@ -121,5 +161,8 @@ MonoBehaviour:
   condition:
     and:
     - or:
-      - predicate: {fileID: 11400000, guid: 9c962c1d663622d46ac71df44b618db6, type: 2}
+      - predicate: {fileID: 11400000, guid: 69e801767cf748441b9658a6c1d8345c, type: 2}
+        negate: 1
+    - or:
+      - predicate: {fileID: 11400000, guid: a0b51cdc601d47943a191dae2924e75a, type: 2}
         negate: 0

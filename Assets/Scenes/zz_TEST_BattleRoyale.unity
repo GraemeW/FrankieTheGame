@@ -290,7 +290,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4736094180608794019, guid: 71d598481a579c2448140b70660e15c0, type: 3}
       propertyPath: rejectInteraction.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: HealAttachedCharacter
+      value: ReviveAndHealAttachedCharacter
       objectReference: {fileID: 0}
     - target: {fileID: 4736094180608794019, guid: 71d598481a579c2448140b70660e15c0, type: 3}
       propertyPath: checkInteraction.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
@@ -733,7 +733,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4736094180608794019, guid: 71d598481a579c2448140b70660e15c0, type: 3}
       propertyPath: rejectInteraction.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: HealAttachedCharacter
+      value: ReviveAndHealAttachedCharacter
       objectReference: {fileID: 0}
     - target: {fileID: 4736094180608794019, guid: 71d598481a579c2448140b70660e15c0, type: 3}
       propertyPath: checkInteraction.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
@@ -1977,7 +1977,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4736094180608794019, guid: 71d598481a579c2448140b70660e15c0, type: 3}
       propertyPath: rejectInteraction.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: HealAttachedCharacter
+      value: ReviveAndHealAttachedCharacter
       objectReference: {fileID: 0}
     - target: {fileID: 4736094180608794019, guid: 71d598481a579c2448140b70660e15c0, type: 3}
       propertyPath: checkInteraction.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
@@ -2114,7 +2114,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4736094180608794019, guid: 71d598481a579c2448140b70660e15c0, type: 3}
       propertyPath: rejectInteraction.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: HealAttachedCharacter
+      value: ReviveAndHealAttachedCharacter
       objectReference: {fileID: 0}
     - target: {fileID: 4736094180608794019, guid: 71d598481a579c2448140b70660e15c0, type: 3}
       propertyPath: checkInteraction.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
@@ -2438,7 +2438,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4736094180608794019, guid: 71d598481a579c2448140b70660e15c0, type: 3}
       propertyPath: rejectInteraction.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: HealAttachedCharacter
+      value: ReviveAndHealAttachedCharacter
       objectReference: {fileID: 0}
     - target: {fileID: 4736094180608794019, guid: 71d598481a579c2448140b70660e15c0, type: 3}
       propertyPath: checkInteraction.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
@@ -2632,7 +2632,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4736094180608794019, guid: 71d598481a579c2448140b70660e15c0, type: 3}
       propertyPath: rejectInteraction.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: HealAttachedCharacter
+      value: ReviveAndHealAttachedCharacter
       objectReference: {fileID: 0}
     - target: {fileID: 4736094180608794019, guid: 71d598481a579c2448140b70660e15c0, type: 3}
       propertyPath: checkInteraction.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
@@ -2891,12 +2891,28 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2252766576196592987, guid: 19b72c5a448064542b67dee2cac7a310, type: 3}
       propertyPath: checkInteraction.m_PersistentCalls.m_Calls.Array.size
-      value: 3
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2252766576196592987, guid: 19b72c5a448064542b67dee2cac7a310, type: 3}
+      propertyPath: checkInteraction.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2252766576196592987, guid: 19b72c5a448064542b67dee2cac7a310, type: 3}
+      propertyPath: checkInteraction.m_PersistentCalls.m_Calls.Array.data[1].m_Mode
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2252766576196592987, guid: 19b72c5a448064542b67dee2cac7a310, type: 3}
       propertyPath: checkInteraction.m_PersistentCalls.m_Calls.Array.data[2].m_Mode
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2252766576196592987, guid: 19b72c5a448064542b67dee2cac7a310, type: 3}
+      propertyPath: checkInteraction.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 2037671991}
+    - target: {fileID: 2252766576196592987, guid: 19b72c5a448064542b67dee2cac7a310, type: 3}
+      propertyPath: checkInteraction.m_PersistentCalls.m_Calls.Array.data[1].m_Target
+      value: 
+      objectReference: {fileID: 2037671991}
     - target: {fileID: 2252766576196592987, guid: 19b72c5a448064542b67dee2cac7a310, type: 3}
       propertyPath: checkInteraction.m_PersistentCalls.m_Calls.Array.data[2].m_Target
       value: 
@@ -2906,12 +2922,32 @@ PrefabInstance:
       value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 2252766576196592987, guid: 19b72c5a448064542b67dee2cac7a310, type: 3}
+      propertyPath: checkInteraction.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: ReviveAndHealParty
+      objectReference: {fileID: 0}
+    - target: {fileID: 2252766576196592987, guid: 19b72c5a448064542b67dee2cac7a310, type: 3}
+      propertyPath: checkInteraction.m_PersistentCalls.m_Calls.Array.data[1].m_MethodName
+      value: RestorePartyAP
+      objectReference: {fileID: 0}
+    - target: {fileID: 2252766576196592987, guid: 19b72c5a448064542b67dee2cac7a310, type: 3}
       propertyPath: checkInteraction.m_PersistentCalls.m_Calls.Array.data[2].m_MethodName
-      value: HealParty
+      value: ReviveAndHealParty
+      objectReference: {fileID: 0}
+    - target: {fileID: 2252766576196592987, guid: 19b72c5a448064542b67dee2cac7a310, type: 3}
+      propertyPath: checkInteraction.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: Frankie.Control.Specialization.WorldPointRestorer, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 2252766576196592987, guid: 19b72c5a448064542b67dee2cac7a310, type: 3}
+      propertyPath: checkInteraction.m_PersistentCalls.m_Calls.Array.data[1].m_TargetAssemblyTypeName
+      value: Frankie.Control.Specialization.WorldPointRestorer, Assembly-CSharp
       objectReference: {fileID: 0}
     - target: {fileID: 2252766576196592987, guid: 19b72c5a448064542b67dee2cac7a310, type: 3}
       propertyPath: checkInteraction.m_PersistentCalls.m_Calls.Array.data[2].m_TargetAssemblyTypeName
       value: Frankie.Control.Specialization.WorldPointRestorer, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 2252766576196592987, guid: 19b72c5a448064542b67dee2cac7a310, type: 3}
+      propertyPath: checkInteraction.m_PersistentCalls.m_Calls.Array.data[1].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
     - target: {fileID: 2252766576196592987, guid: 19b72c5a448064542b67dee2cac7a310, type: 3}
       propertyPath: checkInteraction.m_PersistentCalls.m_Calls.Array.data[2].m_Arguments.m_ObjectArgumentAssemblyTypeName
@@ -3048,7 +3084,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4736094180608794019, guid: 71d598481a579c2448140b70660e15c0, type: 3}
       propertyPath: rejectInteraction.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: HealAttachedCharacter
+      value: ReviveAndHealAttachedCharacter
       objectReference: {fileID: 0}
     - target: {fileID: 4736094180608794019, guid: 71d598481a579c2448140b70660e15c0, type: 3}
       propertyPath: checkInteraction.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName

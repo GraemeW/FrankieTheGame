@@ -14,13 +14,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   upSkillReference: ShowOffCode
   upBranch: 
-  leftSkillReference: RequestETC
+  leftSkillReference: 
   leftBranch: 
-  rightSkillReference: DoActualWork
+  rightSkillReference: 
   rightBranch: 
-  downSkillReference: IgnoreYou
+  downSkillReference: 
   downBranch: 
-  detail: 
   rect:
     serializedVersion: 2
     x: 30

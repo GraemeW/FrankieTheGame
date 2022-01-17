@@ -1,0 +1,226 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-7887985897456002290
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 09c07c7c6f4c666429a0bbc8d18232b2, type: 3}
+  m_Name: 3bfc6745-5e76-4734-abd4-258a8183e17a
+  m_EditorClassIdentifier: 
+  speakerType: 1
+  characterProperties: {fileID: 11400000, guid: df2799c36af32ce4d8fd6788f660323d, type: 2}
+  speakerName: Skilled Office Worker
+  text: . . . Just kidding.
+  children:
+  - 36c699a5-d210-4061-b339-84d143123e72
+  - 6d39ab23-31c6-4b09-96ab-9b60bdd15a06
+  rect:
+    serializedVersion: 2
+    x: 1030
+    y: 30
+    width: 400
+    height: 225
+  draggingRect:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 400
+    height: 45
+  condition:
+    and: []
+--- !u!114 &-5822392920620821437
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 09c07c7c6f4c666429a0bbc8d18232b2, type: 3}
+  m_Name: e52631ef-e49a-4f7a-a330-1722f6a80cea
+  m_EditorClassIdentifier: 
+  speakerType: 1
+  characterProperties: {fileID: 11400000, guid: df2799c36af32ce4d8fd6788f660323d, type: 2}
+  speakerName: Skilled Office Worker
+  text: 'Didja fart?  . . . '
+  children:
+  - a8a2b2ee-740f-4000-9a9f-22206794ea9f
+  rect:
+    serializedVersion: 2
+    x: 30
+    y: 30
+    width: 400
+    height: 225
+  draggingRect:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 400
+    height: 45
+  condition:
+    and: []
+--- !u!114 &-2223200223372653268
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 09c07c7c6f4c666429a0bbc8d18232b2, type: 3}
+  m_Name: 6d39ab23-31c6-4b09-96ab-9b60bdd15a06
+  m_EditorClassIdentifier: 
+  speakerType: 1
+  characterProperties: {fileID: 11400000, guid: df2799c36af32ce4d8fd6788f660323d, type: 2}
+  speakerName: Skilled Office Worker
+  text: '*HYUK* Got some Hay on ya?  Well done.'
+  children:
+  - 91ae2b65-d118-4423-9c10-ea06187d5399
+  rect:
+    serializedVersion: 2
+    x: 1530
+    y: 280
+    width: 400
+    height: 225
+  draggingRect:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 400
+    height: 45
+  condition:
+    and:
+    - or:
+      - predicate: {fileID: 11400000, guid: a0b51cdc601d47943a191dae2924e75a, type: 2}
+        negate: 0
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aac27b8e802ced743b3f275e283ab9df, type: 3}
+  m_Name: SkilledOfficeWorker
+  m_EditorClassIdentifier: 
+  skipRootNode: 0
+  newNodeOffset: {x: 100, y: 25}
+  nodeWidth: 400
+  nodeHeight: 225
+  activeNPCs:
+  - {fileID: 11400000, guid: df2799c36af32ce4d8fd6788f660323d, type: 2}
+  dialogueNodes:
+  - {fileID: -5822392920620821437}
+  - {fileID: 6394497756708652849}
+  - {fileID: -7887985897456002290}
+  - {fileID: 544318830273237255}
+  - {fileID: -2223200223372653268}
+  - {fileID: 4111444207126001624}
+--- !u!114 &544318830273237255
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 09c07c7c6f4c666429a0bbc8d18232b2, type: 3}
+  m_Name: 36c699a5-d210-4061-b339-84d143123e72
+  m_EditorClassIdentifier: 
+  speakerType: 1
+  characterProperties: {fileID: 11400000, guid: df2799c36af32ce4d8fd6788f660323d, type: 2}
+  speakerName: Skilled Office Worker
+  text: '*SNORT* By the way, Horse is in a really bad mood *HYUK*.  He probably won''t
+    even talk to you if you aren''t carrying Hay.'
+  children:
+  - 91ae2b65-d118-4423-9c10-ea06187d5399
+  rect:
+    serializedVersion: 2
+    x: 1530
+    y: 30
+    width: 400
+    height: 225
+  draggingRect:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 400
+    height: 45
+  condition:
+    and:
+    - or:
+      - predicate: {fileID: 11400000, guid: a0b51cdc601d47943a191dae2924e75a, type: 2}
+        negate: 1
+--- !u!114 &4111444207126001624
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 09c07c7c6f4c666429a0bbc8d18232b2, type: 3}
+  m_Name: 91ae2b65-d118-4423-9c10-ea06187d5399
+  m_EditorClassIdentifier: 
+  speakerType: 1
+  characterProperties: {fileID: 11400000, guid: df2799c36af32ce4d8fd6788f660323d, type: 2}
+  speakerName: Skilled Office Worker
+  text: Spankety spankety.  *SNORT*  Now get.
+  children: []
+  rect:
+    serializedVersion: 2
+    x: 2030
+    y: 30
+    width: 400
+    height: 225
+  draggingRect:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 400
+    height: 45
+  condition:
+    and: []
+--- !u!114 &6394497756708652849
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 09c07c7c6f4c666429a0bbc8d18232b2, type: 3}
+  m_Name: a8a2b2ee-740f-4000-9a9f-22206794ea9f
+  m_EditorClassIdentifier: 
+  speakerType: 1
+  characterProperties: {fileID: 11400000, guid: df2799c36af32ce4d8fd6788f660323d, type: 2}
+  speakerName: Skilled Office Worker
+  text: . . .
+  children:
+  - 3bfc6745-5e76-4734-abd4-258a8183e17a
+  rect:
+    serializedVersion: 2
+    x: 530
+    y: 30
+    width: 400
+    height: 225
+  draggingRect:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 400
+    height: 45
+  condition:
+    and: []

@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &-8284574613991895487
+--- !u!114 &-3553405648418209642
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -10,17 +10,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 09c07c7c6f4c666429a0bbc8d18232b2, type: 3}
-  m_Name: 80d100f2-bdb8-4568-b986-b6801937ef30
+  m_Name: da933559-f556-4dc5-a152-6c81e16e771b
   m_EditorClassIdentifier: 
-  speakerType: 1
-  characterProperties: {fileID: 11400000, guid: 56186947ccacc0a4598067f4b80c5c25, type: 2}
-  speakerName: Hipster Office Worker
-  text: Wait, where's Tilly?  Go get Tilly first!
+  speakerType: 0
+  characterProperties: {fileID: 11400000, guid: b50f84a2f36107a44825b11881f88adf, type: 2}
+  speakerName: Frankie
+  text: Nah.
   children: []
   rect:
     serializedVersion: 2
-    x: 1977
-    y: 297
+    x: 1530
+    y: 530
     width: 400
     height: 225
   draggingRect:
@@ -30,11 +30,8 @@ MonoBehaviour:
     width: 400
     height: 45
   condition:
-    and:
-    - or:
-      - predicate: {fileID: 11400000, guid: a7bbc4f4f2f05314088fea20cb40007e, type: 2}
-        negate: 1
---- !u!114 &-7242517679620641310
+    and: []
+--- !u!114 &-1968904644555803108
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -44,18 +41,21 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 09c07c7c6f4c666429a0bbc8d18232b2, type: 3}
-  m_Name: 5c4eca41-55f6-40b9-831b-f98ff236fb01
+  m_Name: 4890d74e-5321-464c-91f6-944a613bbff9
   m_EditorClassIdentifier: 
   speakerType: 1
-  characterProperties: {fileID: 11400000, guid: 56186947ccacc0a4598067f4b80c5c25, type: 2}
-  speakerName: Hipster Office Worker
-  text: Cool presentation, let's do this again some time.
+  characterProperties: {fileID: 11400000, guid: 90d76accd2678ec4a831bc862fdccb8c, type: 2}
+  speakerName: Clever Office Worker
+  text: Question is, think you can take me?
   children:
-  - f96f821b-925f-41e8-91ea-1af4d12eb23d
+  - e26cb30f-683e-44c0-9713-d7344833727c
+  - b9c7e26f-bf00-49de-90cf-3bbc79295b71
+  - da933559-f556-4dc5-a152-6c81e16e771b
+  - ad6f048a-a720-48ed-a8ee-03a6bfcec636
   rect:
     serializedVersion: 2
-    x: 526
-    y: 274
+    x: 1030
+    y: 30
     width: 400
     height: 225
   draggingRect:
@@ -65,11 +65,8 @@ MonoBehaviour:
     width: 400
     height: 45
   condition:
-    and:
-    - or:
-      - predicate: {fileID: 11400000, guid: b4f4212310cc3474e8a46849d61d2456, type: 2}
-        negate: 0
---- !u!114 &-5789612486919439308
+    and: []
+--- !u!114 &-834032429813830620
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -79,15 +76,203 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 09c07c7c6f4c666429a0bbc8d18232b2, type: 3}
-  m_Name: 95d56916-e735-4fe0-a540-2be880849207
+  m_Name: b9c7e26f-bf00-49de-90cf-3bbc79295b71
+  m_EditorClassIdentifier: 
+  speakerType: 0
+  characterProperties: {fileID: 11400000, guid: b50f84a2f36107a44825b11881f88adf, type: 2}
+  speakerName: Frankie
+  text: Yes?
+  children: []
+  rect:
+    serializedVersion: 2
+    x: 1530
+    y: 280
+    width: 400
+    height: 225
+  draggingRect:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 400
+    height: 45
+  condition:
+    and: []
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aac27b8e802ced743b3f275e283ab9df, type: 3}
+  m_Name: CleverOfficeWorker
+  m_EditorClassIdentifier: 
+  skipRootNode: 1
+  newNodeOffset: {x: 100, y: 25}
+  nodeWidth: 400
+  nodeHeight: 225
+  activeNPCs:
+  - {fileID: 11400000, guid: 90d76accd2678ec4a831bc862fdccb8c, type: 2}
+  - {fileID: 11400000, guid: b50f84a2f36107a44825b11881f88adf, type: 2}
+  dialogueNodes:
+  - {fileID: 3876667673261360452}
+  - {fileID: 4572544580911562930}
+  - {fileID: 6323805947047870502}
+  - {fileID: 2291621687641431320}
+  - {fileID: 1831348114004609732}
+  - {fileID: -1968904644555803108}
+  - {fileID: 317426869790424634}
+  - {fileID: -834032429813830620}
+  - {fileID: -3553405648418209642}
+  - {fileID: 6785959663042862364}
+--- !u!114 &317426869790424634
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 09c07c7c6f4c666429a0bbc8d18232b2, type: 3}
+  m_Name: e26cb30f-683e-44c0-9713-d7344833727c
+  m_EditorClassIdentifier: 
+  speakerType: 0
+  characterProperties: {fileID: 11400000, guid: b50f84a2f36107a44825b11881f88adf, type: 2}
+  speakerName: Frankie
+  text: Nope.
+  children: []
+  rect:
+    serializedVersion: 2
+    x: 1530
+    y: 30
+    width: 400
+    height: 225
+  draggingRect:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 400
+    height: 45
+  condition:
+    and: []
+--- !u!114 &1831348114004609732
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 09c07c7c6f4c666429a0bbc8d18232b2, type: 3}
+  m_Name: 40911b7f-e1ea-4aab-a530-accb51017056
   m_EditorClassIdentifier: 
   speakerType: 1
-  characterProperties: {fileID: 11400000, guid: 56186947ccacc0a4598067f4b80c5c25, type: 2}
-  speakerName: Hipster Office Worker
-  text: Hey, I need you to present to the SVP on this issue in 10 minutes!
+  characterProperties: {fileID: 11400000, guid: 90d76accd2678ec4a831bc862fdccb8c, type: 2}
+  speakerName: Clever Office Worker
+  text: There's a PortaBank (TM) just outside this very office building.
+  children: []
+  rect:
+    serializedVersion: 2
+    x: 965
+    y: 523
+    width: 400
+    height: 225
+  draggingRect:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 400
+    height: 45
+  condition:
+    and: []
+--- !u!114 &2291621687641431320
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 09c07c7c6f4c666429a0bbc8d18232b2, type: 3}
+  m_Name: 5b286816-f426-41c1-8d96-4b4e06835ebd
+  m_EditorClassIdentifier: 
+  speakerType: 1
+  characterProperties: {fileID: 11400000, guid: 90d76accd2678ec4a831bc862fdccb8c, type: 2}
+  speakerName: Clever Office Worker
+  text: After you've adventured a little, check your bank account.  You may be surprised
+    to see your stocks have paid some dividends.
   children:
-  - a176115b-b3ff-473c-855e-e143c9c7243b
-  - 420ee021-8841-4f3a-94ef-2041520a88e3
+  - 40911b7f-e1ea-4aab-a530-accb51017056
+  rect:
+    serializedVersion: 2
+    x: 951
+    y: 276
+    width: 400
+    height: 225
+  draggingRect:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 400
+    height: 45
+  condition:
+    and: []
+--- !u!114 &3876667673261360452
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 09c07c7c6f4c666429a0bbc8d18232b2, type: 3}
+  m_Name: 898ee491-face-4d8d-b974-1bd571c458d7
+  m_EditorClassIdentifier: 
+  speakerType: 1
+  characterProperties: {fileID: 11400000, guid: 90d76accd2678ec4a831bc862fdccb8c, type: 2}
+  speakerName: Clever Office Worker
+  text: Root node skipped
+  children:
+  - 0643a067-81a1-4d7e-8327-951356097f15
+  - b5d4d788-a7dd-496f-8a88-2214d6c2a90c
+  rect:
+    serializedVersion: 2
+    x: 30
+    y: 30
+    width: 400
+    height: 225
+  draggingRect:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 400
+    height: 45
+  condition:
+    and: []
+--- !u!114 &4572544580911562930
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 09c07c7c6f4c666429a0bbc8d18232b2, type: 3}
+  m_Name: 0643a067-81a1-4d7e-8327-951356097f15
+  m_EditorClassIdentifier: 
+  speakerType: 1
+  characterProperties: {fileID: 11400000, guid: 90d76accd2678ec4a831bc862fdccb8c, type: 2}
+  speakerName: Clever Office Worker
+  text: Beat me and I'll tell you a secret.  *hue hue hue hue hue hue hue*
+  children:
+  - 4890d74e-5321-464c-91f6-944a613bbff9
   rect:
     serializedVersion: 2
     x: 530
@@ -103,38 +288,9 @@ MonoBehaviour:
   condition:
     and:
     - or:
-      - predicate: {fileID: 11400000, guid: b4f4212310cc3474e8a46849d61d2456, type: 2}
+      - predicate: {fileID: 11400000, guid: 5543b1768f9e22b478c39e62e76c4918, type: 2}
         negate: 1
---- !u!114 &11400000
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: aac27b8e802ced743b3f275e283ab9df, type: 3}
-  m_Name: HipsterOfficeWorkerDialogue
-  m_EditorClassIdentifier: 
-  skipRootNode: 1
-  newNodeOffset: {x: 100, y: 25}
-  nodeWidth: 400
-  nodeHeight: 225
-  activeNPCs:
-  - {fileID: 11400000, guid: 56186947ccacc0a4598067f4b80c5c25, type: 2}
-  - {fileID: 11400000, guid: b10029ac6f311c441a516db78ca01efd, type: 2}
-  dialogueNodes:
-  - {fileID: 607871294031131879}
-  - {fileID: -5789612486919439308}
-  - {fileID: -7242517679620641310}
-  - {fileID: 5483484024122596795}
-  - {fileID: 2088064155005426061}
-  - {fileID: 1614191798481415639}
-  - {fileID: 1528891652825582186}
-  - {fileID: -8284574613991895487}
-  - {fileID: 4851845339113450706}
---- !u!114 &607871294031131879
+--- !u!114 &6323805947047870502
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -144,50 +300,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 09c07c7c6f4c666429a0bbc8d18232b2, type: 3}
-  m_Name: 5016b30a-a1a4-431c-80f5-b2aacb21e7a8
+  m_Name: b5d4d788-a7dd-496f-8a88-2214d6c2a90c
   m_EditorClassIdentifier: 
   speakerType: 1
-  characterProperties: {fileID: 0}
-  speakerName: Default
-  text: Root Node Skipped
+  characterProperties: {fileID: 11400000, guid: 90d76accd2678ec4a831bc862fdccb8c, type: 2}
+  speakerName: Clever Office Worker
+  text: Hngh.  You really got me.  Alright, here's my secret.
   children:
-  - 95d56916-e735-4fe0-a540-2be880849207
-  - 5c4eca41-55f6-40b9-831b-f98ff236fb01
+  - 5b286816-f426-41c1-8d96-4b4e06835ebd
   rect:
     serializedVersion: 2
-    x: 30
-    y: 30
-    width: 400
-    height: 225
-  draggingRect:
-    serializedVersion: 2
-    x: 0
-    y: 0
-    width: 400
-    height: 45
-  condition:
-    and: []
---- !u!114 &1528891652825582186
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 09c07c7c6f4c666429a0bbc8d18232b2, type: 3}
-  m_Name: 65be737c-f128-424b-bf31-f0639c8e7dd1
-  m_EditorClassIdentifier: 
-  speakerType: 1
-  characterProperties: {fileID: 11400000, guid: 56186947ccacc0a4598067f4b80c5c25, type: 2}
-  speakerName: Hipster Office Worker
-  text: Oh great, you have Tilly with you, let's see what you got.
-  children: []
-  rect:
-    serializedVersion: 2
-    x: 1975
-    y: 32
+    x: 530
+    y: 280
     width: 400
     height: 225
   draggingRect:
@@ -199,9 +323,9 @@ MonoBehaviour:
   condition:
     and:
     - or:
-      - predicate: {fileID: 11400000, guid: a7bbc4f4f2f05314088fea20cb40007e, type: 2}
+      - predicate: {fileID: 11400000, guid: 5543b1768f9e22b478c39e62e76c4918, type: 2}
         negate: 0
---- !u!114 &1614191798481415639
+--- !u!114 &6785959663042862364
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -211,114 +335,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 09c07c7c6f4c666429a0bbc8d18232b2, type: 3}
-  m_Name: f96f821b-925f-41e8-91ea-1af4d12eb23d
+  m_Name: ad6f048a-a720-48ed-a8ee-03a6bfcec636
   m_EditorClassIdentifier: 
   speakerType: 0
   characterProperties: {fileID: 11400000, guid: b50f84a2f36107a44825b11881f88adf, type: 2}
   speakerName: Frankie
-  text: Unhuh.
+  text: Definitely not.
   children: []
   rect:
     serializedVersion: 2
-    x: 1060
-    y: 552
-    width: 400
-    height: 225
-  draggingRect:
-    serializedVersion: 2
-    x: 0
-    y: 0
-    width: 400
-    height: 45
-  condition:
-    and: []
---- !u!114 &2088064155005426061
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 09c07c7c6f4c666429a0bbc8d18232b2, type: 3}
-  m_Name: 420ee021-8841-4f3a-94ef-2041520a88e3
-  m_EditorClassIdentifier: 
-  speakerType: 0
-  characterProperties: {fileID: 11400000, guid: b50f84a2f36107a44825b11881f88adf, type: 2}
-  speakerName: Frankie
-  text: Erk!
-  children:
-  - 9e776228-8e86-4d9d-80d6-fa760bced519
-  rect:
-    serializedVersion: 2
-    x: 1035
-    y: 263
-    width: 400
-    height: 225
-  draggingRect:
-    serializedVersion: 2
-    x: 0
-    y: 0
-    width: 400
-    height: 45
-  condition:
-    and: []
---- !u!114 &4851845339113450706
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 09c07c7c6f4c666429a0bbc8d18232b2, type: 3}
-  m_Name: 9e776228-8e86-4d9d-80d6-fa760bced519
-  m_EditorClassIdentifier: 
-  speakerType: 1
-  characterProperties: {fileID: 11400000, guid: 56186947ccacc0a4598067f4b80c5c25, type: 2}
-  speakerName: Hipster Office Worker
-  text: That's the attitude!
-  children:
-  - 65be737c-f128-424b-bf31-f0639c8e7dd1
-  - 80d100f2-bdb8-4568-b986-b6801937ef30
-  rect:
-    serializedVersion: 2
-    x: 1505
-    y: 59
-    width: 400
-    height: 225
-  draggingRect:
-    serializedVersion: 2
-    x: 0
-    y: 0
-    width: 400
-    height: 45
-  condition:
-    and: []
---- !u!114 &5483484024122596795
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 09c07c7c6f4c666429a0bbc8d18232b2, type: 3}
-  m_Name: a176115b-b3ff-473c-855e-e143c9c7243b
-  m_EditorClassIdentifier: 
-  speakerType: 0
-  characterProperties: {fileID: 11400000, guid: b50f84a2f36107a44825b11881f88adf, type: 2}
-  speakerName: Frankie
-  text: Yow!
-  children:
-  - 9e776228-8e86-4d9d-80d6-fa760bced519
-  rect:
-    serializedVersion: 2
-    x: 1030
-    y: 30
+    x: 1530
+    y: 780
     width: 400
     height: 225
   draggingRect:

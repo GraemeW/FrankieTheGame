@@ -68,9 +68,17 @@ PrefabInstance:
       value: TillyNPC
       objectReference: {fileID: 0}
     - target: {fileID: 3756983401055870511, guid: 53771d00282eaa34ba616b313732c1b7, type: 3}
+      propertyPath: defaultLevel
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3756983401055870511, guid: 53771d00282eaa34ba616b313732c1b7, type: 3}
       propertyPath: characterProperties
       value: 
       objectReference: {fileID: 11400000, guid: b10029ac6f311c441a516db78ca01efd, type: 2}
+    - target: {fileID: 3756983401055870511, guid: 53771d00282eaa34ba616b313732c1b7, type: 3}
+      propertyPath: levelUpOnInstantiation
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3809891300135030454, guid: 53771d00282eaa34ba616b313732c1b7, type: 3}
       propertyPath: uniqueIdentifier
       value: tillyNPC

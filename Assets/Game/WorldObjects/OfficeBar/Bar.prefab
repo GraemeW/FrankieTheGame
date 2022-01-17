@@ -95,7 +95,7 @@ BoxCollider2D:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_UsedByEffector: 0
-  m_UsedByComposite: 0
+  m_UsedByComposite: 1
   m_Offset: {x: 0, y: 0.17954701}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
@@ -204,7 +204,7 @@ BoxCollider2D:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_UsedByEffector: 0
-  m_UsedByComposite: 0
+  m_UsedByComposite: 1
   m_Offset: {x: 0, y: 0.295}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
@@ -291,9 +291,51 @@ CompositeCollider2D:
   m_GeometryType: 0
   m_GenerationType: 0
   m_EdgeRadius: 0
-  m_ColliderPaths: []
+  m_ColliderPaths:
+  - m_Collider: {fileID: 5577882968882010914}
+    m_ColliderPaths:
+    - - X: 16029510
+        Y: -1499999
+      - X: 16029510
+        Y: 2026511
+      - X: 8629802
+        Y: 2026218
+      - X: 8630095
+        Y: -1499999
+  - m_Collider: {fileID: 5577882967328354731}
+    m_ColliderPaths:
+    - - X: 4899706
+        Y: -1499999
+      - X: 4899706
+        Y: 2090940
+      - X: -2500001
+        Y: 2090647
+      - X: -2499708
+        Y: -1499999
+  - m_Collider: {fileID: 5577882967403264544}
+    m_ColliderPaths:
+    - - X: 8278272
+        Y: -1499999
+      - X: 8278272
+        Y: 4400000
+      - X: 5378566
+        Y: 4399707
+      - X: 5378859
+        Y: -1499999
   m_CompositePaths:
-    m_Paths: []
+    m_Paths:
+    - - {x: 0.8277979, y: -0.1499999}
+      - {x: 0.8277979, y: 0.44}
+      - {x: 0.5378566, y: 0.4399414}
+      - {x: 0.5379152, y: -0.1499999}
+    - - {x: 0.4899413, y: -0.1499999}
+      - {x: 0.4899413, y: 0.209094}
+      - {x: -0.2500001, y: 0.2090354}
+      - {x: -0.2499415, y: -0.1499999}
+    - - {x: 1.6029217, y: -0.1499999}
+      - {x: 1.6029217, y: 0.2026511}
+      - {x: 0.8629802, y: 0.2025925}
+      - {x: 0.86303884, y: -0.1499999}
   m_VertexDistance: 0.0005
   m_OffsetDistance: 0.00005
 --- !u!1 &5577882968882010927
@@ -324,7 +366,8 @@ Transform:
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 1.2329803, y: -0.15, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
+  m_Children:
+  - {fileID: 1617285967599608325}
   m_Father: {fileID: 5577882968531999708}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -391,7 +434,7 @@ BoxCollider2D:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_UsedByEffector: 0
-  m_UsedByComposite: 0
+  m_UsedByComposite: 1
   m_Offset: {x: 0, y: 0.17632556}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
@@ -405,3 +448,93 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.74, y: 0.35265112}
   m_EdgeRadius: 0
+--- !u!1001 &5577882967583728908
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 5577882968882010924}
+    m_Modifications:
+    - target: {fileID: 1288609124729262166, guid: 3ea47d49370c98e4e8dda14fd66b947b, type: 3}
+      propertyPath: uniqueIdentifier
+      value: 3e0ec9e1-b12f-465d-b824-c67159376766
+      objectReference: {fileID: 0}
+    - target: {fileID: 2308409281053914736, guid: 3ea47d49370c98e4e8dda14fd66b947b, type: 3}
+      propertyPath: checkMessage
+      value: Beer.  It's in you to give.
+      objectReference: {fileID: 0}
+    - target: {fileID: 6564381309038757639, guid: 3ea47d49370c98e4e8dda14fd66b947b, type: 3}
+      propertyPath: m_Size.x
+      value: 0.5572953
+      objectReference: {fileID: 0}
+    - target: {fileID: 6564381309038757639, guid: 3ea47d49370c98e4e8dda14fd66b947b, type: 3}
+      propertyPath: m_Size.y
+      value: 0.38803065
+      objectReference: {fileID: 0}
+    - target: {fileID: 6564381309038757639, guid: 3ea47d49370c98e4e8dda14fd66b947b, type: 3}
+      propertyPath: m_Offset.x
+      value: -0.04673457
+      objectReference: {fileID: 0}
+    - target: {fileID: 6564381309038757639, guid: 3ea47d49370c98e4e8dda14fd66b947b, type: 3}
+      propertyPath: m_Offset.y
+      value: 0.30951542
+      objectReference: {fileID: 0}
+    - target: {fileID: 6564381309038757640, guid: 3ea47d49370c98e4e8dda14fd66b947b, type: 3}
+      propertyPath: m_Name
+      value: CheckComponent (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 6564381309038757640, guid: 3ea47d49370c98e4e8dda14fd66b947b, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 4294967295
+      objectReference: {fileID: 0}
+    - target: {fileID: 6564381309038757641, guid: 3ea47d49370c98e4e8dda14fd66b947b, type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6564381309038757641, guid: 3ea47d49370c98e4e8dda14fd66b947b, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6564381309038757641, guid: 3ea47d49370c98e4e8dda14fd66b947b, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6564381309038757641, guid: 3ea47d49370c98e4e8dda14fd66b947b, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6564381309038757641, guid: 3ea47d49370c98e4e8dda14fd66b947b, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6564381309038757641, guid: 3ea47d49370c98e4e8dda14fd66b947b, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6564381309038757641, guid: 3ea47d49370c98e4e8dda14fd66b947b, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6564381309038757641, guid: 3ea47d49370c98e4e8dda14fd66b947b, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6564381309038757641, guid: 3ea47d49370c98e4e8dda14fd66b947b, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6564381309038757641, guid: 3ea47d49370c98e4e8dda14fd66b947b, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6564381309038757641, guid: 3ea47d49370c98e4e8dda14fd66b947b, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 3ea47d49370c98e4e8dda14fd66b947b, type: 3}
+--- !u!4 &1617285967599608325 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 6564381309038757641, guid: 3ea47d49370c98e4e8dda14fd66b947b, type: 3}
+  m_PrefabInstance: {fileID: 5577882967583728908}
+  m_PrefabAsset: {fileID: 0}

@@ -80,6 +80,7 @@ namespace Frankie.Stats
             // Pass stats back/forth NPC -> Character
             BaseStats characterBaseStats = character.GetComponent<BaseStats>();
             characterBaseStats.SetActiveStatSheet(baseStats.GetActiveStatSheet());
+            characterBaseStats.OverrideLevel(baseStats.GetLevel());
 
             CharacterNPCSwapper partyCharacter = character.GetComponent<CharacterNPCSwapper>();
             return partyCharacter;
@@ -93,6 +94,7 @@ namespace Frankie.Stats
             // Pass stats back/forth Character -> NPC
             BaseStats characterNPCBaseStats = characterNPC.GetComponent<BaseStats>();
             characterNPCBaseStats.SetActiveStatSheet(baseStats.GetActiveStatSheet());
+            characterNPCBaseStats.OverrideLevel(baseStats.GetLevel());
 
             CharacterNPCSwapper worldNPC = characterNPC.GetComponent<CharacterNPCSwapper>();
             return worldNPC;

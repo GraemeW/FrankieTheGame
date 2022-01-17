@@ -17,6 +17,15 @@ namespace Frankie.Speech.UI
         [SerializeField] GameObject speechTextPrefab = null;
         [Header("Parameters")]
         [SerializeField] float delayBetweenCharacters = 0.05f; // Seconds
+        [SerializeField][Tooltip("Greater than this value will change options to vertical configuration")] int choiceNumberThresholdToReconfigureVertical = 2;
+
+        // Option Field Configurables
+        RectOffset optionPadding = default;
+        float optionSpacing = 0f;
+        TextAnchor optionChildAlignment = default;
+        bool optionControlChildSize = true;
+        bool optionUseChildScale = true;
+        bool optionChildForceExpand = false;
 
         // State -- Toggles
         bool isWriting = false;
@@ -41,7 +50,23 @@ namespace Frankie.Speech.UI
         protected virtual void Awake()
         {
             controller = GameObject.FindGameObjectWithTag("DialogueController")?.GetComponent<DialogueController>();
-            if (controller != null) {  dialogueController = controller as DialogueController; }
+            if (controller != null) { dialogueController = controller as DialogueController; }
+
+            StoreOptionPanelConfigurables();
+        }
+
+        private void StoreOptionPanelConfigurables()
+        {
+            if (optionParent.TryGetComponent(out HorizontalLayoutGroup horizontalLayoutGroup))
+            {
+                optionPadding = horizontalLayoutGroup.padding;
+                optionSpacing = horizontalLayoutGroup.spacing;
+                optionChildAlignment = horizontalLayoutGroup.childAlignment;
+
+                optionControlChildSize = horizontalLayoutGroup.childControlWidth;
+                optionUseChildScale = horizontalLayoutGroup.childScaleWidth;
+                optionChildForceExpand = horizontalLayoutGroup.childForceExpandWidth;
+            }
         }
 
         protected override void OnEnable()
@@ -283,6 +308,54 @@ namespace Frankie.Speech.UI
             {
                 AddChoice(choiceNode, choiceIndex);
                 choiceIndex++;
+            }
+
+            ConfigureChoiceLayoutToVertical(choiceIndex);
+        }
+
+        private void ConfigureChoiceLayoutToVertical(int choiceCount)
+        {
+            if (choiceCount > choiceNumberThresholdToReconfigureVertical)
+            {
+                if (optionParent.TryGetComponent(out HorizontalLayoutGroup horizontalLayoutGroup))
+                {
+                    DestroyImmediate(horizontalLayoutGroup);
+                }
+
+                if (!optionParent.TryGetComponent(out VerticalLayoutGroup verticalLayoutGroup))
+                {
+                    verticalLayoutGroup = optionParent.gameObject.AddComponent(typeof(VerticalLayoutGroup)) as VerticalLayoutGroup;
+                    verticalLayoutGroup.padding = optionPadding;
+                    verticalLayoutGroup.spacing = optionSpacing;
+                    verticalLayoutGroup.childAlignment = optionChildAlignment;
+                    verticalLayoutGroup.childControlWidth = optionControlChildSize;
+                    verticalLayoutGroup.childControlHeight = optionControlChildSize;
+                    verticalLayoutGroup.childScaleWidth = optionUseChildScale;
+                    verticalLayoutGroup.childScaleHeight = optionUseChildScale;
+                    verticalLayoutGroup.childForceExpandWidth = optionChildForceExpand;
+                    verticalLayoutGroup.childForceExpandHeight = optionChildForceExpand;
+                }
+            }
+            else
+            {
+                if (optionParent.TryGetComponent(out VerticalLayoutGroup verticalLayoutGroup))
+                {
+                    DestroyImmediate(verticalLayoutGroup);
+                }
+
+                if (!optionParent.TryGetComponent(out HorizontalLayoutGroup horizontalLayoutGroup))
+                {
+                    horizontalLayoutGroup = optionParent.gameObject.AddComponent(typeof(HorizontalLayoutGroup)) as HorizontalLayoutGroup;
+                    horizontalLayoutGroup.padding = optionPadding;
+                    horizontalLayoutGroup.spacing = optionSpacing;
+                    horizontalLayoutGroup.childAlignment = optionChildAlignment;
+                    horizontalLayoutGroup.childControlWidth = optionControlChildSize;
+                    horizontalLayoutGroup.childControlHeight = optionControlChildSize;
+                    horizontalLayoutGroup.childScaleWidth = optionUseChildScale;
+                    horizontalLayoutGroup.childScaleHeight = optionUseChildScale;
+                    horizontalLayoutGroup.childForceExpandWidth = optionChildForceExpand;
+                    horizontalLayoutGroup.childForceExpandHeight = optionChildForceExpand;
+                }
             }
         }
 

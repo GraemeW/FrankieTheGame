@@ -272,6 +272,7 @@ MonoBehaviour:
   simpleTextPrefab: {fileID: 1863244146844170633, guid: adbee8c8e42373e4b8e75745ee81bd6c, type: 3}
   speechTextPrefab: {fileID: 2827329066881810044, guid: 457c6052bdf60f4428eb78a1788169a4, type: 3}
   delayBetweenCharacters: 0.05
+  choiceNumberThresholdToReconfigureVertical: 2
 --- !u!1001 &5042860035237830887
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -52,6 +52,7 @@ namespace Frankie.Control
         ReInitLazyValue<PlayerController> playerController;
 
         // Events
+        bool usingUnityEventsOnCollisions = true;
         public CollisionEvent collidedWithPlayer;
 
         // Data Structures
@@ -193,7 +194,7 @@ namespace Frankie.Control
                 InitiateCombat(playerStateHandler.value, battleEntryType);
                 return true;
             }
-            else if (collidedWithPlayer != null) // Event hooked up in Unity
+            else if (usingUnityEventsOnCollisions && collidedWithPlayer != null) // Event hooked up in Unity
             {
                 TransitionType battleEntryType = GetBattleEntryType(contactPoint, npcPosition, playerPosition);
                 collidedWithPlayer.Invoke(playerStateHandler.value, battleEntryType);
@@ -303,6 +304,11 @@ namespace Frankie.Control
         public void SetChasePlayerDisposition(bool enable) // Called via Unity Event
         {
             currentChasePlayerDisposition = enable;
+            usingUnityEventsOnCollisions = enable;
+            if (!enable)
+            {
+                SetNPCState(NPCState.idle);
+            }
         }
 
         public void InitiateCombat(PlayerStateHandler playerStateHandler)  // called via Unity Event
