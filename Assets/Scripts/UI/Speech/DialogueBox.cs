@@ -311,10 +311,10 @@ namespace Frankie.Speech.UI
                 choiceIndex++;
             }
 
-            ConfigureChoiceLayoutToVertical(choiceIndex);
+            ConfigureChoiceLayout(choiceIndex);
         }
 
-        protected void ConfigureChoiceLayoutToVertical(int choiceCount)
+        protected void ConfigureChoiceLayout(int choiceCount)
         {
             if (!reconfigureLayoutOnOptionSize || choiceCount == 0) { return; }
 

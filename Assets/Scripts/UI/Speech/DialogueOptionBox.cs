@@ -15,7 +15,7 @@ namespace Frankie.Speech.UI
             if (dialogueController == null) { return; }
             List<ChoiceActionPair> choiceActionPairs = dialogueController.GetSimpleChoices();
             OverrideChoiceOptions(choiceActionPairs);
-            ConfigureChoiceLayoutToVertical(choiceActionPairs.Count);
+            ConfigureChoiceLayout(choiceActionPairs.Count);
         }
 
         // Pass through implementations
