@@ -145,7 +145,7 @@ namespace Frankie.Menu.UI
             worldCanvas.DestroyExistingWorldOptions();
             foreach (CharacterSlide characterSlide in characterSlides)
             {
-                characterSlide.HighlightSlide(CombatParticipantType.Character, false);
+                characterSlide.HighlightSlide(CombatParticipantType.Friendly, false);
             }
             handleGlobalInput = true;
         }

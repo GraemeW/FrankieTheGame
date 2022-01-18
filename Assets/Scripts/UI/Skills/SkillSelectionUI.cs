@@ -81,7 +81,7 @@ namespace Frankie.Combat.UI
         #region PrivateMethods
         protected void Setup(CombatParticipantType combatParticipantType, IEnumerable<CombatParticipant> combatParticipants)
         {
-            if (combatParticipantType != CombatParticipantType.Character) { return; }
+            if (combatParticipantType != CombatParticipantType.Friendly) { return; }
             if (battleController != null)
             {
                 // Do not pop skill selection if using an item

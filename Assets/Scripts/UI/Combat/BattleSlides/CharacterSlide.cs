@@ -74,14 +74,14 @@ namespace Frankie.Combat.UI
             if (combatParticipantType == CombatParticipantType.Either) { return; }
             
 
-            if (combatParticipantType == CombatParticipantType.Character)
+            if (combatParticipantType == CombatParticipantType.Friendly)
             {
                 if (combatParticipant.IsDead()) { slideState = SlideState.Dead; }
                 else if (combatParticipant.IsInCooldown()) { slideState = SlideState.Cooldown; }
                 else if (enable) { slideState = SlideState.Selected; }
                 else { slideState = SlideState.Ready; }
             }
-            else if (combatParticipantType == CombatParticipantType.Target)
+            else if (combatParticipantType == CombatParticipantType.Foe)
             {
                 if (enable) { lastSlideState = slideState; slideState = SlideState.Target; }
                 else { slideState = lastSlideState; }

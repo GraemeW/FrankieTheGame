@@ -29,11 +29,15 @@ namespace Frankie.Control
 
         public Transform GetWaypoint(int waypointIndex)
         {
+            if (transform.childCount == 0) { return transform; } // Safety against misconfiguration
+
             return transform.GetChild(waypointIndex);
         }
 
         public int GetNextIndex(int waypointIndex, bool calledFromGizmo = false)
         {
+            if (transform.childCount == 0) { return 0; }
+
             if (waypointIndex == transform.childCount - 1)
             {
                 if (!calledFromGizmo) { loopedOnce = true; }

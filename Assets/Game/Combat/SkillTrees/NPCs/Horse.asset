@@ -33,11 +33,10 @@ MonoBehaviour:
   upBranch: 
   leftSkillReference: Whinny
   leftBranch: 
-  rightSkillReference: SmileMenacingly
+  rightSkillReference: Trample
   rightBranch: 
-  downSkillReference: Trample
+  downSkillReference: 
   downBranch: 
-  detail: 
   rect:
     serializedVersion: 2
     x: 30

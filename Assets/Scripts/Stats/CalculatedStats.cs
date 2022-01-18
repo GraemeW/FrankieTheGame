@@ -8,7 +8,8 @@ namespace Frankie.Stats
     {
         // Note:  Equations  have a lot of magic numbers for shaping
         // Hard limits provided as static tunables here
-        static float cooldownMax = 10f;
+        static float cooldownMultiplierMin = 0.5f;
+        static float cooldownMultiplierMax = 4f;
         static float hitChanceMin = 0.2f;
         static float hitChanceMax = 1.0f;
         static float critChanceMax = 0.5f;
@@ -51,9 +52,9 @@ namespace Frankie.Stats
         #region Calculations
         private static float GetCooldownFraction(int level, float modifier)
         {
-            return Mathf.Min(
+            return Mathf.Clamp(
                 1f / (0.5f + Mathf.Atan(modifier / (5* level))/Mathf.PI) - 1
-                , cooldownMax);
+                , cooldownMultiplierMin, cooldownMultiplierMax);
         }
 
         private static float GetHitChance(float attackerModifier, float defenderModifier)

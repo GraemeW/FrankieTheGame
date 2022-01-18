@@ -8,71 +8,63 @@ namespace Frankie.Combat
     [CreateAssetMenu(fileName = "New Single Targeting", menuName = "BattleAction/Targeting/Single Target")]
     public class SingleTargeting : TargetingStrategy
     {
-        public override IEnumerable<CombatParticipant> GetTargets(bool? traverseForward, IEnumerable<CombatParticipant> currentTargets, IEnumerable<CombatParticipant> activeCharacters, IEnumerable<CombatParticipant> activeEnemies)
+        public override void GetTargets(bool? traverseForward, BattleActionData battleActionData, 
+            IEnumerable<CombatParticipant> activeCharacters, IEnumerable<CombatParticipant> activeEnemies)
         {
             // Collapse target list to single target -- pull first if available
-            CombatParticipant[] passedOriginalTargets = currentTargets?.ToArray();
             CombatParticipant newTarget = null;
-            if (passedOriginalTargets != null && passedOriginalTargets.Length > 0)
+            if (battleActionData.targetCount > 0)
             {
-                newTarget = passedOriginalTargets.First();
+                newTarget = battleActionData.GetTargets().First();
             }
 
             // Special handling
             // No traversing -- pass the target back
             if (traverseForward == null && newTarget != null)
             {
-                yield return newTarget;
-                yield break;
+                battleActionData.SetTargets(newTarget);
+                return;
             }
 
             // Separate out overall set & filter
-            // Note:  No need to declare local copies of characters &  enemies enumerables -- placed in new list via GetCombatParticipantByType
-            List<CombatParticipant> potentialTargets = this.GetCombatParticipantsByType(combatParticipantType, 
-                FilterTargets(activeCharacters, filterStrategies), 
-                FilterTargets(activeEnemies, filterStrategies));
-            if (potentialTargets.Count == 0) { yield break; }
-
-            // Special handling
-            // No current target -- pass first target back
-            if (passedOriginalTargets == null || passedOriginalTargets.Length == 0)
-            {
-                CombatParticipant defaultTarget = potentialTargets.FirstOrDefault();
-                if (defaultTarget != null) { yield return defaultTarget; }
-                yield break;
-            }
+            battleActionData.SetTargets(this.GetCombatParticipantsByType(combatParticipantType, activeCharacters, activeEnemies));
+            FilterTargets(battleActionData, filterStrategies);
+            if (battleActionData.targetCount == 0) { return; }
 
             // Finally iterate through to find next targets
             bool returnOnNextIteration = false;
             if (traverseForward == false)
             {
-                potentialTargets.Reverse();
+                battleActionData.ReverseTargets();
             }
-            foreach (CombatParticipant combatParticipant in potentialTargets)
+
+            foreach (CombatParticipant combatParticipant in battleActionData.GetTargets())
             {
-                if (returnOnNextIteration)
+                if (returnOnNextIteration) // B) select target, break
                 {
-                    yield return combatParticipant;
-                    yield break;
+                    newTarget = combatParticipant;
+                    break;
                 }
 
-                returnOnNextIteration = (combatParticipant == newTarget); // Match to current index -- return on next target
+                returnOnNextIteration = (combatParticipant == newTarget); // A) Match to current index -- return on next target
             }
+            if (newTarget != null) { battleActionData.SetTargets(newTarget); return; } // C) set target, return
+
 
             // Matched on last index -- return top of the list
             if (returnOnNextIteration)
             {
-                if (traverseForward == true) { newTarget = potentialTargets.First(); }
-                else if (traverseForward == false) { newTarget = potentialTargets.Last(); }
-                yield return newTarget;
-                yield break;
+                if (traverseForward == true) { newTarget = battleActionData.GetTargets().First(); }
+                else if (traverseForward == false) { newTarget = battleActionData.GetTargets().Last(); }
+                battleActionData.SetTargets(newTarget);
             }
 
             // Special case -- never matched to current target, send first available up the chain
-            yield return potentialTargets.First(); yield break;
+            battleActionData.SetTargets(battleActionData.GetTargets().First());
         }
 
-        protected override List<CombatParticipant> GetCombatParticipantsByTypeTemplate(CombatParticipantType combatParticipantType, IEnumerable<CombatParticipant> activeCharacters, IEnumerable<CombatParticipant> activeEnemies)
+        protected override List<CombatParticipant> GetCombatParticipantsByTypeTemplate(CombatParticipantType combatParticipantType, 
+            IEnumerable<CombatParticipant> activeCharacters, IEnumerable<CombatParticipant> activeEnemies)
         {
             // Not evaluated -> TargetingStrategyExtension
             return new List<CombatParticipant>();

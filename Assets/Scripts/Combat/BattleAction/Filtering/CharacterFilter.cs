@@ -9,15 +9,22 @@ namespace Frankie.Combat
     public class CharacterFilter : FilterStrategy
     {
         [SerializeField] List<CharacterProperties> characterPropertiesToFilter = new List<CharacterProperties>();
+        [SerializeField] bool negate = false;
 
         public override IEnumerable<CombatParticipant> Filter(IEnumerable<CombatParticipant> objectsToFilter)
         {
+            if (objectsToFilter == null || characterPropertiesToFilter.Count == 0) { yield break; }
+
             foreach (CombatParticipant combatParticipant in objectsToFilter)
             {
                 CharacterProperties characterProperties = combatParticipant.GetBaseStats()?.GetCharacterProperties();
                 if (characterProperties == null) { continue; }
 
-                if (characterPropertiesToFilter.Contains(characterProperties))
+                if (!negate && characterPropertiesToFilter.Contains(characterProperties))
+                {
+                    yield return combatParticipant;
+                }
+                else if (negate && !characterPropertiesToFilter.Contains(characterProperties))
                 {
                     yield return combatParticipant;
                 }

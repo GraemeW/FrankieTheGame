@@ -111,5 +111,9 @@ PrefabInstance:
       propertyPath: characterProperties
       value: 
       objectReference: {fileID: 11400000, guid: c1f59cbc742f6294d98c52ee45fb4fd6, type: 2}
+    - target: {fileID: 6853974573596150378, guid: 1b473d8838e3d4d4c99f7ff6e30d07df, type: 3}
+      propertyPath: canBeShoutedAt
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1b473d8838e3d4d4c99f7ff6e30d07df, type: 3}

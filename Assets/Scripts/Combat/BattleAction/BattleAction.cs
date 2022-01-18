@@ -54,19 +54,19 @@ namespace Frankie.Combat
             return apCost;
         }
 
-        public bool Use(CombatParticipant sender, IEnumerable<CombatParticipant> recipients, Action finished)
+        public bool Use(BattleActionData battleActionData, Action finished)
         {
-            if (effectStrategies == null || !sender.HasAP(apCost))
+            if (effectStrategies == null || !battleActionData.GetSender().HasAP(apCost))
             {
-                sender.SetCooldown(0f);
+                battleActionData.GetSender().SetCooldown(0f);
                 finished?.Invoke();
                 return false;
             }
 
             foreach (EffectStrategy effectStrategy in effectStrategies)
             {
-                effectStrategy.StartEffect(sender, recipients, damageType,
-                    (EffectStrategy childEffectStrategy) => EffectFinished(sender, childEffectStrategy, finished));
+                effectStrategy.StartEffect(battleActionData.GetSender(), battleActionData.GetTargets(), damageType,
+                    (EffectStrategy childEffectStrategy) => EffectFinished(battleActionData.GetSender(), childEffectStrategy, finished));
             }
             return true;
         }
@@ -82,14 +82,12 @@ namespace Frankie.Combat
             }
         }
 
-        public List<CombatParticipant> GetTargets(bool? traverseForward, IEnumerable<CombatParticipant> currentTargets, IEnumerable<CombatParticipant> activeCharacters, IEnumerable<CombatParticipant> activeEnemies)
+        public void GetTargets(bool? traverseForward, BattleActionData battleActionData, 
+            IEnumerable<CombatParticipant> activeCharacters, IEnumerable<CombatParticipant> activeEnemies)
         {
-            List<CombatParticipant> targets = new List<CombatParticipant>();
-            foreach (CombatParticipant target in targetingStrategy.GetTargets(traverseForward, currentTargets, activeCharacters, activeEnemies))
-            {
-                targets.Add(target);
-            }
-            return targets;
+            if (battleActionData == null) { return; }
+
+            targetingStrategy.GetTargets(traverseForward, battleActionData, activeCharacters, activeEnemies);
         }
     }
 }

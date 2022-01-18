@@ -5,6 +5,7 @@ using Frankie.Utils;
 using Frankie.Quests;
 using Frankie.Stats;
 using Frankie.Combat;
+using Frankie.Inventory;
 using System.Linq;
 using UnityEngine.SceneManagement;
 
@@ -21,6 +22,10 @@ namespace Frankie.Core
         ReInitLazyValue<SavingWrapper> savingWrapper = null;
         ReInitLazyValue<QuestList> questList = null;
         ReInitLazyValue<Party> party = null;
+        ReInitLazyValue<Wallet> wallet = null;
+
+        // Static
+        static int fundsToAddToWallet = 10000;
 
         #region UnityMethods
         private void Awake()
@@ -32,6 +37,7 @@ namespace Frankie.Core
             savingWrapper = new ReInitLazyValue<SavingWrapper>(SetupSavingWrapper);
             questList = new ReInitLazyValue<QuestList>(() => QuestList.GetQuestList(ref player));
             party = new ReInitLazyValue<Party>(SetupParty);
+            wallet = new ReInitLazyValue<Wallet>(SetupWallet);
 
             // Debug Hook-Ups
             playerInput.Debug.Save.performed += context => Save();
@@ -39,6 +45,7 @@ namespace Frankie.Core
             playerInput.Debug.Delete.performed += context => Delete();
             playerInput.Debug.QuestLog.performed += context => PrintQuests();
             playerInput.Debug.LevelUpParty.performed += context => LevelUpParty();
+            playerInput.Debug.AddFundsToWallet.performed += context => AddFundsToWallet();
         }
 
         private void Start()
@@ -46,6 +53,7 @@ namespace Frankie.Core
             savingWrapper.ForceInit();
             questList.ForceInit();
             party.ForceInit();
+            wallet.ForceInit();
         }
 
         private void OnEnable()
@@ -72,6 +80,12 @@ namespace Frankie.Core
         {
             if (player == null) { player = GameObject.FindGameObjectWithTag("Player"); }
             return player?.GetComponent<Party>();
+        }
+
+        private Wallet SetupWallet()
+        {
+            if (player == null) { player = GameObject.FindGameObjectWithTag("Player"); }
+            return player?.GetComponent<Wallet>();
         }
 
         private void Save()
@@ -112,7 +126,9 @@ namespace Frankie.Core
                 UnityEngine.Debug.Log("---Fin---");
             }
         }
+        #endregion
 
+        #region PartyDebug
         private void LevelUpParty()
         {
             UnityEngine.Debug.Log("Leveling up party:");
@@ -123,5 +139,15 @@ namespace Frankie.Core
             }
         }
         #endregion
+
+        #region WalletDebug
+        private void AddFundsToWallet()
+        {
+            UnityEngine.Debug.Log($"Adding ${fundsToAddToWallet} to wallet");
+            wallet.value.UpdateCash(fundsToAddToWallet);
+        }
+        #endregion
+
+
     }
 }

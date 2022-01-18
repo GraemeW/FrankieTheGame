@@ -10,13 +10,14 @@ namespace Frankie.Combat.Spawner
     public class EnemySpawner : MonoBehaviour
     {
         // Tunables
+        [SerializeField] bool spawnOnEnable = true;
         [SerializeField] float xJitterDistance = 1.0f;
         [SerializeField] float yJitterDistance = 1.0f;
         [SerializeField] SpawnConfigurationProbabilityPair<SpawnConfiguration>[] spawnConfigurations = null;
 
         private void OnEnable()
         {
-            SpawnEnemies();
+            if (spawnOnEnable) { SpawnEnemies(); }
         }
 
         private void OnDisable()
@@ -24,7 +25,7 @@ namespace Frankie.Combat.Spawner
             DespawnEnemies();
         }
 
-        private void SpawnEnemies()
+        public void SpawnEnemies() // Callable by Unity Events
         {
             SpawnConfiguration spawnConfiguration = GetSpawnConfiguration();
             if (spawnConfiguration == null) { return; }
@@ -52,7 +53,7 @@ namespace Frankie.Combat.Spawner
             return spawnConfiguration;
         }
 
-        private void DespawnEnemies()
+        public void DespawnEnemies() // Callable by Unity Events
         {
             foreach (Transform child in transform)
             {

@@ -268,7 +268,9 @@ namespace Frankie.Inventory
             ActionItem actionItem = inventoryItem as ActionItem;
             if (actionItem == null) { return false; }
 
-            actionItem.Use(character, combatParticipants, null);
+            BattleActionData battleActionData = new BattleActionData(character);
+            battleActionData.SetTargets(combatParticipants);
+            actionItem.Use(battleActionData, null);
                 // Note:  item removal handled via ActionItem
             return true;
         }

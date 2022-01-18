@@ -86,8 +86,8 @@ MonoBehaviour:
   speakerType: 1
   characterProperties: {fileID: 11400000, guid: bb8eacf5d6e151548ae677e3ff4d1109, type: 2}
   speakerName: Horse
-  text: Whinny.  Neigh. (congratulations Frankie, you did it, you really did it you
-    son of a bitch)
+  text: Whinny.  Neigh. (congratulations Frankie, you did it, you really did it,
+    you son of a bitch)
   children: []
   rect:
     serializedVersion: 2
@@ -182,7 +182,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speakerType: 1
   characterProperties: {fileID: 11400000, guid: bb8eacf5d6e151548ae677e3ff4d1109, type: 2}
-  speakerName: Default
+  speakerName: Horse
   text: 'Snort. (give it to me, it''s mine) '
   children: []
   rect:

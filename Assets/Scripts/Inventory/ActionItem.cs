@@ -20,31 +20,27 @@ namespace Frankie.Inventory
             return consumable;
         }
 
-        public bool Use(CombatParticipant sender, IEnumerable<CombatParticipant> recipients, Action finished)
+        public bool Use(BattleActionData battleActionData, Action finished)
         {
             if (battleAction == null) { return false; }
 
-            battleAction.Use(sender, recipients, finished);
+            battleAction.Use(battleActionData, finished);
 
             if (IsConsumable())
             {
-                if (!sender.TryGetComponent(out Knapsack knapsack)) { return true; }
+                if (!battleActionData.GetSender().TryGetComponent(out Knapsack knapsack)) { return true; }
                 knapsack.RemoveItem(this, false);
                 knapsack.SquishItemsInKnapsack();
             }
             return true;
         }
 
-        public List<CombatParticipant> GetTargets(bool? traverseForward, IEnumerable<CombatParticipant> currentTargets, IEnumerable<CombatParticipant> activeCharacters, IEnumerable<CombatParticipant> activeEnemies)
+        public void GetTargets(bool? traverseForward, BattleActionData battleActionData, 
+            IEnumerable<CombatParticipant> activeCharacters, IEnumerable<CombatParticipant> activeEnemies)
         {
-            List<CombatParticipant> targets = new List<CombatParticipant>();
-            if (battleAction == null) { return targets; }
+            if (battleAction == null) { return; }
 
-            foreach (CombatParticipant target in battleAction.GetTargets(traverseForward, currentTargets, activeCharacters, activeEnemies))
-            {
-                targets.Add(target);
-            }
-            return targets;
+            battleAction.GetTargets(traverseForward, battleActionData, activeCharacters, activeEnemies);
         }
 
         public bool IsItem()

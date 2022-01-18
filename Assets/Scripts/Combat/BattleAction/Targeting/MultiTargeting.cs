@@ -11,21 +11,20 @@ namespace Frankie.Combat
         [SerializeField] bool overrideToHitEverything = false;
         [SerializeField] [Min(0)] int numberOfEnemiesToHit = 2;
 
-        public override IEnumerable<CombatParticipant> GetTargets(bool? traverseForward, IEnumerable<CombatParticipant> currentTargets, IEnumerable<CombatParticipant> activeCharacters, IEnumerable<CombatParticipant> activeEnemies)
+        public override void GetTargets(bool? traverseForward, BattleActionData battleActionData, 
+            IEnumerable<CombatParticipant> activeCharacters, IEnumerable<CombatParticipant> activeEnemies)
         {
-            CombatParticipant[] passedOriginalTargets = currentTargets?.ToArray();
-
             // Collapse target list to expected number to hit
             List<CombatParticipant> newTargets = new List<CombatParticipant>();
-            if (passedOriginalTargets != null && passedOriginalTargets.Length > 0)
+            if (battleActionData.targetCount > 0)
             {
                 int modifiedPassedLength = 0;
-                foreach (CombatParticipant combatParticipant in passedOriginalTargets)
+                foreach (CombatParticipant combatParticipant in battleActionData.GetTargets())
                 {
                     newTargets.Add(combatParticipant);
                     modifiedPassedLength++;
 
-                    if (modifiedPassedLength >= numberOfEnemiesToHit) { break; }
+                    if (!overrideToHitEverything && modifiedPassedLength >= numberOfEnemiesToHit) { break; }
                 }
             }
 
@@ -33,41 +32,38 @@ namespace Frankie.Combat
             // No traversing -- pass the target back
             if (traverseForward == null)
             {
-                foreach (CombatParticipant combatParticipant in newTargets)
-                {
-                    yield return combatParticipant;
-                }
-                yield break;
+                battleActionData.SetTargets(newTargets);
+                return;
             }
 
             // Separate out overall set & filter
-            // Note:  No need to declare local copies of characters &  enemies enumerables -- placed in new list via GetCombatParticipantByType
-            List<CombatParticipant> potentialTargets = this.GetCombatParticipantsByType(combatParticipantType,
-                FilterTargets(activeCharacters, filterStrategies),
-                FilterTargets(activeEnemies, filterStrategies));
-            if (potentialTargets.Count == 0) { yield break; }
+            battleActionData.SetTargets(this.GetCombatParticipantsByType(combatParticipantType, activeCharacters, activeEnemies));
+            FilterTargets(battleActionData, filterStrategies);
+            if (battleActionData.targetCount == 0) { return; }
 
             // Special handling for hit everything -- return the whole set & break
-            if (overrideToHitEverything || potentialTargets.Count() > numberOfEnemiesToHit)
+            if (overrideToHitEverything || battleActionData.targetCount > numberOfEnemiesToHit)
             {
-                foreach (CombatParticipant combatParticipant in potentialTargets)
-                {
-                    yield return combatParticipant;
-                }
-                yield break;
+                return;
             }
 
             // Finally iterate through to find next targets
             CombatParticipant oldIndexTarget = newTargets?.First();
-            bool indexFound = false;
             if (traverseForward == false)
             {
-                potentialTargets.Reverse();
+                battleActionData.ReverseTargets();
+                oldIndexTarget = newTargets?.Last();
             }
+            List<CombatParticipant> shiftedTargets = GetShiftedTargets(battleActionData, oldIndexTarget).ToList(); // Define locally since iterating over the list in battleActionData
+            battleActionData.SetTargets(shiftedTargets);
+        }
 
+        private IEnumerable<CombatParticipant> GetShiftedTargets(BattleActionData battleActionData, CombatParticipant oldIndexTarget)
+        {
+            bool indexFound = false;
             int targetLength = 0;
             List<CombatParticipant> cycledTargets = new List<CombatParticipant>();
-            foreach (CombatParticipant combatParticipant in potentialTargets)
+            foreach (CombatParticipant combatParticipant in battleActionData.GetTargets())
             {
                 if (!indexFound)
                 {
@@ -90,7 +86,6 @@ namespace Frankie.Combat
 
                 if (targetLength >= numberOfEnemiesToHit) { yield break; }
             }
-
         }
 
         protected override List<CombatParticipant> GetCombatParticipantsByTypeTemplate(CombatParticipantType combatParticipantType, IEnumerable<CombatParticipant> activeCharacters, IEnumerable<CombatParticipant> activeEnemies)

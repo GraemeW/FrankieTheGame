@@ -110,10 +110,12 @@ namespace Frankie.Combat.UI
 
         private void ParseBattleSequence(BattleSequence battleSequence)
         {
-            if (battleSequence.sender == null || battleSequence.recipients == null || (battleSequence.battleAction == null)) { return; }
+            BattleActionData battleActionData = battleSequence.battleActionData;
+            if (battleActionData == null || (battleSequence.battleAction == null)) { return; }
+            if (battleActionData.GetSender() == null || battleActionData.targetCount == 0) { return; }
 
-            string recipientNames = string.Join(", ", battleSequence.recipients.Select(x => x.GetCombatName()));
-            string combatText = battleSequence.sender.GetCombatName()
+            string recipientNames = string.Join(", ", battleActionData.GetTargets().Select(x => x.GetCombatName()));
+            string combatText = battleActionData.GetSender().GetCombatName()
                 + " used " + battleSequence.battleAction.GetName()
                 + " on " + recipientNames + ".";
 

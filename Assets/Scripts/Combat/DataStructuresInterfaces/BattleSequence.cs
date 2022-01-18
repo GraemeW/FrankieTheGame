@@ -6,7 +6,6 @@ namespace Frankie.Combat
     public struct BattleSequence
     {
         public IBattleActionUser battleAction;
-        public CombatParticipant sender;
-        public IEnumerable<CombatParticipant> recipients;
+        public BattleActionData battleActionData;
     }
 }

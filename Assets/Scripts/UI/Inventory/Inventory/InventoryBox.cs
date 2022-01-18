@@ -45,7 +45,7 @@ namespace Frankie.Inventory.UI
         protected CombatParticipant selectedCharacter = null;
         protected Knapsack selectedKnapsack = null;
         int selectedItemSlot = -1;
-        IEnumerable<CombatParticipant> targetCharacters = null;
+        BattleActionData battleActionData = null;
 
         // Cached References
         BattleController battleController = null;
@@ -186,6 +186,8 @@ namespace Frankie.Inventory.UI
         public void SetInventoryBoxState(InventoryBoxState inventoryBoxState)
         {
             this.inventoryBoxState = inventoryBoxState;
+            if (inventoryBoxState == InventoryBoxState.inCharacterSelection) { battleActionData = null; } // Reset battle action data on selected character changed
+
             SetUpChoiceOptions();
 
             uiBoxStateChanged?.Invoke(inventoryBoxState);
@@ -245,9 +247,9 @@ namespace Frankie.Inventory.UI
                 InventoryItem inventoryItem = selectedKnapsack.GetItemInSlot(selectedItemSlot);
                 string senderName = selectedCharacter.GetCombatName();
                 string itemName = inventoryItem.GetDisplayName();
-                string targetCharacterNames = string.Join(", ", targetCharacters.Select(x => x.GetCombatName()).ToList());
+                string targetCharacterNames = string.Join(", ", battleActionData.GetTargets().Select(x => x.GetCombatName()).ToList());
 
-                if (selectedKnapsack.UseItemInSlot(selectedItemSlot, targetCharacters))
+                if (selectedKnapsack.UseItemInSlot(selectedItemSlot, battleActionData.GetTargets()))
                 {
                     DialogueBox dialogueBox = Instantiate(dialogueBoxPrefab, transform.parent);
 
@@ -266,6 +268,7 @@ namespace Frankie.Inventory.UI
         protected virtual void ChooseCharacter(CombatParticipant character, bool initializeCursor = true)
         {
             UpdateKnapsackView(character);
+            battleActionData = new BattleActionData(selectedCharacter);
             SetInventoryBoxState(InventoryBoxState.inKnapsack);
 
             if (IsChoiceAvailable())
@@ -509,7 +512,6 @@ namespace Frankie.Inventory.UI
             {
                 selectedItemSlot = inventorySlot;
                 handleGlobalInput = true;
-                targetCharacters = new CombatParticipant[] { null };
                 if (GetNextTarget(true))
                 {
                     SetInventoryBoxState(InventoryBoxState.inCharacterTargeting);
@@ -526,13 +528,13 @@ namespace Frankie.Inventory.UI
             ActionItem actionItem = selectedKnapsack.GetItemInSlot(selectedItemSlot) as ActionItem;
             if (actionItem == null) { return false; }
 
-            targetCharacters = actionItem.GetTargets(traverseForward, targetCharacters, party.GetParty(), null);
-            if (targetCharacters == null || targetCharacters.Count() == 0)
+            actionItem.GetTargets(traverseForward, battleActionData, party.GetParty(), null);
+            if (battleActionData.targetCount == 0)
             {
                 return false;
             }
 
-            targetCharacterChanged?.Invoke(CombatParticipantType.Target, targetCharacters);
+            targetCharacterChanged?.Invoke(CombatParticipantType.Foe, battleActionData.GetTargets());
             return true;
         }
 
@@ -540,10 +542,10 @@ namespace Frankie.Inventory.UI
         {
             if (inventoryBoxState != InventoryBoxState.inCharacterTargeting) { return; }
 
-            targetCharacters = new[] { combatParticipant };
+            battleActionData.SetTargets(combatParticipant);
             if (!GetNextTarget(null)) { SetInventoryBoxState(InventoryBoxState.inKnapsack); return; } // Verify passed combatParticipant is valid target
 
-            targetCharacterChanged?.Invoke(CombatParticipantType.Target, new[] { combatParticipant });
+            targetCharacterChanged?.Invoke(CombatParticipantType.Foe, new[] { combatParticipant });
             Choose(null);
         }
 
@@ -578,7 +580,7 @@ namespace Frankie.Inventory.UI
             if (!enable) { handleGlobalInput = false; return; }
 
             selectedItemSlot = -1;
-            targetCharacterChanged?.Invoke(CombatParticipantType.Target, null);
+            targetCharacterChanged?.Invoke(CombatParticipantType.Foe, null);
 
             if (selectedCharacter == null || selectedKnapsack == null)
             {

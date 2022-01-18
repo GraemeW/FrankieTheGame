@@ -107,6 +107,14 @@ PrefabInstance:
       propertyPath: movingBackgroundProperties.tileSpriteImage
       value: 
       objectReference: {fileID: 21300000, guid: 41424f7724fba0546a4b8136d5cf6080, type: 3}
+    - target: {fileID: 5735266784123818870, guid: 53771d00282eaa34ba616b313732c1b7, type: 3}
+      propertyPath: canBeShoutedAt
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5735266784123818870, guid: 53771d00282eaa34ba616b313732c1b7, type: 3}
+      propertyPath: willDestroySelfOnDeath
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6188215296675846516, guid: 53771d00282eaa34ba616b313732c1b7, type: 3}
       propertyPath: skillTree
       value: 

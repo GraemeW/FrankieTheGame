@@ -37,7 +37,7 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Floats:
     - Vector1_7ab76210b1bd497babdb7dec70f33f90: 10.61
-    - _Phase: 77.95903
+    - _Phase: 74.11596
     - crispness: 0.01
     - frequency: 30
     - isHorizontal: 0

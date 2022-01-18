@@ -695,6 +695,15 @@ public partial class @PlayerInput : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""AddFundsToWallet"",
+                    ""type"": ""Button"",
+                    ""id"": ""9df1fd86-82e7-4648-bb8a-a39f3b41ab19"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -750,6 +759,17 @@ public partial class @PlayerInput : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": ""Keyboard&Mouse"",
                     ""action"": ""LevelUpParty"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""72d5dc34-53cd-4eda-85e6-8f27b9a555fb"",
+                    ""path"": ""<Keyboard>/8"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard&Mouse"",
+                    ""action"": ""AddFundsToWallet"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -845,6 +865,7 @@ public partial class @PlayerInput : IInputActionCollection2, IDisposable
         m_Debug_Delete = m_Debug.FindAction("Delete", throwIfNotFound: true);
         m_Debug_QuestLog = m_Debug.FindAction("QuestLog", throwIfNotFound: true);
         m_Debug_LevelUpParty = m_Debug.FindAction("LevelUpParty", throwIfNotFound: true);
+        m_Debug_AddFundsToWallet = m_Debug.FindAction("AddFundsToWallet", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -1079,6 +1100,7 @@ public partial class @PlayerInput : IInputActionCollection2, IDisposable
     private readonly InputAction m_Debug_Delete;
     private readonly InputAction m_Debug_QuestLog;
     private readonly InputAction m_Debug_LevelUpParty;
+    private readonly InputAction m_Debug_AddFundsToWallet;
     public struct DebugActions
     {
         private @PlayerInput m_Wrapper;
@@ -1088,6 +1110,7 @@ public partial class @PlayerInput : IInputActionCollection2, IDisposable
         public InputAction @Delete => m_Wrapper.m_Debug_Delete;
         public InputAction @QuestLog => m_Wrapper.m_Debug_QuestLog;
         public InputAction @LevelUpParty => m_Wrapper.m_Debug_LevelUpParty;
+        public InputAction @AddFundsToWallet => m_Wrapper.m_Debug_AddFundsToWallet;
         public InputActionMap Get() { return m_Wrapper.m_Debug; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -1112,6 +1135,9 @@ public partial class @PlayerInput : IInputActionCollection2, IDisposable
                 @LevelUpParty.started -= m_Wrapper.m_DebugActionsCallbackInterface.OnLevelUpParty;
                 @LevelUpParty.performed -= m_Wrapper.m_DebugActionsCallbackInterface.OnLevelUpParty;
                 @LevelUpParty.canceled -= m_Wrapper.m_DebugActionsCallbackInterface.OnLevelUpParty;
+                @AddFundsToWallet.started -= m_Wrapper.m_DebugActionsCallbackInterface.OnAddFundsToWallet;
+                @AddFundsToWallet.performed -= m_Wrapper.m_DebugActionsCallbackInterface.OnAddFundsToWallet;
+                @AddFundsToWallet.canceled -= m_Wrapper.m_DebugActionsCallbackInterface.OnAddFundsToWallet;
             }
             m_Wrapper.m_DebugActionsCallbackInterface = instance;
             if (instance != null)
@@ -1131,6 +1157,9 @@ public partial class @PlayerInput : IInputActionCollection2, IDisposable
                 @LevelUpParty.started += instance.OnLevelUpParty;
                 @LevelUpParty.performed += instance.OnLevelUpParty;
                 @LevelUpParty.canceled += instance.OnLevelUpParty;
+                @AddFundsToWallet.started += instance.OnAddFundsToWallet;
+                @AddFundsToWallet.performed += instance.OnAddFundsToWallet;
+                @AddFundsToWallet.canceled += instance.OnAddFundsToWallet;
             }
         }
     }
@@ -1208,5 +1237,6 @@ public partial class @PlayerInput : IInputActionCollection2, IDisposable
         void OnDelete(InputAction.CallbackContext context);
         void OnQuestLog(InputAction.CallbackContext context);
         void OnLevelUpParty(InputAction.CallbackContext context);
+        void OnAddFundsToWallet(InputAction.CallbackContext context);
     }
 }

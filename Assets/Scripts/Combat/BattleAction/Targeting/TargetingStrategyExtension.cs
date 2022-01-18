@@ -6,18 +6,28 @@ namespace Frankie.Combat
 {
     public static class TargetingStrategyExtension
     {
-        public static List<CombatParticipant> GetCombatParticipantsByType(this TargetingStrategy targetingStrategy, CombatParticipantType combatParticipantType, IEnumerable<CombatParticipant> activeCharacters, IEnumerable<CombatParticipant> activeEnemies)
+        public static IEnumerable<CombatParticipant> GetCombatParticipantsByType(this TargetingStrategy targetingStrategy, CombatParticipantType combatParticipantType, IEnumerable<CombatParticipant> activeCharacters, IEnumerable<CombatParticipant> activeEnemies)
         {
-            List<CombatParticipant> potentialTargets = new List<CombatParticipant>();
-            if (combatParticipantType == CombatParticipantType.Either || combatParticipantType == CombatParticipantType.Target)
+            if (combatParticipantType == CombatParticipantType.Either || combatParticipantType == CombatParticipantType.Foe)
             {
-                if (activeEnemies != null) { potentialTargets.AddRange(activeEnemies); }
+                if (activeEnemies != null)
+                {
+                    foreach (CombatParticipant enemy in activeEnemies)
+                    {
+                        yield return enemy;
+                    }
+                }
             }
-            if (combatParticipantType == CombatParticipantType.Either || combatParticipantType == CombatParticipantType.Character)
+            if (combatParticipantType == CombatParticipantType.Either || combatParticipantType == CombatParticipantType.Friendly)
             {
-                if (activeCharacters != null) { potentialTargets.AddRange(activeCharacters); }
+                if (activeCharacters != null)
+                {
+                    foreach (CombatParticipant character in activeCharacters)
+                    {
+                        yield return character;
+                    }
+                }
             }
-            return potentialTargets;
         }
     }
 }

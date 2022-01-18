@@ -61,17 +61,19 @@ namespace Frankie.Combat
                 List<CombatParticipant> enemies = new List<CombatParticipant>(battleController.GetEnemies()); // Local copy since shuffling done in place
                 enemies.Shuffle();
 
+                BattleActionData battleActionData = new BattleActionData(combatParticipant);
                 if (combatParticipant.GetFriendly())
                 {
-                    targets = skill.GetTargets(true, null, characters, enemies);
+                    skill.GetTargets(true, battleActionData, characters, enemies);
                 }
                 else
                 {
-                    targets = skill.GetTargets(true, null, enemies, characters);
+                    skill.GetTargets(true, battleActionData, enemies, characters);
                 }
+                if (battleActionData.targetCount == 0) { return; }
+                if (combatParticipant == null || skill == null) { return; }
 
-                if (combatParticipant == null || targets == null || skill == null) { return; }
-                battleController.AddToBattleQueue(combatParticipant, targets, skill);
+                battleController.AddToBattleQueue(battleActionData, skill);
                 ClearSelectionMemory();
             }
         }

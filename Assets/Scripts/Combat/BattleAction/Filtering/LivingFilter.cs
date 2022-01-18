@@ -10,10 +10,10 @@ namespace Frankie.Combat
     {
         [SerializeField] bool isAlive = true;
 
-        public override IEnumerable<CombatParticipant> Filter(IEnumerable<CombatParticipant> combatParticipantsToFilter)
+        public override IEnumerable<CombatParticipant> Filter(IEnumerable<CombatParticipant> objectsToFilter)
         {
-            if (combatParticipantsToFilter == null) { yield break; }
-            foreach (CombatParticipant combatParticipant in combatParticipantsToFilter)
+            if (objectsToFilter == null) { yield break; }
+            foreach (CombatParticipant combatParticipant in objectsToFilter)
             {
                 if (isAlive != combatParticipant.IsDead())
                 {

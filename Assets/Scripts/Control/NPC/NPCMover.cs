@@ -115,6 +115,8 @@ namespace Frankie.Control
 
         private void CycleWaypoint()
         {
+            if (patrolPath == null) { return; }
+
             currentWaypointIndex = patrolPath.GetNextIndex(currentWaypointIndex);
             timeSinceArrivedAtWaypoint = 0;
         }

@@ -60,14 +60,15 @@ namespace Frankie.Combat
         #endregion
 
         #region BattleActionUserInterface
-        public bool Use(CombatParticipant sender, IEnumerable<CombatParticipant> recipients, Action finished)
+        public bool Use(BattleActionData battleActionData, Action finished)
         {
-            return battleAction.Use(sender, recipients, finished);
+            return battleAction.Use(battleActionData, finished);
         }
 
-        public List<CombatParticipant> GetTargets(bool? traverseForward, IEnumerable<CombatParticipant> currentTarget, IEnumerable<CombatParticipant> activeCharacters, IEnumerable<CombatParticipant> activeEnemies)
+        public void GetTargets(bool? traverseForward, BattleActionData battleActionData,
+            IEnumerable<CombatParticipant> activeCharacters, IEnumerable<CombatParticipant> activeEnemies)
         {
-            return battleAction?.GetTargets(traverseForward, currentTarget, activeCharacters, activeEnemies);
+            battleAction?.GetTargets(traverseForward, battleActionData, activeCharacters, activeEnemies);
         }
 
         public bool IsItem()

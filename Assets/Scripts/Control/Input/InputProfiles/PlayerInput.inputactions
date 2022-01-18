@@ -673,6 +673,15 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "AddFundsToWallet",
+                    "type": "Button",
+                    "id": "9df1fd86-82e7-4648-bb8a-a39f3b41ab19",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -728,6 +737,17 @@
                     "processors": "",
                     "groups": "Keyboard&Mouse",
                     "action": "LevelUpParty",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "72d5dc34-53cd-4eda-85e6-8f27b9a555fb",
+                    "path": "<Keyboard>/8",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard&Mouse",
+                    "action": "AddFundsToWallet",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

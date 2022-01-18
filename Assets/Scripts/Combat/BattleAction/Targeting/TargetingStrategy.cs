@@ -9,20 +9,19 @@ namespace Frankie.Combat
         [SerializeField] protected CombatParticipantType combatParticipantType = default;
         [SerializeField] protected FilterStrategy[] filterStrategies = null;
 
-        public abstract IEnumerable<CombatParticipant> GetTargets(bool? traverseForward, IEnumerable<CombatParticipant> currentTargets, IEnumerable<CombatParticipant> activeCharacters, IEnumerable<CombatParticipant> activeEnemies);
+        public abstract void GetTargets(bool? traverseForward, BattleActionData battleActionData,
+            IEnumerable<CombatParticipant> activeCharacters, IEnumerable<CombatParticipant> activeEnemies);
         protected abstract List<CombatParticipant> GetCombatParticipantsByTypeTemplate(CombatParticipantType combatParticipantType, IEnumerable<CombatParticipant> activeCharacters, IEnumerable<CombatParticipant> activeEnemies);
 
-        protected IEnumerable<CombatParticipant> FilterTargets(IEnumerable<CombatParticipant> potentialTargets, FilterStrategy[] filterStrategies)
+        protected void FilterTargets(BattleActionData battleActionData, FilterStrategy[] filterStrategies)
         {
             if (filterStrategies != null)
             {
                 foreach (FilterStrategy filterStrategy in filterStrategies)
                 {
-                    potentialTargets = filterStrategy.Filter(potentialTargets);
+                    battleActionData.SetTargets(filterStrategy.Filter(battleActionData.GetTargets()));
                 }
             }
-
-            return potentialTargets;
         }
     }
 }
