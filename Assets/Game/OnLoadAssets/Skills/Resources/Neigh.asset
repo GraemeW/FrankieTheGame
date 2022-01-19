@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: Neigh
   m_EditorClassIdentifier: 
   stat: 5
-  battleAction: {fileID: 11400000, guid: 81fec7ccc57d205409e6ed7f75602679, type: 2}
+  battleAction: {fileID: 11400000, guid: 655cae16aeed9f24084a00856630125f, type: 2}
   detail: The natural horse sound

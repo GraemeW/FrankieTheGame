@@ -73,6 +73,9 @@ namespace Frankie.Combat
                 }
                 else
                 {
+                    // Useful Debug
+                    //string targetNames = string.Concat(battleActionData.GetTargets().Select(x => x.name));
+                    //UnityEngine.Debug.Log($"{battleActionData.GetSender().name} adding action {skill.name} to queue for targets {targetNames}");
                     battleController.AddToBattleQueue(battleActionData, skill);
                     ClearSelectionMemory();
                 }

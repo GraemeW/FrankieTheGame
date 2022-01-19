@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: Whinny
   m_EditorClassIdentifier: 
   stat: 1
-  battleAction: {fileID: 11400000, guid: 81fec7ccc57d205409e6ed7f75602679, type: 2}
+  battleAction: {fileID: 11400000, guid: fa0a936c988af5449b424a0448b324d9, type: 2}
   detail: The OTHER natural horse sound

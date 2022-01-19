@@ -115,7 +115,7 @@ MonoBehaviour:
     - stat: 0
       value: 160
     - stat: 1
-      value: 50
+      value: 100
     - stat: 2
       value: 1500
     - stat: 3

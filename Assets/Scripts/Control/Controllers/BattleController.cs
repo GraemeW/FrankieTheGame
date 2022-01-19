@@ -540,9 +540,13 @@ namespace Frankie.Combat
         {
             if (battleSequenceQueue.Count == 0) { yield break; }
             BattleSequence battleSequence = battleSequenceQueue.Dequeue();
-            BattleActionData battleActionData = battleSequence.battleActionData;
-            if (battleActionData.GetSender().IsDead() || battleActionData.GetTargets().All(x => x.IsDead())) { yield break; }
+            BattleActionData dequeuedBattleActionData = battleSequence.battleActionData;
+            if (dequeuedBattleActionData.GetSender().IsDead() || dequeuedBattleActionData.GetTargets().All(x => x.IsDead())) { yield break; }
             battleSequenceProcessed?.Invoke(battleSequence);
+
+            // Useful Debug
+            //string targetNames = string.Concat(dequeuedBattleActionData.GetTargets().Select(x => x.name));
+            //UnityEngine.Debug.Log($"Battle sequence from {dequeuedBattleActionData.GetSender().name} dequeued, for action {battleSequence.battleAction.GetName()} on {targetNames}");
 
             // Two flags to flip to re-enable battle:
             // A) global battle queue delay, handled by coroutine
@@ -550,7 +554,7 @@ namespace Frankie.Combat
             haltBattleQueue = true;
             battleSequenceInProgress = true;
 
-            battleSequence.battleAction.Use(battleActionData, () => { battleSequenceInProgress = false; });
+            battleSequence.battleAction.Use(dequeuedBattleActionData, () => { battleSequenceInProgress = false; });
             yield return new WaitForSeconds(battleQueueDelay);
 
             haltBattleQueue = false;

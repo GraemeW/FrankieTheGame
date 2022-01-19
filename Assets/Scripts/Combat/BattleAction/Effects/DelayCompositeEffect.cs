@@ -23,6 +23,8 @@ namespace Frankie.Combat
             yield return new WaitForSeconds(delay);
             foreach (EffectStrategy effectStrategy in effectStrategies)
             {
+                if (effectStrategy == null) { continue; }
+
                 effectStrategy.StartEffect(sender, recipients, damageType, finished);
             }
         }

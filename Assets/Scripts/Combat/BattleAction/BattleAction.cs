@@ -63,8 +63,14 @@ namespace Frankie.Combat
                 return false;
             }
 
+            // Useful Debug
+            //UnityEngine.Debug.Log($"Using battle action: {name}");
             foreach (EffectStrategy effectStrategy in effectStrategies)
             {
+                if (effectStrategy == null) { continue; }
+                // Useful Debug
+                //UnityEngine.Debug.Log($"Applying effect: {effectStrategy.name}");
+
                 effectStrategy.StartEffect(battleActionData.GetSender(), battleActionData.GetTargets(), damageType,
                     (EffectStrategy childEffectStrategy) => EffectFinished(battleActionData.GetSender(), childEffectStrategy, finished));
             }
