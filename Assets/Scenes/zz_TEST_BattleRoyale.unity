@@ -441,6 +441,10 @@ PrefabInstance:
       propertyPath: stock.Array.data[2]
       value: 
       objectReference: {fileID: 11400000, guid: 7ee49b28e67844b4aa875d8e147226c7, type: 2}
+    - target: {fileID: 7800942803558028165, guid: 8252584bd86ddec408582ff28d4f7db6, type: 3}
+      propertyPath: stock.Array.data[3]
+      value: 
+      objectReference: {fileID: 11400000, guid: c1befb597e4386743ac91b5ccc62ade0, type: 2}
     - target: {fileID: 9006925480361006661, guid: 8252584bd86ddec408582ff28d4f7db6, type: 3}
       propertyPath: uniqueIdentifier
       value: b868462e-15b9-4c6f-8fc0-14025e1ed702
@@ -601,16 +605,16 @@ MonoBehaviour:
   yJitterDistance: 0.05
   spawnConfigurations:
   - spawnConfiguration:
-      maxQuantity: 4
+      maxQuantity: 2
       enemyConfigurations:
-      - minimum: 1
-        maximum: 2
+      - minimum: 0
+        maximum: 1
         characterProperties: {fileID: 11400000, guid: 530bc654984fc6b478566ee056083f8b, type: 2}
       - minimum: 1
-        maximum: 2
+        maximum: 1
         characterProperties: {fileID: 11400000, guid: 44e5b74a59991d14e972988012c4557e, type: 2}
-      - minimum: 2
-        maximum: 2
+      - minimum: 1
+        maximum: 1
         characterProperties: {fileID: 11400000, guid: 86aecc43b78f58145815657f0856ac5b, type: 2}
     probability: 1
 --- !u!4 &575512101
@@ -1446,7 +1450,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4736094180608794019, guid: 71d598481a579c2448140b70660e15c0, type: 3}
       propertyPath: checkInteraction.m_PersistentCalls.m_Calls.Array.data[1].m_MethodName
-      value: 
+      value: SpawnEnemies
       objectReference: {fileID: 0}
     - target: {fileID: 4736094180608794019, guid: 71d598481a579c2448140b70660e15c0, type: 3}
       propertyPath: rejectInteraction.m_PersistentCalls.m_Calls.Array.data[0].m_CallState

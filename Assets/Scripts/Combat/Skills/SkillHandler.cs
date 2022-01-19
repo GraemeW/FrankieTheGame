@@ -136,15 +136,34 @@ namespace Frankie.Combat
             return GetAvailableSkills(currentBranch, skillFilterType);
         }
 
+        public void GetPathSkills(SkillBranchMapping skillBranchMapping, ref List<Skill> pathSkills, SkillBranch skillBranch = null)
+        {
+            if (pathSkills == null) { return; }
+            if (!currentBranch.HasBranch(skillBranchMapping)) { return; }
+
+            if (skillBranch == null) { skillBranch = skillTree.GetSkillBranchFromID(currentBranch.GetBranch(skillBranchMapping)); }
+            pathSkills.AddRange(skillBranch.GetAllSkills());
+            foreach (SkillBranchMapping subBranchMapping in GetAvailableBranchMappings(skillBranch))
+            {
+                SkillBranch subBranch = skillTree.GetSkillBranchFromID(skillBranch.GetBranch(subBranchMapping));
+                pathSkills.AddRange(subBranch.GetAllSkills());
+                GetPathSkills(subBranchMapping, ref pathSkills, subBranch);
+            }
+        }
+
         public List<SkillBranchMapping> GetAvailableBranchMappings()
         {
             if (currentBranch == null) { ResetCurrentBranch(); }
+            return GetAvailableBranchMappings(currentBranch);
+        }
 
+        private List<SkillBranchMapping> GetAvailableBranchMappings(SkillBranch skillBranch)
+        {
             List<SkillBranchMapping> availableBranches = new List<SkillBranchMapping>();
-            if (currentBranch.HasBranch(SkillBranchMapping.up)) { availableBranches.Add(SkillBranchMapping.up); }
-            if (currentBranch.HasBranch(SkillBranchMapping.left)) { availableBranches.Add(SkillBranchMapping.left); }
-            if (currentBranch.HasBranch(SkillBranchMapping.right)) { availableBranches.Add(SkillBranchMapping.right); }
-            if (currentBranch.HasBranch(SkillBranchMapping.down)) { availableBranches.Add(SkillBranchMapping.down); }
+            if (skillBranch.HasBranch(SkillBranchMapping.up)) { availableBranches.Add(SkillBranchMapping.up); }
+            if (skillBranch.HasBranch(SkillBranchMapping.left)) { availableBranches.Add(SkillBranchMapping.left); }
+            if (skillBranch.HasBranch(SkillBranchMapping.right)) { availableBranches.Add(SkillBranchMapping.right); }
+            if (skillBranch.HasBranch(SkillBranchMapping.down)) { availableBranches.Add(SkillBranchMapping.down); }
 
             return availableBranches;
         }
