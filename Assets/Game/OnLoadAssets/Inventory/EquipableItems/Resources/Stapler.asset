@@ -1,0 +1,30 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e5a52bc8039beea4f88b438257c47f35, type: 3}
+  m_Name: Stapler
+  m_EditorClassIdentifier: 
+  itemID: d873894d-f7f9-4da8-bd25-011879603a4e
+  displayName: Stapler
+  description: Clicky clicky.  It doesn't hurt much, but it's red and pretty, good
+    for fashion.
+  droppable: 1
+  price: 35
+  equipLocation: 1
+  baseStatModifiers:
+  - stat: 5
+    minValue: 3
+    maxValue: 3
+  condition:
+    and:
+    - or:
+      - predicate: {fileID: 11400000, guid: c9e679a245b933d458515c889e883a84, type: 2}
+        negate: 0

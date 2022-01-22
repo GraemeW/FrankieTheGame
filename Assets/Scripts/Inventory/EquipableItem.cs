@@ -1,4 +1,5 @@
 using Frankie.Combat;
+using Frankie.Core;
 using Frankie.Stats;
 using System.Collections;
 using System.Collections.Generic;
@@ -12,6 +13,7 @@ namespace Frankie.Inventory
         // Config Data
         [SerializeField] EquipLocation equipLocation;
         [SerializeField] BaseStatModifier[] baseStatModifiers = null;
+        [SerializeField] Condition condition = null;
 
         public EquipLocation GetEquipLocation()
         {
@@ -34,6 +36,18 @@ namespace Frankie.Inventory
                 }
             }
             yield return value;
+        }
+
+        public bool CanUseItem(Equipment equipment)
+        {
+            return condition.Check(GetEvaluators(equipment));
+        }
+
+        private IEnumerable<IPredicateEvaluator> GetEvaluators(Equipment equipment)
+        {
+            var predicateEvaluators = equipment.GetComponentsInChildren<IPredicateEvaluator>();
+
+            return predicateEvaluators;
         }
     }
 }

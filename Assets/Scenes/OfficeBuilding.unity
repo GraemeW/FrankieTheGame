@@ -11913,6 +11913,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: VendingMachineB
       objectReference: {fileID: 0}
+    - target: {fileID: 7800942803558028165, guid: 8252584bd86ddec408582ff28d4f7db6, type: 3}
+      propertyPath: stock.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7800942803558028165, guid: 8252584bd86ddec408582ff28d4f7db6, type: 3}
+      propertyPath: stock.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: 541c313117f0c0c42bdf6216e09c2d52, type: 2}
     - target: {fileID: 9006925480361006661, guid: 8252584bd86ddec408582ff28d4f7db6, type: 3}
       propertyPath: uniqueIdentifier
       value: 6154f397-10a6-48a0-9dbe-35bdb2d60a40

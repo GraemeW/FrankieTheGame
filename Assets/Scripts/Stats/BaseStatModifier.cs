@@ -10,7 +10,5 @@ namespace Frankie.Stats
         public Stat stat;
         public float minValue;
         public float maxValue;
-        public bool permanent;
-        public float duration;
     }
 }

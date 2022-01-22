@@ -18,19 +18,22 @@ namespace Frankie.Inventory.UI
         // Cached References
         EquipmentBox equipmentBox = null;
         EquipLocation equipLocation = EquipLocation.None;
+        Equipment equipment = null;
 
         public void Setup(EquipmentBox equipmentBox, EquipLocation equipLocation, CombatParticipant selectedCharacter, List<CharacterSlide> characterSlides = null)
         {
             this.equipmentBox = equipmentBox;
             this.equipLocation = equipLocation;
+            this.equipment = selectedCharacter.GetComponent<Equipment>();
             Setup(selectedCharacter, characterSlides);
         }
 
         protected override List<ChoiceActionPair> GetChoiceActionPairs(int inventorySlot)
         {
             List<ChoiceActionPair> choiceActionPairs = new List<ChoiceActionPair>();
+            EquipableItem equipableItem = selectedKnapsack.GetItemInSlot(inventorySlot) as EquipableItem;
             // Equip
-            if (selectedKnapsack.GetItemInSlot(inventorySlot).GetType() == typeof(EquipableItem))
+            if (equipableItem != null && (equipment != null && equipableItem.CanUseItem(equipment)))
             {
                 ChoiceActionPair equipActionPair = new ChoiceActionPair(optionEquip, () => Equip(inventorySlot));
                 choiceActionPairs.Add(equipActionPair);

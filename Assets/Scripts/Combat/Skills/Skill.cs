@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
+using UnityEditor;
 using UnityEngine;
 
 namespace Frankie.Combat
@@ -109,6 +110,7 @@ namespace Frankie.Combat
             {
                 UnityEngine.Debug.Log($"Set battle action from name: {battleActionFromName}");
                 battleAction = battleActionFromName;
+                EditorUtility.SetDirty(this);
             }
         }
 

@@ -80,6 +80,7 @@ namespace Frankie.Inventory
         public bool AddEquipment(EquipableItem equipableItem, bool announceUpdate)
         {
             if (knapsack == null || !knapsack.HasItem(equipableItem)) { return false; }
+            if (!equipableItem.CanUseItem(this)) { return false; }
             EquipLocation equipLocation = equipableItem.GetEquipLocation();
 
             // Swap

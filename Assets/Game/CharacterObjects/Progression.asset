@@ -113,7 +113,7 @@ MonoBehaviour:
   - characterProperties: {fileID: 11400000, guid: bb8eacf5d6e151548ae677e3ff4d1109, type: 2}
     stats:
     - stat: 0
-      value: 160
+      value: 140
     - stat: 1
       value: 100
     - stat: 2
@@ -121,15 +121,15 @@ MonoBehaviour:
     - stat: 3
       value: 999
     - stat: 4
-      value: 26
+      value: 23
     - stat: 5
-      value: 22
+      value: 20
     - stat: 6
       value: 20
     - stat: 7
-      value: 22
-    - stat: 8
       value: 20
+    - stat: 8
+      value: 18
     - stat: 9
       value: 16
     - stat: 10
