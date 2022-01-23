@@ -14,14 +14,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemID: ed10e07a-adbf-4a2c-b083-0e6f2881de2e
   displayName: Keyboard
-  description: This one doesn't click, looks like a cheapo brand from MoreCrapPlus.ca
+  description: This one doesn't click, looks like a cheapo brand from MoreCrapPlus.ca. 
+    Only usable by Frankie.
   droppable: 1
   price: 30
   equipLocation: 1
   baseStatModifiers:
   - stat: 4
-    minValue: 2
-    maxValue: 2
+    minValue: 3
+    maxValue: 3
   condition:
     and:
     - or:

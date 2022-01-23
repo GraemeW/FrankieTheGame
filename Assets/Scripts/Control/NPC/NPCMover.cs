@@ -21,6 +21,7 @@ namespace Frankie.Control
         NPCStateHandler npcStateHandler = null;
 
         // State
+        Vector3 initialPosition = new Vector3();
         int currentWaypointIndex = 0;
         float timeSinceArrivedAtWaypoint = Mathf.Infinity;
         float timeSinceNewPatrolTarget = 0f;
@@ -35,6 +36,7 @@ namespace Frankie.Control
         protected override void Start()
         {
             base.Start();
+            initialPosition = transform.position;
             SetNextPatrolTarget();
         }
 
@@ -110,6 +112,7 @@ namespace Frankie.Control
 
         private Vector3 GetCurrentWaypoint()
         {
+            if (patrolPath == null) { return initialPosition; }
             return patrolPath.GetWaypoint(currentWaypointIndex).position;
         }
 

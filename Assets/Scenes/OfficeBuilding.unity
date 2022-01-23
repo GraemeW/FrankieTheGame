@@ -3307,7 +3307,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8456762765274448979, guid: 04f5506a3c6980342b86a87faa9be780, type: 3}
       propertyPath: willChasePlayer
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8456762765274448979, guid: 04f5506a3c6980342b86a87faa9be780, type: 3}
       propertyPath: shoutGroup.Array.size
@@ -8138,6 +8138,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e5b2dd736debcc24a83caba30bd0c03f, type: 3}
+--- !u!1 &1120515124 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 9135147353912846156, guid: e5b2dd736debcc24a83caba30bd0c03f, type: 3}
+  m_PrefabInstance: {fileID: 1120515123}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1120515125 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 6999197217183127820, guid: e5b2dd736debcc24a83caba30bd0c03f, type: 3}
@@ -8148,7 +8153,7 @@ MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 8939279221797003100, guid: e5b2dd736debcc24a83caba30bd0c03f, type: 3}
   m_PrefabInstance: {fileID: 1120515123}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
+  m_GameObject: {fileID: 1120515124}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7bd0180a3f707c1489e04d0bfa6742c9, type: 3}
@@ -8188,6 +8193,49 @@ MonoBehaviour:
         - m_Target: {fileID: 222432695}
           m_TargetAssemblyTypeName: Frankie.Combat.Spawner.EnemySpawner, Assembly-CSharp
           m_MethodName: SpawnEnemies
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+--- !u!114 &1120515128
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1120515124}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f6a9151c7c162144b94cd2a1b54e28e0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1120515129
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1120515125}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 47c843d51c92e854f95fb02bd7be9471, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  dialogueUpdateType: 2
+  triggerNode: {fileID: -1293388238197688145, guid: 7382b1a7f806c584294949ba4f8e9aa7, type: 2}
+  dialogueTriggeredEvent:
+    triggerImmediate: 0
+    onTriggerEvent:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 1120515128}
+          m_TargetAssemblyTypeName: Frankie.Quests.GameWinCondition, Assembly-CSharp
+          m_MethodName: TriggerGameWin
           m_Mode: 1
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
@@ -11915,12 +11963,24 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7800942803558028165, guid: 8252584bd86ddec408582ff28d4f7db6, type: 3}
       propertyPath: stock.Array.size
-      value: 1
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 7800942803558028165, guid: 8252584bd86ddec408582ff28d4f7db6, type: 3}
       propertyPath: stock.Array.data[0]
       value: 
+      objectReference: {fileID: 11400000, guid: 3adf66ab62b95ad47b2fd0277eedce88, type: 2}
+    - target: {fileID: 7800942803558028165, guid: 8252584bd86ddec408582ff28d4f7db6, type: 3}
+      propertyPath: stock.Array.data[1]
+      value: 
+      objectReference: {fileID: 11400000, guid: e082da1c66f0e8a4183108f66daef8b9, type: 2}
+    - target: {fileID: 7800942803558028165, guid: 8252584bd86ddec408582ff28d4f7db6, type: 3}
+      propertyPath: stock.Array.data[2]
+      value: 
       objectReference: {fileID: 11400000, guid: 541c313117f0c0c42bdf6216e09c2d52, type: 2}
+    - target: {fileID: 7800942803558028165, guid: 8252584bd86ddec408582ff28d4f7db6, type: 3}
+      propertyPath: stock.Array.data[3]
+      value: 
+      objectReference: {fileID: 11400000, guid: 49534f9b5e5cf1f41bbaf4c527d4a255, type: 2}
     - target: {fileID: 9006925480361006661, guid: 8252584bd86ddec408582ff28d4f7db6, type: 3}
       propertyPath: uniqueIdentifier
       value: 6154f397-10a6-48a0-9dbe-35bdb2d60a40

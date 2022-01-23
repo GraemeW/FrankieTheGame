@@ -15,14 +15,14 @@ MonoBehaviour:
   itemID: d873894d-f7f9-4da8-bd25-011879603a4e
   displayName: Stapler
   description: Clicky clicky.  It doesn't hurt much, but it's red and pretty, good
-    for fashion.
+    for fashion.  Only usable by Phil Too.
   droppable: 1
   price: 35
   equipLocation: 1
   baseStatModifiers:
   - stat: 5
-    minValue: 3
-    maxValue: 3
+    minValue: 4
+    maxValue: 4
   condition:
     and:
     - or:

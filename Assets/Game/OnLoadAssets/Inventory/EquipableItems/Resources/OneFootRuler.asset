@@ -14,14 +14,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemID: 83d06cb3-d2ef-4efc-a604-fa851f6e259a
   displayName: One Foot Ruler
-  description: It's exactly 12 inches and it SNAPs.
+  description: It's exactly 12 inches and it SNAPs.  Only usable by Tilly.
   droppable: 1
   price: 40
   equipLocation: 1
   baseStatModifiers:
   - stat: 4
-    minValue: 3
-    maxValue: 3
+    minValue: 4
+    maxValue: 4
   condition:
     and:
     - or:

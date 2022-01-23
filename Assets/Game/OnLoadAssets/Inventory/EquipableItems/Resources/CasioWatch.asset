@@ -10,17 +10,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e5a52bc8039beea4f88b438257c47f35, type: 3}
-  m_Name: FancyHat
+  m_Name: CasioWatch
   m_EditorClassIdentifier: 
-  itemID: 079a8a43-db4c-4475-be28-5df63192d8dc
-  displayName: Zigzag Hat
-  description: Allo?
+  itemID: bb6684e6-d732-4641-a275-3c94e9c6c66c
+  displayName: Casio Watch
+  description: This thing has seen better days.  It offers a little protection.
   droppable: 1
-  price: 35
-  equipLocation: 4
+  price: 75
+  equipLocation: 2
   baseStatModifiers:
-  - stat: 0
-    minValue: 70
-    maxValue: 70
-    permanent: 0
-    duration: 0
+  - stat: 7
+    minValue: 5
+    maxValue: 5
+  condition:
+    and: []

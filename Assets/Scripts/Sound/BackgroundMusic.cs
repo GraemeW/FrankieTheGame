@@ -138,6 +138,7 @@ namespace Frankie.Sound
             sceneLoader.zoneUpdated += ParseZoneUpdate;
 
             Zone currentZone = sceneLoader.GetCurrentZone();
+            if (currentZone == null) { return; }
             ConfigureNewWorldAudio(currentZone.GetZoneAudio(), currentZone.IsZoneAudioLooping(), true);
         }
 

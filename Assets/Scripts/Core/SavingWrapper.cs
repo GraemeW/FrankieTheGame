@@ -88,6 +88,18 @@ namespace Frankie.Core
             Fader fader = FindObjectOfType<Fader>();
             fader?.UpdateFadeStateImmediate();
         }
+
+        public static void LoadGameWinScreen()
+        {
+            DeletePlayerForSceneLoad();
+
+            SceneLoader sceneLoader = GameObject.FindGameObjectWithTag("SceneLoader")?.GetComponent<SceneLoader>();
+            if (sceneLoader == null) { return; }
+
+            sceneLoader.QueueGameWinScreen();
+            Fader fader = FindObjectOfType<Fader>();
+            fader?.UpdateFadeStateImmediate();
+        }
         #endregion
 
         #region PublicMethods
