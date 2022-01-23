@@ -8,6 +8,7 @@ namespace Frankie.Stats
         CritChance,
         PhysicalAdder,
         MagicalAdder,
-        Defense
+        Defense,
+        RunSpeed
     }
 }

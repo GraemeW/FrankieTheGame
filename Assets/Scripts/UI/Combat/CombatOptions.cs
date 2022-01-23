@@ -73,6 +73,11 @@ namespace Frankie.Combat.UI
             }
         }
 
+        protected override bool MoveCursor(PlayerInputType playerInputType)
+        {
+            return base.MoveCursor2D(playerInputType);
+        }
+
         public override bool HandleGlobalInput(PlayerInputType playerInputType)
         {
             if (!handleGlobalInput) { return true; } // Spoof:  Cannot accept input, so treat as if global input already handled

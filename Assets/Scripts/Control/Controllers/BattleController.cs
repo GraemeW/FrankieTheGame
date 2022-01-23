@@ -184,6 +184,11 @@ namespace Frankie.Combat
         public void SetBattleOutcome(BattleOutcome outcome)
         {
             this.outcome = outcome;
+
+            if (outcome == BattleOutcome.Ran)
+            {
+                DestroyTransientEnemies();
+            }
         }
 
         public bool SetSelectedCharacter(CombatParticipant character)
@@ -365,12 +370,12 @@ namespace Frankie.Combat
 
             foreach (CombatParticipant character in activeCharacters)
             {
-                partySpeed += character.GetBaseStats().GetStat(Stat.Nimble);
+                partySpeed += character.GetBaseStats().GetCalculatedStat(CalculatedStat.RunSpeed);
             }
 
             foreach (CombatParticipant enemy in activeEnemies)
             {
-                enemySpeed += enemy.GetBaseStats().GetStat(Stat.Nimble);
+                enemySpeed += enemy.GetBaseStats().GetCalculatedStat(CalculatedStat.RunSpeed);
             }
 
             if (partySpeed > enemySpeed)
@@ -575,6 +580,20 @@ namespace Frankie.Combat
                 if (battleActionData.targetCount > 0 && battleActionData.GetTargets().Contains(combatParticipant))
                 {
                     SetSelectedTarget(selectedBattleAction);
+                }
+            }
+        }
+
+        private void DestroyTransientEnemies()
+        {
+            foreach (CombatParticipant enemy in activeEnemies)
+            {
+                NPCStateHandler npcStateHandler = enemy.GetComponent<NPCStateHandler>();
+                if (npcStateHandler == null) { return; }
+
+                if (npcStateHandler.WillDestroySelfOnDeath())
+                {
+                    Destroy(npcStateHandler.gameObject);
                 }
             }
         }

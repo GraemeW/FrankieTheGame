@@ -713,6 +713,10 @@ PrefabInstance:
       propertyPath: canBeShoutedAt
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1332515001077347139, guid: b755f1c23f46b2a4fba44873acc4a9d8, type: 3}
+      propertyPath: willDestroySelfOnDeath
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5865293079716729140, guid: b755f1c23f46b2a4fba44873acc4a9d8, type: 3}
       propertyPath: uniqueIdentifier
       value: e491d0e2-3da5-4bbe-a642-f95d82b6f82f
@@ -1189,6 +1193,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6999197217183127820, guid: e5b2dd736debcc24a83caba30bd0c03f, type: 3}
       propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8939279221797003100, guid: e5b2dd736debcc24a83caba30bd0c03f, type: 3}
+      propertyPath: willDestroySelfOnDeath
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 9135147353912846156, guid: e5b2dd736debcc24a83caba30bd0c03f, type: 3}

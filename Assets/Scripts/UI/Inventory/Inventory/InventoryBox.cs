@@ -204,17 +204,7 @@ namespace Frankie.Inventory.UI
             else if (inventoryBoxState == InventoryBoxState.inKnapsack)
             {
                 // Support for 2-D movement across the inventory items
-                if (highlightedChoiceOption == null) { return false; }
-                int choiceIndex = choiceOptions.IndexOf(highlightedChoiceOption);
-
-                bool validInput = MoveCursor2D(playerInputType, ref choiceIndex);
-                if (validInput)
-                {
-                    ClearChoiceSelections();
-                    highlightedChoiceOption = choiceOptions[choiceIndex];
-                    choiceOptions[choiceIndex].Highlight(true);
-                    return true;
-                }
+                MoveCursor2D(playerInputType);
             }
             else if (inventoryBoxState == InventoryBoxState.inCharacterTargeting)
             {

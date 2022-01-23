@@ -5,7 +5,6 @@ namespace Frankie.Combat
         Undetermined,
         Won,
         Lost,
-        Ran,
-        Bargained
+        Ran
     }
 }

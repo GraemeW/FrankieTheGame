@@ -241,6 +241,11 @@ namespace Frankie.Control
             return combatParticipant;
         }
 
+        public bool WillDestroySelfOnDeath()
+        {
+            return willDestroySelfOnDeath;
+        }
+
         public bool IsShoutable()
         {
             return canBeShoutedAt;

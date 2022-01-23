@@ -222,6 +222,7 @@ namespace Frankie.Utils.UI
 
         protected virtual bool MoveCursor(PlayerInputType playerInputType)
         {
+            // Standard implementation
             if (!isChoiceAvailable || highlightedChoiceOption == null) { return false; }
 
             int choiceIndex = choiceOptions.IndexOf(highlightedChoiceOption);
@@ -255,9 +256,22 @@ namespace Frankie.Utils.UI
             return validInput;
         }
 
-        protected bool MoveCursor2D(PlayerInputType playerInputType, ref int choiceIndex)
+        protected bool MoveCursor2D(PlayerInputType playerInputType)
         {
-            return MoveCursor2D(playerInputType, ref choiceIndex, choiceOptions.Count);
+            // Standard implementation
+            if (!isChoiceAvailable || highlightedChoiceOption == null) { return false; }
+            int choiceIndex = choiceOptions.IndexOf(highlightedChoiceOption);
+
+            bool validInput = MoveCursor2D(playerInputType, ref choiceIndex, choiceOptions.Count);
+
+            if (validInput)
+            {
+                ClearChoiceSelections();
+                highlightedChoiceOption = choiceOptions[choiceIndex];
+                choiceOptions[choiceIndex].Highlight(true);
+                return true;
+            }
+            return false;
         }
 
         protected bool MoveCursor2D(PlayerInputType playerInputType, ref int choiceIndex, int optionsCount)

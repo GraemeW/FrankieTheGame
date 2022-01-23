@@ -25,6 +25,7 @@ namespace Frankie.Stats
                 CalculatedStat.PhysicalAdder => Stat.Brawn,
                 CalculatedStat.MagicalAdder => Stat.Beauty,
                 CalculatedStat.Defense => Stat.Nimble,
+                CalculatedStat.RunSpeed => Stat.Pluck,
                 _ => Stat.ExperienceReward,
             };
 
@@ -44,6 +45,7 @@ namespace Frankie.Stats
                 CalculatedStat.PhysicalAdder => GetPhysicalAdder(callerModifier),
                 CalculatedStat.MagicalAdder => GetMagicalAdder(callerModifier),
                 CalculatedStat.Defense => GetDefense(callerModifier),
+                CalculatedStat.RunSpeed => GetRunSpeed(callerModifier),
                 _ => 0f,
             };
         }
@@ -82,6 +84,11 @@ namespace Frankie.Stats
         }
 
         private static float GetDefense(float modifier)
+        {
+            return Mathf.Max(0f, modifier);
+        }
+
+        private static float GetRunSpeed(float modifier)
         {
             return Mathf.Max(0f, modifier);
         }
