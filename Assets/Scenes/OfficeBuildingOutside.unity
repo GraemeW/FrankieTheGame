@@ -276,12 +276,40 @@ PrefabInstance:
       value: Crud, {0} forgot his key card at home.
       objectReference: {fileID: 0}
     - target: {fileID: 4971948613120259957, guid: 6e662329e84c3754da3e251380722378, type: 3}
+      propertyPath: checkInteraction.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4971948613120259957, guid: 6e662329e84c3754da3e251380722378, type: 3}
       propertyPath: condition.and.Array.data[0].or.Array.data[0].predicate
       value: 
       objectReference: {fileID: 11400000, guid: 96ba814fed4a69d479e7207c49225eb2, type: 2}
+    - target: {fileID: 4971948613120259957, guid: 6e662329e84c3754da3e251380722378, type: 3}
+      propertyPath: checkInteraction.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4971948613120259957, guid: 6e662329e84c3754da3e251380722378, type: 3}
+      propertyPath: checkInteraction.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1151880785}
+    - target: {fileID: 4971948613120259957, guid: 6e662329e84c3754da3e251380722378, type: 3}
+      propertyPath: checkInteraction.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4971948613120259957, guid: 6e662329e84c3754da3e251380722378, type: 3}
+      propertyPath: checkInteraction.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: PlayClip
+      objectReference: {fileID: 0}
+    - target: {fileID: 4971948613120259957, guid: 6e662329e84c3754da3e251380722378, type: 3}
+      propertyPath: checkInteraction.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: Frankie.Sound.SoundEffects, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 4971948613120259957, guid: 6e662329e84c3754da3e251380722378, type: 3}
+      propertyPath: checkInteraction.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
     - target: {fileID: 6564381309038757640, guid: 6e662329e84c3754da3e251380722378, type: 3}
       propertyPath: m_Name
-      value: CheckWithToggleChildren
+      value: UnlockToOffice
       objectReference: {fileID: 0}
     - target: {fileID: 6564381309038757641, guid: 6e662329e84c3754da3e251380722378, type: 3}
       propertyPath: m_RootOrder
@@ -1147,6 +1175,74 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 8992167830856332425, guid: 08a309f9dd0f26f43ba6ebffa0193f57, type: 3}
   m_PrefabInstance: {fileID: 8992167829736712413}
   m_PrefabAsset: {fileID: 0}
+--- !u!1001 &1151880784
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 133979310}
+    m_Modifications:
+    - target: {fileID: 1362995245022973272, guid: 44450b80d72863a479296f86950a6735, type: 3}
+      propertyPath: m_Name
+      value: DoorUnlockSoundbox
+      objectReference: {fileID: 0}
+    - target: {fileID: 1362995245022973273, guid: 44450b80d72863a479296f86950a6735, type: 3}
+      propertyPath: m_RootOrder
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1362995245022973273, guid: 44450b80d72863a479296f86950a6735, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1362995245022973273, guid: 44450b80d72863a479296f86950a6735, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1362995245022973273, guid: 44450b80d72863a479296f86950a6735, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1362995245022973273, guid: 44450b80d72863a479296f86950a6735, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1362995245022973273, guid: 44450b80d72863a479296f86950a6735, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1362995245022973273, guid: 44450b80d72863a479296f86950a6735, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1362995245022973273, guid: 44450b80d72863a479296f86950a6735, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1362995245022973273, guid: 44450b80d72863a479296f86950a6735, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1362995245022973273, guid: 44450b80d72863a479296f86950a6735, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1362995245022973273, guid: 44450b80d72863a479296f86950a6735, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 44450b80d72863a479296f86950a6735, type: 3}
+--- !u!114 &1151880785 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1362995245022973270, guid: 44450b80d72863a479296f86950a6735, type: 3}
+  m_PrefabInstance: {fileID: 1151880784}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7d92abaff543d4a4498f7173bd00113e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!4 &1255173078 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6710720557729478046, guid: 2d07eb0f95fc25d4cae8b7e9ab5de6cc, type: 3}

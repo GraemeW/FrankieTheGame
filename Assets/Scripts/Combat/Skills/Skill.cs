@@ -105,6 +105,7 @@ namespace Frankie.Combat
 
         private void AttemptToSetBattleAction()
         {
+#if UNITY_EDITOR
             BattleAction battleActionFromName = BattleAction.GetBattleActionFromName(name);
             if (battleActionFromName != null && battleActionFromName != battleAction)
             {
@@ -112,6 +113,7 @@ namespace Frankie.Combat
                 battleAction = battleActionFromName;
                 EditorUtility.SetDirty(this);
             }
+#endif
         }
 
         void ISerializationCallbackReceiver.OnAfterDeserialize()
