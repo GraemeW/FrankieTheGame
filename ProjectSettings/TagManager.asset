@@ -55,3 +55,9 @@ TagManager:
   - name: PlayerEnemiesObjects
     uniqueID: 1098151181
     locked: 0
+  - name: BattleOverlay
+    uniqueID: 3696425301
+    locked: 0
+  - name: FaderOverlay
+    uniqueID: 3319049699
+    locked: 0

@@ -224,6 +224,15 @@ namespace Frankie.Control
             SetPlayerState(PlayerState.inDialogue);
         }
 
+        public void ExitDialogue()
+        {
+            dialogueController = null;
+            if (playerState == PlayerState.inDialogue)
+            {
+                SetPlayerState(PlayerState.inWorld);
+            }
+        }
+
         public void EnterShop(Shop shop)
         {
             if (shopper == null || shop == null) { return; }
@@ -252,15 +261,6 @@ namespace Frankie.Control
         {
             shopper.SetBankType(BankType.None);
             SetPlayerState(PlayerState.inWorld);
-        }
-
-        public void ExitDialogue()
-        {
-            dialogueController = null;
-            if (playerState == PlayerState.inDialogue)
-            {
-                SetPlayerState(PlayerState.inWorld);
-            }
         }
 
         public void EnterWorldOptions()
