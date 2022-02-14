@@ -28,7 +28,10 @@ namespace Frankie.Control
 
         public void EnterTransition(IPlayerStateContext playerStateContext)
         {
-            playerStateContext.SetPlayerState(new TransitionState()); // Force state to transition, going to get pulled to a new scene
+            if (playerStateContext.InZoneTransition())
+            {
+                playerStateContext.SetPlayerState(new TransitionState()); // Force state to transition, going to get pulled to a new scene
+            }
         }
 
         public void EnterWorld(IPlayerStateContext playerStateContext)
