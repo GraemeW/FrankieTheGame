@@ -103,7 +103,7 @@ namespace Frankie.Speech
         {
             if (globalInput == null && dialogueInput == null && dialogueUpdated == null)
             {
-                playerStateHandler.ExitDialogue();
+                playerStateHandler.EnterWorld();
                 Destroy(gameObject);
             }
         }
@@ -247,7 +247,7 @@ namespace Frankie.Speech
             currentDialogue = null;
             SetCurrentNode(null);
             triggerUIUpdates?.Invoke();
-            playerStateHandler.ExitDialogue();
+            playerStateHandler.EnterWorld();
             currentConversant = null;
 
             dialogueUpdated?.Invoke(DialogueUpdateType.DialogueComplete, null);

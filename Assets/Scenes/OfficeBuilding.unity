@@ -2666,10 +2666,6 @@ MonoBehaviour:
         maximum: 1
         characterProperties: {fileID: 11400000, guid: 44e5b74a59991d14e972988012c4557e, type: 2}
     probability: 1
-  - spawnConfiguration:
-      maxQuantity: 0
-      enemyConfigurations: []
-    probability: 1
 --- !u!114 &551020849 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 2191851057834085231, guid: bacc30e7b6274514fa44ffc73b87b908, type: 3}
@@ -15070,10 +15066,6 @@ PrefabInstance:
       propertyPath: m_Camera
       value: 
       objectReference: {fileID: 519420031}
-    - target: {fileID: 5663571710133827193, guid: 2141e92c6bc931e45a37409bd7e0ec3a, type: 3}
-      propertyPath: m_AdditionalShaderChannelsFlag
-      value: 25
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2141e92c6bc931e45a37409bd7e0ec3a, type: 3}
 --- !u!1001 &5163575221159176705

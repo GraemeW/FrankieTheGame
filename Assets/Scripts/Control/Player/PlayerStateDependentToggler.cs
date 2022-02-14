@@ -8,7 +8,7 @@ namespace Frankie.Control
     public class PlayerStateDependentToggler : MonoBehaviour
     {
         // Tunables
-        [SerializeField] [Tooltip("Default behavior is disable for all other states")] List<PlayerState> playerStateForEnable = new List<PlayerState>();
+        [SerializeField] [Tooltip("Default behavior is disable for all other states")] List<PlayerStateType> playerStateForEnable = new List<PlayerStateType>();
 
         // Cached References
         GameObject player = null;
@@ -40,7 +40,7 @@ namespace Frankie.Control
             return player?.GetComponent<PlayerStateHandler>();
         }
 
-        private void HandlePlayerStateChanged(PlayerState playerState)
+        private void HandlePlayerStateChanged(PlayerStateType playerState)
         {
             if (playerStateForEnable == null || playerStateForEnable.Count == 0) { return; }
 

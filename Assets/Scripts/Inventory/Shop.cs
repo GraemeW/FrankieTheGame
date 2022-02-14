@@ -95,7 +95,7 @@ namespace Frankie.Inventory
         }
 
         #region PrivateMethods
-        private void HandlePlayerState(PlayerState playerState)
+        private void HandlePlayerState(PlayerStateType playerState)
         {
             // Any state change implies exit shop, unsubscribe
             playerStateHandler.playerStateChanged -= HandlePlayerState;

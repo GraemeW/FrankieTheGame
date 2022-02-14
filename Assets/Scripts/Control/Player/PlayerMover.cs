@@ -15,6 +15,7 @@ namespace Frankie.Control
         [SerializeField] int playerMovementHistoryLength = 128;
 
         // State
+        bool inWorld = true;
         float inputHorizontal;
         float inputVertical;
         CircularBuffer<Tuple<Vector2, Vector2>> movementHistory;
@@ -35,15 +36,27 @@ namespace Frankie.Control
             movementHistory = new CircularBuffer<Tuple<Vector2, Vector2>>(playerMovementHistoryLength);
         }
 
+        private void OnEnable()
+        {
+            playerStateHandler.playerStateChanged += ParsePlayerStateChange;
+        }
+
+        private void OnDisable()
+        {
+            playerStateHandler.playerStateChanged -= ParsePlayerStateChange;
+        }
+
+        private void ParsePlayerStateChange(PlayerStateType playerStateType)
+        {
+            inWorld = (playerStateType == PlayerStateType.inWorld);
+        }
+
         protected override void FixedUpdate()
         {
             // TODO:  Add cutscene support (override user input)
-
-            if (playerStateHandler.GetPlayerState() == PlayerState.inWorld)
-            {
-                InteractWithMovement();
-            }
+            if (inWorld) { InteractWithMovement(); }
         }
+
         public void ParseMovement(Vector2 directionalInput)
         {
             inputHorizontal = Vector2.Dot(directionalInput, Vector2.right);

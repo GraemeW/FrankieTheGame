@@ -27,6 +27,10 @@ namespace Frankie.Control
         [SerializeField] float interactionDistance = 0.5f;
         [SerializeField] Transform interactionCenterPoint = null;
 
+        // State
+        bool allowComponentInteraction = true;
+        bool inTransition = false;
+
         // Cached References
         PlayerInput playerInput = null;
         PlayerMover playerMover = null;
@@ -101,19 +105,33 @@ namespace Frankie.Control
 
         private void OnEnable()
         {
-            playerStateHandler.playerStateChanged += ResetCursor;
+            playerStateHandler.playerStateChanged += ParsePlayerStateChange;
             playerInput.Player.Enable();
         }
 
         private void OnDisable()
         {
-            playerStateHandler.playerStateChanged -= ResetCursor;
+            playerStateHandler.playerStateChanged -= ParsePlayerStateChange;
             playerInput.Player.Disable();
         }
 
-        private void ResetCursor(PlayerState playerState)
+        private void ParsePlayerStateChange(PlayerStateType playerStateType)
         {
+            // Debug
+            //UnityEngine.Debug.Log($"Saw {Enum.GetName(typeof(PlayerStateType), playerStateType)} on PlayerController");
+            
             SetCursor(CursorType.None);
+            allowComponentInteraction = false;
+            inTransition = false;
+
+            if (playerStateType == PlayerStateType.inWorld)
+            {
+                allowComponentInteraction = true;
+            }
+            else if (playerStateType == PlayerStateType.inTransition)
+            {
+                inTransition = true;
+            }
         }
 
         private void ParseDirectionalInput(Vector2 directionalInput)
@@ -124,21 +142,16 @@ namespace Frankie.Control
 
         private void HandleUserInput(PlayerInputType playerInputType)
         {
-            if (playerStateHandler.GetPlayerState() == PlayerState.inTransition) { return; }
+            if (inTransition) { return; }
 
-            if (playerStateHandler.GetPlayerState() == PlayerState.inWorld)
+            if (InteractWithGlobals(playerInputType)) return;
+            if (allowComponentInteraction)
             {
-                if (InteractWithGlobals(playerInputType)) return;
                 if (InteractWithComponent(playerInputType)) return;
                 if (InteractWithComponentManual(playerInputType)) return;
-                if (InteractWithMenusOptions(playerInputType)) return;
-                SetCursor(CursorType.None);
             }
-            else if (playerStateHandler.GetPlayerState() == PlayerState.inMenus)
-            {
-                if (InteractWithGlobals(playerInputType)) return;
-                if (InteractWithMenusOptions(playerInputType)) return;
-            }
+            if (InteractWithMenusOptions(playerInputType)) return;
+            SetCursor(CursorType.None);
         }
 
         private void HandleMouseMovement(PlayerInputType playerInputType)
@@ -206,7 +219,7 @@ namespace Frankie.Control
                 playerStateHandler.EnterWorldOptions();
                 return true;
             }
-            else if (playerStateHandler.GetPlayerState() == PlayerState.inWorld && playerInputType == PlayerInputType.Cancel)
+            else if (playerInputType == PlayerInputType.Cancel)
             {
                 playerStateHandler.EnterEscapeMenu();
                 return true;

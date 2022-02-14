@@ -41,7 +41,7 @@ namespace Frankie.Menu.UI
 
         private void OnDestroy()
         {
-            playerStateHandler?.ExitEscapeMenu();
+            playerStateHandler?.EnterWorld();
         }
 
         public override bool HandleGlobalInput(PlayerInputType playerInputType)

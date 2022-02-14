@@ -26,13 +26,11 @@ namespace Frankie.Core
 
         private void OnEnable()
         {
-            SceneManager.sceneLoaded += UpdateReferencesForNewScene;
             playerStateHandler.playerStateChanged += HandlePlayerStateChanged;
         }
 
         private void OnDisable()
         {
-            SceneManager.sceneLoaded -= UpdateReferencesForNewScene;
             playerStateHandler.playerStateChanged -= HandlePlayerStateChanged;
         }
 
@@ -51,12 +49,7 @@ namespace Frankie.Core
             }
         }
 
-        private void UpdateReferencesForNewScene(Scene scene, LoadSceneMode loadSceneMode)
-        {
-            playerStateHandler.SetWorldCanvas();
-        }
-
-        private void HandlePlayerStateChanged(PlayerState playerState)
+        private void HandlePlayerStateChanged(PlayerStateType playerState)
         {
             // Any player scene change when party is completely wiped out -> shift to game over
             // Will naturally call on combat end during transition

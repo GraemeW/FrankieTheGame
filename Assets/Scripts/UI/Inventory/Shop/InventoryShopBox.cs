@@ -70,7 +70,7 @@ namespace Frankie.Inventory.UI
             if (walletUI != null) { Destroy(walletUI.gameObject); }
 
             HandleClientExit();
-            if (transactionType == ShopType.Sell) { playerStateHandler?.ExitShop(); }
+            if (transactionType == ShopType.Sell) { playerStateHandler?.EnterWorld(); }
         }
         #endregion
 

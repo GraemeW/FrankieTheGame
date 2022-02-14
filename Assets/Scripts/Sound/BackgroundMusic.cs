@@ -178,9 +178,9 @@ namespace Frankie.Sound
         #endregion
 
         #region MessageHandling
-        private void ParsePlayerState(PlayerState playerState)
+        private void ParsePlayerState(PlayerStateType playerState)
         {
-            if (playerState == PlayerState.inBattle)
+            if (playerState == PlayerStateType.inBattle)
             {
                 if (battleController == null) { battleController = GameObject.FindGameObjectWithTag("BattleController")?.GetComponent<BattleController>(); }
                 AudioClip audioClip = GetBattleAudioClip();
@@ -188,7 +188,7 @@ namespace Frankie.Sound
 
                 if (battleController != null) { battleController.battleStateChanged += ParseBattleState; }
             }
-            else if (isBattleMusic && playerState == PlayerState.inWorld)
+            else if (isBattleMusic && playerState == PlayerStateType.inWorld)
             {
                 StopBattleMusic();
             }

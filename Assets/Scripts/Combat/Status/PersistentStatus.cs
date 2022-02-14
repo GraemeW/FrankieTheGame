@@ -123,9 +123,9 @@ namespace Frankie.Combat
             }
         }
 
-        private void HandlePlayerState(PlayerState playerState)
+        private void HandlePlayerState(PlayerStateType playerState)
         {
-            if (playerState == PlayerState.inBattle)
+            if (playerState == PlayerStateType.inBattle)
             {
                 SyncToBattleController();
             }

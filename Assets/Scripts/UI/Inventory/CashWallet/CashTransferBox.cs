@@ -82,7 +82,7 @@ namespace Frankie.Inventory.UI
             if (walletUI != null) { Destroy(walletUI.gameObject); }
 
             HandleClientExit();
-            playerStateHandler?.ExitBank();
+            playerStateHandler?.EnterWorld();
         }
         #endregion
 

@@ -96,14 +96,14 @@ namespace Frankie.Control
 
         private void OnEnable()
         {
-            playerStateHandler.value.playerStateChanged += HandlePlayerStateChange;
+            playerStateHandler.value.playerStateChanged += ParsePlayerStateChange;
             if (combatParticipant != null) { combatParticipant.stateAltered += HandleNPCCombatStateChange; }
             ResetNPCState();
         }
 
         private void OnDisable()
         {
-            playerStateHandler.value.playerStateChanged -= HandlePlayerStateChange;
+            playerStateHandler.value.playerStateChanged -= ParsePlayerStateChange;
             if (combatParticipant != null) { combatParticipant.stateAltered -= HandleNPCCombatStateChange; }
         }
 
@@ -340,9 +340,8 @@ namespace Frankie.Control
                     enemies.Add(npcInContact.GetCombatParticipant());
                 }
 
-                bool enteredCombat = playerStateHandler.EnterCombat(enemies, transitionType);
-                if (enteredCombat) { SetNPCState(NPCState.occupied); }
-                else { SetNPCState(NPCState.idle); }
+                playerStateHandler.EnterCombat(enemies, transitionType);
+                SetNPCState(NPCState.idle);
             }
         }
 
@@ -394,29 +393,28 @@ namespace Frankie.Control
             timeSinceLastSawPlayer += Time.deltaTime;
         }
 
-        private void HandlePlayerStateChange(PlayerState playerState)
+        private void ParsePlayerStateChange(PlayerStateType playerState)
         {
             if (queueDeathOnNextPlayerStateChange)
             {
                 Destroy(gameObject);
             }
 
-            if (playerState == PlayerState.inTransition)
+            if (playerState == PlayerStateType.inTransition)
             {
-                TransitionType transitionType = playerStateHandler.value.GetTransitionType();
-                if (transitionType == TransitionType.Zone)
+                if (playerStateHandler.value.InZoneTransition())
                 {
                     SetNPCState(NPCState.occupied);
                 }
-                else if (transitionType == TransitionType.BattleComplete)
+                else if (playerStateHandler.value.InBattleExitTransition())
                 {
                     SetNPCState(NPCState.idle);
                     SetNPCState(NPCState.occupied);
                     OverrideCollisionToEnterCombat(false);
                 }
-                // Non-zone & battle-end transitions, allow enemy movement -- swarm mechanic
+                // other transitions allow enemy movement -- swarm mechanic
             }
-            else if (playerState == PlayerState.inWorld)
+            else if (playerState == PlayerStateType.inWorld)
             {
                 npcOccupied = false;
             }

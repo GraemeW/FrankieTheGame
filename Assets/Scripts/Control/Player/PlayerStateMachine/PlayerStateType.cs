@@ -1,7 +1,7 @@
 namespace Frankie.Control
 {
     [System.Serializable]
-    public enum PlayerState
+    public enum PlayerStateType
     {
         inWorld,
         inDialogue,

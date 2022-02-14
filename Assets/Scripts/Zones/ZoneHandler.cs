@@ -114,7 +114,7 @@ namespace Frankie.ZoneManagement
         {
             if (nextNode.HasSceneReference())
             {
-                currentPlayerStateHandler.SetPlayerState(PlayerState.inTransition);
+                currentPlayerStateHandler.EnterZoneTransition();
                 SetZoneHandlerToPersistOnSceneTransition();
 
                 ZoneNodePair zoneNodePair = nextNode.GetZoneReferenceNodeReferencePair();
@@ -182,7 +182,8 @@ namespace Frankie.ZoneManagement
 
         private void ExitMove()
         {
-            currentPlayerStateHandler.SetPlayerState(PlayerState.inWorld);
+            currentPlayerStateHandler.SetZoneTransitionStatus(true);
+            currentPlayerStateHandler.EnterWorld();
             if (inTransitToNextScene) { RemoveZoneHandler(); }
             SetUpCurrentReferences(null, null);
         }

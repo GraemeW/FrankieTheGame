@@ -34,7 +34,7 @@ namespace Frankie.Inventory.UI
         {
             if (exitShopOnDestroy)
             {
-                playerStateHandler?.ExitShop();
+                playerStateHandler?.EnterWorld();
             }
         }
 

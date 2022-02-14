@@ -77,7 +77,7 @@ namespace Frankie.Menu.UI
                 Destroy(childCharacterPanel.gameObject);
             }
             if (walletUI != null) { Destroy(walletUI.gameObject); }
-            playerStateHandler?.ExitWorldOptions();
+            playerStateHandler?.EnterWorld();
         }
 
         public override bool HandleGlobalInput(PlayerInputType playerInputType)
