@@ -92,13 +92,9 @@ namespace Frankie.Inventory.UI
 
         private void SetSelectedEquipment(Equipment equipment)
         {
-            if (selectedEquipment != null)
-            {
-                ListenToSelectedEquipment(false);
-            }
-
+            ListenToSelectedEquipment(false); // Remove subscription to current equipment
             selectedEquipment = equipment;
-            ListenToSelectedEquipment(true);
+            ListenToSelectedEquipment(true); // Attach subcscription to new equipment
         }
 
         private void ListenToSelectedEquipment(bool enable)

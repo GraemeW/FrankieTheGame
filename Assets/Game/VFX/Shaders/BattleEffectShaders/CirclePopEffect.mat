@@ -37,7 +37,7 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - _Phase: 203.56062
+    - _Phase: 41.00187
     - _QueueControl: 0
     - _QueueOffset: 0
     - crispness: 0.05

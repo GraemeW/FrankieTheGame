@@ -46,7 +46,6 @@ namespace Frankie.Stats.UI
         private void ChooseCharacter(CombatParticipant character)
         {
             // No actions currently available in character choice
-            // TODO:  Implement pop-up to remove character from party
         }
 
         private void SoftChooseCharacter(CombatParticipant character)

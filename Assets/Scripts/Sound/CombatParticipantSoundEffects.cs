@@ -11,7 +11,8 @@ namespace Frankie.Sound
         [SerializeField] AudioClip decreaseHPAudioClip = null;
         [SerializeField] AudioClip increaseHPAudioClip = null;
         [SerializeField] AudioClip deadAudioClip = null;
-        [SerializeField] AudioClip restoreAPClip = null;
+        [SerializeField] AudioClip decreaseAPAudioClip = null;
+        [SerializeField] AudioClip increaseAPAudioClip = null;
 
         protected override void OnEnable()
         {
@@ -27,21 +28,40 @@ namespace Frankie.Sound
 
         private void HandleCombatParticipantState(CombatParticipant combatParticipant, StateAlteredData stateAlteredData)
         {
-            if (stateAlteredData.stateAlteredType == StateAlteredType.DecreaseHP)
+            switch (stateAlteredData.stateAlteredType)
             {
-                PlayClip(decreaseHPAudioClip);
-            }
-            else if (stateAlteredData.stateAlteredType == StateAlteredType.IncreaseHP)
-            {
-                PlayClip(increaseHPAudioClip);
-            }
-            else if (stateAlteredData.stateAlteredType == StateAlteredType.Dead)
-            {
-                PlayClipAfterDestroy(deadAudioClip);
-            }
-            else if (stateAlteredData.stateAlteredType == StateAlteredType.IncreaseAP)
-            {
-                PlayClipAfterDestroy(restoreAPClip);
+                case StateAlteredType.DecreaseHP:
+                    PlayClip(decreaseHPAudioClip);
+                    break;
+                case StateAlteredType.IncreaseHP:
+                    PlayClip(increaseHPAudioClip);
+                    break;
+                case StateAlteredType.IncreaseAP:
+                    PlayClipAfterDestroy(increaseAPAudioClip);
+                    break;
+                case StateAlteredType.DecreaseAP:
+                    PlayClipAfterDestroy(decreaseAPAudioClip);
+                    break;
+                case StateAlteredType.Dead:
+                    PlayClipAfterDestroy(deadAudioClip);
+                    break;
+                case StateAlteredType.Resurrected:
+                    break;
+                case StateAlteredType.StatusEffectApplied:
+                    break;
+                case StateAlteredType.BaseStateEffectApplied:
+                    break;
+                case StateAlteredType.CooldownSet:
+                    break;
+                case StateAlteredType.CooldownExpired:
+                    break;
+                case StateAlteredType.HitMiss:
+                    break;
+                case StateAlteredType.HitCrit:
+                    break;
+                case StateAlteredType.AdjustHPNonSpecific:
+                default:
+                    break;
             }
         }
     }

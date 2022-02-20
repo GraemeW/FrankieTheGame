@@ -35,6 +35,7 @@ namespace Frankie.Control
         // Queue
         Action actionUnderConsideration = null;
         Stack<Action> queuedActions = new Stack<Action>();
+        bool readyToPopQueue = false;
         // Transition
         TransitionType transitionTypeUnderConsideration = TransitionType.None;
         TransitionType currentTransitionType = TransitionType.None;
@@ -106,6 +107,15 @@ namespace Frankie.Control
         {
             SceneManager.sceneLoaded -= UpdateReferencesForNewScene;
         }
+
+        private void Update()
+        {
+            if (readyToPopQueue)
+            {
+                readyToPopQueue = false; // Either popped queue will change state, or queue invalidated -- clear state
+                if (queuedActions.Count > 0) { queuedActions.Pop().Invoke(); }
+            }
+        }
         #endregion
 
         #region SettersGetters
@@ -119,13 +129,9 @@ namespace Frankie.Control
             currentPlayerState = playerState;
             playerStateChanged?.Invoke(TranslatePlayerState(playerState));
 
-            if (TranslatePlayerState(playerState) == PlayerStateType.inWorld)
-            { 
-                if (queuedActions.Count > 0)
-                {
-                    queuedActions.Pop().Invoke();
-                }
-            }
+            readyToPopQueue = TranslatePlayerState(playerState) == PlayerStateType.inWorld; 
+                // Pop on update to prevent same-frame multi-state change
+                // Otherwise can experience bugs with controller spawning while deconstructing conflicting w/ singleton logic
         }
 
         public Party GetParty() // TODO:  Refactor, Demeter
@@ -260,9 +266,9 @@ namespace Frankie.Control
         #endregion
 
         #region UtilityCombat
-        public bool AreCombatParticipantsValid()
+        public bool AreCombatParticipantsValid(bool announceCannotFight = false)
         {
-            if (!party.IsAnyMemberAlive()) { EnterDialogue(messageCannotFight); return false; }
+            if (!party.IsAnyMemberAlive()) { if (announceCannotFight) { EnterDialogue(messageCannotFight); } return false; }
             if (enemiesUnderConsideration.All(x => x.IsDead())) { return false; }
             return true;
         }
@@ -367,8 +373,8 @@ namespace Frankie.Control
                 {
                     dialogueController = existingDialogueController;
                 }
-
             }
+
             dialogueController.Setup(worldCanvas, this, party);
         }
 

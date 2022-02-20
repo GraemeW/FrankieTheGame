@@ -8,7 +8,7 @@ namespace Frankie.Control
     {
         public void EnterCombat(IPlayerStateContext playerStateContext)
         {
-            if (!playerStateContext.AreCombatParticipantsValid()) { return; }
+            if (!playerStateContext.AreCombatParticipantsValid(true)) { EnterWorld(playerStateContext); return; }
 
             playerStateContext.SetupBattleController();
             playerStateContext.AddEnemiesUnderConsideration();

@@ -78,7 +78,6 @@ namespace Frankie.Speech.UI
                 dialogueController.dialogueInput += HandleDialogueInput;
                 dialogueController.triggerUIUpdates += UpdateUI;
             }
-
         }
 
         protected override void OnDisable()

@@ -76,6 +76,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 8300000, guid: 53c67036055c9e54f8828a42e04ff834, type: 3}
     - target: {fileID: 2748663006084487090, guid: c08399674dab63349bf5a2c9c8ebbcaa, type: 3}
+      propertyPath: increaseAPAudioClip
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 2748663006084487090, guid: c08399674dab63349bf5a2c9c8ebbcaa, type: 3}
       propertyPath: increaseHPAudioClip
       value: 
       objectReference: {fileID: 8300000, guid: 7ef01fe75b0130440aa021964d4319b1, type: 3}
@@ -141,11 +145,6 @@ PrefabInstance:
 --- !u!1 &2088815242785209472 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 6761616658632847994, guid: 1b473d8838e3d4d4c99f7ff6e30d07df, type: 3}
-  m_PrefabInstance: {fileID: 4695812830112157434}
-  m_PrefabAsset: {fileID: 0}
---- !u!4 &2088815242785209475 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 6761616658632847993, guid: 1b473d8838e3d4d4c99f7ff6e30d07df, type: 3}
   m_PrefabInstance: {fileID: 4695812830112157434}
   m_PrefabAsset: {fileID: 0}
 --- !u!114 &-6302713147965282841
@@ -214,3 +213,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   probabilityToTraverseSkillTree: 0.8
+--- !u!4 &2088815242785209475 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 6761616658632847993, guid: 1b473d8838e3d4d4c99f7ff6e30d07df, type: 3}
+  m_PrefabInstance: {fileID: 4695812830112157434}
+  m_PrefabAsset: {fileID: 0}

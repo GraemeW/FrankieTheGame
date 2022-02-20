@@ -20,7 +20,7 @@ namespace Frankie.Control
         public bool InBattleExitTransition();
 
         // Combat
-        public bool AreCombatParticipantsValid();
+        public bool AreCombatParticipantsValid(bool announceCannotFight = false);
         public void AddEnemiesUnderConsideration();
         public void SetupBattleController();
         public bool StartBattleSequence();

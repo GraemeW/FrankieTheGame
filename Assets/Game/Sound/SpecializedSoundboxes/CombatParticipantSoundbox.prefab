@@ -28,6 +28,7 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -145,4 +146,5 @@ MonoBehaviour:
   decreaseHPAudioClip: {fileID: 8300000, guid: 7c690c297ba6d41469d44641881ade57, type: 3}
   increaseHPAudioClip: {fileID: 8300000, guid: 9c0816a4cf725f14f9ac8fe2f4c88763, type: 3}
   deadAudioClip: {fileID: 8300000, guid: ab7a08f6a1e7fd847937db88d0e8725d, type: 3}
-  restoreAPClip: {fileID: 8300000, guid: c7786d59d6f7962409c787cd070fdb9c, type: 3}
+  decreaseAPAudioClip: {fileID: 8300000, guid: 3ea66109112427a47b1b2a8d4f15c7aa, type: 3}
+  increaseAPAudioClip: {fileID: 8300000, guid: c7786d59d6f7962409c787cd070fdb9c, type: 3}

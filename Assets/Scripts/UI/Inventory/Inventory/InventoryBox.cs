@@ -346,9 +346,9 @@ namespace Frankie.Inventory.UI
 
         private void SetSelectedKnapsack(Knapsack knapsack)
         {
-            ListenToKnapsack(false);
+            ListenToKnapsack(false); // Remove subscription to current knapsack
             selectedKnapsack = knapsack;
-            ListenToKnapsack(true);
+            ListenToKnapsack(true); // Attach subcscription to new knapsack
         }
 
         protected virtual void ListenToKnapsack(bool enable)
