@@ -27,6 +27,8 @@ namespace Frankie.Speech
         List<ChoiceActionPair> simpleChoices = new List<ChoiceActionPair>();
         InteractionEvent onDestroyCallbackActions = null;
 
+        bool dialogueComplete = false;
+
         // Cached References
         PlayerInput playerInput = null;
         WorldCanvas worldCanvas = null;
@@ -103,7 +105,8 @@ namespace Frankie.Speech
         {
             if (globalInput == null && dialogueInput == null && dialogueUpdated == null)
             {
-                playerStateHandler.EnterWorld();
+                if (!dialogueComplete) { playerStateHandler.EnterWorld(); } 
+                    // Special handling for case of controller existence, no listeners, but dialogue not complete -- force exit into world
                 Destroy(gameObject);
             }
         }
@@ -249,6 +252,7 @@ namespace Frankie.Speech
             triggerUIUpdates?.Invoke();
             playerStateHandler.EnterWorld();
             currentConversant = null;
+            dialogueComplete = true;
 
             dialogueUpdated?.Invoke(DialogueUpdateType.DialogueComplete, null);
         }

@@ -80,7 +80,7 @@ namespace Frankie.Menu.UI
             DialogueOptionBox dialogueOptionBox = Instantiate(dialogueOptionBoxPrefab, transform.parent);
             dialogueOptionBox.Setup(messageGameSelectOptionText);
             List<ChoiceActionPair> choiceActionPairs = new List<ChoiceActionPair>();
-            choiceActionPairs.Add(new ChoiceActionPair(optionLoadGameText, () => savingWrapper.value.Load(saveName)));
+            choiceActionPairs.Add(new ChoiceActionPair(optionLoadGameText, () => savingWrapper.value.LoadGame(saveName)));
             choiceActionPairs.Add(new ChoiceActionPair(optionDeleteGameText, () => { SpawnConfirmDeletionOptions(saveName); Destroy(dialogueOptionBox.gameObject); }));
 
             dialogueOptionBox.OverrideChoiceOptions(choiceActionPairs);

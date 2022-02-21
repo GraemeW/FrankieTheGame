@@ -123,6 +123,7 @@ namespace Frankie.Core
         public void NewGame(string saveName)
         {
             DeletePlayerForSceneLoad();
+            Delete(sessionFile); // Clear session before load - avoid conflict w/ save system
 
             SetCurrentSave(saveName);
             SceneLoader sceneLoader = GameObject.FindGameObjectWithTag("SceneLoader")?.GetComponent<SceneLoader>();
@@ -131,16 +132,16 @@ namespace Frankie.Core
             sceneLoader.QueueNewGame();
         }
 
+        public void LoadGame(string saveName)
+        {
+            Delete(sessionFile); // Clear session before load - avoid conflict w/ save system
+            SetCurrentSave(saveName);
+            Continue();
+        }
 
         public void LoadSession()
         {
             GetComponent<SavingSystem>().LoadWithinScene(sessionFile);
-        }
-
-        public void Load(string saveName)
-        {
-            SetCurrentSave(saveName);
-            Continue();
         }
 
         public void Continue()

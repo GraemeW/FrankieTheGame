@@ -126,6 +126,8 @@ namespace Frankie.Control
 
         void IPlayerStateContext.SetPlayerState(IPlayerState playerState)
         {
+            UnityEngine.Debug.Log($"Updating player state to: {Enum.GetName(typeof(PlayerStateType), TranslatePlayerState(playerState))}");
+
             currentPlayerState = playerState;
             playerStateChanged?.Invoke(TranslatePlayerState(playerState));
 

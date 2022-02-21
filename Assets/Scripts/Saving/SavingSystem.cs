@@ -115,8 +115,6 @@ namespace Frankie.Saving
             state[SAVE_LAST_SCENE_BUILD_INDEX] = SceneManager.GetActiveScene().name;
         }
 
-
-
         private void RestoreState(Dictionary<string, object> state)
         {
             // First Pass -- Object instantiation
