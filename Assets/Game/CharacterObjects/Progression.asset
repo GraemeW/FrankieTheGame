@@ -257,7 +257,7 @@ MonoBehaviour:
   - characterProperties: {fileID: 11400000, guid: 530bc654984fc6b478566ee056083f8b, type: 2}
     stats:
     - stat: 0
-      value: 20
+      value: 12
     - stat: 1
       value: 15
     - stat: 2
@@ -281,7 +281,7 @@ MonoBehaviour:
   - characterProperties: {fileID: 11400000, guid: 44e5b74a59991d14e972988012c4557e, type: 2}
     stats:
     - stat: 0
-      value: 20
+      value: 14
     - stat: 1
       value: 15
     - stat: 2

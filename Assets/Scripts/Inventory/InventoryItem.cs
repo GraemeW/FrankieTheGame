@@ -1,11 +1,14 @@
+using Frankie.Core;
 using System.Collections;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using UnityEngine;
+using UnityEngine.AddressableAssets;
+using UnityEngine.ResourceManagement.AsyncOperations;
 
 namespace Frankie.Inventory
 {
-    public abstract class InventoryItem : ScriptableObject, ISerializationCallbackReceiver
+    public abstract class InventoryItem : ScriptableObject, ISerializationCallbackReceiver, IAddressablesCache
     {
         // Config Data
         [Tooltip("Auto-generated UUID for saving/loading -- clear to generate new, write to generate fixed")]
@@ -18,30 +21,50 @@ namespace Frankie.Inventory
         [SerializeField] [Min(0)] int price = 0;
 
         // State
+        static AsyncOperationHandle<IList<InventoryItem>> addressablesLoadHandle;
         static Dictionary<string, InventoryItem> itemLookupCache;
 
+        #region AddressablesCaching
         public static InventoryItem GetFromID(string itemID)
         {
-            if (itemLookupCache == null)
-            {
-                itemLookupCache = new Dictionary<string, InventoryItem>();
-                var itemList = Resources.LoadAll<InventoryItem>("");
-                foreach (var item in itemList)
-                {
-                    if (itemLookupCache.ContainsKey(item.itemID))
-                    {
-                        Debug.LogError(string.Format("Looks like there's a duplicate ID for objects: {0} and {1}", itemLookupCache[item.itemID], item));
-                        continue;
-                    }
+            if (string.IsNullOrWhiteSpace(itemID)) { return null; }
 
-                    itemLookupCache[item.itemID] = item;
-                }
-            }
-
+            BuildCacheIfEmpty();
             if (itemID == null || !itemLookupCache.ContainsKey(itemID)) return null;
             return itemLookupCache[itemID];
         }
 
+        public static void BuildCacheIfEmpty()
+        {
+            if (itemLookupCache == null)
+            {
+                BuildInventoryItemCache();
+            }
+        }
+
+        private static void BuildInventoryItemCache()
+        {
+            itemLookupCache = new Dictionary<string, InventoryItem>();
+            addressablesLoadHandle = Addressables.LoadAssetsAsync(typeof(InventoryItem).Name, (InventoryItem item) =>
+            {
+                if (itemLookupCache.ContainsKey(item.itemID))
+                {
+                    Debug.LogError(string.Format("Looks like there's a duplicate ID for objects: {0} and {1}", itemLookupCache[item.itemID], item));
+                }
+
+                itemLookupCache[item.itemID] = item;
+            }
+            );
+            addressablesLoadHandle.WaitForCompletion();
+        }
+
+        public static void ReleaseCache()
+        {
+            Addressables.Release(addressablesLoadHandle);
+        }
+        #endregion
+
+        #region PublicMethods
         public static string GetItemNamePretty(string itemName)
         {
             return Regex.Replace(itemName, "([a-z])_?([A-Z])", "$1 $2");
@@ -71,7 +94,9 @@ namespace Frankie.Inventory
         {
             return price;
         }
+        #endregion
 
+        #region UnityMethods
         void ISerializationCallbackReceiver.OnBeforeSerialize()
         {
             // Generate and save a new UUID if this is blank
@@ -85,5 +110,6 @@ namespace Frankie.Inventory
         {
             // Unused, required for interface
         }
+        #endregion
     }
 }

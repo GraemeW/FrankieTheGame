@@ -1,11 +1,14 @@
+using Frankie.Core;
 using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.AddressableAssets;
+using UnityEngine.ResourceManagement.AsyncOperations;
 
 namespace Frankie.ZoneManagement
 {
     [CreateAssetMenu(fileName = "New Zone", menuName = "Zone/New Zone")]
-    public class Zone : ScriptableObject, ISerializationCallbackReceiver
+    public class Zone : ScriptableObject, ISerializationCallbackReceiver, IAddressablesCache
     {
         // Tunables
         [Header("Editor Settings")]
@@ -21,9 +24,63 @@ namespace Frankie.ZoneManagement
         // State
         [HideInInspector] [SerializeField] List<ZoneNode> zoneNodes = new List<ZoneNode>();
         [HideInInspector] [SerializeField] Dictionary<string, ZoneNode> nodeLookup = new Dictionary<string, ZoneNode>();
+
+        static AsyncOperationHandle<IList<Zone>> addressablesLoadHandle;
         static Dictionary<string, Zone> zoneLookupCache;
         static Dictionary<string, Zone> sceneReferenceCache;
 
+        #region AddressablesCaching
+        public static Zone GetFromName(string zoneName)
+        {
+            if (string.IsNullOrWhiteSpace(zoneName)) { return null; }
+
+            BuildCacheIfEmpty();
+            if (zoneName == null || !zoneLookupCache.ContainsKey(zoneName)) return null;
+            return zoneLookupCache[zoneName];
+        }
+
+        public static Zone GetFromSceneReference(string sceneReference)
+        {
+            if (string.IsNullOrWhiteSpace(sceneReference)) { return null; }
+
+            BuildCacheIfEmpty();
+            if (sceneReference == null || !sceneReferenceCache.ContainsKey(sceneReference)) return null;
+            return sceneReferenceCache[sceneReference];
+        }
+
+        public static void BuildCacheIfEmpty()
+        {
+            if (sceneReferenceCache == null)
+            {
+                BuildZoneCache();
+            }
+        }
+
+        private static void BuildZoneCache()
+        {
+            zoneLookupCache = new Dictionary<string, Zone>();
+            sceneReferenceCache = new Dictionary<string, Zone>();
+            addressablesLoadHandle = Addressables.LoadAssetsAsync(typeof(Zone).Name, (Zone zone) =>
+            {
+                if (zoneLookupCache.ContainsKey(zone.name) || sceneReferenceCache.ContainsKey(zone.GetSceneReference().SceneName))
+                {
+                    Debug.LogError(string.Format("Looks like there's a duplicate ID for objects: {0} and {1}", zoneLookupCache[zone.name], zone));
+                }
+
+                zoneLookupCache[zone.name] = zone;
+                sceneReferenceCache[zone.GetSceneReference().SceneName] = zone;
+            }
+            );
+            addressablesLoadHandle.WaitForCompletion();
+        }
+
+        public static void ReleaseCache()
+        {
+            Addressables.Release(addressablesLoadHandle);
+        }
+        #endregion
+
+        #region UnityMethods
         private void Awake()
         {
 #if UNITY_EDITOR
@@ -39,47 +96,9 @@ namespace Frankie.ZoneManagement
                 nodeLookup.Add(zoneNode.name, zoneNode);
             }
         }
+        #endregion
 
-        public static Zone GetFromName(string zoneName)
-        {
-            if (zoneLookupCache == null)
-            {
-                BuildCaches();
-            }
-
-            if (zoneName == null || !zoneLookupCache.ContainsKey(zoneName)) return null;
-            return zoneLookupCache[zoneName];
-        }
-
-        public static Zone GetFromSceneReference(string sceneReference)
-        {
-            if (sceneReferenceCache == null)
-            {
-                BuildCaches();
-            }
-
-            if (sceneReference == null || !sceneReferenceCache.ContainsKey(sceneReference)) return null;
-            return sceneReferenceCache[sceneReference];
-        }
-
-        private static void BuildCaches()
-        {
-            zoneLookupCache = new Dictionary<string, Zone>();
-            sceneReferenceCache = new Dictionary<string, Zone>();
-            Zone[] zoneList = Resources.LoadAll<Zone>("");
-            foreach (Zone zone in zoneList)
-            {
-                if (zoneLookupCache.ContainsKey(zone.name) || sceneReferenceCache.ContainsKey(zone.GetSceneReference().SceneName))
-                {
-                    Debug.LogError(string.Format("Looks like there's a duplicate ID for objects: {0} and {1}", zoneLookupCache[zone.name], zone));
-                    continue;
-                }
-
-                zoneLookupCache[zone.name] = zone;
-                sceneReferenceCache[zone.GetSceneReference().SceneName] = zone;
-            }
-        }
-
+        #region PublicMethods
         public SceneReference GetSceneReference()
         {
             return sceneReference;
@@ -144,8 +163,10 @@ namespace Frankie.ZoneManagement
         {
             return updateMap;
         }
+        #endregion
 
-        // Dialogue editing functionality
+
+        #region EditorMethods
 #if UNITY_EDITOR
         private ZoneNode CreateNode()
         {
@@ -234,6 +255,7 @@ namespace Frankie.ZoneManagement
             OnValidate();
         }
 #endif
+        #endregion
 
         #region Interfaces
         void ISerializationCallbackReceiver.OnBeforeSerialize() 

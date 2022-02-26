@@ -1,13 +1,15 @@
-using Frankie.Inventory;
+using Frankie.Core;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.AddressableAssets;
+using UnityEngine.ResourceManagement.AsyncOperations;
 
 namespace Frankie.Quests
 {
     [CreateAssetMenu(fileName = "Quest", menuName = "Quests/New Quest")]
-    public class Quest : ScriptableObject, ISerializationCallbackReceiver
+    public class Quest : ScriptableObject, ISerializationCallbackReceiver, IAddressablesCache
     {
         // Tunables
         [Tooltip("Auto-generated UUID for saving/loading. Clear this field if you want to generate a new one.")]
@@ -17,31 +19,50 @@ namespace Frankie.Quests
         [SerializeField] List<Reward> rewards = new List<Reward>();
 
         // State
+        static AsyncOperationHandle<IList<Quest>> addressablesLoadHandle;
         static Dictionary<string, Quest> questLookupCache;
 
-        // Methods
+        #region AddressablesCaching
         public static Quest GetFromID(string uniqueID)
         {
-            if (questLookupCache == null)
-            {
-                questLookupCache = new Dictionary<string, Quest>();
-                var itemList = Resources.LoadAll<Quest>("");
-                foreach (var item in itemList)
-                {
-                    if (questLookupCache.ContainsKey(item.uniqueID))
-                    {
-                        Debug.LogError(string.Format("Looks like there's a duplicate ID for objects: {0} and {1}", questLookupCache[item.uniqueID], item));
-                        continue;
-                    }
+            if (string.IsNullOrWhiteSpace(uniqueID)) { return null; }
 
-                    questLookupCache[item.uniqueID] = item;
-                }
-            }
-
+            BuildCacheIfEmpty();
             if (uniqueID == null || !questLookupCache.ContainsKey(uniqueID)) return null;
             return questLookupCache[uniqueID];
         }
 
+        public static void BuildCacheIfEmpty()
+        {
+            if (questLookupCache == null)
+            {
+                BuildQuestCache();
+            }
+        }
+
+        private static void BuildQuestCache()
+        {
+            questLookupCache = new Dictionary<string, Quest>();
+            addressablesLoadHandle = Addressables.LoadAssetsAsync(typeof(Quest).Name, (Quest quest) =>
+            {
+                if (questLookupCache.ContainsKey(quest.uniqueID))
+                {
+                    Debug.LogError(string.Format("Looks like there's a duplicate ID for objects: {0} and {1}", questLookupCache[quest.uniqueID], quest));
+                }
+
+                questLookupCache[quest.uniqueID] = quest;
+            }
+            );
+            addressablesLoadHandle.WaitForCompletion();
+        }
+
+        public static void ReleaseCache()
+        {
+            Addressables.Release(addressablesLoadHandle);
+        }
+        #endregion
+
+        #region PublicMethods
         public string GetUniqueID()
         {
             return uniqueID;
@@ -76,8 +97,9 @@ namespace Frankie.Quests
         {
             return rewards;
         }
+        #endregion
 
-        // Private
+        #region UnityMethods
         void ISerializationCallbackReceiver.OnAfterDeserialize()
         {
             if (string.IsNullOrWhiteSpace(uniqueID))
@@ -89,5 +111,6 @@ namespace Frankie.Quests
         void ISerializationCallbackReceiver.OnBeforeSerialize()
         {
         }
+        #endregion
     }
 }

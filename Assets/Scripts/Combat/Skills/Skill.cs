@@ -1,14 +1,17 @@
+using Frankie.Core;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.AddressableAssets;
+using UnityEngine.ResourceManagement.AsyncOperations;
 
 namespace Frankie.Combat
 {
     [CreateAssetMenu(fileName = "New Skill", menuName = "Skills/New Skill")]
-    public class Skill : ScriptableObject, IBattleActionUser, ISerializationCallbackReceiver
+    public class Skill : ScriptableObject, IBattleActionUser, IAddressablesCache
     {
         // Tunables
         [SerializeField] SkillStat stat = default;
@@ -16,44 +19,55 @@ namespace Frankie.Combat
         [SerializeField] string detail = "";
 
         // State
+        static AsyncOperationHandle<IList<Skill>> addressablesLoadHandle;
         static Dictionary<string, Skill> skillLookupCache;
 
-        #region SkillToNameCaching
+        #region AddressablesCaching
         public static Skill GetSkillFromName(string name)
         {
             if (string.IsNullOrWhiteSpace(name)) { return null; }
 
-            if (skillLookupCache == null)
-            {
-                BuildSkillCache();
-            }
+            BuildCacheIfEmpty();
             if (name == null || !skillLookupCache.ContainsKey(name)) return null;
             return skillLookupCache[name];
         }
 
-        public static string GetSkillNamePretty(string name)
+        public static void BuildCacheIfEmpty()
         {
-            return Regex.Replace(name, "([a-z])_?([A-Z])", "$1 $2");
+            if (skillLookupCache == null)
+            {
+                BuildSkillCache();
+            }
         }
 
         private static void BuildSkillCache()
         {
             skillLookupCache = new Dictionary<string, Skill>();
-            Skill[] skillList = Resources.LoadAll<Skill>("");
-            foreach (Skill skill in skillList)
+            addressablesLoadHandle = Addressables.LoadAssetsAsync(typeof(Skill).Name, (Skill skill) =>
             {
                 if (skillLookupCache.ContainsKey(skill.name))
                 {
                     Debug.LogError(string.Format("Looks like there's a duplicate ID for objects: {0} and {1}", skillLookupCache[skill.name], skill));
-                    continue;
                 }
 
                 skillLookupCache[skill.name] = skill;
             }
+            );
+            addressablesLoadHandle.WaitForCompletion();
+        }
+
+        public static void ReleaseCache()
+        {
+            Addressables.Release(addressablesLoadHandle);
         }
         #endregion
 
         #region PublicMethods
+        public static string GetSkillNamePretty(string name)
+        {
+            return Regex.Replace(name, "([a-z])_?([A-Z])", "$1 $2");
+        }
+
         public SkillStat GetStat()
         {
             return stat;
@@ -91,34 +105,6 @@ namespace Frankie.Combat
         {
             if (battleAction == null) { return 0f; }
             return battleAction.GetAPCost();
-        }
-        #endregion
-
-        #region SerializationInterface
-        void ISerializationCallbackReceiver.OnBeforeSerialize()
-        {
-#if UNITY_EDITOR
-            BuildSkillCache(); // Force reload of skill cache to populate skill look-up in editor
-            AttemptToSetBattleAction();
-#endif
-        }
-
-        private void AttemptToSetBattleAction()
-        {
-#if UNITY_EDITOR
-            BattleAction battleActionFromName = BattleAction.GetBattleActionFromName(name);
-            if (battleActionFromName != null && battleActionFromName != battleAction)
-            {
-                UnityEngine.Debug.Log($"Set battle action from name: {battleActionFromName}");
-                battleAction = battleActionFromName;
-                EditorUtility.SetDirty(this);
-            }
-#endif
-        }
-
-        void ISerializationCallbackReceiver.OnAfterDeserialize()
-        {
-            // Unused, required for interface
         }
         #endregion
     }

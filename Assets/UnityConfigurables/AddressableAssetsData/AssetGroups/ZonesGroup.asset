@@ -1,0 +1,65 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bbb281ee3bf0b054c82ac2347e9e782c, type: 3}
+  m_Name: ZonesGroup
+  m_EditorClassIdentifier: 
+  m_GroupName: ZonesGroup
+  m_Data:
+    m_SerializedData: []
+  m_GUID: 6bb3d0395712c784fb09116a01e1e03b
+  m_SerializeEntries:
+  - m_GUID: 926f3a267d474dd4f8b730a4c5a85e53
+    m_Address: SplashScreen
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Zone
+  - m_GUID: 529f7c5a0d799b24680ec79ef928a637
+    m_Address: StartScreen
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Zone
+  - m_GUID: 131a324e3cb2b7142b27461e5f3c19be
+    m_Address: GameOverScreen
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Zone
+  - m_GUID: 9117597ef565b8a45ba6a616041a33fa
+    m_Address: GameWinScreen
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Zone
+  - m_GUID: 5a0924c0ea437e84497c373520a361f8
+    m_Address: OfficeBuildingOutside
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Zone
+  - m_GUID: 4cefccbbdefab574180b39e93ea48243
+    m_Address: OfficeBuilding
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Zone
+  - m_GUID: 4742afef1319b6e41b7fe953e2225f42
+    m_Address: PortaBank
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Zone
+  - m_GUID: e095fc1e6daa73b45b05db0945cc8e35
+    m_Address: zz_TEST_BattleRoyale
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Zone
+  m_ReadOnly: 0
+  m_Settings: {fileID: 11400000, guid: 486580c8fbd153c4dac30d33c738074e, type: 2}
+  m_SchemaSet:
+    m_Schemas:
+    - {fileID: 11400000, guid: ab7e52a96739f934ba0a3897129142e3, type: 2}
+    - {fileID: 11400000, guid: 49525319f2328c0409608af13466a21b, type: 2}

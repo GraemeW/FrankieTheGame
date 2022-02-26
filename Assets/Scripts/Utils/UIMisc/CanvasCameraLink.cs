@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 namespace Frankie.Utils
 {
@@ -25,7 +26,22 @@ namespace Frankie.Utils
         private void OnEnable()
         {
             if (canvas == null) { GetComponent<Canvas>(); }
+            SceneManager.activeSceneChanged += SetupCamera;
+            SetupCamera();
+        }
 
+        private void OnDisable()
+        {
+            SceneManager.activeSceneChanged -= SetupCamera;
+        }
+
+        private void SetupCamera(Scene lastScene, Scene newScene)
+        {
+            SetupCamera();
+        }
+
+        private void SetupCamera()
+        {
             if (canvas != null)
             {
                 canvas.worldCamera = Camera.main;
@@ -40,7 +56,6 @@ namespace Frankie.Utils
                     default:
                         break;
                 }
-
             }
         }
     }

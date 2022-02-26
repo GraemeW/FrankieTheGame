@@ -1,0 +1,105 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bbb281ee3bf0b054c82ac2347e9e782c, type: 3}
+  m_Name: SkillsGroup
+  m_EditorClassIdentifier: 
+  m_GroupName: SkillsGroup
+  m_Data:
+    m_SerializedData: []
+  m_GUID: 06648db73aef2804ea697d3fe20d5da3
+  m_SerializeEntries:
+  - m_GUID: a0f6012485c92c1438ec344c31a0ab04
+    m_Address: InstillSelfDoubt
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Skill
+  - m_GUID: cbcf1711791a40d418bcc090b7e1b14b
+    m_Address: SpillFancyCoffee
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Skill
+  - m_GUID: 153ba8013e2c4dc498fa15c8ca407a8c
+    m_Address: LoudlyProclaim
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Skill
+  - m_GUID: 0194d83940d2ddc4090f3482b268eb71
+    m_Address: IgnoreYou
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Skill
+  - m_GUID: a1b6e3414e6e3564db4aef11827cccdb
+    m_Address: ShootTheShit
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Skill
+  - m_GUID: 926d251ae8c26b6418cf409188937e78
+    m_Address: RequestETC
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Skill
+  - m_GUID: d768b2b80bf1c204ea286505dfb3a888
+    m_Address: Trample
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Skill
+  - m_GUID: b57c50b2e92c64b429216182d9f4a010
+    m_Address: ShowOffCode
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Skill
+  - m_GUID: 5ca75b9f9b2aff44c82f07cd94607fa6
+    m_Address: WordsOfEncouragement
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Skill
+  - m_GUID: e621531c5630277469d7d8090e776c71
+    m_Address: SmileMenacingly
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Skill
+  - m_GUID: dd6b79a0d7c44e545bf7f1954166ad77
+    m_Address: Neigh
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Skill
+  - m_GUID: 36994d605b6503d4c88f0ae9ef182d37
+    m_Address: DoActualWork
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Skill
+  - m_GUID: 8adfe7385e5b5de438603df8d556958c
+    m_Address: PresentDashboard
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Skill
+  - m_GUID: fd595dcd7762e034b8e2e09a062b8b42
+    m_Address: AskForHelp
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Skill
+  - m_GUID: 8f622d3f396b7474caf05b9f80296f34
+    m_Address: Whinny
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Skill
+  - m_GUID: ece04682c7e3ef8469bc349a8198a0af
+    m_Address: BlatherOn
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Skill
+  m_ReadOnly: 0
+  m_Settings: {fileID: 11400000, guid: 486580c8fbd153c4dac30d33c738074e, type: 2}
+  m_SchemaSet:
+    m_Schemas:
+    - {fileID: 11400000, guid: 59e9776aa42e9c540a3348b0e3c8ea6c, type: 2}
+    - {fileID: 11400000, guid: aaff36652705aed4abc0e319c2e815b4, type: 2}

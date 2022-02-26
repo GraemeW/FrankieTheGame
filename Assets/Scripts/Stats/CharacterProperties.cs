@@ -1,12 +1,15 @@
+using Frankie.Core;
 using System.Collections;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using UnityEngine;
+using UnityEngine.AddressableAssets;
+using UnityEngine.ResourceManagement.AsyncOperations;
 
 namespace Frankie.Stats
 {
     [CreateAssetMenu(fileName = "New Character", menuName = "Characters/New Character")]
-    public class CharacterProperties : ScriptableObject
+    public class CharacterProperties : ScriptableObject, IAddressablesCache
     {
         // Properties
         public GameObject characterPrefab = null;
@@ -23,42 +26,56 @@ namespace Frankie.Stats
         }
 
         // State
+        static AsyncOperationHandle<IList<CharacterProperties>> addressablesLoadHandle;
         static Dictionary<string, CharacterProperties> characterLookupCache;
 
+        #region AddressablesCaching
         public static CharacterProperties GetCharacterPropertiesFromName(string name)
         {
             if (string.IsNullOrWhiteSpace(name)) { return null; }
 
-            GenerateCharacterPropertiesLookupCache();
-            if (name == null || !characterLookupCache.ContainsKey(name)) return null;
+            BuildCacheIfEmpty();
+            if (!characterLookupCache.ContainsKey(name)) return null;
             return characterLookupCache[name];
         }
 
-        static Dictionary<string, CharacterProperties> GetCharacterPropertiesLookup()
+        public static Dictionary<string, CharacterProperties> GetCharacterPropertiesLookup()
         {
-            GenerateCharacterPropertiesLookupCache();
+            BuildCacheIfEmpty();
             return characterLookupCache;
         }
 
-        static void GenerateCharacterPropertiesLookupCache()
+        public static void BuildCacheIfEmpty()
         {
             if (characterLookupCache == null)
             {
-                characterLookupCache = new Dictionary<string, CharacterProperties>();
-                CharacterProperties[] characterList = Resources.LoadAll<CharacterProperties>("");
-                foreach (CharacterProperties characterProperties in characterList)
-                {
-                    if (characterLookupCache.ContainsKey(characterProperties.name))
-                    {
-                        Debug.LogError(string.Format("Looks like there's a duplicate ID for objects: {0} and {1}", characterLookupCache[characterProperties.name], characterProperties));
-                        continue;
-                    }
-
-                    characterLookupCache[characterProperties.name] = characterProperties;
-                }
+                BuildCharacterPropertiesCache();
             }
         }
 
+        private static void BuildCharacterPropertiesCache()
+        {
+            characterLookupCache = new Dictionary<string, CharacterProperties>();
+            addressablesLoadHandle = Addressables.LoadAssetsAsync(typeof(CharacterProperties).Name, (CharacterProperties characterProperties) =>
+            {
+                if (characterLookupCache.ContainsKey(characterProperties.name))
+                {
+                    Debug.LogError(string.Format("Looks like there's a duplicate ID for objects: {0} and {1}", characterLookupCache[characterProperties.name], characterProperties));
+                }
+
+                characterLookupCache[characterProperties.name] = characterProperties;
+            }
+            );
+            addressablesLoadHandle.WaitForCompletion();
+        }
+
+        public static void ReleaseCache()
+        {
+            Addressables.Release(addressablesLoadHandle);
+        }
+        #endregion
+
+        #region PublicMethods
         public GameObject GetCharacterPrefab()
         {
             return characterPrefab;
@@ -68,5 +85,6 @@ namespace Frankie.Stats
         {
             return characterNPCPrefab;
         }
+        #endregion
     }
 }

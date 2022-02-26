@@ -106,7 +106,8 @@ namespace Frankie.Speech
             if (globalInput == null && dialogueInput == null && dialogueUpdated == null)
             {
                 if (!dialogueComplete) { playerStateHandler.EnterWorld(); } 
-                    // Special handling for case of controller existence, no listeners, but dialogue not complete -- force exit into world
+                    // Special handling for case of controller existence, no listeners, but dialogue not complete
+                    // Force exit into world in this case
                 Destroy(gameObject);
             }
         }

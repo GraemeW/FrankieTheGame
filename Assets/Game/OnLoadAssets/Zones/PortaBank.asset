@@ -1,0 +1,83 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-3574389237603949618
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3268536af8903a64da82aa6872733d1d, type: 3}
+  m_Name: PortaBankDoor
+  m_EditorClassIdentifier: 
+  children:
+  - SceneToLastScene
+  linkedZone: {fileID: 0}
+  linkedZoneNode: {fileID: 0}
+  rect:
+    serializedVersion: 2
+    x: 30
+    y: 30
+    width: 430
+    height: 150
+  zoneName: PortaBank
+  draggingRect:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 430
+    height: 45
+--- !u!114 &-1150854434814867048
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3268536af8903a64da82aa6872733d1d, type: 3}
+  m_Name: SceneToLastScene
+  m_EditorClassIdentifier: 
+  children: []
+  linkedZone: {fileID: 11400000, guid: 5a0924c0ea437e84497c373520a361f8, type: 2}
+  linkedZoneNode: {fileID: -9218234244170276018, guid: 5a0924c0ea437e84497c373520a361f8, type: 2}
+  rect:
+    serializedVersion: 2
+    x: 560
+    y: 30
+    width: 430
+    height: 150
+  zoneName: PortaBank
+  draggingRect:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 430
+    height: 45
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 71bdebc52d51af440b8f8417df534a79, type: 3}
+  m_Name: PortaBank
+  m_EditorClassIdentifier: 
+  newNodeOffset: {x: 100, y: 25}
+  nodeWidth: 430
+  nodeHeight: 150
+  sceneReference:
+    sceneAsset: {fileID: 102900000, guid: bdbc1e0ce13a1f14ebbd17a6311fb5d4, type: 3}
+    sceneName: PortaBank
+  updateMap: 0
+  zoneAudio: {fileID: 8300000, guid: d765a3c4e7ca20440a6992d69af9c87d, type: 3}
+  isZoneAudioLooping: 1
+  zoneNodes:
+  - {fileID: -3574389237603949618}
+  - {fileID: -1150854434814867048}

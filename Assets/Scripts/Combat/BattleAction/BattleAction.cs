@@ -1,14 +1,17 @@
+using Frankie.Core;
 using Frankie.Inventory;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.AddressableAssets;
+using UnityEngine.ResourceManagement.AsyncOperations;
 
 namespace Frankie.Combat
 {
     [CreateAssetMenu(fileName = "New Battle Action", menuName = "BattleAction/New Battle Action")]
-    public class BattleAction : ScriptableObject
+    public class BattleAction : ScriptableObject, IAddressablesCache
     {
         [Header("Scriptable Object Inputs")]
         [SerializeField] TargetingStrategy targetingStrategy = null;
@@ -19,36 +22,50 @@ namespace Frankie.Combat
         [SerializeField] float apCost = 0f;
 
         // State
+        static AsyncOperationHandle<IList<BattleAction>> addressablesLoadHandle;
         static Dictionary<string, BattleAction> battleActionLookupCache;
 
+        #region AddressablesCaching
         public static BattleAction GetBattleActionFromName(string name)
         {
             if (string.IsNullOrWhiteSpace(name)) { return null; }
+            BuildCacheIfEmpty();
 
+            if (name == null || !battleActionLookupCache.ContainsKey(name)) return null;
+            return battleActionLookupCache[name];
+        }
+
+        public static void BuildCacheIfEmpty()
+        {
             if (battleActionLookupCache == null)
             {
                 BuildBattleActionCache();
             }
-            if (name == null || !battleActionLookupCache.ContainsKey(name)) return null;
-            return battleActionLookupCache[name];
         }
 
         private static void BuildBattleActionCache()
         {
             battleActionLookupCache = new Dictionary<string, BattleAction>();
-            BattleAction[] battleActionList = Resources.LoadAll<BattleAction>("");
-            foreach (BattleAction battleAction in battleActionList)
+            addressablesLoadHandle = Addressables.LoadAssetsAsync(typeof(BattleAction).Name, (BattleAction battleAction) =>
             {
                 if (battleActionLookupCache.ContainsKey(battleAction.name))
                 {
                     Debug.LogError(string.Format("Looks like there's a duplicate ID for objects: {0} and {1}", battleActionLookupCache[battleAction.name], battleAction));
-                    continue;
                 }
 
                 battleActionLookupCache[battleAction.name] = battleAction;
             }
+            );
+            addressablesLoadHandle.WaitForCompletion();
         }
 
+        public static void ReleaseCache()
+        {
+            Addressables.Release(addressablesLoadHandle);
+        }
+        #endregion
+
+        #region PublicMethods
         public float GetAPCost()
         {
             return apCost;
@@ -77,6 +94,16 @@ namespace Frankie.Combat
             return true;
         }
 
+        public void GetTargets(bool? traverseForward, BattleActionData battleActionData,
+            IEnumerable<CombatParticipant> activeCharacters, IEnumerable<CombatParticipant> activeEnemies)
+        {
+            if (battleActionData == null) { return; }
+
+            targetingStrategy.GetTargets(traverseForward, battleActionData, activeCharacters, activeEnemies);
+        }
+        #endregion
+
+        #region PrivateMethods
         private void EffectFinished(CombatParticipant sender, EffectStrategy effectStrategy, Action finished)
         {
             if (effectStrategy.GetType() == typeof(TriggerResourcesCooldownsEffect))
@@ -87,13 +114,6 @@ namespace Frankie.Combat
                 finished?.Invoke();
             }
         }
-
-        public void GetTargets(bool? traverseForward, BattleActionData battleActionData, 
-            IEnumerable<CombatParticipant> activeCharacters, IEnumerable<CombatParticipant> activeEnemies)
-        {
-            if (battleActionData == null) { return; }
-
-            targetingStrategy.GetTargets(traverseForward, battleActionData, activeCharacters, activeEnemies);
-        }
+        #endregion
     }
 }
