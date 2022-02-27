@@ -59,13 +59,13 @@ namespace Frankie.Core
         private void OnEnable()
         {
             playerInput.Debug.Enable();
-            SceneManager.sceneLoaded += ResetQuestListReference;
+            SceneManager.sceneLoaded += ResetReferences;
         }
 
         private void OnDisable()
         {
             playerInput.Debug.Disable();
-            SceneManager.sceneLoaded -= ResetQuestListReference;
+            SceneManager.sceneLoaded -= ResetReferences;
         }
         #endregion
 
@@ -105,13 +105,20 @@ namespace Frankie.Core
         #endregion
 
         #region QuestListDebug
-        private void ResetQuestListReference(Scene scene, LoadSceneMode loadSceneMode)
+        private void ResetReferences(Scene scene, LoadSceneMode loadSceneMode)
         {
             // Since Debugger is a persistent object, force reset on scene load
             questList = null;
             questList = new ReInitLazyValue<QuestList>(() => QuestList.GetQuestList(ref player));
-
             questList.ForceInit();
+
+            wallet = null;
+            wallet = new ReInitLazyValue<Wallet>(SetupWallet);
+            wallet.ForceInit();
+
+            party = null;
+            party = new ReInitLazyValue<Party>(SetupParty);
+            party.ForceInit();
         }
 
         private void PrintQuests()

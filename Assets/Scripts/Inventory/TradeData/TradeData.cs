@@ -12,7 +12,7 @@ namespace Frankie.Inventory
 
         public TradeData(ShopType shopType)
         {
-            tradeDataType = TradeDataType.None;
+            tradeDataType = TradeDataType.Shop;
             this.shopType = shopType;
         }
 
