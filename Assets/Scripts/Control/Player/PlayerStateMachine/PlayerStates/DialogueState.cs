@@ -22,8 +22,10 @@ namespace Frankie.Control
         {
         }
 
-        public void EnterTrade(IPlayerStateContext playerStateContext) // Ignore
+        public void EnterTrade(IPlayerStateContext playerStateContext)
         {
+            // No state change (will dequeue next time in world)
+            playerStateContext.QueueActionUnderConsideration();
         }
 
         public void EnterTransition(IPlayerStateContext playerStateContext)

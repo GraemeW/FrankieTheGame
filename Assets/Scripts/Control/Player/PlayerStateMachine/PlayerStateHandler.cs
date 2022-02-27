@@ -155,6 +155,7 @@ namespace Frankie.Control
 
         public void EnterZoneTransition()
         {
+            actionUnderConsideration = () => EnterZoneTransition();
             currentTransitionType = TransitionType.Zone;
             zoneTransitionComplete = false;
             currentPlayerState.EnterTransition(this);
@@ -203,6 +204,7 @@ namespace Frankie.Control
         {
             if (shopper == null || shop == null) { return; }
 
+            actionUnderConsideration = () => EnterShop(shop);
             shopper.SetShop(shop);
             tradeData = new TradeData(shop.GetShopType());
             currentPlayerState.EnterTrade(this);
@@ -212,6 +214,7 @@ namespace Frankie.Control
         {
             if (bankType == BankType.None) { return; }
 
+            actionUnderConsideration = () => EnterBank(bankType);
             shopper.SetBankType(bankType);
             tradeData = new TradeData(bankType);
             currentPlayerState.EnterTrade(this);
