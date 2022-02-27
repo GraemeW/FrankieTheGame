@@ -30,7 +30,6 @@ namespace Frankie.Sound
         AudioSource audioSource = null;
         PlayerStateHandler playerStateHandler = null;
         BattleController battleController = null;
-        SceneLoader sceneLoader = null;
 
         // Static Variables
         private static string MIXER_VOLUME_REFERENCE = "masterVolume";
@@ -44,45 +43,28 @@ namespace Frankie.Sound
         private void Start()
         {
             // Note:  Cached references obtained in Start
-            // Persistent objects not reliable to attempt to get within Awake -- hence fancy footwork on OnEnable/Disable
-            SetUpSceneLoader();
-            AttemptToSetUpPlayerReference(null);
+            // Persistent objects not reliable to attempt to get within Awake
+            ResetPlayerReference(null);
+
+            Zone currentZone = SceneLoader.GetCurrentZone();
+            if (currentZone == null) { return; }
+            ConfigureNewWorldAudio(currentZone.GetZoneAudio(), currentZone.IsZoneAudioLooping(), true);
         }
 
         private void OnEnable()
         {
             InitializeVolume();
 
+            SceneLoader.zoneUpdated += ResetPlayerReference;
+            SceneLoader.zoneUpdated += ParseZoneUpdate;
             if (playerStateHandler != null) { playerStateHandler.playerStateChanged += ParsePlayerState; }
-
-            if (sceneLoader != null)
-            {
-                if (playerStateHandler == null)
-                { 
-                    // sceneLoader exists, but playerStateHandler doesn't, implies wasn't found in past Enable
-                    // -- since wasn't found, re-subscribe to events
-                    sceneLoader.zoneUpdated += AttemptToSetUpPlayerReference; 
-                }
-                sceneLoader.zoneUpdated += ParseZoneUpdate;
-            }
         }
 
         private void OnDisable()
         {
-            if (playerStateHandler != null)
-            {
-                playerStateHandler.playerStateChanged -= ParsePlayerState;
-            }
-            if (sceneLoader != null)
-            {
-                if (playerStateHandler == null)
-                {
-                    // sceneLoader exists, but playerStateHandler doesn't, implies never found
-                    // -- since never found, unsubscribe to events
-                    sceneLoader.zoneUpdated -= AttemptToSetUpPlayerReference; 
-                }
-                sceneLoader.zoneUpdated -= ParseZoneUpdate;
-            }
+            SceneLoader.zoneUpdated -= ResetPlayerReference;
+            SceneLoader.zoneUpdated -= ParseZoneUpdate;
+            if (playerStateHandler != null) { playerStateHandler.playerStateChanged -= ParsePlayerState; }
         }
         #endregion
 
@@ -129,28 +111,16 @@ namespace Frankie.Sound
             audioSource.volume = volume;
         }
 
-        private void SetUpSceneLoader()
+        private void ResetPlayerReference(Zone zone)
         {
-            sceneLoader = GameObject.FindGameObjectWithTag("SceneLoader")?.GetComponent<SceneLoader>();
-            if (sceneLoader == null) { return; }
+            if (playerStateHandler != null) { return; }
 
-            sceneLoader.zoneUpdated += AttemptToSetUpPlayerReference;
-            sceneLoader.zoneUpdated += ParseZoneUpdate;
-
-            Zone currentZone = sceneLoader.GetCurrentZone();
-            if (currentZone == null) { return; }
-            ConfigureNewWorldAudio(currentZone.GetZoneAudio(), currentZone.IsZoneAudioLooping(), true);
-        }
-
-        private void AttemptToSetUpPlayerReference(Zone zone)
-        {
             // Player object is not always present, e.g. on intro splash screens
             // Special handling to check for existence on each scene load until found
             playerStateHandler = GameObject.FindGameObjectWithTag("Player")?.GetComponent<PlayerStateHandler>();
             if (playerStateHandler == null) { return; }
 
             playerStateHandler.playerStateChanged += ParsePlayerState;
-            if (sceneLoader != null) { sceneLoader.zoneUpdated -= AttemptToSetUpPlayerReference; }
         }
         #endregion
 

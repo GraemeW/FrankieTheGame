@@ -267,6 +267,10 @@ PrefabInstance:
       propertyPath: uniqueIdentifier
       value: 0bac20b9-3095-413e-86e0-5ccf3d6d7287
       objectReference: {fileID: 0}
+    - target: {fileID: 1750400578357647723, guid: 6e662329e84c3754da3e251380722378, type: 3}
+      propertyPath: m_RootOrder
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4971948613120259957, guid: 6e662329e84c3754da3e251380722378, type: 3}
       propertyPath: messageOnToggle
       value: ' {0} used the key card.  The door unlocked.'
@@ -361,6 +365,11 @@ PrefabInstance:
 --- !u!4 &133979310 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6564381309038757641, guid: 6e662329e84c3754da3e251380722378, type: 3}
+  m_PrefabInstance: {fileID: 133979309}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &133979311 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 1750400578357647723, guid: 6e662329e84c3754da3e251380722378, type: 3}
   m_PrefabInstance: {fileID: 133979309}
   m_PrefabAsset: {fileID: 0}
 --- !u!1 &159737234 stripped
@@ -1057,6 +1066,7 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 27356828}
   - {fileID: 133979310}
@@ -1090,6 +1100,7 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1290031699}
   - {fileID: 1022036393}
@@ -1253,7 +1264,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
-    m_TransformParent: {fileID: 133979310}
+    m_TransformParent: {fileID: 133979311}
     m_Modifications:
     - target: {fileID: 5228769113122635330, guid: bf2cabe3a90f5cb40be2ff404cc1f3b0, type: 3}
       propertyPath: m_RootOrder
@@ -1305,7 +1316,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5228769113122635331, guid: bf2cabe3a90f5cb40be2ff404cc1f3b0, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5228769113122635332, guid: bf2cabe3a90f5cb40be2ff404cc1f3b0, type: 3}
       propertyPath: zoneNode
@@ -1396,6 +1407,7 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1040580543}
   m_RootOrder: 0
@@ -1455,6 +1467,7 @@ Transform:
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1546011624}
   - {fileID: 949726212}
@@ -1633,6 +1646,7 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 735148676}
   - {fileID: 500672711}
@@ -1916,6 +1930,7 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 858449581}
   - {fileID: 1120148564}
@@ -2136,6 +2151,7 @@ Transform:
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 3.423871, y: -2.437274, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 2588143409993776253}
   m_Father: {fileID: 1416440714}
@@ -2341,6 +2357,7 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 903985915809856829}
   m_RootOrder: 0

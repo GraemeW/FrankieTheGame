@@ -34,6 +34,50 @@ namespace Frankie.ZoneManagement
         // Events
         public UnityEvent zoneInteraction;
 
+        // Static State
+        static List<ZoneHandler> activeZoneHandlers = new List<ZoneHandler>();
+
+        #region UnityMethods
+        private void Awake()
+        {
+            AddToActiveZoneHandlers(this);
+        }
+
+        private void OnDestroy()
+        {
+            RemoveFromActiveZoneHandlers(this);
+        }
+        #endregion
+
+        #region StaticMethods
+        private static void AddToActiveZoneHandlers(ZoneHandler zoneHandler)
+        {
+            if (activeZoneHandlers.Contains(zoneHandler)) { return; }
+
+            activeZoneHandlers.Add(zoneHandler);
+        }
+
+        private static void RemoveFromActiveZoneHandlers(ZoneHandler zoneHandler)
+        {
+            activeZoneHandlers.Remove(zoneHandler);
+        }
+
+        public static ZoneNode SelectNodeFromIDs(string zoneID, string nodeID)
+        {
+            return Zone.GetFromName(zoneID).GetNodeFromID(nodeID);
+        }
+
+        public static string GetStaticZoneNamePretty(string zoneName)
+        {
+            return Regex.Replace(zoneName, "([a-z])_?([A-Z])", "$1 $2");
+        }
+
+        private static List<ZoneHandler> FindAllZoneHandlersInScene()
+        {
+            return activeZoneHandlers;
+        }
+        #endregion
+
         #region PublicMethods
         public ZoneNode GetZoneNode()
         {
@@ -53,37 +97,6 @@ namespace Frankie.ZoneManagement
                 return true;
             }
             return false;
-        }
-        #endregion
-
-        #region StaticMethods
-        public static ZoneNode SelectNodeFromIDs(string zoneID, string nodeID)
-        {
-            return Zone.GetFromName(zoneID).GetNodeFromID(nodeID);
-        }
-
-        public static string GetStaticZoneNamePretty(string zoneName)
-        {
-            return Regex.Replace(zoneName, "([a-z])_?([A-Z])", "$1 $2");
-        }
-
-        private static List<ZoneHandler> FindAllZoneHandlersInScene()
-        {
-            List<ZoneHandler> zoneHandlers = new List<ZoneHandler>();
-            // Find visible handlers
-            zoneHandlers.AddRange(FindObjectsOfType<ZoneHandler>());
-
-            // Find invisible handlers
-            CheckWithToggleChildren[] toggleableGameObjects = FindObjectsOfType<CheckWithToggleChildren>();
-            foreach (CheckWithToggleChildren toggleableGameObject in toggleableGameObjects)
-            {
-                foreach (ZoneHandler hiddenZoneHandler in toggleableGameObject.GetComponentsInChildren<ZoneHandler>(true))
-                {
-                    if (zoneHandlers.Contains(hiddenZoneHandler)) { continue; }
-                    zoneHandlers.Add(hiddenZoneHandler);
-                }
-            }
-            return zoneHandlers;
         }
         #endregion
 

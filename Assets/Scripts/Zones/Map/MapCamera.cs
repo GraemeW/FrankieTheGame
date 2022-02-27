@@ -13,9 +13,6 @@ namespace Frankie.ZoneManagement
         [SerializeField] RenderTexture mapRenderTexture = null;
         [SerializeField] bool subscribeToSceneEvents = false;
 
-        // Cached References
-        SceneLoader sceneLoader = null;
-
         private void Awake()
         {
             subCamera.gameObject.SetActive(false);
@@ -35,28 +32,15 @@ namespace Frankie.ZoneManagement
         {
             if (!subscribeToSceneEvents) { return; }
 
-            SetupSceneLoader();
-
             if (enable)
             {
-                sceneLoader.leavingZone += UpdateMap;
-                sceneLoader.zoneUpdated += UpdateMap;
+                SceneLoader.leavingZone += UpdateMap;
+                SceneLoader.zoneUpdated += UpdateMap;
             }
             else
             {
-                sceneLoader.leavingZone -= UpdateMap;
-                sceneLoader.zoneUpdated -= UpdateMap;
-            }
-        }
-
-        private void SetupSceneLoader()
-        {
-            if (sceneLoader == null)
-            {
-                GameObject sceneLoaderObject = GameObject.FindGameObjectWithTag("SceneLoader");
-                if (sceneLoaderObject == null) { return; }
-
-                sceneLoader = sceneLoaderObject.GetComponent<SceneLoader>();
+                SceneLoader.leavingZone -= UpdateMap;
+                SceneLoader.zoneUpdated -= UpdateMap;
             }
         }
 
@@ -74,9 +58,7 @@ namespace Frankie.ZoneManagement
         
         public void UpdateMap()
         {
-            SetupSceneLoader();
-
-            Zone zone = sceneLoader.GetCurrentZone();
+            Zone zone = SceneLoader.GetCurrentZone();
             UpdateMap(zone);
         }
 
