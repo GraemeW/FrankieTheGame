@@ -27,7 +27,7 @@ namespace Frankie.ZoneManagement
 
         // State
         bool inTransitToNextScene = false;
-        ZoneNode queuedZoneNode = null;
+        string queuedZoneNodeID = null;
         PlayerStateHandler currentPlayerStateHandler = null;
         PlayerController currentPlayerController = null;
 
@@ -69,6 +69,25 @@ namespace Frankie.ZoneManagement
             return Regex.Replace(zoneName, "([a-z])_?([A-Z])", "$1 $2");
         }
 
+        private static List<ZoneHandler> FindAllZoneHandlersInScene()
+        {
+            List<ZoneHandler> zoneHandlers = new List<ZoneHandler>();
+            // Find visible handlers
+            zoneHandlers.AddRange(FindObjectsOfType<ZoneHandler>());
+
+            // Find invisible handlers
+            CheckWithToggleChildren[] toggleableGameObjects = FindObjectsOfType<CheckWithToggleChildren>();
+            foreach (CheckWithToggleChildren toggleableGameObject in toggleableGameObjects)
+            {
+                foreach (ZoneHandler hiddenZoneHandler in toggleableGameObject.GetComponentsInChildren<ZoneHandler>(true))
+                {
+                    if (zoneHandlers.Contains(hiddenZoneHandler)) { continue; }
+                    zoneHandlers.Add(hiddenZoneHandler);
+                }
+            }
+            return zoneHandlers;
+        }
+
         // Private Functions
         private void WarpPlayerToNextNode()
         {
@@ -77,7 +96,7 @@ namespace Frankie.ZoneManagement
 
             if (!inTransitToNextScene) // On scene transition, called via fader (sceneTransitionComplete)
             {
-                MoveToNextNode(nextNode);
+                MoveToNextNode(nextNode.GetNodeID());
             }
         }
 
@@ -88,7 +107,7 @@ namespace Frankie.ZoneManagement
 
             if (!inTransitToNextScene) // On scene transition, called via fader (sceneTransitionComplete)
             {
-                MoveToNextNode(nextNode);
+                MoveToNextNode(nodeID);
             }
         }
 
@@ -137,35 +156,37 @@ namespace Frankie.ZoneManagement
             if (fader == null) { fader = FindObjectOfType<Fader>(); }
             if (fader == null) { return; }
 
-            queuedZoneNode = nextNode;
+            queuedZoneNodeID = nextNode.GetNodeID();
             fader.fadingOut += QueuedMoveToNextNode;
             fader.UpdateFadeState(TransitionType.Zone, nextZone);
         }
 
-        private void MoveToNextNode(ZoneNode nextNode)
+        private void MoveToNextNode(string nextNodeID)
         {
-            ZoneHandler[] availableZoneHandlers = FindObjectsOfType<ZoneHandler>();
-            foreach (ZoneHandler zoneHandler in availableZoneHandlers)
+            foreach (ZoneHandler zoneHandler in FindAllZoneHandlersInScene())
             {
-                if (nextNode == zoneHandler.GetZoneNode())
+                UnityEngine.Debug.Log(zoneHandler);
+
+                if (nextNodeID == zoneHandler.GetZoneNode().GetNodeID())
                 {
-                    if (GetWarpPosition() != null)
+                    Vector3 warpPosition = zoneHandler.GetWarpPosition().position;
+                    if (warpPosition != null)
                     {
-                        currentPlayerController.transform.position = zoneHandler.GetWarpPosition().position;
-                        Vector2 lookDirection = zoneHandler.GetWarpPosition().position - zoneHandler.transform.position;
+                        currentPlayerController.gameObject.transform.position = warpPosition;
+                        Vector2 lookDirection = warpPosition - zoneHandler.transform.position;
                         lookDirection.Normalize();
                         currentPlayerController.GetPlayerMover().SetLookDirection(lookDirection);
-                        currentPlayerController.GetPlayerMover().ResetHistory(zoneHandler.GetWarpPosition().position);
+                        currentPlayerController.GetPlayerMover().ResetHistory(warpPosition);
                     }
                     else 
                     { 
-                        currentPlayerController.transform.position = zoneHandler.transform.position;
+                        currentPlayerController.gameObject.transform.position = zoneHandler.transform.position;
                         currentPlayerController.GetPlayerMover().ResetHistory(zoneHandler.transform.position);
                     }
 
                     ToggleParentGameObjects(zoneHandler);
                     OnZoneInteraction();
-                    queuedZoneNode = null;
+                    queuedZoneNodeID = null;
 
                     break; // Node transport complete, no need to complete loop
                 }
@@ -199,12 +220,12 @@ namespace Frankie.ZoneManagement
 
         private void QueuedMoveToNextNode()
         {
-            if (queuedZoneNode == null)
+            if (queuedZoneNodeID == null)
             {
                 RemoveZoneHandler();
                 return; 
             }
-            MoveToNextNode(queuedZoneNode);
+            MoveToNextNode(queuedZoneNodeID);
         }
 
         private ZoneNode SelectRandomNodeFromChildren()
