@@ -17,7 +17,7 @@ namespace Frankie.Core
 
             foreach (CharacterProperties characterPropertiesToCompare in characters)
             {
-                if (characterProperties == characterPropertiesToCompare)
+                if (characterProperties.GetCharacterNameID() == characterPropertiesToCompare.GetCharacterNameID())
                 {
                     return combatParticipant.IsDead();
                 }

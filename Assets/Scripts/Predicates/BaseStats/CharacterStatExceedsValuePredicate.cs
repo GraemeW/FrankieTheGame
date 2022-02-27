@@ -15,7 +15,7 @@ namespace Frankie.Core
         {
             if (character == null) { return null; }
             CharacterProperties characterProperties = baseStats.GetCharacterProperties();
-            if (character == characterProperties)
+            if (character.GetCharacterNameID() == characterProperties.GetCharacterNameID())
             {
                 if (baseStats.GetStat(stat) >= value)
                 {

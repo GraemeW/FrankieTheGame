@@ -59,6 +59,13 @@ namespace Frankie.Quests
         }
         #endregion
 
+        #region PublicMethods
+        public string GetUniqueID()
+        {
+            return uniqueID;
+        }
+        #endregion
+
         #region UnityMethods
         void ISerializationCallbackReceiver.OnAfterDeserialize()
         {

@@ -73,9 +73,16 @@ namespace Frankie.Quests
             return detail;
         }
 
-        public bool HasObjective(QuestObjective objective)
+        public bool HasObjective(QuestObjective matchObjective)
         {
-            return objectives.Contains(objective);
+            foreach (QuestObjective questObjective in objectives)
+            {
+                if (questObjective.GetUniqueID() == matchObjective.GetUniqueID())
+                {
+                    return true;
+                }
+            }
+            return false;
         }
 
         public int GetObjectiveCount()

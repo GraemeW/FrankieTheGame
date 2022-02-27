@@ -19,7 +19,7 @@ namespace Frankie.Core
 
             foreach (CharacterProperties character in charactersToMatch)
             {
-                if (character == leaderCharacterProperties) { return true; }
+                if (character.GetCharacterNameID() == leaderCharacterProperties.GetCharacterNameID()) { return true; }
             }
             return false;
         }

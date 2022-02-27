@@ -20,11 +20,17 @@ namespace Frankie.Combat
                 CharacterProperties characterProperties = combatParticipant.GetBaseStats()?.GetCharacterProperties();
                 if (characterProperties == null) { continue; }
 
-                if (!negate && characterPropertiesToFilter.Contains(characterProperties))
+                bool filteredListContainsCharacter = false;
+                // Check via name comparison for compatibility with addressables system
+                foreach (CharacterProperties filterCharacter in characterPropertiesToFilter)
                 {
-                    yield return combatParticipant;
+                    if (filterCharacter.GetCharacterNameID() == characterProperties.GetCharacterNameID())
+                    {
+                        filteredListContainsCharacter = true;
+                    }
                 }
-                else if (negate && !characterPropertiesToFilter.Contains(characterProperties))
+
+                if ((!negate && filteredListContainsCharacter) || (negate && !filteredListContainsCharacter))
                 {
                     yield return combatParticipant;
                 }

@@ -86,7 +86,7 @@ namespace Frankie.Inventory
             {
                 if (slots[i] == null) { continue; }
 
-                if (object.ReferenceEquals(slots[i].GetInventoryItem(), inventoryItem))
+                if (slots[i].GetInventoryItem().GetItemID() == inventoryItem.GetItemID())
                 {
                     return true;
                 }
@@ -185,7 +185,7 @@ namespace Frankie.Inventory
             {
                 if (slots[i] == null) { continue; }
 
-                if (object.ReferenceEquals(slots[i].GetInventoryItem(), inventoryItem))
+                if (slots[i].GetInventoryItem().GetItemID() == inventoryItem.GetItemID())
                 {
                     return i;
                 }

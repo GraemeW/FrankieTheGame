@@ -32,8 +32,10 @@ namespace Frankie.Stats
         {
             if (party ==  null) { return; }
 
-            string characterName = baseStats.GetCharacterProperties().name;
-            CombatParticipant characterInParty = party.GetMember(characterName);
+            CharacterProperties characterProperties = baseStats.GetCharacterProperties();
+            if (characterProperties == null) { return; }
+
+            CombatParticipant characterInParty = party.GetMember(characterProperties);
             if (characterInParty != null && characterInParty != this.combatParticipant)
             {
                 Destroy(gameObject);
@@ -74,7 +76,7 @@ namespace Frankie.Stats
 
         public CharacterNPCSwapper SwapToCharacter(Transform partyContainer)
         {
-            string characterName = baseStats.GetCharacterProperties().name;
+            string characterName = baseStats.GetCharacterProperties().GetCharacterNameID();
             GameObject character = SpawnCharacter(characterName, partyContainer);
 
             // Pass stats back/forth NPC -> Character
@@ -88,7 +90,7 @@ namespace Frankie.Stats
 
         public CharacterNPCSwapper SwapToNPC(Transform worldContainer)
         {
-            string characterName = baseStats.GetCharacterProperties().name;
+            string characterName = baseStats.GetCharacterProperties().GetCharacterNameID();
             GameObject characterNPC = SpawnNPC(characterName, worldContainer);
 
             // Pass stats back/forth Character -> NPC

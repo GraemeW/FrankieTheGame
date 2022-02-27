@@ -9,7 +9,7 @@ namespace Frankie.Stats
     public class InactiveParty : MonoBehaviour, ISaveable
     {
         // State
-        Dictionary<CharacterProperties, object> inactiveCharacterSaveStates = new Dictionary<CharacterProperties, object>();
+        Dictionary<string, object> inactiveCharacterSaveStates = new Dictionary<string, object>();
 
         #region PublicMethods
         public void CaptureCharacterState(CombatParticipant combatParticipant)
@@ -20,7 +20,8 @@ namespace Frankie.Stats
             if (saveableEntity == null) { return; }
 
             CharacterProperties characterProperties = combatParticipant.GetBaseStats().GetCharacterProperties();
-            inactiveCharacterSaveStates[characterProperties] = saveableEntity.CaptureState();
+            if (characterProperties == null) { return; }
+            inactiveCharacterSaveStates[characterProperties.GetCharacterNameID()] = saveableEntity.CaptureState();
         }
 
         public void RestoreCharacterState(ref CombatParticipant combatParticipant)
@@ -28,12 +29,13 @@ namespace Frankie.Stats
             if (combatParticipant == null) { return; }
 
             CharacterProperties characterProperties = combatParticipant.GetBaseStats().GetCharacterProperties();
-            if (!inactiveCharacterSaveStates.ContainsKey(characterProperties)) { return; }
+            if (characterProperties == null) { return; }
+            if (!inactiveCharacterSaveStates.ContainsKey(characterProperties.GetCharacterNameID())) { return; }
 
             SaveableEntity saveableEntity = combatParticipant.GetComponent<SaveableEntity>();
             if (saveableEntity == null) { return; }
 
-            saveableEntity.RestoreState(inactiveCharacterSaveStates[characterProperties], LoadPriority.ObjectProperty);
+            saveableEntity.RestoreState(inactiveCharacterSaveStates[characterProperties.GetCharacterNameID()], LoadPriority.ObjectProperty);
         }
 
         public void RemoveFromInactiveStorage(CombatParticipant combatParticipant)
@@ -46,7 +48,9 @@ namespace Frankie.Stats
 
         public void RemoveFromInactiveStorage(CharacterProperties characterProperties)
         {
-            inactiveCharacterSaveStates.Remove(characterProperties);
+            if (characterProperties == null) { return; }
+
+            inactiveCharacterSaveStates.Remove(characterProperties.GetCharacterNameID());
         }
 
         #endregion
@@ -59,30 +63,22 @@ namespace Frankie.Stats
 
         public SaveState CaptureState()
         {
-            Dictionary<string, object> serializableInactiveCharacterSaveStates = new Dictionary<string, object>();
-            foreach (KeyValuePair<CharacterProperties, object> keyValuePair in inactiveCharacterSaveStates)
-            {
-                string characterName = keyValuePair.Key.name;
-                serializableInactiveCharacterSaveStates[characterName] = keyValuePair.Value;
-            }
-
-            SaveState saveState = new SaveState(GetLoadPriority(), serializableInactiveCharacterSaveStates);
+            SaveState saveState = new SaveState(GetLoadPriority(), inactiveCharacterSaveStates);
             return saveState;
         }
 
         public void RestoreState(SaveState state)
         {
-            Dictionary<string, object> serializableInactiveCharacterSaveStates = state.GetState() as Dictionary<string, object>;
-            if (serializableInactiveCharacterSaveStates == null) { return; }
+            Dictionary<string, object> inactiveCharacterSaveStateRecords = state.GetState() as Dictionary<string, object>;
+            if (inactiveCharacterSaveStateRecords == null) { return; }
 
             inactiveCharacterSaveStates.Clear();
-            foreach (KeyValuePair<string, object> keyValuePair in serializableInactiveCharacterSaveStates)
+            foreach (KeyValuePair<string, object> keyValuePair in inactiveCharacterSaveStateRecords)
             {
                 string characterName = keyValuePair.Key;
-                CharacterProperties characterProperties = CharacterProperties.GetCharacterPropertiesFromName(characterName);
-                if (characterProperties == null) { continue; }
+                if (string.IsNullOrWhiteSpace(characterName)) { continue; }
 
-                inactiveCharacterSaveStates[characterProperties] = keyValuePair.Value;
+                inactiveCharacterSaveStates[characterName] = keyValuePair.Value;
             }
         }
         #endregion

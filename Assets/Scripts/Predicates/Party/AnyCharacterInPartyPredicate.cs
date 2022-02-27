@@ -13,20 +13,17 @@ namespace Frankie.Core
         {
             if (charactersToMatch == null || charactersToMatch.Length == 0) { return false; }
 
-            List<CharacterProperties> partyCharacterProperties = new List<CharacterProperties>();
             foreach (CombatParticipant character in party.GetParty())
             {
                 CharacterProperties characterProperties = character.GetBaseStats()?.GetCharacterProperties();
                 if (characterProperties == null) { continue; }
 
-                partyCharacterProperties.Add(characterProperties);
-            }
-
-            foreach (CharacterProperties characterToMatch in charactersToMatch)
-            {
-                if (partyCharacterProperties.Contains(characterToMatch))
+                foreach (CharacterProperties characterToMatch in charactersToMatch)
                 {
-                    return true;
+                    if (characterProperties.GetCharacterNameID() == characterToMatch.GetCharacterNameID())
+                    {
+                        return true;
+                    }
                 }
             }
             return false;

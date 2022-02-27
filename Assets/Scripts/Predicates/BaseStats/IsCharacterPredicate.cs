@@ -12,7 +12,7 @@ namespace Frankie.Core
         {
             if (character == null) { return null; }
             CharacterProperties characterProperties = baseStats.GetCharacterProperties();
-            return (character == characterProperties);
+            return (character.GetCharacterNameID() == characterProperties.GetCharacterNameID());
         }
     }
 }

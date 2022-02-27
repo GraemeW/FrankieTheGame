@@ -13,6 +13,7 @@ namespace Frankie.Quests
         bool rewardGiven = false;
 
         // Methods
+        #region Constructors
         public QuestStatus(Quest quest)
         {
             this.quest = quest;
@@ -23,7 +24,9 @@ namespace Frankie.Quests
             quest = Quest.GetFromID(restoreState.questID);
             completedObjectives = restoreState.completedObjectiveIDs.Select(c => QuestObjective.GetFromID(c)).ToList();
         }
+        #endregion
 
+        #region PublicMethods
         public Quest GetQuest()
         {
             return quest;
@@ -34,21 +37,29 @@ namespace Frankie.Quests
             return completedObjectives.Count;
         }
 
-        public bool GetStatusForObjective(QuestObjective objective)
+        public bool GetStatusForObjective(QuestObjective matchObjective)
         {
-            return completedObjectives.Contains(objective);
+            foreach (QuestObjective questObjective in completedObjectives)
+            {
+                if (questObjective.GetUniqueID() == matchObjective.GetUniqueID())
+                {
+                    return true;
+                }
+            }
+            return false;
         }
 
         public void SetObjective(QuestObjective objective, bool isComplete)
         {
             if (!quest.HasObjective(objective)) { return; }
 
-            if (isComplete && !completedObjectives.Contains(objective))
+            bool inCompletedObjectivesList = GetStatusForObjective(objective);
+            if (isComplete && !inCompletedObjectivesList)
             {
                 completedObjectives.Add(objective);
             }
 
-            if (!isComplete && completedObjectives.Contains(objective))
+            if (!isComplete && inCompletedObjectivesList)
             {
                 completedObjectives.Remove(objective);
             }
@@ -59,7 +70,6 @@ namespace Frankie.Quests
             return (completedObjectives.Count >= quest.GetObjectiveCount());
         }
 
-
         public void SetRewardGiven(bool enable)
         {
             rewardGiven = enable;
@@ -69,7 +79,9 @@ namespace Frankie.Quests
         {
             return rewardGiven;
         }
+        #endregion
 
+        #region Interface
         public SerializableQuestStatus CaptureState()
         {
             SerializableQuestStatus serializableQuestStatus = new SerializableQuestStatus();
@@ -78,6 +90,7 @@ namespace Frankie.Quests
             serializableQuestStatus.completedObjectiveIDs = completedObjectiveIDs;
             return serializableQuestStatus;
         }
+        #endregion
     }
 }
 

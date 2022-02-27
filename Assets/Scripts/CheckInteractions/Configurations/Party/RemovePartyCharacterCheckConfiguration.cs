@@ -41,10 +41,14 @@ namespace Frankie.Control
             if (unremovableCharacters != null)
             {
                 CharacterProperties selectedCharacter = combatParticipant.GetBaseStats().GetCharacterProperties();
-                if (unremovableCharacters.Contains(selectedCharacter))
+                foreach(CharacterProperties unremovableCharacter in unremovableCharacters)
                 {
-                    playerStateHandler.EnterDialogue(string.Format(messageCannotRemove, selectedCharacter.name));
-                    return;
+                    // Check via name comparison for compatibility with addressables system
+                    if (selectedCharacter.GetCharacterNameID() == unremovableCharacter.GetCharacterNameID())
+                    {
+                        playerStateHandler.EnterDialogue(string.Format(messageCannotRemove, selectedCharacter.name));
+                        return;
+                    }
                 }
             }
 

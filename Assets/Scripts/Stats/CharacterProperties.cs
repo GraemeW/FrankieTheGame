@@ -25,6 +25,11 @@ namespace Frankie.Stats
             return Regex.Replace(name, "([a-z])_?([A-Z])", "$1 $2");
         }
 
+        public string GetCharacterNameID()
+        {
+            return name;
+        }
+
         // State
         static AsyncOperationHandle<IList<CharacterProperties>> addressablesLoadHandle;
         static Dictionary<string, CharacterProperties> characterLookupCache;

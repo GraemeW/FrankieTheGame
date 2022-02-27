@@ -104,7 +104,7 @@ namespace Frankie.Stats
             foreach (CombatParticipant character in party)
             {
                 CharacterProperties characterProperties = character.GetBaseStats()?.GetCharacterProperties();
-                if (characterProperties == member)
+                if (characterProperties.GetCharacterNameID() == member.GetCharacterNameID())
                 {
                     return true;
                 }
@@ -122,12 +122,12 @@ namespace Frankie.Stats
             return alive;
         }
 
-        public CombatParticipant GetMember(string member)
+        public CombatParticipant GetMember(CharacterProperties member)
         {
             foreach (CombatParticipant combatParticipant in party)
             {
-                string characterName = combatParticipant.GetBaseStats().GetCharacterProperties().name;
-                if (characterName == member)
+                CharacterProperties characterProperties = combatParticipant.GetBaseStats().GetCharacterProperties();
+                if (characterProperties.GetCharacterNameID() == member.GetCharacterNameID())
                 {
                     return combatParticipant;
                 }
