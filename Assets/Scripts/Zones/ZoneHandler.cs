@@ -37,7 +37,7 @@ namespace Frankie.ZoneManagement
         // Events
         public UnityEvent zoneInteraction;
 
-        // Public Functions
+        #region PublicMethods
         public ZoneNode GetZoneNode()
         {
             return zoneNode;
@@ -57,8 +57,9 @@ namespace Frankie.ZoneManagement
             }
             return false;
         }
+        #endregion
 
-        // Static functions
+        #region StaticMethods
         public static ZoneNode SelectNodeFromIDs(string zoneID, string nodeID)
         {
             return Zone.GetFromName(zoneID).GetNodeFromID(nodeID);
@@ -87,8 +88,9 @@ namespace Frankie.ZoneManagement
             }
             return zoneHandlers;
         }
+        #endregion
 
-        // Private Functions
+        #region PrivateMethods
         private void WarpPlayerToNextNode()
         {
             ZoneNode nextNode = SetUpNextNode();
@@ -165,8 +167,6 @@ namespace Frankie.ZoneManagement
         {
             foreach (ZoneHandler zoneHandler in FindAllZoneHandlersInScene())
             {
-                UnityEngine.Debug.Log(zoneHandler);
-
                 if (nextNodeID == zoneHandler.GetZoneNode().GetNodeID())
                 {
                     Vector3 warpPosition = zoneHandler.GetWarpPosition().position;
@@ -273,8 +273,9 @@ namespace Frankie.ZoneManagement
             }
             return choiceActionPairs;
         }
+        #endregion
 
-        // IRaycastable Implementation
+        #region Interfaces
         public CursorType GetCursorType()
         {
             return CursorType.Zone;
@@ -308,5 +309,6 @@ namespace Frankie.ZoneManagement
             // Not evaluated -> IRaycastableExtension
             return false;
         }
+        #endregion
     }
 }
