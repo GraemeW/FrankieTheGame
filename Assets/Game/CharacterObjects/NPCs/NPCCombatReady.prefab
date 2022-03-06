@@ -93,6 +93,10 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 4118810327594443569, guid: 1b473d8838e3d4d4c99f7ff6e30d07df, type: 3}
+      propertyPath: willShout
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4118810327594443569, guid: 1b473d8838e3d4d4c99f7ff6e30d07df, type: 3}
       propertyPath: willChasePlayer
       value: 1
       objectReference: {fileID: 0}

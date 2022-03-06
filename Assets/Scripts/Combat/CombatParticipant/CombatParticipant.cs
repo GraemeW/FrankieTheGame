@@ -256,7 +256,7 @@ namespace Frankie.Combat
             }
             else
             {
-                float unsafeHP = targetHP + points;
+                float unsafeHP = currentHP.value + points;
                 currentHP.value = Mathf.Clamp(unsafeHP, 0f, baseStats.GetStat(Stat.HP));
             }
         }

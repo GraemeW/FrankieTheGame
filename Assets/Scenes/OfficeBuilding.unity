@@ -250,6 +250,22 @@ PrefabInstance:
       propertyPath: patrolPath
       value: 
       objectReference: {fileID: 405448691}
+    - target: {fileID: 7153968917047127078, guid: a87622f06df9ac54e90516e57e833835, type: 3}
+      propertyPath: collidedWithPlayer.m_PersistentCalls.m_Calls.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7153968917047127078, guid: a87622f06df9ac54e90516e57e833835, type: 3}
+      propertyPath: collidedWithPlayer.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7153968917047127078, guid: a87622f06df9ac54e90516e57e833835, type: 3}
+      propertyPath: collidedWithPlayer.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 82363299}
+    - target: {fileID: 7153968917047127078, guid: a87622f06df9ac54e90516e57e833835, type: 3}
+      propertyPath: collidedWithPlayer.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 7222611955684808543, guid: a87622f06df9ac54e90516e57e833835, type: 3}
       propertyPath: willDestroySelfOnDeath
       value: 0

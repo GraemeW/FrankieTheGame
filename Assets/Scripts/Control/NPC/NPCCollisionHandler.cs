@@ -15,9 +15,8 @@ namespace Frankie.Control
     {
         //Tunables
         [SerializeField] LayerMask playerCollisionMask = new LayerMask();
-        [SerializeField] bool defaultCollisionsActive = true;
+        [SerializeField] bool defaultCollisionsWhenAggravated = true;
         [SerializeField] bool disableCollisionEventsWhenDead = true;
-        [SerializeField] bool disableCollisionEventsWhenIdle = true;
         [SerializeField] bool collisionsOverriddenToEnterCombat = false;
 
         // State
@@ -42,8 +41,6 @@ namespace Frankie.Control
         #region UnityMethodsInitialization
         private void Awake()
         {
-            collisionsActive = defaultCollisionsActive;
-
             // Hard requirement
             npcStateHandler = GetComponent<NPCStateHandler>();
             npcMover = GetComponent<NPCMover>();
@@ -66,24 +63,22 @@ namespace Frankie.Control
         private void HandleNPCStateChange(NPCStateType npcStateType)
         {
             if (disableCollisionEventsWhenDead && 
-                combatParticipant != null && combatParticipant.IsDead()) { return; } // NPC death supercedes collision behavior
+                combatParticipant != null && combatParticipant.IsDead()) { collisionsActive = false;  return; } // NPC death supercedes collision behavior
 
             switch (npcStateType)
             {
-                case NPCStateType.idle:
-                    if (disableCollisionEventsWhenIdle) { collisionsActive = false; }
-                    break;
-                case NPCStateType.occupied:
-                    collisionsActive = false;
+                case NPCStateType.aggravated:
+                    collisionsActive = defaultCollisionsWhenAggravated;
                     break;
                 case NPCStateType.frenzied:
                     collisionsOverriddenToEnterCombat = true;
-                    collisionsActive = defaultCollisionsActive;
+                    collisionsActive = true;
                     break;
-                case NPCStateType.aggravated:
                 case NPCStateType.suspicious:
+                case NPCStateType.idle:
+                case NPCStateType.occupied:
                 default:
-                    collisionsActive = defaultCollisionsActive;
+                    collisionsActive = false;
                     break;
             }
         }
@@ -160,7 +155,7 @@ namespace Frankie.Control
             if (collisionsOverriddenToEnterCombat) // Applied for aggro situations
             {
                 TransitionType battleEntryType = GetBattleEntryType(contactPoint, npcPosition, playerPosition);
-                npcStateHandler.InitiateCombat(battleEntryType);
+                npcStateHandler.InitiateCombat(battleEntryType, GetNPCMob());
                 return true;
             }
             else if (collidedWithPlayer != null) // Event hooked up in Unity
@@ -196,16 +191,17 @@ namespace Frankie.Control
         #region PublicMethods
         public void SetCollisionsActive(bool enable)
         {
-            defaultCollisionsActive = enable;
             collisionsActive = enable;
         }
 
-        public IEnumerable<NPCStateHandler> GetNPCMob()
+        public List<NPCStateHandler> GetNPCMob()
         {
+            List<NPCStateHandler> translatedNPCMob = new List<NPCStateHandler>();
             foreach (NPCCollisionHandler npcCollisionHandler in currentNPCMob)
             {
-                yield return npcCollisionHandler.GetNPCStateHandler();
+                translatedNPCMob.Add(npcCollisionHandler.GetNPCStateHandler());
             }
+            return translatedNPCMob;
         }
 
         public NPCStateHandler GetNPCStateHandler()

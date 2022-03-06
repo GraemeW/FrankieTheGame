@@ -116,6 +116,14 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 5e44460ae80015f45bf6058e111d95fe, type: 2}
     - target: {fileID: 8647497084266917323, guid: e4be3ce2d5464c3498c884ae5d9223d4, type: 3}
+      propertyPath: willShout
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8647497084266917323, guid: e4be3ce2d5464c3498c884ae5d9223d4, type: 3}
+      propertyPath: canBeShoutedAt
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8647497084266917323, guid: e4be3ce2d5464c3498c884ae5d9223d4, type: 3}
       propertyPath: willChasePlayer
       value: 0
       objectReference: {fileID: 0}

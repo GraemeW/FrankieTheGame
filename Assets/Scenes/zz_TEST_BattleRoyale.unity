@@ -134,6 +134,14 @@ PrefabInstance:
       propertyPath: uniqueIdentifier
       value: 91eebc7f-0b5d-4ea5-8bcf-0c16ff749c50
       objectReference: {fileID: 0}
+    - target: {fileID: 3799384875062050814, guid: 73abebb9364d02b44886802930dfc1f8, type: 3}
+      propertyPath: willShout
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3799384875062050814, guid: 73abebb9364d02b44886802930dfc1f8, type: 3}
+      propertyPath: willChasePlayer
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5737715753349501173, guid: 73abebb9364d02b44886802930dfc1f8, type: 3}
       propertyPath: m_IsActive
       value: 0
@@ -196,6 +204,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5948377482001946277, guid: 73abebb9364d02b44886802930dfc1f8, type: 3}
       propertyPath: willDestroySelfOnDeath
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6196740129755377116, guid: 73abebb9364d02b44886802930dfc1f8, type: 3}
+      propertyPath: collisionsOverriddenToEnterCombat
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
@@ -905,6 +917,14 @@ PrefabInstance:
       propertyPath: uniqueIdentifier
       value: 5b3e0add-df92-461a-a6cf-c8bbc57e3c32
       objectReference: {fileID: 0}
+    - target: {fileID: 3799384875062050814, guid: f11fb3d93df053e40af1074609ecd08f, type: 3}
+      propertyPath: willShout
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3799384875062050814, guid: f11fb3d93df053e40af1074609ecd08f, type: 3}
+      propertyPath: willChasePlayer
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5737715753349501173, guid: f11fb3d93df053e40af1074609ecd08f, type: 3}
       propertyPath: m_IsActive
       value: 0
@@ -967,6 +987,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5948377482001946277, guid: f11fb3d93df053e40af1074609ecd08f, type: 3}
       propertyPath: willDestroySelfOnDeath
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6196740129755377116, guid: f11fb3d93df053e40af1074609ecd08f, type: 3}
+      propertyPath: collisionsOverriddenToEnterCombat
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
@@ -1300,6 +1324,14 @@ PrefabInstance:
       propertyPath: uniqueIdentifier
       value: 5b9bcc5f-e01d-478d-b798-15e7a9cbc1cb
       objectReference: {fileID: 0}
+    - target: {fileID: 3799384875062050814, guid: 85e454fc5088ab64cbf94d522f93ecc7, type: 3}
+      propertyPath: willShout
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3799384875062050814, guid: 85e454fc5088ab64cbf94d522f93ecc7, type: 3}
+      propertyPath: willChasePlayer
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5737715753349501173, guid: 85e454fc5088ab64cbf94d522f93ecc7, type: 3}
       propertyPath: m_IsActive
       value: 0
@@ -1362,6 +1394,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5948377482001946277, guid: 85e454fc5088ab64cbf94d522f93ecc7, type: 3}
       propertyPath: willDestroySelfOnDeath
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6196740129755377116, guid: 85e454fc5088ab64cbf94d522f93ecc7, type: 3}
+      propertyPath: collisionsOverriddenToEnterCombat
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
@@ -2573,6 +2609,14 @@ PrefabInstance:
       propertyPath: uniqueIdentifier
       value: 2497612d-fccd-4385-a7a7-154bb9e61260
       objectReference: {fileID: 0}
+    - target: {fileID: 3799384875062050814, guid: 3e8aa571b6fd5cd4c83d58166eabf29c, type: 3}
+      propertyPath: willShout
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3799384875062050814, guid: 3e8aa571b6fd5cd4c83d58166eabf29c, type: 3}
+      propertyPath: willChasePlayer
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5737715753349501173, guid: 3e8aa571b6fd5cd4c83d58166eabf29c, type: 3}
       propertyPath: m_IsActive
       value: 0
@@ -2635,6 +2679,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5948377482001946277, guid: 3e8aa571b6fd5cd4c83d58166eabf29c, type: 3}
       propertyPath: willDestroySelfOnDeath
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6196740129755377116, guid: 3e8aa571b6fd5cd4c83d58166eabf29c, type: 3}
+      propertyPath: collisionsOverriddenToEnterCombat
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []

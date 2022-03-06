@@ -10,15 +10,10 @@ using System.Linq;
 
 namespace Frankie.Control
 {
-    [RequireComponent(typeof(NPCMover))]
     public class NPCStateHandler : MonoBehaviour
     {
         // Tunables
         [SerializeField] bool willDestroySelfOnDeath = true;
-        [Tooltip("Must be true to be shouted at, regardless of group")] [SerializeField] bool canBeShoutedAt = true;
-        [Tooltip("From interaction center point of NPC")] [SerializeField] float shoutDistance = 2.0f;
-        [Tooltip("Set to nothing to aggro everything shoutable")] [SerializeField] NPCStateHandler[] shoutGroup = null;
-        [Tooltip("Only used if not found via base stats")] [SerializeField] string defaultName = "";
         [Tooltip("Include {0} for enemy name")] [SerializeField] string messageCannotFight = "{0} is wounded and cannot fight.";
 
         // State
@@ -27,9 +22,6 @@ namespace Frankie.Control
         bool queueDeathOnNextPlayerStateChange = false;
 
         // Cached References
-        BaseStats baseStats = null;
-        NPCMover npcMover = null;
-        NPCCollisionHandler npcCollisionHandler = null;
         CombatParticipant combatParticipant = null;
         GameObject player = null;
         ReInitLazyValue<PlayerStateMachine> playerStateHandler;
@@ -41,11 +33,7 @@ namespace Frankie.Control
         #region UnityMethods
         private void Awake()
         {
-            // Hard requirement
-            npcMover = GetComponent<NPCMover>();
-            npcCollisionHandler = GetComponent<NPCCollisionHandler>();
             // Not strictly necessary -- will fail elegantly
-            baseStats = GetComponent<BaseStats>();
             combatParticipant = GetComponent<CombatParticipant>();
 
             // Cached
@@ -88,12 +76,6 @@ namespace Frankie.Control
         #endregion
 
         #region PublicMethods
-        public string GetName()
-        {
-            // Split apart name on lower case followed by upper case w/ or w/out underscores
-            return (baseStats != null) ? baseStats.GetCharacterProperties().GetCharacterNamePretty() : defaultName;
-        }
-
         public CombatParticipant GetCombatParticipant()
         {
             return combatParticipant;
@@ -109,9 +91,9 @@ namespace Frankie.Control
             return playerController.value.GetPlayerMover().GetLookDirection();
         }
 
-        public bool CheckDistanceToPlayer(float distance)
+        public Vector2 GetPlayerInteractionPosition()
         {
-            return SmartVector2.CheckDistance(npcMover.GetInteractionPosition(), playerController.value.GetInteractionPosition(), distance);
+            return playerController.value.GetInteractionPosition();
         }
 
         public bool WillDestroySelfOnDeath()
@@ -119,17 +101,12 @@ namespace Frankie.Control
             return willDestroySelfOnDeath;
         }
 
-        public bool IsShoutable()
+        private void SetNPCState(NPCStateType npcState)
         {
-            return canBeShoutedAt;
-        }
-
-        public bool SetNPCState(NPCStateType npcState, bool shoutOnAggravation = true)
-        {
-            if (npcState == NPCStateType.aggravated && !playerStateHandler.value.GetParty().IsAnyMemberAlive()) { return false; }
+            if (npcState == NPCStateType.aggravated && !playerStateHandler.value.GetParty().IsAnyMemberAlive()) { return; }
             
             bool occupiedStatusChange = (npcState == NPCStateType.occupied && !npcOccupied) || (npcState != NPCStateType.occupied && npcOccupied);
-            if (this.npcState == npcState && !occupiedStatusChange) { return false; }
+            if (this.npcState == npcState && !occupiedStatusChange) { return; }
 
             // Occupied treated as a pseudo-state to allow for state persistence
             // i.e. State reset viable on SetNPCState(this.npcState)
@@ -142,26 +119,32 @@ namespace Frankie.Control
                 this.npcState = npcState;
             }
 
-            // Shout
-            if (npcState == NPCStateType.aggravated)
-            {
-                if (shoutOnAggravation && shoutDistance > 0f)
-                {
-                    ShoutToNearbyNPCs();
-                }
-            }
-
             UnityEngine.Debug.Log($"Updating {gameObject.name} NPC state to: {Enum.GetName(typeof(NPCStateType), npcOccupied ? NPCStateType.occupied : npcState)}");
             npcStateChanged?.Invoke(npcOccupied ? NPCStateType.occupied : npcState);
 
-            return true;
+            return;
         }
         #endregion
 
-        #region UnityCalledMethods
+        #region StateUtilityMethods
         public void SetNPCIdle() // Called via Unity Event
         {
             SetNPCState(NPCStateType.idle);
+        }
+
+        public void SetNPCSuspicious()
+        {
+            SetNPCState(NPCStateType.suspicious);
+        }
+
+        public void SetNPCAggravated()
+        {
+            SetNPCState(NPCStateType.aggravated);
+        }
+
+        public void SetNPCFrenzied()
+        {
+            SetNPCState(NPCStateType.frenzied);
         }
 
         public void InitiateCombat(PlayerStateMachine playerStateHandler)  // called via Unity Event
@@ -174,12 +157,19 @@ namespace Frankie.Control
             InitiateCombat(playerStateHandler.value, transitionType);
         }
 
+        public void InitiateCombat(TransitionType transitionType, List<NPCStateHandler> npcMob) // Aggro, not callable via Unity Events
+        {
+            InitiateCombat(playerStateHandler.value, transitionType, npcMob);
+        }
+
         public void InitiateDialogue(TransitionType transitionType) // called via Unity Event
         {
             InitiateDialogue(playerStateHandler.value);
         }
+        #endregion
 
-        private void InitiateCombat(PlayerStateMachine playerStateHandler, TransitionType transitionType)
+        #region PrivateMethods
+        private void InitiateCombat(PlayerStateMachine playerStateHandler, TransitionType transitionType, List<NPCStateHandler> npcMob = null)
         {
             if (combatParticipant == null) { return; }
 
@@ -193,9 +183,12 @@ namespace Frankie.Control
                 List<CombatParticipant> enemies = new List<CombatParticipant>();
                 enemies.Add(combatParticipant);
 
-                foreach (NPCStateHandler npcInContact in npcCollisionHandler.GetNPCMob())
+                if (npcMob != null)
                 {
-                    enemies.Add(npcInContact.GetCombatParticipant());
+                    foreach (NPCStateHandler npcInContact in npcMob)
+                    {
+                        enemies.Add(npcInContact.GetCombatParticipant());
+                    }
                 }
 
                 playerStateHandler.EnterCombat(enemies, transitionType);
@@ -216,7 +209,7 @@ namespace Frankie.Control
         }
         #endregion
 
-        #region PrivateMethods
+        #region EventListeners
         private void ParsePlayerStateChange(PlayerStateType playerState)
         {
             if (queueDeathOnNextPlayerStateChange)
@@ -250,28 +243,6 @@ namespace Frankie.Control
             }
         }
 
-        private void ShoutToNearbyNPCs()
-        {
-            if (combatParticipant != null && combatParticipant.IsDead()) { return; }
-
-            RaycastHit2D[] hits = npcMover.NPCCastFromSelf(shoutDistance);
-            foreach (RaycastHit2D hit in hits)
-            {
-                if (hit.collider.gameObject.TryGetComponent(out NPCStateHandler npcInRange))
-                {
-                    if (!npcInRange.IsShoutable() || npcInRange == this) { continue; }
-                    if (shoutGroup.Length == 0 || shoutGroup.Contains(npcInRange)) // Default behavior, not set, aggro everything shoutable
-                    {
-                        if (npcInRange.SetNPCState(NPCStateType.aggravated, false)) // Do not chain shouts (shout on aggravation set to false)
-                        {
-                            // Override collisions if successfully aggro'd to allow swarm
-                            npcInRange.SetNPCState(NPCStateType.frenzied);
-                        }
-                    }
-                }
-            }
-        }
-
         private void HandleNPCCombatStateChange(CombatParticipant combatParticipant, StateAlteredData stateAlteredData)
         {
             if (stateAlteredData.stateAlteredType == StateAlteredType.Dead && willDestroySelfOnDeath)
@@ -280,13 +251,5 @@ namespace Frankie.Control
             }
         }
         #endregion
-
-#if UNITY_EDITOR
-        private void OnDrawGizmosSelected()
-        {
-            Gizmos.color = Color.red;
-            Gizmos.DrawWireSphere(transform.position, shoutDistance);
-        }
-#endif
     }
 }
