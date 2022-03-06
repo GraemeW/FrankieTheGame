@@ -25,7 +25,7 @@ namespace Frankie.ZoneManagement
         // State
         bool inTransitToNextScene = false;
         string queuedZoneNodeID = null;
-        PlayerStateHandler currentPlayerStateHandler = null;
+        PlayerStateMachine currentPlayerStateHandler = null;
         PlayerController currentPlayerController = null;
 
         // Cached References
@@ -266,7 +266,7 @@ namespace Frankie.ZoneManagement
             return false;
         }
 
-        private void SetUpCurrentReferences(PlayerStateHandler playerStateHandler, PlayerController playerController)
+        private void SetUpCurrentReferences(PlayerStateMachine playerStateHandler, PlayerController playerController)
         {
             currentPlayerStateHandler = playerStateHandler;
             currentPlayerController = playerController;
@@ -291,7 +291,7 @@ namespace Frankie.ZoneManagement
             return CursorType.Zone;
         }
 
-        public bool HandleRaycast(PlayerStateHandler playerStateHandler, PlayerController playerController, PlayerInputType inputType, PlayerInputType matchType)
+        public bool HandleRaycast(PlayerStateMachine playerStateHandler, PlayerController playerController, PlayerInputType inputType, PlayerInputType matchType)
         {
             if (!this.CheckDistance(gameObject, transform.position, playerController, 
                 overrideDefaultInteractionDistance, interactionDistance)) 

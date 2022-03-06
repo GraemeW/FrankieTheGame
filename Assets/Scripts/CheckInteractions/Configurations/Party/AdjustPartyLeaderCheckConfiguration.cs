@@ -12,7 +12,7 @@ namespace Frankie.Control
     {
         [SerializeField] string messageAdjustLeader = "Who you want to take over?";
 
-        public override List<ChoiceActionPair> GetChoiceActionPairs(PlayerStateHandler playerStateHandler, CheckWithConfiguration callingCheck)
+        public override List<ChoiceActionPair> GetChoiceActionPairs(PlayerStateMachine playerStateHandler, CheckWithConfiguration callingCheck)
         {
             Party party = playerStateHandler.GetParty();
             List<ChoiceActionPair> interactActions = new List<ChoiceActionPair>();

@@ -18,7 +18,7 @@ namespace Frankie.Combat
 
         // Cached References
         CombatParticipant combatParticipant = null;
-        protected PlayerStateHandler playerStateHandler = null;
+        protected PlayerStateMachine playerStateHandler = null;
         protected BattleController battleController = null;
 
         private void Awake()
@@ -64,7 +64,7 @@ namespace Frankie.Combat
 
         protected void SyncToPlayerStateHandler()
         {
-            playerStateHandler = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerStateHandler>();
+            playerStateHandler = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerStateMachine>();
             playerStateHandler.playerStateChanged += HandlePlayerState;
         }
 

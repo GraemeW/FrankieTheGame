@@ -23,7 +23,7 @@ namespace Frankie.Control
             return CursorType.Check;
         }
 
-        public abstract bool HandleRaycast(PlayerStateHandler playerStateHandler, PlayerController playerController, PlayerInputType inputType, PlayerInputType matchType);
+        public abstract bool HandleRaycast(PlayerStateMachine playerStateHandler, PlayerController playerController, PlayerInputType inputType, PlayerInputType matchType);
 
         protected bool IsInRange(PlayerController playerController)
         {

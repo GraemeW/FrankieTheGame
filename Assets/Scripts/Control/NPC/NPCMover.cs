@@ -10,8 +10,8 @@ namespace Frankie.Control
     public class NPCMover : Mover
     {
         // Tunables
+        [Header("NPC Specific Behavior")]
         [SerializeField] Transform interactionCenterPoint = null;
-        [Header("Patrol Properties")]
         [SerializeField] PatrolPath patrolPath = null;
         [SerializeField] float waypointDwellTime = 2.0f;
         [SerializeField] float giveUpOnPatrolTargetTime = 10.0f;
@@ -21,11 +21,14 @@ namespace Frankie.Control
         NPCStateHandler npcStateHandler = null;
 
         // State
+        bool movingActive = true;
+        bool resetPositionOnNextIdle = false;
         Vector3 initialPosition = new Vector3();
         int currentWaypointIndex = 0;
         float timeSinceArrivedAtWaypoint = Mathf.Infinity;
         float timeSinceNewPatrolTarget = 0f;
 
+        #region UnityMethods
         protected override void Awake()
         {
             base.Awake();
@@ -40,9 +43,19 @@ namespace Frankie.Control
             SetNextPatrolTarget();
         }
 
+        private void OnEnable()
+        {
+            npcStateHandler.npcStateChanged += HandleNPCStateChange;
+        }
+
+        private void OnDisable()
+        {
+            npcStateHandler.npcStateChanged -= HandleNPCStateChange;
+        }
+
         protected override void FixedUpdate()
         {
-            if (npcStateHandler.GetNPCState() == NPCState.occupied) { return; }
+            if (!movingActive) { return; }
 
             bool? hasMoved = MoveToTarget();
             if (hasMoved == null) { return; }
@@ -64,7 +77,9 @@ namespace Frankie.Control
                 timeSinceNewPatrolTarget += Time.deltaTime; 
             }
         }
+        #endregion
 
+        #region PublicMethods
         public Vector2 GetInteractionPosition()
         {
             if (interactionCenterPoint != null)
@@ -74,7 +89,7 @@ namespace Frankie.Control
             return Vector2.zero;
         }
 
-        public void SetLookDirectionToPlayer(PlayerStateHandler playerStateHandler) // called via Unity Event
+        public void SetLookDirectionToPlayer(PlayerStateMachine playerStateHandler) // called via Unity Event
         {
             PlayerController callingController = playerStateHandler.GetComponent<PlayerController>();
             Vector2 lookDirection = callingController.GetInteractionPosition() - (Vector2)interactionCenterPoint.position;
@@ -86,6 +101,34 @@ namespace Frankie.Control
         {
             RaycastHit2D[] hits = Physics2D.CircleCastAll(interactionCenterPoint.position, raycastRadius, Vector2.zero);
             return hits;
+        }
+        #endregion
+
+        #region PrivateMethods
+        private void HandleNPCStateChange(NPCStateType npcStateType)
+        {
+            movingActive = true;
+            switch (npcStateType)
+            {
+                case NPCStateType.occupied:
+                    movingActive = false;
+                    return;
+                case NPCStateType.suspicious:
+                    ClearMoveTargets();
+                    break;
+                case NPCStateType.aggravated:
+                case NPCStateType.frenzied:
+                    resetPositionOnNextIdle = true;
+                    if (!HasMoveTarget())
+                    {
+                        SetMoveTarget(npcStateHandler.GetPlayer());
+                    }
+                    break;
+                case NPCStateType.idle:
+                default:
+                    if (resetPositionOnNextIdle) { MoveToOriginalPosition(); resetPositionOnNextIdle = false; }
+                    break;
+            }
         }
 
         private bool SetNextPatrolTarget()
@@ -130,6 +173,7 @@ namespace Frankie.Control
             animator.SetFloat("xLook", lookDirection.x);
             animator.SetFloat("yLook", lookDirection.y);
         }
+        #endregion
 
 #if UNITY_EDITOR
         private void OnDrawGizmosSelected()

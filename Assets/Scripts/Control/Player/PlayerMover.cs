@@ -7,7 +7,7 @@ using System;
 namespace Frankie.Control
 {
     [RequireComponent(typeof(PlayerController))]
-    [RequireComponent(typeof(PlayerStateHandler))]
+    [RequireComponent(typeof(PlayerStateMachine))]
     public class PlayerMover : Mover
     {
         // Tunables
@@ -22,7 +22,7 @@ namespace Frankie.Control
         bool historyResetThisFrame = false;
 
         // Cached References
-        PlayerStateHandler playerStateHandler = null;
+        PlayerStateMachine playerStateHandler = null;
 
         // Events
         public event Action movementHistoryReset;
@@ -32,7 +32,7 @@ namespace Frankie.Control
         protected override void Awake()
         {
             base.Awake();
-            playerStateHandler = GetComponent<PlayerStateHandler>();
+            playerStateHandler = GetComponent<PlayerStateMachine>();
             movementHistory = new CircularBuffer<Tuple<Vector2, Vector2>>(playerMovementHistoryLength);
         }
 

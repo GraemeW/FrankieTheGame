@@ -25,7 +25,7 @@ namespace Frankie.Inventory.UI
         string messageCannotSell = "";
 
         // Cached References
-        PlayerStateHandler playerStateHandler = null;
+        PlayerStateMachine playerStateHandler = null;
         WalletUI walletUI = null;
         ShopBox shopBox = null;
         Shopper shopper = null;
@@ -44,7 +44,7 @@ namespace Frankie.Inventory.UI
         }
 
         // Sell-specific
-        public void Setup(IStandardPlayerInputCaller standardPlayerInputCaller, PlayerStateHandler playerStateHandler, Party party, Shopper shopper, string messageForSale, string messageCannotSell)
+        public void Setup(IStandardPlayerInputCaller standardPlayerInputCaller, PlayerStateMachine playerStateHandler, Party party, Shopper shopper, string messageForSale, string messageCannotSell)
         {
             transactionType = ShopType.Sell;
 

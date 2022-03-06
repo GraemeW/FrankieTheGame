@@ -4,11 +4,12 @@ using UnityEngine;
 
 namespace Frankie.Control
 {
-    public enum NPCState
+    public enum NPCStateType
     {
         idle,
-        aggravated,
+        occupied,
         suspicious,
-        occupied
+        aggravated,
+        frenzied
     }
 }

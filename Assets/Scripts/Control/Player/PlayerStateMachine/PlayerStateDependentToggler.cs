@@ -12,11 +12,11 @@ namespace Frankie.Control
 
         // Cached References
         GameObject player = null;
-        ReInitLazyValue<PlayerStateHandler> playerStateHandler = null;
+        ReInitLazyValue<PlayerStateMachine> playerStateHandler = null;
 
         private void Awake()
         {
-            playerStateHandler = new ReInitLazyValue<PlayerStateHandler>(SetupPlayerStateHandler);
+            playerStateHandler = new ReInitLazyValue<PlayerStateMachine>(SetupPlayerStateHandler);
         }
 
         private void Start()
@@ -34,10 +34,10 @@ namespace Frankie.Control
             playerStateHandler.value.playerStateChanged -= HandlePlayerStateChanged;
         }
 
-        private PlayerStateHandler SetupPlayerStateHandler()
+        private PlayerStateMachine SetupPlayerStateHandler()
         {
             if (player == null) { player = GameObject.FindGameObjectWithTag("Player"); }
-            return player?.GetComponent<PlayerStateHandler>();
+            return player?.GetComponent<PlayerStateMachine>();
         }
 
         private void HandlePlayerStateChanged(PlayerStateType playerState)

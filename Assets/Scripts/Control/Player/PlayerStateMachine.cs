@@ -1,21 +1,22 @@
-using Frankie.Combat;
-using Frankie.ZoneManagement;
-using Frankie.Speech;
-using Frankie.Stats;
-using Frankie.Inventory;
-using Frankie.Utils;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
 using System.Collections;
 using System.Linq;
 using UnityEngine.SceneManagement;
+using Frankie.Control.PlayerStates;
+using Frankie.Combat;
+using Frankie.ZoneManagement;
+using Frankie.Speech;
+using Frankie.Stats;
+using Frankie.Inventory;
+using Frankie.Utils;
 
 namespace Frankie.Control
 {
     [RequireComponent(typeof(Party))]
     [RequireComponent(typeof(Shopper))]
-    public class PlayerStateHandler : MonoBehaviour, IPlayerStateContext
+    public class PlayerStateMachine : MonoBehaviour, IPlayerStateContext
     {
         // Tunables
         [Header("Other Controller Prefabs")]

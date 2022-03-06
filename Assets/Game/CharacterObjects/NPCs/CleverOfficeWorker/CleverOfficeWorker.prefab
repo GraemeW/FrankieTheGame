@@ -27,6 +27,10 @@ PrefabInstance:
       propertyPath: movingBackgroundProperties.tileSpriteImage
       value: 
       objectReference: {fileID: 21300000, guid: bfdfdc8c78e277341b92f4c46aef0eaf, type: 3}
+    - target: {fileID: 1821436604961406953, guid: e4be3ce2d5464c3498c884ae5d9223d4, type: 3}
+      propertyPath: collisionsOverriddenToEnterCombat
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2085418849946982719, guid: e4be3ce2d5464c3498c884ae5d9223d4, type: 3}
       propertyPath: defaultLevel
       value: 5
@@ -111,5 +115,9 @@ PrefabInstance:
       propertyPath: skillTree
       value: 
       objectReference: {fileID: 11400000, guid: 5e44460ae80015f45bf6058e111d95fe, type: 2}
+    - target: {fileID: 8647497084266917323, guid: e4be3ce2d5464c3498c884ae5d9223d4, type: 3}
+      propertyPath: willChasePlayer
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e4be3ce2d5464c3498c884ae5d9223d4, type: 3}

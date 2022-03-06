@@ -31,7 +31,7 @@ namespace Frankie.Control.Specialization
             currentItemQuantity.ForceInit();
         }
 
-        public void GiveItem(PlayerStateHandler playerStateHandler) // Called via Unity events
+        public void GiveItem(PlayerStateMachine playerStateHandler) // Called via Unity events
         {
             if (inventoryItem == null) { return; }
             if (currentItemQuantity.value <= 0)

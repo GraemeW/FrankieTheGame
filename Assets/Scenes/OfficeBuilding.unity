@@ -3293,6 +3293,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 352433257}
     m_Modifications:
+    - target: {fileID: 1399129963589217544, guid: 04f5506a3c6980342b86a87faa9be780, type: 3}
+      propertyPath: willChasePlayer
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3816174447268341601, guid: 04f5506a3c6980342b86a87faa9be780, type: 3}
       propertyPath: dialogue
       value: 
@@ -3300,6 +3304,34 @@ PrefabInstance:
     - target: {fileID: 3911318286878746148, guid: 04f5506a3c6980342b86a87faa9be780, type: 3}
       propertyPath: uniqueIdentifier
       value: 215e217f-b951-4b68-a3bf-195dc5ca492f
+      objectReference: {fileID: 0}
+    - target: {fileID: 8227983546019331882, guid: 04f5506a3c6980342b86a87faa9be780, type: 3}
+      propertyPath: collidedWithPlayer.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8227983546019331882, guid: 04f5506a3c6980342b86a87faa9be780, type: 3}
+      propertyPath: collidedWithPlayer.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8227983546019331882, guid: 04f5506a3c6980342b86a87faa9be780, type: 3}
+      propertyPath: collidedWithPlayer.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 639277477}
+    - target: {fileID: 8227983546019331882, guid: 04f5506a3c6980342b86a87faa9be780, type: 3}
+      propertyPath: collidedWithPlayer.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8227983546019331882, guid: 04f5506a3c6980342b86a87faa9be780, type: 3}
+      propertyPath: collidedWithPlayer.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: InitiateDialogue
+      objectReference: {fileID: 0}
+    - target: {fileID: 8227983546019331882, guid: 04f5506a3c6980342b86a87faa9be780, type: 3}
+      propertyPath: collidedWithPlayer.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: Frankie.Control.NPCStateHandler, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 8227983546019331882, guid: 04f5506a3c6980342b86a87faa9be780, type: 3}
+      propertyPath: collidedWithPlayer.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
     - target: {fileID: 8456762765274448979, guid: 04f5506a3c6980342b86a87faa9be780, type: 3}
       propertyPath: shoutDistance
@@ -3446,9 +3478,21 @@ MonoBehaviour:
     onTriggerEvent:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 639277477}
-          m_TargetAssemblyTypeName: Frankie.Control.NPCStateHandler, Assembly-CSharp
-          m_MethodName: SetChasePlayerDisposition
+        - m_Target: {fileID: 1377257177}
+          m_TargetAssemblyTypeName: Frankie.Control.NPCChaser, Assembly-CSharp
+          m_MethodName: SetChaseDisposition
+          m_Mode: 6
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+        - m_Target: {fileID: 1377257176}
+          m_TargetAssemblyTypeName: Frankie.Control.NPCCollisionHandler, Assembly-CSharp
+          m_MethodName: SetCollisionsActive
           m_Mode: 6
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
@@ -9311,6 +9355,28 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 2584231154192558548, guid: d4c3082e909cce44a80d4e9dad27b85e, type: 3}
   m_PrefabInstance: {fileID: 1375390693}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1377257176 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8227983546019331882, guid: 04f5506a3c6980342b86a87faa9be780, type: 3}
+  m_PrefabInstance: {fileID: 639277474}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 09807a149718b734dac905d311dab9a4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1377257177 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1399129963589217544, guid: 04f5506a3c6980342b86a87faa9be780, type: 3}
+  m_PrefabInstance: {fileID: 639277474}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c526a6d8c65f5584cb392e578f029378, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1425683562
 PrefabInstance:
   m_ObjectHideFlags: 0

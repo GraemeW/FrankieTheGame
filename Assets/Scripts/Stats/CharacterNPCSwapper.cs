@@ -102,7 +102,7 @@ namespace Frankie.Stats
             return worldNPC;
         }
 
-        public void JoinParty(PlayerStateHandler playerStateHandler) // Called via Unity Events
+        public void JoinParty(PlayerStateMachine playerStateHandler) // Called via Unity Events
         {
             Party party = playerStateHandler.GetParty();
             party.AddToParty(this);

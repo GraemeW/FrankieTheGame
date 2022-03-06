@@ -24,10 +24,10 @@ namespace Frankie.Inventory
         [SerializeField] UnityEvent transactionCompleted;
 
         // State
-        PlayerStateHandler playerStateHandler = null;
+        PlayerStateMachine playerStateHandler = null;
         Shopper shopper = null;
 
-        public void InitiateBargain(PlayerStateHandler playerStateHandler) // Called via Unity events
+        public void InitiateBargain(PlayerStateMachine playerStateHandler) // Called via Unity events
         {
             if (stock == null) { return; }
             playerStateHandler.EnterShop(this);

@@ -24,7 +24,7 @@ namespace Frankie.Control
         [SerializeField] [Tooltip("Optional action on reject choice")] InteractionEvent rejectInteraction = null;
 
         #region Interfaces
-        public override bool HandleRaycast(PlayerStateHandler playerStateHandler, PlayerController playerController, PlayerInputType inputType, PlayerInputType matchType)
+        public override bool HandleRaycast(PlayerStateMachine playerStateHandler, PlayerController playerController, PlayerInputType inputType, PlayerInputType matchType)
         {
             return checkType switch
             {
@@ -37,7 +37,7 @@ namespace Frankie.Control
         #endregion
 
         #region SpecificImplementation
-        private bool SimpleCheck(PlayerStateHandler playerStateHandler, PlayerController playerController, PlayerInputType inputType, PlayerInputType matchType)
+        private bool SimpleCheck(PlayerStateMachine playerStateHandler, PlayerController playerController, PlayerInputType inputType, PlayerInputType matchType)
         {
             if (!IsInRange(playerController)) { return false; }
 
@@ -48,7 +48,7 @@ namespace Frankie.Control
             return true;
         }
 
-        private bool MessageCheck(PlayerStateHandler playerStateHandler, PlayerController playerController, PlayerInputType inputType, PlayerInputType matchType)
+        private bool MessageCheck(PlayerStateMachine playerStateHandler, PlayerController playerController, PlayerInputType inputType, PlayerInputType matchType)
         {
             if (string.IsNullOrEmpty(checkMessage)) { return false; }
             if (!IsInRange(playerController)) { return false; }
@@ -71,7 +71,7 @@ namespace Frankie.Control
             return true;
         }
 
-        private bool ChoiceConfirmationCheck(PlayerStateHandler playerStateHandler, PlayerController playerController, PlayerInputType inputType, PlayerInputType matchType)
+        private bool ChoiceConfirmationCheck(PlayerStateMachine playerStateHandler, PlayerController playerController, PlayerInputType inputType, PlayerInputType matchType)
         {
             if (string.IsNullOrEmpty(checkMessage)) { return false; }
             if (!IsInRange(playerController)) { return false; }
@@ -90,7 +90,7 @@ namespace Frankie.Control
         #endregion
 
         #region UtilityFunctions
-        protected void SetupPostCheckActions(PlayerStateHandler playerStateHandler)
+        protected void SetupPostCheckActions(PlayerStateMachine playerStateHandler)
         {
             DialogueController dialogueController = playerStateHandler.GetCurrentDialogueController();
             if (dialogueController != null && checkInteraction != null)

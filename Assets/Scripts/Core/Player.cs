@@ -8,19 +8,19 @@ using System;
 
 namespace Frankie.Core
 {
-    [RequireComponent(typeof(PlayerStateHandler))]
+    [RequireComponent(typeof(PlayerStateMachine))]
     [RequireComponent(typeof(Party))]
 
     public class Player : MonoBehaviour
     {
         // Cached References
-        PlayerStateHandler playerStateHandler = null;
+        PlayerStateMachine playerStateHandler = null;
         Party party = null;
 
         private void Awake()
         {
             VerifySingleton();
-            playerStateHandler = GetComponent<PlayerStateHandler>();
+            playerStateHandler = GetComponent<PlayerStateMachine>();
             party = GetComponent<Party>();
         }
 

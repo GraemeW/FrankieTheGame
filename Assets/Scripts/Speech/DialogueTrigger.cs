@@ -19,7 +19,7 @@ namespace Frankie.Speech
 
         // Cached References
         DialogueController dialogueController = null;
-        PlayerStateHandler playerStateHandler = null;
+        PlayerStateMachine playerStateHandler = null;
 
         // Data Structures
         [System.Serializable]
@@ -30,11 +30,11 @@ namespace Frankie.Speech
         }
 
         [System.Serializable]
-        public class UnityEventWithCallingController : UnityEvent<PlayerStateHandler>
+        public class UnityEventWithCallingController : UnityEvent<PlayerStateMachine>
         {
         }
 
-        public void Setup(DialogueController dialogueController, PlayerStateHandler playerStateHandler)
+        public void Setup(DialogueController dialogueController, PlayerStateMachine playerStateHandler)
         {
             this.playerStateHandler = playerStateHandler;
             this.dialogueController = dialogueController;

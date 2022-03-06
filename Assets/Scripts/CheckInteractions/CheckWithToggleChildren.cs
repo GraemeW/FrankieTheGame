@@ -41,7 +41,7 @@ namespace Frankie.Control
             }
         }
 
-        public override bool HandleRaycast(PlayerStateHandler playerStateHandler, PlayerController playerController, PlayerInputType inputType, PlayerInputType matchType)
+        public override bool HandleRaycast(PlayerStateMachine playerStateHandler, PlayerController playerController, PlayerInputType inputType, PlayerInputType matchType)
         {
             if (!IsInRange(playerController)) { return false; }
 
@@ -52,7 +52,7 @@ namespace Frankie.Control
             return true;
         }
 
-        private void ToggleChildren(PlayerStateHandler playerStateHandler)
+        private void ToggleChildren(PlayerStateMachine playerStateHandler)
         {
             if (transform.childCount == 0) { return; }
 
@@ -77,14 +77,14 @@ namespace Frankie.Control
             }
         }
 
-        private bool CheckCondition(PlayerStateHandler playerStateHandler)
+        private bool CheckCondition(PlayerStateMachine playerStateHandler)
         {
             if (condition == null) { return false; }
 
             return condition.Check(GetEvaluators(playerStateHandler));
         }
 
-        private IEnumerable<IPredicateEvaluator> GetEvaluators(PlayerStateHandler playerStateHandler)
+        private IEnumerable<IPredicateEvaluator> GetEvaluators(PlayerStateMachine playerStateHandler)
         {
             return playerStateHandler.GetComponentsInChildren<IPredicateEvaluator>();
         }

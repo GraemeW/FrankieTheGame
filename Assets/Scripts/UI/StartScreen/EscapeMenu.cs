@@ -15,7 +15,7 @@ namespace Frankie.Menu.UI
 
         // Cached References
         SavingWrapper savingWrapper = null;
-        PlayerStateHandler playerStateHandler = null;
+        PlayerStateMachine playerStateHandler = null;
         WorldCanvas worldCanvas = null;
         GameObject childOption = null;
 
@@ -25,7 +25,7 @@ namespace Frankie.Menu.UI
         private void Awake()
         {
             worldCanvas = GameObject.FindGameObjectWithTag("WorldCanvas")?.GetComponent<WorldCanvas>();
-            playerStateHandler = GameObject.FindGameObjectWithTag("Player")?.GetComponent<PlayerStateHandler>();
+            playerStateHandler = GameObject.FindGameObjectWithTag("Player")?.GetComponent<PlayerStateMachine>();
             if (worldCanvas == null || playerStateHandler == null) { Destroy(gameObject); }
 
             controller = playerStateHandler?.GetComponent<PlayerController>();

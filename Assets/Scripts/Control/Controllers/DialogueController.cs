@@ -32,7 +32,7 @@ namespace Frankie.Speech
         // Cached References
         PlayerInput playerInput = null;
         WorldCanvas worldCanvas = null;
-        PlayerStateHandler playerStateHandler = null;
+        PlayerStateMachine playerStateHandler = null;
         Party party = null;
 
         // Events
@@ -195,7 +195,7 @@ namespace Frankie.Speech
         }
 
         // Dialogue Handling
-        public void Setup(WorldCanvas worldCanvas, PlayerStateHandler playerStateHandler, Party party)
+        public void Setup(WorldCanvas worldCanvas, PlayerStateMachine playerStateHandler, Party party)
         {
             this.worldCanvas = worldCanvas;
             this.playerStateHandler = playerStateHandler;

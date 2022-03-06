@@ -25,7 +25,7 @@ namespace Frankie.Inventory.UI
 
         // Cached Reference
         WorldCanvas worldCanvas = null;
-        PlayerStateHandler playerStateHandler = null;
+        PlayerStateMachine playerStateHandler = null;
         PlayerController playerController = null;
         Party party = null;
         PartyKnapsackConduit partyKnapsackConduit = null;
@@ -54,7 +54,7 @@ namespace Frankie.Inventory.UI
         #endregion
 
         #region PublicMethods
-        public void Setup(WorldCanvas worldCanvas, PlayerStateHandler playerStateHandler, PlayerController playerController, Party party, Shopper shopper)
+        public void Setup(WorldCanvas worldCanvas, PlayerStateMachine playerStateHandler, PlayerController playerController, Party party, Shopper shopper)
         {
             this.worldCanvas = worldCanvas;
             this.playerStateHandler = playerStateHandler;

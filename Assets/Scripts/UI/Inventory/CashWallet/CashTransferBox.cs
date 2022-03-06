@@ -37,7 +37,7 @@ namespace Frankie.Inventory.UI
 
         // Cached References
         WorldCanvas worldCanvas = null;
-        PlayerStateHandler playerStateHandler = null;
+        PlayerStateMachine playerStateHandler = null;
         PlayerController playerController = null;
         Shopper shopper = null;
         Wallet wallet = null;
@@ -55,7 +55,7 @@ namespace Frankie.Inventory.UI
         private void GetPlayerReference()
         {
             worldCanvas = GameObject.FindGameObjectWithTag("WorldCanvas")?.GetComponent<WorldCanvas>();
-            playerStateHandler = GameObject.FindGameObjectWithTag("Player")?.GetComponent<PlayerStateHandler>();
+            playerStateHandler = GameObject.FindGameObjectWithTag("Player")?.GetComponent<PlayerStateMachine>();
             if (worldCanvas == null || playerStateHandler == null) { Destroy(gameObject); }
 
             playerController = playerStateHandler?.GetComponent<PlayerController>();

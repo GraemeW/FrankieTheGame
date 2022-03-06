@@ -33,7 +33,7 @@ namespace Frankie.Speech
             return dialogue;
         }
 
-        public override bool HandleRaycast(PlayerStateHandler playerStateHandler, PlayerController playerController, PlayerInputType inputType, PlayerInputType matchType)
+        public override bool HandleRaycast(PlayerStateMachine playerStateHandler, PlayerController playerController, PlayerInputType inputType, PlayerInputType matchType)
         {
             if (dialogue == null) { return false; }
 

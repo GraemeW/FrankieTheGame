@@ -8,7 +8,7 @@ using UnityEngine.InputSystem;
 namespace Frankie.Control
 {
     [RequireComponent(typeof(PlayerMover))]
-    [RequireComponent(typeof(PlayerStateHandler))]
+    [RequireComponent(typeof(PlayerStateMachine))]
     public class PlayerController : MonoBehaviour, IStandardPlayerInputCaller
     {
         // Data Types
@@ -34,7 +34,7 @@ namespace Frankie.Control
         // Cached References
         PlayerInput playerInput = null;
         PlayerMover playerMover = null;
-        PlayerStateHandler playerStateHandler = null;
+        PlayerStateMachine playerStateHandler = null;
 
         // Static
         string STATIC_TAG_INTERACTABLE = "Interactable";
@@ -78,7 +78,7 @@ namespace Frankie.Control
         private void Awake()
         {
             playerMover = GetComponent<PlayerMover>();
-            playerStateHandler = GetComponent<PlayerStateHandler>();
+            playerStateHandler = GetComponent<PlayerStateMachine>();
             playerInput = new PlayerInput();
 
             VerifyUnique();

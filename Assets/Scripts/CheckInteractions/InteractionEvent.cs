@@ -6,7 +6,7 @@ using UnityEngine.Events;
 namespace Frankie.Control
 {
     [System.Serializable]
-    public class InteractionEvent : UnityEvent<PlayerStateHandler>
+    public class InteractionEvent : UnityEvent<PlayerStateMachine>
     {
     }
 }

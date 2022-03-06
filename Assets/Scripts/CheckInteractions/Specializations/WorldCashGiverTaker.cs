@@ -39,7 +39,7 @@ namespace Frankie.Control.Specialization
             return numberTransactions;
         }
 
-        public void ConductTransaction(PlayerStateHandler playerStateHandler) // Called by Unity Events
+        public void ConductTransaction(PlayerStateMachine playerStateHandler) // Called by Unity Events
         {
             if (IsNothingLeft(playerStateHandler)) { return; }
 
@@ -61,7 +61,7 @@ namespace Frankie.Control.Specialization
             if (!infiniteTransactions) { numberTransactionsLeft.value--; }
         }
 
-        private bool IsNothingLeft(PlayerStateHandler playerStateHandler)
+        private bool IsNothingLeft(PlayerStateMachine playerStateHandler)
         {
             if (transactionCash == 0) { return true; }
             if (!infiniteTransactions && numberTransactionsLeft.value <= 0)
@@ -72,7 +72,7 @@ namespace Frankie.Control.Specialization
             return false;
         }
 
-        private bool IsWalletFullOrEmpty(PlayerStateHandler playerStateHandler, Wallet wallet, string recipient)
+        private bool IsWalletFullOrEmpty(PlayerStateMachine playerStateHandler, Wallet wallet, string recipient)
         {
             if (transactionCash > 0 && wallet.IsWalletFull())
             {

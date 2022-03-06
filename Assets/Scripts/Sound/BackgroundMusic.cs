@@ -28,7 +28,7 @@ namespace Frankie.Sound
 
         // Cached References
         AudioSource audioSource = null;
-        PlayerStateHandler playerStateHandler = null;
+        PlayerStateMachine playerStateHandler = null;
         BattleController battleController = null;
 
         // Static Variables
@@ -117,7 +117,7 @@ namespace Frankie.Sound
 
             // Player object is not always present, e.g. on intro splash screens
             // Special handling to check for existence on each scene load until found
-            playerStateHandler = GameObject.FindGameObjectWithTag("Player")?.GetComponent<PlayerStateHandler>();
+            playerStateHandler = GameObject.FindGameObjectWithTag("Player")?.GetComponent<PlayerStateMachine>();
             if (playerStateHandler == null) { return; }
 
             playerStateHandler.playerStateChanged += ParsePlayerState;

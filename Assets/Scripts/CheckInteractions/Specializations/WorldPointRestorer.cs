@@ -8,7 +8,7 @@ namespace Frankie.Control.Specialization
 {
     public class WorldPointRestorer : MonoBehaviour
     {
-        public void ReviveAndHealParty(PlayerStateHandler playerStateHandler) // Called via Unity events
+        public void ReviveAndHealParty(PlayerStateMachine playerStateHandler) // Called via Unity events
         {
             foreach (CombatParticipant combatParticipant in playerStateHandler.GetParty().GetParty())
             {
@@ -16,7 +16,7 @@ namespace Frankie.Control.Specialization
             }
         }
 
-        public void RestorePartyAP(PlayerStateHandler playerStateHandler) // Called via Unity Events
+        public void RestorePartyAP(PlayerStateMachine playerStateHandler) // Called via Unity Events
         {
             foreach (CombatParticipant combatParticipant in playerStateHandler.GetParty().GetParty())
             {
@@ -24,7 +24,7 @@ namespace Frankie.Control.Specialization
             }
         }
 
-        public void ReviveAndHealAttachedCharacter(PlayerStateHandler playerStateHandler) // Called via Unity Events
+        public void ReviveAndHealAttachedCharacter(PlayerStateMachine playerStateHandler) // Called via Unity Events
         {
             if (!gameObject.TryGetComponent(out CombatParticipant combatParticipant)) { return; }
 
