@@ -27,7 +27,7 @@ namespace Frankie.Combat
                     _ => 0f,
                 };
 
-                recipient.AdjustHP(modifiedAPChange);
+                recipient.AdjustAP(modifiedAPChange);
             }
 
             finished?.Invoke(this);

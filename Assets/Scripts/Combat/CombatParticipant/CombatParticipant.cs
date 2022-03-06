@@ -250,13 +250,13 @@ namespace Frankie.Combat
 
             if (friendly) // Damage dealt is delayed, occurs over damageTimeSpan seconds
             {
-                float unsafeHP = currentHP.value + points;
+                float unsafeHP = targetHP + points;
                 targetHP = Mathf.Min(unsafeHP, baseStats.GetStat(Stat.HP));
                 deltaHPTimeFraction = (Time.deltaTime / damageTimeSpan);
             }
             else
             {
-                float unsafeHP = currentHP.value + points;
+                float unsafeHP = targetHP + points;
                 currentHP.value = Mathf.Clamp(unsafeHP, 0f, baseStats.GetStat(Stat.HP));
             }
         }

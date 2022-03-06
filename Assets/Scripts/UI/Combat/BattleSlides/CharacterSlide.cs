@@ -33,10 +33,10 @@ namespace Frankie.Combat.UI
         // Static
         private static void BreakApartNumber(float number, out int hundreds, out int tens, out int ones)
         {
-            int ceilingNumber = Mathf.CeilToInt(number);
-            hundreds = ceilingNumber / 100;
-            tens = (ceilingNumber % 100) / 10;
-            ones = ceilingNumber % 10;
+            int roundedNumber = Mathf.RoundToInt(number);
+            hundreds = roundedNumber / 100;
+            tens = (roundedNumber % 100) / 10;
+            ones = roundedNumber % 10;
         }
 
         private enum SlideState
