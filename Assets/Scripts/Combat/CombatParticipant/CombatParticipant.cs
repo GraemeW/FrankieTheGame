@@ -283,6 +283,7 @@ namespace Frankie.Combat
 
             float unsafeAP = currentAP.value + points;
             currentAP.value = Mathf.Clamp(unsafeAP, 0f, baseStats.GetStat(Stat.AP));
+            AnnounceStateUpdate(new StateAlteredData(StateAlteredType.AdjustAPNonSpecific, points));
         }
 
         public void Revive(float hp)

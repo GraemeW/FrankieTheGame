@@ -178,8 +178,9 @@ namespace Frankie.Combat.UI
             string skillName = activeSkill.GetName();
             string targetCharacterNames = string.Join(", ", battleActionData.GetTargets().Select(x => x.GetCombatName()).ToList());
 
-            bool skillUsedSuccessfully = activeSkill.Use(battleActionData, null);
-            SetAbilitiesBoxState(AbilitiesBoxState.inAbilitiesSelection);
+            bool skillUsedSuccessfully = activeSkill.Use(battleActionData, null); // Actual skill execution
+
+            SetAbilitiesBoxState(AbilitiesBoxState.inCharacterTargeting);
 
             DialogueBox dialogueBox = Instantiate(dialogueBoxPrefab, transform.parent);
             if (skillUsedSuccessfully)
@@ -288,14 +289,22 @@ namespace Frankie.Combat.UI
         private void SetAbilitiesBoxState(AbilitiesBoxState abilitiesBoxState)
         {
             this.abilitiesBoxState = abilitiesBoxState;
-            if (abilitiesBoxState == AbilitiesBoxState.inCharacterSelection) { battleActionData = null; } // Reset battle action data on selected character changed
-
-            SetUpChoiceOptions();
-
-            if (abilitiesBoxState != AbilitiesBoxState.inCharacterTargeting)
+            switch (abilitiesBoxState)
             {
-                targetCharacterChanged?.Invoke(CombatParticipantType.Foe, null);
+                case AbilitiesBoxState.inCharacterSelection:
+                    battleActionData = null; // Reset battle action data on selected character changed
+                    targetCharacterChanged?.Invoke(CombatParticipantType.Foe, null);
+                    break;
+                case AbilitiesBoxState.inAbilitiesSelection:
+                    targetCharacterChanged?.Invoke(CombatParticipantType.Foe, null);
+                    break;
+                case AbilitiesBoxState.inCharacterTargeting:
+                    targetCharacterChanged?.Invoke(CombatParticipantType.Foe, battleActionData.GetTargets()); // Re-highlight the target character
+                    break;
+                default:
+                    break;
             }
+            SetUpChoiceOptions();
 
             OnUIBoxModified(UIBoxModifiedType.itemSelected, true);
         }

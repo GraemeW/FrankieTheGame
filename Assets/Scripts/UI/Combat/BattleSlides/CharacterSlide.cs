@@ -73,7 +73,6 @@ namespace Frankie.Combat.UI
         {
             if (combatParticipantType == CombatParticipantType.Either) { return; }
             
-
             if (combatParticipantType == CombatParticipantType.Friendly)
             {
                 if (combatParticipant.IsDead()) { slideState = SlideState.Dead; }
@@ -124,7 +123,11 @@ namespace Frankie.Combat.UI
                     break;
                 case StateAlteredType.IncreaseAP:
                 case StateAlteredType.DecreaseAP:
-                    UpdateAP(this.combatParticipant.GetAP());
+                    break;
+                case StateAlteredType.AdjustAPNonSpecific:
+                    // Adjust character slide AP on non-specific (i.e. even those announced 'quietly')
+                    // Sound effects otherwise update on increase/decrease
+                    UpdateAP(this.combatParticipant.GetAP()); 
                     damageTextSpawner.AddToQueue(new DamageTextData(DamageTextType.APChanged, stateAlteredData.points));
                     break;
                 case StateAlteredType.HitMiss:

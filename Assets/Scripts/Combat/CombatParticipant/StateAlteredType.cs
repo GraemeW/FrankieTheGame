@@ -7,6 +7,7 @@ namespace Frankie.Combat
         AdjustHPNonSpecific,
         IncreaseAP,
         DecreaseAP,
+        AdjustAPNonSpecific,
         Dead,
         Resurrected,
         StatusEffectApplied,
