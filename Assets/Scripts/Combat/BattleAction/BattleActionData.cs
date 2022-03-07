@@ -59,6 +59,16 @@ namespace Frankie.Combat
             return targets;
         }
 
+        public CombatParticipant GetFirst()
+        {
+            return targets.FirstOrDefault();
+        }
+
+        public CombatParticipant GetLast()
+        {
+            return targets.LastOrDefault();
+        }
+
         public void StartCoroutine(IEnumerator coroutine)
         {
             sender.GetComponent<MonoBehaviour>().StartCoroutine(coroutine);

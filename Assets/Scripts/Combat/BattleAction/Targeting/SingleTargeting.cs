@@ -15,7 +15,7 @@ namespace Frankie.Combat
             CombatParticipant newTarget = null;
             if (battleActionData.targetCount > 0)
             {
-                newTarget = battleActionData.GetTargets().First();
+                newTarget = battleActionData.GetFirst();
             }
 
             // Special handling
@@ -54,13 +54,13 @@ namespace Frankie.Combat
             // Matched on last index -- return top of the list
             if (returnOnNextIteration)
             {
-                if (traverseForward == true) { newTarget = battleActionData.GetTargets().First(); }
-                else if (traverseForward == false) { newTarget = battleActionData.GetTargets().Last(); }
+                if (traverseForward == true) { newTarget = battleActionData.GetFirst(); }
+                else if (traverseForward == false) { newTarget = battleActionData.GetLast(); }
                 battleActionData.SetTargets(newTarget);
             }
 
             // Special case -- never matched to current target, send first available up the chain
-            battleActionData.SetTargets(battleActionData.GetTargets().First());
+            battleActionData.SetTargets(battleActionData.GetFirst());
         }
 
         protected override List<CombatParticipant> GetCombatParticipantsByTypeTemplate(CombatParticipantType combatParticipantType, 
