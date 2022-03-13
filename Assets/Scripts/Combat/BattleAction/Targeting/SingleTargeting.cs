@@ -12,10 +12,10 @@ namespace Frankie.Combat
             IEnumerable<CombatParticipant> activeCharacters, IEnumerable<CombatParticipant> activeEnemies)
         {
             // Collapse target list to single target -- pull first if available
-            CombatParticipant newTarget = null;
+            CombatParticipant passTarget = null;
             if (battleActionData.targetCount > 0)
             {
-                newTarget = battleActionData.GetFirst();
+                passTarget = battleActionData.GetFirst();
             }
 
             // Separate out overall set & filter
@@ -26,9 +26,9 @@ namespace Frankie.Combat
             // Special handling for null traverse:  No traversing -- pass the target back after filtering
             if (traverseForward == null)
             {
-                if (battleActionData.GetTargets().Contains(newTarget))
+                if (battleActionData.GetTargets().Contains(passTarget))
                 {
-                    battleActionData.SetTargets(newTarget);
+                    battleActionData.SetTargets(passTarget);
                 }
                 else
                 {
@@ -48,21 +48,21 @@ namespace Frankie.Combat
             {
                 if (returnOnNextIteration) // B) select target, break
                 {
-                    newTarget = combatParticipant;
+                    passTarget = combatParticipant;
                     break;
                 }
 
-                returnOnNextIteration = (combatParticipant == newTarget); // A) Match to current index -- return on next target
+                returnOnNextIteration = (combatParticipant == passTarget); // A) Match to current index -- return on next target
             }
-            if (newTarget != null) { battleActionData.SetTargets(newTarget); return; } // C) set target, return
+            if (passTarget != null) { battleActionData.SetTargets(passTarget); return; } // C) set target, return
 
 
             // Matched on last index -- return top of the list
             if (returnOnNextIteration)
             {
-                if (traverseForward == true) { newTarget = battleActionData.GetFirst(); }
-                else if (traverseForward == false) { newTarget = battleActionData.GetLast(); }
-                battleActionData.SetTargets(newTarget);
+                if (traverseForward == true) { passTarget = battleActionData.GetFirst(); }
+                else if (traverseForward == false) { passTarget = battleActionData.GetLast(); }
+                battleActionData.SetTargets(passTarget);
             }
 
             // Special case -- never matched to current target, send first available up the chain

@@ -158,7 +158,7 @@ namespace Frankie.Combat.UI
         #region PrivateMethods
         private void TryAddBattleQueue()
         {
-            if (battleController == null || !battleController.IsBattleActionArmed()) { return; }
+            if (battleController == null || !battleController.HasActiveBattleAction()) { return; }
 
             battleController.AddToBattleQueue(new List<CombatParticipant> { combatParticipant });
         }

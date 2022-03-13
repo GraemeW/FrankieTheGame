@@ -15,13 +15,13 @@ namespace Frankie.Combat
             IEnumerable<CombatParticipant> activeCharacters, IEnumerable<CombatParticipant> activeEnemies)
         {
             // Collapse target list to expected number to hit
-            List<CombatParticipant> newTargets = new List<CombatParticipant>();
+            List<CombatParticipant> passTargets = new List<CombatParticipant>();
             if (battleActionData.targetCount > 0)
             {
                 int modifiedPassedLength = 0;
                 foreach (CombatParticipant combatParticipant in battleActionData.GetTargets())
                 {
-                    newTargets.Add(combatParticipant);
+                    passTargets.Add(combatParticipant);
                     modifiedPassedLength++;
 
                     if (!overrideToHitEverything && modifiedPassedLength >= numberOfEnemiesToHit) { break; }
@@ -32,40 +32,34 @@ namespace Frankie.Combat
             battleActionData.SetTargets(this.GetCombatParticipantsByType(combatParticipantType, activeCharacters, activeEnemies));
             FilterTargets(battleActionData, filterStrategies);
             if (battleActionData.targetCount == 0) { return; }
-
-            // Special handling for null traverse:  No traversing -- pass the target back after filtering
-            if (traverseForward == null)
-            {
-                List<CombatParticipant> validPassedTarget = new List<CombatParticipant>();
-                foreach (CombatParticipant combatParticipant in battleActionData.GetTargets())
-                {
-                    if (newTargets.Contains(combatParticipant))
-                    {
-                        validPassedTarget.Add(combatParticipant);
-                    }
-                }
-                battleActionData.SetTargets(validPassedTarget);
-                return; 
-            }
-
-            // Special handling for hit everything -- return the whole set & break
-            if (overrideToHitEverything || battleActionData.targetCount > numberOfEnemiesToHit)
+            
+            if (overrideToHitEverything)
             {
                 return;
             }
 
             // Finally iterate through to find next targets
-            CombatParticipant oldIndexTarget = newTargets?.First();
+            CombatParticipant oldIndexTarget = passTargets?.First();
             if (traverseForward == false)
             {
                 battleActionData.ReverseTargets();
-                oldIndexTarget = newTargets?.Last();
+                oldIndexTarget = passTargets?.Last();
             }
-            List<CombatParticipant> shiftedTargets = GetShiftedTargets(battleActionData, oldIndexTarget).ToList(); // Define locally since iterating over the list in battleActionData
+
+            List<CombatParticipant> shiftedTargets; // Define locally since iterating over the list in battleActionData
+            if (traverseForward == null)
+            {
+                // Special handling for hit everything -- return the whole set & break
+                shiftedTargets = GetShiftedTargets(battleActionData, oldIndexTarget, true).ToList();
+            }
+            else
+            {
+                shiftedTargets = GetShiftedTargets(battleActionData, oldIndexTarget).ToList(); 
+            }
             battleActionData.SetTargets(shiftedTargets);
         }
 
-        private IEnumerable<CombatParticipant> GetShiftedTargets(BattleActionData battleActionData, CombatParticipant oldIndexTarget)
+        private IEnumerable<CombatParticipant> GetShiftedTargets(BattleActionData battleActionData, CombatParticipant oldIndexTarget, bool doNotShift = false)
         {
             bool indexFound = false;
             int targetLength = 0;
@@ -74,8 +68,16 @@ namespace Frankie.Combat
             {
                 if (!indexFound)
                 {
+                    if (combatParticipant == oldIndexTarget)
+                    { 
+                        indexFound = true;
+                        if (doNotShift)
+                        {
+                            yield return combatParticipant;
+                            continue;
+                        }
+                    }
                     cycledTargets.Add(combatParticipant);
-                    if (combatParticipant == oldIndexTarget) { indexFound = true; }
                 }
                 else
                 {

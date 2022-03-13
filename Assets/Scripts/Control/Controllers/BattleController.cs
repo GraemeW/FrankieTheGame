@@ -286,6 +286,17 @@ namespace Frankie.Combat
             return selectedBattleAction;
         }
 
+        public bool HasActiveBattleAction()
+        {
+            return selectedBattleAction != null;
+        }
+
+        public bool IsBattleActionArmed()
+        {
+            return battleActionArmed;
+        }
+
+
         public List<CombatParticipant> GetCharacters()
         {
             return activeCharacters;
@@ -295,12 +306,6 @@ namespace Frankie.Combat
         {
             return activeEnemies;
         }
-
-        public bool IsBattleActionArmed()
-        {
-            return battleActionArmed;
-        }
-
         public float GetBattleExperienceReward()
         {
             return battleExperienceReward;
@@ -340,6 +345,7 @@ namespace Frankie.Combat
             // Using selected character and battle action
             if (GetSelectedCharacter() == null || selectedBattleAction == null) { return false; }
             battleActionData.SetTargets(recipients);
+            selectedBattleAction.GetTargets(null, battleActionData, activeCharacters, activeEnemies); // Select targets with null traverse to apply filters & pass back
 
             AddToBattleQueue(battleActionData, selectedBattleAction);
             return true;

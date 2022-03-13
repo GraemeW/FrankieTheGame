@@ -121,6 +121,8 @@ namespace Frankie.Inventory.UI
 
         private void SubscribeCharacterSlides(bool enable)
         {
+            if (controller != null && controller.GetType() == typeof(BattleController)) { return; } // Battle controller handles slides separately
+
             if (characterSlides != null)
             {
                 foreach (CharacterSlide characterSlide in characterSlides)
@@ -133,7 +135,7 @@ namespace Frankie.Inventory.UI
                     else
                     {
                         targetCharacterChanged -= characterSlide.HighlightSlide;
-                        // Note:  Remove button click event listeners handled on battleSlide on disable (removes all listeners)
+                        characterSlide.RemoveButtonClickEvents();
                     }
                 }
             }
