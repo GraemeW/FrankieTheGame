@@ -518,6 +518,7 @@ namespace Frankie.Inventory.UI
             ActionItem actionItem = selectedKnapsack.GetItemInSlot(selectedItemSlot) as ActionItem;
             if (actionItem == null) { return false; }
 
+            if (battleActionData == null) { battleActionData = new BattleActionData(selectedCharacter); }
             actionItem.GetTargets(traverseForward, battleActionData, party.GetParty(), null);
             if (battleActionData.targetCount == 0)
             {

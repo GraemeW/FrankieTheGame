@@ -28,18 +28,25 @@ namespace Frankie.Combat
                 }
             }
 
-            // Special handling
-            // No traversing -- pass the target back
-            if (traverseForward == null)
-            {
-                battleActionData.SetTargets(newTargets);
-                return;
-            }
-
             // Separate out overall set & filter
             battleActionData.SetTargets(this.GetCombatParticipantsByType(combatParticipantType, activeCharacters, activeEnemies));
             FilterTargets(battleActionData, filterStrategies);
             if (battleActionData.targetCount == 0) { return; }
+
+            // Special handling for null traverse:  No traversing -- pass the target back after filtering
+            if (traverseForward == null)
+            {
+                List<CombatParticipant> validPassedTarget = new List<CombatParticipant>();
+                foreach (CombatParticipant combatParticipant in battleActionData.GetTargets())
+                {
+                    if (newTargets.Contains(combatParticipant))
+                    {
+                        validPassedTarget.Add(combatParticipant);
+                    }
+                }
+                battleActionData.SetTargets(validPassedTarget);
+                return; 
+            }
 
             // Special handling for hit everything -- return the whole set & break
             if (overrideToHitEverything || battleActionData.targetCount > numberOfEnemiesToHit)

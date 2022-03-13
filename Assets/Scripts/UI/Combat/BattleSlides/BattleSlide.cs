@@ -60,7 +60,7 @@ namespace Frankie.Combat.UI
 
         protected virtual void OnDisable()
         {
-            button.onClick.RemoveAllListeners();
+            RemoveButtonClickEvents();
 
             if (canvasDimming != null) { StopCoroutine(canvasDimming); }
             canvasDimming = null;
@@ -101,6 +101,11 @@ namespace Frankie.Combat.UI
         public virtual void AddButtonClickEvent(UnityAction unityAction)
         {
             button.onClick.AddListener(unityAction);
+        }
+
+        public void RemoveButtonClickEvents()
+        {
+            button.onClick.RemoveAllListeners();
         }
 
         public CombatParticipant GetCombatParticipant()

@@ -210,7 +210,7 @@ namespace Frankie.Combat
             return true;
         }
 
-        public bool SetSelectedTarget(IBattleActionUser battleActionUser, bool? traverseForward = null)
+        public bool SetSelectedTarget(IBattleActionUser battleActionUser, bool traverseForward = true)
         {
             if (battleActionUser == null)
             {
@@ -221,6 +221,7 @@ namespace Frankie.Combat
             {
                 battleActionUser.GetTargets(traverseForward, battleActionData, activeCharacters, activeEnemies);
             }
+
             selectedCombatParticipantChanged?.Invoke(CombatParticipantType.Foe, battleActionData?.GetTargets());
 
             if (battleActionData != null)
@@ -255,7 +256,7 @@ namespace Frankie.Combat
             }
             else if (selectedBattleAction != null)
             {
-                SetSelectedTarget(selectedBattleAction);
+                SetSelectedTarget(selectedBattleAction, true);
                 battleActionArmed = true;
             }
             else { return; }
@@ -579,7 +580,7 @@ namespace Frankie.Combat
             {
                 if (battleActionData.targetCount > 0 && battleActionData.GetTargets().Contains(combatParticipant))
                 {
-                    SetSelectedTarget(selectedBattleAction);
+                    SetSelectedTarget(selectedBattleAction, true);
                 }
             }
         }

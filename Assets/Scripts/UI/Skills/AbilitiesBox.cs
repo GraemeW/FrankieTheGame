@@ -87,7 +87,7 @@ namespace Frankie.Combat.UI
                     else
                     {
                         targetCharacterChanged -= characterSlide.HighlightSlide;
-                        // Note:  Remove button click event listeners handled on battleSlide on disable (removes all listeners)
+                        characterSlide.RemoveButtonClickEvents();
                     }
                 }
             }
@@ -139,7 +139,7 @@ namespace Frankie.Combat.UI
         {
             if (character == null)
             {
-                currentCombatParticipant = null;
+                Setup(CombatParticipantType.Friendly, party.GetParty()); // Failsafe, re-setup box if character lost
                 SetAbilitiesBoxState(AbilitiesBoxState.inCharacterSelection);
                 return;
             }
@@ -180,7 +180,7 @@ namespace Frankie.Combat.UI
 
             bool skillUsedSuccessfully = activeSkill.Use(battleActionData, null); // Actual skill execution
 
-            SetAbilitiesBoxState(AbilitiesBoxState.inCharacterTargeting);
+            SetAbilitiesBoxState(AbilitiesBoxState.inCharacterTargeting); // After use, reset to character targeting -- for continuous skill use
 
             DialogueBox dialogueBox = Instantiate(dialogueBoxPrefab, transform.parent);
             if (skillUsedSuccessfully)
@@ -241,12 +241,11 @@ namespace Frankie.Combat.UI
             HandleInputWithReturn(input);
 
             // Note:  Function re-use since standard implementation for SkillSelectionUI
-            // Used explicitlyselect skill && extended with Unity Events for mouse clicks
+            // Used explicitly w/ select skill && extended with Unity Events for mouse clicks
         }
 
         private bool GetNextTarget(bool? traverseForward)
         {
-            if (abilitiesBoxState != AbilitiesBoxState.inCharacterTargeting) { return false; }
             if (currentCombatParticipant == null) { return false; }
 
             SkillHandler skillHandler = currentCombatParticipant.GetComponent<SkillHandler>();
@@ -265,12 +264,20 @@ namespace Frankie.Combat.UI
 
         public void UseSkillOnTarget(CombatParticipant combatParticipant)
         {
-            if (abilitiesBoxState != AbilitiesBoxState.inCharacterTargeting) { return; }
+            // Don't care about state for mouse clicks, fail gracefully otherwise
+            if (combatParticipant == null) { return; }
+
+            // Sanity against current character selection
+            if (currentCombatParticipant == null) { ChooseCharacter(null); }
+            if (currentCombatParticipant == null) { return; } // Something went wrong
+
+            // Force a new battle action data
+            battleActionData = new BattleActionData(currentCombatParticipant);
 
             battleActionData.SetTargets(combatParticipant);
-            if (!GetNextTarget(null)) { SetAbilitiesBoxState(AbilitiesBoxState.inAbilitiesSelection); return; }
+            if (!GetNextTarget(null)) { SetAbilitiesBoxState(AbilitiesBoxState.inAbilitiesSelection); return; } // Verify valid target by calling with null
+            SetAbilitiesBoxState(AbilitiesBoxState.inCharacterTargeting);
 
-            targetCharacterChanged?.Invoke(CombatParticipantType.Foe, new[] { combatParticipant });
             Choose(null);
         }
 
