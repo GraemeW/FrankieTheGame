@@ -112,6 +112,11 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels:
     - BattleAction
+  - m_GUID: f2c12e4f25b0d7e4d9bbdaab9c89aaf9
+    m_Address: zz_TestAction
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - BattleAction
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: 486580c8fbd153c4dac30d33c738074e, type: 2}
   m_SchemaSet:

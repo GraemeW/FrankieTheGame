@@ -28,5 +28,10 @@ namespace Frankie.Combat
                 effectStrategy.StartEffect(sender, recipients, damageType, finished);
             }
         }
+
+        public EffectStrategy[] GetEffectStrategies()
+        {
+            return effectStrategies;
+        }
     }
 }

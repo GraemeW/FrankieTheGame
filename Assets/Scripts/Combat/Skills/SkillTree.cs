@@ -140,7 +140,7 @@ namespace Frankie.Combat
         {
             if (skillBranchToDelete == null) { return; }
 
-            Undo.RecordObject(this, "Delete Zone Node");
+            Undo.RecordObject(this, "Delete Skill Node");
             skillBranches.Remove(skillBranchToDelete);
             CleanDanglingChildren(skillBranchToDelete, skillBranchMapping);
             OnValidate();

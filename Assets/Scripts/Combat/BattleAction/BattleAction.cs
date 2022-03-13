@@ -73,6 +73,8 @@ namespace Frankie.Combat
 
         public bool Use(BattleActionData battleActionData, Action finished)
         {
+            CheckForTriggerResources();
+
             if (effectStrategies == null || !battleActionData.GetSender().HasAP(apCost))
             {
                 battleActionData.GetSender().SetCooldown(0f);
@@ -113,6 +115,45 @@ namespace Frankie.Combat
 
                 finished?.Invoke();
             }
+        }
+
+        private void CheckForTriggerResources()
+        {
+#if UNITY_EDITOR
+            int numberOfTriggerResources = CountTriggerResourcesEffects(effectStrategies);
+
+            if (numberOfTriggerResources == 0)
+            {
+                Debug.LogError(string.Format("Warning -- You need to add at least one trigger resources effect for the battle action: {0}", name));
+            }
+            else if (numberOfTriggerResources > 1)
+            {
+                Debug.LogError(string.Format("Warning -- looks like there's more than one trigger resources for the battle action: {0}.  Remove the extra instances.", name));
+            }
+#endif
+        }
+
+        private int CountTriggerResourcesEffects(EffectStrategy[] effectStrategiesToCheck)
+        {
+            int triggerResourceCount = 0;
+#if UNITY_EDITOR
+            foreach (EffectStrategy effectStrategy in effectStrategiesToCheck)
+            {
+                Type effectStrategyType = effectStrategy.GetType();
+
+                if (effectStrategyType == typeof(DelayCompositeEffect))
+                {
+                    DelayCompositeEffect delayCompositeEffect = effectStrategy as DelayCompositeEffect;
+                    triggerResourceCount += CountTriggerResourcesEffects(delayCompositeEffect.GetEffectStrategies());
+                }
+
+                if (effectStrategyType == typeof(TriggerResourcesCooldownsEffect))
+                {
+                    triggerResourceCount++;
+                }
+            }
+#endif
+            return triggerResourceCount;
         }
         #endregion
     }

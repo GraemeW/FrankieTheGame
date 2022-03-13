@@ -87,7 +87,7 @@ namespace Frankie.Combat.Editor
         {
             if (selectedSkillTree == null)
             {
-                EditorGUILayout.LabelField("No zone selected.");
+                EditorGUILayout.LabelField("No tree selected.");
             }
             else
             {

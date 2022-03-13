@@ -97,6 +97,11 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels:
     - Skill
+  - m_GUID: 2e183bbf6ce5dca4fae0092c6e0f34d3
+    m_Address: zz_TestAction
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Skill
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: 486580c8fbd153c4dac30d33c738074e, type: 2}
   m_SchemaSet:

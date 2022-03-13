@@ -9,7 +9,7 @@ namespace Frankie.Combat
     [System.Serializable]
     public class SkillBranch : ScriptableObject
     {
-        [Header("Dialogue Properties")]
+        [Header("Skill Properties")]
         [SerializeField] string upSkillReference = null;
         [SerializeField] string upBranch = null;
         [SerializeField] string leftSkillReference = null;
