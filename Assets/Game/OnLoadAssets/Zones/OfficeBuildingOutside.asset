@@ -29,6 +29,63 @@ MonoBehaviour:
     y: 0
     width: 430
     height: 45
+--- !u!114 &-6517432798666758438
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3268536af8903a64da82aa6872733d1d, type: 3}
+  m_Name: SceneToSubway
+  m_EditorClassIdentifier: 
+  children: []
+  linkedZone: {fileID: 11400000, guid: 22c8250c01773ac4c97cd290e2f34c7a, type: 2}
+  linkedZoneNode: {fileID: 6018069334625240327, guid: 22c8250c01773ac4c97cd290e2f34c7a, type: 2}
+  rect:
+    serializedVersion: 2
+    x: 545
+    y: 380
+    width: 430
+    height: 150
+  zoneName: OfficeBuildingOutside
+  draggingRect:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 430
+    height: 45
+--- !u!114 &-4912669020652922926
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3268536af8903a64da82aa6872733d1d, type: 3}
+  m_Name: SubwayDownStairs
+  m_EditorClassIdentifier: 
+  children:
+  - SceneToSubway
+  linkedZone: {fileID: 0}
+  linkedZoneNode: {fileID: 0}
+  rect:
+    serializedVersion: 2
+    x: 45.99997
+    y: 376
+    width: 430
+    height: 150
+  zoneName: OfficeBuildingOutside
+  draggingRect:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 430
+    height: 45
 --- !u!114 &-3127826260620926069
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -111,6 +168,8 @@ MonoBehaviour:
   - {fileID: -3127826260620926069}
   - {fileID: -9218234244170276018}
   - {fileID: -3097071385259953954}
+  - {fileID: -6517432798666758438}
+  - {fileID: -4912669020652922926}
 --- !u!114 &7904139768458627740
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -27,6 +27,9 @@ EditorBuildSettings:
     path: Assets/Scenes/PortaBank.unity
     guid: bd5507673954fb8449f66ea595f9f98e
   - enabled: 1
+    path: Assets/Scenes/Subway.unity
+    guid: 1adce6d662c0b0b47abecc5d8e178aab
+  - enabled: 1
     path: Assets/Scenes/zz_TEST_BattleRoyale.unity
     guid: 8b8eb4164910bda45acce09717d5064a
   m_configObjects:

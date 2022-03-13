@@ -1,0 +1,112 @@
+<linker>
+  <assembly fullname="Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
+    <type fullname="Frankie.Combat.APEffect" preserve="all" />
+    <type fullname="Frankie.Combat.ApplyPermanentStatEffect" preserve="all" />
+    <type fullname="Frankie.Combat.ApplyPersistentStatEffect" preserve="all" />
+    <type fullname="Frankie.Combat.BattleAction" preserve="all" />
+    <type fullname="Frankie.Combat.BattleAI" preserve="all" />
+    <type fullname="Frankie.Combat.CharacterFilter" preserve="all" />
+    <type fullname="Frankie.Combat.CombatParticipant" preserve="all" />
+    <type fullname="Frankie.Combat.DelayCompositeEffect" preserve="all" />
+    <type fullname="Frankie.Combat.HealthEffect" preserve="all" />
+    <type fullname="Frankie.Combat.HealthOverTimeEffect" preserve="all" />
+    <type fullname="Frankie.Combat.LivingFilter" preserve="all" />
+    <type fullname="Frankie.Combat.MultiTargeting" preserve="all" />
+    <type fullname="Frankie.Combat.RemovePersistentStatusEffect" preserve="all" />
+    <type fullname="Frankie.Combat.SetTargetCooldownEffect" preserve="all" />
+    <type fullname="Frankie.Combat.SingleTargeting" preserve="all" />
+    <type fullname="Frankie.Combat.Skill" preserve="all" />
+    <type fullname="Frankie.Combat.SkillBranch" preserve="all" />
+    <type fullname="Frankie.Combat.SkillHandler" preserve="all" />
+    <type fullname="Frankie.Combat.SkillTree" preserve="all" />
+    <type fullname="Frankie.Combat.SpawnTargetPrefabEffect" preserve="all" />
+    <type fullname="Frankie.Combat.TriggerResourcesCooldownsEffect" preserve="all" />
+    <type fullname="Frankie.Control.NPCChaser" preserve="all" />
+    <type fullname="Frankie.Control.NPCCollisionHandler" preserve="all" />
+    <type fullname="Frankie.Control.NPCMover" preserve="all" />
+    <type fullname="Frankie.Control.NPCStateHandler" preserve="all" />
+    <type fullname="Frankie.Core.IsCharacterPredicate" preserve="all" />
+    <type fullname="Frankie.Inventory.ActionItem" preserve="all" />
+    <type fullname="Frankie.Inventory.EquipableItem" preserve="all" />
+    <type fullname="Frankie.Inventory.Equipment" preserve="all" />
+    <type fullname="Frankie.Inventory.KeyItem" preserve="all" />
+    <type fullname="Frankie.Inventory.Knapsack" preserve="all" />
+    <type fullname="Frankie.Inventory.LootDispenser" preserve="all" />
+    <type fullname="Frankie.Quests.Quest" preserve="all" />
+    <type fullname="Frankie.Quests.QuestObjective" preserve="all" />
+    <type fullname="Frankie.Saving.SaveableEntity" preserve="all" />
+    <type fullname="Frankie.Sound.CombatParticipantSoundEffects" preserve="all" />
+    <type fullname="Frankie.Sound.SoundEffects" preserve="all" />
+    <type fullname="Frankie.Speech.AIConversant" preserve="all" />
+    <type fullname="Frankie.Stats.BaseStats" preserve="all" />
+    <type fullname="Frankie.Stats.CharacterNPCSwapper" preserve="all" />
+    <type fullname="Frankie.Stats.CharacterProperties" preserve="all" />
+    <type fullname="Frankie.Stats.Experience" preserve="all" />
+    <type fullname="Frankie.Stats.Progression" preserve="all" />
+    <type fullname="Frankie.Utils.SetMaterialTimeSinceInstantiation" preserve="all" />
+    <type fullname="Frankie.ZoneManagement.Zone" preserve="all" />
+    <type fullname="Frankie.ZoneManagement.ZoneNode" preserve="all" />
+    <type fullname="Frankie.Combat.MovingBackgroundProperties" preserve="nothing" serialized="true" />
+    <type fullname="Frankie.Control.InteractionEvent" preserve="nothing" serialized="true" />
+    <type fullname="Frankie.Control.NPCCollisionHandler/CollisionEvent" preserve="nothing" serialized="true" />
+    <type fullname="Frankie.Inventory.LootDispenser/LootEntry`1[Frankie.Inventory.InventoryItem]" preserve="nothing" serialized="true" />
+    <type fullname="Frankie.Stats.Progression/ProgressionCharacterClass" preserve="nothing" serialized="true" />
+    <type fullname="Frankie.Stats.Progression/ProgressionStat" preserve="nothing" serialized="true" />
+    <type fullname="Frankie.Core.Condition" preserve="nothing" serialized="true" />
+    <type fullname="Frankie.Core.Condition/Disjunction" preserve="nothing" serialized="true" />
+    <type fullname="Frankie.Core.Condition/PredicateWrapper" preserve="nothing" serialized="true" />
+    <type fullname="Frankie.Quests.QuestObjectivePair" preserve="nothing" serialized="true" />
+    <type fullname="Frankie.Stats.BaseStatModifier" preserve="nothing" serialized="true" />
+    <type fullname="Frankie.ZoneManagement.SceneReference" preserve="nothing" serialized="true" />
+  </assembly>
+  <assembly fullname="Unity.Addressables, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null" preserve="all">
+    <type fullname="UnityEngine.AddressableAssets.Addressables" preserve="all" />
+  </assembly>
+  <assembly fullname="Unity.ResourceManager, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null" preserve="all">
+    <type fullname="UnityEngine.ResourceManagement.ResourceProviders.AssetBundleProvider" preserve="all" />
+    <type fullname="UnityEngine.ResourceManagement.ResourceProviders.BundledAssetProvider" preserve="all" />
+    <type fullname="UnityEngine.ResourceManagement.ResourceProviders.InstanceProvider" preserve="all" />
+    <type fullname="UnityEngine.ResourceManagement.ResourceProviders.LegacyResourcesProvider" preserve="all" />
+    <type fullname="UnityEngine.ResourceManagement.ResourceProviders.SceneProvider" preserve="all" />
+  </assembly>
+  <assembly fullname="UnityEditor.CoreModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
+    <type fullname="UnityEditor.Audio.AudioMixerSnapshotController" preserve="all" />
+  </assembly>
+  <assembly fullname="UnityEngine.AnimationModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
+    <type fullname="UnityEngine.AnimationClip" preserve="all" />
+    <type fullname="UnityEngine.Animator" preserve="all" />
+    <type fullname="UnityEngine.AnimatorOverrideController" preserve="all" />
+    <type fullname="UnityEngine.RuntimeAnimatorController" preserve="all" />
+  </assembly>
+  <assembly fullname="UnityEngine.AudioModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
+    <type fullname="UnityEngine.Audio.AudioMixer" preserve="all" />
+    <type fullname="UnityEngine.Audio.AudioMixerGroup" preserve="all" />
+    <type fullname="UnityEngine.AudioClip" preserve="all" />
+    <type fullname="UnityEngine.AudioSource" preserve="all" />
+  </assembly>
+  <assembly fullname="UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
+    <type fullname="UnityEngine.GameObject" preserve="all" />
+    <type fullname="UnityEngine.Material" preserve="all" />
+    <type fullname="UnityEngine.Object" preserve="all" />
+    <type fullname="UnityEngine.RectTransform" preserve="all" />
+    <type fullname="UnityEngine.Shader" preserve="all" />
+    <type fullname="UnityEngine.Sprite" preserve="all" />
+    <type fullname="UnityEngine.SpriteRenderer" preserve="all" />
+    <type fullname="UnityEngine.Texture2D" preserve="all" />
+    <type fullname="UnityEngine.Transform" preserve="all" />
+    <type fullname="UnityEngine.Events.PersistentCallGroup" preserve="nothing" serialized="true" />
+    <type fullname="UnityEngine.Events.ArgumentCache" preserve="nothing" serialized="true" />
+    <type fullname="UnityEngine.Events.PersistentListenerMode" preserve="nothing" serialized="true" />
+  </assembly>
+  <assembly fullname="UnityEngine.Physics2DModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
+    <type fullname="UnityEngine.BoxCollider2D" preserve="all" />
+    <type fullname="UnityEngine.Rigidbody2D" preserve="all" />
+  </assembly>
+  <assembly fullname="UnityEngine.UI, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
+    <type fullname="UnityEngine.UI.Image" preserve="all" />
+    <type fullname="UnityEngine.UI.MaskableGraphic/CullStateChangedEvent" preserve="nothing" serialized="true" />
+  </assembly>
+  <assembly fullname="UnityEngine.UIModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
+    <type fullname="UnityEngine.CanvasRenderer" preserve="all" />
+  </assembly>
+</linker>
