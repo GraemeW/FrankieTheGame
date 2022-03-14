@@ -46,6 +46,7 @@ namespace Frankie.Combat
 
         public void ClearTargets()
         {
+            targetCount = 0;
             targets.Clear();
         }
 

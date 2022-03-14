@@ -54,7 +54,7 @@ namespace Frankie.Combat.UI
             if (battleController != null)
             {
                 battleController.selectedCombatParticipantChanged += HighlightSlide;
-                AddButtonClickEvent( delegate{ TryAddBattleQueue(); });
+                AddButtonClickEvent( delegate{ HandleClickInBattle(); });
             }
         }
 
@@ -156,11 +156,13 @@ namespace Frankie.Combat.UI
         #endregion
 
         #region PrivateMethods
-        private void TryAddBattleQueue()
+
+        protected virtual bool HandleClickInBattle()
         {
-            if (battleController == null || !battleController.HasActiveBattleAction()) { return; }
+            if (battleController == null || !battleController.HasActiveBattleAction()) { return false; }
 
             battleController.AddToBattleQueue(new List<CombatParticipant> { combatParticipant });
+            return true;
         }
 
         private void HandleSlideShaking()

@@ -52,7 +52,7 @@ namespace Frankie.Combat.UI
         protected override void OnEnable()
         {
             base.OnEnable();
-            if (battleController != null) { AddButtonClickEvent( delegate { battleController.SetSelectedCharacter(GetCombatParticipant()); }); }
+            if (battleController != null) { AddButtonClickEvent( delegate {  }); }
         }
 
         protected override void OnDisable()
@@ -148,6 +148,16 @@ namespace Frankie.Combat.UI
                     UpdateColor();
                     break;
             }
+        }
+
+        protected override bool HandleClickInBattle()
+        {
+            if (!base.HandleClickInBattle())
+            {
+                // Only callable if battle action not set via battle slide (one click behaviour)
+                if (battleController.SetSelectedCharacter(GetCombatParticipant())) { return true; }
+            }
+            return false;
         }
 
         // Private functions

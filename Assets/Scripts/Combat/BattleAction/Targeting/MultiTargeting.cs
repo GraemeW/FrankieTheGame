@@ -33,7 +33,7 @@ namespace Frankie.Combat
             FilterTargets(battleActionData, filterStrategies);
             if (battleActionData.targetCount == 0) { return; }
             
-            if (overrideToHitEverything)
+            if (overrideToHitEverything) // Return immediately after filtering -- whole set, no need to iterate
             {
                 return;
             }
@@ -49,7 +49,7 @@ namespace Frankie.Combat
             List<CombatParticipant> shiftedTargets; // Define locally since iterating over the list in battleActionData
             if (traverseForward == null)
             {
-                // Special handling for hit everything -- return the whole set & break
+                // Special handling null travers forward -- pass back set as it was received (modifying up if entities filtered out)
                 shiftedTargets = GetShiftedTargets(battleActionData, oldIndexTarget, true).ToList();
             }
             else

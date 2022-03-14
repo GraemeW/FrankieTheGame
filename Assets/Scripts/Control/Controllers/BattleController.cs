@@ -347,6 +347,8 @@ namespace Frankie.Combat
             battleActionData.SetTargets(recipients);
             selectedBattleAction.GetTargets(null, battleActionData, activeCharacters, activeEnemies); // Select targets with null traverse to apply filters & pass back
 
+            if (battleActionData.targetCount == 0) { return false; }
+
             AddToBattleQueue(battleActionData, selectedBattleAction);
             return true;
         }
