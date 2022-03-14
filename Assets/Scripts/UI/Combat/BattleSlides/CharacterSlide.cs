@@ -52,7 +52,6 @@ namespace Frankie.Combat.UI
         protected override void OnEnable()
         {
             base.OnEnable();
-            if (battleController != null) { AddButtonClickEvent( delegate {  }); }
         }
 
         protected override void OnDisable()
