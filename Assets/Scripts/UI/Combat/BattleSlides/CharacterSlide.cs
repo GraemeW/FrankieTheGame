@@ -66,6 +66,7 @@ namespace Frankie.Combat.UI
             UpdateName(this.combatParticipant.GetCombatName());
             UpdateHP(this.combatParticipant.GetHP());
             UpdateAP(this.combatParticipant.GetAP());
+            UpdateColor();
         }
 
         protected override void SetSelected(CombatParticipantType combatParticipantType, bool enable)
