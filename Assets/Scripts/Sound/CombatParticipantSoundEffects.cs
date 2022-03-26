@@ -37,10 +37,10 @@ namespace Frankie.Sound
                     PlayClip(increaseHPAudioClip);
                     break;
                 case StateAlteredType.IncreaseAP:
-                    PlayClipAfterDestroy(increaseAPAudioClip);
+                    PlayClip(increaseAPAudioClip);
                     break;
                 case StateAlteredType.DecreaseAP:
-                    PlayClipAfterDestroy(decreaseAPAudioClip);
+                    PlayClip(decreaseAPAudioClip);
                     break;
                 case StateAlteredType.Dead:
                     PlayClipAfterDestroy(deadAudioClip);
