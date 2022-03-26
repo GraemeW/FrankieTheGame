@@ -34,8 +34,8 @@ namespace Frankie.Control
         // Player
         IPlayerState currentPlayerState = new WorldState();
         // Queue
-        Action actionUnderConsideration = null;
-        Stack<Action> queuedActions = new Stack<Action>();
+        PlayerStateTypeActionPair actionUnderConsideration = null;
+        Stack<PlayerStateTypeActionPair> queuedActions = new Stack<PlayerStateTypeActionPair>();
         bool readyToPopQueue = false;
         // Transition
         TransitionType transitionTypeUnderConsideration = TransitionType.None;
@@ -63,6 +63,19 @@ namespace Frankie.Control
 
         // Events
         public event Action<PlayerStateType> playerStateChanged;
+
+        // Data Structures
+        private class PlayerStateTypeActionPair
+        {
+            public PlayerStateTypeActionPair(PlayerStateType playerStateType, Action action)
+            {
+                this.playerStateType = playerStateType;
+                this.action = action;
+            }
+
+            public PlayerStateType playerStateType { get; }
+            public Action action { get; }
+        }
 
         #region StaticMethods
         static PlayerStateType TranslatePlayerState(IPlayerState playerState)
@@ -114,7 +127,7 @@ namespace Frankie.Control
             if (readyToPopQueue)
             {
                 readyToPopQueue = false; // Either popped queue will change state, or queue invalidated -- clear state
-                if (queuedActions.Count > 0) { queuedActions.Pop().Invoke(); }
+                PopQueuedAction();
             }
         }
         #endregion
@@ -127,14 +140,18 @@ namespace Frankie.Control
 
         void IPlayerStateContext.SetPlayerState(IPlayerState playerState)
         {
-            UnityEngine.Debug.Log($"Updating player state to: {Enum.GetName(typeof(PlayerStateType), TranslatePlayerState(playerState))}");
+            PlayerStateType playerStateType = TranslatePlayerState(playerState);
+            UnityEngine.Debug.Log($"Updating player state to: {Enum.GetName(typeof(PlayerStateType), playerStateType)}");
 
             currentPlayerState = playerState;
-            playerStateChanged?.Invoke(TranslatePlayerState(playerState));
+            playerStateChanged?.Invoke(playerStateType);
 
-            readyToPopQueue = TranslatePlayerState(playerState) == PlayerStateType.inWorld; 
+            readyToPopQueue = playerStateType == PlayerStateType.inWorld; 
                 // Pop on update to prevent same-frame multi-state change
                 // Otherwise can experience bugs with controller spawning while deconstructing conflicting w/ singleton logic
+
+            if (playerStateType == PlayerStateType.inTransition && InBattleEntryTransition()) { ChainQueuedCombatAction(); }
+                // Required to allow swarm / multi-battle entry on same-frame
         }
 
         public Party GetParty() // TODO:  Refactor, Demeter
@@ -156,7 +173,7 @@ namespace Frankie.Control
 
         public void EnterZoneTransition()
         {
-            actionUnderConsideration = () => EnterZoneTransition();
+            actionUnderConsideration = new PlayerStateTypeActionPair(PlayerStateType.inTransition, () => EnterZoneTransition());
             currentTransitionType = TransitionType.Zone;
             zoneTransitionComplete = false;
             currentPlayerState.EnterTransition(this);
@@ -166,7 +183,7 @@ namespace Frankie.Control
         {
             if (enemies == null || enemies.Count == 0 || !IsBattleTransition(transitionType)) { return; }
 
-            actionUnderConsideration = () => EnterCombat(enemies, transitionType);
+            actionUnderConsideration = new PlayerStateTypeActionPair(PlayerStateType.inBattle, () => EnterCombat(enemies, transitionType));
             enemiesUnderConsideration.Clear();
             enemiesUnderConsideration.AddRange(enemies);
             transitionTypeUnderConsideration = transitionType;
@@ -178,7 +195,7 @@ namespace Frankie.Control
         {
             if (newConversant == null || newDialogue == null) { return; }
 
-            actionUnderConsideration = () => EnterDialogue(newConversant, newDialogue);
+            actionUnderConsideration = new PlayerStateTypeActionPair(PlayerStateType.inDialogue, () => EnterDialogue(newConversant, newDialogue));
             dialogueData = new DialogueData(newConversant, newDialogue);
             currentPlayerState.EnterDialogue(this);
         }
@@ -187,7 +204,7 @@ namespace Frankie.Control
         {
             if (string.IsNullOrWhiteSpace(message)) { return; }
 
-            actionUnderConsideration = () => EnterDialogue(message);
+            actionUnderConsideration = new PlayerStateTypeActionPair(PlayerStateType.inDialogue, () => EnterDialogue(message));
             dialogueData = new DialogueData(message);
             currentPlayerState.EnterDialogue(this);
         }
@@ -196,7 +213,7 @@ namespace Frankie.Control
         {
             if (choiceActionPairs == null || choiceActionPairs.Count == 0) { return; }
 
-            actionUnderConsideration = () => EnterDialogue(message, choiceActionPairs);
+            actionUnderConsideration = new PlayerStateTypeActionPair(PlayerStateType.inDialogue, () => EnterDialogue(message, choiceActionPairs));
             dialogueData = new DialogueData(message, choiceActionPairs);
             currentPlayerState.EnterDialogue(this);
         }
@@ -205,7 +222,7 @@ namespace Frankie.Control
         {
             if (shopper == null || shop == null) { return; }
 
-            actionUnderConsideration = () => EnterShop(shop);
+            actionUnderConsideration = new PlayerStateTypeActionPair(PlayerStateType.inMenus, () => EnterShop(shop));
             shopper.SetShop(shop);
             tradeData = new TradeData(shop.GetShopType());
             currentPlayerState.EnterTrade(this);
@@ -215,7 +232,7 @@ namespace Frankie.Control
         {
             if (bankType == BankType.None) { return; }
 
-            actionUnderConsideration = () => EnterBank(bankType);
+            actionUnderConsideration = new PlayerStateTypeActionPair(PlayerStateType.inMenus, () => EnterBank(bankType));
             shopper.SetBankType(bankType);
             tradeData = new TradeData(bankType);
             currentPlayerState.EnterTrade(this);
@@ -449,8 +466,32 @@ namespace Frankie.Control
         #region UtilityGeneral
         public void QueueActionUnderConsideration()
         {
-            if (actionUnderConsideration == null) { return; }
+            if (actionUnderConsideration == null || actionUnderConsideration.action == null) { return; }
             queuedActions.Push(actionUnderConsideration);
+        }
+
+        private void PopQueuedAction()
+        {
+            if (queuedActions.Count > 0)
+            {
+                PlayerStateTypeActionPair nextQueuedAction = queuedActions.Pop();
+                nextQueuedAction.action?.Invoke();
+
+                if (nextQueuedAction.playerStateType == PlayerStateType.inBattle)
+                {
+                    // On combat allow chained queues (e.g. multiple combat instantiation while in dialogue)
+                    ChainQueuedCombatAction();
+                }
+
+            }
+        }
+
+        private void ChainQueuedCombatAction()
+        {
+            if (queuedActions.Count > 0 && queuedActions.Peek().playerStateType == PlayerStateType.inBattle)
+            {
+                PopQueuedAction();
+            }
         }
 
         public void ClearPlayerStateMemory()
