@@ -1,4 +1,3 @@
-using Frankie.Combat;
 using Frankie.Stats;
 using Frankie.Utils;
 using System.Collections;

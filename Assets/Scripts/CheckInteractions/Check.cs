@@ -1,4 +1,3 @@
-using Frankie.Core;
 using Frankie.Speech;
 using Frankie.Utils;
 using System.Collections.Generic;
