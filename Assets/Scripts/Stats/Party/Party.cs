@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using Frankie.Combat;
 using Frankie.Control;
 using Frankie.Utils;
 using System;
@@ -18,14 +17,14 @@ namespace Frankie.Stats
     {
         // Tunables
         [SerializeField][Range(1,4)] int partyLimit = 4;
-        [SerializeField] List<CombatParticipant> party = new List<CombatParticipant>();
+        [SerializeField] List<BaseStats> party = new List<BaseStats>();
         [SerializeField] Transform partyContainer = null;
         [SerializeField] int partyOffset = 16;
 
         // State
         List<CharacterProperties> unlockedCharacters = new List<CharacterProperties>();
         Dictionary<string, Tuple<string, string>> worldNPCLookup = new Dictionary<string, Tuple<string, string>>();
-        Dictionary<CombatParticipant, Animator> animatorLookup = new Dictionary<CombatParticipant, Animator>();
+        Dictionary<BaseStats, Animator> animatorLookup = new Dictionary<BaseStats, Animator>();
 
         // Cached References
         PlayerMover playerMover = null;
@@ -63,47 +62,29 @@ namespace Frankie.Stats
         #endregion
 
         #region PublicGetters
-        public CombatParticipant GetPartyLeader()
-        {
-            return party[0];
-        }
+        public BaseStats GetPartyLeader() => party[0];
 
-        public string GetPartyLeaderName()
-        {
-            return party[0].GetCombatName();
-        }
+        public string GetPartyLeaderName() => party[0].GetCharacterProperties().GetCharacterNamePretty();
 
-        public bool IsPartyLeader(CombatParticipant combatParticipant)
-        {
-            return party[0] == combatParticipant;
-        }
+        public bool IsPartyLeader(BaseStats combatParticipant) => party[0] == combatParticipant;
 
-        public Animator GetLeadCharacterAnimator()
-        {
-            return animatorLookup[party[0]];
-        }
+        public Animator GetLeadCharacterAnimator() => animatorLookup[party[0]];
 
-        public List<CombatParticipant> GetParty()
-        {
-            return party;
-        }
+        public List<BaseStats> GetParty() => party;
 
-        public int GetPartySize()
-        {
-            return party.Count;
-        }
+        public int GetPartySize() => party.Count;
 
-        public bool HasMember(CombatParticipant member)
+        public bool HasMember(BaseStats member)
         {
-            CharacterProperties characterProperties = member.GetBaseStats()?.GetCharacterProperties();
+            CharacterProperties characterProperties = member.GetCharacterProperties();
             return HasMember(characterProperties);
         }
 
         public bool HasMember(CharacterProperties member)
         {
-            foreach (CombatParticipant character in party)
+            foreach (BaseStats character in party)
             {
-                CharacterProperties characterProperties = character.GetBaseStats()?.GetCharacterProperties();
+                CharacterProperties characterProperties = character.GetCharacterProperties();
                 if (characterProperties.GetCharacterNameID() == member.GetCharacterNameID())
                 {
                     return true;
@@ -112,32 +93,22 @@ namespace Frankie.Stats
             return false;
         }
 
-        public bool IsAnyMemberAlive()
+        public BaseStats GetMember(CharacterProperties member)
         {
-            bool alive = false;
-            foreach (CombatParticipant combatParticipant in party)
+            foreach (BaseStats character in party)
             {
-                if (!combatParticipant.IsDead()) { alive = true; }
-            }
-            return alive;
-        }
-
-        public CombatParticipant GetMember(CharacterProperties member)
-        {
-            foreach (CombatParticipant combatParticipant in party)
-            {
-                CharacterProperties characterProperties = combatParticipant.GetBaseStats().GetCharacterProperties();
+                CharacterProperties characterProperties = character.GetCharacterProperties();
                 if (characterProperties.GetCharacterNameID() == member.GetCharacterNameID())
                 {
-                    return combatParticipant;
+                    return character;
                 }
             }
             return null;
         }
 
-        public CombatParticipant GetNextMember(CombatParticipant currentMember, bool traverseForward)
+        public BaseStats GetNextMember(BaseStats currentMember, bool traverseForward)
         {
-            CombatParticipant nextMember = null;
+            BaseStats nextMember = null;
 
             // Simple case
             if (currentMember == null || party.Count == 1)
@@ -170,9 +141,9 @@ namespace Frankie.Stats
         public List<CharacterProperties> GetAvailableCharactersToAdd()
         {
             List<CharacterProperties> charactersInParty = new List<CharacterProperties>();
-            foreach (CombatParticipant character in party)
+            foreach (BaseStats character in party)
             {
-                charactersInParty.Add(character.GetBaseStats().GetCharacterProperties());
+                charactersInParty.Add(character.GetCharacterProperties());
             }
 
             return unlockedCharacters.Except(charactersInParty).ToList();
@@ -181,7 +152,7 @@ namespace Frankie.Stats
         #endregion
 
         #region PublicMethodsOther
-        public void SetPartyLeader(CombatParticipant character)
+        public void SetPartyLeader(BaseStats character)
         {
             if (!party.Contains(character)) { return; }
 
@@ -189,7 +160,7 @@ namespace Frankie.Stats
             party.Insert(0, character);
 
             int index = 0;
-            foreach (CombatParticipant partyCharacter in party)
+            foreach (BaseStats partyCharacter in party)
             {
                 Collider2D collider2D = partyCharacter.GetComponent<Collider2D>();
                 collider2D.isTrigger = index == 0 ? false : true;
@@ -201,7 +172,7 @@ namespace Frankie.Stats
         }
 
         // AddToParty -- Parent
-        public bool AddToParty(CombatParticipant character)
+        public bool AddToParty(BaseStats character)
         {
             if (party.Count >= partyLimit) { return false; }
             if (character == null) { return false; } // Failsafe
@@ -229,7 +200,7 @@ namespace Frankie.Stats
             UpdateWorldLookup(false, partyCharacter);
             Destroy(characterNPCSwapper.gameObject);
 
-            return AddToParty(partyCharacter.GetCombatParticipant());
+            return AddToParty(partyCharacter.GetBaseStats());
         }
 
         // AddToParty -- Derivative
@@ -241,12 +212,12 @@ namespace Frankie.Stats
 
             GameObject characterObject = CharacterNPCSwapper.SpawnCharacter(characterProperties.name, partyContainer);
 
-            CombatParticipant character = characterObject.GetComponent<CombatParticipant>();
+            BaseStats character = characterObject.GetComponent<BaseStats>();
             return AddToParty(character);
         }
 
         // RemoveFromParty -- Parent
-        public bool RemoveFromParty(CombatParticipant character)
+        public bool RemoveFromParty(BaseStats character)
         {
             if (party.Count <= 1) { return false; }
             if (character == null) { return false; } // Failsafe
@@ -268,7 +239,7 @@ namespace Frankie.Stats
         }
 
         // RemoveFromParty -- Derivative
-        public bool RemoveFromParty(CombatParticipant character, Transform worldTransform)
+        public bool RemoveFromParty(BaseStats character, Transform worldTransform)
         {
             if (party.Count <= 1) { return false; }
             if (character == null) { return false; } // Failsafe
@@ -285,7 +256,7 @@ namespace Frankie.Stats
 
         public void UpdateLeaderAnimation(float speed, float xLookDirection, float yLookDirection)
         {
-            CombatParticipant character = party[0];
+            BaseStats character = party[0];
             animatorLookup[character].SetFloat("Speed", speed);
             animatorLookup[character].SetFloat("xLook", xLookDirection);
             animatorLookup[character].SetFloat("yLook", yLookDirection);
@@ -296,15 +267,15 @@ namespace Frankie.Stats
         #region PrivateMethods
         private void InitializeUnlockedCharacters()
         {
-            foreach (CombatParticipant combatParticipant in party)
+            foreach (BaseStats combatParticipant in party)
             {
                 AddToUnlockedCharacters(combatParticipant);
             }
         }
 
-        private void AddToUnlockedCharacters(CombatParticipant combatParticipant)
+        private void AddToUnlockedCharacters(BaseStats character)
         {
-            CharacterProperties characterProperties = combatParticipant.GetBaseStats().GetCharacterProperties();
+            CharacterProperties characterProperties = character.GetCharacterProperties();
             AddToUnlockedCharacters(characterProperties);
         }
 
@@ -316,16 +287,16 @@ namespace Frankie.Stats
             }
         }
 
-        private void RemoveFromUnlockedCharacters(CombatParticipant combatParticipant)
+        private void RemoveFromUnlockedCharacters(BaseStats character)
         {
-            CharacterProperties characterProperties = combatParticipant.GetBaseStats().GetCharacterProperties();
+            CharacterProperties characterProperties = character.GetCharacterProperties();
             unlockedCharacters.Remove(characterProperties);
         }
 
         private void RefreshAnimatorLookup()
         {
             animatorLookup.Clear();
-            foreach (CombatParticipant character in party)
+            foreach (BaseStats character in party)
             {
                 animatorLookup.Add(character, character.GetComponent<Animator>());
             }
@@ -352,7 +323,7 @@ namespace Frankie.Stats
         private void UpdatePartySpeed(float speed)
         {
             int characterIndex = 0;
-            foreach (CombatParticipant character in party)
+            foreach (BaseStats character in party)
             {
                 if (characterIndex == 0) { characterIndex++; continue; }
                 animatorLookup[character].SetFloat("Speed", speed);
@@ -365,7 +336,7 @@ namespace Frankie.Stats
             Vector2 leaderPosition = movementHistory.GetFirstEntry().Item1;
 
             int characterIndex = 0;
-            foreach (CombatParticipant character in party)
+            foreach (BaseStats character in party)
             {
                 if (characterIndex == 0) { characterIndex++; continue; }
 
@@ -391,7 +362,7 @@ namespace Frankie.Stats
 
         private void ResetPartyOffsets()
         {
-            foreach (CombatParticipant character in party)
+            foreach (BaseStats character in party)
             {
                 character.gameObject.transform.localPosition = Vector2.zero;
             }
@@ -421,9 +392,9 @@ namespace Frankie.Stats
         public SaveState CaptureState()
         {
             List<string> currentPartyStrings = new List<string>();
-            foreach (CombatParticipant combatParticipant in party)
+            foreach (BaseStats character in party)
             {
-                currentPartyStrings.Add(combatParticipant.GetBaseStats().GetCharacterProperties().name);
+                currentPartyStrings.Add(character.GetCharacterProperties().name);
             }
             List<string> unlockedCharacterStrings = new List<string>();
             foreach (CharacterProperties characterProperties in unlockedCharacters)
@@ -440,9 +411,9 @@ namespace Frankie.Stats
         {
             PartySaveData data = (PartySaveData)saveState.GetState();
             // Clear characters in existing party in scene
-            foreach (CombatParticipant combatParticipant in party)
+            foreach (BaseStats character in party)
             {
-                Destroy(combatParticipant.gameObject);
+                Destroy(character.gameObject);
             }
             party.Clear();
 
@@ -454,15 +425,15 @@ namespace Frankie.Stats
                 {
                     if (party.Count > partyLimit) { break; } // Failsafe
 
-                    GameObject character = CharacterNPCSwapper.SpawnCharacter(characterName, partyContainer);
-                    if (character == null) { return; }
+                    GameObject characterObject = CharacterNPCSwapper.SpawnCharacter(characterName, partyContainer);
+                    if (characterObject == null) { return; }
 
-                    CombatParticipant combatParticipant = character.GetComponent<CombatParticipant>();
-                    if (combatParticipant == null) { Destroy(character); return; }
+                    BaseStats character = characterObject.GetComponent<BaseStats>();
+                    if (character == null) { Destroy(characterObject); return; }
 
-                    party.Add(combatParticipant);
+                    party.Add(character);
 
-                    if (party.Count > 1) { character.GetComponent<Collider2D>().isTrigger = true; }
+                    if (party.Count > 1) { characterObject.GetComponent<Collider2D>().isTrigger = true; }
                 }
                 RefreshAnimatorLookup();
             }

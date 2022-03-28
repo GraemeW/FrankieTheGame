@@ -1,4 +1,3 @@
-using Frankie.Combat;
 using Frankie.Control;
 using System.Collections;
 using System.Collections.Generic;
@@ -7,19 +6,16 @@ using UnityEngine;
 namespace Frankie.Stats
 {
     [RequireComponent(typeof(BaseStats))]
-    [RequireComponent(typeof(CombatParticipant))]
     public class CharacterNPCSwapper : MonoBehaviour
     {
         // Cached References
 
         BaseStats baseStats = null;
-        CombatParticipant combatParticipant = null;
         Party party = null;
 
         private void Awake()
         {
             baseStats = GetComponent<BaseStats>();
-            combatParticipant = GetComponent<CombatParticipant>();
             party = GameObject.FindGameObjectWithTag("Player")?.GetComponent<Party>();
         }
 
@@ -35,8 +31,8 @@ namespace Frankie.Stats
             CharacterProperties characterProperties = baseStats.GetCharacterProperties();
             if (characterProperties == null) { return; }
 
-            CombatParticipant characterInParty = party.GetMember(characterProperties);
-            if (characterInParty != null && characterInParty != this.combatParticipant)
+            BaseStats characterInParty = party.GetMember(characterProperties);
+            if (characterInParty != null && characterInParty != this.baseStats)
             {
                 Destroy(gameObject);
             }
@@ -64,15 +60,7 @@ namespace Frankie.Stats
             return characterNPC;
         }
 
-        public CombatParticipant GetCombatParticipant()
-        {
-            return combatParticipant;
-        }
-
-        public BaseStats GetBaseStats()
-        {
-            return baseStats;
-        }
+        public BaseStats GetBaseStats() => baseStats;
 
         public CharacterNPCSwapper SwapToCharacter(Transform partyContainer)
         {

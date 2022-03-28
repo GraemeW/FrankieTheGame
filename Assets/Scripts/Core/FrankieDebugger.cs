@@ -4,9 +4,7 @@ using UnityEngine;
 using Frankie.Utils;
 using Frankie.Quests;
 using Frankie.Stats;
-using Frankie.Combat;
 using Frankie.Inventory;
-using System.Linq;
 using UnityEngine.SceneManagement;
 
 namespace Frankie.Core
@@ -139,10 +137,10 @@ namespace Frankie.Core
         private void LevelUpParty()
         {
             UnityEngine.Debug.Log("Leveling up party:");
-            foreach (CombatParticipant combatParticipant in party.value.GetParty())
+            foreach (BaseStats character in party.value.GetParty())
             {
-                UnityEngine.Debug.Log($"{combatParticipant.name} has gained a level");
-                combatParticipant.GetBaseStats().IncrementLevel();
+                UnityEngine.Debug.Log($"{character.GetCharacterProperties().GetCharacterNamePretty()} has gained a level");
+                character.IncrementLevel();
             }
         }
         #endregion

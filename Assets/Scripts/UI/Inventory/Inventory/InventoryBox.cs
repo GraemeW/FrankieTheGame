@@ -49,7 +49,7 @@ namespace Frankie.Inventory.UI
 
         // Cached References
         BattleController battleController = null;
-        Party party = null;
+        PartyCombatConduit partyCombatConduit = null;
         List<CharacterSlide> characterSlides = null;
 
         // Events
@@ -71,10 +71,10 @@ namespace Frankie.Inventory.UI
         }
 
         #region Setup
-        public void Setup(IStandardPlayerInputCaller standardPlayerInputCaller, Party party, List<CharacterSlide> characterSlides = null)
+        public void Setup(IStandardPlayerInputCaller standardPlayerInputCaller, PartyCombatConduit partyCombatConduit, List<CharacterSlide> characterSlides = null)
         {
             controller = standardPlayerInputCaller;
-            this.party = party;
+            this.partyCombatConduit = partyCombatConduit;
             if (standardPlayerInputCaller.GetType() == typeof(BattleController))
             {
                 battleController = standardPlayerInputCaller as BattleController;
@@ -86,16 +86,16 @@ namespace Frankie.Inventory.UI
             }
 
             int choiceIndex = 0;
-            foreach (CombatParticipant character in party.GetParty())
+            foreach (CombatParticipant combatParticipant in this.partyCombatConduit.GetPartyCombatParticipants())
             {
                 GameObject uiChoiceOptionObject = Instantiate(optionPrefab, optionParent);
                 UIChoiceOption uiChoiceOption = uiChoiceOptionObject.GetComponent<UIChoiceOption>();
                 uiChoiceOption.SetChoiceOrder(choiceIndex);
-                uiChoiceOption.SetText(character.GetCombatName());
-                uiChoiceOption.AddOnClickListener(delegate { ChooseCharacter(character); });
-                uiChoiceOption.AddOnHighlightListener(delegate { SoftChooseCharacter(character); });
+                uiChoiceOption.SetText(combatParticipant.GetCombatName());
+                uiChoiceOption.AddOnClickListener(delegate { ChooseCharacter(combatParticipant); });
+                uiChoiceOption.AddOnHighlightListener(delegate { SoftChooseCharacter(combatParticipant); });
 
-                if (choiceIndex == 0) { SoftChooseCharacter(character); }
+                if (choiceIndex == 0) { SoftChooseCharacter(combatParticipant); }
 
                 playerSelectChoiceOptions.Add(uiChoiceOption);
                 choiceIndex++;
@@ -448,7 +448,7 @@ namespace Frankie.Inventory.UI
 
             GameObject inventoryMoveBoxObject = Instantiate(inventoryMoveBoxPrefab, transform.parent);
             InventoryMoveBox inventoryMoveBox = inventoryMoveBoxObject.GetComponent<InventoryMoveBox>();
-            inventoryMoveBox.Setup(controller, party, selectedKnapsack, inventorySlot, characterSlides);
+            inventoryMoveBox.Setup(controller, partyCombatConduit, selectedKnapsack, inventorySlot, characterSlides);
             canvasGroup.alpha = 0.0f;
             PassControl(this, new Action[] { () => EnableInput(true), () => SetVisible(true) }, inventoryMoveBox, controller);
 
@@ -521,7 +521,7 @@ namespace Frankie.Inventory.UI
             if (actionItem == null) { return false; }
 
             if (battleActionData == null) { battleActionData = new BattleActionData(selectedCharacter); }
-            actionItem.GetTargets(traverseForward, battleActionData, party.GetParty(), null);
+            actionItem.GetTargets(traverseForward, battleActionData, partyCombatConduit.GetPartyCombatParticipants(), null);
             if (battleActionData.targetCount == 0)
             {
                 return false;

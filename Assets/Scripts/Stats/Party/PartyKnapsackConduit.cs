@@ -5,10 +5,10 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 namespace Frankie.Inventory
 {
+    [RequireComponent(typeof(Party))]
     public class PartyKnapsackConduit : MonoBehaviour, IPredicateEvaluator
     {
         // State
@@ -48,7 +48,7 @@ namespace Frankie.Inventory
         {
             SubscribeToKnapsackEvents(false);
             knapsacks.Clear();
-            foreach (CombatParticipant character in party.GetParty())
+            foreach (BaseStats character in party.GetParty())
             {
                 if (character.TryGetComponent(out Knapsack knapsack))
                 {

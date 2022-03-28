@@ -55,6 +55,7 @@ namespace Frankie.Control
 
         // Cached References -- Persistent
         Party party = null;
+        PartyCombatConduit partyCombatConduit = null;
         Shopper shopper = null;
         WorldCanvas worldCanvas = null;
         // Cached References -- State Dependent
@@ -109,6 +110,7 @@ namespace Frankie.Control
         private void Awake()
         {
             party = GetComponent<Party>();
+            partyCombatConduit = GetComponent<PartyCombatConduit>();
             shopper = GetComponent<Shopper>();
         }
 
@@ -291,7 +293,7 @@ namespace Frankie.Control
         #region UtilityCombat
         public bool AreCombatParticipantsValid(bool announceCannotFight = false)
         {
-            if (!party.IsAnyMemberAlive()) { if (announceCannotFight) { EnterDialogue(messageCannotFight); } return false; }
+            if (!partyCombatConduit.IsAnyMemberAlive()) { if (announceCannotFight) { EnterDialogue(messageCannotFight); } return false; }
             if (enemiesUnderConsideration.All(x => x.IsDead())) { return false; }
             return true;
         }

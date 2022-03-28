@@ -3,25 +3,22 @@ using System.Collections.Generic;
 using UnityEngine;
 using Frankie.Stats;
 using Frankie.Control;
-using UnityEngine.SceneManagement;
-using System;
 
 namespace Frankie.Core
 {
     [RequireComponent(typeof(PlayerStateMachine))]
-    [RequireComponent(typeof(Party))]
+    [RequireComponent(typeof(PartyCombatConduit))]
 
     public class Player : MonoBehaviour
     {
         // Cached References
         PlayerStateMachine playerStateHandler = null;
-        Party party = null;
+        PartyCombatConduit partyCombatConduit = null;
 
         private void Awake()
         {
             VerifySingleton();
             playerStateHandler = GetComponent<PlayerStateMachine>();
-            party = GetComponent<Party>();
         }
 
         private void OnEnable()
@@ -53,9 +50,9 @@ namespace Frankie.Core
         {
             // Any player scene change when party is completely wiped out -> shift to game over
             // Will naturally call on combat end during transition
-            if (party == null) { return; }
+            if (partyCombatConduit == null) { return; }
 
-            if (!party.IsAnyMemberAlive())
+            if (!partyCombatConduit.IsAnyMemberAlive())
             {
                 SavingWrapper.LoadGameOverScene();
             }

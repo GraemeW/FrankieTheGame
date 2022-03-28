@@ -65,14 +65,14 @@ namespace Frankie.Inventory.UI
         }
 
         #region Setup
-        public void Setup(IStandardPlayerInputCaller standardPlayerInputCaller, Party party, List<CharacterSlide> characterSlides = null)
+        public void Setup(IStandardPlayerInputCaller standardPlayerInputCaller, PartyCombatConduit partyCombatConduit, List<CharacterSlide> characterSlides = null)
         {
             controller = standardPlayerInputCaller;
             this.characterSlides = characterSlides;
 
             int choiceIndex = 0;
             CombatParticipant firstCharacter = null;
-            foreach (CombatParticipant character in party.GetParty())
+            foreach (CombatParticipant character in partyCombatConduit.GetPartyCombatParticipants())
             {
                 if (firstCharacter != null) { firstCharacter = character; }
 

@@ -10,7 +10,8 @@ namespace Frankie.Control.Specialization
     {
         public void ReviveAndHealParty(PlayerStateMachine playerStateHandler) // Called via Unity events
         {
-            foreach (CombatParticipant combatParticipant in playerStateHandler.GetParty().GetParty())
+            PartyCombatConduit partyCombatConduit = playerStateHandler.GetComponent<PartyCombatConduit>();
+            foreach (CombatParticipant combatParticipant in partyCombatConduit.GetPartyCombatParticipants())
             {
                 combatParticipant.Revive(combatParticipant.GetBaseStats().GetStat(Stat.HP));
             }
@@ -18,7 +19,8 @@ namespace Frankie.Control.Specialization
 
         public void RestorePartyAP(PlayerStateMachine playerStateHandler) // Called via Unity Events
         {
-            foreach (CombatParticipant combatParticipant in playerStateHandler.GetParty().GetParty())
+            PartyCombatConduit partyCombatConduit = playerStateHandler.GetComponent<PartyCombatConduit>();
+            foreach (CombatParticipant combatParticipant in partyCombatConduit.GetPartyCombatParticipants())
             {
                 combatParticipant.AdjustAP(combatParticipant.GetBaseStats().GetStat(Stat.AP));
             }

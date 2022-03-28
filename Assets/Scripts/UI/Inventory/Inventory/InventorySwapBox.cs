@@ -21,11 +21,11 @@ namespace Frankie.Inventory.UI
         InventoryItem swapItem = null;
         Action swapSuccessAction = null;
 
-        public void Setup(IStandardPlayerInputCaller standardPlayerInputCaller, Party party, InventoryItem swapItem, Action swapSuccessAction)
+        public void Setup(IStandardPlayerInputCaller standardPlayerInputCaller, PartyCombatConduit partyCombatConduit, InventoryItem swapItem, Action swapSuccessAction)
         {
             this.swapItem = swapItem;
             this.swapSuccessAction = swapSuccessAction;
-            Setup(standardPlayerInputCaller, party);
+            Setup(standardPlayerInputCaller, partyCombatConduit);
         }
 
         protected override void ChooseItem(int inventorySlot)

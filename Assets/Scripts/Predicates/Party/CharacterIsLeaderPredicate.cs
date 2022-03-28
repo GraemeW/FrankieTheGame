@@ -13,8 +13,8 @@ namespace Frankie.Core
         {
             if (charactersToMatch == null || charactersToMatch.Length == 0) { return false; }
 
-            CombatParticipant leader = party.GetPartyLeader();
-            CharacterProperties leaderCharacterProperties = leader?.GetBaseStats()?.GetCharacterProperties();
+            BaseStats leader = party.GetPartyLeader();
+            CharacterProperties leaderCharacterProperties = leader?.GetCharacterProperties();
             if (leaderCharacterProperties == null) { return false; }
 
             foreach (CharacterProperties character in charactersToMatch)

@@ -1,4 +1,3 @@
-using Frankie.Combat;
 using Frankie.Saving;
 using System.Collections;
 using System.Collections.Generic;
@@ -12,37 +11,37 @@ namespace Frankie.Stats
         Dictionary<string, object> inactiveCharacterSaveStates = new Dictionary<string, object>();
 
         #region PublicMethods
-        public void CaptureCharacterState(CombatParticipant combatParticipant)
+        public void CaptureCharacterState(BaseStats character)
         {
-            if (combatParticipant == null) { return; }
+            if (character == null) { return; }
 
-            SaveableEntity saveableEntity = combatParticipant.GetComponent<SaveableEntity>();
+            SaveableEntity saveableEntity = character.GetComponent<SaveableEntity>();
             if (saveableEntity == null) { return; }
 
-            CharacterProperties characterProperties = combatParticipant.GetBaseStats().GetCharacterProperties();
+            CharacterProperties characterProperties = character.GetCharacterProperties();
             if (characterProperties == null) { return; }
             inactiveCharacterSaveStates[characterProperties.GetCharacterNameID()] = saveableEntity.CaptureState();
         }
 
-        public void RestoreCharacterState(ref CombatParticipant combatParticipant)
+        public void RestoreCharacterState(ref BaseStats character)
         {
-            if (combatParticipant == null) { return; }
+            if (character == null) { return; }
 
-            CharacterProperties characterProperties = combatParticipant.GetBaseStats().GetCharacterProperties();
+            CharacterProperties characterProperties = character.GetCharacterProperties();
             if (characterProperties == null) { return; }
             if (!inactiveCharacterSaveStates.ContainsKey(characterProperties.GetCharacterNameID())) { return; }
 
-            SaveableEntity saveableEntity = combatParticipant.GetComponent<SaveableEntity>();
+            SaveableEntity saveableEntity = character.GetComponent<SaveableEntity>();
             if (saveableEntity == null) { return; }
 
             saveableEntity.RestoreState(inactiveCharacterSaveStates[characterProperties.GetCharacterNameID()], LoadPriority.ObjectProperty);
         }
 
-        public void RemoveFromInactiveStorage(CombatParticipant combatParticipant)
+        public void RemoveFromInactiveStorage(BaseStats character)
         {
-            if (combatParticipant == null) { return; }
+            if (character == null) { return; }
 
-            CharacterProperties characterProperties = combatParticipant.GetBaseStats().GetCharacterProperties();
+            CharacterProperties characterProperties = character.GetCharacterProperties();
             RemoveFromInactiveStorage(characterProperties);
         }
 

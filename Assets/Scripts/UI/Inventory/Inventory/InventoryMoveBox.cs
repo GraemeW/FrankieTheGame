@@ -14,11 +14,11 @@ namespace Frankie.Inventory.UI
         Knapsack sourceKnapsack = null;
         int sourceSlot = 0;
 
-        public void Setup(IStandardPlayerInputCaller standardPlayerInputCaller, Party party, Knapsack sourceKnapsack, int sourceSlot, List<CharacterSlide> characterSlides = null)
+        public void Setup(IStandardPlayerInputCaller standardPlayerInputCaller, PartyCombatConduit partyCombatConduit, Knapsack sourceKnapsack, int sourceSlot, List<CharacterSlide> characterSlides = null)
         {
             this.sourceKnapsack = sourceKnapsack;
             this.sourceSlot = sourceSlot;
-            Setup(standardPlayerInputCaller, party, characterSlides);
+            Setup(standardPlayerInputCaller, partyCombatConduit, characterSlides);
         }
 
         protected override void ChooseItem(int inventorySlot)

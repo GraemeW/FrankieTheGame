@@ -32,11 +32,11 @@ namespace Frankie.Inventory.UI
 
         #region Initialization
         // Buy-specific
-        public void Setup(IStandardPlayerInputCaller standardPlayerInputCaller, Party party, Shopper shopper, ShopBox shopBox, InventoryItem buyItem, string messageNoSpace) 
+        public void Setup(IStandardPlayerInputCaller standardPlayerInputCaller, PartyCombatConduit partyCombatConduit, Shopper shopper, ShopBox shopBox, InventoryItem buyItem, string messageNoSpace) 
         {
             transactionType = ShopType.Buy;
 
-            base.Setup(standardPlayerInputCaller, party);
+            base.Setup(standardPlayerInputCaller, partyCombatConduit);
             this.shopper = shopper;
             this.shopBox = shopBox;
             this.buyItem = buyItem;
@@ -44,11 +44,11 @@ namespace Frankie.Inventory.UI
         }
 
         // Sell-specific
-        public void Setup(IStandardPlayerInputCaller standardPlayerInputCaller, PlayerStateMachine playerStateHandler, Party party, Shopper shopper, string messageForSale, string messageCannotSell)
+        public void Setup(IStandardPlayerInputCaller standardPlayerInputCaller, PlayerStateMachine playerStateHandler, PartyCombatConduit partyCombatConduit, Shopper shopper, string messageForSale, string messageCannotSell)
         {
             transactionType = ShopType.Sell;
 
-            base.Setup(standardPlayerInputCaller, party);
+            base.Setup(standardPlayerInputCaller, partyCombatConduit);
             this.playerStateHandler = playerStateHandler;
             this.shopper = shopper;
             this.messageForSale = messageForSale;

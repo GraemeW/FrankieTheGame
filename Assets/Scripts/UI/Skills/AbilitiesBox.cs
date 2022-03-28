@@ -3,7 +3,6 @@ using Frankie.Speech.UI;
 using Frankie.Stats;
 using Frankie.Utils.UI;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using TMPro;
@@ -29,7 +28,7 @@ namespace Frankie.Combat.UI
         List<UIChoiceOption> playerSelectChoiceOptions = new List<UIChoiceOption>();
 
         // State -- Objects
-        Party party = null;
+        PartyCombatConduit partyCombatConduit = null;
         BattleActionData battleActionData = null;
 
         // Cached References
@@ -46,25 +45,25 @@ namespace Frankie.Combat.UI
         #endregion
 
         #region PublicMethods
-        public void Setup(IStandardPlayerInputCaller standardPlayerInputCaller, Party party, List<CharacterSlide> characterSlides)
+        public void Setup(IStandardPlayerInputCaller standardPlayerInputCaller, PartyCombatConduit partyCombatConduit, List<CharacterSlide> characterSlides)
         {
             controller = standardPlayerInputCaller;
+            this.partyCombatConduit = partyCombatConduit;
 
             int choiceIndex = 0;
-            foreach (CombatParticipant character in party.GetParty())
+            foreach (CombatParticipant combatParticipant in this.partyCombatConduit.GetPartyCombatParticipants())
             {
                 GameObject uiChoiceOptionObject = Instantiate(optionPrefab, optionParent);
                 UIChoiceOption uiChoiceOption = uiChoiceOptionObject.GetComponent<UIChoiceOption>();
                 uiChoiceOption.SetChoiceOrder(choiceIndex);
-                uiChoiceOption.SetText(character.GetCombatName());
-                uiChoiceOption.AddOnClickListener(delegate { ChooseCharacter(character); });
-                uiChoiceOption.AddOnHighlightListener(delegate { SoftChooseCharacter(character); });
+                uiChoiceOption.SetText(combatParticipant.GetCombatName());
+                uiChoiceOption.AddOnClickListener(delegate { ChooseCharacter(combatParticipant); });
+                uiChoiceOption.AddOnHighlightListener(delegate { SoftChooseCharacter(combatParticipant); });
 
                 playerSelectChoiceOptions.Add(uiChoiceOption);
                 choiceIndex++;
             }
-            this.party = party;
-            Setup(CombatParticipantType.Friendly, party.GetParty());
+            Setup(CombatParticipantType.Friendly, this.partyCombatConduit.GetPartyCombatParticipants());
 
             this.characterSlides = characterSlides;
             SubscribeCharacterSlides(true);
@@ -135,23 +134,23 @@ namespace Frankie.Combat.UI
             }
         }
 
-        protected void ChooseCharacter(CombatParticipant character, bool initializeCursor = true)
+        protected void ChooseCharacter(CombatParticipant combatParticipant, bool initializeCursor = true)
         {
-            if (character == null)
+            if (combatParticipant == null)
             {
-                Setup(CombatParticipantType.Friendly, party.GetParty()); // Failsafe, re-setup box if character lost
+                Setup(CombatParticipantType.Friendly, partyCombatConduit.GetPartyCombatParticipants()); // Failsafe, re-setup box if character lost
                 SetAbilitiesBoxState(AbilitiesBoxState.inCharacterSelection);
                 return;
             }
 
-            if (character != currentCombatParticipant)
+            if (combatParticipant != currentCombatParticipant)
             {
                 OnUIBoxModified(UIBoxModifiedType.itemSelected, true);
 
-                currentCombatParticipant = character;
+                currentCombatParticipant = combatParticipant;
                 RefreshSkills();
             }
-            battleActionData = new BattleActionData(character);
+            battleActionData = new BattleActionData(combatParticipant);
             SetAbilitiesBoxState(AbilitiesBoxState.inAbilitiesSelection);
 
             if (IsChoiceAvailable() && initializeCursor)
@@ -252,7 +251,7 @@ namespace Frankie.Combat.UI
             Skill activeSkill = skillHandler?.GetActiveSkill();
             if (activeSkill == null) { return false; }
 
-            activeSkill.GetTargets(traverseForward, battleActionData, party.GetParty(), null);
+            activeSkill.GetTargets(traverseForward, battleActionData, partyCombatConduit.GetPartyCombatParticipants(), null);
             if (battleActionData.targetCount == 0)
             {
                 return false;

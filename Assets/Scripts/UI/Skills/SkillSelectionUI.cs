@@ -4,7 +4,6 @@ using System.Linq;
 using UnityEngine;
 using TMPro;
 using Frankie.Control;
-using Frankie.Speech.UI;
 using Frankie.Utils.UI;
 
 namespace Frankie.Combat.UI

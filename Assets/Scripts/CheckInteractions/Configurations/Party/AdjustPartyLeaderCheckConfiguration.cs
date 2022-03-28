@@ -18,9 +18,9 @@ namespace Frankie.Control
             List<ChoiceActionPair> interactActions = new List<ChoiceActionPair>();
             if (party.GetPartySize() == 1) { return interactActions; } // throw empty list to prevent option from triggering
 
-            foreach (CombatParticipant character in party.GetParty())
+            foreach (BaseStats character in party.GetParty())
             {
-                interactActions.Add(new ChoiceActionPair(character.GetCombatName(),
+                interactActions.Add(new ChoiceActionPair(character.GetCharacterProperties().GetCharacterNamePretty(),
                     () => party.SetPartyLeader(character)));
             }
             return interactActions;

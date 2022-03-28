@@ -55,7 +55,7 @@ namespace Frankie.Control
 
             if (inputType == matchType)
             {
-                string partyLeaderName = playerStateHandler.GetParty().GetParty()[0].GetCombatName();
+                string partyLeaderName = playerStateHandler.GetParty().GetPartyLeaderName();
                 if (string.IsNullOrWhiteSpace(partyLeaderName)) { partyLeaderName = defaultPartyLeaderName; }
 
                 playerStateHandler.EnterDialogue(string.Format(checkMessage, partyLeaderName));
@@ -82,7 +82,7 @@ namespace Frankie.Control
                 interactActions.Add(new ChoiceActionPair(messageAccept, () => checkInteraction.Invoke(playerStateHandler)));
                 interactActions.Add(new ChoiceActionPair(messageReject, () => rejectInteraction.Invoke(playerStateHandler)));
 
-                string partyLeaderName = playerStateHandler.GetParty().GetParty()[0].GetCombatName();
+                string partyLeaderName = playerStateHandler.GetParty().GetPartyLeaderName();
                 playerStateHandler.EnterDialogue(string.Format(checkMessage, partyLeaderName), interactActions);
             }
             return true;

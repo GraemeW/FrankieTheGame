@@ -34,6 +34,7 @@ namespace Frankie.Menu.UI
         PlayerController playerController = null;
         WorldCanvas worldCanvas = null;
         Party party = null;
+        PartyCombatConduit partyCombatConduit = null;
         
         private void Awake()
         {
@@ -42,7 +43,7 @@ namespace Frankie.Menu.UI
             if (worldCanvas == null || playerStateHandler == null) { Destroy(gameObject); }
 
             playerController = playerStateHandler?.GetComponent<PlayerController>();
-            party = playerStateHandler?.GetComponent<Party>();
+            partyCombatConduit = playerStateHandler?.GetComponent<PartyCombatConduit>();
         }
 
         private void Start()
@@ -56,10 +57,10 @@ namespace Frankie.Menu.UI
         private void SetupCharacterSlides()
         {
             characterSlides.Clear();
-            foreach (CombatParticipant character in party.GetParty())
+            foreach (CombatParticipant combatParticipant in partyCombatConduit.GetPartyCombatParticipants())
             {
                 CharacterSlide characterSlide = Instantiate(characterSlidePrefab, characterPanelTransform);
-                characterSlide.SetCombatParticipant(character);
+                characterSlide.SetCombatParticipant(combatParticipant);
                 characterSlides.Add(characterSlide);
             }
         }
@@ -100,7 +101,7 @@ namespace Frankie.Menu.UI
             ResetWorldOptions();
             StatusBox statusBox = Instantiate(statusBoxPrefab, worldCanvas.GetWorldOptionsParent());
             childOption = statusBox.gameObject;
-            statusBox.Setup(party);
+            statusBox.Setup(partyCombatConduit);
             PassControl(statusBox);
         }
 
@@ -109,7 +110,7 @@ namespace Frankie.Menu.UI
             ResetWorldOptions();
             InventoryBox inventoryBox = Instantiate(inventoryBoxPrefab, worldCanvas.GetWorldOptionsParent());
             childOption = inventoryBox.gameObject;
-            inventoryBox.Setup(playerController, party, characterSlides);
+            inventoryBox.Setup(playerController, partyCombatConduit, characterSlides);
             PassControl(inventoryBox);
         }
 
@@ -118,7 +119,7 @@ namespace Frankie.Menu.UI
             ResetWorldOptions();
             EquipmentBox equipmentBox = Instantiate(equipmentBoxPrefab, worldCanvas.GetWorldOptionsParent());
             childOption = equipmentBox.gameObject;
-            equipmentBox.Setup(playerController, party, characterSlides);
+            equipmentBox.Setup(playerController, partyCombatConduit, characterSlides);
             PassControl(equipmentBox);
         }
 
@@ -135,7 +136,7 @@ namespace Frankie.Menu.UI
             ResetWorldOptions();
             AbilitiesBox abilitiesBox = Instantiate(abilitiesBoxPrefab, worldCanvas.GetWorldOptionsParent());
             childOption = abilitiesBox.gameObject;
-            abilitiesBox.Setup(playerController, party, characterSlides);
+            abilitiesBox.Setup(playerController, partyCombatConduit, characterSlides);
             PassControl(abilitiesBox);
         }
 

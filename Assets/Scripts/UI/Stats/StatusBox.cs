@@ -25,10 +25,10 @@ namespace Frankie.Stats.UI
         // State
         CombatParticipant selectedCharacter = null;
 
-        public void Setup(Party party)
+        public void Setup(PartyCombatConduit partyCombatConduit)
         {
             int choiceIndex = 0;
-            foreach (CombatParticipant character in party.GetParty())
+            foreach (CombatParticipant character in partyCombatConduit.GetPartyCombatParticipants())
             {
                 GameObject uiChoiceOptionObject = Instantiate(optionPrefab, optionParent);
                 UIChoiceOption uiChoiceOption = uiChoiceOptionObject.GetComponent<UIChoiceOption>();

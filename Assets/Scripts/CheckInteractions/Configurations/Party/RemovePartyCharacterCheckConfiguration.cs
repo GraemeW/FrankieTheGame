@@ -23,9 +23,9 @@ namespace Frankie.Control
             List<ChoiceActionPair> interactActions = new List<ChoiceActionPair>();
             if (party.GetPartySize() == 1) { return interactActions; } // throw empty list to prevent option from triggering
 
-            foreach (CombatParticipant character in party.GetParty())
+            foreach (BaseStats character in party.GetParty())
             {
-                interactActions.Add(new ChoiceActionPair(character.GetCombatName(),
+                interactActions.Add(new ChoiceActionPair(character.GetCharacterProperties().GetCharacterNamePretty(),
                     () => RemoveFromPartyWithErrorHandling(playerStateHandler, party, character)));
             }
             return interactActions;
@@ -36,11 +36,11 @@ namespace Frankie.Control
             return messageRemoveFromParty;
         }
 
-        private void RemoveFromPartyWithErrorHandling(PlayerStateMachine playerStateHandler, Party party, CombatParticipant combatParticipant)
+        private void RemoveFromPartyWithErrorHandling(PlayerStateMachine playerStateHandler, Party party, BaseStats character)
         {
             if (unremovableCharacters != null)
             {
-                CharacterProperties selectedCharacter = combatParticipant.GetBaseStats().GetCharacterProperties();
+                CharacterProperties selectedCharacter = character.GetCharacterProperties();
                 foreach(CharacterProperties unremovableCharacter in unremovableCharacters)
                 {
                     // Check via name comparison for compatibility with addressables system
@@ -52,7 +52,7 @@ namespace Frankie.Control
                 }
             }
 
-            if (!party.RemoveFromParty(combatParticipant))
+            if (!party.RemoveFromParty(character))
             {
                 playerStateHandler.EnterDialogue(messageMinimumParty);
             }

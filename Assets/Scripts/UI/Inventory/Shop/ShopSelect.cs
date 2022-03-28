@@ -21,7 +21,7 @@ namespace Frankie.Inventory.UI
         WorldCanvas worldCanvas = null;
         PlayerStateMachine playerStateHandler = null;
         PlayerController playerController = null;
-        Party party = null;
+        PartyKnapsackConduit partyKnapsackConduit = null;
         Shopper shopper = null;
         Shop shop = null;
 
@@ -44,7 +44,7 @@ namespace Frankie.Inventory.UI
             playerStateHandler = GameObject.FindGameObjectWithTag("Player")?.GetComponent<PlayerStateMachine>();
             if (worldCanvas == null || playerStateHandler == null) { Destroy(gameObject); }
 
-            party = playerStateHandler.GetParty();
+            partyKnapsackConduit = playerStateHandler.GetComponent<PartyKnapsackConduit>();
             playerController = playerStateHandler?.GetComponent<PlayerController>();
             shopper = playerStateHandler?.GetComponent<Shopper>();
         }
@@ -74,7 +74,7 @@ namespace Frankie.Inventory.UI
             exitShopOnDestroy = false; // Shop exit to be called by child UI
 
             ShopBox shopBox = Instantiate(shopBoxPrefab, worldCanvas.transform);
-            shopBox.Setup(worldCanvas, playerStateHandler, playerController, party, shopper);
+            shopBox.Setup(worldCanvas, playerStateHandler, playerController, partyKnapsackConduit, shopper);
             Destroy(gameObject);
         }
 
@@ -83,7 +83,7 @@ namespace Frankie.Inventory.UI
             exitShopOnDestroy = false; // Shop exit to be called by child UI
 
             InventoryShopBox inventoryShopBox = Instantiate(inventoryShopBoxPrefab, worldCanvas.transform);
-            inventoryShopBox.Setup(playerController, playerStateHandler, party, shopper, shop.GetMessageForSale(), shop.GetMessageCannotSell());
+            inventoryShopBox.Setup(playerController, playerStateHandler, partyKnapsackConduit.GetComponent<PartyCombatConduit>(), shopper, shop.GetMessageForSale(), shop.GetMessageCannotSell());
             Destroy(gameObject);
         }
     }

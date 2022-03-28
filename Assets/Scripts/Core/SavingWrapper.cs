@@ -4,7 +4,6 @@ using Frankie.Saving;
 using Frankie.ZoneManagement;
 using System.Collections.Generic;
 using Frankie.Stats;
-using Frankie.Combat;
 
 namespace Frankie.Core
 {
@@ -168,9 +167,8 @@ namespace Frankie.Core
             {
                 Player player = playerObject.GetComponent<Player>();
                 Party party = player.GetComponent<Party>();
-                CombatParticipant partyLeader = party.GetPartyLeader();
-                string characterName = partyLeader.GetCombatName();
-                int level = partyLeader.GetLevel();
+                string characterName = party.GetPartyLeaderName();
+                int level = party.GetPartyLeader().GetLevel();
 
                 SetSavePrefs(saveName, characterName, level);
             }

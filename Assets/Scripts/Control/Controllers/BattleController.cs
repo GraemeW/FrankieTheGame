@@ -40,7 +40,7 @@ namespace Frankie.Combat
 
         // Cached References
         PlayerInput playerInput = null;
-        Party party = null;
+        PartyCombatConduit partyCombatConduit = null;
 
         // Events
         public event Action<PlayerInputType> battleInput;
@@ -54,7 +54,7 @@ namespace Frankie.Combat
         #region UnityMethods
         private void Awake()
         {
-            party = GameObject.FindGameObjectWithTag("Player")?.GetComponent<Party>();
+            partyCombatConduit = GameObject.FindGameObjectWithTag("Player")?.GetComponent<PartyCombatConduit>();
             playerInput = new PlayerInput();
 
             VerifyUnique();
@@ -134,7 +134,8 @@ namespace Frankie.Combat
         // Setters
         public void Setup(List<CombatParticipant> enemies, TransitionType transitionType)
         {
-            foreach (CombatParticipant character in party.GetParty())
+
+            foreach (CombatParticipant character in partyCombatConduit.GetPartyCombatParticipants())
             {
                 if (transitionType == TransitionType.BattleGood)
                 {
@@ -453,9 +454,9 @@ namespace Frankie.Combat
         private void InteractWithCharacterSelect(int partyMemberSelect)
         {
             if (GetBattleState() != BattleState.Combat) { return; }
-            if (partyMemberSelect >= party.GetParty().Count) { return; } // >= since indexing off by 1 from count
+            if (partyMemberSelect >= partyCombatConduit.GetPartyCombatParticipants().Count) { return; } // >= since indexing off by 1 from count
 
-            SetSelectedCharacter(party.GetParty()[partyMemberSelect]);
+            SetSelectedCharacter(partyCombatConduit.GetPartyCombatParticipants()[partyMemberSelect]);
         }
 
         private bool InteractWithSkillSelect(PlayerInputType playerInputType)
@@ -664,8 +665,8 @@ namespace Frankie.Combat
 
         private bool AwardLoot()
         {
-            PartyKnapsackConduit partyKnapsackConduit = party.GetComponent<PartyKnapsackConduit>();
-            Wallet wallet = party.GetComponent<Wallet>();
+            PartyKnapsackConduit partyKnapsackConduit = partyCombatConduit.GetComponent<PartyKnapsackConduit>();
+            Wallet wallet = partyCombatConduit.GetComponent<Wallet>();
             if (partyKnapsackConduit == null || wallet == null) { return false; } // Failsafe, this should not happen
 
             bool lootAvailable = false;

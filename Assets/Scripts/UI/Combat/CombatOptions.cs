@@ -17,13 +17,13 @@ namespace Frankie.Combat.UI
         // Cached References
         BattleController battleController = null;
         BattleCanvas battleCanvas = null;
-        Party party = null;
+        PartyCombatConduit partyCombatConduit = null;
 
-        public void Setup(BattleController battleController, BattleCanvas battleCanvas, Party party)
+        public void Setup(BattleController battleController, BattleCanvas battleCanvas, PartyCombatConduit partyCombatConduit)
         {
             this.battleController = battleController;
             this.battleCanvas = battleCanvas;
-            this.party = party;
+            this.partyCombatConduit = partyCombatConduit;
         }
 
         public void InitiateCombat() // Called via unity events
@@ -35,14 +35,14 @@ namespace Frankie.Combat.UI
         public void OpenStats() // Called via unity events
         {
             StatusBox statusBox = Instantiate(statusBoxPrefab, battleCanvas.transform);
-            statusBox.Setup(party);
+            statusBox.Setup(partyCombatConduit);
             PassControl(this, new Action[] { () => SetCombatOptions(true) }, statusBox, battleController);
         }
 
         public void OpenKnapsack() // Called via unity events
         {
             InventoryBox inventoryBox = Instantiate(inventoryBoxPrefab, battleCanvas.transform);
-            inventoryBox.Setup(battleController, party);
+            inventoryBox.Setup(battleController, partyCombatConduit);
             PassControl(this, new Action[] { () => SetCombatOptions(true) }, inventoryBox, battleController);
             gameObject.SetActive(false);
         }

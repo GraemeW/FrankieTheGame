@@ -103,7 +103,11 @@ namespace Frankie.Control
 
         private void SetNPCState(NPCStateType npcState)
         {
-            if (npcState == NPCStateType.aggravated && !playerStateHandler.value.GetParty().IsAnyMemberAlive()) { return; }
+            if (npcState == NPCStateType.aggravated)
+            {
+                PartyCombatConduit partyCombatConduit = playerStateHandler.value.GetParty().GetComponent<PartyCombatConduit>();
+                if (!partyCombatConduit.IsAnyMemberAlive()) { return; }
+            }
             
             bool occupiedStatusChange = (npcState == NPCStateType.occupied && !npcOccupied) || (npcState != NPCStateType.occupied && npcOccupied);
             if (this.npcState == npcState && !occupiedStatusChange) { return; }

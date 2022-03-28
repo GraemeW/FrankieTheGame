@@ -61,7 +61,7 @@ namespace Frankie.Combat.UI
         bool outroQueued = false;
 
         // Cached References
-        Party party = null;
+        PartyCombatConduit partyCombatConduit = null;
         BattleController battleController = null;
 
         // Data Structures
@@ -76,9 +76,9 @@ namespace Frankie.Combat.UI
         private void Awake()
         {
             battleController = GameObject.FindGameObjectWithTag("BattleController")?.GetComponent<BattleController>();
-            party = GameObject.FindGameObjectWithTag("Player")?.GetComponent<Party>();
+            partyCombatConduit = GameObject.FindGameObjectWithTag("Player")?.GetComponent<PartyCombatConduit>();
 
-            combatOptions.Setup(battleController, this, party);
+            combatOptions.Setup(battleController, this, partyCombatConduit);
             combatOptions.TakeControl(battleController, this, null);
 
             ClearBattleCanvas();
@@ -322,7 +322,7 @@ namespace Frankie.Combat.UI
             if (!battleController.HasLootCart()) { busyWithSerialAction = false; return; }
 
             DialogueBox dialogueBox = Instantiate(dialogueBoxPrefab, infoChooseParent);
-            dialogueBox.AddText(string.Format(messageGainedLoot, party.GetPartyLeaderName()));
+            dialogueBox.AddText(string.Format(messageGainedLoot, partyCombatConduit.GetPartyLeaderName()));
 
             dialogueBox.TakeControl(battleController, this, new Action[] { () => busyWithSerialAction = false });
         }
@@ -368,7 +368,7 @@ namespace Frankie.Combat.UI
         private void SetupInventorySwapBox(string enemyName, InventoryItem inventoryItem)
         {
             InventorySwapBox inventorySwapBox = Instantiate(inventorySwapBoxPrefab, infoChooseParent);
-            inventorySwapBox.Setup(battleController, party, inventoryItem, () => { inventorySwapBox.ClearDisableCallbacks(); busyWithSerialAction = false; });
+            inventorySwapBox.Setup(battleController, partyCombatConduit, inventoryItem, () => { inventorySwapBox.ClearDisableCallbacks(); busyWithSerialAction = false; });
                 // Inventory box destruction handled by swap box on successful swap
 
             inventorySwapBox.TakeControl(battleController, this, new Action[] { () => SetupUnallocatedLootMessage(enemyName, inventoryItem) });

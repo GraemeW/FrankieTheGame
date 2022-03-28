@@ -13,9 +13,9 @@ namespace Frankie.Core
         {
             if (charactersToMatch == null || charactersToMatch.Length == 0) { return false; }
 
-            foreach (CombatParticipant character in party.GetParty())
+            foreach (BaseStats character in party.GetParty())
             {
-                CharacterProperties characterProperties = character.GetBaseStats()?.GetCharacterProperties();
+                CharacterProperties characterProperties = character.GetCharacterProperties();
                 if (characterProperties == null) { continue; }
 
                 foreach (CharacterProperties characterToMatch in charactersToMatch)
