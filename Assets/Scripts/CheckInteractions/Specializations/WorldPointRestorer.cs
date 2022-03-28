@@ -13,7 +13,7 @@ namespace Frankie.Control.Specialization
             PartyCombatConduit partyCombatConduit = playerStateHandler.GetComponent<PartyCombatConduit>();
             foreach (CombatParticipant combatParticipant in partyCombatConduit.GetPartyCombatParticipants())
             {
-                combatParticipant.Revive(combatParticipant.GetBaseStats().GetStat(Stat.HP));
+                combatParticipant.Revive(combatParticipant.GetMaxHP());
             }
         }
 
@@ -22,7 +22,7 @@ namespace Frankie.Control.Specialization
             PartyCombatConduit partyCombatConduit = playerStateHandler.GetComponent<PartyCombatConduit>();
             foreach (CombatParticipant combatParticipant in partyCombatConduit.GetPartyCombatParticipants())
             {
-                combatParticipant.AdjustAP(combatParticipant.GetBaseStats().GetStat(Stat.AP));
+                combatParticipant.AdjustAP(combatParticipant.GetMaxAP());
             }
         }
 
@@ -30,7 +30,7 @@ namespace Frankie.Control.Specialization
         {
             if (!gameObject.TryGetComponent(out CombatParticipant combatParticipant)) { return; }
 
-            combatParticipant.Revive(combatParticipant.GetBaseStats().GetStat(Stat.HP));
+            combatParticipant.Revive(combatParticipant.GetMaxHP());
         }
     }
 }

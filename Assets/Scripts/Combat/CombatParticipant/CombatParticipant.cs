@@ -100,13 +100,6 @@ namespace Frankie.Combat
         #endregion
 
         #region PublicGetters
-        // Reference Passing
-
-        public BaseStats GetBaseStats()
-        {
-            return baseStats;
-        }
-
         // Core Properties
         public string GetCombatName()
         {
@@ -142,15 +135,21 @@ namespace Frankie.Combat
         }
 
         // Stats
-        public int GetLevel()
+        public BaseStats GetBaseStats()
         {
-            return baseStats.GetLevel();
+            return baseStats;
         }
 
-        public float GetMaxHP()
+        public void AdjustStat(Stat stat, float value)
         {
-            return baseStats.GetStat(Stat.HP);
+            baseStats.AdjustStat(stat, value);
         }
+
+        public int GetLevel() => baseStats.GetLevel();
+        public float GetMaxHP() => baseStats.GetStat(Stat.HP);
+        public float GetExperienceReward() => baseStats.GetStat(Stat.ExperienceReward);
+        public float GetBattleStartCooldown() => battleStartCooldown * GetCooldownMultiplier();
+        public float GetCooldownMultiplier() => baseStats.GetCalculatedStat(CalculatedStat.CooldownFraction);
 
         public float GetMaxAP()
         {
@@ -158,52 +157,13 @@ namespace Frankie.Combat
             return baseStats.GetStat(Stat.AP);
         }
 
-        public float GetExperienceReward()
-        {
-            return baseStats.GetStat(Stat.ExperienceReward);
-        }
-
-        public float GetBattleStartCooldown()
-        {
-            return battleStartCooldown * GetCooldownMultiplier();
-        }
-
-        public float GetCooldownMultiplier()
-        {
-            return baseStats.GetCalculatedStat(CalculatedStat.CooldownFraction);
-        }
-
         // Combat State
-        public bool IsInCombat()
-        {
-            return inCombat;
-        }
-
-        public bool IsInCooldown()
-        {
-            return inCooldown;
-        }
-
-        public float GetCooldown()
-        {
-            return cooldownTimer;
-        }
-
-        public bool IsDead()
-        {
-            return isDead.value;
-        }
-
-        public float GetHP()
-        {
-            return currentHP.value;
-        }
-
-
-        public bool HasAP(float points)
-        {
-            return currentAP.value >= points;
-        }
+        public bool IsInCombat() => inCombat;
+        public bool IsInCooldown() => inCooldown;
+        public float GetCooldown() => cooldownTimer;
+        public bool IsDead() => isDead.value;
+        public float GetHP() => currentHP.value;
+        public bool HasAP(float points) => currentAP.value >= points;
 
         public float GetAP()
         {

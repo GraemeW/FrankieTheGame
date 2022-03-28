@@ -20,7 +20,7 @@ namespace Frankie.Combat
 
             foreach (CombatParticipant combatParticipant in recipients)
             {
-                combatParticipant.GetBaseStats()?.AdjustStat(stat, value);
+                combatParticipant.AdjustStat(stat, value);
 
                 combatParticipant.AnnounceStateUpdate(new StateAlteredData(StateAlteredType.StatusEffectApplied, StatusType.None));
             }

@@ -33,7 +33,6 @@ namespace Frankie.Menu.UI
         PlayerStateMachine playerStateHandler = null;
         PlayerController playerController = null;
         WorldCanvas worldCanvas = null;
-        Party party = null;
         PartyCombatConduit partyCombatConduit = null;
         
         private void Awake()
