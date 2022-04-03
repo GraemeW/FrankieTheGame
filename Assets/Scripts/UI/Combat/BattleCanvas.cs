@@ -67,7 +67,7 @@ namespace Frankie.Combat.UI
         // Data Structures
         public struct CharacterLevelUpSheetPair
         {
-            public CombatParticipant character;
+            public Experience characterExperience;
             public int level;
             public List<Tuple<string, int>> statNameValuePairs;
         }
@@ -205,7 +205,7 @@ namespace Frankie.Combat.UI
                     battleController.SetSelectedCharacter(character);
                     firstCharacterToggle = true;
                 }
-                character.characterLevelUp += HandleLevelUp; 
+                if (character.TryGetComponent(out Experience experience)) { experience.characterLevelUp += HandleLevelUp; }
             }
         }
 
@@ -250,11 +250,11 @@ namespace Frankie.Combat.UI
             }
         }
 
-        private void HandleLevelUp(CombatParticipant character, int level, List<Tuple<string, int>> statNameValuePairs)
+        private void HandleLevelUp(Experience characterExperience, int level, List<Tuple<string, int>> statNameValuePairs)
         {
             CharacterLevelUpSheetPair characterLevelUpSheetPair = new CharacterLevelUpSheetPair
             {
-                character = character,
+                characterExperience = characterExperience,
                 level = level,
                 statNameValuePairs = statNameValuePairs
             };
@@ -284,7 +284,7 @@ namespace Frankie.Combat.UI
             {
                 dialogueBox.AddPageBreak();
 
-                dialogueBox.AddText(string.Format(messageCharacterLevelUp, characterLevelUpSheetPair.character.GetCombatName(), characterLevelUpSheetPair.level.ToString()));
+                dialogueBox.AddText(string.Format(messageCharacterLevelUp, characterLevelUpSheetPair.characterExperience.GetName(), characterLevelUpSheetPair.level.ToString()));
                 int pageClearReset = 0;
 
                 foreach (Tuple<string, int> statNameValuePair in characterLevelUpSheetPair.statNameValuePairs)
@@ -299,7 +299,7 @@ namespace Frankie.Combat.UI
                     pageClearReset++;
                 }
 
-                characterLevelUpSheetPair.character.characterLevelUp -= HandleLevelUp;
+                characterLevelUpSheetPair.characterExperience.characterLevelUp -= HandleLevelUp;
                     // Unsubscribe to messages -- not the cleanest location, but the only one available
             }
 

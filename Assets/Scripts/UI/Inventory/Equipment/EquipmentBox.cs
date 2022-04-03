@@ -277,7 +277,8 @@ namespace Frankie.Inventory.UI
         {
             CleanOldStatSheet();
 
-            BaseStats baseStats = selectedCharacter.GetBaseStats();
+            if (!selectedCharacter.TryGetComponent(out BaseStats baseStats)) { return; }
+
             Dictionary<Stat, float> activeStatSheetWithModifiers = baseStats.GetActiveStatSheet();
             Dictionary<Stat, float> statDeltas = selectedEquipment.CompareEquipableItem(selectedEquipLocation, selectedItem);
 

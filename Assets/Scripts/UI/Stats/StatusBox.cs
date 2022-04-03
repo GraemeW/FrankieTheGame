@@ -94,7 +94,7 @@ namespace Frankie.Stats.UI
                 if (Enum.TryParse(skillStat.ToString(), out Stat stat))
                 {
                     StatField statField = Instantiate(statFieldPrefab, leftStatParent);
-                    float statValue = character.GetBaseStats().GetStat(stat);
+                    float statValue = character.GetStat(stat);
                     statField.Setup(stat, statValue);
                 }
             }

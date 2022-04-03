@@ -18,8 +18,7 @@ namespace Frankie.Combat
         protected bool DoesAttackHit(bool canMiss, CombatParticipant sender, CombatParticipant recipient)
         {
             if (!canMiss) { return true; }
-
-            float hitChance = sender.GetBaseStats().GetCalculatedStat(Stats.CalculatedStat.HitChance, recipient.GetBaseStats());
+            float hitChance = sender.GetCalculatedStat(CalculatedStat.HitChance, recipient);
             float hitRoll = UnityEngine.Random.Range(0f, 1f);
 
             // Need to invert for miss -- e.g. hitChance = 0.75, 75% chance to hit
@@ -36,7 +35,7 @@ namespace Frankie.Combat
         {
             if (!canCrit) { return 1.0f; }
 
-            float critChance = sender.GetBaseStats().GetCalculatedStat(Stats.CalculatedStat.CritChance, recipient.GetBaseStats());
+            float critChance = sender.GetCalculatedStat(CalculatedStat.CritChance, recipient);
             float critRoll = UnityEngine.Random.Range(0f, 1f);
 
             if (critRoll <= critChance)
@@ -51,18 +50,18 @@ namespace Frankie.Combat
         {
             if (sign > 0)
             {
-                return sign * Mathf.Max(0f, sender.GetBaseStats().GetCalculatedStat(CalculatedStat.PhysicalAdder));
+                return sign * Mathf.Max(0f, sender.GetCalculatedStat(CalculatedStat.PhysicalAdder));
             }
             else if (sign < 0)
             {
-                return sign * Mathf.Max(0f, sender.GetBaseStats().GetCalculatedStat(CalculatedStat.PhysicalAdder) - recipient.GetBaseStats().GetCalculatedStat(CalculatedStat.Defense));
+                return sign * Mathf.Max(0f, sender.GetCalculatedStat(CalculatedStat.PhysicalAdder) - recipient.GetCalculatedStat(CalculatedStat.Defense));
             }
             return 0f;
         }
 
         protected float GetMagicalModifier(float sign, CombatParticipant sender, CombatParticipant recipient)
         {
-            return sign * Mathf.Max(0f, sender.GetBaseStats().GetCalculatedStat(CalculatedStat.MagicalAdder));
+            return sign * Mathf.Max(0f, sender.GetCalculatedStat(CalculatedStat.MagicalAdder));
         }
     }
 }

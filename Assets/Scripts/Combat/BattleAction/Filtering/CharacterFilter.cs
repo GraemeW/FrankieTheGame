@@ -17,7 +17,7 @@ namespace Frankie.Combat
 
             foreach (CombatParticipant combatParticipant in objectsToFilter)
             {
-                CharacterProperties characterProperties = combatParticipant.GetBaseStats()?.GetCharacterProperties();
+                CharacterProperties characterProperties = combatParticipant.GetCharacterProperties();
                 if (characterProperties == null) { continue; }
 
                 bool filteredListContainsCharacter = false;

@@ -50,26 +50,10 @@ namespace Frankie.Stats
         #endregion
 
         #region PublicGetters
-        public CharacterProperties GetCharacterProperties()
-        {
-            return characterProperties;
-        }
-
-        public int GetLevel()
-        {
-            return currentLevel.value;
-        }
-
-        public bool CanLevelUp()
-        {
-            return GetLevel() < maxLevel;
-        }
-
-        public float GetStat(Stat stat)
-        {
-            return GetBaseStat(stat) + GetAdditiveModifiers(stat);
-        }
-
+        public CharacterProperties GetCharacterProperties() => characterProperties;
+        public int GetLevel() => currentLevel.value;
+        public bool CanLevelUp() => GetLevel() < maxLevel;
+        public float GetStat(Stat stat) => GetBaseStat(stat) + GetAdditiveModifiers(stat);
         public float GetBaseStat(Stat stat)
         {
             BuildActiveStatSheetIfNull();
@@ -77,31 +61,28 @@ namespace Frankie.Stats
 
             return GetProgressionStat(stat);
         }
-
-        private float GetProgressionStat(Stat stat)
-        {
+        private float GetProgressionStat(Stat stat) => progression.GetStat(stat, characterProperties);
             // Default behavior from original implementation
             // Carried forward for level-up behavior
 
-            return progression.GetStat(stat, characterProperties);
-        }
+        public bool GetStatForCalculatedStat(CalculatedStat calculatedStat, out Stat stat) => CalculatedStats.GetStatModifier(calculatedStat, out stat);
 
-        public float GetCalculatedStat(CalculatedStat calculatedStat, BaseStats opponentBaseStats = null)
+        public float GetCalculatedStat(CalculatedStat calculatedStat, float statValue, float opponentStatValue)
+        {
+            return CalculatedStats.GetCalculatedStat(calculatedStat, GetLevel(), statValue, opponentStatValue);
+        }
+        public float GetCalculatedStat(CalculatedStat calculatedStat)
         {
             if (CalculatedStats.GetStatModifier(calculatedStat, out Stat statModifier))
             {
                 float stat = GetStat(statModifier);
-                float opponentStat = opponentBaseStats != null ? opponentBaseStats.GetStat(statModifier) : 0f;
-
-                return CalculatedStats.GetCalculatedStat(calculatedStat, GetLevel(), stat, opponentStat);
+                return CalculatedStats.GetCalculatedStat(calculatedStat, GetLevel(), stat, 0f);
             }
             return 0f;
         }
 
-        public Dictionary<Stat, float> GetActiveStatSheet() // NOTE:  Does NOT contain modifiers
-        {
-            return activeStatSheet;
-        }
+        public Dictionary<Stat, float> GetActiveStatSheet() => activeStatSheet;
+            // NOTE:  Does NOT contain modifiers
         #endregion
 
         #region PublicFunctional

@@ -380,12 +380,12 @@ namespace Frankie.Combat
 
             foreach (CombatParticipant character in activeCharacters)
             {
-                partySpeed += character.GetBaseStats().GetCalculatedStat(CalculatedStat.RunSpeed);
+                partySpeed += character.GetRunSpeed();
             }
 
             foreach (CombatParticipant enemy in activeEnemies)
             {
-                enemySpeed += enemy.GetBaseStats().GetCalculatedStat(CalculatedStat.RunSpeed);
+                enemySpeed += enemy.GetRunSpeed();
             }
 
             if (partySpeed > enemySpeed)

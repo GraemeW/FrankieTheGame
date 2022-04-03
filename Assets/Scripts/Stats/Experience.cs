@@ -2,6 +2,7 @@ using UnityEngine;
 using Frankie.Utils;
 using System;
 using Frankie.Saving;
+using System.Collections.Generic;
 
 namespace Frankie.Stats
 {
@@ -16,6 +17,9 @@ namespace Frankie.Stats
 
         // Cached References
         BaseStats baseStats = null;
+
+        // Events
+        public event Action<Experience, int, List<Tuple<string, int>>> characterLevelUp;
 
         #region Static
         // Static
@@ -55,9 +59,21 @@ namespace Frankie.Stats
         {
             currentPoints.ForceInit();
         }
+
+        private void OnEnable()
+        {
+            baseStats.onLevelUp += ParseLevelUpMessage;
+        }
+
+        private void OnDisable()
+        {
+            baseStats.onLevelUp -= ParseLevelUpMessage;
+        }
         #endregion
 
         #region PublicMethods
+        public string GetName() => baseStats.GetCharacterProperties().GetCharacterNamePretty();
+
         public bool GainExperienceToLevel(float points)
         {
             currentPoints.value += points;
@@ -98,6 +114,18 @@ namespace Frankie.Stats
                 return true;
             }
             return false;
+        }
+
+        private void ParseLevelUpMessage(int level, Dictionary<Stat, float> levelUpSheet)
+        {
+            List<Tuple<string, int>> statNameValuePairs = new List<Tuple<string, int>>();
+            foreach (KeyValuePair<Stat, float> entry in levelUpSheet)
+            {
+                Tuple<string, int> statNameValuePair = new Tuple<string, int>(entry.Key.ToString(), Mathf.RoundToInt(entry.Value));
+                statNameValuePairs.Add(statNameValuePair);
+            }
+
+            characterLevelUp?.Invoke(this, level, statNameValuePairs);
         }
         #endregion
 
