@@ -27,7 +27,7 @@ namespace Frankie.Stats
         Dictionary<Stat, float> activeStatSheet = null;
 
         // Events
-        public event Action<int, Dictionary<Stat, float>> onLevelUp;
+        public event Action<BaseStats, int, Dictionary<Stat, float>> onLevelUp;
 
         // Static
         public static Stat[] GetNonModifyingStats()
@@ -106,7 +106,7 @@ namespace Frankie.Stats
         {
             currentLevel.value++;
             Dictionary<Stat, float> levelUpSheet = IncrementStatsOnLevelUp();
-            onLevelUp?.Invoke(GetLevel(), levelUpSheet);
+            onLevelUp?.Invoke(this, GetLevel(), levelUpSheet);
         }
         #endregion
 

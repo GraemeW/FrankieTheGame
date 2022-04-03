@@ -67,7 +67,7 @@ namespace Frankie.Combat.UI
         // Data Structures
         public struct CharacterLevelUpSheetPair
         {
-            public Experience characterExperience;
+            public BaseStats baseStats;
             public int level;
             public List<Tuple<string, int>> statNameValuePairs;
         }
@@ -205,7 +205,7 @@ namespace Frankie.Combat.UI
                     battleController.SetSelectedCharacter(character);
                     firstCharacterToggle = true;
                 }
-                if (character.TryGetComponent(out Experience experience)) { experience.characterLevelUp += HandleLevelUp; }
+                if (character.TryGetComponent(out BaseStats baseStats)) { baseStats.onLevelUp += HandleLevelUp; }
             }
         }
 
@@ -250,11 +250,18 @@ namespace Frankie.Combat.UI
             }
         }
 
-        private void HandleLevelUp(Experience characterExperience, int level, List<Tuple<string, int>> statNameValuePairs)
+        private void HandleLevelUp(BaseStats baseStats, int level, Dictionary<Stat, float> levelUpSheet)
         {
+            List<Tuple<string, int>> statNameValuePairs = new List<Tuple<string, int>>();
+            foreach (KeyValuePair<Stat, float> entry in levelUpSheet)
+            {
+                Tuple<string, int> statNameValuePair = new Tuple<string, int>(entry.Key.ToString(), Mathf.RoundToInt(entry.Value));
+                statNameValuePairs.Add(statNameValuePair);
+            }
+
             CharacterLevelUpSheetPair characterLevelUpSheetPair = new CharacterLevelUpSheetPair
             {
-                characterExperience = characterExperience,
+                baseStats = baseStats,
                 level = level,
                 statNameValuePairs = statNameValuePairs
             };
@@ -284,7 +291,7 @@ namespace Frankie.Combat.UI
             {
                 dialogueBox.AddPageBreak();
 
-                dialogueBox.AddText(string.Format(messageCharacterLevelUp, characterLevelUpSheetPair.characterExperience.GetName(), characterLevelUpSheetPair.level.ToString()));
+                dialogueBox.AddText(string.Format(messageCharacterLevelUp, characterLevelUpSheetPair.baseStats.GetCharacterProperties().GetCharacterNamePretty(), characterLevelUpSheetPair.level.ToString()));
                 int pageClearReset = 0;
 
                 foreach (Tuple<string, int> statNameValuePair in characterLevelUpSheetPair.statNameValuePairs)
@@ -299,7 +306,7 @@ namespace Frankie.Combat.UI
                     pageClearReset++;
                 }
 
-                characterLevelUpSheetPair.characterExperience.characterLevelUp -= HandleLevelUp;
+                characterLevelUpSheetPair.baseStats.onLevelUp -= HandleLevelUp;
                     // Unsubscribe to messages -- not the cleanest location, but the only one available
             }
 

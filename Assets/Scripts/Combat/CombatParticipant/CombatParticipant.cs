@@ -268,7 +268,7 @@ namespace Frankie.Combat
             }
         }
 
-        private void ParseLevelUpMessage(int level, Dictionary<Stat, float> levelUpSheet)
+        private void ParseLevelUpMessage(BaseStats baseStats, int level, Dictionary<Stat, float> levelUpSheet)
         {
             foreach (KeyValuePair<Stat, float> entry in levelUpSheet)
             {
