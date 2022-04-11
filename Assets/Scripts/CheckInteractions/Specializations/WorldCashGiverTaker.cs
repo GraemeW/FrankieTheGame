@@ -100,7 +100,7 @@ namespace Frankie.Control.Specialization
 
         public void RestoreState(SaveState state)
         {
-            numberTransactionsLeft.value = (int)state.GetState();
+            numberTransactionsLeft.value = (int)state.GetState(typeof(int));
         }
     }
 }

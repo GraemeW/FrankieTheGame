@@ -371,7 +371,7 @@ namespace Frankie.Stats
 
         #region Interfaces
         [System.Serializable]
-        struct PartySaveData
+        class PartySaveData
         {
             public List<string> partyStrings;
             public List<string> unlockedCharacterStrings;
@@ -409,7 +409,9 @@ namespace Frankie.Stats
 
         public void RestoreState(SaveState saveState)
         {
-            PartySaveData data = (PartySaveData)saveState.GetState();
+            PartySaveData partySaveData = saveState.GetState(typeof(PartySaveData)) as PartySaveData;
+            if (partySaveData == null) { return; }
+
             // Clear characters in existing party in scene
             foreach (BaseStats character in party)
             {
@@ -418,7 +420,7 @@ namespace Frankie.Stats
             party.Clear();
 
             // Pull characters from save
-            List<string> addPartyStrings = data.partyStrings;
+            List<string> addPartyStrings = partySaveData.partyStrings;
             if (addPartyStrings != null)
             {
                 foreach (string characterName in addPartyStrings)
@@ -440,7 +442,7 @@ namespace Frankie.Stats
             partyUpdated?.Invoke();
 
             // Build up unlocked characters list
-            List<string> unlockedCharacterStrings = data.unlockedCharacterStrings;
+            List<string> unlockedCharacterStrings = partySaveData.unlockedCharacterStrings;
             if (unlockedCharacterStrings != null)
             {
                 foreach (string characterName in unlockedCharacterStrings)
@@ -451,7 +453,7 @@ namespace Frankie.Stats
             }
 
             // Instantiate world NPCs
-            worldNPCLookup = data.worldNPCLookup;
+            worldNPCLookup = partySaveData.worldNPCLookup;
             if (worldNPCLookup != null)
             {
                 foreach (KeyValuePair<string, Tuple<string, string>> worldNPCEntry in worldNPCLookup)

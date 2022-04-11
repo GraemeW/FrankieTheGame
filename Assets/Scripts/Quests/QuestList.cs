@@ -138,7 +138,7 @@ namespace Frankie.Quests
 
         public void RestoreState(SaveState saveState)
         {
-            List<SerializableQuestStatus> serializableQuestStatuses = saveState.GetState() as List<SerializableQuestStatus>;
+            List<SerializableQuestStatus> serializableQuestStatuses = saveState.GetState(typeof(List<SerializableQuestStatus>)) as List<SerializableQuestStatus>;
             if (serializableQuestStatuses == null) { return; }
             questStatuses.Clear();
 

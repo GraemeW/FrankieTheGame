@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
+using Newtonsoft.Json.Linq;
 
 namespace Frankie.Saving
 {
@@ -16,27 +17,29 @@ namespace Frankie.Saving
             return uniqueIdentifier;
         }
 
-        public object CaptureState()
+        public JToken CaptureState()
         {
-            Dictionary<string, object> state = new Dictionary<string, object>();
+            JObject state = new JObject();
             foreach (ISaveable saveable in GetComponents<ISaveable>())
             {
-                state[saveable.GetType().ToString()] = saveable.CaptureState();
+                state[saveable.GetType().ToString()] = JToken.FromObject(saveable.CaptureState());
             }
             return state;
         }
 
-        public void RestoreState(object state, LoadPriority loadPriority)
+        public void RestoreState(JToken state, LoadPriority loadPriority)
         {
             if (state == null) { return; }
 
-            Dictionary<string, object> stateDict = (Dictionary<string, object>)state;
+            JObject stateDict = state.ToObject<JObject>();
+            if (stateDict == null) { Debug.LogError("Malformed data in save file"); }
+
             foreach (ISaveable saveable in GetComponents<ISaveable>())
             {
                 string typeString = saveable.GetType().ToString();
                 if (stateDict.ContainsKey(typeString))
                 {
-                    SaveState saveState = stateDict[typeString] as SaveState;
+                    SaveState saveState = stateDict[typeString].ToObject<SaveState>();
                     if (saveState == null) { return; }
 
                     if (saveState.GetLoadPriority() == loadPriority)

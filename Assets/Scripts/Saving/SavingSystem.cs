@@ -1,3 +1,5 @@
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
@@ -28,11 +30,11 @@ namespace Frankie.Saving
 
         public IEnumerator LoadLastScene(string saveFile)
         {
-            Dictionary<string, object> state = LoadFile(saveFile);
+            JObject state = LoadFile(saveFile);
             string sceneName = SceneManager.GetActiveScene().name;
             if (state.ContainsKey(SAVE_LAST_SCENE_BUILD_INDEX))
             {
-                string trySceneName = state[SAVE_LAST_SCENE_BUILD_INDEX] as string;
+                string trySceneName = state[SAVE_LAST_SCENE_BUILD_INDEX].ToObject<string>();
                 if (!string.IsNullOrWhiteSpace(trySceneName)) { sceneName = trySceneName; }
             }
             yield return SceneManager.LoadSceneAsync(sceneName); 
@@ -43,20 +45,20 @@ namespace Frankie.Saving
 
         public void LoadWithinScene(string saveFile)
         {
-            Dictionary<string, object> state = LoadFile(saveFile);
+            JObject state = LoadFile(saveFile);
             RestoreState(state);
         }
 
         public void Save(string saveFile)
         {
-            Dictionary<string, object> state = LoadFile(saveFile);
+            JObject state = LoadFile(saveFile);
             CaptureState(state);
             SaveFile(saveFile, state);
         }
 
         public void CopySessionToSave(string sessionFile, string saveFile)
         {
-            Dictionary<string, object> state = LoadFile(sessionFile);
+            JObject state = LoadFile(sessionFile);
             CaptureState(state);
             SaveFile(saveFile, state);
         }
@@ -78,32 +80,61 @@ namespace Frankie.Saving
             }
         }
 
-        private Dictionary<string, object> LoadFile(string saveFile)
+        private JObject LoadFile(string saveFile)
         {
             string path = GetPathFromSaveFile(saveFile);
             if (!File.Exists(path))
             {
-                return new Dictionary<string, object>();
+                return new JObject();
             }
+
+            // Binary Formatter Method -- Deprecated
+            /*
             using (FileStream stream = File.Open(path, FileMode.Open))
             {
                 BinaryFormatter formatter = new BinaryFormatter();
                 return (Dictionary<string, object>)formatter.Deserialize(stream);
             }
+            */
+
+            // JSON Method
+            using (StreamReader textReader = File.OpenText(path))
+            {
+                using (JsonTextReader reader = new JsonTextReader(textReader))
+                {
+                    reader.FloatParseHandling = FloatParseHandling.Double;
+
+                    return JObject.Load(reader);
+                }
+            }
         }
 
-        private void SaveFile(string saveFile, object state)
+        private void SaveFile(string saveFile, JObject state)
         {
             string path = GetPathFromSaveFile(saveFile);
             print("Saving to " + path);
+
+            // Binary Formatter Method
+            /*
             using (FileStream stream = File.Open(path, FileMode.Create))
             {
                 BinaryFormatter formatter = new BinaryFormatter();
                 formatter.Serialize(stream, state);
             }
+            */
+
+            // JSON Method
+            using (StreamWriter textWriter = File.CreateText(path))
+            {
+                using (JsonTextWriter writer = new JsonTextWriter(textWriter))
+                {
+                    writer.Formatting = Formatting.Indented;
+                    state.WriteTo(writer);
+                }
+            }
         }
 
-        private void CaptureState(Dictionary<string, object> state)
+        private void CaptureState(JObject state)
         {
             List<SaveableEntity> saveableEntities = GetAllSaveableEntities();
 
@@ -115,7 +146,7 @@ namespace Frankie.Saving
             state[SAVE_LAST_SCENE_BUILD_INDEX] = SceneManager.GetActiveScene().name;
         }
 
-        private void RestoreState(Dictionary<string, object> state)
+        private void RestoreState(JObject state)
         {
             // First Pass -- Object instantiation
             List<SaveableEntity> saveableEntities = GetAllSaveableEntities();

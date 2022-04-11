@@ -294,7 +294,7 @@ namespace Frankie.Combat
         #region Interfaces
         // Save State
         [System.Serializable]
-        struct CombatParticipantSaveData
+        class CombatParticipantSaveData
         {
             public bool isDead;
             public float currentHP;
@@ -320,10 +320,12 @@ namespace Frankie.Combat
 
         void ISaveable.RestoreState(SaveState saveState)
         {
-            CombatParticipantSaveData data = (CombatParticipantSaveData)saveState.GetState();
-            isDead.value = data.isDead;
-            currentHP.value = data.currentHP;
-            currentAP.value = data.currentAP;
+            CombatParticipantSaveData combatParticipantSaveData = saveState.GetState(typeof(CombatParticipantSaveData)) as CombatParticipantSaveData;
+            if (combatParticipantSaveData == null) { return; }
+            
+            isDead.value = combatParticipantSaveData.isDead;
+            currentHP.value = combatParticipantSaveData.currentHP;
+            currentAP.value = combatParticipantSaveData.currentAP;
             targetHP = currentHP.value;
         }
 

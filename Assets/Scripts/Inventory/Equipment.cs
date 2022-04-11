@@ -155,8 +155,8 @@ namespace Frankie.Inventory
         public void RestoreState(SaveState saveState)
         {
             equippedItems = new Dictionary<EquipLocation, EquipableItem>();
-
-            Dictionary<EquipLocation, string> equippedItemsForSerialization = (Dictionary<EquipLocation, string>)saveState.GetState();
+            Dictionary<EquipLocation, string> equippedItemsForSerialization = saveState.GetState(typeof(Dictionary<EquipLocation, string>)) as Dictionary<EquipLocation, string>;
+            if (equippedItemsForSerialization == null) { return; }
 
             foreach (KeyValuePair<EquipLocation, string> pair in equippedItemsForSerialization)
             {

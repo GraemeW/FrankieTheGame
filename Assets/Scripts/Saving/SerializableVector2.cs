@@ -5,7 +5,7 @@ namespace Frankie.Saving
     [System.Serializable]
     public class SerializableVector2
     {
-        float x, y;
+        public float x, y;
 
         public SerializableVector2(Vector3 vector)
         {

@@ -1,24 +1,23 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+using Newtonsoft.Json.Linq;
+using System;
 
 namespace Frankie.Saving
 {
     [System.Serializable]
     public class SaveState
     {
-        LoadPriority loadPriority = LoadPriority.ObjectProperty;
-        object state = null;
+        public LoadPriority loadPriority = LoadPriority.ObjectProperty;
+        public JToken state = null;
 
         public SaveState(LoadPriority loadPriority, object state)
         {
             this.loadPriority = loadPriority;
-            this.state = state;
+            this.state = JToken.FromObject(state);
         }
 
-        public object GetState()
+        public object GetState(Type type)
         {
-            return state;
+            return state.ToObject(type);
         }
 
         public LoadPriority GetLoadPriority()

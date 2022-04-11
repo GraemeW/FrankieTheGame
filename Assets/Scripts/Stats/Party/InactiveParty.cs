@@ -1,4 +1,5 @@
 using Frankie.Saving;
+using Newtonsoft.Json.Linq;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -8,7 +9,7 @@ namespace Frankie.Stats
     public class InactiveParty : MonoBehaviour, ISaveable
     {
         // State
-        Dictionary<string, object> inactiveCharacterSaveStates = new Dictionary<string, object>();
+        Dictionary<string, JToken> inactiveCharacterSaveStates = new Dictionary<string, JToken>();
 
         #region PublicMethods
         public void CaptureCharacterState(BaseStats character)
@@ -68,11 +69,11 @@ namespace Frankie.Stats
 
         public void RestoreState(SaveState state)
         {
-            Dictionary<string, object> inactiveCharacterSaveStateRecords = state.GetState() as Dictionary<string, object>;
+            Dictionary<string, JToken> inactiveCharacterSaveStateRecords = state.GetState(typeof(Dictionary<string, JToken>)) as Dictionary<string, JToken>;
             if (inactiveCharacterSaveStateRecords == null) { return; }
 
             inactiveCharacterSaveStates.Clear();
-            foreach (KeyValuePair<string, object> keyValuePair in inactiveCharacterSaveStateRecords)
+            foreach (KeyValuePair<string, JToken> keyValuePair in inactiveCharacterSaveStateRecords)
             {
                 string characterName = keyValuePair.Key;
                 if (string.IsNullOrWhiteSpace(characterName)) { continue; }

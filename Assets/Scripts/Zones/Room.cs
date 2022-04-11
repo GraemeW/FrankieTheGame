@@ -33,7 +33,7 @@ namespace Frankie.ZoneManagement
         {
             if (saveState == null) { return; }
 
-            bool roomEnabled = (bool)saveState.GetState();
+            bool roomEnabled = (bool)saveState.GetState(typeof(bool));
             gameObject.SetActive(roomEnabled);
 
             if (saveState != null) { stateSetBySave = true; }

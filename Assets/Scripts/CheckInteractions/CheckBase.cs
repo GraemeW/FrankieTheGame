@@ -68,7 +68,7 @@ namespace Frankie.Control
 
         public virtual void RestoreState(SaveState state)
         {
-            SetActiveCheck((bool)state.GetState());
+            SetActiveCheck((bool)state.GetState(typeof(bool)));
         }
     }
 }

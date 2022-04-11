@@ -178,7 +178,7 @@ namespace Frankie.Stats
         #region Interfaces
         // Save State
         [System.Serializable]
-        struct BaseStatsSaveData
+        class BaseStatsSaveData
         {
             public int level;
             public Dictionary<Stat, float> statSheet;
@@ -202,9 +202,11 @@ namespace Frankie.Stats
 
         public void RestoreState(SaveState saveState)
         {
-            BaseStatsSaveData data = (BaseStatsSaveData)saveState.GetState();
-            currentLevel.value = data.level;
-            activeStatSheet = data.statSheet;
+            BaseStatsSaveData baseStatsSaveData = saveState.GetState(typeof(BaseStatsSaveData)) as BaseStatsSaveData;
+            if (baseStatsSaveData == null) { return; }
+
+            currentLevel.value = baseStatsSaveData.level;
+            activeStatSheet = baseStatsSaveData.statSheet;
         }
 
         public bool? Evaluate(Predicate predicate)

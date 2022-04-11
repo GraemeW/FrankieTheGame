@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: da933559-f556-4dc5-a152-6c81e16e771b
   m_EditorClassIdentifier: 
   speakerType: 0
-  characterProperties: {fileID: 11400000, guid: b50f84a2f36107a44825b11881f88adf, type: 2}
-  speakerName: Frankie
+  characterProperties: {fileID: 11400000, guid: b10029ac6f311c441a516db78ca01efd, type: 2}
+  speakerName: Tilly
   text: Nah.
   children: []
   rect:
@@ -79,8 +79,8 @@ MonoBehaviour:
   m_Name: b9c7e26f-bf00-49de-90cf-3bbc79295b71
   m_EditorClassIdentifier: 
   speakerType: 0
-  characterProperties: {fileID: 11400000, guid: b50f84a2f36107a44825b11881f88adf, type: 2}
-  speakerName: Frankie
+  characterProperties: {fileID: 11400000, guid: b10029ac6f311c441a516db78ca01efd, type: 2}
+  speakerName: Tilly
   text: Yes?
   children: []
   rect:
@@ -115,7 +115,7 @@ MonoBehaviour:
   nodeHeight: 225
   activeNPCs:
   - {fileID: 11400000, guid: 90d76accd2678ec4a831bc862fdccb8c, type: 2}
-  - {fileID: 11400000, guid: b50f84a2f36107a44825b11881f88adf, type: 2}
+  - {fileID: 11400000, guid: b10029ac6f311c441a516db78ca01efd, type: 2}
   dialogueNodes:
   - {fileID: 3876667673261360452}
   - {fileID: 4572544580911562930}
@@ -140,8 +140,8 @@ MonoBehaviour:
   m_Name: e26cb30f-683e-44c0-9713-d7344833727c
   m_EditorClassIdentifier: 
   speakerType: 0
-  characterProperties: {fileID: 11400000, guid: b50f84a2f36107a44825b11881f88adf, type: 2}
-  speakerName: Frankie
+  characterProperties: {fileID: 11400000, guid: b10029ac6f311c441a516db78ca01efd, type: 2}
+  speakerName: Tilly
   text: Nope.
   children: []
   rect:
@@ -338,8 +338,8 @@ MonoBehaviour:
   m_Name: ad6f048a-a720-48ed-a8ee-03a6bfcec636
   m_EditorClassIdentifier: 
   speakerType: 0
-  characterProperties: {fileID: 11400000, guid: b50f84a2f36107a44825b11881f88adf, type: 2}
-  speakerName: Frankie
+  characterProperties: {fileID: 11400000, guid: b10029ac6f311c441a516db78ca01efd, type: 2}
+  speakerName: Tilly
   text: Definitely not.
   children: []
   rect:

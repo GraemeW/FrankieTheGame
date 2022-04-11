@@ -185,7 +185,7 @@ namespace Frankie.Control
         #region Interfaces
         // Save State
         [System.Serializable]
-        struct MoverSaveData
+        class MoverSaveData
         {
             public SerializableVector2 position;
         }
@@ -207,8 +207,10 @@ namespace Frankie.Control
 
         void ISaveable.RestoreState(SaveState saveState)
         {
-            MoverSaveData data = (MoverSaveData)saveState.GetState();
-            transform.position = data.position.ToVector();
+            MoverSaveData moverSaveData = saveState.GetState(typeof(MoverSaveData)) as MoverSaveData;
+            if (moverSaveData == null) { return; }
+
+            transform.position = moverSaveData.position.ToVector();
         }
         #endregion
     }

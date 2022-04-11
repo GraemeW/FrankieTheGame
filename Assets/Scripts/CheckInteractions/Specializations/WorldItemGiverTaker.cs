@@ -71,7 +71,7 @@ namespace Frankie.Control.Specialization
 
         public void RestoreState(SaveState state)
         {
-            currentItemQuantity.value = (int)state.GetState();
+            currentItemQuantity.value = (int)state.GetState(typeof(int));
         }
     }
 

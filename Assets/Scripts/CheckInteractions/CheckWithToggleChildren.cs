@@ -93,7 +93,7 @@ namespace Frankie.Control
         {
             if (state == null) { return; }
 
-            if (!(bool)state.GetState())
+            if (!(bool)state.GetState(typeof(bool)))
             {
                 // Reset children, as condition was met on prior save
                 if (parentTransformForToggling == null) { parentTransformForToggling = transform; }

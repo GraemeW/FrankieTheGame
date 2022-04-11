@@ -404,7 +404,8 @@ namespace Frankie.Inventory
 
         void ISaveable.RestoreState(SaveState saveState)
         {
-            SaveableActiveItem[] slotsActiveItemStrings = (SaveableActiveItem[])saveState.GetState();
+            SaveableActiveItem[] slotsActiveItemStrings = saveState.GetState(typeof(SaveableActiveItem[])) as SaveableActiveItem[];
+            if (slotsActiveItemStrings == null) { return; }
 
             for (int i = 0; i < inventorySize; i++)
             {

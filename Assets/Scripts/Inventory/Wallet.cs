@@ -121,7 +121,7 @@ namespace Frankie.Inventory
 
         public void RestoreState(SaveState state)
         {
-            WalletSaveData walletSaveData = state.GetState() as WalletSaveData;
+            WalletSaveData walletSaveData = state.GetState(typeof(WalletSaveData)) as WalletSaveData;
             if (walletSaveData != null)
             {
                 cash.value = walletSaveData.cash;
