@@ -4,7 +4,6 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Runtime.Serialization.Formatters.Binary;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -12,8 +11,24 @@ namespace Frankie.Saving
 {
     public class SavingSystem : MonoBehaviour
     {
+        // Constants
         const string SAVE_FILE_EXTENSION = ".sav";
         const string SAVE_LAST_SCENE_BUILD_INDEX = "lastSceneBuildIndex";
+        const bool encryptionEnabled = true;
+
+        // Data Structures
+        [System.Serializable]
+        private class SaveSuper
+        {
+            public bool encryptionEnabled;
+            public string payload;
+
+            public SaveSuper(bool encryptionEnabled, string payload)
+            {
+                this.encryptionEnabled = encryptionEnabled;
+                this.payload = payload;
+            }
+        }
 
         private static List<SaveableEntity> GetAllSaveableEntities()
         {
@@ -104,7 +119,17 @@ namespace Frankie.Saving
                 {
                     reader.FloatParseHandling = FloatParseHandling.Double;
 
-                    return JObject.Load(reader);
+                    SaveSuper saveSuper = JObject.Load(reader).ToObject<SaveSuper>();
+                    if (saveSuper.encryptionEnabled)
+                    {
+                        string decryptedPayload = SymmetricEncryptor.DecryptToString(saveSuper.payload);
+                        return JToken.Parse(decryptedPayload) as JObject;
+                    }
+                    else
+                    {
+                        return JToken.Parse(saveSuper.payload) as JObject;
+                    }
+
                 }
             }
         }
@@ -124,12 +149,20 @@ namespace Frankie.Saving
             */
 
             // JSON Method
+
+
             using (StreamWriter textWriter = File.CreateText(path))
             {
+                string payload = state.ToString();
+                if (encryptionEnabled)
+                {
+                    payload = SymmetricEncryptor.EncryptString(state.ToString());
+                }
+                JToken saveSuper = JToken.FromObject(new SaveSuper(encryptionEnabled, payload));
                 using (JsonTextWriter writer = new JsonTextWriter(textWriter))
                 {
                     writer.Formatting = Formatting.Indented;
-                    state.WriteTo(writer);
+                    saveSuper.WriteTo(writer);
                 }
             }
         }
