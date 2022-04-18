@@ -43,6 +43,7 @@ namespace Frankie.ZoneManagement
         {
             if (string.IsNullOrWhiteSpace(sceneReference)) { return null; }
 
+            UnityEngine.Debug.Log($"Attempting to load zone from scene reference {sceneReference}");
             BuildCacheIfEmpty();
             if (sceneReference == null || !sceneReferenceCache.ContainsKey(sceneReference)) return null;
             return sceneReferenceCache[sceneReference];
@@ -52,6 +53,7 @@ namespace Frankie.ZoneManagement
         {
             if (sceneReferenceCache == null)
             {
+                // Debug:  UnityEngine.Debug.Log("Scene reference cache empty -- building");
                 BuildZoneCache();
             }
         }
@@ -69,6 +71,7 @@ namespace Frankie.ZoneManagement
 
                 zoneLookupCache[zone.name] = zone;
                 sceneReferenceCache[zone.GetSceneReference().SceneName] = zone;
+                // Debug: UnityEngine.Debug.Log($"Found zone:  {zone.name}");
             }
             );
             addressablesLoadHandle.WaitForCompletion();
