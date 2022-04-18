@@ -76,7 +76,7 @@ MonoBehaviour:
   rect:
     serializedVersion: 2
     x: 45.99997
-    y: 376
+    y: 375
     width: 430
     height: 150
   zoneName: OfficeBuildingOutside

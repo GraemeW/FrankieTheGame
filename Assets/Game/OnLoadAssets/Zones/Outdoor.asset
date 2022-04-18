@@ -67,7 +67,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   children: []
   linkedZone: {fileID: 11400000, guid: 22c8250c01773ac4c97cd290e2f34c7a, type: 2}
-  linkedZoneNode: {fileID: 0}
+  linkedZoneNode: {fileID: -4737156880441445969, guid: 22c8250c01773ac4c97cd290e2f34c7a, type: 2}
   rect:
     serializedVersion: 2
     x: 525
