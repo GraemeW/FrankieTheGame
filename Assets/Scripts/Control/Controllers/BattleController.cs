@@ -17,6 +17,7 @@ namespace Frankie.Combat
         [Header("Controller Properties")]
         [SerializeField] float battleQueueDelay = 1.0f;
         [SerializeField] float runFailureCooldown = 3.0f;
+        [SerializeField] float battleAdvantageCooldown = 0.25f;
 
         // State
         BattleState state = default;
@@ -139,7 +140,7 @@ namespace Frankie.Combat
             {
                 if (transitionType == TransitionType.BattleGood)
                 {
-                    character.SetCooldown(0f);
+                    character.SetCooldown(battleAdvantageCooldown);
                 }
                 else
                 {
@@ -154,7 +155,7 @@ namespace Frankie.Combat
             {
                 if (transitionType == TransitionType.BattleBad)
                 {
-                    enemy.SetCooldown(0f);
+                    enemy.SetCooldown(battleAdvantageCooldown);
                 }
                 else
                 {

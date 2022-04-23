@@ -195,7 +195,7 @@ MonoBehaviour:
     tileSpriteImage: {fileID: 0}
     shaderMaterial: {fileID: 0}
   usesAP: 0
-  battleStartCooldown: 2
+  battleStartCooldown: 15
   damageTimeSpan: 4
   fractionOfHPInstantOnRevival: 0.5
 --- !u!114 &6346925829285501531
