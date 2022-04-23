@@ -210,6 +210,11 @@ namespace Frankie.Combat
             AnnounceStateUpdate(new StateAlteredData(StateAlteredType.AdjustAPNonSpecific, points));
         }
 
+        public void Kill()
+        {
+            AdjustHP(-baseStats.GetStat(Stat.HP) * 10f);
+        }
+
         public void Revive(float hp)
         {
             isDead.value = false;

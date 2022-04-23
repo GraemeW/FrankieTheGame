@@ -130,7 +130,7 @@ namespace Frankie.Combat
         }
         #endregion
 
-        #region PublicSettersGetters
+        #region PublicSetters
         // Setters
         public void Setup(List<CombatParticipant> enemies, TransitionType transitionType)
         {
@@ -163,6 +163,7 @@ namespace Frankie.Combat
                 enemy.stateAltered += CheckForBattleEnd;
                 activeEnemies.Add(enemy);
             }
+
             FindObjectOfType<Fader>().battleUIStateChanged += InitiateBattle;
         }
 
@@ -264,79 +265,32 @@ namespace Frankie.Combat
 
             battleActionArmedStateChanged?.Invoke(selectedBattleAction);
         }
+        #endregion
 
-        // Getters
-        public BattleState GetBattleState()
-        {
-            return state;
-        }
+        #region PublicGetters
+        // Overall State
+        public BattleState GetBattleState() => state;
+        public BattleOutcome GetBattleOutcome() => outcome;
+        public List<CombatParticipant> GetCharacters() => activeCharacters;
+        public List<CombatParticipant> GetEnemies() => activeEnemies;
 
-        public BattleOutcome GetBattleOutcome()
-        {
-            return outcome;
-        }
-
+        // State Selections
         public CombatParticipant GetSelectedCharacter()
         {
             AutoSelectCharacter();
             return selectedCharacter;
         }
+        public IBattleActionUser GetActiveBattleAction() => selectedBattleAction;
+        public bool HasActiveBattleAction() => selectedBattleAction != null;
+        public bool IsBattleActionArmed() => battleActionArmed;
 
-        public IBattleActionUser GetActiveBattleAction()
-        {
-            return selectedBattleAction;
-        }
-
-        public bool HasActiveBattleAction()
-        {
-            return selectedBattleAction != null;
-        }
-
-        public bool IsBattleActionArmed()
-        {
-            return battleActionArmed;
-        }
-
-
-        public List<CombatParticipant> GetCharacters()
-        {
-            return activeCharacters;
-        }
-
-        public List<CombatParticipant> GetEnemies()
-        {
-            return activeEnemies;
-        }
-        public float GetBattleExperienceReward()
-        {
-            return battleExperienceReward;
-        }
-
-        public List<Tuple<string, InventoryItem>> GetAllocatedLootCart()
-        {
-            return allocatedLootCart;
-        }
-
-        public List<Tuple<string, InventoryItem>> GetUnallocatedLootCart()
-        {
-            return unallocatedLootCart;
-        }
-
-        public bool HasLootCart()
-        {
-            return HasAllocatedLootCart() || HasUnallocatedLootCart();
-        }
-
-        public bool HasAllocatedLootCart()
-        {
-            return allocatedLootCart != null && allocatedLootCart.Count > 0;
-        }
-
-        public bool HasUnallocatedLootCart()
-        {
-            return unallocatedLootCart != null && unallocatedLootCart.Count > 0;
-        }
-
+        // Loot
+        public float GetBattleExperienceReward() => battleExperienceReward;
+        public List<Tuple<string, InventoryItem>> GetAllocatedLootCart() => allocatedLootCart;
+        public List<Tuple<string, InventoryItem>> GetUnallocatedLootCart() => unallocatedLootCart;
+        public bool HasLootCart() => HasAllocatedLootCart() || HasUnallocatedLootCart();
+        public bool HasAllocatedLootCart() => allocatedLootCart != null && allocatedLootCart.Count > 0;
+        public bool HasUnallocatedLootCart() => unallocatedLootCart != null && unallocatedLootCart.Count > 0;
         #endregion
 
         #region PublicBattleHandling
@@ -528,8 +482,43 @@ namespace Frankie.Combat
             if (isBattleCanvasEnabled)
             {
                 FindObjectOfType<Fader>().battleUIStateChanged -= InitiateBattle;
-                SetBattleState(BattleState.Intro);
+
+                if (CheckForAutoWin())
+                {
+                    foreach (CombatParticipant enemy in activeEnemies)
+                    {
+                        enemy.Kill();
+                    }
+                    SetBattleState(BattleState.Combat); // Combat will auto-complete in the usual way
+                }
+                else
+                {
+                    SetBattleState(BattleState.Intro);
+                }
             }
+        }
+
+        private bool CheckForAutoWin()
+        {
+            float imposingStat = 1f;
+            foreach (CombatParticipant enemy in activeEnemies)
+            {
+                float subImposingStat = -1f;
+                foreach (CombatParticipant character in activeCharacters)
+                {
+                    float newImposingStat = character.GetCalculatedStat(CalculatedStat.Imposing, enemy);
+                    subImposingStat = newImposingStat > subImposingStat ? newImposingStat : subImposingStat;
+                    // Within single enemy, if any character is imposing, set is imposing (>0f) -- take the largest value
+
+                    if (subImposingStat > 0f) { break; } // break early if imposed
+                }
+                imposingStat = subImposingStat < imposingStat ? subImposingStat : imposingStat;
+                    // Within set of enemies, if any enemy is not imposed upon, battle will continue -- take the minimum value
+
+                if (imposingStat < 0f) { break; } // break early if not imposed upon
+            }
+
+            return imposingStat > 0f;
         }
 
         private void AutoSelectCharacter()

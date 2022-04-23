@@ -100,13 +100,13 @@ namespace Frankie.Stats
         private static float GetFearsome(float modifier, float defenderModifier)
         {
             // positive value = fearsome (multiplier* more than defender)
-            return modifier - 2 * defenderModifier;
+            return modifier - 6 * defenderModifier;
         }
 
         private static float GetImposing(float modifier, float defenderModifier)
         {
             // positive value -> imposing (multiplier* more than defender)
-            return modifier - 3 * defenderModifier;
+            return modifier - 12 * defenderModifier;
         }
         #endregion
     }
