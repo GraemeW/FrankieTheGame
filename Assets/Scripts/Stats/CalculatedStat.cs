@@ -9,6 +9,8 @@ namespace Frankie.Stats
         PhysicalAdder,
         MagicalAdder,
         Defense,
-        RunSpeed
+        RunSpeed,
+        Fearsome, // cause enemies to flee
+        Imposing // cause battles to auto-win
     }
 }

@@ -26,6 +26,8 @@ namespace Frankie.Stats
                 CalculatedStat.MagicalAdder => Stat.Beauty,
                 CalculatedStat.Defense => Stat.Nimble,
                 CalculatedStat.RunSpeed => Stat.Pluck,
+                CalculatedStat.Fearsome => Stat.Pluck,
+                CalculatedStat.Imposing => Stat.Pluck,
                 _ => Stat.ExperienceReward,
             };
 
@@ -46,6 +48,8 @@ namespace Frankie.Stats
                 CalculatedStat.MagicalAdder => GetMagicalAdder(callerModifier),
                 CalculatedStat.Defense => GetDefense(callerModifier),
                 CalculatedStat.RunSpeed => GetRunSpeed(callerModifier),
+                CalculatedStat.Fearsome => GetFearsome(callerModifier, contestModifier),
+                CalculatedStat.Imposing => GetImposing(callerModifier, contestModifier),
                 _ => 0f,
             };
         }
@@ -91,6 +95,18 @@ namespace Frankie.Stats
         private static float GetRunSpeed(float modifier)
         {
             return Mathf.Max(0f, modifier);
+        }
+
+        private static float GetFearsome(float modifier, float defenderModifier)
+        {
+            // positive value = fearsome (multiplier* more than defender)
+            return modifier - 2 * defenderModifier;
+        }
+
+        private static float GetImposing(float modifier, float defenderModifier)
+        {
+            // positive value -> imposing (multiplier* more than defender)
+            return modifier - 3 * defenderModifier;
         }
         #endregion
     }

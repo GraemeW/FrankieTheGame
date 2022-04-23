@@ -46,6 +46,30 @@ namespace Frankie.Stats
             }
             return alive;
         }
+
+        public bool IsFearsome(CombatParticipant toEnemy)
+        {
+            float fearsomeStat = -1f;
+            foreach (CombatParticipant character in combatParticipantCache)
+            {
+                float newFearsomeStat = character.GetCalculatedStat(CalculatedStat.Fearsome, toEnemy);
+                fearsomeStat = newFearsomeStat > fearsomeStat ? newFearsomeStat : fearsomeStat;
+            }
+
+            return fearsomeStat > 0f;
+        }
+
+        public bool IsImposing(CombatParticipant toEnemy)
+        {
+            float imposingStat = -1f;
+            foreach (CombatParticipant character in combatParticipantCache)
+            {
+                float newImposingStat = character.GetCalculatedStat(CalculatedStat.Imposing, toEnemy);
+                imposingStat = newImposingStat > imposingStat ? newImposingStat : imposingStat;
+            }
+
+            return imposingStat > 0f;
+        }
         #endregion
 
         #region PrivateMethods

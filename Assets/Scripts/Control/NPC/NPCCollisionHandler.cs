@@ -60,7 +60,7 @@ namespace Frankie.Control
             if (combatParticipant != null) { combatParticipant.stateAltered -= HandleNPCCombatStateChange; }
         }
 
-        private void HandleNPCStateChange(NPCStateType npcStateType)
+        private void HandleNPCStateChange(NPCStateType npcStateType, bool isNPCAfraid)
         {
             if (disableCollisionEventsWhenDead && 
                 combatParticipant != null && combatParticipant.IsDead()) { collisionsActive = false;  return; } // NPC death supercedes collision behavior

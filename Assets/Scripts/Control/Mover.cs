@@ -132,7 +132,7 @@ namespace Frankie.Control
             return true;
         }
 
-        private Vector2 ReckonTarget()
+        protected virtual Vector2 ReckonTarget()
         {
             Vector2 target = Vector2.zero;
             if (moveTargetCoordinate != null)

@@ -28,7 +28,7 @@ namespace Frankie.Control
         ReInitLazyValue<PlayerController> playerController;
 
         // Events
-        public event Action<NPCStateType> npcStateChanged;
+        public event Action<NPCStateType, bool> npcStateChanged;
 
         #region UnityMethods
         private void Awake()
@@ -100,53 +100,18 @@ namespace Frankie.Control
         {
             return willDestroySelfOnDeath;
         }
-
-        private void SetNPCState(NPCStateType npcState)
-        {
-            if (npcState == NPCStateType.aggravated)
-            {
-                PartyCombatConduit partyCombatConduit = playerStateHandler.value.GetParty().GetComponent<PartyCombatConduit>();
-                if (!partyCombatConduit.IsAnyMemberAlive()) { return; }
-            }
-            
-            bool occupiedStatusChange = (npcState == NPCStateType.occupied && !npcOccupied) || (npcState != NPCStateType.occupied && npcOccupied);
-            if (this.npcState == npcState && !occupiedStatusChange) { return; }
-
-            // Occupied treated as a pseudo-state to allow for state persistence
-            // i.e. State reset viable on SetNPCState(this.npcState)
-            if (npcState == NPCStateType.occupied) { npcOccupied = true; }
-            else
-            {
-                npcOccupied = false;
-
-                // Set State
-                this.npcState = npcState;
-            }
-
-            UnityEngine.Debug.Log($"Updating {gameObject.name} NPC state to: {Enum.GetName(typeof(NPCStateType), npcOccupied ? NPCStateType.occupied : npcState)}");
-            npcStateChanged?.Invoke(npcOccupied ? NPCStateType.occupied : npcState);
-
-            return;
-        }
         #endregion
 
         #region StateUtilityMethods
-        public void SetNPCIdle() // Called via Unity Event
-        {
-            SetNPCState(NPCStateType.idle);
-        }
+        public void SetNPCIdle() => SetNPCState(NPCStateType.idle); // Callable via Unity Event
+        public void SetNPCSuspicious() => SetNPCState(NPCStateType.suspicious); // Callable via Unity Event
 
-        public void SetNPCSuspicious()
-        {
-            SetNPCState(NPCStateType.suspicious);
-        }
-
-        public void SetNPCAggravated()
+        public void SetNPCAggravated() // Callable via Unity Event
         {
             SetNPCState(NPCStateType.aggravated);
         }
 
-        public void SetNPCFrenzied()
+        public void SetNPCFrenzied() // Callable via Unity Event
         {
             SetNPCState(NPCStateType.frenzied);
         }
@@ -173,6 +138,36 @@ namespace Frankie.Control
         #endregion
 
         #region PrivateMethods
+        private void SetNPCState(NPCStateType npcState)
+        {
+            bool isNPCAfraid = false;
+            if (npcState == NPCStateType.aggravated || npcState == NPCStateType.suspicious)
+            {
+                PartyCombatConduit partyCombatConduit = playerStateHandler.value.GetParty().GetComponent<PartyCombatConduit>();
+                if (!partyCombatConduit.IsAnyMemberAlive()) { return; }
+                isNPCAfraid = partyCombatConduit.IsFearsome(combatParticipant);
+            }
+
+            bool occupiedStatusChange = (npcState == NPCStateType.occupied) ^ npcOccupied;
+            if (this.npcState == npcState && !occupiedStatusChange) { return; }
+
+            // Occupied treated as a pseudo-state to allow for state persistence
+            // i.e. State reset viable on SetNPCState(this.npcState)
+            if (npcState == NPCStateType.occupied) { npcOccupied = true; }
+            else
+            {
+                npcOccupied = false;
+
+                // Set State
+                this.npcState = npcState;
+            }
+
+            UnityEngine.Debug.Log($"Updating {gameObject.name} NPC state to: {Enum.GetName(typeof(NPCStateType), npcOccupied ? NPCStateType.occupied : npcState)}");
+            npcStateChanged?.Invoke(npcOccupied ? NPCStateType.occupied : npcState, isNPCAfraid);
+
+            return;
+        }
+
         private void InitiateCombat(PlayerStateMachine playerStateHandler, TransitionType transitionType, List<NPCStateHandler> npcMob = null)
         {
             if (combatParticipant == null) { return; }

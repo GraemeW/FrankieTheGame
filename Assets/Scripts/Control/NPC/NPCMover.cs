@@ -23,6 +23,8 @@ namespace Frankie.Control
         // State
         bool movingActive = true;
         bool resetPositionOnNextIdle = false;
+        bool movingAwayFromTarget = false;
+
         Vector3 initialPosition = new Vector3();
         int currentWaypointIndex = 0;
         float timeSinceArrivedAtWaypoint = Mathf.Infinity;
@@ -104,10 +106,33 @@ namespace Frankie.Control
         }
         #endregion
 
+        #region OverrideMethods
+        protected override Vector2 ReckonTarget()
+        {
+            Vector2 target = base.ReckonTarget();
+            if (!movingAwayFromTarget)
+            {
+                return target;
+            }
+            else
+            {
+                return rigidBody2D.position * (Vector2.one - target); // Run toward equally distant position away from target
+            }
+        }
+
+        protected override void UpdateAnimator()
+        {
+            animator.SetFloat("Speed", currentSpeed);
+            animator.SetFloat("xLook", lookDirection.x);
+            animator.SetFloat("yLook", lookDirection.y);
+        }
+        #endregion
+
         #region PrivateMethods
-        private void HandleNPCStateChange(NPCStateType npcStateType)
+        private void HandleNPCStateChange(NPCStateType npcStateType, bool isNPCAfraid)
         {
             movingActive = true;
+            movingAwayFromTarget = false;
             switch (npcStateType)
             {
                 case NPCStateType.occupied:
@@ -118,6 +143,7 @@ namespace Frankie.Control
                     break;
                 case NPCStateType.aggravated:
                 case NPCStateType.frenzied:
+                    movingAwayFromTarget = isNPCAfraid;
                     resetPositionOnNextIdle = true;
                     if (!HasMoveTarget())
                     {
@@ -165,13 +191,6 @@ namespace Frankie.Control
 
             currentWaypointIndex = patrolPath.GetNextIndex(currentWaypointIndex);
             timeSinceArrivedAtWaypoint = 0;
-        }
-
-        protected override void UpdateAnimator()
-        {
-            animator.SetFloat("Speed", currentSpeed);
-            animator.SetFloat("xLook", lookDirection.x);
-            animator.SetFloat("yLook", lookDirection.y);
         }
         #endregion
 

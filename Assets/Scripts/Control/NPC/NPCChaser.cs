@@ -111,7 +111,7 @@ namespace Frankie.Control
             timeSinceLastSawPlayer += Time.deltaTime;
         }
 
-        private void HandleNPCStateChange(NPCStateType npcStateType)
+        private void HandleNPCStateChange(NPCStateType npcStateType, bool isNPCAfraid)
         {
             switch (npcStateType)
             {
