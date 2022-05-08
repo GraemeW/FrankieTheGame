@@ -67,6 +67,11 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels:
     - Zone
+  - m_GUID: 26c6337203d60d64b876b87a573d7f08
+    m_Address: OfficeInterior
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Zone
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: 486580c8fbd153c4dac30d33c738074e, type: 2}
   m_SchemaSet:
