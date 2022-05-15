@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 5163575220664821586}
   - component: {fileID: 2435122922595890214}
   m_Layer: 2
-  m_Name: BigCrate
+  m_Name: CrateBig
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
