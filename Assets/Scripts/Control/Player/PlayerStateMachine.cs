@@ -156,6 +156,15 @@ namespace Frankie.Control
                 // Required to allow swarm / multi-battle entry on same-frame
         }
 
+        public void SetPostDialogueCallbackActions(InteractionEvent interactionEvent)
+        {
+            DialogueController dialogueController = GetCurrentDialogueController();
+            if (dialogueController != null && interactionEvent != null)
+            {
+                dialogueController.SetDestroyCallbackActions(interactionEvent);
+            }
+        }
+
         public Party GetParty() // TODO:  Refactor, Demeter
         {
             return party;

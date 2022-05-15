@@ -23,6 +23,10 @@ PrefabInstance:
       propertyPath: m_Offset.y
       value: 0.06147325
       objectReference: {fileID: 0}
+    - target: {fileID: 4118810327594443569, guid: 1b473d8838e3d4d4c99f7ff6e30d07df, type: 3}
+      propertyPath: canBeShoutedAt
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4770053427049122869, guid: 1b473d8838e3d4d4c99f7ff6e30d07df, type: 3}
       propertyPath: m_Size.x
       value: 0.38962507

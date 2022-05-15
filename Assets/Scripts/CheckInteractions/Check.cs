@@ -64,7 +64,7 @@ namespace Frankie.Control
                 }
                 else
                 {
-                    SetupPostCheckActions(playerStateHandler);
+                    playerStateHandler.SetPostDialogueCallbackActions(checkInteraction);
                 }
             }
             return true;
@@ -85,17 +85,6 @@ namespace Frankie.Control
                 playerStateHandler.EnterDialogue(string.Format(checkMessage, partyLeaderName), interactActions);
             }
             return true;
-        }
-        #endregion
-
-        #region UtilityFunctions
-        protected void SetupPostCheckActions(PlayerStateMachine playerStateHandler)
-        {
-            DialogueController dialogueController = playerStateHandler.GetCurrentDialogueController();
-            if (dialogueController != null && checkInteraction != null)
-            {
-                dialogueController.SetDestroyCallbackActions(checkInteraction);
-            }
         }
         #endregion
     }

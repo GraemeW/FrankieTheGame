@@ -98,6 +98,14 @@ namespace Frankie.ZoneManagement
             }
             return false;
         }
+
+        public void AttemptToWarpPlayer(PlayerStateMachine playerStateHandler) // Callable by Unity Events
+        {
+            if (playerStateHandler.TryGetComponent(out PlayerController playerController))
+            {
+                AttemptToWarpPlayer(playerStateHandler, playerController);
+            }
+        }
         #endregion
 
         #region PrivateMethods
@@ -301,17 +309,23 @@ namespace Frankie.ZoneManagement
 
             if (inputType == matchType)
             {
-                SetUpCurrentReferences(playerStateHandler, playerController);
-                if (IsSimpleWarp() == true)
-                {
-                    WarpPlayerToNextNode();
-                }
-                else if (IsSimpleWarp() == false)
-                {
-                    playerStateHandler.EnterDialogue(choiceMessage, GetZoneNameZoneNodePairs());
-                }
+                AttemptToWarpPlayer(playerStateHandler, playerController);
             }
             return true;
+        }
+
+        private void AttemptToWarpPlayer(PlayerStateMachine playerStateHandler, PlayerController playerController)
+        {
+            SetUpCurrentReferences(playerStateHandler, playerController);
+
+            if (IsSimpleWarp() == true)
+            {
+                WarpPlayerToNextNode();
+            }
+            else if (IsSimpleWarp() == false)
+            {
+                playerStateHandler.EnterDialogue(choiceMessage, GetZoneNameZoneNodePairs());
+            }
         }
 
         bool IRaycastable.CheckDistanceTemplate()
