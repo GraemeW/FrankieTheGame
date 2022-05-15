@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: VeryImportantDocuments
   m_EditorClassIdentifier: 
   itemID: c1d8eed3-dd46-4da5-b1de-fe77153bed5e
-  displayName: Very Important Documents
+  displayName: Very Imp. Docs
   description: It's hay.  It's just hay in a binder.
   droppable: 0
   price: 0
