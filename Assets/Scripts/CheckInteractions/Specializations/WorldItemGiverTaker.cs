@@ -53,6 +53,26 @@ namespace Frankie.Control.Specialization
             playerStateHandler.EnterDialogue(messageInventoryFull);
         }
 
+        public void TakeItem(PlayerStateMachine playerStateHandler) // Called via Unity events
+        {
+            if (inventoryItem == null) { return; }
+
+            if (playerStateHandler.TryGetComponent(out PartyKnapsackConduit partyKnapsackConduit))
+            {
+                partyKnapsackConduit.RemoveSingleItem(inventoryItem);
+            }
+        }
+
+        public void TakeAllItems(PlayerStateMachine playerStateHandler) // Called via Unity events
+        {
+            if (inventoryItem == null) { return; }
+
+            if (playerStateHandler.TryGetComponent(out PartyKnapsackConduit partyKnapsackConduit))
+            {
+                partyKnapsackConduit.RemoveAllItems(inventoryItem);
+            }
+        }
+
         private int GetMaxItemQuantity()
         {
             return itemQuantity;

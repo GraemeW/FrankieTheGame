@@ -56,18 +56,13 @@ namespace Frankie.Control
         {
             if (transform.childCount == 0) { return; }
 
+            if (parentTransformForToggling == null) { parentTransformForToggling = transform; }
+
             string partyLeaderName = playerStateHandler.GetComponent<Party>()?.GetPartyLeaderName();
             partyLeaderName ??= defaultPartyLeaderName;
-
-            if (parentTransformForToggling == null) { parentTransformForToggling = transform; }
             if (CheckCondition(playerStateHandler))
             {
-                foreach (Transform child in parentTransformForToggling)
-                {
-                    child.gameObject.SetActive(toggleToConditionMet);
-                }
-                SetActiveCheck(false); // Disabling further interactions after toggling once -- also saved via CaptureState in parent class
-                checkInteraction?.Invoke(playerStateHandler);
+                BypassCheckCondition(playerStateHandler);
                 playerStateHandler.EnterDialogue(string.Format(messageOnToggle, partyLeaderName));
             }
             else
@@ -75,6 +70,16 @@ namespace Frankie.Control
                 checkInteractionOnConditionNotMet?.Invoke(playerStateHandler);
                 playerStateHandler.EnterDialogue(string.Format(messageOnConditionNotMet, partyLeaderName));
             }
+        }
+
+        public void BypassCheckCondition(PlayerStateMachine playerStateHandler) // Also called via Unity Events
+        {
+            foreach (Transform child in parentTransformForToggling)
+            {
+                child.gameObject.SetActive(toggleToConditionMet);
+            }
+            SetActiveCheck(false); // Disabling further interactions after toggling once -- also saved via CaptureState in parent class
+            checkInteraction?.Invoke(playerStateHandler);
         }
 
         private bool CheckCondition(PlayerStateMachine playerStateHandler)

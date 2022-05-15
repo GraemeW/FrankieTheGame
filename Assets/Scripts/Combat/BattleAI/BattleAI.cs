@@ -105,7 +105,7 @@ namespace Frankie.Combat
 
         public virtual Skill GetSkill()
         {
-            if (skillHandler == null) { return null; }
+            if (skillHandler == null || !skillHandler.HasSkillTree()) { return null; }
 
             // Simple implementation -- choose at random
             List<SkillBranchMapping> availableBranches = skillHandler.GetAvailableBranchMappings();

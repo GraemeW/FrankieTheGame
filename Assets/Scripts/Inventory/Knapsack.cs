@@ -230,12 +230,13 @@ namespace Frankie.Inventory
             if (announceUpdate) { knapsackUpdated?.Invoke(); }
         }
 
-        public void RemoveItem(InventoryItem inventoryItem, bool announceUpdate)
+        public bool RemoveItem(InventoryItem inventoryItem, bool announceUpdate)
         {
             int slot = FindSlotWithItem(inventoryItem);
-            if (slot < 0) { return; }
+            if (slot < 0) { return false; }
 
             RemoveFromSlot(slot, announceUpdate);
+            return true;
         }
 
         public void SquishItemsInKnapsack()

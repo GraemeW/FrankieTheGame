@@ -92,6 +92,11 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels:
     - CharacterProperties
+  - m_GUID: e97120b87e74eee4f9d9d8659f0bddf5
+    m_Address: PhilRamen
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - CharacterProperties
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: 486580c8fbd153c4dac30d33c738074e, type: 2}
   m_SchemaSet:

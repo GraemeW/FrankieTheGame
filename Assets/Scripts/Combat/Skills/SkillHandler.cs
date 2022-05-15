@@ -32,6 +32,11 @@ namespace Frankie.Combat
         #endregion
 
         #region StandardMethods
+        public bool HasSkillTree()
+        {
+            return skillTree != null;
+        }
+
         public Skill GetActiveSkill()
         {
             return activeSkill;
@@ -211,6 +216,8 @@ namespace Frankie.Combat
 
         public void ResetCurrentBranch()
         {
+            if (skillTree == null) { return; }
+
             currentBranch = skillTree.GetRootSkillBranch();
             activeSkill = null;
             skillTreeLevel = 0;

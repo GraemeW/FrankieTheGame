@@ -27,6 +27,31 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels:
     - QuestObjective
+  - m_GUID: 2241e194048f1154a8e77fa9924ac2c3
+    m_Address: HipsterChattedOnce
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - QuestObjective
+  - m_GUID: 4f62449d7f6ea784e95c90e85913740e
+    m_Address: HipsterOfficeInterior
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Quest
+  - m_GUID: 2f938ee49fb6a5042b36b02b3d3c7619
+    m_Address: HorseOfficeInterior
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Quest
+  - m_GUID: 02d825d6d2a0e8d498b7910e844e24ba
+    m_Address: HorseOpenedFirepole
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - QuestObjective
+  - m_GUID: 704b67006dd6ea34f9bcc139f58ca601
+    m_Address: HorseGotTheDocuments
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - QuestObjective
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: 486580c8fbd153c4dac30d33c738074e, type: 2}
   m_SchemaSet:

@@ -80,6 +80,17 @@ namespace Frankie.Inventory
         {
             partyKnapsackUpdated?.Invoke();
         }
+
+        private void RemoveItem(InventoryItem inventoryItem, bool removeAllItems)
+        {
+            bool itemRemoved = false;
+            foreach (Knapsack knapsack in GetKnapsacks())
+            {
+                if (knapsack.RemoveItem(inventoryItem, true)) { itemRemoved = true; break; }
+            }
+
+            if (removeAllItems && itemRemoved) { RemoveItem(inventoryItem, true); } // Recursion until item not removed
+        }
         #endregion
 
         #region PublicMethods
@@ -100,6 +111,16 @@ namespace Frankie.Inventory
                 }
             }
             return null;
+        }
+
+        public void RemoveSingleItem(InventoryItem inventoryItem)
+        {
+            RemoveItem(inventoryItem, false);
+        }
+
+        public void RemoveAllItems(InventoryItem inventoryItem)
+        {
+            RemoveItem(inventoryItem, true);
         }
 
         public int GetNumberOfFreeSlotsInParty()

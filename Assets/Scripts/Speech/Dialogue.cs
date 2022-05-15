@@ -32,6 +32,8 @@ namespace Frankie.Speech
         {
             nodeLookup = new Dictionary<string, DialogueNode>();
             activeNPCs = new List<CharacterProperties>();
+
+            if (dialogueNodes == null) { return; }
             foreach (DialogueNode dialogueNode in dialogueNodes)
             {
                 nodeLookup.Add(dialogueNode.name, dialogueNode);
