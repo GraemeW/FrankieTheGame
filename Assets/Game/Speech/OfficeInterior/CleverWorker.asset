@@ -1,0 +1,187 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-6563009877211508394
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 09c07c7c6f4c666429a0bbc8d18232b2, type: 3}
+  m_Name: 6274c167-d732-4db6-b71e-8eac459df7d0
+  m_EditorClassIdentifier: 
+  speakerType: 1
+  characterProperties: {fileID: 11400000, guid: 90d76accd2678ec4a831bc862fdccb8c, type: 2}
+  speakerName: Clever Office Worker
+  text: You shouldn't spoil me too much, I'll never build up a real work ethic if
+    you keep going on like this.
+  children: []
+  rect:
+    serializedVersion: 2
+    x: 1030
+    y: 30
+    width: 400
+    height: 225
+  draggingRect:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 400
+    height: 45
+  condition:
+    and: []
+--- !u!114 &-5967316735011876106
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 09c07c7c6f4c666429a0bbc8d18232b2, type: 3}
+  m_Name: 80c0215f-86f5-48f2-8e4b-0c5c192adbfb
+  m_EditorClassIdentifier: 
+  speakerType: 1
+  characterProperties: {fileID: 11400000, guid: 90d76accd2678ec4a831bc862fdccb8c, type: 2}
+  speakerName: Clever Office Worker
+  text: You're right.  I really need to take care of this myself.
+  children: []
+  rect:
+    serializedVersion: 2
+    x: 1030
+    y: 280
+    width: 400
+    height: 225
+  draggingRect:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 400
+    height: 45
+  condition:
+    and: []
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aac27b8e802ced743b3f275e283ab9df, type: 3}
+  m_Name: CleverWorker
+  m_EditorClassIdentifier: 
+  skipRootNode: 0
+  newNodeOffset: {x: 100, y: 25}
+  nodeWidth: 400
+  nodeHeight: 225
+  activeNPCs:
+  - {fileID: 11400000, guid: 90d76accd2678ec4a831bc862fdccb8c, type: 2}
+  - {fileID: 11400000, guid: b50f84a2f36107a44825b11881f88adf, type: 2}
+  dialogueNodes:
+  - {fileID: 4199593590419041679}
+  - {fileID: 1710971779467797223}
+  - {fileID: 6901658061780754098}
+  - {fileID: -6563009877211508394}
+  - {fileID: -5967316735011876106}
+--- !u!114 &1710971779467797223
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 09c07c7c6f4c666429a0bbc8d18232b2, type: 3}
+  m_Name: 34c1a45f-a81a-4241-88a0-e907ba922aca
+  m_EditorClassIdentifier: 
+  speakerType: 0
+  characterProperties: {fileID: 11400000, guid: b50f84a2f36107a44825b11881f88adf, type: 2}
+  speakerName: Frankie
+  text: Okay
+  children:
+  - 6274c167-d732-4db6-b71e-8eac459df7d0
+  rect:
+    serializedVersion: 2
+    x: 530
+    y: 30
+    width: 400
+    height: 225
+  draggingRect:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 400
+    height: 45
+  condition:
+    and: []
+--- !u!114 &4199593590419041679
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 09c07c7c6f4c666429a0bbc8d18232b2, type: 3}
+  m_Name: 5c18ed48-c1dc-471e-bd46-c07db468def9
+  m_EditorClassIdentifier: 
+  speakerType: 1
+  characterProperties: {fileID: 11400000, guid: 90d76accd2678ec4a831bc862fdccb8c, type: 2}
+  speakerName: Clever Office Worker
+  text: Can you help me out with this problem?
+  children:
+  - 34c1a45f-a81a-4241-88a0-e907ba922aca
+  - a1ee6fb2-26c2-420b-9484-647c8eab4c33
+  rect:
+    serializedVersion: 2
+    x: 30
+    y: 30
+    width: 400
+    height: 225
+  draggingRect:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 400
+    height: 45
+  condition:
+    and: []
+--- !u!114 &6901658061780754098
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 09c07c7c6f4c666429a0bbc8d18232b2, type: 3}
+  m_Name: a1ee6fb2-26c2-420b-9484-647c8eab4c33
+  m_EditorClassIdentifier: 
+  speakerType: 0
+  characterProperties: {fileID: 11400000, guid: b50f84a2f36107a44825b11881f88adf, type: 2}
+  speakerName: Frankie
+  text: No
+  children:
+  - 80c0215f-86f5-48f2-8e4b-0c5c192adbfb
+  rect:
+    serializedVersion: 2
+    x: 530
+    y: 280
+    width: 400
+    height: 225
+  draggingRect:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 400
+    height: 45
+  condition:
+    and: []

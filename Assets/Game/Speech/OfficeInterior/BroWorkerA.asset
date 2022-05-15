@@ -13,9 +13,10 @@ MonoBehaviour:
   m_Name: 08bb27fb-00bc-4a9e-9cd9-f9410d2740ba
   m_EditorClassIdentifier: 
   speakerType: 1
-  characterProperties: {fileID: 0}
-  speakerName: Default
-  text: Default Text to Overwrite
+  characterProperties: {fileID: 11400000, guid: 15a456ac7051b7946ba9d4575fddb1ba, type: 2}
+  speakerName: Bro Office Worker
+  text: This hallway is a great place to get your cardio in.  I'm really building
+    up an appetite.
   children: []
   rect:
     serializedVersion: 2
@@ -47,6 +48,7 @@ MonoBehaviour:
   newNodeOffset: {x: 100, y: 25}
   nodeWidth: 400
   nodeHeight: 225
-  activeNPCs: []
+  activeNPCs:
+  - {fileID: 11400000, guid: 15a456ac7051b7946ba9d4575fddb1ba, type: 2}
   dialogueNodes:
   - {fileID: -3492517556744405152}

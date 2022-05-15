@@ -1,0 +1,119 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-1936944663275910755
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 09c07c7c6f4c666429a0bbc8d18232b2, type: 3}
+  m_Name: f1a9e822-edaf-404b-8b63-c3c924c79600
+  m_EditorClassIdentifier: 
+  speakerType: 1
+  characterProperties: {fileID: 11400000, guid: df2799c36af32ce4d8fd6788f660323d, type: 2}
+  speakerName: Skilled Office Worker
+  text: '*thwrp* Don''t get too close. *pfft*'
+  children:
+  - 24a7d49c-dd49-4c17-9f7d-988b87e60a5a
+  rect:
+    serializedVersion: 2
+    x: 30
+    y: 30
+    width: 400
+    height: 225
+  draggingRect:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 400
+    height: 45
+  condition:
+    and: []
+--- !u!114 &-1892443619028704532
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 09c07c7c6f4c666429a0bbc8d18232b2, type: 3}
+  m_Name: d542bd08-0bf2-415a-9c36-a912f76ef720
+  m_EditorClassIdentifier: 
+  speakerType: 1
+  characterProperties: {fileID: 11400000, guid: df2799c36af32ce4d8fd6788f660323d, type: 2}
+  speakerName: Skilled Office Worker
+  text: '*pbbbt* Maybe the chili last night was a bad idea. *poot*'
+  children: []
+  rect:
+    serializedVersion: 2
+    x: 1030
+    y: 30
+    width: 400
+    height: 225
+  draggingRect:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 400
+    height: 45
+  condition:
+    and: []
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aac27b8e802ced743b3f275e283ab9df, type: 3}
+  m_Name: SkilledOfficeWorker
+  m_EditorClassIdentifier: 
+  skipRootNode: 0
+  newNodeOffset: {x: 100, y: 25}
+  nodeWidth: 400
+  nodeHeight: 225
+  activeNPCs:
+  - {fileID: 11400000, guid: df2799c36af32ce4d8fd6788f660323d, type: 2}
+  dialogueNodes:
+  - {fileID: -1936944663275910755}
+  - {fileID: 3402582771698282045}
+  - {fileID: -1892443619028704532}
+--- !u!114 &3402582771698282045
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 09c07c7c6f4c666429a0bbc8d18232b2, type: 3}
+  m_Name: 24a7d49c-dd49-4c17-9f7d-988b87e60a5a
+  m_EditorClassIdentifier: 
+  speakerType: 1
+  characterProperties: {fileID: 11400000, guid: df2799c36af32ce4d8fd6788f660323d, type: 2}
+  speakerName: Skilled Office Worker
+  text: I just farted . . . *blaaat*
+  children:
+  - d542bd08-0bf2-415a-9c36-a912f76ef720
+  rect:
+    serializedVersion: 2
+    x: 530
+    y: 30
+    width: 400
+    height: 225
+  draggingRect:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 400
+    height: 45
+  condition:
+    and: []

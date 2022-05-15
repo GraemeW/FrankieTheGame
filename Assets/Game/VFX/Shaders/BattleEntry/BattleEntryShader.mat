@@ -50,7 +50,7 @@ Material:
     - _DecalMeshViewBias: 0
     - _DrawOrder: 0
     - _DstBlend: 10
-    - _Phase: 4.7799997
+    - _Phase: 12.551739
     - _QueueControl: 0
     - _QueueOffset: 0
     - _ReceiveShadows: 1
