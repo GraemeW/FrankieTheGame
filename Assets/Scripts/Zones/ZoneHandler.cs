@@ -4,6 +4,7 @@ using UnityEngine.Events;
 using System.Collections.Generic;
 using Frankie.Utils;
 using System.Text.RegularExpressions;
+using Frankie.Core;
 
 namespace Frankie.ZoneManagement
 {
@@ -21,6 +22,8 @@ namespace Frankie.ZoneManagement
         [Header("Warp Properties")]
         [SerializeField] bool randomizeChoice = true;
         [SerializeField] string choiceMessage = "Where do you want to go?";
+        [Header("Filter Properties")]
+        [SerializeField] zoneNodePredicateFilter[] zoneNodePredicateFilters = null;
 
         // State
         bool inTransitToNextScene = false;
@@ -36,6 +39,14 @@ namespace Frankie.ZoneManagement
 
         // Static State
         static List<ZoneHandler> activeZoneHandlers = new List<ZoneHandler>();
+
+        // Data Structures
+        [System.Serializable]
+        public struct zoneNodePredicateFilter
+        {
+            public ZoneNode zoneNode;
+            public Condition condition;
+        }
 
         #region UnityMethods
         private void Awake()
@@ -263,15 +274,42 @@ namespace Frankie.ZoneManagement
             nextZoneHandler.EnableRoomParent(true);
         }
 
-        private bool? IsSimpleWarp()
+        private bool? IsSimpleWarp(PlayerStateMachine playerStateHandler)
         {
             if (zoneNode == null || zoneNode.GetChildren() == null) { return null; }
 
-            if (zoneNode.GetChildren().Count == 1 || randomizeChoice)
+            if (GetFilteredZoneNodes(playerStateHandler).Count == 1 || randomizeChoice)
             {
                 return true;
             }
             return false;
+        }
+
+        private List<string> GetFilteredZoneNodes(PlayerStateMachine playerStateHandler)
+        {
+            if (zoneNodePredicateFilters == null || zoneNodePredicateFilters.Length == 0) { return zoneNode.GetChildren(); }
+
+            List<string> filteredZoneNodes = new List<string>();
+            foreach (string zoneNodeID in zoneNode.GetChildren())
+            {
+                bool zoneMatched = false;
+                foreach (zoneNodePredicateFilter zonePredicateFilter in zoneNodePredicateFilters)
+                {
+                    if (zonePredicateFilter.zoneNode == null || zonePredicateFilter.condition == null) { continue; }
+
+                    if (zoneNodeID == zonePredicateFilter.zoneNode.GetNodeID())
+                    {
+                        zoneMatched = true;
+                        if (zonePredicateFilter.condition.Check(playerStateHandler.GetComponentsInChildren<IPredicateEvaluator>()))
+                        {
+                            filteredZoneNodes.Add(zoneNodeID);
+                        }
+                    }
+                }
+
+                if (!zoneMatched) { filteredZoneNodes.Add(zoneNodeID); }
+            }
+            return filteredZoneNodes;
         }
 
         private void SetUpCurrentReferences(PlayerStateMachine playerStateHandler, PlayerController playerController)
@@ -280,10 +318,10 @@ namespace Frankie.ZoneManagement
             currentPlayerController = playerController;
         }
 
-        private List<ChoiceActionPair> GetZoneNameZoneNodePairs()
+        private List<ChoiceActionPair> GetZoneNameZoneNodePairs(PlayerStateMachine playerStateHandler)
         {
             List<ChoiceActionPair> choiceActionPairs = new List<ChoiceActionPair>();
-            foreach (string childNode in zoneNode.GetChildren())
+            foreach (string childNode in GetFilteredZoneNodes(playerStateHandler))
             {
                 string childNodeNamePretty = GetStaticZoneNamePretty(childNode);
                 ChoiceActionPair choiceActionPair = new ChoiceActionPair(childNodeNamePretty, () => WarpPlayerToNode(childNode));
@@ -318,13 +356,16 @@ namespace Frankie.ZoneManagement
         {
             SetUpCurrentReferences(playerStateHandler, playerController);
 
-            if (IsSimpleWarp() == true)
+            bool? isSimpleWarp = IsSimpleWarp(playerStateHandler);
+            if (isSimpleWarp == null) { return; }
+
+            if (isSimpleWarp == true)
             {
                 WarpPlayerToNextNode();
             }
-            else if (IsSimpleWarp() == false)
+            else if (isSimpleWarp == false)
             {
-                playerStateHandler.EnterDialogue(choiceMessage, GetZoneNameZoneNodePairs());
+                playerStateHandler.EnterDialogue(choiceMessage, GetZoneNameZoneNodePairs(playerStateHandler));
             }
         }
 

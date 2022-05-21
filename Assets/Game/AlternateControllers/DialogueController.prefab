@@ -27,6 +27,7 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -45,3 +46,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   dialogueBoxPrefab: {fileID: 6413694501190794285, guid: a9829c1cb69a159479cbe82e68a5c629, type: 3}
   dialogueOptionBox: {fileID: 6413694501190794285, guid: cfcc3c74158936342a4d3c72aa65bde0, type: 3}
+  dialogueOptionBoxVertical: {fileID: 6413694501190794285, guid: 380f81ab79b7b314bbe8d0535cd33e9f, type: 3}
+  thresholdToForceVerticalLayout: 7
