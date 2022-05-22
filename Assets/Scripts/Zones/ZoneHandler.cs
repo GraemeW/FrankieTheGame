@@ -23,7 +23,7 @@ namespace Frankie.ZoneManagement
         [SerializeField] bool randomizeChoice = true;
         [SerializeField] string choiceMessage = "Where do you want to go?";
         [Header("Filter Properties")]
-        [SerializeField] zoneNodePredicateFilter[] zoneNodePredicateFilters = null;
+        [NonReorderable][SerializeField] zoneNodePredicateFilter[] zoneNodePredicateFilters = null;
 
         // State
         bool inTransitToNextScene = false;

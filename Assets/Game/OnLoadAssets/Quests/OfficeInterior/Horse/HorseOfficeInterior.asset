@@ -17,4 +17,5 @@ MonoBehaviour:
   objectives:
   - {fileID: 11400000, guid: 02d825d6d2a0e8d498b7910e844e24ba, type: 2}
   - {fileID: 11400000, guid: 704b67006dd6ea34f9bcc139f58ca601, type: 2}
+  - {fileID: 11400000, guid: b21a9471cd1f5bc499bd7046b7c4fde9, type: 2}
   rewards: []

@@ -52,6 +52,7 @@ namespace Frankie.Saving
                 string trySceneName = state[SAVE_LAST_SCENE_BUILD_INDEX].ToObject<string>();
                 if (!string.IsNullOrWhiteSpace(trySceneName)) { sceneName = trySceneName; }
             }
+
             yield return SceneManager.LoadSceneAsync(sceneName); 
                 // Note:  will throw scene existence error if saved scene name does not exist
                 // i.e. scene name changes -> will corrupt save on those scenes -- so don't do it, or prepare for consequences

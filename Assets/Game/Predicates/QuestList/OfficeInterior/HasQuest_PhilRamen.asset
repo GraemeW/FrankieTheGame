@@ -9,8 +9,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 791ebb2ca99aa484887af17d849ffbc0, type: 3}
-  m_Name: HorseGotTheDocuments
+  m_Script: {fileID: 11500000, guid: de1ed03b4f736f4478ebcf63a2476685, type: 3}
+  m_Name: HasQuest_PhilRamen
   m_EditorClassIdentifier: 
-  uniqueID: 84b8c7a6-752e-4982-80a5-ab4a6f31c666
-  description: Tracking delivery of the Important Documents
+  quest: {fileID: 11400000, guid: 21448c66f5c436e4e97f39885ea7ed02, type: 2}
+  objective: {fileID: 0}

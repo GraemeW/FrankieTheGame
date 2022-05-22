@@ -10,13 +10,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5daf945d483bd7e4cad35b3b31d4b5f5, type: 3}
-  m_Name: XTremeBurnHotSauce
+  m_Name: Chopsticks
   m_EditorClassIdentifier: 
-  itemID: cd49f4f6-aae4-4e08-9130-c8b45d011dc5
-  displayName: X-Treme Burn Sauce
-  description: Hotter than hell.  Don't eat this.
+  itemID: ce52abf0-68ce-4d57-9be8-589004547c0e
+  displayName: Chopsticks
+  description: They're covered in Orange Chicken sauce.  Gross.
   droppable: 0
-  price: 5
+  price: 0
   questObjectivePairs:
   - quest: {fileID: 11400000, guid: 21448c66f5c436e4e97f39885ea7ed02, type: 2}
-    objective: {fileID: 11400000, guid: d76efb823890c224c97d6a9ae43fa863, type: 2}
+    objective: {fileID: 11400000, guid: 7e82a29455d27cb4a9fad0024591ec2d, type: 2}

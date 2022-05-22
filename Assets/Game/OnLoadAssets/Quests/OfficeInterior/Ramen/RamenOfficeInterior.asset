@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dbd8cf865509ead44b7c06cc9699edc8, type: 3}
+  m_Name: RamenOfficeInterior
+  m_EditorClassIdentifier: 
+  uniqueID: 8a8e4c0a-d032-453c-8919-895ace3083a0
+  detail: Tracking overall phil ramen quest chain
+  objectives:
+  - {fileID: 11400000, guid: 7e82a29455d27cb4a9fad0024591ec2d, type: 2}
+  - {fileID: 11400000, guid: 19a7c3bc87b836e419b04575f99d5259, type: 2}
+  - {fileID: 11400000, guid: d76efb823890c224c97d6a9ae43fa863, type: 2}
+  - {fileID: 11400000, guid: 9f293abe10b5b3f4e8630b8fbf321564, type: 2}
+  rewards: []

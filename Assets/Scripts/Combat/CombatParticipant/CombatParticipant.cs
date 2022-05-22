@@ -31,6 +31,7 @@ namespace Frankie.Combat
         LootDispenser lootDispenser = null;
 
         // State
+        bool awakeCalled = false;
         bool inCombat = false;
         float cooldownTimer = 0f;
         float targetHP = 1f;
@@ -46,6 +47,8 @@ namespace Frankie.Combat
         #region UnityMethods
         private void Awake()
         {
+            awakeCalled = true;
+
             // Hard requirement
             baseStats = GetComponent<BaseStats>();
             // Not strictly necessary -- will fail elegantly
@@ -327,7 +330,8 @@ namespace Frankie.Combat
         {
             CombatParticipantSaveData combatParticipantSaveData = saveState.GetState(typeof(CombatParticipantSaveData)) as CombatParticipantSaveData;
             if (combatParticipantSaveData == null) { return; }
-            
+
+            if (!awakeCalled) { Awake(); }
             isDead.value = combatParticipantSaveData.isDead;
             currentHP.value = combatParticipantSaveData.currentHP;
             currentAP.value = combatParticipantSaveData.currentAP;

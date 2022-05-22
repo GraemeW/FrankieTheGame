@@ -133,6 +133,7 @@ namespace Frankie.Speech
 
         public void Setup(WorldCanvas worldCanvas, PlayerStateMachine playerStateHandler, Party party)
         {
+            dialogueComplete = false;
             this.worldCanvas = worldCanvas;
             this.playerStateHandler = playerStateHandler;
             this.party = party;

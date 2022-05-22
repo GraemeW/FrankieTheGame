@@ -288,7 +288,8 @@ MonoBehaviour:
   speakerType: 1
   characterProperties: {fileID: 11400000, guid: bb8eacf5d6e151548ae677e3ff4d1109, type: 2}
   speakerName: Horse
-  text: You may take your leave.
+  text: You may take your 15 minute break -- I've enabled elevator access to the
+    kitchen.
   children: []
   rect:
     serializedVersion: 2

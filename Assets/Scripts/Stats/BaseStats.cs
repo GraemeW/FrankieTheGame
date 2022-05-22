@@ -23,6 +23,7 @@ namespace Frankie.Stats
         [Range(0, 1)][SerializeField] float bonusStatOnLevelHighProbability = 0.1f;
 
         // State
+        bool awakeCalled = false;
         LazyValue<int> currentLevel;
         Dictionary<Stat, float> activeStatSheet = null;
 
@@ -40,6 +41,7 @@ namespace Frankie.Stats
         #region UnityMethods
         private void Awake()
         {
+            awakeCalled = true;
             currentLevel = new LazyValue<int>(() => defaultLevel);
         }
 
@@ -205,6 +207,7 @@ namespace Frankie.Stats
             BaseStatsSaveData baseStatsSaveData = saveState.GetState(typeof(BaseStatsSaveData)) as BaseStatsSaveData;
             if (baseStatsSaveData == null) { return; }
 
+            if (!awakeCalled) { Awake(); }
             currentLevel.value = baseStatsSaveData.level;
             activeStatSheet = baseStatsSaveData.statSheet;
         }

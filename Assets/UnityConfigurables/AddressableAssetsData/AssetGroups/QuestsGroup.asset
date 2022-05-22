@@ -52,6 +52,36 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels:
     - QuestObjective
+  - m_GUID: b21a9471cd1f5bc499bd7046b7c4fde9
+    m_Address: HorseReceivedTheDocuments
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - QuestObjective
+  - m_GUID: 21448c66f5c436e4e97f39885ea7ed02
+    m_Address: RamenOfficeInterior
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Quest
+  - m_GUID: 9f293abe10b5b3f4e8630b8fbf321564
+    m_Address: RamenMeetsItsFate
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - QuestObjective
+  - m_GUID: 19a7c3bc87b836e419b04575f99d5259
+    m_Address: PlacedRamenInMicrowave
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - QuestObjective
+  - m_GUID: d76efb823890c224c97d6a9ae43fa863
+    m_Address: PickedUpHotSauce
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - QuestObjective
+  - m_GUID: 7e82a29455d27cb4a9fad0024591ec2d
+    m_Address: PickedUpChopsticks
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - QuestObjective
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: 486580c8fbd153c4dac30d33c738074e, type: 2}
   m_SchemaSet:

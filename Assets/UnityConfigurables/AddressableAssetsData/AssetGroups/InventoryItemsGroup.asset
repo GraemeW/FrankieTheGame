@@ -72,6 +72,16 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels:
     - InventoryItem
+  - m_GUID: 6197d08e74b6343449fff534e9073825
+    m_Address: Chopsticks
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - InventoryItem
+  - m_GUID: 1ff08c073d9e4504cb1fb55e24c1ddb0
+    m_Address: XTremeBurnHotSauce
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - InventoryItem
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: 486580c8fbd153c4dac30d33c738074e, type: 2}
   m_SchemaSet:
