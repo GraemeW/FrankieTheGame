@@ -1,5 +1,37 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-8528277017569071881
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 09c07c7c6f4c666429a0bbc8d18232b2, type: 3}
+  m_Name: 5cb51a8b-f380-42ae-a53d-891dfc310e94
+  m_EditorClassIdentifier: 
+  speakerType: 1
+  characterProperties: {fileID: 11400000, guid: e97120b87e74eee4f9d9d8659f0bddf5, type: 2}
+  speakerName: Phil Ramen
+  text: '. . . '
+  children:
+  - a83d1f52-a0a4-4835-a526-2ee61016d4e4
+  rect:
+    serializedVersion: 2
+    x: 2530
+    y: 30
+    width: 400
+    height: 225
+  draggingRect:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 400
+    height: 45
+  condition:
+    and: []
 --- !u!114 &-8010020306574383298
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -64,6 +96,39 @@ MonoBehaviour:
     height: 45
   condition:
     and: []
+--- !u!114 &-3572723475521432934
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 09c07c7c6f4c666429a0bbc8d18232b2, type: 3}
+  m_Name: a83d1f52-a0a4-4835-a526-2ee61016d4e4
+  m_EditorClassIdentifier: 
+  speakerType: 1
+  characterProperties: {fileID: 11400000, guid: e97120b87e74eee4f9d9d8659f0bddf5, type: 2}
+  speakerName: Phil Ramen
+  text: They must be moving faster than I thought.  We need to find some chopsticks
+    immediately.
+  children:
+  - e32a3d0e-b9c4-4b06-bcd2-bf3f2d3762d6
+  rect:
+    serializedVersion: 2
+    x: 3030
+    y: 30
+    width: 400
+    height: 225
+  draggingRect:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 400
+    height: 45
+  condition:
+    and: []
 --- !u!114 &-365461106186525477
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -115,11 +180,48 @@ MonoBehaviour:
   nodeHeight: 225
   activeNPCs:
   - {fileID: 11400000, guid: e97120b87e74eee4f9d9d8659f0bddf5, type: 2}
+  - {fileID: 11400000, guid: b50f84a2f36107a44825b11881f88adf, type: 2}
   dialogueNodes:
   - {fileID: -7462538238430406815}
   - {fileID: -8010020306574383298}
   - {fileID: -365461106186525477}
   - {fileID: 4295763153329640279}
+  - {fileID: 3386614840954342874}
+  - {fileID: -8528277017569071881}
+  - {fileID: -3572723475521432934}
+  - {fileID: 7004903397458714928}
+--- !u!114 &3386614840954342874
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 09c07c7c6f4c666429a0bbc8d18232b2, type: 3}
+  m_Name: 5dd08894-04a1-4b55-9f80-27eb5c4979b1
+  m_EditorClassIdentifier: 
+  speakerType: 0
+  characterProperties: {fileID: 11400000, guid: b50f84a2f36107a44825b11881f88adf, type: 2}
+  speakerName: Frankie
+  text: What was that?
+  children:
+  - 5cb51a8b-f380-42ae-a53d-891dfc310e94
+  rect:
+    serializedVersion: 2
+    x: 2030
+    y: 30
+    width: 400
+    height: 225
+  draggingRect:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 400
+    height: 45
+  condition:
+    and: []
 --- !u!114 &4295763153329640279
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -135,12 +237,43 @@ MonoBehaviour:
   speakerType: 1
   characterProperties: {fileID: 11400000, guid: e97120b87e74eee4f9d9d8659f0bddf5, type: 2}
   speakerName: Phil Ramen
-  text: There's no time to explain right now -- we need to get to the basement to
-    find the Chopsticks of Configuration.  Let's go.
-  children: []
+  text: Wait . . . . .
+  children:
+  - 5dd08894-04a1-4b55-9f80-27eb5c4979b1
   rect:
     serializedVersion: 2
     x: 1530
+    y: 30
+    width: 400
+    height: 225
+  draggingRect:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 400
+    height: 45
+  condition:
+    and: []
+--- !u!114 &7004903397458714928
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 09c07c7c6f4c666429a0bbc8d18232b2, type: 3}
+  m_Name: e32a3d0e-b9c4-4b06-bcd2-bf3f2d3762d6
+  m_EditorClassIdentifier: 
+  speakerType: 1
+  characterProperties: {fileID: 11400000, guid: e97120b87e74eee4f9d9d8659f0bddf5, type: 2}
+  speakerName: Phil Ramen
+  text: You know this place better than I do.  Lead the way.
+  children: []
+  rect:
+    serializedVersion: 2
+    x: 3530
     y: 30
     width: 400
     height: 225

@@ -120,9 +120,9 @@ namespace Frankie.ZoneManagement
         #endregion
 
         #region PrivateMethods
-        private void WarpPlayerToNextNode()
+        private void WarpPlayerToNextNode(PlayerStateMachine playerStateHandler)
         {
-            ZoneNode nextNode = SetUpNextNode();
+            ZoneNode nextNode = SetUpNextNode(playerStateHandler);
             if (nextNode == null) { return; }
 
             if (!inTransitToNextScene) // On scene transition, called via fader (sceneTransitionComplete)
@@ -142,9 +142,9 @@ namespace Frankie.ZoneManagement
             }
         }
 
-        private ZoneNode SetUpNextNode()
+        private ZoneNode SetUpNextNode(PlayerStateMachine playerStateHandler)
         {
-            ZoneNode nextNode = SelectRandomNodeFromChildren();
+            ZoneNode nextNode = SelectRandomNodeFromChildren(playerStateHandler);
             if (nextNode == null) { return null; }
 
             nextNode = GetNodeOnSceneTransition(nextNode);
@@ -257,12 +257,13 @@ namespace Frankie.ZoneManagement
             MoveToNextNode(queuedZoneNodeID);
         }
 
-        private ZoneNode SelectRandomNodeFromChildren()
+        private ZoneNode SelectRandomNodeFromChildren(PlayerStateMachine playerStateHandler)
         {
-            if (zoneNode == null || zoneNode.GetChildren() == null) { return null; }
+            List<string> childNodeOptions = GetFilteredZoneNodes(playerStateHandler);
+            if (zoneNode == null || childNodeOptions == null || childNodeOptions.Count == 0) { return null; }
 
-            int nodeIndex = UnityEngine.Random.Range(0, zoneNode.GetChildren().Count);
-            return Zone.GetFromName(zoneNode.GetZoneName()).GetNodeFromID(zoneNode.GetChildren()[nodeIndex]);
+            int nodeIndex = UnityEngine.Random.Range(0, childNodeOptions.Count);
+            return Zone.GetFromName(zoneNode.GetZoneName()).GetNodeFromID(childNodeOptions[nodeIndex]);
         }
 
         private void ToggleParentGameObjects(ZoneHandler nextZoneHandler)
@@ -361,7 +362,7 @@ namespace Frankie.ZoneManagement
 
             if (isSimpleWarp == true)
             {
-                WarpPlayerToNextNode();
+                WarpPlayerToNextNode(playerStateHandler);
             }
             else if (isSimpleWarp == false)
             {
