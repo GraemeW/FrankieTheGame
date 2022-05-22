@@ -129,6 +129,41 @@ MonoBehaviour:
     height: 45
   condition:
     and: []
+--- !u!114 &-2821412252320873970
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 09c07c7c6f4c666429a0bbc8d18232b2, type: 3}
+  m_Name: d652d09a-7d4c-48a5-be65-643aecfb617e
+  m_EditorClassIdentifier: 
+  speakerType: 1
+  characterProperties: {fileID: 11400000, guid: e97120b87e74eee4f9d9d8659f0bddf5, type: 2}
+  speakerName: Phil Ramen
+  text: '. . . '
+  children:
+  - a83d1f52-a0a4-4835-a526-2ee61016d4e4
+  rect:
+    serializedVersion: 2
+    x: 2136
+    y: 357
+    width: 400
+    height: 225
+  draggingRect:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 400
+    height: 45
+  condition:
+    and:
+    - or:
+      - predicate: {fileID: 11400000, guid: b7c51f1b2153ddb4f8fe44aa9e60ffe3, type: 2}
+        negate: 0
 --- !u!114 &-365461106186525477
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -148,6 +183,7 @@ MonoBehaviour:
     artificial intelligence.  '
   children:
   - ec0fd725-12ed-45aa-9b3f-6b5186fe5944
+  - d652d09a-7d4c-48a5-be65-643aecfb617e
   rect:
     serializedVersion: 2
     x: 1030
@@ -190,6 +226,7 @@ MonoBehaviour:
   - {fileID: -8528277017569071881}
   - {fileID: -3572723475521432934}
   - {fileID: 7004903397458714928}
+  - {fileID: -2821412252320873970}
 --- !u!114 &3386614840954342874
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -253,7 +290,10 @@ MonoBehaviour:
     width: 400
     height: 45
   condition:
-    and: []
+    and:
+    - or:
+      - predicate: {fileID: 11400000, guid: b7c51f1b2153ddb4f8fe44aa9e60ffe3, type: 2}
+        negate: 1
 --- !u!114 &7004903397458714928
 MonoBehaviour:
   m_ObjectHideFlags: 0

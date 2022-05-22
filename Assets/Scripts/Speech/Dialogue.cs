@@ -36,7 +36,7 @@ namespace Frankie.Speech
             if (dialogueNodes == null) { return; }
             foreach (DialogueNode dialogueNode in dialogueNodes)
             {
-                if (nodeLookup == null) { break;}
+                if (nodeLookup == null || dialogueNode == null) { break;} // Safety against error throw on first initialization
                 nodeLookup.Add(dialogueNode.name, dialogueNode);
                 if (dialogueNode.GetCharacterProperties() != null && !activeNPCs.Contains(dialogueNode.GetCharacterProperties()))
                 {

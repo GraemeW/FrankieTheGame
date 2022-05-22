@@ -207,7 +207,7 @@ MonoBehaviour:
   characterProperties: {fileID: 11400000, guid: ec6ec75df6f1e3e4ea3cf0953f1b4eab, type: 2}
   speakerName: Steve5000
   text: Did you forget your key card again?  You can borrow mine, I'm just on my
-    out.
+    way out.
   children:
   - 889d5a8c-f5aa-4e60-9a01-4d9018f5714c
   rect:
