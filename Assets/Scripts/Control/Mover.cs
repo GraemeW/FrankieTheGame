@@ -89,7 +89,7 @@ namespace Frankie.Control
         {
             moveTargetCoordinate = null;
             moveTargetObject = target;
-            targetDistanceTolerance = 0f;
+            targetDistanceTolerance = defaultTargetDistanceTolerance;
         }
 
         public void ClearMoveTargets()

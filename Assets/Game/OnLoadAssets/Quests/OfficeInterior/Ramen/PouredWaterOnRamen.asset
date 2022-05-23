@@ -9,8 +9,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7262af4d4c09b1c4d98d8b031f6bd152, type: 3}
-  m_Name: QuestObjCompleted_RamenInMicrowave
+  m_Script: {fileID: 11500000, guid: 791ebb2ca99aa484887af17d849ffbc0, type: 3}
+  m_Name: PouredWaterOnRamen
   m_EditorClassIdentifier: 
-  quest: {fileID: 11400000, guid: 21448c66f5c436e4e97f39885ea7ed02, type: 2}
-  objective: {fileID: 11400000, guid: 19a7c3bc87b836e419b04575f99d5259, type: 2}
+  uniqueID: 70eb931e-d520-450b-a4d0-74d9cf07ef4e
+  description: Tracking placement of phil ramen in microwave

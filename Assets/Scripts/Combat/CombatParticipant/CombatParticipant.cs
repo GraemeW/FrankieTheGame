@@ -315,6 +315,8 @@ namespace Frankie.Combat
 
         SaveState ISaveable.CaptureState()
         {
+            if (!awakeCalled) { Awake(); }
+
             CombatParticipantSaveData combatParticipantSaveData = new CombatParticipantSaveData
             {
                 isDead = isDead.value,

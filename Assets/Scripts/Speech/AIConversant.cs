@@ -12,17 +12,6 @@ namespace Frankie.Speech
         [SerializeField] Dialogue dialogue = null;
         [SerializeField] protected InteractionEvent checkInteraction = null;
 
-        private void Awake()
-        {
-            CheckForNPCControllerInParent();
-        }
-
-        private void CheckForNPCControllerInParent()
-        {
-            NPCStateHandler npcController = GetComponentInParent<NPCStateHandler>();
-            if (npcController == null) { throw new ArgumentException("Parameter cannot be null", nameof(npcController)); }
-        }
-
         private void Start()
         {
             dialogue?.OverrideSpeakerNames(null);
@@ -31,6 +20,12 @@ namespace Frankie.Speech
         public Dialogue GetDialogue()
         {
             return dialogue;
+        }
+
+        public void ForceInteractionEvent(PlayerStateMachine playerStateHandler) // Called via Unity Events
+        {
+            checkInteraction?.Invoke(playerStateHandler);
+            playerStateHandler.EnterDialogue(this, dialogue);
         }
 
         public override bool HandleRaycast(PlayerStateMachine playerStateHandler, PlayerController playerController, PlayerInputType inputType, PlayerInputType matchType)
@@ -45,8 +40,7 @@ namespace Frankie.Speech
 
             if (inputType == matchType)
             {
-                checkInteraction?.Invoke(playerStateHandler);
-                playerStateHandler.EnterDialogue(this, dialogue);
+                ForceInteractionEvent(playerStateHandler);
             }
             return true;
         }

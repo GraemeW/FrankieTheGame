@@ -68,7 +68,7 @@ MonoBehaviour:
     m_SerializedLabels:
     - QuestObjective
   - m_GUID: 19a7c3bc87b836e419b04575f99d5259
-    m_Address: PlacedRamenInMicrowave
+    m_Address: PouredWaterOnRamen
     m_ReadOnly: 0
     m_SerializedLabels:
     - QuestObjective
@@ -79,6 +79,11 @@ MonoBehaviour:
     - QuestObjective
   - m_GUID: 7e82a29455d27cb4a9fad0024591ec2d
     m_Address: PickedUpChopsticks
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - QuestObjective
+  - m_GUID: 2510ac440e47ab64596ae0d07d67f60f
+    m_Address: RamenSaysGoodbye
     m_ReadOnly: 0
     m_SerializedLabels:
     - QuestObjective

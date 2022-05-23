@@ -193,6 +193,8 @@ namespace Frankie.Stats
 
         public SaveState CaptureState()
         {
+            if (!awakeCalled) { Awake(); }
+
             BaseStatsSaveData baseStatsSaveData = new BaseStatsSaveData
             {
                 level = currentLevel.value,

@@ -1,0 +1,16 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7262af4d4c09b1c4d98d8b031f6bd152, type: 3}
+  m_Name: QuestObjCompleted_RamenMetItsFate
+  m_EditorClassIdentifier: 
+  quest: {fileID: 11400000, guid: 21448c66f5c436e4e97f39885ea7ed02, type: 2}
+  objective: {fileID: 11400000, guid: 9f293abe10b5b3f4e8630b8fbf321564, type: 2}

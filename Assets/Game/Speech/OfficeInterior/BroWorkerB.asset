@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &-8528277017569071881
+--- !u!114 &-8908321642737380740
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -10,14 +10,78 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 09c07c7c6f4c666429a0bbc8d18232b2, type: 3}
-  m_Name: 5cb51a8b-f380-42ae-a53d-891dfc310e94
+  m_Name: 5ef79b6d-7b86-4ce8-8124-1db3be13b3c8
   m_EditorClassIdentifier: 
   speakerType: 1
-  characterProperties: {fileID: 11400000, guid: e97120b87e74eee4f9d9d8659f0bddf5, type: 2}
-  speakerName: Phil Ramen
-  text: '. . . '
+  characterProperties: {fileID: 11400000, guid: 15a456ac7051b7946ba9d4575fddb1ba, type: 2}
+  speakerName: Bro Office Worker
+  text: I'm really hungry from all that cardio!  Luckily someone made this delicious
+    ramen and just left it here!
   children:
-  - a83d1f52-a0a4-4835-a526-2ee61016d4e4
+  - 45093e13-9d8c-41f6-bc7f-a541ec5945a4
+  rect:
+    serializedVersion: 2
+    x: 1530
+    y: 30
+    width: 400
+    height: 225
+  draggingRect:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 400
+    height: 45
+  condition:
+    and: []
+--- !u!114 &-5964346729691210588
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 09c07c7c6f4c666429a0bbc8d18232b2, type: 3}
+  m_Name: 223e761d-5904-4269-8a1f-eab191fc2b40
+  m_EditorClassIdentifier: 
+  speakerType: 1
+  characterProperties: {fileID: 11400000, guid: 15a456ac7051b7946ba9d4575fddb1ba, type: 2}
+  speakerName: Bro Office Worker
+  text: '*sluuuuurp* *chomp* *toss*'
+  children: []
+  rect:
+    serializedVersion: 2
+    x: 4030
+    y: 30
+    width: 400
+    height: 225
+  draggingRect:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 400
+    height: 45
+  condition:
+    and: []
+--- !u!114 &-5441080680537940663
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 09c07c7c6f4c666429a0bbc8d18232b2, type: 3}
+  m_Name: bf23750e-5e1a-40ff-b7e7-ca8b30daec74
+  m_EditorClassIdentifier: 
+  speakerType: 1
+  characterProperties: {fileID: 11400000, guid: 15a456ac7051b7946ba9d4575fddb1ba, type: 2}
+  speakerName: Bro Office Worker
+  text: '*rip* *pour* *swish* *sluuuuuuuurrrp*'
+  children:
+  - 2c8c1618-8fa5-4bb3-93df-cb2a52ee24df
   rect:
     serializedVersion: 2
     x: 2530
@@ -32,7 +96,7 @@ MonoBehaviour:
     height: 45
   condition:
     and: []
---- !u!114 &-8010020306574383298
+--- !u!114 &-3539292587008940423
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -42,49 +106,16 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 09c07c7c6f4c666429a0bbc8d18232b2, type: 3}
-  m_Name: 67690123-2f1b-4042-b254-eb5d5a9cee0e
+  m_Name: ce235bf7-f164-4c19-976b-42c592758b44
   m_EditorClassIdentifier: 
-  speakerType: 0
-  characterProperties: {fileID: 11400000, guid: b50f84a2f36107a44825b11881f88adf, type: 2}
-  speakerName: Frankie
-  text: Are you a talking cup of noodles?
-  children:
-  - a348d81c-f93d-41d2-8601-27e207405c0c
+  speakerType: 1
+  characterProperties: {fileID: 11400000, guid: 15a456ac7051b7946ba9d4575fddb1ba, type: 2}
+  speakerName: Bro Office Worker
+  text: I'm soooo full.
+  children: []
   rect:
     serializedVersion: 2
     x: 530
-    y: 30
-    width: 400
-    height: 225
-  draggingRect:
-    serializedVersion: 2
-    x: 0
-    y: 0
-    width: 400
-    height: 45
-  condition:
-    and: []
---- !u!114 &-7757949309092380936
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 09c07c7c6f4c666429a0bbc8d18232b2, type: 3}
-  m_Name: 652341a2-8c0a-450c-ae14-21da7deda5a7
-  m_EditorClassIdentifier: 
-  speakerType: 0
-  characterProperties: {fileID: 11400000, guid: b50f84a2f36107a44825b11881f88adf, type: 2}
-  speakerName: Frankie
-  text: Ok?
-  children:
-  - fe551145-ee51-4ef7-bc78-ca64214d87b5
-  rect:
-    serializedVersion: 2
-    x: 4030
     y: 280
     width: 400
     height: 225
@@ -95,8 +126,11 @@ MonoBehaviour:
     width: 400
     height: 45
   condition:
-    and: []
---- !u!114 &-7462538238430406815
+    and:
+    - or:
+      - predicate: {fileID: 11400000, guid: 50a87e8ab60f320449b6b01b02b28b79, type: 2}
+        negate: 0
+--- !u!114 &-3400156430385863877
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -106,14 +140,15 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 09c07c7c6f4c666429a0bbc8d18232b2, type: 3}
-  m_Name: ec3e994d-8ad9-4617-b84d-f508c6b5b80f
+  m_Name: fffed05f-40f4-4d51-8f6e-f916e1424c8e
   m_EditorClassIdentifier: 
   speakerType: 1
-  characterProperties: {fileID: 11400000, guid: e97120b87e74eee4f9d9d8659f0bddf5, type: 2}
-  speakerName: Phil Ramen
-  text: Finally you've arrived.  My name is Phil, and I come bearing an urgent message.
+  characterProperties: {fileID: 11400000, guid: 15a456ac7051b7946ba9d4575fddb1ba, type: 2}
+  speakerName: Bro Office Worker
+  text: Root Node
   children:
-  - 67690123-2f1b-4042-b254-eb5d5a9cee0e
+  - 0c30b05a-ed1b-424d-b35b-d71d95ac5358
+  - ce235bf7-f164-4c19-976b-42c592758b44
   rect:
     serializedVersion: 2
     x: 30
@@ -128,7 +163,7 @@ MonoBehaviour:
     height: 45
   condition:
     and: []
---- !u!114 &-3572723475521432934
+--- !u!114 &-427459522378728925
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -138,87 +173,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 09c07c7c6f4c666429a0bbc8d18232b2, type: 3}
-  m_Name: a83d1f52-a0a4-4835-a526-2ee61016d4e4
+  m_Name: 45093e13-9d8c-41f6-bc7f-a541ec5945a4
   m_EditorClassIdentifier: 
-  speakerType: 1
-  characterProperties: {fileID: 11400000, guid: e97120b87e74eee4f9d9d8659f0bddf5, type: 2}
-  speakerName: Phil Ramen
-  text: They must be moving faster than I thought.  We need to find some chopsticks
-    immediately.
+  speakerType: 0
+  characterProperties: {fileID: 11400000, guid: b50f84a2f36107a44825b11881f88adf, type: 2}
+  speakerName: Frankie
+  text: No, you'-
   children:
-  - e32a3d0e-b9c4-4b06-bcd2-bf3f2d3762d6
+  - bf23750e-5e1a-40ff-b7e7-ca8b30daec74
   rect:
     serializedVersion: 2
-    x: 3030
-    y: 30
-    width: 400
-    height: 225
-  draggingRect:
-    serializedVersion: 2
-    x: 0
-    y: 0
-    width: 400
-    height: 45
-  condition:
-    and: []
---- !u!114 &-2821412252320873970
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 09c07c7c6f4c666429a0bbc8d18232b2, type: 3}
-  m_Name: d652d09a-7d4c-48a5-be65-643aecfb617e
-  m_EditorClassIdentifier: 
-  speakerType: 1
-  characterProperties: {fileID: 11400000, guid: e97120b87e74eee4f9d9d8659f0bddf5, type: 2}
-  speakerName: Phil Ramen
-  text: '. . . '
-  children:
-  - a83d1f52-a0a4-4835-a526-2ee61016d4e4
-  rect:
-    serializedVersion: 2
-    x: 2136
-    y: 357
-    width: 400
-    height: 225
-  draggingRect:
-    serializedVersion: 2
-    x: 0
-    y: 0
-    width: 400
-    height: 45
-  condition:
-    and:
-    - or:
-      - predicate: {fileID: 11400000, guid: b7c51f1b2153ddb4f8fe44aa9e60ffe3, type: 2}
-        negate: 0
---- !u!114 &-365461106186525477
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 09c07c7c6f4c666429a0bbc8d18232b2, type: 3}
-  m_Name: a348d81c-f93d-41d2-8601-27e207405c0c
-  m_EditorClassIdentifier: 
-  speakerType: 1
-  characterProperties: {fileID: 11400000, guid: e97120b87e74eee4f9d9d8659f0bddf5, type: 2}
-  speakerName: Phil Ramen
-  text: 'I may look like a delicious cup of noodles, but I''m actually a sophisticated
-    artificial intelligence.  '
-  children:
-  - ec0fd725-12ed-45aa-9b3f-6b5186fe5944
-  - d652d09a-7d4c-48a5-be65-643aecfb617e
-  rect:
-    serializedVersion: 2
-    x: 1030
+    x: 2030
     y: 30
     width: 400
     height: 225
@@ -240,29 +205,27 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: aac27b8e802ced743b3f275e283ab9df, type: 3}
-  m_Name: PhilRamenA
+  m_Name: BroWorkerB
   m_EditorClassIdentifier: 
-  skipRootNode: 0
+  skipRootNode: 1
   newNodeOffset: {x: 100, y: 25}
   nodeWidth: 400
   nodeHeight: 225
   activeNPCs:
-  - {fileID: 11400000, guid: e97120b87e74eee4f9d9d8659f0bddf5, type: 2}
+  - {fileID: 11400000, guid: 15a456ac7051b7946ba9d4575fddb1ba, type: 2}
   - {fileID: 11400000, guid: b50f84a2f36107a44825b11881f88adf, type: 2}
   dialogueNodes:
-  - {fileID: -7462538238430406815}
-  - {fileID: -8010020306574383298}
-  - {fileID: -365461106186525477}
-  - {fileID: 4295763153329640279}
-  - {fileID: 3386614840954342874}
-  - {fileID: -8528277017569071881}
-  - {fileID: -3572723475521432934}
-  - {fileID: 7004903397458714928}
-  - {fileID: -2821412252320873970}
-  - {fileID: 7397173490330704712}
-  - {fileID: -7757949309092380936}
-  - {fileID: 5718083781929566518}
---- !u!114 &3386614840954342874
+  - {fileID: -3400156430385863877}
+  - {fileID: 8925301020006509203}
+  - {fileID: 3464679575990030033}
+  - {fileID: -8908321642737380740}
+  - {fileID: -427459522378728925}
+  - {fileID: -5441080680537940663}
+  - {fileID: 8107848481553113024}
+  - {fileID: 7042239241296647987}
+  - {fileID: -3539292587008940423}
+  - {fileID: -5964346729691210588}
+--- !u!114 &3464679575990030033
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -272,17 +235,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 09c07c7c6f4c666429a0bbc8d18232b2, type: 3}
-  m_Name: 5dd08894-04a1-4b55-9f80-27eb5c4979b1
+  m_Name: 2d396af7-6d1b-4707-9092-d167896c8035
   m_EditorClassIdentifier: 
   speakerType: 0
   characterProperties: {fileID: 11400000, guid: b50f84a2f36107a44825b11881f88adf, type: 2}
   speakerName: Frankie
-  text: What was that?
+  text: Wai-  *he grabs the chopsticks and hot sauce*
   children:
-  - 5cb51a8b-f380-42ae-a53d-891dfc310e94
+  - 5ef79b6d-7b86-4ce8-8124-1db3be13b3c8
   rect:
     serializedVersion: 2
-    x: 2030
+    x: 1030
     y: 30
     width: 400
     height: 225
@@ -294,7 +257,7 @@ MonoBehaviour:
     height: 45
   condition:
     and: []
---- !u!114 &4295763153329640279
+--- !u!114 &7042239241296647987
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -304,82 +267,14 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 09c07c7c6f4c666429a0bbc8d18232b2, type: 3}
-  m_Name: ec0fd725-12ed-45aa-9b3f-6b5186fe5944
+  m_Name: 5100bd56-d3ce-403f-98a1-868ecf85a44a
   m_EditorClassIdentifier: 
   speakerType: 1
-  characterProperties: {fileID: 11400000, guid: e97120b87e74eee4f9d9d8659f0bddf5, type: 2}
-  speakerName: Phil Ramen
-  text: Wait . . . . .
+  characterProperties: {fileID: 11400000, guid: 15a456ac7051b7946ba9d4575fddb1ba, type: 2}
+  speakerName: Bro Office Worker
+  text: Team work is the dream work, am I right?
   children:
-  - 5dd08894-04a1-4b55-9f80-27eb5c4979b1
-  rect:
-    serializedVersion: 2
-    x: 1530
-    y: 30
-    width: 400
-    height: 225
-  draggingRect:
-    serializedVersion: 2
-    x: 0
-    y: 0
-    width: 400
-    height: 45
-  condition:
-    and:
-    - or:
-      - predicate: {fileID: 11400000, guid: b7c51f1b2153ddb4f8fe44aa9e60ffe3, type: 2}
-        negate: 1
---- !u!114 &5718083781929566518
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 09c07c7c6f4c666429a0bbc8d18232b2, type: 3}
-  m_Name: fe551145-ee51-4ef7-bc78-ca64214d87b5
-  m_EditorClassIdentifier: 
-  speakerType: 1
-  characterProperties: {fileID: 11400000, guid: e97120b87e74eee4f9d9d8659f0bddf5, type: 2}
-  speakerName: Phil Ramen
-  text: I'm sorry, but now isn't the time to explain.  Quickly!
-  children: []
-  rect:
-    serializedVersion: 2
-    x: 4530
-    y: 30
-    width: 400
-    height: 225
-  draggingRect:
-    serializedVersion: 2
-    x: 0
-    y: 0
-    width: 400
-    height: 45
-  condition:
-    and: []
---- !u!114 &7004903397458714928
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 09c07c7c6f4c666429a0bbc8d18232b2, type: 3}
-  m_Name: e32a3d0e-b9c4-4b06-bcd2-bf3f2d3762d6
-  m_EditorClassIdentifier: 
-  speakerType: 1
-  characterProperties: {fileID: 11400000, guid: e97120b87e74eee4f9d9d8659f0bddf5, type: 2}
-  speakerName: Phil Ramen
-  text: Once you find the chopsticks, you need to pour some hot water onto me and
-    mush my noodles around.
-  children:
-  - 6e594654-a441-44ad-ad9f-3913c3c70a26
-  - 652341a2-8c0a-450c-ae14-21da7deda5a7
+  - 223e761d-5904-4269-8a1f-eab191fc2b40
   rect:
     serializedVersion: 2
     x: 3530
@@ -394,7 +289,7 @@ MonoBehaviour:
     height: 45
   condition:
     and: []
---- !u!114 &7397173490330704712
+--- !u!114 &8107848481553113024
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -404,17 +299,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 09c07c7c6f4c666429a0bbc8d18232b2, type: 3}
-  m_Name: 6e594654-a441-44ad-ad9f-3913c3c70a26
+  m_Name: 2c8c1618-8fa5-4bb3-93df-cb2a52ee24df
   m_EditorClassIdentifier: 
   speakerType: 0
   characterProperties: {fileID: 11400000, guid: b50f84a2f36107a44825b11881f88adf, type: 2}
   speakerName: Frankie
-  text: Errr?
+  text: Oh my go-
   children:
-  - fe551145-ee51-4ef7-bc78-ca64214d87b5
+  - 5100bd56-d3ce-403f-98a1-868ecf85a44a
   rect:
     serializedVersion: 2
-    x: 4030
+    x: 3030
     y: 30
     width: 400
     height: 225
@@ -426,3 +321,41 @@ MonoBehaviour:
     height: 45
   condition:
     and: []
+--- !u!114 &8925301020006509203
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 09c07c7c6f4c666429a0bbc8d18232b2, type: 3}
+  m_Name: 0c30b05a-ed1b-424d-b35b-d71d95ac5358
+  m_EditorClassIdentifier: 
+  speakerType: 1
+  characterProperties: {fileID: 11400000, guid: 15a456ac7051b7946ba9d4575fddb1ba, type: 2}
+  speakerName: Bro Office Worker
+  text: You brought me hot sauce and chopsticks!  Great!
+  children:
+  - 2d396af7-6d1b-4707-9092-d167896c8035
+  rect:
+    serializedVersion: 2
+    x: 530
+    y: 30
+    width: 400
+    height: 225
+  draggingRect:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 400
+    height: 45
+  condition:
+    and:
+    - or:
+      - predicate: {fileID: 11400000, guid: 23f56d3da5b6e194089fcddf0b4292aa, type: 2}
+        negate: 0
+    - or:
+      - predicate: {fileID: 11400000, guid: 50a87e8ab60f320449b6b01b02b28b79, type: 2}
+        negate: 1
