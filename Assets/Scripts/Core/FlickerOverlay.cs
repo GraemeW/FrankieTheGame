@@ -8,10 +8,11 @@ namespace Frankie.Core
     public class FlickerOverlay : MonoBehaviour, ISaveable
     {
         // Tunables
+        [SerializeField] bool enabledOnAwake = false;
         [NonReorderable][SerializeField] FlickerEntry[] flickerEntries = null;
 
         // State
-        bool childrenEnabled = true;
+        bool childrenEnabled = false;
 
         // Static Fixed
         static float MIN_FLICKER_TIME = 0f;
@@ -23,6 +24,20 @@ namespace Frankie.Core
         {
             public float onTime;
             public float offTime;
+        }
+
+        private void Awake()
+        {
+            if (enabledOnAwake)
+            {
+                childrenEnabled = true;
+                foreach (Transform child in transform) { child.gameObject.SetActive(true); }
+            }
+            else
+            {
+                childrenEnabled = false;
+                foreach (Transform child in transform) { child.gameObject.SetActive(false); }
+            }
         }
 
         public void FlickerToEnable()

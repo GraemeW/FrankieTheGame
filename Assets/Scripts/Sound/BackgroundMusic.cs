@@ -24,6 +24,7 @@ namespace Frankie.Sound
         AudioClip currentWorldMusic = null;
         bool isWorldMusicLooping = true;
         float worldMusicTimeIndex = 0f;
+        bool wasMusicOverriddenOnStart = false;
         bool isBattleMusic = false;
 
         // Cached References
@@ -49,6 +50,7 @@ namespace Frankie.Sound
             Zone currentZone = SceneLoader.GetCurrentZone();
             if (currentZone == null) { return; }
             ConfigureNewWorldAudio(currentZone.GetZoneAudio(), currentZone.IsZoneAudioLooping(), true);
+            wasMusicOverriddenOnStart = false;
         }
 
         private void OnEnable()
@@ -187,8 +189,11 @@ namespace Frankie.Sound
         {
             if (audioClip == null) { return; }
 
-            if (immediate) { StartCoroutine(TransitionToAudioImmediate(audioClip, isLooping)); }
-            else { StartCoroutine(TransitionToAudio(audioClip, isLooping)); }
+            if (!wasMusicOverriddenOnStart)
+            {
+                if (immediate) { StartCoroutine(TransitionToAudioImmediate(audioClip, isLooping)); }
+                else { StartCoroutine(TransitionToAudio(audioClip, isLooping)); }
+            }
             currentWorldMusic = audioClip;
             isWorldMusicLooping = isLooping;
         }
@@ -228,6 +233,24 @@ namespace Frankie.Sound
         private void StopBattleMusic()
         {
             isBattleMusic = false;
+            StartCoroutine(TransitionToAudio(currentWorldMusic, isWorldMusicLooping, worldMusicTimeIndex));
+        }
+        #endregion
+
+        #region MusicOverrides
+        public void OverrideMusic(AudioClip audioClip, bool calledInStart = false)
+        {
+            if (audioClip == null) { return; }
+
+            if (calledInStart) { wasMusicOverriddenOnStart = true; }
+            else { worldMusicTimeIndex = audioSource.time; }
+
+            worldMusicTimeIndex = audioSource.time;
+            StartCoroutine(TransitionToAudio(audioClip, true));
+        }
+
+        public void StopOverrideMusic()
+        {
             StartCoroutine(TransitionToAudio(currentWorldMusic, isWorldMusicLooping, worldMusicTimeIndex));
         }
         #endregion

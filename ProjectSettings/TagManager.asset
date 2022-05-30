@@ -12,6 +12,7 @@ TagManager:
   - World
   - Saver
   - BattleCanvas
+  - BackgroundMusic
   layers:
   - Default
   - TransparentFX
