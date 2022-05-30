@@ -50,7 +50,6 @@ namespace Frankie.Sound
             Zone currentZone = SceneLoader.GetCurrentZone();
             if (currentZone == null) { return; }
             ConfigureNewWorldAudio(currentZone.GetZoneAudio(), currentZone.IsZoneAudioLooping(), true);
-            wasMusicOverriddenOnStart = false;
         }
 
         private void OnEnable()
