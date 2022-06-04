@@ -113,3 +113,6 @@ $RECYCLE.BIN/
 # Other Ignores
 Assets/z_MadeAssets/
 Assets/z_ImportedAssets/
+InfoTools/TilemapPacking/Input/
+InfoTools/TilemapPacking/Output/
+InfoTools/TilemapPacking/__pycache__/
