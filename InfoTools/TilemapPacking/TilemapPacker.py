@@ -11,7 +11,7 @@ class TilemapPacker:
         self.inputPath = "Input"
         self.outputPath = "Output"
         self.fileTypes = list([".png", ".PNG"])
-        self.extrusionPadding = 1
+        self.extrusionPadding = 2
         self.transparencyPadding = 1
 
         # State
@@ -159,4 +159,4 @@ class TilemapPacker:
 tilemapPacker = TilemapPacker()
 tilemapPacker.LoadFromDefault()
 tilemapPacker.PackImagesToComposite()
-tilemapPacker.SaveComposite()
+tilemapPacker.SaveComposite("output", "png")
