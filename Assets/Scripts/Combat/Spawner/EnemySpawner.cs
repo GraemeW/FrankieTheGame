@@ -13,7 +13,7 @@ namespace Frankie.Combat.Spawner
         [SerializeField] bool spawnOnEnable = true;
         [SerializeField] float xJitterDistance = 1.0f;
         [SerializeField] float yJitterDistance = 1.0f;
-        [SerializeField] SpawnConfigurationProbabilityPair<SpawnConfiguration>[] spawnConfigurations = null;
+        [NonReorderable][SerializeField] SpawnConfigurationProbabilityPair<SpawnConfiguration>[] spawnConfigurations = null;
 
         private void OnEnable()
         {

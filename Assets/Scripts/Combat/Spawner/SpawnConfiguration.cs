@@ -9,7 +9,7 @@ namespace Frankie.Combat.Spawner
     public class SpawnConfiguration
     {
         [SerializeField] [Tooltip("Will force to not exceed this amount, clips as iterating")] public int maxQuantity = 0;
-        [SerializeField] public EnemyConfiguration[] enemyConfigurations = null;
+        [NonReorderable][SerializeField] public EnemyConfiguration[] enemyConfigurations = null;
 
         public static IEnumerable<CharacterProperties> GetEnemies(EnemyConfiguration[] enemyConfigurations, int maxQuantity)
         {

@@ -46,7 +46,7 @@ namespace Frankie.ZoneManagement
 
         private void UpdateMap(Zone zone)
         {
-            if (!zone.ShouldUpdateMap()) { return; }
+            if (zone == null || !zone.ShouldUpdateMap()) { return; }
 
             subCamera.targetTexture = mapRenderTexture; // Enable/disable target texture otherwise Camera's OnDisable will force a final black frame
             subCamera.gameObject.SetActive(true);

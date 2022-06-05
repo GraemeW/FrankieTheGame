@@ -27,6 +27,7 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -47,4 +48,4 @@ MonoBehaviour:
   startScreen: {fileID: 11400000, guid: 529f7c5a0d799b24680ec79ef928a637, type: 2}
   gameOverScreen: {fileID: 11400000, guid: 131a324e3cb2b7142b27461e5f3c19be, type: 2}
   gameWinScreen: {fileID: 11400000, guid: 9117597ef565b8a45ba6a616041a33fa, type: 2}
-  newGame: {fileID: 11400000, guid: 5a0924c0ea437e84497c373520a361f8, type: 2}
+  newGame: {fileID: 11400000, guid: e8f676a48128f694795863b89db2b92d, type: 2}
