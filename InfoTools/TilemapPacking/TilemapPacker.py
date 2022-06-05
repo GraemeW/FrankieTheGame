@@ -10,8 +10,10 @@ class TilemapPacker:
         # Tunables
         self.inputPath = "Input"
         self.outputPath = "Output"
+        self.outputFilename = "output"
+        self.outputExtension = "png"
         self.fileTypes = list([".png", ".PNG"])
-        self.extrusionPadding = 2
+        self.extrusionPadding = 1
         self.transparencyPadding = 1
 
         # State
@@ -96,7 +98,7 @@ class TilemapPacker:
         imageCountRoot = math.sqrt(imageCount)
         columns = math.ceil(imageCountRoot)
         rows = math.floor(imageCountRoot)
-        while rows * columns < imageCountRoot:
+        while rows * columns < imageCount:
             rows = rows + 1
         return tuple([rows, columns])
 
@@ -115,19 +117,26 @@ class TilemapPacker:
         finalTileWidth = self.tileWidth + self.extrusionPadding*2 + self.transparencyPadding*2
         finalTileHeight = self.tileHeight + self.extrusionPadding*2 + self.transparencyPadding*2
         self.compositeImage = Image.new(self.images[0].mode, (finalTileWidth * columns, finalTileHeight * rows), (0, 0, 0, 0))
+        print(self.compositeImage.size)
 
+        index = 0
         columnCount = 0
         rowCount = 0
         for image in self.images:
             extrudedImage = TilemapPacker.ExtrudeEdges(image, self.extrusionPadding)
             paddedImage = TilemapPacker.AddPadding(extrudedImage, self.transparencyPadding, self.transparencyPadding, self.transparencyPadding, self.transparencyPadding)
 
+            print(index)
+            print(columnCount * finalTileWidth)
+            print(rowCount * finalTileHeight)
             self.compositeImage.paste(paddedImage, (columnCount * finalTileWidth, rowCount * finalTileHeight))
-            if (columnCount == columns):
+            if (columnCount == columns - 1):
                 columnCount = 0
                 rowCount = rowCount + 1
             else:
                 columnCount = columnCount + 1
+            index = index + 1
+
     
     def SaveComposite(self, compositeName:str, extension:str):
         savePath = os.path.join(self.outputPath, compositeName + "." + extension)
@@ -159,4 +168,4 @@ class TilemapPacker:
 tilemapPacker = TilemapPacker()
 tilemapPacker.LoadFromDefault()
 tilemapPacker.PackImagesToComposite()
-tilemapPacker.SaveComposite("output", "png")
+tilemapPacker.SaveComposite(tilemapPacker.outputFilename, tilemapPacker.outputExtension)
