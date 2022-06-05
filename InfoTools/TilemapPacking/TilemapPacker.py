@@ -158,3 +158,5 @@ class TilemapPacker:
 # Main Execution
 tilemapPacker = TilemapPacker()
 tilemapPacker.LoadFromDefault()
+tilemapPacker.PackImagesToComposite()
+tilemapPacker.SaveComposite()
