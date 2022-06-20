@@ -165,7 +165,8 @@ class TilemapPacker:
         self.images = TilemapPacker.FilterImagesByResolution(self.images, self.tileWidth, self.tileHeight)
 
 # Main Execution
-tilemapPacker = TilemapPacker()
-tilemapPacker.LoadFromDefault()
-tilemapPacker.PackImagesToComposite()
-tilemapPacker.SaveComposite(tilemapPacker.outputFilename, tilemapPacker.outputExtension)
+if __name__ == "__main__":
+    tilemapPacker = TilemapPacker()
+    tilemapPacker.LoadFromDefault()
+    tilemapPacker.PackImagesToComposite()
+    tilemapPacker.SaveComposite(tilemapPacker.outputFilename, tilemapPacker.outputExtension)

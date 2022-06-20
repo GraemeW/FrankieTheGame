@@ -32122,7 +32122,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8046040528659215491, guid: 50a0956d9c45bee489e989971722cdeb, type: 3}
       propertyPath: transactionCash
-      value: 1
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 8046040528659215491, guid: 50a0956d9c45bee489e989971722cdeb, type: 3}
       propertyPath: numberTransactions
