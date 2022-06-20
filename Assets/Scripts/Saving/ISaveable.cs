@@ -4,6 +4,6 @@ namespace Frankie.Saving
     {
         LoadPriority GetLoadPriority();
         SaveState CaptureState();
-        void RestoreState(SaveState state);
+        void RestoreState(SaveState saveState);
     }
 }

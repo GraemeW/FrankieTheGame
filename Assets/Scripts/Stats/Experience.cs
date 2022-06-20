@@ -118,6 +118,7 @@ namespace Frankie.Stats
         public void RestoreState(SaveState saveState)
         {
             float points = (float)saveState.GetState(typeof(float));
+            if (currentPoints == null) { Awake(); }
             currentPoints.value = points;
         }
         #endregion

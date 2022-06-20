@@ -6,18 +6,23 @@ using UnityEngine;
 namespace Frankie.Stats
 {
     [RequireComponent(typeof(Party))]
+    [RequireComponent(typeof(PartyAssist))]
     public class PartyCombatConduit : MonoBehaviour
     {
         // State
+        // Note:  Caching to avoid having to translate BaseStats -> CombatParticipant on every call (often)
         List<CombatParticipant> combatParticipantCache = new List<CombatParticipant>();
+        List<CombatParticipant> combatAssistCache = new List<CombatParticipant>();
 
         // Cached References
         Party party = null;
+        PartyAssist partyAssist = null;
 
         #region UnityMethods
         private void Awake()
         {
             party = GetComponent<Party>();
+            partyAssist = GetComponent<PartyAssist>();
         }
 
         private void OnEnable()
@@ -34,6 +39,7 @@ namespace Frankie.Stats
 
         #region PublicMethods
         public List<CombatParticipant> GetPartyCombatParticipants() => combatParticipantCache;
+        public List<CombatParticipant> GetPartyAssistParticipants() => combatAssistCache;
 
         public string GetPartyLeaderName() => party.GetPartyLeaderName();
 

@@ -135,7 +135,7 @@ namespace Frankie.Combat
         // Setters
         public void Setup(List<CombatParticipant> enemies, TransitionType transitionType)
         {
-
+            // Party Characters
             foreach (CombatParticipant character in partyCombatConduit.GetPartyCombatParticipants())
             {
                 if (transitionType == TransitionType.BattleGood)
@@ -151,6 +151,7 @@ namespace Frankie.Combat
             }
             if (gameObject.activeSelf) { SubscribeToCharacters(true); }
 
+            // Enemies
             foreach (CombatParticipant enemy in enemies)
             {
                 if (transitionType == TransitionType.BattleBad)
@@ -164,6 +165,9 @@ namespace Frankie.Combat
                 enemy.stateAltered += CheckForBattleEnd;
                 activeEnemies.Add(enemy);
             }
+
+            // Party Assist Characters
+
 
             FindObjectOfType<Fader>().battleUIStateChanged += InitiateBattle;
         }

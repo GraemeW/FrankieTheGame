@@ -12,5 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 00fbef4dec9dc7846811859f8a74c138, type: 3}
   m_Name: PhilRamen
   m_EditorClassIdentifier: 
-  characterPrefab: {fileID: 0}
-  characterNPCPrefab: {fileID: 5036908301746640293, guid: ce21827401045e04c915d0b1ac0bdc22, type: 3}
+  characterPrefab: {fileID: 1271120872847328396, guid: ae5f5b9fcf9552e4bb78bf8267c196ae, type: 3}
+  characterNPCPrefab: {fileID: 6561608828159424076, guid: cf37675f8add8ca4dadb8829377d5cb7, type: 3}

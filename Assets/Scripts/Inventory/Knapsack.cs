@@ -385,6 +385,8 @@ namespace Frankie.Inventory
 
         SaveState ISaveable.CaptureState()
         {
+            if (slots == null) { Awake(); }
+
             SaveableActiveItem[] slotsActiveItemStrings = new SaveableActiveItem[inventorySize];
             for (int i = 0; i < inventorySize; i++)
             {
@@ -405,6 +407,8 @@ namespace Frankie.Inventory
 
         void ISaveable.RestoreState(SaveState saveState)
         {
+            if (slots == null) { Awake(); }
+
             SaveableActiveItem[] slotsActiveItemStrings = saveState.GetState(typeof(SaveableActiveItem[])) as SaveableActiveItem[];
             if (slotsActiveItemStrings == null) { return; }
 

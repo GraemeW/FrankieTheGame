@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 3687944564377297133}
   - component: {fileID: 3687944564377297135}
   - component: {fileID: 3687944564377297134}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: RamenTrail
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -601,6 +601,7 @@ ParticleSystem:
         m_PostInfinity: 2
         m_RotationOrder: 4
     randomizeRotationDirection: 0
+    gravitySource: 0
     maxNumParticles: 1000
     customEmitterVelocity: {x: 0, y: 0, z: 0}
     size3D: 0
@@ -3985,6 +3986,7 @@ ParticleSystem:
         m_RotationOrder: 4
     minVertexDistance: 0.2
     textureMode: 0
+    textureScale: {x: 1, y: 1}
     ribbonCount: 1
     shadowBias: 0.5
     worldSpace: 0

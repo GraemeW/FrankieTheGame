@@ -9,10 +9,10 @@ namespace Frankie.Stats
     public class CharacterNPCSwapper : MonoBehaviour
     {
         // Cached References
-
         BaseStats baseStats = null;
         Party party = null;
 
+        #region UnityMethods
         private void Awake()
         {
             baseStats = GetComponent<BaseStats>();
@@ -23,21 +23,9 @@ namespace Frankie.Stats
         {
             DeleteNPCIfInParty();
         }
+        #endregion
 
-        private void DeleteNPCIfInParty()
-        {
-            if (party ==  null) { return; }
-
-            CharacterProperties characterProperties = baseStats.GetCharacterProperties();
-            if (characterProperties == null) { return; }
-
-            BaseStats characterInParty = party.GetMember(characterProperties);
-            if (characterInParty != null && characterInParty != this.baseStats)
-            {
-                Destroy(gameObject);
-            }
-        }
-
+        #region StaticMethods
         public static GameObject SpawnCharacter(string characterName, Transform partyTransform)
         {
             if (characterName == null || partyTransform == null) { return null; }
@@ -59,7 +47,25 @@ namespace Frankie.Stats
             GameObject characterNPC = Instantiate(characterNPCPrefab, worldContainer);
             return characterNPC;
         }
+        #endregion
 
+        #region PrivateMethods
+        private void DeleteNPCIfInParty()
+        {
+            if (party ==  null) { return; }
+
+            CharacterProperties characterProperties = baseStats.GetCharacterProperties();
+            if (characterProperties == null) { return; }
+
+            BaseStats characterInParty = party.GetMember(characterProperties);
+            if (characterInParty != null && characterInParty != this.baseStats)
+            {
+                Destroy(gameObject);
+            }
+        }
+        #endregion
+
+        #region
         public BaseStats GetBaseStats() => baseStats;
 
         public CharacterNPCSwapper SwapToCharacter(Transform partyContainer)
@@ -90,11 +96,21 @@ namespace Frankie.Stats
             return worldNPC;
         }
 
-        public void JoinParty(PlayerStateMachine playerStateHandler) // Called via Unity Events
+        public void JoinParty(PlayerStateMachine playerStateMachine) // Called via Unity Events
         {
-            Party party = playerStateHandler.GetParty();
-            party.AddToParty(this);
+            if (playerStateMachine.TryGetComponent(out Party party))
+            {
+                party.AddToParty(this);
+            }
         }
-    }
 
+        public void JoinPartyAssist(PlayerStateMachine playerStateMachine) // Called via Unity Events
+        {
+            if (playerStateMachine.TryGetComponent(out PartyAssist partyAssist))
+            {
+                partyAssist.AddToParty(this);
+            }
+        }
+        #endregion
+    }
 }
