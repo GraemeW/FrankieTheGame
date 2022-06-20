@@ -29,6 +29,7 @@ namespace Frankie.Stats
         public abstract bool AddToParty(CharacterNPCSwapper characterNPCSwapper); // AddToParty -- Derivative:  Add from character NPC Swapper
         public abstract bool AddToParty(CharacterProperties characterProperties); // AddToParty -- Derivative:  Add from nothing
         public abstract bool RemoveFromParty(BaseStats character); // RemoveFromParty -- Parent:  Instantiate nothing
+        public abstract bool RemoveFromParty(CharacterProperties characterProperties); // RemoveFromParty -- Derivative:  In case no knowledge if member in party
         public abstract bool RemoveFromParty(BaseStats character, Transform worldTransform); // RemoveFromParty -- Derivative:  Instantiate an NPC at the defined location
 
         // Standard Behaviours
@@ -115,6 +116,9 @@ namespace Frankie.Stats
             }
         }
         #endregion
+
+        #region PublicMethods
+        public List<BaseStats> GetParty() => members;
         public bool HasMember(BaseStats member) => HasMember(member.GetCharacterProperties());
         public int GetLastMemberOffsetIndex() => lastMemberOffsetIndex;
 
@@ -175,5 +179,6 @@ namespace Frankie.Stats
 
             return nextMember;
         }
+        #endregion
     }
 }

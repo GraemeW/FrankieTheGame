@@ -13,6 +13,7 @@ namespace Frankie.Control
     public class NPCStateHandler : MonoBehaviour
     {
         // Tunables
+        [SerializeField] bool willForceCombat = false;
         [SerializeField] bool willDestroySelfOnDeath = true;
         [Tooltip("Include {0} for enemy name")] [SerializeField] string messageCannotFight = "{0} is wounded and cannot fight.";
 
@@ -76,30 +77,12 @@ namespace Frankie.Control
         #endregion
 
         #region PublicMethods
-        public CombatParticipant GetCombatParticipant()
-        {
-            return combatParticipant;
-        }
-
-        public GameObject GetPlayer()
-        {
-            return player;
-        }
-
-        public Vector2 GetPlayerLookDirection()
-        {
-            return playerController.value.GetPlayerMover().GetLookDirection();
-        }
-
-        public Vector2 GetPlayerInteractionPosition()
-        {
-            return playerController.value.GetInteractionPosition();
-        }
-
-        public bool WillDestroySelfOnDeath()
-        {
-            return willDestroySelfOnDeath;
-        }
+        public CombatParticipant GetCombatParticipant() => combatParticipant;
+        public GameObject GetPlayer() => player;
+        public Vector2 GetPlayerLookDirection() => playerController.value.GetPlayerMover().GetLookDirection();
+        public Vector2 GetPlayerInteractionPosition() => playerController.value.GetInteractionPosition();
+        public bool WillForceCombat() => willForceCombat;
+        public bool WillDestroySelfOnDeath() => willDestroySelfOnDeath;
         #endregion
 
         #region StateUtilityMethods

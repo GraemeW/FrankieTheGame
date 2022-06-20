@@ -80,6 +80,14 @@ namespace Frankie.Stats
             return true;
         }
 
+        public override bool RemoveFromParty(CharacterProperties characterProperties)
+        {
+            if (characterProperties == null) { return false; } // Failsafe
+
+            BaseStats member = GetMember(characterProperties);
+            return member != null ? RemoveFromParty(member) : false;
+        }
+
         public override bool RemoveFromParty(BaseStats character, Transform worldTransform)
         {
             if (character == null) { return false; } // Failsafe

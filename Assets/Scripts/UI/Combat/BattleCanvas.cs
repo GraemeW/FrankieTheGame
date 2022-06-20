@@ -117,7 +117,7 @@ namespace Frankie.Combat.UI
 
             if (state == BattleState.Intro)
             {
-                SetupPlayerCharacters(battleController.GetCharacters());
+                SetupPlayerCharacters(battleController.GetCharacters(), battleController.GetAssistCharacters());
                 SetupEnemies(battleController.GetEnemies());
                 SetupBackgroundFill(battleController.GetEnemies());
                 SetupEntryMessage(battleController.GetEnemies());
@@ -190,11 +190,18 @@ namespace Frankie.Combat.UI
             }
         }
 
-        private void SetupPlayerCharacters(IEnumerable characters)
+        private void SetupPlayerCharacters(List<CombatParticipant> characters, List<CombatParticipant> assistCharacters)
         {
             bool firstCharacterToggle = false;
             foreach (CombatParticipant character in characters)
             {
+                if (assistCharacters.Contains(character))
+                {
+                    // No panel + limited feedback & no level-ups for assist characters
+                    combatLog.AddCombatListener(character);
+                    continue;
+                }
+
                 CharacterSlide characterSlide = Instantiate(characterSlidePrefab, playerPanelParent);
                 characterSlide.SetCombatParticipant(character);
                 combatLog.AddCombatListener(character);

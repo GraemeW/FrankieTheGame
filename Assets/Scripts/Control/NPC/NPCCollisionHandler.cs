@@ -17,10 +17,10 @@ namespace Frankie.Control
         [SerializeField] LayerMask playerCollisionMask = new LayerMask();
         [SerializeField] bool defaultCollisionsWhenAggravated = true;
         [SerializeField] bool disableCollisionEventsWhenDead = true;
-        [SerializeField] bool collisionsOverriddenToEnterCombat = false;
 
         // State
         bool collisionsActive = true;
+        bool collisionsOverriddenToEnterCombat = false;
         bool touchingPlayer = false;
         List<NPCCollisionHandler> currentNPCMob = new List<NPCCollisionHandler>();
 
@@ -43,6 +43,7 @@ namespace Frankie.Control
         {
             // Hard requirement
             npcStateHandler = GetComponent<NPCStateHandler>();
+            collisionsOverriddenToEnterCombat = npcStateHandler.WillForceCombat();
             npcMover = GetComponent<NPCMover>();
             // Not strictly necessary -- will fail elegantly
             combatParticipant = GetComponent<CombatParticipant>();

@@ -28,12 +28,15 @@ namespace Frankie.Stats
         private void OnEnable()
         {
             party.partyUpdated += RefreshCombatParticipantCache;
+            partyAssist.partyAssistUpdated += RefreshCombatAssistCache;
             RefreshCombatParticipantCache();
+            RefreshCombatAssistCache();
         }
 
         private void OnDisable()
         {
             party.partyUpdated -= RefreshCombatParticipantCache;
+            partyAssist.partyAssistUpdated -= RefreshCombatAssistCache;
         }
         #endregion
 
@@ -87,6 +90,18 @@ namespace Frankie.Stats
                 if (character.TryGetComponent(out CombatParticipant combatParticipant))
                 {
                     combatParticipantCache.Add(combatParticipant);
+                }
+            }
+        }
+
+        private void RefreshCombatAssistCache()
+        {
+            combatAssistCache.Clear();
+            foreach (BaseStats character in partyAssist.GetParty())
+            {
+                if (character.TryGetComponent(out CombatParticipant combatParticipant))
+                {
+                    combatAssistCache.Add(combatParticipant);
                 }
             }
         }

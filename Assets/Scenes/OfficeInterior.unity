@@ -3495,6 +3495,34 @@ PrefabInstance:
       propertyPath: uniqueIdentifier
       value: 160d9136-b178-4773-9f66-91343e397161
       objectReference: {fileID: 0}
+    - target: {fileID: 2601618676448302683, guid: c09446928de1cdd47b11fb8583b5abb5, type: 3}
+      propertyPath: checkInteraction.m_PersistentCalls.m_Calls.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2601618676448302683, guid: c09446928de1cdd47b11fb8583b5abb5, type: 3}
+      propertyPath: checkInteraction.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2601618676448302683, guid: c09446928de1cdd47b11fb8583b5abb5, type: 3}
+      propertyPath: checkInteraction.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 2601618676448302683, guid: c09446928de1cdd47b11fb8583b5abb5, type: 3}
+      propertyPath: checkInteraction.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2601618676448302683, guid: c09446928de1cdd47b11fb8583b5abb5, type: 3}
+      propertyPath: checkInteraction.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: RemoveFromPartyAssist
+      objectReference: {fileID: 0}
+    - target: {fileID: 2601618676448302683, guid: c09446928de1cdd47b11fb8583b5abb5, type: 3}
+      propertyPath: checkInteraction.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: Frankie.Control.Specialization.WorldPartyInterface, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 2601618676448302683, guid: c09446928de1cdd47b11fb8583b5abb5, type: 3}
+      propertyPath: checkInteraction.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_AddedGameObjects: []
   m_SourcePrefab: {fileID: 100100000, guid: c09446928de1cdd47b11fb8583b5abb5, type: 3}
@@ -4244,6 +4272,18 @@ MonoBehaviour:
     onTriggerEvent:
       m_PersistentCalls:
         m_Calls:
+        - m_Target: {fileID: 1150158451}
+          m_TargetAssemblyTypeName: Frankie.Sound.SoundEffects, Assembly-CSharp
+          m_MethodName: PlayClipAfterDestroy
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
         - m_Target: {fileID: 234786138}
           m_TargetAssemblyTypeName: Frankie.Stats.CharacterNPCSwapper, Assembly-CSharp
           m_MethodName: JoinPartyAssist
@@ -4590,6 +4630,10 @@ PrefabInstance:
     serializedVersion: 2
     m_TransformParent: {fileID: 2077687163}
     m_Modifications:
+    - target: {fileID: 1104116980568290579, guid: b755f1c23f46b2a4fba44873acc4a9d8, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 1204194326691089232, guid: b755f1c23f46b2a4fba44873acc4a9d8, type: 3}
       propertyPath: m_RootOrder
       value: 1
@@ -18704,7 +18748,7 @@ PrefabInstance:
       objectReference: {fileID: 11400000, guid: a1fdbf9d5ae0e1443aa74f6a653d9c70, type: 2}
     - target: {fileID: -2326240535357467552, guid: af6951be3c7cb1640b1d11519ef4b65d, type: 3}
       propertyPath: checkInteractionConditionMet.m_PersistentCalls.m_Calls.Array.size
-      value: 2
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: -2326240535357467552, guid: af6951be3c7cb1640b1d11519ef4b65d, type: 3}
       propertyPath: checkInteractionConditionFailed.m_PersistentCalls.m_Calls.Array.size
@@ -18719,13 +18763,21 @@ PrefabInstance:
       value: 6
       objectReference: {fileID: 0}
     - target: {fileID: -2326240535357467552, guid: af6951be3c7cb1640b1d11519ef4b65d, type: 3}
+      propertyPath: checkInteractionConditionMet.m_PersistentCalls.m_Calls.Array.data[2].m_Mode
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -2326240535357467552, guid: af6951be3c7cb1640b1d11519ef4b65d, type: 3}
       propertyPath: checkInteractionConditionMet.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 769141085}
     - target: {fileID: -2326240535357467552, guid: af6951be3c7cb1640b1d11519ef4b65d, type: 3}
       propertyPath: checkInteractionConditionMet.m_PersistentCalls.m_Calls.Array.data[1].m_Target
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 1534959050}
+    - target: {fileID: -2326240535357467552, guid: af6951be3c7cb1640b1d11519ef4b65d, type: 3}
+      propertyPath: checkInteractionConditionMet.m_PersistentCalls.m_Calls.Array.data[2].m_Target
+      value: 
+      objectReference: {fileID: 769141087}
     - target: {fileID: -2326240535357467552, guid: af6951be3c7cb1640b1d11519ef4b65d, type: 3}
       propertyPath: checkInteractionConditionFailed.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
       value: 1
@@ -18739,12 +18791,20 @@ PrefabInstance:
       value: 2
       objectReference: {fileID: 0}
     - target: {fileID: -2326240535357467552, guid: af6951be3c7cb1640b1d11519ef4b65d, type: 3}
+      propertyPath: checkInteractionConditionMet.m_PersistentCalls.m_Calls.Array.data[2].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: -2326240535357467552, guid: af6951be3c7cb1640b1d11519ef4b65d, type: 3}
       propertyPath: checkInteractionConditionMet.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
       value: CompleteObjective
       objectReference: {fileID: 0}
     - target: {fileID: -2326240535357467552, guid: af6951be3c7cb1640b1d11519ef4b65d, type: 3}
       propertyPath: checkInteractionConditionMet.m_PersistentCalls.m_Calls.Array.data[1].m_MethodName
       value: SetActive
+      objectReference: {fileID: 0}
+    - target: {fileID: -2326240535357467552, guid: af6951be3c7cb1640b1d11519ef4b65d, type: 3}
+      propertyPath: checkInteractionConditionMet.m_PersistentCalls.m_Calls.Array.data[2].m_MethodName
+      value: RemoveFromPartyAssist
       objectReference: {fileID: 0}
     - target: {fileID: -2326240535357467552, guid: af6951be3c7cb1640b1d11519ef4b65d, type: 3}
       propertyPath: checkInteractionConditionFailed.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
@@ -18759,7 +18819,15 @@ PrefabInstance:
       value: UnityEngine.GameObject, UnityEngine
       objectReference: {fileID: 0}
     - target: {fileID: -2326240535357467552, guid: af6951be3c7cb1640b1d11519ef4b65d, type: 3}
+      propertyPath: checkInteractionConditionMet.m_PersistentCalls.m_Calls.Array.data[2].m_TargetAssemblyTypeName
+      value: Frankie.Control.Specialization.WorldPartyInterface, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: -2326240535357467552, guid: af6951be3c7cb1640b1d11519ef4b65d, type: 3}
       propertyPath: checkInteractionConditionMet.m_PersistentCalls.m_Calls.Array.data[1].m_Arguments.m_BoolArgument
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -2326240535357467552, guid: af6951be3c7cb1640b1d11519ef4b65d, type: 3}
+      propertyPath: checkInteractionConditionMet.m_PersistentCalls.m_Calls.Array.data[2].m_Arguments.m_BoolArgument
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: -2326240535357467552, guid: af6951be3c7cb1640b1d11519ef4b65d, type: 3}
@@ -18768,6 +18836,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -2326240535357467552, guid: af6951be3c7cb1640b1d11519ef4b65d, type: 3}
       propertyPath: checkInteractionConditionMet.m_PersistentCalls.m_Calls.Array.data[1].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
+    - target: {fileID: -2326240535357467552, guid: af6951be3c7cb1640b1d11519ef4b65d, type: 3}
+      propertyPath: checkInteractionConditionMet.m_PersistentCalls.m_Calls.Array.data[2].m_Arguments.m_ObjectArgumentAssemblyTypeName
       value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
     - target: {fileID: 3691375639142348268, guid: af6951be3c7cb1640b1d11519ef4b65d, type: 3}
@@ -19449,6 +19521,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   quest: {fileID: 11400000, guid: 21448c66f5c436e4e97f39885ea7ed02, type: 2}
   objective: {fileID: 11400000, guid: 19a7c3bc87b836e419b04575f99d5259, type: 2}
+--- !u!114 &769141087
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 769141082}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: eae6d52ba673f2647bcf3d02805e692a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  characterProperties: {fileID: 11400000, guid: e97120b87e74eee4f9d9d8659f0bddf5, type: 2}
 --- !u!1001 &769549873
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -19978,6 +20063,10 @@ PrefabInstance:
       propertyPath: willChasePlayer
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5737715753349501173, guid: 3e8aa571b6fd5cd4c83d58166eabf29c, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5783961971192114869, guid: 3e8aa571b6fd5cd4c83d58166eabf29c, type: 3}
       propertyPath: m_Name
       value: GenericOfficeWorkerBlack (1)
@@ -20024,6 +20113,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5783961971192114870, guid: 3e8aa571b6fd5cd4c83d58166eabf29c, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5948377482001946277, guid: 3e8aa571b6fd5cd4c83d58166eabf29c, type: 3}
+      propertyPath: willForceCombat
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6196740129755377116, guid: 3e8aa571b6fd5cd4c83d58166eabf29c, type: 3}
@@ -20391,6 +20484,10 @@ PrefabInstance:
       propertyPath: uniqueIdentifier
       value: e0fbd353-2c7a-414c-9652-60f9c6a09768
       objectReference: {fileID: 0}
+    - target: {fileID: 7525764789776728579, guid: 04f5506a3c6980342b86a87faa9be780, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8616608626347457600, guid: 04f5506a3c6980342b86a87faa9be780, type: 3}
       propertyPath: m_RootOrder
       value: 0
@@ -20710,6 +20807,10 @@ PrefabInstance:
     - target: {fileID: 7418550396487708495, guid: a87622f06df9ac54e90516e57e833835, type: 3}
       propertyPath: m_Name
       value: BroOfficeWorker (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 8725522589070577935, guid: a87622f06df9ac54e90516e57e833835, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_AddedGameObjects: []
@@ -25373,6 +25474,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6020141406999707016, guid: 30c6f3f30a3216e41bbc8a6ac45c57e0, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_AddedGameObjects: []
   m_SourcePrefab: {fileID: 100100000, guid: 30c6f3f30a3216e41bbc8a6ac45c57e0, type: 3}
@@ -25617,6 +25722,17 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 1046421276}
   m_SourcePrefab: {fileID: 100100000, guid: 5b506601a3824f349944b614a4a1f188, type: 3}
+--- !u!114 &1150158451 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5779161260147218876, guid: cf37675f8add8ca4dadb8829377d5cb7, type: 3}
+  m_PrefabInstance: {fileID: 234786124}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7d92abaff543d4a4498f7173bd00113e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1176313391
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -30037,6 +30153,10 @@ PrefabInstance:
       propertyPath: uniqueIdentifier
       value: 795992c5-921e-4e83-b95e-103f5ab3c604
       objectReference: {fileID: 0}
+    - target: {fileID: 6999197217183127820, guid: e5b2dd736debcc24a83caba30bd0c03f, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 9135147353912846156, guid: e5b2dd736debcc24a83caba30bd0c03f, type: 3}
       propertyPath: m_Name
       value: Horse (1)
@@ -30309,6 +30429,10 @@ PrefabInstance:
     - target: {fileID: 7819299255556850879, guid: 0933637bb54f1cb4480c3b6eaceeee40, type: 3}
       propertyPath: m_Name
       value: Maya (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 8315632734596250367, guid: 0933637bb54f1cb4480c3b6eaceeee40, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_AddedGameObjects: []
@@ -31277,6 +31401,10 @@ PrefabInstance:
       propertyPath: willChasePlayer
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5737715753349501173, guid: 85e454fc5088ab64cbf94d522f93ecc7, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5783961971192114869, guid: 85e454fc5088ab64cbf94d522f93ecc7, type: 3}
       propertyPath: m_Name
       value: GenericOfficeWorkerBlonde (1)
@@ -31323,6 +31451,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5783961971192114870, guid: 85e454fc5088ab64cbf94d522f93ecc7, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5948377482001946277, guid: 85e454fc5088ab64cbf94d522f93ecc7, type: 3}
+      propertyPath: willForceCombat
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6196740129755377116, guid: 85e454fc5088ab64cbf94d522f93ecc7, type: 3}
@@ -31640,6 +31772,11 @@ PrefabInstance:
 Transform:
   m_CorrespondingSourceObject: {fileID: 2543667310359335487, guid: 744dc623f667d104ab96f7b1f161278b, type: 3}
   m_PrefabInstance: {fileID: 1525649908}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &1534959050 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6561608828159424076, guid: cf37675f8add8ca4dadb8829377d5cb7, type: 3}
+  m_PrefabInstance: {fileID: 589426693}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1544519449
 PrefabInstance:
@@ -40767,6 +40904,10 @@ PrefabInstance:
     - target: {fileID: 7418550396487708495, guid: a87622f06df9ac54e90516e57e833835, type: 3}
       propertyPath: m_Name
       value: BroOfficeWorker (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 8725522589070577935, guid: a87622f06df9ac54e90516e57e833835, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_AddedGameObjects:

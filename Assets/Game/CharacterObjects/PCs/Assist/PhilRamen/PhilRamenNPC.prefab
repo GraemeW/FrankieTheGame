@@ -221,10 +221,6 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5380918446169795178, guid: 53771d00282eaa34ba616b313732c1b7, type: 3}
-      propertyPath: friendly
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5380918446169795178, guid: 53771d00282eaa34ba616b313732c1b7, type: 3}
       propertyPath: combatAudio
       value: 
       objectReference: {fileID: 8300000, guid: c1bc045e54aa45a4089dd272ac98c7f7, type: 3}

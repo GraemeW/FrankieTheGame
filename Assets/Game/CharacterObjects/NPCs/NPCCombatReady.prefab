@@ -5,6 +5,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 2
     m_TransformParent: {fileID: 2088815242785209475}
     m_Modifications:
     - target: {fileID: 2366363061461443362, guid: c08399674dab63349bf5a2c9c8ebbcaa, type: 3}
@@ -84,12 +85,19 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 8300000, guid: 7ef01fe75b0130440aa021964d4319b1, type: 3}
     m_RemovedComponents: []
+    m_AddedGameObjects: []
   m_SourcePrefab: {fileID: 100100000, guid: c08399674dab63349bf5a2c9c8ebbcaa, type: 3}
+--- !u!4 &1984625236506351083 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 2366363061461443363, guid: c08399674dab63349bf5a2c9c8ebbcaa, type: 3}
+  m_PrefabInstance: {fileID: 4277800112039622344}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &4695812830112157434
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 2
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 4118810327594443569, guid: 1b473d8838e3d4d4c99f7ff6e30d07df, type: 3}
@@ -99,6 +107,10 @@ PrefabInstance:
     - target: {fileID: 4118810327594443569, guid: 1b473d8838e3d4d4c99f7ff6e30d07df, type: 3}
       propertyPath: willChasePlayer
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4770053427049122874, guid: 1b473d8838e3d4d4c99f7ff6e30d07df, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6372006413732983059, guid: 1b473d8838e3d4d4c99f7ff6e30d07df, type: 3}
       propertyPath: collisionsOverriddenToEnterCombat
@@ -153,6 +165,10 @@ PrefabInstance:
       value: NPCCombatReady
       objectReference: {fileID: 0}
     m_RemovedComponents: []
+    m_AddedGameObjects:
+    - targetCorrespondingSourceObject: {fileID: 6761616658632847993, guid: 1b473d8838e3d4d4c99f7ff6e30d07df, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1984625236506351083}
   m_SourcePrefab: {fileID: 100100000, guid: 1b473d8838e3d4d4c99f7ff6e30d07df, type: 3}
 --- !u!1 &2088815242785209472 stripped
 GameObject:

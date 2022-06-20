@@ -248,6 +248,10 @@ MonoBehaviour:
   chaseDistance: 3
   aggravationTime: 3
   suspicionTime: 3
+  willShout: 0
+  canBeShoutedAt: 1
+  shoutDistance: 2
+  shoutGroup: []
 --- !u!114 &6853974573596150378
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -261,10 +265,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   willDestroySelfOnDeath: 1
-  canBeShoutedAt: 1
-  shoutDistance: 2
-  shoutGroup: []
-  defaultName: 
   messageCannotFight: '{0} is wounded and cannot fight.'
 --- !u!114 &6372006413732983059
 MonoBehaviour:
@@ -281,8 +281,8 @@ MonoBehaviour:
   playerCollisionMask:
     serializedVersion: 2
     m_Bits: 8
+  defaultCollisionsWhenAggravated: 1
   disableCollisionEventsWhenDead: 1
-  disableCollisionEventsWhenIdle: 1
   collisionsOverriddenToEnterCombat: 0
   collidedWithPlayer:
     m_PersistentCalls:
@@ -336,6 +336,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 2
     m_TransformParent: {fileID: 6761616658632847993}
     m_Modifications:
     - target: {fileID: 548448797238944362, guid: 3ba2ab0c1cea63442a5dec585154a263, type: 3}
@@ -365,6 +366,22 @@ PrefabInstance:
     - target: {fileID: 548448797238944362, guid: 3ba2ab0c1cea63442a5dec585154a263, type: 3}
       propertyPath: checkInteraction.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
       value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
+    - target: {fileID: 6564381309038757639, guid: 3ba2ab0c1cea63442a5dec585154a263, type: 3}
+      propertyPath: m_Size.x
+      value: 0.24468523
+      objectReference: {fileID: 0}
+    - target: {fileID: 6564381309038757639, guid: 3ba2ab0c1cea63442a5dec585154a263, type: 3}
+      propertyPath: m_Size.y
+      value: 0.41973686
+      objectReference: {fileID: 0}
+    - target: {fileID: 6564381309038757639, guid: 3ba2ab0c1cea63442a5dec585154a263, type: 3}
+      propertyPath: m_Offset.x
+      value: -0.021125793
+      objectReference: {fileID: 0}
+    - target: {fileID: 6564381309038757639, guid: 3ba2ab0c1cea63442a5dec585154a263, type: 3}
+      propertyPath: m_Offset.y
+      value: 0.3043173
       objectReference: {fileID: 0}
     - target: {fileID: 6564381309038757640, guid: 3ba2ab0c1cea63442a5dec585154a263, type: 3}
       propertyPath: m_Name
@@ -419,6 +436,7 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
+    m_AddedGameObjects: []
   m_SourcePrefab: {fileID: 100100000, guid: 3ba2ab0c1cea63442a5dec585154a263, type: 3}
 --- !u!4 &4770053427049122875 stripped
 Transform:

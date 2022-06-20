@@ -68,7 +68,6 @@ namespace Frankie.Stats
         public string GetPartyLeaderName() => members[0].GetCharacterProperties().GetCharacterNamePretty();
         public bool IsPartyLeader(BaseStats combatParticipant) => members[0] == combatParticipant;
         public Animator GetLeadCharacterAnimator() => members.Count > 0 ? animatorLookup[members[0]] : null;
-        public List<BaseStats> GetParty() => members;
         public int GetPartySize() => members.Count;
         public List<CharacterProperties> GetAvailableCharactersToAdd()
         {
@@ -163,6 +162,15 @@ namespace Frankie.Stats
             partyUpdated?.Invoke();
 
             return true;
+        }
+
+        public override bool RemoveFromParty(CharacterProperties characterProperties)
+        {
+            if (members.Count <= 1) { return false; }
+            if (characterProperties == null) { return false; } // Failsafe
+
+            BaseStats member = GetMember(characterProperties);
+            return member != null ? RemoveFromParty(member) : false;
         }
 
         public override bool RemoveFromParty(BaseStats character, Transform worldTransform)

@@ -26,6 +26,8 @@ namespace Frankie.Combat
         float battleExperienceReward = 0f;
 
         List<CombatParticipant> activeCharacters = new List<CombatParticipant>();
+        List<CombatParticipant> activePlayerCharacters = new List<CombatParticipant>();
+        List<CombatParticipant> activeAssistCharacters = new List<CombatParticipant>();
         List<CombatParticipant> activeEnemies = new List<CombatParticipant>();
         CombatParticipant selectedCharacter = null;
         IBattleActionUser selectedBattleAction = null;
@@ -87,14 +89,14 @@ namespace Frankie.Combat
         {
             if (enable)
             {
-                foreach (CombatParticipant character in activeCharacters)
+                foreach (CombatParticipant character in activePlayerCharacters)
                 {
                     character.stateAltered += HandleCharacterDeath;
                 }
             }
             else
             {
-                foreach (CombatParticipant character in activeCharacters)
+                foreach (CombatParticipant character in activePlayerCharacters)
                 {
                     character.stateAltered -= HandleCharacterDeath;
                 }
@@ -148,6 +150,7 @@ namespace Frankie.Combat
                 }
                 character.stateAltered += CheckForBattleEnd;
                 activeCharacters.Add(character);
+                activePlayerCharacters.Add(character);
             }
             if (gameObject.activeSelf) { SubscribeToCharacters(true); }
 
@@ -167,7 +170,20 @@ namespace Frankie.Combat
             }
 
             // Party Assist Characters
-
+            foreach (CombatParticipant character in partyCombatConduit.GetPartyAssistParticipants())
+            {
+                if (transitionType == TransitionType.BattleGood)
+                {
+                    character.SetCooldown(battleAdvantageCooldown);
+                }
+                else
+                {
+                    character.SetCooldown(character.GetBattleStartCooldown());
+                }
+                character.stateAltered += CheckForBattleEnd;
+                activeCharacters.Add(character);
+                activeAssistCharacters.Add(character);
+            }
 
             FindObjectOfType<Fader>().battleUIStateChanged += InitiateBattle;
         }
@@ -278,6 +294,7 @@ namespace Frankie.Combat
         public BattleOutcome GetBattleOutcome() => outcome;
         public List<CombatParticipant> GetCharacters() => activeCharacters;
         public List<CombatParticipant> GetEnemies() => activeEnemies;
+        public List<CombatParticipant> GetAssistCharacters() => activeAssistCharacters;
 
         // State Selections
         public CombatParticipant GetSelectedCharacter()
@@ -329,7 +346,7 @@ namespace Frankie.Combat
             sender.SetCooldown(Mathf.Infinity); // Character actions locked until cooldown set by BattleController
             battleSequenceQueue.Enqueue(battleSequence);
 
-            if (activeCharacters.Contains(sender)) { SetActiveBattleAction(null); SetSelectedCharacter(null); } // Clear out selection on player execution
+            if (activePlayerCharacters.Contains(sender)) { SetActiveBattleAction(null); SetSelectedCharacter(null); } // Clear out selection on player execution
         }
 
         public bool AttemptToRun()
@@ -337,7 +354,7 @@ namespace Frankie.Combat
             float partySpeed = 0f;
             float enemySpeed = 0f;
 
-            foreach (CombatParticipant character in activeCharacters)
+            foreach (CombatParticipant character in activePlayerCharacters)
             {
                 partySpeed += character.GetRunSpeed();
             }
@@ -509,7 +526,7 @@ namespace Frankie.Combat
             foreach (CombatParticipant enemy in activeEnemies)
             {
                 float subImposingStat = -1f;
-                foreach (CombatParticipant character in activeCharacters)
+                foreach (CombatParticipant character in activePlayerCharacters)
                 {
                     float newImposingStat = character.GetCalculatedStat(CalculatedStat.Imposing, enemy);
                     subImposingStat = newImposingStat > subImposingStat ? newImposingStat : subImposingStat;
@@ -528,8 +545,8 @@ namespace Frankie.Combat
 
         private void AutoSelectCharacter()
         {
-            if (activeCharacters == null || selectedCharacter != null) { return; }
-            CombatParticipant firstFreeCharacter = activeCharacters.Where(x => !x.IsDead() && !x.IsInCooldown()).FirstOrDefault();
+            if (activePlayerCharacters == null || selectedCharacter != null) { return; }
+            CombatParticipant firstFreeCharacter = activePlayerCharacters.Where(x => !x.IsDead() && !x.IsInCooldown()).FirstOrDefault();
             if (firstFreeCharacter != null) { SetSelectedCharacter(firstFreeCharacter); }
         }
 
@@ -606,7 +623,7 @@ namespace Frankie.Combat
         {
             if (stateAlteredData.stateAlteredType == StateAlteredType.Dead)
             {
-                if (activeCharacters.All(x => x.IsDead() == true))
+                if (activePlayerCharacters.All(x => x.IsDead() == true))
                 {
                     SetBattleOutcome(BattleOutcome.Lost);
                     SetBattleState(BattleState.Outro);
@@ -632,7 +649,7 @@ namespace Frankie.Combat
         private bool AwardExperienceToLevelUp()
         {
             bool levelUpTriggered = false;
-            foreach (CombatParticipant character in GetCharacters())
+            foreach (CombatParticipant character in activePlayerCharacters)
             {
                 Experience experience = character.GetComponent<Experience>();
                 if (experience == null) { continue; } // Handling for characters who do not level
@@ -702,6 +719,8 @@ namespace Frankie.Combat
                 enemy.stateAltered -= CheckForBattleEnd;
             }
             activeCharacters.Clear();
+            activePlayerCharacters.Clear();
+            activeAssistCharacters.Clear();
             activeEnemies.Clear();
             SetSelectedCharacter(null);
         }

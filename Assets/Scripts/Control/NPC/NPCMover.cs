@@ -144,7 +144,11 @@ namespace Frankie.Control
                 case NPCStateType.aggravated:
                 case NPCStateType.frenzied:
                     movingAwayFromTarget = isNPCAfraid;
-                    resetPositionOnNextIdle = true;
+
+                    // Back down after initial aggravation (i.e. run to initiate dialogue)
+                    // Otherwise, will force combat with collisions
+                    if (!npcStateHandler.WillForceCombat()) { resetPositionOnNextIdle = true; } 
+                        
                     if (!HasMoveTarget())
                     {
                         SetMoveTarget(npcStateHandler.GetPlayer());
