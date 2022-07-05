@@ -53,7 +53,6 @@ namespace Frankie.Control
 
         protected override void FixedUpdate()
         {
-            // TODO:  Add cutscene support (override user input)
             if (inWorld) { InteractWithMovement(); }
         }
 

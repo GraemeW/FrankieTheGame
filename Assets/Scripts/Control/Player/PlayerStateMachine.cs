@@ -260,6 +260,12 @@ namespace Frankie.Control
             optionStateType = OptionStateType.EscapeMenu;
             currentPlayerState.EnterOptions(this);
         }
+
+        public void EnterCutscene()
+        {
+            optionStateType = OptionStateType.Cutscene;
+            currentPlayerState.EnterOptions(this);
+        }
         #endregion
 
         #region UtilityTransition
@@ -464,6 +470,9 @@ namespace Frankie.Control
                     break;
                 case OptionStateType.EscapeMenu:
                     Instantiate(escapeMenuPrefab, worldCanvas.gameObject.transform);
+                    break;
+                case OptionStateType.Cutscene:
+                    // No instantiation required -- control passed to cutscene
                     break;
                 case OptionStateType.None:
                 default:

@@ -4,6 +4,7 @@ namespace Frankie.Control.PlayerStates
     {
         None,
         WorldOptions,
-        EscapeMenu
+        EscapeMenu,
+        Cutscene
     }
 }
