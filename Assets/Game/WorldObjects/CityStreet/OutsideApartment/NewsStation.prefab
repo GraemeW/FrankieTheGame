@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 3434223177376390288}
   - component: {fileID: 3434223177376390286}
   m_Layer: 2
-  m_Name: ApartmentBuilding
+  m_Name: NewsStation
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -75,7 +75,7 @@ SpriteRenderer:
   m_SortingLayerID: 1098151181
   m_SortingLayer: 2
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: d32e0733703f80b47a23500c1a70c36e, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 1b7af880dd7fe4b4ca9426a4108ccbd0, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -102,8 +102,8 @@ PolygonCollider2D:
   m_Offset: {x: 0, y: 0}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.8835562, y: 0.2669209}
-    oldSize: {x: 3.81, y: 6.83}
+    pivot: {x: 0.004625271, y: 0.32100186}
+    oldSize: {x: 6.06, y: 5.69}
     newSize: {x: 3.11, y: 4.46}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
@@ -111,13 +111,18 @@ PolygonCollider2D:
   m_AutoTiling: 0
   m_Points:
     m_Paths:
-    - - {x: -2.0031292, y: -1.8111552}
-      - {x: -1.8045275, y: -1.8000582}
-      - {x: 0.016050339, y: 0.0037411451}
-      - {x: -1.4600465, y: 1.3742485}
-      - {x: -1.7411817, y: 1.370729}
-      - {x: -3.2972775, y: 0.05025482}
-      - {x: -3.3055472, y: -0.54127955}
+    - - {x: 1.998584, y: -1.8140049}
+      - {x: 3.3052518, y: -0.5173764}
+      - {x: 4.518952, y: -1.7256314}
+      - {x: 4.7084274, y: -1.7253301}
+      - {x: 6.0410533, y: -0.39646995}
+      - {x: 4.213415, y: 1.4332395}
+      - {x: 3.9072995, y: 1.435775}
+      - {x: 3.647282, y: 1.567875}
+      - {x: 3.063162, y: 1.8283584}
+      - {x: 2.374573, y: 2.3013568}
+      - {x: -0.00994724, y: -0.0069607906}
+      - {x: 1.8064388, y: -1.8140509}
   m_UseDelaunayMesh: 0
 --- !u!50 &3434223177376390286
 Rigidbody2D:
