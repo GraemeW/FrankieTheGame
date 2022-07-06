@@ -36,12 +36,14 @@ public class SpriteRandomizer : MonoBehaviour, ISerializationCallbackReceiver
 
     public void OnBeforeSerialize()
     {
+#if UNITY_EDITOR
         if (sprites == null || sprites.Length <= 1) { return; }
         if (!HasPositionShifted()) { return; }
 
         SpriteRenderer spriteRenderer = GetComponent<SpriteRenderer>();
         Sprite newSprite = GetSpriteByPosition();
         if (newSprite != null) { spriteRenderer.sprite = newSprite; }
+#endif
     }
     public void OnAfterDeserialize()
     {
