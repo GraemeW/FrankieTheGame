@@ -154,24 +154,23 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2308409281053914736, guid: 3ea47d49370c98e4e8dda14fd66b947b, type: 3}
       propertyPath: checkMessage
-      value: 'It says:  "Caution Sinkhole".  Weird, I don''t remember there being
-        a hole here.'
+      value: Primton News - The latest beat, comin' to ya hunky snarky
       objectReference: {fileID: 0}
     - target: {fileID: 6564381309038757639, guid: 3ea47d49370c98e4e8dda14fd66b947b, type: 3}
       propertyPath: m_Size.x
-      value: 0.43609333
+      value: 0.33769965
       objectReference: {fileID: 0}
     - target: {fileID: 6564381309038757639, guid: 3ea47d49370c98e4e8dda14fd66b947b, type: 3}
       propertyPath: m_Size.y
-      value: 0.73500085
+      value: 0.530645
       objectReference: {fileID: 0}
     - target: {fileID: 6564381309038757639, guid: 3ea47d49370c98e4e8dda14fd66b947b, type: 3}
       propertyPath: m_Offset.x
-      value: -0.0029556751
+      value: 0.22032225
       objectReference: {fileID: 0}
     - target: {fileID: 6564381309038757639, guid: 3ea47d49370c98e4e8dda14fd66b947b, type: 3}
       propertyPath: m_Offset.y
-      value: 0.40418494
+      value: 0.010610521
       objectReference: {fileID: 0}
     - target: {fileID: 6564381309038757640, guid: 3ea47d49370c98e4e8dda14fd66b947b, type: 3}
       propertyPath: m_Name
