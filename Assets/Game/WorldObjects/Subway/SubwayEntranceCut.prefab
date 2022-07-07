@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 859524255320129544}
   - component: {fileID: 859524255320129546}
   m_Layer: 2
-  m_Name: TrainStationEntrance
+  m_Name: SubwayEntranceCut
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

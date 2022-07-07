@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 3434223177376390288}
   - component: {fileID: 3434223177376390286}
   m_Layer: 2
-  m_Name: NewsStation
+  m_Name: BuildingNewsStation
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -123,11 +123,13 @@ PolygonCollider2D:
       - {x: 4.518952, y: -1.7256314}
       - {x: 4.7084274, y: -1.7253301}
       - {x: 6.0410533, y: -0.39646995}
+      - {x: 6.0417323, y: 0.33454254}
       - {x: 4.213415, y: 1.4332395}
       - {x: 3.9072995, y: 1.435775}
       - {x: 3.647282, y: 1.567875}
       - {x: 3.063162, y: 1.8283584}
       - {x: 2.374573, y: 2.3013568}
+      - {x: 0.009346008, y: 0.3178296}
       - {x: -0.00994724, y: -0.0069607906}
       - {x: 1.8064388, y: -1.8140509}
   m_UseDelaunayMesh: 0

@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 4799725055426664901}
   - component: {fileID: 4799725055426664903}
   m_Layer: 2
-  m_Name: TealBuilding
+  m_Name: BuildingOfficeCut
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
