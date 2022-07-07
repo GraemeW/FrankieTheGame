@@ -6,14 +6,19 @@ using UnityEngine;
 public class SpriteRandomizer : MonoBehaviour, ISerializationCallbackReceiver
 {
     // Tunables
+    [SerializeField][Range(0.01f, 1f)] float varietyFactor = 0.5f;
     [SerializeField] Sprite[] sprites = null;
+
+    // State & Fixed Tunables
+    float minDenominator = 0.001f;
     [HideInInspector][SerializeField] Vector3 oldPosition = Vector3.zero;
+
 
     // Methods
     private Sprite GetSpriteByPosition()
     {
         if (sprites == null || sprites.Length <= 1) { return null; }
-        float positionalFactor = 0.5f * (Mathf.Sin(50f * ((transform.position.x % 1) / (transform.position.y % 1))) + 1f);
+        float positionalFactor = 0.5f * (Mathf.Sin(100f * varietyFactor * ((transform.position.x % 1) / (transform.position.y % 1 + minDenominator))) + 1f);
         for (int i = sprites.Length; i > 0; i--)
         {
             if (positionalFactor < 1f / i)

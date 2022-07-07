@@ -160,6 +160,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9926a8864b38129409c5258cafe867bb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  varietyFactor: 0.5
   sprites:
   - {fileID: 21300000, guid: dfd290ccc12272f4492e12530a3b9b9b, type: 3}
-  oldPosition: {x: 0.43229485, y: -0.69911253, z: 0}
+  oldPosition: {x: 25.01284, y: 16.256294, z: 0}
