@@ -16,6 +16,11 @@ namespace Frankie.Control.PlayerStates
             }
         }
 
+        public void EnterCutScene(IPlayerStateContext playerStateContext)
+        {
+            playerStateContext.SetPlayerState(new CutSceneState());
+        }
+
         public void EnterDialogue(IPlayerStateContext playerStateContext)
         {
             playerStateContext.SetupDialogueController();

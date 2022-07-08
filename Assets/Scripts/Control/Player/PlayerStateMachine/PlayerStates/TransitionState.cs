@@ -17,6 +17,14 @@ namespace Frankie.Control.PlayerStates
             }
         }
 
+        public void EnterCutScene(IPlayerStateContext playerStateContext)
+        {
+            if (playerStateContext.InBattleEntryTransition())
+            {
+                playerStateContext.QueueActionUnderConsideration();
+            }
+        }
+
         public void EnterDialogue(IPlayerStateContext playerStateContext)
         {
             if (playerStateContext.InBattleEntryTransition())

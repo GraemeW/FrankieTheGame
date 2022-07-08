@@ -102,6 +102,10 @@ namespace Frankie.Control
             {
                 return PlayerStateType.inMenus;
             }
+            else if (playerStateType == typeof(CutSceneState))
+            {
+                return PlayerStateType.inCutScene;
+            }
             return PlayerStateType.inWorld;
         }
         #endregion
@@ -263,8 +267,8 @@ namespace Frankie.Control
 
         public void EnterCutscene()
         {
-            optionStateType = OptionStateType.Cutscene;
-            currentPlayerState.EnterOptions(this);
+            actionUnderConsideration = new PlayerStateTypeActionPair(PlayerStateType.inCutScene, () => EnterCutscene());
+            currentPlayerState.EnterCutScene(this);
         }
         #endregion
 
@@ -470,9 +474,6 @@ namespace Frankie.Control
                     break;
                 case OptionStateType.EscapeMenu:
                     Instantiate(escapeMenuPrefab, worldCanvas.gameObject.transform);
-                    break;
-                case OptionStateType.Cutscene:
-                    // No instantiation required -- control passed to cutscene
                     break;
                 case OptionStateType.None:
                 default:

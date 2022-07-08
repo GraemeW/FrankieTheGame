@@ -8,5 +8,6 @@ namespace Frankie.Control
         void EnterDialogue(IPlayerStateContext playerStateContext);
         void EnterTrade(IPlayerStateContext playerStateContext);
         void EnterOptions(IPlayerStateContext playerStateContext);
+        void EnterCutScene(IPlayerStateContext playerStateContext);
     }
 }

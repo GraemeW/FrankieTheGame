@@ -8,6 +8,12 @@ namespace Frankie.Control.PlayerStates
             playerStateContext.QueueActionUnderConsideration();
         }
 
+        public void EnterCutScene(IPlayerStateContext playerStateContext)
+        {
+            // No state change (will dequeue next time in world)
+            playerStateContext.QueueActionUnderConsideration();
+        }
+
         public void EnterDialogue(IPlayerStateContext playerStateContext)
         {
             // No state change (will dequeue next time in world)

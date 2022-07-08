@@ -218,6 +218,7 @@ namespace Frankie.Control
                     }
                     // other transitions allow enemy movement -- swarm mechanic
                     break;
+                case PlayerStateType.inCutScene:
                 case PlayerStateType.inWorld:
                 default:
                     SetNPCState(npcState);

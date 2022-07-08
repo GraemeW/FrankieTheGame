@@ -7,6 +7,7 @@ namespace Frankie.Control
         inDialogue,
         inTransition,
         inBattle,
-        inMenus
+        inMenus,
+        inCutScene
     }
 }

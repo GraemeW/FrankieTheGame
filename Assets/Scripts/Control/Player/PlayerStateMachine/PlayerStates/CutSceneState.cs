@@ -1,6 +1,10 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
 namespace Frankie.Control.PlayerStates
 {
-    public class TradeState : IPlayerState
+    public class CutSceneState : IPlayerState
     {
         public void EnterCombat(IPlayerStateContext playerStateContext)
         {
@@ -20,11 +24,11 @@ namespace Frankie.Control.PlayerStates
             playerStateContext.QueueActionUnderConsideration();
         }
 
-        public void EnterOptions(IPlayerStateContext playerStateContext) // Ignore
+        public void EnterOptions(IPlayerStateContext playerStateContext)
         {
         }
 
-        public void EnterTrade(IPlayerStateContext playerStateContext) // Ignore
+        public void EnterTrade(IPlayerStateContext playerStateContext)
         {
         }
 
