@@ -21,12 +21,14 @@ namespace Frankie.Speech
         [HideInInspector] [SerializeField] List<DialogueNode> dialogueNodes = new List<DialogueNode>();
         [HideInInspector] [SerializeField] Dictionary<string, DialogueNode> nodeLookup = new Dictionary<string, DialogueNode>();
 
-#if UNITY_EDITOR
         private void Awake()
         {
-            CreateRootNodeIfMissing();
-        }
+#if UNITY_EDITOR
+            //CreateRootNodeIfMissing();
+                // Note:  Making in DialogueEditor due to some intricacies in how Unity calls Awake on ScriptableObjects in Editor vs. the serialization callback
+                // For (unknown) reasons, the root node gets made and then killed by the time serialization occurs
 #endif
+        }
 
         private void OnValidate()
         {
@@ -36,7 +38,7 @@ namespace Frankie.Speech
             if (dialogueNodes == null) { return; }
             foreach (DialogueNode dialogueNode in dialogueNodes)
             {
-                if (nodeLookup == null || dialogueNode == null) { break;} // Safety against error throw on first initialization
+                if (dialogueNode == null) { break;} // Safety against error throw on first initialization
                 nodeLookup.Add(dialogueNode.name, dialogueNode);
                 if (dialogueNode.GetCharacterProperties() != null && !activeNPCs.Contains(dialogueNode.GetCharacterProperties()))
                 {
@@ -164,7 +166,7 @@ namespace Frankie.Speech
             return childNode;
         }
 
-        private DialogueNode CreateRootNodeIfMissing()
+        public DialogueNode CreateRootNodeIfMissing()
         {
             if (dialogueNodes.Count == 0)
             {

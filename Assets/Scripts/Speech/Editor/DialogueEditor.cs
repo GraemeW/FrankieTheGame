@@ -50,6 +50,7 @@ namespace Frankie.Speech.Editor
             Dialogue dialogue = EditorUtility.InstanceIDToObject(instanceID) as Dialogue;
             if (dialogue != null)
             {
+                dialogue.CreateRootNodeIfMissing();
                 ShowEditorWindow();
                 return true;
             }
