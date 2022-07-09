@@ -17,76 +17,30 @@ MonoBehaviour:
     m_SerializedData: []
   m_GUID: 5737d4d430161ca479e9b63007f531e0
   m_SerializeEntries:
+  - m_GUID: 7b38628dfd3f40b458d818b80a1bd21c
+    m_Address: Assets/Game/OnLoadAssets/Quests/Objectives
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - QuestObjective
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 1c384b154e472324cacb2381484bd3bc
-    m_Address: Office_RescueTilly
+    m_Address: Assets/Game/OnLoadAssets/Quests/z_OldDemo/Office_RescueTilly.asset
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - QuestObjective
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: d5a24b6ae4382f546a9b472318a86c1f
+    m_Address: Assets/Game/OnLoadAssets/Quests/Quests
     m_ReadOnly: 0
     m_SerializedLabels:
     - Quest
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 1668b91476fac90448edeb1802fe0843
-    m_Address: Office_RescueTilly_ObjFindTilly
-    m_ReadOnly: 0
-    m_SerializedLabels:
-    - QuestObjective
-  - m_GUID: 2241e194048f1154a8e77fa9924ac2c3
-    m_Address: HipsterChattedOnce
-    m_ReadOnly: 0
-    m_SerializedLabels:
-    - QuestObjective
-  - m_GUID: 4f62449d7f6ea784e95c90e85913740e
-    m_Address: HipsterOfficeInterior
+    m_Address: Assets/Game/OnLoadAssets/Quests/z_OldDemo/Office_RescueTilly_ObjFindTilly.asset
     m_ReadOnly: 0
     m_SerializedLabels:
     - Quest
-  - m_GUID: 2f938ee49fb6a5042b36b02b3d3c7619
-    m_Address: HorseOfficeInterior
-    m_ReadOnly: 0
-    m_SerializedLabels:
-    - Quest
-  - m_GUID: 02d825d6d2a0e8d498b7910e844e24ba
-    m_Address: HorseOpenedFirepole
-    m_ReadOnly: 0
-    m_SerializedLabels:
-    - QuestObjective
-  - m_GUID: 704b67006dd6ea34f9bcc139f58ca601
-    m_Address: HorseGotTheDocuments
-    m_ReadOnly: 0
-    m_SerializedLabels:
-    - QuestObjective
-  - m_GUID: b21a9471cd1f5bc499bd7046b7c4fde9
-    m_Address: HorseReceivedTheDocuments
-    m_ReadOnly: 0
-    m_SerializedLabels:
-    - QuestObjective
-  - m_GUID: 21448c66f5c436e4e97f39885ea7ed02
-    m_Address: RamenOfficeInterior
-    m_ReadOnly: 0
-    m_SerializedLabels:
-    - Quest
-  - m_GUID: 9f293abe10b5b3f4e8630b8fbf321564
-    m_Address: RamenMeetsItsFate
-    m_ReadOnly: 0
-    m_SerializedLabels:
-    - QuestObjective
-  - m_GUID: 19a7c3bc87b836e419b04575f99d5259
-    m_Address: PouredWaterOnRamen
-    m_ReadOnly: 0
-    m_SerializedLabels:
-    - QuestObjective
-  - m_GUID: d76efb823890c224c97d6a9ae43fa863
-    m_Address: PickedUpHotSauce
-    m_ReadOnly: 0
-    m_SerializedLabels:
-    - QuestObjective
-  - m_GUID: 7e82a29455d27cb4a9fad0024591ec2d
-    m_Address: PickedUpChopsticks
-    m_ReadOnly: 0
-    m_SerializedLabels:
-    - QuestObjective
-  - m_GUID: 2510ac440e47ab64596ae0d07d67f60f
-    m_Address: RamenSaysGoodbye
-    m_ReadOnly: 0
-    m_SerializedLabels:
-    - QuestObjective
+    FlaggedDuringContentUpdateRestriction: 0
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: 486580c8fbd153c4dac30d33c738074e, type: 2}
   m_SchemaSet:

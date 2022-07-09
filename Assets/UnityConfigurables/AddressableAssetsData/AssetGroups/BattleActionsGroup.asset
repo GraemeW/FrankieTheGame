@@ -17,106 +17,12 @@ MonoBehaviour:
     m_SerializedData: []
   m_GUID: d280c84123cd5ce46bd0955f09a5d1a6
   m_SerializeEntries:
-  - m_GUID: 16de4cc07f9488e4e9504a67e63a73a2
-    m_Address: ChocolateCheeseCurds
+  - m_GUID: 345619397f44ce546beaa5e6f579df95
+    m_Address: Assets/Game/OnLoadAssets/BattleActions
     m_ReadOnly: 0
     m_SerializedLabels:
     - BattleAction
-  - m_GUID: 2e90298a33d647b42af0204415782c18
-    m_Address: RoughHay
-    m_ReadOnly: 0
-    m_SerializedLabels:
-    - BattleAction
-  - m_GUID: c322d176890b8b44b9376c494cd8978b
-    m_Address: CrackedPollyPocket
-    m_ReadOnly: 0
-    m_SerializedLabels:
-    - BattleAction
-  - m_GUID: 48f3b0baf98a52742baba0cdb1f4b9c4
-    m_Address: DoActualWork
-    m_ReadOnly: 0
-    m_SerializedLabels:
-    - BattleAction
-  - m_GUID: 8dc4634a63ed663458cfb224bf81b30b
-    m_Address: Trample
-    m_ReadOnly: 0
-    m_SerializedLabels:
-    - BattleAction
-  - m_GUID: f53c87ce42556f04f93ae4e4cc9110a4
-    m_Address: ShootTheShit
-    m_ReadOnly: 0
-    m_SerializedLabels:
-    - BattleAction
-  - m_GUID: 2b0af00a64676434aafa7952fea369e7
-    m_Address: BlatherOn
-    m_ReadOnly: 0
-    m_SerializedLabels:
-    - BattleAction
-  - m_GUID: 655cae16aeed9f24084a00856630125f
-    m_Address: Neigh
-    m_ReadOnly: 0
-    m_SerializedLabels:
-    - BattleAction
-  - m_GUID: 81fec7ccc57d205409e6ed7f75602679
-    m_Address: AskForHelp
-    m_ReadOnly: 0
-    m_SerializedLabels:
-    - BattleAction
-  - m_GUID: 8b9903ce68496a24b8280a50ce67aa86
-    m_Address: WordsOfEncouragement
-    m_ReadOnly: 0
-    m_SerializedLabels:
-    - BattleAction
-  - m_GUID: e34e018931d3e5b478b359f468bc90de
-    m_Address: SmileMenacingly
-    m_ReadOnly: 0
-    m_SerializedLabels:
-    - BattleAction
-  - m_GUID: 1e829763218cb524c85a02808989df2b
-    m_Address: LoudlyProclaim
-    m_ReadOnly: 0
-    m_SerializedLabels:
-    - BattleAction
-  - m_GUID: 6adee8298bc0c6642b44f7f3ad0eaaa4
-    m_Address: PresentDashboard
-    m_ReadOnly: 0
-    m_SerializedLabels:
-    - BattleAction
-  - m_GUID: afcb601a5ff04ef4ba3d85c2ebd6be07
-    m_Address: SpillFancyCoffee
-    m_ReadOnly: 0
-    m_SerializedLabels:
-    - BattleAction
-  - m_GUID: 7772c8d9fa236bc4cbccfb81c86e4a82
-    m_Address: InstillSelfDoubt
-    m_ReadOnly: 0
-    m_SerializedLabels:
-    - BattleAction
-  - m_GUID: d0332a639487f554a84f26967023bc9f
-    m_Address: RequestETC
-    m_ReadOnly: 0
-    m_SerializedLabels:
-    - BattleAction
-  - m_GUID: 262bcd3a8f871984c90f937e6fb19ebb
-    m_Address: IgnoreYou
-    m_ReadOnly: 0
-    m_SerializedLabels:
-    - BattleAction
-  - m_GUID: 6af0ec46b214c7941acbe7c471aeb303
-    m_Address: ShowOffCode
-    m_ReadOnly: 0
-    m_SerializedLabels:
-    - BattleAction
-  - m_GUID: fa0a936c988af5449b424a0448b324d9
-    m_Address: Whinny
-    m_ReadOnly: 0
-    m_SerializedLabels:
-    - BattleAction
-  - m_GUID: f2c12e4f25b0d7e4d9bbdaab9c89aaf9
-    m_Address: zz_TestAction
-    m_ReadOnly: 0
-    m_SerializedLabels:
-    - BattleAction
+    FlaggedDuringContentUpdateRestriction: 0
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: 486580c8fbd153c4dac30d33c738074e, type: 2}
   m_SchemaSet:

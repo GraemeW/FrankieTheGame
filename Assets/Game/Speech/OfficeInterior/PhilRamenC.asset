@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speakerType: 1
   characterProperties: {fileID: 11400000, guid: e97120b87e74eee4f9d9d8659f0bddf5, type: 2}
-  speakerName: Default
+  speakerName: Phil Ramen
   text: Listen, this world - your world - is not what it appears to be.  You must
     have noticed by now.
   children:
@@ -79,7 +79,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speakerType: 1
   characterProperties: {fileID: 11400000, guid: e97120b87e74eee4f9d9d8659f0bddf5, type: 2}
-  speakerName: Default
+  speakerName: Phil Ramen
   text: Oh man, oh boy, I see the light.  This is really it now.  Before I go, did
     you listen closely enough, or do you want me to repeat this?
   children:
@@ -113,7 +113,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speakerType: 1
   characterProperties: {fileID: 11400000, guid: e97120b87e74eee4f9d9d8659f0bddf5, type: 2}
-  speakerName: Default
+  speakerName: Phil Ramen
   text: Oh . . . really?  Honestly, I'm barely holding on here.  Ok, I guess, here
     goes.
   children:
@@ -146,7 +146,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speakerType: 1
   characterProperties: {fileID: 11400000, guid: e97120b87e74eee4f9d9d8659f0bddf5, type: 2}
-  speakerName: Default
+  speakerName: Phil Ramen
   text: ' I mean, your hair, it''s really grown out, you need a haircut.  He may
     also have some advice.'
   children:
@@ -179,7 +179,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speakerType: 1
   characterProperties: {fileID: 11400000, guid: e97120b87e74eee4f9d9d8659f0bddf5, type: 2}
-  speakerName: Default
+  speakerName: Phil Ramen
   text: Alright.  Well, you're a smart, capable, and brave man, Frankie.  Remember
     that.
   children:
@@ -212,7 +212,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speakerType: 1
   characterProperties: {fileID: 11400000, guid: e97120b87e74eee4f9d9d8659f0bddf5, type: 2}
-  speakerName: Default
+  speakerName: Phil Ramen
   text: 'Oh, I almost forgot -- my dying words:'
   children:
   - 9e068db2-d7f0-4bb8-9add-2a3ac4e7f5fa
@@ -276,7 +276,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speakerType: 1
   characterProperties: {fileID: 11400000, guid: e97120b87e74eee4f9d9d8659f0bddf5, type: 2}
-  speakerName: Default
+  speakerName: Phil Ramen
   text: I guess I'm just a cup of ramen after all.
   children:
   - d3f89ae4-39c8-4677-82ca-ed96a43b22fd
@@ -347,7 +347,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speakerType: 1
   characterProperties: {fileID: 11400000, guid: e97120b87e74eee4f9d9d8659f0bddf5, type: 2}
-  speakerName: Default
+  speakerName: Phil Ramen
   text: Go now.  Your first curio, I sense that it's near.  Seek out your barber.
   children:
   - 979da53c-71d4-4622-a561-9520986c56f4
@@ -411,7 +411,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speakerType: 1
   characterProperties: {fileID: 11400000, guid: e97120b87e74eee4f9d9d8659f0bddf5, type: 2}
-  speakerName: Default
+  speakerName: Phil Ramen
   text: You'll meet many friends along the way.  Trust in them, rely on them.  But
     . . . beware those who are closest to you.
   children:
@@ -482,7 +482,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speakerType: 1
   characterProperties: {fileID: 11400000, guid: e97120b87e74eee4f9d9d8659f0bddf5, type: 2}
-  speakerName: Default
+  speakerName: Phil Ramen
   text: This miasma threatens everything you know.  You must find out what, or who,
     is behind it.
   children:
@@ -586,7 +586,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speakerType: 1
   characterProperties: {fileID: 11400000, guid: e97120b87e74eee4f9d9d8659f0bddf5, type: 2}
-  speakerName: Default
+  speakerName: Phil Ramen
   text: The answer lies in your own memories.  You must go on a journey in search
     of your 10 curios of power to unlock the truth.
   children:
@@ -653,7 +653,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speakerType: 1
   characterProperties: {fileID: 11400000, guid: e97120b87e74eee4f9d9d8659f0bddf5, type: 2}
-  speakerName: Default
+  speakerName: Phil Ramen
   text: I'm glad I got to meet you.  *squish* *slurp* *bye*
   children: []
   rect:

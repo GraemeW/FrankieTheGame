@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: dbd8cf865509ead44b7c06cc9699edc8, type: 3}
-  m_Name: RamenOfficeInterior
+  m_Name: OfficeInteriorRamen
   m_EditorClassIdentifier: 
   uniqueID: 8a8e4c0a-d032-453c-8919-895ace3083a0
   detail: Tracking overall phil ramen quest chain

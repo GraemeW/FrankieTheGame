@@ -10,10 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: dbd8cf865509ead44b7c06cc9699edc8, type: 3}
-  m_Name: HipsterOfficeInterior
+  m_Name: OfficeInteriorHorse
   m_EditorClassIdentifier: 
-  uniqueID: 4f5ba84c-6ad9-4a00-adcf-a6d6964f840d
-  detail: Tracker for chatting with the hipster
+  uniqueID: f47c7811-3a7d-4e03-a0e3-555a4c3d0db9
+  detail: Tracker for chatting with the horse
   objectives:
-  - {fileID: 11400000, guid: 2241e194048f1154a8e77fa9924ac2c3, type: 2}
+  - {fileID: 11400000, guid: 02d825d6d2a0e8d498b7910e844e24ba, type: 2}
+  - {fileID: 11400000, guid: 704b67006dd6ea34f9bcc139f58ca601, type: 2}
+  - {fileID: 11400000, guid: b21a9471cd1f5bc499bd7046b7c4fde9, type: 2}
   rewards: []

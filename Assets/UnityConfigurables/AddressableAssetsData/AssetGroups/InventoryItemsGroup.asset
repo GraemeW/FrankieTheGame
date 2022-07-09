@@ -17,71 +17,12 @@ MonoBehaviour:
     m_SerializedData: []
   m_GUID: 26261125f71ef524fbfcf7598ebcafd0
   m_SerializeEntries:
-  - m_GUID: a4bc75f4802bcf24fb78d4fe3084b398
-    m_Address: RoughHay
+  - m_GUID: 8fe8481c3a09130418a22b178474bd5e
+    m_Address: Assets/Game/OnLoadAssets/Inventory
     m_ReadOnly: 0
     m_SerializedLabels:
     - InventoryItem
-  - m_GUID: 9105dfbd6e6afbe4ea13b4836a1a23a8
-    m_Address: ChocolateCheeseCurds
-    m_ReadOnly: 0
-    m_SerializedLabels:
-    - InventoryItem
-  - m_GUID: 7ee49b28e67844b4aa875d8e147226c7
-    m_Address: CrackedPollyPocket
-    m_ReadOnly: 0
-    m_SerializedLabels:
-    - InventoryItem
-  - m_GUID: 541c313117f0c0c42bdf6216e09c2d52
-    m_Address: Stapler
-    m_ReadOnly: 0
-    m_SerializedLabels:
-    - InventoryItem
-  - m_GUID: e082da1c66f0e8a4183108f66daef8b9
-    m_Address: OneFootRuler
-    m_ReadOnly: 0
-    m_SerializedLabels:
-    - InventoryItem
-  - m_GUID: 3adf66ab62b95ad47b2fd0277eedce88
-    m_Address: Keyboard
-    m_ReadOnly: 0
-    m_SerializedLabels:
-    - InventoryItem
-  - m_GUID: 49534f9b5e5cf1f41bbaf4c527d4a255
-    m_Address: CasioWatch
-    m_ReadOnly: 0
-    m_SerializedLabels:
-    - InventoryItem
-  - m_GUID: d4605b3b7a5ce394180efaf721695e04
-    m_Address: KeyCardToOffice
-    m_ReadOnly: 0
-    m_SerializedLabels:
-    - InventoryItem
-  - m_GUID: 2f316297c17d2c54880d9c8a7f79b081
-    m_Address: KeyToBallPitRoom
-    m_ReadOnly: 0
-    m_SerializedLabels:
-    - InventoryItem
-  - m_GUID: 24916726de610b841ba75ff9f0606c20
-    m_Address: TestKeyItem
-    m_ReadOnly: 0
-    m_SerializedLabels:
-    - InventoryItem
-  - m_GUID: 408c45118eb17af46b1fede859f9e0a4
-    m_Address: VeryImportantDocuments
-    m_ReadOnly: 0
-    m_SerializedLabels:
-    - InventoryItem
-  - m_GUID: 6197d08e74b6343449fff534e9073825
-    m_Address: Chopsticks
-    m_ReadOnly: 0
-    m_SerializedLabels:
-    - InventoryItem
-  - m_GUID: 1ff08c073d9e4504cb1fb55e24c1ddb0
-    m_Address: XTremeBurnHotSauce
-    m_ReadOnly: 0
-    m_SerializedLabels:
-    - InventoryItem
+    FlaggedDuringContentUpdateRestriction: 0
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: 486580c8fbd153c4dac30d33c738074e, type: 2}
   m_SchemaSet:

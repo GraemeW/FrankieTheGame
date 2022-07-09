@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: dbd8cf865509ead44b7c06cc9699edc8, type: 3}
-  m_Name: TenCurios
+  m_Name: MainTenCurios
   m_EditorClassIdentifier: 
   uniqueID: ede378d3-fb3f-4f0a-9978-a11a6316b4b9
   detail: Main storyline quest
