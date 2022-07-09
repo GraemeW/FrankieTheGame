@@ -1,5 +1,299 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-8302520779943999270
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 09c07c7c6f4c666429a0bbc8d18232b2, type: 3}
+  m_Name: 9e068db2-d7f0-4bb8-9add-2a3ac4e7f5fa
+  m_EditorClassIdentifier: 
+  speakerType: 1
+  characterProperties: {fileID: 11400000, guid: e97120b87e74eee4f9d9d8659f0bddf5, type: 2}
+  speakerName: Default
+  text: Listen, this world - your world - is not what it appears to be.  You must
+    have noticed by now.
+  children:
+  - 70bd6022-adec-4ef0-8532-cd10c6dcf130
+  rect:
+    serializedVersion: 2
+    x: 2530
+    y: 30
+    width: 400
+    height: 225
+  draggingRect:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 400
+    height: 45
+  condition:
+    and: []
+--- !u!114 &-8258245950138552973
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 09c07c7c6f4c666429a0bbc8d18232b2, type: 3}
+  m_Name: f876e474-adc2-4af7-8970-6de5e533b96d
+  m_EditorClassIdentifier: 
+  speakerType: 0
+  characterProperties: {fileID: 11400000, guid: b50f84a2f36107a44825b11881f88adf, type: 2}
+  speakerName: Default
+  text: No
+  children:
+  - 2278720f-76f1-4c32-944b-cb697771eb95
+  rect:
+    serializedVersion: 2
+    x: 6030
+    y: 280
+    width: 400
+    height: 225
+  draggingRect:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 400
+    height: 45
+  condition:
+    and: []
+--- !u!114 &-7990438431787312305
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 09c07c7c6f4c666429a0bbc8d18232b2, type: 3}
+  m_Name: 49565221-75f2-410a-adda-91c9cdc3f0e1
+  m_EditorClassIdentifier: 
+  speakerType: 1
+  characterProperties: {fileID: 11400000, guid: e97120b87e74eee4f9d9d8659f0bddf5, type: 2}
+  speakerName: Default
+  text: Oh man, oh boy, I see the light.  This is really it now.  Before I go, did
+    you listen closely enough, or do you want me to repeat this?
+  children:
+  - b9f4c4d7-181a-4d6e-976f-a4d07d6ea2b3
+  - f876e474-adc2-4af7-8970-6de5e533b96d
+  rect:
+    serializedVersion: 2
+    x: 5530
+    y: 30
+    width: 400
+    height: 225
+  draggingRect:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 400
+    height: 45
+  condition:
+    and: []
+--- !u!114 &-6403316913260673752
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 09c07c7c6f4c666429a0bbc8d18232b2, type: 3}
+  m_Name: 836985ab-f8fb-4973-8ba7-2650af9f6e19
+  m_EditorClassIdentifier: 
+  speakerType: 1
+  characterProperties: {fileID: 11400000, guid: e97120b87e74eee4f9d9d8659f0bddf5, type: 2}
+  speakerName: Default
+  text: Oh . . . really?  Honestly, I'm barely holding on here.  Ok, I guess, here
+    goes.
+  children:
+  - 9e068db2-d7f0-4bb8-9add-2a3ac4e7f5fa
+  rect:
+    serializedVersion: 2
+    x: 4526
+    y: 396
+    width: 400
+    height: 225
+  draggingRect:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 400
+    height: 45
+  condition:
+    and: []
+--- !u!114 &-4582631410901050718
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 09c07c7c6f4c666429a0bbc8d18232b2, type: 3}
+  m_Name: 979da53c-71d4-4622-a561-9520986c56f4
+  m_EditorClassIdentifier: 
+  speakerType: 1
+  characterProperties: {fileID: 11400000, guid: e97120b87e74eee4f9d9d8659f0bddf5, type: 2}
+  speakerName: Default
+  text: ' I mean, your hair, it''s really grown out, you need a haircut.  He may
+    also have some advice.'
+  children:
+  - 49565221-75f2-410a-adda-91c9cdc3f0e1
+  rect:
+    serializedVersion: 2
+    x: 5030
+    y: 30
+    width: 400
+    height: 225
+  draggingRect:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 400
+    height: 45
+  condition:
+    and: []
+--- !u!114 &-1883392524975388834
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 09c07c7c6f4c666429a0bbc8d18232b2, type: 3}
+  m_Name: 2278720f-76f1-4c32-944b-cb697771eb95
+  m_EditorClassIdentifier: 
+  speakerType: 1
+  characterProperties: {fileID: 11400000, guid: e97120b87e74eee4f9d9d8659f0bddf5, type: 2}
+  speakerName: Default
+  text: Alright.  Well, you're a smart, capable, and brave man, Frankie.  Remember
+    that.
+  children:
+  - 4480abc7-245b-4370-9ff1-243f257acc3c
+  rect:
+    serializedVersion: 2
+    x: 6554
+    y: 19.000011
+    width: 400
+    height: 225
+  draggingRect:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 400
+    height: 45
+  condition:
+    and: []
+--- !u!114 &-1803039098597148907
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 09c07c7c6f4c666429a0bbc8d18232b2, type: 3}
+  m_Name: d3f89ae4-39c8-4677-82ca-ed96a43b22fd
+  m_EditorClassIdentifier: 
+  speakerType: 1
+  characterProperties: {fileID: 11400000, guid: e97120b87e74eee4f9d9d8659f0bddf5, type: 2}
+  speakerName: Default
+  text: 'Oh, I almost forgot -- my dying words:'
+  children:
+  - 9e068db2-d7f0-4bb8-9add-2a3ac4e7f5fa
+  rect:
+    serializedVersion: 2
+    x: 2030
+    y: 30
+    width: 400
+    height: 225
+  draggingRect:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 400
+    height: 45
+  condition:
+    and: []
+--- !u!114 &-1154993141662815414
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 09c07c7c6f4c666429a0bbc8d18232b2, type: 3}
+  m_Name: b9f4c4d7-181a-4d6e-976f-a4d07d6ea2b3
+  m_EditorClassIdentifier: 
+  speakerType: 0
+  characterProperties: {fileID: 11400000, guid: b50f84a2f36107a44825b11881f88adf, type: 2}
+  speakerName: Default
+  text: Yes
+  children:
+  - 836985ab-f8fb-4973-8ba7-2650af9f6e19
+  rect:
+    serializedVersion: 2
+    x: 6030
+    y: 30
+    width: 400
+    height: 225
+  draggingRect:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 400
+    height: 45
+  condition:
+    and: []
+--- !u!114 &-1028002537907877966
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 09c07c7c6f4c666429a0bbc8d18232b2, type: 3}
+  m_Name: fa0a7d23-17e9-4220-8369-21f18565fba6
+  m_EditorClassIdentifier: 
+  speakerType: 1
+  characterProperties: {fileID: 11400000, guid: e97120b87e74eee4f9d9d8659f0bddf5, type: 2}
+  speakerName: Default
+  text: I guess I'm just a cup of ramen after all.
+  children:
+  - d3f89ae4-39c8-4677-82ca-ed96a43b22fd
+  rect:
+    serializedVersion: 2
+    x: 1530
+    y: 30
+    width: 400
+    height: 225
+  draggingRect:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 400
+    height: 45
+  condition:
+    and: []
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -25,6 +319,52 @@ MonoBehaviour:
   - {fileID: 6771781899036263505}
   - {fileID: 840892013797131245}
   - {fileID: 6477347839488958170}
+  - {fileID: -1028002537907877966}
+  - {fileID: -1803039098597148907}
+  - {fileID: -8302520779943999270}
+  - {fileID: 4789824078128886205}
+  - {fileID: 7104244621364364492}
+  - {fileID: 1443081051165376408}
+  - {fileID: 286453298047475266}
+  - {fileID: -4582631410901050718}
+  - {fileID: -7990438431787312305}
+  - {fileID: -1154993141662815414}
+  - {fileID: -8258245950138552973}
+  - {fileID: -6403316913260673752}
+  - {fileID: -1883392524975388834}
+  - {fileID: 9112552313027358863}
+--- !u!114 &286453298047475266
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 09c07c7c6f4c666429a0bbc8d18232b2, type: 3}
+  m_Name: e75daa85-3844-411c-8200-6c55167cab2f
+  m_EditorClassIdentifier: 
+  speakerType: 1
+  characterProperties: {fileID: 11400000, guid: e97120b87e74eee4f9d9d8659f0bddf5, type: 2}
+  speakerName: Default
+  text: Go now.  Your first curio, I sense that it's near.  Seek out your barber.
+  children:
+  - 979da53c-71d4-4622-a561-9520986c56f4
+  rect:
+    serializedVersion: 2
+    x: 4530
+    y: 30
+    width: 400
+    height: 225
+  draggingRect:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 400
+    height: 45
+  condition:
+    and: []
 --- !u!114 &840892013797131245
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -40,11 +380,45 @@ MonoBehaviour:
   speakerType: 1
   characterProperties: {fileID: 11400000, guid: e97120b87e74eee4f9d9d8659f0bddf5, type: 2}
   speakerName: Phil Ramen
-  text: 'Looks like this is it for me . . . '
-  children: []
+  text: Looks like this is it for me.  I hoped I could bring you further.
+  children:
+  - fa0a7d23-17e9-4220-8369-21f18565fba6
   rect:
     serializedVersion: 2
     x: 1030
+    y: 30
+    width: 400
+    height: 225
+  draggingRect:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 400
+    height: 45
+  condition:
+    and: []
+--- !u!114 &1443081051165376408
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 09c07c7c6f4c666429a0bbc8d18232b2, type: 3}
+  m_Name: 753db396-1276-4401-89f9-055bbb732f3a
+  m_EditorClassIdentifier: 
+  speakerType: 1
+  characterProperties: {fileID: 11400000, guid: e97120b87e74eee4f9d9d8659f0bddf5, type: 2}
+  speakerName: Default
+  text: You'll meet many friends along the way.  Trust in them, rely on them.  But
+    . . . beware those who are closest to you.
+  children:
+  - e75daa85-3844-411c-8200-6c55167cab2f
+  rect:
+    serializedVersion: 2
+    x: 4030
     y: 30
     width: 400
     height: 225
@@ -94,6 +468,39 @@ MonoBehaviour:
     - or:
       - predicate: {fileID: 11400000, guid: 50a87e8ab60f320449b6b01b02b28b79, type: 2}
         negate: 0
+--- !u!114 &4789824078128886205
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 09c07c7c6f4c666429a0bbc8d18232b2, type: 3}
+  m_Name: 70bd6022-adec-4ef0-8532-cd10c6dcf130
+  m_EditorClassIdentifier: 
+  speakerType: 1
+  characterProperties: {fileID: 11400000, guid: e97120b87e74eee4f9d9d8659f0bddf5, type: 2}
+  speakerName: Default
+  text: This miasma threatens everything you know.  You must find out what, or who,
+    is behind it.
+  children:
+  - aba91918-8808-4594-b3ad-4eef66a73a0d
+  rect:
+    serializedVersion: 2
+    x: 3030
+    y: 30
+    width: 400
+    height: 225
+  draggingRect:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 400
+    height: 45
+  condition:
+    and: []
 --- !u!114 &6477347839488958170
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -165,6 +572,39 @@ MonoBehaviour:
     - or:
       - predicate: {fileID: 11400000, guid: a48c43480dda43d4d8b83892d0569110, type: 2}
         negate: 0
+--- !u!114 &7104244621364364492
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 09c07c7c6f4c666429a0bbc8d18232b2, type: 3}
+  m_Name: aba91918-8808-4594-b3ad-4eef66a73a0d
+  m_EditorClassIdentifier: 
+  speakerType: 1
+  characterProperties: {fileID: 11400000, guid: e97120b87e74eee4f9d9d8659f0bddf5, type: 2}
+  speakerName: Default
+  text: The answer lies in your own memories.  You must go on a journey in search
+    of your 10 curios of power to unlock the truth.
+  children:
+  - 753db396-1276-4401-89f9-055bbb732f3a
+  rect:
+    serializedVersion: 2
+    x: 3530
+    y: 30
+    width: 400
+    height: 225
+  draggingRect:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 400
+    height: 45
+  condition:
+    and: []
 --- !u!114 &7570280157902335745
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -189,6 +629,37 @@ MonoBehaviour:
     serializedVersion: 2
     x: 30
     y: 30
+    width: 400
+    height: 225
+  draggingRect:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 400
+    height: 45
+  condition:
+    and: []
+--- !u!114 &9112552313027358863
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 09c07c7c6f4c666429a0bbc8d18232b2, type: 3}
+  m_Name: 4480abc7-245b-4370-9ff1-243f257acc3c
+  m_EditorClassIdentifier: 
+  speakerType: 1
+  characterProperties: {fileID: 11400000, guid: e97120b87e74eee4f9d9d8659f0bddf5, type: 2}
+  speakerName: Default
+  text: I'm glad I got to meet you.  *squish* *slurp* *bye*
+  children: []
+  rect:
+    serializedVersion: 2
+    x: 7054
+    y: 19.000011
     width: 400
     height: 225
   draggingRect:
