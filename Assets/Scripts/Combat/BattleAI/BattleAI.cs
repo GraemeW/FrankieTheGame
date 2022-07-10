@@ -10,7 +10,9 @@ namespace Frankie.Combat
     public class BattleAI : MonoBehaviour
     {
         // Tunables
-        [SerializeField] [Range(0, 1)] float probabilityToTraverseSkillTree = 0.8f;
+        [SerializeField][Range(0, 1)] float probabilityToTraverseSkillTree = 0.8f;
+        [SerializeField] bool useRandomSelectionOnNoPriorities = true;
+        [SerializeField] BattleAIPriority[] battleAIPriorities = null;
 
         // State
         List<Skill> skillsToExclude = new List<Skill>();
@@ -20,6 +22,7 @@ namespace Frankie.Combat
         SkillHandler skillHandler = null;
         BattleController battleController = null;
 
+        #region UnityMethods
         private void Awake()
         {
             combatParticipant = GetComponent<CombatParticipant>();
@@ -41,7 +44,9 @@ namespace Frankie.Combat
             if (battleController == null) { return; }
             QueueNextAction();
         }
+        #endregion
 
+        #region PrivateMethods
         private void UpdateBattleController(bool active)
         {
             if (active)
@@ -55,15 +60,26 @@ namespace Frankie.Combat
             }
         }
 
-        public void QueueNextAction()
+        private void QueueNextAction()
         {
             if (battleController.GetBattleState() == BattleState.Combat 
                 && !combatParticipant.IsDead() && combatParticipant.IsInCombat() && !combatParticipant.IsInCooldown())
             {
-                Skill skill = GetSkill();
-                if (combatParticipant == null || skill == null) { return; }
+                Skill skill = GetSkill(out BattleAIPriority battleAIPriority);
+                if (skill == null) { return; }
+                if (battleAIPriority == null && !useRandomSelectionOnNoPriorities) { return; } // Edge case, should be caught by above -- do nothing if no smarter AIs available
 
-                BattleActionData battleActionData = CreateBattleActionDataWithRandomTarget(skill);
+                BattleActionData battleActionData = new BattleActionData(combatParticipant);
+                List<CombatParticipant> characters = new List<CombatParticipant>(battleController.GetCharacters()); // Local copy since shuffling done in place
+                List<CombatParticipant> enemies = new List<CombatParticipant>(battleController.GetEnemies()); // Local copy since shuffling done in place
+                if (battleAIPriority != null)
+                {
+                    battleAIPriority.SetTarget(battleActionData, skill, combatParticipant.GetFriendly(), characters, enemies);
+                }
+                else
+                {
+                    BattleAIPriority.SetRandomTarget(battleActionData, skill, combatParticipant.GetFriendly(), characters, enemies);
+                }
 
                 // If targetCount is 0, skill isn't possible -- prohibit skill from selection & restart
                 if (battleActionData.targetCount == 0)
@@ -82,70 +98,33 @@ namespace Frankie.Combat
             }
         }
 
-        private BattleActionData CreateBattleActionDataWithRandomTarget(Skill skill)
+        private Skill GetSkill(out BattleAIPriority chosenBattleAIPriority)
         {
-            // Randomize input combat participants selections
-            List<CombatParticipant> characters = new List<CombatParticipant>(battleController.GetCharacters()); // Local copy since shuffling done in place
-            characters.Shuffle();
-            List<CombatParticipant> enemies = new List<CombatParticipant>(battleController.GetEnemies()); // Local copy since shuffling done in place
-            enemies.Shuffle();
-
-            BattleActionData battleActionData = new BattleActionData(combatParticipant);
-            if (combatParticipant.GetFriendly())
+            Skill skill = null;
+            if (battleAIPriorities != null)
             {
-                skill.GetTargets(true, battleActionData, characters, enemies);
-            }
-            else
-            {
-                skill.GetTargets(true, battleActionData, enemies, characters);
-            }
-
-            return battleActionData;
-        }
-
-        public virtual Skill GetSkill()
-        {
-            if (skillHandler == null || !skillHandler.HasSkillTree()) { return null; }
-
-            // Simple implementation -- choose at random
-            List<SkillBranchMapping> availableBranches = skillHandler.GetAvailableBranchMappings();
-            int branchCount = availableBranches.Count;
-
-            if (branchCount > 0)
-            {
-                int branchIndex = Random.Range(0, branchCount);
-
-                float traverseChance = Random.Range(0f, 1f);
-                if (probabilityToTraverseSkillTree >= traverseChance)
+                foreach (BattleAIPriority battleAIPriority in battleAIPriorities)
                 {
-                    SkillBranchMapping skillBranchMapping = availableBranches[branchIndex];
-                    
-                    // Check if skills will exist on traversing
-                    List<Skill> pathSkills = new List<Skill>();
-                    skillHandler.GetPathSkills(skillBranchMapping, ref pathSkills);
-                    List<Skill> filteredPathSkills = pathSkills.Except(skillsToExclude).ToList();
-                    
-                    if (filteredPathSkills.Count > 0)
-                    {
-                        // Walk to next branch, recurse through tree
-                        skillHandler.SetBranch(skillBranchMapping, SkillFilterType.None);
-                        return GetSkill();
-                    }
+                    skill = battleAIPriority.GetSkill(skillHandler, skillsToExclude, probabilityToTraverseSkillTree);
+                    chosenBattleAIPriority = battleAIPriority;
+                    if (skill != null) { return skill; }
                 }
             }
 
-            // Otherwise just select skill from existing options
-            List<Skill> skillOptions = skillHandler.GetUnfilteredSkills().Except(skillsToExclude).ToList();
-            int skillCount = skillOptions.Count;
-            if (skillCount == 0) { return null; }
+            if (useRandomSelectionOnNoPriorities)
+            {
+                // Default behavior -- choose at random, no battle AI priority selected
+                if (skill == null) { skill = BattleAIPriority.GetRandomSkill(skillHandler, skillsToExclude, probabilityToTraverseSkillTree); }
+            }
+            chosenBattleAIPriority = null;
 
-            int skillIndex = Random.Range(0, skillCount);
-            return skillOptions[skillIndex];
+            return skill;
         }
 
         private void ClearSelectionMemory()
         {
             skillHandler.ResetCurrentBranch();
         }
+        #endregion
     }
 }
