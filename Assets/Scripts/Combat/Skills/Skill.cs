@@ -11,7 +11,7 @@ using UnityEngine.ResourceManagement.AsyncOperations;
 namespace Frankie.Combat
 {
     [CreateAssetMenu(fileName = "New Skill", menuName = "Skills/New Skill")]
-    public class Skill : ScriptableObject, IBattleActionUser, IAddressablesCache
+    public class Skill : ScriptableObject, IBattleActionSuper, IAddressablesCache
     {
         // Tunables
         [SerializeField] SkillStat stat = default;
@@ -34,14 +34,10 @@ namespace Frankie.Combat
 
         public static void BuildCacheIfEmpty()
         {
-            if (skillLookupCache == null)
-            {
-                BuildSkillCache();
-            }
-        }
+#if (!UNITY_EDITOR)
+            if (skillLookupCache != null) { return; }
+#endif
 
-        private static void BuildSkillCache()
-        {
             skillLookupCache = new Dictionary<string, Skill>();
             addressablesLoadHandle = Addressables.LoadAssetsAsync(typeof(Skill).Name, (Skill skill) =>
             {
@@ -60,9 +56,9 @@ namespace Frankie.Combat
         {
             Addressables.Release(addressablesLoadHandle);
         }
-        #endregion
+#endregion
 
-        #region PublicMethods
+#region PublicMethods
         public static string GetSkillNamePretty(string name)
         {
             return Regex.Replace(name, "([a-z])_?([A-Z])", "$1 $2");
@@ -72,9 +68,9 @@ namespace Frankie.Combat
         {
             return stat;
         }
-        #endregion
+#endregion
 
-        #region BattleActionUserInterface
+#region BattleActionUserInterface
         public bool Use(BattleActionData battleActionData, Action finished)
         {
             return battleAction.Use(battleActionData, finished);
@@ -106,6 +102,6 @@ namespace Frankie.Combat
             if (battleAction == null) { return 0f; }
             return battleAction.GetAPCost();
         }
-        #endregion
+#endregion
     }
 }

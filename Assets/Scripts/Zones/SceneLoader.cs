@@ -32,6 +32,9 @@ namespace Frankie.ZoneManagement
         #endregion
 
         #region PublicMethods
+        public Zone GetGameWinZone() => gameWinScreen;
+        public Zone GetGameOverZone() => gameOverScreen;
+
         public IEnumerator SplashDelayToLoad(float splashDelayTime)
         {
             yield return new WaitForSeconds(splashDelayTime);
@@ -46,16 +49,6 @@ namespace Frankie.ZoneManagement
         public void QueueStartScreen()
         {
             StartCoroutine(LoadStartScreen());
-        }
-
-        public void QueueGameOverScreen()
-        {
-            StartCoroutine(LoadGameOverScreen());
-        }
-
-        public void QueueGameWinScreen()
-        {
-            StartCoroutine(LoadGameWinScreen());
         }
 
         public void QueueNewGame()

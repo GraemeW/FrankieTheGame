@@ -47,7 +47,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speakerType: 0
   characterProperties: {fileID: 11400000, guid: b50f84a2f36107a44825b11881f88adf, type: 2}
-  speakerName: Default
+  speakerName: Frankie
   text: No
   children:
   - 2278720f-76f1-4c32-944b-cb697771eb95
@@ -244,7 +244,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speakerType: 0
   characterProperties: {fileID: 11400000, guid: b50f84a2f36107a44825b11881f88adf, type: 2}
-  speakerName: Default
+  speakerName: Frankie
   text: Yes
   children:
   - 836985ab-f8fb-4973-8ba7-2650af9f6e19

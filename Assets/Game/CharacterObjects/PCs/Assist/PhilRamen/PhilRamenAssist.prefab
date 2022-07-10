@@ -15,7 +15,7 @@ PrefabInstance:
     - target: {fileID: 726526304575199942, guid: b3d57c5ca0835dc44b0b91ac427342b7, type: 3}
       propertyPath: skillTree
       value: 
-      objectReference: {fileID: 11400000, guid: 757c802de782bfc47a1b3018cca8eac9, type: 2}
+      objectReference: {fileID: 11400000, guid: f5abe8ca6456a534baff8c9e02dcb4bf, type: 2}
     - target: {fileID: 1538271764270950872, guid: b3d57c5ca0835dc44b0b91ac427342b7, type: 3}
       propertyPath: usesAP
       value: 0
@@ -98,7 +98,7 @@ PrefabInstance:
       objectReference: {fileID: 11400000, guid: e97120b87e74eee4f9d9d8659f0bddf5, type: 2}
     - target: {fileID: 8263638854090363868, guid: b3d57c5ca0835dc44b0b91ac427342b7, type: 3}
       propertyPath: m_Name
-      value: PhilRamen
+      value: PhilRamenAssist
       objectReference: {fileID: 0}
     - target: {fileID: 8263638854090363870, guid: b3d57c5ca0835dc44b0b91ac427342b7, type: 3}
       propertyPath: m_Controller

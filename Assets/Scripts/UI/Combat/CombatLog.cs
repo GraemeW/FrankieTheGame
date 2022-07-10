@@ -111,12 +111,12 @@ namespace Frankie.Combat.UI
         private void ParseBattleSequence(BattleSequence battleSequence)
         {
             BattleActionData battleActionData = battleSequence.battleActionData;
-            if (battleActionData == null || (battleSequence.battleAction == null)) { return; }
+            if (battleActionData == null || (battleSequence.battleActionSuper == null)) { return; }
             if (battleActionData.GetSender() == null || battleActionData.targetCount == 0) { return; }
 
             string recipientNames = string.Join(", ", battleActionData.GetTargets().Select(x => x.GetCombatName()));
             string combatText = battleActionData.GetSender().GetCombatName()
-                + " used " + battleSequence.battleAction.GetName()
+                + " used " + battleSequence.battleActionSuper.GetName()
                 + " on " + recipientNames + ".";
 
             stringToPrint += "  " + combatText;

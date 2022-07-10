@@ -9,9 +9,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2d638f604ff65db4f9e75a2cc6eb7bd3, type: 3}
-  m_Name: SpillFancyCoffee
+  m_Script: {fileID: 11500000, guid: cd296801653aaf44c9e5c85a63e27418, type: 3}
+  m_Name: MayaFilter
   m_EditorClassIdentifier: 
-  stat: 3
-  battleAction: {fileID: 11400000, guid: afcb601a5ff04ef4ba3d85c2ebd6be07, type: 2}
-  detail: Shit!  Gonna have to get another, this burns.  Causes damage over time.
+  characterPropertiesToFilter:
+  - {fileID: 11400000, guid: c8752c77bccb9f145aea101a1d9673a5, type: 2}
+  negate: 0

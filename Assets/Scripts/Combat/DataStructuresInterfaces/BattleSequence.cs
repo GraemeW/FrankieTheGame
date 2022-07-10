@@ -5,7 +5,7 @@ namespace Frankie.Combat
 {
     public struct BattleSequence
     {
-        public IBattleActionUser battleAction;
+        public IBattleActionSuper battleActionSuper;
         public BattleActionData battleActionData;
     }
 }

@@ -30,7 +30,7 @@ namespace Frankie.Combat
         List<CombatParticipant> activeAssistCharacters = new List<CombatParticipant>();
         List<CombatParticipant> activeEnemies = new List<CombatParticipant>();
         CombatParticipant selectedCharacter = null;
-        IBattleActionUser selectedBattleAction = null;
+        IBattleActionSuper selectedBattleActionSuper = null;
         bool battleActionArmed = false;
         BattleActionData battleActionData = null;
 
@@ -50,7 +50,7 @@ namespace Frankie.Combat
         public event Action<PlayerInputType> globalInput;
         public event Action<BattleState> battleStateChanged;
         public event Action<CombatParticipantType, IEnumerable<CombatParticipant>> selectedCombatParticipantChanged;
-        public event Action<IBattleActionUser> battleActionArmedStateChanged;
+        public event Action<IBattleActionSuper> battleActionArmedStateChanged;
         public event Action<BattleSequence> battleSequenceProcessed;
 
         // Interaction
@@ -233,7 +233,7 @@ namespace Frankie.Combat
             return true;
         }
 
-        public bool SetSelectedTarget(IBattleActionUser battleActionUser, bool traverseForward = true)
+        public bool SetSelectedTarget(IBattleActionSuper battleActionUser, bool traverseForward = true)
         {
             if (battleActionUser == null)
             {
@@ -256,17 +256,17 @@ namespace Frankie.Combat
             return true;
         }
 
-        public void SetActiveBattleAction(IBattleActionUser battleAction)
+        public void SetActiveBattleAction(IBattleActionSuper battleActionSuper)
         {
-            if (battleAction == null)
+            if (battleActionSuper == null)
             {
                 SetBattleActionArmed(false);
                 selectedCharacter?.GetComponent<SkillHandler>().ResetCurrentBranch();
-                selectedBattleAction = null;
+                selectedBattleActionSuper = null;
             }
             else
             {
-                selectedBattleAction = battleAction;
+                selectedBattleActionSuper = battleActionSuper;
             }
         }
 
@@ -277,14 +277,14 @@ namespace Frankie.Combat
                 SetSelectedTarget(null);
                 battleActionArmed = false;
             }
-            else if (selectedBattleAction != null)
+            else if (selectedBattleActionSuper != null)
             {
-                SetSelectedTarget(selectedBattleAction, true);
+                SetSelectedTarget(selectedBattleActionSuper, true);
                 battleActionArmed = true;
             }
             else { return; }
 
-            battleActionArmedStateChanged?.Invoke(selectedBattleAction);
+            battleActionArmedStateChanged?.Invoke(selectedBattleActionSuper);
         }
         #endregion
 
@@ -302,8 +302,8 @@ namespace Frankie.Combat
             AutoSelectCharacter();
             return selectedCharacter;
         }
-        public IBattleActionUser GetActiveBattleAction() => selectedBattleAction;
-        public bool HasActiveBattleAction() => selectedBattleAction != null;
+        public IBattleActionSuper GetActiveBattleAction() => selectedBattleActionSuper;
+        public bool HasActiveBattleAction() => selectedBattleActionSuper != null;
         public bool IsBattleActionArmed() => battleActionArmed;
 
         // Loot
@@ -320,21 +320,21 @@ namespace Frankie.Combat
         {
             // Called via SkillSelection UI Buttons
             // Using selected character and battle action
-            if (GetSelectedCharacter() == null || selectedBattleAction == null) { return false; }
+            if (GetSelectedCharacter() == null || selectedBattleActionSuper == null) { return false; }
             battleActionData.SetTargets(recipients);
-            selectedBattleAction.GetTargets(null, battleActionData, activeCharacters, activeEnemies); // Select targets with null traverse to apply filters & pass back
+            selectedBattleActionSuper.GetTargets(null, battleActionData, activeCharacters, activeEnemies); // Select targets with null traverse to apply filters & pass back
 
             if (battleActionData.targetCount == 0) { return false; }
 
-            AddToBattleQueue(battleActionData, selectedBattleAction);
+            AddToBattleQueue(battleActionData, selectedBattleActionSuper);
             return true;
         }
 
-        public void AddToBattleQueue(BattleActionData battleActionData, IBattleActionUser battleAction)
+        public void AddToBattleQueue(BattleActionData battleActionData, IBattleActionSuper battleActionSuper)
         {
             BattleSequence battleSequence = new BattleSequence
             {
-                battleAction = battleAction,
+                battleActionSuper = battleActionSuper,
                 battleActionData = battleActionData
             };
             AddToBattleQueue(battleSequence);
@@ -409,14 +409,14 @@ namespace Frankie.Combat
             if (playerInputType == PlayerInputType.Cancel)
             {
                 // Move to Combat Options if nothing selected in skill selector
-                if (selectedBattleAction == null || selectedCharacter == null)
+                if (selectedBattleActionSuper == null || selectedCharacter == null)
                 {
                     SetSelectedCharacter(null);
                     SetBattleState(BattleState.PreCombat); return true;
                 }
 
                 // Otherwise step out of selections
-                if (selectedBattleAction != null || selectedCharacter != null)
+                if (selectedBattleActionSuper != null || selectedCharacter != null)
                 {
                     SetActiveBattleAction(null);
                     SetSelectedCharacter(null);
@@ -442,7 +442,7 @@ namespace Frankie.Combat
 
             if (selectedCharacter != null && !selectedCharacter.IsDead())
             {
-                if (playerInputType == PlayerInputType.Execute && selectedBattleAction != null)
+                if (playerInputType == PlayerInputType.Execute && selectedBattleActionSuper != null)
                 {
                     SetBattleActionArmed(true);
                     return true;
@@ -460,24 +460,24 @@ namespace Frankie.Combat
         {
 
             if (GetBattleState() != BattleState.Combat) { return false; }
-            if (!IsBattleActionArmed() || selectedCharacter == null || selectedBattleAction == null) { return false; }
+            if (!IsBattleActionArmed() || selectedCharacter == null || selectedBattleActionSuper == null) { return false; }
 
             if (playerInputType != PlayerInputType.DefaultNone)
             {
                 if (playerInputType == PlayerInputType.Execute)
                 {
                     if (battleActionData.targetCount == 0) { return false; }
-                    AddToBattleQueue(battleActionData, selectedBattleAction);
+                    AddToBattleQueue(battleActionData, selectedBattleActionSuper);
                 }
                 else
                 {
                     if (playerInputType == PlayerInputType.NavigateRight || playerInputType == PlayerInputType.NavigateDown)
                     {
-                        SetSelectedTarget(selectedBattleAction, true);
+                        SetSelectedTarget(selectedBattleActionSuper, true);
                     }
                     else if (playerInputType == PlayerInputType.NavigateLeft || playerInputType == PlayerInputType.NavigateUp)
                     {
-                        SetSelectedTarget(selectedBattleAction, false);
+                        SetSelectedTarget(selectedBattleActionSuper, false);
                     }
                 }
                 battleInput?.Invoke(playerInputType);
@@ -580,7 +580,7 @@ namespace Frankie.Combat
             haltBattleQueue = true;
             battleSequenceInProgress = true;
 
-            battleSequence.battleAction.Use(dequeuedBattleActionData, () => { battleSequenceInProgress = false; });
+            battleSequence.battleActionSuper.Use(dequeuedBattleActionData, () => { battleSequenceInProgress = false; });
             yield return new WaitForSeconds(battleQueueDelay);
 
             haltBattleQueue = false;
@@ -600,7 +600,7 @@ namespace Frankie.Combat
             {
                 if (battleActionData.targetCount > 0 && battleActionData.GetTargets().Contains(combatParticipant))
                 {
-                    SetSelectedTarget(selectedBattleAction, true);
+                    SetSelectedTarget(selectedBattleActionSuper, true);
                 }
             }
         }

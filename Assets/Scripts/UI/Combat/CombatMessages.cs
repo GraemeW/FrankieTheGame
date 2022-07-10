@@ -32,12 +32,12 @@ public class CombatMessages : MonoBehaviour
         battleController.battleActionArmedStateChanged -= Setup;
     }
 
-    private void Setup(IBattleActionUser battleAction)
+    private void Setup(IBattleActionSuper battleActionSuper)
     {
-        if (battleAction != null && battleAction.IsItem())
+        if (battleActionSuper != null && battleActionSuper.IsItem())
         {
             DialogueBox dialogueBox = Instantiate(dialogueBoxPrefab, messageParent);
-            dialogueBox.AddText(string.Format(messageItemToBeUsed, battleAction.GetName()));
+            dialogueBox.AddText(string.Format(messageItemToBeUsed, battleActionSuper.GetName()));
             dialogueBox.SetGlobalInput(false);
         }
         else

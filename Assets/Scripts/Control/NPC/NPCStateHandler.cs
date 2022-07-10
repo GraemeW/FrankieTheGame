@@ -126,9 +126,14 @@ namespace Frankie.Control
             bool isNPCAfraid = false;
             if (npcState == NPCStateType.aggravated || npcState == NPCStateType.suspicious)
             {
-                PartyCombatConduit partyCombatConduit = playerStateHandler.value.GetParty().GetComponent<PartyCombatConduit>();
-                if (!partyCombatConduit.IsAnyMemberAlive()) { return; }
-                isNPCAfraid = partyCombatConduit.IsFearsome(combatParticipant);
+                Party party = playerStateHandler.value.GetParty();
+                if (party == null) { return; }
+
+                if (party.TryGetComponent(out PartyCombatConduit partyCombatConduit))
+                {
+                    if (!partyCombatConduit.IsAnyMemberAlive()) { return; }
+                    isNPCAfraid = partyCombatConduit.IsFearsome(combatParticipant);
+                }
             }
 
             bool occupiedStatusChange = (npcState == NPCStateType.occupied) ^ npcOccupied;

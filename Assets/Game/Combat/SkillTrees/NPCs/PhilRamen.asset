@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &-6008867730600426705
+--- !u!114 &-8369802546325352931
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -10,20 +10,20 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 6b066201d64e5354387f385aa2872d22, type: 3}
-  m_Name: 73adc878-e733-45e4-b379-e8ed9124153c
+  m_Name: e7edffd4-d7e5-4d57-a268-9342aa493f86
   m_EditorClassIdentifier: 
-  upSkillReference: Wallop
+  upSkillReference: SpillHotRamen
   upBranch: 
-  leftSkillReference: 
+  leftSkillReference: ShareWarmRamen
   leftBranch: 
-  rightSkillReference: GentlePraise
+  rightSkillReference: 
   rightBranch: 
   downSkillReference: 
   downBranch: 
   rect:
     serializedVersion: 2
-    x: 45
-    y: 66
+    x: 30
+    y: 30
     width: 250
     height: 155
   draggingRect:
@@ -43,10 +43,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b8d8f88416a3eaa479e5d149d93dcddb, type: 3}
-  m_Name: Frankie
+  m_Name: PhilRamen
   m_EditorClassIdentifier: 
   newBranchOffset: {x: 150, y: 150}
   branchWidth: 250
   branchHeight: 155
   skillBranches:
-  - {fileID: -6008867730600426705}
+  - {fileID: -8369802546325352931}

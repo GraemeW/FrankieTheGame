@@ -34,7 +34,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speakerType: 1
   characterProperties: {fileID: 11400000, guid: c8752c77bccb9f145aea101a1d9673a5, type: 2}
-  speakerName: Default
+  speakerName: Maya
   text: GET.AWAY.FROM.MY.MICROWAVE.FRANKIE.
   children: []
   rect:

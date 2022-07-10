@@ -19,6 +19,7 @@ namespace Frankie.Core
         {
             VerifySingleton();
             playerStateHandler = GetComponent<PlayerStateMachine>();
+            partyCombatConduit = GetComponent<PartyCombatConduit>();
         }
 
         private void OnEnable()
@@ -50,8 +51,6 @@ namespace Frankie.Core
         {
             // Any player scene change when party is completely wiped out -> shift to game over
             // Will naturally call on combat end during transition
-            if (partyCombatConduit == null) { return; }
-
             if (!partyCombatConduit.IsAnyMemberAlive())
             {
                 SavingWrapper.LoadGameOverScene();

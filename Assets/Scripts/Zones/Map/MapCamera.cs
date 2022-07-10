@@ -64,7 +64,10 @@ namespace Frankie.ZoneManagement
 
         private void SetupPlayerFollow()
         {
-            Transform playerTransform = GameObject.FindGameObjectWithTag("Player").transform;
+            GameObject player = GameObject.FindGameObjectWithTag("Player");
+            if (player == null) { return; }
+
+            Transform playerTransform = player.transform;
             Vector3 newCameraPosition = new Vector3(playerTransform.position.x, playerTransform.position.y, subCamera.transform.position.z);
             subCamera.transform.position = newCameraPosition;
         }

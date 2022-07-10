@@ -40651,6 +40651,34 @@ PrefabInstance:
       propertyPath: dialogue
       value: 
       objectReference: {fileID: 11400000, guid: f0bc019e72b5e8145a2949e6c12be816, type: 2}
+    - target: {fileID: 7581888772439885782, guid: 0933637bb54f1cb4480c3b6eaceeee40, type: 3}
+      propertyPath: collidedWithPlayer.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7581888772439885782, guid: 0933637bb54f1cb4480c3b6eaceeee40, type: 3}
+      propertyPath: collidedWithPlayer.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7581888772439885782, guid: 0933637bb54f1cb4480c3b6eaceeee40, type: 3}
+      propertyPath: collidedWithPlayer.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1871869880}
+    - target: {fileID: 7581888772439885782, guid: 0933637bb54f1cb4480c3b6eaceeee40, type: 3}
+      propertyPath: collidedWithPlayer.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7581888772439885782, guid: 0933637bb54f1cb4480c3b6eaceeee40, type: 3}
+      propertyPath: collidedWithPlayer.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: InitiateDialogue
+      objectReference: {fileID: 0}
+    - target: {fileID: 7581888772439885782, guid: 0933637bb54f1cb4480c3b6eaceeee40, type: 3}
+      propertyPath: collidedWithPlayer.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: Frankie.Control.NPCStateHandler, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 7581888772439885782, guid: 0933637bb54f1cb4480c3b6eaceeee40, type: 3}
+      propertyPath: collidedWithPlayer.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
     - target: {fileID: 7819299255556850876, guid: 0933637bb54f1cb4480c3b6eaceeee40, type: 3}
       propertyPath: m_RootOrder
       value: 0

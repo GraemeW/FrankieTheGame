@@ -9,7 +9,7 @@ using UnityEngine;
 namespace Frankie.Inventory
 {
     [CreateAssetMenu(menuName = ("Inventory/Action Item"))]
-    public class ActionItem : InventoryItem, IBattleActionUser
+    public class ActionItem : InventoryItem, IBattleActionSuper
     {
         // Config Data
         [SerializeField] bool consumable = true;

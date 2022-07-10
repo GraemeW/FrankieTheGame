@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace Frankie.Combat
 {
-    public interface IBattleActionUser
+    public interface IBattleActionSuper
     {
         public bool Use(BattleActionData battleActionData, Action finished);
         public void GetTargets(bool? traverseForward, BattleActionData battleActionData,
