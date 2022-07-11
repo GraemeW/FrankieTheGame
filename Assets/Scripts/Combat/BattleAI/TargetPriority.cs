@@ -6,6 +6,6 @@ namespace Frankie.Combat
 {
     public abstract class TargetPriority : ScriptableObject
     {
-        public abstract bool SetTarget(BattleActionData battleActionData, Skill skill, bool isFriendly, List<CombatParticipant> characters, List<CombatParticipant> enemies);
+        public abstract bool SetTarget(BattleAI battleAI, BattleActionData battleActionData, Skill skill);
     }
 }

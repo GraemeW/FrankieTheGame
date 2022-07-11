@@ -1,3 +1,4 @@
+using Frankie.Core;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,7 +8,7 @@ namespace Frankie.Combat
 {
     [RequireComponent(typeof(CombatParticipant))]
     [RequireComponent(typeof(SkillHandler))]
-    public class BattleAI : MonoBehaviour
+    public class BattleAI : MonoBehaviour, IPredicateEvaluator
     {
         // Tunables
         [SerializeField][Range(0, 1)] float probabilityToTraverseSkillTree = 0.8f;
@@ -16,6 +17,9 @@ namespace Frankie.Combat
 
         // State
         List<Skill> skillsToExclude = new List<Skill>();
+        List<CombatParticipant> localAllies = new List<CombatParticipant>();
+        List<CombatParticipant> localFoes = new List<CombatParticipant>();
+
 
         // Cached References
         CombatParticipant combatParticipant = null;
@@ -46,6 +50,11 @@ namespace Frankie.Combat
         }
         #endregion
 
+        #region PublicMethods
+        public List<CombatParticipant> GetLocalAllies() => localAllies;
+        public List<CombatParticipant> GetLocalFoes() => localFoes;
+        #endregion
+
         #region PrivateMethods
         private void UpdateBattleController(bool active)
         {
@@ -65,20 +74,24 @@ namespace Frankie.Combat
             if (battleController.GetBattleState() == BattleState.Combat 
                 && !combatParticipant.IsDead() && combatParticipant.IsInCombat() && !combatParticipant.IsInCooldown())
             {
-                Skill skill = GetSkill(out BattleAIPriority battleAIPriority);
+                bool isFriendly = combatParticipant.GetFriendly();
+                // Define local lists of characters -- required to copy since shuffling (if pertinent) done in place
+                // Note:  Ally/foe refers to that mob's disposition specifically, i.e. as a function of if it's friendly to characters
+                localAllies = isFriendly ? new List<CombatParticipant>(battleController.GetCharacters()) : new List<CombatParticipant>(battleController.GetEnemies());
+                localFoes = isFriendly ? new List<CombatParticipant>(battleController.GetEnemies()) : new List<CombatParticipant>(battleController.GetCharacters()); 
+
+                Skill skill = GetSkill(out BattleAIPriority battleAIPriority, localAllies, localFoes);
                 if (skill == null) { return; }
                 if (battleAIPriority == null && !useRandomSelectionOnNoPriorities) { return; } // Edge case, should be caught by above -- do nothing if no smarter AIs available
 
                 BattleActionData battleActionData = new BattleActionData(combatParticipant);
-                List<CombatParticipant> characters = new List<CombatParticipant>(battleController.GetCharacters()); // Local copy since shuffling done in place
-                List<CombatParticipant> enemies = new List<CombatParticipant>(battleController.GetEnemies()); // Local copy since shuffling done in place
                 if (battleAIPriority != null)
                 {
-                    battleAIPriority.SetTarget(battleActionData, skill, combatParticipant.GetFriendly(), characters, enemies);
+                    battleAIPriority.SetTarget(this, battleActionData, skill);
                 }
                 else
                 {
-                    BattleAIPriority.SetRandomTarget(battleActionData, skill, combatParticipant.GetFriendly(), characters, enemies);
+                    BattleAIPriority.SetRandomTarget(this, battleActionData, skill);
                 }
 
                 // If targetCount is 0, skill isn't possible -- prohibit skill from selection & restart
@@ -98,14 +111,14 @@ namespace Frankie.Combat
             }
         }
 
-        private Skill GetSkill(out BattleAIPriority chosenBattleAIPriority)
+        private Skill GetSkill(out BattleAIPriority chosenBattleAIPriority, List<CombatParticipant> localAllies, List<CombatParticipant> localFoes)
         {
             Skill skill = null;
             if (battleAIPriorities != null)
             {
                 foreach (BattleAIPriority battleAIPriority in battleAIPriorities)
                 {
-                    skill = battleAIPriority.GetSkill(skillHandler, skillsToExclude, probabilityToTraverseSkillTree);
+                    skill = battleAIPriority.GetSkill(this, skillHandler, skillsToExclude);
                     chosenBattleAIPriority = battleAIPriority;
                     if (skill != null) { return skill; }
                 }
@@ -124,6 +137,14 @@ namespace Frankie.Combat
         private void ClearSelectionMemory()
         {
             skillHandler.ResetCurrentBranch();
+            localAllies.Clear();
+            localFoes.Clear();
+        }
+
+        public bool? Evaluate(Predicate predicate)
+        {
+            BattleAIPredicate battleAIPredicate = predicate as BattleAIPredicate;
+            return battleAIPredicate != null ? battleAIPredicate.Evaluate(this) : null;
         }
         #endregion
     }

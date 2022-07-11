@@ -14,4 +14,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   stat: 1
   battleAction: {fileID: 11400000, guid: fe3f7c82cb7d90b41ae6973f67d4587b, type: 2}
-  detail: 
+  detail: Delicious ramen, nice to share, nice.

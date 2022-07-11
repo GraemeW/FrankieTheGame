@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: eb5146a14932da3498c866bea642bb8a, type: 3}
+  m_Name: BattleAI_RamenHeal-LowPartyHealth
+  m_EditorClassIdentifier: 
+  skills:
+  - {fileID: 11400000, guid: 7c4fa1d6d3b32dc499d4bdc73ec7d46f, type: 2}
+  skillCondition:
+    and:
+    - or:
+      - predicate: {fileID: 11400000, guid: b01655d1787e80e48aba08ef6aeb05e7, type: 2}
+        negate: 0
+    - or:
+      - predicate: {fileID: 11400000, guid: 249cbc1d2a7abae478a3abecfdb09256, type: 2}
+        negate: 0
+  targetPriorities:
+  - {fileID: 11400000, guid: 224eb34f5495c6541882d0f7486fb2c9, type: 2}
+  defaultToRandomTarget: 0

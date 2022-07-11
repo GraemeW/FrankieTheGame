@@ -1,3 +1,4 @@
+using Frankie.Core;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,8 +10,10 @@ namespace Frankie.Combat
     public class BattleAIPriority : ScriptableObject
     {
         // Tunables
-        [SerializeField] SkillPriority[] skillPriorities = null;
+        [SerializeField] Skill[] skills = null; 
+        [SerializeField] BattleAICondition skillCondition = null;
         [SerializeField] TargetPriority[] targetPriorities = null;
+        [SerializeField] bool defaultToRandomTarget = false;
 
         #region StaticMethods
         public static Skill GetRandomSkill(SkillHandler skillHandler, List<Skill> skillsToExclude, float probabilityToTraverseSkillTree)
@@ -53,44 +56,51 @@ namespace Frankie.Combat
             return skillOptions[skillIndex];
         }
 
-        public static void SetRandomTarget(BattleActionData battleActionData, Skill skill, bool isFriendly, List<CombatParticipant> characters, List<CombatParticipant> enemies)
+        public static void SetRandomTarget(BattleAI battleAI, BattleActionData battleActionData, Skill skill)
         {
             // Randomize input combat participants selections
-            characters.Shuffle();
-            enemies.Shuffle();
-
-            if (isFriendly)
-            {
-                skill.GetTargets(true, battleActionData, characters, enemies);
-            }
-            else
-            {
-                skill.GetTargets(true, battleActionData, enemies, characters);
-            }
+            battleAI.GetLocalAllies().Shuffle();
+            battleAI.GetLocalFoes().Shuffle();
+            skill.GetTargets(true, battleActionData, battleAI.GetLocalAllies(), battleAI.GetLocalFoes());
         }
         #endregion
 
         #region PublicMethods
-        public Skill GetSkill(SkillHandler skillHandler, List<Skill> skillsToExclude, float probabilityToTraverseSkillTree)
+        public Skill GetSkill(BattleAI battleAI, SkillHandler skillHandler, List<Skill> skillsToExclude)
         {
-            if (skillPriorities == null || skillPriorities.Length == 0) { return null; }
-            
-            foreach (SkillPriority skillPriority in skillPriorities)
+            if (skills == null || skills.Length == 0) { return null; }
+
+            // Get skills on the combat participant, intersect to skills under consideration
+            skillHandler.GetAvailableBranchMappings();
+            List<Skill> skillOptions = skillHandler.GetUnfilteredSkills().Except(skillsToExclude).Intersect(skills).ToList();
+            int skillCount = skillOptions.Count;
+            if (skillCount == 0) { return null; }
+
+            // Check if condition defined viable to pull from subset skill
+            bool? skillConditionMet = skillCondition.Check(new[] { battleAI });
+
+            if (skillConditionMet == true)
             {
-                Skill skill = skillPriority.GetSkill(skillHandler, skillsToExclude, probabilityToTraverseSkillTree);
-                if (skill != null) { return skill; }
+                int randomSelector = Random.Range(0, skillOptions.Count);
+                return skillOptions[randomSelector];
             }
             return null;
         }
 
-        public void SetTarget(BattleActionData battleActionData, Skill skill, bool isFriendly, List<CombatParticipant> characters, List<CombatParticipant> enemies)
+        public void SetTarget(BattleAI battleAI, BattleActionData battleActionData, Skill skill)
         {
-            if (targetPriorities == null || targetPriorities.Length == 0) { return; }
+            if (targetPriorities == null || targetPriorities.Length == 0)
+            {
+                if (defaultToRandomTarget) { BattleAIPriority.SetRandomTarget(battleAI, battleActionData, skill); } // Early exit (i.e. set with skill condition, but no specific target)
+                return;
+            }
 
             foreach (TargetPriority targetPriority in targetPriorities)
             {
-                if (targetPriority.SetTarget(battleActionData, skill, isFriendly, characters, enemies)) { return; }
+                if (targetPriority.SetTarget(battleAI, battleActionData, skill)) { return; }
             }
+
+            if (defaultToRandomTarget) { BattleAIPriority.SetRandomTarget(battleAI, battleActionData, skill); } // Default fallback state
         }
         #endregion
     }

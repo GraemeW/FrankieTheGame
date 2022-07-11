@@ -30,7 +30,7 @@ PrefabInstance:
       objectReference: {fileID: 21300000, guid: db5fbbe2ca00f30418f3faefbf843d02, type: 3}
     - target: {fileID: 1538271764270950872, guid: b3d57c5ca0835dc44b0b91ac427342b7, type: 3}
       propertyPath: battleStartCooldown
-      value: 15
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 1538271764270950872, guid: b3d57c5ca0835dc44b0b91ac427342b7, type: 3}
       propertyPath: movingBackgroundProperties.shaderMaterial
@@ -197,6 +197,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   probabilityToTraverseSkillTree: 0.8
+  useRandomSelectionOnNoPriorities: 0
+  battleAIPriorities:
+  - {fileID: 11400000, guid: 8acfa06eaaee8db41b8b90cd3b022a02, type: 2}
+  - {fileID: 11400000, guid: c4c30505cfae31b498756f4fd531c227, type: 2}
 --- !u!1001 &8257743285419324956
 PrefabInstance:
   m_ObjectHideFlags: 0
