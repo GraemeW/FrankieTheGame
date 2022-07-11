@@ -72,7 +72,7 @@ namespace Frankie.Control
             }
             else
             {
-                if (timeSinceNewPatrolTarget > giveUpOnPatrolTargetTime)
+                if (timeSinceNewPatrolTarget > giveUpOnPatrolTargetTime && patrolPath != null)
                 {
                     ForceNextPatrolTarget();
                 }
