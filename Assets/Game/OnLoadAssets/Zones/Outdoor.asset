@@ -45,7 +45,7 @@ MonoBehaviour:
   nodeWidth: 430
   nodeHeight: 150
   sceneReference:
-    sceneAsset: {fileID: 102900000, guid: bdbc1e0ce13a1f14ebbd17a6311fb5d4, type: 3}
+    sceneAsset: {fileID: 102900000, guid: 4e912d0547bdb154085bad11b0f013de, type: 3}
     sceneName: Outdoor
   updateMap: 1
   zoneAudio: {fileID: 8300000, guid: 3dc90c61b4c6f654e8835404e763733e, type: 3}

@@ -18,6 +18,19 @@ namespace Frankie.Core
         ReInitLazyValue<Player> player;
         ReInitLazyValue<Party> party;
 
+        #region StaticMethods
+        public static CameraController GetCameraController()
+        {
+            GameObject mainCamera = GameObject.FindGameObjectWithTag("MainCamera");
+            if (mainCamera == null) { return null; }
+            GameObject cameraContainer = mainCamera.transform.parent.gameObject; // Structure of cameras is:  [CameraController (container) -> MainCamera, StateCameras, etc.]
+            if (cameraContainer == null) { return null; }
+
+            return cameraContainer.GetComponent<CameraController>();
+        }
+        #endregion
+
+        #region UnityMethods
         private void Awake()
         {
             stateCamera = GetComponentInChildren<CinemachineStateDrivenCamera>();
@@ -29,22 +42,44 @@ namespace Frankie.Core
 
         private void OnEnable()
         {
-            if (party.value != null) { party.value.partyUpdated += SetUpStateDrivenCamera; }   
+            if (party.value != null) { party.value.partyUpdated += RefreshDefaultCameras; }   
         }
 
         private void OnDisable()
         {
-            if (party.value != null) { party.value.partyUpdated -= SetUpStateDrivenCamera; }
+            if (party.value != null) { party.value.partyUpdated -= RefreshDefaultCameras; }
         }
 
         private void Start()
         {
             player.ForceInit();
             party.ForceInit();
-            SetUpStateDrivenCamera();
-            SetUpVirtualCameraFollowers();
+            RefreshDefaultCameras();
+        }
+        #endregion
+
+        #region PublicMethods
+        public void RefreshDefaultCameras()
+        {
+            if (party.value != null)
+            {
+                SetUpStateDrivenCamera(party.value.GetLeadCharacterAnimator());
+            }
+
+            if (player.value != null)
+            {
+                SetUpVirtualCameraFollowers(player.value.transform);
+            }
         }
 
+        public void OverrideCameraFollower(Animator animator, Transform target)
+        {
+            UpdateStateAnimator(animator);
+            SetUpVirtualCameraFollowers(target);
+        }
+        #endregion
+
+        #region PrivateMethods
         private Player SetupPlayerReference()
         {
             if (playerGameObject == null) { playerGameObject = GameObject.FindGameObjectWithTag("Player"); }
@@ -57,21 +92,20 @@ namespace Frankie.Core
             return playerGameObject?.GetComponent<Party>();
         }
 
-        private void SetUpStateDrivenCamera()
+        private void SetUpStateDrivenCamera(Animator animator)
         {
-            if (party.value != null)
-            {
-                UpdateStateAnimator(party.value.GetLeadCharacterAnimator());
-            }
+            if (animator == null) { return; }
+            
+            UpdateStateAnimator(animator);
         }
 
-        private void SetUpVirtualCameraFollowers()
+        private void SetUpVirtualCameraFollowers(Transform target)
         {
-            if (party.value == null) { return; }
+            if (target == null) { return; }
 
             foreach (CinemachineVirtualCamera virtualCamera in virtualCameras)
             {
-                virtualCamera.Follow = player.value.transform;
+                virtualCamera.Follow = target;
             }
         }
 
@@ -79,6 +113,7 @@ namespace Frankie.Core
         {
             stateCamera.m_AnimatedTarget = characterAnimator;
         }
+        #endregion
     }
 
 }

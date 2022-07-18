@@ -16,7 +16,7 @@ MonoBehaviour:
   nodeWidth: 430
   nodeHeight: 150
   sceneReference:
-    sceneAsset: {fileID: 102900000, guid: bdbc1e0ce13a1f14ebbd17a6311fb5d4, type: 3}
+    sceneAsset: {fileID: 102900000, guid: e494b574f37534540b7b1adee3863d96, type: 3}
     sceneName: GameWinScreen
   updateMap: 0
   zoneAudio: {fileID: 8300000, guid: 11384817f7314df46b0a2628844ada59, type: 3}

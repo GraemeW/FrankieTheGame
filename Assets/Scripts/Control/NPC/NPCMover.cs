@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -25,10 +26,12 @@ namespace Frankie.Control
         bool resetPositionOnNextIdle = false;
         bool movingAwayFromTarget = false;
 
-        Vector3 initialPosition = new Vector3();
         int currentWaypointIndex = 0;
         float timeSinceArrivedAtWaypoint = Mathf.Infinity;
         float timeSinceNewPatrolTarget = 0f;
+
+        // Events
+        public event Action arrivedAtFinalWaypoint;
 
         #region UnityMethods
         protected override void Awake()
@@ -41,7 +44,6 @@ namespace Frankie.Control
         protected override void Start()
         {
             base.Start();
-            initialPosition = transform.position;
             SetNextPatrolTarget();
         }
 
@@ -103,6 +105,13 @@ namespace Frankie.Control
         {
             RaycastHit2D[] hits = Physics2D.CircleCastAll(interactionCenterPoint.position, raycastRadius, Vector2.zero);
             return hits;
+        }
+
+        public void SetPatrolPath(PatrolPath patrolPath)
+        {
+            if (patrolPath == null) { return; }
+            this.patrolPath = patrolPath;
+            SetNextPatrolTarget();
         }
         #endregion
 
@@ -178,20 +187,26 @@ namespace Frankie.Control
         private void ForceNextPatrolTarget()
         {
             CycleWaypoint();
-            Vector2 nextPosition = GetCurrentWaypoint();
-            SetMoveTarget(nextPosition);
-            timeSinceNewPatrolTarget = 0f;
-        }
+            PatrolPathWaypoint nextWaypoint = patrolPath.GetWaypoint(currentWaypointIndex);
+            if (nextWaypoint == null) { return; }
 
-        private Vector3 GetCurrentWaypoint()
-        {
-            if (patrolPath == null) { return initialPosition; }
-            return patrolPath.GetWaypoint(currentWaypointIndex).position;
+            switch (nextWaypoint.GetWaypointType())
+            {
+                case WaypointType.Move:
+                    SetMoveTarget(nextWaypoint.transform.position);
+                    break;
+                case WaypointType.Warp:
+                    WarpToPosition(nextWaypoint.transform.position);
+                    break;
+            }
+
+            timeSinceNewPatrolTarget = 0f;
         }
 
         private void CycleWaypoint()
         {
             if (patrolPath == null) { return; }
+            if (patrolPath.IsFinalWaypoint(currentWaypointIndex)) { arrivedAtFinalWaypoint?.Invoke(); }
 
             currentWaypointIndex = patrolPath.GetNextIndex(currentWaypointIndex);
             timeSinceArrivedAtWaypoint = 0;

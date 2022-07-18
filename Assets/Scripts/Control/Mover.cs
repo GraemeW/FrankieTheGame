@@ -79,6 +79,22 @@ namespace Frankie.Control
             return lookDirection;
         }
 
+        public void AdjustScaleOrientation(Vector2 localScale)
+        {
+            if (localScale.x > 0 && localScale.y > 0) { return; }
+
+            Vector3 currentLocalScale = transform.localScale;
+            float xMultiplier = localScale.x >= 0f ? 1f : -1f;
+            float yMultiplier = localScale.y >= 0f ? 1f : -1f;
+            transform.localScale = new Vector3(currentLocalScale.x * xMultiplier, currentLocalScale.y * yMultiplier, currentLocalScale.z);
+        }
+
+        public void WarpToPosition(Vector2 target)
+        {
+            SetMoveTarget(target);
+            transform.position = target;
+        }
+
         public void SetMoveTarget(Vector2 target)
         {
             moveTargetObject = null;

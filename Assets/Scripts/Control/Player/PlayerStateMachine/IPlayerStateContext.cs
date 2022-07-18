@@ -7,8 +7,9 @@ namespace Frankie.Control
     public interface IPlayerStateContext
     {
         void SetPlayerState(IPlayerState playerState);
-        
+
         // Utility
+        public void TogglePlayerVisibility(bool? enable = null);
         public void QueueActionUnderConsideration();
         public void ClearPlayerStateMemory();
 

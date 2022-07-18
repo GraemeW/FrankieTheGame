@@ -42,6 +42,8 @@ namespace Frankie.Control
         TransitionType currentTransitionType = TransitionType.None;
         bool zoneTransitionComplete = true;
 
+        // CutScene
+        bool visibleDuringCutscene = true;
         // Combat
         bool combatFadeComplete = false;
         List<CombatParticipant> enemiesUnderConsideration = new List<CombatParticipant>();
@@ -55,6 +57,7 @@ namespace Frankie.Control
 
         // Cached References -- Persistent
         Party party = null;
+        PartyAssist partyAssist = null;
         PartyCombatConduit partyCombatConduit = null;
         Shopper shopper = null;
         WorldCanvas worldCanvas = null;
@@ -114,6 +117,7 @@ namespace Frankie.Control
         private void Awake()
         {
             party = GetComponent<Party>();
+            partyAssist = GetComponent<PartyAssist>();
             partyCombatConduit = GetComponent<PartyCombatConduit>();
             shopper = GetComponent<Shopper>();
         }
@@ -265,9 +269,10 @@ namespace Frankie.Control
             currentPlayerState.EnterOptions(this);
         }
 
-        public void EnterCutscene()
+        public void EnterCutscene(bool playerVisible = true)
         {
-            actionUnderConsideration = new PlayerStateTypeActionPair(PlayerStateType.inCutScene, () => EnterCutscene());
+            actionUnderConsideration = new PlayerStateTypeActionPair(PlayerStateType.inCutScene, () => EnterCutscene(playerVisible));
+            visibleDuringCutscene = playerVisible;
             currentPlayerState.EnterCutScene(this);
         }
         #endregion
@@ -485,6 +490,20 @@ namespace Frankie.Control
         #endregion
 
         #region UtilityGeneral
+        public void TogglePlayerVisibility(bool? enable = null)
+        {
+            bool visible = enable == null ? visibleDuringCutscene : (bool)enable;
+
+            if (party != null)
+            {
+                party.TogglePartyVisible(visible);
+            }
+            if (partyAssist != null)
+            {
+                partyAssist.TogglePartyVisible(visible);
+            }
+        }
+
         public void QueueActionUnderConsideration()
         {
             if (actionUnderConsideration == null || actionUnderConsideration.action == null) { return; }
@@ -527,6 +546,8 @@ namespace Frankie.Control
             transitionTypeUnderConsideration = TransitionType.None;
             currentTransitionType = TransitionType.None;
             zoneTransitionComplete = true;
+
+            visibleDuringCutscene = true;
 
             combatFadeComplete = false;
             enemiesUnderConsideration.Clear();

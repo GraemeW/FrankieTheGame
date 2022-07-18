@@ -8,6 +8,7 @@ namespace Frankie.Control
     {
         // Tunables
         [Header("Behavior")]
+        [SerializeField] PatrolPathWaypoint[] waypoints = null;
         [SerializeField] bool looping = true;
         [SerializeField] bool returnToFirstWaypoint = true;
         [Header("Gizmo Properties")]
@@ -27,18 +28,17 @@ namespace Frankie.Control
             incrementDirection = 1;
         }
 
-        public Transform GetWaypoint(int waypointIndex)
+        public PatrolPathWaypoint GetWaypoint(int waypointIndex)
         {
-            if (transform.childCount == 0) { return transform; } // Safety against misconfiguration
-
-            return transform.GetChild(waypointIndex);
+            if (waypoints == null || waypoints.Length == 0) { return null; }
+            return waypoints[waypointIndex];
         }
 
         public int GetNextIndex(int waypointIndex, bool calledFromGizmo = false)
         {
-            if (transform.childCount == 0) { return 0; }
+            if (waypoints == null || waypoints.Length == 0) { return 0; }
 
-            if (waypointIndex == transform.childCount - 1)
+            if (waypointIndex == waypoints.Length - 1)
             {
                 if (!calledFromGizmo) { loopedOnce = true; }
                 if (returnToFirstWaypoint) { return 0; } // end patrol at first index
@@ -50,6 +50,8 @@ namespace Frankie.Control
             if (calledFromGizmo) { return waypointIndex + 1; }
             return waypointIndex + incrementDirection;
         }
+
+        public bool IsFinalWaypoint(int waypointIndex) => waypointIndex == waypoints.Length - 1;
 
 #if UNITY_EDITOR
         private void OnDrawGizmos()
@@ -64,8 +66,10 @@ namespace Frankie.Control
 
         private void DrawPatrolPath(float alphaValue)
         {
+            if (waypoints == null) { return; }
+
             Gizmos.color = new Color(waypointGizmoColor.r, waypointGizmoColor.g, waypointGizmoColor.b, alphaValue);
-            for (int waypointIndex = 0; waypointIndex < transform.childCount; waypointIndex++)
+            for (int waypointIndex = 0; waypointIndex < waypoints.Length; waypointIndex++)
             {
                 DrawSphere(waypointIndex, alphaValue);
                 DrawLine(waypointIndex);
@@ -76,17 +80,22 @@ namespace Frankie.Control
         {
             if (waypointIndex == 0) { Gizmos.color = new Color(startSphereColor.r, startSphereColor.g, startSphereColor.b, alphaValue); }
 
-            Gizmos.DrawSphere(GetWaypoint(waypointIndex).position, waypointGizmoSphereRadius);
+            PatrolPathWaypoint waypoint = GetWaypoint(waypointIndex);
+            if (waypoint == null) { return; }
+            Gizmos.DrawSphere(waypoint.transform.position, waypointGizmoSphereRadius);
             if (waypointIndex == 0) { Gizmos.color = new Color(waypointGizmoColor.r, waypointGizmoColor.g, waypointGizmoColor.b, alphaValue); }
         }
 
         private void DrawLine(int waypointIndex)
         {
-            if (transform.childCount == 1) { return; }
+            if (waypoints == null || waypoints.Length <= 1) { return; }
 
-            if (waypointIndex != transform.childCount - 1 || returnToFirstWaypoint)
+            if (waypointIndex != waypoints.Length - 1 || returnToFirstWaypoint)
             {
-                Gizmos.DrawLine(GetWaypoint(waypointIndex).position, GetWaypoint(GetNextIndex(waypointIndex, true)).position);
+                PatrolPathWaypoint waypoint = GetWaypoint(waypointIndex);
+                if (waypoint == null) { return; }
+
+                Gizmos.DrawLine(waypoint.transform.position, GetWaypoint(GetNextIndex(waypointIndex, true)).transform.position);
             }
         }
 #endif

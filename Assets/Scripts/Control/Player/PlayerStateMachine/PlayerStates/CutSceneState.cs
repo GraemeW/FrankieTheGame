@@ -36,12 +36,14 @@ namespace Frankie.Control.PlayerStates
         {
             if (playerStateContext.InZoneTransition())
             {
+                playerStateContext.TogglePlayerVisibility(true);
                 playerStateContext.SetPlayerState(new TransitionState()); // Force state to transition, going to get pulled to a new scene
             }
         }
 
         public void EnterWorld(IPlayerStateContext playerStateContext)
         {
+            playerStateContext.TogglePlayerVisibility(true);
             playerStateContext.ClearPlayerStateMemory();
             playerStateContext.SetPlayerState(new WorldState());
         }

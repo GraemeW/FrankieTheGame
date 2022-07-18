@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 8263638854090363871}
   - component: {fileID: 8263638854090363870}
   - component: {fileID: 5469981059178528012}
+  - component: {fileID: 7096031021457464581}
   - component: {fileID: 7770585857665752477}
   - component: {fileID: 1538271764270950872}
   - component: {fileID: 726526304575199942}
@@ -89,6 +90,19 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.22682732, y: 0.09405887}
   m_EdgeRadius: 0
+--- !u!114 &7096031021457464581
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8263638854090363868}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e2ec99a4d94f2fc42af9ea6019159088, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  spriteRenderer: {fileID: 8263638854299470656}
 --- !u!114 &7770585857665752477
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -296,6 +310,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 2
     m_TransformParent: {fileID: 8263638854090363871}
     m_Modifications:
     - target: {fileID: 2366363061461443362, guid: c08399674dab63349bf5a2c9c8ebbcaa, type: 3}
@@ -355,6 +370,7 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1538271764270950872}
     m_RemovedComponents: []
+    m_AddedGameObjects: []
   m_SourcePrefab: {fileID: 100100000, guid: c08399674dab63349bf5a2c9c8ebbcaa, type: 3}
 --- !u!4 &8820721096293976741 stripped
 Transform:

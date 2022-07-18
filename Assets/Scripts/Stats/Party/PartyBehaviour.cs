@@ -105,6 +105,21 @@ namespace Frankie.Stats
             }
         }
 
+        public void TogglePartyVisible(bool enable)
+        {
+            foreach (BaseStats member in members)
+            {
+                if (member.TryGetComponent(out CharacterSpriteLink characterSpriteLink))
+                {
+                    SpriteRenderer spriteRenderer = characterSpriteLink.GetSpriteRenderer();
+                    if (spriteRenderer != null)
+                    {
+                        spriteRenderer.enabled = enable;
+                    }
+                }
+            }
+        }
+
         protected void UpdatePartySpeed(float speed)
         {
             int characterIndex = 0;

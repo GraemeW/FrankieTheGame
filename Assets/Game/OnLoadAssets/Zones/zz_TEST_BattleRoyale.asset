@@ -44,7 +44,7 @@ MonoBehaviour:
   nodeWidth: 430
   nodeHeight: 150
   sceneReference:
-    sceneAsset: {fileID: 102900000, guid: bdbc1e0ce13a1f14ebbd17a6311fb5d4, type: 3}
+    sceneAsset: {fileID: 102900000, guid: 8b8eb4164910bda45acce09717d5064a, type: 3}
     sceneName: zz_TEST_BattleRoyale
   updateMap: 1
   zoneAudio: {fileID: 8300000, guid: 840503d4a3e71484a94da9a50830ba88, type: 3}

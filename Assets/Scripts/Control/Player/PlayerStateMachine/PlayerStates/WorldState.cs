@@ -18,6 +18,7 @@ namespace Frankie.Control.PlayerStates
 
         public void EnterCutScene(IPlayerStateContext playerStateContext)
         {
+            playerStateContext.TogglePlayerVisibility();
             playerStateContext.SetPlayerState(new CutSceneState());
         }
 

@@ -1,5 +1,33 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-7291631711825822645
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3268536af8903a64da82aa6872733d1d, type: 3}
+  m_Name: SceneToStreetApartment
+  m_EditorClassIdentifier: 
+  children: []
+  linkedZone: {fileID: 11400000, guid: e8f676a48128f694795863b89db2b92d, type: 2}
+  linkedZoneNode: {fileID: -8137509927413381033, guid: e8f676a48128f694795863b89db2b92d, type: 2}
+  rect:
+    serializedVersion: 2
+    x: 560
+    y: 219
+    width: 430
+    height: 150
+  zoneName: Subway
+  draggingRect:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 430
+    height: 45
 --- !u!114 &-4737156880441445969
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10,16 +38,45 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3268536af8903a64da82aa6872733d1d, type: 3}
-  m_Name: SubwayCar
+  m_Name: SubwayCorner
   m_EditorClassIdentifier: 
   children:
-  - SubwaySceneToOutdoor
+  - SceneToOutdoor
   linkedZone: {fileID: 0}
   linkedZoneNode: {fileID: 0}
   rect:
     serializedVersion: 2
-    x: 29.999985
-    y: 199
+    x: 1601
+    y: 32
+    width: 430
+    height: 150
+  zoneName: Subway
+  draggingRect:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 430
+    height: 45
+--- !u!114 &-3197550637124935898
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3268536af8903a64da82aa6872733d1d, type: 3}
+  m_Name: UpStairsApartment
+  m_EditorClassIdentifier: 
+  children:
+  - SceneToStreetApartment
+  linkedZone: {fileID: 0}
+  linkedZoneNode: {fileID: 0}
+  rect:
+    serializedVersion: 2
+    x: 36
+    y: 219
     width: 430
     height: 150
   zoneName: Subway
@@ -45,9 +102,9 @@ MonoBehaviour:
   nodeWidth: 430
   nodeHeight: 150
   sceneReference:
-    sceneAsset: {fileID: 102900000, guid: bdbc1e0ce13a1f14ebbd17a6311fb5d4, type: 3}
+    sceneAsset: {fileID: 102900000, guid: 1adce6d662c0b0b47abecc5d8e178aab, type: 3}
     sceneName: Subway
-  updateMap: 1
+  updateMap: 0
   zoneAudio: {fileID: 8300000, guid: 02a1d586795fd324280aca37a80a748c, type: 3}
   isZoneAudioLooping: 1
   zoneNodes:
@@ -55,6 +112,39 @@ MonoBehaviour:
   - {fileID: 4172045128073322719}
   - {fileID: -4737156880441445969}
   - {fileID: 7383670476032973907}
+  - {fileID: 2324849428199590013}
+  - {fileID: 5121720584565814803}
+  - {fileID: -3197550637124935898}
+  - {fileID: -7291631711825822645}
+--- !u!114 &2324849428199590013
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3268536af8903a64da82aa6872733d1d, type: 3}
+  m_Name: PlatformOffice
+  m_EditorClassIdentifier: 
+  children:
+  - PlatformApartment
+  linkedZone: {fileID: 0}
+  linkedZoneNode: {fileID: 0}
+  rect:
+    serializedVersion: 2
+    x: 1035
+    y: 29.000015
+    width: 430
+    height: 150
+  zoneName: Subway
+  draggingRect:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 430
+    height: 45
 --- !u!114 &4172045128073322719
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -65,7 +155,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3268536af8903a64da82aa6872733d1d, type: 3}
-  m_Name: SceneToStreet
+  m_Name: SceneToStreetOffice
   m_EditorClassIdentifier: 
   children: []
   linkedZone: {fileID: 11400000, guid: e8f676a48128f694795863b89db2b92d, type: 2}
@@ -74,6 +164,35 @@ MonoBehaviour:
     serializedVersion: 2
     x: 560
     y: 30
+    width: 430
+    height: 150
+  zoneName: Subway
+  draggingRect:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 430
+    height: 45
+--- !u!114 &5121720584565814803
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3268536af8903a64da82aa6872733d1d, type: 3}
+  m_Name: PlatformApartment
+  m_EditorClassIdentifier: 
+  children:
+  - PlatformOffice
+  linkedZone: {fileID: 0}
+  linkedZoneNode: {fileID: 0}
+  rect:
+    serializedVersion: 2
+    x: 1032
+    y: 218.00002
     width: 430
     height: 150
   zoneName: Subway
@@ -93,10 +212,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3268536af8903a64da82aa6872733d1d, type: 3}
-  m_Name: SubwayUpStairs
+  m_Name: UpStairsOffice
   m_EditorClassIdentifier: 
   children:
-  - SceneToStreet
+  - SceneToStreetOffice
   linkedZone: {fileID: 0}
   linkedZoneNode: {fileID: 0}
   rect:
@@ -122,15 +241,15 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3268536af8903a64da82aa6872733d1d, type: 3}
-  m_Name: SubwaySceneToOutdoor
+  m_Name: SceneToOutdoor
   m_EditorClassIdentifier: 
   children: []
   linkedZone: {fileID: 11400000, guid: 56f07633698545c4695b11c285ca5f37, type: 2}
   linkedZoneNode: {fileID: -546647865229579974, guid: 56f07633698545c4695b11c285ca5f37, type: 2}
   rect:
     serializedVersion: 2
-    x: 560
-    y: 199
+    x: 2078.9998
+    y: 139
     width: 430
     height: 150
   zoneName: Subway

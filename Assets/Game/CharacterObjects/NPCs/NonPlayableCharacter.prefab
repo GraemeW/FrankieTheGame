@@ -97,6 +97,7 @@ GameObject:
   - component: {fileID: 6761616658632847992}
   - component: {fileID: 2829251969425687448}
   - component: {fileID: 2770910390378371091}
+  - component: {fileID: 1473610476277215348}
   - component: {fileID: 965147417343429250}
   - component: {fileID: 4118810327594443569}
   - component: {fileID: 6853974573596150378}
@@ -213,6 +214,19 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 1
   m_Constraints: 4
+--- !u!114 &1473610476277215348
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6761616658632847994}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e2ec99a4d94f2fc42af9ea6019159088, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  spriteRenderer: {fileID: 6761616658462586549}
 --- !u!114 &965147417343429250
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -264,6 +278,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7bd0180a3f707c1489e04d0bfa6742c9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  willForceCombat: 0
   willDestroySelfOnDeath: 1
   messageCannotFight: '{0} is wounded and cannot fight.'
 --- !u!114 &6372006413732983059
@@ -283,7 +298,6 @@ MonoBehaviour:
     m_Bits: 8
   defaultCollisionsWhenAggravated: 1
   disableCollisionEventsWhenDead: 1
-  collisionsOverriddenToEnterCombat: 0
   collidedWithPlayer:
     m_PersistentCalls:
       m_Calls: []
