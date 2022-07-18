@@ -33,6 +33,11 @@ namespace Frankie.Control.Specialization
             npcMover = GetComponent<NPCMover>();
             animator = GetComponent<Animator>();
         }
+
+        private void OnEnable()
+        {
+            active = true;
+        }
         #endregion
 
         #region InterfaceMethods
@@ -126,6 +131,8 @@ namespace Frankie.Control.Specialization
             npcMover.arrivedAtFinalWaypoint -= HandleRideEnd;
             cameraController.RefreshDefaultCameras();
             playerStateMachine.EnterWorld();
+
+            active = false; // de-activate (cannot ride back on same train, need to leave/rejoin subway)
         }
         #endregion
     }
