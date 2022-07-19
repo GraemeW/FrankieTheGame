@@ -38,7 +38,7 @@ namespace Frankie.Combat
                     _ => 0f,
                 };
 
-                activeStatusEffect.Setup(statusEffectType, duration, tickPeriod, () => recipient.AdjustHP(modifiedHealthChangePerTick), persistAfterCombat);
+                activeStatusEffect.Setup(statusEffectType, duration, tickPeriod, () => recipient.AdjustHPQuietly(modifiedHealthChangePerTick), persistAfterCombat);
 
                 recipient.AnnounceStateUpdate(new StateAlteredData(StateAlteredType.StatusEffectApplied, statusEffectType));
             }
