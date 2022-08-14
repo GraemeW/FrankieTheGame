@@ -229,6 +229,37 @@ MonoBehaviour:
   - {fileID: -4912669020652922926}
   - {fileID: -8137509927413381033}
   - {fileID: -5411656796356045681}
+  - {fileID: 7420601607016574253}
+  - {fileID: 8010896298289075519}
+--- !u!114 &7420601607016574253
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3268536af8903a64da82aa6872733d1d, type: 3}
+  m_Name: ApartmentDoor
+  m_EditorClassIdentifier: 
+  children:
+  - SceneToApartment
+  linkedZone: {fileID: 0}
+  linkedZoneNode: {fileID: 0}
+  rect:
+    serializedVersion: 2
+    x: 41.99997
+    y: 747
+    width: 430
+    height: 150
+  zoneName: OfficeExterior
+  draggingRect:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 430
+    height: 45
 --- !u!114 &7904139768458627740
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -249,6 +280,34 @@ MonoBehaviour:
     serializedVersion: 2
     x: 30
     y: 30
+    width: 430
+    height: 150
+  zoneName: OfficeExterior
+  draggingRect:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 430
+    height: 45
+--- !u!114 &8010896298289075519
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3268536af8903a64da82aa6872733d1d, type: 3}
+  m_Name: SceneToApartment
+  m_EditorClassIdentifier: 
+  children: []
+  linkedZone: {fileID: 11400000, guid: c2792a31fdd8a5249bea668b45752dd0, type: 2}
+  linkedZoneNode: {fileID: -5837764251287271127, guid: c2792a31fdd8a5249bea668b45752dd0, type: 2}
+  rect:
+    serializedVersion: 2
+    x: 537
+    y: 748
     width: 430
     height: 150
   zoneName: OfficeExterior

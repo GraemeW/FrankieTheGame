@@ -45,6 +45,7 @@ namespace Frankie.ZoneManagement
 
             UnityEngine.Debug.Log($"Attempting to load zone from scene reference {sceneReference}");
             BuildCacheIfEmpty();
+
             if (sceneReference == null || !sceneReferenceCache.ContainsKey(sceneReference)) return null;
             return sceneReferenceCache[sceneReference];
         }
@@ -62,6 +63,7 @@ namespace Frankie.ZoneManagement
         {
             zoneLookupCache = new Dictionary<string, Zone>();
             sceneReferenceCache = new Dictionary<string, Zone>();
+            UnityEngine.Debug.Log("Building zone cache");
             addressablesLoadHandle = Addressables.LoadAssetsAsync(typeof(Zone).Name, (Zone zone) =>
             {
                 if (zoneLookupCache.ContainsKey(zone.name) || sceneReferenceCache.ContainsKey(zone.GetSceneReference().SceneName))
@@ -71,7 +73,7 @@ namespace Frankie.ZoneManagement
 
                 zoneLookupCache[zone.name] = zone;
                 sceneReferenceCache[zone.GetSceneReference().SceneName] = zone;
-                // Debug: UnityEngine.Debug.Log($"Found zone:  {zone.name}");
+                //UnityEngine.Debug.Log($"Found zone:  {zone.name}");
             }
             );
             addressablesLoadHandle.WaitForCompletion();

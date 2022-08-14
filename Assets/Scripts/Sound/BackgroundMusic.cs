@@ -48,7 +48,7 @@ namespace Frankie.Sound
             ResetPlayerReference(null);
 
             Zone currentZone = SceneLoader.GetCurrentZone();
-            if (currentZone == null) { return; }
+            if (currentZone == null) { UnityEngine.Debug.Log("Zone load failed");  return; }
             ConfigureNewWorldAudio(currentZone.GetZoneAudio(), currentZone.IsZoneAudioLooping(), true);
         }
 
