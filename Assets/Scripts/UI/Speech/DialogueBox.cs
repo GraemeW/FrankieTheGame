@@ -5,6 +5,7 @@ using UnityEngine.UI;
 using Frankie.Control;
 using System;
 using Frankie.Utils.UI;
+using Frankie.Utils;
 
 namespace Frankie.Speech.UI
 {
@@ -18,7 +19,8 @@ namespace Frankie.Speech.UI
         [Header("Parameters")]
         [SerializeField] float delayBetweenCharacters = 0.05f; // Seconds
         [SerializeField] bool reconfigureLayoutOnOptionSize = true;
-        [SerializeField][Tooltip("Greater than this value will change options to vertical configuration")] int choiceNumberThresholdToReconfigureVertical = 2;
+        [SerializeField][Tooltip("[entry] Greater than this value will change options to vertical configuration")] int choiceNumberThresholdToReconfigureVertical = 2;
+        [SerializeField][Tooltip("[char] Greater than this value will change options to vertical configuration")] int choiceLengthThresholdToReconfigureVertical = 10;
 
         // Option Field Configurables
         RectOffset optionPadding = default;
@@ -304,20 +306,22 @@ namespace Frankie.Speech.UI
         private void SetChoiceList()
         {
             int choiceIndex = 0;
+            int maxChoiceLength = 0;
             foreach (DialogueNode choiceNode in dialogueController.GetChoices())
             {
                 AddChoice(choiceNode, choiceIndex);
+                maxChoiceLength = Mathf.Max(maxChoiceLength, choiceNode.GetText().Length);
                 choiceIndex++;
             }
 
-            ConfigureChoiceLayout(choiceIndex);
+            ConfigureChoiceLayout(choiceIndex, maxChoiceLength);
         }
 
-        protected void ConfigureChoiceLayout(int choiceCount)
+        protected void ConfigureChoiceLayout(int choiceCount, int maxChoiceLength)
         {
             if (!reconfigureLayoutOnOptionSize || choiceCount == 0) { return; }
 
-            if (choiceCount > choiceNumberThresholdToReconfigureVertical)
+            if (choiceCount > choiceNumberThresholdToReconfigureVertical || maxChoiceLength > choiceLengthThresholdToReconfigureVertical)
             {
                 if (optionParent.TryGetComponent(out HorizontalLayoutGroup horizontalLayoutGroup))
                 {

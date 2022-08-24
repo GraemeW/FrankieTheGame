@@ -16,7 +16,7 @@ namespace Frankie.Speech
         [SerializeField] GameObject dialogueBoxPrefab = null;
         [SerializeField] GameObject dialogueOptionBox = null;
         [SerializeField] GameObject dialogueOptionBoxVertical = null;
-        [SerializeField] int thresholdToForceVerticalLayout = 7;
+        [SerializeField] int thresholdToForceVerticalLayout = 3;
 
         // State
         Dialogue currentDialogue = null;
@@ -165,6 +165,7 @@ namespace Frankie.Speech
             if (currentDialogue.skipRootNode) { Next(false); }
 
             Instantiate(dialogueBoxPrefab, worldCanvas.transform);
+
             dialogueUpdated?.Invoke(DialogueUpdateType.DialogueInitiated, null);
             triggerUIUpdates?.Invoke();
         }

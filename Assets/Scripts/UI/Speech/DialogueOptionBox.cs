@@ -15,7 +15,13 @@ namespace Frankie.Speech.UI
             if (dialogueController == null) { return; }
             List<ChoiceActionPair> choiceActionPairs = dialogueController.GetSimpleChoices();
             OverrideChoiceOptions(choiceActionPairs);
-            ConfigureChoiceLayout(choiceActionPairs.Count);
+
+            int maxChoiceLength = 0;
+            foreach (ChoiceActionPair choiceActionPair in choiceActionPairs)
+            {
+                maxChoiceLength = Mathf.Max(maxChoiceLength, choiceActionPair.choice.Length);
+            }
+            ConfigureChoiceLayout(choiceActionPairs.Count, maxChoiceLength);
         }
 
         // Pass through implementations
