@@ -2862,7 +2862,7 @@ GameObject:
   - component: {fileID: 774304656}
   - component: {fileID: 774304657}
   m_Layer: 2
-  m_Name: OfficeRooms
+  m_Name: ApartmentRooms
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3111,7 +3111,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -523566412701523979, guid: dc5a145739044fc4996c8bda39fb6981, type: 3}
       propertyPath: disableOnStart
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2392142034158434873, guid: dc5a145739044fc4996c8bda39fb6981, type: 3}
       propertyPath: m_Name
@@ -4471,7 +4471,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -523566412701523979, guid: dc5a145739044fc4996c8bda39fb6981, type: 3}
       propertyPath: disableOnStart
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2392142034158434873, guid: dc5a145739044fc4996c8bda39fb6981, type: 3}
       propertyPath: m_Name
@@ -8386,7 +8386,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -523566412701523979, guid: dc5a145739044fc4996c8bda39fb6981, type: 3}
       propertyPath: disableOnStart
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2392142034158434873, guid: dc5a145739044fc4996c8bda39fb6981, type: 3}
       propertyPath: m_Name
@@ -10292,7 +10292,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -523566412701523979, guid: dc5a145739044fc4996c8bda39fb6981, type: 3}
       propertyPath: disableOnStart
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2392142034158434873, guid: dc5a145739044fc4996c8bda39fb6981, type: 3}
       propertyPath: m_Name
