@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 749246050096737039}
   - component: {fileID: 749246050096737034}
   m_Layer: 2
-  m_Name: RugRedSquare
+  m_Name: RugBlueOval
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -73,7 +73,7 @@ SpriteRenderer:
   m_SortingLayerID: 1098151181
   m_SortingLayer: 2
   m_SortingOrder: -1
-  m_Sprite: {fileID: 21300000, guid: 95f1ff82e5b5df848b043923ba082581, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 62f5a1d7205277840a0f6f9c2be22347, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
