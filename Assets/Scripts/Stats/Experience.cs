@@ -111,6 +111,7 @@ namespace Frankie.Stats
 
         public SaveState CaptureState()
         {
+            if (currentPoints == null) { Awake(); }
             SaveState saveState = new SaveState(GetLoadPriority(), currentPoints.value);
             return saveState;
         }

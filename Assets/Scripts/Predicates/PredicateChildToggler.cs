@@ -22,7 +22,7 @@ namespace Frankie.Core
         }
 
         // Public Methods
-        private void ToggleChildrenOnCondition()
+        public void ToggleChildrenOnCondition() // Callable via Unity Events
         {
             GameObject playerObject = GameObject.FindGameObjectWithTag("Player");
             if (playerObject.TryGetComponent(out PlayerStateMachine playerStateMachine))

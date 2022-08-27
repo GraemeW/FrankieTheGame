@@ -16,7 +16,6 @@ namespace Frankie.Speech
         [SerializeField] GameObject dialogueBoxPrefab = null;
         [SerializeField] GameObject dialogueOptionBox = null;
         [SerializeField] GameObject dialogueOptionBoxVertical = null;
-        [SerializeField] int thresholdToForceVerticalLayout = 3;
 
         // State
         Dialogue currentDialogue = null;
@@ -43,6 +42,12 @@ namespace Frankie.Speech
         public event Action<DialogueNode> highlightedNodeChanged;
         public event Action triggerUIUpdates;
         public event Action<DialogueUpdateType, DialogueNode> dialogueUpdated;
+
+        // Static
+        static int choiceNumberThresholdToReconfigureVertical = 3;
+        static int choiceLengthThresholdToReconfigureVertical = 10;
+        public static int GetChoiceNumberThresholdToReconfigureVertical() => choiceNumberThresholdToReconfigureVertical;
+        public static int GetChoiceLengthThresholdToReconfigureVertical() => choiceLengthThresholdToReconfigureVertical;
 
         // Interaction
         #region UnityMethods
@@ -188,9 +193,11 @@ namespace Frankie.Speech
 
         private GameObject ReckonDialogueOptionBox(List<ChoiceActionPair> choiceActionPairs)
         {
+            if (choiceActionPairs.Count >= DialogueController.GetChoiceNumberThresholdToReconfigureVertical()) { return dialogueOptionBoxVertical; }
+
             foreach (ChoiceActionPair choiceActionPair in choiceActionPairs)
             {
-                if (choiceActionPair.choice.Length >= thresholdToForceVerticalLayout)
+                if (choiceActionPair.choice.Length >= DialogueController.GetChoiceLengthThresholdToReconfigureVertical())
                 {
                     return dialogueOptionBoxVertical;
                 }

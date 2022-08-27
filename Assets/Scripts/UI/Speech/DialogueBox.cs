@@ -19,8 +19,6 @@ namespace Frankie.Speech.UI
         [Header("Parameters")]
         [SerializeField] float delayBetweenCharacters = 0.05f; // Seconds
         [SerializeField] bool reconfigureLayoutOnOptionSize = true;
-        [SerializeField][Tooltip("[entry] Greater than this value will change options to vertical configuration")] int choiceNumberThresholdToReconfigureVertical = 2;
-        [SerializeField][Tooltip("[char] Greater than this value will change options to vertical configuration")] int choiceLengthThresholdToReconfigureVertical = 10;
 
         // Option Field Configurables
         RectOffset optionPadding = default;
@@ -321,7 +319,7 @@ namespace Frankie.Speech.UI
         {
             if (!reconfigureLayoutOnOptionSize || choiceCount == 0) { return; }
 
-            if (choiceCount > choiceNumberThresholdToReconfigureVertical || maxChoiceLength > choiceLengthThresholdToReconfigureVertical)
+            if (choiceCount > DialogueController.GetChoiceNumberThresholdToReconfigureVertical() || maxChoiceLength > DialogueController.GetChoiceLengthThresholdToReconfigureVertical())
             {
                 if (optionParent.TryGetComponent(out HorizontalLayoutGroup horizontalLayoutGroup))
                 {

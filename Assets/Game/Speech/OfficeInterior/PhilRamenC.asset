@@ -348,7 +348,8 @@ MonoBehaviour:
   speakerType: 1
   characterProperties: {fileID: 11400000, guid: e97120b87e74eee4f9d9d8659f0bddf5, type: 2}
   speakerName: Phil Ramen
-  text: Go now.  Your first curio, I sense that it's near.  Seek out your barber.
+  text: Go now.  Your first curio, I sense that it's near.  Somewhere beneath this
+    very city.  Seek out your barber.
   children:
   - 979da53c-71d4-4622-a561-9520986c56f4
   rect:
