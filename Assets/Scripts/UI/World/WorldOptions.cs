@@ -26,6 +26,7 @@ namespace Frankie.Menu.UI
 
         // State
         List<CharacterSlide> characterSlides = new List<CharacterSlide>();
+        List<BattleEntity> partyBattleEntities = new List<BattleEntity>();
         WalletUI walletUI = null;
         GameObject childOption = null;
 
@@ -48,18 +49,30 @@ namespace Frankie.Menu.UI
         private void Start()
         {
             TakeControl(playerController, this, null); // input handled via player controller, immediate override
+
+            SetupBattleEntities();
             SetupCharacterSlides();
             SetupWallet();
             HandleClientEntry();
         }
 
+        private void SetupBattleEntities()
+        {
+            partyBattleEntities.Clear();
+            foreach (CombatParticipant combatParticipant in partyCombatConduit.GetPartyCombatParticipants())
+            {
+                partyBattleEntities.Add(new BattleEntity(combatParticipant));
+                UnityEngine.Debug.Log("Dude");
+            }
+        }
+
         private void SetupCharacterSlides()
         {
             characterSlides.Clear();
-            foreach (CombatParticipant combatParticipant in partyCombatConduit.GetPartyCombatParticipants())
+            foreach (BattleEntity battleEntity in partyBattleEntities)
             {
                 CharacterSlide characterSlide = Instantiate(characterSlidePrefab, characterPanelTransform);
-                characterSlide.SetCombatParticipant(combatParticipant);
+                characterSlide.SetBattleEntity(battleEntity);
                 characterSlides.Add(characterSlide);
             }
         }

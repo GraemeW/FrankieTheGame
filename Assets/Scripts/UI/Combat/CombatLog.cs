@@ -114,7 +114,7 @@ namespace Frankie.Combat.UI
             if (battleActionData == null || (battleSequence.battleActionSuper == null)) { return; }
             if (battleActionData.GetSender() == null || battleActionData.targetCount == 0) { return; }
 
-            string recipientNames = string.Join(", ", battleActionData.GetTargets().Select(x => x.GetCombatName()));
+            string recipientNames = string.Join(", ", battleActionData.GetTargets().Select(x => x.combatParticipant.GetCombatName()));
             string combatText = battleActionData.GetSender().GetCombatName()
                 + " used " + battleSequence.battleActionSuper.GetName()
                 + " on " + recipientNames + ".";

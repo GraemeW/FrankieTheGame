@@ -53,7 +53,7 @@ namespace Frankie.Combat.UI
         [SerializeField] string messageBattleCompleteRan = "You ran away.";
 
         // State
-        Dictionary<CombatParticipant, EnemySlide> enemySlideLookup = new Dictionary<CombatParticipant, EnemySlide>();
+        Dictionary<BattleEntity, EnemySlide> enemySlideLookup = new Dictionary<BattleEntity, EnemySlide>();
         BattleState lastBattleState = BattleState.Inactive;
         Queue<Action> queuedUISequences = new Queue<Action>();
         List<CharacterLevelUpSheetPair> queuedLevelUps = new List<CharacterLevelUpSheetPair>();
@@ -155,7 +155,7 @@ namespace Frankie.Combat.UI
             return dialogueBox;
         }
 
-        public EnemySlide GetEnemySlide(CombatParticipant combatParticipant)
+        public EnemySlide GetEnemySlide(BattleEntity combatParticipant)
         {
             if (!enemySlideLookup.ContainsKey(combatParticipant)) { return null; }
 
@@ -190,49 +190,49 @@ namespace Frankie.Combat.UI
             }
         }
 
-        private void SetupPlayerCharacters(List<CombatParticipant> characters, List<CombatParticipant> assistCharacters)
+        private void SetupPlayerCharacters(List<BattleEntity> characters, List<BattleEntity> assistCharacters)
         {
             bool firstCharacterToggle = false;
-            foreach (CombatParticipant character in characters)
+            foreach (BattleEntity character in characters)
             {
                 if (assistCharacters.Contains(character))
                 {
                     // No panel + limited feedback & no level-ups for assist characters
-                    combatLog.AddCombatListener(character);
+                    combatLog.AddCombatListener(character.combatParticipant);
                     continue;
                 }
 
                 CharacterSlide characterSlide = Instantiate(characterSlidePrefab, playerPanelParent);
-                characterSlide.SetCombatParticipant(character);
-                combatLog.AddCombatListener(character);
+                characterSlide.SetBattleEntity(character);
+                combatLog.AddCombatListener(character.combatParticipant);
 
                 if (!firstCharacterToggle)
                 {
                     characterSlide.GetComponent<Button>().Select();
-                    battleController.SetSelectedCharacter(character);
+                    battleController.SetSelectedCharacter(character.combatParticipant);
                     firstCharacterToggle = true;
                 }
-                if (character.TryGetComponent(out BaseStats baseStats)) { baseStats.onLevelUp += HandleLevelUp; }
+                if (character.combatParticipant.TryGetComponent(out BaseStats baseStats)) { baseStats.onLevelUp += HandleLevelUp; }
             }
         }
 
-        private void SetupEnemies(IEnumerable enemies)
+        private void SetupEnemies(IEnumerable<BattleEntity> enemies)
         {
-            foreach (CombatParticipant enemy in enemies)
+            foreach (BattleEntity enemy in enemies)
             {
                 Transform parentSpawn = (frontRowParent.childCount - 1 > backRowParent.childCount) ? backRowParent : frontRowParent;
                 EnemySlide enemySlide = Instantiate(enemySlidePrefab, parentSpawn);
-                enemySlide.SetCombatParticipant(enemy);
-                combatLog.AddCombatListener(enemy);
+                enemySlide.SetBattleEntity(enemy);
+                combatLog.AddCombatListener(enemy.combatParticipant);
 
                 enemySlideLookup[enemy] = enemySlide;
             }
         }
 
-        private void SetupBackgroundFill(List<CombatParticipant> enemies)
+        private void SetupBackgroundFill(List<BattleEntity> enemies)
         {
             int enemyIndex = UnityEngine.Random.Range(0, enemies.Count);
-            MovingBackgroundProperties movingBackgroundProperties = enemies[enemyIndex].GetMovingBackgroundProperties();
+            MovingBackgroundProperties movingBackgroundProperties = enemies[enemyIndex].combatParticipant.GetMovingBackgroundProperties();
             if (movingBackgroundProperties.tileSpriteImage == null || movingBackgroundProperties.shaderMaterial == null)
             {
                 backgroundFill.sprite = defaultMovingBackgroundProperties.tileSpriteImage;
@@ -275,10 +275,10 @@ namespace Frankie.Combat.UI
             queuedLevelUps.Add(characterLevelUpSheetPair);
         }
 
-        private void SetupEntryMessage(List<CombatParticipant> enemies)
+        private void SetupEntryMessage(List<BattleEntity> enemies)
         {
-            CombatParticipant enemy = enemies.FirstOrDefault();
-            string entryMessage = (enemies.Count > 1) ? string.Format(messageEncounterMultiple, enemy.GetCombatName()) : string.Format(messageEncounterSingle, enemy.GetCombatName());
+            BattleEntity enemy = enemies.FirstOrDefault();
+            string entryMessage = (enemies.Count > 1) ? string.Format(messageEncounterMultiple, enemy.combatParticipant.GetCombatName()) : string.Format(messageEncounterSingle, enemy.combatParticipant.GetCombatName());
 
             DialogueBox dialogueBox = Instantiate(dialogueBoxPrefab, infoChooseParent);
             dialogueBox.AddText(entryMessage);

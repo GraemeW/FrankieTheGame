@@ -60,12 +60,12 @@ namespace Frankie.Combat.UI
             base.OnDisable();
         }
 
-        public override void SetCombatParticipant(CombatParticipant combatParticipant)
+        public override void SetBattleEntity(BattleEntity battleEntity)
         {
-            base.SetCombatParticipant(combatParticipant);
-            UpdateName(this.combatParticipant.GetCombatName());
-            UpdateHP(this.combatParticipant.GetHP());
-            UpdateAP(this.combatParticipant.GetAP());
+            base.SetBattleEntity(battleEntity);
+            UpdateName(this.battleEntity.combatParticipant.GetCombatName());
+            UpdateHP(this.battleEntity.combatParticipant.GetHP());
+            UpdateAP(this.battleEntity.combatParticipant.GetAP());
             UpdateColor();
         }
 
@@ -75,8 +75,8 @@ namespace Frankie.Combat.UI
             
             if (combatParticipantType == CombatParticipantType.Friendly)
             {
-                if (combatParticipant.IsDead()) { slideState = SlideState.Dead; }
-                else if (combatParticipant.IsInCooldown()) { slideState = SlideState.Cooldown; }
+                if (battleEntity.combatParticipant.IsDead()) { slideState = SlideState.Dead; }
+                else if (battleEntity.combatParticipant.IsInCooldown()) { slideState = SlideState.Cooldown; }
                 else if (enable) { slideState = SlideState.Selected; }
                 else { slideState = SlideState.Ready; }
             }
@@ -105,7 +105,7 @@ namespace Frankie.Combat.UI
                 case StateAlteredType.IncreaseHP:
                 case StateAlteredType.DecreaseHP:
                 case StateAlteredType.AdjustHPNonSpecific:
-                    UpdateHP(this.combatParticipant.GetHP());
+                    UpdateHP(this.battleEntity.combatParticipant.GetHP());
                     if (stateAlteredData.stateAlteredType == StateAlteredType.IncreaseHP)
                     {
                         float points = stateAlteredData.points;
@@ -127,7 +127,7 @@ namespace Frankie.Combat.UI
                 case StateAlteredType.AdjustAPNonSpecific:
                     // Adjust character slide AP on non-specific (i.e. even those announced 'quietly')
                     // Sound effects otherwise update on increase/decrease
-                    UpdateAP(this.combatParticipant.GetAP()); 
+                    UpdateAP(this.battleEntity.combatParticipant.GetAP()); 
                     damageTextSpawner.AddToQueue(new DamageTextData(DamageTextType.APChanged, stateAlteredData.points));
                     break;
                 case StateAlteredType.HitMiss:
@@ -155,7 +155,7 @@ namespace Frankie.Combat.UI
             if (!base.HandleClickInBattle())
             {
                 // Only callable if battle action not set via battle slide (one click behaviour)
-                if (battleController.SetSelectedCharacter(GetCombatParticipant())) { return true; }
+                if (battleController.SetSelectedCharacter(GetBattleEntity().combatParticipant)) { return true; }
             }
             return false;
         }
@@ -163,7 +163,7 @@ namespace Frankie.Combat.UI
         // Private functions
         private void UpdateColor()
         {
-            if (combatParticipant.IsDead() && // Bypass irrelevant slide states on character death
+            if (battleEntity.combatParticipant.IsDead() && // Bypass irrelevant slide states on character death
                 (slideState == SlideState.Ready || slideState == SlideState.Selected || slideState == SlideState.Cooldown))
             {
                 selectHighlight.color = deadCharacterFrameColor;

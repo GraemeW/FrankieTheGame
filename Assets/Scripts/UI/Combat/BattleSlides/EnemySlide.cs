@@ -12,10 +12,10 @@ namespace Frankie.Combat.UI
         [SerializeField] Image image = null;
         [SerializeField] float deathFadeTime = 1.0f;
 
-        public override void SetCombatParticipant(CombatParticipant combatParticipant)
+        public override void SetBattleEntity(BattleEntity battleEntity)
         {
-            base.SetCombatParticipant(combatParticipant);
-            UpdateImage(this.combatParticipant.GetCombatSprite());
+            base.SetBattleEntity(battleEntity);
+            UpdateImage(this.battleEntity.combatParticipant.GetCombatSprite());
         }
 
         protected override void ParseState(CombatParticipant combatParticipant, StateAlteredData stateAlteredData)

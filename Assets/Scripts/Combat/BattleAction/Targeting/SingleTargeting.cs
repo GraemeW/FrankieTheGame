@@ -9,10 +9,10 @@ namespace Frankie.Combat
     public class SingleTargeting : TargetingStrategy
     {
         public override void GetTargets(bool? traverseForward, BattleActionData battleActionData, 
-            IEnumerable<CombatParticipant> activeCharacters, IEnumerable<CombatParticipant> activeEnemies)
+            IEnumerable<BattleEntity> activeCharacters, IEnumerable<BattleEntity> activeEnemies)
         {
             // Collapse target list to single target -- pull first if available
-            CombatParticipant passTarget = null;
+            BattleEntity passTarget = null;
             if (battleActionData.targetCount > 0)
             {
                 passTarget = battleActionData.GetFirst();
@@ -44,15 +44,15 @@ namespace Frankie.Combat
                 battleActionData.ReverseTargets();
             }
 
-            foreach (CombatParticipant combatParticipant in battleActionData.GetTargets())
+            foreach (BattleEntity battleEntity in battleActionData.GetTargets())
             {
                 if (returnOnNextIteration) // B) select target, break
                 {
-                    passTarget = combatParticipant;
+                    passTarget = battleEntity;
                     break;
                 }
 
-                returnOnNextIteration = (combatParticipant == passTarget); // A) Match to current index -- return on next target
+                returnOnNextIteration = (battleEntity == passTarget); // A) Match to current index -- return on next target
             }
             if (passTarget != null) { battleActionData.SetTargets(passTarget); return; } // C) set target, return
 
@@ -69,11 +69,11 @@ namespace Frankie.Combat
             battleActionData.SetTargets(battleActionData.GetFirst());
         }
 
-        protected override List<CombatParticipant> GetCombatParticipantsByTypeTemplate(CombatParticipantType combatParticipantType, 
-            IEnumerable<CombatParticipant> activeCharacters, IEnumerable<CombatParticipant> activeEnemies)
+        protected override List<BattleEntity> GetBattleEntitiesByTypeTemplate(CombatParticipantType combatParticipantType, 
+            IEnumerable<BattleEntity> activeCharacters, IEnumerable<BattleEntity> activeEnemies)
         {
             // Not evaluated -> TargetingStrategyExtension
-            return new List<CombatParticipant>();
+            return new List<BattleEntity>();
         }
     }
 }

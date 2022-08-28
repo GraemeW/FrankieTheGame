@@ -11,23 +11,23 @@ namespace Frankie.Combat
         [SerializeField] float apChange = 0f;
         [Tooltip("Additional variability on base AP change")] [SerializeField] [Min(0f)] float jitter = 0f;
 
-        public override void StartEffect(CombatParticipant sender, IEnumerable<CombatParticipant> recipients, DamageType damageType, Action<EffectStrategy> finished)
+        public override void StartEffect(CombatParticipant sender, IEnumerable<BattleEntity> recipients, DamageType damageType, Action<EffectStrategy> finished)
         {
             if (recipients == null) { return; }
 
             float sign = Mathf.Sign(apChange);
-            foreach (CombatParticipant recipient in recipients)
+            foreach (BattleEntity recipient in recipients)
             {
                 float modifiedAPChange = apChange + sign * UnityEngine.Random.Range(0f, jitter);
                 modifiedAPChange += damageType switch
                 {
                     DamageType.None => 0f,
-                    DamageType.Physical => GetPhysicalModifier(sign, sender, recipient),
-                    DamageType.Magical => GetMagicalModifier(sign, sender, recipient),
+                    DamageType.Physical => GetPhysicalModifier(sign, sender, recipient.combatParticipant),
+                    DamageType.Magical => GetMagicalModifier(sign, sender, recipient.combatParticipant),
                     _ => 0f,
                 };
 
-                recipient.AdjustAP(modifiedAPChange);
+                recipient.combatParticipant.AdjustAP(modifiedAPChange);
             }
 
             finished?.Invoke(this);

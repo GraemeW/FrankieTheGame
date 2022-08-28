@@ -17,20 +17,20 @@ namespace Frankie.Combat
         [SerializeField] float value = 1f;
         [SerializeField] bool persistAfterCombat = false;
 
-        public override void StartEffect(CombatParticipant sender, IEnumerable<CombatParticipant> recipients, DamageType damageType, Action<EffectStrategy> finished)
+        public override void StartEffect(CombatParticipant sender, IEnumerable<BattleEntity> recipients, DamageType damageType, Action<EffectStrategy> finished)
         {
             if (BaseStats.GetNonModifyingStats().Contains(stat)) { return; }
             if (recipients == null) { return; }
 
-            foreach (CombatParticipant combatParticipant in recipients)
+            foreach (BattleEntity battleEntity in recipients)
             {
                 float chanceRoll = UnityEngine.Random.Range(0f, 1f);
                 if (fractionProbabilityToApply < chanceRoll) { return; }
 
-                PersistentStatModifierStatus activeStatusEffect = combatParticipant.gameObject.AddComponent(typeof(PersistentStatModifierStatus)) as PersistentStatModifierStatus;
+                PersistentStatModifierStatus activeStatusEffect = battleEntity.combatParticipant.gameObject.AddComponent(typeof(PersistentStatModifierStatus)) as PersistentStatModifierStatus;
                 activeStatusEffect.Setup(statusEffectType, duration, stat, value, persistAfterCombat);
 
-                combatParticipant.AnnounceStateUpdate(new StateAlteredData(StateAlteredType.StatusEffectApplied, statusEffectType));
+                battleEntity.combatParticipant.AnnounceStateUpdate(new StateAlteredData(StateAlteredType.StatusEffectApplied, statusEffectType));
             }
 
             finished?.Invoke(this);

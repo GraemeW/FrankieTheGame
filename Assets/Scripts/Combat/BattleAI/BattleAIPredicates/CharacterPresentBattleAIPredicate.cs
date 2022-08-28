@@ -14,13 +14,13 @@ namespace Frankie.Combat
         {
             if (characterProperties == null) { return false; }
 
-            foreach (CombatParticipant combatParticipant in battleAI.GetLocalAllies())
+            foreach (BattleEntity combatParticipant in battleAI.GetLocalAllies())
             {
-                if (combatParticipant.GetCharacterProperties() == characterProperties) { return true; }
+                if (combatParticipant.combatParticipant.GetCharacterProperties() == characterProperties) { return true; }
             }
-            foreach (CombatParticipant combatParticipant in battleAI.GetLocalFoes())
+            foreach (BattleEntity combatParticipant in battleAI.GetLocalFoes())
             {
-                if (combatParticipant.GetCharacterProperties() == characterProperties) { return true; }
+                if (combatParticipant.combatParticipant.GetCharacterProperties() == characterProperties) { return true; }
             }
 
             return false;

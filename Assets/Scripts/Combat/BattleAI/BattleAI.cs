@@ -17,8 +17,8 @@ namespace Frankie.Combat
 
         // State
         List<Skill> skillsToExclude = new List<Skill>();
-        List<CombatParticipant> localAllies = new List<CombatParticipant>();
-        List<CombatParticipant> localFoes = new List<CombatParticipant>();
+        List<BattleEntity> localAllies = new List<BattleEntity>();
+        List<BattleEntity> localFoes = new List<BattleEntity>();
 
 
         // Cached References
@@ -51,8 +51,8 @@ namespace Frankie.Combat
         #endregion
 
         #region PublicMethods
-        public List<CombatParticipant> GetLocalAllies() => localAllies;
-        public List<CombatParticipant> GetLocalFoes() => localFoes;
+        public List<BattleEntity> GetLocalAllies() => localAllies;
+        public List<BattleEntity> GetLocalFoes() => localFoes;
         #endregion
 
         #region PrivateMethods
@@ -77,8 +77,8 @@ namespace Frankie.Combat
                 bool isFriendly = combatParticipant.GetFriendly();
                 // Define local lists of characters -- required to copy since shuffling (if pertinent) done in place
                 // Note:  Ally/foe refers to that mob's disposition specifically, i.e. as a function of if it's friendly to characters
-                localAllies = isFriendly ? new List<CombatParticipant>(battleController.GetCharacters()) : new List<CombatParticipant>(battleController.GetEnemies());
-                localFoes = isFriendly ? new List<CombatParticipant>(battleController.GetEnemies()) : new List<CombatParticipant>(battleController.GetCharacters()); 
+                localAllies = isFriendly ? new List<BattleEntity>(battleController.GetCharacters()) : new List<BattleEntity>(battleController.GetEnemies());
+                localFoes = isFriendly ? new List<BattleEntity>(battleController.GetEnemies()) : new List<BattleEntity>(battleController.GetCharacters()); 
 
                 Skill skill = GetSkill(out BattleAIPriority battleAIPriority, localAllies, localFoes);
                 if (skill == null) { return; }
@@ -111,7 +111,7 @@ namespace Frankie.Combat
             }
         }
 
-        private Skill GetSkill(out BattleAIPriority chosenBattleAIPriority, List<CombatParticipant> localAllies, List<CombatParticipant> localFoes)
+        private Skill GetSkill(out BattleAIPriority chosenBattleAIPriority, List<BattleEntity> localAllies, List<BattleEntity> localFoes)
         {
             Skill skill = null;
             if (battleAIPriorities != null)

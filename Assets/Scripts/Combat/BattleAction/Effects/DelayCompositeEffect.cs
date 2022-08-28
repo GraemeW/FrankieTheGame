@@ -11,14 +11,14 @@ namespace Frankie.Combat
         [SerializeField] float delay = 0f;
         [SerializeField] EffectStrategy[] effectStrategies = null;
 
-        public override void StartEffect(CombatParticipant sender, IEnumerable<CombatParticipant> recipients, DamageType damageType, Action<EffectStrategy> finished)
+        public override void StartEffect(CombatParticipant sender, IEnumerable<BattleEntity> recipients, DamageType damageType, Action<EffectStrategy> finished)
         {
             if (effectStrategies == null) { return; }
 
             StartCoroutine(sender, DelayedEffect(sender, recipients, damageType, finished));
         }
 
-        private IEnumerator DelayedEffect(CombatParticipant sender, IEnumerable<CombatParticipant> recipients, DamageType damageType, Action<EffectStrategy> finished)
+        private IEnumerator DelayedEffect(CombatParticipant sender, IEnumerable<BattleEntity> recipients, DamageType damageType, Action<EffectStrategy> finished)
         {
             yield return new WaitForSeconds(delay);
             foreach (EffectStrategy effectStrategy in effectStrategies)

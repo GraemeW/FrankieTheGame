@@ -12,16 +12,16 @@ namespace Frankie.Combat
         [SerializeField] [Min(0)] int numberOfEnemiesToHit = 2;
 
         public override void GetTargets(bool? traverseForward, BattleActionData battleActionData, 
-            IEnumerable<CombatParticipant> activeCharacters, IEnumerable<CombatParticipant> activeEnemies)
+            IEnumerable<BattleEntity> activeCharacters, IEnumerable<BattleEntity> activeEnemies)
         {
             // Collapse target list to expected number to hit
-            List<CombatParticipant> passTargets = new List<CombatParticipant>();
+            List<BattleEntity> passTargets = new List<BattleEntity>();
             if (battleActionData.targetCount > 0)
             {
                 int modifiedPassedLength = 0;
-                foreach (CombatParticipant combatParticipant in battleActionData.GetTargets())
+                foreach (BattleEntity battleEntity in battleActionData.GetTargets())
                 {
-                    passTargets.Add(combatParticipant);
+                    passTargets.Add(battleEntity);
                     modifiedPassedLength++;
 
                     if (!overrideToHitEverything && modifiedPassedLength >= numberOfEnemiesToHit) { break; }
@@ -39,14 +39,14 @@ namespace Frankie.Combat
             }
 
             // Finally iterate through to find next targets
-            CombatParticipant oldIndexTarget = passTargets?.First();
+            BattleEntity oldIndexTarget = passTargets?.First();
             if (traverseForward == false)
             {
                 battleActionData.ReverseTargets();
                 oldIndexTarget = passTargets?.Last();
             }
 
-            List<CombatParticipant> shiftedTargets; // Define locally since iterating over the list in battleActionData
+            List<BattleEntity> shiftedTargets; // Define locally since iterating over the list in battleActionData
             if (traverseForward == null)
             {
                 // Special handling null travers forward -- pass back set as it was received (modifying up if entities filtered out)
@@ -59,48 +59,48 @@ namespace Frankie.Combat
             battleActionData.SetTargets(shiftedTargets);
         }
 
-        private IEnumerable<CombatParticipant> GetShiftedTargets(BattleActionData battleActionData, CombatParticipant oldIndexTarget, bool doNotShift = false)
+        private IEnumerable<BattleEntity> GetShiftedTargets(BattleActionData battleActionData, BattleEntity oldIndexTarget, bool doNotShift = false)
         {
             bool indexFound = false;
             int targetLength = 0;
-            List<CombatParticipant> cycledTargets = new List<CombatParticipant>();
-            foreach (CombatParticipant combatParticipant in battleActionData.GetTargets())
+            List<BattleEntity> cycledTargets = new List<BattleEntity>();
+            foreach (BattleEntity battleEntity in battleActionData.GetTargets())
             {
                 if (!indexFound)
                 {
-                    if (combatParticipant == oldIndexTarget)
+                    if (battleEntity == oldIndexTarget)
                     { 
                         indexFound = true;
                         if (doNotShift)
                         {
-                            yield return combatParticipant;
+                            yield return battleEntity;
                             continue;
                         }
                     }
-                    cycledTargets.Add(combatParticipant);
+                    cycledTargets.Add(battleEntity);
                 }
                 else
                 {
-                    yield return combatParticipant;
+                    yield return battleEntity;
                     targetLength++;
                 }
 
                 if (targetLength >= numberOfEnemiesToHit) { yield break; }
             }
 
-            foreach (CombatParticipant combatParticipant in cycledTargets)
+            foreach (BattleEntity battleEntity in cycledTargets)
             {
-                yield return combatParticipant;
+                yield return battleEntity;
                 targetLength++;
 
                 if (targetLength >= numberOfEnemiesToHit) { yield break; }
             }
         }
 
-        protected override List<CombatParticipant> GetCombatParticipantsByTypeTemplate(CombatParticipantType combatParticipantType, IEnumerable<CombatParticipant> activeCharacters, IEnumerable<CombatParticipant> activeEnemies)
+        protected override List<BattleEntity> GetBattleEntitiesByTypeTemplate(CombatParticipantType combatParticipantType, IEnumerable<BattleEntity> activeCharacters, IEnumerable<BattleEntity> activeEnemies)
         {
             // Not evaluated -> TargetingStrategyExtension
-            return new List<CombatParticipant>();
+            return new List<BattleEntity>();
         }
     }
 }

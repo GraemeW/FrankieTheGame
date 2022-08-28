@@ -50,11 +50,12 @@ namespace Frankie.Inventory.UI
         // Cached References
         BattleController battleController = null;
         PartyCombatConduit partyCombatConduit = null;
+        List<BattleEntity> partyBattleEntities = null;
         List<CharacterSlide> characterSlides = null;
 
         // Events
         public event Action<Enum> uiBoxStateChanged;
-        public event Action<CombatParticipantType, IEnumerable<CombatParticipant>> targetCharacterChanged;
+        public event Action<CombatParticipantType, IEnumerable<BattleEntity>> targetCharacterChanged;
 
         protected override void OnEnable()
         {
@@ -75,12 +76,19 @@ namespace Frankie.Inventory.UI
         {
             controller = standardPlayerInputCaller;
             this.partyCombatConduit = partyCombatConduit;
+
             if (standardPlayerInputCaller.GetType() == typeof(BattleController))
             {
                 battleController = standardPlayerInputCaller as BattleController;
             }
             else
             {
+                partyBattleEntities = new List<BattleEntity>();
+                foreach (CombatParticipant combatParticipant in partyCombatConduit.GetPartyCombatParticipants())
+                {
+                    partyBattleEntities.Add(new BattleEntity(combatParticipant));
+                }
+
                 this.characterSlides = characterSlides;
                 SubscribeCharacterSlides(true);
             }
@@ -130,7 +138,7 @@ namespace Frankie.Inventory.UI
                     if (enable)
                     {
                         targetCharacterChanged += characterSlide.HighlightSlide;
-                        characterSlide.AddButtonClickEvent(delegate { UseItemOnTarget(characterSlide.GetCombatParticipant()); });
+                        characterSlide.AddButtonClickEvent(delegate { UseItemOnTarget(characterSlide.GetBattleEntity()); });
                     }
                     else
                     {
@@ -239,7 +247,7 @@ namespace Frankie.Inventory.UI
                 InventoryItem inventoryItem = selectedKnapsack.GetItemInSlot(selectedItemSlot);
                 string senderName = selectedCharacter.GetCombatName();
                 string itemName = inventoryItem.GetDisplayName();
-                string targetCharacterNames = string.Join(", ", battleActionData.GetTargets().Select(x => x.GetCombatName()).ToList());
+                string targetCharacterNames = string.Join(", ", battleActionData.GetTargets().Select(x => x.combatParticipant.GetCombatName()).ToList());
 
                 if (selectedKnapsack.UseItemInSlot(selectedItemSlot, battleActionData.GetTargets()))
                 {
@@ -521,7 +529,8 @@ namespace Frankie.Inventory.UI
             if (actionItem == null) { return false; }
 
             if (battleActionData == null) { battleActionData = new BattleActionData(selectedCharacter); }
-            actionItem.GetTargets(traverseForward, battleActionData, partyCombatConduit.GetPartyCombatParticipants(), null);
+
+            actionItem.GetTargets(traverseForward, battleActionData, partyBattleEntities, null);
             if (battleActionData.targetCount == 0)
             {
                 return false;
@@ -531,14 +540,14 @@ namespace Frankie.Inventory.UI
             return true;
         }
 
-        public void UseItemOnTarget(CombatParticipant combatParticipant)
+        public void UseItemOnTarget(BattleEntity battleEntity)
         {
             if (inventoryBoxState != InventoryBoxState.inCharacterTargeting) { return; }
 
-            battleActionData.SetTargets(combatParticipant);
+            battleActionData.SetTargets(battleEntity);
             if (!GetNextTarget(null)) { SetInventoryBoxState(InventoryBoxState.inKnapsack); return; } // Verify passed combatParticipant is valid target
 
-            targetCharacterChanged?.Invoke(CombatParticipantType.Foe, new[] { combatParticipant });
+            targetCharacterChanged?.Invoke(CombatParticipantType.Foe, new[] { battleEntity });
             Choose(null);
         }
 

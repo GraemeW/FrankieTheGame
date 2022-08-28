@@ -263,14 +263,14 @@ namespace Frankie.Inventory
 
         // Complex & Combination Functions
         // Include one or multiple calls to base functions
-        public bool UseItemInSlot(int slot, IEnumerable<CombatParticipant> combatParticipants)
+        public bool UseItemInSlot(int slot, IEnumerable<BattleEntity> battleEntities)
         {
             InventoryItem inventoryItem = GetItemInSlot(slot);
             ActionItem actionItem = inventoryItem as ActionItem;
             if (actionItem == null) { return false; }
 
             BattleActionData battleActionData = new BattleActionData(character);
-            battleActionData.SetTargets(combatParticipants);
+            battleActionData.SetTargets(battleEntities);
             actionItem.Use(battleActionData, null);
                 // Note:  item removal handled via ActionItem
             return true;

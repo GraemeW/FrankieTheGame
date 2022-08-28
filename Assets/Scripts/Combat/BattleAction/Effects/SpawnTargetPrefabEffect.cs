@@ -14,7 +14,7 @@ namespace Frankie.Combat
         [SerializeField] bool isGlobalEffect = false;
         [SerializeField] [Tooltip("Set to min to never destroy")] [Min(0f)] float destroyAfterSeconds = 2.0f;
 
-        public override void StartEffect(CombatParticipant sender, IEnumerable<CombatParticipant> recipients, DamageType damageType, Action<EffectStrategy> finished)
+        public override void StartEffect(CombatParticipant sender, IEnumerable<BattleEntity> recipients, DamageType damageType, Action<EffectStrategy> finished)
         {
             BattleCanvas battleCanvas = GameObject.FindGameObjectWithTag("BattleCanvas")?.GetComponent<BattleCanvas>();
             if (battleCanvas == null) { return; }
@@ -33,11 +33,11 @@ namespace Frankie.Combat
             finished?.Invoke(this);
         }
 
-        private IEnumerable<Vector3> GetPositions(IEnumerable<CombatParticipant> recipients, BattleCanvas battleCanvas)
+        private IEnumerable<Vector3> GetPositions(IEnumerable<BattleEntity> recipients, BattleCanvas battleCanvas)
         {
             if (!isGlobalEffect)
             {
-                foreach (CombatParticipant recipient in recipients)
+                foreach (BattleEntity recipient in recipients)
                 {
                     EnemySlide enemySlide = battleCanvas.GetEnemySlide(recipient);
                     if (enemySlide != null)

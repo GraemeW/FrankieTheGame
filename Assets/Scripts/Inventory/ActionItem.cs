@@ -36,7 +36,7 @@ namespace Frankie.Inventory
         }
 
         public void GetTargets(bool? traverseForward, BattleActionData battleActionData, 
-            IEnumerable<CombatParticipant> activeCharacters, IEnumerable<CombatParticipant> activeEnemies)
+            IEnumerable<BattleEntity> activeCharacters, IEnumerable<BattleEntity> activeEnemies)
         {
             if (battleAction == null) { return; }
 

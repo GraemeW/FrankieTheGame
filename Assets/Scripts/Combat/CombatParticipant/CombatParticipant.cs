@@ -20,6 +20,7 @@ namespace Frankie.Combat
         [SerializeField] MovingBackgroundProperties movingBackgroundProperties;
 
         [Header("Combat Properties")]
+        [SerializeField] BattleEntityType battleEntityType = BattleEntityType.Standard;
         [SerializeField] bool usesAP = true;
         [SerializeField] float battleStartCooldown = 1.0f;
         [SerializeField] float damageTimeSpan = 4.0f;
@@ -107,6 +108,7 @@ namespace Frankie.Combat
         public MovingBackgroundProperties GetMovingBackgroundProperties() => movingBackgroundProperties;
         public AudioClip GetAudioClip() => combatAudio;
         public bool GetFriendly() => friendly;
+        public BattleEntityType GetBattleEntityType() => battleEntityType;
         public bool HasLoot() => lootDispenser == null ? false : lootDispenser.HasLootReward();
         #endregion
 

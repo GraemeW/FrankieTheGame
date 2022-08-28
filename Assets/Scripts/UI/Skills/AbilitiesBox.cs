@@ -24,6 +24,7 @@ namespace Frankie.Combat.UI
         [Tooltip("Include {0} for user, {1} for item, {2} for target")] [SerializeField] string messageNotEnoughAP = "Not enough AP.";
 
         // State -- UI
+        List<BattleEntity> partyBattleEntities = null;
         AbilitiesBoxState abilitiesBoxState = AbilitiesBoxState.inCharacterSelection;
         List<UIChoiceOption> playerSelectChoiceOptions = new List<UIChoiceOption>();
 
@@ -35,7 +36,7 @@ namespace Frankie.Combat.UI
         List<CharacterSlide> characterSlides = null;
 
         // Events
-        public event Action<CombatParticipantType, IEnumerable<CombatParticipant>> targetCharacterChanged;
+        public event Action<CombatParticipantType, IEnumerable<BattleEntity>> targetCharacterChanged;
 
         #region UnityMethods
         // Revert to standard UIBox implementations
@@ -51,6 +52,7 @@ namespace Frankie.Combat.UI
             this.partyCombatConduit = partyCombatConduit;
 
             int choiceIndex = 0;
+            partyBattleEntities = new List<BattleEntity>();
             foreach (CombatParticipant combatParticipant in this.partyCombatConduit.GetPartyCombatParticipants())
             {
                 GameObject uiChoiceOptionObject = Instantiate(optionPrefab, optionParent);
@@ -61,9 +63,10 @@ namespace Frankie.Combat.UI
                 uiChoiceOption.AddOnHighlightListener(delegate { SoftChooseCharacter(combatParticipant); });
 
                 playerSelectChoiceOptions.Add(uiChoiceOption);
+                partyBattleEntities.Add(new BattleEntity(combatParticipant));
                 choiceIndex++;
             }
-            Setup(CombatParticipantType.Friendly, this.partyCombatConduit.GetPartyCombatParticipants());
+            Setup(CombatParticipantType.Friendly, partyBattleEntities);
 
             this.characterSlides = characterSlides;
             SubscribeCharacterSlides(true);
@@ -81,7 +84,7 @@ namespace Frankie.Combat.UI
                     if (enable)
                     {
                         targetCharacterChanged += characterSlide.HighlightSlide;
-                        characterSlide.AddButtonClickEvent(delegate { UseSkillOnTarget(characterSlide.GetCombatParticipant()); });
+                        characterSlide.AddButtonClickEvent(delegate { UseSkillOnTarget(characterSlide.GetBattleEntity()); });
                     }
                     else
                     {
@@ -138,7 +141,7 @@ namespace Frankie.Combat.UI
         {
             if (combatParticipant == null)
             {
-                Setup(CombatParticipantType.Friendly, partyCombatConduit.GetPartyCombatParticipants()); // Failsafe, re-setup box if character lost
+                Setup(CombatParticipantType.Friendly, partyBattleEntities); // Failsafe, re-setup box if character lost
                 SetAbilitiesBoxState(AbilitiesBoxState.inCharacterSelection);
                 return;
             }
@@ -175,7 +178,7 @@ namespace Frankie.Combat.UI
 
             string senderName = currentCombatParticipant.GetCombatName();
             string skillName = activeSkill.GetName();
-            string targetCharacterNames = string.Join(", ", battleActionData.GetTargets().Select(x => x.GetCombatName()).ToList());
+            string targetCharacterNames = string.Join(", ", battleActionData.GetTargets().Select(x => x.combatParticipant.GetCombatName()).ToList());
 
             bool skillUsedSuccessfully = activeSkill.Use(battleActionData, null); // Actual skill execution
 
@@ -251,7 +254,7 @@ namespace Frankie.Combat.UI
             Skill activeSkill = skillHandler?.GetActiveSkill();
             if (activeSkill == null) { return false; }
 
-            activeSkill.GetTargets(traverseForward, battleActionData, partyCombatConduit.GetPartyCombatParticipants(), null);
+            activeSkill.GetTargets(traverseForward, battleActionData, partyBattleEntities, null);
             if (battleActionData.targetCount == 0)
             {
                 return false;
@@ -261,10 +264,10 @@ namespace Frankie.Combat.UI
             return true;
         }
 
-        public void UseSkillOnTarget(CombatParticipant combatParticipant)
+        public void UseSkillOnTarget(BattleEntity battleEntity)
         {
             // Don't care about state for mouse clicks, fail gracefully otherwise
-            if (combatParticipant == null) { return; }
+            if (battleEntity == null) { return; }
 
             // Sanity against current character selection
             if (currentCombatParticipant == null) { ChooseCharacter(null); }
@@ -273,7 +276,7 @@ namespace Frankie.Combat.UI
             // Force a new battle action data
             battleActionData = new BattleActionData(currentCombatParticipant);
 
-            battleActionData.SetTargets(combatParticipant);
+            battleActionData.SetTargets(battleEntity);
             if (!GetNextTarget(null)) { SetAbilitiesBoxState(AbilitiesBoxState.inAbilitiesSelection); return; } // Verify valid target by calling with null
             SetAbilitiesBoxState(AbilitiesBoxState.inCharacterTargeting);
 

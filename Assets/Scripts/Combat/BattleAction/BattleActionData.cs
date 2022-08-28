@@ -8,7 +8,7 @@ namespace Frankie.Combat
     public class BattleActionData
     {
         CombatParticipant sender;
-        List<CombatParticipant> targets = new List<CombatParticipant>();
+        List<BattleEntity> targets = new List<BattleEntity>();
         public int targetCount;
 
         public BattleActionData(CombatParticipant sender)
@@ -21,22 +21,22 @@ namespace Frankie.Combat
             return sender;
         }
 
-        public void SetTargets(CombatParticipant target)
+        public void SetTargets(BattleEntity target)
         {
             targets.Clear();
             targets.Add(target);
             targetCount = 1;
         }
 
-        public void SetTargets(IEnumerable<CombatParticipant> targets)
+        public void SetTargets(IEnumerable<BattleEntity> targets)
         {
             if (targets == null) { this.targets.Clear(); targetCount = 0; return; }
 
-            List<CombatParticipant> targetList = targets.ToList();
+            List<BattleEntity> targetList = targets.ToList();
             SetTargets(targetList);
         }
 
-        public void SetTargets(List<CombatParticipant> targets)
+        public void SetTargets(List<BattleEntity> targets)
         {
             if (targets == null) { this.targets.Clear(); targetCount = 0; return; }
 
@@ -55,17 +55,26 @@ namespace Frankie.Combat
             targets.Reverse();
         }
 
-        public IEnumerable<CombatParticipant> GetTargets()
+        public bool HasTarget(CombatParticipant combatParticipant)
+        {
+            foreach (BattleEntity target in targets)
+            {
+                if (target.combatParticipant == combatParticipant) { return true; }
+            }
+            return false;
+        }
+
+        public IEnumerable<BattleEntity> GetTargets()
         {
             return targets;
         }
 
-        public CombatParticipant GetFirst()
+        public BattleEntity GetFirst()
         {
             return targets.FirstOrDefault();
         }
 
-        public CombatParticipant GetLast()
+        public BattleEntity GetLast()
         {
             return targets.LastOrDefault();
         }

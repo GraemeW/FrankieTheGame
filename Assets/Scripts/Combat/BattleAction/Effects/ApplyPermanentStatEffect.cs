@@ -13,17 +13,17 @@ namespace Frankie.Combat
         [SerializeField] Stat stat = Stat.HP;
         [SerializeField] float value = 1f;
 
-        public override void StartEffect(CombatParticipant sender, IEnumerable<CombatParticipant> recipients, DamageType damageType, Action<EffectStrategy> finished)
+        public override void StartEffect(CombatParticipant sender, IEnumerable<BattleEntity> recipients, DamageType damageType, Action<EffectStrategy> finished)
         {
             if (BaseStats.GetNonModifyingStats().Contains(stat)) { return; }
             if (recipients == null) { return; }
 
-            foreach (CombatParticipant combatParticipant in recipients)
+            foreach (BattleEntity battleEntity in recipients)
             {
-                if (!combatParticipant.TryGetComponent(out BaseStats baseStats)) { continue; }
+                if (!battleEntity.combatParticipant.TryGetComponent(out BaseStats baseStats)) { continue; }
                 baseStats.AdjustStat(stat, value);
 
-                combatParticipant.AnnounceStateUpdate(new StateAlteredData(StateAlteredType.StatusEffectApplied, StatusType.None));
+                battleEntity.combatParticipant.AnnounceStateUpdate(new StateAlteredData(StateAlteredType.StatusEffectApplied, StatusType.None));
             }
 
             finished?.Invoke(this);

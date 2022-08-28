@@ -15,11 +15,11 @@ namespace Frankie.Combat
         {
             bool criteriaMet = false;
             bool partyCriteria = true;
-            List<CombatParticipant> checkParticipants = checkAllies ? battleAI.GetLocalAllies() : battleAI.GetLocalFoes();
+            List<BattleEntity> checkParticipants = checkAllies ? battleAI.GetLocalAllies() : battleAI.GetLocalFoes();
 
-            foreach (CombatParticipant combatParticipant in checkParticipants)
+            foreach (BattleEntity battleEntity in checkParticipants)
             {
-                if (combatParticipant.GetHP() <= minHP)
+                if (battleEntity.combatParticipant.GetHP() <= minHP)
                 {
                     if (!requireAllPartyMembers) { criteriaMet = true; break; }
                 }

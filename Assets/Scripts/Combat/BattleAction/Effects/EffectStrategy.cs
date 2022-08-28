@@ -8,7 +8,7 @@ namespace Frankie.Combat
 {
     public abstract class EffectStrategy : ScriptableObject
     {
-        public abstract void StartEffect(CombatParticipant sender, IEnumerable<CombatParticipant> recipients, DamageType damageType, Action<EffectStrategy> finished);
+        public abstract void StartEffect(CombatParticipant sender, IEnumerable<BattleEntity> recipients, DamageType damageType, Action<EffectStrategy> finished);
 
         public static void StartCoroutine(CombatParticipant sender, IEnumerator coroutine)
         {

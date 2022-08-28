@@ -25,7 +25,7 @@ namespace Frankie.Combat.UI
         [SerializeField] [Tooltip("in seconds")] float halfDimmingTime = 0.05f;
 
         // State
-        protected CombatParticipant combatParticipant = null;
+        protected BattleEntity battleEntity = null;
         Coroutine canvasDimming = null;
         float currentShakeMagnitude = 0f;
         float currentShakeTime = Mathf.Infinity;
@@ -47,9 +47,9 @@ namespace Frankie.Combat.UI
 
         protected virtual void OnEnable()
         {
-            if (combatParticipant != null)
+            if (battleEntity != null)
             {
-                combatParticipant.stateAltered += ParseState;
+                battleEntity.combatParticipant.stateAltered += ParseState;
             }
             if (battleController != null)
             {
@@ -65,9 +65,9 @@ namespace Frankie.Combat.UI
             if (canvasDimming != null) { StopCoroutine(canvasDimming); }
             canvasDimming = null;
 
-            if (combatParticipant != null)
+            if (battleEntity != null)
             {
-                combatParticipant.stateAltered -= ParseState;
+                battleEntity.combatParticipant.stateAltered -= ParseState;
             }
             if (battleController != null)
             {
@@ -90,12 +90,12 @@ namespace Frankie.Combat.UI
         #endregion
 
         #region PublicSettersGetters
-        public virtual void SetCombatParticipant(CombatParticipant combatParticipant)
+        public virtual void SetBattleEntity(BattleEntity battleEntity)
         {
-            if (this.combatParticipant != null) { this.combatParticipant.stateAltered -= ParseState; }
+            if (this.battleEntity != null) { this.battleEntity.combatParticipant.stateAltered -= ParseState; }
 
-            this.combatParticipant = combatParticipant;
-            this.combatParticipant.stateAltered += ParseState;
+            this.battleEntity = battleEntity;
+            this.battleEntity.combatParticipant.stateAltered += ParseState;
         }
 
         public virtual void AddButtonClickEvent(UnityAction unityAction)
@@ -108,21 +108,21 @@ namespace Frankie.Combat.UI
             button.onClick.RemoveAllListeners();
         }
 
-        public CombatParticipant GetCombatParticipant()
+        public BattleEntity GetBattleEntity()
         {
-            return combatParticipant;
+            return battleEntity;
         }
         #endregion
 
         #region PublicMethodsOther
-        public void HighlightSlide(CombatParticipantType combatParticipantType, IEnumerable<CombatParticipant> combatParticipants)
+        public void HighlightSlide(CombatParticipantType combatParticipantType, IEnumerable<BattleEntity> battleEntities)
         {
             SetSelected(combatParticipantType, false);
-            if (combatParticipants == null) { return; }
+            if (battleEntities == null) { return; }
 
-            foreach (CombatParticipant combatParticipant in combatParticipants)
+            foreach (BattleEntity battleEntity in battleEntities)
             {
-                if (combatParticipant == this.combatParticipant)
+                if (battleEntity.combatParticipant == this.battleEntity.combatParticipant)
                 {
                     SetSelected(combatParticipantType, true);
                 }
@@ -161,7 +161,7 @@ namespace Frankie.Combat.UI
         {
             if (battleController == null || !battleController.HasActiveBattleAction()) { return false; }
 
-            battleController.AddToBattleQueue(new List<CombatParticipant> { combatParticipant });
+            battleController.AddToBattleQueue(new List<BattleEntity> { battleEntity });
             return true;
         }
 

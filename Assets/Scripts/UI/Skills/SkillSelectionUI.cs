@@ -78,7 +78,7 @@ namespace Frankie.Combat.UI
         #endregion
 
         #region PrivateMethods
-        protected void Setup(CombatParticipantType combatParticipantType, IEnumerable<CombatParticipant> combatParticipants)
+        protected void Setup(CombatParticipantType combatParticipantType, IEnumerable<BattleEntity> battleEntities)
         {
             if (combatParticipantType != CombatParticipantType.Friendly) { return; }
             if (battleController != null)
@@ -87,9 +87,9 @@ namespace Frankie.Combat.UI
                 if (battleController.GetActiveBattleAction() != null && battleController.GetActiveBattleAction().IsItem()) { return; } 
             }
 
-            if (combatParticipants == null) { ResetUI(); return; }
+            if (battleEntities == null) { ResetUI(); return; }
 
-            CombatParticipant combatParticipant = combatParticipants.First(); // Expectation is single entry, handling edge case
+            CombatParticipant combatParticipant = battleEntities.First().combatParticipant; // Expectation is single entry, handling edge case
             currentCombatParticipant = combatParticipant;
 
             if (currentCombatParticipant == null) { ResetUI(); return; }

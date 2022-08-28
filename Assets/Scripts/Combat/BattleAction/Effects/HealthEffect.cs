@@ -16,14 +16,14 @@ namespace Frankie.Combat
         [SerializeField] bool canCrit = true;
         [SerializeField][Min(1f)] float critMultiplier = 2f;
 
-        public override void StartEffect(CombatParticipant sender, IEnumerable<CombatParticipant> recipients, DamageType damageType, Action<EffectStrategy> finished)
+        public override void StartEffect(CombatParticipant sender, IEnumerable<BattleEntity> recipients, DamageType damageType, Action<EffectStrategy> finished)
         {
             if (recipients == null) { return; }
 
             float sign = Mathf.Sign(healthChange);
-            foreach (CombatParticipant recipient in recipients)
+            foreach (BattleEntity recipient in recipients)
             {
-                if (!DoesAttackHit(canMiss, sender, recipient)) { continue; }
+                if (!DoesAttackHit(canMiss, sender, recipient.combatParticipant)) { continue; }
 
                 float modifiedHealthChange = healthChange + sign * UnityEngine.Random.Range(0f, jitter);
                 if (applyDamageTypeModifiers)
@@ -31,15 +31,15 @@ namespace Frankie.Combat
                     modifiedHealthChange += damageType switch
                     {
                         DamageType.None => 0f,
-                        DamageType.Physical => GetPhysicalModifier(sign, sender, recipient),
-                        DamageType.Magical => GetMagicalModifier(sign, sender, recipient),
+                        DamageType.Physical => GetPhysicalModifier(sign, sender, recipient.combatParticipant),
+                        DamageType.Magical => GetMagicalModifier(sign, sender, recipient.combatParticipant),
                         _ => 0f,
                     };
                 }
 
-                modifiedHealthChange *= GetCritModifier(canCrit, critMultiplier, sender, recipient);
+                modifiedHealthChange *= GetCritModifier(canCrit, critMultiplier, sender, recipient.combatParticipant);
 
-                recipient.AdjustHP(modifiedHealthChange);
+                recipient.combatParticipant.AdjustHP(modifiedHealthChange);
             }
 
             finished?.Invoke(this);

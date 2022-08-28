@@ -203,13 +203,13 @@ namespace Frankie.Sound
         {
             if (battleController == null) { return null; }
 
-            List<CombatParticipant> combatParticipants = battleController.GetEnemies();
+            List<BattleEntity> battleEntities = battleController.GetEnemies();
             List<AudioClip> audioClipOptions = new List<AudioClip>();
-            foreach (CombatParticipant combatParticipant in combatParticipants)
+            foreach (BattleEntity battleEntity in battleEntities)
             {
-                if (combatParticipant.GetAudioClip() != null)
+                if (battleEntity.combatParticipant.GetAudioClip() != null)
                 {
-                    audioClipOptions.Add(combatParticipant.GetAudioClip());
+                    audioClipOptions.Add(battleEntity.combatParticipant.GetAudioClip());
                 }
             }
             if (audioClipOptions.Count == 0) { return null; }

@@ -77,7 +77,7 @@ namespace Frankie.Combat
         }
 
         public void GetTargets(bool? traverseForward, BattleActionData battleActionData,
-            IEnumerable<CombatParticipant> activeCharacters, IEnumerable<CombatParticipant> activeEnemies)
+            IEnumerable<BattleEntity> activeCharacters, IEnumerable<BattleEntity> activeEnemies)
         {
             battleAction?.GetTargets(traverseForward, battleActionData, activeCharacters, activeEnemies);
         }

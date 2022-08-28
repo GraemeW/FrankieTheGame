@@ -10,13 +10,13 @@ namespace Frankie.Combat
     {
         [SerializeField] float cooldown = 8f;
 
-        public override void StartEffect(CombatParticipant sender, IEnumerable<CombatParticipant> recipients, DamageType damageType, Action<EffectStrategy> finished)
+        public override void StartEffect(CombatParticipant sender, IEnumerable<BattleEntity> recipients, DamageType damageType, Action<EffectStrategy> finished)
         {
             if (recipients == null) { return; }
 
-            foreach (CombatParticipant recipient in recipients)
+            foreach (BattleEntity recipient in recipients)
             {
-                recipient.SetCooldown(cooldown);
+                recipient.combatParticipant.SetCooldown(cooldown);
             }
 
             finished?.Invoke(this);

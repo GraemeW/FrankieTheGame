@@ -6,13 +6,13 @@ namespace Frankie.Combat
 {
     public static class TargetingStrategyExtension
     {
-        public static IEnumerable<CombatParticipant> GetCombatParticipantsByType(this TargetingStrategy targetingStrategy, CombatParticipantType combatParticipantType, IEnumerable<CombatParticipant> activeCharacters, IEnumerable<CombatParticipant> activeEnemies)
+        public static IEnumerable<BattleEntity> GetCombatParticipantsByType(this TargetingStrategy targetingStrategy, CombatParticipantType combatParticipantType, IEnumerable<BattleEntity> activeCharacters, IEnumerable<BattleEntity> activeEnemies)
         {
             if (combatParticipantType == CombatParticipantType.Either || combatParticipantType == CombatParticipantType.Foe)
             {
                 if (activeEnemies != null)
                 {
-                    foreach (CombatParticipant enemy in activeEnemies)
+                    foreach (BattleEntity enemy in activeEnemies)
                     {
                         yield return enemy;
                     }
@@ -22,7 +22,7 @@ namespace Frankie.Combat
             {
                 if (activeCharacters != null)
                 {
-                    foreach (CombatParticipant character in activeCharacters)
+                    foreach (BattleEntity character in activeCharacters)
                     {
                         yield return character;
                     }

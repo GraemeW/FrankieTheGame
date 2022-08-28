@@ -6,6 +6,6 @@ namespace Frankie.Combat
 {
     public abstract class FilterStrategy : ScriptableObject
     {
-        public abstract IEnumerable<CombatParticipant> Filter(IEnumerable<CombatParticipant> objectsToFilter);
+        public abstract IEnumerable<BattleEntity> Filter(IEnumerable<BattleEntity> objectsToFilter);
     }
 }
