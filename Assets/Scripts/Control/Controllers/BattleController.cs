@@ -21,8 +21,8 @@ namespace Frankie.Combat
         [SerializeField] float battleAdvantageCooldown = 0.25f;
         [Header("Positional Properties")]
         [SerializeField] int minRowCount = 2;
-        [SerializeField] int maxEnemiesPerRow = 9;
-        [SerializeField] int minEnemiesBeforeRowSplit = 3;
+        [SerializeField] int maxEnemiesPerRow = 7;
+        [SerializeField] int minEnemiesBeforeRowSplit = 2;
 
         // State
         BattleState state = default;

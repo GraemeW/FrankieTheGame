@@ -201,6 +201,8 @@ namespace Frankie.Control
         public void EnterCombat(List<CombatParticipant> enemies, TransitionType transitionType)
         {
             if (enemies == null || enemies.Count == 0 || !IsBattleTransition(transitionType)) { return; }
+            //Useful Debug:
+            //UnityEngine.Debug.Log($"Request to enter combat by {enemies.FirstOrDefault().GetCombatName()}");
 
             actionUnderConsideration = new PlayerStateTypeActionPair(PlayerStateType.inBattle, () => EnterCombat(enemies, transitionType));
             enemiesUnderConsideration.Clear();

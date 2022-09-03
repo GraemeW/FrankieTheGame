@@ -220,7 +220,7 @@ namespace Frankie.Combat.UI
         {
             foreach (BattleEntity enemy in enemies)
             {
-                Transform parentSpawn = (frontRowParent.childCount - 1 > backRowParent.childCount) ? backRowParent : frontRowParent;
+                Transform parentSpawn = (enemy.row == 0) ? frontRowParent : backRowParent;
                 EnemySlide enemySlide = Instantiate(enemySlidePrefab, parentSpawn);
                 enemySlide.SetBattleEntity(enemy);
                 combatLog.AddCombatListener(enemy.combatParticipant);

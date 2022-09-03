@@ -45,9 +45,10 @@ namespace Frankie.Combat.Editor
         [OnOpenAsset(1)]
         public static bool OnOpenAsset(int instanceID, int line)
         {
-            SkillTree zone = EditorUtility.InstanceIDToObject(instanceID) as SkillTree;
-            if (zone != null)
+            SkillTree skillTree = EditorUtility.InstanceIDToObject(instanceID) as SkillTree;
+            if (skillTree != null)
             {
+                skillTree.CreateRootSkillBranchIfMissing();
                 ShowEditorWindow();
                 return true;
             }

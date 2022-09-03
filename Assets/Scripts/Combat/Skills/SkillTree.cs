@@ -22,7 +22,9 @@ namespace Frankie.Combat
         private void Awake()
         {
 #if UNITY_EDITOR
-            CreateRootSkillBranchIfMissing();
+            // CreateRootSkillBranchIfMissing();
+            // Note:  Making in SkillTreeEditor due to some intricacies in how Unity calls Awake on ScriptableObjects in Editor vs. the serialization callback
+            // For (unknown) reasons, the root node gets made and then killed by the time serialization occurs
 #endif
         }
 
@@ -123,7 +125,7 @@ namespace Frankie.Combat
             return childBranch;
         }
 
-        private SkillBranch CreateRootSkillBranchIfMissing()
+        public SkillBranch CreateRootSkillBranchIfMissing()
         {
             if (skillBranches.Count == 0)
             {
