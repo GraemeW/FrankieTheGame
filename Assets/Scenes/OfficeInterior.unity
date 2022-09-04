@@ -645,7 +645,7 @@ PrefabInstance:
       value: 81082296-d69e-4a17-b223-46b0bd649a49
       objectReference: {fileID: 0}
     - target: {fileID: -523566412701523979, guid: dc5a145739044fc4996c8bda39fb6981, type: 3}
-      propertyPath: disableOnStart
+      propertyPath: disableOnAwake
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2392142034158434873, guid: dc5a145739044fc4996c8bda39fb6981, type: 3}
@@ -5690,7 +5690,7 @@ PrefabInstance:
       value: 935bfe21-a366-4b7d-a6c0-81295a0ec9a6
       objectReference: {fileID: 0}
     - target: {fileID: -523566412701523979, guid: dc5a145739044fc4996c8bda39fb6981, type: 3}
-      propertyPath: disableOnStart
+      propertyPath: disableOnAwake
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2392142034158434873, guid: dc5a145739044fc4996c8bda39fb6981, type: 3}
@@ -8278,7 +8278,7 @@ PrefabInstance:
       value: 58e5329f-974f-4ec3-b75b-8e7fd2110de2
       objectReference: {fileID: 0}
     - target: {fileID: -523566412701523979, guid: dc5a145739044fc4996c8bda39fb6981, type: 3}
-      propertyPath: disableOnStart
+      propertyPath: disableOnAwake
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2392142034158434873, guid: dc5a145739044fc4996c8bda39fb6981, type: 3}
@@ -11772,7 +11772,7 @@ PrefabInstance:
   serializedVersion: 2
   m_Modification:
     serializedVersion: 2
-    m_TransformParent: {fileID: 1712803804}
+    m_TransformParent: {fileID: 725625919}
     m_Modifications:
     - target: {fileID: 1288609124729262166, guid: 3ea47d49370c98e4e8dda14fd66b947b, type: 3}
       propertyPath: uniqueIdentifier
@@ -11832,19 +11832,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6564381309038757640, guid: 3ea47d49370c98e4e8dda14fd66b947b, type: 3}
       propertyPath: m_Name
-      value: BathroomB
+      value: BathroomCheckA
       objectReference: {fileID: 0}
     - target: {fileID: 6564381309038757641, guid: 3ea47d49370c98e4e8dda14fd66b947b, type: 3}
       propertyPath: m_RootOrder
-      value: 19
+      value: -1
       objectReference: {fileID: 0}
     - target: {fileID: 6564381309038757641, guid: 3ea47d49370c98e4e8dda14fd66b947b, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -2.938
+      value: 0.6170001
       objectReference: {fileID: 0}
     - target: {fileID: 6564381309038757641, guid: 3ea47d49370c98e4e8dda14fd66b947b, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 1.1103015
+      value: 0.11930132
       objectReference: {fileID: 0}
     - target: {fileID: 6564381309038757641, guid: 3ea47d49370c98e4e8dda14fd66b947b, type: 3}
       propertyPath: m_LocalPosition.z
@@ -12165,7 +12165,7 @@ PrefabInstance:
       value: 6a30bf56-1215-49ac-98f0-2e3dd44175cb
       objectReference: {fileID: 0}
     - target: {fileID: -523566412701523979, guid: dc5a145739044fc4996c8bda39fb6981, type: 3}
-      propertyPath: disableOnStart
+      propertyPath: disableOnAwake
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2392142034158434873, guid: dc5a145739044fc4996c8bda39fb6981, type: 3}
@@ -19454,7 +19454,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
-    m_AddedGameObjects: []
+    m_AddedGameObjects:
+    - targetCorrespondingSourceObject: {fileID: 2543667310359335487, guid: f4d996dc82415ac4ea83cc3d9db165cd, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 570363898}
   m_SourcePrefab: {fileID: 100100000, guid: f4d996dc82415ac4ea83cc3d9db165cd, type: 3}
 --- !u!4 &725625919 stripped
 Transform:
@@ -21667,7 +21670,7 @@ PrefabInstance:
       value: 5a2cb92f-e8bf-4060-8447-435aaad7b84a
       objectReference: {fileID: 0}
     - target: {fileID: -523566412701523979, guid: dc5a145739044fc4996c8bda39fb6981, type: 3}
-      propertyPath: disableOnStart
+      propertyPath: disableOnAwake
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2392142034158434873, guid: dc5a145739044fc4996c8bda39fb6981, type: 3}
@@ -27459,7 +27462,7 @@ PrefabInstance:
       value: 22c53475-ad73-4d7f-b8a4-cc58168aa16d
       objectReference: {fileID: 0}
     - target: {fileID: -523566412701523979, guid: dc5a145739044fc4996c8bda39fb6981, type: 3}
-      propertyPath: disableOnStart
+      propertyPath: disableOnAwake
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2392142034158434873, guid: dc5a145739044fc4996c8bda39fb6981, type: 3}
@@ -30862,7 +30865,7 @@ PrefabInstance:
   serializedVersion: 2
   m_Modification:
     serializedVersion: 2
-    m_TransformParent: {fileID: 1712803804}
+    m_TransformParent: {fileID: 1770618623}
     m_Modifications:
     - target: {fileID: 1288609124729262166, guid: 3ea47d49370c98e4e8dda14fd66b947b, type: 3}
       propertyPath: uniqueIdentifier
@@ -30922,19 +30925,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6564381309038757640, guid: 3ea47d49370c98e4e8dda14fd66b947b, type: 3}
       propertyPath: m_Name
-      value: BathroomA
+      value: BathroomCheckB
       objectReference: {fileID: 0}
     - target: {fileID: 6564381309038757641, guid: 3ea47d49370c98e4e8dda14fd66b947b, type: 3}
       propertyPath: m_RootOrder
-      value: 18
+      value: -1
       objectReference: {fileID: 0}
     - target: {fileID: 6564381309038757641, guid: 3ea47d49370c98e4e8dda14fd66b947b, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -3.5478466
+      value: -0.6182327
       objectReference: {fileID: 0}
     - target: {fileID: 6564381309038757641, guid: 3ea47d49370c98e4e8dda14fd66b947b, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 1.1103015
+      value: 0.119606495
       objectReference: {fileID: 0}
     - target: {fileID: 6564381309038757641, guid: 3ea47d49370c98e4e8dda14fd66b947b, type: 3}
       propertyPath: m_LocalPosition.z
@@ -33621,7 +33624,7 @@ PrefabInstance:
       value: 1e4e380b-198d-4007-ae6d-e9e111bf2527
       objectReference: {fileID: 0}
     - target: {fileID: -523566412701523979, guid: dc5a145739044fc4996c8bda39fb6981, type: 3}
-      propertyPath: disableOnStart
+      propertyPath: disableOnAwake
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2392142034158434873, guid: dc5a145739044fc4996c8bda39fb6981, type: 3}
@@ -38023,12 +38026,6 @@ PrefabInstance:
       addedObject: {fileID: 1885458910}
     - targetCorrespondingSourceObject: {fileID: 2392142034322169245, guid: dc5a145739044fc4996c8bda39fb6981, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 437382710}
-    - targetCorrespondingSourceObject: {fileID: 2392142034322169245, guid: dc5a145739044fc4996c8bda39fb6981, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 570363898}
-    - targetCorrespondingSourceObject: {fileID: 2392142034322169245, guid: dc5a145739044fc4996c8bda39fb6981, type: 3}
-      insertIndex: -1
       addedObject: {fileID: 655284164}
   m_SourcePrefab: {fileID: 100100000, guid: dc5a145739044fc4996c8bda39fb6981, type: 3}
 --- !u!4 &1712803804 stripped
@@ -38168,7 +38165,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
-    m_AddedGameObjects: []
+    m_AddedGameObjects:
+    - targetCorrespondingSourceObject: {fileID: 2543667310359335487, guid: 5d0d8dbca0b283b49bace041f7da1c3b, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 437382710}
   m_SourcePrefab: {fileID: 100100000, guid: 5d0d8dbca0b283b49bace041f7da1c3b, type: 3}
 --- !u!4 &1770618623 stripped
 Transform:
@@ -38442,6 +38442,10 @@ PrefabInstance:
     - target: {fileID: -6569748974630485054, guid: dc5a145739044fc4996c8bda39fb6981, type: 3}
       propertyPath: uniqueIdentifier
       value: 88833d45-ba2b-42b3-865b-69ced6ed9da1
+      objectReference: {fileID: 0}
+    - target: {fileID: -523566412701523979, guid: dc5a145739044fc4996c8bda39fb6981, type: 3}
+      propertyPath: disableOnAwake
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2392142034158434873, guid: dc5a145739044fc4996c8bda39fb6981, type: 3}
       propertyPath: m_Name
@@ -44150,6 +44154,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8594577352249687110, guid: 5ea656d2b5c6d7c40a644cfe526999f9, type: 3}
+      propertyPath: disableOnAwake
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8594577352249687111, guid: 5ea656d2b5c6d7c40a644cfe526999f9, type: 3}
       propertyPath: m_Name
       value: DankGreenRoot
@@ -44495,6 +44503,10 @@ PrefabInstance:
     - target: {fileID: -6569748974630485054, guid: dc5a145739044fc4996c8bda39fb6981, type: 3}
       propertyPath: uniqueIdentifier
       value: 6aab7ca6-6db1-4fee-a9dc-32095e75dfa0
+      objectReference: {fileID: 0}
+    - target: {fileID: -523566412701523979, guid: dc5a145739044fc4996c8bda39fb6981, type: 3}
+      propertyPath: disableOnAwake
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -523566412701523979, guid: dc5a145739044fc4996c8bda39fb6981, type: 3}
       propertyPath: disableOnStart
@@ -48449,7 +48461,7 @@ PrefabInstance:
       value: 65cab371-2eb5-4a57-9bd0-c94ca697db74
       objectReference: {fileID: 0}
     - target: {fileID: -523566412701523979, guid: dc5a145739044fc4996c8bda39fb6981, type: 3}
-      propertyPath: disableOnStart
+      propertyPath: disableOnAwake
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2392142034158434873, guid: dc5a145739044fc4996c8bda39fb6981, type: 3}

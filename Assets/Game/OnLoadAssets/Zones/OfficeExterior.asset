@@ -10,16 +10,45 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3268536af8903a64da82aa6872733d1d, type: 3}
-  m_Name: StreetPortaBankDoor
+  m_Name: OfficePortaBankDoor
   m_EditorClassIdentifier: 
   children:
-  - SceneToPortaBank
+  - SceneToOfficePortaBank
   linkedZone: {fileID: 0}
   linkedZoneNode: {fileID: 0}
   rect:
     serializedVersion: 2
     x: 34
     y: 211
+    width: 430
+    height: 150
+  zoneName: OfficeExterior
+  draggingRect:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 430
+    height: 45
+--- !u!114 &-8894328186808746864
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3268536af8903a64da82aa6872733d1d, type: 3}
+  m_Name: ApartmentPortaBankDoor
+  m_EditorClassIdentifier: 
+  children:
+  - SceneToApartmentPortaBank
+  linkedZone: {fileID: 0}
+  linkedZoneNode: {fileID: 0}
+  rect:
+    serializedVersion: 2
+    x: 40
+    y: 937
     width: 430
     height: 150
   zoneName: OfficeExterior
@@ -181,7 +210,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3268536af8903a64da82aa6872733d1d, type: 3}
-  m_Name: SceneToPortaBank
+  m_Name: SceneToOfficePortaBank
   m_EditorClassIdentifier: 
   children: []
   linkedZone: {fileID: 11400000, guid: 4742afef1319b6e41b7fe953e2225f42, type: 2}
@@ -190,6 +219,34 @@ MonoBehaviour:
     serializedVersion: 2
     x: 564
     y: 211
+    width: 430
+    height: 150
+  zoneName: OfficeExterior
+  draggingRect:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 430
+    height: 45
+--- !u!114 &-67736599037801072
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3268536af8903a64da82aa6872733d1d, type: 3}
+  m_Name: SceneToApartmentPortaBank
+  m_EditorClassIdentifier: 
+  children: []
+  linkedZone: {fileID: 11400000, guid: 4742afef1319b6e41b7fe953e2225f42, type: 2}
+  linkedZoneNode: {fileID: 7113246731123188644, guid: 4742afef1319b6e41b7fe953e2225f42, type: 2}
+  rect:
+    serializedVersion: 2
+    x: 544
+    y: 935
     width: 430
     height: 150
   zoneName: OfficeExterior
@@ -231,6 +288,8 @@ MonoBehaviour:
   - {fileID: -5411656796356045681}
   - {fileID: 7420601607016574253}
   - {fileID: 8010896298289075519}
+  - {fileID: -8894328186808746864}
+  - {fileID: -67736599037801072}
 --- !u!114 &7420601607016574253
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -12,5 +12,10 @@ namespace Frankie.Control.Specialization
             SavingWrapper.LoadGameOverScene();
         }
 
+        public void TriggerGameWin(PlayerStateMachine playerStateMachine)
+        {
+            SavingWrapper.LoadGameWinScreen();
+        }
+
     }
 }

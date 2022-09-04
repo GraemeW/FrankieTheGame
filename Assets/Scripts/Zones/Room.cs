@@ -8,7 +8,7 @@ namespace Frankie.ZoneManagement
     public class Room : MonoBehaviour, ISaveable
     {
         // Tunables
-        [SerializeField] bool disableOnStart = false;
+        [SerializeField] bool disableOnStart = true;
 
         // State
         bool stateSetBySave = false;

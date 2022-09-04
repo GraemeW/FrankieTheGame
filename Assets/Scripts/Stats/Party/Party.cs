@@ -1,8 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using Frankie.Control;
-using Frankie.Utils;
 using System;
 using Frankie.Saving;
 using UnityEngine.SceneManagement;

@@ -159,6 +159,21 @@ namespace Frankie.Combat
             enterCombat?.Invoke(enable);
         }
 
+        public bool CheckIfDead() // Called via Unity Events
+        {
+            if ((Mathf.Approximately(currentHP.value, 0f) || currentHP.value < 0) && isDead.value != true)
+            {
+                currentHP.value = 0f;
+                targetHP = 0f;
+                isDead.value = true;
+
+                AnnounceStateUpdate(new StateAlteredData(StateAlteredType.Dead));
+            }
+
+            if (isDead.value == true) { return true; }
+            return false;
+        }
+
         public void SetCooldown(float seconds)
         {
             cooldownTimer = seconds * GetCooldownMultiplier();
@@ -239,21 +254,6 @@ namespace Frankie.Combat
         #endregion
 
         #region PrivateUtility
-        private bool CheckIfDead()
-        {
-            if ((Mathf.Approximately(currentHP.value, 0f) || currentHP.value < 0) && isDead.value != true)
-            {
-                currentHP.value = 0f;
-                targetHP = 0f;
-                isDead.value = true;
-
-                AnnounceStateUpdate(new StateAlteredData(StateAlteredType.Dead));
-            }
-
-            if (isDead.value == true) { return true; }
-            return false;
-        }
-
         private void UpdateDamageDelayedHealth()
         {
             if (friendly && !Mathf.Approximately(currentHP.value, targetHP))

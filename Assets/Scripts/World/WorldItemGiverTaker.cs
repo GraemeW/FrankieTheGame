@@ -85,12 +85,14 @@ namespace Frankie.Control.Specialization
 
         public SaveState CaptureState()
         {
+            if (currentItemQuantity == null) { Awake(); }
             SaveState saveState = new SaveState(LoadPriority.ObjectProperty, currentItemQuantity.value);
             return saveState;
         }
 
         public void RestoreState(SaveState state)
         {
+            if (currentItemQuantity == null) { Awake(); }
             currentItemQuantity.value = (int)state.GetState(typeof(int));
         }
     }

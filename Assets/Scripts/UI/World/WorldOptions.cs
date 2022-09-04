@@ -62,7 +62,6 @@ namespace Frankie.Menu.UI
             foreach (CombatParticipant combatParticipant in partyCombatConduit.GetPartyCombatParticipants())
             {
                 partyBattleEntities.Add(new BattleEntity(combatParticipant));
-                UnityEngine.Debug.Log("Dude");
             }
         }
 

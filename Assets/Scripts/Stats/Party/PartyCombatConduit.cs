@@ -41,6 +41,7 @@ namespace Frankie.Stats
         #endregion
 
         #region PublicMethods
+        public CombatParticipant GetPartyLeader() => combatParticipantCache[0];
         public List<CombatParticipant> GetPartyCombatParticipants() => combatParticipantCache;
         public List<CombatParticipant> GetPartyAssistParticipants() => combatAssistCache;
 
@@ -82,8 +83,38 @@ namespace Frankie.Stats
         #endregion
 
         #region PrivateMethods
+        private void HandleLeaderStatusUpdate(CombatParticipant combatParticipant, StateAlteredData stateAlteredData)
+        {
+            if (stateAlteredData.stateAlteredType != StateAlteredType.Dead) { return; }
+
+            foreach (CombatParticipant character in combatParticipantCache)
+            {
+                if (character.IsDead()) { continue; }
+                BaseStats baseStats = character.GetComponent<BaseStats>();
+                party.SetPartyLeader(baseStats);
+                break;
+            }
+        }
+
+        private void SubscribeToLeaderStatusUpdates(bool enable)
+        {
+            if (combatParticipantCache.Count == 0) { return; } 
+            CombatParticipant partyLeader = combatParticipantCache[0];
+            if (partyLeader == null) { return; }
+
+            if (enable)
+            {
+                partyLeader.stateAltered += HandleLeaderStatusUpdate;
+            }
+            else
+            {
+                partyLeader.stateAltered -= HandleLeaderStatusUpdate;
+            }
+        }
+
         private void RefreshCombatParticipantCache()
         {
+            SubscribeToLeaderStatusUpdates(false);
             combatParticipantCache.Clear();
             foreach (BaseStats character in party.GetParty())
             {
@@ -92,6 +123,7 @@ namespace Frankie.Stats
                     combatParticipantCache.Add(combatParticipant);
                 }
             }
+            SubscribeToLeaderStatusUpdates(true);
         }
 
         private void RefreshCombatAssistCache()
