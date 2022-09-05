@@ -53,12 +53,14 @@ namespace Frankie.Core
 
         public SaveState CaptureState()
         {
+            UnityEngine.Debug.Log($"Capturing cinematic trigger state as:  {isTriggered}");
             return new SaveState(GetLoadPriority(), isTriggered);
         }
 
         public void RestoreState(SaveState saveState)
         {
             isTriggered = (bool)saveState.GetState(typeof(bool));
+            UnityEngine.Debug.Log($"Restoring cinematic trigger state as:  {isTriggered}");
         }
     }
 }

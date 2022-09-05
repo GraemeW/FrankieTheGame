@@ -79,6 +79,13 @@ namespace Frankie.Saving
             SaveFile(saveFile, state);
         }
 
+        public void CopySaveToSession(string saveFile, string sessionFile)
+        {
+            JObject state = LoadFile(saveFile);
+            CaptureState(state);
+            SaveFile(sessionFile, state);
+        }
+
         public void Delete(string saveFile)
         {
             File.Delete(GetPathFromSaveFile(saveFile));

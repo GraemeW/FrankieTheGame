@@ -149,6 +149,7 @@ namespace Frankie.Core
             string currentSave = GetCurrentSave();
             SetCurrentSave(currentSave);
             StartCoroutine(LoadFromSave(currentSave));
+            GetComponent<SavingSystem>().CopySaveToSession(saveName, sessionFile);
         }
 
         public void SaveSession()

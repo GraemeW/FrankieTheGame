@@ -244,6 +244,22 @@ PrefabInstance:
       propertyPath: skillTree
       value: 
       objectReference: {fileID: 11400000, guid: f5abe8ca6456a534baff8c9e02dcb4bf, type: 2}
+    - target: {fileID: 8799100898494828469, guid: 53771d00282eaa34ba616b313732c1b7, type: 3}
+      propertyPath: battleAIPriorities.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8799100898494828469, guid: 53771d00282eaa34ba616b313732c1b7, type: 3}
+      propertyPath: battleAIPriorities.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: 8acfa06eaaee8db41b8b90cd3b022a02, type: 2}
+    - target: {fileID: 8799100898494828469, guid: 53771d00282eaa34ba616b313732c1b7, type: 3}
+      propertyPath: battleAIPriorities.Array.data[1]
+      value: 
+      objectReference: {fileID: 11400000, guid: c4c30505cfae31b498756f4fd531c227, type: 2}
+    - target: {fileID: 8799100898494828469, guid: 53771d00282eaa34ba616b313732c1b7, type: 3}
+      propertyPath: useRandomSelectionOnNoPriorities
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_AddedGameObjects:
     - targetCorrespondingSourceObject: {fileID: 3268347881354742003, guid: 53771d00282eaa34ba616b313732c1b7, type: 3}
