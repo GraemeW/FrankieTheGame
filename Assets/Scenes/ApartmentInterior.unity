@@ -2685,7 +2685,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9140000498525693428, guid: 9bf5874c37e0a404a9bd916129a14959, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 2.4781575
+      value: 1.05
       objectReference: {fileID: 0}
     - target: {fileID: 9140000498525693428, guid: 9bf5874c37e0a404a9bd916129a14959, type: 3}
       propertyPath: m_LocalPosition.y
@@ -3073,7 +3073,7 @@ PrefabInstance:
       objectReference: {fileID: 11400000, guid: a48c43480dda43d4d8b83892d0569110, type: 2}
     - target: {fileID: 7756299975378076992, guid: 0c4a3af5a64c3044aa2ed94f790e74f4, type: 3}
       propertyPath: m_Name
-      value: PredicateToggle
+      value: RamenQuestCompleteToggle
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_AddedGameObjects:

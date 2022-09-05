@@ -36,8 +36,9 @@ namespace Frankie.Control
             movementHistory = new CircularBuffer<Tuple<Vector2, Vector2>>(playerMovementHistoryLength);
         }
 
-        private void OnEnable()
+        protected override void OnEnable()
         {
+            base.OnEnable();
             playerStateHandler.playerStateChanged += ParsePlayerStateChange;
         }
 

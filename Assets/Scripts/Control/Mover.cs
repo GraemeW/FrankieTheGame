@@ -18,7 +18,7 @@ namespace Frankie.Control
         protected Vector2 originalPosition = new Vector2();
         protected Vector2? moveTargetCoordinate = null;
         protected GameObject moveTargetObject = null;
-        protected Vector2 lookDirection = new Vector2();
+        protected Vector2 lookDirection = Vector2.down;
         protected float currentSpeed = 0;
         float targetDistanceTolerance = 0.15f;
 
@@ -59,7 +59,7 @@ namespace Frankie.Control
             MoveToTarget();
         }
 
-        private void OnEnable()
+        protected virtual void OnEnable()
         {
             if (resetPositionOnEnable)
             {
@@ -70,6 +70,7 @@ namespace Frankie.Control
 
         public void SetLookDirection(Vector2 lookDirection)
         {
+            lookDirection.Normalize(); // Blend tree animation speed depends on magnitude of variable -- to avoid very quick animations, normalize 
             this.lookDirection = lookDirection;
             UpdateAnimator();
         }
@@ -227,6 +228,7 @@ namespace Frankie.Control
             if (moverSaveData == null) { return; }
 
             transform.position = moverSaveData.position.ToVector();
+            SetLookDirection(Vector2.down);
         }
         #endregion
     }

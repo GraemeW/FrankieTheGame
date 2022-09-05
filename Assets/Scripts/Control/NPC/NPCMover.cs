@@ -47,8 +47,9 @@ namespace Frankie.Control
             SetNextPatrolTarget();
         }
 
-        private void OnEnable()
+        protected override void OnEnable()
         {
+            base.OnEnable();
             npcStateHandler.npcStateChanged += HandleNPCStateChange;
         }
 

@@ -14,8 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speakerType: 1
   characterProperties: {fileID: 11400000, guid: f40bbc80ce4dd604292488bdf07bc4e1, type: 2}
-  speakerName: Default
-  text: '*Smoooooch* I''m so happy to see you.  You must have had a long day.'
+  speakerName: Lucy
+  text: '*Smooch* I''m so happy to see you.  You must have had a long day.'
   children:
   - d31d7b2b-df86-4c36-b25d-289a8b613c06
   rect:
@@ -67,7 +67,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speakerType: 1
   characterProperties: {fileID: 11400000, guid: f40bbc80ce4dd604292488bdf07bc4e1, type: 2}
-  speakerName: Default
+  speakerName: Lucy
   text: Why don't you have a bite to eat and head to bed?
   children: []
   rect:
