@@ -6,7 +6,7 @@ namespace Frankie.Combat
     {
         public StateAlteredType stateAlteredType;
         public float points;
-        public StatusType statusEffectType;
+        public PersistentStatus persistentStatus;
         public Stat stat;
 
         public StateAlteredData(StateAlteredType stateAlteredType)
@@ -20,10 +20,10 @@ namespace Frankie.Combat
             this.points = points;
         }
 
-        public StateAlteredData(StateAlteredType stateAlteredType, StatusType statusEffectType)
+        public StateAlteredData(StateAlteredType stateAlteredType, PersistentStatus persistentStatus)
         {
             this.stateAlteredType = stateAlteredType;
-            this.statusEffectType = statusEffectType;
+            this.persistentStatus = persistentStatus;
         }
 
         public StateAlteredData(StateAlteredType stateAlteredType, Stat stat)

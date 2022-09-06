@@ -23,7 +23,7 @@ namespace Frankie.Combat
                 if (!battleEntity.combatParticipant.TryGetComponent(out BaseStats baseStats)) { continue; }
                 baseStats.AdjustStat(stat, value);
 
-                battleEntity.combatParticipant.AnnounceStateUpdate(new StateAlteredData(StateAlteredType.StatusEffectApplied, StatusType.None));
+                battleEntity.combatParticipant.AnnounceStateUpdate(new StateAlteredData(StateAlteredType.StatusEffectApplied));
             }
 
             finished?.Invoke(this);

@@ -13,7 +13,6 @@ namespace Frankie.Combat
         [SerializeField] bool removePersistentStatModifier = true;
         [SerializeField] [Range(0, 1)] float fractionProbabilityToRemove = 1.0f;
         [Tooltip("Set to 0 to remove all")][Min(0)] [SerializeField] int numberOfEffectsToRemove = 0;
-        [Tooltip("Set to none for any")] [SerializeField] StatusType statusType = StatusType.None;
 
         public override void StartEffect(CombatParticipant sender, IEnumerable<BattleEntity> recipients, DamageType damageType, Action<EffectStrategy> finished)
         {
@@ -32,7 +31,7 @@ namespace Frankie.Combat
 
                 if (numberOfEffectsToRemove == 0) { numberOfEffectsToRemove = int.MaxValue; }
                 int i = 0;
-                foreach (PersistentStatus persistentStatus in Filter(persistentStatuses, statusType))
+                foreach (PersistentStatus persistentStatus in persistentStatuses)
                 {
                     if (i >= numberOfEffectsToRemove) { break; }
 
@@ -42,25 +41,6 @@ namespace Frankie.Combat
             }
 
             finished?.Invoke(this);
-        }
-
-        private IEnumerable<PersistentStatus> Filter(IEnumerable<PersistentStatus> statuses, StatusType statusType)
-        {
-            foreach (PersistentStatus status in statuses)
-            {
-                if (statusType == StatusType.None)
-                {
-                    yield return status;
-                }
-                else
-                {
-                    if (status.GetStatusType() == statusType)
-                    {
-                        yield return status;
-                    }
-                }
-
-            }
         }
 
         private PersistentStatus[] GetRelevantStatuses(CombatParticipant combatParticipant)

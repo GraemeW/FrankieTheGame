@@ -49,6 +49,12 @@ namespace Frankie.Combat.UI
                     damageTextSpawner.AddToQueue(new DamageTextData(DamageTextType.HitCrit));
                     break;
                 case StateAlteredType.StatusEffectApplied:
+                    PersistentStatus persistentStatus = stateAlteredData.persistentStatus;
+                    if (persistentStatus != null)
+                    {
+                        AddStatusEffectBobble(persistentStatus);
+                    }
+                    break;
                 case StateAlteredType.BaseStateEffectApplied:
                     break;
                 case StateAlteredType.Dead:

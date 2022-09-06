@@ -11,7 +11,6 @@ namespace Frankie.Combat
     public class ApplyPersistentStatEffect : EffectStrategy
     {
         [SerializeField] [Range(0, 1)] float fractionProbabilityToApply = 0.5f;
-        [SerializeField] StatusType statusEffectType = default;
         [SerializeField] float duration = 10f;
         [SerializeField] Stat stat = Stat.HP;
         [SerializeField] float value = 1f;
@@ -28,9 +27,9 @@ namespace Frankie.Combat
                 if (fractionProbabilityToApply < chanceRoll) { return; }
 
                 PersistentStatModifierStatus activeStatusEffect = battleEntity.combatParticipant.gameObject.AddComponent(typeof(PersistentStatModifierStatus)) as PersistentStatModifierStatus;
-                activeStatusEffect.Setup(statusEffectType, duration, stat, value, persistAfterCombat);
+                activeStatusEffect.Setup(duration, stat, value, persistAfterCombat);
 
-                battleEntity.combatParticipant.AnnounceStateUpdate(new StateAlteredData(StateAlteredType.StatusEffectApplied, statusEffectType));
+                battleEntity.combatParticipant.AnnounceStateUpdate(new StateAlteredData(StateAlteredType.StatusEffectApplied, activeStatusEffect));
             }
 
             finished?.Invoke(this);

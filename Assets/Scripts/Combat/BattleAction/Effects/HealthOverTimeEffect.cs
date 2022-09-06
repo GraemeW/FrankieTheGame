@@ -10,7 +10,6 @@ namespace Frankie.Combat
     public class HealthOverTimeEffect : EffectStrategy
     {
         [SerializeField] [Range(0, 1)] float fractionProbabilityToApply = 0.5f;
-        [SerializeField] StatusType statusEffectType = default;
         [SerializeField] float duration = 10f;
         [SerializeField] float tickPeriod = 3f;
         [SerializeField] float healthChangePerTick = -10f;
@@ -19,6 +18,7 @@ namespace Frankie.Combat
         public override void StartEffect(CombatParticipant sender, IEnumerable<BattleEntity> recipients, DamageType damageType, Action<EffectStrategy> finished)
         {
             if (recipients == null) { return; }
+            if (Mathf.Approximately(healthChangePerTick, 0f)) { return; }
 
             float numberOfTicks = duration / tickPeriod;
             float sign = Mathf.Sign(healthChangePerTick);
@@ -38,9 +38,18 @@ namespace Frankie.Combat
                     _ => 0f,
                 };
 
-                activeStatusEffect.Setup(statusEffectType, duration, tickPeriod, () => recipient.combatParticipant.AdjustHPQuietly(modifiedHealthChangePerTick), persistAfterCombat);
+                if (sign > 0)
+                {
+                    // Quiet for heals -- distracting to hear constant healing
+                    activeStatusEffect.Setup(duration, tickPeriod, () => recipient.combatParticipant.AdjustHPQuietly(modifiedHealthChangePerTick), Stat.HP, true, persistAfterCombat);
+                }
+                else
+                {
+                    // Loud for damage -- need the feedback on health being taken (both on character and enemy)
+                    activeStatusEffect.Setup(duration, tickPeriod, () => recipient.combatParticipant.AdjustHP(modifiedHealthChangePerTick), Stat.HP, false, persistAfterCombat);
+                }
 
-                recipient.combatParticipant.AnnounceStateUpdate(new StateAlteredData(StateAlteredType.StatusEffectApplied, statusEffectType));
+                recipient.combatParticipant.AnnounceStateUpdate(new StateAlteredData(StateAlteredType.StatusEffectApplied, activeStatusEffect));
             }
 
             finished?.Invoke(this);

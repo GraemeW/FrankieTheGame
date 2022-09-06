@@ -1,4 +1,6 @@
 using Frankie.Control;
+using Frankie.Stats;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -6,21 +8,25 @@ using UnityEngine;
 namespace Frankie.Combat
 {
     [RequireComponent(typeof(CombatParticipant))]
-    public class PersistentStatus : MonoBehaviour
+    public abstract class PersistentStatus : MonoBehaviour
     {
-        // Tunables
-        protected StatusType statusType = default;
+        // State
+        protected bool active = false;
         protected float duration = Mathf.Infinity;
         protected bool persistAfterBattle = false;
 
-        // State
-        protected bool active = false;
+        protected Stat statusEffectType = default; // Default, override in override methods
+        protected bool isIncrease = false; // Default, override in override methods
 
         // Cached References
         CombatParticipant combatParticipant = null;
         protected PlayerStateMachine playerStateHandler = null;
         protected BattleController battleController = null;
 
+        // Events
+        public event Action persistentStatusTimedOut;
+
+        #region UnityMethods
         private void Awake()
         {
             combatParticipant = GetComponent<CombatParticipant>();
@@ -47,14 +53,20 @@ namespace Frankie.Combat
             if (battleController != null) { battleController.battleStateChanged -= HandleBattleState; }
         }
 
-        public StatusType GetStatusType()
+        private void OnDestroy()
         {
-            return statusType;
+            persistentStatusTimedOut?.Invoke();
         }
+        #endregion
 
-        protected void Setup(StatusType statusType, float duration, bool persistAfterBattle = false)
+        #region PublicMethods
+        public Stat GetStatusEffectType() => statusEffectType;
+        public bool IsIncrease() => isIncrease;
+        #endregion
+
+        #region PrivateProtectedMethods
+        protected void Setup(float duration, bool persistAfterBattle = false)
         {
-            this.statusType = statusType;
             this.duration = duration;
             this.persistAfterBattle = persistAfterBattle;
 
@@ -138,5 +150,6 @@ namespace Frankie.Combat
                 Destroy(this);
             }
         }
+        #endregion
     }
 }

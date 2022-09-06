@@ -5,8 +5,13 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 2
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2189069832891847419, guid: 53771d00282eaa34ba616b313732c1b7, type: 3}
+      propertyPath: resetPositionOnEnable
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3268347881354742002, guid: 53771d00282eaa34ba616b313732c1b7, type: 3}
       propertyPath: m_Sprite
       value: 
@@ -120,6 +125,7 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: b0900cf41680b4840bc54d87b0be59b1, type: 2}
     m_RemovedComponents: []
+    m_AddedGameObjects: []
   m_SourcePrefab: {fileID: 100100000, guid: 53771d00282eaa34ba616b313732c1b7, type: 3}
 --- !u!1 &2398833644461657395 stripped
 GameObject:

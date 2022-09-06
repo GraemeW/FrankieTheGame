@@ -11,8 +11,13 @@ namespace Frankie.Combat.UI
         // Tunables
         [Header("Hook-Ups")]
         [SerializeField] protected CooldownTimer cooldownTimer = null;
+        [SerializeField] protected Transform statusEffectPanel = null;
         [SerializeField] protected DamageTextSpawner damageTextSpawner = null;
         [SerializeField] protected CanvasGroup canvasGroup = null;
+
+        [Header("Status Effects")]
+        [SerializeField] int maxStatusEffectToShow = 8;
+        [SerializeField] StatusEffectBobble statusEffectBobblePrefab = null;
 
         [Header("Shake Effects")]
         [SerializeField] float damageShakeMagnitude = 10f;
@@ -95,6 +100,7 @@ namespace Frankie.Combat.UI
             if (this.battleEntity != null) { this.battleEntity.combatParticipant.stateAltered -= ParseState; }
 
             this.battleEntity = battleEntity;
+            InitializeStatusEffectBobbles();
             this.battleEntity.combatParticipant.stateAltered += ParseState;
         }
 
@@ -163,6 +169,38 @@ namespace Frankie.Combat.UI
 
             battleController.AddToBattleQueue(new List<BattleEntity> { battleEntity });
             return true;
+        }
+
+        private void InitializeStatusEffectBobbles()
+        {
+            if (battleEntity == null) { return; }
+
+            PersistentStatus[] persistentStatuses = battleEntity.combatParticipant.GetComponents<PersistentStatus>();
+            foreach (PersistentStatus persistentStatus in persistentStatuses)
+            {
+                AddStatusEffectBobble(persistentStatus, true); // Skip capping during loop
+            }
+            CapVisibleStatusEffects(); // Cap at end
+        }
+
+        protected void AddStatusEffectBobble(PersistentStatus persistentStatus, bool skipCap = false)
+        {
+            StatusEffectBobble statusEffectBobble = Instantiate(statusEffectBobblePrefab, statusEffectPanel);
+            statusEffectBobble.Setup(persistentStatus);
+            if (!skipCap) { CapVisibleStatusEffects(); }
+        }
+
+        protected void CapVisibleStatusEffects()
+        {
+            int statusEffectCount = 0;
+            foreach(Transform child in statusEffectPanel)
+            {
+                statusEffectCount++;
+                if (statusEffectCount > maxStatusEffectToShow)
+                {
+                    child.gameObject.SetActive(false);
+                }
+            }
         }
 
         private void HandleSlideShaking()

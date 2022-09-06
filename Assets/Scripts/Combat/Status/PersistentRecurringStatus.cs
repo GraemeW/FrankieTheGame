@@ -25,13 +25,15 @@ namespace Frankie.Combat
             HandleRecurringEffects();
         }
 
-        public void Setup(StatusType statusEffectType, float duration, float tickPeriod, Action recurringEffect, bool persistAfterBattle = false)
+        public void Setup(float duration, float tickPeriod, Action recurringEffect, Stat statAffected, bool isIncrease, bool persistAfterBattle = false)
         {
             if (recurringEffect == null) { Destroy(this); }
 
-            base.Setup(statusEffectType, duration, persistAfterBattle);
+            base.Setup(duration, persistAfterBattle);
             this.tickPeriod = tickPeriod;
             this.recurringEffect = recurringEffect;
+            this.statusEffectType = statAffected;
+            this.isIncrease = isIncrease;
         }
 
         protected override void UpdateTimers()

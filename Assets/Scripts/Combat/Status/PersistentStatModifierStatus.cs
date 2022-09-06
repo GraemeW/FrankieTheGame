@@ -8,22 +8,24 @@ namespace Frankie.Combat
     public class PersistentStatModifierStatus : PersistentStatus, IModifierProvider
     {
         // Tunables
-        Stat stat = default;
         float value = 0f;
 
-        public void Setup(StatusType statusEffectType, float duration, Stat stat, float value, bool persistAfterBattle = false)
+        public void Setup(float duration, Stat stat, float value, bool persistAfterBattle = false)
         {
-            base.Setup(statusEffectType, duration, persistAfterBattle);
+            if (Mathf.Approximately(value, 0f)) { Destroy(this); }
 
-            this.stat = stat;
+            base.Setup(duration, persistAfterBattle);
+
+            this.statusEffectType = stat;
             this.value = value;
+            this.isIncrease = (this.value > 0f);
         }
 
         public IEnumerable<float> GetAdditiveModifiers(Stat stat)
         {
             if (!active) { yield break; }
 
-            if (this.stat == stat)
+            if (this.statusEffectType == stat)
             {
                 yield return value;
             }
