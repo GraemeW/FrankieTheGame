@@ -10,12 +10,22 @@ namespace Frankie.Combat.UI
         // Tunables
         [Header("Enemy Slide Settings")]
         [SerializeField] Image image = null;
+        [SerializeField] LayoutElement layoutElement = null;
+        [SerializeField][Tooltip("Only first entry of the enum BattleEntityType is used")] BattleEntityTypePropertySet[] battleEntityTypePropertyLookUp;
         [SerializeField] float deathFadeTime = 1.0f;
+
+        // Data Structures
+        [System.Serializable]
+        public struct BattleEntityTypePropertySet
+        {
+            public BattleEntityType battleEntityType;
+            public Vector2 imageSize;
+        }
 
         public override void SetBattleEntity(BattleEntity battleEntity)
         {
             base.SetBattleEntity(battleEntity);
-            UpdateImage(this.battleEntity.combatParticipant.GetCombatSprite());
+            UpdateImage(this.battleEntity.combatParticipant.GetCombatSprite(), this.battleEntity.battleEntityType);
         }
 
         protected override void ParseState(CombatParticipant combatParticipant, StateAlteredData stateAlteredData)
@@ -77,9 +87,21 @@ namespace Frankie.Combat.UI
         }
 
         // Private Functions
-        private void UpdateImage(Sprite sprite)
+        private void UpdateImage(Sprite sprite, BattleEntityType battleEntityType)
         {
             image.sprite = sprite;
+            if (battleEntityTypePropertyLookUp == null || battleEntityTypePropertyLookUp.Length == 0) { return; }
+
+            // Setting size of image based on enemy type (e.g. mook small, standard standard, boss big)
+            foreach (BattleEntityTypePropertySet battleEntityPropertySet in battleEntityTypePropertyLookUp)
+            {
+                if (battleEntityType == battleEntityPropertySet.battleEntityType)
+                {
+                    layoutElement.preferredWidth = battleEntityPropertySet.imageSize.x;
+                    layoutElement.preferredHeight = battleEntityPropertySet.imageSize.y;
+                    return;
+                }
+            }
         }
     }
 }

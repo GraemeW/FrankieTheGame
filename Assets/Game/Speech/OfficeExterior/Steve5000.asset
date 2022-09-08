@@ -64,6 +64,38 @@ MonoBehaviour:
     height: 45
   condition:
     and: []
+--- !u!114 &-5070158433132648971
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 09c07c7c6f4c666429a0bbc8d18232b2, type: 3}
+  m_Name: 96e057d8-d143-41a3-8fb7-e5fb0dac9308
+  m_EditorClassIdentifier: 
+  speakerType: 1
+  characterProperties: {fileID: 11400000, guid: ec6ec75df6f1e3e4ea3cf0953f1b4eab, type: 2}
+  speakerName: Default
+  text: Not sure what you're talkin' about buddy!  Why don't you get in there and
+    show them who's boss?
+  children: []
+  rect:
+    serializedVersion: 2
+    x: 1030
+    y: 280
+    width: 400
+    height: 225
+  draggingRect:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 400
+    height: 45
+  condition:
+    and: []
 --- !u!114 &-4225616288265176491
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -109,11 +141,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 09c07c7c6f4c666429a0bbc8d18232b2, type: 3}
   m_Name: d84612ca-8aeb-4f95-9f06-dfdadc8f419f
   m_EditorClassIdentifier: 
-  speakerType: 1
-  characterProperties: {fileID: 11400000, guid: ec6ec75df6f1e3e4ea3cf0953f1b4eab, type: 2}
-  speakerName: Steve5000
-  text: Nice fightin' buddy.  Get in there and show them who's boss.
-  children: []
+  speakerType: 0
+  characterProperties: {fileID: 0}
+  speakerName: Default
+  text: Uh . . . what the hell was that?  What ARE you?
+  children:
+  - 96e057d8-d143-41a3-8fb7-e5fb0dac9308
   rect:
     serializedVersion: 2
     x: 530
@@ -156,6 +189,7 @@ MonoBehaviour:
   - {fileID: 8357326375626679247}
   - {fileID: -4225616288265176491}
   - {fileID: -8877599338786768631}
+  - {fileID: -5070158433132648971}
 --- !u!114 &1021114778521504117
 MonoBehaviour:
   m_ObjectHideFlags: 0

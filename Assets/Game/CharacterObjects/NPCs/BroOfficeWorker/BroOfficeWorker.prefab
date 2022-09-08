@@ -5,6 +5,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 2
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 1182436157161314237, guid: e4be3ce2d5464c3498c884ae5d9223d4, type: 3}
@@ -14,7 +15,7 @@ PrefabInstance:
     - target: {fileID: 1182436157161314237, guid: e4be3ce2d5464c3498c884ae5d9223d4, type: 3}
       propertyPath: combatSprite
       value: 
-      objectReference: {fileID: 21300000, guid: 3bdf852169b791645a30929c2a3c0f1b, type: 3}
+      objectReference: {fileID: 21300000, guid: c1586f657df237d49af48fd76d6a4c2e, type: 3}
     - target: {fileID: 1182436157161314237, guid: e4be3ce2d5464c3498c884ae5d9223d4, type: 3}
       propertyPath: movingBackgroundProperties.shaderMaterial
       value: 
@@ -120,4 +121,5 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
+    m_AddedGameObjects: []
   m_SourcePrefab: {fileID: 100100000, guid: e4be3ce2d5464c3498c884ae5d9223d4, type: 3}

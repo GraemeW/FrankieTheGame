@@ -5,6 +5,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 2
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 1182436157161314237, guid: e4be3ce2d5464c3498c884ae5d9223d4, type: 3}
@@ -14,7 +15,11 @@ PrefabInstance:
     - target: {fileID: 1182436157161314237, guid: e4be3ce2d5464c3498c884ae5d9223d4, type: 3}
       propertyPath: combatSprite
       value: 
-      objectReference: {fileID: 21300000, guid: e836db53eec0ed043a70bb07ba7d969a, type: 3}
+      objectReference: {fileID: 21300000, guid: 8c1069aae9b8e2f4f88c02193de9e889, type: 3}
+    - target: {fileID: 1182436157161314237, guid: e4be3ce2d5464c3498c884ae5d9223d4, type: 3}
+      propertyPath: battleEntityType
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 1182436157161314237, guid: e4be3ce2d5464c3498c884ae5d9223d4, type: 3}
       propertyPath: battleStartCooldown
       value: 8
@@ -128,4 +133,5 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
+    m_AddedGameObjects: []
   m_SourcePrefab: {fileID: 100100000, guid: e4be3ce2d5464c3498c884ae5d9223d4, type: 3}

@@ -39,7 +39,11 @@ PrefabInstance:
     - target: {fileID: 1182436157161314237, guid: e4be3ce2d5464c3498c884ae5d9223d4, type: 3}
       propertyPath: combatSprite
       value: 
-      objectReference: {fileID: 21300000, guid: 2cfbb66f003a8564ca53a74791d22e34, type: 3}
+      objectReference: {fileID: 21300000, guid: 368e2ede40c3fce44b91d31e63d910cc, type: 3}
+    - target: {fileID: 1182436157161314237, guid: e4be3ce2d5464c3498c884ae5d9223d4, type: 3}
+      propertyPath: battleEntityType
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 1182436157161314237, guid: e4be3ce2d5464c3498c884ae5d9223d4, type: 3}
       propertyPath: movingBackgroundProperties.shaderMaterial
       value: 

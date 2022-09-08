@@ -44,7 +44,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
   m_AnchoredPosition: {x: 150, y: -125}
-  m_SizeDelta: {x: 300, y: 250}
+  m_SizeDelta: {x: 350, y: 400}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &8084332478573959330
 CanvasRenderer:
@@ -100,7 +100,7 @@ MonoBehaviour:
   m_MinWidth: -1
   m_MinHeight: -1
   m_PreferredWidth: 350
-  m_PreferredHeight: 300
+  m_PreferredHeight: 400
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
   m_LayoutPriority: 1
@@ -129,6 +129,14 @@ MonoBehaviour:
   dimmingMin: 0.7
   halfDimmingTime: 0.05
   image: {fileID: 6115676611713989597}
+  layoutElement: {fileID: 6702022438163932606}
+  battleEntityTypePropertyLookUp:
+  - battleEntityType: 0
+    imageSize: {x: 350, y: 400}
+  - battleEntityType: 1
+    imageSize: {x: 250, y: 300}
+  - battleEntityType: 2
+    imageSize: {x: 450, y: 500}
   deathFadeTime: 1
 --- !u!114 &1549802908350268869
 MonoBehaviour:
