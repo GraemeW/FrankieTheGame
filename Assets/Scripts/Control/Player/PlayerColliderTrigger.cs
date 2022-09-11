@@ -49,7 +49,6 @@ namespace Frankie.Control
 
         public void RestoreState(SaveState saveState)
         {
-            UnityEngine.Debug.Log("HERE");
             triggered = (bool)saveState.state;
             ReconcileState();
         }

@@ -227,6 +227,7 @@ namespace Frankie.Control
             MoverSaveData moverSaveData = saveState.GetState(typeof(MoverSaveData)) as MoverSaveData;
             if (moverSaveData == null) { return; }
 
+            if (rigidBody2D == null) { Awake(); } // Force initialization for objects set to disable
             transform.position = moverSaveData.position.ToVector();
             SetLookDirection(Vector2.down);
         }

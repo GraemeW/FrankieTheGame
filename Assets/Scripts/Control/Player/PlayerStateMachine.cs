@@ -29,6 +29,8 @@ namespace Frankie.Control
         [SerializeField] GameObject escapeMenuPrefab = null;
         [Header("Messages")]
         [SerializeField] string messageCannotFight = "You are wounded and cannot fight.";
+        [Header("Parameters")]
+        [SerializeField] int maxEnemiesPerCombat = 12;
 
         // State Information
         // Player
@@ -328,6 +330,8 @@ namespace Frankie.Control
         {
             foreach (CombatParticipant enemy in enemiesUnderConsideration)
             {
+                if (enemiesInTransition.Count > maxEnemiesPerCombat) { return; }
+
                 if (!enemiesInTransition.Contains(enemy))
                 {
                     enemiesInTransition.Add(enemy);

@@ -175,11 +175,12 @@ namespace Frankie.Control
                     foreach (NPCStateHandler npcInContact in npcMob)
                     {
                         enemies.Add(npcInContact.GetCombatParticipant());
+                        npcInContact.SetNPCState(NPCStateType.occupied); // Occupy NPCs as they're entered into combat
                     }
                 }
 
                 playerStateHandler.EnterCombat(enemies, transitionType);
-                SetNPCState(NPCStateType.occupied);
+                SetNPCState(NPCStateType.occupied); // Occupy calling NPC as it's entered into combat
             }
         }
 

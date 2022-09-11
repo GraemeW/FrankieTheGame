@@ -176,7 +176,7 @@ namespace Frankie.Control
             NPCCollisionHandler npcCollisionHandler = collisionNPC.GetComponent<NPCCollisionHandler>();
             if (touchingPlayer || npcCollisionHandler.IsNPCGraphTouchingPlayer())
             {
-                npcStateHandler.InitiateCombat(battleEntryType);
+                npcStateHandler.InitiateCombat(battleEntryType, GetNPCMob());
                 return true;
             }
             return false;
@@ -197,8 +197,11 @@ namespace Frankie.Control
 
         public List<NPCStateHandler> GetNPCMob()
         {
+            List<NPCCollisionHandler> npcCollisionGraph = new List<NPCCollisionHandler>();
+            GetNPCCollisionGraph(ref npcCollisionGraph);
+
             List<NPCStateHandler> translatedNPCMob = new List<NPCStateHandler>();
-            foreach (NPCCollisionHandler npcCollisionHandler in currentNPCMob)
+            foreach (NPCCollisionHandler npcCollisionHandler in npcCollisionGraph)
             {
                 translatedNPCMob.Add(npcCollisionHandler.GetNPCStateHandler());
             }
@@ -225,7 +228,9 @@ namespace Frankie.Control
 
             return npcCollisionGraph.Any(x => x.IsTouchingPlayer());
         }
+        #endregion
 
+        #region PrivateMethods
         private void GetNPCCollisionGraph(ref List<NPCCollisionHandler> npcCollisionGraph)
         {
             foreach (NPCCollisionHandler npcInContact in currentNPCMob)
@@ -237,23 +242,32 @@ namespace Frankie.Control
                 }
             }
         }
-        #endregion
 
-        #region PrivateMethods
-        private void AddNPCMob(NPCCollisionHandler npcStateHandler)
+        protected void AddNPCMob(NPCCollisionHandler npcCollisionHandler, bool triggerBilateral = true)
         {
-            if (npcStateHandler == null) { return; }
-            if (npcStateHandler == this) { return; }
+            if (npcCollisionHandler == null) { return; }
+            if (npcCollisionHandler == this) { return; }
 
-            currentNPCMob.Add(npcStateHandler);
+            if (!currentNPCMob.Contains(npcCollisionHandler))
+            {
+                currentNPCMob.Add(npcCollisionHandler);
+            }
+
+            // Bilateral first hit as triggers sometimes not occurring both ways
+            if (triggerBilateral) { npcCollisionHandler.AddNPCMob(this, false); }
         }
 
-        private void RemoveNPCMob(NPCCollisionHandler npcStateHandler)
+        protected void RemoveNPCMob(NPCCollisionHandler npcCollisionHandler, bool triggerBilateral = true)
         {
-            if (currentNPCMob.Contains(npcStateHandler))
+            if (npcCollisionHandler == null) { return; }
+            if (npcCollisionHandler == this) { return; }
+
+            if (currentNPCMob.Contains(npcCollisionHandler))
             {
-                currentNPCMob.Remove(npcStateHandler);
+                currentNPCMob.Remove(npcCollisionHandler);
             }
+            // Bilateral first hit as triggers sometimes not occurring both ways
+            if (triggerBilateral) { npcCollisionHandler.RemoveNPCMob(this, false); }
         }
 
         private TransitionType GetBattleEntryType(Vector2 contactPoint, Vector2 npcPosition, Vector2 playerPosition)

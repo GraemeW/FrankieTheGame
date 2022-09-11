@@ -78,7 +78,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speakerType: 1
   characterProperties: {fileID: 11400000, guid: ec6ec75df6f1e3e4ea3cf0953f1b4eab, type: 2}
-  speakerName: Default
+  speakerName: Steve5000
   text: Not sure what you're talkin' about buddy!  Why don't you get in there and
     show them who's boss?
   children: []

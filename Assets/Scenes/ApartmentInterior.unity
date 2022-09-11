@@ -3068,6 +3068,10 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5599137221475426128, guid: 0c4a3af5a64c3044aa2ed94f790e74f4, type: 3}
+      propertyPath: condition.and.Array.data[0].or.Array.data[0].negate
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5599137221475426128, guid: 0c4a3af5a64c3044aa2ed94f790e74f4, type: 3}
       propertyPath: condition.and.Array.data[0].or.Array.data[0].predicate
       value: 
       objectReference: {fileID: 11400000, guid: a48c43480dda43d4d8b83892d0569110, type: 2}
@@ -7430,6 +7434,10 @@ PrefabInstance:
     - target: {fileID: 5980930000095213635, guid: 838a6254f55229a41b966252d74ee1b4, type: 3}
       propertyPath: uniqueIdentifier
       value: 88edce13-665e-483c-b498-01543373d3f0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8772687426285626382, guid: 838a6254f55229a41b966252d74ee1b4, type: 3}
+      propertyPath: resetPositionOnEnable
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8941027531778530901, guid: 838a6254f55229a41b966252d74ee1b4, type: 3}
       propertyPath: dialogue

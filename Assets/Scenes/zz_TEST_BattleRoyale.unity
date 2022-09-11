@@ -2964,11 +2964,20 @@ MonoBehaviour:
   yJitterDistance: 0.5
   spawnConfigurations:
   - spawnConfiguration:
-      maxQuantity: 10
+      maxQuantity: 20
       enemyConfigurations:
       - minimum: 5
-        maximum: 5
+        maximum: 10
         characterProperties: {fileID: 11400000, guid: 86aecc43b78f58145815657f0856ac5b, type: 2}
+      - minimum: 5
+        maximum: 10
+        characterProperties: {fileID: 11400000, guid: 44e5b74a59991d14e972988012c4557e, type: 2}
+      - minimum: 5
+        maximum: 10
+        characterProperties: {fileID: 11400000, guid: 530bc654984fc6b478566ee056083f8b, type: 2}
+      - minimum: 5
+        maximum: 10
+        characterProperties: {fileID: 11400000, guid: 9fe41bb8f767c374a974d7afca7cf995, type: 2}
     probability: 1
 --- !u!1001 &1364202614
 PrefabInstance:
