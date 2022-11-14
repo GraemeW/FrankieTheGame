@@ -33,7 +33,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 0
+  m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &5163575220664821584
 SpriteRenderer:
@@ -163,4 +163,6 @@ MonoBehaviour:
   varietyFactor: 0.5
   sprites:
   - {fileID: 21300000, guid: dfd290ccc12272f4492e12530a3b9b9b, type: 3}
-  oldPosition: {x: 25.01284, y: 16.256294, z: 0}
+  - {fileID: 21300000, guid: 89f33bdab999f3e4ba714f0d115b48b5, type: 3}
+  - {fileID: 21300000, guid: 03ac775d1b181f0439bbf648c44cfd8a, type: 3}
+  oldPosition: {x: 0.43229485, y: -0.69911253, z: 0}

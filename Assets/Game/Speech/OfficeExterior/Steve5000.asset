@@ -142,8 +142,8 @@ MonoBehaviour:
   m_Name: d84612ca-8aeb-4f95-9f06-dfdadc8f419f
   m_EditorClassIdentifier: 
   speakerType: 0
-  characterProperties: {fileID: 0}
-  speakerName: Default
+  characterProperties: {fileID: 11400000, guid: b50f84a2f36107a44825b11881f88adf, type: 2}
+  speakerName: Frankie
   text: Uh . . . what the hell was that?  What ARE you?
   children:
   - 96e057d8-d143-41a3-8fb7-e5fb0dac9308
@@ -182,6 +182,7 @@ MonoBehaviour:
   nodeHeight: 225
   activeNPCs:
   - {fileID: 11400000, guid: ec6ec75df6f1e3e4ea3cf0953f1b4eab, type: 2}
+  - {fileID: 11400000, guid: b50f84a2f36107a44825b11881f88adf, type: 2}
   dialogueNodes:
   - {fileID: -5303683922038676400}
   - {fileID: 1021114778521504117}

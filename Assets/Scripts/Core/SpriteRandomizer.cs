@@ -19,15 +19,9 @@ public class SpriteRandomizer : MonoBehaviour, ISerializationCallbackReceiver
     {
         if (sprites == null || sprites.Length <= 1) { return null; }
         float positionalFactor = 0.5f * (Mathf.Sin(100f * varietyFactor * ((transform.position.x % 1) / (transform.position.y % 1 + minDenominator))) + 1f);
-        for (int i = sprites.Length; i > 0; i--)
-        {
-            if (positionalFactor < 1f / i)
-            {
-                return sprites[i-1];
-            }
-        }
+        int chosenIndex = Mathf.FloorToInt(positionalFactor * sprites.Length);
 
-        return null;
+        return sprites[chosenIndex];
     }
 
     private bool HasPositionShifted()
