@@ -21,6 +21,7 @@ public class SpriteRandomizer : MonoBehaviour, ISerializationCallbackReceiver
         float positionalFactor = 0.5f * (Mathf.Sin(100f * varietyFactor * ((transform.position.x % 1) / (transform.position.y % 1 + minDenominator))) + 1f);
         int chosenIndex = Mathf.FloorToInt(positionalFactor * sprites.Length);
 
+        if (chosenIndex > sprites.Length) { return null; }
         return sprites[chosenIndex];
     }
 

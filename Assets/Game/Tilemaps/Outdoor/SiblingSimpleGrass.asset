@@ -9,8 +9,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9d1514134bc4fbd41bb739b1b9a49231, type: 3}
-  m_Name: OutdoorSimpleGrass
+  m_Script: {fileID: 11500000, guid: b68812f1366cee840be8c2b3f64a4d46, type: 3}
+  m_Name: SiblingSimpleGrass
   m_EditorClassIdentifier: 
   m_DefaultSprite: {fileID: 649076994, guid: 0dac23bbfe953c9438266f495145f5db, type: 3}
   m_DefaultGameObject: {fileID: 0}
@@ -43,3 +43,5 @@ MonoBehaviour:
     - {x: 0, y: -1, z: 0}
     - {x: 1, y: -1, z: 0}
     m_RuleTransform: 0
+  siblings:
+  - {fileID: 11400000, guid: cf00a0aa46d7f06418d4464f5792c052, type: 2}
