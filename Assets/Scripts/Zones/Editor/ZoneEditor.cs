@@ -47,6 +47,7 @@ namespace Frankie.ZoneManagement.Editor
             Zone zone = EditorUtility.InstanceIDToObject(instanceID) as Zone;
             if (zone != null)
             {
+                zone.CreateRootNodeIfMissing();
                 ShowEditorWindow();
                 return true;
             }

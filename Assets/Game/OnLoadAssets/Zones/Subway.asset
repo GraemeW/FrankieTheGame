@@ -28,35 +28,6 @@ MonoBehaviour:
     y: 0
     width: 430
     height: 45
---- !u!114 &-4737156880441445969
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3268536af8903a64da82aa6872733d1d, type: 3}
-  m_Name: SubwayCorner
-  m_EditorClassIdentifier: 
-  children:
-  - SceneToOutdoor
-  linkedZone: {fileID: 0}
-  linkedZoneNode: {fileID: 0}
-  rect:
-    serializedVersion: 2
-    x: 1601
-    y: 32
-    width: 430
-    height: 150
-  zoneName: Subway
-  draggingRect:
-    serializedVersion: 2
-    x: 0
-    y: 0
-    width: 430
-    height: 45
 --- !u!114 &-3197550637124935898
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -110,8 +81,6 @@ MonoBehaviour:
   zoneNodes:
   - {fileID: 6018069334625240327}
   - {fileID: 4172045128073322719}
-  - {fileID: -4737156880441445969}
-  - {fileID: 7383670476032973907}
   - {fileID: 2324849428199590013}
   - {fileID: 5121720584565814803}
   - {fileID: -3197550637124935898}
@@ -222,34 +191,6 @@ MonoBehaviour:
     serializedVersion: 2
     x: 30
     y: 30
-    width: 430
-    height: 150
-  zoneName: Subway
-  draggingRect:
-    serializedVersion: 2
-    x: 0
-    y: 0
-    width: 430
-    height: 45
---- !u!114 &7383670476032973907
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3268536af8903a64da82aa6872733d1d, type: 3}
-  m_Name: SceneToOutdoor
-  m_EditorClassIdentifier: 
-  children: []
-  linkedZone: {fileID: 11400000, guid: 56f07633698545c4695b11c285ca5f37, type: 2}
-  linkedZoneNode: {fileID: -546647865229579974, guid: 56f07633698545c4695b11c285ca5f37, type: 2}
-  rect:
-    serializedVersion: 2
-    x: 2078.9998
-    y: 139
     width: 430
     height: 150
   zoneName: Subway

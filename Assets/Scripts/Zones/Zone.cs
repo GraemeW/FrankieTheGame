@@ -89,7 +89,9 @@ namespace Frankie.ZoneManagement
         private void Awake()
         {
 #if UNITY_EDITOR
-            CreateRootNodeIfMissing();
+            //CreateRootNodeIfMissing();
+            // Note:  Making in ZoneEditor due to some intricacies in how Unity calls Awake on ScriptableObjects in Editor vs. the serialization callback
+            // For (unknown) reasons, the root node gets made and then killed by the time serialization occurs
 #endif
         }
 
@@ -203,7 +205,7 @@ namespace Frankie.ZoneManagement
             return childNode;
         }
 
-        private ZoneNode CreateRootNodeIfMissing()
+        public ZoneNode CreateRootNodeIfMissing()
         {
             if (zoneNodes.Count == 0)
             {

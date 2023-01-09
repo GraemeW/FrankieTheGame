@@ -1,34 +1,5 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &-9218234244170276018
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3268536af8903a64da82aa6872733d1d, type: 3}
-  m_Name: OfficePortaBankDoor
-  m_EditorClassIdentifier: 
-  children:
-  - SceneToOfficePortaBank
-  linkedZone: {fileID: 0}
-  linkedZoneNode: {fileID: 0}
-  rect:
-    serializedVersion: 2
-    x: 34
-    y: 211
-    width: 430
-    height: 150
-  zoneName: Prim
-  draggingRect:
-    serializedVersion: 2
-    x: 0
-    y: 0
-    width: 430
-    height: 45
 --- !u!114 &-8894328186808746864
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -47,8 +18,8 @@ MonoBehaviour:
   linkedZoneNode: {fileID: 0}
   rect:
     serializedVersion: 2
-    x: 40
-    y: 937
+    x: 27
+    y: 344
     width: 430
     height: 150
   zoneName: Prim
@@ -58,7 +29,7 @@ MonoBehaviour:
     y: 0
     width: 430
     height: 45
---- !u!114 &-8137509927413381033
+--- !u!114 &-3744593269575087478
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -68,157 +39,16 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3268536af8903a64da82aa6872733d1d, type: 3}
-  m_Name: SubwayApartmentDownstairs
+  m_Name: PrimToTunnel
   m_EditorClassIdentifier: 
   children:
-  - SceneToSubwayApartment
+  - SceneToTunnel
   linkedZone: {fileID: 0}
   linkedZoneNode: {fileID: 0}
   rect:
     serializedVersion: 2
-    x: 46
-    y: 560
-    width: 430
-    height: 150
-  zoneName: Prim
-  draggingRect:
-    serializedVersion: 2
-    x: 0
-    y: 0
-    width: 430
-    height: 45
---- !u!114 &-6517432798666758438
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3268536af8903a64da82aa6872733d1d, type: 3}
-  m_Name: SceneToSubway
-  m_EditorClassIdentifier: 
-  children: []
-  linkedZone: {fileID: 11400000, guid: 22c8250c01773ac4c97cd290e2f34c7a, type: 2}
-  linkedZoneNode: {fileID: 6018069334625240327, guid: 22c8250c01773ac4c97cd290e2f34c7a, type: 2}
-  rect:
-    serializedVersion: 2
-    x: 545
-    y: 380
-    width: 430
-    height: 150
-  zoneName: Prim
-  draggingRect:
-    serializedVersion: 2
-    x: 0
-    y: 0
-    width: 430
-    height: 45
---- !u!114 &-5411656796356045681
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3268536af8903a64da82aa6872733d1d, type: 3}
-  m_Name: SceneToSubwayApartment
-  m_EditorClassIdentifier: 
-  children: []
-  linkedZone: {fileID: 11400000, guid: 22c8250c01773ac4c97cd290e2f34c7a, type: 2}
-  linkedZoneNode: {fileID: -3197550637124935898, guid: 22c8250c01773ac4c97cd290e2f34c7a, type: 2}
-  rect:
-    serializedVersion: 2
-    x: 543
-    y: 567
-    width: 430
-    height: 150
-  zoneName: Prim
-  draggingRect:
-    serializedVersion: 2
-    x: 0
-    y: 0
-    width: 430
-    height: 45
---- !u!114 &-4912669020652922926
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3268536af8903a64da82aa6872733d1d, type: 3}
-  m_Name: SubwayOfficeDownStairs
-  m_EditorClassIdentifier: 
-  children:
-  - SceneToSubway
-  linkedZone: {fileID: 0}
-  linkedZoneNode: {fileID: 0}
-  rect:
-    serializedVersion: 2
-    x: 45.99997
-    y: 375
-    width: 430
-    height: 150
-  zoneName: Prim
-  draggingRect:
-    serializedVersion: 2
-    x: 0
-    y: 0
-    width: 430
-    height: 45
---- !u!114 &-3127826260620926069
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3268536af8903a64da82aa6872733d1d, type: 3}
-  m_Name: SceneToOffice
-  m_EditorClassIdentifier: 
-  children: []
-  linkedZone: {fileID: 11400000, guid: 26c6337203d60d64b876b87a573d7f08, type: 2}
-  linkedZoneNode: {fileID: -581003641315174118, guid: 26c6337203d60d64b876b87a573d7f08, type: 2}
-  rect:
-    serializedVersion: 2
-    x: 560
-    y: 30
-    width: 430
-    height: 150
-  zoneName: Prim
-  draggingRect:
-    serializedVersion: 2
-    x: 0
-    y: 0
-    width: 430
-    height: 45
---- !u!114 &-3097071385259953954
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3268536af8903a64da82aa6872733d1d, type: 3}
-  m_Name: SceneToOfficePortaBank
-  m_EditorClassIdentifier: 
-  children: []
-  linkedZone: {fileID: 11400000, guid: 4742afef1319b6e41b7fe953e2225f42, type: 2}
-  linkedZoneNode: {fileID: -3574389237603949618, guid: 4742afef1319b6e41b7fe953e2225f42, type: 2}
-  rect:
-    serializedVersion: 2
-    x: 564
-    y: 211
+    x: 27
+    y: 516
     width: 430
     height: 150
   zoneName: Prim
@@ -245,8 +75,8 @@ MonoBehaviour:
   linkedZoneNode: {fileID: 7113246731123188644, guid: 4742afef1319b6e41b7fe953e2225f42, type: 2}
   rect:
     serializedVersion: 2
-    x: 544
-    y: 935
+    x: 489
+    y: 346
     width: 430
     height: 150
   zoneName: Prim
@@ -279,17 +109,40 @@ MonoBehaviour:
   isZoneAudioLooping: 1
   zoneNodes:
   - {fileID: 7904139768458627740}
-  - {fileID: -3127826260620926069}
-  - {fileID: -9218234244170276018}
-  - {fileID: -3097071385259953954}
-  - {fileID: -6517432798666758438}
-  - {fileID: -4912669020652922926}
-  - {fileID: -8137509927413381033}
-  - {fileID: -5411656796356045681}
   - {fileID: 7420601607016574253}
   - {fileID: 8010896298289075519}
   - {fileID: -8894328186808746864}
   - {fileID: -67736599037801072}
+  - {fileID: -3744593269575087478}
+  - {fileID: 3207806963539493329}
+--- !u!114 &3207806963539493329
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3268536af8903a64da82aa6872733d1d, type: 3}
+  m_Name: SceneToTunnel
+  m_EditorClassIdentifier: 
+  children: []
+  linkedZone: {fileID: 11400000, guid: 6fbdf79e60fb835409a507cd244e2338, type: 2}
+  linkedZoneNode: {fileID: 5391617951486560325, guid: 6fbdf79e60fb835409a507cd244e2338, type: 2}
+  rect:
+    serializedVersion: 2
+    x: 491
+    y: 512
+    width: 430
+    height: 150
+  zoneName: Prim
+  draggingRect:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 430
+    height: 45
 --- !u!114 &7420601607016574253
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -308,8 +161,8 @@ MonoBehaviour:
   linkedZoneNode: {fileID: 0}
   rect:
     serializedVersion: 2
-    x: 41.99997
-    y: 747
+    x: 27.999939
+    y: 185
     width: 430
     height: 150
   zoneName: Prim
@@ -329,10 +182,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3268536af8903a64da82aa6872733d1d, type: 3}
-  m_Name: OfficeDoor
+  m_Name: RootUnused
   m_EditorClassIdentifier: 
-  children:
-  - SceneToOffice
+  children: []
   linkedZone: {fileID: 0}
   linkedZoneNode: {fileID: 0}
   rect:
@@ -365,8 +217,8 @@ MonoBehaviour:
   linkedZoneNode: {fileID: -5837764251287271127, guid: c2792a31fdd8a5249bea668b45752dd0, type: 2}
   rect:
     serializedVersion: 2
-    x: 537
-    y: 748
+    x: 477
+    y: 189
     width: 430
     height: 150
   zoneName: Prim
