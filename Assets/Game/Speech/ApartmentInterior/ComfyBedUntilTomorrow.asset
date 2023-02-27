@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: f8253fa3-005d-4224-91fb-03232f578471
   m_EditorClassIdentifier: 
   speakerType: 0
-  characterProperties: {fileID: 0}
-  speakerName: Default
+  characterProperties: {fileID: 11400000, guid: b50f84a2f36107a44825b11881f88adf, type: 2}
+  speakerName: Frankie
   text: Yes please
   children: []
   rect:
@@ -111,7 +111,8 @@ MonoBehaviour:
   newNodeOffset: {x: 100, y: 25}
   nodeWidth: 400
   nodeHeight: 225
-  activeNPCs: []
+  activeNPCs:
+  - {fileID: 11400000, guid: b50f84a2f36107a44825b11881f88adf, type: 2}
   dialogueNodes:
   - {fileID: -55141000725971936}
   - {fileID: 1366420985194722575}
@@ -130,8 +131,8 @@ MonoBehaviour:
   m_Name: dd04a30f-b38d-457c-9b5c-d457a9a179b3
   m_EditorClassIdentifier: 
   speakerType: 0
-  characterProperties: {fileID: 0}
-  speakerName: Default
+  characterProperties: {fileID: 11400000, guid: b50f84a2f36107a44825b11881f88adf, type: 2}
+  speakerName: Frankie
   text: Hello, comfy bed
   children:
   - a5dc3117-61a5-45b9-80e9-0aff72bc8288

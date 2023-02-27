@@ -72,7 +72,7 @@ namespace Frankie.Stats
             if (character == null) { return false; } // Failsafe
 
             members.Remove(character);
-            animatorLookup.Remove(character);
+            characterSpriteLinkLookup.Remove(character);
 
             Destroy(character.gameObject);
             partyAssistUpdated?.Invoke();

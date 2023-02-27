@@ -65,7 +65,7 @@ namespace Frankie.Stats
         public BaseStats GetPartyLeader() => members[0];
         public string GetPartyLeaderName() => members[0].GetCharacterProperties().GetCharacterNamePretty();
         public bool IsPartyLeader(BaseStats combatParticipant) => members[0] == combatParticipant;
-        public Animator GetLeadCharacterAnimator() => members.Count > 0 ? animatorLookup[members[0]] : null;
+        public Animator GetLeadCharacterAnimator() => members.Count > 0 ? characterSpriteLinkLookup[members[0]].GetAnimator() : null;
         public int GetPartySize() => members.Count;
         public List<CharacterProperties> GetAvailableCharactersToAdd()
         {
@@ -154,7 +154,7 @@ namespace Frankie.Stats
 
             inactiveParty.CaptureCharacterState(character);
             members.Remove(character);
-            animatorLookup.Remove(character);
+            characterSpriteLinkLookup.Remove(character);
 
             Destroy(character.gameObject);
             partyUpdated?.Invoke();
@@ -191,9 +191,7 @@ namespace Frankie.Stats
             if (members.Count == 0) { return; }
 
             BaseStats character = members[0];
-            animatorLookup[character].SetFloat("Speed", speed);
-            animatorLookup[character].SetFloat("xLook", xLookDirection);
-            animatorLookup[character].SetFloat("yLook", yLookDirection);
+            characterSpriteLinkLookup[character].UpdateCharacterAnimation(xLookDirection, yLookDirection, speed);
             UpdatePartySpeed(speed);
         }
 

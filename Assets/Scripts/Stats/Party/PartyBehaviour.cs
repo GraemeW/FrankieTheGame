@@ -18,7 +18,7 @@ namespace Frankie.Stats
         protected int initialOffset = 0;
 
         // State
-        protected Dictionary<BaseStats, Animator> animatorLookup = new Dictionary<BaseStats, Animator>();
+        protected Dictionary<BaseStats, CharacterSpriteLink> characterSpriteLinkLookup = new Dictionary<BaseStats, CharacterSpriteLink>();
         int lastMemberOffsetIndex = 0;
 
         // Cached References
@@ -80,8 +80,7 @@ namespace Frankie.Stats
                     lookDirection = movementHistory.GetEntryAtPosition(bufferIndex).Item2;
                 }
                 character.gameObject.transform.localPosition = localPosition;
-                animatorLookup[character].SetFloat("xLook", lookDirection.x);
-                animatorLookup[character].SetFloat("yLook", lookDirection.y);
+                characterSpriteLinkLookup[character].UpdateCharacterAnimation(lookDirection.x, lookDirection.y);
 
                 characterIndex++;
             }
@@ -98,10 +97,10 @@ namespace Frankie.Stats
 
         protected void RefreshAnimatorLookup()
         {
-            animatorLookup.Clear();
+            characterSpriteLinkLookup.Clear();
             foreach (BaseStats character in members)
             {
-                animatorLookup.Add(character, character.GetComponent<Animator>());
+                characterSpriteLinkLookup.Add(character, character.GetComponent<CharacterSpriteLink>());
             }
         }
 
@@ -126,7 +125,7 @@ namespace Frankie.Stats
             foreach (BaseStats character in members)
             {
                 if (characterIndex == 0) { characterIndex++; continue; }
-                animatorLookup[character].SetFloat("Speed", speed);
+                characterSpriteLinkLookup[character].UpdateCharacterAnimation(speed);
                 characterIndex++;
             }
         }
