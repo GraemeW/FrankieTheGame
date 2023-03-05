@@ -50,6 +50,7 @@ namespace Frankie.Control
         private void ParsePlayerStateChange(PlayerStateType playerStateType)
         {
             inWorld = (playerStateType == PlayerStateType.inWorld);
+            GetPlayerMovementSpeed(); // Called in parse player state change to avoid having to fetch modifiers on every move update call
         }
 
         protected override void FixedUpdate()
@@ -70,6 +71,14 @@ namespace Frankie.Control
             movementHistoryReset?.Invoke();
 
             historyResetThisFrame = true;
+        }
+
+        private float GetPlayerMovementSpeed()
+        {
+            if (playerStateHandler == null) { return movementSpeed; }
+
+            float modifier = playerStateHandler.GetParty().GetPartyLeader().GetCalculatedStat(CalculatedStat.MoveSpeed);
+            return movementSpeed * modifier;
         }
 
         private void InteractWithMovement()
@@ -98,8 +107,8 @@ namespace Frankie.Control
         private void MovePlayer()
         {
             Vector2 position = rigidBody2D.position;
-            position.x = position.x + movementSpeed * Sign(inputHorizontal) * Time.deltaTime;
-            position.y = position.y + movementSpeed * Sign(inputVertical) * Time.deltaTime;
+            position.x = position.x + GetPlayerMovementSpeed() * Sign(inputHorizontal) * Time.deltaTime;
+            position.y = position.y + GetPlayerMovementSpeed() * Sign(inputVertical) * Time.deltaTime;
             rigidBody2D.MovePosition(position);
 
             movementHistory.Add(new Tuple<Vector2, Vector2>(position, new Vector2(lookDirection.x, lookDirection.y)));

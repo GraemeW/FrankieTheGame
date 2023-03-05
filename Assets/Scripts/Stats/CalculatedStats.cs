@@ -13,6 +13,7 @@ namespace Frankie.Stats
         static float hitChanceMin = 0.2f;
         static float hitChanceMax = 1.0f;
         static float critChanceMax = 0.5f;
+        static float moveSpeedMin = 1.0f;
 
         #region Getters
         public static bool GetStatModifier(CalculatedStat calculatedStat, out Stat stat)
@@ -25,6 +26,7 @@ namespace Frankie.Stats
                 CalculatedStat.PhysicalAdder => Stat.Brawn,
                 CalculatedStat.MagicalAdder => Stat.Beauty,
                 CalculatedStat.Defense => Stat.Nimble,
+                CalculatedStat.MoveSpeed => Stat.Nimble,
                 CalculatedStat.RunSpeed => Stat.Pluck,
                 CalculatedStat.Fearsome => Stat.Pluck,
                 CalculatedStat.Imposing => Stat.Pluck,
@@ -47,6 +49,7 @@ namespace Frankie.Stats
                 CalculatedStat.PhysicalAdder => GetPhysicalAdder(callerModifier),
                 CalculatedStat.MagicalAdder => GetMagicalAdder(callerModifier),
                 CalculatedStat.Defense => GetDefense(callerModifier),
+                CalculatedStat.MoveSpeed => GetMoveSpeed(level, callerModifier),
                 CalculatedStat.RunSpeed => GetRunSpeed(callerModifier),
                 CalculatedStat.Fearsome => GetFearsome(callerModifier, contestModifier),
                 CalculatedStat.Imposing => GetImposing(callerModifier, contestModifier),
@@ -90,6 +93,12 @@ namespace Frankie.Stats
         private static float GetDefense(float modifier)
         {
             return Mathf.Max(0f, modifier);
+        }
+
+        private static float GetMoveSpeed(int level, float modifier)
+        {
+            float ratioModifier = 1 / (level * 15f);
+            return Mathf.Max(moveSpeedMin, modifier * ratioModifier);
         }
 
         private static float GetRunSpeed(float modifier)

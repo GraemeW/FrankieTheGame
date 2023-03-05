@@ -5,9 +5,10 @@ using UnityEngine;
 
 namespace Frankie.Inventory
 {
-    public class Wearable : MonoBehaviour
+    public class Wearable : MonoBehaviour, IModifierProvider
     {
         // Tunables
+        [SerializeField] BaseStatModifier[] baseStatModifiers = null;
         [SerializeField] Animator[] animators;
 
         // Cached References
@@ -73,6 +74,19 @@ namespace Frankie.Inventory
                 animator.SetFloat("Speed", speed);
             }
         }
-            
+
+        // Interface Methods
+        public IEnumerable<float> GetAdditiveModifiers(Stat stat)
+        {
+            float value = 0f;
+            foreach (BaseStatModifier baseStatModifier in baseStatModifiers)
+            {
+                if (baseStatModifier.stat == stat)
+                {
+                    value += Random.Range(baseStatModifier.minValue, baseStatModifier.maxValue);
+                }
+            }
+            yield return value;
+        }
     }
 }

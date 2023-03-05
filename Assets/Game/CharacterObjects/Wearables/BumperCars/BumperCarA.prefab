@@ -28,6 +28,22 @@ PrefabInstance:
       propertyPath: animators.Array.data[1]
       value: 
       objectReference: {fileID: 456788311229088085}
+    - target: {fileID: 2384317855769306964, guid: 41e772d0f3e3d6d499c7091581954c19, type: 3}
+      propertyPath: baseStatModifiers.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2384317855769306964, guid: 41e772d0f3e3d6d499c7091581954c19, type: 3}
+      propertyPath: baseStatModifiers.Array.data[0].stat
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 2384317855769306964, guid: 41e772d0f3e3d6d499c7091581954c19, type: 3}
+      propertyPath: baseStatModifiers.Array.data[0].maxValue
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 2384317855769306964, guid: 41e772d0f3e3d6d499c7091581954c19, type: 3}
+      propertyPath: baseStatModifiers.Array.data[0].minValue
+      value: 50
+      objectReference: {fileID: 0}
     - target: {fileID: 2936467026885796938, guid: 41e772d0f3e3d6d499c7091581954c19, type: 3}
       propertyPath: m_Size.x
       value: 0.57
