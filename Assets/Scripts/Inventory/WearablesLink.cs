@@ -25,6 +25,30 @@ namespace Frankie.Inventory
 
         public Transform GetAttachedObjectsRoot() => attachedObjectsRoot;
 
+        public bool IsWearingItem(Wearable wearable)
+        {
+            WearableItem wearableItem = wearable.GetWearableItem();
+            if (wearableItem == null) { return false; }
+
+            return IsWearingItem(wearableItem);
+        }
+
+        public bool IsWearingItem(WearableItem wearableItem)
+        {
+            string wearableItemID = wearableItem.GetItemID();
+
+            foreach (Transform checkWearableObject in attachedObjectsRoot)
+            {
+                if (!checkWearableObject.TryGetComponent(out Wearable checkWearable)) { continue; }
+
+                WearableItem checkWearableItem = checkWearable.GetWearableItem();
+                if (checkWearableItem == null) { continue; }
+
+                if (checkWearableItem.GetItemID() == wearableItemID) { return true; }
+            }
+            return false;
+        }
+
         // Modifier Interface
         public IEnumerable<float> GetAdditiveModifiers(Stat stat)
         {

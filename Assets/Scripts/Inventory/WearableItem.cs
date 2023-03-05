@@ -9,8 +9,10 @@ namespace Frankie.Inventory
     {
         // Tunables
         [SerializeField] Wearable wearablePrefab = null;
+        [SerializeField] bool isUnique = true;
 
         // Getters
         public Wearable GetWearablePrefab() => wearablePrefab;
+        public bool IsUnique() => isUnique;
     }
 }
