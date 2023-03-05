@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8263638854090363871}
   - component: {fileID: 8263638854090363870}
+  - component: {fileID: 2946358629567667514}
   - component: {fileID: 5469981059178528012}
   - component: {fileID: 7096031021457464581}
   - component: {fileID: 7770585857665752477}
@@ -67,6 +68,18 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!210 &2946358629567667514
+SortingGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8263638854090363868}
+  m_Enabled: 1
+  m_SortingLayerID: 1098151181
+  m_SortingLayer: 2
+  m_SortingOrder: 0
+  m_SortAtRoot: 0
 --- !u!61 &5469981059178528012
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -126,7 +139,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   spriteRenderer: {fileID: 8263638854299470656}
   animator: {fileID: 8263638854090363870}
-  attachedObjectsRoot: {fileID: 9093274571750331754}
 --- !u!114 &7770585857665752477
 MonoBehaviour:
   m_ObjectHideFlags: 0

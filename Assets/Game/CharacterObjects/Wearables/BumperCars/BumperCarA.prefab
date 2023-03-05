@@ -17,6 +17,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 22100000, guid: 8bcd76aed1afa6740ac67b6ea13523ee, type: 2}
     - target: {fileID: 2384317855769306964, guid: 41e772d0f3e3d6d499c7091581954c19, type: 3}
+      propertyPath: wearableItem
+      value: 
+      objectReference: {fileID: 11400000, guid: 2cd54817ff8cbfa48b9f9c7cdc457096, type: 2}
+    - target: {fileID: 2384317855769306964, guid: 41e772d0f3e3d6d499c7091581954c19, type: 3}
       propertyPath: animators.Array.size
       value: 2
       objectReference: {fileID: 0}
@@ -59,6 +63,10 @@ PrefabInstance:
     - target: {fileID: 2936467026885796938, guid: 41e772d0f3e3d6d499c7091581954c19, type: 3}
       propertyPath: m_WasSpriteAssigned
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3170090298086961331, guid: 41e772d0f3e3d6d499c7091581954c19, type: 3}
+      propertyPath: m_Layer
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 3696881123632575220, guid: 41e772d0f3e3d6d499c7091581954c19, type: 3}
       propertyPath: m_RootOrder
@@ -108,6 +116,10 @@ PrefabInstance:
       propertyPath: m_Controller
       value: 
       objectReference: {fileID: 22100000, guid: 3ef8b2b4b2d57fa47aa6f05a713ce284, type: 2}
+    - target: {fileID: 4379365137030068517, guid: 41e772d0f3e3d6d499c7091581954c19, type: 3}
+      propertyPath: m_Layer
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 7985907480482996339, guid: 41e772d0f3e3d6d499c7091581954c19, type: 3}
       propertyPath: m_Size.x
       value: 0.58

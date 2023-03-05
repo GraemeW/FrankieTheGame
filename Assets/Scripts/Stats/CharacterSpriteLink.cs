@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Frankie.Inventory;
 
 namespace Frankie.Stats
 {
@@ -10,17 +11,15 @@ namespace Frankie.Stats
         // Tunables
         [SerializeField] SpriteRenderer spriteRenderer = null;
         [SerializeField] Animator animator = null;
-        [SerializeField] Transform attachedObjectsRoot = null;
 
         // Events
         public event Action<float, float> characterLookUpdated;
         public event Action<float> characterSpeedUpdated;
 
+
         // Getters
         public SpriteRenderer GetSpriteRenderer() => spriteRenderer;
         public Animator GetAnimator() => animator;
-
-        public Transform GetAttachedObjectsRoot() => attachedObjectsRoot;
 
         // Animator Setter Methods
         public void UpdateCharacterAnimation(float xLook, float yLook, float speed)

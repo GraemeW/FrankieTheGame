@@ -20,10 +20,10 @@ namespace Frankie.Control.Specialization
             if (wearable == null) { return; }
 
             BaseStats partyLead = playerStateMachine.GetParty().GetPartyLeader();
-            if (partyLead.TryGetComponent(out CharacterSpriteLink characterSpriteLink))
+            if (partyLead.TryGetComponent(out WearablesLink wearablesLink))
             {
-                Wearable spawnedWearable = Instantiate(wearable, characterSpriteLink.GetAttachedObjectsRoot());
-                spawnedWearable.AttachToCharacter(characterSpriteLink);
+                Wearable spawnedWearable = Instantiate(wearable, wearablesLink.GetAttachedObjectsRoot());
+                spawnedWearable.AttachToCharacter(wearablesLink);
             }
         }
 
@@ -33,10 +33,10 @@ namespace Frankie.Control.Specialization
 
             foreach (BaseStats character in playerStateMachine.GetParty().GetParty())
             {
-                if (character.TryGetComponent(out CharacterSpriteLink characterSpriteLink))
+                if (character.TryGetComponent(out WearablesLink wearablesLink))
                 {
                     Wearable spawnedWearable = Instantiate(wearable);
-                    spawnedWearable.AttachToCharacter(characterSpriteLink);
+                    spawnedWearable.AttachToCharacter(wearablesLink);
                 }
             }
         }

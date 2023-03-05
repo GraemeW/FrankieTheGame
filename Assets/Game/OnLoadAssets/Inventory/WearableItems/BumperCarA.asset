@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9ff90fd4796561b4284929f8693cf276, type: 3}
+  m_Name: BumperCarA
+  m_EditorClassIdentifier: 
+  itemID: d15ac71b-a8d7-418b-aeb2-56835326c4c3
+  displayName: Bumper Car A
+  description: The rubber base bounces with great vigor
+  droppable: 1
+  price: 0
+  wearablePrefab: {fileID: 4431856632854766482, guid: 2c8781e0f4e13814e80ef8437afd668c, type: 3}

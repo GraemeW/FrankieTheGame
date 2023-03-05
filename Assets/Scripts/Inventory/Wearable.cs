@@ -8,6 +8,7 @@ namespace Frankie.Inventory
     public class Wearable : MonoBehaviour, IModifierProvider
     {
         // Tunables
+        [SerializeField] WearableItem wearableItem = null;
         [SerializeField] BaseStatModifier[] baseStatModifiers = null;
         [SerializeField] Animator[] animators;
 
@@ -34,12 +35,16 @@ namespace Frankie.Inventory
         }
 
         // Public Methods
-        public void AttachToCharacter(CharacterSpriteLink characterSpriteLink)
+        public WearableItem GetWearableItem() => wearableItem;
+
+        public void AttachToCharacter(WearablesLink wearablesLink)
         {
-            Transform attachRoot = characterSpriteLink.GetAttachedObjectsRoot();
+            Transform attachRoot = wearablesLink.GetAttachedObjectsRoot();
             transform.parent = attachRoot;
 
-            this.characterSpriteLink = characterSpriteLink;
+            characterSpriteLink = wearablesLink.GetCharacterSpriteLink();
+            if (characterSpriteLink == null) { return; }
+
             characterSpriteLink.characterLookUpdated += UpdateAnimatorLooks;
             characterSpriteLink.characterSpeedUpdated += UpdateAnimatorSpeeds;
         }
