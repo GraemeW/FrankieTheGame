@@ -67,8 +67,8 @@ MonoBehaviour:
   m_Name: SceneToSecundia
   m_EditorClassIdentifier: 
   children: []
-  linkedZone: {fileID: 11400000, guid: 56f07633698545c4695b11c285ca5f37, type: 2}
-  linkedZoneNode: {fileID: -546647865229579974, guid: 56f07633698545c4695b11c285ca5f37, type: 2}
+  linkedZone: {fileID: 11400000, guid: df1bace79a73e8843906b4ce6b0295ae, type: 2}
+  linkedZoneNode: {fileID: -9213467749597982465, guid: df1bace79a73e8843906b4ce6b0295ae, type: 2}
   rect:
     serializedVersion: 2
     x: 562
