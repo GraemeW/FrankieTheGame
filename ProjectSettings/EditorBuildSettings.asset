@@ -45,7 +45,7 @@ EditorBuildSettings:
     path: Assets/Scenes/Tunnels.unity
     guid: eccdfd585cec2fe4881a93b6d688f3c7
   - enabled: 1
-    path: Assets/Scenes/Secundia.unity
+    path: Assets/Scenes/Proper.unity
     guid: 06f2222db45582245bb1d6aa64044d8e
   m_configObjects:
     com.unity.addressableassets: {fileID: 11400000, guid: 1e06a2cd75786454b852b0ccc83e75d9, type: 2}

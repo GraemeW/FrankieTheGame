@@ -22,7 +22,7 @@ MonoBehaviour:
     y: 30
     width: 430
     height: 150
-  zoneName: Secundia
+  zoneName: Proper
   draggingRect:
     serializedVersion: 2
     x: 0
@@ -50,7 +50,7 @@ MonoBehaviour:
     y: 30
     width: 430
     height: 150
-  zoneName: Secundia
+  zoneName: Proper
   draggingRect:
     serializedVersion: 2
     x: 0
@@ -67,7 +67,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 71bdebc52d51af440b8f8417df534a79, type: 3}
-  m_Name: Secundia
+  m_Name: Proper
   m_EditorClassIdentifier: 
   newNodeOffset: {x: 100, y: 25}
   nodeWidth: 430
