@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9ff90fd4796561b4284929f8693cf276, type: 3}
+  m_Name: GiantTurkeyLeg
+  m_EditorClassIdentifier: 
+  itemID: 5cd80040-f5c7-48d3-9796-557cabe3ad90
+  displayName: GiantTurkeyLeg
+  description: It's a massive turkey leg.  It's really, really big.  No, really.
+  droppable: 1
+  price: 50
+  wearablePrefab: {fileID: 1159683955107447311, guid: 7844872dab18fe04bab1ddc3424f2c2e, type: 3}
+  isUnique: 1

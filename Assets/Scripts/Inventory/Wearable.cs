@@ -5,17 +5,23 @@ using UnityEngine;
 
 namespace Frankie.Inventory
 {
+    [RequireComponent(typeof(Animator))]
     public class Wearable : MonoBehaviour, IModifierProvider
     {
         // Tunables
         [SerializeField] WearableItem wearableItem = null;
         [SerializeField] BaseStatModifier[] baseStatModifiers = null;
-        [SerializeField] Animator[] animators;
 
         // Cached References
+        Animator animator = null;
         CharacterSpriteLink characterSpriteLink = null;
 
         // Unity Methods
+        private void Awake()
+        {
+            animator = GetComponent<Animator>();
+        }
+
         private void OnEnable()
         {
             if (characterSpriteLink != null)
@@ -57,27 +63,17 @@ namespace Frankie.Inventory
         // Private Methods
         private void UpdateAnimatorLooks(float xLook, float  yLook)
         {
-            if (animators == null || animators.Length == 0) { return; }
+            if (animator.runtimeAnimatorController == null) { return; }
 
-            foreach (Animator animator in animators)
-            {
-                if (animator.runtimeAnimatorController == null) { continue; }
-
-                animator.SetFloat("xLook", xLook);
-                animator.SetFloat("yLook", yLook);
-            }
+            animator.SetFloat("xLook", xLook);
+            animator.SetFloat("yLook", yLook);
         }
 
         private void UpdateAnimatorSpeeds(float speed)
         {
-            if (animators == null || animators.Length == 0) { return; }
+            if (animator.runtimeAnimatorController == null) { return; }
 
-            foreach (Animator animator in animators)
-            {
-                if (animator.runtimeAnimatorController == null) { return; }
-
-                animator.SetFloat("Speed", speed);
-            }
+            animator.SetFloat("Speed", speed);
         }
 
         // Interface Methods

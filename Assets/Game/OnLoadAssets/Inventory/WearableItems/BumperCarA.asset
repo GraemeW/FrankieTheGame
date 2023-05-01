@@ -13,8 +13,9 @@ MonoBehaviour:
   m_Name: BumperCarA
   m_EditorClassIdentifier: 
   itemID: d15ac71b-a8d7-418b-aeb2-56835326c4c3
-  displayName: Bumper Car A
+  displayName: BumperGreen
   description: The rubber base bounces with great vigor
   droppable: 1
   price: 0
   wearablePrefab: {fileID: 4431856632854766482, guid: 2c8781e0f4e13814e80ef8437afd668c, type: 3}
+  isUnique: 1

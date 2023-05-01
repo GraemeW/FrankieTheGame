@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3268536af8903a64da82aa6872733d1d, type: 3}
-  m_Name: SecundiaToTunnel
+  m_Name: ProperToTunnel
   m_EditorClassIdentifier: 
   children:
   - SceneToTunnel
@@ -74,7 +74,7 @@ MonoBehaviour:
   nodeHeight: 150
   sceneReference:
     sceneAsset: {fileID: 102900000, guid: 06f2222db45582245bb1d6aa64044d8e, type: 3}
-    sceneName: Secundia
+    sceneName: Proper
   updateMap: 1
   zoneAudio: {fileID: 8300000, guid: 3dc90c61b4c6f654e8835404e763733e, type: 3}
   isZoneAudioLooping: 1

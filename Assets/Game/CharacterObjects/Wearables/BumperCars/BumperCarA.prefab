@@ -12,6 +12,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: BumperCarA
       objectReference: {fileID: 0}
+    - target: {fileID: 1837843006285845014, guid: 41e772d0f3e3d6d499c7091581954c19, type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 22100000, guid: e8d07b740fa99074fb96b98cdd717f34, type: 2}
     - target: {fileID: 1927827449376671123, guid: 41e772d0f3e3d6d499c7091581954c19, type: 3}
       propertyPath: m_Controller
       value: 
@@ -24,14 +28,6 @@ PrefabInstance:
       propertyPath: animators.Array.size
       value: 2
       objectReference: {fileID: 0}
-    - target: {fileID: 2384317855769306964, guid: 41e772d0f3e3d6d499c7091581954c19, type: 3}
-      propertyPath: animators.Array.data[0]
-      value: 
-      objectReference: {fileID: 2653674285463270075}
-    - target: {fileID: 2384317855769306964, guid: 41e772d0f3e3d6d499c7091581954c19, type: 3}
-      propertyPath: animators.Array.data[1]
-      value: 
-      objectReference: {fileID: 456788311229088085}
     - target: {fileID: 2384317855769306964, guid: 41e772d0f3e3d6d499c7091581954c19, type: 3}
       propertyPath: baseStatModifiers.Array.size
       value: 1
@@ -136,7 +132,9 @@ PrefabInstance:
       propertyPath: m_WasSpriteAssigned
       value: 1
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 1927827449376671123, guid: 41e772d0f3e3d6d499c7091581954c19, type: 3}
+    - {fileID: 4054485302031693437, guid: 41e772d0f3e3d6d499c7091581954c19, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents:
@@ -184,13 +182,3 @@ CircleCollider2D:
   m_Offset: {x: 0, y: -0.2}
   serializedVersion: 2
   m_Radius: 0.3
---- !u!95 &456788311229088085 stripped
-Animator:
-  m_CorrespondingSourceObject: {fileID: 1927827449376671123, guid: 41e772d0f3e3d6d499c7091581954c19, type: 3}
-  m_PrefabInstance: {fileID: 2060346618670236870}
-  m_PrefabAsset: {fileID: 0}
---- !u!95 &2653674285463270075 stripped
-Animator:
-  m_CorrespondingSourceObject: {fileID: 4054485302031693437, guid: 41e772d0f3e3d6d499c7091581954c19, type: 3}
-  m_PrefabInstance: {fileID: 2060346618670236870}
-  m_PrefabAsset: {fileID: 0}

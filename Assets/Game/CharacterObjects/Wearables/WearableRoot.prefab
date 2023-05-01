@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3696881123632575220}
   - component: {fileID: 2384317855769306964}
+  - component: {fileID: 1837843006285845014}
   m_Layer: 2
   m_Name: WearableRoot
   m_TagString: Untagged
@@ -47,9 +48,27 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   wearableItem: {fileID: 0}
   baseStatModifiers: []
-  animators:
-  - {fileID: 4054485302031693437}
-  - {fileID: 1927827449376671123}
+--- !u!95 &1837843006285845014
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1764316831733976797}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 0}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &3170090298086961331
 GameObject:
   m_ObjectHideFlags: 0
@@ -59,7 +78,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5841001187260921760}
-  - component: {fileID: 1927827449376671123}
   - component: {fileID: 7985907480482996339}
   m_Layer: 3
   m_Name: CharacterBackground
@@ -84,27 +102,6 @@ Transform:
   m_Father: {fileID: 3696881123632575220}
   m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!95 &1927827449376671123
-Animator:
-  serializedVersion: 5
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3170090298086961331}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 0}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorStateOnDisable: 0
-  m_WriteDefaultValuesOnDisable: 0
 --- !u!212 &7985907480482996339
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -166,7 +163,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8740306805426083879}
-  - component: {fileID: 4054485302031693437}
   - component: {fileID: 2936467026885796938}
   m_Layer: 3
   m_Name: CharacterForeground
@@ -190,27 +186,6 @@ Transform:
   m_Father: {fileID: 5841001187260921760}
   m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!95 &4054485302031693437
-Animator:
-  serializedVersion: 5
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4379365137030068517}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 0}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorStateOnDisable: 0
-  m_WriteDefaultValuesOnDisable: 0
 --- !u!212 &2936467026885796938
 SpriteRenderer:
   m_ObjectHideFlags: 0
