@@ -132,6 +132,9 @@ namespace Frankie.Control
 
         protected override void UpdateAnimator()
         {
+            // Safety on accessing controller properties before setup complete (OnEnable calls)
+            if (animator.runtimeAnimatorController == null) { return; }
+
             animator.SetFloat("Speed", currentSpeed);
             animator.SetFloat("xLook", lookDirection.x);
             animator.SetFloat("yLook", lookDirection.y);
