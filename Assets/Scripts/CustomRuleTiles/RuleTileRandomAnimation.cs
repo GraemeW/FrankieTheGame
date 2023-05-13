@@ -58,5 +58,4 @@ public class RuleTileRandomAnimation : RuleTile<RuleTileRandomAnimation.Neighbor
         }
         return false;
     }
-
 }
