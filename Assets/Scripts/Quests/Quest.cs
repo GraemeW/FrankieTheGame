@@ -101,7 +101,7 @@ namespace Frankie.Quests
 
         #region EditorMethods
 #if UNITY_EDITOR
-        private void GenerateObjectiveFromNames()
+        public void GenerateObjectiveFromNames()
         {
             CleanUpObjectives();
 
@@ -138,6 +138,8 @@ namespace Frankie.Quests
             
             foreach (QuestObjective questObjective in objectivesToDelete)
             {
+                if (questObjective == null) { continue; }
+
                 questObjectives.Remove(questObjective);
                 Undo.DestroyObjectImmediate(questObjective);
             }
@@ -189,6 +191,8 @@ namespace Frankie.Quests
             {
                 foreach (QuestObjective questObjective in questObjectives)
                 {
+                    if (questObjective == null) { continue; }
+
                     if (AssetDatabase.GetAssetPath(questObjective) == "")
                     {
                         AssetDatabase.AddObjectToAsset(questObjective, this);

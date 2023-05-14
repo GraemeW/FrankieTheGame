@@ -1,0 +1,201 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-6665285766561408189
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 791ebb2ca99aa484887af17d849ffbc0, type: 3}
+  m_Name: CurioNine
+  m_EditorClassIdentifier: 
+  objectiveID: 5abdbc4e-c3e4-4c1c-b146-0824fd59bdd2
+  description: 
+  questID: 61c08901-2fd9-403b-833e-f22949c8d448
+--- !u!114 &-4510697727763330271
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 791ebb2ca99aa484887af17d849ffbc0, type: 3}
+  m_Name: CurioThree
+  m_EditorClassIdentifier: 
+  objectiveID: 87ec90d5-4760-4064-a269-d5278241c077
+  description: 
+  questID: 61c08901-2fd9-403b-833e-f22949c8d448
+--- !u!114 &-4184183761088310349
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 791ebb2ca99aa484887af17d849ffbc0, type: 3}
+  m_Name: CurioFive
+  m_EditorClassIdentifier: 
+  objectiveID: 425c5a25-f7e1-45e2-8f72-66dc3f02c04a
+  description: 
+  questID: 61c08901-2fd9-403b-833e-f22949c8d448
+--- !u!114 &-1606810816014409339
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 791ebb2ca99aa484887af17d849ffbc0, type: 3}
+  m_Name: CurioOne
+  m_EditorClassIdentifier: 
+  objectiveID: 387e6004-4957-4374-9b2c-71923c08b84f
+  description: 
+  questID: 61c08901-2fd9-403b-833e-f22949c8d448
+--- !u!114 &-262292152810515008
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 791ebb2ca99aa484887af17d849ffbc0, type: 3}
+  m_Name: CurioSeven
+  m_EditorClassIdentifier: 
+  objectiveID: 0133a28c-1db6-4b3c-82fb-67e62f07978e
+  description: 
+  questID: 61c08901-2fd9-403b-833e-f22949c8d448
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dbd8cf865509ead44b7c06cc9699edc8, type: 3}
+  m_Name: MainQuestCurio
+  m_EditorClassIdentifier: 
+  questID: 61c08901-2fd9-403b-833e-f22949c8d448
+  detail: 
+  questObjectiveNames:
+  - CurioOne
+  - CurioTwo
+  - CurioThree
+  - CurioFour
+  - CurioFive
+  - CurioSix
+  - CurioSeven
+  - CurioEight
+  - CurioNine
+  - CurioTen
+  rewards: []
+  questObjectives:
+  - {fileID: -1606810816014409339}
+  - {fileID: -1606810816014409339}
+  - {fileID: 0}
+  - {fileID: 4460678901540854653}
+  - {fileID: 4460678901540854653}
+  - {fileID: 0}
+  - {fileID: -4510697727763330271}
+  - {fileID: -4510697727763330271}
+  - {fileID: 8993746641356414668}
+  - {fileID: 8993746641356414668}
+  - {fileID: -4184183761088310349}
+  - {fileID: -4184183761088310349}
+  - {fileID: 5958011448916513900}
+  - {fileID: 5958011448916513900}
+  - {fileID: -262292152810515008}
+  - {fileID: -262292152810515008}
+  - {fileID: 662253007059830274}
+  - {fileID: 662253007059830274}
+  - {fileID: -6665285766561408189}
+  - {fileID: -6665285766561408189}
+  - {fileID: 1169059385696805003}
+  - {fileID: 1169059385696805003}
+--- !u!114 &662253007059830274
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 791ebb2ca99aa484887af17d849ffbc0, type: 3}
+  m_Name: CurioEight
+  m_EditorClassIdentifier: 
+  objectiveID: 638e36d4-f676-4a6b-85b7-a83523632926
+  description: 
+  questID: 61c08901-2fd9-403b-833e-f22949c8d448
+--- !u!114 &1169059385696805003
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 791ebb2ca99aa484887af17d849ffbc0, type: 3}
+  m_Name: CurioTen
+  m_EditorClassIdentifier: 
+  objectiveID: 03970be0-196c-48e8-b2a3-15aaeae5105d
+  description: 
+  questID: 61c08901-2fd9-403b-833e-f22949c8d448
+--- !u!114 &4460678901540854653
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 791ebb2ca99aa484887af17d849ffbc0, type: 3}
+  m_Name: CurioTwo
+  m_EditorClassIdentifier: 
+  objectiveID: d7debe8d-22e9-43a1-9b4e-ebb38d1b99aa
+  description: 
+  questID: 61c08901-2fd9-403b-833e-f22949c8d448
+--- !u!114 &5958011448916513900
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 791ebb2ca99aa484887af17d849ffbc0, type: 3}
+  m_Name: CurioSix
+  m_EditorClassIdentifier: 
+  objectiveID: 37f96aa7-c96c-46ba-8e17-1855dcd94052
+  description: 
+  questID: 61c08901-2fd9-403b-833e-f22949c8d448
+--- !u!114 &8993746641356414668
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 791ebb2ca99aa484887af17d849ffbc0, type: 3}
+  m_Name: CurioFour
+  m_EditorClassIdentifier: 
+  objectiveID: 9609fa99-71a0-41b3-82b2-e5e40c597222
+  description: 
+  questID: 61c08901-2fd9-403b-833e-f22949c8d448

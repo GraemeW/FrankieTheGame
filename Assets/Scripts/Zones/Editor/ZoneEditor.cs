@@ -6,7 +6,7 @@ using UnityEditor.Callbacks;
 using UnityEngine;
 using System.Linq;
 
-namespace Frankie.ZoneManagement.Editor
+namespace Frankie.ZoneManagement.UIEditor
 {
     public class ZoneEditor : EditorWindow
     {

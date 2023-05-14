@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEditor;
 using System.Linq;
 
-namespace Frankie.ZoneManagement.Editor
+namespace Frankie.ZoneManagement.UIEditor
 {
     [CustomPropertyDrawer(typeof(SceneReference))]
     public class SceneReferencePropertyDrawer : PropertyDrawer
