@@ -132,9 +132,9 @@ namespace Frankie.Quests
 
         private void CleanUpObjectives()
         {
-            Dictionary<string, bool> newObjectiveMap = UniquifyObjectiveNames();
+            HashSet<string> newObjectiveMap = UniqueifyObjectiveNames();
             List<QuestObjective> objectivesToDelete 
-                = questObjectives.Where(o => (o != null && !(newObjectiveMap.ContainsKey(o.name)))).ToList();
+                = questObjectives.Where(o => (o != null && !(newObjectiveMap.Contains(o.name)))).ToList();
             
             foreach (QuestObjective questObjective in objectivesToDelete)
             {
@@ -143,21 +143,15 @@ namespace Frankie.Quests
             }
         }
 
-        private Dictionary<string, bool> UniquifyObjectiveNames()
+        private HashSet<string> UniqueifyObjectiveNames()
         {
-            // Returns map of objective names
-            Dictionary<string, bool> objectiveNameMap = new Dictionary<string, bool>();
-            List<string> uniqueObjectiveNames = new List<string>();
+            HashSet<string> objectiveNameMap = new HashSet<string>();
             foreach (string questObjectiveName in questObjectiveNames)
             {
-                if (objectiveNameMap.ContainsKey(questObjectiveName)) { continue; }
-                objectiveNameMap[questObjectiveName] = true;
-                uniqueObjectiveNames.Add(questObjectiveName);
+                objectiveNameMap.Add(questObjectiveName);
             }
 
-            // Store the unique entry list as final list
-            questObjectiveNames = uniqueObjectiveNames;
-
+            questObjectiveNames = objectiveNameMap.ToList();
             return objectiveNameMap;
         }
 #endif
