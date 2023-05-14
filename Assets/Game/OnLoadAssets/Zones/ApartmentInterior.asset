@@ -93,6 +93,67 @@ MonoBehaviour:
     height: 45
   condition:
     and: []
+--- !u!114 &-2779898236315854942
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3268536af8903a64da82aa6872733d1d, type: 3}
+  m_Name: SceneToApartmentBed
+  m_EditorClassIdentifier: 
+  children: []
+  linkedZone: {fileID: 11400000}
+  linkedZoneNode: {fileID: 3520509955692951049}
+  rect:
+    serializedVersion: 2
+    x: 584
+    y: 447
+    width: 430
+    height: 150
+  zoneName: ApartmentInterior
+  draggingRect:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 430
+    height: 45
+  condition:
+    and: []
+--- !u!114 &-2592018651115338096
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3268536af8903a64da82aa6872733d1d, type: 3}
+  m_Name: BedToBedroomRefresh
+  m_EditorClassIdentifier: 
+  children:
+  - SceneToApartmentBed
+  linkedZone: {fileID: 0}
+  linkedZoneNode: {fileID: 0}
+  rect:
+    serializedVersion: 2
+    x: 102.000015
+    y: 447
+    width: 430
+    height: 150
+  zoneName: ApartmentInterior
+  draggingRect:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 430
+    height: 45
+  condition:
+    and: []
 --- !u!114 &-1859928201582379330
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -156,6 +217,9 @@ MonoBehaviour:
   - {fileID: 526659961691500239}
   - {fileID: -1859928201582379330}
   - {fileID: -8071493759938592189}
+  - {fileID: -2592018651115338096}
+  - {fileID: -2779898236315854942}
+  - {fileID: 3520509955692951049}
 --- !u!114 &526659961691500239
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -218,6 +282,36 @@ MonoBehaviour:
     height: 45
   condition:
     and: []
+--- !u!114 &3520509955692951049
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3268536af8903a64da82aa6872733d1d, type: 3}
+  m_Name: ApartmentBed
+  m_EditorClassIdentifier: 
+  children: []
+  linkedZone: {fileID: 0}
+  linkedZoneNode: {fileID: 0}
+  rect:
+    serializedVersion: 2
+    x: 104.999985
+    y: 626
+    width: 430
+    height: 150
+  zoneName: ApartmentInterior
+  draggingRect:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 430
+    height: 45
+  condition:
+    and: []
 --- !u!114 &5291146569498224961
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -247,8 +341,7 @@ MonoBehaviour:
     width: 430
     height: 45
   condition:
-    and:
-    - or: []
+    and: []
 --- !u!114 &6282835250090300715
 MonoBehaviour:
   m_ObjectHideFlags: 0
