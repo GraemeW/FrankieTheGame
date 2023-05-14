@@ -23,7 +23,6 @@ namespace Frankie.Core
             CharacterProperties.BuildCacheIfEmpty();
             InventoryItem.BuildCacheIfEmpty();
             Quest.BuildCacheIfEmpty();
-            QuestObjective.BuildCacheIfEmpty();
             Skill.BuildCacheIfEmpty();
             Zone.BuildCacheIfEmpty();
         }
@@ -36,7 +35,6 @@ namespace Frankie.Core
                 CharacterProperties.ReleaseCache();
                 InventoryItem.ReleaseCache();
                 Quest.ReleaseCache();
-                QuestObjective.ReleaseCache();
                 Skill.ReleaseCache();
                 Zone.ReleaseCache();
             }

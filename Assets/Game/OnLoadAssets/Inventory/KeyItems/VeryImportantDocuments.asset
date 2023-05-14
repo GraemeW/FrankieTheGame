@@ -17,6 +17,5 @@ MonoBehaviour:
   description: It's hay.  It's just hay in a binder.
   droppable: 0
   price: 0
-  questObjectivePairs:
-  - quest: {fileID: 11400000, guid: 2f938ee49fb6a5042b36b02b3d3c7619, type: 2}
-    objective: {fileID: 11400000, guid: 704b67006dd6ea34f9bcc139f58ca601, type: 2}
+  questObjectives:
+  - {fileID: -8720720264288702615, guid: 2f938ee49fb6a5042b36b02b3d3c7619, type: 2}

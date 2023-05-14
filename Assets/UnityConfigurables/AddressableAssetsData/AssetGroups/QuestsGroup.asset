@@ -17,26 +17,8 @@ MonoBehaviour:
     m_SerializedData: []
   m_GUID: 5737d4d430161ca479e9b63007f531e0
   m_SerializeEntries:
-  - m_GUID: 7b38628dfd3f40b458d818b80a1bd21c
-    m_Address: Assets/Game/OnLoadAssets/Quests/Objectives
-    m_ReadOnly: 0
-    m_SerializedLabels:
-    - QuestObjective
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 1c384b154e472324cacb2381484bd3bc
-    m_Address: Assets/Game/OnLoadAssets/Quests/z_OldDemo/Office_RescueTilly.asset
-    m_ReadOnly: 0
-    m_SerializedLabels:
-    - QuestObjective
-    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: d5a24b6ae4382f546a9b472318a86c1f
     m_Address: Assets/Game/OnLoadAssets/Quests/Quests
-    m_ReadOnly: 0
-    m_SerializedLabels:
-    - Quest
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 1668b91476fac90448edeb1802fe0843
-    m_Address: Assets/Game/OnLoadAssets/Quests/z_OldDemo/Office_RescueTilly_ObjFindTilly.asset
     m_ReadOnly: 0
     m_SerializedLabels:
     - Quest

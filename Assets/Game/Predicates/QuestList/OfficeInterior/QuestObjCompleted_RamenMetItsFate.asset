@@ -13,4 +13,4 @@ MonoBehaviour:
   m_Name: QuestObjCompleted_RamenMetItsFate
   m_EditorClassIdentifier: 
   quest: {fileID: 11400000, guid: 21448c66f5c436e4e97f39885ea7ed02, type: 2}
-  objective: {fileID: 11400000, guid: 9f293abe10b5b3f4e8630b8fbf321564, type: 2}
+  objective: {fileID: -8702312306769958760, guid: 21448c66f5c436e4e97f39885ea7ed02, type: 2}

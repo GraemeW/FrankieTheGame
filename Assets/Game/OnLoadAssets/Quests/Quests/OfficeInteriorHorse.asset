@@ -1,5 +1,35 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-8720720264288702615
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 791ebb2ca99aa484887af17d849ffbc0, type: 3}
+  m_Name: HorsePickedUpTheDocuments
+  m_EditorClassIdentifier: 
+  objectiveID: 51f75380-92ae-4f3a-8882-f3403267d40f
+  description: Tracking pick up of the Important Documents
+  questID: fd9ed298-c9f2-4c72-a440-4f02b469c9d7
+--- !u!114 &-3951261914489077840
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 791ebb2ca99aa484887af17d849ffbc0, type: 3}
+  m_Name: HorseReceivedTheDocuments
+  m_EditorClassIdentifier: 
+  objectiveID: 7f728074-4cb3-438a-8f02-83de74c61f95
+  description: Tracking receipt of important documents
+  questID: fd9ed298-c9f2-4c72-a440-4f02b469c9d7
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12,10 +42,29 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dbd8cf865509ead44b7c06cc9699edc8, type: 3}
   m_Name: OfficeInteriorHorse
   m_EditorClassIdentifier: 
-  uniqueID: f47c7811-3a7d-4e03-a0e3-555a4c3d0db9
-  detail: Tracker for chatting with the horse
-  objectives:
-  - {fileID: 11400000, guid: 02d825d6d2a0e8d498b7910e844e24ba, type: 2}
-  - {fileID: 11400000, guid: 704b67006dd6ea34f9bcc139f58ca601, type: 2}
-  - {fileID: 11400000, guid: b21a9471cd1f5bc499bd7046b7c4fde9, type: 2}
+  questID: fd9ed298-c9f2-4c72-a440-4f02b469c9d7
+  detail: Tracker for chatting with the horse in Office
+  questObjectiveNames:
+  - HorseOpenedFirepole
+  - HorsePickedUpTheDocuments
+  - HorseReceivedTheDocuments
   rewards: []
+  questObjectives:
+  - {fileID: 3354754754222314555}
+  - {fileID: -8720720264288702615}
+  - {fileID: -3951261914489077840}
+--- !u!114 &3354754754222314555
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 791ebb2ca99aa484887af17d849ffbc0, type: 3}
+  m_Name: HorseOpenedFirepole
+  m_EditorClassIdentifier: 
+  objectiveID: 18bd53b3-744f-4951-ad09-774140811fa1
+  description: Tracker against horse opening the firepole lock
+  questID: fd9ed298-c9f2-4c72-a440-4f02b469c9d7

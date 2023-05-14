@@ -13,4 +13,4 @@ MonoBehaviour:
   m_Name: QuestObjCompleted_HorseOpenedFirepole
   m_EditorClassIdentifier: 
   quest: {fileID: 11400000, guid: 2f938ee49fb6a5042b36b02b3d3c7619, type: 2}
-  objective: {fileID: 11400000, guid: 02d825d6d2a0e8d498b7910e844e24ba, type: 2}
+  objective: {fileID: 3354754754222314555, guid: 2f938ee49fb6a5042b36b02b3d3c7619, type: 2}

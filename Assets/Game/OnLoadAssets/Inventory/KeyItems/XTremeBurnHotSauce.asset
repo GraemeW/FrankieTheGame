@@ -17,6 +17,5 @@ MonoBehaviour:
   description: Hotter than hell.  Don't eat this.
   droppable: 0
   price: 5
-  questObjectivePairs:
-  - quest: {fileID: 11400000, guid: 21448c66f5c436e4e97f39885ea7ed02, type: 2}
-    objective: {fileID: 11400000, guid: d76efb823890c224c97d6a9ae43fa863, type: 2}
+  questObjectives:
+  - {fileID: -497091339795386844, guid: 21448c66f5c436e4e97f39885ea7ed02, type: 2}
