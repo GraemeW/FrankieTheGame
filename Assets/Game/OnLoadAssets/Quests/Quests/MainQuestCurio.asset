@@ -88,7 +88,7 @@ MonoBehaviour:
   m_Name: MainQuestCurio
   m_EditorClassIdentifier: 
   questID: 61c08901-2fd9-403b-833e-f22949c8d448
-  detail: 
+  detail: Main Quest Tracker
   questObjectiveNames:
   - CurioOne
   - CurioTwo
@@ -103,29 +103,15 @@ MonoBehaviour:
   rewards: []
   questObjectives:
   - {fileID: -1606810816014409339}
-  - {fileID: -1606810816014409339}
-  - {fileID: 0}
   - {fileID: 4460678901540854653}
-  - {fileID: 4460678901540854653}
-  - {fileID: 0}
-  - {fileID: -4510697727763330271}
   - {fileID: -4510697727763330271}
   - {fileID: 8993746641356414668}
-  - {fileID: 8993746641356414668}
-  - {fileID: -4184183761088310349}
   - {fileID: -4184183761088310349}
   - {fileID: 5958011448916513900}
-  - {fileID: 5958011448916513900}
-  - {fileID: -262292152810515008}
   - {fileID: -262292152810515008}
   - {fileID: 662253007059830274}
-  - {fileID: 662253007059830274}
-  - {fileID: -6665285766561408189}
   - {fileID: -6665285766561408189}
   - {fileID: 1169059385696805003}
-  - {fileID: 1169059385696805003}
-  - {fileID: 0}
-  - {fileID: 0}
 --- !u!114 &662253007059830274
 MonoBehaviour:
   m_ObjectHideFlags: 0

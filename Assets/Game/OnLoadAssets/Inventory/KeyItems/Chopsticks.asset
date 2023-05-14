@@ -17,6 +17,5 @@ MonoBehaviour:
   description: They're covered in Orange Chicken sauce.  Gross.
   droppable: 0
   price: 0
-  questObjectivePairs:
-  - quest: {fileID: 11400000, guid: 21448c66f5c436e4e97f39885ea7ed02, type: 2}
-    objective: {fileID: 11400000, guid: 7e82a29455d27cb4a9fad0024591ec2d, type: 2}
+  questObjectives:
+  - {fileID: 225375821655883534, guid: 21448c66f5c436e4e97f39885ea7ed02, type: 2}

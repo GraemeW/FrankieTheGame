@@ -13,4 +13,4 @@ MonoBehaviour:
   m_Name: QuestObjCompleted_HorseDeliveredDocuments
   m_EditorClassIdentifier: 
   quest: {fileID: 11400000, guid: 2f938ee49fb6a5042b36b02b3d3c7619, type: 2}
-  objective: {fileID: 11400000, guid: b21a9471cd1f5bc499bd7046b7c4fde9, type: 2}
+  objective: {fileID: -3951261914489077840, guid: 2f938ee49fb6a5042b36b02b3d3c7619, type: 2}

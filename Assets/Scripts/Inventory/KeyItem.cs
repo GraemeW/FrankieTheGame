@@ -8,16 +8,13 @@ namespace Frankie.Inventory
     [CreateAssetMenu(menuName = ("Inventory/Key Item"))]
     public class KeyItem : InventoryItem
     {
-        [SerializeField] QuestObjectivePair[] questObjectivePairs = null;
+        [SerializeField] QuestObjective[] questObjectives = null;
         
         private void Awake()
         {
             droppable = false;
         }
 
-        public QuestObjectivePair[] GetQuestObjectivePairs()
-        {
-            return questObjectivePairs;
-        }
+        public QuestObjective[] GetQuestObjectives() => questObjectives;
     }
 }

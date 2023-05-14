@@ -22,7 +22,7 @@ namespace Frankie.Quests
 
         // State
         // Objectives
-        [HideInInspector][SerializeField] List<QuestObjective> questObjectives = new List<QuestObjective>();
+        [SerializeField] List<QuestObjective> questObjectives = new List<QuestObjective>();
         [HideInInspector][SerializeField] Dictionary<string, QuestObjective> objectiveIDLookup = new Dictionary<string, QuestObjective>();
         [HideInInspector][SerializeField] Dictionary<string, QuestObjective> objectiveNameLookup = new Dictionary<string, QuestObjective>();
         // Quest
@@ -101,16 +101,14 @@ namespace Frankie.Quests
 #if UNITY_EDITOR
         public void GenerateObjectiveFromNames()
         {
-            CleanUpObjectives();
-
             foreach (string questObjectiveName in questObjectiveNames)
             {
                 if (string.IsNullOrWhiteSpace(questObjectiveName)) { continue; }
                 if (objectiveNameLookup.ContainsKey(questObjectiveName)) { continue; }
 
                 QuestObjective questObjective = CreateObjective(questObjectiveName);
-                questObjectives.Add(questObjective);
             }
+            CleanUpObjectives();
             OnValidate();
             EditorUtility.SetDirty(this);
         }
@@ -131,10 +129,19 @@ namespace Frankie.Quests
 
         private void CleanUpObjectives()
         {
-            HashSet<string> newObjectiveMap = UniqueifyObjectiveNames();
-            List<QuestObjective> objectivesToDelete 
+            // Safety && Clean Up on Serialized Objective List
+            UniquifyObjectives(); // Strictly speaking, this should not be necessary (logic above won't lead to this scenario)
+
+            // Then delete any no-longer-existing items in the string list
+            HashSet<string> newObjectiveMap = UniquifyObjectiveNames();
+            DeleteMissingObjectiveNames(newObjectiveMap);
+        }
+
+        private void DeleteMissingObjectiveNames(HashSet<string> newObjectiveMap)
+        {
+            List<QuestObjective> objectivesToDelete
                 = questObjectives.Where(o => (o != null && !(newObjectiveMap.Contains(o.name)))).ToList();
-            
+
             foreach (QuestObjective questObjective in objectivesToDelete)
             {
                 if (questObjective == null) { continue; }
@@ -144,7 +151,19 @@ namespace Frankie.Quests
             }
         }
 
-        private HashSet<string> UniqueifyObjectiveNames()
+        private HashSet<QuestObjective> UniquifyObjectives()
+        {
+            HashSet<QuestObjective> objectiveMap = new HashSet<QuestObjective>();
+            foreach(QuestObjective questObjective in questObjectives)
+            {
+                objectiveMap.Add(questObjective);
+            }
+            objectiveMap.Remove(null);
+            questObjectives = objectiveMap.ToList();
+            return objectiveMap;
+        }
+
+        private HashSet<string> UniquifyObjectiveNames()
         {
             HashSet<string> objectiveNameMap = new HashSet<string>();
             foreach (string questObjectiveName in questObjectiveNames)

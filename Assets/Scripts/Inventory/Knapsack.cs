@@ -363,9 +363,12 @@ namespace Frankie.Inventory
         {
             foreach (KeyItem keyItem in GetKeyItems())
             {
-                foreach (QuestObjectivePair questObjectivePair in keyItem.GetQuestObjectivePairs())
+                foreach (QuestObjective questObjective in keyItem.GetQuestObjectives())
                 {
-                    questList.value.CompleteObjective(questObjectivePair.quest, questObjectivePair.objective);
+                    if (questObjective == null) { continue; }
+
+                    Quest quest = Quest.GetFromID(questObjective.GetQuestID());
+                    questList.value.CompleteObjective(quest, questObjective);
                 }
             }
         }

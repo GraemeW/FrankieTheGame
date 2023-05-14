@@ -147,8 +147,8 @@ MonoBehaviour:
   speakerType: 1
   characterProperties: {fileID: 11400000, guid: e97120b87e74eee4f9d9d8659f0bddf5, type: 2}
   speakerName: Phil Ramen
-  text: ' I mean, your hair, it''s really grown out, you need a haircut.  He may
-    also have some advice.'
+  text: The subway should take you there.  Wait, you should know this, you live in
+    Prim, DON'T YOU?
   children:
   - 49565221-75f2-410a-adda-91c9cdc3f0e1
   rect:
@@ -348,8 +348,8 @@ MonoBehaviour:
   speakerType: 1
   characterProperties: {fileID: 11400000, guid: e97120b87e74eee4f9d9d8659f0bddf5, type: 2}
   speakerName: Phil Ramen
-  text: Go now.  Your first curio, I sense that it's near.  Somewhere beneath this
-    very city.  Seek out your barber.
+  text: Go now.  Your first curio, I sense that it is close.  Somewhere in the nearby
+    suburb of Prim.
   children:
   - 979da53c-71d4-4622-a561-9520986c56f4
   rect:
@@ -413,8 +413,8 @@ MonoBehaviour:
   speakerType: 1
   characterProperties: {fileID: 11400000, guid: e97120b87e74eee4f9d9d8659f0bddf5, type: 2}
   speakerName: Phil Ramen
-  text: You'll meet many friends along the way.  Trust in them, rely on them.  But
-    . . . beware those who are closest to you.
+  text: You'll meet many friends along the way.  Trust in them, rely on them.  You
+    need their help to make it through this.
   children:
   - e75daa85-3844-411c-8200-6c55167cab2f
   rect:
