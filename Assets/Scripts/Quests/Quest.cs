@@ -22,7 +22,7 @@ namespace Frankie.Quests
 
         // State
         // Objectives
-        [SerializeField] List<QuestObjective> questObjectives = new List<QuestObjective>();
+        [HideInInspector][SerializeField] List<QuestObjective> questObjectives = new List<QuestObjective>();
         [HideInInspector][SerializeField] Dictionary<string, QuestObjective> objectiveIDLookup = new Dictionary<string, QuestObjective>();
         [HideInInspector][SerializeField] Dictionary<string, QuestObjective> objectiveNameLookup = new Dictionary<string, QuestObjective>();
         // Quest
