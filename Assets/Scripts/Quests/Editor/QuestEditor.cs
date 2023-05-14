@@ -14,7 +14,7 @@ namespace Frankie.Quests.UIEditor
             DrawDefaultInspector();
 
             Quest quest = (Quest)target;
-            if (GUILayout.Button("Generate Objectives"))
+            if (GUILayout.Button("Generate Objectives (Save to Take Effect)"))
             {
                 quest.GenerateObjectiveFromNames();
             }

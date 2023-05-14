@@ -88,8 +88,6 @@ namespace Frankie.Quests
 
         public int GetObjectiveCount() => questObjectives.Count;
 
-        public IEnumerable<QuestObjective> GetQuestObjectives() => questObjectives;
-
         public QuestObjective GetObjectiveFromID(string objectiveID)
         {
             return objectiveIDLookup[objectiveID] != null ? objectiveIDLookup[objectiveID] : null;
@@ -114,6 +112,7 @@ namespace Frankie.Quests
                 questObjectives.Add(questObjective);
             }
             OnValidate();
+            EditorUtility.SetDirty(this);
         }
 
         private QuestObjective CreateObjective(string name)

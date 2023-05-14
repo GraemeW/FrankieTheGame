@@ -8,7 +8,6 @@ using static UnityEditor.Progress;
 
 namespace Frankie.Quests
 {
-    [CreateAssetMenu(fileName = "New Quest Objective", menuName = "Quests/New Quest Objective")]
     [System.Serializable]
     public class QuestObjective : ScriptableObject, ISerializationCallbackReceiver
     {
