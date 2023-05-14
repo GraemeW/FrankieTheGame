@@ -18,8 +18,8 @@ MonoBehaviour:
   linkedZoneNode: {fileID: 0}
   rect:
     serializedVersion: 2
-    x: 574
-    y: 251.99998
+    x: 559
+    y: 249.99998
     width: 430
     height: 150
   zoneName: ApartmentInterior
@@ -29,6 +29,8 @@ MonoBehaviour:
     y: 0
     width: 430
     height: 45
+  condition:
+    and: []
 --- !u!114 &-8071493759938592189
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -58,6 +60,8 @@ MonoBehaviour:
     y: 0
     width: 430
     height: 45
+  condition:
+    and: []
 --- !u!114 &-5837764251287271127
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -87,6 +91,8 @@ MonoBehaviour:
     y: 0
     width: 430
     height: 45
+  condition:
+    and: []
 --- !u!114 &-1859928201582379330
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -116,6 +122,8 @@ MonoBehaviour:
     y: 0
     width: 430
     height: 45
+  condition:
+    and: []
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -177,6 +185,8 @@ MonoBehaviour:
     y: 0
     width: 430
     height: 45
+  condition:
+    and: []
 --- !u!114 &894618589378588676
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -206,6 +216,8 @@ MonoBehaviour:
     y: 0
     width: 430
     height: 45
+  condition:
+    and: []
 --- !u!114 &5291146569498224961
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -234,6 +246,9 @@ MonoBehaviour:
     y: 0
     width: 430
     height: 45
+  condition:
+    and:
+    - or: []
 --- !u!114 &6282835250090300715
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -263,6 +278,8 @@ MonoBehaviour:
     y: 0
     width: 430
     height: 45
+  condition:
+    and: []
 --- !u!114 &6620343842928409639
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -292,6 +309,8 @@ MonoBehaviour:
     y: 0
     width: 430
     height: 45
+  condition:
+    and: []
 --- !u!114 &7201874376568132561
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -321,3 +340,5 @@ MonoBehaviour:
     y: 0
     width: 430
     height: 45
+  condition:
+    and: []

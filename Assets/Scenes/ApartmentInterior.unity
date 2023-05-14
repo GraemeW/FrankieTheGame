@@ -7773,6 +7773,26 @@ PrefabInstance:
       propertyPath: disableOnExit
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8342028283336635980, guid: a3bfc966469855547b6bedf12d844bdb, type: 3}
+      propertyPath: zoneNodePredicateFilters.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8342028283336635980, guid: a3bfc966469855547b6bedf12d844bdb, type: 3}
+      propertyPath: zoneNodePredicateFilters.Array.data[0].zoneNode
+      value: 
+      objectReference: {fileID: 5291146569498224961, guid: c2792a31fdd8a5249bea668b45752dd0, type: 2}
+    - target: {fileID: 8342028283336635980, guid: a3bfc966469855547b6bedf12d844bdb, type: 3}
+      propertyPath: zoneNodePredicateFilters.Array.data[0].condition.and.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8342028283336635980, guid: a3bfc966469855547b6bedf12d844bdb, type: 3}
+      propertyPath: zoneNodePredicateFilters.Array.data[0].condition.and.Array.data[0].or.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8342028283336635980, guid: a3bfc966469855547b6bedf12d844bdb, type: 3}
+      propertyPath: zoneNodePredicateFilters.Array.data[0].condition.and.Array.data[0].or.Array.data[0].predicate
+      value: 
+      objectReference: {fileID: 11400000, guid: a48c43480dda43d4d8b83892d0569110, type: 2}
     - target: {fileID: 8342028283336635981, guid: a3bfc966469855547b6bedf12d844bdb, type: 3}
       propertyPath: m_Size.x
       value: 0.14593792
