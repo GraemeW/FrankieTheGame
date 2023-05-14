@@ -18,8 +18,8 @@ MonoBehaviour:
   linkedZoneNode: {fileID: 0}
   rect:
     serializedVersion: 2
-    x: 559
-    y: 249.99998
+    x: 573
+    y: 390.99997
     width: 430
     height: 150
   zoneName: ApartmentInterior
@@ -76,6 +76,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   children:
   - SceneToApartmentExterior
+  - SceneToPrim
   linkedZone: {fileID: 0}
   linkedZoneNode: {fileID: 0}
   rect:
@@ -93,6 +94,39 @@ MonoBehaviour:
     height: 45
   condition:
     and: []
+--- !u!114 &-5729600305271718786
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3268536af8903a64da82aa6872733d1d, type: 3}
+  m_Name: SceneToPrim
+  m_EditorClassIdentifier: 
+  children: []
+  linkedZone: {fileID: 11400000, guid: 210ece264cb0156468d645ecaa434255, type: 2}
+  linkedZoneNode: {fileID: 7420601607016574253, guid: 210ece264cb0156468d645ecaa434255, type: 2}
+  rect:
+    serializedVersion: 2
+    x: 560
+    y: 197
+    width: 430
+    height: 150
+  zoneName: ApartmentInterior
+  draggingRect:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 430
+    height: 45
+  condition:
+    and:
+    - or:
+      - predicate: {fileID: 11400000, guid: 9f0337f74ac62b947a2295f4757659ec, type: 2}
+        negate: 0
 --- !u!114 &-2779898236315854942
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -110,8 +144,8 @@ MonoBehaviour:
   linkedZoneNode: {fileID: 3520509955692951049}
   rect:
     serializedVersion: 2
-    x: 584
-    y: 447
+    x: 523
+    y: 628
     width: 430
     height: 150
   zoneName: ApartmentInterior
@@ -141,8 +175,8 @@ MonoBehaviour:
   linkedZoneNode: {fileID: 0}
   rect:
     serializedVersion: 2
-    x: 102.000015
-    y: 447
+    x: 57
+    y: 556
     width: 430
     height: 150
   zoneName: ApartmentInterior
@@ -220,6 +254,7 @@ MonoBehaviour:
   - {fileID: -2592018651115338096}
   - {fileID: -2779898236315854942}
   - {fileID: 3520509955692951049}
+  - {fileID: -5729600305271718786}
 --- !u!114 &526659961691500239
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -299,8 +334,8 @@ MonoBehaviour:
   linkedZoneNode: {fileID: 0}
   rect:
     serializedVersion: 2
-    x: 104.999985
-    y: 626
+    x: 56
+    y: 719
     width: 430
     height: 150
   zoneName: ApartmentInterior
@@ -341,7 +376,10 @@ MonoBehaviour:
     width: 430
     height: 45
   condition:
-    and: []
+    and:
+    - or:
+      - predicate: {fileID: 11400000, guid: 9f0337f74ac62b947a2295f4757659ec, type: 2}
+        negate: 1
 --- !u!114 &6282835250090300715
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -391,8 +429,8 @@ MonoBehaviour:
   linkedZoneNode: {fileID: 0}
   rect:
     serializedVersion: 2
-    x: 43.999985
-    y: 251.99998
+    x: 61
+    y: 393
     width: 430
     height: 150
   zoneName: ApartmentInterior

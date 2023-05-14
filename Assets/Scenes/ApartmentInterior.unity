@@ -2225,7 +2225,19 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 3578435516547435565, guid: 5b9501b1f7b0bf04f9e2c6681a311ef2, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1465224773}
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 3578435516547435564, guid: 5b9501b1f7b0bf04f9e2c6681a311ef2, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1532315460}
+    - targetCorrespondingSourceObject: {fileID: 3578435516547435564, guid: 5b9501b1f7b0bf04f9e2c6681a311ef2, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1532315463}
+    - targetCorrespondingSourceObject: {fileID: 3578435516547435564, guid: 5b9501b1f7b0bf04f9e2c6681a311ef2, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1532315462}
+    - targetCorrespondingSourceObject: {fileID: 3578435516547435564, guid: 5b9501b1f7b0bf04f9e2c6681a311ef2, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1532315461}
   m_SourcePrefab: {fileID: 100100000, guid: 5b9501b1f7b0bf04f9e2c6681a311ef2, type: 3}
 --- !u!1001 &419925871
 PrefabInstance:
@@ -8649,44 +8661,26 @@ PrefabInstance:
       propertyPath: roomParent
       value: 
       objectReference: {fileID: 1914122735}
+    - target: {fileID: 7481126949952296373, guid: aef7f955d77f96b4694e2c655998b653, type: 3}
+      propertyPath: m_audioClip
+      value: 
+      objectReference: {fileID: 8300000, guid: 75afae25073656945bc0dd5baec5c6e1, type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 892264449097547217, guid: aef7f955d77f96b4694e2c655998b653, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1419909995}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: aef7f955d77f96b4694e2c655998b653, type: 3}
 --- !u!4 &1419909993 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 892264449097547216, guid: aef7f955d77f96b4694e2c655998b653, type: 3}
   m_PrefabInstance: {fileID: 1419909992}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &1419909994 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 892264449097547217, guid: aef7f955d77f96b4694e2c655998b653, type: 3}
-  m_PrefabInstance: {fileID: 1419909992}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &1419909995
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1419909994}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7a8ffb219a78b5d42bca9c71bad9ffb7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  hpToAdjust: 0
-  apToAdjust: 0
 --- !u!114 &1419909996 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 892264449097547222, guid: aef7f955d77f96b4694e2c655998b653, type: 3}
   m_PrefabInstance: {fileID: 1419909992}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1419909994}
+  m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b18b197bcf3e2d04aa24c146512e0f90, type: 3}
@@ -9003,11 +8997,68 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 3578435516547435565, guid: d30c2c34e9f50294e8fb845ab8716015, type: 3}
   m_PrefabInstance: {fileID: 301516967}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1532315450 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3578435516547435564, guid: 5b9501b1f7b0bf04f9e2c6681a311ef2, type: 3}
+  m_PrefabInstance: {fileID: 400849314}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &1532315454 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3578435516547435565, guid: 5b9501b1f7b0bf04f9e2c6681a311ef2, type: 3}
   m_PrefabInstance: {fileID: 400849314}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1532315460
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1532315450}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7a8ffb219a78b5d42bca9c71bad9ffb7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hpToAdjust: 0
+  apToAdjust: 0
+--- !u!114 &1532315461
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1532315450}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 150976398f981a94ebab2b787e92fa26, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  questObjective: {fileID: 6232503200084316110, guid: 98a6da0c49e5fa9439b9e5e008389337, type: 2}
+--- !u!114 &1532315462
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1532315450}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b29a3a98a34c59448ad553101362c476, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  quest: {fileID: 11400000, guid: 98a6da0c49e5fa9439b9e5e008389337, type: 2}
+--- !u!114 &1532315463
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1532315450}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: edf37dda86b7daf47b05d3cb85ca622f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1627947519
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -9353,11 +9404,35 @@ MonoBehaviour:
     onTriggerEvent:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 1419909995}
+        - m_Target: {fileID: 1532315460}
           m_TargetAssemblyTypeName: Frankie.Control.Specialization.WorldPointAdjuster,
             Assembly-CSharp
           m_MethodName: ReviveAndHealParty
           m_Mode: 0
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+        - m_Target: {fileID: 1532315462}
+          m_TargetAssemblyTypeName: Frankie.Quests.QuestGiver, Assembly-CSharp
+          m_MethodName: GiveQuest
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+        - m_Target: {fileID: 1532315461}
+          m_TargetAssemblyTypeName: Frankie.Quests.QuestCompleter, Assembly-CSharp
+          m_MethodName: CompleteObjective
+          m_Mode: 1
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
             m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -10047,7 +10122,7 @@ MonoBehaviour:
     onTriggerEvent:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 0}
+        - m_Target: {fileID: 1532315463}
           m_TargetAssemblyTypeName: Frankie.Control.Specialization.WorldGameCompletion,
             Assembly-CSharp
           m_MethodName: TriggerGameOver

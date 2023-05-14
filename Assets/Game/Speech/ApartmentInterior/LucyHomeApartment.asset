@@ -1,5 +1,71 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-5987444669783007767
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 09c07c7c6f4c666429a0bbc8d18232b2, type: 3}
+  m_Name: efbfac96-f2c3-495f-bf54-bb0ac1144c63
+  m_EditorClassIdentifier: 
+  speakerType: 1
+  characterProperties: {fileID: 11400000, guid: f40bbc80ce4dd604292488bdf07bc4e1, type: 2}
+  speakerName: Lucy
+  text: What are they called again?  Vwoomba?
+  children: []
+  rect:
+    serializedVersion: 2
+    x: 1030
+    y: 530
+    width: 400
+    height: 225
+  draggingRect:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 400
+    height: 45
+  condition:
+    and: []
+--- !u!114 &-3181056160746472679
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 09c07c7c6f4c666429a0bbc8d18232b2, type: 3}
+  m_Name: 041515b6-8b85-4157-ae87-346e8620db72
+  m_EditorClassIdentifier: 
+  speakerType: 1
+  characterProperties: {fileID: 11400000, guid: f40bbc80ce4dd604292488bdf07bc4e1, type: 2}
+  speakerName: Lucy
+  text: Good morning, sleepyhead!  Are you going to head into town today?
+  children:
+  - db8107ae-7956-4be7-abb0-9cfd988d2bf7
+  rect:
+    serializedVersion: 2
+    x: 530
+    y: 280
+    width: 400
+    height: 225
+  draggingRect:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 400
+    height: 45
+  condition:
+    and:
+    - or:
+      - predicate: {fileID: 11400000, guid: 9f0337f74ac62b947a2295f4757659ec, type: 2}
+        negate: 0
 --- !u!114 &-1834528741749507592
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -15,9 +81,12 @@ MonoBehaviour:
   speakerType: 1
   characterProperties: {fileID: 11400000, guid: f40bbc80ce4dd604292488bdf07bc4e1, type: 2}
   speakerName: Lucy
-  text: '*Smooch* I''m so happy to see you.  You must have had a long day.'
+  text: Root Node to Skip
   children:
   - d31d7b2b-df86-4c36-b25d-289a8b613c06
+  - 041515b6-8b85-4157-ae87-346e8620db72
+  - 4748363e-cd2e-410d-9bc5-80eaff0e24b2
+  - cf547fb2-3d79-450a-9748-5d8abbd3ec41
   rect:
     serializedVersion: 2
     x: 30
@@ -44,7 +113,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aac27b8e802ced743b3f275e283ab9df, type: 3}
   m_Name: LucyHomeApartment
   m_EditorClassIdentifier: 
-  skipRootNode: 0
+  skipRootNode: 1
   newNodeOffset: {x: 100, y: 25}
   nodeWidth: 400
   nodeHeight: 225
@@ -53,6 +122,43 @@ MonoBehaviour:
   dialogueNodes:
   - {fileID: -1834528741749507592}
   - {fileID: 5360189485827318091}
+  - {fileID: 1349882704173122961}
+  - {fileID: -3181056160746472679}
+  - {fileID: 7468067193038578340}
+  - {fileID: -5987444669783007767}
+  - {fileID: 6439459893909431935}
+  - {fileID: 8833588446042177969}
+--- !u!114 &1349882704173122961
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 09c07c7c6f4c666429a0bbc8d18232b2, type: 3}
+  m_Name: 9536b659-798f-4541-9a01-c718a2c760d2
+  m_EditorClassIdentifier: 
+  speakerType: 1
+  characterProperties: {fileID: 11400000, guid: f40bbc80ce4dd604292488bdf07bc4e1, type: 2}
+  speakerName: Lucy
+  text: Why don't you have a bite to eat and head to bed?
+  children: []
+  rect:
+    serializedVersion: 2
+    x: 1030
+    y: 30
+    width: 400
+    height: 225
+  draggingRect:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 400
+    height: 45
+  condition:
+    and: []
 --- !u!114 &5360189485827318091
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -68,12 +174,118 @@ MonoBehaviour:
   speakerType: 1
   characterProperties: {fileID: 11400000, guid: f40bbc80ce4dd604292488bdf07bc4e1, type: 2}
   speakerName: Lucy
-  text: Why don't you have a bite to eat and head to bed?
-  children: []
+  text: '*Smooch* I''m so happy to see you.  You must have had a long day.'
+  children:
+  - 9536b659-798f-4541-9a01-c718a2c760d2
   rect:
     serializedVersion: 2
     x: 530
     y: 30
+    width: 400
+    height: 225
+  draggingRect:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 400
+    height: 45
+  condition:
+    and:
+    - or:
+      - predicate: {fileID: 11400000, guid: 9f0337f74ac62b947a2295f4757659ec, type: 2}
+        negate: 1
+--- !u!114 &6439459893909431935
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 09c07c7c6f4c666429a0bbc8d18232b2, type: 3}
+  m_Name: cf547fb2-3d79-450a-9748-5d8abbd3ec41
+  m_EditorClassIdentifier: 
+  speakerType: 1
+  characterProperties: {fileID: 11400000, guid: f40bbc80ce4dd604292488bdf07bc4e1, type: 2}
+  speakerName: Lucy
+  text: I heard a cute new coffee shop opened up in town.  We should check it out
+    sometime!
+  children: []
+  rect:
+    serializedVersion: 2
+    x: 530
+    y: 780
+    width: 400
+    height: 225
+  draggingRect:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 400
+    height: 45
+  condition:
+    and:
+    - or:
+      - predicate: {fileID: 11400000, guid: 9f0337f74ac62b947a2295f4757659ec, type: 2}
+        negate: 0
+--- !u!114 &7468067193038578340
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 09c07c7c6f4c666429a0bbc8d18232b2, type: 3}
+  m_Name: 4748363e-cd2e-410d-9bc5-80eaff0e24b2
+  m_EditorClassIdentifier: 
+  speakerType: 1
+  characterProperties: {fileID: 11400000, guid: f40bbc80ce4dd604292488bdf07bc4e1, type: 2}
+  speakerName: Lucy
+  text: I'm thinking of getting one of those little robots to clean the house.
+  children:
+  - efbfac96-f2c3-495f-bf54-bb0ac1144c63
+  rect:
+    serializedVersion: 2
+    x: 530
+    y: 530
+    width: 400
+    height: 225
+  draggingRect:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 400
+    height: 45
+  condition:
+    and:
+    - or:
+      - predicate: {fileID: 11400000, guid: 9f0337f74ac62b947a2295f4757659ec, type: 2}
+        negate: 0
+--- !u!114 &8833588446042177969
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 09c07c7c6f4c666429a0bbc8d18232b2, type: 3}
+  m_Name: db8107ae-7956-4be7-abb0-9cfd988d2bf7
+  m_EditorClassIdentifier: 
+  speakerType: 1
+  characterProperties: {fileID: 11400000, guid: f40bbc80ce4dd604292488bdf07bc4e1, type: 2}
+  speakerName: Lucy
+  text: Make sure you watch out for wild animals.  They've been straying closer to
+    the paths lately.  Scary!
+  children: []
+  rect:
+    serializedVersion: 2
+    x: 1030
+    y: 280
     width: 400
     height: 225
   draggingRect:
