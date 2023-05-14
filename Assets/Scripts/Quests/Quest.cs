@@ -1,7 +1,9 @@
 using Frankie.Core;
+using Frankie.ZoneManagement;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement.AsyncOperations;
@@ -13,23 +15,28 @@ namespace Frankie.Quests
     {
         // Tunables
         [Tooltip("Auto-generated UUID for saving/loading. Clear this field if you want to generate a new one.")]
-        [SerializeField] string uniqueID = null;
+        [SerializeField] string questID = null;
         [SerializeField] string detail = "";
-        [SerializeField] List<QuestObjective> objectives = new List<QuestObjective>();
+        [SerializeField] List<string> questObjectiveNames = new List<string>();
         [SerializeField] List<Reward> rewards = new List<Reward>();
 
         // State
+        // Objectives
+        [HideInInspector][SerializeField] List<QuestObjective> questObjectives = new List<QuestObjective>();
+        [HideInInspector][SerializeField] Dictionary<string, QuestObjective> objectiveIDLookup = new Dictionary<string, QuestObjective>();
+        [HideInInspector][SerializeField] Dictionary<string, QuestObjective> objectiveNameLookup = new Dictionary<string, QuestObjective>();
+        // Quest
         static AsyncOperationHandle<IList<Quest>> addressablesLoadHandle;
         static Dictionary<string, Quest> questLookupCache;
 
         #region AddressablesCaching
-        public static Quest GetFromID(string uniqueID)
+        public static Quest GetFromID(string questID)
         {
-            if (string.IsNullOrWhiteSpace(uniqueID)) { return null; }
+            if (string.IsNullOrWhiteSpace(questID)) { return null; }
 
             BuildCacheIfEmpty();
-            if (uniqueID == null || !questLookupCache.ContainsKey(uniqueID)) return null;
-            return questLookupCache[uniqueID];
+            if (questID == null || !questLookupCache.ContainsKey(questID)) return null;
+            return questLookupCache[questID];
         }
 
         public static void BuildCacheIfEmpty()
@@ -45,12 +52,12 @@ namespace Frankie.Quests
             questLookupCache = new Dictionary<string, Quest>();
             addressablesLoadHandle = Addressables.LoadAssetsAsync(typeof(Quest).Name, (Quest quest) =>
             {
-                if (questLookupCache.ContainsKey(quest.uniqueID))
+                if (questLookupCache.ContainsKey(quest.questID))
                 {
-                    Debug.LogError(string.Format("Looks like there's a duplicate ID for objects: {0} and {1}", questLookupCache[quest.uniqueID], quest));
+                    Debug.LogError(string.Format("Looks like there's a duplicate ID for objects: {0} and {1}", questLookupCache[quest.questID], quest));
                 }
 
-                questLookupCache[quest.uniqueID] = quest;
+                questLookupCache[quest.questID] = quest;
             }
             );
             addressablesLoadHandle.WaitForCompletion();
@@ -63,21 +70,15 @@ namespace Frankie.Quests
         #endregion
 
         #region PublicMethods
-        public string GetUniqueID()
-        {
-            return uniqueID;
-        }
+        public string GetQuestID() => questID;
 
-        public string GetDetail()
-        {
-            return detail;
-        }
+        public string GetDetail() => detail;
 
         public bool HasObjective(QuestObjective matchObjective)
         {
-            foreach (QuestObjective questObjective in objectives)
+            foreach (QuestObjective questObjective in questObjectives)
             {
-                if (questObjective.GetUniqueID() == matchObjective.GetUniqueID())
+                if (questObjective.GetObjectiveID() == matchObjective.GetObjectiveID())
                 {
                     return true;
                 }
@@ -85,38 +86,92 @@ namespace Frankie.Quests
             return false;
         }
 
-        public int GetObjectiveCount()
+        public int GetObjectiveCount() => questObjectives.Count;
+
+        public IEnumerable<QuestObjective> GetQuestObjectives() => questObjectives;
+
+        public QuestObjective GetObjectiveFromID(string objectiveID)
         {
-            return objectives.Count;
+            return objectiveIDLookup[objectiveID] != null ? objectiveIDLookup[objectiveID] : null;
         }
 
-        public IEnumerable<QuestObjective> GetObjective()
+        public bool HasReward() => (rewards.Count > 0);
+        public List<Reward> GetRewards() => rewards;
+        #endregion
+
+        #region PrivateMethods
+        private QuestObjective CreateObjective(string name)
         {
-            return objectives;
+            QuestObjective questObjective = CreateInstance<QuestObjective>();
+            questObjective.name = name;
+            questObjective.SetObjectiveID(System.Guid.NewGuid().ToString());
+            questObjective.SetQuestID(GetQuestID());
+
+            questObjectives.Add(questObjective);
+            return questObjective;
         }
 
-        public bool HasReward()
+        private void GenerateObjectiveFromNames()
         {
-            return (rewards.Count > 0);
-        }
+            List<string> uniqueObjectives = questObjectiveNames.Distinct().ToList();
+            questObjectiveNames = uniqueObjectives;
 
-        public List<Reward> GetRewards()
-        {
-            return rewards;
+            foreach (string questObjectiveName in questObjectiveNames)
+            {
+                if (string.IsNullOrWhiteSpace(questObjectiveName)) { continue; }
+                if (objectiveNameLookup.ContainsKey(questObjectiveName)) { continue; }
+
+                QuestObjective questObjective = CreateObjective(questObjectiveName);
+                questObjectives.Add(questObjective);
+            }
+            OnValidate();
         }
         #endregion
 
         #region UnityMethods
-        void ISerializationCallbackReceiver.OnAfterDeserialize()
+        private void OnValidate()
         {
-            if (string.IsNullOrWhiteSpace(uniqueID))
+            objectiveIDLookup = new Dictionary<string, QuestObjective>();
+            objectiveNameLookup = new Dictionary<string, QuestObjective>();
+            foreach (QuestObjective questObjective in questObjectives)
             {
-                uniqueID = System.Guid.NewGuid().ToString();
+                if (questObjective == null) { continue; }
+
+                string objectiveID = questObjective.GetObjectiveID();
+                if (objectiveIDLookup.ContainsKey(objectiveID)) { continue; }
+                objectiveIDLookup.Add(objectiveID, questObjective);
+
+                if (objectiveNameLookup.ContainsKey(questObjective.name)) { continue; }
+                objectiveNameLookup.Add(questObjective.name, questObjective);
             }
         }
 
         void ISerializationCallbackReceiver.OnBeforeSerialize()
         {
+#if UNITY_EDITOR
+            // Generate and save a new UUID if this is blank
+            if (string.IsNullOrWhiteSpace(questID))
+            {
+                questID = System.Guid.NewGuid().ToString();
+            }
+
+            // Serialize quest objectives as childed
+            if (AssetDatabase.GetAssetPath(this) != "")
+            {
+                foreach (QuestObjective questObjective in questObjectives)
+                {
+                    if (AssetDatabase.GetAssetPath(questObjective) == "")
+                    {
+                        AssetDatabase.AddObjectToAsset(questObjective, this);
+                    }
+                }
+            }
+#endif
+        }
+
+        void ISerializationCallbackReceiver.OnAfterDeserialize()
+        {
+            // Unused, required for interface
         }
         #endregion
     }

@@ -4,75 +4,46 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement.AsyncOperations;
+using static UnityEditor.Progress;
 
 namespace Frankie.Quests
 {
     [CreateAssetMenu(fileName = "New Quest Objective", menuName = "Quests/New Quest Objective")]
-    public class QuestObjective : ScriptableObject, ISerializationCallbackReceiver, IAddressablesCache
+    [System.Serializable]
+    public class QuestObjective : ScriptableObject, ISerializationCallbackReceiver
     {
         // Tunables
-        public string uniqueID = null;
+        public string objectiveID = null;
         public string description = null;
-
-        // State
-        static AsyncOperationHandle<IList<QuestObjective>> addressablesLoadHandle;
-        static Dictionary<string, QuestObjective> questObjectiveLookupCache;
+        [HideInInspector][SerializeField] string questID = null;
 
         // Methods
-        #region AddressablesCaching
-        public static QuestObjective GetFromID(string uniqueID)
-        {
-            if (string.IsNullOrWhiteSpace(uniqueID)) { return null; }
-
-            BuildCacheIfEmpty();
-            if (uniqueID == null || !questObjectiveLookupCache.ContainsKey(uniqueID)) return null;
-            return questObjectiveLookupCache[uniqueID];
-        }
-
-        public static void BuildCacheIfEmpty()
-        {
-            if (questObjectiveLookupCache == null)
-            {
-                BuildQuestObjectiveCache();
-            }
-        }
-
-        private static void BuildQuestObjectiveCache()
-        {
-            questObjectiveLookupCache = new Dictionary<string, QuestObjective>();
-            addressablesLoadHandle = Addressables.LoadAssetsAsync(typeof(QuestObjective).Name, (QuestObjective questObjective) =>
-            {
-                if (questObjectiveLookupCache.ContainsKey(questObjective.uniqueID))
-                {
-                    Debug.LogError(string.Format("Looks like there's a duplicate ID for objects: {0} and {1}", questObjectiveLookupCache[questObjective.uniqueID], questObjective));
-                }
-
-                questObjectiveLookupCache[questObjective.uniqueID] = questObjective;
-            }
-            );
-            addressablesLoadHandle.WaitForCompletion();
-        }
-
-        public static void ReleaseCache()
-        {
-            Addressables.Release(addressablesLoadHandle);
-        }
-        #endregion
-
         #region PublicMethods
-        public string GetUniqueID()
+        public void SetObjectiveID(string objectiveID)
         {
-            return uniqueID;
+            this.objectiveID = objectiveID;
         }
+        public string GetObjectiveID() => objectiveID;
+        public void SetQuestID(string questID)
+        {
+            this.questID = questID;
+        }
+        public string GetQuestID() => questID;
         #endregion
 
         #region UnityMethods
-        void ISerializationCallbackReceiver.OnAfterDeserialize()
-        {
-            if (string.IsNullOrWhiteSpace(uniqueID)) { uniqueID = System.Guid.NewGuid().ToString(); }
-        }
         void ISerializationCallbackReceiver.OnBeforeSerialize()
         {
+            // Generate and save a new UUID if this is blank
+            if (string.IsNullOrWhiteSpace(objectiveID))
+            {
+                objectiveID = System.Guid.NewGuid().ToString();
+            }
+        }
+
+        void ISerializationCallbackReceiver.OnAfterDeserialize()
+        {
+            // Unused, required for interface
         }
         #endregion
     }

@@ -50,7 +50,7 @@ namespace Frankie.Quests
 
             foreach (QuestStatus questStatus in questStatuses)
             {
-                if (questStatus.GetQuest().GetUniqueID() == quest.GetUniqueID())
+                if (questStatus.GetQuest().GetQuestID() == quest.GetQuestID())
                 {
                     return questStatus;
                 }

@@ -22,7 +22,8 @@ namespace Frankie.Quests
         public QuestStatus(SerializableQuestStatus restoreState)
         {
             quest = Quest.GetFromID(restoreState.questID);
-            completedObjectives = restoreState.completedObjectiveIDs.Select(c => QuestObjective.GetFromID(c)).ToList();
+            if (quest == null) { return; }
+            completedObjectives = restoreState.completedObjectiveIDs.Select(c => quest.GetObjectiveFromID(c)).ToList();
         }
         #endregion
 
@@ -41,7 +42,7 @@ namespace Frankie.Quests
         {
             foreach (QuestObjective questObjective in completedObjectives)
             {
-                if (questObjective.GetUniqueID() == matchObjective.GetUniqueID())
+                if (questObjective.GetObjectiveID() == matchObjective.GetObjectiveID())
                 {
                     return true;
                 }
@@ -85,8 +86,8 @@ namespace Frankie.Quests
         public SerializableQuestStatus CaptureState()
         {
             SerializableQuestStatus serializableQuestStatus = new SerializableQuestStatus();
-            serializableQuestStatus.questID = quest.GetUniqueID();
-            List<string> completedObjectiveIDs = completedObjectives.Select(c => c.uniqueID).ToList();
+            serializableQuestStatus.questID = quest.GetQuestID();
+            List<string> completedObjectiveIDs = completedObjectives.Select(c => c.objectiveID).ToList();
             serializableQuestStatus.completedObjectiveIDs = completedObjectiveIDs;
             return serializableQuestStatus;
         }
