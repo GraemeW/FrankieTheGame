@@ -99,22 +99,11 @@ namespace Frankie.Quests
         public List<Reward> GetRewards() => rewards;
         #endregion
 
-        #region PrivateMethods
-        private QuestObjective CreateObjective(string name)
-        {
-            QuestObjective questObjective = CreateInstance<QuestObjective>();
-            questObjective.name = name;
-            questObjective.SetObjectiveID(System.Guid.NewGuid().ToString());
-            questObjective.SetQuestID(GetQuestID());
-
-            questObjectives.Add(questObjective);
-            return questObjective;
-        }
-
+        #region EditorMethods
+#if UNITY_EDITOR
         private void GenerateObjectiveFromNames()
         {
-            List<string> uniqueObjectives = questObjectiveNames.Distinct().ToList();
-            questObjectiveNames = uniqueObjectives;
+            CleanUpObjectives();
 
             foreach (string questObjectiveName in questObjectiveNames)
             {
@@ -126,6 +115,52 @@ namespace Frankie.Quests
             }
             OnValidate();
         }
+
+        private QuestObjective CreateObjective(string name)
+        {
+            QuestObjective questObjective = CreateInstance<QuestObjective>();
+            Undo.RegisterCreatedObjectUndo(questObjective, "Created Quest Objective");
+
+            questObjective.name = name;
+            questObjective.SetObjectiveID(System.Guid.NewGuid().ToString());
+            questObjective.SetQuestID(GetQuestID());
+
+            Undo.RecordObject(this, "Add Quest Objective");
+            questObjectives.Add(questObjective);
+            return questObjective;
+        }
+
+        private void CleanUpObjectives()
+        {
+            Dictionary<string, bool> newObjectiveMap = UniquifyObjectiveNames();
+            List<QuestObjective> objectivesToDelete 
+                = questObjectives.Where(o => (o != null && !(newObjectiveMap.ContainsKey(o.name)))).ToList();
+            
+            foreach (QuestObjective questObjective in objectivesToDelete)
+            {
+                questObjectives.Remove(questObjective);
+                Undo.DestroyObjectImmediate(questObjective);
+            }
+        }
+
+        private Dictionary<string, bool> UniquifyObjectiveNames()
+        {
+            // Returns map of objective names
+            Dictionary<string, bool> objectiveNameMap = new Dictionary<string, bool>();
+            List<string> uniqueObjectiveNames = new List<string>();
+            foreach (string questObjectiveName in questObjectiveNames)
+            {
+                if (objectiveNameMap.ContainsKey(questObjectiveName)) { continue; }
+                objectiveNameMap[questObjectiveName] = true;
+                uniqueObjectiveNames.Add(questObjectiveName);
+            }
+
+            // Store the unique entry list as final list
+            questObjectiveNames = uniqueObjectiveNames;
+
+            return objectiveNameMap;
+        }
+#endif
         #endregion
 
         #region UnityMethods
