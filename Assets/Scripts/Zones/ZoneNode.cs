@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 using System;
+using Frankie.Core;
 
 namespace Frankie.ZoneManagement
 {
@@ -16,6 +17,8 @@ namespace Frankie.ZoneManagement
         [SerializeField] Rect rect = new Rect(30, 30, 430, 150);
         [HideInInspector] [SerializeField] string zoneName = null;
         [HideInInspector] [SerializeField] Rect draggingRect = new Rect(0, 0, 430, 45);
+        [Header("Additional Properties")]
+        [SerializeField] Condition condition = null;
 
         public string GetZoneName()
         {
@@ -52,6 +55,11 @@ namespace Frankie.ZoneManagement
 
             children.Remove(oldID);
             children.Add(newID);
+        }
+
+        public bool CheckCondition(IEnumerable<IPredicateEvaluator> evaluators)
+        {
+            return condition.Check(evaluators);
         }
 
         public Vector2 GetPosition()

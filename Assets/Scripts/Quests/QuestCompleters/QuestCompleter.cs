@@ -8,8 +8,7 @@ namespace Frankie.Quests
     public class QuestCompleter : MonoBehaviour, IQuestEvaluator
     {
         // Tunables
-        [SerializeField] [Tooltip("Optional for fixed quest")] protected Quest quest = null;
-        [SerializeField] [Tooltip("Optional for fixed quest")] protected QuestObjective objective = null;
+        [SerializeField] [Tooltip("Optional for fixed quest")] protected QuestObjective questObjective = null;
 
         // State
         bool questListPreInitialized = false;
@@ -42,14 +41,14 @@ namespace Frankie.Quests
 
         public void CompleteObjective()
         {
-            if (quest == null || objective == null) { return; }
+            if (questObjective == null) { return; }
 
-            CompleteObjective(quest, objective);
+            CompleteObjective(questObjective);
         }
 
-        public void CompleteObjective(Quest quest, QuestObjective objective)
+        public void CompleteObjective(QuestObjective questObjective)
         {
-            questList.value.CompleteObjective(quest, objective);
+            questList.value.CompleteObjective(questObjective);
         }
     }
 }

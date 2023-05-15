@@ -367,8 +367,7 @@ namespace Frankie.Inventory
                 {
                     if (questObjective == null) { continue; }
 
-                    Quest quest = Quest.GetFromID(questObjective.GetQuestID());
-                    questList.value.CompleteObjective(quest, questObjective);
+                    questList.value.CompleteObjective(questObjective);
                 }
             }
         }

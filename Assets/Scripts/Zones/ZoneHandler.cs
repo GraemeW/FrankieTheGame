@@ -22,14 +22,12 @@ namespace Frankie.ZoneManagement
         [Header("Warp Properties")]
         [SerializeField] bool randomizeChoice = true;
         [SerializeField] string choiceMessage = "Where do you want to go?";
-        [Header("Filter Properties")]
-        [NonReorderable][SerializeField] zoneNodePredicateFilter[] zoneNodePredicateFilters = null;
 
         // State
         bool inTransitToNextScene = false;
         string queuedZoneNodeID = null;
-        PlayerStateMachine currentPlayerStateHandler = null;
-        PlayerController currentPlayerController = null;
+        PlayerStateMachine playerStateMachine = null;
+        PlayerController playerController = null;
 
         // Cached References
         Fader fader = null;
@@ -39,14 +37,6 @@ namespace Frankie.ZoneManagement
 
         // Static State
         static List<ZoneHandler> activeZoneHandlers = new List<ZoneHandler>();
-
-        // Data Structures
-        [System.Serializable]
-        public struct zoneNodePredicateFilter
-        {
-            public ZoneNode zoneNode;
-            public Condition condition;
-        }
 
         #region UnityMethods
         private void Awake()
@@ -90,15 +80,9 @@ namespace Frankie.ZoneManagement
         #endregion
 
         #region PublicMethods
-        public ZoneNode GetZoneNode()
-        {
-            return zoneNode;
-        }
+        public ZoneNode GetZoneNode() => zoneNode;
 
-        public Transform GetWarpPosition()
-        {
-            return warpPosition;
-        }
+        public Transform GetWarpPosition() => warpPosition;
 
         public bool EnableRoomParent(bool enable)
         {
@@ -110,19 +94,25 @@ namespace Frankie.ZoneManagement
             return false;
         }
 
-        public void AttemptToWarpPlayer(PlayerStateMachine playerStateHandler) // Callable by Unity Events
+        public void AttemptToWarpPlayer(PlayerStateMachine playerStateMachine) // Callable by Unity Events
         {
-            if (playerStateHandler.TryGetComponent(out PlayerController playerController))
+            if (playerStateMachine.TryGetComponent(out PlayerController playerController))
             {
-                AttemptToWarpPlayer(playerStateHandler, playerController);
+                AttemptToWarpPlayer(playerStateMachine, playerController);
             }
         }
         #endregion
 
         #region PrivateMethods
-        private void WarpPlayerToNextNode(PlayerStateMachine playerStateHandler)
+        private void SetUpCurrentReferences(PlayerStateMachine playerStateMachine, PlayerController playerController)
         {
-            ZoneNode nextNode = SetUpNextNode(playerStateHandler);
+            this.playerStateMachine = playerStateMachine;
+            this.playerController = playerController;
+        }
+
+        private void WarpPlayerToNextNode(PlayerStateMachine playerStateMachine)
+        {
+            ZoneNode nextNode = SetUpNextNode(playerStateMachine);
             if (nextNode == null) { return; }
 
             if (!inTransitToNextScene) // On scene transition, called via fader (sceneTransitionComplete)
@@ -142,9 +132,9 @@ namespace Frankie.ZoneManagement
             }
         }
 
-        private ZoneNode SetUpNextNode(PlayerStateMachine playerStateHandler)
+        private ZoneNode SetUpNextNode(PlayerStateMachine playerStateMachine)
         {
-            ZoneNode nextNode = SelectRandomNodeFromChildren(playerStateHandler);
+            ZoneNode nextNode = SelectRandomNodeFromChildren(playerStateMachine);
             if (nextNode == null) { return null; }
 
             nextNode = GetNodeOnSceneTransition(nextNode);
@@ -164,7 +154,7 @@ namespace Frankie.ZoneManagement
         {
             if (nextNode.HasSceneReference())
             {
-                currentPlayerStateHandler.EnterZoneTransition();
+                playerStateMachine.EnterZoneTransition();
                 SetZoneHandlerToPersistOnSceneTransition();
 
                 ZoneNodePair zoneNodePair = nextNode.GetZoneReferenceNodeReferencePair();
@@ -201,16 +191,16 @@ namespace Frankie.ZoneManagement
                     Vector3 warpPosition = zoneHandler.GetWarpPosition().position;
                     if (warpPosition != null)
                     {
-                        currentPlayerController.gameObject.transform.position = warpPosition;
+                        playerController.gameObject.transform.position = warpPosition;
                         Vector2 lookDirection = warpPosition - zoneHandler.transform.position;
                         lookDirection.Normalize();
-                        currentPlayerController.GetPlayerMover().SetLookDirection(lookDirection);
-                        currentPlayerController.GetPlayerMover().ResetHistory(warpPosition);
+                        playerController.GetPlayerMover().SetLookDirection(lookDirection);
+                        playerController.GetPlayerMover().ResetHistory(warpPosition);
                     }
                     else 
                     { 
-                        currentPlayerController.gameObject.transform.position = zoneHandler.transform.position;
-                        currentPlayerController.GetPlayerMover().ResetHistory(zoneHandler.transform.position);
+                        playerController.gameObject.transform.position = zoneHandler.transform.position;
+                        playerController.GetPlayerMover().ResetHistory(zoneHandler.transform.position);
                     }
 
                     ToggleParentGameObjects(zoneHandler);
@@ -232,8 +222,8 @@ namespace Frankie.ZoneManagement
 
         private void ExitMove()
         {
-            currentPlayerStateHandler.SetZoneTransitionStatus(true);
-            currentPlayerStateHandler.EnterWorld();
+            playerStateMachine.SetZoneTransitionStatus(true);
+            playerStateMachine.EnterWorld();
             if (inTransitToNextScene) { RemoveZoneHandler(); }
             SetUpCurrentReferences(null, null);
         }
@@ -257,9 +247,9 @@ namespace Frankie.ZoneManagement
             MoveToNextNode(queuedZoneNodeID);
         }
 
-        private ZoneNode SelectRandomNodeFromChildren(PlayerStateMachine playerStateHandler)
+        private ZoneNode SelectRandomNodeFromChildren(PlayerStateMachine playerStateMachine)
         {
-            List<string> childNodeOptions = GetFilteredZoneNodes(playerStateHandler);
+            List<string> childNodeOptions = GetFilteredZoneNodes(playerStateMachine);
             if (zoneNode == null || childNodeOptions == null || childNodeOptions.Count == 0) { return null; }
 
             int nodeIndex = UnityEngine.Random.Range(0, childNodeOptions.Count);
@@ -275,48 +265,45 @@ namespace Frankie.ZoneManagement
             nextZoneHandler.EnableRoomParent(true);
         }
 
-        private bool? IsSimpleWarp(PlayerStateMachine playerStateHandler)
+        private bool? IsSimpleWarp(PlayerStateMachine playerStateMachine)
         {
             if (zoneNode == null || zoneNode.GetChildren() == null) { return null; }
 
-            if (GetFilteredZoneNodes(playerStateHandler).Count == 1 || randomizeChoice)
+            if (GetFilteredZoneNodes(playerStateMachine).Count == 1 || randomizeChoice)
             {
                 return true;
             }
             return false;
         }
 
-        private List<string> GetFilteredZoneNodes(PlayerStateMachine playerStateHandler)
+        private List<string> GetFilteredZoneNodes(PlayerStateMachine playerStateMachine)
         {
-            if (zoneNodePredicateFilters == null || zoneNodePredicateFilters.Length == 0) { return zoneNode.GetChildren(); }
-
             List<string> filteredZoneNodes = new List<string>();
+
+            Zone zone = Zone.GetFromName(zoneNode.GetZoneName());
+            if (zone == null) { return filteredZoneNodes; }
+
             foreach (string zoneNodeID in zoneNode.GetChildren())
             {
-                bool zoneMatched = false;
-                foreach (zoneNodePredicateFilter zonePredicateFilter in zoneNodePredicateFilters)
+                if (IsZoneNodeAvailable(playerStateMachine, zone, zoneNodeID))
                 {
-                    if (zonePredicateFilter.zoneNode == null || zonePredicateFilter.condition == null) { continue; }
-
-                    if (zoneNodeID == zonePredicateFilter.zoneNode.GetNodeID())
-                    {
-                        zoneMatched = true;
-                        if (zonePredicateFilter.condition.Check(playerStateHandler.GetComponentsInChildren<IPredicateEvaluator>()))
-                        {
-                            filteredZoneNodes.Add(zoneNodeID);
-                        }
-                    }
+                    filteredZoneNodes.Add(zoneNodeID);
                 }
-
-                if (!zoneMatched) { filteredZoneNodes.Add(zoneNodeID); }
             }
             return filteredZoneNodes;
         }
 
-        private void SetUpCurrentReferences(PlayerStateMachine playerStateHandler, PlayerController playerController)
+        private bool IsZoneNodeAvailable(PlayerStateMachine playerStateMachine, Zone zone, string zoneNodeID)
         {
-            currentPlayerStateHandler = playerStateHandler;
-            currentPlayerController = playerController;
+            ZoneNode candidateNode = zone.GetNodeFromID(zoneNodeID);
+            if (candidateNode == null) { return false; }
+
+            return candidateNode.CheckCondition(GetEvaluators(playerStateMachine));
+        }
+
+        private IEnumerable<IPredicateEvaluator> GetEvaluators(PlayerStateMachine playerStateMachine)
+        {
+            return playerStateMachine.GetComponentsInChildren<IPredicateEvaluator>();
         }
 
         private List<ChoiceActionPair> GetZoneNameZoneNodePairs(PlayerStateMachine playerStateHandler)

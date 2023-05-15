@@ -69,13 +69,16 @@ namespace Frankie.Quests
             questListUpdated?.Invoke();
         }
 
-        public void CompleteObjective(Quest quest, QuestObjective objective)
+        public void CompleteObjective(QuestObjective questObjective)
         {
+            Quest quest = Quest.GetFromID(questObjective.GetQuestID());
+            if (quest == null) { return; }
+
             QuestStatus questStatus = GetQuestStatus(quest);
             if (questStatus == null) { return; }
             if (questStatus.IsComplete() && questStatus.IsRewardGiven()) { return; } // Disallow completion of quests // disbursement of rewards multiple times
 
-            questStatus.SetObjective(objective, true);
+            questStatus.SetObjective(questObjective, true);
 
             // Standard reward handling otherwise
             if (questStatus.IsComplete() && !questStatus.IsRewardGiven())
