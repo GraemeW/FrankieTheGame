@@ -5,7 +5,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
-    serializedVersion: 2
+    serializedVersion: 3
     m_TransformParent: {fileID: 2088815242785209475}
     m_Modifications:
     - target: {fileID: 2366363061461443362, guid: c08399674dab63349bf5a2c9c8ebbcaa, type: 3}
@@ -85,7 +85,9 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 8300000, guid: 7ef01fe75b0130440aa021964d4319b1, type: 3}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
     m_AddedGameObjects: []
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c08399674dab63349bf5a2c9c8ebbcaa, type: 3}
 --- !u!4 &1984625236506351083 stripped
 Transform:
@@ -97,7 +99,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
-    serializedVersion: 2
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 4118810327594443569, guid: 1b473d8838e3d4d4c99f7ff6e30d07df, type: 3}
@@ -165,10 +167,24 @@ PrefabInstance:
       value: NPCCombatReady
       objectReference: {fileID: 0}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
     m_AddedGameObjects:
     - targetCorrespondingSourceObject: {fileID: 6761616658632847993, guid: 1b473d8838e3d4d4c99f7ff6e30d07df, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1984625236506351083}
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 6761616658632847994, guid: 1b473d8838e3d4d4c99f7ff6e30d07df, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: -6302713147965282841}
+    - targetCorrespondingSourceObject: {fileID: 6761616658632847994, guid: 1b473d8838e3d4d4c99f7ff6e30d07df, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1182436157161314237}
+    - targetCorrespondingSourceObject: {fileID: 6761616658632847994, guid: 1b473d8838e3d4d4c99f7ff6e30d07df, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 6346925829285501531}
+    - targetCorrespondingSourceObject: {fileID: 6761616658632847994, guid: 1b473d8838e3d4d4c99f7ff6e30d07df, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 6351010188415245609}
   m_SourcePrefab: {fileID: 100100000, guid: 1b473d8838e3d4d4c99f7ff6e30d07df, type: 3}
 --- !u!1 &2088815242785209472 stripped
 GameObject:
@@ -210,6 +226,7 @@ MonoBehaviour:
   movingBackgroundProperties:
     tileSpriteImage: {fileID: 0}
     shaderMaterial: {fileID: 0}
+  battleEntityType: 0
   usesAP: 0
   battleStartCooldown: 15
   damageTimeSpan: 4
@@ -241,6 +258,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   probabilityToTraverseSkillTree: 0.8
+  useRandomSelectionOnNoPriorities: 1
+  battleAIPriorities: []
 --- !u!4 &2088815242785209475 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6761616658632847993, guid: 1b473d8838e3d4d4c99f7ff6e30d07df, type: 3}
