@@ -398,7 +398,7 @@ namespace Frankie.Speech
         #region Interfaces
         public void VerifyUnique()
         {
-            DialogueController[] dialogueControllers = FindObjectsOfType<DialogueController>();
+            DialogueController[] dialogueControllers = FindObjectsByType<DialogueController>(FindObjectsSortMode.None);
             if (dialogueControllers.Length > 1)
             {
                 Destroy(gameObject);

@@ -26,7 +26,7 @@ namespace Frankie.Menu.UI
         {
             InitializeSoundEffectsSliders();
 
-            backgroundMusic = FindObjectOfType<BackgroundMusic>();
+            backgroundMusic = FindAnyObjectByType<BackgroundMusic>();
             // find in Start since persistent object, spawned during Awake
         }
 

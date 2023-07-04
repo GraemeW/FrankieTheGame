@@ -37,8 +37,8 @@ namespace Frankie.ZoneManagement
 
         private void Awake()
         {
-            sceneLoader = FindObjectOfType<SceneLoader>();
-            savingWrapper = FindObjectOfType<SavingWrapper>();
+            sceneLoader = FindAnyObjectByType<SceneLoader>();
+            savingWrapper = FindAnyObjectByType<SavingWrapper>();
         }
 
         private void Start()

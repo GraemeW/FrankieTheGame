@@ -358,7 +358,7 @@ namespace Frankie.Control
 
         public bool StartBattleSequence()
         {
-            Fader fader = FindObjectOfType<Fader>();
+            Fader fader = FindAnyObjectByType<Fader>();
             if (fader == null || fader.IsFading() == true) { return false; } // Safety against missing fader
             if (fader.IsFading() == true) { return true; } // Safety against multiple fading routines
 
@@ -373,7 +373,7 @@ namespace Frankie.Control
 
         public bool EndBattleSequence()
         {
-            Fader fader = FindObjectOfType<Fader>();
+            Fader fader = FindAnyObjectByType<Fader>();
             if (fader == null || fader.IsFading() == true) { return false; } // Safety against missing fader
             if (fader.IsFading() == true) { return true; } // Safety against multiple fading routines
 
