@@ -204,7 +204,8 @@ namespace Frankie.Combat
                 activeAssistCharacters.Add(assistBattleEntity);
             }
 
-            FindObjectOfType<Fader>().battleUIStateChanged += InitiateBattle;
+            Fader fader = FindAnyObjectByType<Fader>();
+            if (fader != null) { fader.battleUIStateChanged += InitiateBattle; }
         }
 
         public void SetBattleState(BattleState state)
@@ -535,7 +536,8 @@ namespace Frankie.Combat
         {
             if (isBattleCanvasEnabled)
             {
-                FindObjectOfType<Fader>().battleUIStateChanged -= InitiateBattle;
+                Fader fader = FindAnyObjectByType<Fader>();
+                if (fader != null) { fader.battleUIStateChanged -= InitiateBattle; }
 
                 if (CheckForAutoWin())
                 {
@@ -808,7 +810,7 @@ namespace Frankie.Combat
         #region Interfaces
         public void VerifyUnique()
         {
-            BattleController[] battleControllers = FindObjectsOfType<BattleController>();
+            BattleController[] battleControllers = FindObjectsByType<BattleController>(FindObjectsSortMode.None);
             if (battleControllers.Length > 1)
             {
                 Destroy(gameObject);

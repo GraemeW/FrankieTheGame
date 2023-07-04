@@ -35,7 +35,7 @@ namespace Frankie.Core
         private void VerifySingleton()
         {
             // Singleton through standard approach -- do not use persistent object spawner for player
-            int numberOfPlayers = FindObjectsOfType<Player>().Length;
+            int numberOfPlayers = FindObjectsByType<Player>(FindObjectsSortMode.None).Length;
             if (numberOfPlayers > 1)
             {
                 gameObject.SetActive(false);

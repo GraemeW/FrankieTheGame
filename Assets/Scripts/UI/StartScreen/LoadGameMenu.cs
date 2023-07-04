@@ -27,7 +27,7 @@ namespace Frankie.Menu.UI
 
         private void Awake()
         {
-            savingWrapper = new LazyValue<SavingWrapper>(() => FindObjectOfType<SavingWrapper>());
+            savingWrapper = new LazyValue<SavingWrapper>(() => FindAnyObjectByType<SavingWrapper>());
         }
 
         private void Start()

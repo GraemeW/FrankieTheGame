@@ -32,7 +32,7 @@ namespace Frankie.Control
 
         public void VerifyUnique()
         {
-            StartMenuController[] startMenuControllers = FindObjectsOfType<StartMenuController>();
+            StartMenuController[] startMenuControllers = FindObjectsByType<StartMenuController>(FindObjectsSortMode.None);
             if (startMenuControllers.Length > 1)
             {
                 Destroy(gameObject);
