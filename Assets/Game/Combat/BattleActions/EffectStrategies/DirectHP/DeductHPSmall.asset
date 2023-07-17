@@ -13,7 +13,8 @@ MonoBehaviour:
   m_Name: DeductHPSmall
   m_EditorClassIdentifier: 
   healthChange: -3
-  jitter: 3
+  jitter: 2
+  applyDamageTypeModifiers: 1
   canMiss: 1
-  canCrit: 0
+  canCrit: 1
   critMultiplier: 2

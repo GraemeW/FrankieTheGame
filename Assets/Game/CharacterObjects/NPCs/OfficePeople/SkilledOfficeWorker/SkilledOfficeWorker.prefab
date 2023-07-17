@@ -1,0 +1,131 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &7739613538911748291
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 1182436157161314237, guid: e4be3ce2d5464c3498c884ae5d9223d4, type: 3}
+      propertyPath: combatAudio
+      value: 
+      objectReference: {fileID: 8300000, guid: 06b60d6f684982745b29520fc5acb6de, type: 3}
+    - target: {fileID: 1182436157161314237, guid: e4be3ce2d5464c3498c884ae5d9223d4, type: 3}
+      propertyPath: combatSprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 9aefab9885e925b488b7592b61ac73d2, type: 3}
+    - target: {fileID: 1182436157161314237, guid: e4be3ce2d5464c3498c884ae5d9223d4, type: 3}
+      propertyPath: battleStartCooldown
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 1182436157161314237, guid: e4be3ce2d5464c3498c884ae5d9223d4, type: 3}
+      propertyPath: movingBackgroundProperties.shaderMaterial
+      value: 
+      objectReference: {fileID: 2100000, guid: f0e33ad55b3f107428a94269b6f3f3c9, type: 2}
+    - target: {fileID: 1182436157161314237, guid: e4be3ce2d5464c3498c884ae5d9223d4, type: 3}
+      propertyPath: movingBackgroundProperties.tileSpriteImage
+      value: 
+      objectReference: {fileID: 21300000, guid: 19682c054559be44eb9cce952d4a088d, type: 3}
+    - target: {fileID: 1821436604961406953, guid: e4be3ce2d5464c3498c884ae5d9223d4, type: 3}
+      propertyPath: collisionsOverriddenToEnterCombat
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2085418849946982719, guid: e4be3ce2d5464c3498c884ae5d9223d4, type: 3}
+      propertyPath: characterProperties
+      value: 
+      objectReference: {fileID: 11400000, guid: df2799c36af32ce4d8fd6788f660323d, type: 2}
+    - target: {fileID: 2088815241072228431, guid: e4be3ce2d5464c3498c884ae5d9223d4, type: 3}
+      propertyPath: m_Size.x
+      value: 0.4
+      objectReference: {fileID: 0}
+    - target: {fileID: 2088815241072228431, guid: e4be3ce2d5464c3498c884ae5d9223d4, type: 3}
+      propertyPath: m_Size.y
+      value: 0.6
+      objectReference: {fileID: 0}
+    - target: {fileID: 2088815241072228431, guid: e4be3ce2d5464c3498c884ae5d9223d4, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 5323669003e30954a800877f5fa15b37, type: 3}
+    - target: {fileID: 2088815241072228431, guid: e4be3ce2d5464c3498c884ae5d9223d4, type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2088815242785209472, guid: e4be3ce2d5464c3498c884ae5d9223d4, type: 3}
+      propertyPath: m_Name
+      value: SkilledOfficeWorker
+      objectReference: {fileID: 0}
+    - target: {fileID: 2088815242785209474, guid: e4be3ce2d5464c3498c884ae5d9223d4, type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 22100000, guid: 47139f53693557b419ccddf8574ce09b, type: 2}
+    - target: {fileID: 2088815242785209475, guid: e4be3ce2d5464c3498c884ae5d9223d4, type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2088815242785209475, guid: e4be3ce2d5464c3498c884ae5d9223d4, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2088815242785209475, guid: e4be3ce2d5464c3498c884ae5d9223d4, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2088815242785209475, guid: e4be3ce2d5464c3498c884ae5d9223d4, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2088815242785209475, guid: e4be3ce2d5464c3498c884ae5d9223d4, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2088815242785209475, guid: e4be3ce2d5464c3498c884ae5d9223d4, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2088815242785209475, guid: e4be3ce2d5464c3498c884ae5d9223d4, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2088815242785209475, guid: e4be3ce2d5464c3498c884ae5d9223d4, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2088815242785209475, guid: e4be3ce2d5464c3498c884ae5d9223d4, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2088815242785209475, guid: e4be3ce2d5464c3498c884ae5d9223d4, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2088815242785209475, guid: e4be3ce2d5464c3498c884ae5d9223d4, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2176599180704515216, guid: e4be3ce2d5464c3498c884ae5d9223d4, type: 3}
+      propertyPath: canBeShoutedAt
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6346925829285501531, guid: e4be3ce2d5464c3498c884ae5d9223d4, type: 3}
+      propertyPath: skillTree
+      value: 
+      objectReference: {fileID: 11400000, guid: c6af51577501139408b2febf44596fc9, type: 2}
+    - target: {fileID: 8647497084266917323, guid: e4be3ce2d5464c3498c884ae5d9223d4, type: 3}
+      propertyPath: willShout
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8647497084266917323, guid: e4be3ce2d5464c3498c884ae5d9223d4, type: 3}
+      propertyPath: canBeShoutedAt
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8647497084266917323, guid: e4be3ce2d5464c3498c884ae5d9223d4, type: 3}
+      propertyPath: willChasePlayer
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: e4be3ce2d5464c3498c884ae5d9223d4, type: 3}
