@@ -85,3 +85,4 @@ if __name__ == "__main__":
     alphaCropper = AlphaCropper()
     alphaCropper.LoadFromDefault()
     alphaCropper.CropImages()
+    
