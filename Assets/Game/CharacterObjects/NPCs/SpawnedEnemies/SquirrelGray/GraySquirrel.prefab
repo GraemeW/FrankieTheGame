@@ -96,9 +96,17 @@ PrefabInstance:
       propertyPath: willForceCombat
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 4997636843526921919, guid: e4be3ce2d5464c3498c884ae5d9223d4, type: 3}
+      propertyPath: destroyOnInvisible
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5402722561389270067, guid: e4be3ce2d5464c3498c884ae5d9223d4, type: 3}
       propertyPath: m_LocalPosition.y
       value: 0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5498337236555039864, guid: e4be3ce2d5464c3498c884ae5d9223d4, type: 3}
+      propertyPath: movementSpeed
+      value: 1.1
       objectReference: {fileID: 0}
     - target: {fileID: 6346925829285501531, guid: e4be3ce2d5464c3498c884ae5d9223d4, type: 3}
       propertyPath: skillTree
@@ -119,6 +127,10 @@ PrefabInstance:
     - target: {fileID: 7379540853045316962, guid: e4be3ce2d5464c3498c884ae5d9223d4, type: 3}
       propertyPath: m_Offset.y
       value: 0.03057136
+      objectReference: {fileID: 0}
+    - target: {fileID: 8647497084266917323, guid: e4be3ce2d5464c3498c884ae5d9223d4, type: 3}
+      propertyPath: despawnOnInvisible
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

@@ -11,10 +11,12 @@ namespace Frankie.Combat.Spawner
     {
         // Tunables
         [SerializeField] bool spawnOnEnable = true;
+        [SerializeField] bool spawnOnVisible = false;
         [SerializeField] float xJitterDistance = 1.0f;
         [SerializeField] float yJitterDistance = 1.0f;
         [NonReorderable][SerializeField] SpawnConfigurationProbabilityPair<SpawnConfiguration>[] spawnConfigurations = null;
 
+        #region UnityMethods
         private void OnEnable()
         {
             if (spawnOnEnable) { SpawnEnemies(); }
@@ -25,6 +27,13 @@ namespace Frankie.Combat.Spawner
             DespawnEnemies();
         }
 
+        private void OnBecameVisible()
+        {
+            if (spawnOnVisible) { SpawnEnemies(); }
+        }
+        #endregion
+
+        #region PublicMethods
         public void SpawnEnemies() // Callable by Unity Events
         {
             SpawnConfiguration spawnConfiguration = GetSpawnConfiguration();
@@ -47,12 +56,6 @@ namespace Frankie.Combat.Spawner
             }
         }
 
-        private SpawnConfiguration GetSpawnConfiguration()
-        {
-            SpawnConfiguration spawnConfiguration = ProbabilityPairOperation<SpawnConfiguration>.GetRandomObject(spawnConfigurations);
-            return spawnConfiguration;
-        }
-
         public void DespawnEnemies() // Callable by Unity Events
         {
             foreach (Transform child in transform)
@@ -60,6 +63,16 @@ namespace Frankie.Combat.Spawner
                 Destroy(child.gameObject);
             }
         }
+        #endregion
+
+        #region PrivatMethods
+        private SpawnConfiguration GetSpawnConfiguration()
+        {
+            SpawnConfiguration spawnConfiguration = ProbabilityPairOperation<SpawnConfiguration>.GetRandomObject(spawnConfigurations);
+            return spawnConfiguration;
+        }
+        #endregion
+
 
 #if UNITY_EDITOR
         private void OnDrawGizmosSelected()
