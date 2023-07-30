@@ -12,9 +12,13 @@ namespace Frankie.Combat.Spawner
         // Tunables
         [SerializeField] bool spawnOnEnable = true;
         [SerializeField] bool spawnOnVisible = false;
+        [SerializeField][Min(0f)][Tooltip("in seconds")] float timeBetweenSpawns = 0f;
         [SerializeField] float xJitterDistance = 1.0f;
         [SerializeField] float yJitterDistance = 1.0f;
         [NonReorderable][SerializeField] SpawnConfigurationProbabilityPair<SpawnConfiguration>[] spawnConfigurations = null;
+
+        // State
+        float timeUntilNextSpawn = 0f;
 
         #region UnityMethods
         private void OnEnable()
@@ -31,11 +35,18 @@ namespace Frankie.Combat.Spawner
         {
             if (spawnOnVisible) { SpawnEnemies(); }
         }
+
+        private void Update()
+        {
+            if (timeUntilNextSpawn > 0f) { timeUntilNextSpawn -= Time.deltaTime; }
+        }
         #endregion
 
         #region PublicMethods
         public void SpawnEnemies() // Callable by Unity Events
         {
+            if (timeBetweenSpawns > 0f && timeUntilNextSpawn > 0f) { return; }
+
             SpawnConfiguration spawnConfiguration = GetSpawnConfiguration();
             if (spawnConfiguration == null) { return; }
 
@@ -54,6 +65,7 @@ namespace Frankie.Combat.Spawner
                 Vector3 jitterVector = new Vector3(xJitter, yJitter, 0f);
                 spawnedEnemy.transform.position = spawnedEnemy.transform.position + jitterVector;
             }
+            timeUntilNextSpawn = timeBetweenSpawns;
         }
 
         public void DespawnEnemies() // Callable by Unity Events

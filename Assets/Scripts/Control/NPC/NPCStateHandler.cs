@@ -15,14 +15,19 @@ namespace Frankie.Control
         // Tunables
         [SerializeField] bool willForceCombat = false;
         [SerializeField] bool willDestroySelfOnDeath = true;
+        [SerializeField] bool willDestroyIfInvisible = false;
+        [Min(0)][Tooltip("in seconds")][SerializeField] float delayToDestroyAfterInvisible = 2f;
         [Tooltip("Include {0} for enemy name")] [SerializeField] string messageCannotFight = "{0} is wounded and cannot fight.";
 
         // State
         NPCStateType npcState = NPCStateType.idle;
         bool npcOccupied = false;
         bool queueDeathOnNextPlayerStateChange = false;
+        bool isNPCVisible = true;
+        float timeSinceInvisible = 0f;
 
         // Cached References
+        SpriteVisibilityAnnouncer spriteVisibilityAnnouncer;
         CombatParticipant combatParticipant = null;
         GameObject player = null;
         ReInitLazyValue<PlayerStateMachine> playerStateHandler;
@@ -36,6 +41,7 @@ namespace Frankie.Control
         {
             // Not strictly necessary -- will fail elegantly
             combatParticipant = GetComponent<CombatParticipant>();
+            spriteVisibilityAnnouncer = GetComponentInChildren<SpriteVisibilityAnnouncer>();
 
             // Cached
             player = GameObject.FindGameObjectWithTag("Player");
@@ -65,6 +71,7 @@ namespace Frankie.Control
         {
             playerStateHandler.value.playerStateChanged += ParsePlayerStateChange;
             if (combatParticipant != null) { combatParticipant.stateAltered += HandleNPCCombatStateChange; }
+            if (spriteVisibilityAnnouncer != null) { spriteVisibilityAnnouncer.spriteVisibilityStatus += HandleSpriteVisibility; }
             SetNPCState(NPCStateType.idle);
         }
 
@@ -72,8 +79,13 @@ namespace Frankie.Control
         {
             playerStateHandler.value.playerStateChanged -= ParsePlayerStateChange;
             if (combatParticipant != null) { combatParticipant.stateAltered -= HandleNPCCombatStateChange; }
+            if (spriteVisibilityAnnouncer != null) { spriteVisibilityAnnouncer.spriteVisibilityStatus -= HandleSpriteVisibility; }
         }
 
+        private void Update()
+        {
+            UpdateSpriteInvisibilityTimerToDestroy();
+        }
         #endregion
 
         #region PublicMethods
@@ -194,6 +206,28 @@ namespace Frankie.Control
 
             playerStateHandler.EnterDialogue(aiConversant, dialogue);
             SetNPCState(NPCStateType.occupied);
+        }
+
+        private void HandleSpriteVisibility(bool isVisible)
+        {
+            isNPCVisible = isVisible;
+            if (!isVisible) { timeSinceInvisible = 0f; }
+        }
+
+        private void UpdateSpriteInvisibilityTimerToDestroy()
+        {
+            if (!willDestroyIfInvisible) { return; }
+            if (isNPCVisible) { return; }
+
+            if (timeSinceInvisible < delayToDestroyAfterInvisible)
+            {
+                timeSinceInvisible += Time.deltaTime;
+            }
+            else
+            {
+                UnityEngine.Debug.Log($"NPC {gameObject.name} invisible for {delayToDestroyAfterInvisible} seconds.  Destroying.");
+                Destroy(gameObject);
+            }
         }
         #endregion
 
