@@ -47,9 +47,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   spawnOnEnable: 0
   spawnOnVisible: 1
-  despawnOnInvisible: 1
-  xJitterDistance: 1
-  yJitterDistance: 1
+  timeBetweenSpawns: 2.5
+  xJitterDistance: 0.1
+  yJitterDistance: 0.1
   spawnConfigurations: []
 --- !u!212 &8100133806872524361
 SpriteRenderer:

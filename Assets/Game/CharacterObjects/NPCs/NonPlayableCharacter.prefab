@@ -41,7 +41,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6761616658462586550}
   - component: {fileID: 6761616658462586549}
-  - component: {fileID: 320262279563907141}
+  - component: {fileID: 8852343027133356461}
   m_Layer: 6
   m_Name: NPCSprite
   m_TagString: Untagged
@@ -116,7 +116,7 @@ SpriteRenderer:
   m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 1
---- !u!114 &320262279563907141
+--- !u!114 &8852343027133356461
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -125,10 +125,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 6761616658462586551}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 59efffa96920fd74ba78afdd8b708ef5, type: 3}
+  m_Script: {fileID: 11500000, guid: 11a60d2b98a9b724cb98727f9349f4ba, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  destroyOnInvisible: 0
 --- !u!1 &6761616658632847994
 GameObject:
   m_ObjectHideFlags: 0
@@ -368,6 +367,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   willForceCombat: 0
   willDestroySelfOnDeath: 1
+  willDestroyIfInvisible: 0
+  delayToDestroyAfterInvisible: 2
   messageCannotFight: '{0} is wounded and cannot fight.'
 --- !u!114 &6372006413732983059
 MonoBehaviour:

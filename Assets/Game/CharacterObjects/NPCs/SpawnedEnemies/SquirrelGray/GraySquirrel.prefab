@@ -96,6 +96,10 @@ PrefabInstance:
       propertyPath: willForceCombat
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 2176599180704515216, guid: e4be3ce2d5464c3498c884ae5d9223d4, type: 3}
+      propertyPath: willDestroyIfInvisible
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4997636843526921919, guid: e4be3ce2d5464c3498c884ae5d9223d4, type: 3}
       propertyPath: destroyOnInvisible
       value: 1
