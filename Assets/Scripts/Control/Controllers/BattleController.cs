@@ -9,6 +9,9 @@ using UnityEngine;
 using Frankie.ZoneManagement;
 using Frankie.Inventory;
 using UnityEngine.TextCore.Text;
+using Frankie.Combat.Spawner;
+using static UnityEngine.EventSystems.EventTrigger;
+using static System.TimeZoneInfo;
 
 namespace Frankie.Combat
 {
@@ -34,6 +37,7 @@ namespace Frankie.Combat
         List<BattleEntity> activePlayerCharacters = new List<BattleEntity>();
         List<BattleEntity> activeAssistCharacters = new List<BattleEntity>();
         List<BattleEntity> activeEnemies = new List<BattleEntity>();
+        bool[][] enemyMapping; // Overwrite w/ positional properties on Setup
         CombatParticipant selectedCharacter = null;
         IBattleActionSuper selectedBattleActionSuper = null;
         bool battleActionArmed = false;
@@ -54,6 +58,7 @@ namespace Frankie.Combat
         public event Action<PlayerInputType> battleInput;
         public event Action<PlayerInputType> globalInput;
         public event Action<BattleState> battleStateChanged;
+        public event Action<BattleEntity> enemyAddedMidCombat;
         public event Action<CombatParticipantType, IEnumerable<BattleEntity>> selectedCombatParticipantChanged;
         public event Action<IBattleActionSuper> battleActionArmedStateChanged;
         public event Action<BattleSequence> battleSequenceProcessed;
@@ -164,26 +169,14 @@ namespace Frankie.Combat
             List<BattleEntity> enemyBattleEntities = new List<BattleEntity>();
             
             int numberOfRows = Mathf.Max(minRowCount, enemies.Count / maxEnemiesPerRow + 1);
-            bool[][] enemyMapping = new bool[numberOfRows][];
+            enemyMapping = new bool[numberOfRows][];
             for (int i = 0; i < numberOfRows; i++) { enemyMapping[i] = new bool[maxEnemiesPerRow]; }
 
             foreach (CombatParticipant enemy in enemies)
             {
-                int rowIndex, columnIndex;
-                enemyMapping = GetEnemyPosition(numberOfRows, enemyMapping, out rowIndex, out columnIndex);
-
-                if (transitionType == TransitionType.BattleBad)
-                {
-                    enemy.SetCooldown(battleAdvantageCooldown);
-                }
-                else
-                {
-                    enemy.SetCooldown(enemy.GetBattleStartCooldown());
-                }
-                enemy.stateAltered += CheckForBattleEnd;
-
-                BattleEntity enemyBattleEntity = new BattleEntity(enemy, enemy.GetBattleEntityType(), rowIndex, columnIndex);
-                activeEnemies.Add(enemyBattleEntity);
+                float cooldownOverride = enemy.GetBattleStartCooldown();
+                if (transitionType == TransitionType.BattleBad) { cooldownOverride = battleAdvantageCooldown; }
+                AddEnemyToCombat(enemy, numberOfRows, battleAdvantageCooldown);
             }
 
             // Party Assist Characters
@@ -206,6 +199,35 @@ namespace Frankie.Combat
 
             Fader fader = FindAnyObjectByType<Fader>();
             if (fader != null) { fader.battleUIStateChanged += InitiateBattle; }
+        }
+
+        private BattleEntity AddEnemyToCombat(CombatParticipant enemy, int numberOfRows, float cooldownOverride)
+        {
+            // Default values
+            if (numberOfRows == -1) {  }
+            if (Mathf.Approximately(cooldownOverride, -1)) {  }
+
+            // Find position
+            int rowIndex, columnIndex;
+            enemyMapping = GetEnemyPosition(numberOfRows, enemyMapping, out rowIndex, out columnIndex);
+
+            // Set Enemy Parameters
+            enemy.SetCooldown(cooldownOverride);
+            enemy.stateAltered += CheckForBattleEnd;
+
+            // Add to Battle Controller tracker
+            BattleEntity enemyBattleEntity = new BattleEntity(enemy, enemy.GetBattleEntityType(), rowIndex, columnIndex);
+            activeEnemies.Add(enemyBattleEntity);
+            return enemyBattleEntity;
+        }
+
+        public void AddEnemyMidCombat(CombatParticipant enemy)
+        {
+            int numberOfRows = Mathf.Max(minRowCount, (activeEnemies.Count + 1) / maxEnemiesPerRow + 1);
+            float cooldownOverride = enemy.GetBattleStartCooldown();
+
+            BattleEntity enemyBattleEntity = AddEnemyToCombat(enemy, numberOfRows, cooldownOverride);
+            enemyAddedMidCombat?.Invoke(enemyBattleEntity);
         }
 
         public void SetBattleState(BattleState state)
