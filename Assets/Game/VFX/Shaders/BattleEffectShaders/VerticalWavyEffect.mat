@@ -42,7 +42,7 @@ Material:
     m_Ints: []
     m_Floats:
     - Vector1_7ab76210b1bd497babdb7dec70f33f90: 10.61
-    - _Phase: 367.85287
+    - _Phase: 20.769491
     - _QueueControl: 0
     - _QueueOffset: 0
     - crispness: 0.01
@@ -57,6 +57,7 @@ Material:
     - drawColor: {r: 1, g: 1, b: 1, a: 0}
     - minMax: {r: 0.25, g: 0.75, b: 0, a: 0}
   m_BuildTextureStacks: []
+  m_AllowLocking: 1
 --- !u!114 &3564860783718523648
 MonoBehaviour:
   m_ObjectHideFlags: 11
@@ -69,4 +70,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d0353a89b1f911e48b9e16bdc9f2e058, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  version: 7
+  version: 9
