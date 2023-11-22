@@ -16,7 +16,7 @@ MonoBehaviour:
   upBranch: 
   leftSkillReference: ShakeTail
   leftBranch: 
-  rightSkillReference: 
+  rightSkillReference: SqueakSqueak
   rightBranch: 
   downSkillReference: 
   downBranch: 

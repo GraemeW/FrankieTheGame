@@ -227,6 +227,7 @@ namespace Frankie.Combat
             float cooldownOverride = enemy.GetBattleStartCooldown();
 
             BattleEntity enemyBattleEntity = AddEnemyToCombat(enemy, numberOfRows, cooldownOverride);
+            enemy.SetCombatActive(true);
             enemyAddedMidCombat?.Invoke(enemyBattleEntity);
         }
 
