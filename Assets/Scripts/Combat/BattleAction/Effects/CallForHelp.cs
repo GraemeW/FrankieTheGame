@@ -1,8 +1,8 @@
 using Frankie.Combat.Spawner;
+using Frankie.Control;
 using Frankie.Stats;
 using Frankie.Utils;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -22,6 +22,8 @@ namespace Frankie.Combat
             SpawnConfiguration spawnConfiguration = GetSpawnConfiguration();
             if (battleController == null || spawnConfiguration == null) { finished?.Invoke(this); return; }
 
+            if (!battleController.IsEnemyPositionAvailable()) { finished?.Invoke(this); return; }
+
             int maxQuantity = spawnConfiguration.maxQuantity;
             EnemyConfiguration[] enemyConfigurations = spawnConfiguration.enemyConfigurations;
             if (spawnConfiguration.maxQuantity == 0 || enemyConfigurations == null) { finished?.Invoke(this); return; }
@@ -32,12 +34,16 @@ namespace Frankie.Combat
                 if (enemyPrefab == null) { continue; }
 
                 GameObject spawnedEnemy = Instantiate(enemyPrefab);
+                DisableEnemyColliders(spawnedEnemy);
+                SetEnemyDisposition(spawnedEnemy);
                 spawnedEnemy.transform.position = sender.transform.position;
 
                 if (spawnedEnemy.TryGetComponent(out CombatParticipant enemy))
                 {
                     battleController.AddEnemyMidCombat(enemy);
                 }
+                else
+                { Destroy(spawnedEnemy); } // Safety on shenanigans (spawned enemy lacking a combat participant component
             }
             finished?.Invoke(this);
         }
@@ -47,6 +53,22 @@ namespace Frankie.Combat
         {
             SpawnConfiguration spawnConfiguration = ProbabilityPairOperation<SpawnConfiguration>.GetRandomObject(spawnConfigurations);
             return spawnConfiguration;
+        }
+
+        private void DisableEnemyColliders(GameObject spawnedEnemy)
+        {
+            // Required to allow enemies to stack in world space (otherwise can get enemies teleporting)
+            foreach (Collider2D collider in spawnedEnemy.GetComponents<Collider2D>())
+            {
+                collider.enabled = false;
+            }
+        }
+
+        private void SetEnemyDisposition(GameObject spawnedEnemy)
+        {
+            // Required to avoid weird chase/movement shenanigans
+            if (spawnedEnemy.TryGetComponent(out NPCChaser npcChaser)) { npcChaser.SetChaseDisposition(false); }
+            if (spawnedEnemy.TryGetComponent(out NPCStateHandler npcStateHandler)) { npcStateHandler.ForceNPCOccupied(); }
         }
     }
 }

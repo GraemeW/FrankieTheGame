@@ -130,6 +130,11 @@ namespace Frankie.Control
         {
             InitiateDialogue(playerStateHandler.value);
         }
+
+        public void ForceNPCOccupied()
+        {
+            npcOccupied = true;
+        }
         #endregion
 
         #region PrivateMethods

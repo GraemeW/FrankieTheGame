@@ -12,6 +12,7 @@ using UnityEngine.TextCore.Text;
 using Frankie.Combat.Spawner;
 using static UnityEngine.EventSystems.EventTrigger;
 using static System.TimeZoneInfo;
+using Unity.VisualScripting;
 
 namespace Frankie.Combat
 {
@@ -203,10 +204,6 @@ namespace Frankie.Combat
 
         private BattleEntity AddEnemyToCombat(CombatParticipant enemy, int numberOfRows, float cooldownOverride)
         {
-            // Default values
-            if (numberOfRows == -1) {  }
-            if (Mathf.Approximately(cooldownOverride, -1)) {  }
-
             // Find position
             int rowIndex, columnIndex;
             enemyMapping = GetEnemyPosition(numberOfRows, enemyMapping, out rowIndex, out columnIndex);
@@ -216,6 +213,7 @@ namespace Frankie.Combat
             enemy.stateAltered += CheckForBattleEnd;
 
             // Add to Battle Controller tracker
+            UnityEngine.Debug.Log($"New enemy added at position row: {rowIndex} ; col: {columnIndex}");
             BattleEntity enemyBattleEntity = new BattleEntity(enemy, enemy.GetBattleEntityType(), rowIndex, columnIndex);
             activeEnemies.Add(enemyBattleEntity);
             return enemyBattleEntity;
@@ -223,7 +221,7 @@ namespace Frankie.Combat
 
         public void AddEnemyMidCombat(CombatParticipant enemy)
         {
-            int numberOfRows = Mathf.Max(minRowCount, (activeEnemies.Count + 1) / maxEnemiesPerRow + 1);
+            int numberOfRows = enemyMapping.Length;
             float cooldownOverride = enemy.GetBattleStartCooldown();
 
             BattleEntity enemyBattleEntity = AddEnemyToCombat(enemy, numberOfRows, cooldownOverride);
@@ -342,6 +340,15 @@ namespace Frankie.Combat
         public List<BattleEntity> GetCharacters() => activeCharacters;
         public List<BattleEntity> GetEnemies() => activeEnemies;
         public List<BattleEntity> GetAssistCharacters() => activeAssistCharacters;
+        public bool IsEnemyPositionAvailable()
+        {
+            foreach (bool[] row in enemyMapping)
+            {
+                foreach (bool entry in row) { if (!entry) return true; }
+            }
+            UnityEngine.Debug.Log("No remaining positions for enemies to spawn");
+            return false;
+        }
 
         // State Selections
         public CombatParticipant GetSelectedCharacter()
@@ -596,14 +603,14 @@ namespace Frankie.Combat
             columnIndex = centerColumn;
             if (enemyMapping[rowIndex][centerColumn]) // Center column already populated, loop through
             {
-                for (int i = 1; i < centerColumn; i++)
+                for (int i = 1; i < centerColumn + 1; i++)
                 {
-                    int upperIndex = Mathf.Min(centerColumn + i, maxEnemiesPerRow - 1); // For even maxEnemiesPerRow, can overflow + 1
-                    if (!enemyMapping[rowIndex][upperIndex]) { columnIndex = upperIndex; enemyMapping[rowIndex][upperIndex] = true; break; } // +1 off of center
-                    if (!enemyMapping[rowIndex][centerColumn - i]) { columnIndex = centerColumn - i; enemyMapping[rowIndex][centerColumn - i] = true; break; } // -1 off of center
+                    if (!enemyMapping[rowIndex][centerColumn - i]) { columnIndex = centerColumn - i; break; } // -1 offset from center
+                    if (centerColumn + i >= maxEnemiesPerRow) { break; } // Handling for even counts
+                    if (!enemyMapping[rowIndex][centerColumn + i]) { columnIndex = centerColumn + i; break; } // +1 offset from center
                 }
             }
-            else { enemyMapping[rowIndex][centerColumn] = true; } // Center column not populated -- default
+            enemyMapping[rowIndex][columnIndex] = true;
 
             return enemyMapping;
         }
