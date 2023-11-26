@@ -10,11 +10,15 @@ namespace Frankie.Combat
         public BattleEntityType battleEntityType;
         public int row;
         public int column;
+        public bool isCharacter = false;
+        public bool isAssistCharacter = false;
 
         // Character type instantiation
-        public BattleEntity(CombatParticipant combatParticipant)
+        public BattleEntity(CombatParticipant combatParticipant, bool isAssistCharacter = false)
         {
             this.combatParticipant = combatParticipant;
+            this.isCharacter = true;
+            this.isAssistCharacter = isAssistCharacter;
             this.battleEntityType = BattleEntityType.Standard;
             this.row = 0;
             this.column = 0;
@@ -25,6 +29,8 @@ namespace Frankie.Combat
         {
             this.combatParticipant = combatParticipant;
             this.battleEntityType = battleEntityType;
+            this.isCharacter = false;
+            this.isAssistCharacter = false;
             this.row = row;
             this.column = column;
         }

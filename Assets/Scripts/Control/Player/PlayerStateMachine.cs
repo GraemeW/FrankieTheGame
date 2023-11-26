@@ -395,7 +395,7 @@ namespace Frankie.Control
             combatFadeComplete = false;
 
             yield return fader.QueueFadeEntry(transitionType);
-            battleController.Setup(enemiesInTransition, transitionType);
+            battleController.QueueCombatInitiation(enemiesInTransition, transitionType);
             yield return fader.QueueFadeExit(transitionType);
 
             combatFadeComplete = true;

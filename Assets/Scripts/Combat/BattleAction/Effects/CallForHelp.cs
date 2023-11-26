@@ -40,7 +40,7 @@ namespace Frankie.Combat
 
                 if (spawnedEnemy.TryGetComponent(out CombatParticipant enemy))
                 {
-                    battleController.AddEnemyMidCombat(enemy);
+                    battleController.AddEnemyToCombat(enemy, false, true);
                 }
                 else
                 { Destroy(spawnedEnemy); } // Safety on shenanigans (spawned enemy lacking a combat participant component

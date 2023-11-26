@@ -10,6 +10,7 @@ using Frankie.Stats;
 using Frankie.Inventory;
 using Frankie.Inventory.UI;
 using Frankie.Utils;
+using UnityEngine.TextCore.Text;
 
 namespace Frankie.Combat.UI
 {
@@ -57,6 +58,7 @@ namespace Frankie.Combat.UI
         BattleState lastBattleState = BattleState.Inactive;
         Queue<Action> queuedUISequences = new Queue<Action>();
         List<CharacterLevelUpSheetPair> queuedLevelUps = new List<CharacterLevelUpSheetPair>();
+        bool firstCharacterToggle = false;
         bool busyWithSerialAction = false;
         bool outroQueued = false;
 
@@ -87,13 +89,13 @@ namespace Frankie.Combat.UI
         private void OnEnable()
         {
             battleController.battleStateChanged += Setup;
-            battleController.enemyAddedMidCombat += SetupEnemy;
+            battleController.battleEntityAddedToCombat += SetupBattleEntity;
         }
 
         private void OnDisable()
         {
             battleController.battleStateChanged -= Setup;
-            battleController.enemyAddedMidCombat -= SetupEnemy;
+            battleController.battleEntityAddedToCombat -= SetupBattleEntity;
         }
 
         private void OnDestroy()
@@ -119,8 +121,6 @@ namespace Frankie.Combat.UI
 
             if (state == BattleState.Intro)
             {
-                SetupPlayerCharacters(battleController.GetCharacters(), battleController.GetAssistCharacters());
-                SetupEnemies(battleController.GetEnemies());
                 SetupBackgroundFill(battleController.GetEnemies());
                 SetupEntryMessage(battleController.GetEnemies());
             }
@@ -192,48 +192,54 @@ namespace Frankie.Combat.UI
             }
         }
 
-        private void SetupPlayerCharacters(List<BattleEntity> characters, List<BattleEntity> assistCharacters)
+        private void SetupBattleEntity(BattleEntity battleEntity)
         {
-            bool firstCharacterToggle = false;
-            foreach (BattleEntity character in characters)
+            if (!battleEntity.isAssistCharacter)
             {
-                if (assistCharacters.Contains(character))
+                if (battleEntity.isCharacter)
                 {
-                    // No panel + limited feedback & no level-ups for assist characters
-                    combatLog.AddCombatListener(character.combatParticipant);
-                    continue;
+                    SetupCharacter(battleEntity);
                 }
-
-                CharacterSlide characterSlide = Instantiate(characterSlidePrefab, playerPanelParent);
-                characterSlide.SetBattleEntity(character);
-                combatLog.AddCombatListener(character.combatParticipant);
-
-                if (!firstCharacterToggle)
+                else
                 {
-                    characterSlide.GetComponent<Button>().Select();
-                    battleController.SetSelectedCharacter(character.combatParticipant);
-                    firstCharacterToggle = true;
+                    SetupEnemy(battleEntity);
                 }
-                if (character.combatParticipant.TryGetComponent(out BaseStats baseStats)) { baseStats.onLevelUp += HandleLevelUp; }
+            }
+            else
+            {
+                SetupAssistCharacter(battleEntity);
             }
         }
 
-        private void SetupEnemies(IEnumerable<BattleEntity> enemies)
+        private void SetupEnemy(BattleEntity battleEntity)
         {
-            foreach (BattleEntity enemy in enemies)
-            {
-                SetupEnemy(enemy);
-            }
-        }
-
-        private void SetupEnemy(BattleEntity enemy)
-        {
-            Transform parentSpawn = (enemy.row == 0) ? frontRowParent : backRowParent;
+            Transform parentSpawn = (battleEntity.row == 0) ? frontRowParent : backRowParent;
             EnemySlide enemySlide = Instantiate(enemySlidePrefab, parentSpawn);
-            enemySlide.SetBattleEntity(enemy);
-            combatLog.AddCombatListener(enemy.combatParticipant);
+            enemySlide.SetBattleEntity(battleEntity);
+            combatLog.AddCombatListener(battleEntity.combatParticipant);
 
-            enemySlideLookup[enemy] = enemySlide;
+            enemySlideLookup[battleEntity] = enemySlide;
+        }
+
+        private void SetupCharacter(BattleEntity character)
+        {
+            CharacterSlide characterSlide = Instantiate(characterSlidePrefab, playerPanelParent);
+            characterSlide.SetBattleEntity(character);
+            combatLog.AddCombatListener(character.combatParticipant);
+
+            if (!firstCharacterToggle)
+            {
+                characterSlide.GetComponent<Button>().Select();
+                battleController.SetSelectedCharacter(character.combatParticipant);
+                firstCharacterToggle = true;
+            }
+            if (character.combatParticipant.TryGetComponent(out BaseStats baseStats)) { baseStats.onLevelUp += HandleLevelUp; }
+        }
+
+        private void SetupAssistCharacter(BattleEntity assistCharacter)
+        {
+            // No panel + limited feedback & no level-ups for assist characters
+            combatLog.AddCombatListener(assistCharacter.combatParticipant);
         }
 
         private void SetupBackgroundFill(List<BattleEntity> enemies)
