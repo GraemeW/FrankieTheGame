@@ -150,92 +150,6 @@ namespace Frankie.Combat
             fader.StoreBattleControllerInitiateTrigger(battleControllerInitiateTrigger);
         }
 
-        private void SetCombatParticipantCooldown(CombatParticipant combatParticipant, bool useBattleAdvantageCooldown)
-        {
-            float cooldownOverride = combatParticipant.GetBattleStartCooldown();
-            if (useBattleAdvantageCooldown) { cooldownOverride = battleAdvantageCooldown; }
-            combatParticipant.SetCooldown(cooldownOverride);
-        }
-
-        private void AddCharacterToCombat(CombatParticipant character, bool useBattleAdvantageCooldown = false)
-        {
-            SetCombatParticipantCooldown(character, useBattleAdvantageCooldown);
-
-            character.stateAltered += CheckForBattleEnd;
-            BattleEntity characterBattleEntity = new BattleEntity(character);
-            activeCharacters.Add(characterBattleEntity);
-            activePlayerCharacters.Add(characterBattleEntity);
-
-            battleEntityAddedToCombat?.Invoke(characterBattleEntity);
-        }
-
-        private void AddAssistCharacterToCombat(CombatParticipant character, bool useBattleAdvantageCooldown = false)
-        {
-            SetCombatParticipantCooldown(character, useBattleAdvantageCooldown);
-
-            character.stateAltered += CheckForBattleEnd;
-            BattleEntity assistBattleEntity = new BattleEntity(character, true);
-            activeCharacters.Add(assistBattleEntity);
-            activeAssistCharacters.Add(assistBattleEntity);
-
-            battleEntityAddedToCombat?.Invoke(assistBattleEntity);
-        }
-
-        public void AddEnemyToCombat(CombatParticipant enemy, bool useBattleAdvantageCooldown = false, bool forceCombatActive = false)
-        {
-            SetCombatParticipantCooldown(enemy, useBattleAdvantageCooldown);
-
-            int rowIndex, columnIndex;
-            GetEnemyPosition(out rowIndex, out columnIndex);
-            UnityEngine.Debug.Log($"New enemy added at position row: {rowIndex} ; col: {columnIndex}");
-
-            enemy.stateAltered += CheckForBattleEnd;
-            BattleEntity enemyBattleEntity = new BattleEntity(enemy, enemy.GetBattleEntityType(), rowIndex, columnIndex);
-            activeEnemies.Add(enemyBattleEntity);
-
-            enemy.SetCombatActive(forceCombatActive);
-            battleEntityAddedToCombat?.Invoke(enemyBattleEntity);
-        }
-
-        private void InitializeEnemyMapping(int enemyCount)
-        {
-            int numberOfRows = Mathf.Max(minRowCount, enemyCount / maxEnemiesPerRow + 1);
-            enemyMapping = new bool[numberOfRows][];
-            for (int i = 0; i < numberOfRows; i++) { enemyMapping[i] = new bool[maxEnemiesPerRow]; }
-        }
-
-        private void GetEnemyPosition(out int rowIndex, out int columnIndex)
-        {
-            if (enemyMapping == null) { InitializeEnemyMapping(activeEnemies.Count); }
-            int numberOfRows = enemyMapping.Length;
-
-            // Find row position
-            rowIndex = 0;
-            int lastRowLength = enemyMapping[0].Count(c => c);
-            if (lastRowLength > minEnemiesBeforeRowSplit) // Populate first row up to quantity, then begin populating second+ rows
-            {
-                for (int i = 1; i < numberOfRows; i++)
-                {
-                    int currentRowLength = enemyMapping[i].Count(c => c);
-                    if (currentRowLength < lastRowLength) { rowIndex = i; lastRowLength = currentRowLength; }
-                }
-            }
-
-            // Find column position
-            int centerColumn = maxEnemiesPerRow / 2;
-            columnIndex = centerColumn;
-            if (enemyMapping[rowIndex][centerColumn]) // Center column already populated, loop through
-            {
-                for (int i = 1; i < centerColumn + 1; i++)
-                {
-                    if (!enemyMapping[rowIndex][centerColumn - i]) { columnIndex = centerColumn - i; break; } // -1 offset from center
-                    if (centerColumn + i >= maxEnemiesPerRow) { break; } // Handling for even counts
-                    if (!enemyMapping[rowIndex][centerColumn + i]) { columnIndex = centerColumn + i; break; } // +1 offset from center
-                }
-            }
-            enemyMapping[rowIndex][columnIndex] = true;
-        }
-
         public void SetBattleState(BattleState state)
         {
             this.state = state;
@@ -568,7 +482,7 @@ namespace Frankie.Combat
         }
         #endregion
 
-        #region PrivateBattleHandling
+        #region BattleHandling
         private void InitiateBattle(List<CombatParticipant> enemies, TransitionType transitionType)
         {
             SetupCombatParticipants(enemies, transitionType);
@@ -608,6 +522,92 @@ namespace Frankie.Combat
             {
                 AddAssistCharacterToCombat(character, transitionType == TransitionType.BattleGood);
             }
+        }
+
+        private void SetCombatParticipantCooldown(CombatParticipant combatParticipant, bool useBattleAdvantageCooldown)
+        {
+            float cooldownOverride = combatParticipant.GetBattleStartCooldown();
+            if (useBattleAdvantageCooldown) { cooldownOverride = battleAdvantageCooldown; }
+            combatParticipant.SetCooldown(cooldownOverride);
+        }
+
+        private void AddCharacterToCombat(CombatParticipant character, bool useBattleAdvantageCooldown = false)
+        {
+            SetCombatParticipantCooldown(character, useBattleAdvantageCooldown);
+
+            character.stateAltered += CheckForBattleEnd;
+            BattleEntity characterBattleEntity = new BattleEntity(character);
+            activeCharacters.Add(characterBattleEntity);
+            activePlayerCharacters.Add(characterBattleEntity);
+
+            battleEntityAddedToCombat?.Invoke(characterBattleEntity);
+        }
+
+        private void AddAssistCharacterToCombat(CombatParticipant character, bool useBattleAdvantageCooldown = false)
+        {
+            SetCombatParticipantCooldown(character, useBattleAdvantageCooldown);
+
+            character.stateAltered += CheckForBattleEnd;
+            BattleEntity assistBattleEntity = new BattleEntity(character, true);
+            activeCharacters.Add(assistBattleEntity);
+            activeAssistCharacters.Add(assistBattleEntity);
+
+            battleEntityAddedToCombat?.Invoke(assistBattleEntity);
+        }
+
+        public void AddEnemyToCombat(CombatParticipant enemy, bool useBattleAdvantageCooldown = false, bool forceCombatActive = false)
+        {
+            SetCombatParticipantCooldown(enemy, useBattleAdvantageCooldown);
+
+            int rowIndex, columnIndex;
+            GetEnemyPosition(out rowIndex, out columnIndex);
+            UnityEngine.Debug.Log($"New enemy added at position row: {rowIndex} ; col: {columnIndex}");
+
+            enemy.stateAltered += CheckForBattleEnd;
+            BattleEntity enemyBattleEntity = new BattleEntity(enemy, enemy.GetBattleEntityType(), rowIndex, columnIndex);
+            activeEnemies.Add(enemyBattleEntity);
+
+            enemy.SetCombatActive(forceCombatActive);
+            battleEntityAddedToCombat?.Invoke(enemyBattleEntity);
+        }
+
+        private void InitializeEnemyMapping(int enemyCount)
+        {
+            int numberOfRows = Mathf.Max(minRowCount, enemyCount / maxEnemiesPerRow + 1);
+            enemyMapping = new bool[numberOfRows][];
+            for (int i = 0; i < numberOfRows; i++) { enemyMapping[i] = new bool[maxEnemiesPerRow]; }
+        }
+
+        private void GetEnemyPosition(out int rowIndex, out int columnIndex)
+        {
+            if (enemyMapping == null) { InitializeEnemyMapping(activeEnemies.Count); }
+            int numberOfRows = enemyMapping.Length;
+
+            // Find row position
+            rowIndex = 0;
+            int lastRowLength = enemyMapping[0].Count(c => c);
+            if (lastRowLength > minEnemiesBeforeRowSplit) // Populate first row up to quantity, then begin populating second+ rows
+            {
+                for (int i = 1; i < numberOfRows; i++)
+                {
+                    int currentRowLength = enemyMapping[i].Count(c => c);
+                    if (currentRowLength < lastRowLength) { rowIndex = i; lastRowLength = currentRowLength; }
+                }
+            }
+
+            // Find column position
+            int centerColumn = maxEnemiesPerRow / 2;
+            columnIndex = centerColumn;
+            if (enemyMapping[rowIndex][centerColumn]) // Center column already populated, loop through
+            {
+                for (int i = 1; i < centerColumn + 1; i++)
+                {
+                    if (!enemyMapping[rowIndex][centerColumn - i]) { columnIndex = centerColumn - i; break; } // -1 offset from center
+                    if (centerColumn + i >= maxEnemiesPerRow) { break; } // Handling for even counts
+                    if (!enemyMapping[rowIndex][centerColumn + i]) { columnIndex = centerColumn + i; break; } // +1 offset from center
+                }
+            }
+            enemyMapping[rowIndex][columnIndex] = true;
         }
 
         private bool CheckForAutoWin()
