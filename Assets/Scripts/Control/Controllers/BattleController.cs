@@ -146,8 +146,7 @@ namespace Frankie.Combat
         {
             Fader fader = FindAnyObjectByType<Fader>();
             Action battleControllerInitiateTrigger = () => InitiateBattle(enemies, transitionType);
-            if (fader != null) { fader.battleUIReady += battleControllerInitiateTrigger; }
-            fader.StoreBattleControllerInitiateTrigger(battleControllerInitiateTrigger);
+            fader.QueueInitiateBattleCallback(battleControllerInitiateTrigger);
         }
 
         public void SetBattleState(BattleState state)

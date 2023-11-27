@@ -25,7 +25,7 @@ namespace Frankie.ZoneManagement
         Image currentTransition = null;
         bool fading = false;
         GameObject battleUI = null;
-        Action battleControllerInitiateTrigger = null;
+        Action initiateBattleCallback = null;
 
         // Cached References
         SceneLoader sceneLoader = null;
@@ -33,7 +33,6 @@ namespace Frankie.ZoneManagement
 
         // Events
         public event Action<TransitionType> fadingIn;
-        public event Action battleUIReady;
         public event Action fadingOut;
 
         #region UnityMethods
@@ -51,7 +50,7 @@ namespace Frankie.ZoneManagement
 
         #region PublicMethods
         public bool IsFading() => fading;
-        public void StoreBattleControllerInitiateTrigger(Action battleControllerInitiateTrigger) => this.battleControllerInitiateTrigger = battleControllerInitiateTrigger;
+        public void QueueInitiateBattleCallback(Action initiateBattleCallback) => this.initiateBattleCallback = initiateBattleCallback;
 
         public void UpdateFadeState(TransitionType transitionType, Zone nextZone)
         {
@@ -121,8 +120,11 @@ namespace Frankie.ZoneManagement
             {
                 if (battleUI == null) { battleUI = Instantiate(battleUIPrefab); }
                 battleUI.gameObject.SetActive(true);
-                battleUIReady?.Invoke();
-                if (battleControllerInitiateTrigger != null) { battleUIReady -= battleControllerInitiateTrigger; }
+                if (initiateBattleCallback != null)
+                {
+                    initiateBattleCallback.Invoke();
+                    initiateBattleCallback = null;
+                }
             }
 
             currentTransition.CrossFadeAlpha(0, GetFadeTime(false, transitionType), false);
