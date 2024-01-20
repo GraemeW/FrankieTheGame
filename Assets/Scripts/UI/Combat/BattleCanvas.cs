@@ -65,6 +65,7 @@ namespace Frankie.Combat.UI
         // Cached References
         PartyCombatConduit partyCombatConduit = null;
         BattleController battleController = null;
+        BattleRewards battleRewards = null;
 
         // Data Structures
         public struct CharacterLevelUpSheetPair
@@ -77,9 +78,11 @@ namespace Frankie.Combat.UI
         #region UnityMethods
         private void Awake()
         {
-            battleController = GameObject.FindGameObjectWithTag("BattleController")?.GetComponent<BattleController>();
             partyCombatConduit = GameObject.FindGameObjectWithTag("Player")?.GetComponent<PartyCombatConduit>();
+            battleController = GameObject.FindGameObjectWithTag("BattleController")?.GetComponent<BattleController>();
+            if (partyCombatConduit == null || battleController == null) { Destroy(gameObject); return; }
 
+            battleRewards = battleController.GetBattleRewards();
             combatOptions.Setup(battleController, this, partyCombatConduit);
             combatOptions.TakeControl(battleController, this, null);
 
@@ -305,7 +308,7 @@ namespace Frankie.Combat.UI
             if (battleOutcome != BattleOutcome.Won) { busyWithSerialAction = false; return; }
 
             DialogueBox dialogueBox = Instantiate(dialogueBoxPrefab, infoChooseParent);
-            dialogueBox.AddText(string.Format(messageGainedExperience, Mathf.RoundToInt(battleController.GetBattleExperienceReward()).ToString()));
+            dialogueBox.AddText(string.Format(messageGainedExperience, Mathf.RoundToInt(battleRewards.GetBattleExperienceReward()).ToString()));
 
             foreach (CharacterLevelUpSheetPair characterLevelUpSheetPair in queuedLevelUps)
             {
@@ -337,7 +340,7 @@ namespace Frankie.Combat.UI
         {
             queuedUISequences.Enqueue(() => SetupPreLootMessage(battleOutcome));
             queuedUISequences.Enqueue(() => SetupAllocatedLootMessage(battleOutcome));
-            foreach (Tuple<string, InventoryItem> enemyItemPair in battleController.GetUnallocatedLootCart())
+            foreach (Tuple<string, InventoryItem> enemyItemPair in battleRewards.GetUnallocatedLootCart())
             {
                 queuedUISequences.Enqueue(() => SetupUnallocatedLootMessage(enemyItemPair.Item1, enemyItemPair.Item2, battleOutcome));
             }
@@ -346,7 +349,7 @@ namespace Frankie.Combat.UI
         private void SetupPreLootMessage(BattleOutcome battleOutcome)
         {
             if (battleOutcome != BattleOutcome.Won) { busyWithSerialAction = false; return; }
-            if (!battleController.HasLootCart()) { busyWithSerialAction = false; return; }
+            if (!battleRewards.HasLootCart()) { busyWithSerialAction = false; return; }
 
             DialogueBox dialogueBox = Instantiate(dialogueBoxPrefab, infoChooseParent);
             dialogueBox.AddText(string.Format(messageGainedLoot, partyCombatConduit.GetPartyLeaderName()));
@@ -358,11 +361,11 @@ namespace Frankie.Combat.UI
         {
             // Handling items that were easily placed in inventory
             if (battleOutcome != BattleOutcome.Won) { busyWithSerialAction = false; return; }
-            if (!battleController.HasAllocatedLootCart()) { busyWithSerialAction = false; return; }
+            if (!battleRewards.HasAllocatedLootCart()) { busyWithSerialAction = false; return; }
             
             DialogueBox dialogueBox = Instantiate(dialogueBoxPrefab, infoChooseParent);
 
-            foreach (Tuple<string, InventoryItem> enemyItemPair in battleController.GetAllocatedLootCart())
+            foreach (Tuple<string, InventoryItem> enemyItemPair in battleRewards.GetAllocatedLootCart())
             {
                 dialogueBox.AddText(string.Format(messageEnemyDroppedLoot, enemyItemPair.Item1, enemyItemPair.Item2.GetDisplayName()));
                 dialogueBox.AddPageBreak();
@@ -378,7 +381,7 @@ namespace Frankie.Combat.UI
             // -- See SetupInventorySwapBox && SetupConfirmThrowOutItemMessage
 
             if (battleOutcome != BattleOutcome.Won) { busyWithSerialAction = false; return; }
-            if (!battleController.HasUnallocatedLootCart()) { busyWithSerialAction = false; return; }
+            if (!battleRewards.HasUnallocatedLootCart()) { busyWithSerialAction = false; return; }
 
             DialogueOptionBox dialogueOptionBox = Instantiate(dialogueOptionBoxPrefab, infoChooseParent);
             dialogueOptionBox.Setup(string.Format(messageEnemyDroppedLootNoRoom, enemyName, inventoryItem.GetDisplayName()));
