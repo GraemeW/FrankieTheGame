@@ -71,11 +71,10 @@ namespace Frankie.Combat.UI
                     button.enabled = false;
                     image.CrossFadeAlpha(0f, deathFadeTime, false);
                     cooldownTimer?.gameObject.SetActive(false);
+                    StartCoroutine(DelayToDestroy(deathFadeTime));
                     break;
                 case StateAlteredType.Resurrected:
-                    button.enabled = true;
-                    image.CrossFadeAlpha(1f, deathFadeTime, false);
-                    cooldownTimer?.gameObject.SetActive(true);
+                    // Support for resurrection nominally not supported -- breaks UI handling (otherwise need to have supervisor enable/disable)
                     break;
             }
         }
@@ -102,6 +101,12 @@ namespace Frankie.Combat.UI
                     return;
                 }
             }
+        }
+
+        private IEnumerator DelayToDestroy(float secondForDelay)
+        {
+            yield return new WaitForSeconds(secondForDelay);
+            Destroy(gameObject);
         }
     }
 }

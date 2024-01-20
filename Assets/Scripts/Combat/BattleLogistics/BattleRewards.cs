@@ -9,9 +9,6 @@ namespace Frankie.Combat
 {
     public class BattleRewards : MonoBehaviour
     {
-        // Cached References
-        BattleController battleController = null;
-
         // State
         float battleExperienceReward = 0f;
         List<Tuple<string, InventoryItem>> allocatedLootCart = new List<Tuple<string, InventoryItem>>();

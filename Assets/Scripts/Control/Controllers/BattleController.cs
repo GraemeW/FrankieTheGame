@@ -541,7 +541,9 @@ namespace Frankie.Combat
             UnityEngine.Debug.Log($"New enemy added at position row: {rowIndex} ; col: {columnIndex}");
 
             enemy.stateAltered += CheckForBattleEnd;
+
             BattleEntity enemyBattleEntity = new BattleEntity(enemy, enemy.GetBattleEntityType(), rowIndex, columnIndex);
+            enemyBattleEntity.removedFromCombat += RemoveFromEnemyMapping;
             activeEnemies.Add(enemyBattleEntity);
 
             enemy.SetCombatActive(forceCombatActive);
@@ -585,6 +587,12 @@ namespace Frankie.Combat
                 }
             }
             enemyMapping[rowIndex][columnIndex] = true;
+        }
+
+        private void RemoveFromEnemyMapping(BattleEntity battleEntity, int row, int column)
+        {
+            battleEntity.removedFromCombat -= RemoveFromEnemyMapping;
+            enemyMapping[row][column] = false;
         }
 
         private bool CheckForAutoWin()

@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5348314150609190011}
   - component: {fileID: 1733041111156872079}
+  - component: {fileID: 8278917081213519595}
   m_Layer: 0
   m_Name: Battle Controller
   m_TagString: BattleController
@@ -24,13 +25,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 195823895297305920}
+  serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1733041111156872079
 MonoBehaviour:
@@ -50,3 +51,15 @@ MonoBehaviour:
   minRowCount: 2
   maxEnemiesPerRow: 7
   minEnemiesBeforeRowSplit: 2
+--- !u!114 &8278917081213519595
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 195823895297305920}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a9105177d434ddb4091eb08a8ca5fc6b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

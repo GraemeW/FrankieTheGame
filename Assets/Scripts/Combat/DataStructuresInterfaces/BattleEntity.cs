@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -6,12 +7,16 @@ namespace Frankie.Combat
 {
     public class BattleEntity
     {
+        // Attributes
         public CombatParticipant combatParticipant;
         public BattleEntityType battleEntityType;
         public int row;
         public int column;
         public bool isCharacter = false;
         public bool isAssistCharacter = false;
+
+        // Events
+        public event Action<BattleEntity, int, int> removedFromCombat;
 
         // Character type instantiation
         public BattleEntity(CombatParticipant combatParticipant, bool isAssistCharacter = false)
@@ -33,6 +38,17 @@ namespace Frankie.Combat
             this.isAssistCharacter = false;
             this.row = row;
             this.column = column;
+
+            combatParticipant.stateAltered += HandleStateChange;
+        }
+
+        // Specific event handling
+        private void HandleStateChange(CombatParticipant combatParticipant, StateAlteredData state)
+        {
+            if (state.stateAlteredType != StateAlteredType.Dead) { return; }
+
+            combatParticipant.stateAltered -= HandleStateChange;
+            removedFromCombat?.Invoke(this, row, column);
         }
     }
 }
