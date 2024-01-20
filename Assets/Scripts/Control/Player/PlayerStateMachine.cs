@@ -381,7 +381,7 @@ namespace Frankie.Control
             return true;
         }
 
-        private void HandleCombatMessages(BattleState battleState)
+        private void HandleCombatMessages(BattleState battleState, BattleOutcome battleOutcome)
         {
             if (battleState != BattleState.Complete) { return; }
             battleController.battleStateChanged -= HandleCombatMessages;

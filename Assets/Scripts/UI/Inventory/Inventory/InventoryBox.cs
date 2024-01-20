@@ -499,7 +499,7 @@ namespace Frankie.Inventory.UI
                 {
                     battleController.SetActiveBattleAction(selectedKnapsack.GetItemInSlot(inventorySlot) as ActionItem);
                     battleController.SetBattleActionArmed(true);
-                    battleController.SetBattleState(BattleState.Combat);
+                    battleController.SetBattleState(BattleState.Combat, BattleOutcome.Undetermined);
                     ClearDisableCallbacks(); // Prevent combat options from triggering -> proceed directly to target selection
                     Destroy(gameObject);
                 }

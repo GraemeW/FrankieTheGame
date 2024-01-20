@@ -25,7 +25,6 @@ namespace Frankie.Combat
 
         // State
         BattleState state = default;
-        BattleOutcome outcome = default;
         bool outroCleanupCalled = false;
         float battleExperienceReward = 0f;
 
@@ -54,7 +53,7 @@ namespace Frankie.Combat
         // Events
         public event Action<PlayerInputType> battleInput;
         public event Action<PlayerInputType> globalInput;
-        public event Action<BattleState> battleStateChanged;
+        public event Action<BattleState, BattleOutcome> battleStateChanged;
         public event Action<BattleEntity> battleEntityAddedToCombat;
         public event Action<CombatParticipantType, IEnumerable<BattleEntity>> selectedCombatParticipantChanged;
         public event Action<IBattleActionSuper> battleActionArmedStateChanged;
@@ -149,7 +148,7 @@ namespace Frankie.Combat
             fader.QueueInitiateBattleCallback(battleControllerInitiateTrigger);
         }
 
-        public void SetBattleState(BattleState state)
+        public void SetBattleState(BattleState state, BattleOutcome battleOutcome)
         {
             this.state = state;
 
@@ -162,17 +161,7 @@ namespace Frankie.Combat
                 ToggleCombatParticipants(false);
             }
 
-            battleStateChanged?.Invoke(state);
-        }
-
-        public void SetBattleOutcome(BattleOutcome outcome)
-        {
-            this.outcome = outcome;
-
-            if (outcome == BattleOutcome.Ran)
-            {
-                DestroyTransientEnemies();
-            }
+            battleStateChanged?.Invoke(state, battleOutcome);
         }
 
         public bool SetSelectedCharacter(CombatParticipant character)
@@ -256,7 +245,6 @@ namespace Frankie.Combat
         #region PublicGetters
         // Overall State
         public BattleState GetBattleState() => state;
-        public BattleOutcome GetBattleOutcome() => outcome;
         public List<BattleEntity> GetCharacters() => activeCharacters;
         public List<BattleEntity> GetEnemies() => activeEnemies;
         public List<BattleEntity> GetAssistCharacters() => activeAssistCharacters;
@@ -349,8 +337,7 @@ namespace Frankie.Combat
 
             if (partySpeed > enemySpeed)
             {
-                SetBattleOutcome(BattleOutcome.Ran);
-                SetBattleState(BattleState.Outro);
+                SetBattleState(BattleState.Outro, BattleOutcome.Ran);
                 return true;
             }
             else
@@ -395,7 +382,7 @@ namespace Frankie.Combat
                 if (selectedBattleActionSuper == null || selectedCharacter == null)
                 {
                     SetSelectedCharacter(null);
-                    SetBattleState(BattleState.PreCombat); return true;
+                    SetBattleState(BattleState.PreCombat, BattleOutcome.Undetermined); return true;
                 }
 
                 // Otherwise step out of selections
@@ -403,7 +390,7 @@ namespace Frankie.Combat
                 {
                     SetActiveBattleAction(null);
                     SetSelectedCharacter(null);
-                    SetBattleState(BattleState.Combat);
+                    SetBattleState(BattleState.Combat, BattleOutcome.Undetermined);
                 }
                 return true;
             }
@@ -492,11 +479,11 @@ namespace Frankie.Combat
                 {
                     enemy.combatParticipant.Kill();
                 }
-                SetBattleState(BattleState.Combat); // Combat will auto-complete in the usual way
+                SetBattleState(BattleState.Combat, BattleOutcome.Undetermined); // Combat will auto-complete in the usual way
             }
             else
             {
-                SetBattleState(BattleState.Intro);
+                SetBattleState(BattleState.Intro, BattleOutcome.Undetermined);
             }
         }
 
@@ -727,26 +714,18 @@ namespace Frankie.Combat
                 foreach (BattleEntity battleEntity in activePlayerCharacters) { if (!battleEntity.combatParticipant.IsDead()) { allCharactersDead = false; break; } }
                 if (allCharactersDead)
                 {
-                    SetBattleOutcome(BattleOutcome.Lost);
-                    SetBattleState(BattleState.Outro);
+                    SetBattleState(BattleState.Outro, BattleOutcome.Lost);
                 }
 
                 bool allEnemiesDead = true;
                 foreach (BattleEntity battleEntity in activeEnemies) { if (!battleEntity.combatParticipant.IsDead()) { allEnemiesDead = false; break; } }
                 if (allEnemiesDead)
                 {
-                    SetBattleOutcome(BattleOutcome.Won);
                     bool isLevelUpPending = AwardExperienceToLevelUp();
                     bool isLootPending = AwardLoot();
+                    BattleState battleState = (isLevelUpPending || isLootPending) ? BattleState.PreOutro : BattleState.Outro;
 
-                    if (isLevelUpPending || isLootPending)
-                    {
-                        SetBattleState(BattleState.PreOutro);
-                    }
-                    else
-                    {
-                        SetBattleState(BattleState.Outro);
-                    }
+                    SetBattleState(battleState, BattleOutcome.Won);
                 }
             }
         }

@@ -114,7 +114,7 @@ namespace Frankie.Combat.UI
         #endregion
 
         #region PublicMethods
-        public void Setup(BattleState state)
+        public void Setup(BattleState state, BattleOutcome battleOutcome)
         {
             if (state == lastBattleState) { return; } // Only act on state changes
             lastBattleState = state;
@@ -141,9 +141,9 @@ namespace Frankie.Combat.UI
 
                 combatLog.gameObject.SetActive(false);
                 skillSelection.gameObject.SetActive(false);
-                queuedUISequences.Enqueue(SetupExperienceMessage);
-                SetupAllLootMessages(); // Parent function to queue a number of additional loot messages into UI sequences
-                queuedUISequences.Enqueue(SetupExitMessage);
+                queuedUISequences.Enqueue(() => SetupExperienceMessage(battleOutcome));
+                SetupAllLootMessages(battleOutcome); // Parent function to queue a number of additional loot messages into UI sequences
+                queuedUISequences.Enqueue(() => SetupExitMessage(battleOutcome));
                 outroQueued = true;
             }
         }
@@ -297,12 +297,12 @@ namespace Frankie.Combat.UI
             dialogueBox.AddText(entryMessage);
             dialogueBox.AddPageBreak();
             dialogueBox.AddText(messageEncounterPreHype);
-            dialogueBox.TakeControl(battleController, this, new Action[] { () => battleController.SetBattleState(BattleState.PreCombat) });
+            dialogueBox.TakeControl(battleController, this, new Action[] { () => battleController.SetBattleState(BattleState.PreCombat, BattleOutcome.Undetermined) });
         }
 
-        private void SetupExperienceMessage()
+        private void SetupExperienceMessage(BattleOutcome battleOutcome)
         {
-            if (battleController.GetBattleOutcome() != BattleOutcome.Won) { busyWithSerialAction = false; return; }
+            if (battleOutcome != BattleOutcome.Won) { busyWithSerialAction = false; return; }
 
             DialogueBox dialogueBox = Instantiate(dialogueBoxPrefab, infoChooseParent);
             dialogueBox.AddText(string.Format(messageGainedExperience, Mathf.RoundToInt(battleController.GetBattleExperienceReward()).ToString()));
@@ -333,19 +333,19 @@ namespace Frankie.Combat.UI
             dialogueBox.TakeControl(battleController, this, new Action[] { () => busyWithSerialAction = false });
         }
 
-        private void SetupAllLootMessages()
+        private void SetupAllLootMessages(BattleOutcome battleOutcome)
         {
-            queuedUISequences.Enqueue(SetupPreLootMessage);
-            queuedUISequences.Enqueue(SetupAllocatedLootMessage);
+            queuedUISequences.Enqueue(() => SetupPreLootMessage(battleOutcome));
+            queuedUISequences.Enqueue(() => SetupAllocatedLootMessage(battleOutcome));
             foreach (Tuple<string, InventoryItem> enemyItemPair in battleController.GetUnallocatedLootCart())
             {
-                queuedUISequences.Enqueue(() => SetupUnallocatedLootMessage(enemyItemPair.Item1, enemyItemPair.Item2));
+                queuedUISequences.Enqueue(() => SetupUnallocatedLootMessage(enemyItemPair.Item1, enemyItemPair.Item2, battleOutcome));
             }
         }
 
-        private void SetupPreLootMessage()
+        private void SetupPreLootMessage(BattleOutcome battleOutcome)
         {
-            if (battleController.GetBattleOutcome() != BattleOutcome.Won) { busyWithSerialAction = false; return; }
+            if (battleOutcome != BattleOutcome.Won) { busyWithSerialAction = false; return; }
             if (!battleController.HasLootCart()) { busyWithSerialAction = false; return; }
 
             DialogueBox dialogueBox = Instantiate(dialogueBoxPrefab, infoChooseParent);
@@ -354,10 +354,10 @@ namespace Frankie.Combat.UI
             dialogueBox.TakeControl(battleController, this, new Action[] { () => busyWithSerialAction = false });
         }
 
-        private void SetupAllocatedLootMessage()
+        private void SetupAllocatedLootMessage(BattleOutcome battleOutcome)
         {
             // Handling items that were easily placed in inventory
-            if (battleController.GetBattleOutcome() != BattleOutcome.Won) { busyWithSerialAction = false; return; }
+            if (battleOutcome != BattleOutcome.Won) { busyWithSerialAction = false; return; }
             if (!battleController.HasAllocatedLootCart()) { busyWithSerialAction = false; return; }
             
             DialogueBox dialogueBox = Instantiate(dialogueBoxPrefab, infoChooseParent);
@@ -371,38 +371,38 @@ namespace Frankie.Combat.UI
             dialogueBox.TakeControl(battleController, this, new Action[] { () => busyWithSerialAction = false });
         }
 
-        private void SetupUnallocatedLootMessage(string enemyName, InventoryItem inventoryItem)
+        private void SetupUnallocatedLootMessage(string enemyName, InventoryItem inventoryItem, BattleOutcome battleOutcome)
         {
             // Handling items that cannot be placed in inventory due to inventory full
             // Note:  busyyWithSerialAction is reset on resolution of sub-menu calls
             // -- See SetupInventorySwapBox && SetupConfirmThrowOutItemMessage
 
-            if (battleController.GetBattleOutcome() != BattleOutcome.Won) { busyWithSerialAction = false; return; }
+            if (battleOutcome != BattleOutcome.Won) { busyWithSerialAction = false; return; }
             if (!battleController.HasUnallocatedLootCart()) { busyWithSerialAction = false; return; }
 
             DialogueOptionBox dialogueOptionBox = Instantiate(dialogueOptionBoxPrefab, infoChooseParent);
             dialogueOptionBox.Setup(string.Format(messageEnemyDroppedLootNoRoom, enemyName, inventoryItem.GetDisplayName()));
 
             List<ChoiceActionPair> choiceActionPairs = new List<ChoiceActionPair>();
-            choiceActionPairs.Add(new ChoiceActionPair(optionChuckItemAffirmative, () => { SetupInventorySwapBox(enemyName, inventoryItem); Destroy(dialogueOptionBox.gameObject); } ));
-            choiceActionPairs.Add(new ChoiceActionPair(optionChuckItemNegative, () => { SetupConfirmThrowOutItemMessage(enemyName, inventoryItem); Destroy(dialogueOptionBox.gameObject); } ));
+            choiceActionPairs.Add(new ChoiceActionPair(optionChuckItemAffirmative, () => { SetupInventorySwapBox(enemyName, inventoryItem, battleOutcome); Destroy(dialogueOptionBox.gameObject); } ));
+            choiceActionPairs.Add(new ChoiceActionPair(optionChuckItemNegative, () => { SetupConfirmThrowOutItemMessage(enemyName, inventoryItem, battleOutcome); Destroy(dialogueOptionBox.gameObject); } ));
             dialogueOptionBox.OverrideChoiceOptions(choiceActionPairs);
 
             dialogueOptionBox.ClearDisableCallbacksOnChoose(true); // Clear window re-spawn (see below) on successful choice selection
-            dialogueOptionBox.TakeControl(battleController, this, new Action[] { () => SetupUnallocatedLootMessage(enemyName, inventoryItem) }); // If user tabs out of this window, re-spawn it (avoid lost loot)
+            dialogueOptionBox.TakeControl(battleController, this, new Action[] { () => SetupUnallocatedLootMessage(enemyName, inventoryItem, battleOutcome) }); // If user tabs out of this window, re-spawn it (avoid lost loot)
         }
 
-        private void SetupInventorySwapBox(string enemyName, InventoryItem inventoryItem)
+        private void SetupInventorySwapBox(string enemyName, InventoryItem inventoryItem, BattleOutcome battleOutcome)
         {
             InventorySwapBox inventorySwapBox = Instantiate(inventorySwapBoxPrefab, infoChooseParent);
             inventorySwapBox.Setup(battleController, partyCombatConduit, inventoryItem, () => { inventorySwapBox.ClearDisableCallbacks(); busyWithSerialAction = false; });
                 // Inventory box destruction handled by swap box on successful swap
 
-            inventorySwapBox.TakeControl(battleController, this, new Action[] { () => SetupUnallocatedLootMessage(enemyName, inventoryItem) });
+            inventorySwapBox.TakeControl(battleController, this, new Action[] { () => SetupUnallocatedLootMessage(enemyName, inventoryItem, battleOutcome) });
             // If user tabs out of this window, re-spawn it (avoid lost loot)
         }
 
-        private void SetupConfirmThrowOutItemMessage(string enemyName, InventoryItem inventoryItem)
+        private void SetupConfirmThrowOutItemMessage(string enemyName, InventoryItem inventoryItem, BattleOutcome battleOutcome)
         {
             DialogueOptionBox dialogueOptionBox = Instantiate(dialogueOptionBoxPrefab, infoChooseParent);
             dialogueOptionBox.Setup(string.Format(messageConfirmThrowOut, inventoryItem.GetDisplayName()));
@@ -412,30 +412,30 @@ namespace Frankie.Combat.UI
             choiceActionPairs.Add(new ChoiceActionPair(optionChuckItemNegative, () => { Destroy(dialogueOptionBox); })); // Otherwise loop back & re-spawn
             dialogueOptionBox.OverrideChoiceOptions(choiceActionPairs);
 
-            dialogueOptionBox.TakeControl(battleController, this, new Action[] { () => SetupUnallocatedLootMessage(enemyName, inventoryItem) });
+            dialogueOptionBox.TakeControl(battleController, this, new Action[] { () => SetupUnallocatedLootMessage(enemyName, inventoryItem, battleOutcome) });
         }
 
-        private void SetupExitMessage()
+        private void SetupExitMessage(BattleOutcome battleOutcome)
         {
             string exitMessage = "";
-            if (battleController.GetBattleOutcome() == BattleOutcome.Won)
+            if (battleOutcome == BattleOutcome.Won)
             {
                 exitMessage = messageBattleCompleteWon;
             }
-            else if (battleController.GetBattleOutcome() == BattleOutcome.Lost)
+            else if (battleOutcome == BattleOutcome.Lost)
             {
                 exitMessage = messageBattleCompleteLost;
             }
-            else if (battleController.GetBattleOutcome() == BattleOutcome.Ran)
+            else if (battleOutcome == BattleOutcome.Ran)
             {
                 exitMessage = messageBattleCompleteRan;
             }
 
             DialogueBox dialogueBox = Instantiate(dialogueBoxPrefab, infoChooseParent);
             dialogueBox.AddText(exitMessage);
-            dialogueBox.TakeControl(battleController, this, new Action[] { () => { busyWithSerialAction = false; battleController.SetBattleState(BattleState.Complete); } });
+            dialogueBox.TakeControl(battleController, this, new Action[] { () => { busyWithSerialAction = false; battleController.SetBattleState(BattleState.Complete, battleOutcome); } });
 
-            battleController.SetBattleState(BattleState.Outro);
+            battleController.SetBattleState(BattleState.Outro, battleOutcome);
         }
         #endregion
 
