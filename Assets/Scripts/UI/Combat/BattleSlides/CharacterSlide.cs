@@ -127,7 +127,7 @@ namespace Frankie.Combat.UI
                 case StateAlteredType.AdjustAPNonSpecific:
                     // Adjust character slide AP on non-specific (i.e. even those announced 'quietly')
                     // Sound effects otherwise update on increase/decrease
-                    UpdateAP(this.battleEntity.combatParticipant.GetAP()); 
+                    UpdateAP(this.battleEntity.combatParticipant.GetAP());
                     damageTextSpawner.AddToQueue(new DamageTextData(DamageTextType.APChanged, stateAlteredData.points));
                     break;
                 case StateAlteredType.HitMiss:
@@ -152,6 +152,9 @@ namespace Frankie.Combat.UI
                 case StateAlteredType.Resurrected:
                     slideState = SlideState.Ready;
                     UpdateColor();
+                    break;
+                case StateAlteredType.FriendFound:
+                case StateAlteredType.FriendIgnored:
                     break;
             }
         }

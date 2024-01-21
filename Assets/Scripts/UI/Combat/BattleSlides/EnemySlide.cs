@@ -49,6 +49,7 @@ namespace Frankie.Combat.UI
                         BlipFadeSlide();
                     }
                     break;
+                case StateAlteredType.AdjustAPNonSpecific:
                 case StateAlteredType.IncreaseAP:
                 case StateAlteredType.DecreaseAP:
                     break;
@@ -75,6 +76,12 @@ namespace Frankie.Combat.UI
                     break;
                 case StateAlteredType.Resurrected:
                     // Support for resurrection nominally not supported -- breaks UI handling (otherwise need to have supervisor enable/disable)
+                    break;
+                case StateAlteredType.FriendFound:
+                    damageTextSpawner.AddToQueue(new DamageTextData(DamageTextType.Informational, "*hello!*"));
+                    break;
+                case StateAlteredType.FriendIgnored:
+                    damageTextSpawner.AddToQueue(new DamageTextData(DamageTextType.Informational, "*lonely*"));
                     break;
             }
         }

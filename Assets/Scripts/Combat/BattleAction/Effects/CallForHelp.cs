@@ -28,6 +28,7 @@ namespace Frankie.Combat
             EnemyConfiguration[] enemyConfigurations = spawnConfiguration.enemyConfigurations;
             if (spawnConfiguration.maxQuantity == 0 || enemyConfigurations == null) { finished?.Invoke(this); return; }
 
+            bool friendFound = false;
             foreach (CharacterProperties characterProperties in SpawnConfiguration.GetEnemies(enemyConfigurations, maxQuantity))
             {
                 GameObject enemyPrefab = characterProperties.characterNPCPrefab;
@@ -41,10 +42,14 @@ namespace Frankie.Combat
                 if (spawnedEnemy.TryGetComponent(out CombatParticipant enemy))
                 {
                     battleController.AddEnemyToCombat(enemy, false, true);
+                    friendFound = true;
                 }
                 else
                 { Destroy(spawnedEnemy); } // Safety on shenanigans (spawned enemy lacking a combat participant component
             }
+
+            if (friendFound) { sender.AnnounceStateUpdate(new StateAlteredData(StateAlteredType.FriendFound)); }
+            else { sender.AnnounceStateUpdate(new StateAlteredData(StateAlteredType.FriendIgnored)); }
             finished?.Invoke(this);
         }
 

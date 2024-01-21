@@ -15,6 +15,8 @@ namespace Frankie.Combat
         CooldownSet,
         CooldownExpired,
         HitMiss,
-        HitCrit
+        HitCrit,
+        FriendFound,
+        FriendIgnored
     }
 }

@@ -10,13 +10,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ac8509b1ed48910478e8dfa7f0f1450c, type: 3}
-  m_Name: CallForHelp
+  m_Name: CallForHelpSquirrel
   m_EditorClassIdentifier: 
   spawnConfigurations:
   - spawnConfiguration:
       maxQuantity: 1
       enemyConfigurations:
-      - minimum: 1
+      - minimum: 0
         maximum: 1
         characterProperties: {fileID: 11400000, guid: e8ff4cd776c66f64b9f1e1196ef13434, type: 2}
     probability: 1

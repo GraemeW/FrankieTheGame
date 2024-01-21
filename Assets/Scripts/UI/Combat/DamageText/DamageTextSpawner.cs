@@ -16,6 +16,8 @@ namespace Frankie.Combat.UI
         [SerializeField] string hitMissText = "miss";
         [SerializeField] Color hitCritColor = Color.yellow;
         [SerializeField] string hitCritText = "CRIT!";
+        [SerializeField] Color informationalTextColor = Color.gray;
+
         [Header("Other Tunables")]
         [SerializeField] DamageText damageTextPrefab = null;
         [SerializeField] float minimumTimeBetweenSpawns = 0.1f;
@@ -58,6 +60,7 @@ namespace Frankie.Combat.UI
                 DamageTextType.APChanged => SpawnAPChange(damageTextInstance, damageTextData.amount),
                 DamageTextType.HitMiss => SpawnHitMiss(damageTextInstance),
                 DamageTextType.HitCrit => SpawnHitCrit(damageTextInstance),
+                DamageTextType.Informational => SpawnInformational(damageTextInstance, damageTextData.information),
                 _ => false,
             };
         }
@@ -103,6 +106,13 @@ namespace Frankie.Combat.UI
         {
             damageTextInstance.SetText(hitCritText);
             damageTextInstance.SetColor(hitCritColor);
+            return true;
+        }
+
+        private bool SpawnInformational(DamageText damageTextInstance, string information)
+        {
+            damageTextInstance.SetText(information);
+            damageTextInstance.SetColor(informationalTextColor);
             return true;
         }
     }
