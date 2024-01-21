@@ -9,6 +9,7 @@ namespace Frankie.Combat.UI
         HealthChanged,
         APChanged,
         HitMiss,
-        HitCrit
+        HitCrit,
+        Informational
     }
 }
