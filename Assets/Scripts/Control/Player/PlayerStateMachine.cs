@@ -381,7 +381,7 @@ namespace Frankie.Control
             return true;
         }
 
-        private void HandleCombatMessages(BattleState battleState)
+        private void HandleCombatMessages(BattleState battleState, BattleOutcome battleOutcome)
         {
             if (battleState != BattleState.Complete) { return; }
             battleController.battleStateChanged -= HandleCombatMessages;
@@ -395,7 +395,7 @@ namespace Frankie.Control
             combatFadeComplete = false;
 
             yield return fader.QueueFadeEntry(transitionType);
-            battleController.Setup(enemiesInTransition, transitionType);
+            battleController.QueueCombatInitiation(enemiesInTransition, transitionType);
             yield return fader.QueueFadeExit(transitionType);
 
             combatFadeComplete = true;

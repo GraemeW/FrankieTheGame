@@ -1,4 +1,3 @@
-using Frankie.Core;
 using Frankie.Stats;
 using Frankie.Control;
 using System;
@@ -8,14 +7,10 @@ using System.Linq;
 using UnityEngine;
 using Frankie.ZoneManagement;
 using Frankie.Inventory;
-using UnityEngine.TextCore.Text;
-using Frankie.Combat.Spawner;
-using static UnityEngine.EventSystems.EventTrigger;
-using static System.TimeZoneInfo;
-using Unity.VisualScripting;
 
 namespace Frankie.Combat
 {
+    [RequireComponent(typeof(BattleRewards))]
     public class BattleController : MonoBehaviour, IStandardPlayerInputCaller
     {
         // Tunables
@@ -30,15 +25,14 @@ namespace Frankie.Combat
 
         // State
         BattleState state = default;
-        BattleOutcome outcome = default;
         bool outroCleanupCalled = false;
-        float battleExperienceReward = 0f;
 
         List<BattleEntity> activeCharacters = new List<BattleEntity>();
         List<BattleEntity> activePlayerCharacters = new List<BattleEntity>();
         List<BattleEntity> activeAssistCharacters = new List<BattleEntity>();
         List<BattleEntity> activeEnemies = new List<BattleEntity>();
-        bool[][] enemyMapping; // Overwrite w/ positional properties on Setup
+        bool[][] enemyMapping = null;
+
         CombatParticipant selectedCharacter = null;
         IBattleActionSuper selectedBattleActionSuper = null;
         bool battleActionArmed = false;
@@ -48,18 +42,16 @@ namespace Frankie.Combat
         bool haltBattleQueue = false;
         bool battleSequenceInProgress = false;
 
-        List<Tuple<string,InventoryItem>> allocatedLootCart = new List<Tuple<string,InventoryItem>>();
-        List<Tuple<string, InventoryItem>> unallocatedLootCart = new List<Tuple<string, InventoryItem>>();
-
         // Cached References
         PlayerInput playerInput = null;
         PartyCombatConduit partyCombatConduit = null;
+        BattleRewards battleRewards = null;
 
         // Events
         public event Action<PlayerInputType> battleInput;
         public event Action<PlayerInputType> globalInput;
-        public event Action<BattleState> battleStateChanged;
-        public event Action<BattleEntity> enemyAddedMidCombat;
+        public event Action<BattleState, BattleOutcome> battleStateChanged;
+        public event Action<BattleEntity> battleEntityAddedToCombat;
         public event Action<CombatParticipantType, IEnumerable<BattleEntity>> selectedCombatParticipantChanged;
         public event Action<IBattleActionSuper> battleActionArmedStateChanged;
         public event Action<BattleSequence> battleSequenceProcessed;
@@ -68,8 +60,9 @@ namespace Frankie.Combat
         #region UnityMethods
         private void Awake()
         {
-            partyCombatConduit = GameObject.FindGameObjectWithTag("Player")?.GetComponent<PartyCombatConduit>();
             playerInput = new PlayerInput();
+            partyCombatConduit = GameObject.FindGameObjectWithTag("Player")?.GetComponent<PartyCombatConduit>();
+            battleRewards = GetComponent<BattleRewards>();
 
             VerifyUnique();
             
@@ -118,7 +111,7 @@ namespace Frankie.Combat
         {
             if (state == BattleState.Combat)
             {
-                if (!haltBattleQueue && !battleSequenceInProgress) // BattleQueue takes priority, avoid user interaction stalling action queue
+                if (!haltBattleQueue && !battleSequenceInProgress) 
                 {
                     StartCoroutine(ProcessNextBattleSequence());
                 }
@@ -146,90 +139,14 @@ namespace Frankie.Combat
 
         #region PublicSetters
         // Setters
-        public void Setup(List<CombatParticipant> enemies, TransitionType transitionType)
+        public void QueueCombatInitiation(List<CombatParticipant> enemies, TransitionType transitionType)
         {
-            // Party Characters
-            foreach (CombatParticipant character in partyCombatConduit.GetPartyCombatParticipants())
-            {
-                if (transitionType == TransitionType.BattleGood)
-                {
-                    character.SetCooldown(battleAdvantageCooldown);
-                }
-                else
-                {
-                    character.SetCooldown(character.GetBattleStartCooldown());
-                }
-                character.stateAltered += CheckForBattleEnd;
-                BattleEntity characterBattleEntity = new BattleEntity(character);
-                activeCharacters.Add(characterBattleEntity);
-                activePlayerCharacters.Add(characterBattleEntity);
-            }
-            if (gameObject.activeSelf) { SubscribeToCharacters(true); }
-
-            // Enemies
-            List<BattleEntity> enemyBattleEntities = new List<BattleEntity>();
-            
-            int numberOfRows = Mathf.Max(minRowCount, enemies.Count / maxEnemiesPerRow + 1);
-            enemyMapping = new bool[numberOfRows][];
-            for (int i = 0; i < numberOfRows; i++) { enemyMapping[i] = new bool[maxEnemiesPerRow]; }
-
-            foreach (CombatParticipant enemy in enemies)
-            {
-                float cooldownOverride = enemy.GetBattleStartCooldown();
-                if (transitionType == TransitionType.BattleBad) { cooldownOverride = battleAdvantageCooldown; }
-                AddEnemyToCombat(enemy, numberOfRows, battleAdvantageCooldown);
-            }
-
-            // Party Assist Characters
-            foreach (CombatParticipant character in partyCombatConduit.GetPartyAssistParticipants())
-            {
-                if (transitionType == TransitionType.BattleGood)
-                {
-                    character.SetCooldown(battleAdvantageCooldown);
-                }
-                else
-                {
-                    character.SetCooldown(character.GetBattleStartCooldown());
-                }
-                character.stateAltered += CheckForBattleEnd;
-
-                BattleEntity assistBattleEntity = new BattleEntity(character);
-                activeCharacters.Add(assistBattleEntity);
-                activeAssistCharacters.Add(assistBattleEntity);
-            }
-
             Fader fader = FindAnyObjectByType<Fader>();
-            if (fader != null) { fader.battleUIStateChanged += InitiateBattle; }
+            Action battleControllerInitiateTrigger = () => InitiateBattle(enemies, transitionType);
+            fader.QueueInitiateBattleCallback(battleControllerInitiateTrigger);
         }
 
-        private BattleEntity AddEnemyToCombat(CombatParticipant enemy, int numberOfRows, float cooldownOverride)
-        {
-            // Find position
-            int rowIndex, columnIndex;
-            enemyMapping = GetEnemyPosition(numberOfRows, enemyMapping, out rowIndex, out columnIndex);
-
-            // Set Enemy Parameters
-            enemy.SetCooldown(cooldownOverride);
-            enemy.stateAltered += CheckForBattleEnd;
-
-            // Add to Battle Controller tracker
-            UnityEngine.Debug.Log($"New enemy added at position row: {rowIndex} ; col: {columnIndex}");
-            BattleEntity enemyBattleEntity = new BattleEntity(enemy, enemy.GetBattleEntityType(), rowIndex, columnIndex);
-            activeEnemies.Add(enemyBattleEntity);
-            return enemyBattleEntity;
-        }
-
-        public void AddEnemyMidCombat(CombatParticipant enemy)
-        {
-            int numberOfRows = enemyMapping.Length;
-            float cooldownOverride = enemy.GetBattleStartCooldown();
-
-            BattleEntity enemyBattleEntity = AddEnemyToCombat(enemy, numberOfRows, cooldownOverride);
-            enemy.SetCombatActive(true);
-            enemyAddedMidCombat?.Invoke(enemyBattleEntity);
-        }
-
-        public void SetBattleState(BattleState state)
+        public void SetBattleState(BattleState state, BattleOutcome battleOutcome)
         {
             this.state = state;
 
@@ -242,17 +159,7 @@ namespace Frankie.Combat
                 ToggleCombatParticipants(false);
             }
 
-            battleStateChanged?.Invoke(state);
-        }
-
-        public void SetBattleOutcome(BattleOutcome outcome)
-        {
-            this.outcome = outcome;
-
-            if (outcome == BattleOutcome.Ran)
-            {
-                DestroyTransientEnemies();
-            }
+            battleStateChanged?.Invoke(state, battleOutcome);
         }
 
         public bool SetSelectedCharacter(CombatParticipant character)
@@ -336,10 +243,10 @@ namespace Frankie.Combat
         #region PublicGetters
         // Overall State
         public BattleState GetBattleState() => state;
-        public BattleOutcome GetBattleOutcome() => outcome;
         public List<BattleEntity> GetCharacters() => activeCharacters;
         public List<BattleEntity> GetEnemies() => activeEnemies;
         public List<BattleEntity> GetAssistCharacters() => activeAssistCharacters;
+        public BattleRewards GetBattleRewards() => battleRewards;
         public bool IsEnemyPositionAvailable()
         {
             foreach (bool[] row in enemyMapping)
@@ -359,14 +266,6 @@ namespace Frankie.Combat
         public IBattleActionSuper GetActiveBattleAction() => selectedBattleActionSuper;
         public bool HasActiveBattleAction() => selectedBattleActionSuper != null;
         public bool IsBattleActionArmed() => battleActionArmed;
-
-        // Loot
-        public float GetBattleExperienceReward() => battleExperienceReward;
-        public List<Tuple<string, InventoryItem>> GetAllocatedLootCart() => allocatedLootCart;
-        public List<Tuple<string, InventoryItem>> GetUnallocatedLootCart() => unallocatedLootCart;
-        public bool HasLootCart() => HasAllocatedLootCart() || HasUnallocatedLootCart();
-        public bool HasAllocatedLootCart() => allocatedLootCart != null && allocatedLootCart.Count > 0;
-        public bool HasUnallocatedLootCart() => unallocatedLootCart != null && unallocatedLootCart.Count > 0;
         #endregion
 
         #region PublicBattleHandling
@@ -429,8 +328,7 @@ namespace Frankie.Combat
 
             if (partySpeed > enemySpeed)
             {
-                SetBattleOutcome(BattleOutcome.Ran);
-                SetBattleState(BattleState.Outro);
+                SetBattleState(BattleState.Outro, BattleOutcome.Ran);
                 return true;
             }
             else
@@ -475,7 +373,7 @@ namespace Frankie.Combat
                 if (selectedBattleActionSuper == null || selectedCharacter == null)
                 {
                     SetSelectedCharacter(null);
-                    SetBattleState(BattleState.PreCombat); return true;
+                    SetBattleState(BattleState.PreCombat, BattleOutcome.Undetermined); return true;
                 }
 
                 // Otherwise step out of selections
@@ -483,7 +381,7 @@ namespace Frankie.Combat
                 {
                     SetActiveBattleAction(null);
                     SetSelectedCharacter(null);
-                    SetBattleState(BattleState.Combat);
+                    SetBattleState(BattleState.Combat, BattleOutcome.Undetermined);
                 }
                 return true;
             }
@@ -561,31 +459,109 @@ namespace Frankie.Combat
         }
         #endregion
 
-        #region PrivateBattleHandling
-        private void InitiateBattle(bool isBattleCanvasEnabled)
+        #region BattleHandling
+        private void InitiateBattle(List<CombatParticipant> enemies, TransitionType transitionType)
         {
-            if (isBattleCanvasEnabled)
-            {
-                Fader fader = FindAnyObjectByType<Fader>();
-                if (fader != null) { fader.battleUIStateChanged -= InitiateBattle; }
+            SetupCombatParticipants(enemies, transitionType);
 
-                if (CheckForAutoWin())
+            if (CheckForAutoWin())
+            {
+                foreach (BattleEntity enemy in activeEnemies)
                 {
-                    foreach (BattleEntity enemy in activeEnemies)
-                    {
-                        enemy.combatParticipant.Kill();
-                    }
-                    SetBattleState(BattleState.Combat); // Combat will auto-complete in the usual way
+                    enemy.combatParticipant.Kill();
                 }
-                else
-                {
-                    SetBattleState(BattleState.Intro);
-                }
+                SetBattleState(BattleState.Combat, BattleOutcome.Undetermined); // Combat will auto-complete in the usual way
+            }
+            else
+            {
+                SetBattleState(BattleState.Intro, BattleOutcome.Undetermined);
             }
         }
 
-        private bool[][] GetEnemyPosition(int numberOfRows, bool[][] enemyMapping, out int rowIndex, out int columnIndex)
+        private void SetupCombatParticipants(List<CombatParticipant> enemies, TransitionType transitionType)
         {
+            // Party Characters
+            foreach (CombatParticipant character in partyCombatConduit.GetPartyCombatParticipants())
+            {
+                AddCharacterToCombat(character, transitionType == TransitionType.BattleGood);
+            }
+            if (gameObject.activeSelf) { SubscribeToCharacters(true); }
+
+            // Enemies
+            InitializeEnemyMapping(enemies.Count);
+            foreach (CombatParticipant enemy in enemies)
+            {
+                AddEnemyToCombat(enemy, transitionType == TransitionType.BattleBad);
+            }
+
+            // Party Assist Characters
+            foreach (CombatParticipant character in partyCombatConduit.GetPartyAssistParticipants())
+            {
+                AddAssistCharacterToCombat(character, transitionType == TransitionType.BattleGood);
+            }
+        }
+
+        private void SetCombatParticipantCooldown(CombatParticipant combatParticipant, bool useBattleAdvantageCooldown)
+        {
+            float cooldownOverride = combatParticipant.GetBattleStartCooldown();
+            if (useBattleAdvantageCooldown) { cooldownOverride = battleAdvantageCooldown; }
+            combatParticipant.SetCooldown(cooldownOverride);
+        }
+
+        private void AddCharacterToCombat(CombatParticipant character, bool useBattleAdvantageCooldown = false)
+        {
+            SetCombatParticipantCooldown(character, useBattleAdvantageCooldown);
+
+            character.stateAltered += CheckForBattleEnd;
+            BattleEntity characterBattleEntity = new BattleEntity(character);
+            activeCharacters.Add(characterBattleEntity);
+            activePlayerCharacters.Add(characterBattleEntity);
+
+            battleEntityAddedToCombat?.Invoke(characterBattleEntity);
+        }
+
+        private void AddAssistCharacterToCombat(CombatParticipant character, bool useBattleAdvantageCooldown = false)
+        {
+            SetCombatParticipantCooldown(character, useBattleAdvantageCooldown);
+
+            character.stateAltered += CheckForBattleEnd;
+            BattleEntity assistBattleEntity = new BattleEntity(character, true);
+            activeCharacters.Add(assistBattleEntity);
+            activeAssistCharacters.Add(assistBattleEntity);
+
+            battleEntityAddedToCombat?.Invoke(assistBattleEntity);
+        }
+
+        public void AddEnemyToCombat(CombatParticipant enemy, bool useBattleAdvantageCooldown = false, bool forceCombatActive = false)
+        {
+            SetCombatParticipantCooldown(enemy, useBattleAdvantageCooldown);
+
+            int rowIndex, columnIndex;
+            GetEnemyPosition(out rowIndex, out columnIndex);
+            UnityEngine.Debug.Log($"New enemy added at position row: {rowIndex} ; col: {columnIndex}");
+
+            enemy.stateAltered += CheckForBattleEnd;
+
+            BattleEntity enemyBattleEntity = new BattleEntity(enemy, enemy.GetBattleEntityType(), rowIndex, columnIndex);
+            enemyBattleEntity.removedFromCombat += RemoveFromEnemyMapping;
+            activeEnemies.Add(enemyBattleEntity);
+
+            enemy.SetCombatActive(forceCombatActive);
+            battleEntityAddedToCombat?.Invoke(enemyBattleEntity);
+        }
+
+        private void InitializeEnemyMapping(int enemyCount)
+        {
+            int numberOfRows = Mathf.Max(minRowCount, enemyCount / maxEnemiesPerRow + 1);
+            enemyMapping = new bool[numberOfRows][];
+            for (int i = 0; i < numberOfRows; i++) { enemyMapping[i] = new bool[maxEnemiesPerRow]; }
+        }
+
+        private void GetEnemyPosition(out int rowIndex, out int columnIndex)
+        {
+            if (enemyMapping == null) { InitializeEnemyMapping(activeEnemies.Count); }
+            int numberOfRows = enemyMapping.Length;
+
             // Find row position
             rowIndex = 0;
             int lastRowLength = enemyMapping[0].Count(c => c);
@@ -611,8 +587,12 @@ namespace Frankie.Combat
                 }
             }
             enemyMapping[rowIndex][columnIndex] = true;
+        }
 
-            return enemyMapping;
+        private void RemoveFromEnemyMapping(BattleEntity battleEntity, int row, int column)
+        {
+            battleEntity.removedFromCombat -= RemoveFromEnemyMapping;
+            enemyMapping[row][column] = false;
         }
 
         private bool CheckForAutoWin()
@@ -733,88 +713,18 @@ namespace Frankie.Combat
                 foreach (BattleEntity battleEntity in activePlayerCharacters) { if (!battleEntity.combatParticipant.IsDead()) { allCharactersDead = false; break; } }
                 if (allCharactersDead)
                 {
-                    SetBattleOutcome(BattleOutcome.Lost);
-                    SetBattleState(BattleState.Outro);
+                    SetBattleState(BattleState.Outro, BattleOutcome.Lost);
                 }
 
                 bool allEnemiesDead = true;
                 foreach (BattleEntity battleEntity in activeEnemies) { if (!battleEntity.combatParticipant.IsDead()) { allEnemiesDead = false; break; } }
                 if (allEnemiesDead)
                 {
-                    SetBattleOutcome(BattleOutcome.Won);
-                    bool isLevelUpPending = AwardExperienceToLevelUp();
-                    bool isLootPending = AwardLoot();
-
-                    if (isLevelUpPending || isLootPending)
-                    {
-                        SetBattleState(BattleState.PreOutro);
-                    }
-                    else
-                    {
-                        SetBattleState(BattleState.Outro);
-                    }
+                    bool rewardsExist = battleRewards.HandleBattleRewardsTriggered(partyCombatConduit, activePlayerCharacters, GetEnemies());
+                    BattleState battleState = rewardsExist ? BattleState.PreOutro : BattleState.Outro;
+                    SetBattleState(battleState, BattleOutcome.Won);
                 }
             }
-        }
-
-        private bool AwardExperienceToLevelUp()
-        {
-            bool levelUpTriggered = false;
-            foreach (BattleEntity character in activePlayerCharacters)
-            {
-                Experience experience = character.combatParticipant.GetComponent<Experience>();
-                if (experience == null) { continue; } // Handling for characters who do not level
-                float scaledExperienceReward = 0f;
-
-                foreach (BattleEntity enemy in GetEnemies())
-                {
-                    float rawExperienceReward = enemy.combatParticipant.GetExperienceReward();
-
-                    int levelDelta = character.combatParticipant.GetLevel() - enemy.combatParticipant.GetLevel();
-                    scaledExperienceReward += Experience.GetScaledExperience(rawExperienceReward, levelDelta);
-                    battleExperienceReward += scaledExperienceReward;
-                }
-
-                scaledExperienceReward = Mathf.Min(scaledExperienceReward, Experience.GetMaxExperienceReward());
-                if (experience.GainExperienceToLevel(scaledExperienceReward))
-                {
-                    levelUpTriggered = true;
-                }
-            }
-
-            return levelUpTriggered;
-        }
-
-        private bool AwardLoot()
-        {
-            PartyKnapsackConduit partyKnapsackConduit = partyCombatConduit.GetComponent<PartyKnapsackConduit>();
-            Wallet wallet = partyCombatConduit.GetComponent<Wallet>();
-            if (partyKnapsackConduit == null || wallet == null) { return false; } // Failsafe, this should not happen
-
-            bool lootAvailable = false;
-            foreach (BattleEntity enemy in GetEnemies())
-            {
-                if (!enemy.combatParticipant.HasLoot()) { continue; }
-                if (!enemy.combatParticipant.TryGetComponent(out LootDispenser lootDispenser)) { continue; }
-                lootAvailable = true;
-
-                foreach (InventoryItem inventoryItem in lootDispenser.GetItemReward())
-                {
-                    CombatParticipant receivingCharacter = partyKnapsackConduit.AddToFirstEmptyPartySlot(inventoryItem);
-                    Tuple<string, InventoryItem> enemyItemPair = new Tuple<string, InventoryItem>(enemy.combatParticipant.GetCombatName(), inventoryItem);
-                    if (receivingCharacter != null)
-                    {
-                        allocatedLootCart.Add(enemyItemPair);
-                    }
-                    else
-                    {
-                        unallocatedLootCart.Add(enemyItemPair);
-                    }
-                }
-
-                wallet.UpdatePendingCash(lootDispenser.GetCashReward());
-            }
-            return lootAvailable;
         }
 
         private void CleanUpBattleBits()

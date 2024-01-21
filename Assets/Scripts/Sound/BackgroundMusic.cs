@@ -165,7 +165,7 @@ namespace Frankie.Sound
             }
         }
 
-        private void ParseBattleState(BattleState battleState)
+        private void ParseBattleState(BattleState battleState, BattleOutcome battleOutcome)
         {
             if (battleState == BattleState.PreOutro)
             {

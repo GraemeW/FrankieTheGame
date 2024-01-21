@@ -105,7 +105,7 @@ namespace Frankie.Combat.UI
         private void RemoveIconOnTimeout()
         {
             if (persistentStatus != null) { persistentStatus.persistentStatusTimedOut -= RemoveIconOnTimeout; }
-            Destroy(gameObject);
+            if (gameObject != null) { Destroy(gameObject); }
         }
     }
 }

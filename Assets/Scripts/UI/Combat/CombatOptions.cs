@@ -28,7 +28,7 @@ namespace Frankie.Combat.UI
 
         public void InitiateCombat() // Called via unity events
         {
-            battleController.SetBattleState(BattleState.Combat);
+            battleController.SetBattleState(BattleState.Combat, BattleOutcome.Undetermined);
             gameObject.SetActive(false);
         }
 
