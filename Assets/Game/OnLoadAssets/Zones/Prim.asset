@@ -29,6 +29,38 @@ MonoBehaviour:
     y: 0
     width: 430
     height: 45
+  condition:
+    and: []
+--- !u!114 &-3853410743720169601
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3268536af8903a64da82aa6872733d1d, type: 3}
+  m_Name: SceneTo_LL2S_A
+  m_EditorClassIdentifier: 
+  children: []
+  linkedZone: {fileID: 11400000, guid: dcf8cd616f6882b4399adff354f32bdc, type: 2}
+  linkedZoneNode: {fileID: 2049896038868084311, guid: dcf8cd616f6882b4399adff354f32bdc, type: 2}
+  rect:
+    serializedVersion: 2
+    x: 564
+    y: 709
+    width: 430
+    height: 150
+  zoneName: Prim
+  draggingRect:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 430
+    height: 45
+  condition:
+    and: []
 --- !u!114 &-3744593269575087478
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -58,6 +90,8 @@ MonoBehaviour:
     y: 0
     width: 430
     height: 45
+  condition:
+    and: []
 --- !u!114 &-67736599037801072
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -86,6 +120,8 @@ MonoBehaviour:
     y: 0
     width: 430
     height: 45
+  condition:
+    and: []
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -115,6 +151,8 @@ MonoBehaviour:
   - {fileID: -67736599037801072}
   - {fileID: -3744593269575087478}
   - {fileID: 3207806963539493329}
+  - {fileID: 3617544309863132449}
+  - {fileID: -3853410743720169601}
 --- !u!114 &3207806963539493329
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -143,6 +181,39 @@ MonoBehaviour:
     y: 0
     width: 430
     height: 45
+  condition:
+    and: []
+--- !u!114 &3617544309863132449
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3268536af8903a64da82aa6872733d1d, type: 3}
+  m_Name: LL2S_A_Exterior
+  m_EditorClassIdentifier: 
+  children:
+  - SceneTo_LL2S_A
+  linkedZone: {fileID: 0}
+  linkedZoneNode: {fileID: 0}
+  rect:
+    serializedVersion: 2
+    x: 34
+    y: 709
+    width: 430
+    height: 150
+  zoneName: Prim
+  draggingRect:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 430
+    height: 45
+  condition:
+    and: []
 --- !u!114 &7420601607016574253
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -172,6 +243,8 @@ MonoBehaviour:
     y: 0
     width: 430
     height: 45
+  condition:
+    and: []
 --- !u!114 &7904139768458627740
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -200,6 +273,8 @@ MonoBehaviour:
     y: 0
     width: 430
     height: 45
+  condition:
+    and: []
 --- !u!114 &8010896298289075519
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -228,3 +303,5 @@ MonoBehaviour:
     y: 0
     width: 430
     height: 45
+  condition:
+    and: []
