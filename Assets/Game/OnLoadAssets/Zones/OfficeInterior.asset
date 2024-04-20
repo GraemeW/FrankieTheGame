@@ -447,7 +447,10 @@ MonoBehaviour:
     width: 430
     height: 45
   condition:
-    and: []
+    and:
+    - or:
+      - predicate: {fileID: 11400000, guid: ae4edaf74c20eda49816fbfc752a4ee1, type: 2}
+        negate: 0
 --- !u!114 &373952118903749587
 MonoBehaviour:
   m_ObjectHideFlags: 0
