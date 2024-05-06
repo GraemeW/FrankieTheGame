@@ -38,12 +38,12 @@ namespace Frankie.Core
             wallet = new ReInitLazyValue<Wallet>(SetupWallet);
 
             // Debug Hook-Ups
-            playerInput.Debug.Save.performed += context => Save();
-            playerInput.Debug.Load.performed += context => Continue();
-            playerInput.Debug.Delete.performed += context => Delete();
-            playerInput.Debug.QuestLog.performed += context => PrintQuests();
-            playerInput.Debug.LevelUpParty.performed += context => LevelUpParty();
-            playerInput.Debug.AddFundsToWallet.performed += context => AddFundsToWallet();
+            playerInput.Admin.Save.performed += context => Save();
+            playerInput.Admin.Load.performed += context => Continue();
+            playerInput.Admin.Delete.performed += context => Delete();
+            playerInput.Admin.QuestLog.performed += context => PrintQuests();
+            playerInput.Admin.LevelUpParty.performed += context => LevelUpParty();
+            playerInput.Admin.AddFundsToWallet.performed += context => AddFundsToWallet();
         }
 
         private void Start()
@@ -56,13 +56,13 @@ namespace Frankie.Core
 
         private void OnEnable()
         {
-            playerInput.Debug.Enable();
+            playerInput.Admin.Enable();
             SceneManager.sceneLoaded += ResetReferences;
         }
 
         private void OnDisable()
         {
-            playerInput.Debug.Disable();
+            playerInput.Admin.Disable();
             SceneManager.sceneLoaded -= ResetReferences;
         }
         #endregion

@@ -1,0 +1,29 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!221 &22100000
+AnimatorOverrideController:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Lexi
+  m_Controller: {fileID: 9100000, guid: 8b74a477572eb9645b83b04e54a91d3c, type: 2}
+  m_Clips:
+  - m_OriginalClip: {fileID: 7400000, guid: 85b6383aefaf8664aaed2ec271ae5b1b, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: 4a84b1c85315b874995b0d4cb31955c8, type: 2}
+  - m_OriginalClip: {fileID: 7400000, guid: de541412c79bad74f81f39156af59d78, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: a7db8ed1d2b460940967ba6f35c7ba49, type: 2}
+  - m_OriginalClip: {fileID: 7400000, guid: d98debb4ac93bf04da253b998bc96abd, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: d4473bb2c20553742b9407ef22be48b1, type: 2}
+  - m_OriginalClip: {fileID: 7400000, guid: e7847e7a7d6361241b4342ed669553d3, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: a10246b9a4bd58a47bde24516660d527, type: 2}
+  - m_OriginalClip: {fileID: 7400000, guid: b5a9e6fd8de0ff049b3818e8d5ef2d71, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: 3cf0254d25597e049a999d3f86b19a67, type: 2}
+  - m_OriginalClip: {fileID: 7400000, guid: 6ccf57a571d536e428161103cf69a82c, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: a1f98dc767a9f6547b6e0e43922b678b, type: 2}
+  - m_OriginalClip: {fileID: 7400000, guid: 6416b0da3b3d2764dabaa14a363e438c, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: 08c61b5d12fffd54ba994f2a65efac06, type: 2}
+  - m_OriginalClip: {fileID: 7400000, guid: ca4987e5b814e024e88dba93b17b1a31, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: 6e0609fdae643c7499728f29cd38ba7c, type: 2}
+  - m_OriginalClip: {fileID: 7400000, guid: b5bf9a42566e70e4e808efab47deec2f, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: d3a0f77e80bf54447afbb9a825c7527f, type: 2}
