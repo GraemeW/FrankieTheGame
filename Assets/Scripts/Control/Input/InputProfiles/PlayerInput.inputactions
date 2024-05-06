@@ -626,14 +626,14 @@
             ]
         },
         {
-            "name": "Debug",
+            "name": "Admin",
             "id": "9a60137e-6baf-43eb-a855-ec1011504ec8",
             "actions": [
                 {
                     "name": "Save",
                     "type": "Button",
                     "id": "fae00a56-b0d7-4965-8225-166595711aa9",
-                    "expectedControlType": "Button",
+                    "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
@@ -642,7 +642,7 @@
                     "name": "Load",
                     "type": "Button",
                     "id": "2361b146-abc9-4a12-ad66-4cce197e0f90",
-                    "expectedControlType": "Button",
+                    "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
