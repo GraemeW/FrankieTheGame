@@ -2,18 +2,21 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class DisableGameObjectsOnStart : MonoBehaviour
+namespace Frankie.Core
 {
-    // Tunables
-    [SerializeField] GameObject[] gameObjectsToDisable = null;
-
-    private void Start()
+    public class DisableGameObjectsOnStart : MonoBehaviour
     {
-        if (gameObjectsToDisable == null || gameObjectsToDisable.Length == 0) { return; }
+        // Tunables
+        [SerializeField] GameObject[] gameObjectsToDisable = null;
 
-        foreach (GameObject gameObject in gameObjectsToDisable)
+        private void Start()
         {
-            gameObject.SetActive(false);
+            if (gameObjectsToDisable == null || gameObjectsToDisable.Length == 0) { return; }
+
+            foreach (GameObject gameObject in gameObjectsToDisable)
+            {
+                gameObject.SetActive(false);
+            }
         }
     }
 }
