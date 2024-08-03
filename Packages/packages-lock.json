@@ -1,7 +1,7 @@
 {
   "dependencies": {
     "com.unity.2d.animation": {
-      "version": "10.1.1",
+      "version": "10.1.2",
       "depth": 0,
       "source": "registry",
       "dependencies": {
@@ -14,7 +14,7 @@
       "url": "https://packages.unity.com"
     },
     "com.unity.2d.common": {
-      "version": "9.0.4",
+      "version": "9.0.5",
       "depth": 1,
       "source": "registry",
       "dependencies": {
@@ -61,11 +61,11 @@
       "url": "https://packages.unity.com"
     },
     "com.unity.addressables": {
-      "version": "2.0.8",
+      "version": "2.2.2",
       "depth": 0,
       "source": "registry",
       "dependencies": {
-        "com.unity.scriptablebuildpipeline": "2.1.2",
+        "com.unity.scriptablebuildpipeline": "2.1.4",
         "com.unity.modules.assetbundle": "1.0.0",
         "com.unity.modules.imageconversion": "1.0.0",
         "com.unity.modules.jsonserialize": "1.0.0",
@@ -85,8 +85,8 @@
       "url": "https://packages.unity.com"
     },
     "com.unity.burst": {
-      "version": "1.8.13",
-      "depth": 1,
+      "version": "1.8.17",
+      "depth": 2,
       "source": "registry",
       "dependencies": {
         "com.unity.mathematics": "1.2.1",
@@ -95,7 +95,7 @@
       "url": "https://packages.unity.com"
     },
     "com.unity.cinemachine": {
-      "version": "2.10.0",
+      "version": "2.10.1",
       "depth": 0,
       "source": "registry",
       "dependencies": {
@@ -104,18 +104,18 @@
       "url": "https://packages.unity.com"
     },
     "com.unity.collab-proxy": {
-      "version": "2.3.1",
+      "version": "2.4.4",
       "depth": 0,
       "source": "registry",
       "dependencies": {},
       "url": "https://packages.unity.com"
     },
     "com.unity.collections": {
-      "version": "2.4.0",
-      "depth": 1,
+      "version": "2.4.1",
+      "depth": 2,
       "source": "registry",
       "dependencies": {
-        "com.unity.burst": "1.8.12",
+        "com.unity.burst": "1.8.13",
         "com.unity.nuget.mono-cecil": "1.11.4",
         "com.unity.test-framework": "1.4.3",
         "com.unity.test-framework.performance": "3.0.3"
@@ -130,7 +130,7 @@
       "url": "https://packages.unity.com"
     },
     "com.unity.ide.rider": {
-      "version": "3.0.28",
+      "version": "3.0.31",
       "depth": 0,
       "source": "registry",
       "dependencies": {
@@ -148,7 +148,7 @@
       "url": "https://packages.unity.com"
     },
     "com.unity.inputsystem": {
-      "version": "1.8.1",
+      "version": "1.9.0",
       "depth": 0,
       "source": "registry",
       "dependencies": {
@@ -157,8 +157,8 @@
       "url": "https://packages.unity.com"
     },
     "com.unity.mathematics": {
-      "version": "1.3.1",
-      "depth": 1,
+      "version": "1.3.2",
+      "depth": 2,
       "source": "registry",
       "dependencies": {},
       "url": "https://packages.unity.com"
@@ -189,13 +189,14 @@
       "depth": 1,
       "source": "builtin",
       "dependencies": {
-        "com.unity.mathematics": "1.2.6",
+        "com.unity.burst": "1.8.14",
+        "com.unity.mathematics": "1.3.2",
         "com.unity.ugui": "2.0.0",
-        "com.unity.collections": "2.2.0",
+        "com.unity.collections": "2.4.1",
         "com.unity.modules.physics": "1.0.0",
         "com.unity.modules.terrain": "1.0.0",
         "com.unity.modules.jsonserialize": "1.0.0",
-        "com.unity.rendering.light-transport": "1.0.0"
+        "com.unity.rendering.light-transport": "1.0.1"
       }
     },
     "com.unity.render-pipelines.universal": {
@@ -203,8 +204,6 @@
       "depth": 0,
       "source": "builtin",
       "dependencies": {
-        "com.unity.mathematics": "1.2.1",
-        "com.unity.burst": "1.8.9",
         "com.unity.render-pipelines.core": "17.0.3",
         "com.unity.shadergraph": "17.0.3",
         "com.unity.render-pipelines.universal-config": "17.0.3"
@@ -229,7 +228,7 @@
       }
     },
     "com.unity.scriptablebuildpipeline": {
-      "version": "2.1.2",
+      "version": "2.1.4",
       "depth": 1,
       "source": "registry",
       "dependencies": {},
@@ -252,7 +251,7 @@
       }
     },
     "com.unity.test-framework": {
-      "version": "1.4.3",
+      "version": "1.4.4",
       "depth": 0,
       "source": "registry",
       "dependencies": {
@@ -273,7 +272,7 @@
       "url": "https://packages.unity.com"
     },
     "com.unity.timeline": {
-      "version": "1.8.6",
+      "version": "1.8.7",
       "depth": 0,
       "source": "registry",
       "dependencies": {
