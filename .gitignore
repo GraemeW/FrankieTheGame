@@ -119,3 +119,4 @@ InfoTools/TilemapPacking/__pycache__/
 InfoTools/ImagePreImportTool/Input/
 InfoTools/ImagePreImportTool/Output/
 InfoTools/CreateImageTool/Output/
+.DS_Store
