@@ -15,4 +15,4 @@ Game objects denoted above are the Unity .asset files, which are prefabs that co
 * z_MadeAssets -- Assets made by yours truly (or friends)
 * z_ImportedAssets -- 3rd party assets that have been licensed
 
-As noted above, these folders are hidden / not pushed to GIT because a) they would take up too much space, and b) to avoid the assets being misused.  If you have a legitimate need for any of the physical assets, please contact me directly.
+As noted above, these folders are hidden / not pushed to GIT because a) they would take up too much space, and b) to avoid the assets being stolen/misused.  If you have a legitimate need for any of the physical assets, please contact me directly.

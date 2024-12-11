@@ -34,8 +34,8 @@ Frankie has danger:
     * *incl. [Check Interactions](/Assets/Scripts/CheckInteractions/)*
     * *incl. [World Interactables](/Assets/Scripts/World/)*
     * *notable namespace exceptions*:
-        * *[BattleController](/Assets/Scripts/Control/Controllers/BattleController.cs)*
-        * *[DialogueController](/Assets/Scripts/Control/Controllers/DialogueController.cs)*
+        * *[BattleController](/Assets/Scripts/Control/Controllers/BattleController.cs) -- included in [Combat](/Assets/Scripts/Combat/) namespace*
+        * *[DialogueController](/Assets/Scripts/Control/Controllers/DialogueController.cs) -- included in [Speech](/Assets/Scripts/Speech/) namespace*
 * [Zones](/Assets/Scripts/Zones/):  Scene (room/worldspace) properties/references and scene-to-scene transitions
     * *incl. [Map/World Camera](/Assets/Scripts/Zones/Map/)*
 * [Stats](/Assets/Scripts/Stats/):  Character, enemy and NPC game stats, party tracker/behaviors
@@ -58,7 +58,7 @@ Frankie has danger:
 
 ## Game Assets
 
-Key unity game assets are located in:
+Unity game assets are located in:
 [Game](/Assets/Game/)
 
 The addressables that contain key game data (zone properties, character properties, actions/skills, quests, items, etc.) are located in [OnLoadAssets](/Assets/Game/OnLoadAssets/), which are loaded via the aforementioned [Addressables Loading System](/Assets/Scripts/Core/AddressablesHandling/) in the Core namespace.
