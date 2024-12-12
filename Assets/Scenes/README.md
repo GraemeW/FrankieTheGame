@@ -1,4 +1,4 @@
-# Scenes
+# Assets: Scenes
 
 ## Quick Start:  Setting Up a New Scene
 
@@ -20,7 +20,7 @@ The key differentiator in interior vs. exterior is the use of the [Room](../Scri
 
 As with any new scene in a Unity project, the scene must be included in the Build List under Unity's Build Profiles, as below:
 
-![BuildProfileSceneList](../../InfoTools/Documentation/Scenes/BuildProfilesSceneList.png)
+<img src="../../InfoTools/Documentation/Scenes/BuildProfilesSceneList.png" width="600">
 
 ### Scene-Zone Hook-Up
 
@@ -33,16 +33,16 @@ This can be accomplished with the following steps:
 1. Navigate to [OnLoadAssets/Zones/](../Game/OnLoadAssets/Zones/) in the Unity Project explorer
 2. Right click : `Create->Zone->New Zone` , as below:
 
-![CreateNewZone](../../InfoTools/Documentation/Scenes/CreateNewZone.png)
+<img src="../../InfoTools/Documentation/Scenes/CreateNewZone.png" width="400">
 
-3. Adjust the ZoneParameters in the Unity Inspector with:
+1. Adjust the ZoneParameters in the Unity Inspector with:
    * Scene Reference - Link to the newly created Scene file
    * Update Map - Enable if mini-map should be updated (usually true for exterior scenes)
    * Zone Audio - Link to the scene background music file
 
-![ZoneParameters](../../InfoTools/Documentation/Scenes/ZoneParameters.png)
+<img src="../../InfoTools/Documentation/Scenes/ZoneParameters.png" width="250">
 
-4. Use the Zone Editor to link this zone to another zone (i.e. to enable movement across scenes)
+1. Use the Zone Editor to link this zone to another zone (i.e. to enable movement across scenes)
    * See [Game/Zones](../Game/OnLoadAssets/Zones/) for more detail on constructing / linking zones, or [Scripts/Zones](../Scripts/Zones/) for specific implementation
 
 ## Scene Key Elements
