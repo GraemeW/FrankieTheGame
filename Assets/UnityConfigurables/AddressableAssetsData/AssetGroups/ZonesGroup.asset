@@ -13,8 +13,6 @@ MonoBehaviour:
   m_Name: ZonesGroup
   m_EditorClassIdentifier: 
   m_GroupName: ZonesGroup
-  m_Data:
-    m_SerializedData: []
   m_GUID: 6bb3d0395712c784fb09116a01e1e03b
   m_SerializeEntries:
   - m_GUID: 825162037cba861479418f80a7ea9254
