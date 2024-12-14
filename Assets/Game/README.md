@@ -8,14 +8,14 @@ Notably, this directory also includes all [OnLoadAssets](./OnLoadAssets/), which
 
 A brief summary of each sub-directory within `Assets: Game` is provided below.  Further detail is provided in the corresponding/linked folder (if requiring further detail).
 
-|                Namespace                |                                                                                              Detail                                                                                              |
+|                Directory                |                                                                                              Detail                                                                                              |
 | :-------------------------------------: | :----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------: |
 |             [Core](./Core/)             |                        Prefabs for various core Game Objects: e.g. Player, Core (incl. persistent object loader), AddressablesLoader, Saving, SceneLoader, Cameras, etc.                         |
 |           [Camera](./Camera/)           |                                                                           Scriptable objects for camera configuration                                                                            |
 |      [Controllers](./Controllers/)      | Prefabs for key control game objects: [BattleController](./Controllers/Battle%20Controller.prefab), [DialogueController](./Controllers/DialogueController.prefab) && Splash/StartMenuControllers |
 |     [OnLoadAssets](./OnLoadAssets/)     |            Scriptable objects loaded via the AddressablesLoader (game memory outside of objects stored in scenes) - *See [OnLoadAssets](./OnLoadAssets/) directory for more detail)*             |
 | [CharacterObjects](./CharacterObjects/) |                    Prefabs for individual characters (both PCs, NPCs) w/ associated animations, scriptable objects for character stat progression, and prefabs for wearables                     |
-|           [Speech](./Speech/)           |                                                          Scriptable objects for any game dialogue, as employed by NPCs via AIConversant                                                          |
+|           [Speech](./Speech/)           |                          Scriptable objects for any game dialogue, as employed by NPCs via AIConversant, with custom UnityUI editor for linking together complex speech                          |
 |           [Combat](./Combat/)           |                                       Scriptable objects for character skill trees, for battle action targeting/effects/filters, and for NPC battle logic                                        |
 |           [Checks](./Checks/)           |                                    Standard player-world interaction prefabs (e.g. to child to game objects to prompt arbitrary Unity Events & simple menus)                                     |
 |       [Predicates](./Predicates/)       |                      Scriptable objects for any conditional / predicate logic associated with e.g. player progression, game state, character configuration, key items, etc.                      |
