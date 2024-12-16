@@ -4,7 +4,28 @@ This directory houses all of the character objects (AKA actors), their correspon
 
 ## Progression
 
-//TODO:
+The progression scriptable object is a dictionary of characters, as defined by their [Character Properties](../OnLoadAssets/CharacterProperties/) scriptable objects, mapping to their corresponding [stats](../../Scripts/Stats/Stat.cs).  In other words, this dictionary defines how much health a character has, or how much experience a monster gives upon defeat, or how brawny a character might be, etc.  This progression scriptable object is linked && consumed by the [BaseStats](../../Scripts/Stats/BaseStats.cs) component, which lives on every combat-ready character.
+
+**Note on Stat Growth:**
+
+As discussed further in [Stats](../../Scripts/Stats/), the stats defined in progression define:
+* the starting stats (e.g. at level 1, or whichever level they start from on their [BaseStats](../../Scripts/Stats/BaseStats.cs) component)
+* the stat growth on each level up (specifically for the 7 'core stats' denoted below)
+  * this is relevant particularly for playable characters, or NPCs that are re-used throughout the game
+
+**Summary of Stats to Populate**
+
+The default parameters to include for any new character include:
+* Health Points (HP)
+* Action Points (AP)
+* Experience Reward
+  * i.e. experience disbursed on character defeat
+  * generally more relevant for NPCs / enemies
+* Experience to Level Up
+  * can be modified e.g. to allow for more rapid character growth
+* Core Stats (increment amount on level-up):
+  * Brawn, Beauty, Smarts, Nimble, Luck, Pluck, Stoic
+
 
 ## Character Objects 
 
@@ -127,3 +148,6 @@ Character objects are broken down into:
 
 //TODO: 
 
+## Wearables
+
+//TODO:
