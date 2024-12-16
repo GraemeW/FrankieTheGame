@@ -26,7 +26,6 @@ The default parameters to include for any new character include:
 * Core Stats (increment amount on level-up):
   * Brawn, Beauty, Smarts, Nimble, Luck, Pluck, Stoic
 
-
 ## Character Objects 
 
 Character objects are broken down into:
@@ -131,6 +130,7 @@ Character objects are broken down into:
   * Moving background properties:
     * Tile Sprite Image: the tiled image to display during combat against this character
     * Shader Material: the shader to apply to sed tiled image during combat against this character
+* This step is noted as optional here, because (typically) you will not face a playable character in combat as an enemy
 
 <img src="../../../InfoTools/Documentation/Game/CharacterObjects/LucyOptionalCombatParameters.png" width="350">
 
@@ -138,11 +138,26 @@ Character objects are broken down into:
 
 #### Character NPC Prefab
 
-//TODO:
+As noted above in Character [Initial Setup](#initial-setup), the [Character Properties](../OnLoadAssets/CharacterProperties/) scriptable objects include a link to a Character Prefab, as well as a Character NPC Prefab.
+
+The Character NPC Prefab is generally populated for NPCs (duh), as discussed in the [NPC Creation Quick Start](#new-character-creation-quick-start--non-playable-characters).  However, it can also be populated for playable characters!
+
+Notably, **both** the Character Prefab and Character NPC Prefab should be populated for any characters that can act as both a member of Frankie's party, as well as live as an NPC in the world.  This is particularly important in the context of the [CharacterNPCSwapper](../../Scripts/Stats/CharacterNPCSwapper.cs) component, which can be used to:
+- A) recruit an NPC from the world into Frankie's party
+- B) take a character from Frankie's party to place them in the world
+
+For creating new Playable Character NPC prefabs, it is recommended to build a variant off of: [CharacterNPC](./PCs/CharacterNPC.prefab)
 
 ### New Character Creation Quick Start:  Non-Playable Characters
 
-//TODO:
+#### Setup:  Deltas to Playable Characters
+
+The character creation process for NPCs is nearly identical to that of playable characters above, with a few notable exceptions:
+* The prefabs to build variants off of are:
+  * [NonPlayableCharacter](./NPCs/NonPlayableCharacter.prefab): for NPCs that do not engage in combat
+  * [NPCCombatReady](./NPCs/NPCCombatReady.prefab):  for NPCs that do engage in combat
+* The *optional* step of hooking up combat parameters in [Combat Setup](#combat-setup) is **no longer optional**
+* A host of new NPC-related components are now configurable -- such as state machine behavior, move parameters, chase parameters, loot tables, etc.
 
 ### Summary of Key Character Components
 
