@@ -69,8 +69,6 @@ Character objects are broken down into:
 
 <img src="../../../InfoTools/Documentation/Game/CharacterObjects/LucyProgression.png" width="400">
 
-<br/>
-
 #### Animator Setup
 
 * Create an animator override controller referencing the standard [Character Animator Controller](./PCs/PCAnimatorController.controller)
@@ -107,8 +105,6 @@ Character objects are broken down into:
 
 <img src="../../../InfoTools/Documentation/Game/CharacterObjects/LucyChildedCharacterSpriteProperty.png" width="500">
 
-<br/>
-
 #### Combat Setup
 
 * In the [Game/Combat/SkillTrees/Characters](../Combat/SkillTrees/Characters/) directory create a new skill tree
@@ -121,8 +117,6 @@ Character objects are broken down into:
 
 <img src="../../../InfoTools/Documentation/Game/CharacterObjects/LucySkillHandler.png" width="400">
 
-<br/>
-
 * *Optional Step:* 
 * Hook up 'enemy' combat parameters - e.g. like below for [Lucy](./PCs/Lucy/Lucy.prefab)
   * Combat Sprite: the image displayed on the [BattleCanvas](../UI/Combat/Battle%20Canvas.prefab) during combat **against** this character
@@ -133,8 +127,6 @@ Character objects are broken down into:
 * This step is noted as optional here, because (typically) you will not face a playable character in combat as an enemy
 
 <img src="../../../InfoTools/Documentation/Game/CharacterObjects/LucyOptionalCombatParameters.png" width="350">
-
-<br/>
 
 #### Character NPC Prefab
 
