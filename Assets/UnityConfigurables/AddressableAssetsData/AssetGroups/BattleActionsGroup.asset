@@ -13,8 +13,6 @@ MonoBehaviour:
   m_Name: BattleActionsGroup
   m_EditorClassIdentifier: 
   m_GroupName: BattleActionsGroup
-  m_Data:
-    m_SerializedData: []
   m_GUID: d280c84123cd5ce46bd0955f09a5d1a6
   m_SerializeEntries:
   - m_GUID: 345619397f44ce546beaa5e6f579df95
