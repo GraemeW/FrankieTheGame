@@ -159,10 +159,29 @@ The character creation process for NPCs is nearly identical to that of playable 
 * The *optional* step of hooking up combat parameters in [Combat Setup](#combat-setup) is **no longer optional**
 * A host of new NPC-related components are now configurable -- such as state machine behavior, move parameters, chase parameters, loot tables, etc.
 
-### Summary of Key Character Components
+### Summary of Key Components
 
-//TODO: 
+A brief summary of the configurable components on the character prefabs noted above is provided below:
+
+|                                    Component                                     |  PC   | PC-NPC |  NPC  | NPC-CR |       |                                                   Detail                                                    |
+| :------------------------------------------------------------------------------: | :---: | :----: | :---: | :----: | :---: | :---------------------------------------------------------------------------------------------------------: |
+|        [CharacterSpriteLink](../../Scripts/Stats/CharacterSpriteLink.cs)         |   X   |   X    |   X   |   X    |       |        Root-level link to sprite/animator, for cached reference & announcing animation state updates        |
+|                  [BaseStats](../../Scripts/Stats/BaseStats.cs)                   |   X   |   X    |   X   |   X    |       |                Link to character properties, progression & interface to all character stats                 |
+| [CombatParticipant](../../Scripts/Combat/CombatParticipant/CombatParticipant.cs) |   X   |   X    |       |   X    |       |                          Combat behaviour/methods & interface to the battle system                          |
+|           [SkillHandler](../../Scripts/Combat/Skills/SkillHandler.cs)            |   X   |   X    |       |   X    |       |                               Link to skill tree & interface to skill system                                |
+|                 [Experience](../../Scripts/Stats/Experience.cs)                  |   X   |   ~    |       |        |       |                       Character experience & level-up behaviour (disabled on PC-NPC)                        |
+|                 [Knapsack](../../Scripts/Inventory/Knapsack.cs)                  |   X   |   X    |       |        |       | Character inventory, incl. methods/interface for adjustment + predicate evaluators (e.g. for quests/speech) |
+|                  [Equipment](../../Scripts/Stats/Experience.cs)                  |   X   |   X    |       |        |       |              Character equipment, incl. methods/interface for adjustment + stat modifications               |
+|        [CharacterNPCSwapper](../../Scripts/Stats/CharacterNPCSwapper.cs)         |   X   |   X    |       |        |       |                   Methods for swapping between character in party <-> character in world                    |
+|            [WearablesLink](../../Scripts/Inventory/WearablesLink.cs)             |   X   |   X    |       |        |       |              Methods for probing/interacting with wearables + link to wearables root transform              |
+|         [NPCStateHandler](../../Scripts/Control/NPC/NPCStateHandler.cs)          |       |   X    |   X   |   X    |       |                NPC state, with player state listeners and methods to adjust player/NPC state                |
+|                [NPCMover](../../Scripts/Control/NPC/NPCMover.cs)                 |       |   X    |   X   |   X    |       |           NPC world move properties / methods, including momvement along pre-defined patrol paths           |
+|              [BattleAI](../../Scripts/Combat/BattleAI/BattleAI.cs)               |       |   X    |   X   |   X    |       |  Logic for NPCs during battle (i.e. skill selection, combat priorities), interfacing to the battle system   |
+|     [NPCCollisionHandler](../../Scripts/Control/NPC/NPCCollisionHandler.cs)      |       |        |   X   |   X    |       |     State changes as a function of character collisions, flesibility to trigger arbitrary Unity Events      |
+|            [LootDispenser](../../Scripts/Inventory/LootDispenser.cs)             |       |        |       |   X    |       |                            Loot tables & logic for randomly providing loot/cash                             |
+|             [SaveableEntity](../../Scripts/Saving/SaveableEntity.cs)             |   X   |   X    |   X   |   X    |       |          For interfacing with the save system - defines the character state as an item to be saved          |
+
 
 ## Wearables
 
-//TODO:
+See [Wearables](./Wearables/)
