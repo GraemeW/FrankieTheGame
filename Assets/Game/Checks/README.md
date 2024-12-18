@@ -12,7 +12,12 @@ All 'checks' thus include:
 
 ## Standard Checks
 
-A standard check can be:
+The standard check configurables are shown below:
+
+<img src="../../../InfoTools/Documentation/Game/Checks/StandardChecks.png" width="450">
+
+Notably, standard checks are brokebn into three different check types.
+
 * **Simple** - with prefab [Check](./Check.prefab)
   * Allowing for triggering arbitrary Unity Event(s) w/ player interaction
     * as linked on the component, shown in the list under `Check Interaction (PlayerStateMachine)`
@@ -28,16 +33,23 @@ A standard check can be:
     * accepting - via `Check Interaction (PlayerStateMachine)` list
     * rejecting - via `Reject Interaction (PlayerStateMachine)` list
 
-These options and the associated configurables are shown below:
+Example checks can be found in:
+* [FrankieHomeDesk](../WorldObjects/SavePoints/FrankieHomeDesk.prefab): Used to trigger a [WorldSaver](../../Scripts/World/WorldSaver.cs) Save() call
+* [WaterCooler](../WorldObjects/Office/WaterCooler_0.prefab): Used to trigger a [WorldPointAdjuster](../../Scripts/World/WorldPointAdjuster.cs) to heal the party & restore AP
+* [InfoSign](../WorldObjects/Generic/Signs/InfoSign.prefab): Used to prompt a UI message with th (arbitrary) sign content
+* [CoinMachine](../WorldObjects/VendingMachines/CoinMachine.prefab): Used to trigger a [WorldCashGiverTaker](../../Scripts/World/WorldCashGiverTaker.cs) to give add cash to the player's wallet
+* and so on…
 
-<img src="../../../InfoTools/Documentation/Game/Checks/StandardChecks.png" width="450">
+## Complex Checks
 
-## Check With Predicate Evaluation
+Beyond the straightforward checks noted above, there are a number of relatively common checks with higher levels of complexity that need to be supported for a standard RPG.  For these more common checks, generic implementations and prefabs (also derived from the [CheckBase](../../Scripts/CheckInteractions/CheckBase.cs)  abstract class) are detailed below.
 
-## Check to Unlock Enable
+### Check With Predicate Evaluation
 
-## Check with Configuration
+### Check to Unlock Enable
 
-## Check with Dynamic Options
+### Check with Configuration
+
+### Check with Dynamic Options
 
 
