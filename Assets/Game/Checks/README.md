@@ -46,7 +46,43 @@ Beyond the straightforward checks noted above, there are a number of relatively 
 
 ### Check With Predicate Evaluation
 
+The prefab [CheckWithPredicateEvaluation](./CheckWithPredicateEvaluation.prefab) can be used to evaluate any arbitrary [predicate](../../Scripts/Predicates/Predicate.cs) condition, and then prompt independent messages + Unity Events on success/failure.  This can be useful, for example, for only prompting events/behaviour when the player has progressed past a certain quest, or a specific character is above a certain level, or the player has a certain amount of cash, or a specific key item is in a party member's knapsack, etc.
+
+The check configurables are shown below:
+
+<img src="../../../InfoTools/Documentation/Game/Checks/CheckWithPredicates.png" width="700">
+
+, with:
+* Predicate field used to check the specific game state / user state / condition
+* Condition Met: message + interaction Unity Event(s) for predicate = true
+* Condition Failed: message + interaction Unity Event(s) for predicate = false
+
+Example checks can be found in:
+* [VendingMachineWithPredicate](../WorldObjects/VendingMachines/VendingMachineWithPredicate.prefab)
+
 ### Check to Unlock Enable
+
+Extending on the above, it is very common to gate access to specific areas or interaction behind predicate evaluations.  One way to do this is to place game objects in a scene, disable them by default, and then enable them through an interaction event.
+
+The prefab [CheckToUnlockEnable](./CheckToUnlockEnable.prefab) serves as a standard check to serve this purpose.  The check configuration is shown below:
+
+<img src="../../../InfoTools/Documentation/Game/Checks/CheckWithToggleEnable.png" width="650">
+
+, with:
+* Predicate field used to check the specific game state / user state / condition
+* Condition Met: `Message On Toggle` and `Check Interation (PlayerStateMachine)` for predicate = true
+* Condition Failed:  `Message On Condition Not Met` and `Check Interaction On Condition Not Met (PlayerStateMachine)` for predicate = false
+* Parent Transform For Toggle: reference transform for toggling->active on all children game objects
+  * *by default this is the game object 'UnlockParent' childed to the  [CheckToUnlockEnable](./CheckToUnlockEnable.prefab) prefab*
+
+For this check prefab, standard use is to a) child the prefab on an object in the world (e.g. attach to a door or ZoneNode), b) place all inactive game objects under the `UnlockParent` game object.
+
+Example checks can be found in:
+* [OfficeExterior](../../Scenes/OfficeExterior.unity) scene, under the `UnlockToOffice` ZoneNode
+* [OfficeInterior](../../Scenes/OfficeInterior.unity) scene, under the `UnlockWithKey` ZoneNode
+  ** which is used to unlock the fireman's pole after retrieving the necessary key, as below:*
+
+<img src="../../../InfoTools/Documentation/Game/Checks/CheckWithToggleEnable_OfficeKey.png" width="750">
 
 ### Check with Configuration
 
