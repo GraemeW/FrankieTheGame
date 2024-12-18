@@ -13,8 +13,6 @@ MonoBehaviour:
   m_Name: CharacterPropertiesGroup
   m_EditorClassIdentifier: 
   m_GroupName: CharacterPropertiesGroup
-  m_Data:
-    m_SerializedData: []
   m_GUID: 17d255b78dcf8c74f851a9e483757989
   m_SerializeEntries:
   - m_GUID: 001351244cd723c49ae9f131bd956de8
