@@ -2,6 +2,8 @@
 
 Any game, and especially RPGs, require that a player's character interact with the world around them.  
 
+<img src="../../../InfoTools/Documentation/Game/Checks/FrankieCheck.png" width="1080">
+
 'Check' prefabs serve to enable this functionality in Frankie.  These are game objects that can be attached/childed to any other game objects in the world to enable sed interaction.  
 
 All 'checks' thus include:
@@ -84,8 +86,25 @@ Example checks can be found in:
 
 <img src="../../../InfoTools/Documentation/Game/Checks/CheckWithToggleEnable_OfficeKey.png" width="750">
 
-### Check with Configuration
-
 ### Check with Dynamic Options
 
+In some circumstances, the check options themselves may not be fixed/static, but may also vary as a function of the game state -- for these, one may employ the [CheckWithDynamicOptions](./CheckWithDynamicOptions.prefab) prefab.
 
+This prefab makes use of a Dynamic Check Object that has a component implementing the [ICheckDynamic](../../Scripts/CheckInteractions/ICheckDynamic.cs) interface to return [ChoiceActionPairs](../../Scripts/Utils/Functional/ChoiceActionPair.cs) that are used to populate a menu of choices.  One such example is the [SubwayTrain](../WorldObjects/Subway/SubwayTrain/SubwayTrain.prefab), which has the [WorldSubwayRider](../../Scripts/World/Subway/WorldSubwayRider.cs) component to generate viable subway travel options:
+
+<img src="../../../InfoTools/Documentation/Game/Checks/CheckWithDynamicOptionsSubwayTrain.png" width="1080">
+
+### Check with Configuration
+
+In order to allow for highly customized check behaviors, one may also employ the prefab [CheckWithConfiguration](./CheckWithConfiguration.prefab) with custom-scripted configurations.
+
+Similarly to Dynamic Options above, this prefab uses a [CheckConfiguration](../../Scripts/CheckInteractions/Configurations/CheckConfiguration.cs) scriptable object to define [ChoiceActionPairs](../../Scripts/Utils/Functional/ChoiceActionPair.cs) that are used to populate a menu of choices.
+
+Example configurations include:
+* [AddToParty](./Configurations/AddToParty.asset) / [RemoveFromParty](./Configurations/RemoveFromParty.asset): with options populated by available characters / availability party members
+* [AdjustLeader](./Configurations/AdjustLeader.asset): with options populated by available party members
+* [BankOptions](./Configurations/BankOptions.asset): the basic script attached to the [ATM](../WorldObjects/PortaBank/ATM.prefab) prefab to enable deposit/withdrawal from Frankie's bank
+
+Since the [CheckWithConfiguration](../../Scripts/CheckInteractions/CheckWithConfiguration.cs) script spawns a dialogue box with choice-action pairs, it's also possible to nest configurations within configurations -- such as with the [StandardPartyOptions](./Configurations/StandardPartyOptions.asset) configuration, which combines [AdjustLeader](./Configurations/AdjustLeader.asset), [AddToParty](./Configurations/AddToParty.asset) and [RemoveFromParty](./Configurations/RemoveFromParty.asset) configurations:
+
+<img src="../../../InfoTools/Documentation/Game/Checks/CheckWithConfigurationStandardParty.png" width="550">
