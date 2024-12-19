@@ -4,7 +4,7 @@ Any game, and especially RPGs, require that a player's character interact with t
 
 <img src="../../../InfoTools/Documentation/Game/Checks/FrankieCheck.png" width="1080">
 
-'Check' prefabs serve to enable this functionality in Frankie.  These are game objects that can be attached/childed to any other game objects in the world to enable sed interaction.  
+'Check' prefabs serve to do this in Frankie.  These are game objects that can be attached/childed to any other game objects in the world.  
 
 All 'checks' thus include:
 * A) a trigger-based 2D collider
