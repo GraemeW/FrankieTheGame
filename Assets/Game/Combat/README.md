@@ -1,16 +1,16 @@
 # Assets: Game - Combat
 
-A high-level summary of the Battle Action system in Frankie is shown below:
+A high-level summary of the combat / battle action system in Frankie is shown below:
 
 <img src="../../../InfoTools/Documentation/Game/Combat/Frankie-BattleActions.png" width="450">
 
 ## Battle Actions
 
-[BattleActions](../OnLoadAssets/BattleActions/) are the backbone of both the [skill](#skills) and [inventory](#inventory) systems.  They are comprised of:
+[BattleActions](../OnLoadAssets/BattleActions/) are the backbone of both [skills](#skills) and [action items](#action-items).  They are comprised of:
   1. [EffectStrategies](./BattleActions/EffectStrategies/): to adjust HP/AP, apply status effects, modify stats, override cooldown, call for help, etc.
-    * [EffectStrategiesSpawnedArtwork](./BattleActions/EffectStrategiesSpawnedArtwork/) are a special category of EffectStrategies that can be used to spawn visual feedback/artwork on the [BattleCanvas](../UI/Combat/Battle%20Canvas.prefab)
+       * *N.B. [EffectStrategiesSpawnedArtwork](./BattleActions/EffectStrategiesSpawnedArtwork/) are a special category of EffectStrategies that can be used to spawn artwork on the [BattleCanvas](../UI/Combat/Battle%20Canvas.prefab)*
   2. [TargetingStrategies](./BattleActions/TargetingStrategies/): to set the active target type (single vs. multi, enemy vs. ally, etc.)
-    * , where [FilterStrategies](./BattleActions/FilterStrategies/) are used to further narrow the targeting strategy - e.g. to single characters
+       * , where [FilterStrategies](./BattleActions/FilterStrategies/) are used to further narrow the targeting strategy - e.g. to single characters
 
 <img src="../../../InfoTools/Documentation/Game/Combat/BattleActionExample.png" width="350">
 
@@ -35,6 +35,8 @@ See the [Skills](../OnLoadAssets/Skills/) directory in [OnLoadAssets](../OnLoadA
 * [KeyItems](../OnLoadAssets/Inventory/KeyItems/): items that cannot be used, but may be required for [quest objectives](../OnLoadAssets/Quests/Quests/)
 * [WearableItems](../OnLoadAssets/Inventory/WearableItems/): items that are worn to alter the appearance of the player in world
 
+### Action Items
+
 [ActionItems](../OnLoadAssets/Inventory/ActionItems/) are closest in spirit to skills, with the following properties:
 1. a [battle action](#battle-actions)
 1. a display name, as seen in inventory / shops
@@ -50,6 +52,35 @@ See the [Inventory](../OnLoadAssets/Inventory/) directory in [OnLoadAssets](../O
 
 ## Skill Trees
 
+### Skill Tree Construction
 
+Skills are arranged in nodes, in positions:  up, down, left, right.
 
-## Skill Handler / Battle AI
+<img src="../../../InfoTools/Documentation/Game/Combat/SkillTreeRootNode.png" width="200">
+
+As discussed in [Skills](#skills) above, each skill has a paired [stat](../../Scripts/Stats/Stat.cs).  As a character's relevant stat increases, they unlock branches to new nodes, and thus, new skills.  The starting skill node is referred to as the 'Root Node', and the full set of interlinked nodes defines the Skill Tree.
+
+<img src="../../../InfoTools/Documentation/Game/Combat/SkillTreeBranched.png" width="400">
+
+See the [SkillTrees](./SkillTrees/) directory for further detail, including a quick-start guide to make new skill tree scriptable objects.
+
+### Skill Tree Navigation
+
+In order to select individual skills, the player inputs a combination of directional commands to navigate through the skill tree.  Stronger skills are buried further in the skill tree, and so require a longer sequence of directional inputs.  
+
+This is illustrated below:
+
+<img src="../../../InfoTools/Documentation/Game/Combat/SkillTreePathExample.png" width="600">
+
+For example:
+* To access 'Gentle Praise', the player hits:  Up->Select
+* To access 'Smile Menacingly', the player hits:  Up->Left->Select
+* To access 'Words of Encouragement', the player hits:  Up->Left->Up->Select
+
+, and finally:
+
+* To access 'Wallop', the player hits:  Up->Left->Up->Right->Select
+
+*N.B.  A character's stats can be modified during combat (e.g. due to status effects) -- thus granting or blocking a character's access to skills, nodes and entire sections of the skill tree.*
+
+## Battle AI
