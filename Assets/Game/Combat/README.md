@@ -84,3 +84,18 @@ For example:
 *N.B.  A character's stats can be modified during combat (e.g. due to status effects) -- thus granting or blocking a character's access to skills, nodes and entire sections of the skill tree.*
 
 ## Battle AI
+
+Enemy NPCs navigate through the skill tree system using a bespoke AI system, where an arbitrary number of AI priorities can be placed in preference sequence.
+
+AI priorities consist of:
+* a list of skills
+* conditions in which the skills will trigger
+* target priorities
+
+<img src="../../../InfoTools/Documentation/Game/Combat/BattleAIPredicateExample.png" width="350">
+
+See the [BattleAI](./BattleAI/) directory for further detail, including a quick-start guide to make new AI  priority scriptable objects, with example battle AI setups.
+
+*N.B. In the absence of AI priorities:*
+* *skills are chosen at random, with a pre-defined probability to traverse deeper into the skill tree*
+* *targets are chosen at random*
