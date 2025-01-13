@@ -14,7 +14,7 @@ A high-level summary of the combat / battle action system in Frankie is shown be
 
 <img src="../../../InfoTools/Documentation/Game/Combat/BattleActionExample.png" width="350">
 
-See the [BattleActions](../OnLoadAssets/BattleActions/) directory in [OnLoadAssets](../OnLoadAssets/) for further detail, including a quick-start guide to make new BattleAction scriptable objects.
+See [BattleActions](../OnLoadAssets/BattleActions/) in [OnLoadAssets](../OnLoadAssets/) for further detail, including a quick-start guide to make new BattleAction scriptable objects.
 
 ## Skills
 
