@@ -30,9 +30,13 @@ Set the `Other Input` parameters:
 * Cooldown: in seconds
 * AP Cost: optional (set to 0 if no cost)
 
+The [Targeting Strategy](#targeting-strategy) and [Effect Strategies](#effect-strategy) are described in more detail below.
+
+**Critical Note:**  As discussed below in [Trigger Resources & Cooldowns](#trigger-resources--cooldowns), it is crucial to have the final effect on any battle action as the [TriggerResourcesCooldowns](../../Combat/BattleActions/EffectStrategies/TriggerResourcesCooldowns.asset.meta) effect strategy**
+
 ### Targeting Strategy
 
-Targeting strategies can be found in [Combat/BattleActions/TargetingStrategies](../../Combat/BattleActions/TargetingStrategies/).  To make a new targeting strategy:
+To make a new targeting strategy:
 
 1. Navigate to [Combat/BattleActions/TargetingStrategies](../../Combat/BattleActions/TargetingStrategies/)
    * depending on the complexity of the targeting strategy, navigate further to [SpecificTargeting](../../Combat/BattleActions/TargetingStrategies/SpecificTargeting/)
@@ -46,7 +50,7 @@ The targeting strategy sets the rules on which target a skill **can** select, bu
 
 Targeting strategies all derive from the [TargetingStrategy](../../../Scripts/Combat/BattleAction/Targeting/TargetingStrategy.cs) abstract class, and include:
 * a parameter to select combat participant type: friendly, foe, or both
-* filter strategies to further narrow down the target
+* [filter strategies](#filtering-strategy) to further narrow down the target
 
 Friendly/foe description are relative to the character's disposition to the player.  The characters in a player's party are friendly to each other, and see enemies in combat as foes.  Likewise, an enemy is friendly to other enemies in combat, and sees the player characters as foes.
 
@@ -72,12 +76,93 @@ Notably, the two new parameters introduced by multitargeting are:
 
 The override to hit everything parameter will ignore the number of enemies to hit and simply hit all the relevant entities on the screen.  Note though that filtering strategies **will still be applied**.
 
-#### Filtering Strategies
+### Filtering Strategy
 
+To make a new filtering strategy:
+1. Navigate to [Combat/BattleActions/FilteringStrategies](../../Combat/BattleActions/FilterStrategies/)
+2. Right click and select `Create` -> `BattleAction` -> `Filters` -> `Living` (or) `Character`
 
+<img src="../../../../InfoTools/Documentation/Game/OnLoadAssets/BattleActions/NewFilteringMenu.png" width="550">
 
-#### Complex Filters
+Filter strategies derive from the [FilterStrategy](../../../Scripts/Combat/BattleAction/Filtering/FilterStrategy.cs) abstract class, and simply reduce an IEnumerable of Battle Entities based on some pre-defined logic.  As above, the most basic types of filtering are:
+* Living Filters: to select combat participants that are either alive or dead
+  * see for example [LivingFilter](../../Combat/BattleActions/FilterStrategies/LivingFilter.asset)
+* Character Filters: to select specific combat participants via their [CharacterProperties](../CharacterProperties/) asset
+  * see for example [FrankieFilter](../../Combat/BattleActions/FilterStrategies/FrankieFilter.asset)
+
+Alternate filtering strategies may be envisioned and built up in the future to arbitrarily select out targets as needed (e.g. via status effect, item in knapsack, etc.).
 
 ### Effect Strategy
+
+To make a new effect strategy:
+1. Navigate to [Combat/BattleActions/EffectStrategies](../../Combat/BattleActions/EffectStrategies/)
+   * depending on the complexity of the targeting strategy, navigate further to the relevant subfolder
+2. Right click and select `Create` -> `BattleAction` -> `Effects` -> `effect you desire`
+
+<img src="../../../../InfoTools/Documentation/Game/OnLoadAssets/BattleActions/NewEffectMenu.png" width="650">
+
+Effect strategies derive from the [EffectStrategy](../../../Scripts/Combat/BattleAction/Effects/EffectStrategy.cs) abstract class, which requires a method to initiate the effect and a callback for when the effect is finished.  
+
+#### Basic Effects
+
+Some example basic effects include:
+   * health effect: deal damage or heal - such as [DeductHPMed](../../Combat/BattleActions/EffectStrategies/DirectHP/DeductHPMed.asset)
+     * health is modified by Health Change ± Jitter
+     * apply damage type selects if physical/magical defense should be used in damage calculations
+
+<img src="../../../../InfoTools/Documentation/Game/OnLoadAssets/BattleActions/EffectDeductHP.png" width="250">
+
+   * ap effect: add/remove action points from the character - such as [RestoreAPSmall](../../Combat/BattleActions/EffectStrategies/DirectAP/RestoreAPSmall.asset)
+     * action points are modified by AP Change ± Jitter
+
+<img src="../../../../InfoTools/Documentation/Game/OnLoadAssets/BattleActions/EffectRestoreAP.png" width="250">
+
+   * persistent stat effect: increment or decrement a [stat](../../../Scripts/Stats/Stat.cs) temporarily - such as [IncreaseLuckMed](../../Combat/BattleActions/EffectStrategies/PersistentStatMods/IncreaseLuckMed.asset)
+     * fraction probability sets the likelihood of effect applying (where 1 = 100%, 0 = 0%) on skill use
+     * persist after combat defines whether the effect clears automatically after combat, or remains until duration expires
+
+<img src="../../../../InfoTools/Documentation/Game/OnLoadAssets/BattleActions/EffectPersistentStat.png" width="250">
+
+   * dot/hot effect: damage or heal over time - such as [DoTHPSmall](../../Combat/BattleActions/EffectStrategies/DoT/DoTHPSmall.asset)
+     * health is modified by health change per teck every tick period seconds
+     * fraction probability & persist match are consistent with the above explanation ^
+
+<img src="../../../../InfoTools/Documentation/Game/OnLoadAssets/BattleActions/EffectDamageOverTime.png" width="250">
+   
+   * remove persistent stat effects: to clear the above stat/dot/hots - such as [ClearStatus_All](../../Combat/BattleActions/EffectStrategies/OtherHealing/ClearStatus_All.asset)
+     * remove persistent recurring applies to HoT/DoTs
+     * remove persistent stat refers to persistent stat effects
+     * fraction probability defines chance of success to remove the stat
+     * number of effects = 0 will remove all effects, otherwise removes number indicated
+
+<img src="../../../../InfoTools/Documentation/Game/OnLoadAssets/BattleActions/EffectRemoveStatus.png" width="375">
+
+   * permanent stat effect: increment or decrement a [stat](../../../Scripts/Stats/Stat.cs) permanently - such as [PermanentIncreaseBeautyLarge](../../Combat/BattleActions/EffectStrategies/PermanentStatMods/PermanentIncrementBeautyLarge.asset) 
+   
+<img src="../../../../InfoTools/Documentation/Game/OnLoadAssets/BattleActions/EffectPermanentStat.png" width="250">
+
+   * set cooldown: overrides the cooldown on the target (e.g. to delay enemy actions) - such as [SetLongCooldown](../../Combat/BattleActions/EffectStrategies/SetCooldown/SetLongCooldown.asset)
+
+<img src="../../../../InfoTools/Documentation/Game/OnLoadAssets/BattleActions/EffectSetCooldown.png" width="250">
+
+   * call for help effect: add new enemies to the current combat - such as [CallForHelpSquirrel](../../Combat/BattleActions/EffectStrategies/CallForHelp/CallForHelpSquirrel.asset)
+     * , using the same logic as [EnemySpawner](../../WorldObjects/zz_Spawners/) configurations
+     * , where a variable number of enemies (defined by their [Character Properties](../CharacterProperties/)) can be added with a given probability
+
+<img src="../../../../InfoTools/Documentation/Game/OnLoadAssets/BattleActions/EffectCallForHelp.png" width="250">
+
+   * etc.
+
+#### Trigger Resources & Cooldowns
+
+The [TriggerResourcesCooldowns](../../Combat/BattleActions/EffectStrategies/TriggerResourcesCooldowns.asset) effect strategy **must** be placed as the final effect strategy for any battle action.  As is evident from its name, this effect will trigger the character's cooldown and subtract any AP incurred by use of the skill.
+
+For reasons that will become evident in [Delay Composites](#delay-composites), this effect strategy is needed to signal to the [BattleController](../../Controllers/Battle%20Controller.prefab) that the current action has completed.
+
+#### Spawn Target Prefab Effects
+
+
+
+#### Delay Composites
 
 
