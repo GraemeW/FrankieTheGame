@@ -161,8 +161,39 @@ For reasons that will become evident in [Delay Composites](#delay-composites), t
 
 #### Spawn Target Prefab Effects
 
+The [SpawnTargetPrefab](../../../Scripts/Combat/BattleAction/Effects/SpawnTargetPrefabEffect.cs) effect may be used to add a visual indicator of a battle action on the [BattleCanvas](../../UI/Combat/Battle%20Canvas.prefab) UI.  When this effect is called, a game object may be spawned globally over the entire canvas or individually on the battle action's target.  These effects are stored separately in [EffectStrategiesSpawnedArtwork](../../Combat/BattleActions/EffectStrategiesSpawnedArtwork/).
 
+For example, the effect [SpawnCirclePopPink](../../Combat/BattleActions/EffectStrategiesSpawnedArtwork/SpawnCirclePopPink.asset):
 
-#### Delay Composites
+<img src="../../../../InfoTools/Documentation/Game/OnLoadAssets/BattleActions/EffectSpawnPrefab.png" width="325">
 
+, will spawn the game object [CirclePopPink](../../Combat/BattleActions/EffectStrategiesSpawnedArtwork/CirclePopPink.prefab), as shown below when Tilly uses the `Do Actual Work` skill:
 
+![](../../../../InfoTools/Documentation/Game/OnLoadAssets/BattleActions/EffectSpawnPrefabImplemented.gif)
+
+#### Action & Delayed Composites
+
+For more complex battle actions, such as those using visual indicators (e.g. [Spawn Target Prefab Effects](#spawn-target-prefab-effects)), it is often necessary to chain together series of effects with delays.  Specifically, we want:
+1. to have the visual/graphic effects to appear before the damage and status effect are applied
+2. to avoid having other actions called by the [BattleController](../../Controllers/Battle%20Controller.prefab) while the current action is being executed
+
+The [DelayComposite](../../../Scripts/Combat/BattleAction/Effects/DelayCompositeEffect.cs) addresses this complexity by allowing for a battle action to chain together an arbitrary number of sub-lists of effects preceded by pre-defined delays.  
+
+For example, see the [DoActualWork](./SkillBase/OldStyle/DoActualWork.asset) Battle Action asset:
+
+<img src="../../../../InfoTools/Documentation/Game/OnLoadAssets/BattleActions/EffectCompositeBattleAction.png" width="300">
+
+, which (in its Effect Strategies) calls:
+* [SpawnCirclePopPink](../../Combat/BattleActions/EffectStrategiesSpawnedArtwork/SpawnCirclePopPink.asset)
+* , followed by [DoActualWorkDelayComposite](../../Combat/BattleActions/EffectStrategies/ActionComposites/DoActualWorkDelayComposite.asset)
+
+<img src="../../../../InfoTools/Documentation/Game/OnLoadAssets/BattleActions/EffectCompositeEffect.png" width="300">
+
+, such that the battle action will:
+1. Spawn the game object [CirclePopPink](../../Combat/BattleActions/EffectStrategiesSpawnedArtwork/CirclePopPink.prefab)
+2. Delay 0.5 seconds
+3. Deduct a small amount HP via `DeductHPTouch`
+4. Apply a damage over time effect via `DoTHPSmall`
+5. Trigger AP cost (3) and cooldown (8 seconds)
+
+Critically, per above note in [Trigger Resources & Cooldowns](#trigger-resources--cooldowns), the final effect in the battle action is the [TriggerResourcesCooldowns](../../Combat/BattleActions/EffectStrategies/TriggerResourcesCooldowns.asset) effect strategy.
