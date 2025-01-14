@@ -32,7 +32,7 @@ Set the `Other Input` parameters:
 
 The [Targeting Strategy](#targeting-strategy) and [Effect Strategies](#effect-strategy) are described in more detail below.
 
-**Critical Note:**  As discussed below in [Trigger Resources & Cooldowns](#trigger-resources--cooldowns), it is crucial to have the final effect on any battle action as the [TriggerResourcesCooldowns](../../Combat/BattleActions/EffectStrategies/TriggerResourcesCooldowns.asset.meta) effect strategy**
+**Critical Note:**  As discussed below in [Trigger Resources & Cooldowns](#trigger-resources--cooldowns), it is crucial to have the final effect on any battle action as the [TriggerResourcesCooldowns](../../Combat/BattleActions/EffectStrategies/TriggerResourcesCooldowns.asset) effect
 
 ### Targeting Strategy
 

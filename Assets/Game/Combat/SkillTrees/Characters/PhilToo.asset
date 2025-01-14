@@ -17,6 +17,40 @@ MonoBehaviour:
   branchHeight: 155
   skillBranches:
   - {fileID: 812278835477515453}
+  - {fileID: 362233773472248234}
+--- !u!114 &362233773472248234
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6b066201d64e5354387f385aa2872d22, type: 3}
+  m_Name: 0b087eb1-0b0e-4f39-88e5-aa21be90de2d
+  m_EditorClassIdentifier: 
+  upSkillReference: 
+  upBranch: 
+  leftSkillReference: 
+  leftBranch: 
+  rightSkillReference: 
+  rightBranch: 
+  downSkillReference: InstillSelfDoubt
+  downBranch: 
+  rect:
+    serializedVersion: 2
+    x: 30
+    y: 335
+    width: 250
+    height: 155
+  draggingRect:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 250
+    height: 45
+  mappedFromBranch: 3
 --- !u!114 &812278835477515453
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -36,7 +70,7 @@ MonoBehaviour:
   rightSkillReference: 
   rightBranch: 
   downSkillReference: SmileMenacingly
-  downBranch: 
+  downBranch: 0b087eb1-0b0e-4f39-88e5-aa21be90de2d
   rect:
     serializedVersion: 2
     x: 30
