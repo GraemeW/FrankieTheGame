@@ -2,7 +2,7 @@
 
 A 2D bird's eye old-school RPG adventure that follows Frankie, as he deals with the trials and tribulations of being an underpaid, overworked white collar office laborer.  
 
-Frankie's day-to-day monotony is interrupted by a mystical ramen who informs him that his life is not as Plain Jane as it seems.  Dark forces seek to corrupt those around him and shatter his understanding of the universe.
+Frankie's day-to-day monotony is interrupted by a near-death experience involving a rather spicy cup-noodle-ramen, leading to an understanding that life is not as Plain Jane as it once seemed.  Dark forces seek to corrupt those around him and shatter his understanding of the universe.
 
 ## Game Features
 
@@ -26,7 +26,23 @@ Frankie has danger:
 
 ![](/InfoTools/Images/LucySmooch.png)
 
-## Key Namespaces
+## World Construction - Scenes
+
+Scenes are located in: [Scenes](./Assets/Scenes/)
+
+Each major city/area exterior & interior are allocated to their own scenes.  For interior scenes, multiple rooms may share the same scene, and individual rooms are toggled on/off as defined by the behaviour in the [Zones](/Assets/Scripts/Zones/) system.  Maintaining character state during transitions throughout scenes is handled via the singleton pattern on the [Player](/Assets/Scripts/Core//Player.cs) object.
+
+## World Construction - Game Assets
+
+Unity game assets are located in: [Game](./Assets/Game/)
+
+The addressables that contain key game data (zone properties, character properties, actions/skills, quests, items, etc.) are located in [OnLoadAssets](/Assets/Game/OnLoadAssets/), which are loaded via the aforementioned [Addressables Loading System](/Assets/Scripts/Core/AddressablesHandling/) in the Core namespace.
+
+N.B. Artwork and music associated with these assets are not, by default, pushed to GIT.  They are backed up separately.
+
+## Scripts - Key Namespaces
+
+Scripts are located in: [Scripts](./Assets/Scripts/)
 
 * [Core](/Assets/Scripts/Core/):  Camera, scene management, addressables loading
     * *incl.: [Predicates](/Assets/Scripts/Predicates/), logic for any state-based conditional evaluations
@@ -52,24 +68,9 @@ Frankie has danger:
     * *incl. [UIBox](/Assets/Scripts/Utils/UIBox/) & [UIMisc](/Assets/Scripts/Utils/UIMisc/), support code for key UI elements (such as the text/menu scroll box used in all key UI)*
 * [Settings](/Assets/Scripts/PlayerPrefs/):  Game settings, such as master/world/battle volume
 
-## Tool Extensions
+## Scripts - Tool Extensions
 
 * [CustomRuleTiles](/Assets/Scripts/CustomRuleTiles/):  Extensions on Unity base rule tiles, incl. rule-match siblings, random siblings, random animation rule tiles
-
-## Game Assets
-
-Unity game assets are located in:
-[Game](/Assets/Game/)
-
-The addressables that contain key game data (zone properties, character properties, actions/skills, quests, items, etc.) are located in [OnLoadAssets](/Assets/Game/OnLoadAssets/), which are loaded via the aforementioned [Addressables Loading System](/Assets/Scripts/Core/AddressablesHandling/) in the Core namespace.
-
-N.B. Artwork and music associated with these assets are not, by default, pushed to GIT.  They are backed up separately.
-
-## World Construction - Scene Work
-
-Scenes are located in: [Scenes](/Assets/Scenes/)
-
-Each major city/area exterior & interior are allocated to their own scenes.  For interior scenes, multiple rooms may share the same scene, and individual rooms are toggled on/off as defined by the behaviour in the [Zones](/Assets/Scripts/Zones/) system.  Maintaining character state during transitions throughout scenes is handled via the singleton pattern on the [Player Object](/Assets/Scripts/Core//Player.cs).
 
 ## Getting involved?
 
