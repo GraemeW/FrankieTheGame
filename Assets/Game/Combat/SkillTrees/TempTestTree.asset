@@ -1,5 +1,137 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-9106053293084428090
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6b066201d64e5354387f385aa2872d22, type: 3}
+  m_Name: f4d57336-e883-4714-9658-0130cb7f0de0
+  m_EditorClassIdentifier: 
+  upSkillReference: ShakeTail
+  upBranch: 
+  leftSkillReference: 
+  leftBranch: 
+  rightSkillReference: 
+  rightBranch: 
+  downSkillReference: 
+  downBranch: 
+  rect:
+    serializedVersion: 2
+    x: 96
+    y: 646
+    width: 250
+    height: 155
+  draggingRect:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 250
+    height: 45
+  mappedFromBranch: 1
+--- !u!114 &-9056755904045281000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6b066201d64e5354387f385aa2872d22, type: 3}
+  m_Name: be25e349-70f1-4fd0-bd33-49c8eab6c37a
+  m_EditorClassIdentifier: 
+  upSkillReference: ShareWarmRamen
+  upBranch: 
+  leftSkillReference: 
+  leftBranch: 
+  rightSkillReference: 
+  rightBranch: 
+  downSkillReference: 
+  downBranch: 
+  rect:
+    serializedVersion: 2
+    x: 681
+    y: 646
+    width: 250
+    height: 155
+  draggingRect:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 250
+    height: 45
+  mappedFromBranch: 2
+--- !u!114 &-4615079321139129808
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6b066201d64e5354387f385aa2872d22, type: 3}
+  m_Name: 4f004b3a-69b2-4536-93f9-3adc0b74f7eb
+  m_EditorClassIdentifier: 
+  upSkillReference: Trample
+  upBranch: 
+  leftSkillReference: 
+  leftBranch: 
+  rightSkillReference: 
+  rightBranch: 
+  downSkillReference: 
+  downBranch: 
+  rect:
+    serializedVersion: 2
+    x: 962
+    y: 476
+    width: 250
+    height: 155
+  draggingRect:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 250
+    height: 45
+  mappedFromBranch: 2
+--- !u!114 &-4480384712336328033
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6b066201d64e5354387f385aa2872d22, type: 3}
+  m_Name: 039f279a-ece3-481c-a4ea-2fcc69aeae92
+  m_EditorClassIdentifier: 
+  upSkillReference: 
+  upBranch: 
+  leftSkillReference: 
+  leftBranch: 
+  rightSkillReference: 
+  rightBranch: 
+  downSkillReference: Bite
+  downBranch: 
+  rect:
+    serializedVersion: 2
+    x: 95
+    y: 479
+    width: 250
+    height: 155
+  draggingRect:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 250
+    height: 45
+  mappedFromBranch: 3
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -17,6 +149,15 @@ MonoBehaviour:
   branchHeight: 155
   skillBranches:
   - {fileID: 1232647665919983}
+  - {fileID: 5921272211179918813}
+  - {fileID: 5768682653990731831}
+  - {fileID: 4022898975218183734}
+  - {fileID: 144419427195672160}
+  - {fileID: -4615079321139129808}
+  - {fileID: -4480384712336328033}
+  - {fileID: 8885085004548582250}
+  - {fileID: -9106053293084428090}
+  - {fileID: -9056755904045281000}
 --- !u!114 &1232647665919983
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -29,19 +170,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6b066201d64e5354387f385aa2872d22, type: 3}
   m_Name: 4f826a5e-9fab-4fe9-9065-1a63ea486ca8
   m_EditorClassIdentifier: 
-  upSkillReference: SpillFancyCoffee
-  upBranch: 
-  leftSkillReference: SpillFancyCoffee
-  leftBranch: 
-  rightSkillReference: SpillFancyCoffee
-  rightBranch: 
-  downSkillReference: SpillFancyCoffee
-  downBranch: 
-  detail: 
+  upSkillReference: GentlePraise
+  upBranch: e4d88972-19e0-4074-a551-b1e38422ecbe
+  leftSkillReference: DoActualWork
+  leftBranch: f4d57336-e883-4714-9658-0130cb7f0de0
+  rightSkillReference: InstillSelfDoubt
+  rightBranch: be25e349-70f1-4fd0-bd33-49c8eab6c37a
+  downSkillReference: ShowOffCode
+  downBranch: 198dd545-f6e8-4dc2-856c-cb701f358153
   rect:
     serializedVersion: 2
-    x: 30
-    y: 30
+    x: 375
+    y: 646
     width: 250
     height: 155
   draggingRect:
@@ -51,3 +191,168 @@ MonoBehaviour:
     width: 250
     height: 45
   mappedFromBranch: 0
+--- !u!114 &144419427195672160
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6b066201d64e5354387f385aa2872d22, type: 3}
+  m_Name: 5d1804f4-d1eb-4af6-8514-82ba8db9930b
+  m_EditorClassIdentifier: 
+  upSkillReference: 
+  upBranch: 
+  leftSkillReference: Trample
+  leftBranch: 
+  rightSkillReference: Wallop
+  rightBranch: 
+  downSkillReference: 
+  downBranch: 
+  rect:
+    serializedVersion: 2
+    x: 95
+    y: 120
+    width: 250
+    height: 155
+  draggingRect:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 250
+    height: 45
+  mappedFromBranch: 0
+--- !u!114 &4022898975218183734
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6b066201d64e5354387f385aa2872d22, type: 3}
+  m_Name: 3ebee649-7552-4d4d-a440-8601fb3fe4a2
+  m_EditorClassIdentifier: 
+  upSkillReference: 
+  upBranch: 
+  leftSkillReference: RequestETC
+  leftBranch: 
+  rightSkillReference: LoudlyProclaim
+  rightBranch: 4f004b3a-69b2-4536-93f9-3adc0b74f7eb
+  downSkillReference: ShootTheShit
+  downBranch: 
+  rect:
+    serializedVersion: 2
+    x: 562
+    y: 476
+    width: 250
+    height: 155
+  draggingRect:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 250
+    height: 45
+  mappedFromBranch: 3
+--- !u!114 &5768682653990731831
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6b066201d64e5354387f385aa2872d22, type: 3}
+  m_Name: e6183d2d-8ebf-4827-917b-74863e000788
+  m_EditorClassIdentifier: 
+  upSkillReference: WordsOfEncouragement
+  upBranch: 5d1804f4-d1eb-4af6-8514-82ba8db9930b
+  leftSkillReference: 
+  leftBranch: 
+  rightSkillReference: 
+  rightBranch: 
+  downSkillReference: BlatherOn
+  downBranch: 039f279a-ece3-481c-a4ea-2fcc69aeae92
+  rect:
+    serializedVersion: 2
+    x: 95
+    y: 300
+    width: 250
+    height: 155
+  draggingRect:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 250
+    height: 45
+  mappedFromBranch: 1
+--- !u!114 &5921272211179918813
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6b066201d64e5354387f385aa2872d22, type: 3}
+  m_Name: e4d88972-19e0-4074-a551-b1e38422ecbe
+  m_EditorClassIdentifier: 
+  upSkillReference: 
+  upBranch: 
+  leftSkillReference: SmileMenacingly
+  leftBranch: e6183d2d-8ebf-4827-917b-74863e000788
+  rightSkillReference: 
+  rightBranch: 
+  downSkillReference: SpillHotCoffee
+  downBranch: 3ebee649-7552-4d4d-a440-8601fb3fe4a2
+  rect:
+    serializedVersion: 2
+    x: 375
+    y: 300
+    width: 250
+    height: 155
+  draggingRect:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 250
+    height: 45
+  mappedFromBranch: 0
+--- !u!114 &8885085004548582250
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6b066201d64e5354387f385aa2872d22, type: 3}
+  m_Name: 198dd545-f6e8-4dc2-856c-cb701f358153
+  m_EditorClassIdentifier: 
+  upSkillReference: 
+  upBranch: 
+  leftSkillReference: 
+  leftBranch: 
+  rightSkillReference: 
+  rightBranch: 
+  downSkillReference: Whinny
+  downBranch: 
+  rect:
+    serializedVersion: 2
+    x: 376
+    y: 833
+    width: 250
+    height: 155
+  draggingRect:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 250
+    height: 45
+  mappedFromBranch: 3

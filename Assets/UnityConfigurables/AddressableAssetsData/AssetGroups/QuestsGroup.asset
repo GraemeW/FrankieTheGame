@@ -13,12 +13,10 @@ MonoBehaviour:
   m_Name: QuestsGroup
   m_EditorClassIdentifier: 
   m_GroupName: QuestsGroup
-  m_Data:
-    m_SerializedData: []
   m_GUID: 5737d4d430161ca479e9b63007f531e0
   m_SerializeEntries:
-  - m_GUID: d5a24b6ae4382f546a9b472318a86c1f
-    m_Address: Assets/Game/OnLoadAssets/Quests/Quests
+  - m_GUID: cbdcb89b677447f439f38b85c32257f4
+    m_Address: Assets/Game/OnLoadAssets/Quests
     m_ReadOnly: 0
     m_SerializedLabels:
     - Quest

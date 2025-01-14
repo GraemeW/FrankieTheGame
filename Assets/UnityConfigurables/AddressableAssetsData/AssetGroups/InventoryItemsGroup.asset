@@ -13,8 +13,6 @@ MonoBehaviour:
   m_Name: InventoryItemsGroup
   m_EditorClassIdentifier: 
   m_GroupName: InventoryItemsGroup
-  m_Data:
-    m_SerializedData: []
   m_GUID: 26261125f71ef524fbfcf7598ebcafd0
   m_SerializeEntries:
   - m_GUID: 8fe8481c3a09130418a22b178474bd5e
