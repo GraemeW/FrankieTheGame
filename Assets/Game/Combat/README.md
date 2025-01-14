@@ -94,7 +94,7 @@ AI priorities consist of:
 
 <img src="../../../InfoTools/Documentation/Game/Combat/BattleAIPredicateExample.png" width="350">
 
-See the [BattleAI](./BattleAI/) directory for further detail, including a quick-start guide to make new AI  priority scriptable objects, with example battle AI setups.
+See the [BattleAI](./BattleAI/) directory for further detail, including a quick-start guide to make new AI  priority scriptable objects.
 
 *N.B. In the absence of AI priorities:*
 * *skills are chosen at random, with a pre-defined probability to traverse deeper into the skill tree*
