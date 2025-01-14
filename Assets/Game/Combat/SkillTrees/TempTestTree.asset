@@ -22,8 +22,8 @@ MonoBehaviour:
   downBranch: 
   rect:
     serializedVersion: 2
-    x: 66
-    y: 645
+    x: 96
+    y: 646
     width: 250
     height: 155
   draggingRect:

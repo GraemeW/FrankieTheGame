@@ -1,6 +1,6 @@
 # Assets:  Game - Skills
 
-Skills are the primary actions a character may take in combat.  They are effectively an encapsulation of [Battle Actions](../BattleActions/), with several additional properties.  See, for example, the `Instill Self Doubt` skill below:
+Skills are the primary actions a character may take in combat.  They may also be used in-world via the Abilities UI menu.  They are effectively an encapsulation of [Battle Actions](../BattleActions/), with several additional properties.  See, for example, the `Instill Self Doubt` skill below:
 
 <img src="../../../../InfoTools/Documentation/Game/OnLoadAssets/Skills/SkillExample.png" width="400">
 
