@@ -1,6 +1,6 @@
 # Assets:  Game - Action Items
 
-Action items may be used by a character in combat (i.e. instead of using a [skill](../../Skills/)) and in-world via the knapsack UI menu.  Like skills, they are effectively an encapsulation of [Battle Actions](../BattleActions/), with several additional properties.  See, for example, the `Chocolate Cheese Curds` action item below:
+Action items may be used by a character in combat (i.e. instead of using a [skill](../../Skills/)) and in-world via the knapsack UI menu.  Like skills, they are effectively an encapsulation of [Battle Actions](../BattleActions/), with several additional properties.  See, for example, the [ChocolateCheeseCurds](./ChocolateCheeseCurds.asset) action item below:
 
 <img src="../../../../../InfoTools/Documentation/Game/OnLoadAssets/Inventory/ActionItemExample.png" width="300">
 

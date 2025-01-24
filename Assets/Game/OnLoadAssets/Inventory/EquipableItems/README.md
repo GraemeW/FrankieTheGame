@@ -10,6 +10,8 @@ Generally, equipment are used to bolster a character's [Stats](../../../../Scrip
 
 <img src="../../../../../InfoTools/Documentation/Game/OnLoadAssets/Inventory/EquipableItemExample.png" width="350">
 
+Note that equipable items differ from [WearableItems](../WearableItems/) in that they A) can occupy equipment slots, and B) do not impact the visual state of the character in-world.
+
 ## Equipable Items: Quick Start Guide
 
 ### Make the Equipable Item
