@@ -1,4 +1,4 @@
-# Assets:  Game - Action Items
+# Assets:  Game - Equipable Items
 
 Equipable items may be equipped by a character into one of four equipment slots, defined by [EquipLocation](../../../../Scripts/Inventory/EquipLocation.cs):
 * Hands
@@ -12,14 +12,14 @@ Generally, equipment are used to bolster a character's [Stats](../../../../Scrip
 
 ## Equipable Items: Quick Start Guide
 
-### Make the Action Item
+### Make the Equipable Item
 
 1. Navigate to this [EquipableItems](./) directory (or any sub-directories within)
 2. Right click and select `Create` -> `Inventory` -> `Equipable Item`
 
 <img src="../../../../../InfoTools/Documentation/Game/OnLoadAssets/Inventory/NewItemMenu.png" width="500">
 
-### Configure the Action Item
+### Configure the Equipable Item
 
 Set:
 * The standard [Inventory Item](../) parameters
