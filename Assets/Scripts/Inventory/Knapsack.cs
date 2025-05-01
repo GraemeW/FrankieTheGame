@@ -363,6 +363,8 @@ namespace Frankie.Inventory
         {
             foreach (KeyItem keyItem in GetKeyItems())
             {
+                if (keyItem == null) { continue; }
+
                 foreach (QuestObjective questObjective in keyItem.GetQuestObjectives())
                 {
                     if (questObjective == null) { continue; }
