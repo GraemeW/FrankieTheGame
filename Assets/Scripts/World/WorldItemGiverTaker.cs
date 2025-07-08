@@ -42,6 +42,7 @@ namespace Frankie.Control.Specialization
 
             PartyKnapsackConduit partyKnapsackConduit = playerStateHandler.GetComponent<PartyKnapsackConduit>();
             CombatParticipant receivingCharacter = partyKnapsackConduit.AddToFirstEmptyPartySlot(inventoryItem);
+
             if (receivingCharacter != null)
             {
                 currentItemQuantity.value--;
@@ -73,10 +74,7 @@ namespace Frankie.Control.Specialization
             }
         }
 
-        private int GetMaxItemQuantity()
-        {
-            return itemQuantity;
-        }
+        private int GetMaxItemQuantity() => itemQuantity;
 
         public LoadPriority GetLoadPriority()
         {

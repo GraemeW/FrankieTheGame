@@ -11,7 +11,6 @@ Quests are simple scriptable objects with brief detail on tasks that Frankie may
 
 <img src="../../../../InfoTools/Documentation/Game/OnLoadAssets/Quests/NewQuestMenu.png" width="500">
 
-
 ### Configure the Quest
 
 Set:
@@ -69,4 +68,6 @@ Then:
 * *Further detail on the predicate system is provided in [Predicates](../../Predicates/)*
 * *Further detail on the dialogue system is provided in [Speech](../../Speech/)*
 
+### Quest Completion via Key Items
 
+In addition to being completed via the Quest Completer component, quest objectives may also be completed simply by possessing a key item in any of the party characters' knapsacks.  This behavior is discussed further in [KeyItems](../Inventory/KeyItems/).

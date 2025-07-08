@@ -166,9 +166,6 @@ MonoBehaviour:
     - or:
       - predicate: {fileID: 11400000, guid: 5e4643209b194da4785f2a087052b2b2, type: 2}
         negate: 1
-    - or:
-      - predicate: {fileID: 11400000, guid: 10a3393cd2305524095c422c3eb86dd3, type: 2}
-        negate: 1
 --- !u!114 &8174753224018235221
 MonoBehaviour:
   m_ObjectHideFlags: 0
