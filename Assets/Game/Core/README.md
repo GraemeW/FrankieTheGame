@@ -51,7 +51,16 @@ Thus, [AddressablesLoader](./CoreDep/AddressablesLoader.prefab) creates the cach
 
 ## Cameras Prefab
 
+[Cameras](./Cameras.prefab) employs the [CameraController](../../Scripts/Core/CameraController.cs) script, which interfaces with the Main Camera child game object and the State Driven Camera game object.  The Main Camera child object simply employs the main Unity [Camera](https://docs.unity3d.com/ScriptReference/Camera.html), as well as the [Cinemachine Brain](https://docs.unity3d.com/Packages/com.unity.cinemachine@3.1/manual/CinemachineBrain.html).  
 
+The State Driven Camera child object employs a [Cinemachine State-Driven Camera](https://docs.unity3d.com/Packages/com.unity.cinemachine@3.1/manual/CinemachineStateDrivenCamera.html), which allows us to:
+* follow the player as they move around the map
+* modify the camera zoom as a function of the player's lead character's animator state
+  * or:  so we can add a neat zoom out effect when the player is idle
+
+The latter functionality is established using two separate virtual cameras (`VCam Active` and `VCam Idle`), which are childed to the State Driven Camera.  The [CameraController](../../Scripts/Core/CameraController.cs) script then ensures that the state-driven camera is correctly following the player's lead party member.
+
+**N.B.  This project currently uses CM2.**  Upgrade to CM3 is pending/TODO/WIP (see [here](https://docs.unity3d.com/Packages/com.unity.cinemachine@3.1/manual/CinemachineUpgradeFrom2.html)).
 
 ## Player Prefab (Singleton)
 
