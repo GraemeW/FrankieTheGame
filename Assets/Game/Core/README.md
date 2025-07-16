@@ -14,11 +14,15 @@ The Core game object serves three primary functions:
 
 ### Persistent Objects (Singleton)
 
-The [Core](./Core.prefab) prefab ensures [PersistentObjects](./CoreDep/PersistentObjects.prefab) is generated in the scene only once (i.e. created as a singleton).  [PersistentObjects](./CoreDep/PersistentObjects.prefab) is furthermore tagged with `DontDestroyOnLoad()`, such that it will persistent during transitions from scene (zone)-to-scene (zone).
+#### Singleton Generation
+
+The [Core](./Core.prefab) prefab ensures [PersistentObjects](./CoreDep/PersistentObjects.prefab) is generated in the scene only once (i.e. created as a singleton).  [PersistentObjects](./CoreDep/PersistentObjects.prefab) is furthermore tagged with `DontDestroyOnLoad()` ([ref](https://docs.unity3d.com/6000.1/Documentation/ScriptReference/Object.DontDestroyOnLoad.html)), such that it will persistent during transitions from scene (zone)-to-scene (zone).
 
 Thus, any singleton objects that must always remain present in the game should be included under [PersistentObjects](./CoreDep/PersistentObjects.prefab).  Of course:  the singleton pattern should be used sparingly, so any new inclusions should be considered carefully (i.e. **seriously** consider alternate approaches instead).
 
-The key scripts attached to [PersistentObjects] include:
+#### Scripts & Children
+
+The key scripts attached to [PersistentObjects](./CoreDep/PersistentObjects.prefab) include:
 * [InputSystemUIInputModule](https://docs.unity3d.com/Packages/com.unity.inputsystem@1.0/manual/UISupport.html):  for use with Unity's new input system + UI elements
 
 The key objects childed to [PersistentObjects](./CoreDep/PersistentObjects.prefab) include:
@@ -31,9 +35,24 @@ The key objects childed to [PersistentObjects](./CoreDep/PersistentObjects.prefa
 * [MapCamera](../Map/MapCamera.prefab):  includes a childed SubCamera and employs [MapCamera](../../Scripts/Zones/Map/MapCamera.cs) to generate the mini-map
 * [Debugger](./CoreDep/Debugger.prefab):  employs [FrankieDebugger](../../Scripts/Core/FrankieDebugger.cs) to enable debug functionality (not for release)
 
-
 ### Addressables Loader (Singleton)
+
+[AddressablesLoader](./CoreDep/AddressablesLoader.prefab) is a singleton tagged with `DontDestroyOnLoad()` ([ref](https://docs.unity3d.com/6000.1/Documentation/ScriptReference/Object.DontDestroyOnLoad.html)), such that it will persistent during transitions from scene (zone)-to-scene (zone).  Note that it is separate from the [PersistentObjects](#persistent-objects-singleton) prefab due to its strict load order requirements.
+
+[AddressablesLoader](./CoreDep/AddressablesLoader.prefab) employs the [AddressablesLoader](../../Scripts/Core/AddressablesHandling/AddressablesLoader.cs) script, which is used to build all the caches for the scriptable objects in [OnLoadAssets](../OnLoadAssets/).  In other words, this is the critical object used to establish references to any data that is **not** present in the active scene that is loaded into memory at runtime.
+
+Thus, [AddressablesLoader](./CoreDep/AddressablesLoader.prefab) creates the caches to allow us to **dynamically** (i.e. during run-time):
+* [BattleActions](../OnLoadAssets/BattleActions/):  use arbitrary actions
+* [CharacterProperties](../OnLoadAssets/CharacterProperties/):  load any character/NPC into scenes
+* [InventoryItems](../OnLoadAssets/Inventory/):  use arbitrary items
+* [Quests](../OnLoadAssets/Quests/):  add/complete/delete any quests
+* [Skills](../OnLoadAssets/Skills/):  use arbitrary skills
+* [Zones](../OnLoadAssets/Zones):  transition to any scene (zone)
 
 ## Cameras Prefab
 
+
+
 ## Player Prefab (Singleton)
+
+
