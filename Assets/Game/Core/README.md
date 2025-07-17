@@ -71,7 +71,7 @@ The latter functionality is established using two separate virtual cameras (`VCa
 The [Player](./Player.prefab) includes a number of important game/control components:
 * [Player](../../Scripts/Core/Player.cs):  ensure singleton and handle game loss criteria
 * [PlayerController](../../Scripts/Control/Player/PlayerController.cs):  standard user input translation script (i.e. for [PlayerStateType](../../Scripts/Control/Player/PlayerStateMachine/PlayerStateType.cs) : inWorld)
-* [PlayerStateMachine](../../Scripts/):  primary game state machine for different [IPlayerState](../../Scripts/Control/Player/PlayerStateMachine/PlayerStates/IPlayerState.cs)
+* [PlayerStateMachine](../../Scripts/Control/Player/PlayerStateMachine.cs):  primary game state machine for different [IPlayerState](../../Scripts/Control/Player/PlayerStateMachine/PlayerStates/IPlayerState.cs)
   * e.g. including hand-off from the [PlayerController](../../Scripts/Control/Player/PlayerController.cs) to alternate [Controllers](../Controllers/)
 * [PlayerMover](../../Scripts/Control/Player/PlayerMover.cs):  character movement through the world (based on input from [PlayerController](../../Scripts/Control/Player/PlayerController.cs))
 * [Party](../../Scripts/Stats/Party/Party.cs):  add/remove characters to active party & queries for associated party state
@@ -83,6 +83,9 @@ The [Player](./Player.prefab) includes a number of important game/control compon
 * [SaveableEntity](../../Scripts/Saving/SaveableEntity.cs):  tags [Player](./Player.prefab) for saving with the [SaveSystem](../../Scripts/Saving/)
 * [RigidBody2D](https://docs.unity3d.com/6000.1/Documentation/ScriptReference/Rigidbody2D.html):  interfacing with Unity's physics system
   * note that colliders are on individual characters in the party container (as below in [Key Children](#key-children))
+
+Note:
+Further detail on input/control and interfacing with the [PlayerStateMachine](../../Scripts/Control/Player/PlayerStateMachine.cs) is provided in [Controllers](../Controllers/)
 
 ### Key Children
 
