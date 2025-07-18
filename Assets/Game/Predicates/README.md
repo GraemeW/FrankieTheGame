@@ -70,6 +70,7 @@ Set:
   * Note:  returns true for >= `Value`
 
 For example, see below to check if Frankie has a Beauty stat greater than or equal to 20:
+
 <img src="../../../InfoTools/Documentation/Game/Predicates/ConfigureBaseStatsHitSpec.png" width="300">
 
 #### Configure:  CombatParticipant
