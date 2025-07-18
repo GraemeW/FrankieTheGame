@@ -5,7 +5,7 @@ using Frankie.Speech;
 
 namespace Frankie.Core
 {
-    [CreateAssetMenu(fileName = "New Conversant Check Count Predicate", menuName = "Predicates/AIConversant/CheckConversantCheckCount")]
+    [CreateAssetMenu(fileName = "New Conversant Check Count Predicate", menuName = "Predicates/AIConversant/ConversantCheckCount")]
     public class ConversantCheckCountPredicate : PredicateAIConversant
     {
         [SerializeField] protected int checkCount = 0;
