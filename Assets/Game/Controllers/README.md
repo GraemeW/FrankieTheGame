@@ -14,7 +14,7 @@ There are also two lightweight/mini-controllers used for specific scenes:
 * [SplashMenuController](./SplashMenuController.prefab):  for input during splash screens (i.e. [SplashScreen](../../Scenes/SplashScreen.unity))
 * [StartMenuController](./StartMenuController.prefab):  for input in the game start / load game menus (i.e. [StartScreen](../../Scenes/StartScreen.unity))
 
-For more detail on the implementation and functionality of each controller, see [Controllers Scripts](../../Scripts/Control/Controllers/) and [Player Scripts](../../Scripts/Control/Player/).
+The configuration of each controller is not covered in detail here as the parameters are quite straightforward.  For more information on the implementation and functionality of each controller, see [Controllers Scripts](../../Scripts/Control/Controllers/) and [Player Scripts](../../Scripts/Control/Player/).
 
 ## Life Cycle of a Controller
 
