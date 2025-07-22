@@ -70,7 +70,7 @@ namespace Frankie.Stats
         {
             float deltaModifier = attackerModifier - defenderModifier;
             return Mathf.Clamp(
-                0.5f + Mathf.Atan((deltaModifier + 8) / 8) / Mathf.PI,
+                0.85f + 0.15f * Mathf.Atan((deltaModifier + 8) / 8) / Mathf.PI,
                 hitChanceMin, hitChanceMax);
         }
 
