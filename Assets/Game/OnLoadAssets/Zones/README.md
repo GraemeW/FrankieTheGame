@@ -110,7 +110,7 @@ The final zone as mapped out then looks like:
 
 ### Conditional Zone Nodes
 
-In some cases, access to certain ZoneNodes needs to be gated by  conditions (e.g. story progression, party members present, items in inventory, etc.).  This can be accomplished using [Predicates](../../Predicates/), by setting the `Additional Properties - Condition` setting on the ZoneNode in the Inspector.
+In some cases, access to certain ZoneNodes needs to be gated by conditions (e.g. story progression, party members present, items in inventory, etc.).  This can be accomplished using [Predicates](../../Predicates/), by setting the `Additional Properties - Condition` setting on the ZoneNode in the Inspector.
 
 Continuing the above example, we can restrict access to the `Bathroom` ZoneNode so that the party can only enter the bathroom if Frankie is currently in the party by attaching the relevant predicate:
 
