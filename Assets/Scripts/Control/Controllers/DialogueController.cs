@@ -191,20 +191,6 @@ namespace Frankie.Speech
             simpleChoices = choiceActionPairs;
         }
 
-        private GameObject ReckonDialogueOptionBox(List<ChoiceActionPair> choiceActionPairs)
-        {
-            if (choiceActionPairs.Count >= DialogueController.GetChoiceNumberThresholdToReconfigureVertical()) { return dialogueOptionBoxVertical; }
-
-            foreach (ChoiceActionPair choiceActionPair in choiceActionPairs)
-            {
-                if (choiceActionPair.choice.Length >= DialogueController.GetChoiceLengthThresholdToReconfigureVertical())
-                {
-                    return dialogueOptionBoxVertical;
-                }
-            }
-            return dialogueOptionBox;
-        }
-
         public void EndConversation()
         {
             currentDialogue = null;
@@ -328,6 +314,20 @@ namespace Frankie.Speech
                 }
             }
             return false;
+        }
+
+        private GameObject ReckonDialogueOptionBox(List<ChoiceActionPair> choiceActionPairs)
+        {
+            if (choiceActionPairs.Count >= DialogueController.GetChoiceNumberThresholdToReconfigureVertical()) { return dialogueOptionBoxVertical; }
+
+            foreach (ChoiceActionPair choiceActionPair in choiceActionPairs)
+            {
+                if (choiceActionPair.choice.Length >= DialogueController.GetChoiceLengthThresholdToReconfigureVertical())
+                {
+                    return dialogueOptionBoxVertical;
+                }
+            }
+            return dialogueOptionBox;
         }
 
         private void SetHighlightedNodeToDefault(PlayerInputType playerInputType)
