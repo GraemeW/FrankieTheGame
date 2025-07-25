@@ -31,4 +31,4 @@ This functionality is defined by the `updateMap` parameter set during [Zone Conf
 * exterior scenes:  update map
 * interior scenes:  do not update map
 
-Practically, this is enabled via an additional [MapCamera](./MapCamera.prefab) that lives on [PersistentObjects](../Core/README.md#persistent-objects-singleton).  This copy of [MapCamera](./MapCamera.prefab) subscribes to scene transition events, and takes a scene snapshot right before the scene transition.
+Practically, this is enabled via an additional [MapCamera](./MapCamera.prefab) that lives on [PersistentObjects](../Core/README.md#persistent-objects-singleton).  This copy of [MapCamera](./MapCamera.prefab) subscribes to scene transition events, and takes a map snapshot right before the scene transition.  In this manner, the [MapRenderTexture](./MapRenderTexture.renderTexture) is updated in the background without needing to spawn the [MapSuper](./MapSuper.prefab) UI element.
