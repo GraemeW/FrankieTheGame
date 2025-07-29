@@ -14,7 +14,7 @@ namespace Frankie.Sound
     {
         // Tunables
         [Header("Main Behaviour Configurables")]
-        [SerializeField] float volume = 0.4f;
+        [SerializeField][Range(0f, 1.0f)] float volume = 0.4f;
         [SerializeField] float musicFadeDuration = 3.0f;
         [SerializeField] AudioMixer audioMixer = null;
         [Header("Standard Fixed Audio")]
@@ -72,6 +72,7 @@ namespace Frankie.Sound
         #region PublicMethods
         public void SetVolume(float volume)
         {
+            volume = Mathf.Clamp(volume, 0f, 1.0f);
             this.volume = volume;
             audioSource.volume = volume;
         }
