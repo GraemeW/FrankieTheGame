@@ -10,10 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3268536af8903a64da82aa6872733d1d, type: 3}
-  m_Name: ApartmentPortaBankDoor
+  m_Name: PrimSouthPortaBankDoor
   m_EditorClassIdentifier: 
   children:
-  - SceneToApartmentPortaBank
+  - PrimSouthSceneToPortaBank
   linkedZone: {fileID: 0}
   linkedZoneNode: {fileID: 0}
   rect:
@@ -102,7 +102,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3268536af8903a64da82aa6872733d1d, type: 3}
-  m_Name: SceneToApartmentPortaBank
+  m_Name: PrimSouthSceneToPortaBank
   m_EditorClassIdentifier: 
   children: []
   linkedZone: {fileID: 11400000, guid: 4742afef1319b6e41b7fe953e2225f42, type: 2}
