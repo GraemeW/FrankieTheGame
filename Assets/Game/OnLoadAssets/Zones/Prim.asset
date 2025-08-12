@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: PrimSouthPortaBankDoor
   m_EditorClassIdentifier: 
   children:
-  - PrimSouthSceneToPortaBank
+  - Scene_PrimSouth_ToPortaBank
   linkedZone: {fileID: 0}
   linkedZoneNode: {fileID: 0}
   rect:
@@ -41,15 +41,15 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3268536af8903a64da82aa6872733d1d, type: 3}
-  m_Name: SceneTo_LL2S_A
+  m_Name: Scene__Prim_ToPSYH
   m_EditorClassIdentifier: 
   children: []
   linkedZone: {fileID: 11400000, guid: dcf8cd616f6882b4399adff354f32bdc, type: 2}
   linkedZoneNode: {fileID: 2049896038868084311, guid: dcf8cd616f6882b4399adff354f32bdc, type: 2}
   rect:
     serializedVersion: 2
-    x: 564
-    y: 709
+    x: 510
+    y: 705
     width: 430
     height: 150
   zoneName: Prim
@@ -74,7 +74,7 @@ MonoBehaviour:
   m_Name: PrimToTunnel
   m_EditorClassIdentifier: 
   children:
-  - SceneToTunnel
+  - Scene_Prim_ToTunnel
   linkedZone: {fileID: 0}
   linkedZoneNode: {fileID: 0}
   rect:
@@ -102,7 +102,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3268536af8903a64da82aa6872733d1d, type: 3}
-  m_Name: PrimSouthSceneToPortaBank
+  m_Name: Scene_PrimSouth_ToPortaBank
   m_EditorClassIdentifier: 
   children: []
   linkedZone: {fileID: 11400000, guid: 4742afef1319b6e41b7fe953e2225f42, type: 2}
@@ -163,7 +163,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3268536af8903a64da82aa6872733d1d, type: 3}
-  m_Name: SceneToTunnel
+  m_Name: Scene_Prim_ToTunnel
   m_EditorClassIdentifier: 
   children: []
   linkedZone: {fileID: 11400000, guid: 6fbdf79e60fb835409a507cd244e2338, type: 2}
@@ -193,10 +193,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3268536af8903a64da82aa6872733d1d, type: 3}
-  m_Name: LL2S_A_Exterior
+  m_Name: PS_YellowHouse_Exterior
   m_EditorClassIdentifier: 
   children:
-  - SceneTo_LL2S_A
+  - Scene
+  - Scene__Prim_ToPSYH
   linkedZone: {fileID: 0}
   linkedZoneNode: {fileID: 0}
   rect:
@@ -227,7 +228,7 @@ MonoBehaviour:
   m_Name: ApartmentDoor
   m_EditorClassIdentifier: 
   children:
-  - SceneToApartment
+  - Scene_Prim_ToApartment
   linkedZone: {fileID: 0}
   linkedZoneNode: {fileID: 0}
   rect:
@@ -285,7 +286,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3268536af8903a64da82aa6872733d1d, type: 3}
-  m_Name: SceneToApartment
+  m_Name: Scene_Prim_ToApartment
   m_EditorClassIdentifier: 
   children: []
   linkedZone: {fileID: 11400000, guid: c2792a31fdd8a5249bea668b45752dd0, type: 2}

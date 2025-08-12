@@ -198,7 +198,7 @@ MonoBehaviour:
     - line: '|   androidMaxAspectRatio: 2.1'
     - line: '|   androidMinAspectRatio: 1'
     - line: '|   applicationIdentifier:'
-    - line: '|     Standalone: com.DefaultCompany.FrankieTheGame'
+    - line: '|     Standalone: com.GraemeCo.FrankieTheGame'
     - line: '|   buildNumber:'
     - line: '|     Standalone: 0'
     - line: '|     VisionOS: 0'
