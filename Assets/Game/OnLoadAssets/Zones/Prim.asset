@@ -41,7 +41,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3268536af8903a64da82aa6872733d1d, type: 3}
-  m_Name: Scene__Prim_ToPSYH
+  m_Name: Scene_Prim_ToPSYH
   m_EditorClassIdentifier: 
   children: []
   linkedZone: {fileID: 11400000, guid: dcf8cd616f6882b4399adff354f32bdc, type: 2}
@@ -81,6 +81,67 @@ MonoBehaviour:
     serializedVersion: 2
     x: 27
     y: 516
+    width: 430
+    height: 150
+  zoneName: Prim
+  draggingRect:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 430
+    height: 45
+  condition:
+    and: []
+--- !u!114 &-1741927116288679908
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3268536af8903a64da82aa6872733d1d, type: 3}
+  m_Name: Scene_Prim_ToPSTB
+  m_EditorClassIdentifier: 
+  children: []
+  linkedZone: {fileID: 11400000, guid: dcf8cd616f6882b4399adff354f32bdc, type: 2}
+  linkedZoneNode: {fileID: 296886436859819959, guid: dcf8cd616f6882b4399adff354f32bdc, type: 2}
+  rect:
+    serializedVersion: 2
+    x: 569
+    y: 1091
+    width: 430
+    height: 150
+  zoneName: Prim
+  draggingRect:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 430
+    height: 45
+  condition:
+    and: []
+--- !u!114 &-665902458594080065
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3268536af8903a64da82aa6872733d1d, type: 3}
+  m_Name: PS_RedHouse_Exterior
+  m_EditorClassIdentifier: 
+  children:
+  - Scene_Prim_ToPSRH
+  linkedZone: {fileID: 0}
+  linkedZoneNode: {fileID: 0}
+  rect:
+    serializedVersion: 2
+    x: 36
+    y: 908
     width: 430
     height: 150
   zoneName: Prim
@@ -153,6 +214,41 @@ MonoBehaviour:
   - {fileID: 3207806963539493329}
   - {fileID: 3617544309863132449}
   - {fileID: -3853410743720169601}
+  - {fileID: -665902458594080065}
+  - {fileID: 6224202600209476137}
+  - {fileID: 2939076438721492088}
+  - {fileID: -1741927116288679908}
+--- !u!114 &2939076438721492088
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3268536af8903a64da82aa6872733d1d, type: 3}
+  m_Name: PS_TallestBuilding_Exterior
+  m_EditorClassIdentifier: 
+  children:
+  - Scene_Prim_ToPSTB
+  linkedZone: {fileID: 0}
+  linkedZoneNode: {fileID: 0}
+  rect:
+    serializedVersion: 2
+    x: 39
+    y: 1091
+    width: 430
+    height: 150
+  zoneName: Prim
+  draggingRect:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 430
+    height: 45
+  condition:
+    and: []
 --- !u!114 &3207806963539493329
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -196,14 +292,43 @@ MonoBehaviour:
   m_Name: PS_YellowHouse_Exterior
   m_EditorClassIdentifier: 
   children:
-  - Scene
-  - Scene__Prim_ToPSYH
+  - Scene_Prim_ToPSYH
   linkedZone: {fileID: 0}
   linkedZoneNode: {fileID: 0}
   rect:
     serializedVersion: 2
     x: 34
     y: 709
+    width: 430
+    height: 150
+  zoneName: Prim
+  draggingRect:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 430
+    height: 45
+  condition:
+    and: []
+--- !u!114 &6224202600209476137
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3268536af8903a64da82aa6872733d1d, type: 3}
+  m_Name: Scene_Prim_ToPSRH
+  m_EditorClassIdentifier: 
+  children: []
+  linkedZone: {fileID: 11400000, guid: dcf8cd616f6882b4399adff354f32bdc, type: 2}
+  linkedZoneNode: {fileID: 7289975945558088822, guid: dcf8cd616f6882b4399adff354f32bdc, type: 2}
+  rect:
+    serializedVersion: 2
+    x: 537
+    y: 907
     width: 430
     height: 150
   zoneName: Prim

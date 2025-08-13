@@ -1,0 +1,151 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-6008549427936543955
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 09c07c7c6f4c666429a0bbc8d18232b2, type: 3}
+  m_Name: 1a2b666a-169d-4c42-8647-b7acfcedb457
+  m_EditorClassIdentifier: 
+  speakerType: 1
+  characterProperties: {fileID: 0}
+  speakerName: Fancy Lady
+  text: What a bother
+  children: []
+  rect:
+    serializedVersion: 2
+    x: 530
+    y: 530
+    width: 400
+    height: 225
+  draggingRect:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 400
+    height: 45
+  condition:
+    and: []
+--- !u!114 &-5276269108488132515
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 09c07c7c6f4c666429a0bbc8d18232b2, type: 3}
+  m_Name: 75d6710f-3c77-40a3-b7c6-b574d713207e
+  m_EditorClassIdentifier: 
+  speakerType: 1
+  characterProperties: {fileID: 0}
+  speakerName: Default
+  text: Default Text to Overwrite
+  children:
+  - 47808bd8-bc4a-40f7-8827-d64036cf7602
+  - 3f450b8c-4a91-4298-bc05-9a734a9e1362
+  - 1a2b666a-169d-4c42-8647-b7acfcedb457
+  rect:
+    serializedVersion: 2
+    x: 30
+    y: 30
+    width: 400
+    height: 225
+  draggingRect:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 400
+    height: 45
+  condition:
+    and: []
+--- !u!114 &-4156287836146137032
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 09c07c7c6f4c666429a0bbc8d18232b2, type: 3}
+  m_Name: 3f450b8c-4a91-4298-bc05-9a734a9e1362
+  m_EditorClassIdentifier: 
+  speakerType: 1
+  characterProperties: {fileID: 0}
+  speakerName: Fancy Lady
+  text: I'm his mom, but to be honest, I wish he'd just leave me alone
+  children: []
+  rect:
+    serializedVersion: 2
+    x: 530
+    y: 280
+    width: 400
+    height: 225
+  draggingRect:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 400
+    height: 45
+  condition:
+    and: []
+--- !u!114 &-2651640080905754529
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 09c07c7c6f4c666429a0bbc8d18232b2, type: 3}
+  m_Name: 47808bd8-bc4a-40f7-8827-d64036cf7602
+  m_EditorClassIdentifier: 
+  speakerType: 1
+  characterProperties: {fileID: 0}
+  speakerName: Fancy Lady
+  text: Is that boy still hanging around my house?
+  children: []
+  rect:
+    serializedVersion: 2
+    x: 530
+    y: 30
+    width: 400
+    height: 225
+  draggingRect:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 400
+    height: 45
+  condition:
+    and: []
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aac27b8e802ced743b3f275e283ab9df, type: 3}
+  m_Name: PrimSouth-RedHouse-Mom
+  m_EditorClassIdentifier: 
+  skipRootNode: 1
+  newNodeOffset: {x: 100, y: 25}
+  nodeWidth: 400
+  nodeHeight: 225
+  activeNPCs: []
+  dialogueNodes:
+  - {fileID: -5276269108488132515}
+  - {fileID: -2651640080905754529}
+  - {fileID: -4156287836146137032}
+  - {fileID: -6008549427936543955}
