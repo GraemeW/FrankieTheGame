@@ -11,6 +11,7 @@ namespace Frankie.Control
     {
         // Tunables
         [SerializeField] protected float movementSpeed = 1.0f;
+        [SerializeField] protected Vector2 defaultLookDirection = Vector2.down;
         [SerializeField] protected float defaultTargetDistanceTolerance = 0.15f;
         [SerializeField] bool resetPositionOnEnable = false;
 
@@ -51,7 +52,7 @@ namespace Frankie.Control
             // N.B. Deliberately NOT calling clear move targets here to avoid order of operations issues
             // In some edge cases Start() can be called after Update(), which can cause shouts to fail
 
-            SetLookDirection(Vector2.down); // Initialize look direction to avoid wonky
+            SetLookDirection(defaultLookDirection); // Initialize look direction to avoid wonky
         }
 
         protected virtual void FixedUpdate()
@@ -64,7 +65,7 @@ namespace Frankie.Control
             if (resetPositionOnEnable)
             {
                 transform.position = originalPosition;
-                SetLookDirection(Vector2.down);
+                SetLookDirection(defaultLookDirection);
             }
         }
 

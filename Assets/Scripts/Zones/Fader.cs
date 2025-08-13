@@ -33,6 +33,7 @@ namespace Frankie.ZoneManagement
 
         // Events
         public event Action<TransitionType> fadingIn;
+        public event Action fadingPeak;
         public event Action fadingOut;
 
         #region UnityMethods
@@ -105,6 +106,7 @@ namespace Frankie.ZoneManagement
             currentTransition.CrossFadeAlpha(1, GetFadeTime(true, transitionType), false);
             fadingIn?.Invoke(transitionType);
             yield return new WaitForSeconds(GetFadeTime(true, transitionType));
+            fadingPeak?.Invoke();
 
             if (transitionType == TransitionType.BattleComplete)
             {

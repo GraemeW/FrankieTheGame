@@ -29,6 +29,8 @@ MonoBehaviour:
     y: 0
     width: 430
     height: 45
+  condition:
+    and: []
 --- !u!114 &-1150854434814867048
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -57,6 +59,8 @@ MonoBehaviour:
     y: 0
     width: 430
     height: 45
+  condition:
+    and: []
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -93,11 +97,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3268536af8903a64da82aa6872733d1d, type: 3}
-  m_Name: SceneToApartment
+  m_Name: SceneToPrimSouth
   m_EditorClassIdentifier: 
   children: []
-  linkedZone: {fileID: 11400000, guid: e8f676a48128f694795863b89db2b92d, type: 2}
-  linkedZoneNode: {fileID: -8894328186808746864, guid: e8f676a48128f694795863b89db2b92d, type: 2}
+  linkedZone: {fileID: 11400000, guid: 210ece264cb0156468d645ecaa434255, type: 2}
+  linkedZoneNode: {fileID: -8894328186808746864, guid: 210ece264cb0156468d645ecaa434255, type: 2}
   rect:
     serializedVersion: 2
     x: 559
@@ -111,6 +115,8 @@ MonoBehaviour:
     y: 0
     width: 430
     height: 45
+  condition:
+    and: []
 --- !u!114 &7113246731123188644
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -121,10 +127,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3268536af8903a64da82aa6872733d1d, type: 3}
-  m_Name: PortaBankApartment
+  m_Name: PortaBankPrimSouth
   m_EditorClassIdentifier: 
   children:
-  - SceneToApartment
+  - SceneToPrimSouth
   linkedZone: {fileID: 0}
   linkedZoneNode: {fileID: 0}
   rect:
@@ -140,3 +146,5 @@ MonoBehaviour:
     y: 0
     width: 430
     height: 45
+  condition:
+    and: []
