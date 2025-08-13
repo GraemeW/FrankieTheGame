@@ -179,6 +179,7 @@ namespace Frankie.ZoneManagement
 
             queuedZoneNodeID = nextNode.GetNodeID();
             fader.fadingOut += QueuedMoveToNextNode;
+            fader.fadingPeak += DisableCurrentRoomParent; // Required for save state
             fader.UpdateFadeState(TransitionType.Zone, nextZone);
         }
 
@@ -203,7 +204,7 @@ namespace Frankie.ZoneManagement
                         playerController.GetPlayerMover().ResetHistory(zoneHandler.transform.position);
                     }
 
-                    ToggleParentGameObjects(zoneHandler);
+                    SwapActiveRoomParents(zoneHandler);
                     OnZoneInteraction();
                     queuedZoneNodeID = null;
 
@@ -234,6 +235,7 @@ namespace Frankie.ZoneManagement
             if (fader == null) { return; }
 
             fader.fadingOut -= QueuedMoveToNextNode;
+            fader.fadingPeak -= DisableCurrentRoomParent;
             Destroy(gameObject, delayToDestroyAfterSceneLoading);
         }
 
@@ -256,13 +258,15 @@ namespace Frankie.ZoneManagement
             return Zone.GetFromName(zoneNode.GetZoneName()).GetNodeFromID(childNodeOptions[nodeIndex]);
         }
 
-        private void ToggleParentGameObjects(ZoneHandler nextZoneHandler)
+        private void SwapActiveRoomParents(ZoneHandler nextZoneHandler)
         {
-            if (disableOnExit)
-            {
-                EnableRoomParent(false);
-            }
+            DisableCurrentRoomParent();
             nextZoneHandler.EnableRoomParent(true);
+        }
+
+        private void DisableCurrentRoomParent()
+        {
+            if (disableOnExit) { EnableRoomParent(false); }
         }
 
         private bool? IsSimpleWarp(PlayerStateMachine playerStateMachine)
