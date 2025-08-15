@@ -16,7 +16,7 @@ namespace Frankie.ZoneManagement
 
         private void Start()
         {
-            if (disableOnStart && !stateSetBySave && !stateSetByZoneHandler) { gameObject.SetActive(false); UnityEngine.Debug.Log($"Disabling {gameObject}"); }
+            if (disableOnStart && !stateSetBySave && !stateSetByZoneHandler) { gameObject.SetActive(false); }
         }
 
         public void FlagEnabledByZoneHandler() { stateSetByZoneHandler = true; }

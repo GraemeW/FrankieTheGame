@@ -264,7 +264,6 @@ namespace Frankie.ZoneManagement
 
         private void SwapActiveRoomParents(ZoneHandler nextZoneHandler)
         {
-            UnityEngine.Debug.Log($"Enabling {nextZoneHandler} room");
             DisableCurrentRoomParent();
             nextZoneHandler.EnableRoomParent(true);
         }
