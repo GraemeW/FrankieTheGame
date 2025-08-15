@@ -48,10 +48,32 @@ These different swirl types are handled via different input images, with the sam
 
 Since the shader warps each image in a continuous forward fashion, the shader needs to have some concept of time-zero as a reference point to subtract from the current time.  This is accomplished using the `_Phase` property in the  [BattleEntryShader](./BattleEntry/BattleEntryShader.shadergraph) shadergraph.
 
-In turn, `_Phase` is set using the MonoBehaviour [SetMaterialTimeSinceInstantiation](../../../Scripts/Utils/Shaders/SetMaterialTimeSinceInstantiation.cs), which simply sets the attached image material's to property to [Time.time](https://docs.unity3d.com/ScriptReference/Time-time.html) when the game object is enabled.  This is notable because time is a simple float with limited precision, which becomes problematic for very large numbers.  In other words, this shader will begin to lack precision, impacting swirl smoothness, for very, very long continuous play-times (e.g. if the application has not been closed for >12hr).
+In turn, `_Phase` is set using the MonoBehaviour [SetMaterialTimeSinceInstantiation](../../../Scripts/Utils/Shaders/SetMaterialTimeSinceInstantiation.cs), which simply sets the attached image material's property to [Time.time](https://docs.unity3d.com/ScriptReference/Time-time.html) when the game object is enabled.  This is notable because time is a simple float with limited precision, which becomes problematic for very large numbers.  In other words, this shader will begin to lack precision, impacting swirl smoothness, for very, very long continuous play-times (e.g. if the application has not been closed for >12hr).
 
 ## Battle Effects
 
+[BattleEffectShaders](./BattleEffectShaders/) are employed by [BattleActions](../../Combat/BattleActions/), specifically in the [SpawnedArtwork](../../Combat/BattleActions/EffectStrategiesSpawnedArtwork/) effect strategies.  
+
+Briefly:
+* a character will use a [Skill](../../OnLoadAssets/Skills/) or [ActionItem](../../OnLoadAssets/Inventory/ActionItems/), which implements a [BattleAction](../../OnLoadAssets/BattleActions/)
+* the battle action includes targeting strategies, filtering strategies and effects strategies, as detailed [here](../../Combat/BattleActions/)
+  * these effects can be used to apply a change in character state (e.g. adjust HP, apply status effect, etc.)
+  * , but they are also used to generate any relevant animation/artwork when the [BattleAction](../../OnLoadAssets/BattleActions/) is activated
+
+The standard [SpawnedArtwork](../../Combat/BattleActions/EffectStrategiesSpawnedArtwork/) effect strategy uses the [SpawnTargetPrefabEffect](../../../Scripts/Combat/BattleAction/Effects/SpawnTargetPrefabEffect.cs) scriptable object to spawn a game object with some visual effect either at the location of the target(s) (if `isGlobalEffect` is set to `false`), or over the entire battle screen (if `true`).  
+
+The [BattleEffectShaders](./BattleEffectShaders/) serve to generate that visual effect, primarly with the use of [signed distance functions](https://en.wikipedia.org/wiki/Signed_distance_function), such as those detailed in [Shader Utilities](#shader-utilities) below.  
+
+For example, see the [CirclePopEffect](./BattleEffectShaders/CirclePopEffect.shadergraph) shader graph:
+
+<img src="../../../../InfoTools/Documentation/Game/VFX/BattleEffectsShaderGraph.png" width="800">
+
+, which is used to generate the [CirclePopPink](../../Combat/BattleActions/EffectStrategiesSpawnedArtwork/SpawnCirclePopPink.asset) below:
+
+<img src="../../../../InfoTools/Documentation/Game/VFX/BattleEffectsCirclePopPink.gif" width="320">
+
 ## World Objects (Background Shaders)
+
+
 
 ## Shader Utilities
