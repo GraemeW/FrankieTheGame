@@ -74,6 +74,21 @@ For example, see the [CirclePopEffect](./BattleEffectShaders/CirclePopEffect.sha
 
 ## World Objects (Background Shaders)
 
+Beyond those standard use cases above, shaders can be (sparingly) used throughout the world as [BackgroundShaders](./BackgroundShaders/) in Frankie.
 
+For example, the [FrankiePC](./BackgroundShaders/FrankiePC.mat) material (derived from the [LateralMovementWavy](./BattleBackgrounds/LateralMovementWavy.shadergraph) shader) is used on the [PCScreenSaver](../../WorldObjects/Interior/SavePoints/PCScreenSaver.prefab).  This screen saver is then attached to the computers on Frankie's desks:
+* [FrankieHomeDesk](../../WorldObjects/Interior/SavePoints/FrankieHomeDesk.prefab)
+* [FrankieOfficeDesk](../../WorldObjects/Interior/SavePoints/FrankieOfficeDesk.prefab)
+
+, as below:
+
+<img src="../../../../InfoTools/Documentation/Game/VFX/FrankiePCShader.gif" width="320">
+
+In this use case, the computers are also used as save points for the game.  The flashy shader brings extra attention to the computers, incentivizing the player to interact with them and thus independently discover the save system.
 
 ## Shader Utilities
+
+The shader graphs detailed above make extensive use of sub-graphs located in [Shader Utilities](./ShaderUtilities/).  
+
+Some of these utilities include:
+* 
