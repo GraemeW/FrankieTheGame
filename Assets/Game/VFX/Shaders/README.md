@@ -33,11 +33,11 @@ In this shader, we:
 
 ## Battle Entry Animations
 
-The [BattleEntry](./BattleEntry/) shader is used to apply the 'swirl' animation when a member of Frankie's party makes contact with an enemy.  This animation is specifically employed by the [Fader](../../Core/README.md#persistent-objects-singleton) as the combat interface is loaded onto the screen, as shown below:
+The [BattleEntry](./BattleEntry/) shader is used to apply the 'swirl' animation when a member of Frankie's party makes contact with an enemy.  This animation is specifically employed by the [Fader](../../Core/README.md#persistent-objects-singleton) when the combat interface is loaded onto the screen, as shown below:
 
 <img src="../../../../InfoTools/Documentation/Game/VFX/BattleEntryExample.gif" width="320">
 
-The type of swirl applies depends on if Frankie is facing the enemy (and vice versa) during contact, such that we have three different types of [TransitionTypes](../../../Scripts/Zones/TransitionType.cs) for battle entry:
+The type of swirl depends on if Frankie is facing the enemy (and vice versa) during contact, such that we have three different types of [TransitionTypes](../../../Scripts/Zones/TransitionType.cs) for battle entry:
 * `BattleNeutral`:  when Frankie and the enemy are facing each other (purple swirl)
 * `BattleGood`:  when the enemy is facing away from Frankie (green swirl)
 * `BattleBad`:  when Frankie is facing away from the enemy (red swirl)
@@ -88,13 +88,13 @@ In this use case, the computers are also used as save points for the game.  The 
 
 ## Shader Utilities
 
-The shader graphs detailed above make extensive use of sub-graphs located in [Shader Utilities](./ShaderUtilities/).  These utilities include various intuitively named helper functions -- such as [GetScreenCenterPoint](./ShaderUtilities/GetScreenCenterPoint.shadersubgraph), [TimeSinceInitialization](./ShaderUtilities/TimeSinceInitialization.shadersubgraph), [GetPeriodTime](./ShaderUtilities/GetPeriodTime.shadersubgraph) and [InheritVertexColorAlpha](./ShaderUtilities/InheritVertexColorAlpha.shadersubgraph).  These utilities also include the functionality required for [signed distance functions](https://en.wikipedia.org/wiki/Signed_distance_function) noted in [Battle Effects](#battle-effects).
+The shader graphs detailed above make extensive use of sub-graphs located in [Shader Utilities](./ShaderUtilities/).  These utilities include various intuitively named helper functions -- such as [GetScreenCenterPoint](./ShaderUtilities/GetScreenCenterPoint.shadersubgraph), [TimeSinceInitialization](./ShaderUtilities/TimeSinceInitialization.shadersubgraph), [GetPeriodTime](./ShaderUtilities/GetPeriodTime.shadersubgraph) and [InheritVertexColorAlpha](./ShaderUtilities/InheritVertexColorAlpha.shadersubgraph).  These utilities also include the functionality required for the [signed distance functions](https://en.wikipedia.org/wiki/Signed_distance_function) noted in [Battle Effects](#battle-effects).
 
 ### Signed Distance Functions
 
 A shader graph will use one or more SDF sub-graphs to translate an input UV point into an output a float value -- where positive values indicate the point is outside the SDF shape, negative values indicate the point is inside, and zero values indicate the point is on the boundary.
 
-A simple sub-graph SDF is the [circle](./ShaderUtilities/CircleSDF.shadersubgraph), with tunables of:
+An example of a simple sub-graph SDF is the [circle](./ShaderUtilities/CircleSDF.shadersubgraph), with tunables of:
 * `position` (ranging [0,0] to [1,1])
 * , and `radius` to define where on the image texture the circle will appear
 
@@ -107,7 +107,7 @@ Increasing in complexity is the [sinusoidal wave](./ShaderUtilities/SineWaveSDF.
 , and so on.
 
 These sub-graph SDFs are then fed into the standard [ArbitrarySDFParser](./ShaderUtilities/ArbitrarySDFParser.shadersubgraph), which converts the 1D float into a color and alpha output channel for rendering (i.e. to pass to the fragment of the shader graph).  The [ArbitrarySDFParser](./ShaderUtilities/ArbitrarySDFParser.shadersubgraph) itself has tunables for rendering SDF, including:
-* `thickness`:  how thick the line on the boundary of the SDF should be
+* `thickness`:  how thick the line drawing the boundary of the SDF should be
 * `crispness`:  how smoothed the SDF boundary edge should be
 * `drawColor` / `backgroundColor` to define the colors to lerp between in drawing the SDF shape
   * *note:  practically these are kept as W255 and W0, with color set by the tint applied to the image*
