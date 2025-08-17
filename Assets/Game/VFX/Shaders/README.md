@@ -52,13 +52,13 @@ In turn, `_Phase` is set using the MonoBehaviour [SetMaterialTimeSinceInstantiat
 
 ## Battle Effects
 
-[BattleEffectShaders](./BattleEffectShaders/) are employed by [BattleActions](../../Combat/BattleActions/), specifically in the [SpawnedArtwork](../../Combat/BattleActions/EffectStrategiesSpawnedArtwork/) effect strategies.  
+[BattleEffectShaders](./BattleEffectShaders/) are employed by [BattleActions](../../Combat/BattleActions/), specifically in the [SpawnedArtwork](../../Combat/BattleActions/EffectStrategiesSpawnedArtwork/) effect strategies, to generate animations/artwork during combat.  
 
 Briefly:
 * a character will use a [Skill](../../OnLoadAssets/Skills/) or [ActionItem](../../OnLoadAssets/Inventory/ActionItems/), which implements a [BattleAction](../../OnLoadAssets/BattleActions/)
 * the battle action includes targeting strategies, filtering strategies and effects strategies, as detailed [here](../../Combat/BattleActions/)
   * these effects can be used to apply a change in character state (e.g. adjust HP, apply status effect, etc.)
-  * , but they are also used to generate any relevant animation/artwork when the [BattleAction](../../OnLoadAssets/BattleActions/) is activated
+  * , but they are also used to generate any relevant animations/artwork when the [BattleAction](../../OnLoadAssets/BattleActions/) is activated
 
 The standard [SpawnedArtwork](../../Combat/BattleActions/EffectStrategiesSpawnedArtwork/) effect strategy uses the [SpawnTargetPrefabEffect](../../../Scripts/Combat/BattleAction/Effects/SpawnTargetPrefabEffect.cs) scriptable object to spawn a game object with some visual effect either at the location of the target(s) (if `isGlobalEffect` is set to `false`), or over the entire battle screen (if `true`).  
 
@@ -88,7 +88,26 @@ In this use case, the computers are also used as save points for the game.  The 
 
 ## Shader Utilities
 
-The shader graphs detailed above make extensive use of sub-graphs located in [Shader Utilities](./ShaderUtilities/).  
+The shader graphs detailed above make extensive use of sub-graphs located in [Shader Utilities](./ShaderUtilities/).  These utilities include various intuitively named helper functions -- such as [GetScreenCenterPoint](./ShaderUtilities/GetScreenCenterPoint.shadersubgraph), [TimeSinceInitialization](./ShaderUtilities/TimeSinceInitialization.shadersubgraph), [GetPeriodTime](./ShaderUtilities/GetPeriodTime.shadersubgraph) and [InheritVertexColorAlpha](./ShaderUtilities/InheritVertexColorAlpha.shadersubgraph).  These utilities also include the functionality required for [signed distance functions](https://en.wikipedia.org/wiki/Signed_distance_function) noted in [Battle Effects](#battle-effects).
 
-Some of these utilities include:
-* 
+### Signed Distance Functions
+
+A shader graph will use one or more SDF sub-graphs to translate an input UV point into an output a float value -- where positive values indicate the point is outside the SDF shape, negative values indicate the point is inside, and zero values indicate the point is on the boundary.
+
+A simple sub-graph SDF is the [circle](./ShaderUtilities/CircleSDF.shadersubgraph), with tunables of:
+* `position` (ranging [0,0] to [1,1])
+* , and `radius` to define where on the image texture the circle will appear
+
+Increasing in complexity is the [sinusoidal wave](./ShaderUtilities/SineWaveSDF.shadersubgraph), with tunables of:
+* `isHorizontal` to set if the wave is horizontal or vertical
+* `position` and `width` to define where on the image the sinusoid wave will appear
+* `frequency` and `phaseOffset` to define the shape of the wave
+* `minMax` and `intensityModifier` to define the height of the wave
+
+, and so on.
+
+These sub-graph SDFs are then fed into the standard [ArbitrarySDFParser](./ShaderUtilities/ArbitrarySDFParser.shadersubgraph), which converts the 1D float into a color and alpha output channel for rendering (i.e. to pass to the fragment of the shader graph).  The [ArbitrarySDFParser](./ShaderUtilities/ArbitrarySDFParser.shadersubgraph) itself has tunables for rendering SDF, including:
+* `thickness`:  how thick the line on the boundary of the SDF should be
+* `crispness`:  how smoothed the SDF boundary edge should be
+* `drawColor` / `backgroundColor` to define the colors to lerp between in drawing the SDF shape
+  * *note:  practically these are kept as W255 and W0, with color set by the tint applied to the image*
