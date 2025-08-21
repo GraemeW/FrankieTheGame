@@ -118,6 +118,7 @@ namespace Frankie.ZoneManagement
         private void AttemptToWarpPlayer(PlayerStateMachine playerStateHandler, PlayerController playerController)
         {
             SetUpCurrentReferences(playerStateHandler, playerController);
+            StartViableSceneTransition(zoneNode); // If scene setup on entry node, immediately kick off next scene load
 
             bool? isSimpleWarp = IsSimpleWarp(playerStateHandler);
             if (isSimpleWarp == null) { return; }
@@ -150,11 +151,11 @@ namespace Frankie.ZoneManagement
             ZoneNode nextNode = Zone.GetFromName(zoneNode.GetZoneName()).GetNodeFromID(nodeID);
             if (nextNode == null) { return; }
 
-            nextNode = GetNodeOnSceneTransition(nextNode);
+            StartViableSceneTransition(nextNode); // If scene setup on next node, likewise, kick off next scene load 
 
             if (!inTransitToNextScene) // On scene transition, called via fader (sceneTransitionComplete)
             {
-                MoveToNextNode(nextNode.GetNodeID());
+                ExecuteWarpToNode(nextNode.GetNodeID());
             }
         }
 
@@ -168,63 +169,8 @@ namespace Frankie.ZoneManagement
         }
         #endregion
 
-        #region SceneTransitionMethods
-        private ZoneNode GetNodeOnSceneTransition(ZoneNode nextNode)
-        {
-            if (nextNode.HasSceneReference())
-            {
-                playerStateMachine.EnterZoneTransition();
-                SetZoneHandlerToPersistOnSceneTransition();
-
-                ZoneNodePair zoneNodePair = nextNode.GetZoneReferenceNodeReferencePair();
-
-                TransitionToNextScene(zoneNodePair.zone, zoneNodePair.zoneNode); // NOTE:  Exit inTransition done on queued move
-            }
-
-            return nextNode;
-        }
-
-        private void SetZoneHandlerToPersistOnSceneTransition()
-        {
-            inTransitToNextScene = true;
-            gameObject.transform.parent = null;
-            DontDestroyOnLoad(gameObject);
-        }
-
-        private void QueuedMoveToNextNode()
-        {
-            if (queuedZoneNodeID == null)
-            {
-                RemoveZoneHandler();
-                return; 
-            }
-            MoveToNextNode(queuedZoneNodeID);
-        }
-
-        private void TransitionToNextScene(Zone nextZone, ZoneNode nextNode)
-        {
-            if (fader == null) { fader = FindAnyObjectByType<Fader>(); }
-            if (fader == null) { return; }
-
-            queuedZoneNodeID = nextNode.GetNodeID();
-            fader.fadingOut += QueuedMoveToNextNode;
-            fader.fadingPeak += DisableCurrentRoomParent; // Required for save state
-            fader.UpdateFadeState(TransitionType.Zone, nextZone);
-        }
-
-        private void RemoveZoneHandler()
-        {
-            if (fader == null) { fader = FindAnyObjectByType<Fader>(); }
-            if (fader == null) { return; }
-
-            fader.fadingOut -= QueuedMoveToNextNode;
-            fader.fadingPeak -= DisableCurrentRoomParent;
-            Destroy(gameObject, delayToDestroyAfterSceneLoading);
-        }
-        #endregion
-
         #region NodeTraversalMethods
-        private void MoveToNextNode(string nextNodeID)
+        private void ExecuteWarpToNode(string nextNodeID)
         {
             foreach (ZoneHandler zoneHandler in FindAllZoneHandlersInScene())
             {
@@ -277,7 +223,62 @@ namespace Frankie.ZoneManagement
         }
         #endregion
 
-        #region NodeFIlteringMethods
+        #region SceneTransitionMethods
+        private void StartViableSceneTransition(ZoneNode zoneNode)
+        {
+            if (zoneNode == null) { return; }
+
+            if (zoneNode.HasSceneReference())
+            {
+                playerStateMachine.EnterZoneTransition();
+                SetZoneHandlerToPersistOnSceneTransition();
+
+                ZoneNodePair zoneNodePair = zoneNode.GetZoneReferenceNodeReferencePair();
+
+                TransitionToNextScene(zoneNodePair.zone, zoneNodePair.zoneNode); // NOTE:  Exit inTransition done on queued move
+            }
+        }
+
+        private void SetZoneHandlerToPersistOnSceneTransition()
+        {
+            inTransitToNextScene = true;
+            gameObject.transform.parent = null;
+            DontDestroyOnLoad(gameObject);
+        }
+
+        private void QueuedMoveToNextNode()
+        {
+            if (queuedZoneNodeID == null)
+            {
+                RemoveZoneHandler();
+                return; 
+            }
+            ExecuteWarpToNode(queuedZoneNodeID);
+        }
+
+        private void TransitionToNextScene(Zone nextZone, ZoneNode nextNode)
+        {
+            if (fader == null) { fader = FindAnyObjectByType<Fader>(); }
+            if (fader == null) { return; }
+
+            queuedZoneNodeID = nextNode.GetNodeID();
+            fader.fadingOut += QueuedMoveToNextNode;
+            fader.fadingPeak += DisableCurrentRoomParent; // Required for save state
+            fader.UpdateFadeState(TransitionType.Zone, nextZone);
+        }
+
+        private void RemoveZoneHandler()
+        {
+            if (fader == null) { fader = FindAnyObjectByType<Fader>(); }
+            if (fader == null) { return; }
+
+            fader.fadingOut -= QueuedMoveToNextNode;
+            fader.fadingPeak -= DisableCurrentRoomParent;
+            Destroy(gameObject, delayToDestroyAfterSceneLoading);
+        }
+        #endregion
+
+        #region NodeFilteringMethods
         private List<string> GetFilteredZoneNodes(PlayerStateMachine playerStateMachine)
         {
             List<string> filteredZoneNodes = new List<string>();
