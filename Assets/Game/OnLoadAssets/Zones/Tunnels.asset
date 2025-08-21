@@ -1,33 +1,5 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &-5702359895765544698
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3268536af8903a64da82aa6872733d1d, type: 3}
-  m_Name: SceneToPrim
-  m_EditorClassIdentifier: 
-  children: []
-  linkedZone: {fileID: 11400000, guid: 210ece264cb0156468d645ecaa434255, type: 2}
-  linkedZoneNode: {fileID: -3744593269575087478, guid: 210ece264cb0156468d645ecaa434255, type: 2}
-  rect:
-    serializedVersion: 2
-    x: 560
-    y: 30
-    width: 430
-    height: 150
-  zoneName: Tunnels
-  draggingRect:
-    serializedVersion: 2
-    x: 0
-    y: 0
-    width: 430
-    height: 45
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -51,37 +23,7 @@ MonoBehaviour:
   isZoneAudioLooping: 1
   zoneNodes:
   - {fileID: 5391617951486560325}
-  - {fileID: -5702359895765544698}
   - {fileID: 3508818416795371724}
-  - {fileID: 2672859504883940405}
---- !u!114 &2672859504883940405
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3268536af8903a64da82aa6872733d1d, type: 3}
-  m_Name: SceneToProper
-  m_EditorClassIdentifier: 
-  children: []
-  linkedZone: {fileID: 11400000, guid: df1bace79a73e8843906b4ce6b0295ae, type: 2}
-  linkedZoneNode: {fileID: -9213467749597982465, guid: df1bace79a73e8843906b4ce6b0295ae, type: 2}
-  rect:
-    serializedVersion: 2
-    x: 562
-    y: 193
-    width: 430
-    height: 150
-  zoneName: Tunnels
-  draggingRect:
-    serializedVersion: 2
-    x: 0
-    y: 0
-    width: 430
-    height: 45
 --- !u!114 &3508818416795371724
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -94,10 +36,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3268536af8903a64da82aa6872733d1d, type: 3}
   m_Name: TunnelToProper
   m_EditorClassIdentifier: 
-  children:
-  - SceneToProper
-  linkedZone: {fileID: 0}
-  linkedZoneNode: {fileID: 0}
+  children: []
+  linkedZone: {fileID: 11400000, guid: df1bace79a73e8843906b4ce6b0295ae, type: 2}
+  linkedZoneNode: {fileID: -9213467749597982465, guid: df1bace79a73e8843906b4ce6b0295ae, type: 2}
   rect:
     serializedVersion: 2
     x: 31.999985
@@ -111,6 +52,8 @@ MonoBehaviour:
     y: 0
     width: 430
     height: 45
+  condition:
+    and: []
 --- !u!114 &5391617951486560325
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -123,10 +66,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3268536af8903a64da82aa6872733d1d, type: 3}
   m_Name: TunnelToPrim
   m_EditorClassIdentifier: 
-  children:
-  - SceneToPrim
-  linkedZone: {fileID: 0}
-  linkedZoneNode: {fileID: 0}
+  children: []
+  linkedZone: {fileID: 11400000, guid: 210ece264cb0156468d645ecaa434255, type: 2}
+  linkedZoneNode: {fileID: -3744593269575087478, guid: 210ece264cb0156468d645ecaa434255, type: 2}
   rect:
     serializedVersion: 2
     x: 30
@@ -140,3 +82,5 @@ MonoBehaviour:
     y: 0
     width: 430
     height: 45
+  condition:
+    and: []

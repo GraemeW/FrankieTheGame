@@ -93,36 +93,6 @@ MonoBehaviour:
     height: 45
   condition:
     and: []
---- !u!114 &-5669275283949536539
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3268536af8903a64da82aa6872733d1d, type: 3}
-  m_Name: Scene_PSYH_ToPrim
-  m_EditorClassIdentifier: 
-  children: []
-  linkedZone: {fileID: 11400000, guid: 210ece264cb0156468d645ecaa434255, type: 2}
-  linkedZoneNode: {fileID: 3617544309863132449, guid: 210ece264cb0156468d645ecaa434255, type: 2}
-  rect:
-    serializedVersion: 2
-    x: 560
-    y: 30
-    width: 430
-    height: 150
-  zoneName: PrimInterior
-  draggingRect:
-    serializedVersion: 2
-    x: 0
-    y: 0
-    width: 430
-    height: 45
-  condition:
-    and: []
 --- !u!114 &-3991698516110125794
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -239,13 +209,10 @@ MonoBehaviour:
   isZoneAudioLooping: 1
   zoneNodes:
   - {fileID: 2049896038868084311}
-  - {fileID: -5669275283949536539}
   - {fileID: -8325163169649529663}
   - {fileID: -671006030455914041}
   - {fileID: 7289975945558088822}
-  - {fileID: 7723553803383983519}
   - {fileID: 296886436859819959}
-  - {fileID: 2496974024643225281}
   - {fileID: -3991698516110125794}
   - {fileID: 6839764431400945554}
   - {fileID: -6234494646451676272}
@@ -266,10 +233,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3268536af8903a64da82aa6872733d1d, type: 3}
   m_Name: PS_TallestBuilding_Interior
   m_EditorClassIdentifier: 
-  children:
-  - Scene_PSTB_ToPrim
-  linkedZone: {fileID: 0}
-  linkedZoneNode: {fileID: 0}
+  children: []
+  linkedZone: {fileID: 11400000, guid: 210ece264cb0156468d645ecaa434255, type: 2}
+  linkedZoneNode: {fileID: 2939076438721492088, guid: 210ece264cb0156468d645ecaa434255, type: 2}
   rect:
     serializedVersion: 2
     x: 41
@@ -299,43 +265,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   children:
   - SceneToPrim
-  - Scene_PSYH_ToPrim
-  linkedZone: {fileID: 0}
-  linkedZoneNode: {fileID: 0}
+  linkedZone: {fileID: 11400000, guid: 210ece264cb0156468d645ecaa434255, type: 2}
+  linkedZoneNode: {fileID: 3617544309863132449, guid: 210ece264cb0156468d645ecaa434255, type: 2}
   rect:
     serializedVersion: 2
     x: 30
     y: 30
-    width: 430
-    height: 150
-  zoneName: PrimInterior
-  draggingRect:
-    serializedVersion: 2
-    x: 0
-    y: 0
-    width: 430
-    height: 45
-  condition:
-    and: []
---- !u!114 &2496974024643225281
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3268536af8903a64da82aa6872733d1d, type: 3}
-  m_Name: Scene_PSTB_ToPrim
-  m_EditorClassIdentifier: 
-  children: []
-  linkedZone: {fileID: 11400000, guid: 210ece264cb0156468d645ecaa434255, type: 2}
-  linkedZoneNode: {fileID: 2939076438721492088, guid: 210ece264cb0156468d645ecaa434255, type: 2}
-  rect:
-    serializedVersion: 2
-    x: 571
-    y: 628
     width: 430
     height: 150
   zoneName: PrimInterior
@@ -483,43 +418,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3268536af8903a64da82aa6872733d1d, type: 3}
   m_Name: PS_RedHouse_Interior
   m_EditorClassIdentifier: 
-  children:
-  - Scene_PSRH_ToPrim
-  linkedZone: {fileID: 0}
-  linkedZoneNode: {fileID: 0}
-  rect:
-    serializedVersion: 2
-    x: 45
-    y: 421
-    width: 430
-    height: 150
-  zoneName: PrimInterior
-  draggingRect:
-    serializedVersion: 2
-    x: 0
-    y: 0
-    width: 430
-    height: 45
-  condition:
-    and: []
---- !u!114 &7723553803383983519
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3268536af8903a64da82aa6872733d1d, type: 3}
-  m_Name: Scene_PSRH_ToPrim
-  m_EditorClassIdentifier: 
   children: []
   linkedZone: {fileID: 11400000, guid: 210ece264cb0156468d645ecaa434255, type: 2}
   linkedZoneNode: {fileID: -665902458594080065, guid: 210ece264cb0156468d645ecaa434255, type: 2}
   rect:
     serializedVersion: 2
-    x: 575
+    x: 45
     y: 421
     width: 430
     height: 150
