@@ -251,36 +251,6 @@ MonoBehaviour:
     height: 45
   condition:
     and: []
---- !u!114 &-2877695115977949748
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3268536af8903a64da82aa6872733d1d, type: 3}
-  m_Name: SceneToOfficeExterior
-  m_EditorClassIdentifier: 
-  children: []
-  linkedZone: {fileID: 11400000, guid: e8f676a48128f694795863b89db2b92d, type: 2}
-  linkedZoneNode: {fileID: 7904139768458627740, guid: e8f676a48128f694795863b89db2b92d, type: 2}
-  rect:
-    serializedVersion: 2
-    x: 574
-    y: 17.999996
-    width: 430
-    height: 150
-  zoneName: OfficeInterior
-  draggingRect:
-    serializedVersion: 2
-    x: 0
-    y: 0
-    width: 430
-    height: 45
-  condition:
-    and: []
 --- !u!114 &-1679135274301845222
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -323,10 +293,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3268536af8903a64da82aa6872733d1d, type: 3}
   m_Name: OfficeInteriorDoor
   m_EditorClassIdentifier: 
-  children:
-  - SceneToOfficeExterior
-  linkedZone: {fileID: 0}
-  linkedZoneNode: {fileID: 0}
+  children: []
+  linkedZone: {fileID: 11400000, guid: e8f676a48128f694795863b89db2b92d, type: 2}
+  linkedZoneNode: {fileID: 7904139768458627740, guid: e8f676a48128f694795863b89db2b92d, type: 2}
   rect:
     serializedVersion: 2
     x: 44
@@ -396,7 +365,6 @@ MonoBehaviour:
   isZoneAudioLooping: 1
   zoneNodes:
   - {fileID: -581003641315174118}
-  - {fileID: -2877695115977949748}
   - {fileID: -3996759743927995482}
   - {fileID: 5778257174740921270}
   - {fileID: -8250351198965207847}

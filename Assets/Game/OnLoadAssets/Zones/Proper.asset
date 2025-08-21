@@ -12,10 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3268536af8903a64da82aa6872733d1d, type: 3}
   m_Name: ProperToTunnel
   m_EditorClassIdentifier: 
-  children:
-  - SceneToTunnel
-  linkedZone: {fileID: 0}
-  linkedZoneNode: {fileID: 0}
+  children: []
+  linkedZone: {fileID: 11400000, guid: 6fbdf79e60fb835409a507cd244e2338, type: 2}
+  linkedZoneNode: {fileID: 3508818416795371724, guid: 6fbdf79e60fb835409a507cd244e2338, type: 2}
   rect:
     serializedVersion: 2
     x: 30
@@ -29,34 +28,8 @@ MonoBehaviour:
     y: 0
     width: 430
     height: 45
---- !u!114 &-2712622002999857652
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3268536af8903a64da82aa6872733d1d, type: 3}
-  m_Name: SceneToTunnel
-  m_EditorClassIdentifier: 
-  children: []
-  linkedZone: {fileID: 11400000, guid: 6fbdf79e60fb835409a507cd244e2338, type: 2}
-  linkedZoneNode: {fileID: 3508818416795371724, guid: 6fbdf79e60fb835409a507cd244e2338, type: 2}
-  rect:
-    serializedVersion: 2
-    x: 560
-    y: 30
-    width: 430
-    height: 150
-  zoneName: Proper
-  draggingRect:
-    serializedVersion: 2
-    x: 0
-    y: 0
-    width: 430
-    height: 45
+  condition:
+    and: []
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -80,4 +53,3 @@ MonoBehaviour:
   isZoneAudioLooping: 1
   zoneNodes:
   - {fileID: -9213467749597982465}
-  - {fileID: -2712622002999857652}

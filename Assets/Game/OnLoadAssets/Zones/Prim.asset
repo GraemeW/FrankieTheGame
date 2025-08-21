@@ -12,44 +12,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3268536af8903a64da82aa6872733d1d, type: 3}
   m_Name: PrimSouthPortaBankDoor
   m_EditorClassIdentifier: 
-  children:
-  - Scene_PrimSouth_ToPortaBank
-  linkedZone: {fileID: 0}
-  linkedZoneNode: {fileID: 0}
+  children: []
+  linkedZone: {fileID: 11400000, guid: 4742afef1319b6e41b7fe953e2225f42, type: 2}
+  linkedZoneNode: {fileID: 7113246731123188644, guid: 4742afef1319b6e41b7fe953e2225f42, type: 2}
   rect:
     serializedVersion: 2
     x: 27
     y: 344
-    width: 430
-    height: 150
-  zoneName: Prim
-  draggingRect:
-    serializedVersion: 2
-    x: 0
-    y: 0
-    width: 430
-    height: 45
-  condition:
-    and: []
---- !u!114 &-3853410743720169601
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3268536af8903a64da82aa6872733d1d, type: 3}
-  m_Name: Scene_Prim_ToPSYH
-  m_EditorClassIdentifier: 
-  children: []
-  linkedZone: {fileID: 11400000, guid: dcf8cd616f6882b4399adff354f32bdc, type: 2}
-  linkedZoneNode: {fileID: 2049896038868084311, guid: dcf8cd616f6882b4399adff354f32bdc, type: 2}
-  rect:
-    serializedVersion: 2
-    x: 510
-    y: 705
     width: 430
     height: 150
   zoneName: Prim
@@ -73,44 +42,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3268536af8903a64da82aa6872733d1d, type: 3}
   m_Name: PrimToTunnel
   m_EditorClassIdentifier: 
-  children:
-  - Scene_Prim_ToTunnel
-  linkedZone: {fileID: 0}
-  linkedZoneNode: {fileID: 0}
+  children: []
+  linkedZone: {fileID: 11400000, guid: 6fbdf79e60fb835409a507cd244e2338, type: 2}
+  linkedZoneNode: {fileID: 5391617951486560325, guid: 6fbdf79e60fb835409a507cd244e2338, type: 2}
   rect:
     serializedVersion: 2
     x: 27
     y: 516
-    width: 430
-    height: 150
-  zoneName: Prim
-  draggingRect:
-    serializedVersion: 2
-    x: 0
-    y: 0
-    width: 430
-    height: 45
-  condition:
-    and: []
---- !u!114 &-1741927116288679908
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3268536af8903a64da82aa6872733d1d, type: 3}
-  m_Name: Scene_Prim_ToPSTB
-  m_EditorClassIdentifier: 
-  children: []
-  linkedZone: {fileID: 11400000, guid: dcf8cd616f6882b4399adff354f32bdc, type: 2}
-  linkedZoneNode: {fileID: 296886436859819959, guid: dcf8cd616f6882b4399adff354f32bdc, type: 2}
-  rect:
-    serializedVersion: 2
-    x: 569
-    y: 1091
     width: 430
     height: 150
   zoneName: Prim
@@ -134,44 +72,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3268536af8903a64da82aa6872733d1d, type: 3}
   m_Name: PS_RedHouse_Exterior
   m_EditorClassIdentifier: 
-  children:
-  - Scene_Prim_ToPSRH
-  linkedZone: {fileID: 0}
-  linkedZoneNode: {fileID: 0}
+  children: []
+  linkedZone: {fileID: 11400000, guid: dcf8cd616f6882b4399adff354f32bdc, type: 2}
+  linkedZoneNode: {fileID: 7289975945558088822, guid: dcf8cd616f6882b4399adff354f32bdc, type: 2}
   rect:
     serializedVersion: 2
     x: 36
     y: 908
-    width: 430
-    height: 150
-  zoneName: Prim
-  draggingRect:
-    serializedVersion: 2
-    x: 0
-    y: 0
-    width: 430
-    height: 45
-  condition:
-    and: []
---- !u!114 &-67736599037801072
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3268536af8903a64da82aa6872733d1d, type: 3}
-  m_Name: Scene_PrimSouth_ToPortaBank
-  m_EditorClassIdentifier: 
-  children: []
-  linkedZone: {fileID: 11400000, guid: 4742afef1319b6e41b7fe953e2225f42, type: 2}
-  linkedZoneNode: {fileID: 7113246731123188644, guid: 4742afef1319b6e41b7fe953e2225f42, type: 2}
-  rect:
-    serializedVersion: 2
-    x: 489
-    y: 346
     width: 430
     height: 150
   zoneName: Prim
@@ -207,17 +114,11 @@ MonoBehaviour:
   zoneNodes:
   - {fileID: 7904139768458627740}
   - {fileID: 7420601607016574253}
-  - {fileID: 8010896298289075519}
   - {fileID: -8894328186808746864}
-  - {fileID: -67736599037801072}
   - {fileID: -3744593269575087478}
-  - {fileID: 3207806963539493329}
   - {fileID: 3617544309863132449}
-  - {fileID: -3853410743720169601}
   - {fileID: -665902458594080065}
-  - {fileID: 6224202600209476137}
   - {fileID: 2939076438721492088}
-  - {fileID: -1741927116288679908}
 --- !u!114 &2939076438721492088
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -230,44 +131,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3268536af8903a64da82aa6872733d1d, type: 3}
   m_Name: PS_TallestBuilding_Exterior
   m_EditorClassIdentifier: 
-  children:
-  - Scene_Prim_ToPSTB
-  linkedZone: {fileID: 0}
-  linkedZoneNode: {fileID: 0}
+  children: []
+  linkedZone: {fileID: 11400000, guid: dcf8cd616f6882b4399adff354f32bdc, type: 2}
+  linkedZoneNode: {fileID: 296886436859819959, guid: dcf8cd616f6882b4399adff354f32bdc, type: 2}
   rect:
     serializedVersion: 2
     x: 39
     y: 1091
-    width: 430
-    height: 150
-  zoneName: Prim
-  draggingRect:
-    serializedVersion: 2
-    x: 0
-    y: 0
-    width: 430
-    height: 45
-  condition:
-    and: []
---- !u!114 &3207806963539493329
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3268536af8903a64da82aa6872733d1d, type: 3}
-  m_Name: Scene_Prim_ToTunnel
-  m_EditorClassIdentifier: 
-  children: []
-  linkedZone: {fileID: 11400000, guid: 6fbdf79e60fb835409a507cd244e2338, type: 2}
-  linkedZoneNode: {fileID: 5391617951486560325, guid: 6fbdf79e60fb835409a507cd244e2338, type: 2}
-  rect:
-    serializedVersion: 2
-    x: 491
-    y: 512
     width: 430
     height: 150
   zoneName: Prim
@@ -291,44 +161,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3268536af8903a64da82aa6872733d1d, type: 3}
   m_Name: PS_YellowHouse_Exterior
   m_EditorClassIdentifier: 
-  children:
-  - Scene_Prim_ToPSYH
-  linkedZone: {fileID: 0}
-  linkedZoneNode: {fileID: 0}
+  children: []
+  linkedZone: {fileID: 11400000, guid: dcf8cd616f6882b4399adff354f32bdc, type: 2}
+  linkedZoneNode: {fileID: 2049896038868084311, guid: dcf8cd616f6882b4399adff354f32bdc, type: 2}
   rect:
     serializedVersion: 2
     x: 34
     y: 709
-    width: 430
-    height: 150
-  zoneName: Prim
-  draggingRect:
-    serializedVersion: 2
-    x: 0
-    y: 0
-    width: 430
-    height: 45
-  condition:
-    and: []
---- !u!114 &6224202600209476137
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3268536af8903a64da82aa6872733d1d, type: 3}
-  m_Name: Scene_Prim_ToPSRH
-  m_EditorClassIdentifier: 
-  children: []
-  linkedZone: {fileID: 11400000, guid: dcf8cd616f6882b4399adff354f32bdc, type: 2}
-  linkedZoneNode: {fileID: 7289975945558088822, guid: dcf8cd616f6882b4399adff354f32bdc, type: 2}
-  rect:
-    serializedVersion: 2
-    x: 537
-    y: 907
     width: 430
     height: 150
   zoneName: Prim
@@ -352,10 +191,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3268536af8903a64da82aa6872733d1d, type: 3}
   m_Name: ApartmentDoor
   m_EditorClassIdentifier: 
-  children:
-  - Scene_Prim_ToApartment
-  linkedZone: {fileID: 0}
-  linkedZoneNode: {fileID: 0}
+  children: []
+  linkedZone: {fileID: 11400000, guid: c2792a31fdd8a5249bea668b45752dd0, type: 2}
+  linkedZoneNode: {fileID: -5837764251287271127, guid: c2792a31fdd8a5249bea668b45752dd0, type: 2}
   rect:
     serializedVersion: 2
     x: 27.999939
@@ -390,36 +228,6 @@ MonoBehaviour:
     serializedVersion: 2
     x: 30
     y: 30
-    width: 430
-    height: 150
-  zoneName: Prim
-  draggingRect:
-    serializedVersion: 2
-    x: 0
-    y: 0
-    width: 430
-    height: 45
-  condition:
-    and: []
---- !u!114 &8010896298289075519
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3268536af8903a64da82aa6872733d1d, type: 3}
-  m_Name: Scene_Prim_ToApartment
-  m_EditorClassIdentifier: 
-  children: []
-  linkedZone: {fileID: 11400000, guid: c2792a31fdd8a5249bea668b45752dd0, type: 2}
-  linkedZoneNode: {fileID: -5837764251287271127, guid: c2792a31fdd8a5249bea668b45752dd0, type: 2}
-  rect:
-    serializedVersion: 2
-    x: 477
-    y: 189
     width: 430
     height: 150
   zoneName: Prim
