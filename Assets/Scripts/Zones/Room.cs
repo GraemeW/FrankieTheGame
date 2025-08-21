@@ -19,7 +19,7 @@ namespace Frankie.ZoneManagement
             if (disableOnStart && !stateSetBySave && !stateSetByZoneHandler) { gameObject.SetActive(false); }
         }
 
-        public void FlagEnabledByZoneHandler() { stateSetByZoneHandler = true; }
+        public void FlagStateSetByZoneHandler() { stateSetByZoneHandler = true; }
 
         public LoadPriority GetLoadPriority()
         {
@@ -38,8 +38,7 @@ namespace Frankie.ZoneManagement
 
             bool roomEnabled = (bool)saveState.GetState(typeof(bool));
             gameObject.SetActive(roomEnabled);
-
-            if (saveState != null) { stateSetBySave = true; }
+            stateSetBySave = true;
         }
     }
 }
