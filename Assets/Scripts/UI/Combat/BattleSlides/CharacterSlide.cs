@@ -27,6 +27,7 @@ namespace Frankie.Combat.UI
         [SerializeField] Color deadCharacterFrameColor = Color.red;
 
         // State
+        Color defaultColor = Color.white;
         SlideState slideState = default;
         SlideState lastSlideState = default;
 
@@ -49,6 +50,12 @@ namespace Frankie.Combat.UI
         }
 
         // Functions
+        protected override void Awake()
+        {
+            base.Awake();
+            defaultColor = selectHighlight.color;
+        }
+
         protected override void OnEnable()
         {
             base.OnEnable();
@@ -181,7 +188,7 @@ namespace Frankie.Combat.UI
 
             selectHighlight.color = slideState switch
             {
-                SlideState.Ready => Color.white,
+                SlideState.Ready => defaultColor,
                 SlideState.Selected => selectedCharacterFrameColor,
                 SlideState.Cooldown => cooldownCharacterFrameColor,
                 SlideState.Target => targetedCharacterFrameColor,

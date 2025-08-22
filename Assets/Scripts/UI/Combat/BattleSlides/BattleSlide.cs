@@ -44,7 +44,7 @@ namespace Frankie.Combat.UI
         protected Button button = null;
 
         #region UnityMethods
-        private void Awake()
+        protected virtual void Awake()
         {
             button = GetComponent<Button>();
             battleController = GameObject.FindGameObjectWithTag("BattleController")?.GetComponent<BattleController>();
