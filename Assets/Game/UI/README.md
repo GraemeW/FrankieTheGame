@@ -71,4 +71,22 @@ More complicated visual effects are generally accomplished via [BattleEffectShad
 
 ## Utilities
 
-…
+In order to ensure maximum re-usability and to allow for global configurability, the UI elements described above are derived from the same UI building blocks, located in [Utilities](./Utilities/).  
+
+For example a standard UI Window is comprised of:
+* [Backing](./Utilities/Backing.prefab):  black background
+* [Frame](./Utilities/Frame.prefab):  outer window frame, color-configurable (e.g. via PlayerPrefs)
+
+, which is made into a dialogue box by adding:
+* [LinkedSpeechEntry](./Utilities/LinkedSpeechEntry.prefab):  for displaying speech from a character
+* [LinkedTextEntry](./Utilities/LinkedTextEntry.prefab):  for displaying descriptive text
+
+, or made into a dialogue box with user selection, by further adding:
+* [UIChoiceOption](./Utilities/UIChoiceOption.prefab):  for each independent option/choice (oriented horizontally)
+  * , or [UIChoiceOptionVertical](./Utilities/UIChoiceOptionVertical.prefab):  if the options are oriented vertically
+
+, or made into an option menu by adding:
+* [StandardHeaderElement](./Utilities/StandardHeaderElement.prefab):  for a menu title
+* [StandardTextElement](./Utilities/StandardTextElement.prefab):  for any display text
+* [StandardConfirmationMenu](./Utilities/StandardConfirmationMenu.prefab):  for a simple accept/reject menu option
+  * , or a [StandardEscapeMenu](./Utilities/StandardEscapeMenu.prefab):  For a simple reject/cancel menu option
