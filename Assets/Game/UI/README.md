@@ -25,33 +25,33 @@ In order of (roughly) increasing categorical complexity:
 
 |      Category       |                 UI Element                 |       | Detail |
 | :-----------------: | :----------------------------------------: | :---: | :------------: |
-| [Speech](./Speech/) | [DialogueBox](./Speech/DialogueBox.prefab) |       |    Simple text to the user    |
-| | [DialogueOptionBox](./Speech/DialogueOptionBox.prefab) | | Text to the user with selectable options/choices (presented horizontally) |
-| | [DialogueOptionBoxFixedVert…](./Speech/DialogueOptionBoxFixedVerticalOptions.prefab) | | Same as [DialogueOptionBox], but with choices presented vertically |
-| [World](./World/) | [WorldOptions](./World/WorldOptions.prefab) | | |
-| | [EscapeMenu](./World/EscapeMenu.prefab) | | |
-| [StartScreen](./StartScreen/) | [StartMenu](./StartScreen/StartMenu.prefab) | | |
-|  | [LoadMenu](./StartScreen/LoadMenu.prefab) | | |
-|  | [OptionsMenu](./StartScreen/OptionsMenu.prefab) | | |
-|  | [GameOverMenu](./StartScreen/GameOverMenu.prefab) | | |
-|  | [GameWinMenu](./StartScreen/GameWinMenu.prefab) | | |
-| [Combat](./Combat/) | [CombatLog](./Combat/MainBattleEntities/CombatLog.prefab) | | |
-|  | [CombatOptions](./Combat/MainBattleEntities/CombatOptions.prefab) | | |
-|  | [SkillSelection](./Combat/MainBattleEntities/SkillSelection.prefab) | | |
-| [Abilities](./Abilities/) | [AbilitiesBox](./Abilities/AbilitiesBox.prefab) | | |
-| [Stats](./Stats/) | [StatusBox](./Stats/StatusBox.prefab) | | |
-| [Inventory](./Stats/) | [InventoryBox](./Inventory/InventoryBox.prefab) | | |
-|  | [EquipmentBox](./Inventory/EquipmentBox.prefab) | | |
-|  | [ShopBox](./Inventory/ShopBox.prefab) | | |
-|  | [CashTransferBox](./Inventory/CashTransferBox.prefab) | | |
-|  | [InventoryMoveBox](./Inventory/InventoryMoveBox.prefab) | | |
-|  | [EquipmentInventoryBox](./Inventory/EquipmentInventoryBox.prefab) | | |
-|  | [InventoryShopBox](./Inventory/InventoryShopBox.prefab) | | |
-|  | [InventorySwapBox](./Inventory/InventorySwapBox.prefab) | | |
+| [Speech](./Speech/) | [DialogueBox](./Speech/DialogueBox.prefab) |       |    Presents simple text to the user    |
+| | [DialogueOptionBox](./Speech/DialogueOptionBox.prefab) | | Presents text to the user with selectable options/choices (presented horizontally) |
+| | [DialogueOptionBoxFixedVert…](./Speech/DialogueOptionBoxFixedVerticalOptions.prefab) | | Same as [DialogueOptionBox](./Speech/DialogueOptionBox.prefab), but with choices presented vertically |
+| [World](./World/) | [WorldOptions](./World/WorldOptions.prefab) | | In-world options (access to inventory, equipment, skills, etc.) |
+| | [EscapeMenu](./World/EscapeMenu.prefab) | | Escape menu choices (options menu, quit) |
+| [StartScreen](./StartScreen/) | [StartMenu](./StartScreen/StartMenu.prefab) | | Game start choices (new/load game, options menu, quit) |
+|  | [LoadMenu](./StartScreen/LoadMenu.prefab) | | Load game menu choices (select game file, back) |
+|  | [OptionsMenu](./StartScreen/OptionsMenu.prefab) | | Player preferences settings (audio volume, display resolution, etc.) |
+|  | [GameOverMenu](./StartScreen/GameOverMenu.prefab) | | Game over choices (load game, quit) |
+|  | [GameWinMenu](./StartScreen/GameWinMenu.prefab) | | Game win text and choices |
+| [Combat](./Combat/) | [CombatLog](./Combat/MainBattleEntities/CombatLog.prefab) | | Presents game combat information stream (based on combat events) |
+|  | [CombatOptions](./Combat/MainBattleEntities/CombatOptions.prefab) | | High-level battle options (fight, run, inventory, stats) |
+|  | [SkillSelection](./Combat/MainBattleEntities/SkillSelection.prefab) | | In-combat skill selection menu |
+| [Abilities](./Abilities/) | [AbilitiesBox](./Abilities/AbilitiesBox.prefab) | | In-world skill selection menu (same as [SkillSelection](./Combat/MainBattleEntities/SkillSelection.prefab), but with added detail) |
+| [Stats](./Stats/) | [StatusBox](./Stats/StatusBox.prefab) | | Presents character stats (health, [BaseStats](../../Scripts/Stats/BaseStats.cs), experience, etc.) for (in-party) selectable character |
+| [Inventory](./Inventory/) | [InventoryBox](./Inventory/InventoryBox.prefab) | | Presents (usable/selectable) inventory items for (in-party) selectable characters |
+|  | [EquipmentBox](./Inventory/EquipmentBox.prefab) | | Presents (usable/selectable) equipment slots & equipped items for (in-party) selectable characters |
+|  | [ShopBox](./Inventory/ShopBox.prefab) | | Presents (purchasable) inventory items |
+|  | [CashTransferBox](./Inventory/CashTransferBox.prefab) | | Bank-to-wallet cash transfer menu |
+|  | [InventoryMoveBox](./Inventory/InventoryMoveBox.prefab) | | Duplicate [InventoryBox](./Inventory/InventoryBox.prefab) for transferring items from one (in-party) character to another |
+|  | [EquipmentInventoryBox](./Inventory/EquipmentInventoryBox.prefab) | | Duplicate [InventoryBox](./Inventory/InventoryBox.prefab) for selecting equipable items from the [EquipmentBox](./Inventory/EquipmentBox.prefab)  |
+|  | [InventoryShopBox](./Inventory/InventoryShopBox.prefab) | | Duplicate [InventoryBox](./Inventory/InventoryBox.prefab) for selecting an (in-party) character's knapsack for selling or purchasing an item |
+|  | [InventorySwapBox](./Inventory/InventorySwapBox.prefab) | | Duplicate [InventoryBox](./Inventory/InventoryBox.prefab) for reconciling loot drops when inventory is full |
 
 ## Other Combat UI
 
-…
+
 
 ## Utilities
 
