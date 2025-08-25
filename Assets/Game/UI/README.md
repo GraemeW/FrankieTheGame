@@ -4,8 +4,8 @@
 
 There are three UI canvases employed in Frankie:
 * [UICanvas](./World/UI%20Canvas.prefab):  The primary canvas used for all in-world UI elements (dialogue boxes, options menus, stat/ability screens, inventory, shops, equipment, etc.)
-* [BackingCanvas](./World/BackingCanvas.prefab):  A simple blank canvas that sits behind the UI canvas to display a backing image (for use when game objects may not be present/painted on the world)
-* [BattleCanvas](./Combat/Battle%20Canvas.prefab):  The secondary canvas used for displaying the battle UI during combat 
+* [BattleCanvas](./Combat/Battle%20Canvas.prefab):  The secondary canvas used for instantiating and managing the battle UI during combat 
+* [BackingCanvas](./World/BackingCanvas.prefab):  A simple blank canvas that sits behind the UI/Battle canvases to display a backing image (for use when game objects may not be present/painted on the world)
 
 ## UIBox UI Elements
 
@@ -51,7 +51,23 @@ In order of (roughly) increasing categorical complexity:
 
 ## Other Combat UI
 
+As noted in [UI Canvases](#ui-canvases), the [BattleCanvas](./Combat/Battle%20Canvas.prefab) is used to instantiate and manage key battle UI elements, which is accomplished by listening to events from the [BattleController](../Controllers/Battle%20Controller.prefab).  The combat menus, options, logs and skill selection are UIBox variants, as described briefly [above](#uibox-ui-elements).  Several of these elements, in addition to other key combat UI elements, are shown below:
 
+<img src="../../../InfoTools/Documentation/Game/UI/ExampleCombatUI.png" width="400">
+
+### Character/Enemy Slides
+
+Each character in the active party has a [CharacterSlide](./Combat/CharacterEnemySlides/CharacterSlide.prefab) that indicates their name, HP, AP and overall status.  The latter is accomplished via slide color highlights, as well as [StatusEffectBobbles](./Combat/CharacterEnemySlides/StatusEffectBobble.prefab) that appear on the character slide when the character is afflicted by a status.  Each character slide operates independently by listening for `stateAltered` events from their character's [CombatParticipant](../../Scripts/Combat/CombatParticipant/CombatParticipant.cs) class.  The character slide also has a circular-fill symbol at its top-right to show the current cooldown until the given character is allowed to act again.
+
+*N.B.  The same character slides are also used in-world when the player opens the [WorldOptions](./World/WorldOptions.prefab).*
+
+Each enemy in combat has an [EnemySlide](./Combat/CharacterEnemySlides/EnemySlide.prefab) that is used to display the enemy sprite.  When an enemy is defeated, their slide fades away and is then destroyed.  The enemy slide likewise displays [StatusEffectBobbles](./Combat/CharacterEnemySlides/StatusEffectBobble.prefab) for status afflictions, and has a circular-fill symbol at its bottom-left to indicate enemy cooldown.
+
+### Damage Text and Custom Ability Effects
+
+For simple skills/item effects (e.g. HP increase/decrease, AP increase/decrease, 'call for help', etc.) [DamageText](./Combat/DamageText/DamageText.prefab) UI elements are instantiated and then faded out on a given [CharacterSlide](./Combat/CharacterEnemySlides/CharacterSlide.prefab) or [EnemySlide](./Combat/CharacterEnemySlides/EnemySlide.prefab).  Slides are configured to listen for relevant events from their character's [CombatParticipant](../../Scripts/Combat/CombatParticipant/CombatParticipant.cs) class to automatically generate and configure instances of [DamageText](./Combat/DamageText/DamageText.prefab) via their child [DamageTextSpawners](./Combat/DamageText/DamageTextSpawner.prefab).  
+
+More complicated visual effects are generally accomplished via [BattleEffectShaders](../VFX/Shaders/README.md#battle-effects) as part of the given skill/item itself.
 
 ## Utilities
 
