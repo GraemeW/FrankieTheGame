@@ -74,18 +74,12 @@ namespace Frankie.ZoneManagement
 
         public Transform GetWarpPosition() => warpPosition;
 
-        public bool EnableRoomParent(bool enable)
+        public void EnableRoomParent(bool enable)
         {
             if (roomParent != null)
             {
-                roomParent.gameObject.SetActive(enable);
-                if (roomParent.TryGetComponent(out Room room))
-                {
-                    room.FlagStateSetByZoneHandler();
-                    return true;
-                }
+                roomParent.ToggleRoom(enable);
             }
-            return false;
         }
 
         public void AttemptToWarpPlayer(PlayerStateMachine playerStateMachine) // Callable by Unity Events
