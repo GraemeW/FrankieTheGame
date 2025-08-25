@@ -27,7 +27,7 @@ namespace Frankie.ZoneManagement
             isRoomActive = enable;
             foreach (Transform child in transform)
             {
-                if (child.TryGetComponent(out Door door)) { door.ToggleDoor(!enable); }
+                if (child.TryGetComponent(out Door door)) { door.ToggleDoor(enable); }
                 else { child.gameObject.SetActive(enable); }
             }
 
