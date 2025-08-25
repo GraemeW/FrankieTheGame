@@ -12,16 +12,17 @@ namespace Frankie.ZoneManagement
 
         // State
         bool isRoomActive = true;
+        bool roomSetByOtherEntity = false;
 
         #region UnityMethods
         private void Start()
         {
-            if (disableOnStart) { ToggleRoom(false); }
+            if (disableOnStart && !roomSetByOtherEntity) { ToggleRoom(false, false); }
         }
         #endregion
 
         #region PublicMethods
-        public void ToggleRoom(bool enable)
+        public void ToggleRoom(bool enable, bool roomSetByOtherEntity)
         {
             isRoomActive = enable;
             foreach (Transform child in transform)
@@ -29,6 +30,8 @@ namespace Frankie.ZoneManagement
                 if (child.TryGetComponent(out Door door)) { door.ToggleDoor(!enable); }
                 else { child.gameObject.SetActive(enable); }
             }
+
+            this.roomSetByOtherEntity = roomSetByOtherEntity;
         }
         #endregion
 
@@ -49,7 +52,7 @@ namespace Frankie.ZoneManagement
             if (saveState == null) { return; }
 
             bool roomEnabled = (bool)saveState.GetState(typeof(bool));
-            ToggleRoom(roomEnabled);
+            ToggleRoom(roomEnabled, true);
         }
         #endregion
     }

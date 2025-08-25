@@ -78,7 +78,7 @@ namespace Frankie.ZoneManagement
         {
             if (roomParent != null)
             {
-                roomParent.ToggleRoom(enable);
+                roomParent.ToggleRoom(enable, true);
             }
         }
 
