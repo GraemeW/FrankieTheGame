@@ -389,6 +389,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: SimpleNodePersistentSound
       objectReference: {fileID: 0}
+    - target: {fileID: 5228769113122635332, guid: bf2cabe3a90f5cb40be2ff404cc1f3b0, type: 3}
+      propertyPath: disableOnExit
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5228769113122635333, guid: bf2cabe3a90f5cb40be2ff404cc1f3b0, type: 3}
       propertyPath: m_Size.x
       value: 0.28383178
