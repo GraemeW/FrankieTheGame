@@ -171,7 +171,7 @@ namespace Frankie.ZoneManagement
         {
             foreach (ZoneHandler zoneHandler in FindAllZoneHandlersInScene())
             {
-                if (nextNodeID == zoneHandler.GetZoneNode().GetNodeID())
+                if (nextNodeID == zoneHandler.GetZoneNode()?.GetNodeID())
                 {
                     Vector3 warpPosition = zoneHandler.GetWarpPosition().position;
                     if (warpPosition != null)
