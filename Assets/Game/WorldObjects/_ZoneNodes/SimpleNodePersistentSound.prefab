@@ -5,18 +5,19 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 1762998847474474542, guid: a3bfc966469855547b6bedf12d844bdb, type: 3}
-      propertyPath: audioClips.Array.data[0]
+      propertyPath: 'audioClips.Array.data[0]'
       value: 
-      objectReference: {fileID: 8300000, guid: 7079d8e628720174bb833e918da8ff2c, type: 3}
+      objectReference: {fileID: 8300000, guid: 988315e3fe20e6047abff0066cd60009, type: 3}
     - target: {fileID: 1762998847474474543, guid: a3bfc966469855547b6bedf12d844bdb, type: 3}
       propertyPath: m_audioClip
       value: 
-      objectReference: {fileID: 8300000, guid: 7079d8e628720174bb833e918da8ff2c, type: 3}
+      objectReference: {fileID: 0}
     - target: {fileID: 5986361616881070872, guid: a3bfc966469855547b6bedf12d844bdb, type: 3}
-      propertyPath: audioClips.Array.data[0]
+      propertyPath: 'audioClips.Array.data[0]'
       value: 
       objectReference: {fileID: 8300000, guid: 7079d8e628720174bb833e918da8ff2c, type: 3}
     - target: {fileID: 5986361616881070873, guid: a3bfc966469855547b6bedf12d844bdb, type: 3}
@@ -80,4 +81,7 @@ PrefabInstance:
       value: PlayClipAfterDestroy
       objectReference: {fileID: 0}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a3bfc966469855547b6bedf12d844bdb, type: 3}
