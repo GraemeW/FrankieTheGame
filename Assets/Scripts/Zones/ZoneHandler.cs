@@ -17,7 +17,7 @@ namespace Frankie.ZoneManagement
         [SerializeField] Transform warpPosition = null;
         [SerializeField] float delayToDestroyAfterSceneLoading = 0.1f;
         [Header("Game Object (Dis)Enablement")]
-        [SerializeField] Room roomParent = null;
+        [SerializeField][Tooltip("If left null, will attempt to auto-populate from parent")] Room roomParent = null;
         [SerializeField] bool disableOnExit = true;
         [Header("Warp Properties")]
         [SerializeField] bool randomizeChoice = true;
@@ -74,18 +74,15 @@ namespace Frankie.ZoneManagement
 
         public Transform GetWarpPosition() => warpPosition;
 
-        public bool EnableRoomParent(bool enable)
+        public void ToggleRoomParent(bool enable)
         {
-            if (roomParent != null)
+            if (roomParent == null)
             {
-                roomParent.gameObject.SetActive(enable);
-                if (roomParent.TryGetComponent(out Room room))
-                {
-                    room.FlagStateSetByZoneHandler();
-                    return true;
-                }
+                GameObject parentObject = gameObject.transform.parent?.gameObject;
+                if (parentObject != null) { parentObject.TryGetComponent(out roomParent); }
             }
-            return false;
+
+            if (roomParent != null) { roomParent.ToggleRoom(enable, true);}
         }
 
         public void AttemptToWarpPlayer(PlayerStateMachine playerStateMachine) // Callable by Unity Events
@@ -174,7 +171,7 @@ namespace Frankie.ZoneManagement
         {
             foreach (ZoneHandler zoneHandler in FindAllZoneHandlersInScene())
             {
-                if (nextNodeID == zoneHandler.GetZoneNode().GetNodeID())
+                if (nextNodeID == zoneHandler.GetZoneNode()?.GetNodeID())
                 {
                     Vector3 warpPosition = zoneHandler.GetWarpPosition().position;
                     if (warpPosition != null)
@@ -214,12 +211,12 @@ namespace Frankie.ZoneManagement
         private void SwapActiveRoomParents(ZoneHandler nextZoneHandler)
         {
             DisableCurrentRoomParent();
-            nextZoneHandler.EnableRoomParent(true);
+            nextZoneHandler.ToggleRoomParent(true);
         }
 
         private void DisableCurrentRoomParent()
         {
-            if (disableOnExit) { EnableRoomParent(false); }
+            if (disableOnExit) { ToggleRoomParent(false); }
         }
         #endregion
 

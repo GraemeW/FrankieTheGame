@@ -11,16 +11,31 @@ namespace Frankie.ZoneManagement
         [SerializeField] bool disableOnStart = true;
 
         // State
-        bool stateSetBySave = false;
-        bool stateSetByZoneHandler = false;
+        bool isRoomActive = true;
+        bool roomSetByOtherEntity = false;
 
+        #region UnityMethods
         private void Start()
         {
-            if (disableOnStart && !stateSetBySave && !stateSetByZoneHandler) { gameObject.SetActive(false); }
+            if (disableOnStart && !roomSetByOtherEntity) { ToggleRoom(false, false); }
         }
+        #endregion
 
-        public void FlagStateSetByZoneHandler() { stateSetByZoneHandler = true; }
+        #region PublicMethods
+        public void ToggleRoom(bool enable, bool roomSetByOtherEntity)
+        {
+            isRoomActive = enable;
+            foreach (Transform child in transform)
+            {
+                if (child.TryGetComponent(out Door door)) { door.ToggleDoor(enable); }
+                else { child.gameObject.SetActive(enable); }
+            }
 
+            this.roomSetByOtherEntity = roomSetByOtherEntity;
+        }
+        #endregion
+
+        #region InterfaceMethods
         public LoadPriority GetLoadPriority()
         {
             return LoadPriority.ObjectProperty;
@@ -28,7 +43,7 @@ namespace Frankie.ZoneManagement
 
         SaveState ISaveable.CaptureState()
         {
-            SaveState saveState = new SaveState(GetLoadPriority(), gameObject.activeSelf);
+            SaveState saveState = new SaveState(GetLoadPriority(), isRoomActive);
             return saveState;
         }
 
@@ -37,8 +52,8 @@ namespace Frankie.ZoneManagement
             if (saveState == null) { return; }
 
             bool roomEnabled = (bool)saveState.GetState(typeof(bool));
-            gameObject.SetActive(roomEnabled);
-            stateSetBySave = true;
+            ToggleRoom(roomEnabled, true);
         }
+        #endregion
     }
 }
