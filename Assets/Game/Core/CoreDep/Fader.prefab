@@ -32,7 +32,6 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 6387763646033685171}
-  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -89,7 +88,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 78bdda18a67cbed4486b50846981b433, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  initializeMainTexture: 1
+  initializeWorldTexture: 0
   image: {fileID: 8906313726304546477}
+  worldTexture: {fileID: 0}
 --- !u!1 &825634449633230457
 GameObject:
   m_ObjectHideFlags: 0
@@ -122,7 +124,6 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 6387763646033685171}
-  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -179,7 +180,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 78bdda18a67cbed4486b50846981b433, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  initializeMainTexture: 1
+  initializeWorldTexture: 0
   image: {fileID: 2792991010653004335}
+  worldTexture: {fileID: 0}
 --- !u!1 &1963334951410391846
 GameObject:
   m_ObjectHideFlags: 0
@@ -191,6 +195,7 @@ GameObject:
   - component: {fileID: 7052419416649073651}
   - component: {fileID: 8856082964724179225}
   - component: {fileID: 8453829634185128961}
+  - component: {fileID: 5727700629100281412}
   m_Layer: 0
   m_Name: BattleComplete
   m_TagString: Untagged
@@ -211,7 +216,6 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 6387763646033685171}
-  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -256,6 +260,22 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &5727700629100281412
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1963334951410391846}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 78bdda18a67cbed4486b50846981b433, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Frankie.Utils.ShaderPropertySetter
+  initializeMainTexture: 0
+  initializeWorldTexture: 0
+  image: {fileID: 8453829634185128961}
+  worldTexture: {fileID: 0}
 --- !u!1 &4700711622938692994
 GameObject:
   m_ObjectHideFlags: 0
@@ -296,7 +316,6 @@ RectTransform:
   - {fileID: 6560290280871262860}
   - {fileID: 8347494184173608177}
   m_Father: {fileID: 0}
-  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -320,7 +339,9 @@ Canvas:
   m_OverrideSorting: 0
   m_OverridePixelPerfect: 0
   m_SortingBucketNormalizedSize: 0
+  m_VertexColorAlwaysGammaSpace: 0
   m_AdditionalShaderChannelsFlag: -1
+  m_UpdateRectTransformForStandalone: 0
   m_SortingLayerID: 0
   m_SortingOrder: 0
   m_TargetDisplay: 0
@@ -377,11 +398,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   battleUIPrefab: {fileID: 877524597382831827, guid: 4a9e93a3ac9fb5243a42c837677d7fd0, type: 3}
-  nodeEntry: {fileID: 8528937459681249331}
-  goodBattleEntry: {fileID: 2792991010653004335}
-  badBattleEntry: {fileID: 8906313726304546477}
-  neutralBattleEntry: {fileID: 6952958116490533682}
-  battleComplete: {fileID: 8453829634185128961}
+  nodeEntry: {fileID: 408585030732464269}
+  goodBattleEntry: {fileID: 6940362421417643667}
+  badBattleEntry: {fileID: 492450014358705402}
+  neutralBattleEntry: {fileID: 3500218073976067258}
+  battleComplete: {fileID: 5727700629100281412}
   fadeInTimer: 3.5
   fadeOutTimer: 1
   zoneFadeTimerMultiplier: 0.25
@@ -430,7 +451,6 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 6387763646033685171}
-  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -487,7 +507,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 78bdda18a67cbed4486b50846981b433, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  initializeMainTexture: 1
+  initializeWorldTexture: 0
   image: {fileID: 6952958116490533682}
+  worldTexture: {fileID: 0}
 --- !u!1 &8380406030711835112
 GameObject:
   m_ObjectHideFlags: 0
@@ -499,6 +522,7 @@ GameObject:
   - component: {fileID: 6560290280871262860}
   - component: {fileID: 4314565577440077205}
   - component: {fileID: 8528937459681249331}
+  - component: {fileID: 408585030732464269}
   m_Layer: 0
   m_Name: NodeEntry
   m_TagString: Untagged
@@ -519,7 +543,6 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 6387763646033685171}
-  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -564,11 +587,28 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &408585030732464269
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8380406030711835112}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 78bdda18a67cbed4486b50846981b433, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Frankie.Utils.ShaderPropertySetter
+  initializeMainTexture: 0
+  initializeWorldTexture: 0
+  image: {fileID: 8528937459681249331}
+  worldTexture: {fileID: 0}
 --- !u!1001 &5985076172043419602
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 6387763646033685171}
     m_Modifications:
     - target: {fileID: -765142318322743052, guid: 46b83662054b5364495567b52dd1a337, type: 3}
@@ -624,6 +664,9 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 46b83662054b5364495567b52dd1a337, type: 3}
 --- !u!4 &8347494184173608177 stripped
 Transform:
