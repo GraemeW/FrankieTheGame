@@ -28,6 +28,10 @@ Material:
         m_Texture: {fileID: 2800000, guid: 48853a5670350a84bb46b94fcdb31459, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _WorldTex:
+        m_Texture: {fileID: 8400000, guid: 2ad874b385a9d473aa6e6a1e0b468fcd, type: 2}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - unity_Lightmaps:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
@@ -53,7 +57,8 @@ Material:
     - _DecalMeshViewBias: 0
     - _DrawOrder: 0
     - _DstBlend: 10
-    - _Phase: 13.783296
+    - _FadeTime: 3.5
+    - _Phase: 3.8599987
     - _QueueControl: 0
     - _QueueOffset: 0
     - _ReceiveShadows: 1
