@@ -21,9 +21,11 @@ namespace Frankie.ZoneManagement
         [SerializeField] float fadeInTimer = 2.0f;
         [SerializeField] float fadeOutTimer = 1.0f;
         [SerializeField] float zoneFadeTimerMultiplier = 0.25f;
+        [SerializeField] Camera faderCamera = null;
 
         // State
         ShaderPropertySetter currentTransition = null;
+        RenderTexture worldTexture = null;
         bool fading = false;
         GameObject battleUI = null;
         Action initiateBattleCallback = null;
@@ -122,13 +124,11 @@ namespace Frankie.ZoneManagement
             switch (transitionType)
             {
                 case TransitionType.BattleGood:
-                    goodBattleEntry.SetFadeTime(GetFadeTime(true, transitionType));
-                    break;
                 case TransitionType.BattleBad:
-                    badBattleEntry.SetFadeTime(GetFadeTime(true, transitionType));
-                    break;
                 case TransitionType.BattleNeutral:
-                    neutralBattleEntry.SetFadeTime(GetFadeTime(true, transitionType));
+                    CaptureWorldTexture();
+                    currentTransition.SetWorldRenderTexture(worldTexture);
+                    currentTransition.SetFadeTime(GetFadeTime(true, transitionType));
                     break;
                 case TransitionType.Zone:
                 case TransitionType.BattleComplete:
@@ -169,6 +169,11 @@ namespace Frankie.ZoneManagement
             yield return new WaitForSeconds(GetFadeTime(false, transitionType));
             currentTransition.gameObject.SetActive(false);
             currentTransition = null;
+            if (worldTexture != null)
+            {
+                worldTexture.Release();
+                worldTexture = null;
+            }
             fading = false;
         }
         #endregion
@@ -221,6 +226,20 @@ namespace Frankie.ZoneManagement
             if (transitionType == TransitionType.Zone) { fadeTime *= zoneFadeTimerMultiplier; }
 
             return fadeTime;
+        }
+
+        private void CaptureWorldTexture()
+        {
+            if (faderCamera == null) { return; }
+
+            faderCamera.gameObject.SetActive(true);
+            faderCamera.CopyFrom(Camera.main);
+            worldTexture = new RenderTexture(Camera.main.pixelWidth, Camera.main.pixelHeight, 24);
+
+            faderCamera.targetTexture = worldTexture;
+            faderCamera.Render();
+            faderCamera.targetTexture = null;
+            faderCamera.gameObject.SetActive(false);
         }
         #endregion
     }
