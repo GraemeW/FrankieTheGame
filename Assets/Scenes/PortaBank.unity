@@ -856,7 +856,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1035204890}
-  - component: {fileID: 1035204891}
   m_Layer: 0
   m_Name: Portas
   m_TagString: Untagged
@@ -881,18 +880,6 @@ Transform:
   - {fileID: 1435170800}
   m_Father: {fileID: 1040580543}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1035204891
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1035204889}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: efaa4fd6ddd3f1448bdd49895c03034d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1040580542
 GameObject:
   m_ObjectHideFlags: 0
@@ -1385,7 +1372,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 91148b27a55a6c941a1c74aa1c90f7e9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  disableOnStart: 0
+  disableOnStart: 1
 --- !u!1001 &1441966239
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1589,7 +1576,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 91148b27a55a6c941a1c74aa1c90f7e9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  disableOnStart: 0
+  disableOnStart: 1
 --- !u!1001 &1621739796
 PrefabInstance:
   m_ObjectHideFlags: 0

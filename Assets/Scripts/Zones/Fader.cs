@@ -7,25 +7,21 @@ using Frankie.Utils;
 
 namespace Frankie.ZoneManagement
 {
+    [RequireComponent(typeof(BattleEntryShaderControl))]
     public class Fader : MonoBehaviour
     {
         // Tunables
         [Header("Linked Assets")]
         [SerializeField] GameObject battleUIPrefab = null;
-        [SerializeField] ShaderPropertySetter nodeEntry = null;
-        [SerializeField] ShaderPropertySetter goodBattleEntry = null;
-        [SerializeField] ShaderPropertySetter badBattleEntry = null;
-        [SerializeField] ShaderPropertySetter neutralBattleEntry = null;
-        [SerializeField] ShaderPropertySetter battleComplete = null;
+        [SerializeField] Image nodeEntry = null;
+        [SerializeField] Image battleComplete = null;
         [Header("Fader Properties")]
         [SerializeField] float fadeInTimer = 2.0f;
         [SerializeField] float fadeOutTimer = 1.0f;
         [SerializeField] float zoneFadeTimerMultiplier = 0.25f;
-        [SerializeField] Camera faderCamera = null;
 
         // State
-        ShaderPropertySetter currentTransition = null;
-        RenderTexture worldTexture = null;
+        Image currentTransitionImage = null;
         bool fading = false;
         GameObject battleUI = null;
         Action initiateBattleCallback = null;
@@ -33,6 +29,7 @@ namespace Frankie.ZoneManagement
         // Cached References
         SceneLoader sceneLoader = null;
         SavingWrapper savingWrapper = null;
+        BattleEntryShaderControl battleEntryShaderControl = null;
 
         // Events
         public event Action<TransitionType> fadingIn;
@@ -44,6 +41,7 @@ namespace Frankie.ZoneManagement
         {
             sceneLoader = FindAnyObjectByType<SceneLoader>();
             savingWrapper = FindAnyObjectByType<SavingWrapper>();
+            battleEntryShaderControl = GetComponent<BattleEntryShaderControl>();
         }
 
         private void Start()
@@ -83,23 +81,15 @@ namespace Frankie.ZoneManagement
             {
                 case TransitionType.Zone:
                     nodeEntry.gameObject.SetActive(true);
-                    currentTransition = nodeEntry;
-                    break;
-                case TransitionType.BattleGood:
-                    goodBattleEntry.gameObject.SetActive(true);
-                    currentTransition = goodBattleEntry;
-                    break;
-                case TransitionType.BattleBad:
-                    badBattleEntry.gameObject.SetActive(true);
-                    currentTransition = badBattleEntry;
-                    break;
-                case TransitionType.BattleNeutral:
-                    neutralBattleEntry.gameObject.SetActive(true);
-                    currentTransition = neutralBattleEntry;
+                    currentTransitionImage = nodeEntry;
                     break;
                 case TransitionType.BattleComplete:
                     battleComplete.gameObject.SetActive(true);
-                    currentTransition = battleComplete;
+                    currentTransitionImage = battleComplete;
+                    break;
+                case TransitionType.BattleGood:
+                case TransitionType.BattleBad:
+                case TransitionType.BattleNeutral:
                     break;
                 case TransitionType.None:
                 default:
@@ -119,39 +109,6 @@ namespace Frankie.ZoneManagement
             }
         }
 
-        private void AlphaFadeIn(TransitionType transitionType)
-        {
-            switch (transitionType)
-            {
-                case TransitionType.BattleGood:
-                case TransitionType.BattleBad:
-                case TransitionType.BattleNeutral:
-                    CaptureWorldTexture();
-                    currentTransition.SetWorldRenderTexture(worldTexture);
-                    currentTransition.SetFadeTime(GetFadeTime(true, transitionType));
-                    break;
-                case TransitionType.Zone:
-                case TransitionType.BattleComplete:
-                    currentTransition.GetImage().CrossFadeAlpha(0f, 0f, true);
-                    currentTransition.GetImage().CrossFadeAlpha(1, GetFadeTime(true, transitionType), false);
-                    break;
-                default:
-                case TransitionType.None:
-                    return;
-            }
-            fadingIn?.Invoke(transitionType);
-        }
-
-        private void AlphaFadeOut(TransitionType transitionType)
-        {
-            Image currentTransitionImage = currentTransition.GetImage();
-            if (currentTransitionImage != null)
-            {
-                currentTransitionImage.CrossFadeAlpha(0, GetFadeTime(false, transitionType), false);
-            }
-            if (transitionType != TransitionType.Zone) { fadingOut?.Invoke(); } // invoked separately for zone transitions
-        }
-
         public IEnumerator QueueFadeExit(TransitionType transitionType)
         {
             if (transitionType == TransitionType.BattleGood || transitionType == TransitionType.BattleNeutral || transitionType == TransitionType.BattleBad)
@@ -167,14 +124,7 @@ namespace Frankie.ZoneManagement
 
             AlphaFadeOut(transitionType);
             yield return new WaitForSeconds(GetFadeTime(false, transitionType));
-            currentTransition.gameObject.SetActive(false);
-            currentTransition = null;
-            if (worldTexture != null)
-            {
-                worldTexture.Release();
-                worldTexture = null;
-            }
-            fading = false;
+            EndFade(transitionType);
         }
         #endregion
 
@@ -201,21 +151,83 @@ namespace Frankie.ZoneManagement
         {
             fading = true;
             nodeEntry.gameObject.SetActive(true);
-            currentTransition = nodeEntry;
+            this.currentTransitionImage = nodeEntry;
 
-            Image currentTransitionImage = currentTransition.GetImage();
             if (currentTransitionImage != null) { currentTransitionImage.CrossFadeAlpha(1, 0f, true); }
             yield return QueueFadeExit(TransitionType.Zone);
+        }
+
+
+        private void AlphaFadeIn(TransitionType transitionType)
+        {
+            switch (transitionType)
+            {
+                case TransitionType.BattleGood:
+                case TransitionType.BattleBad:
+                case TransitionType.BattleNeutral:
+                    battleEntryShaderControl.SetBattleEntryParameters(transitionType, GetFadeTime(true, transitionType), GetFadeTime(false, transitionType));
+                    battleEntryShaderControl.StartFadeIn();
+                    break;
+                case TransitionType.Zone:
+                case TransitionType.BattleComplete:
+                    currentTransitionImage.CrossFadeAlpha(0f, 0f, true);
+                    currentTransitionImage.CrossFadeAlpha(1, GetFadeTime(true, transitionType), false);
+                    break;
+                default:
+                case TransitionType.None:
+                    return;
+            }
+            fadingIn?.Invoke(transitionType);
+        }
+
+        private void AlphaFadeOut(TransitionType transitionType)
+        {
+            switch (transitionType)
+            {
+                case TransitionType.BattleGood:
+                case TransitionType.BattleBad:
+                case TransitionType.BattleNeutral:
+                    battleEntryShaderControl.StartFadeOut();
+                    break;
+                case TransitionType.Zone:
+                case TransitionType.BattleComplete:
+                    currentTransitionImage.CrossFadeAlpha(0, GetFadeTime(false, transitionType), false);
+                    break;
+                case TransitionType.None:
+                default:
+                    return;
+            }
+
+            if (transitionType != TransitionType.Zone) { fadingOut?.Invoke(); } // invoked separately for zone transitions
+        }
+        private void EndFade(TransitionType transitionType)
+        {
+            switch (transitionType)
+            {
+                case TransitionType.BattleGood:
+                case TransitionType.BattleBad:
+                case TransitionType.BattleNeutral:
+                    battleEntryShaderControl.EndFade();
+                    break;
+                case TransitionType.Zone:
+                case TransitionType.BattleComplete:
+                    currentTransitionImage?.gameObject.SetActive(false);
+                    break;
+                case TransitionType.None:
+                default:
+                    return;
+            }
+
+            currentTransitionImage = null;
+            fading = false;
         }
 
         private void ResetOverlays()
         {
             battleUI?.gameObject.SetActive(false);
             nodeEntry?.gameObject.SetActive(false);
-            goodBattleEntry?.gameObject.SetActive(false);
-            badBattleEntry?.gameObject.SetActive(false);
-            neutralBattleEntry?.gameObject.SetActive(false);
             battleComplete?.gameObject.SetActive(false);
+            battleEntryShaderControl?.EndFade();
         }
 
         private float GetFadeTime(bool isFadeIn, TransitionType transitionType)
@@ -226,20 +238,6 @@ namespace Frankie.ZoneManagement
             if (transitionType == TransitionType.Zone) { fadeTime *= zoneFadeTimerMultiplier; }
 
             return fadeTime;
-        }
-
-        private void CaptureWorldTexture()
-        {
-            if (faderCamera == null) { return; }
-
-            faderCamera.gameObject.SetActive(true);
-            faderCamera.CopyFrom(Camera.main);
-            worldTexture = new RenderTexture(Camera.main.pixelWidth, Camera.main.pixelHeight, 24);
-
-            faderCamera.targetTexture = worldTexture;
-            faderCamera.Render();
-            faderCamera.targetTexture = null;
-            faderCamera.gameObject.SetActive(false);
         }
         #endregion
     }
