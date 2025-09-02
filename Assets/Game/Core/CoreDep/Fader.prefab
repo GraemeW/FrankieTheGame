@@ -198,7 +198,7 @@ MonoBehaviour:
   nodeEntry: {fileID: 8528937459681249331}
   battleComplete: {fileID: 8453829634185128961}
   fadeInTimer: 3.5
-  fadeOutTimer: 1
+  fadeOutTimer: 1.5
   zoneFadeTimerMultiplier: 0.25
 --- !u!114 &1057464560947514851
 MonoBehaviour:
@@ -230,7 +230,7 @@ MonoBehaviour:
   goodEntryTexture: {fileID: 2800000, guid: 6103d475d8eebfd4db363ab6d0bba021, type: 3}
   badEntryTexture: {fileID: 2800000, guid: e1b549b5625cd6c49baa09e79d3f1ef0, type: 3}
   neutralEntryTexture: {fileID: 2800000, guid: 48853a5670350a84bb46b94fcdb31459, type: 3}
-  twirlStrength: 5
+  twirlStrength: 30
 --- !u!1 &8380406030711835112
 GameObject:
   m_ObjectHideFlags: 0
