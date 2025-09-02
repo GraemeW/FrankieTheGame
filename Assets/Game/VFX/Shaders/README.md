@@ -33,7 +33,7 @@ In this shader, we:
 
 ## Battle Entry Animations
 
-The [BattleEntry](./BattleEntry/) shader is used to apply the 'swirl' animation when a member of Frankie's party makes contact with an enemy.  This animation is specifically employed by the [Fader](../../Core/README.md#persistent-objects-singleton) when the combat interface is loaded onto the screen, as shown below:
+The [BattleEntry](./BattleEntry/) shader is used to apply the 'swirl' animation when a member of Frankie's party makes contact with an enemy.  This animation is specifically employed by the [Fader](../../Core/README.md#persistent-objects-singleton) via the [BattleEntryShaderControl](../../../Scripts/Utils/Shaders/BattleEntryShaderControl.cs) script when the combat interface is loaded onto the screen, as shown below:
 
 <img src="../../../../InfoTools/Documentation/Game/VFX/BattleEntryExample.gif" width="320">
 
@@ -42,13 +42,13 @@ The type of swirl depends on if Frankie is facing the enemy (and vice versa) dur
 * `BattleGood`:  when the enemy is facing away from Frankie (green swirl)
 * `BattleBad`:  when Frankie is facing away from the enemy (red swirl)
 
-These different swirl types are handled via different input images, with the same [BattleEntry](./BattleEntry/) shader applied to them.  
+These different swirl types are handled via different input images applied to the same [BattleEntry](./BattleEntry/) shader material.
 
 ### Time-Zero / Shader Phase
 
-Since the shader warps each image in a continuous forward fashion, the shader needs to have some concept of time-zero as a reference point to subtract from the current time.  This is accomplished using the `_Phase` property in the  [BattleEntryShader](./BattleEntry/BattleEntryShader.shadergraph) shadergraph.
+Since many custom shaders warp the view/image in a continuous forward fashion, they need to have some concept of time-zero as a reference point to subtract from the current time.  For example, this is accomplished using the `_Phase` property in the [BattleEntryShader](./BattleEntry/BattleEntryByURP-PostPass.shadergraph) shadergraph.
 
-In turn, `_Phase` is set using the MonoBehaviour [SetMaterialTimeSinceInstantiation](../../../Scripts/Utils/Shaders/SetMaterialTimeSinceInstantiation.cs), which simply sets the attached image material's property to [Time.time](https://docs.unity3d.com/ScriptReference/Time-time.html) when the game object is enabled.  This is notable because time is a simple float with limited precision, which becomes problematic for very large numbers.  In other words, this shader will begin to lack precision, impacting swirl smoothness, for very, very long continuous play-times (e.g. if the application has not been closed for >12hr).
+In turn, `_Phase` is set using a MonoBehaviour, either with [BattleEntryShaderControl](../../../Scripts/Utils/Shaders/BattleEntryShaderControl.cs) or [LocalShaderPropertySetter](../../../Scripts/Utils/Shaders/LocalShaderPropertySetter.cs).  The latter simply sets the attached image material's property to [Time.time](https://docs.unity3d.com/ScriptReference/Time-time.html) when the game object is enabled.  In any case, this is notable because time is a simple float with limited precision, which becomes problematic for very large numbers.  In other words, shaders using an input `_Phase` will begin to lack precision, impacting swirl smoothness, for very, very long continuous play-times (e.g. if the application has not been closed for >12hr).
 
 ## Battle Effects
 

@@ -14,6 +14,16 @@ namespace Frankie.Utils
         [SerializeField] Texture2D neutralEntryTexture = null;
         [SerializeField] float twirlStrength = 5.0f;
 
+        private void OnEnable()
+        {
+            EndFade(); 
+        }
+
+        private void OnDisable()
+        {
+            EndFade();
+        }
+
         public void SetBattleEntryParameters(TransitionType transitionType, float fadeTime, float fadeOutTime)
         {
             switch (transitionType)
@@ -42,7 +52,7 @@ namespace Frankie.Utils
         public void StartFadeIn()
         {
             ShaderPropertyRefs.SetFadeOutToggle(battleEntryMaterial, false);
-            ShaderPropertyRefs.ToggleBattleEntryFeature(renderer2DData, true);
+            ShaderPropertyRefs.ToggleBattleEntry(renderer2DData, true);
         }
 
         public void StartFadeOut()
@@ -52,7 +62,7 @@ namespace Frankie.Utils
 
         public void EndFade()
         {
-            ShaderPropertyRefs.ToggleBattleEntryFeature(renderer2DData, false);
+            ShaderPropertyRefs.ToggleBattleEntry(renderer2DData, false);
         }
     }
 }
