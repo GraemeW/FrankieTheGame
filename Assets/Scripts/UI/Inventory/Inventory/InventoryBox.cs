@@ -96,7 +96,7 @@ namespace Frankie.Inventory.UI
             int choiceIndex = 0;
             foreach (CombatParticipant combatParticipant in this.partyCombatConduit.GetPartyCombatParticipants())
             {
-                GameObject uiChoiceOptionObject = Instantiate(optionPrefab, optionParent);
+                GameObject uiChoiceOptionObject = Instantiate(optionButtonPrefab, optionParent);
                 UIChoiceButton uiChoiceOption = uiChoiceOptionObject.GetComponent<UIChoiceButton>();
                 uiChoiceOption.SetChoiceOrder(choiceIndex);
                 uiChoiceOption.SetText(combatParticipant.GetCombatName());
@@ -118,7 +118,7 @@ namespace Frankie.Inventory.UI
             this.characterSlides = characterSlides;
             SubscribeCharacterSlides(true);
 
-            GameObject uiChoiceOptionObject = Instantiate(optionPrefab, optionParent);
+            GameObject uiChoiceOptionObject = Instantiate(optionButtonPrefab, optionParent);
             UIChoiceButton uiChoiceOption = uiChoiceOptionObject.GetComponent<UIChoiceButton>();
             uiChoiceOption.SetChoiceOrder(0);
             uiChoiceOption.SetText(character.GetCombatName());
@@ -157,7 +157,7 @@ namespace Frankie.Inventory.UI
                 selectedItemSlot = -1;
                 if (inventoryBoxState == InventoryBoxState.inKnapsack)
                 {
-                    choiceOptions.AddRange(inventoryItemChoiceOptions.Cast<UIChoiceButton>().OrderBy(x => x.choiceOrder).ToList());
+                    choiceOptions.AddRange(inventoryItemChoiceOptions.Cast<UIChoice>().OrderBy(x => x.choiceOrder).ToList());
                 }
                 else if (inventoryBoxState == InventoryBoxState.inCharacterSelection)
                 {

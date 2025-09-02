@@ -115,9 +115,12 @@ namespace Frankie.Inventory.UI
         private void InitializeButtons(int amountAvailable, Action actionOnConfirm)
         {
             SetCashTransferState(CashTransferState.CashSelection);
-            foreach(UIChoiceButton choiceOption in choiceOptions)
+            foreach(UIChoice choiceOption in choiceOptions)
             {
-                choiceOption.AddOnClickListener(() => SelectField(choiceOption));
+                UIChoiceButton choiceButton = choiceOption as UIChoiceButton;
+                if (choiceButton == null) { continue; }
+
+                choiceButton.AddOnClickListener(() => SelectField(choiceButton));
             }
             RefreshFieldsToTransferAmount();
 

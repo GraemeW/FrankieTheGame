@@ -1,7 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 using Frankie.Settings;
 using Frankie.Sound;
 using Frankie.Utils.UI;
@@ -11,9 +8,12 @@ namespace Frankie.Menu.UI
     public class OptionsMenu : UIBox
     {
         // Tunables
-        [SerializeField] Slider masterVolumeSlider = null;
-        [SerializeField] Slider backgroundVolumeSlider = null;
-        [SerializeField] Slider soundEffectsVolumeSlider = null;
+        [Header("Hookups")]
+        [SerializeField] UIChoiceSlider masterVolumeSlider = null;
+        [SerializeField] UIChoiceSlider backgroundVolumeSlider = null;
+        [SerializeField] UIChoiceSlider soundEffectsVolumeSlider = null;
+
+        [Header("Sound Settings")]
         [SerializeField] float defaultMasterVolume = 0.8f;
         [SerializeField] float defaultBackgroundVolume = 0.5f;
         [SerializeField] float defaultSoundEffectsVolume = 0.3f;
@@ -66,29 +66,29 @@ namespace Frankie.Menu.UI
         {
             if (PlayerPrefsController.MasterVolumeKeyExists())
             {
-                masterVolumeSlider.value = PlayerPrefsController.GetMasterVolume();
+                masterVolumeSlider.SetSliderValue(PlayerPrefsController.GetMasterVolume());
             }
             else
             {
-                masterVolumeSlider.value = defaultMasterVolume;
+                masterVolumeSlider.SetSliderValue(defaultMasterVolume);
             }
 
             if (PlayerPrefsController.BackgroundVolumeKeyExists())
             {
-                backgroundVolumeSlider.value = PlayerPrefsController.GetBackgroundVolume();
+                backgroundVolumeSlider.SetSliderValue(PlayerPrefsController.GetBackgroundVolume());
             }
             else
             {
-                backgroundVolumeSlider.value = defaultBackgroundVolume;
+                backgroundVolumeSlider.SetSliderValue(defaultBackgroundVolume);
             }
 
             if (PlayerPrefsController.SoundEffectsVolumeKeyExists())
             {
-                soundEffectsVolumeSlider.value = PlayerPrefsController.GetSoundEffectsVolume();
+                soundEffectsVolumeSlider.SetSliderValue(PlayerPrefsController.GetSoundEffectsVolume());
             }
             else
             {
-                soundEffectsVolumeSlider.value = defaultSoundEffectsVolume;
+                soundEffectsVolumeSlider.SetSliderValue(defaultSoundEffectsVolume);
             }
         }
 
@@ -99,15 +99,15 @@ namespace Frankie.Menu.UI
 
         private void Update()
         {
-            float calculatedVolume = masterVolumeSlider.value * backgroundVolumeSlider.value;
+            float calculatedVolume = masterVolumeSlider.GetSliderValue() * backgroundVolumeSlider.GetSliderValue();
             backgroundMusic?.SetVolume(calculatedVolume);
         }
 
         public void SaveAndExit()
         {
-            PlayerPrefsController.SetMasterVolume(masterVolumeSlider.value);
-            PlayerPrefsController.SetBackgroundVolume(backgroundVolumeSlider.value);
-            PlayerPrefsController.SetSoundEffectsVolume(soundEffectsVolumeSlider.value);
+            PlayerPrefsController.SetMasterVolume(masterVolumeSlider.GetSliderValue());
+            PlayerPrefsController.SetBackgroundVolume(backgroundVolumeSlider.GetSliderValue());
+            PlayerPrefsController.SetSoundEffectsVolume(soundEffectsVolumeSlider.GetSliderValue());
             Destroy(gameObject);
         }
 

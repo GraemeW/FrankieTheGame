@@ -76,7 +76,7 @@ namespace Frankie.Inventory.UI
             {
                 if (firstCharacter != null) { firstCharacter = character; }
 
-                GameObject uiChoiceOptionObject = Instantiate(optionPrefab, optionParent);
+                GameObject uiChoiceOptionObject = Instantiate(optionButtonPrefab, optionParent);
                 UIChoiceButton uiChoiceOption = uiChoiceOptionObject.GetComponent<UIChoiceButton>();
                 uiChoiceOption.SetChoiceOrder(choiceIndex);
                 uiChoiceOption.SetText(character.GetCombatName());
@@ -131,7 +131,7 @@ namespace Frankie.Inventory.UI
             choiceOptions.Clear();
             if (equipmentBoxState == EquipmentBoxState.inEquipmentSelection)
             {
-                choiceOptions.AddRange(equipableItemChoiceOptions.Cast<UIChoiceButton>().OrderBy(x => x.choiceOrder).ToList());
+                choiceOptions.AddRange(equipableItemChoiceOptions.Cast<UIChoice>().OrderBy(x => x.choiceOrder).ToList());
             }
             else if (equipmentBoxState == EquipmentBoxState.inCharacterSelection)
             {

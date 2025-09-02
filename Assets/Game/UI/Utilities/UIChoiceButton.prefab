@@ -169,7 +169,7 @@ GameObject:
   - component: {fileID: 366570592541661994}
   - component: {fileID: 7210201464791026358}
   m_Layer: 0
-  m_Name: UIChoiceOption
+  m_Name: UIChoiceButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

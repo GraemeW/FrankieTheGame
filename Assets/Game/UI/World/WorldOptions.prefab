@@ -359,7 +359,9 @@ MonoBehaviour:
   clearVolatileOptionsOnEnable: 1
   preventEscapeOptionExit: 0
   optionParent: {fileID: 3567840514475693783}
-  optionPrefab: {fileID: 3358873790910023875, guid: 9193413aa0e976e439049a2689f4fa41, type: 3}
+  optionButtonPrefab: {fileID: 3358873790910023875, guid: 9193413aa0e976e439049a2689f4fa41, type: 3}
+  optionSliderPrefab: {fileID: 4136279713418740174, guid: 4a7bed0c126f347b0865033b4042eab0, type: 3}
+  sliderAdjustmentStep: 0.1
   characterPanelTransform: {fileID: 4290631732117095911}
   characterSlidePrefab: {fileID: 3712678563809887521, guid: aef38f633ef92174d805cd7a578a40c7, type: 3}
   walletUIPrefab: {fileID: 3399884933549309670, guid: fa1c608bd62d3d94392523e931df8915, type: 3}

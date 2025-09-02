@@ -17,7 +17,9 @@ namespace Frankie.Utils.UI
         [SerializeField] bool preventEscapeOptionExit = false;
         [Header("Choice Behavior")]
         [SerializeField] protected Transform optionParent = null;
-        [SerializeField] protected GameObject optionPrefab = null;
+        [SerializeField] protected GameObject optionButtonPrefab = null;
+        [SerializeField] protected GameObject optionSliderPrefab = null;
+        [SerializeField] protected float sliderAdjustmentStep = 0.1f;
 
         // State -- Standard
         protected bool destroyQueued = false;
@@ -27,8 +29,8 @@ namespace Frankie.Utils.UI
         // State -- Choices
         bool isChoiceAvailable = false;
         bool clearDisableCallbacksOnChoose = false;
-        protected List<UIChoiceButton> choiceOptions = new List<UIChoiceButton>();
-        protected UIChoiceButton highlightedChoiceOption = null;
+        protected List<UIChoice> choiceOptions = new List<UIChoice>();
+        protected UIChoice highlightedChoiceOption = null;
 
         // Data Structures
         protected struct CallbackMessagePair
@@ -124,7 +126,7 @@ namespace Frankie.Utils.UI
         protected virtual void SetUpChoiceOptions()
         {
             if (clearVolatileOptionsOnEnable) { choiceOptions.Clear(); }
-            choiceOptions.AddRange(optionParent.gameObject.GetComponentsInChildren<UIChoiceButton>().OrderBy(x => x.choiceOrder).ToList());
+            choiceOptions.AddRange(optionParent.gameObject.GetComponentsInChildren<UIChoice>().OrderBy(x => x.choiceOrder).ToList());
 
             if (choiceOptions.Count > 0) { isChoiceAvailable = true; }
             else { isChoiceAvailable = false; }
@@ -150,7 +152,7 @@ namespace Frankie.Utils.UI
 
         private UIChoiceButton AddChoiceOptionTemplate(string choiceText)
         {
-            GameObject uiChoiceOptionObject = Instantiate(optionPrefab, optionParent);
+            GameObject uiChoiceOptionObject = Instantiate(optionButtonPrefab, optionParent);
             UIChoiceButton uiChoiceOption = uiChoiceOptionObject.GetComponent<UIChoiceButton>();
             uiChoiceOption.SetChoiceOrder(choiceOptions.Count + 1);
             uiChoiceOption.SetText(choiceText);
@@ -161,7 +163,7 @@ namespace Frankie.Utils.UI
         protected virtual void ClearChoiceSelections()
         {
             highlightedChoiceOption = null;
-            foreach (UIChoiceButton choiceOption in choiceOptions)
+            foreach (UIChoice choiceOption in choiceOptions)
             {
                 choiceOption.Highlight(false);
             }
@@ -189,9 +191,13 @@ namespace Frankie.Utils.UI
 
         protected bool StandardChoose(string chooseDetail)
         {
-            if (highlightedChoiceOption != null)
+            // Note:  chooseDetail ignored in standard implementation -- employed in DialogueBox override
+            if (highlightedChoiceOption == null) { return false; }
+
+            UIChoiceButton highlightedChoiceButton = highlightedChoiceOption as UIChoiceButton;
+            if (highlightedChoiceButton != null)
             {
-                highlightedChoiceOption.GetButton().onClick.Invoke();
+                highlightedChoiceButton.GetButton().onClick.Invoke();
                 return true;
             }
             return false;

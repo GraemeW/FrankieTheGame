@@ -55,7 +55,7 @@ namespace Frankie.Combat.UI
             partyBattleEntities = new List<BattleEntity>();
             foreach (CombatParticipant combatParticipant in this.partyCombatConduit.GetPartyCombatParticipants())
             {
-                GameObject uiChoiceOptionObject = Instantiate(optionPrefab, optionParent);
+                GameObject uiChoiceOptionObject = Instantiate(optionButtonPrefab, optionParent);
                 UIChoiceButton uiChoiceOption = uiChoiceOptionObject.GetComponent<UIChoiceButton>();
                 uiChoiceOption.SetChoiceOrder(choiceIndex);
                 uiChoiceOption.SetText(combatParticipant.GetCombatName());
