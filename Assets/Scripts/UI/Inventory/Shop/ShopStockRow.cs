@@ -7,7 +7,7 @@ using UnityEngine.Events;
 
 namespace Frankie.Inventory.UI
 {
-    public class ShopStockRow : UIChoiceOption
+    public class ShopStockRow : UIChoiceButton
     {
         // Tunables
         [Header("Shop Specific Details")]

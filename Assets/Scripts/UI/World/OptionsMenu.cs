@@ -25,6 +25,7 @@ namespace Frankie.Menu.UI
         private void Start()
         {
             InitializeSoundEffectsSliders();
+            InitializeResolutions();
 
             backgroundMusic = FindAnyObjectByType<BackgroundMusic>();
             // find in Start since persistent object, spawned during Awake
@@ -89,6 +90,11 @@ namespace Frankie.Menu.UI
             {
                 soundEffectsVolumeSlider.value = defaultSoundEffectsVolume;
             }
+        }
+
+        private void InitializeResolutions()
+        {
+            UnityEngine.Debug.Log($"Current Resolution: {Screen.currentResolution.width} x {Screen.currentResolution.height} @ {Screen.currentResolution.refreshRateRatio}Hz");
         }
 
         private void Update()

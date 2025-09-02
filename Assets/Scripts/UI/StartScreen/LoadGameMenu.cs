@@ -19,7 +19,7 @@ namespace Frankie.Menu.UI
         [SerializeField] string messageAffirmative = "Yeah";
         [SerializeField] string messageNegative = "Nah";
         [Header("Hookups and Prefabs")]
-        [SerializeField] UIChoiceOption cancelOption = null;
+        [SerializeField] UIChoiceButton cancelOption = null;
         [SerializeField] protected DialogueOptionBox dialogueOptionBoxPrefab = null;
 
         // State

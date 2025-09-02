@@ -25,8 +25,8 @@ namespace Frankie.Inventory.UI
         [SerializeField] CashTransferField hundredField = null;
         [SerializeField] CashTransferField tenField = null;
         [SerializeField] CashTransferField oneField = null;
-        [SerializeField] UIChoiceOption confirmField = null;
-        [SerializeField] UIChoiceOption rejectField = null;
+        [SerializeField] UIChoiceButton confirmField = null;
+        [SerializeField] UIChoiceButton rejectField = null;
         [Header("Other Prefabs")]
         [SerializeField] WalletUI walletUIPrefab = null;
 
@@ -115,7 +115,7 @@ namespace Frankie.Inventory.UI
         private void InitializeButtons(int amountAvailable, Action actionOnConfirm)
         {
             SetCashTransferState(CashTransferState.CashSelection);
-            foreach(UIChoiceOption choiceOption in choiceOptions)
+            foreach(UIChoiceButton choiceOption in choiceOptions)
             {
                 choiceOption.AddOnClickListener(() => SelectField(choiceOption));
             }
@@ -180,7 +180,7 @@ namespace Frankie.Inventory.UI
             ShowCursorOnAnyInteraction(PlayerInputType.NavigateRight);
         }
 
-        private void SelectField(UIChoiceOption choiceOption)
+        private void SelectField(UIChoiceButton choiceOption)
         {
             ClearChoiceSelections();
             choiceOption.Highlight(true);

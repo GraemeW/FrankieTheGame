@@ -7,15 +7,14 @@ using UnityEngine.UI;
 
 namespace Frankie.Utils.UI
 {
-    public class UIChoiceOption : MonoBehaviour
+    public abstract class UIChoice : MonoBehaviour
     {
         // Tunables
         [SerializeField] protected GameObject selectionMarker = null;
         [Tooltip("Smallest values select first")] public int choiceOrder = 0;
-        [SerializeField] TextMeshProUGUI textField = null;
-        [SerializeField] protected Button button = null;
         [SerializeField] Color validChoiceColor = Color.white;
         [SerializeField] Color invalidChoiceColor = Color.gray;
+        [SerializeField] TextMeshProUGUI textField = null;
 
         // State
         List<UnityAction> onHighlightExtraListeners = new List<UnityAction>();
@@ -23,6 +22,7 @@ namespace Frankie.Utils.UI
         // Unity Events
         public UnityEvent itemHighlighted;
 
+        #region UnityMethods
         private void OnEnable()
         {
             if (onHighlightExtraListeners != null && onHighlightExtraListeners.Count > 0)
@@ -47,15 +47,11 @@ namespace Frankie.Utils.UI
 
         protected virtual void OnDestroy()
         {
-            button.onClick.RemoveAllListeners();
             itemHighlighted.RemoveAllListeners();
         }
+        #endregion
 
-        public Button GetButton()
-        {
-            return button;
-        }
-
+        #region PublicMethods
         public void SetChoiceOrder(int choiceOrder)
         {
             this.choiceOrder = choiceOrder;
@@ -78,13 +74,6 @@ namespace Frankie.Utils.UI
             }
         }
 
-        public void AddOnClickListener(UnityAction unityAction)
-        {
-            if (unityAction == null) { return; }
-
-            button.onClick.AddListener(unityAction);
-        }
-
         public void AddOnHighlightListener(UnityAction unityAction)
         {
             if (unityAction == null) { return; }
@@ -105,5 +94,6 @@ namespace Frankie.Utils.UI
                 itemHighlighted.Invoke();
             }
         }
+        #endregion
     }
 }

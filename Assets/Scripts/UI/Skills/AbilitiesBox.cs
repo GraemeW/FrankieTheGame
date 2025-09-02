@@ -26,7 +26,7 @@ namespace Frankie.Combat.UI
         // State -- UI
         List<BattleEntity> partyBattleEntities = null;
         AbilitiesBoxState abilitiesBoxState = AbilitiesBoxState.inCharacterSelection;
-        List<UIChoiceOption> playerSelectChoiceOptions = new List<UIChoiceOption>();
+        List<UIChoiceButton> playerSelectChoiceOptions = new List<UIChoiceButton>();
 
         // State -- Objects
         PartyCombatConduit partyCombatConduit = null;
@@ -56,7 +56,7 @@ namespace Frankie.Combat.UI
             foreach (CombatParticipant combatParticipant in this.partyCombatConduit.GetPartyCombatParticipants())
             {
                 GameObject uiChoiceOptionObject = Instantiate(optionPrefab, optionParent);
-                UIChoiceOption uiChoiceOption = uiChoiceOptionObject.GetComponent<UIChoiceOption>();
+                UIChoiceButton uiChoiceOption = uiChoiceOptionObject.GetComponent<UIChoiceButton>();
                 uiChoiceOption.SetChoiceOrder(choiceIndex);
                 uiChoiceOption.SetText(combatParticipant.GetCombatName());
                 uiChoiceOption.AddOnClickListener(delegate { ChooseCharacter(combatParticipant); });

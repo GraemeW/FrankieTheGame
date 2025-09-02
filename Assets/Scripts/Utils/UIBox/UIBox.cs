@@ -27,8 +27,8 @@ namespace Frankie.Utils.UI
         // State -- Choices
         bool isChoiceAvailable = false;
         bool clearDisableCallbacksOnChoose = false;
-        protected List<UIChoiceOption> choiceOptions = new List<UIChoiceOption>();
-        protected UIChoiceOption highlightedChoiceOption = null;
+        protected List<UIChoiceButton> choiceOptions = new List<UIChoiceButton>();
+        protected UIChoiceButton highlightedChoiceOption = null;
 
         // Data Structures
         protected struct CallbackMessagePair
@@ -124,7 +124,7 @@ namespace Frankie.Utils.UI
         protected virtual void SetUpChoiceOptions()
         {
             if (clearVolatileOptionsOnEnable) { choiceOptions.Clear(); }
-            choiceOptions.AddRange(optionParent.gameObject.GetComponentsInChildren<UIChoiceOption>().OrderBy(x => x.choiceOrder).ToList());
+            choiceOptions.AddRange(optionParent.gameObject.GetComponentsInChildren<UIChoiceButton>().OrderBy(x => x.choiceOrder).ToList());
 
             if (choiceOptions.Count > 0) { isChoiceAvailable = true; }
             else { isChoiceAvailable = false; }
@@ -144,14 +144,14 @@ namespace Frankie.Utils.UI
 
         private void AddChoiceOption(string choiceText, Action action)
         {
-            UIChoiceOption dialogueChoiceOption = AddChoiceOptionTemplate(choiceText);
+            UIChoiceButton dialogueChoiceOption = AddChoiceOptionTemplate(choiceText);
             dialogueChoiceOption.AddOnClickListener(delegate { StandardChoiceExecution(action); });
         }
 
-        private UIChoiceOption AddChoiceOptionTemplate(string choiceText)
+        private UIChoiceButton AddChoiceOptionTemplate(string choiceText)
         {
             GameObject uiChoiceOptionObject = Instantiate(optionPrefab, optionParent);
-            UIChoiceOption uiChoiceOption = uiChoiceOptionObject.GetComponent<UIChoiceOption>();
+            UIChoiceButton uiChoiceOption = uiChoiceOptionObject.GetComponent<UIChoiceButton>();
             uiChoiceOption.SetChoiceOrder(choiceOptions.Count + 1);
             uiChoiceOption.SetText(choiceText);
             choiceOptions.Add(uiChoiceOption);
@@ -161,7 +161,7 @@ namespace Frankie.Utils.UI
         protected virtual void ClearChoiceSelections()
         {
             highlightedChoiceOption = null;
-            foreach (UIChoiceOption choiceOption in choiceOptions)
+            foreach (UIChoiceButton choiceOption in choiceOptions)
             {
                 choiceOption.Highlight(false);
             }

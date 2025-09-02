@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace Frankie.Inventory.UI
 {
-    public class CashTransferField : UIChoiceOption
+    public class CashTransferField : UIChoiceButton
     {
         [SerializeField] CashTransferFieldType cashTransferFieldType = CashTransferFieldType.One;
 
