@@ -5,9 +5,9 @@ namespace Frankie.Utils
 {
     public class ShaderPropertyRefs
     {
-        // Global Shader References
+        #region GlobalShaderProperties
         // Full Screen Pass Renderer Features
-        private static string GLOBAL_RENDERER_FEATURE_BATTLE_ENTRY = "BattleEntryPostPass";
+        private static string GLOBAL_RENDERER_BATTLEENTRY = "BattleEntry";
 
         // Parameters
         private static string GLOBAL_MAIN_TEXTURE_REFERENCE = "_MainTex";
@@ -17,18 +17,28 @@ namespace Frankie.Utils
         private static string GLOBAL_FADE_TIME_REFERENCE = "_FadeTime";
         private static string GLOBAL_FADEOUT_TIME_REFERENCE = "_FadeOutTime";
         private static string GLOBAL_FADEOUT_TOGGLE_REFERENCE = "_ToggleFadeOut";
+        #endregion
 
-        public static void ToggleBattleEntryFeature(Renderer2DData renderer2DData, bool enable)
+        #region PrivateMethods
+        private static ScriptableRendererFeature GetRendererFeature(Renderer2DData renderer2DData, string featureName)
         {
-            if (renderer2DData == null || renderer2DData.rendererFeatures == null) { return; }
+            if (renderer2DData == null || renderer2DData.rendererFeatures == null) { return null; }
+
             foreach (ScriptableRendererFeature rendererFeature in renderer2DData.rendererFeatures)
             {
-                if (rendererFeature.name == GLOBAL_RENDERER_FEATURE_BATTLE_ENTRY)
+                if (rendererFeature.name == featureName)
                 {
-                    rendererFeature.SetActive(enable);
-                    break;
+                    return rendererFeature;
                 }
             }
+            return null;
+        }
+        #endregion
+
+        #region PublicMethods
+        public static void ToggleBattleEntry(Renderer2DData renderer2DData, bool enable)
+        {
+            GetRendererFeature(renderer2DData, GLOBAL_RENDERER_BATTLEENTRY)?.SetActive(enable);
         }
 
         public static void SetMainTexture(Material material, Texture2D mainTexture)
@@ -72,5 +82,6 @@ namespace Frankie.Utils
             if (material == null) { return; }
             material.SetInt(GLOBAL_FADEOUT_TOGGLE_REFERENCE, enable ? 1 : 0);
         }
+        #endregion
     }
 }
