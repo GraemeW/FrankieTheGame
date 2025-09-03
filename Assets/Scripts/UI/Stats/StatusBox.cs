@@ -28,8 +28,8 @@ namespace Frankie.Stats.UI
             int choiceIndex = 0;
             foreach (CombatParticipant character in partyCombatConduit.GetPartyCombatParticipants())
             {
-                GameObject uiChoiceOptionObject = Instantiate(optionPrefab, optionParent);
-                UIChoiceOption uiChoiceOption = uiChoiceOptionObject.GetComponent<UIChoiceOption>();
+                GameObject uiChoiceOptionObject = Instantiate(optionButtonPrefab, optionParent);
+                UIChoiceButton uiChoiceOption = uiChoiceOptionObject.GetComponent<UIChoiceButton>();
                 uiChoiceOption.SetChoiceOrder(choiceIndex);
                 uiChoiceOption.SetText(character.GetCombatName());
                 uiChoiceOption.AddOnClickListener(delegate { ChooseCharacter(character); });

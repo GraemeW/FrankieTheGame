@@ -8,7 +8,7 @@ using Frankie.Utils.UI;
 
 namespace Frankie.Menu.UI
 {
-    public class LoadGameEntry : UIChoiceOption
+    public class LoadGameEntry : UIChoiceButton
     {
         // Tunables
         [SerializeField] TMP_Text indexField = null;

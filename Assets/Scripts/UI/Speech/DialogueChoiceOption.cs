@@ -6,7 +6,7 @@ using Frankie.Utils.UI;
 
 namespace Frankie.Speech.UI
 {
-    public class DialogueChoiceOption : UIChoiceOption
+    public class DialogueChoiceOption : UIChoiceButton
     {
         // State
         DialogueNode dialogueNode = null;

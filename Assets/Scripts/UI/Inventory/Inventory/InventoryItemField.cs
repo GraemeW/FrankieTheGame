@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace Frankie.Inventory.UI
 {
-    public class InventoryItemField : UIChoiceOption
+    public class InventoryItemField : UIChoiceButton
     {
         // Tunables
         [SerializeField] GameObject equippedMarker = null;

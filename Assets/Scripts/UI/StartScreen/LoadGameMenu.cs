@@ -19,7 +19,7 @@ namespace Frankie.Menu.UI
         [SerializeField] string messageAffirmative = "Yeah";
         [SerializeField] string messageNegative = "Nah";
         [Header("Hookups and Prefabs")]
-        [SerializeField] UIChoiceOption cancelOption = null;
+        [SerializeField] UIChoiceButton cancelOption = null;
         [SerializeField] protected DialogueOptionBox dialogueOptionBoxPrefab = null;
 
         // State
@@ -56,7 +56,7 @@ namespace Frankie.Menu.UI
             {
                 string saveName = SavingWrapper.GetSaveNameForIndex(index);
 
-                GameObject loadGameEntryObject = Instantiate(optionPrefab, optionParent);
+                GameObject loadGameEntryObject = Instantiate(optionButtonPrefab, optionParent);
                 LoadGameEntry loadGameEntry = loadGameEntryObject.GetComponent<LoadGameEntry>();
                 if (savingWrapper.value.HasSave(saveName))
                 {

@@ -18,7 +18,7 @@ namespace Frankie.Inventory.UI
         // Tunables
         [Header("Data Links")]
         [SerializeField] TextMeshProUGUI selectedCharacterNameField = null;
-        [Tooltip("Hook these up to confirm/reject in ConfirmationOptions")] [SerializeField] UIChoiceOption[] equipmentChangeConfirmOptions;
+        [Tooltip("Hook these up to confirm/reject in ConfirmationOptions")] [SerializeField] UIChoiceButton[] equipmentChangeConfirmOptions;
         [Header("Parents")]
         [SerializeField] Transform leftEquipment = null;
         [SerializeField] Transform rightEquipment = null;
@@ -39,7 +39,7 @@ namespace Frankie.Inventory.UI
 
         // State
         EquipmentBoxState equipmentBoxState = EquipmentBoxState.inCharacterSelection;
-        List<UIChoiceOption> playerSelectChoiceOptions = new List<UIChoiceOption>();
+        List<UIChoiceButton> playerSelectChoiceOptions = new List<UIChoiceButton>();
         List<InventoryItemField> equipableItemChoiceOptions = new List<InventoryItemField>();
         CombatParticipant selectedCharacter = null;
         Equipment selectedEquipment = null;
@@ -76,8 +76,8 @@ namespace Frankie.Inventory.UI
             {
                 if (firstCharacter != null) { firstCharacter = character; }
 
-                GameObject uiChoiceOptionObject = Instantiate(optionPrefab, optionParent);
-                UIChoiceOption uiChoiceOption = uiChoiceOptionObject.GetComponent<UIChoiceOption>();
+                GameObject uiChoiceOptionObject = Instantiate(optionButtonPrefab, optionParent);
+                UIChoiceButton uiChoiceOption = uiChoiceOptionObject.GetComponent<UIChoiceButton>();
                 uiChoiceOption.SetChoiceOrder(choiceIndex);
                 uiChoiceOption.SetText(character.GetCombatName());
                 uiChoiceOption.AddOnClickListener(delegate { ChooseCharacter(character, true); });
@@ -131,7 +131,7 @@ namespace Frankie.Inventory.UI
             choiceOptions.Clear();
             if (equipmentBoxState == EquipmentBoxState.inEquipmentSelection)
             {
-                choiceOptions.AddRange(equipableItemChoiceOptions.Cast<UIChoiceOption>().OrderBy(x => x.choiceOrder).ToList());
+                choiceOptions.AddRange(equipableItemChoiceOptions.Cast<UIChoice>().OrderBy(x => x.choiceOrder).ToList());
             }
             else if (equipmentBoxState == EquipmentBoxState.inCharacterSelection)
             {
@@ -161,7 +161,7 @@ namespace Frankie.Inventory.UI
         protected override void ClearChoiceSelections()
         {
             highlightedChoiceOption = null;
-            foreach (UIChoiceOption dialogueChoiceOption in playerSelectChoiceOptions)
+            foreach (UIChoiceButton dialogueChoiceOption in playerSelectChoiceOptions)
             {
                 dialogueChoiceOption.Highlight(false);
             }
@@ -169,7 +169,7 @@ namespace Frankie.Inventory.UI
             {
                 inventoryItemField.Highlight(false);
             }
-            foreach (UIChoiceOption dialogueChoiceOption in equipmentChangeConfirmOptions)
+            foreach (UIChoiceButton dialogueChoiceOption in equipmentChangeConfirmOptions)
             {
                 dialogueChoiceOption.Highlight(false);
             }

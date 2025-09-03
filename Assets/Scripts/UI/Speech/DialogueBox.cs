@@ -365,7 +365,7 @@ namespace Frankie.Speech.UI
 
         public void AddChoice(DialogueNode choiceNode, int choiceIndex = 0)
         {
-            GameObject dialogueChoiceOptionObject = Instantiate(optionPrefab, optionParent);
+            GameObject dialogueChoiceOptionObject = Instantiate(optionButtonPrefab, optionParent);
             DialogueChoiceOption dialogueChoiceOption = dialogueChoiceOptionObject.GetComponent<DialogueChoiceOption>();
             dialogueChoiceOption.Setup(dialogueController, choiceNode);
             dialogueChoiceOption.SetChoiceOrder(choiceIndex);

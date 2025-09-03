@@ -15,6 +15,11 @@ namespace Frankie.Settings
         const float MIN_VOLUME = 0f;
         const float MAX_VOLUME = 1f;
 
+        public static void SaveToDisk()
+        {
+            PlayerPrefs.Save();
+        }
+
         public static void SetMasterVolume(float volume)
         {
             PlayerPrefs.SetFloat(MASTER_VOLUME_KEY, Mathf.Clamp(volume, MIN_VOLUME, MAX_VOLUME));
@@ -39,7 +44,7 @@ namespace Frankie.Settings
         {
             return PlayerPrefs.GetFloat(BACKGROUND_VOLUME_KEY);
         }
-        
+
         public static float GetSoundEffectsVolume()
         {
             return PlayerPrefs.GetFloat(SOUND_EFFECTS_VOLUME_KEY);
@@ -60,5 +65,4 @@ namespace Frankie.Settings
             return PlayerPrefs.HasKey(SOUND_EFFECTS_VOLUME_KEY);
         }
     }
-
 }

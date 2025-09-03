@@ -17,7 +17,9 @@ namespace Frankie.Utils.UI
         [SerializeField] bool preventEscapeOptionExit = false;
         [Header("Choice Behavior")]
         [SerializeField] protected Transform optionParent = null;
-        [SerializeField] protected GameObject optionPrefab = null;
+        [SerializeField] protected GameObject optionButtonPrefab = null;
+        [SerializeField] protected GameObject optionSliderPrefab = null;
+        [SerializeField] protected float sliderAdjustmentStep = 0.1f;
 
         // State -- Standard
         protected bool destroyQueued = false;
@@ -27,8 +29,8 @@ namespace Frankie.Utils.UI
         // State -- Choices
         bool isChoiceAvailable = false;
         bool clearDisableCallbacksOnChoose = false;
-        protected List<UIChoiceOption> choiceOptions = new List<UIChoiceOption>();
-        protected UIChoiceOption highlightedChoiceOption = null;
+        protected List<UIChoice> choiceOptions = new List<UIChoice>();
+        protected UIChoice highlightedChoiceOption = null;
 
         // Data Structures
         protected struct CallbackMessagePair
@@ -124,7 +126,7 @@ namespace Frankie.Utils.UI
         protected virtual void SetUpChoiceOptions()
         {
             if (clearVolatileOptionsOnEnable) { choiceOptions.Clear(); }
-            choiceOptions.AddRange(optionParent.gameObject.GetComponentsInChildren<UIChoiceOption>().OrderBy(x => x.choiceOrder).ToList());
+            choiceOptions.AddRange(optionParent.gameObject.GetComponentsInChildren<UIChoice>().OrderBy(x => x.choiceOrder).ToList());
 
             if (choiceOptions.Count > 0) { isChoiceAvailable = true; }
             else { isChoiceAvailable = false; }
@@ -144,14 +146,14 @@ namespace Frankie.Utils.UI
 
         private void AddChoiceOption(string choiceText, Action action)
         {
-            UIChoiceOption dialogueChoiceOption = AddChoiceOptionTemplate(choiceText);
+            UIChoiceButton dialogueChoiceOption = AddChoiceOptionTemplate(choiceText);
             dialogueChoiceOption.AddOnClickListener(delegate { StandardChoiceExecution(action); });
         }
 
-        private UIChoiceOption AddChoiceOptionTemplate(string choiceText)
+        private UIChoiceButton AddChoiceOptionTemplate(string choiceText)
         {
-            GameObject uiChoiceOptionObject = Instantiate(optionPrefab, optionParent);
-            UIChoiceOption uiChoiceOption = uiChoiceOptionObject.GetComponent<UIChoiceOption>();
+            GameObject uiChoiceOptionObject = Instantiate(optionButtonPrefab, optionParent);
+            UIChoiceButton uiChoiceOption = uiChoiceOptionObject.GetComponent<UIChoiceButton>();
             uiChoiceOption.SetChoiceOrder(choiceOptions.Count + 1);
             uiChoiceOption.SetText(choiceText);
             choiceOptions.Add(uiChoiceOption);
@@ -161,7 +163,7 @@ namespace Frankie.Utils.UI
         protected virtual void ClearChoiceSelections()
         {
             highlightedChoiceOption = null;
-            foreach (UIChoiceOption choiceOption in choiceOptions)
+            foreach (UIChoice choiceOption in choiceOptions)
             {
                 choiceOption.Highlight(false);
             }
@@ -189,9 +191,13 @@ namespace Frankie.Utils.UI
 
         protected bool StandardChoose(string chooseDetail)
         {
-            if (highlightedChoiceOption != null)
+            // Note:  chooseDetail ignored in standard implementation -- employed in DialogueBox override
+            if (highlightedChoiceOption == null) { return false; }
+
+            UIChoiceButton highlightedChoiceButton = highlightedChoiceOption as UIChoiceButton;
+            if (highlightedChoiceButton != null)
             {
-                highlightedChoiceOption.GetButton().onClick.Invoke();
+                highlightedChoiceButton.GetButton().onClick.Invoke();
                 return true;
             }
             return false;
@@ -308,6 +314,27 @@ namespace Frankie.Utils.UI
             }
             return validInput;
         }
+
+        private bool MoveSlider(PlayerInputType playerInputType)
+        {
+            // Standard implementation
+            if (!isChoiceAvailable || highlightedChoiceOption == null) { return false; }
+
+            UIChoiceSlider highlightedChoiceSlider = highlightedChoiceOption as UIChoiceSlider;
+            if (highlightedChoiceSlider == null) { return false; }
+
+            if (playerInputType == PlayerInputType.NavigateLeft)
+            {
+                highlightedChoiceSlider.AdjustValue(-sliderAdjustmentStep);
+                return true;
+            }
+            else if (playerInputType == PlayerInputType.NavigateRight)
+            {
+                highlightedChoiceSlider.AdjustValue(sliderAdjustmentStep);
+                return true;
+            }
+            return false;
+        }
         #endregion
 
         #region Input Handling
@@ -400,6 +427,7 @@ namespace Frankie.Utils.UI
             if (!IsChoiceAvailable()) { return false; } // Childed objects can still accept input on no choices available
             if (ShowCursorOnAnyInteraction(playerInputType)) { return true; }
             if (PrepareChooseAction(playerInputType)) { return true; }
+            if (MoveSlider(playerInputType)) { return true; }
             if (MoveCursor(playerInputType)) { return true; }
 
             return false;
