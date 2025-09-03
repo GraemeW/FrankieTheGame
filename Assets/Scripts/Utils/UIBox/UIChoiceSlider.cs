@@ -26,6 +26,12 @@ namespace Frankie.Utils.UI
             slider.value = value;
         }
 
+        public void AdjustValue(float adjustment)
+        {
+            float updatedValue = slider.value + adjustment;
+            SetSliderValue(Mathf.Clamp(updatedValue, slider.minValue, slider.maxValue));
+        }
+
         public void AddOnValueChangeListener(UnityAction<float> unityAction)
         {
             if (unityAction == null) { return; }

@@ -314,6 +314,27 @@ namespace Frankie.Utils.UI
             }
             return validInput;
         }
+
+        private bool MoveSlider(PlayerInputType playerInputType)
+        {
+            // Standard implementation
+            if (!isChoiceAvailable || highlightedChoiceOption == null) { return false; }
+
+            UIChoiceSlider highlightedChoiceSlider = highlightedChoiceOption as UIChoiceSlider;
+            if (highlightedChoiceSlider == null) { return false; }
+
+            if (playerInputType == PlayerInputType.NavigateLeft)
+            {
+                highlightedChoiceSlider.AdjustValue(-sliderAdjustmentStep);
+                return true;
+            }
+            else if (playerInputType == PlayerInputType.NavigateRight)
+            {
+                highlightedChoiceSlider.AdjustValue(sliderAdjustmentStep);
+                return true;
+            }
+            return false;
+        }
         #endregion
 
         #region Input Handling
@@ -406,6 +427,7 @@ namespace Frankie.Utils.UI
             if (!IsChoiceAvailable()) { return false; } // Childed objects can still accept input on no choices available
             if (ShowCursorOnAnyInteraction(playerInputType)) { return true; }
             if (PrepareChooseAction(playerInputType)) { return true; }
+            if (MoveSlider(playerInputType)) { return true; }
             if (MoveCursor(playerInputType)) { return true; }
 
             return false;
