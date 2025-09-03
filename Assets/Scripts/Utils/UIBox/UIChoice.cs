@@ -52,6 +52,8 @@ namespace Frankie.Utils.UI
         #endregion
 
         #region PublicMethods
+        public abstract void UseChoice();
+
         public void SetChoiceOrder(int choiceOrder)
         {
             this.choiceOrder = choiceOrder;
