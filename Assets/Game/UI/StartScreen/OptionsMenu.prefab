@@ -369,9 +369,17 @@ MonoBehaviour:
   soundEffectsVolumeSlider: {fileID: 4506245403199142070}
   soundUpdateConfirmEffect: {fileID: 7413482660018032828}
   fullScreenWindowedToggle: {fileID: 2288194241731149846}
+  resolutionOptionsParent: {fileID: 7763845387748952643}
+  confirmOption: {fileID: 2741238634633839223}
+  cancelOption: {fileID: 1461409793377961888}
   defaultMasterVolume: 0.8
   defaultBackgroundVolume: 0.5
   defaultSoundEffectsVolume: 0.3
+  targetDefaultResolution:
+    fullScreenMode: 3
+    width: 800
+    height: 600
+  windowedResolutionOptionCount: 3
 --- !u!1 &6997677242198584292
 GameObject:
   m_ObjectHideFlags: 0
@@ -1933,7 +1941,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4442584724333405627, guid: d9812907a2f6eac44ade16914c20d7a5, type: 3}
       propertyPath: m_text
-      value: Resolution Options
+      value: Windowed Resolutions
       objectReference: {fileID: 0}
     - target: {fileID: 4442584724333405627, guid: d9812907a2f6eac44ade16914c20d7a5, type: 3}
       propertyPath: 'm_ActiveFontFeatures.Array.data[0]'
@@ -2524,3 +2532,25 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 7974464204979540039, guid: b6dd3a107332d9a4997641a9cf20db31, type: 3}
   m_PrefabInstance: {fileID: 8069305562160381292}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1461409793377961888 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8916026450083396300, guid: b6dd3a107332d9a4997641a9cf20db31, type: 3}
+  m_PrefabInstance: {fileID: 8069305562160381292}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 460190f52a87c3e41a4dc3606bdc35d2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &2741238634633839223 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5328102112612744987, guid: b6dd3a107332d9a4997641a9cf20db31, type: 3}
+  m_PrefabInstance: {fileID: 8069305562160381292}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 460190f52a87c3e41a4dc3606bdc35d2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

@@ -33,6 +33,11 @@ namespace Frankie.Utils.UI
             toggle.isOn = value;
         }
 
+        public void SetToggleValueSilently(bool value)
+        {
+            toggle.SetIsOnWithoutNotify(value);
+        }
+
         public void AddOnValueChangeListener(UnityAction<bool> unityAction)
         {
             if (unityAction == null) { return; }

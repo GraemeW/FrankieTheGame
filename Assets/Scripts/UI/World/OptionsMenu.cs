@@ -4,6 +4,7 @@ using UnityEngine;
 using Frankie.Settings;
 using Frankie.Sound;
 using Frankie.Utils.UI;
+using System;
 
 namespace Frankie.Menu.UI
 {
@@ -16,6 +17,9 @@ namespace Frankie.Menu.UI
         [SerializeField] UIChoiceSlider soundEffectsVolumeSlider = null;
         [SerializeField] SoundEffects soundUpdateConfirmEffect = null;
         [SerializeField] UIChoiceToggle fullScreenWindowedToggle = null;
+        [SerializeField] Transform resolutionOptionsParent = null;
+        [SerializeField] UIChoice confirmOption = null;
+        [SerializeField] UIChoice cancelOption = null;
 
         [Header("Sound Settings")]
         [SerializeField] float defaultMasterVolume = 0.8f;
@@ -24,6 +28,7 @@ namespace Frankie.Menu.UI
 
         [Header("Resolution Settings")]
         [SerializeField] ResolutionSetting targetDefaultResolution = new ResolutionSetting(FullScreenMode.Windowed, 800, 600);
+        [SerializeField] int windowedResolutionOptionCount = 3;
 
         // Cached References
         BackgroundMusic backgroundMusic = null;
@@ -38,10 +43,15 @@ namespace Frankie.Menu.UI
         #region UnityMethods
         private void Start()
         {
-            InitializeSoundEffectsSliders();
-            InitializeResolutions();
-
             backgroundMusic = FindAnyObjectByType<BackgroundMusic>(); // find in Start since persistent object, spawned during Awake
+
+            int choiceIndex = 0;
+            InitializeSoundEffectsSliders(ref choiceIndex);
+            InitializeResolutions(ref choiceIndex);
+            confirmOption?.SetChoiceOrder(choiceIndex);
+            choiceIndex++;
+            cancelOption?.SetChoiceOrder(choiceIndex);
+            SetUpChoiceOptions();
         }
 
         protected override void OnEnable()
@@ -95,31 +105,59 @@ namespace Frankie.Menu.UI
             }
         }
 
-        private void InitializeSoundEffectsSliders()
+        private void InitializeSoundEffectsSliders(ref int choiceIndex)
         {
             if (PlayerPrefsController.MasterVolumeKeyExists()) { masterVolumeSlider.SetSliderValue(PlayerPrefsController.GetMasterVolume()); }
             else { masterVolumeSlider.SetSliderValue(defaultMasterVolume); }
             openingMasterVolume = masterVolumeSlider.GetSliderValue();
-            masterVolumeSlider.AddOnValueChangeListener((float _) => { ConfirmSoundVolumes(true); });
+            masterVolumeSlider.AddOnValueChangeListener(delegate { ConfirmSoundVolumes(true); });
+            masterVolumeSlider.SetChoiceOrder(choiceIndex);
+            choiceIndex++;
 
             if (PlayerPrefsController.BackgroundVolumeKeyExists()) { backgroundVolumeSlider.SetSliderValue(PlayerPrefsController.GetBackgroundVolume()); }
             else { backgroundVolumeSlider.SetSliderValue(defaultBackgroundVolume); }
             openingBackgroundVolume = backgroundVolumeSlider.GetSliderValue();
-            backgroundVolumeSlider.AddOnValueChangeListener((float _) => { ConfirmSoundVolumes(false); });
+            backgroundVolumeSlider.AddOnValueChangeListener(delegate { ConfirmSoundVolumes(false); });
+            backgroundVolumeSlider.SetChoiceOrder(choiceIndex);
+            choiceIndex++;
 
             if (PlayerPrefsController.SoundEffectsVolumeKeyExists()) { soundEffectsVolumeSlider.SetSliderValue(PlayerPrefsController.GetSoundEffectsVolume()); }
             else { soundEffectsVolumeSlider.SetSliderValue(defaultSoundEffectsVolume); }
             openingSoundEffectsVolume = soundEffectsVolumeSlider.GetSliderValue();
-            soundEffectsVolumeSlider.AddOnValueChangeListener((float _) => { ConfirmSoundVolumes(true); });
+            soundEffectsVolumeSlider.AddOnValueChangeListener(delegate { ConfirmSoundVolumes(true); });
+            soundEffectsVolumeSlider.SetChoiceOrder(choiceIndex);
+            choiceIndex++;
         }
 
-        private void InitializeResolutions()
+        private void InitializeResolutions(ref int choiceIndex)
         {
             fullScreenWindowedToggle.SetToggleValue(Screen.fullScreenMode == FullScreenMode.FullScreenWindow);
-            fullScreenWindowedToggle.AddOnValueChangeListener((bool fullScreenWindowed) => { ConfirmResolutionFullScreenWindowed(fullScreenWindowed); });
             openingResolutionSetting = new ResolutionSetting(Screen.fullScreenMode, Screen.width, Screen.height);
+            fullScreenWindowedToggle.AddOnValueChangeListener( delegate(bool fullScreenWindowed) { ConfirmResolutionFullScreenWindowed(fullScreenWindowed); });
+            fullScreenWindowedToggle.SetChoiceOrder(choiceIndex);
+            choiceIndex++;
 
-            // TODO:  Spawn the resolution selection options
+            bool defaultEntry = true;
+            foreach (ResolutionSetting resolutionSetting in DisplayResolutions.GetBestWindowedResolution(targetDefaultResolution, windowedResolutionOptionCount))
+            {
+                GameObject resolutionOption = Instantiate(optionButtonPrefab, resolutionOptionsParent);
+                if (resolutionOption.TryGetComponent(out UIChoiceButton resolutionChoiceButton))
+                {
+                    if (defaultEntry)
+                    {
+                        resolutionChoiceButton.SetText($"Default: {resolutionSetting.width} x {resolutionSetting.height}");
+                        defaultEntry = false;
+                    }
+                    else
+                    {
+                        resolutionChoiceButton.SetText($"{resolutionSetting.width} x {resolutionSetting.height}");
+                    }
+                    resolutionChoiceButton.AddOnClickListener(delegate { ConfirmResolutionWindowed(resolutionSetting); });
+                    resolutionChoiceButton.SetChoiceOrder(choiceIndex);
+                    choiceIndex++;
+                }
+                else { Destroy(resolutionOption); } // incorrect input type
+            }
         }
 
         private void ResetOptions()
@@ -178,10 +216,10 @@ namespace Frankie.Menu.UI
             WriteScreenResolutionToPlayerPrefs();
         }
 
-        private void ConfirmResolutionWindowed(int width, int height)
+        private void ConfirmResolutionWindowed(ResolutionSetting resolutionSetting)
         {
-            // TODO:  Implement
-            Screen.SetResolution(width, height, FullScreenMode.Windowed);
+            fullScreenWindowedToggle.SetToggleValueSilently(false);
+            StartCoroutine(WaitForScreenChange(resolutionSetting));
             WriteScreenResolutionToPlayerPrefs();
         }
 

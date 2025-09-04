@@ -49,7 +49,7 @@ namespace Frankie.Settings
 
                 if (traversingDown) { option--; }
                 else { option++; }
-                if (resolutionSettings.Count > count) { break; }
+                if (resolutionSettings.Count >= count) { break; }
             }
 
             if (resolutionSettings.Count == 0) { resolutionSettings.Add(new ResolutionSetting(FullScreenMode.Windowed, display.systemWidth, display.systemHeight)); }
