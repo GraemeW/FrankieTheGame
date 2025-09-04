@@ -27,7 +27,6 @@ namespace Frankie.Menu.UI
         [SerializeField] float defaultSoundEffectsVolume = 0.3f;
 
         [Header("Resolution Settings")]
-        [SerializeField] ResolutionSetting targetDefaultResolution = new ResolutionSetting(FullScreenMode.Windowed, 800, 600);
         [SerializeField] int windowedResolutionOptionCount = 3;
 
         // Cached References
@@ -85,7 +84,13 @@ namespace Frankie.Menu.UI
 
         public void Cancel()
         {
-            ResetOptions();
+            // Since resolution updates done over several frames, need to kick off Coroutine
+            StartCoroutine(CancelRoutine());
+        }
+
+        private IEnumerator CancelRoutine()
+        {
+            yield return ResetOptions(); 
             HandleClientExit();
             Destroy(gameObject);
         }
@@ -131,14 +136,15 @@ namespace Frankie.Menu.UI
 
         private void InitializeResolutions(ref int choiceIndex)
         {
-            fullScreenWindowedToggle.SetToggleValue(Screen.fullScreenMode == FullScreenMode.FullScreenWindow);
             openingResolutionSetting = new ResolutionSetting(Screen.fullScreenMode, Screen.width, Screen.height);
+
+            fullScreenWindowedToggle.SetToggleValue(Screen.fullScreenMode == FullScreenMode.FullScreenWindow);
             fullScreenWindowedToggle.AddOnValueChangeListener( delegate(bool fullScreenWindowed) { ConfirmResolutionFullScreenWindowed(fullScreenWindowed); });
             fullScreenWindowedToggle.SetChoiceOrder(choiceIndex);
             choiceIndex++;
 
             bool defaultEntry = true;
-            foreach (ResolutionSetting resolutionSetting in DisplayResolutions.GetBestWindowedResolution(targetDefaultResolution, windowedResolutionOptionCount))
+            foreach (ResolutionSetting resolutionSetting in DisplayResolutions.GetBestWindowedResolution(windowedResolutionOptionCount))
             {
                 GameObject resolutionOption = Instantiate(optionButtonPrefab, resolutionOptionsParent);
                 if (resolutionOption.TryGetComponent(out UIChoiceButton resolutionChoiceButton))
@@ -160,13 +166,13 @@ namespace Frankie.Menu.UI
             }
         }
 
-        private void ResetOptions()
+        private IEnumerator ResetOptions()
         {
             masterVolumeSlider.SetSliderValue(openingMasterVolume);
             backgroundVolumeSlider.SetSliderValue(openingBackgroundVolume);
             soundEffectsVolumeSlider.SetSliderValue(openingSoundEffectsVolume);
 
-            StartCoroutine(WaitForScreenChange(openingResolutionSetting));
+            yield return WaitForScreenChange(openingResolutionSetting);
         }
         #endregion
 
@@ -197,7 +203,7 @@ namespace Frankie.Menu.UI
                 resolutionSetting = PlayerPrefsController.GetResolutionSettings(false);
                 if (resolutionSetting.width == 0 || resolutionSetting.height == 0)
                 {
-                    resolutionSetting = DisplayResolutions.GetBestWindowedResolution(targetDefaultResolution, 1)[0];
+                    resolutionSetting = DisplayResolutions.GetBestWindowedResolution(1)[0];
                 }
             }
             StartCoroutine(WaitForScreenChange(resolutionSetting));
@@ -205,14 +211,7 @@ namespace Frankie.Menu.UI
 
         private IEnumerator WaitForScreenChange(ResolutionSetting resolutionSetting)
         {
-            UnityEngine.Debug.Log($"Resolution is updating to {resolutionSetting.width} x {resolutionSetting.height} on FSW: {resolutionSetting.fullScreenMode}");
-
-            Screen.fullScreenMode = resolutionSetting.fullScreenMode;
-            yield return new WaitForEndOfFrame();
-
-            Screen.SetResolution(resolutionSetting.width, resolutionSetting.height, resolutionSetting.fullScreenMode);
-            yield return new WaitForEndOfFrame();
-
+            yield return DisplayResolutions.UpdateScreenResolution(resolutionSetting);
             WriteScreenResolutionToPlayerPrefs();
         }
 
