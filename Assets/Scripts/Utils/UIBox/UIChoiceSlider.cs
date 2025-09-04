@@ -18,6 +18,13 @@ namespace Frankie.Utils.UI
         }
         #endregion
 
+        #region ClassMethods
+        public override void UseChoice()
+        {
+            // No implementation needed for slider
+        }   
+        #endregion
+
         #region PublicMethods
         public float GetSliderValue() => slider.value;
 

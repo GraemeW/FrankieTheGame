@@ -6,6 +6,7 @@ using Frankie.Quests;
 using Frankie.Stats;
 using Frankie.Inventory;
 using UnityEngine.SceneManagement;
+using Frankie.Settings;
 
 namespace Frankie.Core
 {
@@ -41,6 +42,7 @@ namespace Frankie.Core
             playerInput.Admin.Save.performed += context => Save();
             playerInput.Admin.Load.performed += context => Continue();
             playerInput.Admin.Delete.performed += context => Delete();
+            playerInput.Admin.ClearPlayerPrefs.performed += context => ClearPlayerPrefs();
             playerInput.Admin.QuestLog.performed += context => PrintQuests();
             playerInput.Admin.LevelUpParty.performed += context => LevelUpParty();
             playerInput.Admin.AddFundsToWallet.performed += context => AddFundsToWallet();
@@ -99,6 +101,11 @@ namespace Frankie.Core
         private void Delete()
         {
             savingWrapper.value.Delete();
+        }
+
+        private void ClearPlayerPrefs()
+        {
+            PlayerPrefsController.ClearPlayerPrefs();
         }
         #endregion
 

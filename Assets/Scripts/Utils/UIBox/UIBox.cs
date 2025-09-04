@@ -194,13 +194,8 @@ namespace Frankie.Utils.UI
             // Note:  chooseDetail ignored in standard implementation -- employed in DialogueBox override
             if (highlightedChoiceOption == null) { return false; }
 
-            UIChoiceButton highlightedChoiceButton = highlightedChoiceOption as UIChoiceButton;
-            if (highlightedChoiceButton != null)
-            {
-                highlightedChoiceButton.GetButton().onClick.Invoke();
-                return true;
-            }
-            return false;
+            highlightedChoiceOption.UseChoice();
+            return true;
         }
 
         private void StandardChoiceExecution(Action action)
