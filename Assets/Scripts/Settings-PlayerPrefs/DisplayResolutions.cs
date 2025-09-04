@@ -42,22 +42,15 @@ namespace Frankie.Settings
                 if (longEdge % option == 0)
                 {
                     int longEdgeLength = longEdge / option;
-                    if (!isShortEdgeHeight)
-                    {
-                        float longEdgeTarget = (float)shortEdgeLength * (float)shortEdge / (float)longEdge;
-                        int longEdgeDivisor = Mathf.CeilToInt((float)longEdge / longEdgeTarget);
-                        longEdgeLength = longEdge / longEdgeDivisor;
-                    }
+                    int width = longEdgeLength;
+                    int height = shortEdgeLength;
 
-                    if (shortEdgeLength > shortEdge || longEdgeLength > longEdge // invalid entry
-                        || (shortEdgeLength == shortEdge && longEdgeLength == longEdge)) // use FSW
+                    if (width > displayInfo.width || height > displayInfo.height || (width == displayInfo.width && height == displayInfo.height))
                     {
                         if (traversingDown) { option--; } else { option++; }
                         continue;
                     }
 
-                    int width = isShortEdgeHeight ? longEdgeLength : shortEdgeLength;
-                    int height = isShortEdgeHeight ? shortEdgeLength : longEdgeLength;
                     resolutionSettings.Add(new ResolutionSetting(FullScreenMode.Windowed, width, height));
                 }
 
