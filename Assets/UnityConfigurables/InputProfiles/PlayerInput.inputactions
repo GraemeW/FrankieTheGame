@@ -1,4 +1,5 @@
 {
+    "version": 1,
     "name": "PlayerInput",
     "maps": [
         {
@@ -682,6 +683,15 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "ClearPlayerPrefs",
+                    "type": "Button",
+                    "id": "21de83b2-ddd2-49b6-ae8c-4be544997baa",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -748,6 +758,17 @@
                     "processors": "",
                     "groups": "Keyboard&Mouse",
                     "action": "AddFundsToWallet",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "fedd7663-07b3-47fc-8fc3-53287d848c83",
+                    "path": "<Keyboard>/end",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "ClearPlayerPrefs",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
