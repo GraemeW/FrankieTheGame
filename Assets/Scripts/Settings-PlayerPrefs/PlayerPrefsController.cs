@@ -10,6 +10,9 @@ namespace Frankie.Settings
         const string MASTER_VOLUME_KEY = "masterVolume";
         const string BACKGROUND_VOLUME_KEY = "backgroundVolume";
         const string SOUND_EFFECTS_VOLUME_KEY = "soundEffectsVolume";
+        const string DISPLAY_WIDTH = "displayWidth";
+        const string DISPLAY_HEIGHT = "displayHeight";
+        const string RESOLUTION_INITIALIZED_KEY = "resolutionInitialized";
         const string RESOLUTION_FULL_SCREEN_WINDOWED_KEY = "resolutionFullScreenWindowed";
         const string RESOLUTION_FSW_WIDTH_KEY = "resolutionFSWWidth";
         const string RESOLUTION_FSW_HEIGHT_KEY = "resolutionFSWHeight";
@@ -19,6 +22,11 @@ namespace Frankie.Settings
         // Parameters
         const float MIN_VOLUME = 0f;
         const float MAX_VOLUME = 1f;
+
+        public static void ClearPlayerPrefs()
+        {
+            PlayerPrefs.DeleteAll();
+        }
 
         public static void SaveToDisk()
         {
@@ -40,9 +48,22 @@ namespace Frankie.Settings
             PlayerPrefs.SetFloat(SOUND_EFFECTS_VOLUME_KEY, Mathf.Clamp(volume, MIN_VOLUME, MAX_VOLUME));
         }
 
+        private static void SetCurrentDisplay()
+        {
+            // Note:  This sets the physical dimensions of the current display
+            DisplayInfo displayInfo = Screen.mainWindowDisplayInfo;
+            PlayerPrefs.SetInt(DISPLAY_WIDTH, displayInfo.width);
+            PlayerPrefs.SetInt(DISPLAY_HEIGHT, displayInfo.height);
+        }
+
+        private static void SetResolutionInitialized()
+        {
+            PlayerPrefs.SetInt(RESOLUTION_INITIALIZED_KEY, 1);
+        }
+
         public static void SetResolutionSettings(ResolutionSetting resolutionSetting)
         {
-            bool fullScreenWindowed = resolutionSetting.fullScreenMode == FullScreenMode.FullScreenWindow; 
+            bool fullScreenWindowed = resolutionSetting.fullScreenMode == FullScreenMode.FullScreenWindow;
 
             PlayerPrefs.SetInt(RESOLUTION_FULL_SCREEN_WINDOWED_KEY, fullScreenWindowed ? 1 : 0);
             if (fullScreenWindowed)
@@ -55,6 +76,9 @@ namespace Frankie.Settings
                 PlayerPrefs.SetInt(RESOLUTION_WINDOWED_WIDTH_KEY, resolutionSetting.width);
                 PlayerPrefs.SetInt(RESOLUTION_WINDOWED_HEIGHT_KEY, resolutionSetting.height);
             }
+
+            SetCurrentDisplay();
+            if (!ResolutionInitializedKeyExists()) { SetResolutionInitialized(); }
         }
 
         public static float GetMasterVolume()
@@ -122,6 +146,21 @@ namespace Frankie.Settings
         public static bool SoundEffectsVolumeKeyExists()
         {
             return PlayerPrefs.HasKey(SOUND_EFFECTS_VOLUME_KEY);
+        }
+
+        public static bool HasCurrentDisplayChanged()
+        {
+            if (!PlayerPrefs.HasKey(DISPLAY_WIDTH) || !PlayerPrefs.HasKey(DISPLAY_HEIGHT)) { return true; }
+
+            DisplayInfo currentDisplay = Screen.mainWindowDisplayInfo;
+            if (currentDisplay.width != PlayerPrefs.GetInt(DISPLAY_WIDTH) || currentDisplay.height != PlayerPrefs.GetInt(DISPLAY_HEIGHT)) { return true; }
+
+            return false;
+        }
+
+        public static bool ResolutionInitializedKeyExists()
+        {
+            return PlayerPrefs.HasKey(RESOLUTION_INITIALIZED_KEY);
         }
 
         public static bool ResolutionFullScreenWindowedKeyExists()
