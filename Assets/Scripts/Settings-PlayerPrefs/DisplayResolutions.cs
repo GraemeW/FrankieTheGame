@@ -16,7 +16,7 @@ namespace Frankie.Settings
             return resolutionSetting;
         }
 
-        public static List<ResolutionSetting> GetBestWindowedResolution(int count)
+        public static List<ResolutionSetting> GetBestWindowedResolution(int count, bool ignoreTargetResolution = true)
         {
             // Sanitize inputs & grab display
             count = Mathf.Clamp(count, 1, bestResolutionTryCount);
@@ -31,6 +31,8 @@ namespace Frankie.Settings
             // Iterate & build list
             int option = divisor;
             bool traversingDown = true;
+            if (ignoreTargetResolution) { option = 1; traversingDown = false; }
+
             List<ResolutionSetting> resolutionSettings = new List<ResolutionSetting>();
             for (int i = 0; i < bestResolutionTryCount; i++)
             {
