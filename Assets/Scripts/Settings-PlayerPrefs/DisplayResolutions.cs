@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -6,14 +7,24 @@ namespace Frankie.Settings
 {
     public class DisplayResolutions
     {
+        // Default Static Parameters
         private static ResolutionSetting targetDefaultResolution = new ResolutionSetting(FullScreenMode.Windowed, 800, 600);
         private static int bestResolutionTryCount = 20;
         private static float ultraWideThreshold = 16.0f / 9.0f;
+        private static ResolutionScaler windowedResolutionScaler = new ResolutionScaler(4, 3, 2);
+
+        // Events
+        public static event Action<ResolutionScaler> resolutionUpdated;
 
         public static ResolutionSetting GetCurrentResolution()
         {
             ResolutionSetting resolutionSetting = new ResolutionSetting(Screen.fullScreenMode, Screen.width, Screen.height);
             return resolutionSetting;
+        }
+
+        public static ResolutionScaler GetResolutionScaler()
+        {
+            return (Screen.fullScreenMode == FullScreenMode.Windowed) ? windowedResolutionScaler : new ResolutionScaler(1, 1, 1);
         }
 
         public static List<ResolutionSetting> GetBestWindowedResolution(int count, bool ignoreTargetResolution = true)
@@ -42,8 +53,8 @@ namespace Frankie.Settings
                 if (longEdge % option == 0)
                 {
                     int longEdgeLength = longEdge / option;
-                    int width = longEdgeLength;
-                    int height = shortEdgeLength;
+                    int width = longEdgeLength * windowedResolutionScaler.numerator / windowedResolutionScaler.denominator;
+                    int height = shortEdgeLength * windowedResolutionScaler.numerator / windowedResolutionScaler.denominator;
 
                     if (width > displayInfo.width || height > displayInfo.height || (width == displayInfo.width && height == displayInfo.height))
                     {
@@ -84,6 +95,10 @@ namespace Frankie.Settings
 
             Screen.SetResolution(resolutionSetting.width, resolutionSetting.height, resolutionSetting.fullScreenMode);
             yield return new WaitForEndOfFrame();
+
+            bool isFullScreen = !(resolutionSetting.fullScreenMode == FullScreenMode.Windowed);
+
+            resolutionUpdated?.Invoke(GetResolutionScaler());
         }
 
         public static void SetWindowToCenter()

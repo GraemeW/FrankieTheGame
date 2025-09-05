@@ -1,24 +1,33 @@
 using Cinemachine;
-using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 using Frankie.Stats;
 using Frankie.Utils;
+using Frankie.Settings;
 
 namespace Frankie.Core
 {
     public class CameraController : MonoBehaviour
     {
-        // State
-        CinemachineStateDrivenCamera stateCamera = null;
-        List<CinemachineVirtualCamera> virtualCameras = new List<CinemachineVirtualCamera>();
+        // Tunables
+        [Header("Hookups")]
+        [SerializeField] CinemachineStateDrivenCamera stateCamera = null;
+        [SerializeField] CinemachineVirtualCamera activeCamera = null;
+        [SerializeField] CinemachineVirtualCamera idleCamera = null;
+        [Header("Camera Parameters")]
+        [SerializeField] float defaultActiveOrthoSize = 3.6f;
+        [SerializeField] float defaultIdleOrthoSize = 1.8f;
 
         // Cached References
         GameObject playerGameObject = null;
         ReInitLazyValue<Player> player;
         ReInitLazyValue<Party> party;
 
-        #region StaticMethods
+        // State
+        private float currentActiveOrthoSize = 3.6f;
+        private float currentIdleOrthoSize = 1.8f;
+
+        #region Static
+
         public static CameraController GetCameraController()
         {
             GameObject mainCamera = GameObject.FindGameObjectWithTag("MainCamera");
@@ -33,21 +42,20 @@ namespace Frankie.Core
         #region UnityMethods
         private void Awake()
         {
-            stateCamera = GetComponentInChildren<CinemachineStateDrivenCamera>();
-            virtualCameras = GetComponentsInChildren<CinemachineVirtualCamera>().ToList();
-
             player = new ReInitLazyValue<Player>(SetupPlayerReference);
             party = new ReInitLazyValue<Party>(SetupPartyReference);
         }
 
         private void OnEnable()
         {
-            if (party.value != null) { party.value.partyUpdated += RefreshDefaultCameras; }   
+            if (party.value != null) { party.value.partyUpdated += RefreshDefaultCameras; }
+            DisplayResolutions.resolutionUpdated += UpdateCameraOrthoSizes;
         }
 
         private void OnDisable()
         {
             if (party.value != null) { party.value.partyUpdated -= RefreshDefaultCameras; }
+            DisplayResolutions.resolutionUpdated -= UpdateCameraOrthoSizes;
         }
 
         private void Start()
@@ -55,6 +63,7 @@ namespace Frankie.Core
             player.ForceInit();
             party.ForceInit();
             RefreshDefaultCameras();
+            UpdateCameraOrthoSizes(DisplayResolutions.GetResolutionScaler());
         }
         #endregion
 
@@ -77,6 +86,7 @@ namespace Frankie.Core
             UpdateStateAnimator(animator);
             SetUpVirtualCameraFollowers(target);
         }
+
         #endregion
 
         #region PrivateMethods
@@ -103,10 +113,17 @@ namespace Frankie.Core
         {
             if (target == null) { return; }
 
-            foreach (CinemachineVirtualCamera virtualCamera in virtualCameras)
-            {
-                virtualCamera.Follow = target;
-            }
+            activeCamera.Follow = target;
+            idleCamera.Follow = target;
+        }
+
+        private void UpdateCameraOrthoSizes(ResolutionScaler resolutionScaler)
+        {
+            currentActiveOrthoSize = (defaultActiveOrthoSize * (float)resolutionScaler.numerator / (float)resolutionScaler.denominator) / (float)resolutionScaler.cameraScaling;
+            currentIdleOrthoSize = (defaultIdleOrthoSize * (float)resolutionScaler.numerator / (float)resolutionScaler.denominator) / (float)resolutionScaler.cameraScaling;
+
+            if (activeCamera != null) { activeCamera.m_Lens.OrthographicSize = currentActiveOrthoSize; }
+            if (idleCamera != null) { idleCamera.m_Lens.OrthographicSize = currentIdleOrthoSize; }
         }
 
         private void UpdateStateAnimator(Animator characterAnimator)
@@ -115,5 +132,4 @@ namespace Frankie.Core
         }
         #endregion
     }
-
 }
