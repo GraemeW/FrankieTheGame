@@ -56,6 +56,8 @@ SpriteRenderer:
   m_RayTracingAccelStructBuildFlagsOverride: 0
   m_RayTracingAccelStructBuildFlags: 1
   m_SmallMeshCulling: 1
+  m_ForceMeshLod: -1
+  m_MeshLodSelectionBias: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -77,6 +79,7 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
+  m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 1098151181
   m_SortingLayer: 2
   m_SortingOrder: 0
@@ -198,11 +201,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 749246050096737039, guid: bc4992710d6bc43f7b76c5681aa5b193, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0.647
+      value: 0.65
       objectReference: {fileID: 0}
     - target: {fileID: 749246050096737039, guid: bc4992710d6bc43f7b76c5681aa5b193, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.155
+      value: 0.16
       objectReference: {fileID: 0}
     - target: {fileID: 749246050096737039, guid: bc4992710d6bc43f7b76c5681aa5b193, type: 3}
       propertyPath: m_LocalPosition.z
