@@ -16,6 +16,7 @@ namespace Frankie.Core
         // Constants
         const string defaultSaveFile = "save";
         const string sessionFile = "session";
+        const string debugFile = "debug";
         const string PLAYER_PREFS_CURRENT_SAVE = "currentSave";
 
         #region StaticMethods
@@ -184,6 +185,11 @@ namespace Frankie.Core
         public void Delete(string saveName)
         {
             GetComponent<SavingSystem>().Delete(saveName);
+        }
+
+        public void SetSaveToDebug()
+        {
+            SetCurrentSave(debugFile);
         }
         #endregion
 
