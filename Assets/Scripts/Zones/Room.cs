@@ -1,6 +1,5 @@
 using Frankie.Saving;
-using System.Collections;
-using System.Collections.Generic;
+using Frankie.Utils;
 using UnityEngine;
 
 namespace Frankie.ZoneManagement
@@ -12,12 +11,18 @@ namespace Frankie.ZoneManagement
 
         // State
         bool isRoomActive = true;
-        bool roomSetByOtherEntity = false;
+        LazyValue<bool> isRoomInitialized;
 
         #region UnityMethods
+        private void Awake()
+        {
+            isRoomInitialized = new LazyValue<bool>(() => false);
+        }
+
         private void Start()
         {
-            if (disableOnStart && !roomSetByOtherEntity) { ToggleRoom(false, false); }
+            isRoomInitialized.ForceInit();
+            if (disableOnStart && !isRoomInitialized.value) { ToggleRoom(false, false); }
         }
         #endregion
 
@@ -31,7 +36,7 @@ namespace Frankie.ZoneManagement
                 else { child.gameObject.SetActive(enable); }
             }
 
-            this.roomSetByOtherEntity = roomSetByOtherEntity;
+            isRoomInitialized.value = roomSetByOtherEntity;
         }
         #endregion
 
