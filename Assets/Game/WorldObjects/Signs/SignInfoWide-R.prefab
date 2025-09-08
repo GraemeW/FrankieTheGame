@@ -157,7 +157,7 @@ PolygonCollider2D:
   m_Offset: {x: 0, y: 0}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.023310674, y: 0.475676}
+    pivot: {x: 0.02173913, y: 0.48101267}
     oldSize: {x: 0.46, y: 0.79}
     newSize: {x: 1.7, y: 3.39}
     adaptiveTilingThreshold: 0.5
@@ -166,16 +166,18 @@ PolygonCollider2D:
   m_AutoTiling: 0
   m_Points:
     m_Paths:
-    - - {x: -0.0068986416, y: -0.0029186904}
-      - {x: 0.037702084, y: -0.116120815}
+    - - {x: -0.016898641, y: -0.0029186904}
+      - {x: 0.0077020843, y: -0.116120815}
       - {x: 0.054206103, y: -0.22659838}
       - {x: 0.06426835, y: -0.25837338}
       - {x: 0.17234012, y: -0.34750348}
       - {x: 0.25027418, y: -0.3698839}
-      - {x: 0.3977376, y: -0.36397064}
-      - {x: 0.43949622, y: -0.33704197}
-      - {x: 0.4389972, y: -0.23057386}
-      - {x: 0.12895969, y: 0.017483264}
+      - {x: 0.3977376, y: -0.38397065}
+      - {x: 0.4494962, y: -0.35704198}
+      - {x: 0.45899722, y: -0.24057387}
+      - {x: 0.45390916, y: 0.025442645}
+      - {x: 0.14300583, y: 0.14529245}
+      - {x: -0.02104031, y: 0.16748326}
   m_UseDelaunayMesh: 0
 --- !u!1001 &2130914002621818202
 PrefabInstance:
@@ -185,6 +187,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 8896237604876974607}
     m_Modifications:
+    - target: {fileID: 1288609124729262166, guid: 3ea47d49370c98e4e8dda14fd66b947b, type: 3}
+      propertyPath: uniqueIdentifier
+      value: 44177e28-5b15-45c3-8d6e-8eb1d38e6c03
+      objectReference: {fileID: 0}
     - target: {fileID: 2308409281053914736, guid: 3ea47d49370c98e4e8dda14fd66b947b, type: 3}
       propertyPath: checkMessage
       value: Primton News - The latest beat, comin' to ya hunky snarky
