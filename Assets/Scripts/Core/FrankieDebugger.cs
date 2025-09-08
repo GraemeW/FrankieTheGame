@@ -90,21 +90,26 @@ namespace Frankie.Core
 
         private void Save()
         {
+            UnityEngine.Debug.Log($"Frankie Debugger:  Saving Game...");
+            savingWrapper.value.SetSaveToDebug();
             savingWrapper.value.Save();
         }
 
         private void Continue()
         {
+            UnityEngine.Debug.Log($"Frankie Debugger:  Loading Game...");
             savingWrapper.value.Continue();
         }
 
         private void Delete()
         {
+            UnityEngine.Debug.Log($"Frankie Debugger:  Deleting Game...");
             savingWrapper.value.Delete();
         }
 
         private void ClearPlayerPrefs()
         {
+            UnityEngine.Debug.Log($"Frankie Debugger:  Clearing Player Prefs...");
             PlayerPrefsController.ClearPlayerPrefs();
         }
         #endregion
