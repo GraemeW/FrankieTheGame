@@ -121,3 +121,5 @@ InfoTools/ImagePreImportTool/Output/
 InfoTools/CreateImageTool/Output/
 .DS_Store
 *.pyc
+Assets/UnityConfigurables/AddressableAssetsData/link.xml
+Assets/UnityConfigurables/AddressableAssetsData/link.xml.meta
