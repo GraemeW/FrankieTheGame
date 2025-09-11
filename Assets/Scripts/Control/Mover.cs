@@ -28,6 +28,7 @@ namespace Frankie.Control
 
         // Static
         static float SIGN_FLOOR_THRESHOLD = 0.1f;
+        static float PIXELS_PER_UNIT = 100.0f; // Align to pixel art setting, default: 100
 
         protected static float Sign(float number)
         {
@@ -142,8 +143,8 @@ namespace Frankie.Control
             lookDirection.Normalize();
             currentSpeed = movementSpeed;
 
-            position.x = position.x + currentSpeed * SignFloored(lookDirection.x) * Time.deltaTime;
-            position.y = position.y + currentSpeed * SignFloored(lookDirection.y) * Time.deltaTime;
+            position.x = Mathf.Round(PIXELS_PER_UNIT * (position.x + currentSpeed * SignFloored(lookDirection.x) * Time.deltaTime)) / PIXELS_PER_UNIT;
+            position.y = Mathf.Round(PIXELS_PER_UNIT * (position.y + currentSpeed * SignFloored(lookDirection.y) * Time.deltaTime)) / PIXELS_PER_UNIT;
             rigidBody2D.MovePosition(position);
             UpdateAnimator();
 
