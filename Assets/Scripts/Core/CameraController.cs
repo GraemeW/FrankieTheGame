@@ -3,6 +3,7 @@ using UnityEngine;
 using Frankie.Stats;
 using Frankie.Utils;
 using Frankie.Settings;
+using UnityEngine.Rendering.Universal;
 
 namespace Frankie.Core
 {
@@ -23,6 +24,9 @@ namespace Frankie.Core
         ReInitLazyValue<Party> party;
 
         // State
+        private bool usingPixelPerfectCamera = false;
+        // Default:  Not using due to many, many jank
+            
         private float currentActiveOrthoSize = 3.6f;
         private float currentIdleOrthoSize = 1.8f;
 
@@ -44,6 +48,11 @@ namespace Frankie.Core
         {
             player = new ReInitLazyValue<Player>(SetupPlayerReference);
             party = new ReInitLazyValue<Party>(SetupPartyReference);
+
+            if (TryGetComponent(out PixelPerfectCamera pixelPerfectCamera))
+            {
+                if (pixelPerfectCamera.isActiveAndEnabled) { usingPixelPerfectCamera = true; }
+            }
         }
 
         private void OnEnable()
@@ -119,6 +128,8 @@ namespace Frankie.Core
 
         private void UpdateCameraOrthoSizes(ResolutionScaler resolutionScaler)
         {
+            if (usingPixelPerfectCamera) { return; }
+
             currentActiveOrthoSize = (defaultActiveOrthoSize * (float)resolutionScaler.numerator / (float)resolutionScaler.denominator) / (float)resolutionScaler.cameraScaling;
             currentIdleOrthoSize = (defaultIdleOrthoSize * (float)resolutionScaler.numerator / (float)resolutionScaler.denominator) / (float)resolutionScaler.cameraScaling;
 
