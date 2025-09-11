@@ -23,6 +23,14 @@ namespace Frankie.Settings
             return resolutionSetting;
         }
 
+        public static float[] GetPixelsPerTexel()
+        {
+            float[] pixelsPerTexel = new float[] { 1.0f, 1.0f };
+            pixelsPerTexel[0] = (float)Screen.width / (float)targetDefaultResolution.width;
+            pixelsPerTexel[1] = (float)Screen.height / (float)targetDefaultResolution.height;
+            return pixelsPerTexel;
+        }
+
         public static ResolutionScaler GetResolutionScaler()
         {
             if (Screen.fullScreenMode != FullScreenMode.Windowed) { return new ResolutionScaler(1, 1, 1); }

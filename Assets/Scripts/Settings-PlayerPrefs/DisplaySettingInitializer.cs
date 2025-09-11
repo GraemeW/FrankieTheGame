@@ -5,10 +5,17 @@ namespace Frankie.Settings
 {
     public class DisplaySettingInitializer : MonoBehaviour
     {
+       [Tooltip("Enable if using PixelArtShaderBNN")][SerializeField] bool setPixelsPerTexel = false;
+
         private void Start()
         {
-            if (SkipInitialization()) { return; }
+            if (setPixelsPerTexel)
+            {
+                float[] pixelsPerTexel = DisplayResolutions.GetPixelsPerTexel();
+                Shader.SetGlobalFloatArray("_PixelsPerTexel", pixelsPerTexel);
+            }
 
+            if (SkipWindowAdjustment()) { return; }
             ResolutionSetting resolutionSetting = DisplayResolutions.GetBestWindowedResolution(1)[0];
             StartCoroutine(WaitForScreenChange(resolutionSetting));
         }
@@ -26,7 +33,7 @@ namespace Frankie.Settings
             PlayerPrefsController.SaveToDisk();
         }
 
-        private bool SkipInitialization()
+        private bool SkipWindowAdjustment()
         {
             if (PlayerPrefsController.ResolutionInitializedKeyExists() && !PlayerPrefsController.HasCurrentDisplayChanged())
             {
