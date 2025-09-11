@@ -11,7 +11,8 @@ namespace Frankie.Settings
         private static ResolutionSetting targetDefaultResolution = new ResolutionSetting(FullScreenMode.Windowed, 848, 477);
         private static int bestResolutionTryCount = 20;
         private static float ultraWideThreshold = 16.0f / 9.0f;
-        private static ResolutionScaler windowedResolutionScaler = new ResolutionScaler(4, 3, 2);
+        private static ResolutionScaler standardWindowedResolutionScaler = new ResolutionScaler(4, 3, 2);
+        private static int[] extraZoomThresholds = new int[] { 960, 540 };
 
         // Events
         public static event Action<ResolutionScaler> resolutionUpdated;
@@ -24,7 +25,11 @@ namespace Frankie.Settings
 
         public static ResolutionScaler GetResolutionScaler()
         {
-            return (Screen.fullScreenMode == FullScreenMode.Windowed) ? windowedResolutionScaler : new ResolutionScaler(1, 1, 1);
+            if (Screen.fullScreenMode != FullScreenMode.Windowed) { return new ResolutionScaler(1, 1, 1); }
+
+            ResolutionScaler resolutionScaler = new ResolutionScaler(standardWindowedResolutionScaler);
+            if (Screen.width < extraZoomThresholds[0] || Screen.height < extraZoomThresholds[1]) { resolutionScaler.cameraScaling *= 2; }
+            return resolutionScaler;
         }
 
         public static List<ResolutionSetting> GetBestWindowedResolution(int count, bool ignoreTargetResolution = true)
@@ -53,8 +58,8 @@ namespace Frankie.Settings
                 if (longEdge % option == 0)
                 {
                     int longEdgeLength = longEdge / option;
-                    int width = longEdgeLength * windowedResolutionScaler.numerator / windowedResolutionScaler.denominator;
-                    int height = shortEdgeLength * windowedResolutionScaler.numerator / windowedResolutionScaler.denominator;
+                    int width = longEdgeLength * standardWindowedResolutionScaler.numerator / standardWindowedResolutionScaler.denominator;
+                    int height = shortEdgeLength * standardWindowedResolutionScaler.numerator / standardWindowedResolutionScaler.denominator;
 
                     if (width > displayInfo.width || height > displayInfo.height || (width == displayInfo.width && height == displayInfo.height))
                     {

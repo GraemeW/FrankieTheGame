@@ -1,3 +1,5 @@
+using UnityEngine;
+
 namespace Frankie.Settings
 {
     [System.Serializable]
@@ -12,6 +14,13 @@ namespace Frankie.Settings
             this.numerator = numerator;
             this.denominator = denominator;
             this.cameraScaling = cameraScaling;
+        }
+
+        public ResolutionScaler(ResolutionScaler other)
+        {
+            this.numerator = other.numerator;
+            this.denominator = other.denominator;
+            this.cameraScaling = other.cameraScaling;
         }
     }
 }
