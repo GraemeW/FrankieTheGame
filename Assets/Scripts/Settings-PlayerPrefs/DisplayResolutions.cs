@@ -8,7 +8,7 @@ namespace Frankie.Settings
     public class DisplayResolutions
     {
         // Default Static Parameters
-        private static ResolutionSetting targetDefaultResolution = new ResolutionSetting(FullScreenMode.Windowed, 800, 600);
+        private static ResolutionSetting targetDefaultResolution = new ResolutionSetting(FullScreenMode.Windowed, 848, 477);
         private static int bestResolutionTryCount = 20;
         private static float ultraWideThreshold = 16.0f / 9.0f;
         private static ResolutionScaler windowedResolutionScaler = new ResolutionScaler(4, 3, 2);
@@ -62,6 +62,7 @@ namespace Frankie.Settings
                         continue;
                     }
 
+                    if (width < targetDefaultResolution.width || height < targetDefaultResolution.height) { break; }
                     resolutionSettings.Add(new ResolutionSetting(FullScreenMode.Windowed, width, height));
                 }
 
