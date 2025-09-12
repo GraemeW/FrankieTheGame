@@ -24,7 +24,6 @@ class ProgramSelector(Enum):
 
 # Classes / Methods
 class AlphaPreMultiply:
-
     @staticmethod
     def PreMultiplyAlpha(image : Image.Image) -> Image.Image:
         imageArray = np.array(image).astype(np.double)
@@ -86,14 +85,10 @@ class AlphaPreMultiply:
         greenImage.show()
         blueImage.show()
 
-    #Initialization
-    def __init__(self) -> None:
-        # Tunables
-        self.fileTypes = list([".png", ".PNG", ".Png"])
-
-    def PreMultiplySingle(self, imagePath : str, writeImageToFile : bool = False) -> None:
+    @staticmethod
+    def PreMultiplySingle(imagePath : str, fileTypes : list[str], writeImageToFile : bool = False) -> None:
         os.path.isfile(imagePath)
-        if os.path.isfile(imagePath) and any(imagePath.endswith(fileType) for fileType in self.fileTypes):
+        if os.path.isfile(imagePath) and any(imagePath.endswith(fileType) for fileType in fileTypes):
             print(f'On image: {imagePath}')
             image = Image.open(imagePath).convert("RGBA")
             
@@ -110,11 +105,11 @@ class AlphaPreMultiply:
                 preMultipliedImage.save(imagePath)
         return
 
-    def PreMultiplyRecursively(self, directory : str) -> None:
+    def PreMultiplyRecursively(directory : str, fileTypes : list[str]) -> None:
         for entry in os.scandir(directory):
             if entry.is_dir():
-                self.PreMultiplyRecursively(entry.path)
-            elif entry.is_file() and any(entry.name.endswith(fileType) for fileType in self.fileTypes):
+                AlphaPreMultiply.PreMultiplyRecursively(entry.path, fileTypes)
+            elif entry.is_file() and any(entry.name.endswith(fileType) for fileType in fileTypes):
                 print(f'On image: {entry.path}')
                 image = Image.open(entry.path).convert("RGBA")
 
@@ -131,11 +126,10 @@ if __name__ == "__main__":
     programSelector = ProgramSelector.RunRecursively
     singleImageInputPath = './Input/GB_Narrow_Blue.png'
     resursiveInputPath = './InputDirectory'
-    alphaPadding = 1 # pixels to add on borders, prevent edges from straddling image bounds
+    fileTypes = list([".png", ".PNG", ".Png"])
 
-    alphaPreMultiply = AlphaPreMultiply()
     match programSelector:
         case ProgramSelector.TestSingleInput:
-            alphaPreMultiply.PreMultiplySingle(singleImageInputPath, True)
+            AlphaPreMultiply.PreMultiplySingle(singleImageInputPath, fileTypes, True)
         case ProgramSelector.RunRecursively:
-            alphaPreMultiply.PreMultiplyRecursively(resursiveInputPath)
+            AlphaPreMultiply.PreMultiplyRecursively(resursiveInputPath, fileTypes)
