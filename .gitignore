@@ -123,3 +123,4 @@ InfoTools/CreateImageTool/Output/
 *.pyc
 Assets/UnityConfigurables/AddressableAssetsData/link.xml
 Assets/UnityConfigurables/AddressableAssetsData/link.xml.meta
+InfoTools/ImagePreImportTool/InputDirectory

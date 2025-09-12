@@ -18,7 +18,7 @@ Shader "CustomRenderTexture/PixelArtShaderBetter"
         }
 
         ZWrite Off
-        Blend SrcAlpha OneMinusSrcAlpha
+        Blend One OneMinusSrcAlpha
 
         Pass
         {
