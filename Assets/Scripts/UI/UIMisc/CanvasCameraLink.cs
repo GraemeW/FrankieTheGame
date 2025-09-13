@@ -1,9 +1,7 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-namespace Frankie.Utils
+namespace Frankie.Utils.UI
 {
     [RequireComponent(typeof(Canvas))]
     public class CanvasCameraLink : MonoBehaviour

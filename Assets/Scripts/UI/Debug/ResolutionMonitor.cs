@@ -1,7 +1,7 @@
 using UnityEngine;
 using TMPro;
 
-namespace Frankie.Settings.UI
+namespace Frankie.Rendering.UI
 {
     public class ResolutionMonitor : MonoBehaviour
     {

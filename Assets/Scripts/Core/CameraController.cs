@@ -2,7 +2,7 @@ using Cinemachine;
 using UnityEngine;
 using Frankie.Stats;
 using Frankie.Utils;
-using Frankie.Settings;
+using Frankie.Rendering;
 using UnityEngine.Rendering.Universal;
 
 namespace Frankie.Core

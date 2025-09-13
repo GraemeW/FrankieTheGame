@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.Rendering.Universal;
 
-namespace Frankie.Utils
+namespace Frankie.Rendering
 {
     public class ShaderPropertyRefs
     {

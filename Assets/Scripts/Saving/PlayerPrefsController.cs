@@ -1,8 +1,7 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using Frankie.Rendering;
 
-namespace Frankie.Settings
+namespace Frankie.Saving
 {
     public class PlayerPrefsController : MonoBehaviour
     {

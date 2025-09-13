@@ -2,7 +2,7 @@ using UnityEngine;
 using UnityEngine.Rendering.Universal;
 using Frankie.ZoneManagement;
 
-namespace Frankie.Utils
+namespace Frankie.Rendering
 {
     public class BattleEntryShaderControl : MonoBehaviour
     {

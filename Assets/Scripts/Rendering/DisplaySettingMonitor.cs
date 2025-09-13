@@ -1,7 +1,8 @@
 using UnityEngine;
 using System.Collections;
+using Frankie.Saving;
 
-namespace Frankie.Settings
+namespace Frankie.Rendering
 {
     public class DisplaySettingMonitor : MonoBehaviour
     {

@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Frankie.Settings
+namespace Frankie.Rendering
 {
     public class DisplayResolutions
     {

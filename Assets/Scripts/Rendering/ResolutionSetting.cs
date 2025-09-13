@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace Frankie.Settings
+namespace Frankie.Rendering
 {
     [System.Serializable]
     public struct ResolutionSetting

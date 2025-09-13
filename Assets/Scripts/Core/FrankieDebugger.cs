@@ -1,12 +1,10 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using Frankie.Utils;
 using Frankie.Quests;
 using Frankie.Stats;
 using Frankie.Inventory;
 using UnityEngine.SceneManagement;
-using Frankie.Settings;
+using Frankie.Saving;
 
 namespace Frankie.Core
 {

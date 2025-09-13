@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace Frankie.Utils
+namespace Frankie.Rendering
 {
     public class LocalShaderPropertySetter : MonoBehaviour
     {
