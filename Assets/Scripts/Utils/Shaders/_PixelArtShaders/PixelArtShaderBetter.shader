@@ -2,6 +2,7 @@ Shader "CustomRenderTexture/PixelArtShaderBetter"
 {
     // Following the approach detailed here:
     // https://www.youtube.com/watch?v=d6tp43wZqps
+    // Note:  Backside culling disabled to allow for sprite flipping
 
     Properties
     {
@@ -17,6 +18,7 @@ Shader "CustomRenderTexture/PixelArtShaderBetter"
         "RenderType" = "Transparent"
         }
 
+        Cull Off
         ZWrite Off
         Blend One OneMinusSrcAlpha
 
