@@ -72,7 +72,6 @@ namespace Frankie.Core
             player.ForceInit();
             party.ForceInit();
             RefreshDefaultCameras();
-            UpdateCameraOrthoSizes(DisplayResolutions.GetResolutionScaler());
         }
         #endregion
 
@@ -126,12 +125,12 @@ namespace Frankie.Core
             idleCamera.Follow = target;
         }
 
-        private void UpdateCameraOrthoSizes(ResolutionScaler resolutionScaler)
+        private void UpdateCameraOrthoSizes(ResolutionScaler resolutionScaler, int cameraScaling)
         {
             if (usingPixelPerfectCamera) { return; }
 
-            currentActiveOrthoSize = (defaultActiveOrthoSize * (float)resolutionScaler.numerator / (float)resolutionScaler.denominator) / (float)resolutionScaler.cameraScaling;
-            currentIdleOrthoSize = (defaultIdleOrthoSize * (float)resolutionScaler.numerator / (float)resolutionScaler.denominator) / (float)resolutionScaler.cameraScaling;
+            currentActiveOrthoSize = (defaultActiveOrthoSize * (float)resolutionScaler.numerator / (float)resolutionScaler.denominator) / (float)cameraScaling;
+            currentIdleOrthoSize = (defaultIdleOrthoSize * (float)resolutionScaler.numerator / (float)resolutionScaler.denominator) / (float)cameraScaling;
 
             if (activeCamera != null) { activeCamera.m_Lens.OrthographicSize = currentActiveOrthoSize; }
             if (idleCamera != null) { idleCamera.m_Lens.OrthographicSize = currentIdleOrthoSize; }

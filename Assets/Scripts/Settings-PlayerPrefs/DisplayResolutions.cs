@@ -11,33 +11,50 @@ namespace Frankie.Settings
         private static ResolutionSetting targetDefaultResolution = new ResolutionSetting(FullScreenMode.Windowed, 848, 477);
         private static int bestResolutionTryCount = 20;
         private static float ultraWideThreshold = 16.0f / 9.0f;
-        private static ResolutionScaler standardWindowedResolutionScaler = new ResolutionScaler(4, 3, 2);
-        private static int[] extraZoomThresholds = new int[] { 960, 540 };
+        private static ResolutionScaler windowedResolutionScaler = new ResolutionScaler(4, 3);
+        private static int[] fineZoomThresholds = new int[] { 960, 540 }; // width, height
+
+        // State
+        private static FullScreenMode currentFullScreenMode = FullScreenMode.Windowed;
+        private static int currentScreenWidth = 848;
+        private static int currentScreenHeight = 477;
 
         // Events
-        public static event Action<ResolutionScaler> resolutionUpdated;
+        public static event Action<ResolutionScaler, int> resolutionUpdated;
+
+        #region PrivateMethods
+        private static ResolutionScaler GetResolutionScaler()
+        {
+            if (Screen.fullScreenMode != FullScreenMode.Windowed) { return new ResolutionScaler(1, 1); }
+            return windowedResolutionScaler;
+        }
+
+        private static int GetCameraScaling()
+        {
+            int cameraScaling = 1;
+            if (Screen.fullScreenMode == FullScreenMode.Windowed) { cameraScaling *= 2; }
+            if (Screen.width < fineZoomThresholds[0] || Screen.height < fineZoomThresholds[1]) { cameraScaling *= 2; }
+            return cameraScaling;
+        }
+        #endregion
+
+        #region PublicMethods
+        public static void CheckForResolutionChange()
+        {
+            if (currentFullScreenMode != Screen.fullScreenMode || currentScreenWidth != Screen.width || currentScreenHeight != Screen.height)
+            {
+                currentFullScreenMode = Screen.fullScreenMode;
+                currentScreenWidth = Screen.width;
+                currentScreenHeight = Screen.height;
+
+                resolutionUpdated?.Invoke(GetResolutionScaler(), GetCameraScaling());
+            }
+        }
 
         public static ResolutionSetting GetCurrentResolution()
         {
             ResolutionSetting resolutionSetting = new ResolutionSetting(Screen.fullScreenMode, Screen.width, Screen.height);
             return resolutionSetting;
-        }
-
-        public static float[] GetPixelsPerTexel()
-        {
-            float[] pixelsPerTexel = new float[] { 1.0f, 1.0f };
-            pixelsPerTexel[0] = (float)Screen.width / (float)targetDefaultResolution.width;
-            pixelsPerTexel[1] = (float)Screen.height / (float)targetDefaultResolution.height;
-            return pixelsPerTexel;
-        }
-
-        public static ResolutionScaler GetResolutionScaler()
-        {
-            if (Screen.fullScreenMode != FullScreenMode.Windowed) { return new ResolutionScaler(1, 1, 1); }
-
-            ResolutionScaler resolutionScaler = new ResolutionScaler(standardWindowedResolutionScaler);
-            if (Screen.width < extraZoomThresholds[0] || Screen.height < extraZoomThresholds[1]) { resolutionScaler.cameraScaling *= 2; }
-            return resolutionScaler;
         }
 
         public static List<ResolutionSetting> GetBestWindowedResolution(int count, bool ignoreTargetResolution = true)
@@ -66,8 +83,8 @@ namespace Frankie.Settings
                 if (longEdge % option == 0)
                 {
                     int longEdgeLength = longEdge / option;
-                    int width = longEdgeLength * standardWindowedResolutionScaler.numerator / standardWindowedResolutionScaler.denominator;
-                    int height = shortEdgeLength * standardWindowedResolutionScaler.numerator / standardWindowedResolutionScaler.denominator;
+                    int width = longEdgeLength * windowedResolutionScaler.numerator / windowedResolutionScaler.denominator;
+                    int height = shortEdgeLength * windowedResolutionScaler.numerator / windowedResolutionScaler.denominator;
 
                     if (width > displayInfo.width || height > displayInfo.height || (width == displayInfo.width && height == displayInfo.height))
                     {
@@ -109,10 +126,6 @@ namespace Frankie.Settings
 
             Screen.SetResolution(resolutionSetting.width, resolutionSetting.height, resolutionSetting.fullScreenMode);
             yield return new WaitForEndOfFrame();
-
-            bool isFullScreen = !(resolutionSetting.fullScreenMode == FullScreenMode.Windowed);
-
-            resolutionUpdated?.Invoke(GetResolutionScaler());
         }
 
         public static void SetWindowToCenter()
@@ -122,5 +135,6 @@ namespace Frankie.Settings
 
             Screen.MoveMainWindowTo(displayInfo, position);
         }
+        #endregion
     }
 }
