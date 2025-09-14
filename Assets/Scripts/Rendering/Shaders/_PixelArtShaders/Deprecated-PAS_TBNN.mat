@@ -7,7 +7,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: PixelArtShaderTexelBNN
+  m_Name: Deprecated-PAS_TBNN
   m_Shader: {fileID: 4800000, guid: 34d4c4b9e69a64dd484390fa24f7a15f, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0

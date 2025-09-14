@@ -1,4 +1,4 @@
-Shader "CustomRenderTexture/PixelArtShaderBetter"
+Shader "CustomRenderTexture/PixelArtShader"
 {
     // Following the approach detailed here:
     // https://www.youtube.com/watch?v=d6tp43wZqps
@@ -24,7 +24,7 @@ Shader "CustomRenderTexture/PixelArtShaderBetter"
 
         Pass
         {
-            Name "PixelArtShaderBetter"
+            Name "PixelArtShader"
 
         CGPROGRAM
             #pragma vertex vertexShader
