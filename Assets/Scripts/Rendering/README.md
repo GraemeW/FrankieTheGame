@@ -22,7 +22,7 @@ This shader is based on the approach described [here](https://www.youtube.com/wa
 
 In effect, for window resolutions that are integer-divisible of the display resolution, the artwork remains pixel-perfect.  For non-integer-divisible resolutions the pixel art is aliased; however, the result is (for all intents and purposes) visually indistinguishable from pixel-perfect art when rendered on modern high PPI displays.  The benefit of using this approach cannot be overstated:  complete flexibility on window resolutions, game zoom, etc.
 
-*N.B.  In order for the shader to work correctly, the corresponding sprite settings must be configured correctly, as described [here](../../Game/WorldObjects/).*
+*N.B.  In order for the shader to work correctly, the corresponding sprite settings must be configured correctly, as described [here](../../Game/WorldObjects/README.md#configuration--sprite-renderer--sprite).*
 
 ### Alternative Approaches Scoped for Pixel-Perfect Art
 
