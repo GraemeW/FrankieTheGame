@@ -51,6 +51,11 @@ namespace Frankie.Rendering
             }
         }
 
+        public static void AnnounceResolution()
+        {
+            resolutionUpdated?.Invoke(GetResolutionScaler(), GetCameraScaling());
+        }
+
         public static ResolutionSetting GetCurrentResolution()
         {
             ResolutionSetting resolutionSetting = new ResolutionSetting(Screen.fullScreenMode, Screen.width, Screen.height);
