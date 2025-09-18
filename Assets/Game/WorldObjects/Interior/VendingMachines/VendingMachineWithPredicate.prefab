@@ -62,7 +62,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: 07b6a8bf7bead4af8a79bb5bcd8b8376, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -159,7 +159,7 @@ BoxCollider2D:
   m_Offset: {x: -0.0009856224, y: 0.08604978}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5, y: 0}
+    pivot: {x: 0.4827586, y: 0}
     oldSize: {x: 0.29, y: 0.59}
     newSize: {x: 0.74, y: 0.42}
     adaptiveTilingThreshold: 0.5
@@ -247,6 +247,10 @@ PrefabInstance:
     - target: {fileID: -2326240535357467552, guid: af6951be3c7cb1640b1d11519ef4b65d, type: 3}
       propertyPath: checkInteractionConditionMet.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
       value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
+    - target: {fileID: 3691375639142348268, guid: af6951be3c7cb1640b1d11519ef4b65d, type: 3}
+      propertyPath: uniqueIdentifier
+      value: c39f4f20-19e7-4cef-8804-cfc521808579
       objectReference: {fileID: 0}
     - target: {fileID: 6564381309038757640, guid: af6951be3c7cb1640b1d11519ef4b65d, type: 3}
       propertyPath: m_Name

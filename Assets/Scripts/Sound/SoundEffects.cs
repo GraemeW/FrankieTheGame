@@ -1,5 +1,5 @@
 using UnityEngine;
-using Frankie.Settings;
+using Frankie.Saving;
 
 namespace Frankie.Sound
 {

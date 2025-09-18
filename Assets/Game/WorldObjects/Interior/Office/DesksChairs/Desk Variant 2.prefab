@@ -9,6 +9,10 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 6064117322999955908, guid: 94488ab9b2a166046873d77b7a3babf8, type: 3}
+      propertyPath: m_SpriteTilingProperty.pivot.x
+      value: 0.4950495
+      objectReference: {fileID: 0}
+    - target: {fileID: 6064117322999955908, guid: 94488ab9b2a166046873d77b7a3babf8, type: 3}
       propertyPath: m_SpriteTilingProperty.oldSize.x
       value: 1.01
       objectReference: {fileID: 0}
@@ -68,6 +72,10 @@ PrefabInstance:
       propertyPath: m_Sprite
       value: 
       objectReference: {fileID: -1272677867225930765, guid: 9d8b3c867aac61e429dacbcb77c21e11, type: 3}
+    - target: {fileID: 6064117322999955930, guid: 94488ab9b2a166046873d77b7a3babf8, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 07b6a8bf7bead4af8a79bb5bcd8b8376, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

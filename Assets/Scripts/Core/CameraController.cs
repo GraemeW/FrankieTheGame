@@ -2,7 +2,8 @@ using Cinemachine;
 using UnityEngine;
 using Frankie.Stats;
 using Frankie.Utils;
-using Frankie.Settings;
+using Frankie.Rendering;
+using UnityEngine.Rendering.Universal;
 
 namespace Frankie.Core
 {
@@ -23,6 +24,9 @@ namespace Frankie.Core
         ReInitLazyValue<Party> party;
 
         // State
+        private bool usingPixelPerfectCamera = false;
+        // Default:  Not using due to many, many jank
+            
         private float currentActiveOrthoSize = 3.6f;
         private float currentIdleOrthoSize = 1.8f;
 
@@ -44,6 +48,11 @@ namespace Frankie.Core
         {
             player = new ReInitLazyValue<Player>(SetupPlayerReference);
             party = new ReInitLazyValue<Party>(SetupPartyReference);
+
+            if (TryGetComponent(out PixelPerfectCamera pixelPerfectCamera))
+            {
+                if (pixelPerfectCamera.isActiveAndEnabled) { usingPixelPerfectCamera = true; }
+            }
         }
 
         private void OnEnable()
@@ -63,7 +72,6 @@ namespace Frankie.Core
             player.ForceInit();
             party.ForceInit();
             RefreshDefaultCameras();
-            UpdateCameraOrthoSizes(DisplayResolutions.GetResolutionScaler());
         }
         #endregion
 
@@ -117,10 +125,12 @@ namespace Frankie.Core
             idleCamera.Follow = target;
         }
 
-        private void UpdateCameraOrthoSizes(ResolutionScaler resolutionScaler)
+        private void UpdateCameraOrthoSizes(ResolutionScaler resolutionScaler, int cameraScaling)
         {
-            currentActiveOrthoSize = (defaultActiveOrthoSize * (float)resolutionScaler.numerator / (float)resolutionScaler.denominator) / (float)resolutionScaler.cameraScaling;
-            currentIdleOrthoSize = (defaultIdleOrthoSize * (float)resolutionScaler.numerator / (float)resolutionScaler.denominator) / (float)resolutionScaler.cameraScaling;
+            if (usingPixelPerfectCamera) { return; }
+
+            currentActiveOrthoSize = (defaultActiveOrthoSize * (float)resolutionScaler.numerator / (float)resolutionScaler.denominator) / (float)cameraScaling;
+            currentIdleOrthoSize = (defaultIdleOrthoSize * (float)resolutionScaler.numerator / (float)resolutionScaler.denominator) / (float)cameraScaling;
 
             if (activeCamera != null) { activeCamera.m_Lens.OrthographicSize = currentActiveOrthoSize; }
             if (idleCamera != null) { idleCamera.m_Lens.OrthographicSize = currentIdleOrthoSize; }

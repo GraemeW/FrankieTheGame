@@ -60,7 +60,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: 07b6a8bf7bead4af8a79bb5bcd8b8376, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -130,7 +130,7 @@ PolygonCollider2D:
   m_Offset: {x: 0, y: 0}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5857449, y: 0.48501316}
+    pivot: {x: 0.5862069, y: 0.48618785}
     oldSize: {x: 1.16, y: 1.81}
     newSize: {x: 3.11, y: 4.46}
     adaptiveTilingThreshold: 0.5

@@ -61,6 +61,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eb9068f92d66f4dfba3576a4530b0d3d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Frankie.Settings.DisplaySettingInitializer
+  setPixelsPerTexel: 0
 --- !u!1001 &683631211555299684
 PrefabInstance:
   m_ObjectHideFlags: 0
