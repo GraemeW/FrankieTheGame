@@ -334,7 +334,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   movementSpeed: 1
   defaultLookDirection: {x: 0, y: -1}
-  defaultTargetDistanceTolerance: 0.15
+  defaultTargetDistanceTolerance: 0.05
   resetPositionOnEnable: 1
   interactionCenterPoint: {fileID: 851377592137554633}
   patrolPath: {fileID: 0}
