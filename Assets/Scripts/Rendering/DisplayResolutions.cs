@@ -34,6 +34,10 @@ namespace Frankie.Rendering
             int cameraScaling = 1;
             if (Screen.fullScreenMode == FullScreenMode.Windowed) { cameraScaling *= 2; }
             if (Screen.width < fineZoomThresholds[0] || Screen.height < fineZoomThresholds[1]) { cameraScaling *= 2; }
+#if UNITY_EDITOR
+            cameraScaling = 2; // Disable excessive camera scaling for editor window
+#endif
+
             return cameraScaling;
         }
         #endregion
