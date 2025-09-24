@@ -10,6 +10,8 @@ namespace Frankie.Core
 {
     public class FrankieDebugger : MonoBehaviour
     {
+        [SerializeField] bool resetSaveOnStart = false;
+
         // Cached References
         PlayerInput playerInput = null;
         GameObject player = null;
@@ -52,6 +54,12 @@ namespace Frankie.Core
             questList.ForceInit();
             party.ForceInit();
             wallet.ForceInit();
+
+            if (resetSaveOnStart)
+            {
+                Delete();
+                Save();
+            }
         }
 
         private void OnEnable()
@@ -103,6 +111,8 @@ namespace Frankie.Core
         {
             UnityEngine.Debug.Log($"Frankie Debugger:  Deleting Game...");
             savingWrapper.value.Delete();
+            savingWrapper.value.DeleteSession();
+            savingWrapper.value.DeleteDebugSave();
         }
 
         private void ClearPlayerPrefs()

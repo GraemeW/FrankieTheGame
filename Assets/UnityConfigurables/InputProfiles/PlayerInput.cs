@@ -738,7 +738,7 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
                     ""name"": ""Delete"",
                     ""type"": ""Button"",
                     ""id"": ""c129bb2a-0507-403f-87eb-8ed1b891431b"",
-                    ""expectedControlType"": ""Button"",
+                    ""expectedControlType"": """",
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
@@ -806,7 +806,7 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""2d18a700-1a0e-41a5-96fa-21d0dbed35f2"",
-                    ""path"": ""<Keyboard>/delete"",
+                    ""path"": ""<Keyboard>/m"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Keyboard&Mouse"",
