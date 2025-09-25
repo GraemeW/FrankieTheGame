@@ -1,6 +1,6 @@
 # Assets:  Game - World Objects
 
-**NOTE:  THIS README IS A WORK IN PROGRESS -- TO BE COMPLETED IN A FUTURE PR**
+**NOTE:  THIS README IS INCOMPLETE AND A WORK IN PROGRESS**
 
 The prefabs within this directory comprise all of the game objects that can be dragged into a zone (scene) to build up the world.  Standard world objects usually comprise a SpriteRenderer, a RigidBody2D and a Collider.
 
@@ -22,7 +22,7 @@ The directories are structured as:
 
 Before placing any objects into the scene, ensure that Snapping is Enabled, with a `Grid Size` set to `0.01` (AKA 1/PPU used for sprite import settings), as below:
 
-<img src="../../../InfoTools/Documentation/Game/WorldObjects/WorldSnapping.png" width="400">
+<img src="../../../InfoTools/Documentation/Game/WorldObjects/WorldSnapping.png" width="300">
 
 If assets have been placed before snapping was enabled, they can be force-snapped to the grid by clicking on the `All Axes` button under `Align Selected`
 
@@ -32,14 +32,15 @@ If assets have been placed before snapping was enabled, they can be force-snappe
 
 As detailed in [Rendering](../../Scripts/Rendering/), Frankie employs a custom shader in order to achieve (visually indistinguishable to) pixel-perfect rendering at arbitrary display resolutions/window sizes.  This section describes the steps that **must** be followed in order to avoid visual glitches in rendering.
 
+*Note:*
+* *See the [StyleGuide](../../../InfoTools/StyleGuide/README.md#game-object--world-artwork-pixel-art) for futher detail on artwork design/construction requirements*
+* *See [Tilemaps](../Tilemaps/) for further detail on Tilemap-specific configuration*
+
 #### Sprite Import / Setup
 
-Art assets must be PNG type and must:
-* have at least 1px border of transparent (`alpha=0`) pixels around the image
-* have alpha channel pre-multiplied to the color channels
-  * *this may be accomplished using the [AlphaPreMultiply](../../../InfoTools/ImagePreImportTool/AlphaPreMultiply.py) python script
+Art assets must conform to the rules defined in the [StyleGuide](../../../InfoTools/StyleGuide/).  
 
-Then, the following adjustments must be made to the art asset in Unity (otherwise, apply default settings):
+The following adjustments must be made to the asset's settings in Unity (otherwise, apply default settings):
 * `Pixels Per Unit (PPU)`:  `100`
 * `Alpha Is Transparency`:  `Disable`
 * `Generate Mipmap`:  `Enable`
@@ -49,7 +50,7 @@ Then, the following adjustments must be made to the art asset in Unity (otherwis
 
 As an example, see below:
 
-<img src="../../../InfoTools/Documentation/Game/WorldObjects/ExampleSpriteImport.png" width="600">
+<img src="../../../InfoTools/Documentation/Game/WorldObjects/ExampleSpriteImport.png" width="500">
 
 *Note that the above configuration only applies to assets that are desired to be rendered pixel-perfect.  For other assets, such as UI elements or in-battle artwork, the standard Unity sprite shader is sufficient.*
 
@@ -58,12 +59,13 @@ As an example, see below:
 Beyond those settings detailed above:
 1. if the imported sprite is imported as part of a sprite sheet, the sprite sheet should be sliced to isolate the individual sprite
    * in this case, it is critical to ensure the sprite is sliced with at least 1px transparent border around it
+   * N.B. UNLESS the sprite sheet comprises a tilemap, see instead [Tilemaps](../Tilemaps/) for tilemap import / setup
 2. the sprite anchor should be set, specifically using `Pixels` as the `Unit Pivot Mode`
    * Warning:  if the asset's pixel width is odd, then the default settings (e.g. Bottom (Center)) will result in a non-integer pixel position position for the anchor
 
 For the simple on-axis view assets, the default anchor position should be (as above) set to `Bottom`.  For isometric/angled view assets, the anchor position should be set to the upper-most corner of the asset.  For example, see below:
 
-<img src="../../../InfoTools/Documentation/Game/WorldObjects/IsometricCornerAnchoring.png" width="800">
+<img src="../../../InfoTools/Documentation/Game/WorldObjects/IsometricCornerAnchoring.png" width="650">
 
 #### Sprite Renderer Settings
 
@@ -73,7 +75,7 @@ In the sprite renderer of the world game object, the following adjustments must 
 
 As an example, see below:
 
-<img src="../../../InfoTools/Documentation/Game/WorldObjects/ExampleSpriteRenderer.png" width="600">
+<img src="../../../InfoTools/Documentation/Game/WorldObjects/ExampleSpriteRenderer.png" width="500">
 
 ### Configuration:  Collider
 
