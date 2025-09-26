@@ -39,25 +39,18 @@ namespace Frankie.Combat
 
         private static void UpdateBattleEventBusState(T battleEvent)
         {
-            BattleEnterEvent battleStartedEvent = battleEvent as BattleEnterEvent;
-            if (battleStartedEvent != null)
+            switch (battleEvent.battleEventType)
             {
-                BattleEventBus.SetInBattle(true);
-                return;
-            }
-
-            BattleStateChangedEvent battleStateChangedEvent = battleEvent as BattleStateChangedEvent;
-            if (battleStateChangedEvent != null)
-            {
-                BattleEventBus.SetBattleState(battleStateChangedEvent.battleState);
-                return;
-            }
-
-            BattleExitEvent battleExitEvent = battleEvent as BattleExitEvent;
-            if (battleExitEvent != null)
-            {
-                BattleEventBus.SetInBattle(false);
-                return;
+                case BattleEventType.BattleEnter:
+                    BattleEventBus.SetInBattle(true);
+                    break;
+                case BattleEventType.BattleStateChanged:
+                    BattleStateChangedEvent battleStateChangedEvent = battleEvent as BattleStateChangedEvent;
+                    if (battleStateChangedEvent != null) { BattleEventBus.SetBattleState(battleStateChangedEvent.battleState); }
+                    break;
+                case BattleEventType.BattleExit:
+                    BattleEventBus.SetInBattle(false);
+                    break;
             }
         }
     }
