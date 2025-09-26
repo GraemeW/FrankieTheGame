@@ -34,13 +34,13 @@ namespace Frankie.Combat.UI
 
         protected override void OnEnable()
         {
-            battleController.selectedCombatParticipantChanged += Setup;
+            BattleEventBus<BattleEntitySelectedEvent>.SubscribeToEvent(Setup);
             battleController.battleInput += HandleInput;
         }
 
         protected override void OnDisable()
         {
-            battleController.selectedCombatParticipantChanged -= Setup;
+            BattleEventBus<BattleEntitySelectedEvent>.UnsubscribeFromEvent(Setup);
             battleController.battleInput -= HandleInput;
         }
 
@@ -95,6 +95,11 @@ namespace Frankie.Combat.UI
             if (currentCombatParticipant == null) { ResetUI(); return; }
 
             RefreshSkills();
+        }
+
+        private void Setup(BattleEntitySelectedEvent battleEntitySelectedEvent)
+        {
+            Setup(battleEntitySelectedEvent.combatParticipantType, battleEntitySelectedEvent.battleEntities);
         }
 
         protected void RefreshSkills()

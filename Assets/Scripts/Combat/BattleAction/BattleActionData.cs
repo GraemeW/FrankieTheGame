@@ -64,7 +64,7 @@ namespace Frankie.Combat
             return false;
         }
 
-        public IEnumerable<BattleEntity> GetTargets()
+        public List<BattleEntity> GetTargets()
         {
             return targets;
         }

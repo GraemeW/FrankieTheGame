@@ -50,11 +50,6 @@ namespace Frankie.Combat
         // Events
         public event Action<PlayerInputType> battleInput;
         public event Action<PlayerInputType> globalInput;
-        public event Action<BattleState, BattleOutcome> battleStateChanged;
-        public event Action<BattleEntity> battleEntityAddedToCombat;
-        public event Action<CombatParticipantType, IEnumerable<BattleEntity>> selectedCombatParticipantChanged;
-        public event Action<IBattleActionSuper> battleActionArmedStateChanged;
-        public event Action<BattleSequence> battleSequenceProcessed;
 
         // Interaction
         #region UnityMethods
@@ -65,7 +60,7 @@ namespace Frankie.Combat
             battleRewards = GetComponent<BattleRewards>();
 
             VerifyUnique();
-            
+
             playerInput.Menu.Navigate.performed += context => ParseDirectionalInput(context.ReadValue<Vector2>());
             playerInput.Menu.Execute.performed += context => HandleUserInput(PlayerInputType.Execute);
             playerInput.Menu.Cancel.performed += context => HandleUserInput(PlayerInputType.Cancel);
@@ -159,7 +154,7 @@ namespace Frankie.Combat
                 ToggleCombatParticipants(false);
             }
 
-            battleStateChanged?.Invoke(state, battleOutcome);
+            BattleEventBus<BattleStateChangedEvent>.Raise(new BattleStateChangedEvent(state, battleOutcome));
         }
 
         public bool SetSelectedCharacter(CombatParticipant character)
@@ -176,7 +171,9 @@ namespace Frankie.Combat
             {
                 battleActionData = null;
             }
-            selectedCombatParticipantChanged?.Invoke(CombatParticipantType.Friendly, new[] { new BattleEntity(selectedCharacter) });
+
+            List<BattleEntity> selectedBattleEntity = new() { new(selectedCharacter) };
+            BattleEventBus<BattleEntitySelectedEvent>.Raise(new BattleEntitySelectedEvent(CombatParticipantType.Friendly, selectedBattleEntity));
 
             return true;
         }
@@ -193,7 +190,7 @@ namespace Frankie.Combat
                 battleActionUser.GetTargets(traverseForward, battleActionData, activeCharacters, activeEnemies);
             }
 
-            selectedCombatParticipantChanged?.Invoke(CombatParticipantType.Foe, battleActionData?.GetTargets());
+            BattleEventBus<BattleEntitySelectedEvent>.Raise(new BattleEntitySelectedEvent(CombatParticipantType.Foe, battleActionData?.GetTargets()));
 
             if (battleActionData != null)
             {
@@ -236,7 +233,7 @@ namespace Frankie.Combat
             }
             else { return; }
 
-            battleActionArmedStateChanged?.Invoke(selectedBattleActionSuper);
+            BattleEventBus<BattleActionArmedEvent>.Raise(new BattleActionArmedEvent(selectedBattleActionSuper));
         }
         #endregion
 
@@ -463,6 +460,7 @@ namespace Frankie.Combat
         private void InitiateBattle(List<CombatParticipant> enemies, TransitionType transitionType)
         {
             SetupCombatParticipants(enemies, transitionType);
+            BattleEventBus<BattleEnterEvent>.Raise(new BattleEnterEvent(activeCharacters, activeEnemies));
 
             if (CheckForAutoWin())
             {
@@ -517,7 +515,7 @@ namespace Frankie.Combat
             activeCharacters.Add(characterBattleEntity);
             activePlayerCharacters.Add(characterBattleEntity);
 
-            battleEntityAddedToCombat?.Invoke(characterBattleEntity);
+            BattleEventBus<BattleEntityAddedEvent>.Raise(new BattleEntityAddedEvent(characterBattleEntity));
         }
 
         private void AddAssistCharacterToCombat(CombatParticipant character, bool useBattleAdvantageCooldown = false)
@@ -529,7 +527,7 @@ namespace Frankie.Combat
             activeCharacters.Add(assistBattleEntity);
             activeAssistCharacters.Add(assistBattleEntity);
 
-            battleEntityAddedToCombat?.Invoke(assistBattleEntity);
+            BattleEventBus<BattleEntityAddedEvent>.Raise(new BattleEntityAddedEvent(assistBattleEntity));
         }
 
         public void AddEnemyToCombat(CombatParticipant enemy, bool useBattleAdvantageCooldown = false, bool forceCombatActive = false)
@@ -547,7 +545,7 @@ namespace Frankie.Combat
             activeEnemies.Add(enemyBattleEntity);
 
             enemy.SetCombatActive(forceCombatActive);
-            battleEntityAddedToCombat?.Invoke(enemyBattleEntity);
+            BattleEventBus<BattleEntityAddedEvent>.Raise(new BattleEntityAddedEvent(enemyBattleEntity));
         }
 
         private void InitializeEnemyMapping(int enemyCount)
@@ -654,7 +652,8 @@ namespace Frankie.Combat
             bool allEntitiesDead = true;
             foreach (BattleEntity battleEntity in dequeuedBattleActionData.GetTargets()) { if (!battleEntity.combatParticipant.IsDead()) { allEntitiesDead = false; break; } }
             if (dequeuedBattleActionData.GetSender().IsDead() || allEntitiesDead) { yield break; }
-            battleSequenceProcessed?.Invoke(battleSequence);
+
+            BattleEventBus<BattleSequenceProcessedEvent>.Raise(new BattleSequenceProcessedEvent(battleSequence));
 
             // Useful Debug
             //string targetNames = string.Concat(dequeuedBattleActionData.GetTargets().Select(x => x.name));

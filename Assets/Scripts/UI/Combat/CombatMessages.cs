@@ -13,27 +13,20 @@ public class CombatMessages : MonoBehaviour
     [Header("Messages")]
     [Tooltip("Include {0} for item")] [SerializeField] string messageItemToBeUsed = "Use the item {0} on whom?";
 
-
-    // Cached References
-    BattleController battleController = null;
-
-    private void Awake()
-    {
-        battleController = GameObject.FindGameObjectWithTag("BattleController")?.GetComponent<BattleController>();
-    }
-
     private void OnEnable()
     {
-        battleController.battleActionArmedStateChanged += Setup;
+        BattleEventBus<BattleActionArmedEvent>.SubscribeToEvent(Setup);
     }
 
     private void OnDisable()
     {
-        battleController.battleActionArmedStateChanged -= Setup;
+        BattleEventBus<BattleActionArmedEvent>.UnsubscribeFromEvent(Setup);
     }
 
-    private void Setup(IBattleActionSuper battleActionSuper)
+    private void Setup(BattleActionArmedEvent battleActionArmedEvent)
     {
+        IBattleActionSuper battleActionSuper = battleActionArmedEvent.battleActionSuper;
+
         if (battleActionSuper != null && battleActionSuper.IsItem())
         {
             DialogueBox dialogueBox = Instantiate(dialogueBoxPrefab, messageParent);

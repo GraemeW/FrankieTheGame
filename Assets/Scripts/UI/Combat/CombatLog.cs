@@ -33,19 +33,15 @@ namespace Frankie.Combat.UI
         List<CombatParticipant> combatParticipants = new List<CombatParticipant>();
         Coroutine marquee = null;
 
-        // Cached References
-        BattleController battleController = null;
-
         private void Awake()
         {
-            battleController = GameObject.FindGameObjectWithTag("BattleController")?.GetComponent<BattleController>();
             combatLogDelay = delayBetweenCharactersSlowDown;
         }
 
         protected override void OnEnable()
         {
             base.OnEnable();
-            battleController.battleSequenceProcessed += ParseBattleSequence;
+            BattleEventBus<BattleSequenceProcessedEvent>.SubscribeToEvent(ParseBattleSequence);
             ToggleCombatParticipantListeners(true);
             marquee = StartCoroutine(MarqueeScroll());
         }
@@ -53,7 +49,7 @@ namespace Frankie.Combat.UI
         protected override void OnDisable()
         {
             base.OnDisable();
-            battleController.battleSequenceProcessed -= ParseBattleSequence;
+            BattleEventBus<BattleSequenceProcessedEvent>.UnsubscribeFromEvent(ParseBattleSequence);
             ToggleCombatParticipantListeners(false);
             StopCoroutine(marquee);
         }
@@ -108,8 +104,10 @@ namespace Frankie.Combat.UI
             }
         }
 
-        private void ParseBattleSequence(BattleSequence battleSequence)
+        private void ParseBattleSequence(BattleSequenceProcessedEvent battleSequenceProcessedEvent)
         {
+            BattleSequence battleSequence = battleSequenceProcessedEvent.battleSequence;
+
             BattleActionData battleActionData = battleSequence.battleActionData;
             if (battleActionData == null || (battleSequence.battleActionSuper == null)) { return; }
             if (battleActionData.GetSender() == null || battleActionData.targetCount == 0) { return; }
