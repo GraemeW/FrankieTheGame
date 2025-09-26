@@ -28,13 +28,12 @@ If assets have been placed before snapping was enabled, they can be force-snappe
 
 ## Standard World Objects (Interior, Exterior, Signs)
 
+* *See the [StyleGuide](../../../InfoTools/StyleGuide/README.md#game-object--world-artwork-pixel-art) for futher detail on artwork design/construction requirements*
+* *See [Tilemaps](../Tilemaps/) for further detail on Tilemap-specific configuration*
+
 ### Configuration:  Sprite Renderer + Sprite
 
 As detailed in [Rendering](../../Scripts/Rendering/), Frankie employs a custom shader in order to achieve (visually indistinguishable to) pixel-perfect rendering at arbitrary display resolutions/window sizes.  This section describes the steps that **must** be followed in order to avoid visual glitches in rendering.
-
-*Note:*
-* *See the [StyleGuide](../../../InfoTools/StyleGuide/README.md#game-object--world-artwork-pixel-art) for futher detail on artwork design/construction requirements*
-* *See [Tilemaps](../Tilemaps/) for further detail on Tilemap-specific configuration*
 
 #### Sprite Import / Setup
 
