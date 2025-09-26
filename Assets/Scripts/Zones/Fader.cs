@@ -3,7 +3,7 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 using Frankie.Core;
-using Frankie.Utils;
+using Frankie.Rendering;
 
 namespace Frankie.ZoneManagement
 {

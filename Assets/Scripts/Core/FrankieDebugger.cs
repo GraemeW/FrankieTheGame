@@ -1,17 +1,17 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using Frankie.Utils;
 using Frankie.Quests;
 using Frankie.Stats;
 using Frankie.Inventory;
 using UnityEngine.SceneManagement;
-using Frankie.Settings;
+using Frankie.Saving;
 
 namespace Frankie.Core
 {
     public class FrankieDebugger : MonoBehaviour
     {
+        [SerializeField] bool resetSaveOnStart = false;
+
         // Cached References
         PlayerInput playerInput = null;
         GameObject player = null;
@@ -54,6 +54,12 @@ namespace Frankie.Core
             questList.ForceInit();
             party.ForceInit();
             wallet.ForceInit();
+
+            if (resetSaveOnStart)
+            {
+                Delete();
+                Save();
+            }
         }
 
         private void OnEnable()
@@ -105,6 +111,8 @@ namespace Frankie.Core
         {
             UnityEngine.Debug.Log($"Frankie Debugger:  Deleting Game...");
             savingWrapper.value.Delete();
+            savingWrapper.value.DeleteSession();
+            savingWrapper.value.DeleteDebugSave();
         }
 
         private void ClearPlayerPrefs()

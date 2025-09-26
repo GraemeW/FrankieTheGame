@@ -63,7 +63,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: 07b6a8bf7bead4af8a79bb5bcd8b8376, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -161,7 +161,7 @@ PolygonCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.505618, y: 0.1986755}
-    oldSize: {x: 0.89, y: 1.51}
+    oldSize: {x: 0.91, y: 1.52}
     newSize: {x: 0.13, y: 0.79}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
@@ -245,6 +245,10 @@ PrefabInstance:
       propertyPath: m_SortingOrder
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 6748012768298087333, guid: 2c59197227dd937478cf22b80622bee1, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 07b6a8bf7bead4af8a79bb5bcd8b8376, type: 2}
     - target: {fileID: 6748012768298087334, guid: 2c59197227dd937478cf22b80622bee1, type: 3}
       propertyPath: m_Name
       value: ATMPoster
@@ -319,6 +323,10 @@ PrefabInstance:
       propertyPath: m_SortingOrder
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 6748012768298087333, guid: effdec2b76c20b045add2264c3dc8828, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 07b6a8bf7bead4af8a79bb5bcd8b8376, type: 2}
     - target: {fileID: 6748012768298087334, guid: effdec2b76c20b045add2264c3dc8828, type: 3}
       propertyPath: m_Name
       value: BankPoster

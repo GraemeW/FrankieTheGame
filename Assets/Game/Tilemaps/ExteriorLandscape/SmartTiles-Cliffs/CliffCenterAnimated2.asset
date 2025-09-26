@@ -1,0 +1,63 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b68812f1366cee840be8c2b3f64a4d46, type: 3}
+  m_Name: CliffCenterAnimated2
+  m_EditorClassIdentifier: 
+  m_DefaultSprite: {fileID: 5238372875251834986, guid: a4830863e3a724f71aa567088257520c, type: 3}
+  m_DefaultGameObject: {fileID: 0}
+  m_DefaultColliderType: 0
+  m_TilingRules:
+  - m_Id: 1
+    m_Sprites:
+    - {fileID: 5238372875251834986, guid: a4830863e3a724f71aa567088257520c, type: 3}
+    - {fileID: -1690165687374623767, guid: a4830863e3a724f71aa567088257520c, type: 3}
+    - {fileID: -1064193029922757897, guid: a4830863e3a724f71aa567088257520c, type: 3}
+    - {fileID: -9127494257955121339, guid: a4830863e3a724f71aa567088257520c, type: 3}
+    - {fileID: -1064193029922757897, guid: a4830863e3a724f71aa567088257520c, type: 3}
+    - {fileID: -1690165687374623767, guid: a4830863e3a724f71aa567088257520c, type: 3}
+    m_GameObject: {fileID: 0}
+    m_MinAnimationSpeed: 1.5
+    m_MaxAnimationSpeed: 1.5
+    m_PerlinScale: 0.5
+    m_Output: 2
+    m_ColliderType: 1
+    m_RandomTransform: 0
+    m_Neighbors: 0100000002000000
+    m_NeighborPositions:
+    - {x: 0, y: 1, z: 0}
+    - {x: 0, y: -1, z: 0}
+    m_RuleTransform: 0
+  - m_Id: 0
+    m_Sprites:
+    - {fileID: 7067741086529831747, guid: 1c5f17658ce9b4f67ace9ab4f1007467, type: 3}
+    - {fileID: -7685971446997644426, guid: 1c5f17658ce9b4f67ace9ab4f1007467, type: 3}
+    m_GameObject: {fileID: 0}
+    m_MinAnimationSpeed: 1
+    m_MaxAnimationSpeed: 1
+    m_PerlinScale: 0.5
+    m_Output: 1
+    m_ColliderType: 2
+    m_RandomTransform: 0
+    m_Neighbors: 
+    m_NeighborPositions:
+    - {x: -1, y: 1, z: 0}
+    - {x: 0, y: 1, z: 0}
+    - {x: 1, y: 1, z: 0}
+    - {x: -1, y: 0, z: 0}
+    - {x: 1, y: 0, z: 0}
+    - {x: -1, y: -1, z: 0}
+    - {x: 0, y: -1, z: 0}
+    - {x: 1, y: -1, z: 0}
+    m_RuleTransform: 0
+  siblings:
+  - {fileID: 11400000, guid: 391e6dd6b6df7104f95eac5870eadf8a, type: 2}
+  - {fileID: 11400000, guid: 1de677587e79a3143b2cf86509f683f8, type: 2}

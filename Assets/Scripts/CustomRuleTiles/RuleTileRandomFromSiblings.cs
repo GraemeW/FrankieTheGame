@@ -1,8 +1,5 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
-using UnityEngine.UIElements;
 
 [CreateAssetMenu(fileName = "New Random From Siblings Tile", menuName = "CustomRuleTiles/New Random From Siblings Rule Tile")]
 public class RuleTileRandomFromSiblings : RuleTileSibling

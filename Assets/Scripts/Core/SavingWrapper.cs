@@ -187,9 +187,19 @@ namespace Frankie.Core
             GetComponent<SavingSystem>().Delete(saveName);
         }
 
+        public void DeleteSession()
+        {
+            GetComponent<SavingSystem>().Delete(sessionFile);
+        }
+
         public void SetSaveToDebug()
         {
             SetCurrentSave(debugFile);
+        }
+
+        public void DeleteDebugSave()
+        {
+            GetComponent<SavingSystem>().Delete(debugFile);
         }
         #endregion
 

@@ -1,0 +1,54 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b68812f1366cee840be8c2b3f64a4d46, type: 3}
+  m_Name: SidewalkHorizontalTop
+  m_EditorClassIdentifier: Assembly-CSharp::RuleTileSibling
+  m_DefaultSprite: {fileID: 6198817917495732025, guid: eabb4ed7b15f84470b953db329c43448, type: 3}
+  m_DefaultGameObject: {fileID: 0}
+  m_DefaultColliderType: 1
+  m_TilingRules:
+  - m_Id: 2
+    m_Sprites:
+    - {fileID: 6198817917495732025, guid: eabb4ed7b15f84470b953db329c43448, type: 3}
+    - {fileID: -6437505862150834453, guid: eabb4ed7b15f84470b953db329c43448, type: 3}
+    - {fileID: -267993955947977997, guid: eabb4ed7b15f84470b953db329c43448, type: 3}
+    - {fileID: 6198817917495732025, guid: eabb4ed7b15f84470b953db329c43448, type: 3}
+    - {fileID: 6198817917495732025, guid: eabb4ed7b15f84470b953db329c43448, type: 3}
+    - {fileID: 6198817917495732025, guid: eabb4ed7b15f84470b953db329c43448, type: 3}
+    - {fileID: 6198817917495732025, guid: eabb4ed7b15f84470b953db329c43448, type: 3}
+    - {fileID: 6198817917495732025, guid: eabb4ed7b15f84470b953db329c43448, type: 3}
+    m_GameObject: {fileID: 0}
+    m_MinAnimationSpeed: 1
+    m_MaxAnimationSpeed: 1
+    m_PerlinScale: 0.564
+    m_Output: 1
+    m_ColliderType: 1
+    m_RandomTransform: 2
+    m_Neighbors: 
+    m_NeighborPositions:
+    - {x: -1, y: 1, z: 0}
+    - {x: 0, y: 1, z: 0}
+    - {x: 1, y: 1, z: 0}
+    - {x: -1, y: 0, z: 0}
+    - {x: 1, y: 0, z: 0}
+    - {x: -1, y: -1, z: 0}
+    - {x: 0, y: -1, z: 0}
+    - {x: 1, y: -1, z: 0}
+    m_RuleTransform: 0
+  siblings:
+  - {fileID: 11400000, guid: 1101b94ad3f8b48a282c7913d33b21a2, type: 2}
+  - {fileID: 11400000, guid: ed8c06400fb9b43ae8eaba8b8efc5541, type: 2}
+  - {fileID: 11400000, guid: 9f8ccfa52f1894921a31b4b399ea9202, type: 2}
+  - {fileID: 11400000, guid: 10f66b081189b413faacc52bf8e6a581, type: 2}
+  - {fileID: 11400000, guid: 1de3b51cfe1b446098d26808a38126bc, type: 2}
+  - {fileID: 11400000, guid: 2c730d5872b144333ac02d1bfc890099, type: 2}
+  - {fileID: 11400000, guid: 4b3f2e0800aee414180aa828e14847db, type: 2}
