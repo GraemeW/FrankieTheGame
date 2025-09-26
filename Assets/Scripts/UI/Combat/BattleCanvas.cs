@@ -92,13 +92,13 @@ namespace Frankie.Combat.UI
         private void OnEnable()
         {
             BattleEventBus<BattleStateChangedEvent>.SubscribeToEvent(Setup);
-            battleController.battleEntityAddedToCombat += SetupBattleEntity;
+            BattleEventBus<BattleEntityAddedEvent>.SubscribeToEvent(SetupBattleEntity);
         }
 
         private void OnDisable()
         {
             BattleEventBus<BattleStateChangedEvent>.UnsubscribeFromEvent(Setup);
-            battleController.battleEntityAddedToCombat -= SetupBattleEntity;
+            BattleEventBus<BattleEntityAddedEvent>.UnsubscribeFromEvent(SetupBattleEntity);
         }
 
         private void OnDestroy()
@@ -198,8 +198,10 @@ namespace Frankie.Combat.UI
             }
         }
 
-        private void SetupBattleEntity(BattleEntity battleEntity)
+        private void SetupBattleEntity(BattleEntityAddedEvent battleEntityAddedEvent)
         {
+            BattleEntity battleEntity = battleEntityAddedEvent.battleEntity;
+
             if (!battleEntity.isAssistCharacter)
             {
                 if (battleEntity.isCharacter)
