@@ -5,7 +5,7 @@ namespace Frankie.Combat
 {
     public static class BattleEventBus<T> where T : IBattleEvent
     {
-        private static List<Event> activeHandlers = new List<Event>();
+        private static List<Event> activeSubscriptions = new List<Event>();
 
         public delegate void Event(T args);
         public static event Event onEvent;
@@ -17,24 +17,24 @@ namespace Frankie.Combat
 
         public static void SubscribeToEvent(Event handler)
         {
-            if (activeHandlers.Contains(handler)) { return; }
+            if (activeSubscriptions.Contains(handler)) { return; }
 
-            activeHandlers.Add(handler);
+            activeSubscriptions.Add(handler);
             onEvent += handler;
         }
         public static void UnsubscribeFromEvent(Event handler)
         {
-            activeHandlers.Remove(handler);
+            activeSubscriptions.Remove(handler);
             onEvent -= handler;
         }
 
         public static void ClearAllSubscriptions()
         {
-            foreach (Event handler in activeHandlers)
+            foreach (Event handler in activeSubscriptions)
             {
                 onEvent -= handler;
             }
-            activeHandlers.Clear();
+            activeSubscriptions.Clear();
         }
 
         private static void UpdateBattleEventBusState(T battleEvent)
@@ -74,7 +74,7 @@ namespace Frankie.Combat
             if (!inBattle)
             {
                 SetBattleState(BattleState.Inactive);
-                DeleteAllSubscriptions();
+                ClearWithinBattleSubscriptions();
             }
         }
 
@@ -85,18 +85,27 @@ namespace Frankie.Combat
         #endregion
 
         #region SubscriptionManagement
-        public static void DeleteAllSubscriptions()
+        public static void ClearWithinBattleSubscriptions()
         {
             foreach (BattleEventType eventType in System.Enum.GetValues(typeof(BattleEventType)))
             {
-                DeleteSubscriptions(eventType);
+                // Entry and exit persist outside of the scope of the battle unless manually unsubscribed
+                if (eventType == BattleEventType.BattleEnter || eventType == BattleEventType.BattleExit) { continue; }
+
+                ClearSubscriptions(eventType);
             }
         }
 
-        private static void DeleteSubscriptions(BattleEventType eventType)
+        private static void ClearSubscriptions(BattleEventType eventType)
         {
             switch (eventType)
             {
+                case BattleEventType.BattleEnter:
+                    BattleEventBus<BattleEnterEvent>.ClearAllSubscriptions();
+                    break;
+                case BattleEventType.BattleExit:
+                    BattleEventBus<BattleExitEvent>.ClearAllSubscriptions();
+                    break;
                 case BattleEventType.BattleStateChanged:
                     BattleEventBus<BattleStateChangedEvent>.ClearAllSubscriptions();
                     break;

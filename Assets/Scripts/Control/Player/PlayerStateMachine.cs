@@ -378,7 +378,6 @@ namespace Frankie.Control
             if (fader.IsFading() == true) { return true; } // Safety against multiple fading routines
 
             StartCoroutine(QueueExitCombat(fader));
-            BattleEventBus<BattleExitEvent>.Raise(new BattleExitEvent());
             return true;
         }
 
@@ -414,6 +413,7 @@ namespace Frankie.Control
             Destroy(battleController.gameObject);
             yield return fader.QueueFadeExit(currentTransitionType);
 
+            BattleEventBus<BattleExitEvent>.Raise(new BattleExitEvent());
             currentPlayerState.EnterWorld(this);
         }
         #endregion
