@@ -91,13 +91,13 @@ namespace Frankie.Combat.UI
 
         private void OnEnable()
         {
-            battleController.battleStateChanged += Setup;
+            BattleEventBus<BattleStateChangedEvent>.SubscribeToEvent(Setup);
             battleController.battleEntityAddedToCombat += SetupBattleEntity;
         }
 
         private void OnDisable()
         {
-            battleController.battleStateChanged -= Setup;
+            BattleEventBus<BattleStateChangedEvent>.UnsubscribeFromEvent(Setup);
             battleController.battleEntityAddedToCombat -= SetupBattleEntity;
         }
 
@@ -117,8 +117,11 @@ namespace Frankie.Combat.UI
         #endregion
 
         #region PublicMethods
-        public void Setup(BattleState state, BattleOutcome battleOutcome)
+        public void Setup(BattleStateChangedEvent battleStateChangedEvent)
         {
+            BattleState state = battleStateChangedEvent.battleState;
+            BattleOutcome battleOutcome = battleStateChangedEvent.battleOutcome;
+
             if (state == lastBattleState) { return; } // Only act on state changes
             lastBattleState = state;
 

@@ -353,7 +353,7 @@ namespace Frankie.Control
                     battleController = existingBattleController;
                 }
             }
-            battleController.battleStateChanged += HandleCombatMessages;
+            BattleEventBus<BattleStateChangedEvent>.SubscribeToEvent(HandleCombatMessages);
         }
 
         public bool StartBattleSequence()
@@ -378,13 +378,17 @@ namespace Frankie.Control
             if (fader.IsFading() == true) { return true; } // Safety against multiple fading routines
 
             StartCoroutine(QueueExitCombat(fader));
+            BattleEventBus<BattleExitEvent>.Raise(new BattleExitEvent());
             return true;
         }
 
-        private void HandleCombatMessages(BattleState battleState, BattleOutcome battleOutcome)
+        private void HandleCombatMessages(BattleStateChangedEvent battleStateChangedEvent)
         {
+            BattleState battleState = battleStateChangedEvent.battleState;
+            BattleOutcome battleOutcome = battleStateChangedEvent.battleOutcome;
+
             if (battleState != BattleState.Complete) { return; }
-            battleController.battleStateChanged -= HandleCombatMessages;
+            BattleEventBus<BattleStateChangedEvent>.UnsubscribeFromEvent(HandleCombatMessages);
 
             currentTransitionType = TransitionType.BattleComplete;
             currentPlayerState.EnterTransition(this);

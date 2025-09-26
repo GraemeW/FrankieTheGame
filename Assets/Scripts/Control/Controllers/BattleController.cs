@@ -50,7 +50,6 @@ namespace Frankie.Combat
         // Events
         public event Action<PlayerInputType> battleInput;
         public event Action<PlayerInputType> globalInput;
-        public event Action<BattleState, BattleOutcome> battleStateChanged;
         public event Action<BattleEntity> battleEntityAddedToCombat;
         public event Action<CombatParticipantType, IEnumerable<BattleEntity>> selectedCombatParticipantChanged;
         public event Action<IBattleActionSuper> battleActionArmedStateChanged;
@@ -65,7 +64,7 @@ namespace Frankie.Combat
             battleRewards = GetComponent<BattleRewards>();
 
             VerifyUnique();
-            
+
             playerInput.Menu.Navigate.performed += context => ParseDirectionalInput(context.ReadValue<Vector2>());
             playerInput.Menu.Execute.performed += context => HandleUserInput(PlayerInputType.Execute);
             playerInput.Menu.Cancel.performed += context => HandleUserInput(PlayerInputType.Cancel);
@@ -159,7 +158,7 @@ namespace Frankie.Combat
                 ToggleCombatParticipants(false);
             }
 
-            battleStateChanged?.Invoke(state, battleOutcome);
+            BattleEventBus<BattleStateChangedEvent>.Raise(new BattleStateChangedEvent(state, battleOutcome));
         }
 
         public bool SetSelectedCharacter(CombatParticipant character)
@@ -463,6 +462,7 @@ namespace Frankie.Combat
         private void InitiateBattle(List<CombatParticipant> enemies, TransitionType transitionType)
         {
             SetupCombatParticipants(enemies, transitionType);
+            BattleEventBus<BattleEnterEvent>.Raise(new BattleEnterEvent(activeCharacters, activeEnemies));
 
             if (CheckForAutoWin())
             {

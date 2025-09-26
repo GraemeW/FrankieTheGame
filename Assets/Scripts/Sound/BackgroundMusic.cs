@@ -30,7 +30,6 @@ namespace Frankie.Sound
         // Cached References
         AudioSource audioSource = null;
         PlayerStateMachine playerStateHandler = null;
-        BattleController battleController = null;
 
         // Static Variables
         private static string MIXER_VOLUME_REFERENCE = "masterVolume";
@@ -58,6 +57,8 @@ namespace Frankie.Sound
 
             SceneLoader.zoneUpdated += ResetPlayerReference;
             SceneLoader.zoneUpdated += ParseZoneUpdate;
+            BattleEventBus<BattleEnterEvent>.SubscribeToEvent(ParseBattleEntry);
+            BattleEventBus<BattleStateChangedEvent>.SubscribeToEvent(ParseBattleState);
             if (playerStateHandler != null) { playerStateHandler.playerStateChanged += ParsePlayerState; }
         }
 
@@ -65,6 +66,8 @@ namespace Frankie.Sound
         {
             SceneLoader.zoneUpdated -= ResetPlayerReference;
             SceneLoader.zoneUpdated -= ParseZoneUpdate;
+            BattleEventBus<BattleEnterEvent>.UnsubscribeFromEvent(ParseBattleEntry);
+            BattleEventBus<BattleStateChangedEvent>.UnsubscribeFromEvent(ParseBattleState);
             if (playerStateHandler != null) { playerStateHandler.playerStateChanged -= ParsePlayerState; }
         }
         #endregion
@@ -150,31 +153,25 @@ namespace Frankie.Sound
         #endregion
 
         #region MessageHandling
+        private void ParseBattleEntry(BattleEnterEvent battleStartedEvent)
+        {
+            AudioClip audioClip = GetBattleAudioClip(battleStartedEvent.enemyEntities);
+            SetBattleMusic(audioClip);
+        }
+
         private void ParsePlayerState(PlayerStateType playerState)
         {
-            if (playerState == PlayerStateType.inBattle)
-            {
-                if (battleController == null) { battleController = GameObject.FindGameObjectWithTag("BattleController")?.GetComponent<BattleController>(); }
-                AudioClip audioClip = GetBattleAudioClip();
-                SetBattleMusic(audioClip);
-
-                if (battleController != null) { battleController.battleStateChanged += ParseBattleState; }
-            }
-            else if (isBattleMusic && playerState == PlayerStateType.inWorld)
+            if (isBattleMusic && playerState == PlayerStateType.inWorld)
             {
                 StopBattleMusic();
             }
         }
 
-        private void ParseBattleState(BattleState battleState, BattleOutcome battleOutcome)
+        private void ParseBattleState(BattleStateChangedEvent battleStateChangedEvent)
         {
-            if (battleState == BattleState.PreOutro)
+            if (battleStateChangedEvent.battleState == BattleState.PreOutro)
             {
                 SetBattleMusic(levelUpAudio);
-            }
-            else if (battleState == BattleState.Outro)
-            {
-                if (battleController != null) { battleController.battleStateChanged -= ParseBattleState; }
             }
         }
         #endregion
@@ -200,11 +197,8 @@ namespace Frankie.Sound
         #endregion
 
         #region BattleAudio
-        private AudioClip GetBattleAudioClip()
+        private AudioClip GetBattleAudioClip(List<BattleEntity> battleEntities)
         {
-            if (battleController == null) { return null; }
-
-            List<BattleEntity> battleEntities = battleController.GetEnemies();
             List<AudioClip> audioClipOptions = new List<AudioClip>();
             foreach (BattleEntity battleEntity in battleEntities)
             {
