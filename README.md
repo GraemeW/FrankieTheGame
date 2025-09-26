@@ -40,6 +40,10 @@ The addressables that contain key game data (zone properties, character properti
 
 N.B. Artwork and music associated with these assets are not, by default, pushed to GIT.  They are backed up separately.
 
+## Style Guide
+
+Code and art style requirements/recommendations are detailed in the [Frankie Style Guide](./InfoTools/StyleGuide/).
+
 ## Scripts - Key Namespaces
 
 Scripts are located in: [Scripts](./Assets/Scripts/)
