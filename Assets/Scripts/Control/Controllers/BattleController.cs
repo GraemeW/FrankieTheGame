@@ -50,7 +50,6 @@ namespace Frankie.Combat
         // Events
         public event Action<PlayerInputType> battleInput;
         public event Action<PlayerInputType> globalInput;
-        public event Action<CombatParticipantType, IEnumerable<BattleEntity>> selectedCombatParticipantChanged;
         public event Action<IBattleActionSuper> battleActionArmedStateChanged;
         public event Action<BattleSequence> battleSequenceProcessed;
 
@@ -174,7 +173,9 @@ namespace Frankie.Combat
             {
                 battleActionData = null;
             }
-            selectedCombatParticipantChanged?.Invoke(CombatParticipantType.Friendly, new[] { new BattleEntity(selectedCharacter) });
+
+            List<BattleEntity> selectedBattleEntity = new() { new(selectedCharacter) };
+            BattleEventBus<BattleEntitySelectedEvent>.Raise(new BattleEntitySelectedEvent(CombatParticipantType.Friendly, selectedBattleEntity));
 
             return true;
         }
@@ -191,7 +192,7 @@ namespace Frankie.Combat
                 battleActionUser.GetTargets(traverseForward, battleActionData, activeCharacters, activeEnemies);
             }
 
-            selectedCombatParticipantChanged?.Invoke(CombatParticipantType.Foe, battleActionData?.GetTargets());
+            BattleEventBus<BattleEntitySelectedEvent>.Raise(new BattleEntitySelectedEvent(CombatParticipantType.Foe, battleActionData?.GetTargets()));
 
             if (battleActionData != null)
             {

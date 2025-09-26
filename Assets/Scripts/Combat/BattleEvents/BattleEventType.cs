@@ -5,7 +5,7 @@ namespace Frankie.Combat
         BattleEnter,
         BattleStateChanged,
         BattleEntityAdded,
-        BattleParticipantSelected,
+        BattleEntitySelected,
         BattleActionArmed,
         BattleSequencedProcessed,
         BattleEntityStateAltered,

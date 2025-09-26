@@ -52,14 +52,12 @@ namespace Frankie.Combat.UI
 
         protected virtual void OnEnable()
         {
-            if (battleEntity != null)
+            if (battleEntity != null) { battleEntity.combatParticipant.stateAltered += ParseState; }
+
+            if (BattleEventBus.inBattle)
             {
-                battleEntity.combatParticipant.stateAltered += ParseState;
-            }
-            if (battleController != null)
-            {
-                battleController.selectedCombatParticipantChanged += HighlightSlide;
-                AddButtonClickEvent( delegate{ HandleClickInBattle(); });
+                BattleEventBus<BattleEntitySelectedEvent>.SubscribeToEvent(HighlightSlide);
+                AddButtonClickEvent(delegate { HandleClickInBattle(); });
             }
         }
 
@@ -67,17 +65,9 @@ namespace Frankie.Combat.UI
         {
             RemoveButtonClickEvents();
 
-            if (canvasDimming != null) { StopCoroutine(canvasDimming); }
-            canvasDimming = null;
-
-            if (battleEntity != null)
-            {
-                battleEntity.combatParticipant.stateAltered -= ParseState;
-            }
-            if (battleController != null)
-            {
-                battleController.selectedCombatParticipantChanged -= HighlightSlide;
-            }
+            if (canvasDimming != null) { StopCoroutine(canvasDimming); canvasDimming = null; }
+            if (battleEntity != null) { battleEntity.combatParticipant.stateAltered -= ParseState; }
+            BattleEventBus<BattleEntitySelectedEvent>.UnsubscribeFromEvent(HighlightSlide);
         }
 
         private void FixedUpdate()
@@ -133,6 +123,11 @@ namespace Frankie.Combat.UI
                     SetSelected(combatParticipantType, true);
                 }
             }
+        }
+
+        public void HighlightSlide(BattleEntitySelectedEvent battleEntitySelectedEvent)
+        {
+            HighlightSlide(battleEntitySelectedEvent.combatParticipantType, battleEntitySelectedEvent.battleEntities);
         }
 
         public void HighlightSlide(CombatParticipantType combatParticipantType, bool enable)
