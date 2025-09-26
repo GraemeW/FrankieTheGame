@@ -50,7 +50,6 @@ namespace Frankie.Combat
         // Events
         public event Action<PlayerInputType> battleInput;
         public event Action<PlayerInputType> globalInput;
-        public event Action<IBattleActionSuper> battleActionArmedStateChanged;
         public event Action<BattleSequence> battleSequenceProcessed;
 
         // Interaction
@@ -235,7 +234,7 @@ namespace Frankie.Combat
             }
             else { return; }
 
-            battleActionArmedStateChanged?.Invoke(selectedBattleActionSuper);
+            BattleEventBus<BattleActionArmedEvent>.Raise(new BattleActionArmedEvent(selectedBattleActionSuper));
         }
         #endregion
 
