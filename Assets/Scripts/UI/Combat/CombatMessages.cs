@@ -13,15 +13,6 @@ public class CombatMessages : MonoBehaviour
     [Header("Messages")]
     [Tooltip("Include {0} for item")] [SerializeField] string messageItemToBeUsed = "Use the item {0} on whom?";
 
-
-    // Cached References
-    BattleController battleController = null;
-
-    private void Awake()
-    {
-        battleController = GameObject.FindGameObjectWithTag("BattleController")?.GetComponent<BattleController>();
-    }
-
     private void OnEnable()
     {
         BattleEventBus<BattleActionArmedEvent>.SubscribeToEvent(Setup);

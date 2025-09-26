@@ -50,7 +50,6 @@ namespace Frankie.Combat
         // Events
         public event Action<PlayerInputType> battleInput;
         public event Action<PlayerInputType> globalInput;
-        public event Action<BattleSequence> battleSequenceProcessed;
 
         // Interaction
         #region UnityMethods
@@ -653,7 +652,8 @@ namespace Frankie.Combat
             bool allEntitiesDead = true;
             foreach (BattleEntity battleEntity in dequeuedBattleActionData.GetTargets()) { if (!battleEntity.combatParticipant.IsDead()) { allEntitiesDead = false; break; } }
             if (dequeuedBattleActionData.GetSender().IsDead() || allEntitiesDead) { yield break; }
-            battleSequenceProcessed?.Invoke(battleSequence);
+
+            BattleEventBus<BattleSequenceProcessedEvent>.Raise(new BattleSequenceProcessedEvent(battleSequence));
 
             // Useful Debug
             //string targetNames = string.Concat(dequeuedBattleActionData.GetTargets().Select(x => x.name));

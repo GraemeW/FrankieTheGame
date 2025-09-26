@@ -27,7 +27,7 @@ namespace Frankie.Combat.UI
 
         [Header("Dimming Effects")]
         [SerializeField] float dimmingMin = 0.7f;
-        [SerializeField] [Tooltip("in seconds")] float halfDimmingTime = 0.05f;
+        [SerializeField][Tooltip("in seconds")] float halfDimmingTime = 0.05f;
 
         // State
         protected BattleEntity battleEntity = null;
@@ -188,7 +188,7 @@ namespace Frankie.Combat.UI
         protected void CapVisibleStatusEffects()
         {
             int statusEffectCount = 0;
-            foreach(Transform child in statusEffectPanel)
+            foreach (Transform child in statusEffectPanel)
             {
                 statusEffectCount++;
                 if (statusEffectCount > maxStatusEffectToShow)
