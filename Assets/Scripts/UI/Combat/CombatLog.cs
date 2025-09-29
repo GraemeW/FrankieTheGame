@@ -41,46 +41,17 @@ namespace Frankie.Combat.UI
         protected override void OnEnable()
         {
             base.OnEnable();
-            BattleEventBus<BattleEnterEvent>.SubscribeToEvent(SetupCombatParticipants);
             BattleEventBus<BattleSequenceProcessedEvent>.SubscribeToEvent(ParseBattleSequence);
-            ToggleCombatParticipantListeners(true);
+            BattleEventBus<StateAlteredInfo>.SubscribeToEvent(ParseCombatParticipantState);
             marquee = StartCoroutine(MarqueeScroll());
         }
 
         protected override void OnDisable()
         {
             base.OnDisable();
-            BattleEventBus<BattleEnterEvent>.UnsubscribeFromEvent(SetupCombatParticipants);
             BattleEventBus<BattleSequenceProcessedEvent>.UnsubscribeFromEvent(ParseBattleSequence);
-            ToggleCombatParticipantListeners(false);
+            BattleEventBus<StateAlteredInfo>.UnsubscribeFromEvent(ParseCombatParticipantState);
             StopCoroutine(marquee);
-        }
-
-        private void SetupCombatParticipants(BattleEnterEvent battleEnterEvent)
-        {
-            if (combatParticipants == null) { combatParticipants = new List<CombatParticipant>(); }
-            combatParticipants.Clear();
-
-            foreach (BattleEntity battleEntity in battleEnterEvent.playerEntities)
-            {
-                combatParticipants.Add(battleEntity.combatParticipant);
-            }
-            foreach (BattleEntity battleEntity in battleEnterEvent.enemyEntities)
-            {
-                combatParticipants.Add(battleEntity.combatParticipant);
-            }
-        }
-
-        private void ToggleCombatParticipantListeners(bool enable)
-        {
-            if (combatParticipants.Count > 0)
-            {
-                foreach (CombatParticipant combatParticipant in combatParticipants)
-                {
-                    if (enable) { combatParticipant.SubscribeToStateUpdates(ParseCombatParticipantState); }
-                    else { combatParticipant.UnsubscribeToStateUpdates(ParseCombatParticipantState); }
-                }
-            }
         }
 
         public void AddCombatListener(CombatParticipant combatParticipant)
