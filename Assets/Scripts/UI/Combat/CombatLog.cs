@@ -77,8 +77,8 @@ namespace Frankie.Combat.UI
             {
                 foreach (CombatParticipant combatParticipant in combatParticipants)
                 {
-                    if (enable) { combatParticipant.stateAltered += ParseCombatParticipantState; }
-                    else { combatParticipant.stateAltered -= ParseCombatParticipantState; }
+                    if (enable) { combatParticipant.SubscribeToStateUpdates(ParseCombatParticipantState); }
+                    else { combatParticipant.UnsubscribeToStateUpdates(ParseCombatParticipantState); }
                 }
             }
         }

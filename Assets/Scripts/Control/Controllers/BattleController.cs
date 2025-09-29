@@ -90,14 +90,14 @@ namespace Frankie.Combat
             {
                 foreach (BattleEntity character in activePlayerCharacters)
                 {
-                    character.combatParticipant.stateAltered += HandleCharacterDeath;
+                    character.combatParticipant.SubscribeToStateUpdates(HandleCharacterDeath);
                 }
             }
             else
             {
                 foreach (BattleEntity character in activePlayerCharacters)
                 {
-                    character.combatParticipant.stateAltered -= HandleCharacterDeath;
+                    character.combatParticipant.UnsubscribeToStateUpdates(HandleCharacterDeath);
                 }
             }
         }
@@ -510,7 +510,7 @@ namespace Frankie.Combat
         {
             SetCombatParticipantCooldown(character, useBattleAdvantageCooldown);
 
-            character.stateAltered += CheckForBattleEnd;
+            character.SubscribeToStateUpdates(CheckForBattleEnd);
             BattleEntity characterBattleEntity = new BattleEntity(character);
             activeCharacters.Add(characterBattleEntity);
             activePlayerCharacters.Add(characterBattleEntity);
@@ -522,7 +522,7 @@ namespace Frankie.Combat
         {
             SetCombatParticipantCooldown(character, useBattleAdvantageCooldown);
 
-            character.stateAltered += CheckForBattleEnd;
+            character.SubscribeToStateUpdates(CheckForBattleEnd);
             BattleEntity assistBattleEntity = new BattleEntity(character, true);
             activeCharacters.Add(assistBattleEntity);
             activeAssistCharacters.Add(assistBattleEntity);
@@ -538,7 +538,7 @@ namespace Frankie.Combat
             GetEnemyPosition(out rowIndex, out columnIndex);
             UnityEngine.Debug.Log($"New enemy added at position row: {rowIndex} ; col: {columnIndex}");
 
-            enemy.stateAltered += CheckForBattleEnd;
+            enemy.SubscribeToStateUpdates(CheckForBattleEnd);
 
             BattleEntity enemyBattleEntity = new BattleEntity(enemy, enemy.GetBattleEntityType(), rowIndex, columnIndex);
             enemyBattleEntity.removedFromCombat += RemoveFromEnemyMapping;
@@ -731,12 +731,12 @@ namespace Frankie.Combat
             foreach (BattleEntity character in activeCharacters)
             {
                 character.combatParticipant.SetCombatActive(false);
-                character.combatParticipant.stateAltered -= CheckForBattleEnd;
+                character.combatParticipant.UnsubscribeToStateUpdates(CheckForBattleEnd);
             }
             foreach (BattleEntity enemy in activeEnemies)
             {
                 enemy.combatParticipant.SetCombatActive(false);
-                enemy.combatParticipant.stateAltered -= CheckForBattleEnd;
+                enemy.combatParticipant.UnsubscribeToStateUpdates(CheckForBattleEnd);
             }
             activeCharacters.Clear();
             activePlayerCharacters.Clear();

@@ -28,6 +28,11 @@ namespace Frankie.Combat
             onEvent -= handler;
         }
 
+        public static void EchoEvent(IBattleEventPublisher battleEventPublisher)
+        {
+            
+        }
+
         public static void ClearAllSubscriptions()
         {
             foreach (Event handler in activeSubscriptions)

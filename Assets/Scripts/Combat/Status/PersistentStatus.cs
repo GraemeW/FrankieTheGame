@@ -36,7 +36,7 @@ namespace Frankie.Combat
 
         private void OnEnable()
         {
-            combatParticipant.stateAltered += HandleCombatState;
+            combatParticipant.SubscribeToStateUpdates(HandleCombatState);
 
             if (playerStateHandler != null) { playerStateHandler.playerStateChanged += HandlePlayerState; }
             if (BattleEventBus.inBattle) { BattleEventBus<BattleStateChangedEvent>.SubscribeToEvent(HandleBattleState); }
@@ -44,7 +44,7 @@ namespace Frankie.Combat
 
         private void OnDisable()
         {
-            combatParticipant.stateAltered -= HandleCombatState;
+            combatParticipant.UnsubscribeToStateUpdates(HandleCombatState);
 
             if (playerStateHandler != null) { playerStateHandler.playerStateChanged -= HandlePlayerState; }
             BattleEventBus<BattleStateChangedEvent>.UnsubscribeFromEvent(HandleBattleState);

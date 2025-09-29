@@ -52,7 +52,7 @@ namespace Frankie.Combat.UI
 
         protected virtual void OnEnable()
         {
-            if (battleEntity != null) { battleEntity.combatParticipant.stateAltered += ParseState; }
+            if (battleEntity != null) { battleEntity.combatParticipant.SubscribeToStateUpdates(ParseState); }
 
             if (BattleEventBus.inBattle) { SetupBattleListeners(); }
             else { BattleEventBus<BattleEnterEvent>.SubscribeToEvent(SetupBattleListeners); }
@@ -63,7 +63,7 @@ namespace Frankie.Combat.UI
             RemoveButtonClickEvents();
 
             if (canvasDimming != null) { StopCoroutine(canvasDimming); canvasDimming = null; }
-            if (battleEntity != null) { battleEntity.combatParticipant.stateAltered -= ParseState; }
+            if (battleEntity != null) { battleEntity.combatParticipant.UnsubscribeToStateUpdates(ParseState); }
             BattleEventBus<BattleEnterEvent>.UnsubscribeFromEvent(SetupBattleListeners);
             BattleEventBus<BattleEntitySelectedEvent>.UnsubscribeFromEvent(HighlightSlide);
         }
@@ -85,11 +85,11 @@ namespace Frankie.Combat.UI
         #region PublicSettersGetters
         public virtual void SetBattleEntity(BattleEntity battleEntity)
         {
-            if (this.battleEntity != null) { this.battleEntity.combatParticipant.stateAltered -= ParseState; }
+            if (this.battleEntity != null) { this.battleEntity.combatParticipant.UnsubscribeToStateUpdates(ParseState); }
 
             this.battleEntity = battleEntity;
             InitializeStatusEffectBobbles();
-            this.battleEntity.combatParticipant.stateAltered += ParseState;
+            this.battleEntity.combatParticipant.SubscribeToStateUpdates(ParseState);
         }
 
         public virtual void AddButtonClickEvent(UnityAction unityAction)

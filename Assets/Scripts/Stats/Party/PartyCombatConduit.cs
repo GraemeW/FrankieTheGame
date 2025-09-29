@@ -104,11 +104,11 @@ namespace Frankie.Stats
 
             if (enable)
             {
-                partyLeader.stateAltered += HandleLeaderStatusUpdate;
+                partyLeader.SubscribeToStateUpdates(HandleLeaderStatusUpdate);
             }
             else
             {
-                partyLeader.stateAltered -= HandleLeaderStatusUpdate;
+                partyLeader.UnsubscribeToStateUpdates(HandleLeaderStatusUpdate);
             }
         }
 

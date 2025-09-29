@@ -70,7 +70,7 @@ namespace Frankie.Control
         private void OnEnable()
         {
             playerStateHandler.value.playerStateChanged += ParsePlayerStateChange;
-            if (combatParticipant != null) { combatParticipant.stateAltered += HandleNPCCombatStateChange; }
+            if (combatParticipant != null) { combatParticipant.SubscribeToStateUpdates(HandleNPCCombatStateChange); }
             if (spriteVisibilityAnnouncer != null) { spriteVisibilityAnnouncer.spriteVisibilityStatus += HandleSpriteVisibility; }
             SetNPCState(NPCStateType.idle);
         }
@@ -78,7 +78,7 @@ namespace Frankie.Control
         private void OnDisable()
         {
             playerStateHandler.value.playerStateChanged -= ParsePlayerStateChange;
-            if (combatParticipant != null) { combatParticipant.stateAltered -= HandleNPCCombatStateChange; }
+            if (combatParticipant != null) { combatParticipant.UnsubscribeToStateUpdates(HandleNPCCombatStateChange); }
             if (spriteVisibilityAnnouncer != null) { spriteVisibilityAnnouncer.spriteVisibilityStatus -= HandleSpriteVisibility; }
         }
 

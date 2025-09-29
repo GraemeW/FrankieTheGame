@@ -17,13 +17,13 @@ namespace Frankie.Sound
         protected override void OnEnable()
         {
             base.OnEnable();
-            combatParticipant.stateAltered += HandleCombatParticipantState;
+            combatParticipant.SubscribeToStateUpdates(HandleCombatParticipantState);
         }
 
         protected override void OnDisable()
         {
             base.OnDisable();
-            combatParticipant.stateAltered -= HandleCombatParticipantState;
+            combatParticipant.UnsubscribeToStateUpdates(HandleCombatParticipantState);
         }
 
         private void HandleCombatParticipantState(StateAlteredEvent stateAlteredEvent)

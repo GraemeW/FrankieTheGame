@@ -10,7 +10,7 @@ using Frankie.Inventory;
 namespace Frankie.Combat
 {
     [RequireComponent(typeof(BaseStats))]
-    public class CombatParticipant : MonoBehaviour, ISaveable, IPredicateEvaluator
+    public class CombatParticipant : MonoBehaviour, ISaveable, IPredicateEvaluator, IBattleEventPublisher
     {
         // Tunables
         [Header("Behavior, Hookups")]
@@ -40,10 +40,12 @@ namespace Frankie.Combat
         LazyValue<bool> isDead;
         LazyValue<float> currentHP;
         LazyValue<float> currentAP;
+        List<Event> stateListeners = new List<Event>();
 
         // Events
         public event Action<bool> enterCombat;
-        public event Action<StateAlteredEvent> stateAltered;
+        public delegate void Event(StateAlteredEvent stateAlteredEvent);
+        public event Event stateAltered;
 
         #region UnityMethods
         private void Awake()
@@ -243,6 +245,22 @@ namespace Frankie.Combat
             cooldownTimer = 0f;
             AnnounceStateUpdate(StateAlteredType.Resurrected);
             AnnounceStateUpdate(StateAlteredType.IncreaseHP);
+        }
+        #endregion
+
+        #region StateUpdates
+        public void SubscribeToStateUpdates(Event handler)
+        {
+            if (stateListeners.Contains(handler)) { return; }
+
+            stateListeners.Add(handler);
+            stateAltered += handler;
+        }
+
+        public void UnsubscribeToStateUpdates(Event handler)
+        {
+            stateListeners.Remove(handler);
+            stateAltered -= handler;
         }
 
         public void AnnounceStateUpdate(StateAlteredEvent stateAlteredEvent)

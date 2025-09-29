@@ -36,7 +36,7 @@ namespace Frankie.Combat
             this.row = row;
             this.column = column;
 
-            combatParticipant.stateAltered += HandleStateChange;
+            combatParticipant.SubscribeToStateUpdates(HandleStateChange);
         }
 
         // Specific event handling
@@ -44,7 +44,7 @@ namespace Frankie.Combat
         {
             if (stateAlteredEvent.stateAlteredType != StateAlteredType.Dead) { return; }
 
-            combatParticipant.stateAltered -= HandleStateChange;
+            combatParticipant.UnsubscribeToStateUpdates(HandleStateChange);
             removedFromCombat?.Invoke(this, row, column);
         }
     }
