@@ -12,9 +12,6 @@ namespace Frankie.Combat
         public bool isCharacter = false;
         public bool isAssistCharacter = false;
 
-        // Events
-        public event Action<BattleEntity, int, int> removedFromCombat;
-
         // Character type instantiation
         public BattleEntity(CombatParticipant combatParticipant, bool isAssistCharacter = false)
         {
@@ -45,7 +42,7 @@ namespace Frankie.Combat
             if (stateAlteredInfo.stateAlteredType != StateAlteredType.Dead) { return; }
 
             combatParticipant.UnsubscribeToStateUpdates(HandleStateChange);
-            removedFromCombat?.Invoke(this, row, column);
+            BattleEventBus<BattleEntityRemovedFromBoardEvent>.Raise(new BattleEntityRemovedFromBoardEvent(this, row, column));
         }
     }
 }

@@ -74,6 +74,7 @@ namespace Frankie.Combat
         private void OnEnable()
         {
             playerInput.Menu.Enable();
+            BattleEventBus<BattleEntityRemovedFromBoardEvent>.SubscribeToEvent(RemoveFromEnemyMapping);
             BattleEventBus<StateAlteredInfo>.SubscribeToEvent(HandleCharacterDeath);
             BattleEventBus<StateAlteredInfo>.SubscribeToEvent(CheckForBattleEnd);
         }
@@ -81,6 +82,7 @@ namespace Frankie.Combat
         private void OnDisable()
         {
             playerInput.Menu.Disable();
+            BattleEventBus<BattleEntityRemovedFromBoardEvent>.UnsubscribeFromEvent(RemoveFromEnemyMapping);
             BattleEventBus<StateAlteredInfo>.UnsubscribeFromEvent(HandleCharacterDeath);
             BattleEventBus<StateAlteredInfo>.UnsubscribeFromEvent(CheckForBattleEnd);
         }
@@ -527,7 +529,6 @@ namespace Frankie.Combat
             UnityEngine.Debug.Log($"New enemy added at position row: {rowIndex} ; col: {columnIndex}");
 
             BattleEntity enemyBattleEntity = new BattleEntity(enemy, enemy.GetBattleEntityType(), rowIndex, columnIndex);
-            enemyBattleEntity.removedFromCombat += RemoveFromEnemyMapping;
             activeEnemies.Add(enemyBattleEntity);
 
             enemy.SetCombatActive(forceCombatActive);
@@ -573,10 +574,9 @@ namespace Frankie.Combat
             enemyMapping[rowIndex][columnIndex] = true;
         }
 
-        private void RemoveFromEnemyMapping(BattleEntity battleEntity, int row, int column)
+        private void RemoveFromEnemyMapping(BattleEntityRemovedFromBoardEvent battleEntityRemovedFromBoardEvent)
         {
-            battleEntity.removedFromCombat -= RemoveFromEnemyMapping;
-            enemyMapping[row][column] = false;
+            enemyMapping[battleEntityRemovedFromBoardEvent.row][battleEntityRemovedFromBoardEvent.column] = false;
         }
 
         private bool CheckForAutoWin()
