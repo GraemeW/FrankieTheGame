@@ -54,11 +54,8 @@ namespace Frankie.Combat.UI
         {
             if (battleEntity != null) { battleEntity.combatParticipant.stateAltered += ParseState; }
 
-            if (BattleEventBus.inBattle)
-            {
-                BattleEventBus<BattleEntitySelectedEvent>.SubscribeToEvent(HighlightSlide);
-                AddButtonClickEvent(delegate { HandleClickInBattle(); });
-            }
+            if (BattleEventBus.inBattle) { SetupBattleListeners(); }
+            else { BattleEventBus<BattleEnterEvent>.SubscribeToEvent(SetupBattleListeners); }
         }
 
         protected virtual void OnDisable()
@@ -67,6 +64,7 @@ namespace Frankie.Combat.UI
 
             if (canvasDimming != null) { StopCoroutine(canvasDimming); canvasDimming = null; }
             if (battleEntity != null) { battleEntity.combatParticipant.stateAltered -= ParseState; }
+            BattleEventBus<BattleEnterEvent>.UnsubscribeFromEvent(SetupBattleListeners);
             BattleEventBus<BattleEntitySelectedEvent>.UnsubscribeFromEvent(HighlightSlide);
         }
 
@@ -157,6 +155,11 @@ namespace Frankie.Combat.UI
         #endregion
 
         #region PrivateMethods
+        private void SetupBattleListeners(BattleEnterEvent battleEnterEvent = null)
+        {
+            BattleEventBus<BattleEntitySelectedEvent>.SubscribeToEvent(HighlightSlide);
+            AddButtonClickEvent(delegate { HandleClickInBattle(); });
+        }
 
         protected virtual bool HandleClickInBattle()
         {

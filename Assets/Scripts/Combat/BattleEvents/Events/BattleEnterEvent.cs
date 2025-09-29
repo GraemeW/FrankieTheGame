@@ -2,7 +2,7 @@ using System.Collections.Generic;
 
 namespace Frankie.Combat
 {
-    public struct BattleEnterEvent : IBattleEvent
+    public class BattleEnterEvent : IBattleEvent
     {
         public BattleEventType battleEventType => BattleEventType.BattleEnter;
 
