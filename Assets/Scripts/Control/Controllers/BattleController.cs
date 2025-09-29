@@ -6,7 +6,6 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using Frankie.ZoneManagement;
-using Frankie.Inventory;
 
 namespace Frankie.Combat
 {
@@ -75,31 +74,15 @@ namespace Frankie.Combat
         private void OnEnable()
         {
             playerInput.Menu.Enable();
-            SubscribeToCharacters(true);
+            BattleEventBus<StateAlteredInfo>.SubscribeToEvent(HandleCharacterDeath);
+            BattleEventBus<StateAlteredInfo>.SubscribeToEvent(CheckForBattleEnd);
         }
 
         private void OnDisable()
         {
             playerInput.Menu.Disable();
-            SubscribeToCharacters(false);
-        }
-
-        private void SubscribeToCharacters(bool enable)
-        {
-            if (enable)
-            {
-                foreach (BattleEntity character in activePlayerCharacters)
-                {
-                    character.combatParticipant.SubscribeToStateUpdates(HandleCharacterDeath);
-                }
-            }
-            else
-            {
-                foreach (BattleEntity character in activePlayerCharacters)
-                {
-                    character.combatParticipant.UnsubscribeToStateUpdates(HandleCharacterDeath);
-                }
-            }
+            BattleEventBus<StateAlteredInfo>.UnsubscribeFromEvent(HandleCharacterDeath);
+            BattleEventBus<StateAlteredInfo>.UnsubscribeFromEvent(CheckForBattleEnd);
         }
 
         private void Update()
@@ -483,7 +466,6 @@ namespace Frankie.Combat
             {
                 AddCharacterToCombat(character, transitionType == TransitionType.BattleGood);
             }
-            if (gameObject.activeSelf) { SubscribeToCharacters(true); }
 
             // Enemies
             InitializeEnemyMapping(enemies.Count);
@@ -510,7 +492,6 @@ namespace Frankie.Combat
         {
             SetCombatParticipantCooldown(character, useBattleAdvantageCooldown);
 
-            character.SubscribeToStateUpdates(CheckForBattleEnd);
             BattleEntity characterBattleEntity = new BattleEntity(character);
             activeCharacters.Add(characterBattleEntity);
             activePlayerCharacters.Add(characterBattleEntity);
@@ -522,7 +503,6 @@ namespace Frankie.Combat
         {
             SetCombatParticipantCooldown(character, useBattleAdvantageCooldown);
 
-            character.SubscribeToStateUpdates(CheckForBattleEnd);
             BattleEntity assistBattleEntity = new BattleEntity(character, true);
             activeCharacters.Add(assistBattleEntity);
             activeAssistCharacters.Add(assistBattleEntity);
@@ -537,8 +517,6 @@ namespace Frankie.Combat
             int rowIndex, columnIndex;
             GetEnemyPosition(out rowIndex, out columnIndex);
             UnityEngine.Debug.Log($"New enemy added at position row: {rowIndex} ; col: {columnIndex}");
-
-            enemy.SubscribeToStateUpdates(CheckForBattleEnd);
 
             BattleEntity enemyBattleEntity = new BattleEntity(enemy, enemy.GetBattleEntityType(), rowIndex, columnIndex);
             enemyBattleEntity.removedFromCombat += RemoveFromEnemyMapping;
@@ -671,11 +649,11 @@ namespace Frankie.Combat
             haltBattleQueue = false;
         }
 
-        private void HandleCharacterDeath(StateAlteredEvent stateAlteredEvent)
+        private void HandleCharacterDeath(StateAlteredInfo stateAlteredInfo)
         {
-            if (stateAlteredEvent.stateAlteredType != StateAlteredType.Dead) { return; }
+            if (stateAlteredInfo.stateAlteredType != StateAlteredType.Dead) { return; }
 
-            if (selectedCharacter == stateAlteredEvent.combatParticipant)
+            if (selectedCharacter == stateAlteredInfo.combatParticipant)
             {
                 SetActiveBattleAction(null); SetSelectedCharacter(null);
                 return;
@@ -683,30 +661,16 @@ namespace Frankie.Combat
 
             if (battleActionData != null)
             {
-                if (battleActionData.targetCount > 0 && battleActionData.HasTarget(stateAlteredEvent.combatParticipant))
+                if (battleActionData.targetCount > 0 && battleActionData.HasTarget(stateAlteredInfo.combatParticipant))
                 {
                     SetSelectedTarget(selectedBattleActionSuper, true);
                 }
             }
         }
 
-        private void DestroyTransientEnemies()
+        private void CheckForBattleEnd(StateAlteredInfo stateAlteredInfo)
         {
-            foreach (BattleEntity enemy in activeEnemies)
-            {
-                NPCStateHandler npcStateHandler = enemy.combatParticipant.GetComponent<NPCStateHandler>();
-                if (npcStateHandler == null) { return; }
-
-                if (npcStateHandler.WillDestroySelfOnDeath())
-                {
-                    Destroy(npcStateHandler.gameObject);
-                }
-            }
-        }
-
-        private void CheckForBattleEnd(StateAlteredEvent stateAlteredEvent)
-        {
-            if (stateAlteredEvent.stateAlteredType == StateAlteredType.Dead)
+            if (stateAlteredInfo.stateAlteredType == StateAlteredType.Dead)
             {
                 bool allCharactersDead = true;
                 foreach (BattleEntity battleEntity in activePlayerCharacters) { if (!battleEntity.combatParticipant.IsDead()) { allCharactersDead = false; break; } }
@@ -731,12 +695,10 @@ namespace Frankie.Combat
             foreach (BattleEntity character in activeCharacters)
             {
                 character.combatParticipant.SetCombatActive(false);
-                character.combatParticipant.UnsubscribeToStateUpdates(CheckForBattleEnd);
             }
             foreach (BattleEntity enemy in activeEnemies)
             {
                 enemy.combatParticipant.SetCombatActive(false);
-                enemy.combatParticipant.UnsubscribeToStateUpdates(CheckForBattleEnd);
             }
             activeCharacters.Clear();
             activePlayerCharacters.Clear();

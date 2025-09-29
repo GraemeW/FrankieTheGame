@@ -78,7 +78,7 @@ namespace Frankie.Combat.UI
         #region AbstractMethods
         protected abstract void SetSelected(CombatParticipantType combatParticipantType, bool enable);
 
-        protected abstract void ParseState(StateAlteredEvent stateAlteredEvent);
+        protected abstract void ParseState(StateAlteredInfo stateAlteredInfo);
 
         #endregion
 

@@ -138,9 +138,9 @@ namespace Frankie.Combat
             }
         }
 
-        private void HandleCombatState(StateAlteredEvent stateAlteredEvent)
+        private void HandleCombatState(StateAlteredInfo stateAlteredInfo)
         {
-            if (stateAlteredEvent.stateAlteredType == StateAlteredType.Dead)
+            if (stateAlteredInfo.stateAlteredType == StateAlteredType.Dead)
             {
                 Destroy(this);
             }

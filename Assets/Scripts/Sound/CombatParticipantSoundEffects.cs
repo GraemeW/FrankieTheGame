@@ -26,9 +26,9 @@ namespace Frankie.Sound
             combatParticipant.UnsubscribeToStateUpdates(HandleCombatParticipantState);
         }
 
-        private void HandleCombatParticipantState(StateAlteredEvent stateAlteredEvent)
+        private void HandleCombatParticipantState(StateAlteredInfo stateAlteredInfo)
         {
-            switch (stateAlteredEvent.stateAlteredType)
+            switch (stateAlteredInfo.stateAlteredType)
             {
                 case StateAlteredType.DecreaseHP:
                     PlayClip(decreaseHPAudioClip);

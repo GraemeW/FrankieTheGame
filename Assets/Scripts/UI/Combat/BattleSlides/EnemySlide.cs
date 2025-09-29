@@ -28,12 +28,12 @@ namespace Frankie.Combat.UI
             UpdateImage(this.battleEntity.combatParticipant.GetCombatSprite(), this.battleEntity.battleEntityType);
         }
 
-        protected override void ParseState(StateAlteredEvent stateAlteredEvent)
+        protected override void ParseState(StateAlteredInfo stateAlteredInfo)
         {
-            switch (stateAlteredEvent.stateAlteredType)
+            switch (stateAlteredInfo.stateAlteredType)
             {
                 case StateAlteredType.CooldownSet:
-                    cooldownTimer.ResetTimer(stateAlteredEvent.points);
+                    cooldownTimer.ResetTimer(stateAlteredInfo.points);
                     break;
                 case StateAlteredType.CooldownExpired:
                     cooldownTimer.ResetTimer(0f);
@@ -41,9 +41,9 @@ namespace Frankie.Combat.UI
                 case StateAlteredType.AdjustHPNonSpecific:
                 case StateAlteredType.IncreaseHP:
                 case StateAlteredType.DecreaseHP:
-                    float points = stateAlteredEvent.points;
+                    float points = stateAlteredInfo.points;
                     damageTextSpawner.AddToQueue(new DamageTextData(DamageTextType.HealthChanged, points));
-                    if (stateAlteredEvent.stateAlteredType == StateAlteredType.DecreaseHP)
+                    if (stateAlteredInfo.stateAlteredType == StateAlteredType.DecreaseHP)
                     {
                         ShakeSlide(false);
                         BlipFadeSlide();
@@ -60,7 +60,7 @@ namespace Frankie.Combat.UI
                     damageTextSpawner.AddToQueue(new DamageTextData(DamageTextType.HitCrit));
                     break;
                 case StateAlteredType.StatusEffectApplied:
-                    PersistentStatus persistentStatus = stateAlteredEvent.persistentStatus;
+                    PersistentStatus persistentStatus = stateAlteredInfo.persistentStatus;
                     if (persistentStatus != null)
                     {
                         AddStatusEffectBobble(persistentStatus);

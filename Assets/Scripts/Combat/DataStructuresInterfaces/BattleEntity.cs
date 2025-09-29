@@ -40,9 +40,9 @@ namespace Frankie.Combat
         }
 
         // Specific event handling
-        private void HandleStateChange(StateAlteredEvent stateAlteredEvent)
+        private void HandleStateChange(StateAlteredInfo stateAlteredInfo)
         {
-            if (stateAlteredEvent.stateAlteredType != StateAlteredType.Dead) { return; }
+            if (stateAlteredInfo.stateAlteredType != StateAlteredType.Dead) { return; }
 
             combatParticipant.UnsubscribeToStateUpdates(HandleStateChange);
             removedFromCombat?.Invoke(this, row, column);

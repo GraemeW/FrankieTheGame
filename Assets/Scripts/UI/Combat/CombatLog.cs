@@ -137,35 +137,35 @@ namespace Frankie.Combat.UI
             stringToPrint += "  " + combatText;
         }
 
-        private void ParseCombatParticipantState(StateAlteredEvent stateAlteredData)
+        private void ParseCombatParticipantState(StateAlteredInfo stateAlteredInfo)
         {
             string combatText = "";
-            string combatParticipantName = stateAlteredData.combatParticipant.GetCombatName();
-            if (stateAlteredData.stateAlteredType == StateAlteredType.IncreaseHP)
+            string combatParticipantName = stateAlteredInfo.combatParticipant.GetCombatName();
+            if (stateAlteredInfo.stateAlteredType == StateAlteredType.IncreaseHP)
             {
-                float points = stateAlteredData.points;
+                float points = stateAlteredInfo.points;
                 combatText = string.Format(messageIncreaseHP, combatParticipantName, Mathf.RoundToInt(points).ToString());
             }
-            else if (stateAlteredData.stateAlteredType == StateAlteredType.DecreaseHP)
+            else if (stateAlteredInfo.stateAlteredType == StateAlteredType.DecreaseHP)
             {
-                float points = stateAlteredData.points;
+                float points = stateAlteredInfo.points;
                 combatText = string.Format(messageDecreaseHP, combatParticipantName, Mathf.RoundToInt(points).ToString());
             }
-            else if (stateAlteredData.stateAlteredType == StateAlteredType.IncreaseAP)
+            else if (stateAlteredInfo.stateAlteredType == StateAlteredType.IncreaseAP)
             {
-                float points = stateAlteredData.points;
+                float points = stateAlteredInfo.points;
                 combatText = string.Format(messageIncreaseAP, combatParticipantName, Mathf.RoundToInt(points).ToString());
             }
-            else if (stateAlteredData.stateAlteredType == StateAlteredType.DecreaseAP)
+            else if (stateAlteredInfo.stateAlteredType == StateAlteredType.DecreaseAP)
             {
-                float points = stateAlteredData.points;
+                float points = stateAlteredInfo.points;
                 combatText = string.Format(messageDecreaseAP, combatParticipantName, Mathf.RoundToInt(points).ToString());
             }
-            else if (stateAlteredData.stateAlteredType == StateAlteredType.Dead)
+            else if (stateAlteredInfo.stateAlteredType == StateAlteredType.Dead)
             {
                 combatText = string.Format(messageDead, combatParticipantName);
             }
-            else if (stateAlteredData.stateAlteredType == StateAlteredType.Resurrected)
+            else if (stateAlteredInfo.stateAlteredType == StateAlteredType.Resurrected)
             {
                 combatText = string.Format(messageResurrected, combatParticipantName);
             }

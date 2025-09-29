@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using UnityEngine;
 
 namespace Frankie.Combat
 {
@@ -26,11 +25,6 @@ namespace Frankie.Combat
         {
             activeSubscriptions.Remove(handler);
             onEvent -= handler;
-        }
-
-        public static void EchoEvent(IBattleEventPublisher battleEventPublisher)
-        {
-            
         }
 
         public static void ClearAllSubscriptions()

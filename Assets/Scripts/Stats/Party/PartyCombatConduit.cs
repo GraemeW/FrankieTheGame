@@ -83,9 +83,9 @@ namespace Frankie.Stats
         #endregion
 
         #region PrivateMethods
-        private void HandleLeaderStatusUpdate(StateAlteredEvent stateAlteredEvent)
+        private void HandleLeaderStatusUpdate(StateAlteredInfo stateAlteredInfo)
         {
-            if (stateAlteredEvent.stateAlteredType != StateAlteredType.Dead) { return; }
+            if (stateAlteredInfo.stateAlteredType != StateAlteredType.Dead) { return; }
 
             foreach (CombatParticipant character in combatParticipantCache)
             {

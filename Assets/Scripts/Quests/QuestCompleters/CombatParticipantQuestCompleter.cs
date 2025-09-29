@@ -28,9 +28,9 @@ namespace Frankie.Quests
             combatParticipant.UnsubscribeToStateUpdates(CompleteObjective);
         }
 
-        private void CompleteObjective(StateAlteredEvent stateAlteredEvent)
+        private void CompleteObjective(StateAlteredInfo stateAlteredInfo)
         {
-            if (stateAlteredEvent.stateAlteredType == typeToMatch)
+            if (stateAlteredInfo.stateAlteredType == typeToMatch)
             {
                 CompleteObjective();
             }

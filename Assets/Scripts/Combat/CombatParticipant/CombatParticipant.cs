@@ -10,7 +10,7 @@ using Frankie.Inventory;
 namespace Frankie.Combat
 {
     [RequireComponent(typeof(BaseStats))]
-    public class CombatParticipant : MonoBehaviour, ISaveable, IPredicateEvaluator, IBattleEventPublisher
+    public class CombatParticipant : MonoBehaviour, ISaveable, IPredicateEvaluator
     {
         // Tunables
         [Header("Behavior, Hookups")]
@@ -40,12 +40,12 @@ namespace Frankie.Combat
         LazyValue<bool> isDead;
         LazyValue<float> currentHP;
         LazyValue<float> currentAP;
-        List<Event> stateListeners = new List<Event>();
+        List<StateEvent> stateListeners = new List<StateEvent>();
 
         // Events
         public event Action<bool> enterCombat;
-        public delegate void Event(StateAlteredEvent stateAlteredEvent);
-        public event Event stateAltered;
+        public delegate void StateEvent(StateAlteredInfo stateAlteredInfo);
+        public event StateEvent stateAltered;
 
         #region UnityMethods
         private void Awake()
@@ -249,48 +249,51 @@ namespace Frankie.Combat
         #endregion
 
         #region StateUpdates
-        public void SubscribeToStateUpdates(Event handler)
+        public void SubscribeToStateUpdates(StateEvent handler)
         {
+            // Note:  Obviously do NOT double subscribe to both CombatParticipant and BattleEventBus
             if (stateListeners.Contains(handler)) { return; }
 
             stateListeners.Add(handler);
             stateAltered += handler;
         }
 
-        public void UnsubscribeToStateUpdates(Event handler)
+        public void UnsubscribeToStateUpdates(StateEvent handler)
         {
             stateListeners.Remove(handler);
             stateAltered -= handler;
         }
 
-        public void AnnounceStateUpdate(StateAlteredEvent stateAlteredEvent)
+        public void AnnounceStateUpdate(StateAlteredInfo stateAlteredInfo)
         {
-            if (stateAlteredEvent == null) { return; }
-            stateAltered?.Invoke(stateAlteredEvent);
+            if (stateAlteredInfo == null) { return; }
+
+            stateAltered?.Invoke(stateAlteredInfo);
+            BattleEventBus<StateAlteredInfo>.Raise(stateAlteredInfo); // Separate announce for generic BattleEventBus subscribers
         }
 
         public void AnnounceStateUpdate(StateAlteredType stateAlteredType)
         {
-            StateAlteredEvent stateAlteredEvent = new StateAlteredEvent(this, stateAlteredType);
-            AnnounceStateUpdate(stateAlteredEvent);
+            StateAlteredInfo stateAlteredInfo = new StateAlteredInfo(this, stateAlteredType);
+            AnnounceStateUpdate(stateAlteredInfo);
         }
 
         public void AnnounceStateUpdate(StateAlteredType stateAlteredType, float points)
         {
-            StateAlteredEvent stateAlteredEvent = new StateAlteredEvent(this, stateAlteredType, points);
-            AnnounceStateUpdate(stateAlteredEvent);
+            StateAlteredInfo stateAlteredInfo = new StateAlteredInfo(this, stateAlteredType, points);
+            AnnounceStateUpdate(stateAlteredInfo);
         }
 
         public void AnnounceStateUpdate(StateAlteredType stateAlteredType, PersistentStatus persistentStatus)
         {
-            StateAlteredEvent stateAlteredEvent = new StateAlteredEvent(this, stateAlteredType, persistentStatus);
-            AnnounceStateUpdate(stateAlteredEvent);
+            StateAlteredInfo stateAlteredInfo = new StateAlteredInfo(this, stateAlteredType, persistentStatus);
+            AnnounceStateUpdate(stateAlteredInfo);
         }
 
         public void AnnounceStateUpdate(StateAlteredType stateAlteredType, Stat stat, float points)
         {
-            StateAlteredEvent stateAlteredEvent = new StateAlteredEvent(this, stateAlteredType, stat, points);
-            AnnounceStateUpdate(stateAlteredEvent);
+            StateAlteredInfo stateAlteredInfo = new StateAlteredInfo(this, stateAlteredType, stat, points);
+            AnnounceStateUpdate(stateAlteredInfo);
         }
         #endregion
 
