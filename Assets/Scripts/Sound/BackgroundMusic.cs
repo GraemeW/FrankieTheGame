@@ -150,7 +150,7 @@ namespace Frankie.Sound
 
         private void ParseBattleState(BattleStateChangedEvent battleStateChangedEvent)
         {
-            if (battleStateChangedEvent.battleState == BattleState.PreOutro)
+            if (battleStateChangedEvent.battleState == BattleState.Rewards)
             {
                 SetBattleMusic(levelUpAudio);
             }

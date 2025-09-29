@@ -9,6 +9,7 @@ namespace Frankie.Combat
         BattleActionArmed,
         BattleSequencedProcessed,
         BattleEntityStateAltered,
+        BattleEntityRemovedFromBoard,
         BattleExit
     }
 }

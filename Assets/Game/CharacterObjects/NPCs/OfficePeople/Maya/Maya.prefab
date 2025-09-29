@@ -17,6 +17,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300000, guid: a221f1e08ac8b9446a8e16620baa719b, type: 3}
     - target: {fileID: 1182436157161314237, guid: e4be3ce2d5464c3498c884ae5d9223d4, type: 3}
+      propertyPath: shouldDestroySelfOnDeath
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1182436157161314237, guid: e4be3ce2d5464c3498c884ae5d9223d4, type: 3}
       propertyPath: movingBackgroundProperties.shaderMaterial
       value: 
       objectReference: {fileID: 2100000, guid: a1f510c152223b1459ecbd541982ef2e, type: 2}

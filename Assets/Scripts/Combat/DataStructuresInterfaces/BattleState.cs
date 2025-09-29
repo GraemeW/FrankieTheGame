@@ -6,7 +6,7 @@ namespace Frankie.Combat
         Intro,
         PreCombat,
         Combat,
-        PreOutro,
+        Rewards,
         Outro,
         Complete
     }

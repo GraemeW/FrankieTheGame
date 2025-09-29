@@ -6,6 +6,7 @@ using System;
 using Frankie.Core;
 using System.Collections.Generic;
 using Frankie.Inventory;
+using Frankie.Control;
 
 namespace Frankie.Combat
 {
@@ -25,6 +26,7 @@ namespace Frankie.Combat
         [SerializeField] float battleStartCooldown = 1.0f;
         [SerializeField] float damageTimeSpan = 4.0f;
         [SerializeField] float fractionOfHPInstantOnRevival = 0.5f;
+        [SerializeField] bool shouldDestroySelfOnDeath = true;
 
         // Cached References
         BaseStats baseStats = null;
@@ -112,6 +114,7 @@ namespace Frankie.Combat
         public bool GetFriendly() => friendly;
         public BattleEntityType GetBattleEntityType() => battleEntityType;
         public bool HasLoot() => lootDispenser == null ? false : lootDispenser.HasLootReward();
+        public bool ShouldDestroySelfOnDeath() => shouldDestroySelfOnDeath;
         #endregion
 
         #region StatsInterface
@@ -159,6 +162,13 @@ namespace Frankie.Combat
             }
             
             enterCombat?.Invoke(enable);
+        }
+
+        public void SetupSelfDestroyOnBattleComplete()
+        {
+            if (!shouldDestroySelfOnDeath) { return; }
+
+            BattleEventBus<BattleStateChangedEvent>.SubscribeToEvent(SelfDestroyOnBattleComplete);
         }
 
         public bool CheckIfDead() // Called via Unity Events
@@ -232,7 +242,7 @@ namespace Frankie.Combat
             AnnounceStateUpdate(StateAlteredType.AdjustAPNonSpecific, points);
         }
 
-        public void Kill()
+        public void SelfImplode()
         {
             AdjustHP(-baseStats.GetStat(Stat.HP) * 10f);
         }
@@ -298,6 +308,15 @@ namespace Frankie.Combat
         #endregion
 
         #region PrivateUtility
+        private void SelfDestroyOnBattleComplete(BattleStateChangedEvent battleStateChangedEvent)
+        {
+            if (battleStateChangedEvent.battleState == BattleState.Complete)
+            {
+                BattleEventBus<BattleStateChangedEvent>.UnsubscribeFromEvent(SelfDestroyOnBattleComplete);
+                Destroy(gameObject);
+            }
+        }
+
         private void UpdateDamageDelayedHealth()
         {
             if (friendly && !Mathf.Approximately(currentHP.value, targetHP))

@@ -14,7 +14,6 @@ namespace Frankie.Control
     {
         // Tunables
         [SerializeField] bool willForceCombat = false;
-        [SerializeField] bool willDestroySelfOnDeath = true;
         [SerializeField] bool willDestroyIfInvisible = false;
         [Min(0)][Tooltip("in seconds")][SerializeField] float delayToDestroyAfterInvisible = 2f;
         [Tooltip("Include {0} for enemy name")] [SerializeField] string messageCannotFight = "{0} is wounded and cannot fight.";
@@ -94,7 +93,6 @@ namespace Frankie.Control
         public Vector2 GetPlayerLookDirection() => playerController.value.GetPlayerMover().GetLookDirection();
         public Vector2 GetPlayerInteractionPosition() => playerController.value.GetInteractionPosition();
         public bool WillForceCombat() => willForceCombat;
-        public bool WillDestroySelfOnDeath() => willDestroySelfOnDeath;
         #endregion
 
         #region StateUtilityMethods
@@ -273,7 +271,9 @@ namespace Frankie.Control
 
         private void HandleNPCCombatStateChange(StateAlteredInfo stateAlteredInfo)
         {
-            if (stateAlteredInfo.stateAlteredType == StateAlteredType.Dead && willDestroySelfOnDeath)
+            if (combatParticipant == null) { return; }
+
+            if (stateAlteredInfo.stateAlteredType == StateAlteredType.Dead && combatParticipant.ShouldDestroySelfOnDeath())
             {
                 queueDeathOnNextPlayerStateChange = true;
             }

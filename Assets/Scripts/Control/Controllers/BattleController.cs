@@ -23,7 +23,7 @@ namespace Frankie.Combat
         [SerializeField] int minEnemiesBeforeRowSplit = 2;
 
         // State
-        BattleState state = default;
+        BattleState battleState = default;
         bool outroCleanupCalled = false;
 
         List<BattleEntity> activeCharacters = new List<BattleEntity>();
@@ -87,7 +87,7 @@ namespace Frankie.Combat
 
         private void Update()
         {
-            if (state == BattleState.Combat)
+            if (battleState == BattleState.Combat)
             {
                 if (!haltBattleQueue && !battleSequenceInProgress) 
                 {
@@ -95,7 +95,7 @@ namespace Frankie.Combat
                 }
 
             }
-            else if (state == BattleState.Outro)
+            else if (battleState == BattleState.Outro)
             {
                 if (!outroCleanupCalled)
                 {
@@ -103,12 +103,12 @@ namespace Frankie.Combat
                     CleanUpBattleBits();
                 }
             }
-            else if (state == BattleState.Complete && outroCleanupCalled) { outroCleanupCalled = false; }
+            else if (battleState == BattleState.Complete && outroCleanupCalled) { outroCleanupCalled = false; }
         }
 
         private void LateUpdate()
         {
-            if (state == BattleState.Combat)
+            if (battleState == BattleState.Combat)
             {
                 AutoSelectCharacter();
             }
@@ -126,7 +126,7 @@ namespace Frankie.Combat
 
         public void SetBattleState(BattleState state, BattleOutcome battleOutcome)
         {
-            this.state = state;
+            this.battleState = state;
 
             if (state == BattleState.Combat)
             {
@@ -222,7 +222,11 @@ namespace Frankie.Combat
 
         #region PublicGetters
         // Overall State
-        public BattleState GetBattleState() => state;
+        public BattleState GetBattleState() => battleState;
+        public bool IsStateOutsideCombat()
+        {
+            return (battleState == BattleState.Inactive || battleState == BattleState.Rewards || battleState == BattleState.Outro || battleState == BattleState.Complete);
+        }
         public List<BattleEntity> GetCharacters() => activeCharacters;
         public List<BattleEntity> GetEnemies() => activeEnemies;
         public List<BattleEntity> GetAssistCharacters() => activeAssistCharacters;
@@ -308,6 +312,10 @@ namespace Frankie.Combat
 
             if (partySpeed > enemySpeed)
             {
+                foreach (BattleEntity enemy in activeEnemies)
+                {
+                    enemy.combatParticipant.SetupSelfDestroyOnBattleComplete();
+                }
                 SetBattleState(BattleState.Outro, BattleOutcome.Ran);
                 return true;
             }
@@ -334,7 +342,7 @@ namespace Frankie.Combat
 
         private void HandleUserInput(PlayerInputType playerInputType)
         {
-            if (state == BattleState.Combat)
+            if (battleState == BattleState.Combat)
             {
                 if (InteractWithInterrupts(playerInputType)) { return; }
                 if (InteractWithSkillSelect(playerInputType)) { return; }
@@ -449,7 +457,7 @@ namespace Frankie.Combat
             {
                 foreach (BattleEntity enemy in activeEnemies)
                 {
-                    enemy.combatParticipant.Kill();
+                    enemy.combatParticipant.SelfImplode();
                 }
                 SetBattleState(BattleState.Combat, BattleOutcome.Undetermined); // Combat will auto-complete in the usual way
             }
@@ -670,6 +678,8 @@ namespace Frankie.Combat
 
         private void CheckForBattleEnd(StateAlteredInfo stateAlteredInfo)
         {
+            if (IsStateOutsideCombat()) { return; }
+
             if (stateAlteredInfo.stateAlteredType == StateAlteredType.Dead)
             {
                 bool allCharactersDead = true;
@@ -684,7 +694,7 @@ namespace Frankie.Combat
                 if (allEnemiesDead)
                 {
                     bool rewardsExist = battleRewards.HandleBattleRewardsTriggered(partyCombatConduit, activePlayerCharacters, GetEnemies());
-                    BattleState battleState = rewardsExist ? BattleState.PreOutro : BattleState.Outro;
+                    BattleState battleState = rewardsExist ? BattleState.Rewards : BattleState.Outro;
                     SetBattleState(battleState, BattleOutcome.Won);
                 }
             }
