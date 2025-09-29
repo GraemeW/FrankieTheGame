@@ -10,7 +10,6 @@ using Frankie.Stats;
 using Frankie.Inventory;
 using Frankie.Inventory.UI;
 using Frankie.Utils;
-using UnityEngine.TextCore.Text;
 
 namespace Frankie.Combat.UI
 {

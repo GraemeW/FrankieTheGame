@@ -671,11 +671,11 @@ namespace Frankie.Combat
             haltBattleQueue = false;
         }
 
-        private void HandleCharacterDeath(CombatParticipant combatParticipant, StateAlteredData stateAlteredData)
+        private void HandleCharacterDeath(StateAlteredEvent stateAlteredEvent)
         {
-            if (stateAlteredData.stateAlteredType != StateAlteredType.Dead) { return; }
+            if (stateAlteredEvent.stateAlteredType != StateAlteredType.Dead) { return; }
 
-            if (selectedCharacter == combatParticipant)
+            if (selectedCharacter == stateAlteredEvent.combatParticipant)
             {
                 SetActiveBattleAction(null); SetSelectedCharacter(null);
                 return;
@@ -683,7 +683,7 @@ namespace Frankie.Combat
 
             if (battleActionData != null)
             {
-                if (battleActionData.targetCount > 0 && battleActionData.HasTarget(combatParticipant))
+                if (battleActionData.targetCount > 0 && battleActionData.HasTarget(stateAlteredEvent.combatParticipant))
                 {
                     SetSelectedTarget(selectedBattleActionSuper, true);
                 }
@@ -704,9 +704,9 @@ namespace Frankie.Combat
             }
         }
 
-        private void CheckForBattleEnd(CombatParticipant combatParticipant, StateAlteredData stateAlteredData)
+        private void CheckForBattleEnd(StateAlteredEvent stateAlteredEvent)
         {
-            if (stateAlteredData.stateAlteredType == StateAlteredType.Dead)
+            if (stateAlteredEvent.stateAlteredType == StateAlteredType.Dead)
             {
                 bool allCharactersDead = true;
                 foreach (BattleEntity battleEntity in activePlayerCharacters) { if (!battleEntity.combatParticipant.IsDead()) { allCharactersDead = false; break; } }

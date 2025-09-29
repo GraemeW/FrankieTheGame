@@ -43,7 +43,7 @@ namespace Frankie.Combat
 
         // Events
         public event Action<bool> enterCombat;
-        public event Action<CombatParticipant, StateAlteredData> stateAltered;
+        public event Action<StateAlteredEvent> stateAltered;
 
         #region UnityMethods
         private void Awake()
@@ -148,12 +148,12 @@ namespace Frankie.Combat
             inCombat = enable;
             if (enable)
             {
-                if (IsInCooldown()) { AnnounceStateUpdate(new StateAlteredData(StateAlteredType.CooldownSet, cooldownTimer)); }
+                if (IsInCooldown()) { AnnounceStateUpdate(StateAlteredType.CooldownSet, cooldownTimer); }
             }
             else
             {
                 HaltHPScroll();
-                if (IsInCooldown()) { AnnounceStateUpdate(new StateAlteredData(StateAlteredType.CooldownSet, Mathf.Infinity)); }
+                if (IsInCooldown()) { AnnounceStateUpdate(StateAlteredType.CooldownSet, Mathf.Infinity); }
             }
             
             enterCombat?.Invoke(enable);
@@ -167,7 +167,7 @@ namespace Frankie.Combat
                 targetHP = 0f;
                 isDead.value = true;
 
-                AnnounceStateUpdate(new StateAlteredData(StateAlteredType.Dead));
+                AnnounceStateUpdate(StateAlteredType.Dead);
             }
 
             if (isDead.value == true) { return true; }
@@ -177,15 +177,15 @@ namespace Frankie.Combat
         public void SetCooldown(float seconds)
         {
             cooldownTimer = seconds * GetCooldownMultiplier();
-            AnnounceStateUpdate(new StateAlteredData(StateAlteredType.CooldownSet, cooldownTimer));
+            AnnounceStateUpdate(StateAlteredType.CooldownSet, cooldownTimer);
         }
 
         public void AdjustHP(float points)
         {
             AdjustHPQuietly(points);
 
-            if (points < 0) { AnnounceStateUpdate(new StateAlteredData(StateAlteredType.DecreaseHP, points)); }
-            else if (points > 0) { AnnounceStateUpdate(new StateAlteredData(StateAlteredType.IncreaseHP, points)); }
+            if (points < 0) { AnnounceStateUpdate(StateAlteredType.DecreaseHP, points); }
+            else if (points > 0) { AnnounceStateUpdate(StateAlteredType.IncreaseHP, points); }
         }
 
         public void AdjustHPQuietly(float points)
@@ -216,8 +216,8 @@ namespace Frankie.Combat
         {
             AdjustAPQuietly(points);
 
-            if (points < 0) { AnnounceStateUpdate(new StateAlteredData(StateAlteredType.DecreaseAP, points)); }
-            else if (points > 0) { AnnounceStateUpdate(new StateAlteredData(StateAlteredType.IncreaseAP, points)); }
+            if (points < 0) { AnnounceStateUpdate(StateAlteredType.DecreaseAP, points); }
+            else if (points > 0) { AnnounceStateUpdate(StateAlteredType.IncreaseAP, points); }
         }
 
         public void AdjustAPQuietly(float points)
@@ -227,7 +227,7 @@ namespace Frankie.Combat
 
             float unsafeAP = currentAP.value + points;
             currentAP.value = Mathf.Clamp(unsafeAP, 0f, baseStats.GetStat(Stat.AP));
-            AnnounceStateUpdate(new StateAlteredData(StateAlteredType.AdjustAPNonSpecific, points));
+            AnnounceStateUpdate(StateAlteredType.AdjustAPNonSpecific, points);
         }
 
         public void Kill()
@@ -241,15 +241,38 @@ namespace Frankie.Combat
             currentHP.value = hp * fractionOfHPInstantOnRevival;
             targetHP = hp;
             cooldownTimer = 0f;
-            AnnounceStateUpdate(new StateAlteredData(StateAlteredType.Resurrected));
-            AnnounceStateUpdate(new StateAlteredData(StateAlteredType.IncreaseHP));
+            AnnounceStateUpdate(StateAlteredType.Resurrected);
+            AnnounceStateUpdate(StateAlteredType.IncreaseHP);
         }
 
-        public void AnnounceStateUpdate(StateAlteredData stateAlteredData)
+        public void AnnounceStateUpdate(StateAlteredEvent stateAlteredEvent)
         {
-            if (stateAlteredData == null) { return; }
+            if (stateAlteredEvent == null) { return; }
+            stateAltered?.Invoke(stateAlteredEvent);
+        }
 
-            stateAltered?.Invoke(this, stateAlteredData);
+        public void AnnounceStateUpdate(StateAlteredType stateAlteredType)
+        {
+            StateAlteredEvent stateAlteredEvent = new StateAlteredEvent(this, stateAlteredType);
+            AnnounceStateUpdate(stateAlteredEvent);
+        }
+
+        public void AnnounceStateUpdate(StateAlteredType stateAlteredType, float points)
+        {
+            StateAlteredEvent stateAlteredEvent = new StateAlteredEvent(this, stateAlteredType, points);
+            AnnounceStateUpdate(stateAlteredEvent);
+        }
+
+        public void AnnounceStateUpdate(StateAlteredType stateAlteredType, PersistentStatus persistentStatus)
+        {
+            StateAlteredEvent stateAlteredEvent = new StateAlteredEvent(this, stateAlteredType, persistentStatus);
+            AnnounceStateUpdate(stateAlteredEvent);
+        }
+
+        public void AnnounceStateUpdate(StateAlteredType stateAlteredType, Stat stat, float points)
+        {
+            StateAlteredEvent stateAlteredEvent = new StateAlteredEvent(this, stateAlteredType, stat, points);
+            AnnounceStateUpdate(stateAlteredEvent);
         }
         #endregion
 
@@ -262,7 +285,7 @@ namespace Frankie.Combat
                 float unsafeHP = Mathf.Lerp(currentHP.value, targetHP, deltaHPTimeFraction);
                 currentHP.value = Mathf.Clamp(unsafeHP, 0f, baseStats.GetStat(Stat.HP));
 
-                AnnounceStateUpdate(new StateAlteredData(StateAlteredType.AdjustHPNonSpecific));
+                AnnounceStateUpdate(StateAlteredType.AdjustHPNonSpecific);
             }
         }
 
@@ -273,7 +296,7 @@ namespace Frankie.Combat
                 cooldownTimer -= Time.deltaTime;
                 if (!IsInCooldown()) // Immediately after adjustment to check if cooldown flipped
                 {
-                    AnnounceStateUpdate(new StateAlteredData(StateAlteredType.CooldownExpired));
+                    AnnounceStateUpdate(StateAlteredType.CooldownExpired);
                 }
             }
         }

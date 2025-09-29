@@ -25,7 +25,7 @@ namespace Frankie.Combat
             // hitRoll > hitChance = 25%, or 25% chance to miss -> skip adjust HP, call out the miss on the target
             if (hitRoll > hitChance)
             {
-                recipient.AnnounceStateUpdate(new StateAlteredData(StateAlteredType.HitMiss));
+                recipient.AnnounceStateUpdate(StateAlteredType.HitMiss);
                 return false;
             }
             return true;
@@ -40,7 +40,7 @@ namespace Frankie.Combat
 
             if (critRoll <= critChance)
             {
-                recipient.AnnounceStateUpdate(new StateAlteredData(StateAlteredType.HitCrit));
+                recipient.AnnounceStateUpdate(StateAlteredType.HitCrit);
                 return critMultiplier;
             }
             return 1.0f;

@@ -41,6 +41,7 @@ namespace Frankie.Combat.UI
         protected override void OnEnable()
         {
             base.OnEnable();
+            BattleEventBus<BattleEnterEvent>.SubscribeToEvent(SetupCombatParticipants);
             BattleEventBus<BattleSequenceProcessedEvent>.SubscribeToEvent(ParseBattleSequence);
             ToggleCombatParticipantListeners(true);
             marquee = StartCoroutine(MarqueeScroll());
@@ -49,9 +50,25 @@ namespace Frankie.Combat.UI
         protected override void OnDisable()
         {
             base.OnDisable();
+            BattleEventBus<BattleEnterEvent>.UnsubscribeFromEvent(SetupCombatParticipants);
             BattleEventBus<BattleSequenceProcessedEvent>.UnsubscribeFromEvent(ParseBattleSequence);
             ToggleCombatParticipantListeners(false);
             StopCoroutine(marquee);
+        }
+
+        private void SetupCombatParticipants(BattleEnterEvent battleEnterEvent)
+        {
+            if (combatParticipants == null) { combatParticipants = new List<CombatParticipant>(); }
+            combatParticipants.Clear();
+
+            foreach (BattleEntity battleEntity in battleEnterEvent.playerEntities)
+            {
+                combatParticipants.Add(battleEntity.combatParticipant);
+            }
+            foreach (BattleEntity battleEntity in battleEnterEvent.enemyEntities)
+            {
+                combatParticipants.Add(battleEntity.combatParticipant);
+            }
         }
 
         private void ToggleCombatParticipantListeners(bool enable)
@@ -120,36 +137,37 @@ namespace Frankie.Combat.UI
             stringToPrint += "  " + combatText;
         }
 
-        private void ParseCombatParticipantState(CombatParticipant combatParticipant, StateAlteredData stateAlteredData)
+        private void ParseCombatParticipantState(StateAlteredEvent stateAlteredData)
         {
             string combatText = "";
+            string combatParticipantName = stateAlteredData.combatParticipant.GetCombatName();
             if (stateAlteredData.stateAlteredType == StateAlteredType.IncreaseHP)
             {
                 float points = stateAlteredData.points;
-                combatText = string.Format(messageIncreaseHP, combatParticipant.GetCombatName(), Mathf.RoundToInt(points).ToString()); 
+                combatText = string.Format(messageIncreaseHP, combatParticipantName, Mathf.RoundToInt(points).ToString());
             }
             else if (stateAlteredData.stateAlteredType == StateAlteredType.DecreaseHP)
             {
                 float points = stateAlteredData.points;
-                combatText = string.Format(messageDecreaseHP, combatParticipant.GetCombatName(), Mathf.RoundToInt(points).ToString());
+                combatText = string.Format(messageDecreaseHP, combatParticipantName, Mathf.RoundToInt(points).ToString());
             }
             else if (stateAlteredData.stateAlteredType == StateAlteredType.IncreaseAP)
             {
                 float points = stateAlteredData.points;
-                combatText = string.Format(messageIncreaseAP, combatParticipant.GetCombatName(), Mathf.RoundToInt(points).ToString());
+                combatText = string.Format(messageIncreaseAP, combatParticipantName, Mathf.RoundToInt(points).ToString());
             }
             else if (stateAlteredData.stateAlteredType == StateAlteredType.DecreaseAP)
             {
                 float points = stateAlteredData.points;
-                combatText = string.Format(messageDecreaseAP, combatParticipant.GetCombatName(), Mathf.RoundToInt(points).ToString());
+                combatText = string.Format(messageDecreaseAP, combatParticipantName, Mathf.RoundToInt(points).ToString());
             }
             else if (stateAlteredData.stateAlteredType == StateAlteredType.Dead)
             {
-                combatText = string.Format(messageDead, combatParticipant.GetCombatName());
+                combatText = string.Format(messageDead, combatParticipantName);
             }
             else if (stateAlteredData.stateAlteredType == StateAlteredType.Resurrected)
             {
-                combatText = string.Format(messageResurrected, combatParticipant.GetCombatName());
+                combatText = string.Format(messageResurrected, combatParticipantName);
             }
 
             if (!string.IsNullOrWhiteSpace(combatText))

@@ -28,9 +28,9 @@ namespace Frankie.Quests
             combatParticipant.stateAltered -= CompleteObjective;
         }
 
-        private void CompleteObjective(CombatParticipant combatParticipant, StateAlteredData stateAlteredData)
+        private void CompleteObjective(StateAlteredEvent stateAlteredEvent)
         {
-            if (stateAlteredData.stateAlteredType == typeToMatch)
+            if (stateAlteredEvent.stateAlteredType == typeToMatch)
             {
                 CompleteObjective();
             }

@@ -26,9 +26,9 @@ namespace Frankie.Sound
             combatParticipant.stateAltered -= HandleCombatParticipantState;
         }
 
-        private void HandleCombatParticipantState(CombatParticipant combatParticipant, StateAlteredData stateAlteredData)
+        private void HandleCombatParticipantState(StateAlteredEvent stateAlteredEvent)
         {
-            switch (stateAlteredData.stateAlteredType)
+            switch (stateAlteredEvent.stateAlteredType)
             {
                 case StateAlteredType.DecreaseHP:
                     PlayClip(decreaseHPAudioClip);

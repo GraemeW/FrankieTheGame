@@ -29,7 +29,7 @@ namespace Frankie.Combat
                 PersistentStatModifierStatus activeStatusEffect = battleEntity.combatParticipant.gameObject.AddComponent(typeof(PersistentStatModifierStatus)) as PersistentStatModifierStatus;
                 activeStatusEffect.Setup(duration, stat, value, persistAfterCombat);
 
-                battleEntity.combatParticipant.AnnounceStateUpdate(new StateAlteredData(StateAlteredType.StatusEffectApplied, activeStatusEffect));
+                battleEntity.combatParticipant.AnnounceStateUpdate(StateAlteredType.StatusEffectApplied, activeStatusEffect);
             }
 
             finished?.Invoke(this);

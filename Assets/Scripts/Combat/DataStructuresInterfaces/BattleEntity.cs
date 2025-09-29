@@ -1,7 +1,4 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 
 namespace Frankie.Combat
 {
@@ -43,9 +40,9 @@ namespace Frankie.Combat
         }
 
         // Specific event handling
-        private void HandleStateChange(CombatParticipant combatParticipant, StateAlteredData state)
+        private void HandleStateChange(StateAlteredEvent stateAlteredEvent)
         {
-            if (state.stateAlteredType != StateAlteredType.Dead) { return; }
+            if (stateAlteredEvent.stateAlteredType != StateAlteredType.Dead) { return; }
 
             combatParticipant.stateAltered -= HandleStateChange;
             removedFromCombat?.Invoke(this, row, column);

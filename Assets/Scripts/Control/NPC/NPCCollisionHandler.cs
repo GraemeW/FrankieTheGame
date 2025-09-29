@@ -84,9 +84,9 @@ namespace Frankie.Control
             }
         }
 
-        private void HandleNPCCombatStateChange(CombatParticipant combatParticipant, StateAlteredData stateAlteredData)
+        private void HandleNPCCombatStateChange(StateAlteredEvent stateAlteredEvent)
         {
-            if (disableCollisionEventsWhenDead && stateAlteredData.stateAlteredType == StateAlteredType.Dead)
+            if (disableCollisionEventsWhenDead && stateAlteredEvent.stateAlteredType == StateAlteredType.Dead)
             {
                 collisionsActive = false;
             }

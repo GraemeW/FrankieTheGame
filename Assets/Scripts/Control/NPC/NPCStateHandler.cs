@@ -271,9 +271,9 @@ namespace Frankie.Control
             }
         }
 
-        private void HandleNPCCombatStateChange(CombatParticipant combatParticipant, StateAlteredData stateAlteredData)
+        private void HandleNPCCombatStateChange(StateAlteredEvent stateAlteredEvent)
         {
-            if (stateAlteredData.stateAlteredType == StateAlteredType.Dead && willDestroySelfOnDeath)
+            if (stateAlteredEvent.stateAlteredType == StateAlteredType.Dead && willDestroySelfOnDeath)
             {
                 queueDeathOnNextPlayerStateChange = true;
             }

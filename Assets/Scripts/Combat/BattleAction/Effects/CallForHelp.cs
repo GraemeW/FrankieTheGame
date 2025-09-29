@@ -48,8 +48,8 @@ namespace Frankie.Combat
                 { Destroy(spawnedEnemy); } // Safety on shenanigans (spawned enemy lacking a combat participant component
             }
 
-            if (friendFound) { sender.AnnounceStateUpdate(new StateAlteredData(StateAlteredType.FriendFound)); }
-            else { sender.AnnounceStateUpdate(new StateAlteredData(StateAlteredType.FriendIgnored)); }
+            if (friendFound) { sender.AnnounceStateUpdate(StateAlteredType.FriendFound); }
+            else { sender.AnnounceStateUpdate(StateAlteredType.FriendFound); }
             finished?.Invoke(this);
         }
 
