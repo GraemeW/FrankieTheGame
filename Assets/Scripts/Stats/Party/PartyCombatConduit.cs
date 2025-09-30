@@ -83,9 +83,9 @@ namespace Frankie.Stats
         #endregion
 
         #region PrivateMethods
-        private void HandleLeaderStatusUpdate(CombatParticipant combatParticipant, StateAlteredData stateAlteredData)
+        private void HandleLeaderStatusUpdate(StateAlteredInfo stateAlteredInfo)
         {
-            if (stateAlteredData.stateAlteredType != StateAlteredType.Dead) { return; }
+            if (stateAlteredInfo.stateAlteredType != StateAlteredType.Dead) { return; }
 
             foreach (CombatParticipant character in combatParticipantCache)
             {
@@ -104,11 +104,11 @@ namespace Frankie.Stats
 
             if (enable)
             {
-                partyLeader.stateAltered += HandleLeaderStatusUpdate;
+                partyLeader.SubscribeToStateUpdates(HandleLeaderStatusUpdate);
             }
             else
             {
-                partyLeader.stateAltered -= HandleLeaderStatusUpdate;
+                partyLeader.UnsubscribeToStateUpdates(HandleLeaderStatusUpdate);
             }
         }
 

@@ -33,41 +33,25 @@ namespace Frankie.Combat.UI
         List<CombatParticipant> combatParticipants = new List<CombatParticipant>();
         Coroutine marquee = null;
 
-        // Cached References
-        BattleController battleController = null;
-
         private void Awake()
         {
-            battleController = GameObject.FindGameObjectWithTag("BattleController")?.GetComponent<BattleController>();
             combatLogDelay = delayBetweenCharactersSlowDown;
         }
 
         protected override void OnEnable()
         {
             base.OnEnable();
-            battleController.battleSequenceProcessed += ParseBattleSequence;
-            ToggleCombatParticipantListeners(true);
+            BattleEventBus<BattleSequenceProcessedEvent>.SubscribeToEvent(ParseBattleSequence);
+            BattleEventBus<StateAlteredInfo>.SubscribeToEvent(ParseCombatParticipantState);
             marquee = StartCoroutine(MarqueeScroll());
         }
 
         protected override void OnDisable()
         {
             base.OnDisable();
-            battleController.battleSequenceProcessed -= ParseBattleSequence;
-            ToggleCombatParticipantListeners(false);
+            BattleEventBus<BattleSequenceProcessedEvent>.UnsubscribeFromEvent(ParseBattleSequence);
+            BattleEventBus<StateAlteredInfo>.UnsubscribeFromEvent(ParseCombatParticipantState);
             StopCoroutine(marquee);
-        }
-
-        private void ToggleCombatParticipantListeners(bool enable)
-        {
-            if (combatParticipants.Count > 0)
-            {
-                foreach (CombatParticipant combatParticipant in combatParticipants)
-                {
-                    if (enable) { combatParticipant.stateAltered += ParseCombatParticipantState; }
-                    else { combatParticipant.stateAltered -= ParseCombatParticipantState; }
-                }
-            }
         }
 
         public void AddCombatListener(CombatParticipant combatParticipant)
@@ -108,8 +92,10 @@ namespace Frankie.Combat.UI
             }
         }
 
-        private void ParseBattleSequence(BattleSequence battleSequence)
+        private void ParseBattleSequence(BattleSequenceProcessedEvent battleSequenceProcessedEvent)
         {
+            BattleSequence battleSequence = battleSequenceProcessedEvent.battleSequence;
+
             BattleActionData battleActionData = battleSequence.battleActionData;
             if (battleActionData == null || (battleSequence.battleActionSuper == null)) { return; }
             if (battleActionData.GetSender() == null || battleActionData.targetCount == 0) { return; }
@@ -122,36 +108,37 @@ namespace Frankie.Combat.UI
             stringToPrint += "  " + combatText;
         }
 
-        private void ParseCombatParticipantState(CombatParticipant combatParticipant, StateAlteredData stateAlteredData)
+        private void ParseCombatParticipantState(StateAlteredInfo stateAlteredInfo)
         {
             string combatText = "";
-            if (stateAlteredData.stateAlteredType == StateAlteredType.IncreaseHP)
+            string combatParticipantName = stateAlteredInfo.combatParticipant.GetCombatName();
+            if (stateAlteredInfo.stateAlteredType == StateAlteredType.IncreaseHP)
             {
-                float points = stateAlteredData.points;
-                combatText = string.Format(messageIncreaseHP, combatParticipant.GetCombatName(), Mathf.RoundToInt(points).ToString()); 
+                float points = stateAlteredInfo.points;
+                combatText = string.Format(messageIncreaseHP, combatParticipantName, Mathf.RoundToInt(points).ToString());
             }
-            else if (stateAlteredData.stateAlteredType == StateAlteredType.DecreaseHP)
+            else if (stateAlteredInfo.stateAlteredType == StateAlteredType.DecreaseHP)
             {
-                float points = stateAlteredData.points;
-                combatText = string.Format(messageDecreaseHP, combatParticipant.GetCombatName(), Mathf.RoundToInt(points).ToString());
+                float points = stateAlteredInfo.points;
+                combatText = string.Format(messageDecreaseHP, combatParticipantName, Mathf.RoundToInt(points).ToString());
             }
-            else if (stateAlteredData.stateAlteredType == StateAlteredType.IncreaseAP)
+            else if (stateAlteredInfo.stateAlteredType == StateAlteredType.IncreaseAP)
             {
-                float points = stateAlteredData.points;
-                combatText = string.Format(messageIncreaseAP, combatParticipant.GetCombatName(), Mathf.RoundToInt(points).ToString());
+                float points = stateAlteredInfo.points;
+                combatText = string.Format(messageIncreaseAP, combatParticipantName, Mathf.RoundToInt(points).ToString());
             }
-            else if (stateAlteredData.stateAlteredType == StateAlteredType.DecreaseAP)
+            else if (stateAlteredInfo.stateAlteredType == StateAlteredType.DecreaseAP)
             {
-                float points = stateAlteredData.points;
-                combatText = string.Format(messageDecreaseAP, combatParticipant.GetCombatName(), Mathf.RoundToInt(points).ToString());
+                float points = stateAlteredInfo.points;
+                combatText = string.Format(messageDecreaseAP, combatParticipantName, Mathf.RoundToInt(points).ToString());
             }
-            else if (stateAlteredData.stateAlteredType == StateAlteredType.Dead)
+            else if (stateAlteredInfo.stateAlteredType == StateAlteredType.Dead)
             {
-                combatText = string.Format(messageDead, combatParticipant.GetCombatName());
+                combatText = string.Format(messageDead, combatParticipantName);
             }
-            else if (stateAlteredData.stateAlteredType == StateAlteredType.Resurrected)
+            else if (stateAlteredInfo.stateAlteredType == StateAlteredType.Resurrected)
             {
-                combatText = string.Format(messageResurrected, combatParticipant.GetCombatName());
+                combatText = string.Format(messageResurrected, combatParticipantName);
             }
 
             if (!string.IsNullOrWhiteSpace(combatText))

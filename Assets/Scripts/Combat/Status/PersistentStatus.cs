@@ -1,8 +1,6 @@
 using Frankie.Control;
 using Frankie.Stats;
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace Frankie.Combat
@@ -21,7 +19,6 @@ namespace Frankie.Combat
         // Cached References
         CombatParticipant combatParticipant = null;
         protected PlayerStateMachine playerStateHandler = null;
-        protected BattleController battleController = null;
 
         // Events
         public event Action persistentStatusTimedOut;
@@ -39,18 +36,18 @@ namespace Frankie.Combat
 
         private void OnEnable()
         {
-            combatParticipant.stateAltered += HandleCombatState;
+            combatParticipant.SubscribeToStateUpdates(HandleCombatState);
 
             if (playerStateHandler != null) { playerStateHandler.playerStateChanged += HandlePlayerState; }
-            if (battleController != null) { battleController.battleStateChanged += HandleBattleState; }
+            if (BattleEventBus.inBattle) { BattleEventBus<BattleStateChangedEvent>.SubscribeToEvent(HandleBattleState); }
         }
 
         private void OnDisable()
         {
-            combatParticipant.stateAltered -= HandleCombatState;
+            combatParticipant.UnsubscribeToStateUpdates(HandleCombatState);
 
             if (playerStateHandler != null) { playerStateHandler.playerStateChanged -= HandlePlayerState; }
-            if (battleController != null) { battleController.battleStateChanged -= HandleBattleState; }
+            BattleEventBus<BattleStateChangedEvent>.UnsubscribeFromEvent(HandleBattleState);
         }
 
         private void OnDestroy()
@@ -82,19 +79,16 @@ namespace Frankie.Combat
 
         protected void SyncToBattleController()
         {
-            if (battleController != null) { return; }
-
-            battleController = GameObject.FindGameObjectWithTag("BattleController")?.GetComponent<BattleController>();
-            if (battleController != null)
-            {
-                HandleBattleState(battleController.GetBattleState(), BattleOutcome.Undetermined);
-                battleController.battleStateChanged += HandleBattleState;
-            }
-            else
+            if (BattleEventBus.inBattle == false)
             {
                 if (persistAfterBattle) { active = true; }
                 else { Destroy(this); }
+                return;
             }
+
+            BattleStateChangedEvent battleStateChangedEvent = new BattleStateChangedEvent(BattleEventBus.battleState, BattleOutcome.Undetermined);
+            HandleBattleState(battleStateChangedEvent); // Sync state immediately
+            BattleEventBus<BattleStateChangedEvent>.SubscribeToEvent(HandleBattleState);
         }
 
         protected virtual void UpdateTimers()
@@ -108,8 +102,11 @@ namespace Frankie.Combat
             }
         }
 
-        private void HandleBattleState(BattleState battleState, BattleOutcome battleOutcome)
+        private void HandleBattleState(BattleStateChangedEvent battleStateChangedEvent)
         {
+            BattleState battleState = battleStateChangedEvent.battleState;
+            BattleOutcome battleOutcome = battleStateChangedEvent.battleOutcome;
+
             if (battleState == BattleState.Combat)
             {
                 active = true;
@@ -121,9 +118,7 @@ namespace Frankie.Combat
 
             if (battleState == BattleState.Complete)
             {
-                battleController.battleStateChanged -= HandleBattleState;
-                battleController = null;
-
+                BattleEventBus<BattleStateChangedEvent>.UnsubscribeFromEvent(HandleBattleState);
                 if (persistAfterBattle)
                 {
                     active = true;
@@ -143,9 +138,9 @@ namespace Frankie.Combat
             }
         }
 
-        private void HandleCombatState(CombatParticipant combatParticipant, StateAlteredData stateAlteredData)
+        private void HandleCombatState(StateAlteredInfo stateAlteredInfo)
         {
-            if (stateAlteredData.stateAlteredType == StateAlteredType.Dead)
+            if (stateAlteredInfo.stateAlteredType == StateAlteredType.Dead)
             {
                 Destroy(this);
             }

@@ -6,6 +6,7 @@ using System;
 using Frankie.Core;
 using System.Collections.Generic;
 using Frankie.Inventory;
+using Frankie.Control;
 
 namespace Frankie.Combat
 {
@@ -25,6 +26,7 @@ namespace Frankie.Combat
         [SerializeField] float battleStartCooldown = 1.0f;
         [SerializeField] float damageTimeSpan = 4.0f;
         [SerializeField] float fractionOfHPInstantOnRevival = 0.5f;
+        [SerializeField] bool shouldDestroySelfOnDeath = true;
 
         // Cached References
         BaseStats baseStats = null;
@@ -40,10 +42,12 @@ namespace Frankie.Combat
         LazyValue<bool> isDead;
         LazyValue<float> currentHP;
         LazyValue<float> currentAP;
+        List<StateEvent> stateListeners = new List<StateEvent>();
 
         // Events
         public event Action<bool> enterCombat;
-        public event Action<CombatParticipant, StateAlteredData> stateAltered;
+        public delegate void StateEvent(StateAlteredInfo stateAlteredInfo);
+        public event StateEvent stateAltered;
 
         #region UnityMethods
         private void Awake()
@@ -110,6 +114,7 @@ namespace Frankie.Combat
         public bool GetFriendly() => friendly;
         public BattleEntityType GetBattleEntityType() => battleEntityType;
         public bool HasLoot() => lootDispenser == null ? false : lootDispenser.HasLootReward();
+        public bool ShouldDestroySelfOnDeath() => shouldDestroySelfOnDeath;
         #endregion
 
         #region StatsInterface
@@ -148,15 +153,22 @@ namespace Frankie.Combat
             inCombat = enable;
             if (enable)
             {
-                if (IsInCooldown()) { AnnounceStateUpdate(new StateAlteredData(StateAlteredType.CooldownSet, cooldownTimer)); }
+                if (IsInCooldown()) { AnnounceStateUpdate(StateAlteredType.CooldownSet, cooldownTimer); }
             }
             else
             {
                 HaltHPScroll();
-                if (IsInCooldown()) { AnnounceStateUpdate(new StateAlteredData(StateAlteredType.CooldownSet, Mathf.Infinity)); }
+                if (IsInCooldown()) { AnnounceStateUpdate(StateAlteredType.CooldownSet, Mathf.Infinity); }
             }
             
             enterCombat?.Invoke(enable);
+        }
+
+        public void SetupSelfDestroyOnBattleComplete()
+        {
+            if (!shouldDestroySelfOnDeath) { return; }
+
+            BattleEventBus<BattleStateChangedEvent>.SubscribeToEvent(SelfDestroyOnBattleComplete);
         }
 
         public bool CheckIfDead() // Called via Unity Events
@@ -167,7 +179,7 @@ namespace Frankie.Combat
                 targetHP = 0f;
                 isDead.value = true;
 
-                AnnounceStateUpdate(new StateAlteredData(StateAlteredType.Dead));
+                AnnounceStateUpdate(StateAlteredType.Dead);
             }
 
             if (isDead.value == true) { return true; }
@@ -177,15 +189,15 @@ namespace Frankie.Combat
         public void SetCooldown(float seconds)
         {
             cooldownTimer = seconds * GetCooldownMultiplier();
-            AnnounceStateUpdate(new StateAlteredData(StateAlteredType.CooldownSet, cooldownTimer));
+            AnnounceStateUpdate(StateAlteredType.CooldownSet, cooldownTimer);
         }
 
         public void AdjustHP(float points)
         {
             AdjustHPQuietly(points);
 
-            if (points < 0) { AnnounceStateUpdate(new StateAlteredData(StateAlteredType.DecreaseHP, points)); }
-            else if (points > 0) { AnnounceStateUpdate(new StateAlteredData(StateAlteredType.IncreaseHP, points)); }
+            if (points < 0) { AnnounceStateUpdate(StateAlteredType.DecreaseHP, points); }
+            else if (points > 0) { AnnounceStateUpdate(StateAlteredType.IncreaseHP, points); }
         }
 
         public void AdjustHPQuietly(float points)
@@ -216,8 +228,8 @@ namespace Frankie.Combat
         {
             AdjustAPQuietly(points);
 
-            if (points < 0) { AnnounceStateUpdate(new StateAlteredData(StateAlteredType.DecreaseAP, points)); }
-            else if (points > 0) { AnnounceStateUpdate(new StateAlteredData(StateAlteredType.IncreaseAP, points)); }
+            if (points < 0) { AnnounceStateUpdate(StateAlteredType.DecreaseAP, points); }
+            else if (points > 0) { AnnounceStateUpdate(StateAlteredType.IncreaseAP, points); }
         }
 
         public void AdjustAPQuietly(float points)
@@ -227,10 +239,10 @@ namespace Frankie.Combat
 
             float unsafeAP = currentAP.value + points;
             currentAP.value = Mathf.Clamp(unsafeAP, 0f, baseStats.GetStat(Stat.AP));
-            AnnounceStateUpdate(new StateAlteredData(StateAlteredType.AdjustAPNonSpecific, points));
+            AnnounceStateUpdate(StateAlteredType.AdjustAPNonSpecific, points);
         }
 
-        public void Kill()
+        public void SelfImplode()
         {
             AdjustHP(-baseStats.GetStat(Stat.HP) * 10f);
         }
@@ -241,19 +253,70 @@ namespace Frankie.Combat
             currentHP.value = hp * fractionOfHPInstantOnRevival;
             targetHP = hp;
             cooldownTimer = 0f;
-            AnnounceStateUpdate(new StateAlteredData(StateAlteredType.Resurrected));
-            AnnounceStateUpdate(new StateAlteredData(StateAlteredType.IncreaseHP));
+            AnnounceStateUpdate(StateAlteredType.Resurrected);
+            AnnounceStateUpdate(StateAlteredType.IncreaseHP);
+        }
+        #endregion
+
+        #region StateUpdates
+        public void SubscribeToStateUpdates(StateEvent handler)
+        {
+            // Note:  Obviously do NOT double subscribe to both CombatParticipant and BattleEventBus
+            if (stateListeners.Contains(handler)) { return; }
+
+            stateListeners.Add(handler);
+            stateAltered += handler;
         }
 
-        public void AnnounceStateUpdate(StateAlteredData stateAlteredData)
+        public void UnsubscribeToStateUpdates(StateEvent handler)
         {
-            if (stateAlteredData == null) { return; }
+            stateListeners.Remove(handler);
+            stateAltered -= handler;
+        }
 
-            stateAltered?.Invoke(this, stateAlteredData);
+        public void AnnounceStateUpdate(StateAlteredInfo stateAlteredInfo)
+        {
+            if (stateAlteredInfo == null) { return; }
+
+            stateAltered?.Invoke(stateAlteredInfo);
+            BattleEventBus<StateAlteredInfo>.Raise(stateAlteredInfo); // Separate announce for generic BattleEventBus subscribers
+        }
+
+        public void AnnounceStateUpdate(StateAlteredType stateAlteredType)
+        {
+            StateAlteredInfo stateAlteredInfo = new StateAlteredInfo(this, stateAlteredType);
+            AnnounceStateUpdate(stateAlteredInfo);
+        }
+
+        public void AnnounceStateUpdate(StateAlteredType stateAlteredType, float points)
+        {
+            StateAlteredInfo stateAlteredInfo = new StateAlteredInfo(this, stateAlteredType, points);
+            AnnounceStateUpdate(stateAlteredInfo);
+        }
+
+        public void AnnounceStateUpdate(StateAlteredType stateAlteredType, PersistentStatus persistentStatus)
+        {
+            StateAlteredInfo stateAlteredInfo = new StateAlteredInfo(this, stateAlteredType, persistentStatus);
+            AnnounceStateUpdate(stateAlteredInfo);
+        }
+
+        public void AnnounceStateUpdate(StateAlteredType stateAlteredType, Stat stat, float points)
+        {
+            StateAlteredInfo stateAlteredInfo = new StateAlteredInfo(this, stateAlteredType, stat, points);
+            AnnounceStateUpdate(stateAlteredInfo);
         }
         #endregion
 
         #region PrivateUtility
+        private void SelfDestroyOnBattleComplete(BattleStateChangedEvent battleStateChangedEvent)
+        {
+            if (battleStateChangedEvent.battleState == BattleState.Complete)
+            {
+                BattleEventBus<BattleStateChangedEvent>.UnsubscribeFromEvent(SelfDestroyOnBattleComplete);
+                Destroy(gameObject);
+            }
+        }
+
         private void UpdateDamageDelayedHealth()
         {
             if (friendly && !Mathf.Approximately(currentHP.value, targetHP))
@@ -262,7 +325,7 @@ namespace Frankie.Combat
                 float unsafeHP = Mathf.Lerp(currentHP.value, targetHP, deltaHPTimeFraction);
                 currentHP.value = Mathf.Clamp(unsafeHP, 0f, baseStats.GetStat(Stat.HP));
 
-                AnnounceStateUpdate(new StateAlteredData(StateAlteredType.AdjustHPNonSpecific));
+                AnnounceStateUpdate(StateAlteredType.AdjustHPNonSpecific);
             }
         }
 
@@ -273,7 +336,7 @@ namespace Frankie.Combat
                 cooldownTimer -= Time.deltaTime;
                 if (!IsInCooldown()) // Immediately after adjustment to check if cooldown flipped
                 {
-                    AnnounceStateUpdate(new StateAlteredData(StateAlteredType.CooldownExpired));
+                    AnnounceStateUpdate(StateAlteredType.CooldownExpired);
                 }
             }
         }

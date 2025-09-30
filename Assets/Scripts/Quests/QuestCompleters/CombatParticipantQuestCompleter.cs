@@ -20,17 +20,17 @@ namespace Frankie.Quests
 
         private void OnEnable()
         {
-            combatParticipant.stateAltered += CompleteObjective;
+            combatParticipant.SubscribeToStateUpdates(CompleteObjective);
         }
 
         private void OnDisable()
         {
-            combatParticipant.stateAltered -= CompleteObjective;
+            combatParticipant.UnsubscribeToStateUpdates(CompleteObjective);
         }
 
-        private void CompleteObjective(CombatParticipant combatParticipant, StateAlteredData stateAlteredData)
+        private void CompleteObjective(StateAlteredInfo stateAlteredInfo)
         {
-            if (stateAlteredData.stateAlteredType == typeToMatch)
+            if (stateAlteredInfo.stateAlteredType == typeToMatch)
             {
                 CompleteObjective();
             }

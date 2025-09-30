@@ -14,7 +14,6 @@ namespace Frankie.Control
     {
         // Tunables
         [SerializeField] bool willForceCombat = false;
-        [SerializeField] bool willDestroySelfOnDeath = true;
         [SerializeField] bool willDestroyIfInvisible = false;
         [Min(0)][Tooltip("in seconds")][SerializeField] float delayToDestroyAfterInvisible = 2f;
         [Tooltip("Include {0} for enemy name")] [SerializeField] string messageCannotFight = "{0} is wounded and cannot fight.";
@@ -70,7 +69,7 @@ namespace Frankie.Control
         private void OnEnable()
         {
             playerStateHandler.value.playerStateChanged += ParsePlayerStateChange;
-            if (combatParticipant != null) { combatParticipant.stateAltered += HandleNPCCombatStateChange; }
+            if (combatParticipant != null) { combatParticipant.SubscribeToStateUpdates(HandleNPCCombatStateChange); }
             if (spriteVisibilityAnnouncer != null) { spriteVisibilityAnnouncer.spriteVisibilityStatus += HandleSpriteVisibility; }
             SetNPCState(NPCStateType.idle);
         }
@@ -78,7 +77,7 @@ namespace Frankie.Control
         private void OnDisable()
         {
             playerStateHandler.value.playerStateChanged -= ParsePlayerStateChange;
-            if (combatParticipant != null) { combatParticipant.stateAltered -= HandleNPCCombatStateChange; }
+            if (combatParticipant != null) { combatParticipant.UnsubscribeToStateUpdates(HandleNPCCombatStateChange); }
             if (spriteVisibilityAnnouncer != null) { spriteVisibilityAnnouncer.spriteVisibilityStatus -= HandleSpriteVisibility; }
         }
 
@@ -94,7 +93,6 @@ namespace Frankie.Control
         public Vector2 GetPlayerLookDirection() => playerController.value.GetPlayerMover().GetLookDirection();
         public Vector2 GetPlayerInteractionPosition() => playerController.value.GetInteractionPosition();
         public bool WillForceCombat() => willForceCombat;
-        public bool WillDestroySelfOnDeath() => willDestroySelfOnDeath;
         #endregion
 
         #region StateUtilityMethods
@@ -271,9 +269,11 @@ namespace Frankie.Control
             }
         }
 
-        private void HandleNPCCombatStateChange(CombatParticipant combatParticipant, StateAlteredData stateAlteredData)
+        private void HandleNPCCombatStateChange(StateAlteredInfo stateAlteredInfo)
         {
-            if (stateAlteredData.stateAlteredType == StateAlteredType.Dead && willDestroySelfOnDeath)
+            if (combatParticipant == null) { return; }
+
+            if (stateAlteredInfo.stateAlteredType == StateAlteredType.Dead && combatParticipant.ShouldDestroySelfOnDeath())
             {
                 queueDeathOnNextPlayerStateChange = true;
             }

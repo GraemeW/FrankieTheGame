@@ -353,7 +353,7 @@ namespace Frankie.Control
                     battleController = existingBattleController;
                 }
             }
-            battleController.battleStateChanged += HandleCombatMessages;
+            BattleEventBus<BattleStateChangedEvent>.SubscribeToEvent(HandleCombatMessages);
         }
 
         public bool StartBattleSequence()
@@ -381,10 +381,13 @@ namespace Frankie.Control
             return true;
         }
 
-        private void HandleCombatMessages(BattleState battleState, BattleOutcome battleOutcome)
+        private void HandleCombatMessages(BattleStateChangedEvent battleStateChangedEvent)
         {
+            BattleState battleState = battleStateChangedEvent.battleState;
+            BattleOutcome battleOutcome = battleStateChangedEvent.battleOutcome;
+
             if (battleState != BattleState.Complete) { return; }
-            battleController.battleStateChanged -= HandleCombatMessages;
+            BattleEventBus<BattleStateChangedEvent>.UnsubscribeFromEvent(HandleCombatMessages);
 
             currentTransitionType = TransitionType.BattleComplete;
             currentPlayerState.EnterTransition(this);
@@ -410,6 +413,7 @@ namespace Frankie.Control
             Destroy(battleController.gameObject);
             yield return fader.QueueFadeExit(currentTransitionType);
 
+            BattleEventBus<BattleExitEvent>.Raise(new BattleExitEvent());
             currentPlayerState.EnterWorld(this);
         }
         #endregion

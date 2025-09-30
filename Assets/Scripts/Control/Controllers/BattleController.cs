@@ -6,7 +6,6 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using Frankie.ZoneManagement;
-using Frankie.Inventory;
 
 namespace Frankie.Combat
 {
@@ -24,7 +23,7 @@ namespace Frankie.Combat
         [SerializeField] int minEnemiesBeforeRowSplit = 2;
 
         // State
-        BattleState state = default;
+        BattleState battleState = default;
         bool outroCleanupCalled = false;
 
         List<BattleEntity> activeCharacters = new List<BattleEntity>();
@@ -50,11 +49,6 @@ namespace Frankie.Combat
         // Events
         public event Action<PlayerInputType> battleInput;
         public event Action<PlayerInputType> globalInput;
-        public event Action<BattleState, BattleOutcome> battleStateChanged;
-        public event Action<BattleEntity> battleEntityAddedToCombat;
-        public event Action<CombatParticipantType, IEnumerable<BattleEntity>> selectedCombatParticipantChanged;
-        public event Action<IBattleActionSuper> battleActionArmedStateChanged;
-        public event Action<BattleSequence> battleSequenceProcessed;
 
         // Interaction
         #region UnityMethods
@@ -65,7 +59,7 @@ namespace Frankie.Combat
             battleRewards = GetComponent<BattleRewards>();
 
             VerifyUnique();
-            
+
             playerInput.Menu.Navigate.performed += context => ParseDirectionalInput(context.ReadValue<Vector2>());
             playerInput.Menu.Execute.performed += context => HandleUserInput(PlayerInputType.Execute);
             playerInput.Menu.Cancel.performed += context => HandleUserInput(PlayerInputType.Cancel);
@@ -80,36 +74,22 @@ namespace Frankie.Combat
         private void OnEnable()
         {
             playerInput.Menu.Enable();
-            SubscribeToCharacters(true);
+            BattleEventBus<BattleEntityRemovedFromBoardEvent>.SubscribeToEvent(RemoveFromEnemyMapping);
+            BattleEventBus<StateAlteredInfo>.SubscribeToEvent(HandleCharacterDeath);
+            BattleEventBus<StateAlteredInfo>.SubscribeToEvent(CheckForBattleEnd);
         }
 
         private void OnDisable()
         {
             playerInput.Menu.Disable();
-            SubscribeToCharacters(false);
-        }
-
-        private void SubscribeToCharacters(bool enable)
-        {
-            if (enable)
-            {
-                foreach (BattleEntity character in activePlayerCharacters)
-                {
-                    character.combatParticipant.stateAltered += HandleCharacterDeath;
-                }
-            }
-            else
-            {
-                foreach (BattleEntity character in activePlayerCharacters)
-                {
-                    character.combatParticipant.stateAltered -= HandleCharacterDeath;
-                }
-            }
+            BattleEventBus<BattleEntityRemovedFromBoardEvent>.UnsubscribeFromEvent(RemoveFromEnemyMapping);
+            BattleEventBus<StateAlteredInfo>.UnsubscribeFromEvent(HandleCharacterDeath);
+            BattleEventBus<StateAlteredInfo>.UnsubscribeFromEvent(CheckForBattleEnd);
         }
 
         private void Update()
         {
-            if (state == BattleState.Combat)
+            if (battleState == BattleState.Combat)
             {
                 if (!haltBattleQueue && !battleSequenceInProgress) 
                 {
@@ -117,7 +97,7 @@ namespace Frankie.Combat
                 }
 
             }
-            else if (state == BattleState.Outro)
+            else if (battleState == BattleState.Outro)
             {
                 if (!outroCleanupCalled)
                 {
@@ -125,12 +105,12 @@ namespace Frankie.Combat
                     CleanUpBattleBits();
                 }
             }
-            else if (state == BattleState.Complete && outroCleanupCalled) { outroCleanupCalled = false; }
+            else if (battleState == BattleState.Complete && outroCleanupCalled) { outroCleanupCalled = false; }
         }
 
         private void LateUpdate()
         {
-            if (state == BattleState.Combat)
+            if (battleState == BattleState.Combat)
             {
                 AutoSelectCharacter();
             }
@@ -148,7 +128,7 @@ namespace Frankie.Combat
 
         public void SetBattleState(BattleState state, BattleOutcome battleOutcome)
         {
-            this.state = state;
+            this.battleState = state;
 
             if (state == BattleState.Combat)
             {
@@ -159,7 +139,7 @@ namespace Frankie.Combat
                 ToggleCombatParticipants(false);
             }
 
-            battleStateChanged?.Invoke(state, battleOutcome);
+            BattleEventBus<BattleStateChangedEvent>.Raise(new BattleStateChangedEvent(state, battleOutcome));
         }
 
         public bool SetSelectedCharacter(CombatParticipant character)
@@ -176,7 +156,9 @@ namespace Frankie.Combat
             {
                 battleActionData = null;
             }
-            selectedCombatParticipantChanged?.Invoke(CombatParticipantType.Friendly, new[] { new BattleEntity(selectedCharacter) });
+
+            List<BattleEntity> selectedBattleEntity = new() { new(selectedCharacter) };
+            BattleEventBus<BattleEntitySelectedEvent>.Raise(new BattleEntitySelectedEvent(CombatParticipantType.Friendly, selectedBattleEntity));
 
             return true;
         }
@@ -193,7 +175,7 @@ namespace Frankie.Combat
                 battleActionUser.GetTargets(traverseForward, battleActionData, activeCharacters, activeEnemies);
             }
 
-            selectedCombatParticipantChanged?.Invoke(CombatParticipantType.Foe, battleActionData?.GetTargets());
+            BattleEventBus<BattleEntitySelectedEvent>.Raise(new BattleEntitySelectedEvent(CombatParticipantType.Foe, battleActionData?.GetTargets()));
 
             if (battleActionData != null)
             {
@@ -236,13 +218,17 @@ namespace Frankie.Combat
             }
             else { return; }
 
-            battleActionArmedStateChanged?.Invoke(selectedBattleActionSuper);
+            BattleEventBus<BattleActionArmedEvent>.Raise(new BattleActionArmedEvent(selectedBattleActionSuper));
         }
         #endregion
 
         #region PublicGetters
         // Overall State
-        public BattleState GetBattleState() => state;
+        public BattleState GetBattleState() => battleState;
+        public bool IsStateOutsideCombat()
+        {
+            return (battleState == BattleState.Inactive || battleState == BattleState.Rewards || battleState == BattleState.Outro || battleState == BattleState.Complete);
+        }
         public List<BattleEntity> GetCharacters() => activeCharacters;
         public List<BattleEntity> GetEnemies() => activeEnemies;
         public List<BattleEntity> GetAssistCharacters() => activeAssistCharacters;
@@ -328,6 +314,10 @@ namespace Frankie.Combat
 
             if (partySpeed > enemySpeed)
             {
+                foreach (BattleEntity enemy in activeEnemies)
+                {
+                    enemy.combatParticipant.SetupSelfDestroyOnBattleComplete();
+                }
                 SetBattleState(BattleState.Outro, BattleOutcome.Ran);
                 return true;
             }
@@ -354,7 +344,7 @@ namespace Frankie.Combat
 
         private void HandleUserInput(PlayerInputType playerInputType)
         {
-            if (state == BattleState.Combat)
+            if (battleState == BattleState.Combat)
             {
                 if (InteractWithInterrupts(playerInputType)) { return; }
                 if (InteractWithSkillSelect(playerInputType)) { return; }
@@ -463,12 +453,13 @@ namespace Frankie.Combat
         private void InitiateBattle(List<CombatParticipant> enemies, TransitionType transitionType)
         {
             SetupCombatParticipants(enemies, transitionType);
+            BattleEventBus<BattleEnterEvent>.Raise(new BattleEnterEvent(activeCharacters, activeEnemies));
 
             if (CheckForAutoWin())
             {
                 foreach (BattleEntity enemy in activeEnemies)
                 {
-                    enemy.combatParticipant.Kill();
+                    enemy.combatParticipant.SelfImplode();
                 }
                 SetBattleState(BattleState.Combat, BattleOutcome.Undetermined); // Combat will auto-complete in the usual way
             }
@@ -485,7 +476,6 @@ namespace Frankie.Combat
             {
                 AddCharacterToCombat(character, transitionType == TransitionType.BattleGood);
             }
-            if (gameObject.activeSelf) { SubscribeToCharacters(true); }
 
             // Enemies
             InitializeEnemyMapping(enemies.Count);
@@ -512,24 +502,22 @@ namespace Frankie.Combat
         {
             SetCombatParticipantCooldown(character, useBattleAdvantageCooldown);
 
-            character.stateAltered += CheckForBattleEnd;
             BattleEntity characterBattleEntity = new BattleEntity(character);
             activeCharacters.Add(characterBattleEntity);
             activePlayerCharacters.Add(characterBattleEntity);
 
-            battleEntityAddedToCombat?.Invoke(characterBattleEntity);
+            BattleEventBus<BattleEntityAddedEvent>.Raise(new BattleEntityAddedEvent(characterBattleEntity));
         }
 
         private void AddAssistCharacterToCombat(CombatParticipant character, bool useBattleAdvantageCooldown = false)
         {
             SetCombatParticipantCooldown(character, useBattleAdvantageCooldown);
 
-            character.stateAltered += CheckForBattleEnd;
             BattleEntity assistBattleEntity = new BattleEntity(character, true);
             activeCharacters.Add(assistBattleEntity);
             activeAssistCharacters.Add(assistBattleEntity);
 
-            battleEntityAddedToCombat?.Invoke(assistBattleEntity);
+            BattleEventBus<BattleEntityAddedEvent>.Raise(new BattleEntityAddedEvent(assistBattleEntity));
         }
 
         public void AddEnemyToCombat(CombatParticipant enemy, bool useBattleAdvantageCooldown = false, bool forceCombatActive = false)
@@ -540,14 +528,11 @@ namespace Frankie.Combat
             GetEnemyPosition(out rowIndex, out columnIndex);
             UnityEngine.Debug.Log($"New enemy added at position row: {rowIndex} ; col: {columnIndex}");
 
-            enemy.stateAltered += CheckForBattleEnd;
-
             BattleEntity enemyBattleEntity = new BattleEntity(enemy, enemy.GetBattleEntityType(), rowIndex, columnIndex);
-            enemyBattleEntity.removedFromCombat += RemoveFromEnemyMapping;
             activeEnemies.Add(enemyBattleEntity);
 
             enemy.SetCombatActive(forceCombatActive);
-            battleEntityAddedToCombat?.Invoke(enemyBattleEntity);
+            BattleEventBus<BattleEntityAddedEvent>.Raise(new BattleEntityAddedEvent(enemyBattleEntity));
         }
 
         private void InitializeEnemyMapping(int enemyCount)
@@ -589,10 +574,9 @@ namespace Frankie.Combat
             enemyMapping[rowIndex][columnIndex] = true;
         }
 
-        private void RemoveFromEnemyMapping(BattleEntity battleEntity, int row, int column)
+        private void RemoveFromEnemyMapping(BattleEntityRemovedFromBoardEvent battleEntityRemovedFromBoardEvent)
         {
-            battleEntity.removedFromCombat -= RemoveFromEnemyMapping;
-            enemyMapping[row][column] = false;
+            enemyMapping[battleEntityRemovedFromBoardEvent.row][battleEntityRemovedFromBoardEvent.column] = false;
         }
 
         private bool CheckForAutoWin()
@@ -654,7 +638,8 @@ namespace Frankie.Combat
             bool allEntitiesDead = true;
             foreach (BattleEntity battleEntity in dequeuedBattleActionData.GetTargets()) { if (!battleEntity.combatParticipant.IsDead()) { allEntitiesDead = false; break; } }
             if (dequeuedBattleActionData.GetSender().IsDead() || allEntitiesDead) { yield break; }
-            battleSequenceProcessed?.Invoke(battleSequence);
+
+            BattleEventBus<BattleSequenceProcessedEvent>.Raise(new BattleSequenceProcessedEvent(battleSequence));
 
             // Useful Debug
             //string targetNames = string.Concat(dequeuedBattleActionData.GetTargets().Select(x => x.name));
@@ -672,11 +657,11 @@ namespace Frankie.Combat
             haltBattleQueue = false;
         }
 
-        private void HandleCharacterDeath(CombatParticipant combatParticipant, StateAlteredData stateAlteredData)
+        private void HandleCharacterDeath(StateAlteredInfo stateAlteredInfo)
         {
-            if (stateAlteredData.stateAlteredType != StateAlteredType.Dead) { return; }
+            if (stateAlteredInfo.stateAlteredType != StateAlteredType.Dead) { return; }
 
-            if (selectedCharacter == combatParticipant)
+            if (selectedCharacter == stateAlteredInfo.combatParticipant)
             {
                 SetActiveBattleAction(null); SetSelectedCharacter(null);
                 return;
@@ -684,30 +669,18 @@ namespace Frankie.Combat
 
             if (battleActionData != null)
             {
-                if (battleActionData.targetCount > 0 && battleActionData.HasTarget(combatParticipant))
+                if (battleActionData.targetCount > 0 && battleActionData.HasTarget(stateAlteredInfo.combatParticipant))
                 {
                     SetSelectedTarget(selectedBattleActionSuper, true);
                 }
             }
         }
 
-        private void DestroyTransientEnemies()
+        private void CheckForBattleEnd(StateAlteredInfo stateAlteredInfo)
         {
-            foreach (BattleEntity enemy in activeEnemies)
-            {
-                NPCStateHandler npcStateHandler = enemy.combatParticipant.GetComponent<NPCStateHandler>();
-                if (npcStateHandler == null) { return; }
+            if (IsStateOutsideCombat()) { return; }
 
-                if (npcStateHandler.WillDestroySelfOnDeath())
-                {
-                    Destroy(npcStateHandler.gameObject);
-                }
-            }
-        }
-
-        private void CheckForBattleEnd(CombatParticipant combatParticipant, StateAlteredData stateAlteredData)
-        {
-            if (stateAlteredData.stateAlteredType == StateAlteredType.Dead)
+            if (stateAlteredInfo.stateAlteredType == StateAlteredType.Dead)
             {
                 bool allCharactersDead = true;
                 foreach (BattleEntity battleEntity in activePlayerCharacters) { if (!battleEntity.combatParticipant.IsDead()) { allCharactersDead = false; break; } }
@@ -721,7 +694,7 @@ namespace Frankie.Combat
                 if (allEnemiesDead)
                 {
                     bool rewardsExist = battleRewards.HandleBattleRewardsTriggered(partyCombatConduit, activePlayerCharacters, GetEnemies());
-                    BattleState battleState = rewardsExist ? BattleState.PreOutro : BattleState.Outro;
+                    BattleState battleState = rewardsExist ? BattleState.Rewards : BattleState.Outro;
                     SetBattleState(battleState, BattleOutcome.Won);
                 }
             }
@@ -732,12 +705,10 @@ namespace Frankie.Combat
             foreach (BattleEntity character in activeCharacters)
             {
                 character.combatParticipant.SetCombatActive(false);
-                character.combatParticipant.stateAltered -= CheckForBattleEnd;
             }
             foreach (BattleEntity enemy in activeEnemies)
             {
                 enemy.combatParticipant.SetCombatActive(false);
-                enemy.combatParticipant.stateAltered -= CheckForBattleEnd;
             }
             activeCharacters.Clear();
             activePlayerCharacters.Clear();

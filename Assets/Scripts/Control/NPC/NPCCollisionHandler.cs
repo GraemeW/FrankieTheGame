@@ -52,13 +52,13 @@ namespace Frankie.Control
         private void OnEnable()
         {
             npcStateHandler.npcStateChanged += HandleNPCStateChange;
-            if (combatParticipant != null) { combatParticipant.stateAltered += HandleNPCCombatStateChange; }
+            if (combatParticipant != null) { combatParticipant.SubscribeToStateUpdates(HandleNPCCombatStateChange); }
         }
 
         private void OnDisable()
         {
             npcStateHandler.npcStateChanged -= HandleNPCStateChange;
-            if (combatParticipant != null) { combatParticipant.stateAltered -= HandleNPCCombatStateChange; }
+            if (combatParticipant != null) { combatParticipant.UnsubscribeToStateUpdates(HandleNPCCombatStateChange); }
         }
 
         private void HandleNPCStateChange(NPCStateType npcStateType, bool isNPCAfraid)
@@ -84,9 +84,9 @@ namespace Frankie.Control
             }
         }
 
-        private void HandleNPCCombatStateChange(CombatParticipant combatParticipant, StateAlteredData stateAlteredData)
+        private void HandleNPCCombatStateChange(StateAlteredInfo stateAlteredInfo)
         {
-            if (disableCollisionEventsWhenDead && stateAlteredData.stateAlteredType == StateAlteredType.Dead)
+            if (disableCollisionEventsWhenDead && stateAlteredInfo.stateAlteredType == StateAlteredType.Dead)
             {
                 collisionsActive = false;
             }

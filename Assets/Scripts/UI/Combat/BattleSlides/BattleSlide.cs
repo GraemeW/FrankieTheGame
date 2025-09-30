@@ -27,7 +27,7 @@ namespace Frankie.Combat.UI
 
         [Header("Dimming Effects")]
         [SerializeField] float dimmingMin = 0.7f;
-        [SerializeField] [Tooltip("in seconds")] float halfDimmingTime = 0.05f;
+        [SerializeField][Tooltip("in seconds")] float halfDimmingTime = 0.05f;
 
         // State
         protected BattleEntity battleEntity = null;
@@ -52,32 +52,20 @@ namespace Frankie.Combat.UI
 
         protected virtual void OnEnable()
         {
-            if (battleEntity != null)
-            {
-                battleEntity.combatParticipant.stateAltered += ParseState;
-            }
-            if (battleController != null)
-            {
-                battleController.selectedCombatParticipantChanged += HighlightSlide;
-                AddButtonClickEvent( delegate{ HandleClickInBattle(); });
-            }
+            if (battleEntity != null) { battleEntity.combatParticipant.SubscribeToStateUpdates(ParseState); }
+
+            if (BattleEventBus.inBattle) { SetupBattleListeners(); }
+            else { BattleEventBus<BattleEnterEvent>.SubscribeToEvent(SetupBattleListeners); }
         }
 
         protected virtual void OnDisable()
         {
             RemoveButtonClickEvents();
 
-            if (canvasDimming != null) { StopCoroutine(canvasDimming); }
-            canvasDimming = null;
-
-            if (battleEntity != null)
-            {
-                battleEntity.combatParticipant.stateAltered -= ParseState;
-            }
-            if (battleController != null)
-            {
-                battleController.selectedCombatParticipantChanged -= HighlightSlide;
-            }
+            if (canvasDimming != null) { StopCoroutine(canvasDimming); canvasDimming = null; }
+            if (battleEntity != null) { battleEntity.combatParticipant.UnsubscribeToStateUpdates(ParseState); }
+            BattleEventBus<BattleEnterEvent>.UnsubscribeFromEvent(SetupBattleListeners);
+            BattleEventBus<BattleEntitySelectedEvent>.UnsubscribeFromEvent(HighlightSlide);
         }
 
         private void FixedUpdate()
@@ -90,18 +78,18 @@ namespace Frankie.Combat.UI
         #region AbstractMethods
         protected abstract void SetSelected(CombatParticipantType combatParticipantType, bool enable);
 
-        protected abstract void ParseState(CombatParticipant combatParticipant, StateAlteredData stateAlteredData);
+        protected abstract void ParseState(StateAlteredInfo stateAlteredInfo);
 
         #endregion
 
         #region PublicSettersGetters
         public virtual void SetBattleEntity(BattleEntity battleEntity)
         {
-            if (this.battleEntity != null) { this.battleEntity.combatParticipant.stateAltered -= ParseState; }
+            if (this.battleEntity != null) { this.battleEntity.combatParticipant.UnsubscribeToStateUpdates(ParseState); }
 
             this.battleEntity = battleEntity;
             InitializeStatusEffectBobbles();
-            this.battleEntity.combatParticipant.stateAltered += ParseState;
+            this.battleEntity.combatParticipant.SubscribeToStateUpdates(ParseState);
         }
 
         public virtual void AddButtonClickEvent(UnityAction unityAction)
@@ -135,6 +123,11 @@ namespace Frankie.Combat.UI
             }
         }
 
+        public void HighlightSlide(BattleEntitySelectedEvent battleEntitySelectedEvent)
+        {
+            HighlightSlide(battleEntitySelectedEvent.combatParticipantType, battleEntitySelectedEvent.battleEntities);
+        }
+
         public void HighlightSlide(CombatParticipantType combatParticipantType, bool enable)
         {
             SetSelected(combatParticipantType, enable);
@@ -162,6 +155,11 @@ namespace Frankie.Combat.UI
         #endregion
 
         #region PrivateMethods
+        private void SetupBattleListeners(BattleEnterEvent battleEnterEvent = null)
+        {
+            BattleEventBus<BattleEntitySelectedEvent>.SubscribeToEvent(HighlightSlide);
+            AddButtonClickEvent(delegate { HandleClickInBattle(); });
+        }
 
         protected virtual bool HandleClickInBattle()
         {
@@ -193,7 +191,7 @@ namespace Frankie.Combat.UI
         protected void CapVisibleStatusEffects()
         {
             int statusEffectCount = 0;
-            foreach(Transform child in statusEffectPanel)
+            foreach (Transform child in statusEffectPanel)
             {
                 statusEffectCount++;
                 if (statusEffectCount > maxStatusEffectToShow)

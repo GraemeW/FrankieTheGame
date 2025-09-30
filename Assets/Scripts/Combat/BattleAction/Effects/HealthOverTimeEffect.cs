@@ -49,7 +49,7 @@ namespace Frankie.Combat
                     activeStatusEffect.Setup(duration, tickPeriod, () => recipient.combatParticipant.AdjustHP(modifiedHealthChangePerTick), Stat.HP, false, persistAfterCombat);
                 }
 
-                recipient.combatParticipant.AnnounceStateUpdate(new StateAlteredData(StateAlteredType.StatusEffectApplied, activeStatusEffect));
+                recipient.combatParticipant.AnnounceStateUpdate(StateAlteredType.StatusEffectApplied, activeStatusEffect);
             }
 
             finished?.Invoke(this);

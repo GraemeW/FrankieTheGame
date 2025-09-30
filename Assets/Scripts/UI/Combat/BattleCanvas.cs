@@ -10,7 +10,6 @@ using Frankie.Stats;
 using Frankie.Inventory;
 using Frankie.Inventory.UI;
 using Frankie.Utils;
-using UnityEngine.TextCore.Text;
 
 namespace Frankie.Combat.UI
 {
@@ -91,14 +90,14 @@ namespace Frankie.Combat.UI
 
         private void OnEnable()
         {
-            battleController.battleStateChanged += Setup;
-            battleController.battleEntityAddedToCombat += SetupBattleEntity;
+            BattleEventBus<BattleStateChangedEvent>.SubscribeToEvent(Setup);
+            BattleEventBus<BattleEntityAddedEvent>.SubscribeToEvent(SetupBattleEntity);
         }
 
         private void OnDisable()
         {
-            battleController.battleStateChanged -= Setup;
-            battleController.battleEntityAddedToCombat -= SetupBattleEntity;
+            BattleEventBus<BattleStateChangedEvent>.UnsubscribeFromEvent(Setup);
+            BattleEventBus<BattleEntityAddedEvent>.UnsubscribeFromEvent(SetupBattleEntity);
         }
 
         private void OnDestroy()
@@ -117,8 +116,11 @@ namespace Frankie.Combat.UI
         #endregion
 
         #region PublicMethods
-        public void Setup(BattleState state, BattleOutcome battleOutcome)
+        public void Setup(BattleStateChangedEvent battleStateChangedEvent)
         {
+            BattleState state = battleStateChangedEvent.battleState;
+            BattleOutcome battleOutcome = battleStateChangedEvent.battleOutcome;
+
             if (state == lastBattleState) { return; } // Only act on state changes
             lastBattleState = state;
 
@@ -138,7 +140,7 @@ namespace Frankie.Combat.UI
                 combatLog.gameObject.SetActive(true);
                 skillSelection.gameObject.SetActive(true);
             }
-            else if (state == BattleState.Outro || state == BattleState.PreOutro)
+            else if (state == BattleState.Outro || state == BattleState.Rewards)
             {
                 if (outroQueued) { return; }
 
@@ -195,8 +197,10 @@ namespace Frankie.Combat.UI
             }
         }
 
-        private void SetupBattleEntity(BattleEntity battleEntity)
+        private void SetupBattleEntity(BattleEntityAddedEvent battleEntityAddedEvent)
         {
+            BattleEntity battleEntity = battleEntityAddedEvent.battleEntity;
+
             if (!battleEntity.isAssistCharacter)
             {
                 if (battleEntity.isCharacter)

@@ -1,9 +1,6 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
-using Frankie.Inventory.UI;
 
 namespace Frankie.Combat.UI
 {
@@ -95,13 +92,13 @@ namespace Frankie.Combat.UI
             UpdateColor();
         }
 
-        protected override void ParseState(CombatParticipant combatParticipant, StateAlteredData stateAlteredData)
+        protected override void ParseState(StateAlteredInfo stateAlteredInfo)
         {
-            switch (stateAlteredData.stateAlteredType)
+            switch (stateAlteredInfo.stateAlteredType)
             {
                 case StateAlteredType.CooldownSet:
                     slideState = SlideState.Cooldown;
-                    cooldownTimer.ResetTimer(stateAlteredData.points);
+                    cooldownTimer.ResetTimer(stateAlteredInfo.points);
                     UpdateColor();
                     break;
                 case StateAlteredType.CooldownExpired:
@@ -113,17 +110,17 @@ namespace Frankie.Combat.UI
                 case StateAlteredType.DecreaseHP:
                 case StateAlteredType.AdjustHPNonSpecific:
                     UpdateHP(this.battleEntity.combatParticipant.GetHP());
-                    if (stateAlteredData.stateAlteredType == StateAlteredType.IncreaseHP)
+                    if (stateAlteredInfo.stateAlteredType == StateAlteredType.IncreaseHP)
                     {
-                        float points = stateAlteredData.points;
+                        float points = stateAlteredInfo.points;
                         damageTextSpawner.AddToQueue(new DamageTextData(DamageTextType.HealthChanged, points));
                     }
-                    else if (stateAlteredData.stateAlteredType == StateAlteredType.DecreaseHP)
+                    else if (stateAlteredInfo.stateAlteredType == StateAlteredType.DecreaseHP)
                     {
-                        float points = stateAlteredData.points;
+                        float points = stateAlteredInfo.points;
                         damageTextSpawner.AddToQueue(new DamageTextData(DamageTextType.HealthChanged, points));
                         bool strongShakeEnable = false;
-                        if (points > combatParticipant.GetHP()) { strongShakeEnable = true; }
+                        if (points > this.battleEntity.combatParticipant.GetHP()) { strongShakeEnable = true; }
                         ShakeSlide(strongShakeEnable);
                         BlipFadeSlide();
                     }
@@ -135,7 +132,7 @@ namespace Frankie.Combat.UI
                     // Adjust character slide AP on non-specific (i.e. even those announced 'quietly')
                     // Sound effects otherwise update on increase/decrease
                     UpdateAP(this.battleEntity.combatParticipant.GetAP());
-                    damageTextSpawner.AddToQueue(new DamageTextData(DamageTextType.APChanged, stateAlteredData.points));
+                    damageTextSpawner.AddToQueue(new DamageTextData(DamageTextType.APChanged, stateAlteredInfo.points));
                     break;
                 case StateAlteredType.HitMiss:
                     damageTextSpawner.AddToQueue(new DamageTextData(DamageTextType.HitMiss));
@@ -144,7 +141,7 @@ namespace Frankie.Combat.UI
                     damageTextSpawner.AddToQueue(new DamageTextData(DamageTextType.HitCrit));
                     break;
                 case StateAlteredType.StatusEffectApplied:
-                    PersistentStatus persistentStatus = stateAlteredData.persistentStatus;
+                    PersistentStatus persistentStatus = stateAlteredInfo.persistentStatus;
                     if (persistentStatus != null)
                     {
                         AddStatusEffectBobble(persistentStatus);
