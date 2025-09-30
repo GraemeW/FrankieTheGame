@@ -21,8 +21,10 @@ namespace Frankie.Combat
         [SerializeField] int maxEnemiesPerRow = 7;
         [SerializeField] int minEnemiesBeforeRowSplit = 2;
 
+
         // State
         BattleState battleState = default;
+        bool hasEnteredCombatState = false;
         bool outroCleanupCalled = false;
 
         List<BattleEntity> activeCharacters = new List<BattleEntity>();
@@ -90,7 +92,7 @@ namespace Frankie.Combat
         {
             if (battleState == BattleState.Combat)
             {
-                if (!haltBattleQueue && !battleSequenceInProgress) 
+                if (!haltBattleQueue && !battleSequenceInProgress)
                 {
                     StartCoroutine(ProcessNextBattleSequence());
                 }
@@ -128,6 +130,7 @@ namespace Frankie.Combat
         public void SetBattleState(BattleState state, BattleOutcome battleOutcome)
         {
             this.battleState = state;
+            if (!hasEnteredCombatState && state == BattleState.Combat) { hasEnteredCombatState = true; }
 
             if (state == BattleState.Combat)
             {
@@ -298,24 +301,31 @@ namespace Frankie.Combat
 
         public bool AttemptToRun()
         {
+            bool allCharactersAvailable = true;
             float partySpeed = 0f;
             float enemySpeed = 0f;
 
+            // Get Party average speed && check for availability
             foreach (BattleEntity character in activePlayerCharacters)
             {
+                allCharactersAvailable = allCharactersAvailable && !character.combatParticipant.IsInCooldown();
                 partySpeed += character.combatParticipant.GetRunSpeed();
             }
-            float averagePartySpeed = partySpeed / (float)activeAssistCharacters.Count;
+            if (!hasEnteredCombatState) { allCharactersAvailable = true; } // Override for pre-battle run attempt
+            float averagePartySpeed = partySpeed / (float)activePlayerCharacters.Count;
 
+            // Get enemy max speed
             foreach (BattleEntity enemy in activeEnemies)
             {
-                enemySpeed += enemy.combatParticipant.GetRunSpeed();
+                enemySpeed = Mathf.Max(enemySpeed, enemy.combatParticipant.GetRunSpeed());
             }
-            float averageEnemySpeed = enemySpeed / (float)activeEnemies.Count;
 
-            // TODO:  Add some randomness to run
-
-            if (partySpeed > enemySpeed)
+            // Probability via CalculatedStat and check/react
+            float runChance = CalculatedStats.GetCalculatedStat(CalculatedStat.RunChance, 0, averagePartySpeed, enemySpeed);
+            float runCheck = UnityEngine.Random.value;
+            UnityEngine.Debug.Log($"Run Attempt.  Run chance @ {runChance}.  Run check @ {runCheck}");
+            UnityEngine.Debug.Log($"Checking if all characters available: {allCharactersAvailable}");
+            if (allCharactersAvailable && (runCheck < runChance))
             {
                 foreach (BattleEntity enemy in activeEnemies)
                 {
@@ -328,8 +338,9 @@ namespace Frankie.Combat
             {
                 foreach (BattleEntity character in activeCharacters)
                 {
-                    character.combatParticipant.SetCooldownStoreForRun();
+                    character.combatParticipant.IncrementCooldownStoreForRun();
                 }
+                hasEnteredCombatState = true; // Treat run as having entered combat
                 return false;
             }
         }

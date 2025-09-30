@@ -4582,7 +4582,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4736094180608794019, guid: 71d598481a579c2448140b70660e15c0, type: 3}
       propertyPath: checkInteraction.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: InitiateCombat
+      value: InitiateCombatAdvantaged
       objectReference: {fileID: 0}
     - target: {fileID: 4736094180608794019, guid: 71d598481a579c2448140b70660e15c0, type: 3}
       propertyPath: rejectInteraction.m_PersistentCalls.m_Calls.Array.data[0].m_CallState

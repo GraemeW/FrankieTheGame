@@ -34,7 +34,7 @@ namespace Frankie.Combat
         [SerializeField] float cooldownAtBattleStart = 2.5f;
         [SerializeField] float cooldownBattleAdvantageAdder = -4.0f;
         [SerializeField] float cooldownBattleDisadvantageAdder = 4.0f;
-        [SerializeField] float cooldownRunFailureAdder = 3.0f;
+        [SerializeField] float cooldownRunFailAdder = 5.0f;
 
         // Cached References
         BaseStats baseStats = null;
@@ -234,9 +234,9 @@ namespace Frankie.Combat
             UnityEngine.Debug.Log($"Post-Reconcile:  Cooldown @ {cooldownTimer}, Store @ {cooldownStore}");
         }
 
-        public void SetCooldownStoreForRun()
+        public void IncrementCooldownStoreForRun()
         {
-            cooldownStore += cooldownRunFailureAdder;
+            cooldownStore += cooldownRunFailAdder;
             ReconcileCooldownStore();
         }
 
