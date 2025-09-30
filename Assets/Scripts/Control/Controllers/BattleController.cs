@@ -15,8 +15,7 @@ namespace Frankie.Combat
         // Tunables
         [Header("Controller Properties")]
         [SerializeField] float battleQueueDelay = 1.0f;
-        [SerializeField] float runFailureCooldown = 3.0f;
-        [SerializeField] float battleAdvantageCooldown = 0.25f;
+
         [Header("Positional Properties")]
         [SerializeField] int minRowCount = 2;
         [SerializeField] int maxEnemiesPerRow = 7;
@@ -306,11 +305,15 @@ namespace Frankie.Combat
             {
                 partySpeed += character.combatParticipant.GetRunSpeed();
             }
+            float averagePartySpeed = partySpeed / (float)activeAssistCharacters.Count;
 
             foreach (BattleEntity enemy in activeEnemies)
             {
                 enemySpeed += enemy.combatParticipant.GetRunSpeed();
             }
+            float averageEnemySpeed = enemySpeed / (float)activeEnemies.Count;
+
+            // TODO:  Add some randomness to run
 
             if (partySpeed > enemySpeed)
             {
@@ -325,10 +328,7 @@ namespace Frankie.Combat
             {
                 foreach (BattleEntity character in activeCharacters)
                 {
-                    if (character.combatParticipant.GetCooldown() < runFailureCooldown)
-                    {
-                        character.combatParticipant.SetCooldown(runFailureCooldown);
-                    }
+                    character.combatParticipant.SetCooldownStoreForRun();
                 }
                 return false;
             }
@@ -453,7 +453,7 @@ namespace Frankie.Combat
         private void InitiateBattle(List<CombatParticipant> enemies, TransitionType transitionType)
         {
             SetupCombatParticipants(enemies, transitionType);
-            BattleEventBus<BattleEnterEvent>.Raise(new BattleEnterEvent(activeCharacters, activeEnemies));
+            BattleEventBus<BattleEnterEvent>.Raise(new BattleEnterEvent(activeCharacters, activeEnemies, transitionType));
 
             if (CheckForAutoWin())
             {
@@ -474,33 +474,26 @@ namespace Frankie.Combat
             // Party Characters
             foreach (CombatParticipant character in partyCombatConduit.GetPartyCombatParticipants())
             {
-                AddCharacterToCombat(character, transitionType == TransitionType.BattleGood);
+                AddCharacterToCombat(character, transitionType);
             }
 
             // Enemies
             InitializeEnemyMapping(enemies.Count);
             foreach (CombatParticipant enemy in enemies)
             {
-                AddEnemyToCombat(enemy, transitionType == TransitionType.BattleBad);
+                AddEnemyToCombat(enemy, transitionType);
             }
 
             // Party Assist Characters
             foreach (CombatParticipant character in partyCombatConduit.GetPartyAssistParticipants())
             {
-                AddAssistCharacterToCombat(character, transitionType == TransitionType.BattleGood);
+                AddAssistCharacterToCombat(character, transitionType);
             }
         }
 
-        private void SetCombatParticipantCooldown(CombatParticipant combatParticipant, bool useBattleAdvantageCooldown)
+        private void AddCharacterToCombat(CombatParticipant character, TransitionType transitionType)
         {
-            float cooldownOverride = combatParticipant.GetBattleStartCooldown();
-            if (useBattleAdvantageCooldown) { cooldownOverride = battleAdvantageCooldown; }
-            combatParticipant.SetCooldown(cooldownOverride);
-        }
-
-        private void AddCharacterToCombat(CombatParticipant character, bool useBattleAdvantageCooldown = false)
-        {
-            SetCombatParticipantCooldown(character, useBattleAdvantageCooldown);
+            character.InitializeCooldown(IsBattleAdvantage(true, transitionType));
 
             BattleEntity characterBattleEntity = new BattleEntity(character);
             activeCharacters.Add(characterBattleEntity);
@@ -509,9 +502,9 @@ namespace Frankie.Combat
             BattleEventBus<BattleEntityAddedEvent>.Raise(new BattleEntityAddedEvent(characterBattleEntity));
         }
 
-        private void AddAssistCharacterToCombat(CombatParticipant character, bool useBattleAdvantageCooldown = false)
+        private void AddAssistCharacterToCombat(CombatParticipant character, TransitionType transitionType)
         {
-            SetCombatParticipantCooldown(character, useBattleAdvantageCooldown);
+            character.InitializeCooldown(IsBattleAdvantage(true, transitionType));
 
             BattleEntity assistBattleEntity = new BattleEntity(character, true);
             activeCharacters.Add(assistBattleEntity);
@@ -520,9 +513,9 @@ namespace Frankie.Combat
             BattleEventBus<BattleEntityAddedEvent>.Raise(new BattleEntityAddedEvent(assistBattleEntity));
         }
 
-        public void AddEnemyToCombat(CombatParticipant enemy, bool useBattleAdvantageCooldown = false, bool forceCombatActive = false)
+        public void AddEnemyToCombat(CombatParticipant enemy, TransitionType transitionType = TransitionType.BattleNeutral, bool forceCombatActive = false)
         {
-            SetCombatParticipantCooldown(enemy, useBattleAdvantageCooldown);
+            enemy.InitializeCooldown(IsBattleAdvantage(false, transitionType));
 
             int rowIndex, columnIndex;
             GetEnemyPosition(out rowIndex, out columnIndex);
@@ -533,6 +526,15 @@ namespace Frankie.Combat
 
             enemy.SetCombatActive(forceCombatActive);
             BattleEventBus<BattleEntityAddedEvent>.Raise(new BattleEntityAddedEvent(enemyBattleEntity));
+        }
+
+        private bool? IsBattleAdvantage(bool isFriendly, TransitionType transitionType)
+        {
+            bool? isBattleAdvantage = null;
+            if (transitionType == TransitionType.BattleGood) { isBattleAdvantage = isFriendly ? true : false; }
+            else if (transitionType == TransitionType.BattleBad) { isBattleAdvantage = isFriendly ? false : true; }
+
+            return isBattleAdvantage;
         }
 
         private void InitializeEnemyMapping(int enemyCount)

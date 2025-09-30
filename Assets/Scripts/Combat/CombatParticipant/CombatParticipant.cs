@@ -7,6 +7,7 @@ using Frankie.Core;
 using System.Collections.Generic;
 using Frankie.Inventory;
 using Frankie.Control;
+using Unity.VisualScripting;
 
 namespace Frankie.Combat
 {
@@ -23,10 +24,17 @@ namespace Frankie.Combat
         [Header("Combat Properties")]
         [SerializeField] BattleEntityType battleEntityType = BattleEntityType.Standard;
         [SerializeField] bool usesAP = true;
-        [SerializeField] float battleStartCooldown = 1.0f;
         [SerializeField] float damageTimeSpan = 4.0f;
         [SerializeField] float fractionOfHPInstantOnRevival = 0.5f;
         [SerializeField] bool shouldDestroySelfOnDeath = true;
+
+        [Header("Cooldowns")]
+        [SerializeField] float cooldownMin = 0.2f;
+        [SerializeField] float cooldownMax = 10.0f;
+        [SerializeField] float cooldownAtBattleStart = 2.5f;
+        [SerializeField] float cooldownBattleAdvantageAdder = -4.0f;
+        [SerializeField] float cooldownBattleDisadvantageAdder = 4.0f;
+        [SerializeField] float cooldownRunFailureAdder = 3.0f;
 
         // Cached References
         BaseStats baseStats = null;
@@ -37,6 +45,7 @@ namespace Frankie.Combat
         bool awakeCalled = false;
         bool inCombat = false;
         float cooldownTimer = 0f;
+        float cooldownStore = 0f;
         float targetHP = 1f;
         float deltaHPTimeFraction = 0.0f;
         LazyValue<bool> isDead;
@@ -69,19 +78,13 @@ namespace Frankie.Combat
         private void OnEnable()
         {
             baseStats.onLevelUp += ParseLevelUpMessage;
-            if (equipment != null)
-            {
-                equipment.equipmentUpdated += ReconcileHPAP;
-            }
+            if (equipment != null) { equipment.equipmentUpdated += ReconcileHPAP;}
         }
 
         private void OnDisable()
         {
             baseStats.onLevelUp -= ParseLevelUpMessage;
-            if (equipment != null)
-            {
-                equipment.equipmentUpdated -= ReconcileHPAP;
-            }
+            if (equipment != null) { equipment.equipmentUpdated -= ReconcileHPAP; }
         }
 
         private void Start()
@@ -132,7 +135,6 @@ namespace Frankie.Combat
         public float GetMaxAP() => usesAP ? baseStats.GetStat(Stat.AP) : Mathf.Infinity;
         public int GetLevel() => baseStats.GetLevel();
         public float GetExperienceReward() => baseStats.GetStat(Stat.ExperienceReward);
-        public float GetBattleStartCooldown() => battleStartCooldown * GetCooldownMultiplier();
         public float GetCooldownMultiplier() => baseStats.GetCalculatedStat(CalculatedStat.CooldownFraction);
         public float GetRunSpeed() => baseStats.GetCalculatedStat(CalculatedStat.RunSpeed);
         #endregion
@@ -186,10 +188,56 @@ namespace Frankie.Combat
             return false;
         }
 
+        public void InitializeCooldown(bool? isBattleAdvantage)
+        {
+            cooldownStore = 0.0f;
+            if (isBattleAdvantage == true) { cooldownStore += cooldownBattleAdvantageAdder; }
+            else if (isBattleAdvantage == false) { cooldownStore += cooldownBattleDisadvantageAdder; }
+            SetCooldown(cooldownAtBattleStart);
+        }
+
         public void SetCooldown(float seconds)
         {
             cooldownTimer = seconds * GetCooldownMultiplier();
+            if (cooldownTimer != Mathf.Infinity) { ReconcileCooldownStore(); }
             AnnounceStateUpdate(StateAlteredType.CooldownSet, cooldownTimer);
+        }
+
+        public void ReconcileCooldownStore()
+        {
+            if (cooldownStore == 0.0f) { return; }
+
+            UnityEngine.Debug.Log($"Pre-Reconcile:  Cooldown @ {cooldownTimer}, Store @ {cooldownStore}");
+            float tryCooldown = cooldownTimer + cooldownStore;
+            if (cooldownStore < 0.0f)
+            {
+                if (tryCooldown < cooldownMin)
+                {
+                    float deltaCooldown = cooldownTimer - cooldownMin;
+                    cooldownTimer = cooldownMin;
+                    cooldownStore += deltaCooldown;
+                    cooldownStore = Mathf.Min(cooldownStore, 0.0f);
+                }
+                else { cooldownTimer = tryCooldown; cooldownStore = 0.0f; }
+            }
+            else
+            {
+                if (tryCooldown > cooldownMax)
+                {
+                    float deltaCooldown = cooldownMax - cooldownTimer;
+                    cooldownTimer = cooldownMax;
+                    cooldownStore -= deltaCooldown;
+                    cooldownStore = Mathf.Max(0.0f, cooldownStore);
+                }
+                else { cooldownTimer = tryCooldown; cooldownStore = 0.0f; }
+            }
+            UnityEngine.Debug.Log($"Post-Reconcile:  Cooldown @ {cooldownTimer}, Store @ {cooldownStore}");
+        }
+
+        public void SetCooldownStoreForRun()
+        {
+            cooldownStore += cooldownRunFailureAdder;
+            ReconcileCooldownStore();
         }
 
         public void AdjustHP(float points)

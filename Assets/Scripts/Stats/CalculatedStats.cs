@@ -8,7 +8,7 @@ namespace Frankie.Stats
     {
         // Note:  Equations  have a lot of magic numbers for shaping
         // Hard limits provided as static tunables here
-        static float cooldownMultiplierMin = 0.5f;
+        static float cooldownMultiplierMin = 0.2f;
         static float cooldownMultiplierMax = 4f;
         static float hitChanceMin = 0.2f;
         static float hitChanceMax = 1.0f;
