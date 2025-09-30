@@ -33,6 +33,8 @@ namespace Frankie.Combat
             {
                 onEvent -= handler;
             }
+            onEvent = null;
+
             activeSubscriptions.Clear();
         }
 
@@ -60,6 +62,13 @@ namespace Frankie.Combat
         public static bool inBattle { get; private set; } = false;
         public static BattleState battleState { get; private set; } = BattleState.Inactive;
 
+        public static void SetBattleState(BattleState battleState)
+        {
+            BattleEventBus.battleState = battleState;
+        }
+        #endregion
+
+        #region SubscriptionManagement
         public static void SetInBattle(bool inBattle)
         {
             BattleEventBus.inBattle = inBattle;
@@ -70,13 +79,6 @@ namespace Frankie.Combat
             }
         }
 
-        public static void SetBattleState(BattleState battleState)
-        {
-            BattleEventBus.battleState = battleState;
-        }
-        #endregion
-
-        #region SubscriptionManagement
         public static void ClearWithinBattleSubscriptions()
         {
             foreach (BattleEventType eventType in System.Enum.GetValues(typeof(BattleEventType)))
@@ -90,16 +92,35 @@ namespace Frankie.Combat
 
         private static void ClearSubscriptions(BattleEventType eventType)
         {
+            // Note:  POR is to manually unsubscribe, this is safety
             switch (eventType)
             {
                 case BattleEventType.BattleEnter:
                     BattleEventBus<BattleEnterEvent>.ClearAllSubscriptions();
                     break;
-                case BattleEventType.BattleExit:
-                    BattleEventBus<BattleExitEvent>.ClearAllSubscriptions();
-                    break;
                 case BattleEventType.BattleStateChanged:
                     BattleEventBus<BattleStateChangedEvent>.ClearAllSubscriptions();
+                    break;
+                case BattleEventType.BattleEntityAdded:
+                    BattleEventBus<BattleEntityAddedEvent>.ClearAllSubscriptions();
+                    break;
+                case BattleEventType.BattleEntitySelected:
+                    BattleEventBus<BattleEntitySelectedEvent>.ClearAllSubscriptions();
+                    break;
+                case BattleEventType.BattleActionArmed:
+                    BattleEventBus<BattleActionArmedEvent>.ClearAllSubscriptions();
+                    break;
+                case BattleEventType.BattleSequencedProcessed:
+                    BattleEventBus<BattleSequenceProcessedEvent>.ClearAllSubscriptions();
+                    break;
+                case BattleEventType.BattleEntityStateAltered:
+                    BattleEventBus<StateAlteredInfo>.ClearAllSubscriptions();
+                    break;
+                case BattleEventType.BattleEntityRemovedFromBoard:
+                    BattleEventBus<BattleEntityRemovedFromBoardEvent>.ClearAllSubscriptions();
+                    break;
+                case BattleEventType.BattleExit:
+                    BattleEventBus<BattleExitEvent>.ClearAllSubscriptions();
                     break;
             }
         }
