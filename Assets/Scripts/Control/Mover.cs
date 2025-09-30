@@ -27,8 +27,8 @@ namespace Frankie.Control
         protected Rigidbody2D rigidBody2D = null;
 
         // Static
-        static float SIGN_FLOOR_THRESHOLD = 0.1f;
-        static float PIXELS_PER_UNIT = 100.0f; // Align to pixel art setting, default: 100
+        public static float SIGN_FLOOR_THRESHOLD = 0.1f;
+        public static float PIXELS_PER_UNIT = 100.0f; // Align to pixel art setting, default: 100
 
         protected static float Sign(float number)
         {
