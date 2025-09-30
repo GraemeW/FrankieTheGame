@@ -41,7 +41,7 @@ namespace Frankie.Combat
 
                 if (spawnedEnemy.TryGetComponent(out CombatParticipant enemy))
                 {
-                    battleController.AddEnemyToCombat(enemy, false, true);
+                    battleController.AddEnemyToCombat(enemy, ZoneManagement.TransitionType.BattleNeutral, true);
                     friendFound = true;
                 }
                 else

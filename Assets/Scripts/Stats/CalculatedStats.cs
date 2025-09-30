@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace Frankie.Stats
@@ -8,7 +6,7 @@ namespace Frankie.Stats
     {
         // Note:  Equations  have a lot of magic numbers for shaping
         // Hard limits provided as static tunables here
-        static float cooldownMultiplierMin = 0.5f;
+        static float cooldownMultiplierMin = 0.2f;
         static float cooldownMultiplierMax = 4f;
         static float hitChanceMin = 0.2f;
         static float hitChanceMax = 1.0f;
@@ -28,6 +26,7 @@ namespace Frankie.Stats
                 CalculatedStat.Defense => Stat.Nimble,
                 CalculatedStat.MoveSpeed => Stat.Nimble,
                 CalculatedStat.RunSpeed => Stat.Pluck,
+                CalculatedStat.RunChance => Stat.Pluck,
                 CalculatedStat.Fearsome => Stat.Pluck,
                 CalculatedStat.Imposing => Stat.Pluck,
                 _ => Stat.ExperienceReward,
@@ -51,6 +50,7 @@ namespace Frankie.Stats
                 CalculatedStat.Defense => GetDefense(callerModifier),
                 CalculatedStat.MoveSpeed => GetMoveSpeed(level, callerModifier),
                 CalculatedStat.RunSpeed => GetRunSpeed(callerModifier),
+                CalculatedStat.RunChance => GetRunChance(callerModifier, contestModifier),
                 CalculatedStat.Fearsome => GetFearsome(callerModifier, contestModifier),
                 CalculatedStat.Imposing => GetImposing(callerModifier, contestModifier),
                 _ => 0f,
@@ -106,16 +106,21 @@ namespace Frankie.Stats
             return Mathf.Max(0f, modifier);
         }
 
+        private static float GetRunChance(float modifier, float contestModifier)
+        {
+            return Mathf.Min(1.0f, 2 * modifier / (3 * contestModifier));
+        }
+
         private static float GetFearsome(float modifier, float defenderModifier)
         {
             // positive value = fearsome (multiplier* more than defender)
-            return modifier - 6 * defenderModifier;
+            return modifier - 3 * defenderModifier;
         }
 
         private static float GetImposing(float modifier, float defenderModifier)
         {
             // positive value -> imposing (multiplier* more than defender)
-            return modifier - 12 * defenderModifier;
+            return modifier - 6 * defenderModifier;
         }
         #endregion
     }

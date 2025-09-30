@@ -114,6 +114,16 @@ namespace Frankie.Control
             InitiateCombat(playerStateHandler, TransitionType.BattleNeutral);
         }
 
+        public void InitiateCombatAdvantaged(PlayerStateMachine playerStateHandler)  // called via Unity Event
+        {
+            InitiateCombat(playerStateHandler, TransitionType.BattleGood);
+        }
+
+        public void InitiateCombatDisadvantaged(PlayerStateMachine playerStateHandler)  // called via Unity Event
+        {
+            InitiateCombat(playerStateHandler, TransitionType.BattleBad);
+        }
+
         public void InitiateCombat(TransitionType transitionType) // called via Unity Event
         {
             InitiateCombat(playerStateHandler.value, transitionType);
