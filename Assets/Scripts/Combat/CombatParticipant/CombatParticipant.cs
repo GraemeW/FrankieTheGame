@@ -193,7 +193,7 @@ namespace Frankie.Combat
             if (isBattleAdvantage == true) { cooldownStore += cooldownBattleAdvantageAdder; }
             else if (isBattleAdvantage == false) { cooldownStore += cooldownBattleDisadvantageAdder; }
 
-            float initialCooldown = isPlayer ? cooldownAtBattleStartPlayer : cooldownAtBattleStartNPC;
+            float initialCooldown = isPlayer ? cooldownAtBattleStartPlayer : cooldownAtBattleStartAlt;
             SetCooldown(initialCooldown);
         }
 
