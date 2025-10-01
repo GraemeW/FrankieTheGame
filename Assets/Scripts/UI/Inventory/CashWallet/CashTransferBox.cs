@@ -55,7 +55,7 @@ namespace Frankie.Inventory.UI
 
         private void GetPlayerReference()
         {
-            worldCanvas = GameObject.FindGameObjectWithTag("WorldCanvas")?.GetComponent<WorldCanvas>();
+            worldCanvas = WorldCanvas.FindWorldCanvas();
             playerStateMachine = Player.FindPlayerStateMachine();
             if (worldCanvas == null || playerStateMachine == null) { Destroy(gameObject); }
 

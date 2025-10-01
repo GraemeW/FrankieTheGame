@@ -30,10 +30,10 @@ namespace Frankie.Core
         private float currentIdleOrthoSize = 1.8f;
 
         #region Static
-
+        private static string mainCameraTag = "MainCamera";
         public static CameraController GetCameraController()
         {
-            GameObject mainCamera = GameObject.FindGameObjectWithTag("MainCamera");
+            GameObject mainCamera = GameObject.FindGameObjectWithTag(mainCameraTag);
             if (mainCamera == null) { return null; }
             GameObject cameraContainer = mainCamera.transform.parent.gameObject; // Structure of cameras is:  [CameraController (container) -> MainCamera, StateCameras, etc.]
             if (cameraContainer == null) { return null; }

@@ -14,8 +14,6 @@ namespace Frankie.Core
 
         // Cached References
         PlayerInput playerInput = null;
-        ReInitLazyValue<Player> player = null;
-        GameObject saver = null;
 
         // Lazy Values
         ReInitLazyValue<QuestList> questList = null;
@@ -30,8 +28,6 @@ namespace Frankie.Core
         {
             // References
             playerInput = new PlayerInput();
-            player = new ReInitLazyValue<Player>(Player.FindPlayer);
-            saver = GameObject.FindGameObjectWithTag("Saver");
             questList = new ReInitLazyValue<QuestList>(SetupQuestList);
             party = new ReInitLazyValue<Party>(SetupParty);
             wallet = new ReInitLazyValue<Wallet>(SetupWallet);

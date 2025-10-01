@@ -10,9 +10,9 @@ TagManager:
   - WorldCanvas
   - SceneLoader
   - World
-  - Saver
   - BattleCanvas
   - BackgroundMusic
+  - Fader
   layers:
   - Default
   - TransparentFX

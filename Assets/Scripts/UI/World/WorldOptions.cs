@@ -39,7 +39,7 @@ namespace Frankie.Menu.UI
         
         private void Awake()
         {
-            worldCanvas = GameObject.FindGameObjectWithTag("WorldCanvas")?.GetComponent<WorldCanvas>();
+            worldCanvas = WorldCanvas.FindWorldCanvas();
             playerStateMachine = Player.FindPlayerStateMachine();
             if (worldCanvas == null || playerStateMachine == null) { Destroy(gameObject); }
 

@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using Frankie.Saving;
 using Frankie.Utils;
@@ -26,7 +24,7 @@ namespace Frankie.Control
         // Cached References
         protected Rigidbody2D rigidBody2D = null;
 
-        // Static
+        #region Static
         public static float SIGN_FLOOR_THRESHOLD = 0.1f;
         public static float PIXELS_PER_UNIT = 100.0f; // Align to pixel art setting, default: 100
 
@@ -41,6 +39,12 @@ namespace Frankie.Control
             else { return Sign(number); }
         }
 
+        public static void SetAnimatorSpeed(Animator animator, float speed) => animator.SetFloat("Speed", speed);
+        public static void SetAnimatorxLook(Animator animator, float xLookDirection) => animator.SetFloat("xLook", xLookDirection);
+        public static void SetAnimatoryLook(Animator animator, float yLookDirection) => animator.SetFloat("yLook", yLookDirection);
+        #endregion
+
+        #region UnityMethods
         protected virtual void Awake()
         {
             originalPosition = transform.position;
@@ -69,7 +73,9 @@ namespace Frankie.Control
                 SetLookDirection(defaultLookDirection);
             }
         }
+        #endregion
 
+        #region PublicMethods
         public void SetLookDirection(Vector2 lookDirection)
         {
             lookDirection.Normalize(); // Blend tree animation speed depends on magnitude of variable -- to avoid very quick animations, normalize 
@@ -129,7 +135,9 @@ namespace Frankie.Control
             targetDistanceTolerance = defaultTargetDistanceTolerance;
             SetMoveTarget(originalPosition);
         }
+        #endregion
 
+        #region ProtectedMethods
         protected bool? MoveToTarget()
         {
             if (IsStaticForNoTarget()) { return null; }
@@ -166,6 +174,20 @@ namespace Frankie.Control
             return target;
         }
 
+        protected void SetAnimationAndSpeedForMovementEnd()
+        {
+            SetLookDirection(Vector2.down);
+            currentSpeed = 0f;
+            UpdateAnimator();
+        }
+
+        protected virtual void UpdateAnimator()
+        {
+            // Base implementation blank
+        }
+        #endregion
+
+        #region  PrivateMethods
         private bool IsStaticForNoTarget()
         {
             if (moveTargetCoordinate == null && moveTargetObject == null)
@@ -188,18 +210,7 @@ namespace Frankie.Control
             }
             return false;
         }
-
-        protected void SetAnimationAndSpeedForMovementEnd()
-        {
-            SetLookDirection(Vector2.down);
-            currentSpeed = 0f;
-            UpdateAnimator();
-        }
-
-        protected virtual void UpdateAnimator()
-        {
-            // Base implementation blank
-        }
+        #endregion
 
         #region Interfaces
         // Save State

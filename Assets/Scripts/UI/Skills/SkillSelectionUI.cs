@@ -29,6 +29,7 @@ namespace Frankie.Combat.UI
         protected virtual void Awake()
         {
             battleController = BattleController.FindBattleController();
+            controller = battleController;
         }
 
         protected override void OnEnable()

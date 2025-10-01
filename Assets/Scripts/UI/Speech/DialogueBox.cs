@@ -50,8 +50,8 @@ namespace Frankie.Speech.UI
         #region StandardMethods
         protected virtual void Awake()
         {
-            controller = GameObject.FindGameObjectWithTag("DialogueController")?.GetComponent<DialogueController>();
-            if (controller != null) { dialogueController = controller as DialogueController; }
+            dialogueController = DialogueController.FindDialogueController();
+            controller = dialogueController;
 
             StoreOptionPanelConfigurables();
         }

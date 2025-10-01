@@ -147,7 +147,7 @@ namespace Frankie.Control
         #region SettersGetters
         private void UpdateReferencesForNewScene(Scene scene, LoadSceneMode loadSceneMode)
         {
-            worldCanvas = GameObject.FindGameObjectWithTag("WorldCanvas")?.GetComponent<WorldCanvas>();
+            worldCanvas = WorldCanvas.FindWorldCanvas();
         }
 
         void IPlayerStateContext.SetPlayerState(IPlayerState playerState)
@@ -358,7 +358,7 @@ namespace Frankie.Control
 
         public bool StartBattleSequence()
         {
-            Fader fader = FindAnyObjectByType<Fader>();
+            Fader fader = Fader.FindFader();
             if (fader == null || fader.IsFading() == true) { return false; } // Safety against missing fader
             if (fader.IsFading() == true) { return true; } // Safety against multiple fading routines
 
@@ -373,7 +373,7 @@ namespace Frankie.Control
 
         public bool EndBattleSequence()
         {
-            Fader fader = FindAnyObjectByType<Fader>();
+            Fader fader = Fader.FindFader();
             if (fader == null || fader.IsFading() == true) { return false; } // Safety against missing fader
             if (fader.IsFading() == true) { return true; } // Safety against multiple fading routines
 
@@ -423,7 +423,7 @@ namespace Frankie.Control
         {
             if (dialogueController == null)
             {
-                DialogueController existingDialogueController = GameObject.FindGameObjectWithTag("DialogueController")?.GetComponent<DialogueController>();
+                DialogueController existingDialogueController = DialogueController.FindDialogueController();
                 if (existingDialogueController == null)
                 {
                     dialogueController = Instantiate(dialogueControllerPrefab);

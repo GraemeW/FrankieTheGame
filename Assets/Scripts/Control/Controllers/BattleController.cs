@@ -126,7 +126,7 @@ namespace Frankie.Combat
         // Setters
         public void QueueCombatInitiation(List<CombatParticipant> enemies, TransitionType transitionType)
         {
-            Fader fader = FindAnyObjectByType<Fader>();
+            Fader fader = Fader.FindFader();
             Action battleControllerInitiateTrigger = () => InitiateBattle(enemies, transitionType);
             fader.QueueInitiateBattleCallback(battleControllerInitiateTrigger);
         }
