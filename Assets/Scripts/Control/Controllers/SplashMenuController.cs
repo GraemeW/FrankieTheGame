@@ -51,7 +51,7 @@ namespace Frankie.Control
 
         private void Start()
         {
-            sceneLoader = GameObject.FindGameObjectWithTag("SceneLoader")?.GetComponent<SceneLoader>();
+            sceneLoader = SceneLoader.FindSceneLoader();
                 // SceneLoader is a persistent object, thus can only be found after Awake -- so find in Start
             if (sceneLoader != null)
             {

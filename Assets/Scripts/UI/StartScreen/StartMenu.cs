@@ -15,14 +15,7 @@ namespace Frankie.Menu.UI
         [SerializeField] LoadGameMenu loadGamePrefab = null;
 
         // Cached References
-        SavingWrapper savingWrapper = null;
         Canvas startCanvas = null;
-
-        private void Start()
-        {
-            // SavingWrapper is a persistent object, thus can only be found after Awake -- so find in Start
-            savingWrapper = GameObject.FindGameObjectWithTag("Saver")?.GetComponent<SavingWrapper>();
-        }
 
         public void Setup(Canvas startCanvas)
         {
@@ -47,7 +40,7 @@ namespace Frankie.Menu.UI
 
         public void Continue() // Called via Unity Events
         {
-            savingWrapper?.Continue();
+            SavingWrapper.Continue();
         }
 
         public void LoadOptions() // Called via Unity Events

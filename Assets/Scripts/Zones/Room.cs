@@ -29,6 +29,8 @@ namespace Frankie.ZoneManagement
         #region PublicMethods
         public void ToggleRoom(bool enable, bool roomSetByOtherEntity)
         {
+            UnityEngine.Debug.Log($"Toggling {gameObject.name} room to {enable}");
+
             isRoomActive = enable;
             foreach (Transform child in transform)
             {

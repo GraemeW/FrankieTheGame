@@ -24,6 +24,8 @@ namespace Frankie.ZoneManagement
         public static event Action<Zone> zoneUpdated;
 
         #region StaticMethods
+        private static string sceneLoaderTag = "SceneLoader";
+        public static SceneLoader FindSceneLoader() => GameObject.FindGameObjectWithTag(sceneLoaderTag)?.GetComponent<SceneLoader>();
         public static Zone GetCurrentZone()
         {
             if (currentZone == null) { currentZone = Zone.GetFromSceneReference(SceneManager.GetActiveScene().name); }

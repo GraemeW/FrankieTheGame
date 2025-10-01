@@ -18,7 +18,6 @@ namespace Frankie.Core
         GameObject saver = null;
 
         // Lazy Values
-        ReInitLazyValue<SavingWrapper> savingWrapper = null;
         ReInitLazyValue<QuestList> questList = null;
         ReInitLazyValue<Party> party = null;
         ReInitLazyValue<Wallet> wallet = null;
@@ -33,7 +32,6 @@ namespace Frankie.Core
             playerInput = new PlayerInput();
             player = new ReInitLazyValue<Player>(Player.FindPlayer);
             saver = GameObject.FindGameObjectWithTag("Saver");
-            savingWrapper = new ReInitLazyValue<SavingWrapper>(SetupSavingWrapper);
             questList = new ReInitLazyValue<QuestList>(SetupQuestList);
             party = new ReInitLazyValue<Party>(SetupParty);
             wallet = new ReInitLazyValue<Wallet>(SetupWallet);
@@ -50,7 +48,6 @@ namespace Frankie.Core
 
         private void Start()
         {
-            savingWrapper.ForceInit();
             questList.ForceInit();
             party.ForceInit();
             wallet.ForceInit();
@@ -77,33 +74,28 @@ namespace Frankie.Core
         private QuestList SetupQuestList() => Player.FindPlayerObject()?.GetComponent<QuestList>();
         private Party SetupParty() => Player.FindPlayerObject()?.GetComponent<Party>();
         private Wallet SetupWallet() => Player.FindPlayerObject()?.GetComponent<Wallet>();
-        private SavingWrapper SetupSavingWrapper()
-        {
-            if (saver == null) { saver = GameObject.FindGameObjectWithTag("Saver"); }
-            return saver.GetComponent<SavingWrapper>();
-        }
         #endregion
 
         #region SavingWrapperDebug
         private void Save()
         {
             UnityEngine.Debug.Log($"Frankie Debugger:  Saving Game...");
-            savingWrapper.value.SetSaveToDebug();
-            savingWrapper.value.Save();
+            SavingWrapper.SetSaveToDebug();
+            SavingWrapper.Save();
         }
 
         private void Continue()
         {
             UnityEngine.Debug.Log($"Frankie Debugger:  Loading Game...");
-            savingWrapper.value.Continue();
+            SavingWrapper.Continue();
         }
 
         private void Delete()
         {
             UnityEngine.Debug.Log($"Frankie Debugger:  Deleting Game...");
-            savingWrapper.value.Delete();
-            savingWrapper.value.DeleteSession();
-            savingWrapper.value.DeleteDebugSave();
+            SavingWrapper.Delete();
+            SavingWrapper.DeleteSession();
+            SavingWrapper.DeleteDebugSave();
         }
 
         private void ClearPlayerPrefs()

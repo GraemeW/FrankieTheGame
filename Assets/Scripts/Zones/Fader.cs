@@ -28,7 +28,6 @@ namespace Frankie.ZoneManagement
 
         // Cached References
         SceneLoader sceneLoader = null;
-        SavingWrapper savingWrapper = null;
         BattleEntryShaderControl battleEntryShaderControl = null;
 
         // Events
@@ -40,7 +39,6 @@ namespace Frankie.ZoneManagement
         private void Awake()
         {
             sceneLoader = FindAnyObjectByType<SceneLoader>();
-            savingWrapper = FindAnyObjectByType<SavingWrapper>();
             battleEntryShaderControl = GetComponent<BattleEntryShaderControl>();
         }
 
@@ -135,14 +133,14 @@ namespace Frankie.ZoneManagement
             {
                 yield return QueueFadeEntry(transitionType);
 
-                savingWrapper.SaveSession(); // Save world state
+                SavingWrapper.SaveSession(); // Save world state
                 yield return sceneLoader.LoadNewSceneAsync(zone);
 
-                savingWrapper.LoadSession(); // Load world state
+                SavingWrapper.LoadSession(); // Load world state
                 fadingOut?.Invoke();
 
                 yield return QueueFadeExit(transitionType);
-                savingWrapper.SaveSession();
+                SavingWrapper.SaveSession();
             }
             yield break;
         }
