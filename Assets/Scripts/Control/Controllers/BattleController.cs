@@ -22,7 +22,6 @@ namespace Frankie.Combat
         [SerializeField] int maxEnemiesPerRow = 7;
         [SerializeField] int minEnemiesBeforeRowSplit = 2;
 
-
         // State
         BattleState battleState = default;
         bool hasEnteredCombatState = false;

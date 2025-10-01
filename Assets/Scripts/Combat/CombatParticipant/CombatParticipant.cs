@@ -30,7 +30,7 @@ namespace Frankie.Combat
         [SerializeField] float cooldownMin = 0.2f;
         [SerializeField] float cooldownMax = 10.0f;
         [SerializeField] float cooldownAtBattleStartPlayer = 2.5f;
-        [SerializeField] float cooldownAtBattleStartNPC = 5.0f;
+        [SerializeField] float cooldownAtBattleStartAlt = 4.0f;
         [SerializeField] float cooldownBattleAdvantageAdder = -4.0f;
         [SerializeField] float cooldownBattleDisadvantageAdder = 4.0f;
         [SerializeField] float cooldownRunFailAdder = 5.0f;
