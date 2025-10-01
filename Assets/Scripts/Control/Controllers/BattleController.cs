@@ -509,7 +509,7 @@ namespace Frankie.Combat
 
         private void AddCharacterToCombat(CombatParticipant character, TransitionType transitionType)
         {
-            character.InitializeCooldown(IsBattleAdvantage(true, transitionType));
+            character.InitializeCooldown(true, IsBattleAdvantage(true, transitionType));
 
             BattleEntity characterBattleEntity = new BattleEntity(character);
             activeCharacters.Add(characterBattleEntity);
@@ -520,7 +520,7 @@ namespace Frankie.Combat
 
         private void AddAssistCharacterToCombat(CombatParticipant character, TransitionType transitionType)
         {
-            character.InitializeCooldown(IsBattleAdvantage(true, transitionType));
+            character.InitializeCooldown(false, IsBattleAdvantage(true, transitionType));
 
             BattleEntity assistBattleEntity = new BattleEntity(character, true);
             activeCharacters.Add(assistBattleEntity);
@@ -531,7 +531,7 @@ namespace Frankie.Combat
 
         public void AddEnemyToCombat(CombatParticipant enemy, TransitionType transitionType = TransitionType.BattleNeutral, bool forceCombatActive = false)
         {
-            enemy.InitializeCooldown(IsBattleAdvantage(false, transitionType));
+            enemy.InitializeCooldown(false, IsBattleAdvantage(false, transitionType));
 
             int rowIndex, columnIndex;
             GetEnemyPosition(out rowIndex, out columnIndex);

@@ -6,8 +6,6 @@ using System;
 using Frankie.Core;
 using System.Collections.Generic;
 using Frankie.Inventory;
-using Frankie.Control;
-using Unity.VisualScripting;
 
 namespace Frankie.Combat
 {
@@ -31,7 +29,8 @@ namespace Frankie.Combat
         [Header("Cooldowns")]
         [SerializeField] float cooldownMin = 0.2f;
         [SerializeField] float cooldownMax = 10.0f;
-        [SerializeField] float cooldownAtBattleStart = 2.5f;
+        [SerializeField] float cooldownAtBattleStartPlayer = 2.5f;
+        [SerializeField] float cooldownAtBattleStartNPC = 5.0f;
         [SerializeField] float cooldownBattleAdvantageAdder = -4.0f;
         [SerializeField] float cooldownBattleDisadvantageAdder = 4.0f;
         [SerializeField] float cooldownRunFailAdder = 5.0f;
@@ -188,12 +187,14 @@ namespace Frankie.Combat
             return false;
         }
 
-        public void InitializeCooldown(bool? isBattleAdvantage)
+        public void InitializeCooldown(bool isPlayer, bool? isBattleAdvantage)
         {
             cooldownStore = 0.0f;
             if (isBattleAdvantage == true) { cooldownStore += cooldownBattleAdvantageAdder; }
             else if (isBattleAdvantage == false) { cooldownStore += cooldownBattleDisadvantageAdder; }
-            SetCooldown(cooldownAtBattleStart);
+
+            float initialCooldown = isPlayer ? cooldownAtBattleStartPlayer : cooldownAtBattleStartNPC;
+            SetCooldown(initialCooldown);
         }
 
         public void SetCooldown(float seconds)
