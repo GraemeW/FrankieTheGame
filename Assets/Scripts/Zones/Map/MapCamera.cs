@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Cinemachine;
+using Frankie.Core;
 
 namespace Frankie.ZoneManagement
 {
@@ -64,13 +65,12 @@ namespace Frankie.ZoneManagement
 
         private void SetupPlayerFollow()
         {
-            GameObject player = GameObject.FindGameObjectWithTag("Player");
-            if (player == null) { return; }
+            GameObject playerObject = Player.FindPlayerObject();
+            if (playerObject == null) { return; }
 
-            Transform playerTransform = player.transform;
+            Transform playerTransform = playerObject.transform;
             Vector3 newCameraPosition = new Vector3(playerTransform.position.x, playerTransform.position.y, subCamera.transform.position.z);
             subCamera.transform.position = newCameraPosition;
         }
     }
 }
-

@@ -19,7 +19,6 @@ namespace Frankie.Core
         [SerializeField] float defaultIdleOrthoSize = 1.8f;
 
         // Cached References
-        GameObject playerGameObject = null;
         ReInitLazyValue<Player> player;
         ReInitLazyValue<Party> party;
 
@@ -46,7 +45,7 @@ namespace Frankie.Core
         #region UnityMethods
         private void Awake()
         {
-            player = new ReInitLazyValue<Player>(SetupPlayerReference);
+            player = new ReInitLazyValue<Player>(Player.FindPlayer);
             party = new ReInitLazyValue<Party>(SetupPartyReference);
 
             if (TryGetComponent(out PixelPerfectCamera pixelPerfectCamera))
@@ -98,17 +97,7 @@ namespace Frankie.Core
         #endregion
 
         #region PrivateMethods
-        private Player SetupPlayerReference()
-        {
-            if (playerGameObject == null) { playerGameObject = GameObject.FindGameObjectWithTag("Player"); }
-            return playerGameObject?.GetComponent<Player>();
-        }
-
-        private Party SetupPartyReference()
-        {
-            if (playerGameObject == null) { playerGameObject = GameObject.FindGameObjectWithTag("Player"); }
-            return playerGameObject?.GetComponent<Party>();
-        }
+        private Party SetupPartyReference() => Player.FindPlayerObject()?.GetComponent<Party>();
 
         private void SetUpStateDrivenCamera(Animator animator)
         {

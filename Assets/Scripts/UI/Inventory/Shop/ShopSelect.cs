@@ -1,9 +1,8 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using Frankie.Utils.UI;
 using Frankie.Control;
 using Frankie.Stats;
+using Frankie.Core;
 
 namespace Frankie.Inventory.UI
 {
@@ -19,7 +18,7 @@ namespace Frankie.Inventory.UI
 
         // Cached Reference
         WorldCanvas worldCanvas = null;
-        PlayerStateMachine playerStateHandler = null;
+        PlayerStateMachine playerStateMachine = null;
         PlayerController playerController = null;
         PartyKnapsackConduit partyKnapsackConduit = null;
         Shopper shopper = null;
@@ -34,19 +33,19 @@ namespace Frankie.Inventory.UI
         {
             if (exitShopOnDestroy)
             {
-                playerStateHandler?.EnterWorld();
+                playerStateMachine?.EnterWorld();
             }
         }
 
         private void GetPlayerReference()
         {
             worldCanvas = GameObject.FindGameObjectWithTag("WorldCanvas")?.GetComponent<WorldCanvas>();
-            playerStateHandler = GameObject.FindGameObjectWithTag("Player")?.GetComponent<PlayerStateMachine>();
-            if (worldCanvas == null || playerStateHandler == null) { Destroy(gameObject); }
+            playerStateMachine = Player.FindPlayerStateMachine();
+            if (worldCanvas == null || playerStateMachine == null) { Destroy(gameObject); }
 
-            partyKnapsackConduit = playerStateHandler.GetComponent<PartyKnapsackConduit>();
-            playerController = playerStateHandler?.GetComponent<PlayerController>();
-            shopper = playerStateHandler?.GetComponent<Shopper>();
+            partyKnapsackConduit = playerStateMachine.GetComponent<PartyKnapsackConduit>();
+            playerController = playerStateMachine?.GetComponent<PlayerController>();
+            shopper = playerStateMachine?.GetComponent<Shopper>();
         }
 
         private void Start()
@@ -74,7 +73,7 @@ namespace Frankie.Inventory.UI
             exitShopOnDestroy = false; // Shop exit to be called by child UI
 
             ShopBox shopBox = Instantiate(shopBoxPrefab, worldCanvas.transform);
-            shopBox.Setup(worldCanvas, playerStateHandler, playerController, partyKnapsackConduit, shopper);
+            shopBox.Setup(worldCanvas, playerStateMachine, playerController, partyKnapsackConduit, shopper);
             Destroy(gameObject);
         }
 
@@ -83,7 +82,7 @@ namespace Frankie.Inventory.UI
             exitShopOnDestroy = false; // Shop exit to be called by child UI
 
             InventoryShopBox inventoryShopBox = Instantiate(inventoryShopBoxPrefab, worldCanvas.transform);
-            inventoryShopBox.Setup(playerController, playerStateHandler, partyKnapsackConduit.GetComponent<PartyCombatConduit>(), shopper, shop.GetMessageForSale(), shop.GetMessageCannotSell());
+            inventoryShopBox.Setup(playerController, playerStateMachine, partyKnapsackConduit.GetComponent<PartyCombatConduit>(), shopper, shop.GetMessageForSale(), shop.GetMessageCannotSell());
             Destroy(gameObject);
         }
     }

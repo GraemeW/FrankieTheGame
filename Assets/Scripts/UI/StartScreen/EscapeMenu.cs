@@ -14,8 +14,7 @@ namespace Frankie.Menu.UI
         [SerializeField] OptionsMenu optionsMenuPrefab = null;
 
         // Cached References
-        SavingWrapper savingWrapper = null;
-        PlayerStateMachine playerStateHandler = null;
+        PlayerStateMachine playerStateMachine = null;
         WorldCanvas worldCanvas = null;
         GameObject childOption = null;
 
@@ -25,23 +24,20 @@ namespace Frankie.Menu.UI
         private void Awake()
         {
             worldCanvas = GameObject.FindGameObjectWithTag("WorldCanvas")?.GetComponent<WorldCanvas>();
-            playerStateHandler = GameObject.FindGameObjectWithTag("Player")?.GetComponent<PlayerStateMachine>();
-            if (worldCanvas == null || playerStateHandler == null) { Destroy(gameObject); }
+            playerStateMachine = Player.FindPlayerStateMachine();
+            if (worldCanvas == null || playerStateMachine == null) { Destroy(gameObject); }
 
-            controller = playerStateHandler?.GetComponent<PlayerController>();
+            controller = playerStateMachine?.GetComponent<PlayerController>();
         }
 
         private void Start()
         {
-            savingWrapper = GameObject.FindGameObjectWithTag("Saver")?.GetComponent<SavingWrapper>();
-            // SceneLoader is a persistent object, thus can only be found after Awake -- so find in Start
-
             HandleClientEntry();
         }
 
         private void OnDestroy()
         {
-            playerStateHandler?.EnterWorld();
+            playerStateMachine?.EnterWorld();
         }
 
         public override bool HandleGlobalInput(PlayerInputType playerInputType)
@@ -75,5 +71,4 @@ namespace Frankie.Menu.UI
             SavingWrapper.LoadStartScene();
         }
     }
-
 }

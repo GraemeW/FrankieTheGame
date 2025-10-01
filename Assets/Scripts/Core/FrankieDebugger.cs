@@ -14,7 +14,7 @@ namespace Frankie.Core
 
         // Cached References
         PlayerInput playerInput = null;
-        GameObject player = null;
+        ReInitLazyValue<Player> player = null;
         GameObject saver = null;
 
         // Lazy Values
@@ -31,10 +31,10 @@ namespace Frankie.Core
         {
             // References
             playerInput = new PlayerInput();
-            player = GameObject.FindGameObjectWithTag("Player");
+            player = new ReInitLazyValue<Player>(Player.FindPlayer);
             saver = GameObject.FindGameObjectWithTag("Saver");
             savingWrapper = new ReInitLazyValue<SavingWrapper>(SetupSavingWrapper);
-            questList = new ReInitLazyValue<QuestList>(() => QuestList.GetQuestList(ref player));
+            questList = new ReInitLazyValue<QuestList>(SetupQuestList);
             party = new ReInitLazyValue<Party>(SetupParty);
             wallet = new ReInitLazyValue<Wallet>(SetupWallet);
 
@@ -73,27 +73,18 @@ namespace Frankie.Core
             playerInput.Admin.Disable();
             SceneManager.sceneLoaded -= ResetReferences;
         }
-        #endregion
 
-        #region SavingWrapperDebug
+        private QuestList SetupQuestList() => Player.FindPlayerObject()?.GetComponent<QuestList>();
+        private Party SetupParty() => Player.FindPlayerObject()?.GetComponent<Party>();
+        private Wallet SetupWallet() => Player.FindPlayerObject()?.GetComponent<Wallet>();
         private SavingWrapper SetupSavingWrapper()
         {
             if (saver == null) { saver = GameObject.FindGameObjectWithTag("Saver"); }
             return saver.GetComponent<SavingWrapper>();
         }
+        #endregion
 
-        private Party SetupParty()
-        {
-            if (player == null) { player = GameObject.FindGameObjectWithTag("Player"); }
-            return player?.GetComponent<Party>();
-        }
-
-        private Wallet SetupWallet()
-        {
-            if (player == null) { player = GameObject.FindGameObjectWithTag("Player"); }
-            return player?.GetComponent<Wallet>();
-        }
-
+        #region SavingWrapperDebug
         private void Save()
         {
             UnityEngine.Debug.Log($"Frankie Debugger:  Saving Game...");
@@ -126,16 +117,8 @@ namespace Frankie.Core
         private void ResetReferences(Scene scene, LoadSceneMode loadSceneMode)
         {
             // Since Debugger is a persistent object, force reset on scene load
-            questList = null;
-            questList = new ReInitLazyValue<QuestList>(() => QuestList.GetQuestList(ref player));
             questList.ForceInit();
-
-            wallet = null;
-            wallet = new ReInitLazyValue<Wallet>(SetupWallet);
             wallet.ForceInit();
-
-            party = null;
-            party = new ReInitLazyValue<Party>(SetupParty);
             party.ForceInit();
         }
 

@@ -8,6 +8,7 @@ using Frankie.Control;
 using UnityEngine;
 using System.Collections.Generic;
 using Frankie.ZoneManagement.UI;
+using Frankie.Core;
 
 namespace Frankie.Menu.UI
 {
@@ -31,7 +32,7 @@ namespace Frankie.Menu.UI
         GameObject childOption = null;
 
         // Cached References
-        PlayerStateMachine playerStateHandler = null;
+        PlayerStateMachine playerStateMachine = null;
         PlayerController playerController = null;
         WorldCanvas worldCanvas = null;
         PartyCombatConduit partyCombatConduit = null;
@@ -39,11 +40,11 @@ namespace Frankie.Menu.UI
         private void Awake()
         {
             worldCanvas = GameObject.FindGameObjectWithTag("WorldCanvas")?.GetComponent<WorldCanvas>();
-            playerStateHandler = GameObject.FindGameObjectWithTag("Player")?.GetComponent<PlayerStateMachine>();
-            if (worldCanvas == null || playerStateHandler == null) { Destroy(gameObject); }
+            playerStateMachine = Player.FindPlayerStateMachine();
+            if (worldCanvas == null || playerStateMachine == null) { Destroy(gameObject); }
 
-            playerController = playerStateHandler?.GetComponent<PlayerController>();
-            partyCombatConduit = playerStateHandler?.GetComponent<PartyCombatConduit>();
+            playerController = playerStateMachine?.GetComponent<PlayerController>();
+            partyCombatConduit = playerStateMachine?.GetComponent<PartyCombatConduit>();
         }
 
         private void Start()
@@ -89,7 +90,7 @@ namespace Frankie.Menu.UI
                 Destroy(childCharacterPanel.gameObject);
             }
             if (walletUI != null) { Destroy(walletUI.gameObject); }
-            playerStateHandler?.EnterWorld();
+            playerStateMachine?.EnterWorld();
         }
 
         public override bool HandleGlobalInput(PlayerInputType playerInputType)

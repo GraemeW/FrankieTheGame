@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using Frankie.ZoneManagement;
+using Frankie.Core;
 
 namespace Frankie.Combat
 {
@@ -56,7 +57,7 @@ namespace Frankie.Combat
         private void Awake()
         {
             playerInput = new PlayerInput();
-            partyCombatConduit = GameObject.FindGameObjectWithTag("Player")?.GetComponent<PartyCombatConduit>();
+            partyCombatConduit = Player.FindPlayerObject()?.GetComponent<PartyCombatConduit>();
             battleRewards = GetComponent<BattleRewards>();
 
             VerifyUnique();

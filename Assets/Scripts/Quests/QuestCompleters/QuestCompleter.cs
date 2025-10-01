@@ -1,6 +1,5 @@
+using Frankie.Core;
 using Frankie.Utils;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace Frankie.Quests
@@ -8,46 +7,26 @@ namespace Frankie.Quests
     public class QuestCompleter : MonoBehaviour, IQuestEvaluator
     {
         // Tunables
-        [SerializeField] [Tooltip("Optional for fixed quest")] protected QuestObjective questObjective = null;
+        [SerializeField][Tooltip("Optional for fixed quest")] protected QuestObjective questObjective = null;
 
-        // State
-        bool questListPreInitialized = false;
-
-        // Cached References
-        GameObject player = null;
-        protected ReInitLazyValue<QuestList> questList = null;
+        protected ReInitLazyValue<QuestList> questList;
 
         private void Awake()
         {
-            PreInitializeQuestList();
-        }
-
-        private void PreInitializeQuestList()
-        {
-            // Special handling
-            // Start vs. Awake order of operations break on game object enable/disable
-            if (questListPreInitialized) { return; }
-
-            player = GameObject.FindGameObjectWithTag("Player");
-            questList = new ReInitLazyValue<QuestList>(() => QuestList.GetQuestList(ref player));
-            questListPreInitialized = true;
+            questList = new ReInitLazyValue<QuestList>(SetupQuestList);
         }
 
         private void Start()
         {
-            PreInitializeQuestList();
             questList.ForceInit();
         }
+
+        private QuestList SetupQuestList() => Player.FindPlayerObject()?.GetComponent<QuestList>();
 
         public void CompleteObjective()
         {
             if (questObjective == null) { return; }
 
-            CompleteObjective(questObjective);
-        }
-
-        public void CompleteObjective(QuestObjective questObjective)
-        {
             questList.value.CompleteObjective(questObjective);
         }
     }

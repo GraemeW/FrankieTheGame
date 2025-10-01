@@ -61,7 +61,7 @@ namespace Frankie.Core
 
         private static void DeletePlayerForSceneLoad()
         {
-            GameObject playerGameObject = GameObject.FindGameObjectWithTag("Player");
+            GameObject playerGameObject = Player.FindPlayerObject();
             if (playerGameObject != null) { Destroy(playerGameObject); } // Player reconstructed after scene load (prevents control lock-up)
         }
 
@@ -162,10 +162,9 @@ namespace Frankie.Core
         {
             string saveName = GetCurrentSave();
 
-            GameObject playerObject = GameObject.FindGameObjectWithTag("Player");
-            if (playerObject != null)
+            Player player = Player.FindPlayer();
+            if (player != null)
             {
-                Player player = playerObject.GetComponent<Player>();
                 Party party = player.GetComponent<Party>();
                 string characterName = party.GetPartyLeaderName();
                 int level = party.GetPartyLeader().GetLevel();

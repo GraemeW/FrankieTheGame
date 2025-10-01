@@ -5,6 +5,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using Frankie.Core;
 
 namespace Frankie.Inventory.UI
 {
@@ -37,7 +38,7 @@ namespace Frankie.Inventory.UI
 
         // Cached References
         WorldCanvas worldCanvas = null;
-        PlayerStateMachine playerStateHandler = null;
+        PlayerStateMachine playerStateMachine = null;
         PlayerController playerController = null;
         Shopper shopper = null;
         Wallet wallet = null;
@@ -55,12 +56,12 @@ namespace Frankie.Inventory.UI
         private void GetPlayerReference()
         {
             worldCanvas = GameObject.FindGameObjectWithTag("WorldCanvas")?.GetComponent<WorldCanvas>();
-            playerStateHandler = GameObject.FindGameObjectWithTag("Player")?.GetComponent<PlayerStateMachine>();
-            if (worldCanvas == null || playerStateHandler == null) { Destroy(gameObject); }
+            playerStateMachine = Player.FindPlayerStateMachine();
+            if (worldCanvas == null || playerStateMachine == null) { Destroy(gameObject); }
 
-            playerController = playerStateHandler?.GetComponent<PlayerController>();
-            shopper = playerStateHandler?.GetComponent<Shopper>();
-            wallet = playerStateHandler?.GetComponent<Wallet>();
+            playerController = playerStateMachine?.GetComponent<PlayerController>();
+            shopper = playerStateMachine?.GetComponent<Shopper>();
+            wallet = playerStateMachine?.GetComponent<Wallet>();
         }
 
         private void Start()
@@ -82,7 +83,7 @@ namespace Frankie.Inventory.UI
             if (walletUI != null) { Destroy(walletUI.gameObject); }
 
             HandleClientExit();
-            playerStateHandler?.EnterWorld();
+            playerStateMachine?.EnterWorld();
         }
         #endregion
 

@@ -10,6 +10,7 @@ using Frankie.Stats;
 using Frankie.Inventory;
 using Frankie.Inventory.UI;
 using Frankie.Utils;
+using Frankie.Core;
 
 namespace Frankie.Combat.UI
 {
@@ -77,7 +78,7 @@ namespace Frankie.Combat.UI
         #region UnityMethods
         private void Awake()
         {
-            partyCombatConduit = GameObject.FindGameObjectWithTag("Player")?.GetComponent<PartyCombatConduit>();
+            partyCombatConduit = Player.FindPlayerObject()?.GetComponent<PartyCombatConduit>();
             battleController = GameObject.FindGameObjectWithTag("BattleController")?.GetComponent<BattleController>();
             if (partyCombatConduit == null || battleController == null) { Destroy(gameObject); return; }
 

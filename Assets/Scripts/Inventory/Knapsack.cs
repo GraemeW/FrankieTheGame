@@ -22,8 +22,7 @@ namespace Frankie.Inventory
         ActiveInventoryItem[] slots;
 
         // Cached References
-        GameObject player = null;
-        ReInitLazyValue<QuestList> questList = null;
+        ReInitLazyValue<QuestList> questList;
         CombatParticipant character = null;
         Equipment equipment = null;
 
@@ -35,9 +34,7 @@ namespace Frankie.Inventory
         {
             slots = new ActiveInventoryItem[inventorySize];
 
-            player = GameObject.FindGameObjectWithTag("Player");
-            questList = new ReInitLazyValue<QuestList>(() => QuestList.GetQuestList(ref player));
-
+            questList = new ReInitLazyValue<QuestList>(SetupQuestList);
             equipment = GetComponent<Equipment>();
             character = GetComponent<CombatParticipant>();
         }
@@ -58,6 +55,8 @@ namespace Frankie.Inventory
             knapsackUpdated -= CompleteObjective;
             equipment.equipmentUpdated -= HandleEquipmentUpdated;
         }
+
+        private QuestList SetupQuestList() => Player.FindPlayerObject()?.GetComponent<QuestList>();
         #endregion
 
         #region CheckKnapsack
