@@ -343,7 +343,7 @@ namespace Frankie.Control
         {
             if (battleController == null)
             {
-                BattleController existingBattleController = GameObject.FindGameObjectWithTag("BattleController")?.GetComponent<BattleController>();
+                BattleController existingBattleController = BattleController.FindBattleController();
                 if (existingBattleController == null)
                 {
                     battleController = Instantiate(battleControllerPrefab);

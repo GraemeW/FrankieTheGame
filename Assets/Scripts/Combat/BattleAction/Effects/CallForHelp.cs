@@ -18,7 +18,7 @@ namespace Frankie.Combat
         // Note:  Much of this is derivative of EnemySpawner, just done in combat -- if no battle controller is present, this function does nothing
         public override void StartEffect(CombatParticipant sender, IEnumerable<BattleEntity> recipients, DamageType damageType, Action<EffectStrategy> finished)
         {
-            BattleController battleController = GameObject.FindGameObjectWithTag("BattleController")?.GetComponent<BattleController>();
+            BattleController battleController = BattleController.FindBattleController();
             SpawnConfiguration spawnConfiguration = GetSpawnConfiguration();
             if (battleController == null || spawnConfiguration == null) { finished?.Invoke(this); return; }
 

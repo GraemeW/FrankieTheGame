@@ -65,23 +65,20 @@ namespace Frankie.Sound
         private void TriggerOverride(bool enable, bool calledInRestore)
         {
             if (audioClip == null) { return; }
-
             UnflagAllOverrides(); // Only one override allowed at a time, no history / hierarchy currently possible
-            GameObject backgroundMusicObject = GameObject.FindGameObjectWithTag("BackgroundMusic");
-            if (backgroundMusicObject == null) { return; }
 
-            if (backgroundMusicObject.TryGetComponent(out BackgroundMusic backgroundMusic))
+            BackgroundMusic backgroundMusic = BackgroundMusic.FindBackgroundMusic();
+            if (backgroundMusic == null) { return; }
+            
+            if (enable)
             {
-                if (enable)
-                {
-                    backgroundMusic.OverrideMusic(audioClip, calledInRestore);
-                    triggered = true;
-                }
-                else
-                {
-                    backgroundMusic.StopOverrideMusic();
-                    triggered = false;
-                }
+                backgroundMusic.OverrideMusic(audioClip, calledInRestore);
+                triggered = true;
+            }
+            else
+            {
+                backgroundMusic.StopOverrideMusic();
+                triggered = false;
             }
         }
         #endregion

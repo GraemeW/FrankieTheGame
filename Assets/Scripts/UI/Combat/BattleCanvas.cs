@@ -75,11 +75,16 @@ namespace Frankie.Combat.UI
             public List<Tuple<string, int>> statNameValuePairs;
         }
 
+        #region StaticFind
+        private static string battleCanvasTag = "BattleCanvas";
+        public static BattleCanvas FindBattleCanvas() => GameObject.FindGameObjectWithTag(battleCanvasTag)?.GetComponent<BattleCanvas>();
+        #endregion
+
         #region UnityMethods
         private void Awake()
         {
             partyCombatConduit = Player.FindPlayerObject()?.GetComponent<PartyCombatConduit>();
-            battleController = GameObject.FindGameObjectWithTag("BattleController")?.GetComponent<BattleController>();
+            battleController = BattleController.FindBattleController();
             if (partyCombatConduit == null || battleController == null) { Destroy(gameObject); return; }
 
             battleRewards = battleController.GetBattleRewards();

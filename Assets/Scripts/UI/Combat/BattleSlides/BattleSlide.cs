@@ -47,7 +47,7 @@ namespace Frankie.Combat.UI
         protected virtual void Awake()
         {
             button = GetComponent<Button>();
-            battleController = GameObject.FindGameObjectWithTag("BattleController")?.GetComponent<BattleController>();
+            battleController = BattleController.FindBattleController();
         }
 
         protected virtual void OnEnable()

@@ -59,8 +59,8 @@ namespace Frankie.Combat
         private void UpdateBattleController(bool active)
         {
             if (active)
-            { 
-                battleController = GameObject.FindGameObjectWithTag("BattleController").GetComponent<BattleController>();
+            {
+                battleController = BattleController.FindBattleController();
                 skillsToExclude.Clear();
             }
             else 

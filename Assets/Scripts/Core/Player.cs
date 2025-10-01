@@ -13,9 +13,8 @@ namespace Frankie.Core
         PlayerStateMachine playerStateHandler = null;
         PartyCombatConduit partyCombatConduit = null;
 
-        #region StaticPlayerFinds
+        #region StaticFind
         private static string playerTag = "Player";
-
         public static GameObject FindPlayerObject() => GameObject.FindGameObjectWithTag(playerTag);
         public static Player FindPlayer() => FindPlayerObject()?.GetComponent<Player>();
         public static PlayerStateMachine FindPlayerStateMachine() => FindPlayerObject()?.GetComponent<PlayerStateMachine>();

@@ -16,7 +16,7 @@ namespace Frankie.Combat
 
         public override void StartEffect(CombatParticipant sender, IEnumerable<BattleEntity> recipients, DamageType damageType, Action<EffectStrategy> finished)
         {
-            BattleCanvas battleCanvas = GameObject.FindGameObjectWithTag("BattleCanvas")?.GetComponent<BattleCanvas>();
+            BattleCanvas battleCanvas = BattleCanvas.FindBattleCanvas();
             if (battleCanvas == null) { return; }
 
             foreach (Vector3 position in GetPositions(recipients, battleCanvas))

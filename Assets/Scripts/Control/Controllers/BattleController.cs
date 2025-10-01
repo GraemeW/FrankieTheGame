@@ -52,7 +52,11 @@ namespace Frankie.Combat
         public event Action<PlayerInputType> battleInput;
         public event Action<PlayerInputType> globalInput;
 
-        // Interaction
+        #region StaticFind
+        private static string battleControllerTag = "BattleController";
+        public static BattleController FindBattleController() => GameObject.FindGameObjectWithTag(battleControllerTag)?.GetComponent<BattleController>();
+        #endregion
+
         #region UnityMethods
         private void Awake()
         {
