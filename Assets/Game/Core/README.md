@@ -26,9 +26,6 @@ The key scripts attached to [PersistentObjects](./CoreDep/PersistentObjects.pref
 * [InputSystemUIInputModule](https://docs.unity3d.com/Packages/com.unity.inputsystem@1.0/manual/UISupport.html):  for use with Unity's new input system + UI elements
 
 The key objects childed to [PersistentObjects](./CoreDep/PersistentObjects.prefab) include:
-* [Saver](./CoreDep/Saver.prefab):  enabling the save system, with scripts:
-  * [SavingSystem](../../Scripts/Saving/SavingSystem.cs):  build up save file (find [SaveableEntities](../../Scripts/Saving/SaveableEntity.cs)) and read/write to save file
-  * [SavingWrapper](../../Scripts/Core/SavingWrapper.cs):  interfacing the above ^, incorporating playerprefs (save names) && scene loading/transitions
 * [SceneLoader](./CoreDep/SceneLoader.prefab):  employs [SceneLoader](../../Scripts/Zones/SceneLoader.cs) script to transition across scenes (zones)
 * [Fader](./CoreDep/Fader.prefab):  employs [Fader](../../Scripts/Zones/Fader.cs) script to add fading screen/transition graphics when entering/exiting both scenes (zones) and combat battles
 * [BackgroundMusic](../Sound/BackgroundMusic.prefab):  employs [BackgroundMusic](../../Scripts/Sound/BackgroundMusic.cs) script to add background music to the scene (zone)

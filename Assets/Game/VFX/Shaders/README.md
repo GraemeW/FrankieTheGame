@@ -33,7 +33,7 @@ In this shader, we:
 
 ## Battle Entry Animations
 
-The [BattleEntry](./BattleEntry/) shader is used to apply the 'swirl' animation when a member of Frankie's party makes contact with an enemy.  This animation is specifically employed by the [Fader](../../Core/README.md#persistent-objects-singleton) via the [BattleEntryShaderControl](../../../Scripts/Utils/Shaders/BattleEntryShaderControl.cs) script when the combat interface is loaded onto the screen, as shown below:
+The [BattleEntry](./BattleEntry/) shader is used to apply the 'swirl' animation when a member of Frankie's party makes contact with an enemy.  This animation is specifically employed by the [Fader](../../Core/README.md#persistent-objects-singleton) via the [BattleEntryShaderControl](../../../Scripts/Rendering/Shaders/BattleEntryShaderControl.cs) script when the combat interface is loaded onto the screen, as shown below:
 
 <img src="../../../../InfoTools/Documentation/Game/VFX/BattleEntryExample.gif" width="320">
 
@@ -46,9 +46,9 @@ These different swirl types are handled via different input images applied to th
 
 ### Time-Zero / Shader Phase
 
-Since many custom shaders warp the view/image in a continuous forward fashion, they need to have some concept of time-zero as a reference point to subtract from the current time.  For example, this is accomplished using the `_Phase` property in the [BattleEntryShader](./BattleEntry/BattleEntryByURP-PostPass.shadergraph) shadergraph.
+Since many custom shaders warp the view/image in a continuous forward fashion, they need to have some concept of time-zero as a reference point to subtract from the current time.  For example, this is accomplished using the `_Phase` property in the [BattleEntryShader](./BattleEntry/BattleEntryByURP.shadergraph) shadergraph.
 
-In turn, `_Phase` is set using a MonoBehaviour, either with [BattleEntryShaderControl](../../../Scripts/Utils/Shaders/BattleEntryShaderControl.cs) or [LocalShaderPropertySetter](../../../Scripts/Utils/Shaders/LocalShaderPropertySetter.cs).  The latter simply sets the attached image material's property to [Time.time](https://docs.unity3d.com/ScriptReference/Time-time.html) when the game object is enabled.  In any case, this is notable because time is a simple float with limited precision, which becomes problematic for very large numbers.  In other words, shaders using an input `_Phase` will begin to lack precision, impacting swirl smoothness, for very, very long continuous play-times (e.g. if the application has not been closed for >12hr).
+In turn, `_Phase` is set using a MonoBehaviour, either with [BattleEntryShaderControl](../../../Scripts/Rendering/Shaders/BattleEntryShaderControl.cs) or [LocalShaderPropertySetter](../../../Scripts/Rendering/Shaders/LocalShaderPropertySetter.cs).  The latter simply sets the attached image material's property to [Time.time](https://docs.unity3d.com/ScriptReference/Time-time.html) when the game object is enabled.  In any case, this is notable because time is a simple float with limited precision, which becomes problematic for very large numbers.  In other words, shaders using an input `_Phase` will begin to lack precision, impacting swirl smoothness, for very, very long continuous play-times (e.g. if the application has not been closed for >12hr).
 
 ## Battle Effects
 
@@ -88,7 +88,7 @@ In this use case, the computers are also used as save points for the game.  The 
 
 ## Shader Utilities
 
-The shader graphs detailed above make extensive use of sub-graphs located in [Shader Utilities](./ShaderUtilities/).  These utilities include various intuitively named helper functions -- such as [GetScreenCenterPoint](./ShaderUtilities/GetScreenCenterPoint.shadersubgraph), [TimeSinceInitialization](./ShaderUtilities/TimeSinceInitialization.shadersubgraph), [GetPeriodTime](./ShaderUtilities/GetPeriodTime.shadersubgraph) and [InheritVertexColorAlpha](./ShaderUtilities/InheritVertexColorAlpha.shadersubgraph).  These utilities also include the functionality required for the [signed distance functions](https://en.wikipedia.org/wiki/Signed_distance_function) noted in [Battle Effects](#battle-effects).
+The shader graphs detailed above make extensive use of sub-graphs located in [Shader Utilities](./ShaderUtilities/).  These utilities include various intuitively named helper functions -- such as [GetScreenCenterPoint](./ShaderUtilities/GetScreenCenterPoint.shadersubgraph), [GetTimeSinceInitialization](./ShaderUtilities/GetTimeSinceInitialization.shadersubgraph), [GetPeriodTime](./ShaderUtilities/GetPeriodTime.shadersubgraph) and [InheritVertexColorAlpha](./ShaderUtilities/InheritVertexColorAlpha.shadersubgraph).  These utilities also include the functionality required for the [signed distance functions](https://en.wikipedia.org/wiki/Signed_distance_function) noted in [Battle Effects](#battle-effects).
 
 ### Signed Distance Functions
 

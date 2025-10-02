@@ -9,7 +9,7 @@ There are three UI canvases employed in Frankie:
 
 ## UIBox UI Elements
 
-The majority of UI elements make use of the [UIBox](../../Scripts/Utils/UIBox/) abstract base class, which is a flexible system to display arbitrary information, with built-in capabilities for various standard 2D RPG functions (e.g. textscan, 1D/2D option selection, hand-off/call-back to other UI elements, etc.).  
+The majority of UI elements make use of the [UIBox](../../Scripts/UI/UIBox/) abstract base class, which is a flexible system to display arbitrary information, with built-in capabilities for various standard 2D RPG functions (e.g. textscan, 1D/2D option selection, hand-off/call-back to other UI elements, etc.).  
 
 The simplest example of the UIBox is the dialogue box, shown below:
 
@@ -82,8 +82,8 @@ For example a standard UI Window is comprised of:
 * [LinkedTextEntry](./Utilities/LinkedTextEntry.prefab):  for displaying descriptive text
 
 , or made into a dialogue box with user selection, by further adding:
-* [UIChoiceOption](./Utilities/UIChoiceOption.prefab):  for each independent option/choice (oriented horizontally)
-  * , or [UIChoiceOptionVertical](./Utilities/UIChoiceOptionVertical.prefab):  if the options are oriented vertically
+* [UIChoiceOption](./Utilities/UIChoiceButton.prefab):  for each independent option/choice (oriented horizontally)
+  * , or [UIChoiceOptionVertical](./Utilities/UIChoiceButtonVertical.prefab):  if the options are oriented vertically
 
 , or made into an option menu by adding:
 * [StandardHeaderElement](./Utilities/StandardHeaderElement.prefab):  for a menu title

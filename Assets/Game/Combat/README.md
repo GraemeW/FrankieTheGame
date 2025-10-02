@@ -32,7 +32,7 @@ See the [Skills](../OnLoadAssets/Skills/) directory in [OnLoadAssets](../OnLoadA
 [Inventory Items](../OnLoadAssets/Inventory/) are used only by [PCs](../CharacterObjects/PCs/).  There are several different flavours of inventory items, including:
 * [ActionItems](../OnLoadAssets/Inventory/ActionItems/): standard items kept in the player's [knapsack](../../Scripts/Inventory/Knapsack.cs), and may be **used** in either combat or in world
 * [EquipableItems](../OnLoadAssets/Inventory/EquipableItems/): items that cannot be used, but instead may be [equipped](../../Scripts/Inventory/Equipment.cs) onto the PC to alter its stats
-* [KeyItems](../OnLoadAssets/Inventory/KeyItems/): items that cannot be used, but may be required for [quest objectives](../OnLoadAssets/Quests/Quests/)
+* [KeyItems](../OnLoadAssets/Inventory/KeyItems/): items that cannot be used, but may be required for [quest objectives](../OnLoadAssets/Quests/)
 * [WearableItems](../OnLoadAssets/Inventory/WearableItems/): items that are worn to alter the appearance of the player in world
 
 ### Action Items

@@ -36,10 +36,10 @@ Notably, standard checks are brokebn into three different check types.
     * rejecting - via `Reject Interaction (PlayerStateMachine)` list
 
 Example checks can be found in:
-* [FrankieHomeDesk](../WorldObjects/SavePoints/FrankieHomeDesk.prefab): Used to trigger a [WorldSaver](../../Scripts/World/WorldSaver.cs) Save() call
-* [WaterCooler](../WorldObjects/Office/WaterCooler_0.prefab): Used to trigger a [WorldPointAdjuster](../../Scripts/World/WorldPointAdjuster.cs) to heal the party & restore AP
-* [InfoSign](../WorldObjects/Generic/Signs/InfoSign.prefab): Used to prompt a UI message with th (arbitrary) sign content
-* [CoinMachine](../WorldObjects/VendingMachines/CoinMachine.prefab): Used to trigger a [WorldCashGiverTaker](../../Scripts/World/WorldCashGiverTaker.cs) to give add cash to the player's wallet
+* [FrankieHomeDesk](../WorldObjects/Interior/SavePoints/FrankieHomeDesk.prefab): Used to trigger a [WorldSaver](../../Scripts/World/WorldSaver.cs) Save() call
+* [WaterCooler](../WorldObjects/Interior/Office/WaterCooler_0.prefab): Used to trigger a [WorldPointAdjuster](../../Scripts/World/WorldPointAdjuster.cs) to heal the party & restore AP
+* [InfoSign](../WorldObjects/Signs/SignInfoBig.prefab): Used to prompt a UI message with th (arbitrary) sign content
+* [CoinMachine](../WorldObjects/Interior//VendingMachines/CoinMachine.prefab): Used to trigger a [WorldCashGiverTaker](../../Scripts/World/WorldCashGiverTaker.cs) to give add cash to the player's wallet
 * and so on…
 
 ## Complex Checks
@@ -60,7 +60,7 @@ The check configurables are shown below:
 * Condition Failed: message + interaction Unity Event(s) for predicate = false
 
 Example checks can be found in:
-* [VendingMachineWithPredicate](../WorldObjects/VendingMachines/VendingMachineWithPredicate.prefab)
+* [VendingMachineWithPredicate](../WorldObjects/Interior/VendingMachines/VendingMachineWithPredicate.prefab)
 
 ### Check to Unlock Enable
 
@@ -90,7 +90,7 @@ Example checks can be found in:
 
 In some circumstances, the check options themselves may not be fixed/static, but may also vary as a function of the game state -- for these, one may employ the [CheckWithDynamicOptions](./CheckWithDynamicOptions.prefab) prefab.
 
-This prefab makes use of a Dynamic Check Object that has a component implementing the [ICheckDynamic](../../Scripts/CheckInteractions/ICheckDynamic.cs) interface to return [ChoiceActionPairs](../../Scripts/Utils/Functional/ChoiceActionPair.cs) that are used to populate a menu of choices.  One such example is the [SubwayTrain](../WorldObjects/Subway/SubwayTrain/SubwayTrain.prefab), which has the [WorldSubwayRider](../../Scripts/World/Subway/WorldSubwayRider.cs) component to generate viable subway travel options:
+This prefab makes use of a Dynamic Check Object that has a component implementing the [ICheckDynamic](../../Scripts/CheckInteractions/ICheckDynamic.cs) interface to return [ChoiceActionPairs](../../Scripts/Utils/ChoiceActionPair.cs) that are used to populate a menu of choices.  One such example is the [SubwayTrain](../WorldObjects/Interior/Subway/SubwayTrain/SubwayTrain.prefab), which has the [WorldSubwayRider](../../Scripts/World/Subway/WorldSubwayRider.cs) component to generate viable subway travel options:
 
 <img src="../../../InfoTools/Documentation/Game/Checks/CheckWithDynamicOptionsSubwayTrain.png" width="1080">
 
@@ -98,12 +98,12 @@ This prefab makes use of a Dynamic Check Object that has a component implementin
 
 In order to allow for highly customized check behaviors, one may also employ the prefab [CheckWithConfiguration](./CheckWithConfiguration.prefab) with custom-scripted configurations.
 
-Similarly to Dynamic Options above, this prefab uses a [CheckConfiguration](../../Scripts/CheckInteractions/Configurations/CheckConfiguration.cs) scriptable object to define [ChoiceActionPairs](../../Scripts/Utils/Functional/ChoiceActionPair.cs) that are used to populate a menu of choices.
+Similarly to Dynamic Options above, this prefab uses a [CheckConfiguration](../../Scripts/CheckInteractions/Configurations/CheckConfiguration.cs) scriptable object to define [ChoiceActionPairs](../../Scripts/Utils/ChoiceActionPair.cs) that are used to populate a menu of choices.
 
 Example configurations include:
 * [AddToParty](./Configurations/AddToParty.asset) / [RemoveFromParty](./Configurations/RemoveFromParty.asset): with options populated by available characters / availability party members
 * [AdjustLeader](./Configurations/AdjustLeader.asset): with options populated by available party members
-* [BankOptions](./Configurations/BankOptions.asset): the basic script attached to the [ATM](../WorldObjects/PortaBank/ATM.prefab) prefab to enable deposit/withdrawal from Frankie's bank
+* [BankOptions](./Configurations/BankOptions.asset): the basic script attached to the [ATM](../WorldObjects/Interior/PortaBank/ATM.prefab) prefab to enable deposit/withdrawal from Frankie's bank
 
 Since the [CheckWithConfiguration](../../Scripts/CheckInteractions/CheckWithConfiguration.cs) script spawns a dialogue box with choice-action pairs, it's also possible to nest configurations within configurations -- such as with the [StandardPartyOptions](./Configurations/StandardPartyOptions.asset) configuration, which combines [AdjustLeader](./Configurations/AdjustLeader.asset), [AddToParty](./Configurations/AddToParty.asset) and [RemoveFromParty](./Configurations/RemoveFromParty.asset) configurations:
 

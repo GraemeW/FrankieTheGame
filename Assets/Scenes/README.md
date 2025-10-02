@@ -50,7 +50,7 @@ This can be accomplished with the following steps:
 All scenes need to have three key PreFabs to function:
 1. [Core](../Game/Core/Core.prefab), which:
    * includes the [PersistentObjectSpawner](../Scripts/Core/PersistentObjectSpawner.cs)
-     * , to spawn the prefab [PersistenObjects](../Game/Core/PersistentObjects.prefab)
+     * , to spawn the prefab [PersistentObjects](../Game/Core/CoreDep/PersistentObjects.prefab)
      * , which are any singleton objects that must persisten from scene to scene (e.g. background music, fader, saver, scene loader, etc.)
    * has childed objects:
      * UICanvas -- for rendering UI elements over the scene

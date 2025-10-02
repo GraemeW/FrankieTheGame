@@ -58,7 +58,7 @@ Several key architectural game objects require more regular/tightly coupled inte
 
 #### UIBox Soundbox
 
-The [UIBoxSoundbox](./SpecializedSoundboxes/uiBoxSoundbox.prefab) helps to provide sound effects for [UI elements](../UI/) based on the [UIBox](../../Scripts/Utils/UIBox/UIBox.cs).
+The [UIBoxSoundbox](./SpecializedSoundboxes/uiBoxSoundbox.prefab) helps to provide sound effects for [UI elements](../UI/) based on the [UIBox](../../Scripts/UI/UIBox/).
 
 <img src="../../../InfoTools/Documentation/Game/Sound/UIBoxSoundbox.png" width="300">
 

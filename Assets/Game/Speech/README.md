@@ -76,7 +76,7 @@ It is important to note that the game behaviour is different for `Ai Speakers` (
 
 #### Conditional Dialogue Nodes
 
-In some cases, access to certain Dialogue Nodes needs to be gated by conditions (e.g. story progression, party members present, items in inventory, etc.).  This can be accomplished using [Predicates](../../Predicates/), by setting the `Additional Properties - Condition` setting on the Dialogue Node in the Inspector.
+In some cases, access to certain Dialogue Nodes needs to be gated by conditions (e.g. story progression, party members present, items in inventory, etc.).  This can be accomplished using [Predicates](../Predicates/), by setting the `Additional Properties - Condition` setting on the Dialogue Node in the Inspector.
 
 Continuing the above example, we can alter the player's response to Lucy's question as a function of a [HasGiantTurkeyLeg](../Predicates/Knapsack/HasGiantTurkeyLeg.asset) predicate (which checks the party knapsacks for the [GiantTurkeyLeg](../OnLoadAssets/Inventory/WearableItems/GiantTurkeyLeg.asset)).  By setting the other node as a negation to the above predicate, we've effectively established a split in the dialogue tree as a function of the player's inventory state.  Or, specifically:
 * if the player **does not** have the [GiantTurkeyLeg](../OnLoadAssets/Inventory/WearableItems/GiantTurkeyLeg.asset), Frankie proposes to get burgers
