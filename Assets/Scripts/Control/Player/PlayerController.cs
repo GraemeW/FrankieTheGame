@@ -1,8 +1,7 @@
 using System;
 using System.Collections.Generic;
-using UnityEngine;
 using System.Linq;
-using Frankie.Core;
+using UnityEngine;
 using UnityEngine.InputSystem;
 
 namespace Frankie.Control

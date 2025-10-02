@@ -1,9 +1,9 @@
+using UnityEngine;
+using System.Collections.Generic;
 using Frankie.Core;
 using Frankie.Utils;
 using Frankie.Utils.UI;
 using Frankie.Speech.UI;
-using UnityEngine;
-using System.Collections.Generic;
 
 namespace Frankie.Menu.UI
 {
@@ -22,20 +22,6 @@ namespace Frankie.Menu.UI
         [SerializeField] UIChoiceButton cancelOption = null;
         [SerializeField] protected DialogueOptionBox dialogueOptionBoxPrefab = null;
 
-        // State
-        LazyValue<SavingWrapper> savingWrapper;
-
-        private void Awake()
-        {
-            savingWrapper = new LazyValue<SavingWrapper>(() => FindAnyObjectByType<SavingWrapper>());
-        }
-
-        private void Start()
-        {
-            savingWrapper.ForceInit();
-
-        }
-
         protected override void OnEnable()
         {
             base.OnEnable();
@@ -49,8 +35,6 @@ namespace Frankie.Menu.UI
                 Destroy(child.gameObject);
             }
 
-            if (savingWrapper.value == null) { return; }
-
             choiceOptions.Clear();
             for (int index = 0; index < maxSaves; index++)
             {
@@ -58,14 +42,14 @@ namespace Frankie.Menu.UI
 
                 GameObject loadGameEntryObject = Instantiate(optionButtonPrefab, optionParent);
                 LoadGameEntry loadGameEntry = loadGameEntryObject.GetComponent<LoadGameEntry>();
-                if (savingWrapper.value.HasSave(saveName))
+                if (SavingWrapper.HasSave(saveName))
                 {
                     SavingWrapper.GetInfoFromName(saveName, out string characterName, out int level);
                     loadGameEntry.Setup(index, characterName, level, () => SpawnGameSelectOptions(saveName));
                 }
                 else
                 {
-                    loadGameEntry.Setup(index, optionNewGameText, 0, () => savingWrapper.value.NewGame(saveName));
+                    loadGameEntry.Setup(index, optionNewGameText, 0, () => SavingWrapper.NewGame(saveName));
                 }
                 loadGameEntry.SetChoiceOrder(choiceOptions.Count + 1);
                 choiceOptions.Add(loadGameEntry);
@@ -80,7 +64,7 @@ namespace Frankie.Menu.UI
             DialogueOptionBox dialogueOptionBox = Instantiate(dialogueOptionBoxPrefab, transform.parent);
             dialogueOptionBox.Setup(messageGameSelectOptionText);
             List<ChoiceActionPair> choiceActionPairs = new List<ChoiceActionPair>();
-            choiceActionPairs.Add(new ChoiceActionPair(optionLoadGameText, () => savingWrapper.value.LoadGame(saveName)));
+            choiceActionPairs.Add(new ChoiceActionPair(optionLoadGameText, () => SavingWrapper.LoadGame(saveName)));
             choiceActionPairs.Add(new ChoiceActionPair(optionDeleteGameText, () => { SpawnConfirmDeletionOptions(saveName); Destroy(dialogueOptionBox.gameObject); }));
 
             dialogueOptionBox.OverrideChoiceOptions(choiceActionPairs);
@@ -93,7 +77,7 @@ namespace Frankie.Menu.UI
             DialogueOptionBox dialogueOptionBox = Instantiate(dialogueOptionBoxPrefab, transform.parent);
             dialogueOptionBox.Setup(messageConfirmDeletionText);
             List<ChoiceActionPair> choiceActionPairs = new List<ChoiceActionPair>();
-            choiceActionPairs.Add(new ChoiceActionPair(messageAffirmative, () => { savingWrapper.value.Delete(saveName); Destroy(dialogueOptionBox.gameObject); ResetUI(); }));
+            choiceActionPairs.Add(new ChoiceActionPair(messageAffirmative, () => { SavingWrapper.Delete(saveName); Destroy(dialogueOptionBox.gameObject); ResetUI(); }));
             choiceActionPairs.Add(new ChoiceActionPair(messageNegative, () => Destroy(dialogueOptionBox.gameObject)));
 
             dialogueOptionBox.OverrideChoiceOptions(choiceActionPairs);

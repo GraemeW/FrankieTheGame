@@ -42,7 +42,7 @@ namespace Frankie.Menu.UI
         #region UnityMethods
         private void Start()
         {
-            backgroundMusic = FindAnyObjectByType<BackgroundMusic>(); // find in Start since persistent object, spawned during Awake
+            backgroundMusic = BackgroundMusic.FindBackgroundMusic(); // find in Start since persistent object, spawned during Awake
 
             int choiceIndex = 0;
             InitializeSoundEffectsSliders(ref choiceIndex);

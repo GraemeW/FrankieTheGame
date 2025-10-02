@@ -1,9 +1,6 @@
-using Frankie.Control;
-using Frankie.Core;
-using System;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
+using Frankie.Control;
 
 namespace Frankie.Speech
 {
@@ -12,7 +9,7 @@ namespace Frankie.Speech
         // Tunables
         [SerializeField] DialogueUpdateType dialogueUpdateType = DialogueUpdateType.DialogueComplete;
         [SerializeField] DialogueNode triggerNode;
-        [SerializeField][Tooltip("Trigger immediate for node-based entry/exit not requiring player state change")] DialogueTriggeredEvent dialogueTriggeredEvent; 
+        [SerializeField][Tooltip("Trigger immediate for node-based entry/exit not requiring player state change")] DialogueTriggeredEvent dialogueTriggeredEvent;
 
         // State
         bool queuedTrigger = false;

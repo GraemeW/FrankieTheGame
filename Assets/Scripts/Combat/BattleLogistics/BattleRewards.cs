@@ -1,9 +1,9 @@
-using Frankie.Inventory;
-using Frankie.Stats;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Frankie.Inventory;
+using Frankie.Stats;
 
 namespace Frankie.Combat
 {

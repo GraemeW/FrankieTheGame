@@ -1,10 +1,10 @@
-using Frankie.Core;
 using System.Collections;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement.AsyncOperations;
+using Frankie.Core;
 
 namespace Frankie.Stats
 {

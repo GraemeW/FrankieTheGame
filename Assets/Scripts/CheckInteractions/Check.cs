@@ -1,8 +1,6 @@
-using Frankie.Speech;
-using Frankie.Utils;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Events;
+using Frankie.Utils;
 
 namespace Frankie.Control
 {
@@ -14,13 +12,13 @@ namespace Frankie.Control
         [SerializeField] CheckType checkType = CheckType.Simple;
         [SerializeField] protected InteractionEvent checkInteraction = null;
         [Header("Message Behaviour")]
-        [SerializeField] [Tooltip("Otherwise, checks at end of interaction")] bool checkAtStartOfInteraction = false;
-        [SerializeField] [Tooltip("Use {0} for party leader")] protected string checkMessage = "{0} has checked this object";
+        [SerializeField][Tooltip("Otherwise, checks at end of interaction")] bool checkAtStartOfInteraction = false;
+        [SerializeField][Tooltip("Use {0} for party leader")] protected string checkMessage = "{0} has checked this object";
         [SerializeField] string defaultPartyLeaderName = "Frankie";
         [Header("Choice Behaviour")]
         [SerializeField] string messageAccept = "OK!";
         [SerializeField] string messageReject = "Nah";
-        [SerializeField] [Tooltip("Optional action on reject choice")] InteractionEvent rejectInteraction = null;
+        [SerializeField][Tooltip("Optional action on reject choice")] InteractionEvent rejectInteraction = null;
 
         #region Interfaces
         public override bool HandleRaycast(PlayerStateMachine playerStateHandler, PlayerController playerController, PlayerInputType inputType, PlayerInputType matchType)

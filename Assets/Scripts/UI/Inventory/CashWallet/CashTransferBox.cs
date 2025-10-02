@@ -1,10 +1,9 @@
-using Frankie.Control;
-using Frankie.Utils.UI;
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using Frankie.Core;
+using Frankie.Control;
+using Frankie.Utils.UI;
 
 namespace Frankie.Inventory.UI
 {
@@ -37,7 +36,7 @@ namespace Frankie.Inventory.UI
 
         // Cached References
         WorldCanvas worldCanvas = null;
-        PlayerStateMachine playerStateHandler = null;
+        PlayerStateMachine playerStateMachine = null;
         PlayerController playerController = null;
         Shopper shopper = null;
         Wallet wallet = null;
@@ -54,13 +53,13 @@ namespace Frankie.Inventory.UI
 
         private void GetPlayerReference()
         {
-            worldCanvas = GameObject.FindGameObjectWithTag("WorldCanvas")?.GetComponent<WorldCanvas>();
-            playerStateHandler = GameObject.FindGameObjectWithTag("Player")?.GetComponent<PlayerStateMachine>();
-            if (worldCanvas == null || playerStateHandler == null) { Destroy(gameObject); }
+            worldCanvas = WorldCanvas.FindWorldCanvas();
+            playerStateMachine = Player.FindPlayerStateMachine();
+            if (worldCanvas == null || playerStateMachine == null) { Destroy(gameObject); }
 
-            playerController = playerStateHandler?.GetComponent<PlayerController>();
-            shopper = playerStateHandler?.GetComponent<Shopper>();
-            wallet = playerStateHandler?.GetComponent<Wallet>();
+            playerController = playerStateMachine?.GetComponent<PlayerController>();
+            shopper = playerStateMachine?.GetComponent<Shopper>();
+            wallet = playerStateMachine?.GetComponent<Wallet>();
         }
 
         private void Start()
@@ -82,7 +81,7 @@ namespace Frankie.Inventory.UI
             if (walletUI != null) { Destroy(walletUI.gameObject); }
 
             HandleClientExit();
-            playerStateHandler?.EnterWorld();
+            playerStateMachine?.EnterWorld();
         }
         #endregion
 
@@ -111,11 +110,11 @@ namespace Frankie.Inventory.UI
                 Destroy(gameObject);
             }
         }
-        
+
         private void InitializeButtons(int amountAvailable, Action actionOnConfirm)
         {
             SetCashTransferState(CashTransferState.CashSelection);
-            foreach(UIChoice choiceOption in choiceOptions)
+            foreach (UIChoice choiceOption in choiceOptions)
             {
                 UIChoiceButton choiceButton = choiceOption as UIChoiceButton;
                 if (choiceButton == null) { continue; }
@@ -177,7 +176,7 @@ namespace Frankie.Inventory.UI
             {
                 choiceOptions.Clear();
                 choiceOptions.AddRange(new[] { hundredMillionField, tenMillionField, millionField,
-                    hundredThousandField, tenThousandField, thousandField, 
+                    hundredThousandField, tenThousandField, thousandField,
                     hundredField, tenField, oneField });
             }
             ShowCursorOnAnyInteraction(PlayerInputType.NavigateRight);

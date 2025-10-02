@@ -1,18 +1,14 @@
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using Frankie.Saving;
 using Frankie.ZoneManagement;
-using System.Collections.Generic;
 using Frankie.Stats;
 
 namespace Frankie.Core
 {
-    [RequireComponent(typeof(SavingSystem))]
-    public class SavingWrapper : MonoBehaviour
+    public static class SavingWrapper
     {
-        // Tunables
-        [SerializeField] bool deleteSaveFileOnStart = false;
-
         // Constants
         const string defaultSaveFile = "save";
         const string sessionFile = "session";
@@ -59,54 +55,42 @@ namespace Frankie.Core
             PlayerPrefs.SetInt(GetPrefsKey(PrefsKeyType.Level, saveName), level);
         }
 
-        private static void DeletePlayerForSceneLoad()
-        {
-            GameObject playerGameObject = GameObject.FindGameObjectWithTag("Player");
-            if (playerGameObject != null) { Destroy(playerGameObject); } // Player reconstructed after scene load (prevents control lock-up)
-        }
-
         public static void LoadStartScene()
         {
-            DeletePlayerForSceneLoad();
-
-            SceneLoader sceneLoader = GameObject.FindGameObjectWithTag("SceneLoader")?.GetComponent<SceneLoader>();
+            SceneLoader sceneLoader = SceneLoader.FindSceneLoader();
             if (sceneLoader == null) { return; }
 
             sceneLoader.QueueStartScreen();
-            Fader fader = FindAnyObjectByType<Fader>();
+            Fader fader = Fader.FindFader();
             fader?.UpdateFadeStateImmediate();
         }
 
         public static void LoadGameOverScene()
         {
-            DeletePlayerForSceneLoad();
-
-            SceneLoader sceneLoader = GameObject.FindGameObjectWithTag("SceneLoader")?.GetComponent<SceneLoader>();
+            SceneLoader sceneLoader = SceneLoader.FindSceneLoader();
             if (sceneLoader == null) { return; }
 
-            Fader fader = FindAnyObjectByType<Fader>();
+            Fader fader = Fader.FindFader();
             fader?.UpdateFadeState(TransitionType.Zone, sceneLoader.GetGameOverZone());
         }
 
         public static void LoadGameWinScreen()
         {
-            DeletePlayerForSceneLoad();
-
-            SceneLoader sceneLoader = GameObject.FindGameObjectWithTag("SceneLoader")?.GetComponent<SceneLoader>();
+            SceneLoader sceneLoader = SceneLoader.FindSceneLoader();
             if (sceneLoader == null) { return; }
 
-            Fader fader = FindAnyObjectByType<Fader>();
+            Fader fader = Fader.FindFader();
             fader?.UpdateFadeState(TransitionType.Zone, sceneLoader.GetGameWinZone());
         }
         #endregion
 
         #region PublicMethods
-        public IEnumerable<string> ListSaves()
+        public static IEnumerable<string> ListSaves()
         {
-            return GetComponent<SavingSystem>().ListSaves();
+            return SavingSystem.ListSaves();
         }
 
-        public bool HasSave(string matchSave)
+        public static bool HasSave(string matchSave)
         {
             foreach (string saveName in ListSaves())
             {
@@ -118,54 +102,53 @@ namespace Frankie.Core
             return false;
         }
 
-        public void NewGame(string saveName)
+        public static void NewGame(string saveName)
         {
-            DeletePlayerForSceneLoad();
             Delete(sessionFile); // Clear session before load - avoid conflict w/ save system
 
             SetCurrentSave(saveName);
-            SceneLoader sceneLoader = GameObject.FindGameObjectWithTag("SceneLoader")?.GetComponent<SceneLoader>();
+            SceneLoader sceneLoader = SceneLoader.FindSceneLoader();
             if (sceneLoader == null) { return; }
 
             sceneLoader.QueueNewGame();
         }
 
-        public void LoadGame(string saveName)
+        public static void LoadGame(string saveName)
         {
             Delete(sessionFile); // Clear session before load - avoid conflict w/ save system
             SetCurrentSave(saveName);
             Continue();
         }
 
-        public void LoadSession()
+        public static void LoadSession()
         {
-            GetComponent<SavingSystem>().LoadWithinScene(sessionFile);
+            SavingSystem.LoadWithinScene(sessionFile);
         }
 
-        public void Continue()
+        public static void Continue()
         {
             string saveName = GetCurrentSave();
             if (saveName == null) { return; }
 
             string currentSave = GetCurrentSave();
             SetCurrentSave(currentSave);
-            StartCoroutine(LoadFromSave(currentSave));
-            GetComponent<SavingSystem>().CopySaveToSession(saveName, sessionFile);
+            SceneLoader sceneLoader = SceneLoader.FindSceneLoader();
+            sceneLoader.StartCoroutine(LoadFromSave(currentSave));
+            SavingSystem.CopySaveToSession(saveName, sessionFile);
         }
 
-        public void SaveSession()
+        public static void SaveSession()
         {
-            GetComponent<SavingSystem>().Save(sessionFile);
+            SavingSystem.Save(sessionFile);
         }
 
-        public void Save()
+        public static void Save()
         {
             string saveName = GetCurrentSave();
 
-            GameObject playerObject = GameObject.FindGameObjectWithTag("Player");
-            if (playerObject != null)
+            Player player = Player.FindPlayer();
+            if (player != null)
             {
-                Player player = playerObject.GetComponent<Player>();
                 Party party = player.GetComponent<Party>();
                 string characterName = party.GetPartyLeaderName();
                 int level = party.GetPartyLeader().GetLevel();
@@ -173,62 +156,55 @@ namespace Frankie.Core
                 SetSavePrefs(saveName, characterName, level);
             }
 
-            GetComponent<SavingSystem>().CopySessionToSave(sessionFile, saveName);
+            SavingSystem.CopySessionToSave(sessionFile, saveName);
         }
 
-        public void Delete()
+        public static void Delete()
         {
             string currentSave = GetCurrentSave();
-            GetComponent<SavingSystem>().Delete(currentSave);
+            SavingSystem.Delete(currentSave);
         }
 
-        public void Delete(string saveName)
+        public static void Delete(string saveName)
         {
-            GetComponent<SavingSystem>().Delete(saveName);
+            SavingSystem.Delete(saveName);
         }
 
-        public void DeleteSession()
+        public static void DeleteSession()
         {
-            GetComponent<SavingSystem>().Delete(sessionFile);
+            SavingSystem.Delete(sessionFile);
         }
 
-        public void SetSaveToDebug()
+        public static void SetSaveToDebug()
         {
             SetCurrentSave(debugFile);
         }
 
-        public void DeleteDebugSave()
+        public static void DeleteDebugSave()
         {
-            GetComponent<SavingSystem>().Delete(debugFile);
+            SavingSystem.Delete(debugFile);
         }
         #endregion
 
         #region PrivateMethods
-        IEnumerator LoadFromSave(string saveFile)
+        private static IEnumerator LoadFromSave(string saveFile)
         {
-            if (deleteSaveFileOnStart)
-            {
-                Delete();
-                yield break;
-            }
-            DeletePlayerForSceneLoad();
+            yield return SavingSystem.LoadLastScene(saveFile);
 
-            yield return GetComponent<SavingSystem>().LoadLastScene(saveFile);
-
-            SceneLoader sceneLoader = GameObject.FindGameObjectWithTag("SceneLoader")?.GetComponent<SceneLoader>();
+            SceneLoader sceneLoader = SceneLoader.FindSceneLoader();
             if (sceneLoader == null) { yield break; }
             sceneLoader.SetCurrentZoneToCurrentScene();
 
-            Fader fader = FindAnyObjectByType<Fader>();
+            Fader fader = Fader.FindFader();
             fader?.UpdateFadeStateImmediate();
         }
 
-        private void SetCurrentSave(string saveFile)
+        private static void SetCurrentSave(string saveFile)
         {
             PlayerPrefs.SetString(PLAYER_PREFS_CURRENT_SAVE, saveFile);
         }
 
-        private string GetCurrentSave()
+        private static string GetCurrentSave()
         {
             if (!PlayerPrefs.HasKey(PLAYER_PREFS_CURRENT_SAVE)) { return null; }
 
@@ -236,5 +212,4 @@ namespace Frankie.Core
         }
         #endregion
     }
-
 }

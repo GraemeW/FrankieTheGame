@@ -1,9 +1,8 @@
-using Frankie.Core;
-using Frankie.Utils;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Events;
+using Frankie.Core;
+using Frankie.Utils;
 
 namespace Frankie.Control.Specialization
 {
@@ -118,15 +117,8 @@ namespace Frankie.Control.Specialization
 
         private void HandleRideEnd()
         {
-            if (playerStateMachine == null)
-            {
-                GameObject player = GameObject.FindGameObjectWithTag("player");
-                playerStateMachine = player.GetComponent<PlayerStateMachine>();
-            }
-            if (cameraController == null)
-            {
-                cameraController = CameraController.GetCameraController();
-            }
+            if (playerStateMachine == null) { playerStateMachine = Player.FindPlayerStateMachine(); }
+            if (cameraController == null) { CameraController.GetCameraController(); }
 
             npcMover.arrivedAtFinalWaypoint -= HandleRideEnd;
             cameraController.RefreshDefaultCameras();

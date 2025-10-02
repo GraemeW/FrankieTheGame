@@ -1,6 +1,6 @@
+using UnityEngine;
 using Frankie.Saving;
 using Frankie.Utils;
-using UnityEngine;
 
 namespace Frankie.ZoneManagement
 {
@@ -29,6 +29,8 @@ namespace Frankie.ZoneManagement
         #region PublicMethods
         public void ToggleRoom(bool enable, bool roomSetByOtherEntity)
         {
+            UnityEngine.Debug.Log($"Toggling {gameObject.name} room to {enable}");
+
             isRoomActive = enable;
             foreach (Transform child in transform)
             {

@@ -47,5 +47,4 @@ namespace Frankie.ZoneManagement
             return new SceneReference(sceneName);
         }
     }
-
 }

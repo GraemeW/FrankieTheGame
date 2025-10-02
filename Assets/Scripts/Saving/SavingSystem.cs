@@ -9,7 +9,7 @@ using UnityEngine.SceneManagement;
 
 namespace Frankie.Saving
 {
-    public class SavingSystem : MonoBehaviour
+    public static class SavingSystem
     {
         // Constants
         const string SAVE_FILE_EXTENSION = ".sav";
@@ -32,8 +32,8 @@ namespace Frankie.Saving
 
         private static List<SaveableEntity> GetAllSaveableEntities()
         {
-            List<SaveableEntity> saveableEntities = FindObjectsByType<SaveableEntity>(FindObjectsSortMode.None).ToList();
-            foreach (SaveableRoot saveableRoot in FindObjectsByType<SaveableRoot>(FindObjectsSortMode.None)) // Captures inactive game objects
+            List<SaveableEntity> saveableEntities = GameObject.FindObjectsByType<SaveableEntity>(FindObjectsSortMode.None).ToList();
+            foreach (SaveableRoot saveableRoot in GameObject.FindObjectsByType<SaveableRoot>(FindObjectsSortMode.None)) // Captures inactive game objects
             {
                 List<SaveableEntity> rootSaveableEntities = saveableRoot.gameObject.GetComponentsInChildren<SaveableEntity>(true).ToList();
                 List<SaveableEntity> combinedSaveableEntities = saveableEntities.Union(rootSaveableEntities).ToList();
@@ -43,7 +43,7 @@ namespace Frankie.Saving
             return saveableEntities;
         }
 
-        public IEnumerator LoadLastScene(string saveFile)
+        public static IEnumerator LoadLastScene(string saveFile)
         {
             JObject state = LoadFile(saveFile);
             string sceneName = SceneManager.GetActiveScene().name;
@@ -59,39 +59,39 @@ namespace Frankie.Saving
             RestoreState(state);
         }
 
-        public void LoadWithinScene(string saveFile)
+        public static void LoadWithinScene(string saveFile)
         {
             JObject state = LoadFile(saveFile);
             RestoreState(state);
         }
 
-        public void Save(string saveFile)
+        public static void Save(string saveFile)
         {
             JObject state = LoadFile(saveFile);
             CaptureState(state);
             SaveFile(saveFile, state);
         }
 
-        public void CopySessionToSave(string sessionFile, string saveFile)
+        public static void CopySessionToSave(string sessionFile, string saveFile)
         {
             JObject state = LoadFile(sessionFile);
             CaptureState(state);
             SaveFile(saveFile, state);
         }
 
-        public void CopySaveToSession(string saveFile, string sessionFile)
+        public static void CopySaveToSession(string saveFile, string sessionFile)
         {
             JObject state = LoadFile(saveFile);
             CaptureState(state);
             SaveFile(sessionFile, state);
         }
 
-        public void Delete(string saveFile)
+        public static void Delete(string saveFile)
         {
             File.Delete(GetPathFromSaveFile(saveFile));
         }
 
-        public IEnumerable<string> ListSaves()
+        public static IEnumerable<string> ListSaves()
         {
             List<string> saveFiles = Directory.EnumerateFiles(Application.persistentDataPath).ToList();
             foreach (string path in saveFiles)
@@ -103,7 +103,7 @@ namespace Frankie.Saving
             }
         }
 
-        private JObject LoadFile(string saveFile)
+        private static JObject LoadFile(string saveFile)
         {
             string path = GetPathFromSaveFile(saveFile);
             if (!File.Exists(path))
@@ -142,10 +142,10 @@ namespace Frankie.Saving
             }
         }
 
-        private void SaveFile(string saveFile, JObject state)
+        private static void SaveFile(string saveFile, JObject state)
         {
             string path = GetPathFromSaveFile(saveFile);
-            print("Saving to " + path);
+            UnityEngine.Debug.Log($"Saving to {path}");
 
             // Binary Formatter Method
             /*
@@ -175,7 +175,7 @@ namespace Frankie.Saving
             }
         }
 
-        private void CaptureState(JObject state)
+        private static void CaptureState(JObject state)
         {
             List<SaveableEntity> saveableEntities = GetAllSaveableEntities();
 
@@ -187,7 +187,7 @@ namespace Frankie.Saving
             state[SAVE_LAST_SCENE_BUILD_INDEX] = SceneManager.GetActiveScene().name;
         }
 
-        private void RestoreState(JObject state)
+        private static void RestoreState(JObject state)
         {
             // First Pass -- Object instantiation
             List<SaveableEntity> saveableEntities = GetAllSaveableEntities();
@@ -212,7 +212,7 @@ namespace Frankie.Saving
             }
         }
 
-        private string GetPathFromSaveFile(string saveFile)
+        private static string GetPathFromSaveFile(string saveFile)
         {
             return Path.Combine(Application.persistentDataPath, saveFile + ".sav");
         }

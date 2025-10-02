@@ -1,9 +1,9 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using Frankie.Utils;
 using Frankie.Quests;
 using Frankie.Stats;
 using Frankie.Inventory;
-using UnityEngine.SceneManagement;
 using Frankie.Saving;
 
 namespace Frankie.Core
@@ -14,11 +14,8 @@ namespace Frankie.Core
 
         // Cached References
         PlayerInput playerInput = null;
-        GameObject player = null;
-        GameObject saver = null;
 
         // Lazy Values
-        ReInitLazyValue<SavingWrapper> savingWrapper = null;
         ReInitLazyValue<QuestList> questList = null;
         ReInitLazyValue<Party> party = null;
         ReInitLazyValue<Wallet> wallet = null;
@@ -31,10 +28,7 @@ namespace Frankie.Core
         {
             // References
             playerInput = new PlayerInput();
-            player = GameObject.FindGameObjectWithTag("Player");
-            saver = GameObject.FindGameObjectWithTag("Saver");
-            savingWrapper = new ReInitLazyValue<SavingWrapper>(SetupSavingWrapper);
-            questList = new ReInitLazyValue<QuestList>(() => QuestList.GetQuestList(ref player));
+            questList = new ReInitLazyValue<QuestList>(SetupQuestList);
             party = new ReInitLazyValue<Party>(SetupParty);
             wallet = new ReInitLazyValue<Wallet>(SetupWallet);
 
@@ -50,7 +44,6 @@ namespace Frankie.Core
 
         private void Start()
         {
-            savingWrapper.ForceInit();
             questList.ForceInit();
             party.ForceInit();
             wallet.ForceInit();
@@ -73,46 +66,32 @@ namespace Frankie.Core
             playerInput.Admin.Disable();
             SceneManager.sceneLoaded -= ResetReferences;
         }
+
+        private QuestList SetupQuestList() => Player.FindPlayerObject()?.GetComponent<QuestList>();
+        private Party SetupParty() => Player.FindPlayerObject()?.GetComponent<Party>();
+        private Wallet SetupWallet() => Player.FindPlayerObject()?.GetComponent<Wallet>();
         #endregion
 
         #region SavingWrapperDebug
-        private SavingWrapper SetupSavingWrapper()
-        {
-            if (saver == null) { saver = GameObject.FindGameObjectWithTag("Saver"); }
-            return saver.GetComponent<SavingWrapper>();
-        }
-
-        private Party SetupParty()
-        {
-            if (player == null) { player = GameObject.FindGameObjectWithTag("Player"); }
-            return player?.GetComponent<Party>();
-        }
-
-        private Wallet SetupWallet()
-        {
-            if (player == null) { player = GameObject.FindGameObjectWithTag("Player"); }
-            return player?.GetComponent<Wallet>();
-        }
-
         private void Save()
         {
             UnityEngine.Debug.Log($"Frankie Debugger:  Saving Game...");
-            savingWrapper.value.SetSaveToDebug();
-            savingWrapper.value.Save();
+            SavingWrapper.SetSaveToDebug();
+            SavingWrapper.Save();
         }
 
         private void Continue()
         {
             UnityEngine.Debug.Log($"Frankie Debugger:  Loading Game...");
-            savingWrapper.value.Continue();
+            SavingWrapper.Continue();
         }
 
         private void Delete()
         {
             UnityEngine.Debug.Log($"Frankie Debugger:  Deleting Game...");
-            savingWrapper.value.Delete();
-            savingWrapper.value.DeleteSession();
-            savingWrapper.value.DeleteDebugSave();
+            SavingWrapper.Delete();
+            SavingWrapper.DeleteSession();
+            SavingWrapper.DeleteDebugSave();
         }
 
         private void ClearPlayerPrefs()
@@ -126,16 +105,8 @@ namespace Frankie.Core
         private void ResetReferences(Scene scene, LoadSceneMode loadSceneMode)
         {
             // Since Debugger is a persistent object, force reset on scene load
-            questList = null;
-            questList = new ReInitLazyValue<QuestList>(() => QuestList.GetQuestList(ref player));
             questList.ForceInit();
-
-            wallet = null;
-            wallet = new ReInitLazyValue<Wallet>(SetupWallet);
             wallet.ForceInit();
-
-            party = null;
-            party = new ReInitLazyValue<Party>(SetupParty);
             party.ForceInit();
         }
 

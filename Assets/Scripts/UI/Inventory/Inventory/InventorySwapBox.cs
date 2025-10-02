@@ -1,11 +1,11 @@
-using Frankie.Control;
-using Frankie.Stats;
-using Frankie.Speech.UI;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Frankie.Utils;
-using System;
+using Frankie.Control;
+using Frankie.Stats;
+using Frankie.Speech.UI;
 
 namespace Frankie.Inventory.UI
 {
@@ -13,7 +13,7 @@ namespace Frankie.Inventory.UI
     {
         // Tunables
         [Header("Swap Specific Fields")]
-        [Tooltip("Include {0} for item name to swap in & {1} for item name to chuck")] [SerializeField] string messageConfirmThrowOut = "Are you sure you want to pick up {0} and abandon {1}?";
+        [Tooltip("Include {0} for item name to swap in & {1} for item name to chuck")][SerializeField] string messageConfirmThrowOut = "Are you sure you want to pick up {0} and abandon {1}?";
         [SerializeField] string optionSwapItemAffirmative = "Yeah";
         [SerializeField] string optionSwapItemNegative = "Nah";
 
@@ -40,16 +40,20 @@ namespace Frankie.Inventory.UI
             List<ChoiceActionPair> choiceActionPairs = new List<ChoiceActionPair>();
             if (swapSuccessAction != null)
             {
-                choiceActionPairs.Add(new ChoiceActionPair(optionSwapItemAffirmative, () => { 
-                    SwapItem(dialogueOptionBox, true, inventorySlot); 
-                    swapSuccessAction.Invoke(); 
-                    Destroy(gameObject); }));
+                choiceActionPairs.Add(new ChoiceActionPair(optionSwapItemAffirmative, () =>
+                {
+                    SwapItem(dialogueOptionBox, true, inventorySlot);
+                    swapSuccessAction.Invoke();
+                    Destroy(gameObject);
+                }));
             }
             else
             {
-                choiceActionPairs.Add(new ChoiceActionPair(optionSwapItemAffirmative, () => { 
-                    SwapItem(dialogueOptionBox, true, inventorySlot); 
-                    Destroy(gameObject); }));
+                choiceActionPairs.Add(new ChoiceActionPair(optionSwapItemAffirmative, () =>
+                {
+                    SwapItem(dialogueOptionBox, true, inventorySlot);
+                    Destroy(gameObject);
+                }));
             }
             choiceActionPairs.Add(new ChoiceActionPair(optionSwapItemNegative, () => { SwapItem(dialogueOptionBox, false, inventorySlot); }));
             dialogueOptionBox.OverrideChoiceOptions(choiceActionPairs);

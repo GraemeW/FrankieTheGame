@@ -31,7 +31,7 @@ namespace Frankie.Combat.UI
         {
             if (damageTextQueue.Count == 0) { return; }
 
-            if ( timeSinceLastSpawn > minimumTimeBetweenSpawns)
+            if (timeSinceLastSpawn > minimumTimeBetweenSpawns)
             {
                 Spawn(damageTextQueue.Dequeue());
 

@@ -1,10 +1,11 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class WorldCanvas : MonoBehaviour
 {
     [SerializeField] Transform worldOptionsParent = null;
+
+    private static string worldCanvasTag = "WorldCanvas";
+    public static WorldCanvas FindWorldCanvas() => GameObject.FindGameObjectWithTag(worldCanvasTag)?.GetComponent<WorldCanvas>();
 
     public void DestroyExistingWorldOptions()
     {

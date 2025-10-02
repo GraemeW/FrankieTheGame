@@ -1,11 +1,11 @@
-using Frankie.Core;
-using Frankie.Stats;
-using Frankie.Control;
-using Frankie.Utils;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using Frankie.Core;
+using Frankie.Stats;
+using Frankie.Control;
+using Frankie.Utils;
 
 namespace Frankie.Speech
 {
@@ -43,13 +43,15 @@ namespace Frankie.Speech
         public event Action triggerUIUpdates;
         public event Action<DialogueUpdateType, DialogueNode> dialogueUpdated;
 
-        // Static
+        #region Static
+        private static string dialogueControllerTag = "DialogueController";
+        public static DialogueController FindDialogueController() => GameObject.FindGameObjectWithTag(dialogueControllerTag)?.GetComponent<DialogueController>();
         static int choiceNumberThresholdToReconfigureVertical = 3;
         static int choiceLengthThresholdToReconfigureVertical = 10;
         public static int GetChoiceNumberThresholdToReconfigureVertical() => choiceNumberThresholdToReconfigureVertical;
         public static int GetChoiceLengthThresholdToReconfigureVertical() => choiceLengthThresholdToReconfigureVertical;
+        #endregion
 
-        // Interaction
         #region UnityMethods
         private void Awake()
         {

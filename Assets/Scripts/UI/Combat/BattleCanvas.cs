@@ -1,15 +1,16 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
 using System.Linq;
+using UnityEngine;
 using UnityEngine.UI;
-using System;
 using Frankie.Utils.UI;
 using Frankie.Speech.UI;
 using Frankie.Stats;
 using Frankie.Inventory;
 using Frankie.Inventory.UI;
 using Frankie.Utils;
+using Frankie.Core;
 
 namespace Frankie.Combat.UI
 {
@@ -74,11 +75,16 @@ namespace Frankie.Combat.UI
             public List<Tuple<string, int>> statNameValuePairs;
         }
 
+        #region StaticFind
+        private static string battleCanvasTag = "BattleCanvas";
+        public static BattleCanvas FindBattleCanvas() => GameObject.FindGameObjectWithTag(battleCanvasTag)?.GetComponent<BattleCanvas>();
+        #endregion
+
         #region UnityMethods
         private void Awake()
         {
-            partyCombatConduit = GameObject.FindGameObjectWithTag("Player")?.GetComponent<PartyCombatConduit>();
-            battleController = GameObject.FindGameObjectWithTag("BattleController")?.GetComponent<BattleController>();
+            partyCombatConduit = Player.FindPlayerObject()?.GetComponent<PartyCombatConduit>();
+            battleController = BattleController.FindBattleController();
             if (partyCombatConduit == null || battleController == null) { Destroy(gameObject); return; }
 
             battleRewards = battleController.GetBattleRewards();

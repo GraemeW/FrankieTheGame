@@ -1,8 +1,7 @@
-using Frankie.Utils;
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
+using Frankie.Utils;
 
 namespace Frankie.Inventory
 {
@@ -10,12 +9,12 @@ namespace Frankie.Inventory
     {
         // Tunables
         [Header("Item Loot")]
-        [SerializeField] [Range(0, 10)] int minItems = 0;
-        [SerializeField] [Range(0, 10)] int maxItems = 1;
+        [SerializeField][Range(0, 10)] int minItems = 0;
+        [SerializeField][Range(0, 10)] int maxItems = 1;
         [SerializeField] LootEntry<InventoryItem>[] lootEntries = null;
         [Header("Cash Loot")]
-        [SerializeField] [Min(0)] int minCash = 0;
-        [SerializeField] [Min(0)] int maxCash = 10;
+        [SerializeField][Min(0)] int minCash = 0;
+        [SerializeField][Min(0)] int maxCash = 10;
 
         // Static
         static int ABSOLUTE_MAX_LOOT = 10;
@@ -25,7 +24,7 @@ namespace Frankie.Inventory
         public class LootEntry<T> : IObjectProbabilityPair<T> where T : InventoryItem
         {
             [SerializeField] public InventoryItem inventoryItem = null;
-            [SerializeField] [Min(1)] public int probability = 1;
+            [SerializeField][Min(1)] public int probability = 1;
 
             public LootEntry(InventoryItem inventoryItem, int probability)
             {

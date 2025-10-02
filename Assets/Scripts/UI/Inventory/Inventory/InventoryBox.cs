@@ -1,3 +1,8 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using UnityEngine;
+using TMPro;
 using Frankie.Combat;
 using Frankie.Control;
 using Frankie.Utils;
@@ -5,11 +10,6 @@ using Frankie.Utils.UI;
 using Frankie.Speech.UI;
 using Frankie.Combat.UI;
 using Frankie.Stats;
-using System.Collections.Generic;
-using TMPro;
-using UnityEngine;
-using System.Linq;
-using System;
 
 namespace Frankie.Inventory.UI
 {

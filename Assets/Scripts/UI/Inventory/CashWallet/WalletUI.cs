@@ -1,7 +1,6 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using Frankie.Core;
 
 namespace Frankie.Inventory.UI
 {
@@ -43,7 +42,7 @@ namespace Frankie.Inventory.UI
 
         private void SetupWallet()
         {
-            wallet = GameObject.FindGameObjectWithTag("Player")?.GetComponent<Wallet>();
+            wallet = Player.FindPlayerObject()?.GetComponent<Wallet>();
             if (wallet == null) { Destroy(gameObject); }
 
             wallet.walletUpdated += RefreshUI;

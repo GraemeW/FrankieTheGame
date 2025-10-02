@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using Frankie.Stats;
 using Frankie.Control;
@@ -15,6 +13,14 @@ namespace Frankie.Core
         PlayerStateMachine playerStateHandler = null;
         PartyCombatConduit partyCombatConduit = null;
 
+        #region StaticFind
+        private static string playerTag = "Player";
+        public static GameObject FindPlayerObject() => GameObject.FindGameObjectWithTag(playerTag);
+        public static Player FindPlayer() => FindPlayerObject()?.GetComponent<Player>();
+        public static PlayerStateMachine FindPlayerStateMachine() => FindPlayerObject()?.GetComponent<PlayerStateMachine>();
+        #endregion
+
+        #region UnityMethods
         private void Awake()
         {
             VerifySingleton();
@@ -31,7 +37,9 @@ namespace Frankie.Core
         {
             playerStateHandler.playerStateChanged -= HandlePlayerStateChanged;
         }
+        #endregion
 
+        #region PrivateMethods
         private void VerifySingleton()
         {
             // Singleton through standard approach -- do not use persistent object spawner for player
@@ -56,5 +64,6 @@ namespace Frankie.Core
                 SavingWrapper.LoadGameOverScene();
             }
         }
+        #endregion
     }
 }

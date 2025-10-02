@@ -1,9 +1,9 @@
-using Cinemachine;
 using UnityEngine;
+using UnityEngine.Rendering.Universal;
+using Cinemachine;
 using Frankie.Stats;
 using Frankie.Utils;
 using Frankie.Rendering;
-using UnityEngine.Rendering.Universal;
 
 namespace Frankie.Core
 {
@@ -19,7 +19,6 @@ namespace Frankie.Core
         [SerializeField] float defaultIdleOrthoSize = 1.8f;
 
         // Cached References
-        GameObject playerGameObject = null;
         ReInitLazyValue<Player> player;
         ReInitLazyValue<Party> party;
 
@@ -31,10 +30,10 @@ namespace Frankie.Core
         private float currentIdleOrthoSize = 1.8f;
 
         #region Static
-
+        private static string mainCameraTag = "MainCamera";
         public static CameraController GetCameraController()
         {
-            GameObject mainCamera = GameObject.FindGameObjectWithTag("MainCamera");
+            GameObject mainCamera = GameObject.FindGameObjectWithTag(mainCameraTag);
             if (mainCamera == null) { return null; }
             GameObject cameraContainer = mainCamera.transform.parent.gameObject; // Structure of cameras is:  [CameraController (container) -> MainCamera, StateCameras, etc.]
             if (cameraContainer == null) { return null; }
@@ -46,7 +45,7 @@ namespace Frankie.Core
         #region UnityMethods
         private void Awake()
         {
-            player = new ReInitLazyValue<Player>(SetupPlayerReference);
+            player = new ReInitLazyValue<Player>(Player.FindPlayer);
             party = new ReInitLazyValue<Party>(SetupPartyReference);
 
             if (TryGetComponent(out PixelPerfectCamera pixelPerfectCamera))
@@ -98,17 +97,7 @@ namespace Frankie.Core
         #endregion
 
         #region PrivateMethods
-        private Player SetupPlayerReference()
-        {
-            if (playerGameObject == null) { playerGameObject = GameObject.FindGameObjectWithTag("Player"); }
-            return playerGameObject?.GetComponent<Player>();
-        }
-
-        private Party SetupPartyReference()
-        {
-            if (playerGameObject == null) { playerGameObject = GameObject.FindGameObjectWithTag("Player"); }
-            return playerGameObject?.GetComponent<Party>();
-        }
+        private Party SetupPartyReference() => Player.FindPlayerObject()?.GetComponent<Party>();
 
         private void SetUpStateDrivenCamera(Animator animator)
         {

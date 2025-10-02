@@ -1,8 +1,6 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using Frankie.Inventory;
+using Frankie.Control;
 
 namespace Frankie.Stats
 {
@@ -24,23 +22,23 @@ namespace Frankie.Stats
         // Animator Setter Methods
         public void UpdateCharacterAnimation(float xLook, float yLook, float speed)
         {
-            animator.SetFloat("xLook", xLook);
-            animator.SetFloat("yLook", yLook);
-            animator.SetFloat("Speed", speed);
+            Mover.SetAnimatorSpeed(animator, speed);
+            Mover.SetAnimatorxLook(animator, xLook);
+            Mover.SetAnimatoryLook(animator, yLook);
             characterLookUpdated?.Invoke(xLook, yLook);
             characterSpeedUpdated?.Invoke(speed);
         }
 
         public void UpdateCharacterAnimation(float xLook, float yLook)
         {
-            animator.SetFloat("xLook", xLook);
-            animator.SetFloat("yLook", yLook);
+            Mover.SetAnimatorxLook(animator, xLook);
+            Mover.SetAnimatoryLook(animator, yLook);
             characterLookUpdated?.Invoke(xLook, yLook);
         }
 
         public void UpdateCharacterAnimation(float speed)
         {
-            animator.SetFloat("Speed", speed);
+            Mover.SetAnimatorSpeed(animator, speed);
             characterSpeedUpdated?.Invoke(speed);
         }
     }

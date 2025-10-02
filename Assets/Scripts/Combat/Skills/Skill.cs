@@ -1,12 +1,11 @@
-using Frankie.Core;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
-using UnityEditor;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement.AsyncOperations;
+using Frankie.Core;
 
 namespace Frankie.Combat
 {
@@ -56,9 +55,9 @@ namespace Frankie.Combat
         {
             Addressables.Release(addressablesLoadHandle);
         }
-#endregion
+        #endregion
 
-#region PublicMethods
+        #region PublicMethods
         public static string GetSkillNamePretty(string name)
         {
             return Regex.Replace(name, "([a-z])_?([A-Z])", "$1 $2");
@@ -68,9 +67,9 @@ namespace Frankie.Combat
         {
             return stat;
         }
-#endregion
+        #endregion
 
-#region BattleActionUserInterface
+        #region BattleActionUserInterface
         public bool Use(BattleActionData battleActionData, Action finished)
         {
             return battleAction.Use(battleActionData, finished);
@@ -102,6 +101,6 @@ namespace Frankie.Combat
             if (battleAction == null) { return 0f; }
             return battleAction.GetAPCost();
         }
-#endregion
+        #endregion
     }
 }

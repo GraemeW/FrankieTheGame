@@ -1,11 +1,12 @@
-using Frankie.Stats;
-using Frankie.Control;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using Frankie.ZoneManagement;
+using Frankie.Core;
+using Frankie.Stats;
+using Frankie.Control;
 
 namespace Frankie.Combat
 {
@@ -20,7 +21,6 @@ namespace Frankie.Combat
         [SerializeField] int minRowCount = 2;
         [SerializeField] int maxEnemiesPerRow = 7;
         [SerializeField] int minEnemiesBeforeRowSplit = 2;
-
 
         // State
         BattleState battleState = default;
@@ -51,12 +51,16 @@ namespace Frankie.Combat
         public event Action<PlayerInputType> battleInput;
         public event Action<PlayerInputType> globalInput;
 
-        // Interaction
+        #region StaticFind
+        private static string battleControllerTag = "BattleController";
+        public static BattleController FindBattleController() => GameObject.FindGameObjectWithTag(battleControllerTag)?.GetComponent<BattleController>();
+        #endregion
+
         #region UnityMethods
         private void Awake()
         {
             playerInput = new PlayerInput();
-            partyCombatConduit = GameObject.FindGameObjectWithTag("Player")?.GetComponent<PartyCombatConduit>();
+            partyCombatConduit = Player.FindPlayerObject()?.GetComponent<PartyCombatConduit>();
             battleRewards = GetComponent<BattleRewards>();
 
             VerifyUnique();
@@ -122,7 +126,7 @@ namespace Frankie.Combat
         // Setters
         public void QueueCombatInitiation(List<CombatParticipant> enemies, TransitionType transitionType)
         {
-            Fader fader = FindAnyObjectByType<Fader>();
+            Fader fader = Fader.FindFader();
             Action battleControllerInitiateTrigger = () => InitiateBattle(enemies, transitionType);
             fader.QueueInitiateBattleCallback(battleControllerInitiateTrigger);
         }
@@ -504,7 +508,7 @@ namespace Frankie.Combat
 
         private void AddCharacterToCombat(CombatParticipant character, TransitionType transitionType)
         {
-            character.InitializeCooldown(IsBattleAdvantage(true, transitionType));
+            character.InitializeCooldown(true, IsBattleAdvantage(true, transitionType));
 
             BattleEntity characterBattleEntity = new BattleEntity(character);
             activeCharacters.Add(characterBattleEntity);
@@ -515,7 +519,7 @@ namespace Frankie.Combat
 
         private void AddAssistCharacterToCombat(CombatParticipant character, TransitionType transitionType)
         {
-            character.InitializeCooldown(IsBattleAdvantage(true, transitionType));
+            character.InitializeCooldown(false, IsBattleAdvantage(true, transitionType));
 
             BattleEntity assistBattleEntity = new BattleEntity(character, true);
             activeCharacters.Add(assistBattleEntity);
@@ -526,7 +530,7 @@ namespace Frankie.Combat
 
         public void AddEnemyToCombat(CombatParticipant enemy, TransitionType transitionType = TransitionType.BattleNeutral, bool forceCombatActive = false)
         {
-            enemy.InitializeCooldown(IsBattleAdvantage(false, transitionType));
+            enemy.InitializeCooldown(false, IsBattleAdvantage(false, transitionType));
 
             int rowIndex, columnIndex;
             GetEnemyPosition(out rowIndex, out columnIndex);
@@ -607,7 +611,7 @@ namespace Frankie.Combat
                     if (subImposingStat > 0f) { break; } // break early if imposed
                 }
                 imposingStat = subImposingStat < imposingStat ? subImposingStat : imposingStat;
-                    // Within set of enemies, if any enemy is not imposed upon, battle will continue -- take the minimum value
+                // Within set of enemies, if any enemy is not imposed upon, battle will continue -- take the minimum value
 
                 if (imposingStat < 0f) { break; } // break early if not imposed upon
             }

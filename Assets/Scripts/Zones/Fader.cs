@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using Frankie.Core;
 using Frankie.Rendering;
+using Frankie.Utils;
 
 namespace Frankie.ZoneManagement
 {
@@ -27,8 +28,7 @@ namespace Frankie.ZoneManagement
         Action initiateBattleCallback = null;
 
         // Cached References
-        SceneLoader sceneLoader = null;
-        SavingWrapper savingWrapper = null;
+        ReInitLazyValue<SceneLoader> sceneLoader;
         BattleEntryShaderControl battleEntryShaderControl = null;
 
         // Events
@@ -36,16 +36,21 @@ namespace Frankie.ZoneManagement
         public event Action fadingPeak;
         public event Action fadingOut;
 
+        #region StaticFind
+        private static string faderTag = "Fader";
+        public static Fader FindFader() => GameObject.FindGameObjectWithTag(faderTag)?.GetComponent<Fader>();
+        #endregion
+
         #region UnityMethods
         private void Awake()
         {
-            sceneLoader = FindAnyObjectByType<SceneLoader>();
-            savingWrapper = FindAnyObjectByType<SavingWrapper>();
+            sceneLoader = new ReInitLazyValue<SceneLoader>(SceneLoader.FindSceneLoader);
             battleEntryShaderControl = GetComponent<BattleEntryShaderControl>();
         }
 
         private void Start()
         {
+            sceneLoader.ForceInit();
             ResetOverlays();
         }
         #endregion
@@ -135,14 +140,14 @@ namespace Frankie.ZoneManagement
             {
                 yield return QueueFadeEntry(transitionType);
 
-                savingWrapper.SaveSession(); // Save world state
-                yield return sceneLoader.LoadNewSceneAsync(zone);
+                SavingWrapper.SaveSession(); // Save world state
+                yield return sceneLoader.value.LoadNewSceneAsync(zone);
 
-                savingWrapper.LoadSession(); // Load world state
+                SavingWrapper.LoadSession(); // Load world state
                 fadingOut?.Invoke();
 
                 yield return QueueFadeExit(transitionType);
-                savingWrapper.SaveSession();
+                SavingWrapper.SaveSession();
             }
             yield break;
         }

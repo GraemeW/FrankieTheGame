@@ -1,8 +1,6 @@
+using UnityEngine;
 using Frankie.Control;
 using Frankie.Saving;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 
 namespace Frankie.Core
 {
@@ -24,8 +22,8 @@ namespace Frankie.Core
         // Public Methods
         public void ToggleChildrenOnCondition() // Callable via Unity Events
         {
-            GameObject playerObject = GameObject.FindGameObjectWithTag("Player");
-            if (playerObject.TryGetComponent(out PlayerStateMachine playerStateMachine))
+            PlayerStateMachine playerStateMachine = Player.FindPlayerStateMachine();
+            if (playerStateMachine != null)
             {
                 if (condition.Check(playerStateMachine.GetComponents<IPredicateEvaluator>()))
                 {
@@ -64,4 +62,3 @@ namespace Frankie.Core
         }
     }
 }
-

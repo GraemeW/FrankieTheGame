@@ -1,10 +1,8 @@
+using UnityEngine;
 using Frankie.Inventory;
 using Frankie.Saving;
 using Frankie.Stats;
 using Frankie.Utils;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 
 namespace Frankie.Control.Specialization
 {
@@ -13,11 +11,11 @@ namespace Frankie.Control.Specialization
         // Tunables
         [SerializeField] int transactionCash = 10;
         [SerializeField] bool infiniteTransactions = false;
-        [SerializeField] [Tooltip("Ignored if infiniteTransactions set to true")] [Min(1)] int numberTransactions = 1;
-        [SerializeField] [Tooltip("{0} for character name, {1} for cash quantity")] string messageTransactionPositive = "Wow!  Looks like {0} found ${1}.";
-        [SerializeField] [Tooltip("{0} for character name, {1} for cash quantity")] string messageTransactionNegative = "Yikes!  {0} just lost ${1}.";
-        [SerializeField] [Tooltip("{0} for character name")] string messageWalletFull = "Doesn't look like {0} can hold any more cash.";
-        [SerializeField] [Tooltip("{0} for character name")] string messageWalletEmpty = "{0} is already broke, can't get more broke.";
+        [SerializeField][Tooltip("Ignored if infiniteTransactions set to true")][Min(1)] int numberTransactions = 1;
+        [SerializeField][Tooltip("{0} for character name, {1} for cash quantity")] string messageTransactionPositive = "Wow!  Looks like {0} found ${1}.";
+        [SerializeField][Tooltip("{0} for character name, {1} for cash quantity")] string messageTransactionNegative = "Yikes!  {0} just lost ${1}.";
+        [SerializeField][Tooltip("{0} for character name")] string messageWalletFull = "Doesn't look like {0} can hold any more cash.";
+        [SerializeField][Tooltip("{0} for character name")] string messageWalletEmpty = "{0} is already broke, can't get more broke.";
         [SerializeField] bool announceNothing = true;
         [SerializeField] string messageNothing = "Oh, looks like it's NOTHING.";
 

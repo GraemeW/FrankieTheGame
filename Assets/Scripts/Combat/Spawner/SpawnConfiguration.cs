@@ -1,14 +1,14 @@
-using Frankie.Stats;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Frankie.Stats;
 
 namespace Frankie.Combat.Spawner
 {
     [System.Serializable]
     public class SpawnConfiguration
     {
-        [SerializeField] [Tooltip("Will force to not exceed this amount, clips as iterating")] public int maxQuantity = 0;
+        [SerializeField][Tooltip("Will force to not exceed this amount, clips as iterating")] public int maxQuantity = 0;
         [NonReorderable][SerializeField] public EnemyConfiguration[] enemyConfigurations = null;
 
         public static IEnumerable<CharacterProperties> GetEnemies(EnemyConfiguration[] enemyConfigurations, int maxQuantity)

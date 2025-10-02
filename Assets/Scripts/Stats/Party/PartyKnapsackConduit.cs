@@ -1,10 +1,10 @@
-using Frankie.Combat;
-using Frankie.Core;
-using Frankie.Stats;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Frankie.Combat;
+using Frankie.Core;
+using Frankie.Stats;
 
 namespace Frankie.Inventory
 {

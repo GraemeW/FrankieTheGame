@@ -1,9 +1,9 @@
-using Frankie.Core;
-using Frankie.Saving;
-using Frankie.Stats;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Frankie.Core;
+using Frankie.Saving;
+using Frankie.Stats;
 
 namespace Frankie.Control
 {
@@ -12,11 +12,11 @@ namespace Frankie.Control
         // Tunables
         [Header("Hookups")]
         [SerializeField] Transform parentTransformForToggling = null;
-        [SerializeField] [Tooltip("True for enable, false for disable")] bool toggleToConditionMet = true;
+        [SerializeField][Tooltip("True for enable, false for disable")] bool toggleToConditionMet = true;
         [SerializeField] Condition condition = null;
         [Header("Messages")]
-        [SerializeField] [Tooltip("Use {0} for party leader")] string messageOnToggle = "*CLICK* Oh, it looks like {0} got the door open";
-        [SerializeField] [Tooltip("Use {0} for party leader")] string messageOnConditionNotMet = "Huh, it appears to be locked";
+        [SerializeField][Tooltip("Use {0} for party leader")] string messageOnToggle = "*CLICK* Oh, it looks like {0} got the door open";
+        [SerializeField][Tooltip("Use {0} for party leader")] string messageOnConditionNotMet = "Huh, it appears to be locked";
         [SerializeField] string defaultPartyLeaderName = "Frankie";
 
         // Events
@@ -30,7 +30,7 @@ namespace Frankie.Control
         private void Start()
         {
             if (childrenStateSetBySave) { return; }
-                // Ensure correct order of operations (insurance:  nominally save happens before since existing at end of Awake)
+            // Ensure correct order of operations (insurance:  nominally save happens before since existing at end of Awake)
 
             if (parentTransformForToggling != null)
             {

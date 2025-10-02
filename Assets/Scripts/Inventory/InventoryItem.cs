@@ -1,10 +1,10 @@
-using Frankie.Core;
 using System.Collections;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement.AsyncOperations;
+using Frankie.Core;
 
 namespace Frankie.Inventory
 {
@@ -16,9 +16,9 @@ namespace Frankie.Inventory
         [Tooltip("Item name displayed in UI")]
         [SerializeField] string displayName = null;
         [Tooltip("Item description on inspection")]
-        [SerializeField] [TextArea] string description = null;
-        [SerializeField] [Tooltip("Overwritten for Key Items")] protected bool droppable = true;
-        [SerializeField] [Min(0)] int price = 0;
+        [SerializeField][TextArea] string description = null;
+        [SerializeField][Tooltip("Overwritten for Key Items")] protected bool droppable = true;
+        [SerializeField][Min(0)] int price = 0;
 
         // State
         static AsyncOperationHandle<IList<InventoryItem>> addressablesLoadHandle;

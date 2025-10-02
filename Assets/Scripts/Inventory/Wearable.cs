@@ -1,7 +1,8 @@
-using Frankie.Stats;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Frankie.Control;
+using Frankie.Stats;
 
 namespace Frankie.Inventory
 {
@@ -61,19 +62,18 @@ namespace Frankie.Inventory
         }
 
         // Private Methods
-        private void UpdateAnimatorLooks(float xLook, float  yLook)
+        private void UpdateAnimatorLooks(float xLook, float yLook)
         {
             if (animator.runtimeAnimatorController == null) { return; }
 
-            animator.SetFloat("xLook", xLook);
-            animator.SetFloat("yLook", yLook);
+            Mover.SetAnimatorxLook(animator, xLook);
+            Mover.SetAnimatoryLook(animator, yLook);
         }
 
         private void UpdateAnimatorSpeeds(float speed)
         {
             if (animator.runtimeAnimatorController == null) { return; }
-
-            animator.SetFloat("Speed", speed);
+            Mover.SetAnimatorSpeed(animator, speed);
         }
 
         // Interface Methods

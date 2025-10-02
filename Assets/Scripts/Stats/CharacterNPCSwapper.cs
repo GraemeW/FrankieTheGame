@@ -1,7 +1,7 @@
-using Frankie.Control;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using Frankie.Control;
+using Frankie.Core;
+using Frankie.Utils;
 
 namespace Frankie.Stats
 {
@@ -10,17 +10,18 @@ namespace Frankie.Stats
     {
         // Cached References
         BaseStats baseStats = null;
-        Party party = null;
+        ReInitLazyValue<Party> party;
 
         #region UnityMethods
         private void Awake()
         {
             baseStats = GetComponent<BaseStats>();
-            party = GameObject.FindGameObjectWithTag("Player")?.GetComponent<Party>();
+            party = new ReInitLazyValue<Party>(SetupPartyReference);
         }
 
         private void Start()
         {
+            party.ForceInit();
             DeleteNPCIfInParty();
         }
         #endregion
@@ -50,14 +51,15 @@ namespace Frankie.Stats
         #endregion
 
         #region PrivateMethods
+        private Party SetupPartyReference() => Player.FindPlayerObject()?.GetComponent<Party>();
         private void DeleteNPCIfInParty()
         {
-            if (party ==  null) { return; }
+            if (party == null) { return; }
 
             CharacterProperties characterProperties = baseStats.GetCharacterProperties();
             if (characterProperties == null) { return; }
 
-            BaseStats characterInParty = party.GetMember(characterProperties);
+            BaseStats characterInParty = party.value.GetMember(characterProperties);
             if (characterInParty != null && characterInParty != this.baseStats)
             {
                 Destroy(gameObject);

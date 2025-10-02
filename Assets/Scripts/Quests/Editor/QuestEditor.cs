@@ -1,8 +1,5 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
-using UnityEditor.Callbacks;
 
 namespace Frankie.Quests.UIEditor
 {
@@ -21,4 +18,3 @@ namespace Frankie.Quests.UIEditor
         }
     }
 }
-

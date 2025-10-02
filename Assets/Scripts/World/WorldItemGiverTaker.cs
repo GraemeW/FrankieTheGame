@@ -1,10 +1,8 @@
+using UnityEngine;
 using Frankie.Combat;
 using Frankie.Inventory;
 using Frankie.Saving;
 using Frankie.Utils;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 
 namespace Frankie.Control.Specialization
 {

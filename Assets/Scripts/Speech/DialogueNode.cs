@@ -1,9 +1,9 @@
-using Frankie.Core;
-using Frankie.Stats;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
+using Frankie.Core;
+using Frankie.Stats;
 
 namespace Frankie.Speech
 {
@@ -17,7 +17,7 @@ namespace Frankie.Speech
         [SerializeField] string text = "";
         [SerializeField] List<string> children = new List<string>();
         [SerializeField] Rect rect = new Rect(30, 30, 400, 200);
-        [HideInInspector] [SerializeField] Rect draggingRect = new Rect(0, 0, 400, 45);
+        [HideInInspector][SerializeField] Rect draggingRect = new Rect(0, 0, 400, 45);
         [Header("Additional Properties")]
         [SerializeField] Condition condition = null;
 

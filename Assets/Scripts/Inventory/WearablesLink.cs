@@ -1,8 +1,8 @@
-using Frankie.Saving;
-using Frankie.Stats;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Frankie.Saving;
+using Frankie.Stats;
 
 namespace Frankie.Inventory
 {

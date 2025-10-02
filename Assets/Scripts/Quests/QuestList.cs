@@ -1,14 +1,15 @@
-using Frankie.Core;
-using Frankie.Inventory;
-using Frankie.Saving;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using Frankie.Core;
+using Frankie.Inventory;
+using Frankie.Saving;
 
 namespace Frankie.Quests
 {
+    [RequireComponent(typeof(PartyKnapsackConduit))]
     public class QuestList : MonoBehaviour, IPredicateEvaluator, ISaveable
     {
         // Tunables
@@ -19,12 +20,6 @@ namespace Frankie.Quests
 
         // Events
         public event Action questListUpdated;
-
-        public static QuestList GetQuestList(ref GameObject player)
-        {
-            player = GameObject.FindGameObjectWithTag("Player");
-            return player?.GetComponent<QuestList>();
-        }
 
         #region UnityMethods
         private void Awake()
@@ -101,7 +96,7 @@ namespace Frankie.Quests
 
             List<Reward> rewards = quest.GetRewards();
             if (rewards.Count > partyKnapsackConduit.GetNumberOfFreeSlotsInParty()) { return false; }
-            
+
             foreach (Reward reward in quest.GetRewards())
             {
                 partyKnapsackConduit.AddToFirstEmptyPartySlot(reward.item);

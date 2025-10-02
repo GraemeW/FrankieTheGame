@@ -1,31 +1,34 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using Frankie.Core;
+using Frankie.Utils;
 
 namespace Frankie.Control
 {
     public class PlayerStateOverrideToCutscene : MonoBehaviour
     {
         // Cached Reference
-        PlayerStateMachine playerStateMachine = null;
+        ReInitLazyValue<PlayerStateMachine> playerStateMachine;
 
-    private void OnEnable()
+        #region UnityMethods
+        private void Awake()
         {
-            GameObject player = GameObject.FindGameObjectWithTag("Player");
-            if (player.TryGetComponent(out PlayerStateMachine playerStateMachine))
-            {
-                this.playerStateMachine = playerStateMachine;
-                playerStateMachine.EnterCutscene();
+            playerStateMachine = new ReInitLazyValue<PlayerStateMachine>(Player.FindPlayerStateMachine);
+        }
 
-            }
+        private void Start()
+        {
+            playerStateMachine.ForceInit();
+        }
+
+        private void OnEnable()
+        {
+            playerStateMachine.value?.EnterCutscene();
         }
 
         private void OnDisable()
         {
-            if (playerStateMachine == null) { return; }
-
-            playerStateMachine.EnterWorld();
+            playerStateMachine.value?.EnterWorld();
         }
+        #endregion
     }
-
 }

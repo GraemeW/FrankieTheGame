@@ -1,12 +1,12 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using UnityEngine;
+using TMPro;
 using Frankie.Control;
 using Frankie.Speech.UI;
 using Frankie.Stats;
 using Frankie.Utils.UI;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using TMPro;
-using UnityEngine;
 
 namespace Frankie.Combat.UI
 {
@@ -20,8 +20,8 @@ namespace Frankie.Combat.UI
         [Header("Prefabs")]
         [SerializeField] DialogueBox dialogueBoxPrefab = null;
         [Header("Messages")]
-        [Tooltip("Include {0} for user, {1} for skill, {2} for target")] [SerializeField] string messageUseSkillInWorld = "{0} used {1} on {2}.";
-        [Tooltip("Include {0} for user, {1} for item, {2} for target")] [SerializeField] string messageNotEnoughAP = "Not enough AP.";
+        [Tooltip("Include {0} for user, {1} for skill, {2} for target")][SerializeField] string messageUseSkillInWorld = "{0} used {1} on {2}.";
+        [Tooltip("Include {0} for user, {1} for item, {2} for target")][SerializeField] string messageNotEnoughAP = "Not enough AP.";
 
         // State -- UI
         List<BattleEntity> partyBattleEntities = null;
@@ -41,7 +41,7 @@ namespace Frankie.Combat.UI
         #region UnityMethods
         // Revert to standard UIBox implementations
         protected override void Awake() { }
-        protected override void OnEnable() { SubscribeCharacterSlides(true); StandardOnEnable();  }
+        protected override void OnEnable() { SubscribeCharacterSlides(true); StandardOnEnable(); }
         protected override void OnDisable() { SubscribeCharacterSlides(false); StandardOnDisable(); }
         #endregion
 

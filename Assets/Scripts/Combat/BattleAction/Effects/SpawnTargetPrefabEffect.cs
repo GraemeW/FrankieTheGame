@@ -1,9 +1,9 @@
-using Frankie.Combat.UI;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using Frankie.Combat.UI;
 
 namespace Frankie.Combat
 {
@@ -12,11 +12,11 @@ namespace Frankie.Combat
     {
         [SerializeField] Image graphicToSpawn = null;
         [SerializeField] bool isGlobalEffect = false;
-        [SerializeField] [Tooltip("Set to min to never destroy")] [Min(0f)] float destroyAfterSeconds = 2.0f;
+        [SerializeField][Tooltip("Set to min to never destroy")][Min(0f)] float destroyAfterSeconds = 2.0f;
 
         public override void StartEffect(CombatParticipant sender, IEnumerable<BattleEntity> recipients, DamageType damageType, Action<EffectStrategy> finished)
         {
-            BattleCanvas battleCanvas = GameObject.FindGameObjectWithTag("BattleCanvas")?.GetComponent<BattleCanvas>();
+            BattleCanvas battleCanvas = BattleCanvas.FindBattleCanvas();
             if (battleCanvas == null) { return; }
 
             foreach (Vector3 position in GetPositions(recipients, battleCanvas))

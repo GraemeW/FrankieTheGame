@@ -1,7 +1,7 @@
-using Frankie.Saving;
-using Frankie.Utils;
 using System;
 using UnityEngine;
+using Frankie.Saving;
+using Frankie.Utils;
 
 namespace Frankie.Inventory
 {
@@ -40,7 +40,7 @@ namespace Frankie.Inventory
         {
             return cash.value >= value;
         }
-        
+
         public bool IsWalletFull()
         {
             return cash.value >= maxCash;

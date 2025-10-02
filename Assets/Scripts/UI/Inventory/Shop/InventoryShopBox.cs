@@ -1,11 +1,11 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
 using Frankie.Combat;
 using Frankie.Control;
 using Frankie.Speech.UI;
 using Frankie.Stats;
 using Frankie.Utils;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 
 namespace Frankie.Inventory.UI
 {
@@ -32,7 +32,7 @@ namespace Frankie.Inventory.UI
 
         #region Initialization
         // Buy-specific
-        public void Setup(IStandardPlayerInputCaller standardPlayerInputCaller, PartyCombatConduit partyCombatConduit, Shopper shopper, ShopBox shopBox, InventoryItem buyItem, string messageNoSpace) 
+        public void Setup(IStandardPlayerInputCaller standardPlayerInputCaller, PartyCombatConduit partyCombatConduit, Shopper shopper, ShopBox shopBox, InventoryItem buyItem, string messageNoSpace)
         {
             transactionType = ShopType.Buy;
 

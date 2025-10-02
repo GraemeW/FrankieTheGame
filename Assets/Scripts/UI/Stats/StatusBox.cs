@@ -1,10 +1,8 @@
-using Frankie.Combat;
-using Frankie.Utils.UI;
-using System.Collections;
-using System.Collections.Generic;
+using System;
 using UnityEngine;
 using TMPro;
-using System;
+using Frankie.Combat;
+using Frankie.Utils.UI;
 
 namespace Frankie.Stats.UI
 {

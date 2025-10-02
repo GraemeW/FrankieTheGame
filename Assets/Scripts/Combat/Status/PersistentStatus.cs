@@ -1,7 +1,8 @@
-using Frankie.Control;
-using Frankie.Stats;
 using System;
 using UnityEngine;
+using Frankie.Control;
+using Frankie.Core;
+using Frankie.Stats;
 
 namespace Frankie.Combat
 {
@@ -18,7 +19,7 @@ namespace Frankie.Combat
 
         // Cached References
         CombatParticipant combatParticipant = null;
-        protected PlayerStateMachine playerStateHandler = null;
+        protected PlayerStateMachine playerStateMachine = null;
 
         // Events
         public event Action persistentStatusTimedOut;
@@ -38,7 +39,7 @@ namespace Frankie.Combat
         {
             combatParticipant.SubscribeToStateUpdates(HandleCombatState);
 
-            if (playerStateHandler != null) { playerStateHandler.playerStateChanged += HandlePlayerState; }
+            if (playerStateMachine != null) { playerStateMachine.playerStateChanged += HandlePlayerState; }
             if (BattleEventBus.inBattle) { BattleEventBus<BattleStateChangedEvent>.SubscribeToEvent(HandleBattleState); }
         }
 
@@ -46,7 +47,7 @@ namespace Frankie.Combat
         {
             combatParticipant.UnsubscribeToStateUpdates(HandleCombatState);
 
-            if (playerStateHandler != null) { playerStateHandler.playerStateChanged -= HandlePlayerState; }
+            if (playerStateMachine != null) { playerStateMachine.playerStateChanged -= HandlePlayerState; }
             BattleEventBus<BattleStateChangedEvent>.UnsubscribeFromEvent(HandleBattleState);
         }
 
@@ -73,8 +74,8 @@ namespace Frankie.Combat
 
         protected void SyncToPlayerStateHandler()
         {
-            playerStateHandler = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerStateMachine>();
-            playerStateHandler.playerStateChanged += HandlePlayerState;
+            playerStateMachine = Player.FindPlayerStateMachine();
+            playerStateMachine.playerStateChanged += HandlePlayerState;
         }
 
         protected void SyncToBattleController()

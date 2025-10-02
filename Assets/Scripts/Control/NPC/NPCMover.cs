@@ -132,9 +132,9 @@ namespace Frankie.Control
             // Safety on accessing controller properties before setup complete (OnEnable calls)
             if (animator.runtimeAnimatorController == null) { return; }
 
-            animator.SetFloat("Speed", currentSpeed);
-            animator.SetFloat("xLook", lookDirection.x);
-            animator.SetFloat("yLook", lookDirection.y);
+            SetAnimatorSpeed(animator, currentSpeed);
+            SetAnimatorxLook(animator, lookDirection.x);
+            SetAnimatoryLook(animator, lookDirection.y);
         }
         #endregion
 

@@ -1,8 +1,8 @@
 using System;
 using System.Collections.Generic;
-using UnityEngine;
 using System.Collections;
 using System.Linq;
+using UnityEngine;
 using UnityEngine.SceneManagement;
 using Frankie.Control.PlayerStates;
 using Frankie.Combat;
@@ -147,7 +147,7 @@ namespace Frankie.Control
         #region SettersGetters
         private void UpdateReferencesForNewScene(Scene scene, LoadSceneMode loadSceneMode)
         {
-            worldCanvas = GameObject.FindGameObjectWithTag("WorldCanvas")?.GetComponent<WorldCanvas>();
+            worldCanvas = WorldCanvas.FindWorldCanvas();
         }
 
         void IPlayerStateContext.SetPlayerState(IPlayerState playerState)
@@ -158,12 +158,12 @@ namespace Frankie.Control
             currentPlayerState = playerState;
             playerStateChanged?.Invoke(playerStateType);
 
-            readyToPopQueue = playerStateType == PlayerStateType.inWorld; 
-                // Pop on update to prevent same-frame multi-state change
-                // Otherwise can experience bugs with controller spawning while deconstructing conflicting w/ singleton logic
+            readyToPopQueue = playerStateType == PlayerStateType.inWorld;
+            // Pop on update to prevent same-frame multi-state change
+            // Otherwise can experience bugs with controller spawning while deconstructing conflicting w/ singleton logic
 
             if (playerStateType == PlayerStateType.inTransition && InBattleEntryTransition()) { ChainQueuedCombatAction(); }
-                // Required to allow swarm / multi-battle entry on same-frame
+            // Required to allow swarm / multi-battle entry on same-frame
         }
 
         public void SetPostDialogueCallbackActions(InteractionEvent interactionEvent)
@@ -343,7 +343,7 @@ namespace Frankie.Control
         {
             if (battleController == null)
             {
-                BattleController existingBattleController = GameObject.FindGameObjectWithTag("BattleController")?.GetComponent<BattleController>();
+                BattleController existingBattleController = BattleController.FindBattleController();
                 if (existingBattleController == null)
                 {
                     battleController = Instantiate(battleControllerPrefab);
@@ -358,7 +358,7 @@ namespace Frankie.Control
 
         public bool StartBattleSequence()
         {
-            Fader fader = FindAnyObjectByType<Fader>();
+            Fader fader = Fader.FindFader();
             if (fader == null || fader.IsFading() == true) { return false; } // Safety against missing fader
             if (fader.IsFading() == true) { return true; } // Safety against multiple fading routines
 
@@ -373,7 +373,7 @@ namespace Frankie.Control
 
         public bool EndBattleSequence()
         {
-            Fader fader = FindAnyObjectByType<Fader>();
+            Fader fader = Fader.FindFader();
             if (fader == null || fader.IsFading() == true) { return false; } // Safety against missing fader
             if (fader.IsFading() == true) { return true; } // Safety against multiple fading routines
 
@@ -423,7 +423,7 @@ namespace Frankie.Control
         {
             if (dialogueController == null)
             {
-                DialogueController existingDialogueController = GameObject.FindGameObjectWithTag("DialogueController")?.GetComponent<DialogueController>();
+                DialogueController existingDialogueController = DialogueController.FindDialogueController();
                 if (existingDialogueController == null)
                 {
                     dialogueController = Instantiate(dialogueControllerPrefab);

@@ -1,9 +1,7 @@
-using Frankie.Combat;
-using Frankie.Speech;
-using Frankie.Utils;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Frankie.Utils;
 
 namespace Frankie.Control
 {

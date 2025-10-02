@@ -9,7 +9,7 @@ namespace Frankie.Combat
     [CreateAssetMenu(fileName = "New DoT Effect", menuName = "BattleAction/Effects/DoT Effect")]
     public class HealthOverTimeEffect : EffectStrategy
     {
-        [SerializeField] [Range(0, 1)] float fractionProbabilityToApply = 0.5f;
+        [SerializeField][Range(0, 1)] float fractionProbabilityToApply = 0.5f;
         [SerializeField] float duration = 10f;
         [SerializeField] float tickPeriod = 3f;
         [SerializeField] float healthChangePerTick = -10f;

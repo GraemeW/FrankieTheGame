@@ -1,3 +1,7 @@
+using UnityEngine;
+using System.Collections.Generic;
+using Frankie.ZoneManagement.UI;
+using Frankie.Core;
 using Frankie.Combat;
 using Frankie.Stats;
 using Frankie.Utils.UI;
@@ -5,9 +9,6 @@ using Frankie.Combat.UI;
 using Frankie.Stats.UI;
 using Frankie.Inventory.UI;
 using Frankie.Control;
-using UnityEngine;
-using System.Collections.Generic;
-using Frankie.ZoneManagement.UI;
 
 namespace Frankie.Menu.UI
 {
@@ -31,19 +32,19 @@ namespace Frankie.Menu.UI
         GameObject childOption = null;
 
         // Cached References
-        PlayerStateMachine playerStateHandler = null;
+        PlayerStateMachine playerStateMachine = null;
         PlayerController playerController = null;
         WorldCanvas worldCanvas = null;
         PartyCombatConduit partyCombatConduit = null;
         
         private void Awake()
         {
-            worldCanvas = GameObject.FindGameObjectWithTag("WorldCanvas")?.GetComponent<WorldCanvas>();
-            playerStateHandler = GameObject.FindGameObjectWithTag("Player")?.GetComponent<PlayerStateMachine>();
-            if (worldCanvas == null || playerStateHandler == null) { Destroy(gameObject); }
+            worldCanvas = WorldCanvas.FindWorldCanvas();
+            playerStateMachine = Player.FindPlayerStateMachine();
+            if (worldCanvas == null || playerStateMachine == null) { Destroy(gameObject); }
 
-            playerController = playerStateHandler?.GetComponent<PlayerController>();
-            partyCombatConduit = playerStateHandler?.GetComponent<PartyCombatConduit>();
+            playerController = playerStateMachine?.GetComponent<PlayerController>();
+            partyCombatConduit = playerStateMachine?.GetComponent<PartyCombatConduit>();
         }
 
         private void Start()
@@ -89,7 +90,7 @@ namespace Frankie.Menu.UI
                 Destroy(childCharacterPanel.gameObject);
             }
             if (walletUI != null) { Destroy(walletUI.gameObject); }
-            playerStateHandler?.EnterWorld();
+            playerStateMachine?.EnterWorld();
         }
 
         public override bool HandleGlobalInput(PlayerInputType playerInputType)

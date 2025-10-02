@@ -1,7 +1,5 @@
-using Frankie.Quests;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using Frankie.Quests;
 
 namespace Frankie.Inventory
 {
@@ -9,7 +7,7 @@ namespace Frankie.Inventory
     public class KeyItem : InventoryItem
     {
         [SerializeField] QuestObjective[] questObjectives = new QuestObjective[0];
-        
+
         private void Awake()
         {
             droppable = false;

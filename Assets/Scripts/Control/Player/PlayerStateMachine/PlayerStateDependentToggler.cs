@@ -1,45 +1,42 @@
-using Frankie.Utils;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Frankie.Core;
+using Frankie.Utils;
 
 namespace Frankie.Control
 {
     public class PlayerStateDependentToggler : MonoBehaviour
     {
         // Tunables
-        [SerializeField] [Tooltip("Default behavior is disable for all other states")] List<PlayerStateType> playerStateForEnable = new List<PlayerStateType>();
+        [SerializeField][Tooltip("Default behavior is disable for all other states")] List<PlayerStateType> playerStateForEnable = new List<PlayerStateType>();
 
         // Cached References
-        GameObject player = null;
-        ReInitLazyValue<PlayerStateMachine> playerStateHandler = null;
+        ReInitLazyValue<PlayerStateMachine> playerStateMachine = null;
 
+        #region UnityMethods
         private void Awake()
         {
-            playerStateHandler = new ReInitLazyValue<PlayerStateMachine>(SetupPlayerStateHandler);
+            playerStateMachine = new ReInitLazyValue<PlayerStateMachine>(Player.FindPlayerStateMachine);
         }
 
         private void Start()
         {
-            playerStateHandler.ForceInit();
+            playerStateMachine.ForceInit();
         }
 
         private void OnEnable()
         {
-            playerStateHandler.value.playerStateChanged += HandlePlayerStateChanged;
+            playerStateMachine.value.playerStateChanged += HandlePlayerStateChanged;
         }
 
         private void OnDisable()
         {
-            playerStateHandler.value.playerStateChanged -= HandlePlayerStateChanged;
+            playerStateMachine.value.playerStateChanged -= HandlePlayerStateChanged;
         }
+        #endregion
 
-        private PlayerStateMachine SetupPlayerStateHandler()
-        {
-            if (player == null) { player = GameObject.FindGameObjectWithTag("Player"); }
-            return player?.GetComponent<PlayerStateMachine>();
-        }
-
+        #region PrivateMethods
         private void HandlePlayerStateChanged(PlayerStateType playerState)
         {
             if (playerStateForEnable == null || playerStateForEnable.Count == 0) { return; }
@@ -59,5 +56,6 @@ namespace Frankie.Control
                 }
             }
         }
+        #endregion
     }
 }

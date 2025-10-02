@@ -1,9 +1,7 @@
-using Frankie.Utils.UI;
-using System.Collections;
-using System.Collections.Generic;
-using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
+using TMPro;
+using Frankie.Utils.UI;
 
 namespace Frankie.Inventory.UI
 {
@@ -21,5 +19,4 @@ namespace Frankie.Inventory.UI
             AddOnClickListener(purchaseAction);
         }
     }
-
 }

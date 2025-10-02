@@ -2,7 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
-using System;
 using Frankie.Core;
 
 namespace Frankie.ZoneManagement
@@ -15,8 +14,8 @@ namespace Frankie.ZoneManagement
         [SerializeField] Zone linkedZone = null;
         [SerializeField] ZoneNode linkedZoneNode = null;
         [SerializeField] Rect rect = new Rect(30, 30, 430, 150);
-        [HideInInspector] [SerializeField] string zoneName = null;
-        [HideInInspector] [SerializeField] Rect draggingRect = new Rect(0, 0, 430, 45);
+        [HideInInspector][SerializeField] string zoneName = null;
+        [HideInInspector][SerializeField] Rect draggingRect = new Rect(0, 0, 430, 45);
         [Header("Additional Properties")]
         [SerializeField] Condition condition = null;
 
@@ -139,5 +138,4 @@ namespace Frankie.ZoneManagement
         }
 #endif
     }
-
 }

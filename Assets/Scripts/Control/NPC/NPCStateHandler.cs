@@ -1,12 +1,12 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using Frankie.ZoneManagement;
 using Frankie.Stats;
 using Frankie.Combat;
-using System;
 using Frankie.Speech;
 using Frankie.Utils;
-using System.Linq;
+using Frankie.Core;
 
 namespace Frankie.Control
 {
@@ -16,7 +16,7 @@ namespace Frankie.Control
         [SerializeField] bool willForceCombat = false;
         [SerializeField] bool willDestroyIfInvisible = false;
         [Min(0)][Tooltip("in seconds")][SerializeField] float delayToDestroyAfterInvisible = 2f;
-        [Tooltip("Include {0} for enemy name")] [SerializeField] string messageCannotFight = "{0} is wounded and cannot fight.";
+        [Tooltip("Include {0} for enemy name")][SerializeField] string messageCannotFight = "{0} is wounded and cannot fight.";
 
         // State
         NPCStateType npcState = NPCStateType.idle;
@@ -29,7 +29,7 @@ namespace Frankie.Control
         SpriteVisibilityAnnouncer spriteVisibilityAnnouncer;
         CombatParticipant combatParticipant = null;
         GameObject player = null;
-        ReInitLazyValue<PlayerStateMachine> playerStateHandler;
+        ReInitLazyValue<PlayerStateMachine> playerStateMachine;
         ReInitLazyValue<PlayerController> playerController;
 
         // Events
@@ -43,32 +43,32 @@ namespace Frankie.Control
             spriteVisibilityAnnouncer = GetComponentInChildren<SpriteVisibilityAnnouncer>();
 
             // Cached
-            player = GameObject.FindGameObjectWithTag("Player");
-            playerStateHandler = new ReInitLazyValue<PlayerStateMachine>(SetupPlayerStateHandler);
+            player = Player.FindPlayerObject();
+            playerStateMachine = new ReInitLazyValue<PlayerStateMachine>(SetupPlayerStateMachine);
             playerController = new ReInitLazyValue<PlayerController>(SetupPlayerController);
         }
 
         private void Start()
         {
-            playerStateHandler.ForceInit();
+            playerStateMachine.ForceInit();
             playerController.ForceInit();
         }
 
-        private PlayerStateMachine SetupPlayerStateHandler()
+        private PlayerStateMachine SetupPlayerStateMachine()
         {
-            if (player == null) { player = GameObject.FindGameObjectWithTag("Player"); }
+            if (player == null) { player = Player.FindPlayerObject(); }
             return player?.GetComponent<PlayerStateMachine>();
         }
 
         private PlayerController SetupPlayerController()
         {
-            if (player == null) { player = GameObject.FindGameObjectWithTag("Player"); }
+            if (player == null) { Player.FindPlayerObject(); }
             return player?.GetComponent<PlayerController>();
         }
 
         private void OnEnable()
         {
-            playerStateHandler.value.playerStateChanged += ParsePlayerStateChange;
+            playerStateMachine.value.playerStateChanged += ParsePlayerStateChange;
             if (combatParticipant != null) { combatParticipant.SubscribeToStateUpdates(HandleNPCCombatStateChange); }
             if (spriteVisibilityAnnouncer != null) { spriteVisibilityAnnouncer.spriteVisibilityStatus += HandleSpriteVisibility; }
             SetNPCState(NPCStateType.idle);
@@ -76,7 +76,7 @@ namespace Frankie.Control
 
         private void OnDisable()
         {
-            playerStateHandler.value.playerStateChanged -= ParsePlayerStateChange;
+            playerStateMachine.value.playerStateChanged -= ParsePlayerStateChange;
             if (combatParticipant != null) { combatParticipant.UnsubscribeToStateUpdates(HandleNPCCombatStateChange); }
             if (spriteVisibilityAnnouncer != null) { spriteVisibilityAnnouncer.spriteVisibilityStatus -= HandleSpriteVisibility; }
         }
@@ -126,17 +126,17 @@ namespace Frankie.Control
 
         public void InitiateCombat(TransitionType transitionType) // called via Unity Event
         {
-            InitiateCombat(playerStateHandler.value, transitionType);
+            InitiateCombat(playerStateMachine.value, transitionType);
         }
 
         public void InitiateCombat(TransitionType transitionType, List<NPCStateHandler> npcMob) // Aggro, not callable via Unity Events
         {
-            InitiateCombat(playerStateHandler.value, transitionType, npcMob);
+            InitiateCombat(playerStateMachine.value, transitionType, npcMob);
         }
 
         public void InitiateDialogue(TransitionType transitionType) // called via Unity Event
         {
-            InitiateDialogue(playerStateHandler.value);
+            InitiateDialogue(playerStateMachine.value);
         }
 
         public void ForceNPCOccupied()
@@ -151,7 +151,7 @@ namespace Frankie.Control
             bool isNPCAfraid = false;
             if (npcState == NPCStateType.aggravated || npcState == NPCStateType.suspicious)
             {
-                Party party = playerStateHandler.value.GetParty();
+                Party party = playerStateMachine.value.GetParty();
                 if (party == null) { return; }
 
                 if (party.TryGetComponent(out PartyCombatConduit partyCombatConduit))
@@ -260,11 +260,11 @@ namespace Frankie.Control
                     SetNPCState(NPCStateType.occupied);
                     break;
                 case PlayerStateType.inTransition:
-                    if (playerStateHandler.value.InZoneTransition())
+                    if (playerStateMachine.value.InZoneTransition())
                     {
                         SetNPCState(NPCStateType.occupied);
                     }
-                    else if (playerStateHandler.value.InBattleExitTransition())
+                    else if (playerStateMachine.value.InBattleExitTransition())
                     {
                         SetNPCState(NPCStateType.idle);
                         SetNPCState(NPCStateType.occupied);

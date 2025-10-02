@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Audio;
 using Frankie.Saving;
-using Frankie.Control;
 using Frankie.Combat;
 using Frankie.ZoneManagement;
 
@@ -30,8 +29,11 @@ namespace Frankie.Sound
         // Cached References
         AudioSource audioSource = null;
 
-        // Static Variables
+        #region Static
         private static string MIXER_VOLUME_REFERENCE = "masterVolume";
+        private static string backgroundMusicTag = "BackgroundMusic";
+        public static BackgroundMusic FindBackgroundMusic() => GameObject.FindGameObjectWithTag(backgroundMusicTag)?.GetComponent<BackgroundMusic>();
+        #endregion
 
         #region UnityMethods
         private void Awake()

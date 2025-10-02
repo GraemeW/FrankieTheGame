@@ -28,8 +28,8 @@ namespace Frankie.Combat.UI
         #region VirtualMethods
         protected virtual void Awake()
         {
-            controller = GameObject.FindGameObjectWithTag("BattleController")?.GetComponent<BattleController>();
-            battleController = controller as BattleController;
+            battleController = BattleController.FindBattleController();
+            controller = battleController;
         }
 
         protected override void OnEnable()

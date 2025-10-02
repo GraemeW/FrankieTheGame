@@ -3,9 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using Frankie.Control;
-using System;
 using Frankie.Utils.UI;
-using Frankie.Utils;
 
 namespace Frankie.Speech.UI
 {
@@ -50,8 +48,8 @@ namespace Frankie.Speech.UI
         #region StandardMethods
         protected virtual void Awake()
         {
-            controller = GameObject.FindGameObjectWithTag("DialogueController")?.GetComponent<DialogueController>();
-            if (controller != null) { dialogueController = controller as DialogueController; }
+            dialogueController = DialogueController.FindDialogueController();
+            controller = dialogueController;
 
             StoreOptionPanelConfigurables();
         }

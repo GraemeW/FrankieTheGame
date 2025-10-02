@@ -7,7 +7,8 @@ namespace Frankie.Core
     [System.Serializable]
     public class Condition
     {
-        [NonReorderable][SerializeField]
+        [NonReorderable]
+        [SerializeField]
         Disjunction[] and;
 
         public bool Check(IEnumerable<IPredicateEvaluator> evaluators)
@@ -25,7 +26,8 @@ namespace Frankie.Core
         [System.Serializable]
         class Disjunction
         {
-            [NonReorderable][SerializeField]
+            [NonReorderable]
+            [SerializeField]
             PredicateWrapper[] or;
 
             public bool Check(IEnumerable<IPredicateEvaluator> evaluators)

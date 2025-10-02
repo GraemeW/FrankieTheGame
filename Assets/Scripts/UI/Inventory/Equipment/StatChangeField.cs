@@ -1,8 +1,6 @@
-using Frankie.Stats;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using Frankie.Stats;
 
 namespace Frankie.Inventory.UI
 {
