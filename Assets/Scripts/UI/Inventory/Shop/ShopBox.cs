@@ -1,8 +1,6 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using Frankie.Utils.UI;
 using TMPro;
+using Frankie.Utils.UI;
 using Frankie.Control;
 using Frankie.Stats;
 using Frankie.Speech.UI;

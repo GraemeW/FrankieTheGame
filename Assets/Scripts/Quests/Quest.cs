@@ -1,12 +1,10 @@
-using Frankie.Core;
-using Frankie.ZoneManagement;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement.AsyncOperations;
+using Frankie.Core;
 
 namespace Frankie.Quests
 {
@@ -154,7 +152,7 @@ namespace Frankie.Quests
         private HashSet<QuestObjective> UniquifyObjectives()
         {
             HashSet<QuestObjective> objectiveMap = new HashSet<QuestObjective>();
-            foreach(QuestObjective questObjective in questObjectives)
+            foreach (QuestObjective questObjective in questObjectives)
             {
                 objectiveMap.Add(questObjective);
             }

@@ -1,13 +1,13 @@
-using Frankie.Combat;
-using Frankie.Core;
-using Frankie.Quests;
-using Frankie.Saving;
-using Frankie.Utils;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using Frankie.Combat;
+using Frankie.Core;
+using Frankie.Quests;
+using Frankie.Saving;
+using Frankie.Utils;
 
 namespace Frankie.Inventory
 {
@@ -47,7 +47,7 @@ namespace Frankie.Inventory
         private void OnEnable()
         {
             knapsackUpdated += CompleteObjective;
-            equipment.equipmentUpdated += HandleEquipmentUpdated; 
+            equipment.equipmentUpdated += HandleEquipmentUpdated;
         }
 
         private void OnDisable()
@@ -271,7 +271,7 @@ namespace Frankie.Inventory
             BattleActionData battleActionData = new BattleActionData(character);
             battleActionData.SetTargets(battleEntities);
             actionItem.Use(battleActionData, null);
-                // Note:  item removal handled via ActionItem
+            // Note:  item removal handled via ActionItem
             return true;
         }
 

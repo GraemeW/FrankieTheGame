@@ -1,3 +1,7 @@
+using UnityEngine;
+using System.Collections.Generic;
+using Frankie.ZoneManagement.UI;
+using Frankie.Core;
 using Frankie.Combat;
 using Frankie.Stats;
 using Frankie.Utils.UI;
@@ -5,10 +9,6 @@ using Frankie.Combat.UI;
 using Frankie.Stats.UI;
 using Frankie.Inventory.UI;
 using Frankie.Control;
-using UnityEngine;
-using System.Collections.Generic;
-using Frankie.ZoneManagement.UI;
-using Frankie.Core;
 
 namespace Frankie.Menu.UI
 {

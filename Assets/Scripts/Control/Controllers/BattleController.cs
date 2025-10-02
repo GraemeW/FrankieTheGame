@@ -1,5 +1,3 @@
-using Frankie.Stats;
-using Frankie.Control;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -7,6 +5,8 @@ using System.Linq;
 using UnityEngine;
 using Frankie.ZoneManagement;
 using Frankie.Core;
+using Frankie.Stats;
+using Frankie.Control;
 
 namespace Frankie.Combat
 {
@@ -611,7 +611,7 @@ namespace Frankie.Combat
                     if (subImposingStat > 0f) { break; } // break early if imposed
                 }
                 imposingStat = subImposingStat < imposingStat ? subImposingStat : imposingStat;
-                    // Within set of enemies, if any enemy is not imposed upon, battle will continue -- take the minimum value
+                // Within set of enemies, if any enemy is not imposed upon, battle will continue -- take the minimum value
 
                 if (imposingStat < 0f) { break; } // break early if not imposed upon
             }

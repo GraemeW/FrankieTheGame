@@ -1,8 +1,8 @@
 using System;
 using System.Collections.Generic;
-using UnityEngine;
 using System.Collections;
 using System.Linq;
+using UnityEngine;
 using UnityEngine.SceneManagement;
 using Frankie.Control.PlayerStates;
 using Frankie.Combat;
@@ -158,12 +158,12 @@ namespace Frankie.Control
             currentPlayerState = playerState;
             playerStateChanged?.Invoke(playerStateType);
 
-            readyToPopQueue = playerStateType == PlayerStateType.inWorld; 
-                // Pop on update to prevent same-frame multi-state change
-                // Otherwise can experience bugs with controller spawning while deconstructing conflicting w/ singleton logic
+            readyToPopQueue = playerStateType == PlayerStateType.inWorld;
+            // Pop on update to prevent same-frame multi-state change
+            // Otherwise can experience bugs with controller spawning while deconstructing conflicting w/ singleton logic
 
             if (playerStateType == PlayerStateType.inTransition && InBattleEntryTransition()) { ChainQueuedCombatAction(); }
-                // Required to allow swarm / multi-battle entry on same-frame
+            // Required to allow swarm / multi-battle entry on same-frame
         }
 
         public void SetPostDialogueCallbackActions(InteractionEvent interactionEvent)

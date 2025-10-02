@@ -1,9 +1,9 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using Frankie.Utils;
 using Frankie.Quests;
 using Frankie.Stats;
 using Frankie.Inventory;
-using UnityEngine.SceneManagement;
 using Frankie.Saving;
 
 namespace Frankie.Core

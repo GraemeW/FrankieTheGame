@@ -1,12 +1,10 @@
-using Frankie.Core;
-using Frankie.Inventory;
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement.AsyncOperations;
+using Frankie.Core;
 
 namespace Frankie.Combat
 {

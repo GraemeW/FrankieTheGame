@@ -1,10 +1,8 @@
-using Frankie.Combat;
-using Frankie.Stats;
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
+using Frankie.Combat;
 
 namespace Frankie.Inventory
 {
@@ -35,7 +33,7 @@ namespace Frankie.Inventory
             return true;
         }
 
-        public void GetTargets(bool? traverseForward, BattleActionData battleActionData, 
+        public void GetTargets(bool? traverseForward, BattleActionData battleActionData,
             IEnumerable<BattleEntity> activeCharacters, IEnumerable<BattleEntity> activeEnemies)
         {
             if (battleAction == null) { return; }

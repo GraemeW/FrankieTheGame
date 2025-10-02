@@ -1,8 +1,8 @@
+using System;
+using UnityEngine;
 using Frankie.Control;
 using Frankie.Core;
 using Frankie.Stats;
-using System;
-using UnityEngine;
 
 namespace Frankie.Combat
 {

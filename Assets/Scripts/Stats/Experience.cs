@@ -1,8 +1,6 @@
 using UnityEngine;
 using Frankie.Utils;
-using System;
 using Frankie.Saving;
-using System.Collections.Generic;
 
 namespace Frankie.Stats
 {

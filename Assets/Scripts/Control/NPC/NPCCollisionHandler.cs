@@ -1,11 +1,10 @@
-using Frankie.Combat;
-using Frankie.ZoneManagement;
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.Events;
+using Frankie.Combat;
+using Frankie.ZoneManagement;
 
 namespace Frankie.Control
 {
@@ -63,8 +62,8 @@ namespace Frankie.Control
 
         private void HandleNPCStateChange(NPCStateType npcStateType, bool isNPCAfraid)
         {
-            if (disableCollisionEventsWhenDead && 
-                combatParticipant != null && combatParticipant.IsDead()) { collisionsActive = false;  return; } // NPC death supercedes collision behavior
+            if (disableCollisionEventsWhenDead &&
+                combatParticipant != null && combatParticipant.IsDead()) { collisionsActive = false; return; } // NPC death supercedes collision behavior
 
             switch (npcStateType)
             {

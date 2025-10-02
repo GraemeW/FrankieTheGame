@@ -1,8 +1,6 @@
+using UnityEngine;
 using Frankie.Combat;
 using Frankie.Speech.UI;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 
 public class CombatMessages : MonoBehaviour
 {

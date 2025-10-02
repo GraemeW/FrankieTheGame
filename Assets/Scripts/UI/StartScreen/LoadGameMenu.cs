@@ -1,9 +1,9 @@
+using UnityEngine;
+using System.Collections.Generic;
 using Frankie.Core;
 using Frankie.Utils;
 using Frankie.Utils.UI;
 using Frankie.Speech.UI;
-using UnityEngine;
-using System.Collections.Generic;
 
 namespace Frankie.Menu.UI
 {

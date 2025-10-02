@@ -1,5 +1,3 @@
-using UnityEngine;
-
 namespace Frankie.Rendering
 {
     [System.Serializable]

@@ -1,9 +1,9 @@
-using Frankie.Utils.UI;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using Frankie.Utils.UI;
 
 namespace Frankie.Combat.UI
 {
@@ -19,12 +19,12 @@ namespace Frankie.Combat.UI
         [SerializeField] float delayBetweenCharactersNoNewMessage = 0.25f;
         [SerializeField] SimpleTextLink textLink = null;
         [Header("Messages")]
-        [Tooltip("Include {0} for name, {1} for points")] [SerializeField] string messageIncreaseHP = "{0} restored {1} HP.";
-        [Tooltip("Include {0} for name, {1} for points")] [SerializeField] string messageDecreaseHP = "{0} was hit for {1} points.";
-        [Tooltip("Include {0} for name, {1} for points")] [SerializeField] string messageIncreaseAP = "{0} restored {1} HP.";
-        [Tooltip("Include {0} for name, {1} for points")] [SerializeField] string messageDecreaseAP = "{0} was drained for {1} AP.";
-        [Tooltip("Include {0} for name")] [SerializeField] string messageDead = "{0} was knocked unconcious.";
-        [Tooltip("Include {0} for name")] [SerializeField] string messageResurrected = "{0} gained the will to fight again.";
+        [Tooltip("Include {0} for name, {1} for points")][SerializeField] string messageIncreaseHP = "{0} restored {1} HP.";
+        [Tooltip("Include {0} for name, {1} for points")][SerializeField] string messageDecreaseHP = "{0} was hit for {1} points.";
+        [Tooltip("Include {0} for name, {1} for points")][SerializeField] string messageIncreaseAP = "{0} restored {1} HP.";
+        [Tooltip("Include {0} for name, {1} for points")][SerializeField] string messageDecreaseAP = "{0} was drained for {1} AP.";
+        [Tooltip("Include {0} for name")][SerializeField] string messageDead = "{0} was knocked unconcious.";
+        [Tooltip("Include {0} for name")][SerializeField] string messageResurrected = "{0} gained the will to fight again.";
 
         // State
         float combatLogDelay = 0f;

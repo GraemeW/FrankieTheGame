@@ -1,5 +1,5 @@
-using Frankie.Core;
 using UnityEngine;
+using Frankie.Core;
 
 namespace Frankie.Control.Specialization
 {

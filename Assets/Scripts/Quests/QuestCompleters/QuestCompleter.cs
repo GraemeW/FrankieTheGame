@@ -1,6 +1,6 @@
+using UnityEngine;
 using Frankie.Core;
 using Frankie.Utils;
-using UnityEngine;
 
 namespace Frankie.Quests
 {

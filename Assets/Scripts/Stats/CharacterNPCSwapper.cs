@@ -1,7 +1,7 @@
+using UnityEngine;
 using Frankie.Control;
 using Frankie.Core;
 using Frankie.Utils;
-using UnityEngine;
 
 namespace Frankie.Stats
 {

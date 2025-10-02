@@ -1,7 +1,7 @@
-using Frankie.Combat;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Frankie.Combat;
 
 namespace Frankie.Stats
 {
@@ -98,7 +98,7 @@ namespace Frankie.Stats
 
         private void SubscribeToLeaderStatusUpdates(bool enable)
         {
-            if (combatParticipantCache.Count == 0) { return; } 
+            if (combatParticipantCache.Count == 0) { return; }
             CombatParticipant partyLeader = combatParticipantCache[0];
             if (partyLeader == null) { return; }
 

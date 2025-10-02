@@ -1,8 +1,6 @@
-using Frankie.Utils.UI;
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using Frankie.Utils.UI;
 
 namespace Frankie.Inventory.UI
 {

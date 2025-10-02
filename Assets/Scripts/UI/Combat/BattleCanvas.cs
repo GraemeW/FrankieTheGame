@@ -1,9 +1,9 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
 using System.Linq;
+using UnityEngine;
 using UnityEngine.UI;
-using System;
 using Frankie.Utils.UI;
 using Frankie.Speech.UI;
 using Frankie.Stats;

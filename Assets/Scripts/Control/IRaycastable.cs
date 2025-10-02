@@ -1,5 +1,3 @@
-using Frankie.Core;
-
 namespace Frankie.Control
 {
     public interface IRaycastable

@@ -1,9 +1,8 @@
-using Frankie.Stats;
-using Frankie.Utils;
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Frankie.Stats;
+using Frankie.Utils;
 
 namespace Frankie.Control
 {
@@ -40,7 +39,7 @@ namespace Frankie.Control
             if (unremovableCharacters != null)
             {
                 CharacterProperties selectedCharacter = character.GetCharacterProperties();
-                foreach(CharacterProperties unremovableCharacter in unremovableCharacters)
+                foreach (CharacterProperties unremovableCharacter in unremovableCharacters)
                 {
                     // Check via name comparison for compatibility with addressables system
                     if (selectedCharacter.GetCharacterNameID() == unremovableCharacter.GetCharacterNameID())

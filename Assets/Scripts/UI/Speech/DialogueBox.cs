@@ -3,9 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using Frankie.Control;
-using System;
 using Frankie.Utils.UI;
-using Frankie.Utils;
 
 namespace Frankie.Speech.UI
 {

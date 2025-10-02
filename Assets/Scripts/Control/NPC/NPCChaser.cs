@@ -1,7 +1,7 @@
-using Frankie.Utils;
 using System;
 using System.Linq;
 using UnityEngine;
+using Frankie.Utils;
 
 namespace Frankie.Control
 {
@@ -17,9 +17,9 @@ namespace Frankie.Control
         [SerializeField] float suspicionTime = 3.0f;
         [Header("Shout Parameters")]
         [SerializeField] bool willShout = false;
-        [Tooltip("Must be true to be shouted at, regardless of group")] [SerializeField] bool canBeShoutedAt = true;
-        [Tooltip("From interaction center point of NPC")] [SerializeField] float shoutDistance = 2.0f;
-        [Tooltip("Set to nothing to aggro everything shoutable")] [SerializeField] NPCChaser[] shoutGroup = null;
+        [Tooltip("Must be true to be shouted at, regardless of group")][SerializeField] bool canBeShoutedAt = true;
+        [Tooltip("From interaction center point of NPC")][SerializeField] float shoutDistance = 2.0f;
+        [Tooltip("Set to nothing to aggro everything shoutable")][SerializeField] NPCChaser[] shoutGroup = null;
 
         // State
         float timeSinceLastSawPlayer = Mathf.Infinity;

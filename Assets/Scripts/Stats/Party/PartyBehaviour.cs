@@ -1,9 +1,9 @@
-using Frankie.Control;
-using Frankie.Utils;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Frankie.Control;
+using Frankie.Utils;
 
 namespace Frankie.Stats
 {

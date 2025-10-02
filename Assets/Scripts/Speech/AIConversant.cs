@@ -1,7 +1,6 @@
+using UnityEngine;
 using Frankie.Control;
 using Frankie.Core;
-using System;
-using UnityEngine;
 
 namespace Frankie.Speech
 {

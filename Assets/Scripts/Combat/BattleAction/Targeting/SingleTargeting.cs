@@ -1,6 +1,5 @@
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 
 namespace Frankie.Combat
@@ -8,7 +7,7 @@ namespace Frankie.Combat
     [CreateAssetMenu(fileName = "New Single Targeting", menuName = "BattleAction/Targeting/Single Target")]
     public class SingleTargeting : TargetingStrategy
     {
-        public override void GetTargets(bool? traverseForward, BattleActionData battleActionData, 
+        public override void GetTargets(bool? traverseForward, BattleActionData battleActionData,
             IEnumerable<BattleEntity> activeCharacters, IEnumerable<BattleEntity> activeEnemies)
         {
             // Collapse target list to single target -- pull first if available
@@ -34,7 +33,7 @@ namespace Frankie.Combat
                 {
                     battleActionData.ClearTargets();
                 }
-                return; 
+                return;
             }
 
             // Finally iterate through to find next targets
@@ -69,7 +68,7 @@ namespace Frankie.Combat
             battleActionData.SetTargets(battleActionData.GetFirst());
         }
 
-        protected override List<BattleEntity> GetBattleEntitiesByTypeTemplate(CombatParticipantType combatParticipantType, 
+        protected override List<BattleEntity> GetBattleEntitiesByTypeTemplate(CombatParticipantType combatParticipantType,
             IEnumerable<BattleEntity> activeCharacters, IEnumerable<BattleEntity> activeEnemies)
         {
             // Not evaluated -> TargetingStrategyExtension

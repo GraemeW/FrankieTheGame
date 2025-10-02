@@ -1,7 +1,7 @@
-using Frankie.Saving;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Frankie.Saving;
 
 namespace Frankie.Sound
 {
@@ -69,7 +69,7 @@ namespace Frankie.Sound
 
             BackgroundMusic backgroundMusic = BackgroundMusic.FindBackgroundMusic();
             if (backgroundMusic == null) { return; }
-            
+
             if (enable)
             {
                 backgroundMusic.OverrideMusic(audioClip, calledInRestore);

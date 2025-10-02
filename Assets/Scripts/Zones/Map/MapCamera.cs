@@ -1,8 +1,4 @@
-using Frankie.Utils;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using Cinemachine;
 using Frankie.Core;
 
 namespace Frankie.ZoneManagement

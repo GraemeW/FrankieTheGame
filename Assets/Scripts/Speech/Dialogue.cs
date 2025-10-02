@@ -17,16 +17,16 @@ namespace Frankie.Speech
         [SerializeField] int nodeHeight = 225;
 
         // State
-        [HideInInspector] [SerializeField] List<CharacterProperties> activeNPCs = null;
-        [HideInInspector] [SerializeField] List<DialogueNode> dialogueNodes = new List<DialogueNode>();
-        [HideInInspector] [SerializeField] Dictionary<string, DialogueNode> nodeLookup = new Dictionary<string, DialogueNode>();
+        [HideInInspector][SerializeField] List<CharacterProperties> activeNPCs = null;
+        [HideInInspector][SerializeField] List<DialogueNode> dialogueNodes = new List<DialogueNode>();
+        [HideInInspector][SerializeField] Dictionary<string, DialogueNode> nodeLookup = new Dictionary<string, DialogueNode>();
 
         private void Awake()
         {
 #if UNITY_EDITOR
             //CreateRootNodeIfMissing();
-                // Note:  Making in DialogueEditor due to some intricacies in how Unity calls Awake on ScriptableObjects in Editor vs. the serialization callback
-                // For (unknown) reasons, the root node gets made and then killed by the time serialization occurs
+            // Note:  Making in DialogueEditor due to some intricacies in how Unity calls Awake on ScriptableObjects in Editor vs. the serialization callback
+            // For (unknown) reasons, the root node gets made and then killed by the time serialization occurs
 #endif
         }
 
@@ -38,7 +38,7 @@ namespace Frankie.Speech
             if (dialogueNodes == null) { return; }
             foreach (DialogueNode dialogueNode in dialogueNodes)
             {
-                if (dialogueNode == null) { break;} // Safety against error throw on first initialization
+                if (dialogueNode == null) { break; } // Safety against error throw on first initialization
                 nodeLookup.Add(dialogueNode.name, dialogueNode);
                 if (dialogueNode.GetCharacterProperties() != null && !activeNPCs.Contains(dialogueNode.GetCharacterProperties()))
                 {
@@ -99,8 +99,8 @@ namespace Frankie.Speech
                 SpeakerType speakerType = dialogueNode.GetSpeakerType();
                 if (speakerType == SpeakerType.playerSpeaker && IsPlayerNameOverrideable(playerName)) { dialogueNode.SetSpeakerName(playerName); }
                 else if (speakerType == SpeakerType.aiSpeaker && IsSpeakerNameOverrideable(speakerType, dialogueNode))
-                { 
-                    dialogueNode.SetSpeakerName(CharacterProperties.GetStaticCharacterNamePretty(dialogueNode.GetCharacterName())); 
+                {
+                    dialogueNode.SetSpeakerName(CharacterProperties.GetStaticCharacterNamePretty(dialogueNode.GetCharacterName()));
                 }
             }
         }
@@ -113,10 +113,10 @@ namespace Frankie.Speech
         private bool IsSpeakerNameOverrideable(SpeakerType speakerType, DialogueNode dialogueNode)
         {
 
-            if (speakerType == SpeakerType.aiSpeaker) 
-            { 
-                return (dialogueNode.GetCharacterName() != default 
-                    && !string.IsNullOrWhiteSpace(CharacterProperties.GetStaticCharacterNamePretty(dialogueNode.GetCharacterName()))); 
+            if (speakerType == SpeakerType.aiSpeaker)
+            {
+                return (dialogueNode.GetCharacterName() != default
+                    && !string.IsNullOrWhiteSpace(CharacterProperties.GetStaticCharacterNamePretty(dialogueNode.GetCharacterName())));
             }
             return false;
         }
@@ -240,7 +240,7 @@ namespace Frankie.Speech
 #endif
         }
 
-        void ISerializationCallbackReceiver.OnAfterDeserialize() 
+        void ISerializationCallbackReceiver.OnAfterDeserialize()
         {
             // Unused, required for interface
         }

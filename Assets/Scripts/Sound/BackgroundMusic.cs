@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Audio;
 using Frankie.Saving;
-using Frankie.Control;
 using Frankie.Combat;
 using Frankie.ZoneManagement;
 

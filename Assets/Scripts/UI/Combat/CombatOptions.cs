@@ -1,10 +1,10 @@
+using System;
+using UnityEngine;
+using Frankie.Control;
 using Frankie.Stats;
 using Frankie.Utils.UI;
 using Frankie.Stats.UI;
 using Frankie.Inventory.UI;
-using UnityEngine;
-using Frankie.Control;
-using System;
 
 namespace Frankie.Combat.UI
 {

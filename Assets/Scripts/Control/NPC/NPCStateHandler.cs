@@ -1,12 +1,11 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using Frankie.ZoneManagement;
 using Frankie.Stats;
 using Frankie.Combat;
-using System;
 using Frankie.Speech;
 using Frankie.Utils;
-using System.Linq;
 using Frankie.Core;
 
 namespace Frankie.Control
@@ -17,7 +16,7 @@ namespace Frankie.Control
         [SerializeField] bool willForceCombat = false;
         [SerializeField] bool willDestroyIfInvisible = false;
         [Min(0)][Tooltip("in seconds")][SerializeField] float delayToDestroyAfterInvisible = 2f;
-        [Tooltip("Include {0} for enemy name")] [SerializeField] string messageCannotFight = "{0} is wounded and cannot fight.";
+        [Tooltip("Include {0} for enemy name")][SerializeField] string messageCannotFight = "{0} is wounded and cannot fight.";
 
         // State
         NPCStateType npcState = NPCStateType.idle;
@@ -63,7 +62,7 @@ namespace Frankie.Control
 
         private PlayerController SetupPlayerController()
         {
-            if (player == null) { Player.FindPlayerObject();}
+            if (player == null) { Player.FindPlayerObject(); }
             return player?.GetComponent<PlayerController>();
         }
 

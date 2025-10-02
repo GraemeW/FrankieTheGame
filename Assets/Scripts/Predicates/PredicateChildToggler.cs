@@ -1,8 +1,6 @@
+using UnityEngine;
 using Frankie.Control;
 using Frankie.Saving;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 
 namespace Frankie.Core
 {

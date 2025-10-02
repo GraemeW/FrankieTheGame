@@ -1,11 +1,9 @@
+using UnityEngine;
 using Frankie.Combat;
 using Frankie.Inventory;
 using Frankie.Quests;
 using Frankie.Stats;
 using Frankie.ZoneManagement;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 
 namespace Frankie.Core
 {

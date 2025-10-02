@@ -1,8 +1,8 @@
-using Frankie.Control;
-using Frankie.Stats;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Frankie.Control;
+using Frankie.Stats;
 
 namespace Frankie.Inventory
 {
@@ -62,7 +62,7 @@ namespace Frankie.Inventory
         }
 
         // Private Methods
-        private void UpdateAnimatorLooks(float xLook, float  yLook)
+        private void UpdateAnimatorLooks(float xLook, float yLook)
         {
             if (animator.runtimeAnimatorController == null) { return; }
 

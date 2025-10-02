@@ -9,7 +9,7 @@ namespace Frankie.Combat
     public class APEffect : EffectStrategy
     {
         [SerializeField] float apChange = 0f;
-        [Tooltip("Additional variability on base AP change")] [SerializeField] [Min(0f)] float jitter = 0f;
+        [Tooltip("Additional variability on base AP change")][SerializeField][Min(0f)] float jitter = 0f;
 
         public override void StartEffect(CombatParticipant sender, IEnumerable<BattleEntity> recipients, DamageType damageType, Action<EffectStrategy> finished)
         {

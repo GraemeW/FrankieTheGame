@@ -1,7 +1,5 @@
-using Frankie.Quests;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using Frankie.Quests;
 
 namespace Frankie.Core
 {

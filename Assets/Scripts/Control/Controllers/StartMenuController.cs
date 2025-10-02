@@ -1,7 +1,6 @@
-using Frankie.Menu.UI;
 using System;
 using UnityEngine;
-using Frankie.Core;
+using Frankie.Menu.UI;
 
 namespace Frankie.Control
 {

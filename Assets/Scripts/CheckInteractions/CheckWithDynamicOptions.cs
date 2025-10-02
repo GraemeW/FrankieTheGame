@@ -1,8 +1,7 @@
-using Frankie.Utils;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Events;
+using Frankie.Utils;
 
 namespace Frankie.Control
 {
@@ -34,4 +33,3 @@ namespace Frankie.Control
         }
     }
 }
-

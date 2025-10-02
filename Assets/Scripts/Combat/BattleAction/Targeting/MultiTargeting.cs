@@ -9,9 +9,9 @@ namespace Frankie.Combat
     public class MultiTargeting : TargetingStrategy
     {
         [SerializeField] bool overrideToHitEverything = false;
-        [SerializeField] [Min(0)] int numberOfEnemiesToHit = 2;
+        [SerializeField][Min(0)] int numberOfEnemiesToHit = 2;
 
-        public override void GetTargets(bool? traverseForward, BattleActionData battleActionData, 
+        public override void GetTargets(bool? traverseForward, BattleActionData battleActionData,
             IEnumerable<BattleEntity> activeCharacters, IEnumerable<BattleEntity> activeEnemies)
         {
             // Collapse target list to expected number to hit
@@ -32,7 +32,7 @@ namespace Frankie.Combat
             battleActionData.SetTargets(this.GetCombatParticipantsByType(combatParticipantType, activeCharacters, activeEnemies));
             FilterTargets(battleActionData, filterStrategies);
             if (battleActionData.targetCount == 0) { return; }
-            
+
             if (overrideToHitEverything) // Return immediately after filtering -- whole set, no need to iterate
             {
                 return;
@@ -54,7 +54,7 @@ namespace Frankie.Combat
             }
             else
             {
-                shiftedTargets = GetShiftedTargets(battleActionData, oldIndexTarget).ToList(); 
+                shiftedTargets = GetShiftedTargets(battleActionData, oldIndexTarget).ToList();
             }
             battleActionData.SetTargets(shiftedTargets);
         }
@@ -69,7 +69,7 @@ namespace Frankie.Combat
                 if (!indexFound)
                 {
                     if (battleEntity == oldIndexTarget)
-                    { 
+                    {
                         indexFound = true;
                         if (doNotShift)
                         {

@@ -1,9 +1,6 @@
-using System.Collections;
-using System.Collections.Generic;
+using System;
 using UnityEngine;
 using TMPro;
-using UnityEngine.UI;
-using System;
 using Frankie.Utils.UI;
 
 namespace Frankie.Menu.UI

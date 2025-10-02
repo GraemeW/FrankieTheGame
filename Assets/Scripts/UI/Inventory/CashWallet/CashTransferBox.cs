@@ -1,11 +1,9 @@
-using Frankie.Control;
-using Frankie.Utils.UI;
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using Frankie.Core;
+using Frankie.Control;
+using Frankie.Utils.UI;
 
 namespace Frankie.Inventory.UI
 {
@@ -112,11 +110,11 @@ namespace Frankie.Inventory.UI
                 Destroy(gameObject);
             }
         }
-        
+
         private void InitializeButtons(int amountAvailable, Action actionOnConfirm)
         {
             SetCashTransferState(CashTransferState.CashSelection);
-            foreach(UIChoice choiceOption in choiceOptions)
+            foreach (UIChoice choiceOption in choiceOptions)
             {
                 UIChoiceButton choiceButton = choiceOption as UIChoiceButton;
                 if (choiceButton == null) { continue; }
@@ -178,7 +176,7 @@ namespace Frankie.Inventory.UI
             {
                 choiceOptions.Clear();
                 choiceOptions.AddRange(new[] { hundredMillionField, tenMillionField, millionField,
-                    hundredThousandField, tenThousandField, thousandField, 
+                    hundredThousandField, tenThousandField, thousandField,
                     hundredField, tenField, oneField });
             }
             ShowCursorOnAnyInteraction(PlayerInputType.NavigateRight);

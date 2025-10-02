@@ -1,6 +1,3 @@
-using Frankie.Inventory;
-using System.Collections.Generic;
-
 namespace Frankie.Combat
 {
     public struct BattleSequence

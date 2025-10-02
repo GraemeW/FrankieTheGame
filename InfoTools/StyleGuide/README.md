@@ -26,6 +26,7 @@
 
 ### Class Organization
 
+* Includes must appear at the top of the file, in the order of:  1. System/Newtonsoft includes, 2. Unity includes, 3. Frankie includes
 * Classes must be placed in their relevant namespace
   * following `Frankie.namespace` formatting, or `Frankie.namespace.UI` for UI components
   * , where namespace refers to the specific relevant namespace (e.g. `Frankie.Control`, `Frankie.Speech`, etc.)
@@ -35,7 +36,7 @@
   3. State Variables
   4. Cached References
   5. Events
-* Class methods should be grouped together in a logic order using `#region` and `#endregion` directives
+* Class methods should be grouped together in a logical order using `#region` and `#endregion` directives
 * Unity's built-in MonoBehaviour methods (`Awake()`, `Start()`, `Update()`, etc.) should be placed at the top of the class, just below the class properties
 
 ### Parameters (Tunables)

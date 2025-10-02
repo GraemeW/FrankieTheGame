@@ -1,7 +1,5 @@
-using Frankie.Utils;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using Frankie.Utils;
 
 namespace Frankie.Combat.Spawner
 {
@@ -9,7 +7,7 @@ namespace Frankie.Combat.Spawner
     public class SpawnConfigurationProbabilityPair<T> : IObjectProbabilityPair<T> where T : SpawnConfiguration
     {
         [SerializeField] public SpawnConfiguration spawnConfiguration;
-        [SerializeField] [Min(0)] public int probability;
+        [SerializeField][Min(0)] public int probability;
 
         public SpawnConfigurationProbabilityPair(SpawnConfiguration spawnConfiguration, int probability)
         {

@@ -1,5 +1,3 @@
-using System;
-
 namespace Frankie.Combat
 {
     public class BattleEntity

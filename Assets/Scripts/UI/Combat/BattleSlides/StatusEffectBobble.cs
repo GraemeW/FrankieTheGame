@@ -1,6 +1,4 @@
 using Frankie.Stats;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace Frankie.Combat.UI
@@ -109,4 +107,3 @@ namespace Frankie.Combat.UI
         }
     }
 }
-

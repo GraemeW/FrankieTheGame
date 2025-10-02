@@ -1,6 +1,6 @@
-using Frankie.ZoneManagement;
 using System;
 using UnityEngine;
+using Frankie.ZoneManagement;
 
 namespace Frankie.Control
 {

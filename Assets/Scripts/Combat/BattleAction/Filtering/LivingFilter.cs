@@ -2,7 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-
 namespace Frankie.Combat
 {
     [CreateAssetMenu(fileName = "New Living Filtering", menuName = "BattleAction/Filters/Living")]

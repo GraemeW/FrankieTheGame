@@ -1,8 +1,8 @@
-using Frankie.Control;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
+using Frankie.Control;
 
 namespace Frankie.Inventory
 {

@@ -1,9 +1,9 @@
-using Cinemachine;
 using UnityEngine;
+using UnityEngine.Rendering.Universal;
+using Cinemachine;
 using Frankie.Stats;
 using Frankie.Utils;
 using Frankie.Rendering;
-using UnityEngine.Rendering.Universal;
 
 namespace Frankie.Core
 {

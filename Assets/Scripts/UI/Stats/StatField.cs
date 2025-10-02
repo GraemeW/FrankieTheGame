@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 
@@ -22,7 +20,7 @@ namespace Frankie.Stats.UI
             valueField.text = Mathf.RoundToInt(value).ToString();
         }
 
-        public void Setup (string stat, float numerator, float denominator)
+        public void Setup(string stat, float numerator, float denominator)
         {
             statField.text = stat;
             string parsedValue = string.Format("{0}/{1}", Mathf.RoundToInt(numerator), Mathf.RoundToInt(denominator));

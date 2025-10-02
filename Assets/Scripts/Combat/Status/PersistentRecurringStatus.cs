@@ -1,10 +1,6 @@
-using Frankie.Control;
-using Frankie.Stats;
 using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Text.RegularExpressions;
 using UnityEngine;
+using Frankie.Stats;
 
 namespace Frankie.Combat
 {
