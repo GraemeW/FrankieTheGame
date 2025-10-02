@@ -154,25 +154,83 @@ The collider should have `IsTrigger` set to `False`, and must be configured such
 
 Note that the collider fully blocks any content below the sprite anchor, which was placed in the back-right corner of the building.
 
-### Check Interactions
+## World Object Interactions
 
-*TODO:  Add Detail*
+### Checks
 
-### Specialized World Interactions
+The most straightforward way to make a game object interactable is to add a [Check](../Checks/) object, via below:
 
-*TODO:  Add Detail*
+* attach the relevant prefab from the [Checks](../Checks/) directory as a child to the world object
+* adjust the check collider's position -- usually configured to the natural 'interaction edge/side' of the given world object
+* adjust the check parameters (e.g. message, UnityEvent, etc.) per [Checks](../Checks/)
 
-## Buildings, Doors && ZoneHandlers
+In some cases, the default [BoxCollider2D](https://docs.unity3d.com/6000.2/Documentation/ScriptReference/BoxCollider2D.html) on the check prefab is unsuitable for the world object shape -- in this case, it can be replaced with a [PolygonCollider2D](https://docs.unity3d.com/6000.2/Documentation/ScriptReference/PolygonCollider2D.html).  In this case, ensure to set the eplaced Check collider's `IsTrigger`:  `Enabled`.
 
-*TODO:  Add Detail*
+### Specialized World Scripts && Quest Completion Scripts
 
-## Standalone Zone Nodes
+It may be necessary to grant additional functionality to the world object that can be triggered via the [Check's](../Checks/) UnityEvents.  
 
-*TODO:  Add Detail*
+These additional functionalities are typically provided by [World Scripts](../../Scripts/World/), which can be attached as components onto any given world object to provide the requisite public methods.  These scripts and their public methods include:
+* [WorldSaver](../../Scripts/World/WorldSaver.cs):  to save the game
+* [WorldPointAdjuster](../../Scripts/World/WorldPointAdjuster.cs):  to modify character HP/AP
+* [WorldPartyInterface](../../Scripts/World/WorldPartyInterface.cs):  to add/remove characters from the party
+* [WorldCashGiverTaker](../../Scripts/World/WorldCashGiverTaker.cs):  to add/remove cash from the wallet
+* [WorldItemGiverTaker](../../Scripts/World/WorldItemGiverTaker.cs):  to add/remove items from a character's knapsack
 
-## Rooms
+*etc.*
 
-*TODO:  Add Detail*
+Another common functionality exercised by world objects is quest giving and quest completion, which are handled by the scripts:
+* [QuestGiver](../../Scripts/Quests/QuestGiver.cs):  to assign a quest to the player
+* [QuestCompleter](../../Scripts/Quests/QuestCompleters/QuestCompleter.cs):  to directly complete a quest or quest objective
+* [CombatParticipantQuestCompleter](../../Scripts/Quests/QuestCompleters/CombatParticipantQuestCompleter.cs):  to complete a quest or quest objective on the state change of a given CombatParticipant (e.g. after destroying a specific enemy)
+
+*etc.*
+
+## Buildings, Doors and ZoneHandlers
+
+[Buildings](./Buildings/) and [Doors](./Doors/) (and all derivative entities -- stairs, etc.) are special categories of World Objects that can be used for traversal within a zone or from zone-to-zone.  As such, they are all either derivative prefabs of the [SimpleNodePersistentSound](./_ZoneNodes/SimpleNodePersistentSound.prefab) [ZoneNode](./_ZoneNodes/) prefab (which uses a [ZoneHandler](../../Scripts/Zones/ZoneHandler.cs) component), or they have this prefab childed to their world object.  Doors furthermore have a [Door](../../Scripts/Zones/Door.cs) script attached to them, which.
+
+### Making New Buildings and Doors
+
+When making a new [Building](./Buildings/) or [Door](./Doors/), it is highly recommended to simply duplicate an existing prefab from within these directories and modify its attributes accordingly (i.e. [sprite](#configuration--sprite-renderer--sprite), [physics/colliders](#configuration--rigidbody--physics-colliders), etc. -- per above configuration detail).
+
+Once the Building/Door object is placed into the scene, its zone-specific parameters should be setup appropriately.  If the specific instance of the prefab does not lead anywhere, it can be left unconfigured.  Otherwise:
+* Configure the [ZoneHandler](../../Scripts/Zones/ZoneHandler.cs) component:
+  * set `ZoneNode`:  to its relevant `ZoneNode` in the corresponding [Zone](../OnLoadAssets/Zones/) asset
+    * *see [OnLoadAssets/Zones](../OnLoadAssets/Zones/) for more detail on Zone + ZoneNode creation/configuration*
+  * if the object is a Door, set:
+    * `Room Parent`:  to the room game object that the Door is childed to
+      * *if the Room is immediately above the Door in the hierarchy, this can be left as `None` and the room will be auto-detected*
+    * `Disable On Exit`:  to `Enabled` to toggle off the Door's sprite after exiting the room (generally desired)
+  * if the `ZoneNode` has multiple exit points, set:
+    * `Randomize Choice`:  to `Enabled` if the exit point is determined randomly
+    * `Randomize Choice`:  to `Disabled` if a choice menu should appear
+      * *e.g. in the case of elevators with multiple floors, this parameter is normally set to `Disabled`*
+      * `Choice Message`:  to the text that should appear over the selection menu if multiple choices exist
+* Adjust the `WarpPosition`'s transform to where the player's character should appear upon exit from the Building/Door
+  * *a purple diamond element is generated in Scene View to show the ZoneHandler's exit position*
+* Configure the [Sound Effects](../../Scripts/Sound/SoundEffects.cs) component in the `ZoneNodeSoundbox`
+  * set the `Audio Clips` parameter to the relevant sound(s) for interacting with the Building/Door
+
+For example, see below configuration for a simple door:
+
+<img src="../../../InfoTools/Documentation/Game/WorldObjects/DoorZoneHandlerConfiguration.png" width="800">
+
+### Door Check Variants
+
+It may be desired to interact with a door via a [Check](../Checks/), such as to knock on the door (but not pass through it).  
+
+For these cases, the [NoZHCheckVariants](./Doors/_NoZHCheckVariants/) can be used instead.  Their childed check components should be configured appropriately.
+
+### Standalone Zone Nodes
+
+It may be desired to trigger a [ZoneHandler](../../Scripts/Zones/ZoneHandler.cs) method (i.e. to traverse within a zone or zone-to-zone) without direct interaction -- for example, via UnityEvents.
+
+For these cases, the [ZoneNode](./_ZoneNodes/) prefabs can be used by placing them onto the scene directly.
+
+## Interior Room and Exterior World Prefabs
+
+
 
 ## Spawners
 
