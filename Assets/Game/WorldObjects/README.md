@@ -78,7 +78,7 @@ As an example, see below:
 
 <img src="../../../InfoTools/Documentation/Game/WorldObjects/ExampleSpriteImport.png" width="400">
 
-*Note that the above configuration only applies to assets that are desired to be rendered pixel-perfect.  For other assets, such as UI elements or in-battle artwork, the standard Unity sprite shader is sufficient.*
+Note: The above configuration only applies to assets that are desired to be rendered pixel-perfect.  For other assets, such as UI elements or in-battle artwork, the standard Unity sprite shader is sufficient.
 
 #### Slicing && Sprite Anchoring
 
@@ -197,14 +197,14 @@ These additional functionalities are typically provided by [World Scripts](../..
 * [WorldCashGiverTaker](../../Scripts/World/WorldCashGiverTaker.cs):  to add/remove cash from the wallet
 * [WorldItemGiverTaker](../../Scripts/World/WorldItemGiverTaker.cs):  to add/remove items from a character's knapsack
 
-*etc.*
+etc.
 
 Another common functionality exercised by world objects is quest giving and quest completion, which are handled by the scripts:
 * [QuestGiver](../../Scripts/Quests/QuestGiver.cs):  to assign a quest to the player
 * [QuestCompleter](../../Scripts/Quests/QuestCompleters/QuestCompleter.cs):  to directly complete a quest or quest objective
 * [CombatParticipantQuestCompleter](../../Scripts/Quests/QuestCompleters/CombatParticipantQuestCompleter.cs):  to complete a quest or quest objective on the state change of a given CombatParticipant (e.g. after destroying a specific enemy)
 
-*etc.*
+etc.
 
 ## Buildings, Doors and ZoneHandlers
 
@@ -220,15 +220,15 @@ Once the Building/Door object is placed into the scene, its zone-specific parame
     * *see [OnLoadAssets/Zones](../OnLoadAssets/Zones/) for more detail on Zone + ZoneNode creation/configuration*
   * if the object is a Door, set:
     * `Room Parent`:  to the room game object that the Door is childed to
-      * *if the Room is immediately above the Door in the hierarchy, this can be left as `None` and the room will be auto-detected*
+      * if the Room is immediately above the Door in the hierarchy, this can be left as `None` and the room will be auto-detected
     * `Disable On Exit`:  to `Enabled` to toggle off the Door's sprite after exiting the room (generally desired)
   * if the `ZoneNode` has multiple exit points, set:
     * `Randomize Choice`:  to `Enabled` if the exit point is determined randomly
     * `Randomize Choice`:  to `Disabled` if a choice menu should appear
-      * *e.g. in the case of elevators with multiple floors, this parameter is normally set to `Disabled`*
+      * e.g. in the case of elevators with multiple floors, this parameter is normally set to `Disabled`
       * `Choice Message`:  to the text that should appear over the selection menu if multiple choices exist
 * Adjust the `WarpPosition`'s transform to where the player's character should appear upon exit from the Building/Door
-  * *a purple diamond element is generated in Scene View to show the ZoneHandler's exit position*
+  * note:  a purple diamond element is generated in Scene View to show the ZoneHandler's exit position
 * Configure the [Sound Effects](../../Scripts/Sound/SoundEffects.cs) component in the `ZoneNodeSoundbox`
   * set the `Audio Clips` parameter to the relevant sound(s) for interacting with the Building/Door
 
@@ -250,16 +250,16 @@ For these cases, the [ZoneNode](./_ZoneNodes/) prefabs can be used by placing th
 
 ## Spawners
 
-Two types of typical Enemy Spawner prefabs are provided in [Spawners](./_Spawners/):
+Two types of Enemy Spawner prefabs are provided in [Spawners](./_Spawners/):
 * [RoomSpawner](./_Spawners/StandardRoomSpawner.prefab):  triggers enemy spawn events on GameObject enablement
   * such that enemies spawn the moment the player passes through a door and the room is set to enabled
 * [WorldSpawner](./_Spawners/StandardWorldSpawner.prefab):  triggers enemy spawn events when the spawner GameObject is within the player's camera view
 
-The Enemy Spawner component on the respective spawner must be configured.  Set:
+The [EnemySpawner](../../Scripts/Combat/Spawner/EnemySpawner.cs) component on the respective spawner must be configured by setting:
 * `Time Between Spawns`:  variable, limiter on the frequency with which an enemy may be spawned
   * generally more relevant for world spawner -- to avoid enemy spam if the player walks in/out of spawner view repeatedly
 * `Jitter Distances`:  variable, x/y range in which an enemy may spawn
-  * a magenta square / bounding box element is generated in Scene View to show the extent of the spawn range
+  * note:  a magenta square / bounding box element is generated in Scene View to show the extent of the spawn range
 * `Spawn Configurations`:  variable, includes types of enemies to spawn, number of enemies to spawn, probability/frequency to spawn, etc.
 
 See below for an example of an Office Worker Enemy Spawner:
@@ -273,4 +273,20 @@ This spawner has three possible spawn configurations, where:
 
 ## Paths
 
-*TODO:  Add Detail*
+[Patrol Paths](./_Paths/StandardPatrolPath.prefab) use a series of [Waypoints](./_Paths/Waypoint.prefab) to define a walking route that an [NPC Character](../CharacterObjects/NPCs/) (with an [NPCMover](../../Scripts/) component) can traverse.  
+
+Briefly:
+* Drag a new [Patrol Path](./_Paths/StandardPatrolPath.prefab) prefab onto the scene
+* Drag 'n' [Waypoint](./_Paths/Waypoint.prefab) prefab children under the patrol path
+  * move each waypoint's transform to the desired location for the patrol path
+  * note:  a series of blue/green spheres connected by lines are generated in Scene View to show the walking path
+* Configure the [Patrol Path Component](../../Scripts/Control/NPC/PatrolPath.cs), by setting:
+  * `Waypoints`:  drag the array of waypoint children under the patrol path onto this field
+  * `Looping`:  `Enabled` if the NPC should loop through the patrol path
+  * `Return to First Waypoint`:  `Enabled` if the NPC should walk back to the first waypoint after reaching the final waypoint
+
+Finally, attach the patrol path to the desired NPC's NPCMover's `Patrol Path` field.
+
+For example, see below:
+
+<img src="../../../InfoTools/Documentation/Game/WorldObjects/ExamplePatrolPath.png" width="800">
