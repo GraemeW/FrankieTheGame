@@ -250,7 +250,26 @@ For these cases, the [ZoneNode](./_ZoneNodes/) prefabs can be used by placing th
 
 ## Spawners
 
-*TODO:  Add Detail*
+Two types of typical Enemy Spawner prefabs are provided in [Spawners](./_Spawners/):
+* [RoomSpawner](./_Spawners/StandardRoomSpawner.prefab):  triggers enemy spawn events on GameObject enablement
+  * such that enemies spawn the moment the player passes through a door and the room is set to enabled
+* [WorldSpawner](./_Spawners/StandardWorldSpawner.prefab):  triggers enemy spawn events when the spawner GameObject is within the player's camera view
+
+The Enemy Spawner component on the respective spawner must be configured.  Set:
+* `Time Between Spawns`:  variable, limiter on the frequency with which an enemy may be spawned
+  * generally more relevant for world spawner -- to avoid enemy spam if the player walks in/out of spawner view repeatedly
+* `Jitter Distances`:  variable, x/y range in which an enemy may spawn
+  * a magenta square / bounding box element is generated in Scene View to show the extent of the spawn range
+* `Spawn Configurations`:  variable, includes types of enemies to spawn, number of enemies to spawn, probability/frequency to spawn, etc.
+
+See below for an example of an Office Worker Enemy Spawner:
+
+<img src="../../../InfoTools/Documentation/Game/WorldObjects/ExampleEnemySpawner.png" width="800">
+
+This spawner has three possible spawn configurations, where:
+* it can spawn a single `GenericOfficeWorkerGlen` with probability `4 / (4 + 1 + 1) = ~67%`
+* it can spawn either `GenericOfficeWorkerFran` or `GenericOfficeWorkerStan` with probability `1 / (4 + 1 + 1) = ~17%`
+* it can spawn nothing, with probability `1 / (4 + 1 + 1) = ~17%`
 
 ## Paths
 
