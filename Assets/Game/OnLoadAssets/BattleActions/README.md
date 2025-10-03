@@ -146,7 +146,7 @@ Some example basic effects include:
 <img src="../../../../InfoTools/Documentation/Game/OnLoadAssets/BattleActions/EffectSetCooldown.png" width="250">
 
    * call for help effect: add new enemies to the current combat - such as [CallForHelpSquirrel](../../Combat/BattleActions/EffectStrategies/CallForHelp/CallForHelpSquirrel.asset)
-     * , using the same logic as [EnemySpawner](../../WorldObjects/zz_Spawners/) configurations
+     * , using the same logic as [EnemySpawner](../../WorldObjects/_Spawners/) configurations
      * , where a variable number of enemies (defined by their [Character Properties](../CharacterProperties/)) can be added with a given probability
 
 <img src="../../../../InfoTools/Documentation/Game/OnLoadAssets/BattleActions/EffectCallForHelp.png" width="250">
@@ -157,7 +157,7 @@ Some example basic effects include:
 
 The [TriggerResourcesCooldowns](../../Combat/BattleActions/EffectStrategies/TriggerResourcesCooldowns.asset) effect strategy **must** be placed as the final effect strategy for any battle action.  As is evident from its name, this effect will trigger the character's cooldown and subtract any AP incurred by use of the skill.
 
-For reasons that will become evident in [Delay Composites](#delay-composites), this effect strategy is needed to signal to the [BattleController](../../Controllers/Battle%20Controller.prefab) that the current action has completed.
+As discussed in [Delayed Composites](#action--delayed-composites), this effect strategy is needed to signal to the [BattleController](../../Controllers/Battle%20Controller.prefab) that the current action has completed.
 
 #### Spawn Target Prefab Effects
 

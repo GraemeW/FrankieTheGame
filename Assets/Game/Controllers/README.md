@@ -1,6 +1,6 @@
 # Assets:  Game - Controllers
 
-Controllers are used to translate player input into relevant on-screen actions in Frankie.  They each interface with Unity's New Input System via their corresponding [PlayerInput.inputactions](../../Scripts/Control/Input/InputProfiles/PlayerInput.inputactions) file and associated [PlayerInput.cs](../../Scripts/Control/Input/InputProfiles/PlayerInput.cs) script by listening to `.performed` events.
+Controllers are used to translate player input into relevant on-screen actions in Frankie.  They each interface with Unity's New Input System via their corresponding [PlayerInput.inputactions](../../UnityConfigurables/InputProfiles/PlayerInput.inputactions) file and associated [PlayerInput.cs](../../UnityConfigurables/InputProfiles/PlayerInput.cs) script by listening to `.performed` events.
 
 Since there are several interaction mechanisms that vary as a function of [PlayerState](../../Scripts/Control/Player/PlayerStateMachine/PlayerStates/IPlayerState.cs), there are, accordingly, several types of controllers:
 * [PlayerController](../Core/README.md#player-prefab-singleton):  existing on the [Player](../Core/Player.prefab) prefab, for handling in-world input

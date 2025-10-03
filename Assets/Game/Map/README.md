@@ -1,6 +1,6 @@
 # Assets:  Game - Map
 
-The game map is a UI element accessible from the [WorldOptions](../UI/World/WorldOptions.prefab) menu.  The map itself lives on an image in the [MapSuper](./MapSuper.prefab) prefab that is spawned when selected.  [MapSuper](./MapSuper.prefab) is itself an extension of the standard [UIBox](../../Scripts/Utils/UIBox/) UI element.
+The game map is a UI element accessible from the [WorldOptions](../UI/World/WorldOptions.prefab) menu.  The map itself lives on an image in the [MapSuper](./MapSuper.prefab) prefab that is spawned when selected.  [MapSuper](./MapSuper.prefab) is itself an extension of the standard [UIBox](../../Scripts/UI/UIBox/) UI element.
 
 ## Map Elements
 
