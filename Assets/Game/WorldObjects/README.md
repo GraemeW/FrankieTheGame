@@ -17,7 +17,17 @@ The directories are structured as:
 |      [Spawners](./_Spawners/)      |        |       |                                               Standard game object for spawning enemies/monsters                                                |                                [EnemySpawner](../../Scripts/Combat/Spawner/EnemySpawner.cs) script                                 |
 |         [Paths](./_Paths/)         |        |       |                         Standard game object for delineating a path for an [NPC](../CharacterObjects/NPCs/) to traverse                         |                                    [PatrolPath](../../Scripts/Control/NPC/PatrolPath.cs) script                                    |
 
+#### Note on Document Scope
+
+*This README largely covers asset configuration of world objects.  For detail on*
+* *artwork design/construction requirements:  see the [Style Guide](../../../InfoTools/StyleGuide/README.md#game-object--world-artwork-pixel-art)*
+* *Tilemap-specific configuration:  see [Tilemaps](../Tilemaps/)*
+
 ## Placement of World Objects
+
+World Objects should be placed in hierarchy under a parent-most GameObject with a [SaveableRoot](../../Scripts/Saving/SaveableRoot.cs) component attached to it.  This allows the Save System to identify any World Objects that are tagged as a [SaveableEntity](../../Scripts/Saving/SaveableEntity.cs).  In most [Scenes](../../Scenes/):
+* This parent-most GameObject is named `World`, and all Rooms/Exterior Maps are childed to it
+* World Objects are further placed under their respective Room or Exterior Map
 
 Before placing any objects into the scene, ensure that Snapping is Enabled, with a `Grid Size` set to `0.01` (AKA 1/PPU used for sprite import settings), as below:
 
@@ -25,10 +35,20 @@ Before placing any objects into the scene, ensure that Snapping is Enabled, with
 
 If assets have been placed before snapping was enabled, they can be force-snapped to the grid by clicking on the `All Axes` button under `Align Selected`
 
+### Interior Room and Exterior World Map Prefabs
+
+Standard prefabs for both interior rooms and exterior world maps are available in [InteriorRooms](./_InteriorRooms/) and [ExteriorWorld](./_ExteriorWorld/) respectively.  The prefabs include relevant sprite or tilemap renderers to effectively paint all critical layers of a scene while adhering to specific ordering and overlap requirements.  As noted above, World Objects are then placed under their given Room or Exterior Map.
+
+For:
+* [TilemapRoomRoot](./_InteriorRooms/TilemapRoomRoot.prefab):  This prefab should be dragged onto a scene and used directly
+  * it must be placed under a parent game object with an appropriately configured Grid (see [Tilemaps](../Tilemaps/README.md#parent-gameobject-grid-settings))
+* [ExteriorMapReference](./_ExteriorWorld/ExteriorMapReference-UnpackBeforeUse.prefab):  This prefab should be dragged onto a scene and unpacked (first level, not completely)
+
+More detail on the tilemaps used in the prefabs can be found in [Tilemaps](../Tilemaps/README.md#reference-tilemap-prefabs).
+
 ## Standard World Objects (Interior, Exterior, Signs)
 
-* *See the [StyleGuide](../../../InfoTools/StyleGuide/README.md#game-object--world-artwork-pixel-art) for futher detail on artwork design/construction requirements*
-* *See [Tilemaps](../Tilemaps/) for further detail on Tilemap-specific configuration*
+New world object prefabs should placed in their relevant sub-directory within this folder -- [Interior](./Interior/), [Exterior](./Exterior/) or [Signs](./Signs/), depending on which category they best fit into.  World Object prefabs should be made and setup in such a way that they can be dragged onto a Scene and require minimal configuration/adjustment.
 
 ### Configuration:  Tags & Physics Layer
 
@@ -96,8 +116,8 @@ Child game objects in this configuration can then be defined relative to each ot
 
 If a character should always appear in front of a given world object, the following settings should be used:
 * `Material`:  [PixelArtShader](../../Scripts/Rendering/Shaders/_PixelArtShaders/PixelArtShader.mat)
-* `Sorting Layer`:  `PlayerEnemiesObjects`
-* `Order in Layer`:  `0`
+* `Sorting Layer`:  `Background`
+* `Order in Layer`:  `15` ~ `20`
 
 ### Configuration:  Rigidbody & Physics Colliders
 
@@ -227,10 +247,6 @@ For these cases, the [NoZHCheckVariants](./Doors/_NoZHCheckVariants/) can be use
 It may be desired to trigger a [ZoneHandler](../../Scripts/Zones/ZoneHandler.cs) method (i.e. to traverse within a zone or zone-to-zone) without direct interaction -- for example, via UnityEvents.
 
 For these cases, the [ZoneNode](./_ZoneNodes/) prefabs can be used by placing them onto the scene directly.
-
-## Interior Room and Exterior World Prefabs
-
-
 
 ## Spawners
 
