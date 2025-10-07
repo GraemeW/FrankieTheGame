@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using UnityEditor;
 using UnityEditor.Search;
 using UnityEngine;
@@ -121,7 +122,7 @@ namespace Frankie.Stats.Editor
                     label = stat.stat.ToString(),
                     value = stat.value
                 };
-                statEntry.RegisterValueChangedCallback((ChangeEvent<float> x) => UpdateStat(characterClass.characterProperties, stat.stat, x.newValue));
+                statEntry.RegisterValueChangedCallback(x => UpdateStat(characterClass.characterProperties, stat.stat, x.newValue));
                 
                 if (isLeft) { leftPane.Add(statEntry); }
                 else { rightPane.Add(statEntry); }
@@ -151,6 +152,8 @@ namespace Frankie.Stats.Editor
             characterStatPane.Clear();
             if (progression == null) { return; }
 
+            ReconcileCharacterProperties();
+
             Progression.ProgressionCharacterClass[] characterClasses = progression.GetCharacterClasses();
             
             progressionEntries.makeItem = () => new Label();
@@ -159,6 +162,29 @@ namespace Frankie.Stats.Editor
                 if (item is Label label) { label.text = characterClasses[index].characterProperties.name; }
             };
             progressionEntries.itemsSource = characterClasses;
+        }
+
+        private void ReconcileCharacterProperties()
+        {
+            if (progression == null) { return; }
+            CharacterProperties.BuildCacheIfEmpty(true);
+            
+            Dictionary<CharacterProperties, bool> characterPropertiesCrossReference = new Dictionary<CharacterProperties, bool>();
+            foreach (Progression.ProgressionCharacterClass characterClass in progression.GetCharacterClasses())
+            {
+                if (characterClass.characterProperties == null) { continue; }
+                characterPropertiesCrossReference[characterClass.characterProperties] = true;
+            }
+
+            foreach (var entry in CharacterProperties.GetCharacterPropertiesLookup()
+                         .Where(entry => !characterPropertiesCrossReference.ContainsKey(entry.Value)))
+            {
+                if (!entry.Value.hasProgressionStats) { continue; }
+                
+                Debug.Log($"Warning:  Missing character properties for {entry.Value}, adding entry to Progression.");
+                progression.AddToProgressionAsset(entry.Value);
+            }
+            
         }
 
         private void OnCharacterClassSelectionChanged(IEnumerable<object> selectedItems)

@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEditor;
 using UnityEngine;
 
@@ -28,6 +29,19 @@ namespace Frankie.Stats
                     progressionStat.value = newValue;
                 }
             }
+            EditorUtility.SetDirty(this);
+        }
+
+        public void AddToProgressionAsset(CharacterProperties characterProperties)
+        {
+            var progressionCharacterClass = new ProgressionCharacterClass
+            {
+                characterProperties = characterProperties,
+                stats = (from Stat stat in Enum.GetValues(typeof(Stat)) select new ProgressionStat { stat = stat, value = 0 }).ToArray()
+            };
+            
+            Array.Resize(ref characterClasses, characterClasses.Length + 1);
+            characterClasses[^1] = progressionCharacterClass;
             EditorUtility.SetDirty(this);
         }
         #endif

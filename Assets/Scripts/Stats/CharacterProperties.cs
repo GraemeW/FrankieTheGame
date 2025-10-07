@@ -13,26 +13,20 @@ namespace Frankie.Stats
         // Properties
         public GameObject characterPrefab;
         public GameObject characterNPCPrefab;
-
-        public static string GetStaticCharacterNamePretty(string characterName)
-        {
-            return Regex.Replace(characterName, "([a-z])_?([A-Z])", "$1 $2");
-        }
-
-        public string GetCharacterNamePretty()
-        {
-            return Regex.Replace(name, "([a-z])_?([A-Z])", "$1 $2");
-        }
-
-        public string GetCharacterNameID()
-        {
-            return name;
-        }
+        public bool hasProgressionStats = true;
 
         // State
         private static AsyncOperationHandle<IList<CharacterProperties>> _addressablesLoadHandle;
         private static Dictionary<string, CharacterProperties> _characterLookupCache;
 
+        #region SimpleGetters
+        public static string GetStaticCharacterNamePretty(string characterName) => Regex.Replace(characterName, "([a-z])_?([A-Z])", "$1 $2");
+        public string GetCharacterNamePretty() => Regex.Replace(name, "([a-z])_?([A-Z])", "$1 $2");
+        public string GetCharacterNameID() => name;
+        public GameObject GetCharacterPrefab() => characterPrefab;
+        public GameObject GetCharacterNPCPrefab() => characterNPCPrefab;
+        #endregion
+        
         #region AddressablesCaching
         public static CharacterProperties GetCharacterPropertiesFromName(string name)
         {
@@ -48,9 +42,9 @@ namespace Frankie.Stats
             return _characterLookupCache;
         }
 
-        public static void BuildCacheIfEmpty()
+        public static void BuildCacheIfEmpty(bool force = false)
         {
-            if (_characterLookupCache == null)
+            if (_characterLookupCache == null || force)
             {
                 BuildCharacterPropertiesCache();
             }
@@ -75,18 +69,6 @@ namespace Frankie.Stats
         public static void ReleaseCache()
         {
             Addressables.Release(_addressablesLoadHandle);
-        }
-        #endregion
-
-        #region PublicMethods
-        public GameObject GetCharacterPrefab()
-        {
-            return characterPrefab;
-        }
-
-        public GameObject GetCharacterNPCPrefab()
-        {
-            return characterNPCPrefab;
         }
         #endregion
     }

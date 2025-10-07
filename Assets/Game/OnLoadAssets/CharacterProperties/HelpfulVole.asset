@@ -14,3 +14,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   characterPrefab: {fileID: 0}
   characterNPCPrefab: {fileID: 3386044621720643084, guid: bfa8cb7cfccd24c40943b48ac4aa332d, type: 3}
+  hasProgressionStats: 0
