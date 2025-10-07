@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 
 namespace Frankie.Stats
@@ -8,12 +9,32 @@ namespace Frankie.Stats
     public class Progression : ScriptableObject
     {
         // Tunables
-        [SerializeField] float defaultStatValueIfMissing = 1f;
-        [SerializeField] ProgressionCharacterClass[] characterClasses = default;
+        [SerializeField] private float defaultStatValueIfMissing = 1f;
+        [SerializeField] private ProgressionCharacterClass[] characterClasses;
 
         // State
-        Dictionary<CharacterProperties, Dictionary<Stat, float>> lookupTable = null;
+        private Dictionary<CharacterProperties, Dictionary<Stat, float>> lookupTable;
 
+        #if UNITY_EDITOR
+        public void UpdateProgressionAsset(CharacterProperties characterProperties, Stat updatedStat, float newValue)
+        {
+            foreach (ProgressionCharacterClass progressionCharacterClass in characterClasses)
+            {
+                if (progressionCharacterClass.characterProperties != characterProperties) { continue; }
+
+                foreach (ProgressionStat progressionStat in progressionCharacterClass.stats)
+                {
+                    if (progressionStat.stat != updatedStat) { continue; }
+                    progressionStat.value = newValue;
+                }
+            }
+            EditorUtility.SetDirty(this);
+        }
+        #endif
+        
+        #region PublicMethods
+        public ProgressionCharacterClass[] GetCharacterClasses() => characterClasses;
+        
         public float GetStat(Stat stat, CharacterProperties characterProperties)
         {
             BuildLookup();
@@ -31,7 +52,9 @@ namespace Frankie.Stats
             }
             return statSheet;
         }
-
+        #endregion
+        
+        #region PrivateMethods
         private void BuildLookup()
         {
             if (lookupTable != null) { return; }
@@ -59,20 +82,22 @@ namespace Frankie.Stats
                 lookupTable[progressionCharacterClass.characterProperties] = statDictionary;
             }
         }
+        #endregion
 
-        // Data structures
-        [System.Serializable]
-        class ProgressionCharacterClass
+        #region DataStructures
+        [Serializable]
+        public class ProgressionCharacterClass
         {
-            public CharacterProperties characterProperties = null;
-            public ProgressionStat[] stats = default;
+            public CharacterProperties characterProperties;
+            public ProgressionStat[] stats;
         }
 
-        [System.Serializable]
-        class ProgressionStat
+        [Serializable]
+        public class ProgressionStat
         {
-            public Stat stat = default;
-            public float value = default;
+            public Stat stat;
+            public float value;
         }
+        #endregion
     }
 }

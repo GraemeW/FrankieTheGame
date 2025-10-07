@@ -97,7 +97,7 @@ MonoBehaviour:
     - stat: 3
       value: 999
     - stat: 4
-      value: 10
+      value: 11
     - stat: 5
       value: 12
     - stat: 6
