@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEditor;
@@ -14,6 +15,9 @@ namespace Frankie.Stats.Editor
         private Progression progression;
         
         // UI State
+        private readonly List<Progression.ProgressionCharacterClass> selectedCharacterClasses = new List<Progression.ProgressionCharacterClass>();
+        
+        // UI Cached References
         private ObjectField progressionInput;
         private ListView progressionEntries;
         private ScrollView characterStatPane;
@@ -36,6 +40,16 @@ namespace Frankie.Stats.Editor
             if (progressionEntries != null)  { progressionEntries.selectionChanged -= OnCharacterClassSelectionChanged; }
         }
 
+        private void OnFocus()
+        {
+            Undo.undoRedoPerformed += ReloadProgressionForUndoRedo;
+        }
+
+        private void OnLostFocus()
+        {
+            Undo.undoRedoPerformed -= ReloadProgressionForUndoRedo;
+        }
+
         private void CreateGUI()
         {
             var splitView = new TwoPaneSplitView(0, 250, TwoPaneSplitViewOrientation.Horizontal);
@@ -52,6 +66,8 @@ namespace Frankie.Stats.Editor
             navigationPaneSplit.Add(controlBox);
             Box entryBox = CreateEntryBox();
             navigationPaneSplit.Add(entryBox);
+            
+            ReloadProgression(true);
         }
         #endregion
 
@@ -60,12 +76,12 @@ namespace Frankie.Stats.Editor
         {
             var controlBox = new Box();
             controlBox.Add(new Label("Progression Editor"));
-            controlBox.Add(new Label(" "));
             progressionInput = new ObjectField
             {
                 objectType = typeof(Progression),
                 label = "Progression SO:  "
             };
+            if (progression != null) { progressionInput.value = progression; }
             
             progressionInput.RegisterValueChangedCallback(OnProgressionChanged);
             controlBox.Add(progressionInput);
@@ -89,8 +105,6 @@ namespace Frankie.Stats.Editor
             progressionEntries = new ListView { selectionType = SelectionType.Multiple };
             progressionEntries.selectionChanged += OnCharacterClassSelectionChanged;
             entryBox.Add(progressionEntries);
-            
-            ReloadProgression();
             
             return entryBox;
         }
@@ -132,28 +146,9 @@ namespace Frankie.Stats.Editor
 
             return characterStatCard;
         }
-        #endregion
 
-        #region EventHandlers
-        private void OnProgressionChanged(ChangeEvent<Object> progressionChangedEvent)
+        private void DrawCharacterNavigationPane()
         {
-            progression = progressionChangedEvent.newValue as Progression;
-            ReloadProgression();
-        }
-
-        private void ReloadProgression(ClickEvent clickEvent)
-        {
-            progression = progressionInput.value as Progression;
-            ReloadProgression();
-        }
-        private void ReloadProgression()
-        {
-            progressionEntries.Clear();
-            characterStatPane.Clear();
-            if (progression == null) { return; }
-
-            ReconcileCharacterProperties();
-
             Progression.ProgressionCharacterClass[] characterClasses = progression.GetCharacterClasses();
             
             progressionEntries.makeItem = () => new Label();
@@ -162,6 +157,53 @@ namespace Frankie.Stats.Editor
                 if (item is Label label) { label.text = characterClasses[index].characterProperties.name; }
             };
             progressionEntries.itemsSource = characterClasses;
+        }
+
+        private void DrawCharacterStatPane()
+        {
+            foreach (Box characterStatCard in selectedCharacterClasses.Select(CreateCharacterStatCard))
+            {
+                characterStatPane.Add(characterStatCard);
+                    
+                var spacer = new Box
+                {
+                    style =
+                    {
+                        height = 10,
+                        width = 400,
+                        backgroundColor = Color.gray2
+                    }
+                };
+                characterStatPane.Add(spacer);
+            }
+        }
+        #endregion
+
+        #region EventHandlers
+        private void OnProgressionChanged(ChangeEvent<Object> progressionChangedEvent)
+        {
+            progression = progressionChangedEvent.newValue as Progression;
+            ReloadProgression(true);
+        }
+        private void ReloadProgression(ClickEvent clickEvent)
+        {
+            progression = progressionInput.value as Progression;
+            ReloadProgression(true);
+        }
+
+        private void ReloadProgressionForUndoRedo()
+        {
+            ReloadProgression(false);
+        }
+        private void ReloadProgression(bool reconcileCharacterProperties)
+        {
+            progressionEntries.Clear();
+            characterStatPane.Clear();
+            if (progression == null) { return; }
+
+            if (reconcileCharacterProperties) { ReconcileCharacterProperties(); }
+            DrawCharacterNavigationPane();
+            DrawCharacterStatPane();
         }
 
         private void ReconcileCharacterProperties()
@@ -184,29 +226,19 @@ namespace Frankie.Stats.Editor
                 Debug.Log($"Warning:  Missing character properties for {entry.Value}, adding entry to Progression.");
                 progression.AddToProgressionAsset(entry.Value);
             }
-            
         }
 
         private void OnCharacterClassSelectionChanged(IEnumerable<object> selectedItems)
         {
+            selectedCharacterClasses.Clear();
             characterStatPane.Clear();
             foreach (var item in selectedItems)
             {
                 if (item is not Progression.ProgressionCharacterClass progressionCharacterClass) continue;
-                Box characterStatCard = CreateCharacterStatCard(progressionCharacterClass);
-                characterStatPane.Add(characterStatCard);
-                
-                var spacer = new Box
-                {
-                    style =
-                    {
-                        height = 10,
-                        width = 400,
-                        backgroundColor = Color.gray2
-                    }
-                };
-                characterStatPane.Add(spacer);
+                selectedCharacterClasses.Add(progressionCharacterClass);
             }
+            
+            DrawCharacterStatPane();
         }
 
         private void UpdateStat(CharacterProperties characterProperties, Stat stat, float value)

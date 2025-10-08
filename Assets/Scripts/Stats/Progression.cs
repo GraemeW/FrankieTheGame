@@ -19,6 +19,7 @@ namespace Frankie.Stats
         #if UNITY_EDITOR
         public void UpdateProgressionAsset(CharacterProperties characterProperties, Stat updatedStat, float newValue)
         {
+            Undo.RegisterCompleteObjectUndo(this, "Update Progression");
             foreach (ProgressionCharacterClass progressionCharacterClass in characterClasses)
             {
                 if (progressionCharacterClass.characterProperties != characterProperties) { continue; }
@@ -26,8 +27,11 @@ namespace Frankie.Stats
                 foreach (ProgressionStat progressionStat in progressionCharacterClass.stats)
                 {
                     if (progressionStat.stat != updatedStat) { continue; }
+                    
                     progressionStat.value = newValue;
+                    break;
                 }
+                break;
             }
             EditorUtility.SetDirty(this);
         }
@@ -40,6 +44,7 @@ namespace Frankie.Stats
                 stats = (from Stat stat in Enum.GetValues(typeof(Stat)) select new ProgressionStat { stat = stat, value = 0 }).ToArray()
             };
             
+            Undo.RegisterCompleteObjectUndo(this, "Update Progression");
             Array.Resize(ref characterClasses, characterClasses.Length + 1);
             characterClasses[^1] = progressionCharacterClass;
             EditorUtility.SetDirty(this);
