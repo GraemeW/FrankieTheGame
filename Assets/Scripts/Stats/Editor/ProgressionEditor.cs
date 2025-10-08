@@ -42,12 +42,12 @@ namespace Frankie.Stats.Editor
 
         private void OnFocus()
         {
-            Undo.undoRedoPerformed += ReloadProgressionForUndoRedo;
+            Undo.undoRedoPerformed += ReloadProgression;
         }
 
         private void OnLostFocus()
         {
-            Undo.undoRedoPerformed -= ReloadProgressionForUndoRedo;
+            Undo.undoRedoPerformed -= ReloadProgression;
         }
 
         private void CreateGUI()
@@ -60,14 +60,14 @@ namespace Frankie.Stats.Editor
             characterStatPane = new ScrollView(ScrollViewMode.Vertical);
             splitView.Add(characterStatPane);
 
-            var navigationPaneSplit = new TwoPaneSplitView(0, 100, TwoPaneSplitViewOrientation.Vertical);
+            var navigationPaneSplit = new TwoPaneSplitView(0, 160, TwoPaneSplitViewOrientation.Vertical);
             characterNavigationPane.Add(navigationPaneSplit);
             Box controlBox = CreateControlBox();
             navigationPaneSplit.Add(controlBox);
             Box entryBox = CreateEntryBox();
             navigationPaneSplit.Add(entryBox);
             
-            ReloadProgression(true);
+            ReloadProgression();
         }
         #endregion
 
@@ -86,9 +86,21 @@ namespace Frankie.Stats.Editor
             progressionInput.RegisterValueChangedCallback(OnProgressionChanged);
             controlBox.Add(progressionInput);
 
-            var reloadProgression = new Button { text = "Reload" };
+            controlBox.Add(new Label("Progression Asset Controls"));
+            
+            var reloadProgression = new Button { text = "Reload Progression" };
             reloadProgression.RegisterCallback<ClickEvent>(ReloadProgression);
             controlBox.Add(reloadProgression);
+            
+            var reconcileCharacterProperties = new Button { text = "Reconcile Characters" };
+            reconcileCharacterProperties.RegisterCallback<ClickEvent>(ReconcileCharacterProperties);
+            controlBox.Add(reconcileCharacterProperties);
+                
+            controlBox.Add(new Label("Character Selection Controls"));
+
+            var removeCharacters = new Button { text = "Remove Selected Characters" };
+            removeCharacters.RegisterCallback<ClickEvent>(RemoveSelectedCharacters);
+            controlBox.Add(removeCharacters);
             
             return controlBox;
         }
@@ -154,7 +166,7 @@ namespace Frankie.Stats.Editor
             progressionEntries.makeItem = () => new Label();
             progressionEntries.bindItem = (item, index) =>
             {
-                if (item is Label label) { label.text = characterClasses[index].characterProperties.name; }
+                if (item is Label label && index < characterClasses.Length) { label.text = characterClasses[index].characterProperties.name; }
             };
             progressionEntries.itemsSource = characterClasses;
         }
@@ -183,32 +195,29 @@ namespace Frankie.Stats.Editor
         private void OnProgressionChanged(ChangeEvent<Object> progressionChangedEvent)
         {
             progression = progressionChangedEvent.newValue as Progression;
-            ReloadProgression(true);
+            ReloadProgression();
         }
         private void ReloadProgression(ClickEvent clickEvent)
         {
             progression = progressionInput.value as Progression;
-            ReloadProgression(true);
+            ReloadProgression();
         }
-
-        private void ReloadProgressionForUndoRedo()
+        private void ReloadProgression()
         {
-            ReloadProgression(false);
-        }
-        private void ReloadProgression(bool reconcileCharacterProperties)
-        {
+            Debug.Log("Reloading Progression");
             progressionEntries.Clear();
             characterStatPane.Clear();
             if (progression == null) { return; }
-
-            if (reconcileCharacterProperties) { ReconcileCharacterProperties(); }
+            
             DrawCharacterNavigationPane();
             DrawCharacterStatPane();
         }
 
+        private void ReconcileCharacterProperties(ClickEvent clickEvent)  { ReconcileCharacterProperties(); }
         private void ReconcileCharacterProperties()
         {
             if (progression == null) { return; }
+            Debug.Log("Reconcile:  Updating Progression for any missing character properties");
             CharacterProperties.BuildCacheIfEmpty(true);
             
             Dictionary<CharacterProperties, bool> characterPropertiesCrossReference = new Dictionary<CharacterProperties, bool>();
@@ -223,9 +232,10 @@ namespace Frankie.Stats.Editor
             {
                 if (!entry.Value.hasProgressionStats) { continue; }
                 
-                Debug.Log($"Warning:  Missing character properties for {entry.Value}, adding entry to Progression.");
+                Debug.Log($"Missing character properties for {entry.Value}, adding entry to Progression.");
                 progression.AddToProgressionAsset(entry.Value);
             }
+            ReloadProgression();
         }
 
         private void OnCharacterClassSelectionChanged(IEnumerable<object> selectedItems)
@@ -239,6 +249,19 @@ namespace Frankie.Stats.Editor
             }
             
             DrawCharacterStatPane();
+        }
+
+        private void RemoveSelectedCharacters(ClickEvent clickEvent) {  RemoveSelectedCharacters(); }
+        private void RemoveSelectedCharacters()
+        {
+            if (progression == null) { return; }
+            if (selectedCharacterClasses.Count == 0) { return; }
+            
+            Debug.Log("Removing selected characters");
+            List<CharacterProperties> selectedCharacterProperties = selectedCharacterClasses.Select(characterClass => characterClass.characterProperties).ToList();
+            progression.RemoveFromProgressionAsset(selectedCharacterProperties);
+            selectedCharacterClasses.Clear();
+            ReloadProgression();
         }
 
         private void UpdateStat(CharacterProperties characterProperties, Stat stat, float value)

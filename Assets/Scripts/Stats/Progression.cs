@@ -44,9 +44,21 @@ namespace Frankie.Stats
                 stats = (from Stat stat in Enum.GetValues(typeof(Stat)) select new ProgressionStat { stat = stat, value = 0 }).ToArray()
             };
             
-            Undo.RegisterCompleteObjectUndo(this, "Update Progression");
+            Undo.RegisterCompleteObjectUndo(this, "Add to Progression");
             Array.Resize(ref characterClasses, characterClasses.Length + 1);
             characterClasses[^1] = progressionCharacterClass;
+            EditorUtility.SetDirty(this);
+        }
+
+        public void RemoveFromProgressionAsset(IEnumerable<CharacterProperties> charactersProperties)
+        {
+            Undo.RegisterCompleteObjectUndo(this, "Remove from Progression");
+            foreach (CharacterProperties characterProperties in charactersProperties)
+            {
+                var characterClassesVolatile = new List<ProgressionCharacterClass>(characterClasses);
+                characterClassesVolatile.RemoveAll(x => x.characterProperties == characterProperties);
+                characterClasses =  characterClassesVolatile.ToArray();
+            }
             EditorUtility.SetDirty(this);
         }
         #endif
