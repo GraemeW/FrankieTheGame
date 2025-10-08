@@ -16,6 +16,26 @@ namespace Frankie.Stats
         // State
         private Dictionary<CharacterProperties, Dictionary<Stat, float>> lookupTable;
 
+        // Static
+        public static float GetDefaultStatValue(Stat stat)
+        {
+            return stat switch
+            {
+                Stat.HP => 20f,
+                Stat.AP => 10f,
+                Stat.ExperienceReward => 200f,
+                Stat.ExperienceToLevelUp => 999f,
+                Stat.Brawn => 3f,
+                Stat.Beauty => 3f,
+                Stat.Smarts => 3f,
+                Stat.Nimble => 3f,
+                Stat.Luck => 3f,
+                Stat.Pluck => 3f,
+                Stat.Stoic => 2f,
+                _ => 0f
+            };
+        }
+        
         #if UNITY_EDITOR
         public void UpdateProgressionAsset(CharacterProperties characterProperties, Stat updatedStat, float newValue)
         {
@@ -41,7 +61,7 @@ namespace Frankie.Stats
             var progressionCharacterClass = new ProgressionCharacterClass
             {
                 characterProperties = characterProperties,
-                stats = (from Stat stat in Enum.GetValues(typeof(Stat)) select new ProgressionStat { stat = stat, value = 0 }).ToArray()
+                stats = (from Stat stat in Enum.GetValues(typeof(Stat)) select new ProgressionStat { stat = stat, value = GetDefaultStatValue(stat) }).ToArray()
             };
             
             Undo.RegisterCompleteObjectUndo(this, "Add to Progression");
