@@ -4,16 +4,21 @@ This directory houses all of the character objects (AKA actors), their correspon
 
 ## Progression
 
-The progression scriptable object is a dictionary of characters, as defined by their [Character Properties](../OnLoadAssets/CharacterProperties/) scriptable objects, mapping to their corresponding [stats](../../Scripts/Stats/Stat.cs).  In other words, this dictionary defines how much health a character has, or how much experience a monster gives upon defeat, or how brawny a character might be, etc.  This progression scriptable object is linked && consumed by the [BaseStats](../../Scripts/Stats/BaseStats.cs) component, which lives on every combat-ready character.
+The [Progression](./Progression.asset) scriptable object is a list of characters, as defined by their [Character Properties](../OnLoadAssets/CharacterProperties/) scriptable objects, mapping to their corresponding [stats](../../Scripts/Stats/Stat.cs).  
 
-**Note on Stat Growth:**
+In other words, [Progression](./Progression.asset) defines how much health a character has, or how much experience a monster gives upon defeat, or how brawny a character might be, etc.  The progression scriptable object is linked && consumed by the [BaseStats](../../Scripts/Stats/BaseStats.cs) component, which lives on every combat-ready character.  NPCs that do not engage in combat (and thus are not present on Progression) are flagged as such by setting their `Has Progression Stats` parameter to `False` on their [CharacterProperties](../OnLoadAssets/CharacterProperties/).
 
-As discussed further in [Stats](../../Scripts/Stats/), the stats defined in progression define:
-* the starting stats (e.g. at level 1, or whichever level they start from on their [BaseStats](../../Scripts/Stats/BaseStats.cs) component)
-* the stat growth on each level up (specifically for the 7 'core stats' denoted below)
-  * this is relevant particularly for playable characters, or NPCs that are re-used throughout the game
+### Note on Stat Growth:
 
-**Summary of Stats to Populate**
+For playable characters, the stats in progression:
+* define the starting stats at level 1
+* are used as an input to roll for stat growth on each level up
+
+In contrast, for non-playable characters, the stats are fixed and do not increment during level-up.  
+
+This behaviour is flagged using the property `Increment Stats on Level Up` on [CharacterProperties](../OnLoadAssets/CharacterProperties/).
+
+### Summary of Key Progression Stats
 
 The default parameters to include for any new character include:
 * Health Points (HP)
@@ -25,6 +30,56 @@ The default parameters to include for any new character include:
   * can be modified e.g. to allow for more rapid character growth
 * Core Stats (increment amount on level-up):
   * Brawn, Beauty, Smarts, Nimble, Luck, Pluck, Stoic
+
+### Progression Editor
+
+For stat adjustment and game balance activities, it is recommended to make use of the [Progression Editor](../../Scripts/Stats/Editor/ProgressionEditor.cs).  This tool can be accessed on the Unity Toolbar, navigating to:
+* Tools -> Progression Editor
+
+, as below:
+
+<img src="../../../InfoTools/Documentation/Game/CharacterObjects/ProgressionEditorToolbar.png" width="150">
+
+Once the Progression Editor window is opened, select the [Progression](./Progression.asset) scriptable object, as below:
+
+<img src="../../../InfoTools/Documentation/Game/CharacterObjects/ProgressionEditorSelectAsset.png" width="300">
+
+#### Reconcile Characters
+
+Once the [Progression](./Progression.asset) asset is selected, a character list will be populated on the left-hand side of the tool (as shown in [Basic Usage](#basic-usage--updating-stats)).  
+
+If any characters have [CharacterProperties](../OnLoadAssets/CharacterProperties/) SOs already defined, but do not yet have entries in [Progression](./Progression.asset), click the `Reconcile Characters` button.  This will auto-generate entries for these missing characters if their `Has Progression Stats` parameter is set to enabled.  The new entries are set with some dummy default stats that can be adjusted as needed, per below.
+
+#### Basic Usage:  Updating Stats
+
+An example snapshot of the Progression Editor in action is provided below:
+
+<img src="../../../InfoTools/Documentation/Game/CharacterObjects/ProgressionEditorSnapshot.png" width="800">
+
+Briefly:
+* select the character(s) of interest from the list view on the left-hand side of the tool
+  * character cards will automatically appear on the right-hand side of the tool
+* edit the stats of the character(s) as desired
+* any edits will automatically be reflected in the [Progression](./Progression.asset) Asset
+  * *this is done using the standard method of marking the asset dirty*
+  * *in some cases, changes may not be reflected immediately in file editors/source control*
+  * *to force the process, open [Progression](./Progression.asset) in Unity and ctrl/cmd+s to force save*
+
+The Progression Editor tool is hooked up to Unity's Undo/Redo system, so if any mistakes are made, simply undo them (ctrl/cmd+z).
+
+#### Removing Characters from Progression
+
+To remove character(s):
+* select the characters
+* click the `Remove Selected Characters` button
+
+This is likewise hooked up to Unity's Undo/Redo system, so don't panic if you mistakenly remove an entry.
+
+#### Simulated Stats for Playable Characters
+
+Playable characters have stat growth as a function of their level.  Since stat increases vary based on rolls that happen on each level up event, the stat value at any given level is non-deterministic.
+
+In order to allow for simplier cross-comparisons, simulated stat cards are provided to the right of the initial/stat growth cards for playable characters.  Simply change the `Simulated Level` parameter, and the simulated stats will be generated and then updated on the corresponding card.
 
 ## Character Objects 
 
