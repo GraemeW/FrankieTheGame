@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 00fbef4dec9dc7846811859f8a74c138, type: 3}
   m_Name: Tilly
   m_EditorClassIdentifier: 
-  isPartyCharacter: 1
   characterPrefab: {fileID: 6731012523550855050, guid: 0556de498fd05e247980b8376415a392, type: 3}
   characterNPCPrefab: {fileID: 2398833644461657395, guid: cf0c598dcc5acb140ad2c34c48d6aa9c, type: 3}
+  hasProgressionStats: 1
+  incrementsStatsOnLevelUp: 1

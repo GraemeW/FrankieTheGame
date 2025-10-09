@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using UnityEngine;
@@ -12,47 +11,41 @@ namespace Frankie.Stats
     public class CharacterProperties : ScriptableObject, IAddressablesCache
     {
         // Properties
-        public GameObject characterPrefab = null;
-        public GameObject characterNPCPrefab = null;
-
-        public static string GetStaticCharacterNamePretty(string characterName)
-        {
-            return Regex.Replace(characterName, "([a-z])_?([A-Z])", "$1 $2");
-        }
-
-        public string GetCharacterNamePretty()
-        {
-            return Regex.Replace(name, "([a-z])_?([A-Z])", "$1 $2");
-        }
-
-        public string GetCharacterNameID()
-        {
-            return name;
-        }
-
+        public GameObject characterPrefab;
+        public GameObject characterNPCPrefab;
+        public bool hasProgressionStats = true;
+        public bool incrementsStatsOnLevelUp = false;
+        
         // State
-        static AsyncOperationHandle<IList<CharacterProperties>> addressablesLoadHandle;
-        static Dictionary<string, CharacterProperties> characterLookupCache;
+        private static AsyncOperationHandle<IList<CharacterProperties>> _addressablesLoadHandle;
+        private static Dictionary<string, CharacterProperties> _characterLookupCache;
 
+        #region SimpleGetters
+        public static string GetStaticCharacterNamePretty(string characterName) => Regex.Replace(characterName, "([a-z])_?([A-Z])", "$1 $2");
+        public string GetCharacterNamePretty() => Regex.Replace(name, "([a-z])_?([A-Z])", "$1 $2");
+        public string GetCharacterNameID() => name;
+        public GameObject GetCharacterPrefab() => characterPrefab;
+        public GameObject GetCharacterNPCPrefab() => characterNPCPrefab;
+        #endregion
+        
         #region AddressablesCaching
         public static CharacterProperties GetCharacterPropertiesFromName(string name)
         {
             if (string.IsNullOrWhiteSpace(name)) { return null; }
 
             BuildCacheIfEmpty();
-            if (!characterLookupCache.ContainsKey(name)) return null;
-            return characterLookupCache[name];
+            return _characterLookupCache.GetValueOrDefault(name);
         }
 
         public static Dictionary<string, CharacterProperties> GetCharacterPropertiesLookup()
         {
             BuildCacheIfEmpty();
-            return characterLookupCache;
+            return _characterLookupCache;
         }
 
-        public static void BuildCacheIfEmpty()
+        public static void BuildCacheIfEmpty(bool force = false)
         {
-            if (characterLookupCache == null)
+            if (_characterLookupCache == null || force)
             {
                 BuildCharacterPropertiesCache();
             }
@@ -60,35 +53,23 @@ namespace Frankie.Stats
 
         private static void BuildCharacterPropertiesCache()
         {
-            characterLookupCache = new Dictionary<string, CharacterProperties>();
-            addressablesLoadHandle = Addressables.LoadAssetsAsync(typeof(CharacterProperties).Name, (CharacterProperties characterProperties) =>
+            _characterLookupCache = new Dictionary<string, CharacterProperties>();
+            _addressablesLoadHandle = Addressables.LoadAssetsAsync(nameof(CharacterProperties), (CharacterProperties characterProperties) =>
             {
-                if (characterLookupCache.ContainsKey(characterProperties.name))
+                if (_characterLookupCache.TryGetValue(characterProperties.name, out CharacterProperties matchedProperties))
                 {
-                    Debug.LogError(string.Format("Looks like there's a duplicate ID for objects: {0} and {1}", characterLookupCache[characterProperties.name], characterProperties));
+                    Debug.LogError(string.Format($"Looks like there's a duplicate ID for objects: {matchedProperties} and {characterProperties}"));
                 }
 
-                characterLookupCache[characterProperties.name] = characterProperties;
+                _characterLookupCache[characterProperties.name] = characterProperties;
             }
             );
-            addressablesLoadHandle.WaitForCompletion();
+            _addressablesLoadHandle.WaitForCompletion();
         }
 
         public static void ReleaseCache()
         {
-            Addressables.Release(addressablesLoadHandle);
-        }
-        #endregion
-
-        #region PublicMethods
-        public GameObject GetCharacterPrefab()
-        {
-            return characterPrefab;
-        }
-
-        public GameObject GetCharacterNPCPrefab()
-        {
-            return characterNPCPrefab;
+            Addressables.Release(_addressablesLoadHandle);
         }
         #endregion
     }

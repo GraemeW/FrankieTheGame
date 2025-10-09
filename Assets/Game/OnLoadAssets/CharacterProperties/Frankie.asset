@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 00fbef4dec9dc7846811859f8a74c138, type: 3}
   m_Name: Frankie
   m_EditorClassIdentifier: 
-  isPartyCharacter: 1
   characterPrefab: {fileID: 2703242439715805379, guid: 852bb4720b42aaa4b846a5fbce95061c, type: 3}
   characterNPCPrefab: {fileID: 0}
+  hasProgressionStats: 1
+  incrementsStatsOnLevelUp: 1

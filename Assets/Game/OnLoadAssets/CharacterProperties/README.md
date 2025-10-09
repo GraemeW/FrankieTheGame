@@ -23,6 +23,12 @@ Attach:
 * `Character Prefab` to the relevant [Playable Character](../../CharacterObjects/PCs/) prefab
 * `Character NPC Prefab` to the relevant [NPC](../../CharacterObjects/NPCs/) prefab
 
+Set:
+* `Has Progression Stats`:  `Enabled` if the character will have combat stats / can engage in combat
+* `Increment Stats on Level Up`:  `Enabled` if the character is a playable character
+  * *playable characters have stat growth on level-up*
+  * *whereas non-playable characters have fixed stats*
+
 , for example as shown for Tilly below:
 
-<img src="../../../../InfoTools/Documentation/Game/OnLoadAssets/CharacterProperties/CharacterPropertiesTilly.png" width="300">
+<img src="../../../../InfoTools/Documentation/Game/OnLoadAssets/CharacterProperties/CharacterPropertiesTilly.png" width="350">
