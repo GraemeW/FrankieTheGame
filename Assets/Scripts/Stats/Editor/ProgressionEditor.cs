@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEditor;
@@ -123,22 +122,8 @@ namespace Frankie.Stats.Editor
 
         private Box CreateCharacterStatCard(Progression.ProgressionCharacterClass characterClass)
         {
-            var characterStatCard = new Box
-            {
-                style =
-                {
-                    width = 400,
-                    backgroundColor = Color.darkSlateGray
-                }
-            };
-            characterStatCard.Add(new Label($" {characterClass.characterProperties.name}"));
-
-            var leftRightSplit = new TwoPaneSplitView(0, 200, TwoPaneSplitViewOrientation.Horizontal);
-            characterStatCard.Add(leftRightSplit);
-            var leftPane = new VisualElement();
-            leftRightSplit.Add(leftPane);
-            var rightPane = new VisualElement();
-            leftRightSplit.Add(rightPane);
+            StatCardBase characterStatCard = GetCharacterStatCardBase(false);
+            UpdateStatCardHeader(characterStatCard, characterClass, false);
             
             bool isLeft = true;
             foreach (Progression.ProgressionStat stat in characterClass.stats)
@@ -150,15 +135,64 @@ namespace Frankie.Stats.Editor
                 };
                 statEntry.RegisterValueChangedCallback(x => UpdateStat(characterClass.characterProperties, stat.stat, x.newValue));
                 
-                if (isLeft) { leftPane.Add(statEntry); }
-                else { rightPane.Add(statEntry); }
+                if (isLeft) { characterStatCard.leftPane.Add(statEntry); }
+                else { characterStatCard.rightPane.Add(statEntry); }
                 
                 isLeft = !isLeft;
             }
 
-            return characterStatCard;
+            return characterStatCard.statCardBase;
         }
 
+        private Box CreateCharacterSimulatedStatCard(Progression.ProgressionCharacterClass characterClass)
+        {
+            StatCardBase characterStatCard = GetCharacterStatCardBase(true);
+            UpdateStatCardHeader(characterStatCard, characterClass, true);
+            SimulateStats(characterStatCard, characterClass, 1);
+            
+            return characterStatCard.statCardBase;
+        }
+
+        private StatCardBase GetCharacterStatCardBase(bool isSimulatedStatCard)
+        {
+            var characterStatCard = new Box
+            {
+                style =
+                {
+                    width = 400,
+                    backgroundColor = isSimulatedStatCard ? Color.chocolate : Color.darkSlateGray
+                }
+            };
+
+            var header = new Box();
+            characterStatCard.Add(header);
+            
+            var leftRightSplit = new TwoPaneSplitView(0, 200, TwoPaneSplitViewOrientation.Horizontal);
+            characterStatCard.Add(leftRightSplit);
+            var leftPane = new VisualElement();
+            leftRightSplit.Add(leftPane);
+            var rightPane = new VisualElement();
+            leftRightSplit.Add(rightPane);
+
+            return new StatCardBase(characterStatCard, header, leftPane, rightPane);
+        }
+
+        private void UpdateStatCardHeader(StatCardBase statCardBase, Progression.ProgressionCharacterClass characterClass, bool isSimulatedStatCard)
+        {
+            if (!isSimulatedStatCard) { statCardBase.header.Add(new Label($" {characterClass.characterProperties.name}")); }
+            else
+            {
+                var simulatedLevel = new IntegerField
+                {
+                    label = "Simulated Level",
+                    value = 1
+                };
+                simulatedLevel.RegisterValueChangedCallback((changeEvent =>
+                    SimulateStats(statCardBase, characterClass, changeEvent.newValue)));
+                statCardBase.header.Add(simulatedLevel);
+            }
+        }
+        
         private void DrawCharacterNavigationPane()
         {
             Progression.ProgressionCharacterClass[] characterClasses = progression.GetCharacterClasses();
@@ -173,9 +207,30 @@ namespace Frankie.Stats.Editor
 
         private void DrawCharacterStatPane()
         {
-            foreach (Box characterStatCard in selectedCharacterClasses.Select(CreateCharacterStatCard))
+            foreach (Progression.ProgressionCharacterClass progressionClass in selectedCharacterClasses)
             {
-                characterStatPane.Add(characterStatCard);
+                Box characterStatCard = CreateCharacterStatCard(progressionClass);
+                if (!progressionClass.characterProperties.incrementsStatsOnLevelUp)
+                {
+                    characterStatPane.Add(characterStatCard);
+                }
+                else
+                {
+                    var statSimulationSplit = new TwoPaneSplitView
+                    {
+                        orientation = TwoPaneSplitViewOrientation.Horizontal,
+                        fixedPaneInitialDimension = 400,
+                        style =
+                        {
+                            width = 800
+                        }
+                    };
+                    characterStatPane.Add(statSimulationSplit);
+                    
+                    Box simulatedStatCard = CreateCharacterSimulatedStatCard(progressionClass);
+                    statSimulationSplit.Add(characterStatCard);
+                    statSimulationSplit.Add(simulatedStatCard);
+                }
                     
                 var spacer = new Box
                 {
@@ -268,6 +323,68 @@ namespace Frankie.Stats.Editor
         {
             if (progression == null) { return; }
             progression.UpdateProgressionAsset(characterProperties, stat, value);
+        }
+
+        private void SimulateStats(StatCardBase statCard, Progression.ProgressionCharacterClass characterClass, int simulatedLevel)
+        {
+            if (progression == null)  { return; }
+            if (characterClass == null || characterClass.characterProperties == null)  { return; }
+
+            // Simulation
+            Dictionary<Stat, float> activeStatSheet = progression.GetStatSheet(characterClass.characterProperties);
+            for (int currentLevel = 1; currentLevel < simulatedLevel; currentLevel++)
+            {
+                Dictionary<Stat, float> levelUpSheet = BaseStats.GetLevelUpSheet(currentLevel, activeStatSheet[Stat.Stoic], activeStatSheet[Stat.Smarts], characterClass.characterProperties, progression);
+                activeStatSheet[Stat.HP] += levelUpSheet[Stat.HP];
+                activeStatSheet[Stat.AP] += levelUpSheet[Stat.AP];
+                activeStatSheet[Stat.Brawn] += levelUpSheet[Stat.Brawn];
+                activeStatSheet[Stat.Beauty] += levelUpSheet[Stat.Beauty];
+                activeStatSheet[Stat.Smarts] += levelUpSheet[Stat.Smarts];
+                activeStatSheet[Stat.Nimble] += levelUpSheet[Stat.Nimble];
+                activeStatSheet[Stat.Luck] += levelUpSheet[Stat.Luck];
+                activeStatSheet[Stat.Pluck] += levelUpSheet[Stat.Pluck];
+                activeStatSheet[Stat.Stoic] += levelUpSheet[Stat.Stoic];
+            }
+            
+            // Draw entries onto card
+            bool isLeft = true;
+            statCard.leftPane.Clear();
+            statCard.rightPane.Clear();
+            foreach (Progression.ProgressionStat stat in characterClass.stats)
+            {
+                if (!activeStatSheet.ContainsKey(stat.stat)) { continue; }
+                if (stat.stat is Stat.ExperienceReward or Stat.ExperienceToLevelUp) { continue; }
+                
+                var statEntry = new FloatField
+                {
+                    label = stat.stat.ToString(),
+                    value = Mathf.RoundToInt(activeStatSheet[stat.stat]),
+                    isReadOnly = true
+                };
+                
+                if (isLeft) { statCard.leftPane.Add(statEntry); }
+                else { statCard.rightPane.Add(statEntry); }
+                
+                isLeft = !isLeft;
+            }
+        }
+        #endregion
+        
+        #region DataStructures
+        private struct StatCardBase
+        {
+            public readonly Box statCardBase;
+            public readonly Box header;
+            public readonly VisualElement leftPane;
+            public readonly VisualElement rightPane;
+
+            public StatCardBase(Box statCardBase, Box header, VisualElement leftPane, VisualElement rightPane)
+            {
+                this.header = header;
+                this.statCardBase = statCardBase;
+                this.leftPane = leftPane;
+                this.rightPane = rightPane;
+            }
         }
         #endregion
     }

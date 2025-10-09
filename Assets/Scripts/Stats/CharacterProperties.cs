@@ -14,7 +14,8 @@ namespace Frankie.Stats
         public GameObject characterPrefab;
         public GameObject characterNPCPrefab;
         public bool hasProgressionStats = true;
-
+        public bool incrementsStatsOnLevelUp = false;
+        
         // State
         private static AsyncOperationHandle<IList<CharacterProperties>> _addressablesLoadHandle;
         private static Dictionary<string, CharacterProperties> _characterLookupCache;

@@ -17,7 +17,7 @@ namespace Frankie.Stats
         private Dictionary<CharacterProperties, Dictionary<Stat, float>> lookupTable;
 
         // Static
-        public static float GetDefaultStatValue(Stat stat)
+        private static float GetDefaultStatValue(Stat stat)
         {
             return stat switch
             {
