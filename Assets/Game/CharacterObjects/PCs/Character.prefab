@@ -141,6 +141,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   spriteRenderer: {fileID: 8263638854299470656}
   animator: {fileID: 8263638854090363870}
+  startingImmunityFlashPeriod: 0.2
+  immunityFlashPeriodGrowth: 1.25
+  immuneAlpha: 0.4
 --- !u!114 &7770585857665752477
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -158,8 +161,6 @@ MonoBehaviour:
   maxLevel: 99
   levelUpOnInstantiation: 0
   progression: {fileID: 11400000, guid: 6d544ce8c0b2cd34badc52fee9ceccf9, type: 2}
-  bonusStatOnLevelMidProbability: 0.3
-  bonusStatOnLevelHighProbability: 0.1
 --- !u!114 &1538271764270950872
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -180,9 +181,16 @@ MonoBehaviour:
     shaderMaterial: {fileID: 0}
   battleEntityType: 0
   usesAP: 1
-  battleStartCooldown: 10
   damageTimeSpan: 4
   fractionOfHPInstantOnRevival: 0.5
+  shouldDestroySelfOnDeath: 1
+  cooldownMin: 0.2
+  cooldownMax: 10
+  cooldownAtBattleStartPlayer: 2.5
+  cooldownAtBattleStartAlt: 4
+  cooldownBattleAdvantageAdder: -4
+  cooldownBattleDisadvantageAdder: 4
+  cooldownRunFailAdder: 5
 --- !u!114 &726526304575199942
 MonoBehaviour:
   m_ObjectHideFlags: 0

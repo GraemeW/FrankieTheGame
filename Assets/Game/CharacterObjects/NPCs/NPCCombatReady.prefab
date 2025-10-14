@@ -228,9 +228,16 @@ MonoBehaviour:
     shaderMaterial: {fileID: 0}
   battleEntityType: 0
   usesAP: 0
-  battleStartCooldown: 15
   damageTimeSpan: 4
   fractionOfHPInstantOnRevival: 0.5
+  shouldDestroySelfOnDeath: 1
+  cooldownMin: 0.2
+  cooldownMax: 10
+  cooldownAtBattleStartPlayer: 2.5
+  cooldownAtBattleStartAlt: 4
+  cooldownBattleAdvantageAdder: -4
+  cooldownBattleDisadvantageAdder: 4
+  cooldownRunFailAdder: 5
 --- !u!114 &6346925829285501531
 MonoBehaviour:
   m_ObjectHideFlags: 0

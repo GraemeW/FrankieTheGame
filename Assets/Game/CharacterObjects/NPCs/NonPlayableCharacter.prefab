@@ -304,8 +304,6 @@ MonoBehaviour:
   maxLevel: 99
   levelUpOnInstantiation: 0
   progression: {fileID: 11400000, guid: 6d544ce8c0b2cd34badc52fee9ceccf9, type: 2}
-  bonusStatOnLevelMidProbability: 0.3
-  bonusStatOnLevelHighProbability: 0.1
 --- !u!114 &1473610476277215348
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -320,6 +318,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   spriteRenderer: {fileID: 6761616658462586549}
   animator: {fileID: 6761616658632847992}
+  startingImmunityFlashPeriod: 0.1
+  immunityFlashPeriodGrowth: 1.25
+  immuneAlpha: 0.4
 --- !u!114 &965147417343429250
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -373,7 +374,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   willForceCombat: 0
-  willDestroySelfOnDeath: 1
   willDestroyIfInvisible: 0
   delayToDestroyAfterInvisible: 2
   messageCannotFight: '{0} is wounded and cannot fight.'
