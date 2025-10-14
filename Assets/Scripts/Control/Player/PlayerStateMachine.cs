@@ -20,52 +20,52 @@ namespace Frankie.Control
     {
         // Tunables
         [Header("Other Controller Prefabs")]
-        [SerializeField] BattleController battleControllerPrefab = null;
-        [SerializeField] DialogueController dialogueControllerPrefab = null;
+        [SerializeField] private BattleController battleControllerPrefab;
+        [SerializeField] private DialogueController dialogueControllerPrefab;
         [Header("Menu Game Objects")]
-        [SerializeField] GameObject shopSelectPrefab = null;
-        [SerializeField] GameObject cashTransferPrefab = null;
-        [SerializeField] GameObject worldOptionsPrefab = null;
-        [SerializeField] GameObject escapeMenuPrefab = null;
+        [SerializeField] private GameObject shopSelectPrefab;
+        [SerializeField] private GameObject cashTransferPrefab;
+        [SerializeField] private GameObject worldOptionsPrefab;
+        [SerializeField] private GameObject escapeMenuPrefab;
         [Header("Messages")]
-        [SerializeField] string messageCannotFight = "You are wounded and cannot fight.";
+        [SerializeField] private string messageCannotFight = "You are wounded and cannot fight.";
         [Header("Parameters")]
-        [SerializeField] int maxEnemiesPerCombat = 12;
+        [SerializeField] private int maxEnemiesPerCombat = 12;
 
         // State Information
         // Player
-        IPlayerState currentPlayerState = new WorldState();
+        private IPlayerState currentPlayerState = new WorldState();
         // Queue
-        PlayerStateTypeActionPair actionUnderConsideration = null;
-        Stack<PlayerStateTypeActionPair> queuedActions = new Stack<PlayerStateTypeActionPair>();
-        bool readyToPopQueue = false;
+        private PlayerStateTypeActionPair actionUnderConsideration;
+        private readonly Stack<PlayerStateTypeActionPair> queuedActions = new Stack<PlayerStateTypeActionPair>();
+        private bool readyToPopQueue = false;
         // Transition
-        TransitionType transitionTypeUnderConsideration = TransitionType.None;
-        TransitionType currentTransitionType = TransitionType.None;
-        bool zoneTransitionComplete = true;
+        private TransitionType transitionTypeUnderConsideration = TransitionType.None;
+        private TransitionType currentTransitionType = TransitionType.None;
+        private bool zoneTransitionComplete = true;
 
         // CutScene
-        bool visibleDuringCutscene = true;
+        private bool visibleDuringCutscene = true;
         // Combat
-        bool combatFadeComplete = false;
-        List<CombatParticipant> enemiesUnderConsideration = new List<CombatParticipant>();
-        List<CombatParticipant> enemiesInTransition = new List<CombatParticipant>();
+        private bool combatFadeComplete = false;
+        private readonly List<CombatParticipant> enemiesUnderConsideration = new List<CombatParticipant>();
+        private readonly List<CombatParticipant> enemiesInTransition = new List<CombatParticipant>();
         // Dialogue
-        DialogueData dialogueData = null;
+        private DialogueData dialogueData;
         // Trade
-        TradeData tradeData = null;
+        private TradeData tradeData;
         // Option
-        OptionStateType optionStateType = default;
+        private OptionStateType optionStateType;
 
         // Cached References -- Persistent
-        Party party = null;
-        PartyAssist partyAssist = null;
-        PartyCombatConduit partyCombatConduit = null;
-        Shopper shopper = null;
-        WorldCanvas worldCanvas = null;
+        private Party party;
+        private PartyAssist partyAssist;
+        private PartyCombatConduit partyCombatConduit;
+        private Shopper shopper;
+        private WorldCanvas worldCanvas;
         // Cached References -- State Dependent
-        BattleController battleController = null;
-        DialogueController dialogueController = null;
+        private BattleController battleController;
+        private DialogueController dialogueController;
 
         // Events
         public event Action<PlayerStateType> playerStateChanged;
@@ -84,14 +84,10 @@ namespace Frankie.Control
         }
 
         #region StaticMethods
-        static PlayerStateType TranslatePlayerState(IPlayerState playerState)
+        private static PlayerStateType TranslatePlayerState(IPlayerState playerState)
         {
             Type playerStateType = playerState.GetType();
-            if (playerStateType == typeof(WorldState))
-            {
-                return PlayerStateType.inWorld;
-            }
-            else if (playerStateType == typeof(TransitionState))
+            if (playerStateType == typeof(TransitionState))
             {
                 return PlayerStateType.inTransition;
             }
@@ -111,7 +107,7 @@ namespace Frankie.Control
             {
                 return PlayerStateType.inCutScene;
             }
-            return PlayerStateType.inWorld;
+            return PlayerStateType.inWorld; // Default:  typeof(WorldState)
         }
         #endregion
 
@@ -153,7 +149,7 @@ namespace Frankie.Control
         void IPlayerStateContext.SetPlayerState(IPlayerState playerState)
         {
             PlayerStateType playerStateType = TranslatePlayerState(playerState);
-            UnityEngine.Debug.Log($"Updating player state to: {Enum.GetName(typeof(PlayerStateType), playerStateType)}");
+            Debug.Log($"Updating player state to: {Enum.GetName(typeof(PlayerStateType), playerStateType)}");
 
             currentPlayerState = playerState;
             playerStateChanged?.Invoke(playerStateType);
@@ -168,7 +164,6 @@ namespace Frankie.Control
 
         public void SetPostDialogueCallbackActions(InteractionEvent interactionEvent)
         {
-            DialogueController dialogueController = GetCurrentDialogueController();
             if (dialogueController != null && interactionEvent != null)
             {
                 dialogueController.SetDestroyCallbackActions(interactionEvent);
@@ -178,11 +173,6 @@ namespace Frankie.Control
         public Party GetParty() // TODO:  Refactor, Demeter
         {
             return party;
-        }
-
-        public DialogueController GetCurrentDialogueController()
-        {
-            return dialogueController;
         }
         #endregion
 
@@ -194,7 +184,7 @@ namespace Frankie.Control
 
         public void EnterZoneTransition()
         {
-            actionUnderConsideration = new PlayerStateTypeActionPair(PlayerStateType.inTransition, () => EnterZoneTransition());
+            actionUnderConsideration = new PlayerStateTypeActionPair(PlayerStateType.inTransition, EnterZoneTransition);
             currentTransitionType = TransitionType.Zone;
             zoneTransitionComplete = false;
             currentPlayerState.EnterTransition(this);
@@ -344,14 +334,7 @@ namespace Frankie.Control
             if (battleController == null)
             {
                 BattleController existingBattleController = BattleController.FindBattleController();
-                if (existingBattleController == null)
-                {
-                    battleController = Instantiate(battleControllerPrefab);
-                }
-                else
-                {
-                    battleController = existingBattleController;
-                }
+                battleController = existingBattleController == null ? Instantiate(battleControllerPrefab) : existingBattleController;
             }
             BattleEventBus<BattleStateChangedEvent>.SubscribeToEvent(HandleCombatMessages);
         }
@@ -359,8 +342,7 @@ namespace Frankie.Control
         public bool StartBattleSequence()
         {
             Fader fader = Fader.FindFader();
-            if (fader == null || fader.IsFading() == true) { return false; } // Safety against missing fader
-            if (fader.IsFading() == true) { return true; } // Safety against multiple fading routines
+            if (fader == null || fader.IsFading()) { return false; }
 
             StartCoroutine(QueueBattleTransition(fader, currentTransitionType));
             return true;
@@ -374,8 +356,7 @@ namespace Frankie.Control
         public bool EndBattleSequence()
         {
             Fader fader = Fader.FindFader();
-            if (fader == null || fader.IsFading() == true) { return false; } // Safety against missing fader
-            if (fader.IsFading() == true) { return true; } // Safety against multiple fading routines
+            if (fader == null || fader.IsFading()) { return false; }
 
             StartCoroutine(QueueExitCombat(fader));
             return true;
@@ -384,7 +365,6 @@ namespace Frankie.Control
         private void HandleCombatMessages(BattleStateChangedEvent battleStateChangedEvent)
         {
             BattleState battleState = battleStateChangedEvent.battleState;
-            BattleOutcome battleOutcome = battleStateChangedEvent.battleOutcome;
 
             if (battleState != BattleState.Complete) { return; }
             BattleEventBus<BattleStateChangedEvent>.UnsubscribeFromEvent(HandleCombatMessages);
@@ -424,14 +404,7 @@ namespace Frankie.Control
             if (dialogueController == null)
             {
                 DialogueController existingDialogueController = DialogueController.FindDialogueController();
-                if (existingDialogueController == null)
-                {
-                    dialogueController = Instantiate(dialogueControllerPrefab);
-                }
-                else
-                {
-                    dialogueController = existingDialogueController;
-                }
+                dialogueController = existingDialogueController == null ? Instantiate(dialogueControllerPrefab) : existingDialogueController;
             }
 
             dialogueController.Setup(worldCanvas, this, party);
@@ -502,7 +475,7 @@ namespace Frankie.Control
         #region UtilityGeneral
         public void TogglePlayerVisibility(bool? enable = null)
         {
-            bool visible = enable == null ? visibleDuringCutscene : (bool)enable;
+            bool visible = enable ?? visibleDuringCutscene;
 
             if (party != null)
             {

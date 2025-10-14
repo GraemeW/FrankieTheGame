@@ -1,5 +1,4 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -18,57 +17,57 @@ namespace Frankie.Combat.UI
     {
         // Tunables
         [Header("Parents")]
-        [SerializeField] Canvas canvas = null;
-        [SerializeField] Transform playerPanelParent = null;
-        [SerializeField] Transform frontRowParent = null;
-        [SerializeField] Transform backRowParent = null;
-        [SerializeField] Image backgroundFill = null;
-        [SerializeField] MovingBackgroundProperties defaultMovingBackgroundProperties = null;
-        [SerializeField] Transform infoChooseParent = null;
-        [SerializeField] CombatLog combatLog = null;
-        [SerializeField] CombatOptions combatOptions = null;
-        [SerializeField] SkillSelectionUI skillSelection = null;
+        [SerializeField] private Canvas canvas;
+        [SerializeField] private Transform playerPanelParent;
+        [SerializeField] private Transform frontRowParent;
+        [SerializeField] private Transform backRowParent;
+        [SerializeField] private Image backgroundFill;
+        [SerializeField] private MovingBackgroundProperties defaultMovingBackgroundProperties;
+        [SerializeField] private Transform infoChooseParent;
+        [SerializeField] private CombatLog combatLog;
+        [SerializeField] private CombatOptions combatOptions;
+        [SerializeField] private SkillSelectionUI skillSelection;
 
         [Header("Prefabs")]
-        [SerializeField] CharacterSlide characterSlidePrefab = null;
-        [SerializeField] EnemySlide enemySlidePrefab = null;
-        [SerializeField] DialogueBox dialogueBoxPrefab = null;
-        [SerializeField] DialogueOptionBox dialogueOptionBoxPrefab = null;
-        [SerializeField] InventorySwapBox inventorySwapBoxPrefab = null;
+        [SerializeField] private CharacterSlide characterSlidePrefab;
+        [SerializeField] private EnemySlide enemySlidePrefab;
+        [SerializeField] private DialogueBox dialogueBoxPrefab;
+        [SerializeField] private DialogueOptionBox dialogueOptionBoxPrefab;
+        [SerializeField] private InventorySwapBox inventorySwapBoxPrefab;
 
         [Header("Messages")]
-        [Tooltip("Include {0} for enemy name")][SerializeField] string messageEncounterSingle = "You have encountered {0}.";
-        [Tooltip("Include {0} for enemy name")][SerializeField] string messageEncounterMultiple = "You have encountered {0} and its cohort.";
-        [Tooltip("Called after encounter message")] [SerializeField] string messageEncounterPreHype = "What do you want to do?";
-        [Tooltip("Include {0} for experience value")][SerializeField] string messageGainedExperience = "Your party has gained {0} experience.";
-        [Tooltip("Include {0} for character name, {1} for level")][SerializeField] string messageCharacterLevelUp = "{0} has leveled up to level {1}!";
-        [Tooltip("Include {0} for stat name, {1} for value")] [SerializeField] string messageCharacterStatGained = "{0} has increased by {1}.";
-        [Tooltip("Include {0} for leader character name")] [SerializeField] string messageGainedLoot = "Wait, {0} found something.";
-        [Tooltip("Include {0} for enemy name, {1} for item name")] [SerializeField] string messageEnemyDroppedLoot = "{0} dropped {1}, and you stashed it in your knapsack.";
-        [Tooltip("Include {0} for enemy name, {1} for item name")] [SerializeField] string messageEnemyDroppedLootNoRoom = "{0} dropped {1}, but you don't have any room.  Do you want to throw something out?";
-        [SerializeField] string optionChuckItemAffirmative = "Yeah";
-        [SerializeField] string optionChuckItemNegative = "Nah";
-        [Tooltip("Include {0} for item name")] [SerializeField] string messageConfirmThrowOut = "Are you sure you want to abandon {0}?";
-        [SerializeField] string messageBattleCompleteWon = "You Won!  Congratulations!";
-        [SerializeField] string messageBattleCompleteLost = "You lost.  Whoops!";
-        [SerializeField] string messageBattleCompleteRan = "You ran away.";
+        [Tooltip("Include {0} for enemy name")][SerializeField] private string messageEncounterSingle = "You have encountered {0}.";
+        [Tooltip("Include {0} for enemy name")][SerializeField] private string messageEncounterMultiple = "You have encountered {0} and its cohort.";
+        [Tooltip("Called after encounter message")] [SerializeField] private string messageEncounterPreHype = "What do you want to do?";
+        [Tooltip("Include {0} for experience value")][SerializeField] private string messageGainedExperience = "Your party has gained {0} experience.";
+        [Tooltip("Include {0} for character name, {1} for level")][SerializeField] private string messageCharacterLevelUp = "{0} has leveled up to level {1}!";
+        [Tooltip("Include {0} for stat name, {1} for value")] [SerializeField] private string messageCharacterStatGained = "{0} has increased by {1}.";
+        [Tooltip("Include {0} for leader character name")] [SerializeField] private string messageGainedLoot = "Wait, {0} found something.";
+        [Tooltip("Include {0} for enemy name, {1} for item name")] [SerializeField] private string messageEnemyDroppedLoot = "{0} dropped {1}, and you stashed it in your knapsack.";
+        [Tooltip("Include {0} for enemy name, {1} for item name")] [SerializeField] private string messageEnemyDroppedLootNoRoom = "{0} dropped {1}, but you don't have any room.  Do you want to throw something out?";
+        [SerializeField] private string optionChuckItemAffirmative = "Yeah";
+        [SerializeField] private string optionChuckItemNegative = "Nah";
+        [Tooltip("Include {0} for item name")] [SerializeField] private string messageConfirmThrowOut = "Are you sure you want to abandon {0}?";
+        [SerializeField] private string messageBattleCompleteWon = "You Won!  Congratulations!";
+        [SerializeField] private string messageBattleCompleteLost = "You lost.  Whoops!";
+        [SerializeField] private string messageBattleCompleteRan = "You ran away.";
 
         // State
-        Dictionary<BattleEntity, EnemySlide> enemySlideLookup = new Dictionary<BattleEntity, EnemySlide>();
-        BattleState lastBattleState = BattleState.Inactive;
-        Queue<Action> queuedUISequences = new Queue<Action>();
-        List<CharacterLevelUpSheetPair> queuedLevelUps = new List<CharacterLevelUpSheetPair>();
-        bool firstCharacterToggle = false;
-        bool busyWithSerialAction = false;
-        bool outroQueued = false;
+        private readonly Dictionary<BattleEntity, EnemySlide> enemySlideLookup = new Dictionary<BattleEntity, EnemySlide>();
+        private BattleState lastBattleState = BattleState.Inactive;
+        private readonly Queue<Action> queuedUISequences = new Queue<Action>();
+        private readonly List<CharacterLevelUpSheetPair> queuedLevelUps = new List<CharacterLevelUpSheetPair>();
+        private bool firstCharacterToggle = false;
+        private bool busyWithSerialAction = false;
+        private bool outroQueued = false;
 
         // Cached References
-        PartyCombatConduit partyCombatConduit = null;
-        BattleController battleController = null;
-        BattleRewards battleRewards = null;
+        private PartyCombatConduit partyCombatConduit;
+        private BattleController battleController;
+        private BattleRewards battleRewards;
 
         // Data Structures
-        public struct CharacterLevelUpSheetPair
+        private struct CharacterLevelUpSheetPair
         {
             public BaseStats baseStats;
             public int level;
@@ -76,8 +75,13 @@ namespace Frankie.Combat.UI
         }
 
         #region StaticFind
-        private static string battleCanvasTag = "BattleCanvas";
-        public static BattleCanvas FindBattleCanvas() => GameObject.FindGameObjectWithTag(battleCanvasTag)?.GetComponent<BattleCanvas>();
+        private const string _battleCanvasTag = "BattleCanvas";
+
+        public static BattleCanvas FindBattleCanvas()
+        {
+            var battleCanvasGameObject = GameObject.FindGameObjectWithTag(_battleCanvasTag);
+            return battleCanvasGameObject != null ? battleCanvasGameObject.GetComponent<BattleCanvas>() : null;
+        }
         #endregion
 
         #region UnityMethods
@@ -122,7 +126,28 @@ namespace Frankie.Combat.UI
         #endregion
 
         #region PublicMethods
-        public void Setup(BattleStateChangedEvent battleStateChangedEvent)
+        public DialogueBox SetupRunFailureMessage(IUIBoxCallbackReceiver callbackReceiver, Action[] actions)
+        {
+            DialogueBox dialogueBox = Instantiate(dialogueBoxPrefab, infoChooseParent);
+            dialogueBox.AddText("Failed to run away.");
+            dialogueBox.TakeControl(battleController, callbackReceiver, actions);
+
+            return dialogueBox;
+        }
+
+        public EnemySlide GetEnemySlide(BattleEntity combatParticipant)
+        {
+            return enemySlideLookup.GetValueOrDefault(combatParticipant);
+        }
+
+        public Canvas GetCanvas()
+        {
+            return canvas;
+        }
+        #endregion
+
+        #region PrivateInitialization
+        private void Setup(BattleStateChangedEvent battleStateChangedEvent)
         {
             BattleState state = battleStateChangedEvent.battleState;
             BattleOutcome battleOutcome = battleStateChangedEvent.battleOutcome;
@@ -158,30 +183,7 @@ namespace Frankie.Combat.UI
                 outroQueued = true;
             }
         }
-
-        public DialogueBox SetupRunFailureMessage(IUIBoxCallbackReceiver callbackReceiver, Action[] actions)
-        {
-            DialogueBox dialogueBox = Instantiate(dialogueBoxPrefab, infoChooseParent);
-            dialogueBox.AddText("Failed to run away.");
-            dialogueBox.TakeControl(battleController, callbackReceiver, actions);
-
-            return dialogueBox;
-        }
-
-        public EnemySlide GetEnemySlide(BattleEntity combatParticipant)
-        {
-            if (!enemySlideLookup.ContainsKey(combatParticipant)) { return null; }
-
-            return enemySlideLookup[combatParticipant];
-        }
-
-        public Canvas GetCanvas()
-        {
-            return canvas;
-        }
-        #endregion
-
-        #region PrivateInitialization
+        
         private void ClearBattleCanvas()
         {
             foreach (Transform child in playerPanelParent)
@@ -194,11 +196,6 @@ namespace Frankie.Combat.UI
             }
             foreach (Transform child in backRowParent)
             {
-                Destroy(child.gameObject);
-            }
-            foreach (Transform child in infoChooseParent)
-            {
-                if (child.gameObject != combatOptions || child.gameObject != skillSelection) { continue; }
                 Destroy(child.gameObject);
             }
         }
@@ -304,6 +301,8 @@ namespace Frankie.Combat.UI
         private void SetupEntryMessage(List<BattleEntity> enemies)
         {
             BattleEntity enemy = enemies.FirstOrDefault();
+            if (enemy == null) { return; }
+            
             string entryMessage = (enemies.Count > 1) ? string.Format(messageEncounterMultiple, enemy.combatParticipant.GetCombatName()) : string.Format(messageEncounterSingle, enemy.combatParticipant.GetCombatName());
 
             DialogueBox dialogueBox = Instantiate(dialogueBoxPrefab, infoChooseParent);
@@ -387,7 +386,7 @@ namespace Frankie.Combat.UI
         private void SetupUnallocatedLootMessage(string enemyName, InventoryItem inventoryItem, BattleOutcome battleOutcome)
         {
             // Handling items that cannot be placed in inventory due to inventory full
-            // Note:  busyyWithSerialAction is reset on resolution of sub-menu calls
+            // Note:  busyWithSerialAction is reset on resolution of sub-menu calls
             // -- See SetupInventorySwapBox && SetupConfirmThrowOutItemMessage
 
             if (battleOutcome != BattleOutcome.Won) { busyWithSerialAction = false; return; }
@@ -396,9 +395,11 @@ namespace Frankie.Combat.UI
             DialogueOptionBox dialogueOptionBox = Instantiate(dialogueOptionBoxPrefab, infoChooseParent);
             dialogueOptionBox.Setup(string.Format(messageEnemyDroppedLootNoRoom, enemyName, inventoryItem.GetDisplayName()));
 
-            List<ChoiceActionPair> choiceActionPairs = new List<ChoiceActionPair>();
-            choiceActionPairs.Add(new ChoiceActionPair(optionChuckItemAffirmative, () => { SetupInventorySwapBox(enemyName, inventoryItem, battleOutcome); Destroy(dialogueOptionBox.gameObject); } ));
-            choiceActionPairs.Add(new ChoiceActionPair(optionChuckItemNegative, () => { SetupConfirmThrowOutItemMessage(enemyName, inventoryItem, battleOutcome); Destroy(dialogueOptionBox.gameObject); } ));
+            var choiceActionPairs = new List<ChoiceActionPair>
+            {
+                new ChoiceActionPair(optionChuckItemAffirmative, () => { SetupInventorySwapBox(enemyName, inventoryItem, battleOutcome); Destroy(dialogueOptionBox.gameObject); } ),
+                new ChoiceActionPair(optionChuckItemNegative, () => { SetupConfirmThrowOutItemMessage(enemyName, inventoryItem, battleOutcome); Destroy(dialogueOptionBox.gameObject); } )
+            };
             dialogueOptionBox.OverrideChoiceOptions(choiceActionPairs);
 
             dialogueOptionBox.ClearDisableCallbacksOnChoose(true); // Clear window re-spawn (see below) on successful choice selection
@@ -420,9 +421,11 @@ namespace Frankie.Combat.UI
             DialogueOptionBox dialogueOptionBox = Instantiate(dialogueOptionBoxPrefab, infoChooseParent);
             dialogueOptionBox.Setup(string.Format(messageConfirmThrowOut, inventoryItem.GetDisplayName()));
 
-            List<ChoiceActionPair> choiceActionPairs = new List<ChoiceActionPair>();
-            choiceActionPairs.Add(new ChoiceActionPair(optionChuckItemAffirmative, () => { dialogueOptionBox.ClearDisableCallbacks(); busyWithSerialAction = false; Destroy(dialogueOptionBox); })); // Exit and close out serial action
-            choiceActionPairs.Add(new ChoiceActionPair(optionChuckItemNegative, () => { Destroy(dialogueOptionBox); })); // Otherwise loop back & re-spawn
+            var choiceActionPairs = new List<ChoiceActionPair>
+            {
+                new ChoiceActionPair(optionChuckItemAffirmative, () => { dialogueOptionBox.ClearDisableCallbacks(); busyWithSerialAction = false; Destroy(dialogueOptionBox); }), // Exit and close out serial action
+                new ChoiceActionPair(optionChuckItemNegative, () => { Destroy(dialogueOptionBox); }) // Otherwise loop back & re-spawn
+            };
             dialogueOptionBox.OverrideChoiceOptions(choiceActionPairs);
 
             dialogueOptionBox.TakeControl(battleController, this, new Action[] { () => SetupUnallocatedLootMessage(enemyName, inventoryItem, battleOutcome) });

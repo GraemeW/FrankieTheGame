@@ -11,16 +11,16 @@ namespace Frankie.Core
     {
         // Tunables
         [Header("Hookups")]
-        [SerializeField] CinemachineStateDrivenCamera stateCamera = null;
-        [SerializeField] CinemachineVirtualCamera activeCamera = null;
-        [SerializeField] CinemachineVirtualCamera idleCamera = null;
+        [SerializeField] private CinemachineStateDrivenCamera stateCamera;
+        [SerializeField] private CinemachineVirtualCamera activeCamera;
+        [SerializeField] private CinemachineVirtualCamera idleCamera;
         [Header("Camera Parameters")]
-        [SerializeField] float defaultActiveOrthoSize = 3.6f;
-        [SerializeField] float defaultIdleOrthoSize = 1.8f;
+        [SerializeField] private float defaultActiveOrthoSize = 3.6f;
+        [SerializeField] private float defaultIdleOrthoSize = 1.8f;
 
         // Cached References
-        ReInitLazyValue<Player> player;
-        ReInitLazyValue<Party> party;
+        private ReInitLazyValue<Player> player;
+        private ReInitLazyValue<Party> party;
 
         // State
         private bool usingPixelPerfectCamera = false;
@@ -30,12 +30,12 @@ namespace Frankie.Core
         private float currentIdleOrthoSize = 1.8f;
 
         #region Static
-        private static string mainCameraTag = "MainCamera";
+        private const string _mainCameraTag = "MainCamera";
         public static CameraController GetCameraController()
         {
-            GameObject mainCamera = GameObject.FindGameObjectWithTag(mainCameraTag);
-            if (mainCamera == null) { return null; }
-            GameObject cameraContainer = mainCamera.transform.parent.gameObject; // Structure of cameras is:  [CameraController (container) -> MainCamera, StateCameras, etc.]
+            GameObject mainCameraGameObject = GameObject.FindGameObjectWithTag(_mainCameraTag);
+            if (mainCameraGameObject == null) { return null; }
+            GameObject cameraContainer = mainCameraGameObject.transform.parent.gameObject; // Structure of cameras is:  [CameraController (container) -> MainCamera, StateCameras, etc.]
             if (cameraContainer == null) { return null; }
 
             return cameraContainer.GetComponent<CameraController>();
@@ -118,8 +118,8 @@ namespace Frankie.Core
         {
             if (usingPixelPerfectCamera) { return; }
 
-            currentActiveOrthoSize = (defaultActiveOrthoSize * (float)resolutionScaler.numerator / (float)resolutionScaler.denominator) / (float)cameraScaling;
-            currentIdleOrthoSize = (defaultIdleOrthoSize * (float)resolutionScaler.numerator / (float)resolutionScaler.denominator) / (float)cameraScaling;
+            currentActiveOrthoSize = (defaultActiveOrthoSize * resolutionScaler.numerator / resolutionScaler.denominator) / cameraScaling;
+            currentIdleOrthoSize = (defaultIdleOrthoSize * resolutionScaler.numerator / resolutionScaler.denominator) / cameraScaling;
 
             if (activeCamera != null) { activeCamera.m_Lens.OrthographicSize = currentActiveOrthoSize; }
             if (idleCamera != null) { idleCamera.m_Lens.OrthographicSize = currentIdleOrthoSize; }

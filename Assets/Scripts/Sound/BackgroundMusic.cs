@@ -13,26 +13,47 @@ namespace Frankie.Sound
     {
         // Tunables
         [Header("Main Behaviour Configurables")]
-        [SerializeField][Range(0f, 1.0f)] float volume = 0.4f;
-        [SerializeField] float musicFadeDuration = 3.0f;
-        [SerializeField] AudioMixer audioMixer = null;
+        [SerializeField][Range(0f, 1.0f)] private float volume = 0.4f;
+        [SerializeField] private float musicFadeDuration = 3.0f;
+        [SerializeField] private AudioMixer audioMixer;
         [Header("Standard Fixed Audio")]
-        [SerializeField] AudioClip levelUpAudio = null;
+        [SerializeField] private AudioClip levelUpAudio;
 
         // State
-        AudioClip currentWorldMusic = null;
-        bool isWorldMusicLooping = true;
-        float worldMusicTimeIndex = 0f;
-        bool wasMusicOverriddenOnStart = false;
-        bool isBattleMusic = false;
+        private AudioClip currentWorldMusic;
+        private bool isWorldMusicLooping = true;
+        private float worldMusicTimeIndex = 0f;
+        private bool wasMusicOverriddenOnStart = false;
+        private bool isBattleMusic = false;
 
         // Cached References
-        AudioSource audioSource = null;
+        private AudioSource audioSource;
 
         #region Static
-        private static string MIXER_VOLUME_REFERENCE = "masterVolume";
-        private static string backgroundMusicTag = "BackgroundMusic";
-        public static BackgroundMusic FindBackgroundMusic() => GameObject.FindGameObjectWithTag(backgroundMusicTag)?.GetComponent<BackgroundMusic>();
+        private const string _mixerVolumeReference = "masterVolume";
+        private const string _backgroundMusicTag = "BackgroundMusic";
+
+        public static BackgroundMusic FindBackgroundMusic()
+        {
+            var backgroundMusicGameObject = GameObject.FindGameObjectWithTag(_backgroundMusicTag);
+            return backgroundMusicGameObject != null ? backgroundMusicGameObject.GetComponent<BackgroundMusic>() : null;
+        }
+        
+        private static IEnumerator StartFade(AudioMixer audioMixer, string exposedMixedVolumeReference, float duration, float targetVolume)
+        {
+            float currentTime = 0;
+            audioMixer.GetFloat(exposedMixedVolumeReference, out float currentVol);
+            currentVol = Mathf.Pow(10, currentVol / 20);
+            float targetValue = Mathf.Clamp(targetVolume, 0.0001f, 1);
+
+            while (currentTime < duration)
+            {
+                currentTime += Time.deltaTime;
+                float newVol = Mathf.Lerp(currentVol, targetValue, currentTime / duration);
+                audioMixer.SetFloat(exposedMixedVolumeReference, Mathf.Log10(newVol) * 20);
+                yield return null;
+            }
+        }
         #endregion
 
         #region UnityMethods
@@ -44,7 +65,7 @@ namespace Frankie.Sound
         private void Start()
         {
             Zone currentZone = SceneLoader.GetCurrentZone();
-            if (currentZone == null) { UnityEngine.Debug.Log("Zone load failed");  return; }
+            if (currentZone == null) { Debug.Log("Zone load failed");  return; }
             ConfigureNewWorldAudio(currentZone.GetZoneAudio(), currentZone.IsZoneAudioLooping(), true);
         }
 
@@ -66,29 +87,11 @@ namespace Frankie.Sound
         #endregion
 
         #region PublicMethods
-        public void SetVolume(float volume)
+        public void SetVolume(float setVolume)
         {
-            volume = Mathf.Clamp(volume, 0f, 1.0f);
-            this.volume = volume;
-            audioSource.volume = volume;
-        }
-
-        public static IEnumerator StartFade(AudioMixer audioMixer, string exposedMixedVolumeReference, float duration, float targetVolume)
-        {
-            float currentTime = 0;
-            float currentVol;
-            audioMixer.GetFloat(exposedMixedVolumeReference, out currentVol);
-            currentVol = Mathf.Pow(10, currentVol / 20);
-            float targetValue = Mathf.Clamp(targetVolume, 0.0001f, 1);
-
-            while (currentTime < duration)
-            {
-                currentTime += Time.deltaTime;
-                float newVol = Mathf.Lerp(currentVol, targetValue, currentTime / duration);
-                audioMixer.SetFloat(exposedMixedVolumeReference, Mathf.Log10(newVol) * 20);
-                yield return null;
-            }
-            yield break;
+            setVolume = Mathf.Clamp(setVolume, 0f, 1.0f);
+            volume = setVolume;
+            audioSource.volume = setVolume;
         }
         #endregion
 
@@ -113,13 +116,13 @@ namespace Frankie.Sound
         #region Standard Transitions
         private IEnumerator TransitionToAudio(AudioClip audioClip, bool isLooping, float timeIndex = 0f)
         {
-            yield return StartFade(audioMixer, MIXER_VOLUME_REFERENCE, musicFadeDuration, 0f);
+            yield return StartFade(audioMixer, _mixerVolumeReference, musicFadeDuration, 0f);
             audioSource.Stop();
             audioSource.clip = audioClip;
             audioSource.loop = isLooping;
             audioSource.time = timeIndex;
             audioSource.Play();
-            yield return StartFade(audioMixer, MIXER_VOLUME_REFERENCE, musicFadeDuration, volume);
+            yield return StartFade(audioMixer, _mixerVolumeReference, musicFadeDuration, volume);
         }
 
         private IEnumerator TransitionToAudioImmediate(AudioClip audioClip, bool isLooping)
@@ -129,7 +132,7 @@ namespace Frankie.Sound
             audioSource.loop = isLooping;
             audioSource.time = 0f;
             audioSource.Play();
-            yield return StartFade(audioMixer, MIXER_VOLUME_REFERENCE, musicFadeDuration, volume);
+            yield return StartFade(audioMixer, _mixerVolumeReference, musicFadeDuration, volume);
         }
         #endregion
 
@@ -171,8 +174,9 @@ namespace Frankie.Sound
 
             if (!wasMusicOverriddenOnStart)
             {
-                if (immediate) { StartCoroutine(TransitionToAudioImmediate(audioClip, isLooping)); }
-                else { StartCoroutine(TransitionToAudio(audioClip, isLooping)); }
+                StartCoroutine(immediate
+                    ? TransitionToAudioImmediate(audioClip, isLooping)
+                    : TransitionToAudio(audioClip, isLooping));
             }
             currentWorldMusic = audioClip;
             isWorldMusicLooping = isLooping;

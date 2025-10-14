@@ -10,14 +10,24 @@ namespace Frankie.Core
     public class Player : MonoBehaviour
     {
         // Cached References
-        PlayerStateMachine playerStateHandler = null;
-        PartyCombatConduit partyCombatConduit = null;
+        private PlayerStateMachine playerStateHandler;
+        private PartyCombatConduit partyCombatConduit;
 
         #region StaticFind
-        private static string playerTag = "Player";
-        public static GameObject FindPlayerObject() => GameObject.FindGameObjectWithTag(playerTag);
-        public static Player FindPlayer() => FindPlayerObject()?.GetComponent<Player>();
-        public static PlayerStateMachine FindPlayerStateMachine() => FindPlayerObject()?.GetComponent<PlayerStateMachine>();
+        private const string _playerTag = "Player";
+        public static GameObject FindPlayerObject() => GameObject.FindGameObjectWithTag(_playerTag);
+
+        public static Player FindPlayer()
+        {
+            var playerGameObject = FindPlayerObject();
+            return playerGameObject != null ? playerGameObject.GetComponent<Player>() : null;
+        }
+
+        public static PlayerStateMachine FindPlayerStateMachine()
+        {
+            var playerGameObject = FindPlayerObject();
+            return playerGameObject != null ? playerGameObject.GetComponent<PlayerStateMachine>() : null;
+        }
         #endregion
 
         #region UnityMethods

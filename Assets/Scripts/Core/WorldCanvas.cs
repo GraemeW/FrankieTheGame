@@ -2,10 +2,15 @@ using UnityEngine;
 
 public class WorldCanvas : MonoBehaviour
 {
-    [SerializeField] Transform worldOptionsParent = null;
+    [SerializeField] private Transform worldOptionsParent;
 
-    private static string worldCanvasTag = "WorldCanvas";
-    public static WorldCanvas FindWorldCanvas() => GameObject.FindGameObjectWithTag(worldCanvasTag)?.GetComponent<WorldCanvas>();
+    private const string _worldCanvasTag = "WorldCanvas";
+
+    public static WorldCanvas FindWorldCanvas() 
+    {
+        var worldCanvasGameObject = GameObject.FindGameObjectWithTag(_worldCanvasTag);
+        return worldCanvasGameObject != null ? worldCanvasGameObject.GetComponent<WorldCanvas>() : null;
+    }
 
     public void DestroyExistingWorldOptions()
     {
