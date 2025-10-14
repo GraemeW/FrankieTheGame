@@ -13,28 +13,28 @@ namespace Frankie.Speech
     {
         // Tunables
         [Header("Controller Properties")]
-        [SerializeField] GameObject dialogueBoxPrefab = null;
-        [SerializeField] GameObject dialogueOptionBox = null;
-        [SerializeField] GameObject dialogueOptionBoxVertical = null;
+        [SerializeField] private GameObject dialogueBoxPrefab;
+        [SerializeField] private GameObject dialogueOptionBox;
+        [SerializeField] private GameObject dialogueOptionBoxVertical;
 
         // State
-        Dialogue currentDialogue = null;
-        DialogueNode currentNode = null;
-        AIConversant currentConversant = null;
-        DialogueNode highlightedNode = null;
+        private Dialogue currentDialogue;
+        private DialogueNode currentNode;
+        private AIConversant currentConversant;
+        private DialogueNode highlightedNode;
 
-        bool isSimpleMessage = false;
-        string simpleMessage = "";
-        List<ChoiceActionPair> simpleChoices = new List<ChoiceActionPair>();
-        InteractionEvent onDestroyCallbackActions = null;
+        private bool isSimpleMessage = false;
+        private string simpleMessage = "";
+        private List<ChoiceActionPair> simpleChoices = new List<ChoiceActionPair>();
+        private InteractionEvent onDestroyCallbackActions;
 
-        bool dialogueComplete = false;
+        private bool dialogueComplete = false;
 
         // Cached References
-        PlayerInput playerInput = null;
-        WorldCanvas worldCanvas = null;
-        PlayerStateMachine playerStateHandler = null;
-        Party party = null;
+        private PlayerInput playerInput;
+        private WorldCanvas worldCanvas;
+        private PlayerStateMachine playerStateHandler;
+        private Party party;
 
         // Events
         public event Action<PlayerInputType> globalInput;
@@ -44,12 +44,18 @@ namespace Frankie.Speech
         public event Action<DialogueUpdateType, DialogueNode> dialogueUpdated;
 
         #region Static
-        private static string dialogueControllerTag = "DialogueController";
-        public static DialogueController FindDialogueController() => GameObject.FindGameObjectWithTag(dialogueControllerTag)?.GetComponent<DialogueController>();
-        static int choiceNumberThresholdToReconfigureVertical = 3;
-        static int choiceLengthThresholdToReconfigureVertical = 10;
-        public static int GetChoiceNumberThresholdToReconfigureVertical() => choiceNumberThresholdToReconfigureVertical;
-        public static int GetChoiceLengthThresholdToReconfigureVertical() => choiceLengthThresholdToReconfigureVertical;
+        private const string _dialogueControllerTag = "DialogueController";
+
+        public static DialogueController FindDialogueController()
+        {
+            var dialogueControllerGameObject = GameObject.FindGameObjectWithTag(_dialogueControllerTag);
+            return dialogueControllerGameObject != null ? dialogueControllerGameObject.GetComponent<DialogueController>() : null;
+        }
+
+        private const int _choiceNumberThresholdToReconfigureVertical = 3;
+        private const int _choiceLengthThresholdToReconfigureVertical = 10;
+        public static int GetChoiceNumberThresholdToReconfigureVertical() => _choiceNumberThresholdToReconfigureVertical;
+        public static int GetChoiceLengthThresholdToReconfigureVertical() => _choiceLengthThresholdToReconfigureVertical;
         #endregion
 
         #region UnityMethods
@@ -60,10 +66,10 @@ namespace Frankie.Speech
             VerifyUnique();
 
             playerInput.Menu.Navigate.performed += context => ParseDirectionalInput(context.ReadValue<Vector2>());
-            playerInput.Menu.Execute.performed += context => HandleUserInput(PlayerInputType.Execute);
-            playerInput.Menu.Cancel.performed += context => HandleUserInput(PlayerInputType.Cancel);
-            playerInput.Menu.Option.performed += context => HandleUserInput(PlayerInputType.Option);
-            playerInput.Menu.Skip.performed += context => HandleUserInput(PlayerInputType.Skip);
+            playerInput.Menu.Execute.performed += _ => HandleUserInput(PlayerInputType.Execute);
+            playerInput.Menu.Cancel.performed += _ => HandleUserInput(PlayerInputType.Cancel);
+            playerInput.Menu.Option.performed += _ => HandleUserInput(PlayerInputType.Option);
+            playerInput.Menu.Skip.performed += _ => HandleUserInput(PlayerInputType.Skip);
         }
 
         private void OnEnable()
@@ -122,7 +128,7 @@ namespace Frankie.Speech
         public bool HasNext()
         {
             if (currentDialogue == null) { return false; }
-            return FilterOnCondition(currentNode.GetChildren()).Count() > 0;
+            return FilterOnCondition(currentNode.GetChildren()).Any();
         }
 
         public bool IsChoosing()
@@ -138,12 +144,12 @@ namespace Frankie.Speech
             onDestroyCallbackActions = interactionEvent;
         }
 
-        public void Setup(WorldCanvas worldCanvas, PlayerStateMachine playerStateHandler, Party party)
+        public void Setup(WorldCanvas setupWorldCanvas, PlayerStateMachine setupPlayerStateHandler, Party setupParty)
         {
             dialogueComplete = false;
-            this.worldCanvas = worldCanvas;
-            this.playerStateHandler = playerStateHandler;
-            this.party = party;
+            worldCanvas = setupWorldCanvas;
+            playerStateHandler = setupPlayerStateHandler;
+            party = setupParty;
         }
 
         private void SetupDialogueTriggers()
@@ -238,6 +244,7 @@ namespace Frankie.Speech
                 if (InteractWithChoices(playerInputType)) { return; }
                 if (InteractWithNext(playerInputType)) { return; }
             }
+            // ReSharper disable once RedundantJumpStatement
             if (InteractWithGlobals(playerInputType)) { return; }
         }
 
@@ -385,10 +392,10 @@ namespace Frankie.Speech
         private IEnumerable<IPredicateEvaluator> GetEvaluators()
         {
             // Evaluator locations . . . 
-            // A) Player -> 
+            // A. Player -> 
             //     1.  PlayerController
             //     2.  Party (childed to player controller)
-            // B) AI conversant -- childed to character;  Grab Parent & GetComponentsInChildren traverses both the parent & children
+            // B. AI conversant -- childed to character;  Grab Parent & GetComponentsInChildren traverses both the parent & children
 
             var predicateEvaluators = playerStateHandler.GetComponentsInChildren<IPredicateEvaluator>().Concat( // A
                 currentConversant.transform.parent.gameObject.GetComponentsInChildren<IPredicateEvaluator>()); // B

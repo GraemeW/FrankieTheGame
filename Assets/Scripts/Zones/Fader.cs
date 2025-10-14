@@ -13,23 +13,23 @@ namespace Frankie.ZoneManagement
     {
         // Tunables
         [Header("Linked Assets")]
-        [SerializeField] GameObject battleUIPrefab = null;
-        [SerializeField] Image nodeEntry = null;
-        [SerializeField] Image battleComplete = null;
+        [SerializeField] private GameObject battleUIPrefab;
+        [SerializeField] private Image nodeEntry;
+        [SerializeField] private Image battleComplete;
         [Header("Fader Properties")]
-        [SerializeField] float fadeInTimer = 2.0f;
-        [SerializeField] float fadeOutTimer = 1.0f;
-        [SerializeField] float zoneFadeTimerMultiplier = 0.25f;
+        [SerializeField] private float fadeInTimer = 2.0f;
+        [SerializeField] private float fadeOutTimer = 1.0f;
+        [SerializeField] private float zoneFadeTimerMultiplier = 0.25f;
 
         // State
-        Image currentTransitionImage = null;
-        bool fading = false;
-        GameObject battleUI = null;
-        Action initiateBattleCallback = null;
+        private Image currentTransitionImage;
+        private bool fading = false;
+        private GameObject battleUI;
+        private Action initiateBattleCallback;
 
         // Cached References
-        ReInitLazyValue<SceneLoader> sceneLoader;
-        BattleEntryShaderControl battleEntryShaderControl = null;
+        private ReInitLazyValue<SceneLoader> sceneLoader;
+        private BattleEntryShaderControl battleEntryShaderControl;
 
         // Events
         public event Action<TransitionType> fadingIn;
@@ -37,8 +37,13 @@ namespace Frankie.ZoneManagement
         public event Action fadingOut;
 
         #region StaticFind
-        private static string faderTag = "Fader";
-        public static Fader FindFader() => GameObject.FindGameObjectWithTag(faderTag)?.GetComponent<Fader>();
+        private const string _faderTag = "Fader";
+        public static Fader FindFader()
+        {
+            var faderGameObject = GameObject.FindGameObjectWithTag(_faderTag);
+            return faderGameObject != null ? faderGameObject.GetComponent<Fader>() : null;
+        }
+
         #endregion
 
         #region UnityMethods
@@ -57,7 +62,7 @@ namespace Frankie.ZoneManagement
 
         #region PublicMethods
         public bool IsFading() => fading;
-        public void QueueInitiateBattleCallback(Action initiateBattleCallback) => this.initiateBattleCallback = initiateBattleCallback;
+        public void QueueInitiateBattleCallback(Action setInitiateBattleCallback) => initiateBattleCallback = setInitiateBattleCallback;
 
         public void UpdateFadeState(TransitionType transitionType, Zone nextZone)
         {
@@ -149,7 +154,6 @@ namespace Frankie.ZoneManagement
                 yield return QueueFadeExit(transitionType);
                 SavingWrapper.SaveSession();
             }
-            yield break;
         }
 
         private IEnumerator FadeImmediate()

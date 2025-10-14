@@ -9,27 +9,32 @@ namespace Frankie.ZoneManagement
     {
         // Tunables
         [Header("Core Scene Listing")]
-        [SerializeField] Zone splashScreen = null;
-        [SerializeField] Zone startScreen = null;
-        [SerializeField] Zone gameOverScreen = null;
-        [SerializeField] Zone gameWinScreen = null;
-        [SerializeField] Zone newGame = null;
+        [SerializeField] private Zone splashScreen;
+        [SerializeField] private Zone startScreen;
+        [SerializeField] private Zone gameOverScreen;
+        [SerializeField] private Zone gameWinScreen;
+        [SerializeField] private Zone newGame;
 
         // State
-        static Zone lastZone = null;
-        static Zone currentZone = null;
+        private static Zone _lastZone;
+        private static Zone _currentZone;
 
         // Events
         public static event Action<Zone> leavingZone;
         public static event Action<Zone> zoneUpdated;
 
         #region StaticMethods
-        private static string sceneLoaderTag = "SceneLoader";
-        public static SceneLoader FindSceneLoader() => GameObject.FindGameObjectWithTag(sceneLoaderTag)?.GetComponent<SceneLoader>();
+        private const string _sceneLoaderTag = "SceneLoader";
+        public static SceneLoader FindSceneLoader()
+        {
+            var sceneLoaderGameObject = GameObject.FindGameObjectWithTag(_sceneLoaderTag);
+            return sceneLoaderGameObject != null ? sceneLoaderGameObject.GetComponent<SceneLoader>() : null;
+        }
+
         public static Zone GetCurrentZone()
         {
-            if (currentZone == null) { currentZone = Zone.GetFromSceneReference(SceneManager.GetActiveScene().name); }
-            return currentZone;
+            if (_currentZone == null) { _currentZone = Zone.GetFromSceneReference(SceneManager.GetActiveScene().name); }
+            return _currentZone;
         }
         #endregion
 
@@ -109,14 +114,14 @@ namespace Frankie.ZoneManagement
 
         private static void SetLastZone()
         {
-            lastZone = currentZone;
-            leavingZone?.Invoke(lastZone);
+            _lastZone = _currentZone;
+            leavingZone?.Invoke(_lastZone);
         }
 
         private static void SetCurrentZone(Zone zone)
         {
-            currentZone = zone;
-            zoneUpdated?.Invoke(currentZone);
+            _currentZone = zone;
+            zoneUpdated?.Invoke(_currentZone);
         }
         #endregion
     }
