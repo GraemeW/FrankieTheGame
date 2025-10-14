@@ -15,19 +15,21 @@ namespace Frankie.Core
 
         #region StaticFind
         private const string _playerTag = "Player";
+        private const string _playerMaskName = "Player";
+        private const string _immunePlayerTag = "ImmunePlayer";
         public static GameObject FindPlayerObject() => GameObject.FindGameObjectWithTag(_playerTag);
-
         public static Player FindPlayer()
         {
             var playerGameObject = FindPlayerObject();
             return playerGameObject != null ? playerGameObject.GetComponent<Player>() : null;
         }
-
         public static PlayerStateMachine FindPlayerStateMachine()
         {
             var playerGameObject = FindPlayerObject();
             return playerGameObject != null ? playerGameObject.GetComponent<PlayerStateMachine>() : null;
         }
+        public static int GetPlayerLayer() => LayerMask.NameToLayer(_playerMaskName);
+        public static int GetImmunePlayerLayer() => LayerMask.NameToLayer(_immunePlayerTag);
         #endregion
 
         #region UnityMethods

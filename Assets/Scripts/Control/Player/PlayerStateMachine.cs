@@ -6,6 +6,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using Frankie.Control.PlayerStates;
 using Frankie.Combat;
+using Frankie.Core;
 using Frankie.ZoneManagement;
 using Frankie.Speech;
 using Frankie.Stats;
@@ -31,6 +32,7 @@ namespace Frankie.Control
         [SerializeField] private string messageCannotFight = "You are wounded and cannot fight.";
         [Header("Parameters")]
         [SerializeField] private int maxEnemiesPerCombat = 12;
+        [Tooltip("in seconds")][SerializeField] private float collisionDisableTimePostCombat = 1.5f;
 
         // State Information
         // Player
@@ -395,6 +397,8 @@ namespace Frankie.Control
 
             BattleEventBus<BattleExitEvent>.Raise(new BattleExitEvent());
             currentPlayerState.EnterWorld(this);
+            
+            yield return TimedCollisionDisable();
         }
         #endregion
 
@@ -487,6 +491,24 @@ namespace Frankie.Control
             }
         }
 
+        private IEnumerator TimedCollisionDisable()
+        {
+            int immuneLayer = Player.GetImmunePlayerLayer();
+            gameObject.layer = immuneLayer;
+            foreach (Transform child in GetComponentsInChildren<Transform>())
+            {
+                child.gameObject.layer = immuneLayer;
+            }
+            yield return new WaitForSeconds(collisionDisableTimePostCombat);
+            
+            int playerLayer = Player.GetPlayerLayer();
+            foreach (Transform child in GetComponentsInChildren<Transform>())
+            {
+                child.gameObject.layer = playerLayer;
+            }
+            gameObject.layer = playerLayer;
+        }
+        
         public void QueueActionUnderConsideration()
         {
             if (actionUnderConsideration == null || actionUnderConsideration.action == null) { return; }
