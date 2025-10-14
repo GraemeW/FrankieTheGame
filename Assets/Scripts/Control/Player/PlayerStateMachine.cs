@@ -32,7 +32,7 @@ namespace Frankie.Control
         [SerializeField] private string messageCannotFight = "You are wounded and cannot fight.";
         [Header("Parameters")]
         [SerializeField] private int maxEnemiesPerCombat = 12;
-        [Tooltip("in seconds")][SerializeField] private float collisionDisableTimePostCombat = 1.5f;
+        [Tooltip("seconds, incl. battle fade-out time")][SerializeField] private float collisionDisableTimePostCombat = 4.0f;
 
         // State Information
         // Player
@@ -71,6 +71,7 @@ namespace Frankie.Control
 
         // Events
         public event Action<PlayerStateType> playerStateChanged;
+        public event Action<int> playerLayerChanged;
 
         // Data Structures
         private class PlayerStateTypeActionPair
@@ -143,11 +144,6 @@ namespace Frankie.Control
         #endregion
 
         #region SettersGetters
-        private void UpdateReferencesForNewScene(Scene scene, LoadSceneMode loadSceneMode)
-        {
-            worldCanvas = WorldCanvas.FindWorldCanvas();
-        }
-
         void IPlayerStateContext.SetPlayerState(IPlayerState playerState)
         {
             PlayerStateType playerStateType = TranslatePlayerState(playerState);
@@ -163,18 +159,29 @@ namespace Frankie.Control
             if (playerStateType == PlayerStateType.inTransition && InBattleEntryTransition()) { ChainQueuedCombatAction(); }
             // Required to allow swarm / multi-battle entry on same-frame
         }
-
+        
+        public Party GetParty() => party;
+        
         public void SetPostDialogueCallbackActions(InteractionEvent interactionEvent)
         {
-            if (dialogueController != null && interactionEvent != null)
-            {
-                dialogueController.SetDestroyCallbackActions(interactionEvent);
-            }
+            if (dialogueController == null || interactionEvent == null) { return; }
+            dialogueController.SetDestroyCallbackActions(interactionEvent);
         }
-
-        public Party GetParty() // TODO:  Refactor, Demeter
+        
+        private void UpdateReferencesForNewScene(Scene scene, LoadSceneMode loadSceneMode)
         {
-            return party;
+            worldCanvas = WorldCanvas.FindWorldCanvas();
+        }
+        
+        private void SetPlayerImmunity(bool enablePlayerImmunity)
+        {
+            int layer = enablePlayerImmunity ? Player.GetImmunePlayerLayer() :  Player.GetPlayerLayer();
+            gameObject.layer = layer;
+            foreach (Transform child in GetComponentsInChildren<Transform>())
+            {
+                child.gameObject.layer = layer;
+            }
+            playerLayerChanged?.Invoke(layer);
         }
         #endregion
 
@@ -393,12 +400,11 @@ namespace Frankie.Control
 
             yield return fader.QueueFadeEntry(currentTransitionType);
             Destroy(battleController.gameObject);
+            StartCoroutine(TimedCollisionDisable());
             yield return fader.QueueFadeExit(currentTransitionType);
-
+            
             BattleEventBus<BattleExitEvent>.Raise(new BattleExitEvent());
             currentPlayerState.EnterWorld(this);
-            
-            yield return TimedCollisionDisable();
         }
         #endregion
 
@@ -490,23 +496,12 @@ namespace Frankie.Control
                 partyAssist.TogglePartyVisible(visible);
             }
         }
-
+        
         private IEnumerator TimedCollisionDisable()
         {
-            int immuneLayer = Player.GetImmunePlayerLayer();
-            gameObject.layer = immuneLayer;
-            foreach (Transform child in GetComponentsInChildren<Transform>())
-            {
-                child.gameObject.layer = immuneLayer;
-            }
+            SetPlayerImmunity(true);
             yield return new WaitForSeconds(collisionDisableTimePostCombat);
-            
-            int playerLayer = Player.GetPlayerLayer();
-            foreach (Transform child in GetComponentsInChildren<Transform>())
-            {
-                child.gameObject.layer = playerLayer;
-            }
-            gameObject.layer = playerLayer;
+            SetPlayerImmunity(false);
         }
         
         public void QueueActionUnderConsideration()

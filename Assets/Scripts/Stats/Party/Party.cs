@@ -1,5 +1,4 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -13,17 +12,17 @@ namespace Frankie.Stats
     public class Party : PartyBehaviour, ISaveable, IPredicateEvaluator
     {
         // State
-        List<CharacterProperties> unlockedCharacters = new List<CharacterProperties>();
-        Dictionary<string, SceneParentPair> worldNPCLookup = new Dictionary<string, SceneParentPair>();
+        private readonly List<CharacterProperties> unlockedCharacters = new List<CharacterProperties>();
+        private Dictionary<string, SceneParentPair> worldNPCLookup = new Dictionary<string, SceneParentPair>();
 
         // Cached References
-        InactiveParty inactiveParty = null;
+        private InactiveParty inactiveParty;
 
         // Events
         public event Action partyUpdated;
 
         // DataStructures
-        [System.Serializable]
+        [Serializable]
         private struct SceneParentPair
         {
             public string sceneName;
@@ -64,7 +63,6 @@ namespace Frankie.Stats
         #region PublicGetters
         public BaseStats GetPartyLeader() => members[0];
         public string GetPartyLeaderName() => members[0].GetCharacterProperties().GetCharacterNamePretty();
-        public bool IsPartyLeader(BaseStats combatParticipant) => members[0] == combatParticipant;
         public Animator GetLeadCharacterAnimator() => members.Count > 0 ? characterSpriteLinkLookup[members[0]].GetAnimator() : null;
         public int GetPartySize() => members.Count;
         public List<CharacterProperties> GetAvailableCharactersToAdd()
@@ -90,8 +88,8 @@ namespace Frankie.Stats
             int index = 0;
             foreach (BaseStats partyCharacter in members)
             {
-                Collider2D collider2D = partyCharacter.GetComponent<Collider2D>();
-                collider2D.isTrigger = index == 0 ? false : true;
+                Collider2D characterCollider2D = partyCharacter.GetComponent<Collider2D>();
+                characterCollider2D.isTrigger = index != 0;
                 index++;
             }
             playerMover.ResetHistory(character.transform.position);
@@ -168,7 +166,7 @@ namespace Frankie.Stats
             if (characterProperties == null) { return false; } // Failsafe
 
             BaseStats member = GetMember(characterProperties);
-            return member != null ? RemoveFromParty(member) : false;
+            return member != null && RemoveFromParty(member);
         }
 
         public override bool RemoveFromParty(BaseStats character, Transform worldTransform)
@@ -186,15 +184,6 @@ namespace Frankie.Stats
             return RemoveFromParty(character);
         }
 
-        public void UpdateLeaderAnimation(float speed, float xLookDirection, float yLookDirection)
-        {
-            if (members.Count == 0) { return; }
-
-            BaseStats character = members[0];
-            characterSpriteLinkLookup[character].UpdateCharacterAnimation(xLookDirection, yLookDirection, speed);
-            UpdatePartySpeed(speed);
-        }
-
         public void UpdateWorldLookup(bool addToLookUp, CharacterNPCSwapper characterNPCSwapper)
         {
             string characterName = characterNPCSwapper.GetBaseStats().GetCharacterProperties().name;
@@ -206,15 +195,23 @@ namespace Frankie.Stats
             }
             else
             {
-                if (worldNPCLookup.ContainsKey(characterName))
-                {
-                    worldNPCLookup.Remove(characterName);
-                }
+                worldNPCLookup.Remove(characterName);
             }
         }
         #endregion
 
         #region PrivateMethods
+        private bool IsPartyLeader(BaseStats combatParticipant) => members[0] == combatParticipant;
+        
+        private void UpdateLeaderAnimation(float speed, float xLookDirection, float yLookDirection)
+        {
+            if (members.Count == 0) { return; }
+
+            BaseStats character = members[0];
+            characterSpriteLinkLookup[character].UpdateCharacterAnimation(xLookDirection, yLookDirection, speed);
+            UpdatePartySpeed(speed);
+        }
+        
         private void InitializeUnlockedCharacters()
         {
             foreach (BaseStats combatParticipant in members)
@@ -245,7 +242,7 @@ namespace Frankie.Stats
         #endregion
 
         #region Interfaces
-        [System.Serializable]
+        [Serializable]
         class PartySaveData
         {
             public List<string> partyStrings;

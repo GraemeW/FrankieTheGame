@@ -142,7 +142,7 @@ MonoBehaviour:
   escapeMenuPrefab: {fileID: 6413694501190794285, guid: d40dace2943729145967e187c1801093, type: 3}
   messageCannotFight: You are wounded and cannot fight.
   maxEnemiesPerCombat: 12
-  collisionDisableTimePostCombat: 2.5
+  collisionDisableTimePostCombat: 4
 --- !u!114 &9140000498525693429
 MonoBehaviour:
   m_ObjectHideFlags: 0
