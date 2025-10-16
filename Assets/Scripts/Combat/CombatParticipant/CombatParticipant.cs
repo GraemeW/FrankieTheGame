@@ -14,43 +14,45 @@ namespace Frankie.Combat
     {
         // Tunables
         [Header("Behavior, Hookups")]
-        [SerializeField] bool friendly = false;
-        [SerializeField] Sprite combatSprite = null;
-        [SerializeField] AudioClip combatAudio = null;
-        [SerializeField] MovingBackgroundProperties movingBackgroundProperties;
+        [SerializeField] private bool friendly = false;
+        [SerializeField] private Sprite combatSprite;
+        [SerializeField] private AudioClip combatAudio;
+        [SerializeField] private MovingBackgroundProperties movingBackgroundProperties;
 
         [Header("Combat Properties")]
-        [SerializeField] BattleEntityType battleEntityType = BattleEntityType.Standard;
-        [SerializeField] bool usesAP = true;
-        [SerializeField] float damageTimeSpan = 4.0f;
-        [SerializeField] float fractionOfHPInstantOnRevival = 0.5f;
-        [SerializeField] bool shouldDestroySelfOnDeath = true;
+        [SerializeField] private BattleEntityType battleEntityType = BattleEntityType.Standard;
+
+        [SerializeField] private BattleRow preferredBattleRow = BattleRow.Any;
+        [SerializeField] private bool usesAP = true;
+        [SerializeField] private float damageTimeSpan = 4.0f;
+        [SerializeField] private float fractionOfHPInstantOnRevival = 0.5f;
+        [SerializeField] private bool shouldDestroySelfOnDeath = true;
 
         [Header("Cooldowns")]
-        [SerializeField] float cooldownMin = 0.2f;
-        [SerializeField] float cooldownMax = 10.0f;
-        [SerializeField] float cooldownAtBattleStartPlayer = 2.5f;
-        [SerializeField] float cooldownAtBattleStartAlt = 4.0f;
-        [SerializeField] float cooldownBattleAdvantageAdder = -4.0f;
-        [SerializeField] float cooldownBattleDisadvantageAdder = 4.0f;
-        [SerializeField] float cooldownRunFailAdder = 5.0f;
+        [SerializeField] private float cooldownMin = 0.2f;
+        [SerializeField] private float cooldownMax = 10.0f;
+        [SerializeField] private float cooldownAtBattleStartPlayer = 2.5f;
+        [SerializeField] private float cooldownAtBattleStartAlt = 4.0f;
+        [SerializeField] private float cooldownBattleAdvantageAdder = -4.0f;
+        [SerializeField] private float cooldownBattleDisadvantageAdder = 4.0f;
+        [SerializeField] private float cooldownRunFailAdder = 5.0f;
 
         // Cached References
-        BaseStats baseStats = null;
-        Equipment equipment = null;
-        LootDispenser lootDispenser = null;
+        private BaseStats baseStats;
+        private Equipment equipment;
+        private LootDispenser lootDispenser;
 
         // State
-        bool awakeCalled = false;
-        bool inCombat = false;
-        float cooldownTimer = 0f;
-        float cooldownStore = 0f;
-        float targetHP = 1f;
-        float deltaHPTimeFraction = 0.0f;
-        LazyValue<bool> isDead;
-        LazyValue<float> currentHP;
-        LazyValue<float> currentAP;
-        List<StateEvent> stateListeners = new List<StateEvent>();
+        private bool awakeCalled = false;
+        private bool inCombat = false;
+        private float cooldownTimer;
+        private float cooldownStore;
+        private float targetHP = 1f;
+        private float deltaHPTimeFraction;
+        private LazyValue<bool> isDead;
+        private LazyValue<float> currentHP;
+        private LazyValue<float> currentAP;
+        private readonly List<StateEvent> stateListeners = new();
 
         // Events
         public event Action<bool> enterCombat;
@@ -115,7 +117,8 @@ namespace Frankie.Combat
         public AudioClip GetAudioClip() => combatAudio;
         public bool GetFriendly() => friendly;
         public BattleEntityType GetBattleEntityType() => battleEntityType;
-        public bool HasLoot() => lootDispenser == null ? false : lootDispenser.HasLootReward();
+        public BattleRow GetPreferredBattleRow() => preferredBattleRow;
+        public bool HasLoot() => lootDispenser != null && lootDispenser.HasLootReward();
         public bool ShouldDestroySelfOnDeath() => shouldDestroySelfOnDeath;
         #endregion
 
@@ -183,8 +186,7 @@ namespace Frankie.Combat
                 AnnounceStateUpdate(StateAlteredType.Dead);
             }
 
-            if (isDead.value == true) { return true; }
-            return false;
+            return isDead.value;
         }
 
         public void InitializeCooldown(bool isPlayer, bool? isBattleAdvantage)
@@ -200,39 +202,8 @@ namespace Frankie.Combat
         public void SetCooldown(float seconds)
         {
             cooldownTimer = seconds * GetCooldownMultiplier();
-            if (cooldownTimer != Mathf.Infinity) { ReconcileCooldownStore(); }
+            if (!float.IsPositiveInfinity(cooldownTimer)) { ReconcileCooldownStore(); }
             AnnounceStateUpdate(StateAlteredType.CooldownSet, cooldownTimer);
-        }
-
-        public void ReconcileCooldownStore()
-        {
-            if (cooldownStore == 0.0f) { return; }
-
-            UnityEngine.Debug.Log($"Pre-Reconcile:  Cooldown @ {cooldownTimer}, Store @ {cooldownStore}");
-            float tryCooldown = cooldownTimer + cooldownStore;
-            if (cooldownStore < 0.0f)
-            {
-                if (tryCooldown < cooldownMin)
-                {
-                    float deltaCooldown = cooldownTimer - cooldownMin;
-                    cooldownTimer = cooldownMin;
-                    cooldownStore += deltaCooldown;
-                    cooldownStore = Mathf.Min(cooldownStore, 0.0f);
-                }
-                else { cooldownTimer = tryCooldown; cooldownStore = 0.0f; }
-            }
-            else
-            {
-                if (tryCooldown > cooldownMax)
-                {
-                    float deltaCooldown = cooldownMax - cooldownTimer;
-                    cooldownTimer = cooldownMax;
-                    cooldownStore -= deltaCooldown;
-                    cooldownStore = Mathf.Max(0.0f, cooldownStore);
-                }
-                else { cooldownTimer = tryCooldown; cooldownStore = 0.0f; }
-            }
-            UnityEngine.Debug.Log($"Post-Reconcile:  Cooldown @ {cooldownTimer}, Store @ {cooldownStore}");
         }
 
         public void IncrementCooldownStoreForRun()
@@ -264,13 +235,6 @@ namespace Frankie.Combat
                 float unsafeHP = currentHP.value + points;
                 currentHP.value = Mathf.Clamp(unsafeHP, 0f, baseStats.GetStat(Stat.HP));
             }
-        }
-
-        public void HaltHPScroll()
-        {
-            if (targetHP > currentHP.value) { return; } // Allow healing to occur post-battle
-            deltaHPTimeFraction = 0f;
-            targetHP = currentHP.value;
         }
 
         public void AdjustAP(float points)
@@ -390,13 +354,51 @@ namespace Frankie.Combat
             }
         }
 
-        private void ParseLevelUpMessage(BaseStats baseStats, int level, Dictionary<Stat, float> levelUpSheet)
+        private void ReconcileCooldownStore()
+        {
+            if (cooldownStore == 0.0f) { return; }
+
+            Debug.Log($"Pre-Reconcile:  Cooldown @ {cooldownTimer}, Store @ {cooldownStore}");
+            float tryCooldown = cooldownTimer + cooldownStore;
+            if (cooldownStore < 0.0f)
+            {
+                if (tryCooldown < cooldownMin)
+                {
+                    float deltaCooldown = cooldownTimer - cooldownMin;
+                    cooldownTimer = cooldownMin;
+                    cooldownStore += deltaCooldown;
+                    cooldownStore = Mathf.Min(cooldownStore, 0.0f);
+                }
+                else { cooldownTimer = tryCooldown; cooldownStore = 0.0f; }
+            }
+            else
+            {
+                if (tryCooldown > cooldownMax)
+                {
+                    float deltaCooldown = cooldownMax - cooldownTimer;
+                    cooldownTimer = cooldownMax;
+                    cooldownStore -= deltaCooldown;
+                    cooldownStore = Mathf.Max(0.0f, cooldownStore);
+                }
+                else { cooldownTimer = tryCooldown; cooldownStore = 0.0f; }
+            }
+            Debug.Log($"Post-Reconcile:  Cooldown @ {cooldownTimer}, Store @ {cooldownStore}");
+        }
+        
+        private void ParseLevelUpMessage(BaseStats passBaseStats, int level, Dictionary<Stat, float> levelUpSheet)
         {
             foreach (KeyValuePair<Stat, float> entry in levelUpSheet)
             {
                 if (entry.Key == Stat.HP) { AdjustHPQuietly(entry.Value); }
                 if (entry.Key == Stat.AP) { AdjustAPQuietly(entry.Value); }
             }
+        }
+        
+        private void HaltHPScroll()
+        {
+            if (targetHP > currentHP.value) { return; } // Allow healing to occur post-battle
+            deltaHPTimeFraction = 0f;
+            targetHP = currentHP.value;
         }
 
         private void ReconcileHPAP(EquipableItem equipableItem)
@@ -407,15 +409,14 @@ namespace Frankie.Combat
             }
             if (currentAP.value > baseStats.GetStat(Stat.AP))
             {
-                if (!usesAP) { currentAP.value = Mathf.Infinity; }
-                else { currentAP.value = baseStats.GetStat(Stat.AP); }
+                currentAP.value = !usesAP ? Mathf.Infinity : baseStats.GetStat(Stat.AP);
             }
         }
         #endregion
 
         #region Interfaces
         // Save State
-        [System.Serializable]
+        [Serializable]
         class CombatParticipantSaveData
         {
             public bool isDead;

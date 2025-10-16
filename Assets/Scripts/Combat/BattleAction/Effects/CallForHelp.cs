@@ -12,7 +12,7 @@ namespace Frankie.Combat
     public class CallForHelp : EffectStrategy
     {
         // Tunables
-        [NonReorderable][SerializeField] SpawnConfigurationProbabilityPair<SpawnConfiguration>[] spawnConfigurations = null;
+        [NonReorderable][SerializeField] private SpawnConfigurationProbabilityPair<SpawnConfiguration>[] spawnConfigurations;
 
         // Implemented Methods
         // Note:  Much of this is derivative of EnemySpawner, just done in combat -- if no battle controller is present, this function does nothing
@@ -48,8 +48,7 @@ namespace Frankie.Combat
                 { Destroy(spawnedEnemy); } // Safety on shenanigans (spawned enemy lacking a combat participant component
             }
 
-            if (friendFound) { sender.AnnounceStateUpdate(StateAlteredType.FriendFound); }
-            else { sender.AnnounceStateUpdate(StateAlteredType.FriendFound); }
+            sender.AnnounceStateUpdate(friendFound ? StateAlteredType.FriendFound : StateAlteredType.FriendIgnored);
             finished?.Invoke(this);
         }
 

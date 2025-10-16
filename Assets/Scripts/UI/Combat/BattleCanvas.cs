@@ -223,7 +223,7 @@ namespace Frankie.Combat.UI
 
         private void SetupEnemy(BattleEntity battleEntity)
         {
-            Transform parentSpawn = (battleEntity.row == 0) ? frontRowParent : backRowParent;
+            Transform parentSpawn = (battleEntity.row == BattleRow.Middle) ? frontRowParent : backRowParent;
             EnemySlide enemySlide = Instantiate(enemySlidePrefab, parentSpawn);
             enemySlide.SetBattleEntity(battleEntity);
             combatLog.AddCombatListener(battleEntity.combatParticipant);
