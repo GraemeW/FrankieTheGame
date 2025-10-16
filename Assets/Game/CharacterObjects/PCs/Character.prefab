@@ -142,8 +142,9 @@ MonoBehaviour:
   spriteRenderer: {fileID: 8263638854299470656}
   animator: {fileID: 8263638854090363870}
   startingImmunityFlashPeriod: 0.2
-  immunityFlashPeriodGrowth: 1.25
-  immuneAlpha: 0.4
+  immunityFlashPeriodGrowth: 1.15
+  immuneAlphaLow: 0.4
+  immuneAlphaHigh: 0.85
 --- !u!114 &7770585857665752477
 MonoBehaviour:
   m_ObjectHideFlags: 0
