@@ -5,10 +5,10 @@ namespace Frankie.Combat
         // Attributes
         public CombatParticipant combatParticipant;
         public BattleEntityType battleEntityType;
-        public int row;
+        public BattleRow row;
         public int column;
-        public bool isCharacter = false;
-        public bool isAssistCharacter = false;
+        public readonly bool isCharacter;
+        public readonly bool isAssistCharacter;
 
         // Character type instantiation
         public BattleEntity(CombatParticipant combatParticipant, bool isAssistCharacter = false)
@@ -22,7 +22,7 @@ namespace Frankie.Combat
         }
 
         // Enemy type instantiation
-        public BattleEntity(CombatParticipant combatParticipant, BattleEntityType battleEntityType, int row, int column)
+        public BattleEntity(CombatParticipant combatParticipant, BattleEntityType battleEntityType, BattleRow row, int column)
         {
             this.combatParticipant = combatParticipant;
             this.battleEntityType = battleEntityType;
