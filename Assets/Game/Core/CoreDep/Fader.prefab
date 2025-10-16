@@ -198,7 +198,7 @@ MonoBehaviour:
   nodeEntry: {fileID: 8528937459681249331}
   battleComplete: {fileID: 8453829634185128961}
   fadeInTimer: 3.5
-  fadeOutTimer: 1.5
+  fadeOutTimer: 0.75
   zoneFadeTimerMultiplier: 0.25
 --- !u!114 &1057464560947514851
 MonoBehaviour:
