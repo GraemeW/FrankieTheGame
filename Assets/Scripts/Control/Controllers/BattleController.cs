@@ -24,7 +24,7 @@ namespace Frankie.Combat
 
         // State
         BattleState battleState;
-        bool hasEnteredCombatState = false;
+        bool canAttemptEarlyRun = true;
         bool outroCleanupCalled = false;
 
         private readonly List<BattleEntity> activeCharacters = new List<BattleEntity>();
@@ -139,7 +139,7 @@ namespace Frankie.Combat
         public void SetBattleState(BattleState state, BattleOutcome battleOutcome)
         {
             this.battleState = state;
-            if (!hasEnteredCombatState && state == BattleState.Combat) { hasEnteredCombatState = true; }
+            if (canAttemptEarlyRun && state == BattleState.Combat) { canAttemptEarlyRun = false; }
 
             ToggleCombatParticipants(state == BattleState.Combat);
 
@@ -303,7 +303,7 @@ namespace Frankie.Combat
                 allCharactersAvailable = allCharactersAvailable && !character.combatParticipant.IsInCooldown();
                 partySpeed += character.combatParticipant.GetRunSpeed();
             }
-            if (!hasEnteredCombatState) { allCharactersAvailable = true; } // Override for pre-battle run attempt
+            if (canAttemptEarlyRun) { allCharactersAvailable = true; } // Override for pre-battle run attempt
             float averagePartySpeed = partySpeed / activePlayerCharacters.Count;
 
             // Get enemy max speed
@@ -332,7 +332,7 @@ namespace Frankie.Combat
                 {
                     character.combatParticipant.IncrementCooldownStoreForRun();
                 }
-                hasEnteredCombatState = true; // Treat run as having entered combat
+                canAttemptEarlyRun = false; // Treat run as having entered combat
                 return false;
             }
         }
@@ -457,6 +457,7 @@ namespace Frankie.Combat
         private void InitiateBattle(List<CombatParticipant> enemies, TransitionType transitionType)
         {
             SetupCombatParticipants(enemies, transitionType);
+            if (transitionType == TransitionType.BattleBad) { canAttemptEarlyRun = false; }
             BattleEventBus<BattleEnterEvent>.Raise(new BattleEnterEvent(activeCharacters, activeEnemies, transitionType));
 
             if (CheckForAutoWin())
