@@ -11,8 +11,9 @@ namespace Frankie.Stats
         [SerializeField] private Animator animator;
         // Tunables - Parameters
         [SerializeField] private float startingImmunityFlashPeriod = 0.1f;
-        [SerializeField] private float immunityFlashPeriodGrowth = 1.25f;
-        [SerializeField] private float immuneAlpha = 0.4f;
+        [SerializeField] private float immunityFlashPeriodGrowth = 1.15f;
+        [SerializeField] private float immuneAlphaLow = 0.4f;
+        [SerializeField] private float immuneAlphaHigh = 0.85f;
 
         // State
         private float standardAlpha;
@@ -71,7 +72,7 @@ namespace Frankie.Stats
             isCharacterFlashing = isFlashing;
             currentImmunityFlashPeriod = startingImmunityFlashPeriod;
             flashTimer = 0f;
-            float currentAlpha = isCharacterFlashing ? immuneAlpha : standardAlpha;
+            float currentAlpha = isCharacterFlashing ? immuneAlphaLow : standardAlpha;
             
             var color = new Color(spriteRenderer.color.r, spriteRenderer.color.g, spriteRenderer.color.b, currentAlpha);
             spriteRenderer.color = color;
@@ -94,7 +95,7 @@ namespace Frankie.Stats
         {
             if (spriteRenderer == null) { return; }
 
-            float targetAlpha = Mathf.Approximately(spriteRenderer.color.a, standardAlpha) ? immuneAlpha : standardAlpha;
+            float targetAlpha = Mathf.Approximately(spriteRenderer.color.a, immuneAlphaLow) ? immuneAlphaHigh : immuneAlphaLow;
             var color = new Color(spriteRenderer.color.r, spriteRenderer.color.g, spriteRenderer.color.b, targetAlpha);
             spriteRenderer.color = color;
         }
