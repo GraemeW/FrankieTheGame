@@ -4,7 +4,7 @@ namespace Frankie.Combat
 {
     public static class BattleEventBus<T> where T : IBattleEvent
     {
-        private static List<Event> activeSubscriptions = new List<Event>();
+        private static readonly List<Event> _activeSubscriptions = new();
 
         public delegate void Event(T args);
         public static event Event onEvent;
@@ -16,26 +16,26 @@ namespace Frankie.Combat
 
         public static void SubscribeToEvent(Event handler)
         {
-            if (activeSubscriptions.Contains(handler)) { return; }
+            if (_activeSubscriptions.Contains(handler)) { return; }
 
-            activeSubscriptions.Add(handler);
+            _activeSubscriptions.Add(handler);
             onEvent += handler;
         }
         public static void UnsubscribeFromEvent(Event handler)
         {
-            activeSubscriptions.Remove(handler);
+            _activeSubscriptions.Remove(handler);
             onEvent -= handler;
         }
 
         public static void ClearAllSubscriptions()
         {
-            foreach (Event handler in activeSubscriptions)
+            foreach (Event handler in _activeSubscriptions)
             {
                 onEvent -= handler;
             }
             onEvent = null;
 
-            activeSubscriptions.Clear();
+            _activeSubscriptions.Clear();
         }
 
         private static void UpdateBattleEventBusState(T battleEvent)
@@ -46,8 +46,7 @@ namespace Frankie.Combat
                     BattleEventBus.SetInBattle(true);
                     break;
                 case BattleEventType.BattleStateChanged:
-                    BattleStateChangedEvent battleStateChangedEvent = battleEvent as BattleStateChangedEvent;
-                    if (battleStateChangedEvent != null) { BattleEventBus.SetBattleState(battleStateChangedEvent.battleState); }
+                    if (battleEvent is BattleStateChangedEvent battleStateChangedEvent) { BattleEventBus.SetBattleState(battleStateChangedEvent.battleState); }
                     break;
                 case BattleEventType.BattleExit:
                     BattleEventBus.SetInBattle(false);
@@ -62,28 +61,27 @@ namespace Frankie.Combat
         public static bool inBattle { get; private set; } = false;
         public static BattleState battleState { get; private set; } = BattleState.Inactive;
 
-        public static void SetBattleState(BattleState battleState)
+        public static void SetBattleState(BattleState setBattleState)
         {
-            BattleEventBus.battleState = battleState;
+            battleState = setBattleState;
         }
         #endregion
 
         #region SubscriptionManagement
-        public static void SetInBattle(bool inBattle)
+        public static void SetInBattle(bool setInBattle)
         {
-            BattleEventBus.inBattle = inBattle;
-            if (!inBattle)
+            inBattle = setInBattle;
+            if (!setInBattle)
             {
                 SetBattleState(BattleState.Inactive);
                 ClearWithinBattleSubscriptions();
             }
         }
 
-        public static void ClearWithinBattleSubscriptions()
+        private static void ClearWithinBattleSubscriptions()
         {
             foreach (BattleEventType eventType in System.Enum.GetValues(typeof(BattleEventType)))
             {
-                // Entry and exit persist outside of the scope of the battle unless manually unsubscribed
                 if (eventType == BattleEventType.BattleEnter || eventType == BattleEventType.BattleExit) { continue; }
 
                 ClearSubscriptions(eventType);

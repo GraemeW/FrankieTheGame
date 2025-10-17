@@ -11,13 +11,13 @@ namespace Frankie.Combat.UI
     public class CombatOptions : UIBox
     {
         // Tunables 
-        [SerializeField] StatusBox statusBoxPrefab = null;
-        [SerializeField] InventoryBox inventoryBoxPrefab = null;
+        [SerializeField] private StatusBox statusBoxPrefab;
+        [SerializeField] private InventoryBox inventoryBoxPrefab;
 
         // Cached References
-        BattleController battleController = null;
-        BattleCanvas battleCanvas = null;
-        PartyCombatConduit partyCombatConduit = null;
+        private BattleController battleController;
+        private BattleCanvas battleCanvas;
+        private PartyCombatConduit partyCombatConduit;
 
         public void Setup(BattleController battleController, BattleCanvas battleCanvas, PartyCombatConduit partyCombatConduit)
         {

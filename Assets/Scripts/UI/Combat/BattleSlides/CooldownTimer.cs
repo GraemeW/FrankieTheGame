@@ -6,11 +6,11 @@ namespace Frankie.Combat.UI
     public class CooldownTimer : MonoBehaviour
     {
         // Tunables
-        [SerializeField] Image cooldownImage = null;
+        [SerializeField] private Image cooldownImage;
 
         // State
-        float cooldownTime = 1f;
-        float currentTime = 0f;
+        private float cooldownTime = 1f;
+        private float currentTime = 0f;
 
         void Update()
         {
@@ -18,11 +18,11 @@ namespace Frankie.Combat.UI
             SetImageFraction();
         }
 
-        public void ResetTimer(float cooldownTime)
+        public void ResetTimer(float setCooldownTime)
         {
-            if (cooldownTime <= 0) { cooldownTime = 1f; currentTime = 1f; }
+            if (setCooldownTime <= 0) { setCooldownTime = 1f; currentTime = 1f; }
 
-            this.cooldownTime = cooldownTime;
+            cooldownTime = setCooldownTime;
             currentTime = 0f;
 
             SetImageFraction();

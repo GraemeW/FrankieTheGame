@@ -10,38 +10,38 @@ namespace Frankie.Combat.UI
     {
         // Tunables
         [Header("Hook-Ups")]
-        [SerializeField] protected CooldownTimer cooldownTimer = null;
-        [SerializeField] protected Transform statusEffectPanel = null;
-        [SerializeField] protected DamageTextSpawner damageTextSpawner = null;
-        [SerializeField] protected CanvasGroup canvasGroup = null;
+        [SerializeField] protected CooldownTimer cooldownTimer;
+        [SerializeField] protected Transform statusEffectPanel;
+        [SerializeField] protected DamageTextSpawner damageTextSpawner;
+        [SerializeField] protected CanvasGroup canvasGroup;
 
         [Header("Status Effects")]
-        [SerializeField] int maxStatusEffectToShow = 8;
-        [SerializeField] StatusEffectBobble statusEffectBobblePrefab = null;
+        [SerializeField] private int maxStatusEffectToShow = 8;
+        [SerializeField] private StatusEffectBobble statusEffectBobblePrefab;
 
         [Header("Shake Effects")]
-        [SerializeField] float damageShakeMagnitude = 10f;
-        [SerializeField] float criticalDamageShakeMultiplier = 2.0f;
-        [SerializeField] float shakeDuration = 0.4f;
-        [SerializeField] int shakeCount = 4;
+        [SerializeField] private float damageShakeMagnitude = 10f;
+        [SerializeField] private float criticalDamageShakeMultiplier = 2.0f;
+        [SerializeField] private float shakeDuration = 0.4f;
+        [SerializeField] private int shakeCount = 4;
 
         [Header("Dimming Effects")]
-        [SerializeField] float dimmingMin = 0.7f;
-        [SerializeField][Tooltip("in seconds")] float halfDimmingTime = 0.05f;
+        [SerializeField] private float dimmingMin = 0.7f;
+        [SerializeField][Tooltip("in seconds")] private float halfDimmingTime = 0.05f;
 
         // State
-        protected BattleEntity battleEntity = null;
-        Coroutine canvasDimming = null;
-        float currentShakeMagnitude = 0f;
-        float currentShakeTime = Mathf.Infinity;
-        float currentShakeTimeStep = 0f;
-        float lastRotationTarget = 0f;
-        float currentRotationTarget = 0f;
-        float fadeTarget = 1f;
+        protected BattleEntity battleEntity;
+        private Coroutine canvasDimming;
+        private float currentShakeMagnitude;
+        private float currentShakeTime = Mathf.Infinity;
+        private float currentShakeTimeStep;
+        private float lastRotationTarget;
+        private float currentRotationTarget;
+        private float fadeTarget = 1f;
 
         // Cached References
-        protected BattleController battleController = null;
-        protected Button button = null;
+        protected BattleController battleController;
+        protected Button button;
 
         #region UnityMethods
         protected virtual void Awake()
@@ -63,7 +63,7 @@ namespace Frankie.Combat.UI
             RemoveButtonClickEvents();
 
             if (canvasDimming != null) { StopCoroutine(canvasDimming); canvasDimming = null; }
-            if (battleEntity != null) { battleEntity.combatParticipant.UnsubscribeToStateUpdates(ParseState); }
+            battleEntity?.combatParticipant.UnsubscribeToStateUpdates(ParseState);
             BattleEventBus<BattleEnterEvent>.UnsubscribeFromEvent(SetupBattleListeners);
             BattleEventBus<BattleEntitySelectedEvent>.UnsubscribeFromEvent(HighlightSlide);
         }
@@ -83,13 +83,13 @@ namespace Frankie.Combat.UI
         #endregion
 
         #region PublicSettersGetters
-        public virtual void SetBattleEntity(BattleEntity battleEntity)
+        public virtual void SetBattleEntity(BattleEntity setBattleEntity)
         {
-            if (this.battleEntity != null) { this.battleEntity.combatParticipant.UnsubscribeToStateUpdates(ParseState); }
+            battleEntity?.combatParticipant.UnsubscribeToStateUpdates(ParseState);
 
-            this.battleEntity = battleEntity;
+            battleEntity = setBattleEntity;
             InitializeStatusEffectBobbles();
-            this.battleEntity.combatParticipant.SubscribeToStateUpdates(ParseState);
+            battleEntity.combatParticipant.SubscribeToStateUpdates(ParseState);
         }
 
         public virtual void AddButtonClickEvent(UnityAction unityAction)
@@ -114,9 +114,9 @@ namespace Frankie.Combat.UI
             SetSelected(combatParticipantType, false);
             if (battleEntities == null) { return; }
 
-            foreach (BattleEntity battleEntity in battleEntities)
+            foreach (BattleEntity tempBattleEntity in battleEntities)
             {
-                if (battleEntity.combatParticipant == this.battleEntity.combatParticipant)
+                if (tempBattleEntity.combatParticipant == battleEntity.combatParticipant)
                 {
                     SetSelected(combatParticipantType, true);
                 }
@@ -188,7 +188,7 @@ namespace Frankie.Combat.UI
             if (!skipCap) { CapVisibleStatusEffects(); }
         }
 
-        protected void CapVisibleStatusEffects()
+        private void CapVisibleStatusEffects()
         {
             int statusEffectCount = 0;
             foreach (Transform child in statusEffectPanel)

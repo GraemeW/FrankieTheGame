@@ -1,4 +1,3 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,27 +10,28 @@ namespace Frankie.Combat.UI
     {
         // Tunables
         [Header("Presentation")]
-        [SerializeField] int maxPrintedCharacters = 200; // Note:  real restrictions dictated by window width since clips to mask
-        [SerializeField] int speedUpDelayOnCharacterCount = 400;
-        [SerializeField] int slowDownDelayOnCharacterCount = 200;
-        [SerializeField] float delayBetweenCharactersSlowDown = 0.02f;
-        [SerializeField] float delayBetweenCharactersSpedUp = 0.01f;
-        [SerializeField] float delayBetweenCharactersNoNewMessage = 0.25f;
-        [SerializeField] SimpleTextLink textLink = null;
+        [SerializeField] private int maxPrintedCharacters = 200; // Note:  real restrictions dictated by window width since clips to mask
+        [SerializeField] private int speedUpDelayOnCharacterCount = 400;
+        [SerializeField] private int slowDownDelayOnCharacterCount = 200;
+        [SerializeField] private float delayBetweenCharactersSlowDown = 0.02f;
+        [SerializeField] private float delayBetweenCharactersSpedUp = 0.01f;
+        [SerializeField] private float delayBetweenCharactersNoNewMessage = 0.25f;
+        [SerializeField] private SimpleTextLink textLink;
         [Header("Messages")]
-        [Tooltip("Include {0} for name, {1} for points")][SerializeField] string messageIncreaseHP = "{0} restored {1} HP.";
-        [Tooltip("Include {0} for name, {1} for points")][SerializeField] string messageDecreaseHP = "{0} was hit for {1} points.";
-        [Tooltip("Include {0} for name, {1} for points")][SerializeField] string messageIncreaseAP = "{0} restored {1} HP.";
-        [Tooltip("Include {0} for name, {1} for points")][SerializeField] string messageDecreaseAP = "{0} was drained for {1} AP.";
-        [Tooltip("Include {0} for name")][SerializeField] string messageDead = "{0} was knocked unconcious.";
-        [Tooltip("Include {0} for name")][SerializeField] string messageResurrected = "{0} gained the will to fight again.";
+        [Tooltip("Include {0} for name, {1} for points")][SerializeField] private string messageIncreaseHP = "{0} restored {1} HP.";
+        [Tooltip("Include {0} for name, {1} for points")][SerializeField] private string messageDecreaseHP = "{0} was hit for {1} points.";
+        [Tooltip("Include {0} for name, {1} for points")][SerializeField] private string messageIncreaseAP = "{0} restored {1} HP.";
+        [Tooltip("Include {0} for name, {1} for points")][SerializeField] private string messageDecreaseAP = "{0} was drained for {1} AP.";
+        [Tooltip("Include {0} for name")][SerializeField] private string messageDead = "{0} was knocked unconscious.";
+        [Tooltip("Include {0} for name")][SerializeField] private string messageResurrected = "{0} gained the will to fight again.";
 
         // State
-        float combatLogDelay = 0f;
-        string stringToPrint = "";
-        string stringPrinted = "";
-        List<CombatParticipant> combatParticipants = new List<CombatParticipant>();
-        Coroutine marquee = null;
+        private float combatLogDelay;
+        private string stringToPrint = "";
+        private string stringPrinted = "";
+        private readonly List<CombatParticipant> combatParticipants = new();
+        private bool isMarqueeActive = true;
+        private Coroutine marquee;
 
         private void Awake()
         {
@@ -69,7 +69,7 @@ namespace Frankie.Combat.UI
 
         private IEnumerator MarqueeScroll()
         {
-            while (true)
+            while (isMarqueeActive)
             {
                 if (stringPrinted.Length > maxPrintedCharacters)
                 {
@@ -94,6 +94,8 @@ namespace Frankie.Combat.UI
 
         private void ParseBattleSequence(BattleSequenceProcessedEvent battleSequenceProcessedEvent)
         {
+            if (battleSequenceProcessedEvent.battleEventType == BattleEventType.BattleExit) { isMarqueeActive = false; }
+            
             BattleSequence battleSequence = battleSequenceProcessedEvent.battleSequence;
 
             BattleActionData battleActionData = battleSequence.battleActionData;

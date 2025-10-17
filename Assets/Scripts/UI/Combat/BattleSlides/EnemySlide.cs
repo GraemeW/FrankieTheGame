@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -9,10 +8,10 @@ namespace Frankie.Combat.UI
     {
         // Tunables
         [Header("Enemy Slide Settings")]
-        [SerializeField] Image image = null;
-        [SerializeField] LayoutElement layoutElement = null;
-        [SerializeField][Tooltip("Only first entry of the enum BattleEntityType is used")] BattleEntityTypePropertySet[] battleEntityTypePropertyLookUp;
-        [SerializeField] float deathFadeTime = 1.0f;
+        [SerializeField] private Image image;
+        [SerializeField] private LayoutElement layoutElement;
+        [SerializeField][Tooltip("Only first entry of the enum BattleEntityType is used")] private BattleEntityTypePropertySet[] battleEntityTypePropertyLookUp;
+        [SerializeField] private float deathFadeTime = 1.0f;
 
         // Data Structures
         [System.Serializable]
@@ -22,10 +21,10 @@ namespace Frankie.Combat.UI
             public Vector2 imageSize;
         }
 
-        public override void SetBattleEntity(BattleEntity battleEntity)
+        public override void SetBattleEntity(BattleEntity setBattleEntity)
         {
-            base.SetBattleEntity(battleEntity);
-            UpdateImage(this.battleEntity.combatParticipant.GetCombatSprite(), this.battleEntity.battleEntityType);
+            base.SetBattleEntity(setBattleEntity);
+            UpdateImage(battleEntity.combatParticipant.GetCombatSprite(), battleEntity.battleEntityType);
         }
 
         protected override void ParseState(StateAlteredInfo stateAlteredInfo)
@@ -98,7 +97,7 @@ namespace Frankie.Combat.UI
             image.sprite = sprite;
             if (battleEntityTypePropertyLookUp == null || battleEntityTypePropertyLookUp.Length == 0) { return; }
 
-            // Setting size of image based on enemy type (e.g. mook small, standard standard, boss big)
+            // Setting size of image based on enemy type (e.g. mook small, standard medium, boss big)
             foreach (BattleEntityTypePropertySet battleEntityPropertySet in battleEntityTypePropertyLookUp)
             {
                 if (battleEntityType != battleEntityPropertySet.battleEntityType) continue;
