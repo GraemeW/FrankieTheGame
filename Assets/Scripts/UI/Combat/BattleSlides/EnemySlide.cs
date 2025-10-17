@@ -102,8 +102,13 @@ namespace Frankie.Combat.UI
             foreach (BattleEntityTypePropertySet battleEntityPropertySet in battleEntityTypePropertyLookUp)
             {
                 if (battleEntityType != battleEntityPropertySet.battleEntityType) continue;
-                layoutElement.preferredWidth = battleEntityPropertySet.imageSize.x;
                 layoutElement.preferredHeight = battleEntityPropertySet.imageSize.y;
+                if (TryGetComponent(out RectTransform rectTransform))
+                {
+                    Vector2 sizeDelta = rectTransform.sizeDelta;
+                    sizeDelta.y = battleEntityPropertySet.imageSize.y;
+                    rectTransform.sizeDelta = sizeDelta;
+                }
                 return;
             }
         }
