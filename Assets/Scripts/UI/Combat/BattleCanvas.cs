@@ -19,8 +19,9 @@ namespace Frankie.Combat.UI
         [Header("Parents")]
         [SerializeField] private Canvas canvas;
         [SerializeField] private Transform playerPanelParent;
-        [SerializeField] private Transform frontRowParent;
-        [SerializeField] private Transform backRowParent;
+        [SerializeField] private Transform midRowParent;
+        [SerializeField] private Transform topRowParent;
+        [SerializeField] private Transform bottomRowParent;
         [SerializeField] private Image backgroundFill;
         [SerializeField] private MovingBackgroundProperties defaultMovingBackgroundProperties;
         [SerializeField] private Transform infoChooseParent;
@@ -190,11 +191,11 @@ namespace Frankie.Combat.UI
             {
                 Destroy(child.gameObject);
             }
-            foreach (Transform child in frontRowParent)
+            foreach (Transform child in midRowParent)
             {
                 Destroy(child.gameObject);
             }
-            foreach (Transform child in backRowParent)
+            foreach (Transform child in topRowParent)
             {
                 Destroy(child.gameObject);
             }
@@ -223,7 +224,13 @@ namespace Frankie.Combat.UI
 
         private void SetupEnemy(BattleEntity battleEntity)
         {
-            Transform parentSpawn = (battleEntity.row == BattleRow.Middle) ? frontRowParent : backRowParent;
+            Transform parentSpawn = battleEntity.row switch
+            {
+                BattleRow.Middle => midRowParent,
+                BattleRow.Top => topRowParent,
+                BattleRow.Bottom => bottomRowParent,
+                _ => midRowParent
+            };
             EnemySlide enemySlide = Instantiate(enemySlidePrefab, parentSpawn);
             enemySlide.SetBattleEntity(battleEntity);
             combatLog.AddCombatListener(battleEntity.combatParticipant);

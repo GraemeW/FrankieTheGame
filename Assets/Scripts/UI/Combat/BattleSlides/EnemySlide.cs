@@ -101,12 +101,10 @@ namespace Frankie.Combat.UI
             // Setting size of image based on enemy type (e.g. mook small, standard standard, boss big)
             foreach (BattleEntityTypePropertySet battleEntityPropertySet in battleEntityTypePropertyLookUp)
             {
-                if (battleEntityType == battleEntityPropertySet.battleEntityType)
-                {
-                    layoutElement.preferredWidth = battleEntityPropertySet.imageSize.x;
-                    layoutElement.preferredHeight = battleEntityPropertySet.imageSize.y;
-                    return;
-                }
+                if (battleEntityType != battleEntityPropertySet.battleEntityType) continue;
+                layoutElement.preferredWidth = battleEntityPropertySet.imageSize.x;
+                layoutElement.preferredHeight = battleEntityPropertySet.imageSize.y;
+                return;
             }
         }
 

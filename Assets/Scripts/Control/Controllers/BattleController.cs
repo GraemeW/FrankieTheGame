@@ -22,7 +22,7 @@ namespace Frankie.Combat
         [SerializeField] int minEnemiesBeforeRowSplit = 2;
 
         // Fixed
-        private readonly BattleRow[] defaultBattleRowPriority = { BattleRow.Middle, BattleRow.Top };
+        private readonly HashSet<BattleRow> defaultBattleRowPriority = new () { BattleRow.Middle, BattleRow.Top };
         
         // State
         BattleState battleState;
@@ -547,7 +547,7 @@ namespace Frankie.Combat
             if (battleRow == BattleRow.Any) { return 0; }
             
             // Same as PopCount:  https://learn.microsoft.com/en-us/dotnet/api/system.numerics.bitoperations.popcount?view=net-9.0
-            // , but this quick version used since BitOperations not exposed in Unity's version of C# (non-Core)
+            // This implementation used since BitOperations not exposed in Unity's version of C# (non-Core)
             int rowMask = enemyMap[battleRow];
             int rowEnemyCount = 0;
             while (rowMask!=0) { rowMask &= (rowMask-1); rowEnemyCount++; } // n&(n-1) always eliminates the least significant 1
@@ -558,7 +558,11 @@ namespace Frankie.Combat
         private List<BattleRow> GetOptimalBattleRowPriority(BattleRow desiredBattleRow)
         {
             List<BattleRow> optimalBattleRowPriority = new();
-            if (desiredBattleRow != BattleRow.Any) { optimalBattleRowPriority.Add(desiredBattleRow); }
+            if (desiredBattleRow != BattleRow.Any)
+            {
+                optimalBattleRowPriority.Add(desiredBattleRow); 
+                defaultBattleRowPriority.Add(desiredBattleRow); // E.g. Default 2-row @ Mid/Top, new char prefers bott -> thus enables 3-row w/ bott as a default option
+            }
             optimalBattleRowPriority.AddRange(defaultBattleRowPriority.Where(testBattleRow => testBattleRow != desiredBattleRow));
 
             return optimalBattleRowPriority;
