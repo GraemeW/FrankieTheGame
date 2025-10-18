@@ -12,24 +12,26 @@ namespace Frankie.Combat
     public class CallForHelp : EffectStrategy
     {
         // Tunables
+        [SerializeField] private int maxEnemiesAllowedToCallInCombat = 3;
         [NonReorderable][SerializeField] private SpawnConfigurationProbabilityPair<SpawnConfiguration>[] spawnConfigurations;
-
+        
         // Implemented Methods
         // Note:  Much of this is derivative of EnemySpawner, just done in combat -- if no battle controller is present, this function does nothing
         public override void StartEffect(CombatParticipant sender, IEnumerable<BattleEntity> recipients, DamageType damageType, Action<EffectStrategy> finished)
         {
             BattleController battleController = BattleController.FindBattleController();
             SpawnConfiguration spawnConfiguration = GetSpawnConfiguration();
-            if (battleController == null || spawnConfiguration == null) { finished?.Invoke(this); return; }
+            if (battleController == null || spawnConfiguration == null || !HasViableSpawnConfiguration(spawnConfiguration)) { finished?.Invoke(this); return; }
 
-            if (!battleController.IsEnemyPositionAvailable()) { finished?.Invoke(this); return; }
-
-            int maxQuantity = spawnConfiguration.maxQuantity;
-            EnemyConfiguration[] enemyConfigurations = spawnConfiguration.enemyConfigurations;
-            if (spawnConfiguration.maxQuantity == 0 || enemyConfigurations == null) { finished?.Invoke(this); return; }
+            if (!battleController.IsEnemyPositionAvailable() || battleController.GetCountEnemiesAddedMidCombat() >= maxEnemiesAllowedToCallInCombat)
+            {
+                sender.AnnounceStateUpdate(StateAlteredType.FriendIgnored);
+                finished?.Invoke(this); 
+                return;
+            }
 
             bool friendFound = false;
-            foreach (CharacterProperties characterProperties in SpawnConfiguration.GetEnemies(enemyConfigurations, maxQuantity))
+            foreach (CharacterProperties characterProperties in SpawnConfiguration.GetEnemies(spawnConfiguration.enemyConfigurations, spawnConfiguration.maxQuantity))
             {
                 GameObject enemyPrefab = characterProperties.characterNPCPrefab;
                 if (enemyPrefab == null) { continue; }
@@ -59,7 +61,12 @@ namespace Frankie.Combat
             return spawnConfiguration;
         }
 
-        private void DisableEnemyColliders(GameObject spawnedEnemy)
+        private static bool HasViableSpawnConfiguration(SpawnConfiguration spawnConfiguration)
+        {
+            return spawnConfiguration.maxQuantity != 0 && spawnConfiguration.enemyConfigurations != null;
+        }
+
+        private static void DisableEnemyColliders(GameObject spawnedEnemy)
         {
             // Required to allow enemies to stack in world space (otherwise can get enemies teleporting)
             foreach (Collider2D collider in spawnedEnemy.GetComponents<Collider2D>())
@@ -68,7 +75,7 @@ namespace Frankie.Combat
             }
         }
 
-        private void SetEnemyDisposition(GameObject spawnedEnemy)
+        private static void SetEnemyDisposition(GameObject spawnedEnemy)
         {
             // Required to avoid weird chase/movement shenanigans
             if (spawnedEnemy.TryGetComponent(out NPCChaser npcChaser)) { npcChaser.SetChaseDisposition(false); }

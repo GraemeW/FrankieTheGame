@@ -240,6 +240,7 @@ namespace Frankie.Combat
         #region PublicGetters
         // Overall State
         public BattleRewards GetBattleRewards() => battleRewards;
+        public int GetCountEnemiesAddedMidCombat() => countEnemiesAddedMidCombat;
         public bool IsEnemyPositionAvailable()
         {
             if (defaultBattleRowPriority.Any(battleRow => GetEnemyCountInRow(battleRow) < maxEnemiesPerRow)) { return true; }
@@ -346,10 +347,7 @@ namespace Frankie.Combat
             float averagePartySpeed = partySpeed / activePlayerCharacters.Count;
 
             // Get enemy max speed
-            foreach (BattleEntity enemy in activeEnemies)
-            {
-                enemySpeed = Mathf.Max(enemySpeed, enemy.combatParticipant.GetRunSpeed());
-            }
+            foreach (BattleEntity enemy in activeEnemies) { enemySpeed = Mathf.Max(enemySpeed, enemy.combatParticipant.GetRunSpeed()); }
 
             // Probability via CalculatedStat and check/react
             float runChance = CalculatedStats.GetCalculatedStat(CalculatedStat.RunChance, 0, averagePartySpeed, enemySpeed);
