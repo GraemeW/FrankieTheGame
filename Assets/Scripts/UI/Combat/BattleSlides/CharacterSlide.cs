@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
@@ -156,7 +157,12 @@ namespace Frankie.Combat.UI
             if (!base.HandleClickInBattle())
             {
                 // Only callable if battle action not set via battle slide (one click behaviour)
-                if (battleController.SetSelectedCharacter(GetBattleEntity().combatParticipant)) { return true; }
+                CombatParticipant selectedCharacter = GetBattleEntity().combatParticipant;
+                if (!BattleController.IsCombatParticipantAvailableToAct(selectedCharacter)) { return false; }
+                
+                List<BattleEntity> selectedBattleEntity = new() { new(selectedCharacter) };
+                BattleEventBus<BattleEntitySelectedEvent>.Raise(new BattleEntitySelectedEvent(CombatParticipantType.Friendly, selectedBattleEntity));
+                return true;
             }
             return false;
         }

@@ -7,9 +7,10 @@ namespace Frankie.Combat
 {
     public class BattleActionData
     {
-        CombatParticipant sender;
-        List<BattleEntity> targets = new List<BattleEntity>();
+        private readonly CombatParticipant sender;
+        private List<BattleEntity> targets = new();
         public int targetCount;
+        public int enemiesAddedDuringCombat;
 
         public BattleActionData(CombatParticipant sender)
         {
@@ -28,19 +29,12 @@ namespace Frankie.Combat
             targetCount = 1;
         }
 
-        public void SetTargets(IEnumerable<BattleEntity> targets)
+        public void SetTargets(IEnumerable<BattleEntity> setTarget)
         {
-            if (targets == null) { this.targets.Clear(); targetCount = 0; return; }
+            if (setTarget == null) { targets.Clear(); targetCount = 0; return; }
 
-            List<BattleEntity> targetList = targets.ToList();
-            SetTargets(targetList);
-        }
-
-        public void SetTargets(List<BattleEntity> targets)
-        {
-            if (targets == null) { this.targets.Clear(); targetCount = 0; return; }
-
-            this.targets = targets;
+            var targetList = setTarget.ToList();
+            targets = targetList;
             targetCount = targets.Count;
         }
 

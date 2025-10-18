@@ -158,8 +158,8 @@ namespace Frankie.Combat.UI
 
             if (state == BattleState.Intro)
             {
-                SetupBackgroundFill(battleController.GetEnemies());
-                SetupEntryMessage(battleController.GetEnemies());
+                SetupBackgroundFill(battleStateChangedEvent.enemies);
+                SetupEntryMessage(battleStateChangedEvent.enemies);
             }
             else if (state == BattleState.PreCombat)
             {

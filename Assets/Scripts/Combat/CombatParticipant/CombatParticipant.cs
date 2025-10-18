@@ -55,7 +55,7 @@ namespace Frankie.Combat
         private readonly List<StateEvent> stateListeners = new();
 
         // Events
-        public event Action<bool> enterCombat;
+        public event Action enteredBattle;
         public delegate void StateEvent(StateAlteredInfo stateAlteredInfo);
         public event StateEvent stateAltered;
 
@@ -152,6 +152,23 @@ namespace Frankie.Combat
         #endregion
 
         #region PublicUtility
+
+        public void SubscribeToBattleStateChanges(bool enable)
+        {
+            if (enable)
+            {
+                BattleEventBus<BattleStateChangedEvent>.SubscribeToEvent(HandleBattleStateChangedEvent);
+                enteredBattle?.Invoke();
+            }
+            else { BattleEventBus<BattleStateChangedEvent>.UnsubscribeFromEvent(HandleBattleStateChangedEvent); }
+        }
+
+        private void HandleBattleStateChangedEvent(BattleStateChangedEvent battleStateChangedEvent)
+        {
+            SetCombatActive(battleStateChangedEvent.battleState == BattleState.Combat);
+            if (battleStateChangedEvent.battleState == BattleState.Outro) { SubscribeToBattleStateChanges(false); }
+        }
+        
         public void SetCombatActive(bool enable)
         {
             inCombat = enable;
@@ -164,8 +181,6 @@ namespace Frankie.Combat
                 HaltHPScroll();
                 if (IsInCooldown()) { AnnounceStateUpdate(StateAlteredType.CooldownSet, Mathf.Infinity); }
             }
-            
-            enterCombat?.Invoke(enable);
         }
 
         public void SetupSelfDestroyOnBattleComplete()

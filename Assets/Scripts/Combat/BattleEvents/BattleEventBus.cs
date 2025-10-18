@@ -71,7 +71,7 @@ namespace Frankie.Combat
         public static void SetInBattle(bool setInBattle)
         {
             inBattle = setInBattle;
-            if (!setInBattle)
+            if (!inBattle)
             {
                 SetBattleState(BattleState.Inactive);
                 ClearWithinBattleSubscriptions();
@@ -82,7 +82,7 @@ namespace Frankie.Combat
         {
             foreach (BattleEventType eventType in System.Enum.GetValues(typeof(BattleEventType)))
             {
-                if (eventType == BattleEventType.BattleEnter || eventType == BattleEventType.BattleExit) { continue; }
+                if (eventType is BattleEventType.BattleEnter or BattleEventType.BattleExit) { continue; }
 
                 ClearSubscriptions(eventType);
             }
@@ -105,8 +105,14 @@ namespace Frankie.Combat
                 case BattleEventType.BattleEntitySelected:
                     BattleEventBus<BattleEntitySelectedEvent>.ClearAllSubscriptions();
                     break;
+                case BattleEventType.BattleActionSelected:
+                    BattleEventBus<BattleActionSelectedEvent>.ClearAllSubscriptions();
+                    break;
                 case BattleEventType.BattleActionArmed:
                     BattleEventBus<BattleActionArmedEvent>.ClearAllSubscriptions();
+                    break;
+                case BattleEventType.BattleQueueUpdated:
+                    BattleEventBus<BattleQueueUpdatedEvent>.ClearAllSubscriptions();
                     break;
                 case BattleEventType.BattleSequencedProcessed:
                     BattleEventBus<BattleSequenceProcessedEvent>.ClearAllSubscriptions();

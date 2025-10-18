@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
@@ -38,16 +39,20 @@ namespace Frankie.Combat.UI
         private float lastRotationTarget;
         private float currentRotationTarget;
         private float fadeTarget = 1f;
+        
+        // Battle State
+        private BattleEntity selectedCharacter;
+        private IBattleActionSuper selectedBattleActionSuper;
+        private List<BattleEntity> activeCharacters;
+        private List<BattleEntity> activeEnemies;
 
         // Cached References
-        protected BattleController battleController;
         protected Button button;
 
         #region UnityMethods
         protected virtual void Awake()
         {
             button = GetComponent<Button>();
-            battleController = BattleController.FindBattleController();
         }
 
         protected virtual void OnEnable()
@@ -64,8 +69,7 @@ namespace Frankie.Combat.UI
 
             if (canvasDimming != null) { StopCoroutine(canvasDimming); canvasDimming = null; }
             battleEntity?.combatParticipant.UnsubscribeToStateUpdates(ParseState);
-            BattleEventBus<BattleEnterEvent>.UnsubscribeFromEvent(SetupBattleListeners);
-            BattleEventBus<BattleEntitySelectedEvent>.UnsubscribeFromEvent(HighlightSlide);
+            SetupBattleListeners(false);
         }
 
         private void FixedUpdate()
@@ -123,11 +127,6 @@ namespace Frankie.Combat.UI
             }
         }
 
-        public void HighlightSlide(BattleEntitySelectedEvent battleEntitySelectedEvent)
-        {
-            HighlightSlide(battleEntitySelectedEvent.combatParticipantType, battleEntitySelectedEvent.battleEntities);
-        }
-
         public void HighlightSlide(CombatParticipantType combatParticipantType, bool enable)
         {
             SetSelected(combatParticipantType, enable);
@@ -154,18 +153,68 @@ namespace Frankie.Combat.UI
         }
         #endregion
 
-        #region PrivateMethods
+        #region EventBusHandlers
         private void SetupBattleListeners(BattleEnterEvent battleEnterEvent = null)
         {
-            BattleEventBus<BattleEntitySelectedEvent>.SubscribeToEvent(HighlightSlide);
-            AddButtonClickEvent(delegate { HandleClickInBattle(); });
+            SetupBattleListeners(true);
         }
+
+        private void SetupBattleListeners(bool enable)
+        {
+            if (enable)
+            {
+                BattleEventBus<BattleStateChangedEvent>.SubscribeToEvent(HandleBattleStateChangedEvent);
+                BattleEventBus<BattleEntitySelectedEvent>.SubscribeToEvent(HandleBattleEntitySelectedEvent);
+                BattleEventBus<BattleActionSelectedEvent>.SubscribeToEvent(HandleBattleActionSelectedEvent);
+                AddButtonClickEvent(delegate { HandleClickInBattle(); });
+            }
+            else
+            {
+                BattleEventBus<BattleEnterEvent>.UnsubscribeFromEvent(SetupBattleListeners);
+                BattleEventBus<BattleStateChangedEvent>.UnsubscribeFromEvent(HandleBattleStateChangedEvent);
+                BattleEventBus<BattleEntitySelectedEvent>.UnsubscribeFromEvent(HandleBattleEntitySelectedEvent);
+                BattleEventBus<BattleActionSelectedEvent>.UnsubscribeFromEvent(HandleBattleActionSelectedEvent);
+            }
+        }
+
+        private void HandleBattleActionSelectedEvent(BattleActionSelectedEvent battleActionSelectedEvent)
+        {
+            selectedBattleActionSuper = battleActionSelectedEvent.battleActionSuper;
+        }
+
+        private void HandleBattleEntitySelectedEvent(BattleEntitySelectedEvent battleEntitySelectedEvent)
+        {
+            HighlightSlide(battleEntitySelectedEvent.combatParticipantType, battleEntitySelectedEvent.battleEntities);
+
+            if (battleEntitySelectedEvent.combatParticipantType == CombatParticipantType.Friendly)
+            {
+                selectedCharacter = battleEntitySelectedEvent.battleEntities.FirstOrDefault();
+            }
+        }
+
+        private void HandleBattleStateChangedEvent(BattleStateChangedEvent battleStateChangedEvent)
+        {
+            if (battleStateChangedEvent.battleState != BattleState.Combat) { return; }
+            activeCharacters = battleStateChangedEvent.characters;
+            activeEnemies = battleStateChangedEvent.enemies;
+        }
+        #endregion
+        
+        #region PrivateMethods
 
         protected virtual bool HandleClickInBattle()
         {
-            if (battleController == null || !battleController.HasActiveBattleAction()) { return false; }
+            if (selectedCharacter == null || selectedBattleActionSuper == null) { return false; }
 
-            battleController.AddToBattleQueue(new List<BattleEntity> { battleEntity });
+            var battleActionData = new BattleActionData(selectedCharacter.combatParticipant); 
+            battleActionData.SetTargets(new List<BattleEntity> { battleEntity });
+            selectedBattleActionSuper.GetTargets(null, battleActionData, activeCharacters, activeEnemies); // Select targets with null traverse to apply filters & pass back
+            
+            if (battleActionData.targetCount == 0) { return false; }
+            
+            var battleSequence = new BattleSequence(selectedBattleActionSuper, battleActionData);
+            BattleEventBus<BattleQueueUpdatedEvent>.Raise(new BattleQueueUpdatedEvent(battleSequence));
+            
             return true;
         }
 

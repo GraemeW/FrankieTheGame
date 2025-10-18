@@ -10,16 +10,16 @@ namespace Frankie.Combat
     public abstract class PersistentStatus : MonoBehaviour
     {
         // State
-        protected bool active = false;
-        protected float duration = Mathf.Infinity;
-        protected bool persistAfterBattle = false;
+        protected bool active;
+        private float duration = Mathf.Infinity;
+        private bool persistAfterBattle;
 
         protected Stat statusEffectType = default; // Default, override in override methods
         protected bool isIncrease = false; // Default, override in override methods
 
         // Cached References
-        CombatParticipant combatParticipant = null;
-        protected PlayerStateMachine playerStateMachine = null;
+        private CombatParticipant combatParticipant;
+        private PlayerStateMachine playerStateMachine;
 
         // Events
         public event Action persistentStatusTimedOut;
@@ -63,22 +63,22 @@ namespace Frankie.Combat
         #endregion
 
         #region PrivateProtectedMethods
-        protected void Setup(float duration, bool persistAfterBattle = false)
+        protected void Setup(float setDuration, bool setPersistAfterBattle = false)
         {
-            this.duration = duration;
-            this.persistAfterBattle = persistAfterBattle;
+            duration = setDuration;
+            persistAfterBattle = setPersistAfterBattle;
 
             SyncToPlayerStateHandler();
-            SyncToBattleController();
+            SyncToBattle();
         }
 
-        protected void SyncToPlayerStateHandler()
+        private void SyncToPlayerStateHandler()
         {
             playerStateMachine = Player.FindPlayerStateMachine();
             playerStateMachine.playerStateChanged += HandlePlayerState;
         }
 
-        protected void SyncToBattleController()
+        private void SyncToBattle()
         {
             if (BattleEventBus.inBattle == false)
             {
@@ -87,8 +87,7 @@ namespace Frankie.Combat
                 return;
             }
 
-            BattleStateChangedEvent battleStateChangedEvent = new BattleStateChangedEvent(BattleEventBus.battleState, BattleOutcome.Undetermined);
-            HandleBattleState(battleStateChangedEvent); // Sync state immediately
+            HandleBattleState(BattleEventBus.battleState); // Sync state immediately
             BattleEventBus<BattleStateChangedEvent>.SubscribeToEvent(HandleBattleState);
         }
 
@@ -106,28 +105,18 @@ namespace Frankie.Combat
         private void HandleBattleState(BattleStateChangedEvent battleStateChangedEvent)
         {
             BattleState battleState = battleStateChangedEvent.battleState;
-            BattleOutcome battleOutcome = battleStateChangedEvent.battleOutcome;
+            HandleBattleState(battleState);
+        }
 
-            if (battleState == BattleState.Combat)
-            {
-                active = true;
-            }
-            else
-            {
-                active = false;
-            }
+        private void HandleBattleState(BattleState battleState)
+        {
+            active = battleState == BattleState.Combat;
 
             if (battleState == BattleState.Complete)
             {
                 BattleEventBus<BattleStateChangedEvent>.UnsubscribeFromEvent(HandleBattleState);
-                if (persistAfterBattle)
-                {
-                    active = true;
-                }
-                else
-                {
-                    Destroy(this); // Default behavior -- remove buffs/debuffs after combat
-                }
+                if (persistAfterBattle) { active = true; }
+                else { Destroy(this); } // Default behavior -- remove buffs/debuffs after combat
             }
         }
 
@@ -135,7 +124,7 @@ namespace Frankie.Combat
         {
             if (playerState == PlayerStateType.inBattle)
             {
-                SyncToBattleController();
+                SyncToBattle();
             }
         }
 
