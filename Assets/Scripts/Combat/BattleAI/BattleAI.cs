@@ -72,12 +72,10 @@ namespace Frankie.Combat
             if (enable)
             {
                 BattleEventBus<BattleStateChangedEvent>.SubscribeToEvent(HandleBattleStateChangedEvent);
-                BattleEventBus<BattleEntityAddedEvent>.SubscribeToEvent(HandleBattleEntityAddedEvent);
             }
             else
             {
                 BattleEventBus<BattleStateChangedEvent>.UnsubscribeFromEvent(HandleBattleStateChangedEvent);
-                BattleEventBus<BattleEntityAddedEvent>.UnsubscribeFromEvent(HandleBattleEntityAddedEvent);
             }
         }
 
@@ -95,20 +93,6 @@ namespace Frankie.Combat
                 case BattleState.Outro:
                     SubscribeToBattle(false);
                     break;
-            }
-        }
-
-        private void HandleBattleEntityAddedEvent(BattleEntityAddedEvent battleEntityAddedEvent)
-        {
-            if (combatParticipant.GetFriendly())
-            {
-                if (battleEntityAddedEvent.isEnemy) { cachedFoes.Add(battleEntityAddedEvent.battleEntity); }
-                else { cachedAllies.Add(battleEntityAddedEvent.battleEntity); }
-            }
-            else
-            {
-                if (battleEntityAddedEvent.isEnemy) { cachedAllies.Add(battleEntityAddedEvent.battleEntity); }
-                else { cachedFoes.Add(battleEntityAddedEvent.battleEntity); }
             }
         }
 

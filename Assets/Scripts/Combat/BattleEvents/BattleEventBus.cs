@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 
 namespace Frankie.Combat
@@ -126,6 +127,8 @@ namespace Frankie.Combat
                 case BattleEventType.BattleExit:
                     BattleEventBus<BattleExitEvent>.ClearAllSubscriptions();
                     break;
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(eventType), eventType, null);
             }
         }
         #endregion
