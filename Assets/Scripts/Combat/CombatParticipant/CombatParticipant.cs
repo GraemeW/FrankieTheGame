@@ -152,7 +152,6 @@ namespace Frankie.Combat
         #endregion
 
         #region PublicUtility
-
         public void SubscribeToBattleStateChanges(bool enable)
         {
             if (enable)
@@ -161,26 +160,6 @@ namespace Frankie.Combat
                 enteredBattle?.Invoke();
             }
             else { BattleEventBus<BattleStateChangedEvent>.UnsubscribeFromEvent(HandleBattleStateChangedEvent); }
-        }
-
-        private void HandleBattleStateChangedEvent(BattleStateChangedEvent battleStateChangedEvent)
-        {
-            SetCombatActive(battleStateChangedEvent.battleState == BattleState.Combat);
-            if (battleStateChangedEvent.battleState == BattleState.Outro) { SubscribeToBattleStateChanges(false); }
-        }
-        
-        public void SetCombatActive(bool enable)
-        {
-            inCombat = enable;
-            if (enable)
-            {
-                if (IsInCooldown()) { AnnounceStateUpdate(StateAlteredType.CooldownSet, cooldownTimer); }
-            }
-            else
-            {
-                HaltHPScroll();
-                if (IsInCooldown()) { AnnounceStateUpdate(StateAlteredType.CooldownSet, Mathf.Infinity); }
-            }
         }
 
         public void SetupSelfDestroyOnBattleComplete()
@@ -336,6 +315,26 @@ namespace Frankie.Combat
         #endregion
 
         #region PrivateUtility
+        private void HandleBattleStateChangedEvent(BattleStateChangedEvent battleStateChangedEvent)
+        {
+            SetCombatActive(battleStateChangedEvent.battleState == BattleState.Combat);
+            if (battleStateChangedEvent.battleState == BattleState.Outro) { SubscribeToBattleStateChanges(false); }
+        }
+        
+        private void SetCombatActive(bool enable)
+        {
+            inCombat = enable;
+            if (enable)
+            {
+                if (IsInCooldown()) { AnnounceStateUpdate(StateAlteredType.CooldownSet, cooldownTimer); }
+            }
+            else
+            {
+                HaltHPScroll();
+                if (IsInCooldown()) { AnnounceStateUpdate(StateAlteredType.CooldownSet, Mathf.Infinity); }
+            }
+        }
+        
         private void SelfDestroyOnBattleComplete(BattleStateChangedEvent battleStateChangedEvent)
         {
             if (battleStateChangedEvent.battleState == BattleState.Complete)

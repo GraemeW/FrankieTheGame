@@ -43,8 +43,8 @@ namespace Frankie.Combat.UI
         // Battle State
         private BattleEntity selectedCharacter;
         private IBattleActionSuper selectedBattleActionSuper;
-        private IList<BattleEntity> activeCharacters;
-        private IList<BattleEntity> activeEnemies;
+        private IList<BattleEntity> cachedCharacters;
+        private IList<BattleEntity> cachedEnemies;
 
         // Cached References
         protected Button button;
@@ -195,8 +195,8 @@ namespace Frankie.Combat.UI
         private void HandleBattleStateChangedEvent(BattleStateChangedEvent battleStateChangedEvent)
         {
             if (battleStateChangedEvent.battleState != BattleState.Combat) { return; }
-            activeCharacters = battleStateChangedEvent.characters;
-            activeEnemies = battleStateChangedEvent.enemies;
+            cachedCharacters = battleStateChangedEvent.characters;
+            cachedEnemies = battleStateChangedEvent.enemies;
         }
         #endregion
         
@@ -205,10 +205,14 @@ namespace Frankie.Combat.UI
         protected virtual bool HandleClickInBattle()
         {
             if (selectedCharacter == null || selectedBattleActionSuper == null) { return false; }
+            if (cachedCharacters == null || cachedEnemies == null) { return false; }
 
             var battleActionData = new BattleActionData(selectedCharacter.combatParticipant); 
             battleActionData.SetTargets(new List<BattleEntity> { battleEntity });
-            selectedBattleActionSuper.GetTargets(null, battleActionData, activeCharacters, activeEnemies); // Select targets with null traverse to apply filters & pass back
+            
+            var localCharacters = new List<BattleEntity>(cachedCharacters);
+            var localEnemies = new List<BattleEntity>(cachedEnemies);
+            selectedBattleActionSuper.GetTargets(null, battleActionData, localCharacters, localEnemies); // Select targets with null traverse to apply filters & pass back
             
             if (battleActionData.targetCount == 0) { return false; }
             

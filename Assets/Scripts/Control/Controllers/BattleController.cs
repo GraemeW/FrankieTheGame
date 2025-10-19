@@ -514,31 +514,26 @@ namespace Frankie.Combat
 
         private void SetupCombatParticipants(List<CombatParticipant> enemies, TransitionType transitionType)
         {
-            // Party Characters
             foreach (CombatParticipant character in partyCombatConduit.GetPartyCombatParticipants())
             {
                 AddCharacterToCombat(character, transitionType);
-                character.SubscribeToBattleStateChanges(true);
             }
-
-            // Enemies
+            
             foreach (CombatParticipant enemy in enemies)
             {
                 AddEnemyToCombat(enemy, transitionType);
-                enemy.SubscribeToBattleStateChanges(true);
             }
-
-            // Party Assist Characters
+            
             foreach (CombatParticipant character in partyCombatConduit.GetPartyAssistParticipants())
             {
                 AddAssistCharacterToCombat(character, transitionType);
-                character.SubscribeToBattleStateChanges(true);
             }
         }
 
         private void AddCharacterToCombat(CombatParticipant character, TransitionType transitionType)
         {
             character.InitializeCooldown(true, IsBattleAdvantage(true, transitionType));
+            character.SubscribeToBattleStateChanges(true);
 
             BattleEntity characterBattleEntity = new BattleEntity(character);
             activeCharacters.Add(characterBattleEntity);
@@ -550,6 +545,7 @@ namespace Frankie.Combat
         private void AddAssistCharacterToCombat(CombatParticipant character, TransitionType transitionType)
         {
             character.InitializeCooldown(false, IsBattleAdvantage(true, transitionType));
+            character.SubscribeToBattleStateChanges(true);
 
             BattleEntity assistBattleEntity = new BattleEntity(character, true);
             activeCharacters.Add(assistBattleEntity);
@@ -561,6 +557,7 @@ namespace Frankie.Combat
         public void AddEnemyToCombat(CombatParticipant enemy, TransitionType transitionType = TransitionType.BattleNeutral, bool addMidCombatForceActive = false)
         {
             enemy.InitializeCooldown(false, IsBattleAdvantage(false, transitionType));
+            enemy.SubscribeToBattleStateChanges(true);
 
             BattleRow battleRow = enemy.GetPreferredBattleRow();
             GetEnemyPosition(ref battleRow, out int columnIndex);
@@ -571,8 +568,11 @@ namespace Frankie.Combat
             BattleEntity enemyBattleEntity = new BattleEntity(enemy, enemy.GetBattleEntityType(), battleRow, columnIndex);
             activeEnemies.Add(enemyBattleEntity);
 
-            if (addMidCombatForceActive) { countEnemiesAddedMidCombat++; }
-            enemy.SetCombatActive(addMidCombatForceActive);
+            if (addMidCombatForceActive)
+            {
+                countEnemiesAddedMidCombat++;
+                SetBattleState(BattleState.Combat, BattleOutcome.Undetermined);
+            }
             BattleEventBus<BattleEntityAddedEvent>.Raise(new BattleEntityAddedEvent(enemyBattleEntity, true));
         }
 
