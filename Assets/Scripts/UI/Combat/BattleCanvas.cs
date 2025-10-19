@@ -259,7 +259,7 @@ namespace Frankie.Combat.UI
             combatLog.AddCombatListener(assistCharacter.combatParticipant);
         }
 
-        private void SetupBackgroundFill(List<BattleEntity> enemies)
+        private void SetupBackgroundFill(IList<BattleEntity> enemies)
         {
             int enemyIndex = UnityEngine.Random.Range(0, enemies.Count);
             MovingBackgroundProperties movingBackgroundProperties = enemies[enemyIndex].combatParticipant.GetMovingBackgroundProperties();
@@ -305,7 +305,7 @@ namespace Frankie.Combat.UI
             queuedLevelUps.Add(characterLevelUpSheetPair);
         }
 
-        private void SetupEntryMessage(List<BattleEntity> enemies)
+        private void SetupEntryMessage(IList<BattleEntity> enemies)
         {
             BattleEntity enemy = enemies.FirstOrDefault();
             if (enemy == null) { return; }

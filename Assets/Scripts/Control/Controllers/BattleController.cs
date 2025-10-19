@@ -162,7 +162,7 @@ namespace Frankie.Combat
             battleState = state;
             if (canAttemptEarlyRun && state == BattleState.Combat) { canAttemptEarlyRun = false; }
 
-            BattleEventBus<BattleStateChangedEvent>.Raise(new BattleStateChangedEvent(state, battleOutcome, activeCharacters, activeEnemies));
+            BattleEventBus<BattleStateChangedEvent>.Raise(new BattleStateChangedEvent(state, battleOutcome, activeCharacters.AsReadOnly(), activeEnemies.AsReadOnly()));
         }
         
         public bool SetSelectedCharacter(CombatParticipant character)

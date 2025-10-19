@@ -43,8 +43,8 @@ namespace Frankie.Combat.UI
         // Battle State
         private BattleEntity selectedCharacter;
         private IBattleActionSuper selectedBattleActionSuper;
-        private List<BattleEntity> activeCharacters;
-        private List<BattleEntity> activeEnemies;
+        private IList<BattleEntity> activeCharacters;
+        private IList<BattleEntity> activeEnemies;
 
         // Cached References
         protected Button button;

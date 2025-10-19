@@ -26,8 +26,8 @@ namespace Frankie.Combat
         // Cached References
         private CombatParticipant combatParticipant;
         private SkillHandler skillHandler;
-        private List<BattleEntity> cachedAllies = new();
-        private List<BattleEntity> cachedFoes = new();
+        private IList<BattleEntity> cachedAllies;
+        private IList<BattleEntity> cachedFoes;
 
         #region UnityMethods
         private void Awake()
