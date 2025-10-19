@@ -41,7 +41,7 @@ namespace Frankie.Combat
         private bool battleActionArmed = false;
         private BattleActionData battleActionData;
 
-        private readonly Queue<BattleSequence> battleSequenceQueue = new Queue<BattleSequence>();
+        private readonly Queue<BattleSequence> battleSequenceQueue = new();
         private bool haltBattleQueue = false;
         private bool battleSequenceInProgress = false;
 
@@ -102,6 +102,7 @@ namespace Frankie.Combat
         {
             playerInput.Menu.Enable();
             BattleEventBus<BattleEntitySelectedEvent>.SubscribeToEvent(HandleBattleEntitySelectedEvent);
+            BattleEventBus<BattleQueueAddAttemptEvent>.SubscribeToEvent(HandleBattleQueueAddAttemptEvent);
             BattleEventBus<BattleQueueUpdatedEvent>.SubscribeToEvent(HandleBattleQueueUpdatedEvent);
             BattleEventBus<BattleEntityRemovedFromBoardEvent>.SubscribeToEvent(RemoveFromEnemyMapping);
             BattleEventBus<StateAlteredInfo>.SubscribeToEvent(HandleCharacterDeath);
@@ -112,6 +113,7 @@ namespace Frankie.Combat
         {
             playerInput.Menu.Disable();
             BattleEventBus<BattleEntitySelectedEvent>.UnsubscribeFromEvent(HandleBattleEntitySelectedEvent);
+            BattleEventBus<BattleQueueAddAttemptEvent>.UnsubscribeFromEvent(HandleBattleQueueAddAttemptEvent);
             BattleEventBus<BattleQueueUpdatedEvent>.UnsubscribeFromEvent(HandleBattleQueueUpdatedEvent);
             BattleEventBus<BattleEntityRemovedFromBoardEvent>.UnsubscribeFromEvent(RemoveFromEnemyMapping);
             BattleEventBus<StateAlteredInfo>.UnsubscribeFromEvent(HandleCharacterDeath);
@@ -269,6 +271,23 @@ namespace Frankie.Combat
                 selectedCharacter = battleEntity.combatParticipant; // N.B. Set here too for UI button click support
                 battleActionData = new BattleActionData(battleEntity.combatParticipant);
             }
+        }
+
+        private void HandleBattleQueueAddAttemptEvent(BattleQueueAddAttemptEvent battleQueueAddAttemptEvent)
+        {
+            if (selectedCharacter == null || selectedBattleActionSuper == null) { return; }
+            if (battleQueueAddAttemptEvent.targets == null || battleQueueAddAttemptEvent.targets.Count == 0) { return; }
+            if (!IsCombatParticipantAvailableToAct(selectedCharacter)) { return; }
+            
+            var tryBattleActionData = new BattleActionData(selectedCharacter); 
+            battleActionData.SetTargets(battleQueueAddAttemptEvent.targets);
+            
+            selectedBattleActionSuper.GetTargets(null, tryBattleActionData, activeCharacters, activeEnemies); // Select targets with null traverse to apply filters & pass back
+            
+            if (battleActionData.targetCount == 0) { return; }
+            
+            var battleSequence = new BattleSequence(selectedBattleActionSuper, battleActionData);
+            BattleEventBus<BattleQueueUpdatedEvent>.Raise(new BattleQueueUpdatedEvent(battleSequence));
         }
         
         private void HandleBattleQueueUpdatedEvent(BattleQueueUpdatedEvent battleQueueUpdatedEvent)

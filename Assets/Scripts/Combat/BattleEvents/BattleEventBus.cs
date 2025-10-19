@@ -112,6 +112,9 @@ namespace Frankie.Combat
                 case BattleEventType.BattleActionArmed:
                     BattleEventBus<BattleActionArmedEvent>.ClearAllSubscriptions();
                     break;
+                case BattleEventType.BattleQueueAddAttemptEvent:
+                    BattleEventBus<BattleQueueAddAttemptEvent>.ClearAllSubscriptions();
+                    break;
                 case BattleEventType.BattleQueueUpdated:
                     BattleEventBus<BattleQueueUpdatedEvent>.ClearAllSubscriptions();
                     break;

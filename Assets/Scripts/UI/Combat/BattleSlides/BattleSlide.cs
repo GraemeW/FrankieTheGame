@@ -1,6 +1,5 @@
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
@@ -39,12 +38,6 @@ namespace Frankie.Combat.UI
         private float lastRotationTarget;
         private float currentRotationTarget;
         private float fadeTarget = 1f;
-        
-        // Battle State
-        private BattleEntity selectedCharacter;
-        private IBattleActionSuper selectedBattleActionSuper;
-        private IList<BattleEntity> cachedCharacters;
-        private IList<BattleEntity> cachedEnemies;
 
         // Cached References
         protected Button button;
@@ -163,40 +156,19 @@ namespace Frankie.Combat.UI
         {
             if (enable)
             {
-                BattleEventBus<BattleStateChangedEvent>.SubscribeToEvent(HandleBattleStateChangedEvent);
                 BattleEventBus<BattleEntitySelectedEvent>.SubscribeToEvent(HandleBattleEntitySelectedEvent);
-                BattleEventBus<BattleActionSelectedEvent>.SubscribeToEvent(HandleBattleActionSelectedEvent);
                 AddButtonClickEvent(delegate { HandleClickInBattle(); });
             }
             else
             {
                 BattleEventBus<BattleEnterEvent>.UnsubscribeFromEvent(SetupBattleListeners);
-                BattleEventBus<BattleStateChangedEvent>.UnsubscribeFromEvent(HandleBattleStateChangedEvent);
                 BattleEventBus<BattleEntitySelectedEvent>.UnsubscribeFromEvent(HandleBattleEntitySelectedEvent);
-                BattleEventBus<BattleActionSelectedEvent>.UnsubscribeFromEvent(HandleBattleActionSelectedEvent);
             }
-        }
-
-        private void HandleBattleActionSelectedEvent(BattleActionSelectedEvent battleActionSelectedEvent)
-        {
-            selectedBattleActionSuper = battleActionSelectedEvent.battleActionSuper;
         }
 
         private void HandleBattleEntitySelectedEvent(BattleEntitySelectedEvent battleEntitySelectedEvent)
         {
             HighlightSlide(battleEntitySelectedEvent.combatParticipantType, battleEntitySelectedEvent.battleEntities);
-
-            if (battleEntitySelectedEvent.combatParticipantType == CombatParticipantType.Friendly)
-            {
-                selectedCharacter = battleEntitySelectedEvent.battleEntities.FirstOrDefault();
-            }
-        }
-
-        private void HandleBattleStateChangedEvent(BattleStateChangedEvent battleStateChangedEvent)
-        {
-            if (battleStateChangedEvent.battleState != BattleState.Combat) { return; }
-            cachedCharacters = battleStateChangedEvent.characters;
-            cachedEnemies = battleStateChangedEvent.enemies;
         }
         #endregion
         
@@ -204,20 +176,8 @@ namespace Frankie.Combat.UI
 
         protected virtual bool HandleClickInBattle()
         {
-            if (selectedCharacter == null || selectedBattleActionSuper == null) { return false; }
-            if (cachedCharacters == null || cachedEnemies == null) { return false; }
-
-            var battleActionData = new BattleActionData(selectedCharacter.combatParticipant); 
-            battleActionData.SetTargets(new List<BattleEntity> { battleEntity });
-            
-            var localCharacters = new List<BattleEntity>(cachedCharacters);
-            var localEnemies = new List<BattleEntity>(cachedEnemies);
-            selectedBattleActionSuper.GetTargets(null, battleActionData, localCharacters, localEnemies); // Select targets with null traverse to apply filters & pass back
-            
-            if (battleActionData.targetCount == 0) { return false; }
-            
-            var battleSequence = new BattleSequence(selectedBattleActionSuper, battleActionData);
-            BattleEventBus<BattleQueueUpdatedEvent>.Raise(new BattleQueueUpdatedEvent(battleSequence));
+            var targets = new List<BattleEntity> { battleEntity };
+            BattleEventBus<BattleQueueAddAttemptEvent>.Raise(new BattleQueueAddAttemptEvent(targets));
             
             return true;
         }

@@ -8,6 +8,7 @@ namespace Frankie.Combat
         BattleEntitySelected,
         BattleActionSelected,
         BattleActionArmed,
+        BattleQueueAddAttemptEvent,
         BattleQueueUpdated,
         BattleSequencedProcessed,
         BattleEntityStateAltered,
