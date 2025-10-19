@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   upSkillReference: Wallop
   upBranch: 
-  leftSkillReference: 
+  leftSkillReference: RiseAndGrind
   leftBranch: 
   rightSkillReference: GentlePraise
   rightBranch: 

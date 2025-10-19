@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -8,14 +7,14 @@ namespace Frankie.Combat
     [CreateAssetMenu(fileName = "New Multi Targeting", menuName = "BattleAction/Targeting/Multi Target")]
     public class MultiTargeting : TargetingStrategy
     {
-        [SerializeField] bool overrideToHitEverything = false;
-        [SerializeField][Min(0)] int numberOfEnemiesToHit = 2;
+        [SerializeField] private bool overrideToHitEverything = false;
+        [SerializeField][Min(0)] private int numberOfEnemiesToHit = 2;
 
         public override void GetTargets(bool? traverseForward, BattleActionData battleActionData,
             IEnumerable<BattleEntity> activeCharacters, IEnumerable<BattleEntity> activeEnemies)
         {
             // Collapse target list to expected number to hit
-            List<BattleEntity> passTargets = new List<BattleEntity>();
+            var passTargets = new List<BattleEntity>();
             if (battleActionData.targetCount > 0)
             {
                 int modifiedPassedLength = 0;
@@ -49,7 +48,7 @@ namespace Frankie.Combat
             List<BattleEntity> shiftedTargets; // Define locally since iterating over the list in battleActionData
             if (traverseForward == null)
             {
-                // Special handling null travers forward -- pass back set as it was received (modifying up if entities filtered out)
+                // Special handling null traverse forward -- pass back set as it was received (modifying up if entities filtered out)
                 shiftedTargets = GetShiftedTargets(battleActionData, oldIndexTarget, true).ToList();
             }
             else
@@ -63,7 +62,7 @@ namespace Frankie.Combat
         {
             bool indexFound = false;
             int targetLength = 0;
-            List<BattleEntity> cycledTargets = new List<BattleEntity>();
+            var cycledTargets = new List<BattleEntity>();
             foreach (BattleEntity battleEntity in battleActionData.GetTargets())
             {
                 if (!indexFound)

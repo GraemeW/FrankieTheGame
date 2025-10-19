@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -59,8 +58,11 @@ namespace Frankie.Combat
             // Matched on last index -- return top of the list
             if (returnOnNextIteration)
             {
-                if (traverseForward == true) { passTarget = battleActionData.GetFirst(); }
-                else if (traverseForward == false) { passTarget = battleActionData.GetLast(); }
+                passTarget = traverseForward switch
+                {
+                    true => battleActionData.GetFirst(),
+                    false => battleActionData.GetLast()
+                };
                 battleActionData.SetTargets(passTarget);
             }
 

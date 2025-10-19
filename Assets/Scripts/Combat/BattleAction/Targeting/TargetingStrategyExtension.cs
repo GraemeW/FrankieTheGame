@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 
 namespace Frankie.Combat
@@ -7,7 +6,7 @@ namespace Frankie.Combat
     {
         public static IEnumerable<BattleEntity> GetCombatParticipantsByType(this TargetingStrategy targetingStrategy, CombatParticipantType combatParticipantType, IEnumerable<BattleEntity> activeCharacters, IEnumerable<BattleEntity> activeEnemies)
         {
-            if (combatParticipantType == CombatParticipantType.Either || combatParticipantType == CombatParticipantType.Foe)
+            if (combatParticipantType is CombatParticipantType.Either or CombatParticipantType.Foe)
             {
                 if (activeEnemies != null)
                 {
@@ -17,7 +16,7 @@ namespace Frankie.Combat
                     }
                 }
             }
-            if (combatParticipantType == CombatParticipantType.Either || combatParticipantType == CombatParticipantType.Friendly)
+            if (combatParticipantType is CombatParticipantType.Either or CombatParticipantType.Friendly)
             {
                 if (activeCharacters != null)
                 {

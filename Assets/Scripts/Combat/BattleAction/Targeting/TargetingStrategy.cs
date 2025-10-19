@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -6,21 +5,19 @@ namespace Frankie.Combat
 {
     public abstract class TargetingStrategy : ScriptableObject
     {
-        [SerializeField] protected CombatParticipantType combatParticipantType = default;
-        [SerializeField] protected FilterStrategy[] filterStrategies = null;
+        [SerializeField] protected CombatParticipantType combatParticipantType;
+        [SerializeField] protected FilterStrategy[] filterStrategies;
 
         public abstract void GetTargets(bool? traverseForward, BattleActionData battleActionData,
             IEnumerable<BattleEntity> activeCharacters, IEnumerable<BattleEntity> activeEnemies);
         protected abstract List<BattleEntity> GetBattleEntitiesByTypeTemplate(CombatParticipantType combatParticipantType, IEnumerable<BattleEntity> activeCharacters, IEnumerable<BattleEntity> activeEnemies);
 
-        protected void FilterTargets(BattleActionData battleActionData, FilterStrategy[] filterStrategies)
+        protected static void FilterTargets(BattleActionData battleActionData, FilterStrategy[] tryFilterStrategies)
         {
-            if (filterStrategies != null)
+            if (tryFilterStrategies == null) return;
+            foreach (FilterStrategy filterStrategy in tryFilterStrategies)
             {
-                foreach (FilterStrategy filterStrategy in filterStrategies)
-                {
-                    battleActionData.SetTargets(filterStrategy.Filter(battleActionData.GetTargets()));
-                }
+                battleActionData.SetTargets(filterStrategy.Filter(battleActionData.GetTargets()));
             }
         }
     }
