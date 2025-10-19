@@ -8,7 +8,7 @@ namespace Frankie.Combat
     [CreateAssetMenu(fileName = "New Row Targeting", menuName = "BattleAction/Targeting/Row Target")]
     public class RowTargeting : TargetingStrategy
     {
-        private const BattleRow _defaultBattleRow = BattleRow.Bottom;
+        private const BattleRow _defaultBattleRow = BattleRow.Middle;
         
         public override void GetTargets(bool? traverseForward, BattleActionData battleActionData, IEnumerable<BattleEntity> activeCharacters,
             IEnumerable<BattleEntity> activeEnemies)
@@ -40,7 +40,7 @@ namespace Frankie.Combat
             battleRows.Remove(BattleRow.Any);
             int currentIndex = battleRows.IndexOf(currentBattleRow);
             
-            if (traverseForward == true)
+            if (traverseForward)
             {
                 currentIndex = (currentIndex == battleRows.Count - 1) ? 0 : currentIndex + 1;
             }

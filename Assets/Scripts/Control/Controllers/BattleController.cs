@@ -279,11 +279,9 @@ namespace Frankie.Combat
             if (battleQueueAddAttemptEvent.targets == null || battleQueueAddAttemptEvent.targets.Count == 0) { return; }
             if (!IsCombatParticipantAvailableToAct(selectedCharacter)) { return; }
             
-            var tryBattleActionData = new BattleActionData(selectedCharacter); 
+            battleActionData = new BattleActionData(selectedCharacter); 
             battleActionData.SetTargets(battleQueueAddAttemptEvent.targets);
-            
-            selectedBattleActionSuper.GetTargets(null, tryBattleActionData, activeCharacters, activeEnemies); // Select targets with null traverse to apply filters & pass back
-            
+            selectedBattleActionSuper.GetTargets(null, battleActionData, activeCharacters, activeEnemies); // Select targets with null traverse to apply filters & pass back
             if (battleActionData.targetCount == 0) { return; }
             
             var battleSequence = new BattleSequence(selectedBattleActionSuper, battleActionData);
