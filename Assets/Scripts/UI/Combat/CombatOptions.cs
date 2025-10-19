@@ -19,11 +19,11 @@ namespace Frankie.Combat.UI
         private BattleCanvas battleCanvas;
         private PartyCombatConduit partyCombatConduit;
 
-        public void Setup(BattleController battleController, BattleCanvas battleCanvas, PartyCombatConduit partyCombatConduit)
+        public void Setup(BattleController setBattleController, BattleCanvas setBattleCanvas, PartyCombatConduit setPartyCombatConduit)
         {
-            this.battleController = battleController;
-            this.battleCanvas = battleCanvas;
-            this.partyCombatConduit = partyCombatConduit;
+            battleController = setBattleController;
+            battleCanvas = setBattleCanvas;
+            partyCombatConduit = setPartyCombatConduit;
         }
 
         public void InitiateCombat() // Called via unity events

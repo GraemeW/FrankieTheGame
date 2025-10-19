@@ -54,7 +54,7 @@ namespace Frankie.Combat
         public event Action<PlayerInputType> battleInput;
         public event Action<PlayerInputType> globalInput;
 
-        #region StaticFind
+        #region StaticMethods
         private const string _battleControllerTag = "BattleController";
 
         public static BattleController FindBattleController()

@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -11,19 +10,19 @@ namespace Frankie.Combat.UI
     public class SkillSelectionUI : UIBox
     {
         // Tunables
-        [SerializeField] TextMeshProUGUI selectedCharacterNameField = null;
-        [SerializeField] TextMeshProUGUI upField = null;
-        [SerializeField] TextMeshProUGUI leftField = null;
-        [SerializeField] TextMeshProUGUI rightField = null;
-        [SerializeField] TextMeshProUGUI downField = null;
-        [SerializeField] protected TextMeshProUGUI skillField = null;
+        [SerializeField] private TextMeshProUGUI selectedCharacterNameField;
+        [SerializeField] private TextMeshProUGUI upField;
+        [SerializeField] private TextMeshProUGUI leftField;
+        [SerializeField] private TextMeshProUGUI rightField;
+        [SerializeField] private TextMeshProUGUI downField;
+        [SerializeField] protected TextMeshProUGUI skillField;
         [SerializeField] protected string defaultNoText = "--";
 
         // State
-        protected CombatParticipant currentCombatParticipant = null;
+        protected CombatParticipant currentCombatParticipant;
 
         // Cached References
-        BattleController battleController = null;
+        private BattleController battleController;
 
         #region VirtualMethods
         protected virtual void Awake()
@@ -52,10 +51,8 @@ namespace Frankie.Combat.UI
         protected virtual void HandleInput(PlayerInputType input)
         {
             if (battleController.GetSelectedCharacter() == null) { return; }
-            if (!battleController.IsBattleActionArmed())
-            {
-                if (SetBranchOrSkill(input)) { return; }
-            }
+            if (battleController.IsBattleActionArmed()) { return; }
+            if (SetBranchOrSkill(input)) { return; }
         }
 
         public void HandleInput(int input) // PUBLIC:  Called via unity events for button clicks (mouse)
@@ -126,10 +123,10 @@ namespace Frankie.Combat.UI
         private void UpdateSkills(SkillHandler skillHandler)
         {
             skillHandler.GetPlayerSkillsForCurrentBranch(out Skill up, out Skill left, out Skill right, out Skill down);
-            if (up != null) { upField.text = Skill.GetSkillNamePretty(up.name); } else { upField.text = defaultNoText; }
-            if (left != null) { leftField.text = Skill.GetSkillNamePretty(left.name); } else { leftField.text = defaultNoText; }
-            if (right != null) { rightField.text = Skill.GetSkillNamePretty(right.name); } else { rightField.text = defaultNoText; }
-            if (down != null) { downField.text = Skill.GetSkillNamePretty(down.name); } else { downField.text = defaultNoText; }
+            upField.text = up != null ? Skill.GetSkillNamePretty(up.name) : defaultNoText;
+            leftField.text = left != null ? Skill.GetSkillNamePretty(left.name) : defaultNoText;
+            rightField.text = right != null ? Skill.GetSkillNamePretty(right.name) : defaultNoText;
+            downField.text = down != null ? Skill.GetSkillNamePretty(down.name) : defaultNoText;
 
             Skill activeSkill = skillHandler.GetActiveSkill();
             if (activeSkill != null)
