@@ -33,7 +33,7 @@ namespace Frankie.Inventory
             return true;
         }
 
-        public void GetTargets(bool? traverseForward, BattleActionData battleActionData,
+        public void SetTargets(bool? traverseForward, BattleActionData battleActionData,
             IEnumerable<BattleEntity> activeCharacters, IEnumerable<BattleEntity> activeEnemies)
         {
             if (battleAction == null) { return; }

@@ -249,7 +249,7 @@ namespace Frankie.Combat.UI
             Skill activeSkill = skillHandler?.GetActiveSkill();
             if (activeSkill == null) { return false; }
 
-            activeSkill.GetTargets(traverseForward, battleActionData, partyBattleEntities, null);
+            activeSkill.SetTargets(traverseForward, battleActionData, partyBattleEntities, null);
             if (battleActionData.targetCount == 0)
             {
                 return false;

@@ -8,11 +8,7 @@ namespace Frankie.Combat
     public class BattleMat : MonoBehaviour
     {
         [Header("Positional Properties")]
-        [SerializeField] private int maxEnemiesPerRow = 7;
         [SerializeField] private int minEnemiesBeforeRowSplit = 2;
-        
-        // Fixed
-        private readonly HashSet<BattleRow> defaultBattleRowPriority = new () { BattleRow.Middle, BattleRow.Top };
 
         // State
         private readonly List<BattleEntity> activeCharacters = new();
@@ -22,6 +18,14 @@ namespace Frankie.Combat
         public int GetCountActivePlayerCharacters() => activePlayerCharacters.Count;
         private readonly Dictionary<BattleRow, int> enemyMap = new() { {BattleRow.Middle, 0}, {BattleRow.Top, 0}, {BattleRow.Bottom, 0} };
 
+        // Fixed & static
+        private readonly HashSet<BattleRow> defaultBattleRowPriority = new () { BattleRow.Middle, BattleRow.Top };
+        private static readonly List<BattleRow> _battleRowSortOrder = new() { BattleRow.Top, BattleRow.Middle, BattleRow.Bottom };
+        private const int _maxEnemiesPerRow = 7;
+        public static IList<BattleRow> GetBattleRowSortOrder() => _battleRowSortOrder.AsReadOnly();
+        public static BattleRow GetDefaultBattleRow() => _battleRowSortOrder[0];
+        public static int GetDefaultBattleColumn() => _maxEnemiesPerRow / 2;
+        
         #region GettersSetters
         public IList<BattleEntity> GetActiveCharacters() => activeCharacters.AsReadOnly();
         public IList<BattleEntity> GetActivePlayerCharacters() => activePlayerCharacters.AsReadOnly();
@@ -30,7 +34,7 @@ namespace Frankie.Combat
         
         public bool IsEnemyPositionAvailable()
         {
-            if (defaultBattleRowPriority.Any(battleRow => GetEnemyCountInRow(battleRow) < maxEnemiesPerRow)) { return true; }
+            if (defaultBattleRowPriority.Any(battleRow => GetEnemyCountInRow(battleRow) < _maxEnemiesPerRow)) { return true; }
             Debug.Log("No remaining positions for enemies to spawn");
             return false;
         }
@@ -128,7 +132,7 @@ namespace Frankie.Combat
         private void UpdateEnemyPosition(ref BattleRow battleRow, out int columnIndex)
         {
             List<BattleRow> optimalBattleRowPriority = GetOptimalBattleRowPriority(battleRow);
-            optimalBattleRowPriority.RemoveAll(testBattleRow => GetEnemyCountInRow(testBattleRow) >= maxEnemiesPerRow);
+            optimalBattleRowPriority.RemoveAll(testBattleRow => GetEnemyCountInRow(testBattleRow) >= _maxEnemiesPerRow);
 
             if (optimalBattleRowPriority.Count == 0) { battleRow = BattleRow.Any; columnIndex = 0; return; } // early exit, no rows available
             if (!optimalBattleRowPriority.Contains(battleRow)) { battleRow = BattleRow.Any; } // desired row not available, swap to any
@@ -140,7 +144,7 @@ namespace Frankie.Combat
             }
 
             // Find column position
-            int centerColumn = maxEnemiesPerRow / 2;
+            int centerColumn = _maxEnemiesPerRow / 2;
             columnIndex = centerColumn;
             
             if (IsEnemyPresent(battleRow, columnIndex)) // Center already populated, loop through
@@ -148,7 +152,7 @@ namespace Frankie.Combat
                 for (int i = 1; i < centerColumn + 1; i++)
                 {
                     if (!IsEnemyPresent(battleRow, centerColumn - i)) { columnIndex = centerColumn - i; break; } // -1 offset from center
-                    if (centerColumn + i >= maxEnemiesPerRow) { break; } // Handling for even counts
+                    if (centerColumn + i >= _maxEnemiesPerRow) { break; } // Handling for even counts
                     if (!IsEnemyPresent(battleRow, centerColumn + i)) { columnIndex = centerColumn + i; break; } // +1 offset from center
                 }
             }

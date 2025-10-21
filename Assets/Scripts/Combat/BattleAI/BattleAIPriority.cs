@@ -60,7 +60,7 @@ namespace Frankie.Combat
             // Randomize input combat participants selections
             battleAI.GetLocalAllies().Shuffle();
             battleAI.GetLocalFoes().Shuffle();
-            skill.GetTargets(true, battleActionData, battleAI.GetLocalAllies(), battleAI.GetLocalFoes());
+            skill.SetTargets(true, battleActionData, battleAI.GetLocalAllies(), battleAI.GetLocalFoes());
         }
         #endregion
 

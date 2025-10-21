@@ -3,8 +3,8 @@ namespace Frankie.Combat
     public class BattleEntity
     {
         // Attributes
-        public CombatParticipant combatParticipant;
-        public BattleEntityType battleEntityType;
+        public readonly CombatParticipant combatParticipant;
+        public readonly BattleEntityType battleEntityType;
         public BattleRow row;
         public int column;
         public readonly bool isCharacter;
@@ -14,11 +14,11 @@ namespace Frankie.Combat
         public BattleEntity(CombatParticipant combatParticipant, bool isAssistCharacter = false)
         {
             this.combatParticipant = combatParticipant;
-            this.isCharacter = true;
             this.isAssistCharacter = isAssistCharacter;
-            this.battleEntityType = BattleEntityType.Standard;
-            this.row = 0;
-            this.column = 0;
+            isCharacter = true;
+            battleEntityType = BattleEntityType.Standard;
+            row = BattleRow.Middle;
+            column = 0;
         }
 
         // Enemy type instantiation
@@ -26,10 +26,10 @@ namespace Frankie.Combat
         {
             this.combatParticipant = combatParticipant;
             this.battleEntityType = battleEntityType;
-            this.isCharacter = false;
-            this.isAssistCharacter = false;
             this.row = row;
             this.column = column;
+            isCharacter = false;
+            isAssistCharacter = false;
 
             combatParticipant.SubscribeToStateUpdates(HandleStateChange);
         }

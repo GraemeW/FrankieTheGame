@@ -8,74 +8,62 @@ namespace Frankie.Combat
     public class BattleActionData
     {
         private readonly CombatParticipant sender;
+        private BattleEntity focalTarget;
         private List<BattleEntity> targets = new();
         public int targetCount;
-        public int enemiesAddedDuringCombat;
 
         public BattleActionData(CombatParticipant sender)
         {
             this.sender = sender;
         }
 
-        public CombatParticipant GetSender()
-        {
-            return sender;
-        }
+        #region Getters
+        public CombatParticipant GetSender() => sender;
+        public bool HasTarget(CombatParticipant combatParticipant) => targets.Any(target => target.combatParticipant == combatParticipant);
+        public List<BattleEntity> GetTargets() => targets;
+        public BattleEntity GetFirst() => targets.FirstOrDefault();
+        public BattleEntity GetLast() => targets.LastOrDefault();
+        #endregion
 
+        #region Setters
         public void SetTargets(BattleEntity target)
         {
-            targets.Clear();
+            ClearTargets();
+            focalTarget = target;
             targets.Add(target);
             targetCount = 1;
         }
 
-        public void SetTargets(IEnumerable<BattleEntity> setTarget)
+        public void SetFocalTarget(BattleEntity setFocalTarget)
         {
-            if (setTarget == null) { targets.Clear(); targetCount = 0; return; }
-
-            var targetList = setTarget.ToList();
-            targets = targetList;
+            focalTarget = setFocalTarget;
+        }
+        
+        public void SetTargets(IEnumerable<BattleEntity> setTargets)
+        {
+            if (setTargets == null) { ClearTargets(); return; }
+            targets = setTargets.ToList();;
             targetCount = targets.Count;
         }
-
+        
         public void ClearTargets()
         {
-            targetCount = 0;
+            focalTarget = null;
             targets.Clear();
+            targetCount = 0;
         }
+        #endregion
 
+        #region Utility
         public void ReverseTargets()
         {
             targets.Reverse();
         }
-
-        public bool HasTarget(CombatParticipant combatParticipant)
-        {
-            foreach (BattleEntity target in targets)
-            {
-                if (target.combatParticipant == combatParticipant) { return true; }
-            }
-            return false;
-        }
-
-        public List<BattleEntity> GetTargets()
-        {
-            return targets;
-        }
-
-        public BattleEntity GetFirst()
-        {
-            return targets.FirstOrDefault();
-        }
-
-        public BattleEntity GetLast()
-        {
-            return targets.LastOrDefault();
-        }
-
+        
         public void StartCoroutine(IEnumerator coroutine)
         {
             sender.GetComponent<MonoBehaviour>().StartCoroutine(coroutine);
         }
+        #endregion
     }
 }

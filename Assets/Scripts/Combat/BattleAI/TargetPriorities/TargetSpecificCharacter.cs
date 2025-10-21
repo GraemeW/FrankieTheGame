@@ -17,7 +17,7 @@ namespace Frankie.Combat
                 if (battleEntity.combatParticipant.GetCharacterProperties() == characterProperties)
                 {
                     battleActionData.SetTargets(battleEntity);
-                    skill.GetTargets(null, battleActionData, battleAI.GetLocalAllies(), battleAI.GetLocalFoes());
+                    skill.SetTargets(null, battleActionData, battleAI.GetLocalAllies(), battleAI.GetLocalFoes());
                     return true;
                 }
             }
@@ -26,7 +26,7 @@ namespace Frankie.Combat
                 if (battleEntity.combatParticipant.GetCharacterProperties() == characterProperties)
                 {
                     battleActionData.SetTargets(battleEntity);
-                    skill.GetTargets(null, battleActionData, battleAI.GetLocalAllies(), battleAI.GetLocalFoes());
+                    skill.SetTargets(null, battleActionData, battleAI.GetLocalAllies(), battleAI.GetLocalFoes());
                     return true;
                 }
             }

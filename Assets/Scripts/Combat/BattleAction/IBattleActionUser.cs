@@ -7,7 +7,7 @@ namespace Frankie.Combat
     public interface IBattleActionSuper
     {
         public bool Use(BattleActionData battleActionData, Action finished);
-        public void GetTargets(bool? traverseForward, BattleActionData battleActionData,
+        public void SetTargets(bool? traverseForward, BattleActionData battleActionData,
             IEnumerable<BattleEntity> activeCharacters, IEnumerable<BattleEntity> activeEnemies);
         public bool IsItem();
         public string GetName();

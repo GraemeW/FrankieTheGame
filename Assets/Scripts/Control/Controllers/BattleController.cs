@@ -169,7 +169,7 @@ namespace Frankie.Combat
             return true;
         }
 
-        private bool SetSelectedTarget(IBattleActionSuper battleActionUser, bool traverseForward = true)
+        private void SetSelectedTarget(IBattleActionSuper battleActionUser, bool traverseForward = true)
         {
             if (battleActionUser == null)
             {
@@ -178,13 +178,9 @@ namespace Frankie.Combat
             }
             else
             {
-                battleActionUser.GetTargets(traverseForward, battleActionData, battleMat.GetActiveCharacters(), battleMat.GetActiveEnemies());
+                battleActionUser.SetTargets(traverseForward, battleActionData, battleMat.GetActiveCharacters(), battleMat.GetActiveEnemies());
             }
             BattleEventBus<BattleEntitySelectedEvent>.Raise(new BattleEntitySelectedEvent(CombatParticipantType.Foe, battleActionData?.GetTargets()));
-
-            // Check for whole set dead
-            if (battleActionData == null || battleActionData.targetCount == 0) return false;
-            return !battleActionData.GetTargets().All(battleEntity => battleEntity.combatParticipant.IsDead());
         }
 
         public void SetActiveBattleAction(IBattleActionSuper battleActionSuper)
@@ -258,7 +254,7 @@ namespace Frankie.Combat
             
             battleActionData = new BattleActionData(selectedCharacter); 
             battleActionData.SetTargets(battleQueueAddAttemptEvent.targets);
-            selectedBattleActionSuper.GetTargets(null, battleActionData, battleMat.GetActiveCharacters(), battleMat.GetActiveEnemies()); // Select targets with null traverse to apply filters & pass back
+            selectedBattleActionSuper.SetTargets(null, battleActionData, battleMat.GetActiveCharacters(), battleMat.GetActiveEnemies()); // Select targets with null traverse to apply filters & pass back
             if (battleActionData.targetCount == 0) { return; }
             
             var battleSequence = new BattleSequence(selectedBattleActionSuper, battleActionData);

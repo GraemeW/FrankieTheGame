@@ -525,7 +525,7 @@ namespace Frankie.Inventory.UI
 
             battleActionData ??= new BattleActionData(selectedCharacter);
 
-            actionItem.GetTargets(traverseForward, battleActionData, partyBattleEntities, null);
+            actionItem.SetTargets(traverseForward, battleActionData, partyBattleEntities, null);
             if (battleActionData.targetCount == 0)
             {
                 return false;
