@@ -93,6 +93,7 @@ namespace Frankie.Combat.UI
             if (partyCombatConduit == null || battleController == null) { Destroy(gameObject); return; }
 
             battleRewards = battleController.GetBattleRewards();
+            skillSelection.SetupBattleController(battleController);
             combatOptions.Setup(battleController, this, partyCombatConduit);
             combatOptions.TakeControl(battleController, this, null);
 

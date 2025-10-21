@@ -1,5 +1,4 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -11,29 +10,29 @@ namespace Frankie.Utils.UI
     {
         // Tunables
         [Header("UI Box Parameters")]
-        [SerializeField] protected CanvasGroup canvasGroup = null;
+        [SerializeField] protected CanvasGroup canvasGroup;
         [SerializeField] protected bool handleGlobalInput = true;
-        [SerializeField] bool clearVolatileOptionsOnEnable = true;
-        [SerializeField] bool preventEscapeOptionExit = false;
+        [SerializeField] private bool clearVolatileOptionsOnEnable = true;
+        [SerializeField] private bool preventEscapeOptionExit = false;
         [Header("Choice Behavior")]
-        [SerializeField] protected Transform optionParent = null;
-        [SerializeField] protected GameObject optionButtonPrefab = null;
-        [SerializeField] protected GameObject optionSliderPrefab = null;
+        [SerializeField] protected Transform optionParent;
+        [SerializeField] protected GameObject optionButtonPrefab;
+        [SerializeField] protected GameObject optionSliderPrefab;
         [SerializeField] protected float sliderAdjustmentStep = 0.1f;
 
         // State -- Standard
         protected bool destroyQueued = false;
-        List<CallbackMessagePair> disableCallbacks = new List<CallbackMessagePair>();
-        protected IStandardPlayerInputCaller controller = null;
+        private readonly List<CallbackMessagePair> disableCallbacks = new();
+        protected IStandardPlayerInputCaller controller;
 
         // State -- Choices
-        bool isChoiceAvailable = false;
-        bool clearDisableCallbacksOnChoose = false;
-        protected List<UIChoice> choiceOptions = new List<UIChoice>();
-        protected UIChoice highlightedChoiceOption = null;
+        private bool isChoiceAvailable = false;
+        private bool clearDisableCallbacksOnChoose = false;
+        protected readonly List<UIChoice> choiceOptions = new();
+        protected UIChoice highlightedChoiceOption;
 
         // Data Structures
-        protected struct CallbackMessagePair
+        private struct CallbackMessagePair
         {
             public IUIBoxCallbackReceiver receiver;
             public Action action;
@@ -42,13 +41,77 @@ namespace Frankie.Utils.UI
         // Events
         public event Action<UIBoxModifiedType, bool> uiBoxModified;
 
+        #region StaticMethods
+        private static bool MoveCursor(PlayerInputType playerInputType, ref int currentSelectionIndex, int optionsCount)
+        {
+            bool validInput = false;
+            switch (playerInputType)
+            {
+                case PlayerInputType.NavigateRight:
+                case PlayerInputType.NavigateDown:
+                {
+                    if (currentSelectionIndex + 1 >= optionsCount) { currentSelectionIndex = 0; }
+                    else { currentSelectionIndex++; }
+                    validInput = true;
+                    break;
+                }
+                case PlayerInputType.NavigateUp:
+                case PlayerInputType.NavigateLeft:
+                {
+                    if (currentSelectionIndex <= 0) { currentSelectionIndex = optionsCount - 1; }
+                    else { currentSelectionIndex--; }
+                    validInput = true;
+                    break;
+                }
+            }
+            return validInput;
+        }
+        
+        private static bool MoveCursor2D(PlayerInputType playerInputType, ref int choiceIndex, int optionsCount)
+        {
+            bool validInput = false;
+            if (optionsCount == 1)
+            {
+                choiceIndex = 0;
+                validInput = true;
+            }
+            else switch (playerInputType)
+            {
+                case PlayerInputType.NavigateRight:
+                {
+                    if (choiceIndex + 1 >= optionsCount) { choiceIndex = 0; }
+                    else { choiceIndex++; }
+                    validInput = true;
+                    break;
+                }
+                case PlayerInputType.NavigateLeft:
+                {
+                    if (choiceIndex <= 0) { choiceIndex = optionsCount - 1; }
+                    else { choiceIndex--; }
+                    validInput = true;
+                    break;
+                }
+                case PlayerInputType.NavigateDown:
+                {
+                    if (choiceIndex + 2 >= optionsCount) { choiceIndex = 0; }
+                    else { choiceIndex++; choiceIndex++; }
+                    validInput = true;
+                    break;
+                }
+                case PlayerInputType.NavigateUp:
+                {
+                    if (choiceIndex <= 1) { choiceIndex = optionsCount - 1; }
+                    else { choiceIndex--; choiceIndex--; }
+                    validInput = true;
+                    break;
+                }
+            }
+            return validInput;
+        }
+        #endregion
+        
         #region UnityMethods
         protected virtual void OnEnable()
-        {
-            StandardOnEnable();
-        }
-
-        protected void StandardOnEnable()
         {
             if (controller != null && handleGlobalInput)
             {
@@ -58,11 +121,6 @@ namespace Frankie.Utils.UI
         }
 
         protected virtual void OnDisable()
-        {
-            StandardOnDisable();
-        }
-
-        protected void StandardOnDisable()
         {
             ClearChoiceSelections();
 
@@ -94,10 +152,7 @@ namespace Frankie.Utils.UI
 
         protected void OnUIBoxModified(UIBoxModifiedType dialogueBoxModifiedType, bool enable)
         {
-            if (uiBoxModified != null)
-            {
-                uiBoxModified.Invoke(dialogueBoxModifiedType, enable);
-            }
+            uiBoxModified?.Invoke(dialogueBoxModifiedType, enable);
         }
 
         protected void HandleClientEntry()
@@ -128,8 +183,7 @@ namespace Frankie.Utils.UI
             if (clearVolatileOptionsOnEnable) { choiceOptions.Clear(); }
             choiceOptions.AddRange(optionParent.gameObject.GetComponentsInChildren<UIChoice>().OrderBy(x => x.choiceOrder).ToList());
 
-            if (choiceOptions.Count > 0) { isChoiceAvailable = true; }
-            else { isChoiceAvailable = false; }
+            isChoiceAvailable = choiceOptions.Count > 0;
         }
 
         public void OverrideChoiceOptions(List<ChoiceActionPair> choiceActionPairs)
@@ -177,11 +231,7 @@ namespace Frankie.Utils.UI
         protected bool StandardPrepareChooseAction(PlayerInputType playerInputType)
         {
             // Choose(null) since not passing a nodeID, not a standard dialogue -- irrelevant in context of override
-            if (playerInputType == PlayerInputType.Execute)
-            {
-                return Choose(null);
-            }
-            return false;
+            return playerInputType == PlayerInputType.Execute && Choose(null);
         }
 
         protected virtual bool Choose(string nodeID)
@@ -228,7 +278,6 @@ namespace Frankie.Utils.UI
 
             int choiceIndex = choiceOptions.IndexOf(highlightedChoiceOption);
             bool validInput = MoveCursor(playerInputType, ref choiceIndex, choiceOptions.Count);
-
             if (validInput)
             {
                 ClearChoiceSelections();
@@ -237,34 +286,15 @@ namespace Frankie.Utils.UI
                 return true;
             }
             return false;
-        }
-
-        private bool MoveCursor(PlayerInputType playerInputType, ref int currentSelectionIndex, int optionsCount)
-        {
-            bool validInput = false;
-            if (playerInputType == PlayerInputType.NavigateRight || playerInputType == PlayerInputType.NavigateDown)
-            {
-                if (currentSelectionIndex + 1 >= optionsCount) { currentSelectionIndex = 0; }
-                else { currentSelectionIndex++; }
-                validInput = true;
-            }
-            else if (playerInputType == PlayerInputType.NavigateUp || playerInputType == PlayerInputType.NavigateLeft)
-            {
-                if (currentSelectionIndex <= 0) { currentSelectionIndex = optionsCount - 1; }
-                else { currentSelectionIndex--; }
-                validInput = true;
-            }
-            return validInput;
         }
 
         protected bool MoveCursor2D(PlayerInputType playerInputType)
         {
             // Standard implementation
             if (!isChoiceAvailable || highlightedChoiceOption == null) { return false; }
+            
             int choiceIndex = choiceOptions.IndexOf(highlightedChoiceOption);
-
             bool validInput = MoveCursor2D(playerInputType, ref choiceIndex, choiceOptions.Count);
-
             if (validInput)
             {
                 ClearChoiceSelections();
@@ -273,41 +303,6 @@ namespace Frankie.Utils.UI
                 return true;
             }
             return false;
-        }
-
-        protected bool MoveCursor2D(PlayerInputType playerInputType, ref int choiceIndex, int optionsCount)
-        {
-            bool validInput = false;
-            if (optionsCount == 1)
-            {
-                choiceIndex = 0;
-                validInput = true;
-            }
-            else if (playerInputType == PlayerInputType.NavigateRight)
-            {
-                if (choiceIndex + 1 >= optionsCount) { choiceIndex = 0; }
-                else { choiceIndex++; }
-                validInput = true;
-            }
-            else if (playerInputType == PlayerInputType.NavigateLeft)
-            {
-                if (choiceIndex <= 0) { choiceIndex = optionsCount - 1; }
-                else { choiceIndex--; }
-                validInput = true;
-            }
-            else if (playerInputType == PlayerInputType.NavigateDown)
-            {
-                if (choiceIndex + 2 >= optionsCount) { choiceIndex = 0; }
-                else { choiceIndex++; choiceIndex++; }
-                validInput = true;
-            }
-            else if (playerInputType == PlayerInputType.NavigateUp)
-            {
-                if (choiceIndex <= 1) { choiceIndex = optionsCount - 1; }
-                else { choiceIndex--; choiceIndex--; }
-                validInput = true;
-            }
-            return validInput;
         }
 
         private bool MoveSlider(PlayerInputType playerInputType)
@@ -339,23 +334,28 @@ namespace Frankie.Utils.UI
             SetGlobalInputHandler(standardPlayerInputCaller);
             SetDisableCallback(callbackReceiver, onDisableActions);
         }
+        
+        public void SetGlobalInput(bool enable)
+        {
+            handleGlobalInput = enable;
+        }
+        
+        public virtual bool HandleGlobalInput(PlayerInputType playerInputType)
+        {
+            return StandardHandleGlobalInput(playerInputType);
+        }
 
-        public void PassControl(UIBox delegateUIBox)
+        protected void PassControl(UIBox delegateUIBox)
         {
             PassControl(this, new Action[] { () => EnableInput(true) }, delegateUIBox, controller);
         }
 
-        public void PassControl(IUIBoxCallbackReceiver callbackReceiver, IEnumerable<Action> actions, UIBox delegateUIBox, IStandardPlayerInputCaller standardPlayerInputCaller)
+        protected void PassControl(IUIBoxCallbackReceiver callbackReceiver, IEnumerable<Action> actions, UIBox delegateUIBox, IStandardPlayerInputCaller standardPlayerInputCaller)
         {
             // Disable callback MUST include a re-enable
             EnableInput(false);
             delegateUIBox.SetGlobalInputHandler(standardPlayerInputCaller);
             delegateUIBox.SetDisableCallback(callbackReceiver, actions);
-        }
-
-        public void SetGlobalInput(bool enable)
-        {
-            handleGlobalInput = enable;
         }
 
         private void SetGlobalInputHandler(IStandardPlayerInputCaller globalInputHandler)
@@ -375,11 +375,6 @@ namespace Frankie.Utils.UI
         private void HandleGlobalInputWrapper(PlayerInputType playerInputType)
         {
             HandleGlobalInput(playerInputType);
-        }
-
-        public virtual bool HandleGlobalInput(PlayerInputType playerInputType)
-        {
-            return StandardHandleGlobalInput(playerInputType);
         }
         #endregion
 
@@ -433,7 +428,7 @@ namespace Frankie.Utils.UI
             if (!handleGlobalInput) { return true; } // Spoof:  Cannot accept input, so treat as if global input already handled
 
             if (preventEscapeOptionExit) { return false; } // Used for main menus that cannot be bypassed -- e.g. start menu
-            if (playerInputType == PlayerInputType.Cancel || playerInputType == PlayerInputType.Option)
+            if (playerInputType is PlayerInputType.Cancel or PlayerInputType.Option)
             {
                 HandleClientExit();
                 destroyQueued = true;

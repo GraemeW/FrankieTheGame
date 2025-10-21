@@ -19,33 +19,40 @@ namespace Frankie.Combat.UI
         [SerializeField] protected string defaultNoText = "--";
 
         // State
+        private bool usingBattleController = false;
         protected CombatParticipant currentCombatParticipant;
 
         // Cached References
         private BattleController battleController;
 
-        #region VirtualMethods
-        protected virtual void Awake()
+        #region PublicMethods
+        public void SetupBattleController(BattleController setBattleController)
         {
-            battleController = BattleController.FindBattleController();
+            battleController = setBattleController;
             controller = battleController;
+            usingBattleController = true;
         }
-
+        #endregion
+        
+        #region VirtualMethods
         protected override void OnEnable()
         {
-            BattleEventBus<BattleEntitySelectedEvent>.SubscribeToEvent(Setup);
-            battleController.battleInput += HandleInput;
+            if (!usingBattleController) { base.OnEnable(); }
+            else
+            {
+                BattleEventBus<BattleEntitySelectedEvent>.SubscribeToEvent(RefreshUI);
+                battleController.battleInput += HandleInput;
+            }
         }
 
         protected override void OnDisable()
         {
-            BattleEventBus<BattleEntitySelectedEvent>.UnsubscribeFromEvent(Setup);
-            battleController.battleInput -= HandleInput;
-        }
-
-        protected virtual SkillHandler GetSelectedCharacter()
-        {
-            return battleController.GetSelectedCharacter().GetComponent<SkillHandler>();
+            if (!usingBattleController) { base.OnDisable(); }
+            else
+            {
+                BattleEventBus<BattleEntitySelectedEvent>.UnsubscribeFromEvent(RefreshUI);
+                battleController.battleInput -= HandleInput;
+            }
         }
 
         protected virtual void HandleInput(PlayerInputType input)
@@ -58,7 +65,7 @@ namespace Frankie.Combat.UI
         public void HandleInput(int input) // PUBLIC:  Called via unity events for button clicks (mouse)
         {
             // Because Unity hates handling enums
-            PlayerInputType battleInputType = (PlayerInputType)input;
+            var battleInputType = (PlayerInputType)input;
             HandleInput(battleInputType);
         }
 
@@ -75,7 +82,7 @@ namespace Frankie.Combat.UI
         #endregion
 
         #region PrivateMethods
-        protected void Setup(CombatParticipantType combatParticipantType, IEnumerable<BattleEntity> battleEntities)
+        protected void RefreshUI(CombatParticipantType combatParticipantType, IEnumerable<BattleEntity> battleEntities)
         {
             if (combatParticipantType != CombatParticipantType.Friendly) { return; }
             if (battleController != null)
@@ -83,29 +90,26 @@ namespace Frankie.Combat.UI
                 // Do not pop skill selection if using an item
                 if (battleController.GetActiveBattleAction() != null && battleController.GetActiveBattleAction().IsItem()) { return; } 
             }
-
             if (battleEntities == null) { ResetUI(); return; }
 
-            CombatParticipant combatParticipant = battleEntities.First().combatParticipant; // Expectation is single entry, handling edge case
-            currentCombatParticipant = combatParticipant;
-
+            currentCombatParticipant = battleEntities.First().combatParticipant; // Expectation is single entry, handling edge case
             if (currentCombatParticipant == null) { ResetUI(); return; }
 
-            RefreshSkills();
+            UpdateSkillHandler();
         }
 
-        private void Setup(BattleEntitySelectedEvent battleEntitySelectedEvent)
+        private void RefreshUI(BattleEntitySelectedEvent battleEntitySelectedEvent)
         {
-            Setup(battleEntitySelectedEvent.combatParticipantType, battleEntitySelectedEvent.battleEntities);
+            RefreshUI(battleEntitySelectedEvent.combatParticipantType, battleEntitySelectedEvent.battleEntities);
         }
 
-        protected void RefreshSkills()
+        protected void UpdateSkillHandler()
         {
             if (currentCombatParticipant == null) { return; }
 
             canvasGroup.alpha = 1;
             selectedCharacterNameField.text = currentCombatParticipant.GetCombatName();
-            SkillHandler skillHandler = currentCombatParticipant.GetComponent<SkillHandler>();
+            var skillHandler = currentCombatParticipant.GetComponent<SkillHandler>();
             skillHandler.ResetCurrentBranch();
             UpdateSkills(skillHandler);
         }
@@ -150,28 +154,37 @@ namespace Frankie.Combat.UI
 
             bool validInput = false;
             SkillBranchMapping skillBranchMapping = default;
-            if (input == PlayerInputType.NavigateUp) { skillBranchMapping = SkillBranchMapping.up; validInput = true; }
-            else if (input == PlayerInputType.NavigateLeft) { skillBranchMapping = SkillBranchMapping.left; validInput = true; }
-            else if (input == PlayerInputType.NavigateRight) { skillBranchMapping = SkillBranchMapping.right; validInput = true; }
-            else if (input == PlayerInputType.NavigateDown) { skillBranchMapping = SkillBranchMapping.down; validInput = true; }
-
-            if (validInput)
+            switch (input)
             {
-                SkillHandler skillHandler = combatParticipant.GetComponent<SkillHandler>();
-                skillHandler.SetBranchOrSkill(skillBranchMapping, SkillFilterType.All);
-                UpdateSkills(skillHandler);
-                Skill activeSkill = skillHandler.GetActiveSkill();
-                if (activeSkill != null)
-                {
-                    PassSkillFlavour(activeSkill.GetStat(), activeSkill.GetDetail(), activeSkill.GetAPCost());
-                }
+                case PlayerInputType.NavigateUp:
+                    skillBranchMapping = SkillBranchMapping.up; validInput = true;
+                    break;
+                case PlayerInputType.NavigateLeft:
+                    skillBranchMapping = SkillBranchMapping.left; validInput = true;
+                    break;
+                case PlayerInputType.NavigateRight:
+                    skillBranchMapping = SkillBranchMapping.right; validInput = true;
+                    break;
+                case PlayerInputType.NavigateDown:
+                    skillBranchMapping = SkillBranchMapping.down; validInput = true;
+                    break;
             }
-            return validInput;
+            if (!validInput) return false;
+            
+            var skillHandler = combatParticipant.GetComponent<SkillHandler>();
+            skillHandler.SetBranchOrSkill(skillBranchMapping, SkillFilterType.All);
+            UpdateSkills(skillHandler);
+            Skill activeSkill = skillHandler.GetActiveSkill();
+            if (activeSkill != null)
+            {
+                PassSkillFlavour(activeSkill.GetStat(), activeSkill.GetDetail(), activeSkill.GetAPCost());
+            }
+            return true;
         }
 
-        protected void ResetSkillHandler(CombatParticipant combatParticipant)
+        protected static void ResetSkillHandler(CombatParticipant combatParticipant)
         {
-            SkillHandler skillHandler = combatParticipant.GetComponent<SkillHandler>();
+            var skillHandler = combatParticipant.GetComponent<SkillHandler>();
             skillHandler.ResetCurrentBranch();
         }
         #endregion
