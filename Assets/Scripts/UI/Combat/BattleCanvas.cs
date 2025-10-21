@@ -119,11 +119,9 @@ namespace Frankie.Combat.UI
 
         private void Update()
         {
-            if (!busyWithSerialAction && queuedUISequences.Count != 0)
-            {
-                Action nextUISequence = queuedUISequences.Dequeue();
-                StartSerialAction(nextUISequence);
-            }
+            if (busyWithSerialAction || queuedUISequences.Count == 0) return;
+            Action nextUISequence = queuedUISequences.Dequeue();
+            StartSerialAction(nextUISequence);
         }
         #endregion
 
@@ -157,32 +155,34 @@ namespace Frankie.Combat.UI
             if (state == lastBattleState) { return; } // Only act on state changes
             lastBattleState = state;
 
-            if (state == BattleState.Intro)
+            switch (state)
             {
-                SetupBackgroundFill(battleStateChangedEvent.enemies);
-                SetupEntryMessage(battleStateChangedEvent.enemies);
-            }
-            else if (state == BattleState.PreCombat)
-            {
-                skillSelection.gameObject.SetActive(false);
-                combatOptions.SetCombatOptions(true);
-            }
-            else if (state == BattleState.Combat)
-            {
-                combatLog.AddCombatLogText("  Combat Started . . . ");
-                combatLog.gameObject.SetActive(true);
-                skillSelection.gameObject.SetActive(true);
-            }
-            else if (state == BattleState.Outro || state == BattleState.Rewards)
-            {
-                if (outroQueued) { return; }
+                case BattleState.Intro:
+                    SetupBackgroundFill(battleStateChangedEvent.enemies);
+                    SetupEntryMessage(battleStateChangedEvent.enemies);
+                    break;
+                case BattleState.PreCombat:
+                    skillSelection.gameObject.SetActive(false);
+                    combatOptions.SetCombatOptions(true);
+                    break;
+                case BattleState.Combat:
+                    combatLog.AddCombatLogText("  Combat Started . . . ");
+                    combatLog.gameObject.SetActive(true);
+                    skillSelection.gameObject.SetActive(true);
+                    break;
+                case BattleState.Outro:
+                case BattleState.Rewards:
+                {
+                    if (outroQueued) { return; }
 
-                combatLog.gameObject.SetActive(false);
-                skillSelection.gameObject.SetActive(false);
-                queuedUISequences.Enqueue(() => SetupExperienceMessage(battleOutcome));
-                SetupAllLootMessages(battleOutcome); // Parent function to queue a number of additional loot messages into UI sequences
-                queuedUISequences.Enqueue(() => SetupExitMessage(battleOutcome));
-                outroQueued = true;
+                    combatLog.gameObject.SetActive(false);
+                    skillSelection.gameObject.SetActive(false);
+                    queuedUISequences.Enqueue(() => SetupExperienceMessage(battleOutcome));
+                    SetupAllLootMessages(battleOutcome); // Parent function to queue a number of additional loot messages into UI sequences
+                    queuedUISequences.Enqueue(() => SetupExitMessage(battleOutcome));
+                    outroQueued = true;
+                    break;
+                }
             }
         }
         
@@ -281,23 +281,15 @@ namespace Frankie.Combat.UI
         private void StartSerialAction(Action action)
         {
             // !! It is the responsibility of the called action to reset busyWithSerialAction toggle !!
-            if (action != null)
-            {
-                busyWithSerialAction = true;
-                action.Invoke();
-            }
+            if (action == null) return;
+            busyWithSerialAction = true;
+            action.Invoke();
         }
 
         private void HandleLevelUp(BaseStats baseStats, int level, Dictionary<Stat, float> levelUpSheet)
         {
-            List<Tuple<string, int>> statNameValuePairs = new List<Tuple<string, int>>();
-            foreach (KeyValuePair<Stat, float> entry in levelUpSheet)
-            {
-                Tuple<string, int> statNameValuePair = new Tuple<string, int>(entry.Key.ToString(), Mathf.RoundToInt(entry.Value));
-                statNameValuePairs.Add(statNameValuePair);
-            }
-
-            CharacterLevelUpSheetPair characterLevelUpSheetPair = new CharacterLevelUpSheetPair
+            var statNameValuePairs = levelUpSheet.Select(entry => new Tuple<string, int>(entry.Key.ToString(), Mathf.RoundToInt(entry.Value))).ToList();
+            var characterLevelUpSheetPair = new CharacterLevelUpSheetPair
             {
                 baseStats = baseStats,
                 level = level,
@@ -311,7 +303,7 @@ namespace Frankie.Combat.UI
             BattleEntity enemy = enemies.FirstOrDefault();
             if (enemy == null) { return; }
             
-            string entryMessage = (enemies.Count > 1) ? string.Format(messageEncounterMultiple, enemy.combatParticipant.GetCombatName()) : string.Format(messageEncounterSingle, enemy.combatParticipant.GetCombatName());
+            var entryMessage = (enemies.Count > 1) ? string.Format(messageEncounterMultiple, enemy.combatParticipant.GetCombatName()) : string.Format(messageEncounterSingle, enemy.combatParticipant.GetCombatName());
 
             DialogueBox dialogueBox = Instantiate(dialogueBoxPrefab, infoChooseParent);
             dialogueBox.AddText(entryMessage);
@@ -365,8 +357,7 @@ namespace Frankie.Combat.UI
 
         private void SetupPreLootMessage(BattleOutcome battleOutcome)
         {
-            if (battleOutcome != BattleOutcome.Won) { busyWithSerialAction = false; return; }
-            if (!battleRewards.HasLootCart()) { busyWithSerialAction = false; return; }
+            if (battleOutcome != BattleOutcome.Won || !battleRewards.HasLootCart()) { busyWithSerialAction = false; return; }
 
             DialogueBox dialogueBox = Instantiate(dialogueBoxPrefab, infoChooseParent);
             dialogueBox.AddText(string.Format(messageGainedLoot, partyCombatConduit.GetPartyLeaderName()));
@@ -441,19 +432,13 @@ namespace Frankie.Combat.UI
 
         private void SetupExitMessage(BattleOutcome battleOutcome)
         {
-            string exitMessage = "";
-            if (battleOutcome == BattleOutcome.Won)
+            string exitMessage = battleOutcome switch
             {
-                exitMessage = messageBattleCompleteWon;
-            }
-            else if (battleOutcome == BattleOutcome.Lost)
-            {
-                exitMessage = messageBattleCompleteLost;
-            }
-            else if (battleOutcome == BattleOutcome.Ran)
-            {
-                exitMessage = messageBattleCompleteRan;
-            }
+                BattleOutcome.Won => messageBattleCompleteWon,
+                BattleOutcome.Lost => messageBattleCompleteLost,
+                BattleOutcome.Ran => messageBattleCompleteRan,
+                _ => ""
+            };
 
             DialogueBox dialogueBox = Instantiate(dialogueBoxPrefab, infoChooseParent);
             dialogueBox.AddText(exitMessage);
