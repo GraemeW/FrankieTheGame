@@ -11,30 +11,18 @@ using Frankie.Control;
 namespace Frankie.Combat
 {
     [RequireComponent(typeof(BattleRewards))]
+    [RequireComponent(typeof(BattleMat))]
     public class BattleController : MonoBehaviour, IStandardPlayerInputCaller
     {
         // Tunables
         [Header("Controller Properties")]
         [SerializeField] private float battleQueueDelay = 1.0f;
-
-        [Header("Positional Properties")]
-        [SerializeField] private int maxEnemiesPerRow = 8;
-        [SerializeField] private int minEnemiesBeforeRowSplit = 2;
-
-        // Fixed
-        private readonly HashSet<BattleRow> defaultBattleRowPriority = new () { BattleRow.Middle, BattleRow.Top };
         
         // State
         private BattleState battleState;
         private bool canAttemptEarlyRun = true;
         private bool outroCleanupCalled = false;
-
-        private readonly List<BattleEntity> activeCharacters = new();
-        private readonly List<BattleEntity> activePlayerCharacters = new();
-        int countEnemiesAddedMidCombat = 0;
-        private readonly List<BattleEntity> activeAssistCharacters = new();
-        private readonly List<BattleEntity> activeEnemies = new();
-        private readonly Dictionary<BattleRow, int> enemyMap = new() { {BattleRow.Middle, 0}, {BattleRow.Top, 0}, {BattleRow.Bottom, 0} };
+        private int countEnemiesAddedMidCombat;
 
         private CombatParticipant selectedCharacter;
         private IBattleActionSuper selectedBattleActionSuper;
@@ -48,6 +36,7 @@ namespace Frankie.Combat
         // Cached References
         private PlayerInput playerInput;
         private PartyCombatConduit partyCombatConduit;
+        private BattleMat battleMat;
         private BattleRewards battleRewards;
 
         // Events
@@ -68,7 +57,7 @@ namespace Frankie.Combat
             return !combatParticipant.IsDead() && !combatParticipant.IsInCooldown();
         }
         
-        private static bool? IsBattleAdvantage(bool isFriendly, TransitionType transitionType)
+        public static bool? IsBattleAdvantage(bool isFriendly, TransitionType transitionType)
         {
             bool? isBattleAdvantage = null;
             if (transitionType == TransitionType.BattleGood) { isBattleAdvantage = isFriendly; }
@@ -83,6 +72,7 @@ namespace Frankie.Combat
         {
             playerInput = new PlayerInput();
             partyCombatConduit = Player.FindPlayerObject()?.GetComponent<PartyCombatConduit>();
+            battleMat = GetComponent<BattleMat>();
             battleRewards = GetComponent<BattleRewards>();
 
             VerifyUnique();
@@ -164,7 +154,7 @@ namespace Frankie.Combat
             battleState = state;
             if (canAttemptEarlyRun && state == BattleState.Combat) { canAttemptEarlyRun = false; }
 
-            BattleEventBus<BattleStateChangedEvent>.Raise(new BattleStateChangedEvent(state, battleOutcome, activeCharacters.AsReadOnly(), activeEnemies.AsReadOnly()));
+            BattleEventBus<BattleStateChangedEvent>.Raise(new BattleStateChangedEvent(state, battleOutcome, battleMat.GetActiveCharacters(), battleMat.GetActiveEnemies()));
         }
         
         public bool SetSelectedCharacter(CombatParticipant character)
@@ -188,21 +178,13 @@ namespace Frankie.Combat
             }
             else
             {
-                battleActionUser.GetTargets(traverseForward, battleActionData, activeCharacters, activeEnemies);
+                battleActionUser.GetTargets(traverseForward, battleActionData, battleMat.GetActiveCharacters(), battleMat.GetActiveEnemies());
             }
-
             BattleEventBus<BattleEntitySelectedEvent>.Raise(new BattleEntitySelectedEvent(CombatParticipantType.Foe, battleActionData?.GetTargets()));
 
-            if (battleActionData != null)
-            {
-                if (battleActionData.targetCount == 0) { return false; }
-
-                // Check for whole set dead
-                bool allEntitiesDead = battleActionData.GetTargets().All(battleEntity => battleEntity.combatParticipant.IsDead());
-                if (allEntitiesDead) { return false; }
-            }
-
-            return true;
+            // Check for whole set dead
+            if (battleActionData == null || battleActionData.targetCount == 0) return false;
+            return !battleActionData.GetTargets().All(battleEntity => battleEntity.combatParticipant.IsDead());
         }
 
         public void SetActiveBattleAction(IBattleActionSuper battleActionSuper)
@@ -243,12 +225,7 @@ namespace Frankie.Combat
         // Overall State
         public BattleRewards GetBattleRewards() => battleRewards;
         public int GetCountEnemiesAddedMidCombat() => countEnemiesAddedMidCombat;
-        public bool IsEnemyPositionAvailable()
-        {
-            if (defaultBattleRowPriority.Any(battleRow => GetEnemyCountInRow(battleRow) < maxEnemiesPerRow)) { return true; }
-            Debug.Log("No remaining positions for enemies to spawn");
-            return false;
-        }
+        public bool IsEnemyPositionAvailable() => battleMat.IsEnemyPositionAvailable();
 
         // State Selections
         public CombatParticipant GetSelectedCharacter()
@@ -281,7 +258,7 @@ namespace Frankie.Combat
             
             battleActionData = new BattleActionData(selectedCharacter); 
             battleActionData.SetTargets(battleQueueAddAttemptEvent.targets);
-            selectedBattleActionSuper.GetTargets(null, battleActionData, activeCharacters, activeEnemies); // Select targets with null traverse to apply filters & pass back
+            selectedBattleActionSuper.GetTargets(null, battleActionData, battleMat.GetActiveCharacters(), battleMat.GetActiveEnemies()); // Select targets with null traverse to apply filters & pass back
             if (battleActionData.targetCount == 0) { return; }
             
             var battleSequence = new BattleSequence(selectedBattleActionSuper, battleActionData);
@@ -295,7 +272,7 @@ namespace Frankie.Combat
             sender.SetCooldown(Mathf.Infinity); // Character actions locked until cooldown set by BattleController
             battleSequenceQueue.Enqueue(battleSequence);
 
-            if (activePlayerCharacters.Any(battleEntity => battleEntity.combatParticipant == sender))
+            if (battleMat.GetActivePlayerCharacters().Any(battleEntity => battleEntity.combatParticipant == sender))
             {
                 SetActiveBattleAction(null);
                 ClearSelectedCharacter();
@@ -304,7 +281,7 @@ namespace Frankie.Combat
         
         private void RemoveFromEnemyMapping(BattleEntityRemovedFromBoardEvent battleEntityRemovedFromBoardEvent)
         {
-            SetEnemyInMap(battleEntityRemovedFromBoardEvent.row, battleEntityRemovedFromBoardEvent.column, false);
+            battleMat.SetEnemyInMap(battleEntityRemovedFromBoardEvent.row, battleEntityRemovedFromBoardEvent.column, false);
         }
         
         private void HandleCharacterDeath(StateAlteredInfo stateAlteredInfo)
@@ -331,16 +308,16 @@ namespace Frankie.Combat
             if (battleState is BattleState.Inactive or BattleState.Rewards or BattleState.Outro or BattleState.Complete) { return; }
             if (stateAlteredInfo.stateAlteredType != StateAlteredType.Dead) return;
             
-            bool allCharactersDead = activePlayerCharacters.All(battleEntity => battleEntity.combatParticipant.IsDead());
+            bool allCharactersDead = battleMat.GetActivePlayerCharacters().All(battleEntity => battleEntity.combatParticipant.IsDead());
             if (allCharactersDead)
             {
                 SetBattleState(BattleState.Outro, BattleOutcome.Lost);
             }
 
-            bool allEnemiesDead = activeEnemies.All(battleEntity => battleEntity.combatParticipant.IsDead());
+            bool allEnemiesDead = battleMat.GetActiveEnemies().All(battleEntity => battleEntity.combatParticipant.IsDead());
             if (allEnemiesDead)
             {
-                bool rewardsExist = battleRewards.HandleBattleRewardsTriggered(partyCombatConduit, activePlayerCharacters, activeEnemies);
+                bool rewardsExist = battleRewards.HandleBattleRewardsTriggered(partyCombatConduit, battleMat.GetActivePlayerCharacters(), battleMat.GetActiveEnemies());
                 BattleState checkBattleState = rewardsExist ? BattleState.Rewards : BattleState.Outro;
                 SetBattleState(checkBattleState, BattleOutcome.Won);
             }
@@ -355,16 +332,16 @@ namespace Frankie.Combat
             float enemySpeed = 0f;
 
             // Get Party average speed && check for availability
-            foreach (BattleEntity character in activePlayerCharacters)
+            foreach (BattleEntity character in battleMat.GetActivePlayerCharacters())
             {
                 allCharactersAvailable = allCharactersAvailable && !character.combatParticipant.IsInCooldown();
                 partySpeed += character.combatParticipant.GetRunSpeed();
             }
             if (canAttemptEarlyRun) { allCharactersAvailable = true; } // Override for pre-battle run attempt
-            float averagePartySpeed = partySpeed / activePlayerCharacters.Count;
+            float averagePartySpeed = partySpeed / battleMat.GetCountActivePlayerCharacters();
 
             // Get enemy max speed
-            foreach (BattleEntity enemy in activeEnemies) { enemySpeed = Mathf.Max(enemySpeed, enemy.combatParticipant.GetRunSpeed()); }
+            foreach (BattleEntity enemy in battleMat.GetActiveEnemies()) { enemySpeed = Mathf.Max(enemySpeed, enemy.combatParticipant.GetRunSpeed()); }
 
             // Probability via CalculatedStat and check/react
             float runChance = CalculatedStats.GetCalculatedStat(CalculatedStat.RunChance, 0, averagePartySpeed, enemySpeed);
@@ -373,7 +350,7 @@ namespace Frankie.Combat
             Debug.Log($"Checking if all characters available: {allCharactersAvailable}");
             if (allCharactersAvailable && (runCheck < runChance))
             {
-                foreach (BattleEntity enemy in activeEnemies)
+                foreach (BattleEntity enemy in battleMat.GetActiveEnemies())
                 {
                     enemy.combatParticipant.SetupSelfDestroyOnBattleComplete();
                 }
@@ -382,7 +359,7 @@ namespace Frankie.Combat
             }
             else
             {
-                foreach (BattleEntity character in activeCharacters)
+                foreach (BattleEntity character in battleMat.GetActiveCharacters())
                 {
                     character.combatParticipant.IncrementCooldownStoreForRun();
                 }
@@ -513,11 +490,11 @@ namespace Frankie.Combat
         {
             SetupCombatParticipants(enemies, transitionType);
             if (transitionType == TransitionType.BattleBad) { canAttemptEarlyRun = false; }
-            BattleEventBus<BattleEnterEvent>.Raise(new BattleEnterEvent(activeCharacters, activeEnemies, transitionType));
+            BattleEventBus<BattleEnterEvent>.Raise(new BattleEnterEvent(battleMat.GetActiveCharacters(), battleMat.GetActiveEnemies(), transitionType));
 
             if (CheckForAutoWin())
             {
-                foreach (BattleEntity enemy in activeEnemies)
+                foreach (BattleEntity enemy in battleMat.GetActiveEnemies())
                 {
                     enemy.combatParticipant.SelfImplode();
                 }
@@ -533,64 +510,25 @@ namespace Frankie.Combat
         {
             foreach (CombatParticipant character in partyCombatConduit.GetPartyCombatParticipants())
             {
-                AddCharacterToCombat(character, transitionType);
+                battleMat.AddCharacterToCombat(character, transitionType);
             }
             
             foreach (CombatParticipant enemy in enemies)
             {
-                AddEnemyToCombat(enemy, transitionType);
+                battleMat.AddEnemyToCombat(enemy, transitionType);
             }
             
             foreach (CombatParticipant character in partyCombatConduit.GetPartyAssistParticipants())
             {
-                AddAssistCharacterToCombat(character, transitionType);
+                battleMat.AddAssistCharacterToCombat(character, transitionType);
             }
         }
 
-        private void AddCharacterToCombat(CombatParticipant character, TransitionType transitionType)
+        public void AddEnemyMidCombat(CombatParticipant enemy, TransitionType transitionType = TransitionType.BattleNeutral)
         {
-            character.InitializeCooldown(true, IsBattleAdvantage(true, transitionType));
-            character.SubscribeToBattleStateChanges(true);
-
-            BattleEntity characterBattleEntity = new BattleEntity(character);
-            activeCharacters.Add(characterBattleEntity);
-            activePlayerCharacters.Add(characterBattleEntity);
-
-            BattleEventBus<BattleEntityAddedEvent>.Raise(new BattleEntityAddedEvent(characterBattleEntity, false));
-        }
-
-        private void AddAssistCharacterToCombat(CombatParticipant character, TransitionType transitionType)
-        {
-            character.InitializeCooldown(false, IsBattleAdvantage(true, transitionType));
-            character.SubscribeToBattleStateChanges(true);
-
-            BattleEntity assistBattleEntity = new BattleEntity(character, true);
-            activeCharacters.Add(assistBattleEntity);
-            activeAssistCharacters.Add(assistBattleEntity);
-
-            BattleEventBus<BattleEntityAddedEvent>.Raise(new BattleEntityAddedEvent(assistBattleEntity, false));
-        }
-
-        public void AddEnemyToCombat(CombatParticipant enemy, TransitionType transitionType = TransitionType.BattleNeutral, bool addMidCombatForceActive = false)
-        {
-            enemy.InitializeCooldown(false, IsBattleAdvantage(false, transitionType));
-            enemy.SubscribeToBattleStateChanges(true);
-
-            BattleRow battleRow = enemy.GetPreferredBattleRow();
-            GetEnemyPosition(ref battleRow, out int columnIndex);
-            if (battleRow == BattleRow.Any) { Debug.Log($"Warning, could not add {enemy.name} to combat"); return; }
-            
-            Debug.Log($"New enemy added at position row: {battleRow} ; col: {columnIndex}");
-
-            BattleEntity enemyBattleEntity = new BattleEntity(enemy, enemy.GetBattleEntityType(), battleRow, columnIndex);
-            activeEnemies.Add(enemyBattleEntity);
-
-            if (addMidCombatForceActive)
-            {
-                countEnemiesAddedMidCombat++;
-                SetBattleState(BattleState.Combat, BattleOutcome.Undetermined);
-            }
-            BattleEventBus<BattleEntityAddedEvent>.Raise(new BattleEntityAddedEvent(enemyBattleEntity, true));
+            battleMat.AddEnemyToCombat(enemy, transitionType, true);
+            countEnemiesAddedMidCombat++;
+            SetBattleState(BattleState.Combat, BattleOutcome.Undetermined);
         }
 
         private void ClearSelectedCharacter()
@@ -602,83 +540,13 @@ namespace Frankie.Combat
             BattleEventBus<BattleEntitySelectedEvent>.Raise(new BattleEntitySelectedEvent(CombatParticipantType.Friendly, emptyBattleEntity));
         }
 
-        private int GetEnemyCountInRow(BattleRow battleRow)
-        {
-            if (battleRow == BattleRow.Any) { return 0; }
-            
-            // Same as PopCount:  https://learn.microsoft.com/en-us/dotnet/api/system.numerics.bitoperations.popcount?view=net-9.0
-            // This implementation used since BitOperations not exposed in Unity's version of C# (non-Core)
-            int rowMask = enemyMap[battleRow];
-            int rowEnemyCount = 0;
-            while (rowMask!=0) { rowMask &= (rowMask-1); rowEnemyCount++; } // n&(n-1) always eliminates the least significant 1
-
-            return rowEnemyCount;
-        }
-
-        private List<BattleRow> GetOptimalBattleRowPriority(BattleRow desiredBattleRow)
-        {
-            List<BattleRow> optimalBattleRowPriority = new();
-            if (desiredBattleRow != BattleRow.Any)
-            {
-                optimalBattleRowPriority.Add(desiredBattleRow); 
-                defaultBattleRowPriority.Add(desiredBattleRow); // E.g. Default 2-row @ Mid/Top, new char prefers bott -> thus enables 3-row w/ bott as a default option
-            }
-            optimalBattleRowPriority.AddRange(defaultBattleRowPriority.Where(testBattleRow => testBattleRow != desiredBattleRow));
-
-            return optimalBattleRowPriority;
-        }
-
-        private bool IsEnemyPresent(BattleRow battleRow, int columnIndex)
-        {
-            int mask = 1 << columnIndex;
-            return (enemyMap[battleRow] & mask) != 0;
-        }
-
-        private void SetEnemyInMap(BattleRow battleRow, int columnIndex, bool enable)
-        {
-            int mask = 1 << columnIndex;
-            if (enable) { enemyMap[battleRow] |= mask; }
-            else { enemyMap[battleRow] &= ~mask; }
-        }
-        
-        private void GetEnemyPosition(ref BattleRow battleRow, out int columnIndex)
-        {
-            List<BattleRow> optimalBattleRowPriority = GetOptimalBattleRowPriority(battleRow);
-            optimalBattleRowPriority.RemoveAll(testBattleRow => GetEnemyCountInRow(testBattleRow) >= maxEnemiesPerRow);
-
-            if (optimalBattleRowPriority.Count == 0) { battleRow = BattleRow.Any; columnIndex = 0; return; } // early exit, no rows available
-            if (!optimalBattleRowPriority.Contains(battleRow)) { battleRow = BattleRow.Any; } // desired row not available, swap to any
-            
-            if (battleRow == BattleRow.Any)
-            {
-                battleRow = GetEnemyCountInRow(optimalBattleRowPriority[0]) <= minEnemiesBeforeRowSplit ? optimalBattleRowPriority[0] 
-                    : optimalBattleRowPriority.OrderBy(GetEnemyCountInRow).ToList().FirstOrDefault();
-            }
-
-            // Find column position
-            int centerColumn = maxEnemiesPerRow / 2;
-            columnIndex = centerColumn;
-            
-            if (IsEnemyPresent(battleRow, columnIndex)) // Center already populated, loop through
-            {
-                for (int i = 1; i < centerColumn + 1; i++)
-                {
-                    if (!IsEnemyPresent(battleRow, centerColumn - i)) { columnIndex = centerColumn - i; break; } // -1 offset from center
-                    if (centerColumn + i >= maxEnemiesPerRow) { break; } // Handling for even counts
-                    if (!IsEnemyPresent(battleRow, centerColumn + i)) { columnIndex = centerColumn + i; break; } // +1 offset from center
-                }
-            }
-            
-            SetEnemyInMap(battleRow, columnIndex, true);
-        }
-
         private bool CheckForAutoWin()
         {
             float imposingStat = 1f;
-            foreach (BattleEntity enemy in activeEnemies)
+            foreach (BattleEntity enemy in battleMat.GetActiveEnemies())
             {
                 float subImposingStat = -1f;
-                foreach (BattleEntity character in activePlayerCharacters)
+                foreach (BattleEntity character in battleMat.GetActivePlayerCharacters())
                 {
                     float newImposingStat = character.combatParticipant.GetCalculatedStat(CalculatedStat.Imposing, enemy.combatParticipant);
                     subImposingStat = newImposingStat > subImposingStat ? newImposingStat : subImposingStat;
@@ -697,20 +565,12 @@ namespace Frankie.Combat
 
         private void AutoSelectCharacter()
         {
-            if (activePlayerCharacters == null || selectedCharacter != null) { return; }
-            CombatParticipant firstFreeCharacter = null;
-            foreach (BattleEntity battleEntity in activePlayerCharacters)
-            {
-                if (!battleEntity.combatParticipant.IsDead() && !battleEntity.combatParticipant.IsInCooldown())
-                {
-                    firstFreeCharacter = battleEntity.combatParticipant;
-                    break;
-                }
-            }
+            if (battleMat.GetCountActivePlayerCharacters() == 0 || selectedCharacter != null) { return; }
+            CombatParticipant firstFreeCharacter = (from battleEntity in battleMat.GetActivePlayerCharacters() where IsCombatParticipantAvailableToAct(battleEntity.combatParticipant) select battleEntity.combatParticipant).FirstOrDefault();
             if (firstFreeCharacter != null) { SetSelectedCharacter(firstFreeCharacter); }
         }
 
-        IEnumerator ProcessNextBattleSequence()
+        private IEnumerator ProcessNextBattleSequence()
         {
             if (battleSequenceQueue.Count == 0) { yield break; }
             BattleSequence battleSequence = battleSequenceQueue.Dequeue();
@@ -740,10 +600,7 @@ namespace Frankie.Combat
 
         private void CleanUpBattleBits()
         {
-            activeCharacters.Clear();
-            activePlayerCharacters.Clear();
-            activeAssistCharacters.Clear();
-            activeEnemies.Clear();
+            battleMat.ClearBattleEntities();
             ClearSelectedCharacter();
         }
         #endregion
@@ -751,7 +608,7 @@ namespace Frankie.Combat
         #region Interfaces
         public void VerifyUnique()
         {
-            BattleController[] battleControllers = FindObjectsByType<BattleController>(FindObjectsSortMode.None);
+            var battleControllers = FindObjectsByType<BattleController>(FindObjectsSortMode.None);
             if (battleControllers.Length > 1)
             {
                 Destroy(gameObject);

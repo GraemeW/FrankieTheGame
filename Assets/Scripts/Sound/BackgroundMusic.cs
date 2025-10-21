@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.Audio;
 using Frankie.Saving;
@@ -184,16 +185,9 @@ namespace Frankie.Sound
         #endregion
 
         #region BattleAudio
-        private AudioClip GetBattleAudioClip(List<BattleEntity> battleEntities)
+        private AudioClip GetBattleAudioClip(IList<BattleEntity> battleEntities)
         {
-            List<AudioClip> audioClipOptions = new List<AudioClip>();
-            foreach (BattleEntity battleEntity in battleEntities)
-            {
-                if (battleEntity.combatParticipant.GetAudioClip() != null)
-                {
-                    audioClipOptions.Add(battleEntity.combatParticipant.GetAudioClip());
-                }
-            }
+            var audioClipOptions = (from battleEntity in battleEntities where battleEntity.combatParticipant.GetAudioClip() != null select battleEntity.combatParticipant.GetAudioClip()).ToList();
             if (audioClipOptions.Count == 0) { return null; }
 
             int randomAudioClipIndex = Random.Range(0, audioClipOptions.Count);
