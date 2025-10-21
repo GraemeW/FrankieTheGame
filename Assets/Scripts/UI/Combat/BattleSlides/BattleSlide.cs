@@ -105,17 +105,14 @@ namespace Frankie.Combat.UI
         {
             SetSelected(combatParticipantType, false);
             if (battleEntities == null) { return; }
-
-            UnityEngine.Debug.Log("Start Highlight");
+            
             foreach (BattleEntity tempBattleEntity in battleEntities)
             {
                 if (tempBattleEntity.combatParticipant == battleEntity.combatParticipant)
                 {
-                    UnityEngine.Debug.Log($"Highlighting {battleEntity.combatParticipant.name}");
                     SetSelected(combatParticipantType, true);
                 }
             }
-            UnityEngine.Debug.Log("End Highlight");
         }
 
         public void HighlightSlide(CombatParticipantType combatParticipantType, bool enable)
