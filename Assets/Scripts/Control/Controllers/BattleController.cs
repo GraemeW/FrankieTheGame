@@ -163,7 +163,7 @@ namespace Frankie.Combat
             if (!IsCombatParticipantAvailableToAct(character)) { return false; }
 
             selectedCharacter = character;
-            List<BattleEntity> selectedBattleEntity = new() { new(selectedCharacter) };
+            List<BattleEntity> selectedBattleEntity = new() { new BattleEntity(selectedCharacter) };
             BattleEventBus<BattleEntitySelectedEvent>.Raise(new BattleEntitySelectedEvent(CombatParticipantType.Friendly, selectedBattleEntity));
 
             return true;
@@ -329,7 +329,6 @@ namespace Frankie.Combat
         {
             bool allCharactersAvailable = true;
             float partySpeed = 0f;
-            float enemySpeed = 0f;
 
             // Get Party average speed && check for availability
             foreach (BattleEntity character in battleMat.GetActivePlayerCharacters())
@@ -341,7 +340,7 @@ namespace Frankie.Combat
             float averagePartySpeed = partySpeed / battleMat.GetCountActivePlayerCharacters();
 
             // Get enemy max speed
-            foreach (BattleEntity enemy in battleMat.GetActiveEnemies()) { enemySpeed = Mathf.Max(enemySpeed, enemy.combatParticipant.GetRunSpeed()); }
+            float enemySpeed = battleMat.GetActiveEnemies().Aggregate(0f, (current, enemy) => Mathf.Max(current, enemy.combatParticipant.GetRunSpeed()));
 
             // Probability via CalculatedStat and check/react
             float runChance = CalculatedStats.GetCalculatedStat(CalculatedStat.RunChance, 0, averagePartySpeed, enemySpeed);

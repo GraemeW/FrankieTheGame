@@ -51,9 +51,7 @@ namespace Frankie.Combat.UI
         protected virtual void OnEnable()
         {
             if (battleEntity != null) { battleEntity.combatParticipant.SubscribeToStateUpdates(ParseState); }
-
-            if (BattleEventBus.inBattle) { SetupBattleListeners(); }
-            else { BattleEventBus<BattleEnterEvent>.SubscribeToEvent(SetupBattleListeners); }
+            SetupBattleListeners(true);
         }
 
         protected virtual void OnDisable()
@@ -80,16 +78,18 @@ namespace Frankie.Combat.UI
         #endregion
 
         #region PublicSettersGetters
+        public BattleEntity GetBattleEntity() => battleEntity;
+        
         public virtual void SetBattleEntity(BattleEntity setBattleEntity)
         {
-            battleEntity?.combatParticipant.UnsubscribeToStateUpdates(ParseState);
+            if (battleEntity != null) { battleEntity.combatParticipant.UnsubscribeToStateUpdates(ParseState); }
 
             battleEntity = setBattleEntity;
             InitializeStatusEffectBobbles();
             battleEntity.combatParticipant.SubscribeToStateUpdates(ParseState);
         }
 
-        public virtual void AddButtonClickEvent(UnityAction unityAction)
+        public void AddButtonClickEvent(UnityAction unityAction)
         {
             button.onClick.AddListener(unityAction);
         }
@@ -97,11 +97,6 @@ namespace Frankie.Combat.UI
         public void RemoveButtonClickEvents()
         {
             button.onClick.RemoveAllListeners();
-        }
-
-        public BattleEntity GetBattleEntity()
-        {
-            return battleEntity;
         }
         #endregion
 
@@ -111,13 +106,16 @@ namespace Frankie.Combat.UI
             SetSelected(combatParticipantType, false);
             if (battleEntities == null) { return; }
 
+            UnityEngine.Debug.Log("Start Highlight");
             foreach (BattleEntity tempBattleEntity in battleEntities)
             {
                 if (tempBattleEntity.combatParticipant == battleEntity.combatParticipant)
                 {
+                    UnityEngine.Debug.Log($"Highlighting {battleEntity.combatParticipant.name}");
                     SetSelected(combatParticipantType, true);
                 }
             }
+            UnityEngine.Debug.Log("End Highlight");
         }
 
         public void HighlightSlide(CombatParticipantType combatParticipantType, bool enable)
@@ -147,21 +145,15 @@ namespace Frankie.Combat.UI
         #endregion
 
         #region EventBusHandlers
-        private void SetupBattleListeners(BattleEnterEvent battleEnterEvent = null)
-        {
-            SetupBattleListeners(true);
-        }
-
         private void SetupBattleListeners(bool enable)
         {
             if (enable)
             {
-                BattleEventBus<BattleEntitySelectedEvent>.SubscribeToEvent(HandleBattleEntitySelectedEvent);
                 AddButtonClickEvent(delegate { HandleClickInBattle(); });
+                BattleEventBus<BattleEntitySelectedEvent>.SubscribeToEvent(HandleBattleEntitySelectedEvent);
             }
             else
             {
-                BattleEventBus<BattleEnterEvent>.UnsubscribeFromEvent(SetupBattleListeners);
                 BattleEventBus<BattleEntitySelectedEvent>.UnsubscribeFromEvent(HandleBattleEntitySelectedEvent);
             }
         }

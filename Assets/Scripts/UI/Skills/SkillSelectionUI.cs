@@ -34,13 +34,13 @@ namespace Frankie.Combat.UI
         }
         #endregion
         
-        #region VirtualMethods
+        #region UnityMethods
         protected override void OnEnable()
         {
             if (!usingBattleController) { base.OnEnable(); }
             else
             {
-                BattleEventBus<BattleEntitySelectedEvent>.SubscribeToEvent(RefreshUI);
+                BattleEventBus<BattleEntitySelectedEvent>.SubscribeToEvent(HandleBattleEntitySelectedEvent);
                 battleController.battleInput += HandleInput;
             }
         }
@@ -50,16 +50,18 @@ namespace Frankie.Combat.UI
             if (!usingBattleController) { base.OnDisable(); }
             else
             {
-                BattleEventBus<BattleEntitySelectedEvent>.UnsubscribeFromEvent(RefreshUI);
+                BattleEventBus<BattleEntitySelectedEvent>.UnsubscribeFromEvent(HandleBattleEntitySelectedEvent);
                 battleController.battleInput -= HandleInput;
             }
         }
+        #endregion
 
+        #region InputHandlers
         protected virtual void HandleInput(PlayerInputType input)
         {
-            if (battleController.GetSelectedCharacter() == null) { return; }
-            if (battleController.IsBattleActionArmed()) { return; }
-            if (SetBranchOrSkill(input)) { return; }
+            if (currentCombatParticipant == null) {return; }
+            if (battleController.IsBattleActionArmed()) { return; } // Need to manually check because can be armed while UI element disabled (InventoryBox-based)
+            SetBranchOrSkill(currentCombatParticipant, input);
         }
 
         public void HandleInput(int input) // PUBLIC:  Called via unity events for button clicks (mouse)
@@ -68,7 +70,16 @@ namespace Frankie.Combat.UI
             var battleInputType = (PlayerInputType)input;
             HandleInput(battleInputType);
         }
+        #endregion
 
+        #region EventHandlers
+        private void HandleBattleEntitySelectedEvent(BattleEntitySelectedEvent battleEntitySelectedEvent)
+        {
+            RefreshUI(battleEntitySelectedEvent.combatParticipantType, battleEntitySelectedEvent.battleEntities);
+        }
+        #endregion
+
+        #region ProtectedMethods
         protected virtual void PassSkillFlavour(SkillStat skillStat, string detail, float apCost)
         {
             // Null implementation, for parsing in alternate context
@@ -79,9 +90,7 @@ namespace Frankie.Combat.UI
             SetAllFields(defaultNoText);
             canvasGroup.alpha = 0;
         }
-        #endregion
-
-        #region PrivateMethods
+        
         protected void RefreshUI(CombatParticipantType combatParticipantType, IEnumerable<BattleEntity> battleEntities)
         {
             if (combatParticipantType != CombatParticipantType.Friendly) { return; }
@@ -90,19 +99,13 @@ namespace Frankie.Combat.UI
                 // Do not pop skill selection if using an item
                 if (battleController.GetActiveBattleAction() != null && battleController.GetActiveBattleAction().IsItem()) { return; } 
             }
-            if (battleEntities == null) { ResetUI(); return; }
 
             currentCombatParticipant = battleEntities.First().combatParticipant; // Expectation is single entry, handling edge case
             if (currentCombatParticipant == null) { ResetUI(); return; }
 
             UpdateSkillHandler();
         }
-
-        private void RefreshUI(BattleEntitySelectedEvent battleEntitySelectedEvent)
-        {
-            RefreshUI(battleEntitySelectedEvent.combatParticipantType, battleEntitySelectedEvent.battleEntities);
-        }
-
+        
         protected void UpdateSkillHandler()
         {
             if (currentCombatParticipant == null) { return; }
@@ -113,7 +116,7 @@ namespace Frankie.Combat.UI
             skillHandler.ResetCurrentBranch();
             UpdateSkills(skillHandler);
         }
-
+        
         protected void SetAllFields(string text)
         {
             selectedCharacterNameField.text = text;
@@ -123,31 +126,7 @@ namespace Frankie.Combat.UI
             downField.text = text;
             skillField.text = text;
         }
-
-        private void UpdateSkills(SkillHandler skillHandler)
-        {
-            skillHandler.GetPlayerSkillsForCurrentBranch(out Skill up, out Skill left, out Skill right, out Skill down);
-            upField.text = up != null ? Skill.GetSkillNamePretty(up.name) : defaultNoText;
-            leftField.text = left != null ? Skill.GetSkillNamePretty(left.name) : defaultNoText;
-            rightField.text = right != null ? Skill.GetSkillNamePretty(right.name) : defaultNoText;
-            downField.text = down != null ? Skill.GetSkillNamePretty(down.name) : defaultNoText;
-
-            Skill activeSkill = skillHandler.GetActiveSkill();
-            if (activeSkill != null)
-            { 
-                skillField.text = Skill.GetSkillNamePretty(activeSkill.name);
-                if (battleController != null) { battleController.SetActiveBattleAction(activeSkill); }
-                OnUIBoxModified(UIBoxModifiedType.itemSelected, true);
-            } 
-            else { skillField.text = defaultNoText; }
-        }
-
-        protected bool SetBranchOrSkill(PlayerInputType input)
-        {
-            currentCombatParticipant = battleController.GetSelectedCharacter();
-            return SetBranchOrSkill(currentCombatParticipant, input);
-        }
-
+        
         protected bool SetBranchOrSkill(CombatParticipant combatParticipant, PlayerInputType input)
         {
             if (combatParticipant == null) { return false; }
@@ -186,6 +165,26 @@ namespace Frankie.Combat.UI
         {
             var skillHandler = combatParticipant.GetComponent<SkillHandler>();
             skillHandler.ResetCurrentBranch();
+        }
+        #endregion
+
+        #region PrivateUtility
+        private void UpdateSkills(SkillHandler skillHandler)
+        {
+            skillHandler.GetPlayerSkillsForCurrentBranch(out Skill up, out Skill left, out Skill right, out Skill down);
+            upField.text = up != null ? Skill.GetSkillNamePretty(up.name) : defaultNoText;
+            leftField.text = left != null ? Skill.GetSkillNamePretty(left.name) : defaultNoText;
+            rightField.text = right != null ? Skill.GetSkillNamePretty(right.name) : defaultNoText;
+            downField.text = down != null ? Skill.GetSkillNamePretty(down.name) : defaultNoText;
+
+            Skill activeSkill = skillHandler.GetActiveSkill();
+            if (activeSkill != null)
+            { 
+                skillField.text = Skill.GetSkillNamePretty(activeSkill.name);
+                if (battleController != null) { battleController.SetActiveBattleAction(activeSkill); }
+                OnUIBoxModified(UIBoxModifiedType.itemSelected, true);
+            } 
+            else { skillField.text = defaultNoText; }
         }
         #endregion
     }

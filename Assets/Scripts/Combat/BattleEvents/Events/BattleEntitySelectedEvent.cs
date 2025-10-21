@@ -6,13 +6,13 @@ namespace Frankie.Combat
     {
         public BattleEventType battleEventType => BattleEventType.BattleEntitySelected;
 
-        public CombatParticipantType combatParticipantType;
-        public List<BattleEntity> battleEntities;
+        public readonly CombatParticipantType combatParticipantType;
+        public readonly List<BattleEntity> battleEntities;
 
         public BattleEntitySelectedEvent(CombatParticipantType combatParticipantType, List<BattleEntity> battleEntities)
         {
             this.combatParticipantType = combatParticipantType;
-            this.battleEntities = battleEntities;
+            this.battleEntities = new List<BattleEntity>(battleEntities);
         }
     }
 }

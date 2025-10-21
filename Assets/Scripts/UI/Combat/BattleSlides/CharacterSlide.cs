@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -65,19 +66,28 @@ namespace Frankie.Combat.UI
 
         protected override void SetSelected(CombatParticipantType combatParticipantType, bool enable)
         {
-            if (combatParticipantType == CombatParticipantType.Either) { return; }
-            
-            if (combatParticipantType == CombatParticipantType.Friendly)
+            switch (combatParticipantType)
             {
-                if (battleEntity.combatParticipant.IsDead()) { slideState = SlideState.Dead; }
-                else if (battleEntity.combatParticipant.IsInCooldown()) { slideState = SlideState.Cooldown; }
-                else if (enable) { slideState = SlideState.Selected; }
-                else { slideState = SlideState.Ready; }
-            }
-            else if (combatParticipantType == CombatParticipantType.Foe)
-            {
-                if (enable) { lastSlideState = slideState; slideState = SlideState.Target; }
-                else { slideState = lastSlideState; }
+                case CombatParticipantType.Either:
+                    return;
+                case CombatParticipantType.Friendly when battleEntity.combatParticipant.IsDead():
+                    slideState = SlideState.Dead;
+                    break;
+                case CombatParticipantType.Friendly when battleEntity.combatParticipant.IsInCooldown():
+                    slideState = SlideState.Cooldown;
+                    break;
+                case CombatParticipantType.Friendly when enable:
+                    slideState = SlideState.Selected;
+                    break;
+                case CombatParticipantType.Friendly:
+                    slideState = SlideState.Ready;
+                    break;
+                case CombatParticipantType.Foe when enable:
+                    lastSlideState = slideState; slideState = SlideState.Target;
+                    break;
+                case CombatParticipantType.Foe:
+                    slideState = lastSlideState;
+                    break;
             }
             UpdateColor();
         }
@@ -149,29 +159,29 @@ namespace Frankie.Combat.UI
                 case StateAlteredType.FriendFound:
                 case StateAlteredType.FriendIgnored:
                     break;
+                default:
+                    throw new ArgumentOutOfRangeException();
             }
         }
 
         protected override bool HandleClickInBattle()
         {
-            if (!base.HandleClickInBattle())
-            {
-                // Only callable if battle action not set via battle slide (one click behaviour)
-                CombatParticipant selectedCharacter = GetBattleEntity().combatParticipant;
-                if (!BattleController.IsCombatParticipantAvailableToAct(selectedCharacter)) { return false; }
+            if (base.HandleClickInBattle()) return false;
+            
+            // Only callable if battle action not set via battle slide (one click behaviour)
+            CombatParticipant selectedCharacter = GetBattleEntity().combatParticipant;
+            if (!BattleController.IsCombatParticipantAvailableToAct(selectedCharacter)) { return false; }
                 
-                List<BattleEntity> selectedBattleEntity = new() { new(selectedCharacter) };
-                BattleEventBus<BattleEntitySelectedEvent>.Raise(new BattleEntitySelectedEvent(CombatParticipantType.Friendly, selectedBattleEntity));
-                return true;
-            }
-            return false;
+            List<BattleEntity> selectedBattleEntity = new() { new BattleEntity(selectedCharacter) };
+            BattleEventBus<BattleEntitySelectedEvent>.Raise(new BattleEntitySelectedEvent(CombatParticipantType.Friendly, selectedBattleEntity));
+            return true;
         }
 
         // Private functions
         private void UpdateColor()
         {
             if (battleEntity.combatParticipant.IsDead() && // Bypass irrelevant slide states on character death
-                (slideState == SlideState.Ready || slideState == SlideState.Selected || slideState == SlideState.Cooldown))
+                slideState is SlideState.Ready or SlideState.Selected or SlideState.Cooldown)
             {
                 selectHighlight.color = deadCharacterFrameColor;
                 return;
