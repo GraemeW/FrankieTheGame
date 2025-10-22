@@ -19,9 +19,12 @@ namespace Frankie.Combat.UI
         [Header("Parents")]
         [SerializeField] private Canvas canvas;
         [SerializeField] private Transform playerPanelParent;
-        [SerializeField] private Transform midRowParent;
         [SerializeField] private Transform topRowParent;
+        [SerializeField] private Transform[] topRowColumns;
+        [SerializeField] private Transform midRowParent;
+        [SerializeField] private Transform[] midRowColumns;
         [SerializeField] private Transform bottomRowParent;
+        [SerializeField] private Transform[] bottomRowColumns;
         [SerializeField] private Image backgroundFill;
         [SerializeField] private MovingBackgroundProperties defaultMovingBackgroundProperties;
         [SerializeField] private Transform infoChooseParent;
@@ -188,18 +191,10 @@ namespace Frankie.Combat.UI
         
         private void ClearBattleCanvas()
         {
-            foreach (Transform child in playerPanelParent)
-            {
-                Destroy(child.gameObject);
-            }
-            foreach (Transform child in midRowParent)
-            {
-                Destroy(child.gameObject);
-            }
-            foreach (Transform child in topRowParent)
-            {
-                Destroy(child.gameObject);
-            }
+            foreach (Transform child in playerPanelParent) { Destroy(child.gameObject); }
+            foreach (Transform columnEntry in topRowColumns) { foreach (Transform child in columnEntry) { Destroy(child.gameObject); } }
+            foreach (Transform columnEntry in midRowColumns) { foreach (Transform child in columnEntry) { Destroy(child.gameObject); } }
+            foreach (Transform columnEntry in bottomRowColumns) { foreach (Transform child in columnEntry) { Destroy(child.gameObject); } }
         }
 
         private void SetupBattleEntity(BattleEntityAddedEvent battleEntityAddedEvent)
@@ -225,14 +220,30 @@ namespace Frankie.Combat.UI
 
         private void SetupEnemy(BattleEntity battleEntity)
         {
-            Transform parentSpawn = battleEntity.row switch
+            Transform spawnLocation;
+            Transform[] columnEntries = battleEntity.row switch
             {
-                BattleRow.Middle => midRowParent,
-                BattleRow.Top => topRowParent,
-                BattleRow.Bottom => bottomRowParent,
-                _ => midRowParent
+                BattleRow.Middle => midRowColumns,
+                BattleRow.Top => topRowColumns,
+                BattleRow.Bottom => bottomRowColumns,
+                _ => midRowColumns
             };
-            EnemySlide enemySlide = Instantiate(enemySlidePrefab, parentSpawn);
+            
+            if (battleEntity.column >= columnEntries.Length)
+            {
+                // Default to spawn directly in parent if column matching doesn't exist
+                spawnLocation = battleEntity.row switch
+                {
+                    BattleRow.Middle => midRowParent,
+                    BattleRow.Top => topRowParent,
+                    BattleRow.Bottom => bottomRowParent,
+                    _ => midRowParent
+                };
+                Debug.Log($"Warning -- battle entity column ({battleEntity.column}) out of index for BattleCanvas");
+            }
+            else { spawnLocation = columnEntries[battleEntity.column]; }
+            
+            EnemySlide enemySlide = Instantiate(enemySlidePrefab, spawnLocation);
             enemySlide.SetBattleEntity(battleEntity);
             combatLog.AddCombatListener(battleEntity.combatParticipant);
 

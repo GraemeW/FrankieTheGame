@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -60,7 +59,7 @@ namespace Frankie.Combat
             // Randomize input combat participants selections
             battleAI.GetLocalAllies().Shuffle();
             battleAI.GetLocalFoes().Shuffle();
-            skill.SetTargets(true, battleActionData, battleAI.GetLocalAllies(), battleAI.GetLocalFoes());
+            skill.SetTargets(TargetingNavigationType.Hold, battleActionData, battleAI.GetLocalAllies(), battleAI.GetLocalFoes());
         }
         #endregion
 

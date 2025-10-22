@@ -169,7 +169,7 @@ namespace Frankie.Combat
             return true;
         }
 
-        private void SetSelectedTarget(IBattleActionSuper battleActionUser, bool traverseForward = true)
+        private void SetSelectedTarget(IBattleActionSuper battleActionUser, TargetingNavigationType targetingNavigationType)
         {
             if (battleActionUser == null)
             {
@@ -178,7 +178,7 @@ namespace Frankie.Combat
             }
             else
             {
-                battleActionUser.SetTargets(traverseForward, battleActionData, battleMat.GetActiveCharacters(), battleMat.GetActiveEnemies());
+                battleActionUser.SetTargets(targetingNavigationType, battleActionData, battleMat.GetActiveCharacters(), battleMat.GetActiveEnemies());
             }
             BattleEventBus<BattleEntitySelectedEvent>.Raise(new BattleEntitySelectedEvent(CombatParticipantType.Foe, battleActionData?.GetTargets()));
         }
@@ -203,12 +203,12 @@ namespace Frankie.Combat
         {
             if (!enable)
             {
-                SetSelectedTarget(null);
+                SetSelectedTarget(null, TargetingNavigationType.Hold);
                 battleActionArmed = false;
             }
             else if (selectedBattleActionSuper != null)
             {
-                SetSelectedTarget(selectedBattleActionSuper);
+                SetSelectedTarget(selectedBattleActionSuper, TargetingNavigationType.Hold);
                 battleActionArmed = true;
             }
             else { return; }
@@ -254,8 +254,8 @@ namespace Frankie.Combat
             
             battleActionData = new BattleActionData(selectedCharacter); 
             battleActionData.SetTargets(battleQueueAddAttemptEvent.targets);
-            selectedBattleActionSuper.SetTargets(null, battleActionData, battleMat.GetActiveCharacters(), battleMat.GetActiveEnemies()); // Select targets with null traverse to apply filters & pass back
-            if (battleActionData.targetCount == 0) { return; }
+            selectedBattleActionSuper.SetTargets(TargetingNavigationType.Hold, battleActionData, battleMat.GetActiveCharacters(), battleMat.GetActiveEnemies()); // Select targets with null traverse to apply filters & pass back
+            if (!battleActionData.HasTargets()) { return; }
             
             var battleSequence = new BattleSequence(selectedBattleActionSuper, battleActionData);
             BattleEventBus<BattleQueueUpdatedEvent>.Raise(new BattleQueueUpdatedEvent(battleSequence));
@@ -290,12 +290,10 @@ namespace Frankie.Combat
                 return;
             }
 
-            if (battleActionData != null)
+            if (battleActionData == null) return;
+            if (battleActionData.HasTargets() && battleActionData.HasTarget(stateAlteredInfo.combatParticipant))
             {
-                if (battleActionData.targetCount > 0 && battleActionData.HasTarget(stateAlteredInfo.combatParticipant))
-                {
-                    SetSelectedTarget(selectedBattleActionSuper);
-                }
+                SetSelectedTarget(selectedBattleActionSuper, TargetingNavigationType.Right);
             }
         }
         
@@ -320,51 +318,7 @@ namespace Frankie.Combat
         }
         #endregion
         
-        #region PublicBattleHandling
-        public bool AttemptToRun()
-        {
-            bool allCharactersAvailable = true;
-            float partySpeed = 0f;
-
-            // Get Party average speed && check for availability
-            foreach (BattleEntity character in battleMat.GetActivePlayerCharacters())
-            {
-                allCharactersAvailable = allCharactersAvailable && !character.combatParticipant.IsInCooldown();
-                partySpeed += character.combatParticipant.GetRunSpeed();
-            }
-            if (canAttemptEarlyRun) { allCharactersAvailable = true; } // Override for pre-battle run attempt
-            float averagePartySpeed = partySpeed / battleMat.GetCountActivePlayerCharacters();
-
-            // Get enemy max speed
-            float enemySpeed = battleMat.GetActiveEnemies().Aggregate(0f, (current, enemy) => Mathf.Max(current, enemy.combatParticipant.GetRunSpeed()));
-
-            // Probability via CalculatedStat and check/react
-            float runChance = CalculatedStats.GetCalculatedStat(CalculatedStat.RunChance, 0, averagePartySpeed, enemySpeed);
-            float runCheck = UnityEngine.Random.value;
-            Debug.Log($"Run Attempt.  Run chance @ {runChance}.  Run check @ {runCheck}");
-            Debug.Log($"Checking if all characters available: {allCharactersAvailable}");
-            if (allCharactersAvailable && (runCheck < runChance))
-            {
-                foreach (BattleEntity enemy in battleMat.GetActiveEnemies())
-                {
-                    enemy.combatParticipant.SetupSelfDestroyOnBattleComplete();
-                }
-                SetBattleState(BattleState.Outro, BattleOutcome.Ran);
-                return true;
-            }
-            else
-            {
-                foreach (BattleEntity character in battleMat.GetActiveCharacters())
-                {
-                    character.combatParticipant.IncrementCooldownStoreForRun();
-                }
-                canAttemptEarlyRun = false; // Treat run as having entered combat
-                return false;
-            }
-        }
-        #endregion
-
-        #region PrivateInteraction
+        #region Interaction
         private void ParseDirectionalInput(Vector2 directionalInput)
         {
             PlayerInputType playerInputType = this.NavigationVectorToInputType(directionalInput);
@@ -446,21 +400,15 @@ namespace Frankie.Combat
             {
                 if (playerInputType == PlayerInputType.Execute)
                 {
-                    if (battleActionData.targetCount == 0) { return false; }
+                    if (!battleActionData.HasTargets()) { return false; }
                     
                     var battleSequence = new BattleSequence(selectedBattleActionSuper, battleActionData);
                     BattleEventBus<BattleQueueUpdatedEvent>.Raise(new BattleQueueUpdatedEvent(battleSequence));
                 }
                 else
                 {
-                    if (playerInputType == PlayerInputType.NavigateRight || playerInputType == PlayerInputType.NavigateDown)
-                    {
-                        SetSelectedTarget(selectedBattleActionSuper);
-                    }
-                    else if (playerInputType == PlayerInputType.NavigateLeft || playerInputType == PlayerInputType.NavigateUp)
-                    {
-                        SetSelectedTarget(selectedBattleActionSuper, false);
-                    }
+                    TargetingNavigationType targetingNavigationType = TargetingStrategy.ConvertPlayerInputToTargeting(playerInputType);
+                    SetSelectedTarget(selectedBattleActionSuper, targetingNavigationType);
                 }
                 battleInput?.Invoke(playerInputType);
 
@@ -479,8 +427,52 @@ namespace Frankie.Combat
             return false;
         }
         #endregion
+        
+        #region PublicBattleHandling
+        public bool AttemptToRun()
+        {
+            bool allCharactersAvailable = true;
+            float partySpeed = 0f;
 
-        #region BattleHandling
+            // Get Party average speed && check for availability
+            foreach (BattleEntity character in battleMat.GetActivePlayerCharacters())
+            {
+                allCharactersAvailable = allCharactersAvailable && !character.combatParticipant.IsInCooldown();
+                partySpeed += character.combatParticipant.GetRunSpeed();
+            }
+            if (canAttemptEarlyRun) { allCharactersAvailable = true; } // Override for pre-battle run attempt
+            float averagePartySpeed = partySpeed / battleMat.GetCountActivePlayerCharacters();
+
+            // Get enemy max speed
+            float enemySpeed = battleMat.GetActiveEnemies().Aggregate(0f, (current, enemy) => Mathf.Max(current, enemy.combatParticipant.GetRunSpeed()));
+
+            // Probability via CalculatedStat and check/react
+            float runChance = CalculatedStats.GetCalculatedStat(CalculatedStat.RunChance, 0, averagePartySpeed, enemySpeed);
+            float runCheck = UnityEngine.Random.value;
+            Debug.Log($"Run Attempt.  Run chance @ {runChance}.  Run check @ {runCheck}");
+            Debug.Log($"Checking if all characters available: {allCharactersAvailable}");
+            if (allCharactersAvailable && (runCheck < runChance))
+            {
+                foreach (BattleEntity enemy in battleMat.GetActiveEnemies())
+                {
+                    enemy.combatParticipant.SetupSelfDestroyOnBattleComplete();
+                }
+                SetBattleState(BattleState.Outro, BattleOutcome.Ran);
+                return true;
+            }
+            else
+            {
+                foreach (BattleEntity character in battleMat.GetActiveCharacters())
+                {
+                    character.combatParticipant.IncrementCooldownStoreForRun();
+                }
+                canAttemptEarlyRun = false; // Treat run as having entered combat
+                return false;
+            }
+        }
+        #endregion
+
+        #region PrivateBattleHandling
         private void InitiateBattle(List<CombatParticipant> enemies, TransitionType transitionType)
         {
             SetupCombatParticipants(enemies, transitionType);
@@ -571,15 +563,11 @@ namespace Frankie.Combat
             BattleSequence battleSequence = battleSequenceQueue.Dequeue();
             BattleActionData dequeuedBattleActionData = battleSequence.battleActionData;
 
-            bool allEntitiesDead = true;
-            foreach (BattleEntity battleEntity in dequeuedBattleActionData.GetTargets()) { if (!battleEntity.combatParticipant.IsDead()) { allEntitiesDead = false; break; } }
-            if (dequeuedBattleActionData.GetSender().IsDead() || allEntitiesDead) { yield break; }
-
             BattleEventBus<BattleSequenceProcessedEvent>.Raise(new BattleSequenceProcessedEvent(battleSequence));
 
             // Useful Debug
-            //string targetNames = string.Concat(dequeuedBattleActionData.GetTargets().Select(x => x.name));
-            //UnityEngine.Debug.Log($"Battle sequence from {dequeuedBattleActionData.GetSender().name} dequeued, for action {battleSequence.battleAction.GetName()} on {targetNames}");
+            //string targetNames = string.Concat(dequeuedBattleActionData.GetTargets().Select(x => x.combatParticipant.name));
+            //UnityEngine.Debug.Log($"Battle sequence from {dequeuedBattleActionData.GetSender().name} dequeued, for action {battleSequence.battleActionSuper.GetName()} on {targetNames}");
 
             // Two flags to flip to re-enable battle:
             // A. global battle queue delay, handled by coroutine

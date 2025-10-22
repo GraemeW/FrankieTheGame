@@ -10,7 +10,7 @@ namespace Frankie.Combat
     {
         public abstract void StartEffect(CombatParticipant sender, IEnumerable<BattleEntity> recipients, DamageType damageType, Action<EffectStrategy> finished);
 
-        public static void StartCoroutine(CombatParticipant sender, IEnumerator coroutine)
+        protected static void StartCoroutine(CombatParticipant sender, IEnumerator coroutine)
         {
             sender.GetComponent<MonoBehaviour>().StartCoroutine(coroutine);
         }
@@ -48,15 +48,14 @@ namespace Frankie.Combat
 
         protected float GetPhysicalModifier(float sign, CombatParticipant sender, CombatParticipant recipient)
         {
-            if (sign > 0)
+            return sign switch
             {
-                return sign * Mathf.Max(0f, sender.GetCalculatedStat(CalculatedStat.PhysicalAdder));
-            }
-            else if (sign < 0)
-            {
-                return sign * Mathf.Max(0f, sender.GetCalculatedStat(CalculatedStat.PhysicalAdder) - recipient.GetCalculatedStat(CalculatedStat.Defense));
-            }
-            return 0f;
+                > 0 => sign * Mathf.Max(0f, sender.GetCalculatedStat(CalculatedStat.PhysicalAdder)),
+                < 0 => sign * Mathf.Max(0f,
+                    sender.GetCalculatedStat(CalculatedStat.PhysicalAdder) -
+                    recipient.GetCalculatedStat(CalculatedStat.Defense)),
+                _ => 0f
+            };
         }
 
         protected float GetMagicalModifier(float sign, CombatParticipant sender, CombatParticipant recipient)

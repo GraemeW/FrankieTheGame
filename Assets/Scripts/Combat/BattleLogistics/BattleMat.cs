@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -18,13 +19,36 @@ namespace Frankie.Combat
         public int GetCountActivePlayerCharacters() => activePlayerCharacters.Count;
         private readonly Dictionary<BattleRow, int> enemyMap = new() { {BattleRow.Middle, 0}, {BattleRow.Top, 0}, {BattleRow.Bottom, 0} };
 
-        // Fixed & static
-        private readonly HashSet<BattleRow> defaultBattleRowPriority = new () { BattleRow.Middle, BattleRow.Top };
+        #region Static
+        private static readonly HashSet<BattleRow> _defaultBattleRowPriority = new () { BattleRow.Middle, BattleRow.Top };
         private static readonly List<BattleRow> _battleRowSortOrder = new() { BattleRow.Top, BattleRow.Middle, BattleRow.Bottom };
         private const int _maxEnemiesPerRow = 7;
-        public static IList<BattleRow> GetBattleRowSortOrder() => _battleRowSortOrder.AsReadOnly();
+        
+        public static int GetBattleRowCount() => _battleRowSortOrder.Count;
         public static BattleRow GetDefaultBattleRow() => _battleRowSortOrder[0];
         public static int GetDefaultBattleColumn() => _maxEnemiesPerRow / 2;
+        public static BattleRow GetNextBattleRow(BattleRow battleRow, TargetingNavigationType targetingNavigationType)
+        {
+            if (battleRow == BattleRow.Any) { return _defaultBattleRowPriority.First(); }
+            
+            int currentBattleRowIndex = _battleRowSortOrder.IndexOf(battleRow);
+            int nextBattleRowIndex;
+            switch (targetingNavigationType)
+            {
+                case TargetingNavigationType.Down:
+                    nextBattleRowIndex = (currentBattleRowIndex == _battleRowSortOrder.Count - 1) ? 0 : currentBattleRowIndex + 1;
+                    return _battleRowSortOrder[nextBattleRowIndex];
+                case TargetingNavigationType.Up:
+                    nextBattleRowIndex =  (currentBattleRowIndex == 0) ? _battleRowSortOrder.Count - 1 : currentBattleRowIndex - 1;
+                    return _battleRowSortOrder[nextBattleRowIndex];
+                case TargetingNavigationType.Hold:
+                case TargetingNavigationType.Right:
+                case TargetingNavigationType.Left:
+                default:
+                    return battleRow;
+            }
+        }
+        #endregion
         
         #region GettersSetters
         public IList<BattleEntity> GetActiveCharacters() => activeCharacters.AsReadOnly();
@@ -34,7 +58,7 @@ namespace Frankie.Combat
         
         public bool IsEnemyPositionAvailable()
         {
-            if (defaultBattleRowPriority.Any(battleRow => GetEnemyCountInRow(battleRow) < _maxEnemiesPerRow)) { return true; }
+            if (_defaultBattleRowPriority.Any(battleRow => GetEnemyCountInRow(battleRow) < _maxEnemiesPerRow)) { return true; }
             Debug.Log("No remaining positions for enemies to spawn");
             return false;
         }
@@ -66,9 +90,9 @@ namespace Frankie.Combat
             if (desiredBattleRow != BattleRow.Any)
             {
                 optimalBattleRowPriority.Add(desiredBattleRow); 
-                defaultBattleRowPriority.Add(desiredBattleRow); // E.g. Default 2-row @ Mid/Top, new char prefers bott -> thus enables 3-row w/ bott as a default option
+                _defaultBattleRowPriority.Add(desiredBattleRow); // E.g. Default 2-row @ Mid/Top, new char prefers bott -> thus enables 3-row w/ bott as a default option
             }
-            optimalBattleRowPriority.AddRange(defaultBattleRowPriority.Where(testBattleRow => testBattleRow != desiredBattleRow));
+            optimalBattleRowPriority.AddRange(_defaultBattleRowPriority.Where(testBattleRow => testBattleRow != desiredBattleRow));
 
             return optimalBattleRowPriority;
         }

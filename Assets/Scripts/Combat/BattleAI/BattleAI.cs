@@ -119,7 +119,7 @@ namespace Frankie.Combat
             }
             
             // If targetCount is 0, skill isn't possible -- prohibit skill from selection & restart
-            if (battleActionData.targetCount == 0)
+            if (!battleActionData.HasTargets())
             {
                 skillsToExclude.Add(skill);
                 QueueNextAction();

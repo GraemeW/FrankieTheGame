@@ -10,49 +10,22 @@ namespace Frankie.Combat
     {
         private const BattleRow _defaultBattleRow = BattleRow.Middle;
         
-        public override void GetTargets(bool? traverseForward, BattleActionData battleActionData, IEnumerable<BattleEntity> activeCharacters,
+        public override void SetTargets(TargetingNavigationType targetingNavigationType, BattleActionData battleActionData, IEnumerable<BattleEntity> activeCharacters,
             IEnumerable<BattleEntity> activeEnemies)
         {
-            // Find current target row
-            BattleRow currentBattleRow = (battleActionData.targetCount > 0) ? battleActionData.GetFirst().row : _defaultBattleRow;
-            
             // Filter
-            battleActionData.SetTargets(this.GetCombatParticipantsByType(combatParticipantType, activeCharacters, activeEnemies));
+            battleActionData.SetTargets(GetCombatParticipantsByType(combatParticipantType, activeCharacters, activeEnemies));
             FilterTargets(battleActionData, filterStrategies);
-            if (battleActionData.targetCount == 0) { return; }
+            if (!battleActionData.HasTargets()) { return; }
 
-            // Pass back as-defined selection on null
-            if (traverseForward == null)
-            {
-                var passTargets = battleActionData.GetTargets().Where(battleEntity => battleEntity.row == currentBattleRow).ToList();
-                battleActionData.SetTargets(passTargets);
-                return;
-            }
+            // Set Focal Target
+            battleActionData.SetFocalTarget(targetingNavigationType);
             
-            // Otherwise traverse
-            List<BattleEntity> shiftedTargets = GetShiftedTargets(battleActionData, currentBattleRow, traverseForward.Value);
-            battleActionData.SetTargets(shiftedTargets);
+            // Set to Focal Target Row
+            List<BattleEntity> rowTargets = battleActionData.GetTargets().Where(target => target.row == battleActionData.GetFocalTarget().row).ToList();
+            battleActionData.SetTargets(rowTargets);
         }
-
-        private List<BattleEntity> GetShiftedTargets(BattleActionData battleActionData, BattleRow currentBattleRow, bool traverseForward)
-        {
-            var battleRows = Enum.GetValues(typeof(BattleRow)).Cast<BattleRow>().ToList();
-            battleRows.Remove(BattleRow.Any);
-            int currentIndex = battleRows.IndexOf(currentBattleRow);
-            
-            if (traverseForward)
-            {
-                currentIndex = (currentIndex == battleRows.Count - 1) ? 0 : currentIndex + 1;
-            }
-            else
-            {
-                currentIndex = (currentIndex == 0) ? battleRows.Count - 1 : currentIndex - 1;
-            }
-            currentBattleRow = battleRows[currentIndex];
-            var shiftedTargets = battleActionData.GetTargets().Where(battleEntity => battleEntity.row == currentBattleRow).ToList();
-            return shiftedTargets.Count > 0 ? shiftedTargets : GetShiftedTargets(battleActionData, currentBattleRow, traverseForward);
-        }
-
+        
         protected override List<BattleEntity> GetBattleEntitiesByTypeTemplate(CombatParticipantType combatParticipantType, IEnumerable<BattleEntity> activeCharacters,
             IEnumerable<BattleEntity> activeEnemies)
         {

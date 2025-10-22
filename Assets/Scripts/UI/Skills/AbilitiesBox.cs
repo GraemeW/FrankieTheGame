@@ -115,12 +115,12 @@ namespace Frankie.Combat.UI
                     if (activeSkill == null) { return false; }
 
                     SetAbilitiesBoxState(AbilitiesBoxState.InCharacterTargeting);
-                    if (!GetNextTarget(true))
+                    if (GetNextTarget(TargetingNavigationType.Hold)) { return true; }
+                    else
                     {
                         SetAbilitiesBoxState(AbilitiesBoxState.InAbilitiesSelection);
                         return false;
                     }
-                    return true;
                 case AbilitiesBoxState.InCharacterTargeting:
                     return ChooseSkill();
                 default:
@@ -199,30 +199,15 @@ namespace Frankie.Combat.UI
                 case AbilitiesBoxState.InAbilitiesSelection:
                     return HandleInputWithReturn(playerInputType);
                 case AbilitiesBoxState.InCharacterTargeting:
-                    switch (playerInputType)
+                {
+                    TargetingNavigationType targetingNavigationType = TargetingStrategy.ConvertPlayerInputToTargeting(playerInputType);
+                    if (GetNextTarget(targetingNavigationType)) { return true; }
+                    else
                     {
-                        case PlayerInputType.NavigateRight:
-                        case PlayerInputType.NavigateDown:
-                        {
-                            if (!GetNextTarget(true))
-                            {
-                                SetAbilitiesBoxState(AbilitiesBoxState.InAbilitiesSelection);
-                                return false;
-                            }
-                            break;
-                        }
-                        case PlayerInputType.NavigateLeft:
-                        case PlayerInputType.NavigateUp:
-                        {
-                            if (!GetNextTarget(false))
-                            {
-                                SetAbilitiesBoxState(AbilitiesBoxState.InAbilitiesSelection);
-                                return false;
-                            }
-                            break;
-                        }
+                        SetAbilitiesBoxState(AbilitiesBoxState.InAbilitiesSelection);
+                        return false;
                     }
-                    return true;
+                }
                 default:
                     return false;
             }
@@ -241,7 +226,7 @@ namespace Frankie.Combat.UI
             // Used explicitly w/ select skill && extended with Unity Events for mouse clicks
         }
 
-        private bool GetNextTarget(bool? traverseForward)
+        private bool GetNextTarget(TargetingNavigationType targetingNavigationType)
         {
             if (currentCombatParticipant == null) { return false; }
 
@@ -249,11 +234,8 @@ namespace Frankie.Combat.UI
             Skill activeSkill = skillHandler?.GetActiveSkill();
             if (activeSkill == null) { return false; }
 
-            activeSkill.SetTargets(traverseForward, battleActionData, partyBattleEntities, null);
-            if (battleActionData.targetCount == 0)
-            {
-                return false;
-            }
+            activeSkill.SetTargets(targetingNavigationType, battleActionData, partyBattleEntities, null);
+            if (!battleActionData.HasTargets()) {return false; }
 
             targetCharacterChanged?.Invoke(CombatParticipantType.Foe, battleActionData.GetTargets());
             return true;
@@ -272,7 +254,7 @@ namespace Frankie.Combat.UI
             battleActionData = new BattleActionData(currentCombatParticipant);
 
             battleActionData.SetTargets(battleEntity);
-            if (!GetNextTarget(null)) { SetAbilitiesBoxState(AbilitiesBoxState.InAbilitiesSelection); return; } // Verify valid target by calling with null
+            if (!GetNextTarget(TargetingNavigationType.Hold)) { SetAbilitiesBoxState(AbilitiesBoxState.InAbilitiesSelection); return; } // Verify valid target by calling with null
             SetAbilitiesBoxState(AbilitiesBoxState.InCharacterTargeting);
 
             Choose(null);

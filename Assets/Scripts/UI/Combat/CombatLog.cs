@@ -100,7 +100,7 @@ namespace Frankie.Combat.UI
 
             BattleActionData battleActionData = battleSequence.battleActionData;
             if (battleActionData == null || (battleSequence.battleActionSuper == null)) { return; }
-            if (battleActionData.GetSender() == null || battleActionData.targetCount == 0) { return; }
+            if (battleActionData.GetSender() == null || !battleActionData.HasTargets()) { return; }
 
             string recipientNames = string.Join(", ", battleActionData.GetTargets().Select(x => x.combatParticipant.GetCombatName()));
             string combatText = battleActionData.GetSender().GetCombatName()

@@ -9,7 +9,7 @@ namespace Frankie.Combat
         public readonly CombatParticipantType combatParticipantType;
         public readonly List<BattleEntity> battleEntities;
 
-        public BattleEntitySelectedEvent(CombatParticipantType combatParticipantType, List<BattleEntity> battleEntities)
+        public BattleEntitySelectedEvent(CombatParticipantType combatParticipantType, IList<BattleEntity> battleEntities)
         {
             this.combatParticipantType = combatParticipantType;
             this.battleEntities = new List<BattleEntity>(battleEntities);
