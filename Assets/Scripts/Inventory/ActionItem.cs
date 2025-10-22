@@ -1,5 +1,4 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Frankie.Combat;
@@ -10,46 +9,31 @@ namespace Frankie.Inventory
     public class ActionItem : InventoryItem, IBattleActionSuper
     {
         // Config Data
-        [SerializeField] bool consumable = true;
-        [SerializeField] BattleAction battleAction = null;
+        [SerializeField] private bool consumable = true;
+        [SerializeField] private BattleAction battleAction;
 
-        public bool IsConsumable()
-        {
-            return consumable;
-        }
+        private bool IsConsumable() => consumable;
+        public bool IsItem() => true;
+        public string GetName() => GetItemNamePretty(name);
 
         public bool Use(BattleActionData battleActionData, Action finished)
         {
             if (battleAction == null) { return false; }
 
             battleAction.Use(battleActionData, finished);
-
-            if (IsConsumable())
-            {
-                if (!battleActionData.GetSender().TryGetComponent(out Knapsack knapsack)) { return true; }
-                knapsack.RemoveItem(this, false);
-                knapsack.SquishItemsInKnapsack();
-            }
+            if (!IsConsumable()) return true;
+            
+            if (!battleActionData.GetSender().TryGetComponent(out Knapsack knapsack)) { return true; }
+            knapsack.RemoveItem(this, false);
+            knapsack.SquishItemsInKnapsack();
             return true;
         }
 
-        public void GetTargets(bool? traverseForward, BattleActionData battleActionData,
+        public void SetTargets(TargetingNavigationType targetingNavigationType, BattleActionData battleActionData,
             IEnumerable<BattleEntity> activeCharacters, IEnumerable<BattleEntity> activeEnemies)
         {
             if (battleAction == null) { return; }
-
-            battleAction.GetTargets(traverseForward, battleActionData, activeCharacters, activeEnemies);
-        }
-
-        public bool IsItem()
-        {
-            return true;
-        }
-
-        public string GetName()
-        {
-            return GetItemNamePretty(name);
+            battleAction.SetTargets(targetingNavigationType, battleActionData, activeCharacters, activeEnemies);
         }
     }
-
 }

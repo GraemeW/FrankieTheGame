@@ -1,3 +1,5 @@
+using System;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
@@ -8,25 +10,25 @@ namespace Frankie.Combat.UI
     {
         // Tunables
         [Header("Character Slide HookUps")]
-        [SerializeField] TextMeshProUGUI characterNameField = null;
-        [SerializeField] TextMeshProUGUI currentHPHundreds = null;
-        [SerializeField] TextMeshProUGUI currentHPTens = null;
-        [SerializeField] TextMeshProUGUI currentHPOnes = null;
-        [SerializeField] TextMeshProUGUI currentAPHundreds = null;
-        [SerializeField] TextMeshProUGUI currentAPTens = null;
-        [SerializeField] TextMeshProUGUI currentAPOnes = null;
-        [SerializeField] Image selectHighlight = null;
+        [SerializeField] private TextMeshProUGUI characterNameField;
+        [SerializeField] private TextMeshProUGUI currentHPHundreds;
+        [SerializeField] private TextMeshProUGUI currentHPTens;
+        [SerializeField] private TextMeshProUGUI currentHPOnes;
+        [SerializeField] private TextMeshProUGUI currentAPHundreds;
+        [SerializeField] private TextMeshProUGUI currentAPTens;
+        [SerializeField] private TextMeshProUGUI currentAPOnes;
+        [SerializeField] private Image selectHighlight;
 
         [Header("Highlight Colors")]
-        [SerializeField] Color selectedCharacterFrameColor = Color.green;
-        [SerializeField] Color cooldownCharacterFrameColor = Color.gray;
-        [SerializeField] Color targetedCharacterFrameColor = Color.blue;
-        [SerializeField] Color deadCharacterFrameColor = Color.red;
+        [SerializeField] private Color selectedCharacterFrameColor = Color.green;
+        [SerializeField] private Color cooldownCharacterFrameColor = Color.gray;
+        [SerializeField] private Color targetedCharacterFrameColor = Color.blue;
+        [SerializeField] private Color deadCharacterFrameColor = Color.red;
 
         // State
-        Color defaultColor = Color.white;
-        SlideState slideState = default;
-        SlideState lastSlideState = default;
+        private Color defaultColor = Color.white;
+        private SlideState slideState;
+        private SlideState lastSlideState;
 
         // Static
         private static void BreakApartNumber(float number, out int hundreds, out int tens, out int ones)
@@ -53,41 +55,39 @@ namespace Frankie.Combat.UI
             defaultColor = selectHighlight.color;
         }
 
-        protected override void OnEnable()
+        public override void SetBattleEntity(BattleEntity setBattleEntity)
         {
-            base.OnEnable();
-        }
-
-        protected override void OnDisable()
-        {
-            // Base implementation removes all button listeners
-            base.OnDisable();
-        }
-
-        public override void SetBattleEntity(BattleEntity battleEntity)
-        {
-            base.SetBattleEntity(battleEntity);
-            UpdateName(this.battleEntity.combatParticipant.GetCombatName());
-            UpdateHP(this.battleEntity.combatParticipant.GetHP());
-            UpdateAP(this.battleEntity.combatParticipant.GetAP());
+            base.SetBattleEntity(setBattleEntity);
+            UpdateName(battleEntity.combatParticipant.GetCombatName());
+            UpdateHP(battleEntity.combatParticipant.GetHP());
+            UpdateAP(battleEntity.combatParticipant.GetAP());
             UpdateColor();
         }
 
         protected override void SetSelected(CombatParticipantType combatParticipantType, bool enable)
         {
-            if (combatParticipantType == CombatParticipantType.Either) { return; }
-            
-            if (combatParticipantType == CombatParticipantType.Friendly)
+            switch (combatParticipantType)
             {
-                if (battleEntity.combatParticipant.IsDead()) { slideState = SlideState.Dead; }
-                else if (battleEntity.combatParticipant.IsInCooldown()) { slideState = SlideState.Cooldown; }
-                else if (enable) { slideState = SlideState.Selected; }
-                else { slideState = SlideState.Ready; }
-            }
-            else if (combatParticipantType == CombatParticipantType.Foe)
-            {
-                if (enable) { lastSlideState = slideState; slideState = SlideState.Target; }
-                else { slideState = lastSlideState; }
+                case CombatParticipantType.Either:
+                    return;
+                case CombatParticipantType.Friendly when battleEntity.combatParticipant.IsDead():
+                    slideState = SlideState.Dead;
+                    break;
+                case CombatParticipantType.Friendly when battleEntity.combatParticipant.IsInCooldown():
+                    slideState = SlideState.Cooldown;
+                    break;
+                case CombatParticipantType.Friendly when enable:
+                    slideState = SlideState.Selected;
+                    break;
+                case CombatParticipantType.Friendly:
+                    slideState = SlideState.Ready;
+                    break;
+                case CombatParticipantType.Foe when enable:
+                    lastSlideState = slideState; slideState = SlideState.Target;
+                    break;
+                case CombatParticipantType.Foe:
+                    slideState = lastSlideState;
+                    break;
             }
             UpdateColor();
         }
@@ -109,7 +109,7 @@ namespace Frankie.Combat.UI
                 case StateAlteredType.IncreaseHP:
                 case StateAlteredType.DecreaseHP:
                 case StateAlteredType.AdjustHPNonSpecific:
-                    UpdateHP(this.battleEntity.combatParticipant.GetHP());
+                    UpdateHP(battleEntity.combatParticipant.GetHP());
                     if (stateAlteredInfo.stateAlteredType == StateAlteredType.IncreaseHP)
                     {
                         float points = stateAlteredInfo.points;
@@ -119,8 +119,7 @@ namespace Frankie.Combat.UI
                     {
                         float points = stateAlteredInfo.points;
                         damageTextSpawner.AddToQueue(new DamageTextData(DamageTextType.HealthChanged, points));
-                        bool strongShakeEnable = false;
-                        if (points > this.battleEntity.combatParticipant.GetHP()) { strongShakeEnable = true; }
+                        bool strongShakeEnable = points > battleEntity.combatParticipant.GetHP();
                         ShakeSlide(strongShakeEnable);
                         BlipFadeSlide();
                     }
@@ -131,7 +130,7 @@ namespace Frankie.Combat.UI
                 case StateAlteredType.AdjustAPNonSpecific:
                     // Adjust character slide AP on non-specific (i.e. even those announced 'quietly')
                     // Sound effects otherwise update on increase/decrease
-                    UpdateAP(this.battleEntity.combatParticipant.GetAP());
+                    UpdateAP(battleEntity.combatParticipant.GetAP());
                     damageTextSpawner.AddToQueue(new DamageTextData(DamageTextType.APChanged, stateAlteredInfo.points));
                     break;
                 case StateAlteredType.HitMiss:
@@ -160,24 +159,29 @@ namespace Frankie.Combat.UI
                 case StateAlteredType.FriendFound:
                 case StateAlteredType.FriendIgnored:
                     break;
+                default:
+                    throw new ArgumentOutOfRangeException();
             }
         }
 
         protected override bool HandleClickInBattle()
         {
-            if (!base.HandleClickInBattle())
-            {
-                // Only callable if battle action not set via battle slide (one click behaviour)
-                if (battleController.SetSelectedCharacter(GetBattleEntity().combatParticipant)) { return true; }
-            }
-            return false;
+            if (base.HandleClickInBattle()) return false;
+            
+            // Only callable if battle action not set via battle slide (one click behaviour)
+            CombatParticipant selectedCharacter = GetBattleEntity().combatParticipant;
+            if (!BattleController.IsCombatParticipantAvailableToAct(selectedCharacter)) { return false; }
+                
+            List<BattleEntity> selectedBattleEntity = new() { new BattleEntity(selectedCharacter) };
+            BattleEventBus<BattleEntitySelectedEvent>.Raise(new BattleEntitySelectedEvent(CombatParticipantType.Friendly, selectedBattleEntity));
+            return true;
         }
 
         // Private functions
         private void UpdateColor()
         {
             if (battleEntity.combatParticipant.IsDead() && // Bypass irrelevant slide states on character death
-                (slideState == SlideState.Ready || slideState == SlideState.Selected || slideState == SlideState.Cooldown))
+                slideState is SlideState.Ready or SlideState.Selected or SlideState.Cooldown)
             {
                 selectHighlight.color = deadCharacterFrameColor;
                 return;
@@ -194,9 +198,9 @@ namespace Frankie.Combat.UI
             };
         }
 
-        private void UpdateName(string name)
+        private void UpdateName(string characterName)
         {
-            characterNameField.text = name;
+            characterNameField.text = characterName;
         }
 
         private void UpdateHP(float hitPoints)

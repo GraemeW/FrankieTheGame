@@ -32,7 +32,7 @@ namespace Frankie.Control
         [SerializeField] private string messageCannotFight = "You are wounded and cannot fight.";
         [Header("Parameters")]
         [SerializeField] private int maxEnemiesPerCombat = 12;
-        [Tooltip("seconds, incl. battle fade-out time")][SerializeField] private float collisionDisableTimePostCombat = 4.0f;
+        [Tooltip("seconds, incl. battle fade-out time")][SerializeField] private float immunityTimePostCombat = 3.5f;
 
         // State Information
         // Player
@@ -500,7 +500,7 @@ namespace Frankie.Control
         private IEnumerator TimedCollisionDisable()
         {
             SetPlayerImmunity(true);
-            yield return new WaitForSeconds(collisionDisableTimePostCombat);
+            yield return new WaitForSeconds(immunityTimePostCombat);
             SetPlayerImmunity(false);
         }
         

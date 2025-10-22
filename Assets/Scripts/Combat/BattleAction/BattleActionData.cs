@@ -7,81 +7,102 @@ namespace Frankie.Combat
 {
     public class BattleActionData
     {
-        CombatParticipant sender;
-        List<BattleEntity> targets = new List<BattleEntity>();
-        public int targetCount;
+        private readonly CombatParticipant sender;
+        private BattleEntity focalTarget;
+        private readonly List<BattleEntity> targets = new();
 
         public BattleActionData(CombatParticipant sender)
         {
             this.sender = sender;
         }
 
-        public CombatParticipant GetSender()
-        {
-            return sender;
-        }
+        #region Getters
+        public CombatParticipant GetSender() => sender;
+        public bool HasTarget(CombatParticipant combatParticipant) => targets.Any(target => target.combatParticipant == combatParticipant);
+        public IList<BattleEntity> GetTargets() => targets.AsReadOnly();
+        public List<BattleEntity> GetTargetsCopy() => new(targets);
+        public BattleEntity GetFocalTarget() => focalTarget;
+        public bool HasTargets() => targets.Count > 0;
+        #endregion
 
+        #region Setters
+        public void SetFocalTarget(TargetingNavigationType targetingNavigationType)
+        {
+            if (targets.Count == 0) { return; }
+            if (focalTarget == null || !targets.Contains(focalTarget)) { SetDefaultFocalTarget(); return; }
+            
+            switch (targetingNavigationType)
+            {
+                case TargetingNavigationType.Right:
+                case TargetingNavigationType.Left:
+                    focalTarget = TargetingStrategy.GetColumnShiftedTarget(focalTarget, targets, targetingNavigationType);
+                    return;
+                case TargetingNavigationType.Up:
+                case TargetingNavigationType.Down:
+                    focalTarget = TargetingStrategy.GetRowShiftedTarget(focalTarget, targets, targetingNavigationType);
+                    return;
+                case TargetingNavigationType.Hold:
+                default:
+                    return;
+            }
+        }
+        
         public void SetTargets(BattleEntity target)
         {
-            targets.Clear();
+            if (target == null) { ClearTargets(); return; }
+            
+            ClearTargets();
+            focalTarget = target;
             targets.Add(target);
-            targetCount = 1;
+        }
+        
+        public void SetTargets(IEnumerable<BattleEntity> setTargets)
+        {
+            if (setTargets == null) { ClearTargets(); return; }
+
+            targets.Clear();
+            foreach (BattleEntity target in setTargets) { targets.Add(target); }
+            if (focalTarget == null) { SetDefaultFocalTarget(); }
+        }
+        
+        public void SetTargetFromFocalTarget()
+        {
+            if (focalTarget == null) { SetDefaultFocalTarget(); }
+            if (focalTarget == null) { ClearTargets(); return; }
+            
+            targets.Clear();
+            targets.Add(focalTarget);
         }
 
-        public void SetTargets(IEnumerable<BattleEntity> targets)
+        private void ClearTargets()
         {
-            if (targets == null) { this.targets.Clear(); targetCount = 0; return; }
-
-            List<BattleEntity> targetList = targets.ToList();
-            SetTargets(targetList);
-        }
-
-        public void SetTargets(List<BattleEntity> targets)
-        {
-            if (targets == null) { this.targets.Clear(); targetCount = 0; return; }
-
-            this.targets = targets;
-            targetCount = targets.Count;
-        }
-
-        public void ClearTargets()
-        {
-            targetCount = 0;
+            focalTarget = null;
             targets.Clear();
         }
+        #endregion
 
-        public void ReverseTargets()
-        {
-            targets.Reverse();
-        }
-
-        public bool HasTarget(CombatParticipant combatParticipant)
-        {
-            foreach (BattleEntity target in targets)
-            {
-                if (target.combatParticipant == combatParticipant) { return true; }
-            }
-            return false;
-        }
-
-        public List<BattleEntity> GetTargets()
-        {
-            return targets;
-        }
-
-        public BattleEntity GetFirst()
-        {
-            return targets.FirstOrDefault();
-        }
-
-        public BattleEntity GetLast()
-        {
-            return targets.LastOrDefault();
-        }
-
+        #region Utility
         public void StartCoroutine(IEnumerator coroutine)
         {
             sender.GetComponent<MonoBehaviour>().StartCoroutine(coroutine);
         }
+        
+        private void SetDefaultFocalTarget()
+        {
+            List<BattleEntity> tryBattleEntities = targets.Where(target => target.row == BattleMat.GetDefaultBattleRow()).ToList();
+            switch (tryBattleEntities.Count)
+            {
+                case 1:
+                    focalTarget = tryBattleEntities[0]; 
+                    return;
+                case > 1:
+                    focalTarget = tryBattleEntities.OrderBy(target => Mathf.Abs(target.column - BattleMat.GetDefaultBattleColumn())).First();
+                    return;
+                default:
+                    focalTarget = targets.OrderBy(target => Mathf.Abs(target.column - BattleMat.GetDefaultBattleColumn())).First();
+                    return;
+            }
+        }
+        #endregion
     }
 }

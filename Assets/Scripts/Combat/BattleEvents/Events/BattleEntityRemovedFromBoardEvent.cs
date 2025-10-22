@@ -5,10 +5,10 @@ namespace Frankie.Combat
         public BattleEventType battleEventType => BattleEventType.BattleEntityRemovedFromBoard;
 
         public BattleEntity battleEntity;
-        public int row;
+        public BattleRow row;
         public int column;
 
-        public BattleEntityRemovedFromBoardEvent(BattleEntity battleEntity, int row, int column)
+        public BattleEntityRemovedFromBoardEvent(BattleEntity battleEntity, BattleRow row, int column)
         {
             this.battleEntity = battleEntity;
             this.row = row;

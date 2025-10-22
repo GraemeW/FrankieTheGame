@@ -19,8 +19,12 @@ namespace Frankie.Combat.UI
         [Header("Parents")]
         [SerializeField] private Canvas canvas;
         [SerializeField] private Transform playerPanelParent;
-        [SerializeField] private Transform frontRowParent;
-        [SerializeField] private Transform backRowParent;
+        [SerializeField] private Transform topRowParent;
+        [SerializeField] private Transform[] topRowColumns;
+        [SerializeField] private Transform midRowParent;
+        [SerializeField] private Transform[] midRowColumns;
+        [SerializeField] private Transform bottomRowParent;
+        [SerializeField] private Transform[] bottomRowColumns;
         [SerializeField] private Image backgroundFill;
         [SerializeField] private MovingBackgroundProperties defaultMovingBackgroundProperties;
         [SerializeField] private Transform infoChooseParent;
@@ -92,6 +96,7 @@ namespace Frankie.Combat.UI
             if (partyCombatConduit == null || battleController == null) { Destroy(gameObject); return; }
 
             battleRewards = battleController.GetBattleRewards();
+            skillSelection.SetupBattleController(battleController);
             combatOptions.Setup(battleController, this, partyCombatConduit);
             combatOptions.TakeControl(battleController, this, null);
 
@@ -117,11 +122,9 @@ namespace Frankie.Combat.UI
 
         private void Update()
         {
-            if (!busyWithSerialAction && queuedUISequences.Count != 0)
-            {
-                Action nextUISequence = queuedUISequences.Dequeue();
-                StartSerialAction(nextUISequence);
-            }
+            if (busyWithSerialAction || queuedUISequences.Count == 0) return;
+            Action nextUISequence = queuedUISequences.Dequeue();
+            StartSerialAction(nextUISequence);
         }
         #endregion
 
@@ -155,49 +158,43 @@ namespace Frankie.Combat.UI
             if (state == lastBattleState) { return; } // Only act on state changes
             lastBattleState = state;
 
-            if (state == BattleState.Intro)
+            switch (state)
             {
-                SetupBackgroundFill(battleController.GetEnemies());
-                SetupEntryMessage(battleController.GetEnemies());
-            }
-            else if (state == BattleState.PreCombat)
-            {
-                skillSelection.gameObject.SetActive(false);
-                combatOptions.SetCombatOptions(true);
-            }
-            else if (state == BattleState.Combat)
-            {
-                combatLog.AddCombatLogText("  Combat Started . . . ");
-                combatLog.gameObject.SetActive(true);
-                skillSelection.gameObject.SetActive(true);
-            }
-            else if (state == BattleState.Outro || state == BattleState.Rewards)
-            {
-                if (outroQueued) { return; }
+                case BattleState.Intro:
+                    SetupBackgroundFill(battleStateChangedEvent.enemies);
+                    SetupEntryMessage(battleStateChangedEvent.enemies);
+                    break;
+                case BattleState.PreCombat:
+                    skillSelection.gameObject.SetActive(false);
+                    combatOptions.SetCombatOptions(true);
+                    break;
+                case BattleState.Combat:
+                    combatLog.AddCombatLogText("  Combat Started . . . ");
+                    combatLog.gameObject.SetActive(true);
+                    skillSelection.gameObject.SetActive(true);
+                    break;
+                case BattleState.Outro:
+                case BattleState.Rewards:
+                {
+                    if (outroQueued) { return; }
 
-                combatLog.gameObject.SetActive(false);
-                skillSelection.gameObject.SetActive(false);
-                queuedUISequences.Enqueue(() => SetupExperienceMessage(battleOutcome));
-                SetupAllLootMessages(battleOutcome); // Parent function to queue a number of additional loot messages into UI sequences
-                queuedUISequences.Enqueue(() => SetupExitMessage(battleOutcome));
-                outroQueued = true;
+                    combatLog.gameObject.SetActive(false);
+                    skillSelection.gameObject.SetActive(false);
+                    queuedUISequences.Enqueue(() => SetupExperienceMessage(battleOutcome));
+                    SetupAllLootMessages(battleOutcome); // Parent function to queue a number of additional loot messages into UI sequences
+                    queuedUISequences.Enqueue(() => SetupExitMessage(battleOutcome));
+                    outroQueued = true;
+                    break;
+                }
             }
         }
         
         private void ClearBattleCanvas()
         {
-            foreach (Transform child in playerPanelParent)
-            {
-                Destroy(child.gameObject);
-            }
-            foreach (Transform child in frontRowParent)
-            {
-                Destroy(child.gameObject);
-            }
-            foreach (Transform child in backRowParent)
-            {
-                Destroy(child.gameObject);
-            }
+            foreach (Transform child in playerPanelParent) { Destroy(child.gameObject); }
+            foreach (Transform columnEntry in topRowColumns) { foreach (Transform child in columnEntry) { Destroy(child.gameObject); } }
+            foreach (Transform columnEntry in midRowColumns) { foreach (Transform child in columnEntry) { Destroy(child.gameObject); } }
+            foreach (Transform columnEntry in bottomRowColumns) { foreach (Transform child in columnEntry) { Destroy(child.gameObject); } }
         }
 
         private void SetupBattleEntity(BattleEntityAddedEvent battleEntityAddedEvent)
@@ -223,8 +220,30 @@ namespace Frankie.Combat.UI
 
         private void SetupEnemy(BattleEntity battleEntity)
         {
-            Transform parentSpawn = (battleEntity.row == 0) ? frontRowParent : backRowParent;
-            EnemySlide enemySlide = Instantiate(enemySlidePrefab, parentSpawn);
+            Transform spawnLocation;
+            Transform[] columnEntries = battleEntity.row switch
+            {
+                BattleRow.Middle => midRowColumns,
+                BattleRow.Top => topRowColumns,
+                BattleRow.Bottom => bottomRowColumns,
+                _ => midRowColumns
+            };
+            
+            if (battleEntity.column >= columnEntries.Length)
+            {
+                // Default to spawn directly in parent if column matching doesn't exist
+                spawnLocation = battleEntity.row switch
+                {
+                    BattleRow.Middle => midRowParent,
+                    BattleRow.Top => topRowParent,
+                    BattleRow.Bottom => bottomRowParent,
+                    _ => midRowParent
+                };
+                Debug.Log($"Warning -- battle entity column ({battleEntity.column}) out of index for BattleCanvas");
+            }
+            else { spawnLocation = columnEntries[battleEntity.column]; }
+            
+            EnemySlide enemySlide = Instantiate(enemySlidePrefab, spawnLocation);
             enemySlide.SetBattleEntity(battleEntity);
             combatLog.AddCombatListener(battleEntity.combatParticipant);
 
@@ -252,7 +271,7 @@ namespace Frankie.Combat.UI
             combatLog.AddCombatListener(assistCharacter.combatParticipant);
         }
 
-        private void SetupBackgroundFill(List<BattleEntity> enemies)
+        private void SetupBackgroundFill(IList<BattleEntity> enemies)
         {
             int enemyIndex = UnityEngine.Random.Range(0, enemies.Count);
             MovingBackgroundProperties movingBackgroundProperties = enemies[enemyIndex].combatParticipant.GetMovingBackgroundProperties();
@@ -273,23 +292,15 @@ namespace Frankie.Combat.UI
         private void StartSerialAction(Action action)
         {
             // !! It is the responsibility of the called action to reset busyWithSerialAction toggle !!
-            if (action != null)
-            {
-                busyWithSerialAction = true;
-                action.Invoke();
-            }
+            if (action == null) return;
+            busyWithSerialAction = true;
+            action.Invoke();
         }
 
         private void HandleLevelUp(BaseStats baseStats, int level, Dictionary<Stat, float> levelUpSheet)
         {
-            List<Tuple<string, int>> statNameValuePairs = new List<Tuple<string, int>>();
-            foreach (KeyValuePair<Stat, float> entry in levelUpSheet)
-            {
-                Tuple<string, int> statNameValuePair = new Tuple<string, int>(entry.Key.ToString(), Mathf.RoundToInt(entry.Value));
-                statNameValuePairs.Add(statNameValuePair);
-            }
-
-            CharacterLevelUpSheetPair characterLevelUpSheetPair = new CharacterLevelUpSheetPair
+            var statNameValuePairs = levelUpSheet.Select(entry => new Tuple<string, int>(entry.Key.ToString(), Mathf.RoundToInt(entry.Value))).ToList();
+            var characterLevelUpSheetPair = new CharacterLevelUpSheetPair
             {
                 baseStats = baseStats,
                 level = level,
@@ -298,12 +309,12 @@ namespace Frankie.Combat.UI
             queuedLevelUps.Add(characterLevelUpSheetPair);
         }
 
-        private void SetupEntryMessage(List<BattleEntity> enemies)
+        private void SetupEntryMessage(IList<BattleEntity> enemies)
         {
             BattleEntity enemy = enemies.FirstOrDefault();
             if (enemy == null) { return; }
             
-            string entryMessage = (enemies.Count > 1) ? string.Format(messageEncounterMultiple, enemy.combatParticipant.GetCombatName()) : string.Format(messageEncounterSingle, enemy.combatParticipant.GetCombatName());
+            var entryMessage = (enemies.Count > 1) ? string.Format(messageEncounterMultiple, enemy.combatParticipant.GetCombatName()) : string.Format(messageEncounterSingle, enemy.combatParticipant.GetCombatName());
 
             DialogueBox dialogueBox = Instantiate(dialogueBoxPrefab, infoChooseParent);
             dialogueBox.AddText(entryMessage);
@@ -357,8 +368,7 @@ namespace Frankie.Combat.UI
 
         private void SetupPreLootMessage(BattleOutcome battleOutcome)
         {
-            if (battleOutcome != BattleOutcome.Won) { busyWithSerialAction = false; return; }
-            if (!battleRewards.HasLootCart()) { busyWithSerialAction = false; return; }
+            if (battleOutcome != BattleOutcome.Won || !battleRewards.HasLootCart()) { busyWithSerialAction = false; return; }
 
             DialogueBox dialogueBox = Instantiate(dialogueBoxPrefab, infoChooseParent);
             dialogueBox.AddText(string.Format(messageGainedLoot, partyCombatConduit.GetPartyLeaderName()));
@@ -433,19 +443,13 @@ namespace Frankie.Combat.UI
 
         private void SetupExitMessage(BattleOutcome battleOutcome)
         {
-            string exitMessage = "";
-            if (battleOutcome == BattleOutcome.Won)
+            string exitMessage = battleOutcome switch
             {
-                exitMessage = messageBattleCompleteWon;
-            }
-            else if (battleOutcome == BattleOutcome.Lost)
-            {
-                exitMessage = messageBattleCompleteLost;
-            }
-            else if (battleOutcome == BattleOutcome.Ran)
-            {
-                exitMessage = messageBattleCompleteRan;
-            }
+                BattleOutcome.Won => messageBattleCompleteWon,
+                BattleOutcome.Lost => messageBattleCompleteLost,
+                BattleOutcome.Ran => messageBattleCompleteRan,
+                _ => ""
+            };
 
             DialogueBox dialogueBox = Instantiate(dialogueBoxPrefab, infoChooseParent);
             dialogueBox.AddText(exitMessage);

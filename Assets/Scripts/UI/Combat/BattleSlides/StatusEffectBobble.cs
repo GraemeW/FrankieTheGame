@@ -7,31 +7,31 @@ namespace Frankie.Combat.UI
     {
         // Tunables
         [Header("Hookups")]
-        [SerializeField] GameObject healingIcon = null;
-        [SerializeField] GameObject damageIcon = null;
-        [SerializeField] GameObject brawnIcon = null;
-        [SerializeField] GameObject beautyIcon = null;
-        [SerializeField] GameObject smartsIcon = null;
-        [SerializeField] GameObject nimbleIcon = null;
-        [SerializeField] GameObject luckIcon = null;
-        [SerializeField] GameObject pluckIcon = null;
-        [SerializeField] GameObject increaseModifier = null;
-        [SerializeField] GameObject decreaseModifier = null;
+        [SerializeField] private GameObject healingIcon;
+        [SerializeField] private GameObject damageIcon;
+        [SerializeField] private GameObject brawnIcon;
+        [SerializeField] private GameObject beautyIcon;
+        [SerializeField] private GameObject smartsIcon;
+        [SerializeField] private GameObject nimbleIcon;
+        [SerializeField] private GameObject luckIcon;
+        [SerializeField] private GameObject pluckIcon;
+        [SerializeField] private GameObject increaseModifier;
+        [SerializeField] private GameObject decreaseModifier;
 
         // State
-        PersistentStatus persistentStatus = null;
-        Stat statusEffectType = default; // Default, override in setup
-        bool isIncrease = true; // Default, override in setup
+        private PersistentStatus persistentStatus;
+        private Stat statusEffectType; // Default, override in setup
+        private bool isIncrease = true; // Default, override in setup
 
         // Methods
-        public void Setup(PersistentStatus persistentStatus)
+        public void Setup(PersistentStatus setPersistentStatus)
         {
-            if (persistentStatus == null) { return; }
+            if (setPersistentStatus == null) { return; }
 
-            this.persistentStatus = persistentStatus;
-            this.statusEffectType = persistentStatus.GetStatusEffectType();
-            this.isIncrease = persistentStatus.IsIncrease();
-            this.persistentStatus.persistentStatusTimedOut += RemoveIconOnTimeout;
+            persistentStatus = setPersistentStatus;
+            statusEffectType = setPersistentStatus.GetStatusEffectType();
+            isIncrease = setPersistentStatus.IsIncrease();
+            persistentStatus.persistentStatusTimedOut += RemoveIconOnTimeout;
             ToggleOffIcons();
             SetModifier(); // Must call before ToggleIcon (modifier impacts icon)
             ToggleIcon();

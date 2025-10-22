@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Frankie.Core;
@@ -9,21 +8,26 @@ namespace Frankie.Combat
     [RequireComponent(typeof(SkillHandler))]
     public class BattleAI : MonoBehaviour, IPredicateEvaluator
     {
+        // Note:  Ally/foe refers to that mob's disposition specifically -- i.e. as a function of if it's friendly to characters
+        
         // Tunables
-        [SerializeField][Range(0, 1)] float probabilityToTraverseSkillTree = 0.8f;
-        [SerializeField] bool useRandomSelectionOnNoPriorities = true;
-        [SerializeField] BattleAIPriority[] battleAIPriorities = null;
+        [SerializeField] private float actionQueuePollingPeriod = 0.1f;
+        [SerializeField][Range(0, 1)] private float probabilityToTraverseSkillTree = 0.8f;
+        [SerializeField] private bool useRandomSelectionOnNoPriorities = true;
+        [SerializeField] private BattleAIPriority[] battleAIPriorities;
 
         // State
-        List<Skill> skillsToExclude = new List<Skill>();
-        List<BattleEntity> localAllies = new List<BattleEntity>();
-        List<BattleEntity> localFoes = new List<BattleEntity>();
-
+        private bool inActiveCombat = false;
+        private float pollingTime = 0f;
+        private readonly List<Skill> skillsToExclude = new();
+        private List<BattleEntity> localAllies = new();
+        private List<BattleEntity> localFoes = new();
 
         // Cached References
-        CombatParticipant combatParticipant = null;
-        SkillHandler skillHandler = null;
-        BattleController battleController = null;
+        private CombatParticipant combatParticipant;
+        private SkillHandler skillHandler;
+        private IList<BattleEntity> cachedAllies;
+        private IList<BattleEntity> cachedFoes;
 
         #region UnityMethods
         private void Awake()
@@ -34,18 +38,25 @@ namespace Frankie.Combat
 
         private void OnEnable()
         {
-            combatParticipant.enterCombat += UpdateBattleController;
+            combatParticipant.enteredBattle += SubscribeToBattle;
         }
 
         private void OnDisable()
         {
-            combatParticipant.enterCombat -= UpdateBattleController;
+            combatParticipant.enteredBattle -= SubscribeToBattle;
         }
 
         private void Update()
         {
-            if (battleController == null) { return; }
-            QueueNextAction();
+            if (!inActiveCombat) { return; }
+            pollingTime += Time.deltaTime;
+            if (pollingTime >= actionQueuePollingPeriod)
+            {
+                // Note:  We could listen for CooldownExpired event, but this can be brittle
+                // It's relatively inexpensive to just poll for availability given enemy count
+                QueueNextAction();
+                pollingTime = 0f;
+            }
         }
         #endregion
 
@@ -55,62 +66,73 @@ namespace Frankie.Combat
         #endregion
 
         #region PrivateMethods
-        private void UpdateBattleController(bool active)
+        private void SubscribeToBattle() { SubscribeToBattle(true); }
+        private void SubscribeToBattle(bool enable)
         {
-            if (active)
+            if (enable)
             {
-                battleController = BattleController.FindBattleController();
-                skillsToExclude.Clear();
+                BattleEventBus<BattleStateChangedEvent>.SubscribeToEvent(HandleBattleStateChangedEvent);
             }
-            else 
-            { 
-                battleController = null; 
+            else
+            {
+                BattleEventBus<BattleStateChangedEvent>.UnsubscribeFromEvent(HandleBattleStateChangedEvent);
+            }
+        }
+
+        private void HandleBattleStateChangedEvent(BattleStateChangedEvent battleStateChangedEvent)
+        {
+            inActiveCombat = false;
+            switch (battleStateChangedEvent.battleState)
+            {
+                case BattleState.Combat:
+                    cachedAllies = combatParticipant.GetFriendly() ? battleStateChangedEvent.characters : battleStateChangedEvent.enemies;
+                    cachedFoes = combatParticipant.GetFriendly() ? battleStateChangedEvent.enemies : battleStateChangedEvent.characters;
+                    skillsToExclude.Clear();
+                    inActiveCombat = true;
+                    break;
+                case BattleState.Outro:
+                    SubscribeToBattle(false);
+                    break;
             }
         }
 
         private void QueueNextAction()
         {
-            if (battleController.GetBattleState() == BattleState.Combat 
-                && !combatParticipant.IsDead() && combatParticipant.IsInCombat() && !combatParticipant.IsInCooldown())
+            if (!BattleController.IsCombatParticipantAvailableToAct(combatParticipant)) { return; }
+            
+            // Define local lists of characters -- required to copy since shuffling (if pertinent) done in place
+            localAllies = new List<BattleEntity>(cachedAllies);
+            localFoes = new List<BattleEntity>(cachedFoes);
+                
+            Skill skill = GetSkill(out BattleAIPriority battleAIPriority);
+            if (skill == null) { return; }
+            if (battleAIPriority == null && !useRandomSelectionOnNoPriorities) { return; } // Edge case, should be caught by above -- do nothing if no smarter AIs available
+
+            var battleActionData = new BattleActionData(combatParticipant);
+            if (battleAIPriority != null)
             {
-                bool isFriendly = combatParticipant.GetFriendly();
-                // Define local lists of characters -- required to copy since shuffling (if pertinent) done in place
-                // Note:  Ally/foe refers to that mob's disposition specifically, i.e. as a function of if it's friendly to characters
-                localAllies = isFriendly ? new List<BattleEntity>(battleController.GetCharacters()) : new List<BattleEntity>(battleController.GetEnemies());
-                localFoes = isFriendly ? new List<BattleEntity>(battleController.GetEnemies()) : new List<BattleEntity>(battleController.GetCharacters()); 
-
-                Skill skill = GetSkill(out BattleAIPriority battleAIPriority, localAllies, localFoes);
-                if (skill == null) { return; }
-                if (battleAIPriority == null && !useRandomSelectionOnNoPriorities) { return; } // Edge case, should be caught by above -- do nothing if no smarter AIs available
-
-                BattleActionData battleActionData = new BattleActionData(combatParticipant);
-                if (battleAIPriority != null)
-                {
-                    battleAIPriority.SetTarget(this, battleActionData, skill);
-                }
-                else
-                {
-                    BattleAIPriority.SetRandomTarget(this, battleActionData, skill);
-                }
-
-                // If targetCount is 0, skill isn't possible -- prohibit skill from selection & restart
-                if (battleActionData.targetCount == 0)
-                {
-                    skillsToExclude.Add(skill);
-                    QueueNextAction();
-                }
-                else
-                {
-                    // Useful Debug
-                    //string targetNames = string.Concat(battleActionData.GetTargets().Select(x => x.name));
-                    //UnityEngine.Debug.Log($"{battleActionData.GetSender().name} adding action {skill.name} to queue for targets {targetNames}");
-                    battleController.AddToBattleQueue(battleActionData, skill);
-                    ClearSelectionMemory();
-                }
+                battleAIPriority.SetTarget(this, battleActionData, skill);
+            }
+            else
+            {
+                BattleAIPriority.SetRandomTarget(this, battleActionData, skill);
+            }
+            
+            // If targetCount is 0, skill isn't possible -- prohibit skill from selection & restart
+            if (!battleActionData.HasTargets())
+            {
+                skillsToExclude.Add(skill);
+                QueueNextAction();
+            }
+            else
+            {
+                var battleSequence = new BattleSequence(skill, battleActionData);
+                BattleEventBus<BattleQueueUpdatedEvent>.Raise(new BattleQueueUpdatedEvent(battleSequence));
+                ClearSelectionMemory();
             }
         }
 
-        private Skill GetSkill(out BattleAIPriority chosenBattleAIPriority, List<BattleEntity> localAllies, List<BattleEntity> localFoes)
+        private Skill GetSkill(out BattleAIPriority chosenBattleAIPriority)
         {
             Skill skill = null;
             if (battleAIPriorities != null)

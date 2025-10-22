@@ -6,10 +6,10 @@ public class CombatMessages : MonoBehaviour
 {
     // Tunables
     [Header("Hook-Ups")]
-    [SerializeField] Transform messageParent = null;
-    [SerializeField] DialogueBox dialogueBoxPrefab = null;
+    [SerializeField] private Transform messageParent;
+    [SerializeField] private DialogueBox dialogueBoxPrefab;
     [Header("Messages")]
-    [Tooltip("Include {0} for item")] [SerializeField] string messageItemToBeUsed = "Use the item {0} on whom?";
+    [Tooltip("Include {0} for item")] [SerializeField] private string messageItemToBeUsed = "Use the item {0} on whom?";
 
     private void OnEnable()
     {

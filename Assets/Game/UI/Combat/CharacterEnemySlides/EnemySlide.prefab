@@ -16,6 +16,7 @@ GameObject:
   - component: {fileID: 1549802908350268869}
   - component: {fileID: 6950518023995724007}
   - component: {fileID: 4698799727439804254}
+  - component: {fileID: 4735543844345281139}
   m_Layer: 0
   m_Name: EnemySlide
   m_TagString: Untagged
@@ -39,12 +40,11 @@ RectTransform:
   - {fileID: 9035007462238235270}
   - {fileID: 3342255874040108866}
   m_Father: {fileID: 0}
-  m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
   m_AnchoredPosition: {x: 150, y: -125}
-  m_SizeDelta: {x: 350, y: 400}
+  m_SizeDelta: {x: 0, y: 400}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &8084332478573959330
 CanvasRenderer:
@@ -98,7 +98,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_IgnoreLayout: 0
   m_MinWidth: -1
-  m_MinHeight: -1
+  m_MinHeight: 175
   m_PreferredWidth: 350
   m_PreferredHeight: 400
   m_FlexibleWidth: -1
@@ -134,9 +134,9 @@ MonoBehaviour:
   - battleEntityType: 0
     imageSize: {x: 350, y: 400}
   - battleEntityType: 1
-    imageSize: {x: 250, y: 300}
+    imageSize: {x: 175, y: 200}
   - battleEntityType: 2
-    imageSize: {x: 450, y: 500}
+    imageSize: {x: 420, y: 480}
   deathFadeTime: 1
 --- !u!114 &1549802908350268869
 MonoBehaviour:
@@ -209,6 +209,20 @@ CanvasGroup:
   m_Interactable: 1
   m_BlocksRaycasts: 1
   m_IgnoreParentGroups: 0
+--- !u!114 &4735543844345281139
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3482937601263179775}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 86710e43de46f6f4bac7c8e50813a599, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.AspectRatioFitter
+  m_AspectMode: 2
+  m_AspectRatio: 0.875
 --- !u!1 &8195885607185393772
 GameObject:
   m_ObjectHideFlags: 0
@@ -241,7 +255,6 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 3259912119133338326}
-  m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
@@ -307,7 +320,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
-    serializedVersion: 2
+    serializedVersion: 3
     m_TransformParent: {fileID: 3259912119133338326}
     m_Modifications:
     - target: {fileID: 2738403736127729603, guid: bb23fb19604efe44ba36fdf355510867, type: 3}
@@ -423,7 +436,9 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
     m_AddedGameObjects: []
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: bb23fb19604efe44ba36fdf355510867, type: 3}
 --- !u!114 &1155107888240677527 stripped
 MonoBehaviour:
@@ -446,7 +461,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
-    serializedVersion: 2
+    serializedVersion: 3
     m_TransformParent: {fileID: 3259912119133338326}
     m_Modifications:
     - target: {fileID: 3043807274850528799, guid: 62fde190dbd5058468431404da4859af, type: 3}
@@ -562,7 +577,9 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
     m_AddedGameObjects: []
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 62fde190dbd5058468431404da4859af, type: 3}
 --- !u!224 &212913177598832489 stripped
 RectTransform:
