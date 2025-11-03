@@ -50,11 +50,6 @@ namespace Frankie.Combat
             if (playerStateMachine != null) { playerStateMachine.playerStateChanged -= HandlePlayerState; }
             BattleEventBus<BattleStateChangedEvent>.UnsubscribeFromEvent(HandleBattleState);
         }
-
-        private void OnDestroy()
-        {
-            persistentStatusTimedOut?.Invoke();
-        }
         #endregion
 
         #region PublicMethods
@@ -80,7 +75,7 @@ namespace Frankie.Combat
 
         private void SyncToBattle()
         {
-            if (BattleEventBus.inBattle == false)
+            if (!BattleEventBus.inBattle)
             {
                 if (persistAfterBattle) { active = true; }
                 else { Destroy(this); }
@@ -98,6 +93,7 @@ namespace Frankie.Combat
             duration -= Time.deltaTime;
             if (duration <= 0)
             {
+                persistentStatusTimedOut?.Invoke();
                 Destroy(this);
             }
         }
