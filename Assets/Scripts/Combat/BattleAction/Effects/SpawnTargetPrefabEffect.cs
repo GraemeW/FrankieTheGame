@@ -1,5 +1,4 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -10,9 +9,9 @@ namespace Frankie.Combat
     [CreateAssetMenu(fileName = "New Spawn Target Prefab Effect", menuName = "BattleAction/Effects/Spawn Target Prefab Effect")]
     public class SpawnTargetPrefabEffect : EffectStrategy
     {
-        [SerializeField] Image graphicToSpawn = null;
-        [SerializeField] bool isGlobalEffect = false;
-        [SerializeField][Tooltip("Set to min to never destroy")][Min(0f)] float destroyAfterSeconds = 2.0f;
+        [SerializeField] private Image graphicToSpawn;
+        [SerializeField] private bool isGlobalEffect = false;
+        [SerializeField][Tooltip("Set to min to never destroy")][Min(0f)] private float destroyAfterSeconds = 2.0f;
 
         public override void StartEffect(CombatParticipant sender, IEnumerable<BattleEntity> recipients, DamageType damageType, Action<EffectStrategy> finished)
         {

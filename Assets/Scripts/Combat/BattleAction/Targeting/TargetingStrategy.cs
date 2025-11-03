@@ -11,9 +11,7 @@ namespace Frankie.Combat
         [SerializeField] protected FilterStrategy[] filterStrategies;
         
         #region AbstractMethods
-        public abstract void SetTargets(TargetingNavigationType targetingNavigationType, BattleActionData battleActionData,
-            IEnumerable<BattleEntity> activeCharacters, IEnumerable<BattleEntity> activeEnemies);
-        protected abstract List<BattleEntity> GetBattleEntitiesByTypeTemplate(CombatParticipantType combatParticipantType, IEnumerable<BattleEntity> activeCharacters, IEnumerable<BattleEntity> activeEnemies);
+        public abstract void SetTargets(TargetingNavigationType targetingNavigationType, BattleActionData battleActionData, IEnumerable<BattleEntity> activeCharacters, IEnumerable<BattleEntity> activeEnemies);
         #endregion
         
         #region ProtectedMethods
@@ -106,7 +104,7 @@ namespace Frankie.Combat
                 _ => currentBattleEntityIndex
             };
             
-            UnityEngine.Debug.Log($"Current battle entity index: {currentBattleEntityIndex} @ column {focalTarget.column} updated to {nextBattleEntityIndex} @ column {tryBattleEntities[nextBattleEntityIndex].column}");
+            Debug.Log($"Current battle entity index: {currentBattleEntityIndex} @ column {focalTarget.column} updated to {nextBattleEntityIndex} @ column {tryBattleEntities[nextBattleEntityIndex].column}");
             return tryBattleEntities[nextBattleEntityIndex];
         }
         #endregion

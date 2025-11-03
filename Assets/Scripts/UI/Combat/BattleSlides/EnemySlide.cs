@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
@@ -33,6 +34,7 @@ namespace Frankie.Combat.UI
             {
                 case StateAlteredType.CooldownSet:
                     cooldownTimer.ResetTimer(stateAlteredInfo.points);
+                    cooldownTimer.SetPaused(float.IsPositiveInfinity(stateAlteredInfo.points));
                     break;
                 case StateAlteredType.CooldownExpired:
                     cooldownTimer.ResetTimer(0f);
@@ -82,6 +84,8 @@ namespace Frankie.Combat.UI
                 case StateAlteredType.FriendIgnored:
                     damageTextSpawner.AddToQueue(new DamageTextData(DamageTextType.Informational, "*lonely*"));
                     break;
+                default:
+                    throw new ArgumentOutOfRangeException();
             }
         }
 

@@ -200,6 +200,11 @@ namespace Frankie.Combat
             AnnounceStateUpdate(StateAlteredType.CooldownSet, cooldownTimer);
         }
 
+        public void PauseCooldown()
+        {
+            SetCooldown(Mathf.Infinity);
+        }
+
         public void IncrementCooldownStoreForRun()
         {
             cooldownStore += cooldownRunFailAdder;
@@ -291,25 +296,25 @@ namespace Frankie.Combat
 
         public void AnnounceStateUpdate(StateAlteredType stateAlteredType)
         {
-            StateAlteredInfo stateAlteredInfo = new StateAlteredInfo(this, stateAlteredType);
+            var stateAlteredInfo = new StateAlteredInfo(this, stateAlteredType);
             AnnounceStateUpdate(stateAlteredInfo);
         }
 
         public void AnnounceStateUpdate(StateAlteredType stateAlteredType, float points)
         {
-            StateAlteredInfo stateAlteredInfo = new StateAlteredInfo(this, stateAlteredType, points);
+            var stateAlteredInfo = new StateAlteredInfo(this, stateAlteredType, points);
             AnnounceStateUpdate(stateAlteredInfo);
         }
 
         public void AnnounceStateUpdate(StateAlteredType stateAlteredType, PersistentStatus persistentStatus)
         {
-            StateAlteredInfo stateAlteredInfo = new StateAlteredInfo(this, stateAlteredType, persistentStatus);
+            var stateAlteredInfo = new StateAlteredInfo(this, stateAlteredType, persistentStatus);
             AnnounceStateUpdate(stateAlteredInfo);
         }
 
         public void AnnounceStateUpdate(StateAlteredType stateAlteredType, Stat stat, float points)
         {
-            StateAlteredInfo stateAlteredInfo = new StateAlteredInfo(this, stateAlteredType, stat, points);
+            var stateAlteredInfo = new StateAlteredInfo(this, stateAlteredType, stat, points);
             AnnounceStateUpdate(stateAlteredInfo);
         }
         #endregion
@@ -372,7 +377,7 @@ namespace Frankie.Combat
         {
             if (cooldownStore == 0.0f) { return; }
 
-            Debug.Log($"Pre-Reconcile:  Cooldown @ {cooldownTimer}, Store @ {cooldownStore}");
+            //Debug.Log($"Pre-Reconcile:  Cooldown @ {cooldownTimer}, Store @ {cooldownStore}");
             float tryCooldown = cooldownTimer + cooldownStore;
             if (cooldownStore < 0.0f)
             {
@@ -396,7 +401,7 @@ namespace Frankie.Combat
                 }
                 else { cooldownTimer = tryCooldown; cooldownStore = 0.0f; }
             }
-            Debug.Log($"Post-Reconcile:  Cooldown @ {cooldownTimer}, Store @ {cooldownStore}");
+            //Debug.Log($"Post-Reconcile:  Cooldown @ {cooldownTimer}, Store @ {cooldownStore}");
         }
         
         private void ParseLevelUpMessage(BaseStats passBaseStats, int level, Dictionary<Stat, float> levelUpSheet)

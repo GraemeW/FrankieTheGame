@@ -18,7 +18,7 @@ MonoBehaviour:
   leftBranch: 
   rightSkillReference: GentlePraise
   rightBranch: 
-  downSkillReference: 
+  downSkillReference: PassGas
   downBranch: 
   rect:
     serializedVersion: 2

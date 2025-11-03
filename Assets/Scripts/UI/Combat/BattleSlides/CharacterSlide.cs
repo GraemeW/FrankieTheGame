@@ -99,6 +99,7 @@ namespace Frankie.Combat.UI
                 case StateAlteredType.CooldownSet:
                     slideState = SlideState.Cooldown;
                     cooldownTimer.ResetTimer(stateAlteredInfo.points);
+                    cooldownTimer.SetPaused(float.IsPositiveInfinity(stateAlteredInfo.points));
                     UpdateColor();
                     break;
                 case StateAlteredType.CooldownExpired:

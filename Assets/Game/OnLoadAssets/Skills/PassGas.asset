@@ -9,12 +9,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 00fa693035786c8448d801d3bfcfdb68, type: 3}
-  m_Name: ReduceLuckSmall
-  m_EditorClassIdentifier: 
-  fractionProbabilityToApply: 1
-  statusEffectType: 0
-  duration: 20
-  stat: 8
-  value: -4
-  persistAfterCombat: 0
+  m_Script: {fileID: 11500000, guid: 2d638f604ff65db4f9e75a2cc6eb7bd3, type: 3}
+  m_Name: PassGas
+  m_EditorClassIdentifier: Assembly-CSharp::Frankie.Combat.Skill
+  stat: 0
+  battleAction: {fileID: 11400000, guid: 8b8e44a2e5f3741edb831241ca4c27e4, type: 2}
+  detail: 

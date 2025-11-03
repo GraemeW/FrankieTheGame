@@ -25,12 +25,5 @@ namespace Frankie.Combat
             List<BattleEntity> rowTargets = battleActionData.GetTargets().Where(target => target.row == battleActionData.GetFocalTarget().row).ToList();
             battleActionData.SetTargets(rowTargets);
         }
-        
-        protected override List<BattleEntity> GetBattleEntitiesByTypeTemplate(CombatParticipantType combatParticipantType, IEnumerable<BattleEntity> activeCharacters,
-            IEnumerable<BattleEntity> activeEnemies)
-        {
-            // Not evaluated -> TargetingStrategyExtension
-            return new List<BattleEntity>();
-        }
     }
 }

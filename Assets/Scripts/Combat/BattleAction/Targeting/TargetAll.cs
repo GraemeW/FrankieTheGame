@@ -17,11 +17,5 @@ namespace Frankie.Combat
             
             // Done -- Pass back whole set
         }
-
-        protected override List<BattleEntity> GetBattleEntitiesByTypeTemplate(CombatParticipantType combatParticipantType, IEnumerable<BattleEntity> activeCharacters, IEnumerable<BattleEntity> activeEnemies)
-        {
-            // Not evaluated -> TargetingStrategyExtension
-            return new List<BattleEntity>();
-        }
     }
 }
