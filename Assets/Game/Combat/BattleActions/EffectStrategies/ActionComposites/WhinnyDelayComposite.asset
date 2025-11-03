@@ -15,4 +15,3 @@ MonoBehaviour:
   delay: 0.5
   effectStrategies:
   - {fileID: 11400000, guid: 23123aef36c04c84987a2d2b12f0c3af, type: 2}
-  - {fileID: 11400000, guid: 072bd61a483358e4cacc9f3aa945d82b, type: 2}

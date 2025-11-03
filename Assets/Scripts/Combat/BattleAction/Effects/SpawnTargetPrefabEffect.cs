@@ -1,4 +1,4 @@
-using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -13,10 +13,10 @@ namespace Frankie.Combat
         [SerializeField] private bool isGlobalEffect = false;
         [SerializeField][Tooltip("Set to min to never destroy")][Min(0f)] private float destroyAfterSeconds = 2.0f;
 
-        public override void StartEffect(CombatParticipant sender, IEnumerable<BattleEntity> recipients, DamageType damageType, Action<EffectStrategy> finished)
+        public override IEnumerator StartEffect(CombatParticipant sender, IList<BattleEntity> recipients, DamageType damageType)
         {
             BattleCanvas battleCanvas = BattleCanvas.FindBattleCanvas();
-            if (battleCanvas == null) { return; }
+            if (battleCanvas == null) { yield break; }
 
             foreach (Vector3 position in GetPositions(recipients, battleCanvas))
             {
@@ -28,8 +28,6 @@ namespace Frankie.Combat
                     Destroy(spawnedGraphic.gameObject, destroyAfterSeconds);
                 }
             }
-
-            finished?.Invoke(this);
         }
 
         private IEnumerable<Vector3> GetPositions(IEnumerable<BattleEntity> recipients, BattleCanvas battleCanvas)

@@ -1,4 +1,3 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -8,16 +7,16 @@ namespace Frankie.Combat
     [CreateAssetMenu(fileName = "New Health Effect", menuName = "BattleAction/Effects/Health Effect")]
     public class HealthEffect : EffectStrategy
     {
-        [Tooltip("Effective minimum change")][SerializeField] float healthChange = 0f;
-        [Tooltip("Added on top as range (0 to jitter), sign based on health change")][SerializeField][Min(0f)] float jitter = 0f;
-        [SerializeField] bool applyDamageTypeModifiers = true;
-        [SerializeField] bool canMiss = true;
-        [SerializeField] bool canCrit = true;
-        [SerializeField][Min(1f)] float critMultiplier = 2f;
+        [Tooltip("Effective minimum change")][SerializeField] private float healthChange;
+        [Tooltip("Added on top as range (0 to jitter), sign based on health change")][SerializeField][Min(0f)] private float jitter;
+        [SerializeField] private bool applyDamageTypeModifiers = true;
+        [SerializeField] private bool canMiss = true;
+        [SerializeField] private bool canCrit = true;
+        [SerializeField][Min(1f)] private float critMultiplier = 2f;
 
-        public override void StartEffect(CombatParticipant sender, IEnumerable<BattleEntity> recipients, DamageType damageType, Action<EffectStrategy> finished)
+        public override IEnumerator StartEffect(CombatParticipant sender, IList<BattleEntity> recipients, DamageType damageType)
         {
-            if (recipients == null) { return; }
+            if (recipients == null) { yield break; }
 
             float sign = Mathf.Sign(healthChange);
             foreach (BattleEntity recipient in recipients)
@@ -40,8 +39,6 @@ namespace Frankie.Combat
 
                 recipient.combatParticipant.AdjustHP(modifiedHealthChange);
             }
-
-            finished?.Invoke(this);
         }
     }
 }

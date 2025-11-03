@@ -1,4 +1,4 @@
-using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Frankie.Combat.Spawner;
@@ -17,17 +17,16 @@ namespace Frankie.Combat
         
         // Implemented Methods
         // Note:  Much of this is derivative of EnemySpawner, just done in combat -- if no battle controller is present, this function does nothing
-        public override void StartEffect(CombatParticipant sender, IEnumerable<BattleEntity> recipients, DamageType damageType, Action<EffectStrategy> finished)
+        public override IEnumerator StartEffect(CombatParticipant sender, IList<BattleEntity> recipients, DamageType damageType)
         {
             BattleController battleController = BattleController.FindBattleController();
             SpawnConfiguration spawnConfiguration = GetSpawnConfiguration();
-            if (battleController == null || spawnConfiguration == null || !HasViableSpawnConfiguration(spawnConfiguration)) { finished?.Invoke(this); return; }
+            if (battleController == null || spawnConfiguration == null || !HasViableSpawnConfiguration(spawnConfiguration)) { yield break; }
 
             if (!battleController.IsEnemyPositionAvailable() || battleController.GetCountEnemiesAddedMidCombat() >= maxEnemiesAllowedToCallInCombat)
             {
                 sender.AnnounceStateUpdate(StateAlteredType.FriendIgnored);
-                finished?.Invoke(this); 
-                return;
+                yield break;
             }
 
             bool friendFound = false;
@@ -51,7 +50,6 @@ namespace Frankie.Combat
             }
 
             sender.AnnounceStateUpdate(friendFound ? StateAlteredType.FriendFound : StateAlteredType.FriendIgnored);
-            finished?.Invoke(this);
         }
 
         // Private Methods

@@ -1,4 +1,3 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -9,26 +8,27 @@ namespace Frankie.Combat
     [CreateAssetMenu(fileName = "New DoT Effect", menuName = "BattleAction/Effects/DoT Effect")]
     public class HealthOverTimeEffect : EffectStrategy
     {
-        [SerializeField][Range(0, 1)] float fractionProbabilityToApply = 0.5f;
-        [SerializeField] float duration = 10f;
-        [SerializeField] float tickPeriod = 3f;
-        [SerializeField] float healthChangePerTick = -10f;
-        [SerializeField] bool persistAfterCombat = false;
+        [SerializeField][Range(0, 1)] private float fractionProbabilityToApply = 0.5f;
+        [SerializeField] private float duration = 10f;
+        [SerializeField] private float tickPeriod = 3f;
+        [SerializeField] private float healthChangePerTick = -10f;
+        [SerializeField] private bool persistAfterCombat = false;
 
-        public override void StartEffect(CombatParticipant sender, IEnumerable<BattleEntity> recipients, DamageType damageType, Action<EffectStrategy> finished)
+        public override IEnumerator StartEffect(CombatParticipant sender, IList<BattleEntity> recipients, DamageType damageType)
         {
-            if (recipients == null) { return; }
-            if (Mathf.Approximately(healthChangePerTick, 0f)) { return; }
+            if (recipients == null) { yield break; }
+            if (Mathf.Approximately(healthChangePerTick, 0f)) { yield break; }
 
             float numberOfTicks = duration / tickPeriod;
             float sign = Mathf.Sign(healthChangePerTick);
             foreach (BattleEntity recipient in recipients)
             {
                 float chanceRoll = UnityEngine.Random.Range(0f, 1f);
-                if (fractionProbabilityToApply < chanceRoll) { return; }
+                if (fractionProbabilityToApply < chanceRoll) { continue; }
 
                 PersistentRecurringStatus activeStatusEffect = recipient.combatParticipant.gameObject.AddComponent(typeof(PersistentRecurringStatus)) as PersistentRecurringStatus;
-
+                if (activeStatusEffect == null) { continue; }
+                
                 float modifiedHealthChangePerTick = healthChangePerTick;
                 modifiedHealthChangePerTick += damageType switch
                 {
@@ -51,8 +51,6 @@ namespace Frankie.Combat
 
                 recipient.combatParticipant.AnnounceStateUpdate(StateAlteredType.StatusEffectApplied, activeStatusEffect);
             }
-
-            finished?.Invoke(this);
         }
     }
 }

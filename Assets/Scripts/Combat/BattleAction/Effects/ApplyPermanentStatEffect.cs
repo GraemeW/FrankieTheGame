@@ -1,4 +1,3 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,13 +9,13 @@ namespace Frankie.Combat
     [CreateAssetMenu(fileName = "New Permanent Stat Effect", menuName = "BattleAction/Effects/Permanent Stat Effect")]
     public class ApplyPermanentStatEffect : EffectStrategy
     {
-        [SerializeField] Stat stat = Stat.HP;
-        [SerializeField] float value = 1f;
+        [SerializeField] private Stat stat = Stat.HP;
+        [SerializeField] private float value = 1f;
 
-        public override void StartEffect(CombatParticipant sender, IEnumerable<BattleEntity> recipients, DamageType damageType, Action<EffectStrategy> finished)
+        public override IEnumerator StartEffect(CombatParticipant sender, IList<BattleEntity> recipients, DamageType damageType)
         {
-            if (BaseStats.GetNonModifyingStats().Contains(stat)) { return; }
-            if (recipients == null) { return; }
+            if (BaseStats.GetNonModifyingStats().Contains(stat)) { yield break; }
+            if (recipients == null) { yield break; }
 
             foreach (BattleEntity battleEntity in recipients)
             {
@@ -25,8 +24,6 @@ namespace Frankie.Combat
 
                 battleEntity.combatParticipant.AnnounceStateUpdate(StateAlteredType.StatusEffectApplied, stat, value);
             }
-
-            finished?.Invoke(this);
         }
     }
 }

@@ -1,4 +1,3 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -8,12 +7,12 @@ namespace Frankie.Combat
     [CreateAssetMenu(fileName = "New AP Effect", menuName = "BattleAction/Effects/AP Effect")]
     public class APEffect : EffectStrategy
     {
-        [SerializeField] float apChange = 0f;
-        [Tooltip("Additional variability on base AP change")][SerializeField][Min(0f)] float jitter = 0f;
+        [SerializeField] private float apChange;
+        [Tooltip("Additional variability on base AP change")][SerializeField][Min(0f)] private float jitter;
 
-        public override void StartEffect(CombatParticipant sender, IEnumerable<BattleEntity> recipients, DamageType damageType, Action<EffectStrategy> finished)
+        public override IEnumerator StartEffect(CombatParticipant sender, IList<BattleEntity> recipients, DamageType damageType)
         {
-            if (recipients == null) { return; }
+            if (recipients == null) { yield break; }
 
             float sign = Mathf.Sign(apChange);
             foreach (BattleEntity recipient in recipients)
@@ -29,8 +28,6 @@ namespace Frankie.Combat
 
                 recipient.combatParticipant.AdjustAP(modifiedAPChange);
             }
-
-            finished?.Invoke(this);
         }
     }
 }
