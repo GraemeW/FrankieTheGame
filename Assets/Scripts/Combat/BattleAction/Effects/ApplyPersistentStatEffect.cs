@@ -1,4 +1,3 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,29 +9,28 @@ namespace Frankie.Combat
     [CreateAssetMenu(fileName = "New Persistent Stat Effect", menuName = "BattleAction/Effects/Persistent Stat Effect")]
     public class ApplyPersistentStatEffect : EffectStrategy
     {
-        [SerializeField][Range(0, 1)] float fractionProbabilityToApply = 0.5f;
-        [SerializeField] float duration = 10f;
-        [SerializeField] Stat stat = Stat.HP;
-        [SerializeField] float value = 1f;
-        [SerializeField] bool persistAfterCombat = false;
+        [SerializeField][Range(0, 1)] private float fractionProbabilityToApply = 0.5f;
+        [SerializeField] private float duration = 10f;
+        [SerializeField] private Stat stat = Stat.HP;
+        [SerializeField] private float value = 1f;
+        [SerializeField] private bool persistAfterCombat = false;
 
-        public override void StartEffect(CombatParticipant sender, IEnumerable<BattleEntity> recipients, DamageType damageType, Action<EffectStrategy> finished)
+        public override IEnumerator StartEffect(CombatParticipant sender, IList<BattleEntity> recipients, DamageType damageType)
         {
-            if (BaseStats.GetNonModifyingStats().Contains(stat)) { return; }
-            if (recipients == null) { return; }
+            if (BaseStats.GetNonModifyingStats().Contains(stat)) { yield break; }
+            if (recipients == null) { yield break; }
 
             foreach (BattleEntity battleEntity in recipients)
             {
                 float chanceRoll = UnityEngine.Random.Range(0f, 1f);
-                if (fractionProbabilityToApply < chanceRoll) { return; }
+                if (fractionProbabilityToApply < chanceRoll) { continue; }
 
                 PersistentStatModifierStatus activeStatusEffect = battleEntity.combatParticipant.gameObject.AddComponent(typeof(PersistentStatModifierStatus)) as PersistentStatModifierStatus;
+                if (activeStatusEffect == null) { continue; }
                 activeStatusEffect.Setup(duration, stat, value, persistAfterCombat);
 
                 battleEntity.combatParticipant.AnnounceStateUpdate(StateAlteredType.StatusEffectApplied, activeStatusEffect);
             }
-
-            finished?.Invoke(this);
         }
     }
 }

@@ -9,6 +9,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0a6dcb01345c2ef4087dc035b4a29d40, type: 3}
-  m_Name: TriggerResourcesCooldowns
+  m_Script: {fileID: 11500000, guid: a8dba856e40de69439a630619accf95b, type: 3}
+  m_Name: SetCooldown_8
   m_EditorClassIdentifier: 
+  cooldown: 8

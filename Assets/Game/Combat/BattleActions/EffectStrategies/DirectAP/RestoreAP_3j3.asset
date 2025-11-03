@@ -9,10 +9,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 91a8eaf862c9a124893bff0c35851e4a, type: 3}
-  m_Name: ShootTheShitDelayComposite
+  m_Script: {fileID: 11500000, guid: 518f18a73d22d824ea813c1a3fcc73e2, type: 3}
+  m_Name: RestoreAP_3j3
   m_EditorClassIdentifier: 
-  delay: 0
-  effectStrategies:
-  - {fileID: 11400000, guid: 8da65c091c69c084b954d76e4eb31dfc, type: 2}
-  - {fileID: 11400000, guid: 072bd61a483358e4cacc9f3aa945d82b, type: 2}
+  apChange: 3
+  jitter: 3

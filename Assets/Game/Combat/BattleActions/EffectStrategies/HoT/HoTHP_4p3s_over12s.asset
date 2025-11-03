@@ -9,8 +9,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8ba5e8eff1da65148869c08ad2464249, type: 3}
-  m_Name: PermanentIncrementBeautyLarge
+  m_Script: {fileID: 11500000, guid: 0e30d0381f78b344394e8c35b72a4583, type: 3}
+  m_Name: HoTHP_4p3s_over12s
   m_EditorClassIdentifier: 
-  stat: 5
-  value: 15
+  fractionProbabilityToApply: 1
+  statusEffectType: 0
+  duration: 12
+  tickPeriod: 3
+  healthChangePerTick: 4
+  persistAfterCombat: 0

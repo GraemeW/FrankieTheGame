@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
@@ -64,8 +65,6 @@ namespace Frankie.Combat
 
         public bool Use(BattleActionData battleActionData, Action finished)
         {
-            CheckForTriggerResources();
-
             if (battleActionData.GetSender().IsDead()) { finished.Invoke(); return false; }
             if (effectStrategies == null || !battleActionData.GetSender().HasAP(apCost) || !battleActionData.HasTargets())
             {
@@ -74,17 +73,10 @@ namespace Frankie.Combat
                 return false;
             }
 
-            // Useful Debug
-            //UnityEngine.Debug.Log($"Using battle action: {name}");
-            foreach (EffectStrategy effectStrategy in effectStrategies)
-            {
-                if (effectStrategy == null) { continue; }
-                // Useful Debug
-                //UnityEngine.Debug.Log($"Applying effect: {effectStrategy.name}");
+            CombatParticipant sender = battleActionData.GetSender();
+            IList<BattleEntity> recipients = battleActionData.GetTargets();
+            sender.StartCoroutine(EffectSequence(sender, recipients, finished));
 
-                effectStrategy.StartEffect(battleActionData.GetSender(), battleActionData.GetTargets(), damageType,
-                    childEffectStrategy => EffectFinished(battleActionData.GetSender(), childEffectStrategy, finished));
-            }
             return true;
         }
 
@@ -98,54 +90,17 @@ namespace Frankie.Combat
         #endregion
 
         #region PrivateMethods
-        private void EffectFinished(CombatParticipant sender, EffectStrategy effectStrategy, Action finished)
+        private IEnumerator EffectSequence(CombatParticipant sender, IList<BattleEntity> recipients, Action finished)
         {
-            if (effectStrategy.GetType() != typeof(TriggerResourcesCooldownsEffect)) return;
+            foreach (EffectStrategy effectStrategy in effectStrategies)
+            {
+                if (effectStrategy == null) { continue; }
+                yield return effectStrategy.StartEffect(sender, recipients, damageType);
+            }
+            
             sender.SetCooldown(cooldown);
             sender.AdjustAP(-apCost);
             finished?.Invoke();
-        }
-
-        private void CheckForTriggerResources()
-        {
-#if UNITY_EDITOR
-            int numberOfTriggerResources = CountTriggerResourcesEffects(effectStrategies);
-            switch (numberOfTriggerResources)
-            {
-                case 0:
-                    Debug.LogError($"Warning -- You need to add at least one trigger resources effect for the battle action: {name}");
-                    break;
-                case > 1:
-                    Debug.LogError($"Warning -- looks like there's more than one trigger resources for the battle action: {name}.  Remove the extra instances.");
-                    break;
-            }
-#endif
-        }
-
-        private static int CountTriggerResourcesEffects(EffectStrategy[] effectStrategiesToCheck)
-        {
-            int triggerResourceCount = 0;
-#if UNITY_EDITOR
-            foreach (EffectStrategy effectStrategy in effectStrategiesToCheck)
-            {
-                Type effectStrategyType = effectStrategy.GetType();
-
-                if (effectStrategyType == typeof(DelayCompositeEffect))
-                {
-                    var delayCompositeEffect = effectStrategy as DelayCompositeEffect;
-                    if (delayCompositeEffect != null)
-                    {
-                        triggerResourceCount += CountTriggerResourcesEffects(delayCompositeEffect.GetEffectStrategies());
-                    }
-                }
-
-                if (effectStrategyType == typeof(TriggerResourcesCooldownsEffect))
-                {
-                    triggerResourceCount++;
-                }
-            }
-#endif
-            return triggerResourceCount;
         }
         #endregion
     }

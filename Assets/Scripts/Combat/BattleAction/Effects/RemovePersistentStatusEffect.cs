@@ -1,4 +1,3 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -9,24 +8,23 @@ namespace Frankie.Combat
     public class RemovePersistentStatusEffect : EffectStrategy
     {
         // Tunables
-        [SerializeField] bool removePersistentRecurring = true;
-        [SerializeField] bool removePersistentStatModifier = true;
-        [SerializeField] [Range(0, 1)] float fractionProbabilityToRemove = 1.0f;
-        [Tooltip("Set to 0 to remove all")][Min(0)] [SerializeField] int numberOfEffectsToRemove = 0;
+        [SerializeField] private bool removePersistentRecurring = true;
+        [SerializeField] private bool removePersistentStatModifier = true;
+        [SerializeField] [Range(0, 1)] private float fractionProbabilityToRemove = 1.0f;
+        [Tooltip("Set to 0 to remove all")][Min(0)] [SerializeField] int numberOfEffectsToRemove;
 
-        public override void StartEffect(CombatParticipant sender, IEnumerable<BattleEntity> recipients, DamageType damageType, Action<EffectStrategy> finished)
+        public override IEnumerator StartEffect(CombatParticipant sender, IList<BattleEntity> recipients, DamageType damageType)
         {
-            if (!removePersistentRecurring && !removePersistentStatModifier) { return; }
-            if (recipients == null) { return; }
+            if (!removePersistentRecurring && !removePersistentStatModifier) { yield break; }
+            if (recipients == null) { yield break; }
 
             foreach (BattleEntity recipient in recipients)
             {
                 float chanceRoll = UnityEngine.Random.Range(0f, 1f);
-                if (fractionProbabilityToRemove < chanceRoll) { return; }
+                if (fractionProbabilityToRemove < chanceRoll) { continue; }
 
-                PersistentStatus[] persistentStatuses = GetRelevantStatuses(recipient.combatParticipant);
-                if (persistentStatuses == null || persistentStatuses.Length == 0) { return; }
-
+                var persistentStatuses = GetRelevantStatuses(recipient.combatParticipant);
+                if (persistentStatuses.Count == 0) { continue; }
                 persistentStatuses.Shuffle();
 
                 if (numberOfEffectsToRemove == 0) { numberOfEffectsToRemove = int.MaxValue; }
@@ -39,27 +37,24 @@ namespace Frankie.Combat
                     i++;
                 }
             }
-
-            finished?.Invoke(this);
         }
 
-        private PersistentStatus[] GetRelevantStatuses(CombatParticipant combatParticipant)
+        private IList<PersistentStatus> GetRelevantStatuses(CombatParticipant combatParticipant)
         {
-            PersistentStatus[] persistentStatuses = null;
+            var persistentStatuses = new List<PersistentStatus>();
 
             if (removePersistentRecurring && removePersistentStatModifier)
             {
-                persistentStatuses = combatParticipant.GetComponents<PersistentStatus>();
+                persistentStatuses.AddRange(combatParticipant.GetComponents<PersistentStatus>());
             }
             else if (removePersistentRecurring && !removePersistentStatModifier)
             {
-                persistentStatuses = combatParticipant.GetComponents<PersistentRecurringStatus>();
+                persistentStatuses.AddRange(combatParticipant.GetComponents<PersistentRecurringStatus>());
             }
             else if (!removePersistentRecurring && removePersistentStatModifier)
             {
-                persistentStatuses = combatParticipant.GetComponents<PersistentStatModifierStatus>();
+                persistentStatuses.AddRange(combatParticipant.GetComponents<PersistentStatModifierStatus>());
             }
-
             return persistentStatuses;
         }
     }

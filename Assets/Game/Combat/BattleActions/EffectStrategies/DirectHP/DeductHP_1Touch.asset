@@ -10,10 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 2296a696ff7b80140ab1509f2d4bc48a, type: 3}
-  m_Name: RestoreHPSmall
+  m_Name: DeductHP_1Touch
   m_EditorClassIdentifier: 
-  healthChange: 4
-  jitter: 2
+  healthChange: -1
+  jitter: 0
+  applyDamageTypeModifiers: 0
   canMiss: 0
-  canCrit: 1
+  canCrit: 0
   critMultiplier: 2

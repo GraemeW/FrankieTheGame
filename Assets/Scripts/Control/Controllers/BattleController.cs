@@ -180,7 +180,9 @@ namespace Frankie.Combat
             {
                 battleActionUser.SetTargets(targetingNavigationType, battleActionData, battleMat.GetActiveCharacters(), battleMat.GetActiveEnemies());
             }
-            BattleEventBus<BattleEntitySelectedEvent>.Raise(new BattleEntitySelectedEvent(CombatParticipantType.Foe, battleActionData?.GetTargets()));
+
+            var targets = battleActionData != null ? battleActionData.GetTargets() : new List<BattleEntity>();
+            BattleEventBus<BattleEntitySelectedEvent>.Raise(new BattleEntitySelectedEvent(CombatParticipantType.Foe, targets));
         }
 
         public void SetActiveBattleAction(IBattleActionSuper battleActionSuper)
@@ -188,7 +190,7 @@ namespace Frankie.Combat
             if (battleActionSuper == null)
             {
                 SetBattleActionArmed(false);
-                selectedCharacter?.GetComponent<SkillHandler>().ResetCurrentBranch();
+                if (selectedCharacter != null) { selectedCharacter.GetComponent<SkillHandler>().ResetCurrentBranch(); }
                 selectedBattleActionSuper = null;
             }
             else
