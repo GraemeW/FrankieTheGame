@@ -7,10 +7,12 @@ namespace Frankie.Combat.UI
     {
         // Tunables
         [SerializeField] private Image cooldownImage;
+        [SerializeField] private Image backgroundImage;
+        [SerializeField] private Color pauseColor = Color.lightSkyBlue;
 
         // State
         private float cooldownTime = 1f;
-        private float currentTime = 0f;
+        private float currentTime;
 
         void Update()
         {
@@ -26,6 +28,12 @@ namespace Frankie.Combat.UI
             currentTime = 0f;
 
             SetImageFraction();
+        }
+
+        public void SetPaused(bool paused)
+        {
+            if (backgroundImage == null) { return; }
+            backgroundImage.color = paused ? pauseColor: Color.black;
         }
 
         private void SetImageFraction()

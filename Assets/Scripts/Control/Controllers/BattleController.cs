@@ -265,7 +265,7 @@ namespace Frankie.Combat
         {
             BattleSequence battleSequence =  battleQueueUpdatedEvent.battleSequence;
             CombatParticipant sender = battleSequence.battleActionData.GetSender();
-            sender.SetCooldown(Mathf.Infinity); // Character actions locked until cooldown set by BattleController
+            sender.PauseCooldown(); // Character actions locked until cooldown set by BattleController
             battleSequenceQueue.Enqueue(battleSequence);
 
             if (battleMat.GetActivePlayerCharacters().Any(battleEntity => battleEntity.combatParticipant == sender))
