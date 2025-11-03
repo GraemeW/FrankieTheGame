@@ -15,7 +15,7 @@ MonoBehaviour:
   targetingStrategy: {fileID: 11400000, guid: 074055ea8248f4807a99683bbd82d2bb, type: 2}
   effectStrategies:
   - {fileID: 11400000, guid: 363efae5ebe71fe4c8daaa7ef1fc91a3, type: 2}
-  - {fileID: 11400000, guid: a88cd02c191484afb8d3e1a32a77e34e, type: 2}
+  - {fileID: 11400000, guid: 42f48995d9f134e988916e810525ebfe, type: 2}
   damageType: 0
   cooldown: 4
   apCost: 0

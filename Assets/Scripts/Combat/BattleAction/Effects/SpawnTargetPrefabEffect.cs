@@ -11,8 +11,9 @@ namespace Frankie.Combat
     {
         [SerializeField] private Image graphicToSpawn;
         [SerializeField] private bool isGlobalEffect = false;
+        [SerializeField][Min(0f)] private float delayAfterSeconds = 0.5f;
         [SerializeField][Tooltip("Set to min to never destroy")][Min(0f)] private float destroyAfterSeconds = 2.0f;
-
+        
         public override IEnumerator StartEffect(CombatParticipant sender, IList<BattleEntity> recipients, DamageType damageType)
         {
             BattleCanvas battleCanvas = BattleCanvas.FindBattleCanvas();
@@ -28,6 +29,7 @@ namespace Frankie.Combat
                     Destroy(spawnedGraphic.gameObject, destroyAfterSeconds);
                 }
             }
+            yield return new WaitForSeconds(Mathf.Max(delayAfterSeconds, 0f));
         }
 
         private IEnumerable<Vector3> GetPositions(IEnumerable<BattleEntity> recipients, BattleCanvas battleCanvas)

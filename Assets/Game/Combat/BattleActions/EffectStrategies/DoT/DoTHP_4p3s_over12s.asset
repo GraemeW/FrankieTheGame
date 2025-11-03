@@ -9,10 +9,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 91a8eaf862c9a124893bff0c35851e4a, type: 3}
-  m_Name: DoActualWorkDelayComposite
+  m_Script: {fileID: 11500000, guid: 0e30d0381f78b344394e8c35b72a4583, type: 3}
+  m_Name: DoTHP_4p3s_over12s
   m_EditorClassIdentifier: 
-  delay: 0.5
-  effectStrategies:
-  - {fileID: 11400000, guid: 46dde1bd578368c40bda69a97b36a2e8, type: 2}
-  - {fileID: 11400000, guid: 07271d4466288da42a78d875ee44b004, type: 2}
+  fractionProbabilityToApply: 1
+  statusEffectType: 2
+  duration: 12
+  tickPeriod: 3
+  healthChangePerTick: -4
+  persistAfterCombat: 0

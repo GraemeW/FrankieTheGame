@@ -9,7 +9,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a8dba856e40de69439a630619accf95b, type: 3}
-  m_Name: SetLongCooldown
+  m_Script: {fileID: 11500000, guid: 2296a696ff7b80140ab1509f2d4bc48a, type: 3}
+  m_Name: DeductHP_20j3_NoCrit
   m_EditorClassIdentifier: 
-  cooldown: 8
+  healthChange: -20
+  jitter: 3
+  applyDamageTypeModifiers: 1
+  canMiss: 1
+  canCrit: 0
+  critMultiplier: 2
