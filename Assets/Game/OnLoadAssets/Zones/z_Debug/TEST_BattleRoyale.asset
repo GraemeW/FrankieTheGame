@@ -21,13 +21,15 @@ MonoBehaviour:
     y: 30
     width: 430
     height: 150
-  zoneName: zz_TEST_BattleRoyale
+  zoneName: TEST_BattleRoyale
   draggingRect:
     serializedVersion: 2
     x: 0
     y: 0
     width: 430
     height: 45
+  condition:
+    and: []
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -38,16 +40,16 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 71bdebc52d51af440b8f8417df534a79, type: 3}
-  m_Name: zz_TEST_BattleRoyale
+  m_Name: TEST_BattleRoyale
   m_EditorClassIdentifier: 
   newNodeOffset: {x: 100, y: 25}
   nodeWidth: 430
   nodeHeight: 150
   sceneReference:
     sceneAsset: {fileID: 102900000, guid: 8b8eb4164910bda45acce09717d5064a, type: 3}
-    sceneName: zz_TEST_BattleRoyale
+    sceneName: TEST_BattleRoyale
   updateMap: 1
-  zoneAudio: {fileID: 8300000, guid: 840503d4a3e71484a94da9a50830ba88, type: 3}
+  zoneAudio: {fileID: 8300000, guid: aa55708dfcc59db408b6c7ff1281c67e, type: 3}
   isZoneAudioLooping: 1
   zoneNodes:
   - {fileID: -7290602620797478354}
