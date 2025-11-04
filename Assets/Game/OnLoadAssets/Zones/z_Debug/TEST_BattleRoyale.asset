@@ -10,15 +10,111 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3268536af8903a64da82aa6872733d1d, type: 3}
-  m_Name: 406f03c3-3774-43c9-9ba6-b07c0bf7c56a
+  m_Name: MiscDebugRoom_Elevator
   m_EditorClassIdentifier: 
-  children: []
+  children:
+  - Level1to6_Elevator
+  - Level7to15_Elevator
   linkedZone: {fileID: 0}
   linkedZoneNode: {fileID: 0}
   rect:
     serializedVersion: 2
     x: 30
     y: 30
+    width: 430
+    height: 150
+  zoneName: TEST_BattleRoyale
+  draggingRect:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 430
+    height: 45
+  condition:
+    and: []
+--- !u!114 &-6814756869050355965
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3268536af8903a64da82aa6872733d1d, type: 3}
+  m_Name: Level1to6_RightDoor
+  m_EditorClassIdentifier: Assembly-CSharp::Frankie.ZoneManagement.ZoneNode
+  children:
+  - Level7to15LeftDoor
+  linkedZone: {fileID: 0}
+  linkedZoneNode: {fileID: 0}
+  rect:
+    serializedVersion: 2
+    x: 1090
+    y: 30
+    width: 430
+    height: 150
+  zoneName: TEST_BattleRoyale
+  draggingRect:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 430
+    height: 45
+  condition:
+    and: []
+--- !u!114 &-1654263137458809270
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3268536af8903a64da82aa6872733d1d, type: 3}
+  m_Name: Level7to15LeftDoor
+  m_EditorClassIdentifier: Assembly-CSharp::Frankie.ZoneManagement.ZoneNode
+  children:
+  - Level1to6_RightDoor
+  linkedZone: {fileID: 0}
+  linkedZoneNode: {fileID: 0}
+  rect:
+    serializedVersion: 2
+    x: 1568
+    y: 54
+    width: 430
+    height: 150
+  zoneName: TEST_BattleRoyale
+  draggingRect:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 430
+    height: 45
+  condition:
+    and: []
+--- !u!114 &-1339242037192576979
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3268536af8903a64da82aa6872733d1d, type: 3}
+  m_Name: Level1to6_Elevator
+  m_EditorClassIdentifier: Assembly-CSharp::Frankie.ZoneManagement.ZoneNode
+  children:
+  - MiscDebugRoom_Elevator
+  - Level7to15_Elevator
+  linkedZone: {fileID: 0}
+  linkedZoneNode: {fileID: 0}
+  rect:
+    serializedVersion: 2
+    x: 553
+    y: 3
     width: 430
     height: 150
   zoneName: TEST_BattleRoyale
@@ -53,3 +149,39 @@ MonoBehaviour:
   isZoneAudioLooping: 1
   zoneNodes:
   - {fileID: -7290602620797478354}
+  - {fileID: -1339242037192576979}
+  - {fileID: 7563563079468584752}
+  - {fileID: -6814756869050355965}
+  - {fileID: -1654263137458809270}
+--- !u!114 &7563563079468584752
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3268536af8903a64da82aa6872733d1d, type: 3}
+  m_Name: Level7to15_Elevator
+  m_EditorClassIdentifier: Assembly-CSharp::Frankie.ZoneManagement.ZoneNode
+  children:
+  - MiscDebugRoom_Elevator
+  - Level1to6_Elevator
+  linkedZone: {fileID: 0}
+  linkedZoneNode: {fileID: 0}
+  rect:
+    serializedVersion: 2
+    x: 551
+    y: 159
+    width: 430
+    height: 150
+  zoneName: TEST_BattleRoyale
+  draggingRect:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 430
+    height: 45
+  condition:
+    and: []
