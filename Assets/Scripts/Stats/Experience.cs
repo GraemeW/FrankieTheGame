@@ -8,34 +8,26 @@ namespace Frankie.Stats
     public class Experience : MonoBehaviour, ISaveable
     {
         // Tunables
-        [SerializeField] float initialPoints = 0f;
+        [SerializeField] private float initialPoints;
 
         // State
-        LazyValue<float> currentPoints;
+        private LazyValue<float> currentPoints;
 
         // Cached References
-        BaseStats baseStats = null;
+        private BaseStats baseStats;
 
+        // Const
+        private const float _experienceScalingPerLevelDelta = 0.3f; // Not serialized since force universal for every character
+        private const float _maxExperienceReward = 10000f; // 10-level cap with standard 999 exp to level
+        
         #region Static
-        // Static
-        static float experienceScalingPerLevelDelta = 0.1f; // Not serialiazed since force universal for every character
-        static float maxExperienceReward = 2500f;
-
         public static float GetScaledExperience(float experience, int levelDelta)
         {
-            float preMultiplier = 1f;
-            if (levelDelta != 0)
-            {
-                preMultiplier = Mathf.Pow((1 - Mathf.Sign(levelDelta) * experienceScalingPerLevelDelta), Mathf.Abs(levelDelta));
-            }
-
+            float preMultiplier = levelDelta != 0 ? Mathf.Pow((1 - Mathf.Sign(levelDelta) * _experienceScalingPerLevelDelta), Mathf.Abs(levelDelta)) : 1f;
             return experience * preMultiplier;
         }
 
-        public static float GetMaxExperienceReward()
-        {
-            return maxExperienceReward;
-        }
+        public static float GetMaxExperienceReward() => _maxExperienceReward;
         #endregion
 
         #region UnityMethods
@@ -43,11 +35,6 @@ namespace Frankie.Stats
         {
             baseStats = GetComponent<BaseStats>();
             currentPoints = new LazyValue<float>(GetInitialPoints);
-        }
-
-        private float GetInitialPoints()
-        {
-            return initialPoints;
         }
 
         private void Start()
@@ -62,41 +49,31 @@ namespace Frankie.Stats
             currentPoints.value += points;
             return UpdateLevel();
         }
-
-        public float GetPoints()
-        {
-            return currentPoints.value;
-        }
-
-        public void ResetPoints()
-        {
-            currentPoints.value = 0f;
-        }
-
-        public int GetExperienceRequiredToLevel()
-        {
-            return Mathf.CeilToInt((baseStats.GetStat(Stat.ExperienceToLevelUp) - GetPoints()));
-        }
+        public int GetExperienceRequiredToLevel() => Mathf.CeilToInt((baseStats.GetStat(Stat.ExperienceToLevelUp) - GetPoints()));
         #endregion
 
         #region PrivateMethods
+        private float GetInitialPoints() => initialPoints;
+        private float GetPoints() => currentPoints.value;
+        private void ResetPoints()
+        {
+            currentPoints.value = 0f;
+        }
+        
         private bool UpdateLevel()
         {
             if (!baseStats.CanLevelUp()) { return false; }
             float experienceToLevel = baseStats.GetStat(Stat.ExperienceToLevelUp);
-            if (experienceToLevel <= 0f) { return false; } // Failsafe on invalid settings
+            
+            if (experienceToLevel <= 0f) { return false; }
+            if (!(GetPoints() > experienceToLevel)) return false;
+            
+            float experienceBalance = GetPoints() - experienceToLevel;
+            ResetPoints();
+            baseStats.IncrementLevel();
 
-            if (GetPoints() > experienceToLevel)
-            {
-                float experienceBalance = GetPoints() - experienceToLevel;
-                ResetPoints();
-                baseStats.IncrementLevel();
-
-                GainExperienceToLevel(experienceBalance); // Adjust the balance up, can re-call present function for multi-levels
-
-                return true;
-            }
-            return false;
+            GainExperienceToLevel(experienceBalance); // Adjust the balance up, can re-call present function for multi-levels
+            return true;
         }
         #endregion
 
@@ -109,15 +86,15 @@ namespace Frankie.Stats
 
         public SaveState CaptureState()
         {
-            if (currentPoints == null) { Awake(); }
-            SaveState saveState = new SaveState(GetLoadPriority(), currentPoints.value);
+            currentPoints ??= new LazyValue<float>(GetInitialPoints);
+            var saveState = new SaveState(GetLoadPriority(), currentPoints.value);
             return saveState;
         }
 
         public void RestoreState(SaveState saveState)
         {
-            float points = (float)saveState.GetState(typeof(float));
-            if (currentPoints == null) { Awake(); }
+            var points = (float)saveState.GetState(typeof(float));
+            currentPoints ??= new LazyValue<float>(GetInitialPoints);
             currentPoints.value = points;
         }
         #endregion
