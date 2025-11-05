@@ -435,7 +435,10 @@ namespace Frankie.Combat
         {
             bool allCharactersAvailable = true;
             float partySpeed = 0f;
-
+            
+            // Check if any boss-types prevent running, skip cooldown increment since auto-fail
+            if (battleMat.GetActiveEnemies().Any(x => !x.combatParticipant.GetRunAwayable())) { canAttemptEarlyRun = false; return false; }
+            
             // Get Party average speed && check for availability
             foreach (BattleEntity character in battleMat.GetActivePlayerCharacters())
             {

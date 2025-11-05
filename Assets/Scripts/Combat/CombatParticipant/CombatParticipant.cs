@@ -21,8 +21,8 @@ namespace Frankie.Combat
 
         [Header("Combat Properties")]
         [SerializeField] private BattleEntityType battleEntityType = BattleEntityType.Standard;
-
         [SerializeField] private BattleRow preferredBattleRow = BattleRow.Any;
+        [SerializeField] private bool canRunFrom = true;
         [SerializeField] private bool usesAP = true;
         [SerializeField] private float damageTimeSpan = 4.0f;
         [SerializeField] private float fractionOfHPInstantOnRevival = 0.5f;
@@ -138,6 +138,7 @@ namespace Frankie.Combat
         public int GetLevel() => baseStats.GetLevel();
         public float GetExperienceReward() => baseStats.GetStat(Stat.ExperienceReward);
         public float GetCooldownMultiplier() => baseStats.GetCalculatedStat(CalculatedStat.CooldownFraction);
+        public bool GetRunAwayable() => canRunFrom;
         public float GetRunSpeed() => baseStats.GetCalculatedStat(CalculatedStat.RunSpeed);
         #endregion
 

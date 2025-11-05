@@ -105,7 +105,8 @@ namespace Frankie.Stats
 
         private static float GetRunChance(float modifier, float contestModifier)
         {
-            return Mathf.Min(1.0f, 2 * modifier / (3 * contestModifier));
+            float deltaModifier = modifier - contestModifier;
+            return 0.5f + Mathf.Atan(deltaModifier / 20) / Mathf.PI;
         }
 
         private static float GetFearsome(float modifier, float defenderModifier)
