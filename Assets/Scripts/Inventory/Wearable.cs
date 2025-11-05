@@ -1,5 +1,5 @@
-using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using Frankie.Control;
 using Frankie.Stats;
@@ -10,12 +10,12 @@ namespace Frankie.Inventory
     public class Wearable : MonoBehaviour, IModifierProvider
     {
         // Tunables
-        [SerializeField] WearableItem wearableItem = null;
-        [SerializeField] BaseStatModifier[] baseStatModifiers = null;
+        [SerializeField] private WearableItem wearableItem;
+        [SerializeField] private BaseStatModifier[] baseStatModifiers;
 
         // Cached References
-        Animator animator = null;
-        CharacterSpriteLink characterSpriteLink = null;
+        private Animator animator;
+        private CharacterSpriteLink characterSpriteLink;
 
         // Unity Methods
         private void Awake()
@@ -25,20 +25,16 @@ namespace Frankie.Inventory
 
         private void OnEnable()
         {
-            if (characterSpriteLink != null)
-            {
-                characterSpriteLink.characterLookUpdated += UpdateAnimatorLooks;
-                characterSpriteLink.characterSpeedUpdated += UpdateAnimatorSpeeds;
-            }
+            if (characterSpriteLink == null) return;
+            characterSpriteLink.characterLookUpdated += UpdateAnimatorLooks;
+            characterSpriteLink.characterSpeedUpdated += UpdateAnimatorSpeeds;
         }
 
         private void OnDisable()
         {
-            if (characterSpriteLink != null)
-            {
-                characterSpriteLink.characterLookUpdated -= UpdateAnimatorLooks;
-                characterSpriteLink.characterSpeedUpdated -= UpdateAnimatorSpeeds;
-            }
+            if (characterSpriteLink == null) return;
+            characterSpriteLink.characterLookUpdated -= UpdateAnimatorLooks;
+            characterSpriteLink.characterSpeedUpdated -= UpdateAnimatorSpeeds;
         }
 
         // Public Methods
@@ -79,15 +75,8 @@ namespace Frankie.Inventory
         // Interface Methods
         public IEnumerable<float> GetAdditiveModifiers(Stat stat)
         {
-            float value = 0f;
-            foreach (BaseStatModifier baseStatModifier in baseStatModifiers)
-            {
-                if (baseStatModifier.stat == stat)
-                {
-                    value += Random.Range(baseStatModifier.minValue, baseStatModifier.maxValue);
-                }
-            }
-            yield return value;
+            float summedModifiers = baseStatModifiers.Where(baseStatModifier => baseStatModifier.stat == stat).Sum(baseStatModifier => Random.Range(baseStatModifier.minValue, baseStatModifier.maxValue));
+            yield return summedModifiers;
         }
     }
 }

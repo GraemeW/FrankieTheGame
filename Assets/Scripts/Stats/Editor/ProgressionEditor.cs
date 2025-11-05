@@ -14,7 +14,7 @@ namespace Frankie.Stats.Editor
         private Progression progression;
         
         // UI State
-        private readonly List<Progression.ProgressionCharacterClass> selectedCharacterClasses = new List<Progression.ProgressionCharacterClass>();
+        private readonly List<Progression.ProgressionCharacterClass> selectedCharacterClasses = new();
         
         // UI Cached References
         private ObjectField progressionInput;
@@ -126,14 +126,16 @@ namespace Frankie.Stats.Editor
             UpdateStatCardHeader(characterStatCard, characterClass, false);
             
             bool isLeft = true;
-            foreach (Progression.ProgressionStat stat in characterClass.stats)
+            foreach (Progression.ProgressionStat progressionStat in characterClass.stats)
             {
+                if (progressionStat.stat is Stat.InitialLevel) { continue; }
+                
                 var statEntry = new FloatField
                 {
-                    label = stat.stat.ToString(),
-                    value = stat.value
+                    label = progressionStat.stat.ToString(),
+                    value = progressionStat.value
                 };
-                statEntry.RegisterValueChangedCallback(x => UpdateStat(characterClass.characterProperties, stat.stat, x.newValue));
+                statEntry.RegisterValueChangedCallback(x => UpdateStat(characterClass.characterProperties, progressionStat.stat, x.newValue));
                 
                 if (isLeft) { characterStatCard.leftPane.Add(statEntry); }
                 else { characterStatCard.rightPane.Add(statEntry); }
@@ -179,7 +181,20 @@ namespace Frankie.Stats.Editor
 
         private void UpdateStatCardHeader(StatCardBase statCardBase, Progression.ProgressionCharacterClass characterClass, bool isSimulatedStatCard)
         {
-            if (!isSimulatedStatCard) { statCardBase.header.Add(new Label($" {characterClass.characterProperties.name}")); }
+            if (!isSimulatedStatCard)
+            {
+                var headerSplit = new TwoPaneSplitView(0, 200, TwoPaneSplitViewOrientation.Horizontal);
+                headerSplit.Add(new Label($" {characterClass.characterProperties.name}"));
+                var initialLevel = new IntegerField
+                {
+                    label = "Initial Level",
+                    value = Mathf.RoundToInt(progression.GetStat(Stat.InitialLevel, characterClass.characterProperties))
+                };
+                initialLevel.RegisterValueChangedCallback(x => UpdateStat(characterClass.characterProperties, Stat.InitialLevel, x.newValue));
+                headerSplit.Add(initialLevel);
+                
+                statCardBase.header.Add(headerSplit);
+            }
             else
             {
                 var simulatedLevel = new IntegerField
@@ -264,6 +279,7 @@ namespace Frankie.Stats.Editor
             characterStatPane.Clear();
             if (progression == null) { return; }
             
+            progression.ForceBuildLookup();
             DrawCharacterNavigationPane();
             DrawCharacterStatPane();
         }
@@ -350,15 +366,15 @@ namespace Frankie.Stats.Editor
             bool isLeft = true;
             statCard.leftPane.Clear();
             statCard.rightPane.Clear();
-            foreach (Progression.ProgressionStat stat in characterClass.stats)
+            foreach (Progression.ProgressionStat progressionStat in characterClass.stats)
             {
-                if (!activeStatSheet.ContainsKey(stat.stat)) { continue; }
-                if (stat.stat is Stat.ExperienceReward or Stat.ExperienceToLevelUp) { continue; }
+                if (!activeStatSheet.ContainsKey(progressionStat.stat)) { continue; }
+                if (progressionStat.stat is Stat.InitialLevel or Stat.ExperienceReward or Stat.ExperienceToLevelUp) { continue; }
                 
                 var statEntry = new FloatField
                 {
-                    label = stat.stat.ToString(),
-                    value = Mathf.RoundToInt(activeStatSheet[stat.stat]),
+                    label = progressionStat.stat.ToString(),
+                    value = Mathf.RoundToInt(activeStatSheet[progressionStat.stat]),
                     isReadOnly = true
                 };
                 

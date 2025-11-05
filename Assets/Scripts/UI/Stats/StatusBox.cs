@@ -10,16 +10,16 @@ namespace Frankie.Stats.UI
     {
         // Tunables
         [Header("Data Links")]
-        [SerializeField] TextMeshProUGUI selectedCharacterNameField;
-        [SerializeField] TextMeshProUGUI experienceToLevel;
+        [SerializeField] private TextMeshProUGUI selectedCharacterNameField;
+        [SerializeField] private TextMeshProUGUI experienceToLevel;
         [Header("Parents")]
-        [SerializeField] Transform leftStatParent = null;
-        [SerializeField] Transform rightStatParent = null;
+        [SerializeField] private Transform leftStatParent;
+        [SerializeField] private Transform rightStatParent;
         [Header("Prefabs")]
-        [SerializeField] StatField statFieldPrefab = null;
+        [SerializeField] private StatField statFieldPrefab;
 
         // State
-        CombatParticipant selectedCharacter = null;
+        private CombatParticipant selectedCharacter;
 
         public void Setup(PartyCombatConduit partyCombatConduit)
         {
@@ -47,20 +47,18 @@ namespace Frankie.Stats.UI
 
         private void SoftChooseCharacter(CombatParticipant character)
         {
-            if (character != selectedCharacter)
-            {
-                OnUIBoxModified(UIBoxModifiedType.itemSelected, true);
+            if (character == selectedCharacter) return;
+            
+            OnUIBoxModified(UIBoxModifiedType.itemSelected, true);
+            selectedCharacter = character;
+            CleanUpOldStats();
 
-                selectedCharacter = character;
-                CleanUpOldStats();
+            selectedCharacterNameField.text = selectedCharacter.GetCombatName();
+            experienceToLevel.text = selectedCharacter.GetComponent<Experience>().GetExperienceRequiredToLevel().ToString();
 
-                selectedCharacterNameField.text = selectedCharacter.GetCombatName();
-                experienceToLevel.text = selectedCharacter.GetComponent<Experience>().GetExperienceRequiredToLevel().ToString();
-
-                GenerateLevel(character);
-                GenerateHPAP(character);
-                GenerateSkillStats(character);
-            }
+            GenerateLevel(character);
+            GenerateHPAP(character);
+            GenerateSkillStats(character);
         }
 
         private void CleanUpOldStats()
@@ -89,12 +87,11 @@ namespace Frankie.Stats.UI
             Array skillStats = Enum.GetValues(typeof(SkillStat));
             foreach (SkillStat skillStat in skillStats)
             {
-                if (Enum.TryParse(skillStat.ToString(), out Stat stat))
-                {
-                    StatField statField = Instantiate(statFieldPrefab, leftStatParent);
-                    float statValue = character.GetStat(stat);
-                    statField.Setup(stat, statValue);
-                }
+                if (!Enum.TryParse(skillStat.ToString(), out Stat stat)) continue;
+                
+                StatField statField = Instantiate(statFieldPrefab, leftStatParent);
+                float statValue = character.GetStat(stat);
+                statField.Setup(stat, statValue);
             }
         }
     }

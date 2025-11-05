@@ -6,12 +6,12 @@ namespace Frankie.Inventory.UI
 {
     public class StatChangeField : MonoBehaviour
     {
-        [SerializeField] TextMeshProUGUI statField = null;
-        [SerializeField] TextMeshProUGUI oldValueField = null;
-        [SerializeField] TextMeshProUGUI newValueField = null;
-        [SerializeField] Color neutralDeltaColor = Color.gray;
-        [SerializeField] Color betterDeltaColor = Color.green;
-        [SerializeField] Color worseDeltaColor = Color.red;
+        [SerializeField] private TextMeshProUGUI statField;
+        [SerializeField] private TextMeshProUGUI oldValueField;
+        [SerializeField] private TextMeshProUGUI newValueField;
+        [SerializeField] private Color neutralDeltaColor = Color.gray;
+        [SerializeField] private Color betterDeltaColor = Color.green;
+        [SerializeField] private Color worseDeltaColor = Color.red;
 
         public void Setup(Stat stat, float oldValue, float newValue)
         {

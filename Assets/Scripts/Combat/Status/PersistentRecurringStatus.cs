@@ -8,12 +8,12 @@ namespace Frankie.Combat
     public class PersistentRecurringStatus : PersistentStatus
     {
         // Tunables
-        float tickPeriod = 5f;
-        Action recurringEffect = null;
+        private float tickPeriod = 5f;
+        private Action recurringEffect;
 
         // State
-        float tickTimer = 0f;
-        bool queuedTick = false;
+        private float tickTimer;
+        private bool queuedTick = false;
 
         protected override void Update()
         {
@@ -21,22 +21,21 @@ namespace Frankie.Combat
             HandleRecurringEffects();
         }
 
-        public void Setup(float duration, float tickPeriod, Action recurringEffect, Stat statAffected, bool isIncrease, bool persistAfterBattle = false)
+        public void Setup(float duration, float setTickPeriod, Action setRecurringEffect, Stat setStatAffected, bool setIsIncreasing, bool persistAfterBattle = false)
         {
-            if (recurringEffect == null) { Destroy(this); }
+            if (setRecurringEffect == null) { Destroy(this); }
 
             base.Setup(duration, persistAfterBattle);
-            this.tickPeriod = tickPeriod;
-            this.recurringEffect = recurringEffect;
-            this.statusEffectType = statAffected;
-            this.isIncrease = isIncrease;
+            tickPeriod = setTickPeriod;
+            recurringEffect = setRecurringEffect;
+            statAffected = setStatAffected;
+            isIncrease = setIsIncreasing;
         }
 
         protected override void UpdateTimers()
         {
             base.UpdateTimers();
             queuedTick = false;
-
             tickTimer += Time.deltaTime;
 
             if (tickTimer > tickPeriod)
@@ -49,11 +48,7 @@ namespace Frankie.Combat
         private void HandleRecurringEffects()
         {
             if (recurringEffect == null || !active) { return; }
-
-            if (queuedTick)
-            {
-                recurringEffect.Invoke();
-            }
+            if (queuedTick) { recurringEffect.Invoke(); }
         }
     }
 }

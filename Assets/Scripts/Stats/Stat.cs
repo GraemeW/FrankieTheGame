@@ -13,6 +13,7 @@ namespace Frankie.Stats
         Nimble, // Physical defense
         Luck, // Chance to hit + dodge
         Pluck, // Cooldown && Chance to crit + avoid crits
-        Stoic // HP on level
+        Stoic, // HP on level
+        InitialLevel
     }
 }
