@@ -65,3 +65,33 @@ Now let's branch on both of these new skills:
 And onward:
 
 <img src="../../../../InfoTools/Documentation/Game/Combat/SkillTreeOnward.png" width="1000">
+
+### Standard Root / Branch Configuration Guidance
+
+The below guidance should be followed in order to make it simpler for new players to catch onto the battle system.  The intent is to make selection directions relatively intuitive with some amount of muscle memory. 
+
+#### Root Nodes
+
+The following paradigm should be followed for root nodes:
+* **Up**:  Primary Stat - Brawn
+  * Map to a physical damage skill
+    * for playable characters, this should be [Wallop](../../OnLoadAssets/Skills/DamagePhysical/Wallop.asset)
+* **Right**:  Primary Stat - Smarts
+  * Map to friendly buff or heal skill
+* **Left**:  Primary Stat - Luck
+  * Map to enemy debuff or utility skill
+* **Down**:  Primary Stat - Beauty 
+  * Map to magical damage skill
+
+See [Stats.cs](../../../Scripts/Stats/Stat.cs) for Stat Enum details.
+
+#### Branch Nodes
+
+The following logic should be applied when branching:
+* **Up**:  Increase base amount of the skill
+  * e.g. increase the amount of damage dealt, the amount healed, the stat amount buffed, etc.
+* **Right**:  Modify the base skill by adjusting crit multiplier, cooldown, length applied, etc.
+* **Left**:  Add new capability or utility to the skill
+  * e.g. convert a damage skill to life-leach or AP-leach, slow down enemy, add DoT, etc.
+* **Down**:  Adjust the targeting of the skill
+  * e.g. convert single target to column target to row target to all target

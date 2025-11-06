@@ -12,8 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 00fa693035786c8448d801d3bfcfdb68, type: 3}
   m_Name: ReducePluck_12
   m_EditorClassIdentifier: 
-  fractionProbabilityToApply: 0.5
-  statusEffectType: 0
+  fractionProbabilityToApply: 1
   duration: 20
   stat: 9
   value: -12

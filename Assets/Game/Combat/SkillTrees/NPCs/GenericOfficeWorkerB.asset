@@ -33,7 +33,7 @@ MonoBehaviour:
   upBranch: 
   leftSkillReference: LoudlyProclaim
   leftBranch: 
-  rightSkillReference: InstillSelfDoubt
+  rightSkillReference: 
   rightBranch: 
   downSkillReference: 
   downBranch: 

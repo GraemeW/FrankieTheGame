@@ -5,7 +5,7 @@ namespace Frankie.Inventory
         None,
         Hands,
         Arms,
-        Neck,
+        Body,
         Other
     }
 }

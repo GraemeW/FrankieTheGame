@@ -13,7 +13,6 @@ MonoBehaviour:
   m_Name: ReducePluck_4
   m_EditorClassIdentifier: 
   fractionProbabilityToApply: 1
-  statusEffectType: 0
   duration: 20
   stat: 9
   value: -4

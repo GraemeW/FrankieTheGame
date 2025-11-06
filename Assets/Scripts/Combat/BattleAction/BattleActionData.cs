@@ -74,6 +74,12 @@ namespace Frankie.Combat
             targets.Add(focalTarget);
         }
 
+        public void SetFocalTargetToSender()
+        {
+            BattleEntity senderTarget = targets.FirstOrDefault(target => target.combatParticipant == sender);
+            focalTarget = senderTarget;
+        }
+
         private void ClearTargets()
         {
             focalTarget = null;

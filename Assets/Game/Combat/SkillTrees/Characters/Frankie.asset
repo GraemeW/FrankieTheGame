@@ -14,11 +14,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   upSkillReference: Wallop
   upBranch: 
-  leftSkillReference: RiseAndGrind
+  leftSkillReference: 
   leftBranch: 
   rightSkillReference: GentlePraise
   rightBranch: 
-  downSkillReference: PassGas
+  downSkillReference: 
   downBranch: 
   rect:
     serializedVersion: 2

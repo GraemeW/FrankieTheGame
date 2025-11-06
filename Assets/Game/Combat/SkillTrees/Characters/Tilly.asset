@@ -29,13 +29,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6b066201d64e5354387f385aa2872d22, type: 3}
   m_Name: 2be65453-22a4-4595-98d7-ac93aae7cbf4
   m_EditorClassIdentifier: 
-  upSkillReference: ShowOffCode
+  upSkillReference: Wallop
   upBranch: 
-  leftSkillReference: DoActualWork
+  leftSkillReference: 
   leftBranch: 
   rightSkillReference: 
   rightBranch: 
-  downSkillReference: 
+  downSkillReference: DoActualWork
   downBranch: 
   rect:
     serializedVersion: 2

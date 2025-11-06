@@ -227,6 +227,8 @@ MonoBehaviour:
     tileSpriteImage: {fileID: 0}
     shaderMaterial: {fileID: 0}
   battleEntityType: 0
+  preferredBattleRow: 0
+  canRunFrom: 1
   usesAP: 0
   damageTimeSpan: 4
   fractionOfHPInstantOnRevival: 0.5
@@ -234,7 +236,7 @@ MonoBehaviour:
   cooldownMin: 0.2
   cooldownMax: 10
   cooldownAtBattleStartPlayer: 2.5
-  cooldownAtBattleStartAlt: 4
+  cooldownAtBattleStartAlt: 3
   cooldownBattleAdvantageAdder: -4
   cooldownBattleDisadvantageAdder: 4
   cooldownRunFailAdder: 5
@@ -264,6 +266,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 292cbe0fa78f411468ca518291de60fb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  actionQueuePollingPeriod: 0.1
   probabilityToTraverseSkillTree: 0.8
   useRandomSelectionOnNoPriorities: 1
   battleAIPriorities: []

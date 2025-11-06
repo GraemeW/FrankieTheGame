@@ -13,7 +13,6 @@ MonoBehaviour:
   m_Name: ReduceLuck_4
   m_EditorClassIdentifier: 
   fractionProbabilityToApply: 1
-  statusEffectType: 0
   duration: 20
   stat: 8
   value: -4
