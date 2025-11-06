@@ -1,4 +1,3 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -10,7 +9,7 @@ namespace Frankie.Combat
     {
         public abstract IEnumerator StartEffect(CombatParticipant sender, IList<BattleEntity> recipients, DamageType damageType);
 
-        protected bool DoesAttackHit(bool canMiss, CombatParticipant sender, CombatParticipant recipient)
+        protected static bool DoesAttackHit(bool canMiss, CombatParticipant sender, CombatParticipant recipient)
         {
             if (!canMiss) { return true; }
             float hitChance = sender.GetCalculatedStat(CalculatedStat.HitChance, recipient);
@@ -26,7 +25,7 @@ namespace Frankie.Combat
             return true;
         }
 
-        protected float GetCritModifier(bool canCrit, float critMultiplier, CombatParticipant sender, CombatParticipant recipient)
+        protected static float GetCritModifier(bool canCrit, float critMultiplier, CombatParticipant sender, CombatParticipant recipient)
         {
             if (!canCrit) { return 1.0f; }
 
@@ -41,7 +40,7 @@ namespace Frankie.Combat
             return 1.0f;
         }
 
-        protected float GetPhysicalModifier(float sign, CombatParticipant sender, CombatParticipant recipient)
+        protected static float GetPhysicalModifier(float sign, CombatParticipant sender, CombatParticipant recipient)
         {
             return sign switch
             {
@@ -53,7 +52,7 @@ namespace Frankie.Combat
             };
         }
 
-        protected float GetMagicalModifier(float sign, CombatParticipant sender, CombatParticipant recipient)
+        protected static float GetMagicalModifier(float sign, CombatParticipant sender, CombatParticipant recipient)
         {
             return sign * Mathf.Max(0f, sender.GetCalculatedStat(CalculatedStat.MagicalAdder));
         }
