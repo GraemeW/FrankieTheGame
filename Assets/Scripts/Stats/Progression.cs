@@ -112,6 +112,12 @@ namespace Frankie.Stats
         
         #region PublicMethods
         public ProgressionCharacterClass[] GetCharacterClasses() => characterClasses;
+
+        public bool HasProgression(CharacterProperties characterProperties)
+        {
+            BuildLookup();
+            return lookupTable.ContainsKey(characterProperties);
+        }
         
         public float GetStat(Stat stat, CharacterProperties characterProperties)
         {

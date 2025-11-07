@@ -21,7 +21,8 @@ namespace Frankie.Stats
 
         // Static/Const Parameters
         private const float _bonusStatOnLevelMidProbability = 0.3f; // 0 to 1
-        private const float _bonusStatOnLevelHighProbability = 0.1f; // 0 to 1
+        private const float _bonusStatOnLevelHighProbability = 0.1f; // 0 to 1\
+        private const int _defaultLevelForNoCharacterProperties = 1;
         private const int _maxLevel = 99;
         
         // State
@@ -147,7 +148,11 @@ namespace Frankie.Stats
             }
         }
 
-        private int GetInitialLevel() => Mathf.RoundToInt(progression.GetStat(Stat.InitialLevel, characterProperties)); 
+        private int GetInitialLevel()
+        {
+            if (characterProperties == null || !progression.HasProgression(characterProperties)) { return _defaultLevelForNoCharacterProperties; }
+            return Mathf.RoundToInt(progression.GetStat(Stat.InitialLevel, characterProperties));
+        }
 
         private float GetAdditiveModifiers(Stat stat)
         {

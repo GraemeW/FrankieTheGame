@@ -26,8 +26,8 @@ namespace Frankie.Stats
                 CalculatedStat.MoveSpeed => Stat.Nimble,
                 CalculatedStat.RunSpeed => Stat.Pluck,
                 CalculatedStat.RunChance => Stat.Pluck,
-                CalculatedStat.Fearsome => Stat.Pluck,
-                CalculatedStat.Imposing => Stat.Pluck,
+                CalculatedStat.Fearsome => Stat.Pluck, // Enemy Runs
+                CalculatedStat.Imposing => Stat.Pluck, // Enemy combat auto-concludes
                 _ => Stat.InitialLevel,
             };
             return stat != Stat.InitialLevel; // failsafe default behaviour
@@ -48,8 +48,8 @@ namespace Frankie.Stats
                 CalculatedStat.MoveSpeed => GetMoveSpeed(level, callerModifier),
                 CalculatedStat.RunSpeed => GetRunSpeed(callerModifier),
                 CalculatedStat.RunChance => GetRunChance(callerModifier, contestModifier),
-                CalculatedStat.Fearsome => GetFearsome(callerModifier, contestModifier),
-                CalculatedStat.Imposing => GetImposing(callerModifier, contestModifier),
+                CalculatedStat.Fearsome => GetFearsome(level, callerModifier, contestModifier), 
+                CalculatedStat.Imposing => GetImposing(level, callerModifier, contestModifier), 
                 _ => 0f,
             };
         }
@@ -109,16 +109,18 @@ namespace Frankie.Stats
             return 0.5f + Mathf.Atan(deltaModifier / 20) / Mathf.PI;
         }
 
-        private static float GetFearsome(float modifier, float defenderModifier)
+        private static float GetFearsome(int level, float modifier, float defenderModifier)
         {
-            // positive value = fearsome (multiplier* more than defender)
-            return modifier - 3 * defenderModifier;
+            // positive value -> fearsome for enemy running
+            float statDeltaReq = 35f * (1f + level / 50f); // Scale by level, account for weapon bonuses
+            return (modifier - defenderModifier) / statDeltaReq - 1f;
         }
 
-        private static float GetImposing(float modifier, float defenderModifier)
+        private static float GetImposing(int level, float modifier, float defenderModifier)
         {
-            // positive value -> imposing (multiplier* more than defender)
-            return modifier - 6 * defenderModifier;
+            // positive value -> imposing for enemy combat auto-conclude
+            float statDeltaReq = 50f * (1f + level / 50f);  // Scale by level, account for weapon bonuses
+            return (modifier - defenderModifier) / statDeltaReq - 1f;
         }
         #endregion
     }
