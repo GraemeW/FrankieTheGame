@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e5a52bc8039beea4f88b438257c47f35, type: 3}
   m_Name: SimpleKeyboard
   m_EditorClassIdentifier: 
-  itemID: ed10e07a-adbf-4a2c-b083-0e6f2881de2e
+  itemID: 688bb913-f371-4834-add4-1468c4e2e466
   displayName: Simple Keyboard
   description: It's a really basic keyboard.  No numpad.  Only usable by Frankie.
   droppable: 1
