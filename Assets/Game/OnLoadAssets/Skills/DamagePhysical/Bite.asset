@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: Bite
   m_EditorClassIdentifier: 
   stat: 0
-  battleAction: {fileID: 11400000, guid: 7772c8d9fa236bc4cbccfb81c86e4a82, type: 2}
+  battleAction: {fileID: 11400000, guid: 8a8ef7cd822057d47a5167faab6dc07b, type: 2}
   detail: The little teeth are so cute
