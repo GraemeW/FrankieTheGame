@@ -13,24 +13,24 @@ namespace Frankie.Control
     public class NPCStateHandler : MonoBehaviour
     {
         // Tunables
-        [SerializeField] bool willForceCombat = false;
-        [SerializeField] bool willDestroyIfInvisible = false;
-        [Min(0)][Tooltip("in seconds")][SerializeField] float delayToDestroyAfterInvisible = 2f;
-        [Tooltip("Include {0} for enemy name")][SerializeField] string messageCannotFight = "{0} is wounded and cannot fight.";
+        [SerializeField] private bool willForceCombat = false;
+        [SerializeField] private bool willDestroyIfInvisible = false;
+        [Min(0)][Tooltip("in seconds")][SerializeField] private float delayToDestroyAfterInvisible = 2f;
+        [Tooltip("Include {0} for enemy name")][SerializeField] private string messageCannotFight = "{0} is wounded and cannot fight.";
 
         // State
-        NPCStateType npcState = NPCStateType.idle;
-        bool npcOccupied = false;
-        bool queueDeathOnNextPlayerStateChange = false;
-        bool isNPCVisible = true;
-        float timeSinceInvisible = 0f;
+        private NPCStateType npcState = NPCStateType.idle;
+        private bool npcOccupied = false;
+        private bool queueDeathOnNextPlayerStateChange = false;
+        private bool isNPCVisible = true;
+        private float timeSinceInvisible;
 
         // Cached References
-        SpriteVisibilityAnnouncer spriteVisibilityAnnouncer;
-        CombatParticipant combatParticipant = null;
-        GameObject player = null;
-        ReInitLazyValue<PlayerStateMachine> playerStateMachine;
-        ReInitLazyValue<PlayerController> playerController;
+        private SpriteVisibilityAnnouncer spriteVisibilityAnnouncer;
+        private CombatParticipant combatParticipant;
+        private GameObject player;
+        private ReInitLazyValue<PlayerStateMachine> playerStateMachine;
+        private ReInitLazyValue<PlayerController> playerController;
 
         // Events
         public event Action<NPCStateType, bool> npcStateChanged;
@@ -146,39 +146,25 @@ namespace Frankie.Control
         #endregion
 
         #region PrivateMethods
-        private void SetNPCState(NPCStateType npcState)
+        private void SetNPCState(NPCStateType setNPCState)
         {
-            bool isNPCAfraid = false;
-            if (npcState == NPCStateType.aggravated || npcState == NPCStateType.suspicious)
-            {
-                Party party = playerStateMachine.value.GetParty();
-                if (party == null) { return; }
-
-                if (party.TryGetComponent(out PartyCombatConduit partyCombatConduit))
-                {
-                    if (!partyCombatConduit.IsAnyMemberAlive()) { return; }
-                    isNPCAfraid = partyCombatConduit.IsFearsome(combatParticipant);
-                }
-            }
-
-            bool occupiedStatusChange = (npcState == NPCStateType.occupied) ^ npcOccupied;
-            if (this.npcState == npcState && !occupiedStatusChange) { return; }
+            bool occupiedStatusChange = (setNPCState == NPCStateType.occupied) ^ npcOccupied;
+            if (npcState == setNPCState && !occupiedStatusChange) { return; }
 
             // Occupied treated as a pseudo-state to allow for state persistence
             // i.e. State reset viable on SetNPCState(this.npcState)
-            if (npcState == NPCStateType.occupied) { npcOccupied = true; }
+            if (setNPCState == NPCStateType.occupied) { npcOccupied = true; }
             else
             {
                 npcOccupied = false;
 
                 // Set State
-                this.npcState = npcState;
+                npcState = setNPCState;
             }
 
-            UnityEngine.Debug.Log($"Updating {gameObject.name} NPC state to: {Enum.GetName(typeof(NPCStateType), npcOccupied ? NPCStateType.occupied : npcState)}");
-            npcStateChanged?.Invoke(npcOccupied ? NPCStateType.occupied : npcState, isNPCAfraid);
-
-            return;
+            bool isNPCAfraid = CheckForNPCAfraid();
+            npcStateChanged?.Invoke(npcOccupied ? NPCStateType.occupied : setNPCState, isNPCAfraid);
+            Debug.Log($"Updating {gameObject.name} NPC state to: {Enum.GetName(typeof(NPCStateType), npcOccupied ? NPCStateType.occupied : setNPCState)}");
         }
 
         private void InitiateCombat(PlayerStateMachine playerStateHandler, TransitionType transitionType, List<NPCStateHandler> npcMob = null)
@@ -192,8 +178,7 @@ namespace Frankie.Control
             }
             else
             {
-                List<CombatParticipant> enemies = new List<CombatParticipant>();
-                enemies.Add(combatParticipant);
+                var enemies = new List<CombatParticipant> { combatParticipant };
 
                 if (npcMob != null)
                 {
@@ -211,7 +196,7 @@ namespace Frankie.Control
 
         private void InitiateDialogue(PlayerStateMachine playerStateHandler)
         {
-            AIConversant aiConversant = GetComponentInChildren<AIConversant>();
+            var aiConversant = GetComponentInChildren<AIConversant>();
             if (aiConversant == null) { return; }
 
             Dialogue dialogue = aiConversant.GetDialogue();
@@ -219,6 +204,21 @@ namespace Frankie.Control
 
             playerStateHandler.EnterDialogue(aiConversant, dialogue);
             SetNPCState(NPCStateType.occupied);
+        }
+        
+        private bool CheckForNPCAfraid()
+        {
+            if (npcState is not (NPCStateType.aggravated or NPCStateType.suspicious)) return false;
+            Party party = playerStateMachine.value.GetParty();
+            if (party == null) { return false; }
+            
+            bool isNPCAfraid = false;
+            if (party.TryGetComponent(out PartyCombatConduit partyCombatConduit))
+            {
+                if (!partyCombatConduit.IsAnyMemberAlive()) { return false; }
+                isNPCAfraid = partyCombatConduit.IsFearsome(combatParticipant);
+            }
+            return isNPCAfraid;
         }
 
         private void HandleSpriteVisibility(bool isVisible)
@@ -238,7 +238,7 @@ namespace Frankie.Control
             }
             else
             {
-                UnityEngine.Debug.Log($"NPC {gameObject.name} invisible for {delayToDestroyAfterInvisible} seconds.  Destroying.");
+                Debug.Log($"NPC {gameObject.name} invisible for {delayToDestroyAfterInvisible} seconds.  Destroying.");
                 Destroy(gameObject);
             }
         }

@@ -63,7 +63,7 @@ namespace Frankie.Stats
             foreach (CombatParticipant character in combatParticipantCache)
             {
                 float newFearsomeStat = character.GetCalculatedStat(CalculatedStat.Fearsome, toEnemy);
-                fearsomeStat = newFearsomeStat > fearsomeStat ? newFearsomeStat : fearsomeStat;
+                fearsomeStat = Mathf.Max(fearsomeStat, newFearsomeStat);
             }
 
             return fearsomeStat > 0f;
@@ -75,7 +75,7 @@ namespace Frankie.Stats
             foreach (CombatParticipant character in combatParticipantCache)
             {
                 float newImposingStat = character.GetCalculatedStat(CalculatedStat.Imposing, toEnemy);
-                imposingStat = newImposingStat > imposingStat ? newImposingStat : imposingStat;
+                imposingStat = Mathf.Max(imposingStat, newImposingStat);
             }
 
             return imposingStat > 0f;

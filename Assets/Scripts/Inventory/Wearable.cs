@@ -62,8 +62,8 @@ namespace Frankie.Inventory
         {
             if (animator.runtimeAnimatorController == null) { return; }
 
-            Mover.SetAnimatorxLook(animator, xLook);
-            Mover.SetAnimatoryLook(animator, yLook);
+            Mover.SetAnimatorXLook(animator, xLook);
+            Mover.SetAnimatorYLook(animator, yLook);
         }
 
         private void UpdateAnimatorSpeeds(float speed)

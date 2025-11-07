@@ -9,23 +9,23 @@ namespace Frankie.Control
     {
         // Tunables
         [Header("NPC Specific Behavior")]
-        [SerializeField] Transform interactionCenterPoint = null;
-        [SerializeField] PatrolPath patrolPath = null;
-        [SerializeField] float waypointDwellTime = 2.0f;
-        [SerializeField] float giveUpOnPatrolTargetTime = 10.0f;
+        [SerializeField] private Transform interactionCenterPoint;
+        [SerializeField] private PatrolPath patrolPath;
+        [SerializeField] private float waypointDwellTime = 2.0f;
+        [SerializeField] private float giveUpOnPatrolTargetTime = 10.0f;
 
         // Cached References
-        Animator animator = null;
-        NPCStateHandler npcStateHandler = null;
+        private Animator animator;
+        private NPCStateHandler npcStateHandler;
 
         // State
-        bool movingActive = true;
-        bool resetPositionOnNextIdle = false;
-        bool movingAwayFromTarget = false;
+        private bool movingActive = true;
+        private bool resetPositionOnNextIdle = false;
+        private bool movingAwayFromTarget = false;
 
-        int currentWaypointIndex = 0;
-        float timeSinceArrivedAtWaypoint = Mathf.Infinity;
-        float timeSinceNewPatrolTarget = 0f;
+        private int currentWaypointIndex;
+        private float timeSinceArrivedAtWaypoint = Mathf.Infinity;
+        private float timeSinceNewPatrolTarget;
 
         // Events
         public event Action arrivedAtFinalWaypoint;
@@ -60,23 +60,28 @@ namespace Frankie.Control
             if (!movingActive) { return; }
 
             bool? hasMoved = MoveToTarget();
-            if (hasMoved == null) { return; }
-
-            if (!(bool)hasMoved)
+            switch (hasMoved)
             {
-                bool isPatrolling = SetNextPatrolTarget();
-                if (!isPatrolling)
+                case null:
+                    return;
+                case false:
                 {
-                    ClearMoveTargets();
+                    bool isPatrolling = SetNextPatrolTarget();
+                    if (!isPatrolling)
+                    {
+                        ClearMoveTargets();
+                    }
+                    break;
                 }
-            }
-            else
-            {
-                if (timeSinceNewPatrolTarget > giveUpOnPatrolTargetTime && patrolPath != null)
+                case true:
                 {
-                    ForceNextPatrolTarget();
+                    if (timeSinceNewPatrolTarget > giveUpOnPatrolTargetTime && patrolPath != null)
+                    {
+                        ForceNextPatrolTarget();
+                    }
+                    timeSinceNewPatrolTarget += Time.deltaTime;
+                    break;
                 }
-                timeSinceNewPatrolTarget += Time.deltaTime; 
             }
         }
         #endregion
@@ -84,18 +89,13 @@ namespace Frankie.Control
         #region PublicMethods
         public Vector2 GetInteractionPosition()
         {
-            if (interactionCenterPoint != null)
-            {
-                return interactionCenterPoint.position;
-            }
-            return Vector2.zero;
+            return interactionCenterPoint != null ? interactionCenterPoint.position : Vector2.zero;
         }
 
         public void SetLookDirectionToPlayer(PlayerStateMachine playerStateHandler) // called via Unity Event
         {
-            PlayerController callingController = playerStateHandler.GetComponent<PlayerController>();
-            Vector2 lookDirection = callingController.GetInteractionPosition() - (Vector2)interactionCenterPoint.position;
-            SetLookDirection(lookDirection);
+            var callingController = playerStateHandler.GetComponent<PlayerController>();
+            SetLookDirection(callingController.GetInteractionPosition() - (Vector2)interactionCenterPoint.position);
             UpdateAnimator();
         }
 
@@ -117,14 +117,9 @@ namespace Frankie.Control
         protected override Vector2 ReckonTarget()
         {
             Vector2 target = base.ReckonTarget();
-            if (!movingAwayFromTarget)
-            {
-                return target;
-            }
-            else
-            {
-                return rigidBody2D.position * (Vector2.one - target); // Run toward equally distant position away from target
-            }
+            if (!movingAwayFromTarget) { return target; }
+            
+            return rigidBody2D.position * (Vector2.one - target); // Run toward equally distant position away from target
         }
 
         protected override void UpdateAnimator()
@@ -133,8 +128,8 @@ namespace Frankie.Control
             if (animator.runtimeAnimatorController == null) { return; }
 
             SetAnimatorSpeed(animator, currentSpeed);
-            SetAnimatorxLook(animator, lookDirection.x);
-            SetAnimatoryLook(animator, lookDirection.y);
+            SetAnimatorXLook(animator, lookDirection.x);
+            SetAnimatorYLook(animator, lookDirection.y);
         }
         #endregion
 

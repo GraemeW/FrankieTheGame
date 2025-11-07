@@ -107,8 +107,8 @@ namespace Frankie.Control
         {
             Vector2 position = rigidBody2D.position;
 
-            position.x = Mathf.Round(PIXELS_PER_UNIT * (position.x + GetPlayerMovementSpeed()  * SignFloored(lookDirection.x) * Time.deltaTime)) / PIXELS_PER_UNIT;
-            position.y = Mathf.Round(PIXELS_PER_UNIT * (position.y + GetPlayerMovementSpeed()  * SignFloored(lookDirection.y) * Time.deltaTime)) / PIXELS_PER_UNIT;
+            position.x = Mathf.Round(pixelsPerUnit * (position.x + GetPlayerMovementSpeed()  * SignFloored(lookDirection.x) * Time.deltaTime)) / pixelsPerUnit;
+            position.y = Mathf.Round(pixelsPerUnit * (position.y + GetPlayerMovementSpeed()  * SignFloored(lookDirection.y) * Time.deltaTime)) / pixelsPerUnit;
             rigidBody2D.MovePosition(position);
 
             movementHistory.Add(new Tuple<Vector2, Vector2>(position, new Vector2(lookDirection.x, lookDirection.y)));
