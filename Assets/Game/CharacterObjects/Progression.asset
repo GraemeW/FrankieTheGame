@@ -277,7 +277,7 @@ MonoBehaviour:
   - characterProperties: {fileID: 11400000, guid: 530bc654984fc6b478566ee056083f8b, type: 2}
     stats:
     - stat: 0
-      value: 13
+      value: 16
     - stat: 1
       value: 15
     - stat: 2
@@ -303,7 +303,7 @@ MonoBehaviour:
   - characterProperties: {fileID: 11400000, guid: 44e5b74a59991d14e972988012c4557e, type: 2}
     stats:
     - stat: 0
-      value: 14
+      value: 17
     - stat: 1
       value: 15
     - stat: 2
@@ -329,7 +329,7 @@ MonoBehaviour:
   - characterProperties: {fileID: 11400000, guid: 86aecc43b78f58145815657f0856ac5b, type: 2}
     stats:
     - stat: 0
-      value: 21
+      value: 27
     - stat: 1
       value: 15
     - stat: 2
@@ -355,7 +355,7 @@ MonoBehaviour:
   - characterProperties: {fileID: 11400000, guid: 9fe41bb8f767c374a974d7afca7cf995, type: 2}
     stats:
     - stat: 0
-      value: 22
+      value: 26
     - stat: 1
       value: 15
     - stat: 2
@@ -433,7 +433,7 @@ MonoBehaviour:
   - characterProperties: {fileID: 11400000, guid: e8ff4cd776c66f64b9f1e1196ef13434, type: 2}
     stats:
     - stat: 0
-      value: 31
+      value: 33
     - stat: 1
       value: 15
     - stat: 2

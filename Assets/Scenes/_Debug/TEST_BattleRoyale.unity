@@ -13578,7 +13578,7 @@ Transform:
   m_GameObject: {fileID: 1336447142}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.071169734, y: -0.3539132, z: 0}
+  m_LocalPosition: {x: -0.07999992, y: 0.52228147, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -13599,8 +13599,8 @@ MonoBehaviour:
   spawnOnEnable: 0
   spawnOnVisible: 0
   timeBetweenSpawns: 0
-  xJitterDistance: 0.25
-  yJitterDistance: 0.25
+  xJitterDistance: 0.3
+  yJitterDistance: 0.1
   spawnConfigurations:
   - spawnConfiguration:
       maxQuantity: 2
@@ -13636,11 +13636,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3578435516547435565, guid: 6b31bcac137c99b4fb2a967cab52e872, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -1.21961
+      value: -1.22
       objectReference: {fileID: 0}
     - target: {fileID: 3578435516547435565, guid: 6b31bcac137c99b4fb2a967cab52e872, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0.19228144
+      value: -0.59228146
       objectReference: {fileID: 0}
     - target: {fileID: 3578435516547435565, guid: 6b31bcac137c99b4fb2a967cab52e872, type: 3}
       propertyPath: m_LocalPosition.z

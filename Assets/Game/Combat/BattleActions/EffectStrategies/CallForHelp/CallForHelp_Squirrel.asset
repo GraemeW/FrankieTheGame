@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ac8509b1ed48910478e8dfa7f0f1450c, type: 3}
   m_Name: CallForHelp_Squirrel
   m_EditorClassIdentifier: 
-  maxEnemiesAllowedToCallInCombat: 2
+  maxEnemiesAllowedToCallInCombat: 3
   spawnConfigurations:
   - spawnConfiguration:
       maxQuantity: 1
