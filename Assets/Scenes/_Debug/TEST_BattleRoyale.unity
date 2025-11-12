@@ -843,7 +843,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -523566412701523979, guid: dc5a145739044fc4996c8bda39fb6981, type: 3}
       propertyPath: disableOnStart
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 266049365449688310, guid: dc5a145739044fc4996c8bda39fb6981, type: 3}
       propertyPath: m_CompositePaths.m_Paths.Array.size
@@ -14067,7 +14067,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -523566412701523979, guid: dc5a145739044fc4996c8bda39fb6981, type: 3}
       propertyPath: disableOnStart
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 266049365449688310, guid: dc5a145739044fc4996c8bda39fb6981, type: 3}
       propertyPath: m_CompositePaths.m_Paths.Array.size

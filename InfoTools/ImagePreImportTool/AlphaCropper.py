@@ -22,8 +22,8 @@ class AlphaCropper:
     #Initialization
     def __init__(self) -> None:
         # Tunables
-        self.inputPath = "Input"
-        self.outputPath = "Output"
+        self.inputPath = "./InputDirectory"
+        self.outputPath = "./Output"
         self.outputExtension = "png"
         self.fileTypes = list([".png", ".PNG"])
         self.transparencyPadding = 1
