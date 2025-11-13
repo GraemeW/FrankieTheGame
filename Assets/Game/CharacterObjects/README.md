@@ -105,6 +105,7 @@ Character objects are broken down into:
 
 <img src="../../../InfoTools/Documentation/Game/CharacterObjects/LucySpriteOverride.png" width="450">
 
+* Adjust the BoxCollider2D on the prefab variant (as needed to line-up to the attached sprite image)
 * In [OnLoadAssets/CharacterProperties/](../OnLoadAssets/CharacterProperties/), create a new entry for the new character & rename it accordingly
 
 <img src="../../../InfoTools/Documentation/Game/CharacterObjects/NewCharacterProperties.png" width="550">
@@ -208,6 +209,9 @@ The character creation process for NPCs is nearly identical to that of playable 
   * [NPCCombatReady](./NPCs/NPCCombatReady.prefab):  for NPCs that do engage in combat
 * The *optional* step of hooking up combat parameters in [Combat Setup](#combat-setup) is **no longer optional**
 * A host of new NPC-related components are now configurable -- such as state machine behavior, move parameters, chase parameters, loot tables, etc.
+  * For spawnable enemies, it is **critical** to set the NPC State Handler:
+    * `Will Force Combat`:  `Enable`
+    * `Will Destroy If Invisible`:  `Enable`
 
 ### Summary of Key Components
 

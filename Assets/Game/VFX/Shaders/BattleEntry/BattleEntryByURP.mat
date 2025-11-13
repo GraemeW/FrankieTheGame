@@ -24,7 +24,7 @@ Material:
     serializedVersion: 3
     m_TexEnvs:
     - _MainTex:
-        m_Texture: {fileID: 2800000, guid: 48853a5670350a84bb46b94fcdb31459, type: 3}
+        m_Texture: {fileID: 2800000, guid: e1b549b5625cd6c49baa09e79d3f1ef0, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _Texture2DAsset_38ffba9e9f644a5085b23c6a6b1b814b_Out_0_Texture2D:
@@ -49,10 +49,10 @@ Material:
     - _FadeOutTime: 0.75
     - _FadeTime: 3.5
     - _GraphicStrengthMod: 2
-    - _Phase: 6.8746953
+    - _Phase: 6.7399974
     - _Strength: 30
     - _ToggleFade: 0
-    - _ToggleFadeOut: 1
+    - _ToggleFadeOut: 0
     m_Colors: []
   m_BuildTextureStacks: []
   m_AllowLocking: 1
