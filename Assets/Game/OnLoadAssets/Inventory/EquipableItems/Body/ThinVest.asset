@@ -16,7 +16,7 @@ MonoBehaviour:
   displayName: Thin Vest
   description: It's a very thin vest, offers minimal protection
   droppable: 1
-  price: 50
+  price: 65
   equipLocation: 3
   baseStatModifiers:
   - stat: 7

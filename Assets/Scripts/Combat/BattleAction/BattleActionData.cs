@@ -95,6 +95,8 @@ namespace Frankie.Combat
         
         private void SetDefaultFocalTarget()
         {
+            if (targets.Count == 0) { focalTarget = null; return; }
+            
             List<BattleEntity> tryBattleEntities = targets.Where(target => target.row == BattleMat.GetDefaultBattleRow()).ToList();
             switch (tryBattleEntities.Count)
             {

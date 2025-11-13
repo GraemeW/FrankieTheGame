@@ -5,6 +5,7 @@ namespace Frankie.Stats
     public static class CalculatedStats
     {
         // Note:  Equations  have a lot of magic numbers for shaping
+        private const float _magicalAdderPreMultiplier = 0.25f;
         private const float _cooldownMultiplierMin = 0.2f;
         private const float _cooldownMultiplierMax = 4f;
         private const float _hitChanceMin = 0.2f;
@@ -84,7 +85,7 @@ namespace Frankie.Stats
 
         private static float GetMagicalAdder(float modifier)
         {
-            return Mathf.Max(0f, modifier);
+            return Mathf.Max(0f, modifier * _magicalAdderPreMultiplier);
         }
 
         private static float GetDefense(float modifier)

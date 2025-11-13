@@ -52,8 +52,8 @@ namespace Frankie.Stats
                 [Stat.Pluck] = progression.GetStat(Stat.Pluck, characterProperties) * (1 + GetBonusMultiplier()),
                 [Stat.Stoic] = progression.GetStat(Stat.Stoic, characterProperties) * (1 + GetBonusMultiplier()), // Used for HP adjust
                 [Stat.Smarts] = progression.GetStat(Stat.Smarts, characterProperties)* (1 + GetBonusMultiplier()), // Used for AP adjust
-                [Stat.HP] = (2 * currentStoic / currentLevel) * (1 + 4 * GetBonusMultiplier()), // Take overall stat normalized to level, bonus swing larger for HP
-                [Stat.AP] = (2 * currentSmarts / currentLevel) * (1 + 4 * GetBonusMultiplier()) // Take overall stat normalized to level, bonus swing larger for AP
+                [Stat.HP] = (1.5f * currentStoic / currentLevel) * (1 + 4 * GetBonusMultiplier()), // Take overall stat normalized to level, bonus swing larger for HP
+                [Stat.AP] = (0.8f * currentSmarts / currentLevel) * (1 + 2 * GetBonusMultiplier()) // Take overall stat normalized to level, bonus swing larger for AP
             };
             return levelUpSheet;
         }

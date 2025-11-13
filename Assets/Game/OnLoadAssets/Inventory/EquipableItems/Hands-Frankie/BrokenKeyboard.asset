@@ -16,7 +16,7 @@ MonoBehaviour:
   displayName: Broken Keyboard
   description: The F key sticks and the space bar fell off.  Only usable by Frankie.
   droppable: 1
-  price: 30
+  price: 12
   equipLocation: 1
   baseStatModifiers:
   - stat: 4

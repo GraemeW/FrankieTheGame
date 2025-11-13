@@ -16,7 +16,7 @@ MonoBehaviour:
   displayName: Simple Keyboard
   description: It's a really basic keyboard.  No numpad.  Only usable by Frankie.
   droppable: 1
-  price: 60
+  price: 75
   equipLocation: 1
   baseStatModifiers:
   - stat: 4

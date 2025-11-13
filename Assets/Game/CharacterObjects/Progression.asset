@@ -25,9 +25,9 @@ MonoBehaviour:
     - stat: 3
       value: 999
     - stat: 4
-      value: 2
+      value: 3
     - stat: 5
-      value: 2
+      value: 3
     - stat: 6
       value: 2
     - stat: 7
@@ -441,7 +441,7 @@ MonoBehaviour:
     - stat: 3
       value: 999
     - stat: 4
-      value: 20
+      value: 25
     - stat: 5
       value: 12
     - stat: 6
@@ -455,7 +455,7 @@ MonoBehaviour:
     - stat: 10
       value: 12
     - stat: 11
-      value: 6
+      value: 7
   - characterProperties: {fileID: 11400000, guid: b5a9ff0e2cddb41b9b8ba2dc6d5d6c09, type: 2}
     stats:
     - stat: 0
@@ -467,7 +467,7 @@ MonoBehaviour:
     - stat: 3
       value: 999
     - stat: 4
-      value: 16
+      value: 20
     - stat: 5
       value: 12
     - stat: 6
@@ -481,15 +481,15 @@ MonoBehaviour:
     - stat: 10
       value: 12
     - stat: 11
-      value: 5
+      value: 6
   - characterProperties: {fileID: 11400000, guid: 537df5674361a47378862a0bf8274072, type: 2}
     stats:
     - stat: 0
-      value: 100
+      value: 150
     - stat: 1
       value: 10
     - stat: 2
-      value: 200
+      value: 750
     - stat: 3
       value: 999
     - stat: 4
@@ -507,30 +507,30 @@ MonoBehaviour:
     - stat: 10
       value: 50
     - stat: 11
-      value: 7
+      value: 10
   - characterProperties: {fileID: 11400000, guid: b948c0129e36c474780edf15fc112e9b, type: 2}
     stats:
     - stat: 0
-      value: 40
+      value: 45
     - stat: 1
       value: 10
     - stat: 2
-      value: 200
+      value: 500
     - stat: 3
       value: 999
     - stat: 4
-      value: 15
+      value: 35
     - stat: 5
       value: 14
     - stat: 6
       value: 14
     - stat: 7
-      value: 30
+      value: 20
     - stat: 8
       value: 14
     - stat: 9
-      value: 30
+      value: 35
     - stat: 10
       value: 20
     - stat: 11
-      value: 7
+      value: 9
