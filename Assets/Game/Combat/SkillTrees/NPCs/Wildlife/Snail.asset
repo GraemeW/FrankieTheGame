@@ -1,0 +1,52 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b8d8f88416a3eaa479e5d149d93dcddb, type: 3}
+  m_Name: Snail
+  m_EditorClassIdentifier: Assembly-CSharp::Frankie.Combat.SkillTree
+  newBranchOffset: {x: 150, y: 150}
+  branchWidth: 250
+  branchHeight: 155
+  skillBranches:
+  - {fileID: 6115889895263035226}
+--- !u!114 &6115889895263035226
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6b066201d64e5354387f385aa2872d22, type: 3}
+  m_Name: e55522f7-8c20-49ab-a767-1cc811617eee
+  m_EditorClassIdentifier: Assembly-CSharp::Frankie.Combat.SkillBranch
+  upSkillReference: Wallop
+  upBranch: 
+  leftSkillReference: 
+  leftBranch: 
+  rightSkillReference: 
+  rightBranch: 
+  downSkillReference: 
+  downBranch: 
+  rect:
+    serializedVersion: 2
+    x: 30
+    y: 30
+    width: 250
+    height: 155
+  draggingRect:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 250
+    height: 45
+  mappedFromBranch: 0

@@ -22,7 +22,7 @@ namespace Frankie.Control
         float targetDistanceTolerance = 0.15f;
 
         // Cached References
-        protected Rigidbody2D rigidBody2D = null;
+        protected Rigidbody2D rigidBody2D;
 
         #region Static
         private const float _signFloorThreshold = 0.1f;
