@@ -20,8 +20,15 @@ namespace Frankie.Stats
         [SerializeField] private Progression progression;
 
         // Static/Const Parameters
-        private const float _bonusStatOnLevelMidProbability = 0.3f; // 0 to 1
-        private const float _bonusStatOnLevelHighProbability = 0.1f; // 0 to 1\
+        private const float _hpMultiplier = 2.0f;
+        private const float _apMultiplier = 1.2f;
+        private static readonly List<float[]> _levelUpStatScalerLerpPoints = new()
+        {
+            // Ensure LERP points match in length
+            // Ensure incrementing in a logical manner
+            new float[4]{0f, 0.7f, 0.9f, 1.0f},
+            new float[4]{0.0f, 1.0f, 1.25f, 1.5f}
+        };
         private const int _defaultLevelForNoCharacterProperties = 1;
         private const int _maxLevel = 99;
         
@@ -45,24 +52,29 @@ namespace Frankie.Stats
         {
             var levelUpSheet = new Dictionary<Stat, float>
             {
-                [Stat.Brawn] = progression.GetStat(Stat.Brawn, characterProperties) * (1 + GetBonusMultiplier()),
-                [Stat.Beauty] = progression.GetStat(Stat.Beauty, characterProperties) * (1 + GetBonusMultiplier()),
-                [Stat.Nimble] = progression.GetStat(Stat.Nimble, characterProperties) * (1 + GetBonusMultiplier()),
-                [Stat.Luck] = progression.GetStat(Stat.Luck, characterProperties) * (1 + GetBonusMultiplier()),
-                [Stat.Pluck] = progression.GetStat(Stat.Pluck, characterProperties) * (1 + GetBonusMultiplier()),
-                [Stat.Stoic] = progression.GetStat(Stat.Stoic, characterProperties) * (1 + GetBonusMultiplier()), // Used for HP adjust
-                [Stat.Smarts] = progression.GetStat(Stat.Smarts, characterProperties)* (1 + GetBonusMultiplier()), // Used for AP adjust
-                [Stat.HP] = (1.5f * currentStoic / currentLevel) * (1 + 4 * GetBonusMultiplier()), // Take overall stat normalized to level, bonus swing larger for HP
-                [Stat.AP] = (0.8f * currentSmarts / currentLevel) * (1 + 2 * GetBonusMultiplier()) // Take overall stat normalized to level, bonus swing larger for AP
+                [Stat.Brawn] = progression.GetStat(Stat.Brawn, characterProperties) * GetLevelUpStatMultiplier(),
+                [Stat.Beauty] = progression.GetStat(Stat.Beauty, characterProperties) * GetLevelUpStatMultiplier(),
+                [Stat.Nimble] = progression.GetStat(Stat.Nimble, characterProperties) * GetLevelUpStatMultiplier(),
+                [Stat.Luck] = progression.GetStat(Stat.Luck, characterProperties) * GetLevelUpStatMultiplier(),
+                [Stat.Pluck] = progression.GetStat(Stat.Pluck, characterProperties) * GetLevelUpStatMultiplier(),
+                [Stat.Stoic] = progression.GetStat(Stat.Stoic, characterProperties) * GetLevelUpStatMultiplier(), // Used for HP adjust
+                [Stat.Smarts] = progression.GetStat(Stat.Smarts, characterProperties)* GetLevelUpStatMultiplier(), // Used for AP adjust
+                [Stat.HP] = (_hpMultiplier * currentStoic / currentLevel) * GetLevelUpStatMultiplier(), // Take overall stat normalized to level, bonus swing larger for HP
+                [Stat.AP] = (_apMultiplier * currentSmarts / currentLevel) * GetLevelUpStatMultiplier() // Take overall stat normalized to level, bonus swing larger for AP
             };
             return levelUpSheet;
         }
-        private static float GetBonusMultiplier()
+        private static float GetLevelUpStatMultiplier()
         {
-            float roll = UnityEngine.Random.Range(0f, 1f);
-            if (roll <= _bonusStatOnLevelHighProbability) { return 0.5f; }
-            if (roll <= (_bonusStatOnLevelMidProbability + _bonusStatOnLevelHighProbability)) { return 0.25f; }
-            return 0;
+            float chance = UnityEngine.Random.Range(0f, 1f);
+            int lowAnchorIndex;
+            for (lowAnchorIndex = 0; lowAnchorIndex < _levelUpStatScalerLerpPoints[0].Length - 1; lowAnchorIndex++)
+            {
+                if (chance >= _levelUpStatScalerLerpPoints[0][lowAnchorIndex] && chance <= _levelUpStatScalerLerpPoints[0][lowAnchorIndex+1]) { break; }
+            }
+            
+            float normalizedChance = (chance - _levelUpStatScalerLerpPoints[0][lowAnchorIndex]) / (_levelUpStatScalerLerpPoints[0][lowAnchorIndex+1] - _levelUpStatScalerLerpPoints[0][lowAnchorIndex]);
+            return Mathf.Lerp(_levelUpStatScalerLerpPoints[1][lowAnchorIndex],  _levelUpStatScalerLerpPoints[1][lowAnchorIndex+1], normalizedChance);
         }
         #endregion
 

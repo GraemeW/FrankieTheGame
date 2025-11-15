@@ -15445,7 +15445,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -523566412701523979, guid: dc5a145739044fc4996c8bda39fb6981, type: 3}
       propertyPath: disableOnStart
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 266049365449688310, guid: dc5a145739044fc4996c8bda39fb6981, type: 3}
       propertyPath: m_CompositePaths.m_Paths.Array.size
@@ -26866,11 +26866,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9140000498525693428, guid: 9bf5874c37e0a404a9bd916129a14959, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 6.2083144
+      value: -2.347506
       objectReference: {fileID: 0}
     - target: {fileID: 9140000498525693428, guid: 9bf5874c37e0a404a9bd916129a14959, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0.7195576
+      value: -0.80156225
       objectReference: {fileID: 0}
     - target: {fileID: 9140000498525693428, guid: 9bf5874c37e0a404a9bd916129a14959, type: 3}
       propertyPath: m_LocalPosition.z
@@ -27783,7 +27783,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -523566412701523979, guid: dc5a145739044fc4996c8bda39fb6981, type: 3}
       propertyPath: disableOnStart
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 266049365449688310, guid: dc5a145739044fc4996c8bda39fb6981, type: 3}
       propertyPath: m_CompositePaths.m_Paths.Array.size
