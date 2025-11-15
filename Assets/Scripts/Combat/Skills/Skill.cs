@@ -32,7 +32,7 @@ namespace Frankie.Combat
         {
             // In Unity Editor, force-build cache for quicker / simpler debug
 #if (!UNITY_EDITOR)
-            if (skillLookupCache != null) { return; }
+            if (_skillLookupCache != null) { return; }
 #endif
 
             _skillLookupCache = new Dictionary<string, Skill>();

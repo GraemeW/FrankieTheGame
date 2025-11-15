@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6b066201d64e5354387f385aa2872d22, type: 3}
   m_Name: e6aaaa82-abd3-4099-b168-1fb7be55e5e4
   m_EditorClassIdentifier: 
-  upSkillReference: 
+  upSkillReference: Wallop
   upBranch: 
   leftSkillReference: 
   leftBranch: 

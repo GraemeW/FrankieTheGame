@@ -1,5 +1,5 @@
-using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using Frankie.Core;
 using Frankie.Utils;
@@ -11,20 +11,20 @@ namespace Frankie.Control.Specialization
     public class WorldSubwayRider : MonoBehaviour, ICheckDynamic
     {
         // Tunables
-        [SerializeField] string message = "Where do you want to ride?";
-        [SerializeField] GameObject conductorToggleObject = null;
-        [SerializeField] Transform followTarget = null;
-        [SerializeField] SubwayRide[] subwayRides = null;
-        [SerializeField] WorldSubwayRider[] sisterRidersToDisable = null;
+        [SerializeField] private string message = "Where do you want to ride?";
+        [SerializeField] private GameObject conductorToggleObject;
+        [SerializeField] private Transform followTarget;
+        [SerializeField] private SubwayRide[] subwayRides;
+        [SerializeField] private WorldSubwayRider[] sisterRidersToDisable;
 
         // State
-        bool active = true;
-        PlayerStateMachine playerStateMachine = null;
-        CameraController cameraController = null;
+        private bool active = true;
+        private PlayerStateMachine cachedPlayerStateMachine;
+        private CameraController cameraController;
 
         // Cached References
-        NPCMover npcMover = null;
-        Animator animator = null;
+        private NPCMover npcMover;
+        private Animator animator;
 
         #region UnityMethods
         private void Awake()
@@ -43,17 +43,10 @@ namespace Frankie.Control.Specialization
         public string GetMessage() => message;
         public List<ChoiceActionPair> GetChoiceActionPairs(PlayerStateMachine playerStateMachine)
         {
-            List<ChoiceActionPair> rideOptions = new List<ChoiceActionPair>();
-            if (subwayRides == null || subwayRides.Length == 0) { return rideOptions; }
-            if (!active) { return rideOptions; }
+            var rideOptions = new List<ChoiceActionPair>();
+            if (subwayRides == null || subwayRides.Length == 0 || !active) { return rideOptions; }
 
-            foreach (SubwayRide subwayRide in subwayRides)
-            {
-                if (subwayRide.zoneHandler == null || subwayRide.path == null) { continue; }
-
-                ChoiceActionPair choiceActionPair = new ChoiceActionPair(subwayRide.rideName, () => StartRide(playerStateMachine, subwayRide));
-                rideOptions.Add(choiceActionPair);
-            }
+            rideOptions.AddRange(from subwayRide in subwayRides where subwayRide.zoneHandler != null && subwayRide.path != null select new ChoiceActionPair(subwayRide.rideName, () => StartRide(playerStateMachine, subwayRide)));
             return rideOptions;
         }
         #endregion
@@ -70,10 +63,10 @@ namespace Frankie.Control.Specialization
         {
             if (subwayRide == null || subwayRide.zoneHandler == null || subwayRide.path == null) { return; }
 
-            this.playerStateMachine = playerStateMachine;
+            this.cachedPlayerStateMachine = playerStateMachine;
 
-            InteractionEvent interactionEvent = new InteractionEvent();
-            interactionEvent.AddListener((playerStateMachine) => HandleRideStart(subwayRide));
+            var interactionEvent = new InteractionEvent();
+            interactionEvent.AddListener((_) => HandleRideStart(subwayRide));
             playerStateMachine.SetPostDialogueCallbackActions(interactionEvent);
         }
 
@@ -94,35 +87,27 @@ namespace Frankie.Control.Specialization
             }
 
             // Pass camera control to train
-            if (followTarget == null)
-            {
-                cameraController.OverrideCameraFollower(animator, transform);
-            }
-            else
-            {
-                cameraController.OverrideCameraFollower(animator, followTarget);
-            }
-
+            cameraController.OverrideCameraFollower(animator, followTarget == null ? transform : followTarget);
 
             // Warp player -- must be called after camera on train to avoid camera jump
-            subwayRide.zoneHandler.AttemptToWarpPlayer(playerStateMachine);
+            subwayRide.zoneHandler.AttemptToWarpPlayer(cachedPlayerStateMachine);
 
             // Start to move Train
             npcMover.SetPatrolPath(subwayRide.path);
             npcMover.arrivedAtFinalWaypoint += HandleRideEnd;
 
             // Remove player control -- Call this after warping player, or ZoneHandler will force exit cutscene
-            playerStateMachine.EnterCutscene(false);
+            cachedPlayerStateMachine.EnterCutscene(false);
         }
 
         private void HandleRideEnd()
         {
-            if (playerStateMachine == null) { playerStateMachine = Player.FindPlayerStateMachine(); }
+            if (cachedPlayerStateMachine == null) { cachedPlayerStateMachine = Player.FindPlayerStateMachine(); }
             if (cameraController == null) { CameraController.GetCameraController(); }
 
             npcMover.arrivedAtFinalWaypoint -= HandleRideEnd;
             cameraController.RefreshDefaultCameras();
-            playerStateMachine.EnterWorld();
+            cachedPlayerStateMachine.EnterWorld();
 
             active = false; // de-activate (cannot ride back on same train, need to leave/rejoin subway)
         }

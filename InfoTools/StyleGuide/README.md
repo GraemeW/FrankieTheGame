@@ -20,6 +20,9 @@
 * Lower:
   * Variable names must use `lowerCamelCase`
   * Event names must use `lowerCamelCase`
+* Underscore+Lower:
+  * Private Const names must use `_underscoreLowerCamelCase`
+  * Private Static names must use `_underscoreLowerCamelCase`
 * Naming Guidance:
   * Names must be chosen to be inherently intuitive and explanatory
   * Names should avoid using broad/vague terminologies, such as `Handler` or `Manager`

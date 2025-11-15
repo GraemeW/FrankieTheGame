@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3e8ff82454b5c704385bdc320a0c9aaf, type: 3}
+  m_Name: AllTarget_ReduceLuck12Nimble12Pluck12
+  m_EditorClassIdentifier: 
+  targetingStrategy: {fileID: 11400000, guid: ded4043d1642d964a820631fa6ac224c, type: 2}
+  effectStrategies:
+  - {fileID: 11400000, guid: a00ed1493624e924b8a6c2fe8ea47174, type: 2}
+  - {fileID: 11400000, guid: 514d110af72606a49b5f9d46c29ece39, type: 2}
+  - {fileID: 11400000, guid: 1a3f009e94f411b4c8436058b770a7f3, type: 2}
+  - {fileID: 11400000, guid: 46dde1bd578368c40bda69a97b36a2e8, type: 2}
+  damageType: 2
+  cooldown: 6
+  apCost: 20

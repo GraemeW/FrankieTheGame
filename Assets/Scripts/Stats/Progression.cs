@@ -32,28 +32,51 @@ namespace Frankie.Stats
                 Stat.Luck => 3f,
                 Stat.Pluck => 3f,
                 Stat.Stoic => 2f,
+                Stat.InitialLevel => 1f,
                 _ => 0f
             };
         }
         
         #if UNITY_EDITOR
+        public void ForceBuildLookup()
+        {
+            BuildLookup(true);
+        }
+        
         public void UpdateProgressionAsset(CharacterProperties characterProperties, Stat updatedStat, float newValue)
         {
             Undo.RegisterCompleteObjectUndo(this, "Update Progression");
+            bool characterFound = false;
             foreach (ProgressionCharacterClass progressionCharacterClass in characterClasses)
             {
                 if (progressionCharacterClass.characterProperties != characterProperties) { continue; }
 
+                characterFound = true;
+                bool statFound = false;
                 foreach (ProgressionStat progressionStat in progressionCharacterClass.stats)
                 {
                     if (progressionStat.stat != updatedStat) { continue; }
                     
+                    statFound = true;
                     progressionStat.value = newValue;
                     break;
+                }
+
+                if (!statFound)
+                {
+                    var newProgressionStat = new ProgressionStat { stat = updatedStat, value = newValue };
+                    Array.Resize(ref progressionCharacterClass.stats, progressionCharacterClass.stats.Length + 1);
+                    progressionCharacterClass.stats[^1] =  newProgressionStat;
                 }
                 break;
             }
             EditorUtility.SetDirty(this);
+
+            if (characterFound)
+            {
+                // Update dictionary to avoid need to rebuild entire dict on every update
+                lookupTable[characterProperties][updatedStat] = newValue;
+            }
         }
 
         public void AddToProgressionAsset(CharacterProperties characterProperties)
@@ -68,6 +91,8 @@ namespace Frankie.Stats
             Array.Resize(ref characterClasses, characterClasses.Length + 1);
             characterClasses[^1] = progressionCharacterClass;
             EditorUtility.SetDirty(this);
+            
+            ForceBuildLookup();
         }
 
         public void RemoveFromProgressionAsset(IEnumerable<CharacterProperties> charactersProperties)
@@ -80,11 +105,19 @@ namespace Frankie.Stats
                 characterClasses =  characterClassesVolatile.ToArray();
             }
             EditorUtility.SetDirty(this);
+            
+            ForceBuildLookup();
         }
         #endif
         
         #region PublicMethods
         public ProgressionCharacterClass[] GetCharacterClasses() => characterClasses;
+
+        public bool HasProgression(CharacterProperties characterProperties)
+        {
+            BuildLookup();
+            return lookupTable.ContainsKey(characterProperties);
+        }
         
         public float GetStat(Stat stat, CharacterProperties characterProperties)
         {
@@ -95,7 +128,7 @@ namespace Frankie.Stats
         public Dictionary<Stat, float> GetStatSheet(CharacterProperties characterProperties)
         {
             BuildLookup();
-            Dictionary<Stat, float> statSheet = new Dictionary<Stat, float>();
+            var statSheet = new Dictionary<Stat, float>();
             Dictionary<Stat, float> statBook = lookupTable[characterProperties];
             foreach (Stat stat in statBook.Keys)
             {
@@ -106,30 +139,27 @@ namespace Frankie.Stats
         #endregion
         
         #region PrivateMethods
-        private void BuildLookup()
+        private void BuildLookup(bool forceBuild = false)
         {
-            if (lookupTable != null) { return; }
+            if (lookupTable != null && !forceBuild) { return; }
             lookupTable = new Dictionary<CharacterProperties, Dictionary<Stat, float>>();
 
             foreach (ProgressionCharacterClass progressionCharacterClass in characterClasses)
             {
-                Dictionary<Stat, float> statDictionary = new Dictionary<Stat, float>();
+                var statDictionary = new Dictionary<Stat, float>();
 
                 foreach (Stat stat in Enum.GetValues(typeof(Stat)))
                 {
                     bool foundStat = false;
                     foreach (ProgressionStat progressionStat in progressionCharacterClass.stats)
                     {
-                        if (progressionStat.stat == stat)
-                        {
-                            statDictionary[stat] = progressionStat.value;
-                            foundStat = true;
-                            break;
-                        }
+                        if (progressionStat.stat != stat) continue;
+                        statDictionary[stat] = progressionStat.value;
+                        foundStat = true;
+                        break;
                     }
                     if (!foundStat) { statDictionary[stat] = defaultStatValueIfMissing; }
                 }
-
                 lookupTable[progressionCharacterClass.characterProperties] = statDictionary;
             }
         }

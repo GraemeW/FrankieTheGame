@@ -100,9 +100,12 @@ Character objects are broken down into:
 
 * Rename the prefab variant to the character, and create a folder for it in [PCs](./PCs/) - move the prefab variant to this new folder
 * Adjust the default sprite image for this character (Character Sprite -> Sprite Renderer -> Sprite) - e.g. like below for [Lucy](./PCs/Lucy/Lucy.prefab)
+  * *Note:  Sprite artwork should follow the style guide, per [StyleGuide](../../../InfoTools/StyleGuide/README.md#game-object--world-artwork-pixel-art)*
+  * *Note:  Sprite import settings should be adjusted, per [Game/WorldObjects](../../Assets/Game/WorldObjects/README.md#sprite-import--setup)*
 
 <img src="../../../InfoTools/Documentation/Game/CharacterObjects/LucySpriteOverride.png" width="450">
 
+* Adjust the BoxCollider2D on the prefab variant (as needed to line-up to the attached sprite image)
 * In [OnLoadAssets/CharacterProperties/](../OnLoadAssets/CharacterProperties/), create a new entry for the new character & rename it accordingly
 
 <img src="../../../InfoTools/Documentation/Game/CharacterObjects/NewCharacterProperties.png" width="550">
@@ -116,11 +119,9 @@ Character objects are broken down into:
 
 <img src="../../../InfoTools/Documentation/Game/CharacterObjects/LucyBaseStatsLink.png" width="350">
 
-* Open up the [Progression](./Progression.asset) scriptable object
-* Create a new entry for the new character
-* Link the character properties scriptable object to the new entry
-* Fill the stats for the new character as desired - e.g. like below for [Lucy](./PCs/Lucy/Lucy.prefab)
-  * *See above for more detail on progression stats*
+* Create a new entry for the character properties using the [Progression Editor](#progression-editor), as detailed above
+  * This is done simply by clicking on the `Reconcile Characters` button
+* This will update the [Progression](./Progression.asset) asset accordingly, for example as below:
 
 <img src="../../../InfoTools/Documentation/Game/CharacterObjects/LucyProgression.png" width="400">
 
@@ -159,6 +160,9 @@ Character objects are broken down into:
   * Instead, add the sprite property from the childed object (as below), and then drag the sprites onto this property
 
 <img src="../../../InfoTools/Documentation/Game/CharacterObjects/LucyChildedCharacterSpriteProperty.png" width="500">
+
+* Once all the new clips are bound the the override object, open the prefab's animator controller and delete the same new clips from the controller itself
+  * otherwise these new clips will appear in the override controller in addition to the standard dummy animations
 
 #### Combat Setup
 
@@ -205,6 +209,9 @@ The character creation process for NPCs is nearly identical to that of playable 
   * [NPCCombatReady](./NPCs/NPCCombatReady.prefab):  for NPCs that do engage in combat
 * The *optional* step of hooking up combat parameters in [Combat Setup](#combat-setup) is **no longer optional**
 * A host of new NPC-related components are now configurable -- such as state machine behavior, move parameters, chase parameters, loot tables, etc.
+  * For spawnable enemies, it is **critical** to set the NPC State Handler:
+    * `Will Force Combat`:  `Enable`
+    * `Will Destroy If Invisible`:  `Enable`
 
 ### Summary of Key Components
 

@@ -1,5 +1,4 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -12,10 +11,10 @@ namespace Frankie.Inventory
     public class Equipment : MonoBehaviour, ISaveable, IModifierProvider
     {
         // State
-        Dictionary<EquipLocation, EquipableItem> equippedItems = new Dictionary<EquipLocation, EquipableItem>();
+        private Dictionary<EquipLocation, EquipableItem> equippedItems = new();
 
         // Cached References
-        Knapsack knapsack;
+        private Knapsack knapsack;
 
         // Events
         public event Action<EquipableItem> equipmentUpdated;
@@ -31,26 +30,13 @@ namespace Frankie.Inventory
         }
 
         #region CheckEquipment
-        public bool HasItemInSlot(EquipLocation equipLocation)
-        {
-            return equippedItems.ContainsKey(equipLocation);
-        }
-
-        public EquipableItem GetItemInSlot(EquipLocation equipLocation)
-        {
-            if (!equippedItems.ContainsKey(equipLocation)) { return null; }
-
-            return equippedItems[equipLocation];
-        }
-
-        public IEnumerable<EquipLocation> GetAllPopulatedSlots()
-        {
-            return equippedItems.Keys;
-        }
+        public bool HasItemInSlot(EquipLocation equipLocation) => equippedItems.ContainsKey(equipLocation);
+        public EquipableItem GetItemInSlot(EquipLocation equipLocation) => equippedItems.GetValueOrDefault(equipLocation);
+        public IEnumerable<EquipLocation> GetAllPopulatedSlots() => equippedItems.Keys;
 
         public Dictionary<Stat, float> CompareEquipableItem(EquipLocation equipLocation, EquipableItem equipableItem)
         {
-            Dictionary<Stat, float> comparisonStatSheet = new Dictionary<Stat, float>();
+            var comparisonStatSheet = new Dictionary<Stat, float>();
             Stat[] nonModifyingStats = BaseStats.GetNonModifyingStats();
 
             foreach (Stat stat in Enum.GetValues(typeof(Stat)))
@@ -107,13 +93,10 @@ namespace Frankie.Inventory
             foreach (EquipLocation equipLocation in Enum.GetValues(typeof(EquipLocation)))
             {
                 if (equipLocation == EquipLocation.None) { continue; }
-
-                if (equippedItems.ContainsKey(equipLocation))
+                if (!equippedItems.TryGetValue(equipLocation, out EquipableItem item)) { continue; }
+                if (!knapsack.HasItem(item))
                 {
-                    if (!knapsack.HasItem(equippedItems[equipLocation]))
-                    {
-                        RemoveEquipment(equipLocation, false);
-                    }
+                    RemoveEquipment(equipLocation, false);
                 }
             }
 
@@ -124,16 +107,7 @@ namespace Frankie.Inventory
         #region Interfaces
         public IEnumerable<float> GetAdditiveModifiers(Stat stat)
         {
-            foreach (EquipLocation slot in GetAllPopulatedSlots())
-            {
-                IModifierProvider item = GetItemInSlot(slot) as IModifierProvider;
-                if (item == null) { continue; }
-
-                foreach (float modifier in item.GetAdditiveModifiers(stat))
-                {
-                    yield return modifier;
-                }
-            }
+            return GetAllPopulatedSlots().Select(GetItemInSlot).Where(item => (IModifierProvider)item != null).SelectMany(item => ((IModifierProvider)item).GetAdditiveModifiers(stat));
         }
 
         public LoadPriority GetLoadPriority()
@@ -143,7 +117,7 @@ namespace Frankie.Inventory
 
         public SaveState CaptureState()
         {
-            Dictionary<EquipLocation, string> equippedItemsForSerialization = new Dictionary<EquipLocation, string>();
+            var equippedItemsForSerialization = new Dictionary<EquipLocation, string>();
             foreach (KeyValuePair<EquipLocation, EquipableItem> pair in equippedItems)
             {
                 equippedItemsForSerialization[pair.Key] = pair.Value.GetItemID();
@@ -155,7 +129,7 @@ namespace Frankie.Inventory
         public void RestoreState(SaveState saveState)
         {
             equippedItems = new Dictionary<EquipLocation, EquipableItem>();
-            Dictionary<EquipLocation, string> equippedItemsForSerialization = saveState.GetState(typeof(Dictionary<EquipLocation, string>)) as Dictionary<EquipLocation, string>;
+            var equippedItemsForSerialization = saveState.GetState(typeof(Dictionary<EquipLocation, string>)) as Dictionary<EquipLocation, string>;
             if (equippedItemsForSerialization == null) { return; }
 
             foreach (KeyValuePair<EquipLocation, string> pair in equippedItemsForSerialization)

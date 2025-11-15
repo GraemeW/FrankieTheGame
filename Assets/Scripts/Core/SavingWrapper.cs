@@ -10,15 +10,15 @@ namespace Frankie.Core
     public static class SavingWrapper
     {
         // Constants
-        const string defaultSaveFile = "save";
-        const string sessionFile = "session";
-        const string debugFile = "debug";
-        const string PLAYER_PREFS_CURRENT_SAVE = "currentSave";
+        private const string _defaultSaveFile = "save";
+        private const string _sessionFile = "session";
+        private const string _debugFile = "debug";
+        private const string _playerPrefsCurrentSave = "currentSave";
 
         #region StaticMethods
         public static string GetSaveNameForIndex(int index)
         {
-            return string.Concat(defaultSaveFile, "_", index.ToString());
+            return string.Concat(_defaultSaveFile, "_", index.ToString());
         }
 
         public static bool GetInfoFromName(string saveName, out string characterName, out int level)
@@ -38,15 +38,12 @@ namespace Frankie.Core
 
         private static string GetPrefsKey(PrefsKeyType prefsKeyType, string saveName)
         {
-            if (prefsKeyType == PrefsKeyType.CharacterName)
+            return prefsKeyType switch
             {
-                return string.Concat(saveName, "_CharacterName");
-            }
-            else if (prefsKeyType == PrefsKeyType.Level)
-            {
-                return string.Concat(saveName, "_Level");
-            }
-            return "";
+                PrefsKeyType.CharacterName => string.Concat(saveName, "_CharacterName"),
+                PrefsKeyType.Level => string.Concat(saveName, "_Level"),
+                _ => ""
+            };
         }
 
         private static void SetSavePrefs(string saveName, string characterName, int level)
@@ -85,7 +82,8 @@ namespace Frankie.Core
         #endregion
 
         #region PublicMethods
-        public static IEnumerable<string> ListSaves()
+
+        private static IEnumerable<string> ListSaves()
         {
             return SavingSystem.ListSaves();
         }
@@ -104,7 +102,7 @@ namespace Frankie.Core
 
         public static void NewGame(string saveName)
         {
-            Delete(sessionFile); // Clear session before load - avoid conflict w/ save system
+            Delete(_sessionFile); // Clear session before load - avoid conflict w/ save system
 
             SetCurrentSave(saveName);
             SceneLoader sceneLoader = SceneLoader.FindSceneLoader();
@@ -115,14 +113,14 @@ namespace Frankie.Core
 
         public static void LoadGame(string saveName)
         {
-            Delete(sessionFile); // Clear session before load - avoid conflict w/ save system
+            Delete(_sessionFile); // Clear session before load - avoid conflict w/ save system
             SetCurrentSave(saveName);
             Continue();
         }
 
         public static void LoadSession()
         {
-            SavingSystem.LoadWithinScene(sessionFile);
+            SavingSystem.LoadWithinScene(_sessionFile);
         }
 
         public static void Continue()
@@ -134,12 +132,12 @@ namespace Frankie.Core
             SetCurrentSave(currentSave);
             SceneLoader sceneLoader = SceneLoader.FindSceneLoader();
             sceneLoader.StartCoroutine(LoadFromSave(currentSave));
-            SavingSystem.CopySaveToSession(saveName, sessionFile);
+            SavingSystem.CopySaveToSession(saveName, _sessionFile);
         }
 
         public static void SaveSession()
         {
-            SavingSystem.Save(sessionFile);
+            SavingSystem.Save(_sessionFile);
         }
 
         public static void Save()
@@ -156,7 +154,7 @@ namespace Frankie.Core
                 SetSavePrefs(saveName, characterName, level);
             }
 
-            SavingSystem.CopySessionToSave(sessionFile, saveName);
+            SavingSystem.CopySessionToSave(_sessionFile, saveName);
         }
 
         public static void Delete()
@@ -172,17 +170,17 @@ namespace Frankie.Core
 
         public static void DeleteSession()
         {
-            SavingSystem.Delete(sessionFile);
+            SavingSystem.Delete(_sessionFile);
         }
 
         public static void SetSaveToDebug()
         {
-            SetCurrentSave(debugFile);
+            SetCurrentSave(_debugFile);
         }
 
         public static void DeleteDebugSave()
         {
-            SavingSystem.Delete(debugFile);
+            SavingSystem.Delete(_debugFile);
         }
         #endregion
 
@@ -201,14 +199,12 @@ namespace Frankie.Core
 
         private static void SetCurrentSave(string saveFile)
         {
-            PlayerPrefs.SetString(PLAYER_PREFS_CURRENT_SAVE, saveFile);
+            PlayerPrefs.SetString(_playerPrefsCurrentSave, saveFile);
         }
 
         private static string GetCurrentSave()
         {
-            if (!PlayerPrefs.HasKey(PLAYER_PREFS_CURRENT_SAVE)) { return null; }
-
-            return PlayerPrefs.GetString(PLAYER_PREFS_CURRENT_SAVE);
+            return !PlayerPrefs.HasKey(_playerPrefsCurrentSave) ? null : PlayerPrefs.GetString(_playerPrefsCurrentSave);
         }
         #endregion
     }

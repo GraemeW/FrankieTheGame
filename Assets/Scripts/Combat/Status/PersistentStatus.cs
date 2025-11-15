@@ -14,7 +14,7 @@ namespace Frankie.Combat
         private float duration = Mathf.Infinity;
         private bool persistAfterBattle;
 
-        protected Stat statusEffectType = default; // Default, override in override methods
+        protected Stat statAffected = default; // Default, override in override methods
         protected bool isIncrease = false; // Default, override in override methods
 
         // Cached References
@@ -53,7 +53,7 @@ namespace Frankie.Combat
         #endregion
 
         #region PublicMethods
-        public Stat GetStatusEffectType() => statusEffectType;
+        public Stat GetStatusEffectType() => statAffected;
         public bool IsIncrease() => isIncrease;
         #endregion
 

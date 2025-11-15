@@ -13,8 +13,6 @@ MonoBehaviour:
   m_Name: SkillsGroup
   m_EditorClassIdentifier: 
   m_GroupName: SkillsGroup
-  m_Data:
-    m_SerializedData: []
   m_GUID: 06648db73aef2804ea697d3fe20d5da3
   m_SerializeEntries:
   - m_GUID: 7dd9edd8ea0dfa44d9c5ef4b7fb812eb

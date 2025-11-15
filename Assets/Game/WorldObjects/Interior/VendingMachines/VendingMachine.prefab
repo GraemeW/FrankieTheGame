@@ -183,12 +183,12 @@ MonoBehaviour:
   stock: []
   shopType: 2
   saleDiscount: 0.7
-  messageIntro: BZZZT BUY SOMETHING NOW YES!
-  messageSuccess: THANKS BRRZZT ANYTHING ELSE?
-  messageNoFunds: POOR HUMAN GET MORE GHHHGL CASH
-  messageNoSpace: SMALL HUMAN HRK GET SOME HRK SPACE
-  messageForSale: TAKE THESE FEEBLE {0} COINS
-  messageCannotSell: NO BUENO MUCHAHO
+  messageIntro: BZZZT ** BUY SOMETHING ? **
+  messageSuccess: BRRZZT ** THANKS, ANYTHING ELSE? **
+  messageNoFunds: GHHHGL ** INSUFFICIENT FUNDS **
+  messageNoSpace: HRKLH ** INSUFFICIENT SPACE **
+  messageForSale: PHWOON ** {0} COINS PROCESSED **
+  messageCannotSell: NAURH ** SORRY NO **
   transactionCompleted:
     m_PersistentCalls:
       m_Calls:

@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: ReduceBrawn_12
   m_EditorClassIdentifier: Assembly-CSharp::Frankie.Combat.ApplyPersistentStatEffect
   fractionProbabilityToApply: 1
-  duration: 10
+  duration: 20
   stat: 4
   value: -12
   persistAfterCombat: 0

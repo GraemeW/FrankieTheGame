@@ -1,5 +1,38 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-2312104196961687998
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6b066201d64e5354387f385aa2872d22, type: 3}
+  m_Name: 5cae0f40-8c4b-4640-8515-56c0f44a5bff
+  m_EditorClassIdentifier: Assembly-CSharp::Frankie.Combat.SkillBranch
+  upSkillReference: 
+  upBranch: 
+  leftSkillReference: 
+  leftBranch: 
+  rightSkillReference: 
+  rightBranch: 
+  downSkillReference: PassGas
+  downBranch: 
+  rect:
+    serializedVersion: 2
+    x: 0
+    y: 29
+    width: 250
+    height: 155
+  draggingRect:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 250
+    height: 45
+  mappedFromBranch: 1
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -17,40 +50,7 @@ MonoBehaviour:
   branchHeight: 155
   skillBranches:
   - {fileID: 812278835477515453}
-  - {fileID: 362233773472248234}
---- !u!114 &362233773472248234
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6b066201d64e5354387f385aa2872d22, type: 3}
-  m_Name: 0b087eb1-0b0e-4f39-88e5-aa21be90de2d
-  m_EditorClassIdentifier: 
-  upSkillReference: 
-  upBranch: 
-  leftSkillReference: 
-  leftBranch: 
-  rightSkillReference: 
-  rightBranch: 
-  downSkillReference: InstillSelfDoubt
-  downBranch: 
-  rect:
-    serializedVersion: 2
-    x: 30
-    y: 335
-    width: 250
-    height: 155
-  draggingRect:
-    serializedVersion: 2
-    x: 0
-    y: 0
-    width: 250
-    height: 45
-  mappedFromBranch: 3
+  - {fileID: -2312104196961687998}
 --- !u!114 &812278835477515453
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -63,18 +63,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6b066201d64e5354387f385aa2872d22, type: 3}
   m_Name: 0be1b6c6-e1a9-410e-9a50-cf63ccae1cae
   m_EditorClassIdentifier: 
-  upSkillReference: 
+  upSkillReference: Wallop
   upBranch: 
-  leftSkillReference: SpillFancyCoffee
-  leftBranch: 
+  leftSkillReference: SmileMenacingly
+  leftBranch: 5cae0f40-8c4b-4640-8515-56c0f44a5bff
   rightSkillReference: 
   rightBranch: 
-  downSkillReference: SmileMenacingly
-  downBranch: 0b087eb1-0b0e-4f39-88e5-aa21be90de2d
+  downSkillReference: 
+  downBranch: 
   rect:
     serializedVersion: 2
-    x: 30
-    y: 30
+    x: 375
+    y: 29
     width: 250
     height: 155
   draggingRect:

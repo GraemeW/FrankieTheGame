@@ -7,12 +7,13 @@ namespace Frankie.Stats
         AP,
         ExperienceReward,
         ExperienceToLevelUp,
-        Brawn, // Physical offense
-        Beauty, // Magic offense + healing
-        Smarts, // Mana on level
+        Brawn, // Physical offense - Up Skill Primary
+        Beauty, // Magic offense + healing - Down Skill Primary
+        Smarts, // Mana on level - Right Skill Primary
         Nimble, // Physical defense
-        Luck, // Chance to hit + dodge
+        Luck, // Chance to hit + dodge - Left Skill Primary
         Pluck, // Cooldown && Chance to crit + avoid crits
-        Stoic // HP on level
+        Stoic, // HP on level
+        InitialLevel
     }
 }

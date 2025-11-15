@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Frankie.Saving;
@@ -9,10 +8,10 @@ namespace Frankie.Inventory
     public class WearablesLink : MonoBehaviour, IModifierProvider, ISaveable
     {
         // Tunables
-        [SerializeField] Transform attachedObjectsRoot = null;
+        [SerializeField] private Transform attachedObjectsRoot;
 
         // Cached References
-        CharacterSpriteLink characterSpriteLink = null;
+        private CharacterSpriteLink characterSpriteLink;
 
         // Unity Methods
         private void Awake()
@@ -28,9 +27,7 @@ namespace Frankie.Inventory
         public bool IsWearingItem(Wearable wearable)
         {
             WearableItem wearableItem = wearable.GetWearableItem();
-            if (wearableItem == null) { return false; }
-
-            return IsWearingItem(wearableItem);
+            return wearableItem != null && IsWearingItem(wearableItem);
         }
 
         public bool IsWearingItem(WearableItem wearableItem)
@@ -73,7 +70,7 @@ namespace Frankie.Inventory
 
         public SaveState CaptureState()
         {
-            List<string> wearableItemIDs = new List<string>();
+            var wearableItemIDs = new List<string>();
             foreach (Transform wearableObject in attachedObjectsRoot)
             {
                 if (wearableObject.TryGetComponent(out Wearable wearable))
@@ -91,7 +88,7 @@ namespace Frankie.Inventory
 
         public void RestoreState(SaveState saveState)
         {
-            List<string> wearableItemIDs = saveState.GetState(typeof(List<string>)) as List<string>;
+            var wearableItemIDs = saveState.GetState(typeof(List<string>)) as List<string>;
             if (wearableItemIDs == null) { return; }
 
             foreach (string wearableItemID in wearableItemIDs)

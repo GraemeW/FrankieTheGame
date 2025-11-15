@@ -1,5 +1,4 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Frankie.Inventory;
@@ -10,19 +9,19 @@ namespace Frankie.Combat
     public class BattleRewards : MonoBehaviour
     {
         // State
-        float battleExperienceReward = 0f;
-        List<Tuple<string, InventoryItem>> allocatedLootCart = new List<Tuple<string, InventoryItem>>();
-        List<Tuple<string, InventoryItem>> unallocatedLootCart = new List<Tuple<string, InventoryItem>>();
+        private float battleExperienceReward;
+        private readonly List<Tuple<string, InventoryItem>> allocatedLootCart = new();
+        private readonly List<Tuple<string, InventoryItem>> unallocatedLootCart = new();
 
         #region PublicMethods
         public float GetBattleExperienceReward() => battleExperienceReward;
         public List<Tuple<string, InventoryItem>> GetAllocatedLootCart() => allocatedLootCart;
         public List<Tuple<string, InventoryItem>> GetUnallocatedLootCart() => unallocatedLootCart;
         public bool HasLootCart() => HasAllocatedLootCart() || HasUnallocatedLootCart();
-        public bool HasAllocatedLootCart() => allocatedLootCart != null && allocatedLootCart.Count > 0;
-        public bool HasUnallocatedLootCart() => unallocatedLootCart != null && unallocatedLootCart.Count > 0;
+        public bool HasAllocatedLootCart() => allocatedLootCart is { Count: > 0 };
+        public bool HasUnallocatedLootCart() => unallocatedLootCart is { Count: > 0 };
 
-        public bool HandleBattleRewardsTriggered(PartyCombatConduit partyCombatConduit, IEnumerable<BattleEntity> activePlayerCharacters, IEnumerable<BattleEntity> enemies)
+        public bool HandleBattleRewardsTriggered(PartyCombatConduit partyCombatConduit, IList<BattleEntity> activePlayerCharacters, IList<BattleEntity> enemies)
         {
             bool isLevelUpPending = AwardExperienceToLevelUp(activePlayerCharacters, enemies);
             bool isLootPending = AwardLoot(partyCombatConduit, enemies);
@@ -32,13 +31,13 @@ namespace Frankie.Combat
         #endregion
 
         #region PrivateMethods
-        private bool AwardExperienceToLevelUp(IEnumerable<BattleEntity> activePlayerCharacters, IEnumerable<BattleEntity> enemies)
+        private bool AwardExperienceToLevelUp(IList<BattleEntity> activePlayerCharacters, IList<BattleEntity> enemies)
         {
             bool levelUpTriggered = false;
             foreach (BattleEntity character in activePlayerCharacters)
             {
-                Experience experience = character.combatParticipant.GetComponent<Experience>();
-                if (experience == null) { continue; } // Handling for characters who do not level
+                var experience = character.combatParticipant.GetComponent<Experience>();
+                if (experience == null) { continue; } // Handling if characters do not level
                 float scaledExperienceReward = 0f;
 
                 foreach (BattleEntity enemy in enemies)
@@ -51,10 +50,7 @@ namespace Frankie.Combat
                 }
 
                 scaledExperienceReward = Mathf.Min(scaledExperienceReward, Experience.GetMaxExperienceReward());
-                if (experience.GainExperienceToLevel(scaledExperienceReward))
-                {
-                    levelUpTriggered = true;
-                }
+                levelUpTriggered = experience.GainExperienceToLevel(scaledExperienceReward);
             }
 
             return levelUpTriggered;
@@ -62,8 +58,8 @@ namespace Frankie.Combat
 
         private bool AwardLoot(PartyCombatConduit partyCombatConduit, IEnumerable<BattleEntity> enemies)
         {
-            PartyKnapsackConduit partyKnapsackConduit = partyCombatConduit.GetComponent<PartyKnapsackConduit>();
-            Wallet wallet = partyCombatConduit.GetComponent<Wallet>();
+            var partyKnapsackConduit = partyCombatConduit.GetComponent<PartyKnapsackConduit>();
+            var wallet = partyCombatConduit.GetComponent<Wallet>();
             if (partyKnapsackConduit == null || wallet == null) { return false; } // Failsafe, this should not happen
 
             bool lootAvailable = false;
@@ -76,7 +72,7 @@ namespace Frankie.Combat
                 foreach (InventoryItem inventoryItem in lootDispenser.GetItemReward())
                 {
                     CombatParticipant receivingCharacter = partyKnapsackConduit.AddToFirstEmptyPartySlot(inventoryItem);
-                    Tuple<string, InventoryItem> enemyItemPair = new Tuple<string, InventoryItem>(enemy.combatParticipant.GetCombatName(), inventoryItem);
+                    var enemyItemPair = new Tuple<string, InventoryItem>(enemy.combatParticipant.GetCombatName(), inventoryItem);
                     if (receivingCharacter != null)
                     {
                         allocatedLootCart.Add(enemyItemPair);

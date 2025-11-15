@@ -13,8 +13,7 @@ MonoBehaviour:
   m_Name: AddTempHealth_20
   m_EditorClassIdentifier: 
   fractionProbabilityToApply: 1
-  statusEffectType: 0
-  duration: 10
+  duration: 20
   stat: 0
   value: 20
   persistAfterCombat: 0

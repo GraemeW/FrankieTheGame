@@ -17,37 +17,37 @@ namespace Frankie.Inventory.UI
     {
         // Tunables
         [Header("Data Links")]
-        [SerializeField] TextMeshProUGUI selectedCharacterNameField = null;
-        [Tooltip("Hook these up to confirm/reject in ConfirmationOptions")] [SerializeField] UIChoiceButton[] equipmentChangeConfirmOptions;
+        [SerializeField] private TextMeshProUGUI selectedCharacterNameField;
+        [Tooltip("Hook these up to confirm/reject in ConfirmationOptions")] [SerializeField] private UIChoiceButton[] equipmentChangeConfirmOptions;
         [Header("Parents")]
-        [SerializeField] Transform leftEquipment = null;
-        [SerializeField] Transform rightEquipment = null;
-        [SerializeField] GameObject equipmentChangeMenu = null;
-        [SerializeField] Transform statSheetParent = null;
+        [SerializeField] private Transform leftEquipment;
+        [SerializeField] private Transform rightEquipment;
+        [SerializeField] private GameObject equipmentChangeMenu;
+        [SerializeField] private Transform statSheetParent;
         [Header("Prefabs")]
-        [SerializeField] DialogueBox dialogueBoxPrefab = null;
-        [SerializeField] DialogueOptionBox dialogueOptionBoxPrefab = null;
-        [SerializeField] InventoryItemField inventoryItemFieldPrefab = null;
-        [SerializeField] EquipmentInventoryBox equipmentInventoryBoxPrefab = null;
-        [SerializeField] StatChangeField statChangeFieldPrefab = null;
+        [SerializeField] private DialogueBox dialogueBoxPrefab;
+        [SerializeField] private DialogueOptionBox dialogueOptionBoxPrefab;
+        [SerializeField] private InventoryItemField inventoryItemFieldPrefab;
+        [SerializeField] private EquipmentInventoryBox equipmentInventoryBoxPrefab;
+        [SerializeField] private StatChangeField statChangeFieldPrefab;
         [Header("Info/Messages")]
-        [SerializeField] string messageNoValidItems = "There's nothing in the knapsack to equip.";
-        [SerializeField] string messageUnequip = "Guess we're goin' nude";
-        [SerializeField] string optionText = "What do you want to do?";
-        [SerializeField] string optionEquip = "Put on";
-        [SerializeField] string optionRemove = "Take off";
+        [SerializeField] private string messageNoValidItems = "There's nothing in the knapsack to equip.";
+        [SerializeField] private string messageUnequip = "Guess we're going nude";
+        [SerializeField] private string optionText = "What do you want to do?";
+        [SerializeField] private string optionEquip = "Put on";
+        [SerializeField] private string optionRemove = "Take off";
 
         // State
-        EquipmentBoxState equipmentBoxState = EquipmentBoxState.inCharacterSelection;
-        List<UIChoiceButton> playerSelectChoiceOptions = new List<UIChoiceButton>();
-        List<InventoryItemField> equipableItemChoiceOptions = new List<InventoryItemField>();
-        CombatParticipant selectedCharacter = null;
-        Equipment selectedEquipment = null;
-        EquipLocation selectedEquipLocation = EquipLocation.None;
-        EquipableItem selectedItem = null;
+        private EquipmentBoxState equipmentBoxState = EquipmentBoxState.inCharacterSelection;
+        private readonly List<UIChoiceButton> playerSelectChoiceOptions = new();
+        private readonly List<InventoryItemField> equipableItemChoiceOptions = new();
+        private CombatParticipant selectedCharacter;
+        private Equipment selectedEquipment;
+        private EquipLocation selectedEquipLocation = EquipLocation.None;
+        private EquipableItem selectedItem;
 
         // Cached References
-        List<CharacterSlide> characterSlides = null;
+        private List<CharacterSlide> characterSlides;
 
         // Events
         public event Action<Enum> uiBoxStateChanged;
@@ -65,17 +65,14 @@ namespace Frankie.Inventory.UI
         }
 
         #region Setup
-        public void Setup(IStandardPlayerInputCaller standardPlayerInputCaller, PartyCombatConduit partyCombatConduit, List<CharacterSlide> characterSlides = null)
+        public void Setup(IStandardPlayerInputCaller standardPlayerInputCaller, PartyCombatConduit partyCombatConduit, List<CharacterSlide> setCharacterSlides = null)
         {
             controller = standardPlayerInputCaller;
-            this.characterSlides = characterSlides;
+            characterSlides = setCharacterSlides;
 
             int choiceIndex = 0;
-            CombatParticipant firstCharacter = null;
             foreach (CombatParticipant character in partyCombatConduit.GetPartyCombatParticipants())
             {
-                if (firstCharacter != null) { firstCharacter = character; }
-
                 GameObject uiChoiceOptionObject = Instantiate(optionButtonPrefab, optionParent);
                 UIChoiceButton uiChoiceOption = uiChoiceOptionObject.GetComponent<UIChoiceButton>();
                 uiChoiceOption.SetChoiceOrder(choiceIndex);
@@ -94,7 +91,7 @@ namespace Frankie.Inventory.UI
         {
             ListenToSelectedEquipment(false); // Remove subscription to current equipment
             selectedEquipment = equipment;
-            ListenToSelectedEquipment(true); // Attach subcscription to new equipment
+            ListenToSelectedEquipment(true); // Attach subscription to new equipment
         }
 
         private void ListenToSelectedEquipment(bool enable)
@@ -129,17 +126,17 @@ namespace Frankie.Inventory.UI
         protected override void SetUpChoiceOptions()
         {
             choiceOptions.Clear();
-            if (equipmentBoxState == EquipmentBoxState.inEquipmentSelection)
+            switch (equipmentBoxState)
             {
-                choiceOptions.AddRange(equipableItemChoiceOptions.Cast<UIChoice>().OrderBy(x => x.choiceOrder).ToList());
-            }
-            else if (equipmentBoxState == EquipmentBoxState.inCharacterSelection)
-            {
-                choiceOptions.AddRange(playerSelectChoiceOptions.OrderBy(x => x.choiceOrder).ToList());
-            }
-            else if (equipmentBoxState == EquipmentBoxState.inStatConfirmation)
-            {
-                choiceOptions.AddRange(equipmentChangeConfirmOptions);
+                case EquipmentBoxState.inEquipmentSelection:
+                    choiceOptions.AddRange(equipableItemChoiceOptions.Cast<UIChoice>().OrderBy(x => x.choiceOrder).ToList());
+                    break;
+                case EquipmentBoxState.inCharacterSelection:
+                    choiceOptions.AddRange(playerSelectChoiceOptions.OrderBy(x => x.choiceOrder).ToList());
+                    break;
+                case EquipmentBoxState.inStatConfirmation:
+                    choiceOptions.AddRange(equipmentChangeConfirmOptions);
+                    break;
             }
 
             SetChoiceAvailable(choiceOptions.Count > 0);
@@ -175,36 +172,28 @@ namespace Frankie.Inventory.UI
             }
         }
 
-        private void SetEquipmentBoxState(EquipmentBoxState equipmentBoxState)
+        private void SetEquipmentBoxState(EquipmentBoxState setEquipmentBoxState)
         {
-            this.equipmentBoxState = equipmentBoxState;
-            if (equipmentBoxState == EquipmentBoxState.inStatConfirmation)
-            {
-                equipmentChangeMenu.SetActive(true);
-            }
-            else
-            {
-                equipmentChangeMenu.SetActive(false);
-            }
+            equipmentBoxState = setEquipmentBoxState;
+            equipmentChangeMenu.SetActive(setEquipmentBoxState == EquipmentBoxState.inStatConfirmation);
             SetUpChoiceOptions();
 
-            uiBoxStateChanged?.Invoke(equipmentBoxState);
+            uiBoxStateChanged?.Invoke(setEquipmentBoxState);
         }
         #endregion
 
         #region Interaction
         protected override bool MoveCursor(PlayerInputType playerInputType)
         {
-            if (equipmentBoxState == EquipmentBoxState.inCharacterSelection || equipmentBoxState == EquipmentBoxState.inStatConfirmation)
+            switch (equipmentBoxState)
             {
-                return base.MoveCursor(playerInputType);
+                case EquipmentBoxState.inCharacterSelection:
+                case EquipmentBoxState.inStatConfirmation:
+                    return base.MoveCursor(playerInputType);
+                case EquipmentBoxState.inEquipmentSelection:
+                    MoveCursor2D(playerInputType);
+                    break;
             }
-            else if (equipmentBoxState == EquipmentBoxState.inEquipmentSelection)
-            {
-                // Support for 2-D movement across the inventory items
-                MoveCursor2D(playerInputType);
-            }
-
             return false;
         }
 
@@ -252,15 +241,7 @@ namespace Frankie.Inventory.UI
             foreach (EquipLocation equipLocation in Enum.GetValues(typeof(EquipLocation)))
             {
                 if (equipLocation == EquipLocation.None) { continue; }
-
-                if (i % 2 == 0)
-                {
-                    SetupItem(inventoryItemFieldPrefab, leftEquipment, (int)equipLocation);
-                }
-                else
-                {
-                    SetupItem(inventoryItemFieldPrefab, rightEquipment, (int)equipLocation);
-                }
+                SetupItem(inventoryItemFieldPrefab, i % 2 == 0 ? leftEquipment : rightEquipment, (int)equipLocation);
                 i++;
             }
         }
@@ -290,9 +271,9 @@ namespace Frankie.Inventory.UI
 
                 float oldValue = baseStats.GetStat(stat); // Pull from actual stat, since active stat sheet does not contain modifiers
                 float newValue = oldValue;
-                if (statDeltas.ContainsKey(stat))
+                if (statDeltas.TryGetValue(stat, out var delta))
                 {
-                    newValue += statDeltas[stat];
+                    newValue += delta;
                 }
 
                 StatChangeField statChangeField = Instantiate(statChangeFieldPrefab, statSheetParent);
@@ -317,10 +298,10 @@ namespace Frankie.Inventory.UI
 
             if (selectedEquipment.HasItemInSlot(equipLocation))
             {
-                List<ChoiceActionPair> choiceActionPairs = new List<ChoiceActionPair>();
-                ChoiceActionPair equipActionPair = new ChoiceActionPair(optionEquip, () => ExecuteChooseEquipLocation(selector));
+                var choiceActionPairs = new List<ChoiceActionPair>();
+                var equipActionPair = new ChoiceActionPair(optionEquip, () => ExecuteChooseEquipLocation(selector));
                 choiceActionPairs.Add(equipActionPair);
-                ChoiceActionPair removeActionPair = new ChoiceActionPair(optionRemove, () => ExecuteRemoveEquipment(selector));
+                var removeActionPair = new ChoiceActionPair(optionRemove, () => ExecuteRemoveEquipment(selector));
                 choiceActionPairs.Add(removeActionPair);
 
                 DialogueOptionBox equipmentOptionMenu = Instantiate(dialogueOptionBoxPrefab, transform.parent);
@@ -359,7 +340,7 @@ namespace Frankie.Inventory.UI
         {
             if (selectedEquipment == null) { return; }
 
-            EquipLocation equipLocation = (EquipLocation)selector;
+            var equipLocation = (EquipLocation)selector;
             selectedEquipment.RemoveEquipment(equipLocation, true);
 
             SpawnMessage(messageUnequip);
@@ -402,17 +383,16 @@ namespace Frankie.Inventory.UI
         {
             if (!handleGlobalInput) { return true; } // Spoof:  Cannot accept input, so treat as if global input already handled
 
-            if (playerInputType == PlayerInputType.Option || playerInputType == PlayerInputType.Cancel)
+            if (playerInputType is PlayerInputType.Option or PlayerInputType.Cancel)
             {
-                if (equipmentBoxState == EquipmentBoxState.inStatConfirmation)
+                switch (equipmentBoxState)
                 {
-                    ResetEquipmentBox(false);
-                    return true;
-                }
-                else if (equipmentBoxState == EquipmentBoxState.inEquipmentSelection)
-                {
-                    ResetEquipmentBox(true);
-                    return true;
+                    case EquipmentBoxState.inStatConfirmation:
+                        ResetEquipmentBox(false);
+                        return true;
+                    case EquipmentBoxState.inEquipmentSelection:
+                        ResetEquipmentBox(true);
+                        return true;
                 }
                 // inKnapsack handled by the EquipmentInventoryBox
             }
@@ -420,17 +400,17 @@ namespace Frankie.Inventory.UI
             return base.HandleGlobalInput(playerInputType);
         }
 
-        public InventoryItemField SetupItem(InventoryItemField inventoryItemFieldPrefab, Transform container, int selector)
+        public InventoryItemField SetupItem(InventoryItemField setInventoryItemFieldPrefab, Transform container, int selector)
         {
-            EquipLocation equipLocation = (EquipLocation)selector;
+            var equipLocation = (EquipLocation)selector;
             string itemName = "Empty";
             if (selectedEquipment.HasItemInSlot(equipLocation))
             {
                 itemName = selectedEquipment.GetItemInSlot(equipLocation).GetDisplayName();
             }
-            string fieldName = string.Format("{0}:  {1}", equipLocation.ToString(), itemName);
+            string fieldName = $"{equipLocation.ToString()}:  {itemName}";
 
-            InventoryItemField inventoryItemField = Instantiate(inventoryItemFieldPrefab, container);
+            InventoryItemField inventoryItemField = Instantiate(setInventoryItemFieldPrefab, container);
             inventoryItemField.SetText(fieldName);
             inventoryItemField.SetupButtonAction(this, ChooseEquipLocation, selector);
             equipableItemChoiceOptions.Add(inventoryItemField);

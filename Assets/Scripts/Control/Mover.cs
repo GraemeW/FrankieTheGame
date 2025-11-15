@@ -5,43 +5,36 @@ using Frankie.Utils;
 namespace Frankie.Control
 {
     [RequireComponent(typeof(Rigidbody2D))]
-    public class Mover : MonoBehaviour, ISaveable
+    public abstract class Mover : MonoBehaviour, ISaveable
     {
         // Tunables
         [SerializeField] protected float movementSpeed = 1.0f;
         [SerializeField] protected Vector2 defaultLookDirection = Vector2.down;
         [SerializeField] protected float defaultTargetDistanceTolerance = 0.15f;
-        [SerializeField] bool resetPositionOnEnable = false;
+        [SerializeField] private bool resetPositionOnEnable = false;
 
         // State
-        protected Vector2 originalPosition = new Vector2();
-        protected Vector2? moveTargetCoordinate = null;
-        protected GameObject moveTargetObject = null;
+        private Vector2 originalPosition;
+        private Vector2? moveTargetCoordinate;
+        private GameObject moveTargetObject;
         protected Vector2 lookDirection = Vector2.down;
-        protected float currentSpeed = 0;
+        protected float currentSpeed;
         float targetDistanceTolerance = 0.15f;
 
         // Cached References
-        protected Rigidbody2D rigidBody2D = null;
+        protected Rigidbody2D rigidBody2D;
 
         #region Static
-        public static float SIGN_FLOOR_THRESHOLD = 0.1f;
-        public static float PIXELS_PER_UNIT = 100.0f; // Align to pixel art setting, default: 100
-
-        protected static float Sign(float number)
-        {
-            return number < 0 ? -1 : (number > 0 ? 1 : 0);
-        }
-
-        protected static float SignFloored(float number)
-        {
-            if (Mathf.Abs(number) < SIGN_FLOOR_THRESHOLD) { return 0; }
-            else { return Sign(number); }
-        }
-
-        public static void SetAnimatorSpeed(Animator animator, float speed) => animator.SetFloat("Speed", speed);
-        public static void SetAnimatorxLook(Animator animator, float xLookDirection) => animator.SetFloat("xLook", xLookDirection);
-        public static void SetAnimatoryLook(Animator animator, float yLookDirection) => animator.SetFloat("yLook", yLookDirection);
+        private const float _signFloorThreshold = 0.1f;
+        protected const float pixelsPerUnit = 100.0f; // Align to pixel art setting, default: 100
+        protected static float SignFloored(float number) => Mathf.Abs(number) < _signFloorThreshold ? 0 : Mathf.Sign(number);
+        
+        private static readonly int _speed = Animator.StringToHash("Speed");
+        private static readonly int _xLook = Animator.StringToHash("xLook");
+        private static readonly int _yLook = Animator.StringToHash("yLook");
+        public static void SetAnimatorSpeed(Animator animator, float speed) => animator.SetFloat(_speed, speed);
+        public static void SetAnimatorXLook(Animator animator, float xLookDirection) => animator.SetFloat(_xLook, xLookDirection);
+        public static void SetAnimatorYLook(Animator animator, float yLookDirection) => animator.SetFloat(_yLook, yLookDirection);
         #endregion
 
         #region UnityMethods
@@ -67,41 +60,21 @@ namespace Frankie.Control
 
         protected virtual void OnEnable()
         {
-            if (resetPositionOnEnable)
-            {
-                transform.position = originalPosition;
-                SetLookDirection(defaultLookDirection);
-            }
+            if (!resetPositionOnEnable) return;
+            transform.position = originalPosition;
+            SetLookDirection(defaultLookDirection);
         }
         #endregion
 
         #region PublicMethods
-        public void SetLookDirection(Vector2 lookDirection)
+        public Vector2 GetLookDirection() => lookDirection;
+        public bool HasMoveTarget() => (moveTargetCoordinate != null || moveTargetObject != null);
+        
+        public void SetLookDirection(Vector2 setLookDirection)
         {
-            lookDirection.Normalize(); // Blend tree animation speed depends on magnitude of variable -- to avoid very quick animations, normalize 
-            this.lookDirection = lookDirection;
+            setLookDirection.Normalize(); // Blend tree animation speed depends on magnitude of variable -- to avoid very quick animations, normalize 
+            lookDirection = setLookDirection;
             UpdateAnimator();
-        }
-
-        public Vector2 GetLookDirection()
-        {
-            return lookDirection;
-        }
-
-        public void AdjustScaleOrientation(Vector2 localScale)
-        {
-            if (localScale.x > 0 && localScale.y > 0) { return; }
-
-            Vector3 currentLocalScale = transform.localScale;
-            float xMultiplier = localScale.x >= 0f ? 1f : -1f;
-            float yMultiplier = localScale.y >= 0f ? 1f : -1f;
-            transform.localScale = new Vector3(currentLocalScale.x * xMultiplier, currentLocalScale.y * yMultiplier, currentLocalScale.z);
-        }
-
-        public void WarpToPosition(Vector2 target)
-        {
-            SetMoveTarget(target);
-            transform.position = target;
         }
 
         public void SetMoveTarget(Vector2 target)
@@ -124,10 +97,11 @@ namespace Frankie.Control
             moveTargetCoordinate = null;
             moveTargetObject = null;
         }
-
-        public bool HasMoveTarget()
+        
+        public void WarpToPosition(Vector2 target)
         {
-            return (moveTargetCoordinate != null || moveTargetObject != null);
+            SetMoveTarget(target);
+            transform.position = target;
         }
 
         public void MoveToOriginalPosition()
@@ -137,22 +111,23 @@ namespace Frankie.Control
         }
         #endregion
 
-        #region ProtectedMethods
+        #region AbstractProtectedMethods
+        protected abstract void UpdateAnimator();
         protected bool? MoveToTarget()
         {
             if (IsStaticForNoTarget()) { return null; }
 
             Vector2 position = rigidBody2D.position;
             Vector2 target = ReckonTarget();
-            if (ArrivedAtTarget(target)) { return false; }
+            if (HasArrivedAtTarget(target)) { return false; }
 
             Vector2 direction = target - position;
             lookDirection.Set(direction.x, direction.y);
             lookDirection.Normalize();
             currentSpeed = movementSpeed;
 
-            position.x = Mathf.Round(PIXELS_PER_UNIT * (position.x + currentSpeed * SignFloored(lookDirection.x) * Time.deltaTime)) / PIXELS_PER_UNIT;
-            position.y = Mathf.Round(PIXELS_PER_UNIT * (position.y + currentSpeed * SignFloored(lookDirection.y) * Time.deltaTime)) / PIXELS_PER_UNIT;
+            position.x = Mathf.Round(pixelsPerUnit * (position.x + currentSpeed * SignFloored(lookDirection.x) * Time.deltaTime)) / pixelsPerUnit;
+            position.y = Mathf.Round(pixelsPerUnit * (position.y + currentSpeed * SignFloored(lookDirection.y) * Time.deltaTime)) / pixelsPerUnit;
             rigidBody2D.MovePosition(position);
             UpdateAnimator();
 
@@ -173,18 +148,6 @@ namespace Frankie.Control
 
             return target;
         }
-
-        protected void SetAnimationAndSpeedForMovementEnd()
-        {
-            SetLookDirection(Vector2.down);
-            currentSpeed = 0f;
-            UpdateAnimator();
-        }
-
-        protected virtual void UpdateAnimator()
-        {
-            // Base implementation blank
-        }
         #endregion
 
         #region  PrivateMethods
@@ -195,20 +158,18 @@ namespace Frankie.Control
                 rigidBody2D.bodyType = RigidbodyType2D.Static;
                 return true;
             }
-            else
-            {
-                rigidBody2D.bodyType = RigidbodyType2D.Dynamic;
-                return false;
-            }
-        }
-
-        private bool ArrivedAtTarget(Vector2 target)
-        {
-            if (SmartVector2.CheckDistance(rigidBody2D.position, target, targetDistanceTolerance))
-            {
-                return true;
-            }
+            
+            rigidBody2D.bodyType = RigidbodyType2D.Dynamic;
             return false;
+        }
+        
+        private bool HasArrivedAtTarget(Vector2 target) => SmartVector2.CheckDistance(rigidBody2D.position, target, targetDistanceTolerance);
+        
+        private void SetAnimationAndSpeedForMovementEnd()
+        {
+            SetLookDirection(Vector2.down);
+            currentSpeed = 0f;
+            UpdateAnimator();
         }
         #endregion
 
@@ -227,7 +188,7 @@ namespace Frankie.Control
 
         SaveState ISaveable.CaptureState()
         {
-            MoverSaveData data = new MoverSaveData
+            var data = new MoverSaveData
             {
                 position = new SerializableVector2(transform.position)
             };
@@ -237,7 +198,7 @@ namespace Frankie.Control
 
         void ISaveable.RestoreState(SaveState saveState)
         {
-            MoverSaveData moverSaveData = saveState.GetState(typeof(MoverSaveData)) as MoverSaveData;
+            var moverSaveData = saveState.GetState(typeof(MoverSaveData)) as MoverSaveData;
             if (moverSaveData == null) { return; }
 
             if (rigidBody2D == null) { Awake(); } // Force initialization for objects set to disable

@@ -6,11 +6,11 @@ namespace Frankie.Combat
     {
         public BattleEventType battleEventType => BattleEventType.BattleEntityStateAltered;
 
-        public CombatParticipant combatParticipant;
-        public StateAlteredType stateAlteredType;
-        public float points;
-        public PersistentStatus persistentStatus;
-        public Stat stat;
+        public readonly CombatParticipant combatParticipant;
+        public readonly StateAlteredType stateAlteredType;
+        public readonly float points;
+        public readonly PersistentStatus persistentStatus;
+        public readonly Stat stat;
 
         public StateAlteredInfo(CombatParticipant combatParticipant, StateAlteredType stateAlteredType)
         {
@@ -37,6 +37,7 @@ namespace Frankie.Combat
             this.combatParticipant = combatParticipant;
             this.stateAlteredType = stateAlteredType;
             this.stat = stat;
+            this.points = points;
         }
     }
 }

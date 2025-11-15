@@ -10,18 +10,18 @@ namespace Frankie.Core
 {
     public class FrankieDebugger : MonoBehaviour
     {
-        [SerializeField] bool resetSaveOnStart = false;
+        [SerializeField] private bool resetSaveOnStart = false;
 
         // Cached References
-        PlayerInput playerInput = null;
+        private PlayerInput playerInput;
 
         // Lazy Values
-        ReInitLazyValue<QuestList> questList = null;
-        ReInitLazyValue<Party> party = null;
-        ReInitLazyValue<Wallet> wallet = null;
+        private ReInitLazyValue<QuestList> questList;
+        private ReInitLazyValue<Party> party;
+        private ReInitLazyValue<Wallet> wallet;
 
         // Static
-        static int fundsToAddToWallet = 10000;
+        private const int _fundsToAddToWallet = 10000;
 
         #region UnityMethods
         private void Awake()
@@ -33,13 +33,13 @@ namespace Frankie.Core
             wallet = new ReInitLazyValue<Wallet>(SetupWallet);
 
             // Debug Hook-Ups
-            playerInput.Admin.Save.performed += context => Save();
-            playerInput.Admin.Load.performed += context => Continue();
-            playerInput.Admin.Delete.performed += context => Delete();
-            playerInput.Admin.ClearPlayerPrefs.performed += context => ClearPlayerPrefs();
-            playerInput.Admin.QuestLog.performed += context => PrintQuests();
-            playerInput.Admin.LevelUpParty.performed += context => LevelUpParty();
-            playerInput.Admin.AddFundsToWallet.performed += context => AddFundsToWallet();
+            playerInput.Admin.Save.performed += _ => Save();
+            playerInput.Admin.Load.performed += _ => Continue();
+            playerInput.Admin.Delete.performed += _ => Delete();
+            playerInput.Admin.ClearPlayerPrefs.performed += _ => ClearPlayerPrefs();
+            playerInput.Admin.QuestLog.performed += _ => PrintQuests();
+            playerInput.Admin.LevelUpParty.performed += _ => LevelUpParty();
+            playerInput.Admin.AddFundsToWallet.performed += _ => AddFundsToWallet();
         }
 
         private void Start()
@@ -75,28 +75,31 @@ namespace Frankie.Core
         #region SavingWrapperDebug
         private void Save()
         {
-            UnityEngine.Debug.Log($"Frankie Debugger:  Saving Game...");
+            Debug.Log($"Frankie Debugger:  Saving Game...");
             SavingWrapper.SetSaveToDebug();
             SavingWrapper.Save();
         }
 
         private void Continue()
         {
-            UnityEngine.Debug.Log($"Frankie Debugger:  Loading Game...");
+            Debug.Log($"Frankie Debugger:  Loading Game...");
             SavingWrapper.Continue();
         }
 
         private void Delete()
         {
-            UnityEngine.Debug.Log($"Frankie Debugger:  Deleting Game...");
+            Debug.Log($"Frankie Debugger:  Deleting Game...");
             SavingWrapper.Delete();
             SavingWrapper.DeleteSession();
             SavingWrapper.DeleteDebugSave();
+            Debug.Log($"Initializing Save for Debug...");
+            Save();
+            Continue();
         }
 
         private void ClearPlayerPrefs()
         {
-            UnityEngine.Debug.Log($"Frankie Debugger:  Clearing Player Prefs...");
+            Debug.Log($"Frankie Debugger:  Clearing Player Prefs...");
             PlayerPrefsController.ClearPlayerPrefs();
         }
         #endregion
@@ -112,14 +115,14 @@ namespace Frankie.Core
 
         private void PrintQuests()
         {
-            UnityEngine.Debug.Log("Printing Quests:");
+            Debug.Log("Printing Quests:");
             foreach (QuestStatus questStatus in questList.value.GetActiveQuests())
             {
                 Quest quest = questStatus.GetQuest();
-                UnityEngine.Debug.Log($"Quest: {quest.name} - {quest.GetDetail()}");
-                UnityEngine.Debug.Log($"Completed:  {questStatus.GetCompletedObjectiveCount()} of {quest.GetObjectiveCount()} objectives");
-                UnityEngine.Debug.Log($"Status:  {questStatus.IsComplete()}, Reward Disposition:  {questStatus.IsRewardGiven()})");
-                UnityEngine.Debug.Log("---Fin---");
+                Debug.Log($"Quest: {quest.name} - {quest.GetDetail()}");
+                Debug.Log($"Completed:  {questStatus.GetCompletedObjectiveCount()} of {quest.GetObjectiveCount()} objectives");
+                Debug.Log($"Status:  {questStatus.IsComplete()}, Reward Disposition:  {questStatus.IsRewardGiven()})");
+                Debug.Log("---Fin---");
             }
         }
         #endregion
@@ -127,10 +130,10 @@ namespace Frankie.Core
         #region PartyDebug
         private void LevelUpParty()
         {
-            UnityEngine.Debug.Log("Leveling up party:");
+            Debug.Log("Leveling up party:");
             foreach (BaseStats character in party.value.GetParty())
             {
-                UnityEngine.Debug.Log($"{character.GetCharacterProperties().GetCharacterNamePretty()} has gained a level");
+                Debug.Log($"{character.GetCharacterProperties().GetCharacterNamePretty()} has gained a level");
                 character.IncrementLevel();
             }
         }
@@ -139,8 +142,8 @@ namespace Frankie.Core
         #region WalletDebug
         private void AddFundsToWallet()
         {
-            UnityEngine.Debug.Log($"Adding ${fundsToAddToWallet} to wallet");
-            wallet.value.UpdateCash(fundsToAddToWallet);
+            Debug.Log($"Adding ${_fundsToAddToWallet} to wallet");
+            wallet.value.UpdateCash(_fundsToAddToWallet);
         }
         #endregion
 

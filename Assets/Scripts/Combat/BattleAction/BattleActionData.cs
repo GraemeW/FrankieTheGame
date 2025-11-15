@@ -74,6 +74,12 @@ namespace Frankie.Combat
             targets.Add(focalTarget);
         }
 
+        public void SetFocalTargetToSender()
+        {
+            BattleEntity senderTarget = targets.FirstOrDefault(target => target.combatParticipant == sender);
+            focalTarget = senderTarget;
+        }
+
         private void ClearTargets()
         {
             focalTarget = null;
@@ -89,6 +95,8 @@ namespace Frankie.Combat
         
         private void SetDefaultFocalTarget()
         {
+            if (targets.Count == 0) { focalTarget = null; return; }
+            
             List<BattleEntity> tryBattleEntities = targets.Where(target => target.row == BattleMat.GetDefaultBattleRow()).ToList();
             switch (tryBattleEntities.Count)
             {

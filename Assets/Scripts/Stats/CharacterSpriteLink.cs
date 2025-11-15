@@ -48,16 +48,16 @@ namespace Frankie.Stats
         public void UpdateCharacterAnimation(float xLook, float yLook, float speed)
         {
             Mover.SetAnimatorSpeed(animator, speed);
-            Mover.SetAnimatorxLook(animator, xLook);
-            Mover.SetAnimatoryLook(animator, yLook);
+            Mover.SetAnimatorXLook(animator, xLook);
+            Mover.SetAnimatorYLook(animator, yLook);
             characterLookUpdated?.Invoke(xLook, yLook);
             characterSpeedUpdated?.Invoke(speed);
         }
 
         public void UpdateCharacterAnimation(float xLook, float yLook)
         {
-            Mover.SetAnimatorxLook(animator, xLook);
-            Mover.SetAnimatoryLook(animator, yLook);
+            Mover.SetAnimatorXLook(animator, xLook);
+            Mover.SetAnimatorYLook(animator, yLook);
             characterLookUpdated?.Invoke(xLook, yLook);
         }
 

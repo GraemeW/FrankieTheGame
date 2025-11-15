@@ -86,7 +86,7 @@ class AlphaPreMultiply:
         blueImage.show()
 
     @staticmethod
-    def PreMultiplySingle(imagePath : str, fileTypes : list[str], writeImageToFile : bool = False) -> None:
+    def PreMultiplySingle(imagePath : str, outputPath : str, fileTypes : list[str], writeImageToFile : bool = False) -> None:
         os.path.isfile(imagePath)
         if os.path.isfile(imagePath) and any(imagePath.endswith(fileType) for fileType in fileTypes):
             print(f'On image: {imagePath}')
@@ -102,10 +102,11 @@ class AlphaPreMultiply:
             AlphaPreMultiply.ShowRGBChannels(preMultipliedImage)
             
             if writeImageToFile:
-                preMultipliedImage.save(imagePath)
+                output = os.path.join(outputPath, os.path.basename(imagePath))
+                preMultipliedImage.save(output)
         return
 
-    def PreMultiplyRecursively(directory : str, fileTypes : list[str]) -> None:
+    def PreMultiplyRecursively(directory : str, outputPath : str, fileTypes : list[str]) -> None:
         for entry in os.scandir(directory):
             if entry.is_dir():
                 AlphaPreMultiply.PreMultiplyRecursively(entry.path, fileTypes)
@@ -117,7 +118,8 @@ class AlphaPreMultiply:
                 image = AlphaPreMultiply.AddPadding(image, paddingRequirements)
                 
                 preMultipliedImage = AlphaPreMultiply.PreMultiplyAlpha(image)
-                preMultipliedImage.save(entry.path)
+                output = os.path.join(outputPath, os.path.basename(entry.path))
+                preMultipliedImage.save(output)
         return
 
 # Main Execution
@@ -126,10 +128,11 @@ if __name__ == "__main__":
     programSelector = ProgramSelector.RunRecursively
     singleImageInputPath = './Input/GB_Narrow_Blue.png'
     resursiveInputPath = './InputDirectory'
+    outputPath = './Output'
     fileTypes = list([".png", ".PNG", ".Png"])
 
     match programSelector:
         case ProgramSelector.TestSingleInput:
-            AlphaPreMultiply.PreMultiplySingle(singleImageInputPath, fileTypes, True)
+            AlphaPreMultiply.PreMultiplySingle(singleImageInputPath, outputPath, fileTypes, True)
         case ProgramSelector.RunRecursively:
-            AlphaPreMultiply.PreMultiplyRecursively(resursiveInputPath, fileTypes)
+            AlphaPreMultiply.PreMultiplyRecursively(resursiveInputPath, outputPath, fileTypes)

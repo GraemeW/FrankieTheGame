@@ -196,7 +196,7 @@ namespace Frankie.Menu.UI
             if (fullScreenWindowed)
             {
                 WriteScreenResolutionToPlayerPrefs(); // Stash windowed settings
-                resolutionSetting = DisplayResolutions.GetFSWResolution();
+                resolutionSetting = DisplayResolutions.GetFullScreenWidthResolution();
             }
             else
             {

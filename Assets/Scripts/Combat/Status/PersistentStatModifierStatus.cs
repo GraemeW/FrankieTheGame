@@ -9,13 +9,13 @@ namespace Frankie.Combat
         // Tunables
         private float value;
 
-        public void Setup(float duration, Stat stat, float setValue, bool persistAfterBattle = false)
+        public void Setup(float duration, Stat setStatAffected, float setValue, bool persistAfterBattle = false)
         {
             if (Mathf.Approximately(setValue, 0f)) { Destroy(this); }
 
             base.Setup(duration, persistAfterBattle);
 
-            statusEffectType = stat;
+            statAffected = setStatAffected;
             value = setValue;
             isIncrease = (value > 0f);
         }
@@ -24,7 +24,7 @@ namespace Frankie.Combat
         {
             if (!active) { yield break; }
 
-            if (statusEffectType == stat)
+            if (statAffected == stat)
             {
                 yield return value;
             }
