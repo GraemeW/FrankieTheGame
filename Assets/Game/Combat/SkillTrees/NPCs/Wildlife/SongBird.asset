@@ -29,11 +29,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6b066201d64e5354387f385aa2872d22, type: 3}
   m_Name: 34391e04-b70c-4434-8932-d29d94f8fa69
   m_EditorClassIdentifier: Assembly-CSharp::Frankie.Combat.SkillBranch
-  upSkillReference: Wallop
+  upSkillReference: PeckEarHoles
   upBranch: 
-  leftSkillReference: 
+  leftSkillReference: ChirpLoudly
   leftBranch: 
-  rightSkillReference: 
+  rightSkillReference: Preen
   rightBranch: 
   downSkillReference: 
   downBranch: 
