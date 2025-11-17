@@ -110,7 +110,7 @@ namespace Frankie.Combat.UI
                 case AbilitiesBoxState.InCharacterSelection:
                     return base.Choose(null);
                 case AbilitiesBoxState.InAbilitiesSelection:
-                    SkillHandler skillHandler = currentCombatParticipant?.GetComponent<SkillHandler>();
+                    var skillHandler = currentCombatParticipant?.GetComponent<SkillHandler>();
                     Skill activeSkill = skillHandler?.GetActiveSkill();
                     if (activeSkill == null) { return false; }
 
@@ -132,7 +132,7 @@ namespace Frankie.Combat.UI
         {
             if (combatParticipant == null)
             {
-                RefreshUI(CombatParticipantType.Friendly, partyBattleEntities); // Failsafe, re-setup box if character lost
+                // Failsafe, re-setup box if character lost
                 SetAbilitiesBoxState(AbilitiesBoxState.InCharacterSelection);
                 return;
             }
@@ -140,16 +140,16 @@ namespace Frankie.Combat.UI
             if (combatParticipant != currentCombatParticipant)
             {
                 OnUIBoxModified(UIBoxModifiedType.itemSelected, true);
-
                 currentCombatParticipant = combatParticipant;
-                UpdateSkillHandler();
             }
+            
+            UpdateSkillHandler();
             battleActionData = new BattleActionData(combatParticipant);
             SetAbilitiesBoxState(AbilitiesBoxState.InAbilitiesSelection);
 
             if (IsChoiceAvailable() && initializeCursor)
             {
-                MoveCursor(PlayerInputType.NavigateRight);
+                MoveCursor(PlayerInputType.DefaultNone);
             }
         }
 
@@ -279,6 +279,7 @@ namespace Frankie.Combat.UI
             {
                 case AbilitiesBoxState.InCharacterSelection:
                     battleActionData = null; // Reset battle action data on selected character changed
+                    ResetUI();
                     targetCharacterChanged?.Invoke(CombatParticipantType.Foe, null);
                     break;
                 case AbilitiesBoxState.InAbilitiesSelection:
