@@ -339,6 +339,8 @@ namespace Frankie.Combat.UI
 
                 foreach (Tuple<string, int> statNameValuePair in characterLevelUpSheetPair.statNameValuePairs)
                 {
+                    if (Mathf.RoundToInt(statNameValuePair.Item2) == 0) { continue; }
+                    
                     if (pageClearReset > 2)
                     {
                         dialogueBox.AddPageBreak();
