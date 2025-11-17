@@ -29,11 +29,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6b066201d64e5354387f385aa2872d22, type: 3}
   m_Name: b8a451e7-33c7-49a9-9e3d-36ae09266f3d
   m_EditorClassIdentifier: Assembly-CSharp::Frankie.Combat.SkillBranch
-  upSkillReference: Wallop
+  upSkillReference: RollAround
   upBranch: 
-  leftSkillReference: 
+  leftSkillReference: TwiddleThumbs
   leftBranch: 
-  rightSkillReference: 
+  rightSkillReference: Fortify
   rightBranch: 
   downSkillReference: 
   downBranch: 
