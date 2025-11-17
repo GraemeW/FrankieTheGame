@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: Preen
   m_EditorClassIdentifier: Assembly-CSharp::Frankie.Combat.Skill
   stat: 1
-  battleAction: {fileID: 11400000, guid: 212ce5abe4017490d9c7d2fdc374aa3f, type: 2}
+  battleAction: {fileID: 11400000, guid: 8b9903ce68496a24b8280a50ce67aa86, type: 2}
   detail: These feathers look so shiny.  Heal a small amount.
