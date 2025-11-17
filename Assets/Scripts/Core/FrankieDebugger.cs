@@ -36,6 +36,7 @@ namespace Frankie.Core
             playerInput.Admin.Save.performed += _ => Save();
             playerInput.Admin.Load.performed += _ => Continue();
             playerInput.Admin.Delete.performed += _ => Delete();
+            playerInput.Admin.NewGame.performed += _ => NewSave();
             playerInput.Admin.ClearPlayerPrefs.performed += _ => ClearPlayerPrefs();
             playerInput.Admin.QuestLog.performed += _ => PrintQuests();
             playerInput.Admin.LevelUpParty.performed += _ => LevelUpParty();
@@ -83,16 +84,21 @@ namespace Frankie.Core
         private void Continue()
         {
             Debug.Log($"Frankie Debugger:  Loading Game...");
+            SavingWrapper.SetSaveToDebug();
             SavingWrapper.Continue();
         }
 
         private void Delete()
         {
             Debug.Log($"Frankie Debugger:  Deleting Game...");
-            SavingWrapper.Delete();
             SavingWrapper.DeleteSession();
             SavingWrapper.DeleteDebugSave();
-            Debug.Log($"Initializing Save for Debug...");
+        }
+
+        private void NewSave()
+        {
+            Save();
+            Delete();
             Save();
             Continue();
         }
