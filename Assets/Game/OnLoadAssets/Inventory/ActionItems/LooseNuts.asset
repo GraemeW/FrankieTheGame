@@ -10,13 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 75a8e8b21386c444d8c573cdb7c263f6, type: 3}
-  m_Name: RoughHay
-  m_EditorClassIdentifier: 
-  itemID: 09c14207-b932-45d7-a461-02734a56a96b
-  displayName: Rough Hay
-  description: For chewing I guess?  This is the only healthy food (?) available
-    in the office.
+  m_Name: LooseNuts
+  m_EditorClassIdentifier: Assembly-CSharp::Frankie.Inventory.ActionItem
+  itemID: 5848902d-0f1c-4222-8abf-7d527c89461e
+  displayName: Loose Nuts
+  description: Mix of macadia and beer nuts . . . and some twine?
   droppable: 1
-  price: 7
+  price: 8
   consumable: 1
   battleAction: {fileID: 11400000, guid: 8b9903ce68496a24b8280a50ce67aa86, type: 2}
