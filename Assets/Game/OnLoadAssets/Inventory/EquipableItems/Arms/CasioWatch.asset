@@ -14,16 +14,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemID: bb6684e6-d732-4641-a275-3c94e9c6c66c
   displayName: Casio Watch
-  description: This thing has seen better days.  Looks real nice!
+  description: Wow, offers some protection and it looks cool!
   droppable: 1
   price: 130
   equipLocation: 2
   baseStatModifiers:
   - stat: 5
-    minValue: 3
-    maxValue: 3
+    minValue: 5
+    maxValue: 5
   - stat: 7
-    minValue: 8
-    maxValue: 8
+    minValue: 5
+    maxValue: 5
   condition:
     and: []

@@ -277,7 +277,7 @@ MonoBehaviour:
   - characterProperties: {fileID: 11400000, guid: 530bc654984fc6b478566ee056083f8b, type: 2}
     stats:
     - stat: 0
-      value: 16
+      value: 17
     - stat: 1
       value: 15
     - stat: 2
@@ -303,7 +303,7 @@ MonoBehaviour:
   - characterProperties: {fileID: 11400000, guid: 44e5b74a59991d14e972988012c4557e, type: 2}
     stats:
     - stat: 0
-      value: 17
+      value: 18
     - stat: 1
       value: 15
     - stat: 2
@@ -325,11 +325,11 @@ MonoBehaviour:
     - stat: 10
       value: 4
     - stat: 11
-      value: 2
+      value: 3
   - characterProperties: {fileID: 11400000, guid: 86aecc43b78f58145815657f0856ac5b, type: 2}
     stats:
     - stat: 0
-      value: 27
+      value: 28
     - stat: 1
       value: 15
     - stat: 2
@@ -351,11 +351,11 @@ MonoBehaviour:
     - stat: 10
       value: 6
     - stat: 11
-      value: 3
+      value: 4
   - characterProperties: {fileID: 11400000, guid: 9fe41bb8f767c374a974d7afca7cf995, type: 2}
     stats:
     - stat: 0
-      value: 26
+      value: 29
     - stat: 1
       value: 15
     - stat: 2
@@ -377,7 +377,7 @@ MonoBehaviour:
     - stat: 10
       value: 6
     - stat: 11
-      value: 4
+      value: 5
   - characterProperties: {fileID: 11400000, guid: e97120b87e74eee4f9d9d8659f0bddf5, type: 2}
     stats:
     - stat: 0
@@ -455,7 +455,7 @@ MonoBehaviour:
     - stat: 10
       value: 12
     - stat: 11
-      value: 7
+      value: 8
   - characterProperties: {fileID: 11400000, guid: b5a9ff0e2cddb41b9b8ba2dc6d5d6c09, type: 2}
     stats:
     - stat: 0
@@ -463,7 +463,7 @@ MonoBehaviour:
     - stat: 1
       value: 10
     - stat: 2
-      value: 350
+      value: 200
     - stat: 3
       value: 999
     - stat: 4
@@ -489,7 +489,7 @@ MonoBehaviour:
     - stat: 1
       value: 10
     - stat: 2
-      value: 750
+      value: 500
     - stat: 3
       value: 999
     - stat: 4
@@ -511,7 +511,7 @@ MonoBehaviour:
   - characterProperties: {fileID: 11400000, guid: b948c0129e36c474780edf15fc112e9b, type: 2}
     stats:
     - stat: 0
-      value: 50
+      value: 70
     - stat: 1
       value: 10
     - stat: 2
@@ -525,7 +525,7 @@ MonoBehaviour:
     - stat: 6
       value: 14
     - stat: 7
-      value: 20
+      value: 35
     - stat: 8
       value: 14
     - stat: 9

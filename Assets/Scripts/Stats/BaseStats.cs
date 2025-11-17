@@ -20,14 +20,14 @@ namespace Frankie.Stats
         [SerializeField] private Progression progression;
 
         // Static/Const Parameters
-        private const float _hpMultiplier = 2.0f;
-        private const float _apMultiplier = 1.2f;
+        private const float _hpMultiplier = 4.0f;
+        private const float _apMultiplier = 2.0f;
         private static readonly List<float[]> _levelUpStatScalerLerpPoints = new()
         {
             // Ensure LERP points match in length
             // Ensure incrementing in a logical manner
-            new float[4]{0f, 0.7f, 0.9f, 1.0f},
-            new float[4]{0.0f, 1.0f, 1.25f, 1.5f}
+            new float[5]{0f, 0.2f, 0.7f, 0.9f, 1.0f},
+            new float[5]{0.0f, 0.5f, 1.0f, 1.25f, 1.5f}
         };
         private const int _defaultLevelForNoCharacterProperties = 1;
         private const int _maxLevel = 99;

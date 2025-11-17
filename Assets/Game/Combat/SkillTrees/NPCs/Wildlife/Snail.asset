@@ -31,7 +31,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Frankie.Combat.SkillBranch
   upSkillReference: Wallop
   upBranch: 
-  leftSkillReference: 
+  leftSkillReference: EdgeCloser
   leftBranch: 
   rightSkillReference: 
   rightBranch: 

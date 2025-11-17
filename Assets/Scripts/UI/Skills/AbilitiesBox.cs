@@ -21,7 +21,8 @@ namespace Frankie.Combat.UI
         [SerializeField] private DialogueBox dialogueBoxPrefab;
         [Header("Messages")]
         [Tooltip("Include {0} for user, {1} for skill, {2} for target")][SerializeField] private string messageUseSkillInWorld = "{0} used {1} on {2}.";
-        [Tooltip("Include {0} for user, {1} for item, {2} for target")][SerializeField] private string messageNotEnoughAP = "Not enough AP.";
+        [SerializeField] private string messageNotEnoughAP = "Not enough AP.";
+        [SerializeField] private string messageNoValidTarget = "No valid target.";
 
         // State -- UI
         private List<BattleEntity> partyBattleEntities;
@@ -110,7 +111,7 @@ namespace Frankie.Combat.UI
                 case AbilitiesBoxState.InCharacterSelection:
                     return base.Choose(null);
                 case AbilitiesBoxState.InAbilitiesSelection:
-                    SkillHandler skillHandler = currentCombatParticipant?.GetComponent<SkillHandler>();
+                    var skillHandler = currentCombatParticipant?.GetComponent<SkillHandler>();
                     Skill activeSkill = skillHandler?.GetActiveSkill();
                     if (activeSkill == null) { return false; }
 
@@ -119,6 +120,9 @@ namespace Frankie.Combat.UI
                     else
                     {
                         SetAbilitiesBoxState(AbilitiesBoxState.InAbilitiesSelection);
+                        DialogueBox dialogueBox = Instantiate(dialogueBoxPrefab, transform.parent);
+                        dialogueBox.AddText(messageNoValidTarget);
+                        PassControl(dialogueBox);
                         return false;
                     }
                 case AbilitiesBoxState.InCharacterTargeting:
@@ -132,7 +136,7 @@ namespace Frankie.Combat.UI
         {
             if (combatParticipant == null)
             {
-                RefreshUI(CombatParticipantType.Friendly, partyBattleEntities); // Failsafe, re-setup box if character lost
+                // Failsafe, re-setup box if character lost
                 SetAbilitiesBoxState(AbilitiesBoxState.InCharacterSelection);
                 return;
             }
@@ -140,16 +144,15 @@ namespace Frankie.Combat.UI
             if (combatParticipant != currentCombatParticipant)
             {
                 OnUIBoxModified(UIBoxModifiedType.itemSelected, true);
-
                 currentCombatParticipant = combatParticipant;
-                UpdateSkillHandler();
             }
+            
             battleActionData = new BattleActionData(combatParticipant);
             SetAbilitiesBoxState(AbilitiesBoxState.InAbilitiesSelection);
 
             if (IsChoiceAvailable() && initializeCursor)
             {
-                MoveCursor(PlayerInputType.NavigateRight);
+                MoveCursor(PlayerInputType.DefaultNone);
             }
         }
 
@@ -279,9 +282,11 @@ namespace Frankie.Combat.UI
             {
                 case AbilitiesBoxState.InCharacterSelection:
                     battleActionData = null; // Reset battle action data on selected character changed
+                    ResetUI();
                     targetCharacterChanged?.Invoke(CombatParticipantType.Foe, null);
                     break;
                 case AbilitiesBoxState.InAbilitiesSelection:
+                    UpdateSkillHandler();
                     targetCharacterChanged?.Invoke(CombatParticipantType.Foe, null);
                     break;
                 case AbilitiesBoxState.InCharacterTargeting:

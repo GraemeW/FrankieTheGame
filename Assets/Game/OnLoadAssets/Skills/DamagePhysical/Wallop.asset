@@ -14,4 +14,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   stat: 0
   battleAction: {fileID: 11400000, guid: 8a8ef7cd822057d47a5167faab6dc07b, type: 2}
-  detail: We DO NOT condone violence.  It's just a light wallop to a single target.
+  detail: It's just a light wallop to a single target.

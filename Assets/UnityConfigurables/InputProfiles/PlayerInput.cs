@@ -105,7 +105,7 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
                     ""name"": ""Execute"",
                     ""type"": ""Button"",
                     ""id"": ""c85ad316-bd55-40f5-953e-fb5723cf014b"",
-                    ""expectedControlType"": ""Button"",
+                    ""expectedControlType"": """",
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
@@ -114,7 +114,7 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
                     ""name"": ""Cancel"",
                     ""type"": ""Button"",
                     ""id"": ""6f60837c-0c57-411e-ad9c-267a7cb93c63"",
-                    ""expectedControlType"": ""Button"",
+                    ""expectedControlType"": """",
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
@@ -123,7 +123,7 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
                     ""name"": ""Option"",
                     ""type"": ""Button"",
                     ""id"": ""54af357d-a906-4c54-a7aa-caa40005ed6c"",
-                    ""expectedControlType"": ""Button"",
+                    ""expectedControlType"": """",
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
@@ -132,7 +132,7 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
                     ""name"": ""Skip"",
                     ""type"": ""Button"",
                     ""id"": ""312910ed-f2ca-4023-bc62-cc9408f87530"",
-                    ""expectedControlType"": ""Button"",
+                    ""expectedControlType"": """",
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
@@ -387,7 +387,7 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
                     ""name"": ""Execute"",
                     ""type"": ""Button"",
                     ""id"": ""833225b9-42a7-4e1f-91e7-aea53f53589c"",
-                    ""expectedControlType"": ""Button"",
+                    ""expectedControlType"": """",
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
@@ -396,7 +396,7 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
                     ""name"": ""Cancel"",
                     ""type"": ""Button"",
                     ""id"": ""05c0140f-841f-43b1-89af-6632c126cf9c"",
-                    ""expectedControlType"": ""Button"",
+                    ""expectedControlType"": """",
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
@@ -405,7 +405,7 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
                     ""name"": ""Option"",
                     ""type"": ""Button"",
                     ""id"": ""5e72b347-ec1d-410b-a773-55b59634cc28"",
-                    ""expectedControlType"": ""Button"",
+                    ""expectedControlType"": """",
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
@@ -414,7 +414,7 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
                     ""name"": ""Skip"",
                     ""type"": ""Button"",
                     ""id"": ""058ffc6a-f372-45d5-9606-bb680f8bf426"",
-                    ""expectedControlType"": ""Button"",
+                    ""expectedControlType"": """",
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
@@ -423,7 +423,7 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
                     ""name"": ""Select1"",
                     ""type"": ""Button"",
                     ""id"": ""9808d97c-a310-4bf6-8b75-7f708ad2770b"",
-                    ""expectedControlType"": ""Button"",
+                    ""expectedControlType"": """",
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
@@ -432,7 +432,7 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
                     ""name"": ""Select2"",
                     ""type"": ""Button"",
                     ""id"": ""2b5c408c-ad01-4d27-9243-2d34ed349559"",
-                    ""expectedControlType"": ""Button"",
+                    ""expectedControlType"": """",
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
@@ -441,7 +441,7 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
                     ""name"": ""Select3"",
                     ""type"": ""Button"",
                     ""id"": ""f0208375-dbb8-4fc8-a3ee-97522d3a2a17"",
-                    ""expectedControlType"": ""Button"",
+                    ""expectedControlType"": """",
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
@@ -450,7 +450,7 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
                     ""name"": ""Select4"",
                     ""type"": ""Button"",
                     ""id"": ""3b8f63ec-35a0-4d21-bb2a-630e274240cf"",
-                    ""expectedControlType"": ""Button"",
+                    ""expectedControlType"": """",
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
@@ -744,6 +744,15 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
                     ""initialStateCheck"": false
                 },
                 {
+                    ""name"": ""NewGame"",
+                    ""type"": ""Button"",
+                    ""id"": ""7b78f584-5db7-42cc-ac6e-9e6b2dd12f4e"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
                     ""name"": ""QuestLog"",
                     ""type"": ""Button"",
                     ""id"": ""c70f5974-676a-48ad-a641-d800a8c5c1bf"",
@@ -857,6 +866,17 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
                     ""action"": ""ClearPlayerPrefs"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""06ffce0c-be3c-44a8-be07-8162c088f8c7"",
+                    ""path"": ""<Keyboard>/n"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": "";Keyboard&Mouse"",
+                    ""action"": ""NewGame"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -948,6 +968,7 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
         m_Admin_Save = m_Admin.FindAction("Save", throwIfNotFound: true);
         m_Admin_Load = m_Admin.FindAction("Load", throwIfNotFound: true);
         m_Admin_Delete = m_Admin.FindAction("Delete", throwIfNotFound: true);
+        m_Admin_NewGame = m_Admin.FindAction("NewGame", throwIfNotFound: true);
         m_Admin_QuestLog = m_Admin.FindAction("QuestLog", throwIfNotFound: true);
         m_Admin_LevelUpParty = m_Admin.FindAction("LevelUpParty", throwIfNotFound: true);
         m_Admin_AddFundsToWallet = m_Admin.FindAction("AddFundsToWallet", throwIfNotFound: true);
@@ -1372,6 +1393,7 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
     private readonly InputAction m_Admin_Save;
     private readonly InputAction m_Admin_Load;
     private readonly InputAction m_Admin_Delete;
+    private readonly InputAction m_Admin_NewGame;
     private readonly InputAction m_Admin_QuestLog;
     private readonly InputAction m_Admin_LevelUpParty;
     private readonly InputAction m_Admin_AddFundsToWallet;
@@ -1399,6 +1421,10 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
         /// Provides access to the underlying input action "Admin/Delete".
         /// </summary>
         public InputAction @Delete => m_Wrapper.m_Admin_Delete;
+        /// <summary>
+        /// Provides access to the underlying input action "Admin/NewGame".
+        /// </summary>
+        public InputAction @NewGame => m_Wrapper.m_Admin_NewGame;
         /// <summary>
         /// Provides access to the underlying input action "Admin/QuestLog".
         /// </summary>
@@ -1450,6 +1476,9 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
             @Delete.started += instance.OnDelete;
             @Delete.performed += instance.OnDelete;
             @Delete.canceled += instance.OnDelete;
+            @NewGame.started += instance.OnNewGame;
+            @NewGame.performed += instance.OnNewGame;
+            @NewGame.canceled += instance.OnNewGame;
             @QuestLog.started += instance.OnQuestLog;
             @QuestLog.performed += instance.OnQuestLog;
             @QuestLog.canceled += instance.OnQuestLog;
@@ -1482,6 +1511,9 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
             @Delete.started -= instance.OnDelete;
             @Delete.performed -= instance.OnDelete;
             @Delete.canceled -= instance.OnDelete;
+            @NewGame.started -= instance.OnNewGame;
+            @NewGame.performed -= instance.OnNewGame;
+            @NewGame.canceled -= instance.OnNewGame;
             @QuestLog.started -= instance.OnQuestLog;
             @QuestLog.performed -= instance.OnQuestLog;
             @QuestLog.canceled -= instance.OnQuestLog;
@@ -1741,6 +1773,13 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnDelete(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "NewGame" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnNewGame(InputAction.CallbackContext context);
         /// <summary>
         /// Method invoked when associated input action "QuestLog" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
         /// </summary>

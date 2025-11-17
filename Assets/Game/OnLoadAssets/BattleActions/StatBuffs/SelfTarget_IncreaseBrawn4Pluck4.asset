@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3e8ff82454b5c704385bdc320a0c9aaf, type: 3}
+  m_Name: SelfTarget_IncreaseBrawn4Pluck4
+  m_EditorClassIdentifier: Assembly-CSharp::Frankie.Combat.BattleAction
+  targetingStrategy: {fileID: 11400000, guid: 175ca2cac70c140eebff0b2824e32f8d, type: 2}
+  effectStrategies:
+  - {fileID: 11400000, guid: 363efae5ebe71fe4c8daaa7ef1fc91a3, type: 2}
+  - {fileID: 11400000, guid: 11633123e951d4218bc62a79c2b24309, type: 2}
+  - {fileID: 11400000, guid: 36e50909c90c54e05bc44d56a3ae1567, type: 2}
+  damageType: 0
+  cooldown: 6
+  apCost: 0

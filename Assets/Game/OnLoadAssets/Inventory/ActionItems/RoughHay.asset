@@ -19,4 +19,4 @@ MonoBehaviour:
   droppable: 1
   price: 7
   consumable: 1
-  battleAction: {fileID: 11400000, guid: 2e90298a33d647b42af0204415782c18, type: 2}
+  battleAction: {fileID: 11400000, guid: 8b9903ce68496a24b8280a50ce67aa86, type: 2}

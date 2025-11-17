@@ -17,7 +17,7 @@ MonoBehaviour:
   leftSkillReference: 
   leftBranch: 
   rightSkillReference: GentlePraise
-  rightBranch: 
+  rightBranch: e79f0bb1-b9a0-47d7-bb4e-32cdba311620
   downSkillReference: SpitTake
   downBranch: 32d6c799-07e8-4f41-9dbb-5cdee40049ab
   rect:
@@ -51,6 +51,7 @@ MonoBehaviour:
   skillBranches:
   - {fileID: -6008867730600426705}
   - {fileID: 1694152153767241410}
+  - {fileID: 2417977989957955819}
 --- !u!114 &1694152153767241410
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -84,3 +85,36 @@ MonoBehaviour:
     width: 250
     height: 45
   mappedFromBranch: 3
+--- !u!114 &2417977989957955819
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6b066201d64e5354387f385aa2872d22, type: 3}
+  m_Name: e79f0bb1-b9a0-47d7-bb4e-32cdba311620
+  m_EditorClassIdentifier: Assembly-CSharp::Frankie.Combat.SkillBranch
+  upSkillReference: AveragePraise
+  upBranch: 
+  leftSkillReference: 
+  leftBranch: 
+  rightSkillReference: 
+  rightBranch: 
+  downSkillReference: 
+  downBranch: 
+  rect:
+    serializedVersion: 2
+    x: 445
+    y: 66
+    width: 250
+    height: 155
+  draggingRect:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 250
+    height: 45
+  mappedFromBranch: 2
