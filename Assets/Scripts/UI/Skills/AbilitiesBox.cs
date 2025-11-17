@@ -21,7 +21,8 @@ namespace Frankie.Combat.UI
         [SerializeField] private DialogueBox dialogueBoxPrefab;
         [Header("Messages")]
         [Tooltip("Include {0} for user, {1} for skill, {2} for target")][SerializeField] private string messageUseSkillInWorld = "{0} used {1} on {2}.";
-        [Tooltip("Include {0} for user, {1} for item, {2} for target")][SerializeField] private string messageNotEnoughAP = "Not enough AP.";
+        [SerializeField] private string messageNotEnoughAP = "Not enough AP.";
+        [SerializeField] private string messageNoValidTarget = "No valid target.";
 
         // State -- UI
         private List<BattleEntity> partyBattleEntities;
@@ -119,6 +120,9 @@ namespace Frankie.Combat.UI
                     else
                     {
                         SetAbilitiesBoxState(AbilitiesBoxState.InAbilitiesSelection);
+                        DialogueBox dialogueBox = Instantiate(dialogueBoxPrefab, transform.parent);
+                        dialogueBox.AddText(messageNoValidTarget);
+                        PassControl(dialogueBox);
                         return false;
                     }
                 case AbilitiesBoxState.InCharacterTargeting:
@@ -143,7 +147,6 @@ namespace Frankie.Combat.UI
                 currentCombatParticipant = combatParticipant;
             }
             
-            UpdateSkillHandler();
             battleActionData = new BattleActionData(combatParticipant);
             SetAbilitiesBoxState(AbilitiesBoxState.InAbilitiesSelection);
 
@@ -283,6 +286,7 @@ namespace Frankie.Combat.UI
                     targetCharacterChanged?.Invoke(CombatParticipantType.Foe, null);
                     break;
                 case AbilitiesBoxState.InAbilitiesSelection:
+                    UpdateSkillHandler();
                     targetCharacterChanged?.Invoke(CombatParticipantType.Foe, null);
                     break;
                 case AbilitiesBoxState.InCharacterTargeting:
