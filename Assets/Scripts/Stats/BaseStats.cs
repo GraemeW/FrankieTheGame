@@ -26,8 +26,8 @@ namespace Frankie.Stats
         {
             // Ensure LERP points match in length
             // Ensure incrementing in a logical manner
-            new float[5]{0f, 0.2f, 0.7f, 0.9f, 1.0f},
-            new float[5]{0.0f, 0.5f, 1.0f, 1.25f, 1.5f}
+            new float[5]{0f, 0.2f, 0.85f, 0.95f, 1.0f}, // Roll Probability
+            new float[5]{0.0f, 0.5f, 1.0f, 1.25f, 1.5f} // Multiplier
         };
         private const int _defaultLevelForNoCharacterProperties = 1;
         private const int _maxLevel = 99;
