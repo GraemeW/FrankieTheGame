@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Frankie.Combat;
@@ -12,35 +11,37 @@ namespace Frankie.Inventory.UI
     public class EquipmentInventoryBox : InventoryBox
     {
         [Header("Info/Messages")]
-        [SerializeField] string optionEquip = "Equip";
-        [SerializeField] string messageCannotEquip = "This item cannot be equipped in this spot.";
+        [SerializeField] private string optionEquip = "Equip";
+        [SerializeField] private string messageCannotEquip = "This item cannot be equipped in this spot.";
 
         // Cached References
-        EquipmentBox equipmentBox = null;
-        EquipLocation equipLocation = EquipLocation.None;
-        Equipment equipment = null;
+        private EquipmentBox equipmentBox;
+        private EquipLocation equipLocation = EquipLocation.None;
+        private Equipment equipment;
 
-        public void Setup(EquipmentBox equipmentBox, EquipLocation equipLocation, CombatParticipant selectedCharacter, List<CharacterSlide> characterSlides = null)
+        public void Setup(EquipmentBox setEquipmentBox, EquipLocation setEquipLocation, CombatParticipant setSelectedCharacter, List<CharacterSlide> setCharacterSlides = null)
         {
-            this.equipmentBox = equipmentBox;
-            this.equipLocation = equipLocation;
-            this.equipment = selectedCharacter.GetComponent<Equipment>();
-            Setup(selectedCharacter, characterSlides);
+            equipmentBox = setEquipmentBox;
+            equipLocation = setEquipLocation;
+            equipment = setSelectedCharacter.GetComponent<Equipment>();
+            Setup(setSelectedCharacter, setCharacterSlides);
         }
 
         protected override List<ChoiceActionPair> GetChoiceActionPairs(int inventorySlot)
         {
-            List<ChoiceActionPair> choiceActionPairs = new List<ChoiceActionPair>();
-            EquipableItem equipableItem = selectedKnapsack.GetItemInSlot(inventorySlot) as EquipableItem;
+            var choiceActionPairs = new List<ChoiceActionPair>();
+            var equipableItem = selectedKnapsack.GetItemInSlot(inventorySlot) as EquipableItem;
             // Equip
-            if (equipableItem != null && (equipment != null && equipableItem.CanUseItem(equipment)))
+            if (equipableItem != null
+                && equipment != null && equipableItem.CanUseItem(equipment)
+                && equipLocation != EquipLocation.None && equipableItem.GetEquipLocation() == equipLocation)
             {
-                ChoiceActionPair equipActionPair = new ChoiceActionPair(optionEquip, () => Equip(inventorySlot));
+                var equipActionPair = new ChoiceActionPair(optionEquip, () => Equip(inventorySlot));
                 choiceActionPairs.Add(equipActionPair);
             }
             else
             {
-                ChoiceActionPair inspectActionPair = new ChoiceActionPair(optionInspect, () => CannotEquip(inventorySlot));
+                var inspectActionPair = new ChoiceActionPair(optionInspect, () => CannotEquip(inventorySlot));
                 choiceActionPairs.Add(inspectActionPair);
             }
 
@@ -56,24 +57,17 @@ namespace Frankie.Inventory.UI
 
         private void Equip(int inventorySlot)
         {
-            EquipableItem equipableItem = selectedKnapsack.GetItemInSlot(inventorySlot) as EquipableItem;
+            var equipableItem = selectedKnapsack.GetItemInSlot(inventorySlot) as EquipableItem;
             if (equipableItem == null) { return; }
 
             equipmentBox.SetSelectedItem(equipableItem);
             Destroy(gameObject);
         }
 
-        public override InventoryItemField SetupItem(InventoryItemField inventoryItemFieldPrefab, Transform container, int selector)
+        public override InventoryItemField SetupItem(InventoryItemField setInventoryItemFieldPrefab, Transform container, int selector)
         {
-            InventoryItemField inventoryItemField =  base.SetupItem(inventoryItemFieldPrefab, container, selector);
-            if (selectedKnapsack.HasEquipableItemInSlot(selector, equipLocation))
-            {
-                inventoryItemField.SetValidColor(true);
-            }
-            else
-            {
-                inventoryItemField.SetValidColor(false);
-            }
+            InventoryItemField inventoryItemField =  base.SetupItem(setInventoryItemFieldPrefab, container, selector);
+            inventoryItemField.SetValidColor(selectedKnapsack.HasEquipableItemInSlot(selector, equipLocation));
             return inventoryItemField;
         }
 
