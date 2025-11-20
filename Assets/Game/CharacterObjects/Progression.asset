@@ -534,3 +534,29 @@ MonoBehaviour:
       value: 20
     - stat: 11
       value: 9
+  - characterProperties: {fileID: 11400000, guid: 7f95ee1e520694281b51f5dbde9a0d93, type: 2}
+    stats:
+    - stat: 0
+      value: 95
+    - stat: 1
+      value: 10
+    - stat: 2
+      value: 500
+    - stat: 3
+      value: 999
+    - stat: 4
+      value: 40
+    - stat: 5
+      value: 20
+    - stat: 6
+      value: 20
+    - stat: 7
+      value: 40
+    - stat: 8
+      value: 30
+    - stat: 9
+      value: 50
+    - stat: 10
+      value: 50
+    - stat: 11
+      value: 12
