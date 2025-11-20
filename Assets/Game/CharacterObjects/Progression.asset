@@ -519,17 +519,17 @@ MonoBehaviour:
     - stat: 3
       value: 999
     - stat: 4
-      value: 35
+      value: 30
     - stat: 5
       value: 14
     - stat: 6
       value: 14
     - stat: 7
-      value: 35
+      value: 15
     - stat: 8
       value: 14
     - stat: 9
-      value: 35
+      value: 30
     - stat: 10
       value: 20
     - stat: 11
