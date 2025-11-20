@@ -55,7 +55,7 @@ For example, see below to check if the conversant has spoken once already:
 Set:
 * `Character`: to the desired [CharacterProperties](../OnLoadAssets/CharacterProperties/)
 
-For example, see below to check if the character of interest is [PhilToo](../OnLoadAssets/CharacterProperties/PhilToo.asset)
+For example, see below to check if the character of interest is [PhilToo](../OnLoadAssets/CharacterProperties/CoreCharacters/PhilToo.asset)
 
 <img src="../../../InfoTools/Documentation/Game/Predicates/ConfigureBaseStatsIsCharacter.png" width="300">
 
@@ -78,7 +78,7 @@ For example, see below to check if Frankie has a Beauty stat greater than or equ
 To configure the `IsCharacterDead` SO, set:
 * `Characters`:  to the desired [CharacterProperties](../OnLoadAssets/CharacterProperties/)
 
-For example, see below to check if [Horse](../OnLoadAssets/CharacterProperties/Horse.asset) is dead:
+For example, see below to check if [Horse](../OnLoadAssets/CharacterProperties/MiscNPCs/Horse.asset) is dead:
 
 <img src="../../../InfoTools/Documentation/Game/Predicates/ConfigureCombatParticipant.png" width="300">
 
@@ -100,7 +100,7 @@ For example, see below to check if the [KeyCardToOffice](../OnLoadAssets/Invento
 To configure either of the `ContainsAnyCharacter` or `IsLeader` SOs, set:
 * `Characters To Match`: to the desired [CharacterProperties](../OnLoadAssets/CharacterProperties/)
 
-For example, see below to check if [Frankie](../OnLoadAssets/CharacterProperties/Frankie.asset) is in the party:
+For example, see below to check if [Frankie](../OnLoadAssets/CharacterProperties/CoreCharacters/Frankie.asset) is in the party:
 
 <img src="../../../InfoTools/Documentation/Game/Predicates/ConfigureParty.png" width="300">
 

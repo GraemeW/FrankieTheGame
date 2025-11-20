@@ -19,7 +19,7 @@ For example, see below:
 * `_PeriodA` (float):  defines the period (impacting the speed) of a first sequence of image transformations
 * `_PeriodB` (float):  defines the period of a second sequence of image transformations
 
-As an example, consider [LateralMovementTwirl](./BattleBackgrounds/LateralMovementTwirl.shadergraph), which was used to generate the above example image:
+As an example, consider [LateralMovementTwirl](./BattleBackgrounds/BattleBackground_LateralMovementTwirl.shadergraph), which was used to generate the above example image:
 
 <img src="../../../../InfoTools/Documentation/Game/VFX/ShaderLateralTwirlGraph.png" width="800">
 
@@ -76,7 +76,7 @@ For example, see the [CirclePopEffect](./BattleEffectShaders/CirclePopEffect.sha
 
 Beyond those standard use cases above, shaders can be (sparingly) used throughout the world as [BackgroundShaders](./BackgroundShaders/) in Frankie.
 
-For example, the [FrankiePC](./BackgroundShaders/FrankiePC.mat) material (derived from the [LateralMovementWavy](./BattleBackgrounds/LateralMovementWavy.shadergraph) shader) is used on the [PCScreenSaver](../../WorldObjects/Interior/SavePoints/PCScreenSaver.prefab).  This screen saver is then attached to the computers on Frankie's desks:
+For example, the [FrankiePC](./BackgroundShaders/FrankiePC.mat) material (derived from the [LateralMovementWavy](./BattleBackgrounds/BattleBackground_LateralMovementWavy.shadergraph) shader) is used on the [PCScreenSaver](../../WorldObjects/Interior/SavePoints/PCScreenSaver.prefab).  This screen saver is then attached to the computers on Frankie's desks:
 * [FrankieHomeDesk](../../WorldObjects/Interior/SavePoints/FrankieHomeDesk.prefab)
 * [FrankieOfficeDesk](../../WorldObjects/Interior/SavePoints/FrankieOfficeDesk.prefab)
 

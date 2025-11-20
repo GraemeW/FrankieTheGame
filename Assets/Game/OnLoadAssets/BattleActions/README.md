@@ -4,7 +4,7 @@ Battle actions may be taken by characters in Frankie to deal damage, heal, apply
 
 <img src="../../../../InfoTools/Documentation/Game/Combat/BattleActionExample.png" width="350">
 
-Asset File:  **[SingleTargetDamageHeavyCrit](./SkillBase/SingleTargetDamageSmallHeavyCrit.asset)**
+Asset File:  **[SingleTargetDamageHeavyCrit](./DamagePhysical/SingleTarget_Damage-Phys_3j2_4xCrit.asset)**
 
 
 A high-level summary on Battle Actions and their overall role in the combat system is described in [Game/Combat](../../Combat/).
@@ -13,12 +13,7 @@ A high-level summary on Battle Actions and their overall role in the combat syst
 
 ### Make the Battle Action
 
-1. Navigate to either:
-* [SkillBase](./SkillBase/) directory for battle actions intended for skills
-* [ItemBase](./ItemBase/) directory for battle actions intended for items
-
-*N.B.  Strictly speaking, battle actions don't care if they're on items or skills, but this just helps for organization*
-
+1. Navigate to the relevant sub-directory (e.g. for healing, damage, status effect, etc.)
 2. Right click and select `Create` -> `BattleAction` -> `New Battle Action`
 
 <img src="../../../../InfoTools/Documentation/Game/OnLoadAssets/BattleActions/NewBattleActionMenu.png" width="450">
@@ -32,15 +27,13 @@ Set the `Other Input` parameters:
 
 The [Targeting Strategy](#targeting-strategy) and [Effect Strategies](#effect-strategy) are described in more detail below.
 
-**Critical Note:**  As discussed below in [Trigger Resources & Cooldowns](#trigger-resources--cooldowns), it is crucial to have the final effect on any battle action as the [TriggerResourcesCooldowns](../../Combat/BattleActions/EffectStrategies/TriggerResourcesCooldowns.asset) effect
-
 ### Targeting Strategy
 
 To make a new targeting strategy:
 
 1. Navigate to [Combat/BattleActions/TargetingStrategies](../../Combat/BattleActions/TargetingStrategies/)
    * depending on the complexity of the targeting strategy, navigate further to [SpecificTargeting](../../Combat/BattleActions/TargetingStrategies/SpecificTargeting/)
-2. Right click and select `Create` -> `BattleAction` -> `Targeting` -> `Single Target` (or) `Multi Target`
+2. Right click and select `Create` -> `BattleAction` -> `Targeting` -> `Single Target` (or the relevant targeting type)
 
 <img src="../../../../InfoTools/Documentation/Game/OnLoadAssets/BattleActions/NewTargetingMenu.png" width="550">
 
@@ -54,19 +47,19 @@ Targeting strategies all derive from the [TargetingStrategy](../../../Scripts/Co
 
 Friendly/foe description are relative to the character's disposition to the player.  The characters in a player's party are friendly to each other, and see enemies in combat as foes.  Likewise, an enemy is friendly to other enemies in combat, and sees the player characters as foes.
 
-In the above example **[SingleTargetDamageHeavyCrit](./SkillBase/SingleTargetDamageSmallHeavyCrit.asset)**, the targeting strategy is [SingleTargetLivingEnemies](../../Combat/BattleActions/TargetingStrategies/SingleTargetLivingEnemies.asset), which means the skill can only target a single character in opposition to the active character's disposition.  This targeting strategy furthermore applies a `LivingFilter`, such that it can only be applied to combat participants that are alive (i.e. hit points > 0).
+In the above example **[SingleTargetDamage_HeavyCrit](./DamagePhysical/SingleTarget_Damage-Phys_3j2_4xCrit.asset)**, the targeting strategy is [SingleTargetLivingEnemies](../../Combat/BattleActions/TargetingStrategies/SingleTargetLivingEnemies.asset), which means the skill can only target a single character in opposition to the active character's disposition.  This targeting strategy furthermore applies a `LivingFilter`, such that it can only be applied to combat participants that are alive (i.e. hit points > 0).
 
 <img src="../../../../InfoTools/Documentation/Game/OnLoadAssets/BattleActions/TargetingSingleEnemy.png" width="350">
 
 #### Single vs. Multi Targeting
 
-The above example covers the simple [Single Target](../../../Scripts/Combat/BattleAction/Targeting/SingleTargeting.cs) strategy.  However, many skills impact more than one character, and are instead handled by [MultiTargeting](../../../Scripts/Combat/BattleAction/Targeting/MultiTargeting.cs).
+The above example covers the simple [Single Target](../../../Scripts/Combat/BattleAction/Targeting/SingleTargeting.cs) strategy.  However, many skills impact more than one character, and are instead handled by [TargetAll](../../../Scripts/Combat/BattleAction/Targeting/TargetAll.cs), [RowTargeting](../../../Scripts/Combat/BattleAction/Targeting/ColumnTargeting.cs), [ColumnTargeting](../../../Scripts/Combat/BattleAction/Targeting/ColumnTargeting.cs), etc.
 
-See for example [Trample](./SkillBase/OldStyle/Trample.asset) asset:
+See for example [Trample](./DamagePhysical/AllTarget_Damage-Phys_4j3.asset) asset:
 
 <img src="../../../../InfoTools/Documentation/Game/OnLoadAssets/BattleActions/BattleActionTrample.png" width="350">
 
-, which applies a medium health deduction to all enemies, by making use of the [MultiTargetAllEnemies](../../Combat/BattleActions/TargetingStrategies/MultiTargetAllEnemies.asset) targeting strategy:
+, which applies a large health deduction to all enemies, by making use of the [AllTargetLivingEnemies](../../Combat/BattleActions/TargetingStrategies/AllTargetLivingEnemies.asset) targeting strategy:
 
 <img src="../../../../InfoTools/Documentation/Game/OnLoadAssets/BattleActions/TargetingMultiEnemies.png" width="350">
 
@@ -106,24 +99,24 @@ Effect strategies derive from the [EffectStrategy](../../../Scripts/Combat/Battl
 #### Basic Effects
 
 Some example basic effects include:
-   * health effect: deal damage or heal - such as [DeductHPMed](../../Combat/BattleActions/EffectStrategies/DirectHP/DeductHPMed.asset)
+   * health effect: deal damage or heal - such as [DeductHP_Med](../../Combat/BattleActions/EffectStrategies/DirectHP/DeductHP_4j3_2xCrit.asset)
      * health is modified by Health Change ± Jitter
      * apply damage type selects if physical/magical defense should be used in damage calculations
 
 <img src="../../../../InfoTools/Documentation/Game/OnLoadAssets/BattleActions/EffectDeductHP.png" width="250">
 
-   * ap effect: add/remove action points from the character - such as [RestoreAPSmall](../../Combat/BattleActions/EffectStrategies/DirectAP/RestoreAPSmall.asset)
+   * ap effect: add/remove action points from the character - such as [RestoreAP_Small](../../Combat/BattleActions/EffectStrategies/DirectAP/RestoreAP_3j3.asset)
      * action points are modified by AP Change ± Jitter
 
 <img src="../../../../InfoTools/Documentation/Game/OnLoadAssets/BattleActions/EffectRestoreAP.png" width="250">
 
-   * persistent stat effect: increment or decrement a [stat](../../../Scripts/Stats/Stat.cs) temporarily - such as [IncreaseLuckMed](../../Combat/BattleActions/EffectStrategies/PersistentStatMods/IncreaseLuckMed.asset)
+   * persistent stat effect: increment or decrement a [stat](../../../Scripts/Stats/Stat.cs) temporarily - such as [IncreaseLuck_Med](../../Combat/BattleActions/EffectStrategies/PersistentStatMods/IncreaseLuck_12.asset)
      * fraction probability sets the likelihood of effect applying (where 1 = 100%, 0 = 0%) on skill use
      * persist after combat defines whether the effect clears automatically after combat, or remains until duration expires
 
 <img src="../../../../InfoTools/Documentation/Game/OnLoadAssets/BattleActions/EffectPersistentStat.png" width="250">
 
-   * dot/hot effect: damage or heal over time - such as [DoTHPSmall](../../Combat/BattleActions/EffectStrategies/DoT/DoTHPSmall.asset)
+   * dot/hot effect: damage or heal over time - such as [DoTHPSmall](../../Combat/BattleActions/EffectStrategies/DoT/DoTHP_2p3s_over12s.asset)
      * health is modified by health change per teck every tick period seconds
      * fraction probability & persist match are consistent with the above explanation ^
 
@@ -137,27 +130,21 @@ Some example basic effects include:
 
 <img src="../../../../InfoTools/Documentation/Game/OnLoadAssets/BattleActions/EffectRemoveStatus.png" width="375">
 
-   * permanent stat effect: increment or decrement a [stat](../../../Scripts/Stats/Stat.cs) permanently - such as [PermanentIncreaseBeautyLarge](../../Combat/BattleActions/EffectStrategies/PermanentStatMods/PermanentIncrementBeautyLarge.asset) 
+   * permanent stat effect: increment or decrement a [stat](../../../Scripts/Stats/Stat.cs) permanently - such as [PermanentIncreaseBeauty_Large](../../Combat/BattleActions/EffectStrategies/PermanentStatMods/PermIncreaseBeauty_15.asset) 
    
 <img src="../../../../InfoTools/Documentation/Game/OnLoadAssets/BattleActions/EffectPermanentStat.png" width="250">
 
-   * set cooldown: overrides the cooldown on the target (e.g. to delay enemy actions) - such as [SetLongCooldown](../../Combat/BattleActions/EffectStrategies/SetCooldown/SetLongCooldown.asset)
+   * set cooldown: overrides the cooldown on the target (e.g. to delay enemy actions) - such as [SetCooldown_Long](../../Combat/BattleActions/EffectStrategies/SetCooldown/SetCooldown_8.asset)
 
 <img src="../../../../InfoTools/Documentation/Game/OnLoadAssets/BattleActions/EffectSetCooldown.png" width="250">
 
-   * call for help effect: add new enemies to the current combat - such as [CallForHelpSquirrel](../../Combat/BattleActions/EffectStrategies/CallForHelp/CallForHelpSquirrel.asset)
+   * call for help effect: add new enemies to the current combat - such as [CallForHelp_Squirrel](../../Combat/BattleActions/EffectStrategies/CallForHelp/CallForHelp_Squirrel.asset)
      * , using the same logic as [EnemySpawner](../../WorldObjects/_Spawners/) configurations
      * , where a variable number of enemies (defined by their [Character Properties](../CharacterProperties/)) can be added with a given probability
 
 <img src="../../../../InfoTools/Documentation/Game/OnLoadAssets/BattleActions/EffectCallForHelp.png" width="250">
 
    * etc.
-
-#### Trigger Resources & Cooldowns
-
-The [TriggerResourcesCooldowns](../../Combat/BattleActions/EffectStrategies/TriggerResourcesCooldowns.asset) effect strategy **must** be placed as the final effect strategy for any battle action.  As is evident from its name, this effect will trigger the character's cooldown and subtract any AP incurred by use of the skill.
-
-As discussed in [Delayed Composites](#action--delayed-composites), this effect strategy is needed to signal to the [BattleController](../../Controllers/Battle%20Controller.prefab) that the current action has completed.
 
 #### Spawn Target Prefab Effects
 
@@ -170,30 +157,3 @@ For example, the effect [SpawnCirclePopPink](../../Combat/BattleActions/EffectSt
 , will spawn the game object [CirclePopPink](../../Combat/BattleActions/EffectStrategiesSpawnedArtwork/CirclePopPink.prefab), as shown below when Tilly uses the `Do Actual Work` skill:
 
 ![](../../../../InfoTools/Documentation/Game/OnLoadAssets/BattleActions/EffectSpawnPrefabImplemented.gif)
-
-#### Action & Delayed Composites
-
-For more complex battle actions, such as those using visual indicators (e.g. [Spawn Target Prefab Effects](#spawn-target-prefab-effects)), it is often necessary to chain together series of effects with delays.  Specifically, we want:
-1. to have the visual/graphic effects to appear before the damage and status effect are applied
-2. to avoid having other actions called by the [BattleController](../../Controllers/Battle%20Controller.prefab) while the current action is being executed
-
-The [DelayComposite](../../../Scripts/Combat/BattleAction/Effects/DelayCompositeEffect.cs) addresses this complexity by allowing for a battle action to chain together an arbitrary number of sub-lists of effects preceded by pre-defined delays.  
-
-For example, see the [DoActualWork](./SkillBase/OldStyle/DoActualWork.asset) Battle Action asset:
-
-<img src="../../../../InfoTools/Documentation/Game/OnLoadAssets/BattleActions/EffectCompositeBattleAction.png" width="300">
-
-, which (in its Effect Strategies) calls:
-* [SpawnCirclePopPink](../../Combat/BattleActions/EffectStrategiesSpawnedArtwork/SpawnCirclePopPink.asset)
-* , followed by [DoActualWorkDelayComposite](../../Combat/BattleActions/EffectStrategies/ActionComposites/DoActualWorkDelayComposite.asset)
-
-<img src="../../../../InfoTools/Documentation/Game/OnLoadAssets/BattleActions/EffectCompositeEffect.png" width="300">
-
-, such that the battle action will:
-1. Spawn the game object [CirclePopPink](../../Combat/BattleActions/EffectStrategiesSpawnedArtwork/CirclePopPink.prefab)
-2. Delay 0.5 seconds
-3. Deduct a small amount HP via `DeductHPTouch`
-4. Apply a damage over time effect via `DoTHPSmall`
-5. Trigger AP cost (3) and cooldown (8 seconds)
-
-Critically, per above note in [Trigger Resources & Cooldowns](#trigger-resources--cooldowns), the final effect in the battle action is the [TriggerResourcesCooldowns](../../Combat/BattleActions/EffectStrategies/TriggerResourcesCooldowns.asset) effect strategy.

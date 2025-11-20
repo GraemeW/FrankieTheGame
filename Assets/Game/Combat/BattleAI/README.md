@@ -38,13 +38,13 @@ As an example, consider the BattleAI Priority [BattleAI_RamenHeal-LowPartyHealth
 <img src="../../../../InfoTools/Documentation/Game/Combat/BattleAIPredicateExample.png" width="400">
 
 Since this is the first item in PhilRamen's Battle AI priorities (as above), it takes precedence, and so if the following conditions are met:
-* the character [Maya](../../CharacterObjects/NPCs/OfficePeople/Maya/Maya.prefab) is present in the combat
+* the character [Maya](../../CharacterObjects/NPCs/MiscNPCs/Maya/Maya.prefab) is present in the combat
 
 **AND** 
 
 * one of PhilRamen's party members has `health < 42` 
 
-, then PhilRamen will use the skill [ShareWarmRamen](../../OnLoadAssets/Skills/SpillHotRamen.asset) on the character [Frankie](../../CharacterObjects/PCs/Frankie/Frankie.prefab) (and only Frankie).
+, then PhilRamen will use the skill [ShareWarmRamen](../../OnLoadAssets/Skills/HealsBuffs/ShareWarmRamen.asset) on the character [Frankie](../../CharacterObjects/PCs/Frankie/Frankie.prefab) (and only Frankie).
 
 
 ## AI Priorities: Quick Start Guide
