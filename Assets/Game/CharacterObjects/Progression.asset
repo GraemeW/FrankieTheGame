@@ -511,7 +511,7 @@ MonoBehaviour:
   - characterProperties: {fileID: 11400000, guid: b948c0129e36c474780edf15fc112e9b, type: 2}
     stats:
     - stat: 0
-      value: 70
+      value: 60
     - stat: 1
       value: 10
     - stat: 2
@@ -519,13 +519,13 @@ MonoBehaviour:
     - stat: 3
       value: 999
     - stat: 4
-      value: 30
+      value: 20
     - stat: 5
-      value: 14
+      value: 10
     - stat: 6
       value: 14
     - stat: 7
-      value: 15
+      value: 13
     - stat: 8
       value: 14
     - stat: 9
@@ -537,7 +537,7 @@ MonoBehaviour:
   - characterProperties: {fileID: 11400000, guid: 7f95ee1e520694281b51f5dbde9a0d93, type: 2}
     stats:
     - stat: 0
-      value: 95
+      value: 70
     - stat: 1
       value: 10
     - stat: 2
@@ -545,13 +545,13 @@ MonoBehaviour:
     - stat: 3
       value: 999
     - stat: 4
-      value: 40
+      value: 30
     - stat: 5
       value: 20
     - stat: 6
       value: 20
     - stat: 7
-      value: 40
+      value: 15
     - stat: 8
       value: 30
     - stat: 9
