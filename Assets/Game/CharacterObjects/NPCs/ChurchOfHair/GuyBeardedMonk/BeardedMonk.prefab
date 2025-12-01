@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1001 &7951751372411541929
+--- !u!1001 &6559047175553142610
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
@@ -11,23 +11,23 @@ PrefabInstance:
     - target: {fileID: 1182436157161314237, guid: e4be3ce2d5464c3498c884ae5d9223d4, type: 3}
       propertyPath: combatAudio
       value: 
-      objectReference: {fileID: 8300000, guid: 06b60d6f684982745b29520fc5acb6de, type: 3}
+      objectReference: {fileID: 8300000, guid: c9ee37dfbc60c4445b0c9ebb3880c79f, type: 3}
     - target: {fileID: 1182436157161314237, guid: e4be3ce2d5464c3498c884ae5d9223d4, type: 3}
       propertyPath: combatSprite
       value: 
-      objectReference: {fileID: 2325186259960196442, guid: e48b106d9034140e3b9e6fae1cf56649, type: 3}
+      objectReference: {fileID: 1747046491097960441, guid: a49e3b93597d8482c97933622a842b84, type: 3}
     - target: {fileID: 1182436157161314237, guid: e4be3ce2d5464c3498c884ae5d9223d4, type: 3}
       propertyPath: movingBackgroundProperties.shaderMaterial
       value: 
-      objectReference: {fileID: 2100000, guid: f0e33ad55b3f107428a94269b6f3f3c9, type: 2}
+      objectReference: {fileID: 2100000, guid: a1f510c152223b1459ecbd541982ef2e, type: 2}
     - target: {fileID: 1182436157161314237, guid: e4be3ce2d5464c3498c884ae5d9223d4, type: 3}
       propertyPath: movingBackgroundProperties.tileSpriteImage
       value: 
-      objectReference: {fileID: 21300000, guid: a254d1efc2297f140a04a7d792e4d3e6, type: 3}
+      objectReference: {fileID: 21300000, guid: 5672edad250b6ee49ae04c2bb733e5b7, type: 3}
     - target: {fileID: 2085418849946982719, guid: e4be3ce2d5464c3498c884ae5d9223d4, type: 3}
       propertyPath: characterProperties
       value: 
-      objectReference: {fileID: 11400000, guid: 7f95ee1e520694281b51f5dbde9a0d93, type: 2}
+      objectReference: {fileID: 11400000, guid: a2c9c7342b8964ee5aa4cf81483ebc13, type: 2}
     - target: {fileID: 2088815241072228431, guid: e4be3ce2d5464c3498c884ae5d9223d4, type: 3}
       propertyPath: m_Size.x
       value: 0.4
@@ -39,19 +39,19 @@ PrefabInstance:
     - target: {fileID: 2088815241072228431, guid: e4be3ce2d5464c3498c884ae5d9223d4, type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: d56a60ab1ede140278da399b62f6f769, type: 3}
+      objectReference: {fileID: 21300000, guid: 6ca687e81ae614d63a244c76cd7c7134, type: 3}
     - target: {fileID: 2088815241072228431, guid: e4be3ce2d5464c3498c884ae5d9223d4, type: 3}
       propertyPath: m_WasSpriteAssigned
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2088815242785209472, guid: e4be3ce2d5464c3498c884ae5d9223d4, type: 3}
       propertyPath: m_Name
-      value: BaldMonk
+      value: BeardedMonk
       objectReference: {fileID: 0}
     - target: {fileID: 2088815242785209474, guid: e4be3ce2d5464c3498c884ae5d9223d4, type: 3}
       propertyPath: m_Controller
       value: 
-      objectReference: {fileID: 22100000, guid: 015e9d6310a1c404ca1162dd9a925a49, type: 2}
+      objectReference: {fileID: 22100000, guid: 13eaf9754fe8649f9aa4d41a485db79b, type: 2}
     - target: {fileID: 2088815242785209475, guid: e4be3ce2d5464c3498c884ae5d9223d4, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -103,26 +103,26 @@ PrefabInstance:
     - target: {fileID: 6346925829285501531, guid: e4be3ce2d5464c3498c884ae5d9223d4, type: 3}
       propertyPath: skillTree
       value: 
-      objectReference: {fileID: 11400000, guid: 4e5b9391020084563b205788eff0f60a, type: 2}
+      objectReference: {fileID: 11400000, guid: 30b6625ea10574c6f9ec8ef4b93fa915, type: 2}
     - target: {fileID: 6714702957889595111, guid: e4be3ce2d5464c3498c884ae5d9223d4, type: 3}
       propertyPath: uniqueIdentifier
-      value: dfd280e5-3d5f-4d6a-85b5-62a481549452
+      value: a301564a-12d8-47c5-b26a-7e26bb0f0cb3
       objectReference: {fileID: 0}
     - target: {fileID: 7379540853045316962, guid: e4be3ce2d5464c3498c884ae5d9223d4, type: 3}
       propertyPath: m_Size.x
-      value: 0.2597135
+      value: 0.2742465
       objectReference: {fileID: 0}
     - target: {fileID: 7379540853045316962, guid: e4be3ce2d5464c3498c884ae5d9223d4, type: 3}
       propertyPath: m_Size.y
-      value: 0.08034462
+      value: 0.09811784
       objectReference: {fileID: 0}
     - target: {fileID: 7379540853045316962, guid: e4be3ce2d5464c3498c884ae5d9223d4, type: 3}
       propertyPath: m_Offset.x
-      value: 0.000023171306
+      value: 0.0051431954
       objectReference: {fileID: 0}
     - target: {fileID: 7379540853045316962, guid: e4be3ce2d5464c3498c884ae5d9223d4, type: 3}
       propertyPath: m_Offset.y
-      value: 0.09606013
+      value: 0.09961478
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

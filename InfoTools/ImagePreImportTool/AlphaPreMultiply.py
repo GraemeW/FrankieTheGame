@@ -109,7 +109,7 @@ class AlphaPreMultiply:
     def PreMultiplyRecursively(directory : str, outputPath : str, fileTypes : list[str]) -> None:
         for entry in os.scandir(directory):
             if entry.is_dir():
-                AlphaPreMultiply.PreMultiplyRecursively(entry.path, fileTypes)
+                AlphaPreMultiply.PreMultiplyRecursively(entry.path, outputPath, fileTypes)
             elif entry.is_file() and any(entry.name.endswith(fileType) for fileType in fileTypes):
                 print(f'On image: {entry.path}')
                 image = Image.open(entry.path).convert("RGBA")
