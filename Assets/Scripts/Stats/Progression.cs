@@ -23,7 +23,7 @@ namespace Frankie.Stats
             {
                 Stat.HP => 20f,
                 Stat.AP => 10f,
-                Stat.ExperienceReward => 200f,
+                Stat.ExperienceReward => 500f,
                 Stat.ExperienceToLevelUp => 999f,
                 Stat.Brawn => 3f,
                 Stat.Beauty => 3f,

@@ -291,7 +291,7 @@ namespace Frankie.Stats.Editor
             Debug.Log("Reconcile:  Updating Progression for any missing character properties");
             CharacterProperties.BuildCacheIfEmpty(true);
             
-            Dictionary<CharacterProperties, bool> characterPropertiesCrossReference = new Dictionary<CharacterProperties, bool>();
+            var characterPropertiesCrossReference = new Dictionary<CharacterProperties, bool>();
             foreach (Progression.ProgressionCharacterClass characterClass in progression.GetCharacterClasses())
             {
                 if (characterClass.characterProperties == null) { continue; }
