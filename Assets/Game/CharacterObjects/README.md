@@ -178,11 +178,14 @@ Character objects are broken down into:
 
 * *Optional Step:* 
 * Hook up 'enemy' combat parameters - e.g. like below for [Lucy](./PCs/Lucy/Lucy.prefab)
-  * Combat Sprite: the image displayed on the [BattleCanvas](../UI/Combat/Battle%20Canvas.prefab) during combat **against** this character
-  * Combat Audio: the music played during combat against this character
-  * Moving background properties:
-    * Tile Sprite Image: the tiled image to display during combat against this character
-    * Shader Material: the shader to apply to sed tiled image during combat against this character
+  * `Combat Sprite`: the image displayed on the [BattleCanvas](../UI/Combat/Battle%20Canvas.prefab) during combat **against** this character (i.e. when faced as an enemy in combat)
+  * `Battle Entity Type`:  if the combat participant falls into a category of 'Standard', 'Mook' or 'Boss'
+    * this primarily impacts the sprite size when faced as an enemy in combat
+  * `Sprite Scale Fine Tune`:  additional parameter to scale the sprite size
+  * `Combat Audio`: the music played during combat against this character
+  * Moving Background Properties:
+    * `Tile Sprite Image`: the tiled image to display during combat against this character
+    * `Shader Material`: the shader to apply to sed tiled image during combat against this character
 * This step is noted as optional here, because (typically) you will not face a playable character in combat as an enemy
 
 <img src="../../../InfoTools/Documentation/Game/CharacterObjects/LucyOptionalCombatParameters.png" width="350">
