@@ -7458,7 +7458,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2392142034322169244, guid: dc5a145739044fc4996c8bda39fb6981, type: 3}
       propertyPath: m_Name
-      value: Level7-11
+      value: Level7-20
       objectReference: {fileID: 0}
     - target: {fileID: 2392142034322169244, guid: dc5a145739044fc4996c8bda39fb6981, type: 3}
       propertyPath: m_StaticEditorFlags
@@ -15414,18 +15414,18 @@ MonoBehaviour:
   yJitterDistance: 0.1
   spawnConfigurations:
   - spawnConfiguration:
-      maxQuantity: 4
+      maxQuantity: 2
       enemyConfigurations:
-      - minimum: 1
+      - minimum: 0
         maximum: 1
         characterProperties: {fileID: 11400000, guid: 7f95ee1e520694281b51f5dbde9a0d93, type: 2}
-      - minimum: 1
+      - minimum: 0
         maximum: 1
         characterProperties: {fileID: 11400000, guid: a2c9c7342b8964ee5aa4cf81483ebc13, type: 2}
-      - minimum: 1
+      - minimum: 0
         maximum: 1
         characterProperties: {fileID: 11400000, guid: 892d250ff329f423a919990938dae860, type: 2}
-      - minimum: 1
+      - minimum: 0
         maximum: 1
         characterProperties: {fileID: 11400000, guid: 848ffc904de8f48259f1f9d33b5645ba, type: 2}
     probability: 1
@@ -28038,11 +28038,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9140000498525693428, guid: 9bf5874c37e0a404a9bd916129a14959, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -2.347506
+      value: 6.4325423
       objectReference: {fileID: 0}
     - target: {fileID: 9140000498525693428, guid: 9bf5874c37e0a404a9bd916129a14959, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0.80156225
+      value: -1.00575
       objectReference: {fileID: 0}
     - target: {fileID: 9140000498525693428, guid: 9bf5874c37e0a404a9bd916129a14959, type: 3}
       propertyPath: m_LocalPosition.z

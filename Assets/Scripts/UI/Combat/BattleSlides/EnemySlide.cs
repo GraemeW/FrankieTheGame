@@ -25,7 +25,7 @@ namespace Frankie.Combat.UI
         public override void SetBattleEntity(BattleEntity setBattleEntity)
         {
             base.SetBattleEntity(setBattleEntity);
-            UpdateImage(battleEntity.combatParticipant.GetCombatSprite(), battleEntity.battleEntityType);
+            UpdateImage(battleEntity.combatSprite, battleEntity.battleEntityType, battleEntity.spriteScaleFineTune);
         }
 
         protected override void ParseState(StateAlteredInfo stateAlteredInfo)
@@ -96,22 +96,19 @@ namespace Frankie.Combat.UI
         }
 
         // Private Functions
-        private void UpdateImage(Sprite sprite, BattleEntityType battleEntityType)
+        private void UpdateImage(Sprite sprite, BattleEntityType battleEntityType, float spriteScaleFineTune)
         {
             image.sprite = sprite;
             if (battleEntityTypePropertyLookUp == null || battleEntityTypePropertyLookUp.Length == 0) { return; }
+            if (!TryGetComponent(out RectTransform rectTransform)) return;
+            
+            UnityEngine.Debug.Log($"Sprite scale factor is {spriteScaleFineTune}");
 
             // Setting size of image based on enemy type (e.g. mook small, standard medium, boss big)
             foreach (BattleEntityTypePropertySet battleEntityPropertySet in battleEntityTypePropertyLookUp)
             {
                 if (battleEntityType != battleEntityPropertySet.battleEntityType) continue;
-                layoutElement.preferredHeight = battleEntityPropertySet.imageSize.y;
-                if (TryGetComponent(out RectTransform rectTransform))
-                {
-                    Vector2 sizeDelta = rectTransform.sizeDelta;
-                    sizeDelta.y = battleEntityPropertySet.imageSize.y;
-                    rectTransform.sizeDelta = sizeDelta;
-                }
+                layoutElement.preferredHeight = battleEntityPropertySet.imageSize.y * spriteScaleFineTune;
                 return;
             }
         }

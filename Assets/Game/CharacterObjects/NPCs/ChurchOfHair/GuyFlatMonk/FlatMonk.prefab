@@ -18,7 +18,11 @@ PrefabInstance:
       objectReference: {fileID: -4878331230651071157, guid: 9c25ebdd71d6d4d06b5d5e7c45e4ab4c, type: 3}
     - target: {fileID: 1182436157161314237, guid: e4be3ce2d5464c3498c884ae5d9223d4, type: 3}
       propertyPath: preferredBattleRow
-      value: 2
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 1182436157161314237, guid: e4be3ce2d5464c3498c884ae5d9223d4, type: 3}
+      propertyPath: spriteScaleFineTune
+      value: 0.9
       objectReference: {fileID: 0}
     - target: {fileID: 1182436157161314237, guid: e4be3ce2d5464c3498c884ae5d9223d4, type: 3}
       propertyPath: movingBackgroundProperties.shaderMaterial
@@ -110,7 +114,7 @@ PrefabInstance:
       objectReference: {fileID: 11400000, guid: 3912f74be34a6425d93b29bcb3ff840b, type: 2}
     - target: {fileID: 6714702957889595111, guid: e4be3ce2d5464c3498c884ae5d9223d4, type: 3}
       propertyPath: uniqueIdentifier
-      value: 5305bf18-96f4-4799-8b48-21834899bba2
+      value: 32be3143-0571-46e3-8396-49fb1dd6f814
       objectReference: {fileID: 0}
     - target: {fileID: 7379540853045316962, guid: e4be3ce2d5464c3498c884ae5d9223d4, type: 3}
       propertyPath: m_Size.x

@@ -294,13 +294,13 @@ BlendTree:
     m_CycleOffset: 0
     m_DirectBlendParameter: xLook
     m_Mirror: 0
-  m_BlendParameter: xLook
+  m_BlendParameter: yLook
   m_BlendParameterY: yLook
   m_MinThreshold: 0
   m_MaxThreshold: 1
   m_UseAutomaticThresholds: 1
   m_NormalizedBlendValues: 0
-  m_BlendType: 1
+  m_BlendType: 0
 --- !u!206 &7352681261524868442
 BlendTree:
   m_ObjectHideFlags: 1

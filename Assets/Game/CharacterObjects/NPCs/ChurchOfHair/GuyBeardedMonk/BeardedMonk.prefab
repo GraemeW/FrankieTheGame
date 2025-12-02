@@ -17,6 +17,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1747046491097960441, guid: a49e3b93597d8482c97933622a842b84, type: 3}
     - target: {fileID: 1182436157161314237, guid: e4be3ce2d5464c3498c884ae5d9223d4, type: 3}
+      propertyPath: spriteScaleFineTune
+      value: 0.9
+      objectReference: {fileID: 0}
+    - target: {fileID: 1182436157161314237, guid: e4be3ce2d5464c3498c884ae5d9223d4, type: 3}
       propertyPath: movingBackgroundProperties.shaderMaterial
       value: 
       objectReference: {fileID: 2100000, guid: a1f510c152223b1459ecbd541982ef2e, type: 2}
