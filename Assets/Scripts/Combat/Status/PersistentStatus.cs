@@ -10,6 +10,7 @@ namespace Frankie.Combat
     public abstract class PersistentStatus : MonoBehaviour
     {
         // State
+        private string effectGUID;
         protected bool active;
         private float duration = Mathf.Infinity;
         private bool persistAfterBattle;
@@ -53,18 +54,27 @@ namespace Frankie.Combat
         #endregion
 
         #region PublicMethods
+        public string GetEffectGUID() => effectGUID;
         public Stat GetStatusEffectType() => statAffected;
         public bool IsIncrease() => isIncrease;
         #endregion
 
         #region PrivateProtectedMethods
-        protected void Setup(float setDuration, bool setPersistAfterBattle = false)
+        protected void Setup(string setEffectGUID, float setDuration, bool setPersistAfterBattle = false)
         {
+            effectGUID = setEffectGUID;
             duration = setDuration;
             persistAfterBattle = setPersistAfterBattle;
 
             SyncToPlayerStateHandler();
             SyncToBattle();
+        }
+        
+        protected float GetDuration() => duration;
+
+        protected void ResetDuration(float amount)
+        {
+            duration = Mathf.Max(duration, amount);
         }
 
         private void SyncToPlayerStateHandler()

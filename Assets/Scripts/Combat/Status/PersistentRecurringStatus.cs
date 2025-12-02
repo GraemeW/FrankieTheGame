@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using UnityEngine;
 using Frankie.Stats;
 
@@ -14,18 +15,40 @@ namespace Frankie.Combat
         // State
         private float tickTimer;
         private bool queuedTick = false;
-
+        
+        #region StaticMethods
+        public static bool DoesEffectExist(BattleEntity recipient, string effectGUID, int threshold, float resetDurationOnDupe = 0f)
+        {
+            int duplicateEffectCount = 0;
+            PersistentRecurringStatus minimumDurationStatusEffect = null;
+            foreach (PersistentRecurringStatus existingStatusEffect in recipient.combatParticipant.GetComponents<PersistentRecurringStatus>().Where(x => x.GetEffectGUID() == effectGUID).OrderBy(x => x.GetDuration()))
+            {
+                duplicateEffectCount++;
+                
+                if (duplicateEffectCount == 1) { minimumDurationStatusEffect = existingStatusEffect; }
+                if (duplicateEffectCount >= threshold) { break; }
+            }
+            if (duplicateEffectCount < threshold) return false;
+            
+            if (minimumDurationStatusEffect != null) { minimumDurationStatusEffect.ResetDuration(resetDurationOnDupe); }
+            return true;
+        }
+        #endregion
+        
+        #region UnityMethods
         protected override void Update()
         {
             base.Update();
             HandleRecurringEffects();
         }
+        #endregion
 
-        public void Setup(float duration, float setTickPeriod, Action setRecurringEffect, Stat setStatAffected, bool setIsIncreasing, bool persistAfterBattle = false)
+        #region ClassMethods
+        public void Setup(string setEffectGUID, float duration, float setTickPeriod, Action setRecurringEffect, Stat setStatAffected, bool setIsIncreasing, bool persistAfterBattle = false)
         {
             if (setRecurringEffect == null) { Destroy(this); }
 
-            base.Setup(duration, persistAfterBattle);
+            base.Setup(setEffectGUID, duration, persistAfterBattle);
             tickPeriod = setTickPeriod;
             recurringEffect = setRecurringEffect;
             statAffected = setStatAffected;
@@ -50,5 +73,6 @@ namespace Frankie.Combat
             if (recurringEffect == null || !active) { return; }
             if (queuedTick) { recurringEffect.Invoke(); }
         }
+        #endregion
     }
 }

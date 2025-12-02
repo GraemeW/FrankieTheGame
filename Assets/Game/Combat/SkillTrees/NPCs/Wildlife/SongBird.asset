@@ -33,9 +33,9 @@ MonoBehaviour:
   upBranch: 
   leftSkillReference: ChirpLoudly
   leftBranch: 
-  rightSkillReference: Preen
+  rightSkillReference: ShakeTail
   rightBranch: 
-  downSkillReference: 
+  downSkillReference: ShakeTail
   downBranch: 
   rect:
     serializedVersion: 2

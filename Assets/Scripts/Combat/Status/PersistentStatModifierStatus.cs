@@ -9,11 +9,11 @@ namespace Frankie.Combat
         // Tunables
         private float value;
 
-        public void Setup(float duration, Stat setStatAffected, float setValue, bool persistAfterBattle = false)
+        public void Setup(string setEffectGUID, float duration, Stat setStatAffected, float setValue, bool persistAfterBattle = false)
         {
             if (Mathf.Approximately(setValue, 0f)) { Destroy(this); }
 
-            base.Setup(duration, persistAfterBattle);
+            base.Setup(setEffectGUID, duration, persistAfterBattle);
 
             statAffected = setStatAffected;
             value = setValue;
