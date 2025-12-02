@@ -18,15 +18,15 @@ namespace Frankie.Stats
         {
             stat = calculatedStat switch
             {
-                CalculatedStat.CooldownFraction => Stat.Pluck,
+                CalculatedStat.CooldownFraction => Stat.Nimble,
                 CalculatedStat.HitChance => Stat.Luck,
                 CalculatedStat.CritChance => Stat.Pluck,
                 CalculatedStat.PhysicalAdder => Stat.Brawn,
                 CalculatedStat.MagicalAdder => Stat.Beauty,
-                CalculatedStat.Defense => Stat.Nimble,
+                CalculatedStat.Defense => Stat.Stoic,
                 CalculatedStat.MoveSpeed => Stat.Nimble,
-                CalculatedStat.RunSpeed => Stat.Pluck,
-                CalculatedStat.RunChance => Stat.Pluck,
+                CalculatedStat.RunSpeed => Stat.Nimble,
+                CalculatedStat.RunChance => Stat.Nimble,
                 CalculatedStat.Fearsome => Stat.Pluck, // Enemy Runs
                 CalculatedStat.Imposing => Stat.Pluck, // Enemy combat auto-concludes
                 _ => Stat.InitialLevel,
