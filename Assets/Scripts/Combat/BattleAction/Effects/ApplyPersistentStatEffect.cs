@@ -14,7 +14,7 @@ namespace Frankie.Combat
         [SerializeField] private Stat stat = Stat.HP;
         [SerializeField] private float value = 1f;
         [SerializeField] private bool persistAfterCombat = false;
-        [SerializeField] private int numberOfDuplicateEffectsAllowed = 4;
+        [SerializeField] private int numberOfDuplicateEffectsAllowed = 3;
 
         public override IEnumerator StartEffect(CombatParticipant sender, IList<BattleEntity> recipients, DamageType damageType)
         {

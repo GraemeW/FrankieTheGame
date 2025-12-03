@@ -20,7 +20,7 @@ namespace Frankie.Inventory
         {
             if (battleAction == null) { return false; }
 
-            battleAction.Use(battleActionData, finished);
+            battleAction.Use(battleActionData, false, finished);
             if (!IsConsumable()) return true;
             
             if (!battleActionData.GetSender().TryGetComponent(out Knapsack knapsack)) { return true; }
