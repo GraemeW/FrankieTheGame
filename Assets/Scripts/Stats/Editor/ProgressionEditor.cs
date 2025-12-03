@@ -10,6 +10,9 @@ namespace Frankie.Stats.Editor
 {
     public class ProgressionEditor : EditorWindow
     {
+        // Tunables
+        private const int _panelSize = 360;
+
         // Data State
         private Progression progression;
         
@@ -161,7 +164,7 @@ namespace Frankie.Stats.Editor
             {
                 style =
                 {
-                    width = 400,
+                    width = _panelSize,
                     backgroundColor = isSimulatedStatCard ? Color.chocolate : Color.darkSlateGray
                 }
             };
@@ -169,7 +172,7 @@ namespace Frankie.Stats.Editor
             var header = new Box();
             characterStatCard.Add(header);
             
-            var leftRightSplit = new TwoPaneSplitView(0, 200, TwoPaneSplitViewOrientation.Horizontal);
+            var leftRightSplit = new TwoPaneSplitView(0, (float)_panelSize / 2, TwoPaneSplitViewOrientation.Horizontal);
             characterStatCard.Add(leftRightSplit);
             var leftPane = new VisualElement();
             leftRightSplit.Add(leftPane);
@@ -183,7 +186,7 @@ namespace Frankie.Stats.Editor
         {
             if (!isSimulatedStatCard)
             {
-                var headerSplit = new TwoPaneSplitView(0, 200, TwoPaneSplitViewOrientation.Horizontal);
+                var headerSplit = new TwoPaneSplitView(0, (float)_panelSize/2, TwoPaneSplitViewOrientation.Horizontal);
                 headerSplit.Add(new Label($" {characterClass.characterProperties.name}"));
                 var initialLevel = new IntegerField
                 {
@@ -234,10 +237,10 @@ namespace Frankie.Stats.Editor
                     var statSimulationSplit = new TwoPaneSplitView
                     {
                         orientation = TwoPaneSplitViewOrientation.Horizontal,
-                        fixedPaneInitialDimension = 400,
+                        fixedPaneInitialDimension = _panelSize,
                         style =
                         {
-                            width = 800
+                            width = _panelSize * 2
                         }
                     };
                     characterStatPane.Add(statSimulationSplit);
@@ -252,7 +255,7 @@ namespace Frankie.Stats.Editor
                     style =
                     {
                         height = 10,
-                        width = 400,
+                        width = _panelSize,
                         backgroundColor = Color.gray2
                     }
                 };
