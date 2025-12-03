@@ -105,10 +105,10 @@ namespace Frankie.Control
             return hits;
         }
 
-        public void SetPatrolPath(PatrolPath patrolPath)
+        public void SetPatrolPath(PatrolPath setPatrolPath)
         {
-            if (patrolPath == null) { return; }
-            this.patrolPath = patrolPath;
+            if (setPatrolPath == null) { return; }
+            patrolPath = setPatrolPath;
             SetNextPatrolTarget();
         }
         #endregion
@@ -119,7 +119,9 @@ namespace Frankie.Control
             Vector2 target = base.ReckonTarget();
             if (!movingAwayFromTarget) { return target; }
             
-            return rigidBody2D.position * (Vector2.one - target); // Run toward equally distant position away from target
+            float offset = Vector2.Dot(rigidBody2D.position, target);
+            Vector2 direction = (rigidBody2D.position - target).normalized;
+            return offset * direction; // Run toward equally distant position away from target
         }
 
         protected override void UpdateAnimator()

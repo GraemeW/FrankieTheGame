@@ -12,14 +12,16 @@ namespace Frankie.Control
         [SerializeField] protected Vector2 defaultLookDirection = Vector2.down;
         [SerializeField] protected float defaultTargetDistanceTolerance = 0.15f;
         [SerializeField] private bool resetPositionOnEnable = false;
+        [SerializeField][Tooltip("Sets the target position delay for chase")] private int targetMovementHistoryLength = 10;
 
         // State
         private Vector2 originalPosition;
         private Vector2? moveTargetCoordinate;
         private GameObject moveTargetObject;
+        private CircularBuffer<Vector2> targetMovementHistory;
         protected Vector2 lookDirection = Vector2.down;
         protected float currentSpeed;
-        float targetDistanceTolerance = 0.15f;
+        private float targetDistanceTolerance = 0.025f;
 
         // Cached References
         protected Rigidbody2D rigidBody2D;
@@ -40,9 +42,10 @@ namespace Frankie.Control
         #region UnityMethods
         protected virtual void Awake()
         {
+            rigidBody2D = GetComponent<Rigidbody2D>();
             originalPosition = transform.position;
             targetDistanceTolerance = defaultTargetDistanceTolerance;
-            rigidBody2D = GetComponent<Rigidbody2D>();
+            targetMovementHistory = new CircularBuffer<Vector2>(targetMovementHistoryLength);
         }
 
         protected virtual void Start()
@@ -86,6 +89,7 @@ namespace Frankie.Control
         public void SetMoveTarget(GameObject target)
         {
             moveTargetCoordinate = null;
+            targetMovementHistory.Clear();
             moveTargetObject = target;
             targetDistanceTolerance = defaultTargetDistanceTolerance;
         }
@@ -95,6 +99,7 @@ namespace Frankie.Control
             SetAnimationAndSpeedForMovementEnd();
             targetDistanceTolerance = defaultTargetDistanceTolerance;
             moveTargetCoordinate = null;
+            targetMovementHistory.Clear();
             moveTargetObject = null;
         }
         
@@ -115,7 +120,7 @@ namespace Frankie.Control
         protected abstract void UpdateAnimator();
         protected bool? MoveToTarget()
         {
-            if (IsStaticForNoTarget()) { return null; }
+            if (SetStaticForNoTarget()) { return null; }
 
             Vector2 position = rigidBody2D.position;
             Vector2 target = ReckonTarget();
@@ -143,7 +148,8 @@ namespace Frankie.Control
             }
             else if (moveTargetObject != null)
             {
-                target = moveTargetObject.transform.position;
+                targetMovementHistory.Add(moveTargetObject.transform.position);
+                target = targetMovementHistory.GetLastEntry();
             }
 
             return target;
@@ -151,7 +157,9 @@ namespace Frankie.Control
         #endregion
 
         #region  PrivateMethods
-        private bool IsStaticForNoTarget()
+        private bool HasArrivedAtTarget(Vector2 target) => SmartVector2.CheckDistance(rigidBody2D.position, target, targetDistanceTolerance);
+        
+        private bool SetStaticForNoTarget()
         {
             if (moveTargetCoordinate == null && moveTargetObject == null)
             {
@@ -162,8 +170,6 @@ namespace Frankie.Control
             rigidBody2D.bodyType = RigidbodyType2D.Dynamic;
             return false;
         }
-        
-        private bool HasArrivedAtTarget(Vector2 target) => SmartVector2.CheckDistance(rigidBody2D.position, target, targetDistanceTolerance);
         
         private void SetAnimationAndSpeedForMovementEnd()
         {
@@ -176,7 +182,7 @@ namespace Frankie.Control
         #region Interfaces
         // Save State
         [System.Serializable]
-        class MoverSaveData
+        private class MoverSaveData
         {
             public SerializableVector2 position;
         }

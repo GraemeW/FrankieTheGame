@@ -1,4 +1,3 @@
-using System;
 using System.Linq;
 using UnityEngine;
 using Frankie.Utils;
@@ -11,25 +10,25 @@ namespace Frankie.Control
     {
         // Tunables
         [Header("Chase Parameters")]
-        [SerializeField] bool willChasePlayer = false;
-        [SerializeField] float chaseDistance = 3.0f;
-        [SerializeField] float aggravationTime = 3.0f;
-        [SerializeField] float suspicionTime = 3.0f;
+        [SerializeField] private bool willChasePlayer = false;
+        [SerializeField] private float chaseDistance = 3.0f;
+        [SerializeField] private float aggravationTime = 3.0f;
+        [SerializeField] private float suspicionTime = 3.0f;
         [Header("Shout Parameters")]
         [SerializeField] bool willShout = false;
-        [Tooltip("Must be true to be shouted at, regardless of group")][SerializeField] bool canBeShoutedAt = true;
-        [Tooltip("From interaction center point of NPC")][SerializeField] float shoutDistance = 2.0f;
-        [Tooltip("Set to nothing to aggro everything shoutable")][SerializeField] NPCChaser[] shoutGroup = null;
+        [Tooltip("Must be true to be shouted at, regardless of group")][SerializeField] private bool canBeShoutedAt = true;
+        [Tooltip("From interaction center point of NPC")][SerializeField] private float shoutDistance = 2.0f;
+        [Tooltip("Set to nothing to aggro everything shoutable")][SerializeField] private NPCChaser[] shoutGroup;
 
         // State
-        float timeSinceLastSawPlayer = Mathf.Infinity;
-        bool chasingActive = false;
-        bool skipChaseUntilEnable = false;
-        bool shoutingActive = false;
+        private float timeSinceLastSawPlayer = Mathf.Infinity;
+        private bool chasingActive = false;
+        private bool skipChaseUntilEnable = false;
+        private bool shoutingActive = false;
 
         // Cached References
-        NPCStateHandler npcStateHandler = null;
-        NPCMover npcMover = null;
+        private NPCStateHandler npcStateHandler;
+        private NPCMover npcMover;
 
         #region UnityMethods
         private void Awake()
@@ -62,6 +61,8 @@ namespace Frankie.Control
         #endregion
 
         #region PublicMethods
+        public bool IsShoutable() => canBeShoutedAt;
+        
         public void SetChaseDisposition(bool enable) // Called via Unity Methods
         {
             chasingActive = enable;
@@ -69,7 +70,7 @@ namespace Frankie.Control
             npcStateHandler.SetNPCIdle();
         }
 
-        public void SetFrenziedWithoutShout()
+        public void SetFrenziedWithoutShout() // Called via Unity Methods
         {
             shoutingActive = false;
             npcStateHandler.SetNPCFrenzied();
@@ -82,17 +83,9 @@ namespace Frankie.Control
             return SmartVector2.CheckDistance(npcMover.GetInteractionPosition(), npcStateHandler.GetPlayerInteractionPosition(), distance);
         }
 
-        private bool IsShoutable()
-        {
-            return canBeShoutedAt;
-        }
-
         private void CheckForPlayerProximity()
         {
-            if (CheckDistanceToPlayer(chaseDistance))
-            {
-                timeSinceLastSawPlayer = 0f;
-            }
+            if (CheckDistanceToPlayer(chaseDistance)) { timeSinceLastSawPlayer = 0f; }
 
             if (timeSinceLastSawPlayer < aggravationTime)
             {
@@ -143,13 +136,12 @@ namespace Frankie.Control
             RaycastHit2D[] hits = npcMover.NPCCastFromSelf(shoutDistance);
             foreach (RaycastHit2D hit in hits)
             {
-                if (hit.collider.gameObject.TryGetComponent(out NPCChaser npcInRange))
+                if (!hit.collider.gameObject.TryGetComponent(out NPCChaser npcInRange)) continue;
+                if (!npcInRange.IsShoutable() || npcInRange == this) { continue; }
+                
+                if (shoutGroup.Length == 0 || shoutGroup.Contains(npcInRange)) // Default behavior, not set, aggro everything shoutable
                 {
-                    if (!npcInRange.IsShoutable() || npcInRange == this) { continue; }
-                    if (shoutGroup.Length == 0 || shoutGroup.Contains(npcInRange)) // Default behavior, not set, aggro everything shoutable
-                    {
-                        npcInRange.SetFrenziedWithoutShout();
-                    }
+                    npcInRange.SetFrenziedWithoutShout();
                 }
             }
         }

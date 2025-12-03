@@ -300,8 +300,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   characterProperties: {fileID: 0}
-  defaultLevel: 1
-  maxLevel: 99
   levelUpOnInstantiation: 0
   progression: {fileID: 11400000, guid: 6d544ce8c0b2cd34badc52fee9ceccf9, type: 2}
 --- !u!114 &1473610476277215348
@@ -320,7 +318,8 @@ MonoBehaviour:
   animator: {fileID: 6761616658632847992}
   startingImmunityFlashPeriod: 0.1
   immunityFlashPeriodGrowth: 1.25
-  immuneAlpha: 0.4
+  immuneAlphaLow: 0.4
+  immuneAlphaHigh: 0.85
 --- !u!114 &965147417343429250
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -335,8 +334,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   movementSpeed: 1
   defaultLookDirection: {x: 0, y: -1}
-  defaultTargetDistanceTolerance: 0.05
+  defaultTargetDistanceTolerance: 0.025
   resetPositionOnEnable: 1
+  targetMovementHistoryLength: 15
   interactionCenterPoint: {fileID: 851377592137554633}
   patrolPath: {fileID: 0}
   waypointDwellTime: 2
@@ -409,7 +409,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c708eed4772dbc14e95f0fb9be8bb48e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  uniqueIdentifier: 95522f62-4ac0-4ebb-b7c7-6bbdcda74643
+  uniqueIdentifier: 3dcaded4-948e-4503-9d93-e4bf4f9f3c32
 --- !u!1 &8479994409347232063
 GameObject:
   m_ObjectHideFlags: 0
