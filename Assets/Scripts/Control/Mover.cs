@@ -157,7 +157,14 @@ namespace Frankie.Control
         #endregion
 
         #region  PrivateMethods
-        private bool HasArrivedAtTarget(Vector2 target) => SmartVector2.CheckDistance(rigidBody2D.position, target, targetDistanceTolerance);
+
+        private bool HasArrivedAtTarget(Vector2 target)
+        {
+            if (moveTargetObject == null) { return SmartVector2.CheckDistance(rigidBody2D.position, target, targetDistanceTolerance); }
+            
+            // Since ReckonTarget can result in an offset position, to finally 'reach' the target, check against target directly
+            return SmartVector2.CheckDistance(rigidBody2D.position, moveTargetObject.transform.position, targetDistanceTolerance);
+        }
         
         private bool SetStaticForNoTarget()
         {
