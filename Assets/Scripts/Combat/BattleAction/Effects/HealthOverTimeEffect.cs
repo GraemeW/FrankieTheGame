@@ -28,7 +28,7 @@ namespace Frankie.Combat
                 float chanceRoll = UnityEngine.Random.Range(0f, 1f);
                 if (fractionProbabilityToApply < chanceRoll) { continue; }
 
-                if (PersistentRecurringStatus.DoesEffectExist(recipient, effectGUID, numberOfDuplicateEffectsAllowed, duration)) continue;
+                if (PersistentStatus.DoesEffectExist(recipient, effectGUID, numberOfDuplicateEffectsAllowed, duration)) continue;
 
                 PersistentRecurringStatus activeStatusEffect = recipient.combatParticipant.gameObject.AddComponent(typeof(PersistentRecurringStatus)) as PersistentRecurringStatus;
                 if (activeStatusEffect == null) { continue; }

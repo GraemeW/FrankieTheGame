@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using UnityEngine;
 using Frankie.Control;
 using Frankie.Core;
@@ -25,6 +26,25 @@ namespace Frankie.Combat
         // Events
         public event Action persistentStatusTimedOut;
 
+        #region StaticMethods
+        public static bool DoesEffectExist(BattleEntity recipient, string effectGUID, int threshold, float resetDurationOnDupe = 0f)
+        {
+            int duplicateEffectCount = 0;
+            PersistentStatus minimumDurationStatusEffect = null;
+            foreach (PersistentStatus existingStatusEffect in recipient.combatParticipant.GetComponents<PersistentStatus>().Where(x => x.GetEffectGUID() == effectGUID).OrderBy(x => x.GetDuration()))
+            {
+                duplicateEffectCount++;
+                
+                if (duplicateEffectCount == 1) { minimumDurationStatusEffect = existingStatusEffect; }
+                if (duplicateEffectCount >= threshold) { break; }
+            }
+            if (duplicateEffectCount < threshold) return false;
+            
+            if (minimumDurationStatusEffect != null) { minimumDurationStatusEffect.ResetDuration(resetDurationOnDupe); }
+            return true;
+        }
+        #endregion
+        
         #region UnityMethods
         private void Awake()
         {

@@ -113,14 +113,14 @@ namespace Frankie.Stats
         private static float GetFearsome(int level, float modifier, float defenderModifier)
         {
             // positive value -> fearsome for enemy running
-            float statDeltaReq = 35f * (1f + level / 50f); // Scale by level, account for weapon bonuses
+            float statDeltaReq = 10f * (1f + level / 50f); // Scale by level, account for weapon bonuses
             return (modifier - defenderModifier) / statDeltaReq - 1f;
         }
 
         private static float GetImposing(int level, float modifier, float defenderModifier)
         {
             // positive value -> imposing for enemy combat auto-conclude
-            float statDeltaReq = 50f * (1f + level / 50f);  // Scale by level, account for weapon bonuses
+            float statDeltaReq = 20f * (1f + level / 50f);  // Scale by level, account for weapon bonuses
             return (modifier - defenderModifier) / statDeltaReq - 1f;
         }
         #endregion
