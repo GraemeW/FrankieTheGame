@@ -110,7 +110,7 @@ namespace Frankie.Stats
         }
         public float GetCalculatedStat(CalculatedStat calculatedStat)
         {
-            if (!CalculatedStats.GetStatModifier(calculatedStat, out Stat statModifier)) return 0f;
+            if (!CalculatedStats.GetStatModifier(calculatedStat, out Stat statModifier)) return 1f;
             
             float stat = GetStat(statModifier);
             return CalculatedStats.GetCalculatedStat(calculatedStat, GetLevel(), stat);

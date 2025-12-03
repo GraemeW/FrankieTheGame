@@ -2,18 +2,18 @@ namespace Frankie.Utils
 {
     public class ReInitLazyValue<T> : LazyValue<T>
     {
-        public ReInitLazyValue(InitializerDelegate initializer) : base(initializer)
+        public ReInitLazyValue(InitializerDelegate setInitializer) : base(setInitializer)
         {
-            _initializer = initializer;
+            initializer = setInitializer;
         }
 
-        public override void ForceInit()
+        // Call initialization even if _initialized flag is set
+        public override bool ForceInit()
         {
-            base.ForceInit();
-            if (_value == null) // Access directly (otherwise recursion)
-            {
-                Initialize();
-            }
+            // Access cachedValue directly (otherwise recursion)
+            if (base.ForceInit() || cachedValue != null) return false;
+            Initialize();
+            return true;
         }
     }
 }

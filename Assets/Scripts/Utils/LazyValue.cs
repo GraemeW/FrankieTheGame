@@ -1,66 +1,43 @@
 ﻿namespace Frankie.Utils
 {
-    /// <summary>
-    /// Container class that wraps a value and ensures initialisation is 
-    /// called just before first use.
-    /// </summary>
     public class LazyValue<T>
     {
-        protected T _value;
-        protected bool _initialized = false;
-        protected InitializerDelegate _initializer;
+        private bool isInitialized = false;
+        protected T cachedValue;
+        protected InitializerDelegate initializer;
 
         public delegate T InitializerDelegate();
-
-        /// <summary>
-        /// Setup the container but don't initialise the value yet.
-        /// </summary>
-        /// <param name="initializer"> 
-        /// The initialiser delegate to call when first used. 
-        /// </param>
-        public LazyValue(InitializerDelegate initializer)
+        
+        public LazyValue(InitializerDelegate setInitializer)
         {
-            _initializer = initializer;
+            initializer = setInitializer;
         }
-
-        /// <summary>
-        /// Get or set the contents of this container.
-        /// </summary>
-        /// <remarks>
-        /// Note that setting the value before initialisation will initialise 
-        /// the class.
-        /// </remarks>
+        
         public T value
         {
             get
             {
-                // Ensure we init before returning a value.
                 ForceInit();
-                return _value;
+                return cachedValue;
             }
             set
             {
-                // Don't use default init anymore.
-                _initialized = true;
-                _value = value;
+                isInitialized = true;
+                cachedValue = value;
             }
         }
-
-        /// <summary>
-        /// Force the initialisation of the value via the delegate.
-        /// </summary>
-        public virtual void ForceInit()
+        
+        public virtual bool ForceInit()
         {
-            if (!_initialized)
-            {
-                Initialize();
-            }
+            if (isInitialized) { return false; }
+            Initialize(); 
+            return true;
         }
 
         protected void Initialize()
         {
-            _value = _initializer();
-            _initialized = true;
+            cachedValue = initializer();
+            isInitialized = true;
         }
     }
 }
