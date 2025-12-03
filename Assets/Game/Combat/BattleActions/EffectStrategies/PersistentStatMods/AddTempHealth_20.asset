@@ -12,8 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 00fa693035786c8448d801d3bfcfdb68, type: 3}
   m_Name: AddTempHealth_20
   m_EditorClassIdentifier: 
+  effectGUID: 1b1bb698-e87c-4d80-88dc-9073aebfcce7
   fractionProbabilityToApply: 1
   duration: 20
   stat: 0
   value: 20
   persistAfterCombat: 0
+  numberOfDuplicateEffectsAllowed: 3

@@ -12,8 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 00fa693035786c8448d801d3bfcfdb68, type: 3}
   m_Name: ReducePluck_4
   m_EditorClassIdentifier: 
+  effectGUID: f3dc80b9-dc65-4d5e-8be6-d78b4877e85f
   fractionProbabilityToApply: 1
   duration: 20
   stat: 9
   value: -4
   persistAfterCombat: 0
+  numberOfDuplicateEffectsAllowed: 3

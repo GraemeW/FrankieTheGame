@@ -12,8 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 00fa693035786c8448d801d3bfcfdb68, type: 3}
   m_Name: IncreasePluck_12
   m_EditorClassIdentifier: 
+  effectGUID: 150160bf-3229-473c-bd55-9a337289af5f
   fractionProbabilityToApply: 1
   duration: 20
   stat: 9
   value: 12
   persistAfterCombat: 0
+  numberOfDuplicateEffectsAllowed: 3

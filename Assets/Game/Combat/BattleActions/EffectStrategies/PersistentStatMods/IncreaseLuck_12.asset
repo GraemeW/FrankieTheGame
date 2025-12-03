@@ -12,8 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 00fa693035786c8448d801d3bfcfdb68, type: 3}
   m_Name: IncreaseLuck_12
   m_EditorClassIdentifier: 
+  effectGUID: c533d5a4-2b62-45d3-911b-b6452d992475
   fractionProbabilityToApply: 1
   duration: 20
   stat: 8
   value: 12
   persistAfterCombat: 0
+  numberOfDuplicateEffectsAllowed: 3

@@ -35,7 +35,7 @@ MonoBehaviour:
   leftBranch: 
   rightSkillReference: ShakeTail
   rightBranch: 
-  downSkillReference: ShakeTail
+  downSkillReference: 
   downBranch: 
   rect:
     serializedVersion: 2

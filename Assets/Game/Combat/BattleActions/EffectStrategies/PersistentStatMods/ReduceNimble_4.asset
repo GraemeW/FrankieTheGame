@@ -12,8 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 00fa693035786c8448d801d3bfcfdb68, type: 3}
   m_Name: ReduceNimble_4
   m_EditorClassIdentifier: 
+  effectGUID: 9eea04b2-418d-4417-a02e-8ca2ffa1c332
   fractionProbabilityToApply: 1
   duration: 20
   stat: 7
   value: -4
   persistAfterCombat: 0
+  numberOfDuplicateEffectsAllowed: 3

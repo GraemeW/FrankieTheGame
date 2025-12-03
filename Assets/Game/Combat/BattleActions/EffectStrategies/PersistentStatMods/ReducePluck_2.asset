@@ -12,8 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 00fa693035786c8448d801d3bfcfdb68, type: 3}
   m_Name: ReducePluck_2
   m_EditorClassIdentifier: Assembly-CSharp::Frankie.Combat.ApplyPersistentStatEffect
+  effectGUID: aa3fea4a-3462-4e74-b475-7290e2944185
   fractionProbabilityToApply: 1
   duration: 20
   stat: 9
   value: -2
   persistAfterCombat: 0
+  numberOfDuplicateEffectsAllowed: 3

@@ -14,8 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemID: b03c0139-809f-4783-8a90-8eb88631e3c4
   displayName: Chocolate Cheese Curds
-  description: Chocolatey cheesey goodness (TM).
+  description: Chocolatey cheesey goodness (TM).  Heals some HP.
   droppable: 1
   price: 17
   consumable: 1
-  battleAction: {fileID: 11400000, guid: 16de4cc07f9488e4e9504a67e63a73a2, type: 2}
+  battleAction: {fileID: 11400000, guid: 81fec7ccc57d205409e6ed7f75602679, type: 2}

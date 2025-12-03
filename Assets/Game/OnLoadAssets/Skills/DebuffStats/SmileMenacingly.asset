@@ -14,4 +14,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   stat: 4
   battleAction: {fileID: 11400000, guid: a4e86c207f4f24291a66fca2ddae229c, type: 2}
-  detail: Glimmer glimmer. Reduces luck temporarily.
+  detail: Glimmer glimmer. Reduces pluck temporarily.
