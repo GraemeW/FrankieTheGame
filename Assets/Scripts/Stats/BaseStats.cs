@@ -114,7 +114,6 @@ namespace Frankie.Stats
             if (!CalculatedStats.GetStatModifier(calculatedStat, out Stat statModifier)) return 1f;
             
             float stat = GetStat(statModifier);
-            UnityEngine.Debug.Log($"{gameObject.name} has calculated stat {stat} with modifier {statModifier}");
             return CalculatedStats.GetCalculatedStat(calculatedStat, GetLevel(), stat);
         }
 

@@ -11,7 +11,7 @@ namespace Frankie.Combat
 
         private void OnValidate()
         {
-            effectGUID = System.Guid.NewGuid().ToString();
+            if (string.IsNullOrWhiteSpace(effectGUID)) { effectGUID = System.Guid.NewGuid().ToString(); }
         }
         
         public abstract IEnumerator StartEffect(CombatParticipant sender, IList<BattleEntity> recipients, DamageType damageType);
