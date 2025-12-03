@@ -301,6 +301,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   characterProperties: {fileID: 0}
   levelUpOnInstantiation: 0
+  useSavedStatsOnLoad: 0
   progression: {fileID: 11400000, guid: 6d544ce8c0b2cd34badc52fee9ceccf9, type: 2}
 --- !u!114 &1473610476277215348
 MonoBehaviour:

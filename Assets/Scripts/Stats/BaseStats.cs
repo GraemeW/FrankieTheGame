@@ -15,8 +15,11 @@ namespace Frankie.Stats
         // 2)  Modifiers used as basis for subsequent levels --> multiplied out by a random factor, and then added to active stat sheet
 
         // Tunables
+        [Header("Parameters")]
         [SerializeField] private CharacterProperties characterProperties;
         [SerializeField] private bool levelUpOnInstantiation = false;
+        [SerializeField][Tooltip("Default true for PCs, false for NPCs")] private bool useSavedStatsOnLoad = true;
+        [Header("Hookups")]
         [SerializeField] private Progression progression;
 
         // Static/Const Parameters
@@ -33,7 +36,6 @@ namespace Frankie.Stats
         private const int _maxLevel = 99;
         
         // State
-        private bool awakeCalled;
         private LazyValue<int> currentLevel;
         private Dictionary<Stat, float> activeStatSheet;
 
@@ -81,7 +83,6 @@ namespace Frankie.Stats
         #region UnityMethods
         private void Awake()
         {
-            awakeCalled = true;
             currentLevel = new LazyValue<int>(GetInitialLevel);
         }
 
@@ -113,6 +114,7 @@ namespace Frankie.Stats
             if (!CalculatedStats.GetStatModifier(calculatedStat, out Stat statModifier)) return 1f;
             
             float stat = GetStat(statModifier);
+            UnityEngine.Debug.Log($"{gameObject.name} has calculated stat {stat} with modifier {statModifier}");
             return CalculatedStats.GetCalculatedStat(calculatedStat, GetLevel(), stat);
         }
 
@@ -208,8 +210,7 @@ namespace Frankie.Stats
 
         public SaveState CaptureState()
         {
-            if (!awakeCalled) { Awake(); }
-
+            currentLevel ??= new LazyValue<int>(GetInitialLevel);
             var baseStatsSaveData = new BaseStatsSaveData
             {
                 level = currentLevel.value,
@@ -221,10 +222,12 @@ namespace Frankie.Stats
 
         public void RestoreState(SaveState saveState)
         {
+            if (!useSavedStatsOnLoad) { return; }
+            
             var baseStatsSaveData = saveState.GetState(typeof(BaseStatsSaveData)) as BaseStatsSaveData;
             if (baseStatsSaveData == null) { return; }
 
-            if (!awakeCalled) { Awake(); }
+            currentLevel ??= new LazyValue<int>(GetInitialLevel);
             currentLevel.value = baseStatsSaveData.level;
             activeStatSheet = baseStatsSaveData.statSheet;
         }
