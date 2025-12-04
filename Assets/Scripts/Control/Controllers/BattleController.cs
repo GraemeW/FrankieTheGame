@@ -446,6 +446,11 @@ namespace Frankie.Combat
                 partySpeed += character.combatParticipant.GetRunSpeed();
             }
             if (canAttemptEarlyRun) { allCharactersAvailable = true; } // Override for pre-battle run attempt
+            
+            // Character Availability
+            Debug.Log($"Checking if all characters available: {allCharactersAvailable}");
+            if (!allCharactersAvailable) { return false; }
+            
             float averagePartySpeed = partySpeed / battleMat.GetCountActivePlayerCharacters();
 
             // Get enemy max speed
@@ -455,8 +460,7 @@ namespace Frankie.Combat
             float runChance = CalculatedStats.GetCalculatedStat(CalculatedStat.RunChance, 0, averagePartySpeed, enemySpeed);
             float runCheck = UnityEngine.Random.value;
             Debug.Log($"Run Attempt.  Run chance @ {runChance}.  Run check @ {runCheck}");
-            Debug.Log($"Checking if all characters available: {allCharactersAvailable}");
-            if (allCharactersAvailable && (runCheck < runChance))
+            if (runCheck < runChance)
             {
                 foreach (BattleEntity enemy in battleMat.GetActiveEnemies())
                 {

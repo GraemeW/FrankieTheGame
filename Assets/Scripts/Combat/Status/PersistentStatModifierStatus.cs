@@ -22,12 +22,9 @@ namespace Frankie.Combat
 
         public IEnumerable<float> GetAdditiveModifiers(Stat stat)
         {
-            if (!active) { yield break; }
-
-            if (statAffected == stat)
-            {
-                yield return value;
-            }
+            // Note:  Do not skip this even if inactive
+            // Otherwise will effectively disable stat mods during combat pause menu
+            if (statAffected == stat) { yield return value; }
         }
     }
 }
