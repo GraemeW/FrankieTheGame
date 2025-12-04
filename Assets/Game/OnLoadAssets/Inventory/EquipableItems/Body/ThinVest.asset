@@ -20,7 +20,7 @@ MonoBehaviour:
   equipLocation: 3
   baseStatModifiers:
   - stat: 10
-    minValue: 4
-    maxValue: 4
+    minValue: 6
+    maxValue: 6
   condition:
     and: []
