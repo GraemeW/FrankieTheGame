@@ -33,7 +33,7 @@ MonoBehaviour:
   upBranch: 
   leftSkillReference: 
   leftBranch: 
-  rightSkillReference: 
+  rightSkillReference: ColdMonkBrew
   rightBranch: 
   downSkillReference: 
   downBranch: 

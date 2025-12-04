@@ -31,11 +31,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Frankie.Combat.SkillBranch
   upSkillReference: Wallop
   upBranch: 
-  leftSkillReference: 
+  leftSkillReference: GutturalMonkChant
   leftBranch: 
-  rightSkillReference: 
+  rightSkillReference: HypnoticBaldSpot
   rightBranch: 
-  downSkillReference: 
+  downSkillReference: TwiddleThumbs
   downBranch: 
   rect:
     serializedVersion: 2

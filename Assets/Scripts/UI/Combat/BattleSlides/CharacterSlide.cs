@@ -111,15 +111,10 @@ namespace Frankie.Combat.UI
                 case StateAlteredType.DecreaseHP:
                 case StateAlteredType.AdjustHPNonSpecific:
                     UpdateHP(battleEntity.combatParticipant.GetHP());
-                    if (stateAlteredInfo.stateAlteredType == StateAlteredType.IncreaseHP)
+                    float points = stateAlteredInfo.points;
+                    damageTextSpawner.AddToQueue(new DamageTextData(DamageTextType.HealthChanged, points));
+                    if (stateAlteredInfo.stateAlteredType == StateAlteredType.DecreaseHP)
                     {
-                        float points = stateAlteredInfo.points;
-                        damageTextSpawner.AddToQueue(new DamageTextData(DamageTextType.HealthChanged, points));
-                    }
-                    else if (stateAlteredInfo.stateAlteredType == StateAlteredType.DecreaseHP)
-                    {
-                        float points = stateAlteredInfo.points;
-                        damageTextSpawner.AddToQueue(new DamageTextData(DamageTextType.HealthChanged, points));
                         bool strongShakeEnable = points > battleEntity.combatParticipant.GetHP();
                         ShakeSlide(strongShakeEnable);
                         BlipFadeSlide();
