@@ -10,8 +10,8 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 2d638f604ff65db4f9e75a2cc6eb7bd3, type: 3}
-  m_Name: ColdMonkBrew
+  m_Name: SelfFlagellation
   m_EditorClassIdentifier: Assembly-CSharp::Frankie.Combat.Skill
-  stat: 1
-  battleAction: {fileID: 11400000, guid: d796599717d284dfbaf0d78eeb4b01f9, type: 2}
-  detail: How do the monks get it so cold?  Heals some HP
+  stat: 4
+  battleAction: {fileID: 11400000, guid: 1162bc7c71a77412194ba06aa0333180, type: 2}
+  detail: The pain makes you stronger, and offers a buff to stoic

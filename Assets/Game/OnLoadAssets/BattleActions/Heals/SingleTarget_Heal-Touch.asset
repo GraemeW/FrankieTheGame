@@ -16,5 +16,5 @@ MonoBehaviour:
   effectStrategies:
   - {fileID: 11400000, guid: 654491bcc21ac2e4294cb49de218c8ee, type: 2}
   damageType: 2
-  cooldown: 5
+  cooldown: 4
   apCost: 0

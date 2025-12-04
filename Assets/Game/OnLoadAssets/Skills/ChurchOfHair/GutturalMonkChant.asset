@@ -14,4 +14,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Frankie.Combat.Skill
   stat: 4
   battleAction: {fileID: 11400000, guid: 828f0924d5bec4f3da4b0bfb9afa379a, type: 2}
-  detail: This makes quite a racket.  The monks are alerted!
+  detail: This makes quite a racket - nearby monks are alerted

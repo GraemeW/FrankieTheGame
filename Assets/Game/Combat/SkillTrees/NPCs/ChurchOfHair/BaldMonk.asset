@@ -35,7 +35,7 @@ MonoBehaviour:
   leftBranch: 
   rightSkillReference: HypnoticBaldSpot
   rightBranch: 
-  downSkillReference: TwiddleThumbs
+  downSkillReference: Wallop
   downBranch: 
   rect:
     serializedVersion: 2

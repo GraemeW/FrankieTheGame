@@ -31,11 +31,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Frankie.Combat.SkillBranch
   upSkillReference: Wallop
   upBranch: 
-  leftSkillReference: 
+  leftSkillReference: SelfFlagellation
   leftBranch: 
   rightSkillReference: ColdMonkBrew
   rightBranch: 
-  downSkillReference: 
+  downSkillReference: ColdMonkBrew
   downBranch: 
   rect:
     serializedVersion: 2
