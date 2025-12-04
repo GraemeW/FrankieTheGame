@@ -49,8 +49,33 @@ namespace Frankie.Stats
             Stat[] nonModifyingStats = { Stat.InitialLevel, Stat.ExperienceReward, Stat.ExperienceToLevelUp };
             return nonModifyingStats;
         }
+
+        public static Dictionary<Stat, float> GetLevelAveragedStatSheet(Progression progression, CharacterProperties characterProperties, int simulatedLevel, int levelAveraging)
+        {
+            // Initial Sheet
+            Dictionary<Stat, float> activeStatSheet = progression.GetStatSheet(characterProperties);
+            
+            for (int currentLevel = 1; currentLevel < simulatedLevel; currentLevel++)
+            {
+                // Level-Up Sheet
+                Dictionary<Stat, float> sumLevelUpSheet = GetLevelUpSheet(progression, characterProperties, 
+                    currentLevel, activeStatSheet[Stat.Stoic], activeStatSheet[Stat.Smarts]);
+                // Averaging at each level
+                for (int averageCount = 1; averageCount < levelAveraging; averageCount++)
+                {
+                    Dictionary<Stat, float> incrementalLevelUpSheet = GetLevelUpSheet(progression, characterProperties, 
+                        currentLevel, activeStatSheet[Stat.Stoic], activeStatSheet[Stat.Smarts]);
+                    foreach (KeyValuePair<Stat, float> statValuePair in incrementalLevelUpSheet) { sumLevelUpSheet[statValuePair.Key] += statValuePair.Value; }
+                }
+                
+                // Take average value for active stat sheet
+                foreach (KeyValuePair<Stat, float> statValuePair in sumLevelUpSheet) { activeStatSheet[statValuePair.Key] += statValuePair.Value / levelAveraging; }
+            }
+
+            return activeStatSheet;
+        }
         
-        public static Dictionary<Stat, float> GetLevelUpSheet(int currentLevel, float currentStoic, float currentSmarts, CharacterProperties characterProperties, Progression progression)
+        private static Dictionary<Stat, float> GetLevelUpSheet(Progression progression, CharacterProperties characterProperties, int currentLevel, float currentStoic, float currentSmarts)
         {
             var levelUpSheet = new Dictionary<Stat, float>
             {
@@ -66,6 +91,7 @@ namespace Frankie.Stats
             };
             return levelUpSheet;
         }
+        
         private static float GetLevelUpStatMultiplier()
         {
             float chance = UnityEngine.Random.Range(0f, 1f);
@@ -175,9 +201,8 @@ namespace Frankie.Stats
 
         private Dictionary<Stat, float> IncrementStatsOnLevelUp()
         {
-            var levelUpSheet = GetLevelUpSheet(GetLevel(),
-                GetBaseStat(Stat.Stoic), GetBaseStat(Stat.Smarts),
-                characterProperties, progression);
+            var levelUpSheet = GetLevelUpSheet(progression, characterProperties, 
+                GetLevel(), GetBaseStat(Stat.Stoic), GetBaseStat(Stat.Smarts));
 
             activeStatSheet[Stat.HP] += levelUpSheet[Stat.HP];
             activeStatSheet[Stat.AP] += levelUpSheet[Stat.AP];

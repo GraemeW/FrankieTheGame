@@ -18,6 +18,7 @@ namespace Frankie.Stats.Editor
         
         // UI State
         private readonly List<Progression.ProgressionCharacterClass> selectedCharacterClasses = new();
+        private int levelAveraging = 8;
         
         // UI Cached References
         private ObjectField progressionInput;
@@ -77,6 +78,8 @@ namespace Frankie.Stats.Editor
         private Box CreateControlBox()
         {
             var controlBox = new Box();
+            
+            // Progression Loading & Tool Parameters
             controlBox.Add(new Label("Progression Editor"));
             progressionInput = new ObjectField
             {
@@ -84,12 +87,23 @@ namespace Frankie.Stats.Editor
                 label = "Progression SO:  "
             };
             if (progression != null) { progressionInput.value = progression; }
-            
             progressionInput.RegisterValueChangedCallback(OnProgressionChanged);
             controlBox.Add(progressionInput);
 
+            var levelAveragingInput = new IntegerField
+            {
+                label = "Level Averaging",
+                value = levelAveraging
+            };
+            levelAveragingInput.RegisterValueChangedCallback(x =>
+            {
+                levelAveraging = (Mathf.Clamp(x.newValue, 1, 20));
+                levelAveragingInput.value = levelAveraging;
+            });
+            controlBox.Add(levelAveragingInput);
+
+            // Progression Controls
             controlBox.Add(new Label("Progression Asset Controls"));
-            
             var reloadProgression = new Button { text = "Reload Progression" };
             reloadProgression.RegisterCallback<ClickEvent>(ReloadProgression);
             controlBox.Add(reloadProgression);
@@ -98,8 +112,8 @@ namespace Frankie.Stats.Editor
             reconcileCharacterProperties.RegisterCallback<ClickEvent>(ReconcileCharacterProperties);
             controlBox.Add(reconcileCharacterProperties);
                 
+            // Selection Controls
             controlBox.Add(new Label("Character Selection Controls"));
-
             var removeCharacters = new Button { text = "Remove Selected Characters" };
             removeCharacters.RegisterCallback<ClickEvent>(RemoveSelectedCharacters);
             controlBox.Add(removeCharacters);
@@ -287,6 +301,11 @@ namespace Frankie.Stats.Editor
             DrawCharacterStatPane();
         }
 
+        private void OnLevelAveragingChanged(ChangeEvent<float> levelAveragingChangedEvent)
+        {
+            
+        }
+
         private void ReconcileCharacterProperties(ClickEvent clickEvent)  { ReconcileCharacterProperties(); }
         private void ReconcileCharacterProperties()
         {
@@ -350,20 +369,7 @@ namespace Frankie.Stats.Editor
             if (characterClass == null || characterClass.characterProperties == null)  { return; }
 
             // Simulation
-            Dictionary<Stat, float> activeStatSheet = progression.GetStatSheet(characterClass.characterProperties);
-            for (int currentLevel = 1; currentLevel < simulatedLevel; currentLevel++)
-            {
-                Dictionary<Stat, float> levelUpSheet = BaseStats.GetLevelUpSheet(currentLevel, activeStatSheet[Stat.Stoic], activeStatSheet[Stat.Smarts], characterClass.characterProperties, progression);
-                activeStatSheet[Stat.HP] += levelUpSheet[Stat.HP];
-                activeStatSheet[Stat.AP] += levelUpSheet[Stat.AP];
-                activeStatSheet[Stat.Brawn] += levelUpSheet[Stat.Brawn];
-                activeStatSheet[Stat.Beauty] += levelUpSheet[Stat.Beauty];
-                activeStatSheet[Stat.Smarts] += levelUpSheet[Stat.Smarts];
-                activeStatSheet[Stat.Nimble] += levelUpSheet[Stat.Nimble];
-                activeStatSheet[Stat.Luck] += levelUpSheet[Stat.Luck];
-                activeStatSheet[Stat.Pluck] += levelUpSheet[Stat.Pluck];
-                activeStatSheet[Stat.Stoic] += levelUpSheet[Stat.Stoic];
-            }
+            Dictionary<Stat, float> activeStatSheet = BaseStats.GetLevelAveragedStatSheet(progression, characterClass.characterProperties, simulatedLevel, levelAveraging);
             
             // Draw entries onto card
             bool isLeft = true;
