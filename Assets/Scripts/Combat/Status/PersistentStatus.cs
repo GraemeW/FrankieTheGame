@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using UnityEngine;
 using Frankie.Control;
 using Frankie.Core;
@@ -9,7 +10,10 @@ namespace Frankie.Combat
     [RequireComponent(typeof(CombatParticipant))]
     public abstract class PersistentStatus : MonoBehaviour
     {
+        // For PersistentStatus and children use CancelEffect() to destroy instead of Destroy(this) directly
+        
         // State
+        private string effectGUID;
         protected bool active;
         private float duration = Mathf.Infinity;
         private bool persistAfterBattle;
@@ -18,14 +22,33 @@ namespace Frankie.Combat
         protected bool isIncrease = false; // Default, override in override methods
 
         // Cached References
-        private CombatParticipant combatParticipant;
+        protected CombatParticipant combatParticipant;
         private PlayerStateMachine playerStateMachine;
 
         // Events
         public event Action persistentStatusTimedOut;
 
+        #region StaticMethods
+        public static bool DoesEffectExist(CombatParticipant recipient, string effectGUID, int threshold, float resetDurationOnDupe = 0f)
+        {
+            int duplicateEffectCount = 0;
+            PersistentStatus minimumDurationStatusEffect = null;
+            foreach (PersistentStatus existingStatusEffect in recipient.GetComponents<PersistentStatus>().Where(x => x.GetEffectGUID() == effectGUID).OrderBy(x => x.GetDuration()))
+            {
+                duplicateEffectCount++;
+                
+                if (duplicateEffectCount == 1) { minimumDurationStatusEffect = existingStatusEffect; }
+                if (duplicateEffectCount >= threshold) { break; }
+            }
+            if (duplicateEffectCount < threshold) return false;
+            
+            if (minimumDurationStatusEffect != null) { minimumDurationStatusEffect.ResetDuration(resetDurationOnDupe); }
+            return true;
+        }
+        #endregion
+        
         #region UnityMethods
-        private void Awake()
+        protected virtual void Awake()
         {
             combatParticipant = GetComponent<CombatParticipant>();
         }
@@ -53,18 +76,32 @@ namespace Frankie.Combat
         #endregion
 
         #region PublicMethods
+        public string GetEffectGUID() => effectGUID;
         public Stat GetStatusEffectType() => statAffected;
         public bool IsIncrease() => isIncrease;
+
+        protected virtual void CancelEffect()
+        {
+            Destroy(this);
+        }
         #endregion
 
         #region PrivateProtectedMethods
-        protected void Setup(float setDuration, bool setPersistAfterBattle = false)
+        protected void Setup(string setEffectGUID, float setDuration, bool setPersistAfterBattle = false)
         {
+            effectGUID = setEffectGUID;
             duration = setDuration;
             persistAfterBattle = setPersistAfterBattle;
 
             SyncToPlayerStateHandler();
             SyncToBattle();
+        }
+        
+        protected float GetDuration() => duration;
+
+        protected void ResetDuration(float amount)
+        {
+            duration = Mathf.Max(duration, amount);
         }
 
         private void SyncToPlayerStateHandler()
@@ -78,7 +115,7 @@ namespace Frankie.Combat
             if (!BattleEventBus.inBattle)
             {
                 if (persistAfterBattle) { active = true; }
-                else { Destroy(this); }
+                else { CancelEffect(); }
                 return;
             }
 
@@ -94,7 +131,7 @@ namespace Frankie.Combat
             if (duration <= 0)
             {
                 persistentStatusTimedOut?.Invoke();
-                Destroy(this);
+                CancelEffect();
             }
         }
 
@@ -112,7 +149,7 @@ namespace Frankie.Combat
             {
                 BattleEventBus<BattleStateChangedEvent>.UnsubscribeFromEvent(HandleBattleState);
                 if (persistAfterBattle) { active = true; }
-                else { Destroy(this); } // Default behavior -- remove buffs/debuffs after combat
+                else { CancelEffect(); } // Default behavior -- remove buffs/debuffs after combat
             }
         }
 
@@ -123,12 +160,18 @@ namespace Frankie.Combat
                 SyncToBattle();
             }
         }
+        
+        protected virtual void OnDamage() { }
 
         private void HandleCombatState(StateAlteredInfo stateAlteredInfo)
         {
             if (stateAlteredInfo.stateAlteredType == StateAlteredType.Dead)
             {
-                Destroy(this);
+                CancelEffect();
+            }
+            else if (stateAlteredInfo.stateAlteredType == StateAlteredType.DecreaseHP)
+            {
+                OnDamage();
             }
         }
         #endregion

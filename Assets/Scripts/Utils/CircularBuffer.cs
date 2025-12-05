@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -6,8 +5,8 @@ namespace Frankie.Utils
 {
     public class CircularBuffer<T>
     {
-        LinkedList<T> queue;
-        int size;
+        private readonly LinkedList<T> queue;
+        private readonly int size;
 
         public CircularBuffer(int size)
         {

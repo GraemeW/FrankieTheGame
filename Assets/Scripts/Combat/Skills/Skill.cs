@@ -63,7 +63,7 @@ namespace Frankie.Combat
         #region PublicMethods
         public bool Use(BattleActionData battleActionData, Action finished)
         {
-            return battleAction.Use(battleActionData, finished);
+            return battleAction.Use(battleActionData, true, finished);
         }
 
         public void SetTargets(TargetingNavigationType targetingNavigationType, BattleActionData battleActionData,

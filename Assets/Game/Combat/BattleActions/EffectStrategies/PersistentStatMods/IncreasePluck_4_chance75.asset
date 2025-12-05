@@ -12,8 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 00fa693035786c8448d801d3bfcfdb68, type: 3}
   m_Name: IncreasePluck_4_chance75
   m_EditorClassIdentifier: Assembly-CSharp::Frankie.Combat.ApplyPersistentStatEffect
+  effectGUID: 79ad44cd-0032-46cf-ad39-3f99d93a355b
   fractionProbabilityToApply: 0.75
   duration: 20
   stat: 9
   value: 4
   persistAfterCombat: 0
+  numberOfDuplicateEffectsAllowed: 3

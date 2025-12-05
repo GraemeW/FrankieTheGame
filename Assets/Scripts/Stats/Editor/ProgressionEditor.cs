@@ -10,11 +10,15 @@ namespace Frankie.Stats.Editor
 {
     public class ProgressionEditor : EditorWindow
     {
+        // Tunables
+        private const int _panelSize = 360;
+
         // Data State
         private Progression progression;
         
         // UI State
         private readonly List<Progression.ProgressionCharacterClass> selectedCharacterClasses = new();
+        private int levelAveraging = 8;
         
         // UI Cached References
         private ObjectField progressionInput;
@@ -74,6 +78,8 @@ namespace Frankie.Stats.Editor
         private Box CreateControlBox()
         {
             var controlBox = new Box();
+            
+            // Progression Loading & Tool Parameters
             controlBox.Add(new Label("Progression Editor"));
             progressionInput = new ObjectField
             {
@@ -81,12 +87,23 @@ namespace Frankie.Stats.Editor
                 label = "Progression SO:  "
             };
             if (progression != null) { progressionInput.value = progression; }
-            
             progressionInput.RegisterValueChangedCallback(OnProgressionChanged);
             controlBox.Add(progressionInput);
 
+            var levelAveragingInput = new IntegerField
+            {
+                label = "Level Averaging",
+                value = levelAveraging
+            };
+            levelAveragingInput.RegisterValueChangedCallback(x =>
+            {
+                levelAveraging = (Mathf.Clamp(x.newValue, 1, 20));
+                levelAveragingInput.value = levelAveraging;
+            });
+            controlBox.Add(levelAveragingInput);
+
+            // Progression Controls
             controlBox.Add(new Label("Progression Asset Controls"));
-            
             var reloadProgression = new Button { text = "Reload Progression" };
             reloadProgression.RegisterCallback<ClickEvent>(ReloadProgression);
             controlBox.Add(reloadProgression);
@@ -95,8 +112,8 @@ namespace Frankie.Stats.Editor
             reconcileCharacterProperties.RegisterCallback<ClickEvent>(ReconcileCharacterProperties);
             controlBox.Add(reconcileCharacterProperties);
                 
+            // Selection Controls
             controlBox.Add(new Label("Character Selection Controls"));
-
             var removeCharacters = new Button { text = "Remove Selected Characters" };
             removeCharacters.RegisterCallback<ClickEvent>(RemoveSelectedCharacters);
             controlBox.Add(removeCharacters);
@@ -161,7 +178,7 @@ namespace Frankie.Stats.Editor
             {
                 style =
                 {
-                    width = 400,
+                    width = _panelSize,
                     backgroundColor = isSimulatedStatCard ? Color.chocolate : Color.darkSlateGray
                 }
             };
@@ -169,7 +186,7 @@ namespace Frankie.Stats.Editor
             var header = new Box();
             characterStatCard.Add(header);
             
-            var leftRightSplit = new TwoPaneSplitView(0, 200, TwoPaneSplitViewOrientation.Horizontal);
+            var leftRightSplit = new TwoPaneSplitView(0, (float)_panelSize / 2, TwoPaneSplitViewOrientation.Horizontal);
             characterStatCard.Add(leftRightSplit);
             var leftPane = new VisualElement();
             leftRightSplit.Add(leftPane);
@@ -183,7 +200,7 @@ namespace Frankie.Stats.Editor
         {
             if (!isSimulatedStatCard)
             {
-                var headerSplit = new TwoPaneSplitView(0, 200, TwoPaneSplitViewOrientation.Horizontal);
+                var headerSplit = new TwoPaneSplitView(0, (float)_panelSize/2, TwoPaneSplitViewOrientation.Horizontal);
                 headerSplit.Add(new Label($" {characterClass.characterProperties.name}"));
                 var initialLevel = new IntegerField
                 {
@@ -234,10 +251,10 @@ namespace Frankie.Stats.Editor
                     var statSimulationSplit = new TwoPaneSplitView
                     {
                         orientation = TwoPaneSplitViewOrientation.Horizontal,
-                        fixedPaneInitialDimension = 400,
+                        fixedPaneInitialDimension = _panelSize,
                         style =
                         {
-                            width = 800
+                            width = _panelSize * 2
                         }
                     };
                     characterStatPane.Add(statSimulationSplit);
@@ -252,7 +269,7 @@ namespace Frankie.Stats.Editor
                     style =
                     {
                         height = 10,
-                        width = 400,
+                        width = _panelSize,
                         backgroundColor = Color.gray2
                     }
                 };
@@ -284,6 +301,11 @@ namespace Frankie.Stats.Editor
             DrawCharacterStatPane();
         }
 
+        private void OnLevelAveragingChanged(ChangeEvent<float> levelAveragingChangedEvent)
+        {
+            
+        }
+
         private void ReconcileCharacterProperties(ClickEvent clickEvent)  { ReconcileCharacterProperties(); }
         private void ReconcileCharacterProperties()
         {
@@ -291,7 +313,7 @@ namespace Frankie.Stats.Editor
             Debug.Log("Reconcile:  Updating Progression for any missing character properties");
             CharacterProperties.BuildCacheIfEmpty(true);
             
-            Dictionary<CharacterProperties, bool> characterPropertiesCrossReference = new Dictionary<CharacterProperties, bool>();
+            var characterPropertiesCrossReference = new Dictionary<CharacterProperties, bool>();
             foreach (Progression.ProgressionCharacterClass characterClass in progression.GetCharacterClasses())
             {
                 if (characterClass.characterProperties == null) { continue; }
@@ -347,20 +369,7 @@ namespace Frankie.Stats.Editor
             if (characterClass == null || characterClass.characterProperties == null)  { return; }
 
             // Simulation
-            Dictionary<Stat, float> activeStatSheet = progression.GetStatSheet(characterClass.characterProperties);
-            for (int currentLevel = 1; currentLevel < simulatedLevel; currentLevel++)
-            {
-                Dictionary<Stat, float> levelUpSheet = BaseStats.GetLevelUpSheet(currentLevel, activeStatSheet[Stat.Stoic], activeStatSheet[Stat.Smarts], characterClass.characterProperties, progression);
-                activeStatSheet[Stat.HP] += levelUpSheet[Stat.HP];
-                activeStatSheet[Stat.AP] += levelUpSheet[Stat.AP];
-                activeStatSheet[Stat.Brawn] += levelUpSheet[Stat.Brawn];
-                activeStatSheet[Stat.Beauty] += levelUpSheet[Stat.Beauty];
-                activeStatSheet[Stat.Smarts] += levelUpSheet[Stat.Smarts];
-                activeStatSheet[Stat.Nimble] += levelUpSheet[Stat.Nimble];
-                activeStatSheet[Stat.Luck] += levelUpSheet[Stat.Luck];
-                activeStatSheet[Stat.Pluck] += levelUpSheet[Stat.Pluck];
-                activeStatSheet[Stat.Stoic] += levelUpSheet[Stat.Stoic];
-            }
+            Dictionary<Stat, float> activeStatSheet = BaseStats.GetLevelAveragedStatSheet(progression, characterClass.characterProperties, simulatedLevel, levelAveraging);
             
             // Draw entries onto card
             bool isLeft = true;

@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a27ee1074fcf4ec0aaeac0c66afb2693, type: 3}
+  m_Name: DeductHP_4j3x2_2xCrit
+  m_EditorClassIdentifier: Assembly-CSharp::Frankie.Combat.HealthSequenceEffect
+  effectGUID: 9c7c3698-c4c5-4a23-babd-e45557cb55bd
+  healthChangeSequence:
+  - -4
+  - -4
+  jitter: 3
+  delaySecondsBetweenHits: 0.5
+  applyDamageTypeModifiers: 1
+  canMiss: 1
+  canCrit: 1
+  critMultiplier: 2

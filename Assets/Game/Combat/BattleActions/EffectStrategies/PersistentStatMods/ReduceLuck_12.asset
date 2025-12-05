@@ -12,8 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 00fa693035786c8448d801d3bfcfdb68, type: 3}
   m_Name: ReduceLuck_12
   m_EditorClassIdentifier: 
+  effectGUID: 197a0be0-31d3-4c29-b935-bbc8c7e8e44c
   fractionProbabilityToApply: 1
   duration: 20
   stat: 8
   value: -12
   persistAfterCombat: 0
+  numberOfDuplicateEffectsAllowed: 3

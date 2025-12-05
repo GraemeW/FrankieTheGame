@@ -34,7 +34,7 @@ For tiles with edge features that need to block the player, custom physics shape
 
 In order to avoid tile edge stitching artifacts, a [Sprite Atlas](https://docs.unity3d.com/6000.2/Documentation/Manual/sprite/atlas/atlas-landing.html) must be made for and include the tilemap art asset.  
 
-Check if a Sprite Atlas is already made for the tilemap's parent folder (see under each subfolder within this directory -- e.g. [City.spriteatlas](./ExteriorCity/City.spriteatlas), [Landscape.spriteatlas](./ExteriorLandscape/Landscape.spriteatlas), etc.).  If a Sprite Atlas does not exist, you must create a new one using the following settings (otherwise, apply default settings):
+Check if a Sprite Atlas is already made for the tilemap's parent folder (see under each subfolder within this directory -- e.g. [City.spriteatlas](./ExteriorCity/City.spriteatlasv2), [Landscape.spriteatlas](./ExteriorLandscape/Landscape.spriteatlasv2), etc.).  If a Sprite Atlas does not exist, you must create a new one using the following settings (otherwise, apply default settings):
 * `Allow Rotation`:  `Disable`
 * `Tight Packing`:  `Disable`
 * `Padding`:  `4`

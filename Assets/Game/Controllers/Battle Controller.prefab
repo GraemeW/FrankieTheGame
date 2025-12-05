@@ -71,5 +71,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8b752325b21f4469b40846655b150a62, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Frankie.Combat.BattleMat
-  maxEnemiesPerRow: 7
-  minEnemiesBeforeRowSplit: 2
+  minEnemiesBeforeRowSplit: 5

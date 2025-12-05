@@ -12,8 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 00fa693035786c8448d801d3bfcfdb68, type: 3}
   m_Name: IncreaseBrawn_4_chance75
   m_EditorClassIdentifier: Assembly-CSharp::Frankie.Combat.ApplyPersistentStatEffect
+  effectGUID: 6faca420-8bef-49c7-b943-397ea8dfd929
   fractionProbabilityToApply: 0.75
   duration: 20
   stat: 4
   value: 4
   persistAfterCombat: 0
+  numberOfDuplicateEffectsAllowed: 3

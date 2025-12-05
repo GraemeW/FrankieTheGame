@@ -10,11 +10,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -6302713147965282841, guid: e4be3ce2d5464c3498c884ae5d9223d4, type: 3}
       propertyPath: maxCash
-      value: 30
+      value: 20
       objectReference: {fileID: 0}
     - target: {fileID: -6302713147965282841, guid: e4be3ce2d5464c3498c884ae5d9223d4, type: 3}
       propertyPath: minCash
-      value: 20
+      value: 15
       objectReference: {fileID: 0}
     - target: {fileID: -6302713147965282841, guid: e4be3ce2d5464c3498c884ae5d9223d4, type: 3}
       propertyPath: lootEntries.Array.size
@@ -22,11 +22,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -6302713147965282841, guid: e4be3ce2d5464c3498c884ae5d9223d4, type: 3}
       propertyPath: lootEntries.Array.data[0].probability
-      value: 3
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: -6302713147965282841, guid: e4be3ce2d5464c3498c884ae5d9223d4, type: 3}
       propertyPath: lootEntries.Array.data[1].probability
-      value: 2
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: -6302713147965282841, guid: e4be3ce2d5464c3498c884ae5d9223d4, type: 3}
       propertyPath: lootEntries.Array.data[1].inventoryItem
@@ -134,7 +134,7 @@ PrefabInstance:
       objectReference: {fileID: 11400000, guid: bedaa658b28aa48f48bea8c8c93225c1, type: 2}
     - target: {fileID: 6714702957889595111, guid: e4be3ce2d5464c3498c884ae5d9223d4, type: 3}
       propertyPath: uniqueIdentifier
-      value: f1224b82-8019-4d5b-8989-e91cbe26bfb7
+      value: 34f10516-e29b-41fa-9652-f40c74a4b87b
       objectReference: {fileID: 0}
     - target: {fileID: 7379540853045316962, guid: e4be3ce2d5464c3498c884ae5d9223d4, type: 3}
       propertyPath: m_Size.x

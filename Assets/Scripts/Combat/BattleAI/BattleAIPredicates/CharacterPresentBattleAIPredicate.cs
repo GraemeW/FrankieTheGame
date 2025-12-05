@@ -6,7 +6,7 @@ namespace Frankie.Combat
     [CreateAssetMenu(fileName = "New Character Present Predicate", menuName = "BattleAI/Predicates/CharacterPresent")]
     public class CharacterPresentBattleAIPredicate : BattleAIPredicate
     {
-        [SerializeField] CharacterProperties characterProperties = null;
+        [SerializeField] private CharacterProperties characterProperties;
 
         public override bool? Evaluate(BattleAI battleAI)
         {
@@ -15,14 +15,14 @@ namespace Frankie.Combat
             foreach (BattleEntity battleEntity in battleAI.GetLocalAllies())
             {
                 CombatParticipant combatParticipant = battleEntity.combatParticipant;
-                if (combatParticipant.GetCharacterProperties().GetCharacterNameID() == characterProperties.GetCharacterNameID()) { return true; }
+                if (combatParticipant.GetCharacterProperties().GetCharacterNameID() == characterProperties.GetCharacterNameID()) { return !combatParticipant.IsDead(); }
             }
             foreach (BattleEntity battleEntity in battleAI.GetLocalFoes())
             {
                 CombatParticipant combatParticipant = battleEntity.combatParticipant;
-                if (combatParticipant.GetCharacterProperties().GetCharacterNameID() == characterProperties.GetCharacterNameID()) { return true; }
+                if (combatParticipant.GetCharacterProperties().GetCharacterNameID() == characterProperties.GetCharacterNameID()) { return !combatParticipant.IsDead();}
             }
-
+            
             return false;
         }
     }

@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -7,9 +6,9 @@ namespace Frankie.Combat
     [CreateAssetMenu(fileName = "New Low Health Predicate", menuName = "BattleAI/Predicates/LowHealth")]
     public class LowHealthBattleAIPredicate : BattleAIPredicate
     {
-        [SerializeField][Tooltip("Enable for allies, disable for foes")] bool checkAllies = true;
-        [SerializeField] float minHP = 30f;
-        [SerializeField][Tooltip("Enable:  all party members must hit minHP criteria")] bool requireAllPartyMembers = false;
+        [SerializeField][Tooltip("Enable for allies, disable for foes")] private bool checkAllies = true;
+        [SerializeField] private float minHP = 30f;
+        [SerializeField][Tooltip("Enable:  all party members must hit minHP criteria")] private bool requireAllPartyMembers = false;
 
         public override bool? Evaluate(BattleAI battleAI)
         {

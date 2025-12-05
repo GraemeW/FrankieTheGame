@@ -33,7 +33,7 @@ namespace Frankie.Combat.UI
         // Static
         private static void BreakApartNumber(float number, out int hundreds, out int tens, out int ones)
         {
-            int roundedNumber = Mathf.RoundToInt(number);
+            int roundedNumber = Mathf.FloorToInt(number);
             hundreds = roundedNumber / 100;
             tens = (roundedNumber % 100) / 10;
             ones = roundedNumber % 10;
@@ -111,15 +111,10 @@ namespace Frankie.Combat.UI
                 case StateAlteredType.DecreaseHP:
                 case StateAlteredType.AdjustHPNonSpecific:
                     UpdateHP(battleEntity.combatParticipant.GetHP());
-                    if (stateAlteredInfo.stateAlteredType == StateAlteredType.IncreaseHP)
+                    float points = stateAlteredInfo.points;
+                    damageTextSpawner.AddToQueue(new DamageTextData(DamageTextType.HealthChanged, points));
+                    if (stateAlteredInfo.stateAlteredType == StateAlteredType.DecreaseHP)
                     {
-                        float points = stateAlteredInfo.points;
-                        damageTextSpawner.AddToQueue(new DamageTextData(DamageTextType.HealthChanged, points));
-                    }
-                    else if (stateAlteredInfo.stateAlteredType == StateAlteredType.DecreaseHP)
-                    {
-                        float points = stateAlteredInfo.points;
-                        damageTextSpawner.AddToQueue(new DamageTextData(DamageTextType.HealthChanged, points));
                         bool strongShakeEnable = points > battleEntity.combatParticipant.GetHP();
                         ShakeSlide(strongShakeEnable);
                         BlipFadeSlide();

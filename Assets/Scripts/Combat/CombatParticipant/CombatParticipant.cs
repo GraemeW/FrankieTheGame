@@ -16,11 +16,12 @@ namespace Frankie.Combat
         [Header("Behavior, Hookups")]
         [SerializeField] private bool friendly = false;
         [SerializeField] private Sprite combatSprite;
+        [SerializeField] private BattleEntityType battleEntityType = BattleEntityType.Standard;
+        [SerializeField] [Range(0.2f, 2.0f)] private float spriteScaleFineTune = 1.0f;
         [SerializeField] private AudioClip combatAudio;
         [SerializeField] private MovingBackgroundProperties movingBackgroundProperties;
 
         [Header("Combat Properties")]
-        [SerializeField] private BattleEntityType battleEntityType = BattleEntityType.Standard;
         [SerializeField] private BattleRow preferredBattleRow = BattleRow.Any;
         [SerializeField] private bool canRunFrom = true;
         [SerializeField] private bool usesAP = true;
@@ -113,10 +114,11 @@ namespace Frankie.Combat
         public string GetCombatName() => baseStats.GetCharacterProperties().GetCharacterNamePretty();
             // Split apart name on lower case followed by upper case w/ or w/out underscores
         public Sprite GetCombatSprite() => combatSprite;
+        public BattleEntityType GetBattleEntityType() => battleEntityType;
+        public float GetSpriteScaleFineTune() => spriteScaleFineTune;
         public MovingBackgroundProperties GetMovingBackgroundProperties() => movingBackgroundProperties;
         public AudioClip GetAudioClip() => combatAudio;
         public bool GetFriendly() => friendly;
-        public BattleEntityType GetBattleEntityType() => battleEntityType;
         public BattleRow GetPreferredBattleRow() => preferredBattleRow;
         public bool HasLoot() => lootDispenser != null && lootDispenser.HasLootReward();
         public bool ShouldDestroySelfOnDeath() => shouldDestroySelfOnDeath;

@@ -1,3 +1,4 @@
+using System;
 using Frankie.Stats;
 using UnityEngine;
 
@@ -15,6 +16,7 @@ namespace Frankie.Combat.UI
         [SerializeField] private GameObject nimbleIcon;
         [SerializeField] private GameObject luckIcon;
         [SerializeField] private GameObject pluckIcon;
+        [SerializeField] private GameObject stoicIcon;
         [SerializeField] private GameObject increaseModifier;
         [SerializeField] private GameObject decreaseModifier;
 
@@ -22,8 +24,7 @@ namespace Frankie.Combat.UI
         private PersistentStatus persistentStatus;
         private Stat statusEffectType; // Default, override in setup
         private bool isIncrease = true; // Default, override in setup
-
-        // Methods
+        
         public void Setup(PersistentStatus setPersistentStatus)
         {
             if (setPersistentStatus == null) { return; }
@@ -37,6 +38,11 @@ namespace Frankie.Combat.UI
             ToggleIcon();
         }
 
+        public void ForceClearBobble()
+        {
+            RemoveIconOnTimeout();
+        }
+
         private void ToggleOffIcons()
         {
             healingIcon.SetActive(false);
@@ -47,6 +53,7 @@ namespace Frankie.Combat.UI
             nimbleIcon.SetActive(false);
             luckIcon.SetActive(false);
             pluckIcon.SetActive(false);
+            stoicIcon.SetActive(false);
         }
 
         private void ToggleIcon()
@@ -82,6 +89,13 @@ namespace Frankie.Combat.UI
                     break;
                 case Stat.Pluck:
                     pluckIcon.SetActive(true);
+                    break;
+                case Stat.Stoic:
+                    stoicIcon.SetActive(true);
+                    break;
+                case Stat.ExperienceReward:
+                case Stat.ExperienceToLevelUp:
+                case Stat.InitialLevel:
                     break;
             }
         }

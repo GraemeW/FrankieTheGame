@@ -10,24 +10,28 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -6302713147965282841, guid: e4be3ce2d5464c3498c884ae5d9223d4, type: 3}
       propertyPath: maxCash
-      value: 25
+      value: 20
       objectReference: {fileID: 0}
     - target: {fileID: -6302713147965282841, guid: e4be3ce2d5464c3498c884ae5d9223d4, type: 3}
       propertyPath: minCash
-      value: 12
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: -6302713147965282841, guid: e4be3ce2d5464c3498c884ae5d9223d4, type: 3}
       propertyPath: lootEntries.Array.size
-      value: 2
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: -6302713147965282841, guid: e4be3ce2d5464c3498c884ae5d9223d4, type: 3}
       propertyPath: lootEntries.Array.data[0].probability
-      value: 3
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: -6302713147965282841, guid: e4be3ce2d5464c3498c884ae5d9223d4, type: 3}
       propertyPath: lootEntries.Array.data[1].probability
-      value: 2
+      value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: -6302713147965282841, guid: e4be3ce2d5464c3498c884ae5d9223d4, type: 3}
+      propertyPath: lootEntries.Array.data[0].inventoryItem
+      value: 
+      objectReference: {fileID: 11400000, guid: 192c078e096f74eaeab7ab1e879839fe, type: 2}
     - target: {fileID: -6302713147965282841, guid: e4be3ce2d5464c3498c884ae5d9223d4, type: 3}
       propertyPath: lootEntries.Array.data[1].inventoryItem
       value: 

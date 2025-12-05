@@ -15,8 +15,11 @@ namespace Frankie.Stats
         // 2)  Modifiers used as basis for subsequent levels --> multiplied out by a random factor, and then added to active stat sheet
 
         // Tunables
+        [Header("Parameters")]
         [SerializeField] private CharacterProperties characterProperties;
         [SerializeField] private bool levelUpOnInstantiation = false;
+        [SerializeField][Tooltip("Default true for PCs, false for NPCs")] private bool useSavedStatsOnLoad = true;
+        [Header("Hookups")]
         [SerializeField] private Progression progression;
 
         // Static/Const Parameters
@@ -26,14 +29,13 @@ namespace Frankie.Stats
         {
             // Ensure LERP points match in length
             // Ensure incrementing in a logical manner
-            new float[5]{0f, 0.2f, 0.7f, 0.9f, 1.0f},
-            new float[5]{0.0f, 0.5f, 1.0f, 1.25f, 1.5f}
+            new float[5]{0f, 0.2f, 0.85f, 0.95f, 1.0f}, // Roll Probability
+            new float[5]{0.0f, 0.5f, 1.0f, 1.25f, 1.5f} // Multiplier
         };
         private const int _defaultLevelForNoCharacterProperties = 1;
         private const int _maxLevel = 99;
         
         // State
-        private bool awakeCalled;
         private LazyValue<int> currentLevel;
         private Dictionary<Stat, float> activeStatSheet;
 
@@ -47,8 +49,33 @@ namespace Frankie.Stats
             Stat[] nonModifyingStats = { Stat.InitialLevel, Stat.ExperienceReward, Stat.ExperienceToLevelUp };
             return nonModifyingStats;
         }
+
+        public static Dictionary<Stat, float> GetLevelAveragedStatSheet(Progression progression, CharacterProperties characterProperties, int simulatedLevel, int levelAveraging)
+        {
+            // Initial Sheet
+            Dictionary<Stat, float> activeStatSheet = progression.GetStatSheet(characterProperties);
+            
+            for (int currentLevel = 1; currentLevel < simulatedLevel; currentLevel++)
+            {
+                // Level-Up Sheet
+                Dictionary<Stat, float> sumLevelUpSheet = GetLevelUpSheet(progression, characterProperties, 
+                    currentLevel, activeStatSheet[Stat.Stoic], activeStatSheet[Stat.Smarts]);
+                // Averaging at each level
+                for (int averageCount = 1; averageCount < levelAveraging; averageCount++)
+                {
+                    Dictionary<Stat, float> incrementalLevelUpSheet = GetLevelUpSheet(progression, characterProperties, 
+                        currentLevel, activeStatSheet[Stat.Stoic], activeStatSheet[Stat.Smarts]);
+                    foreach (KeyValuePair<Stat, float> statValuePair in incrementalLevelUpSheet) { sumLevelUpSheet[statValuePair.Key] += statValuePair.Value; }
+                }
+                
+                // Take average value for active stat sheet
+                foreach (KeyValuePair<Stat, float> statValuePair in sumLevelUpSheet) { activeStatSheet[statValuePair.Key] += statValuePair.Value / levelAveraging; }
+            }
+
+            return activeStatSheet;
+        }
         
-        public static Dictionary<Stat, float> GetLevelUpSheet(int currentLevel, float currentStoic, float currentSmarts, CharacterProperties characterProperties, Progression progression)
+        private static Dictionary<Stat, float> GetLevelUpSheet(Progression progression, CharacterProperties characterProperties, int currentLevel, float currentStoic, float currentSmarts)
         {
             var levelUpSheet = new Dictionary<Stat, float>
             {
@@ -64,6 +91,7 @@ namespace Frankie.Stats
             };
             return levelUpSheet;
         }
+        
         private static float GetLevelUpStatMultiplier()
         {
             float chance = UnityEngine.Random.Range(0f, 1f);
@@ -81,7 +109,6 @@ namespace Frankie.Stats
         #region UnityMethods
         private void Awake()
         {
-            awakeCalled = true;
             currentLevel = new LazyValue<int>(GetInitialLevel);
         }
 
@@ -110,7 +137,7 @@ namespace Frankie.Stats
         }
         public float GetCalculatedStat(CalculatedStat calculatedStat)
         {
-            if (!CalculatedStats.GetStatModifier(calculatedStat, out Stat statModifier)) return 0f;
+            if (!CalculatedStats.GetStatModifier(calculatedStat, out Stat statModifier)) return 1f;
             
             float stat = GetStat(statModifier);
             return CalculatedStats.GetCalculatedStat(calculatedStat, GetLevel(), stat);
@@ -174,9 +201,8 @@ namespace Frankie.Stats
 
         private Dictionary<Stat, float> IncrementStatsOnLevelUp()
         {
-            var levelUpSheet = GetLevelUpSheet(GetLevel(),
-                GetBaseStat(Stat.Stoic), GetBaseStat(Stat.Smarts),
-                characterProperties, progression);
+            var levelUpSheet = GetLevelUpSheet(progression, characterProperties, 
+                GetLevel(), GetBaseStat(Stat.Stoic), GetBaseStat(Stat.Smarts));
 
             activeStatSheet[Stat.HP] += levelUpSheet[Stat.HP];
             activeStatSheet[Stat.AP] += levelUpSheet[Stat.AP];
@@ -208,8 +234,7 @@ namespace Frankie.Stats
 
         public SaveState CaptureState()
         {
-            if (!awakeCalled) { Awake(); }
-
+            currentLevel ??= new LazyValue<int>(GetInitialLevel);
             var baseStatsSaveData = new BaseStatsSaveData
             {
                 level = currentLevel.value,
@@ -221,10 +246,12 @@ namespace Frankie.Stats
 
         public void RestoreState(SaveState saveState)
         {
+            if (!useSavedStatsOnLoad) { return; }
+            
             var baseStatsSaveData = saveState.GetState(typeof(BaseStatsSaveData)) as BaseStatsSaveData;
             if (baseStatsSaveData == null) { return; }
 
-            if (!awakeCalled) { Awake(); }
+            currentLevel ??= new LazyValue<int>(GetInitialLevel);
             currentLevel.value = baseStatsSaveData.level;
             activeStatSheet = baseStatsSaveData.statSheet;
         }

@@ -9,11 +9,11 @@ namespace Frankie.Combat
         // Tunables
         private float value;
 
-        public void Setup(float duration, Stat setStatAffected, float setValue, bool persistAfterBattle = false)
+        public void Setup(string setEffectGUID, float duration, Stat setStatAffected, float setValue, bool persistAfterBattle = false)
         {
-            if (Mathf.Approximately(setValue, 0f)) { Destroy(this); }
+            if (Mathf.Approximately(setValue, 0f)) { CancelEffect(); }
 
-            base.Setup(duration, persistAfterBattle);
+            base.Setup(setEffectGUID, duration, persistAfterBattle);
 
             statAffected = setStatAffected;
             value = setValue;
@@ -22,12 +22,9 @@ namespace Frankie.Combat
 
         public IEnumerable<float> GetAdditiveModifiers(Stat stat)
         {
-            if (!active) { yield break; }
-
-            if (statAffected == stat)
-            {
-                yield return value;
-            }
+            // Note:  Do not skip this even if inactive
+            // Otherwise will effectively disable stat mods during combat pause menu
+            if (statAffected == stat) { yield return value; }
         }
     }
 }

@@ -14,18 +14,18 @@ namespace Frankie.Combat
         // State
         private float tickTimer;
         private bool queuedTick = false;
-
+        
         protected override void Update()
         {
             base.Update();
             HandleRecurringEffects();
         }
-
-        public void Setup(float duration, float setTickPeriod, Action setRecurringEffect, Stat setStatAffected, bool setIsIncreasing, bool persistAfterBattle = false)
+        
+        public void Setup(string setEffectGUID, float duration, float setTickPeriod, Action setRecurringEffect, Stat setStatAffected, bool setIsIncreasing, bool persistAfterBattle = false)
         {
-            if (setRecurringEffect == null) { Destroy(this); }
+            if (setRecurringEffect == null) { CancelEffect(); }
 
-            base.Setup(duration, persistAfterBattle);
+            base.Setup(setEffectGUID, duration, persistAfterBattle);
             tickPeriod = setTickPeriod;
             recurringEffect = setRecurringEffect;
             statAffected = setStatAffected;

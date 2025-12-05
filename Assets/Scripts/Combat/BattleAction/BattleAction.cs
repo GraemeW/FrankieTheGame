@@ -63,10 +63,10 @@ namespace Frankie.Combat
             return apCost;
         }
 
-        public bool Use(BattleActionData battleActionData, Action finished)
+        public bool Use(BattleActionData battleActionData, bool useAP, Action finished)
         {
             if (battleActionData.GetSender().IsDead()) { finished.Invoke(); return false; }
-            if (effectStrategies == null || !battleActionData.GetSender().HasAP(apCost) || !battleActionData.HasTargets())
+            if (effectStrategies == null || (useAP && !battleActionData.GetSender().HasAP(apCost)) || !battleActionData.HasTargets())
             {
                 battleActionData.GetSender().SetCooldown(0f);
                 finished?.Invoke();
@@ -75,7 +75,7 @@ namespace Frankie.Combat
 
             CombatParticipant sender = battleActionData.GetSender();
             IList<BattleEntity> recipients = battleActionData.GetTargets();
-            sender.StartCoroutine(EffectSequence(sender, recipients, finished));
+            sender.StartCoroutine(EffectSequence(sender, recipients, useAP, finished));
 
             return true;
         }
@@ -90,7 +90,7 @@ namespace Frankie.Combat
         #endregion
 
         #region PrivateMethods
-        private IEnumerator EffectSequence(CombatParticipant sender, IList<BattleEntity> recipients, Action finished)
+        private IEnumerator EffectSequence(CombatParticipant sender, IList<BattleEntity> recipients, bool useAP, Action finished)
         {
             foreach (EffectStrategy effectStrategy in effectStrategies)
             {
@@ -99,7 +99,7 @@ namespace Frankie.Combat
             }
             
             sender.SetCooldown(cooldown);
-            sender.AdjustAP(-apCost);
+            if (useAP) { sender.AdjustAP(-apCost); }
             finished?.Invoke();
         }
         #endregion

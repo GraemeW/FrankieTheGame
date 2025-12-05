@@ -1,3 +1,5 @@
+using UnityEngine;
+
 namespace Frankie.Combat
 {
     public class BattleEntity
@@ -5,6 +7,8 @@ namespace Frankie.Combat
         // Attributes
         public readonly CombatParticipant combatParticipant;
         public readonly BattleEntityType battleEntityType;
+        public readonly Sprite combatSprite;
+        public readonly float spriteScaleFineTune;
         public BattleRow row;
         public int column;
         public readonly bool isCharacter;
@@ -17,6 +21,8 @@ namespace Frankie.Combat
             this.isAssistCharacter = isAssistCharacter;
             isCharacter = true;
             battleEntityType = BattleEntityType.Standard;
+            combatSprite = null;
+            spriteScaleFineTune = 1.0f;
             row = BattleRow.Middle;
             column = 0;
         }
@@ -26,6 +32,8 @@ namespace Frankie.Combat
         {
             this.combatParticipant = combatParticipant;
             this.battleEntityType = battleEntityType;
+            combatSprite = combatParticipant.GetCombatSprite();
+            spriteScaleFineTune = combatParticipant.GetSpriteScaleFineTune();
             this.row = row;
             this.column = column;
             isCharacter = false;

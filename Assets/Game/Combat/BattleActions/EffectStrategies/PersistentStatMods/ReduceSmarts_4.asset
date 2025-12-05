@@ -12,8 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 00fa693035786c8448d801d3bfcfdb68, type: 3}
   m_Name: ReduceSmarts_4
   m_EditorClassIdentifier: 
+  effectGUID: 8efaf1f4-b604-4287-8568-9c6df3a4d297
   fractionProbabilityToApply: 1
   duration: 20
   stat: 6
   value: -4
   persistAfterCombat: 0
+  numberOfDuplicateEffectsAllowed: 3

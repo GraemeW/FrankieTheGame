@@ -40,7 +40,7 @@ Within the Dialogue Editor, set the root node's values:
     * *by default, the lead character in the party's name will be used*
   * `Narrator Direction` - for text without a speaker
 
-For example, see below configuration where the Speaker is set to Lucy, with associated inspector properties that automatically reflect the changes made in the editor.  As noted above, since [Lucy](../OnLoadAssets/CharacterProperties/Lucy.asset) exists as a [CharacterProperties](../OnLoadAssets/CharacterProperties/) file, this asset is automatically linked.
+For example, see below configuration where the Speaker is set to Lucy, with associated inspector properties that automatically reflect the changes made in the editor.  As noted above, since [Lucy](../OnLoadAssets/CharacterProperties/CoreCharacters/Lucy.asset) exists as a [CharacterProperties](../OnLoadAssets/CharacterProperties/) file, this asset is automatically linked.
 
 <img src="../../../InfoTools/Documentation/Game/Speech/DialogueNodeConfig.png" width="600">
 

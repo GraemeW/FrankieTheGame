@@ -1,0 +1,18 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 00fbef4dec9dc7846811859f8a74c138, type: 3}
+  m_Name: BeardedMonk
+  m_EditorClassIdentifier: Assembly-CSharp::Frankie.Stats.CharacterProperties
+  characterPrefab: {fileID: 0}
+  characterNPCPrefab: {fileID: 5186630281406051282, guid: a54e983b6ddf64fe4a03236cfe391a6a, type: 3}
+  hasProgressionStats: 1
+  incrementsStatsOnLevelUp: 0

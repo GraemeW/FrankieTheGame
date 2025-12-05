@@ -7,30 +7,49 @@ using Frankie.Stats;
 namespace Frankie.Combat
 {
     [CreateAssetMenu(fileName = "New Persistent Stat Effect", menuName = "BattleAction/Effects/Persistent Stat Effect")]
-    public class ApplyPersistentStatEffect : EffectStrategy
+    public class ApplyPersistentStatEffect : EffectStrategy, IPersistentStatusApplier
     {
-        [SerializeField][Range(0, 1)] private float fractionProbabilityToApply = 0.5f;
+        [SerializeField][Tooltip("Used if statContest is false")][Range(0, 1)] private float fractionProbabilityToApply = 0.5f;
+        [SerializeField][Tooltip("Alternate probability derivation via stat contest")] private bool useStatContestProbabilityToApply = false;
+        [SerializeField][Tooltip("Used if statContest is true")] private Stat statForContest = Stat.Luck;
         [SerializeField] private float duration = 10f;
         [SerializeField] private Stat stat = Stat.HP;
         [SerializeField] private float value = 1f;
         [SerializeField] private bool persistAfterCombat = false;
+        [SerializeField] private int numberOfDuplicateEffectsAllowed = 3;
 
         public override IEnumerator StartEffect(CombatParticipant sender, IList<BattleEntity> recipients, DamageType damageType)
         {
             if (BaseStats.GetNonModifyingStats().Contains(stat)) { yield break; }
             if (recipients == null) { yield break; }
 
-            foreach (BattleEntity battleEntity in recipients)
+            foreach (BattleEntity recipient in recipients)
             {
-                float chanceRoll = UnityEngine.Random.Range(0f, 1f);
-                if (fractionProbabilityToApply < chanceRoll) { continue; }
+                if (CheckForEffect(recipient.combatParticipant)) { continue; }
 
-                PersistentStatModifierStatus activeStatusEffect = battleEntity.combatParticipant.gameObject.AddComponent(typeof(PersistentStatModifierStatus)) as PersistentStatModifierStatus;
-                if (activeStatusEffect == null) { continue; }
-                activeStatusEffect.Setup(duration, stat, value, persistAfterCombat);
+                bool probabilityCheck = useStatContestProbabilityToApply
+                    ? IPersistentStatusApplier.CheckProbabilityToApply(sender, recipient.combatParticipant, statForContest)
+                    : IPersistentStatusApplier.CheckProbabilityToApply(fractionProbabilityToApply);
+                if (!probabilityCheck) { continue; }
 
-                battleEntity.combatParticipant.AnnounceStateUpdate(StateAlteredType.StatusEffectApplied, activeStatusEffect);
+                PersistentStatus activeStatusEffect = Apply(sender, recipient.combatParticipant, damageType);
+                if (activeStatusEffect== null) { continue; }
+
+                recipient.combatParticipant.AnnounceStateUpdate(StateAlteredType.StatusEffectApplied, activeStatusEffect);
             }
+        }
+
+        public bool CheckForEffect(CombatParticipant recipient)
+        {
+            return PersistentStatus.DoesEffectExist(recipient, effectGUID, numberOfDuplicateEffectsAllowed, duration);
+        }
+
+        public PersistentStatus Apply(CombatParticipant sender, CombatParticipant recipient, DamageType damageType)
+        {
+            PersistentStatModifierStatus activeStatusEffect = recipient.gameObject.AddComponent(typeof(PersistentStatModifierStatus)) as PersistentStatModifierStatus;
+            if (activeStatusEffect == null) { return null; }
+            activeStatusEffect.Setup(effectGUID, duration, stat, value, persistAfterCombat);
+            return activeStatusEffect;
         }
     }
 }

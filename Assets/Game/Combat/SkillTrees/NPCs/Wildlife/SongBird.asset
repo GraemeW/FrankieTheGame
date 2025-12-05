@@ -33,7 +33,7 @@ MonoBehaviour:
   upBranch: 
   leftSkillReference: ChirpLoudly
   leftBranch: 
-  rightSkillReference: Preen
+  rightSkillReference: ShakeTail
   rightBranch: 
   downSkillReference: 
   downBranch: 

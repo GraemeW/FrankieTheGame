@@ -7,6 +7,13 @@ namespace Frankie.Combat
 {
     public abstract class EffectStrategy : ScriptableObject
     {
+        [SerializeField] protected string effectGUID;
+
+        private void OnValidate()
+        {
+            if (string.IsNullOrWhiteSpace(effectGUID)) { effectGUID = System.Guid.NewGuid().ToString(); }
+        }
+        
         public abstract IEnumerator StartEffect(CombatParticipant sender, IList<BattleEntity> recipients, DamageType damageType);
 
         protected static bool DoesAttackHit(bool canMiss, CombatParticipant sender, CombatParticipant recipient)

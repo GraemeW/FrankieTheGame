@@ -10,12 +10,28 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -6302713147965282841, guid: e4be3ce2d5464c3498c884ae5d9223d4, type: 3}
       propertyPath: maxCash
-      value: 15
+      value: 12
       objectReference: {fileID: 0}
     - target: {fileID: -6302713147965282841, guid: e4be3ce2d5464c3498c884ae5d9223d4, type: 3}
       propertyPath: minCash
-      value: 8
+      value: 5
       objectReference: {fileID: 0}
+    - target: {fileID: -6302713147965282841, guid: e4be3ce2d5464c3498c884ae5d9223d4, type: 3}
+      propertyPath: lootEntries.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: -6302713147965282841, guid: e4be3ce2d5464c3498c884ae5d9223d4, type: 3}
+      propertyPath: lootEntries.Array.data[0].probability
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -6302713147965282841, guid: e4be3ce2d5464c3498c884ae5d9223d4, type: 3}
+      propertyPath: lootEntries.Array.data[1].probability
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -6302713147965282841, guid: e4be3ce2d5464c3498c884ae5d9223d4, type: 3}
+      propertyPath: lootEntries.Array.data[1].inventoryItem
+      value: 
+      objectReference: {fileID: 11400000, guid: 9105dfbd6e6afbe4ea13b4836a1a23a8, type: 2}
     - target: {fileID: 1182436157161314237, guid: e4be3ce2d5464c3498c884ae5d9223d4, type: 3}
       propertyPath: combatAudio
       value: 

@@ -101,7 +101,7 @@ Character objects are broken down into:
 * Rename the prefab variant to the character, and create a folder for it in [PCs](./PCs/) - move the prefab variant to this new folder
 * Adjust the default sprite image for this character (Character Sprite -> Sprite Renderer -> Sprite) - e.g. like below for [Lucy](./PCs/Lucy/Lucy.prefab)
   * *Note:  Sprite artwork should follow the style guide, per [StyleGuide](../../../InfoTools/StyleGuide/README.md#game-object--world-artwork-pixel-art)*
-  * *Note:  Sprite import settings should be adjusted, per [Game/WorldObjects](../../Assets/Game/WorldObjects/README.md#sprite-import--setup)*
+  * *Note:  Sprite import settings should be adjusted, per [Game/WorldObjects](../WorldObjects/README.md#sprite-import--setup)*
 
 <img src="../../../InfoTools/Documentation/Game/CharacterObjects/LucySpriteOverride.png" width="450">
 
@@ -178,11 +178,14 @@ Character objects are broken down into:
 
 * *Optional Step:* 
 * Hook up 'enemy' combat parameters - e.g. like below for [Lucy](./PCs/Lucy/Lucy.prefab)
-  * Combat Sprite: the image displayed on the [BattleCanvas](../UI/Combat/Battle%20Canvas.prefab) during combat **against** this character
-  * Combat Audio: the music played during combat against this character
-  * Moving background properties:
-    * Tile Sprite Image: the tiled image to display during combat against this character
-    * Shader Material: the shader to apply to sed tiled image during combat against this character
+  * `Combat Sprite`: the image displayed on the [BattleCanvas](../UI/Combat/Battle%20Canvas.prefab) during combat **against** this character (i.e. when faced as an enemy in combat)
+  * `Battle Entity Type`:  if the combat participant falls into a category of 'Standard', 'Mook' or 'Boss'
+    * this primarily impacts the sprite size when faced as an enemy in combat
+  * `Sprite Scale Fine Tune`:  additional parameter to scale the sprite size
+  * `Combat Audio`: the music played during combat against this character
+  * Moving Background Properties:
+    * `Tile Sprite Image`: the tiled image to display during combat against this character
+    * `Shader Material`: the shader to apply to sed tiled image during combat against this character
 * This step is noted as optional here, because (typically) you will not face a playable character in combat as an enemy
 
 <img src="../../../InfoTools/Documentation/Game/CharacterObjects/LucyOptionalCombatParameters.png" width="350">

@@ -10,18 +10,18 @@ namespace Frankie.Control
     public class PlayerMover : Mover
     {
         // Tunables
-        [SerializeField] float speedMoveThreshold = 0.05f;
-        [SerializeField] int playerMovementHistoryLength = 128;
+        [SerializeField] private float speedMoveThreshold = 0.05f;
+        [SerializeField] private int playerMovementHistoryLength = 128;
 
         // State
-        bool inWorld = true;
-        float inputHorizontal;
-        float inputVertical;
-        CircularBuffer<Tuple<Vector2, Vector2>> movementHistory;
-        bool historyResetThisFrame = false;
+        private bool inWorld = true;
+        private float inputHorizontal;
+        private float inputVertical;
+        private CircularBuffer<Tuple<Vector2, Vector2>> movementHistory;
+        private bool historyResetThisFrame = false;
 
         // Cached References
-        PlayerStateMachine playerStateHandler = null;
+        private PlayerStateMachine playerStateMachine;
 
         // Events
         public event Action movementHistoryReset;
@@ -31,19 +31,19 @@ namespace Frankie.Control
         protected override void Awake()
         {
             base.Awake();
-            playerStateHandler = GetComponent<PlayerStateMachine>();
+            playerStateMachine = GetComponent<PlayerStateMachine>();
             movementHistory = new CircularBuffer<Tuple<Vector2, Vector2>>(playerMovementHistoryLength);
         }
 
         protected override void OnEnable()
         {
             base.OnEnable();
-            playerStateHandler.playerStateChanged += ParsePlayerStateChange;
+            playerStateMachine.playerStateChanged += ParsePlayerStateChange;
         }
 
         private void OnDisable()
         {
-            playerStateHandler.playerStateChanged -= ParsePlayerStateChange;
+            playerStateMachine.playerStateChanged -= ParsePlayerStateChange;
         }
 
         private void ParsePlayerStateChange(PlayerStateType playerStateType)
@@ -74,9 +74,9 @@ namespace Frankie.Control
 
         private float GetPlayerMovementSpeed()
         {
-            if (playerStateHandler == null) { return movementSpeed; }
+            if (playerStateMachine == null) { return movementSpeed; }
 
-            float modifier = playerStateHandler.GetParty().GetPartyLeader().GetCalculatedStat(CalculatedStat.MoveSpeed);
+            float modifier = playerStateMachine.GetParty().GetPartyLeader().GetCalculatedStat(CalculatedStat.MoveSpeed);
             return movementSpeed * modifier;
         }
 
