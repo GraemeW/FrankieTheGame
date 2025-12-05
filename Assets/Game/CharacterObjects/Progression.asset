@@ -539,7 +539,7 @@ MonoBehaviour:
     - stat: 0
       value: 55
     - stat: 1
-      value: 250
+      value: 500
     - stat: 2
       value: 500
     - stat: 3
@@ -565,7 +565,7 @@ MonoBehaviour:
     - stat: 0
       value: 70
     - stat: 1
-      value: 250
+      value: 500
     - stat: 2
       value: 500
     - stat: 3
@@ -591,13 +591,13 @@ MonoBehaviour:
     - stat: 0
       value: 60
     - stat: 1
-      value: 250
+      value: 500
     - stat: 2
       value: 500
     - stat: 3
       value: 999
     - stat: 4
-      value: 50
+      value: 55
     - stat: 5
       value: 25
     - stat: 6
@@ -617,13 +617,13 @@ MonoBehaviour:
     - stat: 0
       value: 75
     - stat: 1
-      value: 250
+      value: 500
     - stat: 2
       value: 500
     - stat: 3
       value: 999
     - stat: 4
-      value: 55
+      value: 60
     - stat: 5
       value: 30
     - stat: 6
