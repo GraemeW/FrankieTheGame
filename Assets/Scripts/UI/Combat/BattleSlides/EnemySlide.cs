@@ -73,6 +73,7 @@ namespace Frankie.Combat.UI
                     button.enabled = false;
                     image.CrossFadeAlpha(0f, deathFadeTime, false);
                     cooldownTimer?.gameObject.SetActive(false);
+                    ClearStatusEffectBobbles();
                     StartCoroutine(DelayToDestroy(deathFadeTime));
                     break;
                 case StateAlteredType.Resurrected:
@@ -101,8 +102,6 @@ namespace Frankie.Combat.UI
             image.sprite = sprite;
             if (battleEntityTypePropertyLookUp == null || battleEntityTypePropertyLookUp.Length == 0) { return; }
             if (!TryGetComponent(out RectTransform rectTransform)) return;
-            
-            UnityEngine.Debug.Log($"Sprite scale factor is {spriteScaleFineTune}");
 
             // Setting size of image based on enemy type (e.g. mook small, standard medium, boss big)
             foreach (BattleEntityTypePropertySet battleEntityPropertySet in battleEntityTypePropertyLookUp)

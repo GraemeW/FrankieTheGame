@@ -116,9 +116,17 @@ PrefabInstance:
       propertyPath: skillTree
       value: 
       objectReference: {fileID: 11400000, guid: 3d77cfbcceafd43498e68935d9c71638, type: 2}
+    - target: {fileID: 6351010188415245609, guid: e4be3ce2d5464c3498c884ae5d9223d4, type: 3}
+      propertyPath: battleAIPriorities.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6351010188415245609, guid: e4be3ce2d5464c3498c884ae5d9223d4, type: 3}
+      propertyPath: 'battleAIPriorities.Array.data[0]'
+      value: 
+      objectReference: {fileID: 11400000, guid: 135448ad368fa429584ea3cc7a86c52a, type: 2}
     - target: {fileID: 6714702957889595111, guid: e4be3ce2d5464c3498c884ae5d9223d4, type: 3}
       propertyPath: uniqueIdentifier
-      value: 215e3e1c-b0bc-4667-a3b7-90c95a614055
+      value: 0322b7b0-21e3-46bf-90d8-74e8003fa53b
       objectReference: {fileID: 0}
     - target: {fileID: 7379540853045316962, guid: e4be3ce2d5464c3498c884ae5d9223d4, type: 3}
       propertyPath: m_Size.x

@@ -14,11 +14,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Frankie.Combat.SkillBranch
   upSkillReference: Wallop
   upBranch: 
-  leftSkillReference: 
+  leftSkillReference: Wallop
   leftBranch: 
-  rightSkillReference: 
+  rightSkillReference: PiercingMonkChant
   rightBranch: 
-  downSkillReference: 
+  downSkillReference: TwiddleThumbs
   downBranch: 
   rect:
     serializedVersion: 2

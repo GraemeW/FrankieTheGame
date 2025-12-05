@@ -24,8 +24,7 @@ namespace Frankie.Combat.UI
         private PersistentStatus persistentStatus;
         private Stat statusEffectType; // Default, override in setup
         private bool isIncrease = true; // Default, override in setup
-
-        // Methods
+        
         public void Setup(PersistentStatus setPersistentStatus)
         {
             if (setPersistentStatus == null) { return; }
@@ -37,6 +36,11 @@ namespace Frankie.Combat.UI
             ToggleOffIcons();
             SetModifier(); // Must call before ToggleIcon (modifier impacts icon)
             ToggleIcon();
+        }
+
+        public void ForceClearBobble()
+        {
+            RemoveIconOnTimeout();
         }
 
         private void ToggleOffIcons()

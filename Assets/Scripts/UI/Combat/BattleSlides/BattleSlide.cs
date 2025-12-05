@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
@@ -31,6 +32,7 @@ namespace Frankie.Combat.UI
 
         // State
         protected BattleEntity battleEntity;
+        protected List<StatusEffectBobble> statusEffectBobbles = new List<StatusEffectBobble>();
         private Coroutine canvasDimming;
         private float currentShakeMagnitude;
         private float currentShakeTime = Mathf.Infinity;
@@ -187,7 +189,16 @@ namespace Frankie.Combat.UI
         {
             StatusEffectBobble statusEffectBobble = Instantiate(statusEffectBobblePrefab, statusEffectPanel);
             statusEffectBobble.Setup(persistentStatus);
+            statusEffectBobbles.Add(statusEffectBobble);
             if (!skipCap) { CapVisibleStatusEffects(); }
+        }
+
+        protected void ClearStatusEffectBobbles()
+        {
+            foreach (StatusEffectBobble statusEffectBobble in statusEffectBobbles.Where(statusEffectBobble => statusEffectBobble != null))
+            {
+                statusEffectBobble.ForceClearBobble();
+            }
         }
 
         private void CapVisibleStatusEffects()

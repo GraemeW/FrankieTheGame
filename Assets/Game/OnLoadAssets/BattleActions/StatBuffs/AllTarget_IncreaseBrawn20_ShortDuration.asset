@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3e8ff82454b5c704385bdc320a0c9aaf, type: 3}
+  m_Name: AllTarget_IncreaseBrawn20_ShortDuration
+  m_EditorClassIdentifier: Assembly-CSharp::Frankie.Combat.BattleAction
+  targetingStrategy: {fileID: 11400000, guid: a07f3fb86e0144b20aba398b948ac3e4, type: 2}
+  effectStrategies:
+  - {fileID: 11400000, guid: 363efae5ebe71fe4c8daaa7ef1fc91a3, type: 2}
+  - {fileID: 11400000, guid: 07e12d5442b3f43efa5801f0c7518ba3, type: 2}
+  damageType: 0
+  cooldown: 4
+  apCost: 5
