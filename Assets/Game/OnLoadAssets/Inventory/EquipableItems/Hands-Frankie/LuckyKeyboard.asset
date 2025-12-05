@@ -1,0 +1,32 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e5a52bc8039beea4f88b438257c47f35, type: 3}
+  m_Name: LuckyKeyboard
+  m_EditorClassIdentifier: Assembly-CSharp::Frankie.Inventory.EquipableItem
+  itemID: 99d3c7aa-275a-421e-9c8c-42328d773b45
+  displayName: Lucky Keyboard
+  description: It has a neat shamrock decal on it!  Only usable by Frankie.
+  droppable: 1
+  price: 200
+  equipLocation: 1
+  baseStatModifiers:
+  - stat: 4
+    minValue: 10
+    maxValue: 10
+  - stat: 8
+    minValue: 5
+    maxValue: 5
+  condition:
+    and:
+    - or:
+      - predicate: {fileID: 11400000, guid: 15db1ab05612f6a4e81f88eebfaa735a, type: 2}
+        negate: 0
