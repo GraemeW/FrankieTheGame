@@ -29,11 +29,11 @@ namespace Frankie.Combat
         public event Action persistentStatusTimedOut;
 
         #region StaticMethods
-        public static bool DoesEffectExist(BattleEntity recipient, string effectGUID, int threshold, float resetDurationOnDupe = 0f)
+        public static bool DoesEffectExist(CombatParticipant recipient, string effectGUID, int threshold, float resetDurationOnDupe = 0f)
         {
             int duplicateEffectCount = 0;
             PersistentStatus minimumDurationStatusEffect = null;
-            foreach (PersistentStatus existingStatusEffect in recipient.combatParticipant.GetComponents<PersistentStatus>().Where(x => x.GetEffectGUID() == effectGUID).OrderBy(x => x.GetDuration()))
+            foreach (PersistentStatus existingStatusEffect in recipient.GetComponents<PersistentStatus>().Where(x => x.GetEffectGUID() == effectGUID).OrderBy(x => x.GetDuration()))
             {
                 duplicateEffectCount++;
                 

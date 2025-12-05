@@ -15,4 +15,4 @@ MonoBehaviour:
   stat: 4
   battleAction: {fileID: 11400000, guid: 6246e392b9caa476d9652367ec532dcb, type: 2}
   detail: Your foe fixates.  Stops action until damage taken.  May not always be
-    successful.
+    successful, dependent on Luck.

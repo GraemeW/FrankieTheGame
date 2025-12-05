@@ -54,6 +54,12 @@ namespace Frankie.Stats
                 _ => 0f,
             };
         }
+
+        public static float GetContestedStatProbability(float attackerModifier, float defenderModifier)
+        {
+            float deltaModifier = attackerModifier - defenderModifier;
+            return 0.5f + Mathf.Atan(deltaModifier / 10) / Mathf.PI;
+        }
         #endregion
 
         #region Calculations

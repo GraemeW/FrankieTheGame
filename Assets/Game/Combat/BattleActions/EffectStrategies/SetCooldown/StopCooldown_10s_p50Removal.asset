@@ -12,8 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 37574ea6e8574d79b47ed7823694aa67, type: 3}
   m_Name: StopCooldown_10s_p50Removal
   m_EditorClassIdentifier: Assembly-CSharp::Frankie.Combat.CooldownStopEffect
-  effectGUID: 
-  probabilityToRemoveWithDamage: 0.5
+  effectGUID: 6c10f539-eeaa-48de-8afc-67ed420db8d9
   fractionProbabilityToApply: 0.5
+  useStatContestProbabilityToApply: 1
+  statForContest: 8
   duration: 10
-  persistAfterCombat: 0
+  probabilityToRemoveWithDamage: 0.5
