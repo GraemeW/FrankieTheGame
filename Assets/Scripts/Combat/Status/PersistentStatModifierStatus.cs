@@ -11,7 +11,7 @@ namespace Frankie.Combat
 
         public void Setup(string setEffectGUID, float duration, Stat setStatAffected, float setValue, bool persistAfterBattle = false)
         {
-            if (Mathf.Approximately(setValue, 0f)) { Destroy(this); }
+            if (Mathf.Approximately(setValue, 0f)) { CancelEffect(); }
 
             base.Setup(setEffectGUID, duration, persistAfterBattle);
 

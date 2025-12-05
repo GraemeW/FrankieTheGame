@@ -23,7 +23,7 @@ namespace Frankie.Combat
         
         public void Setup(string setEffectGUID, float duration, float setTickPeriod, Action setRecurringEffect, Stat setStatAffected, bool setIsIncreasing, bool persistAfterBattle = false)
         {
-            if (setRecurringEffect == null) { Destroy(this); }
+            if (setRecurringEffect == null) { CancelEffect(); }
 
             base.Setup(setEffectGUID, duration, persistAfterBattle);
             tickPeriod = setTickPeriod;
