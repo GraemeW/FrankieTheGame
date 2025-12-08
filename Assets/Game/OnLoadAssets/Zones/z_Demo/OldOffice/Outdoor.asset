@@ -29,6 +29,8 @@ MonoBehaviour:
     y: 0
     width: 430
     height: 45
+  condition:
+    and: []
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -45,7 +47,7 @@ MonoBehaviour:
   nodeWidth: 430
   nodeHeight: 150
   sceneReference:
-    sceneAsset: {fileID: 102900000, guid: 4e912d0547bdb154085bad11b0f013de, type: 3}
+    sceneAsset: {fileID: 102900000, guid: 2cda990e2423bbf4892e6590ba056729, type: 3}
     sceneName: Outdoor
   updateMap: 1
   zoneAudio: {fileID: 8300000, guid: 3dc90c61b4c6f654e8835404e763733e, type: 3}
@@ -67,7 +69,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   children: []
   linkedZone: {fileID: 11400000, guid: 22c8250c01773ac4c97cd290e2f34c7a, type: 2}
-  linkedZoneNode: {fileID: -4737156880441445969, guid: 22c8250c01773ac4c97cd290e2f34c7a, type: 2}
+  linkedZoneNode: {fileID: 0}
   rect:
     serializedVersion: 2
     x: 525
@@ -81,3 +83,5 @@ MonoBehaviour:
     y: 0
     width: 430
     height: 45
+  condition:
+    and: []

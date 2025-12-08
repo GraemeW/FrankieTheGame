@@ -29,6 +29,8 @@ MonoBehaviour:
     y: 0
     width: 430
     height: 45
+  condition:
+    and: []
 --- !u!114 &-6517432798666758438
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -57,6 +59,8 @@ MonoBehaviour:
     y: 0
     width: 430
     height: 45
+  condition:
+    and: []
 --- !u!114 &-4912669020652922926
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -86,6 +90,8 @@ MonoBehaviour:
     y: 0
     width: 430
     height: 45
+  condition:
+    and: []
 --- !u!114 &-3127826260620926069
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -114,6 +120,8 @@ MonoBehaviour:
     y: 0
     width: 430
     height: 45
+  condition:
+    and: []
 --- !u!114 &-3097071385259953954
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -142,6 +150,8 @@ MonoBehaviour:
     y: 0
     width: 430
     height: 45
+  condition:
+    and: []
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -158,7 +168,7 @@ MonoBehaviour:
   nodeWidth: 430
   nodeHeight: 150
   sceneReference:
-    sceneAsset: {fileID: 102900000, guid: 2711c36e71bc89a4083f2a005e848602, type: 3}
+    sceneAsset: {fileID: 102900000, guid: 2cda990e2423bbf4892e6590ba056729, type: 3}
     sceneName: OfficeBuildingOutside
   updateMap: 1
   zoneAudio: {fileID: 8300000, guid: 840503d4a3e71484a94da9a50830ba88, type: 3}
@@ -199,3 +209,5 @@ MonoBehaviour:
     y: 0
     width: 430
     height: 45
+  condition:
+    and: []
