@@ -9662,6 +9662,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 7851693060512553958, guid: ca76e9bd1168a0a45b163bd3c60f51ea, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1999920198}
+    - targetCorrespondingSourceObject: {fileID: 7851693060512553958, guid: ca76e9bd1168a0a45b163bd3c60f51ea, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1999920213}
     - targetCorrespondingSourceObject: {fileID: 8291801921359537574, guid: ca76e9bd1168a0a45b163bd3c60f51ea, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1999920197}
@@ -9700,6 +9703,19 @@ MonoBehaviour:
     onTriggerEvent:
       m_PersistentCalls:
         m_Calls:
+        - m_Target: {fileID: 1999920213}
+          m_TargetAssemblyTypeName: Frankie.Control.Specialization.WorldFaderInterface,
+            Assembly-CSharp
+          m_MethodName: BlipFade
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
         - m_Target: {fileID: 1999920198}
           m_TargetAssemblyTypeName: Frankie.Control.Specialization.WorldPointAdjuster,
             Assembly-CSharp
@@ -9740,6 +9756,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Frankie.Control.Specialization.WorldPointAdjuster
   hpToAdjust: 0
   apToAdjust: 0
+--- !u!114 &1999920213
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1999920196}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 08aab4e35b2e463f96bf65acd3c74208, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Frankie.Control.Specialization.WorldFaderInterface
 --- !u!1001 &2007773776
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -9878,6 +9906,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -523566412701523979, guid: dc5a145739044fc4996c8bda39fb6981, type: 3}
       propertyPath: disableOnAwake
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -523566412701523979, guid: dc5a145739044fc4996c8bda39fb6981, type: 3}
+      propertyPath: disableOnStart
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 148458644925075774, guid: dc5a145739044fc4996c8bda39fb6981, type: 3}
