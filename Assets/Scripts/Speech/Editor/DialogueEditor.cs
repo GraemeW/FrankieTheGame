@@ -324,15 +324,15 @@ namespace Frankie.Speech.UIEditor
             }
         }
 
-        private DialogueNode GetNodeAtPoint(Vector2 point, out bool setDraggable)
+        private DialogueNode GetNodeAtPoint(Vector2 point, out bool getDraggable)
         {
             DialogueNode foundNode = null;
-            setDraggable = false;
+            getDraggable = false;
             foreach (DialogueNode dialogueNode in selectedDialogue.GetAllNodes())
             {
                 if (dialogueNode.GetRect().Contains(point)) { foundNode = dialogueNode; }
                 var draggingRect = new Rect(dialogueNode.GetRect().position, dialogueNode.GetDraggingRect().size);
-                if (draggingRect.Contains(point)) { setDraggable = true; }
+                if (draggingRect.Contains(point)) { getDraggable = true; }
             }
             return foundNode;
         }
