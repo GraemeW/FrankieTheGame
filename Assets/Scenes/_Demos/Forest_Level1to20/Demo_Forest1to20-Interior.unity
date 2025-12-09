@@ -9607,6 +9607,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1034279220}
     m_Modifications:
+    - target: {fileID: 3429280736951894212, guid: ca76e9bd1168a0a45b163bd3c60f51ea, type: 3}
+      propertyPath: dialogue
+      value: 
+      objectReference: {fileID: 11400000, guid: 92460ba292c8b423cad161735d477972, type: 2}
     - target: {fileID: 7851693060512553957, guid: ca76e9bd1168a0a45b163bd3c60f51ea, type: 3}
       propertyPath: m_LocalPosition.x
       value: -0.93
@@ -9654,13 +9658,88 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 7851693060512553958, guid: ca76e9bd1168a0a45b163bd3c60f51ea, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1999920198}
+    - targetCorrespondingSourceObject: {fileID: 8291801921359537574, guid: ca76e9bd1168a0a45b163bd3c60f51ea, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1999920197}
   m_SourcePrefab: {fileID: 100100000, guid: ca76e9bd1168a0a45b163bd3c60f51ea, type: 3}
 --- !u!4 &1999920194 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7851693060512553957, guid: ca76e9bd1168a0a45b163bd3c60f51ea, type: 3}
   m_PrefabInstance: {fileID: 1999920193}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1999920195 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8291801921359537574, guid: ca76e9bd1168a0a45b163bd3c60f51ea, type: 3}
+  m_PrefabInstance: {fileID: 1999920193}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &1999920196 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7851693060512553958, guid: ca76e9bd1168a0a45b163bd3c60f51ea, type: 3}
+  m_PrefabInstance: {fileID: 1999920193}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1999920197
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1999920195}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 47c843d51c92e854f95fb02bd7be9471, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Frankie.Speech.DialogueTrigger
+  dialogueUpdateType: 2
+  triggerNode: {fileID: 6002176925204551956, guid: 92460ba292c8b423cad161735d477972, type: 2}
+  dialogueTriggeredEvent:
+    triggerImmediate: 0
+    onTriggerEvent:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 1999920198}
+          m_TargetAssemblyTypeName: Frankie.Control.Specialization.WorldPointAdjuster,
+            Assembly-CSharp
+          m_MethodName: ReviveAndHealParty
+          m_Mode: 0
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+        - m_Target: {fileID: 1999920198}
+          m_TargetAssemblyTypeName: Frankie.Control.Specialization.WorldPointAdjuster,
+            Assembly-CSharp
+          m_MethodName: RestorePartyAP
+          m_Mode: 0
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+--- !u!114 &1999920198
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1999920196}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7a8ffb219a78b5d42bca9c71bad9ffb7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Frankie.Control.Specialization.WorldPointAdjuster
+  hpToAdjust: 0
+  apToAdjust: 0
 --- !u!1001 &2007773776
 PrefabInstance:
   m_ObjectHideFlags: 0
