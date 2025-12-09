@@ -183,12 +183,12 @@ namespace Frankie.Speech.UI
 
         private void SetText()
         {
-            if (dialogueController.GetCurrentSpeakerType() == SpeakerType.playerSpeaker || dialogueController.GetCurrentSpeakerType() == SpeakerType.aiSpeaker)
+            if (dialogueController.GetCurrentSpeakerType() == SpeakerType.PlayerSpeaker || dialogueController.GetCurrentSpeakerType() == SpeakerType.AISpeaker)
             {
                 AddText(dialogueController.GetCurrentSpeakerName() + ":");
                 AddSpeech(dialogueController.GetText());
             }
-            else if (dialogueController.GetCurrentSpeakerType() == SpeakerType.narratorDirection)
+            else if (dialogueController.GetCurrentSpeakerType() == SpeakerType.NarratorDirection)
             {
                 AddSpeech(dialogueController.GetText());
             }
