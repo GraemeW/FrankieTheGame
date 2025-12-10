@@ -437,6 +437,42 @@ Grid:
   m_CellGap: {x: 0, y: 0, z: 0}
   m_CellLayout: 0
   m_CellSwizzle: 0
+--- !u!1 &875752246 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8603822987502753999, guid: 9946002348b53f64d8ad1d52b7fd88c3, type: 3}
+  m_PrefabInstance: {fileID: 1790850192}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &875752250
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 875752246}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 47c843d51c92e854f95fb02bd7be9471, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Frankie.Speech.DialogueTrigger
+  dialogueUpdateType: 2
+  triggerNode: {fileID: -2885419293552728019, guid: 0ca958db9d5924815b5e1700f9506cb7, type: 2}
+  dialogueTriggeredEvent:
+    triggerImmediate: 0
+    onTriggerEvent:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 1991835528}
+          m_TargetAssemblyTypeName: Frankie.Control.Specialization.WorldSaver, Assembly-CSharp
+          m_MethodName: Save
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
 --- !u!1001 &883636316
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -9309,7 +9345,7 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 3578435516547435565, guid: d843e4f9e1f06485f8d24ff353a6999c, type: 3}
   m_PrefabInstance: {fileID: 1195067792}
   m_PrefabAsset: {fileID: 0}
---- !u!1001 &1299304954
+--- !u!1001 &1233711526
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
@@ -9317,47 +9353,47 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1544096837}
     m_Modifications:
-    - target: {fileID: 3578435516547435564, guid: 37f2999a883744956b4e690935481d24, type: 3}
+    - target: {fileID: 3578435516547435564, guid: bbbfa4d70d3efec4a8e5a528c736a0a4, type: 3}
       propertyPath: m_Name
-      value: TableBig
+      value: TableCoffeewRunnerCandle
       objectReference: {fileID: 0}
-    - target: {fileID: 3578435516547435565, guid: 37f2999a883744956b4e690935481d24, type: 3}
+    - target: {fileID: 3578435516547435565, guid: bbbfa4d70d3efec4a8e5a528c736a0a4, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0.03
       objectReference: {fileID: 0}
-    - target: {fileID: 3578435516547435565, guid: 37f2999a883744956b4e690935481d24, type: 3}
+    - target: {fileID: 3578435516547435565, guid: bbbfa4d70d3efec4a8e5a528c736a0a4, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0.24
+      value: -0.19
       objectReference: {fileID: 0}
-    - target: {fileID: 3578435516547435565, guid: 37f2999a883744956b4e690935481d24, type: 3}
+    - target: {fileID: 3578435516547435565, guid: bbbfa4d70d3efec4a8e5a528c736a0a4, type: 3}
       propertyPath: m_LocalPosition.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 3578435516547435565, guid: 37f2999a883744956b4e690935481d24, type: 3}
+    - target: {fileID: 3578435516547435565, guid: bbbfa4d70d3efec4a8e5a528c736a0a4, type: 3}
       propertyPath: m_LocalRotation.w
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 3578435516547435565, guid: 37f2999a883744956b4e690935481d24, type: 3}
+    - target: {fileID: 3578435516547435565, guid: bbbfa4d70d3efec4a8e5a528c736a0a4, type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
-    - target: {fileID: 3578435516547435565, guid: 37f2999a883744956b4e690935481d24, type: 3}
+    - target: {fileID: 3578435516547435565, guid: bbbfa4d70d3efec4a8e5a528c736a0a4, type: 3}
       propertyPath: m_LocalRotation.y
       value: -0
       objectReference: {fileID: 0}
-    - target: {fileID: 3578435516547435565, guid: 37f2999a883744956b4e690935481d24, type: 3}
+    - target: {fileID: 3578435516547435565, guid: bbbfa4d70d3efec4a8e5a528c736a0a4, type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
       objectReference: {fileID: 0}
-    - target: {fileID: 3578435516547435565, guid: 37f2999a883744956b4e690935481d24, type: 3}
+    - target: {fileID: 3578435516547435565, guid: bbbfa4d70d3efec4a8e5a528c736a0a4, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 3578435516547435565, guid: 37f2999a883744956b4e690935481d24, type: 3}
+    - target: {fileID: 3578435516547435565, guid: bbbfa4d70d3efec4a8e5a528c736a0a4, type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 3578435516547435565, guid: 37f2999a883744956b4e690935481d24, type: 3}
+    - target: {fileID: 3578435516547435565, guid: bbbfa4d70d3efec4a8e5a528c736a0a4, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
@@ -9365,11 +9401,11 @@ PrefabInstance:
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: 37f2999a883744956b4e690935481d24, type: 3}
---- !u!4 &1299304955 stripped
+  m_SourcePrefab: {fileID: 100100000, guid: bbbfa4d70d3efec4a8e5a528c736a0a4, type: 3}
+--- !u!4 &1233711527 stripped
 Transform:
-  m_CorrespondingSourceObject: {fileID: 3578435516547435565, guid: 37f2999a883744956b4e690935481d24, type: 3}
-  m_PrefabInstance: {fileID: 1299304954}
+  m_CorrespondingSourceObject: {fileID: 3578435516547435565, guid: bbbfa4d70d3efec4a8e5a528c736a0a4, type: 3}
+  m_PrefabInstance: {fileID: 1233711526}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1332949841
 PrefabInstance:
@@ -9467,8 +9503,8 @@ Transform:
   - {fileID: 1332949842}
   - {fileID: 1738479269}
   - {fileID: 2016580551}
-  - {fileID: 1299304955}
   - {fileID: 1195067793}
+  - {fileID: 1233711527}
   m_Father: {fileID: 2020173083}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1738479268
@@ -9545,6 +9581,10 @@ PrefabInstance:
       propertyPath: uniqueIdentifier
       value: 38a3c826-fd6b-4852-92e3-510d2c65db04
       objectReference: {fileID: 0}
+    - target: {fileID: 3162598065540693421, guid: 9946002348b53f64d8ad1d52b7fd88c3, type: 3}
+      propertyPath: dialogue
+      value: 
+      objectReference: {fileID: 11400000, guid: 0ca958db9d5924815b5e1700f9506cb7, type: 2}
     - target: {fileID: 7530686785756096140, guid: 9946002348b53f64d8ad1d52b7fd88c3, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0.83
@@ -9592,13 +9632,36 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 7530686785756096143, guid: 9946002348b53f64d8ad1d52b7fd88c3, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1991835528}
+    - targetCorrespondingSourceObject: {fileID: 8603822987502753999, guid: 9946002348b53f64d8ad1d52b7fd88c3, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 875752250}
   m_SourcePrefab: {fileID: 100100000, guid: 9946002348b53f64d8ad1d52b7fd88c3, type: 3}
 --- !u!4 &1790850193 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7530686785756096140, guid: 9946002348b53f64d8ad1d52b7fd88c3, type: 3}
   m_PrefabInstance: {fileID: 1790850192}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1991835516 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7530686785756096143, guid: 9946002348b53f64d8ad1d52b7fd88c3, type: 3}
+  m_PrefabInstance: {fileID: 1790850192}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1991835528
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1991835516}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d92d50962782bba45b45ae165ed31395, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Frankie.Control.Specialization.WorldSaver
 --- !u!1001 &1999920193
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -9768,6 +9831,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 08aab4e35b2e463f96bf65acd3c74208, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Frankie.Control.Specialization.WorldFaderInterface
+  blipFadeHoldSeconds: 1
 --- !u!1001 &2007773776
 PrefabInstance:
   m_ObjectHideFlags: 0

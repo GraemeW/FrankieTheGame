@@ -187,6 +187,7 @@ MonoBehaviour:
   defaultLookDirection: {x: 0, y: -1}
   defaultTargetDistanceTolerance: 0.15
   resetPositionOnEnable: 0
+  targetMovementHistoryLength: 10
   speedMoveThreshold: 0.05
   playerMovementHistoryLength: 256
 --- !u!114 &9140000498525693418
@@ -270,7 +271,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2a7737ca10ad3c7459d9362e9a2e6078, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  initialCash: 3
+  initialCash: 12
   maxCash: 999999999
 --- !u!114 &759616250253560844
 MonoBehaviour:

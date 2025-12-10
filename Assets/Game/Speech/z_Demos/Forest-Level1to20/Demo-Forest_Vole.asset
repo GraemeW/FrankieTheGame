@@ -1,0 +1,355 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-5981676583016608299
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 09c07c7c6f4c666429a0bbc8d18232b2, type: 3}
+  m_Name: d4549e51-028a-4f16-9670-4618dcaacd92
+  m_EditorClassIdentifier: Assembly-CSharp::Frankie.Speech.DialogueNode
+  speakerType: 1
+  characterProperties: {fileID: 0}
+  speakerName: Helpful Vole
+  text: In this demo you will face enemies of varying difficulty in order to gauge
+    your combat prowess
+  children:
+  - 2466319b-2236-4fe6-9942-dbb55aac33b8
+  rect:
+    serializedVersion: 2
+    x: 530
+    y: 30
+    width: 400
+    height: 225
+  draggingRect:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 400
+    height: 45
+  condition:
+    and: []
+--- !u!114 &-3312445544948973640
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 09c07c7c6f4c666429a0bbc8d18232b2, type: 3}
+  m_Name: 444822ff-3ee0-464b-a189-bed72827e8c7
+  m_EditorClassIdentifier: Assembly-CSharp::Frankie.Speech.DialogueNode
+  speakerType: 0
+  characterProperties: {fileID: 11400000, guid: b50f84a2f36107a44825b11881f88adf, type: 2}
+  speakerName: Frankie
+  text: Yes
+  children:
+  - 9acdd827-4ced-40d3-ab82-f1b455018003
+  rect:
+    serializedVersion: 2
+    x: 3968
+    y: 498
+    width: 400
+    height: 225
+  draggingRect:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 400
+    height: 45
+  condition:
+    and: []
+--- !u!114 &-3222313367677151813
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 09c07c7c6f4c666429a0bbc8d18232b2, type: 3}
+  m_Name: 2466319b-2236-4fe6-9942-dbb55aac33b8
+  m_EditorClassIdentifier: Assembly-CSharp::Frankie.Speech.DialogueNode
+  speakerType: 0
+  characterProperties: {fileID: 11400000, guid: b50f84a2f36107a44825b11881f88adf, type: 2}
+  speakerName: Frankie
+  text: Uh huh.
+  children:
+  - 25d3c557-74cb-4745-9a28-53ebd928e216
+  rect:
+    serializedVersion: 2
+    x: 1030
+    y: 30
+    width: 400
+    height: 225
+  draggingRect:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 400
+    height: 45
+  condition:
+    and: []
+--- !u!114 &-2134914809157719029
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 09c07c7c6f4c666429a0bbc8d18232b2, type: 3}
+  m_Name: 25d3c557-74cb-4745-9a28-53ebd928e216
+  m_EditorClassIdentifier: Assembly-CSharp::Frankie.Speech.DialogueNode
+  speakerType: 1
+  characterProperties: {fileID: 0}
+  speakerName: Helpful Vole
+  text: Yes, well, be warned!  Combat does not pause in Frankie!  Once an enemy can
+    attack, they will!
+  children:
+  - 9acdd827-4ced-40d3-ab82-f1b455018003
+  rect:
+    serializedVersion: 2
+    x: 1530
+    y: 30
+    width: 400
+    height: 225
+  draggingRect:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 400
+    height: 45
+  condition:
+    and: []
+--- !u!114 &-720800226486432648
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 09c07c7c6f4c666429a0bbc8d18232b2, type: 3}
+  m_Name: a888c5a8-5231-4d10-8208-2662e48ec485
+  m_EditorClassIdentifier: Assembly-CSharp::Frankie.Speech.DialogueNode
+  speakerType: 0
+  characterProperties: {fileID: 11400000, guid: b50f84a2f36107a44825b11881f88adf, type: 2}
+  speakerName: Frankie
+  text: No
+  children: []
+  rect:
+    serializedVersion: 2
+    x: 4030
+    y: 30
+    width: 400
+    height: 225
+  draggingRect:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 400
+    height: 45
+  condition:
+    and: []
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aac27b8e802ced743b3f275e283ab9df, type: 3}
+  m_Name: Demo-Forest_Vole
+  m_EditorClassIdentifier: Assembly-CSharp::Frankie.Speech.Dialogue
+  skipRootNode: 0
+  newNodeOffset: {x: 100, y: 25}
+  nodeWidth: 400
+  nodeHeight: 225
+  activeNPCs: []
+  dialogueNodes:
+  - {fileID: 692184580612614459}
+  - {fileID: -5981676583016608299}
+  - {fileID: -3222313367677151813}
+  - {fileID: -2134914809157719029}
+  - {fileID: 4673236898123902263}
+  - {fileID: 8929295883557583079}
+  - {fileID: 3125327817022264670}
+  - {fileID: 1503121042407152791}
+  - {fileID: -720800226486432648}
+  - {fileID: -3312445544948973640}
+--- !u!114 &692184580612614459
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 09c07c7c6f4c666429a0bbc8d18232b2, type: 3}
+  m_Name: 10baca5d-0080-4ce5-8ec3-f2a945f3db68
+  m_EditorClassIdentifier: Assembly-CSharp::Frankie.Speech.DialogueNode
+  speakerType: 1
+  characterProperties: {fileID: 0}
+  speakerName: Helpful Vole
+  text: Hi there!  I'm not your enemy, merely a vole who wants to give you some advice!
+  children:
+  - d4549e51-028a-4f16-9670-4618dcaacd92
+  rect:
+    serializedVersion: 2
+    x: 30
+    y: 30
+    width: 400
+    height: 225
+  draggingRect:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 400
+    height: 45
+  condition:
+    and: []
+--- !u!114 &1503121042407152791
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 09c07c7c6f4c666429a0bbc8d18232b2, type: 3}
+  m_Name: 74310a29-934b-4fd5-8878-73478ee343dc
+  m_EditorClassIdentifier: Assembly-CSharp::Frankie.Speech.DialogueNode
+  speakerType: 1
+  characterProperties: {fileID: 0}
+  speakerName: Helpful Vole
+  text: OK!  That's it.  That's all, did you need me to repeat these instructions?
+  children:
+  - a888c5a8-5231-4d10-8208-2662e48ec485
+  - 444822ff-3ee0-464b-a189-bed72827e8c7
+  rect:
+    serializedVersion: 2
+    x: 3530
+    y: 30
+    width: 400
+    height: 225
+  draggingRect:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 400
+    height: 45
+  condition:
+    and: []
+--- !u!114 &3125327817022264670
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 09c07c7c6f4c666429a0bbc8d18232b2, type: 3}
+  m_Name: 51fc3d14-fda8-4081-a6e6-249259265309
+  m_EditorClassIdentifier: Assembly-CSharp::Frankie.Speech.DialogueNode
+  speakerType: 0
+  characterProperties: {fileID: 11400000, guid: b50f84a2f36107a44825b11881f88adf, type: 2}
+  speakerName: Frankie
+  text: Mmmm.
+  children:
+  - 74310a29-934b-4fd5-8878-73478ee343dc
+  rect:
+    serializedVersion: 2
+    x: 3030
+    y: 30
+    width: 400
+    height: 225
+  draggingRect:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 400
+    height: 45
+  condition:
+    and: []
+--- !u!114 &4673236898123902263
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 09c07c7c6f4c666429a0bbc8d18232b2, type: 3}
+  m_Name: 9acdd827-4ced-40d3-ab82-f1b455018003
+  m_EditorClassIdentifier: Assembly-CSharp::Frankie.Speech.DialogueNode
+  speakerType: 1
+  characterProperties: {fileID: 0}
+  speakerName: Helpful Vole
+  text: To defeat your enemy, quickly select a skill using the directional UP-DOWN-LEFT-RIGHT
+    or W-A-S-D keys, and lock it in using 'E'.  Then simply select your target and
+    press 'E' again!
+  children:
+  - 18d6e0c8-b8ab-4260-8b5e-3d80368f6b4b
+  rect:
+    serializedVersion: 2
+    x: 2030
+    y: 30
+    width: 400
+    height: 225
+  draggingRect:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 400
+    height: 45
+  condition:
+    and: []
+--- !u!114 &8929295883557583079
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 09c07c7c6f4c666429a0bbc8d18232b2, type: 3}
+  m_Name: 18d6e0c8-b8ab-4260-8b5e-3d80368f6b4b
+  m_EditorClassIdentifier: Assembly-CSharp::Frankie.Speech.DialogueNode
+  speakerType: 1
+  characterProperties: {fileID: 0}
+  speakerName: Helpful Vole
+  text: As you gain new skills, you'll need to traverse deeper into your skill tree
+    using the same directional keys.  Let's cross that bridge when we get there though!
+  children:
+  - 51fc3d14-fda8-4081-a6e6-249259265309
+  rect:
+    serializedVersion: 2
+    x: 2530
+    y: 30
+    width: 400
+    height: 225
+  draggingRect:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 400
+    height: 45
+  condition:
+    and: []
