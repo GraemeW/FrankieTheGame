@@ -1,5 +1,35 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-6172440473415268556
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3268536af8903a64da82aa6872733d1d, type: 3}
+  m_Name: LacklustreVideoToForest
+  m_EditorClassIdentifier: Assembly-CSharp::Frankie.ZoneManagement.ZoneNode
+  children: []
+  linkedZone: {fileID: 11400000, guid: 56bcb0733fa024bf5b983792663e12bb, type: 2}
+  linkedZoneNode: {fileID: -4464991975633921603, guid: 56bcb0733fa024bf5b983792663e12bb, type: 2}
+  rect:
+    serializedVersion: 2
+    x: 32
+    y: 185
+    width: 430
+    height: 150
+  zoneName: Demo_Forest-Interior
+  draggingRect:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 430
+    height: 45
+  condition:
+    and: []
 --- !u!114 &-5860749958356787099
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -19,6 +49,194 @@ MonoBehaviour:
     serializedVersion: 2
     x: 30
     y: 30
+    width: 430
+    height: 150
+  zoneName: Demo_Forest-Interior
+  draggingRect:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 430
+    height: 45
+  condition:
+    and: []
+--- !u!114 &-5667135772126724405
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3268536af8903a64da82aa6872733d1d, type: 3}
+  m_Name: LV_B1_SR2-to-B1_SR
+  m_EditorClassIdentifier: Assembly-CSharp::Frankie.ZoneManagement.ZoneNode
+  children:
+  - LV_B1_SR-to-B1_SR2
+  linkedZone: {fileID: 0}
+  linkedZoneNode: {fileID: 0}
+  rect:
+    serializedVersion: 2
+    x: 2099
+    y: 516
+    width: 430
+    height: 150
+  zoneName: Demo_Forest-Interior
+  draggingRect:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 430
+    height: 45
+  condition:
+    and: []
+--- !u!114 &-5225672621275573024
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3268536af8903a64da82aa6872733d1d, type: 3}
+  m_Name: LV_B2_SR-to-B1_SR2
+  m_EditorClassIdentifier: Assembly-CSharp::Frankie.ZoneManagement.ZoneNode
+  children:
+  - LV_B1_SR2-to-B2_SR
+  linkedZone: {fileID: 0}
+  linkedZoneNode: {fileID: 0}
+  rect:
+    serializedVersion: 2
+    x: 1107
+    y: 892
+    width: 430
+    height: 150
+  zoneName: Demo_Forest-Interior
+  draggingRect:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 430
+    height: 45
+  condition:
+    and: []
+--- !u!114 &-5121574466312975132
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3268536af8903a64da82aa6872733d1d, type: 3}
+  m_Name: LV_B1-to-B2
+  m_EditorClassIdentifier: Assembly-CSharp::Frankie.ZoneManagement.ZoneNode
+  children:
+  - LV_B2-to-B1
+  linkedZone: {fileID: 0}
+  linkedZoneNode: {fileID: 0}
+  rect:
+    serializedVersion: 2
+    x: 578
+    y: 721
+    width: 430
+    height: 150
+  zoneName: Demo_Forest-Interior
+  draggingRect:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 430
+    height: 45
+  condition:
+    and: []
+--- !u!114 &-4097553609716554396
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3268536af8903a64da82aa6872733d1d, type: 3}
+  m_Name: LV_B1_SR-to-B1_SR2
+  m_EditorClassIdentifier: Assembly-CSharp::Frankie.ZoneManagement.ZoneNode
+  children:
+  - 1
+  - 
+  - LV_B1_SR2-to-B1_SR
+  linkedZone: {fileID: 0}
+  linkedZoneNode: {fileID: 0}
+  rect:
+    serializedVersion: 2
+    x: 2096
+    y: 350
+    width: 430
+    height: 150
+  zoneName: Demo_Forest-Interior
+  draggingRect:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 430
+    height: 45
+  condition:
+    and: []
+--- !u!114 &-3801279702187064078
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3268536af8903a64da82aa6872733d1d, type: 3}
+  m_Name: LV_B1_SR2-to-B1
+  m_EditorClassIdentifier: Assembly-CSharp::Frankie.ZoneManagement.ZoneNode
+  children:
+  - LV_B1-to-B1_SR2
+  linkedZone: {fileID: 0}
+  linkedZoneNode: {fileID: 0}
+  rect:
+    serializedVersion: 2
+    x: 1622
+    y: 522
+    width: 430
+    height: 150
+  zoneName: Demo_Forest-Interior
+  draggingRect:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 430
+    height: 45
+  condition:
+    and: []
+--- !u!114 &-429837748659743874
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3268536af8903a64da82aa6872733d1d, type: 3}
+  m_Name: LV_B1-to-B1_SR
+  m_EditorClassIdentifier: Assembly-CSharp::Frankie.ZoneManagement.ZoneNode
+  children:
+  - LV_B1_SR-to-B1
+  linkedZone: {fileID: 0}
+  linkedZoneNode: {fileID: 0}
+  rect:
+    serializedVersion: 2
+    x: 1091
+    y: 358
     width: 430
     height: 150
   zoneName: Demo_Forest-Interior
@@ -53,3 +271,202 @@ MonoBehaviour:
   isZoneAudioLooping: 1
   zoneNodes:
   - {fileID: -5860749958356787099}
+  - {fileID: -6172440473415268556}
+  - {fileID: 8257193654121779058}
+  - {fileID: 1261836785778793094}
+  - {fileID: -429837748659743874}
+  - {fileID: 7312824269033743162}
+  - {fileID: 712081650492993435}
+  - {fileID: -3801279702187064078}
+  - {fileID: -4097553609716554396}
+  - {fileID: -5667135772126724405}
+  - {fileID: -5121574466312975132}
+  - {fileID: 8252342709599866951}
+  - {fileID: 7646277912595227165}
+  - {fileID: -5225672621275573024}
+--- !u!114 &712081650492993435
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3268536af8903a64da82aa6872733d1d, type: 3}
+  m_Name: LV_B1-to-B1_SR2
+  m_EditorClassIdentifier: Assembly-CSharp::Frankie.ZoneManagement.ZoneNode
+  children:
+  - LV_B1_SR2-to-B1
+  linkedZone: {fileID: 0}
+  linkedZoneNode: {fileID: 0}
+  rect:
+    serializedVersion: 2
+    x: 1092
+    y: 522
+    width: 430
+    height: 150
+  zoneName: Demo_Forest-Interior
+  draggingRect:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 430
+    height: 45
+  condition:
+    and: []
+--- !u!114 &1261836785778793094
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3268536af8903a64da82aa6872733d1d, type: 3}
+  m_Name: LV_B1-to-1f
+  m_EditorClassIdentifier: Assembly-CSharp::Frankie.ZoneManagement.ZoneNode
+  children:
+  - LV_1f-to-B1
+  linkedZone: {fileID: 0}
+  linkedZoneNode: {fileID: 0}
+  rect:
+    serializedVersion: 2
+    x: 1092
+    y: 185
+    width: 430
+    height: 150
+  zoneName: Demo_Forest-Interior
+  draggingRect:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 430
+    height: 45
+  condition:
+    and: []
+--- !u!114 &7312824269033743162
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3268536af8903a64da82aa6872733d1d, type: 3}
+  m_Name: LV_B1_SR-to-B1
+  m_EditorClassIdentifier: Assembly-CSharp::Frankie.ZoneManagement.ZoneNode
+  children:
+  - LV_B1-to-B1_SR
+  linkedZone: {fileID: 0}
+  linkedZoneNode: {fileID: 0}
+  rect:
+    serializedVersion: 2
+    x: 1621
+    y: 358
+    width: 430
+    height: 150
+  zoneName: Demo_Forest-Interior
+  draggingRect:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 430
+    height: 45
+  condition:
+    and: []
+--- !u!114 &7646277912595227165
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3268536af8903a64da82aa6872733d1d, type: 3}
+  m_Name: LV_B1_SR2-to-B2_SR
+  m_EditorClassIdentifier: Assembly-CSharp::Frankie.ZoneManagement.ZoneNode
+  children:
+  - LV_B2_SR-to-B1_SR2
+  linkedZone: {fileID: 0}
+  linkedZoneNode: {fileID: 0}
+  rect:
+    serializedVersion: 2
+    x: 577
+    y: 892
+    width: 430
+    height: 150
+  zoneName: Demo_Forest-Interior
+  draggingRect:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 430
+    height: 45
+  condition:
+    and: []
+--- !u!114 &8252342709599866951
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3268536af8903a64da82aa6872733d1d, type: 3}
+  m_Name: LV_B2-to-B1
+  m_EditorClassIdentifier: Assembly-CSharp::Frankie.ZoneManagement.ZoneNode
+  children:
+  - LV_B1-to-B2
+  linkedZone: {fileID: 0}
+  linkedZoneNode: {fileID: 0}
+  rect:
+    serializedVersion: 2
+    x: 1095
+    y: 721
+    width: 430
+    height: 150
+  zoneName: Demo_Forest-Interior
+  draggingRect:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 430
+    height: 45
+  condition:
+    and: []
+--- !u!114 &8257193654121779058
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3268536af8903a64da82aa6872733d1d, type: 3}
+  m_Name: LV_1f-to-B1
+  m_EditorClassIdentifier: Assembly-CSharp::Frankie.ZoneManagement.ZoneNode
+  children:
+  - LV_B1-to-1f
+  linkedZone: {fileID: 0}
+  linkedZoneNode: {fileID: 0}
+  rect:
+    serializedVersion: 2
+    x: 562
+    y: 185
+    width: 430
+    height: 150
+  zoneName: Demo_Forest-Interior
+  draggingRect:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 430
+    height: 45
+  condition:
+    and: []
