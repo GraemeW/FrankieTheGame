@@ -1,9 +1,11 @@
 using System;
 using System.Collections.Generic;
+using Newtonsoft.Json.Linq;
 using UnityEngine;
 using UnityEditor;
+#if UNITY_EDITOR
 using UnityEditor.SceneManagement;
-using Newtonsoft.Json.Linq;
+#endif
 
 namespace Frankie.Saving
 {
