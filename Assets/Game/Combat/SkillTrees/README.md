@@ -75,7 +75,7 @@ The below guidance should be followed in order to make it simpler for new player
 The following paradigm should be followed for root nodes:
 * **Up**:  Primary Stat - Brawn
   * Map to a physical damage skill
-    * for playable characters, this should be [Wallop](../../OnLoadAssets/Skills/DamagePhysical/Wallop.asset)
+    * for playable characters, this should be [Wallop](../../OnLoadAssets/Skills/General/Wallop.asset)
 * **Right**:  Primary Stat - Smarts
   * Map to friendly buff or heal skill
 * **Left**:  Primary Stat - Luck
