@@ -103,8 +103,8 @@ Character objects are broken down into:
   * For recurring characters (ongoing presence in the game):  Set to some constant value, such as the character name
     * *this is critical to ensure character progress is maintained across the game with save progress*
   * For non-recurring & multi-copy characters:  Keep blank/empty
-    * *this is critical to ensure unique identifiers are generated on spawn*
-    * *this is especially pertinent if multiple copies of the entity may be spawned simultaneously*
+    * *this is critical to ensure unique identifiers are generated on placement in the scene or spawn*
+    * *this is especially pertinent if multiple copies of the entity may be present simultaneously*
 
 <img src="../../../InfoTools/Documentation/Game/CharacterObjects/SaveableEntityUniqueIdentifier.png" width="400">
 
