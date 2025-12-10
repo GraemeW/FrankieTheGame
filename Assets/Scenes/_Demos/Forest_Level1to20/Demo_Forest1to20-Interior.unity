@@ -9777,8 +9777,8 @@ MonoBehaviour:
         - m_Target: {fileID: 1999920213}
           m_TargetAssemblyTypeName: Frankie.Control.Specialization.WorldFaderInterface,
             Assembly-CSharp
-          m_MethodName: BlipFade
-          m_Mode: 1
+          m_MethodName: StartBlipFade
+          m_Mode: 0
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
             m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -9978,6 +9978,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -523566412701523979, guid: dc5a145739044fc4996c8bda39fb6981, type: 3}
       propertyPath: disableOnAwake
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -523566412701523979, guid: dc5a145739044fc4996c8bda39fb6981, type: 3}
+      propertyPath: disableOnStart
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 148458644925075774, guid: dc5a145739044fc4996c8bda39fb6981, type: 3}

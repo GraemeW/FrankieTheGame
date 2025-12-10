@@ -64,9 +64,14 @@ namespace Frankie.ZoneManagement
         public bool IsFading() => fading;
         public void QueueInitiateBattleCallback(Action setInitiateBattleCallback) => initiateBattleCallback = setInitiateBattleCallback;
 
-        public void StartBlipFade(float holdSeconds)
+        public IEnumerator BlipFade(float holdSeconds)
         {
-            if (!fading) { StartCoroutine(BlipFade(holdSeconds)); }
+            if (fading) { yield break; }
+            
+            // Re-use Zone-based fading (black screen)
+            yield return QueueFadeEntry(TransitionType.Zone);
+            yield return new WaitForSeconds(holdSeconds);
+            yield return QueueFadeExit(TransitionType.Zone);
         }
         
         public void UpdateFadeState(TransitionType transitionType, Zone nextZone)
@@ -151,14 +156,6 @@ namespace Frankie.ZoneManagement
 
             yield return QueueFadeExit(transitionType);
             SavingWrapper.SaveSession();
-        }
-
-        private IEnumerator BlipFade(float holdSeconds)
-        {
-            // Re-use Zone-based fading (black screen)
-            yield return QueueFadeEntry(TransitionType.Zone);
-            yield return new WaitForSeconds(holdSeconds);
-            yield return QueueFadeExit(TransitionType.Zone);
         }
 
         private IEnumerator FadeImmediate()
