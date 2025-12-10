@@ -176,10 +176,6 @@ PrefabInstance:
       propertyPath: skillTree
       value: 
       objectReference: {fileID: 11400000, guid: 306c2063747694148b4054fa3fc708ef, type: 2}
-    - target: {fileID: 6714702957889595111, guid: e4be3ce2d5464c3498c884ae5d9223d4, type: 3}
-      propertyPath: uniqueIdentifier
-      value: c6d202f8-322e-4385-9f72-4aaa2f72736c
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

@@ -100,10 +100,11 @@ Character objects are broken down into:
 
 * Rename the prefab variant to the character, and create a folder for it in [PCs](./PCs/) - move the prefab variant to this new folder
 * Adjust the `Unique Identifier` parameter under the `Saveable Entity` for the variant, as below
-  * This can be done:
-    * automagically by deleting the content of this identifier, and a new GUID will be generated
-    * inputting any fixed string (e.g. character name) here
-  * It is **ABSOLUTELY CRITICAL** to ensure each character has their own unique ID, otherwise the save system will go bonkers
+  * For recurring characters (ongoing presence in the game):  Set to some constant value, such as the character name
+    * *this is critical to ensure character progress is maintained across the game with save progress*
+  * For non-recurring & multi-copy characters:  Keep blank/empty
+    * *this is critical to ensure unique identifiers are generated on spawn*
+    * *this is especially pertinent if multiple copies of the entity may be spawned simultaneously*
 
 <img src="../../../InfoTools/Documentation/Game/CharacterObjects/SaveableEntityUniqueIdentifier.png" width="400">
 

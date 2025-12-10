@@ -1,6 +1,8 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
+using UnityEditor.SceneManagement;
 using Newtonsoft.Json.Linq;
 
 namespace Frankie.Saving
@@ -10,12 +12,16 @@ namespace Frankie.Saving
     {
         // Tunables
         [SerializeField] private string uniqueIdentifier = "";
-        private static readonly Dictionary<string, SaveableEntity> _globalLookup = new();
+        private static readonly Dictionary<string, SaveableEntity> _globalLookupForEditorDebug = new();
         
         // Constants
         private const string _uniquePropertyRef = "uniqueIdentifier";
 
-        public string GetUniqueIdentifier() => uniqueIdentifier;
+        public string GetUniqueIdentifier()
+        {
+            if (string.IsNullOrWhiteSpace(uniqueIdentifier)) { uniqueIdentifier = Guid.NewGuid().ToString(); }
+            return uniqueIdentifier;
+        }
         
         public JToken CaptureState()
         {
@@ -47,46 +53,38 @@ namespace Frankie.Saving
                 }
             }
         }
-
-        private bool IsUnique(string candidate)
-        {
-            if (!_globalLookup.TryGetValue(candidate, out SaveableEntity value)) { return true; }
-            if (value == this) { return true; }
-            if (_globalLookup[candidate] == null || _globalLookup[candidate].GetUniqueIdentifier() != candidate)
-            {
-                _globalLookup.Remove(candidate);
-                return true;
-            }
-            return false;
-        }
         
 #if UNITY_EDITOR
         private void Update()
         {
-            if (Application.IsPlaying(gameObject)) return;
-            if (string.IsNullOrEmpty(gameObject.scene.path)) return;
+            if (Application.IsPlaying(gameObject)) { return; }
+            if (string.IsNullOrEmpty(gameObject.scene.path)) { return; }
+            if (StageUtility.GetStage(gameObject) != StageUtility.GetMainStage()) { return; }
 
             var serializedObject = new SerializedObject(this);
             SerializedProperty property = serializedObject.FindProperty(_uniquePropertyRef);
 
-            if (string.IsNullOrEmpty(property.stringValue) || !IsUnique(property.stringValue))
+            if (string.IsNullOrWhiteSpace(uniqueIdentifier) || !IsUnique(property.stringValue))
             {
-                property.stringValue = System.Guid.NewGuid().ToString();
+                if (!IsUnique(property.stringValue)) { Debug.Log($"Warning:  Duplicate GUID identified for {gameObject.name} @ {uniqueIdentifier} -> Generating a new GUID"); }
+                property.stringValue = Guid.NewGuid().ToString();
                 serializedObject.ApplyModifiedProperties();
             }
 
-            _globalLookup[property.stringValue] = this;
+            _globalLookupForEditorDebug[property.stringValue] = this;
         }
-#endif
-
-        private void OnValidate()
+        
+        private bool IsUnique(string candidate)
         {
-#if UNITY_EDITOR
-            if (string.IsNullOrWhiteSpace(uniqueIdentifier))
+            if (!_globalLookupForEditorDebug.TryGetValue(candidate, out SaveableEntity value)) { return true; }
+            if (value == this) { return true; }
+            if (_globalLookupForEditorDebug[candidate] == null || _globalLookupForEditorDebug[candidate].GetUniqueIdentifier() != candidate)
             {
-                uniqueIdentifier = System.Guid.NewGuid().ToString();
+                _globalLookupForEditorDebug.Remove(candidate);
+                return true;
             }
-#endif
+            return false;
         }
+#endif
     }
 }

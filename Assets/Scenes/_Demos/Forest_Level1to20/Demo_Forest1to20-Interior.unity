@@ -9583,7 +9583,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2977375360831487208, guid: 9946002348b53f64d8ad1d52b7fd88c3, type: 3}
       propertyPath: uniqueIdentifier
-      value: 38a3c826-fd6b-4852-92e3-510d2c65db04
+      value: 244ee3da-ded7-40b2-9b82-2490bf883777
       objectReference: {fileID: 0}
     - target: {fileID: 3162598065540693421, guid: 9946002348b53f64d8ad1d52b7fd88c3, type: 3}
       propertyPath: dialogue
@@ -9674,6 +9674,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1034279220}
     m_Modifications:
+    - target: {fileID: 3253091637712388481, guid: ca76e9bd1168a0a45b163bd3c60f51ea, type: 3}
+      propertyPath: uniqueIdentifier
+      value: 5d4ace51-a8b7-48ed-aeeb-48e360d0d60a
+      objectReference: {fileID: 0}
     - target: {fileID: 3429280736951894212, guid: ca76e9bd1168a0a45b163bd3c60f51ea, type: 3}
       propertyPath: dialogue
       value: 
