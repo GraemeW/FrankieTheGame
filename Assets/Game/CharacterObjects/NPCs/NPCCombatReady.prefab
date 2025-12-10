@@ -222,11 +222,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   friendly: 0
   combatSprite: {fileID: 0}
+  battleEntityType: 0
+  spriteScaleFineTune: 1
   combatAudio: {fileID: 0}
   movingBackgroundProperties:
     tileSpriteImage: {fileID: 0}
     shaderMaterial: {fileID: 0}
-  battleEntityType: 0
   preferredBattleRow: 0
   canRunFrom: 1
   usesAP: 0

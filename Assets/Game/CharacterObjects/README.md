@@ -99,6 +99,14 @@ Character objects are broken down into:
 <img src="../../../InfoTools/Documentation/Game/CharacterObjects/NewPrefabVariant.png" width="400">
 
 * Rename the prefab variant to the character, and create a folder for it in [PCs](./PCs/) - move the prefab variant to this new folder
+* Adjust the `Unique Identifier` parameter under the `Saveable Entity` for the variant, as below
+  * This can be done:
+    * automagically by deleting the content of this identifier, and a new GUID will be generated
+    * inputting any fixed string (e.g. character name) here
+  * It is **ABSOLUTELY CRITICAL** to ensure each character has their own unique ID, otherwise the save system will go bonkers
+
+<img src="../../../InfoTools/Documentation/Game/CharacterObjects/SaveableEntityUniqueIdentifier.png" width="400">
+
 * Adjust the default sprite image for this character (Character Sprite -> Sprite Renderer -> Sprite) - e.g. like below for [Lucy](./PCs/Lucy/Lucy.prefab)
   * *Note:  Sprite artwork should follow the style guide, per [StyleGuide](../../../InfoTools/StyleGuide/README.md#game-object--world-artwork-pixel-art)*
   * *Note:  Sprite import settings should be adjusted, per [Game/WorldObjects](../WorldObjects/README.md#sprite-import--setup)*

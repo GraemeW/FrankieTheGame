@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using Frankie.Sound;
 using Frankie.Rendering;
@@ -12,33 +11,40 @@ namespace Frankie.Menu.UI
     {
         // Tunables
         [Header("Hookups")]
-        [SerializeField] UIChoiceSlider masterVolumeSlider = null;
-        [SerializeField] UIChoiceSlider backgroundVolumeSlider = null;
-        [SerializeField] UIChoiceSlider soundEffectsVolumeSlider = null;
-        [SerializeField] SoundEffects soundUpdateConfirmEffect = null;
-        [SerializeField] UIChoiceToggle fullScreenWindowedToggle = null;
-        [SerializeField] Transform resolutionOptionsParent = null;
-        [SerializeField] UIChoice confirmOption = null;
-        [SerializeField] UIChoice cancelOption = null;
+        [SerializeField] private UIChoiceSlider masterVolumeSlider;
+        [SerializeField] private UIChoiceSlider backgroundVolumeSlider;
+        [SerializeField] private UIChoiceSlider soundEffectsVolumeSlider;
+        [SerializeField] private SoundEffects soundUpdateConfirmEffect;
+        [SerializeField] private UIChoiceToggle fullScreenWindowedToggle;
+        [SerializeField] private Transform resolutionOptionsParent;
+        [SerializeField] private UIChoice confirmOption;
+        [SerializeField] private UIChoice cancelOption;
 
         [Header("Sound Settings")]
-        [SerializeField] float defaultMasterVolume = 0.8f;
-        [SerializeField] float defaultBackgroundVolume = 0.5f;
-        [SerializeField] float defaultSoundEffectsVolume = 0.3f;
+        [SerializeField] private float defaultMasterVolume = 0.8f;
+        [SerializeField] private float defaultBackgroundVolume = 0.5f;
+        [SerializeField] private float defaultSoundEffectsVolume = 0.3f;
 
         [Header("Resolution Settings")]
-        [SerializeField] int windowedResolutionOptionCount = 3;
+        [SerializeField] private int windowedResolutionOptionCount = 3;
 
         // Cached References
-        BackgroundMusic backgroundMusic = null;
-        EscapeMenu escapeMenu = null;
+        private BackgroundMusic backgroundMusic;
+        private EscapeMenu escapeMenu;
 
         // State
-        float openingMasterVolume;
-        float openingBackgroundVolume;
-        float openingSoundEffectsVolume;
-        ResolutionSetting openingResolutionSetting;
+        private float openingMasterVolume;
+        private float openingBackgroundVolume;
+        private float openingSoundEffectsVolume;
+        private ResolutionSetting openingResolutionSetting;
 
+        #region StaticMethods
+        private static void WriteScreenResolutionToPlayerPrefs()
+        {
+            PlayerPrefsController.SetResolutionSettings(new ResolutionSetting(Screen.fullScreenMode, Screen.width, Screen.height));
+        }
+        #endregion
+        
         #region UnityMethods
         private void Start()
         {
@@ -67,9 +73,9 @@ namespace Frankie.Menu.UI
         #endregion
 
         #region PublicMethods
-        public void Setup(EscapeMenu escapeMenu)
+        public void Setup(EscapeMenu setEscapeMenu)
         {
-            this.escapeMenu = escapeMenu;
+            escapeMenu = setEscapeMenu;
             if (gameObject.activeSelf) { SubscribeToEscapeMenu(true); }
         }
 
@@ -112,22 +118,19 @@ namespace Frankie.Menu.UI
 
         private void InitializeSoundEffectsSliders(ref int choiceIndex)
         {
-            if (PlayerPrefsController.MasterVolumeKeyExists()) { masterVolumeSlider.SetSliderValue(PlayerPrefsController.GetMasterVolume()); }
-            else { masterVolumeSlider.SetSliderValue(defaultMasterVolume); }
+            masterVolumeSlider.SetSliderValue(PlayerPrefsController.MasterVolumeKeyExists() ? PlayerPrefsController.GetMasterVolume() : defaultMasterVolume);
             openingMasterVolume = masterVolumeSlider.GetSliderValue();
             masterVolumeSlider.AddOnValueChangeListener(delegate { ConfirmSoundVolumes(true); });
             masterVolumeSlider.SetChoiceOrder(choiceIndex);
             choiceIndex++;
 
-            if (PlayerPrefsController.BackgroundVolumeKeyExists()) { backgroundVolumeSlider.SetSliderValue(PlayerPrefsController.GetBackgroundVolume()); }
-            else { backgroundVolumeSlider.SetSliderValue(defaultBackgroundVolume); }
+            backgroundVolumeSlider.SetSliderValue(PlayerPrefsController.BackgroundVolumeKeyExists() ? PlayerPrefsController.GetBackgroundVolume() : defaultBackgroundVolume);
             openingBackgroundVolume = backgroundVolumeSlider.GetSliderValue();
             backgroundVolumeSlider.AddOnValueChangeListener(delegate { ConfirmSoundVolumes(false); });
             backgroundVolumeSlider.SetChoiceOrder(choiceIndex);
             choiceIndex++;
 
-            if (PlayerPrefsController.SoundEffectsVolumeKeyExists()) { soundEffectsVolumeSlider.SetSliderValue(PlayerPrefsController.GetSoundEffectsVolume()); }
-            else { soundEffectsVolumeSlider.SetSliderValue(defaultSoundEffectsVolume); }
+            soundEffectsVolumeSlider.SetSliderValue(PlayerPrefsController.SoundEffectsVolumeKeyExists() ? PlayerPrefsController.GetSoundEffectsVolume() : defaultSoundEffectsVolume);
             openingSoundEffectsVolume = soundEffectsVolumeSlider.GetSliderValue();
             soundEffectsVolumeSlider.AddOnValueChangeListener(delegate { ConfirmSoundVolumes(true); });
             soundEffectsVolumeSlider.SetChoiceOrder(choiceIndex);
@@ -139,7 +142,7 @@ namespace Frankie.Menu.UI
             openingResolutionSetting = new ResolutionSetting(Screen.fullScreenMode, Screen.width, Screen.height);
 
             fullScreenWindowedToggle.SetToggleValue(Screen.fullScreenMode == FullScreenMode.FullScreenWindow);
-            fullScreenWindowedToggle.AddOnValueChangeListener( delegate(bool fullScreenWindowed) { ConfirmResolutionFullScreenWindowed(fullScreenWindowed); });
+            fullScreenWindowedToggle.AddOnValueChangeListener( ConfirmResolutionFullScreenWindowed);
             fullScreenWindowedToggle.SetChoiceOrder(choiceIndex);
             choiceIndex++;
 
@@ -182,11 +185,9 @@ namespace Frankie.Menu.UI
             float calculatedVolume = masterVolumeSlider.GetSliderValue() * backgroundVolumeSlider.GetSliderValue();
             backgroundMusic?.SetVolume(calculatedVolume);
 
-            if (playSoundEffect && soundUpdateConfirmEffect != null)
-            {
-                WriteVolumeToPlayerPrefs();
-                soundUpdateConfirmEffect.PlayClip();
-            }
+            if (!playSoundEffect || soundUpdateConfirmEffect == null) return;
+            WriteVolumeToPlayerPrefs();
+            soundUpdateConfirmEffect.PlayClip();
         }
 
         private void ConfirmResolutionFullScreenWindowed(bool fullScreenWindowed)
@@ -227,11 +228,6 @@ namespace Frankie.Menu.UI
             PlayerPrefsController.SetMasterVolume(masterVolumeSlider.GetSliderValue());
             PlayerPrefsController.SetBackgroundVolume(backgroundVolumeSlider.GetSliderValue());
             PlayerPrefsController.SetSoundEffectsVolume(soundEffectsVolumeSlider.GetSliderValue());
-        }
-
-        private void WriteScreenResolutionToPlayerPrefs()
-        {
-            PlayerPrefsController.SetResolutionSettings(new ResolutionSetting(Screen.fullScreenMode, Screen.width, Screen.height));
         }
         #endregion
     }

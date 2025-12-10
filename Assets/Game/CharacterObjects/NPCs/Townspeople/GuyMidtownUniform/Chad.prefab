@@ -10,7 +10,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -7204200158466627555, guid: 1b473d8838e3d4d4c99f7ff6e30d07df, type: 3}
       propertyPath: uniqueIdentifier
-      value: 599accf1-e628-4e5a-bfc4-0ba8e480df51
+      value: 14b227b5-37ca-4f86-b231-cd6cdcdcb093
       objectReference: {fileID: 0}
     - target: {fileID: 6761616658462586549, guid: 1b473d8838e3d4d4c99f7ff6e30d07df, type: 3}
       propertyPath: m_Size.x

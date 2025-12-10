@@ -205,16 +205,16 @@ namespace Frankie.Control
             {
                 position = new SerializableVector2(transform.position)
             };
-            SaveState saveState = new SaveState(GetLoadPriority(), data);
+            var saveState = new SaveState(GetLoadPriority(), data);
             return saveState;
         }
 
         void ISaveable.RestoreState(SaveState saveState)
         {
-            var moverSaveData = saveState.GetState(typeof(MoverSaveData)) as MoverSaveData;
-            if (moverSaveData == null) { return; }
+            if (saveState.GetState(typeof(MoverSaveData)) is not MoverSaveData moverSaveData) { return; }
 
             if (rigidBody2D == null) { Awake(); } // Force initialization for objects set to disable
+            
             transform.position = moverSaveData.position.ToVector();
             SetLookDirection(Vector2.down);
         }
