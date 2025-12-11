@@ -309,7 +309,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c708eed4772dbc14e95f0fb9be8bb48e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  uniqueIdentifier: c0fbffef-3d61-4f39-9e5c-ffa5079614b8
+  uniqueIdentifier: player
 --- !u!50 &9140000498525693419
 Rigidbody2D:
   serializedVersion: 5
@@ -424,10 +424,6 @@ PrefabInstance:
     - target: {fileID: 2703242439715805379, guid: 852bb4720b42aaa4b846a5fbce95061c, type: 3}
       propertyPath: m_Name
       value: Frankie
-      objectReference: {fileID: 0}
-    - target: {fileID: 4325472466347558427, guid: 852bb4720b42aaa4b846a5fbce95061c, type: 3}
-      propertyPath: uniqueIdentifier
-      value: babdcd71-14fa-4929-9889-a8359ef4b2f3
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 7185783266149805328, guid: 852bb4720b42aaa4b846a5fbce95061c, type: 3}
