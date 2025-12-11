@@ -37,6 +37,7 @@ Transform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &8896237604876974602
 SpriteRenderer:
+  serializedVersion: 2
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -82,6 +83,7 @@ SpriteRenderer:
   m_SortingLayerID: 1098151181
   m_SortingLayer: 2
   m_SortingOrder: 0
+  m_MaskInteraction: 0
   m_Sprite: {fileID: -7812741952257379110, guid: b3a5139272e6148c5b4c32d7f0132a8b, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -91,7 +93,6 @@ SpriteRenderer:
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
-  m_MaskInteraction: 0
   m_SpriteSortPoint: 1
 --- !u!50 &8896237604876974601
 Rigidbody2D:
@@ -157,8 +158,8 @@ BoxCollider2D:
   m_Offset: {x: -0.0021545887, y: -0.007377088}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.49572653, y: 0.14814815}
-    oldSize: {x: 1.17, y: 0.81}
+    pivot: {x: 0.49579835, y: 0.14457831}
+    oldSize: {x: 1.19, y: 0.83}
     newSize: {x: 1.7, y: 3.39}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
@@ -174,10 +175,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 8896237604876974607}
     m_Modifications:
-    - target: {fileID: 1288609124729262166, guid: 3ea47d49370c98e4e8dda14fd66b947b, type: 3}
-      propertyPath: uniqueIdentifier
-      value: b05d1564-c622-4421-92a5-5bf307bf39f6
-      objectReference: {fileID: 0}
     - target: {fileID: 2308409281053914736, guid: 3ea47d49370c98e4e8dda14fd66b947b, type: 3}
       propertyPath: checkMessage
       value: Primton News - The latest beat, comin' to ya hunky snarky

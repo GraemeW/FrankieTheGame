@@ -34,6 +34,7 @@ Transform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &8368603242269334426
 SpriteRenderer:
+  serializedVersion: 2
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -79,6 +80,7 @@ SpriteRenderer:
   m_SortingLayerID: 1098151181
   m_SortingLayer: 2
   m_SortingOrder: 1
+  m_MaskInteraction: 0
   m_Sprite: {fileID: 1191426383, guid: a3035e2e25bd1ca40b54f99d34585203, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -88,7 +90,6 @@ SpriteRenderer:
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
-  m_MaskInteraction: 0
   m_SpriteSortPoint: 1
 --- !u!1 &6761616658462586551
 GameObject:
@@ -124,6 +125,7 @@ Transform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &6761616658462586549
 SpriteRenderer:
+  serializedVersion: 2
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -169,6 +171,7 @@ SpriteRenderer:
   m_SortingLayerID: 1098151181
   m_SortingLayer: 2
   m_SortingOrder: 0
+  m_MaskInteraction: 0
   m_Sprite: {fileID: 21300000, guid: 00c50237cb76e994e8fba46b983800b3, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -178,7 +181,6 @@ SpriteRenderer:
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
-  m_MaskInteraction: 0
   m_SpriteSortPoint: 1
 --- !u!1 &6761616658632847994
 GameObject:
@@ -286,6 +288,7 @@ MonoBehaviour:
   defaultLookDirection: {x: 0, y: -1}
   defaultTargetDistanceTolerance: 0.15
   resetPositionOnEnable: 1
+  targetMovementHistoryLength: 10
   interactionCenterPoint: {fileID: 851377592137554633}
   patrolPath: {fileID: 0}
   waypointDwellTime: 0
@@ -303,7 +306,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   willForceCombat: 0
-  willDestroySelfOnDeath: 0
   willDestroyIfInvisible: 0
   delayToDestroyAfterInvisible: 2
   messageCannotFight: '{0} is wounded and cannot fight.'
@@ -429,10 +431,6 @@ PrefabInstance:
     - target: {fileID: -5919143620273626253, guid: 7545192a7ed79ba4586d58fa6658f2ea, type: 3}
       propertyPath: checkInteraction.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
       value: UnityEngine.Object, UnityEngine
-      objectReference: {fileID: 0}
-    - target: {fileID: 360463939806289904, guid: 7545192a7ed79ba4586d58fa6658f2ea, type: 3}
-      propertyPath: uniqueIdentifier
-      value: 79d560dc-7cfb-4938-bfaf-b6980150ba67
       objectReference: {fileID: 0}
     - target: {fileID: 6564381309038757639, guid: 7545192a7ed79ba4586d58fa6658f2ea, type: 3}
       propertyPath: m_Size.x

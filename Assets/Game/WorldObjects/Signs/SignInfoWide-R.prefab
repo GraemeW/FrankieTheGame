@@ -37,6 +37,7 @@ Transform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &8896237604876974602
 SpriteRenderer:
+  serializedVersion: 2
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -82,6 +83,7 @@ SpriteRenderer:
   m_SortingLayerID: 1098151181
   m_SortingLayer: 2
   m_SortingOrder: 0
+  m_MaskInteraction: 0
   m_Sprite: {fileID: 21300000, guid: 73ab91fd486b9bc4b8584beea4adb5ec, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -91,7 +93,6 @@ SpriteRenderer:
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
-  m_MaskInteraction: 0
   m_SpriteSortPoint: 1
 --- !u!50 &8896237604876974601
 Rigidbody2D:
@@ -187,10 +188,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 8896237604876974607}
     m_Modifications:
-    - target: {fileID: 1288609124729262166, guid: 3ea47d49370c98e4e8dda14fd66b947b, type: 3}
-      propertyPath: uniqueIdentifier
-      value: 44177e28-5b15-45c3-8d6e-8eb1d38e6c03
-      objectReference: {fileID: 0}
     - target: {fileID: 2308409281053914736, guid: 3ea47d49370c98e4e8dda14fd66b947b, type: 3}
       propertyPath: checkMessage
       value: Primton News - The latest beat, comin' to ya hunky snarky
