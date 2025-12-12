@@ -100,7 +100,7 @@ namespace Frankie.Core
             return false;
         }
 
-        public static void NewGame(string saveName)
+        public static void NewGame(string saveName, Zone newGameZoneOverride = null)
         {
             Delete(_sessionFile); // Clear session before load - avoid conflict w/ save system
 
@@ -108,7 +108,7 @@ namespace Frankie.Core
             SceneLoader sceneLoader = SceneLoader.FindSceneLoader();
             if (sceneLoader == null) { return; }
 
-            sceneLoader.QueueNewGame();
+            sceneLoader.QueueNewGame(newGameZoneOverride);
         }
 
         public static void LoadGame(string saveName)

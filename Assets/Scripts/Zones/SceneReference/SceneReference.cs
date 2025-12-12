@@ -6,7 +6,7 @@ namespace Frankie.ZoneManagement
     public struct SceneReference
     {
         [SerializeField]
-        private Object sceneAsset;
+        private Object sceneAsset; // Unused
 
         [SerializeField]
         private string sceneName;
@@ -17,29 +17,22 @@ namespace Frankie.ZoneManagement
             this.sceneName = sceneName;
         }
 
-        public Object SceneAsset
-        {
-            get { return sceneAsset; }
-        }
-
         public string SceneName
         {
-            get { return sceneName; }
+            get => sceneName;
             set
             {
-                if (!string.Equals(sceneName, value))
-                {
-                    sceneAsset = null;
-                    sceneName = value;
-                }
+                if (string.Equals(sceneName, value)) return;
+                sceneAsset = null;
+                sceneName = value;
             }
         }
-
+        
+        public bool IsSet() => !string.IsNullOrWhiteSpace(sceneName);
+        
         public static implicit operator string(SceneReference? sceneReference)
         {
-            if (sceneReference == null) { return null; }
-            SceneReference functionalSceneReference = (SceneReference)sceneReference;
-            return functionalSceneReference.sceneName;
+            return sceneReference?.sceneName;
         }
 
         public static implicit operator SceneReference(string sceneName)

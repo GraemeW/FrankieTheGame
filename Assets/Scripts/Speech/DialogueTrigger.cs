@@ -7,16 +7,16 @@ namespace Frankie.Speech
     public class DialogueTrigger : MonoBehaviour
     {
         // Tunables
-        [SerializeField] DialogueUpdateType dialogueUpdateType = DialogueUpdateType.DialogueComplete;
-        [SerializeField] DialogueNode triggerNode;
-        [SerializeField][Tooltip("Trigger immediate for node-based entry/exit not requiring player state change")] DialogueTriggeredEvent dialogueTriggeredEvent;
+        [SerializeField] private DialogueUpdateType dialogueUpdateType = DialogueUpdateType.DialogueComplete;
+        [SerializeField] private DialogueNode triggerNode;
+        [SerializeField][Tooltip("Trigger immediate for node-based entry/exit not requiring player state change")] private DialogueTriggeredEvent dialogueTriggeredEvent;
 
         // State
-        bool queuedTrigger = false;
+        private bool queuedTrigger = false;
 
         // Cached References
-        DialogueController dialogueController = null;
-        PlayerStateMachine playerStateHandler = null;
+        private DialogueController dialogueController;
+        private PlayerStateMachine playerStateHandler;
 
         // Data Structures
         [System.Serializable]
@@ -31,54 +31,48 @@ namespace Frankie.Speech
         {
         }
 
-        public void Setup(DialogueController dialogueController, PlayerStateMachine playerStateHandler)
+        public void Setup(DialogueController setDialogueController, PlayerStateMachine setPlayerStateHandler)
         {
-            this.playerStateHandler = playerStateHandler;
-            this.dialogueController = dialogueController;
+            playerStateHandler = setPlayerStateHandler;
+            dialogueController = setDialogueController;
             queuedTrigger = false; // Reset state on new conversation (avoids triggering on unrelated nodes on subsequent conversations)
-            dialogueController.dialogueUpdated += Trigger;
+            setDialogueController.dialogueUpdated += Trigger;
         }
 
-        private void Trigger(DialogueUpdateType dialogueUpdateType, DialogueNode dialogueNode)
+        private void Trigger(DialogueUpdateType triggerDialogueUpdateType, DialogueNode dialogueNode)
         {
-            if (dialogueUpdateType == DialogueUpdateType.DialogueComplete)
+            if (triggerDialogueUpdateType == DialogueUpdateType.DialogueComplete)
             {
                 dialogueController.dialogueUpdated -= Trigger;
                 if (queuedTrigger) { dialogueTriggeredEvent.onTriggerEvent?.Invoke(playerStateHandler); }
             }
 
-            if (this.dialogueUpdateType != dialogueUpdateType) { return; }
-            if (HandleNodeEntryExit(dialogueUpdateType, dialogueNode)) { return; }
-            if (HandleDialogueState(dialogueUpdateType)) { return; }
+            if (dialogueUpdateType != triggerDialogueUpdateType) { return; }
+            if (HandleNodeEntryExit(triggerDialogueUpdateType, dialogueNode)) { return; }
+            if (HandleDialogueState(triggerDialogueUpdateType)) { return; }
         }
 
-        private bool HandleNodeEntryExit(DialogueUpdateType dialogueUpdateType, DialogueNode dialogueNode)
+        private bool HandleNodeEntryExit(DialogueUpdateType checkDialogueUpdateType, DialogueNode dialogueNode)
         {
-            if ((dialogueUpdateType == DialogueUpdateType.DialogueNodeEntry || dialogueUpdateType == DialogueUpdateType.DialogueNodeExit)
-                            && (triggerNode != null && triggerNode == dialogueNode))
-            {
-                if (dialogueTriggeredEvent.triggerImmediate)
-                {
-                    dialogueTriggeredEvent.onTriggerEvent?.Invoke(playerStateHandler);
-                }
-                else
-                {
-                    queuedTrigger = true;
-                }
-                return true;
-            }
-            return false;
-        }
-
-        private bool HandleDialogueState(DialogueUpdateType dialogueUpdateType)
-        {
-            if (dialogueUpdateType == DialogueUpdateType.DialogueInitiated || dialogueUpdateType == DialogueUpdateType.DialogueComplete)
+            if (checkDialogueUpdateType is not (DialogueUpdateType.DialogueNodeEntry or DialogueUpdateType.DialogueNodeExit) || (triggerNode == null || triggerNode != dialogueNode))  { return false; }
+            
+            if (dialogueTriggeredEvent.triggerImmediate)
             {
                 dialogueTriggeredEvent.onTriggerEvent?.Invoke(playerStateHandler);
-                return true;
             }
+            else
+            {
+                queuedTrigger = true;
+            }
+            return true;
+        }
 
-            return false;
+        private bool HandleDialogueState(DialogueUpdateType checkDialogueUpdateType)
+        {
+            if (checkDialogueUpdateType is not (DialogueUpdateType.DialogueInitiated or DialogueUpdateType.DialogueComplete)) { return false; }
+            
+            dialogueTriggeredEvent.onTriggerEvent?.Invoke(playerStateHandler);
+            return true;
         }
     }
 }

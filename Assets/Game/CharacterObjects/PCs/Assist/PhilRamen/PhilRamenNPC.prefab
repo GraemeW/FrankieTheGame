@@ -206,6 +206,10 @@ PrefabInstance:
       propertyPath: characterProperties
       value: 
       objectReference: {fileID: 11400000, guid: e97120b87e74eee4f9d9d8659f0bddf5, type: 2}
+    - target: {fileID: 3809891300135030454, guid: 53771d00282eaa34ba616b313732c1b7, type: 3}
+      propertyPath: uniqueIdentifier
+      value: philRamenNPC
+      objectReference: {fileID: 0}
     - target: {fileID: 5138105515040558541, guid: 53771d00282eaa34ba616b313732c1b7, type: 3}
       propertyPath: m_Size.x
       value: 0.31995755
@@ -255,11 +259,11 @@ PrefabInstance:
       value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 8799100898494828469, guid: 53771d00282eaa34ba616b313732c1b7, type: 3}
-      propertyPath: battleAIPriorities.Array.data[0]
+      propertyPath: 'battleAIPriorities.Array.data[0]'
       value: 
       objectReference: {fileID: 11400000, guid: 8acfa06eaaee8db41b8b90cd3b022a02, type: 2}
     - target: {fileID: 8799100898494828469, guid: 53771d00282eaa34ba616b313732c1b7, type: 3}
-      propertyPath: battleAIPriorities.Array.data[1]
+      propertyPath: 'battleAIPriorities.Array.data[1]'
       value: 
       objectReference: {fileID: 11400000, guid: c4c30505cfae31b498756f4fd531c227, type: 2}
     - target: {fileID: 8799100898494828469, guid: 53771d00282eaa34ba616b313732c1b7, type: 3}

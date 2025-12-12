@@ -800,6 +800,34 @@ PrefabInstance:
       propertyPath: m_text
       value: Quit
       objectReference: {fileID: 0}
+    - target: {fileID: 6216147557884265943, guid: d045dc0f2ce89184d90e80b824850b17, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6216147557884265943, guid: d045dc0f2ce89184d90e80b824850b17, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6216147557884265943, guid: d045dc0f2ce89184d90e80b824850b17, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6216147557884265943, guid: d045dc0f2ce89184d90e80b824850b17, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6216147557884265943, guid: d045dc0f2ce89184d90e80b824850b17, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6216147557884265943, guid: d045dc0f2ce89184d90e80b824850b17, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7541381697509518278, guid: d045dc0f2ce89184d90e80b824850b17, type: 3}
+      propertyPath: newGameZoneOverride
+      value: 
+      objectReference: {fileID: 11400000, guid: 56bcb0733fa024bf5b983792663e12bb, type: 2}
     - target: {fileID: 7541381697509518278, guid: d045dc0f2ce89184d90e80b824850b17, type: 3}
       propertyPath: preventEscapeOptionExit
       value: 1

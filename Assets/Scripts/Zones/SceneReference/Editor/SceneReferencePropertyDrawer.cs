@@ -8,12 +8,12 @@ namespace Frankie.ZoneManagement.UIEditor
     public class SceneReferencePropertyDrawer : PropertyDrawer
     {
         // Tunables
-        private float dotWidth = 18f;
-        private float toggleWidth = 30f;
+        private const float _dotWidth = 18f;
+        private const float _toggleWidth = 30f;
 
         // Constants
-        public const string PROPERTY_SCENEASSET = "sceneAsset";
-        public const string PROPERTY_SCENENAME = "sceneName";
+        private const string _propertySceneasset = "sceneAsset";
+        private const string _propertyScenename = "sceneName";
 
         public override float GetPropertyHeight(SerializedProperty property, GUIContent label)
         {
@@ -25,10 +25,10 @@ namespace Frankie.ZoneManagement.UIEditor
             EditorGUI.BeginProperty(position, label, property);
             Rect inputPosition = position;
             position = EditorGUI.PrefixLabel(position, label);
-            Rect propertyRect = new Rect(position.xMin, position.yMin, Mathf.Max(position.width - toggleWidth, 0f), EditorGUIUtility.singleLineHeight);
+            Rect propertyRect = new Rect(position.xMin, position.yMin, Mathf.Max(position.width - _toggleWidth, 0f), EditorGUIUtility.singleLineHeight);
 
-            SerializedProperty sceneAssetProperty = property.FindPropertyRelative(PROPERTY_SCENEASSET);
-            SerializedProperty sceneNameProperty = property.FindPropertyRelative(PROPERTY_SCENENAME);
+            SerializedProperty sceneAssetProperty = property.FindPropertyRelative(_propertySceneasset);
+            SerializedProperty sceneNameProperty = property.FindPropertyRelative(_propertyScenename);
 
             if (sceneAssetProperty.objectReferenceValue != null)
             {
@@ -36,14 +36,14 @@ namespace Frankie.ZoneManagement.UIEditor
                 sceneAssetProperty.objectReferenceValue = EditorGUI.ObjectField(propertyRect, GUIContent.none, sceneAssetProperty.objectReferenceValue, typeof(SceneAsset), false);
                 if (EditorGUI.EndChangeCheck())
                 {
-                    SceneAsset scene = sceneAssetProperty.objectReferenceValue as SceneAsset;
+                    var scene = sceneAssetProperty.objectReferenceValue as SceneAsset;
                     sceneNameProperty.stringValue = (scene != null) ? scene.name : string.Empty;
                 }
             }
             else
             {
-                Rect textRect = new Rect(propertyRect.xMin, propertyRect.yMin, Mathf.Max(propertyRect.width - dotWidth, 0f), propertyRect.height);
-                Rect dotRect = new Rect(textRect.xMax, propertyRect.yMin, Mathf.Min(propertyRect.width - textRect.width, dotWidth), propertyRect.height);
+                var textRect = new Rect(propertyRect.xMin, propertyRect.yMin, Mathf.Max(propertyRect.width - _dotWidth, 0f), propertyRect.height);
+                var dotRect = new Rect(textRect.xMax, propertyRect.yMin, Mathf.Min(propertyRect.width - textRect.width, _dotWidth), propertyRect.height);
 
                 EditorGUI.BeginChangeCheck();
                 sceneAssetProperty.objectReferenceValue = EditorGUI.ObjectField(dotRect, GUIContent.none, sceneAssetProperty.objectReferenceValue, typeof(SceneAsset), false);
@@ -54,7 +54,7 @@ namespace Frankie.ZoneManagement.UIEditor
                 {
                     if (inputPosition.Contains(interactionEvent.mousePosition))
                     {
-                        SceneAsset scene = DragAndDrop.objectReferences.FirstOrDefault((o) => o is SceneAsset) as SceneAsset;
+                        var scene = DragAndDrop.objectReferences.FirstOrDefault((o) => o is SceneAsset) as SceneAsset;
                         DragAndDrop.visualMode = scene != null ? DragAndDropVisualMode.Link : DragAndDropVisualMode.Rejected;
 
                         if (scene != null && interactionEvent.type == EventType.DragPerform)
@@ -66,7 +66,7 @@ namespace Frankie.ZoneManagement.UIEditor
                 }
             }
 
-            Rect removeButtonRect = new Rect(propertyRect.xMax, position.yMin, Mathf.Min(toggleWidth, position.width - propertyRect.width), EditorGUIUtility.singleLineHeight);
+            var removeButtonRect = new Rect(propertyRect.xMax, position.yMin, Mathf.Min(_toggleWidth, position.width - propertyRect.width), EditorGUIUtility.singleLineHeight);
             if (GUI.Button(removeButtonRect, "X"))
             {
                 sceneAssetProperty.objectReferenceValue = null;

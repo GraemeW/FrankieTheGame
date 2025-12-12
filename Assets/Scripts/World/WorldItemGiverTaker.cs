@@ -9,15 +9,16 @@ namespace Frankie.Control.Specialization
     public class WorldItemGiverTaker : MonoBehaviour, ISaveable
     {
         // Tunables
-        [SerializeField] InventoryItem inventoryItem = null;
-        [SerializeField] int itemQuantity = 1;
-        [SerializeField][Tooltip("{0} for character name, {1} for item")] string messageFoundItem = "Wow!  Looks like {0} found {1}.";
-        [SerializeField] string messageInventoryFull = "Whoops, looks like everyones' knapsacks are full.";
-        [SerializeField] bool announceNothing = true;
-        [SerializeField] string messageNothing = "Oh, looks like it's NOTHING.";
+        [SerializeField] private InventoryItem inventoryItem;
+        [SerializeField] private int itemQuantity = 1;
+        [SerializeField][Tooltip("{0} for character name, {1} for item")] private string messageFoundItem = "Wow!  Looks like {0} found {1}.";
+        [SerializeField] private string messageInventoryFull = "Whoops, looks like all the knapsacks are full.";
+        [SerializeField] private bool announceNothing = true;
+        [SerializeField] private string messageNothing = "Oh, looks like it's NOTHING.";
+        [SerializeField] private InteractionEvent itemFound;
 
         // State
-        LazyValue<int> currentItemQuantity;
+        private LazyValue<int> currentItemQuantity;
 
         private void Awake()
         {
@@ -29,27 +30,27 @@ namespace Frankie.Control.Specialization
             currentItemQuantity.ForceInit();
         }
 
-        public void GiveItem(PlayerStateMachine playerStateHandler) // Called via Unity events
+        public void GiveItem(PlayerStateMachine playerStateMachine) // Called via Unity events
         {
-            if (inventoryItem == null) { return; }
-            if (currentItemQuantity.value <= 0)
+            if (inventoryItem == null || currentItemQuantity.value <= 0)
             {
-                if (announceNothing) { playerStateHandler.EnterDialogue(messageNothing); }
+                if (announceNothing) { playerStateMachine.EnterDialogue(messageNothing); }
                 return; 
             }
 
-            PartyKnapsackConduit partyKnapsackConduit = playerStateHandler.GetComponent<PartyKnapsackConduit>();
+            PartyKnapsackConduit partyKnapsackConduit = playerStateMachine.GetComponent<PartyKnapsackConduit>();
             CombatParticipant receivingCharacter = partyKnapsackConduit.AddToFirstEmptyPartySlot(inventoryItem);
 
             if (receivingCharacter != null)
             {
                 currentItemQuantity.value--;
-                playerStateHandler.EnterDialogue(string.Format(messageFoundItem, receivingCharacter.GetCombatName(), inventoryItem.GetDisplayName()));
+                playerStateMachine.EnterDialogue(string.Format(messageFoundItem, receivingCharacter.GetCombatName(), inventoryItem.GetDisplayName()));
+                itemFound?.Invoke(playerStateMachine);
                 return;
             }
 
             // Failsafe --> full inventory
-            playerStateHandler.EnterDialogue(messageInventoryFull);
+            playerStateMachine.EnterDialogue(messageInventoryFull);
         }
 
         public void TakeItem(PlayerStateMachine playerStateHandler) // Called via Unity events
@@ -81,14 +82,14 @@ namespace Frankie.Control.Specialization
 
         public SaveState CaptureState()
         {
-            if (currentItemQuantity == null) { Awake(); }
-            SaveState saveState = new SaveState(LoadPriority.ObjectProperty, currentItemQuantity.value);
+            currentItemQuantity ??= new LazyValue<int>(GetMaxItemQuantity);
+            var saveState = new SaveState(LoadPriority.ObjectProperty, currentItemQuantity.value);
             return saveState;
         }
 
         public void RestoreState(SaveState state)
         {
-            if (currentItemQuantity == null) { Awake(); }
+            currentItemQuantity ??= new LazyValue<int>(GetMaxItemQuantity);
             currentItemQuantity.value = (int)state.GetState(typeof(int));
         }
     }

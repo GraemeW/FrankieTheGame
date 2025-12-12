@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Frankie.Inventory.ActionItem
   itemID: de6b51b1-993e-4816-b20d-4465a0317c29
   displayName: Unstoppable Force
-  description: Incredible
+  description: If only you could find an immovable object.
   droppable: 1
   price: 1
   consumable: 1

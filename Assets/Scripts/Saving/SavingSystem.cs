@@ -1,9 +1,9 @@
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -12,9 +12,9 @@ namespace Frankie.Saving
     public static class SavingSystem
     {
         // Constants
-        const string SAVE_FILE_EXTENSION = ".sav";
-        const string SAVE_LAST_SCENE_BUILD_INDEX = "lastSceneBuildIndex";
-        const bool encryptionEnabled = true;
+        const string _saveFileExtension = ".sav";
+        const string _saveLastSceneBuildIndex = "lastSceneBuildIndex";
+        const bool _encryptionEnabled = true;
 
         // Data Structures
         [System.Serializable]
@@ -32,8 +32,8 @@ namespace Frankie.Saving
 
         private static List<SaveableEntity> GetAllSaveableEntities()
         {
-            List<SaveableEntity> saveableEntities = GameObject.FindObjectsByType<SaveableEntity>(FindObjectsSortMode.None).ToList();
-            foreach (SaveableRoot saveableRoot in GameObject.FindObjectsByType<SaveableRoot>(FindObjectsSortMode.None)) // Captures inactive game objects
+            List<SaveableEntity> saveableEntities = Object.FindObjectsByType<SaveableEntity>(FindObjectsSortMode.None).ToList();
+            foreach (SaveableRoot saveableRoot in Object.FindObjectsByType<SaveableRoot>(FindObjectsSortMode.None)) // Captures inactive game objects
             {
                 List<SaveableEntity> rootSaveableEntities = saveableRoot.gameObject.GetComponentsInChildren<SaveableEntity>(true).ToList();
                 List<SaveableEntity> combinedSaveableEntities = saveableEntities.Union(rootSaveableEntities).ToList();
@@ -47,9 +47,9 @@ namespace Frankie.Saving
         {
             JObject state = LoadFile(saveFile);
             string sceneName = SceneManager.GetActiveScene().name;
-            if (state.ContainsKey(SAVE_LAST_SCENE_BUILD_INDEX))
+            if (state.ContainsKey(_saveLastSceneBuildIndex))
             {
-                string trySceneName = state[SAVE_LAST_SCENE_BUILD_INDEX].ToObject<string>();
+                string trySceneName = state[_saveLastSceneBuildIndex]?.ToObject<string>();
                 if (!string.IsNullOrWhiteSpace(trySceneName)) { sceneName = trySceneName; }
             }
 
@@ -96,7 +96,7 @@ namespace Frankie.Saving
             List<string> saveFiles = Directory.EnumerateFiles(Application.persistentDataPath).ToList();
             foreach (string path in saveFiles)
             {
-                if (Path.GetExtension(path) == SAVE_FILE_EXTENSION)
+                if (Path.GetExtension(path) == _saveFileExtension)
                 {
                     yield return Path.GetFileNameWithoutExtension(path);
                 }
@@ -145,7 +145,7 @@ namespace Frankie.Saving
         private static void SaveFile(string saveFile, JObject state)
         {
             string path = GetPathFromSaveFile(saveFile);
-            UnityEngine.Debug.Log($"Saving to {path}");
+            Debug.Log($"Saving to {path}");
 
             // Binary Formatter Method
             /*
@@ -162,11 +162,11 @@ namespace Frankie.Saving
             using (StreamWriter textWriter = File.CreateText(path))
             {
                 string payload = state.ToString();
-                if (encryptionEnabled)
+                if (_encryptionEnabled)
                 {
                     payload = SymmetricEncryptor.EncryptString(state.ToString());
                 }
-                JToken saveSuper = JToken.FromObject(new SaveSuper(encryptionEnabled, payload));
+                JToken saveSuper = JToken.FromObject(new SaveSuper(_encryptionEnabled, payload));
                 using (JsonTextWriter writer = new JsonTextWriter(textWriter))
                 {
                     writer.Formatting = Formatting.Indented;
@@ -184,7 +184,7 @@ namespace Frankie.Saving
                 state[saveable.GetUniqueIdentifier()] = saveable.CaptureState();
             }
 
-            state[SAVE_LAST_SCENE_BUILD_INDEX] = SceneManager.GetActiveScene().name;
+            state[_saveLastSceneBuildIndex] = SceneManager.GetActiveScene().name;
         }
 
         private static void RestoreState(JObject state)
@@ -194,9 +194,9 @@ namespace Frankie.Saving
             foreach (SaveableEntity saveable in saveableEntities)
             {
                 string id = saveable.GetUniqueIdentifier();
-                if (state.ContainsKey(id))
+                if (state.TryGetValue(id, out JToken value))
                 {
-                    saveable.RestoreState(state[id], LoadPriority.ObjectInstantiation);
+                    saveable.RestoreState(value, LoadPriority.ObjectInstantiation);
                 }
             }
 
@@ -205,9 +205,9 @@ namespace Frankie.Saving
             foreach (SaveableEntity saveable in saveableEntities)
             {
                 string id = saveable.GetUniqueIdentifier();
-                if (state.ContainsKey(id))
+                if (state.TryGetValue(id, out JToken value))
                 {
-                    saveable.RestoreState(state[id], LoadPriority.ObjectProperty);
+                    saveable.RestoreState(value, LoadPriority.ObjectProperty);
                 }
             }
         }

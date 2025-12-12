@@ -7,11 +7,16 @@ namespace Frankie.Quests
     public class QuestGiver : MonoBehaviour
     {
         // Tunables
-        [SerializeField][Tooltip("Optional for fixed quest")] Quest quest = null;
+        [SerializeField][Tooltip("Optional for fixed quest")] private Quest quest;
 
         // Cached References
-        ReInitLazyValue<QuestList> questList = null;
+        private ReInitLazyValue<QuestList> questList;
 
+        #region StaticMethods
+        private static QuestList SetupQuestList() => Player.FindPlayerObject()?.GetComponent<QuestList>();
+        #endregion
+        
+        #region UnityMethods
         private void Awake()
         {
             questList = new ReInitLazyValue<QuestList>(SetupQuestList);
@@ -21,19 +26,19 @@ namespace Frankie.Quests
         {
             questList.ForceInit();
         }
+        #endregion
 
-        private QuestList SetupQuestList() => Player.FindPlayerObject()?.GetComponent<QuestList>();
-
+        #region PublicMethods
         public void GiveQuest()
         {
             GiveQuest(quest);
         }
 
-        public void GiveQuest(Quest quest)
+        public void GiveQuest(Quest questToGive)
         {
-            if (quest == null) { return; }
-
-            questList.value.AddQuest(quest);
+            if (questToGive == null) { return; }
+            questList.value.TryAddQuest(questToGive);
         }
+        #endregion
     }
 }

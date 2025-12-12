@@ -36,6 +36,7 @@ Transform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &3578435516547435554
 SpriteRenderer:
+  serializedVersion: 2
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -80,7 +81,8 @@ SpriteRenderer:
   m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 1098151181
   m_SortingLayer: 2
-  m_SortingOrder: -1
+  m_SortingOrder: 0
+  m_MaskInteraction: 0
   m_Sprite: {fileID: 5713846793418120487, guid: 52baaeb7ed227401988845f3e070d220, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -90,7 +92,6 @@ SpriteRenderer:
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
-  m_MaskInteraction: 0
   m_SpriteSortPoint: 1
 --- !u!50 &3578435516547435552
 Rigidbody2D:
@@ -156,8 +157,8 @@ PolygonCollider2D:
   m_Offset: {x: 0, y: 0}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.98876405, y: 0.36206895}
-    oldSize: {x: 0.89, y: 0.58}
+    pivot: {x: 0.989011, y: 0.38333336}
+    oldSize: {x: 0.91, y: 0.6}
     newSize: {x: 0.84, y: 0.34}
     adaptiveTilingThreshold: 0.5
     drawMode: 0

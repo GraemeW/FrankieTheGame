@@ -44,7 +44,7 @@ Since this is the first item in PhilRamen's Battle AI priorities (as above), it 
 
 * one of PhilRamen's party members has `health < 42` 
 
-, then PhilRamen will use the skill [ShareWarmRamen](../../OnLoadAssets/Skills/HealsBuffs/ShareWarmRamen.asset) on the character [Frankie](../../CharacterObjects/PCs/Frankie/Frankie.prefab) (and only Frankie).
+, then PhilRamen will use the skill [ShareWarmRamen](../../OnLoadAssets/Skills/Characters/Ramen/ShareWarmRamen.asset) on the character [Frankie](../../CharacterObjects/PCs/Frankie/Frankie.prefab) (and only Frankie).
 
 
 ## AI Priorities: Quick Start Guide

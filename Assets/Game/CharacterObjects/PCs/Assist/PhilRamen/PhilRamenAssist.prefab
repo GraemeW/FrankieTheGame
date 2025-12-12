@@ -92,6 +92,10 @@ PrefabInstance:
       propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7722166093997427972, guid: b3d57c5ca0835dc44b0b91ac427342b7, type: 3}
+      propertyPath: uniqueIdentifier
+      value: philRamen
+      objectReference: {fileID: 0}
     - target: {fileID: 7770585857665752477, guid: b3d57c5ca0835dc44b0b91ac427342b7, type: 3}
       propertyPath: characterProperties
       value: 
@@ -201,6 +205,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 292cbe0fa78f411468ca518291de60fb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  actionQueuePollingPeriod: 0.1
   probabilityToTraverseSkillTree: 0.8
   useRandomSelectionOnNoPriorities: 0
   battleAIPriorities:

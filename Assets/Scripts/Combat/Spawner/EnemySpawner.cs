@@ -7,15 +7,15 @@ namespace Frankie.Combat.Spawner
     public class EnemySpawner : MonoBehaviour
     {
         // Tunables
-        [SerializeField] bool spawnOnEnable = true;
-        [SerializeField] bool spawnOnVisible = false;
-        [SerializeField][Min(0f)][Tooltip("in seconds")] float timeBetweenSpawns = 0f;
-        [SerializeField] float xJitterDistance = 1.0f;
-        [SerializeField] float yJitterDistance = 1.0f;
-        [NonReorderable][SerializeField] SpawnConfigurationProbabilityPair<SpawnConfiguration>[] spawnConfigurations = null;
+        [SerializeField] private bool spawnOnEnable = true;
+        [SerializeField] private bool spawnOnVisible = false;
+        [SerializeField][Min(0f)][Tooltip("in seconds")] private float timeBetweenSpawns;
+        [SerializeField] private float xJitterDistance = 1.0f;
+        [SerializeField] private float yJitterDistance = 1.0f;
+        [NonReorderable][SerializeField] private SpawnConfigurationProbabilityPair<SpawnConfiguration>[] spawnConfigurations;
 
         // State
-        float timeUntilNextSpawn = 0f;
+        private float timeUntilNextSpawn;
 
         #region UnityMethods
         private void OnEnable()
@@ -57,10 +57,10 @@ namespace Frankie.Combat.Spawner
                 if (enemyPrefab == null) { continue; }
 
                 GameObject spawnedEnemy = Instantiate(enemyPrefab, transform);
-                float xJitter = Random.Range(-xJitterDistance, xJitterDistance);
-                float yJitter = Random.Range(-yJitterDistance, yJitterDistance);
-                Vector3 jitterVector = new Vector3(xJitter, yJitter, 0f);
-                spawnedEnemy.transform.position = spawnedEnemy.transform.position + jitterVector;
+                float xJitter = UnityEngine.Random.Range(-xJitterDistance, xJitterDistance);
+                float yJitter = UnityEngine.Random.Range(-yJitterDistance, yJitterDistance);
+                var jitterVector = new Vector3(xJitter, yJitter, 0f);
+                spawnedEnemy.transform.position += jitterVector;
             }
             timeUntilNextSpawn = timeBetweenSpawns;
         }
@@ -87,7 +87,7 @@ namespace Frankie.Combat.Spawner
         private void OnDrawGizmosSelected()
         {
             Gizmos.color = Color.magenta;
-            Vector3 cubeCoordinates = new Vector3(xJitterDistance * 2, yJitterDistance * 2, 0f);
+            var cubeCoordinates = new Vector3(xJitterDistance * 2, yJitterDistance * 2, 0f);
             Gizmos.DrawWireCube(transform.position, cubeCoordinates);
         }
 #endif

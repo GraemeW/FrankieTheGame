@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using Frankie.Utils;
 
@@ -6,11 +5,11 @@ namespace Frankie.Speech
 {
     public class DialogueData
     {
-        public DialogueDataType dialogueDataType { get; } = default;
-        public AIConversant aiConversant { get; } = null;
-        public Dialogue dialogue { get; } = null;
-        public string message { get; } = null;
-        public List<ChoiceActionPair> choiceActionPairs { get; } = null;
+        public DialogueDataType dialogueDataType { get; }
+        public AIConversant aiConversant { get; }
+        public Dialogue dialogue { get; }
+        public string message { get; }
+        public List<ChoiceActionPair> choiceActionPairs { get; }
 
         public DialogueData(AIConversant aiConversant, Dialogue dialogue)
         {

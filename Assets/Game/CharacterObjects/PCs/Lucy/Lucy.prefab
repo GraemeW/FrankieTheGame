@@ -44,6 +44,10 @@ PrefabInstance:
       propertyPath: m_Offset.y
       value: 0.08534566
       objectReference: {fileID: 0}
+    - target: {fileID: 7722166093997427972, guid: b3d57c5ca0835dc44b0b91ac427342b7, type: 3}
+      propertyPath: uniqueIdentifier
+      value: lucy
+      objectReference: {fileID: 0}
     - target: {fileID: 7770585857665752477, guid: b3d57c5ca0835dc44b0b91ac427342b7, type: 3}
       propertyPath: defaultLevel
       value: 5

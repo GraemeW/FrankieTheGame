@@ -6,12 +6,11 @@ namespace Frankie.ZoneManagement
     public class Door : MonoBehaviour
     {
         // Tunables
-        [SerializeField] GameObject doorContainer = null;
+        [SerializeField] private GameObject doorContainer;
 
         public void ToggleDoor(bool enable)
         {
             if (doorContainer == null) { return; }
-
             doorContainer.SetActive(enable);
         }
     }

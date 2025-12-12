@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using UnityEditor;
 using UnityEngine;
 using Frankie.Stats;
@@ -12,15 +13,27 @@ namespace Frankie.Speech
         [SerializeField] public bool skipRootNode = false;
 
         [Header("Editor Settings")]
-        [SerializeField] Vector2 newNodeOffset = new Vector2(100f, 25f);
-        [SerializeField] int nodeWidth = 400;
-        [SerializeField] int nodeHeight = 225;
+        [SerializeField] private Vector2 newNodeOffset = new Vector2(100f, 25f);
+        [SerializeField] private int nodeWidth = 400;
+        [SerializeField] private int nodeHeight = 225;
 
         // State
-        [HideInInspector][SerializeField] List<CharacterProperties> activeNPCs = null;
-        [HideInInspector][SerializeField] List<DialogueNode> dialogueNodes = new List<DialogueNode>();
-        [HideInInspector][SerializeField] Dictionary<string, DialogueNode> nodeLookup = new Dictionary<string, DialogueNode>();
+        [HideInInspector][SerializeField] private List<CharacterProperties> activeNPCs;
+        [HideInInspector][SerializeField] private List<DialogueNode> dialogueNodes = new();
+        [HideInInspector][SerializeField] private Dictionary<string, DialogueNode> nodeLookup = new();
 
+        #region StaticMethods
+        public static bool IsRelated(DialogueNode parentNode, DialogueNode childNode) => parentNode.GetChildren() != null && parentNode.GetChildren().Contains(childNode.name);
+        private static bool IsPlayerNameOverrideable(string playerName) => !string.IsNullOrWhiteSpace(playerName);
+        private static bool IsSpeakerNameOverrideable(SpeakerType speakerType, DialogueNode dialogueNode)
+        {
+            if (speakerType != SpeakerType.AISpeaker) { return false; }
+            return dialogueNode.GetCharacterName() != null
+                   && !string.IsNullOrWhiteSpace(CharacterProperties.GetStaticCharacterNamePretty(dialogueNode.GetCharacterName()));
+        }
+        #endregion
+        
+        #region UnityMethods
         private void Awake()
         {
 #if UNITY_EDITOR
@@ -36,9 +49,8 @@ namespace Frankie.Speech
             activeNPCs = new List<CharacterProperties>();
 
             if (dialogueNodes == null) { return; }
-            foreach (DialogueNode dialogueNode in dialogueNodes)
+            foreach (DialogueNode dialogueNode in dialogueNodes.TakeWhile(dialogueNode => dialogueNode != null))
             {
-                if (dialogueNode == null) { break; } // Safety against error throw on first initialization
                 nodeLookup.Add(dialogueNode.name, dialogueNode);
                 if (dialogueNode.GetCharacterProperties() != null && !activeNPCs.Contains(dialogueNode.GetCharacterProperties()))
                 {
@@ -46,87 +58,39 @@ namespace Frankie.Speech
                 }
             }
         }
+        #endregion
 
-        public IEnumerable<DialogueNode> GetAllNodes()
-        {
-            return dialogueNodes;
-        }
+        #region GettersSetters
+        public IEnumerable<DialogueNode> GetAllNodes() => dialogueNodes;
 
-        public DialogueNode GetRootNode(bool withSkip = true)
-        {
-            return dialogueNodes[0];
-        }
-
-        public DialogueNode GetNodeFromID(string name)
-        {
-            foreach (DialogueNode dialogueNode in dialogueNodes)
-            {
-                if (dialogueNode.name == name)
-                {
-                    return dialogueNode;
-                }
-            }
-            return null;
-        }
-
+        public DialogueNode GetRootNode(bool withSkip = true) => dialogueNodes[0];
+        public DialogueNode GetNodeFromID(string nodeID) => dialogueNodes.FirstOrDefault(dialogueNode => dialogueNode.name == nodeID);
         public IEnumerable<DialogueNode> GetAllChildren(DialogueNode parentNode)
         {
             if (parentNode == null || parentNode.GetChildren() == null || parentNode.GetChildren().Count == 0) { yield break; }
-            foreach (string childUniqueID in parentNode.GetChildren())
+            foreach (var childUniqueID in parentNode.GetChildren().Where(childUniqueID => nodeLookup.ContainsKey(childUniqueID)))
             {
-                if (nodeLookup.ContainsKey(childUniqueID))
-                {
-                    yield return nodeLookup[childUniqueID];
-                }
+                yield return nodeLookup[childUniqueID];
             }
         }
-
-        public bool IsRelated(DialogueNode parentNode, DialogueNode childNode)
-        {
-            if (parentNode.GetChildren() == null) { return false; }
-
-            if (parentNode.GetChildren().Contains(childNode.name))
-            {
-                return true;
-            }
-            return false;
-        }
+        public List<CharacterProperties> GetActiveCharacters() => activeNPCs;
 
         public void OverrideSpeakerNames(string playerName)
         {
             foreach (DialogueNode dialogueNode in dialogueNodes)
             {
                 SpeakerType speakerType = dialogueNode.GetSpeakerType();
-                if (speakerType == SpeakerType.playerSpeaker && IsPlayerNameOverrideable(playerName)) { dialogueNode.SetSpeakerName(playerName); }
-                else if (speakerType == SpeakerType.aiSpeaker && IsSpeakerNameOverrideable(speakerType, dialogueNode))
+                if (speakerType == SpeakerType.PlayerSpeaker && IsPlayerNameOverrideable(playerName)) { dialogueNode.SetSpeakerName(playerName); }
+                else if (speakerType == SpeakerType.AISpeaker && IsSpeakerNameOverrideable(speakerType, dialogueNode))
                 {
                     dialogueNode.SetSpeakerName(CharacterProperties.GetStaticCharacterNamePretty(dialogueNode.GetCharacterName()));
                 }
             }
         }
+        #endregion
+        
 
-        private bool IsPlayerNameOverrideable(string playerName)
-        {
-            return !string.IsNullOrWhiteSpace(playerName);
-        }
-
-        private bool IsSpeakerNameOverrideable(SpeakerType speakerType, DialogueNode dialogueNode)
-        {
-
-            if (speakerType == SpeakerType.aiSpeaker)
-            {
-                return (dialogueNode.GetCharacterName() != default
-                    && !string.IsNullOrWhiteSpace(CharacterProperties.GetStaticCharacterNamePretty(dialogueNode.GetCharacterName())));
-            }
-            return false;
-        }
-
-        public List<CharacterProperties> GetActiveCharacters()
-        {
-            return activeNPCs;
-        }
-
-        // Dialogue editing functionality
+        #region EditorMethods
 #if UNITY_EDITOR
         private DialogueNode CreateNode()
         {
@@ -147,17 +111,10 @@ namespace Frankie.Speech
             if (parentNode == null) { return null; }
 
             DialogueNode childNode = CreateNode();
-            if (parentNode.GetSpeakerType() == SpeakerType.playerSpeaker)
-            {
-                childNode.SetSpeakerType(SpeakerType.aiSpeaker);
-            }
-            else
-            {
-                childNode.SetSpeakerType(SpeakerType.playerSpeaker);
-            }
+            childNode.SetSpeakerType(parentNode.GetSpeakerType() == SpeakerType.PlayerSpeaker ? SpeakerType.AISpeaker : SpeakerType.PlayerSpeaker);
             parentNode.AddChild(childNode.name);
 
-            Vector2 offsetPosition = new Vector2(parentNode.GetRect().xMax + newNodeOffset.x,
+            var offsetPosition = new Vector2(parentNode.GetRect().xMax + newNodeOffset.x,
                 parentNode.GetRect().yMin + (parentNode.GetRect().height + newNodeOffset.y) * (parentNode.GetChildren().Count - 1));  // Offset position by 1 since child just added
             childNode.SetPosition(offsetPosition);
 
@@ -166,17 +123,11 @@ namespace Frankie.Speech
             return childNode;
         }
 
-        public DialogueNode CreateRootNodeIfMissing()
+        public void CreateRootNodeIfMissing()
         {
-            if (dialogueNodes.Count == 0)
-            {
-                DialogueNode rootNode = CreateNode();
-
-                OnValidate();
-                return rootNode;
-            }
-
-            return null;
+            if (dialogueNodes.Count != 0) return;
+            CreateNode();
+            OnValidate();
         }
 
         public void DeleteNode(DialogueNode nodeToDelete)
@@ -214,27 +165,24 @@ namespace Frankie.Speech
 
         public void UpdateSpeakerName(string speaker, string newSpeakerName)
         {
-            foreach (DialogueNode dialogueNode in dialogueNodes)
+            foreach (DialogueNode dialogueNode in dialogueNodes.Where(dialogueNode => dialogueNode.GetCharacterName() == speaker))
             {
-                if (dialogueNode.GetCharacterName() == speaker)
-                {
-                    dialogueNode.SetSpeakerName(newSpeakerName);
-                }
+                dialogueNode.SetSpeakerName(newSpeakerName);
             }
         }
 #endif
+        #endregion
 
+        #region InterfaceMethods
         void ISerializationCallbackReceiver.OnBeforeSerialize()
         {
 #if UNITY_EDITOR
-            if (AssetDatabase.GetAssetPath(this) != "")
+            if (AssetDatabase.GetAssetPath(this) == "") return;
+            foreach (DialogueNode dialogueNode in GetAllNodes())
             {
-                foreach (DialogueNode dialogueNode in GetAllNodes())
+                if (AssetDatabase.GetAssetPath(dialogueNode) == "")
                 {
-                    if (AssetDatabase.GetAssetPath(dialogueNode) == "")
-                    {
-                        AssetDatabase.AddObjectToAsset(dialogueNode, this);
-                    }
+                    AssetDatabase.AddObjectToAsset(dialogueNode, this);
                 }
             }
 #endif
@@ -244,5 +192,6 @@ namespace Frankie.Speech
         {
             // Unused, required for interface
         }
+        #endregion
     }
 }

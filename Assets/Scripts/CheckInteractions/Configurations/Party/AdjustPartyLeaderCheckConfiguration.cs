@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Frankie.Stats;
@@ -9,12 +8,14 @@ namespace Frankie.Control
     [CreateAssetMenu(fileName = "New Adjust Party Leader Check Configuration", menuName = "CheckConfigurations/AdjustLeader")]
     public class AdjustPartyLeaderCheckConfiguration : CheckConfiguration
     {
-        [SerializeField] string messageAdjustLeader = "Who you want to take over?";
+        [SerializeField] private string messageAdjustLeader = "Who you want to take over?";
 
+        public override string GetMessage() => messageAdjustLeader;
+        
         public override List<ChoiceActionPair> GetChoiceActionPairs(PlayerStateMachine playerStateHandler, CheckWithConfiguration callingCheck)
         {
             Party party = playerStateHandler.GetParty();
-            List<ChoiceActionPair> interactActions = new List<ChoiceActionPair>();
+            var interactActions = new List<ChoiceActionPair>();
             if (party.GetPartySize() == 1) { return interactActions; } // throw empty list to prevent option from triggering
 
             foreach (BaseStats character in party.GetParty())
@@ -23,11 +24,6 @@ namespace Frankie.Control
                     () => party.SetPartyLeader(character)));
             }
             return interactActions;
-        }
-
-        public override string GetMessage()
-        {
-            return messageAdjustLeader;
         }
     }
 }

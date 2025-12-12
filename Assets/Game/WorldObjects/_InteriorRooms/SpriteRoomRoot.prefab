@@ -442,6 +442,7 @@ BoxCollider2D:
   m_EdgeRadius: 0
 --- !u!212 &7479024649926081710
 SpriteRenderer:
+  serializedVersion: 2
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -487,6 +488,7 @@ SpriteRenderer:
   m_SortingLayerID: 181171043
   m_SortingLayer: 1
   m_SortingOrder: 10
+  m_MaskInteraction: 0
   m_Sprite: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -496,7 +498,6 @@ SpriteRenderer:
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 0
-  m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!1001 &1463482868577002885
 PrefabInstance:
@@ -553,10 +554,6 @@ PrefabInstance:
     - target: {fileID: 7136313676525689284, guid: 79be2586bcf826946a85329c12fc2945, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7136313676525689285, guid: 79be2586bcf826946a85329c12fc2945, type: 3}
-      propertyPath: uniqueIdentifier
-      value: 70ab7c18-bac1-4a4f-a33e-cbf28e252265
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

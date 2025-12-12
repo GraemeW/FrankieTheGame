@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -7,9 +6,9 @@ namespace Frankie.Quests
     public class QuestStatus
     {
         // State
-        Quest quest;
-        List<QuestObjective> completedObjectives = new List<QuestObjective>();
-        bool rewardGiven = false;
+        private readonly Quest quest;
+        private readonly List<QuestObjective> completedObjectives = new();
+        private bool rewardGiven = false;
 
         // Methods
         #region Constructors
@@ -27,65 +26,41 @@ namespace Frankie.Quests
         #endregion
 
         #region PublicMethods
-        public Quest GetQuest()
-        {
-            return quest;
-        }
-
-        public int GetCompletedObjectiveCount()
-        {
-            return completedObjectives.Count;
-        }
-
+        public Quest GetQuest() => quest;
+        public int GetCompletedObjectiveCount() => completedObjectives.Count;
         public bool GetStatusForObjective(QuestObjective matchObjective)
         {
-            foreach (QuestObjective questObjective in completedObjectives)
-            {
-                if (questObjective.GetObjectiveID() == matchObjective.GetObjectiveID())
-                {
-                    return true;
-                }
-            }
-            return false;
+            return completedObjectives.Any(questObjective => questObjective.GetObjectiveID() == matchObjective.GetObjectiveID());
         }
-
+        public bool IsComplete() => (completedObjectives.Count >= quest.GetObjectiveCount());
+        public bool IsRewardGiven() => rewardGiven;
+        
         public void SetObjective(QuestObjective objective, bool isComplete)
         {
             if (!quest.HasObjective(objective)) { return; }
 
             bool inCompletedObjectivesList = GetStatusForObjective(objective);
-            if (isComplete && !inCompletedObjectivesList)
+            switch (isComplete)
             {
-                completedObjectives.Add(objective);
+                case true when !inCompletedObjectivesList:
+                    completedObjectives.Add(objective);
+                    break;
+                case false when inCompletedObjectivesList:
+                    completedObjectives.Remove(objective);
+                    break;
             }
-
-            if (!isComplete && inCompletedObjectivesList)
-            {
-                completedObjectives.Remove(objective);
-            }
-        }
-
-        public bool IsComplete()
-        {
-            return (completedObjectives.Count >= quest.GetObjectiveCount());
         }
 
         public void SetRewardGiven(bool enable)
         {
             rewardGiven = enable;
         }
-
-        public bool IsRewardGiven()
-        {
-            return rewardGiven;
-        }
         #endregion
 
         #region Interface
         public SerializableQuestStatus CaptureState()
         {
-            SerializableQuestStatus serializableQuestStatus = new SerializableQuestStatus();
-            serializableQuestStatus.questID = quest.GetQuestID();
+            var serializableQuestStatus = new SerializableQuestStatus { questID = quest.GetQuestID() };
             List<string> completedObjectiveIDs = completedObjectives.Select(c => c.objectiveID).ToList();
             serializableQuestStatus.completedObjectiveIDs = completedObjectiveIDs;
             return serializableQuestStatus;

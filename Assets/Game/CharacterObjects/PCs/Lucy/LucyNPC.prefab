@@ -100,6 +100,10 @@ PrefabInstance:
       propertyPath: levelUpOnInstantiation
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 3809891300135030454, guid: 53771d00282eaa34ba616b313732c1b7, type: 3}
+      propertyPath: uniqueIdentifier
+      value: lucyNPC
+      objectReference: {fileID: 0}
     - target: {fileID: 5380918446169795178, guid: 53771d00282eaa34ba616b313732c1b7, type: 3}
       propertyPath: combatAudio
       value: 

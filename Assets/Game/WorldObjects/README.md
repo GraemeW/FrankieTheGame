@@ -25,7 +25,7 @@ The directories are structured as:
 
 ## Placement of World Objects
 
-World Objects should be placed in hierarchy under a parent-most GameObject with a [SaveableRoot](../../Scripts/Saving/SaveableRoot.cs) component attached to it.  This allows the Save System to identify any World Objects that are tagged as a [SaveableEntity](../../Scripts/Saving/SaveableEntity.cs).  In most [Scenes](../../Scenes/):
+World Objects should be placed in hierarchy under a parent-most GameObject with a [SaveableRoot](../../Scripts/Saving/SaveableRoot.cs) component attached to it.  This allows the Save System to identify any World Objects that are tagged as a [SaveableEntity](../../Scripts/Saving/SaveableEntity.cs) (for more detail on the Save System && Saveable Entity settings, see [Saving](../../Scripts/Saving/)).  In most [Scenes](../../Scenes/):
 * This parent-most GameObject is named `World`, and all Rooms/Exterior Maps are childed to it
 * World Objects are further placed under their respective Room or Exterior Map
 
