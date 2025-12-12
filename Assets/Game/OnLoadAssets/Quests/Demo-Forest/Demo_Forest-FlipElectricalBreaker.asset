@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &-8469063289627637362
+--- !u!114 &-1157696598057115107
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -10,11 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 791ebb2ca99aa484887af17d849ffbc0, type: 3}
-  m_Name: HipsterChattedOnce
-  m_EditorClassIdentifier: 
-  objectiveID: 058f0569-9963-42ad-88c3-1d35128873f4
-  description: Chat once with the hipster office worker
-  questID: a5a603ce-7ce9-41e5-982f-f3a64f2594e7
+  m_Name: Flip the electrical breaker
+  m_EditorClassIdentifier: Assembly-CSharp::Frankie.Quests.QuestObjective
+  objectiveID: 1fb7ae48-3703-4ced-ac11-e02a942dfe34
+  description: 
+  questID: abdd068f-73ad-4dd6-8f79-01482c553468
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -25,12 +25,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: dbd8cf865509ead44b7c06cc9699edc8, type: 3}
-  m_Name: OfficeInteriorHipster
-  m_EditorClassIdentifier: 
-  questID: a5a603ce-7ce9-41e5-982f-f3a64f2594e7
-  detail: Tracker for chatting with the hipster in Office
+  m_Name: Demo_Forest-FlipElectricalBreaker
+  m_EditorClassIdentifier: Assembly-CSharp::Frankie.Quests.Quest
+  questID: abdd068f-73ad-4dd6-8f79-01482c553468
+  detail: Turn on power to the elevator in the Lacklustre Video
   questObjectiveNames:
-  - HipsterChattedOnce
+  - Flip the electrical breaker
   rewards: []
   questObjectives:
-  - {fileID: -8469063289627637362}
+  - {fileID: -1157696598057115107}

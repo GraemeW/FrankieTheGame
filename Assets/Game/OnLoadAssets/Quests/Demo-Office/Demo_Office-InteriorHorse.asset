@@ -40,7 +40,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: dbd8cf865509ead44b7c06cc9699edc8, type: 3}
-  m_Name: OfficeInteriorHorse
+  m_Name: Demo_Office-InteriorHorse
   m_EditorClassIdentifier: 
   questID: fd9ed298-c9f2-4c72-a440-4f02b469c9d7
   detail: Tracker for chatting with the horse in Office

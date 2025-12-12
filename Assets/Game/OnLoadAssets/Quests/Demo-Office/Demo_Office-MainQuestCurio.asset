@@ -85,7 +85,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: dbd8cf865509ead44b7c06cc9699edc8, type: 3}
-  m_Name: MainQuestCurio
+  m_Name: Demo_Office-MainQuestCurio
   m_EditorClassIdentifier: 
   questID: 61c08901-2fd9-403b-833e-f22949c8d448
   detail: Main Quest Tracker
