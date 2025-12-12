@@ -37,7 +37,7 @@ namespace Frankie.Quests
         public void GiveQuest(Quest questToGive)
         {
             if (questToGive == null) { return; }
-            questList.value.AddQuest(questToGive);
+            questList.value.TryAddQuest(questToGive);
         }
         #endregion
     }

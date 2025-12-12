@@ -28,28 +28,28 @@ namespace Frankie.Quests
         #endregion
 
         #region PublicMethods
-        public bool HasQuest(Quest quest) => (GetQuestStatus(quest) != null);
-        
-        public IEnumerable<QuestStatus> GetActiveQuests()
-        {
-            return questStatuses.Where(c => !c.IsComplete());
-        }
-
         public QuestStatus GetQuestStatus(Quest quest)
         {
             if (quest == null) { return null; }
             return questStatuses.FirstOrDefault(questStatus => questStatus.GetQuest().GetQuestID() == quest.GetQuestID());
         }
-
-        public void AddQuest(Quest quest)
+        
+        public bool HasQuest(Quest quest) => (GetQuestStatus(quest) != null);
+        
+        public IEnumerable<QuestStatus> GetActiveQuests() => questStatuses.Where(c => !c.IsComplete());
+        
+        public QuestStatus TryAddQuest(Quest quest)
         {
-            if (HasQuest(quest)) { return; }
+            QuestStatus existingQuestStatus = GetQuestStatus(quest);
+            if (existingQuestStatus != null) { return existingQuestStatus; }
 
             var newQuestStatus = new QuestStatus(quest);
             questStatuses.Add(newQuestStatus);
             CompleteObjectivesForItemsInKnapsack();
 
             questListUpdated?.Invoke();
+            
+            return newQuestStatus;
         }
 
         public void CompleteObjective(QuestObjective questObjective)
@@ -57,8 +57,10 @@ namespace Frankie.Quests
             Quest quest = Quest.GetFromID(questObjective.GetQuestID());
             if (quest == null) { return; }
 
-            QuestStatus questStatus = GetQuestStatus(quest);
+            // Auto-add the quest if it's not already present
+            QuestStatus questStatus = TryAddQuest(quest);
             if (questStatus == null) { return; }
+            
             if (questStatus.IsComplete() && questStatus.IsRewardGiven()) { return; } // Disallow completion of quests // disbursement of rewards multiple times
 
             questStatus.SetObjective(questObjective, true);
