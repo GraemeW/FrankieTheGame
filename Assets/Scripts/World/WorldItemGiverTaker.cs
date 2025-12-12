@@ -32,8 +32,7 @@ namespace Frankie.Control.Specialization
 
         public void GiveItem(PlayerStateMachine playerStateMachine) // Called via Unity events
         {
-            if (inventoryItem == null) { return; }
-            if (currentItemQuantity.value <= 0)
+            if (inventoryItem == null || currentItemQuantity.value <= 0)
             {
                 if (announceNothing) { playerStateMachine.EnterDialogue(messageNothing); }
                 return; 

@@ -18,7 +18,7 @@ namespace Frankie.Control
         [Header("Choice Behaviour")]
         [SerializeField] private string messageAccept = "OK!";
         [SerializeField] private string messageReject = "Nah";
-        [SerializeField][Tooltip("Optional action on reject choice")] InteractionEvent rejectInteraction;
+        [SerializeField][Tooltip("Optional action on reject choice")] private InteractionEvent rejectInteraction;
 
         #region Interfaces
         public override bool HandleRaycast(PlayerStateMachine playerStateHandler, PlayerController playerController, PlayerInputType inputType, PlayerInputType matchType)
@@ -52,14 +52,9 @@ namespace Frankie.Control
                 if (string.IsNullOrWhiteSpace(partyLeaderName)) { partyLeaderName = defaultPartyLeaderName; }
 
                 playerStateHandler.EnterDialogue(string.Format(checkMessage, partyLeaderName));
-                if (checkAtStartOfInteraction)
-                {
-                    checkInteraction?.Invoke(playerStateHandler);
-                }
-                else
-                {
-                    playerStateHandler.SetPostDialogueCallbackActions(checkInteraction);
-                }
+                
+                if (checkAtStartOfInteraction) { checkInteraction?.Invoke(playerStateHandler); }
+                else { playerStateHandler.SetPostDialogueCallbackActions(checkInteraction); }
             }
             return true;
         }

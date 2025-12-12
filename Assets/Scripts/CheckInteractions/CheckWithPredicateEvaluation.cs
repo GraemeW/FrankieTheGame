@@ -5,14 +5,14 @@ namespace Frankie.Control
 {
     public class CheckWithPredicateEvaluation : CheckBase
     {
-        [SerializeField] Condition condition = null;
-        [SerializeField] string defaultPartyLeaderName = "Frankie";
-        [SerializeField] bool useMessageOnConditionMet = false;
-        [SerializeField][Tooltip("Use {0} for party leader")] string messageForConditionMet = "{0} checked the object.";
-        [SerializeField] protected InteractionEvent checkInteractionConditionMet = null;
-        [SerializeField] bool useMessageOnConditionFailed = false;
-        [SerializeField][Tooltip("Use {0} for party leader")] string messageForConditionFailed = "{0} failed to check the object.";
-        [SerializeField] protected InteractionEvent checkInteractionConditionFailed = null;
+        [SerializeField] private Condition condition;
+        [SerializeField] private string defaultPartyLeaderName = "Frankie";
+        [SerializeField] private bool useMessageOnConditionMet = false;
+        [SerializeField][Tooltip("Use {0} for party leader")] private string messageForConditionMet = "{0} checked the object.";
+        [SerializeField] private protected InteractionEvent checkInteractionConditionMet;
+        [SerializeField] private bool useMessageOnConditionFailed = false;
+        [SerializeField][Tooltip("Use {0} for party leader")] private string messageForConditionFailed = "{0} failed to check the object.";
+        [SerializeField] private protected InteractionEvent checkInteractionConditionFailed;
 
         public override bool HandleRaycast(PlayerStateMachine playerStateHandler, PlayerController playerController, PlayerInputType inputType, PlayerInputType matchType)
         {
