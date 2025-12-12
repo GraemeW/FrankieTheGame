@@ -7,10 +7,16 @@ namespace Frankie.Quests
     public class QuestCompleter : MonoBehaviour, IQuestEvaluator
     {
         // Tunables
-        [SerializeField][Tooltip("Optional for fixed quest")] protected QuestObjective questObjective = null;
+        [SerializeField][Tooltip("Optional for fixed quest")] protected QuestObjective questObjective;
 
-        protected ReInitLazyValue<QuestList> questList;
+        // Cached Reference
+        private ReInitLazyValue<QuestList> questList;
 
+        #region StaticMethods
+        private static QuestList SetupQuestList() => Player.FindPlayerObject()?.GetComponent<QuestList>();
+        #endregion
+        
+        #region UnityMethods
         private void Awake()
         {
             questList = new ReInitLazyValue<QuestList>(SetupQuestList);
@@ -20,14 +26,14 @@ namespace Frankie.Quests
         {
             questList.ForceInit();
         }
+        #endregion
 
-        private QuestList SetupQuestList() => Player.FindPlayerObject()?.GetComponent<QuestList>();
-
+        #region PublicMethods
         public void CompleteObjective()
         {
             if (questObjective == null) { return; }
-
             questList.value.CompleteObjective(questObjective);
         }
+        #endregion
     }
 }

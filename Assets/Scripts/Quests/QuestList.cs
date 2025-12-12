@@ -1,5 +1,4 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -13,10 +12,10 @@ namespace Frankie.Quests
     public class QuestList : MonoBehaviour, IPredicateEvaluator, ISaveable
     {
         // Tunables
-        List<QuestStatus> questStatuses = new List<QuestStatus>();
+        private readonly List<QuestStatus> questStatuses = new();
 
         // Cached References
-        PartyKnapsackConduit partyKnapsackConduit = null;
+        private PartyKnapsackConduit partyKnapsackConduit;
 
         // Events
         public event Action questListUpdated;
@@ -29,35 +28,24 @@ namespace Frankie.Quests
         #endregion
 
         #region PublicMethods
+        public bool HasQuest(Quest quest) => (GetQuestStatus(quest) != null);
+        
         public IEnumerable<QuestStatus> GetActiveQuests()
         {
             return questStatuses.Where(c => !c.IsComplete());
         }
 
-        public bool HasQuest(Quest quest)
-        {
-            return (GetQuestStatus(quest) != null);
-        }
-
         public QuestStatus GetQuestStatus(Quest quest)
         {
             if (quest == null) { return null; }
-
-            foreach (QuestStatus questStatus in questStatuses)
-            {
-                if (questStatus.GetQuest().GetQuestID() == quest.GetQuestID())
-                {
-                    return questStatus;
-                }
-            }
-            return null;
+            return questStatuses.FirstOrDefault(questStatus => questStatus.GetQuest().GetQuestID() == quest.GetQuestID());
         }
 
         public void AddQuest(Quest quest)
         {
             if (HasQuest(quest)) { return; }
 
-            QuestStatus newQuestStatus = new QuestStatus(quest);
+            var newQuestStatus = new QuestStatus(quest);
             questStatuses.Add(newQuestStatus);
             CompleteObjectivesForItemsInKnapsack();
 
@@ -117,26 +105,23 @@ namespace Frankie.Quests
         // Predicates
         public bool? Evaluate(Predicate predicate)
         {
-            PredicateQuestList predicateQuestList = predicate as PredicateQuestList;
+            var predicateQuestList = predicate as PredicateQuestList;
             return predicateQuestList != null ? predicateQuestList.Evaluate(this) : null;
         }
 
         // Save System
+        public LoadPriority GetLoadPriority() => LoadPriority.ObjectProperty;
+        
         public SaveState CaptureState()
         {
-            List<SerializableQuestStatus> serializableQuestStatuses = new List<SerializableQuestStatus>();
-            foreach (QuestStatus questStatus in questStatuses)
-            {
-                serializableQuestStatuses.Add(questStatus.CaptureState());
-            }
-
-            SaveState saveState = new SaveState(GetLoadPriority(), serializableQuestStatuses);
+            List<SerializableQuestStatus> serializableQuestStatuses = questStatuses.Select(questStatus => questStatus.CaptureState()).ToList();
+            var saveState = new SaveState(GetLoadPriority(), serializableQuestStatuses);
             return saveState;
         }
 
         public void RestoreState(SaveState saveState)
         {
-            List<SerializableQuestStatus> serializableQuestStatuses = saveState.GetState(typeof(List<SerializableQuestStatus>)) as List<SerializableQuestStatus>;
+            var serializableQuestStatuses = saveState.GetState(typeof(List<SerializableQuestStatus>)) as List<SerializableQuestStatus>;
             if (serializableQuestStatuses == null) { return; }
             questStatuses.Clear();
 
@@ -145,13 +130,7 @@ namespace Frankie.Quests
                 QuestStatus questStatus = new QuestStatus(serializableQuestStatus);
                 questStatuses.Add(questStatus);
             }
-
             questListUpdated?.Invoke();
-        }
-
-        public LoadPriority GetLoadPriority()
-        {
-            return LoadPriority.ObjectProperty;
         }
         #endregion
     }

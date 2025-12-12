@@ -5,6 +5,6 @@ namespace Frankie.Quests
     [System.Serializable]
     public class Reward
     {
-        public InventoryItem item = null;
+        public InventoryItem item;
     }
 }
