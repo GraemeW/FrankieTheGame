@@ -12,6 +12,7 @@ namespace Frankie.Control
         [SerializeField] private Transform interactionCenterPoint;
         [SerializeField] private PatrolPath patrolPath;
         [SerializeField] private float waypointDwellTime = 2.0f;
+        [SerializeField] [Tooltip("Anything other than U/D/L/R to keep last look direction")] private PlayerInputType lookDirectionOnDwell = PlayerInputType.NavigateDown;
         [SerializeField] private float giveUpOnPatrolTargetTime = 10.0f;
 
         // Cached References
@@ -173,6 +174,7 @@ namespace Frankie.Control
             if (patrolPath == null) { return false; }
 
             currentSpeed = 0f;
+            SetLookDirection(lookDirectionOnDwell);
             UpdateAnimator();
             if (timeSinceArrivedAtWaypoint > waypointDwellTime)
             {

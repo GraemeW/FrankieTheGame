@@ -154,6 +154,30 @@ namespace Frankie.Control
 
             return target;
         }
+
+        protected void SetLookDirection(PlayerInputType playerInputType)
+        {
+            Vector2 newLookDirection;
+            switch (playerInputType)
+            {
+                case PlayerInputType.NavigateDown:
+                    newLookDirection = Vector2.down;
+                    break;
+                case PlayerInputType.NavigateUp:
+                    newLookDirection = Vector2.up;
+                    break;
+                case PlayerInputType.NavigateLeft:
+                    newLookDirection = Vector2.left;
+                    break;
+                case PlayerInputType.NavigateRight:
+                    newLookDirection = Vector2.right;
+                    break;
+                default:
+                    newLookDirection = Vector2.zero;
+                    break;
+            }
+            SetLookDirection(newLookDirection);
+        }
         #endregion
 
         #region  PrivateMethods

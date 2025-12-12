@@ -6,19 +6,19 @@ namespace Frankie.Control
     {
         // Tunables
         [Header("Behavior")]
-        [SerializeField] PatrolPathWaypoint[] waypoints = null;
-        [SerializeField] bool looping = true;
-        [SerializeField] bool returnToFirstWaypoint = true;
+        [SerializeField] private PatrolPathWaypoint[] waypoints;
+        [SerializeField] private bool looping = true;
+        [SerializeField] private bool returnToFirstWaypoint = true;
         [Header("Gizmo Properties")]
-        [SerializeField] float waypointGizmoSphereRadius = 0.1f;
-        [SerializeField] Color waypointGizmoColor = new Color(0.5f, 1f, 1f);
-        [SerializeField] Color startSphereColor = new Color(0.2f, 0.8f, 0.2f);
-        [SerializeField] float selectAlpha = 0.7f;
-        [SerializeField] float deselectAlpha = 0.3f;
+        [SerializeField] private float waypointGizmoSphereRadius = 0.1f;
+        [SerializeField] private Color waypointGizmoColor = new Color(0.5f, 1f, 1f);
+        [SerializeField] private Color startSphereColor = new Color(0.2f, 0.8f, 0.2f);
+        [SerializeField] private float selectAlpha = 0.7f;
+        [SerializeField] private float deselectAlpha = 0.3f;
 
         // State
-        bool loopedOnce = false;
-        int incrementDirection = 1;
+        private bool loopedOnce = false;
+        private int incrementDirection = 1;
 
         private void Awake()
         {
@@ -88,13 +88,11 @@ namespace Frankie.Control
         {
             if (waypoints == null || waypoints.Length <= 1) { return; }
 
-            if (waypointIndex != waypoints.Length - 1 || returnToFirstWaypoint)
-            {
-                PatrolPathWaypoint waypoint = GetWaypoint(waypointIndex);
-                if (waypoint == null) { return; }
+            if (waypointIndex == waypoints.Length - 1 && !returnToFirstWaypoint) return;
+            PatrolPathWaypoint waypoint = GetWaypoint(waypointIndex);
+            if (waypoint == null) { return; }
 
-                Gizmos.DrawLine(waypoint.transform.position, GetWaypoint(GetNextIndex(waypointIndex, true)).transform.position);
-            }
+            Gizmos.DrawLine(waypoint.transform.position, GetWaypoint(GetNextIndex(waypointIndex, true)).transform.position);
         }
 #endif
     }

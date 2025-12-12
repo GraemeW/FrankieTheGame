@@ -14,7 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Frankie.ZoneManagement.ZoneNode
   children:
   - LV_B3_SR-to-B4
-  linkedZone: {fileID: 0}
   linkedZoneNode: {fileID: 0}
   rect:
     serializedVersion: 2
@@ -44,7 +43,6 @@ MonoBehaviour:
   m_Name: LacklustreVideoToForest
   m_EditorClassIdentifier: Assembly-CSharp::Frankie.ZoneManagement.ZoneNode
   children: []
-  linkedZone: {fileID: 11400000, guid: 56bcb0733fa024bf5b983792663e12bb, type: 2}
   linkedZoneNode: {fileID: -4464991975633921603, guid: 56bcb0733fa024bf5b983792663e12bb, type: 2}
   rect:
     serializedVersion: 2
@@ -74,7 +72,6 @@ MonoBehaviour:
   m_Name: OrangeHouseToForest
   m_EditorClassIdentifier: Assembly-CSharp::Frankie.ZoneManagement.ZoneNode
   children: []
-  linkedZone: {fileID: 11400000, guid: 56bcb0733fa024bf5b983792663e12bb, type: 2}
   linkedZoneNode: {fileID: -1178070971427517867, guid: 56bcb0733fa024bf5b983792663e12bb, type: 2}
   rect:
     serializedVersion: 2
@@ -105,7 +102,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Frankie.ZoneManagement.ZoneNode
   children:
   - LV_B1_SR-to-B1_SR2
-  linkedZone: {fileID: 0}
   linkedZoneNode: {fileID: 0}
   rect:
     serializedVersion: 2
@@ -136,7 +132,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Frankie.ZoneManagement.ZoneNode
   children:
   - LV_B1_SR2-to-B2_SR
-  linkedZone: {fileID: 0}
   linkedZoneNode: {fileID: 0}
   rect:
     serializedVersion: 2
@@ -167,7 +162,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Frankie.ZoneManagement.ZoneNode
   children:
   - LV_B2-to-B1
-  linkedZone: {fileID: 0}
   linkedZoneNode: {fileID: 0}
   rect:
     serializedVersion: 2
@@ -198,7 +192,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Frankie.ZoneManagement.ZoneNode
   children:
   - LV_B2_SR-to-B2
-  linkedZone: {fileID: 0}
   linkedZoneNode: {fileID: 0}
   rect:
     serializedVersion: 2
@@ -229,7 +222,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Frankie.ZoneManagement.ZoneNode
   children:
   - LV_1f-to-1f_SR
-  linkedZone: {fileID: 0}
   linkedZoneNode: {fileID: 0}
   rect:
     serializedVersion: 2
@@ -262,7 +254,6 @@ MonoBehaviour:
   - 1
   - 
   - LV_B1_SR2-to-B1_SR
-  linkedZone: {fileID: 0}
   linkedZoneNode: {fileID: 0}
   rect:
     serializedVersion: 2
@@ -293,7 +284,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Frankie.ZoneManagement.ZoneNode
   children:
   - LV_B2_SR2-to-B3
-  linkedZone: {fileID: 0}
   linkedZoneNode: {fileID: 0}
   rect:
     serializedVersion: 2
@@ -324,7 +314,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Frankie.ZoneManagement.ZoneNode
   children:
   - LV_B1-to-B1_SR2
-  linkedZone: {fileID: 0}
   linkedZoneNode: {fileID: 0}
   rect:
     serializedVersion: 2
@@ -355,7 +344,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Frankie.ZoneManagement.ZoneNode
   children:
   - LV_1f_SR-to-B4
-  linkedZone: {fileID: 0}
   linkedZoneNode: {fileID: 0}
   rect:
     serializedVersion: 2
@@ -371,7 +359,10 @@ MonoBehaviour:
     width: 430
     height: 45
   condition:
-    and: []
+    and:
+    - or:
+      - predicate: {fileID: 11400000, guid: 35b2cade12aee4b72b634a8e869dd5c2, type: 2}
+        negate: 0
 --- !u!114 &-2479624405023352139
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -386,7 +377,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Frankie.ZoneManagement.ZoneNode
   children:
   - LV_B2_SR2-to-B2
-  linkedZone: {fileID: 0}
   linkedZoneNode: {fileID: 0}
   rect:
     serializedVersion: 2
@@ -417,7 +407,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Frankie.ZoneManagement.ZoneNode
   children:
   - LV_B2-to-B2_SR2
-  linkedZone: {fileID: 0}
   linkedZoneNode: {fileID: 0}
   rect:
     serializedVersion: 2
@@ -448,7 +437,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Frankie.ZoneManagement.ZoneNode
   children:
   - LV_B1_SR-to-B1
-  linkedZone: {fileID: 0}
   linkedZoneNode: {fileID: 0}
   rect:
     serializedVersion: 2
@@ -529,7 +517,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Frankie.ZoneManagement.ZoneNode
   children:
   - LV_B3-to-B2_SR2
-  linkedZone: {fileID: 0}
   linkedZoneNode: {fileID: 0}
   rect:
     serializedVersion: 2
@@ -560,7 +547,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Frankie.ZoneManagement.ZoneNode
   children:
   - LV_B1_SR2-to-B1
-  linkedZone: {fileID: 0}
   linkedZoneNode: {fileID: 0}
   rect:
     serializedVersion: 2
@@ -591,7 +577,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Frankie.ZoneManagement.ZoneNode
   children:
   - LV_1f-to-B1
-  linkedZone: {fileID: 0}
   linkedZoneNode: {fileID: 0}
   rect:
     serializedVersion: 2
@@ -622,7 +607,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Frankie.ZoneManagement.ZoneNode
   children:
   - LV_B2-to-B2_SR
-  linkedZone: {fileID: 0}
   linkedZoneNode: {fileID: 0}
   rect:
     serializedVersion: 2
@@ -653,7 +637,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Frankie.ZoneManagement.ZoneNode
   children:
   - LV_B4-to-B3_SR
-  linkedZone: {fileID: 0}
   linkedZoneNode: {fileID: 0}
   rect:
     serializedVersion: 2
@@ -684,7 +667,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Frankie.ZoneManagement.ZoneNode
   children:
   - LV_B3-to-B3_SR
-  linkedZone: {fileID: 0}
   linkedZoneNode: {fileID: 0}
   rect:
     serializedVersion: 2
@@ -715,7 +697,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Frankie.ZoneManagement.ZoneNode
   children:
   - LV_B3_SR-to-B3
-  linkedZone: {fileID: 0}
   linkedZoneNode: {fileID: 0}
   rect:
     serializedVersion: 2
@@ -746,7 +727,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Frankie.ZoneManagement.ZoneNode
   children:
   - LV_B1-to-B1_SR
-  linkedZone: {fileID: 0}
   linkedZoneNode: {fileID: 0}
   rect:
     serializedVersion: 2
@@ -777,7 +757,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Frankie.ZoneManagement.ZoneNode
   children:
   - LV_B2_SR-to-B1_SR2
-  linkedZone: {fileID: 0}
   linkedZoneNode: {fileID: 0}
   rect:
     serializedVersion: 2
@@ -808,7 +787,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Frankie.ZoneManagement.ZoneNode
   children:
   - LV_B4-to-1f_SR
-  linkedZone: {fileID: 0}
   linkedZoneNode: {fileID: 0}
   rect:
     serializedVersion: 2
@@ -824,7 +802,10 @@ MonoBehaviour:
     width: 430
     height: 45
   condition:
-    and: []
+    and:
+    - or:
+      - predicate: {fileID: 11400000, guid: 35b2cade12aee4b72b634a8e869dd5c2, type: 2}
+        negate: 0
 --- !u!114 &8252342709599866951
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -839,7 +820,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Frankie.ZoneManagement.ZoneNode
   children:
   - LV_B1-to-B2
-  linkedZone: {fileID: 0}
   linkedZoneNode: {fileID: 0}
   rect:
     serializedVersion: 2
@@ -870,7 +850,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Frankie.ZoneManagement.ZoneNode
   children:
   - LV_B1-to-1f
-  linkedZone: {fileID: 0}
   linkedZoneNode: {fileID: 0}
   rect:
     serializedVersion: 2
@@ -901,7 +880,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Frankie.ZoneManagement.ZoneNode
   children:
   - LV_1f_SR-to-1f
-  linkedZone: {fileID: 0}
   linkedZoneNode: {fileID: 0}
   rect:
     serializedVersion: 2

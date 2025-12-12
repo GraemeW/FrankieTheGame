@@ -9,16 +9,8 @@ namespace Frankie.Core
         public override bool? Evaluate(QuestList questList)
         {
             QuestStatus questStatus = questList.GetQuestStatus(quest);
-            if (questStatus == null) { return false; } // i.e. haven't even started the quest, let alone completed
-
-            if (questStatus.IsComplete())
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
+            return questStatus != null && // i.e. haven't even started the quest, let alone completed
+                   questStatus.IsComplete();
         }
     }
 }
