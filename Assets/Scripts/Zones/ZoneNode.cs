@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
@@ -9,45 +8,31 @@ namespace Frankie.ZoneManagement
     [System.Serializable]
     public class ZoneNode : ScriptableObject
     {
+        // Tunables
         [Header("Zone Node Properties")]
-        [SerializeField] List<string> children = new List<string>();
-        [SerializeField] Zone linkedZone = null;
-        [SerializeField] ZoneNode linkedZoneNode = null;
-        [SerializeField] Rect rect = new Rect(30, 30, 430, 150);
-        [HideInInspector][SerializeField] string zoneName = null;
-        [HideInInspector][SerializeField] Rect draggingRect = new Rect(0, 0, 430, 45);
+        [SerializeField] private List<string> children = new();
+        [SerializeField] private ZoneNode linkedZoneNode;
+        [SerializeField] private Rect rect = new(30, 30, 430, 150);
+        [HideInInspector][SerializeField] private string zoneName;
+        [HideInInspector][SerializeField] private Rect draggingRect = new(0, 0, 430, 45);
         [Header("Additional Properties")]
-        [SerializeField] Condition condition = null;
+        [SerializeField] private Condition condition;
 
-        public string GetZoneName()
+        #region Getters
+        public string GetZoneName() => zoneName;
+        public Zone GetZone() => Zone.GetFromName(zoneName);
+        public string GetNodeID() => name;
+        public List<string> GetChildren() => children.Count == 0 ? null : children;
+        public ZoneNode GetLinkedZoneNode() => linkedZoneNode;
+        public bool HasLinkedSceneReference()
         {
-            return zoneName;
+            if (linkedZoneNode == null) { return false; }
+            Zone linkedZone = linkedZoneNode.GetZone();
+            return linkedZone != null && linkedZone.GetSceneReference().IsSet();
         }
+        #endregion
 
-        public string GetNodeID()
-        {
-            return name;
-        }
-
-        public bool HasSceneReference()
-        {
-            if (linkedZone == null || linkedZoneNode == null) { return false; }
-
-            return (linkedZone.GetSceneReference() != null);
-        }
-
-        public ZoneNodePair GetZoneReferenceNodeReferencePair()
-        {
-            ZoneNodePair zoneNodePair = new ZoneNodePair(linkedZone, linkedZoneNode);
-            return zoneNodePair;
-        }
-
-        public List<string> GetChildren()
-        {
-            if (children.Count == 0) { return null; }
-            return children;
-        }
-
+        #region PublicMethods
         public void UpdateChildNodeID(string oldID, string newID)
         {
             if (!children.Contains(oldID)) { return; }
@@ -60,22 +45,12 @@ namespace Frankie.ZoneManagement
         {
             return condition.Check(evaluators);
         }
+        #endregion
 
-        public Vector2 GetPosition()
-        {
-            return rect.position;
-        }
-
-        public Rect GetRect()
-        {
-            return rect;
-        }
-
-        public Rect GetDraggingRect()
-        {
-            return draggingRect;
-        }
-
+        #region ZoneEditorMethods
+        public Vector2 GetPosition() => rect.position;
+        public Rect GetRect() => rect;
+        public Rect GetDraggingRect() => draggingRect;
 
 #if UNITY_EDITOR
         public void Initialize(int width, int height)
@@ -85,26 +60,21 @@ namespace Frankie.ZoneManagement
             EditorUtility.SetDirty(this);
         }
 
-        public void SetZoneName(string zoneName)
+        public void SetZoneName(string setZoneName)
         {
-            if (zoneName != this.zoneName)
-            {
-                Undo.RecordObject(this, "Update Zone");
-                this.zoneName = zoneName;
-                EditorUtility.SetDirty(this);
-            }
+            if (setZoneName == zoneName) return;
+            Undo.RecordObject(this, "Update Zone");
+            zoneName = setZoneName;
+            EditorUtility.SetDirty(this);
         }
 
         public bool SetNodeID(string id)
         {
-            if (id != name)
-            {
-                Undo.RecordObject(this, "Update Detail");
-                name = id;
-                EditorUtility.SetDirty(this);
-                return true;
-            }
-            return false;
+            if (id == name) return false;
+            Undo.RecordObject(this, "Update Detail");
+            name = id;
+            EditorUtility.SetDirty(this);
+            return true;
         }
 
         public void AddChild(string childID)
@@ -128,14 +98,13 @@ namespace Frankie.ZoneManagement
             EditorUtility.SetDirty(this);
         }
 
-        public void SetDraggingRect(Rect draggingRect)
+        public void SetDraggingRect(Rect setDraggingRect)
         {
-            if (draggingRect != this.draggingRect)
-            {
-                this.draggingRect = draggingRect;
-                EditorUtility.SetDirty(this);
-            }
+            if (setDraggingRect == draggingRect) return;
+            draggingRect = setDraggingRect;
+            EditorUtility.SetDirty(this);
         }
 #endif
+        #endregion
     }
 }

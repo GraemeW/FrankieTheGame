@@ -61,8 +61,10 @@ namespace Frankie.Quests
             QuestStatus questStatus = TryAddQuest(quest);
             if (questStatus == null) { return; }
             
-            if (questStatus.IsComplete() && questStatus.IsRewardGiven()) { return; } // Disallow completion of quests // disbursement of rewards multiple times
+            // Disallow completion of quests // disbursement of rewards multiple times
+            if (questStatus.IsComplete() && questStatus.IsRewardGiven()) { return; } 
 
+            // Complete Quest
             questStatus.SetObjective(questObjective, true);
 
             // Standard reward handling otherwise
@@ -71,7 +73,8 @@ namespace Frankie.Quests
                 questStatus.SetRewardGiven(true); // Initially set reward given BEFORE giving reward to prevent knapsackUpdated loops
                 if (!TryGiveReward(quest))
                 {
-                    questStatus.SetRewardGiven(false); // Allow re-tries on giving awards if failing
+                    // Allow re-tries on giving awards if failing
+                    questStatus.SetRewardGiven(false); 
                 }
             }
 
