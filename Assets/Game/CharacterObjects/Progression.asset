@@ -281,7 +281,7 @@ MonoBehaviour:
     - stat: 1
       value: 250
     - stat: 2
-      value: 500
+      value: 400
     - stat: 3
       value: 999
     - stat: 4
@@ -307,7 +307,7 @@ MonoBehaviour:
     - stat: 1
       value: 250
     - stat: 2
-      value: 500
+      value: 400
     - stat: 3
       value: 999
     - stat: 4
@@ -333,7 +333,7 @@ MonoBehaviour:
     - stat: 1
       value: 250
     - stat: 2
-      value: 500
+      value: 400
     - stat: 3
       value: 999
     - stat: 4
@@ -359,7 +359,7 @@ MonoBehaviour:
     - stat: 1
       value: 250
     - stat: 2
-      value: 500
+      value: 400
     - stat: 3
       value: 999
     - stat: 4
@@ -377,7 +377,7 @@ MonoBehaviour:
     - stat: 10
       value: 6
     - stat: 11
-      value: 5
+      value: 4
   - characterProperties: {fileID: 11400000, guid: e97120b87e74eee4f9d9d8659f0bddf5, type: 2}
     stats:
     - stat: 0

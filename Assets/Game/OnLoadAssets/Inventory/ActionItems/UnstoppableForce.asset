@@ -16,6 +16,6 @@ MonoBehaviour:
   displayName: Unstoppable Force
   description: If only you could find an immovable object.
   droppable: 1
-  price: 1
+  price: 50
   consumable: 1
   battleAction: {fileID: 11400000, guid: 369d3542d7ee3456ca04fdf341fcf1f3, type: 2}
