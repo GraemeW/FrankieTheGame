@@ -20,8 +20,8 @@ namespace Frankie.Quests
         // State
         // Objectives
         [HideInInspector][SerializeField] private List<QuestObjective> questObjectives = new();
-        [HideInInspector][SerializeField] private Dictionary<string, QuestObjective> objectiveIDLookup = new();
-        [HideInInspector][SerializeField] private Dictionary<string, QuestObjective> objectiveNameLookup = new();
+        private Dictionary<string, QuestObjective> objectiveIDEditorLookup = new();
+        private Dictionary<string, QuestObjective> objectiveNameEditorLookup = new();
         // Quest
         private static AsyncOperationHandle<IList<Quest>> _addressablesLoadHandle;
         private static Dictionary<string, Quest> _questLookupCache;
@@ -64,21 +64,10 @@ namespace Frankie.Quests
 
         #region PublicMethods
         public string GetQuestID() => questID;
-
         public string GetDetail() => detail;
-
-        public bool HasObjective(QuestObjective matchObjective)
-        {
-            return questObjectives.Any(questObjective => questObjective.GetObjectiveID() == matchObjective.GetObjectiveID());
-        }
-
+        public QuestObjective GetObjectiveFromID(string objectiveID) => questObjectives.FirstOrDefault(questObjective => questObjective.GetObjectiveID() == objectiveID);
+        public bool HasObjective(QuestObjective matchObjective) => questObjectives.Any(questObjective => questObjective.GetObjectiveID() == matchObjective.GetObjectiveID());
         public int GetObjectiveCount() => questObjectives.Count;
-
-        public QuestObjective GetObjectiveFromID(string objectiveID)
-        {
-            return objectiveIDLookup[objectiveID] != null ? objectiveIDLookup[objectiveID] : null;
-        }
-
         public bool HasReward() => (rewards.Count > 0);
         public List<Reward> GetRewards() => rewards;
         #endregion
@@ -90,7 +79,7 @@ namespace Frankie.Quests
             foreach (string questObjectiveName in questObjectiveNames)
             {
                 if (string.IsNullOrWhiteSpace(questObjectiveName)) { continue; }
-                if (objectiveNameLookup.ContainsKey(questObjectiveName)) { continue; }
+                if (objectiveNameEditorLookup.ContainsKey(questObjectiveName)) { continue; }
                 CreateObjective(questObjectiveName);
             }
             CleanUpObjectives();
@@ -161,14 +150,16 @@ namespace Frankie.Quests
         #region UnityMethods
         private void OnValidate()
         {
-            objectiveIDLookup = new Dictionary<string, QuestObjective>();
-            objectiveNameLookup = new Dictionary<string, QuestObjective>();
+#if UNITY_EDITOR
+            objectiveIDEditorLookup = new Dictionary<string, QuestObjective>();
+            objectiveNameEditorLookup = new Dictionary<string, QuestObjective>();
             foreach (QuestObjective questObjective in questObjectives.Where(questObjective => questObjective != null))
             {
                 string objectiveID = questObjective.GetObjectiveID();
-                if (!objectiveIDLookup.TryAdd(objectiveID, questObjective)) { continue; }
-                if (!objectiveNameLookup.TryAdd(questObjective.name, questObjective)) { continue; }
+                if (!objectiveIDEditorLookup.TryAdd(objectiveID, questObjective)) { continue; }
+                if (!objectiveNameEditorLookup.TryAdd(questObjective.name, questObjective)) { continue; }
             }
+#endif
         }
 
         void ISerializationCallbackReceiver.OnBeforeSerialize()

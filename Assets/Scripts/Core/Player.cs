@@ -35,9 +35,9 @@ namespace Frankie.Core
         #region UnityMethods
         private void Awake()
         {
-            VerifySingleton();
             playerStateHandler = GetComponent<PlayerStateMachine>();
             partyCombatConduit = GetComponent<PartyCombatConduit>();
+            VerifySingleton();
         }
 
         private void OnEnable()

@@ -172,16 +172,6 @@ namespace Frankie.Core
         {
             SavingSystem.Delete(_sessionFile);
         }
-
-        public static void SetSaveToDebug()
-        {
-            SetCurrentSave(_debugFile);
-        }
-
-        public static void DeleteDebugSave()
-        {
-            SavingSystem.Delete(_debugFile);
-        }
         #endregion
 
         #region PrivateMethods
@@ -204,7 +194,7 @@ namespace Frankie.Core
 
         private static string GetCurrentSave()
         {
-            return !PlayerPrefs.HasKey(_playerPrefsCurrentSave) ? null : PlayerPrefs.GetString(_playerPrefsCurrentSave);
+            return (!PlayerPrefs.HasKey(_playerPrefsCurrentSave) ? null : PlayerPrefs.GetString(_playerPrefsCurrentSave)) ?? _debugFile;
         }
         #endregion
     }

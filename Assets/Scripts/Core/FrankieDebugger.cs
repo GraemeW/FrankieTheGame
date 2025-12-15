@@ -77,14 +77,12 @@ namespace Frankie.Core
         private void Save()
         {
             Debug.Log($"Frankie Debugger:  Saving Game...");
-            SavingWrapper.SetSaveToDebug();
             SavingWrapper.Save();
         }
 
         private void Continue()
         {
             Debug.Log($"Frankie Debugger:  Loading Game...");
-            SavingWrapper.SetSaveToDebug();
             SavingWrapper.Continue();
         }
 
@@ -92,7 +90,7 @@ namespace Frankie.Core
         {
             Debug.Log($"Frankie Debugger:  Deleting Game...");
             SavingWrapper.DeleteSession();
-            SavingWrapper.DeleteDebugSave();
+            SavingWrapper.Delete();
         }
 
         private void NewSave()

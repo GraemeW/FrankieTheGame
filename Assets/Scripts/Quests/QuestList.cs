@@ -30,8 +30,7 @@ namespace Frankie.Quests
         #region PublicMethods
         public QuestStatus GetQuestStatus(Quest quest)
         {
-            if (quest == null) { return null; }
-            return questStatuses.FirstOrDefault(questStatus => questStatus.GetQuest().GetQuestID() == quest.GetQuestID());
+            return quest != null ? questStatuses.FirstOrDefault(questStatus => questStatus.GetQuest().GetQuestID() == quest.GetQuestID()) : null;
         }
         
         public bool HasQuest(Quest quest) => (GetQuestStatus(quest) != null);
@@ -126,13 +125,11 @@ namespace Frankie.Quests
 
         public void RestoreState(SaveState saveState)
         {
-            var serializableQuestStatuses = saveState.GetState(typeof(List<SerializableQuestStatus>)) as List<SerializableQuestStatus>;
-            if (serializableQuestStatuses == null) { return; }
+            if (saveState.GetState(typeof(List<SerializableQuestStatus>)) is not List<SerializableQuestStatus> serializableQuestStatuses) { return; }
             questStatuses.Clear();
 
-            foreach (SerializableQuestStatus serializableQuestStatus in serializableQuestStatuses)
+            foreach (QuestStatus questStatus in serializableQuestStatuses.Select(serializableQuestStatus => new QuestStatus(serializableQuestStatus)))
             {
-                QuestStatus questStatus = new QuestStatus(serializableQuestStatus);
                 questStatuses.Add(questStatus);
             }
             questListUpdated?.Invoke();
