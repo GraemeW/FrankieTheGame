@@ -15,7 +15,7 @@ namespace Frankie.Combat.Spawner
         [NonReorderable][SerializeField] private SpawnConfigurationProbabilityPair<SpawnConfiguration>[] spawnConfigurations;
 
         // State
-        private float timeUntilNextSpawn;
+        private float timeUntilNextSpawn = -1f;
 
         #region UnityMethods
         private void OnEnable()
@@ -42,7 +42,7 @@ namespace Frankie.Combat.Spawner
         #region PublicMethods
         public void SpawnEnemies() // Callable by Unity Events
         {
-            if (timeBetweenSpawns > 0f && timeUntilNextSpawn > 0f) { return; }
+            if (!spawnOnEnable && (timeBetweenSpawns > 0f && timeUntilNextSpawn > 0f)) { return; }
 
             SpawnConfiguration spawnConfiguration = GetSpawnConfiguration();
             if (spawnConfiguration == null) { return; }
@@ -89,6 +89,7 @@ namespace Frankie.Combat.Spawner
             Gizmos.color = Color.magenta;
             var cubeCoordinates = new Vector3(xJitterDistance * 2, yJitterDistance * 2, 0f);
             Gizmos.DrawWireCube(transform.position, cubeCoordinates);
+            Gizmos.DrawSphere(transform.position, 0.15f);
         }
 #endif
     }
