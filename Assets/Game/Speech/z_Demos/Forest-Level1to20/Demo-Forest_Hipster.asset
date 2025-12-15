@@ -1,5 +1,36 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-8655343534138553665
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 09c07c7c6f4c666429a0bbc8d18232b2, type: 3}
+  m_Name: 03f5a47a-4555-4d71-8150-db9e4486c89a
+  m_EditorClassIdentifier: Assembly-CSharp::Frankie.Speech.DialogueNode
+  speakerType: 1
+  characterProperties: {fileID: 0}
+  speakerName: Hipster
+  text: Maybe you could go check it out?
+  children: []
+  rect:
+    serializedVersion: 2
+    x: 1530
+    y: 30
+    width: 400
+    height: 225
+  draggingRect:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 400
+    height: 45
+  condition:
+    and: []
 --- !u!114 &-5650545071258031648
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -15,9 +46,10 @@ MonoBehaviour:
   speakerType: 1
   characterProperties: {fileID: 0}
   speakerName: Hipster
-  text: This elevator is broken.
+  text: Skip
   children:
   - c200f42e-eda1-4cef-af9a-4c13ee05d3f8
+  - 9fbf5639-d576-433f-981d-bba097be5de6
   rect:
     serializedVersion: 2
     x: 30
@@ -47,8 +79,10 @@ MonoBehaviour:
   speakerType: 1
   characterProperties: {fileID: 0}
   speakerName: Hipster
-  text: Maybe you could go check it out?
-  children: []
+  text: I think the electrical breaker tripped and needs to be reset, but it's in
+    the basement and the workers here have kinda gone mad.
+  children:
+  - 03f5a47a-4555-4d71-8150-db9e4486c89a
   rect:
     serializedVersion: 2
     x: 1030
@@ -75,7 +109,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aac27b8e802ced743b3f275e283ab9df, type: 3}
   m_Name: Demo-Forest_Hipster
   m_EditorClassIdentifier: Assembly-CSharp::Frankie.Speech.Dialogue
-  skipRootNode: 0
+  skipRootNode: 1
   newNodeOffset: {x: 100, y: 25}
   nodeWidth: 400
   nodeHeight: 225
@@ -84,6 +118,42 @@ MonoBehaviour:
   - {fileID: -5650545071258031648}
   - {fileID: 9069237882649166948}
   - {fileID: -3909533690424340822}
+  - {fileID: 7370686497994775933}
+  - {fileID: -8655343534138553665}
+--- !u!114 &7370686497994775933
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 09c07c7c6f4c666429a0bbc8d18232b2, type: 3}
+  m_Name: 9fbf5639-d576-433f-981d-bba097be5de6
+  m_EditorClassIdentifier: Assembly-CSharp::Frankie.Speech.DialogueNode
+  speakerType: 1
+  characterProperties: {fileID: 0}
+  speakerName: Hipster
+  text: Yeehaw, you did it!  You madman, you really gosh darn did it!
+  children: []
+  rect:
+    serializedVersion: 2
+    x: 530
+    y: 280
+    width: 400
+    height: 225
+  draggingRect:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 400
+    height: 45
+  condition:
+    and:
+    - or:
+      - predicate: {fileID: 11400000, guid: 35b2cade12aee4b72b634a8e869dd5c2, type: 2}
+        negate: 0
 --- !u!114 &9069237882649166948
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -99,8 +169,7 @@ MonoBehaviour:
   speakerType: 1
   characterProperties: {fileID: 0}
   speakerName: Hipster
-  text: I think the electrical breaker tripped and needs to be reset, but it's in
-    the basement and the workers here have kinda gone mad.
+  text: This elevator is broken.
   children:
   - fe69df77-fc26-4f7c-b200-23bb4e713cd7
   rect:
@@ -116,4 +185,7 @@ MonoBehaviour:
     width: 400
     height: 45
   condition:
-    and: []
+    and:
+    - or:
+      - predicate: {fileID: 11400000, guid: 35b2cade12aee4b72b634a8e869dd5c2, type: 2}
+        negate: 1
