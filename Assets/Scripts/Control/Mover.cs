@@ -154,6 +154,30 @@ namespace Frankie.Control
 
             return target;
         }
+
+        protected void SetLookDirection(PlayerInputType playerInputType)
+        {
+            Vector2 newLookDirection;
+            switch (playerInputType)
+            {
+                case PlayerInputType.NavigateDown:
+                    newLookDirection = Vector2.down;
+                    break;
+                case PlayerInputType.NavigateUp:
+                    newLookDirection = Vector2.up;
+                    break;
+                case PlayerInputType.NavigateLeft:
+                    newLookDirection = Vector2.left;
+                    break;
+                case PlayerInputType.NavigateRight:
+                    newLookDirection = Vector2.right;
+                    break;
+                default:
+                    newLookDirection = Vector2.zero;
+                    break;
+            }
+            SetLookDirection(newLookDirection);
+        }
         #endregion
 
         #region  PrivateMethods
@@ -205,16 +229,16 @@ namespace Frankie.Control
             {
                 position = new SerializableVector2(transform.position)
             };
-            SaveState saveState = new SaveState(GetLoadPriority(), data);
+            var saveState = new SaveState(GetLoadPriority(), data);
             return saveState;
         }
 
         void ISaveable.RestoreState(SaveState saveState)
         {
-            var moverSaveData = saveState.GetState(typeof(MoverSaveData)) as MoverSaveData;
-            if (moverSaveData == null) { return; }
+            if (saveState.GetState(typeof(MoverSaveData)) is not MoverSaveData moverSaveData) { return; }
 
             if (rigidBody2D == null) { Awake(); } // Force initialization for objects set to disable
+            
             transform.position = moverSaveData.position.ToVector();
             SetLookDirection(Vector2.down);
         }

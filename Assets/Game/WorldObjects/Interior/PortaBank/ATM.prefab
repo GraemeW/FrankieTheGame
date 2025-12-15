@@ -38,6 +38,7 @@ Transform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &4484117035451051339
 SpriteRenderer:
+  serializedVersion: 2
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -83,6 +84,7 @@ SpriteRenderer:
   m_SortingLayerID: 1098151181
   m_SortingLayer: 2
   m_SortingOrder: 0
+  m_MaskInteraction: 0
   m_Sprite: {fileID: 581977978201141527, guid: f3a508b0dd4fcf946b047d35966c643e, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -92,7 +94,6 @@ SpriteRenderer:
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
-  m_MaskInteraction: 0
   m_SpriteSortPoint: 1
 --- !u!50 &4484117035451051700
 Rigidbody2D:
@@ -192,10 +193,6 @@ PrefabInstance:
       propertyPath: checkConfiguration
       value: 
       objectReference: {fileID: 11400000, guid: f904b2c5cefa5b34c99c573927af16ae, type: 2}
-    - target: {fileID: 360463939806289904, guid: bba889551c5f31544b36e98e1add3969, type: 3}
-      propertyPath: uniqueIdentifier
-      value: 71c6ea1a-5846-46a4-8ed2-54dffa433c05
-      objectReference: {fileID: 0}
     - target: {fileID: 6564381309038757640, guid: bba889551c5f31544b36e98e1add3969, type: 3}
       propertyPath: m_Name
       value: CheckWithConfiguration

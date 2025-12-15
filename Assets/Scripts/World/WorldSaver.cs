@@ -5,8 +5,11 @@ namespace Frankie.Control.Specialization
 {
     public class WorldSaver : MonoBehaviour
     {
-        public void Save()
+        [SerializeField] private InteractionEvent onSaveEvent;
+        
+        public void Save(PlayerStateMachine playerStateMachine)
         {
+            onSaveEvent?.Invoke(playerStateMachine);
             SavingWrapper.Save();
         }
     }

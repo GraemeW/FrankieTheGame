@@ -6,22 +6,22 @@ namespace Frankie.Quests
     public class QuestObjective : ScriptableObject, ISerializationCallbackReceiver
     {
         // Tunables
-        public string objectiveID = null;
-        public string description = null;
-        [HideInInspector][SerializeField] string questID = null;
+        public string objectiveID;
+        public string description;
+        [HideInInspector][SerializeField] private string questID;
 
         // Methods
         #region PublicMethods
-        public void SetObjectiveID(string objectiveID)
-        {
-            this.objectiveID = objectiveID;
-        }
         public string GetObjectiveID() => objectiveID;
-        public void SetQuestID(string questID)
-        {
-            this.questID = questID;
-        }
         public string GetQuestID() => questID;
+        public void SetObjectiveID(string setObjectiveID)
+        {
+            objectiveID = setObjectiveID;
+        }
+        public void SetQuestID(string setQuestID)
+        {
+            questID = setQuestID;
+        }
         #endregion
 
         #region UnityMethods

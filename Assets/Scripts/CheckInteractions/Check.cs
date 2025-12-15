@@ -9,16 +9,16 @@ namespace Frankie.Control
     {
         // Events
         [Header("Base Check Behaviour")]
-        [SerializeField] CheckType checkType = CheckType.Simple;
-        [SerializeField] protected InteractionEvent checkInteraction = null;
+        [SerializeField] private CheckType checkType = CheckType.Simple;
+        [SerializeField] protected InteractionEvent checkInteraction;
         [Header("Message Behaviour")]
-        [SerializeField][Tooltip("Otherwise, checks at end of interaction")] bool checkAtStartOfInteraction = false;
+        [SerializeField][Tooltip("Otherwise, checks at end of interaction")] private bool checkAtStartOfInteraction = false;
         [SerializeField][Tooltip("Use {0} for party leader")] protected string checkMessage = "{0} has checked this object";
-        [SerializeField] string defaultPartyLeaderName = "Frankie";
+        [SerializeField] private string defaultPartyLeaderName = "Frankie";
         [Header("Choice Behaviour")]
-        [SerializeField] string messageAccept = "OK!";
-        [SerializeField] string messageReject = "Nah";
-        [SerializeField][Tooltip("Optional action on reject choice")] InteractionEvent rejectInteraction = null;
+        [SerializeField] private string messageAccept = "OK!";
+        [SerializeField] private string messageReject = "Nah";
+        [SerializeField][Tooltip("Optional action on reject choice")] private InteractionEvent rejectInteraction;
 
         #region Interfaces
         public override bool HandleRaycast(PlayerStateMachine playerStateHandler, PlayerController playerController, PlayerInputType inputType, PlayerInputType matchType)
@@ -37,11 +37,7 @@ namespace Frankie.Control
         private bool SimpleCheck(PlayerStateMachine playerStateHandler, PlayerController playerController, PlayerInputType inputType, PlayerInputType matchType)
         {
             if (!IsInRange(playerController)) { return false; }
-
-            if (inputType == matchType)
-            {
-                checkInteraction?.Invoke(playerStateHandler);
-            }
+            if (inputType == matchType) { checkInteraction?.Invoke(playerStateHandler); }
             return true;
         }
 
@@ -56,14 +52,9 @@ namespace Frankie.Control
                 if (string.IsNullOrWhiteSpace(partyLeaderName)) { partyLeaderName = defaultPartyLeaderName; }
 
                 playerStateHandler.EnterDialogue(string.Format(checkMessage, partyLeaderName));
-                if (checkAtStartOfInteraction)
-                {
-                    checkInteraction?.Invoke(playerStateHandler);
-                }
-                else
-                {
-                    playerStateHandler.SetPostDialogueCallbackActions(checkInteraction);
-                }
+                
+                if (checkAtStartOfInteraction) { checkInteraction?.Invoke(playerStateHandler); }
+                else { playerStateHandler.SetPostDialogueCallbackActions(checkInteraction); }
             }
             return true;
         }
@@ -75,9 +66,11 @@ namespace Frankie.Control
 
             if (inputType == matchType)
             {
-                List<ChoiceActionPair> interactActions = new List<ChoiceActionPair>();
-                interactActions.Add(new ChoiceActionPair(messageAccept, () => checkInteraction.Invoke(playerStateHandler)));
-                interactActions.Add(new ChoiceActionPair(messageReject, () => rejectInteraction.Invoke(playerStateHandler)));
+                var interactActions = new List<ChoiceActionPair>
+                {
+                    new(messageAccept, () => checkInteraction.Invoke(playerStateHandler)),
+                    new(messageReject, () => rejectInteraction.Invoke(playerStateHandler))
+                };
 
                 string partyLeaderName = playerStateHandler.GetParty().GetPartyLeaderName();
                 playerStateHandler.EnterDialogue(string.Format(checkMessage, partyLeaderName), interactActions);

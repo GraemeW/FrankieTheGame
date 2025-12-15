@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Frankie.Core;
@@ -11,33 +10,31 @@ namespace Frankie.Control
     {
         // Tunables
         [Header("Hookups")]
-        [SerializeField] Transform parentTransformForToggling = null;
-        [SerializeField][Tooltip("True for enable, false for disable")] bool toggleToConditionMet = true;
-        [SerializeField] Condition condition = null;
+        [SerializeField] private Transform parentTransformForToggling;
+        [SerializeField][Tooltip("True for enable, false for disable")] private bool toggleToConditionMet = true;
+        [SerializeField] private Condition condition;
         [Header("Messages")]
-        [SerializeField][Tooltip("Use {0} for party leader")] string messageOnToggle = "*CLICK* Oh, it looks like {0} got the door open";
-        [SerializeField][Tooltip("Use {0} for party leader")] string messageOnConditionNotMet = "Huh, it appears to be locked";
-        [SerializeField] string defaultPartyLeaderName = "Frankie";
+        [SerializeField][Tooltip("Use {0} for party leader")] private string messageOnToggle = "*CLICK* Oh, it looks like {0} got the door open";
+        [SerializeField][Tooltip("Use {0} for party leader")] private string messageOnConditionNotMet = "Huh, it appears to be locked";
+        [SerializeField] private string defaultPartyLeaderName = "Frankie";
 
         // Events
         [Header("Events")]
-        [SerializeField] protected InteractionEvent checkInteraction = null;
-        [SerializeField] protected InteractionEvent checkInteractionOnConditionNotMet = null;
+        [SerializeField] protected InteractionEvent checkInteraction;
+        [SerializeField] protected InteractionEvent checkInteractionOnConditionNotMet;
 
         // State
-        bool childrenStateSetBySave = false;
+        private bool childrenStateSetBySave = false;
 
         private void Start()
         {
             if (childrenStateSetBySave) { return; }
             // Ensure correct order of operations (insurance:  nominally save happens before since existing at end of Awake)
 
-            if (parentTransformForToggling != null)
+            if (parentTransformForToggling == null) return;
+            foreach (Transform child in parentTransformForToggling)
             {
-                foreach (Transform child in parentTransformForToggling)
-                {
-                    child.gameObject.SetActive(!toggleToConditionMet);
-                }
+                child.gameObject.SetActive(!toggleToConditionMet);
             }
         }
 
@@ -55,7 +52,7 @@ namespace Frankie.Control
         private void ToggleChildren(PlayerStateMachine playerStateHandler)
         {
             if (transform.childCount == 0) { return; }
-
+            
             if (parentTransformForToggling == null) { parentTransformForToggling = transform; }
 
             string partyLeaderName = playerStateHandler.GetComponent<Party>()?.GetPartyLeaderName();
@@ -84,9 +81,7 @@ namespace Frankie.Control
 
         private bool CheckCondition(PlayerStateMachine playerStateHandler)
         {
-            if (condition == null) { return false; }
-
-            return condition.Check(GetEvaluators(playerStateHandler));
+            return condition != null && condition.Check(GetEvaluators(playerStateHandler));
         }
 
         private IEnumerable<IPredicateEvaluator> GetEvaluators(PlayerStateMachine playerStateHandler)
@@ -94,6 +89,7 @@ namespace Frankie.Control
             return playerStateHandler.GetComponentsInChildren<IPredicateEvaluator>();
         }
 
+        #region SaveInterface
         public override void RestoreState(SaveState state)
         {
             if (state == null) { return; }
@@ -110,5 +106,6 @@ namespace Frankie.Control
             }
             base.RestoreState(state);
         }
+        #endregion
     }
 }

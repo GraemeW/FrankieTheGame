@@ -7,34 +7,30 @@ namespace Frankie.Control.Specialization
     public class WorldPointAdjuster : MonoBehaviour
     {
         // Tunables
-        [SerializeField][Tooltip("Only used if calling methods that consume points")] float hpToAdjust = 0;
-        [SerializeField][Tooltip("Only used if calling methods that consume points")] float apToAdjust = 0;
+        [SerializeField][Tooltip("Only used if calling methods that consume points")] float hpToAdjust;
+        [SerializeField][Tooltip("Only used if calling methods that consume points")] float apToAdjust;
 
         // Public Methods
         public void AdjustPartyLeaderHP(PlayerStateMachine playerStateMachine) // Called via Unity events
         {
-            PartyCombatConduit partyCombatConduit = playerStateMachine.GetComponent<PartyCombatConduit>();
+            var partyCombatConduit = playerStateMachine.GetComponent<PartyCombatConduit>();
             CombatParticipant partyLeader = partyCombatConduit.GetPartyLeader();
-            if (partyLeader != null)
-            {
-                partyLeader.AdjustHP(hpToAdjust);
-                partyLeader.CheckIfDead();
-            }
+            if (partyLeader == null) return;
+            partyLeader.AdjustHP(hpToAdjust);
+            partyLeader.CheckIfDead();
         }
 
         public void AdjustPartyLeaderAP(PlayerStateMachine playerStateMachine) // Called via Unity events
         {
-            PartyCombatConduit partyCombatConduit = playerStateMachine.GetComponent<PartyCombatConduit>();
+            var partyCombatConduit = playerStateMachine.GetComponent<PartyCombatConduit>();
             CombatParticipant partyLeader = partyCombatConduit.GetPartyLeader();
-            if (partyLeader != null)
-            {
-                partyLeader.AdjustHP(apToAdjust);
-            }
+            if (partyLeader == null) return;
+            partyLeader.AdjustHP(apToAdjust);
         }
 
         public void AdjustPartyHP(PlayerStateMachine playerStateMachine) // Called via Unity events
         {
-            PartyCombatConduit partyCombatConduit = playerStateMachine.GetComponent<PartyCombatConduit>();
+            var partyCombatConduit = playerStateMachine.GetComponent<PartyCombatConduit>();
             foreach (CombatParticipant combatParticipant in partyCombatConduit.GetPartyCombatParticipants())
             {
                 combatParticipant.AdjustHP(hpToAdjust);
@@ -44,7 +40,7 @@ namespace Frankie.Control.Specialization
 
         public void AdjustPartyAP(PlayerStateMachine playerStateMachine) // Called via Unity events
         {
-            PartyCombatConduit partyCombatConduit = playerStateMachine.GetComponent<PartyCombatConduit>();
+            var partyCombatConduit = playerStateMachine.GetComponent<PartyCombatConduit>();
             foreach (CombatParticipant combatParticipant in partyCombatConduit.GetPartyCombatParticipants())
             {
                 combatParticipant.AdjustAP(apToAdjust);
@@ -53,16 +49,17 @@ namespace Frankie.Control.Specialization
 
         public void ReviveAndHealParty(PlayerStateMachine playerStateHandler) // Called via Unity events
         {
-            PartyCombatConduit partyCombatConduit = playerStateHandler.GetComponent<PartyCombatConduit>();
+            var partyCombatConduit = playerStateHandler.GetComponent<PartyCombatConduit>();
             foreach (CombatParticipant combatParticipant in partyCombatConduit.GetPartyCombatParticipants())
             {
-                combatParticipant.Revive(combatParticipant.GetMaxHP());
+                if (combatParticipant.IsDead()) { combatParticipant.Revive(combatParticipant.GetMaxHP()); }
+                else { combatParticipant.AdjustHP( combatParticipant.GetMaxHP() + Mathf.Epsilon ); }
             }
         }
 
         public void RestorePartyAP(PlayerStateMachine playerStateHandler) // Called via Unity Events
         {
-            PartyCombatConduit partyCombatConduit = playerStateHandler.GetComponent<PartyCombatConduit>();
+            var partyCombatConduit = playerStateHandler.GetComponent<PartyCombatConduit>();
             foreach (CombatParticipant combatParticipant in partyCombatConduit.GetPartyCombatParticipants())
             {
                 combatParticipant.AdjustAP(combatParticipant.GetMaxAP());
@@ -73,7 +70,8 @@ namespace Frankie.Control.Specialization
         {
             if (!gameObject.TryGetComponent(out CombatParticipant combatParticipant)) { return; }
 
-            combatParticipant.Revive(combatParticipant.GetMaxHP());
+            if (combatParticipant.IsDead()) { combatParticipant.Revive(combatParticipant.GetMaxHP()); }
+            else { combatParticipant.AdjustHP( combatParticipant.GetMaxHP() + Mathf.Epsilon ); }
         }
     }
 }

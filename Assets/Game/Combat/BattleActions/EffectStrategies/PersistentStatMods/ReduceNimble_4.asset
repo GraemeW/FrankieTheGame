@@ -14,8 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   effectGUID: 9eea04b2-418d-4417-a02e-8ca2ffa1c332
   fractionProbabilityToApply: 1
+  useStatContestProbabilityToApply: 0
+  statForContest: 8
   duration: 20
   stat: 7
   value: -4
   persistAfterCombat: 0
-  numberOfDuplicateEffectsAllowed: 3
+  numberOfDuplicateEffectsAllowed: 2

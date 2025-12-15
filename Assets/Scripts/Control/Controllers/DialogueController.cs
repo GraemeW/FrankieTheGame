@@ -134,7 +134,7 @@ namespace Frankie.Speech
         public bool IsChoosing()
         {
             if (currentDialogue == null) { return false; }
-            return (GetChoiceCount() > 1 && GetNextSpeakerType() == SpeakerType.playerSpeaker);
+            return (GetChoiceCount() > 1 && GetNextSpeakerType() == SpeakerType.PlayerSpeaker);
         }
         #endregion
 

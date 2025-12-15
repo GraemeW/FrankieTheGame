@@ -34,6 +34,7 @@ Transform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &315726821061284489
 SpriteRenderer:
+  serializedVersion: 2
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -79,6 +80,7 @@ SpriteRenderer:
   m_SortingLayerID: 181171043
   m_SortingLayer: 1
   m_SortingOrder: 15
+  m_MaskInteraction: 0
   m_Sprite: {fileID: 104175714, guid: eb70ee34523ad90469703551e0de74e3, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -88,7 +90,6 @@ SpriteRenderer:
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
-  m_MaskInteraction: 0
   m_SpriteSortPoint: 1
 --- !u!1001 &3118954862837243972
 PrefabInstance:
@@ -101,10 +102,6 @@ PrefabInstance:
     - target: {fileID: 1805854450624590715, guid: ced95d06413ae48bb94e4ed5114a5c84, type: 3}
       propertyPath: checkMessage
       value: Occupied!
-      objectReference: {fileID: 0}
-    - target: {fileID: 2946689132014277981, guid: ced95d06413ae48bb94e4ed5114a5c84, type: 3}
-      propertyPath: uniqueIdentifier
-      value: 108ce847-e54a-4e7b-8f46-ab474d0de926
       objectReference: {fileID: 0}
     - target: {fileID: 7070632766016029196, guid: ced95d06413ae48bb94e4ed5114a5c84, type: 3}
       propertyPath: m_Size.y

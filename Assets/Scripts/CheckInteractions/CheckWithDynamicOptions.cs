@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Frankie.Utils;
@@ -7,8 +6,8 @@ namespace Frankie.Control
 {
     public class CheckWithDynamicOptions : CheckBase
     {
-        [SerializeField][Tooltip("Must implement ICheckDynamic")] GameObject dynamicCheckObject = null;
-        [SerializeField] InteractionEvent checkInteraction = null;
+        [SerializeField][Tooltip("Must implement ICheckDynamic")] private GameObject dynamicCheckObject;
+        [SerializeField] private InteractionEvent checkInteraction;
 
         public override bool HandleRaycast(PlayerStateMachine playerStateHandler, PlayerController playerController, PlayerInputType inputType, PlayerInputType matchType)
         {

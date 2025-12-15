@@ -99,6 +99,15 @@ Character objects are broken down into:
 <img src="../../../InfoTools/Documentation/Game/CharacterObjects/NewPrefabVariant.png" width="400">
 
 * Rename the prefab variant to the character, and create a folder for it in [PCs](./PCs/) - move the prefab variant to this new folder
+* Adjust the `Unique Identifier` parameter under the `Saveable Entity` for the variant, as below
+  * For recurring characters (ongoing presence in the game):  Set to some constant value, such as the character name
+    * *this is critical to ensure character progress is maintained across the game with save progress*
+  * For non-recurring & multi-copy characters:  Keep blank/empty
+    * *this is critical to ensure unique identifiers are generated on placement in the scene or spawn*
+    * *this is especially pertinent if multiple copies of the entity may be present simultaneously*
+
+<img src="../../../InfoTools/Documentation/Game/CharacterObjects/SaveableEntityUniqueIdentifier.png" width="400">
+
 * Adjust the default sprite image for this character (Character Sprite -> Sprite Renderer -> Sprite) - e.g. like below for [Lucy](./PCs/Lucy/Lucy.prefab)
   * *Note:  Sprite artwork should follow the style guide, per [StyleGuide](../../../InfoTools/StyleGuide/README.md#game-object--world-artwork-pixel-art)*
   * *Note:  Sprite import settings should be adjusted, per [Game/WorldObjects](../WorldObjects/README.md#sprite-import--setup)*

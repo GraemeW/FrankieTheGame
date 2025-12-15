@@ -6,11 +6,13 @@ namespace Frankie.Quests
     [RequireComponent(typeof(CombatParticipant))]
     public class CombatParticipantQuestCompleter : QuestCompleter
     {
-        [SerializeField] StateAlteredType typeToMatch = StateAlteredType.Dead;
+        // Tunables
+        [SerializeField] private StateAlteredType typeToMatch = StateAlteredType.Dead;
 
         // Cached References
-        CombatParticipant combatParticipant = null;
+        private CombatParticipant combatParticipant;
 
+        #region UnityMethods
         private void Awake()
         {
             combatParticipant = GetComponent<CombatParticipant>();
@@ -25,13 +27,14 @@ namespace Frankie.Quests
         {
             combatParticipant.UnsubscribeToStateUpdates(CompleteObjective);
         }
+        #endregion
 
+        #region PrivateMethods
         private void CompleteObjective(StateAlteredInfo stateAlteredInfo)
         {
-            if (stateAlteredInfo.stateAlteredType == typeToMatch)
-            {
-                CompleteObjective();
-            }
+            if (stateAlteredInfo.stateAlteredType != typeToMatch) { return; }
+            CompleteObjective();
         }
+        #endregion
     }
 }

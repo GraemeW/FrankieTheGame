@@ -10,57 +10,39 @@ namespace Frankie.Control
         [SerializeField] protected float interactionDistance = 0.3f;
 
         // State
-        bool activeCheck = true;
+        private bool activeCheck = true;
 
         // Static
-        static string DEFAULT_LAYER_MASK = "Default";
-        static string INACTIVE_LAYER_MASK = "Ignore Raycast";
-
-        public virtual CursorType GetCursorType()
-        {
-            return CursorType.Check;
-        }
-
-        public abstract bool HandleRaycast(PlayerStateMachine playerStateHandler, PlayerController playerController, PlayerInputType inputType, PlayerInputType matchType);
+        private const string _defaultLayerMask = "Default";
+        private const string _inactiveLayerMask = "Ignore Raycast";
 
         protected bool IsInRange(PlayerController playerController)
         {
             if (!activeCheck) { return false; }
-
-            if (!this.CheckDistance(gameObject, transform.position, playerController, overrideDefaultInteractionDistance, interactionDistance))
-            {
-                return false;
-            }
-            return true;
+            return this.CheckDistance(gameObject, transform.position, playerController, overrideDefaultInteractionDistance, interactionDistance);
         }
-
-        bool IRaycastable.CheckDistanceTemplate()
-        {
-            // Not evaluated -> IRaycastableExtension
-            return false;
-        }
-
-        public void SetActiveCheck(bool enable)
+        
+        public void SetActiveCheck(bool enable) // Called via Unity Events
         {
             activeCheck = enable;
-            if (enable)
-            {
-                gameObject.layer = LayerMask.NameToLayer(DEFAULT_LAYER_MASK);
-            }
-            else
-            {
-                gameObject.layer = LayerMask.NameToLayer(INACTIVE_LAYER_MASK);
-            }
+            gameObject.layer = LayerMask.NameToLayer(enable ? _defaultLayerMask : _inactiveLayerMask);
         }
+        
+        #region RaycastableInterface
+        public virtual CursorType GetCursorType() => CursorType.Check;
 
-        public LoadPriority GetLoadPriority()
-        {
-            return LoadPriority.ObjectProperty;
-        }
+        public abstract bool HandleRaycast(PlayerStateMachine playerStateHandler, PlayerController playerController, PlayerInputType inputType, PlayerInputType matchType);
+
+        // Not evaluated -> IRaycastableExtension
+        bool IRaycastable.CheckDistanceTemplate() => false;
+        #endregion
+
+        #region SaveInterface
+        public LoadPriority GetLoadPriority() => LoadPriority.ObjectProperty;
 
         public SaveState CaptureState()
         {
-            SaveState saveState = new SaveState(GetLoadPriority(), activeCheck);
+            var saveState = new SaveState(GetLoadPriority(), activeCheck);
             return saveState;
         }
 
@@ -68,5 +50,6 @@ namespace Frankie.Control
         {
             SetActiveCheck((bool)state.GetState(typeof(bool)));
         }
+        #endregion
     }
 }

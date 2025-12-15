@@ -1,6 +1,7 @@
 using UnityEngine;
 using Frankie.Core;
 using Frankie.Utils.UI;
+using Frankie.ZoneManagement;
 
 namespace Frankie.Menu.UI
 {
@@ -8,15 +9,16 @@ namespace Frankie.Menu.UI
     {
         // Tunables
         [Header("Start Menu-Specific")]
-        [SerializeField] OptionsMenu optionsPrefab = null;
-        [SerializeField] LoadGameMenu loadGamePrefab = null;
-
+        [SerializeField] private OptionsMenu optionsPrefab;
+        [SerializeField] private LoadGameMenu loadGamePrefab;
+        [SerializeField] [Tooltip("Leave as blank to use default")] private Zone newGameZoneOverride;
+        
         // Cached References
-        Canvas startCanvas = null;
+        private Canvas startCanvas;
 
-        public void Setup(Canvas startCanvas)
+        public void Setup(Canvas setStartCanvas)
         {
-            this.startCanvas = startCanvas;
+            startCanvas = setStartCanvas;
 
             // Toggle to set up global input handling
             gameObject.SetActive(false);
@@ -31,6 +33,7 @@ namespace Frankie.Menu.UI
         public void LoadGame() // Called via Unity Events
         {
             LoadGameMenu loadGameMenu = Instantiate(loadGamePrefab, startCanvas.transform);
+            loadGameMenu.Setup(newGameZoneOverride);
             EnableInput(false);
             PassControl(loadGameMenu);
         }

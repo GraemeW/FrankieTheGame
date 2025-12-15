@@ -47,7 +47,7 @@ Targeting strategies all derive from the [TargetingStrategy](../../../Scripts/Co
 
 Friendly/foe description are relative to the character's disposition to the player.  The characters in a player's party are friendly to each other, and see enemies in combat as foes.  Likewise, an enemy is friendly to other enemies in combat, and sees the player characters as foes.
 
-In the above example **[SingleTargetDamage_HeavyCrit](./DamagePhysical/SingleTarget_Damage-Phys_3j2_4xCrit.asset)**, the targeting strategy is [SingleTargetLivingEnemies](../../Combat/BattleActions/TargetingStrategies/SingleTargetLivingEnemies.asset), which means the skill can only target a single character in opposition to the active character's disposition.  This targeting strategy furthermore applies a `LivingFilter`, such that it can only be applied to combat participants that are alive (i.e. hit points > 0).
+In the above example **[SingleTargetDamage_HeavyCrit](./DamagePhysical/SingleTarget_Damage-Phys_3j2_4xCrit.asset)**, the targeting strategy is [SingleTargetLivingEnemies](../../Combat/BattleActions/TargetingStrategies/AllTargetLivingFoes.asset), which means the skill can only target a single character in opposition to the active character's disposition.  This targeting strategy furthermore applies a `LivingFilter`, such that it can only be applied to combat participants that are alive (i.e. hit points > 0).
 
 <img src="../../../../InfoTools/Documentation/Game/OnLoadAssets/BattleActions/TargetingSingleEnemy.png" width="350">
 
@@ -59,7 +59,7 @@ See for example [Trample](./DamagePhysical/AllTarget_Damage-Phys_4j3.asset) asse
 
 <img src="../../../../InfoTools/Documentation/Game/OnLoadAssets/BattleActions/BattleActionTrample.png" width="350">
 
-, which applies a large health deduction to all enemies, by making use of the [AllTargetLivingEnemies](../../Combat/BattleActions/TargetingStrategies/AllTargetLivingEnemies.asset) targeting strategy:
+, which applies a large health deduction to all enemies, by making use of the [AllTargetLivingEnemies](../../Combat/BattleActions/TargetingStrategies/AllTargetLivingFoes.asset) targeting strategy:
 
 <img src="../../../../InfoTools/Documentation/Game/OnLoadAssets/BattleActions/TargetingMultiEnemies.png" width="350">
 
@@ -134,7 +134,7 @@ Some example basic effects include:
    
 <img src="../../../../InfoTools/Documentation/Game/OnLoadAssets/BattleActions/EffectPermanentStat.png" width="250">
 
-   * set cooldown: overrides the cooldown on the target (e.g. to delay enemy actions) - such as [SetCooldown_Long](../../Combat/BattleActions/EffectStrategies/SetCooldown/SetCooldown_8.asset)
+   * set cooldown: overrides the cooldown on the target (e.g. to delay enemy actions) - such as [SetCooldown_Long](../../Combat/BattleActions/EffectStrategies/SetCooldown/SetCooldown_8s.asset)
 
 <img src="../../../../InfoTools/Documentation/Game/OnLoadAssets/BattleActions/EffectSetCooldown.png" width="250">
 

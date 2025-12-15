@@ -64,23 +64,27 @@ namespace Frankie.ZoneManagement
         public bool IsFading() => fading;
         public void QueueInitiateBattleCallback(Action setInitiateBattleCallback) => initiateBattleCallback = setInitiateBattleCallback;
 
+        public IEnumerator BlipFade(float holdSeconds)
+        {
+            if (fading) { yield break; }
+            
+            // Re-use Zone-based fading (black screen)
+            yield return QueueFadeEntry(TransitionType.Zone);
+            yield return new WaitForSeconds(holdSeconds);
+            yield return QueueFadeExit(TransitionType.Zone);
+        }
+        
         public void UpdateFadeState(TransitionType transitionType, Zone nextZone)
         {
             // Non-IEnumerator Type for Scene Transitions:
             // Coroutine needs to exist on an object that will persist between scenes
-            if (fading == false)
-            {
-                StartCoroutine(Fade(transitionType, nextZone));
-            }
+            if (!fading) { StartCoroutine(ZoneFade(transitionType, nextZone)); }
         }
 
         public void UpdateFadeStateImmediate()
         {
             // Coroutine needs to exist on an object that will persist between scenes
-            if (fading == false)
-            {
-                StartCoroutine(FadeImmediate());
-            }
+            if (!fading) { StartCoroutine(FadeImmediate()); }
         }
 
         public IEnumerator QueueFadeEntry(TransitionType transitionType)
@@ -139,21 +143,19 @@ namespace Frankie.ZoneManagement
         #endregion
 
         #region PrivateMethods
-        private IEnumerator Fade(TransitionType transitionType, Zone zone)
+        private IEnumerator ZoneFade(TransitionType transitionType, Zone zone)
         {
-            if (transitionType == TransitionType.Zone)
-            {
-                yield return QueueFadeEntry(transitionType);
+            if (transitionType != TransitionType.Zone) yield break;
+            
+            yield return QueueFadeEntry(transitionType);
+            SavingWrapper.SaveSession(); // Save world state
+            yield return sceneLoader.value.LoadNewSceneAsync(zone);
 
-                SavingWrapper.SaveSession(); // Save world state
-                yield return sceneLoader.value.LoadNewSceneAsync(zone);
+            SavingWrapper.LoadSession(); // Load world state
+            fadingOut?.Invoke();
 
-                SavingWrapper.LoadSession(); // Load world state
-                fadingOut?.Invoke();
-
-                yield return QueueFadeExit(transitionType);
-                SavingWrapper.SaveSession();
-            }
+            yield return QueueFadeExit(transitionType);
+            SavingWrapper.SaveSession();
         }
 
         private IEnumerator FadeImmediate()

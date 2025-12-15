@@ -41,10 +41,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 8615411818870812834}
     m_Modifications:
-    - target: {fileID: 1288609124729262166, guid: 3ea47d49370c98e4e8dda14fd66b947b, type: 3}
-      propertyPath: uniqueIdentifier
-      value: 7026cfc2-44a6-46e2-a7dc-2b033d4fa90e
-      objectReference: {fileID: 0}
     - target: {fileID: 2308409281053914736, guid: 3ea47d49370c98e4e8dda14fd66b947b, type: 3}
       propertyPath: checkMessage
       value: Nobody's home...

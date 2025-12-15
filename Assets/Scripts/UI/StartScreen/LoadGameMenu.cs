@@ -4,30 +4,51 @@ using Frankie.Core;
 using Frankie.Utils;
 using Frankie.Utils.UI;
 using Frankie.Speech.UI;
+using Frankie.ZoneManagement;
 
 namespace Frankie.Menu.UI
 {
     public class LoadGameMenu : UIBox
     {
         [Header("Main Properties")]
-        [SerializeField] int maxSaves = 5;
-        [SerializeField] string optionNewGameText = "New Game";
-        [SerializeField] string optionLoadGameText = "Load Game";
-        [SerializeField] string optionDeleteGameText = "Delete Game";
-        [SerializeField] string messageGameSelectOptionText = "What do you want to do?";
-        [SerializeField] string messageConfirmDeletionText = "Are you really sure?";
-        [SerializeField] string messageAffirmative = "Yeah";
-        [SerializeField] string messageNegative = "Nah";
+        [SerializeField] private int maxSaves = 5;
+        [SerializeField] private string optionNewGameText = "New Game";
+        [SerializeField] private string optionLoadGameText = "Load Game";
+        [SerializeField] private string optionDeleteGameText = "Delete Game";
+        [SerializeField] private string messageGameSelectOptionText = "What do you want to do?";
+        [SerializeField] private string messageConfirmDeletionText = "Are you really sure?";
+        [SerializeField] private string messageAffirmative = "Yeah";
+        [SerializeField] private string messageNegative = "Nah";
         [Header("Hookups and Prefabs")]
-        [SerializeField] UIChoiceButton cancelOption = null;
-        [SerializeField] protected DialogueOptionBox dialogueOptionBoxPrefab = null;
+        [SerializeField] private UIChoiceButton cancelOption;
+        [SerializeField] protected DialogueOptionBox dialogueOptionBoxPrefab;
 
+        // State
+        private Zone newGameZoneOverride;
+        
+        #region UnityMethods
         protected override void OnEnable()
         {
             base.OnEnable();
             ResetUI();
         }
+        #endregion
+        
+        #region PublicMethods
 
+        public void Setup(Zone setNewGameZoneOverride)
+        {
+            newGameZoneOverride = setNewGameZoneOverride;
+        }
+        
+        public void Cancel()
+        {
+            HandleClientExit();
+            Destroy(gameObject);
+        }
+        #endregion
+
+        #region PrivateMethods
         private void ResetUI()
         {
             foreach (Transform child in optionParent)
@@ -49,7 +70,7 @@ namespace Frankie.Menu.UI
                 }
                 else
                 {
-                    loadGameEntry.Setup(index, optionNewGameText, 0, () => SavingWrapper.NewGame(saveName));
+                    loadGameEntry.Setup(index, optionNewGameText, 0, () => SavingWrapper.NewGame(saveName, newGameZoneOverride));
                 }
                 loadGameEntry.SetChoiceOrder(choiceOptions.Count + 1);
                 choiceOptions.Add(loadGameEntry);
@@ -63,9 +84,15 @@ namespace Frankie.Menu.UI
         {
             DialogueOptionBox dialogueOptionBox = Instantiate(dialogueOptionBoxPrefab, transform.parent);
             dialogueOptionBox.Setup(messageGameSelectOptionText);
-            List<ChoiceActionPair> choiceActionPairs = new List<ChoiceActionPair>();
-            choiceActionPairs.Add(new ChoiceActionPair(optionLoadGameText, () => SavingWrapper.LoadGame(saveName)));
-            choiceActionPairs.Add(new ChoiceActionPair(optionDeleteGameText, () => { SpawnConfirmDeletionOptions(saveName); Destroy(dialogueOptionBox.gameObject); }));
+            var choiceActionPairs = new List<ChoiceActionPair>
+            {
+                new(optionLoadGameText, () => SavingWrapper.LoadGame(saveName)),
+                new(optionDeleteGameText, () =>
+                {
+                    SpawnConfirmDeletionOptions(saveName);
+                    Destroy(dialogueOptionBox.gameObject);
+                })
+            };
 
             dialogueOptionBox.OverrideChoiceOptions(choiceActionPairs);
             PassControl(dialogueOptionBox);
@@ -76,18 +103,20 @@ namespace Frankie.Menu.UI
         {
             DialogueOptionBox dialogueOptionBox = Instantiate(dialogueOptionBoxPrefab, transform.parent);
             dialogueOptionBox.Setup(messageConfirmDeletionText);
-            List<ChoiceActionPair> choiceActionPairs = new List<ChoiceActionPair>();
-            choiceActionPairs.Add(new ChoiceActionPair(messageAffirmative, () => { SavingWrapper.Delete(saveName); Destroy(dialogueOptionBox.gameObject); ResetUI(); }));
-            choiceActionPairs.Add(new ChoiceActionPair(messageNegative, () => Destroy(dialogueOptionBox.gameObject)));
+            var choiceActionPairs = new List<ChoiceActionPair>
+            {
+                new(messageAffirmative, () =>
+                {
+                    SavingWrapper.Delete(saveName);
+                    Destroy(dialogueOptionBox.gameObject);
+                    ResetUI();
+                }),
+                new(messageNegative, () => Destroy(dialogueOptionBox.gameObject))
+            };
 
             dialogueOptionBox.OverrideChoiceOptions(choiceActionPairs);
             PassControl(dialogueOptionBox);
         }
-
-        public void Cancel()
-        {
-            HandleClientExit();
-            Destroy(gameObject);
-        }
+        #endregion
     }
 }

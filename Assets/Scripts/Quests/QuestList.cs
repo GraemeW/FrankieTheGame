@@ -1,5 +1,4 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -13,10 +12,10 @@ namespace Frankie.Quests
     public class QuestList : MonoBehaviour, IPredicateEvaluator, ISaveable
     {
         // Tunables
-        List<QuestStatus> questStatuses = new List<QuestStatus>();
+        private readonly List<QuestStatus> questStatuses = new();
 
         // Cached References
-        PartyKnapsackConduit partyKnapsackConduit = null;
+        private PartyKnapsackConduit partyKnapsackConduit;
 
         // Events
         public event Action questListUpdated;
@@ -29,39 +28,27 @@ namespace Frankie.Quests
         #endregion
 
         #region PublicMethods
-        public IEnumerable<QuestStatus> GetActiveQuests()
-        {
-            return questStatuses.Where(c => !c.IsComplete());
-        }
-
-        public bool HasQuest(Quest quest)
-        {
-            return (GetQuestStatus(quest) != null);
-        }
-
         public QuestStatus GetQuestStatus(Quest quest)
         {
-            if (quest == null) { return null; }
-
-            foreach (QuestStatus questStatus in questStatuses)
-            {
-                if (questStatus.GetQuest().GetQuestID() == quest.GetQuestID())
-                {
-                    return questStatus;
-                }
-            }
-            return null;
+            return quest != null ? questStatuses.FirstOrDefault(questStatus => questStatus.GetQuest().GetQuestID() == quest.GetQuestID()) : null;
         }
-
-        public void AddQuest(Quest quest)
+        
+        public bool HasQuest(Quest quest) => (GetQuestStatus(quest) != null);
+        
+        public IEnumerable<QuestStatus> GetActiveQuests() => questStatuses.Where(c => !c.IsComplete());
+        
+        public QuestStatus TryAddQuest(Quest quest)
         {
-            if (HasQuest(quest)) { return; }
+            QuestStatus existingQuestStatus = GetQuestStatus(quest);
+            if (existingQuestStatus != null) { return existingQuestStatus; }
 
-            QuestStatus newQuestStatus = new QuestStatus(quest);
+            var newQuestStatus = new QuestStatus(quest);
             questStatuses.Add(newQuestStatus);
             CompleteObjectivesForItemsInKnapsack();
 
             questListUpdated?.Invoke();
+            
+            return newQuestStatus;
         }
 
         public void CompleteObjective(QuestObjective questObjective)
@@ -69,10 +56,14 @@ namespace Frankie.Quests
             Quest quest = Quest.GetFromID(questObjective.GetQuestID());
             if (quest == null) { return; }
 
-            QuestStatus questStatus = GetQuestStatus(quest);
+            // Auto-add the quest if it's not already present
+            QuestStatus questStatus = TryAddQuest(quest);
             if (questStatus == null) { return; }
-            if (questStatus.IsComplete() && questStatus.IsRewardGiven()) { return; } // Disallow completion of quests // disbursement of rewards multiple times
+            
+            // Disallow completion of quests // disbursement of rewards multiple times
+            if (questStatus.IsComplete() && questStatus.IsRewardGiven()) { return; } 
 
+            // Complete Quest
             questStatus.SetObjective(questObjective, true);
 
             // Standard reward handling otherwise
@@ -81,7 +72,8 @@ namespace Frankie.Quests
                 questStatus.SetRewardGiven(true); // Initially set reward given BEFORE giving reward to prevent knapsackUpdated loops
                 if (!TryGiveReward(quest))
                 {
-                    questStatus.SetRewardGiven(false); // Allow re-tries on giving awards if failing
+                    // Allow re-tries on giving awards if failing
+                    questStatus.SetRewardGiven(false); 
                 }
             }
 
@@ -117,41 +109,30 @@ namespace Frankie.Quests
         // Predicates
         public bool? Evaluate(Predicate predicate)
         {
-            PredicateQuestList predicateQuestList = predicate as PredicateQuestList;
+            var predicateQuestList = predicate as PredicateQuestList;
             return predicateQuestList != null ? predicateQuestList.Evaluate(this) : null;
         }
 
         // Save System
+        public LoadPriority GetLoadPriority() => LoadPriority.ObjectProperty;
+        
         public SaveState CaptureState()
         {
-            List<SerializableQuestStatus> serializableQuestStatuses = new List<SerializableQuestStatus>();
-            foreach (QuestStatus questStatus in questStatuses)
-            {
-                serializableQuestStatuses.Add(questStatus.CaptureState());
-            }
-
-            SaveState saveState = new SaveState(GetLoadPriority(), serializableQuestStatuses);
+            List<SerializableQuestStatus> serializableQuestStatuses = questStatuses.Select(questStatus => questStatus.CaptureState()).ToList();
+            var saveState = new SaveState(GetLoadPriority(), serializableQuestStatuses);
             return saveState;
         }
 
         public void RestoreState(SaveState saveState)
         {
-            List<SerializableQuestStatus> serializableQuestStatuses = saveState.GetState(typeof(List<SerializableQuestStatus>)) as List<SerializableQuestStatus>;
-            if (serializableQuestStatuses == null) { return; }
+            if (saveState.GetState(typeof(List<SerializableQuestStatus>)) is not List<SerializableQuestStatus> serializableQuestStatuses) { return; }
             questStatuses.Clear();
 
-            foreach (SerializableQuestStatus serializableQuestStatus in serializableQuestStatuses)
+            foreach (QuestStatus questStatus in serializableQuestStatuses.Select(serializableQuestStatus => new QuestStatus(serializableQuestStatus)))
             {
-                QuestStatus questStatus = new QuestStatus(serializableQuestStatus);
                 questStatuses.Add(questStatus);
             }
-
             questListUpdated?.Invoke();
-        }
-
-        public LoadPriority GetLoadPriority()
-        {
-            return LoadPriority.ObjectProperty;
         }
         #endregion
     }

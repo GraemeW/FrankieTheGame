@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using System.Text.RegularExpressions;
 using UnityEngine;
 using UnityEngine.Events;
@@ -11,32 +12,32 @@ namespace Frankie.ZoneManagement
     public class ZoneHandler : MonoBehaviour, IRaycastable
     {
         // Tunables 
-        [SerializeField] ZoneNode zoneNode = null;
-        [SerializeField] bool overrideDefaultInteractionDistance = false;
-        [SerializeField] float interactionDistance = 0.3f;
-        [SerializeField] Transform warpPosition = null;
-        [SerializeField] float delayToDestroyAfterSceneLoading = 0.1f;
+        [SerializeField] private ZoneNode zoneNode;
+        [SerializeField] private bool overrideDefaultInteractionDistance = false;
+        [SerializeField] private float interactionDistance = 0.3f;
+        [SerializeField] private Transform warpPosition;
+        [SerializeField] private float delayToDestroyAfterSceneLoading = 0.1f;
         [Header("Game Object (Dis)Enablement")]
-        [SerializeField][Tooltip("If left null, will attempt to auto-populate from parent")] Room roomParent = null;
-        [SerializeField] bool disableOnExit = true;
+        [SerializeField] [Tooltip("If left null, will attempt to auto-populate from parent")] private Room roomParent;
+        [SerializeField] private bool disableOnExit = true;
         [Header("Warp Properties")]
-        [SerializeField] bool randomizeChoice = true;
-        [SerializeField] string choiceMessage = "Where do you want to go?";
+        [SerializeField] private bool randomizeChoice = true;
+        [SerializeField] private string choiceMessage = "Where do you want to go?";
 
         // State
-        bool inTransitToNextScene = false;
-        string queuedZoneNodeID = null;
-        PlayerStateMachine playerStateMachine = null;
-        PlayerController playerController = null;
+        private bool inTransitToNextScene = false;
+        private string queuedZoneNodeID;
+        private PlayerStateMachine playerStateMachine;
+        private PlayerController playerController;
 
         // Cached References
-        Fader fader = null;
+        private Fader fader;
 
         // Events
         public UnityEvent zoneInteraction;
 
         // Static State
-        static List<ZoneHandler> activeZoneHandlers = new List<ZoneHandler>();
+        private static readonly List<ZoneHandler> _activeZoneHandlers = new();
 
         #region UnityMethods
         private void Awake()
@@ -53,20 +54,17 @@ namespace Frankie.ZoneManagement
         #region StaticMethods
         private static void AddToActiveZoneHandlers(ZoneHandler zoneHandler)
         {
-            if (activeZoneHandlers.Contains(zoneHandler)) { return; }
-            activeZoneHandlers.Add(zoneHandler);
+            if (_activeZoneHandlers.Contains(zoneHandler)) { return; }
+            _activeZoneHandlers.Add(zoneHandler);
         }
 
         private static void RemoveFromActiveZoneHandlers(ZoneHandler zoneHandler)
         {
-            activeZoneHandlers.Remove(zoneHandler);
+            _activeZoneHandlers.Remove(zoneHandler);
         }
-
-        public static ZoneNode SelectNodeFromIDs(string zoneID, string nodeID) => Zone.GetFromName(zoneID).GetNodeFromID(nodeID);
-
-        public static string GetStaticZoneNamePretty(string zoneName) => Regex.Replace(zoneName, "([a-z])_?([A-Z])", "$1 $2");
-
-        private static List<ZoneHandler> FindAllZoneHandlersInScene() => activeZoneHandlers;
+        
+        private static string GetStaticZoneNamePretty(string zoneName) => Regex.Replace(zoneName, "([a-z])_?([A-Z])", "$1 $2");
+        private static List<ZoneHandler> FindAllZoneHandlersInScene() => _activeZoneHandlers;
         #endregion
 
         #region PublicMethods
@@ -85,55 +83,53 @@ namespace Frankie.ZoneManagement
             if (roomParent != null) { roomParent.ToggleRoom(enable, true); }
         }
 
-        public void AttemptToWarpPlayer(PlayerStateMachine playerStateMachine) // Callable by Unity Events
+        public void AttemptToWarpPlayer(PlayerStateMachine passPlayerStateMachine) // Callable by Unity Events
         {
-            if (playerStateMachine.TryGetComponent(out PlayerController playerController))
-            {
-                AttemptToWarpPlayer(playerStateMachine, playerController);
-            }
+            if (!passPlayerStateMachine.TryGetComponent(out PlayerController passPlayerController)) { return; }
+            AttemptToWarpPlayer(passPlayerStateMachine, passPlayerController);
         }
         #endregion
 
         #region WarpMethods
-        private void SetUpCurrentReferences(PlayerStateMachine playerStateMachine, PlayerController playerController)
+        private void SetUpCurrentReferences(PlayerStateMachine setPlayerStateMachine, PlayerController setPlayerController)
         {
-            this.playerStateMachine = playerStateMachine;
-            this.playerController = playerController;
+            playerStateMachine = setPlayerStateMachine;
+            playerController = setPlayerController;
         }
 
-        private bool? IsSimpleWarp(PlayerStateMachine playerStateMachine)
+        private bool? IsSimpleWarp(PlayerStateMachine passPlayerStateMachine)
         {
             if (zoneNode == null || zoneNode.GetChildren() == null) { return null; }
-
-            if (GetFilteredZoneNodes(playerStateMachine).Count == 1 || randomizeChoice)
-            {
-                return true;
-            }
-            return false;
+            return GetFilteredZoneNodes(passPlayerStateMachine).Count == 1 || randomizeChoice;
         }
 
-        private void AttemptToWarpPlayer(PlayerStateMachine playerStateHandler, PlayerController playerController)
+        private void AttemptToWarpPlayer(PlayerStateMachine setPlayerStateHandler, PlayerController setPlayerController)
         {
-            SetUpCurrentReferences(playerStateHandler, playerController);
+            SetUpCurrentReferences(setPlayerStateHandler, setPlayerController);
             StartViableSceneTransition(zoneNode); // If scene setup on entry node, immediately kick off next scene load
 
-            bool? isSimpleWarp = IsSimpleWarp(playerStateHandler);
-            if (isSimpleWarp == null) { return; }
-
-            if (isSimpleWarp == true)
+            bool? isSimpleWarp = IsSimpleWarp(setPlayerStateHandler);
+            switch (isSimpleWarp)
             {
-                string nextNodeID = SelectRandomChildNodeID(playerStateMachine);
-                WarpPlayerToSpecificNode(nextNodeID);
-            }
-            else if (isSimpleWarp == false)
-            {
-                playerStateHandler.EnterDialogue(choiceMessage, GetZoneNameZoneNodePairs(playerStateHandler));
+                case null:
+                    return;
+                case true:
+                {
+                    string nextNodeID = SelectRandomChildNodeID(playerStateMachine);
+                    WarpPlayerToSpecificNode(nextNodeID);
+                    break;
+                }
+                case false:
+                {
+                    setPlayerStateHandler.EnterDialogue(choiceMessage, GetZoneNameZoneNodePairs(setPlayerStateHandler));
+                    break;
+                }
             }
         }
 
         private List<ChoiceActionPair> GetZoneNameZoneNodePairs(PlayerStateMachine playerStateHandler)
         {
-            List<ChoiceActionPair> choiceActionPairs = new List<ChoiceActionPair>();
+            var choiceActionPairs = new List<ChoiceActionPair>();
             foreach (string childNode in GetFilteredZoneNodes(playerStateHandler))
             {
                 string childNodeNamePretty = GetStaticZoneNamePretty(childNode);
@@ -148,17 +144,16 @@ namespace Frankie.ZoneManagement
             ZoneNode nextNode = Zone.GetFromName(zoneNode.GetZoneName()).GetNodeFromID(nodeID);
             if (nextNode == null) { return; }
 
-            StartViableSceneTransition(nextNode); // If scene setup on next node, likewise, kick off next scene load 
+            // If scene setup on next node, likewise, kick off next scene load
+            StartViableSceneTransition(nextNode);  
 
-            if (!inTransitToNextScene) // On scene transition, called via fader (sceneTransitionComplete)
-            {
-                ExecuteWarpToNode(nextNode.GetNodeID());
-            }
+            // On scene transition, called via fader (sceneTransitionComplete)
+            if (!inTransitToNextScene) { ExecuteWarpToNode(nextNode.GetNodeID()); } 
         }
 
-        private string SelectRandomChildNodeID(PlayerStateMachine playerStateMachine)
+        private string SelectRandomChildNodeID(PlayerStateMachine passPlayerStateMachine)
         {
-            List<string> childNodeOptions = GetFilteredZoneNodes(playerStateMachine);
+            List<string> childNodeOptions = GetFilteredZoneNodes(passPlayerStateMachine);
             if (zoneNode == null || childNodeOptions == null || childNodeOptions.Count == 0) { return null; }
 
             int nodeIndex = UnityEngine.Random.Range(0, childNodeOptions.Count);
@@ -171,29 +166,28 @@ namespace Frankie.ZoneManagement
         {
             foreach (ZoneHandler zoneHandler in FindAllZoneHandlersInScene())
             {
-                if (nextNodeID == zoneHandler.GetZoneNode()?.GetNodeID())
+                if (nextNodeID != zoneHandler.GetZoneNode()?.GetNodeID()) continue;
+                
+                Transform warpTransform = zoneHandler.GetWarpPosition();
+                if (warpTransform != null)
                 {
-                    Vector3 warpPosition = zoneHandler.GetWarpPosition().position;
-                    if (warpPosition != null)
-                    {
-                        playerController.gameObject.transform.position = warpPosition;
-                        Vector2 lookDirection = warpPosition - zoneHandler.transform.position;
-                        lookDirection.Normalize();
-                        playerController.GetPlayerMover().SetLookDirection(lookDirection);
-                        playerController.GetPlayerMover().ResetHistory(warpPosition);
-                    }
-                    else
-                    {
-                        playerController.gameObject.transform.position = zoneHandler.transform.position;
-                        playerController.GetPlayerMover().ResetHistory(zoneHandler.transform.position);
-                    }
-
-                    SwapActiveRoomParents(zoneHandler);
-                    zoneInteraction?.Invoke();
-                    queuedZoneNodeID = null;
-
-                    break; // Node transport complete, no need to complete loop
+                    playerController.gameObject.transform.position = warpTransform.position;
+                    Vector2 lookDirection = warpTransform.position - zoneHandler.transform.position;
+                    lookDirection.Normalize();
+                    playerController.GetPlayerMover().SetLookDirection(lookDirection);
+                    playerController.GetPlayerMover().ResetHistory(warpTransform.position);
                 }
+                else
+                {
+                    playerController.gameObject.transform.position = zoneHandler.transform.position;
+                    playerController.GetPlayerMover().ResetHistory(zoneHandler.transform.position);
+                }
+
+                SwapActiveRoomParents(zoneHandler);
+                zoneInteraction?.Invoke();
+                queuedZoneNodeID = null;
+
+                break; // Node transport complete, no need to complete loop
             }
 
             // Failsafe -- no movement
@@ -221,19 +215,18 @@ namespace Frankie.ZoneManagement
         #endregion
 
         #region SceneTransitionMethods
-        private void StartViableSceneTransition(ZoneNode zoneNode)
+        private void StartViableSceneTransition(ZoneNode startZoneNode)
         {
-            if (zoneNode == null) { return; }
+            if (startZoneNode == null) { return; }
+            if (!startZoneNode.HasLinkedSceneReference()) { return; }
+            
+            playerStateMachine.EnterZoneTransition();
+            SetZoneHandlerToPersistOnSceneTransition();
 
-            if (zoneNode.HasSceneReference())
-            {
-                playerStateMachine.EnterZoneTransition();
-                SetZoneHandlerToPersistOnSceneTransition();
+            ZoneNode linkedZoneNode = startZoneNode.GetLinkedZoneNode();
+            Zone linkedZone = linkedZoneNode.GetZone();
 
-                ZoneNodePair zoneNodePair = zoneNode.GetZoneReferenceNodeReferencePair();
-
-                TransitionToNextScene(zoneNodePair.zone, zoneNodePair.zoneNode); // NOTE:  Exit inTransition done on queued move
-            }
+            TransitionToNextScene(linkedZone, linkedZoneNode); // NOTE:  Exit inTransition done on queued move
         }
 
         private void SetZoneHandlerToPersistOnSceneTransition()
@@ -276,42 +269,30 @@ namespace Frankie.ZoneManagement
         #endregion
 
         #region NodeFilteringMethods
-        private List<string> GetFilteredZoneNodes(PlayerStateMachine playerStateMachine)
+        private List<string> GetFilteredZoneNodes(PlayerStateMachine passPlayerStateMachine)
         {
-            List<string> filteredZoneNodes = new List<string>();
-
+            var filteredZoneNodes = new List<string>();
             Zone zone = Zone.GetFromName(zoneNode.GetZoneName());
             if (zone == null) { return filteredZoneNodes; }
 
-            foreach (string zoneNodeID in zoneNode.GetChildren())
-            {
-                if (IsZoneNodeAvailable(playerStateMachine, zone, zoneNodeID))
-                {
-                    filteredZoneNodes.Add(zoneNodeID);
-                }
-            }
+            filteredZoneNodes.AddRange(zoneNode.GetChildren().Where(zoneNodeID => IsZoneNodeAvailable(passPlayerStateMachine, zone, zoneNodeID)));
             return filteredZoneNodes;
         }
 
-        private bool IsZoneNodeAvailable(PlayerStateMachine playerStateMachine, Zone zone, string zoneNodeID)
+        private bool IsZoneNodeAvailable(PlayerStateMachine passPlayerStateMachine, Zone zone, string zoneNodeID)
         {
             ZoneNode candidateNode = zone.GetNodeFromID(zoneNodeID);
-            if (candidateNode == null) { return false; }
-
-            return candidateNode.CheckCondition(GetEvaluators(playerStateMachine));
+            return candidateNode != null && candidateNode.CheckCondition(GetEvaluators(passPlayerStateMachine));
         }
 
-        private IEnumerable<IPredicateEvaluator> GetEvaluators(PlayerStateMachine playerStateMachine)
+        private IEnumerable<IPredicateEvaluator> GetEvaluators(PlayerStateMachine passPlayerStateMachine)
         {
-            return playerStateMachine.GetComponentsInChildren<IPredicateEvaluator>();
+            return passPlayerStateMachine.GetComponentsInChildren<IPredicateEvaluator>();
         }
         #endregion
 
         #region Interfaces
-        public CursorType GetCursorType()
-        {
-            return CursorType.Zone;
-        }
+        public CursorType GetCursorType() => CursorType.Zone;
 
         public bool HandleRaycast(PlayerStateMachine playerStateHandler, PlayerController playerController, PlayerInputType inputType, PlayerInputType matchType)
         {

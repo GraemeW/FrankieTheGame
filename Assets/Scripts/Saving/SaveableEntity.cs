@@ -1,25 +1,33 @@
-using System.Collections;
+using System;
 using System.Collections.Generic;
+using Newtonsoft.Json.Linq;
 using UnityEngine;
 using UnityEditor;
-using Newtonsoft.Json.Linq;
+#if UNITY_EDITOR
+using UnityEditor.SceneManagement;
+#endif
 
 namespace Frankie.Saving
 {
     [ExecuteAlways]
     public class SaveableEntity : MonoBehaviour
     {
-        [SerializeField] string uniqueIdentifier = "";
-        static Dictionary<string, SaveableEntity> globalLookup = new Dictionary<string, SaveableEntity>();
+        // Tunables
+        [SerializeField] private string uniqueIdentifier = "";
+        private static readonly Dictionary<string, SaveableEntity> _globalLookupForEditorDebug = new();
+        
+        // Constants
+        private const string _uniquePropertyRef = "uniqueIdentifier";
 
         public string GetUniqueIdentifier()
         {
+            if (string.IsNullOrWhiteSpace(uniqueIdentifier)) { uniqueIdentifier = Guid.NewGuid().ToString(); }
             return uniqueIdentifier;
         }
-
+        
         public JToken CaptureState()
         {
-            JObject state = new JObject();
+            var state = new JObject();
             foreach (ISaveable saveable in GetComponents<ISaveable>())
             {
                 state[saveable.GetType().ToString()] = JToken.FromObject(saveable.CaptureState());
@@ -31,63 +39,54 @@ namespace Frankie.Saving
         {
             if (state == null) { return; }
 
-            JObject stateDict = state.ToObject<JObject>();
-            if (stateDict == null) { Debug.LogError("Malformed data in save file"); }
+            var stateDict = state.ToObject<JObject>();
+            if (stateDict == null) { Debug.LogError("Malformed data in save file"); return; }
 
             foreach (ISaveable saveable in GetComponents<ISaveable>())
             {
-                string typeString = saveable.GetType().ToString();
-                if (stateDict.ContainsKey(typeString))
-                {
-                    SaveState saveState = stateDict[typeString].ToObject<SaveState>();
-                    if (saveState == null) { return; }
+                var typeString = saveable.GetType().ToString();
+                if (!stateDict.ContainsKey(typeString)) continue;
+                var saveState = stateDict[typeString]?.ToObject<SaveState>();
+                if (saveState == null) { return; }
 
-                    if (saveState.GetLoadPriority() == loadPriority)
-                    {
-                        saveable.RestoreState(saveState);
-                    }
+                if (saveState.GetLoadPriority() == loadPriority)
+                {
+                    saveable.RestoreState(saveState);
                 }
             }
         }
-
+        
 #if UNITY_EDITOR
         private void Update()
         {
-            if (Application.IsPlaying(gameObject)) return;
-            if (string.IsNullOrEmpty(gameObject.scene.path)) return;
+            if (Application.IsPlaying(gameObject)) { return; }
+            if (string.IsNullOrEmpty(gameObject.scene.path)) { return; }
+            if (StageUtility.GetStage(gameObject) != StageUtility.GetMainStage()) { return; }
 
-            SerializedObject serializedObject = new SerializedObject(this);
-            SerializedProperty property = serializedObject.FindProperty("uniqueIdentifier");
+            var serializedObject = new SerializedObject(this);
+            SerializedProperty property = serializedObject.FindProperty(_uniquePropertyRef);
 
-            if (string.IsNullOrEmpty(property.stringValue) || !IsUnique(property.stringValue))
+            if (string.IsNullOrWhiteSpace(uniqueIdentifier) || !IsUnique(property.stringValue))
             {
-                property.stringValue = System.Guid.NewGuid().ToString();
+                if (!IsUnique(property.stringValue)) { Debug.Log($"Warning:  Duplicate GUID identified for {gameObject.name} @ {uniqueIdentifier} -> Generating a new GUID"); }
+                property.stringValue = Guid.NewGuid().ToString();
                 serializedObject.ApplyModifiedProperties();
             }
 
-            globalLookup[property.stringValue] = this;
+            _globalLookupForEditorDebug[property.stringValue] = this;
         }
-#endif
-
+        
         private bool IsUnique(string candidate)
         {
-            if (!globalLookup.ContainsKey(candidate)) return true;
-
-            if (globalLookup[candidate] == this) return true;
-
-            if (globalLookup[candidate] == null)
+            if (!_globalLookupForEditorDebug.TryGetValue(candidate, out SaveableEntity value)) { return true; }
+            if (value == this) { return true; }
+            if (_globalLookupForEditorDebug[candidate] == null || _globalLookupForEditorDebug[candidate].GetUniqueIdentifier() != candidate)
             {
-                globalLookup.Remove(candidate);
+                _globalLookupForEditorDebug.Remove(candidate);
                 return true;
             }
-
-            if (globalLookup[candidate].GetUniqueIdentifier() != candidate)
-            {
-                globalLookup.Remove(candidate);
-                return true;
-            }
-
             return false;
         }
+#endif
     }
 }
