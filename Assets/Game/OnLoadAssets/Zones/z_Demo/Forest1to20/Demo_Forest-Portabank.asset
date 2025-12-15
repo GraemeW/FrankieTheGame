@@ -1,0 +1,84 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-6787401506896633538
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3268536af8903a64da82aa6872733d1d, type: 3}
+  m_Name: PortaNF-to-Forest
+  m_EditorClassIdentifier: Assembly-CSharp::Frankie.ZoneManagement.ZoneNode
+  children: []
+  linkedZoneNode: {fileID: 1597822732919002936, guid: 56bcb0733fa024bf5b983792663e12bb, type: 2}
+  rect:
+    serializedVersion: 2
+    x: 24
+    y: 195
+    width: 430
+    height: 150
+  zoneName: Demo_Forest-Portabank
+  draggingRect:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 430
+    height: 45
+  condition:
+    and: []
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 71bdebc52d51af440b8f8417df534a79, type: 3}
+  m_Name: Demo_Forest-Portabank
+  m_EditorClassIdentifier: Assembly-CSharp::Frankie.ZoneManagement.Zone
+  newNodeOffset: {x: 100, y: 25}
+  nodeWidth: 430
+  nodeHeight: 150
+  sceneReference:
+    sceneAsset: {fileID: 102900000, guid: 00850a2bedb4a47a5b90b9b587036db6, type: 3}
+    sceneName: Demo_Forest1to20-Portabank
+  updateMap: 0
+  zoneAudio: {fileID: 8300000, guid: d765a3c4e7ca20440a6992d69af9c87d, type: 3}
+  isZoneAudioLooping: 1
+  zoneNodes:
+  - {fileID: 5741578906310247025}
+  - {fileID: -6787401506896633538}
+--- !u!114 &5741578906310247025
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3268536af8903a64da82aa6872733d1d, type: 3}
+  m_Name: PortaSF-to-Forest
+  m_EditorClassIdentifier: Assembly-CSharp::Frankie.ZoneManagement.ZoneNode
+  children: []
+  linkedZoneNode: {fileID: -7167530607634530552, guid: 56bcb0733fa024bf5b983792663e12bb, type: 2}
+  rect:
+    serializedVersion: 2
+    x: 30
+    y: 30
+    width: 430
+    height: 150
+  zoneName: Demo_Forest-Portabank
+  draggingRect:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 430
+    height: 45
+  condition:
+    and: []

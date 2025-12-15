@@ -250,6 +250,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1751227432}
     m_Modifications:
+    - target: {fileID: 1267585596430365906, guid: 73abebb9364d02b44886802930dfc1f8, type: 3}
+      propertyPath: uniqueIdentifier
+      value: a8efe36a-58c0-4de9-8682-9e3c341e3ea5
+      objectReference: {fileID: 0}
     - target: {fileID: 3799384875062050814, guid: 73abebb9364d02b44886802930dfc1f8, type: 3}
       propertyPath: willShout
       value: 0
@@ -10636,6 +10640,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1167286416}
     m_Modifications:
+    - target: {fileID: 2819359886622569768, guid: a87622f06df9ac54e90516e57e833835, type: 3}
+      propertyPath: uniqueIdentifier
+      value: c6c08bb4-926b-4a67-ac5a-358a735a30b1
+      objectReference: {fileID: 0}
     - target: {fileID: 7222611955684808543, guid: a87622f06df9ac54e90516e57e833835, type: 3}
       propertyPath: willForceCombat
       value: 0
@@ -10880,6 +10888,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 228970762}
     m_Modifications:
+    - target: {fileID: 2109075041285771628, guid: 08fe288a3fac10d4dbc9cce961288672, type: 3}
+      propertyPath: uniqueIdentifier
+      value: 4e3dd612-87dc-415a-836c-1beb997f2741
+      objectReference: {fileID: 0}
     - target: {fileID: 4484117035451051702, guid: 08fe288a3fac10d4dbc9cce961288672, type: 3}
       propertyPath: m_LocalPosition.x
       value: 2.7949991
@@ -11705,6 +11717,10 @@ PrefabInstance:
       propertyPath: willChasePlayer
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2822334702665755093, guid: 6253a2d4b9cf44b45b95c47141d9f8d0, type: 3}
+      propertyPath: uniqueIdentifier
+      value: 42f062cb-5dc4-40fb-afb2-9ffad4d4102d
+      objectReference: {fileID: 0}
     - target: {fileID: 7219637280454790050, guid: 6253a2d4b9cf44b45b95c47141d9f8d0, type: 3}
       propertyPath: willForceCombat
       value: 0
@@ -11988,6 +12004,10 @@ PrefabInstance:
       propertyPath: willDestroySelfOnDeath
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5865293079716729140, guid: b755f1c23f46b2a4fba44873acc4a9d8, type: 3}
+      propertyPath: uniqueIdentifier
+      value: e05df0fa-774e-42e2-8376-f95e98c34b6c
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects:
@@ -12183,6 +12203,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1751227432}
     m_Modifications:
+    - target: {fileID: 1267585596430365906, guid: f11fb3d93df053e40af1074609ecd08f, type: 3}
+      propertyPath: uniqueIdentifier
+      value: 5f438094-6ccc-47d8-873c-9e123d3a0aa2
+      objectReference: {fileID: 0}
     - target: {fileID: 3799384875062050814, guid: f11fb3d93df053e40af1074609ecd08f, type: 3}
       propertyPath: willShout
       value: 0
@@ -12865,6 +12889,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1167286416}
     m_Modifications:
+    - target: {fileID: 4545553385901210923, guid: e5b2dd736debcc24a83caba30bd0c03f, type: 3}
+      propertyPath: uniqueIdentifier
+      value: 9d7b274e-6a7d-4a17-bb38-ab2bc851a83e
+      objectReference: {fileID: 0}
     - target: {fileID: 6999197217183127820, guid: e5b2dd736debcc24a83caba30bd0c03f, type: 3}
       propertyPath: m_IsActive
       value: 0
@@ -13111,6 +13139,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1751227432}
     m_Modifications:
+    - target: {fileID: 1267585596430365906, guid: 85e454fc5088ab64cbf94d522f93ecc7, type: 3}
+      propertyPath: uniqueIdentifier
+      value: 00c76e40-8ed0-4a93-9351-97c39989e93d
+      objectReference: {fileID: 0}
     - target: {fileID: 3799384875062050814, guid: 85e454fc5088ab64cbf94d522f93ecc7, type: 3}
       propertyPath: willShout
       value: 0
@@ -14119,6 +14151,10 @@ PrefabInstance:
       propertyPath: willDestroyIfInvisible
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5829753337919008090, guid: 68fc39e15d6aac647a45438aaa59a974, type: 3}
+      propertyPath: uniqueIdentifier
+      value: bd0ec8e6-5116-46a1-ab2a-25ea8f0b263d
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects:
@@ -14809,6 +14845,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1167286416}
     m_Modifications:
+    - target: {fileID: 3265153264791150296, guid: 0933637bb54f1cb4480c3b6eaceeee40, type: 3}
+      propertyPath: uniqueIdentifier
+      value: 7143d7ab-8f4e-4344-ba76-c458a08921d9
+      objectReference: {fileID: 0}
     - target: {fileID: 7819299255556850876, guid: 0933637bb54f1cb4480c3b6eaceeee40, type: 3}
       propertyPath: m_RootOrder
       value: 5
@@ -15158,6 +15198,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 228970762}
     m_Modifications:
+    - target: {fileID: 3292108299627888762, guid: 986151938f05142699a0b5962f318b19, type: 3}
+      propertyPath: uniqueIdentifier
+      value: 058267b2-7a71-4f05-af13-ec27883ada86
+      objectReference: {fileID: 0}
     - target: {fileID: 6982930892541145376, guid: 986151938f05142699a0b5962f318b19, type: 3}
       propertyPath: shouldDestroySelfOnDeath
       value: 0
@@ -15254,6 +15298,10 @@ PrefabInstance:
     - target: {fileID: 158099569752958797, guid: 31c56ea2c6541ba4ea2b24f200152e2c, type: 3}
       propertyPath: willChasePlayer
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2818356934732082273, guid: 31c56ea2c6541ba4ea2b24f200152e2c, type: 3}
+      propertyPath: uniqueIdentifier
+      value: 5784383a-66ef-490d-8b0d-98c1fc7f75cb
       objectReference: {fileID: 0}
     - target: {fileID: 7207851897665637910, guid: 31c56ea2c6541ba4ea2b24f200152e2c, type: 3}
       propertyPath: willForceCombat
@@ -16067,6 +16115,10 @@ PrefabInstance:
       propertyPath: willChasePlayer
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3340196290079733345, guid: c4f8fcca6e0ef4ebfb68c039b782d836, type: 3}
+      propertyPath: uniqueIdentifier
+      value: 0240f138-91ca-4e16-b437-a2397fd17f3a
+      objectReference: {fileID: 0}
     - target: {fileID: 7141991560663271227, guid: c4f8fcca6e0ef4ebfb68c039b782d836, type: 3}
       propertyPath: shouldDestroySelfOnDeath
       value: 0
@@ -16172,6 +16224,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1167286416}
     m_Modifications:
+    - target: {fileID: 989946149118613935, guid: 30c6f3f30a3216e41bbc8a6ac45c57e0, type: 3}
+      propertyPath: uniqueIdentifier
+      value: fa86390d-682f-4e16-a9fc-f2b4ef2a6855
+      objectReference: {fileID: 0}
     - target: {fileID: 5507729041372677064, guid: 30c6f3f30a3216e41bbc8a6ac45c57e0, type: 3}
       propertyPath: m_Name
       value: HipsterOfficeWorker (1)
@@ -27348,6 +27404,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1751227432}
     m_Modifications:
+    - target: {fileID: 1267585596430365906, guid: 3e8aa571b6fd5cd4c83d58166eabf29c, type: 3}
+      propertyPath: uniqueIdentifier
+      value: a6f7dfbd-1271-44dd-a3fd-8c14aeae7ff2
+      objectReference: {fileID: 0}
     - target: {fileID: 3799384875062050814, guid: 3e8aa571b6fd5cd4c83d58166eabf29c, type: 3}
       propertyPath: willShout
       value: 0
@@ -28221,6 +28281,10 @@ PrefabInstance:
     - target: {fileID: 730286217680856765, guid: a302ff6507ed14488bebd51f773a7426, type: 3}
       propertyPath: willChasePlayer
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3390930666379652497, guid: a302ff6507ed14488bebd51f773a7426, type: 3}
+      propertyPath: uniqueIdentifier
+      value: f18e6f9a-1c80-4da2-bd91-930618acf4ce
       objectReference: {fileID: 0}
     - target: {fileID: 4498655328982077198, guid: a302ff6507ed14488bebd51f773a7426, type: 3}
       propertyPath: movementSpeed
@@ -29189,6 +29253,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 983662200}
     m_Modifications:
+    - target: {fileID: -6569748974630485054, guid: dc5a145739044fc4996c8bda39fb6981, type: 3}
+      propertyPath: uniqueIdentifier
+      value: 70610035-7a04-4453-89bd-8974cd3012f7
+      objectReference: {fileID: 0}
     - target: {fileID: -523566412701523979, guid: dc5a145739044fc4996c8bda39fb6981, type: 3}
       propertyPath: disableOnStart
       value: 0

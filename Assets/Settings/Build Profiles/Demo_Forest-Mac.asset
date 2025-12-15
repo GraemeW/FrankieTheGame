@@ -29,6 +29,8 @@ MonoBehaviour:
   - m_enabled: 1
     m_path: Assets/Scenes/_Demos/Forest_Level1to20/Demo_Forest1to20-Interior.unity
   - m_enabled: 1
+    m_path: Assets/Scenes/_Demos/Forest_Level1to20/Demo_Forest1to20-Portabank.unity
+  - m_enabled: 1
     m_path: Assets/Scenes/GameOverScreen.unity
   - m_enabled: 1
     m_path: Assets/Scenes/GameWinScreen.unity
