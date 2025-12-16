@@ -106,7 +106,7 @@ MonoBehaviour:
     sceneAsset: {fileID: 102900000, guid: fb6fba365500445ddbf566d4d36cff28, type: 3}
     sceneName: Demo_Forest1to20-Exterior
   updateMap: 1
-  zoneAudio: {fileID: 8300000, guid: 3dc90c61b4c6f654e8835404e763733e, type: 3}
+  zoneAudio: {fileID: 8300000, guid: 840503d4a3e71484a94da9a50830ba88, type: 3}
   isZoneAudioLooping: 1
   zoneNodes:
   - {fileID: -1178070971427517867}
