@@ -1,4 +1,5 @@
 using System;
+using Frankie.Saving;
 using UnityEngine;
 
 namespace Frankie.Control
@@ -93,11 +94,15 @@ namespace Frankie.Control
             return interactionCenterPoint != null ? interactionCenterPoint.position : Vector2.zero;
         }
 
-        public void SetLookDirectionToPlayer(PlayerStateMachine playerStateHandler) // called via Unity Event
+        public void SetLookDirectionDown() // Called via Unity Events
+        {
+            SetLookDirection(Vector2.down);
+        }
+
+        public void SetLookDirectionToPlayer(PlayerStateMachine playerStateHandler) // Called via Unity Events
         {
             var callingController = playerStateHandler.GetComponent<PlayerController>();
             SetLookDirection(callingController.GetInteractionPosition() - (Vector2)interactionCenterPoint.position);
-            UpdateAnimator();
         }
 
         public RaycastHit2D[] NPCCastFromSelf(float raycastRadius)

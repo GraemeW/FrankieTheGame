@@ -6,7 +6,9 @@ namespace Frankie.ZoneManagement
     public struct SceneReference
     {
         [SerializeField]
-        private Object sceneAsset; // Unused
+        private Object sceneAsset;
+        // sceneAsset used as part of Editor Property Drawer
+        // Do NOT delete, even if warning messages encourage you to do so
 
         [SerializeField]
         private string sceneName;

@@ -343,6 +343,7 @@ MonoBehaviour:
   interactionCenterPoint: {fileID: 851377592137554633}
   patrolPath: {fileID: 0}
   waypointDwellTime: 2
+  lookDirectionOnDwell: 4
   giveUpOnPatrolTargetTime: 10
 --- !u!114 &4118810327594443569
 MonoBehaviour:
@@ -453,7 +454,15 @@ PrefabInstance:
     m_TransformParent: {fileID: 6761616658632847993}
     m_Modifications:
     - target: {fileID: 548448797238944362, guid: 3ba2ab0c1cea63442a5dec585154a263, type: 3}
+      propertyPath: onExitDialogue.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 548448797238944362, guid: 3ba2ab0c1cea63442a5dec585154a263, type: 3}
       propertyPath: checkInteraction.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 548448797238944362, guid: 3ba2ab0c1cea63442a5dec585154a263, type: 3}
+      propertyPath: onExitDialogue.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 548448797238944362, guid: 3ba2ab0c1cea63442a5dec585154a263, type: 3}
@@ -461,9 +470,21 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 548448797238944362, guid: 3ba2ab0c1cea63442a5dec585154a263, type: 3}
+      propertyPath: onExitDialogue.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 965147417343429250}
+    - target: {fileID: 548448797238944362, guid: 3ba2ab0c1cea63442a5dec585154a263, type: 3}
       propertyPath: checkInteraction.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 965147417343429250}
+    - target: {fileID: 548448797238944362, guid: 3ba2ab0c1cea63442a5dec585154a263, type: 3}
+      propertyPath: onExitDialogue.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 548448797238944362, guid: 3ba2ab0c1cea63442a5dec585154a263, type: 3}
+      propertyPath: onExitDialogue.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: SetLookDirectionDown
+      objectReference: {fileID: 0}
     - target: {fileID: 548448797238944362, guid: 3ba2ab0c1cea63442a5dec585154a263, type: 3}
       propertyPath: checkInteraction.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
       value: 2
@@ -473,8 +494,16 @@ PrefabInstance:
       value: SetLookDirectionToPlayer
       objectReference: {fileID: 0}
     - target: {fileID: 548448797238944362, guid: 3ba2ab0c1cea63442a5dec585154a263, type: 3}
+      propertyPath: onExitDialogue.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: Frankie.Control.NPCMover, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 548448797238944362, guid: 3ba2ab0c1cea63442a5dec585154a263, type: 3}
       propertyPath: checkInteraction.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
       value: Frankie.Control.NPCMover, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 548448797238944362, guid: 3ba2ab0c1cea63442a5dec585154a263, type: 3}
+      propertyPath: onExitDialogue.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
     - target: {fileID: 548448797238944362, guid: 3ba2ab0c1cea63442a5dec585154a263, type: 3}
       propertyPath: checkInteraction.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
