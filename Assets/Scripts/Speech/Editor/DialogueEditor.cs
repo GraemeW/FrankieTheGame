@@ -162,6 +162,7 @@ namespace Frankie.Speech.UIEditor
         {
             Rect canvas = GUILayoutUtility.GetRect(scrollMaxX, scrollMaxY);
             var backgroundTexture = Resources.Load(_backgroundName) as Texture2D;
+            if (backgroundTexture == null) { return; }
             GUI.DrawTextureWithTexCoords(canvas, backgroundTexture, new Rect(0, 0, canvas.width / _backgroundSize, canvas.height / _backgroundSize));
 
             // Reset scrolling limits, to be updated after draw nodes
