@@ -58,9 +58,9 @@ namespace Frankie.ZoneManagement
             StartCoroutine(LoadStartScreen());
         }
 
-        public void QueueNewGame(Zone newGameZoneOverride = null)
+        public void QueueNewGame(Action newGameLoadedCallback, Zone newGameZoneOverride = null)
         {
-            StartCoroutine(LoadNewGame(newGameZoneOverride));
+            StartCoroutine(LoadNewGame(newGameLoadedCallback, newGameZoneOverride));
         }
 
         public IEnumerator LoadNewSceneAsync(Zone zone)
@@ -106,13 +106,14 @@ namespace Frankie.ZoneManagement
             SetCurrentZone(gameWinScreen);
         }
 
-        private IEnumerator LoadNewGame(Zone newGameZoneOverride = null)
+        private IEnumerator LoadNewGame(Action newGameLoadedCallback, Zone newGameZoneOverride = null)
         {
             if (newGameZoneOverride == null) { newGameZoneOverride = newGame; }
             if (newGameZoneOverride == null) { yield break; }
             
             yield return SceneManager.LoadSceneAsync(newGameZoneOverride.GetSceneReference().SceneName);
             SetCurrentZone(newGame);
+            newGameLoadedCallback?.Invoke();
         }
 
         private static void SetLastZone()

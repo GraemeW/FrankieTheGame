@@ -111,7 +111,7 @@ namespace Frankie.Core
             SceneLoader sceneLoader = SceneLoader.FindSceneLoader();
             if (sceneLoader == null) { return; }
 
-            sceneLoader.QueueNewGame(newGameZoneOverride);
+            sceneLoader.QueueNewGame(Save, newGameZoneOverride);
         }
 
         public static void LoadGame(string saveName)
