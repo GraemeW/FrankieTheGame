@@ -6,9 +6,11 @@ namespace Frankie.ZoneManagement
     public struct SceneReference
     {
         [SerializeField]
-        private Object sceneAsset;
+#pragma warning disable CS0414 // Field is assigned but its value is never used
         // sceneAsset used as part of Editor Property Drawer
         // Do NOT delete, even if warning messages encourage you to do so
+        private Object sceneAsset;
+#pragma warning restore CS0414 // Field is assigned but its value is never used
 
         [SerializeField]
         private string sceneName;
