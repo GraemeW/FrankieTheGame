@@ -111,7 +111,7 @@ namespace Frankie.Core
             SceneLoader sceneLoader = SceneLoader.FindSceneLoader();
             if (sceneLoader == null) { return; }
 
-            sceneLoader.QueueNewGame(Save, newGameZoneOverride);
+            sceneLoader.QueueNewGame(() => Save(), newGameZoneOverride);
         }
 
         public static void LoadGame(string saveName)
@@ -143,25 +143,17 @@ namespace Frankie.Core
             SavingSystem.Save(_sessionFile);
         }
 
-        public static void SaveCorePlayerStateToSession()
+        public static void SaveCorePlayerStateToSave()
         {
-            SavingSystem.Save(_sessionFile, true);
+            string saveName = GetCurrentSave();
+            UpdateSavePrefs(saveName);
+            SavingSystem.CopyCorePlayerStateToSave(saveName);
         }
 
         public static void Save()
         {
             string saveName = GetCurrentSave();
-
-            Player player = Player.FindPlayer();
-            if (player != null)
-            {
-                Party party = player.GetComponent<Party>();
-                string characterName = party.GetPartyLeaderName();
-                int level = party.GetPartyLeader().GetLevel();
-
-                SetSavePrefs(saveName, characterName, level);
-            }
-
+            UpdateSavePrefs(saveName);
             SavingSystem.CopySessionToSave(_sessionFile, saveName);
         }
 
@@ -183,6 +175,19 @@ namespace Frankie.Core
         #endregion
 
         #region PrivateMethods
+
+        private static void UpdateSavePrefs(string saveName)
+        {
+            Player player = Player.FindPlayer();
+            if (player == null) return;
+            
+            var party = player.GetComponent<Party>();
+            string characterName = party.GetPartyLeaderName();
+            int level = party.GetPartyLeader().GetLevel();
+
+            SetSavePrefs(saveName, characterName, level);
+        }
+        
         private static IEnumerator LoadFromSave(string saveFile)
         {
             yield return SavingSystem.LoadLastScene(saveFile);

@@ -65,10 +65,10 @@ namespace Frankie.Saving
             RestoreState(state);
         }
 
-        public static void Save(string saveFile, bool onlyCorePlayerState = false)
+        public static void Save(string saveFile)
         {
             JObject state = LoadFile(saveFile);
-            CaptureState(state, onlyCorePlayerState);
+            CaptureState(state);
             SaveFile(saveFile, state);
         }
 
@@ -84,6 +84,13 @@ namespace Frankie.Saving
             JObject state = LoadFile(saveFile);
             CaptureState(state);
             SaveFile(sessionFile, state);
+        }
+
+        public static void CopyCorePlayerStateToSave(string saveFile)
+        {
+            JObject state = LoadFile(saveFile);
+            CaptureState(state, true);
+            SaveFile(saveFile, state);
         }
 
         public static void Delete(string saveFile)
@@ -181,7 +188,8 @@ namespace Frankie.Saving
 
             foreach (SaveableEntity saveable in saveableEntities)
             {
-                state[saveable.GetUniqueIdentifier()] = saveable.CaptureState(onlyCorePlayerState);
+                if (!state.TryGetValue(saveable.GetUniqueIdentifier(), out JToken existingTokenState)) { existingTokenState = new JObject(); }
+                state[saveable.GetUniqueIdentifier()] = saveable.CaptureState(existingTokenState, onlyCorePlayerState);
             }
 
             if (!onlyCorePlayerState) { state[_saveLastSceneBuildIndex] = SceneManager.GetActiveScene().name; }

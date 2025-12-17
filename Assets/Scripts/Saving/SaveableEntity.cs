@@ -25,17 +25,17 @@ namespace Frankie.Saving
             return uniqueIdentifier;
         }
         
-        public JToken CaptureState(bool onlyCorePlayerState = false)
+        public JToken CaptureState(JToken existingTokenState, bool onlyCorePlayerState = false)
         {
-            var state = new JObject();
+            JToken updatedTokenState = existingTokenState ?? new JObject();
             foreach (ISaveable saveable in GetComponents<ISaveable>())
             {
                 // Core Player State captures, e.g. for GameOver saves (skip saving position, etc.)
                 if (onlyCorePlayerState && !saveable.IsCorePlayerState()) { continue; }
                 
-                state[saveable.GetType().ToString()] = JToken.FromObject(saveable.CaptureState());
+                updatedTokenState[saveable.GetType().ToString()] = JToken.FromObject(saveable.CaptureState());
             }
-            return state;
+            return updatedTokenState;
         }
 
         public void RestoreState(JToken state, LoadPriority loadPriority)

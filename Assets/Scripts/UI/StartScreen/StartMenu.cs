@@ -45,7 +45,7 @@ namespace Frankie.Menu.UI
 
         public void SaveCorePlayerStateAndContinue() // Called via Unity Events -- GameOver Continue
         {
-            SavingWrapper.SaveCorePlayerStateToSession();
+            SavingWrapper.SaveCorePlayerStateToSave();
             SavingWrapper.Continue();
         }
 

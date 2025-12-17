@@ -20,7 +20,7 @@ namespace Frankie.Stats
 
             CharacterProperties characterProperties = character.GetCharacterProperties();
             if (characterProperties == null) { return; }
-            inactiveCharacterSaveStates[characterProperties.GetCharacterNameID()] = saveableEntity.CaptureState();
+            inactiveCharacterSaveStates[characterProperties.GetCharacterNameID()] = saveableEntity.CaptureState(null);
         }
 
         public void RestoreCharacterState(ref BaseStats character)
