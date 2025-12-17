@@ -10,6 +10,8 @@ namespace Frankie.Core
 {
     public class FrankieDebugger : MonoBehaviour
     {
+        // Tunables
+        [SerializeField] private int fundsToAddToWallet = 100;
         [SerializeField] private bool resetSaveOnStart = false;
 
         // Cached References
@@ -19,9 +21,6 @@ namespace Frankie.Core
         private ReInitLazyValue<QuestList> questList;
         private ReInitLazyValue<Party> party;
         private ReInitLazyValue<Wallet> wallet;
-
-        // Static
-        private const int _fundsToAddToWallet = 10000;
 
         #region UnityMethods
         private void Awake()
@@ -49,11 +48,7 @@ namespace Frankie.Core
             party.ForceInit();
             wallet.ForceInit();
 
-            if (resetSaveOnStart)
-            {
-                Delete();
-                Save();
-            }
+            if (resetSaveOnStart) { NewSave(); }
         }
 
         private void OnEnable()
@@ -146,8 +141,8 @@ namespace Frankie.Core
         #region WalletDebug
         private void AddFundsToWallet()
         {
-            Debug.Log($"Adding ${_fundsToAddToWallet} to wallet");
-            wallet.value.UpdateCash(_fundsToAddToWallet);
+            Debug.Log($"Adding ${fundsToAddToWallet} to wallet");
+            wallet.value.UpdateCash(fundsToAddToWallet);
         }
         #endregion
 
