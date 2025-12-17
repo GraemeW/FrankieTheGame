@@ -64,11 +64,14 @@ namespace Frankie.Core
 
         public static void LoadGameOverScene()
         {
+            // Standard Behaviour:  Load to GameOver scene while skipping session saving
+            // From GameOver scene only player will be present, and we can save session to carry over player exp, etc.
+            
             SceneLoader sceneLoader = SceneLoader.FindSceneLoader();
             if (sceneLoader == null) { return; }
 
             Fader fader = Fader.FindFader();
-            fader?.UpdateFadeState(TransitionType.Zone, sceneLoader.GetGameOverZone());
+            fader?.UpdateFadeState(TransitionType.Zone, sceneLoader.GetGameOverZone(), false);
         }
 
         public static void LoadGameWinScreen()
@@ -138,6 +141,11 @@ namespace Frankie.Core
         public static void SaveSession()
         {
             SavingSystem.Save(_sessionFile);
+        }
+
+        public static void SaveCorePlayerStateToSession()
+        {
+            SavingSystem.Save(_sessionFile, true);
         }
 
         public static void Save()

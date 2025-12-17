@@ -53,7 +53,7 @@ namespace Frankie.Combat.UI
         [SerializeField] private string optionChuckItemNegative = "Nah";
         [Tooltip("Include {0} for item name")] [SerializeField] private string messageConfirmThrowOut = "Are you sure you want to abandon {0}?";
         [SerializeField] private string messageBattleCompleteWon = "You Won!  Congratulations!";
-        [SerializeField] private string messageBattleCompleteLost = "You lost.  Whoops!";
+        [SerializeField] private string messageBattleCompleteLost = "Looks like things didn't quite go to plan.";
         [SerializeField] private string messageBattleCompleteRan = "You ran away.";
 
         // State

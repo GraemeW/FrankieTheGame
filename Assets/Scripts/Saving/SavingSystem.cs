@@ -65,10 +65,10 @@ namespace Frankie.Saving
             RestoreState(state);
         }
 
-        public static void Save(string saveFile)
+        public static void Save(string saveFile, bool onlyCorePlayerState = false)
         {
             JObject state = LoadFile(saveFile);
-            CaptureState(state);
+            CaptureState(state, onlyCorePlayerState);
             SaveFile(saveFile, state);
         }
 
@@ -123,11 +123,11 @@ namespace Frankie.Saving
             // JSON Method
             using (StreamReader textReader = File.OpenText(path))
             {
-                using (JsonTextReader reader = new JsonTextReader(textReader))
+                using (var reader = new JsonTextReader(textReader))
                 {
                     reader.FloatParseHandling = FloatParseHandling.Double;
 
-                    SaveSuper saveSuper = JObject.Load(reader).ToObject<SaveSuper>();
+                    var saveSuper = JObject.Load(reader).ToObject<SaveSuper>();
                     if (saveSuper.encryptionEnabled)
                     {
                         string decryptedPayload = SymmetricEncryptor.DecryptToString(saveSuper.payload);
@@ -175,16 +175,16 @@ namespace Frankie.Saving
             }
         }
 
-        private static void CaptureState(JObject state)
+        private static void CaptureState(JObject state, bool onlyCorePlayerState = false)
         {
             List<SaveableEntity> saveableEntities = GetAllSaveableEntities();
 
             foreach (SaveableEntity saveable in saveableEntities)
             {
-                state[saveable.GetUniqueIdentifier()] = saveable.CaptureState();
+                state[saveable.GetUniqueIdentifier()] = saveable.CaptureState(onlyCorePlayerState);
             }
 
-            state[_saveLastSceneBuildIndex] = SceneManager.GetActiveScene().name;
+            if (!onlyCorePlayerState) { state[_saveLastSceneBuildIndex] = SceneManager.GetActiveScene().name; }
         }
 
         private static void RestoreState(JObject state)

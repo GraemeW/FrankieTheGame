@@ -25,11 +25,14 @@ namespace Frankie.Saving
             return uniqueIdentifier;
         }
         
-        public JToken CaptureState()
+        public JToken CaptureState(bool onlyCorePlayerState = false)
         {
             var state = new JObject();
             foreach (ISaveable saveable in GetComponents<ISaveable>())
             {
+                // Core Player State captures, e.g. for GameOver saves (skip saving position, etc.)
+                if (onlyCorePlayerState && !saveable.IsCorePlayerState()) { continue; }
+                
                 state[saveable.GetType().ToString()] = JToken.FromObject(saveable.CaptureState());
             }
             return state;

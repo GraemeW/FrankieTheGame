@@ -262,14 +262,23 @@ namespace Frankie.Combat
             AdjustHP(-baseStats.GetStat(Stat.HP) * 10f);
         }
 
-        public void Revive(float hp)
+        public void Revive(float hp, bool announceStateUpdates = true)
         {
             isDead.value = false;
             currentHP.value = hp * fractionOfHPInstantOnRevival;
             targetHP = hp;
             cooldownTimer = 0f;
-            AnnounceStateUpdate(StateAlteredType.Resurrected);
-            AnnounceStateUpdate(StateAlteredType.IncreaseHP);
+
+            if (announceStateUpdates)
+            {
+                AnnounceStateUpdate(StateAlteredType.Resurrected);
+                AnnounceStateUpdate(StateAlteredType.IncreaseHP);
+            }
+        }
+
+        public void Revive(bool announceStateUpdates = true)
+        {
+            Revive(GetMaxHP(), announceStateUpdates);
         }
         #endregion
 
@@ -445,30 +454,26 @@ namespace Frankie.Combat
             public float currentHP;
             public float currentAP;
         }
-        public LoadPriority GetLoadPriority()
-        {
-            return LoadPriority.ObjectProperty;
-        }
+        public LoadPriority GetLoadPriority() => LoadPriority.ObjectProperty;
 
         SaveState ISaveable.CaptureState()
         {
             if (!awakeCalled) { Awake(); }
 
-            CombatParticipantSaveData combatParticipantSaveData = new CombatParticipantSaveData
+            var combatParticipantSaveData = new CombatParticipantSaveData
             {
                 isDead = isDead.value,
                 currentHP = currentHP.value,
                 currentAP = currentAP.value
             };
-            SaveState saveState = new SaveState(GetLoadPriority(), combatParticipantSaveData);
+            var saveState = new SaveState(GetLoadPriority(), combatParticipantSaveData);
 
             return saveState;
         }
 
         void ISaveable.RestoreState(SaveState saveState)
         {
-            CombatParticipantSaveData combatParticipantSaveData = saveState.GetState(typeof(CombatParticipantSaveData)) as CombatParticipantSaveData;
-            if (combatParticipantSaveData == null) { return; }
+            if (saveState.GetState(typeof(CombatParticipantSaveData)) is not CombatParticipantSaveData combatParticipantSaveData) { return; }
 
             if (!awakeCalled) { Awake(); }
             isDead.value = combatParticipantSaveData.isDead;
@@ -480,7 +485,7 @@ namespace Frankie.Combat
         // Predicate Evaluation
         public bool? Evaluate(Predicate predicate)
         {
-            PredicateCombatParticipant predicateCombatParticipant = predicate as PredicateCombatParticipant;
+            var predicateCombatParticipant = predicate as PredicateCombatParticipant;
             return predicateCombatParticipant != null ? predicateCombatParticipant.Evaluate(this) : null;
         }
         #endregion

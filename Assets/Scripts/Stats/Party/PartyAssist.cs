@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using Frankie.Saving;
 
@@ -10,7 +11,7 @@ namespace Frankie.Stats
     public class PartyAssist : PartyBehaviour, ISaveable
     {
         // Cached References
-        Party party = null;
+        private Party party;
 
         // Events
         public event Action partyAssistUpdated;
@@ -83,7 +84,7 @@ namespace Frankie.Stats
             if (characterProperties == null) { return false; } // Failsafe
 
             BaseStats member = GetMember(characterProperties);
-            return member != null ? RemoveFromParty(member) : false;
+            return member != null && RemoveFromParty(member);
         }
 
         public override bool RemoveFromParty(BaseStats character, Transform worldTransform)
@@ -91,7 +92,7 @@ namespace Frankie.Stats
             if (character == null) { return false; } // Failsafe
 
             // Instantiates an NPC at defined location
-            CharacterNPCSwapper partyCharacter = character.GetComponent<CharacterNPCSwapper>();
+            var partyCharacter = character.GetComponent<CharacterNPCSwapper>();
             if (partyCharacter == null) { return false; }
 
             CharacterNPCSwapper worldNPC = partyCharacter.SwapToNPC(worldTransform);
@@ -99,21 +100,16 @@ namespace Frankie.Stats
 
             return RemoveFromParty(character);
         }
-
-        public LoadPriority GetLoadPriority()
-        {
-            return LoadPriority.ObjectInstantiation;
-        }
+        #endregion
+        
+        #region SaveInterface
+        public bool IsCorePlayerState() => true;
+        public LoadPriority GetLoadPriority() => LoadPriority.ObjectInstantiation;
 
         public SaveState CaptureState()
         {
-            List<string> currentPartyStrings = new List<string>();
-            foreach (BaseStats character in members)
-            {
-                currentPartyStrings.Add(character.GetCharacterProperties().name);
-            }
-
-            SaveState saveState = new SaveState(GetLoadPriority(), currentPartyStrings);
+            var currentPartyStrings = members.Select(character => character.GetCharacterProperties().name).ToList();
+            var saveState = new SaveState(GetLoadPriority(), currentPartyStrings);
             return saveState;
         }
 
@@ -135,10 +131,10 @@ namespace Frankie.Stats
                 if (members.Count > partyLimit) { break; } // Failsafe
 
                 GameObject characterObject = CharacterNPCSwapper.SpawnCharacter(characterName, container);
-                if (characterObject == null) { return; }
+                if (characterObject == null) { continue; }
 
-                BaseStats character = characterObject.GetComponent<BaseStats>();
-                if (character == null) { Destroy(characterObject); return; }
+                var character = characterObject.GetComponent<BaseStats>();
+                if (character == null) { Destroy(characterObject); continue; }
 
                 members.Add(character);
 

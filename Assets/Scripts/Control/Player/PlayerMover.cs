@@ -49,6 +49,7 @@ namespace Frankie.Control
         private void ParsePlayerStateChange(PlayerStateType playerStateType)
         {
             inWorld = (playerStateType == PlayerStateType.inWorld);
+            if (playerStateType == PlayerStateType.inCutScene) { inWorld = playerStateMachine.CanMoveInCutscene(); }
             GetPlayerMovementSpeed(); // Called in parse player state change to avoid having to fetch modifiers on every move update call
         }
 

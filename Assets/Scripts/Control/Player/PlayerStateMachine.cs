@@ -39,7 +39,7 @@ namespace Frankie.Control
         private IPlayerState currentPlayerState = new WorldState();
         // Queue
         private PlayerStateTypeActionPair actionUnderConsideration;
-        private readonly Stack<PlayerStateTypeActionPair> queuedActions = new Stack<PlayerStateTypeActionPair>();
+        private readonly Stack<PlayerStateTypeActionPair> queuedActions = new();
         private bool readyToPopQueue = false;
         // Transition
         private TransitionType transitionTypeUnderConsideration = TransitionType.None;
@@ -48,10 +48,11 @@ namespace Frankie.Control
 
         // CutScene
         private bool visibleDuringCutscene = true;
+        private bool canMoveInCutscene = false;
         // Combat
         private bool combatFadeComplete = false;
-        private readonly List<CombatParticipant> enemiesUnderConsideration = new List<CombatParticipant>();
-        private readonly List<CombatParticipant> enemiesInTransition = new List<CombatParticipant>();
+        private readonly List<CombatParticipant> enemiesUnderConsideration = new();
+        private readonly List<CombatParticipant> enemiesInTransition = new();
         // Dialogue
         private DialogueData dialogueData;
         // Trade
@@ -161,6 +162,7 @@ namespace Frankie.Control
         }
         
         public Party GetParty() => party;
+        public bool CanMoveInCutscene() => canMoveInCutscene;
         
         public void SetPostDialogueCallbackActions(InteractionEvent interactionEvent)
         {
@@ -202,8 +204,6 @@ namespace Frankie.Control
         public void EnterCombat(List<CombatParticipant> enemies, TransitionType transitionType)
         {
             if (enemies == null || enemies.Count == 0 || !IsBattleTransition(transitionType)) { return; }
-            //Useful Debug:
-            //UnityEngine.Debug.Log($"Request to enter combat by {enemies.FirstOrDefault().GetCombatName()}");
 
             actionUnderConsideration = new PlayerStateTypeActionPair(PlayerStateType.inBattle, () => EnterCombat(enemies, transitionType));
             enemiesUnderConsideration.Clear();
@@ -272,10 +272,11 @@ namespace Frankie.Control
             currentPlayerState.EnterOptions(this);
         }
 
-        public void EnterCutscene(bool playerVisible = true)
+        public void EnterCutscene(bool playerVisible = true, bool canMove = false)
         {
             actionUnderConsideration = new PlayerStateTypeActionPair(PlayerStateType.inCutScene, () => EnterCutscene(playerVisible));
             visibleDuringCutscene = playerVisible;
+            canMoveInCutscene = canMove && playerVisible;
             currentPlayerState.EnterCutScene(this);
         }
         #endregion

@@ -38,8 +38,14 @@ namespace Frankie.Menu.UI
             PassControl(loadGameMenu);
         }
 
-        public void Continue() // Called via Unity Events
+        public void Continue() // Called via Unity Events -- Standard Continue
         {
+            SavingWrapper.Continue();
+        }
+
+        public void SaveCorePlayerStateAndContinue() // Called via Unity Events -- GameOver Continue
+        {
+            SavingWrapper.SaveCorePlayerStateToSession();
             SavingWrapper.Continue();
         }
 

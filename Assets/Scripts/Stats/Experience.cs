@@ -79,10 +79,8 @@ namespace Frankie.Stats
 
         #region Interfaces
         // Save State
-        public LoadPriority GetLoadPriority()
-        {
-            return LoadPriority.ObjectProperty;
-        }
+        public bool IsCorePlayerState() => true;
+        public LoadPriority GetLoadPriority() => LoadPriority.ObjectProperty;
 
         public SaveState CaptureState()
         {

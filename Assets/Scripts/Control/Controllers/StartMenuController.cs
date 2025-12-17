@@ -1,18 +1,23 @@
 using System;
+using Frankie.Combat;
 using UnityEngine;
+using Frankie.Core;
 using Frankie.Menu.UI;
+using Frankie.Stats;
 
 namespace Frankie.Control
 {
     public class StartMenuController : MonoBehaviour, IStandardPlayerInputCaller
     {
         // Tunables
+        [Header("Start Menu Tunables")] 
+        [SerializeField][Tooltip("false for GameOver screen")] private bool destroyPlayerOnStart = true;
         [Header("Links and Prefabs")]
-        [SerializeField] Canvas startCanvas = null;
-        [SerializeField] StartMenu startMenu = null;
+        [SerializeField] private Canvas startCanvas;
+        [SerializeField] private StartMenu startMenu;
 
         // Cached References
-        PlayerInput playerInput = null;
+        private PlayerInput playerInput;
 
         // Events
         public event Action<PlayerInputType> globalInput;
@@ -24,9 +29,9 @@ namespace Frankie.Control
             VerifyUnique();
 
             playerInput.Menu.Navigate.performed += context => ParseDirectionalInput(context.ReadValue<Vector2>());
-            playerInput.Menu.Execute.performed += context => HandleUserInput(PlayerInputType.Execute);
-            playerInput.Menu.Cancel.performed += context => HandleUserInput(PlayerInputType.Cancel);
-            playerInput.Menu.Option.performed += context => HandleUserInput(PlayerInputType.Option);
+            playerInput.Menu.Execute.performed += _ => HandleUserInput(PlayerInputType.Execute);
+            playerInput.Menu.Cancel.performed += _ => HandleUserInput(PlayerInputType.Cancel);
+            playerInput.Menu.Option.performed += _ => HandleUserInput(PlayerInputType.Option);
         }
 
         public void VerifyUnique()
@@ -40,6 +45,7 @@ namespace Frankie.Control
 
         private void Start()
         {
+            HandlePlayerExistence(true);
             startMenu.Setup(startCanvas);
             startMenu.TakeControl(this, startMenu, null);
         }
@@ -52,6 +58,60 @@ namespace Frankie.Control
         private void OnDisable()
         {
             playerInput.Menu.Disable();
+        }
+
+        private void OnDestroy()
+        {
+            HandlePlayerExistence(false);
+        }
+
+        private void HandlePlayerExistence(bool isStart)
+        {
+            PlayerStateMachine playerStateMachine = Player.FindPlayerStateMachine();
+            if (playerStateMachine == null) return;
+
+            if (destroyPlayerOnStart)
+            {
+                if (isStart) { Destroy(playerStateMachine.gameObject); }
+                return;
+            }
+
+            HealParty(playerStateMachine);
+            LockPlayer(playerStateMachine, isStart);
+        }
+
+        private void HealParty(PlayerStateMachine playerStateMachine)
+        {
+            if (playerStateMachine == null) { return; }
+            Party party = playerStateMachine.GetParty();
+            if (party == null) { return; }
+            
+            foreach (BaseStats member in party.GetParty())
+            {
+                if (member.TryGetComponent(out CombatParticipant combatParticipant))
+                {
+                    combatParticipant.Revive(false);
+                }
+            }
+        }
+        
+        private void LockPlayer(PlayerStateMachine playerStateMachine, bool enable)
+        {
+            if (playerStateMachine == null) { return; }
+            
+            if (enable)
+            {
+                // Lock menus, but allow player movement
+                playerStateMachine.EnterCutscene(true, true);
+                if (playerStateMachine.TryGetComponent(out PlayerMover playerMover))
+                {
+                    playerMover.SetLookDirection(Vector2.down);
+                }
+            }
+            else
+            {
+                playerStateMachine.EnterWorld();
+            }
         }
 
         private void ParseDirectionalInput(Vector2 directionalInput)
