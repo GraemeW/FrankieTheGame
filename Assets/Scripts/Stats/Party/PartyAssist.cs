@@ -103,7 +103,6 @@ namespace Frankie.Stats
         #endregion
         
         #region SaveInterface
-        public bool IsCorePlayerState() => true;
         public LoadPriority GetLoadPriority() => LoadPriority.ObjectInstantiation;
 
         public SaveState CaptureState()

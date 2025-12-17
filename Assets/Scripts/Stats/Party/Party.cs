@@ -255,8 +255,7 @@ namespace Frankie.Stats
                 this.worldNPCLookup = worldNPCLookup;
             }
         }
-
-        public bool IsCorePlayerState() => true;
+        
         public LoadPriority GetLoadPriority() => LoadPriority.ObjectInstantiation;
         public SaveState CaptureState()
         {
