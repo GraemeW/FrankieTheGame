@@ -121,7 +121,7 @@ namespace Frankie.Stats
             // positive value -> fearsome for enemy running
             if (level <= defenderLevel) { return -1f; } // Not fearsome if lower level
             
-            float statDeltaReq = 20f * defenderLevel / level;
+            float statDeltaReq = 15f * defenderLevel / level;
             return (modifier - defenderModifier) / statDeltaReq - 1f;
         }
 
@@ -130,7 +130,7 @@ namespace Frankie.Stats
             // positive value -> imposing for enemy combat auto-conclude
             if (level <= defenderLevel) { return -1f; } // Not imposing if lower level
             
-            float statDeltaReq = 30f * defenderLevel / level;
+            float statDeltaReq = 25f * defenderLevel / level;
             return (modifier - defenderModifier) / statDeltaReq - 1f;
         }
         #endregion
