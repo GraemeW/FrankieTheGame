@@ -23,6 +23,7 @@ namespace Frankie.Control
         [Header("Other Controller Prefabs")]
         [SerializeField] private BattleController battleControllerPrefab;
         [SerializeField] private DialogueController dialogueControllerPrefab;
+        [SerializeField] private GameObject battleUIPrefab;
         [Header("Menu Game Objects")]
         [SerializeField] private GameObject shopSelectPrefab;
         [SerializeField] private GameObject cashTransferPrefab;
@@ -91,26 +92,11 @@ namespace Frankie.Control
         private static PlayerStateType TranslatePlayerState(IPlayerState playerState)
         {
             Type playerStateType = playerState.GetType();
-            if (playerStateType == typeof(TransitionState))
-            {
-                return PlayerStateType.inTransition;
-            }
-            else if (playerStateType == typeof(CombatState))
-            {
-                return PlayerStateType.inBattle;
-            }
-            else if (playerStateType == typeof(DialogueState))
-            {
-                return PlayerStateType.inDialogue;
-            }
-            else if (playerStateType == typeof(TradeState) || playerStateType == typeof(OptionState))
-            {
-                return PlayerStateType.inMenus;
-            }
-            else if (playerStateType == typeof(CutSceneState))
-            {
-                return PlayerStateType.inCutScene;
-            }
+            if (playerStateType == typeof(TransitionState)) { return PlayerStateType.inTransition; }
+            if (playerStateType == typeof(CombatState)) { return PlayerStateType.inBattle; }
+            if (playerStateType == typeof(DialogueState)) { return PlayerStateType.inDialogue; }
+            if (playerStateType == typeof(TradeState) || playerStateType == typeof(OptionState)) { return PlayerStateType.inMenus; }
+            if (playerStateType == typeof(CutSceneState)) { return PlayerStateType.inCutScene; }
             return PlayerStateType.inWorld; // Default:  typeof(WorldState)
         }
         #endregion
@@ -358,10 +344,7 @@ namespace Frankie.Control
             return true;
         }
 
-        public bool IsCombatFadeComplete()
-        {
-            return combatFadeComplete;
-        }
+        public bool IsCombatFadeComplete() => combatFadeComplete;
 
         public bool EndBattleSequence()
         {
@@ -386,25 +369,23 @@ namespace Frankie.Control
         private IEnumerator QueueBattleTransition(Fader fader, TransitionType transitionType)
         {
             combatFadeComplete = false;
-
             yield return fader.QueueFadeEntry(transitionType);
-            battleController.QueueCombatInitiation(enemiesInTransition, transitionType);
+            if (battleUIPrefab != null) { Instantiate(battleUIPrefab); }
+            BattleEventBus<BattleFadeTransitionEvent>.Raise(new BattleFadeTransitionEvent(BattleFadePhase.EntryPeak, enemiesInTransition, transitionType));
             yield return fader.QueueFadeExit(transitionType);
-
             combatFadeComplete = true;
             currentPlayerState.EnterCombat(this);
+            BattleEventBus<BattleFadeTransitionEvent>.Raise(new BattleFadeTransitionEvent(BattleFadePhase.EntryComplete));
         }
 
         private IEnumerator QueueExitCombat(Fader fader)
         {
             currentTransitionType = TransitionType.BattleComplete;
-
             yield return fader.QueueFadeEntry(currentTransitionType);
-            Destroy(battleController.gameObject);
+            BattleEventBus<BattleFadeTransitionEvent>.Raise(new BattleFadeTransitionEvent(BattleFadePhase.ExitPeak));
             StartCoroutine(TimedCollisionDisable());
             yield return fader.QueueFadeExit(currentTransitionType);
-            
-            BattleEventBus<BattleExitEvent>.Raise(new BattleExitEvent());
+            BattleEventBus<BattleFadeTransitionEvent>.Raise(new BattleFadeTransitionEvent(BattleFadePhase.ExitComplete));
             currentPlayerState.EnterWorld(this);
         }
         #endregion
