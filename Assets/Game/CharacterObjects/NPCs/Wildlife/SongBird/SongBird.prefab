@@ -47,11 +47,11 @@ PrefabInstance:
     - target: {fileID: 1182436157161314237, guid: e4be3ce2d5464c3498c884ae5d9223d4, type: 3}
       propertyPath: movingBackgroundProperties.shaderMaterial
       value: 
-      objectReference: {fileID: 2100000, guid: a1f510c152223b1459ecbd541982ef2e, type: 2}
+      objectReference: {fileID: 2100000, guid: 336c743cf227e42abbda6c31dd121ab6, type: 2}
     - target: {fileID: 1182436157161314237, guid: e4be3ce2d5464c3498c884ae5d9223d4, type: 3}
       propertyPath: movingBackgroundProperties.tileSpriteImage
       value: 
-      objectReference: {fileID: 21300000, guid: 19682c054559be44eb9cce952d4a088d, type: 3}
+      objectReference: {fileID: 21300000, guid: d21dd4a26cb7ab14d890cb5f77dc6522, type: 3}
     - target: {fileID: 2085418849946982719, guid: e4be3ce2d5464c3498c884ae5d9223d4, type: 3}
       propertyPath: characterProperties
       value: 

@@ -35,7 +35,7 @@ PrefabInstance:
     - target: {fileID: 1182436157161314237, guid: e4be3ce2d5464c3498c884ae5d9223d4, type: 3}
       propertyPath: combatAudio
       value: 
-      objectReference: {fileID: 8300000, guid: 6bcafcb32d2d24e45bea5b704a3341e6, type: 3}
+      objectReference: {fileID: 8300000, guid: d808ce0e402239348b99f94cc628f2e4, type: 3}
     - target: {fileID: 1182436157161314237, guid: e4be3ce2d5464c3498c884ae5d9223d4, type: 3}
       propertyPath: combatSprite
       value: 
@@ -47,11 +47,11 @@ PrefabInstance:
     - target: {fileID: 1182436157161314237, guid: e4be3ce2d5464c3498c884ae5d9223d4, type: 3}
       propertyPath: movingBackgroundProperties.shaderMaterial
       value: 
-      objectReference: {fileID: 2100000, guid: a1f510c152223b1459ecbd541982ef2e, type: 2}
+      objectReference: {fileID: 2100000, guid: 32b4c139a5c79ce46a7bfae5b269ac9b, type: 2}
     - target: {fileID: 1182436157161314237, guid: e4be3ce2d5464c3498c884ae5d9223d4, type: 3}
       propertyPath: movingBackgroundProperties.tileSpriteImage
       value: 
-      objectReference: {fileID: 21300000, guid: a0e9a6f3439c44545a3e76bcb5f2245e, type: 3}
+      objectReference: {fileID: 21300000, guid: 203dd3944650f5f4588439e50bb69c0f, type: 3}
     - target: {fileID: 2085418849946982719, guid: e4be3ce2d5464c3498c884ae5d9223d4, type: 3}
       propertyPath: defaultLevel
       value: 2

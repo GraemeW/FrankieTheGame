@@ -22,7 +22,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -6302713147965282841, guid: e4be3ce2d5464c3498c884ae5d9223d4, type: 3}
       propertyPath: lootEntries.Array.data[0].probability
-      value: 2
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: -6302713147965282841, guid: e4be3ce2d5464c3498c884ae5d9223d4, type: 3}
       propertyPath: lootEntries.Array.data[1].probability
@@ -35,7 +35,7 @@ PrefabInstance:
     - target: {fileID: 1182436157161314237, guid: e4be3ce2d5464c3498c884ae5d9223d4, type: 3}
       propertyPath: combatAudio
       value: 
-      objectReference: {fileID: 8300000, guid: 6bcafcb32d2d24e45bea5b704a3341e6, type: 3}
+      objectReference: {fileID: 8300000, guid: d808ce0e402239348b99f94cc628f2e4, type: 3}
     - target: {fileID: 1182436157161314237, guid: e4be3ce2d5464c3498c884ae5d9223d4, type: 3}
       propertyPath: combatSprite
       value: 

@@ -39,7 +39,7 @@ PrefabInstance:
     - target: {fileID: 1182436157161314237, guid: e4be3ce2d5464c3498c884ae5d9223d4, type: 3}
       propertyPath: movingBackgroundProperties.tileSpriteImage
       value: 
-      objectReference: {fileID: 21300000, guid: bb0e074b6dc52b84093d23621d36cf1b, type: 3}
+      objectReference: {fileID: 21300000, guid: 1ba2d432a96a95b48a89cb0837ecdcc1, type: 3}
     - target: {fileID: 2085418849946982719, guid: e4be3ce2d5464c3498c884ae5d9223d4, type: 3}
       propertyPath: characterProperties
       value: 
