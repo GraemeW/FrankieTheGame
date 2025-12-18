@@ -12,13 +12,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6b066201d64e5354387f385aa2872d22, type: 3}
   m_Name: 29eb0807-1fd1-49f0-a3ba-649b5bf1ee32
   m_EditorClassIdentifier: 
-  upSkillReference: ShowOffCode
+  upSkillReference: Wallop
   upBranch: 
-  leftSkillReference: 
+  leftSkillReference: TwiddleThumbs
   leftBranch: 
-  rightSkillReference: 
+  rightSkillReference: EdgeCloser
   rightBranch: 
-  downSkillReference: 
+  downSkillReference: Wallop
   downBranch: 
   rect:
     serializedVersion: 2

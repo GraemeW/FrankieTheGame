@@ -42,7 +42,7 @@ Material:
     m_Ints: []
     m_Floats:
     - Vector1_7ab76210b1bd497babdb7dec70f33f90: 10.61
-    - _Phase: 21.07062
+    - _Phase: 40.93231
     - _QueueControl: 0
     - _QueueOffset: 0
     - crispness: 0.01
@@ -53,6 +53,7 @@ Material:
     - thickness: 0.2
     - width: 0.9
     m_Colors:
+    - White: {r: 1, g: 1, b: 1, a: 1}
     - backgroundColor: {r: 0, g: 0, b: 0, a: 0}
     - drawColor: {r: 1, g: 1, b: 1, a: 0}
     - minMax: {r: 0.25, g: 0.75, b: 0, a: 0}

@@ -14,4 +14,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   stat: 4
   battleAction: {fileID: 11400000, guid: 1e829763218cb524c85a02808989df2b, type: 2}
-  detail: Unplug your EarPods and take the call live. Reduces brawn temporarily.
+  detail: Unplug your EarPods and take the call live. Reduces nimble temporarily.
