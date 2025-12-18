@@ -9,12 +9,14 @@ namespace Frankie.Control
         [SerializeField] private PatrolPathWaypoint[] waypoints;
         [SerializeField] private bool looping = true;
         [SerializeField] private bool returnToFirstWaypoint = true;
+#if UNITY_EDITOR
         [Header("Gizmo Properties")]
         [SerializeField] private float waypointGizmoSphereRadius = 0.1f;
-        [SerializeField] private Color waypointGizmoColor = new Color(0.5f, 1f, 1f);
-        [SerializeField] private Color startSphereColor = new Color(0.2f, 0.8f, 0.2f);
+        [SerializeField] private Color waypointGizmoColor = new(0.5f, 1f, 1f);
+        [SerializeField] private Color startSphereColor = new(0.2f, 0.8f, 0.2f);
         [SerializeField] private float selectAlpha = 0.7f;
         [SerializeField] private float deselectAlpha = 0.3f;
+#endif
 
         // State
         private bool loopedOnce = false;

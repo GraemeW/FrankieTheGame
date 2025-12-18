@@ -12,15 +12,19 @@ namespace Frankie.Speech
         // Tunables
         [SerializeField] public bool skipRootNode = false;
 
+#if UNITY_EDITOR
         [Header("Editor Settings")]
         [SerializeField] private Vector2 newNodeOffset = new Vector2(100f, 25f);
         [SerializeField] private int nodeWidth = 400;
         [SerializeField] private int nodeHeight = 225;
+#endif
 
         // State
         [HideInInspector][SerializeField] private List<CharacterProperties> activeNPCs;
         [HideInInspector][SerializeField] private List<DialogueNode> dialogueNodes = new();
-        [HideInInspector][SerializeField] private Dictionary<string, DialogueNode> nodeLookup = new();
+#if UNITY_EDITOR
+        private Dictionary<string, DialogueNode> nodeEditorLookup = new();
+#endif
 
         #region StaticMethods
         public static bool IsRelated(DialogueNode parentNode, DialogueNode childNode) => parentNode.GetChildren() != null && parentNode.GetChildren().Contains(childNode.name);
@@ -45,18 +49,20 @@ namespace Frankie.Speech
 
         private void OnValidate()
         {
-            nodeLookup = new Dictionary<string, DialogueNode>();
+#if UNITY_EDITOR
+            nodeEditorLookup = new Dictionary<string, DialogueNode>();
             activeNPCs = new List<CharacterProperties>();
 
             if (dialogueNodes == null) { return; }
             foreach (DialogueNode dialogueNode in dialogueNodes.TakeWhile(dialogueNode => dialogueNode != null))
             {
-                nodeLookup.Add(dialogueNode.name, dialogueNode);
+                nodeEditorLookup.Add(dialogueNode.name, dialogueNode);
                 if (dialogueNode.GetCharacterProperties() != null && !activeNPCs.Contains(dialogueNode.GetCharacterProperties()))
                 {
                     activeNPCs.Add(dialogueNode.GetCharacterProperties());
                 }
             }
+#endif
         }
         #endregion
 
@@ -65,14 +71,6 @@ namespace Frankie.Speech
 
         public DialogueNode GetRootNode(bool withSkip = true) => dialogueNodes[0];
         public DialogueNode GetNodeFromID(string nodeID) => dialogueNodes.FirstOrDefault(dialogueNode => dialogueNode.name == nodeID);
-        public IEnumerable<DialogueNode> GetAllChildren(DialogueNode parentNode)
-        {
-            if (parentNode == null || parentNode.GetChildren() == null || parentNode.GetChildren().Count == 0) { yield break; }
-            foreach (var childUniqueID in parentNode.GetChildren().Where(childUniqueID => nodeLookup.ContainsKey(childUniqueID)))
-            {
-                yield return nodeLookup[childUniqueID];
-            }
-        }
         public List<CharacterProperties> GetActiveCharacters() => activeNPCs;
 
         public void OverrideSpeakerNames(string playerName)
@@ -92,6 +90,15 @@ namespace Frankie.Speech
 
         #region EditorMethods
 #if UNITY_EDITOR
+        public IEnumerable<DialogueNode> GetAllChildren(DialogueNode parentNode)
+        {
+            if (parentNode == null || parentNode.GetChildren() == null || parentNode.GetChildren().Count == 0) { yield break; }
+            foreach (var childUniqueID in parentNode.GetChildren().Where(childUniqueID => nodeEditorLookup.ContainsKey(childUniqueID)))
+            {
+                yield return nodeEditorLookup[childUniqueID];
+            }
+        }
+        
         private DialogueNode CreateNode()
         {
             DialogueNode dialogueNode = CreateInstance<DialogueNode>();

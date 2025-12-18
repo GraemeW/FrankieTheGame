@@ -12,10 +12,12 @@ namespace Frankie.ZoneManagement
     public class Zone : ScriptableObject, ISerializationCallbackReceiver, IAddressablesCache
     {
         // Tunables
+#if UNITY_EDITOR
         [Header("Editor Settings")]
         [SerializeField] private Vector2 newNodeOffset = new(100f, 25f);
         [SerializeField] private int nodeWidth = 430;
         [SerializeField] private int nodeHeight = 150;
+#endif
         [Header("Zone Properties")]
         [SerializeField] private SceneReference sceneReference;
         [SerializeField] private bool updateMap = false;
@@ -24,7 +26,9 @@ namespace Frankie.ZoneManagement
 
         // State
         [HideInInspector] [SerializeField] private List<ZoneNode> zoneNodes = new();
-        [HideInInspector] [SerializeField] private Dictionary<string, ZoneNode> nodeLookup = new();
+#if UNITY_EDITOR
+        private Dictionary<string, ZoneNode> nodeEditorLookup = new();
+#endif
 
         private static AsyncOperationHandle<IList<Zone>> _addressablesLoadHandle;
         private static Dictionary<string, Zone> _zoneLookupCache;
@@ -91,11 +95,13 @@ namespace Frankie.ZoneManagement
 
         private void OnValidate()
         {
-            nodeLookup = new Dictionary<string, ZoneNode>();
+#if UNITY_EDITOR
+            nodeEditorLookup = new Dictionary<string, ZoneNode>();
             foreach (ZoneNode zoneNode in zoneNodes)
             {
-                nodeLookup.Add(zoneNode.name, zoneNode);
+                nodeEditorLookup.Add(zoneNode.name, zoneNode);
             }
+#endif
         }
         #endregion
 
@@ -109,19 +115,19 @@ namespace Frankie.ZoneManagement
         public bool IsRelated(ZoneNode parentNode, ZoneNode childNode) => parentNode.GetChildren() != null && parentNode.GetChildren().Contains(childNode.name);
         
         public ZoneNode GetNodeFromID(string zoneNodeName) => zoneNodes.FirstOrDefault(zoneNode => zoneNode.name == zoneNodeName);
-
-        public IEnumerable<ZoneNode> GetAllChildren(ZoneNode parentNode)
-        {
-            if (parentNode == null || parentNode.GetChildren() == null || parentNode.GetChildren().Count == 0) { yield break; }
-            foreach (var childUniqueID in parentNode.GetChildren().Where(childUniqueID => nodeLookup.ContainsKey(childUniqueID)))
-            {
-                yield return nodeLookup[childUniqueID];
-            }
-        }
         #endregion
         
         #region EditorMethods
 #if UNITY_EDITOR
+        public IEnumerable<ZoneNode> GetAllChildren(ZoneNode parentNode)
+        {
+            if (parentNode == null || parentNode.GetChildren() == null || parentNode.GetChildren().Count == 0) { yield break; }
+            foreach (var childUniqueID in parentNode.GetChildren().Where(childUniqueID => nodeEditorLookup.ContainsKey(childUniqueID)))
+            {
+                yield return nodeEditorLookup[childUniqueID];
+            }
+        }
+        
         private ZoneNode CreateNode()
         {
             var zoneNode = CreateInstance<ZoneNode>();

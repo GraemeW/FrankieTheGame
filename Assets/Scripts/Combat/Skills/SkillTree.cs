@@ -9,12 +9,11 @@ namespace Frankie.Combat
     public class SkillTree : ScriptableObject, ISerializationCallbackReceiver
     {
         // Tunables
+#if UNITY_EDITOR
         [Header("Editor Settings")]
         [SerializeField] private Vector2 newBranchOffset = new(150f, 150f);
         [SerializeField] private int branchWidth = 250;
         [SerializeField] private int branchHeight = 155;
-
-#if UNITY_EDITOR
         private const float _upOffsetMultiplier = 2.0f;
         private const float _leftOffsetMultiplier = 2.5f;
 #endif
