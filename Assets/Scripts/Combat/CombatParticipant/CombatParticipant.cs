@@ -27,6 +27,7 @@ namespace Frankie.Combat
         [SerializeField] private bool usesAP = true;
         [SerializeField] private float damageTimeSpan = 4.0f;
         [SerializeField] private float fractionOfHPInstantOnRevival = 0.5f;
+        [SerializeField] private float holdOnHP = 1f;
         [SerializeField] private bool shouldDestroySelfOnDeath = true;
 
         [Header("Cooldowns")]
@@ -175,7 +176,7 @@ namespace Frankie.Combat
 
         public bool CheckIfDead() // Called via Unity Events
         {
-            if ((Mathf.Approximately(currentHP.value, 0f) || currentHP.value < 0) && isDead.value != true)
+            if ((Mathf.Approximately(currentHP.value, 0f) || currentHP.value < 0) && !isDead.value)
             {
                 currentHP.value = 0f;
                 targetHP = 0f;
@@ -229,8 +230,14 @@ namespace Frankie.Combat
 
             if (friendly) // Damage dealt is delayed, occurs over damageTimeSpan seconds
             {
+                // Heals reset deficit back to zero
+                if (points > 0 && targetHP < 0f) { targetHP = 0f; } 
+                
+                // Adjust HP, check if holding on
                 float unsafeHP = targetHP + points;
                 unsafeHP = GetHoldOnModifiedHP(unsafeHP);
+                
+                // Clamp target HP to max HP limits
                 targetHP = Mathf.Min(unsafeHP, baseStats.GetStat(Stat.HP));
                 deltaHPTimeFraction = (Time.deltaTime / damageTimeSpan);
             }
@@ -349,7 +356,6 @@ namespace Frankie.Combat
             }
             else
             {
-                HaltHPScroll();
                 if (IsInCooldown()) { AnnounceStateUpdate(StateAlteredType.CooldownSet, Mathf.Infinity); }
             }
         }
@@ -365,18 +371,22 @@ namespace Frankie.Combat
 
         private float GetHoldOnModifiedHP(float unsafeHP)
         {
-            if (!(targetHP > 1f) || !(unsafeHP < 0f)) { return unsafeHP; }
-            
-            float roll = UnityEngine.Random.value;
-            if (roll < GetCalculatedStat(CalculatedStat.HoldOnChance))
+            // Trigger when taking a hit when last HP (prior targetHP) was > holdOnHP,
+            // and after hit will now be < 0f (fatal)
+            if (targetHP > holdOnHP && unsafeHP < 0f)
             {
-                unsafeHP = 1f;
+                float roll = UnityEngine.Random.value;
+                if (roll < GetCalculatedStat(CalculatedStat.HoldOnChance))
+                {
+                    unsafeHP = holdOnHP;
+                }
             }
             return unsafeHP;
         }
         
         private void UpdateDamageDelayedHealth()
         {
+            if (!inCombat) { return; }
             if (friendly && !Mathf.Approximately(currentHP.value, targetHP))
             {
                 deltaHPTimeFraction += (Time.deltaTime / damageTimeSpan);
@@ -437,13 +447,6 @@ namespace Frankie.Combat
                 if (entry.Key == Stat.HP) { AdjustHPQuietly(entry.Value); }
                 if (entry.Key == Stat.AP) { AdjustAPQuietly(entry.Value); }
             }
-        }
-        
-        private void HaltHPScroll()
-        {
-            if (targetHP > currentHP.value) { return; } // Allow healing to occur post-battle
-            deltaHPTimeFraction = 0f;
-            targetHP = currentHP.value;
         }
 
         private void ReconcileHPAP(EquipableItem equipableItem)
