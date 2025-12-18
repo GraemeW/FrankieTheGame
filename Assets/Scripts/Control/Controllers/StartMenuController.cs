@@ -77,6 +77,7 @@ namespace Frankie.Control
             }
 
             HealParty(playerStateMachine);
+            playerStateMachine.EnterWorld();
             LockPlayer(playerStateMachine, isStart);
         }
 
