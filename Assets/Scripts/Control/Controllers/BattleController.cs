@@ -232,8 +232,6 @@ namespace Frankie.Combat
         #region EventBusHandlers
         private void HandleBattleFadeTransitionEvent(BattleFadeTransitionEvent battleFadeTransitionEvent)
         {
-            UnityEngine.Debug.Log($"battleFadeTransitionEvent: {battleFadeTransitionEvent.fadePhase}");
-            
             switch (battleFadeTransitionEvent.fadePhase)
             {
                 case BattleFadePhase.EntryPeak:

@@ -230,6 +230,7 @@ namespace Frankie.Combat
             if (friendly) // Damage dealt is delayed, occurs over damageTimeSpan seconds
             {
                 float unsafeHP = targetHP + points;
+                unsafeHP = GetHoldOnModifiedHP(unsafeHP);
                 targetHP = Mathf.Min(unsafeHP, baseStats.GetStat(Stat.HP));
                 deltaHPTimeFraction = (Time.deltaTime / damageTimeSpan);
             }
@@ -362,6 +363,18 @@ namespace Frankie.Combat
             }
         }
 
+        private float GetHoldOnModifiedHP(float unsafeHP)
+        {
+            if (!(targetHP > 1f) || !(unsafeHP < 0f)) { return unsafeHP; }
+            
+            float roll = UnityEngine.Random.value;
+            if (roll < GetCalculatedStat(CalculatedStat.HoldOnChance))
+            {
+                unsafeHP = 1f;
+            }
+            return unsafeHP;
+        }
+        
         private void UpdateDamageDelayedHealth()
         {
             if (friendly && !Mathf.Approximately(currentHP.value, targetHP))

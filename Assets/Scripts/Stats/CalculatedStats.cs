@@ -29,6 +29,7 @@ namespace Frankie.Stats
                 CalculatedStat.RunChance => Stat.Nimble,
                 CalculatedStat.Fearsome => Stat.Pluck, // Enemy Runs
                 CalculatedStat.Imposing => Stat.Pluck, // Enemy combat auto-concludes
+                CalculatedStat.HoldOnChance => Stat.Pluck, // Survive hit with 1hp
                 _ => Stat.InitialLevel,
             };
             return stat != Stat.InitialLevel; // failsafe default behaviour
@@ -51,6 +52,7 @@ namespace Frankie.Stats
                 CalculatedStat.RunChance => GetRunChance(callerModifier, contestModifier),
                 CalculatedStat.Fearsome => GetFearsome(callerLevel, callerModifier, contestLevel, contestModifier), 
                 CalculatedStat.Imposing => GetImposing(callerLevel, callerModifier, contestLevel, contestModifier), 
+                CalculatedStat.HoldOnChance => GetHoldOnChance(callerModifier),
                 _ => 0f,
             };
         }
@@ -132,6 +134,11 @@ namespace Frankie.Stats
             
             float statDeltaReq = 25f * defenderLevel / level;
             return (modifier - defenderModifier) / statDeltaReq - 1f;
+        }
+
+        private static float GetHoldOnChance(float modifier)
+        {
+            return 0.15f + Mathf.Min(modifier / 500f, 0.5f);
         }
         #endregion
     }
