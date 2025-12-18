@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using UnityEditor;
 using UnityEngine;
 
@@ -9,15 +10,17 @@ namespace Frankie.Combat
     {
         // Tunables
         [Header("Editor Settings")]
-        [SerializeField] Vector2 newBranchOffset = new Vector2(150f, 150f);
-        float upOffsetMultiplier = 2.0f;
-        float leftOffsetMultiplier = 2.5f;
-        [SerializeField] int branchWidth = 250;
-        [SerializeField] int branchHeight = 155;
+        [SerializeField] private Vector2 newBranchOffset = new(150f, 150f);
+        [SerializeField] private int branchWidth = 250;
+        [SerializeField] private int branchHeight = 155;
 
+#if UNITY_EDITOR
+        private const float _upOffsetMultiplier = 2.0f;
+        private const float _leftOffsetMultiplier = 2.5f;
+#endif
+        
         // State
-        [HideInInspector] [SerializeField] List<SkillBranch> skillBranches = new List<SkillBranch>();
-        [HideInInspector] [SerializeField] Dictionary<string, SkillBranch> skillBranchLookup = new Dictionary<string, SkillBranch>();
+        [HideInInspector] [SerializeField] private List<SkillBranch> skillBranches = new();
 
         private void Awake()
         {
@@ -27,57 +30,22 @@ namespace Frankie.Combat
             // For (unknown) reasons, the root node gets made and then killed by the time serialization occurs
 #endif
         }
-
-        private void OnValidate()
-        {
-            skillBranchLookup = new Dictionary<string, SkillBranch>();
-            foreach (SkillBranch skillBranch in skillBranches)
-            {
-                skillBranchLookup.Add(skillBranch.name, skillBranch);
-            }
-        }
-
-        public IEnumerable<SkillBranch> GetAllBranches()
-        {
-            return skillBranches;
-        }
-
-        public SkillBranch GetRootSkillBranch()
-        {
-            return skillBranches[0];
-        }
-
-        public SkillBranch GetSkillBranchFromID(string name)
-        {
-            foreach (SkillBranch skillBranch in skillBranches)
-            {
-                if (skillBranch.name == name)
-                {
-                    return skillBranch;
-                }
-            }
-            return null;
-        }
+        public IEnumerable<SkillBranch> GetAllBranches() => skillBranches;
+        public SkillBranch GetRootSkillBranch() => skillBranches[0];
+        public SkillBranch GetSkillBranchFromID(string branchName) => skillBranches.FirstOrDefault(skillBranch => skillBranch.name == branchName);
 
         public SkillBranch GetChildSkillBranch(SkillBranch parentSkillBranch, SkillBranchMapping skillBranchMapping)
         {
             if (parentSkillBranch == null) { return null; }
             string childUniqueID = parentSkillBranch.GetBranch(skillBranchMapping);
-            if (string.IsNullOrWhiteSpace(childUniqueID)) { return null; }
-
-            if (skillBranchLookup.ContainsKey(childUniqueID))
-            {
-                return skillBranchLookup[childUniqueID];
-            }
-
-            return null;
+            return !string.IsNullOrWhiteSpace(childUniqueID) ? skillBranches.Select(skillBranch => skillBranch.name == childUniqueID ? skillBranch : null).FirstOrDefault() : null;
         }
 
         // Dialogue editing functionality
 #if UNITY_EDITOR
         private SkillBranch CreateSkillBranch(SkillBranchMapping skillBranchMapping)
         {
-            SkillBranch skillBranch = CreateInstance<SkillBranch>();
+            var skillBranch = CreateInstance<SkillBranch>();
             Undo.RegisterCreatedObjectUndo(skillBranch, "Created Skill Branch Object");
             skillBranch.Initialize(branchWidth, branchHeight, skillBranchMapping);
             skillBranch.name = System.Guid.NewGuid().ToString();
@@ -97,12 +65,12 @@ namespace Frankie.Combat
             if (skillBranchMapping == SkillBranchMapping.up)
             {
                 Vector2 offsetPosition = new Vector2(parentSkillBranch.GetRect().xMin,
-                    parentSkillBranch.GetRect().yMin - (float)(newBranchOffset.y * upOffsetMultiplier));
+                    parentSkillBranch.GetRect().yMin - (float)(newBranchOffset.y * _upOffsetMultiplier));
                 childBranch.SetPosition(offsetPosition);
             }
             else if (skillBranchMapping == SkillBranchMapping.left)
             {
-                Vector2 offsetPosition = new Vector2(parentSkillBranch.GetRect().xMin - (float)(newBranchOffset.x * leftOffsetMultiplier),
+                Vector2 offsetPosition = new Vector2(parentSkillBranch.GetRect().xMin - (float)(newBranchOffset.x * _leftOffsetMultiplier),
                     parentSkillBranch.GetRect().yMin);
                 childBranch.SetPosition(offsetPosition);
             }
@@ -118,24 +86,16 @@ namespace Frankie.Combat
                     parentSkillBranch.GetRect().yMax + newBranchOffset.y);
                 childBranch.SetPosition(offsetPosition);
             }
-
             parentSkillBranch.AddChild(childBranch.name, skillBranchMapping);
-            OnValidate();
 
             return childBranch;
         }
 
         public SkillBranch CreateRootSkillBranchIfMissing()
         {
-            if (skillBranches.Count == 0)
-            {
-                SkillBranch rootSkillBranch = CreateSkillBranch(0);
-
-                OnValidate();
-                return rootSkillBranch;
-            }
-
-            return null;
+            if (skillBranches.Count != 0) return null;
+            SkillBranch rootSkillBranch = CreateSkillBranch(0);
+            return rootSkillBranch;
         }
 
         public void DeleteSkillBranch(SkillBranch skillBranchToDelete, SkillBranchMapping skillBranchMapping)
@@ -145,7 +105,6 @@ namespace Frankie.Combat
             Undo.RecordObject(this, "Delete Skill Node");
             skillBranches.Remove(skillBranchToDelete);
             CleanDanglingChildren(skillBranchToDelete, skillBranchMapping);
-            OnValidate();
 
             Undo.DestroyObjectImmediate(skillBranchToDelete);
         }
@@ -163,14 +122,12 @@ namespace Frankie.Combat
         void ISerializationCallbackReceiver.OnBeforeSerialize()
         {
 #if UNITY_EDITOR
-            if (AssetDatabase.GetAssetPath(this) != "")
+            if (AssetDatabase.GetAssetPath(this) == "") return;
+            foreach (SkillBranch skillBranch in GetAllBranches())
             {
-                foreach (SkillBranch skillBranch in GetAllBranches())
+                if (AssetDatabase.GetAssetPath(skillBranch) == "")
                 {
-                    if (AssetDatabase.GetAssetPath(skillBranch) == "")
-                    {
-                        AssetDatabase.AddObjectToAsset(skillBranch, this);
-                    }
+                    AssetDatabase.AddObjectToAsset(skillBranch, this);
                 }
             }
 #endif
