@@ -47,6 +47,7 @@ namespace Frankie.Combat
         // State
         private bool awakeCalled = false;
         private bool inCombat = false;
+        private bool isHealthRollActive = true;
         private float cooldownTimer;
         private float cooldownStore;
         private float targetHP = 1f;
@@ -343,8 +344,16 @@ namespace Frankie.Combat
         #region PrivateUtility
         private void HandleBattleStateChangedEvent(BattleStateChangedEvent battleStateChangedEvent)
         {
+            // Note:  Order of operations matters here since SetCombatActive also modifies isHealthRollActive
             SetCombatActive(battleStateChangedEvent.battleState == BattleState.Combat);
-            if (battleStateChangedEvent.battleState == BattleState.Outro) { SubscribeToBattleStateChanges(false); }
+            
+            if (battleStateChangedEvent.battleState is BattleState.Outro or BattleState.Rewards)
+            {
+                SubscribeToBattleStateChanges(false);
+                // Lock health if it's going down, but allow healing (e.g. level-up health bumps)
+                if (targetHP < currentHP.value) { targetHP = currentHP.value; }
+                isHealthRollActive = true;
+            }
         }
         
         private void SetCombatActive(bool enable)
@@ -352,10 +361,12 @@ namespace Frankie.Combat
             inCombat = enable;
             if (enable)
             {
+                isHealthRollActive = true;
                 if (IsInCooldown()) { AnnounceStateUpdate(StateAlteredType.CooldownSet, cooldownTimer); }
             }
             else
             {
+                isHealthRollActive = false;
                 if (IsInCooldown()) { AnnounceStateUpdate(StateAlteredType.CooldownSet, Mathf.Infinity); }
             }
         }
@@ -386,7 +397,7 @@ namespace Frankie.Combat
         
         private void UpdateDamageDelayedHealth()
         {
-            if (!inCombat) { return; }
+            if (!isHealthRollActive) { return; }
             if (friendly && !Mathf.Approximately(currentHP.value, targetHP))
             {
                 deltaHPTimeFraction += (Time.deltaTime / damageTimeSpan);
