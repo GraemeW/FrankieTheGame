@@ -16,11 +16,13 @@ namespace Frankie.Combat
     {
         // Tunables
         [Header("Controller Properties")]
+        [SerializeField] [Tooltip("Increments per failed run attempt")] [Range(0f,1f)] private float runChanceIncrement = 0.15f;
         [SerializeField] private float battleQueueDelay = 1.0f;
         
         // State
         private BattleState battleState;
         private bool canAttemptEarlyRun = true;
+        private int runAttemptCounter = 0;
         private bool outroCleanupCalled = false;
         private int countEnemiesAddedMidCombat;
 
@@ -468,6 +470,7 @@ namespace Frankie.Combat
             
             // Probability via CalculatedStat and check/react
             float runChance = CalculatedStats.GetCalculatedStat(CalculatedStat.RunChance, averagePartyLevel, averagePartySpeed, enemyLevel, enemySpeed);
+            runChance = Mathf.Clamp(runChance + runAttemptCounter * runChanceIncrement, 0f, 1f);
             float runCheck = UnityEngine.Random.value;
             Debug.Log($"Run Attempt.  Run chance @ {runChance}.  Run check @ {runCheck}");
             if (runCheck < runChance)
@@ -486,6 +489,7 @@ namespace Frankie.Combat
                     character.combatParticipant.IncrementCooldownStoreForRun();
                 }
                 canAttemptEarlyRun = false; // Treat run as having entered combat
+                runAttemptCounter++;
                 return false;
             }
         }
