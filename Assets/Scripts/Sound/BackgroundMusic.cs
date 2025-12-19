@@ -193,15 +193,12 @@ namespace Frankie.Sound
         #endregion
 
         #region BattleAudio
-        private AudioClip GetBattleAudioClip(IList<BattleEntity> battleEntities)
+        private static AudioClip GetBattleAudioClip(IList<BattleEntity> battleEntities)
         {
-            var audioClipOptions = (from battleEntity in battleEntities where battleEntity.combatParticipant.GetAudioClip() != null select battleEntity.combatParticipant.GetAudioClip()).ToList();
-            if (audioClipOptions.Count == 0) { return null; }
+            IList<CombatParticipant> viableCombatParticipants = CombatParticipant.GetPriorityCombatParticipants(battleEntities);
 
-            int randomAudioClipIndex = Random.Range(0, audioClipOptions.Count);
-            AudioClip combatAudio = audioClipOptions[randomAudioClipIndex];
-
-            return combatAudio;
+            int randomCombatParticipantIndex = Random.Range(0, viableCombatParticipants.Count);
+            return viableCombatParticipants[randomCombatParticipantIndex].GetAudioClip();
         }
 
         private void SetBattleMusic(AudioClip audioClip)

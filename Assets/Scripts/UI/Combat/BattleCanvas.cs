@@ -283,8 +283,10 @@ namespace Frankie.Combat.UI
 
         private void SetupBackgroundFill(IList<BattleEntity> enemies)
         {
-            int enemyIndex = UnityEngine.Random.Range(0, enemies.Count);
-            MovingBackgroundProperties movingBackgroundProperties = enemies[enemyIndex].combatParticipant.GetMovingBackgroundProperties();
+            IList<CombatParticipant> viableEnemies = CombatParticipant.GetPriorityCombatParticipants(enemies);
+            int enemyIndex = UnityEngine.Random.Range(0, viableEnemies.Count);
+            MovingBackgroundProperties movingBackgroundProperties = viableEnemies[enemyIndex].GetMovingBackgroundProperties();
+            
             if (movingBackgroundProperties.tileSpriteImage == null || movingBackgroundProperties.shaderMaterial == null)
             {
                 backgroundFill.sprite = defaultMovingBackgroundProperties.tileSpriteImage;

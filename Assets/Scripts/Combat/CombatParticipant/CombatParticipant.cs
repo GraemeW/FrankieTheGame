@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using Frankie.Core;
 using Frankie.Utils;
@@ -20,6 +21,7 @@ namespace Frankie.Combat
         [SerializeField] [Range(0.2f, 2.0f)] private float spriteScaleFineTune = 1.0f;
         [SerializeField] private AudioClip combatAudio;
         [SerializeField] private MovingBackgroundProperties movingBackgroundProperties;
+        [SerializeField] [Tooltip("Set higher to increase priority in selection")] private int battlePropertiesPriority;
 
         [Header("Combat Properties")]
         [SerializeField] private BattleRow preferredBattleRow = BattleRow.Any;
@@ -62,6 +64,19 @@ namespace Frankie.Combat
         public delegate void StateEvent(StateAlteredInfo stateAlteredInfo);
         public event StateEvent stateAltered;
 
+        #region StaticMethods
+        public static IList<CombatParticipant> GetPriorityCombatParticipants(IList<BattleEntity> battleEntities)
+        {
+            return GetPriorityCombatParticipants(battleEntities.Select(battleEntity => battleEntity.combatParticipant).ToList());
+        }
+        
+        public static IList<CombatParticipant> GetPriorityCombatParticipants(IList<CombatParticipant> combatParticipants)
+        {
+            int maxPriority = combatParticipants.Max(x => x.GetBattlePropertiesPriority());
+            return combatParticipants.Select(x => x).Where(x => x.GetBattlePropertiesPriority() == maxPriority).ToList();
+        }
+        #endregion
+        
         #region UnityMethods
         private void Awake()
         {
@@ -120,6 +135,7 @@ namespace Frankie.Combat
         public float GetSpriteScaleFineTune() => spriteScaleFineTune;
         public MovingBackgroundProperties GetMovingBackgroundProperties() => movingBackgroundProperties;
         public AudioClip GetAudioClip() => combatAudio;
+        public int GetBattlePropertiesPriority() => battlePropertiesPriority;
         public bool GetFriendly() => friendly;
         public BattleRow GetPreferredBattleRow() => preferredBattleRow;
         public bool HasLoot() => lootDispenser != null && lootDispenser.HasLootReward();
