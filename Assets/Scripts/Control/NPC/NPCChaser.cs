@@ -23,7 +23,7 @@ namespace Frankie.Control
         // State
         private float timeSinceLastSawPlayer = Mathf.Infinity;
         private bool chasingActive = false;
-        private bool skipChaseUntilEnable = false;
+        private bool skipAggressionUntilEnable = false;
         private bool shoutingActive = false;
 
         // Cached References
@@ -41,7 +41,7 @@ namespace Frankie.Control
         {
             timeSinceLastSawPlayer = Mathf.Infinity;
             chasingActive = willChasePlayer;
-            skipChaseUntilEnable = false;
+            skipAggressionUntilEnable = false;
             shoutingActive = willShout;
             npcStateHandler.npcStateChanged += HandleNPCStateChange;
         }
@@ -66,7 +66,7 @@ namespace Frankie.Control
         public void SetChaseDisposition(bool enable) // Called via Unity Methods
         {
             chasingActive = enable;
-            skipChaseUntilEnable = !enable;
+            skipAggressionUntilEnable = !enable;
             npcStateHandler.SetNPCIdle();
         }
 
@@ -89,7 +89,7 @@ namespace Frankie.Control
 
             if (timeSinceLastSawPlayer < aggravationTime)
             {
-                if (!skipChaseUntilEnable) { npcStateHandler.SetNPCAggravated(); }
+                if (!skipAggressionUntilEnable) { npcStateHandler.SetNPCAggravated(); }
             }
             else if (timeSinceLastSawPlayer > aggravationTime && (timeSinceLastSawPlayer - aggravationTime) < suspicionTime)
             {
@@ -106,22 +106,22 @@ namespace Frankie.Control
         {
             switch (npcStateType)
             {
-                case NPCStateType.occupied:
+                case NPCStateType.Occupied:
                     chasingActive = false;
                     break;
-                case NPCStateType.idle:
+                case NPCStateType.Idle:
                     chasingActive = willChasePlayer;
                     shoutingActive = willShout;
                     break;
-                case NPCStateType.suspicious:
-                case NPCStateType.aggravated:
+                case NPCStateType.Suspicious:
+                case NPCStateType.Aggravated:
                     if (shoutingActive && shoutDistance > 0f)
                     {
                         ShoutToNearbyNPCs();
                     }
                     chasingActive = willChasePlayer;
                     break;
-                case NPCStateType.frenzied:
+                case NPCStateType.Frenzied:
                     if (shoutingActive && shoutDistance > 0f)
                     {
                         ShoutToNearbyNPCs();

@@ -342,9 +342,13 @@ MonoBehaviour:
   targetMovementHistoryLength: 15
   interactionCenterPoint: {fileID: 851377592137554633}
   patrolPath: {fileID: 0}
+  canRandomWalk: 0
+  randomWalkStepDistance: 0.4
+  randomWalkLimit: 1.2
   waypointDwellTime: 2
   lookDirectionOnDwell: 4
   giveUpOnPatrolTargetTime: 10
+  randomWalkGizmoColor: {r: 0.2745098, g: 0.509804, b: 0.7058824, a: 1}
 --- !u!114 &4118810327594443569
 MonoBehaviour:
   m_ObjectHideFlags: 0

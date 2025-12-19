@@ -66,16 +66,16 @@ namespace Frankie.Control
 
             switch (npcStateType)
             {
-                case NPCStateType.aggravated:
+                case NPCStateType.Aggravated:
                     collisionsActive = defaultCollisionsWhenAggravated;
                     break;
-                case NPCStateType.frenzied:
+                case NPCStateType.Frenzied:
                     collisionsOverriddenToEnterCombat = true;
                     collisionsActive = true;
                     break;
-                case NPCStateType.suspicious:
-                case NPCStateType.idle:
-                case NPCStateType.occupied:
+                case NPCStateType.Suspicious:
+                case NPCStateType.Idle:
+                case NPCStateType.Occupied:
                 default:
                     collisionsActive = false;
                     break;
@@ -107,7 +107,6 @@ namespace Frankie.Control
             if (!collisionsActive) { return; }
 
             Vector2 npcPosition = GetComponent<Collider2D>().bounds.center;
-            Vector2 contactPoint = collision.ClosestPoint(npcPosition);
             Vector2 playerPosition = collision.GetComponent<Collider2D>().bounds.center;
 
             HandleAllCollisionEntries(collision.gameObject, npcPosition, playerPosition);
@@ -187,10 +186,9 @@ namespace Frankie.Control
         #endregion
 
         #region PublicMethods
-        public void SetCollisionsActive(bool enable)
-        {
-            collisionsActive = enable;
-        }
+        public NPCStateHandler GetNPCStateHandler() => npcStateHandler;
+        public bool IsTouchingPlayer() => touchingPlayer;
+        public void SetCollisionsActive(bool enable) => collisionsActive = enable;
 
         public List<NPCStateHandler> GetNPCMob()
         {
@@ -203,17 +201,6 @@ namespace Frankie.Control
                 translatedNPCMob.Add(npcCollisionHandler.GetNPCStateHandler());
             }
             return translatedNPCMob;
-        }
-
-        public NPCStateHandler GetNPCStateHandler()
-        {
-            return npcStateHandler;
-        }
-
-
-        public bool IsTouchingPlayer()
-        {
-            return touchingPlayer;
         }
 
         public bool IsNPCGraphTouchingPlayer()
