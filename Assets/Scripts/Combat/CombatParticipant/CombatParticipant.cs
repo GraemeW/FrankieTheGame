@@ -7,6 +7,7 @@ using Frankie.Utils;
 using Frankie.Stats;
 using Frankie.Saving;
 using Frankie.Inventory;
+using UnityEngine.Events;
 
 namespace Frankie.Combat
 {
@@ -22,7 +23,10 @@ namespace Frankie.Combat
         [SerializeField] private AudioClip combatAudio;
         [SerializeField] private MovingBackgroundProperties movingBackgroundProperties;
         [SerializeField] [Tooltip("Set higher to increase priority in selection")] private int battlePropertiesPriority;
-
+        [SerializeField] private bool shouldDestroySelfOnDeath = true;
+        [SerializeField] private bool shouldSaveStateOnDeath = false;
+        [SerializeField] private UnityEvent onDeathEvent;
+        
         [Header("Combat Properties")]
         [SerializeField] private BattleRow preferredBattleRow = BattleRow.Any;
         [SerializeField] private bool canRunFrom = true;
@@ -30,7 +34,6 @@ namespace Frankie.Combat
         [SerializeField] private float damageTimeSpan = 4.0f;
         [SerializeField] private float fractionOfHPInstantOnRevival = 0.5f;
         [SerializeField] private float holdOnHP = 1f;
-        [SerializeField] private bool shouldDestroySelfOnDeath = true;
 
         [Header("Cooldowns")]
         [SerializeField] private float cooldownMin = 0.2f;
@@ -47,9 +50,10 @@ namespace Frankie.Combat
         private LootDispenser lootDispenser;
 
         // State
-        private bool awakeCalled = false;
+        private bool lazyStateSet = false;
         private bool inCombat = false;
         private bool isHealthRollActive = true;
+        private bool isDestructionTriggeredBySave = false;
         private float cooldownTimer;
         private float cooldownStore;
         private float targetHP = 1f;
@@ -80,20 +84,33 @@ namespace Frankie.Combat
         #region UnityMethods
         private void Awake()
         {
-            awakeCalled = true;
-
             // Hard requirement
             baseStats = GetComponent<BaseStats>();
             // Not strictly necessary -- will fail elegantly
             equipment = GetComponent<Equipment>();
             lootDispenser = GetComponent<LootDispenser>();
 
-            // State parameters
+            SetupLazyState();
+        }
+
+        private void SetupLazyState()
+        {
+            if (lazyStateSet) { return; }
+            
             currentHP = new LazyValue<float>(GetMaxHP);
             currentAP = new LazyValue<float>(GetMaxAP);
             isDead = new LazyValue<bool>(() => false);
+            lazyStateSet = true;
         }
 
+        private void Start()
+        {
+            currentHP.ForceInit();
+            currentAP.ForceInit();
+            isDead.ForceInit();
+            targetHP = currentHP.value;
+        }
+        
         private void OnEnable()
         {
             baseStats.onLevelUp += ParseLevelUpMessage;
@@ -104,14 +121,6 @@ namespace Frankie.Combat
         {
             baseStats.onLevelUp -= ParseLevelUpMessage;
             if (equipment != null) { equipment.equipmentUpdated -= ReconcileHPAP; }
-        }
-
-        private void Start()
-        {
-            currentHP.ForceInit();
-            currentAP.ForceInit();
-            isDead.ForceInit();
-            targetHP = currentHP.value;
         }
 
         private void Update()
@@ -195,13 +204,8 @@ namespace Frankie.Combat
         {
             if ((Mathf.Approximately(currentHP.value, 0f) || currentHP.value < 0) && !isDead.value)
             {
-                currentHP.value = 0f;
-                targetHP = 0f;
-                isDead.value = true;
-
-                AnnounceStateUpdate(StateAlteredType.Dead);
+                DeclareDead();
             }
-
             return isDead.value;
         }
 
@@ -387,6 +391,21 @@ namespace Frankie.Combat
             }
         }
         
+        private void DeclareDead()
+        {
+            currentHP.value = 0f;
+            targetHP = 0f;
+            isDead.value = true;
+            
+            if (shouldSaveStateOnDeath && TryGetComponent(out SaveableEntity saveableEntity))
+            {
+                SavingWrapper.AppendToSession(saveableEntity);
+            }
+            if (!isDestructionTriggeredBySave) { onDeathEvent?.Invoke(); }
+
+            AnnounceStateUpdate(StateAlteredType.Dead);
+        }
+        
         private void SelfDestroyOnBattleComplete(BattleStateChangedEvent battleStateChangedEvent)
         {
             if (battleStateChangedEvent.battleState == BattleState.Complete)
@@ -492,7 +511,7 @@ namespace Frankie.Combat
         #region Interfaces
         // Save State
         [Serializable]
-        class CombatParticipantSaveData
+        private class CombatParticipantSaveData
         {
             public bool isDead;
             public float currentHP;
@@ -502,8 +521,7 @@ namespace Frankie.Combat
 
         SaveState ISaveable.CaptureState()
         {
-            if (!awakeCalled) { Awake(); }
-
+            SetupLazyState();
             var combatParticipantSaveData = new CombatParticipantSaveData
             {
                 isDead = isDead.value,
@@ -519,11 +537,17 @@ namespace Frankie.Combat
         {
             if (saveState.GetState(typeof(CombatParticipantSaveData)) is not CombatParticipantSaveData combatParticipantSaveData) { return; }
 
-            if (!awakeCalled) { Awake(); }
+            SetupLazyState();
             isDead.value = combatParticipantSaveData.isDead;
             currentHP.value = combatParticipantSaveData.currentHP;
             currentAP.value = combatParticipantSaveData.currentAP;
             targetHP = currentHP.value;
+
+            if (isDead.value && shouldDestroySelfOnDeath)
+            {
+                isDestructionTriggeredBySave = true;
+                Destroy(gameObject);
+            }
         }
 
         // Predicate Evaluation

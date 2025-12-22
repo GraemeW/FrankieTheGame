@@ -143,6 +143,11 @@ namespace Frankie.Core
             SavingSystem.Save(_sessionFile);
         }
 
+        public static void AppendToSession(SaveableEntity saveableEntity)
+        {
+            SavingSystem.Append(_sessionFile, saveableEntity);
+        }
+
         public static void SaveCorePlayerStateToSave()
         {
             string saveName = GetCurrentSave();
