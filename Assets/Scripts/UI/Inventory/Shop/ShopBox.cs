@@ -98,18 +98,9 @@ namespace Frankie.Inventory.UI
 
         private void TryPurchaseItem(InventoryItem inventoryItem)
         {
-            if (wallet.GetCash() < inventoryItem.GetPrice())
-            {
-                SpawnMessage(shop.GetMessageNoFunds());
-            }
-            else if (!partyKnapsackConduit.HasFreeSpace())
-            {
-                SpawnMessage(shop.GetMessageNoSpace());
-            }
-            else
-            {
-                SpawnInventoryShopBox(inventoryItem);
-            }
+            if (wallet.GetCash() < inventoryItem.GetPrice()) { SpawnMessage(shop.GetMessageNoFunds()); }
+            else if (!partyKnapsackConduit.HasFreeSpace()) { SpawnMessage(shop.GetMessageNoSpace()); }
+            else { SpawnInventoryShopBox(inventoryItem); }
         }
 
         private void SpawnMessage(string message)
