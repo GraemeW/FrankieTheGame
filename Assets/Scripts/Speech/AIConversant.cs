@@ -41,7 +41,7 @@ namespace Frankie.Speech
             playerStateMachine.playerStateChanged += HandlePlayerExitDialogue;
         }
 
-        private void HandlePlayerExitDialogue(PlayerStateType playerStateType)
+        private void HandlePlayerExitDialogue(PlayerStateType playerStateType, IPlayerStateContext playerStateContext)
         {
             if (playerStateType != PlayerStateType.inWorld || playerStateMachine == null) { return; }
             

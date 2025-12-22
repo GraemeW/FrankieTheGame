@@ -5,7 +5,6 @@ using Frankie.ZoneManagement;
 using Frankie.Stats;
 using Frankie.Combat;
 using Frankie.Speech;
-using Frankie.Utils;
 using Frankie.Core;
 
 namespace Frankie.Control
@@ -22,15 +21,13 @@ namespace Frankie.Control
         private NPCStateType npcState = NPCStateType.Idle;
         private bool npcOccupied = false;
         private bool queueDeathOnNextPlayerStateChange = false;
+        private bool isNPCAfraid = false;
         private bool isNPCVisible = true;
         private float timeSinceInvisible;
 
         // Cached References
         private SpriteVisibilityAnnouncer spriteVisibilityAnnouncer;
         private CombatParticipant combatParticipant;
-        private ReInitLazyValue<GameObject> player;
-        private ReInitLazyValue<PlayerStateMachine> playerStateMachine;
-        private ReInitLazyValue<PlayerController> playerController;
 
         // Events
         public event Action<NPCStateType, bool> npcStateChanged;
@@ -41,26 +38,11 @@ namespace Frankie.Control
             // Not strictly necessary -- will fail elegantly
             combatParticipant = GetComponent<CombatParticipant>();
             spriteVisibilityAnnouncer = GetComponentInChildren<SpriteVisibilityAnnouncer>();
-
-            // Cached
-            player = new ReInitLazyValue<GameObject>(Player.FindPlayerObject);
-            playerStateMachine = new ReInitLazyValue<PlayerStateMachine>(SetupPlayerStateMachine);
-            playerController = new ReInitLazyValue<PlayerController>(SetupPlayerController);
         }
-
-        private void Start()
-        {
-            player.ForceInit();
-            playerStateMachine.ForceInit();
-            playerController.ForceInit();
-        }
-
-        private PlayerStateMachine SetupPlayerStateMachine() => player.value?.GetComponent<PlayerStateMachine>();
-        private PlayerController SetupPlayerController() => player.value?.GetComponent<PlayerController>();
 
         private void OnEnable()
         {
-            playerStateMachine.value.playerStateChanged += ParsePlayerStateChange;
+            SetupPlayerListener(true);
             if (combatParticipant != null) { combatParticipant.SubscribeToStateUpdates(HandleNPCCombatStateChange); }
             if (spriteVisibilityAnnouncer != null) { spriteVisibilityAnnouncer.spriteVisibilityStatus += HandleSpriteVisibility; }
             SetNPCState(NPCStateType.Idle);
@@ -68,9 +50,18 @@ namespace Frankie.Control
 
         private void OnDisable()
         {
-            playerStateMachine.value.playerStateChanged -= ParsePlayerStateChange;
+            SetupPlayerListener(false);
             if (combatParticipant != null) { combatParticipant.UnsubscribeToStateUpdates(HandleNPCCombatStateChange); }
             if (spriteVisibilityAnnouncer != null) { spriteVisibilityAnnouncer.spriteVisibilityStatus -= HandleSpriteVisibility; }
+        }
+
+        private void SetupPlayerListener(bool enable)
+        {
+            PlayerStateMachine playerStateMachine = Player.FindPlayerStateMachine();
+            if (playerStateMachine == null) { return; }
+            
+            if (enable) { playerStateMachine.playerStateChanged += ParsePlayerStateChange; }
+            else { playerStateMachine.playerStateChanged -= ParsePlayerStateChange; }
         }
 
         private void Update()
@@ -81,54 +72,44 @@ namespace Frankie.Control
 
         #region PublicMethods
         public CombatParticipant GetCombatParticipant() => combatParticipant;
-        public GameObject GetPlayer() => player.value;
-        public Vector2 GetPlayerLookDirection() => playerController.value.GetPlayerMover().GetLookDirection();
-        public Vector2 GetPlayerInteractionPosition() => playerController.value.GetInteractionPosition();
         public bool WillForceCombat() => willForceCombat;
         #endregion
 
         #region StateUtilityMethods
         public void SetNPCIdle() => SetNPCState(NPCStateType.Idle); // Callable via Unity Event
         public void SetNPCSuspicious() => SetNPCState(NPCStateType.Suspicious); // Callable via Unity Event
-
         public void SetNPCAggravated() // Callable via Unity Event
         {
             SetNPCState(NPCStateType.Aggravated);
         }
-
         public void SetNPCFrenzied() // Callable via Unity Event
         {
             SetNPCState(NPCStateType.Frenzied);
         }
 
-        public void InitiateCombat(PlayerStateMachine playerStateHandler)  // called via Unity Event
+        public void InitiateCombat(PlayerStateMachine playerStateMachine)  // called via Unity Event
         {
-            InitiateCombat(playerStateHandler, TransitionType.BattleNeutral);
+            InitiateCombat(TransitionType.BattleNeutral);
         }
 
         public void InitiateCombatAdvantaged(PlayerStateMachine playerStateHandler)  // called via Unity Event
         {
-            InitiateCombat(playerStateHandler, TransitionType.BattleGood);
+            InitiateCombat(TransitionType.BattleGood);
         }
 
         public void InitiateCombatDisadvantaged(PlayerStateMachine playerStateHandler)  // called via Unity Event
         {
-            InitiateCombat(playerStateHandler, TransitionType.BattleBad);
+            InitiateCombat(TransitionType.BattleBad);
         }
 
         public void InitiateCombat(TransitionType transitionType) // called via Unity Event
         {
-            InitiateCombat(playerStateMachine.value, transitionType);
-        }
-
-        public void InitiateCombat(TransitionType transitionType, List<NPCStateHandler> npcMob) // Aggro, not callable via Unity Events
-        {
-            InitiateCombat(playerStateMachine.value, transitionType, npcMob);
+            InitiateCombat(transitionType, new List<NPCStateHandler>());
         }
 
         public void InitiateDialogue(TransitionType transitionType) // called via Unity Event
         {
-            InitiateDialogue(playerStateMachine.value);
+            InitiateDialogue();
         }
 
         public void ForceNPCOccupied()
@@ -153,26 +134,26 @@ namespace Frankie.Control
                 // Set State
                 npcState = setNPCState;
             }
-
-            bool isNPCAfraid = CheckForNPCAfraid();
+            
             npcStateChanged?.Invoke(npcOccupied ? NPCStateType.Occupied : setNPCState, isNPCAfraid);
             Debug.Log($"Updating {gameObject.name} NPC state to: {Enum.GetName(typeof(NPCStateType), npcOccupied ? NPCStateType.Occupied : setNPCState)}");
         }
 
-        private void InitiateCombat(PlayerStateMachine playerStateHandler, TransitionType transitionType, List<NPCStateHandler> npcMob = null)
+        public void InitiateCombat(TransitionType transitionType, List<NPCStateHandler> npcMob)
         {
             if (combatParticipant == null) { return; }
+            PlayerStateMachine playerStateMachine = Player.FindPlayerStateMachine();
+            if (playerStateMachine == null) { return; }
 
             if (combatParticipant.IsDead())
             {
-                playerStateHandler.EnterDialogue(string.Format(messageCannotFight, combatParticipant.GetCombatName()));
+                playerStateMachine.EnterDialogue(string.Format(messageCannotFight, combatParticipant.GetCombatName()));
                 SetNPCState(NPCStateType.Occupied);
             }
             else
             {
                 var enemies = new List<CombatParticipant> { combatParticipant };
-
-                if (npcMob != null)
+                if (npcMob is { Count: > 0 })
                 {
                     foreach (NPCStateHandler npcInContact in npcMob)
                     {
@@ -181,38 +162,33 @@ namespace Frankie.Control
                     }
                 }
 
-                playerStateHandler.EnterCombat(enemies, transitionType);
+                playerStateMachine.EnterCombat(enemies, transitionType);
                 SetNPCState(NPCStateType.Occupied); // Occupy calling NPC as it's entered into combat
             }
         }
 
-        private void InitiateDialogue(PlayerStateMachine playerStateHandler)
+        private void InitiateDialogue()
         {
             var aiConversant = GetComponentInChildren<AIConversant>();
             if (aiConversant == null) { return; }
+            
+            PlayerStateMachine playerStateMachine = Player.FindPlayerStateMachine();
+            if (playerStateMachine == null) { return; }
 
             Dialogue dialogue = aiConversant.GetDialogue();
             if (dialogue == null) { return; }
 
-            playerStateHandler.EnterDialogue(aiConversant, dialogue);
+            playerStateMachine.EnterDialogue(aiConversant, dialogue);
             SetNPCState(NPCStateType.Occupied);
         }
         
-        private bool CheckForNPCAfraid()
+        private void CheckForNPCAfraid(IPlayerStateContext playerStateContext)
         {
-            if (npcState is not (NPCStateType.Aggravated or NPCStateType.Suspicious)) { return false; }
-            if (combatParticipant == null) { return false; }
+            if (npcState is not (NPCStateType.Aggravated or NPCStateType.Suspicious)) { return; }
+            if (combatParticipant == null) { return; }
             
-            Party party = playerStateMachine.value.GetParty();
-            if (party == null) { return false; }
-            
-            bool isNPCAfraid = false;
-            if (party.TryGetComponent(out PartyCombatConduit partyCombatConduit))
-            {
-                if (!partyCombatConduit.IsAnyMemberAlive()) { return false; }
-                isNPCAfraid = partyCombatConduit.IsFearsome(combatParticipant);
-            }
-            return isNPCAfraid;
+            if (!playerStateContext.IsAnyPartyMemberAlive()) { return; }
+            isNPCAfraid = playerStateContext.IsPlayerFearsome(combatParticipant);
         }
 
         private void HandleSpriteVisibility(bool isVisible)
@@ -239,13 +215,10 @@ namespace Frankie.Control
         #endregion
 
         #region EventListeners
-        private void ParsePlayerStateChange(PlayerStateType playerState)
+        private void ParsePlayerStateChange(PlayerStateType playerState, IPlayerStateContext playerStateContext)
         {
-            if (queueDeathOnNextPlayerStateChange)
-            {
-                Destroy(gameObject);
-            }
-
+            if (queueDeathOnNextPlayerStateChange) { Destroy(gameObject); }
+            
             switch (playerState)
             {
                 case PlayerStateType.inDialogue:
@@ -254,11 +227,11 @@ namespace Frankie.Control
                     SetNPCState(NPCStateType.Occupied);
                     break;
                 case PlayerStateType.inTransition:
-                    if (playerStateMachine.value.InZoneTransition())
+                    if (playerStateContext.InZoneTransition())
                     {
                         SetNPCState(NPCStateType.Occupied);
                     }
-                    else if (playerStateMachine.value.InBattleExitTransition())
+                    else if (playerStateContext.InBattleExitTransition())
                     {
                         SetNPCState(NPCStateType.Idle);
                         SetNPCState(NPCStateType.Occupied);
@@ -268,6 +241,7 @@ namespace Frankie.Control
                 case PlayerStateType.inCutScene:
                 case PlayerStateType.inWorld:
                 default:
+                    CheckForNPCAfraid(playerStateContext);
                     SetNPCState(npcState);
                     break;
             }

@@ -8,14 +8,14 @@ namespace Frankie.Control
     {
         // Tunables
         [Header("Scene Parameters")]
-        [SerializeField] float splashDelayTime = 15.0f;
+        [SerializeField] private float splashDelayTime = 15.0f;
 
         // State
-        Coroutine skipSplashRoutine = null;
+        private Coroutine skipSplashRoutine;
 
         // Cached References
-        SceneLoader sceneLoader = null;
-        PlayerInput playerInput = null;
+        private SceneLoader sceneLoader;
+        private PlayerInput playerInput;
 
         public event Action<PlayerInputType> globalInput;
 
@@ -25,9 +25,9 @@ namespace Frankie.Control
 
             VerifyUnique();
 
-            playerInput.Menu.Execute.performed += context => SkipSplash();
-            playerInput.Menu.Cancel.performed += context => SkipSplash();
-            playerInput.Menu.Skip.performed += context => SkipSplash();
+            playerInput.Menu.Execute.performed += _ => SkipSplash();
+            playerInput.Menu.Cancel.performed += _ => SkipSplash();
+            playerInput.Menu.Skip.performed += _ => SkipSplash();
         }
 
         public void VerifyUnique()
@@ -72,5 +72,4 @@ namespace Frankie.Control
             return PlayerInputType.DefaultNone;
         }
     }
-
 }

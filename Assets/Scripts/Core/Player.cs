@@ -28,6 +28,13 @@ namespace Frankie.Core
             var playerGameObject = FindPlayerObject();
             return playerGameObject != null ? playerGameObject.GetComponent<PlayerStateMachine>() : null;
         }
+
+        public static PlayerController FindPlayerController()
+        {
+            var playerGameObject = FindPlayerObject();
+            return playerGameObject != null ? playerGameObject.GetComponent<PlayerController>() : null;
+        }
+        
         public static int GetPlayerLayer() => LayerMask.NameToLayer(_playerMaskName);
         public static int GetImmunePlayerLayer() => LayerMask.NameToLayer(_immunePlayerTag);
         #endregion
@@ -67,7 +74,7 @@ namespace Frankie.Core
             }
         }
 
-        private void HandlePlayerStateChanged(PlayerStateType playerState)
+        private void HandlePlayerStateChanged(PlayerStateType playerState, IPlayerStateContext playerStateContext)
         {
             // Any player scene change when party is completely wiped out -> shift to game over
             // Will naturally call on combat end during transition

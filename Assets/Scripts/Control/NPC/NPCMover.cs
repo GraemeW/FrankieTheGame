@@ -27,6 +27,7 @@ namespace Frankie.Control
         // Cached References
         private Animator animator;
         private NPCStateHandler npcStateHandler;
+        private NPCChaser npcChaser;
 
         // State
         private NPCMoveFocus npcMoveFocus = NPCMoveFocus.Pending;
@@ -45,6 +46,7 @@ namespace Frankie.Control
             base.Awake();
             animator = GetComponent<Animator>();
             npcStateHandler = GetComponent<NPCStateHandler>();
+            npcChaser = GetComponent<NPCChaser>();
         }
 
         protected override void Start()
@@ -125,8 +127,8 @@ namespace Frankie.Control
                     npcMoveFocus = isNPCAfraid ? NPCMoveFocus.Fleeing : NPCMoveFocus.Chasing;
                     ClearMoveTargets();
                     
-                    SetMoveTarget(npcStateHandler.GetPlayer());
-                    if (!npcStateHandler.WillForceCombat()) { resetPositionOnNextIdle = true; }
+                    SetMoveTarget(npcChaser.GetPlayer());
+                    resetPositionOnNextIdle = true;
                     break;
                 }
                 case NPCStateType.Idle:

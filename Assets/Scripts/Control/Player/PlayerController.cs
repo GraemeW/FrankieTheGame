@@ -91,15 +91,8 @@ namespace Frankie.Control
             return sortedInteractableHits[0];
         }
 
-        public Vector2 GetInteractionPosition()
-        {
-            if (interactionCenterPoint != null)
-            {
-                return interactionCenterPoint.position;
-            }
-            return Vector2.zero;
-        }
-        
+        public Vector2 GetInteractionPosition() => interactionCenterPoint != null ? interactionCenterPoint.position : Vector2.zero;
+
         public void VerifyUnique()
         {
             PlayerController[] playerControllers = FindObjectsByType<PlayerController>(FindObjectsSortMode.None);
@@ -140,7 +133,7 @@ namespace Frankie.Control
         #endregion
         
         #region PrivateMethods
-        private void ParsePlayerStateChange(PlayerStateType playerStateType)
+        private void ParsePlayerStateChange(PlayerStateType playerStateType, IPlayerStateContext playerStateContext)
         {
             SetCursor(CursorType.None);
             allowComponentInteraction = false;

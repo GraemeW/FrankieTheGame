@@ -11,24 +11,24 @@ namespace Frankie.Inventory.UI
     {
         // Tunables
         [Header("Shop Specific Details")]
-        [SerializeField] TMP_Text shopInfoField = null;
+        [SerializeField] private TMP_Text shopInfoField;
         [Header("Prefabs")]
-        [SerializeField] ShopStockRow stockRowPrefab = null;
-        [SerializeField] WalletUI walletUIPrefab = null;
-        [SerializeField] InventoryShopBox inventoryShopBoxPrefab = null;
-        [SerializeField] DialogueBox dialogueBoxPrefab = null;
+        [SerializeField] private ShopStockRow stockRowPrefab;
+        [SerializeField] private WalletUI walletUIPrefab;
+        [SerializeField] private InventoryShopBox inventoryShopBoxPrefab;
+        [SerializeField] private DialogueBox dialogueBoxPrefab;
 
         // State
-        WalletUI walletUI = null;
+        private WalletUI walletUI;
 
         // Cached Reference
-        WorldCanvas worldCanvas = null;
-        PlayerStateMachine playerStateHandler = null;
-        PlayerController playerController = null;
-        PartyKnapsackConduit partyKnapsackConduit = null;
-        Shopper shopper = null;
-        Wallet wallet = null;
-        Shop shop = null;
+        private WorldCanvas worldCanvas;
+        private PlayerStateMachine playerStateMachine;
+        private PlayerController playerController;
+        private PartyKnapsackConduit partyKnapsackConduit;
+        private Shopper shopper;
+        private Wallet wallet;
+        private Shop shop;
 
         #region UnityMethods
         private void Start()
@@ -46,23 +46,23 @@ namespace Frankie.Inventory.UI
             if (walletUI != null) { Destroy(walletUI.gameObject); }
 
             HandleClientExit();
-            playerStateHandler?.EnterWorld();
+            playerStateMachine?.EnterWorld();
         }
         #endregion
 
         #region PublicMethods
-        public void Setup(WorldCanvas worldCanvas, PlayerStateMachine playerStateHandler, PlayerController playerController, PartyKnapsackConduit partyKnapsackConduit, Shopper shopper)
+        public void Setup(WorldCanvas setWorldCanvas, PlayerStateMachine setPlayerStateMachine, PlayerController setPlayerController, PartyKnapsackConduit setPartyKnapsackConduit, Shopper setShopper)
         {
-            this.worldCanvas = worldCanvas;
-            this.playerStateHandler = playerStateHandler;
-            this.playerController = playerController;
-            this.shopper = shopper;
+            worldCanvas = setWorldCanvas;
+            playerStateMachine = setPlayerStateMachine;
+            playerController = setPlayerController;
+            shopper = setShopper;
 
             SetupShopBox();
-            this.partyKnapsackConduit = partyKnapsackConduit;
-            wallet = shopper.GetWallet();
+            partyKnapsackConduit = setPartyKnapsackConduit;
+            wallet = setShopper.GetWallet();
 
-            TakeControl(playerController, this, null); // input handled via player controller, immediate override
+            TakeControl(setPlayerController, this, null); // input handled via player controller, immediate override
             HandleClientEntry();
         }
 

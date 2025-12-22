@@ -1,4 +1,5 @@
 using System.Linq;
+using Frankie.Core;
 using UnityEngine;
 using Frankie.Utils;
 
@@ -29,12 +30,19 @@ namespace Frankie.Control
         // Cached References
         private NPCStateHandler npcStateHandler;
         private NPCMover npcMover;
+        private ReInitLazyValue<PlayerController> playerController;
 
         #region UnityMethods
         private void Awake()
         {
             npcStateHandler = GetComponent<NPCStateHandler>();
             npcMover = GetComponent<NPCMover>();
+            playerController = new ReInitLazyValue<PlayerController>(Player.FindPlayerController);
+        }
+
+        private void Start()
+        {
+            playerController.ForceInit();
         }
 
         private void OnEnable()
@@ -61,8 +69,8 @@ namespace Frankie.Control
         #endregion
 
         #region PublicMethods
+        public GameObject GetPlayer() => playerController.value != null ? playerController.value.gameObject : null;
         public bool IsShoutable() => canBeShoutedAt;
-        
         public void SetChaseDisposition(bool enable) // Called via Unity Methods
         {
             chasingActive = enable;
@@ -80,7 +88,8 @@ namespace Frankie.Control
         #region PrivateMethods
         private bool CheckDistanceToPlayer(float distance)
         {
-            return SmartVector2.CheckDistance(npcMover.GetInteractionPosition(), npcStateHandler.GetPlayerInteractionPosition(), distance);
+            Vector2 playerInteractionPosition = playerController.value != null ? playerController.value.GetInteractionPosition() : Vector2.zero;
+            return SmartVector2.CheckDistance(npcMover.GetInteractionPosition(), playerInteractionPosition, distance);
         }
 
         private void CheckForPlayerProximity()

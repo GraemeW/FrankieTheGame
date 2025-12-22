@@ -22,6 +22,7 @@ namespace Frankie.Control
 
         // Cached References
         private PlayerStateMachine playerStateMachine;
+        private Party party;
 
         // Events
         public event Action movementHistoryReset;
@@ -32,6 +33,7 @@ namespace Frankie.Control
         {
             base.Awake();
             playerStateMachine = GetComponent<PlayerStateMachine>();
+            party = GetComponent<Party>();
             movementHistory = new CircularBuffer<Tuple<Vector2, Vector2>>(playerMovementHistoryLength);
         }
 
@@ -46,10 +48,10 @@ namespace Frankie.Control
             playerStateMachine.playerStateChanged -= ParsePlayerStateChange;
         }
 
-        private void ParsePlayerStateChange(PlayerStateType playerStateType)
+        private void ParsePlayerStateChange(PlayerStateType playerStateType, IPlayerStateContext playerStateContext)
         {
             inWorld = (playerStateType == PlayerStateType.inWorld);
-            if (playerStateType == PlayerStateType.inCutScene) { inWorld = playerStateMachine.CanMoveInCutscene(); }
+            if (playerStateType == PlayerStateType.inCutScene) { inWorld = playerStateContext.CanMoveInCutscene(); }
             GetPlayerMovementSpeed(); // Called in parse player state change to avoid having to fetch modifiers on every move update call
         }
 
@@ -75,9 +77,7 @@ namespace Frankie.Control
 
         private float GetPlayerMovementSpeed()
         {
-            if (playerStateMachine == null) { return movementSpeed; }
-
-            float modifier = playerStateMachine.GetParty().GetPartyLeader().GetCalculatedStat(CalculatedStat.MoveSpeed);
+            float modifier = party.GetPartyLeader().GetCalculatedStat(CalculatedStat.MoveSpeed);
             return movementSpeed * modifier;
         }
 

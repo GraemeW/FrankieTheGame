@@ -16,6 +16,8 @@ using Frankie.Utils;
 namespace Frankie.Control
 {
     [RequireComponent(typeof(Party))]
+    [RequireComponent(typeof(PartyAssist))]
+    [RequireComponent(typeof(PartyCombatConduit))]
     [RequireComponent(typeof(Shopper))]
     public class PlayerStateMachine : MonoBehaviour, IPlayerStateContext
     {
@@ -66,13 +68,13 @@ namespace Frankie.Control
         private PartyAssist partyAssist;
         private PartyCombatConduit partyCombatConduit;
         private Shopper shopper;
-        private WorldCanvas worldCanvas;
         // Cached References -- State Dependent
+        private WorldCanvas worldCanvas;
         private BattleController battleController;
         private DialogueController dialogueController;
 
         // Events
-        public event Action<PlayerStateType> playerStateChanged;
+        public event Action<PlayerStateType, IPlayerStateContext> playerStateChanged;
         public event Action<int> playerLayerChanged;
 
         // Data Structures
@@ -137,7 +139,9 @@ namespace Frankie.Control
             Debug.Log($"Updating player state to: {Enum.GetName(typeof(PlayerStateType), playerStateType)}");
 
             currentPlayerState = playerState;
-            playerStateChanged?.Invoke(playerStateType);
+            
+            
+            playerStateChanged?.Invoke(playerStateType, this);
 
             readyToPopQueue = playerStateType == PlayerStateType.inWorld;
             // Pop on update to prevent same-frame multi-state change
@@ -268,43 +272,25 @@ namespace Frankie.Control
         #endregion
 
         #region UtilityTransition
+        public bool InZoneTransition() => currentTransitionType == TransitionType.Zone;
+        public bool IsZoneTransitionComplete() => zoneTransitionComplete;
+        public void SetZoneTransitionStatus(bool complete)
+        {
+            zoneTransitionComplete = complete;
+        }
         public void ConfirmTransitionType()
         {
             currentTransitionType = transitionTypeUnderConsideration;
         }
 
-        public bool InZoneTransition()
-        {
-            return currentTransitionType == TransitionType.Zone;
-        }
-
-        public bool IsZoneTransitionComplete()
-        {
-            return zoneTransitionComplete;
-        }
-
-        public void SetZoneTransitionStatus(bool complete)
-        {
-            zoneTransitionComplete = complete;
-        }
-
-        public bool InBattleEntryTransition()
-        {
-            return IsBattleTransition(currentTransitionType);
-        }
-
-        public bool InBattleExitTransition()
-        {
-            return currentTransitionType == TransitionType.BattleComplete;
-        }
-
-        private bool IsBattleTransition(TransitionType transitionType)
-        {
-            return (transitionType == TransitionType.BattleNeutral || transitionType == TransitionType.BattleGood || transitionType == TransitionType.BattleBad);
-        }
+        private static bool IsBattleTransition(TransitionType transitionType) => transitionType is TransitionType.BattleNeutral or TransitionType.BattleGood or TransitionType.BattleBad;
+        public bool InBattleEntryTransition() => IsBattleTransition(currentTransitionType);
+        public bool InBattleExitTransition() => currentTransitionType == TransitionType.BattleComplete;
         #endregion
 
         #region UtilityCombat
+        public bool IsAnyPartyMemberAlive() => partyCombatConduit.IsAnyMemberAlive();
+        public bool IsPlayerFearsome(CombatParticipant combatParticipant) => partyCombatConduit.IsFearsome(combatParticipant);
         public bool AreCombatParticipantsValid(bool announceCannotFight = false)
         {
             if (!partyCombatConduit.IsAnyMemberAlive()) { if (announceCannotFight) { EnterDialogue(messageCannotFight); } return false; }
@@ -529,6 +515,7 @@ namespace Frankie.Control
             currentTransitionType = TransitionType.None;
             zoneTransitionComplete = true;
 
+            canMoveInCutscene = false;
             visibleDuringCutscene = true;
 
             combatFadeComplete = false;

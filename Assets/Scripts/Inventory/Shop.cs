@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
@@ -10,98 +9,57 @@ namespace Frankie.Inventory
     {
         // Tunables
         [Header("Base Attributes")]
-        [SerializeField] InventoryItem[] stock = null;
-        [SerializeField] ShopType shopType = ShopType.Both;
-        [SerializeField] float saleDiscount = 0.7f;
+        [SerializeField] private InventoryItem[] stock;
+        [SerializeField] private ShopType shopType = ShopType.Both;
+        [SerializeField] private float saleDiscount = 0.7f;
         [Header("Interaction Texts")]
-        [SerializeField] string messageIntro = "What'cha want to buy?";
-        [SerializeField] string messageSuccess = "Thanks, want anything else?";
-        [SerializeField] string messageNoFunds = "Whoops, looks like you don't have enough cash for that";
-        [SerializeField] string messageNoSpace = "Whoops, looks like you don't have enough space for that";
-        [Tooltip("{0} for sale amount")][SerializeField] string messageForSale = "I can give you {0} for that";
-        [SerializeField] string messageCannotSell = "I can't accept that item";
+        [SerializeField] private string messageIntro = "What'cha want to buy?";
+        [SerializeField] private string messageSuccess = "Thanks, want anything else?";
+        [SerializeField] private string messageNoFunds = "Whoops, looks like you don't have enough cash for that";
+        [SerializeField] private string messageNoSpace = "Whoops, looks like you don't have enough space for that";
+        [Tooltip("{0} for sale amount")][SerializeField] private string messageForSale = "I can give you {0} for that";
+        [SerializeField] private string messageCannotSell = "I can't accept that item";
         [Header("Transaction Events")]
         [SerializeField] UnityEvent transactionCompleted;
 
         // State
-        PlayerStateMachine playerStateHandler = null;
-        Shopper shopper = null;
+        private PlayerStateMachine playerStateMachine;
+        private Shopper shopper;
 
-        public void InitiateBargain(PlayerStateMachine playerStateHandler) // Called via Unity events
+        public void InitiateBargain(PlayerStateMachine setPlayerStateMachine) // Called via Unity events
         {
             if (stock == null) { return; }
-            playerStateHandler.EnterShop(this);
+            setPlayerStateMachine.EnterShop(this);
 
             // Stash for listening to events
-            this.playerStateHandler = playerStateHandler;
-            this.shopper = playerStateHandler.GetComponent<Shopper>();
+            playerStateMachine = setPlayerStateMachine;
+            shopper = setPlayerStateMachine.GetComponent<Shopper>();
 
             // Set up events
-            this.playerStateHandler.playerStateChanged += HandlePlayerState; // Exists to unsubscribe shopper
-            this.shopper.transactionCompleted += HandleTransaction;
+            playerStateMachine.playerStateChanged += HandlePlayerState; // Exists to unsubscribe shopper
+            shopper.transactionCompleted += HandleTransaction;
         }
 
-        public string GetMessageIntro()
-        {
-            return messageIntro;
-        }
+        public string GetMessageIntro() => messageIntro;
+        public string GetMessageSuccess() => messageSuccess;
+        public string GetMessageNoFunds() => messageNoFunds;
+        public string GetMessageNoSpace() => messageNoSpace;
+        public string GetMessageForSale() => messageForSale;
+        public string GetMessageCannotSell() => messageCannotSell;
 
-        public string GetMessageSuccess()
-        {
-            return messageSuccess;
-        }
-
-        public string GetMessageNoFunds()
-        {
-            return messageNoFunds;
-        }
-
-        public string GetMessageNoSpace()
-        {
-            return messageNoSpace;
-        }
-
-        public string GetMessageForSale()
-        {
-            return messageForSale;
-        }
-
-        public string GetMessageCannotSell()
-        {
-            return messageCannotSell;
-        }
-
-        public bool HasInventory()
-        {
-            return stock.Length > 0;
-        }
-
-        public IEnumerable<InventoryItem> GetShopStock()
-        {
-            foreach (InventoryItem inventoryItem in stock)
-            {
-                yield return inventoryItem;
-            }
-        }
-
-        public ShopType GetShopType()
-        {
-            return shopType;
-        }
-
-        public float GetSaleDiscount()
-        {
-            return saleDiscount;
-        }
+        public bool HasInventory() => stock.Length > 0;
+        public IEnumerable<InventoryItem> GetShopStock() => stock;
+        public ShopType GetShopType() => shopType;
+        public float GetSaleDiscount() => saleDiscount;
 
         #region PrivateMethods
-        private void HandlePlayerState(PlayerStateType playerState)
+        private void HandlePlayerState(PlayerStateType playerState, IPlayerStateContext playerStateContext)
         {
             // Any state change implies exit shop, unsubscribe
-            playerStateHandler.playerStateChanged -= HandlePlayerState;
+            playerStateMachine.playerStateChanged -= HandlePlayerState;
             shopper.transactionCompleted -= HandleTransaction;
 
-            playerStateHandler = null;
+            playerStateMachine = null;
             shopper = null;
         }
 

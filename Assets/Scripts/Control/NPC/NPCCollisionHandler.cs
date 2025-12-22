@@ -116,12 +116,16 @@ namespace Frankie.Control
         {
             if (playerCollisionMask == (playerCollisionMask | (1 << collisionGameObject.layer)))
             {
-                if (HandlePlayerCollisions(npcPosition, playerPosition)) { return; }
+                PlayerMover playerMover = collisionGameObject.GetComponentInParent<PlayerMover>();
+                if (playerMover != null && HandlePlayerCollisions(playerMover, npcPosition, playerPosition))
+                {
+                    return;
+                }
             }
 
             if (collisionGameObject.TryGetComponent(out NPCCollisionHandler collisionNPC))
             {
-                if (HandleNPCCollisions(collisionNPC, npcPosition, playerPosition)) { return; }
+                if (HandleNPCCollisions(collisionNPC)) { return; }
             }
         }
 
@@ -145,43 +149,36 @@ namespace Frankie.Control
             }
         }
 
-        private bool HandlePlayerCollisions(Vector2 npcPosition, Vector2 playerPosition)
+        private bool HandlePlayerCollisions(PlayerMover playerMover, Vector2 npcPosition, Vector2 playerPosition)
         {
             touchingPlayer = true;
 
             if (collisionsOverriddenToEnterCombat) // Applied for aggro situations
             {
-                TransitionType battleEntryType = GetBattleEntryType(npcPosition, playerPosition);
+                TransitionType battleEntryType = GetBattleEntryType(playerMover, playerPosition, npcPosition);
                 npcStateHandler.InitiateCombat(battleEntryType, GetNPCMob());
                 return true;
             }
             else if (collidedWithPlayer != null) // Event hooked up in Unity
             {
-                TransitionType battleEntryType = GetBattleEntryType(npcPosition, playerPosition);
+                TransitionType battleEntryType = GetBattleEntryType(playerMover, playerPosition, npcPosition);
                 collidedWithPlayer.Invoke(battleEntryType);
                 return true;
             }
             return false;
         }
 
-        private bool HandleNPCCollisions(NPCCollisionHandler collisionNPC, TransitionType battleEntryType)
+        private bool HandleNPCCollisions(NPCCollisionHandler collisionNPC)
         {
             AddNPCMob(collisionNPC);
             if (!collisionsOverriddenToEnterCombat) { return false; }
 
-            NPCCollisionHandler npcCollisionHandler = collisionNPC.GetComponent<NPCCollisionHandler>();
-            if (touchingPlayer || npcCollisionHandler.IsNPCGraphTouchingPlayer())
-            {
-                npcStateHandler.InitiateCombat(battleEntryType, GetNPCMob());
-                return true;
-            }
-            return false;
-        }
-
-        private bool HandleNPCCollisions(NPCCollisionHandler collisionNPC, Vector2 npcPosition, Vector2 playerPosition)
-        {
-            TransitionType battleEntryType = GetBattleEntryType(npcPosition, playerPosition);
-            return HandleNPCCollisions(collisionNPC, battleEntryType);
+            var npcCollisionHandler = collisionNPC.GetComponent<NPCCollisionHandler>();
+            if (!touchingPlayer && !npcCollisionHandler.IsNPCGraphTouchingPlayer()) return false;
+            
+            // If graph touching player, player is in transition -> pass Neutral transition since irrelevant (save on maths)
+            npcStateHandler.InitiateCombat(TransitionType.BattleNeutral, GetNPCMob());
+            return true;
         }
         #endregion
 
@@ -254,10 +251,10 @@ namespace Frankie.Control
             if (triggerBilateral) { npcCollisionHandler.RemoveNPCMob(this, false); }
         }
 
-        private TransitionType GetBattleEntryType(Vector2 npcPosition, Vector2 playerPosition)
+        private TransitionType GetBattleEntryType(PlayerMover playerMover, Vector2 playerPosition, Vector2 npcPosition)
         {
             float npcLookMagnitudeToContact = Vector2.Dot(playerPosition - npcPosition, npcMover.GetLookDirection());
-            float playerLookMagnitudeToContact = Vector2.Dot(npcPosition - playerPosition, npcStateHandler.GetPlayerLookDirection());
+            float playerLookMagnitudeToContact = Vector2.Dot(npcPosition - playerPosition, playerMover.GetLookDirection());
 
             if (playerLookMagnitudeToContact > 0 && npcLookMagnitudeToContact < 0)
             {
