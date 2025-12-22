@@ -75,7 +75,7 @@ namespace Frankie.Control
 
         // Events
         public event Action<PlayerStateType, IPlayerStateContext> playerStateChanged;
-        public event Action<int> playerLayerChanged;
+        public event Action<int, bool> playerLayerChanged;
 
         // Data Structures
         private class PlayerStateTypeActionPair
@@ -173,7 +173,7 @@ namespace Frankie.Control
             {
                 child.gameObject.layer = layer;
             }
-            playerLayerChanged?.Invoke(layer);
+            playerLayerChanged?.Invoke(layer, enablePlayerImmunity);
         }
         #endregion
 
@@ -291,11 +291,11 @@ namespace Frankie.Control
         #region UtilityCombat
         public bool IsAnyPartyMemberAlive() => partyCombatConduit.IsAnyMemberAlive();
         public bool IsPlayerFearsome(CombatParticipant combatParticipant) => partyCombatConduit.IsFearsome(combatParticipant);
+
         public bool AreCombatParticipantsValid(bool announceCannotFight = false)
         {
             if (!partyCombatConduit.IsAnyMemberAlive()) { if (announceCannotFight) { EnterDialogue(messageCannotFight); } return false; }
-            if (enemiesUnderConsideration.All(x => x.IsDead())) { return false; }
-            return true;
+            return !enemiesUnderConsideration.All(x => x.IsDead());
         }
 
         public void AddEnemiesUnderConsideration()

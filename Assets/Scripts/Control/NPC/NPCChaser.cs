@@ -1,3 +1,4 @@
+using System;
 using System.Linq;
 using Frankie.Core;
 using UnityEngine;
@@ -22,6 +23,7 @@ namespace Frankie.Control
         [Tooltip("Set to nothing to aggro everything shoutable")][SerializeField] private NPCChaser[] shoutGroup;
 
         // State
+        private bool isPlayerImmune = false;
         private float timeSinceLastSawPlayer = Mathf.Infinity;
         private bool chasingActive = false;
         private bool skipAggressionUntilEnable = false;
@@ -31,6 +33,7 @@ namespace Frankie.Control
         private NPCStateHandler npcStateHandler;
         private NPCMover npcMover;
         private ReInitLazyValue<PlayerController> playerController;
+        private ReInitLazyValue<PlayerStateMachine> playerStateMachine;
 
         #region UnityMethods
         private void Awake()
@@ -38,11 +41,13 @@ namespace Frankie.Control
             npcStateHandler = GetComponent<NPCStateHandler>();
             npcMover = GetComponent<NPCMover>();
             playerController = new ReInitLazyValue<PlayerController>(Player.FindPlayerController);
+            playerStateMachine = new ReInitLazyValue<PlayerStateMachine>(Player.FindPlayerStateMachine);
         }
 
         private void Start()
         {
             playerController.ForceInit();
+            playerStateMachine.ForceInit();
         }
 
         private void OnEnable()
@@ -52,6 +57,7 @@ namespace Frankie.Control
             skipAggressionUntilEnable = false;
             shoutingActive = willShout;
             npcStateHandler.npcStateChanged += HandleNPCStateChange;
+            playerStateMachine.value.playerLayerChanged += HandlePlayerImmunity;
         }
 
         private void OnDisable()
@@ -61,7 +67,7 @@ namespace Frankie.Control
 
         private void Update()
         {
-            if (!chasingActive) { return; }
+            if (!chasingActive || isPlayerImmune) { return; }
 
             CheckForPlayerProximity();
             timeSinceLastSawPlayer += Time.deltaTime;
@@ -115,29 +121,29 @@ namespace Frankie.Control
         {
             switch (npcStateType)
             {
-                case NPCStateType.Occupied:
-                    chasingActive = false;
-                    break;
                 case NPCStateType.Idle:
                     chasingActive = willChasePlayer;
                     shoutingActive = willShout;
                     break;
                 case NPCStateType.Suspicious:
                 case NPCStateType.Aggravated:
-                    if (shoutingActive && shoutDistance > 0f)
-                    {
-                        ShoutToNearbyNPCs();
-                    }
+                    if (shoutingActive && shoutDistance > 0f) { ShoutToNearbyNPCs(); }
                     chasingActive = willChasePlayer;
                     break;
                 case NPCStateType.Frenzied:
-                    if (shoutingActive && shoutDistance > 0f)
-                    {
-                        ShoutToNearbyNPCs();
-                    }
+                    if (shoutingActive && shoutDistance > 0f) { ShoutToNearbyNPCs(); }
                     chasingActive = true;
                     break;
+                case NPCStateType.Occupied:
+                default:
+                    chasingActive = false;
+                    break;
             }
+        }
+
+        private void HandlePlayerImmunity(int layer, bool setIsPlayerImmune)
+        {
+            isPlayerImmune = setIsPlayerImmune;
         }
 
         private void ShoutToNearbyNPCs()
