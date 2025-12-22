@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 using Frankie.ZoneManagement;
-using Frankie.Stats;
 using Frankie.Combat;
 using Frankie.Speech;
 using Frankie.Core;
@@ -38,6 +37,12 @@ namespace Frankie.Control
             // Not strictly necessary -- will fail elegantly
             combatParticipant = GetComponent<CombatParticipant>();
             spriteVisibilityAnnouncer = GetComponentInChildren<SpriteVisibilityAnnouncer>();
+        }
+
+        private void Start()
+        {
+            // Must init in Start due to object readiness
+            InitializeNPCRunDisposition();
         }
 
         private void OnEnable()
@@ -119,10 +124,22 @@ namespace Frankie.Control
         #endregion
 
         #region PrivateMethods
-        private void SetNPCState(NPCStateType setNPCState)
+        private void InitializeNPCRunDisposition()
         {
-            bool occupiedStatusChange = (setNPCState == NPCStateType.Occupied) ^ npcOccupied;
-            if (npcState == setNPCState && !occupiedStatusChange) { return; }
+            PlayerStateMachine playerStateMachine = Player.FindPlayerStateMachine();
+            if (playerStateMachine == null) { return; }
+            
+            CheckForNPCAfraid(playerStateMachine, true);
+            SetNPCState(npcState, true);
+        }
+        
+        private void SetNPCState(NPCStateType setNPCState, bool overrideStateCheck = false)
+        {
+            if (!overrideStateCheck)
+            {
+                bool occupiedStatusChange = (setNPCState == NPCStateType.Occupied) ^ npcOccupied;
+                if (npcState == setNPCState && !occupiedStatusChange) { return; }
+            }
 
             // Occupied treated as a pseudo-state to allow for state persistence
             // i.e. State reset viable on SetNPCState(this.npcState)
@@ -182,9 +199,9 @@ namespace Frankie.Control
             SetNPCState(NPCStateType.Occupied);
         }
         
-        private void CheckForNPCAfraid(IPlayerStateContext playerStateContext)
+        private void CheckForNPCAfraid(IPlayerStateContext playerStateContext, bool overrideStateCheck = false)
         {
-            if (npcState is not (NPCStateType.Aggravated or NPCStateType.Suspicious)) { return; }
+            if (!overrideStateCheck && npcState is not (NPCStateType.Aggravated or NPCStateType.Suspicious)) { return; }
             if (combatParticipant == null) { return; }
             
             if (!playerStateContext.IsAnyPartyMemberAlive()) { return; }

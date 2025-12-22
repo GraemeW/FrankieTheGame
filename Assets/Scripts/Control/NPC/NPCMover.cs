@@ -108,6 +108,7 @@ namespace Frankie.Control
         #region NPCStateHandling
         private void HandleNPCStateChange(NPCStateType npcStateType, bool isNPCAfraid)
         {
+            ClearMoveTargets();
             switch (npcStateType)
             {
                 case NPCStateType.Occupied:
@@ -118,17 +119,20 @@ namespace Frankie.Control
                 case NPCStateType.Suspicious:
                 {
                     npcMoveFocus = isNPCAfraid ? NPCMoveFocus.Fleeing : NPCMoveFocus.Chasing;
-                    ClearMoveTargets();
                     break;
                 }
                 case NPCStateType.Aggravated:
                 case NPCStateType.Frenzied:
                 {
                     npcMoveFocus = isNPCAfraid ? NPCMoveFocus.Fleeing : NPCMoveFocus.Chasing;
-                    ClearMoveTargets();
-                    
                     SetMoveTarget(npcChaser.GetPlayer());
-                    resetPositionOnNextIdle = true;
+                    
+                    if (!npcStateHandler.WillForceCombat())
+                    {
+                        // Force Combat - Stay at position after combat (otherwise fleeing looks weird)
+                        // Not Force Combat - Move back to original position
+                        resetPositionOnNextIdle = true;
+                    }
                     break;
                 }
                 case NPCStateType.Idle:
