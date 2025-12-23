@@ -3,11 +3,11 @@ using System;
 
 namespace Frankie.Saving
 {
-    [System.Serializable]
+    [Serializable]
     public class SaveState
     {
-        public LoadPriority loadPriority = LoadPriority.ObjectProperty;
-        public JToken state = null;
+        public LoadPriority loadPriority;
+        public JToken state;
 
         public SaveState(LoadPriority loadPriority, object state)
         {
@@ -15,14 +15,7 @@ namespace Frankie.Saving
             this.state = JToken.FromObject(state);
         }
 
-        public object GetState(Type type)
-        {
-            return state.ToObject(type);
-        }
-
-        public LoadPriority GetLoadPriority()
-        {
-            return loadPriority;
-        }
+        public object GetState(Type type) => state.ToObject(type); 
+        public LoadPriority GetLoadPriority() => loadPriority;
     }
 }

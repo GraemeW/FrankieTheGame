@@ -34,6 +34,12 @@ namespace Frankie.Control.Specialization
             UpdateSprite();
         }
 
+        public void ToggleSprite() // Called via Unity Events
+        {
+            isAlternateSprite = !isAlternateSprite;
+            UpdateSprite();
+        }
+
         private void UpdateSprite()
         {
             spriteRenderer.sprite = isAlternateSprite ? alternateSprite : originalSprite;

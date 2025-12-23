@@ -1,6 +1,5 @@
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 using UnityEngine.Audio;
 using Frankie.Saving;
@@ -216,15 +215,16 @@ namespace Frankie.Sound
         #endregion
 
         #region MusicOverrides
-        public void OverrideMusic(AudioClip audioClip, bool calledInStart = false)
+        public bool OverrideMusic(AudioClip audioClip, bool calledInStart = false)
         {
-            if (audioClip == null) { return; }
+            if (audioClip == null) { return false; }
 
             if (calledInStart) { wasMusicOverriddenOnStart = true; }
             else { worldMusicTimeIndex = audioSource.time; }
 
             worldMusicTimeIndex = audioSource.time;
             StartCoroutine(TransitionToAudio(audioClip, true));
+            return true;
         }
 
         public void StopOverrideMusic()

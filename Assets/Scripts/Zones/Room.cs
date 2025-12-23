@@ -1,13 +1,18 @@
 using UnityEngine;
 using Frankie.Saving;
+using Frankie.Sound;
 using Frankie.Utils;
 
 namespace Frankie.ZoneManagement
 {
+    [RequireComponent(typeof(BackgroundMusicOverride))]
     public class Room : MonoBehaviour, ISaveable
     {
         // Tunables
         [SerializeField] private bool disableOnStart = true;
+        
+        // Cached References
+        private BackgroundMusicOverride backgroundMusicOverride;
 
         // State
         private bool isRoomActive = true;
@@ -16,6 +21,7 @@ namespace Frankie.ZoneManagement
         #region UnityMethods
         private void Awake()
         {
+            backgroundMusicOverride = GetComponent<BackgroundMusicOverride>();
             isRoomInitialized = new LazyValue<bool>(() => false);
         }
 
@@ -32,13 +38,15 @@ namespace Frankie.ZoneManagement
             Debug.Log($"Toggling {gameObject.name} room to {enable}");
 
             isRoomActive = enable;
+            isRoomInitialized.value = roomSetByOtherEntity;
+            
             foreach (Transform child in transform)
             {
                 if (child.TryGetComponent(out Door door)) { door.ToggleDoor(enable); }
                 else { child.gameObject.SetActive(enable); }
             }
-
-            isRoomInitialized.value = roomSetByOtherEntity;
+            
+            if (backgroundMusicOverride.HasAudioOverride()) { backgroundMusicOverride.TriggerOverride(enable); }
         }
         #endregion
 
