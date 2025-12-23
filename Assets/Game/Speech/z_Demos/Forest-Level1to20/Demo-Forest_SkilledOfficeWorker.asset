@@ -32,7 +32,7 @@ MonoBehaviour:
   condition:
     and:
     - or:
-      - predicate: {fileID: 11400000, guid: 0665dce396a834f13a167af743f388b7, type: 2}
+      - predicate: {fileID: 11400000, guid: 5e55f4d07f59e4257b1d10b625744d61, type: 2}
         negate: 0
 --- !u!114 &-6589871279477661056
 MonoBehaviour:
@@ -99,7 +99,7 @@ MonoBehaviour:
   condition:
     and:
     - or:
-      - predicate: {fileID: 11400000, guid: 0665dce396a834f13a167af743f388b7, type: 2}
+      - predicate: {fileID: 11400000, guid: 5e55f4d07f59e4257b1d10b625744d61, type: 2}
         negate: 1
 --- !u!114 &-830439454295646491
 MonoBehaviour:
@@ -148,7 +148,8 @@ MonoBehaviour:
   newNodeOffset: {x: 100, y: 25}
   nodeWidth: 400
   nodeHeight: 225
-  activeNPCs: []
+  activeNPCs:
+  - {fileID: 11400000, guid: b50f84a2f36107a44825b11881f88adf, type: 2}
   dialogueNodes:
   - {fileID: 3918020986677702669}
   - {fileID: -5937402629048263021}
