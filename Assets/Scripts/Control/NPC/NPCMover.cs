@@ -86,7 +86,6 @@ namespace Frankie.Control
             switch (MoveToTarget())
             {
                 case null:
-                    return;
                 case false:
                 {
                     if (CanLocomote()) { StartLocomotion(); }
