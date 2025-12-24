@@ -13,7 +13,6 @@ namespace Frankie.ZoneManagement
     {
         // Tunables
         [Header("Linked Assets")]
-        [SerializeField] private GameObject battleUIPrefab;
         [SerializeField] private Image nodeEntry;
         [SerializeField] private Image battleComplete;
         [Header("Fader Properties")]
@@ -24,7 +23,6 @@ namespace Frankie.ZoneManagement
         // State
         private Image currentTransitionImage;
         private bool fading = false;
-        private GameObject battleUI;
         private Action initiateBattleCallback;
 
         // Cached References
@@ -62,7 +60,6 @@ namespace Frankie.ZoneManagement
 
         #region PublicMethods
         public bool IsFading() => fading;
-        public void QueueInitiateBattleCallback(Action setInitiateBattleCallback) => initiateBattleCallback = setInitiateBattleCallback;
 
         public IEnumerator BlipFade(float holdSeconds)
         {
@@ -74,11 +71,11 @@ namespace Frankie.ZoneManagement
             yield return QueueFadeExit(TransitionType.Zone);
         }
         
-        public void UpdateFadeState(TransitionType transitionType, Zone nextZone)
+        public void UpdateFadeState(TransitionType transitionType, Zone nextZone, bool saveSession = true)
         {
             // Non-IEnumerator Type for Scene Transitions:
             // Coroutine needs to exist on an object that will persist between scenes
-            if (!fading) { StartCoroutine(ZoneFade(transitionType, nextZone)); }
+            if (!fading) { StartCoroutine(ZoneFade(transitionType, nextZone, saveSession)); }
         }
 
         public void UpdateFadeStateImmediate()
@@ -114,28 +111,10 @@ namespace Frankie.ZoneManagement
             AlphaFadeIn(transitionType);
             yield return new WaitForSeconds(GetFadeTime(true, transitionType));
             fadingPeak?.Invoke();
-
-            if (transitionType == TransitionType.BattleComplete)
-            {
-                battleUI.gameObject.SetActive(false);
-                Destroy(battleUI.gameObject);
-                battleUI = null;
-            }
         }
 
         public IEnumerator QueueFadeExit(TransitionType transitionType)
         {
-            if (transitionType == TransitionType.BattleGood || transitionType == TransitionType.BattleNeutral || transitionType == TransitionType.BattleBad)
-            {
-                if (battleUI == null) { battleUI = Instantiate(battleUIPrefab); }
-                battleUI.gameObject.SetActive(true);
-                if (initiateBattleCallback != null)
-                {
-                    initiateBattleCallback.Invoke();
-                    initiateBattleCallback = null;
-                }
-            }
-
             AlphaFadeOut(transitionType);
             yield return new WaitForSeconds(GetFadeTime(false, transitionType));
             EndFade(transitionType);
@@ -143,26 +122,26 @@ namespace Frankie.ZoneManagement
         #endregion
 
         #region PrivateMethods
-        private IEnumerator ZoneFade(TransitionType transitionType, Zone zone)
+        private IEnumerator ZoneFade(TransitionType transitionType, Zone zone, bool saveSession = true)
         {
             if (transitionType != TransitionType.Zone) yield break;
             
             yield return QueueFadeEntry(transitionType);
-            SavingWrapper.SaveSession(); // Save world state
+            if (saveSession) { SavingWrapper.SaveSession(); }
             yield return sceneLoader.value.LoadNewSceneAsync(zone);
 
-            SavingWrapper.LoadSession(); // Load world state
+            if (saveSession) { SavingWrapper.LoadSession(); }
             fadingOut?.Invoke();
 
             yield return QueueFadeExit(transitionType);
-            SavingWrapper.SaveSession();
+            if (saveSession) { SavingWrapper.SaveSession(); }
         }
 
         private IEnumerator FadeImmediate()
         {
             fading = true;
             nodeEntry.gameObject.SetActive(true);
-            this.currentTransitionImage = nodeEntry;
+            currentTransitionImage = nodeEntry;
 
             if (currentTransitionImage != null) { currentTransitionImage.CrossFadeAlpha(1, 0f, true); }
             yield return QueueFadeExit(TransitionType.Zone);
@@ -235,7 +214,6 @@ namespace Frankie.ZoneManagement
 
         private void ResetOverlays()
         {
-            battleUI?.gameObject.SetActive(false);
             nodeEntry?.gameObject.SetActive(false);
             battleComplete?.gameObject.SetActive(false);
             battleEntryShaderControl?.EndFade();

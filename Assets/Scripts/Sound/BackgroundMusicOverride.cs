@@ -1,5 +1,5 @@
-using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using Frankie.Saving;
 
@@ -8,92 +8,113 @@ namespace Frankie.Sound
     public class BackgroundMusicOverride : MonoBehaviour, ISaveable
     {
         // Tunables
-        [SerializeField] AudioClip audioClip = null;
+        [SerializeField] private AudioClip audioClip;
+        [SerializeField] [Tooltip("All overrides take priority over Zone music, Room setting: 1, others >")] private int priority = 0;
 
         // State
-        bool queueTriggerInStart = false;
-        bool triggered = false;
+        private bool queueTriggerInStart = false;
+        private bool isOverrideActive = false;
 
         // Static
-        static List<BackgroundMusicOverride> backgroundMusicOverrides = new List<BackgroundMusicOverride>();
+        private static BackgroundMusicOverride _currentBackgroundMusicOverride;
+        private static readonly List<BackgroundMusicOverride> _backgroundMusicOverrides = new();
 
         #region StaticMethods
-        public static void SubscribeOverride(BackgroundMusicOverride backgroundMusicOverride)
+        private static void SubscribeOverride(BackgroundMusicOverride backgroundMusicOverride)
         {
-            if (backgroundMusicOverrides.Contains(backgroundMusicOverride)) { return; }
-
-            backgroundMusicOverrides.Add(backgroundMusicOverride);
+            if (_backgroundMusicOverrides.Contains(backgroundMusicOverride)) { return; }
+            _backgroundMusicOverrides.Add(backgroundMusicOverride);
         }
 
-        public static void UnsubscribeOverride(BackgroundMusicOverride backgroundMusicOverride)
+        private static void UnsubscribeOverride(BackgroundMusicOverride backgroundMusicOverride)
         {
-            backgroundMusicOverrides.Remove(backgroundMusicOverride);
-        }
-
-        public static void UnflagAllOverrides()
-        {
-            foreach (BackgroundMusicOverride backgroundMusicOverride in backgroundMusicOverrides)
+            if (_currentBackgroundMusicOverride == backgroundMusicOverride)
             {
-                backgroundMusicOverride.UnflagOverride();
+                backgroundMusicOverride.TriggerOverride(false);
             }
+            _backgroundMusicOverrides.Remove(backgroundMusicOverride);
+        }
+
+        private static bool GetHighestPriorityActiveOverride(out BackgroundMusicOverride highestPriorityOverride)
+        {
+            highestPriorityOverride = null;
+            foreach (BackgroundMusicOverride backgroundMusicOverride in _backgroundMusicOverrides.Where(backgroundMusicOverride => backgroundMusicOverride.isOverrideActive))
+            {
+                if (highestPriorityOverride == null || backgroundMusicOverride.priority > highestPriorityOverride.priority)
+                {
+                    highestPriorityOverride = backgroundMusicOverride;
+                }
+            }
+            return highestPriorityOverride != null;
         }
         #endregion
-
-
+        
         #region UnityMethods
         private void Awake() => SubscribeOverride(this);
         private void OnDestroy() => UnsubscribeOverride(this);
 
         private void Start()
         {
-            if (queueTriggerInStart)
-            {
-                TriggerOverride(true);
-                queueTriggerInStart = false;
-            }
+            if (!queueTriggerInStart) return;
+            
+            TriggerOverride(true, true);
+            queueTriggerInStart = false;
         }
         #endregion
 
         #region UtilityMethods
-        public void TriggerOverride(bool enable) // Default behavior, callable via Unity Events
+        public bool HasAudioOverride() => audioClip != null;
+        public void TriggerOverride(bool enable) // Callable via Unity Events
         {
             TriggerOverride(enable, false);
         }
 
-        public void UnflagOverride() => triggered = false;
+        public void ToggleOverride() // Callable via Unity Events
+        {
+            TriggerOverride(!isOverrideActive);
+        }
 
+        private int GetPriority() => priority;
         private void TriggerOverride(bool enable, bool calledInRestore)
         {
             if (audioClip == null) { return; }
-            UnflagAllOverrides(); // Only one override allowed at a time, no history / hierarchy currently possible
+            if (enable && _currentBackgroundMusicOverride == this) { return; }
 
             BackgroundMusic backgroundMusic = BackgroundMusic.FindBackgroundMusic();
             if (backgroundMusic == null) { return; }
 
             if (enable)
             {
-                backgroundMusic.OverrideMusic(audioClip, calledInRestore);
-                triggered = true;
+                isOverrideActive = true;
+                if (_currentBackgroundMusicOverride != null && priority < _currentBackgroundMusicOverride.GetPriority()) { return; }
+                
+                if (backgroundMusic.OverrideMusic(audioClip, calledInRestore))
+                {
+                    _currentBackgroundMusicOverride = this;
+                }
             }
             else
             {
-                backgroundMusic.StopOverrideMusic();
-                triggered = false;
+                isOverrideActive = false;
+                
+                if (_currentBackgroundMusicOverride != this) { return; }
+                
+                _currentBackgroundMusicOverride = null;
+                if (GetHighestPriorityActiveOverride(out BackgroundMusicOverride nextUpMusicOverride))
+                {
+                    nextUpMusicOverride.TriggerOverride(true);
+                }
+                else
+                {
+                    backgroundMusic.StopOverrideMusic();
+                }
             }
         }
         #endregion
 
         #region SaveSystem
-        public LoadPriority GetLoadPriority()
-        {
-            return LoadPriority.ObjectProperty;
-        }
-
-        public SaveState CaptureState()
-        {
-            return new SaveState(GetLoadPriority(), triggered);
-        }
-
+        public LoadPriority GetLoadPriority() => LoadPriority.ObjectProperty; 
+        public SaveState CaptureState() => new(GetLoadPriority(), isOverrideActive);
         public void RestoreState(SaveState state)
         {
             if ((bool)state.GetState(typeof(bool))) { queueTriggerInStart = true; }

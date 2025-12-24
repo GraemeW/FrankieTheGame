@@ -53,14 +53,14 @@ namespace Frankie.Combat.UI
         [SerializeField] private string optionChuckItemNegative = "Nah";
         [Tooltip("Include {0} for item name")] [SerializeField] private string messageConfirmThrowOut = "Are you sure you want to abandon {0}?";
         [SerializeField] private string messageBattleCompleteWon = "You Won!  Congratulations!";
-        [SerializeField] private string messageBattleCompleteLost = "You lost.  Whoops!";
+        [SerializeField] private string messageBattleCompleteLost = "Looks like things didn't quite go to plan.";
         [SerializeField] private string messageBattleCompleteRan = "You ran away.";
 
         // State
-        private readonly Dictionary<BattleEntity, EnemySlide> enemySlideLookup = new Dictionary<BattleEntity, EnemySlide>();
+        private readonly Dictionary<BattleEntity, EnemySlide> enemySlideLookup = new();
         private BattleState lastBattleState = BattleState.Inactive;
-        private readonly Queue<Action> queuedUISequences = new Queue<Action>();
-        private readonly List<CharacterLevelUpSheetPair> queuedLevelUps = new List<CharacterLevelUpSheetPair>();
+        private readonly Queue<Action> queuedUISequences = new();
+        private readonly List<CharacterLevelUpSheetPair> queuedLevelUps = new();
         private bool firstCharacterToggle = false;
         private bool busyWithSerialAction = false;
         private bool outroQueued = false;
@@ -105,14 +105,18 @@ namespace Frankie.Combat.UI
 
         private void OnEnable()
         {
+            BattleEventBus<BattleStagingEvent>.SubscribeToEvent(HandleBattleStagingEvent);
             BattleEventBus<BattleStateChangedEvent>.SubscribeToEvent(Setup);
             BattleEventBus<BattleEntityAddedEvent>.SubscribeToEvent(SetupBattleEntity);
+            BattleEventBus<BattleFadeTransitionEvent>.SubscribeToEvent(HandleBattleFadeTransitionEvent);
         }
 
         private void OnDisable()
         {
+            BattleEventBus<BattleStagingEvent>.UnsubscribeFromEvent(HandleBattleStagingEvent);
             BattleEventBus<BattleStateChangedEvent>.UnsubscribeFromEvent(Setup);
             BattleEventBus<BattleEntityAddedEvent>.UnsubscribeFromEvent(SetupBattleEntity);
+            BattleEventBus<BattleFadeTransitionEvent>.UnsubscribeFromEvent(HandleBattleFadeTransitionEvent);
         }
 
         private void OnDestroy()
@@ -149,7 +153,25 @@ namespace Frankie.Combat.UI
         }
         #endregion
 
-        #region PrivateInitialization
+        #region PrivateSetupTeardownMethods
+
+        private void HandleBattleStagingEvent(BattleStagingEvent battleStagingEvent)
+        {
+            switch (battleStagingEvent.battleStagingType)
+            {
+                case BattleStagingType.BattleSetUp:
+                    if (!battleStagingEvent.optionalParametersSet) { return; }
+                    SetupBackgroundFill(battleStagingEvent.GetEnemyEntities());
+                    break;
+                case BattleStagingType.BattleControllerPrimed:
+                    if (!battleStagingEvent.optionalParametersSet) { return; }
+                    SetupEntryMessage(battleStagingEvent.GetEnemyEntities());
+                    break;
+                case BattleStagingType.BattleTornDown:
+                    break;
+            }
+        }
+        
         private void Setup(BattleStateChangedEvent battleStateChangedEvent)
         {
             BattleState state = battleStateChangedEvent.battleState;
@@ -160,10 +182,6 @@ namespace Frankie.Combat.UI
 
             switch (state)
             {
-                case BattleState.Intro:
-                    SetupBackgroundFill(battleStateChangedEvent.enemies);
-                    SetupEntryMessage(battleStateChangedEvent.enemies);
-                    break;
                 case BattleState.PreCombat:
                     skillSelection.gameObject.SetActive(false);
                     combatOptions.SetCombatOptions(true);
@@ -187,14 +205,6 @@ namespace Frankie.Combat.UI
                     break;
                 }
             }
-        }
-        
-        private void ClearBattleCanvas()
-        {
-            foreach (Transform child in playerPanelParent) { Destroy(child.gameObject); }
-            foreach (Transform columnEntry in topRowColumns) { foreach (Transform child in columnEntry) { Destroy(child.gameObject); } }
-            foreach (Transform columnEntry in midRowColumns) { foreach (Transform child in columnEntry) { Destroy(child.gameObject); } }
-            foreach (Transform columnEntry in bottomRowColumns) { foreach (Transform child in columnEntry) { Destroy(child.gameObject); } }
         }
 
         private void SetupBattleEntity(BattleEntityAddedEvent battleEntityAddedEvent)
@@ -273,8 +283,10 @@ namespace Frankie.Combat.UI
 
         private void SetupBackgroundFill(IList<BattleEntity> enemies)
         {
-            int enemyIndex = UnityEngine.Random.Range(0, enemies.Count);
-            MovingBackgroundProperties movingBackgroundProperties = enemies[enemyIndex].combatParticipant.GetMovingBackgroundProperties();
+            IList<CombatParticipant> viableEnemies = CombatParticipant.GetPriorityCombatParticipants(enemies);
+            int enemyIndex = UnityEngine.Random.Range(0, viableEnemies.Count);
+            MovingBackgroundProperties movingBackgroundProperties = viableEnemies[enemyIndex].GetMovingBackgroundProperties();
+            
             if (movingBackgroundProperties.tileSpriteImage == null || movingBackgroundProperties.shaderMaterial == null)
             {
                 backgroundFill.sprite = defaultMovingBackgroundProperties.tileSpriteImage;
@@ -285,6 +297,20 @@ namespace Frankie.Combat.UI
                 backgroundFill.sprite = movingBackgroundProperties.tileSpriteImage;
                 backgroundFill.material = movingBackgroundProperties.shaderMaterial;
             }
+        }
+        
+        private void HandleBattleFadeTransitionEvent(BattleFadeTransitionEvent battleFadeTransitionEvent)
+        {
+            if (battleFadeTransitionEvent.fadePhase != BattleFadePhase.ExitPeak) { return; }
+            Destroy(gameObject);
+        }
+        
+        private void ClearBattleCanvas()
+        {
+            foreach (Transform child in playerPanelParent) { Destroy(child.gameObject); }
+            foreach (Transform columnEntry in topRowColumns) { foreach (Transform child in columnEntry) { Destroy(child.gameObject); } }
+            foreach (Transform columnEntry in midRowColumns) { foreach (Transform child in columnEntry) { Destroy(child.gameObject); } }
+            foreach (Transform columnEntry in bottomRowColumns) { foreach (Transform child in columnEntry) { Destroy(child.gameObject); } }
         }
         #endregion
 

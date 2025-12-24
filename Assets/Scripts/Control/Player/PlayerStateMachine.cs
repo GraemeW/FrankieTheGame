@@ -16,6 +16,8 @@ using Frankie.Utils;
 namespace Frankie.Control
 {
     [RequireComponent(typeof(Party))]
+    [RequireComponent(typeof(PartyAssist))]
+    [RequireComponent(typeof(PartyCombatConduit))]
     [RequireComponent(typeof(Shopper))]
     public class PlayerStateMachine : MonoBehaviour, IPlayerStateContext
     {
@@ -23,6 +25,7 @@ namespace Frankie.Control
         [Header("Other Controller Prefabs")]
         [SerializeField] private BattleController battleControllerPrefab;
         [SerializeField] private DialogueController dialogueControllerPrefab;
+        [SerializeField] private GameObject battleUIPrefab;
         [Header("Menu Game Objects")]
         [SerializeField] private GameObject shopSelectPrefab;
         [SerializeField] private GameObject cashTransferPrefab;
@@ -39,7 +42,7 @@ namespace Frankie.Control
         private IPlayerState currentPlayerState = new WorldState();
         // Queue
         private PlayerStateTypeActionPair actionUnderConsideration;
-        private readonly Stack<PlayerStateTypeActionPair> queuedActions = new Stack<PlayerStateTypeActionPair>();
+        private readonly Stack<PlayerStateTypeActionPair> queuedActions = new();
         private bool readyToPopQueue = false;
         // Transition
         private TransitionType transitionTypeUnderConsideration = TransitionType.None;
@@ -48,10 +51,11 @@ namespace Frankie.Control
 
         // CutScene
         private bool visibleDuringCutscene = true;
+        private bool canMoveInCutscene = false;
         // Combat
         private bool combatFadeComplete = false;
-        private readonly List<CombatParticipant> enemiesUnderConsideration = new List<CombatParticipant>();
-        private readonly List<CombatParticipant> enemiesInTransition = new List<CombatParticipant>();
+        private readonly List<CombatParticipant> enemiesUnderConsideration = new();
+        private readonly List<CombatParticipant> enemiesInTransition = new();
         // Dialogue
         private DialogueData dialogueData;
         // Trade
@@ -64,14 +68,14 @@ namespace Frankie.Control
         private PartyAssist partyAssist;
         private PartyCombatConduit partyCombatConduit;
         private Shopper shopper;
-        private WorldCanvas worldCanvas;
         // Cached References -- State Dependent
+        private WorldCanvas worldCanvas;
         private BattleController battleController;
         private DialogueController dialogueController;
 
         // Events
-        public event Action<PlayerStateType> playerStateChanged;
-        public event Action<int> playerLayerChanged;
+        public event Action<PlayerStateType, IPlayerStateContext> playerStateChanged;
+        public event Action<int, bool> playerLayerChanged;
 
         // Data Structures
         private class PlayerStateTypeActionPair
@@ -90,26 +94,11 @@ namespace Frankie.Control
         private static PlayerStateType TranslatePlayerState(IPlayerState playerState)
         {
             Type playerStateType = playerState.GetType();
-            if (playerStateType == typeof(TransitionState))
-            {
-                return PlayerStateType.inTransition;
-            }
-            else if (playerStateType == typeof(CombatState))
-            {
-                return PlayerStateType.inBattle;
-            }
-            else if (playerStateType == typeof(DialogueState))
-            {
-                return PlayerStateType.inDialogue;
-            }
-            else if (playerStateType == typeof(TradeState) || playerStateType == typeof(OptionState))
-            {
-                return PlayerStateType.inMenus;
-            }
-            else if (playerStateType == typeof(CutSceneState))
-            {
-                return PlayerStateType.inCutScene;
-            }
+            if (playerStateType == typeof(TransitionState)) { return PlayerStateType.inTransition; }
+            if (playerStateType == typeof(CombatState)) { return PlayerStateType.inBattle; }
+            if (playerStateType == typeof(DialogueState)) { return PlayerStateType.inDialogue; }
+            if (playerStateType == typeof(TradeState) || playerStateType == typeof(OptionState)) { return PlayerStateType.inMenus; }
+            if (playerStateType == typeof(CutSceneState)) { return PlayerStateType.inCutScene; }
             return PlayerStateType.inWorld; // Default:  typeof(WorldState)
         }
         #endregion
@@ -150,7 +139,9 @@ namespace Frankie.Control
             Debug.Log($"Updating player state to: {Enum.GetName(typeof(PlayerStateType), playerStateType)}");
 
             currentPlayerState = playerState;
-            playerStateChanged?.Invoke(playerStateType);
+            
+            
+            playerStateChanged?.Invoke(playerStateType, this);
 
             readyToPopQueue = playerStateType == PlayerStateType.inWorld;
             // Pop on update to prevent same-frame multi-state change
@@ -161,6 +152,7 @@ namespace Frankie.Control
         }
         
         public Party GetParty() => party;
+        public bool CanMoveInCutscene() => canMoveInCutscene;
         
         public void SetPostDialogueCallbackActions(InteractionEvent interactionEvent)
         {
@@ -181,7 +173,7 @@ namespace Frankie.Control
             {
                 child.gameObject.layer = layer;
             }
-            playerLayerChanged?.Invoke(layer);
+            playerLayerChanged?.Invoke(layer, enablePlayerImmunity);
         }
         #endregion
 
@@ -202,8 +194,6 @@ namespace Frankie.Control
         public void EnterCombat(List<CombatParticipant> enemies, TransitionType transitionType)
         {
             if (enemies == null || enemies.Count == 0 || !IsBattleTransition(transitionType)) { return; }
-            //Useful Debug:
-            //UnityEngine.Debug.Log($"Request to enter combat by {enemies.FirstOrDefault().GetCombatName()}");
 
             actionUnderConsideration = new PlayerStateTypeActionPair(PlayerStateType.inBattle, () => EnterCombat(enemies, transitionType));
             enemiesUnderConsideration.Clear();
@@ -272,57 +262,40 @@ namespace Frankie.Control
             currentPlayerState.EnterOptions(this);
         }
 
-        public void EnterCutscene(bool playerVisible = true)
+        public void EnterCutscene(bool playerVisible = true, bool canMove = false)
         {
             actionUnderConsideration = new PlayerStateTypeActionPair(PlayerStateType.inCutScene, () => EnterCutscene(playerVisible));
             visibleDuringCutscene = playerVisible;
+            canMoveInCutscene = canMove && playerVisible;
             currentPlayerState.EnterCutScene(this);
         }
         #endregion
 
         #region UtilityTransition
+        public bool InZoneTransition() => currentTransitionType == TransitionType.Zone;
+        public bool IsZoneTransitionComplete() => zoneTransitionComplete;
+        public void SetZoneTransitionStatus(bool complete)
+        {
+            zoneTransitionComplete = complete;
+        }
         public void ConfirmTransitionType()
         {
             currentTransitionType = transitionTypeUnderConsideration;
         }
 
-        public bool InZoneTransition()
-        {
-            return currentTransitionType == TransitionType.Zone;
-        }
-
-        public bool IsZoneTransitionComplete()
-        {
-            return zoneTransitionComplete;
-        }
-
-        public void SetZoneTransitionStatus(bool complete)
-        {
-            zoneTransitionComplete = complete;
-        }
-
-        public bool InBattleEntryTransition()
-        {
-            return IsBattleTransition(currentTransitionType);
-        }
-
-        public bool InBattleExitTransition()
-        {
-            return currentTransitionType == TransitionType.BattleComplete;
-        }
-
-        private bool IsBattleTransition(TransitionType transitionType)
-        {
-            return (transitionType == TransitionType.BattleNeutral || transitionType == TransitionType.BattleGood || transitionType == TransitionType.BattleBad);
-        }
+        private static bool IsBattleTransition(TransitionType transitionType) => transitionType is TransitionType.BattleNeutral or TransitionType.BattleGood or TransitionType.BattleBad;
+        public bool InBattleEntryTransition() => IsBattleTransition(currentTransitionType);
+        public bool InBattleExitTransition() => currentTransitionType == TransitionType.BattleComplete;
         #endregion
 
         #region UtilityCombat
+        public bool IsAnyPartyMemberAlive() => partyCombatConduit.IsAnyMemberAlive();
+        public bool IsPlayerFearsome(CombatParticipant combatParticipant) => partyCombatConduit.IsFearsome(combatParticipant);
+
         public bool AreCombatParticipantsValid(bool announceCannotFight = false)
         {
             if (!partyCombatConduit.IsAnyMemberAlive()) { if (announceCannotFight) { EnterDialogue(messageCannotFight); } return false; }
-            if (enemiesUnderConsideration.All(x => x.IsDead())) { return false; }
-            return true;
+            return !enemiesUnderConsideration.All(x => x.IsDead());
         }
 
         public void AddEnemiesUnderConsideration()
@@ -357,10 +330,7 @@ namespace Frankie.Control
             return true;
         }
 
-        public bool IsCombatFadeComplete()
-        {
-            return combatFadeComplete;
-        }
+        public bool IsCombatFadeComplete() => combatFadeComplete;
 
         public bool EndBattleSequence()
         {
@@ -385,25 +355,23 @@ namespace Frankie.Control
         private IEnumerator QueueBattleTransition(Fader fader, TransitionType transitionType)
         {
             combatFadeComplete = false;
-
             yield return fader.QueueFadeEntry(transitionType);
-            battleController.QueueCombatInitiation(enemiesInTransition, transitionType);
+            if (battleUIPrefab != null) { Instantiate(battleUIPrefab); }
+            BattleEventBus<BattleFadeTransitionEvent>.Raise(new BattleFadeTransitionEvent(BattleFadePhase.EntryPeak, enemiesInTransition, transitionType));
             yield return fader.QueueFadeExit(transitionType);
-
             combatFadeComplete = true;
             currentPlayerState.EnterCombat(this);
+            BattleEventBus<BattleFadeTransitionEvent>.Raise(new BattleFadeTransitionEvent(BattleFadePhase.EntryComplete));
         }
 
         private IEnumerator QueueExitCombat(Fader fader)
         {
             currentTransitionType = TransitionType.BattleComplete;
-
             yield return fader.QueueFadeEntry(currentTransitionType);
-            Destroy(battleController.gameObject);
+            BattleEventBus<BattleFadeTransitionEvent>.Raise(new BattleFadeTransitionEvent(BattleFadePhase.ExitPeak));
             StartCoroutine(TimedCollisionDisable());
             yield return fader.QueueFadeExit(currentTransitionType);
-            
-            BattleEventBus<BattleExitEvent>.Raise(new BattleExitEvent());
+            BattleEventBus<BattleFadeTransitionEvent>.Raise(new BattleFadeTransitionEvent(BattleFadePhase.ExitComplete));
             currentPlayerState.EnterWorld(this);
         }
         #endregion
@@ -547,6 +515,7 @@ namespace Frankie.Control
             currentTransitionType = TransitionType.None;
             zoneTransitionComplete = true;
 
+            canMoveInCutscene = false;
             visibleDuringCutscene = true;
 
             combatFadeComplete = false;

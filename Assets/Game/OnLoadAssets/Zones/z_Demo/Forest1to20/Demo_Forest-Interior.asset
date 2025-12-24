@@ -423,6 +423,35 @@ MonoBehaviour:
     height: 45
   condition:
     and: []
+--- !u!114 &-672308436306324658
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3268536af8903a64da82aa6872733d1d, type: 3}
+  m_Name: ChugNSlurpToForest
+  m_EditorClassIdentifier: Assembly-CSharp::Frankie.ZoneManagement.ZoneNode
+  children: []
+  linkedZoneNode: {fileID: -5366454506092742757, guid: 56bcb0733fa024bf5b983792663e12bb, type: 2}
+  rect:
+    serializedVersion: 2
+    x: 31
+    y: 368
+    width: 430
+    height: 150
+  zoneName: Demo_Forest-Interior
+  draggingRect:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 430
+    height: 45
+  condition:
+    and: []
 --- !u!114 &-429837748659743874
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -503,6 +532,7 @@ MonoBehaviour:
   - {fileID: 5099089682631225214}
   - {fileID: -7101649168659426964}
   - {fileID: -2721548415718074671}
+  - {fileID: -672308436306324658}
 --- !u!114 &324721532845584799
 MonoBehaviour:
   m_ObjectHideFlags: 0

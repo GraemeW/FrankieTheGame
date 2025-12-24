@@ -7,44 +7,36 @@ namespace Frankie.Inventory
     public class Shopper : MonoBehaviour
     {
         // State
-        Shop currentShop = null;
-        BankType bankType = BankType.None;
+        private Shop currentShop;
+        private BankType bankType = BankType.None;
         
         // Cached References
-        Wallet wallet = null;
+        private Wallet wallet;
 
         // Events
         public event Action transactionCompleted;
 
+        #region UnityMethods
         private void Awake()
         {
             wallet = GetComponent<Wallet>();
         }
+        #endregion
 
+        #region GettersSetters
+        public Shop GetCurrentShop() => currentShop;
+        public BankType GetBankType() => bankType;
+        public Wallet GetWallet() => wallet;
         public void SetShop(Shop shop)
         {
             currentShop = shop;
         }
 
-        public void SetBankType(BankType bankType)
+        public void SetBankType(BankType setBankType)
         {
-            this.bankType = bankType;
+            bankType = setBankType;
         }
-
-        public Shop GetCurrentShop()
-        {
-            return currentShop;
-        }
-
-        public BankType GetBankType()
-        {
-            return bankType;
-        }
-
-        public Wallet GetWallet()
-        {
-            return wallet;
-        }
+        #endregion
 
         public void CompleteTransaction(ShopType saleType, InventoryItem inventoryItem, Knapsack characterKnapsack)
         {
@@ -52,26 +44,28 @@ namespace Frankie.Inventory
             if (saleType == ShopType.Both) { return; } // Invalid call
 
             int transactionFee = inventoryItem.GetPrice();
-            if (saleType == ShopType.Sell)
+            switch (saleType)
             {
-                transactionFee = Mathf.RoundToInt(transactionFee * currentShop.GetSaleDiscount());
-            }
-            if (saleType == ShopType.Buy)
-            {
-                transactionFee *= -1;
+                case ShopType.Sell:
+                    transactionFee = Mathf.RoundToInt(transactionFee * currentShop.GetSaleDiscount());
+                    break;
+                case ShopType.Buy:
+                    transactionFee *= -1;
+                    break;
             }
 
             wallet.UpdateCash(transactionFee);
 
-            if (saleType == ShopType.Buy)
+            switch (saleType)
             {
-                characterKnapsack.AddToFirstEmptySlot(inventoryItem, true);
+                case ShopType.Buy:
+                    characterKnapsack.AddToFirstEmptySlot(inventoryItem, true);
+                    break;
+                case ShopType.Sell:
+                    characterKnapsack.RemoveItem(inventoryItem, true);
+                    characterKnapsack.SquishItemsInKnapsack();
+                    break;
             }
-            else if (saleType == ShopType.Sell)
-            {
-                characterKnapsack.RemoveItem(inventoryItem, true);
-            }
-
             transactionCompleted?.Invoke();
         }
     }

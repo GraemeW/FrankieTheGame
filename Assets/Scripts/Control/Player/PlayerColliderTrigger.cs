@@ -6,12 +6,12 @@ namespace Frankie.Control
     public class PlayerColliderTrigger : MonoBehaviour, ISaveable
     {
         // Tunables
-        [SerializeField] LayerMask playerLayer = new LayerMask();
-        [SerializeField] bool disableAfterTrigger = true;
-        [SerializeField] InteractionEvent triggerEvent;
+        [SerializeField] private LayerMask playerLayer;
+        [SerializeField] private bool disableAfterTrigger = true;
+        [SerializeField] private InteractionEvent triggerEvent;
 
         // State
-        bool triggered = false;
+        private bool triggered = false;
 
         private void OnEnable()
         {
@@ -21,15 +21,14 @@ namespace Frankie.Control
         private void OnTriggerEnter2D(Collider2D collision)
         {
             GameObject collisionObject = collision.gameObject;
-            if (playerLayer == (playerLayer | (1 << collisionObject.layer)))
-            {
-                PlayerStateMachine playerStateMachine = collisionObject.GetComponentInParent<PlayerStateMachine>();
-                if (playerStateMachine == null) { triggered = true; return; }
+            if (playerLayer != (playerLayer | (1 << collisionObject.layer))) return;
+            
+            PlayerStateMachine playerStateMachine = collisionObject.GetComponentInParent<PlayerStateMachine>();
+            if (playerStateMachine == null) { triggered = true; return; }
 
-                triggerEvent.Invoke(playerStateMachine);
-                triggered = true;
-                ReconcileState();
-            }
+            triggerEvent.Invoke(playerStateMachine);
+            triggered = true;
+            ReconcileState();
         }
 
         private void ReconcileState()
@@ -37,10 +36,7 @@ namespace Frankie.Control
             if (triggered && disableAfterTrigger) { gameObject.SetActive(false); }
         }
 
-        public LoadPriority GetLoadPriority()
-        {
-            return LoadPriority.ObjectProperty;
-        }
+        public LoadPriority GetLoadPriority() => LoadPriority.ObjectProperty;
 
         public SaveState CaptureState()
         {

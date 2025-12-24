@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Frankie.Combat;
@@ -13,46 +12,46 @@ namespace Frankie.Inventory.UI
     {
         // Tunables
         [Header("Shop Specific")]
-        [SerializeField] string messageOptionSell = "Sell";
-        [SerializeField] string messageOptionCancelSale = "On second thought...";
-        [SerializeField] WalletUI walletUIPrefab = null;
+        [SerializeField] private string messageOptionSell = "Sell";
+        [SerializeField] private string messageOptionCancelSale = "On second thought...";
+        [SerializeField] private WalletUI walletUIPrefab;
 
         // State
-        ShopType transactionType = ShopType.Both;
-        InventoryItem buyItem = null;
-        string messageNoSpace = "";
-        string messageForSale = "";
-        string messageCannotSell = "";
+        private ShopType transactionType = ShopType.Both;
+        private InventoryItem buyItem;
+        private string messageNoSpace = "";
+        private string messageForSale = "";
+        private string messageCannotSell = "";
 
         // Cached References
-        PlayerStateMachine playerStateHandler = null;
-        WalletUI walletUI = null;
-        ShopBox shopBox = null;
-        Shopper shopper = null;
+        private PlayerStateMachine playerStateMachine;
+        private WalletUI walletUI;
+        private ShopBox shopBox;
+        private Shopper shopper;
 
         #region Initialization
         // Buy-specific
-        public void Setup(IStandardPlayerInputCaller standardPlayerInputCaller, PartyCombatConduit partyCombatConduit, Shopper shopper, ShopBox shopBox, InventoryItem buyItem, string messageNoSpace)
+        public void Setup(IStandardPlayerInputCaller standardPlayerInputCaller, PartyCombatConduit partyCombatConduit, Shopper setShopper, ShopBox setShopBox, InventoryItem setBuyItem, string setMessageNoSpace)
         {
             transactionType = ShopType.Buy;
-
+            
             base.Setup(standardPlayerInputCaller, partyCombatConduit);
-            this.shopper = shopper;
-            this.shopBox = shopBox;
-            this.buyItem = buyItem;
-            this.messageNoSpace = messageNoSpace;
+            shopper = setShopper;
+            shopBox = setShopBox;
+            buyItem = setBuyItem;
+            messageNoSpace = setMessageNoSpace;
         }
 
         // Sell-specific
-        public void Setup(IStandardPlayerInputCaller standardPlayerInputCaller, PlayerStateMachine playerStateHandler, PartyCombatConduit partyCombatConduit, Shopper shopper, string messageForSale, string messageCannotSell)
+        public void Setup(IStandardPlayerInputCaller standardPlayerInputCaller, PlayerStateMachine setPlayerStateMachine, PartyCombatConduit partyCombatConduit, Shopper setShopper, string setMessageForSale, string setMessageCannotSell)
         {
             transactionType = ShopType.Sell;
 
             base.Setup(standardPlayerInputCaller, partyCombatConduit);
-            this.playerStateHandler = playerStateHandler;
-            this.shopper = shopper;
-            this.messageForSale = messageForSale;
-            this.messageCannotSell = messageCannotSell;
+            playerStateMachine = setPlayerStateMachine;
+            shopper = setShopper;
+            messageForSale = setMessageForSale;
+            messageCannotSell = setMessageCannotSell;
 
             SetupWalletUI();
             TakeControl(standardPlayerInputCaller, this, null); // input handled via player controller, immediate override
@@ -70,47 +69,52 @@ namespace Frankie.Inventory.UI
             if (walletUI != null) { Destroy(walletUI.gameObject); }
 
             HandleClientExit();
-            if (transactionType == ShopType.Sell) { playerStateHandler?.EnterWorld(); }
+            if (transactionType == ShopType.Sell) { playerStateMachine?.EnterWorld(); }
         }
         #endregion
 
         #region BuySpecificOverrides
         protected override void ChooseCharacter(CombatParticipant character, bool initializeCursor = true)
         {
-            if (transactionType == ShopType.Buy)
+            switch (transactionType)
             {
-                UpdateKnapsackView(character);
-                SetInventoryBoxState(InventoryBoxState.inCharacterSelection);
-
-                Knapsack characterKnapsack = selectedCharacter.GetComponent<Knapsack>();
-                Knapsack selectedCharacterKnapsack = selectedCharacter.GetComponent<Knapsack>();
-                if (characterKnapsack == null || selectedCharacterKnapsack == null) { return; }
-
-                if (selectedCharacterKnapsack.HasFreeSpace())
+                case ShopType.Buy:
                 {
-                    shopper.CompleteTransaction(ShopType.Buy, buyItem, characterKnapsack);
-                    Destroy(gameObject);
+                    UpdateKnapsackView(character);
+                    SetInventoryBoxState(InventoryBoxState.inCharacterSelection);
+
+                    Knapsack characterKnapsack = selectedCharacter.GetComponent<Knapsack>();
+                    Knapsack selectedCharacterKnapsack = selectedCharacter.GetComponent<Knapsack>();
+                    if (characterKnapsack == null || selectedCharacterKnapsack == null) { return; }
+
+                    if (selectedCharacterKnapsack.HasFreeSpace())
+                    {
+                        shopper.CompleteTransaction(ShopType.Buy, buyItem, characterKnapsack);
+                        Destroy(gameObject);
+                    }
+                    else
+                    {
+                        SpawnMessage(messageNoSpace);
+                    }
+
+                    break;
                 }
-                else
-                {
-                    SpawnMessage(messageNoSpace);
-                }
-            }
-            else if (transactionType == ShopType.Sell)
-            {
-                base.ChooseCharacter(character, initializeCursor);
+                case ShopType.Sell:
+                    base.ChooseCharacter(character, initializeCursor);
+                    break;
             }
         }
 
         protected override void SoftChooseCharacter(CombatParticipant character)
         {
-            if (transactionType == ShopType.Buy)
+            switch (transactionType)
             {
-                UpdateKnapsackView(character);
-            }
-            else if (transactionType == ShopType.Sell)
-            {
-                base.SoftChooseCharacter(character);
+                case ShopType.Buy:
+                    UpdateKnapsackView(character);
+                    break;
+                case ShopType.Sell:
+                    base.SoftChooseCharacter(character);
+                    break;
             }
         }
         #endregion
@@ -118,53 +122,54 @@ namespace Frankie.Inventory.UI
         #region SellSpecificOverrides
         protected override List<ChoiceActionPair> GetChoiceActionPairs(int inventorySlot)
         {
-            if (transactionType == ShopType.Sell)
+            switch (transactionType)
             {
-                List<ChoiceActionPair> choiceActionPairs = new List<ChoiceActionPair>();
-                if (selectedKnapsack == null) { return choiceActionPairs; }
-                InventoryItem inventoryItem = selectedKnapsack.GetItemInSlot(inventorySlot);
-                if (inventoryItem == null) { return choiceActionPairs; }
-
-                // Sell
-                if (selectedCharacter.TryGetComponent(out Knapsack selectedCharacterKnapsack))
+                case ShopType.Sell:
                 {
-                    ChoiceActionPair sellActionPair = new ChoiceActionPair(messageOptionSell, () => shopper.CompleteTransaction(ShopType.Sell, inventoryItem, selectedCharacterKnapsack));
-                    choiceActionPairs.Add(sellActionPair);
+                    // Guard against invalid entity
+                    var choiceActionPairs = new List<ChoiceActionPair>();
+                    if (selectedKnapsack == null) { return choiceActionPairs; }
+                    InventoryItem inventoryItem = selectedKnapsack.GetItemInSlot(inventorySlot);
+                    if (inventoryItem == null) { return choiceActionPairs; }
+                    
+                    // Sale
+                    if (selectedCharacter.TryGetComponent(out Knapsack selectedCharacterKnapsack))
+                    {
+                        var sellActionPair = new ChoiceActionPair(messageOptionSell, () => shopper.CompleteTransaction(ShopType.Sell, inventoryItem, selectedCharacterKnapsack));
+                        choiceActionPairs.Add(sellActionPair);
+                    }
+                    
+                    // Cancel
+                    var cancelActionPair = new ChoiceActionPair(messageOptionCancelSale, () => { });
+                    choiceActionPairs.Add(cancelActionPair);
+
+                    return choiceActionPairs;
                 }
-
-                // Cancel
-                ChoiceActionPair cancelActionPair = new ChoiceActionPair(messageOptionCancelSale, () => { });
-                choiceActionPairs.Add(cancelActionPair);
-
-                return choiceActionPairs;
+                case ShopType.Buy:
+                    return base.GetChoiceActionPairs(inventorySlot);
+                default:
+                    return new List<ChoiceActionPair>();
             }
-            else if (transactionType == ShopType.Buy)
-            {
-                return base.GetChoiceActionPairs(inventorySlot);
-            }
-            return null;
         }
 
         protected override void ChooseItem(int inventorySlot)
         {
-            if (transactionType == ShopType.Sell)
+            switch (transactionType)
             {
-                // Check if item is sellable
-                InventoryItem inventoryItem = selectedKnapsack.GetItemInSlot(inventorySlot);
-                if (inventoryItem == null) { return; }
+                case ShopType.Sell:
+                {
+                    // Check if item is sellable
+                    InventoryItem inventoryItem = selectedKnapsack.GetItemInSlot(inventorySlot);
+                    if (inventoryItem == null) { return; }
 
-                if (inventoryItem.GetType() == typeof(KeyItem))
-                {
-                    SpawnMessage(messageCannotSell);
+                    if (inventoryItem.GetType() == typeof(KeyItem)) { SpawnMessage(messageCannotSell); }
+                    else { SpawnSellMenu(inventorySlot); }
+                    
+                    break;
                 }
-                else
-                {
-                    SpawnSellMenu(inventorySlot);
-                }
-            }
-            else if (transactionType == ShopType.Buy)
-            {
-                base.ChooseItem(inventorySlot);
+                case ShopType.Buy:
+                    base.ChooseItem(inventorySlot);
+                    break;
             }
         }
 

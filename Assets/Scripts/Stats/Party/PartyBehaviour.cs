@@ -200,11 +200,11 @@ namespace Frankie.Stats
             }
         }
         
-        private void HandlePlayerLayerChanged(int layer)
+        private void HandlePlayerLayerChanged(int layer, bool isPlayerImmune)
         {
             foreach (var characterSpriteLink in characterSpriteLinkLookup)
             {
-                characterSpriteLink.Value.SetIsFlashing(layer == Player.GetImmunePlayerLayer());
+                characterSpriteLink.Value.SetIsFlashing(isPlayerImmune);
             }
         }
         #endregion

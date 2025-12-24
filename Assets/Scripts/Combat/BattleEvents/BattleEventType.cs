@@ -2,7 +2,7 @@ namespace Frankie.Combat
 {
     public enum BattleEventType
     {
-        BattleEnter,
+        BattleStaging,
         BattleStateChanged,
         BattleEntityAdded,
         BattleEntitySelected,
@@ -13,6 +13,6 @@ namespace Frankie.Combat
         BattleSequencedProcessed,
         BattleEntityStateAltered,
         BattleEntityRemovedFromBoard,
-        BattleExit
+        BattleFadeTransition
     }
 }

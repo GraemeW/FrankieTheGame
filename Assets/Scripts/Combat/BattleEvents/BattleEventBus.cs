@@ -43,14 +43,22 @@ namespace Frankie.Combat
         {
             switch (battleEvent.battleEventType)
             {
-                case BattleEventType.BattleEnter:
-                    BattleEventBus.SetInBattle(true);
+                case BattleEventType.BattleStaging:
+                    if (battleEvent is BattleStagingEvent battleStagingEvent)
+                    {
+                        switch (battleStagingEvent.battleStagingType)
+                        {
+                            case BattleStagingType.BattleSetUp:
+                                BattleEventBus.SetInBattle(true);
+                                break;
+                            case BattleStagingType.BattleTornDown:
+                                BattleEventBus.SetInBattle(false);
+                                break;
+                        }
+                    }
                     break;
                 case BattleEventType.BattleStateChanged:
                     if (battleEvent is BattleStateChangedEvent battleStateChangedEvent) { BattleEventBus.SetBattleState(battleStateChangedEvent.battleState); }
-                    break;
-                case BattleEventType.BattleExit:
-                    BattleEventBus.SetInBattle(false);
                     break;
             }
         }
@@ -81,10 +89,9 @@ namespace Frankie.Combat
 
         private static void ClearWithinBattleSubscriptions()
         {
-            foreach (BattleEventType eventType in System.Enum.GetValues(typeof(BattleEventType)))
+            foreach (BattleEventType eventType in Enum.GetValues(typeof(BattleEventType)))
             {
-                if (eventType is BattleEventType.BattleEnter or BattleEventType.BattleExit) { continue; }
-
+                if (eventType is BattleEventType.BattleStaging) { continue; }
                 ClearSubscriptions(eventType);
             }
         }
@@ -94,8 +101,8 @@ namespace Frankie.Combat
             // Note:  POR is to manually unsubscribe, this is safety
             switch (eventType)
             {
-                case BattleEventType.BattleEnter:
-                    BattleEventBus<BattleEnterEvent>.ClearAllSubscriptions();
+                case BattleEventType.BattleStaging:
+                    BattleEventBus<BattleStagingEvent>.ClearAllSubscriptions();
                     break;
                 case BattleEventType.BattleStateChanged:
                     BattleEventBus<BattleStateChangedEvent>.ClearAllSubscriptions();
@@ -127,8 +134,8 @@ namespace Frankie.Combat
                 case BattleEventType.BattleEntityRemovedFromBoard:
                     BattleEventBus<BattleEntityRemovedFromBoardEvent>.ClearAllSubscriptions();
                     break;
-                case BattleEventType.BattleExit:
-                    BattleEventBus<BattleExitEvent>.ClearAllSubscriptions();
+                case BattleEventType.BattleFadeTransition:
+                    BattleEventBus<BattleFadeTransitionEvent>.ClearAllSubscriptions();
                     break;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(eventType), eventType, null);

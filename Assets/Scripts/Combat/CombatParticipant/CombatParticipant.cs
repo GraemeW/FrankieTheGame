@@ -1,11 +1,13 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using Frankie.Core;
 using Frankie.Utils;
 using Frankie.Stats;
 using Frankie.Saving;
 using Frankie.Inventory;
+using UnityEngine.Events;
 
 namespace Frankie.Combat
 {
@@ -20,14 +22,18 @@ namespace Frankie.Combat
         [SerializeField] [Range(0.2f, 2.0f)] private float spriteScaleFineTune = 1.0f;
         [SerializeField] private AudioClip combatAudio;
         [SerializeField] private MovingBackgroundProperties movingBackgroundProperties;
-
+        [SerializeField] [Tooltip("Set higher to increase priority in selection")] private int battlePropertiesPriority;
+        [SerializeField] private bool shouldDestroySelfOnDeath = true;
+        [SerializeField] private bool shouldSaveStateOnDeath = false;
+        [SerializeField] private UnityEvent onDeathEvent;
+        
         [Header("Combat Properties")]
         [SerializeField] private BattleRow preferredBattleRow = BattleRow.Any;
         [SerializeField] private bool canRunFrom = true;
         [SerializeField] private bool usesAP = true;
         [SerializeField] private float damageTimeSpan = 4.0f;
         [SerializeField] private float fractionOfHPInstantOnRevival = 0.5f;
-        [SerializeField] private bool shouldDestroySelfOnDeath = true;
+        [SerializeField] private float holdOnHP = 1f;
 
         [Header("Cooldowns")]
         [SerializeField] private float cooldownMin = 0.2f;
@@ -44,8 +50,10 @@ namespace Frankie.Combat
         private LootDispenser lootDispenser;
 
         // State
-        private bool awakeCalled = false;
+        private bool lazyStateSet = false;
         private bool inCombat = false;
+        private bool isHealthRollActive = true;
+        private bool isDestructionTriggeredBySave = false;
         private float cooldownTimer;
         private float cooldownStore;
         private float targetHP = 1f;
@@ -60,23 +68,49 @@ namespace Frankie.Combat
         public delegate void StateEvent(StateAlteredInfo stateAlteredInfo);
         public event StateEvent stateAltered;
 
+        #region StaticMethods
+        public static IList<CombatParticipant> GetPriorityCombatParticipants(IList<BattleEntity> battleEntities)
+        {
+            return GetPriorityCombatParticipants(battleEntities.Select(battleEntity => battleEntity.combatParticipant).ToList());
+        }
+        
+        public static IList<CombatParticipant> GetPriorityCombatParticipants(IList<CombatParticipant> combatParticipants)
+        {
+            int maxPriority = combatParticipants.Max(x => x.GetBattlePropertiesPriority());
+            return combatParticipants.Select(x => x).Where(x => x.GetBattlePropertiesPriority() == maxPriority).ToList();
+        }
+        #endregion
+        
         #region UnityMethods
         private void Awake()
         {
-            awakeCalled = true;
-
             // Hard requirement
             baseStats = GetComponent<BaseStats>();
             // Not strictly necessary -- will fail elegantly
             equipment = GetComponent<Equipment>();
             lootDispenser = GetComponent<LootDispenser>();
 
-            // State parameters
+            SetupLazyState();
+        }
+
+        private void SetupLazyState()
+        {
+            if (lazyStateSet) { return; }
+            
             currentHP = new LazyValue<float>(GetMaxHP);
             currentAP = new LazyValue<float>(GetMaxAP);
             isDead = new LazyValue<bool>(() => false);
+            lazyStateSet = true;
         }
 
+        private void Start()
+        {
+            currentHP.ForceInit();
+            currentAP.ForceInit();
+            isDead.ForceInit();
+            targetHP = currentHP.value;
+        }
+        
         private void OnEnable()
         {
             baseStats.onLevelUp += ParseLevelUpMessage;
@@ -87,14 +121,6 @@ namespace Frankie.Combat
         {
             baseStats.onLevelUp -= ParseLevelUpMessage;
             if (equipment != null) { equipment.equipmentUpdated -= ReconcileHPAP; }
-        }
-
-        private void Start()
-        {
-            currentHP.ForceInit();
-            currentAP.ForceInit();
-            isDead.ForceInit();
-            targetHP = currentHP.value;
         }
 
         private void Update()
@@ -118,6 +144,7 @@ namespace Frankie.Combat
         public float GetSpriteScaleFineTune() => spriteScaleFineTune;
         public MovingBackgroundProperties GetMovingBackgroundProperties() => movingBackgroundProperties;
         public AudioClip GetAudioClip() => combatAudio;
+        public int GetBattlePropertiesPriority() => battlePropertiesPriority;
         public bool GetFriendly() => friendly;
         public BattleRow GetPreferredBattleRow() => preferredBattleRow;
         public bool HasLoot() => lootDispenser != null && lootDispenser.HasLootReward();
@@ -133,7 +160,8 @@ namespace Frankie.Combat
             if (!baseStats.GetStatForCalculatedStat(calculatedStat, out Stat stat)) { return 0f; }
             float statValue = baseStats.GetStat(stat);
             float opponentStatValue = recipient != null ? recipient.GetStat(stat) : 0f;
-            return baseStats.GetCalculatedStat(calculatedStat, statValue, opponentStatValue);
+            int opponentLevel = recipient != null ? recipient.GetLevel() : 0;
+            return baseStats.GetCalculatedStat(calculatedStat, GetLevel(), statValue, opponentLevel, opponentStatValue);
         }
         public float GetMaxHP() => baseStats.GetStat(Stat.HP);
         public float GetMaxAP() => usesAP ? baseStats.GetStat(Stat.AP) : Mathf.Infinity;
@@ -174,15 +202,10 @@ namespace Frankie.Combat
 
         public bool CheckIfDead() // Called via Unity Events
         {
-            if ((Mathf.Approximately(currentHP.value, 0f) || currentHP.value < 0) && isDead.value != true)
+            if ((Mathf.Approximately(currentHP.value, 0f) || currentHP.value < 0) && !isDead.value)
             {
-                currentHP.value = 0f;
-                targetHP = 0f;
-                isDead.value = true;
-
-                AnnounceStateUpdate(StateAlteredType.Dead);
+                DeclareDead();
             }
-
             return isDead.value;
         }
 
@@ -228,7 +251,14 @@ namespace Frankie.Combat
 
             if (friendly) // Damage dealt is delayed, occurs over damageTimeSpan seconds
             {
+                // Heals reset deficit back to zero
+                if (points > 0 && targetHP < 0f) { targetHP = 0f; } 
+                
+                // Adjust HP, check if holding on
                 float unsafeHP = targetHP + points;
+                unsafeHP = GetHoldOnModifiedHP(unsafeHP);
+                
+                // Clamp target HP to max HP limits
                 targetHP = Mathf.Min(unsafeHP, baseStats.GetStat(Stat.HP));
                 deltaHPTimeFraction = (Time.deltaTime / damageTimeSpan);
             }
@@ -262,14 +292,23 @@ namespace Frankie.Combat
             AdjustHP(-baseStats.GetStat(Stat.HP) * 10f);
         }
 
-        public void Revive(float hp)
+        public void Revive(float hp, bool announceStateUpdates = true)
         {
             isDead.value = false;
             currentHP.value = hp * fractionOfHPInstantOnRevival;
             targetHP = hp;
             cooldownTimer = 0f;
-            AnnounceStateUpdate(StateAlteredType.Resurrected);
-            AnnounceStateUpdate(StateAlteredType.IncreaseHP);
+
+            if (announceStateUpdates)
+            {
+                AnnounceStateUpdate(StateAlteredType.Resurrected);
+                AnnounceStateUpdate(StateAlteredType.IncreaseHP);
+            }
+        }
+
+        public void Revive(bool announceStateUpdates = true)
+        {
+            Revive(GetMaxHP(), announceStateUpdates);
         }
         #endregion
 
@@ -325,8 +364,16 @@ namespace Frankie.Combat
         #region PrivateUtility
         private void HandleBattleStateChangedEvent(BattleStateChangedEvent battleStateChangedEvent)
         {
+            // Note:  Order of operations matters here since SetCombatActive also modifies isHealthRollActive
             SetCombatActive(battleStateChangedEvent.battleState == BattleState.Combat);
-            if (battleStateChangedEvent.battleState == BattleState.Outro) { SubscribeToBattleStateChanges(false); }
+            
+            if (battleStateChangedEvent.battleState is BattleState.Outro or BattleState.Rewards)
+            {
+                SubscribeToBattleStateChanges(false);
+                // Lock health if it's going down, but allow healing (e.g. level-up health bumps)
+                if (targetHP < currentHP.value) { targetHP = currentHP.value; }
+                isHealthRollActive = true;
+            }
         }
         
         private void SetCombatActive(bool enable)
@@ -334,13 +381,29 @@ namespace Frankie.Combat
             inCombat = enable;
             if (enable)
             {
+                isHealthRollActive = true;
                 if (IsInCooldown()) { AnnounceStateUpdate(StateAlteredType.CooldownSet, cooldownTimer); }
             }
             else
             {
-                HaltHPScroll();
+                isHealthRollActive = false;
                 if (IsInCooldown()) { AnnounceStateUpdate(StateAlteredType.CooldownSet, Mathf.Infinity); }
             }
+        }
+        
+        private void DeclareDead()
+        {
+            currentHP.value = 0f;
+            targetHP = 0f;
+            isDead.value = true;
+            
+            if (shouldSaveStateOnDeath && TryGetComponent(out SaveableEntity saveableEntity))
+            {
+                SavingWrapper.AppendToSession(saveableEntity);
+            }
+            if (!isDestructionTriggeredBySave) { onDeathEvent?.Invoke(); }
+
+            AnnounceStateUpdate(StateAlteredType.Dead);
         }
         
         private void SelfDestroyOnBattleComplete(BattleStateChangedEvent battleStateChangedEvent)
@@ -352,8 +415,24 @@ namespace Frankie.Combat
             }
         }
 
+        private float GetHoldOnModifiedHP(float unsafeHP)
+        {
+            // Trigger when taking a hit when last HP (prior targetHP) was > holdOnHP,
+            // and after hit will now be < 0f (fatal)
+            if (targetHP > holdOnHP && unsafeHP < 0f)
+            {
+                float roll = UnityEngine.Random.value;
+                if (roll < GetCalculatedStat(CalculatedStat.HoldOnChance))
+                {
+                    unsafeHP = holdOnHP;
+                }
+            }
+            return unsafeHP;
+        }
+        
         private void UpdateDamageDelayedHealth()
         {
+            if (!isHealthRollActive) { return; }
             if (friendly && !Mathf.Approximately(currentHP.value, targetHP))
             {
                 deltaHPTimeFraction += (Time.deltaTime / damageTimeSpan);
@@ -415,13 +494,6 @@ namespace Frankie.Combat
                 if (entry.Key == Stat.AP) { AdjustAPQuietly(entry.Value); }
             }
         }
-        
-        private void HaltHPScroll()
-        {
-            if (targetHP > currentHP.value) { return; } // Allow healing to occur post-battle
-            deltaHPTimeFraction = 0f;
-            targetHP = currentHP.value;
-        }
 
         private void ReconcileHPAP(EquipableItem equipableItem)
         {
@@ -439,48 +511,49 @@ namespace Frankie.Combat
         #region Interfaces
         // Save State
         [Serializable]
-        class CombatParticipantSaveData
+        private class CombatParticipantSaveData
         {
             public bool isDead;
             public float currentHP;
             public float currentAP;
         }
-        public LoadPriority GetLoadPriority()
-        {
-            return LoadPriority.ObjectProperty;
-        }
+        public LoadPriority GetLoadPriority() => LoadPriority.ObjectProperty;
 
         SaveState ISaveable.CaptureState()
         {
-            if (!awakeCalled) { Awake(); }
-
-            CombatParticipantSaveData combatParticipantSaveData = new CombatParticipantSaveData
+            SetupLazyState();
+            var combatParticipantSaveData = new CombatParticipantSaveData
             {
                 isDead = isDead.value,
                 currentHP = currentHP.value,
                 currentAP = currentAP.value
             };
-            SaveState saveState = new SaveState(GetLoadPriority(), combatParticipantSaveData);
+            var saveState = new SaveState(GetLoadPriority(), combatParticipantSaveData);
 
             return saveState;
         }
 
         void ISaveable.RestoreState(SaveState saveState)
         {
-            CombatParticipantSaveData combatParticipantSaveData = saveState.GetState(typeof(CombatParticipantSaveData)) as CombatParticipantSaveData;
-            if (combatParticipantSaveData == null) { return; }
+            if (saveState.GetState(typeof(CombatParticipantSaveData)) is not CombatParticipantSaveData combatParticipantSaveData) { return; }
 
-            if (!awakeCalled) { Awake(); }
+            SetupLazyState();
             isDead.value = combatParticipantSaveData.isDead;
             currentHP.value = combatParticipantSaveData.currentHP;
             currentAP.value = combatParticipantSaveData.currentAP;
             targetHP = currentHP.value;
+
+            if (isDead.value && shouldDestroySelfOnDeath)
+            {
+                isDestructionTriggeredBySave = true;
+                Destroy(gameObject);
+            }
         }
 
         // Predicate Evaluation
         public bool? Evaluate(Predicate predicate)
         {
-            PredicateCombatParticipant predicateCombatParticipant = predicate as PredicateCombatParticipant;
+            var predicateCombatParticipant = predicate as PredicateCombatParticipant;
             return predicateCombatParticipant != null ? predicateCombatParticipant.Evaluate(this) : null;
         }
         #endregion

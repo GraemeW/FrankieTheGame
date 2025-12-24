@@ -4,7 +4,7 @@ namespace Frankie.Control.PlayerStates
     {
         public void EnterCombat(IPlayerStateContext playerStateContext)
         {
-            if (!playerStateContext.AreCombatParticipantsValid(true)) { EnterWorld(playerStateContext); return; }
+            if (!playerStateContext.AreCombatParticipantsValid()) { EnterWorld(playerStateContext); return; }
 
             playerStateContext.SetupBattleController();
             playerStateContext.AddEnemiesUnderConsideration();

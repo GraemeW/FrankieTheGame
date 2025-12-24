@@ -86,6 +86,20 @@ namespace Frankie.Saving
             SaveFile(sessionFile, state);
         }
 
+        public static void Append(string sessionFile, SaveableEntity saveableEntity)
+        {
+            JObject state = LoadFile(sessionFile);
+            CaptureIndividualState(state, saveableEntity);
+            SaveFile(sessionFile, state);
+        }
+
+        public static void CopyCorePlayerStateToSave(string saveFile)
+        {
+            JObject state = LoadFile(saveFile);
+            CaptureState(state, true);
+            SaveFile(saveFile, state);
+        }
+
         public static void Delete(string saveFile)
         {
             File.Delete(GetPathFromSaveFile(saveFile));
@@ -123,11 +137,11 @@ namespace Frankie.Saving
             // JSON Method
             using (StreamReader textReader = File.OpenText(path))
             {
-                using (JsonTextReader reader = new JsonTextReader(textReader))
+                using (var reader = new JsonTextReader(textReader))
                 {
                     reader.FloatParseHandling = FloatParseHandling.Double;
 
-                    SaveSuper saveSuper = JObject.Load(reader).ToObject<SaveSuper>();
+                    var saveSuper = JObject.Load(reader).ToObject<SaveSuper>();
                     if (saveSuper.encryptionEnabled)
                     {
                         string decryptedPayload = SymmetricEncryptor.DecryptToString(saveSuper.payload);
@@ -175,16 +189,25 @@ namespace Frankie.Saving
             }
         }
 
-        private static void CaptureState(JObject state)
+        private static void CaptureState(JObject state, bool onlyCorePlayerState = false)
         {
             List<SaveableEntity> saveableEntities = GetAllSaveableEntities();
 
             foreach (SaveableEntity saveable in saveableEntities)
             {
-                state[saveable.GetUniqueIdentifier()] = saveable.CaptureState();
+                if (!state.TryGetValue(saveable.GetUniqueIdentifier(), out JToken existingTokenState)) { existingTokenState = new JObject(); }
+                state[saveable.GetUniqueIdentifier()] = saveable.CaptureState(existingTokenState, onlyCorePlayerState);
             }
 
-            state[_saveLastSceneBuildIndex] = SceneManager.GetActiveScene().name;
+            if (!onlyCorePlayerState) { state[_saveLastSceneBuildIndex] = SceneManager.GetActiveScene().name; }
+        }
+
+        private static void CaptureIndividualState(JObject state, SaveableEntity saveable)
+        {
+            if (saveable == null) { return; }
+            
+            if (!state.TryGetValue(saveable.GetUniqueIdentifier(), out JToken existingTokenState)) { existingTokenState = new JObject(); }
+            state[saveable.GetUniqueIdentifier()] = saveable.CaptureState(existingTokenState);
         }
 
         private static void RestoreState(JObject state)

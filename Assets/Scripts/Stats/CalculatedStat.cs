@@ -13,6 +13,7 @@ namespace Frankie.Stats
         RunChance, // contested chance based on speed
         Fearsome, // cause enemies to flee
         Imposing, // cause battles to auto-win
-        MoveSpeed // in-world speed
+        MoveSpeed, // in-world speed
+        HoldOnChance // chance to barely hold on
     }
 }

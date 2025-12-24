@@ -1,11 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 using UnityEngine.Audio;
 using Frankie.Saving;
 using Frankie.Combat;
 using Frankie.ZoneManagement;
+using Random = UnityEngine.Random;
 
 namespace Frankie.Sound
 {
@@ -25,7 +25,6 @@ namespace Frankie.Sound
         private bool isWorldMusicLooping = true;
         private float worldMusicTimeIndex = 0f;
         private bool wasMusicOverriddenOnStart = false;
-        private bool isBattleMusic = false;
 
         // Cached References
         private AudioSource audioSource;
@@ -75,15 +74,13 @@ namespace Frankie.Sound
             InitializeVolume();
 
             SceneLoader.zoneUpdated += ParseZoneUpdate;
-            BattleEventBus<BattleEnterEvent>.SubscribeToEvent(ParseBattleEntry);
-            BattleEventBus<BattleExitEvent>.SubscribeToEvent(ParseBattleExit);
+            BattleEventBus<BattleStagingEvent>.SubscribeToEvent(HandleBattleStagingEvent);
         }
 
         private void OnDisable()
         {
             SceneLoader.zoneUpdated -= ParseZoneUpdate;
-            BattleEventBus<BattleEnterEvent>.UnsubscribeFromEvent(ParseBattleEntry);
-            BattleEventBus<BattleExitEvent>.UnsubscribeFromEvent(ParseBattleExit);
+            BattleEventBus<BattleStagingEvent>.UnsubscribeFromEvent(HandleBattleStagingEvent);
         }
         #endregion
 
@@ -138,28 +135,38 @@ namespace Frankie.Sound
         #endregion
 
         #region MessageHandling
-        private void ParseBattleEntry(BattleEnterEvent battleStartedEvent)
+        private void HandleBattleStagingEvent(BattleStagingEvent battleStagingEvent)
         {
-            AudioClip audioClip = GetBattleAudioClip(battleStartedEvent.enemyEntities);
-            SetBattleMusic(audioClip);
-            BattleEventBus<BattleStateChangedEvent>.SubscribeToEvent(ParseBattleState);
+            switch (battleStagingEvent.battleStagingType)
+            {
+                case BattleStagingType.BattleSetUp:
+                {
+                    if (battleStagingEvent.optionalParametersSet)
+                    {
+                        AudioClip audioClip = GetBattleAudioClip(battleStagingEvent.GetEnemyEntities());
+                        SetBattleMusic(audioClip);
+                    }
+                    BattleEventBus<BattleStateChangedEvent>.SubscribeToEvent(HandleBattleStateChangedEvent);
+                    break;
+                }
+                case BattleStagingType.BattleControllerPrimed:
+                {
+                    break;
+                }
+                case BattleStagingType.BattleTornDown:
+                {
+                    StopBattleMusic();
+                    BattleEventBus<BattleStateChangedEvent>.UnsubscribeFromEvent(HandleBattleStateChangedEvent);
+                    break;
+                }
+            }
+            
+
         }
 
-        private void ParseBattleExit(BattleExitEvent battleExitEvent)
+        private void HandleBattleStateChangedEvent(BattleStateChangedEvent battleStateChangedEvent)
         {
-            if (isBattleMusic)
-            {
-                StopBattleMusic();
-            }
-            BattleEventBus<BattleStateChangedEvent>.UnsubscribeFromEvent(ParseBattleState);
-        }
-
-        private void ParseBattleState(BattleStateChangedEvent battleStateChangedEvent)
-        {
-            if (battleStateChangedEvent.battleState == BattleState.Rewards)
-            {
-                SetBattleMusic(levelUpAudio);
-            }
+            if (battleStateChangedEvent.battleState == BattleState.Rewards) { SetBattleMusic(levelUpAudio); }
         }
         #endregion
 
@@ -185,43 +192,39 @@ namespace Frankie.Sound
         #endregion
 
         #region BattleAudio
-        private AudioClip GetBattleAudioClip(IList<BattleEntity> battleEntities)
+        private static AudioClip GetBattleAudioClip(IList<BattleEntity> battleEntities)
         {
-            var audioClipOptions = (from battleEntity in battleEntities where battleEntity.combatParticipant.GetAudioClip() != null select battleEntity.combatParticipant.GetAudioClip()).ToList();
-            if (audioClipOptions.Count == 0) { return null; }
+            IList<CombatParticipant> viableCombatParticipants = CombatParticipant.GetPriorityCombatParticipants(battleEntities);
 
-            int randomAudioClipIndex = Random.Range(0, audioClipOptions.Count);
-            AudioClip combatAudio = audioClipOptions[randomAudioClipIndex];
-
-            return combatAudio;
+            int randomCombatParticipantIndex = Random.Range(0, viableCombatParticipants.Count);
+            return viableCombatParticipants[randomCombatParticipantIndex].GetAudioClip();
         }
 
         private void SetBattleMusic(AudioClip audioClip)
         {
             if (audioClip == null) { return; }
-
-            isBattleMusic = true;
+            
             worldMusicTimeIndex = audioSource.time;
             StartCoroutine(TransitionToAudio(audioClip, true));
         }
 
         private void StopBattleMusic()
         {
-            isBattleMusic = false;
             StartCoroutine(TransitionToAudio(currentWorldMusic, isWorldMusicLooping, worldMusicTimeIndex));
         }
         #endregion
 
         #region MusicOverrides
-        public void OverrideMusic(AudioClip audioClip, bool calledInStart = false)
+        public bool OverrideMusic(AudioClip audioClip, bool calledInStart = false)
         {
-            if (audioClip == null) { return; }
+            if (audioClip == null) { return false; }
 
             if (calledInStart) { wasMusicOverriddenOnStart = true; }
             else { worldMusicTimeIndex = audioSource.time; }
 
             worldMusicTimeIndex = audioSource.time;
             StartCoroutine(TransitionToAudio(audioClip, true));
+            return true;
         }
 
         public void StopOverrideMusic()

@@ -12,9 +12,9 @@ GameObject:
   - component: {fileID: 8896237604876974602}
   - component: {fileID: 8896237604876974601}
   - component: {fileID: 2509519702947311613}
+  - component: {fileID: 55258893672351774}
   - component: {fileID: 4239551647755043406}
   - component: {fileID: 7943186074068910809}
-  - component: {fileID: 55258893672351774}
   m_Layer: 2
   m_Name: PresentPurple-L
   m_TagString: Untagged
@@ -163,7 +163,7 @@ PolygonCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0}
-    oldSize: {x: 0.24, y: 0.24}
+    oldSize: {x: 0.24, y: 0.23}
     newSize: {x: 1.7, y: 3.39}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
@@ -178,6 +178,19 @@ PolygonCollider2D:
       - {x: 0.06, y: 0}
       - {x: 0.13, y: 0.08}
   m_UseDelaunayMesh: 1
+--- !u!114 &55258893672351774
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8896237604876974606}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c708eed4772dbc14e95f0fb9be8bb48e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Frankie.Saving.SaveableEntity
+  uniqueIdentifier: 
 --- !u!114 &4239551647755043406
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -224,19 +237,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
---- !u!114 &55258893672351774
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8896237604876974606}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c708eed4772dbc14e95f0fb9be8bb48e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Frankie.Saving.SaveableEntity
-  uniqueIdentifier: 
 --- !u!1001 &4831248322372988685
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -11,7 +11,7 @@ namespace Frankie.Control
     public class PlayerController : MonoBehaviour, IStandardPlayerInputCaller
     {
         // Data Types
-        [System.Serializable]
+        [Serializable]
         public struct CursorMapping
         {
             public CursorType type;
@@ -21,77 +21,77 @@ namespace Frankie.Control
 
         // Tunables
         [Header("Interaction")]
-        [SerializeField] CursorMapping[] cursorMappings = null;
-        [SerializeField] float raycastRadius = 0.1f;
-        [SerializeField] float interactionDistance = 0.5f;
-        [SerializeField] Transform interactionCenterPoint = null;
+        [SerializeField] private CursorMapping[] cursorMappings;
+        [SerializeField] private float raycastRadius = 0.1f;
+        [SerializeField] private float interactionDistance = 0.5f;
+        [SerializeField] private Transform interactionCenterPoint;
 
         // State
-        bool allowComponentInteraction = true;
-        bool inTransition = false;
+        private bool allowComponentInteraction = true;
+        private bool inTransition = false;
 
         // Cached References
-        PlayerInput playerInput = null;
-        PlayerMover playerMover = null;
-        PlayerStateMachine playerStateHandler = null;
+        private PlayerInput playerInput;
+        private PlayerMover playerMover;
+        private PlayerStateMachine playerStateMachine;
 
         // Static
-        string STATIC_TAG_INTERACTABLE = "Interactable";
+        private const string _tagInteractable = "Interactable";
 
         // Events
         public event Action<PlayerInputType> globalInput;
 
-        // Public functions
-        public float GetInteractionDistance()
+        #region UnityMethods
+        private void Awake()
         {
-            return interactionDistance;
+            playerMover = GetComponent<PlayerMover>();
+            playerStateMachine = GetComponent<PlayerStateMachine>();
+            playerInput = new PlayerInput();
+
+            VerifyUnique();
+
+            playerInput.Player.Navigate.performed += context => playerMover.ParseMovement(context.ReadValue<Vector2>());
+            playerInput.Player.Navigate.canceled += _ => playerMover.ParseMovement(Vector2.zero);
+
+            playerInput.Player.Navigate.performed += context => ParseDirectionalInput(context.ReadValue<Vector2>());
+            playerInput.Player.Pointer.performed += _ => InteractWithComponentManual(PlayerInputType.DefaultNone);
+            playerInput.Player.Execute.performed += _ => HandleUserInput(PlayerInputType.Execute);
+            playerInput.Player.Cancel.performed += _ => HandleUserInput(PlayerInputType.Cancel);
+            playerInput.Player.Option.performed += _ => HandleUserInput(PlayerInputType.Option);
+            playerInput.Player.Skip.performed += _ => HandleUserInput(PlayerInputType.Skip);
+        }
+        
+        private void OnEnable()
+        {
+            playerStateMachine.playerStateChanged += ParsePlayerStateChange;
+            playerInput.Player.Enable();
         }
 
+        private void OnDisable()
+        {
+            playerStateMachine.playerStateChanged -= ParsePlayerStateChange;
+            playerInput.Player.Disable();
+        }
+        #endregion
+        
+        #region Getters
+        public float GetInteractionDistance() => interactionDistance;
+        public PlayerMover GetPlayerMover() => playerMover;
+        #endregion
+        
+        #region Interfaces
         public RaycastHit2D PlayerCastToObject(Vector3 objectPosition)
         {
             Vector2 castDirection = objectPosition - interactionCenterPoint.position;
             float castDistance = Vector2.Distance(objectPosition, interactionCenterPoint.position); // TODO:  Refactor to avoid square root here
             RaycastHit2D[] hits = Physics2D.CircleCastAll(interactionCenterPoint.position, raycastRadius, castDirection, castDistance);
 
-            List<RaycastHit2D> sortedInteractableHits = hits.Where(x => x.collider.transform.gameObject.CompareTag(STATIC_TAG_INTERACTABLE)).OrderBy(x => x.distance).ToList();
+            List<RaycastHit2D> sortedInteractableHits = hits.Where(x => x.collider.transform.gameObject.CompareTag(_tagInteractable)).OrderBy(x => x.distance).ToList();
             if (sortedInteractableHits.Count == 0) { return new RaycastHit2D(); } // pass an empty hit
             return sortedInteractableHits[0];
         }
 
-        public Vector2 GetInteractionPosition()
-        {
-            if (interactionCenterPoint != null)
-            {
-                return interactionCenterPoint.position;
-            }
-            return Vector2.zero;
-        }
-
-        public PlayerMover GetPlayerMover()
-        {
-            return playerMover;
-        }
-
-        // Internal functions
-
-        private void Awake()
-        {
-            playerMover = GetComponent<PlayerMover>();
-            playerStateHandler = GetComponent<PlayerStateMachine>();
-            playerInput = new PlayerInput();
-
-            VerifyUnique();
-
-            playerInput.Player.Navigate.performed += context => playerMover.ParseMovement(context.ReadValue<Vector2>());
-            playerInput.Player.Navigate.canceled += context => playerMover.ParseMovement(Vector2.zero);
-
-            playerInput.Player.Navigate.performed += context => ParseDirectionalInput(context.ReadValue<Vector2>());
-            playerInput.Player.Pointer.performed += context => HandleMouseMovement(PlayerInputType.DefaultNone);
-            playerInput.Player.Execute.performed += context => HandleUserInput(PlayerInputType.Execute);
-            playerInput.Player.Cancel.performed += context => HandleUserInput(PlayerInputType.Cancel);
-            playerInput.Player.Option.performed += context => HandleUserInput(PlayerInputType.Option);
-            playerInput.Player.Skip.performed += context => HandleUserInput(PlayerInputType.Skip);
-        }
+        public Vector2 GetInteractionPosition() => interactionCenterPoint != null ? interactionCenterPoint.position : Vector2.zero;
 
         public void VerifyUnique()
         {
@@ -101,35 +101,52 @@ namespace Frankie.Control
                 Destroy(gameObject);
             }
         }
-
-        private void OnEnable()
+        
+        private void SetCursor(CursorType type)
         {
-            playerStateHandler.playerStateChanged += ParsePlayerStateChange;
-            playerInput.Player.Enable();
+            CursorMapping mapping = GetCursorMapping(type);
+            Cursor.SetCursor(mapping.texture, mapping.hotspot, CursorMode.Auto);
         }
 
-        private void OnDisable()
+        private CursorMapping GetCursorMapping(CursorType type)
         {
-            playerStateHandler.playerStateChanged -= ParsePlayerStateChange;
-            playerInput.Player.Disable();
+            foreach (CursorMapping cursorMapping in cursorMappings)
+            {
+                if (cursorMapping.type == type)
+                {
+                    return cursorMapping;
+                }
+            }
+            return cursorMappings[0];
         }
 
-        private void ParsePlayerStateChange(PlayerStateType playerStateType)
+        private static Vector2 GetMouseRay()
         {
-            // Debug
-            //UnityEngine.Debug.Log($"Saw {Enum.GetName(typeof(PlayerStateType), playerStateType)} on PlayerController");
-            
+            return Camera.main != null ? Camera.main.ScreenToWorldPoint(Mouse.current.position.ReadValue()) : Vector2.zero;
+        }
+
+        public PlayerInputType NavigationVectorToInputTypeTemplate(Vector2 navigationVector)
+        {
+            // Not evaluated -> IStandardPlayerInputCallerExtension
+            return PlayerInputType.DefaultNone;
+        }
+        #endregion
+        
+        #region PrivateMethods
+        private void ParsePlayerStateChange(PlayerStateType playerStateType, IPlayerStateContext playerStateContext)
+        {
             SetCursor(CursorType.None);
             allowComponentInteraction = false;
             inTransition = false;
 
-            if (playerStateType == PlayerStateType.inWorld)
+            switch (playerStateType)
             {
-                allowComponentInteraction = true;
-            }
-            else if (playerStateType == PlayerStateType.inTransition)
-            {
-                inTransition = true;
+                case PlayerStateType.inWorld:
+                    allowComponentInteraction = true;
+                    break;
+                case PlayerStateType.inTransition:
+                    inTransition = true;
+                    break;
             }
         }
 
@@ -153,19 +170,11 @@ namespace Frankie.Control
             SetCursor(CursorType.None);
         }
 
-        private void HandleMouseMovement(PlayerInputType playerInputType)
-        {
-            if (InteractWithComponentManual(playerInputType)) return;
-        }
-
         private bool InteractWithGlobals(PlayerInputType playerInputType)
         {
-            if (globalInput != null)
-            {
-                globalInput.Invoke(playerInputType);
-                return true;
-            }
-            return false;
+            if (globalInput == null) { return false; }
+            globalInput.Invoke(playerInputType);
+            return true;
         }
 
         private bool InteractWithComponent(PlayerInputType playerInputType)
@@ -178,7 +187,7 @@ namespace Frankie.Control
             {
                 foreach (IRaycastable raycastable in raycastables)
                 {
-                    if (raycastable.HandleRaycast(playerStateHandler, this, playerInputType, PlayerInputType.Execute))
+                    if (raycastable.HandleRaycast(playerStateMachine, this, playerInputType, PlayerInputType.Execute))
                     {
                         SetCursor(raycastable.GetCursorType());
                         return true;
@@ -190,48 +199,35 @@ namespace Frankie.Control
 
         private bool InteractWithComponentManual(PlayerInputType playerInputType)
         {
-            if (playerInputType == PlayerInputType.Execute)
-            {
-                RaycastHit2D hitInfo = RaycastFromPlayerInLookDirection();
-                if (hitInfo.collider == null) { return false; }
+            if (playerInputType != PlayerInputType.Execute) return false;
+            
+            RaycastHit2D hitInfo = RaycastFromPlayerInLookDirection();
+            if (hitInfo.collider == null) { return false; }
 
-                IRaycastable[] raycastables = hitInfo.transform.GetComponentsInChildren<IRaycastable>();
-                if (raycastables != null)
-                {
-                    foreach (IRaycastable raycastable in raycastables)
-                    {
-                        if (raycastable.HandleRaycast(playerStateHandler, this, playerInputType, PlayerInputType.Execute))
-                        {
-                            return true;
-                        }
-                    }
-                }
-                return false;
-            }
-            return false;
+            var raycastables = hitInfo.transform.GetComponentsInChildren<IRaycastable>();
+            return raycastables != null && raycastables.Any(raycastable => raycastable.HandleRaycast(playerStateMachine, this, playerInputType, PlayerInputType.Execute));
         }
 
         private bool InteractWithMenusOptions(PlayerInputType playerInputType)
         {
-            if (playerInputType == PlayerInputType.Option)
+            switch (playerInputType)
             {
-                playerStateHandler.EnterWorldOptions();
-                return true;
+                case PlayerInputType.Option:
+                    playerStateMachine.EnterWorldOptions();
+                    return true;
+                case PlayerInputType.Cancel:
+                    playerStateMachine.EnterEscapeMenu();
+                    return true;
+                default:
+                    return false;
             }
-            else if (playerInputType == PlayerInputType.Cancel)
-            {
-                playerStateHandler.EnterEscapeMenu();
-                return true;
-            }
-            return false;
         }
 
         private RaycastHit2D RaycastToMouseLocation()
         {
             RaycastHit2D[] hits = Physics2D.CircleCastAll(GetMouseRay(), raycastRadius, Vector2.zero);
             RaycastHit2D[] nonPlayerHits = hits.Where(x => !x.collider.transform.gameObject.CompareTag("Player")).ToArray(); 
-            if (nonPlayerHits == null || nonPlayerHits.Length == 0) { return new RaycastHit2D(); } // pass an empty hit
-            return nonPlayerHits[0];
+            return nonPlayerHits.Length == 0 ? new RaycastHit2D() : nonPlayerHits[0]; // pass an empty hit
         }
 
         private RaycastHit2D RaycastFromPlayerInLookDirection()
@@ -239,38 +235,8 @@ namespace Frankie.Control
             RaycastHit2D[] hits = Physics2D.CircleCastAll(interactionCenterPoint.position, raycastRadius, playerMover.GetLookDirection());
 
             RaycastHit2D[] nonPlayerHits = hits.Where(x => !x.collider.transform.gameObject.CompareTag("Player")).ToArray();
-            if (nonPlayerHits == null || nonPlayerHits.Length == 0) { return new RaycastHit2D(); } // pass an empty hit
-            return nonPlayerHits[0];
+            return nonPlayerHits.Length == 0 ? new RaycastHit2D() : nonPlayerHits[0]; // pass an empty hit
         }
-
-        // Mouse / Cursor Handling
-        private void SetCursor(CursorType type)
-        {
-            CursorMapping mapping = GetCursorMapping(type);
-            Cursor.SetCursor(mapping.texture, mapping.hotspot, CursorMode.Auto);
-        }
-
-        private CursorMapping GetCursorMapping(CursorType type)
-        {
-            foreach (CursorMapping cursorMapping in cursorMappings)
-            {
-                if (cursorMapping.type == type)
-                {
-                    return cursorMapping;
-                }
-            }
-            return cursorMappings[0];
-        }
-
-        private static Vector2 GetMouseRay()
-        {
-            return Camera.main.ScreenToWorldPoint(Mouse.current.position.ReadValue());
-        }
-
-        public PlayerInputType NavigationVectorToInputTypeTemplate(Vector2 navigationVector)
-        {
-            // Not evaluated -> IStandardPlayerInputCallerExtension
-            return PlayerInputType.DefaultNone;
-        }
+        #endregion
     }
 }

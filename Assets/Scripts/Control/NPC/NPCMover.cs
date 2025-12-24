@@ -10,23 +10,33 @@ namespace Frankie.Control
         // Tunables
         [Header("NPC Specific Behavior")]
         [SerializeField] private Transform interactionCenterPoint;
-        [SerializeField] private PatrolPath patrolPath;
+        [SerializeField] [Tooltip("Takes priority over random walk")] private PatrolPath patrolPath;
+        [SerializeField] [Tooltip("Default behaviour for no patrol path")] private bool canRandomWalk = false;
+        [SerializeField] private float randomWalkStepDistance = 0.4f;
+        [SerializeField] private float randomWalkxLimitDistance = 1.2f;
+        [SerializeField] private float randomWalkyLimitDistance = 1.2f;
         [SerializeField] private float waypointDwellTime = 2.0f;
         [SerializeField] [Tooltip("Anything other than U/D/L/R to keep last look direction")] private PlayerInputType lookDirectionOnDwell = PlayerInputType.NavigateDown;
-        [SerializeField] private float giveUpOnPatrolTargetTime = 10.0f;
+        [SerializeField] private float giveUpOnLocomotionTargetTime = 10.0f;
+        [SerializeField] private float locomotionCollisionStayTime = 0.5f;
+
+        [Header("Editor Gizmos")]
+#if UNITY_EDITOR
+        [SerializeField] private Color randomWalkGizmoColor = Color.steelBlue;
+#endif
 
         // Cached References
         private Animator animator;
         private NPCStateHandler npcStateHandler;
+        private NPCChaser npcChaser;
 
         // State
-        private bool movingActive = true;
+        private NPCMoveFocus npcMoveFocus = NPCMoveFocus.Pending;
         private bool resetPositionOnNextIdle = false;
-        private bool movingAwayFromTarget = false;
 
         private int currentWaypointIndex;
         private float timeSinceArrivedAtWaypoint = Mathf.Infinity;
-        private float timeSinceNewPatrolTarget;
+        private float timeSinceNewLocomotionTarget;
 
         // Events
         public event Action arrivedAtFinalWaypoint;
@@ -37,12 +47,13 @@ namespace Frankie.Control
             base.Awake();
             animator = GetComponent<Animator>();
             npcStateHandler = GetComponent<NPCStateHandler>();
+            npcChaser = GetComponent<NPCChaser>();
         }
 
         protected override void Start()
         {
             base.Start();
-            SetNextPatrolTarget();
+            StartLocomotion();
         }
 
         protected override void OnEnable()
@@ -56,31 +67,84 @@ namespace Frankie.Control
             npcStateHandler.npcStateChanged -= HandleNPCStateChange;
         }
 
+        private void OnCollisionEnter2D(Collision2D collision)
+        {
+            if (npcMoveFocus is not (NPCMoveFocus.Patrolling or NPCMoveFocus.RandomWalk)) { return; }
+            SetMoveTarget(transform.position);
+        }
+
+        private void OnCollisionStay2D(Collision2D collision)
+        {
+            if (npcMoveFocus is not (NPCMoveFocus.Patrolling or NPCMoveFocus.RandomWalk)) { return; }
+            if (timeSinceNewLocomotionTarget > locomotionCollisionStayTime) { SetupNextLocomotionTarget(); }
+        }
+
         protected override void FixedUpdate()
         {
-            if (!movingActive) { return; }
-
-            bool? hasMoved = MoveToTarget();
-            switch (hasMoved)
+            if (npcMoveFocus == NPCMoveFocus.Inactive) { return; }
+            
+            switch (MoveToTarget())
             {
                 case null:
                     return;
                 case false:
                 {
-                    bool isPatrolling = SetNextPatrolTarget();
-                    if (!isPatrolling)
-                    {
-                        ClearMoveTargets();
-                    }
+                    if (CanLocomote()) { StartLocomotion(); }
+                    else { ClearMoveTargets(); } 
                     break;
                 }
                 case true:
                 {
-                    if (timeSinceNewPatrolTarget > giveUpOnPatrolTargetTime && patrolPath != null)
+                    if (timeSinceNewLocomotionTarget > giveUpOnLocomotionTargetTime && CanLocomote())
                     {
-                        ForceNextPatrolTarget();
+                        SetupNextLocomotionTarget();
                     }
-                    timeSinceNewPatrolTarget += Time.deltaTime;
+                    timeSinceNewLocomotionTarget += Time.deltaTime;
+                    break;
+                }
+            }
+        }
+        #endregion
+        
+        #region NPCStateHandling
+        private void HandleNPCStateChange(NPCStateType npcStateType, bool isNPCAfraid)
+        {
+            ClearMoveTargets();
+            switch (npcStateType)
+            {
+                case NPCStateType.Occupied:
+                {
+                    npcMoveFocus = NPCMoveFocus.Inactive;
+                    break;
+                }
+                case NPCStateType.Suspicious:
+                {
+                    npcMoveFocus = isNPCAfraid ? NPCMoveFocus.Fleeing : NPCMoveFocus.Chasing;
+                    break;
+                }
+                case NPCStateType.Aggravated:
+                case NPCStateType.Frenzied:
+                {
+                    npcMoveFocus = isNPCAfraid ? NPCMoveFocus.Fleeing : NPCMoveFocus.Chasing;
+                    SetMoveTarget(npcChaser.GetPlayer());
+                    
+                    if (!npcStateHandler.WillForceCombat())
+                    {
+                        // Force Combat - Stay at position after combat (otherwise fleeing looks weird)
+                        // Not Force Combat - Move back to original position
+                        resetPositionOnNextIdle = true;
+                    }
+                    break;
+                }
+                case NPCStateType.Idle:
+                default:
+                {
+                    npcMoveFocus = NPCMoveFocus.Pending;
+                    if (resetPositionOnNextIdle)
+                    {
+                        MoveToOriginalPosition();
+                        resetPositionOnNextIdle = false;
+                    }
                     break;
                 }
             }
@@ -88,16 +152,12 @@ namespace Frankie.Control
         #endregion
 
         #region PublicMethods
-        public Vector2 GetInteractionPosition()
-        {
-            return interactionCenterPoint != null ? interactionCenterPoint.position : Vector2.zero;
-        }
-
-        public void SetLookDirectionToPlayer(PlayerStateMachine playerStateHandler) // called via Unity Event
+        public Vector2 GetInteractionPosition() => interactionCenterPoint != null ? interactionCenterPoint.position : Vector2.zero;
+        public void SetLookDirectionDown() => SetLookDirection(Vector2.down); // Called via Unity Events
+        public void SetLookDirectionToPlayer(PlayerStateMachine playerStateHandler) // Called via Unity Events
         {
             var callingController = playerStateHandler.GetComponent<PlayerController>();
             SetLookDirection(callingController.GetInteractionPosition() - (Vector2)interactionCenterPoint.position);
-            UpdateAnimator();
         }
 
         public RaycastHit2D[] NPCCastFromSelf(float raycastRadius)
@@ -110,7 +170,7 @@ namespace Frankie.Control
         {
             if (setPatrolPath == null) { return; }
             patrolPath = setPatrolPath;
-            SetNextPatrolTarget();
+            StartLocomotion();
         }
         #endregion
 
@@ -118,7 +178,7 @@ namespace Frankie.Control
         protected override Vector2 ReckonTarget()
         {
             Vector2 target = base.ReckonTarget();
-            if (!movingAwayFromTarget) { return target; }
+            if (npcMoveFocus != NPCMoveFocus.Fleeing) { return target; }
             
             float offset = Vector2.Dot(rigidBody2D.position, target);
             Vector2 direction = (rigidBody2D.position - target).normalized;
@@ -137,70 +197,62 @@ namespace Frankie.Control
         #endregion
 
         #region PrivateMethods
-        private void HandleNPCStateChange(NPCStateType npcStateType, bool isNPCAfraid)
+        private bool CanLocomote() => patrolPath != null || canRandomWalk;
+
+        private void StartLocomotion()
         {
-            movingActive = true;
-            movingAwayFromTarget = false;
-            switch (npcStateType)
-            {
-                case NPCStateType.occupied:
-                    movingActive = false;
-                    return;
-                case NPCStateType.suspicious:
-                    ClearMoveTargets();
-                    break;
-                case NPCStateType.aggravated:
-                case NPCStateType.frenzied:
-                    movingAwayFromTarget = isNPCAfraid;
-
-                    // Back down after initial aggravation (i.e. run to initiate dialogue)
-                    // Otherwise, will force combat with collisions
-                    if (!npcStateHandler.WillForceCombat()) { resetPositionOnNextIdle = true; } 
-                        
-                    if (!HasMoveTarget())
-                    {
-                        SetMoveTarget(npcStateHandler.GetPlayer());
-                    }
-                    break;
-                case NPCStateType.idle:
-                default:
-                    if (resetPositionOnNextIdle) { MoveToOriginalPosition(); resetPositionOnNextIdle = false; }
-                    break;
-            }
-        }
-
-        private bool SetNextPatrolTarget()
-        {
-            if (patrolPath == null) { return false; }
-
+            if (npcMoveFocus is not (NPCMoveFocus.Pending or NPCMoveFocus.Patrolling or NPCMoveFocus.RandomWalk)) { return; }
+            
             currentSpeed = 0f;
             SetLookDirection(lookDirectionOnDwell);
             UpdateAnimator();
             if (timeSinceArrivedAtWaypoint > waypointDwellTime)
             {
-                ForceNextPatrolTarget();
+                SetupNextLocomotionTarget();
             }
             timeSinceArrivedAtWaypoint += Time.deltaTime;
-            return true;
         }
 
-        private void ForceNextPatrolTarget()
+        private void SetupNextLocomotionTarget()
         {
+            timeSinceArrivedAtWaypoint = 0;
+            if (patrolPath != null)
+            {
+                SetupNextPatrolTarget();
+                npcMoveFocus = NPCMoveFocus.Patrolling;
+            }
+            else if (canRandomWalk)
+            {
+                SetupRandomWalkTarget();
+                npcMoveFocus = NPCMoveFocus.RandomWalk;
+            }
+            timeSinceNewLocomotionTarget = 0f;
+        }
+
+        private void SetupNextPatrolTarget()
+        {
+            if (patrolPath == null) { return; }
+            
             CycleWaypoint();
             PatrolPathWaypoint nextWaypoint = patrolPath.GetWaypoint(currentWaypointIndex);
             if (nextWaypoint == null) { return; }
 
             switch (nextWaypoint.GetWaypointType())
             {
-                case WaypointType.Move:
-                    SetMoveTarget(nextWaypoint.transform.position);
-                    break;
                 case WaypointType.Warp:
                     WarpToPosition(nextWaypoint.transform.position);
                     break;
+                case WaypointType.Move:
+                default:
+                    SetMoveTarget(nextWaypoint.transform.position);
+                    break;
             }
+        }
 
-            timeSinceNewPatrolTarget = 0f;
+        private void SetupRandomWalkTarget()
+        {
+            Vector2 nextWalkPosition = CycleRandomWalk();
+            SetMoveTarget(nextWalkPosition);
         }
 
         private void CycleWaypoint()
@@ -209,7 +261,28 @@ namespace Frankie.Control
             if (patrolPath.IsFinalWaypoint(currentWaypointIndex)) { arrivedAtFinalWaypoint?.Invoke(); }
 
             currentWaypointIndex = patrolPath.GetNextIndex(currentWaypointIndex);
-            timeSinceArrivedAtWaypoint = 0;
+        }
+
+        private Vector2 CycleRandomWalk()
+        {
+            int direction = UnityEngine.Random.Range(0, 5);
+            Vector2 moveDirection = direction switch
+            {
+                0 => Vector2.down,
+                1 => Vector2.up,
+                2 => Vector2.right,
+                3 => Vector2.left,
+                _ => Vector2.down
+            };
+            float randomWalkLimitDistance = direction > 1 ? randomWalkxLimitDistance : randomWalkyLimitDistance;
+
+            Vector2 nextWalkPosition = (Vector2)transform.position + moveDirection * randomWalkStepDistance;
+            if (Vector2.Dot((nextWalkPosition - originalPosition), moveDirection) > randomWalkLimitDistance)
+            {
+                moveDirection *= -1;
+                nextWalkPosition = (Vector2)transform.position + moveDirection;
+            }
+            return nextWalkPosition;
         }
         #endregion
 
@@ -217,6 +290,12 @@ namespace Frankie.Control
         private void OnDrawGizmosSelected()
         {
             patrolPath?.OnDrawGizmosSelected();
+            if (canRandomWalk)
+            {
+                Gizmos.color = randomWalkGizmoColor;
+                var cubeCoordinates = new Vector3(randomWalkxLimitDistance * 2, randomWalkyLimitDistance * 2, 0f);
+                Gizmos.DrawWireCube(transform.position, cubeCoordinates);
+            }
         }
 #endif
     }

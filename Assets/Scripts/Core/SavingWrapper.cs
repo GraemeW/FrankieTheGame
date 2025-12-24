@@ -64,11 +64,14 @@ namespace Frankie.Core
 
         public static void LoadGameOverScene()
         {
+            // Standard Behaviour:  Load to GameOver scene while skipping session saving
+            // From GameOver scene only player will be present, and we can save session to carry over player exp, etc.
+            
             SceneLoader sceneLoader = SceneLoader.FindSceneLoader();
             if (sceneLoader == null) { return; }
 
             Fader fader = Fader.FindFader();
-            fader?.UpdateFadeState(TransitionType.Zone, sceneLoader.GetGameOverZone());
+            fader?.UpdateFadeState(TransitionType.Zone, sceneLoader.GetGameOverZone(), false);
         }
 
         public static void LoadGameWinScreen()
@@ -108,7 +111,7 @@ namespace Frankie.Core
             SceneLoader sceneLoader = SceneLoader.FindSceneLoader();
             if (sceneLoader == null) { return; }
 
-            sceneLoader.QueueNewGame(newGameZoneOverride);
+            sceneLoader.QueueNewGame(() => Save(), newGameZoneOverride);
         }
 
         public static void LoadGame(string saveName)
@@ -140,20 +143,22 @@ namespace Frankie.Core
             SavingSystem.Save(_sessionFile);
         }
 
+        public static void AppendToSession(SaveableEntity saveableEntity)
+        {
+            SavingSystem.Append(_sessionFile, saveableEntity);
+        }
+
+        public static void SaveCorePlayerStateToSave()
+        {
+            string saveName = GetCurrentSave();
+            UpdateSavePrefs(saveName);
+            SavingSystem.CopyCorePlayerStateToSave(saveName);
+        }
+
         public static void Save()
         {
             string saveName = GetCurrentSave();
-
-            Player player = Player.FindPlayer();
-            if (player != null)
-            {
-                Party party = player.GetComponent<Party>();
-                string characterName = party.GetPartyLeaderName();
-                int level = party.GetPartyLeader().GetLevel();
-
-                SetSavePrefs(saveName, characterName, level);
-            }
-
+            UpdateSavePrefs(saveName);
             SavingSystem.CopySessionToSave(_sessionFile, saveName);
         }
 
@@ -175,6 +180,19 @@ namespace Frankie.Core
         #endregion
 
         #region PrivateMethods
+
+        private static void UpdateSavePrefs(string saveName)
+        {
+            Player player = Player.FindPlayer();
+            if (player == null) return;
+            
+            var party = player.GetComponent<Party>();
+            string characterName = party.GetPartyLeaderName();
+            int level = party.GetPartyLeader().GetLevel();
+
+            SetSavePrefs(saveName, characterName, level);
+        }
+        
         private static IEnumerator LoadFromSave(string saveFile)
         {
             yield return SavingSystem.LoadLastScene(saveFile);

@@ -2,8 +2,8 @@ namespace Frankie.Inventory
 {
     public class ActiveInventoryItem
     {
-        InventoryItem inventoryItem = null;
-        bool equipped = false;
+        private readonly InventoryItem inventoryItem;
+        private bool equipped = false;
 
         public ActiveInventoryItem(InventoryItem inventoryItem)
         {
@@ -16,14 +16,11 @@ namespace Frankie.Inventory
             return inventoryItem;
         }
 
-        public void SetEquipped(bool equipped)
+        public void SetEquipped(bool setEquipped)
         {
-            this.equipped = equipped;
+            equipped = setEquipped;
         }
 
-        public bool IsEquipped()
-        {
-            return equipped;
-        }
+        public bool IsEquipped() => equipped;
     }
 }

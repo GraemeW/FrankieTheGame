@@ -33,7 +33,7 @@ namespace Frankie.Combat.UI
         // Static
         private static void BreakApartNumber(float number, out int hundreds, out int tens, out int ones)
         {
-            int roundedNumber = Mathf.FloorToInt(number);
+            int roundedNumber = number < 1 ? Mathf.FloorToInt(number) : Mathf.RoundToInt(number);
             hundreds = roundedNumber / 100;
             tens = (roundedNumber % 100) / 10;
             ones = roundedNumber % 10;

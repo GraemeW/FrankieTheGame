@@ -19591,6 +19591,10 @@ PrefabInstance:
       propertyPath: checkMessage
       value: The elevator is out of service
       objectReference: {fileID: 0}
+    - target: {fileID: 7348070497417896851, guid: 3057e4426124d42bd8af615b59e4718b, type: 3}
+      propertyPath: uniqueIdentifier
+      value: 061aec21-d418-44d9-b4e6-36e5a23b1d5d
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

@@ -15,7 +15,7 @@ namespace Frankie.Control
         [SerializeField][Tooltip("Sets the target position delay for chase")] private int targetMovementHistoryLength = 10;
 
         // State
-        private Vector2 originalPosition;
+        protected Vector2 originalPosition;
         private Vector2? moveTargetCoordinate;
         private GameObject moveTargetObject;
         private CircularBuffer<Vector2> targetMovementHistory;
@@ -151,31 +151,22 @@ namespace Frankie.Control
                 targetMovementHistory.Add(moveTargetObject.transform.position);
                 target = targetMovementHistory.GetLastEntry();
             }
-
             return target;
         }
 
         protected void SetLookDirection(PlayerInputType playerInputType)
         {
-            Vector2 newLookDirection;
-            switch (playerInputType)
+            if (playerInputType is not (PlayerInputType.NavigateDown or PlayerInputType.NavigateUp or PlayerInputType.NavigateLeft or PlayerInputType.NavigateRight)) return;
+
+            Vector2 newLookDirection = playerInputType switch
             {
-                case PlayerInputType.NavigateDown:
-                    newLookDirection = Vector2.down;
-                    break;
-                case PlayerInputType.NavigateUp:
-                    newLookDirection = Vector2.up;
-                    break;
-                case PlayerInputType.NavigateLeft:
-                    newLookDirection = Vector2.left;
-                    break;
-                case PlayerInputType.NavigateRight:
-                    newLookDirection = Vector2.right;
-                    break;
-                default:
-                    newLookDirection = Vector2.zero;
-                    break;
-            }
+                PlayerInputType.NavigateDown => Vector2.down,
+                PlayerInputType.NavigateUp => Vector2.up,
+                PlayerInputType.NavigateLeft => Vector2.left,
+                PlayerInputType.NavigateRight => Vector2.right,
+                // ReSharper disable once UnreachableSwitchArmDueToIntegerAnalysis
+                _ => Vector2.zero
+            };
             SetLookDirection(newLookDirection);
         }
         #endregion

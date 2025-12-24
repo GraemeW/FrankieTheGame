@@ -47,11 +47,11 @@ PrefabInstance:
     - target: {fileID: 1182436157161314237, guid: e4be3ce2d5464c3498c884ae5d9223d4, type: 3}
       propertyPath: movingBackgroundProperties.shaderMaterial
       value: 
-      objectReference: {fileID: 2100000, guid: fb208115c97366b45a5e7f13b5938d1a, type: 2}
+      objectReference: {fileID: 2100000, guid: efc7bde02ee9e488696ad0d1d42689e0, type: 2}
     - target: {fileID: 1182436157161314237, guid: e4be3ce2d5464c3498c884ae5d9223d4, type: 3}
       propertyPath: movingBackgroundProperties.tileSpriteImage
       value: 
-      objectReference: {fileID: 21300000, guid: f979182ee154dd04fa8d1118c11edc45, type: 3}
+      objectReference: {fileID: 21300000, guid: 87dac949afbc49547a7db4dada7e2719, type: 3}
     - target: {fileID: 2085418849946982719, guid: e4be3ce2d5464c3498c884ae5d9223d4, type: 3}
       propertyPath: characterProperties
       value: 
@@ -134,7 +134,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2176599180704515216, guid: e4be3ce2d5464c3498c884ae5d9223d4, type: 3}
       propertyPath: willDestroyIfInvisible
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2176599180704515216, guid: e4be3ce2d5464c3498c884ae5d9223d4, type: 3}
       propertyPath: collisionsOverriddenToEnterCombat

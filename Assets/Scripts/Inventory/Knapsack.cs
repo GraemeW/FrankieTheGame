@@ -1,5 +1,4 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -16,15 +15,15 @@ namespace Frankie.Inventory
     public class Knapsack : MonoBehaviour, ISaveable, IQuestEvaluator
     {
         // Tunables
-        [SerializeField] int inventorySize = 16;
+        [SerializeField] private int inventorySize = 16;
 
         // State
-        ActiveInventoryItem[] slots;
+        private ActiveInventoryItem[] slots;
 
         // Cached References
-        ReInitLazyValue<QuestList> questList;
-        CombatParticipant character = null;
-        Equipment equipment = null;
+        private ReInitLazyValue<QuestList> questList;
+        private CombatParticipant character;
+        private Equipment equipment;
 
         // Events
         public event Action knapsackUpdated;
@@ -56,112 +55,42 @@ namespace Frankie.Inventory
             equipment.equipmentUpdated -= HandleEquipmentUpdated;
         }
 
-        private QuestList SetupQuestList() => Player.FindPlayerObject()?.GetComponent<QuestList>();
+        private static QuestList SetupQuestList()
+        {
+            GameObject playerGameObject = Player.FindPlayerObject();
+            return (playerGameObject != null) ? playerGameObject.GetComponent<QuestList>() : null;
+        }
         #endregion
 
         #region CheckKnapsack
-        public int GetSize()
-        {
-            return slots.Length;
-        }
-
-        public bool IsEmpty()
-        {
-            for (int i = 0; i < slots.Length; i++)
-            {
-                if (slots[i] != null) { return false; }
-            }
-            return true;
-        }
-
-        public bool HasFreeSpace()
-        {
-            return GetNumberOfFreeSlots() > 0;
-        }
-
+        public int GetSize() => slots.Length;
+        public bool IsEmpty() => slots.All(t => t == null);
+        public bool HasFreeSpace() => GetNumberOfFreeSlots() > 0;
         public bool HasItem(InventoryItem inventoryItem)
         {
-            for (int i = 0; i < slots.Length; i++)
-            {
-                if (slots[i] == null) { continue; }
-
-                if (slots[i].GetInventoryItem().GetItemID() == inventoryItem.GetItemID())
-                {
-                    return true;
-                }
-            }
-            return false;
+            return slots.Where(t => t != null).Any(t => t.GetInventoryItem().GetItemID() == inventoryItem.GetItemID());
         }
-
-        public bool HasItemInSlot(int slot)
-        {
-            if (slots[slot] == null) { return false; }
-            return true;
-        }
-
-        public bool IsItemInSlotEquipped(int slot)
-        {
-            if (slots[slot] != null) { return slots[slot].IsEquipped(); }
-            return false;
-        }
-
+        public bool HasItemInSlot(int slot) =>  slots[slot] != null;
+        public bool IsItemInSlotEquipped(int slot) => slots[slot] != null && slots[slot].IsEquipped();
         public bool HasAnyEquipableItem(EquipLocation equipLocation)
         {
-            for (int i = 0; i < slots.Length; i++)
-            {
-                if (slots[i] != null && slots[i].GetInventoryItem().GetType() == typeof(EquipableItem))
-                {
-                    EquipableItem equipableItem = slots[i].GetInventoryItem() as EquipableItem;
-                    if (equipableItem.GetEquipLocation() == equipLocation)
-                    {
-                        return true;
-                    }
-                }
-            }
-            return false;
-        }
-
-        public bool HasEquipableItemInSlot(int slot)
-        {
-            if (slots[slot] == null) { return false; }
-
-            return (slots[slot].GetInventoryItem().GetType() == typeof(EquipableItem));
+            return (from inventoryItem in slots where inventoryItem != null select inventoryItem.GetInventoryItem()).OfType<EquipableItem>().Any(equipableItem => equipableItem.GetEquipLocation() == equipLocation);
         }
 
         public bool HasEquipableItemInSlot(int slot, EquipLocation equipLocation)
         {
-            if (!HasEquipableItemInSlot(slot)) { return false; }
-
-            EquipableItem equipableItem = slots[slot].GetInventoryItem() as EquipableItem;
+            if (slots[slot] == null) { return false; }
+            if (slots[slot].GetInventoryItem() is not EquipableItem equipableItem) { return false; }
             return (equipableItem.GetEquipLocation() == equipLocation);
         }
         #endregion
 
         #region RetrieveFromKnapsack
-
-        public int GetNumberOfFreeSlots()
+        public int GetNumberOfFreeSlots() => slots.Count(x => x == null);
+        public InventoryItem GetItemInSlot(int slot) => slots[slot] == null ? null : slots[slot].GetInventoryItem();
+        private IEnumerable<KeyItem> GetKeyItems()
         {
-            return slots.Where(x => x == null).Count();
-        }
-
-        public InventoryItem GetItemInSlot(int slot)
-        {
-            if (slots[slot] == null) { return null; }
-            return slots[slot].GetInventoryItem();
-        }
-
-        public IEnumerable<KeyItem> GetKeyItems()
-        {
-            for (int i = 0; i < slots.Length; i++)
-            {
-                if (slots[i] == null) { continue; }
-
-                KeyItem keyItem = slots[i].GetInventoryItem() as KeyItem;
-                if (keyItem != null)
-                {
-                    yield return keyItem;
-                }
-            }
+            return (from inventoryItem in slots where inventoryItem != null select inventoryItem.GetInventoryItem()).OfType<KeyItem>();
         }
 
         private int FindEmptySlot()
@@ -170,10 +99,7 @@ namespace Frankie.Inventory
             // Otherwise returns -1 to indicate no empty slot
             for (int i = 0; i < slots.Length; i++)
             {
-                if (slots[i] == null)
-                {
-                    return i;
-                }
+                if (slots[i] == null) { return i; }
             }
             return -1;
         }
@@ -183,24 +109,19 @@ namespace Frankie.Inventory
             for (int i = 0; i < slots.Length; i++)
             {
                 if (slots[i] == null) { continue; }
-
-                if (slots[i].GetInventoryItem().GetItemID() == inventoryItem.GetItemID())
-                {
-                    return i;
-                }
+                if (slots[i].GetInventoryItem().GetItemID() == inventoryItem.GetItemID()) { return i; }
             }
             return -1;
         }
         #endregion
 
         #region ModifyKnapsack
-
         // Base Functions
         // Each employs announce update flag to allow for batching without a billion events
         private bool AddToSlot(InventoryItem inventoryItem, int slot, bool announceUpdate)
         {
             if (slots[slot] != null || inventoryItem == null) { return false; }
-            slots[slot] = new ActiveInventoryItem(inventoryItem); ;
+            slots[slot] = new ActiveInventoryItem(inventoryItem);
 
             if (announceUpdate) { knapsackUpdated?.Invoke(); }
             return true;
@@ -217,15 +138,15 @@ namespace Frankie.Inventory
         public void RemoveFromSlot(int slot, bool announceUpdate)
         {
             if (slots[slot] == null) { return; }
-
             if (slots[slot].IsEquipped())
             {
-                EquipableItem equipableItem = slots[slot].GetInventoryItem() as EquipableItem;
+                var equipableItem = slots[slot].GetInventoryItem() as EquipableItem;
+                if (equipableItem == null) { return; }
+                
                 EquipLocation equipLocation = equipableItem.GetEquipLocation();
                 equipment.RemoveEquipment(equipLocation, announceUpdate);
             }
             slots[slot] = null;
-
             if (announceUpdate) { knapsackUpdated?.Invoke(); }
         }
 
@@ -233,21 +154,18 @@ namespace Frankie.Inventory
         {
             int slot = FindSlotWithItem(inventoryItem);
             if (slot < 0) { return false; }
-
             RemoveFromSlot(slot, announceUpdate);
             return true;
         }
 
         public void SquishItemsInKnapsack()
         {
-            Queue<ActiveInventoryItem> knapsackQueue = new Queue<ActiveInventoryItem>();
+            var knapsackQueue = new Queue<ActiveInventoryItem>();
             for (int i = 0; i < slots.Length; i++)
             {
-                if (HasItemInSlot(i))
-                {
-                    knapsackQueue.Enqueue(slots[i]);
-                    slots[i] = null;
-                }
+                if (!HasItemInSlot(i)) continue;
+                knapsackQueue.Enqueue(slots[i]);
+                slots[i] = null;
             }
 
             int itemIndex = 0;
@@ -256,7 +174,6 @@ namespace Frankie.Inventory
                 slots[itemIndex] = knapsackQueue.Dequeue();
                 itemIndex++;
             }
-
             knapsackUpdated?.Invoke();
         }
 
@@ -265,10 +182,10 @@ namespace Frankie.Inventory
         public bool UseItemInSlot(int slot, IEnumerable<BattleEntity> battleEntities)
         {
             InventoryItem inventoryItem = GetItemInSlot(slot);
-            ActionItem actionItem = inventoryItem as ActionItem;
+            var actionItem = inventoryItem as ActionItem;
             if (actionItem == null) { return false; }
 
-            BattleActionData battleActionData = new BattleActionData(character);
+            var battleActionData = new BattleActionData(character);
             battleActionData.SetTargets(battleEntities);
             actionItem.Use(battleActionData, null);
             // Note:  item removal handled via ActionItem
@@ -307,14 +224,14 @@ namespace Frankie.Inventory
 
             // Add item to destination
             destinationKnapsack.AddToSlot(sourceItem, destinationSlot, false);
-            EquipableItem sourceEquipableItem = sourceItem as EquipableItem;
+            var sourceEquipableItem = sourceItem as EquipableItem;
             if (sourceEquipableItem != null && preserveSourceEquippedState) { equipment.AddEquipment(sourceEquipableItem, false); }
 
             // Complete swap if swapping
             if (swapItem != null)
             {
                 AddToSlot(swapItem, sourceSlot, false);
-                EquipableItem swapEquipableItem = swapItem as EquipableItem;
+                var swapEquipableItem = swapItem as EquipableItem;
                 if (swapEquipableItem != null && preserveDestinationEquippedState) { equipment.AddEquipment(swapEquipableItem, false); }
             }
 
@@ -337,21 +254,16 @@ namespace Frankie.Inventory
             {
                 EquipableItem equipableItemInSlot = equipment.GetItemInSlot(equipLocation);
                 int equippedItemSlot = FindSlotWithItem(equipableItemInSlot); // First item in knapsack matching criteria
-                if (equippedItemSlot != -1)
-                {
-                    slots[equippedItemSlot].SetEquipped(true);
-                }
+                if (equippedItemSlot != -1) { slots[equippedItemSlot].SetEquipped(true); }
             }
-
             knapsackUpdated?.Invoke();
         }
 
         private void ResetEquippedFlags()
         {
-            for (int i = 0; i < slots.Length; i++)
+            foreach (ActiveInventoryItem inventoryItem in slots)
             {
-                if (slots[i] == null) { continue; }
-                slots[i].SetEquipped(false);
+                inventoryItem?.SetEquipped(false);
             }
         }
         #endregion
@@ -367,60 +279,52 @@ namespace Frankie.Inventory
                 foreach (QuestObjective questObjective in keyItem.GetQuestObjectives())
                 {
                     if (questObjective == null) { continue; }
-
                     questList.value.CompleteObjective(questObjective);
                 }
             }
         }
 
         // Saving System
-        [System.Serializable]
-        struct SaveableActiveItem
+        [Serializable]
+        private struct SaveableActiveItem
         {
             public string inventoryItemID;
             public bool equipped;
         }
 
-        public LoadPriority GetLoadPriority()
-        {
-            return LoadPriority.ObjectProperty;
-        }
+        public LoadPriority GetLoadPriority() => LoadPriority.ObjectProperty;
 
         SaveState ISaveable.CaptureState()
         {
-            if (slots == null) { Awake(); }
-
+            slots ??= new ActiveInventoryItem[inventorySize];
             SaveableActiveItem[] slotsActiveItemStrings = new SaveableActiveItem[inventorySize];
             for (int i = 0; i < inventorySize; i++)
             {
-                if (slots[i] != null)
+                if (slots[i] == null) continue;
+                
+                var saveableActiveItem = new SaveableActiveItem
                 {
-                    SaveableActiveItem saveableActiveItem = new SaveableActiveItem
-                    {
-                        inventoryItemID = slots[i].GetInventoryItem().GetItemID(),
-                        equipped = slots[i].IsEquipped()
-                    };
-                    slotsActiveItemStrings[i] = saveableActiveItem;
-                }
+                    inventoryItemID = slots[i].GetInventoryItem().GetItemID(),
+                    equipped = slots[i].IsEquipped()
+                };
+                slotsActiveItemStrings[i] = saveableActiveItem;
             }
-            SaveState saveState = new SaveState(GetLoadPriority(), slotsActiveItemStrings);
+            var saveState = new SaveState(GetLoadPriority(), slotsActiveItemStrings);
 
             return saveState;
         }
 
         void ISaveable.RestoreState(SaveState saveState)
         {
-            if (slots == null) { Awake(); }
-
-            SaveableActiveItem[] slotsActiveItemStrings = saveState.GetState(typeof(SaveableActiveItem[])) as SaveableActiveItem[];
-            if (slotsActiveItemStrings == null) { return; }
+            slots ??= new ActiveInventoryItem[inventorySize];
+            if (saveState.GetState(typeof(SaveableActiveItem[])) is not SaveableActiveItem[] slotsActiveItemStrings) { return; }
 
             for (int i = 0; i < inventorySize; i++)
             {
                 if (string.IsNullOrEmpty(slotsActiveItemStrings[i].inventoryItemID)) { continue; }
 
                 string inventoryItemID = slotsActiveItemStrings[i].inventoryItemID;
-                ActiveInventoryItem activeInventoryItem = new ActiveInventoryItem(InventoryItem.GetFromID(inventoryItemID));
+                var activeInventoryItem = new ActiveInventoryItem(InventoryItem.GetFromID(inventoryItemID));
                 activeInventoryItem.SetEquipped(slotsActiveItemStrings[i].equipped);
 
                 slots[i] = activeInventoryItem;
@@ -430,5 +334,4 @@ namespace Frankie.Inventory
         }
         #endregion
     }
-
 }

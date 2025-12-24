@@ -131,9 +131,9 @@ namespace Frankie.Stats
 
         public bool GetStatForCalculatedStat(CalculatedStat calculatedStat, out Stat stat) => CalculatedStats.GetStatModifier(calculatedStat, out stat);
 
-        public float GetCalculatedStat(CalculatedStat calculatedStat, float statValue, float opponentStatValue)
+        public float GetCalculatedStat(CalculatedStat calculatedStat, int level, float statValue, int opponentLevel, float opponentStatValue)
         {
-            return CalculatedStats.GetCalculatedStat(calculatedStat, GetLevel(), statValue, opponentStatValue);
+            return CalculatedStats.GetCalculatedStat(calculatedStat, level, statValue, opponentLevel, opponentStatValue);
         }
         public float GetCalculatedStat(CalculatedStat calculatedStat)
         {
@@ -226,11 +226,9 @@ namespace Frankie.Stats
             public int level;
             public Dictionary<Stat, float> statSheet;
         }
-
-        public LoadPriority GetLoadPriority()
-        {
-            return LoadPriority.ObjectProperty;
-        }
+        
+        public bool IsCorePlayerState() => true;
+        public LoadPriority GetLoadPriority() => LoadPriority.ObjectProperty;
 
         public SaveState CaptureState()
         {

@@ -1,3 +1,5 @@
+using Frankie.Combat;
+
 namespace Frankie.Control
 {
     public interface IPlayerStateContext
@@ -7,6 +9,7 @@ namespace Frankie.Control
         // Utility
         public void TogglePlayerVisibility(bool? enable = null);
         public void QueueActionUnderConsideration();
+        public bool CanMoveInCutscene();
         public void ClearPlayerStateMemory();
 
         // Transition
@@ -17,6 +20,8 @@ namespace Frankie.Control
         public bool InBattleExitTransition();
 
         // Combat
+        public bool IsAnyPartyMemberAlive();
+        public bool IsPlayerFearsome(CombatParticipant combatParticipant);
         public bool AreCombatParticipantsValid(bool announceCannotFight = false);
         public void AddEnemiesUnderConsideration();
         public void SetupBattleController();

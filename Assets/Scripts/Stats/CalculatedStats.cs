@@ -29,28 +29,30 @@ namespace Frankie.Stats
                 CalculatedStat.RunChance => Stat.Nimble,
                 CalculatedStat.Fearsome => Stat.Pluck, // Enemy Runs
                 CalculatedStat.Imposing => Stat.Pluck, // Enemy combat auto-concludes
+                CalculatedStat.HoldOnChance => Stat.Pluck, // Survive hit with 1hp
                 _ => Stat.InitialLevel,
             };
             return stat != Stat.InitialLevel; // failsafe default behaviour
         }
 
-        public static float GetCalculatedStat(CalculatedStat calculatedStat, int level, float callerModifier, float contestModifier = 0f)
+        public static float GetCalculatedStat(CalculatedStat calculatedStat, int callerLevel, float callerModifier, int contestLevel = 0, float contestModifier = 0f)
         {
-            if (level < 1) { level = 1; }
+            if (callerLevel < 1) { callerLevel = 1; }
 
             return calculatedStat switch
             {
-                CalculatedStat.CooldownFraction => GetCooldownFraction(level, callerModifier),
+                CalculatedStat.CooldownFraction => GetCooldownFraction(callerLevel, callerModifier),
                 CalculatedStat.HitChance => GetHitChance(callerModifier, contestModifier),
                 CalculatedStat.CritChance => GetCritChance(callerModifier, contestModifier),
                 CalculatedStat.PhysicalAdder => GetPhysicalAdder(callerModifier),
                 CalculatedStat.MagicalAdder => GetMagicalAdder(callerModifier),
                 CalculatedStat.Defense => GetDefense(callerModifier),
-                CalculatedStat.MoveSpeed => GetMoveSpeed(level, callerModifier),
+                CalculatedStat.MoveSpeed => GetMoveSpeed(callerLevel, callerModifier),
                 CalculatedStat.RunSpeed => GetRunSpeed(callerModifier),
                 CalculatedStat.RunChance => GetRunChance(callerModifier, contestModifier),
-                CalculatedStat.Fearsome => GetFearsome(level, callerModifier, contestModifier), 
-                CalculatedStat.Imposing => GetImposing(level, callerModifier, contestModifier), 
+                CalculatedStat.Fearsome => GetFearsome(callerLevel, callerModifier, contestLevel, contestModifier), 
+                CalculatedStat.Imposing => GetImposing(callerLevel, callerModifier, contestLevel, contestModifier), 
+                CalculatedStat.HoldOnChance => GetHoldOnChance(callerModifier),
                 _ => 0f,
             };
         }
@@ -116,18 +118,27 @@ namespace Frankie.Stats
             return 0.5f + Mathf.Atan(deltaModifier / 20) / Mathf.PI;
         }
 
-        private static float GetFearsome(int level, float modifier, float defenderModifier)
+        private static float GetFearsome(int level, float modifier, int defenderLevel, float defenderModifier)
         {
             // positive value -> fearsome for enemy running
-            float statDeltaReq = 10f * (1f + level / 50f); // Scale by level, account for weapon bonuses
+            if (level <= defenderLevel) { return -1f; } // Not fearsome if lower level
+            
+            float statDeltaReq = 15f * defenderLevel / level;
             return (modifier - defenderModifier) / statDeltaReq - 1f;
         }
 
-        private static float GetImposing(int level, float modifier, float defenderModifier)
+        private static float GetImposing(int level, float modifier, int defenderLevel, float defenderModifier)
         {
             // positive value -> imposing for enemy combat auto-conclude
-            float statDeltaReq = 20f * (1f + level / 50f);  // Scale by level, account for weapon bonuses
+            if (level <= defenderLevel) { return -1f; } // Not imposing if lower level
+            
+            float statDeltaReq = 25f * defenderLevel / level;
             return (modifier - defenderModifier) / statDeltaReq - 1f;
+        }
+
+        private static float GetHoldOnChance(float modifier)
+        {
+            return 0.15f + Mathf.Min(modifier / 500f, 0.5f);
         }
         #endregion
     }

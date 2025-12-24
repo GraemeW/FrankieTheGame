@@ -2058,7 +2058,7 @@ MonoBehaviour:
   optionChuckItemNegative: Nah
   messageConfirmThrowOut: Are you sure you want to abandon {0}?
   messageBattleCompleteWon: You Won!  Congratulations!
-  messageBattleCompleteLost: You lost.  Whoops!
+  messageBattleCompleteLost: Looks like things didn't quite go as planned.
   messageBattleCompleteRan: You ran away.
 --- !u!114 &5882966035238493864
 MonoBehaviour:

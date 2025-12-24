@@ -716,6 +716,7 @@ GameObject:
   - component: {fileID: 2392142034322169245}
   - component: {fileID: -523566412701523979}
   - component: {fileID: -6569748974630485054}
+  - component: {fileID: -5930686527299018591}
   m_Layer: 2
   m_Name: TilemapRoomRoot
   m_TagString: Untagged
@@ -755,6 +756,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   disableOnStart: 1
+  backgroundMusicOverride: {fileID: 0}
 --- !u!114 &-6569748974630485054
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -768,6 +770,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   uniqueIdentifier: 
+--- !u!114 &-5930686527299018591
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2392142034322169244}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3a019dc6c7ea8ac4698ad9fe6261f783, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Frankie.Sound.BackgroundMusicOverride
+  audioClip: {fileID: 0}
+  priority: 1
 --- !u!1 &2392142034461771962
 GameObject:
   m_ObjectHideFlags: 0
