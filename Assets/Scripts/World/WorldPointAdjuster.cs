@@ -70,8 +70,8 @@ namespace Frankie.Control.Specialization
         {
             if (!gameObject.TryGetComponent(out CombatParticipant combatParticipant)) { return; }
 
-            if (combatParticipant.IsDead()) { combatParticipant.Revive(combatParticipant.GetMaxHP()); }
-            else { combatParticipant.AdjustHP( combatParticipant.GetMaxHP() + Mathf.Epsilon ); }
+            if (combatParticipant.IsDead()) { combatParticipant.Revive(combatParticipant.GetMaxHP() + 1f); }
+            else { combatParticipant.AdjustHP( combatParticipant.GetMaxHP() + 1f); }
         }
     }
 }

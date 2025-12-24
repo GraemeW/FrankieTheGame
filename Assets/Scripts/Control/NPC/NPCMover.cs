@@ -13,7 +13,8 @@ namespace Frankie.Control
         [SerializeField] [Tooltip("Takes priority over random walk")] private PatrolPath patrolPath;
         [SerializeField] [Tooltip("Default behaviour for no patrol path")] private bool canRandomWalk = false;
         [SerializeField] private float randomWalkStepDistance = 0.4f;
-        [SerializeField] private float randomWalkLimitDistance = 1.2f;
+        [SerializeField] private float randomWalkxLimitDistance = 1.2f;
+        [SerializeField] private float randomWalkyLimitDistance = 1.2f;
         [SerializeField] private float waypointDwellTime = 2.0f;
         [SerializeField] [Tooltip("Anything other than U/D/L/R to keep last look direction")] private PlayerInputType lookDirectionOnDwell = PlayerInputType.NavigateDown;
         [SerializeField] private float giveUpOnLocomotionTargetTime = 10.0f;
@@ -273,6 +274,7 @@ namespace Frankie.Control
                 3 => Vector2.left,
                 _ => Vector2.down
             };
+            float randomWalkLimitDistance = direction > 1 ? randomWalkxLimitDistance : randomWalkyLimitDistance;
 
             Vector2 nextWalkPosition = (Vector2)transform.position + moveDirection * randomWalkStepDistance;
             if (Vector2.Dot((nextWalkPosition - originalPosition), moveDirection) > randomWalkLimitDistance)
@@ -291,7 +293,7 @@ namespace Frankie.Control
             if (canRandomWalk)
             {
                 Gizmos.color = randomWalkGizmoColor;
-                var cubeCoordinates = new Vector3(randomWalkLimitDistance * 2, randomWalkLimitDistance * 2, 0f);
+                var cubeCoordinates = new Vector3(randomWalkxLimitDistance * 2, randomWalkyLimitDistance * 2, 0f);
                 Gizmos.DrawWireCube(transform.position, cubeCoordinates);
             }
         }
