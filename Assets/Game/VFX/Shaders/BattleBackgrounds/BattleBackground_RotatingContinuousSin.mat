@@ -54,8 +54,9 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - _PeriodA: 30
-    - _PeriodB: 5
-    m_Colors: []
+    - _PeriodA: 100
+    - _PeriodB: 20
+    m_Colors:
+    - White: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
   m_AllowLocking: 1

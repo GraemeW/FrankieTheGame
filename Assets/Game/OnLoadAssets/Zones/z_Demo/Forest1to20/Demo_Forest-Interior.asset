@@ -30,6 +30,35 @@ MonoBehaviour:
     height: 45
   condition:
     and: []
+--- !u!114 &-7063803505146773663
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3268536af8903a64da82aa6872733d1d, type: 3}
+  m_Name: TunnelWestToForest
+  m_EditorClassIdentifier: Assembly-CSharp::Frankie.ZoneManagement.ZoneNode
+  children: []
+  linkedZoneNode: {fileID: 3692616267215445445, guid: 56bcb0733fa024bf5b983792663e12bb, type: 2}
+  rect:
+    serializedVersion: 2
+    x: 28
+    y: 1131
+    width: 430
+    height: 150
+  zoneName: Demo_Forest-Interior
+  draggingRect:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 430
+    height: 45
+  condition:
+    and: []
 --- !u!114 &-6172440473415268556
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -252,7 +281,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Frankie.ZoneManagement.ZoneNode
   children:
   - 1
-  - 
   - LV_B1_SR2-to-B1_SR
   linkedZoneNode: {fileID: 0}
   rect:
@@ -319,6 +347,35 @@ MonoBehaviour:
     serializedVersion: 2
     x: 1622
     y: 522
+    width: 430
+    height: 150
+  zoneName: Demo_Forest-Interior
+  draggingRect:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 430
+    height: 45
+  condition:
+    and: []
+--- !u!114 &-3620146734966675443
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3268536af8903a64da82aa6872733d1d, type: 3}
+  m_Name: TunnelEastToForest
+  m_EditorClassIdentifier: Assembly-CSharp::Frankie.ZoneManagement.ZoneNode
+  children: []
+  linkedZoneNode: {fileID: 5873364169936408652, guid: 56bcb0733fa024bf5b983792663e12bb, type: 2}
+  rect:
+    serializedVersion: 2
+    x: 558
+    y: 1131
     width: 430
     height: 150
   zoneName: Demo_Forest-Interior
@@ -533,6 +590,8 @@ MonoBehaviour:
   - {fileID: -7101649168659426964}
   - {fileID: -2721548415718074671}
   - {fileID: -672308436306324658}
+  - {fileID: -7063803505146773663}
+  - {fileID: -3620146734966675443}
 --- !u!114 &324721532845584799
 MonoBehaviour:
   m_ObjectHideFlags: 0
