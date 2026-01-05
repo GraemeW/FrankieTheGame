@@ -177,6 +177,16 @@ namespace Frankie.Speech
                 dialogueNode.SetSpeakerName(newSpeakerName);
             }
         }
+
+        public void RegenerateGUIDs()
+        {
+            Undo.RegisterCompleteObjectUndo(this, "Regenerate GUIDs");
+            foreach (DialogueNode dialogueNode in dialogueNodes)
+            {
+                dialogueNode.name = System.Guid.NewGuid().ToString();
+            }
+            EditorUtility.SetDirty(this);
+        }
 #endif
         #endregion
 

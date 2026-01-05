@@ -301,11 +301,6 @@ namespace Frankie.Stats.Editor
             DrawCharacterStatPane();
         }
 
-        private void OnLevelAveragingChanged(ChangeEvent<float> levelAveragingChangedEvent)
-        {
-            
-        }
-
         private void ReconcileCharacterProperties(ClickEvent clickEvent)  { ReconcileCharacterProperties(); }
         private void ReconcileCharacterProperties()
         {
