@@ -113,3 +113,15 @@ For example, this parameter is set on the [HipsterWorker](./OfficeInterior/Hipst
 <img src="../../../InfoTools/Documentation/Game/Speech/DialogueSkipRoot2.png" width="700">
 
 , noting that the root node text is irrelevant because it is skipped.
+
+## Duplicating Dialogue && GUID Renaming
+
+In some circumstances it can be useful to duplicate an entire dialogue (e.g. for instances where only minor modifications may be needed to a dialogue -- such as with shop attendants).  In these cases, the dialogue asset can simply be duplicated (cmd + D), and relevant node text updated.
+
+One issue to consider with simple duplication is that all dialogue nodes will still have their old GUIDs.  For various reasons, this can cause some caching issues, especially when using dialogue triggers.  
+
+For this reason, a `Regenerate GUIDs` button has been added as a custom inspector element for the Dialogue asset itself, as below:
+
+<img src="../../../InfoTools/Documentation/Game/Speech/DialogueRegenerateGUIDs.png" width="350">
+
+This button will re-name all node elements and all child node links accordingly.  Note that after regenerating GUIDs, any dialogue triggers must obviously be linked to the new GUIDs.
