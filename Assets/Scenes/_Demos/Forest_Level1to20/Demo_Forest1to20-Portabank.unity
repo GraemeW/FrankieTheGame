@@ -2035,7 +2035,7 @@ PrefabInstance:
     - target: {fileID: 3450367177837436829, guid: 0933637bb54f1cb4480c3b6eaceeee40, type: 3}
       propertyPath: dialogue
       value: 
-      objectReference: {fileID: 11400000, guid: a99ce3b465c90451581f383a7743cc4a, type: 2}
+      objectReference: {fileID: 11400000, guid: 33e80853276814ee48ddc6d92a4df846, type: 2}
     - target: {fileID: 3450367177837436829, guid: 0933637bb54f1cb4480c3b6eaceeee40, type: 3}
       propertyPath: interactionDistance
       value: 0.7
@@ -2130,7 +2130,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Frankie.Speech.DialogueTrigger
   dialogueUpdateType: 2
-  triggerNode: {fileID: 4781360607282843637, guid: a99ce3b465c90451581f383a7743cc4a, type: 2}
+  triggerNode: {fileID: 4781360607282843637, guid: 33e80853276814ee48ddc6d92a4df846, type: 2}
   dialogueTriggeredEvent:
     triggerImmediate: 0
     onTriggerEvent:

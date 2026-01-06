@@ -10,15 +10,15 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 09c07c7c6f4c666429a0bbc8d18232b2, type: 3}
-  m_Name: fb7f8d48-3e1e-45af-a045-dca08ce275bc
+  m_Name: 44b613c7-b7d3-438c-95e9-abccb02e7bf8
   m_EditorClassIdentifier: Assembly-CSharp::Frankie.Speech.DialogueNode
   speakerType: 1
   characterProperties: {fileID: 11400000, guid: c8752c77bccb9f145aea101a1d9673a5, type: 2}
   speakerName: Maya
   text: Root
   children:
-  - 64b33792-176f-475b-a2c8-5310ea72ff0d
-  - f5d6b640-d924-4990-b58f-be1a89d0c2be
+  - 0b0e8237-1f39-47b6-b886-1edcc51370b2
+  - 5f9cc375-dffc-4f29-a66e-1c51e73a8a85
   rect:
     serializedVersion: 2
     x: 30
@@ -43,15 +43,15 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 09c07c7c6f4c666429a0bbc8d18232b2, type: 3}
-  m_Name: af2c8fe3-d1af-420c-b522-4ce70d446495
+  m_Name: 5f9cc375-dffc-4f29-a66e-1c51e73a8a85
   m_EditorClassIdentifier: Assembly-CSharp::Frankie.Speech.DialogueNode
   speakerType: 1
   characterProperties: {fileID: 11400000, guid: c8752c77bccb9f145aea101a1d9673a5, type: 2}
   speakerName: Maya
   text: Oh, did you want me to save your progress so far?
   children:
-  - c5a3857f-96f5-4768-85a3-b78e6f2a6f5e
-  - ca7676b7-36a3-4bd4-be9c-8f2b8df4fb2a
+  - 4f35bc35-bc64-4dbf-8092-ea0ec994222a
+  - 7e7fc216-ca44-4d0a-a33f-05a4b5d36c89
   rect:
     serializedVersion: 2
     x: 530
@@ -101,7 +101,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 09c07c7c6f4c666429a0bbc8d18232b2, type: 3}
-  m_Name: 451f2c14-49bf-4cad-b6f3-6b124c0c92cb
+  m_Name: 4f35bc35-bc64-4dbf-8092-ea0ec994222a
   m_EditorClassIdentifier: Assembly-CSharp::Frankie.Speech.DialogueNode
   speakerType: 0
   characterProperties: {fileID: 11400000, guid: b50f84a2f36107a44825b11881f88adf, type: 2}
@@ -132,7 +132,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 09c07c7c6f4c666429a0bbc8d18232b2, type: 3}
-  m_Name: c311095e-c48d-4fd6-b7d9-8290c5327cc1
+  m_Name: 7e7fc216-ca44-4d0a-a33f-05a4b5d36c89
   m_EditorClassIdentifier: Assembly-CSharp::Frankie.Speech.DialogueNode
   speakerType: 0
   characterProperties: {fileID: 11400000, guid: b50f84a2f36107a44825b11881f88adf, type: 2}
@@ -163,12 +163,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 09c07c7c6f4c666429a0bbc8d18232b2, type: 3}
-  m_Name: 7be108ce-5b2a-47a1-b8fa-1c7bbf4e38af
+  m_Name: 0b0e8237-1f39-47b6-b886-1edcc51370b2
   m_EditorClassIdentifier: Assembly-CSharp::Frankie.Speech.DialogueNode
   speakerType: 1
   characterProperties: {fileID: 11400000, guid: c8752c77bccb9f145aea101a1d9673a5, type: 2}
   speakerName: Maya
-  text: Are these air fresheners making you feel FRESH yet?
+  text: ' I got this car freshener tree here to help freshen things up!  So, do you
+    feel FRESH?'
   children: []
   rect:
     serializedVersion: 2
