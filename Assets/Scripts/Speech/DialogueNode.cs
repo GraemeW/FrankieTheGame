@@ -95,6 +95,14 @@ namespace Frankie.Speech
             EditorUtility.SetDirty(this);
         }
 
+        public void SwapChild(string childID1, string childID2, bool recordUndoHistory = true)
+        {
+            if (recordUndoHistory) { Undo.RecordObject(this, "Swap Node Relation"); }
+            children.Remove(childID1);
+            children.Add(childID2);
+            if (recordUndoHistory) { EditorUtility.SetDirty(this); }
+        }
+
         public void SetPosition(Vector2 position)
         {
             Undo.RecordObject(this, "Move Dialogue Node");
