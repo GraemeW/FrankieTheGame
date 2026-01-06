@@ -12,6 +12,8 @@ namespace Frankie.Core
 
         public override bool? Evaluate(AIConversant aiConversant)
         {
+            if (aiConversant == null) { return null; }
+            
             int dialogueCount = aiConversant.GetDialogueCount();
 
             if (isEqual) { return dialogueCount == checkCount; }
