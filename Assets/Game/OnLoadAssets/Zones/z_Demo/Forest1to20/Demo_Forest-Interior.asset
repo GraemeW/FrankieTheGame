@@ -592,6 +592,7 @@ MonoBehaviour:
   - {fileID: -672308436306324658}
   - {fileID: -7063803505146773663}
   - {fileID: -3620146734966675443}
+  - {fileID: 2255921866329858734}
 --- !u!114 &324721532845584799
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -671,6 +672,35 @@ MonoBehaviour:
     serializedVersion: 2
     x: 1092
     y: 185
+    width: 430
+    height: 150
+  zoneName: Demo_Forest-Interior
+  draggingRect:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 430
+    height: 45
+  condition:
+    and: []
+--- !u!114 &2255921866329858734
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3268536af8903a64da82aa6872733d1d, type: 3}
+  m_Name: ChurchToForest
+  m_EditorClassIdentifier: Assembly-CSharp::Frankie.ZoneManagement.ZoneNode
+  children: []
+  linkedZoneNode: {fileID: -5194966613431474290, guid: 56bcb0733fa024bf5b983792663e12bb, type: 2}
+  rect:
+    serializedVersion: 2
+    x: 30
+    y: 1319
     width: 430
     height: 150
   zoneName: Demo_Forest-Interior
