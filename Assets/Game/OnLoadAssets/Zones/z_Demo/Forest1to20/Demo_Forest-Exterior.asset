@@ -97,7 +97,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3268536af8903a64da82aa6872733d1d, type: 3}
-  m_Name: Forest-to-Church
+  m_Name: Forest-to-ChurchLobby
   m_EditorClassIdentifier: Assembly-CSharp::Frankie.ZoneManagement.ZoneNode
   children: []
   linkedZoneNode: {fileID: 2255921866329858734, guid: f4fe026e5041d4556bdc413cb4a52663, type: 2}

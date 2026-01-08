@@ -361,7 +361,7 @@ namespace Frankie.Control
             yield return fader.QueueFadeExit(transitionType);
             combatFadeComplete = true;
             currentPlayerState.EnterCombat(this);
-            BattleEventBus<BattleFadeTransitionEvent>.Raise(new BattleFadeTransitionEvent(BattleFadePhase.EntryComplete));
+            BattleEventBus<BattleFadeTransitionEvent>.Raise(new BattleFadeTransitionEvent(BattleFadePhase.EntryComplete, enemiesInTransition, transitionType));
         }
 
         private IEnumerator QueueExitCombat(Fader fader)

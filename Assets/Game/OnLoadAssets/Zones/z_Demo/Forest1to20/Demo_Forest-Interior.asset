@@ -1,5 +1,35 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-8623284425851093683
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3268536af8903a64da82aa6872733d1d, type: 3}
+  m_Name: ChurchLobby1ToChurch
+  m_EditorClassIdentifier: Assembly-CSharp::Frankie.ZoneManagement.ZoneNode
+  children:
+  - ChurchToChurchLobby
+  linkedZoneNode: {fileID: 0}
+  rect:
+    serializedVersion: 2
+    x: 560
+    y: 1319
+    width: 430
+    height: 150
+  zoneName: Demo_Forest-Interior
+  draggingRect:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 430
+    height: 45
+  condition:
+    and: []
 --- !u!114 &-7101649168659426964
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -480,6 +510,37 @@ MonoBehaviour:
     height: 45
   condition:
     and: []
+--- !u!114 &-1297888478512941826
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3268536af8903a64da82aa6872733d1d, type: 3}
+  m_Name: ChurchToChurchLobby
+  m_EditorClassIdentifier: Assembly-CSharp::Frankie.ZoneManagement.ZoneNode
+  children:
+  - ChurchLobby2ToChurch
+  - ChurchLobby1ToChurch
+  linkedZoneNode: {fileID: 0}
+  rect:
+    serializedVersion: 2
+    x: 1090
+    y: 1319
+    width: 430
+    height: 150
+  zoneName: Demo_Forest-Interior
+  draggingRect:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 430
+    height: 45
+  condition:
+    and: []
 --- !u!114 &-672308436306324658
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -593,6 +654,10 @@ MonoBehaviour:
   - {fileID: -7063803505146773663}
   - {fileID: -3620146734966675443}
   - {fileID: 2255921866329858734}
+  - {fileID: -8623284425851093683}
+  - {fileID: -1297888478512941826}
+  - {fileID: 7169649769695471439}
+  - {fileID: 7114888023509078925}
 --- !u!114 &324721532845584799
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -693,7 +758,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3268536af8903a64da82aa6872733d1d, type: 3}
-  m_Name: ChurchToForest
+  m_Name: ChurchLobbyToForest
   m_EditorClassIdentifier: Assembly-CSharp::Frankie.ZoneManagement.ZoneNode
   children: []
   linkedZoneNode: {fileID: -5194966613431474290, guid: 56bcb0733fa024bf5b983792663e12bb, type: 2}
@@ -802,6 +867,35 @@ MonoBehaviour:
     height: 45
   condition:
     and: []
+--- !u!114 &7114888023509078925
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3268536af8903a64da82aa6872733d1d, type: 3}
+  m_Name: ChurchLobbyToPortaE
+  m_EditorClassIdentifier: Assembly-CSharp::Frankie.ZoneManagement.ZoneNode
+  children: []
+  linkedZoneNode: {fileID: -8229641933190378029, guid: 56bcb0733fa024bf5b983792663e12bb, type: 2}
+  rect:
+    serializedVersion: 2
+    x: 91
+    y: 1467
+    width: 430
+    height: 150
+  zoneName: Demo_Forest-Interior
+  draggingRect:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 430
+    height: 45
+  condition:
+    and: []
 --- !u!114 &7136330059943089261
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -821,6 +915,36 @@ MonoBehaviour:
     serializedVersion: 2
     x: 3169
     y: 892
+    width: 430
+    height: 150
+  zoneName: Demo_Forest-Interior
+  draggingRect:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 430
+    height: 45
+  condition:
+    and: []
+--- !u!114 &7169649769695471439
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3268536af8903a64da82aa6872733d1d, type: 3}
+  m_Name: ChurchLobby2ToChurch
+  m_EditorClassIdentifier: Assembly-CSharp::Frankie.ZoneManagement.ZoneNode
+  children:
+  - ChurchToChurchLobby
+  linkedZoneNode: {fileID: 0}
+  rect:
+    serializedVersion: 2
+    x: 563
+    y: 1488
     width: 430
     height: 150
   zoneName: Demo_Forest-Interior
