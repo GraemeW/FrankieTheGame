@@ -48,8 +48,8 @@ MonoBehaviour:
   m_Name: 1fb6b6b5-25db-447d-8105-9e37833e5e94
   m_EditorClassIdentifier: Assembly-CSharp::Frankie.Speech.DialogueNode
   speakerType: 0
-  characterProperties: {fileID: 0}
-  speakerName: Default
+  characterProperties: {fileID: 11400000, guid: b50f84a2f36107a44825b11881f88adf, type: 2}
+  speakerName: Frankie
   text: Yes, let's do it!
   children: []
   rect:
@@ -112,8 +112,8 @@ MonoBehaviour:
   m_Name: 6a8b4557-d43b-443b-b8d5-419fd37c0066
   m_EditorClassIdentifier: Assembly-CSharp::Frankie.Speech.DialogueNode
   speakerType: 0
-  characterProperties: {fileID: 0}
-  speakerName: Default
+  characterProperties: {fileID: 11400000, guid: b50f84a2f36107a44825b11881f88adf, type: 2}
+  speakerName: Frankie
   text: Nah, no thanks.
   children: []
   rect:
@@ -237,8 +237,8 @@ MonoBehaviour:
   m_Name: 21a1c313-9189-484d-88aa-29b8bbe1f702
   m_EditorClassIdentifier: Assembly-CSharp::Frankie.Speech.DialogueNode
   speakerType: 0
-  characterProperties: {fileID: 0}
-  speakerName: Default
+  characterProperties: {fileID: 11400000, guid: b50f84a2f36107a44825b11881f88adf, type: 2}
+  speakerName: Frankie
   text: Nah, no thanks.
   children: []
   rect:
@@ -300,8 +300,8 @@ MonoBehaviour:
   m_Name: 05de6722-68b1-427d-b3d9-fe0ec06949b3
   m_EditorClassIdentifier: Assembly-CSharp::Frankie.Speech.DialogueNode
   speakerType: 0
-  characterProperties: {fileID: 0}
-  speakerName: Default
+  characterProperties: {fileID: 11400000, guid: b50f84a2f36107a44825b11881f88adf, type: 2}
+  speakerName: Frankie
   text: Yes, get me out of here!
   children: []
   rect:
