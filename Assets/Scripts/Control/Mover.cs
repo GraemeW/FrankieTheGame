@@ -96,7 +96,7 @@ namespace Frankie.Control
 
         public void ClearMoveTargets()
         {
-            SetAnimationAndSpeedForMovementEnd();
+            if (HasMoveTarget()) { SetAnimationAndSpeedForMovementEnd(); }
             targetDistanceTolerance = defaultTargetDistanceTolerance;
             moveTargetCoordinate = null;
             targetMovementHistory.Clear();
