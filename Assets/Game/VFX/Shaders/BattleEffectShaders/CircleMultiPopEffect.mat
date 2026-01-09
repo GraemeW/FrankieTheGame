@@ -60,7 +60,7 @@ Material:
     - _CastShadows: 1
     - _Cull: 2
     - _DstBlend: 10
-    - _Phase: 146.4918
+    - _Phase: 34.944427
     - _QueueControl: 0
     - _QueueOffset: 0
     - _ReceiveShadows: 1

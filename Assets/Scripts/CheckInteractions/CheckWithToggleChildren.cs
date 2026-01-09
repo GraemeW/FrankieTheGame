@@ -71,12 +71,17 @@ namespace Frankie.Control
 
         public void BypassCheckCondition(PlayerStateMachine playerStateHandler) // Also called via Unity Events
         {
+            BypassCheckConditionWithNoInteractionEvents();
+            checkInteraction?.Invoke(playerStateHandler);
+        }
+
+        public void BypassCheckConditionWithNoInteractionEvents() // Also called via Unity Events
+        {
             foreach (Transform child in parentTransformForToggling)
             {
                 child.gameObject.SetActive(toggleToConditionMet);
             }
             SetActiveCheck(false); // Disabling further interactions after toggling once -- also saved via CaptureState in parent class
-            checkInteraction?.Invoke(playerStateHandler);
         }
 
         private bool CheckCondition(PlayerStateMachine playerStateHandler)

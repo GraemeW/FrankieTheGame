@@ -1,0 +1,417 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-8347607493409924059
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 09c07c7c6f4c666429a0bbc8d18232b2, type: 3}
+  m_Name: fa89f089-aa13-4003-813b-1ffe1a57fb9b
+  m_EditorClassIdentifier: Assembly-CSharp::Frankie.Speech.DialogueNode
+  speakerType: 0
+  characterProperties: {fileID: 11400000, guid: b50f84a2f36107a44825b11881f88adf, type: 2}
+  speakerName: Frankie
+  text: Yes
+  children:
+  - 3a990215-735f-44e4-a1b8-ce92e0769581
+  rect:
+    serializedVersion: 2
+    x: 2530
+    y: 530
+    width: 400
+    height: 225
+  draggingRect:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 400
+    height: 45
+  condition:
+    and: []
+--- !u!114 &-6658974179743024459
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 09c07c7c6f4c666429a0bbc8d18232b2, type: 3}
+  m_Name: 1edf3a87-4106-4dcc-b442-6da7caa4148e
+  m_EditorClassIdentifier: Assembly-CSharp::Frankie.Speech.DialogueNode
+  speakerType: 0
+  characterProperties: {fileID: 11400000, guid: b50f84a2f36107a44825b11881f88adf, type: 2}
+  speakerName: Frankie
+  text: Uhhh
+  children:
+  - fa89f089-aa13-4003-813b-1ffe1a57fb9b
+  rect:
+    serializedVersion: 2
+    x: 2030
+    y: 530
+    width: 400
+    height: 225
+  draggingRect:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 400
+    height: 45
+  condition:
+    and: []
+--- !u!114 &-5339103360188783168
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 09c07c7c6f4c666429a0bbc8d18232b2, type: 3}
+  m_Name: 052c651a-53fe-4c4c-a4a2-dcaf7ed5f0ad
+  m_EditorClassIdentifier: Assembly-CSharp::Frankie.Speech.DialogueNode
+  speakerType: 0
+  characterProperties: {fileID: 11400000, guid: b50f84a2f36107a44825b11881f88adf, type: 2}
+  speakerName: Frankie
+  text: Bald
+  children:
+  - efe87992-ccab-47c0-a4a0-bfe5d8e2befc
+  rect:
+    serializedVersion: 2
+    x: 3455
+    y: 27
+    width: 400
+    height: 225
+  draggingRect:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 400
+    height: 45
+  condition:
+    and: []
+--- !u!114 &-4472450812357959087
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 09c07c7c6f4c666429a0bbc8d18232b2, type: 3}
+  m_Name: 87760bf2-b9a7-4dc7-9b10-905db4441646
+  m_EditorClassIdentifier: Assembly-CSharp::Frankie.Speech.DialogueNode
+  speakerType: 0
+  characterProperties: {fileID: 11400000, guid: b50f84a2f36107a44825b11881f88adf, type: 2}
+  speakerName: Frankie
+  text: Are you speaking to me?
+  children:
+  - a7f72020-2bd9-4694-a578-2df707a45d9e
+  rect:
+    serializedVersion: 2
+    x: 530
+    y: 30
+    width: 400
+    height: 225
+  draggingRect:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 400
+    height: 45
+  condition:
+    and: []
+--- !u!114 &-656800889676406665
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 09c07c7c6f4c666429a0bbc8d18232b2, type: 3}
+  m_Name: a7f72020-2bd9-4694-a578-2df707a45d9e
+  m_EditorClassIdentifier: Assembly-CSharp::Frankie.Speech.DialogueNode
+  speakerType: 1
+  characterProperties: {fileID: 0}
+  speakerName: Beautiful Tapestry
+  text: Who else?
+  children:
+  - b8f742a0-060c-45dc-b814-b53b8064e34c
+  rect:
+    serializedVersion: 2
+    x: 1030
+    y: 30
+    width: 400
+    height: 225
+  draggingRect:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 400
+    height: 45
+  condition:
+    and: []
+--- !u!114 &-213725095003450266
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 09c07c7c6f4c666429a0bbc8d18232b2, type: 3}
+  m_Name: 6c5cada7-5c3f-4313-9336-19ac524bb580
+  m_EditorClassIdentifier: Assembly-CSharp::Frankie.Speech.DialogueNode
+  speakerType: 0
+  characterProperties: {fileID: 11400000, guid: b50f84a2f36107a44825b11881f88adf, type: 2}
+  speakerName: Frankie
+  text: Of course
+  children:
+  - 3a990215-735f-44e4-a1b8-ce92e0769581
+  rect:
+    serializedVersion: 2
+    x: 2030
+    y: 280
+    width: 400
+    height: 225
+  draggingRect:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 400
+    height: 45
+  condition:
+    and: []
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aac27b8e802ced743b3f275e283ab9df, type: 3}
+  m_Name: Demo-Monk_Tapestry
+  m_EditorClassIdentifier: Assembly-CSharp::Frankie.Speech.Dialogue
+  skipRootNode: 0
+  newNodeOffset: {x: 100, y: 25}
+  nodeWidth: 400
+  nodeHeight: 225
+  activeNPCs: []
+  dialogueNodes:
+  - {fileID: 891310600646846638}
+  - {fileID: -4472450812357959087}
+  - {fileID: -656800889676406665}
+  - {fileID: 4110835628547292198}
+  - {fileID: 8552338678385057069}
+  - {fileID: -213725095003450266}
+  - {fileID: -6658974179743024459}
+  - {fileID: -8347607493409924059}
+  - {fileID: 9013700337885941712}
+  - {fileID: -5339103360188783168}
+  - {fileID: 2307958268059547231}
+  - {fileID: 437086603874811995}
+--- !u!114 &437086603874811995
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 09c07c7c6f4c666429a0bbc8d18232b2, type: 3}
+  m_Name: 81203474-0d37-4972-8013-c2e2dba43c6c
+  m_EditorClassIdentifier: Assembly-CSharp::Frankie.Speech.DialogueNode
+  speakerType: 0
+  characterProperties: {fileID: 11400000, guid: b50f84a2f36107a44825b11881f88adf, type: 2}
+  speakerName: Frankie
+  text: Bald is beautiful.
+  children: []
+  rect:
+    serializedVersion: 2
+    x: 4455
+    y: 27
+    width: 400
+    height: 225
+  draggingRect:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 400
+    height: 45
+  condition:
+    and: []
+--- !u!114 &891310600646846638
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 09c07c7c6f4c666429a0bbc8d18232b2, type: 3}
+  m_Name: b734b751-c418-4b63-a4c6-9b202278d320
+  m_EditorClassIdentifier: Assembly-CSharp::Frankie.Speech.DialogueNode
+  speakerType: 1
+  characterProperties: {fileID: 0}
+  speakerName: Beautiful Tapestry
+  text: Hello Francis
+  children:
+  - 87760bf2-b9a7-4dc7-9b10-905db4441646
+  rect:
+    serializedVersion: 2
+    x: 30
+    y: 30
+    width: 400
+    height: 225
+  draggingRect:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 400
+    height: 45
+  condition:
+    and: []
+--- !u!114 &2307958268059547231
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 09c07c7c6f4c666429a0bbc8d18232b2, type: 3}
+  m_Name: efe87992-ccab-47c0-a4a0-bfe5d8e2befc
+  m_EditorClassIdentifier: Assembly-CSharp::Frankie.Speech.DialogueNode
+  speakerType: 0
+  characterProperties: {fileID: 11400000, guid: b50f84a2f36107a44825b11881f88adf, type: 2}
+  speakerName: Frankie
+  text: Bald is
+  children:
+  - 81203474-0d37-4972-8013-c2e2dba43c6c
+  rect:
+    serializedVersion: 2
+    x: 3955
+    y: 27
+    width: 400
+    height: 225
+  draggingRect:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 400
+    height: 45
+  condition:
+    and: []
+--- !u!114 &4110835628547292198
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 09c07c7c6f4c666429a0bbc8d18232b2, type: 3}
+  m_Name: b8f742a0-060c-45dc-b814-b53b8064e34c
+  m_EditorClassIdentifier: Assembly-CSharp::Frankie.Speech.DialogueNode
+  speakerType: 1
+  characterProperties: {fileID: 0}
+  speakerName: Beautiful Tapestry
+  text: Do you want to join me, Francis??
+  children:
+  - 50ac7990-b7ae-4c4d-a8a8-f27ad2423f67
+  - 6c5cada7-5c3f-4313-9336-19ac524bb580
+  - 1edf3a87-4106-4dcc-b442-6da7caa4148e
+  rect:
+    serializedVersion: 2
+    x: 1530
+    y: 30
+    width: 400
+    height: 225
+  draggingRect:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 400
+    height: 45
+  condition:
+    and: []
+--- !u!114 &8552338678385057069
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 09c07c7c6f4c666429a0bbc8d18232b2, type: 3}
+  m_Name: 50ac7990-b7ae-4c4d-a8a8-f27ad2423f67
+  m_EditorClassIdentifier: Assembly-CSharp::Frankie.Speech.DialogueNode
+  speakerType: 0
+  characterProperties: {fileID: 11400000, guid: b50f84a2f36107a44825b11881f88adf, type: 2}
+  speakerName: Frankie
+  text: Yes
+  children:
+  - 3a990215-735f-44e4-a1b8-ce92e0769581
+  rect:
+    serializedVersion: 2
+    x: 2030
+    y: 30
+    width: 400
+    height: 225
+  draggingRect:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 400
+    height: 45
+  condition:
+    and: []
+--- !u!114 &9013700337885941712
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 09c07c7c6f4c666429a0bbc8d18232b2, type: 3}
+  m_Name: 3a990215-735f-44e4-a1b8-ce92e0769581
+  m_EditorClassIdentifier: Assembly-CSharp::Frankie.Speech.DialogueNode
+  speakerType: 1
+  characterProperties: {fileID: 0}
+  speakerName: Beautiful Tapestry
+  text: Bald is beautiful.
+  children:
+  - 052c651a-53fe-4c4c-a4a2-dcaf7ed5f0ad
+  rect:
+    serializedVersion: 2
+    x: 2955
+    y: 27
+    width: 400
+    height: 225
+  draggingRect:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 400
+    height: 45
+  condition:
+    and: []
