@@ -195,7 +195,7 @@ namespace Frankie.Control
         
         private void SetAnimationAndSpeedForMovementEnd()
         {
-            SetLookDirection(Vector2.down);
+            SetLookDirection(defaultLookDirection);
             currentSpeed = 0f;
             UpdateAnimator();
         }

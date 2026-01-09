@@ -16,7 +16,7 @@ namespace Frankie.Control
         [SerializeField] private float randomWalkxLimitDistance = 1.2f;
         [SerializeField] private float randomWalkyLimitDistance = 1.2f;
         [SerializeField] private float waypointDwellTime = 2.0f;
-        [SerializeField] [Tooltip("Anything other than U/D/L/R to keep last look direction")] private PlayerInputType lookDirectionOnDwell = PlayerInputType.NavigateDown;
+        [SerializeField] private Vector2 lookDirectionOnDwell = Vector2.down;
         [SerializeField] private float giveUpOnLocomotionTargetTime = 10.0f;
         [SerializeField] private float locomotionCollisionStayTime = 0.5f;
 
@@ -86,6 +86,8 @@ namespace Frankie.Control
             switch (MoveToTarget())
             {
                 case null:
+                    if (CanLocomote()) { StartLocomotion(); }
+                    break;
                 case false:
                 {
                     if (CanLocomote()) { StartLocomotion(); }
