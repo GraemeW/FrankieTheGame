@@ -201,10 +201,15 @@ namespace Frankie.Control
         private void StartLocomotion()
         {
             if (npcMoveFocus is not (NPCMoveFocus.Pending or NPCMoveFocus.Patrolling or NPCMoveFocus.RandomWalk)) { return; }
-            
-            currentSpeed = 0f;
-            SetLookDirection(lookDirectionOnDwell);
-            UpdateAnimator();
+
+            if (waypointDwellTime > 0)
+            {
+                // Avoid idle animator state completely if no dwell
+                currentSpeed = 0f;
+                SetLookDirection(lookDirectionOnDwell);
+                UpdateAnimator();
+            }
+
             if (timeSinceArrivedAtWaypoint > waypointDwellTime)
             {
                 SetupNextLocomotionTarget();

@@ -49,10 +49,10 @@ Material:
     - _FadeOutTime: 0.75
     - _FadeTime: 3.5
     - _GraphicStrengthMod: 2
-    - _Phase: 167.03995
+    - _Phase: 0.8799997
     - _Strength: 30
     - _ToggleFade: 0
-    - _ToggleFadeOut: 1
+    - _ToggleFadeOut: 0
     m_Colors: []
   m_BuildTextureStacks: []
   m_AllowLocking: 1
