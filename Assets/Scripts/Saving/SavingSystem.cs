@@ -86,6 +86,12 @@ namespace Frankie.Saving
             SaveFile(sessionFile, state);
         }
 
+        public static void CopySaveToSave(string inputSaveFile, string copySaveFile)
+        {
+            JObject state = LoadFile(inputSaveFile);
+            SaveFile(copySaveFile, state);
+        }
+
         public static void Append(string sessionFile, SaveableEntity saveableEntity)
         {
             JObject state = LoadFile(sessionFile);

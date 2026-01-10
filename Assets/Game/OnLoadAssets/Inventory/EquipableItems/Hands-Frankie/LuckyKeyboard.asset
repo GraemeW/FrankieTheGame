@@ -16,7 +16,7 @@ MonoBehaviour:
   displayName: Lucky Keyboard
   description: It has a neat shamrock decal on it!  Only usable by Frankie.
   droppable: 1
-  price: 200
+  price: 300
   equipLocation: 1
   baseStatModifiers:
   - stat: 4

@@ -96,7 +96,7 @@ namespace Frankie.Control
 
         public void ClearMoveTargets()
         {
-            SetAnimationAndSpeedForMovementEnd();
+            if (HasMoveTarget()) { SetAnimationAndSpeedForMovementEnd(); }
             targetDistanceTolerance = defaultTargetDistanceTolerance;
             moveTargetCoordinate = null;
             targetMovementHistory.Clear();
@@ -195,7 +195,7 @@ namespace Frankie.Control
         
         private void SetAnimationAndSpeedForMovementEnd()
         {
-            SetLookDirection(Vector2.down);
+            SetLookDirection(defaultLookDirection);
             currentSpeed = 0f;
             UpdateAnimator();
         }

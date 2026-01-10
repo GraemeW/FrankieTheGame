@@ -382,7 +382,10 @@ namespace Frankie.Speech
         {
             foreach (string dialogueNodeID in dialogueNodeIDs)
             {
-                if (currentDialogue.GetNodeFromID(dialogueNodeID).CheckCondition(GetEvaluators()))
+                DialogueNode dialogueNode = currentDialogue.GetNodeFromID(dialogueNodeID);
+                if (dialogueNode == null) { continue; }
+                
+                if (dialogueNode.CheckCondition(GetEvaluators()))
                 {
                     yield return dialogueNodeID;
                 }

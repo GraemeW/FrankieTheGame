@@ -53,6 +53,7 @@ MonoBehaviour:
   zoneNodes:
   - {fileID: 5741578906310247025}
   - {fileID: -6787401506896633538}
+  - {fileID: 8123045737310385565}
 --- !u!114 &5741578906310247025
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -71,6 +72,35 @@ MonoBehaviour:
     serializedVersion: 2
     x: 30
     y: 30
+    width: 430
+    height: 150
+  zoneName: Demo_Forest-Portabank
+  draggingRect:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 430
+    height: 45
+  condition:
+    and: []
+--- !u!114 &8123045737310385565
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3268536af8903a64da82aa6872733d1d, type: 3}
+  m_Name: PortaE-to-Forest
+  m_EditorClassIdentifier: Assembly-CSharp::Frankie.ZoneManagement.ZoneNode
+  children: []
+  linkedZoneNode: {fileID: -8229641933190378029, guid: 56bcb0733fa024bf5b983792663e12bb, type: 2}
+  rect:
+    serializedVersion: 2
+    x: 23
+    y: 363
     width: 430
     height: 150
   zoneName: Demo_Forest-Portabank

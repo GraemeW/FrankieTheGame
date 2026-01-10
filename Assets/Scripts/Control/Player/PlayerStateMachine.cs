@@ -325,6 +325,9 @@ namespace Frankie.Control
         {
             Fader fader = Fader.FindFader();
             if (fader == null || fader.IsFading()) { return false; }
+            
+            // Edge case on improper game exit, starting Coroutine on object if it's undergoing destruction throws error
+            if (this == null || gameObject == null) { return false; } 
 
             StartCoroutine(QueueBattleTransition(fader, currentTransitionType));
             return true;
@@ -336,6 +339,9 @@ namespace Frankie.Control
         {
             Fader fader = Fader.FindFader();
             if (fader == null || fader.IsFading()) { return false; }
+            
+            // Edge case on improper game exit, starting Coroutine on object if it's undergoing destruction throws error
+            if (this == null || gameObject == null) { return false; }
 
             StartCoroutine(QueueExitCombat(fader));
             return true;
@@ -361,7 +367,7 @@ namespace Frankie.Control
             yield return fader.QueueFadeExit(transitionType);
             combatFadeComplete = true;
             currentPlayerState.EnterCombat(this);
-            BattleEventBus<BattleFadeTransitionEvent>.Raise(new BattleFadeTransitionEvent(BattleFadePhase.EntryComplete));
+            BattleEventBus<BattleFadeTransitionEvent>.Raise(new BattleFadeTransitionEvent(BattleFadePhase.EntryComplete, enemiesInTransition, transitionType));
         }
 
         private IEnumerator QueueExitCombat(Fader fader)

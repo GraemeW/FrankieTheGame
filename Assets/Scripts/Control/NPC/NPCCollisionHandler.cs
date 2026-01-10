@@ -77,7 +77,7 @@ namespace Frankie.Control
                 case NPCStateType.Idle:
                 case NPCStateType.Occupied:
                 default:
-                    collisionsActive = false;
+                    collisionsActive = collisionsOverriddenToEnterCombat;
                     break;
             }
         }
@@ -117,10 +117,7 @@ namespace Frankie.Control
             if (playerCollisionMask == (playerCollisionMask | (1 << collisionGameObject.layer)))
             {
                 PlayerMover playerMover = collisionGameObject.GetComponentInParent<PlayerMover>();
-                if (playerMover != null && HandlePlayerCollisions(playerMover, npcPosition, playerPosition))
-                {
-                    return;
-                }
+                if (playerMover != null && HandlePlayerCollisions(playerMover, npcPosition, playerPosition)) { return; }
             }
 
             if (collisionGameObject.TryGetComponent(out NPCCollisionHandler collisionNPC))

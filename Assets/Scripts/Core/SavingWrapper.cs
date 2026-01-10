@@ -1,5 +1,7 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using Frankie.Saving;
 using Frankie.ZoneManagement;
@@ -14,6 +16,9 @@ namespace Frankie.Core
         private const string _sessionFile = "session";
         private const string _debugFile = "debug";
         private const string _playerPrefsCurrentSave = "currentSave";
+        
+        // Events
+        public static event Action gameListUpdated;
 
         #region StaticMethods
         public static string GetSaveNameForIndex(int index)
@@ -85,10 +90,20 @@ namespace Frankie.Core
         #endregion
 
         #region PublicMethods
-
-        private static IEnumerable<string> ListSaves()
+        public static void SetCurrentSave(string saveFile, bool announceGameListUpdate = true)
         {
-            return SavingSystem.ListSaves();
+            PlayerPrefs.SetString(_playerPrefsCurrentSave, saveFile);
+            if (announceGameListUpdate) { gameListUpdated?.Invoke(); }
+        }
+
+        public static string GetCurrentSave()
+        {
+            return (!PlayerPrefs.HasKey(_playerPrefsCurrentSave) ? null : PlayerPrefs.GetString(_playerPrefsCurrentSave)) ?? _debugFile;
+        }
+        
+        public static IEnumerable<string> ListSaves(bool includeSession = true)
+        {
+            return includeSession ? SavingSystem.ListSaves() : SavingSystem.ListSaves().Where(saveName => saveName != _sessionFile).ToList();
         }
 
         public static bool HasSave(string matchSave)
@@ -155,27 +170,49 @@ namespace Frankie.Core
             SavingSystem.CopyCorePlayerStateToSave(saveName);
         }
 
-        public static void Save()
+        public static void Save(bool announceGameListUpdate = true)
         {
             string saveName = GetCurrentSave();
             UpdateSavePrefs(saveName);
             SavingSystem.CopySessionToSave(_sessionFile, saveName);
+            if (announceGameListUpdate) { gameListUpdated?.Invoke(); }
         }
 
-        public static void Delete()
+        public static void Delete(bool announceGameListUpdate = true)
         {
             string currentSave = GetCurrentSave();
             SavingSystem.Delete(currentSave);
+            if (announceGameListUpdate) { gameListUpdated?.Invoke(); }
         }
 
-        public static void Delete(string saveName)
+        public static void Delete(string saveName, bool announceGameListUpdate = true)
         {
             SavingSystem.Delete(saveName);
+            if (announceGameListUpdate) { gameListUpdated?.Invoke(); }
         }
 
         public static void DeleteSession()
         {
             SavingSystem.Delete(_sessionFile);
+        }
+
+        public static void CopySave(string newSave, bool announceGameListUpdate = true)
+        {
+            CopySave(GetCurrentSave(), newSave, announceGameListUpdate);
+        }
+
+        public static void CopySave(string existingSave, string newSave, bool announceGameListUpdate = true)
+        {
+            if (string.IsNullOrWhiteSpace(existingSave) || string.IsNullOrWhiteSpace(newSave)) { return; }
+            if (!HasSave(existingSave)) { return; }
+            
+            SavingSystem.CopySaveToSave(existingSave, newSave);
+
+            if (GetInfoFromName(existingSave, out string characterName, out int level))
+            {
+                SetSavePrefs(newSave, characterName, level);
+            }
+            if (announceGameListUpdate) { gameListUpdated?.Invoke(); }
         }
         #endregion
 
@@ -203,16 +240,6 @@ namespace Frankie.Core
 
             Fader fader = Fader.FindFader();
             fader?.UpdateFadeStateImmediate();
-        }
-
-        private static void SetCurrentSave(string saveFile)
-        {
-            PlayerPrefs.SetString(_playerPrefsCurrentSave, saveFile);
-        }
-
-        private static string GetCurrentSave()
-        {
-            return (!PlayerPrefs.HasKey(_playerPrefsCurrentSave) ? null : PlayerPrefs.GetString(_playerPrefsCurrentSave)) ?? _debugFile;
         }
         #endregion
     }

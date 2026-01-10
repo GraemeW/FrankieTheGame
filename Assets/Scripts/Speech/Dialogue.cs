@@ -177,6 +177,27 @@ namespace Frankie.Speech
                 dialogueNode.SetSpeakerName(newSpeakerName);
             }
         }
+
+        public void RegenerateGUIDs()
+        {
+            var guidSwapCache = new Dictionary<string, string>();
+            foreach (DialogueNode dialogueNode in dialogueNodes)
+            {
+                guidSwapCache[dialogueNode.name] = System.Guid.NewGuid().ToString();
+            }
+            
+            Undo.RegisterCompleteObjectUndo(this, "Regenerate GUIDs");
+            foreach (DialogueNode dialogueNode in dialogueNodes.Where(dialogueNode => guidSwapCache.ContainsKey(dialogueNode.name)))
+            {
+                dialogueNode.name = guidSwapCache[dialogueNode.name];
+                List<string> childNodes = dialogueNode.GetChildren().ToList();
+                foreach (string childNode in childNodes.Where(childNode => guidSwapCache.ContainsKey(childNode)))
+                {
+                    dialogueNode.SwapChild(childNode, guidSwapCache[childNode], false);
+                }
+            }
+            EditorUtility.SetDirty(this);
+        }
 #endif
         #endregion
 

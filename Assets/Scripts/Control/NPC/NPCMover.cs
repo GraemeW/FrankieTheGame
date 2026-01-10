@@ -16,7 +16,7 @@ namespace Frankie.Control
         [SerializeField] private float randomWalkxLimitDistance = 1.2f;
         [SerializeField] private float randomWalkyLimitDistance = 1.2f;
         [SerializeField] private float waypointDwellTime = 2.0f;
-        [SerializeField] [Tooltip("Anything other than U/D/L/R to keep last look direction")] private PlayerInputType lookDirectionOnDwell = PlayerInputType.NavigateDown;
+        [SerializeField] private Vector2 lookDirectionOnDwell = Vector2.down;
         [SerializeField] private float giveUpOnLocomotionTargetTime = 10.0f;
         [SerializeField] private float locomotionCollisionStayTime = 0.5f;
 
@@ -86,6 +86,8 @@ namespace Frankie.Control
             switch (MoveToTarget())
             {
                 case null:
+                    if (CanLocomote()) { StartLocomotion(); }
+                    break;
                 case false:
                 {
                     if (CanLocomote()) { StartLocomotion(); }
@@ -153,6 +155,7 @@ namespace Frankie.Control
         #region PublicMethods
         public Vector2 GetInteractionPosition() => interactionCenterPoint != null ? interactionCenterPoint.position : Vector2.zero;
         public void SetLookDirectionDown() => SetLookDirection(Vector2.down); // Called via Unity Events
+        public void SetLookDirectionUp() => SetLookDirection(Vector2.up); // Called via Unity Events
         public void SetLookDirectionToPlayer(PlayerStateMachine playerStateHandler) // Called via Unity Events
         {
             var callingController = playerStateHandler.GetComponent<PlayerController>();
@@ -201,10 +204,15 @@ namespace Frankie.Control
         private void StartLocomotion()
         {
             if (npcMoveFocus is not (NPCMoveFocus.Pending or NPCMoveFocus.Patrolling or NPCMoveFocus.RandomWalk)) { return; }
-            
-            currentSpeed = 0f;
-            SetLookDirection(lookDirectionOnDwell);
-            UpdateAnimator();
+
+            if (waypointDwellTime > 0)
+            {
+                // Avoid idle animator state completely if no dwell
+                currentSpeed = 0f;
+                SetLookDirection(lookDirectionOnDwell);
+                UpdateAnimator();
+            }
+
             if (timeSinceArrivedAtWaypoint > waypointDwellTime)
             {
                 SetupNextLocomotionTarget();

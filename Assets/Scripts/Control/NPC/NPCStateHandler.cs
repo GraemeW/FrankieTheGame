@@ -116,6 +116,11 @@ namespace Frankie.Control
         {
             InitiateDialogue();
         }
+        
+        public void SelfDestruct() // called via Unity Event
+        {
+            Destroy(gameObject);
+        }
 
         public void ForceNPCOccupied()
         {

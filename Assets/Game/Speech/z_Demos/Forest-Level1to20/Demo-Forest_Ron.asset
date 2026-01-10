@@ -1,0 +1,356 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-5255670774422074996
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 09c07c7c6f4c666429a0bbc8d18232b2, type: 3}
+  m_Name: 3f563ff3-22fa-4e27-ac1c-80f2bb2a7c7c
+  m_EditorClassIdentifier: Assembly-CSharp::Frankie.Speech.DialogueNode
+  speakerType: 1
+  characterProperties: {fileID: 0}
+  speakerName: Ron
+  text: Whoa whoa whoa, don't hurt me!
+  children:
+  - 042433a9-6345-4257-a760-0131878a7a97
+  rect:
+    serializedVersion: 2
+    x: 530
+    y: 30
+    width: 400
+    height: 225
+  draggingRect:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 400
+    height: 45
+  condition:
+    and:
+    - or:
+      - predicate: {fileID: 11400000, guid: 05a207001b6cf42d182a27d4ae0e3078, type: 2}
+        negate: 0
+--- !u!114 &-1233712256656292020
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 09c07c7c6f4c666429a0bbc8d18232b2, type: 3}
+  m_Name: 1fb6b6b5-25db-447d-8105-9e37833e5e94
+  m_EditorClassIdentifier: Assembly-CSharp::Frankie.Speech.DialogueNode
+  speakerType: 0
+  characterProperties: {fileID: 11400000, guid: b50f84a2f36107a44825b11881f88adf, type: 2}
+  speakerName: Frankie
+  text: Yes, let's do it!
+  children: []
+  rect:
+    serializedVersion: 2
+    x: 2030
+    y: 30
+    width: 400
+    height: 225
+  draggingRect:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 400
+    height: 45
+  condition:
+    and: []
+--- !u!114 &-748029848809563704
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 09c07c7c6f4c666429a0bbc8d18232b2, type: 3}
+  m_Name: 924c83ed-74d4-4e4d-ba58-cdadc15b5c44
+  m_EditorClassIdentifier: Assembly-CSharp::Frankie.Speech.DialogueNode
+  speakerType: 1
+  characterProperties: {fileID: 0}
+  speakerName: Ron
+  text: Want me to shuttle you back to the PortaBank?
+  children:
+  - 6a8b4557-d43b-443b-b8d5-419fd37c0066
+  - 05de6722-68b1-427d-b3d9-fe0ec06949b3
+  rect:
+    serializedVersion: 2
+    x: 1030
+    y: 280
+    width: 400
+    height: 225
+  draggingRect:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 400
+    height: 45
+  condition:
+    and: []
+--- !u!114 &-9932717667103190
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 09c07c7c6f4c666429a0bbc8d18232b2, type: 3}
+  m_Name: 6a8b4557-d43b-443b-b8d5-419fd37c0066
+  m_EditorClassIdentifier: Assembly-CSharp::Frankie.Speech.DialogueNode
+  speakerType: 0
+  characterProperties: {fileID: 11400000, guid: b50f84a2f36107a44825b11881f88adf, type: 2}
+  speakerName: Frankie
+  text: Nah, no thanks.
+  children: []
+  rect:
+    serializedVersion: 2
+    x: 1530
+    y: 280
+    width: 400
+    height: 225
+  draggingRect:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 400
+    height: 45
+  condition:
+    and: []
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aac27b8e802ced743b3f275e283ab9df, type: 3}
+  m_Name: Demo-Forest_Ron
+  m_EditorClassIdentifier: Assembly-CSharp::Frankie.Speech.Dialogue
+  skipRootNode: 1
+  newNodeOffset: {x: 100, y: 25}
+  nodeWidth: 400
+  nodeHeight: 225
+  activeNPCs: []
+  dialogueNodes:
+  - {fileID: 534750792343795120}
+  - {fileID: -5255670774422074996}
+  - {fileID: 8790484633673375785}
+  - {fileID: 8945572675049116051}
+  - {fileID: 213558775222877448}
+  - {fileID: -1233712256656292020}
+  - {fileID: 6080329243943685169}
+  - {fileID: -748029848809563704}
+  - {fileID: -9932717667103190}
+  - {fileID: 8851451501027697024}
+--- !u!114 &213558775222877448
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 09c07c7c6f4c666429a0bbc8d18232b2, type: 3}
+  m_Name: 0064e539-dbfd-40d4-b212-46f83cc318ff
+  m_EditorClassIdentifier: Assembly-CSharp::Frankie.Speech.DialogueNode
+  speakerType: 1
+  characterProperties: {fileID: 0}
+  speakerName: Ron
+  text: Anyway, want to save your progress so far?
+  children:
+  - 1fb6b6b5-25db-447d-8105-9e37833e5e94
+  - 21a1c313-9189-484d-88aa-29b8bbe1f702
+  rect:
+    serializedVersion: 2
+    x: 1530
+    y: 30
+    width: 400
+    height: 225
+  draggingRect:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 400
+    height: 45
+  condition:
+    and: []
+--- !u!114 &534750792343795120
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 09c07c7c6f4c666429a0bbc8d18232b2, type: 3}
+  m_Name: a8df5188-a130-4693-8ca6-8412188b10b4
+  m_EditorClassIdentifier: Assembly-CSharp::Frankie.Speech.DialogueNode
+  speakerType: 1
+  characterProperties: {fileID: 0}
+  speakerName: Ron
+  text: Root
+  children:
+  - 3f563ff3-22fa-4e27-ac1c-80f2bb2a7c7c
+  - ffd0c302-80ea-4207-ba9b-444ae2e0d1e1
+  rect:
+    serializedVersion: 2
+    x: 30
+    y: 30
+    width: 400
+    height: 225
+  draggingRect:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 400
+    height: 45
+  condition:
+    and: []
+--- !u!114 &6080329243943685169
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 09c07c7c6f4c666429a0bbc8d18232b2, type: 3}
+  m_Name: 21a1c313-9189-484d-88aa-29b8bbe1f702
+  m_EditorClassIdentifier: Assembly-CSharp::Frankie.Speech.DialogueNode
+  speakerType: 0
+  characterProperties: {fileID: 11400000, guid: b50f84a2f36107a44825b11881f88adf, type: 2}
+  speakerName: Frankie
+  text: Nah, no thanks.
+  children: []
+  rect:
+    serializedVersion: 2
+    x: 2030
+    y: 280
+    width: 400
+    height: 225
+  draggingRect:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 400
+    height: 45
+  condition:
+    and: []
+--- !u!114 &8790484633673375785
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 09c07c7c6f4c666429a0bbc8d18232b2, type: 3}
+  m_Name: 042433a9-6345-4257-a760-0131878a7a97
+  m_EditorClassIdentifier: Assembly-CSharp::Frankie.Speech.DialogueNode
+  speakerType: 1
+  characterProperties: {fileID: 0}
+  speakerName: Ron
+  text: I may be bald, but I'm not one of these FREAKS.
+  children:
+  - 0064e539-dbfd-40d4-b212-46f83cc318ff
+  rect:
+    serializedVersion: 2
+    x: 1030
+    y: 30
+    width: 400
+    height: 225
+  draggingRect:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 400
+    height: 45
+  condition:
+    and: []
+--- !u!114 &8851451501027697024
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 09c07c7c6f4c666429a0bbc8d18232b2, type: 3}
+  m_Name: 05de6722-68b1-427d-b3d9-fe0ec06949b3
+  m_EditorClassIdentifier: Assembly-CSharp::Frankie.Speech.DialogueNode
+  speakerType: 0
+  characterProperties: {fileID: 11400000, guid: b50f84a2f36107a44825b11881f88adf, type: 2}
+  speakerName: Frankie
+  text: Yes, get me out of here!
+  children: []
+  rect:
+    serializedVersion: 2
+    x: 1530
+    y: 530
+    width: 400
+    height: 225
+  draggingRect:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 400
+    height: 45
+  condition:
+    and: []
+--- !u!114 &8945572675049116051
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 09c07c7c6f4c666429a0bbc8d18232b2, type: 3}
+  m_Name: ffd0c302-80ea-4207-ba9b-444ae2e0d1e1
+  m_EditorClassIdentifier: Assembly-CSharp::Frankie.Speech.DialogueNode
+  speakerType: 1
+  characterProperties: {fileID: 0}
+  speakerName: Ron
+  text: Hey, listen, if you need a way out of here, I can get you back to the PortaBank
+    just outside the church.
+  children:
+  - 924c83ed-74d4-4e4d-ba58-cdadc15b5c44
+  rect:
+    serializedVersion: 2
+    x: 530
+    y: 280
+    width: 400
+    height: 225
+  draggingRect:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 400
+    height: 45
+  condition:
+    and:
+    - or:
+      - predicate: {fileID: 11400000, guid: b7efe8af9f2d9445cade3c50c9614a57, type: 2}
+        negate: 0
