@@ -20,6 +20,8 @@ namespace Frankie.Combat
         [SerializeField] private float battleQueueDelay = 1.0f;
         
         // State
+        private PlayerInputType currentDirectionalInput = PlayerInputType.DefaultNone;
+        
         private BattleState battleState;
         private bool canAttemptEarlyRun = true;
         private int runAttemptCounter = 0;
@@ -80,6 +82,8 @@ namespace Frankie.Combat
             VerifyUnique();
 
             playerInput.Menu.Navigate.performed += context => ParseDirectionalInput(context.ReadValue<Vector2>());
+            playerInput.Menu.Navigate.canceled += _ => ParseDirectionalInput(Vector2.zero);
+            
             playerInput.Menu.Execute.performed += _ => HandleUserInput(PlayerInputType.Execute);
             playerInput.Menu.Cancel.performed += _ => HandleUserInput(PlayerInputType.Cancel);
             playerInput.Menu.Option.performed += _ => HandleUserInput(PlayerInputType.Option);
@@ -330,8 +334,9 @@ namespace Frankie.Combat
         #region Interaction
         private void ParseDirectionalInput(Vector2 directionalInput)
         {
-            PlayerInputType playerInputType = IStandardPlayerInputCaller.NavigationVectorToInputType(directionalInput);
-            HandleUserInput(playerInputType);
+            if (!IStandardPlayerInputCaller.ParseDirectionalInput(directionalInput, currentDirectionalInput, out PlayerInputType newPlayerInputType)) { return; }
+            currentDirectionalInput = newPlayerInputType;
+            HandleUserInput(newPlayerInputType);
         }
 
         private void HandleUserInput(PlayerInputType playerInputType)

@@ -6,9 +6,17 @@ namespace Frankie.Control
     public interface IStandardPlayerInputCaller
     {
         public event Action<PlayerInputType> globalInput;
-        public void VerifyUnique(); // Define and call in awake, each controller should be a singleton
         
-        public static PlayerInputType NavigationVectorToInputType(Vector2 navigationVector)
+        // Define and call in awake, each controller should be a singleton
+        public void VerifyUnique();
+        
+        public static bool ParseDirectionalInput(Vector2 directionalInput, PlayerInputType lastPlayerInputType, out PlayerInputType newPlayerInputType)
+        {
+            newPlayerInputType = NavigationVectorToInputType(directionalInput);
+            return newPlayerInputType != lastPlayerInputType;
+        }
+        
+        private static PlayerInputType NavigationVectorToInputType(Vector2 navigationVector)
         {
             float verticalMagnitude = Vector2.Dot(navigationVector, Vector2.up);
             float horizontalMagnitude = Vector2.Dot(navigationVector, Vector2.right);

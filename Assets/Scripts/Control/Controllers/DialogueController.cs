@@ -18,6 +18,8 @@ namespace Frankie.Speech
         [SerializeField] private GameObject dialogueOptionBoxVertical;
 
         // State
+        private PlayerInputType currentDirectionalInput = PlayerInputType.DefaultNone;
+        
         private Dialogue currentDialogue;
         private DialogueNode currentNode;
         private AIConversant currentConversant;
@@ -66,6 +68,8 @@ namespace Frankie.Speech
             VerifyUnique();
 
             playerInput.Menu.Navigate.performed += context => ParseDirectionalInput(context.ReadValue<Vector2>());
+            playerInput.Menu.Navigate.canceled += _ => ParseDirectionalInput(Vector2.zero);
+            
             playerInput.Menu.Execute.performed += _ => HandleUserInput(PlayerInputType.Execute);
             playerInput.Menu.Cancel.performed += _ => HandleUserInput(PlayerInputType.Cancel);
             playerInput.Menu.Option.performed += _ => HandleUserInput(PlayerInputType.Option);
@@ -232,8 +236,9 @@ namespace Frankie.Speech
         #region PrivateMethods
         private void ParseDirectionalInput(Vector2 directionalInput)
         {
-            PlayerInputType playerInputType = IStandardPlayerInputCaller.NavigationVectorToInputType(directionalInput);
-            HandleUserInput(playerInputType);
+            if (!IStandardPlayerInputCaller.ParseDirectionalInput(directionalInput, currentDirectionalInput, out PlayerInputType newPlayerInputType)) { return; }
+            currentDirectionalInput = newPlayerInputType;
+            HandleUserInput(newPlayerInputType);
         }
 
         private void HandleUserInput(PlayerInputType playerInputType)

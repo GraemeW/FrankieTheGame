@@ -27,6 +27,7 @@ namespace Frankie.Control
         [SerializeField] private Transform interactionCenterPoint;
 
         // State
+        private PlayerInputType currentDirectionalInput = PlayerInputType.DefaultNone;
         private bool allowComponentInteraction = true;
         private bool inTransition = false;
 
@@ -54,6 +55,8 @@ namespace Frankie.Control
             playerInput.Player.Navigate.canceled += _ => playerMover.ParseMovement(Vector2.zero);
 
             playerInput.Player.Navigate.performed += context => ParseDirectionalInput(context.ReadValue<Vector2>());
+            playerInput.Player.Navigate.canceled += _ => ParseDirectionalInput(Vector2.zero);
+            
             playerInput.Player.Pointer.performed += _ => InteractWithComponentManual(PlayerInputType.DefaultNone);
             playerInput.Player.Execute.performed += _ => HandleUserInput(PlayerInputType.Execute);
             playerInput.Player.Cancel.performed += _ => HandleUserInput(PlayerInputType.Cancel);
@@ -150,15 +153,14 @@ namespace Frankie.Control
 
         private void ParseDirectionalInput(Vector2 directionalInput)
         {
-            PlayerInputType playerInputType = IStandardPlayerInputCaller.NavigationVectorToInputType(directionalInput);
-            HandleUserInput(playerInputType);
+            if (!IStandardPlayerInputCaller.ParseDirectionalInput(directionalInput, currentDirectionalInput, out PlayerInputType newPlayerInputType)) { return; }
+            currentDirectionalInput = newPlayerInputType;
+            HandleUserInput(newPlayerInputType);
         }
 
         private void HandleUserInput(PlayerInputType playerInputType)
         {
             if (inTransition) { return; }
-
-            UnityEngine.Debug.Log($"Player input type as {playerInputType}");
             
             if (InteractWithGlobals(playerInputType)) return;
             

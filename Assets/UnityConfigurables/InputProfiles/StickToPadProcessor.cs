@@ -29,15 +29,11 @@ public class StickToPadProcessor : InputProcessor<Vector2>
     public override Vector2 Process(Vector2 value, InputControl control)
     { 
         float stickRatio = Mathf.Abs(value.y) / Mathf.Abs(value.x);
-        Vector2 temp = stickRatio switch
+        return stickRatio switch
         {
             < _lowerSplit => Vector2.right * Mathf.Sign(value.x),
             > _upperSplit => Vector2.up * Mathf.Sign(value.y),
             _ => new Vector2(Mathf.Sign(value.x) * _angleOutput, Mathf.Sign(value.y) * _angleOutput)
         };
-        
-        UnityEngine.Debug.Log($"Input as {value} -> output as {temp}");
-        
-        return temp;
     }
 }
