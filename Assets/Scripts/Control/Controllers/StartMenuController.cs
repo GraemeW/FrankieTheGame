@@ -1,17 +1,12 @@
 using System;
-using Frankie.Combat;
 using UnityEngine;
-using Frankie.Core;
 using Frankie.Menu.UI;
-using Frankie.Stats;
 
 namespace Frankie.Control
 {
     public class StartMenuController : MonoBehaviour, IStandardPlayerInputCaller
     {
         // Tunables
-        [Header("Start Menu Tunables")] 
-        [SerializeField][Tooltip("false for GameOver screen")] private bool destroyPlayerOnStart = true;
         [Header("Links and Prefabs")]
         [SerializeField] private Canvas startCanvas;
         [SerializeField] private StartMenu startMenu;
@@ -36,7 +31,7 @@ namespace Frankie.Control
 
         public void VerifyUnique()
         {
-            StartMenuController[] startMenuControllers = FindObjectsByType<StartMenuController>(FindObjectsSortMode.None);
+            var startMenuControllers = FindObjectsByType<StartMenuController>(FindObjectsSortMode.None);
             if (startMenuControllers.Length > 1)
             {
                 Destroy(gameObject);
@@ -45,7 +40,6 @@ namespace Frankie.Control
 
         private void Start()
         {
-            HandlePlayerExistence(true);
             startMenu.Setup(startCanvas);
             startMenu.TakeControl(this, startMenu, null);
         }
@@ -59,61 +53,7 @@ namespace Frankie.Control
         {
             playerInput.Menu.Disable();
         }
-
-        private void OnDestroy()
-        {
-            HandlePlayerExistence(false);
-        }
-
-        private void HandlePlayerExistence(bool isStart)
-        {
-            PlayerStateMachine playerStateMachine = Player.FindPlayerStateMachine();
-            if (playerStateMachine == null) return;
-
-            if (destroyPlayerOnStart)
-            {
-                if (isStart) { Destroy(playerStateMachine.gameObject); }
-                return;
-            }
-
-            HealParty(playerStateMachine);
-            playerStateMachine.EnterWorld();
-            LockPlayer(playerStateMachine, isStart);
-        }
-
-        private void HealParty(PlayerStateMachine playerStateMachine)
-        {
-            if (playerStateMachine == null) { return; }
-            Party party = playerStateMachine.GetParty();
-            if (party == null) { return; }
-            
-            foreach (BaseStats member in party.GetParty())
-            {
-                if (member.TryGetComponent(out CombatParticipant combatParticipant))
-                {
-                    combatParticipant.Revive(false);
-                }
-            }
-        }
         
-        private void LockPlayer(PlayerStateMachine playerStateMachine, bool enable)
-        {
-            if (playerStateMachine == null) { return; }
-            
-            if (enable)
-            {
-                // Lock menus, but allow player movement
-                playerStateMachine.EnterCutscene(true, true);
-                if (playerStateMachine.TryGetComponent(out PlayerMover playerMover))
-                {
-                    playerMover.SetLookDirection(Vector2.down);
-                }
-            }
-            else
-            {
-                playerStateMachine.EnterWorld();
-            }
-        }
 
         private void ParseDirectionalInput(Vector2 directionalInput)
         {
