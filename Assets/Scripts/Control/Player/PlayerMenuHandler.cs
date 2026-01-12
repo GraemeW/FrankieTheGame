@@ -5,10 +5,13 @@ using UnityEngine;
 
 namespace Frankie.Control
 {
+    // Note:
+    // This specifically applies to handling the Player object in Start/GameOver/GameWin menu screens
+    
     public class PlayerMenuHandler : MonoBehaviour
     {
         [SerializeField][Tooltip("false for GameOver screen")] private bool destroyPlayerOnStart = true;
-
+        
         private void Start()
         {
             HandlePlayerExistence(true);

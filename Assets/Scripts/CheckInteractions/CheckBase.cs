@@ -19,7 +19,7 @@ namespace Frankie.Control
         protected bool IsInRange(PlayerController playerController)
         {
             if (!activeCheck) { return false; }
-            return this.CheckDistance(gameObject, transform.position, playerController, overrideDefaultInteractionDistance, interactionDistance);
+            return IRaycastable.CheckDistance(gameObject, transform.position, playerController, overrideDefaultInteractionDistance, interactionDistance);
         }
         
         public void SetActiveCheck(bool enable) // Called via Unity Events
@@ -32,9 +32,6 @@ namespace Frankie.Control
         public virtual CursorType GetCursorType() => CursorType.Check;
 
         public abstract bool HandleRaycast(PlayerStateMachine playerStateHandler, PlayerController playerController, PlayerInputType inputType, PlayerInputType matchType);
-
-        // Not evaluated -> IRaycastableExtension
-        bool IRaycastable.CheckDistanceTemplate() => false;
         #endregion
 
         #region SaveInterface
