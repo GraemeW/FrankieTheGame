@@ -69,7 +69,6 @@ namespace Frankie.Speech
             playerInput.Menu.Execute.performed += _ => HandleUserInput(PlayerInputType.Execute);
             playerInput.Menu.Cancel.performed += _ => HandleUserInput(PlayerInputType.Cancel);
             playerInput.Menu.Option.performed += _ => HandleUserInput(PlayerInputType.Option);
-            playerInput.Menu.Skip.performed += _ => HandleUserInput(PlayerInputType.Skip);
         }
 
         private void OnEnable()
@@ -233,7 +232,7 @@ namespace Frankie.Speech
         #region PrivateMethods
         private void ParseDirectionalInput(Vector2 directionalInput)
         {
-            PlayerInputType playerInputType = this.NavigationVectorToInputType(directionalInput);
+            PlayerInputType playerInputType = IStandardPlayerInputCaller.NavigationVectorToInputType(directionalInput);
             HandleUserInput(playerInputType);
         }
 
@@ -271,15 +270,6 @@ namespace Frankie.Speech
                     return true;
                 }
                 else
-                {
-                    EndConversation();
-                    return true;
-                }
-            }
-
-            if (playerInputType == PlayerInputType.Skip || playerInputType == PlayerInputType.Cancel)
-            {
-                if (!HasNext())
                 {
                     EndConversation();
                     return true;

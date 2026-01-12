@@ -129,15 +129,6 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
                     ""initialStateCheck"": false
                 },
                 {
-                    ""name"": ""Skip"",
-                    ""type"": ""Button"",
-                    ""id"": ""312910ed-f2ca-4023-bc62-cc9408f87530"",
-                    ""expectedControlType"": """",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": false
-                },
-                {
                     ""name"": ""Pointer"",
                     ""type"": ""Value"",
                     ""id"": ""a9840735-ba02-4f85-9172-1d217bcef3c6"",
@@ -249,17 +240,6 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
-                    ""id"": ""978bfe49-cc26-4a3d-ab7b-7d7a29327403"",
-                    ""path"": ""<Gamepad>/leftStick"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": "";Gamepad"",
-                    ""action"": ""Navigate"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
                     ""id"": ""843d6257-ea4d-40d5-9bf3-066fc7c01f19"",
                     ""path"": ""<HID::Logitech Logitech Dual Action>/hat"",
                     ""interactions"": """",
@@ -271,8 +251,8 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
-                    ""id"": ""9457a7da-763c-462f-bffe-35c392d1c748"",
-                    ""path"": ""<HID::Logitech Logitech Dual Action>/stick"",
+                    ""id"": ""978bfe49-cc26-4a3d-ab7b-7d7a29327403"",
+                    ""path"": ""<Gamepad>/leftStick"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": "";Gamepad"",
@@ -282,6 +262,17 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
+                    ""id"": ""16b52f0d-da3b-44ab-90be-523ddaa592de"",
+                    ""path"": ""<HID::Logitech Logitech Dual Action>/stick"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": "";Touch"",
+                    ""action"": ""Navigate"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""2D Vector"",
                     ""id"": ""da485ab2-5117-442d-a638-f1340ff57e59"",
                     ""path"": ""<Keyboard>/e"",
                     ""interactions"": """",
@@ -359,6 +350,39 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
+                    ""id"": ""6a4b46cc-e9aa-4d08-bab6-87c41d651716"",
+                    ""path"": ""<Keyboard>/q"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": "";Keyboard&Mouse"",
+                    ""action"": ""Cancel"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""4812fd91-cf1b-41ac-bdf0-aea8b825c310"",
+                    ""path"": ""<Gamepad>/buttonEast"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""Cancel"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""05f6913d-c316-48b2-a6bb-e225f14c7960"",
+                    ""path"": ""<HID::Logitech Logitech Dual Action>/button3"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": "";Gamepad"",
+                    ""action"": ""Cancel"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
                     ""id"": ""b36a0c34-4ec3-4041-a533-8607466b3183"",
                     ""path"": ""<Keyboard>/tab"",
                     ""interactions"": """",
@@ -387,39 +411,6 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": "";Gamepad"",
                     ""action"": ""Option"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""6a4b46cc-e9aa-4d08-bab6-87c41d651716"",
-                    ""path"": ""<Keyboard>/q"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Skip"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""05f6913d-c316-48b2-a6bb-e225f14c7960"",
-                    ""path"": ""<HID::Logitech Logitech Dual Action>/button3"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": "";Gamepad"",
-                    ""action"": ""Skip"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""4812fd91-cf1b-41ac-bdf0-aea8b825c310"",
-                    ""path"": ""<Gamepad>/buttonEast"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""Gamepad"",
-                    ""action"": ""Skip"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -471,15 +462,6 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
                     ""name"": ""Option"",
                     ""type"": ""Button"",
                     ""id"": ""5e72b347-ec1d-410b-a773-55b59634cc28"",
-                    ""expectedControlType"": """",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": false
-                },
-                {
-                    ""name"": ""Skip"",
-                    ""type"": ""Button"",
-                    ""id"": ""058ffc6a-f372-45d5-9606-bb680f8bf426"",
                     ""expectedControlType"": """",
                     ""processors"": """",
                     ""interactions"": """",
@@ -624,8 +606,8 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
-                    ""id"": ""3f07c26d-cbc3-47d6-8e35-8c23236ce145"",
-                    ""path"": ""<Gamepad>/leftStick"",
+                    ""id"": ""1edb16d5-3181-4e3c-a1b2-ed9f5a3fe5e6"",
+                    ""path"": ""<HID::Logitech Logitech Dual Action>/hat"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": "";Gamepad"",
@@ -635,8 +617,8 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
-                    ""id"": ""1edb16d5-3181-4e3c-a1b2-ed9f5a3fe5e6"",
-                    ""path"": ""<HID::Logitech Logitech Dual Action>/hat"",
+                    ""id"": ""3f07c26d-cbc3-47d6-8e35-8c23236ce145"",
+                    ""path"": ""<Gamepad>/leftStick"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": "";Gamepad"",
@@ -734,6 +716,39 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
+                    ""id"": ""d38b892a-8040-4f13-a962-557e3fcd307d"",
+                    ""path"": ""<Keyboard>/q"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": "";Keyboard&Mouse"",
+                    ""action"": ""Cancel"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""68d7b755-710c-480a-85cc-96c9ac937b8e"",
+                    ""path"": ""<Gamepad>/buttonEast"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""Cancel"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""eb0ff94e-e1b9-4121-833e-052a00f6f0fc"",
+                    ""path"": ""<HID::Logitech Logitech Dual Action>/button3"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": "";Gamepad"",
+                    ""action"": ""Cancel"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
                     ""id"": ""7bbc0e65-8e78-4886-9f17-5e188510a605"",
                     ""path"": ""<Keyboard>/tab"",
                     ""interactions"": """",
@@ -762,39 +777,6 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": "";Gamepad"",
                     ""action"": ""Option"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""3a1fe7ca-54e0-45ce-b81b-3657343b1df5"",
-                    ""path"": ""<Mouse>/leftButton"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": "";Keyboard&Mouse"",
-                    ""action"": ""Skip"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""68d7b755-710c-480a-85cc-96c9ac937b8e"",
-                    ""path"": ""<Gamepad>/buttonEast"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""Gamepad"",
-                    ""action"": ""Skip"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""f5f8f2ef-eb46-4ae2-9c0f-8888f64aab83"",
-                    ""path"": ""<Gamepad>/buttonEast"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""Gamepad"",
-                    ""action"": ""Skip"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -1082,7 +1064,6 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
         m_Player_Execute = m_Player.FindAction("Execute", throwIfNotFound: true);
         m_Player_Cancel = m_Player.FindAction("Cancel", throwIfNotFound: true);
         m_Player_Option = m_Player.FindAction("Option", throwIfNotFound: true);
-        m_Player_Skip = m_Player.FindAction("Skip", throwIfNotFound: true);
         m_Player_Pointer = m_Player.FindAction("Pointer", throwIfNotFound: true);
         // Menu
         m_Menu = asset.FindActionMap("Menu", throwIfNotFound: true);
@@ -1090,7 +1071,6 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
         m_Menu_Execute = m_Menu.FindAction("Execute", throwIfNotFound: true);
         m_Menu_Cancel = m_Menu.FindAction("Cancel", throwIfNotFound: true);
         m_Menu_Option = m_Menu.FindAction("Option", throwIfNotFound: true);
-        m_Menu_Skip = m_Menu.FindAction("Skip", throwIfNotFound: true);
         m_Menu_Select1 = m_Menu.FindAction("Select1", throwIfNotFound: true);
         m_Menu_Select2 = m_Menu.FindAction("Select2", throwIfNotFound: true);
         m_Menu_Select3 = m_Menu.FindAction("Select3", throwIfNotFound: true);
@@ -1191,7 +1171,6 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_Execute;
     private readonly InputAction m_Player_Cancel;
     private readonly InputAction m_Player_Option;
-    private readonly InputAction m_Player_Skip;
     private readonly InputAction m_Player_Pointer;
     /// <summary>
     /// Provides access to input actions defined in input action map "Player".
@@ -1220,10 +1199,6 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
         /// Provides access to the underlying input action "Player/Option".
         /// </summary>
         public InputAction @Option => m_Wrapper.m_Player_Option;
-        /// <summary>
-        /// Provides access to the underlying input action "Player/Skip".
-        /// </summary>
-        public InputAction @Skip => m_Wrapper.m_Player_Skip;
         /// <summary>
         /// Provides access to the underlying input action "Player/Pointer".
         /// </summary>
@@ -1266,9 +1241,6 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
             @Option.started += instance.OnOption;
             @Option.performed += instance.OnOption;
             @Option.canceled += instance.OnOption;
-            @Skip.started += instance.OnSkip;
-            @Skip.performed += instance.OnSkip;
-            @Skip.canceled += instance.OnSkip;
             @Pointer.started += instance.OnPointer;
             @Pointer.performed += instance.OnPointer;
             @Pointer.canceled += instance.OnPointer;
@@ -1295,9 +1267,6 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
             @Option.started -= instance.OnOption;
             @Option.performed -= instance.OnOption;
             @Option.canceled -= instance.OnOption;
-            @Skip.started -= instance.OnSkip;
-            @Skip.performed -= instance.OnSkip;
-            @Skip.canceled -= instance.OnSkip;
             @Pointer.started -= instance.OnPointer;
             @Pointer.performed -= instance.OnPointer;
             @Pointer.canceled -= instance.OnPointer;
@@ -1342,7 +1311,6 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
     private readonly InputAction m_Menu_Execute;
     private readonly InputAction m_Menu_Cancel;
     private readonly InputAction m_Menu_Option;
-    private readonly InputAction m_Menu_Skip;
     private readonly InputAction m_Menu_Select1;
     private readonly InputAction m_Menu_Select2;
     private readonly InputAction m_Menu_Select3;
@@ -1374,10 +1342,6 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
         /// Provides access to the underlying input action "Menu/Option".
         /// </summary>
         public InputAction @Option => m_Wrapper.m_Menu_Option;
-        /// <summary>
-        /// Provides access to the underlying input action "Menu/Skip".
-        /// </summary>
-        public InputAction @Skip => m_Wrapper.m_Menu_Skip;
         /// <summary>
         /// Provides access to the underlying input action "Menu/Select1".
         /// </summary>
@@ -1432,9 +1396,6 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
             @Option.started += instance.OnOption;
             @Option.performed += instance.OnOption;
             @Option.canceled += instance.OnOption;
-            @Skip.started += instance.OnSkip;
-            @Skip.performed += instance.OnSkip;
-            @Skip.canceled += instance.OnSkip;
             @Select1.started += instance.OnSelect1;
             @Select1.performed += instance.OnSelect1;
             @Select1.canceled += instance.OnSelect1;
@@ -1470,9 +1431,6 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
             @Option.started -= instance.OnOption;
             @Option.performed -= instance.OnOption;
             @Option.canceled -= instance.OnOption;
-            @Skip.started -= instance.OnSkip;
-            @Skip.performed -= instance.OnSkip;
-            @Skip.canceled -= instance.OnSkip;
             @Select1.started -= instance.OnSelect1;
             @Select1.performed -= instance.OnSelect1;
             @Select1.canceled -= instance.OnSelect1;
@@ -1792,13 +1750,6 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnOption(InputAction.CallbackContext context);
         /// <summary>
-        /// Method invoked when associated input action "Skip" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
-        /// </summary>
-        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
-        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
-        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
-        void OnSkip(InputAction.CallbackContext context);
-        /// <summary>
         /// Method invoked when associated input action "Pointer" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
         /// </summary>
         /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
@@ -1841,13 +1792,6 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnOption(InputAction.CallbackContext context);
-        /// <summary>
-        /// Method invoked when associated input action "Skip" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
-        /// </summary>
-        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
-        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
-        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
-        void OnSkip(InputAction.CallbackContext context);
         /// <summary>
         /// Method invoked when associated input action "Select1" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
         /// </summary>

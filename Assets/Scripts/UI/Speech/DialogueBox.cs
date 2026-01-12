@@ -411,7 +411,7 @@ namespace Frankie.Speech.UI
         {
             if (HandleGlobalInputSpoofAndExit(playerInputType)) { return true; }
 
-            if (playerInputType == PlayerInputType.Execute || playerInputType == PlayerInputType.Skip)
+            if (playerInputType == PlayerInputType.Execute)
             {
                 if (isWriting) { SkipToEndOfPage(); return true; }
                 if (dialogueController != null && !dialogueController.IsSimpleMessage())

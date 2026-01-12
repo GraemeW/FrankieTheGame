@@ -27,7 +27,6 @@ namespace Frankie.Control
 
             playerInput.Menu.Execute.performed += _ => SkipSplash();
             playerInput.Menu.Cancel.performed += _ => SkipSplash();
-            playerInput.Menu.Skip.performed += _ => SkipSplash();
         }
 
         public void VerifyUnique()

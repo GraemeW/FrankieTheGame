@@ -58,7 +58,6 @@ namespace Frankie.Control
             playerInput.Player.Execute.performed += _ => HandleUserInput(PlayerInputType.Execute);
             playerInput.Player.Cancel.performed += _ => HandleUserInput(PlayerInputType.Cancel);
             playerInput.Player.Option.performed += _ => HandleUserInput(PlayerInputType.Option);
-            playerInput.Player.Skip.performed += _ => HandleUserInput(PlayerInputType.Skip);
         }
         
         private void OnEnable()
@@ -87,8 +86,7 @@ namespace Frankie.Control
             RaycastHit2D[] hits = Physics2D.CircleCastAll(interactionCenterPoint.position, raycastRadius, castDirection, castDistance);
 
             List<RaycastHit2D> sortedInteractableHits = hits.Where(x => x.collider.transform.gameObject.CompareTag(_tagInteractable)).OrderBy(x => x.distance).ToList();
-            if (sortedInteractableHits.Count == 0) { return new RaycastHit2D(); } // pass an empty hit
-            return sortedInteractableHits[0];
+            return sortedInteractableHits.Count == 0 ? new RaycastHit2D() : sortedInteractableHits[0];
         }
 
         public Vector2 GetInteractionPosition() => interactionCenterPoint != null ? interactionCenterPoint.position : Vector2.zero;
@@ -152,7 +150,7 @@ namespace Frankie.Control
 
         private void ParseDirectionalInput(Vector2 directionalInput)
         {
-            PlayerInputType playerInputType = this.NavigationVectorToInputType(directionalInput);
+            PlayerInputType playerInputType = IStandardPlayerInputCaller.NavigationVectorToInputType(directionalInput);
             HandleUserInput(playerInputType);
         }
 
@@ -160,7 +158,10 @@ namespace Frankie.Control
         {
             if (inTransition) { return; }
 
+            UnityEngine.Debug.Log($"Player input type as {playerInputType}");
+            
             if (InteractWithGlobals(playerInputType)) return;
+            
             if (allowComponentInteraction)
             {
                 if (InteractWithComponent(playerInputType)) return;
@@ -182,17 +183,14 @@ namespace Frankie.Control
             RaycastHit2D hitInfo = RaycastToMouseLocation();
             if (hitInfo.collider == null) { return false; }
 
-            IRaycastable[] raycastables = hitInfo.transform.GetComponentsInChildren<IRaycastable>();
-            if (raycastables != null)
+            var raycastables = hitInfo.transform.GetComponentsInChildren<IRaycastable>();
+            if (raycastables == null) return false;
+            
+            foreach (IRaycastable raycastable in raycastables)
             {
-                foreach (IRaycastable raycastable in raycastables)
-                {
-                    if (raycastable.HandleRaycast(playerStateMachine, this, playerInputType, PlayerInputType.Execute))
-                    {
-                        SetCursor(raycastable.GetCursorType());
-                        return true;
-                    }
-                }
+                if (!raycastable.HandleRaycast(playerStateMachine, this, playerInputType, PlayerInputType.Execute)) { continue; }
+                SetCursor(raycastable.GetCursorType());
+                return true;
             }
             return false;
         }

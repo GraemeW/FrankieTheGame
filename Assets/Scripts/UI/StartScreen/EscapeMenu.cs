@@ -41,8 +41,8 @@ namespace Frankie.Menu.UI
         public override bool HandleGlobalInput(PlayerInputType playerInputType)
         {
             if (!handleGlobalInput) { return true; } // Spoof:  Cannot accept input, so treat as if global input already handled
-
-            if (playerInputType == PlayerInputType.Option || playerInputType == PlayerInputType.Cancel)
+            
+            if (playerInputType is PlayerInputType.Option or PlayerInputType.Cancel)
             {
                 if (childOption != null)
                 {

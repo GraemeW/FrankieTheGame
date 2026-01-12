@@ -9,7 +9,6 @@ namespace Frankie.Control
         NavigateDown,
         Execute,
         Cancel,
-        Option,
-        Skip
+        Option
     }
 }

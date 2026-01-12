@@ -83,7 +83,6 @@ namespace Frankie.Combat
             playerInput.Menu.Execute.performed += _ => HandleUserInput(PlayerInputType.Execute);
             playerInput.Menu.Cancel.performed += _ => HandleUserInput(PlayerInputType.Cancel);
             playerInput.Menu.Option.performed += _ => HandleUserInput(PlayerInputType.Option);
-            playerInput.Menu.Skip.performed += _ => HandleUserInput(PlayerInputType.Skip);
             playerInput.Menu.Select1.performed += _ => InteractWithCharacterSelect(0);
             playerInput.Menu.Select2.performed += _ => InteractWithCharacterSelect(1);
             playerInput.Menu.Select3.performed += _ => InteractWithCharacterSelect(2);
@@ -331,7 +330,7 @@ namespace Frankie.Combat
         #region Interaction
         private void ParseDirectionalInput(Vector2 directionalInput)
         {
-            PlayerInputType playerInputType = this.NavigationVectorToInputType(directionalInput);
+            PlayerInputType playerInputType = IStandardPlayerInputCaller.NavigationVectorToInputType(directionalInput);
             HandleUserInput(playerInputType);
         }
 

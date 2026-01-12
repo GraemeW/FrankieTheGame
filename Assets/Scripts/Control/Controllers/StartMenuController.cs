@@ -117,7 +117,7 @@ namespace Frankie.Control
 
         private void ParseDirectionalInput(Vector2 directionalInput)
         {
-            PlayerInputType playerInputType = this.NavigationVectorToInputType(directionalInput);
+            PlayerInputType playerInputType = IStandardPlayerInputCaller.NavigationVectorToInputType(directionalInput);
             HandleUserInput(playerInputType);
         }
 
