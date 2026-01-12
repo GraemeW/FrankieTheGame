@@ -11,28 +11,28 @@ namespace Frankie.Speech.UI
     {
         // Tunables
         [Header("Links And Prefabs")]
-        [SerializeField] protected Transform dialogueParent = null;
-        [SerializeField] GameObject simpleTextPrefab = null;
-        [SerializeField] GameObject speechTextPrefab = null;
+        [SerializeField] protected Transform dialogueParent;
+        [SerializeField] private GameObject simpleTextPrefab;
+        [SerializeField] private GameObject speechTextPrefab;
         [Header("Parameters")]
-        [SerializeField] float delayBetweenCharacters = 0.05f; // Seconds
-        [SerializeField] bool reconfigureLayoutOnOptionSize = true;
+        [SerializeField] private float delayBetweenCharacters = 0.05f; // Seconds
+        [SerializeField] private bool reconfigureLayoutOnOptionSize = true;
 
         // Option Field Configurables
-        RectOffset optionPadding = default;
-        float optionSpacing = 0f;
-        TextAnchor optionChildAlignment = default;
-        bool optionControlChildSize = true;
-        bool optionUseChildScale = true;
-        bool optionChildForceExpand = false;
+        private RectOffset optionPadding;
+        private float optionSpacing;
+        private TextAnchor optionChildAlignment;
+        private bool optionControlChildSize = true;
+        private bool optionUseChildScale = true;
+        private bool optionChildForceExpand;
 
         // State -- Toggles
-        bool isWriting = false;
-        bool interruptWriting = false;
-        bool queuePageClear = false;
-        Coroutine activeTextScan = null;
-        Queue<ReceptacleTextPair> printQueue = new Queue<ReceptacleTextPair>();
-        List<GameObject> printedJobs = new List<GameObject>();
+        private bool isWriting = false;
+        private bool interruptWriting = false;
+        private bool queuePageClear = false;
+        private Coroutine activeTextScan;
+        private readonly Queue<ReceptacleTextPair> printQueue = new();
+        private List<GameObject> printedJobs = new();
 
         // Cached References
         protected DialogueController dialogueController = null;
@@ -95,7 +95,7 @@ namespace Frankie.Speech.UI
 
         private void OnDestroy()
         {
-            // Called after disable unsubscribes, safety behavior for dialogue box killed without controller knowing
+            // Called after disable unsubscribes, safety behaviour for dialogue box killed without controller knowing
             if (dialogueController != null && dialogueController.HasDialogue())
             {
                 dialogueController.EndConversation();
@@ -229,7 +229,7 @@ namespace Frankie.Speech.UI
 
         protected void QueueTextForPrinting(GameObject textObject, string text, bool isChoice)
         {
-            ReceptacleTextPair receptacleTextPair = new ReceptacleTextPair
+            var receptacleTextPair = new ReceptacleTextPair
             {
                 receptacle = textObject,
                 text = text,
@@ -244,7 +244,7 @@ namespace Frankie.Speech.UI
             {
                 yield return PrintPageBreak();
             }
-            else if (receptacleTextPair.isChoice == true)
+            else if (receptacleTextPair.isChoice)
             {
                 yield return PrintChoices(receptacleTextPair.receptacle);
             }
@@ -327,6 +327,8 @@ namespace Frankie.Speech.UI
                 if (!optionParent.TryGetComponent(out VerticalLayoutGroup verticalLayoutGroup))
                 {
                     verticalLayoutGroup = optionParent.gameObject.AddComponent(typeof(VerticalLayoutGroup)) as VerticalLayoutGroup;
+                    if (verticalLayoutGroup == null) { return; }
+                    
                     verticalLayoutGroup.padding = optionPadding;
                     verticalLayoutGroup.spacing = optionSpacing;
                     verticalLayoutGroup.childAlignment = optionChildAlignment;
@@ -348,6 +350,8 @@ namespace Frankie.Speech.UI
                 if (!optionParent.TryGetComponent(out HorizontalLayoutGroup horizontalLayoutGroup))
                 {
                     horizontalLayoutGroup = optionParent.gameObject.AddComponent(typeof(HorizontalLayoutGroup)) as HorizontalLayoutGroup;
+                    if (horizontalLayoutGroup == null) { return; }
+                    
                     horizontalLayoutGroup.padding = optionPadding;
                     horizontalLayoutGroup.spacing = optionSpacing;
                     horizontalLayoutGroup.childAlignment = optionChildAlignment;
@@ -395,11 +399,10 @@ namespace Frankie.Speech.UI
         {
             if (playerInputType == PlayerInputType.Execute)
             {
-                if (isWriting)
-                {
-                    if (activeTextScan != null) { StopCoroutine(activeTextScan); }
-                    SetBusyWriting(false);
-                }
+                if (!isWriting) { return true; }
+                
+                if (activeTextScan != null) { StopCoroutine(activeTextScan); }
+                SetBusyWriting(false);
                 return true;
             }
             return false;
@@ -411,7 +414,7 @@ namespace Frankie.Speech.UI
         {
             if (HandleGlobalInputSpoofAndExit(playerInputType)) { return true; }
 
-            if (playerInputType == PlayerInputType.Execute || playerInputType == PlayerInputType.Skip)
+            if (playerInputType == PlayerInputType.Execute)
             {
                 if (isWriting) { SkipToEndOfPage(); return true; }
                 if (dialogueController != null && !dialogueController.IsSimpleMessage())

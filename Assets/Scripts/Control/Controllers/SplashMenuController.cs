@@ -27,12 +27,11 @@ namespace Frankie.Control
 
             playerInput.Menu.Execute.performed += _ => SkipSplash();
             playerInput.Menu.Cancel.performed += _ => SkipSplash();
-            playerInput.Menu.Skip.performed += _ => SkipSplash();
         }
 
         public void VerifyUnique()
         {
-            SplashMenuController[] splashMenuControllers = FindObjectsByType<SplashMenuController>(FindObjectsSortMode.None);
+            var splashMenuControllers = FindObjectsByType<SplashMenuController>(FindObjectsSortMode.None);
             if (splashMenuControllers.Length > 1)
             {
                 Destroy(gameObject);
@@ -63,13 +62,12 @@ namespace Frankie.Control
         {
             if (skipSplashRoutine != null) { StopCoroutine(skipSplashRoutine); skipSplashRoutine = null; }
             sceneLoader.QueueStartScreen();
-            globalInput?.Invoke(PlayerInputType.Execute);
+            HandleUserInput(PlayerInputType.Execute);
         }
 
-        public PlayerInputType NavigationVectorToInputTypeTemplate(Vector2 navigationVector)
+        public void HandleUserInput(PlayerInputType playerInputType)
         {
-            // Not evaluated -> IStandardPlayerInputCallerExtension
-            return PlayerInputType.DefaultNone;
+            globalInput?.Invoke(playerInputType);
         }
     }
 }

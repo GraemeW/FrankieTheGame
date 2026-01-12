@@ -296,7 +296,7 @@ namespace Frankie.ZoneManagement
 
         public bool HandleRaycast(PlayerStateMachine playerStateHandler, PlayerController playerController, PlayerInputType inputType, PlayerInputType matchType)
         {
-            if (!this.CheckDistance(gameObject, transform.position, playerController,
+            if (!IRaycastable.CheckDistance(gameObject, transform.position, playerController,
                 overrideDefaultInteractionDistance, interactionDistance))
             {
                 return false;
@@ -307,12 +307,6 @@ namespace Frankie.ZoneManagement
                 AttemptToWarpPlayer(playerStateHandler, playerController);
             }
             return true;
-        }
-
-        bool IRaycastable.CheckDistanceTemplate()
-        {
-            // Not evaluated -> IRaycastableExtension
-            return false;
         }
         #endregion
     }
