@@ -84,6 +84,14 @@ PrefabInstance:
       propertyPath: increaseHPAudioClip
       value: 
       objectReference: {fileID: 8300000, guid: 7ef01fe75b0130440aa021964d4319b1, type: 3}
+    - target: {fileID: 2748663006084487090, guid: c08399674dab63349bf5a2c9c8ebbcaa, type: 3}
+      propertyPath: decreaseStatAudioClip
+      value: 
+      objectReference: {fileID: 8300000, guid: 4e6e922ec7c7545349c0a7a34b4f205a, type: 3}
+    - target: {fileID: 2748663006084487090, guid: c08399674dab63349bf5a2c9c8ebbcaa, type: 3}
+      propertyPath: increaseStatAudioClip
+      value: 
+      objectReference: {fileID: 8300000, guid: 394bd48e9df784794b6a6ac79bb53cb9, type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -228,12 +236,18 @@ MonoBehaviour:
   movingBackgroundProperties:
     tileSpriteImage: {fileID: 0}
     shaderMaterial: {fileID: 0}
+  battlePropertiesPriority: 0
+  shouldDestroySelfOnDeath: 1
+  shouldSaveStateOnDeath: 0
+  onDeathEvent:
+    m_PersistentCalls:
+      m_Calls: []
   preferredBattleRow: 0
   canRunFrom: 1
   usesAP: 0
   damageTimeSpan: 4
   fractionOfHPInstantOnRevival: 0.5
-  shouldDestroySelfOnDeath: 1
+  holdOnHP: 1
   cooldownMin: 0.2
   cooldownMax: 10
   cooldownAtBattleStartPlayer: 2.5

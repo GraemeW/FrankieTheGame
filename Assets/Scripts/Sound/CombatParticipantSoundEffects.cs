@@ -5,12 +5,14 @@ namespace Frankie.Sound
 {
     public class CombatParticipantSoundEffects : SoundEffects
     {
-        [SerializeField] CombatParticipant combatParticipant = null;
-        [SerializeField] AudioClip decreaseHPAudioClip = null;
-        [SerializeField] AudioClip increaseHPAudioClip = null;
-        [SerializeField] AudioClip deadAudioClip = null;
-        [SerializeField] AudioClip decreaseAPAudioClip = null;
-        [SerializeField] AudioClip increaseAPAudioClip = null;
+        [SerializeField] private CombatParticipant combatParticipant;
+        [SerializeField] private AudioClip decreaseHPAudioClip;
+        [SerializeField] private AudioClip increaseHPAudioClip;
+        [SerializeField] private AudioClip deadAudioClip;
+        [SerializeField] private AudioClip decreaseAPAudioClip;
+        [SerializeField] private AudioClip increaseAPAudioClip;
+        [SerializeField] private AudioClip increaseStatAudioClip;
+        [SerializeField] private AudioClip decreaseStatAudioClip;
 
         protected override void OnEnable()
         {
@@ -46,6 +48,9 @@ namespace Frankie.Sound
                 case StateAlteredType.Resurrected:
                     break;
                 case StateAlteredType.StatusEffectApplied:
+                    PersistentStatus persistentStatus = stateAlteredInfo.persistentStatus;
+                    if (persistentStatus == null) { break; }
+                    PlayClip(persistentStatus.IsIncrease() ? increaseStatAudioClip : decreaseStatAudioClip);
                     break;
                 case StateAlteredType.BaseStateEffectApplied:
                     break;
