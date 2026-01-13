@@ -8,10 +8,16 @@ namespace Frankie.Control
     {
         // Tunables
         [Header("Scene Parameters")]
-        [SerializeField] private float splashDelayTime = 15.0f;
+        [SerializeField] private float splashDelayTime = 3.0f;
+        [SerializeField] private float splashRampTime = 0.7f;
+        [SerializeField] private CanvasGroup[] splashObjects;
 
         // State
-        private Coroutine skipSplashRoutine;
+        private int currentSplashIndex = -1;
+        private float timeSinceSplashLoaded;
+        private CanvasGroup rampUpCanvasGroup;
+        private CanvasGroup rampDownCanvasGroup;
+        private bool kickedOffNextScene = false;
 
         // Cached References
         private SceneLoader sceneLoader;
@@ -19,6 +25,7 @@ namespace Frankie.Control
 
         public event Action<PlayerInputType> globalInput;
 
+        #region UnityMethods
         private void Awake()
         {
             playerInput = new PlayerInput();
@@ -50,24 +57,89 @@ namespace Frankie.Control
 
         private void Start()
         {
-            sceneLoader = SceneLoader.FindSceneLoader();
-                // SceneLoader is a persistent object, thus can only be found after Awake -- so find in Start
-            if (sceneLoader != null)
+            ClearSplashObjects();
+            LoadNextSplash(currentSplashIndex);
+        }
+
+        private void Update()
+        {
+            timeSinceSplashLoaded += Time.deltaTime;
+            if (timeSinceSplashLoaded >= splashDelayTime)
             {
-                skipSplashRoutine = StartCoroutine(sceneLoader.SplashDelayToLoad(splashDelayTime));
+                currentSplashIndex++;
+                if (!kickedOffNextScene) { LoadNextSplash(currentSplashIndex); }
+            }
+            
+            RampSplashAlphas();
+        }
+        #endregion
+
+        #region SplashLoading
+        private void ClearSplashObjects()
+        {
+            foreach (CanvasGroup splashObject in splashObjects)
+            {
+                splashObject.gameObject.SetActive(false);
+            }
+        }
+        
+        private void LoadNextSplash(int splashIndex)
+        {
+            int nextSplashIndex = splashIndex + 1;
+            if (nextSplashIndex < 0) { return; }
+            
+            if (nextSplashIndex >= splashObjects.Length)
+            {
+                rampDownCanvasGroup = rampUpCanvasGroup;
+                rampUpCanvasGroup = null;
+                KickOffNextScene();
+                return;
+            }
+            
+            if (splashIndex >= 0) { rampDownCanvasGroup = splashObjects[splashIndex]; }
+            
+            rampUpCanvasGroup = splashObjects[nextSplashIndex];
+            rampUpCanvasGroup.gameObject.SetActive(true);
+            rampUpCanvasGroup.alpha = 0.0f;
+            timeSinceSplashLoaded = 0;
+        }
+
+        private void RampSplashAlphas()
+        {
+            if (rampUpCanvasGroup != null && rampUpCanvasGroup.alpha < 1.0f)
+            {
+                rampUpCanvasGroup.alpha = Mathf.Min(timeSinceSplashLoaded / splashRampTime, 1.0f);
+            }
+
+            if (rampDownCanvasGroup != null && rampDownCanvasGroup.alpha > 0.0f)
+            {
+                rampDownCanvasGroup.alpha = Mathf.Max(1.0f - timeSinceSplashLoaded / splashRampTime, 0.0f);
             }
         }
 
+        private void KickOffNextScene()
+        {
+            if (kickedOffNextScene) { return; }
+            
+            kickedOffNextScene = true;
+            sceneLoader = SceneLoader.FindSceneLoader();
+            if (sceneLoader == null) { return; }
+            sceneLoader.QueueStartScreen();
+        }
+        #endregion
+
+        #region InputHandling
         private void SkipSplash()
         {
-            if (skipSplashRoutine != null) { StopCoroutine(skipSplashRoutine); skipSplashRoutine = null; }
-            sceneLoader.QueueStartScreen();
+            currentSplashIndex++;
+            LoadNextSplash(currentSplashIndex);
             HandleUserInput(PlayerInputType.Execute);
         }
 
-        public void HandleUserInput(PlayerInputType playerInputType)
+        private void HandleUserInput(PlayerInputType playerInputType)
         {
             globalInput?.Invoke(playerInputType);
         }
+        #endregion
     }
 }
