@@ -145,9 +145,11 @@ MonoBehaviour:
   audioClips: []
   combatParticipant: {fileID: 0}
   decreaseHPAudioClip: {fileID: 8300000, guid: 7c690c297ba6d41469d44641881ade57, type: 3}
+  missedHitAudioClip: {fileID: 8300000, guid: 3e8a6fcb97d12443f94b23fb1ab932c6, type: 3}
   increaseHPAudioClip: {fileID: 8300000, guid: 9c0816a4cf725f14f9ac8fe2f4c88763, type: 3}
   deadAudioClip: {fileID: 8300000, guid: ab7a08f6a1e7fd847937db88d0e8725d, type: 3}
   decreaseAPAudioClip: {fileID: 8300000, guid: 3ea66109112427a47b1b2a8d4f15c7aa, type: 3}
   increaseAPAudioClip: {fileID: 8300000, guid: c7786d59d6f7962409c787cd070fdb9c, type: 3}
   increaseStatAudioClip: {fileID: 8300000, guid: 96fc3ca49640940cf99de91350bd6610, type: 3}
   decreaseStatAudioClip: {fileID: 8300000, guid: a6505cfc553f64564ad1132e409c44ca, type: 3}
+  getHelpAudioClip: {fileID: 8300000, guid: 3955c3c327e39432487b9175dded48f7, type: 3}

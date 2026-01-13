@@ -69,6 +69,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1182436157161314237}
     - target: {fileID: 2748663006084487090, guid: c08399674dab63349bf5a2c9c8ebbcaa, type: 3}
+      propertyPath: missedHitAudioClip
+      value: 
+      objectReference: {fileID: 8300000, guid: 50026084f63f3450fa67f42a43f431e5, type: 3}
+    - target: {fileID: 2748663006084487090, guid: c08399674dab63349bf5a2c9c8ebbcaa, type: 3}
       propertyPath: decreaseAPAudioClip
       value: 
       objectReference: {fileID: 0}
