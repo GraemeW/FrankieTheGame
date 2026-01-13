@@ -151,8 +151,9 @@ namespace Frankie.Combat.UI
                 case StateAlteredType.StatusEffectApplied:
                 {
                     PersistentStatus persistentStatus = stateAlteredInfo.persistentStatus;
-                    if (persistentStatus != null) { AddStatusEffectBobble(persistentStatus); }
+                    if (persistentStatus == null) { break; }
                     
+                    AddStatusEffectBobble(persistentStatus);
                     string statusEffectText = GetStatusEffectText(persistentStatus);
                     if (!string.IsNullOrWhiteSpace(statusEffectText)) { damageTextSpawner.AddToQueue(new DamageTextData(DamageTextType.Informational, statusEffectText)); };
                     break;
