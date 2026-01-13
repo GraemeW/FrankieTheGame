@@ -1,9 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Frankie.Stats;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
+using Random = UnityEngine.Random;
 
 namespace Frankie.Combat.UI
 {
@@ -32,7 +34,7 @@ namespace Frankie.Combat.UI
 
         // State
         protected BattleEntity battleEntity;
-        protected List<StatusEffectBobble> statusEffectBobbles = new List<StatusEffectBobble>();
+        private readonly List<StatusEffectBobble> statusEffectBobbles = new();
         private Coroutine canvasDimming;
         private float currentShakeMagnitude;
         private float currentShakeTime = Mathf.Infinity;
@@ -44,6 +46,25 @@ namespace Frankie.Combat.UI
         // Cached References
         protected Button button;
 
+        #region StaticMethods
+        public static string GetStatusEffectText(PersistentStatus persistentStatus)
+        {
+            return persistentStatus.GetStatusEffectType() switch
+            {
+                Stat.HP => persistentStatus.IsIncrease() ? "+HP" : "-HP",
+                Stat.AP => persistentStatus.IsIncrease() ? "+AP" : "-AP",
+                Stat.Brawn => persistentStatus.IsIncrease() ? "STRONG" : "WEAK",
+                Stat.Beauty => persistentStatus.IsIncrease() ? "FETCHING" : "FOUL",
+                Stat.Smarts => persistentStatus.IsIncrease() ? "BRIGHT" : "DIM",
+                Stat.Nimble => persistentStatus.IsIncrease() ? "FAST" : "SLOW",
+                Stat.Luck => persistentStatus.IsIncrease() ? "BLESSED" : "JINXED",
+                Stat.Pluck => persistentStatus.IsIncrease() ? "BRAVE" : "COWARD",
+                Stat.Stoic => persistentStatus.IsIncrease() ? "STURDY" : "FRAIL",
+                _ => ""
+            };
+        }
+        #endregion
+        
         #region UnityMethods
         protected virtual void Awake()
         {
