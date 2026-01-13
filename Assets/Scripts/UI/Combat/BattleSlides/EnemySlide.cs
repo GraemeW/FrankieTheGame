@@ -15,7 +15,7 @@ namespace Frankie.Combat.UI
         [SerializeField] private float deathFadeTime = 1.0f;
 
         // Data Structures
-        [System.Serializable]
+        [Serializable]
         public struct BattleEntityTypePropertySet
         {
             public BattleEntityType battleEntityType;
@@ -33,15 +33,20 @@ namespace Frankie.Combat.UI
             switch (stateAlteredInfo.stateAlteredType)
             {
                 case StateAlteredType.CooldownSet:
+                {
                     cooldownTimer.ResetTimer(stateAlteredInfo.points);
                     cooldownTimer.SetPaused(float.IsPositiveInfinity(stateAlteredInfo.points));
                     break;
+                }
                 case StateAlteredType.CooldownExpired:
+                {
                     cooldownTimer.ResetTimer(0f);
                     break;
+                }
                 case StateAlteredType.AdjustHPNonSpecific:
                 case StateAlteredType.IncreaseHP:
                 case StateAlteredType.DecreaseHP:
+                {
                     float points = stateAlteredInfo.points;
                     damageTextSpawner.AddToQueue(new DamageTextData(DamageTextType.HealthChanged, points));
                     if (stateAlteredInfo.stateAlteredType == StateAlteredType.DecreaseHP)
@@ -49,42 +54,56 @@ namespace Frankie.Combat.UI
                         ShakeSlide(false);
                         BlipFadeSlide();
                     }
+
                     break;
+                }
                 case StateAlteredType.AdjustAPNonSpecific:
                 case StateAlteredType.IncreaseAP:
                 case StateAlteredType.DecreaseAP:
                     break;
                 case StateAlteredType.HitMiss:
+                {
                     damageTextSpawner.AddToQueue(new DamageTextData(DamageTextType.HitMiss));
                     break;
+                }
                 case StateAlteredType.HitCrit:
+                {
                     damageTextSpawner.AddToQueue(new DamageTextData(DamageTextType.HitCrit));
                     break;
+                }
                 case StateAlteredType.StatusEffectApplied:
+                {
                     PersistentStatus persistentStatus = stateAlteredInfo.persistentStatus;
-                    if (persistentStatus != null)
-                    {
-                        AddStatusEffectBobble(persistentStatus);
-                    }
+                    if (persistentStatus != null) {  AddStatusEffectBobble(persistentStatus); }
+                    
+                    string statusEffectText = GetStatusEffectText(persistentStatus);
+                    if (!string.IsNullOrWhiteSpace(statusEffectText)) { damageTextSpawner.AddToQueue(new DamageTextData(DamageTextType.Informational, statusEffectText)); };
                     break;
+                }
                 case StateAlteredType.BaseStateEffectApplied:
                     break;
                 case StateAlteredType.Dead:
+                {
                     button.enabled = false;
                     image.CrossFadeAlpha(0f, deathFadeTime, false);
                     cooldownTimer?.gameObject.SetActive(false);
                     ClearStatusEffectBobbles();
                     StartCoroutine(DelayToDestroy(deathFadeTime));
                     break;
+                }
                 case StateAlteredType.Resurrected:
                     // Support for resurrection nominally not supported -- breaks UI handling (otherwise need to have supervisor enable/disable)
                     break;
                 case StateAlteredType.FriendFound:
+                {
                     damageTextSpawner.AddToQueue(new DamageTextData(DamageTextType.Informational, "*hello!*"));
                     break;
+                }
                 case StateAlteredType.FriendIgnored:
+                {
                     damageTextSpawner.AddToQueue(new DamageTextData(DamageTextType.Informational, "*lonely*"));
                     break;
+                }
                 default:
                     throw new ArgumentOutOfRangeException();
             }
@@ -101,7 +120,6 @@ namespace Frankie.Combat.UI
         {
             image.sprite = sprite;
             if (battleEntityTypePropertyLookUp == null || battleEntityTypePropertyLookUp.Length == 0) { return; }
-            if (!TryGetComponent(out RectTransform rectTransform)) return;
 
             // Setting size of image based on enemy type (e.g. mook small, standard medium, boss big)
             foreach (BattleEntityTypePropertySet battleEntityPropertySet in battleEntityTypePropertyLookUp)

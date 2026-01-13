@@ -97,19 +97,24 @@ namespace Frankie.Combat.UI
             switch (stateAlteredInfo.stateAlteredType)
             {
                 case StateAlteredType.CooldownSet:
+                {
                     slideState = SlideState.Cooldown;
                     cooldownTimer.ResetTimer(stateAlteredInfo.points);
                     cooldownTimer.SetPaused(float.IsPositiveInfinity(stateAlteredInfo.points));
                     UpdateColor();
                     break;
+                }
                 case StateAlteredType.CooldownExpired:
+                {
                     slideState = SlideState.Ready;
                     cooldownTimer.ResetTimer(0f);
                     UpdateColor();
                     break;
+                }
                 case StateAlteredType.IncreaseHP:
                 case StateAlteredType.DecreaseHP:
                 case StateAlteredType.AdjustHPNonSpecific:
+                {
                     UpdateHP(battleEntity.combatParticipant.GetHP());
                     float points = stateAlteredInfo.points;
                     damageTextSpawner.AddToQueue(new DamageTextData(DamageTextType.HealthChanged, points));
@@ -119,39 +124,53 @@ namespace Frankie.Combat.UI
                         ShakeSlide(strongShakeEnable);
                         BlipFadeSlide();
                     }
+
                     break;
+                }
                 case StateAlteredType.IncreaseAP:
                 case StateAlteredType.DecreaseAP:
                     break;
                 case StateAlteredType.AdjustAPNonSpecific:
+                {
                     // Adjust character slide AP on non-specific (i.e. even those announced 'quietly')
                     // Sound effects otherwise update on increase/decrease
                     UpdateAP(battleEntity.combatParticipant.GetAP());
                     damageTextSpawner.AddToQueue(new DamageTextData(DamageTextType.APChanged, stateAlteredInfo.points));
                     break;
+                }
                 case StateAlteredType.HitMiss:
+                {
                     damageTextSpawner.AddToQueue(new DamageTextData(DamageTextType.HitMiss));
                     break;
+                }
                 case StateAlteredType.HitCrit:
+                {
                     damageTextSpawner.AddToQueue(new DamageTextData(DamageTextType.HitCrit));
                     break;
+                }
                 case StateAlteredType.StatusEffectApplied:
+                {
                     PersistentStatus persistentStatus = stateAlteredInfo.persistentStatus;
-                    if (persistentStatus != null)
-                    {
-                        AddStatusEffectBobble(persistentStatus);
-                    }
+                    if (persistentStatus != null) { AddStatusEffectBobble(persistentStatus); }
+                    
+                    string statusEffectText = GetStatusEffectText(persistentStatus);
+                    if (!string.IsNullOrWhiteSpace(statusEffectText)) { damageTextSpawner.AddToQueue(new DamageTextData(DamageTextType.Informational, statusEffectText)); };
                     break;
+                }
                 case StateAlteredType.BaseStateEffectApplied:
                     break;
                 case StateAlteredType.Dead:
+                {
                     slideState = SlideState.Dead;
                     UpdateColor();
                     break;
+                }
                 case StateAlteredType.Resurrected:
+                {
                     slideState = SlideState.Ready;
                     UpdateColor();
                     break;
+                }
                 case StateAlteredType.FriendFound:
                 case StateAlteredType.FriendIgnored:
                     break;
