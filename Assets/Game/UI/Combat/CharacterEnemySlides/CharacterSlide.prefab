@@ -222,7 +222,11 @@ MonoBehaviour:
   shakeDuration: 0.4
   shakeCount: 4
   dimmingMin: 0.7
-  halfDimmingTime: 0.05
+  halfDimmingTime: 0.1
+  growingMax: 1.2
+  halfGrowingTime: 0.125
+  xScaleGrow: 1
+  yScaleGrow: 0
   characterNameField: {fileID: 3703810190225392327}
   currentHPHundreds: {fileID: 1405946292593259412}
   currentHPTens: {fileID: 5641846717285115944}

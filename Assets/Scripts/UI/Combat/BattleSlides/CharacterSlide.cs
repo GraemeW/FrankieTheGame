@@ -175,6 +175,11 @@ namespace Frankie.Combat.UI
                 case StateAlteredType.FriendFound:
                 case StateAlteredType.FriendIgnored:
                     break;
+                case StateAlteredType.ActionDequeued:
+                {
+                    BlipGrowSlide();
+                    break;
+                }
                 default:
                     throw new ArgumentOutOfRangeException();
             }

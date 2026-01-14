@@ -29,19 +29,28 @@ namespace Frankie.Combat.UI
         [SerializeField] private int shakeCount = 4;
 
         [Header("Dimming Effects")]
-        [SerializeField] private float dimmingMin = 0.7f;
-        [SerializeField][Tooltip("in seconds")] private float halfDimmingTime = 0.05f;
+        [SerializeField][Range(0f, 1f)] private float dimmingMin = 0.7f;
+        [SerializeField][Tooltip("in seconds")] private float halfDimmingTime = 0.1f;
+        
+        [Header("Growing Effects")]
+        [SerializeField][Range(1f, 2f)] private float growingMax = 1.2f;
+        [SerializeField][Tooltip("in seconds")] private float halfGrowingTime = 0.125f;
+        [SerializeField] private bool xScaleGrow = true;
+        [SerializeField] private bool yScaleGrow = true;
 
         // State
         protected BattleEntity battleEntity;
         private readonly List<StatusEffectBobble> statusEffectBobbles = new();
-        private Coroutine canvasDimming;
+        private Coroutine slideDimming;
+        private Coroutine slideGrowing;
         private float currentShakeMagnitude;
         private float currentShakeTime = Mathf.Infinity;
         private float currentShakeTimeStep;
         private float lastRotationTarget;
         private float currentRotationTarget;
         private float fadeTarget = 1f;
+        private float xScaleTarget = 1f;
+        private float yScaleTarget = 1f;
 
         // Cached References
         protected Button button;
@@ -81,7 +90,7 @@ namespace Frankie.Combat.UI
         {
             RemoveButtonClickEvents();
 
-            if (canvasDimming != null) { StopCoroutine(canvasDimming); canvasDimming = null; }
+            if (slideDimming != null) { StopCoroutine(slideDimming); slideDimming = null; }
             battleEntity?.combatParticipant.UnsubscribeToStateUpdates(ParseState);
             SetupBattleListeners(false);
         }
@@ -89,7 +98,8 @@ namespace Frankie.Combat.UI
         private void FixedUpdate()
         {
             HandleSlideShaking();
-            HandleSlideFading();
+            HandleSlideFading(Time.deltaTime);
+            HandleSlideGrowing(Time.deltaTime);
         }
         #endregion
 
@@ -153,14 +163,25 @@ namespace Frankie.Combat.UI
 
         protected void BlipFadeSlide()
         {
-            if (canvasDimming != null)
+            if (slideDimming != null)
             {
-                StopCoroutine(canvasDimming);
+                StopCoroutine(slideDimming);
                 canvasGroup.alpha = 1.0f;
-                canvasDimming = null;
+                slideDimming = null;
             }
 
-            canvasDimming = StartCoroutine(BlipFade());
+            slideDimming = StartCoroutine(BlipFade());
+        }
+
+        protected void BlipGrowSlide()
+        {
+            if (slideGrowing != null)
+            {
+                StopCoroutine(slideGrowing);
+                slideGrowing = null;
+            }
+
+            slideGrowing = StartCoroutine(BlipGrow());
         }
         #endregion
 
@@ -264,11 +285,33 @@ namespace Frankie.Combat.UI
             fadeTarget = 1.0f;
         }
 
-        private void HandleSlideFading()
+        private void HandleSlideFading(float deltaTime)
         {
             if (Mathf.Approximately(canvasGroup.alpha, fadeTarget)) { return; }
 
-            canvasGroup.alpha = Mathf.MoveTowards(canvasGroup.alpha, fadeTarget, (1f - dimmingMin) / halfDimmingTime);
+            canvasGroup.alpha = Mathf.MoveTowards(canvasGroup.alpha, fadeTarget, (1f - dimmingMin) * deltaTime / halfDimmingTime);
+        }
+
+        private IEnumerator BlipGrow()
+        {
+            if (xScaleGrow) { xScaleTarget = growingMax; }
+            if (yScaleGrow) { yScaleTarget = growingMax; }
+            yield return new WaitForSeconds(halfGrowingTime);
+            xScaleTarget = 1.0f;
+            yScaleTarget = 1.0f;
+        }
+
+        private void HandleSlideGrowing(float deltaTime)
+        {
+            if (Mathf.Approximately(gameObject.transform.localScale.x, xScaleTarget) 
+                && Mathf.Approximately(gameObject.transform.localScale.x, yScaleTarget))
+            { return; }
+            
+            float xScale = Mathf.MoveTowards(gameObject.transform.localScale.x, xScaleTarget, (growingMax - 1f) * deltaTime /  halfGrowingTime);
+            float yScale = Mathf.MoveTowards(gameObject.transform.localScale.y, yScaleTarget, (growingMax - 1f) * deltaTime /  halfGrowingTime);
+            
+            UnityEngine.Debug.Log($"{gameObject.name}: {xScale}, {yScale}");
+            gameObject.transform.localScale = new Vector3(xScale, yScale, gameObject.transform.localScale.z);
         }
         #endregion
     }

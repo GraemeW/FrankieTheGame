@@ -127,7 +127,11 @@ MonoBehaviour:
   shakeDuration: 0.4
   shakeCount: 4
   dimmingMin: 0.7
-  halfDimmingTime: 0.05
+  halfDimmingTime: 0.1
+  growingMax: 1.2
+  halfGrowingTime: 0.125
+  xScaleGrow: 1
+  yScaleGrow: 1
   image: {fileID: 6115676611713989597}
   layoutElement: {fileID: 6702022438163932606}
   battleEntityTypePropertyLookUp:

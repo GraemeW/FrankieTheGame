@@ -17,7 +17,8 @@ namespace Frankie.Combat
         // Tunables
         [Header("Controller Properties")]
         [SerializeField] [Tooltip("Increments per failed run attempt")] [Range(0f,1f)] private float runChanceIncrement = 0.15f;
-        [SerializeField] private float battleQueueDelay = 1.0f;
+        [SerializeField] private float battlePreQueueDelay = .3f;
+        [SerializeField] private float battlePostQueueDelay = 0.7f;
         
         // State
         private PlayerInputType currentDirectionalInput = PlayerInputType.DefaultNone;
@@ -574,8 +575,12 @@ namespace Frankie.Combat
             haltBattleQueue = true;
             battleSequenceInProgress = true;
 
+            CombatParticipant sender = dequeuedBattleActionData.GetSender();
+            if (sender != null) { sender.AnnounceStateUpdate(StateAlteredType.ActionDequeued); }
+            yield return new WaitForSeconds(battlePreQueueDelay);
+            
             battleSequence.battleActionSuper.Use(dequeuedBattleActionData, () => { battleSequenceInProgress = false; });
-            yield return new WaitForSeconds(battleQueueDelay);
+            yield return new WaitForSeconds(battlePostQueueDelay);
 
             haltBattleQueue = false;
         }

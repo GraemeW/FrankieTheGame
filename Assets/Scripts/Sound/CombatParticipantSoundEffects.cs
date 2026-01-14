@@ -7,12 +7,15 @@ namespace Frankie.Sound
     {
         [SerializeField] private CombatParticipant combatParticipant;
         [SerializeField] private AudioClip decreaseHPAudioClip;
+        [SerializeField] private AudioClip missedHitAudioClip;
         [SerializeField] private AudioClip increaseHPAudioClip;
         [SerializeField] private AudioClip deadAudioClip;
         [SerializeField] private AudioClip decreaseAPAudioClip;
         [SerializeField] private AudioClip increaseAPAudioClip;
         [SerializeField] private AudioClip increaseStatAudioClip;
         [SerializeField] private AudioClip decreaseStatAudioClip;
+        [SerializeField] private AudioClip getHelpAudioClip;
+        [SerializeField] private AudioClip actionDequeuedAudioClip;
 
         protected override void OnEnable()
         {
@@ -42,6 +45,9 @@ namespace Frankie.Sound
                 case StateAlteredType.DecreaseAP:
                     PlayClip(decreaseAPAudioClip);
                     break;
+                case StateAlteredType.AdjustHPNonSpecific:
+                case StateAlteredType.AdjustAPNonSpecific:
+                    break;
                 case StateAlteredType.Dead:
                     PlayClipAfterDestroy(deadAudioClip);
                     break;
@@ -59,10 +65,19 @@ namespace Frankie.Sound
                 case StateAlteredType.CooldownExpired:
                     break;
                 case StateAlteredType.HitMiss:
+                    PlayClip(missedHitAudioClip);
                     break;
                 case StateAlteredType.HitCrit:
                     break;
-                case StateAlteredType.AdjustHPNonSpecific:
+                case StateAlteredType.FriendFound:
+                    PlayClip(getHelpAudioClip);
+                    break;
+                case StateAlteredType.FriendIgnored:
+                    PlayClip(missedHitAudioClip);
+                    break;
+                case StateAlteredType.ActionDequeued:
+                    PlayClip(actionDequeuedAudioClip);
+                    break;
                 default:
                     break;
             }
