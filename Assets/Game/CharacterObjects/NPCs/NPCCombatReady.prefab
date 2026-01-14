@@ -96,6 +96,10 @@ PrefabInstance:
       propertyPath: increaseStatAudioClip
       value: 
       objectReference: {fileID: 8300000, guid: 394bd48e9df784794b6a6ac79bb53cb9, type: 3}
+    - target: {fileID: 2748663006084487090, guid: c08399674dab63349bf5a2c9c8ebbcaa, type: 3}
+      propertyPath: actionDequeuedAudioClip
+      value: 
+      objectReference: {fileID: 8300000, guid: 3996d957afcf34298bc73ad996c52bc7, type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

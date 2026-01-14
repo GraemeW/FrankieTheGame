@@ -153,3 +153,4 @@ MonoBehaviour:
   increaseStatAudioClip: {fileID: 8300000, guid: 96fc3ca49640940cf99de91350bd6610, type: 3}
   decreaseStatAudioClip: {fileID: 8300000, guid: a6505cfc553f64564ad1132e409c44ca, type: 3}
   getHelpAudioClip: {fileID: 8300000, guid: 3955c3c327e39432487b9175dded48f7, type: 3}
+  actionDequeuedAudioClip: {fileID: 8300000, guid: db0e75fb65e08449e95d6422a955a7d0, type: 3}

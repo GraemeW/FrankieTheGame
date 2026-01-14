@@ -105,6 +105,11 @@ namespace Frankie.Combat.UI
                     damageTextSpawner.AddToQueue(new DamageTextData(DamageTextType.Informational, "*lonely*"));
                     break;
                 }
+                case StateAlteredType.ActionDequeued:
+                {
+                    BlipGrowSlide();
+                    break;
+                }
                 default:
                     throw new ArgumentOutOfRangeException();
             }

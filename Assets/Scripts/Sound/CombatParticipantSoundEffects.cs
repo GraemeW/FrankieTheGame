@@ -15,6 +15,7 @@ namespace Frankie.Sound
         [SerializeField] private AudioClip increaseStatAudioClip;
         [SerializeField] private AudioClip decreaseStatAudioClip;
         [SerializeField] private AudioClip getHelpAudioClip;
+        [SerializeField] private AudioClip actionDequeuedAudioClip;
 
         protected override void OnEnable()
         {
@@ -73,6 +74,9 @@ namespace Frankie.Sound
                     break;
                 case StateAlteredType.FriendIgnored:
                     PlayClip(missedHitAudioClip);
+                    break;
+                case StateAlteredType.ActionDequeued:
+                    PlayClip(actionDequeuedAudioClip);
                     break;
                 default:
                     break;

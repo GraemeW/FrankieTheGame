@@ -30,11 +30,11 @@ namespace Frankie.Combat.UI
 
         [Header("Dimming Effects")]
         [SerializeField][Range(0f, 1f)] private float dimmingMin = 0.7f;
-        [SerializeField][Tooltip("in seconds")] private float halfDimmingTime = 0.05f;
+        [SerializeField][Tooltip("in seconds")] private float halfDimmingTime = 0.1f;
         
         [Header("Growing Effects")]
         [SerializeField][Range(1f, 2f)] private float growingMax = 1.2f;
-        [SerializeField][Tooltip("in seconds")] private float halfGrowingTime = 0.15f;
+        [SerializeField][Tooltip("in seconds")] private float halfGrowingTime = 0.125f;
         [SerializeField] private bool xScaleGrow = true;
         [SerializeField] private bool yScaleGrow = true;
 
@@ -98,8 +98,8 @@ namespace Frankie.Combat.UI
         private void FixedUpdate()
         {
             HandleSlideShaking();
-            HandleSlideFading();
-            HandleSlideGrowing();
+            HandleSlideFading(Time.deltaTime);
+            HandleSlideGrowing(Time.deltaTime);
         }
         #endregion
 
@@ -181,7 +181,7 @@ namespace Frankie.Combat.UI
                 slideGrowing = null;
             }
 
-            slideGrowing = StartCoroutine(BlipGrow(xScaleGrow, yScaleGrow));
+            slideGrowing = StartCoroutine(BlipGrow());
         }
         #endregion
 
@@ -285,30 +285,32 @@ namespace Frankie.Combat.UI
             fadeTarget = 1.0f;
         }
 
-        private void HandleSlideFading()
+        private void HandleSlideFading(float deltaTime)
         {
             if (Mathf.Approximately(canvasGroup.alpha, fadeTarget)) { return; }
 
-            canvasGroup.alpha = Mathf.MoveTowards(canvasGroup.alpha, fadeTarget, (1f - dimmingMin) / halfDimmingTime);
+            canvasGroup.alpha = Mathf.MoveTowards(canvasGroup.alpha, fadeTarget, (1f - dimmingMin) * deltaTime / halfDimmingTime);
         }
 
-        private IEnumerator BlipGrow(bool xScaleGrow, bool yScaleGrow)
+        private IEnumerator BlipGrow()
         {
             if (xScaleGrow) { xScaleTarget = growingMax; }
             if (yScaleGrow) { yScaleTarget = growingMax; }
-            yield return new WaitForSeconds(halfDimmingTime);
+            yield return new WaitForSeconds(halfGrowingTime);
             xScaleTarget = 1.0f;
             yScaleTarget = 1.0f;
         }
 
-        private void HandleSlideGrowing()
+        private void HandleSlideGrowing(float deltaTime)
         {
             if (Mathf.Approximately(gameObject.transform.localScale.x, xScaleTarget) 
                 && Mathf.Approximately(gameObject.transform.localScale.x, yScaleTarget))
             { return; }
             
-            float xScale = Mathf.MoveTowards(gameObject.transform.localScale.x, xScaleTarget, (growingMax - 1f) /  halfGrowingTime);
-            float yScale = Mathf.MoveTowards(gameObject.transform.localScale.y, yScaleTarget, (growingMax - 1f) /  halfGrowingTime);
+            float xScale = Mathf.MoveTowards(gameObject.transform.localScale.x, xScaleTarget, (growingMax - 1f) * deltaTime /  halfGrowingTime);
+            float yScale = Mathf.MoveTowards(gameObject.transform.localScale.y, yScaleTarget, (growingMax - 1f) * deltaTime /  halfGrowingTime);
+            
+            UnityEngine.Debug.Log($"{gameObject.name}: {xScale}, {yScale}");
             gameObject.transform.localScale = new Vector3(xScale, yScale, gameObject.transform.localScale.z);
         }
         #endregion

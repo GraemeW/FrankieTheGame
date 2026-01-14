@@ -17,6 +17,7 @@ namespace Frankie.Combat
         HitMiss,
         HitCrit,
         FriendFound,
-        FriendIgnored
+        FriendIgnored,
+        ActionDequeued
     }
 }
