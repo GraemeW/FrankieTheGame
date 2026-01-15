@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 4564335363655124591}
   - component: {fileID: 6252286779186856054}
   - component: {fileID: 8100133806872524361}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: StandardWorldSpawner
   m_TagString: Untagged
   m_Icon: {fileID: 0}

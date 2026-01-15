@@ -14,8 +14,8 @@ namespace Frankie.Rendering
 
         public ResolutionScaler(ResolutionScaler other)
         {
-            this.numerator = other.numerator;
-            this.denominator = other.denominator;
+            numerator = other.numerator;
+            denominator = other.denominator;
         }
     }
 }

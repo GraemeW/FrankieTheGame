@@ -13,6 +13,7 @@ TagManager:
   - BattleCanvas
   - BackgroundMusic
   - Fader
+  - CameraController
   layers:
   - Default
   - TransparentFX

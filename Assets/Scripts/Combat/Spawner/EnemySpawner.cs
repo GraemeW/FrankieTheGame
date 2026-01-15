@@ -50,7 +50,7 @@ namespace Frankie.Combat.Spawner
             int maxQuantity = spawnConfiguration.maxQuantity;
             EnemyConfiguration[] enemyConfigurations = spawnConfiguration.enemyConfigurations;
             if (spawnConfiguration.maxQuantity == 0 || enemyConfigurations == null) { return; }
-
+            
             foreach (CharacterProperties characterProperties in SpawnConfiguration.GetEnemies(enemyConfigurations, maxQuantity))
             {
                 GameObject enemyPrefab = characterProperties.characterNPCPrefab;
@@ -61,6 +61,7 @@ namespace Frankie.Combat.Spawner
                 float yJitter = UnityEngine.Random.Range(-yJitterDistance, yJitterDistance);
                 var jitterVector = new Vector3(xJitter, yJitter, 0f);
                 spawnedEnemy.transform.position += jitterVector;
+                Debug.Log($"{spawnedEnemy.gameObject.name} has spawned at {spawnedEnemy.transform.position}.");
             }
             timeUntilNextSpawn = timeBetweenSpawns;
         }
