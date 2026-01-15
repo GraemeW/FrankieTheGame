@@ -25,8 +25,7 @@ namespace Frankie.Rendering
         #region PrivateMethods
         private static ResolutionScaler GetResolutionScaler()
         {
-            if (Screen.fullScreenMode != FullScreenMode.Windowed) { return new ResolutionScaler(1, 1); }
-            return _windowedResolutionScaler;
+            return Screen.fullScreenMode != FullScreenMode.Windowed ? new ResolutionScaler(1, 1) : _windowedResolutionScaler;
         }
 
         private static int GetCameraScaling()
@@ -37,7 +36,6 @@ namespace Frankie.Rendering
 #if UNITY_EDITOR
             cameraScaling = 2; // Disable excessive camera scaling for editor window
 #endif
-
             return cameraScaling;
         }
         #endregion
@@ -45,14 +43,12 @@ namespace Frankie.Rendering
         #region PublicMethods
         public static void CheckForResolutionChange()
         {
-            if (_currentFullScreenMode != Screen.fullScreenMode || _currentScreenWidth != Screen.width || _currentScreenHeight != Screen.height)
-            {
-                _currentFullScreenMode = Screen.fullScreenMode;
-                _currentScreenWidth = Screen.width;
-                _currentScreenHeight = Screen.height;
-
-                resolutionUpdated?.Invoke(GetResolutionScaler(), GetCameraScaling());
-            }
+            if (_currentFullScreenMode == Screen.fullScreenMode && _currentScreenWidth == Screen.width && _currentScreenHeight == Screen.height) { return; }
+            
+            _currentFullScreenMode = Screen.fullScreenMode;
+            _currentScreenWidth = Screen.width;
+            _currentScreenHeight = Screen.height;
+            resolutionUpdated?.Invoke(GetResolutionScaler(), GetCameraScaling());
         }
 
         public static void AnnounceResolution()
@@ -62,7 +58,7 @@ namespace Frankie.Rendering
 
         public static ResolutionSetting GetCurrentResolution()
         {
-            ResolutionSetting resolutionSetting = new ResolutionSetting(Screen.fullScreenMode, Screen.width, Screen.height);
+            var resolutionSetting = new ResolutionSetting(Screen.fullScreenMode, Screen.width, Screen.height);
             return resolutionSetting;
         }
 
@@ -117,7 +113,7 @@ namespace Frankie.Rendering
         public static ResolutionSetting GetFullScreenWidthResolution()
         {
             DisplayInfo displayInfo = Screen.mainWindowDisplayInfo;
-            ResolutionSetting resolutionSetting = new ResolutionSetting(FullScreenMode.FullScreenWindow, displayInfo.width, displayInfo.height);
+            var resolutionSetting = new ResolutionSetting(FullScreenMode.FullScreenWindow, displayInfo.width, displayInfo.height);
 
             if (((float)displayInfo.width / displayInfo.height) > (_ultraWideThreshold + Mathf.Epsilon))
             {
@@ -140,7 +136,7 @@ namespace Frankie.Rendering
         public static void SetWindowToCenter()
         {
             DisplayInfo displayInfo = Screen.mainWindowDisplayInfo;
-            Vector2Int position = new Vector2Int((displayInfo.width - Screen.width) / 2, (displayInfo.height - Screen.height) / 2);
+            var position = new Vector2Int((displayInfo.width - Screen.width) / 2, (displayInfo.height - Screen.height) / 2);
 
             Screen.MoveMainWindowTo(displayInfo, position);
         }

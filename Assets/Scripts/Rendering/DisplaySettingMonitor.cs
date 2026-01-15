@@ -7,6 +7,29 @@ namespace Frankie.Rendering
 {
     public class DisplaySettingMonitor : MonoBehaviour
     {
+        #region StaticMethods
+        private static bool SkipWindowAdjustment() => PlayerPrefsController.ResolutionInitializedKeyExists() && !PlayerPrefsController.HasCurrentDisplayChanged();
+        
+        private static void TriggerResolutionAnnounce(Zone zone)
+        {
+            DisplayResolutions.AnnounceResolution();
+        }
+        
+        private static IEnumerator WaitForScreenChange(ResolutionSetting resolutionSetting)
+        {
+            yield return DisplayResolutions.UpdateScreenResolution(resolutionSetting);
+            DisplayResolutions.SetWindowToCenter();
+            SaveResolutionSetting(resolutionSetting);
+        }
+
+        private static void SaveResolutionSetting(ResolutionSetting resolutionSetting)
+        {
+            PlayerPrefsController.SetResolutionSettings(resolutionSetting);
+            PlayerPrefsController.SaveToDisk();
+        }
+        #endregion
+        
+        #region UnityMethods
         private void Start()
         {
             if (SkipWindowAdjustment()) { return; }
@@ -34,32 +57,6 @@ namespace Frankie.Rendering
         {
             DisplayResolutions.CheckForResolutionChange();
         }
-
-        private IEnumerator WaitForScreenChange(ResolutionSetting resolutionSetting)
-        {
-            yield return DisplayResolutions.UpdateScreenResolution(resolutionSetting);
-            DisplayResolutions.SetWindowToCenter();
-            SaveResolutionSetting(resolutionSetting);
-        }
-
-        private bool SkipWindowAdjustment()
-        {
-            if (PlayerPrefsController.ResolutionInitializedKeyExists() && !PlayerPrefsController.HasCurrentDisplayChanged())
-            {
-                return true;
-            }
-            return false;
-        }
-
-        private void TriggerResolutionAnnounce(Zone zone)
-        {
-            DisplayResolutions.AnnounceResolution();
-        }
-
-        private void SaveResolutionSetting(ResolutionSetting resolutionSetting)
-        {
-            PlayerPrefsController.SetResolutionSettings(resolutionSetting);
-            PlayerPrefsController.SaveToDisk();
-        }
+        #endregion
     }
 }

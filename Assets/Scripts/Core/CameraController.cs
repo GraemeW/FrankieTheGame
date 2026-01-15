@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.Rendering.Universal;
 using Cinemachine;
@@ -23,22 +24,20 @@ namespace Frankie.Core
         private ReInitLazyValue<Party> party;
 
         // State
-        private bool usingPixelPerfectCamera = false;
-        // Default:  Not using due to many, many jank
-            
+        private bool usingPixelPerfectCamera = false; // Default:  Not using due to many jank
         private float currentActiveOrthoSize = 3.6f;
         private float currentIdleOrthoSize = 1.8f;
+        
+        // Events
+        public event Action<float> activeOrthoSizeUpdated;
 
         #region Static
         private const string _mainCameraTag = "MainCamera";
+        private const string _cameraControllerTag = "CameraController";
         public static CameraController GetCameraController()
         {
-            GameObject mainCameraGameObject = GameObject.FindGameObjectWithTag(_mainCameraTag);
-            if (mainCameraGameObject == null) { return null; }
-            GameObject cameraContainer = mainCameraGameObject.transform.parent.gameObject; // Structure of cameras is:  [CameraController (container) -> MainCamera, StateCameras, etc.]
-            if (cameraContainer == null) { return null; }
-
-            return cameraContainer.GetComponent<CameraController>();
+            var cameraControllerObject = GameObject.FindGameObjectWithTag(_cameraControllerTag);
+            return cameraControllerObject != null ? cameraControllerObject.GetComponent<CameraController>() : null;
         }
         #endregion
 
@@ -75,17 +74,12 @@ namespace Frankie.Core
         #endregion
 
         #region PublicMethods
+        public float GetActiveOrthoSize() => currentActiveOrthoSize;
+        
         public void RefreshDefaultCameras()
         {
-            if (party.value != null)
-            {
-                SetUpStateDrivenCamera(party.value.GetLeadCharacterAnimator());
-            }
-
-            if (player.value != null)
-            {
-                SetUpVirtualCameraFollowers(player.value.transform);
-            }
+            if (party.value != null) { SetUpStateDrivenCamera(party.value.GetLeadCharacterAnimator()); }
+            if (player.value != null) { SetUpVirtualCameraFollowers(player.value.transform); }
         }
 
         public void OverrideCameraFollower(Animator animator, Transform target)
@@ -93,11 +87,15 @@ namespace Frankie.Core
             UpdateStateAnimator(animator);
             SetUpVirtualCameraFollowers(target);
         }
-
         #endregion
 
         #region PrivateMethods
-        private Party SetupPartyReference() => Player.FindPlayerObject()?.GetComponent<Party>();
+
+        private Party SetupPartyReference()
+        {
+            GameObject playerObject = Player.FindPlayerObject();
+            return playerObject != null ? playerObject.GetComponent<Party>() : null;
+        }
 
         private void SetUpStateDrivenCamera(Animator animator)
         {
@@ -123,6 +121,8 @@ namespace Frankie.Core
 
             if (activeCamera != null) { activeCamera.m_Lens.OrthographicSize = currentActiveOrthoSize; }
             if (idleCamera != null) { idleCamera.m_Lens.OrthographicSize = currentIdleOrthoSize; }
+            
+            activeOrthoSizeUpdated?.Invoke(currentActiveOrthoSize);
         }
 
         private void UpdateStateAnimator(Animator characterAnimator)

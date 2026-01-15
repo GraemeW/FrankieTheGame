@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7709939979924330452}
   - component: {fileID: 2756354882295485649}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: StandardRoomSpawner
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -46,7 +46,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   spawnOnEnable: 1
   spawnOnVisible: 0
-  despawnOnInvisible: 0
+  timeBetweenSpawns: 0
   xJitterDistance: 1
   yJitterDistance: 1
   spawnConfigurations: []
