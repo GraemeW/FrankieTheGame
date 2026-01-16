@@ -21,14 +21,19 @@ namespace Frankie.ZoneManagement
         #region UnityMethods
         private void Awake()
         {
-            backgroundMusicOverride = GetComponent<BackgroundMusicOverride>();
-            isRoomInitialized = new LazyValue<bool>(() => false);
+            InitializeRoom();
         }
 
         private void Start()
         {
             isRoomInitialized.ForceInit();
             if (disableOnStart && !isRoomInitialized.value) { ToggleRoom(false, false); }
+        }
+
+        private void InitializeRoom()
+        {
+            backgroundMusicOverride = GetComponent<BackgroundMusicOverride>();
+            isRoomInitialized = new LazyValue<bool>(() => false);
         }
         #endregion
 
@@ -63,6 +68,8 @@ namespace Frankie.ZoneManagement
         {
             if (saveState == null) { return; }
             bool roomEnabled = (bool)saveState.GetState(typeof(bool));
+            
+            InitializeRoom();
             ToggleRoom(roomEnabled, true);
         }
         #endregion
