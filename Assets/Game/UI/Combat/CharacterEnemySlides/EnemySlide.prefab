@@ -142,6 +142,9 @@ MonoBehaviour:
   - battleEntityType: 2
     imageSize: {x: 420, y: 480}
   deathFadeTime: 1
+  halfPulsatingTime: 0.15
+  pulsatingOpaqueHoldTime: 0.2
+  pulsatingMinAlpha: 0.5
 --- !u!114 &1549802908350268869
 MonoBehaviour:
   m_ObjectHideFlags: 0

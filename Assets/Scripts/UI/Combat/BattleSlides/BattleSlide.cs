@@ -48,7 +48,8 @@ namespace Frankie.Combat.UI
         private float currentShakeTimeStep;
         private float lastRotationTarget;
         private float currentRotationTarget;
-        private float fadeTarget = 1f;
+        private bool isDimming = false;
+        private float dimTarget = 1f;
         private float xScaleTarget = 1f;
         private float yScaleTarget = 1f;
 
@@ -95,10 +96,10 @@ namespace Frankie.Combat.UI
             SetupBattleListeners(false);
         }
 
-        private void FixedUpdate()
+        protected virtual void FixedUpdate()
         {
             HandleSlideShaking();
-            HandleSlideFading(Time.deltaTime);
+            HandleSlideDimming(Time.deltaTime);
             HandleSlideGrowing(Time.deltaTime);
         }
         #endregion
@@ -161,7 +162,7 @@ namespace Frankie.Combat.UI
             currentShakeTime = 0f;
         }
 
-        protected void BlipFadeSlide()
+        protected void BlipDimSlide()
         {
             if (slideDimming != null)
             {
@@ -170,7 +171,7 @@ namespace Frankie.Combat.UI
                 slideDimming = null;
             }
 
-            slideDimming = StartCoroutine(BlipFade());
+            slideDimming = StartCoroutine(BlipDim());
         }
 
         protected void BlipGrowSlide()
@@ -278,18 +279,21 @@ namespace Frankie.Combat.UI
             currentRotationTarget = Random.Range(-currentShakeMagnitude, currentShakeMagnitude);
         }
 
-        private IEnumerator BlipFade()
+        private IEnumerator BlipDim()
         {
-            fadeTarget = dimmingMin;
+            isDimming = true;
+            dimTarget = dimmingMin;
             yield return new WaitForSeconds(halfDimmingTime);
-            fadeTarget = 1.0f;
+            dimTarget = 1.0f;
+            yield return new WaitForSeconds(halfDimmingTime);
+            canvasGroup.alpha = 1.0f;
+            isDimming = false;
         }
 
-        private void HandleSlideFading(float deltaTime)
+        private void HandleSlideDimming(float deltaTime)
         {
-            if (Mathf.Approximately(canvasGroup.alpha, fadeTarget)) { return; }
-
-            canvasGroup.alpha = Mathf.MoveTowards(canvasGroup.alpha, fadeTarget, (1f - dimmingMin) * deltaTime / halfDimmingTime);
+            if (!isDimming) { return; }
+            canvasGroup.alpha = Mathf.MoveTowards(canvasGroup.alpha, dimTarget, (1f - dimmingMin) * deltaTime / halfDimmingTime);
         }
 
         private IEnumerator BlipGrow()
@@ -310,7 +314,6 @@ namespace Frankie.Combat.UI
             float xScale = Mathf.MoveTowards(gameObject.transform.localScale.x, xScaleTarget, (growingMax - 1f) * deltaTime /  halfGrowingTime);
             float yScale = Mathf.MoveTowards(gameObject.transform.localScale.y, yScaleTarget, (growingMax - 1f) * deltaTime /  halfGrowingTime);
             
-            UnityEngine.Debug.Log($"{gameObject.name}: {xScale}, {yScale}");
             gameObject.transform.localScale = new Vector3(xScale, yScale, gameObject.transform.localScale.z);
         }
         #endregion
