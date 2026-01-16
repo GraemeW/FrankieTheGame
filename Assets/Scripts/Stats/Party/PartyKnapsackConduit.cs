@@ -1,6 +1,5 @@
-using System;
-using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using Frankie.Combat;
 using Frankie.Core;
@@ -12,13 +11,10 @@ namespace Frankie.Inventory
     public class PartyKnapsackConduit : MonoBehaviour, IPredicateEvaluator
     {
         // State
-        List<Knapsack> knapsacks = new List<Knapsack>();
+        private readonly List<Knapsack> knapsacks = new();
 
         // Cached References
-        Party party = null;
-
-        // Events
-        public event Action partyKnapsackUpdated;
+        private Party party;
 
         #region UnityMethods
         private void Awake()
@@ -46,7 +42,6 @@ namespace Frankie.Inventory
         #region PrivateMethods
         private void RefreshKnapsacks()
         {
-            SubscribeToKnapsackEvents(false);
             knapsacks.Clear();
             foreach (BaseStats character in party.GetParty())
             {
@@ -55,62 +50,35 @@ namespace Frankie.Inventory
                     knapsacks.Add(knapsack);
                 }
             }
-            SubscribeToKnapsackEvents(true);
-        }
-
-        private void SubscribeToKnapsackEvents(bool enable)
-        {
-            if (enable)
-            {
-                foreach (Knapsack knapsack in knapsacks)
-                {
-                    knapsack.knapsackUpdated += HandleKnapsackUpdates;
-                }
-            }
-            else
-            {
-                foreach (Knapsack knapsack in knapsacks)
-                {
-                    knapsack.knapsackUpdated -= HandleKnapsackUpdates;
-                }
-            }
-        }
-
-        private void HandleKnapsackUpdates()
-        {
-            partyKnapsackUpdated?.Invoke();
         }
 
         private void RemoveItem(InventoryItem inventoryItem, bool removeAllItems)
         {
-            bool itemRemoved = false;
-            foreach (Knapsack knapsack in GetKnapsacks())
-            {
-                if (knapsack.RemoveItem(inventoryItem, true)) { itemRemoved = true; break; }
-            }
-
+            bool itemRemoved = GetKnapsacks().Any(knapsack => knapsack.RemoveItem(inventoryItem, true));
             if (removeAllItems && itemRemoved) { RemoveItem(inventoryItem, true); } // Recursion until item not removed
         }
         #endregion
 
         #region PublicMethods
-        public IEnumerable<Knapsack> GetKnapsacks()
-        {
-            return knapsacks;
-        }
+        public IEnumerable<Knapsack> GetKnapsacks() => knapsacks;
+        public int GetNumberOfFreeSlotsInParty() => knapsacks.Sum(knapsack => knapsack.GetNumberOfFreeSlots());
+        public bool HasFreeSpace() => GetNumberOfFreeSlotsInParty() > 0;
 
-        public CombatParticipant AddToFirstEmptyPartySlot(InventoryItem inventoryItem)
+        public bool AddToFirstEmptyPartySlot(InventoryItem inventoryItem) => AddToFirstEmptyPartySlot(inventoryItem, out CombatParticipant receivingCharacter);
+        
+        public bool AddToFirstEmptyPartySlot(InventoryItem inventoryItem, out CombatParticipant receivingCharacter)
         {
             // Returns character who received item on success,
             // Returns null on knapsacks full
             foreach (Knapsack knapsack in GetKnapsacks())
             {
-                if (knapsack.AddToFirstEmptySlot(inventoryItem, true))
-                {
-                    return knapsack?.GetComponent<CombatParticipant>();
-                }
+                if (knapsack == null) { continue; }
+                if (!knapsack.AddToFirstEmptySlot(inventoryItem, true)) continue;
+                receivingCharacter = knapsack.GetComponent<CombatParticipant>();
+                return true;
             }
-            return null;
+            receivingCharacter = null;
+            return false;
         }
 
         public void RemoveSingleItem(InventoryItem inventoryItem)
@@ -121,21 +89,6 @@ namespace Frankie.Inventory
         public void RemoveAllItems(InventoryItem inventoryItem)
         {
             RemoveItem(inventoryItem, true);
-        }
-
-        public int GetNumberOfFreeSlotsInParty()
-        {
-            int freeSlots = 0;
-            foreach (Knapsack knapsack in knapsacks)
-            {
-                freeSlots += knapsack.GetNumberOfFreeSlots();
-            }
-            return freeSlots;
-        }
-
-        public bool HasFreeSpace()
-        {
-            return GetNumberOfFreeSlotsInParty() > 0;
         }
 
         // Predicate Evaluator

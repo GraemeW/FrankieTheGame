@@ -71,9 +71,8 @@ namespace Frankie.Combat
 
                 foreach (InventoryItem inventoryItem in lootDispenser.GetItemReward())
                 {
-                    CombatParticipant receivingCharacter = partyKnapsackConduit.AddToFirstEmptyPartySlot(inventoryItem);
                     var enemyItemPair = new Tuple<string, InventoryItem>(enemy.combatParticipant.GetCombatName(), inventoryItem);
-                    if (receivingCharacter != null)
+                    if (partyKnapsackConduit.AddToFirstEmptyPartySlot(inventoryItem))
                     {
                         allocatedLootCart.Add(enemyItemPair);
                     }
