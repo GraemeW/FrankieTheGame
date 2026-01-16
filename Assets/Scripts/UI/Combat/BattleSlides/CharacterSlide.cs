@@ -122,7 +122,7 @@ namespace Frankie.Combat.UI
                     {
                         bool strongShakeEnable = points > battleEntity.combatParticipant.GetHP();
                         ShakeSlide(strongShakeEnable);
-                        BlipFadeSlide();
+                        BlipDimSlide();
                     }
 
                     break;

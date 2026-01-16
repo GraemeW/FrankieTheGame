@@ -5,6 +5,7 @@ using UnityEngine.UI;
 
 namespace Frankie.Combat.UI
 {
+    [RequireComponent(typeof(Shadow))]
     public class EnemySlide : BattleSlide
     {
         // Tunables
@@ -13,7 +14,18 @@ namespace Frankie.Combat.UI
         [SerializeField] private LayoutElement layoutElement;
         [SerializeField][Tooltip("Only first entry of the enum BattleEntityType is used")] private BattleEntityTypePropertySet[] battleEntityTypePropertyLookUp;
         [SerializeField] private float deathFadeTime = 1.0f;
-
+        [SerializeField][Tooltip("In seconds")] private float halfPulsatingTime = 0.15f;
+        [SerializeField] private float pulsatingOpaqueHoldTime = 0.2f;
+        [SerializeField][Range(0f,1f)] private float pulsatingMinAlpha = 0.5f;
+        
+        // State
+        private bool isPulsating = false;
+        private float pulsatingTimer = 0f;
+        private bool isAlphaDecreasing = true;
+        
+        // Cached References
+        private Shadow shadow;
+        
         // Data Structures
         [Serializable]
         public struct BattleEntityTypePropertySet
@@ -22,12 +34,27 @@ namespace Frankie.Combat.UI
             public Vector2 imageSize;
         }
 
+        #region PublicMethods
         public override void SetBattleEntity(BattleEntity setBattleEntity)
         {
             base.SetBattleEntity(setBattleEntity);
             UpdateImage(battleEntity.combatSprite, battleEntity.battleEntityType, battleEntity.spriteScaleFineTune);
         }
+        #endregion
 
+        #region ImplementedMethods
+        protected override void Awake()
+        {
+            base.Awake();
+            shadow = GetComponent<Shadow>();
+        }
+
+        protected override void FixedUpdate()
+        {
+            base.FixedUpdate();
+            HandleSlidePulsating(Time.deltaTime);
+        }
+        
         protected override void ParseState(StateAlteredInfo stateAlteredInfo)
         {
             switch (stateAlteredInfo.stateAlteredType)
@@ -52,7 +79,7 @@ namespace Frankie.Combat.UI
                     if (stateAlteredInfo.stateAlteredType == StateAlteredType.DecreaseHP)
                     {
                         ShakeSlide(false);
-                        BlipFadeSlide();
+                        BlipDimSlide();
                     }
 
                     break;
@@ -118,10 +145,23 @@ namespace Frankie.Combat.UI
         protected override void SetSelected(CombatParticipantType combatParticipantType, bool enable)
         {
             if (combatParticipantType != CombatParticipantType.Foe) { return; }
-            GetComponent<Shadow>().enabled = enable;
+            shadow.enabled = enable;
+            isPulsating = enable;
+            
+            switch (enable)
+            {
+                case true:
+                    pulsatingTimer = 0f;
+                    isAlphaDecreasing = true;
+                    break;
+                case false:
+                    canvasGroup.alpha = 1.0f;
+                    break;
+            }
         }
+        #endregion
 
-        // Private Functions
+        #region PrivateMethods
         private void UpdateImage(Sprite sprite, BattleEntityType battleEntityType, float spriteScaleFineTune)
         {
             image.sprite = sprite;
@@ -136,10 +176,26 @@ namespace Frankie.Combat.UI
             }
         }
 
+        private void HandleSlidePulsating(float deltaTime)
+        {
+            if (!isPulsating) { return; }
+            
+            pulsatingTimer += deltaTime;
+            if ((isAlphaDecreasing && pulsatingTimer > halfPulsatingTime) || (!isAlphaDecreasing && pulsatingTimer > (halfPulsatingTime + pulsatingOpaqueHoldTime)))
+            {
+                isAlphaDecreasing = !isAlphaDecreasing;
+                pulsatingTimer = 0f;
+            }
+            
+            float targetAlpha = isAlphaDecreasing ? pulsatingMinAlpha : 1.0f;
+            canvasGroup.alpha = Mathf.MoveTowards(canvasGroup.alpha, targetAlpha, (1f - pulsatingMinAlpha) * deltaTime / halfPulsatingTime);
+        }
+
         private IEnumerator DelayToDestroy(float secondForDelay)
         {
             yield return new WaitForSeconds(secondForDelay);
             Destroy(gameObject);
         }
+        #endregion
     }
 }
