@@ -113,6 +113,17 @@ namespace Frankie.Inventory
             }
             return -1;
         }
+
+        private List<int> FindSlotsWithItem(InventoryItem inventoryItem)
+        {
+            var matchedSlots = new List<int>();
+            for (int i = 0; i < slots.Length; i++)
+            {
+                if (slots[i] == null) { continue; }
+                if (slots[i].GetInventoryItem().GetItemID() == inventoryItem.GetItemID()) { matchedSlots.Add(i); }
+            }
+            return matchedSlots;
+        }
         #endregion
 
         #region ModifyKnapsack
@@ -152,9 +163,11 @@ namespace Frankie.Inventory
 
         public bool RemoveItem(InventoryItem inventoryItem, bool announceUpdate)
         {
-            int slot = FindSlotWithItem(inventoryItem);
-            if (slot < 0) { return false; }
-            RemoveFromSlot(slot, announceUpdate);
+            // Prioritize unequipped items
+            List<int> matchedSlots = FindSlotsWithItem(inventoryItem).OrderBy(slot => slots[slot].IsEquipped()).ToList();
+            if (matchedSlots.Count == 0) { return false; }
+            
+            RemoveFromSlot(matchedSlots.FirstOrDefault(), announceUpdate);
             return true;
         }
 

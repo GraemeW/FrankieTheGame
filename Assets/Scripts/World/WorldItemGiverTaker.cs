@@ -38,19 +38,18 @@ namespace Frankie.Control.Specialization
                 return; 
             }
 
-            PartyKnapsackConduit partyKnapsackConduit = playerStateMachine.GetComponent<PartyKnapsackConduit>();
-            CombatParticipant receivingCharacter = partyKnapsackConduit.AddToFirstEmptyPartySlot(inventoryItem);
-
-            if (receivingCharacter != null)
+            var partyKnapsackConduit = playerStateMachine.GetComponent<PartyKnapsackConduit>();
+            if (partyKnapsackConduit == null) { return; }
+            
+            if (!partyKnapsackConduit.AddToFirstEmptyPartySlot(inventoryItem, out CombatParticipant receivingCharacter))
             {
-                currentItemQuantity.value--;
-                playerStateMachine.EnterDialogue(string.Format(messageFoundItem, receivingCharacter.GetCombatName(), inventoryItem.GetDisplayName()));
-                itemFound?.Invoke(playerStateMachine);
+                playerStateMachine.EnterDialogue(messageInventoryFull);
                 return;
             }
-
-            // Failsafe --> full inventory
-            playerStateMachine.EnterDialogue(messageInventoryFull);
+            
+            currentItemQuantity.value--;
+            playerStateMachine.EnterDialogue(string.Format(messageFoundItem, receivingCharacter.GetCombatName(), inventoryItem.GetDisplayName()));
+            itemFound?.Invoke(playerStateMachine);
         }
 
         public void TakeItem(PlayerStateMachine playerStateHandler) // Called via Unity events
