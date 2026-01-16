@@ -1,41 +1,37 @@
 using UnityEngine;
-using Frankie.Utils;
 
 namespace Frankie.Core
 {
     [RequireComponent(typeof(Camera))]
     public class CameraSpawnAssist : MonoBehaviour
     {
-        [SerializeField][Range(1f, 2f)] private float orthoSpawnViewMultiplier = 1.2f;
+        [Header("HookUps")] 
+        [SerializeField] private CameraController cameraController;
+        [Header("Parameters")]
+        [SerializeField][Range(1f, 2f)] private float orthoSpawnViewMultiplier = 1.25f;
         
         // Cached References
         private Camera spawnAssistCamera;
-        private ReInitLazyValue<CameraController> playerCameraController;
         
         private void Awake()
         {
             spawnAssistCamera = GetComponent<Camera>();
-            playerCameraController = new ReInitLazyValue<CameraController>(CameraController.GetCameraController);
         }
 
         private void Start()
         {
-            playerCameraController.ForceInit();
-            
-            if (playerCameraController.value == null) { return; }
-            HandleOrthoSizeUpdated(playerCameraController.value.GetActiveOrthoSize());
+            if (cameraController == null) { return; }
+            HandleOrthoSizeUpdated(cameraController.GetActiveOrthoSize());
         }
 
         private void OnEnable()
         {
-            playerCameraController.ForceInit();
-            UnityEngine.Debug.Log(playerCameraController.value != null);
-            if (playerCameraController.value != null) { playerCameraController.value.activeOrthoSizeUpdated += HandleOrthoSizeUpdated; }
+            if (cameraController != null) { cameraController.activeOrthoSizeUpdated += HandleOrthoSizeUpdated; }
         }
 
         private void OnDisable()
         {
-            if (playerCameraController.value != null) { playerCameraController.value.activeOrthoSizeUpdated -= HandleOrthoSizeUpdated; }
+            if (cameraController != null) { cameraController.activeOrthoSizeUpdated -= HandleOrthoSizeUpdated; }
         }
 
         private void HandleOrthoSizeUpdated(float newOrthoSize)

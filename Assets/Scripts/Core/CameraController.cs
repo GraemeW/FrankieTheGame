@@ -12,6 +12,8 @@ namespace Frankie.Core
     {
         // Tunables
         [Header("Hookups")]
+        [SerializeField] private Camera mainCamera;
+        [SerializeField] private Camera spawnAssistCamera;
         [SerializeField] private CinemachineStateDrivenCamera stateCamera;
         [SerializeField] private CinemachineVirtualCamera activeCamera;
         [SerializeField] private CinemachineVirtualCamera idleCamera;
@@ -70,6 +72,7 @@ namespace Frankie.Core
             player.ForceInit();
             party.ForceInit();
             RefreshDefaultCameras();
+            SetupOverlayCameras();
         }
         #endregion
 
@@ -90,7 +93,6 @@ namespace Frankie.Core
         #endregion
 
         #region PrivateMethods
-
         private Party SetupPartyReference()
         {
             GameObject playerObject = Player.FindPlayerObject();
@@ -110,6 +112,16 @@ namespace Frankie.Core
 
             activeCamera.Follow = target;
             idleCamera.Follow = target;
+        }
+
+        private void SetupOverlayCameras()
+        {
+            if (mainCamera != null && spawnAssistCamera != null)
+            {
+                UniversalAdditionalCameraData cameraData = mainCamera.GetUniversalAdditionalCameraData();
+                cameraData.cameraStack.Clear();
+                cameraData.cameraStack.Add(spawnAssistCamera);
+            }
         }
 
         private void UpdateCameraOrthoSizes(ResolutionScaler resolutionScaler, int cameraScaling)
