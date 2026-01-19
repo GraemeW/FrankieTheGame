@@ -3,6 +3,7 @@ using TMPro;
 using Frankie.Utils.UI;
 using Frankie.Control;
 using Frankie.Stats;
+using Frankie.World;
 using Frankie.Speech.UI;
 
 namespace Frankie.Inventory.UI

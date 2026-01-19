@@ -5,6 +5,7 @@ using UnityEngine;
 using Frankie.Core;
 using Frankie.Stats;
 using Frankie.Control;
+using Frankie.World;
 using Frankie.Utils;
 
 namespace Frankie.Speech
@@ -27,7 +28,7 @@ namespace Frankie.Speech
 
         private bool isSimpleMessage = false;
         private string simpleMessage = "";
-        private List<ChoiceActionPair> simpleChoices = new List<ChoiceActionPair>();
+        private List<ChoiceActionPair> simpleChoices = new();
         private InteractionEvent onDestroyCallbackActions;
 
         private bool dialogueComplete = false;

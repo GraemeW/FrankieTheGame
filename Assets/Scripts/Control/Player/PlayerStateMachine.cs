@@ -11,6 +11,7 @@ using Frankie.ZoneManagement;
 using Frankie.Speech;
 using Frankie.Stats;
 using Frankie.Inventory;
+using Frankie.World;
 using Frankie.Utils;
 
 namespace Frankie.Control
