@@ -74,6 +74,7 @@ namespace Frankie.Speech
             playerInput.Menu.Execute.performed += _ => HandleUserInput(PlayerInputType.Execute);
             playerInput.Menu.Cancel.performed += _ => HandleUserInput(PlayerInputType.Cancel);
             playerInput.Menu.Option.performed += _ => HandleUserInput(PlayerInputType.Option);
+            playerInput.Menu.Escape.performed += _ => HandleUserInput(PlayerInputType.Escape);
         }
 
         private void OnEnable()

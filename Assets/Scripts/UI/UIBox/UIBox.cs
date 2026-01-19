@@ -369,7 +369,7 @@ namespace Frankie.Utils.UI
             {
                 globalInputHandler.globalInput += HandleGlobalInputWrapper; // Unsubscribed on OnDisable
             }
-            // No behavior if disabled, will subscribe by OnEnable
+            // No behaviour if disabled, will subscribe by OnEnable
         }
 
         private void HandleGlobalInputWrapper(PlayerInputType playerInputType)
@@ -428,7 +428,7 @@ namespace Frankie.Utils.UI
             if (!handleGlobalInput) { return true; } // Spoof:  Cannot accept input, so treat as if global input already handled
 
             if (preventEscapeOptionExit) { return false; } // Used for main menus that cannot be bypassed -- e.g. start menu
-            if (playerInputType is PlayerInputType.Cancel or PlayerInputType.Option)
+            if (playerInputType is PlayerInputType.Cancel or PlayerInputType.Option or PlayerInputType.Escape)
             {
                 HandleClientExit();
                 destroyQueued = true;

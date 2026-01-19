@@ -10,12 +10,12 @@ namespace Frankie.Menu.UI
     public class EscapeMenu : UIBox
     {
         // Tunables
-        [SerializeField] OptionsMenu optionsMenuPrefab = null;
+        [SerializeField] private OptionsMenu optionsMenuPrefab;
 
         // Cached References
-        PlayerStateMachine playerStateMachine = null;
-        WorldCanvas worldCanvas = null;
-        GameObject childOption = null;
+        private PlayerStateMachine playerStateMachine;
+        private WorldCanvas worldCanvas;
+        private GameObject childOption;
 
         // Events
         public event Action escapeMenuItemSelected;
@@ -43,7 +43,8 @@ namespace Frankie.Menu.UI
         {
             if (!handleGlobalInput) { return true; } // Spoof:  Cannot accept input, so treat as if global input already handled
             
-            if (playerInputType is PlayerInputType.Option or PlayerInputType.Cancel)
+            UnityEngine.Debug.Log(playerInputType);
+            if (playerInputType is PlayerInputType.Escape or PlayerInputType.Cancel)
             {
                 if (childOption != null)
                 {
@@ -57,7 +58,7 @@ namespace Frankie.Menu.UI
 
         public void OpenOptionsMenu() // Called via Unity Events
         {
-            // Frontload event calling -- despawns any open windows
+            // Front-load event calling -- despawns any open windows
             escapeMenuItemSelected?.Invoke();
 
             OptionsMenu optionsMenu = Instantiate(optionsMenuPrefab, worldCanvas.gameObject.transform);
