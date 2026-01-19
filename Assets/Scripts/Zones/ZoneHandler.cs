@@ -221,19 +221,11 @@ namespace Frankie.ZoneManagement
             if (!startZoneNode.HasLinkedSceneReference()) { return; }
             
             playerStateMachine.EnterZoneTransition();
-            SetZoneHandlerToPersistOnSceneTransition();
 
             ZoneNode linkedZoneNode = startZoneNode.GetLinkedZoneNode();
             Zone linkedZone = linkedZoneNode.GetZone();
 
             TransitionToNextScene(linkedZone, linkedZoneNode); // NOTE:  Exit inTransition done on queued move
-        }
-
-        private void SetZoneHandlerToPersistOnSceneTransition()
-        {
-            inTransitToNextScene = true;
-            gameObject.transform.parent = null;
-            DontDestroyOnLoad(gameObject);
         }
 
         private void QueuedMoveToNextNode()
@@ -253,7 +245,7 @@ namespace Frankie.ZoneManagement
 
             queuedZoneNodeID = nextNode.GetNodeID();
             fader.fadingOut += QueuedMoveToNextNode;
-            fader.fadingPeak += DisableCurrentRoomParent; // Required for save state
+            fader.fadingPeak += HandleFadingPeak;
             fader.UpdateFadeState(TransitionType.Zone, nextZone);
         }
 
@@ -263,8 +255,21 @@ namespace Frankie.ZoneManagement
             if (fader == null) { return; }
 
             fader.fadingOut -= QueuedMoveToNextNode;
-            fader.fadingPeak -= DisableCurrentRoomParent;
+            fader.fadingPeak -= HandleFadingPeak;
             Destroy(gameObject, delayToDestroyAfterSceneLoading);
+        }
+
+        private void HandleFadingPeak()
+        {
+            DisableCurrentRoomParent(); // Required for save state
+            SetZoneHandlerToPersistOnSceneTransition(); // Call after Disable to avoid room popping off of parent
+        }
+        
+        private void SetZoneHandlerToPersistOnSceneTransition()
+        {
+            inTransitToNextScene = true;
+            gameObject.transform.parent = null;
+            DontDestroyOnLoad(gameObject);
         }
         #endregion
 
