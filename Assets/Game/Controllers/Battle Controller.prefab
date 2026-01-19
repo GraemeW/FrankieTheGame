@@ -46,7 +46,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 157cf851fa5196043a472382cf957cc5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  battleQueueDelay: 1
+  runChanceIncrement: 0.15
+  battlePreQueueDelay: 0.2
+  battlePostQueueDelay: 0.8
 --- !u!114 &8278917081213519595
 MonoBehaviour:
   m_ObjectHideFlags: 0
