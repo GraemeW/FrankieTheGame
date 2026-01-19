@@ -43,7 +43,6 @@ namespace Frankie.Menu.UI
         {
             if (!handleGlobalInput) { return true; } // Spoof:  Cannot accept input, so treat as if global input already handled
             
-            UnityEngine.Debug.Log(playerInputType);
             if (playerInputType is PlayerInputType.Escape or PlayerInputType.Cancel)
             {
                 if (childOption != null)
