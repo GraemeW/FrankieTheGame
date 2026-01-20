@@ -78,8 +78,6 @@ namespace Frankie.Sound
                 case StateAlteredType.ActionDequeued:
                     PlayClip(actionDequeuedAudioClip);
                     break;
-                default:
-                    break;
             }
         }
     }

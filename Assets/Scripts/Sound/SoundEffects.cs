@@ -9,13 +9,14 @@ namespace Frankie.Sound
         // Note:  Functions called via Unity Events, ignore '0 references' messages
 
         // Tunables
-        [SerializeField] AudioClip[] audioClips = null;
+        [SerializeField] private AudioClip[] audioClips;
 
         // State
-        float volume = 0.3f;
-        protected AudioSource audioSource = null;
-        bool destroyAfterPlay = false;
+        private float volume = 0.3f;
+        private protected AudioSource audioSource;
+        private bool destroyAfterPlay = false;
 
+        #region UnityMethods
         private void Awake()
         {
             audioSource = GetComponent<AudioSource>();
@@ -38,12 +39,14 @@ namespace Frankie.Sound
                 Destroy(gameObject);
             }
         }
+        #endregion
 
-        public void Setup(float defaultVolume, bool destroyAfterPlay)
+        #region PrivateProtectedMethods
+        private void Setup(float defaultVolume, bool setDestroyAfterPlay)
         {
             volume = defaultVolume;
             InitializeVolume();
-            this.destroyAfterPlay = destroyAfterPlay;
+            destroyAfterPlay = setDestroyAfterPlay;
         }
 
         protected void InitializeVolume()
@@ -62,16 +65,17 @@ namespace Frankie.Sound
             audioSource.volume = volume;
         }
 
-        protected void GeneratePersistentSoundEffect(AudioClip audioClip, float defaultVolume)
+        private void GeneratePersistentSoundEffect(AudioClip audioClip, float defaultVolume)
         {
             if (audioClip == null) { return; }
-            SoundEffects newSoundEffects = Instantiate(this);
-            newSoundEffects.transform.parent = null;
+            SoundEffects newSoundEffects = Instantiate(this, null, true);
             newSoundEffects.Setup(defaultVolume, true);
             DontDestroyOnLoad(newSoundEffects);
             newSoundEffects.PlayClip(audioClip);
         }
+        #endregion
 
+        #region PublicMethods
         public void SetLooping(bool isLooping)
         {
             audioSource.loop = isLooping;
@@ -79,10 +83,13 @@ namespace Frankie.Sound
 
         public void PlayClip(AudioClip audioClip)
         {
-            if (audioClip == null) { return; }
+            if (audioClip == null || audioSource.isPlaying) { return; }
+            
             InitializeVolume();
+            audioSource.Stop();
             audioSource.clip = audioClip;
-            if (!audioSource.isPlaying) { audioSource.Play(); }
+            audioSource.time = 0f;
+            audioSource.Play();
         }
 
         public void PlayClip()
@@ -110,5 +117,6 @@ namespace Frankie.Sound
             AudioClip currentClip = audioClips[Random.Range(0, audioClips.Length - 1)];
             PlayClipAfterDestroy(currentClip);
         }
+        #endregion
     }
 }

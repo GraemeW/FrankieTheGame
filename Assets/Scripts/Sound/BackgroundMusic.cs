@@ -114,11 +114,13 @@ namespace Frankie.Sound
         #region Standard Transitions
         private IEnumerator TransitionToAudio(AudioClip audioClip, bool isLooping, float timeIndex = 0f)
         {
+            if (audioClip == null) { yield break; }
+            
             yield return StartFade(audioMixer, _mixerVolumeReference, musicFadeDuration, 0f);
             audioSource.Stop();
             audioSource.clip = audioClip;
             audioSource.loop = isLooping;
-            audioSource.time = timeIndex;
+            audioSource.time = Mathf.Min(timeIndex, audioClip.length);
             audioSource.Play();
             yield return StartFade(audioMixer, _mixerVolumeReference, musicFadeDuration, volume);
         }
@@ -218,9 +220,7 @@ namespace Frankie.Sound
         public bool OverrideMusic(AudioClip audioClip, bool calledInStart = false)
         {
             if (audioClip == null) { return false; }
-
             if (calledInStart) { wasMusicOverriddenOnStart = true; }
-            else { worldMusicTimeIndex = audioSource.time; }
 
             worldMusicTimeIndex = audioSource.time;
             StartCoroutine(TransitionToAudio(audioClip, true));

@@ -6,8 +6,8 @@ namespace Frankie.Sound
     public class FaderSoundEffects : SoundEffects
     {
         // Tunables
-        [SerializeField] Fader fader = null;
-        [SerializeField] AudioClip battleEntryAudioClip = null;
+        [SerializeField] private Fader fader;
+        [SerializeField] private AudioClip battleEntryAudioClip;
 
         protected override void OnEnable()
         {
@@ -21,14 +21,9 @@ namespace Frankie.Sound
             fader.fadingIn -= HandleFadeIn;
         }
 
-        protected override void Update()
-        {
-            base.Update();
-        }
-
         private void HandleFadeIn(TransitionType transitionType)
         {
-            if (transitionType == TransitionType.BattleNeutral || transitionType == TransitionType.BattleGood || transitionType == TransitionType.BattleBad)
+            if (transitionType is TransitionType.BattleNeutral or TransitionType.BattleGood or TransitionType.BattleBad)
             {
                 StartBattleEntrySoundEffect();
             }
@@ -39,5 +34,4 @@ namespace Frankie.Sound
             PlayClip(battleEntryAudioClip);
         }
     }
-
 }
