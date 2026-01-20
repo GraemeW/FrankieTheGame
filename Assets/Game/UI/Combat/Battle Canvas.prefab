@@ -413,7 +413,7 @@ MonoBehaviour:
   m_Padding:
     m_Left: 0
     m_Right: 0
-    m_Top: 0
+    m_Top: 30
     m_Bottom: 0
   m_ChildAlignment: 1
   m_Spacing: 10
@@ -2443,7 +2443,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5476277323413269905, guid: a1121f1f6416b1440be9e62de637c8c5, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0
+      value: -30
       objectReference: {fileID: 0}
     - target: {fileID: 5476277323413269905, guid: a1121f1f6416b1440be9e62de637c8c5, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
