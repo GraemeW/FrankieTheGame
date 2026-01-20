@@ -127,7 +127,7 @@ namespace Frankie.Saving.Editor
             
             saveHeaderBox.Add(new Label("Save Editor Tool"));
             
-            string currentSaveName = SavingWrapper.GetCurrentSave() ?? _noSaveLabel;
+            string currentSaveName = SavingWrapper.GetCurrentSaveName() ?? _noSaveLabel;
             saveHeaderBox.Add(new Label($"Current Save:  {currentSaveName}"));
             
             if (SavingWrapper.GetInfoFromName(currentSaveName, out string characterName, out int level))
