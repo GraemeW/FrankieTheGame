@@ -19,7 +19,7 @@ namespace Frankie.Sound
         #region UnityMethods
         private void Awake()
         {
-            audioSource = GetComponent<AudioSource>();
+            SetAudioSource();
         }
 
         protected virtual void OnEnable()
@@ -47,6 +47,11 @@ namespace Frankie.Sound
             volume = defaultVolume;
             InitializeVolume();
             destroyAfterPlay = setDestroyAfterPlay;
+        }
+
+        protected virtual void SetAudioSource()
+        {
+            if (audioSource == null) { audioSource = GetComponent<AudioSource>(); }
         }
 
         protected void InitializeVolume()
@@ -83,6 +88,8 @@ namespace Frankie.Sound
 
         public void PlayClip(AudioClip audioClip)
         {
+            SetAudioSource();
+            if (audioSource == null)  { return; }
             if (audioClip == null || audioSource.isPlaying) { return; }
             
             InitializeVolume();

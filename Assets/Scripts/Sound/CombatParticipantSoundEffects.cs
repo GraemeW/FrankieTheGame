@@ -1,3 +1,4 @@
+using System.Linq;
 using UnityEngine;
 using Frankie.Combat;
 
@@ -5,7 +6,12 @@ namespace Frankie.Sound
 {
     public class CombatParticipantSoundEffects : SoundEffects
     {
+        // Tunables
+        [Header("Audio Source Hookups")]
+        [SerializeField] private AudioSource[] audioSources;
+        [Header("CombatParticipant Reference")]
         [SerializeField] private CombatParticipant combatParticipant;
+        [Header("AudioClip Hookups")]
         [SerializeField] private AudioClip decreaseHPAudioClip;
         [SerializeField] private AudioClip missedHitAudioClip;
         [SerializeField] private AudioClip increaseHPAudioClip;
@@ -16,7 +22,7 @@ namespace Frankie.Sound
         [SerializeField] private AudioClip decreaseStatAudioClip;
         [SerializeField] private AudioClip getHelpAudioClip;
         [SerializeField] private AudioClip actionDequeuedAudioClip;
-
+        
         protected override void OnEnable()
         {
             base.OnEnable();
@@ -27,6 +33,12 @@ namespace Frankie.Sound
         {
             base.OnDisable();
             combatParticipant.UnsubscribeToStateUpdates(HandleCombatParticipantState);
+        }
+
+        protected override void SetAudioSource()
+        {
+            if (audioSources == null || audioSources.Length == 0) { base.SetAudioSource(); }
+            else { audioSource = audioSources.FirstOrDefault(source => !source.isPlaying); }
         }
 
         private void HandleCombatParticipantState(StateAlteredInfo stateAlteredInfo)
