@@ -90,6 +90,8 @@ namespace Frankie.Inventory.UI
             int itemIndex = 0;
             foreach (InventoryItem inventoryItem in shop.GetShopStock())
             {
+                if (inventoryItem == null)  { continue; }
+                
                 ShopStockRow stockRow = Instantiate(stockRowPrefab, optionParent);
                 stockRow.Setup(inventoryItem.GetDisplayName(), itemIndex, inventoryItem.GetPrice(), delegate { TryPurchaseItem(inventoryItem); });
                 itemIndex++;

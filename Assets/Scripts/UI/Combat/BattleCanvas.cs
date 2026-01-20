@@ -187,8 +187,11 @@ namespace Frankie.Combat.UI
                     combatOptions.SetCombatOptions(true);
                     break;
                 case BattleState.Combat:
-                    combatLog.AddCombatLogText("  Combat Started . . . ");
-                    combatLog.gameObject.SetActive(true);
+                    if (combatLog != null)
+                    {
+                        combatLog.AddCombatLogText("  Combat Started . . . ");
+                        combatLog.gameObject.SetActive(true);
+                    }
                     skillSelection.gameObject.SetActive(true);
                     break;
                 case BattleState.Outro:
@@ -196,7 +199,7 @@ namespace Frankie.Combat.UI
                 {
                     if (outroQueued) { return; }
 
-                    combatLog.gameObject.SetActive(false);
+                    if (combatLog != null) { combatLog.gameObject.SetActive(false); }
                     skillSelection.gameObject.SetActive(false);
                     queuedUISequences.Enqueue(() => SetupExperienceMessage(battleOutcome));
                     SetupAllLootMessages(battleOutcome); // Parent function to queue a number of additional loot messages into UI sequences
@@ -255,7 +258,7 @@ namespace Frankie.Combat.UI
             
             EnemySlide enemySlide = Instantiate(enemySlidePrefab, spawnLocation);
             enemySlide.SetBattleEntity(battleEntity);
-            combatLog.AddCombatListener(battleEntity.combatParticipant);
+            if (combatLog != null) { combatLog.AddCombatListener(battleEntity.combatParticipant); }
 
             enemySlideLookup[battleEntity] = enemySlide;
         }
@@ -264,7 +267,7 @@ namespace Frankie.Combat.UI
         {
             CharacterSlide characterSlide = Instantiate(characterSlidePrefab, playerPanelParent);
             characterSlide.SetBattleEntity(character);
-            combatLog.AddCombatListener(character.combatParticipant);
+            if (combatLog != null) { combatLog.AddCombatListener(character.combatParticipant); }
 
             if (!firstCharacterToggle)
             {
@@ -278,7 +281,7 @@ namespace Frankie.Combat.UI
         private void SetupAssistCharacter(BattleEntity assistCharacter)
         {
             // No panel + limited feedback & no level-ups for assist characters
-            combatLog.AddCombatListener(assistCharacter.combatParticipant);
+            if (combatLog != null) { combatLog.AddCombatListener(assistCharacter.combatParticipant); }
         }
 
         private void SetupBackgroundFill(IList<BattleEntity> enemies)
