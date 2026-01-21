@@ -124,12 +124,10 @@ namespace Frankie.Control
             if (SetStaticForNoTarget()) { return null; }
 
             Vector2 position = rigidBody2D.position;
-            
-            targetMovementHistory.Add(moveTargetObject.transform.position);
-            Vector2 target = ReckonTarget(false);
+            Vector2 target = ReckonTarget(false, true);
             
             if (HasArrivedAtTarget(target, out float squareMagnitudeDelta)) { return false; }
-            target = ReckonTarget(squareMagnitudeDelta > closeTargetThresholdSquared);
+            target = ReckonTarget(squareMagnitudeDelta > closeTargetThresholdSquared, false);
 
             Vector2 direction = target - position;
             lookDirection.Set(direction.x, direction.y);
@@ -144,7 +142,7 @@ namespace Frankie.Control
             return true;
         }
 
-        protected virtual Vector2 ReckonTarget(bool withOffsetting = true)
+        protected virtual Vector2 ReckonTarget(bool withOffsetting = true, bool addToHistory = true)
         {
             if (moveTargetCoordinate != null)
             {
@@ -152,7 +150,10 @@ namespace Frankie.Control
             }
             if (moveTargetObject != null)
             {
-                if (targetMovementHistory.GetCurrentSize() == 0) { return moveTargetObject.transform.position; }
+                Vector2 currentTargetPosition = moveTargetObject.transform.position;
+                if (addToHistory) { targetMovementHistory.Add(currentTargetPosition); }
+                
+                if (targetMovementHistory.GetCurrentSize() == 0) { return currentTargetPosition; }
                 else { return withOffsetting ? targetMovementHistory.GetLastEntry() : targetMovementHistory.GetFirstEntry(); }
             }
             return Vector2.zero;;
