@@ -58,12 +58,13 @@ namespace Frankie.Sound
 
         private void SetPlayerVolume()
         {
-            if (!PlayerPrefsController.MasterVolumeKeyExists()) { volume = _defaultVolume; }
-            if (PlayerPrefsController.SoundEffectsVolumeKeyExists())
+            if (PlayerPrefsController.MasterVolumeKeyExists())
             {
-                volume = PlayerPrefsController.GetMasterVolume() * PlayerPrefsController.GetSoundEffectsVolume();
+                volume = PlayerPrefsController.SoundEffectsVolumeKeyExists() ? 
+                    PlayerPrefsController.GetMasterVolume() * PlayerPrefsController.GetSoundEffectsVolume() : PlayerPrefsController.GetMasterVolume();
+                return;
             }
-            volume = PlayerPrefsController.GetMasterVolume();
+            volume = _defaultVolume; 
         }
 
         protected void InitializeVolume()
