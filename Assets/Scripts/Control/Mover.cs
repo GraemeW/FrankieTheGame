@@ -124,6 +124,8 @@ namespace Frankie.Control
             if (SetStaticForNoTarget()) { return null; }
 
             Vector2 position = rigidBody2D.position;
+            
+            targetMovementHistory.Add(moveTargetObject.transform.position);
             Vector2 target = ReckonTarget(false);
             
             if (HasArrivedAtTarget(target, out float squareMagnitudeDelta)) { return false; }
@@ -144,17 +146,16 @@ namespace Frankie.Control
 
         protected virtual Vector2 ReckonTarget(bool withOffsetting = true)
         {
-            Vector2 target = Vector2.zero;
             if (moveTargetCoordinate != null)
             {
-                target = moveTargetCoordinate.Value;
+                return moveTargetCoordinate.Value;
             }
-            else if (moveTargetObject != null)
+            if (moveTargetObject != null)
             {
-                targetMovementHistory.Add(moveTargetObject.transform.position);
-                target = withOffsetting ? targetMovementHistory.GetLastEntry() : targetMovementHistory.GetFirstEntry();
+                if (targetMovementHistory.GetCurrentSize() == 0) { return moveTargetObject.transform.position; }
+                else { return withOffsetting ? targetMovementHistory.GetLastEntry() : targetMovementHistory.GetFirstEntry(); }
             }
-            return target;
+            return Vector2.zero;;
         }
 
         protected void SetLookDirection(PlayerInputType playerInputType)
