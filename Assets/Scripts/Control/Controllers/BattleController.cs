@@ -586,7 +586,7 @@ namespace Frankie.Combat
             battleSequenceInProgress = true;
 
             CombatParticipant sender = dequeuedBattleActionData.GetSender();
-            if (sender != null) { sender.AnnounceStateUpdate(StateAlteredType.ActionDequeued); }
+            if (sender != null && !sender.IsDead()) { sender.AnnounceStateUpdate(StateAlteredType.ActionDequeued); }
             yield return new WaitForSeconds(battlePreQueueDelay);
             
             battleSequence.battleActionSuper.Use(dequeuedBattleActionData, () => { battleSequenceInProgress = false; });
