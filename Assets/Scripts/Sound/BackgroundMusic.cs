@@ -28,6 +28,7 @@ namespace Frankie.Sound
 
         // Cached References
         private AudioSource audioSource;
+        private Coroutine musicFadeCoroutine;
 
         #region Static
         private const string _mixerVolumeReference = "masterVolume";
@@ -120,7 +121,7 @@ namespace Frankie.Sound
             audioSource.Stop();
             audioSource.clip = audioClip;
             audioSource.loop = isLooping;
-            audioSource.time = Mathf.Min(timeIndex, audioClip.length);
+            audioSource.time = Mathf.Clamp(timeIndex, 0f, audioClip.length - 0.01f);
             audioSource.Play();
             yield return StartFade(audioMixer, _mixerVolumeReference, musicFadeDuration, volume);
         }
@@ -184,7 +185,8 @@ namespace Frankie.Sound
 
             if (!wasMusicOverriddenOnStart)
             {
-                StartCoroutine(immediate
+                if (musicFadeCoroutine != null) { StopCoroutine(musicFadeCoroutine); }
+                musicFadeCoroutine = StartCoroutine(immediate
                     ? TransitionToAudioImmediate(audioClip, isLooping)
                     : TransitionToAudio(audioClip, isLooping));
             }
@@ -207,11 +209,13 @@ namespace Frankie.Sound
             if (audioClip == null) { return; }
             
             worldMusicTimeIndex = audioSource.time;
-            StartCoroutine(TransitionToAudio(audioClip, true));
+            if (musicFadeCoroutine != null) { StopCoroutine(musicFadeCoroutine); }
+            musicFadeCoroutine = StartCoroutine(TransitionToAudio(audioClip, true));
         }
 
         private void StopBattleMusic()
         {
+            if (musicFadeCoroutine != null) { StopCoroutine(musicFadeCoroutine); }
             StartCoroutine(TransitionToAudio(currentWorldMusic, isWorldMusicLooping, worldMusicTimeIndex));
         }
         #endregion
@@ -223,13 +227,15 @@ namespace Frankie.Sound
             if (calledInStart) { wasMusicOverriddenOnStart = true; }
 
             worldMusicTimeIndex = audioSource.time;
-            StartCoroutine(TransitionToAudio(audioClip, true));
+            if (musicFadeCoroutine != null) { StopCoroutine(musicFadeCoroutine); }
+            musicFadeCoroutine = StartCoroutine(TransitionToAudio(audioClip, true));
             return true;
         }
 
         public void StopOverrideMusic()
         {
-            StartCoroutine(TransitionToAudio(currentWorldMusic, isWorldMusicLooping, worldMusicTimeIndex));
+            if (musicFadeCoroutine != null) { StopCoroutine(musicFadeCoroutine); }
+            musicFadeCoroutine = StartCoroutine(TransitionToAudio(currentWorldMusic, isWorldMusicLooping, worldMusicTimeIndex));
         }
         #endregion
     }
