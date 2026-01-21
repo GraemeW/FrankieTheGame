@@ -8,12 +8,12 @@ namespace Frankie.Inventory
     public class Wallet : MonoBehaviour, ISaveable
     {
         // Tunables
-        [SerializeField] int initialCash = 50;
-        [SerializeField] int maxCash = 999999999;
+        [SerializeField] private int initialCash = 50;
+        [SerializeField] private int maxCash = 999999999;
 
         // State
-        LazyValue<int> cash;
-        int pendingCash = 0;
+        private LazyValue<int> cash;
+        private int pendingCash = 0;
 
         // Events
         public event Action walletUpdated;
@@ -23,48 +23,24 @@ namespace Frankie.Inventory
         {
             cash = new LazyValue<int>(GetInitialCash);
         }
+        private int GetInitialCash() => initialCash;
 
         private void Start()
         {
             cash.ForceInit();
         }
-
-        private int GetInitialCash()
-        {
-            return initialCash;
-        }
         #endregion
 
         #region PublicMethods
-        public bool HasFunds(int value)
-        {
-            return cash.value >= value;
-        }
-
-        public bool IsWalletFull()
-        {
-            return cash.value >= maxCash;
-        }
-
-        public bool IsWalletEmpty()
-        {
-            return cash.value <= 0;
-        }
-
-        public int GetCash()
-        {
-            return cash.value;
-        }
-
-        public int GetPendingCash()
-        {
-            return pendingCash;
-        }
+        public bool HasFunds(int value) => cash.value >= value;
+        public bool IsWalletFull() => cash.value >= maxCash;
+        public bool IsWalletEmpty() => cash.value <= 0;
+        public int GetCash() => cash.value;
+        public int GetPendingCash() => pendingCash;
 
         public void UpdateCash(int value)
         {
             cash.value = Mathf.Clamp(cash.value + value, 0, maxCash);
-
             walletUpdated?.Invoke();
         }
 
@@ -81,11 +57,11 @@ namespace Frankie.Inventory
             if (value > 0)
             {
                 if (cash.value + value > maxCash) { value = maxCash - (cash.value + value); } // Set to delta(max, addition)
-                if (value > pendingCash) { value = pendingCash; } // Set to max transferrable from bank if over
+                if (value > pendingCash) { value = pendingCash; } // Set to max transferable from bank if over
             }
 
             // Wallet -> Bank
-            if (value < 0 && -value > cash.value) { value = cash.value; } // Set to max transferrable form wallet if over
+            if (value < 0 && -value > cash.value) { value = cash.value; } // Set to max transferable form wallet if over
 
             cash.value += value;
             pendingCash -= value;
@@ -96,37 +72,30 @@ namespace Frankie.Inventory
         #endregion
 
         #region Interfaces
-        [System.Serializable]
+        [Serializable]
         private class WalletSaveData
         {
             public int cash;
             public int pendingCash;
         }
 
-        public LoadPriority GetLoadPriority()
-        {
-            return LoadPriority.ObjectProperty;
-        }
+        public LoadPriority GetLoadPriority() => LoadPriority.ObjectProperty;
 
         public SaveState CaptureState()
         {
-            WalletSaveData walletSaveData = new WalletSaveData
+            var walletSaveData = new WalletSaveData
             {
                 cash = cash.value,
                 pendingCash = pendingCash
             };
-            SaveState saveState = new SaveState(GetLoadPriority(), walletSaveData);
-            return saveState;
+            return new SaveState(GetLoadPriority(), walletSaveData);
         }
 
         public void RestoreState(SaveState state)
         {
-            WalletSaveData walletSaveData = state.GetState(typeof(WalletSaveData)) as WalletSaveData;
-            if (walletSaveData != null)
-            {
-                cash.value = walletSaveData.cash;
-                pendingCash = walletSaveData.pendingCash;
-            }
+            if (state.GetState(typeof(WalletSaveData)) is not WalletSaveData walletSaveData) { return; }
+            cash.value = walletSaveData.cash;
+            pendingCash = walletSaveData.pendingCash;
         }
         #endregion
     }

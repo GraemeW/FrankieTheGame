@@ -7,7 +7,7 @@ namespace Frankie.Core
     [RequireComponent(typeof(PlayableDirector))]
     public class CinematicTrigger : MonoBehaviour, ISaveable
     {
-        [SerializeField] bool playOnStart = false;
+        [SerializeField] private bool playOnStart = false;
 
         // Cached References
         PlayableDirector playableDirector = null;

@@ -29,10 +29,6 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1182436157161314237, guid: e4be3ce2d5464c3498c884ae5d9223d4, type: 3}
-      propertyPath: preferredBattleRow
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1182436157161314237, guid: e4be3ce2d5464c3498c884ae5d9223d4, type: 3}
       propertyPath: movingBackgroundProperties.shaderMaterial
       value: 
       objectReference: {fileID: 2100000, guid: c95ecd05fdd444ed7b1f3824720f85b0, type: 2}

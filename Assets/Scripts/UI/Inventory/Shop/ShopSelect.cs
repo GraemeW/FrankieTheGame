@@ -1,8 +1,10 @@
 using UnityEngine;
-using Frankie.Utils.UI;
+using Frankie.Core;
 using Frankie.Control;
 using Frankie.Stats;
-using Frankie.Core;
+using Frankie.World;
+using Frankie.Utils.UI;
+
 
 namespace Frankie.Inventory.UI
 {

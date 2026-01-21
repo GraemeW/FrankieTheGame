@@ -344,12 +344,21 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   movementSpeed: 1
   defaultLookDirection: {x: 0, y: -1}
-  defaultTargetDistanceTolerance: 0.05
+  defaultTargetDistanceTolerance: 0.035
+  closeTargetThresholdSquared: 0.5625
   resetPositionOnEnable: 1
+  targetMovementHistoryLength: 10
   interactionCenterPoint: {fileID: 2666196632901393418}
   patrolPath: {fileID: 0}
+  canRandomWalk: 0
+  randomWalkStepDistance: 0.4
+  randomWalkxLimitDistance: 1.2
+  randomWalkyLimitDistance: 1.2
   waypointDwellTime: 2
-  giveUpOnPatrolTargetTime: 10
+  lookDirectionOnDwell: {x: 0, y: -1}
+  giveUpOnLocomotionTargetTime: 10
+  locomotionCollisionStayTime: 0.5
+  randomWalkGizmoColor: {r: 0.2745098, g: 0.509804, b: 0.7058824, a: 1}
 --- !u!114 &5735266784123818870
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -363,7 +372,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   willForceCombat: 0
-  willDestroySelfOnDeath: 1
   willDestroyIfInvisible: 0
   delayToDestroyAfterInvisible: 2
   messageCannotFight: '{0} is wounded and cannot fight.'
@@ -379,6 +387,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 292cbe0fa78f411468ca518291de60fb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  actionQueuePollingPeriod: 0.1
   probabilityToTraverseSkillTree: 0.8
   useRandomSelectionOnNoPriorities: 1
   battleAIPriorities: []

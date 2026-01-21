@@ -1,41 +1,42 @@
 using UnityEngine;
 using System.Collections.Generic;
-using Frankie.ZoneManagement.UI;
 using Frankie.Core;
+using Frankie.Control;
 using Frankie.Combat;
 using Frankie.Stats;
+using Frankie.World;
 using Frankie.Utils.UI;
 using Frankie.Combat.UI;
 using Frankie.Stats.UI;
 using Frankie.Inventory.UI;
-using Frankie.Control;
+using Frankie.ZoneManagement.UI;
 
 namespace Frankie.Menu.UI
 {
     public class WorldOptions : UIBox
     {
         // Tunables
-        [SerializeField] Transform characterPanelTransform = null;
+        [SerializeField] private Transform characterPanelTransform;
         [Header("Option Game Objects")]
-        [SerializeField] CharacterSlide characterSlidePrefab = null;
-        [SerializeField] WalletUI walletUIPrefab = null;
-        [SerializeField] InventoryBox inventoryBoxPrefab = null;
-        [SerializeField] EquipmentBox equipmentBoxPrefab = null;
-        [SerializeField] AbilitiesBox abilitiesBoxPrefab = null;
-        [SerializeField] StatusBox statusBoxPrefab = null;
-        [SerializeField] MapSuper mapSuperPrefab = null;
+        [SerializeField] private CharacterSlide characterSlidePrefab;
+        [SerializeField] private WalletUI walletUIPrefab;
+        [SerializeField] private InventoryBox inventoryBoxPrefab;
+        [SerializeField] private EquipmentBox equipmentBoxPrefab;
+        [SerializeField] private AbilitiesBox abilitiesBoxPrefab;
+        [SerializeField] private StatusBox statusBoxPrefab;
+        [SerializeField] private MapSuper mapSuperPrefab;
 
         // State
-        List<CharacterSlide> characterSlides = new List<CharacterSlide>();
-        List<BattleEntity> partyBattleEntities = new List<BattleEntity>();
-        WalletUI walletUI = null;
-        GameObject childOption = null;
+        private readonly List<CharacterSlide> characterSlides = new();
+        private readonly List<BattleEntity> partyBattleEntities = new();
+        private WalletUI walletUI;
+        private GameObject childOption;
 
         // Cached References
-        PlayerStateMachine playerStateMachine = null;
-        PlayerController playerController = null;
-        WorldCanvas worldCanvas = null;
-        PartyCombatConduit partyCombatConduit = null;
+        private PlayerStateMachine playerStateMachine;
+        private PlayerController playerController;
+        private WorldCanvas worldCanvas;
+        private PartyCombatConduit partyCombatConduit;
         
         private void Awake()
         {

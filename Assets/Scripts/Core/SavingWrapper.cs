@@ -14,17 +14,13 @@ namespace Frankie.Core
         // Constants
         private const string _defaultSaveFile = "save";
         private const string _sessionFile = "session";
-        private const string _debugFile = "debug";
         private const string _playerPrefsCurrentSave = "currentSave";
         
         // Events
         public static event Action gameListUpdated;
 
         #region StaticMethods
-        public static string GetSaveNameForIndex(int index)
-        {
-            return string.Concat(_defaultSaveFile, "_", index.ToString());
-        }
+        public static string GetSaveNameForIndex(int index) => string.Concat(_defaultSaveFile, "_", index.ToString());
 
         public static bool GetInfoFromName(string saveName, out string characterName, out int level)
         {
@@ -90,32 +86,17 @@ namespace Frankie.Core
         #endregion
 
         #region PublicMethods
+        public static bool HasSave(string matchSave) => ListSaves().Any(saveName => string.Equals(matchSave, saveName));
+        public static string GetCurrentSaveName() => PlayerPrefs.HasKey(_playerPrefsCurrentSave) ? PlayerPrefs.GetString(_playerPrefsCurrentSave) : null;
         public static void SetCurrentSave(string saveFile, bool announceGameListUpdate = true)
         {
             PlayerPrefs.SetString(_playerPrefsCurrentSave, saveFile);
             if (announceGameListUpdate) { gameListUpdated?.Invoke(); }
         }
-
-        public static string GetCurrentSave()
-        {
-            return (!PlayerPrefs.HasKey(_playerPrefsCurrentSave) ? null : PlayerPrefs.GetString(_playerPrefsCurrentSave)) ?? _debugFile;
-        }
         
         public static IEnumerable<string> ListSaves(bool includeSession = true)
         {
             return includeSession ? SavingSystem.ListSaves() : SavingSystem.ListSaves().Where(saveName => saveName != _sessionFile).ToList();
-        }
-
-        public static bool HasSave(string matchSave)
-        {
-            foreach (string saveName in ListSaves())
-            {
-                if (string.Equals(matchSave, saveName))
-                {
-                    return true;
-                }
-            }
-            return false;
         }
 
         public static void NewGame(string saveName, Zone newGameZoneOverride = null)
@@ -131,7 +112,6 @@ namespace Frankie.Core
 
         public static void LoadGame(string saveName)
         {
-            Delete(_sessionFile); // Clear session before load - avoid conflict w/ save system
             SetCurrentSave(saveName);
             Continue();
         }
@@ -143,13 +123,13 @@ namespace Frankie.Core
 
         public static void Continue()
         {
-            string saveName = GetCurrentSave();
+            string saveName = GetCurrentSaveName();
             if (saveName == null) { return; }
-
-            string currentSave = GetCurrentSave();
-            SetCurrentSave(currentSave);
+            
+            Delete(_sessionFile); // Clear session before load - avoid conflict w/ save system
+            
             SceneLoader sceneLoader = SceneLoader.FindSceneLoader();
-            sceneLoader.StartCoroutine(LoadFromSave(currentSave));
+            sceneLoader.StartCoroutine(LoadFromSave(saveName));
             SavingSystem.CopySaveToSession(saveName, _sessionFile);
         }
 
@@ -165,14 +145,18 @@ namespace Frankie.Core
 
         public static void SaveCorePlayerStateToSave()
         {
-            string saveName = GetCurrentSave();
+            string saveName = GetCurrentSaveName();
+            if (saveName == null) { return; }
+            
             UpdateSavePrefs(saveName);
             SavingSystem.CopyCorePlayerStateToSave(saveName);
         }
 
         public static void Save(bool announceGameListUpdate = true)
         {
-            string saveName = GetCurrentSave();
+            string saveName = GetCurrentSaveName();
+            if (saveName == null) { return; }
+            
             UpdateSavePrefs(saveName);
             SavingSystem.CopySessionToSave(_sessionFile, saveName);
             if (announceGameListUpdate) { gameListUpdated?.Invoke(); }
@@ -180,8 +164,10 @@ namespace Frankie.Core
 
         public static void Delete(bool announceGameListUpdate = true)
         {
-            string currentSave = GetCurrentSave();
-            SavingSystem.Delete(currentSave);
+            string saveName = GetCurrentSaveName();
+            if (saveName == null) { return; }
+            
+            SavingSystem.Delete(saveName);
             if (announceGameListUpdate) { gameListUpdated?.Invoke(); }
         }
 
@@ -198,7 +184,10 @@ namespace Frankie.Core
 
         public static void CopySave(string newSave, bool announceGameListUpdate = true)
         {
-            CopySave(GetCurrentSave(), newSave, announceGameListUpdate);
+            string saveName = GetCurrentSaveName();
+            if (saveName == null) { return; }
+            
+            CopySave(saveName, newSave, announceGameListUpdate);
         }
 
         public static void CopySave(string existingSave, string newSave, bool announceGameListUpdate = true)

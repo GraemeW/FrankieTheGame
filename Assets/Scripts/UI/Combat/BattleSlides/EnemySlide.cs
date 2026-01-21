@@ -5,12 +5,12 @@ using UnityEngine.UI;
 
 namespace Frankie.Combat.UI
 {
-    [RequireComponent(typeof(Shadow))]
     public class EnemySlide : BattleSlide
     {
         // Tunables
         [Header("Enemy Slide Settings")]
         [SerializeField] private Image image;
+        [SerializeField] private Image shadow;
         [SerializeField] private LayoutElement layoutElement;
         [SerializeField][Tooltip("Only first entry of the enum BattleEntityType is used")] private BattleEntityTypePropertySet[] battleEntityTypePropertyLookUp;
         [SerializeField] private float deathFadeTime = 1.0f;
@@ -22,9 +22,6 @@ namespace Frankie.Combat.UI
         private bool isPulsating = false;
         private float pulsatingTimer = 0f;
         private bool isAlphaDecreasing = true;
-        
-        // Cached References
-        private Shadow shadow;
         
         // Data Structures
         [Serializable]
@@ -46,7 +43,6 @@ namespace Frankie.Combat.UI
         protected override void Awake()
         {
             base.Awake();
-            shadow = GetComponent<Shadow>();
         }
 
         protected override void FixedUpdate()
@@ -113,6 +109,7 @@ namespace Frankie.Combat.UI
                 case StateAlteredType.Dead:
                 {
                     button.enabled = false;
+                    shadow.enabled = false;
                     image.CrossFadeAlpha(0f, deathFadeTime, false);
                     cooldownTimer?.gameObject.SetActive(false);
                     ClearStatusEffectBobbles();
@@ -164,8 +161,23 @@ namespace Frankie.Combat.UI
         #region PrivateMethods
         private void UpdateImage(Sprite sprite, BattleEntityType battleEntityType, float spriteScaleFineTune)
         {
-            image.sprite = sprite;
-            if (battleEntityTypePropertyLookUp == null || battleEntityTypePropertyLookUp.Length == 0) { return; }
+            if (sprite == null)  { return; }
+            
+            if (image != null)
+            {
+                image.sprite = sprite;
+                image.preserveAspect = true;
+                image.enabled = true;
+            }
+
+            if (shadow != null)
+            {
+                shadow.sprite = sprite;
+                shadow.preserveAspect = true;
+                shadow.enabled = false;   
+            }
+            
+            if (layoutElement == null || battleEntityTypePropertyLookUp == null || battleEntityTypePropertyLookUp.Length == 0) { return; }
 
             // Setting size of image based on enemy type (e.g. mook small, standard medium, boss big)
             foreach (BattleEntityTypePropertySet battleEntityPropertySet in battleEntityTypePropertyLookUp)

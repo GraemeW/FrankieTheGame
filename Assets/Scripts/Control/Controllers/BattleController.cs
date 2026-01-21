@@ -88,6 +88,7 @@ namespace Frankie.Combat
             playerInput.Menu.Execute.performed += _ => HandleUserInput(PlayerInputType.Execute);
             playerInput.Menu.Cancel.performed += _ => HandleUserInput(PlayerInputType.Cancel);
             playerInput.Menu.Option.performed += _ => HandleUserInput(PlayerInputType.Option);
+            playerInput.Menu.Escape.performed += _ => HandleUserInput(PlayerInputType.Escape);
             playerInput.Menu.Select1.performed += _ => InteractWithCharacterSelect(0);
             playerInput.Menu.Select2.performed += _ => InteractWithCharacterSelect(1);
             playerInput.Menu.Select3.performed += _ => InteractWithCharacterSelect(2);
@@ -356,25 +357,34 @@ namespace Frankie.Combat
 
         private bool InteractWithInterrupts(PlayerInputType playerInputType)
         {
-            if (playerInputType == PlayerInputType.Cancel)
+            switch (playerInputType)
             {
-                // Move to Combat Options if nothing selected in skill selector
-                if (selectedBattleActionSuper == null || selectedCharacter == null)
+                case PlayerInputType.Cancel when selectedBattleActionSuper == null || selectedCharacter == null:
                 {
                     ClearSelectedCharacter();
-                    SetBattleState(BattleState.PreCombat, BattleOutcome.Undetermined); return true;
+                    SetBattleState(BattleState.PreCombat, BattleOutcome.Undetermined);
+                    return true;
                 }
-
-                // Otherwise step out of selections
-                if (selectedBattleActionSuper != null || selectedCharacter != null)
+                case PlayerInputType.Cancel:
                 {
-                    SetActiveBattleAction(null);
-                    ClearSelectedCharacter();
-                    SetBattleState(BattleState.Combat, BattleOutcome.Undetermined);
+                    if (selectedBattleActionSuper != null || selectedCharacter != null)
+                    {
+                        SetActiveBattleAction(null);
+                        ClearSelectedCharacter();
+                        SetBattleState(BattleState.Combat, BattleOutcome.Undetermined);
+                    }
+                    return true;
                 }
-                return true;
+                case PlayerInputType.Option:
+                case PlayerInputType.Escape:
+                {
+                    ClearSelectedCharacter();
+                    SetBattleState(BattleState.PreCombat, BattleOutcome.Undetermined);
+                    return true;
+                }
+                default:
+                    return false;
             }
-            return false;
         }
 
         private void InteractWithCharacterSelect(int partyMemberSelect)
@@ -576,7 +586,7 @@ namespace Frankie.Combat
             battleSequenceInProgress = true;
 
             CombatParticipant sender = dequeuedBattleActionData.GetSender();
-            if (sender != null) { sender.AnnounceStateUpdate(StateAlteredType.ActionDequeued); }
+            if (sender != null && !sender.IsDead()) { sender.AnnounceStateUpdate(StateAlteredType.ActionDequeued); }
             yield return new WaitForSeconds(battlePreQueueDelay);
             
             battleSequence.battleActionSuper.Use(dequeuedBattleActionData, () => { battleSequenceInProgress = false; });

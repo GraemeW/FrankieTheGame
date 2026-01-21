@@ -1,13 +1,14 @@
 using UnityEngine;
+using Frankie.Control;
 using Frankie.Inventory;
 using Frankie.Stats;
 
-namespace Frankie.Control.Specialization
+namespace Frankie.World
 {
     public class WorldWearableAttacher : MonoBehaviour
     {
         // Tunables
-        [SerializeField] Wearable wearable = null;
+        [SerializeField] private Wearable wearable;
 
 
         // Public Methods

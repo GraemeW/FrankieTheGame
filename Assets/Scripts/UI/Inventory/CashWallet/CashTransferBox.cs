@@ -1,8 +1,10 @@
 using System;
+using System.Linq;
 using UnityEngine;
 using TMPro;
 using Frankie.Core;
 using Frankie.Control;
+using Frankie.World;
 using Frankie.Utils.UI;
 
 namespace Frankie.Inventory.UI
@@ -11,39 +13,39 @@ namespace Frankie.Inventory.UI
     {
         // Tunables
         [Header("")]
-        [SerializeField][Tooltip("Include {0} for funds amount")] string messageDeposit = "You currently have {0} funds to deposit.  How much do you want to deposit?";
-        [SerializeField][Tooltip("Include {0} for funds amount")] string messageWithdraw = "You currently have {0} in the bank to withdraw.  How much do you want to take out?";
+        [SerializeField][Tooltip("Include {0} for funds amount")] private string messageDeposit = "You currently have {0} funds to deposit.  How much do you want to deposit?";
+        [SerializeField][Tooltip("Include {0} for funds amount")] private string messageWithdraw = "You currently have {0} in the bank to withdraw.  How much do you want to take out?";
         [Header("Cash Transfer Fields")]
-        [SerializeField] TMP_Text messageField = null;
-        [SerializeField] CashTransferField hundredMillionField = null;
-        [SerializeField] CashTransferField tenMillionField = null;
-        [SerializeField] CashTransferField millionField = null;
-        [SerializeField] CashTransferField hundredThousandField = null;
-        [SerializeField] CashTransferField tenThousandField = null;
-        [SerializeField] CashTransferField thousandField = null;
-        [SerializeField] CashTransferField hundredField = null;
-        [SerializeField] CashTransferField tenField = null;
-        [SerializeField] CashTransferField oneField = null;
-        [SerializeField] UIChoiceButton confirmField = null;
-        [SerializeField] UIChoiceButton rejectField = null;
+        [SerializeField] private TMP_Text messageField;
+        [SerializeField] private CashTransferField hundredMillionField;
+        [SerializeField] private CashTransferField tenMillionField;
+        [SerializeField] private CashTransferField millionField;
+        [SerializeField] private CashTransferField hundredThousandField;
+        [SerializeField] private CashTransferField tenThousandField;
+        [SerializeField] private CashTransferField thousandField;
+        [SerializeField] private CashTransferField hundredField;
+        [SerializeField] private CashTransferField tenField;
+        [SerializeField] private CashTransferField oneField;
+        [SerializeField] private UIChoiceButton confirmField;
+        [SerializeField] private UIChoiceButton rejectField;
         [Header("Other Prefabs")]
-        [SerializeField] WalletUI walletUIPrefab = null;
+        [SerializeField] private WalletUI walletUIPrefab;
 
         // State
-        CashTransferState cashTransferState = CashTransferState.CashSelection;
-        int amountAvailable = 0;
-        int amountToTransfer = 0;
+        private CashTransferState cashTransferState = CashTransferState.CashSelection;
+        private int amountAvailable = 0;
+        private int amountToTransfer = 0;
 
         // Cached References
-        WorldCanvas worldCanvas = null;
-        PlayerStateMachine playerStateMachine = null;
-        PlayerController playerController = null;
-        Shopper shopper = null;
-        Wallet wallet = null;
-        WalletUI walletUI = null;
+        private WorldCanvas worldCanvas;
+        private PlayerStateMachine playerStateMachine;
+        private PlayerController playerController;
+        private Shopper shopper;
+        private Wallet wallet;
+        private WalletUI walletUI;
 
         // Static
-        int MAX_TRANSFER_AMOUNT = 999999999;
+        const int _maxTransferAmount = 999999999;
 
         #region UnityMethods
         private void Awake()
@@ -89,41 +91,52 @@ namespace Frankie.Inventory.UI
         private void SetupCashTransferBoxUI()
         {
             BankType bankType = shopper.GetBankType();
-            if (bankType == BankType.Deposit)
+            switch (bankType)
             {
-                amountAvailable = wallet.GetCash();
-                amountToTransfer = 0;
+                case BankType.Deposit:
+                {
+                    amountAvailable = wallet.GetCash();
+                    amountToTransfer = 0;
 
-                messageField.text = string.Format(messageDeposit, $"${amountAvailable:N0}");
-                InitializeButtons(amountAvailable, () => { wallet.TransferToWallet(-GetPendingCashToTransfer()); Destroy(gameObject); });
-            }
-            else if (bankType == BankType.Withdraw)
-            {
-                amountAvailable = wallet.GetPendingCash();
-                amountToTransfer = 0;
+                    messageField.text = string.Format(messageDeposit, $"${amountAvailable:N0}");
+                    InitializeButtons(() =>
+                    {
+                        wallet.TransferToWallet(-GetPendingCashToTransfer());
+                        Destroy(gameObject);
+                    });
+                    break;
+                }
+                case BankType.Withdraw:
+                {
+                    amountAvailable = wallet.GetPendingCash();
+                    amountToTransfer = 0;
 
-                messageField.text = string.Format(messageWithdraw, $"${amountAvailable:N0}");
-                InitializeButtons(amountAvailable, () => { wallet.TransferToWallet(GetPendingCashToTransfer()); Destroy(gameObject); });
-            }
-            else
-            {
-                Destroy(gameObject);
+                    messageField.text = string.Format(messageWithdraw, $"${amountAvailable:N0}");
+                    InitializeButtons(() =>
+                    {
+                        wallet.TransferToWallet(GetPendingCashToTransfer());
+                        Destroy(gameObject);
+                    });
+                    break;
+                }
+                default:
+                {
+                    Destroy(gameObject);
+                    break;
+                }
             }
         }
 
-        private void InitializeButtons(int amountAvailable, Action actionOnConfirm)
+        private void InitializeButtons(Action actionOnConfirm)
         {
             SetCashTransferState(CashTransferState.CashSelection);
-            foreach (UIChoice choiceOption in choiceOptions)
+            foreach (UIChoiceButton choiceButton in choiceOptions.OfType<UIChoiceButton>())
             {
-                UIChoiceButton choiceButton = choiceOption as UIChoiceButton;
-                if (choiceButton == null) { continue; }
-
                 choiceButton.AddOnClickListener(() => SelectField(choiceButton));
             }
             RefreshFieldsToTransferAmount();
 
-            confirmField.AddOnClickListener(() => actionOnConfirm.Invoke());
+            if (actionOnConfirm != null) { confirmField.AddOnClickListener(actionOnConfirm.Invoke); }
             rejectField.AddOnClickListener(() => Destroy(gameObject));
             SelectField(oneField);
         }
@@ -134,7 +147,7 @@ namespace Frankie.Inventory.UI
         {
             if (cashTransferState == CashTransferState.CashSelection)
             {
-                if (playerInputType == PlayerInputType.NavigateDown || playerInputType == PlayerInputType.NavigateUp)
+                if (playerInputType is PlayerInputType.NavigateDown or PlayerInputType.NavigateUp)
                 {
                     return AdjustNumber(playerInputType);
                 }
@@ -144,40 +157,45 @@ namespace Frankie.Inventory.UI
 
         protected override bool Choose(string nodeID)
         {
-            if (cashTransferState == CashTransferState.CashSelection)
+            switch (cashTransferState)
             {
-                SetCashTransferState(CashTransferState.CashConfirmation);
-                return true;
+                case CashTransferState.CashSelection:
+                    SetCashTransferState(CashTransferState.CashConfirmation);
+                    return true;
+                case CashTransferState.CashConfirmation:
+                    return base.Choose(null);
+                default:
+                    return false;
             }
-            else if (cashTransferState == CashTransferState.CashConfirmation)
-            {
-                return base.Choose(null);
-            }
-            return false;
         }
         #endregion
 
         #region PrivateMethods
-        private int GetPendingCashToTransfer()
-        {
-            return amountToTransfer;
-        }
+        private int GetPendingCashToTransfer() => amountToTransfer;
 
-        private void SetCashTransferState(CashTransferState cashTransferState)
+        private void SetCashTransferState(CashTransferState setCashTransferState)
         {
-            this.cashTransferState = cashTransferState;
+            cashTransferState = setCashTransferState;
             ClearChoiceSelections();
-            if (cashTransferState == CashTransferState.CashConfirmation)
+            switch (setCashTransferState)
             {
-                choiceOptions.Clear();
-                choiceOptions.AddRange(new[] { confirmField, rejectField });
-            }
-            else if (cashTransferState == CashTransferState.CashSelection)
-            {
-                choiceOptions.Clear();
-                choiceOptions.AddRange(new[] { hundredMillionField, tenMillionField, millionField,
-                    hundredThousandField, tenThousandField, thousandField,
-                    hundredField, tenField, oneField });
+                case CashTransferState.CashConfirmation:
+                {
+                    choiceOptions.Clear();
+                    choiceOptions.AddRange(new[] { confirmField, rejectField });
+                    break;
+                }
+                case CashTransferState.CashSelection:
+                {
+                    choiceOptions.Clear();
+                    choiceOptions.AddRange(new[]
+                    {
+                        hundredMillionField, tenMillionField, millionField,
+                        hundredThousandField, tenThousandField, thousandField,
+                        hundredField, tenField, oneField
+                    });
+                    break;
+                }
             }
             ShowCursorOnAnyInteraction(PlayerInputType.NavigateRight);
         }
@@ -191,9 +209,9 @@ namespace Frankie.Inventory.UI
 
         private bool AdjustNumber(PlayerInputType playerInputType)
         {
-            if (playerInputType == PlayerInputType.NavigateDown || playerInputType == PlayerInputType.NavigateUp)
+            if (playerInputType is PlayerInputType.NavigateDown or PlayerInputType.NavigateUp)
             {
-                CashTransferField cashTransferField = highlightedChoiceOption as CashTransferField;
+                var cashTransferField = highlightedChoiceOption as CashTransferField;
                 if (cashTransferField == null) { return false; }
                 CashTransferFieldType cashTransferFieldType = cashTransferField.GetCashTransferFieldType();
 
@@ -214,7 +232,7 @@ namespace Frankie.Inventory.UI
                     _ => 0,
                 };
                 int modifiedAmount = Mathf.Clamp(amountToTransfer + modifier, 0, amountAvailable);
-                modifiedAmount = Mathf.Min(modifiedAmount, MAX_TRANSFER_AMOUNT);
+                modifiedAmount = Mathf.Min(modifiedAmount, _maxTransferAmount);
 
                 // Update cart
                 amountToTransfer = modifiedAmount;
@@ -290,7 +308,7 @@ namespace Frankie.Inventory.UI
         {
             if (!handleGlobalInput) { return true; } // Spoof:  Cannot accept input, so treat as if global input already handled
 
-            if (playerInputType == PlayerInputType.Option || playerInputType == PlayerInputType.Cancel)
+            if (playerInputType is PlayerInputType.Option or PlayerInputType.Cancel)
             {
                 if (cashTransferState == CashTransferState.CashConfirmation)
                 {

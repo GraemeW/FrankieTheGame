@@ -1,7 +1,7 @@
 using Frankie.Saving;
 using UnityEngine;
 
-namespace Frankie.Control.Specialization
+namespace Frankie.World
 {
     [RequireComponent(typeof(SpriteRenderer))]
     public class WorldSpriteChanger : MonoBehaviour, ISaveable

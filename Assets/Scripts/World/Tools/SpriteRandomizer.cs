@@ -1,28 +1,26 @@
 using UnityEngine;
 
-namespace Frankie.Core
+namespace Frankie.World
 {
     [RequireComponent(typeof(SpriteRenderer))]
     public class SpriteRandomizer : MonoBehaviour, ISerializationCallbackReceiver
     {
         // Tunables
-        [SerializeField][Range(0.01f, 1f)] float varietyFactor = 0.5f;
-        [SerializeField] Sprite[] sprites = null;
+        [SerializeField][Range(0.01f, 1f)] private float varietyFactor = 0.5f;
+        [SerializeField] private Sprite[] sprites;
 
         // State & Fixed Tunables
-        float minDenominator = 0.001f;
-        [HideInInspector][SerializeField] Vector3 oldPosition = Vector3.zero;
-
-
+        private const float _minDenominator = 0.001f;
+        [HideInInspector][SerializeField] private Vector3 oldPosition = Vector3.zero;
+        
         // Methods
         private Sprite GetSpriteByPosition()
         {
-            if (sprites == null || sprites.Length <= 1) { return null; }
-            float positionalFactor = 0.5f * (Mathf.Sin(100f * varietyFactor * ((transform.position.x % 1) / (transform.position.y % 1 + minDenominator))) + 1f);
+            if (sprites is not { Length: > 1 }) { return null; }
+            float positionalFactor = 0.5f * (Mathf.Sin(100f * varietyFactor * ((transform.position.x % 1) / (transform.position.y % 1 + _minDenominator))) + 1f);
             int chosenIndex = Mathf.FloorToInt(positionalFactor * sprites.Length);
 
-            if (chosenIndex > sprites.Length) { return null; }
-            return sprites[chosenIndex];
+            return chosenIndex > sprites.Length ? null : sprites[chosenIndex];
         }
 
         private bool HasPositionShifted()
@@ -40,7 +38,7 @@ namespace Frankie.Core
             if (sprites == null || sprites.Length <= 1) { return; }
             if (!HasPositionShifted()) { return; }
 
-            SpriteRenderer spriteRenderer = GetComponent<SpriteRenderer>();
+            var spriteRenderer = GetComponent<SpriteRenderer>();
             Sprite newSprite = GetSpriteByPosition();
             if (newSprite != null) { spriteRenderer.sprite = newSprite; }
 #endif

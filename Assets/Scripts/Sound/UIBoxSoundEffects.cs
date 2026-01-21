@@ -8,19 +8,22 @@ namespace Frankie.Sound
     public class UIBoxSoundEffects : SoundEffects
     {
         // Tunables
-        [SerializeField] UIBox uiBox = null;
-        [SerializeField] AudioClip textScanAudioClip = null;
-        [SerializeField] AudioClip chooseAudioClip = null;
-        [SerializeField] AudioClip enterClip = null;
-        [SerializeField] AudioClip exitClip = null;
-        [SerializeField] float textScanLoopDelay = 0.1f;
+        [SerializeField] private UIBox uiBox;
+        [SerializeField] private AudioClip textScanAudioClip;
+        [SerializeField] private AudioClip chooseAudioClip;
+        [SerializeField] private AudioClip enterClip;
+        [SerializeField] private AudioClip exitClip;
+        [SerializeField] private float textScanLoopDelay = 0.1f;
 
         // State
-        bool isTextScanActive = false;
+        private bool isTextScanActive = false;
 
+        #region UnityMethods
         private void Start()
         {
+            audioSource.Stop();
             audioSource.clip = textScanAudioClip;
+            audioSource.time = 0f;
         }
 
         protected override void OnEnable()
@@ -34,27 +37,30 @@ namespace Frankie.Sound
             base.OnDisable();
             uiBox.uiBoxModified -= HandleDialogueBoxUpdate;
         }
+        #endregion
 
+        #region EventHandlers
         private void HandleDialogueBoxUpdate(UIBoxModifiedType uiBoxModifiedType, bool enable)
         {
-            if (uiBoxModifiedType == UIBoxModifiedType.writingStateChanged)
+            switch (uiBoxModifiedType)
             {
-                ConfigureTextScanAudio(enable);
-            }
-            else if (uiBoxModifiedType == UIBoxModifiedType.itemSelected)
-            {
-                PlayClip(chooseAudioClip);
-            }
-            else if (uiBoxModifiedType == UIBoxModifiedType.clientEnter)
-            {
-                PlayClip(enterClip);
-            }
-            else if (uiBoxModifiedType == UIBoxModifiedType.clientExit)
-            {
-                PlayClipAfterDestroy(exitClip);
+                case UIBoxModifiedType.writingStateChanged:
+                    ConfigureTextScanAudio(enable);
+                    break;
+                case UIBoxModifiedType.itemSelected:
+                    PlayClip(chooseAudioClip);
+                    break;
+                case UIBoxModifiedType.clientEnter:
+                    PlayClip(enterClip);
+                    break;
+                case UIBoxModifiedType.clientExit:
+                    PlayClipAfterDestroy(exitClip);
+                    break;
             }
         }
+        #endregion
 
+        #region PrivateMethods
         private void ConfigureTextScanAudio(bool enable)
         {
             if (enable)
@@ -78,5 +84,6 @@ namespace Frankie.Sound
                 yield return new WaitForSeconds(textScanLoopDelay);
             }
         }
+        #endregion
     }
 }

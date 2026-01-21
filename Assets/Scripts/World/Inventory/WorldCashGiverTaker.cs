@@ -1,10 +1,12 @@
 using UnityEngine;
-using Frankie.Inventory;
+using Frankie.Control;
 using Frankie.Saving;
+using Frankie.Inventory;
 using Frankie.Stats;
 using Frankie.Utils;
 
-namespace Frankie.Control.Specialization
+
+namespace Frankie.World
 {
     public class WorldCashGiverTaker : MonoBehaviour, ISaveable
     {

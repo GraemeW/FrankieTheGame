@@ -9,7 +9,7 @@ namespace Frankie.Combat
     public class BattleMat : MonoBehaviour
     {
         [Header("Positional Properties")]
-        [SerializeField] private int minEnemiesBeforeRowSplit = 2;
+        [SerializeField] private int minEnemiesBeforeRowSplit = 5;
 
         // State
         private readonly List<BattleEntity> activeCharacters = new();
@@ -22,7 +22,7 @@ namespace Frankie.Combat
         #region Static
         private static readonly HashSet<BattleRow> _defaultBattleRowPriority = new () { BattleRow.Middle, BattleRow.Top };
         private static readonly List<BattleRow> _battleRowSortOrder = new() { BattleRow.Top, BattleRow.Middle, BattleRow.Bottom };
-        private const int _maxEnemiesPerRow = 7;
+        private const int _maxEnemiesPerRow = 5;
         
         public static int GetBattleRowCount() => _battleRowSortOrder.Count;
         public static BattleRow GetDefaultBattleRow() => _battleRowSortOrder[0];

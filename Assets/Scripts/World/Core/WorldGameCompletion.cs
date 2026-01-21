@@ -1,7 +1,8 @@
 using UnityEngine;
+using Frankie.Control;
 using Frankie.Core;
 
-namespace Frankie.Control.Specialization
+namespace Frankie.World
 {
     public class WorldGameCompletion : MonoBehaviour
     {
@@ -16,6 +17,5 @@ namespace Frankie.Control.Specialization
             playerStateMachine.EnterCutscene();
             SavingWrapper.LoadGameWinScreen();
         }
-
     }
 }

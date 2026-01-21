@@ -61,6 +61,8 @@ namespace Frankie.Control
             playerInput.Player.Execute.performed += _ => HandleUserInput(PlayerInputType.Execute);
             playerInput.Player.Cancel.performed += _ => HandleUserInput(PlayerInputType.Cancel);
             playerInput.Player.Option.performed += _ => HandleUserInput(PlayerInputType.Option);
+            
+            playerInput.Player.Escape.performed += _  => HandleUserInput(PlayerInputType.Escape); 
         }
         
         private void OnEnable()
@@ -215,7 +217,7 @@ namespace Frankie.Control
                 case PlayerInputType.Option:
                     playerStateMachine.EnterWorldOptions();
                     return true;
-                case PlayerInputType.Cancel:
+                case PlayerInputType.Escape:
                     playerStateMachine.EnterEscapeMenu();
                     return true;
                 default:

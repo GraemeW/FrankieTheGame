@@ -1,16 +1,20 @@
 using UnityEngine;
 
-namespace Frankie.Control.Specialization
+namespace Frankie.World
 {
     [RequireComponent(typeof(Animator))]
     public class WorldSunbather : MonoBehaviour
     {
+        // Static
+        private static readonly int _topOnRef = Animator.StringToHash("TopOn");
+        private static readonly int _bottomOnRef = Animator.StringToHash("BottomOn");
+        
         // Clothing State
-        bool topEnabled = true;
-        bool bottomEnabled = true;
+        private bool topEnabled = true;
+        private bool bottomEnabled = true;
 
         // Cached References
-        Animator animator = null;
+        private Animator animator;
 
         private void Awake()
         {
@@ -20,35 +24,35 @@ namespace Frankie.Control.Specialization
         // Public Methods -- called via Unity events
         public void RemoveTop()
         {
-            animator.SetBool("TopOn", false);
+            animator.SetBool(_topOnRef, false);
             topEnabled = false;
         }
 
         public void RemoveBottom()
         {
             if (topEnabled) { return; } // Bottom removable as standalone piece if top already removed -- otherwise call RemoveAll()
-            animator.SetBool("BottomOn", false);
+            animator.SetBool(_bottomOnRef, false);
             bottomEnabled = false;
         }
 
         public void RemoveAll()
         {
-            animator.SetBool("TopOn", false);
-            animator.SetBool("BottomOn", false);
+            animator.SetBool(_topOnRef, false);
+            animator.SetBool(_bottomOnRef, false);
             topEnabled = false;
             bottomEnabled = false;
         }
 
         public void AddTop()
         {
-            animator.SetBool("TopOn", true);
+            animator.SetBool(_topOnRef, true);
             topEnabled = true;
         }
 
         public void AddAll()
         {
-            animator.SetBool("TopOn", true);
-            animator.SetBool("BottomOn", true);
+            animator.SetBool(_topOnRef, true);
+            animator.SetBool(_bottomOnRef, true);
             topEnabled = true;
             bottomEnabled = true;
         }

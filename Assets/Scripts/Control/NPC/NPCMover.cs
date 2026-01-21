@@ -177,9 +177,9 @@ namespace Frankie.Control
         #endregion
 
         #region OverrideMethods
-        protected override Vector2 ReckonTarget()
+        protected override Vector2 ReckonTarget(bool withOffsetting = true, bool addToHistory = true)
         {
-            Vector2 target = base.ReckonTarget();
+            Vector2 target = base.ReckonTarget(withOffsetting, addToHistory);
             if (npcMoveFocus != NPCMoveFocus.Fleeing) { return target; }
             
             float offset = Vector2.Dot(rigidBody2D.position, target);

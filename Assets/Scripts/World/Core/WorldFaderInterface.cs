@@ -1,8 +1,9 @@
 using System.Collections;
-using Frankie.ZoneManagement;
 using UnityEngine;
+using Frankie.Control;
+using Frankie.ZoneManagement;
 
-namespace Frankie.Control.Specialization
+namespace Frankie.World
 {
     public class WorldFaderInterface : MonoBehaviour
     {

@@ -9,16 +9,20 @@ namespace Frankie.Sound
         // Note:  Functions called via Unity Events, ignore '0 references' messages
 
         // Tunables
-        [SerializeField] AudioClip[] audioClips = null;
-
+        [SerializeField] private AudioClip[] audioClips;
+        
+        // Const
+        private const float _defaultVolume = 0.3f;
+        
         // State
-        float volume = 0.3f;
-        protected AudioSource audioSource = null;
-        bool destroyAfterPlay = false;
+        private float volume = _defaultVolume;
+        private protected AudioSource audioSource;
+        private bool destroyAfterPlay = false;
 
+        #region UnityMethods
         private void Awake()
         {
-            audioSource = GetComponent<AudioSource>();
+            SetAudioSource();
         }
 
         protected virtual void OnEnable()
@@ -31,58 +35,73 @@ namespace Frankie.Sound
             // Used in alternate implementations
         }
 
-        protected virtual void Update()
+        private void FixedUpdate()
         {
-            if (destroyAfterPlay && !audioSource.isPlaying)
+            if (destroyAfterPlay && audioSource != null && !audioSource.isPlaying)
             {
                 Destroy(gameObject);
             }
         }
+        #endregion
 
-        public void Setup(float defaultVolume, bool destroyAfterPlay)
+        #region PrivateProtectedMethods
+        private void Setup(bool setDestroyAfterPlay)
         {
-            volume = defaultVolume;
             InitializeVolume();
-            this.destroyAfterPlay = destroyAfterPlay;
+            destroyAfterPlay = setDestroyAfterPlay;
+        }
+
+        protected virtual void SetAudioSource(AudioClip audioClip = null)
+        {
+            if (audioSource == null) { audioSource = GetComponent<AudioSource>(); }
+        }
+
+        private void SetPlayerVolume()
+        {
+            if (PlayerPrefsController.MasterVolumeKeyExists())
+            {
+                volume = PlayerPrefsController.SoundEffectsVolumeKeyExists() ? 
+                    PlayerPrefsController.GetMasterVolume() * PlayerPrefsController.GetSoundEffectsVolume() : PlayerPrefsController.GetMasterVolume();
+                return;
+            }
+            volume = _defaultVolume; 
         }
 
         protected void InitializeVolume()
         {
-            if (PlayerPrefsController.MasterVolumeKeyExists())
-            {
-                if (PlayerPrefsController.SoundEffectsVolumeKeyExists())
-                {
-                    volume = PlayerPrefsController.GetMasterVolume() * PlayerPrefsController.GetSoundEffectsVolume();
-                }
-                else
-                {
-                    volume = PlayerPrefsController.GetMasterVolume();
-                }
-            }
+            if (audioSource == null) { return; }
+            SetPlayerVolume();
             audioSource.volume = volume;
         }
 
-        protected void GeneratePersistentSoundEffect(AudioClip audioClip, float defaultVolume)
+        private void GeneratePersistentSoundEffect(AudioClip audioClip)
         {
             if (audioClip == null) { return; }
-            SoundEffects newSoundEffects = Instantiate(this);
-            newSoundEffects.transform.parent = null;
-            newSoundEffects.Setup(defaultVolume, true);
+            SoundEffects newSoundEffects = Instantiate(this, null, true);
+            newSoundEffects.Setup(true);
             DontDestroyOnLoad(newSoundEffects);
             newSoundEffects.PlayClip(audioClip);
         }
+        #endregion
 
+        #region PublicMethods
         public void SetLooping(bool isLooping)
         {
+            if (audioSource == null) { return; }
             audioSource.loop = isLooping;
         }
 
         public void PlayClip(AudioClip audioClip)
         {
-            if (audioClip == null) { return; }
+            SetAudioSource(audioClip);
+            if (audioSource == null)  { return; }
+            if (audioClip == null || audioSource.isPlaying) { return; }
+            
             InitializeVolume();
+            audioSource.Stop();
             audioSource.clip = audioClip;
-            if (!audioSource.isPlaying) { audioSource.Play(); }
+            audioSource.time = 0f;
+            audioSource.Play();
         }
 
         public void PlayClip()
@@ -95,7 +114,7 @@ namespace Frankie.Sound
         public void PlayClipAfterDestroy(AudioClip audioClip)
         {
             if (audioClip == null) { return; }
-            GeneratePersistentSoundEffect(audioClip, audioSource.volume);
+            GeneratePersistentSoundEffect(audioClip);
         }
 
         public void PlayClipAfterDestroy(int clipIndex)
@@ -110,5 +129,6 @@ namespace Frankie.Sound
             AudioClip currentClip = audioClips[Random.Range(0, audioClips.Length - 1)];
             PlayClipAfterDestroy(currentClip);
         }
+        #endregion
     }
 }

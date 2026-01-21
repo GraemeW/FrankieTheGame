@@ -11,6 +11,7 @@ namespace Frankie.Control
         [SerializeField] protected float movementSpeed = 1.0f;
         [SerializeField] protected Vector2 defaultLookDirection = Vector2.down;
         [SerializeField] protected float defaultTargetDistanceTolerance = 0.15f;
+        [SerializeField] private float closeTargetThresholdSquared = 0.5625f;
         [SerializeField] private bool resetPositionOnEnable = false;
         [SerializeField][Tooltip("Sets the target position delay for chase")] private int targetMovementHistoryLength = 10;
 
@@ -123,8 +124,10 @@ namespace Frankie.Control
             if (SetStaticForNoTarget()) { return null; }
 
             Vector2 position = rigidBody2D.position;
-            Vector2 target = ReckonTarget();
-            if (HasArrivedAtTarget(target)) { return false; }
+            Vector2 target = ReckonTarget(false, true);
+            
+            if (HasArrivedAtTarget(target, out float squareMagnitudeDelta)) { return false; }
+            target = ReckonTarget(squareMagnitudeDelta > closeTargetThresholdSquared, false);
 
             Vector2 direction = target - position;
             lookDirection.Set(direction.x, direction.y);
@@ -139,19 +142,21 @@ namespace Frankie.Control
             return true;
         }
 
-        protected virtual Vector2 ReckonTarget()
+        protected virtual Vector2 ReckonTarget(bool withOffsetting = true, bool addToHistory = true)
         {
-            Vector2 target = Vector2.zero;
             if (moveTargetCoordinate != null)
             {
-                target = moveTargetCoordinate.Value;
+                return moveTargetCoordinate.Value;
             }
-            else if (moveTargetObject != null)
+            if (moveTargetObject != null)
             {
-                targetMovementHistory.Add(moveTargetObject.transform.position);
-                target = targetMovementHistory.GetLastEntry();
+                Vector2 currentTargetPosition = moveTargetObject.transform.position;
+                if (addToHistory) { targetMovementHistory.Add(currentTargetPosition); }
+                
+                if (targetMovementHistory.GetCurrentSize() == 0) { return currentTargetPosition; }
+                else { return withOffsetting ? targetMovementHistory.GetLastEntry() : targetMovementHistory.GetFirstEntry(); }
             }
-            return target;
+            return Vector2.zero;;
         }
 
         protected void SetLookDirection(PlayerInputType playerInputType)
@@ -173,13 +178,7 @@ namespace Frankie.Control
 
         #region  PrivateMethods
 
-        private bool HasArrivedAtTarget(Vector2 target)
-        {
-            if (moveTargetObject == null) { return SmartVector2.CheckDistance(rigidBody2D.position, target, targetDistanceTolerance); }
-            
-            // Since ReckonTarget can result in an offset position, to finally 'reach' the target, check against target directly
-            return SmartVector2.CheckDistance(rigidBody2D.position, moveTargetObject.transform.position, targetDistanceTolerance);
-        }
+        private bool HasArrivedAtTarget(Vector2 target, out float squareMagnitudeDelta) => SmartVector2.CheckDistance(rigidBody2D.position, target, targetDistanceTolerance, out squareMagnitudeDelta);
         
         private bool SetStaticForNoTarget()
         {

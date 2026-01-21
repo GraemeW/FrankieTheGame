@@ -1,12 +1,13 @@
 using UnityEngine;
+using Frankie.Control;
 using Frankie.Stats;
 
-namespace Frankie.Control.Specialization
+namespace Frankie.World
 {
     public class WorldPartyInterface : MonoBehaviour
     {
         // Tunables
-        [SerializeField] CharacterProperties characterProperties = null;
+        [SerializeField] private CharacterProperties characterProperties;
 
         // Methods -- Called via Unity Events
         public void AddToParty(PlayerStateMachine playerStateMachine)

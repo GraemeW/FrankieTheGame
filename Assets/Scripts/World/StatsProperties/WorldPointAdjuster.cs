@@ -1,8 +1,9 @@
 using UnityEngine;
+using Frankie.Control;
 using Frankie.Combat;
 using Frankie.Stats;
 
-namespace Frankie.Control.Specialization
+namespace Frankie.World
 {
     public class WorldPointAdjuster : MonoBehaviour
     {

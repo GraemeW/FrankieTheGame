@@ -5,15 +5,15 @@ namespace Frankie.Core
     public class DisableGameObjectsOnStart : MonoBehaviour
     {
         // Tunables
-        [SerializeField] GameObject[] gameObjectsToDisable = null;
+        [SerializeField] private GameObject[] gameObjectsToDisable;
 
         private void Start()
         {
             if (gameObjectsToDisable == null || gameObjectsToDisable.Length == 0) { return; }
 
-            foreach (GameObject gameObject in gameObjectsToDisable)
+            foreach (GameObject item in gameObjectsToDisable)
             {
-                gameObject.SetActive(false);
+                item.SetActive(false);
             }
         }
     }

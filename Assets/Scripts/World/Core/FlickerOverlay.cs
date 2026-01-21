@@ -1,22 +1,21 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using Frankie.Saving;
 
-namespace Frankie.Core
+namespace Frankie.World
 {
     public class FlickerOverlay : MonoBehaviour, ISaveable
     {
         // Tunables
-        [SerializeField] bool enabledOnAwake = false;
-        [NonReorderable][SerializeField] FlickerEntry[] flickerEntries = null;
+        [SerializeField] private bool enabledOnAwake = false;
+        [NonReorderable][SerializeField] private FlickerEntry[] flickerEntries;
 
         // State
-        bool childrenEnabled = false;
+        private bool childrenEnabled = false;
 
         // Static Fixed
-        static float MIN_FLICKER_TIME = 0f;
-        static float MAX_FLICKER_TIME = 5f;
+        private const float _minFlickerTime = 0f;
+        private const float _maxFlickerTime = 5f;
 
         // Data Structures
         [System.Serializable]
@@ -68,9 +67,9 @@ namespace Frankie.Core
             foreach (FlickerEntry flickerEntry in flickerEntries)
             {
                 foreach (Transform child in transform) { child.gameObject.SetActive(true); }
-                yield return new WaitForSeconds(Mathf.Clamp(flickerEntry.onTime, MIN_FLICKER_TIME, MAX_FLICKER_TIME));
+                yield return new WaitForSeconds(Mathf.Clamp(flickerEntry.onTime, _minFlickerTime, _maxFlickerTime));
                 foreach (Transform child in transform) { child.gameObject.SetActive(false); }
-                yield return new WaitForSeconds(Mathf.Clamp(flickerEntry.offTime, MIN_FLICKER_TIME, MAX_FLICKER_TIME));
+                yield return new WaitForSeconds(Mathf.Clamp(flickerEntry.offTime, _minFlickerTime, _maxFlickerTime));
             }
             foreach (Transform child in transform) { child.gameObject.SetActive(settleEnable); }
 
@@ -78,10 +77,7 @@ namespace Frankie.Core
         }
 
         // Interface
-        public LoadPriority GetLoadPriority()
-        {
-            return LoadPriority.ObjectProperty;
-        }
+        public LoadPriority GetLoadPriority() => LoadPriority.ObjectProperty;
 
         public SaveState CaptureState()
         {

@@ -2,9 +2,10 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using Frankie.Core;
+using Frankie.Control;
 using Frankie.Utils;
 
-namespace Frankie.Control.Specialization
+namespace Frankie.World
 {
     [RequireComponent(typeof(NPCMover))]
     [RequireComponent(typeof(Animator))]
@@ -78,7 +79,7 @@ namespace Frankie.Control.Specialization
 
             // Disable Stuff
             ToggleConductor(false);
-            if (sisterRidersToDisable != null && sisterRidersToDisable.Length > 0)
+            if (sisterRidersToDisable is { Length: > 0 })
             {
                 foreach (WorldSubwayRider sisterRider in sisterRidersToDisable)
                 {

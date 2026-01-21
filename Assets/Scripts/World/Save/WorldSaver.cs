@@ -1,7 +1,8 @@
 using UnityEngine;
 using Frankie.Core;
+using Frankie.Control;
 
-namespace Frankie.Control.Specialization
+namespace Frankie.World
 {
     public class WorldSaver : MonoBehaviour
     {

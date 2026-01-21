@@ -1,10 +1,11 @@
 using UnityEngine;
+using Frankie.Control;
+using Frankie.Saving;
 using Frankie.Combat;
 using Frankie.Inventory;
-using Frankie.Saving;
 using Frankie.Utils;
 
-namespace Frankie.Control.Specialization
+namespace Frankie.World
 {
     public class WorldItemGiverTaker : MonoBehaviour, ISaveable
     {
@@ -92,5 +93,4 @@ namespace Frankie.Control.Specialization
             currentItemQuantity.value = (int)state.GetState(typeof(int));
         }
     }
-
 }

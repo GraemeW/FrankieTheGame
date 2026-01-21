@@ -1,12 +1,13 @@
+using Frankie.Control;
 using Frankie.ZoneManagement;
 
-namespace Frankie.Control.Specialization
+namespace Frankie.World
 {
     [System.Serializable]
     public class SubwayRide
     {
         public string rideName = "Subway Stop Name";
-        public ZoneHandler zoneHandler = null;
-        public PatrolPath path = null;
+        public ZoneHandler zoneHandler;
+        public PatrolPath path;
     }
 }
