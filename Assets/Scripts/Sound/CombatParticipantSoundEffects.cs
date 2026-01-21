@@ -35,10 +35,19 @@ namespace Frankie.Sound
             combatParticipant.UnsubscribeToStateUpdates(HandleCombatParticipantState);
         }
 
-        protected override void SetAudioSource()
+        protected override void SetAudioSource(AudioClip audioClip = null)
         {
             if (audioSources == null || audioSources.Length == 0) { base.SetAudioSource(); }
-            else { audioSource = audioSources.FirstOrDefault(source => !source.isPlaying); }
+            else
+            {
+                // Avoid duplicate simultaneous clip plays (impact is otherwise LOUD)
+                if (audioClip != null && audioSources.Any(source => source.isPlaying && source.clip == audioClip))
+                {
+                    audioSource = null;
+                    return;
+                }
+                audioSource = audioSources.FirstOrDefault(source => !source.isPlaying);
+            }
         }
 
         private void HandleCombatParticipantState(StateAlteredInfo stateAlteredInfo)

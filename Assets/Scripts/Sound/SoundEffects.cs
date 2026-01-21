@@ -49,7 +49,7 @@ namespace Frankie.Sound
             destroyAfterPlay = setDestroyAfterPlay;
         }
 
-        protected virtual void SetAudioSource()
+        protected virtual void SetAudioSource(AudioClip audioClip = null)
         {
             if (audioSource == null) { audioSource = GetComponent<AudioSource>(); }
         }
@@ -88,7 +88,7 @@ namespace Frankie.Sound
 
         public void PlayClip(AudioClip audioClip)
         {
-            SetAudioSource();
+            SetAudioSource(audioClip);
             if (audioSource == null)  { return; }
             if (audioClip == null || audioSource.isPlaying) { return; }
             
