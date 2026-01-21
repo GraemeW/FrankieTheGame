@@ -2,18 +2,17 @@ using UnityEngine;
 
 namespace Frankie.Utils
 {
-    public class SmartVector2
+    public static class SmartVector2
     {
-        public Vector2 vector2;
-
-        public SmartVector2(Vector2 vector2)
-        {
-            this.vector2 = vector2;
-        }
-
         public static bool CheckDistance(Vector2 a, Vector2 b, float distanceThreshold)
         {
-            return (a - b).sqrMagnitude < distanceThreshold * distanceThreshold;
+            return CheckDistance(a, b, distanceThreshold, out var _);
+        }
+        
+        public static bool CheckDistance(Vector2 a, Vector2 b, float distanceThreshold, out float squareMagnitudeDelta)
+        {
+            squareMagnitudeDelta = (a - b).sqrMagnitude;
+            return squareMagnitudeDelta < distanceThreshold * distanceThreshold;
         }
      }
 }
