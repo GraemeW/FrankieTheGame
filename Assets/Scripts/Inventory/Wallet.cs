@@ -79,6 +79,8 @@ namespace Frankie.Inventory
             public int pendingCash;
         }
 
+        public bool IsCorePlayerState() => true;
+        
         public LoadPriority GetLoadPriority() => LoadPriority.ObjectProperty;
 
         public SaveState CaptureState()
