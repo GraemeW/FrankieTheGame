@@ -7,6 +7,7 @@ namespace Frankie.Combat
     public class PersistentCooldownStopStatus : PersistentStatus
     {
         // State
+        private bool isPaused = false;
         private float probabilityToRemoveWithDamage = 0.0f;
         private float previousCooldown = 0.0f;
         
@@ -37,6 +38,20 @@ namespace Frankie.Combat
             ToggleCooldownPause(false);
             base.CancelEffect();
         }
+        
+        protected override void HandleCombatState(StateAlteredInfo stateAlteredInfo)
+        {
+            base.HandleCombatState(stateAlteredInfo);
+            
+            if (stateAlteredInfo.stateAlteredType == StateAlteredType.CooldownSet)
+            {
+                // In some cases an action is already queued, so re-pause after dequeue & cooldown set
+                if (isPaused && !float.IsPositiveInfinity(stateAlteredInfo.points))
+                {
+                    ToggleCooldownPause(true);
+                }
+            }
+        }
 
         protected override void OnDamage()
         {
@@ -50,6 +65,7 @@ namespace Frankie.Combat
 
         private void ToggleCooldownPause(bool enable)
         {
+            isPaused = enable;
             if (enable)
             {
                 previousCooldown = combatParticipant.GetCooldown();

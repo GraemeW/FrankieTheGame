@@ -163,15 +163,16 @@ namespace Frankie.Combat
         
         protected virtual void OnDamage() { }
 
-        private void HandleCombatState(StateAlteredInfo stateAlteredInfo)
+        protected virtual void HandleCombatState(StateAlteredInfo stateAlteredInfo)
         {
-            if (stateAlteredInfo.stateAlteredType == StateAlteredType.Dead)
+            switch (stateAlteredInfo.stateAlteredType)
             {
-                CancelEffect();
-            }
-            else if (stateAlteredInfo.stateAlteredType == StateAlteredType.DecreaseHP)
-            {
-                OnDamage();
+                case StateAlteredType.Dead:
+                    CancelEffect();
+                    break;
+                case StateAlteredType.DecreaseHP:
+                    OnDamage();
+                    break;
             }
         }
         #endregion
