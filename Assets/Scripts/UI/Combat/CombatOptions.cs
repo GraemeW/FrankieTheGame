@@ -36,14 +36,14 @@ namespace Frankie.Combat.UI
         {
             StatusBox statusBox = Instantiate(statusBoxPrefab, battleCanvas.transform);
             statusBox.Setup(partyCombatConduit);
-            PassControl(this, new Action[] { () => SetCombatOptions(true) }, statusBox, battleController);
+            PassControl(this, new Action[] { EnableCombatOptions }, statusBox, battleController);
         }
 
         public void OpenKnapsack() // Called via unity events
         {
             InventoryBox inventoryBox = Instantiate(inventoryBoxPrefab, battleCanvas.transform);
             inventoryBox.Setup(battleController, partyCombatConduit);
-            PassControl(this, new Action[] { () => SetCombatOptions(true) }, inventoryBox, battleController);
+            PassControl(this, new Action[] { EnableCombatOptions }, inventoryBox, battleController);
             gameObject.SetActive(false);
         }
 
@@ -56,26 +56,19 @@ namespace Frankie.Combat.UI
             else
             {
                 handleGlobalInput = false;
-                battleCanvas.SetupRunFailureMessage(this, new Action[] { () => SetCombatOptions(false) });
+                battleCanvas.SetupRunFailureMessage(this, new Action[] { InitiateCombat });
             }
         }
 
-        public void SetCombatOptions(bool enable)
+        public void EnableCombatOptions()
         {
-            if (!enable)
-            {
-                InitiateCombat();
-            }
-            else
-            {
-                gameObject.SetActive(true);
-                EnableInput(true);
-            }
+            gameObject.SetActive(true);
+            EnableInput(true);
         }
 
         protected override bool MoveCursor(PlayerInputType playerInputType)
         {
-            return base.MoveCursor2D(playerInputType);
+            return MoveCursor2D(playerInputType);
         }
 
         public override bool HandleGlobalInput(PlayerInputType playerInputType)

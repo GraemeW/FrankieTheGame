@@ -184,7 +184,7 @@ namespace Frankie.Combat.UI
             {
                 case BattleState.PreCombat:
                     skillSelection.gameObject.SetActive(false);
-                    combatOptions.SetCombatOptions(true);
+                    combatOptions.EnableCombatOptions();
                     break;
                 case BattleState.Combat:
                     if (combatLog != null)
@@ -192,6 +192,7 @@ namespace Frankie.Combat.UI
                         combatLog.AddCombatLogText("  Combat Started . . . ");
                         combatLog.gameObject.SetActive(true);
                     }
+                    combatOptions.gameObject.SetActive(false);
                     skillSelection.gameObject.SetActive(true);
                     break;
                 case BattleState.Outro:
