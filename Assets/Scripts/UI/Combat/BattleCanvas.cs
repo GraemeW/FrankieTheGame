@@ -201,6 +201,7 @@ namespace Frankie.Combat.UI
                     if (outroQueued) { return; }
 
                     if (combatLog != null) { combatLog.gameObject.SetActive(false); }
+                    combatOptions.gameObject.SetActive(false);
                     skillSelection.gameObject.SetActive(false);
                     queuedUISequences.Enqueue(() => SetupExperienceMessage(battleOutcome));
                     SetupAllLootMessages(battleOutcome); // Parent function to queue a number of additional loot messages into UI sequences
