@@ -538,8 +538,9 @@ namespace Frankie.Combat
         
         private bool CheckToResetCharacterSelection(CombatParticipant combatParticipant)
         {
-            if (selectedCharacter != combatParticipant) return false;
-            SetActiveBattleAction(null); ClearSelectedCharacter();
+            if (selectedCharacter != combatParticipant) { return false; }
+            SetActiveBattleAction(null); 
+            ClearSelectedCharacter();
             return true;
         }
 
@@ -548,7 +549,7 @@ namespace Frankie.Combat
             SetActiveBattleAction(null);
             selectedCharacter = null;
             battleActionData = null;
-            List<BattleEntity> emptyBattleEntity = new() { new(null) };
+            List<BattleEntity> emptyBattleEntity = new() { new BattleEntity(null) };
             BattleEventBus<BattleEntitySelectedEvent>.Raise(new BattleEntitySelectedEvent(CombatParticipantType.Friendly, emptyBattleEntity));
         }
 

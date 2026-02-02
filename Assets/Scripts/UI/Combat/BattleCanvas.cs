@@ -184,7 +184,7 @@ namespace Frankie.Combat.UI
             {
                 case BattleState.PreCombat:
                     skillSelection.gameObject.SetActive(false);
-                    combatOptions.SetCombatOptions(true);
+                    combatOptions.EnableCombatOptions();
                     break;
                 case BattleState.Combat:
                     if (combatLog != null)
@@ -192,6 +192,7 @@ namespace Frankie.Combat.UI
                         combatLog.AddCombatLogText("  Combat Started . . . ");
                         combatLog.gameObject.SetActive(true);
                     }
+                    combatOptions.gameObject.SetActive(false);
                     skillSelection.gameObject.SetActive(true);
                     break;
                 case BattleState.Outro:
@@ -200,6 +201,7 @@ namespace Frankie.Combat.UI
                     if (outroQueued) { return; }
 
                     if (combatLog != null) { combatLog.gameObject.SetActive(false); }
+                    combatOptions.gameObject.SetActive(false);
                     skillSelection.gameObject.SetActive(false);
                     queuedUISequences.Enqueue(() => SetupExperienceMessage(battleOutcome));
                     SetupAllLootMessages(battleOutcome); // Parent function to queue a number of additional loot messages into UI sequences
