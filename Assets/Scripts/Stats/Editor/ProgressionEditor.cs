@@ -17,7 +17,7 @@ namespace Frankie.Stats.Editor
         private Progression progression;
         
         // UI State
-        private readonly List<Progression.ProgressionCharacterClass> selectedCharacterClasses = new();
+        private readonly List<Progression.ProgressionCharacter> selectedCharacters = new();
         private int levelAveraging = 8;
         
         // UI Cached References
@@ -35,12 +35,12 @@ namespace Frankie.Stats.Editor
 
         private void OnEnable()
         {
-            if (progressionEntries != null)  { progressionEntries.selectionChanged += OnCharacterClassSelectionChanged; }
+            if (progressionEntries != null)  { progressionEntries.selectionChanged += OnCharacterSelectionChanged; }
         }
 
         private void OnDisable()
         {
-            if (progressionEntries != null)  { progressionEntries.selectionChanged -= OnCharacterClassSelectionChanged; }
+            if (progressionEntries != null)  { progressionEntries.selectionChanged -= OnCharacterSelectionChanged; }
         }
 
         private void OnFocus()
@@ -126,24 +126,24 @@ namespace Frankie.Stats.Editor
             var entryBox = new Box();
             if (progressionEntries != null)
             {
-                progressionEntries.selectionChanged -= OnCharacterClassSelectionChanged;
+                progressionEntries.selectionChanged -= OnCharacterSelectionChanged;
                 progressionEntries = null;
             }
             
             progressionEntries = new ListView { selectionType = SelectionType.Multiple };
-            progressionEntries.selectionChanged += OnCharacterClassSelectionChanged;
+            progressionEntries.selectionChanged += OnCharacterSelectionChanged;
             entryBox.Add(progressionEntries);
             
             return entryBox;
         }
 
-        private Box CreateCharacterStatCard(Progression.ProgressionCharacterClass characterClass)
+        private Box CreateCharacterStatCard(Progression.ProgressionCharacter character)
         {
             StatCardBase characterStatCard = GetCharacterStatCardBase(false);
-            UpdateStatCardHeader(characterStatCard, characterClass, false);
+            UpdateStatCardHeader(characterStatCard, character, false);
             
             bool isLeft = true;
-            foreach (Progression.ProgressionStat progressionStat in characterClass.stats)
+            foreach (Progression.ProgressionStat progressionStat in character.stats)
             {
                 if (progressionStat.stat is Stat.InitialLevel) { continue; }
                 
@@ -152,7 +152,7 @@ namespace Frankie.Stats.Editor
                     label = progressionStat.stat.ToString(),
                     value = progressionStat.value
                 };
-                statEntry.RegisterValueChangedCallback(x => UpdateStat(characterClass.characterProperties, progressionStat.stat, x.newValue));
+                statEntry.RegisterValueChangedCallback(x => UpdateStat(character.characterProperties, progressionStat.stat, x.newValue));
                 
                 if (isLeft) { characterStatCard.leftPane.Add(statEntry); }
                 else { characterStatCard.rightPane.Add(statEntry); }
@@ -163,11 +163,11 @@ namespace Frankie.Stats.Editor
             return characterStatCard.statCardBase;
         }
 
-        private Box CreateCharacterSimulatedStatCard(Progression.ProgressionCharacterClass characterClass)
+        private Box CreateCharacterSimulatedStatCard(Progression.ProgressionCharacter character)
         {
             StatCardBase characterStatCard = GetCharacterStatCardBase(true);
-            UpdateStatCardHeader(characterStatCard, characterClass, true);
-            SimulateStats(characterStatCard, characterClass, 1);
+            UpdateStatCardHeader(characterStatCard, character, true);
+            SimulateStats(characterStatCard, character, 1);
             
             return characterStatCard.statCardBase;
         }
@@ -196,18 +196,18 @@ namespace Frankie.Stats.Editor
             return new StatCardBase(characterStatCard, header, leftPane, rightPane);
         }
 
-        private void UpdateStatCardHeader(StatCardBase statCardBase, Progression.ProgressionCharacterClass characterClass, bool isSimulatedStatCard)
+        private void UpdateStatCardHeader(StatCardBase statCardBase, Progression.ProgressionCharacter character, bool isSimulatedStatCard)
         {
             if (!isSimulatedStatCard)
             {
                 var headerSplit = new TwoPaneSplitView(0, (float)_panelSize/2, TwoPaneSplitViewOrientation.Horizontal);
-                headerSplit.Add(new Label($" {characterClass.characterProperties.name}"));
+                headerSplit.Add(new Label($" {character.characterProperties.name}"));
                 var initialLevel = new IntegerField
                 {
                     label = "Initial Level",
-                    value = Mathf.RoundToInt(progression.GetStat(Stat.InitialLevel, characterClass.characterProperties))
+                    value = Mathf.RoundToInt(progression.GetStat(Stat.InitialLevel, character.characterProperties))
                 };
-                initialLevel.RegisterValueChangedCallback(x => UpdateStat(characterClass.characterProperties, Stat.InitialLevel, x.newValue));
+                initialLevel.RegisterValueChangedCallback(x => UpdateStat(character.characterProperties, Stat.InitialLevel, x.newValue));
                 headerSplit.Add(initialLevel);
                 
                 statCardBase.header.Add(headerSplit);
@@ -220,29 +220,29 @@ namespace Frankie.Stats.Editor
                     value = 1
                 };
                 simulatedLevel.RegisterValueChangedCallback((changeEvent =>
-                    SimulateStats(statCardBase, characterClass, changeEvent.newValue)));
+                    SimulateStats(statCardBase, character, changeEvent.newValue)));
                 statCardBase.header.Add(simulatedLevel);
             }
         }
         
         private void DrawCharacterNavigationPane()
         {
-            Progression.ProgressionCharacterClass[] characterClasses = progression.GetCharacterClasses();
+            Progression.ProgressionCharacter[] characters = progression.GetCharacters();
             
             progressionEntries.makeItem = () => new Label();
             progressionEntries.bindItem = (item, index) =>
             {
-                if (item is Label label && index < characterClasses.Length) { label.text = characterClasses[index].characterProperties.name; }
+                if (item is Label label && index < characters.Length) { label.text = characters[index].characterProperties.name; }
             };
-            progressionEntries.itemsSource = characterClasses;
+            progressionEntries.itemsSource = characters;
         }
 
         private void DrawCharacterStatPane()
         {
-            foreach (Progression.ProgressionCharacterClass progressionClass in selectedCharacterClasses)
+            foreach (Progression.ProgressionCharacter selectedCharacter in selectedCharacters)
             {
-                Box characterStatCard = CreateCharacterStatCard(progressionClass);
-                if (!progressionClass.characterProperties.incrementsStatsOnLevelUp)
+                Box characterStatCard = CreateCharacterStatCard(selectedCharacter);
+                if (!selectedCharacter.characterProperties.incrementsStatsOnLevelUp)
                 {
                     characterStatPane.Add(characterStatCard);
                 }
@@ -259,7 +259,7 @@ namespace Frankie.Stats.Editor
                     };
                     characterStatPane.Add(statSimulationSplit);
                     
-                    Box simulatedStatCard = CreateCharacterSimulatedStatCard(progressionClass);
+                    Box simulatedStatCard = CreateCharacterSimulatedStatCard(selectedCharacter);
                     statSimulationSplit.Add(characterStatCard);
                     statSimulationSplit.Add(simulatedStatCard);
                 }
@@ -309,10 +309,10 @@ namespace Frankie.Stats.Editor
             CharacterProperties.BuildCacheIfEmpty(true);
             
             var characterPropertiesCrossReference = new Dictionary<CharacterProperties, bool>();
-            foreach (Progression.ProgressionCharacterClass characterClass in progression.GetCharacterClasses())
+            foreach (Progression.ProgressionCharacter character in progression.GetCharacters())
             {
-                if (characterClass.characterProperties == null) { continue; }
-                characterPropertiesCrossReference[characterClass.characterProperties] = true;
+                if (character.characterProperties == null) { continue; }
+                characterPropertiesCrossReference[character.characterProperties] = true;
             }
 
             foreach (var entry in CharacterProperties.GetCharacterPropertiesLookup()
@@ -326,14 +326,14 @@ namespace Frankie.Stats.Editor
             ReloadProgression();
         }
 
-        private void OnCharacterClassSelectionChanged(IEnumerable<object> selectedItems)
+        private void OnCharacterSelectionChanged(IEnumerable<object> selectedItems)
         {
-            selectedCharacterClasses.Clear();
+            selectedCharacters.Clear();
             characterStatPane.Clear();
             foreach (var item in selectedItems)
             {
-                if (item is not Progression.ProgressionCharacterClass progressionCharacterClass) continue;
-                selectedCharacterClasses.Add(progressionCharacterClass);
+                if (item is not Progression.ProgressionCharacter character) continue;
+                selectedCharacters.Add(character);
             }
             
             DrawCharacterStatPane();
@@ -343,12 +343,12 @@ namespace Frankie.Stats.Editor
         private void RemoveSelectedCharacters()
         {
             if (progression == null) { return; }
-            if (selectedCharacterClasses.Count == 0) { return; }
+            if (selectedCharacters.Count == 0) { return; }
             
             Debug.Log("Removing selected characters");
-            List<CharacterProperties> selectedCharacterProperties = selectedCharacterClasses.Select(characterClass => characterClass.characterProperties).ToList();
+            List<CharacterProperties> selectedCharacterProperties = selectedCharacters.Select(character => character.characterProperties).ToList();
             progression.RemoveFromProgressionAsset(selectedCharacterProperties);
-            selectedCharacterClasses.Clear();
+            selectedCharacters.Clear();
             ReloadProgression();
         }
 
@@ -358,19 +358,19 @@ namespace Frankie.Stats.Editor
             progression.UpdateProgressionAsset(characterProperties, stat, value);
         }
 
-        private void SimulateStats(StatCardBase statCard, Progression.ProgressionCharacterClass characterClass, int simulatedLevel)
+        private void SimulateStats(StatCardBase statCard, Progression.ProgressionCharacter character, int simulatedLevel)
         {
             if (progression == null)  { return; }
-            if (characterClass == null || characterClass.characterProperties == null)  { return; }
+            if (character == null || character.characterProperties == null)  { return; }
 
             // Simulation
-            Dictionary<Stat, float> activeStatSheet = BaseStats.GetLevelAveragedStatSheet(progression, characterClass.characterProperties, simulatedLevel, levelAveraging);
+            Dictionary<Stat, float> activeStatSheet = BaseStats.GetLevelAveragedStatSheet(progression, character.characterProperties, simulatedLevel, levelAveraging);
             
             // Draw entries onto card
             bool isLeft = true;
             statCard.leftPane.Clear();
             statCard.rightPane.Clear();
-            foreach (Progression.ProgressionStat progressionStat in characterClass.stats)
+            foreach (Progression.ProgressionStat progressionStat in character.stats)
             {
                 if (!activeStatSheet.ContainsKey(progressionStat.stat)) { continue; }
                 if (progressionStat.stat is Stat.InitialLevel or Stat.ExperienceReward or Stat.ExperienceToLevelUp) { continue; }

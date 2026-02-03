@@ -11,7 +11,7 @@ namespace Frankie.Stats
     {
         // Tunables
         [SerializeField] private float defaultStatValueIfMissing = 1f;
-        [SerializeField] private ProgressionCharacterClass[] characterClasses;
+        [SerializeField] private ProgressionCharacter[] characters;
 
         // State
         private Dictionary<CharacterProperties, Dictionary<Stat, float>> lookupTable;
@@ -47,13 +47,13 @@ namespace Frankie.Stats
         {
             Undo.RegisterCompleteObjectUndo(this, "Update Progression");
             bool characterFound = false;
-            foreach (ProgressionCharacterClass progressionCharacterClass in characterClasses)
+            foreach (ProgressionCharacter character in characters)
             {
-                if (progressionCharacterClass.characterProperties != characterProperties) { continue; }
+                if (character.characterProperties != characterProperties) { continue; }
 
                 characterFound = true;
                 bool statFound = false;
-                foreach (ProgressionStat progressionStat in progressionCharacterClass.stats)
+                foreach (ProgressionStat progressionStat in character.stats)
                 {
                     if (progressionStat.stat != updatedStat) { continue; }
                     
@@ -65,8 +65,8 @@ namespace Frankie.Stats
                 if (!statFound)
                 {
                     var newProgressionStat = new ProgressionStat { stat = updatedStat, value = newValue };
-                    Array.Resize(ref progressionCharacterClass.stats, progressionCharacterClass.stats.Length + 1);
-                    progressionCharacterClass.stats[^1] =  newProgressionStat;
+                    Array.Resize(ref character.stats, character.stats.Length + 1);
+                    character.stats[^1] =  newProgressionStat;
                 }
                 break;
             }
@@ -81,15 +81,15 @@ namespace Frankie.Stats
 
         public void AddToProgressionAsset(CharacterProperties characterProperties)
         {
-            var progressionCharacterClass = new ProgressionCharacterClass
+            var character = new ProgressionCharacter
             {
                 characterProperties = characterProperties,
                 stats = (from Stat stat in Enum.GetValues(typeof(Stat)) select new ProgressionStat { stat = stat, value = GetDefaultStatValue(stat) }).ToArray()
             };
             
             Undo.RegisterCompleteObjectUndo(this, "Add to Progression");
-            Array.Resize(ref characterClasses, characterClasses.Length + 1);
-            characterClasses[^1] = progressionCharacterClass;
+            Array.Resize(ref characters, characters.Length + 1);
+            characters[^1] = character;
             EditorUtility.SetDirty(this);
             
             ForceBuildLookup();
@@ -100,9 +100,9 @@ namespace Frankie.Stats
             Undo.RegisterCompleteObjectUndo(this, "Remove from Progression");
             foreach (CharacterProperties characterProperties in charactersProperties)
             {
-                var characterClassesVolatile = new List<ProgressionCharacterClass>(characterClasses);
-                characterClassesVolatile.RemoveAll(x => x.characterProperties == characterProperties);
-                characterClasses =  characterClassesVolatile.ToArray();
+                var charactersVolatile = new List<ProgressionCharacter>(characters);
+                charactersVolatile.RemoveAll(x => x.characterProperties == characterProperties);
+                characters =  charactersVolatile.ToArray();
             }
             EditorUtility.SetDirty(this);
             
@@ -111,7 +111,7 @@ namespace Frankie.Stats
         #endif
         
         #region PublicMethods
-        public ProgressionCharacterClass[] GetCharacterClasses() => characterClasses;
+        public ProgressionCharacter[] GetCharacters() => characters;
 
         public bool HasProgression(CharacterProperties characterProperties)
         {
@@ -144,14 +144,14 @@ namespace Frankie.Stats
             if (lookupTable != null && !forceBuild) { return; }
             lookupTable = new Dictionary<CharacterProperties, Dictionary<Stat, float>>();
 
-            foreach (ProgressionCharacterClass progressionCharacterClass in characterClasses)
+            foreach (ProgressionCharacter character in characters)
             {
                 var statDictionary = new Dictionary<Stat, float>();
 
                 foreach (Stat stat in Enum.GetValues(typeof(Stat)))
                 {
                     bool foundStat = false;
-                    foreach (ProgressionStat progressionStat in progressionCharacterClass.stats)
+                    foreach (ProgressionStat progressionStat in character.stats)
                     {
                         if (progressionStat.stat != stat) continue;
                         statDictionary[stat] = progressionStat.value;
@@ -160,14 +160,14 @@ namespace Frankie.Stats
                     }
                     if (!foundStat) { statDictionary[stat] = defaultStatValueIfMissing; }
                 }
-                lookupTable[progressionCharacterClass.characterProperties] = statDictionary;
+                lookupTable[character.characterProperties] = statDictionary;
             }
         }
         #endregion
 
         #region DataStructures
         [Serializable]
-        public class ProgressionCharacterClass
+        public class ProgressionCharacter
         {
             public CharacterProperties characterProperties;
             public ProgressionStat[] stats;
@@ -179,6 +179,7 @@ namespace Frankie.Stats
             public Stat stat;
             public float value;
         }
+        
         #endregion
     }
 }
