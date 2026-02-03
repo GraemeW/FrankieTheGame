@@ -18,7 +18,6 @@ namespace Frankie.Stats.Editor
         
         // UI State
         private readonly List<Progression.ProgressionCharacter> selectedCharacters = new();
-        private int levelAveraging = 8;
         
         // UI Cached References
         private ObjectField progressionInput;
@@ -90,18 +89,6 @@ namespace Frankie.Stats.Editor
             progressionInput.RegisterValueChangedCallback(OnProgressionChanged);
             controlBox.Add(progressionInput);
 
-            var levelAveragingInput = new IntegerField
-            {
-                label = "Level Averaging",
-                value = levelAveraging
-            };
-            levelAveragingInput.RegisterValueChangedCallback(x =>
-            {
-                levelAveraging = (Mathf.Clamp(x.newValue, 1, 20));
-                levelAveragingInput.value = levelAveraging;
-            });
-            controlBox.Add(levelAveragingInput);
-
             // Progression Controls
             controlBox.Add(new Label("Progression Asset Controls"));
             var reloadProgression = new Button { text = "Reload Progression" };
@@ -111,6 +98,10 @@ namespace Frankie.Stats.Editor
             var reconcileCharacterProperties = new Button { text = "Reconcile Characters" };
             reconcileCharacterProperties.RegisterCallback<ClickEvent>(ReconcileCharacterProperties);
             controlBox.Add(reconcileCharacterProperties);
+            
+            var rebuildLevelCharts =  new Button { text = "Rebuild Level Charts" };
+            rebuildLevelCharts.RegisterCallback<ClickEvent>(RebuildLevelCharts);
+            controlBox.Add(rebuildLevelCharts);
                 
             // Selection Controls
             controlBox.Add(new Label("Character Selection Controls"));
@@ -325,6 +316,15 @@ namespace Frankie.Stats.Editor
             }
             ReloadProgression();
         }
+        
+        private void RebuildLevelCharts(ClickEvent clickEvent) { RebuildLevelCharts(); }
+
+        private void RebuildLevelCharts()
+        {
+            if (progression == null) { return; }
+            progression.RebuildLevelCharts();
+            ReloadProgression();
+        }
 
         private void OnCharacterSelectionChanged(IEnumerable<object> selectedItems)
         {
@@ -364,7 +364,8 @@ namespace Frankie.Stats.Editor
             if (character == null || character.characterProperties == null)  { return; }
 
             // Simulation
-            Dictionary<Stat, float> activeStatSheet = BaseStats.GetLevelAveragedStatSheet(progression, character.characterProperties, simulatedLevel, levelAveraging);
+            Dictionary<Stat, float> activeStatSheet = Progression.GetLevelAveragedStatSheet(progression, character.characterProperties, simulatedLevel);
+            if (activeStatSheet == null) { return; }
             
             // Draw entries onto card
             bool isLeft = true;
@@ -373,7 +374,7 @@ namespace Frankie.Stats.Editor
             foreach (Progression.ProgressionStat progressionStat in character.stats)
             {
                 if (!activeStatSheet.ContainsKey(progressionStat.stat)) { continue; }
-                if (progressionStat.stat is Stat.InitialLevel or Stat.ExperienceReward or Stat.ExperienceToLevelUp) { continue; }
+                if (BaseStats.GetNonModifyingStats().Contains(progressionStat.stat)) { continue; }
                 
                 var statEntry = new FloatField
                 {

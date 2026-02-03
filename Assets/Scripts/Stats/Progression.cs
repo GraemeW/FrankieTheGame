@@ -12,11 +12,52 @@ namespace Frankie.Stats
         // Tunables
         [SerializeField] private float defaultStatValueIfMissing = 1f;
         [SerializeField] private ProgressionCharacter[] characters;
+        
+        // TODO:  [HideInInspector] once verify functionality
+        [SerializeField] private List<ProgressionLevelChart> levelCharts = new();
 
+        // Constants
+        private const int _maxLevel = 99;
+        private const float _hpMultiplier = 4.0f;
+        private const float _apMultiplier = 2.0f;
+        private const int _levelChartAveraging = 10;
+        private static readonly List<float[]> _levelUpStatScalerLerpPoints = new()
+        {
+            // Ensure LERP points match in length
+            // Ensure incrementing in a logical manner
+            new[]{0f, 0.2f, 0.85f, 0.95f, 1.0f}, // Roll Probability
+            new[]{0.0f, 0.5f, 1.0f, 1.25f, 1.5f} // Multiplier
+        };
+        
         // State
-        private Dictionary<CharacterProperties, Dictionary<Stat, float>> lookupTable;
+        private Dictionary<CharacterProperties, Dictionary<Stat, float>> characterStatLookup;
+        private Dictionary<CharacterProperties, Dictionary<int, Dictionary<Stat, float>>> levelChartLookup;
+        
+        #region StaticMethods
+        public static int GetMaxLevel() => _maxLevel;
+        public static Dictionary<Stat, float> GetLevelUpSheet(Progression progression, CharacterProperties characterProperties, int currentLevel, float currentStoic, float currentSmarts)
+        {
+            var levelUpSheet = new Dictionary<Stat, float>();
+            foreach (Stat stat in Enum.GetValues(typeof(Stat)))
+            {
+                if (BaseStats.GetNonModifyingStats().Contains(stat)) { continue; }
 
-        // Static
+                switch (stat)
+                {
+                    case Stat.HP:
+                        levelUpSheet[stat] = (_hpMultiplier * currentStoic / currentLevel) * GetLevelUpStatMultiplier();
+                        break;
+                    case Stat.AP:
+                        levelUpSheet[stat] = (_apMultiplier * currentSmarts / currentLevel) * GetLevelUpStatMultiplier();
+                        break;
+                    default:
+                        levelUpSheet[stat] = progression.GetStat(stat, characterProperties) * GetLevelUpStatMultiplier();
+                        break;
+                }
+            }
+            return levelUpSheet;
+        }
+        
         private static float GetDefaultStatValue(Stat stat)
         {
             return stat switch
@@ -37,7 +78,57 @@ namespace Frankie.Stats
             };
         }
         
-        #if UNITY_EDITOR
+        public static Dictionary<Stat, float> GetLevelAveragedStatSheet(Progression progression, CharacterProperties characterProperties, int currentLevel)
+        {
+            // TODO:  Remove and replace with method that pulls from index
+            Dictionary<int, Dictionary<Stat, float>> averagedLevelUpSheets = GetAveragedLevelUpSheets(progression, characterProperties);
+            return averagedLevelUpSheets.GetValueOrDefault(currentLevel);
+        }
+
+        private static Dictionary<int, Dictionary<Stat, float>> GetAveragedLevelUpSheets(Progression progression, CharacterProperties characterProperties)
+        {
+            int currentLevel = 1;
+            var levelUpSheets = new Dictionary<int, Dictionary<Stat, float>> { [currentLevel] = new(progression.GetStatSheet(characterProperties)) };
+            
+            while (currentLevel < _maxLevel)
+            {
+                levelUpSheets[currentLevel + 1] = IncrementLevelSheet(progression, characterProperties, levelUpSheets[currentLevel], currentLevel);
+                currentLevel++;
+            }
+            return levelUpSheets;
+        }
+        
+        private static Dictionary<Stat, float> IncrementLevelSheet(Progression progression, CharacterProperties characterProperties, Dictionary<Stat, float> currentLevelSheet, int currentLevel)
+        {
+            var leveledSheet = new Dictionary<Stat, float>(currentLevelSheet);
+            
+            Dictionary<Stat, float> sumLevelUpSheet = GetLevelUpSheet(progression, characterProperties, currentLevel, currentLevelSheet[Stat.Stoic], currentLevelSheet[Stat.Smarts]);
+            for (int averageCount = 1; averageCount < _levelChartAveraging; averageCount++) // Start counter at 1, as initial values set in GetLevelUpSheet()
+            {
+                Dictionary<Stat, float> incrementalLevelUpSheet = GetLevelUpSheet(progression, characterProperties, currentLevel, currentLevelSheet[Stat.Stoic], currentLevelSheet[Stat.Smarts]);
+                foreach (KeyValuePair<Stat, float> statValuePair in incrementalLevelUpSheet) { sumLevelUpSheet[statValuePair.Key] += statValuePair.Value; }
+            }
+            foreach (KeyValuePair<Stat, float> statValuePair in sumLevelUpSheet) { leveledSheet[statValuePair.Key] += (statValuePair.Value / _levelChartAveraging); }
+            
+            return leveledSheet;
+        }
+        
+        private static float GetLevelUpStatMultiplier()
+        {
+            float chance = UnityEngine.Random.Range(0f, 1f);
+            int lowAnchorIndex;
+            for (lowAnchorIndex = 0; lowAnchorIndex < _levelUpStatScalerLerpPoints[0].Length - 1; lowAnchorIndex++)
+            {
+                if (chance >= _levelUpStatScalerLerpPoints[0][lowAnchorIndex] && chance <= _levelUpStatScalerLerpPoints[0][lowAnchorIndex+1]) { break; }
+            }
+            
+            float normalizedChance = (chance - _levelUpStatScalerLerpPoints[0][lowAnchorIndex]) / (_levelUpStatScalerLerpPoints[0][lowAnchorIndex+1] - _levelUpStatScalerLerpPoints[0][lowAnchorIndex]);
+            return Mathf.Lerp(_levelUpStatScalerLerpPoints[1][lowAnchorIndex],  _levelUpStatScalerLerpPoints[1][lowAnchorIndex+1], normalizedChance);
+        }
+        #endregion
+        
+#if UNITY_EDITOR
+        #region EditorMethods
         public void ForceBuildLookup()
         {
             BuildLookup(true);
@@ -75,7 +166,7 @@ namespace Frankie.Stats
             if (characterFound)
             {
                 // Update dictionary to avoid need to rebuild entire dict on every update
-                lookupTable[characterProperties][updatedStat] = newValue;
+                characterStatLookup[characterProperties][updatedStat] = newValue;
             }
         }
 
@@ -108,7 +199,8 @@ namespace Frankie.Stats
             
             ForceBuildLookup();
         }
-        #endif
+        #endregion
+#endif
         
         #region PublicMethods
         public ProgressionCharacter[] GetCharacters() => characters;
@@ -116,33 +208,60 @@ namespace Frankie.Stats
         public bool HasProgression(CharacterProperties characterProperties)
         {
             BuildLookup();
-            return lookupTable.ContainsKey(characterProperties);
+            return characterStatLookup.ContainsKey(characterProperties);
         }
         
         public float GetStat(Stat stat, CharacterProperties characterProperties)
         {
             BuildLookup();
-            return lookupTable[characterProperties][stat];
+            return characterStatLookup[characterProperties][stat];
         }
 
         public Dictionary<Stat, float> GetStatSheet(CharacterProperties characterProperties)
         {
             BuildLookup();
             var statSheet = new Dictionary<Stat, float>();
-            Dictionary<Stat, float> statBook = lookupTable[characterProperties];
+            Dictionary<Stat, float> statBook = characterStatLookup[characterProperties];
             foreach (Stat stat in statBook.Keys)
             {
                 statSheet[stat] = GetStat(stat, characterProperties);
             }
             return statSheet;
         }
+        
+        public void RebuildLevelCharts()
+        {
+            levelCharts.Clear();
+            foreach (var characterEntry in CharacterProperties.GetCharacterPropertiesLookup().Where(entry => entry.Value != null && entry.Value.incrementsStatsOnLevelUp))
+            {
+                CharacterProperties characterProperties = characterEntry.Value;
+                var progressionLevelChart = new ProgressionLevelChart { characterProperties = characterProperties };
+
+                var averageLeveledStats = new List<ProgressionLeveledStats>();
+                Dictionary<int, Dictionary<Stat, float>> averagedLevelSheets = GetAveragedLevelUpSheets(this, characterProperties);
+                foreach (var averageLevelSheet in averagedLevelSheets)
+                {
+                    var averageLeveledStatsEntry = new ProgressionLeveledStats
+                    {
+                        level = averageLevelSheet.Key,
+                        progressionStats = averageLevelSheet.Value.Select(statEntry => new ProgressionStat { stat = statEntry.Key, value = statEntry.Value }).ToArray()
+                    };
+                    averageLeveledStats.Add(averageLeveledStatsEntry);
+                }
+                
+                progressionLevelChart.leveledStats = averageLeveledStats.ToArray();
+                levelCharts.Add(progressionLevelChart);
+            }
+
+            BuildLevelChartLookup(true);
+        }
         #endregion
         
         #region PrivateMethods
         private void BuildLookup(bool forceBuild = false)
         {
-            if (lookupTable != null && !forceBuild) { return; }
-            lookupTable = new Dictionary<CharacterProperties, Dictionary<Stat, float>>();
+            if (characterStatLookup != null && !forceBuild) { return; }
+            characterStatLookup = new Dictionary<CharacterProperties, Dictionary<Stat, float>>();
 
             foreach (ProgressionCharacter character in characters)
             {
@@ -160,7 +279,36 @@ namespace Frankie.Stats
                     }
                     if (!foundStat) { statDictionary[stat] = defaultStatValueIfMissing; }
                 }
-                lookupTable[character.characterProperties] = statDictionary;
+                characterStatLookup[character.characterProperties] = statDictionary;
+            }
+        }
+
+        private void BuildLevelChartLookup(bool forceBuild = false)
+        {
+            if (characterStatLookup != null && !forceBuild) { return; }
+            if (levelCharts.Count == 0) { return; }
+
+            levelChartLookup = new Dictionary<CharacterProperties, Dictionary<int, Dictionary<Stat, float>>>();
+            
+            foreach (ProgressionLevelChart levelChart in levelCharts)
+            {
+                CharacterProperties characterProperties = levelChart.characterProperties;
+                if (characterProperties == null || levelChart.leveledStats == null) { continue; }
+                
+                var statsMapByLevel = new Dictionary<int, Dictionary<Stat, float>>();
+                foreach (ProgressionLeveledStats progressionLeveledStats in levelChart.leveledStats)
+                {
+                    if (progressionLeveledStats.progressionStats == null) { continue; }
+
+                    int level =  progressionLeveledStats.level;
+                    var statsMap = new Dictionary<Stat, float>();
+                    foreach (ProgressionStat progressionStat in progressionLeveledStats.progressionStats)
+                    {
+                        statsMap[progressionStat.stat] = progressionStat.value;
+                    }
+                    statsMapByLevel[level] = statsMap;
+                }
+                levelChartLookup[characterProperties] = statsMapByLevel;
             }
         }
         #endregion
@@ -179,7 +327,20 @@ namespace Frankie.Stats
             public Stat stat;
             public float value;
         }
-        
+
+        [Serializable]
+        public class ProgressionLeveledStats
+        {
+            public int level;
+            public ProgressionStat[] progressionStats;
+        }
+
+        [Serializable]
+        public class ProgressionLevelChart
+        {
+            public CharacterProperties characterProperties;
+            public ProgressionLeveledStats[] leveledStats;
+        }
         #endregion
     }
 }
