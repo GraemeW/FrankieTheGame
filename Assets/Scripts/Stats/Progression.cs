@@ -17,6 +17,7 @@ namespace Frankie.Stats
         [SerializeField] private int levelChartAveraging = 20;
         [SerializeField][Range(0.5f, 1.0f)] private float statCatchUpThreshold = 0.9f;
         [SerializeField][Tooltip("i.e. every n levels trigger stat catchup")] private int statCatchUpLevelMod = 4;
+        [SerializeField] private float statCatchUpRatio = 0.35f;
         
         [Header("Primary Stat Sheets")]
         [SerializeField] private ProgressionCharacter[] characters;
@@ -191,17 +192,15 @@ namespace Frankie.Stats
             Dictionary<Stat, float> averagedLevelUpSheet = averagedLevelUpSheets?.GetValueOrDefault(currentLevel);
             if (averagedLevelUpSheet == null) { return levelUpSheet; }
             
-            Debug.Log("Special level-up:  Checking for stat catch-up…");
+            Debug.Log("Special level-up:  Checking for stat catch-up");
             foreach (Stat stat in levelUpSheet.Keys.ToList())
             {
                 if (!activeStatSheet.TryGetValue(stat, out var currentStatEntry)) { continue; }
                 if (!averagedLevelUpSheet.TryGetValue(stat, out var averagedStatEntry)) { continue; }
-
-                if (currentStatEntry < (averagedStatEntry * statCatchUpThreshold))
-                {
-                    levelUpSheet[stat] += (averagedStatEntry - currentStatEntry) * 0.5f;
-                    Debug.Log($"Stat {stat} below average stat threshold - bolstering by {levelUpSheet[stat]}");
-                }
+                if (currentStatEntry >= averagedStatEntry * statCatchUpThreshold) { continue; }
+                
+                levelUpSheet[stat] += (averagedStatEntry - currentStatEntry) * statCatchUpRatio;
+                Debug.Log($"Stat {stat} below average stat threshold - bolstering by {levelUpSheet[stat]}");
             }
             Debug.Log("Ending stat catch-up checks.");
             return levelUpSheet;
