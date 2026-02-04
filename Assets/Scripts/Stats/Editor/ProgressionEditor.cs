@@ -322,7 +322,7 @@ namespace Frankie.Stats.Editor
         private void RebuildLevelCharts()
         {
             if (progression == null) { return; }
-            progression.RebuildLevelCharts();
+            progression.ForceInitializeLevelCharts();
             ReloadProgression();
         }
 
@@ -364,7 +364,7 @@ namespace Frankie.Stats.Editor
             if (character == null || character.characterProperties == null)  { return; }
 
             // Simulation
-            Dictionary<Stat, float> activeStatSheet = Progression.GetLevelAveragedStatSheet(progression, character.characterProperties, simulatedLevel);
+            Dictionary<Stat, float> activeStatSheet = progression.GetLevelAveragedStatSheet(character.characterProperties, simulatedLevel);
             if (activeStatSheet == null) { return; }
             
             // Draw entries onto card

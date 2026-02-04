@@ -10,17 +10,21 @@ namespace Frankie.Stats
     public class Progression : ScriptableObject
     {
         // Tunables
+        [Header("Behavioural Tunables")]
         [SerializeField] private float defaultStatValueIfMissing = 1f;
-        [SerializeField] private ProgressionCharacter[] characters;
+        [SerializeField] private float levelUpHPMultiplier = 4.0f;
+        [SerializeField] private float levelUpAPMultiplier = 2.0f;
+        [SerializeField] private int levelChartAveraging = 20;
+        [SerializeField][Range(0.5f, 1.0f)] private float statCatchUpThreshold = 0.9f;
+        [SerializeField][Tooltip("i.e. every n levels trigger stat catchup")] private int statCatchUpLevelMod = 4;
         
-        // TODO:  [HideInInspector] once verify functionality
-        [SerializeField] private List<ProgressionLevelChart> levelCharts = new();
+        [Header("Primary Stat Sheets")]
+        [SerializeField] private ProgressionCharacter[] characters;
+        [HideInInspector][SerializeField] private List<ProgressionLevelChart> levelCharts = new();
 
         // Constants
         private const int _maxLevel = 99;
-        private const float _hpMultiplier = 4.0f;
-        private const float _apMultiplier = 2.0f;
-        private const int _levelChartAveraging = 10;
+        
         private static readonly List<float[]> _levelUpStatScalerLerpPoints = new()
         {
             // Ensure LERP points match in length
@@ -35,28 +39,6 @@ namespace Frankie.Stats
         
         #region StaticMethods
         public static int GetMaxLevel() => _maxLevel;
-        public static Dictionary<Stat, float> GetLevelUpSheet(Progression progression, CharacterProperties characterProperties, int currentLevel, float currentStoic, float currentSmarts)
-        {
-            var levelUpSheet = new Dictionary<Stat, float>();
-            foreach (Stat stat in Enum.GetValues(typeof(Stat)))
-            {
-                if (BaseStats.GetNonModifyingStats().Contains(stat)) { continue; }
-
-                switch (stat)
-                {
-                    case Stat.HP:
-                        levelUpSheet[stat] = (_hpMultiplier * currentStoic / currentLevel) * GetLevelUpStatMultiplier();
-                        break;
-                    case Stat.AP:
-                        levelUpSheet[stat] = (_apMultiplier * currentSmarts / currentLevel) * GetLevelUpStatMultiplier();
-                        break;
-                    default:
-                        levelUpSheet[stat] = progression.GetStat(stat, characterProperties) * GetLevelUpStatMultiplier();
-                        break;
-                }
-            }
-            return levelUpSheet;
-        }
         
         private static float GetDefaultStatValue(Stat stat)
         {
@@ -78,41 +60,6 @@ namespace Frankie.Stats
             };
         }
         
-        public static Dictionary<Stat, float> GetLevelAveragedStatSheet(Progression progression, CharacterProperties characterProperties, int currentLevel)
-        {
-            // TODO:  Remove and replace with method that pulls from index
-            Dictionary<int, Dictionary<Stat, float>> averagedLevelUpSheets = GetAveragedLevelUpSheets(progression, characterProperties);
-            return averagedLevelUpSheets.GetValueOrDefault(currentLevel);
-        }
-
-        private static Dictionary<int, Dictionary<Stat, float>> GetAveragedLevelUpSheets(Progression progression, CharacterProperties characterProperties)
-        {
-            int currentLevel = 1;
-            var levelUpSheets = new Dictionary<int, Dictionary<Stat, float>> { [currentLevel] = new(progression.GetStatSheet(characterProperties)) };
-            
-            while (currentLevel < _maxLevel)
-            {
-                levelUpSheets[currentLevel + 1] = IncrementLevelSheet(progression, characterProperties, levelUpSheets[currentLevel], currentLevel);
-                currentLevel++;
-            }
-            return levelUpSheets;
-        }
-        
-        private static Dictionary<Stat, float> IncrementLevelSheet(Progression progression, CharacterProperties characterProperties, Dictionary<Stat, float> currentLevelSheet, int currentLevel)
-        {
-            var leveledSheet = new Dictionary<Stat, float>(currentLevelSheet);
-            
-            Dictionary<Stat, float> sumLevelUpSheet = GetLevelUpSheet(progression, characterProperties, currentLevel, currentLevelSheet[Stat.Stoic], currentLevelSheet[Stat.Smarts]);
-            for (int averageCount = 1; averageCount < _levelChartAveraging; averageCount++) // Start counter at 1, as initial values set in GetLevelUpSheet()
-            {
-                Dictionary<Stat, float> incrementalLevelUpSheet = GetLevelUpSheet(progression, characterProperties, currentLevel, currentLevelSheet[Stat.Stoic], currentLevelSheet[Stat.Smarts]);
-                foreach (KeyValuePair<Stat, float> statValuePair in incrementalLevelUpSheet) { sumLevelUpSheet[statValuePair.Key] += statValuePair.Value; }
-            }
-            foreach (KeyValuePair<Stat, float> statValuePair in sumLevelUpSheet) { leveledSheet[statValuePair.Key] += (statValuePair.Value / _levelChartAveraging); }
-            
-            return leveledSheet;
-        }
-        
         private static float GetLevelUpStatMultiplier()
         {
             float chance = UnityEngine.Random.Range(0f, 1f);
@@ -132,6 +79,11 @@ namespace Frankie.Stats
         public void ForceBuildLookup()
         {
             BuildLookup(true);
+        }
+
+        public void ForceInitializeLevelCharts()
+        {
+            InitializeLevelCharts(true);
         }
         
         public void UpdateProgressionAsset(CharacterProperties characterProperties, Stat updatedStat, float newValue)
@@ -229,31 +181,22 @@ namespace Frankie.Stats
             return statSheet;
         }
         
-        public void RebuildLevelCharts()
+        public Dictionary<Stat, float> GetLevelUpSheet(CharacterProperties characterProperties, int currentLevel, float currentStoic, float currentSmarts)
         {
-            levelCharts.Clear();
-            foreach (var characterEntry in CharacterProperties.GetCharacterPropertiesLookup().Where(entry => entry.Value != null && entry.Value.incrementsStatsOnLevelUp))
-            {
-                CharacterProperties characterProperties = characterEntry.Value;
-                var progressionLevelChart = new ProgressionLevelChart { characterProperties = characterProperties };
+            InitializeLevelCharts();
+            if (currentLevel % statCatchUpLevelMod != 0 || !IsLevelChartLookupSet()) { return GetStandardLevelUpSheet(characterProperties, currentLevel, currentStoic, currentSmarts); }
 
-                var averageLeveledStats = new List<ProgressionLeveledStats>();
-                Dictionary<int, Dictionary<Stat, float>> averagedLevelSheets = GetAveragedLevelUpSheets(this, characterProperties);
-                foreach (var averageLevelSheet in averagedLevelSheets)
-                {
-                    var averageLeveledStatsEntry = new ProgressionLeveledStats
-                    {
-                        level = averageLevelSheet.Key,
-                        progressionStats = averageLevelSheet.Value.Select(statEntry => new ProgressionStat { stat = statEntry.Key, value = statEntry.Value }).ToArray()
-                    };
-                    averageLeveledStats.Add(averageLeveledStatsEntry);
-                }
-                
-                progressionLevelChart.leveledStats = averageLeveledStats.ToArray();
-                levelCharts.Add(progressionLevelChart);
-            }
-
-            BuildLevelChartLookup(true);
+            // TODO:  Implement, update BaseStats call
+            return null;
+        }
+        
+        public Dictionary<Stat, float> GetLevelAveragedStatSheet(CharacterProperties characterProperties, int currentLevel)
+        {
+            InitializeLevelCharts();
+            if (!IsLevelChartLookupSet()) { return null; }
+            
+            Dictionary<int, Dictionary<Stat, float>> averagedLevelUpSheets = levelChartLookup.GetValueOrDefault(characterProperties);
+            return averagedLevelUpSheets?.GetValueOrDefault(currentLevel);
         }
         #endregion
         
@@ -282,11 +225,55 @@ namespace Frankie.Stats
                 characterStatLookup[character.characterProperties] = statDictionary;
             }
         }
+        
+        private void InitializeLevelCharts(bool forceBuild = false)
+        {
+            if (forceBuild || levelCharts == null || levelCharts.Count == 0)
+            {
+                RebuildLevelCharts();
+                BuildLevelChartLookup(true);
+                return;
+            }
+            BuildLevelChartLookup();
+        }
+        
+        private void RebuildLevelCharts()
+        {
+#if UNITY_EDITOR
+            Undo.RegisterCompleteObjectUndo(this, "Rebuild Level Charts");
+#endif
+            Debug.Log("Rebuilding Level Charts");
+            levelCharts.Clear();
+            foreach (var characterEntry in CharacterProperties.GetCharacterPropertiesLookup().Where(entry => entry.Value != null && entry.Value.incrementsStatsOnLevelUp))
+            {
+                CharacterProperties characterProperties = characterEntry.Value;
+                var progressionLevelChart = new ProgressionLevelChart { characterProperties = characterProperties };
 
+                var averageLeveledStats = new List<ProgressionLeveledStats>();
+                Dictionary<int, Dictionary<Stat, float>> averagedLevelSheets = GetAveragedLevelUpSheets(characterProperties);
+                foreach (var averageLevelSheet in averagedLevelSheets)
+                {
+                    var averageLeveledStatsEntry = new ProgressionLeveledStats
+                    {
+                        level = averageLevelSheet.Key,
+                        progressionStats = averageLevelSheet.Value.Select(statEntry => new ProgressionStat { stat = statEntry.Key, value = statEntry.Value }).ToArray()
+                    };
+                    averageLeveledStats.Add(averageLeveledStatsEntry);
+                }
+                
+                progressionLevelChart.leveledStats = averageLeveledStats.ToArray();
+                levelCharts.Add(progressionLevelChart);
+            }
+            
+#if UNITY_EDITOR
+            EditorUtility.SetDirty(this);
+#endif
+        }
+        
         private void BuildLevelChartLookup(bool forceBuild = false)
         {
-            if (characterStatLookup != null && !forceBuild) { return; }
-            if (levelCharts.Count == 0) { return; }
+            if (levelChartLookup != null && !forceBuild) { return; }
+            if (levelCharts == null || levelCharts.Count == 0) { return; }
 
             levelChartLookup = new Dictionary<CharacterProperties, Dictionary<int, Dictionary<Stat, float>>>();
             
@@ -310,6 +297,60 @@ namespace Frankie.Stats
                 }
                 levelChartLookup[characterProperties] = statsMapByLevel;
             }
+        }
+        
+        private bool IsLevelChartLookupSet() => levelChartLookup is { Count: > 0 }; 
+        
+        public Dictionary<Stat, float> GetStandardLevelUpSheet(CharacterProperties characterProperties, int currentLevel, float currentStoic, float currentSmarts)
+        {
+            // TODO:  Make private, update BaseStats to call other public method
+            var levelUpSheet = new Dictionary<Stat, float>();
+            foreach (Stat stat in Enum.GetValues(typeof(Stat)))
+            {
+                if (BaseStats.GetNonModifyingStats().Contains(stat)) { continue; }
+
+                switch (stat)
+                {
+                    case Stat.HP:
+                        levelUpSheet[stat] = (levelUpHPMultiplier * currentStoic / currentLevel) * GetLevelUpStatMultiplier();
+                        break;
+                    case Stat.AP:
+                        levelUpSheet[stat] = (levelUpAPMultiplier * currentSmarts / currentLevel) * GetLevelUpStatMultiplier();
+                        break;
+                    default:
+                        levelUpSheet[stat] = GetStat(stat, characterProperties) * GetLevelUpStatMultiplier();
+                        break;
+                }
+            }
+            return levelUpSheet;
+        }
+
+        private Dictionary<int, Dictionary<Stat, float>> GetAveragedLevelUpSheets(CharacterProperties characterProperties)
+        {
+            int currentLevel = 1;
+            var levelUpSheets = new Dictionary<int, Dictionary<Stat, float>> { [currentLevel] = new(GetStatSheet(characterProperties)) };
+            
+            while (currentLevel < _maxLevel)
+            {
+                levelUpSheets[currentLevel + 1] = IncrementLevelSheet(characterProperties, levelUpSheets[currentLevel], currentLevel);
+                currentLevel++;
+            }
+            return levelUpSheets;
+        }
+        
+        private Dictionary<Stat, float> IncrementLevelSheet(CharacterProperties characterProperties, Dictionary<Stat, float> currentLevelSheet, int currentLevel)
+        {
+            var leveledSheet = new Dictionary<Stat, float>(currentLevelSheet);
+            
+            Dictionary<Stat, float> sumLevelUpSheet = GetStandardLevelUpSheet(characterProperties, currentLevel, currentLevelSheet[Stat.Stoic], currentLevelSheet[Stat.Smarts]);
+            for (int averageCount = 1; averageCount < levelChartAveraging; averageCount++) // Start counter at 1, as initial values set in GetLevelUpSheet()
+            {
+                Dictionary<Stat, float> incrementalLevelUpSheet = GetStandardLevelUpSheet(characterProperties, currentLevel, currentLevelSheet[Stat.Stoic], currentLevelSheet[Stat.Smarts]);
+                foreach (KeyValuePair<Stat, float> statValuePair in incrementalLevelUpSheet) { sumLevelUpSheet[statValuePair.Key] += statValuePair.Value; }
+            }
+            foreach (KeyValuePair<Stat, float> statValuePair in sumLevelUpSheet) { leveledSheet[statValuePair.Key] += (statValuePair.Value / levelChartAveraging); }
+            
+            return leveledSheet;
         }
         #endregion
 

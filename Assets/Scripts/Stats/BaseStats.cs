@@ -10,7 +10,7 @@ namespace Frankie.Stats
 {
     public class BaseStats : MonoBehaviour, ISaveable, IPredicateEvaluator
     {
-        // Behavior Detail
+        // See:  Progression for behaviour detail
         // Progression defines 1) Stats at level 1 --> pulled to the active stat sheet, which is what is saved
         // 2)  Modifiers used as basis for subsequent levels --> multiplied out by a random factor, and then added to active stat sheet
 
@@ -136,7 +136,7 @@ namespace Frankie.Stats
 
         private Dictionary<Stat, float> IncrementStatsOnLevelUp()
         {
-            var levelUpSheet = Progression.GetLevelUpSheet(progression, characterProperties, 
+            var levelUpSheet = progression.GetStandardLevelUpSheet(characterProperties, 
                 GetLevel(), GetBaseStat(Stat.Stoic), GetBaseStat(Stat.Smarts));
 
             activeStatSheet[Stat.HP] += levelUpSheet[Stat.HP];
