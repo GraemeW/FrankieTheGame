@@ -75,13 +75,13 @@ namespace Frankie.ZoneManagement
         {
             // Non-IEnumerator Type for Scene Transitions:
             // Coroutine needs to exist on an object that will persist between scenes
-            if (!fading) { StartCoroutine(ZoneFade(transitionType, nextZone, saveSession)); }
+            StartCoroutine(ZoneFade(transitionType, nextZone, saveSession));
         }
 
         public void UpdateFadeStateImmediate()
         {
             // Coroutine needs to exist on an object that will persist between scenes
-            if (!fading) { StartCoroutine(FadeImmediate()); }
+            StartCoroutine(FadeImmediate());
         }
 
         public IEnumerator QueueFadeEntry(TransitionType transitionType)
