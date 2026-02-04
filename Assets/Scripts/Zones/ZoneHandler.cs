@@ -166,7 +166,7 @@ namespace Frankie.ZoneManagement
         {
             foreach (ZoneHandler zoneHandler in FindAllZoneHandlersInScene())
             {
-                if (nextNodeID != zoneHandler.GetZoneNode()?.GetNodeID()) continue;
+                if (nextNodeID != zoneHandler.GetZoneNode()?.GetNodeID()) { continue; }
                 
                 Transform warpTransform = zoneHandler.GetWarpPosition();
                 if (warpTransform != null)
@@ -219,13 +219,15 @@ namespace Frankie.ZoneManagement
         {
             if (startZoneNode == null) { return; }
             if (!startZoneNode.HasLinkedSceneReference()) { return; }
-            
-            playerStateMachine.EnterZoneTransition();
 
             ZoneNode linkedZoneNode = startZoneNode.GetLinkedZoneNode();
             Zone linkedZone = linkedZoneNode.GetZone();
 
-            TransitionToNextScene(linkedZone, linkedZoneNode); // NOTE:  Exit inTransition done on queued move
+            // NOTE:  Exit inTransition done on queued move
+            if (TransitionToNextScene(linkedZone, linkedZoneNode))
+            {
+                playerStateMachine.EnterZoneTransition();
+            }
         }
 
         private void QueuedMoveToNextNode()
@@ -238,15 +240,16 @@ namespace Frankie.ZoneManagement
             ExecuteWarpToNode(queuedZoneNodeID);
         }
 
-        private void TransitionToNextScene(Zone nextZone, ZoneNode nextNode)
+        private bool TransitionToNextScene(Zone nextZone, ZoneNode nextNode)
         {
             if (fader == null) { fader = Fader.FindFader(); }
-            if (fader == null) { return; }
+            if (fader == null || fader.IsFading()) { return false; }
 
             queuedZoneNodeID = nextNode.GetNodeID();
             fader.fadingOut += QueuedMoveToNextNode;
             fader.fadingPeak += HandleFadingPeak;
             fader.UpdateFadeState(TransitionType.Zone, nextZone);
+            return true;
         }
 
         private void RemoveZoneHandler()
