@@ -100,8 +100,10 @@ namespace Frankie.Stats
 
         public void IncrementLevel()
         {
+            if (currentLevel.value >= Progression.GetMaxLevel()) { return; }
+            
             currentLevel.value++;
-            if (!characterProperties.incrementsStatsOnLevelUp) return;
+            if (!characterProperties.incrementsStatsOnLevelUp) { return; }
             
             Dictionary<Stat, float> levelUpSheet = IncrementStatsOnLevelUp();
             onLevelUp?.Invoke(this, GetLevel(), levelUpSheet);
@@ -136,19 +138,12 @@ namespace Frankie.Stats
 
         private Dictionary<Stat, float> IncrementStatsOnLevelUp()
         {
-            var levelUpSheet = progression.GetStandardLevelUpSheet(characterProperties, 
-                GetLevel(), GetBaseStat(Stat.Stoic), GetBaseStat(Stat.Smarts));
-
-            activeStatSheet[Stat.HP] += levelUpSheet[Stat.HP];
-            activeStatSheet[Stat.AP] += levelUpSheet[Stat.AP];
-            activeStatSheet[Stat.Brawn] += levelUpSheet[Stat.Brawn];
-            activeStatSheet[Stat.Beauty] += levelUpSheet[Stat.Beauty];
-            activeStatSheet[Stat.Smarts] += levelUpSheet[Stat.Smarts];
-            activeStatSheet[Stat.Nimble] += levelUpSheet[Stat.Nimble];
-            activeStatSheet[Stat.Luck] += levelUpSheet[Stat.Luck];
-            activeStatSheet[Stat.Pluck] += levelUpSheet[Stat.Pluck];
-            activeStatSheet[Stat.Stoic] += levelUpSheet[Stat.Stoic];
-
+            Dictionary<Stat, float> levelUpSheet = progression.GetLevelUpSheet(characterProperties, GetLevel(), activeStatSheet);
+            foreach ((Stat stat, float statIncrement) in levelUpSheet)
+            {
+                if (!activeStatSheet.ContainsKey(stat)) { continue; }
+                activeStatSheet[stat] += statIncrement;
+            }
             return levelUpSheet;
         }
         #endregion
