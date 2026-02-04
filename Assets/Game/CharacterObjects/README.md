@@ -48,7 +48,14 @@ Once the Progression Editor window is opened, select the [Progression](./Progres
 
 Once the [Progression](./Progression.asset) asset is selected, a character list will be populated on the left-hand side of the tool (as shown in [Basic Usage](#basic-usage--updating-stats)).  
 
-If any characters have [CharacterProperties](../OnLoadAssets/CharacterProperties/) SOs already defined, but do not yet have entries in [Progression](./Progression.asset), click the `Reconcile Characters` button.  This will auto-generate entries for these missing characters if their `Has Progression Stats` parameter is set to enabled.  The new entries are set with some dummy default stats that can be adjusted as needed, per below.
+If any characters have [CharacterProperties](../OnLoadAssets/CharacterProperties/) SOs already defined, but do not yet have entries in [Progression](./Progression.asset), click the `Reconcile Characters` button.  This will auto-generate entries for these missing characters if their `hasProgressionStats` parameter is set to enabled.  The new entries are set with some dummy default stats that can be adjusted as needed, per below.
+
+#### Rebuild Level Charts
+
+In order to prevent significant disparity in stat rolls between different save files, a catch-up mechanism is employed when generating level up sheets via the [Progression Script](../../Scripts/Stats/Progression.cs).  Briefly, when a character levels to specific incremental levels (defined by the `statCatchUpLevelMod` parameter on [Progression](./Progression.asset)), a check is made to ensure that the character's stats are within `statCatchUpThreshold` of the average expected level.
+
+Thus:  
+When creating any new character who levels up (i.e. their [CharacterProperties](../OnLoadAssets/CharacterProperties/) asset has the `incrementsStatsOnLevelUp` parameter set to enabled) it is necessary to click the `Rebuild Level Charts` button in the Progression Editor.  This will auto-generate the average level charts onto the [Progression](./Progression.asset) asset in order to conduct the above catch-up check.
 
 #### Basic Usage:  Updating Stats
 
@@ -79,7 +86,9 @@ This is likewise hooked up to Unity's Undo/Redo system, so don't panic if you mi
 
 Playable characters have stat growth as a function of their level.  Since stat increases vary based on rolls that happen on each level up event, the stat value at any given level is non-deterministic.
 
-In order to allow for simplier cross-comparisons, simulated stat cards are provided to the right of the initial/stat growth cards for playable characters.  Simply change the `Simulated Level` parameter, and the simulated stats will be generated and then updated on the corresponding card.
+In order to allow for simplier cross-comparisons, simulated stat cards are provided to the right of the initial/stat growth cards for playable characters.  Simply change the `Simulated Level` parameter, and the simulated stats will be generated and then updated on the corresponding card.  
+
+Note that the simulated values are calculated using the `levelChartAveraging` parameter on [Progression](./Progression.asset).  This same averaging parameter is used in the level up stat catch-up mechanism (as noted in [Rebuild Level Charts](#rebuild-level-charts)).
 
 ## Character Objects 
 
