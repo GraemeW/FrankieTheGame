@@ -101,10 +101,9 @@ namespace Frankie.Stats
         public void IncrementLevel()
         {
             if (currentLevel.value >= Progression.GetMaxLevel()) { return; }
-            
             currentLevel.value++;
-            if (!characterProperties.incrementsStatsOnLevelUp) { return; }
             
+            if (characterProperties == null || !characterProperties.incrementsStatsOnLevelUp) { return; }
             Dictionary<Stat, float> levelUpSheet = IncrementStatsOnLevelUp();
             onLevelUp?.Invoke(this, GetLevel(), levelUpSheet);
         }
