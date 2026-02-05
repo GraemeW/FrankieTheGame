@@ -58,11 +58,8 @@ namespace Frankie.Combat
         #endregion
 
         #region PublicMethods
-        public float GetAPCost()
-        {
-            return apCost;
-        }
-
+        public float GetAPCost() => apCost;
+        
         public bool Use(BattleActionData battleActionData, bool useAP, Action finished)
         {
             if (battleActionData.GetSender().IsDead()) { finished.Invoke(); return false; }
@@ -80,11 +77,9 @@ namespace Frankie.Combat
             return true;
         }
 
-        public void SetTargets(TargetingNavigationType targetingNavigationType, BattleActionData battleActionData,
-            IEnumerable<BattleEntity> activeCharacters, IEnumerable<BattleEntity> activeEnemies)
+        public void SetTargets(TargetingNavigationType targetingNavigationType, BattleActionData battleActionData, IEnumerable<BattleEntity> activeCharacters, IEnumerable<BattleEntity> activeEnemies)
         {
             if (battleActionData == null) { return; }
-
             targetingStrategy.SetTargets(targetingNavigationType, battleActionData, activeCharacters, activeEnemies);
         }
         #endregion

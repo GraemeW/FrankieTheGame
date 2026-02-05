@@ -40,10 +40,8 @@ namespace Frankie.Combat
                     }
 
                     modifiedHealthChange *= GetCritModifier(canCrit, critMultiplier, sender, recipient.combatParticipant);
-
                     recipient.combatParticipant.AdjustHP(modifiedHealthChange);
                 }
-                
                 yield return new WaitForSeconds(delaySecondsBetweenHits);
             }
         }
