@@ -10,8 +10,9 @@ namespace Frankie.Control.PlayerStates
 
         public void EnterCutScene(IPlayerStateContext playerStateContext)
         {
-            // No state change (will dequeue next time in world)
+            // Queue then kick to world to bump next cutscene immediately
             playerStateContext.QueueActionUnderConsideration();
+            EnterWorld(playerStateContext);
         }
 
         public void EnterDialogue(IPlayerStateContext playerStateContext)

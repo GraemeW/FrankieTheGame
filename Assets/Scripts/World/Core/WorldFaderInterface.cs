@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using UnityEngine;
 using Frankie.Control;
@@ -7,11 +8,21 @@ namespace Frankie.World
 {
     public class WorldFaderInterface : MonoBehaviour
     {
+        // Tunables
         [SerializeField] private float blipFadeHoldSeconds = 1.0f;
+
+        // State
+        private Coroutine activeFade;
         
+        private void OnDisable()
+        {
+            if (activeFade != null) { StopCoroutine(activeFade); }
+        }
+
         public void StartBlipFade(PlayerStateMachine playerStateMachine)
         {
-            StartCoroutine(BlipFade(playerStateMachine));
+            if (activeFade != null) { StopCoroutine(activeFade); }
+            activeFade = StartCoroutine(BlipFade(playerStateMachine));
         }
 
         private IEnumerator BlipFade(PlayerStateMachine playerStateMachine)

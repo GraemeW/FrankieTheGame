@@ -186,6 +186,7 @@ namespace Frankie.Control
 
         public void EnterZoneTransition()
         {
+            queuedActions.Clear(); // Do not carry queued actions across zones
             actionUnderConsideration = new PlayerStateTypeActionPair(PlayerStateType.inTransition, EnterZoneTransition);
             currentTransitionType = TransitionType.Zone;
             zoneTransitionComplete = false;
@@ -481,23 +482,21 @@ namespace Frankie.Control
         
         public void QueueActionUnderConsideration()
         {
-            if (actionUnderConsideration == null || actionUnderConsideration.action == null) { return; }
+            if (actionUnderConsideration?.action == null) { return; }
             queuedActions.Push(actionUnderConsideration);
         }
 
         private void PopQueuedAction()
         {
-            if (queuedActions.Count > 0)
+            if (queuedActions.Count == 0) { return; }
+            
+            PlayerStateTypeActionPair nextQueuedAction = queuedActions.Pop();
+            nextQueuedAction.action?.Invoke();
+
+            if (nextQueuedAction.playerStateType == PlayerStateType.inBattle)
             {
-                PlayerStateTypeActionPair nextQueuedAction = queuedActions.Pop();
-                nextQueuedAction.action?.Invoke();
-
-                if (nextQueuedAction.playerStateType == PlayerStateType.inBattle)
-                {
-                    // On combat allow chained queues (e.g. multiple combat instantiation while in dialogue)
-                    ChainQueuedCombatAction();
-                }
-
+                // On combat allow chained queues (e.g. multiple combat instantiation while in dialogue)
+                ChainQueuedCombatAction();
             }
         }
 
