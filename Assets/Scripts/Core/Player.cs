@@ -10,7 +10,7 @@ namespace Frankie.Core
     public class Player : MonoBehaviour
     {
         // Cached References
-        private PlayerStateMachine playerStateHandler;
+        private PlayerStateMachine playerStateMachine;
         private PartyCombatConduit partyCombatConduit;
 
         #region StaticFind
@@ -42,19 +42,19 @@ namespace Frankie.Core
         #region UnityMethods
         private void Awake()
         {
-            playerStateHandler = GetComponent<PlayerStateMachine>();
+            playerStateMachine = GetComponent<PlayerStateMachine>();
             partyCombatConduit = GetComponent<PartyCombatConduit>();
             VerifySingleton();
         }
 
         private void OnEnable()
         {
-            playerStateHandler.playerStateChanged += HandlePlayerStateChanged;
+            playerStateMachine.playerStateChanged += HandlePlayerStateChanged;
         }
 
         private void OnDisable()
         {
-            playerStateHandler.playerStateChanged -= HandlePlayerStateChanged;
+            playerStateMachine.playerStateChanged -= HandlePlayerStateChanged;
         }
         #endregion
 
@@ -76,12 +76,13 @@ namespace Frankie.Core
 
         private void HandlePlayerStateChanged(PlayerStateType playerState, IPlayerStateContext playerStateContext)
         {
-            // Any player scene change when party is completely wiped out -> shift to game over
-            // Will naturally call on combat end during transition
-            if (!partyCombatConduit.IsAnyMemberAlive())
-            {
-                SavingWrapper.LoadGameOverScene();
-            }
+            // On player state change, load game over -- skip cutscene transition to allow for player locking
+            // Note:  Will naturally call on combat end during transition
+            if (playerState == PlayerStateType.inCutScene) { return; }
+            if (partyCombatConduit.IsAnyMemberAlive()) { return; }
+            
+            playerStateMachine.EnterCutscene(true, false);
+            SavingWrapper.LoadGameOverScene();
         }
         #endregion
     }

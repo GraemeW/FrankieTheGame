@@ -21,8 +21,9 @@ namespace Frankie.ZoneManagement
         [SerializeField] private float zoneFadeTimerMultiplier = 0.25f;
 
         // State
-        private Image currentTransitionImage;
         private bool fading = false;
+        private Coroutine activeFade;
+        private Image currentTransitionImage;
         private Action initiateBattleCallback;
 
         // Cached References
@@ -56,6 +57,11 @@ namespace Frankie.ZoneManagement
             sceneLoader.ForceInit();
             ResetOverlays();
         }
+
+        private void OnDisable()
+        {
+            if (activeFade != null) { StopCoroutine(activeFade); }
+        }
         #endregion
 
         #region PublicMethods
@@ -75,13 +81,15 @@ namespace Frankie.ZoneManagement
         {
             // Non-IEnumerator Type for Scene Transitions:
             // Coroutine needs to exist on an object that will persist between scenes
-            StartCoroutine(ZoneFade(transitionType, nextZone, saveSession));
+            if (activeFade != null) { StopCoroutine(activeFade); }
+            activeFade = StartCoroutine(ZoneFade(transitionType, nextZone, saveSession));
         }
 
         public void UpdateFadeStateImmediate()
         {
             // Coroutine needs to exist on an object that will persist between scenes
-            StartCoroutine(FadeImmediate());
+            if (activeFade != null) { StopCoroutine(activeFade); }
+            activeFade = StartCoroutine(FadeImmediate());
         }
 
         public IEnumerator QueueFadeEntry(TransitionType transitionType)
