@@ -10,14 +10,14 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 15003, guid: 0000000000000000e000000000000000, type: 0}
-  m_Name: Demo_Forest-Mac
+  m_Name: Demo_Forest-Linux
   m_EditorClassIdentifier: UnityEditor.dll::UnityEditor.Build.Profile.BuildProfile
   m_AssetVersion: 1
-  m_BuildTarget: 2
+  m_BuildTarget: 24
   m_Subtarget: 2
-  m_PlatformId: 0d2129357eac403d8b359c2dcbf82502
+  m_PlatformId: cb423bfea44b4d658edb8bc5d91a3024
   m_PlatformBuildProfile:
-    rid: 3751081976599937096
+    rid: 5769979868454060033
   m_OverrideGlobalSceneList: 1
   m_Scenes:
   - m_enabled: 1
@@ -43,8 +43,8 @@ MonoBehaviour:
   references:
     version: 2
     RefIds:
-    - rid: 3751081976599937096
-      type: {class: OSXStandaloneBuildProfile, ns: UnityEditor.OSXStandalone, asm: UnityEditor.OSXStandalone.Extensions}
+    - rid: 5769979868454060033
+      type: {class: LinuxPlatformSettings, ns: UnityEditor.LinuxStandalone, asm: UnityEditor.LinuxStandalone.Extensions}
       data:
         m_Development: 0
         m_ConnectProfiler: 0
@@ -60,6 +60,10 @@ MonoBehaviour:
         m_InsightsSettingsContainer:
           m_BuildProfileEngineDiagnosticsState: 2
         m_AdaptivePerformanceEnabled: 0
-        m_MacOSXcodeBuildConfig: 1
-        m_Architecture: 2
-        m_CreateXcodeProject: 0
+        m_Architecture: 0
+        m_RemoteDeviceSectionFoldoutOpen: 0
+        m_DeployTarget: 0
+        m_RemoteDeviceAddress: 
+        m_RemoteDeviceUsername: 
+        m_RemoteDeviceExports: 
+        m_PathOnRemoteDevice: 
