@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using Frankie.Stats;
 using Frankie.Utils;
@@ -18,11 +19,8 @@ namespace Frankie.Control
             var interactActions = new List<ChoiceActionPair>();
             if (party.GetPartySize() == 1) { return interactActions; } // throw empty list to prevent option from triggering
 
-            foreach (BaseStats character in party.GetParty())
-            {
-                interactActions.Add(new ChoiceActionPair(character.GetCharacterProperties().GetCharacterNamePretty(),
-                    () => party.SetPartyLeader(character)));
-            }
+            interactActions.AddRange(party.GetParty().Select(character => 
+                new ChoiceActionPair(character.GetCharacterProperties().GetCharacterNamePretty(), () => party.SetPartyLeader(character))));
             return interactActions;
         }
     }

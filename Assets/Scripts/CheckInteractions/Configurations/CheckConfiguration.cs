@@ -9,7 +9,7 @@ namespace Frankie.Control
         public abstract string GetMessage();
         public abstract List<ChoiceActionPair> GetChoiceActionPairs(PlayerStateMachine playerStateHandler, CheckWithConfiguration callingCheck);
 
-        protected void AddDialogueSpawnOptionForConfiguration(ref List<ChoiceActionPair> interactActions, PlayerStateMachine playerStateHandler, 
+        protected static void AddDialogueSpawnOptionForConfiguration(ref List<ChoiceActionPair> interactActions, PlayerStateMachine playerStateHandler, 
             CheckWithConfiguration callingCheck, string choiceOption, CheckConfiguration checkConfiguration)
         {
             string message = checkConfiguration.GetMessage();
