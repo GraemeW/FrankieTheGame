@@ -23,11 +23,8 @@ namespace Frankie.Control
             var interactActions = new List<ChoiceActionPair>();
             if (party.GetPartySize() == 1) { return interactActions; } // throw empty list to prevent option from triggering
 
-            foreach (BaseStats character in party.GetParty())
-            {
-                interactActions.Add(new ChoiceActionPair(character.GetCharacterProperties().GetCharacterNamePretty(),
-                    () => RemoveFromPartyWithErrorHandling(playerStateHandler, party, character)));
-            }
+            interactActions.AddRange(party.GetParty().Select(character => 
+                new ChoiceActionPair(character.GetCharacterProperties().GetCharacterNamePretty(), () => RemoveFromPartyWithErrorHandling(playerStateHandler, party, character))));
             return interactActions;
         }
 

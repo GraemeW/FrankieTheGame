@@ -16,7 +16,9 @@ namespace Frankie.Combat
         [SerializeField][Range(0, 1)] private float probabilityToRemoveWithDamage = 0.5f;
         
         // Fixed
-        const int _numberOfDuplicateEffectsAllowed = 1;
+        private const int _numberOfDuplicateEffectsAllowed = 1;
+        
+        public bool CheckForEffect(CombatParticipant recipient) => PersistentStatus.DoesEffectExist(recipient, effectGUID, _numberOfDuplicateEffectsAllowed, duration);
         
         public override IEnumerator StartEffect(CombatParticipant sender, IList<BattleEntity> recipients, DamageType damageType)
         {
@@ -37,15 +39,10 @@ namespace Frankie.Combat
                 recipient.combatParticipant.AnnounceStateUpdate(StateAlteredType.StatusEffectApplied, activeStatusEffect);
             }
         }
-        
-        public bool CheckForEffect(CombatParticipant recipient)
-        {
-            return PersistentStatus.DoesEffectExist(recipient, effectGUID, _numberOfDuplicateEffectsAllowed, duration);
-        }
 
         public PersistentStatus Apply(CombatParticipant sender, CombatParticipant recipient, DamageType damageType)
         {
-            PersistentCooldownStopStatus activeStatusEffect = recipient.gameObject.AddComponent(typeof(PersistentCooldownStopStatus)) as PersistentCooldownStopStatus;
+            var activeStatusEffect = recipient.gameObject.AddComponent(typeof(PersistentCooldownStopStatus)) as PersistentCooldownStopStatus;
             if (activeStatusEffect == null) { return null; }
             activeStatusEffect.Setup(effectGUID, duration, probabilityToRemoveWithDamage);
             return activeStatusEffect;

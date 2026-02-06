@@ -6,8 +6,7 @@ namespace Frankie.Combat
     [CreateAssetMenu(fileName = "New Self Targeting", menuName = "BattleAction/Targeting/Self Target")]
     public class SelfTargeting : TargetingStrategy
     {
-        public override void SetTargets(TargetingNavigationType targetingNavigationType, BattleActionData battleActionData,
-            IEnumerable<BattleEntity> activeCharacters, IEnumerable<BattleEntity> activeEnemies)
+        public override void SetTargets(TargetingNavigationType targetingNavigationType, BattleActionData battleActionData, IEnumerable<BattleEntity> activeCharacters, IEnumerable<BattleEntity> activeEnemies)
         {
             // Separate out overall set & filter
             battleActionData.SetTargets(GetCombatParticipantsByType(combatParticipantType, activeCharacters, activeEnemies));

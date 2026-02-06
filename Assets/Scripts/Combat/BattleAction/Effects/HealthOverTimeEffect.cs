@@ -18,6 +18,9 @@ namespace Frankie.Combat
         [SerializeField] private bool persistAfterCombat = false;
         [SerializeField] private int numberOfDuplicateEffectsAllowed = 1;
         
+        
+        public bool CheckForEffect(CombatParticipant recipient) => PersistentStatus.DoesEffectExist(recipient, effectGUID, numberOfDuplicateEffectsAllowed, duration);
+        
         public override IEnumerator StartEffect(CombatParticipant sender, IList<BattleEntity> recipients, DamageType damageType)
         {
             if (recipients == null) { yield break; }
@@ -37,11 +40,6 @@ namespace Frankie.Combat
                 
                 recipient.combatParticipant.AnnounceStateUpdate(StateAlteredType.StatusEffectApplied, activeStatusEffect);
             }
-        }
-
-        public bool CheckForEffect(CombatParticipant recipient)
-        {
-            return PersistentStatus.DoesEffectExist(recipient, effectGUID, numberOfDuplicateEffectsAllowed, duration);
         }
 
         public PersistentStatus Apply(CombatParticipant sender, CombatParticipant recipient, DamageType damageType)

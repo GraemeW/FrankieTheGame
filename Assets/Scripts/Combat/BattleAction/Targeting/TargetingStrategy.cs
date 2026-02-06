@@ -49,7 +49,7 @@ namespace Frankie.Combat
         }
         #endregion
         
-                #region StaticMethods
+        #region StaticMethods
         public static TargetingNavigationType ConvertPlayerInputToTargeting(PlayerInputType playerInputType)
         {
             return playerInputType switch

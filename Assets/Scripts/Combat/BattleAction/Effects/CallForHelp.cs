@@ -17,6 +17,7 @@ namespace Frankie.Combat
         
         // Implemented Methods
         // Note:  Much of this is derivative of EnemySpawner, just done in combat -- if no battle controller is present, this function does nothing
+        #region PublicMethods
         public override IEnumerator StartEffect(CombatParticipant sender, IList<BattleEntity> recipients, DamageType damageType)
         {
             BattleController battleController = BattleController.FindBattleController();
@@ -51,18 +52,11 @@ namespace Frankie.Combat
 
             sender.AnnounceStateUpdate(friendFound ? StateAlteredType.FriendFound : StateAlteredType.FriendIgnored);
         }
+        #endregion
 
-        // Private Methods
-        private SpawnConfiguration GetSpawnConfiguration()
-        {
-            SpawnConfiguration spawnConfiguration = ProbabilityPairOperation<SpawnConfiguration>.GetRandomObject(spawnConfigurations);
-            return spawnConfiguration;
-        }
-
-        private static bool HasViableSpawnConfiguration(SpawnConfiguration spawnConfiguration)
-        {
-            return spawnConfiguration.maxQuantity != 0 && spawnConfiguration.enemyConfigurations != null;
-        }
+        #region PrivateMethods
+        private static bool HasViableSpawnConfiguration(SpawnConfiguration spawnConfiguration) => spawnConfiguration.maxQuantity != 0 && spawnConfiguration.enemyConfigurations != null;
+        private SpawnConfiguration GetSpawnConfiguration() => ProbabilityPairOperation<SpawnConfiguration>.GetRandomObject(spawnConfigurations);
 
         private static void DisableEnemyColliders(GameObject spawnedEnemy)
         {
@@ -79,5 +73,6 @@ namespace Frankie.Combat
             if (spawnedEnemy.TryGetComponent(out NPCChaser npcChaser)) { npcChaser.SetChaseDisposition(false); }
             if (spawnedEnemy.TryGetComponent(out NPCStateHandler npcStateHandler)) { npcStateHandler.ForceNPCOccupied(); }
         }
+        #endregion
     }
 }

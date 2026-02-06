@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Frankie.Stats;
@@ -8,8 +7,8 @@ namespace Frankie.Combat
     [CreateAssetMenu(fileName = "New Character Filtering", menuName = "BattleAction/Filters/Character")]
     public class CharacterFilter : FilterStrategy
     {
-        [SerializeField] List<CharacterProperties> characterPropertiesToFilter = new List<CharacterProperties>();
-        [SerializeField] bool negate = false;
+        [SerializeField] private List<CharacterProperties> characterPropertiesToFilter = new();
+        [SerializeField] private bool negate = false;
 
         public override IEnumerable<BattleEntity> Filter(IEnumerable<BattleEntity> objectsToFilter)
         {

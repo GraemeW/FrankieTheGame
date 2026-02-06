@@ -11,7 +11,7 @@ namespace Frankie.Combat
         [SerializeField] private bool removePersistentRecurring = true;
         [SerializeField] private bool removePersistentStatModifier = true;
         [SerializeField] [Range(0, 1)] private float fractionProbabilityToRemove = 1.0f;
-        [Tooltip("Set to 0 to remove all")][Min(0)] [SerializeField] int numberOfEffectsToRemove;
+        [Tooltip("Set to 0 to remove all")][Min(0)] [SerializeField] private int numberOfEffectsToRemove;
 
         public override IEnumerator StartEffect(CombatParticipant sender, IList<BattleEntity> recipients, DamageType damageType)
         {

@@ -1,35 +1,40 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 
 namespace Frankie.Combat
 {
-    [System.Serializable]
+    [Serializable]
     public class SkillBranch : ScriptableObject
     {
         [Header("Skill Properties")]
-        [SerializeField] string upSkillReference = null;
-        [SerializeField] string upBranch = null;
-        [SerializeField] string leftSkillReference = null;
-        [SerializeField] string leftBranch = null;
-        [SerializeField] string rightSkillReference = null;
-        [SerializeField] string rightBranch = null;
-        [SerializeField] string downSkillReference = null;
-        [SerializeField] string downBranch = null;
-        [SerializeField] Rect rect = new Rect(30, 30, 250, 155);
-        [HideInInspector] [SerializeField] Rect draggingRect = new Rect(0, 0, 250, 45);
+        [SerializeField] private string upSkillReference;
+        [SerializeField] private string upBranch;
+        [SerializeField] private string leftSkillReference;
+        [SerializeField] private string leftBranch;
+        [SerializeField] private string rightSkillReference;
+        [SerializeField] private string rightBranch;
+        [SerializeField] private string downSkillReference;
+        [SerializeField] private string downBranch;
         [Header("Branch Properties")]
-        [HideInInspector] [SerializeField] SkillBranchMapping mappedFromBranch = default;
+        [HideInInspector] [SerializeField] private SkillBranchMapping mappedFromBranch;
+        [Header("Editor Properties")]
+        [SerializeField] private Rect rect = new(30, 30, 250, 155);
+        [HideInInspector] [SerializeField] private Rect draggingRect = new(0, 0, 250, 45);
 
+        #region SkillGetters
+        public bool HasSkill(SkillBranchMapping skillBranchMapping) => GetSkill(skillBranchMapping) != null;
         public Skill GetSkill(SkillBranchMapping skillBranchMapping)
         {
-            if (skillBranchMapping == SkillBranchMapping.up) { return Skill.GetSkillFromName(upSkillReference); }
-            else if (skillBranchMapping == SkillBranchMapping.left) { return Skill.GetSkillFromName(leftSkillReference); }
-            else if (skillBranchMapping == SkillBranchMapping.right) { return Skill.GetSkillFromName(rightSkillReference); }
-            else if (skillBranchMapping == SkillBranchMapping.down) { return Skill.GetSkillFromName(downSkillReference); }
-            return null;
+            return skillBranchMapping switch
+            {
+                SkillBranchMapping.Up => Skill.GetSkillFromName(upSkillReference),
+                SkillBranchMapping.Left => Skill.GetSkillFromName(leftSkillReference),
+                SkillBranchMapping.Right => Skill.GetSkillFromName(rightSkillReference),
+                SkillBranchMapping.Down => Skill.GetSkillFromName(downSkillReference),
+                _ => null
+            };
         }
 
         public IEnumerable<Skill> GetAllSkills()
@@ -42,60 +47,55 @@ namespace Frankie.Combat
                 }
             }
         }
+        #endregion
 
+        #region BranchGetters
+        public bool HasBranch(SkillBranchMapping skillBranchMapping) => !string.IsNullOrWhiteSpace(GetBranch(skillBranchMapping));
+        public SkillBranchMapping GetParentBranchMapping() => mappedFromBranch;
         public string GetBranch(SkillBranchMapping skillBranchMapping)
         {
-            if (skillBranchMapping == SkillBranchMapping.up) { return upBranch; }
-            else if (skillBranchMapping == SkillBranchMapping.left) { return leftBranch; }
-            else if (skillBranchMapping == SkillBranchMapping.right) { return rightBranch; }
-            else if (skillBranchMapping == SkillBranchMapping.down) { return downBranch; }
-            return null;
+            return skillBranchMapping switch
+            {
+                SkillBranchMapping.Up => upBranch,
+                SkillBranchMapping.Left => leftBranch,
+                SkillBranchMapping.Right => rightBranch,
+                SkillBranchMapping.Down => downBranch,
+                _ => null
+            };
         }
+        #endregion
 
+        #region BranchSetters
         public void SetBranch(SkillBranchMapping skillBranchMapping, string skillBranchReference)
         {
-            if (skillBranchMapping == SkillBranchMapping.up) { upBranch = skillBranchReference; }
-            else if (skillBranchMapping == SkillBranchMapping.left) { leftBranch = skillBranchReference; }
-            else if (skillBranchMapping == SkillBranchMapping.right) { rightBranch = skillBranchReference; }
-            else if (skillBranchMapping == SkillBranchMapping.down) { downBranch = skillBranchReference; }
+            switch (skillBranchMapping)
+            {
+                case SkillBranchMapping.Up:
+                    upBranch = skillBranchReference;
+                    break;
+                case SkillBranchMapping.Left:
+                    leftBranch = skillBranchReference;
+                    break;
+                case SkillBranchMapping.Right:
+                    rightBranch = skillBranchReference;
+                    break;
+                case SkillBranchMapping.Down:
+                    downBranch = skillBranchReference;
+                    break;
+            }
         }
-
-        public bool HasBranch(SkillBranchMapping skillBranchMapping)
-        {
-            return (!string.IsNullOrWhiteSpace(GetBranch(skillBranchMapping)));
-        }
-
-        public bool HasSkill(SkillBranchMapping skillBranchMapping)
-        {
-            return (GetSkill(skillBranchMapping) != null);
-        }
-
-        public Vector2 GetPosition()
-        {
-            return rect.position;
-        }
-
-        public Rect GetRect()
-        {
-            return rect;
-        }
-
-        public Rect GetDraggingRect()
-        {
-            return draggingRect;
-        }
-
-        public SkillBranchMapping GetParentBranchMapping()
-        {
-            return mappedFromBranch;
-        }
-
+        #endregion
+        
+        #region EditorMethods
+        public Vector2 GetPosition() => rect.position;
+        public Rect GetRect() => rect;
+        public Rect GetDraggingRect() => draggingRect;
 #if UNITY_EDITOR
-        public void Initialize(int width, int height, SkillBranchMapping mappedFromBranch)
+        public void Initialize(int width, int height, SkillBranchMapping setMappedFromBranch)
         {
             rect.width = width;
             rect.height = height;
-            this.mappedFromBranch = mappedFromBranch;
+            mappedFromBranch = setMappedFromBranch;
             EditorUtility.SetDirty(this);
         }
 
@@ -109,10 +109,21 @@ namespace Frankie.Combat
             if (GetSkill(skillBranchMapping) == null || GetSkill(skillBranchMapping).name != skillName)
             {
                 Undo.RecordObject(this, "Update Skill");
-                if (skillBranchMapping == SkillBranchMapping.up) { upSkillReference = skillName; }
-                else if (skillBranchMapping == SkillBranchMapping.left) { leftSkillReference = skillName; }
-                else if (skillBranchMapping == SkillBranchMapping.right) { rightSkillReference = skillName; }
-                else if (skillBranchMapping == SkillBranchMapping.down) { downSkillReference = skillName; }
+                switch (skillBranchMapping)
+                {
+                    case SkillBranchMapping.Up:
+                        upSkillReference = skillName;
+                        break;
+                    case SkillBranchMapping.Left:
+                        leftSkillReference = skillName;
+                        break;
+                    case SkillBranchMapping.Right:
+                        rightSkillReference = skillName;
+                        break;
+                    case SkillBranchMapping.Down:
+                        downSkillReference = skillName;
+                        break;
+                }
                 EditorUtility.SetDirty(this);
             }
         }
@@ -141,14 +152,13 @@ namespace Frankie.Combat
             EditorUtility.SetDirty(this);
         }
 
-        public void SetDraggingRect(Rect draggingRect)
+        public void SetDraggingRect(Rect setDraggingRect)
         {
-            if (draggingRect != this.draggingRect)
-            {
-                this.draggingRect = draggingRect;
-                EditorUtility.SetDirty(this);
-            }
+            if (setDraggingRect == draggingRect) { return; }
+            draggingRect = setDraggingRect;
+            EditorUtility.SetDirty(this);
         }
 #endif
+        #endregion
     }
 }

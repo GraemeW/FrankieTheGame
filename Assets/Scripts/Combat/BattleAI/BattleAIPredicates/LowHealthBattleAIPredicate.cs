@@ -20,12 +20,11 @@ namespace Frankie.Combat
             {
                 if (battleEntity.combatParticipant.GetHP() <= minHP)
                 {
-                    if (!requireAllPartyMembers) { criteriaMet = true; break; }
+                    if (requireAllPartyMembers) { continue; }
+                    criteriaMet = true; 
+                    break;
                 }
-                else
-                {
-                    partyCriteria = false;
-                }
+                partyCriteria = false;
             }
             if (requireAllPartyMembers && partyCriteria) { criteriaMet = true; }
 

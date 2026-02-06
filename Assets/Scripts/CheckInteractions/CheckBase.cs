@@ -18,8 +18,7 @@ namespace Frankie.Control
 
         protected bool IsInRange(PlayerController playerController)
         {
-            if (!activeCheck) { return false; }
-            return IRaycastable.CheckDistance(gameObject, transform.position, playerController, overrideDefaultInteractionDistance, interactionDistance);
+            return activeCheck && IRaycastable.CheckDistance(gameObject, transform.position, playerController, overrideDefaultInteractionDistance, interactionDistance);
         }
         
         public void SetActiveCheck(bool enable) // Called via Unity Events

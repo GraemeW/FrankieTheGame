@@ -15,14 +15,7 @@ namespace Frankie.Combat.Spawner
             this.probability = probability;
         }
 
-        public T GetObject()
-        {
-            return spawnConfiguration as T;
-        }
-
-        public int GetProbability()
-        {
-            return probability;
-        }
+        public T GetObject() => spawnConfiguration as T;
+        public int GetProbability() => probability;
     }
 }

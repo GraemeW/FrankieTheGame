@@ -66,8 +66,7 @@ namespace Frankie.Combat
             return battleAction.Use(battleActionData, true, finished);
         }
 
-        public void SetTargets(TargetingNavigationType targetingNavigationType, BattleActionData battleActionData,
-            IEnumerable<BattleEntity> activeCharacters, IEnumerable<BattleEntity> activeEnemies)
+        public void SetTargets(TargetingNavigationType targetingNavigationType, BattleActionData battleActionData, IEnumerable<BattleEntity> activeCharacters, IEnumerable<BattleEntity> activeEnemies)
         {
             battleAction?.SetTargets(targetingNavigationType, battleActionData, activeCharacters, activeEnemies);
         }

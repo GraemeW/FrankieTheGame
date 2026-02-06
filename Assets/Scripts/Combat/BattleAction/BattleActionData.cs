@@ -7,6 +7,7 @@ namespace Frankie.Combat
 {
     public class BattleActionData
     {
+        #region DataStructure
         private readonly CombatParticipant sender;
         private BattleEntity focalTarget;
         private readonly List<BattleEntity> targets = new();
@@ -15,6 +16,7 @@ namespace Frankie.Combat
         {
             this.sender = sender;
         }
+        #endregion
 
         #region Getters
         public CombatParticipant GetSender() => sender;

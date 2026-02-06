@@ -61,25 +61,25 @@ namespace Frankie.Combat
 
             SkillBranch childBranch = CreateSkillBranch(skillBranchMapping);
 
-            if (skillBranchMapping == SkillBranchMapping.up)
+            if (skillBranchMapping == SkillBranchMapping.Up)
             {
                 Vector2 offsetPosition = new Vector2(parentSkillBranch.GetRect().xMin,
                     parentSkillBranch.GetRect().yMin - (float)(newBranchOffset.y * _upOffsetMultiplier));
                 childBranch.SetPosition(offsetPosition);
             }
-            else if (skillBranchMapping == SkillBranchMapping.left)
+            else if (skillBranchMapping == SkillBranchMapping.Left)
             {
                 Vector2 offsetPosition = new Vector2(parentSkillBranch.GetRect().xMin - (float)(newBranchOffset.x * _leftOffsetMultiplier),
                     parentSkillBranch.GetRect().yMin);
                 childBranch.SetPosition(offsetPosition);
             }
-            else if (skillBranchMapping == SkillBranchMapping.right)
+            else if (skillBranchMapping == SkillBranchMapping.Right)
             {
                 Vector2 offsetPosition = new Vector2(parentSkillBranch.GetRect().xMax + newBranchOffset.x,
                     parentSkillBranch.GetRect().yMin);
                 childBranch.SetPosition(offsetPosition);
             }
-            else if (skillBranchMapping == SkillBranchMapping.down)
+            else if (skillBranchMapping == SkillBranchMapping.Down)
             {
                 Vector2 offsetPosition = new Vector2(parentSkillBranch.GetRect().xMin,
                     parentSkillBranch.GetRect().yMax + newBranchOffset.y);

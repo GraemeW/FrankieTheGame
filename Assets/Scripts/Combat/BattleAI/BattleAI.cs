@@ -147,7 +147,7 @@ namespace Frankie.Combat
 
             if (useRandomSelectionOnNoPriorities)
             {
-                // Default behavior -- choose at random, no battle AI priority selected
+                // Default behaviour -- choose at random, no battle AI priority selected
                 if (skill == null) { skill = BattleAIPriority.GetRandomSkill(skillHandler, skillsToExclude, probabilityToTraverseSkillTree); }
             }
             chosenBattleAIPriority = null;
@@ -164,7 +164,7 @@ namespace Frankie.Combat
 
         public bool? Evaluate(Predicate predicate)
         {
-            BattleAIPredicate battleAIPredicate = predicate as BattleAIPredicate;
+            var battleAIPredicate = predicate as BattleAIPredicate;
             return battleAIPredicate != null ? battleAIPredicate.Evaluate(this) : null;
         }
         #endregion
