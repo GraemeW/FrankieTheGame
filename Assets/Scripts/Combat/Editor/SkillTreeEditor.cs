@@ -197,10 +197,10 @@ namespace Frankie.Combat.UIEditor
             // Additional Functionality
             GUILayout.FlexibleSpace();
             GUILayout.BeginVertical();
-            DrawBranchDetail(skillBranch, SkillBranchMapping.up);
-            DrawBranchDetail(skillBranch, SkillBranchMapping.left);
-            DrawBranchDetail(skillBranch, SkillBranchMapping.right);
-            DrawBranchDetail(skillBranch, SkillBranchMapping.down);
+            DrawBranchDetail(skillBranch, SkillBranchMapping.Up);
+            DrawBranchDetail(skillBranch, SkillBranchMapping.Left);
+            DrawBranchDetail(skillBranch, SkillBranchMapping.Right);
+            DrawBranchDetail(skillBranch, SkillBranchMapping.Down);
             GUILayout.EndVertical();
             GUILayout.EndArea();
 
@@ -275,10 +275,10 @@ namespace Frankie.Combat.UIEditor
 
         private void DrawConnections(SkillBranch skillBranch)
         {
-            SkillBranch upSkillBranch = selectedSkillTree.GetChildSkillBranch(skillBranch, SkillBranchMapping.up);
-            SkillBranch leftSkillBranch = selectedSkillTree.GetChildSkillBranch(skillBranch, SkillBranchMapping.left);
-            SkillBranch rightSkillBranch = selectedSkillTree.GetChildSkillBranch(skillBranch, SkillBranchMapping.right);
-            SkillBranch downSkillBranch = selectedSkillTree.GetChildSkillBranch(skillBranch, SkillBranchMapping.down);
+            SkillBranch upSkillBranch = selectedSkillTree.GetChildSkillBranch(skillBranch, SkillBranchMapping.Up);
+            SkillBranch leftSkillBranch = selectedSkillTree.GetChildSkillBranch(skillBranch, SkillBranchMapping.Left);
+            SkillBranch rightSkillBranch = selectedSkillTree.GetChildSkillBranch(skillBranch, SkillBranchMapping.Right);
+            SkillBranch downSkillBranch = selectedSkillTree.GetChildSkillBranch(skillBranch, SkillBranchMapping.Down);
 
             if (upSkillBranch != null)
             {

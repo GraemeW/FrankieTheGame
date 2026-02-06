@@ -136,16 +136,16 @@ namespace Frankie.Combat.UI
             switch (input)
             {
                 case PlayerInputType.NavigateUp:
-                    skillBranchMapping = SkillBranchMapping.up; validInput = true;
+                    skillBranchMapping = SkillBranchMapping.Up; validInput = true;
                     break;
                 case PlayerInputType.NavigateLeft:
-                    skillBranchMapping = SkillBranchMapping.left; validInput = true;
+                    skillBranchMapping = SkillBranchMapping.Left; validInput = true;
                     break;
                 case PlayerInputType.NavigateRight:
-                    skillBranchMapping = SkillBranchMapping.right; validInput = true;
+                    skillBranchMapping = SkillBranchMapping.Right; validInput = true;
                     break;
                 case PlayerInputType.NavigateDown:
-                    skillBranchMapping = SkillBranchMapping.down; validInput = true;
+                    skillBranchMapping = SkillBranchMapping.Down; validInput = true;
                     break;
             }
             if (!validInput) return false;
