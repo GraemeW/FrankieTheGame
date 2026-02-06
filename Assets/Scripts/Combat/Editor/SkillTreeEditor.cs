@@ -44,7 +44,7 @@ namespace Frankie.Combat.UIEditor
         public static bool OnOpenAsset(int instanceID, int line)
         {
             var skillTree = EditorUtility.EntityIdToObject(instanceID) as SkillTree;
-            if (skillTree == null) return false;
+            if (skillTree == null) { return false; }
             skillTree.CreateRootSkillBranchIfMissing();
             ShowEditorWindow();
             return true;
@@ -221,7 +221,7 @@ namespace Frankie.Combat.UIEditor
             {
                 if (!(scrollMinX < 0) && !(scrollMinY < 0)) continue;
                 Vector2 currentPosition = skillBranch.GetPosition();
-                Vector2 shiftedPosition = new Vector2(currentPosition.x - scrollMinX, currentPosition.y - scrollMinY);
+                var shiftedPosition = new Vector2(currentPosition.x - scrollMinX, currentPosition.y - scrollMinY);
                 skillBranch.SetPosition(shiftedPosition);
             }
         }
@@ -338,5 +338,4 @@ namespace Frankie.Combat.UIEditor
             return foundSkillBranch;
         }
     }
-
 }
