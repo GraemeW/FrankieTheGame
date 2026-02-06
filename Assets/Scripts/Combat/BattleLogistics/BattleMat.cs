@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -168,16 +167,16 @@ namespace Frankie.Combat
             }
 
             // Find column position
-            int centerColumn = _maxEnemiesPerRow / 2;
-            columnIndex = centerColumn;
+            const int centreColumn = _maxEnemiesPerRow / 2;
+            columnIndex = centreColumn;
             
-            if (IsEnemyPresent(battleRow, columnIndex)) // Center already populated, loop through
+            if (IsEnemyPresent(battleRow, columnIndex)) // Centre already populated, loop through
             {
-                for (int i = 1; i < centerColumn + 1; i++)
+                for (int i = 1; i < centreColumn + 1; i++)
                 {
-                    if (!IsEnemyPresent(battleRow, centerColumn - i)) { columnIndex = centerColumn - i; break; } // -1 offset from center
-                    if (centerColumn + i >= _maxEnemiesPerRow) { break; } // Handling for even counts
-                    if (!IsEnemyPresent(battleRow, centerColumn + i)) { columnIndex = centerColumn + i; break; } // +1 offset from center
+                    if (!IsEnemyPresent(battleRow, centreColumn - i)) { columnIndex = centreColumn - i; break; } // -1 offset from centre
+                    if (centreColumn + i >= _maxEnemiesPerRow) { break; } // Handling for even counts
+                    if (!IsEnemyPresent(battleRow, centreColumn + i)) { columnIndex = centreColumn + i; break; } // +1 offset from centre
                 }
             }
             
