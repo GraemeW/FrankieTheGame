@@ -2,12 +2,12 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.Events;
 using Frankie.Core;
 using Frankie.Utils;
 using Frankie.Stats;
 using Frankie.Saving;
 using Frankie.Inventory;
-using UnityEngine.Events;
 
 namespace Frankie.Combat
 {
@@ -408,11 +408,10 @@ namespace Frankie.Combat
         
         private void SelfDestroyOnBattleComplete(BattleStateChangedEvent battleStateChangedEvent)
         {
-            if (battleStateChangedEvent.battleState == BattleState.Complete)
-            {
-                BattleEventBus<BattleStateChangedEvent>.UnsubscribeFromEvent(SelfDestroyOnBattleComplete);
-                Destroy(gameObject);
-            }
+            if (battleStateChangedEvent.battleState != BattleState.Complete) { return; }
+            
+            BattleEventBus<BattleStateChangedEvent>.UnsubscribeFromEvent(SelfDestroyOnBattleComplete);
+            Destroy(gameObject);
         }
 
         private float GetHoldOnModifiedHP(float unsafeHP)
@@ -445,14 +444,11 @@ namespace Frankie.Combat
 
         private void UpdateCooldown()
         {
-            if (IsInCooldown())
-            {
-                cooldownTimer -= Time.deltaTime;
-                if (!IsInCooldown()) // Immediately after adjustment to check if cooldown flipped
-                {
-                    AnnounceStateUpdate(StateAlteredType.CooldownExpired);
-                }
-            }
+            if (!IsInCooldown()) { return; }
+            
+            // Immediately after adjustment, re-check if cooldown flipped
+            cooldownTimer -= Time.deltaTime;
+            if (!IsInCooldown()) { AnnounceStateUpdate(StateAlteredType.CooldownExpired); }
         }
 
         private void ReconcileCooldownStore()
@@ -483,15 +479,21 @@ namespace Frankie.Combat
                 }
                 else { cooldownTimer = tryCooldown; cooldownStore = 0.0f; }
             }
-            //Debug.Log($"Post-Reconcile:  Cooldown @ {cooldownTimer}, Store @ {cooldownStore}");
         }
         
         private void ParseLevelUpMessage(BaseStats passBaseStats, int level, Dictionary<Stat, float> levelUpSheet)
         {
             foreach (KeyValuePair<Stat, float> entry in levelUpSheet)
             {
-                if (entry.Key == Stat.HP) { AdjustHPQuietly(entry.Value); }
-                if (entry.Key == Stat.AP) { AdjustAPQuietly(entry.Value); }
+                switch (entry.Key)
+                {
+                    case Stat.HP:
+                        AdjustHPQuietly(entry.Value);
+                        break;
+                    case Stat.AP:
+                        AdjustAPQuietly(entry.Value);
+                        break;
+                }
             }
         }
 
