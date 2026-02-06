@@ -8,6 +8,6 @@ namespace Frankie.Combat.Spawner
     {
         [SerializeField][Min(0)] public int minimum = 0;
         [SerializeField][Min(0)] public int maximum = 1;
-        [SerializeField] public CharacterProperties characterProperties = null;
+        [SerializeField] public CharacterProperties characterProperties;
     }
 }
