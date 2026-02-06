@@ -5,8 +5,8 @@ namespace Frankie.Combat
         public BattleEventType battleEventType => BattleEventType.BattleEntityRemovedFromBoard;
 
         public BattleEntity battleEntity;
-        public BattleRow row;
-        public int column;
+        public readonly BattleRow row;
+        public readonly int column;
 
         public BattleEntityRemovedFromBoardEvent(BattleEntity battleEntity, BattleRow row, int column)
         {

@@ -4,7 +4,7 @@ namespace Frankie.Combat
     {
         public BattleEventType battleEventType => BattleEventType.BattleActionArmed;
 
-        public IBattleActionSuper battleActionSuper;
+        public readonly IBattleActionSuper battleActionSuper;
 
         public BattleActionArmedEvent(IBattleActionSuper battleActionSuper)
         {
