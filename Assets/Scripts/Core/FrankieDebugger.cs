@@ -22,6 +22,25 @@ namespace Frankie.Core
         private ReInitLazyValue<Party> party;
         private ReInitLazyValue<Wallet> wallet;
 
+        #region StaticMethods
+        private static QuestList SetupQuestList()
+        {
+            GameObject playerObject = Player.FindPlayerObject();
+            return playerObject !=null ? playerObject.GetComponent<QuestList>() : null;
+        }
+        private static Party SetupParty()
+        {
+            GameObject playerObject = Player.FindPlayerObject();
+            return playerObject !=null ? playerObject.GetComponent<Party>() : null;
+        }
+
+        private static Wallet SetupWallet()
+        {
+            GameObject playerObject = Player.FindPlayerObject();
+            return playerObject !=null ? playerObject.GetComponent<Wallet>() : null;
+        }
+        #endregion
+        
         #region UnityMethods
         private void Awake()
         {
@@ -62,10 +81,6 @@ namespace Frankie.Core
             playerInput.Admin.Disable();
             SceneManager.sceneLoaded -= ResetReferences;
         }
-
-        private QuestList SetupQuestList() => Player.FindPlayerObject()?.GetComponent<QuestList>();
-        private Party SetupParty() => Player.FindPlayerObject()?.GetComponent<Party>();
-        private Wallet SetupWallet() => Player.FindPlayerObject()?.GetComponent<Wallet>();
         #endregion
 
         #region SavingWrapperDebug
@@ -145,7 +160,5 @@ namespace Frankie.Core
             wallet.value.UpdateCash(fundsToAddToWallet);
         }
         #endregion
-
-
     }
 }

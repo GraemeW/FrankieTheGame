@@ -4,10 +4,10 @@ namespace Frankie.Core
 {
     public class PersistentObjectSpawner : MonoBehaviour
     {
-        [SerializeField] GameObject persistentObjectPrefab = null;
+        [SerializeField] private GameObject persistentObjectPrefab;
 
         // State
-        static bool hasSpawned = false;
+        private static bool _hasSpawned = false;
 
         private void Awake()
         {
@@ -16,12 +16,12 @@ namespace Frankie.Core
 
         private void SpawnPersistentObjects()
         {
-            if (hasSpawned) { return; }
+            if (_hasSpawned) { return; }
+            if (persistentObjectPrefab == null) { return; }
 
             GameObject persistentObject = Instantiate(persistentObjectPrefab);
             DontDestroyOnLoad(persistentObject);
-
-            hasSpawned = true;
+            _hasSpawned = true;
         }
     }
 }

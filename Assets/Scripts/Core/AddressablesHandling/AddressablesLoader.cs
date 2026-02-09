@@ -10,7 +10,7 @@ namespace Frankie.Core
     public class AddressablesLoader : MonoBehaviour
     {
         // State
-        bool isSingleton = false;
+        private bool isSingleton = false;
 
         #region UnityMethods
         private void Awake()
@@ -27,15 +27,14 @@ namespace Frankie.Core
 
         private void OnDestroy()
         {
-            if (isSingleton)
-            {
-                BattleAction.ReleaseCache();
-                CharacterProperties.ReleaseCache();
-                InventoryItem.ReleaseCache();
-                Quest.ReleaseCache();
-                Skill.ReleaseCache();
-                Zone.ReleaseCache();
-            }
+            if (!isSingleton) { return; }
+            
+            BattleAction.ReleaseCache();
+            CharacterProperties.ReleaseCache();
+            InventoryItem.ReleaseCache();
+            Quest.ReleaseCache();
+            Skill.ReleaseCache();
+            Zone.ReleaseCache();
         }
         #endregion
 
