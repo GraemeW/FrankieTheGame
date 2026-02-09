@@ -66,6 +66,7 @@ namespace Frankie.Sound
             if (enable)
             {
                 InitializeVolume();
+                audioSource.clip = textScanAudioClip;
                 isTextScanActive = true;
                 StartCoroutine(QueueTextScanAudio());
             }
