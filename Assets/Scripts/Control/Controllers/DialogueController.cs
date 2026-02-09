@@ -99,13 +99,12 @@ namespace Frankie.Speech
 
         private void KillControllerForNoReceivers()
         {
-            if (globalInput == null && dialogueInput == null && dialogueUpdated == null)
-            {
-                if (!dialogueComplete) { playerStateHandler.EnterWorld(); }
-                // Special handling for case of controller existence, no listeners, but dialogue not complete
-                // Force exit into world in this case
-                Destroy(gameObject);
-            }
+            if (globalInput != null || dialogueInput != null || dialogueUpdated != null) { return; }
+            
+            // Special handling for case of controller existence, no listeners, but dialogue not complete
+            // Force exit into world in this case
+            if (!dialogueComplete) { playerStateHandler.EnterWorld(); }
+            Destroy(gameObject);
         }
         #endregion
 
@@ -114,26 +113,14 @@ namespace Frankie.Speech
         public bool IsSimpleMessage() => isSimpleMessage;
         public string GetSimpleMessage() => simpleMessage;
         public List<ChoiceActionPair> GetSimpleChoices() => simpleChoices;
-        public string GetPlayerName() => party.GetPartyLeaderName();
         public bool IsActive() => (currentDialogue != null && currentNode != null);
         public SpeakerType GetCurrentSpeakerType() => currentNode.GetSpeakerType();
-        public SpeakerType GetNextSpeakerType() => currentDialogue.GetNodeFromID(currentNode.GetChildren()[0]).GetSpeakerType();
-        public int GetChoiceCount() => FilterOnCondition(currentNode.GetChildren()).Count();
         public string GetCurrentSpeakerName() => currentNode.GetSpeakerName();
         public string GetText() => currentNode.GetText();
 
         public IEnumerable<DialogueNode> GetChoices()
         {
-            foreach (string childID in FilterOnCondition(currentNode.GetChildren()))
-            {
-                yield return currentDialogue.GetNodeFromID(childID);
-            }
-        }
-
-        public bool HasNext()
-        {
-            if (currentDialogue == null) { return false; }
-            return FilterOnCondition(currentNode.GetChildren()).Any();
+            return FilterOnCondition(currentNode.GetChildren()).Select(childID => currentDialogue.GetNodeFromID(childID));
         }
 
         public bool IsChoosing()
@@ -158,9 +145,11 @@ namespace Frankie.Speech
         }
 
         private void SetupDialogueTriggers()
-        {
-            DialogueTrigger[] dialogueTriggers = currentConversant.GetComponents<DialogueTrigger>();  // N.B.  Dialogue triggers need to live on same game object as conversant component
-            foreach (DialogueTrigger dialogueTrigger in dialogueTriggers)
+        { 
+            if (currentConversant == null) { return; }
+            
+            // N.B.  Dialogue triggers need to live on same game object as conversant component
+            foreach (DialogueTrigger dialogueTrigger in currentConversant.GetComponents<DialogueTrigger>())
             {
                 dialogueTrigger.Setup(this, playerStateHandler);
             }
@@ -180,7 +169,7 @@ namespace Frankie.Speech
             currentNode = currentDialogue.GetRootNode();
             // Call without announcing, dialogue not (officially) existing
             // Note:  No triggers on root node entry, but on dialogue entry
-            if (currentDialogue.skipRootNode) { Next(false); }
+            if (currentDialogue.skipRootNode) { Next(); }
 
             Instantiate(dialogueBoxPrefab, worldCanvas.transform);
 
@@ -223,19 +212,9 @@ namespace Frankie.Speech
                 SetCurrentNode(currentDialogue.GetNodeFromID(nodeID));
             }
         }
-
-        public void Next(bool withTriggers = true)
-        {
-            if (HasNext())
-            {
-                List<string> filteredDialogueOptions = FilterOnCondition(currentNode.GetChildren()).ToList();
-                int nodeIndex = UnityEngine.Random.Range(0, filteredDialogueOptions.Count);
-                SetCurrentNode(currentDialogue.GetNodeFromID(filteredDialogueOptions[nodeIndex]));
-            }
-        }
         #endregion
-
-        #region PrivateMethods
+        
+        #region InteractionMethods
         private void ParseDirectionalInput(Vector2 directionalInput)
         {
             if (!IStandardPlayerInputCaller.ParseDirectionalInput(directionalInput, currentDirectionalInput, out PlayerInputType newPlayerInputType)) { return; }
@@ -256,33 +235,27 @@ namespace Frankie.Speech
 
         private bool InteractWithGlobals(PlayerInputType playerInputType)
         {
-            if (globalInput != null)
-            {
-                globalInput.Invoke(playerInputType); // handle text skip on dialogue box
-                return true;
-            }
-            return false;
+            if (globalInput == null) { return false; }
+            
+            globalInput.Invoke(playerInputType); // handle text skip on dialogue box
+            return true;
         }
 
         private bool InteractWithNext(PlayerInputType playerInputType)
         {
             if (IsChoosing() || playerInputType == PlayerInputType.DefaultNone) { return false; }
             if (triggerUIUpdates == null) { return false; }  // check if dialogue box can receive messages (toggled off during text-scans)
+            if (playerInputType != PlayerInputType.Execute) { return false; }
 
-            if (playerInputType == PlayerInputType.Execute)
+            if (HasNext())
             {
-                if (HasNext())
-                {
-                    Next();
-                    return true;
-                }
-                else
-                {
-                    EndConversation();
-                    return true;
-                }
+                Next();
             }
-            return false;
+            else
+            {
+                EndConversation();
+            }
+            return true;
         }
 
         private bool InteractWithChoices(PlayerInputType playerInputType)
@@ -296,67 +269,87 @@ namespace Frankie.Speech
                 return true;
             }
 
-            if (playerInputType == PlayerInputType.Execute)
+            switch (playerInputType)
             {
-                dialogueInput?.Invoke(playerInputType);
-                NextWithID(highlightedNode.name);
-                highlightedNode = null;
-                return true;
-            }
-            else if (playerInputType == PlayerInputType.NavigateUp || playerInputType == PlayerInputType.NavigateLeft
-                || playerInputType == PlayerInputType.NavigateRight || playerInputType == PlayerInputType.NavigateDown)
-            {
-                List<DialogueNode> currentOptions = GetChoices().ToList();
-
-                if (!currentOptions.Contains(highlightedNode))
+                case PlayerInputType.Execute:
                 {
-                    SetHighlightedNodeToDefault(playerInputType);
+                    dialogueInput?.Invoke(playerInputType);
+                    NextWithID(highlightedNode.name);
+                    highlightedNode = null;
                     return true;
                 }
-                else
+                case PlayerInputType.NavigateUp:
+                case PlayerInputType.NavigateLeft:
+                case PlayerInputType.NavigateRight:
+                case PlayerInputType.NavigateDown:
                 {
-                    HighlightNextNode(currentOptions, playerInputType);
+                    List<DialogueNode> currentOptions = GetChoices().ToList();
+
+                    if (!currentOptions.Contains(highlightedNode))
+                    {
+                        SetHighlightedNodeToDefault(playerInputType);
+                    }
+                    else
+                    {
+                        HighlightNextNode(currentOptions, playerInputType);
+                    }
                     return true;
                 }
             }
             return false;
         }
+        #endregion
+
+        #region PrivateMethods
+        private string GetPlayerName() => party.GetPartyLeaderName();
+        private SpeakerType GetNextSpeakerType() => currentDialogue.GetNodeFromID(currentNode.GetChildren()[0]).GetSpeakerType();
+        private int GetChoiceCount() => FilterOnCondition(currentNode.GetChildren()).Count();
+        private bool HasNext() => currentDialogue != null && FilterOnCondition(currentNode.GetChildren()).Any();
+        
+        private void Next()
+        {
+            if (!HasNext()) { return; }
+            
+            List<string> filteredDialogueOptions = FilterOnCondition(currentNode.GetChildren()).ToList();
+            int nodeIndex = UnityEngine.Random.Range(0, filteredDialogueOptions.Count);
+            SetCurrentNode(currentDialogue.GetNodeFromID(filteredDialogueOptions[nodeIndex]));
+        }
 
         private GameObject ReckonDialogueOptionBox(List<ChoiceActionPair> choiceActionPairs)
         {
-            if (choiceActionPairs.Count >= DialogueController.GetChoiceNumberThresholdToReconfigureVertical()) { return dialogueOptionBoxVertical; }
-
-            foreach (ChoiceActionPair choiceActionPair in choiceActionPairs)
-            {
-                if (choiceActionPair.choice.Length >= DialogueController.GetChoiceLengthThresholdToReconfigureVertical())
-                {
-                    return dialogueOptionBoxVertical;
-                }
-            }
-            return dialogueOptionBox;
+            if (choiceActionPairs.Count >= GetChoiceNumberThresholdToReconfigureVertical()) { return dialogueOptionBoxVertical; }
+            return choiceActionPairs.Any(choiceActionPair => choiceActionPair.choice.Length >= GetChoiceLengthThresholdToReconfigureVertical()) ? dialogueOptionBoxVertical : dialogueOptionBox;
         }
 
         private void SetHighlightedNodeToDefault(PlayerInputType playerInputType)
         {
-            if (playerInputType == PlayerInputType.Execute)
-            {
-                highlightedNode = GetChoices().FirstOrDefault();
-                highlightedNodeChanged?.Invoke(highlightedNode);
-            }
+            if (playerInputType != PlayerInputType.Execute) { return; }
+            
+            highlightedNode = GetChoices().FirstOrDefault();
+            highlightedNodeChanged?.Invoke(highlightedNode);
         }
 
         private void HighlightNextNode(List<DialogueNode> currentOptions, PlayerInputType playerInputType)
         {
             int choiceIndex = currentOptions.IndexOf(highlightedNode);
-            if (playerInputType == PlayerInputType.NavigateRight || playerInputType == PlayerInputType.NavigateDown)
+            switch (playerInputType)
             {
-                if (choiceIndex + 1 >= currentOptions.Count) { choiceIndex = 0; }
-                else { choiceIndex++; }
-            }
-            else if (playerInputType == PlayerInputType.NavigateUp || playerInputType == PlayerInputType.NavigateLeft)
-            {
-                if (choiceIndex <= 0) { choiceIndex = currentOptions.Count - 1; }
-                else { choiceIndex--; }
+                case PlayerInputType.NavigateRight:
+                case PlayerInputType.NavigateDown:
+                {
+                    if (choiceIndex + 1 >= currentOptions.Count) { choiceIndex = 0; }
+                    else { choiceIndex++; }
+
+                    break;
+                }
+                case PlayerInputType.NavigateUp:
+                case PlayerInputType.NavigateLeft:
+                {
+                    if (choiceIndex <= 0) { choiceIndex = currentOptions.Count - 1; }
+                    else { choiceIndex--; }
+
+                    break;
+                }
             }
 
             highlightedNode = currentOptions[choiceIndex];
@@ -368,9 +361,7 @@ namespace Frankie.Speech
             if (currentNode == dialogueNode) { return; }
 
             if (withTriggers) { dialogueUpdated?.Invoke(DialogueUpdateType.DialogueNodeExit, currentNode); }
-
             currentNode = dialogueNode;
-
             if (withTriggers) { dialogueUpdated?.Invoke(DialogueUpdateType.DialogueNodeEntry, currentNode); }
             triggerUIUpdates?.Invoke();
         }
@@ -407,17 +398,11 @@ namespace Frankie.Speech
         #region Interfaces
         public void VerifyUnique()
         {
-            DialogueController[] dialogueControllers = FindObjectsByType<DialogueController>(FindObjectsSortMode.None);
+            var dialogueControllers = FindObjectsByType<DialogueController>(FindObjectsSortMode.None);
             if (dialogueControllers.Length > 1)
             {
                 Destroy(gameObject);
             }
-        }
-
-        public PlayerInputType NavigationVectorToInputTypeTemplate(Vector2 navigationVector)
-        {
-            // Not evaluated -> IStandardPlayerInputCallerExtension
-            return PlayerInputType.DefaultNone;
         }
         #endregion
     }

@@ -67,15 +67,9 @@ namespace Frankie.Control
             HandleUserInput(newPlayerInputType);
         }
 
-        public void HandleUserInput(PlayerInputType playerInputType)
+        private void HandleUserInput(PlayerInputType playerInputType)
         {
             globalInput?.Invoke(playerInputType);
-        }
-
-        public PlayerInputType NavigationVectorToInputTypeTemplate(Vector2 navigationVector)
-        {
-            // Not evaluated -> IStandardPlayerInputCallerExtension
-            return PlayerInputType.DefaultNone;
         }
     }
 }
