@@ -29,8 +29,7 @@ namespace Frankie.Inventory
             return true;
         }
 
-        public void SetTargets(TargetingNavigationType targetingNavigationType, BattleActionData battleActionData,
-            IEnumerable<BattleEntity> activeCharacters, IEnumerable<BattleEntity> activeEnemies)
+        public void SetTargets(TargetingNavigationType targetingNavigationType, BattleActionData battleActionData, IEnumerable<BattleEntity> activeCharacters, IEnumerable<BattleEntity> activeEnemies)
         {
             if (battleAction == null) { return; }
             battleAction.SetTargets(targetingNavigationType, battleActionData, activeCharacters, activeEnemies);

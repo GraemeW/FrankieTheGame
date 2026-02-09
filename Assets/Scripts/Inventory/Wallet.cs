@@ -49,9 +49,9 @@ namespace Frankie.Inventory
             pendingCash += value;
         }
 
-        public bool TransferToWallet(int value)
+        public void TransferToWallet(int value)
         {
-            if (value == 0) { return false; }
+            if (value == 0) { return; }
 
             // Bank -> Wallet
             if (value > 0)
@@ -67,7 +67,6 @@ namespace Frankie.Inventory
             pendingCash -= value;
 
             walletUpdated?.Invoke();
-            return true;
         }
         #endregion
 

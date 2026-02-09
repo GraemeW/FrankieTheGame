@@ -24,6 +24,7 @@ namespace Frankie.Stats
 
         // Static/Const Parameters
         private const int _defaultLevelForNoCharacterProperties = 1;
+        private static readonly Stat[] _nonModifyingStats = { Stat.InitialLevel, Stat.ExperienceReward, Stat.ExperienceToLevelUp };
         
         // State
         private LazyValue<int> currentLevel;
@@ -33,12 +34,8 @@ namespace Frankie.Stats
         public event Action<BaseStats, int, Dictionary<Stat, float>> onLevelUp;
 
         #region Static
-        public static Stat[] GetNonModifyingStats()
-        {
-            // Subset enum for those equipment should not touch
-            Stat[] nonModifyingStats = { Stat.InitialLevel, Stat.ExperienceReward, Stat.ExperienceToLevelUp };
-            return nonModifyingStats;
-        }
+        // Subset enum for those equipment should not touch
+        public static Stat[] GetNonModifyingStats() => _nonModifyingStats;
         #endregion
 
         #region UnityMethods

@@ -13,15 +13,15 @@ namespace Frankie.Inventory
         // Cached References
         private CharacterSpriteLink characterSpriteLink;
 
-        // Unity Methods
+        #region UnityMethods
         private void Awake()
         {
             characterSpriteLink = GetComponent<CharacterSpriteLink>();
         }
+        #endregion
 
-        // Public Methods
+        #region PublicMethods
         public CharacterSpriteLink GetCharacterSpriteLink() => characterSpriteLink;
-
         public Transform GetAttachedObjectsRoot() => attachedObjectsRoot;
 
         public bool IsWearingItem(Wearable wearable)
@@ -45,8 +45,9 @@ namespace Frankie.Inventory
             }
             return false;
         }
+        #endregion
 
-        // Modifier Interface
+        #region ModifierInterface
         public IEnumerable<float> GetAdditiveModifiers(Stat stat)
         {
             if (attachedObjectsRoot == null) { yield break; }
@@ -61,41 +62,34 @@ namespace Frankie.Inventory
                 }
             }
         }
+        #endregion
 
-        // Save Interface
-        public LoadPriority GetLoadPriority()
-        {
-            return LoadPriority.ObjectProperty;
-        }
+        #region SaveInterface
+        public LoadPriority GetLoadPriority() => LoadPriority.ObjectProperty;
 
         public SaveState CaptureState()
         {
             var wearableItemIDs = new List<string>();
             foreach (Transform wearableObject in attachedObjectsRoot)
             {
-                if (wearableObject.TryGetComponent(out Wearable wearable))
-                {
-                    WearableItem wearableItem = wearable.GetWearableItem();
-                    if (wearableItem == null) { continue; }
+                if (!wearableObject.TryGetComponent(out Wearable wearable)) { continue; }
+                WearableItem wearableItem = wearable.GetWearableItem();
+                if (wearableItem == null) { continue; }
 
-                    wearableItemIDs.Add(wearableItem.GetItemID());
-                }
+                wearableItemIDs.Add(wearableItem.GetItemID());
             }
-
-            SaveState saveState = new SaveState(GetLoadPriority(), wearableItemIDs);
-            return saveState;
+            return new SaveState(GetLoadPriority(), wearableItemIDs);
         }
 
         public void RestoreState(SaveState saveState)
         {
-            var wearableItemIDs = saveState.GetState(typeof(List<string>)) as List<string>;
-            if (wearableItemIDs == null) { return; }
+            if (saveState.GetState(typeof(List<string>)) is not List<string> wearableItemIDs) { return; }
 
             foreach (string wearableItemID in wearableItemIDs)
             {
                 if (string.IsNullOrEmpty(wearableItemID)) { continue; }
 
-                WearableItem wearableItem = InventoryItem.GetFromID(wearableItemID) as WearableItem;
+                var wearableItem = InventoryItem.GetFromID(wearableItemID) as WearableItem;
                 if (wearableItem == null) { continue; }
 
                 Wearable wearablePrefab = wearableItem.GetWearablePrefab();
@@ -105,5 +99,6 @@ namespace Frankie.Inventory
                 wearable.AttachToCharacter(this);
             }
         }
+        #endregion
     }
 }

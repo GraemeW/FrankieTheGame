@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Frankie.Utils;
@@ -9,21 +8,21 @@ namespace Frankie.Inventory
     {
         // Tunables
         [Header("Item Loot")]
-        [SerializeField][Range(0, 10)] int minItems = 0;
-        [SerializeField][Range(0, 10)] int maxItems = 1;
-        [SerializeField] LootEntry<InventoryItem>[] lootEntries = null;
+        [SerializeField][Range(0, 10)] private int minItems = 0;
+        [SerializeField][Range(0, 10)] private int maxItems = 1;
+        [SerializeField] private List<LootEntry<InventoryItem>> lootEntries = new();
         [Header("Cash Loot")]
-        [SerializeField][Min(0)] int minCash = 0;
-        [SerializeField][Min(0)] int maxCash = 10;
+        [SerializeField][Min(0)] private int minCash = 0;
+        [SerializeField][Min(0)] private int maxCash = 10;
 
         // Static
-        static int ABSOLUTE_MAX_LOOT = 10;
+        private const int _absoluteMaxLoot = 10;
 
-        // Data Structures
+        #region DataStructures
         [System.Serializable]
         public class LootEntry<T> : IObjectProbabilityPair<T> where T : InventoryItem
         {
-            [SerializeField] public InventoryItem inventoryItem = null;
+            [SerializeField] public InventoryItem inventoryItem;
             [SerializeField][Min(1)] public int probability = 1;
 
             public LootEntry(InventoryItem inventoryItem, int probability)
@@ -31,32 +30,23 @@ namespace Frankie.Inventory
                 this.inventoryItem = inventoryItem;
                 this.probability = probability;
             }
-
-            public T GetObject()
-            {
-                return inventoryItem as T;
-            }
-
-            public int GetProbability()
-            {
-                return probability;
-            }
+            public T GetObject() => inventoryItem as T;
+            public int GetProbability() => probability;
         }
+        #endregion
 
-        // Methods
-        public bool HasLootReward()
-        {
-            return (lootEntries != null && lootEntries.Length > 0) || (maxCash > 0);
-        }
+        #region PublicMethods
+        public bool HasLootReward() => lootEntries.Count > 0 || maxCash > 0;
+        public InventoryItem GetInventoryItemFromLootTable() => lootEntries.Count > 0 ? ProbabilityPairOperation<InventoryItem>.GetRandomObject(lootEntries) : null;
 
         public IEnumerable<InventoryItem> GetItemReward()
         {
-            if (lootEntries == null || lootEntries.Length == 0) { yield break; }
+            if (lootEntries.Count == 0) { yield break; }
 
             // Edge case protection
             int minimum = Mathf.Max(0, minItems);
             int maximum = Mathf.Max(minimum, maxItems);
-            maximum = Mathf.Min(maximum, ABSOLUTE_MAX_LOOT); // Things get really tedious if we go too high
+            maximum = Mathf.Min(maximum, _absoluteMaxLoot); // Things get really tedious if we go too high
 
             int numberOfItems = Random.Range(minimum, maximum + 1); // +1 offset since random exclusive w/ ints
 
@@ -69,12 +59,6 @@ namespace Frankie.Inventory
             }
         }
 
-        public InventoryItem GetInventoryItemFromLootTable()
-        {
-            InventoryItem inventoryItem = ProbabilityPairOperation<InventoryItem>.GetRandomObject(lootEntries);
-            return inventoryItem;
-        }
-
         public int GetCashReward()
         {
             // Edge case protection
@@ -84,5 +68,6 @@ namespace Frankie.Inventory
 
             return Random.Range(minimum, maximum + 1); // +1 offset since random exclusive w/ ints
         }
+        #endregion
     }
 }

@@ -9,7 +9,7 @@ namespace Frankie.Inventory
     {
         // Tunables
         [Header("Base Attributes")]
-        [SerializeField] private InventoryItem[] stock;
+        [SerializeField] private List<InventoryItem> stock = new();
         [SerializeField] private ShopType shopType = ShopType.Both;
         [SerializeField] private float saleDiscount = 0.7f;
         [Header("Interaction Texts")]
@@ -20,15 +20,28 @@ namespace Frankie.Inventory
         [Tooltip("{0} for sale amount")][SerializeField] private string messageForSale = "I can give you {0} for that";
         [SerializeField] private string messageCannotSell = "I can't accept that item";
         [Header("Transaction Events")]
-        [SerializeField] UnityEvent transactionCompleted;
+        [SerializeField] private UnityEvent transactionCompleted;
 
         // State
         private PlayerStateMachine playerStateMachine;
         private Shopper shopper;
 
+        #region PublicGetters
+        public string GetMessageIntro() => messageIntro;
+        public string GetMessageSuccess() => messageSuccess;
+        public string GetMessageNoFunds() => messageNoFunds;
+        public string GetMessageNoSpace() => messageNoSpace;
+        public string GetMessageForSale() => messageForSale;
+        public string GetMessageCannotSell() => messageCannotSell;
+        public bool HasInventory() => stock.Count > 0;
+        public IList<InventoryItem> GetShopStock() => stock;
+        public ShopType GetShopType() => shopType;
+        public float GetSaleDiscount() => saleDiscount;
+        #endregion
+        
+        #region PublicUtility
         public void InitiateBargain(PlayerStateMachine setPlayerStateMachine) // Called via Unity events
         {
-            if (stock == null) { return; }
             setPlayerStateMachine.EnterShop(this);
 
             // Stash for listening to events
@@ -39,19 +52,8 @@ namespace Frankie.Inventory
             playerStateMachine.playerStateChanged += HandlePlayerState; // Exists to unsubscribe shopper
             shopper.transactionCompleted += HandleTransaction;
         }
-
-        public string GetMessageIntro() => messageIntro;
-        public string GetMessageSuccess() => messageSuccess;
-        public string GetMessageNoFunds() => messageNoFunds;
-        public string GetMessageNoSpace() => messageNoSpace;
-        public string GetMessageForSale() => messageForSale;
-        public string GetMessageCannotSell() => messageCannotSell;
-
-        public bool HasInventory() => stock.Length > 0;
-        public IEnumerable<InventoryItem> GetShopStock() => stock;
-        public ShopType GetShopType() => shopType;
-        public float GetSaleDiscount() => saleDiscount;
-
+        #endregion
+        
         #region PrivateMethods
         private void HandlePlayerState(PlayerStateType playerState, IPlayerStateContext playerStateContext)
         {
