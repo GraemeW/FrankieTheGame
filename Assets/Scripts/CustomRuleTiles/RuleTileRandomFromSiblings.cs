@@ -5,25 +5,21 @@ using UnityEngine.Tilemaps;
 public class RuleTileRandomFromSiblings : RuleTileSibling
 {
     // Note:  Parent rules will be ignored, only uses sibling rules
-
-    // Global Perlin Scale -- for pulling random sibling
+    
+    // ReSharper disable once InconsistentNaming
     public float m_PerlinScale = 0.5f;
 
     public override bool RuleMatch(int neighbor, TileBase tile)
     {
-        RuleTileSibling ruleTileSibling = tile as RuleTileSibling;
+        var ruleTileSibling = tile as RuleTileSibling;
         if (ruleTileSibling == null) { return base.RuleMatch(neighbor, tile); }
 
-        switch (neighbor)
+        return neighbor switch
         {
-            case Neighbor.This:
-                return (siblings.Contains(tile)
-                    || base.RuleMatch(neighbor, tile));
-            case Neighbor.NotThis:
-                return (!siblings.Contains(tile)
-                    && base.RuleMatch(neighbor, tile));
-        }
-        return base.RuleMatch(neighbor, tile);
+            TilingRuleOutput.Neighbor.This => (siblings.Contains(tile) || base.RuleMatch(neighbor, tile)),
+            TilingRuleOutput.Neighbor.NotThis => (!siblings.Contains(tile) && base.RuleMatch(neighbor, tile)),
+            _ => base.RuleMatch(neighbor, tile)
+        };
     }
 
     public override void GetTileData(Vector3Int position, ITilemap tilemap, ref TileData tileData)
@@ -49,8 +45,6 @@ public class RuleTileRandomFromSiblings : RuleTileSibling
         // Override to random tile from sibling rule set
         if (siblings == null || siblings.Count == 0) { return false; }
         int index = Mathf.Clamp(Mathf.FloorToInt(GetPerlinValue(position, m_PerlinScale, 100000f) * siblings.Count), 0, siblings.Count - 1);
-        if (siblings[index] == null) { return false; }
-
-        return siblings[index].GetTileAnimationData(position, tilemap, ref tileAnimationData);
+        return siblings[index] != null && siblings[index].GetTileAnimationData(position, tilemap, ref tileAnimationData);
     }
 }

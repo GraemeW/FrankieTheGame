@@ -4,10 +4,12 @@ using static UnityEngine.RuleTile.TilingRuleOutput;
 
 [CreateAssetMenu(fileName = "New Random Animation Rule Tile", menuName = "CustomRuleTiles/New Random Animation Rule Tile")]
 public class RuleTileRandomAnimation : RuleTile<RuleTileRandomAnimation.Neighbor> {
-    // Global Perlin Scale -- for pulling random animation tile
+    // ReSharper disable once InconsistentNaming
     public float m_PerlinScale = 0.5f;
 
-    public class Neighbor : RuleTile.TilingRule.Neighbor {
+    // Must be declared non-abstract
+    // ReSharper disable once ClassNeverInstantiated.Global
+    public class Neighbor : RuleTile.TilingRuleOutput.Neighbor {
     }
 
     public override void GetTileData(Vector3Int position, ITilemap tilemap, ref TileData tileData)
@@ -46,13 +48,11 @@ public class RuleTileRandomAnimation : RuleTile<RuleTileRandomAnimation.Neighbor
         // Instead of iterating over rules and selecting on rule:  override to random tile from tiling rule set
         int index = Mathf.Clamp(Mathf.FloorToInt(GetPerlinValue(position, m_PerlinScale, 100000f) * m_TilingRules.Count), 0, m_TilingRules.Count - 1);
         TilingRule overrideRule = m_TilingRules[index];
-        if (overrideRule.m_Output == OutputSprite.Animation)
-        {
-            // Populate with override tile
-            tileAnimationData.animatedSprites = overrideRule.m_Sprites;
-            tileAnimationData.animationSpeed = Random.Range(overrideRule.m_MinAnimationSpeed, overrideRule.m_MaxAnimationSpeed);
-            return true;
-        }
-        return false;
+        if (overrideRule.m_Output != OutputSprite.Animation) { return false; }
+        
+        // Populate with override tile
+        tileAnimationData.animatedSprites = overrideRule.m_Sprites;
+        tileAnimationData.animationSpeed = Random.Range(overrideRule.m_MinAnimationSpeed, overrideRule.m_MaxAnimationSpeed);
+        return true;
     }
 }
