@@ -247,12 +247,12 @@ namespace Frankie.Control
             
             switch (playerState)
             {
-                case PlayerStateType.inDialogue:
-                case PlayerStateType.inBattle:
-                case PlayerStateType.inMenus:
+                case PlayerStateType.InDialogue:
+                case PlayerStateType.InBattle:
+                case PlayerStateType.InMenus:
                     SetNPCState(NPCStateType.Occupied);
                     break;
-                case PlayerStateType.inTransition:
+                case PlayerStateType.InTransition:
                     if (playerStateContext.InZoneTransition())
                     {
                         SetNPCState(NPCStateType.Occupied);
@@ -264,8 +264,8 @@ namespace Frankie.Control
                     }
                     // other transitions allow enemy movement -- swarm mechanic
                     break;
-                case PlayerStateType.inCutScene:
-                case PlayerStateType.inWorld:
+                case PlayerStateType.InCutScene:
+                case PlayerStateType.InWorld:
                 default:
                     CheckForNPCAfraid(playerStateContext);
                     SetNPCState(npcState);

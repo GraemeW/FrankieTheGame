@@ -78,7 +78,7 @@ namespace Frankie.Core
         {
             // On player state change, load game over -- skip cutscene transition to allow for player locking
             // Note:  Will naturally call on combat end during transition
-            if (playerState == PlayerStateType.inCutScene) { return; }
+            if (playerState == PlayerStateType.InCutScene) { return; }
             if (partyCombatConduit.IsAnyMemberAlive()) { return; }
             
             playerStateMachine.EnterCutscene(true, false);

@@ -50,8 +50,8 @@ namespace Frankie.Control
 
         private void ParsePlayerStateChange(PlayerStateType playerStateType, IPlayerStateContext playerStateContext)
         {
-            inWorld = (playerStateType == PlayerStateType.inWorld);
-            if (playerStateType == PlayerStateType.inCutScene) { inWorld = playerStateContext.CanMoveInCutscene(); }
+            inWorld = (playerStateType == PlayerStateType.InWorld);
+            if (playerStateType == PlayerStateType.InCutScene) { inWorld = playerStateContext.CanMoveInCutscene(); }
             GetPlayerMovementSpeed(); // Called in parse player state change to avoid having to fetch modifiers on every move update call
         }
 
@@ -95,7 +95,7 @@ namespace Frankie.Control
 
         private void SetMovementParameters()
         {
-            Vector2 move = new Vector2(inputHorizontal, inputVertical);
+            var move = new Vector2(inputHorizontal, inputVertical);
             if (!Mathf.Approximately(move.x, 0.0f) || !Mathf.Approximately(move.y, 0.0f))
             {
                 lookDirection.Set(move.x, move.y);

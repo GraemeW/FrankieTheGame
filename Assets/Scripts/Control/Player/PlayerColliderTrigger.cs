@@ -23,7 +23,7 @@ namespace Frankie.Control
             GameObject collisionObject = collision.gameObject;
             if (playerLayer != (playerLayer | (1 << collisionObject.layer))) return;
             
-            PlayerStateMachine playerStateMachine = collisionObject.GetComponentInParent<PlayerStateMachine>();
+            var playerStateMachine = collisionObject.GetComponentInParent<PlayerStateMachine>();
             if (playerStateMachine == null) { triggered = true; return; }
 
             triggerEvent.Invoke(playerStateMachine);

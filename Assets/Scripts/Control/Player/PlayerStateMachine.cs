@@ -95,12 +95,12 @@ namespace Frankie.Control
         private static PlayerStateType TranslatePlayerState(IPlayerState playerState)
         {
             Type playerStateType = playerState.GetType();
-            if (playerStateType == typeof(TransitionState)) { return PlayerStateType.inTransition; }
-            if (playerStateType == typeof(CombatState)) { return PlayerStateType.inBattle; }
-            if (playerStateType == typeof(DialogueState)) { return PlayerStateType.inDialogue; }
-            if (playerStateType == typeof(TradeState) || playerStateType == typeof(OptionState)) { return PlayerStateType.inMenus; }
-            if (playerStateType == typeof(CutSceneState)) { return PlayerStateType.inCutScene; }
-            return PlayerStateType.inWorld; // Default:  typeof(WorldState)
+            if (playerStateType == typeof(TransitionState)) { return PlayerStateType.InTransition; }
+            if (playerStateType == typeof(CombatState)) { return PlayerStateType.InBattle; }
+            if (playerStateType == typeof(DialogueState)) { return PlayerStateType.InDialogue; }
+            if (playerStateType == typeof(TradeState) || playerStateType == typeof(OptionState)) { return PlayerStateType.InMenus; }
+            if (playerStateType == typeof(CutSceneState)) { return PlayerStateType.InCutScene; }
+            return PlayerStateType.InWorld; // Default:  typeof(WorldState)
         }
         #endregion
 
@@ -144,11 +144,11 @@ namespace Frankie.Control
             
             playerStateChanged?.Invoke(playerStateType, this);
 
-            readyToPopQueue = playerStateType == PlayerStateType.inWorld;
+            readyToPopQueue = playerStateType == PlayerStateType.InWorld;
             // Pop on update to prevent same-frame multi-state change
             // Otherwise can experience bugs with controller spawning while deconstructing conflicting w/ singleton logic
 
-            if (playerStateType == PlayerStateType.inTransition && InBattleEntryTransition()) { ChainQueuedCombatAction(); }
+            if (playerStateType == PlayerStateType.InTransition && InBattleEntryTransition()) { ChainQueuedCombatAction(); }
             // Required to allow swarm / multi-battle entry on same-frame
         }
         
@@ -187,7 +187,7 @@ namespace Frankie.Control
         public void EnterZoneTransition()
         {
             queuedActions.Clear(); // Do not carry queued actions across zones
-            actionUnderConsideration = new PlayerStateTypeActionPair(PlayerStateType.inTransition, EnterZoneTransition);
+            actionUnderConsideration = new PlayerStateTypeActionPair(PlayerStateType.InTransition, EnterZoneTransition);
             currentTransitionType = TransitionType.Zone;
             zoneTransitionComplete = false;
             currentPlayerState.EnterTransition(this);
@@ -197,7 +197,7 @@ namespace Frankie.Control
         {
             if (enemies == null || enemies.Count == 0 || !IsBattleTransition(transitionType)) { return; }
 
-            actionUnderConsideration = new PlayerStateTypeActionPair(PlayerStateType.inBattle, () => EnterCombat(enemies, transitionType));
+            actionUnderConsideration = new PlayerStateTypeActionPair(PlayerStateType.InBattle, () => EnterCombat(enemies, transitionType));
             enemiesUnderConsideration.Clear();
             enemiesUnderConsideration.AddRange(enemies);
             transitionTypeUnderConsideration = transitionType;
@@ -209,7 +209,7 @@ namespace Frankie.Control
         {
             if (newConversant == null || newDialogue == null) { return; }
 
-            actionUnderConsideration = new PlayerStateTypeActionPair(PlayerStateType.inDialogue, () => EnterDialogue(newConversant, newDialogue));
+            actionUnderConsideration = new PlayerStateTypeActionPair(PlayerStateType.InDialogue, () => EnterDialogue(newConversant, newDialogue));
             dialogueData = new DialogueData(newConversant, newDialogue);
             currentPlayerState.EnterDialogue(this);
         }
@@ -218,7 +218,7 @@ namespace Frankie.Control
         {
             if (string.IsNullOrWhiteSpace(message)) { return; }
 
-            actionUnderConsideration = new PlayerStateTypeActionPair(PlayerStateType.inDialogue, () => EnterDialogue(message));
+            actionUnderConsideration = new PlayerStateTypeActionPair(PlayerStateType.InDialogue, () => EnterDialogue(message));
             dialogueData = new DialogueData(message);
             currentPlayerState.EnterDialogue(this);
         }
@@ -227,7 +227,7 @@ namespace Frankie.Control
         {
             if (choiceActionPairs == null || choiceActionPairs.Count == 0) { return; }
 
-            actionUnderConsideration = new PlayerStateTypeActionPair(PlayerStateType.inDialogue, () => EnterDialogue(message, choiceActionPairs));
+            actionUnderConsideration = new PlayerStateTypeActionPair(PlayerStateType.InDialogue, () => EnterDialogue(message, choiceActionPairs));
             dialogueData = new DialogueData(message, choiceActionPairs);
             currentPlayerState.EnterDialogue(this);
         }
@@ -236,7 +236,7 @@ namespace Frankie.Control
         {
             if (shopper == null || shop == null) { return; }
 
-            actionUnderConsideration = new PlayerStateTypeActionPair(PlayerStateType.inMenus, () => EnterShop(shop));
+            actionUnderConsideration = new PlayerStateTypeActionPair(PlayerStateType.InMenus, () => EnterShop(shop));
             shopper.SetShop(shop);
             tradeData = new TradeData(shop.GetShopType());
             currentPlayerState.EnterTrade(this);
@@ -246,7 +246,7 @@ namespace Frankie.Control
         {
             if (bankType == BankType.None) { return; }
 
-            actionUnderConsideration = new PlayerStateTypeActionPair(PlayerStateType.inMenus, () => EnterBank(bankType));
+            actionUnderConsideration = new PlayerStateTypeActionPair(PlayerStateType.InMenus, () => EnterBank(bankType));
             shopper.SetBankType(bankType);
             tradeData = new TradeData(bankType);
             currentPlayerState.EnterTrade(this);
@@ -266,7 +266,7 @@ namespace Frankie.Control
 
         public void EnterCutscene(bool playerVisible = true, bool canMove = false)
         {
-            actionUnderConsideration = new PlayerStateTypeActionPair(PlayerStateType.inCutScene, () => EnterCutscene(playerVisible));
+            actionUnderConsideration = new PlayerStateTypeActionPair(PlayerStateType.InCutScene, () => EnterCutscene(playerVisible));
             visibleDuringCutscene = playerVisible;
             canMoveInCutscene = canMove && playerVisible;
             currentPlayerState.EnterCutScene(this);
@@ -493,7 +493,7 @@ namespace Frankie.Control
             PlayerStateTypeActionPair nextQueuedAction = queuedActions.Pop();
             nextQueuedAction.action?.Invoke();
 
-            if (nextQueuedAction.playerStateType == PlayerStateType.inBattle)
+            if (nextQueuedAction.playerStateType == PlayerStateType.InBattle)
             {
                 // On combat allow chained queues (e.g. multiple combat instantiation while in dialogue)
                 ChainQueuedCombatAction();
@@ -502,7 +502,7 @@ namespace Frankie.Control
 
         private void ChainQueuedCombatAction()
         {
-            if (queuedActions.Count > 0 && queuedActions.Peek().playerStateType == PlayerStateType.inBattle)
+            if (queuedActions.Count > 0 && queuedActions.Peek().playerStateType == PlayerStateType.InBattle)
             {
                 PopQueuedAction();
             }
