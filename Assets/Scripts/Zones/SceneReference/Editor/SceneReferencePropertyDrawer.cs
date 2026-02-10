@@ -12,8 +12,8 @@ namespace Frankie.ZoneManagement.UIEditor
         private const float _toggleWidth = 30f;
 
         // Constants
-        private const string _propertySceneasset = "sceneAsset";
-        private const string _propertyScenename = "sceneName";
+        private const string _propertySceneAsset = "sceneAsset";
+        private const string _propertySceneName = "sceneName";
 
         public override float GetPropertyHeight(SerializedProperty property, GUIContent label)
         {
@@ -27,8 +27,8 @@ namespace Frankie.ZoneManagement.UIEditor
             position = EditorGUI.PrefixLabel(position, label);
             Rect propertyRect = new Rect(position.xMin, position.yMin, Mathf.Max(position.width - _toggleWidth, 0f), EditorGUIUtility.singleLineHeight);
 
-            SerializedProperty sceneAssetProperty = property.FindPropertyRelative(_propertySceneasset);
-            SerializedProperty sceneNameProperty = property.FindPropertyRelative(_propertyScenename);
+            SerializedProperty sceneAssetProperty = property.FindPropertyRelative(_propertySceneAsset);
+            SerializedProperty sceneNameProperty = property.FindPropertyRelative(_propertySceneName);
 
             if (sceneAssetProperty.objectReferenceValue != null)
             {
@@ -50,7 +50,7 @@ namespace Frankie.ZoneManagement.UIEditor
                 sceneNameProperty.stringValue = EditorGUI.TextField(textRect, sceneNameProperty.stringValue);
 
                 Event interactionEvent = Event.current;
-                if (interactionEvent.type == EventType.DragUpdated || interactionEvent.type == EventType.DragPerform)
+                if (interactionEvent.type is EventType.DragUpdated or EventType.DragPerform)
                 {
                     if (inputPosition.Contains(interactionEvent.mousePosition))
                     {

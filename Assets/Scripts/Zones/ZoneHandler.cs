@@ -27,8 +27,8 @@ namespace Frankie.ZoneManagement
         // State
         private bool inTransitToNextScene = false;
         private string queuedZoneNodeID;
-        private PlayerStateMachine playerStateMachine;
-        private PlayerController playerController;
+        private PlayerStateMachine cachedPlayerStateMachine;
+        private PlayerController cachedPlayerController;
 
         // Cached References
         private Fader fader;
@@ -69,7 +69,6 @@ namespace Frankie.ZoneManagement
 
         #region PublicMethods
         public ZoneNode GetZoneNode() => zoneNode;
-
         public Transform GetWarpPosition() => warpPosition;
 
         public void ToggleRoomParent(bool enable)
@@ -79,7 +78,6 @@ namespace Frankie.ZoneManagement
                 GameObject parentObject = gameObject.transform.parent?.gameObject;
                 if (parentObject != null) { parentObject.TryGetComponent(out roomParent); }
             }
-
             if (roomParent != null) { roomParent.ToggleRoom(enable, true); }
         }
 
@@ -93,8 +91,8 @@ namespace Frankie.ZoneManagement
         #region WarpMethods
         private void SetUpCurrentReferences(PlayerStateMachine setPlayerStateMachine, PlayerController setPlayerController)
         {
-            playerStateMachine = setPlayerStateMachine;
-            playerController = setPlayerController;
+            cachedPlayerStateMachine = setPlayerStateMachine;
+            cachedPlayerController = setPlayerController;
         }
 
         private bool? IsSimpleWarp(PlayerStateMachine passPlayerStateMachine)
@@ -115,7 +113,7 @@ namespace Frankie.ZoneManagement
                     return;
                 case true:
                 {
-                    string nextNodeID = SelectRandomChildNodeID(playerStateMachine);
+                    string nextNodeID = SelectRandomChildNodeID(cachedPlayerStateMachine);
                     WarpPlayerToSpecificNode(nextNodeID);
                     break;
                 }
@@ -171,16 +169,16 @@ namespace Frankie.ZoneManagement
                 Transform warpTransform = zoneHandler.GetWarpPosition();
                 if (warpTransform != null)
                 {
-                    playerController.gameObject.transform.position = warpTransform.position;
+                    cachedPlayerController.gameObject.transform.position = warpTransform.position;
                     Vector2 lookDirection = warpTransform.position - zoneHandler.transform.position;
                     lookDirection.Normalize();
-                    playerController.GetPlayerMover().SetLookDirection(lookDirection);
-                    playerController.GetPlayerMover().ResetHistory(warpTransform.position);
+                    cachedPlayerController.GetPlayerMover().SetLookDirection(lookDirection);
+                    cachedPlayerController.GetPlayerMover().ResetHistory(warpTransform.position);
                 }
                 else
                 {
-                    playerController.gameObject.transform.position = zoneHandler.transform.position;
-                    playerController.GetPlayerMover().ResetHistory(zoneHandler.transform.position);
+                    cachedPlayerController.gameObject.transform.position = zoneHandler.transform.position;
+                    cachedPlayerController.GetPlayerMover().ResetHistory(zoneHandler.transform.position);
                 }
 
                 SwapActiveRoomParents(zoneHandler);
@@ -196,8 +194,8 @@ namespace Frankie.ZoneManagement
 
         private void ExitMove()
         {
-            playerStateMachine.SetZoneTransitionStatus(true);
-            playerStateMachine.EnterWorld();
+            cachedPlayerStateMachine.SetZoneTransitionStatus(true);
+            cachedPlayerStateMachine.EnterWorld();
             if (inTransitToNextScene) { RemoveZoneHandler(); }
             SetUpCurrentReferences(null, null);
         }
@@ -226,7 +224,7 @@ namespace Frankie.ZoneManagement
             // NOTE:  Exit inTransition done on queued move
             if (TransitionToNextScene(linkedZone, linkedZoneNode))
             {
-                playerStateMachine.EnterZoneTransition();
+                cachedPlayerStateMachine.EnterZoneTransition();
             }
         }
 
@@ -304,8 +302,7 @@ namespace Frankie.ZoneManagement
 
         public bool HandleRaycast(PlayerStateMachine playerStateHandler, PlayerController playerController, PlayerInputType inputType, PlayerInputType matchType)
         {
-            if (!IRaycastable.CheckDistance(gameObject, transform.position, playerController,
-                overrideDefaultInteractionDistance, interactionDistance))
+            if (!IRaycastable.CheckDistance(gameObject, transform.position, playerController, overrideDefaultInteractionDistance, interactionDistance))
             {
                 return false;
             }
