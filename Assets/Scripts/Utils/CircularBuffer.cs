@@ -13,44 +13,23 @@ namespace Frankie.Utils
             queue = new LinkedList<T>();
             this.size = size;
         }
+        
+        public T GetFirstEntry() => queue.First();
+        public T GetLastEntry() => queue.Last();
+        public int GetCurrentSize() => queue.Count;
 
         public void Add(T obj)
         {
-            if (queue.Count == size)
-            {
-                queue.RemoveLast();
-                queue.AddFirst(obj);
-            }
-            else
-            {
-                queue.AddFirst(obj);
-            }
-
+            if (queue.Count == size) { queue.RemoveLast(); }
+            queue.AddFirst(obj);
         }
 
         public T GetEntryAtPosition(int position)
         {
             if (position > queue.Count) { return default(T); }
-            if (position == 0) { return queue.First(); }
-
-            return queue.ElementAt(position);
+            return position == 0 ? queue.First() : queue.ElementAt(position);
         }
-
-        public T GetFirstEntry()
-        {
-            return queue.First();
-        }
-
-        public T GetLastEntry()
-        {
-            return queue.Last();
-        }
-
-        public int GetCurrentSize()
-        {
-            return queue.Count;
-        }
-
+        
         public void Clear()
         {
             queue.Clear();

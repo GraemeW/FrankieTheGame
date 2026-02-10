@@ -8,6 +8,7 @@ namespace Frankie.Combat
     {
         [SerializeField][Tooltip("Enable for allies, disable for foes")] private bool checkAllies = true;
         [SerializeField] private float minHP = 30f;
+        [SerializeField] private bool skipIfDead = true;
         [SerializeField][Tooltip("Enable:  all party members must hit minHP criteria")] private bool requireAllPartyMembers = false;
 
         public override bool? Evaluate(BattleAI battleAI)
@@ -18,6 +19,9 @@ namespace Frankie.Combat
 
             foreach (BattleEntity battleEntity in checkParticipants)
             {
+                if (battleEntity == null) { continue; } 
+                if (skipIfDead && battleEntity.combatParticipant.IsDead()) { continue; }
+                
                 if (battleEntity.combatParticipant.GetHP() <= minHP)
                 {
                     if (requireAllPartyMembers) { continue; }
