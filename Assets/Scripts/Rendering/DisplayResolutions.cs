@@ -79,7 +79,7 @@ namespace Frankie.Rendering
             bool traversingDown = true;
             if (ignoreTargetResolution) { option = 1; traversingDown = false; }
 
-            List<ResolutionSetting> resolutionSettings = new List<ResolutionSetting>();
+            var resolutionSettings = new List<ResolutionSetting>();
             for (int i = 0; i < _bestResolutionTryCount; i++)
             {
                 if (option == 0) { option = divisor + 1; traversingDown = false; continue; }

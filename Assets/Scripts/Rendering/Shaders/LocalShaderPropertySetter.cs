@@ -7,10 +7,10 @@ namespace Frankie.Rendering
     {
         // Tunables
         [Header("Image Properties")]
-        [SerializeField] bool initializePhase = true;
+        [SerializeField] private bool initializePhase = true;
 
         [Header("Linked Assets")]
-        [SerializeField] Image image = null;
+        [SerializeField] private Image image;
 
         #region UnityMethods
         private void OnEnable()

@@ -7,12 +7,12 @@ namespace Frankie.Rendering
     public class BattleEntryShaderControl : MonoBehaviour
     {
         // Tunables
-        [SerializeField] Renderer2DData renderer2DData = null;
-        [SerializeField] Material battleEntryMaterial = null;
-        [SerializeField] Texture2D goodEntryTexture = null;
-        [SerializeField] Texture2D badEntryTexture = null;
-        [SerializeField] Texture2D neutralEntryTexture = null;
-        [SerializeField] float twirlStrength = 5.0f;
+        [SerializeField] private Renderer2DData renderer2DData;
+        [SerializeField] private Material battleEntryMaterial;
+        [SerializeField] private Texture2D goodEntryTexture;
+        [SerializeField] private Texture2D badEntryTexture;
+        [SerializeField] private Texture2D neutralEntryTexture;
+        [SerializeField] private float twirlStrength = 5.0f;
 
         private void OnEnable()
         {
