@@ -6,22 +6,23 @@ namespace Frankie.Saving
     public class PlayerPrefsController : MonoBehaviour
     {
         // Keys
-        const string MASTER_VOLUME_KEY = "masterVolume";
-        const string BACKGROUND_VOLUME_KEY = "backgroundVolume";
-        const string SOUND_EFFECTS_VOLUME_KEY = "soundEffectsVolume";
-        const string DISPLAY_WIDTH = "displayWidth";
-        const string DISPLAY_HEIGHT = "displayHeight";
-        const string RESOLUTION_INITIALIZED_KEY = "resolutionInitialized";
-        const string RESOLUTION_FULL_SCREEN_WINDOWED_KEY = "resolutionFullScreenWindowed";
-        const string RESOLUTION_FSW_WIDTH_KEY = "resolutionFSWWidth";
-        const string RESOLUTION_FSW_HEIGHT_KEY = "resolutionFSWHeight";
-        const string RESOLUTION_WINDOWED_WIDTH_KEY = "resolutionWindowedWidth";
-        const string RESOLUTION_WINDOWED_HEIGHT_KEY = "resolutionWindowedHeight";
+        private const string _masterVolumeKey = "masterVolume";
+        private const string _backgroundVolumeKey = "backgroundVolume";
+        private const string _soundEffectsVolumeKey = "soundEffectsVolume";
+        private const string _displayWidth = "displayWidth";
+        private const string _displayHeight = "displayHeight";
+        private const string _resolutionInitializedKey = "resolutionInitialized";
+        private const string _resolutionFullScreenWindowedKey = "resolutionFullScreenWindowed";
+        private const string _resolutionFSWWidthKey = "resolutionFSWWidth";
+        private const string _resolutionFSWHeightKey = "resolutionFSWHeight";
+        private const string _resolutionWindowedWidthKey = "resolutionWindowedWidth";
+        private const string _resolutionWindowedHeightKey = "resolutionWindowedHeight";
 
         // Parameters
-        const float MIN_VOLUME = 0f;
-        const float MAX_VOLUME = 1f;
+        private const float _minVolume = 0f;
+        private const float _maxVolume = 1f;
 
+        #region Admin
         public static void ClearPlayerPrefs()
         {
             PlayerPrefs.DeleteAll();
@@ -31,73 +32,71 @@ namespace Frankie.Saving
         {
             PlayerPrefs.Save();
         }
+        #endregion
 
+        #region VolumeSettings
+        public static bool MasterVolumeKeyExists() => PlayerPrefs.HasKey(_masterVolumeKey);
+        public static bool BackgroundVolumeKeyExists() => PlayerPrefs.HasKey(_backgroundVolumeKey);
+        public static bool SoundEffectsVolumeKeyExists() => PlayerPrefs.HasKey(_soundEffectsVolumeKey);
+        public static float GetMasterVolume() => PlayerPrefs.GetFloat(_masterVolumeKey);
+        public static float GetBackgroundVolume() => PlayerPrefs.GetFloat(_backgroundVolumeKey);
+        public static float GetSoundEffectsVolume() => PlayerPrefs.GetFloat(_soundEffectsVolumeKey);
+        
         public static void SetMasterVolume(float volume)
         {
-            PlayerPrefs.SetFloat(MASTER_VOLUME_KEY, Mathf.Clamp(volume, MIN_VOLUME, MAX_VOLUME));
+            PlayerPrefs.SetFloat(_masterVolumeKey, Mathf.Clamp(volume, _minVolume, _maxVolume));
         }
 
         public static void SetBackgroundVolume(float volume)
         {
-            PlayerPrefs.SetFloat(BACKGROUND_VOLUME_KEY, Mathf.Clamp(volume, MIN_VOLUME, MAX_VOLUME));
+            PlayerPrefs.SetFloat(_backgroundVolumeKey, Mathf.Clamp(volume, _minVolume, _maxVolume));
         }
 
         public static void SetSoundEffectsVolume(float volume)
         {
-            PlayerPrefs.SetFloat(SOUND_EFFECTS_VOLUME_KEY, Mathf.Clamp(volume, MIN_VOLUME, MAX_VOLUME));
+            PlayerPrefs.SetFloat(_soundEffectsVolumeKey, Mathf.Clamp(volume, _minVolume, _maxVolume));
         }
+        #endregion
 
+        #region DisplaySettings
+        public static bool ResolutionInitializedKeyExists() => PlayerPrefs.HasKey(_resolutionInitializedKey);
+        public static bool ResolutionFullScreenWindowedKeyExists() => PlayerPrefs.HasKey(_resolutionFullScreenWindowedKey);
+        private static bool ResolutionFSWWidthKeyExists() => PlayerPrefs.HasKey(_resolutionFSWWidthKey);
+        private static bool ResolutionFSWHeightKeyExists() => PlayerPrefs.HasKey(_resolutionFSWHeightKey);
+        private static bool ResolutionWindowedWidthKeyExists() => PlayerPrefs.HasKey(_resolutionWindowedWidthKey);
+        private static bool ResolutionWindowedHeightKeyExists() => PlayerPrefs.HasKey(_resolutionWindowedHeightKey);
+        public static bool GetResolutionFullScreenWindowed() => PlayerPrefs.GetInt(_resolutionFullScreenWindowedKey) == 1;
         private static void SetCurrentDisplay()
         {
             // Note:  This sets the physical dimensions of the current display
             DisplayInfo displayInfo = Screen.mainWindowDisplayInfo;
-            PlayerPrefs.SetInt(DISPLAY_WIDTH, displayInfo.width);
-            PlayerPrefs.SetInt(DISPLAY_HEIGHT, displayInfo.height);
+            PlayerPrefs.SetInt(_displayWidth, displayInfo.width);
+            PlayerPrefs.SetInt(_displayHeight, displayInfo.height);
         }
 
         private static void SetResolutionInitialized()
         {
-            PlayerPrefs.SetInt(RESOLUTION_INITIALIZED_KEY, 1);
+            PlayerPrefs.SetInt(_resolutionInitializedKey, 1);
         }
 
         public static void SetResolutionSettings(ResolutionSetting resolutionSetting)
         {
             bool fullScreenWindowed = resolutionSetting.fullScreenMode == FullScreenMode.FullScreenWindow;
 
-            PlayerPrefs.SetInt(RESOLUTION_FULL_SCREEN_WINDOWED_KEY, fullScreenWindowed ? 1 : 0);
+            PlayerPrefs.SetInt(_resolutionFullScreenWindowedKey, fullScreenWindowed ? 1 : 0);
             if (fullScreenWindowed)
             {
-                PlayerPrefs.SetInt(RESOLUTION_FSW_WIDTH_KEY, resolutionSetting.width);
-                PlayerPrefs.SetInt(RESOLUTION_FSW_HEIGHT_KEY, resolutionSetting.height);
+                PlayerPrefs.SetInt(_resolutionFSWWidthKey, resolutionSetting.width);
+                PlayerPrefs.SetInt(_resolutionFSWHeightKey, resolutionSetting.height);
             }
             else
             {
-                PlayerPrefs.SetInt(RESOLUTION_WINDOWED_WIDTH_KEY, resolutionSetting.width);
-                PlayerPrefs.SetInt(RESOLUTION_WINDOWED_HEIGHT_KEY, resolutionSetting.height);
+                PlayerPrefs.SetInt(_resolutionWindowedWidthKey, resolutionSetting.width);
+                PlayerPrefs.SetInt(_resolutionWindowedHeightKey, resolutionSetting.height);
             }
 
             SetCurrentDisplay();
             if (!ResolutionInitializedKeyExists()) { SetResolutionInitialized(); }
-        }
-
-        public static float GetMasterVolume()
-        {
-            return PlayerPrefs.GetFloat(MASTER_VOLUME_KEY);
-        }
-
-        public static float GetBackgroundVolume()
-        {
-            return PlayerPrefs.GetFloat(BACKGROUND_VOLUME_KEY);
-        }
-
-        public static float GetSoundEffectsVolume()
-        {
-            return PlayerPrefs.GetFloat(SOUND_EFFECTS_VOLUME_KEY);
-        }
-
-        public static bool GetResolutionFullScreenWindowed()
-        {
-            return PlayerPrefs.GetInt(RESOLUTION_FULL_SCREEN_WINDOWED_KEY) == 1;
         }
 
         public static ResolutionSetting GetResolutionSettings(bool fullScreenWindowed)
@@ -114,8 +113,8 @@ namespace Frankie.Saving
                 // Safety here in case PlayerPrefs corrupted or otherwise modified to a bad state
                 if (ResolutionFSWWidthKeyExists() && ResolutionFSWHeightKeyExists())
                 {
-                    width = PlayerPrefs.GetInt(RESOLUTION_FSW_WIDTH_KEY);
-                    height = PlayerPrefs.GetInt(RESOLUTION_FSW_HEIGHT_KEY);
+                    width = PlayerPrefs.GetInt(_resolutionFSWWidthKey);
+                    height = PlayerPrefs.GetInt(_resolutionFSWHeightKey);
                 }
             }
             else
@@ -124,67 +123,21 @@ namespace Frankie.Saving
 
                 if (ResolutionWindowedWidthKeyExists() && ResolutionWindowedHeightKeyExists())
                 {
-                    width = PlayerPrefs.GetInt(RESOLUTION_WINDOWED_WIDTH_KEY);
-                    height = PlayerPrefs.GetInt(RESOLUTION_WINDOWED_HEIGHT_KEY);
+                    width = PlayerPrefs.GetInt(_resolutionWindowedWidthKey);
+                    height = PlayerPrefs.GetInt(_resolutionWindowedHeightKey);
                 }
             }
 
             return new ResolutionSetting(fullScreenMode, width, height);
         }
-
-        public static bool MasterVolumeKeyExists()
-        {
-            return PlayerPrefs.HasKey(MASTER_VOLUME_KEY);
-        }
-
-        public static bool BackgroundVolumeKeyExists()
-        {
-            return PlayerPrefs.HasKey(BACKGROUND_VOLUME_KEY);
-        }
-
-        public static bool SoundEffectsVolumeKeyExists()
-        {
-            return PlayerPrefs.HasKey(SOUND_EFFECTS_VOLUME_KEY);
-        }
-
+        
         public static bool HasCurrentDisplayChanged()
         {
-            if (!PlayerPrefs.HasKey(DISPLAY_WIDTH) || !PlayerPrefs.HasKey(DISPLAY_HEIGHT)) { return true; }
+            if (!PlayerPrefs.HasKey(_displayWidth) || !PlayerPrefs.HasKey(_displayHeight)) { return true; }
 
             DisplayInfo currentDisplay = Screen.mainWindowDisplayInfo;
-            if (currentDisplay.width != PlayerPrefs.GetInt(DISPLAY_WIDTH) || currentDisplay.height != PlayerPrefs.GetInt(DISPLAY_HEIGHT)) { return true; }
-
-            return false;
+            return currentDisplay.width != PlayerPrefs.GetInt(_displayWidth) || currentDisplay.height != PlayerPrefs.GetInt(_displayHeight);
         }
-
-        public static bool ResolutionInitializedKeyExists()
-        {
-            return PlayerPrefs.HasKey(RESOLUTION_INITIALIZED_KEY);
-        }
-
-        public static bool ResolutionFullScreenWindowedKeyExists()
-        {
-            return PlayerPrefs.HasKey(RESOLUTION_FULL_SCREEN_WINDOWED_KEY);
-        }
-
-        public static bool ResolutionFSWWidthKeyExists()
-        {
-            return PlayerPrefs.HasKey(RESOLUTION_FSW_WIDTH_KEY);
-        }
-
-        public static bool ResolutionFSWHeightKeyExists()
-        {
-            return PlayerPrefs.HasKey(RESOLUTION_FSW_HEIGHT_KEY);
-        }
-
-        public static bool ResolutionWindowedWidthKeyExists()
-        {
-            return PlayerPrefs.HasKey(RESOLUTION_WINDOWED_WIDTH_KEY);
-        }
-
-        public static bool ResolutionWindowedHeightKeyExists()
-        {
-            return PlayerPrefs.HasKey(RESOLUTION_WINDOWED_HEIGHT_KEY);
-        }
+        #endregion
     }
 }
