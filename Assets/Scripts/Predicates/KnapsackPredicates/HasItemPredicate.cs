@@ -1,3 +1,4 @@
+using System.Linq;
 using UnityEngine;
 using Frankie.Inventory;
 
@@ -8,18 +9,9 @@ namespace Frankie.Core
     {
         public override bool? Evaluate(PartyKnapsackConduit partyKnapsackConduit)
         {
-            foreach (Knapsack knapsack in partyKnapsackConduit.GetKnapsacks())
-            {
-                // Match on ANY of the items present in parameters
-                foreach (InventoryItem inventoryItem in inventoryItems)
-                {
-                    if (knapsack.HasItem(inventoryItem))
-                    {
-                        return true;
-                    }
-                }
-            }
-            return false;
+            if (partyKnapsackConduit == null) { return null; }
+
+            return partyKnapsackConduit.GetKnapsacks().Any(knapsack => inventoryItems.Any(knapsack.HasItem));
         }
     }
 }

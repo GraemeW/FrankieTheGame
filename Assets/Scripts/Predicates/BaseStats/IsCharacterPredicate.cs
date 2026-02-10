@@ -8,7 +8,7 @@ namespace Frankie.Core
     {
         public override bool? Evaluate(BaseStats baseStats)
         {
-            if (character == null) { return null; }
+            if (character == null || baseStats == null) { return null; }
             CharacterProperties characterProperties = baseStats.GetCharacterProperties();
             return (character.GetCharacterNameID() == characterProperties.GetCharacterNameID());
         }

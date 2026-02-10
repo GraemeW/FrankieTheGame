@@ -15,14 +15,9 @@ namespace Frankie.Core
             if (aiConversant == null) { return null; }
             
             int dialogueCount = aiConversant.GetDialogueCount();
-
             if (isEqual) { return dialogueCount == checkCount; }
-            else
-            {
-                if (isGreater) { return dialogueCount > checkCount; }
-                else { return dialogueCount < checkCount; }
-            }
+            if (isGreater) { return dialogueCount > checkCount; }
+            return dialogueCount < checkCount;
         }
     }
-
 }

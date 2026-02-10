@@ -1,5 +1,5 @@
-using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 namespace Frankie.Core
@@ -7,60 +7,34 @@ namespace Frankie.Core
     [System.Serializable]
     public class Condition
     {
-        [NonReorderable]
-        [SerializeField]
-        Disjunction[] and;
+        [NonReorderable] [SerializeField] private List<Disjunction> and = new();
 
         public bool Check(IEnumerable<IPredicateEvaluator> evaluators)
         {
-            foreach (Disjunction disjunction in and) // logical 'AND' implementation for Conjunction
-            {
-                if (!disjunction.Check(evaluators))
-                {
-                    return false;
-                }
-            }
-            return true;
+            return and.All(disjunction => disjunction.Check(evaluators));
         }
 
         [System.Serializable]
-        class Disjunction
+        private class Disjunction
         {
-            [NonReorderable]
-            [SerializeField]
-            PredicateWrapper[] or;
+            [NonReorderable] [SerializeField] private List<PredicateWrapper> or = new();
 
             public bool Check(IEnumerable<IPredicateEvaluator> evaluators)
             {
-                foreach (PredicateWrapper predicateWrapper in or) // logical 'OR' implementation for Disjunction
-                {
-                    if (predicateWrapper.Check(evaluators))
-                    {
-                        return true;
-                    }
-                }
-                return false;
+                return or.Any(predicateWrapper => predicateWrapper.Check(evaluators));
             }
         }
 
         [System.Serializable]
-        class PredicateWrapper
+        private class PredicateWrapper
         {
-            [SerializeField] Predicate predicate;
-            [SerializeField] bool negate;
+            [SerializeField] private Predicate predicate;
+            [SerializeField] private bool negate;
 
             public bool Check(IEnumerable<IPredicateEvaluator> evaluators)
             {
                 if (predicate == null) { return true; }
-
-                foreach (IPredicateEvaluator evaluator in evaluators)
-                {
-                    bool? result = evaluator.Evaluate(predicate);
-
-                    if (result == null) { continue; }
-                    if (result == negate) { return false; }
-                }
-                return true;
+                return evaluators.Select(evaluator => evaluator.Evaluate(predicate)).All(result => result != negate);
             }
         }
     }

@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3e8ff82454b5c704385bdc320a0c9aaf, type: 3}
-  m_Name: SIngleTarget_DoT-Mag_2p3s_12s
+  m_Name: SingleTarget_DoT-Mag_2p3s_12s
   m_EditorClassIdentifier: 
   targetingStrategy: {fileID: 11400000, guid: a2948b2748da27843bd0d733c7049147, type: 2}
   effectStrategies:

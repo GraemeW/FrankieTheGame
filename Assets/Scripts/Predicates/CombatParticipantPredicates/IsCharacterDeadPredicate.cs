@@ -1,3 +1,4 @@
+using System.Linq;
 using UnityEngine;
 using Frankie.Combat;
 using Frankie.Stats;
@@ -9,16 +10,13 @@ namespace Frankie.Core
     {
         public override bool? Evaluate(CombatParticipant combatParticipant)
         {
-            if (characters == null) { return null; }
-            BaseStats baseStats = combatParticipant.GetComponent<BaseStats>();
+            if (combatParticipant == null) { return null; }
+            var baseStats = combatParticipant.GetComponent<BaseStats>();
             CharacterProperties characterProperties = baseStats.GetCharacterProperties();
 
-            foreach (CharacterProperties characterPropertiesToCompare in characters)
+            if (characters.Any(characterPropertiesToCompare => characterProperties.GetCharacterNameID() == characterPropertiesToCompare.GetCharacterNameID()))
             {
-                if (characterProperties.GetCharacterNameID() == characterPropertiesToCompare.GetCharacterNameID())
-                {
-                    return combatParticipant.IsDead();
-                }
+                return combatParticipant.IsDead();
             }
             return null;
         }

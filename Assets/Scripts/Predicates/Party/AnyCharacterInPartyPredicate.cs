@@ -1,3 +1,4 @@
+using System.Linq;
 using UnityEngine;
 using Frankie.Stats;
 
@@ -8,19 +9,16 @@ namespace Frankie.Core
     {
         public override bool? Evaluate(Party party)
         {
-            if (charactersToMatch == null || charactersToMatch.Length == 0) { return false; }
+            if (charactersToMatch.Count == 0) { return false; }
 
             foreach (BaseStats character in party.GetParty())
             {
                 CharacterProperties characterProperties = character.GetCharacterProperties();
                 if (characterProperties == null) { continue; }
 
-                foreach (CharacterProperties characterToMatch in charactersToMatch)
+                if (charactersToMatch.Any(characterToMatch => characterProperties.GetCharacterNameID() == characterToMatch.GetCharacterNameID()))
                 {
-                    if (characterProperties.GetCharacterNameID() == characterToMatch.GetCharacterNameID())
-                    {
-                        return true;
-                    }
+                    return true;
                 }
             }
             return false;
