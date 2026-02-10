@@ -9,9 +9,45 @@ namespace Frankie.Stats
     public class CharacterNPCSwapper : MonoBehaviour
     {
         // Cached References
-        BaseStats baseStats = null;
-        ReInitLazyValue<Party> party;
+        private BaseStats baseStats;
+        private ReInitLazyValue<Party> party;
 
+        #region StaticMethods
+        private static Party SetupPartyReference()
+        {
+            GameObject playerObject = Player.FindPlayerObject();
+            return playerObject == null ? null : playerObject.GetComponent<Party>();
+        }
+        
+        public static GameObject SpawnCharacter(string characterName, Transform partyTransform)
+        {
+            if (characterName == null || partyTransform == null) { return null; }
+
+            CharacterProperties characterProperties = CharacterProperties.GetCharacterPropertiesFromName(characterName);
+            if (characterProperties == null) { return null; }
+            
+            GameObject characterPrefab = characterProperties.characterPrefab;
+            if (characterPrefab == null) { return null; }
+            
+            GameObject character = Instantiate(characterPrefab, partyTransform);
+            return character;
+        }
+
+        public static GameObject SpawnNPC(string characterName, Transform worldContainer)
+        {
+            if (characterName == null || worldContainer == null) { return null; }
+
+            CharacterProperties characterProperties = CharacterProperties.GetCharacterPropertiesFromName(characterName);
+            if (characterProperties == null) { return null; }
+            
+            GameObject characterNPCPrefab = characterProperties.characterNPCPrefab;
+            if (characterNPCPrefab == null) { return null; }
+            
+            GameObject characterNPC = Instantiate(characterNPCPrefab, worldContainer);
+            return characterNPC;
+        }
+        #endregion
+        
         #region UnityMethods
         private void Awake()
         {
@@ -26,32 +62,7 @@ namespace Frankie.Stats
         }
         #endregion
 
-        #region StaticMethods
-        public static GameObject SpawnCharacter(string characterName, Transform partyTransform)
-        {
-            if (characterName == null || partyTransform == null) { return null; }
-
-            CharacterProperties characterProperties = CharacterProperties.GetCharacterPropertiesFromName(characterName);
-            GameObject characterPrefab = characterProperties.GetCharacterPrefab();
-
-            GameObject character = Instantiate(characterPrefab, partyTransform);
-            return character;
-        }
-
-        public static GameObject SpawnNPC(string characterName, Transform worldContainer)
-        {
-            if (characterName == null || worldContainer == null) { return null; }
-
-            CharacterProperties characterProperties = CharacterProperties.GetCharacterPropertiesFromName(characterName);
-            GameObject characterNPCPrefab = characterProperties.GetCharacterNPCPrefab();
-
-            GameObject characterNPC = Instantiate(characterNPCPrefab, worldContainer);
-            return characterNPC;
-        }
-        #endregion
-
         #region PrivateMethods
-        private Party SetupPartyReference() => Player.FindPlayerObject()?.GetComponent<Party>();
         private void DeleteNPCIfInParty()
         {
             if (party == null) { return; }
@@ -60,7 +71,7 @@ namespace Frankie.Stats
             if (characterProperties == null) { return; }
 
             BaseStats characterInParty = party.value.GetMember(characterProperties);
-            if (characterInParty != null && characterInParty != this.baseStats)
+            if (characterInParty != null && characterInParty != baseStats)
             {
                 Destroy(gameObject);
             }
@@ -76,11 +87,11 @@ namespace Frankie.Stats
             GameObject character = SpawnCharacter(characterName, partyContainer);
 
             // Pass stats back/forth NPC -> Character
-            BaseStats characterBaseStats = character.GetComponent<BaseStats>();
+            var characterBaseStats = character.GetComponent<BaseStats>();
             characterBaseStats.SetActiveStatSheet(baseStats.GetActiveStatSheet());
             characterBaseStats.OverrideLevel(baseStats.GetLevel());
 
-            CharacterNPCSwapper partyCharacter = character.GetComponent<CharacterNPCSwapper>();
+            var partyCharacter = character.GetComponent<CharacterNPCSwapper>();
             return partyCharacter;
         }
 
@@ -90,19 +101,19 @@ namespace Frankie.Stats
             GameObject characterNPC = SpawnNPC(characterName, worldContainer);
 
             // Pass stats back/forth Character -> NPC
-            BaseStats characterNPCBaseStats = characterNPC.GetComponent<BaseStats>();
+            var characterNPCBaseStats = characterNPC.GetComponent<BaseStats>();
             characterNPCBaseStats.SetActiveStatSheet(baseStats.GetActiveStatSheet());
             characterNPCBaseStats.OverrideLevel(baseStats.GetLevel());
 
-            CharacterNPCSwapper worldNPC = characterNPC.GetComponent<CharacterNPCSwapper>();
+            var worldNPC = characterNPC.GetComponent<CharacterNPCSwapper>();
             return worldNPC;
         }
 
         public void JoinParty(PlayerStateMachine playerStateMachine) // Called via Unity Events
         {
-            if (playerStateMachine.TryGetComponent(out Party party))
+            if (playerStateMachine.TryGetComponent(out Party passParty))
             {
-                party.AddToParty(this);
+                passParty.AddToParty(this);
             }
         }
 

@@ -44,12 +44,12 @@ namespace Frankie.Stats
         #endregion
 
         #region PublicMethods
+        public int GetExperienceRequiredToLevel() => Mathf.CeilToInt(baseStats.GetStat(Stat.ExperienceToLevelUp) - GetPoints());
         public bool GainExperienceToLevel(float points)
         {
             currentPoints.value += points;
             return UpdateLevel();
         }
-        public int GetExperienceRequiredToLevel() => Mathf.CeilToInt((baseStats.GetStat(Stat.ExperienceToLevelUp) - GetPoints()));
         #endregion
 
         #region PrivateMethods

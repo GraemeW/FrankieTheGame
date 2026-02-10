@@ -157,11 +157,11 @@ namespace Frankie.Combat
         public float GetCalculatedStat(CalculatedStat calculatedStat) => baseStats.GetCalculatedStat(calculatedStat); // Simple no-contest
         public float GetCalculatedStat(CalculatedStat calculatedStat, CombatParticipant recipient) // Contested
         {
-            if (!baseStats.GetStatForCalculatedStat(calculatedStat, out Stat stat)) { return 0f; }
+            if (!BaseStats.GetStatForCalculatedStat(calculatedStat, out Stat stat)) { return 0f; }
             float statValue = baseStats.GetStat(stat);
             float opponentStatValue = recipient != null ? recipient.GetStat(stat) : 0f;
             int opponentLevel = recipient != null ? recipient.GetLevel() : 0;
-            return baseStats.GetCalculatedStat(calculatedStat, GetLevel(), statValue, opponentLevel, opponentStatValue);
+            return BaseStats.GetCalculatedStat(calculatedStat, GetLevel(), statValue, opponentLevel, opponentStatValue);
         }
         public float GetMaxHP() => baseStats.GetStat(Stat.HP);
         public float GetMaxAP() => usesAP ? baseStats.GetStat(Stat.AP) : Mathf.Infinity;

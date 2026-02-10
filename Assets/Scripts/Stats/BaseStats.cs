@@ -34,8 +34,15 @@ namespace Frankie.Stats
         public event Action<BaseStats, int, Dictionary<Stat, float>> onLevelUp;
 
         #region Static
-        // Subset enum for those equipment should not touch
+        // Subset enum for those equipment (e.g.) should not touch
         public static Stat[] GetNonModifyingStats() => _nonModifyingStats;
+        
+        public static bool GetStatForCalculatedStat(CalculatedStat calculatedStat, out Stat stat) => CalculatedStats.GetStatModifier(calculatedStat, out stat);
+
+        public static float GetCalculatedStat(CalculatedStat calculatedStat, int level, float statValue, int opponentLevel, float opponentStatValue)
+        {
+            return CalculatedStats.GetCalculatedStat(calculatedStat, level, statValue, opponentLevel, opponentStatValue);
+        }
         #endregion
 
         #region UnityMethods
@@ -60,13 +67,7 @@ namespace Frankie.Stats
             BuildActiveStatSheetIfNull();
             return activeStatSheet.TryGetValue(stat, out var baseStat) ? baseStat : progression.GetStat(stat, characterProperties);
         }
-
-        public bool GetStatForCalculatedStat(CalculatedStat calculatedStat, out Stat stat) => CalculatedStats.GetStatModifier(calculatedStat, out stat);
-
-        public float GetCalculatedStat(CalculatedStat calculatedStat, int level, float statValue, int opponentLevel, float opponentStatValue)
-        {
-            return CalculatedStats.GetCalculatedStat(calculatedStat, level, statValue, opponentLevel, opponentStatValue);
-        }
+        
         public float GetCalculatedStat(CalculatedStat calculatedStat)
         {
             if (!CalculatedStats.GetStatModifier(calculatedStat, out Stat statModifier)) return 1f;

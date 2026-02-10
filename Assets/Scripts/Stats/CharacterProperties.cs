@@ -24,8 +24,6 @@ namespace Frankie.Stats
         public static string GetStaticCharacterNamePretty(string characterName) => Regex.Replace(characterName, "([a-z])_?([A-Z])", "$1 $2");
         public string GetCharacterNamePretty() => Regex.Replace(name, "([a-z])_?([A-Z])", "$1 $2");
         public string GetCharacterNameID() => name;
-        public GameObject GetCharacterPrefab() => characterPrefab;
-        public GameObject GetCharacterNPCPrefab() => characterNPCPrefab;
         #endregion
         
         #region AddressablesCaching
