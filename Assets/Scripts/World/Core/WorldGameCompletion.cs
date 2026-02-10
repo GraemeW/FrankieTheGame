@@ -6,6 +6,7 @@ namespace Frankie.World
 {
     public class WorldGameCompletion : MonoBehaviour
     {
+        #region PublicMethods
         public void TriggerGameOver(PlayerStateMachine playerStateMachine)
         {
             playerStateMachine.EnterCutscene();
@@ -17,5 +18,6 @@ namespace Frankie.World
             playerStateMachine.EnterCutscene();
             SavingWrapper.LoadGameWinScreen();
         }
+        #endregion
     }
 }

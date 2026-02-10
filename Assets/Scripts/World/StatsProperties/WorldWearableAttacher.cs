@@ -10,8 +10,7 @@ namespace Frankie.World
         // Tunables
         [SerializeField] private Wearable wearable;
 
-
-        // Public Methods
+        #region PublicMethods
         public void SpawnWearableOnLead(PlayerStateMachine playerStateMachine) // Called via Unity events
         {
             if (wearable == null) { return; }
@@ -35,7 +34,9 @@ namespace Frankie.World
                 }
             }
         }
+        #endregion
 
+        #region PrivateMethods
         private void SpawnWearable(WearablesLink wearablesLink)
         {
             WearableItem wearableItem = wearable.GetWearableItem();
@@ -47,5 +48,6 @@ namespace Frankie.World
             Wearable spawnedWearable = Instantiate(wearable, wearablesLink.GetAttachedObjectsRoot());
             spawnedWearable.AttachToCharacter(wearablesLink);
         }
+        #endregion
     }
 }

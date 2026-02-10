@@ -8,10 +8,10 @@ namespace Frankie.World
     public class WorldPointAdjuster : MonoBehaviour
     {
         // Tunables
-        [SerializeField][Tooltip("Only used if calling methods that consume points")] float hpToAdjust;
-        [SerializeField][Tooltip("Only used if calling methods that consume points")] float apToAdjust;
+        [SerializeField][Tooltip("Only used if calling methods that consume points")] private float hpToAdjust;
+        [SerializeField][Tooltip("Only used if calling methods that consume points")] private float apToAdjust;
 
-        // Public Methods
+        #region PublicMethods
         public void AdjustPartyLeaderHP(PlayerStateMachine playerStateMachine) // Called via Unity events
         {
             var partyCombatConduit = playerStateMachine.GetComponent<PartyCombatConduit>();
@@ -74,5 +74,6 @@ namespace Frankie.World
             if (combatParticipant.IsDead()) { combatParticipant.Revive(combatParticipant.GetMaxHP() + 1f); }
             else { combatParticipant.AdjustHP( combatParticipant.GetMaxHP() + 1f); }
         }
+        #endregion
     }
 }

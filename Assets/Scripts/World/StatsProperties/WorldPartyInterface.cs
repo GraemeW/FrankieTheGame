@@ -9,7 +9,7 @@ namespace Frankie.World
         // Tunables
         [SerializeField] private CharacterProperties characterProperties;
 
-        // Methods -- Called via Unity Events
+        #region PublicMethods
         public void AddToParty(PlayerStateMachine playerStateMachine)
         {
             if (playerStateMachine.TryGetComponent(out Party party))
@@ -41,5 +41,6 @@ namespace Frankie.World
                 partyAssist.RemoveFromParty(characterProperties);
             }
         }
+        #endregion
     }
 }

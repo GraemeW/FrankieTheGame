@@ -21,16 +21,21 @@ namespace Frankie.World
         // State
         private LazyValue<int> currentItemQuantity;
 
+        #region UnityMethods
         private void Awake()
         {
             currentItemQuantity = new LazyValue<int>(GetMaxItemQuantity);
         }
+        
+        private int GetMaxItemQuantity() => itemQuantity;
 
         private void Start()
         {
             currentItemQuantity.ForceInit();
         }
+        #endregion
 
+        #region PublicMethods
         public void GiveItem(PlayerStateMachine playerStateMachine) // Called via Unity events
         {
             if (inventoryItem == null || currentItemQuantity.value <= 0)
@@ -72,13 +77,10 @@ namespace Frankie.World
                 partyKnapsackConduit.RemoveAllItems(inventoryItem);
             }
         }
+        #endregion
 
-        private int GetMaxItemQuantity() => itemQuantity;
-
-        public LoadPriority GetLoadPriority()
-        {
-            return LoadPriority.ObjectProperty;
-        }
+        #region SaveInterface
+        public LoadPriority GetLoadPriority() => LoadPriority.ObjectProperty;
 
         public SaveState CaptureState()
         {
@@ -92,5 +94,6 @@ namespace Frankie.World
             currentItemQuantity ??= new LazyValue<int>(GetMaxItemQuantity);
             currentItemQuantity.value = (int)state.GetState(typeof(int));
         }
+        #endregion
     }
 }
