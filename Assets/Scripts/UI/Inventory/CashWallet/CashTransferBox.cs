@@ -66,7 +66,8 @@ namespace Frankie.Inventory.UI
 
         private void Start()
         {
-            TakeControl(playerController, this, null); // input handled via player controller, immediate override
+            // Input handled via player controller, immediate override
+            TakeControl(playerController, this, null);
             HandleClientEntry();
 
             SetupWalletUI();
@@ -209,40 +210,34 @@ namespace Frankie.Inventory.UI
 
         private bool AdjustNumber(PlayerInputType playerInputType)
         {
-            if (playerInputType is PlayerInputType.NavigateDown or PlayerInputType.NavigateUp)
+            if (playerInputType is not (PlayerInputType.NavigateDown or PlayerInputType.NavigateUp)) { return false; }
+            
+            var cashTransferField = highlightedChoiceOption as CashTransferField;
+            if (cashTransferField == null) { return false; }
+            CashTransferFieldType cashTransferFieldType = cashTransferField.GetCashTransferFieldType();
+
+            // Calculate adjusted value
+            int modifier = 1;
+            if (playerInputType == PlayerInputType.NavigateDown) { modifier = -1; }
+            modifier *= cashTransferFieldType switch
             {
-                var cashTransferField = highlightedChoiceOption as CashTransferField;
-                if (cashTransferField == null) { return false; }
-                CashTransferFieldType cashTransferFieldType = cashTransferField.GetCashTransferFieldType();
-
-                // Calculate adjusted value
-                int modifier = 1;
-                if (playerInputType == PlayerInputType.NavigateDown) { modifier = -1; }
-                modifier *= cashTransferFieldType switch
-                {
-                    CashTransferFieldType.One => 1,
-                    CashTransferFieldType.Ten => 10,
-                    CashTransferFieldType.Hundred => 100,
-                    CashTransferFieldType.Thousand => 1000,
-                    CashTransferFieldType.TenThousand => 10000,
-                    CashTransferFieldType.HundredThousand => 100000,
-                    CashTransferFieldType.Million => 1000000,
-                    CashTransferFieldType.TenMillion => 10000000,
-                    CashTransferFieldType.HundredMillion => 100000000,
-                    _ => 0,
-                };
-                int modifiedAmount = Mathf.Clamp(amountToTransfer + modifier, 0, amountAvailable);
-                modifiedAmount = Mathf.Min(modifiedAmount, _maxTransferAmount);
-
-                // Update cart
-                amountToTransfer = modifiedAmount;
-
-                // Update UI
-                RefreshFieldsToTransferAmount();
-
-                return true;
-            }
-            return false;
+                CashTransferFieldType.One => 1,
+                CashTransferFieldType.Ten => 10,
+                CashTransferFieldType.Hundred => 100,
+                CashTransferFieldType.Thousand => 1000,
+                CashTransferFieldType.TenThousand => 10000,
+                CashTransferFieldType.HundredThousand => 100000,
+                CashTransferFieldType.Million => 1000000,
+                CashTransferFieldType.TenMillion => 10000000,
+                CashTransferFieldType.HundredMillion => 100000000,
+                _ => 0,
+            };
+            int modifiedAmount = Mathf.Clamp(amountToTransfer + modifier, 0, amountAvailable);
+            modifiedAmount = Mathf.Min(modifiedAmount, _maxTransferAmount);
+            
+            amountToTransfer = modifiedAmount;
+            RefreshFieldsToTransferAmount();
+            return true;
         }
 
         private void RefreshFieldsToTransferAmount()
@@ -266,41 +261,6 @@ namespace Frankie.Inventory.UI
             workingNumber /= 10;
             hundredMillionField.SetText((workingNumber % 10).ToString());
         }
-
-        // Utility -- Deprecated, but maybe useful later
-        private CashTransferField GetCashTransferField(CashTransferFieldType cashTransferFieldType)
-        {
-            return cashTransferFieldType switch
-            {
-                CashTransferFieldType.One => oneField,
-                CashTransferFieldType.Ten => tenField,
-                CashTransferFieldType.Hundred => hundredField,
-                CashTransferFieldType.Thousand => thousandField,
-                CashTransferFieldType.TenThousand => tenThousandField,
-                CashTransferFieldType.HundredThousand => hundredThousandField,
-                CashTransferFieldType.Million => millionField,
-                CashTransferFieldType.TenMillion => tenMillionField,
-                CashTransferFieldType.HundredMillion => hundredMillionField,
-                _ => null,
-            };
-        }
-
-        private int GetNumberForField(int wholeNumber, CashTransferFieldType cashTransferFieldType)
-        {
-            return cashTransferFieldType switch
-            {
-                CashTransferFieldType.One => wholeNumber % 10,
-                CashTransferFieldType.Ten => ((wholeNumber / 10) % 10),
-                CashTransferFieldType.Hundred => ((wholeNumber / 100) % 10),
-                CashTransferFieldType.Thousand => ((wholeNumber / 1000) % 10),
-                CashTransferFieldType.TenThousand => ((wholeNumber / 10000) % 10),
-                CashTransferFieldType.HundredThousand => ((wholeNumber / 100000) % 10),
-                CashTransferFieldType.Million => ((wholeNumber / 1000000) % 10),
-                CashTransferFieldType.TenMillion => ((wholeNumber / 10000000) % 10),
-                CashTransferFieldType.HundredMillion => ((wholeNumber / 100000000) % 10),
-                _ => 0,
-            };
-        }
         #endregion
 
         #region Interfaces
@@ -308,15 +268,11 @@ namespace Frankie.Inventory.UI
         {
             if (!handleGlobalInput) { return true; } // Spoof:  Cannot accept input, so treat as if global input already handled
 
-            if (playerInputType is PlayerInputType.Option or PlayerInputType.Cancel)
+            if (playerInputType is PlayerInputType.Option or PlayerInputType.Cancel && cashTransferState == CashTransferState.CashConfirmation)
             {
-                if (cashTransferState == CashTransferState.CashConfirmation)
-                {
-                    SetCashTransferState(CashTransferState.CashSelection);
-                    return true;
-                }
+                SetCashTransferState(CashTransferState.CashSelection);
+                return true;
             }
-
             return base.HandleGlobalInput(playerInputType);
         }
         #endregion

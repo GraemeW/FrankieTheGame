@@ -63,18 +63,20 @@ namespace Frankie.Inventory.UI
             partyKnapsackConduit = setPartyKnapsackConduit;
             wallet = setShopper.GetWallet();
 
-            TakeControl(setPlayerController, this, null); // input handled via player controller, immediate override
+            // Input handled via player controller, immediate override
+            TakeControl(setPlayerController, this, null);
             HandleClientEntry();
         }
 
-        public void UpdateShopMessage(string message)
+        public void UpdateShopMessage(string message) // Callable via Unity Events
         {
             shopInfoField.text = message;
         }
 
-        public void UpdateShopMessageToSuccess()
+        public void UpdateShopMessageToSuccess() // Callable via Unity Events
         {
-            shopInfoField.text = shop.GetMessageSuccess();
+            if (shop == null) { return; }
+            UpdateShopMessage(shop.GetMessageSuccess());
         }
         #endregion
 

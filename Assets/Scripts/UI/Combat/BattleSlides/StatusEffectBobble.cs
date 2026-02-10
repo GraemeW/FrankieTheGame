@@ -1,4 +1,3 @@
-using System;
 using Frankie.Stats;
 using UnityEngine;
 
@@ -61,14 +60,8 @@ namespace Frankie.Combat.UI
             switch (statusEffectType)
             {
                 case Stat.HP:
-                    if (isIncrease)
-                    {
-                        healingIcon.SetActive(true);
-                    }
-                    else
-                    {
-                        damageIcon.SetActive(true);
-                    }
+                    if (isIncrease) { healingIcon.SetActive(true); }
+                    else { damageIcon.SetActive(true); }
                     break;
                 case Stat.AP:
                     break; // TODO:  Add an AP icon

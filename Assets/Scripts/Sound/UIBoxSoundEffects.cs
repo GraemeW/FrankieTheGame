@@ -43,16 +43,16 @@ namespace Frankie.Sound
         {
             switch (uiBoxModifiedType)
             {
-                case UIBoxModifiedType.writingStateChanged:
+                case UIBoxModifiedType.WritingStateChanged:
                     ConfigureTextScanAudio(enable);
                     break;
-                case UIBoxModifiedType.itemSelected:
+                case UIBoxModifiedType.ItemSelected:
                     PlayClip(chooseAudioClip);
                     break;
-                case UIBoxModifiedType.clientEnter:
+                case UIBoxModifiedType.ClientEnter:
                     PlayClip(enterClip);
                     break;
-                case UIBoxModifiedType.clientExit:
+                case UIBoxModifiedType.ClientExit:
                     PlayClipAfterDestroy(exitClip);
                     break;
             }

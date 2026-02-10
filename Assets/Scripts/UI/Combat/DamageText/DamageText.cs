@@ -5,7 +5,7 @@ namespace Frankie.Combat.UI
 {
     public class DamageText : MonoBehaviour
     {
-        [SerializeField] TextMeshProUGUI damageTextElement = null;
+        [SerializeField] private TextMeshProUGUI damageTextElement;
 
         public void DestroyText() // called by animation event
         {
@@ -27,5 +27,4 @@ namespace Frankie.Combat.UI
             damageTextElement.color = color;
         }
     }
-
 }

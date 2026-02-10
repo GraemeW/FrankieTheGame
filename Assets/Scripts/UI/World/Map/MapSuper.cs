@@ -7,15 +7,14 @@ namespace Frankie.ZoneManagement.UI
     {
         // Tunables
         [Header("Map Super Properties")]
-        [SerializeField] MapCamera mapCameraPrefab = null;
+        [SerializeField] private MapCamera mapCameraPrefab;
 
         // State
-        MapCamera mapCamera = null;
+        private MapCamera mapCamera;
 
         protected override void OnEnable()
         {
             base.OnEnable();
-
             if (mapCamera != null) { Destroy(mapCamera.gameObject); }
             
             mapCamera = Instantiate(mapCameraPrefab);
@@ -25,7 +24,6 @@ namespace Frankie.ZoneManagement.UI
         protected override void OnDisable()
         {
             base.OnDisable();
-
             if (mapCamera != null) { Destroy(mapCamera.gameObject); }
         }
     }

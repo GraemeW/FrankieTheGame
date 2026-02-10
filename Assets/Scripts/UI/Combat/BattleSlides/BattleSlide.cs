@@ -57,7 +57,7 @@ namespace Frankie.Combat.UI
         protected Button button;
 
         #region StaticMethods
-        public static string GetStatusEffectText(PersistentStatus persistentStatus)
+        protected static string GetStatusEffectText(PersistentStatus persistentStatus)
         {
             return persistentStatus.GetStatusEffectType() switch
             {
@@ -218,10 +218,9 @@ namespace Frankie.Combat.UI
 
         private void InitializeStatusEffectBobbles()
         {
-            if (battleEntity == null) { return; }
-
-            PersistentStatus[] persistentStatuses = battleEntity.combatParticipant.GetComponents<PersistentStatus>();
-            foreach (PersistentStatus persistentStatus in persistentStatuses)
+            if (battleEntity == null || battleEntity.combatParticipant == null) { return; }
+            
+            foreach (PersistentStatus persistentStatus in battleEntity.combatParticipant.GetComponents<PersistentStatus>())
             {
                 AddStatusEffectBobble(persistentStatus, true); // Skip capping during loop
             }

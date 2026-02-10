@@ -14,7 +14,7 @@ namespace Frankie.Combat.UI
         private float cooldownTime = 1f;
         private float currentTime;
 
-        void Update()
+        private void Update()
         {
             currentTime += Time.deltaTime;
             SetImageFraction();

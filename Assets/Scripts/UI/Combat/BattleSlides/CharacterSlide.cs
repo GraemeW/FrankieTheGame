@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -155,7 +154,7 @@ namespace Frankie.Combat.UI
                     
                     AddStatusEffectBobble(persistentStatus);
                     string statusEffectText = GetStatusEffectText(persistentStatus);
-                    if (!string.IsNullOrWhiteSpace(statusEffectText)) { damageTextSpawner.AddToQueue(new DamageTextData(DamageTextType.Informational, statusEffectText)); };
+                    if (!string.IsNullOrWhiteSpace(statusEffectText)) { damageTextSpawner.AddToQueue(new DamageTextData(DamageTextType.Informational, statusEffectText)); }
                     break;
                 }
                 case StateAlteredType.BaseStateEffectApplied:
@@ -180,8 +179,6 @@ namespace Frankie.Combat.UI
                     BlipGrowSlide();
                     break;
                 }
-                default:
-                    throw new ArgumentOutOfRangeException();
             }
         }
 
@@ -231,20 +228,18 @@ namespace Frankie.Combat.UI
             { 
                 currentHPHundreds.text = hundreds.ToString();
                 currentHPTens.text = tens.ToString();
-                currentHPOnes.text = ones.ToString();
             }
             else if (tens > 0)
             {
                 currentHPHundreds.text = "";
                 currentHPTens.text = tens.ToString();
-                currentHPOnes.text = ones.ToString();
             }
             else
             {
                 currentHPHundreds.text = "";
                 currentHPTens.text = "";
-                currentHPOnes.text = ones.ToString();
             }
+            currentHPOnes.text = ones.ToString();
         }
 
         private void UpdateAP(float actionPoints)
@@ -254,20 +249,18 @@ namespace Frankie.Combat.UI
             {
                 currentAPHundreds.text = hundreds.ToString();
                 currentAPTens.text = tens.ToString();
-                currentAPOnes.text = ones.ToString();
             }
             else if (tens > 0)
             {
                 currentAPHundreds.text = "";
                 currentAPTens.text = tens.ToString();
-                currentAPOnes.text = ones.ToString();
             }
             else
             {
                 currentAPHundreds.text = "";
                 currentAPTens.text = "";
-                currentAPOnes.text = ones.ToString();
             }
+            currentAPOnes.text = ones.ToString();
         }
     }
 }

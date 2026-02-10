@@ -62,7 +62,7 @@ namespace Frankie.Menu.UI
                 string saveName = SavingWrapper.GetSaveNameForIndex(index);
 
                 GameObject loadGameEntryObject = Instantiate(optionButtonPrefab, optionParent);
-                LoadGameEntry loadGameEntry = loadGameEntryObject.GetComponent<LoadGameEntry>();
+                var loadGameEntry = loadGameEntryObject.GetComponent<LoadGameEntry>();
                 if (SavingWrapper.HasSave(saveName))
                 {
                     SavingWrapper.GetInfoFromName(saveName, out string characterName, out int level);

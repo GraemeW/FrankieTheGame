@@ -7,7 +7,7 @@ namespace Frankie.Utils.UI
     public class UIChoiceToggle : UIChoice
     {
         // Tunables
-        [SerializeField] Toggle toggle = null;
+        [SerializeField] private Toggle toggle;
 
         // Methods
         #region UnityMethods
@@ -41,7 +41,6 @@ namespace Frankie.Utils.UI
         public void AddOnValueChangeListener(UnityAction<bool> unityAction)
         {
             if (unityAction == null) { return; }
-
             toggle.onValueChanged.AddListener(unityAction);
         }
         #endregion

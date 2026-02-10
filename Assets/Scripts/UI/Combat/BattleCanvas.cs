@@ -20,11 +20,11 @@ namespace Frankie.Combat.UI
         [SerializeField] private Canvas canvas;
         [SerializeField] private Transform playerPanelParent;
         [SerializeField] private Transform topRowParent;
-        [SerializeField] private Transform[] topRowColumns;
+        [SerializeField] private List<Transform> topRowColumns = new();
         [SerializeField] private Transform midRowParent;
-        [SerializeField] private Transform[] midRowColumns;
+        [SerializeField] private List<Transform> midRowColumns = new();
         [SerializeField] private Transform bottomRowParent;
-        [SerializeField] private Transform[] bottomRowColumns;
+        [SerializeField] private List<Transform> bottomRowColumns = new();
         [SerializeField] private Image backgroundFill;
         [SerializeField] private MovingBackgroundProperties defaultMovingBackgroundProperties;
         [SerializeField] private Transform infoChooseParent;
@@ -133,6 +133,8 @@ namespace Frankie.Combat.UI
         #endregion
 
         #region PublicMethods
+        public Canvas GetCanvas() => canvas;
+        public EnemySlide GetEnemySlide(BattleEntity combatParticipant) => enemySlideLookup.GetValueOrDefault(combatParticipant);
         public DialogueBox SetupRunFailureMessage(IUIBoxCallbackReceiver callbackReceiver, Action[] actions)
         {
             DialogueBox dialogueBox = Instantiate(dialogueBoxPrefab, infoChooseParent);
@@ -140,16 +142,6 @@ namespace Frankie.Combat.UI
             dialogueBox.TakeControl(battleController, callbackReceiver, actions);
 
             return dialogueBox;
-        }
-
-        public EnemySlide GetEnemySlide(BattleEntity combatParticipant)
-        {
-            return enemySlideLookup.GetValueOrDefault(combatParticipant);
-        }
-
-        public Canvas GetCanvas()
-        {
-            return canvas;
         }
         #endregion
 
@@ -236,7 +228,7 @@ namespace Frankie.Combat.UI
         private void SetupEnemy(BattleEntity battleEntity)
         {
             Transform spawnLocation;
-            Transform[] columnEntries = battleEntity.row switch
+            List<Transform> columnEntries = battleEntity.row switch
             {
                 BattleRow.Middle => midRowColumns,
                 BattleRow.Top => topRowColumns,
@@ -244,7 +236,7 @@ namespace Frankie.Combat.UI
                 _ => midRowColumns
             };
             
-            if (battleEntity.column >= columnEntries.Length)
+            if (battleEntity.column >= columnEntries.Count)
             {
                 // Default to spawn directly in parent if column matching doesn't exist
                 spawnLocation = battleEntity.row switch
@@ -440,8 +432,8 @@ namespace Frankie.Combat.UI
 
             var choiceActionPairs = new List<ChoiceActionPair>
             {
-                new ChoiceActionPair(optionChuckItemAffirmative, () => { SetupInventorySwapBox(enemyName, inventoryItem, battleOutcome); Destroy(dialogueOptionBox.gameObject); } ),
-                new ChoiceActionPair(optionChuckItemNegative, () => { SetupConfirmThrowOutItemMessage(enemyName, inventoryItem, battleOutcome); Destroy(dialogueOptionBox.gameObject); } )
+                new(optionChuckItemAffirmative, () => { SetupInventorySwapBox(enemyName, inventoryItem, battleOutcome); Destroy(dialogueOptionBox.gameObject); } ),
+                new(optionChuckItemNegative, () => { SetupConfirmThrowOutItemMessage(enemyName, inventoryItem, battleOutcome); Destroy(dialogueOptionBox.gameObject); } )
             };
             dialogueOptionBox.OverrideChoiceOptions(choiceActionPairs);
 
@@ -466,8 +458,8 @@ namespace Frankie.Combat.UI
 
             var choiceActionPairs = new List<ChoiceActionPair>
             {
-                new ChoiceActionPair(optionChuckItemAffirmative, () => { dialogueOptionBox.ClearDisableCallbacks(); busyWithSerialAction = false; Destroy(dialogueOptionBox); }), // Exit and close out serial action
-                new ChoiceActionPair(optionChuckItemNegative, () => { Destroy(dialogueOptionBox); }) // Otherwise loop back & re-spawn
+                new(optionChuckItemAffirmative, () => { dialogueOptionBox.ClearDisableCallbacks(); busyWithSerialAction = false; Destroy(dialogueOptionBox); }), // Exit and close out serial action
+                new(optionChuckItemNegative, () => { Destroy(dialogueOptionBox); }) // Otherwise loop back & re-spawn
             };
             dialogueOptionBox.OverrideChoiceOptions(choiceActionPairs);
 
@@ -493,7 +485,7 @@ namespace Frankie.Combat.UI
         #endregion
 
         #region Interfaces
-        public void HandleDisableCallback(IUIBoxCallbackReceiver dialogueBox, Action action)
+        public void HandleDisableCallback(IUIBoxCallbackReceiver callbackReceiver, Action action)
         {
             action?.Invoke();
         }

@@ -7,7 +7,7 @@ namespace Frankie.Utils.UI
     public class UIChoiceButton : UIChoice
     {
         // Tunables
-        [SerializeField] protected Button button = null;
+        [SerializeField] protected Button button;
 
         #region UnityMethods
         protected override void OnDestroy()
@@ -28,7 +28,6 @@ namespace Frankie.Utils.UI
         public void AddOnClickListener(UnityAction unityAction)
         {
             if (unityAction == null) { return; }
-
             button.onClick.AddListener(unityAction);
         }
         #endregion

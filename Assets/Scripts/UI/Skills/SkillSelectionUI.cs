@@ -182,7 +182,7 @@ namespace Frankie.Combat.UI
             { 
                 skillField.text = Skill.GetSkillNamePretty(activeSkill.name);
                 if (battleController != null) { battleController.SetActiveBattleAction(activeSkill); }
-                OnUIBoxModified(UIBoxModifiedType.itemSelected, true);
+                OnUIBoxModified(UIBoxModifiedType.ItemSelected, true);
             } 
             else { skillField.text = defaultNoText; }
         }

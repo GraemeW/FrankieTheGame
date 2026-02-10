@@ -50,7 +50,7 @@ namespace Frankie.Combat.UI
             foreach (CombatParticipant combatParticipant in partyCombatConduit.GetPartyCombatParticipants())
             {
                 GameObject uiChoiceOptionObject = Instantiate(optionButtonPrefab, optionParent);
-                UIChoiceButton uiChoiceOption = uiChoiceOptionObject.GetComponent<UIChoiceButton>();
+                var uiChoiceOption = uiChoiceOptionObject.GetComponent<UIChoiceButton>();
                 uiChoiceOption.SetChoiceOrder(choiceIndex);
                 uiChoiceOption.SetText(combatParticipant.GetCombatName());
                 uiChoiceOption.AddOnClickListener(delegate { ChooseCharacter(combatParticipant); });
@@ -71,7 +71,7 @@ namespace Frankie.Combat.UI
 
         private void SubscribeCharacterSlides(bool enable)
         {
-            if (characterSlides == null) return;
+            if (characterSlides == null) { return; }
             
             foreach (CharacterSlide characterSlide in characterSlides)
             {
@@ -100,7 +100,8 @@ namespace Frankie.Combat.UI
             }
             else
             {
-                SetChoiceAvailable(true); // avoid short circuit on user control for other states
+                // Avoid short circuit on user control for other states
+                SetChoiceAvailable(true);
             }
         }
 
@@ -143,7 +144,7 @@ namespace Frankie.Combat.UI
 
             if (combatParticipant != currentCombatParticipant)
             {
-                OnUIBoxModified(UIBoxModifiedType.itemSelected, true);
+                OnUIBoxModified(UIBoxModifiedType.ItemSelected, true);
                 currentCombatParticipant = combatParticipant;
             }
             
@@ -205,11 +206,9 @@ namespace Frankie.Combat.UI
                 {
                     TargetingNavigationType targetingNavigationType = TargetingStrategy.ConvertPlayerInputToTargeting(playerInputType);
                     if (GetNextTarget(targetingNavigationType)) { return true; }
-                    else
-                    {
-                        SetAbilitiesBoxState(AbilitiesBoxState.InAbilitiesSelection);
-                        return false;
-                    }
+                    
+                    SetAbilitiesBoxState(AbilitiesBoxState.InAbilitiesSelection);
+                    return false;
                 }
                 default:
                     return false;
@@ -223,10 +222,9 @@ namespace Frankie.Combat.UI
 
         protected override void HandleInput(PlayerInputType input)
         {
-            HandleInputWithReturn(input);
-
             // Note:  Function re-use since standard implementation for SkillSelectionUI
             // Used explicitly w/ select skill && extended with Unity Events for mouse clicks
+            HandleInputWithReturn(input);
         }
 
         private bool GetNextTarget(TargetingNavigationType targetingNavigationType)
@@ -246,7 +244,7 @@ namespace Frankie.Combat.UI
 
         private void UseSkillOnTarget(BattleEntity battleEntity)
         {
-            // Don't care about state for mouse clicks, fail gracefully otherwise
+            // Do not care about state for mouse clicks, fail gracefully otherwise
             if (battleEntity == null) { return; }
 
             // Sanity against current character selection
@@ -295,7 +293,7 @@ namespace Frankie.Combat.UI
             }
             SetUpChoiceOptions();
 
-            OnUIBoxModified(UIBoxModifiedType.itemSelected, true);
+            OnUIBoxModified(UIBoxModifiedType.ItemSelected, true);
         }
 
         protected override void ResetUI()

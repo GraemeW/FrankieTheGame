@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Frankie.Combat.UI;
@@ -9,14 +8,15 @@ namespace Frankie.Inventory.UI
 {
     public class InventoryMoveBox : InventoryBox
     {
+        // State 
+        private int sourceSlot = 0;
         // Cached References
-        Knapsack sourceKnapsack = null;
-        int sourceSlot = 0;
+        private Knapsack sourceKnapsack;
 
-        public void Setup(IStandardPlayerInputCaller standardPlayerInputCaller, PartyCombatConduit partyCombatConduit, Knapsack sourceKnapsack, int sourceSlot, List<CharacterSlide> characterSlides = null)
+        public void Setup(IStandardPlayerInputCaller standardPlayerInputCaller, PartyCombatConduit partyCombatConduit, Knapsack setSourceKnapsack, int setSourceSlot, List<CharacterSlide> characterSlides)
         {
-            this.sourceKnapsack = sourceKnapsack;
-            this.sourceSlot = sourceSlot;
+            sourceKnapsack = setSourceKnapsack;
+            sourceSlot = setSourceSlot;
             Setup(standardPlayerInputCaller, partyCombatConduit, characterSlides);
         }
 

@@ -1,5 +1,4 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Frankie.Utils;
@@ -13,18 +12,18 @@ namespace Frankie.Inventory.UI
     {
         // Tunables
         [Header("Swap Specific Fields")]
-        [Tooltip("Include {0} for item name to swap in & {1} for item name to chuck")][SerializeField] string messageConfirmThrowOut = "Are you sure you want to pick up {0} and abandon {1}?";
-        [SerializeField] string optionSwapItemAffirmative = "Yeah";
-        [SerializeField] string optionSwapItemNegative = "Nah";
+        [Tooltip("Include {0} for item name to swap in & {1} for item name to chuck")][SerializeField] private string messageConfirmThrowOut = "Are you sure you want to pick up {0} and abandon {1}?";
+        [SerializeField] private string optionSwapItemAffirmative = "Yeah";
+        [SerializeField] private string optionSwapItemNegative = "Nah";
 
         // Cached References
-        InventoryItem swapItem = null;
-        Action swapSuccessAction = null;
+        private InventoryItem swapItem;
+        private Action swapSuccessAction;
 
-        public void Setup(IStandardPlayerInputCaller standardPlayerInputCaller, PartyCombatConduit partyCombatConduit, InventoryItem swapItem, Action swapSuccessAction)
+        public void Setup(IStandardPlayerInputCaller standardPlayerInputCaller, PartyCombatConduit partyCombatConduit, InventoryItem setSwapItem, Action setSwapSuccessAction)
         {
-            this.swapItem = swapItem;
-            this.swapSuccessAction = swapSuccessAction;
+            swapItem = setSwapItem;
+            swapSuccessAction = setSwapSuccessAction;
             Setup(standardPlayerInputCaller, partyCombatConduit);
         }
 
@@ -37,7 +36,7 @@ namespace Frankie.Inventory.UI
             string selectedItemName = selectedItem != null ? selectedItem.GetDisplayName() : ""; // Edge case (should not happen)
 
             dialogueOptionBox.Setup(string.Format(messageConfirmThrowOut, swapItem.GetDisplayName(), selectedItemName));
-            List<ChoiceActionPair> choiceActionPairs = new List<ChoiceActionPair>();
+            var choiceActionPairs = new List<ChoiceActionPair>();
             if (swapSuccessAction != null)
             {
                 choiceActionPairs.Add(new ChoiceActionPair(optionSwapItemAffirmative, () =>
@@ -75,7 +74,6 @@ namespace Frankie.Inventory.UI
         protected override void ListenToKnapsack(bool enable)
         {
             // Skip listening to knapsack -- window only exists momentarily and then killed
-            return;
         }
     }
 }

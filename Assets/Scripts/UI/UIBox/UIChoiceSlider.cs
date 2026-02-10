@@ -7,7 +7,7 @@ namespace Frankie.Utils.UI
     public class UIChoiceSlider : UIChoice
     {
         // Tunables
-        [SerializeField] Slider slider = null;
+        [SerializeField] private Slider slider;
 
         // Methods
         #region UnityMethods
@@ -42,7 +42,6 @@ namespace Frankie.Utils.UI
         public void AddOnValueChangeListener(UnityAction<float> unityAction)
         {
             if (unityAction == null) { return; }
-
             slider.onValueChanged.AddListener(unityAction);
         }
         #endregion

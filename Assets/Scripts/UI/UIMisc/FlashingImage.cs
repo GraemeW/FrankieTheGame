@@ -5,10 +5,10 @@ namespace Frankie.Utils.UI
     [RequireComponent(typeof(CanvasGroup))]
     public class FlashingImage : MonoBehaviour
     {
-        [SerializeField] float frequency = 1f;
+        [SerializeField] private float frequency = 1f;
 
         // Cached References
-        CanvasGroup canvasGroup = null;
+        private CanvasGroup canvasGroup;
 
         private void Awake()
         {

@@ -1,5 +1,5 @@
-using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using Frankie.Control;
 using Frankie.Utils;
@@ -16,11 +16,7 @@ namespace Frankie.Speech.UI
             List<ChoiceActionPair> choiceActionPairs = dialogueController.GetSimpleChoices();
             OverrideChoiceOptions(choiceActionPairs);
 
-            int maxChoiceLength = 0;
-            foreach (ChoiceActionPair choiceActionPair in choiceActionPairs)
-            {
-                maxChoiceLength = Mathf.Max(maxChoiceLength, choiceActionPair.choice.Length);
-            }
+            int maxChoiceLength = choiceActionPairs.Aggregate(0, (current, choiceActionPair) => Mathf.Max(current, choiceActionPair.choice.Length));
             ConfigureChoiceLayout(choiceActionPairs.Count, maxChoiceLength);
         }
 

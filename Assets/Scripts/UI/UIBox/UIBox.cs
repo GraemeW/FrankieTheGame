@@ -34,7 +34,7 @@ namespace Frankie.Utils.UI
         // Data Structures
         private struct CallbackMessagePair
         {
-            public IUIBoxCallbackReceiver receiver;
+            public IUIBoxCallbackReceiver callbackReceiver;
             public Action action;
         }
 
@@ -131,7 +131,7 @@ namespace Frankie.Utils.UI
 
             foreach (CallbackMessagePair callbackMessagePair in disableCallbacks)
             {
-                callbackMessagePair.receiver.HandleDisableCallback(this, callbackMessagePair.action);
+                callbackMessagePair.callbackReceiver.HandleDisableCallback(this, callbackMessagePair.action);
             }
         }
 
@@ -157,12 +157,12 @@ namespace Frankie.Utils.UI
 
         protected void HandleClientEntry()
         {
-            OnUIBoxModified(UIBoxModifiedType.clientEnter, true);
+            OnUIBoxModified(UIBoxModifiedType.ClientEnter, true);
         }
 
         protected void HandleClientExit()
         {
-            OnUIBoxModified(UIBoxModifiedType.clientExit, true);
+            OnUIBoxModified(UIBoxModifiedType.ClientExit, true);
         }
         #endregion
 
@@ -207,7 +207,7 @@ namespace Frankie.Utils.UI
         private UIChoiceButton AddChoiceOptionTemplate(string choiceText)
         {
             GameObject uiChoiceOptionObject = Instantiate(optionButtonPrefab, optionParent);
-            UIChoiceButton uiChoiceOption = uiChoiceOptionObject.GetComponent<UIChoiceButton>();
+            var uiChoiceOption = uiChoiceOptionObject.GetComponent<UIChoiceButton>();
             uiChoiceOption.SetChoiceOrder(choiceOptions.Count + 1);
             uiChoiceOption.SetText(choiceText);
             choiceOptions.Add(uiChoiceOption);
@@ -310,20 +310,20 @@ namespace Frankie.Utils.UI
             // Standard implementation
             if (!isChoiceAvailable || highlightedChoiceOption == null) { return false; }
 
-            UIChoiceSlider highlightedChoiceSlider = highlightedChoiceOption as UIChoiceSlider;
+            var highlightedChoiceSlider = highlightedChoiceOption as UIChoiceSlider;
             if (highlightedChoiceSlider == null) { return false; }
 
-            if (playerInputType == PlayerInputType.NavigateLeft)
+            switch (playerInputType)
             {
-                highlightedChoiceSlider.AdjustValue(-sliderAdjustmentStep);
-                return true;
+                case PlayerInputType.NavigateLeft:
+                    highlightedChoiceSlider.AdjustValue(-sliderAdjustmentStep);
+                    return true;
+                case PlayerInputType.NavigateRight:
+                    highlightedChoiceSlider.AdjustValue(sliderAdjustmentStep);
+                    return true;
+                default:
+                    return false;
             }
-            else if (playerInputType == PlayerInputType.NavigateRight)
-            {
-                highlightedChoiceSlider.AdjustValue(sliderAdjustmentStep);
-                return true;
-            }
-            return false;
         }
         #endregion
 
@@ -386,7 +386,7 @@ namespace Frankie.Utils.UI
             {
                 CallbackMessagePair callbackMessagePair = new CallbackMessagePair
                 {
-                    receiver = callbackReceiver,
+                    callbackReceiver = callbackReceiver,
                     action = action
                 };
                 disableCallbacks.Add(callbackMessagePair);
@@ -403,7 +403,7 @@ namespace Frankie.Utils.UI
             disableCallbacks.Clear();
         }
 
-        public void HandleDisableCallback(IUIBoxCallbackReceiver uiBox, Action action)
+        public void HandleDisableCallback(IUIBoxCallbackReceiver callbackReceiver, Action action)
         {
             action?.Invoke();
         }

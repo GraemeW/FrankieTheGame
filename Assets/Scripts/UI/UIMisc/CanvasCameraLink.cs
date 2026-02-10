@@ -7,14 +7,14 @@ namespace Frankie.Utils.UI
     public class CanvasCameraLink : MonoBehaviour
     {
         // Tunables
-        [SerializeField] CanvasSortingOverlayType canvasSortingOverlayType = default;
+        [SerializeField] private CanvasSortingOverlayType canvasSortingOverlayType;
 
         // STATIC
-        static string SORTING_LAYER_FADER_OVERLAY = "FaderOverlay";
-        static string SORTING_LAYER_BATTLE_OVERLAY = "BattleOverlay";
+        private const string _sortingLayerFaderOverlay = "FaderOverlay";
+        private const string _sortingLayerBattleOverlay = "BattleOverlay";
 
         // Cached References
-        Canvas canvas = null;
+        private Canvas canvas;
 
         private void Awake()
         {
@@ -40,20 +40,17 @@ namespace Frankie.Utils.UI
 
         private void SetupCamera()
         {
-            if (canvas != null)
+            if (canvas == null) { return; }
+            
+            canvas.worldCamera = Camera.main;
+            switch (canvasSortingOverlayType)
             {
-                canvas.worldCamera = Camera.main;
-                switch (canvasSortingOverlayType)
-                {
-                    case CanvasSortingOverlayType.FaderOverlay:
-                        canvas.sortingLayerName = SORTING_LAYER_FADER_OVERLAY;
-                        break;
-                    case CanvasSortingOverlayType.BattleOverlay:
-                        canvas.sortingLayerName = SORTING_LAYER_BATTLE_OVERLAY;
-                        break;
-                    default:
-                        break;
-                }
+                case CanvasSortingOverlayType.FaderOverlay:
+                    canvas.sortingLayerName = _sortingLayerFaderOverlay;
+                    break;
+                case CanvasSortingOverlayType.BattleOverlay:
+                    canvas.sortingLayerName = _sortingLayerBattleOverlay;
+                    break;
             }
         }
     }

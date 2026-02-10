@@ -9,12 +9,12 @@ namespace Frankie.Inventory.UI
     {
         // Tunables
         [Header("Shop Specific Details")]
-        [SerializeField] TMP_Text priceField = null;
+        [SerializeField] private TMP_Text priceField;
 
-        public void Setup(string inventoryItemName, int choiceOrder, int price, UnityAction purchaseAction)
+        public void Setup(string inventoryItemName, int setChoiceOrder, int price, UnityAction purchaseAction)
         {
             SetText(inventoryItemName);
-            SetChoiceOrder(choiceOrder);
+            SetChoiceOrder(setChoiceOrder);
             priceField.text = price.ToString();
             AddOnClickListener(purchaseAction);
         }
