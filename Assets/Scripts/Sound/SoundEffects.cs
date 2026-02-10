@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 using Frankie.Saving;
 
@@ -9,7 +10,7 @@ namespace Frankie.Sound
         // Note:  Functions called via Unity Events, ignore '0 references' messages
 
         // Tunables
-        [SerializeField] private AudioClip[] audioClips;
+        [SerializeField] private List<AudioClip> audioClips = new();
         
         // Const
         private const float _defaultVolume = 0.3f;
@@ -106,8 +107,8 @@ namespace Frankie.Sound
 
         public void PlayClip()
         {
-            if (audioClips == null) { return; }
-            AudioClip audioClip = audioClips[Random.Range(0, audioClips.Length - 1)];
+            if (audioClips.Count == 0) { return; }
+            AudioClip audioClip = audioClips[Random.Range(0, audioClips.Count - 1)];
             PlayClip(audioClip);
         }
 
@@ -119,14 +120,14 @@ namespace Frankie.Sound
 
         public void PlayClipAfterDestroy(int clipIndex)
         {
-            if (audioClips == null) { return; }
+            if (audioClips.Count == 0) { return; }
             PlayClipAfterDestroy(audioClips[clipIndex]);
         }
 
         public void PlayClipAfterDestroy()
         {
-            if (audioClips == null) { return; }
-            AudioClip currentClip = audioClips[Random.Range(0, audioClips.Length - 1)];
+            if (audioClips.Count == 0) { return; }
+            AudioClip currentClip = audioClips[Random.Range(0, audioClips.Count - 1)];
             PlayClipAfterDestroy(currentClip);
         }
         #endregion
