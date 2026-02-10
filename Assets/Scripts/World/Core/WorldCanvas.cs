@@ -4,16 +4,20 @@ namespace Frankie.World
 {
     public class WorldCanvas : MonoBehaviour
     {
+        // Tunables
         [SerializeField] private Transform worldOptionsParent;
-
+        // Constants
         private const string _worldCanvasTag = "WorldCanvas";
-
+        
+        #region StaticMethods
         public static WorldCanvas FindWorldCanvas() 
         {
             var worldCanvasGameObject = GameObject.FindGameObjectWithTag(_worldCanvasTag);
             return worldCanvasGameObject != null ? worldCanvasGameObject.GetComponent<WorldCanvas>() : null;
         }
+        #endregion
 
+        #region PublicMethods
         public void DestroyExistingWorldOptions()
         {
             foreach (Transform child in worldOptionsParent)
@@ -26,5 +30,6 @@ namespace Frankie.World
         {
             return worldOptionsParent;
         }
+        #endregion
     }
 }

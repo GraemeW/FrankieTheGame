@@ -155,7 +155,7 @@ namespace Frankie.Combat
 
         private void HandlePlayerState(PlayerStateType playerState, IPlayerStateContext playerStateContext)
         {
-            if (playerState == PlayerStateType.inBattle)
+            if (playerState == PlayerStateType.InBattle)
             {
                 SyncToBattle();
             }

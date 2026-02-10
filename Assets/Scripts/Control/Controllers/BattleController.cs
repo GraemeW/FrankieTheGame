@@ -64,11 +64,12 @@ namespace Frankie.Combat
         
         public static bool? IsBattleAdvantage(bool isFriendly, TransitionType transitionType)
         {
-            bool? isBattleAdvantage = null;
-            if (transitionType == TransitionType.BattleGood) { isBattleAdvantage = isFriendly; }
-            else if (transitionType == TransitionType.BattleBad) { isBattleAdvantage = !isFriendly; }
-
-            return isBattleAdvantage;
+            return transitionType switch
+            {
+                TransitionType.BattleGood => isFriendly,
+                TransitionType.BattleBad => !isFriendly,
+                _ => null
+            };
         }
         #endregion
 
@@ -264,14 +265,15 @@ namespace Frankie.Combat
                     BattleEventBus<BattleStagingEvent>.Raise(new BattleStagingEvent(BattleStagingType.BattleControllerPrimed, battleMat.GetActiveCharacters(), battleMat.GetActiveEnemies(), battleFadeTransitionEvent.GetTransitionType()));
                     break;
                 }
-                case BattleFadePhase.ExitPeak:
-                {
-                    break;
-                }
                 case BattleFadePhase.ExitComplete:
                 {
                     BattleEventBus<BattleStagingEvent>.Raise(new BattleStagingEvent(BattleStagingType.BattleTornDown));
                     Destroy(gameObject);
+                    break;
+                }
+                case BattleFadePhase.ExitPeak:
+                default:
+                {
                     break;
                 }
             }
@@ -282,11 +284,10 @@ namespace Frankie.Combat
             if (battleEntitySelectedEvent.combatParticipantType != CombatParticipantType.Friendly) { return; }
 
             BattleEntity battleEntity = battleEntitySelectedEvent.battleEntities.FirstOrDefault();
-            if (battleEntity != null)
-            {
-                selectedCharacter = battleEntity.combatParticipant; // N.B. Set here too for UI button click support
-                battleActionData = new BattleActionData(battleEntity.combatParticipant);
-            }
+            if (battleEntity == null) { return; }
+            
+            selectedCharacter = battleEntity.combatParticipant; // N.B. Set here too for UI button click support
+            battleActionData = new BattleActionData(battleEntity.combatParticipant);
         }
 
         private void HandleBattleQueueAddAttemptEvent(BattleQueueAddAttemptEvent battleQueueAddAttemptEvent)
@@ -382,9 +383,9 @@ namespace Frankie.Combat
                     SetBattleState(BattleState.PreCombat, BattleOutcome.Undetermined);
                     return true;
                 }
-                default:
-                    return false;
             }
+            
+            return false;
         }
 
         private void InteractWithCharacterSelect(int partyMemberSelect)
@@ -397,59 +398,50 @@ namespace Frankie.Combat
 
         private bool InteractWithSkillSelect(PlayerInputType playerInputType)
         {
+            if (playerInputType == PlayerInputType.DefaultNone) { return false; }
             if (battleState != BattleState.Combat) { return false; }
             if (IsBattleActionArmed()) { return false; }
-
-            if (selectedCharacter != null && !selectedCharacter.IsDead())
+            if (selectedCharacter == null || selectedCharacter.IsDead()) { return false; }
+            
+            if (playerInputType == PlayerInputType.Execute && selectedBattleActionSuper != null)
             {
-                if (playerInputType == PlayerInputType.Execute && selectedBattleActionSuper != null)
-                {
-                    SetBattleActionArmed(true);
-                    return true;
-                }
-
-                if (playerInputType != PlayerInputType.DefaultNone)
-                {
-                    battleInput?.Invoke(playerInputType);
-                }
+                SetBattleActionArmed(true);
+                return true;
             }
+
+            battleInput?.Invoke(playerInputType);
             return false;
         }
 
         private bool InteractWithBattleActionExecute(PlayerInputType playerInputType)
         {
+            if (playerInputType == PlayerInputType.DefaultNone) { return false; }
             if (battleState != BattleState.Combat) { return false; }
             if (!IsBattleActionArmed() || selectedCharacter == null || selectedBattleActionSuper == null) { return false; }
-
-            if (playerInputType != PlayerInputType.DefaultNone)
+            
+            if (playerInputType == PlayerInputType.Execute)
             {
-                if (playerInputType == PlayerInputType.Execute)
-                {
-                    if (!battleActionData.HasTargets()) { return false; }
+                if (!battleActionData.HasTargets()) { return false; }
                     
-                    var battleSequence = new BattleSequence(selectedBattleActionSuper, battleActionData);
-                    BattleEventBus<BattleQueueUpdatedEvent>.Raise(new BattleQueueUpdatedEvent(battleSequence));
-                }
-                else
-                {
-                    TargetingNavigationType targetingNavigationType = TargetingStrategy.ConvertPlayerInputToTargeting(playerInputType);
-                    SetSelectedTarget(selectedBattleActionSuper, targetingNavigationType);
-                }
-                battleInput?.Invoke(playerInputType);
-
-                return true;
+                var battleSequence = new BattleSequence(selectedBattleActionSuper, battleActionData);
+                BattleEventBus<BattleQueueUpdatedEvent>.Raise(new BattleQueueUpdatedEvent(battleSequence));
             }
-            return false;
+            else
+            {
+                TargetingNavigationType targetingNavigationType = TargetingStrategy.ConvertPlayerInputToTargeting(playerInputType);
+                SetSelectedTarget(selectedBattleActionSuper, targetingNavigationType);
+            }
+            
+            battleInput?.Invoke(playerInputType);
+            return true;
         }
 
         private bool InteractWithGlobals(PlayerInputType playerInputType)
         {
-            if (playerInputType != PlayerInputType.DefaultNone)
-            {
-                globalInput?.Invoke(playerInputType);
-                return true;
-            }
-            return false;
+            if (playerInputType == PlayerInputType.DefaultNone) { return false; }
+            
+            globalInput?.Invoke(playerInputType);
+            return true;
         }
         #endregion
         
@@ -575,11 +567,7 @@ namespace Frankie.Combat
             BattleActionData dequeuedBattleActionData = battleSequence.battleActionData;
 
             BattleEventBus<BattleSequenceProcessedEvent>.Raise(new BattleSequenceProcessedEvent(battleSequence));
-
-            // Useful Debug
-            //string targetNames = string.Concat(dequeuedBattleActionData.GetTargets().Select(x => x.combatParticipant.name));
-            //UnityEngine.Debug.Log($"Battle sequence from {dequeuedBattleActionData.GetSender().name} dequeued, for action {battleSequence.battleActionSuper.GetName()} on {targetNames}");
-
+            
             // Two flags to flip to re-enable battle:
             // A. global battle queue delay, handled by coroutine
             // B. battle sequence, handled by callback (e.g. for handling effects)
@@ -633,15 +621,12 @@ namespace Frankie.Combat
             }
 
             bool allEnemiesDead = battleMat.GetActiveEnemies().All(battleEntity => battleEntity.combatParticipant.IsDead());
-            if (allEnemiesDead)
-            {
-                bool rewardsExist = battleRewards.HandleBattleRewardsTriggered(partyCombatConduit, battleMat.GetActivePlayerCharacters(), battleMat.GetActiveEnemies());
-                BattleState checkBattleState = rewardsExist ? BattleState.Rewards : BattleState.Outro;
-                SetBattleState(checkBattleState, BattleOutcome.Won);
-                return true;
-            }
+            if (!allEnemiesDead) { return false; }
             
-            return false;
+            bool rewardsExist = battleRewards.HandleBattleRewardsTriggered(partyCombatConduit, battleMat.GetActivePlayerCharacters(), battleMat.GetActiveEnemies());
+            BattleState checkBattleState = rewardsExist ? BattleState.Rewards : BattleState.Outro;
+            SetBattleState(checkBattleState, BattleOutcome.Won);
+            return true;
         }
 
         private void CleanUpBattleBits()
@@ -659,12 +644,6 @@ namespace Frankie.Combat
             {
                 Destroy(gameObject);
             }
-        }
-
-        public PlayerInputType NavigationVectorToInputTypeTemplate(Vector2 navigationVector)
-        {
-            // Not evaluated -> IStandardPlayerInputCallerExtension
-            return PlayerInputType.DefaultNone;
         }
         #endregion
     }

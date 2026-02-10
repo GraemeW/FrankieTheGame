@@ -1,4 +1,3 @@
-using System;
 using System.Linq;
 using Frankie.Core;
 using UnityEngine;
@@ -76,7 +75,6 @@ namespace Frankie.Control
 
         #region PublicMethods
         public GameObject GetPlayer() => playerController.value != null ? playerController.value.gameObject : null;
-        public bool IsShoutable() => canBeShoutedAt;
         public void SetChaseDisposition(bool enable) // Called via Unity Methods
         {
             chasingActive = enable;
@@ -92,6 +90,8 @@ namespace Frankie.Control
         #endregion
 
         #region PrivateMethods
+        private bool IsShoutable() => canBeShoutedAt;
+        
         private bool CheckDistanceToPlayer(float distance)
         {
             Vector2 playerInteractionPosition = playerController.value != null ? playerController.value.GetInteractionPosition() : Vector2.zero;
@@ -148,13 +148,13 @@ namespace Frankie.Control
 
         private void ShoutToNearbyNPCs()
         {
-            RaycastHit2D[] hits = npcMover.NPCCastFromSelf(shoutDistance);
-            foreach (RaycastHit2D hit in hits)
+            foreach (RaycastHit2D hit in npcMover.NPCCastFromSelf(shoutDistance))
             {
                 if (!hit.collider.gameObject.TryGetComponent(out NPCChaser npcInRange)) continue;
                 if (!npcInRange.IsShoutable() || npcInRange == this) { continue; }
                 
-                if (shoutGroup.Length == 0 || shoutGroup.Contains(npcInRange)) // Default behavior, not set, aggro everything shoutable
+                // Default behaviour, not set, aggro everything shoutable
+                if (shoutGroup.Length == 0 || shoutGroup.Contains(npcInRange)) 
                 {
                     npcInRange.SetFrenziedWithoutShout();
                 }

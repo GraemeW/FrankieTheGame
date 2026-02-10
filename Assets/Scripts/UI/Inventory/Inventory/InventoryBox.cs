@@ -39,7 +39,7 @@ namespace Frankie.Inventory.UI
         [Tooltip("Include {0} for item name")] [SerializeField] private string messageDropItem = "Are you sure you want to abandon {0}?"; 
 
         // State
-        private InventoryBoxState inventoryBoxState = InventoryBoxState.inCharacterSelection;
+        private InventoryBoxState inventoryBoxState = InventoryBoxState.InCharacterSelection;
         private readonly List<UIChoiceButton> playerSelectChoiceOptions = new();
         private int selectedItemSlot = -1;
         protected readonly List<InventoryItemField> inventoryItemChoiceOptions = new();
@@ -51,8 +51,8 @@ namespace Frankie.Inventory.UI
         // Cached References
         private BattleController battleController;
         private PartyCombatConduit partyCombatConduit;
-        private List<BattleEntity> partyBattleEntities;
-        private List<CharacterSlide> characterSlides;
+        private readonly List<BattleEntity> partyBattleEntities = new();
+        private readonly List<CharacterSlide> characterSlides = new();
 
         // Events
         public event Action<Enum> uiBoxStateChanged;
@@ -73,10 +73,11 @@ namespace Frankie.Inventory.UI
         }
 
         #region Setup
-        public void Setup(IStandardPlayerInputCaller standardPlayerInputCaller, PartyCombatConduit setPartyCombatConduit, List<CharacterSlide> setCharacterSlides = null)
+        public void Setup(IStandardPlayerInputCaller standardPlayerInputCaller, PartyCombatConduit setPartyCombatConduit, List<CharacterSlide> setCharacterSlides)
         {
             controller = standardPlayerInputCaller;
             partyCombatConduit = setPartyCombatConduit;
+            setCharacterSlides ??= new List<CharacterSlide>();
 
             if (standardPlayerInputCaller.GetType() == typeof(BattleController))
             {
@@ -84,13 +85,14 @@ namespace Frankie.Inventory.UI
             }
             else
             {
-                partyBattleEntities = new List<BattleEntity>();
+                partyBattleEntities.Clear();
                 foreach (CombatParticipant combatParticipant in partyCombatConduit.GetPartyCombatParticipants())
                 {
                     partyBattleEntities.Add(new BattleEntity(combatParticipant));
                 }
 
-                characterSlides = setCharacterSlides;
+                characterSlides.Clear();
+                foreach (CharacterSlide characterSlide in setCharacterSlides) { characterSlides.Add(characterSlide); }
                 SubscribeCharacterSlides(true);
             }
 
@@ -109,14 +111,21 @@ namespace Frankie.Inventory.UI
                 playerSelectChoiceOptions.Add(uiChoiceOption);
                 choiceIndex++;
             }
-            SetInventoryBoxState(InventoryBoxState.inCharacterSelection);
+            SetInventoryBoxState(InventoryBoxState.InCharacterSelection);
             ShowCursorOnAnyInteraction(PlayerInputType.Execute);
         }
-
-        protected void Setup(CombatParticipant character, List<CharacterSlide> setCharacterSlides = null)
+        
+        // For derivative Inventory Boxes without character slide hookup
+        public void Setup(IStandardPlayerInputCaller standardPlayerInputCaller, PartyCombatConduit setPartyCombatConduit)
         {
-            // Single party member instantiation for specific application
-            characterSlides = setCharacterSlides;
+            Setup(standardPlayerInputCaller, setPartyCombatConduit, new List<CharacterSlide>());
+        }
+
+        // For derivative Inventory Boxes w/ single party member instantiation for specific application
+        protected void Setup(CombatParticipant character, List<CharacterSlide> setCharacterSlides)
+        {
+            characterSlides.Clear();
+            foreach (CharacterSlide characterSlide in setCharacterSlides) { characterSlides.Add(characterSlide); }
             SubscribeCharacterSlides(true);
 
             GameObject uiChoiceOptionObject = Instantiate(optionButtonPrefab, optionParent);
@@ -131,36 +140,34 @@ namespace Frankie.Inventory.UI
         private void SubscribeCharacterSlides(bool enable)
         {
             if (controller != null && controller.GetType() == typeof(BattleController)) { return; } // Battle controller handles slides separately
-
-            if (characterSlides != null)
+            if (characterSlides == null) { return; }
+            
+            foreach (CharacterSlide characterSlide in characterSlides)
             {
-                foreach (CharacterSlide characterSlide in characterSlides)
+                if (enable)
                 {
-                    if (enable)
-                    {
-                        targetCharacterChanged += characterSlide.HighlightSlide;
-                        characterSlide.AddButtonClickEvent(delegate { UseItemOnTarget(characterSlide.GetBattleEntity()); });
-                    }
-                    else
-                    {
-                        targetCharacterChanged -= characterSlide.HighlightSlide;
-                        characterSlide.RemoveButtonClickEvents();
-                    }
+                    targetCharacterChanged += characterSlide.HighlightSlide;
+                    characterSlide.AddButtonClickEvent(delegate { UseItemOnTarget(characterSlide.GetBattleEntity()); });
+                }
+                else
+                {
+                    targetCharacterChanged -= characterSlide.HighlightSlide;
+                    characterSlide.RemoveButtonClickEvents();
                 }
             }
         }
 
         protected override void SetUpChoiceOptions()
         {
-            if (inventoryBoxState == InventoryBoxState.inKnapsack || inventoryBoxState == InventoryBoxState.inCharacterSelection)
+            if (inventoryBoxState == InventoryBoxState.InKnapsack || inventoryBoxState == InventoryBoxState.InCharacterSelection)
             {
                 choiceOptions.Clear();
                 selectedItemSlot = -1;
-                if (inventoryBoxState == InventoryBoxState.inKnapsack)
+                if (inventoryBoxState == InventoryBoxState.InKnapsack)
                 {
                     choiceOptions.AddRange(inventoryItemChoiceOptions.Cast<UIChoice>().OrderBy(x => x.choiceOrder).ToList());
                 }
-                else if (inventoryBoxState == InventoryBoxState.inCharacterSelection)
+                else if (inventoryBoxState == InventoryBoxState.InCharacterSelection)
                 {
                     choiceOptions.AddRange(playerSelectChoiceOptions.OrderBy(x => x.choiceOrder).ToList());
                 }
@@ -196,7 +203,7 @@ namespace Frankie.Inventory.UI
         protected void SetInventoryBoxState(InventoryBoxState setInventoryBoxState)
         {
             inventoryBoxState = setInventoryBoxState;
-            if (inventoryBoxState == InventoryBoxState.inCharacterSelection) { battleActionData = null; } // Reset battle action data on selected character changed
+            if (inventoryBoxState == InventoryBoxState.InCharacterSelection) { battleActionData = null; } // Reset battle action data on selected character changed
 
             SetUpChoiceOptions();
 
@@ -209,17 +216,17 @@ namespace Frankie.Inventory.UI
         {
             switch (inventoryBoxState)
             {
-                case InventoryBoxState.inCharacterSelection:
+                case InventoryBoxState.InCharacterSelection:
                     return base.MoveCursor(playerInputType);
-                case InventoryBoxState.inKnapsack:
+                case InventoryBoxState.InKnapsack:
                     // Support for 2-D movement across the inventory items
                     MoveCursor2D(playerInputType);
                     break;
-                case InventoryBoxState.inCharacterTargeting:
+                case InventoryBoxState.InCharacterTargeting:
                 {
                     TargetingNavigationType targetingNavigationType = TargetingStrategy.ConvertPlayerInputToTargeting(playerInputType);
                     bool gotNextTarget = GetNextTarget(targetingNavigationType);
-                    if (!gotNextTarget) { SetInventoryBoxState(InventoryBoxState.inKnapsack); }
+                    if (!gotNextTarget) { SetInventoryBoxState(InventoryBoxState.InKnapsack); }
                     break;
                 }
             }
@@ -229,7 +236,7 @@ namespace Frankie.Inventory.UI
 
         protected override bool Choose(string nodeID)
         {
-            if (inventoryBoxState != InventoryBoxState.inCharacterTargeting)
+            if (inventoryBoxState != InventoryBoxState.InCharacterTargeting)
             {
                 return base.Choose(null);
             }
@@ -256,7 +263,7 @@ namespace Frankie.Inventory.UI
         {
             UpdateKnapsackView(character);
             battleActionData = new BattleActionData(selectedCharacter);
-            SetInventoryBoxState(InventoryBoxState.inKnapsack);
+            SetInventoryBoxState(InventoryBoxState.InKnapsack);
 
             if (IsChoiceAvailable())
             {
@@ -264,14 +271,14 @@ namespace Frankie.Inventory.UI
             }
             else
             {
-                SetInventoryBoxState(InventoryBoxState.inCharacterSelection);
+                SetInventoryBoxState(InventoryBoxState.InCharacterSelection);
             }
         }
 
         protected virtual void SoftChooseCharacter(CombatParticipant character)
         {
             ChooseCharacter(character, false);
-            SetInventoryBoxState(InventoryBoxState.inCharacterSelection);
+            SetInventoryBoxState(InventoryBoxState.InCharacterSelection);
         }
 
         protected void UpdateKnapsackView(CombatParticipant character)
@@ -279,12 +286,12 @@ namespace Frankie.Inventory.UI
             if (character == null)
             {
                 selectedKnapsack = null;
-                SetInventoryBoxState(InventoryBoxState.inCharacterSelection);
+                SetInventoryBoxState(InventoryBoxState.InCharacterSelection);
                 return;
             }
             if (character == selectedCharacter) return;
             
-            OnUIBoxModified(UIBoxModifiedType.itemSelected, true);
+            OnUIBoxModified(UIBoxModifiedType.ItemSelected, true);
             selectedCharacter = character;
             selectedCharacterNameField.text = selectedCharacter.GetCombatName();
             RefreshKnapsackContents();
@@ -300,7 +307,7 @@ namespace Frankie.Inventory.UI
                 return;
             }
 
-            SetInventoryBoxState(InventoryBoxState.inItemDetail);
+            SetInventoryBoxState(InventoryBoxState.InItemDetail);
             DialogueOptionBox dialogueOptionBox = Instantiate(dialogueOptionBoxPrefab, transform.parent);
             dialogueOptionBox.Setup(optionText);
             dialogueOptionBox.OverrideChoiceOptions(choiceActionPairs);
@@ -439,12 +446,12 @@ namespace Frankie.Inventory.UI
             if (selectedKnapsack == null) { return; }
 
             GameObject inventoryMoveBoxObject = Instantiate(inventoryMoveBoxPrefab, transform.parent);
-            InventoryMoveBox inventoryMoveBox = inventoryMoveBoxObject.GetComponent<InventoryMoveBox>();
+            var inventoryMoveBox = inventoryMoveBoxObject.GetComponent<InventoryMoveBox>();
             inventoryMoveBox.Setup(controller, partyCombatConduit, selectedKnapsack, inventorySlot, characterSlides);
             canvasGroup.alpha = 0.0f;
             PassControl(this, new Action[] { () => EnableInput(true), () => SetVisible(true) }, inventoryMoveBox, controller);
 
-            SetInventoryBoxState(InventoryBoxState.inItemMoving);
+            SetInventoryBoxState(InventoryBoxState.InItemMoving);
         }
 
         private void Drop(int inventorySlot)
@@ -497,8 +504,8 @@ namespace Frankie.Inventory.UI
                 selectedItemSlot = inventorySlot;
                 handleGlobalInput = true;
                 SetInventoryBoxState(GetNextTarget(TargetingNavigationType.Hold)
-                    ? InventoryBoxState.inCharacterTargeting
-                    : InventoryBoxState.inKnapsack);
+                    ? InventoryBoxState.InCharacterTargeting
+                    : InventoryBoxState.InKnapsack);
             }
         }
 
@@ -518,10 +525,10 @@ namespace Frankie.Inventory.UI
 
         private void UseItemOnTarget(BattleEntity battleEntity)
         {
-            if (inventoryBoxState != InventoryBoxState.inCharacterTargeting) { return; }
+            if (inventoryBoxState != InventoryBoxState.InCharacterTargeting) { return; }
 
             battleActionData.SetTargets(battleEntity);
-            if (!GetNextTarget(TargetingNavigationType.Hold)) { SetInventoryBoxState(InventoryBoxState.inKnapsack); return; } // Verify passed combatParticipant is valid target
+            if (!GetNextTarget(TargetingNavigationType.Hold)) { SetInventoryBoxState(InventoryBoxState.InKnapsack); return; } // Verify passed combatParticipant is valid target
 
             targetCharacterChanged?.Invoke(CombatParticipantType.Foe, new[] { battleEntity });
             Choose(null);
@@ -543,10 +550,10 @@ namespace Frankie.Inventory.UI
 
             if (playerInputType == PlayerInputType.Option || playerInputType == PlayerInputType.Cancel)
             {
-                if (inventoryBoxState == InventoryBoxState.inKnapsack)
+                if (inventoryBoxState == InventoryBoxState.InKnapsack)
                 {
                     ClearChoiceSelections();
-                    SetInventoryBoxState(InventoryBoxState.inCharacterSelection);
+                    SetInventoryBoxState(InventoryBoxState.InCharacterSelection);
                     return true;
                 }
             }
@@ -572,7 +579,7 @@ namespace Frankie.Inventory.UI
                 }
                 else
                 {
-                    SetInventoryBoxState(InventoryBoxState.inKnapsack);
+                    SetInventoryBoxState(InventoryBoxState.InKnapsack);
                 }
             }
             handleGlobalInput = true;

@@ -76,13 +76,16 @@ namespace Frankie.Control
         #endregion
 
         #region PublicMethods
-        public CombatParticipant GetCombatParticipant() => combatParticipant;
         public bool WillForceCombat() => willForceCombat;
-        #endregion
 
-        #region StateUtilityMethods
-        public void SetNPCIdle() => SetNPCState(NPCStateType.Idle); // Callable via Unity Event
-        public void SetNPCSuspicious() => SetNPCState(NPCStateType.Suspicious); // Callable via Unity Event
+        public void SetNPCIdle() // Callable via Unity Event
+        {
+            SetNPCState(NPCStateType.Idle); 
+        }
+        public void SetNPCSuspicious() // Callable via Unity Event
+        {
+            SetNPCState(NPCStateType.Suspicious);
+        }
         public void SetNPCAggravated() // Callable via Unity Event
         {
             SetNPCState(NPCStateType.Aggravated);
@@ -90,6 +93,10 @@ namespace Frankie.Control
         public void SetNPCFrenzied() // Callable via Unity Event
         {
             SetNPCState(NPCStateType.Frenzied);
+        }
+        public void ForceNPCOccupied()
+        {
+            npcOccupied = true;
         }
 
         public void InitiateCombat(PlayerStateMachine playerStateMachine)  // called via Unity Event
@@ -121,14 +128,11 @@ namespace Frankie.Control
         {
             Destroy(gameObject);
         }
-
-        public void ForceNPCOccupied()
-        {
-            npcOccupied = true;
-        }
         #endregion
 
         #region PrivateMethods
+        private CombatParticipant GetCombatParticipant() => combatParticipant;
+        
         private void InitializeNPCRunDisposition()
         {
             PlayerStateMachine playerStateMachine = Player.FindPlayerStateMachine();
@@ -243,12 +247,12 @@ namespace Frankie.Control
             
             switch (playerState)
             {
-                case PlayerStateType.inDialogue:
-                case PlayerStateType.inBattle:
-                case PlayerStateType.inMenus:
+                case PlayerStateType.InDialogue:
+                case PlayerStateType.InBattle:
+                case PlayerStateType.InMenus:
                     SetNPCState(NPCStateType.Occupied);
                     break;
-                case PlayerStateType.inTransition:
+                case PlayerStateType.InTransition:
                     if (playerStateContext.InZoneTransition())
                     {
                         SetNPCState(NPCStateType.Occupied);
@@ -260,8 +264,8 @@ namespace Frankie.Control
                     }
                     // other transitions allow enemy movement -- swarm mechanic
                     break;
-                case PlayerStateType.inCutScene:
-                case PlayerStateType.inWorld:
+                case PlayerStateType.InCutScene:
+                case PlayerStateType.InWorld:
                 default:
                     CheckForNPCAfraid(playerStateContext);
                     SetNPCState(npcState);

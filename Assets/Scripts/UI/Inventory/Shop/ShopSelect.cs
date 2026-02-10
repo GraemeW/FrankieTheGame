@@ -12,25 +12,48 @@ namespace Frankie.Inventory.UI
     {
         // Prefabs
         [Header("Shop Prefabs")]
-        [SerializeField] ShopBox shopBoxPrefab = null;
-        [SerializeField] InventoryShopBox inventoryShopBoxPrefab = null;
+        [SerializeField] private ShopBox shopBoxPrefab;
+        [SerializeField] private InventoryShopBox inventoryShopBoxPrefab;
 
         // Bool
-        bool exitShopOnDestroy = true;
+        private bool exitShopOnDestroy = true;
 
         // Cached Reference
-        WorldCanvas worldCanvas = null;
-        PlayerStateMachine playerStateMachine = null;
-        PlayerController playerController = null;
-        PartyKnapsackConduit partyKnapsackConduit = null;
-        Shopper shopper = null;
-        Shop shop = null;
+        private WorldCanvas worldCanvas;
+        private PlayerStateMachine playerStateMachine;
+        private PlayerController playerController;
+        private PartyKnapsackConduit partyKnapsackConduit;
+        private Shopper shopper;
+        private Shop shop;
 
+        #region UnityMethods
         private void Awake()
         {
             GetPlayerReference();
         }
+        
+        private void Start()
+        {
+            // Input handled via player controller, immediate override
+            TakeControl(playerController, this, null); 
+            HandleClientEntry();
 
+            shop = shopper.GetCurrentShop();
+            if (shop == null || !shop.HasInventory()) { Destroy(gameObject); }
+
+            ShopType shopType = shop.GetShopType();
+            switch (shopType)
+            {
+                case ShopType.Buy:
+                    SpawnBuyScreen();
+                    break;
+                case ShopType.Sell:
+                    SpawnSellScreen();
+                    break;
+            }
+            // Otherwise Both -> standard menu interaction, configured in Unity
+        }
+        
         private void OnDestroy()
         {
             if (exitShopOnDestroy)
@@ -38,7 +61,7 @@ namespace Frankie.Inventory.UI
                 playerStateMachine?.EnterWorld();
             }
         }
-
+        
         private void GetPlayerReference()
         {
             worldCanvas = WorldCanvas.FindWorldCanvas();
@@ -46,30 +69,12 @@ namespace Frankie.Inventory.UI
             if (worldCanvas == null || playerStateMachine == null) { Destroy(gameObject); }
 
             partyKnapsackConduit = playerStateMachine.GetComponent<PartyKnapsackConduit>();
-            playerController = playerStateMachine?.GetComponent<PlayerController>();
-            shopper = playerStateMachine?.GetComponent<Shopper>();
+            playerController = playerStateMachine.GetComponent<PlayerController>();
+            shopper = playerStateMachine.GetComponent<Shopper>();
         }
+        #endregion
 
-        private void Start()
-        {
-            TakeControl(playerController, this, null); // input handled via player controller, immediate override
-            HandleClientEntry();
-
-            shop = shopper.GetCurrentShop();
-            if (shop == null || !shop.HasInventory()) { Destroy(gameObject); }
-
-            ShopType shopType = shop.GetShopType();
-            if (shopType == ShopType.Buy)
-            {
-                SpawnBuyScreen();
-            }
-            else if (shopType == ShopType.Sell)
-            {
-                SpawnSellScreen();
-            }
-            // Otherwise Both -> standard menu interaction, configured in Unity
-        }
-
+        #region PublicMethods
         public void SpawnBuyScreen() // Called by Unity Events
         {
             exitShopOnDestroy = false; // Shop exit to be called by child UI
@@ -87,5 +92,6 @@ namespace Frankie.Inventory.UI
             inventoryShopBox.Setup(playerController, playerStateMachine, partyKnapsackConduit.GetComponent<PartyCombatConduit>(), shopper, shop.GetMessageForSale(), shop.GetMessageCannotSell());
             Destroy(gameObject);
         }
+        #endregion
     }
 }

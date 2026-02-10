@@ -6,10 +6,11 @@ namespace Frankie.ZoneManagement
     public class MapCamera : MonoBehaviour
     {
         // Tunables
-        [SerializeField] Camera subCamera = null;
-        [SerializeField] RenderTexture mapRenderTexture = null;
-        [SerializeField] bool subscribeToSceneEvents = false;
+        [SerializeField] private Camera subCamera;
+        [SerializeField] private RenderTexture mapRenderTexture;
+        [SerializeField] private bool subscribeToSceneEvents;
 
+        #region UnityMethods
         private void Awake()
         {
             subCamera.gameObject.SetActive(false);
@@ -24,7 +25,9 @@ namespace Frankie.ZoneManagement
         {
             SubscribeToSceneLoader(false);
         }
+        #endregion
 
+        #region PrivateMethods
         private void SubscribeToSceneLoader(bool enable)
         {
             if (!subscribeToSceneEvents) { return; }
@@ -65,8 +68,9 @@ namespace Frankie.ZoneManagement
             if (playerObject == null) { return; }
 
             Transform playerTransform = playerObject.transform;
-            Vector3 newCameraPosition = new Vector3(playerTransform.position.x, playerTransform.position.y, subCamera.transform.position.z);
+            var newCameraPosition = new Vector3(playerTransform.position.x, playerTransform.position.y, subCamera.transform.position.z);
             subCamera.transform.position = newCameraPosition;
         }
+        #endregion
     }
 }

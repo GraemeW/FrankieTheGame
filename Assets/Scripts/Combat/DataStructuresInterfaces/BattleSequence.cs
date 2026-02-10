@@ -2,8 +2,8 @@ namespace Frankie.Combat
 {
     public struct BattleSequence
     {
-        public IBattleActionSuper battleActionSuper;
-        public BattleActionData battleActionData;
+        public readonly IBattleActionSuper battleActionSuper;
+        public readonly BattleActionData battleActionData;
 
         public BattleSequence(IBattleActionSuper battleActionSuper, BattleActionData battleActionData)
         {

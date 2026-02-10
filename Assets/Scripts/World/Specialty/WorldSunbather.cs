@@ -16,12 +16,14 @@ namespace Frankie.World
         // Cached References
         private Animator animator;
 
+        #region UnityMethods
         private void Awake()
         {
             animator = GetComponent<Animator>();
         }
+        #endregion
 
-        // Public Methods -- called via Unity events
+        #region PublicMethods
         public void RemoveTop()
         {
             animator.SetBool(_topOnRef, false);
@@ -56,6 +58,12 @@ namespace Frankie.World
             topEnabled = true;
             bottomEnabled = true;
         }
+        
+        public void ToggleTop()
+        {
+            if (!topEnabled) { AddTop(); }
+            else { RemoveTop(); }
+        }
 
         public void ToggleAllClothing()
         {
@@ -63,11 +71,6 @@ namespace Frankie.World
             else if (!topEnabled) { AddTop(); }
             else { RemoveAll(); }
         }
-
-        public void ToggleTop()
-        {
-            if (!topEnabled) { AddTop(); }
-            else { RemoveTop(); }
-        }
+        #endregion
     }
 }

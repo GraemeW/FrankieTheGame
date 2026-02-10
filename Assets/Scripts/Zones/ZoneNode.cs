@@ -41,10 +41,7 @@ namespace Frankie.ZoneManagement
             children.Add(newID);
         }
 
-        public bool CheckCondition(IEnumerable<IPredicateEvaluator> evaluators)
-        {
-            return condition.Check(evaluators);
-        }
+        public bool CheckCondition(IEnumerable<IPredicateEvaluator> evaluators) => condition.Check(evaluators);
         #endregion
 
         #region ZoneEditorMethods

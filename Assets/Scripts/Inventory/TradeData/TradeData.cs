@@ -2,9 +2,9 @@ namespace Frankie.Inventory
 {
     public class TradeData
     {
-        public TradeDataType tradeDataType { get; } = default;
-        public ShopType shopType { get; } = default;
-        public BankType bankType { get; } = default;
+        public TradeDataType tradeDataType { get; private set; }
+        public ShopType shopType { get; private set; }
+        public BankType bankType { get; private set; }
 
         public TradeData(ShopType shopType)
         {

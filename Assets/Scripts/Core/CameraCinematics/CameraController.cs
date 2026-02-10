@@ -41,13 +41,19 @@ namespace Frankie.Core
             var cameraControllerObject = GameObject.FindGameObjectWithTag(_cameraControllerTag);
             return cameraControllerObject != null ? cameraControllerObject.GetComponent<CameraController>() : null;
         }
+        
+        private static Party GetPartyReference()
+        {
+            GameObject playerObject = Player.FindPlayerObject();
+            return playerObject != null ? playerObject.GetComponent<Party>() : null;
+        }
         #endregion
 
         #region UnityMethods
         private void Awake()
         {
             player = new ReInitLazyValue<Player>(Player.FindPlayer);
-            party = new ReInitLazyValue<Party>(SetupPartyReference);
+            party = new ReInitLazyValue<Party>(GetPartyReference);
 
             if (TryGetComponent(out PixelPerfectCamera pixelPerfectCamera))
             {
@@ -93,16 +99,9 @@ namespace Frankie.Core
         #endregion
 
         #region PrivateMethods
-        private Party SetupPartyReference()
-        {
-            GameObject playerObject = Player.FindPlayerObject();
-            return playerObject != null ? playerObject.GetComponent<Party>() : null;
-        }
-
         private void SetUpStateDrivenCamera(Animator animator)
         {
             if (animator == null) { return; }
-            
             UpdateStateAnimator(animator);
         }
 
@@ -116,12 +115,11 @@ namespace Frankie.Core
 
         private void SetupOverlayCameras()
         {
-            if (mainCamera != null && spawnAssistCamera != null)
-            {
-                UniversalAdditionalCameraData cameraData = mainCamera.GetUniversalAdditionalCameraData();
-                cameraData.cameraStack.Clear();
-                cameraData.cameraStack.Add(spawnAssistCamera);
-            }
+            if (mainCamera == null || spawnAssistCamera == null) { return; }
+            
+            UniversalAdditionalCameraData cameraData = mainCamera.GetUniversalAdditionalCameraData();
+            cameraData.cameraStack.Clear();
+            cameraData.cameraStack.Add(spawnAssistCamera);
         }
 
         private void UpdateCameraOrthoSizes(ResolutionScaler resolutionScaler, int cameraScaling)

@@ -86,10 +86,11 @@ namespace Frankie.ZoneManagement
         private void Awake()
         {
 #if UNITY_EDITOR
-            // Deprecated Approach
+            // Deprecated Approach:
+            // CreateRootNodeIfMissing();
+            
             // Note:  We now make in ZoneEditor due to some intricacies in how Unity calls Awake on ScriptableObjects in Editor vs. the serialization callback
-            // For (unknown) reasons, the root node gets made and then killed by the time serialization occurs
-            //CreateRootNodeIfMissing();
+            // If doing this in Awake(), the root node gets made and then killed by the time serialization occurs
 #endif
         }
 
@@ -149,7 +150,7 @@ namespace Frankie.ZoneManagement
             ZoneNode childNode = CreateNode();
             parentNode.AddChild(childNode.name);
 
-            Vector2 offsetPosition = new Vector2(parentNode.GetRect().xMax + newNodeOffset.x,
+            var offsetPosition = new Vector2(parentNode.GetRect().xMax + newNodeOffset.x,
                 parentNode.GetRect().yMin + (parentNode.GetRect().height + newNodeOffset.y) * (parentNode.GetChildren().Count - 1)); // Offset position by 1 since child just added
             childNode.SetPosition(offsetPosition);
 
@@ -229,5 +230,4 @@ namespace Frankie.ZoneManagement
         }
         #endregion
     }
-
 }

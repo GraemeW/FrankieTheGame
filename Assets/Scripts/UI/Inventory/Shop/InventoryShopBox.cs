@@ -81,10 +81,10 @@ namespace Frankie.Inventory.UI
                 case ShopType.Buy:
                 {
                     UpdateKnapsackView(character);
-                    SetInventoryBoxState(InventoryBoxState.inCharacterSelection);
+                    SetInventoryBoxState(InventoryBoxState.InCharacterSelection);
 
-                    Knapsack characterKnapsack = selectedCharacter.GetComponent<Knapsack>();
-                    Knapsack selectedCharacterKnapsack = selectedCharacter.GetComponent<Knapsack>();
+                    var characterKnapsack = selectedCharacter.GetComponent<Knapsack>();
+                    var selectedCharacterKnapsack = selectedCharacter.GetComponent<Knapsack>();
                     if (characterKnapsack == null || selectedCharacterKnapsack == null) { return; }
 
                     if (selectedCharacterKnapsack.HasFreeSpace())

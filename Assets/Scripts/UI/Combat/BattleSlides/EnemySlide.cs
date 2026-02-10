@@ -40,11 +40,6 @@ namespace Frankie.Combat.UI
         #endregion
 
         #region ImplementedMethods
-        protected override void Awake()
-        {
-            base.Awake();
-        }
-
         protected override void FixedUpdate()
         {
             base.FixedUpdate();
@@ -101,7 +96,7 @@ namespace Frankie.Combat.UI
                     
                     AddStatusEffectBobble(persistentStatus);
                     string statusEffectText = GetStatusEffectText(persistentStatus);
-                    if (!string.IsNullOrWhiteSpace(statusEffectText)) { damageTextSpawner.AddToQueue(new DamageTextData(DamageTextType.Informational, statusEffectText)); };
+                    if (!string.IsNullOrWhiteSpace(statusEffectText)) { damageTextSpawner.AddToQueue(new DamageTextData(DamageTextType.Informational, statusEffectText)); }
                     break;
                 }
                 case StateAlteredType.BaseStateEffectApplied:
@@ -134,8 +129,6 @@ namespace Frankie.Combat.UI
                     BlipGrowSlide();
                     break;
                 }
-                default:
-                    throw new ArgumentOutOfRangeException();
             }
         }
 

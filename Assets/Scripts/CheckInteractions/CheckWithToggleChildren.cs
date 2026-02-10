@@ -26,6 +26,7 @@ namespace Frankie.Control
         // State
         private bool childrenStateSetBySave = false;
 
+        #region UnityMethods
         private void Start()
         {
             if (childrenStateSetBySave) { return; }
@@ -37,7 +38,9 @@ namespace Frankie.Control
                 child.gameObject.SetActive(!toggleToConditionMet);
             }
         }
+        #endregion
 
+        #region PublicMethods
         public override bool HandleRaycast(PlayerStateMachine playerStateHandler, PlayerController playerController, PlayerInputType inputType, PlayerInputType matchType)
         {
             if (!IsInRange(playerController)) { return false; }
@@ -48,7 +51,27 @@ namespace Frankie.Control
             }
             return true;
         }
+        
+        public void BypassCheckCondition(PlayerStateMachine playerStateHandler) // Also called via Unity Events
+        {
+            BypassCheckConditionWithNoInteractionEvents();
+            checkInteraction?.Invoke(playerStateHandler);
+        }
 
+        public void BypassCheckConditionWithNoInteractionEvents() // Also called via Unity Events
+        {
+            foreach (Transform child in parentTransformForToggling)
+            {
+                child.gameObject.SetActive(toggleToConditionMet);
+            }
+            SetActiveCheck(false); // Disabling further interactions after toggling once -- also saved via CaptureState in parent class
+        }
+        #endregion
+        
+        #region PrivateMethods
+        private bool CheckCondition(PlayerStateMachine playerStateHandler) => condition != null && condition.Check(GetEvaluators(playerStateHandler)); 
+        private IEnumerable<IPredicateEvaluator> GetEvaluators(PlayerStateMachine playerStateHandler) => playerStateHandler.GetComponentsInChildren<IPredicateEvaluator>();
+        
         private void ToggleChildren(PlayerStateMachine playerStateHandler)
         {
             if (transform.childCount == 0) { return; }
@@ -68,31 +91,7 @@ namespace Frankie.Control
                 playerStateHandler.EnterDialogue(string.Format(messageOnConditionNotMet, partyLeaderName));
             }
         }
-
-        public void BypassCheckCondition(PlayerStateMachine playerStateHandler) // Also called via Unity Events
-        {
-            BypassCheckConditionWithNoInteractionEvents();
-            checkInteraction?.Invoke(playerStateHandler);
-        }
-
-        public void BypassCheckConditionWithNoInteractionEvents() // Also called via Unity Events
-        {
-            foreach (Transform child in parentTransformForToggling)
-            {
-                child.gameObject.SetActive(toggleToConditionMet);
-            }
-            SetActiveCheck(false); // Disabling further interactions after toggling once -- also saved via CaptureState in parent class
-        }
-
-        private bool CheckCondition(PlayerStateMachine playerStateHandler)
-        {
-            return condition != null && condition.Check(GetEvaluators(playerStateHandler));
-        }
-
-        private IEnumerable<IPredicateEvaluator> GetEvaluators(PlayerStateMachine playerStateHandler)
-        {
-            return playerStateHandler.GetComponentsInChildren<IPredicateEvaluator>();
-        }
+        #endregion
 
         #region SaveInterface
         public override void RestoreState(SaveState state)

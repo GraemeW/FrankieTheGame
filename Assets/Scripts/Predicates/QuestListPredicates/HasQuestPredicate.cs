@@ -8,7 +8,8 @@ namespace Frankie.Core
     {
         public override bool? Evaluate(QuestList questList)
         {
-            return questList.HasQuest(quest);
+            if (questList == null) { return null; }
+            return quest != null && questList.HasQuest(quest);
         }
     }
 }

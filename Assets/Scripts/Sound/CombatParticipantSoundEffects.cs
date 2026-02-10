@@ -37,7 +37,7 @@ namespace Frankie.Sound
 
         protected override void SetAudioSource(AudioClip audioClip = null)
         {
-            if (audioSources == null || audioSources.Length == 0) { base.SetAudioSource(); }
+            if (audioSources == null || audioSources.Length == 0) { base.SetAudioSource(audioClip); }
             else
             {
                 // Avoid duplicate simultaneous clip plays (impact is otherwise LOUD)

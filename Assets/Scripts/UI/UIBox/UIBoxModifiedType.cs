@@ -2,9 +2,9 @@
 {
     public enum UIBoxModifiedType
     {
-        writingStateChanged,
-        itemSelected,
-        clientEnter,
-        clientExit
+        WritingStateChanged,
+        ItemSelected,
+        ClientEnter,
+        ClientExit
     }
 }

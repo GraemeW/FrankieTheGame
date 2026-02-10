@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using Frankie.Stats;
 using Frankie.Utils;
@@ -16,14 +17,8 @@ namespace Frankie.Control
         public override List<ChoiceActionPair> GetChoiceActionPairs(PlayerStateMachine playerStateHandler, CheckWithConfiguration callingCheck)
         {
             Party party = playerStateHandler.GetParty();
-
-            var interactActions = new List<ChoiceActionPair>();
-            foreach (CharacterProperties character in party.GetAvailableCharactersToAdd())
-            {
-                interactActions.Add(new ChoiceActionPair(character.GetCharacterNamePretty(),
-                    () => AddToPartyWithErrorHandling(playerStateHandler, party, character)));
-            }
-            return interactActions;
+            return party.GetAvailableCharactersToAdd().Select(character => 
+                new ChoiceActionPair(character.GetCharacterNamePretty(), () => AddToPartyWithErrorHandling(playerStateHandler, party, character))).ToList();
         }
 
         private void AddToPartyWithErrorHandling(PlayerStateMachine playerStateHandler, Party party, CharacterProperties characterProperties)

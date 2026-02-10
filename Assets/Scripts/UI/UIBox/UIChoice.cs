@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
@@ -9,14 +8,14 @@ namespace Frankie.Utils.UI
     public abstract class UIChoice : MonoBehaviour
     {
         // Tunables
-        [SerializeField] protected GameObject selectionMarker = null;
+        [SerializeField] protected GameObject selectionMarker;
         [Tooltip("Smallest values select first")] public int choiceOrder = 0;
-        [SerializeField] Color validChoiceColor = Color.white;
-        [SerializeField] Color invalidChoiceColor = Color.gray;
-        [SerializeField] TextMeshProUGUI textField = null;
+        [SerializeField] private Color validChoiceColor = Color.white;
+        [SerializeField] private Color invalidChoiceColor = Color.gray;
+        [SerializeField] private TextMeshProUGUI textField;
 
         // State
-        List<UnityAction> onHighlightExtraListeners = new List<UnityAction>();
+        private readonly List<UnityAction> onHighlightExtraListeners = new();
 
         // Unity Events
         public UnityEvent itemHighlighted;
@@ -24,23 +23,21 @@ namespace Frankie.Utils.UI
         #region UnityMethods
         private void OnEnable()
         {
-            if (onHighlightExtraListeners != null && onHighlightExtraListeners.Count > 0)
+            if (onHighlightExtraListeners is not { Count: > 0 }) { return; }
+            
+            foreach (UnityAction unityAction in onHighlightExtraListeners)
             {
-                foreach (UnityAction unityAction in onHighlightExtraListeners)
-                {
-                    itemHighlighted.AddListener(unityAction);
-                }
+                itemHighlighted.AddListener(unityAction);
             }
         }
 
         private void OnDisable()
         {
-            if (onHighlightExtraListeners != null && onHighlightExtraListeners.Count > 0)
+            if (onHighlightExtraListeners is not { Count: > 0 }) { return; }
+            
+            foreach (UnityAction unityAction in onHighlightExtraListeners)
             {
-                foreach (UnityAction unityAction in onHighlightExtraListeners)
-                {
-                    itemHighlighted.RemoveListener(unityAction);
-                }
+                itemHighlighted.RemoveListener(unityAction);
             }
         }
 
@@ -53,9 +50,9 @@ namespace Frankie.Utils.UI
         #region PublicMethods
         public abstract void UseChoice();
 
-        public void SetChoiceOrder(int choiceOrder)
+        public void SetChoiceOrder(int setChoiceOrder)
         {
-            this.choiceOrder = choiceOrder;
+            choiceOrder = setChoiceOrder;
         }
 
         public void SetText(string text)
@@ -65,14 +62,7 @@ namespace Frankie.Utils.UI
 
         public void SetValidColor(bool enable)
         {
-            if (enable)
-            {
-                textField.color = validChoiceColor;
-            }
-            else
-            {
-                textField.color = invalidChoiceColor;
-            }
+            textField.color = enable ? validChoiceColor : invalidChoiceColor;
         }
 
         public void AddOnHighlightListener(UnityAction unityAction)
@@ -80,20 +70,13 @@ namespace Frankie.Utils.UI
             if (unityAction == null) { return; }
 
             onHighlightExtraListeners.Add(unityAction);
-
-            if (gameObject.activeSelf)
-            {
-                itemHighlighted.AddListener(unityAction);
-            }
+            if (gameObject.activeSelf) { itemHighlighted.AddListener(unityAction); }
         }
 
-        public virtual void Highlight(bool enable)
+        public void Highlight(bool enable)
         {
             selectionMarker.SetActive(enable);
-            if (enable && itemHighlighted != null)
-            {
-                itemHighlighted.Invoke();
-            }
+            if (enable && itemHighlighted != null) { itemHighlighted.Invoke(); }
         }
         #endregion
     }

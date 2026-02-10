@@ -44,6 +44,11 @@ namespace Frankie.Control
         protected virtual void Awake()
         {
             rigidBody2D = GetComponent<Rigidbody2D>();
+            SetupInitialState();
+        }
+
+        private void SetupInitialState()
+        {
             originalPosition = transform.position;
             targetDistanceTolerance = defaultTargetDistanceTolerance;
             targetMovementHistory = new CircularBuffer<Vector2>(targetMovementHistoryLength);
@@ -72,11 +77,11 @@ namespace Frankie.Control
 
         #region PublicMethods
         public Vector2 GetLookDirection() => lookDirection;
-        public bool HasMoveTarget() => (moveTargetCoordinate != null || moveTargetObject != null);
         
         public void SetLookDirection(Vector2 setLookDirection)
         {
-            setLookDirection.Normalize(); // Blend tree animation speed depends on magnitude of variable -- to avoid very quick animations, normalize 
+            // Blend tree animation speed depends on magnitude of variable -- to avoid very quick animations, normalize
+            setLookDirection.Normalize(); 
             lookDirection = setLookDirection;
             UpdateAnimator();
         }
@@ -104,13 +109,13 @@ namespace Frankie.Control
             moveTargetObject = null;
         }
         
-        public void WarpToPosition(Vector2 target)
+        public void WarpToPosition(Vector2 target) // Called via Unity Events
         {
             SetMoveTarget(target);
             transform.position = target;
         }
 
-        public void MoveToOriginalPosition()
+        public void MoveToOriginalPosition() // Called via Unity Events
         {
             targetDistanceTolerance = defaultTargetDistanceTolerance;
             SetMoveTarget(originalPosition);
@@ -144,40 +149,19 @@ namespace Frankie.Control
 
         protected virtual Vector2 ReckonTarget(bool withOffsetting = true, bool addToHistory = true)
         {
-            if (moveTargetCoordinate != null)
-            {
-                return moveTargetCoordinate.Value;
-            }
-            if (moveTargetObject != null)
-            {
-                Vector2 currentTargetPosition = moveTargetObject.transform.position;
-                if (addToHistory) { targetMovementHistory.Add(currentTargetPosition); }
-                
-                if (targetMovementHistory.GetCurrentSize() == 0) { return currentTargetPosition; }
-                else { return withOffsetting ? targetMovementHistory.GetLastEntry() : targetMovementHistory.GetFirstEntry(); }
-            }
-            return Vector2.zero;;
-        }
-
-        protected void SetLookDirection(PlayerInputType playerInputType)
-        {
-            if (playerInputType is not (PlayerInputType.NavigateDown or PlayerInputType.NavigateUp or PlayerInputType.NavigateLeft or PlayerInputType.NavigateRight)) return;
-
-            Vector2 newLookDirection = playerInputType switch
-            {
-                PlayerInputType.NavigateDown => Vector2.down,
-                PlayerInputType.NavigateUp => Vector2.up,
-                PlayerInputType.NavigateLeft => Vector2.left,
-                PlayerInputType.NavigateRight => Vector2.right,
-                // ReSharper disable once UnreachableSwitchArmDueToIntegerAnalysis
-                _ => Vector2.zero
-            };
-            SetLookDirection(newLookDirection);
+            if (moveTargetCoordinate != null) { return moveTargetCoordinate.Value; }
+            if (moveTargetObject == null) { return Vector2.zero; }
+            
+            Vector2 currentTargetPosition = moveTargetObject.transform.position;
+            if (addToHistory) { targetMovementHistory.Add(currentTargetPosition); }
+            if (targetMovementHistory.GetCurrentSize() == 0) { return currentTargetPosition; }
+            
+            return withOffsetting ? targetMovementHistory.GetLastEntry() : targetMovementHistory.GetFirstEntry();
         }
         #endregion
 
         #region  PrivateMethods
-
+        private bool HasMoveTarget() => (moveTargetCoordinate != null || moveTargetObject != null);
         private bool HasArrivedAtTarget(Vector2 target, out float squareMagnitudeDelta) => SmartVector2.CheckDistance(rigidBody2D.position, target, targetDistanceTolerance, out squareMagnitudeDelta);
         
         private bool SetStaticForNoTarget()
@@ -208,26 +192,24 @@ namespace Frankie.Control
             public SerializableVector2 position;
         }
 
-        public LoadPriority GetLoadPriority()
-        {
-            return LoadPriority.ObjectProperty;
-        }
+        public LoadPriority GetLoadPriority() => LoadPriority.ObjectProperty;
 
         SaveState ISaveable.CaptureState()
         {
-            var data = new MoverSaveData
-            {
-                position = new SerializableVector2(transform.position)
-            };
-            var saveState = new SaveState(GetLoadPriority(), data);
-            return saveState;
+            var data = new MoverSaveData { position = new SerializableVector2(transform.position) };
+            return new SaveState(GetLoadPriority(), data);
         }
 
         void ISaveable.RestoreState(SaveState saveState)
         {
             if (saveState.GetState(typeof(MoverSaveData)) is not MoverSaveData moverSaveData) { return; }
 
-            if (rigidBody2D == null) { Awake(); } // Force initialization for objects set to disable
+            // Force initialization for objects set to disable
+            if (rigidBody2D == null)
+            {
+                rigidBody2D = GetComponent<Rigidbody2D>();
+                SetupInitialState();
+            }
             
             transform.position = moverSaveData.position.ToVector();
             SetLookDirection(Vector2.down);

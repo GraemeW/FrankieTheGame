@@ -5,21 +5,20 @@ namespace Frankie.Utils.UI
 {
     public class SimpleTextLink : MonoBehaviour
     {
-        [SerializeField] TextMeshProUGUI textField = null;
-        [SerializeField] bool disableOnLoad = true;
+        [SerializeField] private TextMeshProUGUI textField;
+        [SerializeField] private bool disableOnLoad = true;
 
         private void Start()
         {
-            if (disableOnLoad)
-            {
-                textField.text = "";
-                gameObject.SetActive(false);
-            }
+            if (!disableOnLoad) { return; }
+            
+            textField.text = "";
+            gameObject.SetActive(false);
         }
 
         public void Setup(string text)
         {
-            if (gameObject.activeSelf == false) { gameObject.SetActive(true); }
+            if (!gameObject.activeSelf) { gameObject.SetActive(true); }
             textField.text = text;
         }
     }

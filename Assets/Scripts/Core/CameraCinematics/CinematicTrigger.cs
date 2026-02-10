@@ -10,10 +10,10 @@ namespace Frankie.Core
         [SerializeField] private bool playOnStart = false;
 
         // Cached References
-        PlayableDirector playableDirector = null;
+        private PlayableDirector playableDirector;
 
         // State
-        bool isTriggered = false;
+        private bool isTriggered = false;
 
         // Methods
         private void Awake()
@@ -24,17 +24,15 @@ namespace Frankie.Core
         private void Start()
         {
             if (!playOnStart) { return; }
-
             Play();
         }
 
         public void Play() // Callable via Unity Events
         {
-            if (!isTriggered)
-            {
-                playableDirector.Play();
-                isTriggered = true;
-            }
+            if (isTriggered) { return; }
+            
+            playableDirector.Play();
+            isTriggered = true;
         }
 
         public void ForcePlay() // Callable via Unity Events
@@ -44,21 +42,16 @@ namespace Frankie.Core
         }
 
         // Interface
-        public LoadPriority GetLoadPriority()
-        {
-            return LoadPriority.ObjectProperty;
-        }
+        public LoadPriority GetLoadPriority() => LoadPriority.ObjectProperty;
 
         public SaveState CaptureState()
         {
-            UnityEngine.Debug.Log($"Capturing cinematic trigger state as:  {isTriggered}");
             return new SaveState(GetLoadPriority(), isTriggered);
         }
 
         public void RestoreState(SaveState saveState)
         {
             isTriggered = (bool)saveState.GetState(typeof(bool));
-            UnityEngine.Debug.Log($"Restoring cinematic trigger state as:  {isTriggered}");
         }
     }
 }

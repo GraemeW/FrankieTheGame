@@ -11,7 +11,7 @@ namespace Frankie.Inventory
     {
         // Tunables
         [SerializeField] private WearableItem wearableItem;
-        [SerializeField] private BaseStatModifier[] baseStatModifiers;
+        [SerializeField] private List<BaseStatModifier> baseStatModifiers =  new();
 
         // Cached References
         private Animator animator;
@@ -25,14 +25,14 @@ namespace Frankie.Inventory
 
         private void OnEnable()
         {
-            if (characterSpriteLink == null) return;
+            if (characterSpriteLink == null) { return; }
             characterSpriteLink.characterLookUpdated += UpdateAnimatorLooks;
             characterSpriteLink.characterSpeedUpdated += UpdateAnimatorSpeeds;
         }
 
         private void OnDisable()
         {
-            if (characterSpriteLink == null) return;
+            if (characterSpriteLink == null) { return; }
             characterSpriteLink.characterLookUpdated -= UpdateAnimatorLooks;
             characterSpriteLink.characterSpeedUpdated -= UpdateAnimatorSpeeds;
         }
@@ -75,8 +75,7 @@ namespace Frankie.Inventory
         // Interface Methods
         public IEnumerable<float> GetAdditiveModifiers(Stat stat)
         {
-            float summedModifiers = baseStatModifiers.Where(baseStatModifier => baseStatModifier.stat == stat).Sum(baseStatModifier => Random.Range(baseStatModifier.minValue, baseStatModifier.maxValue));
-            yield return summedModifiers;
+            return from baseStatModifier in baseStatModifiers where baseStatModifier.stat == stat select Random.Range(baseStatModifier.minValue, baseStatModifier.maxValue);
         }
     }
 }

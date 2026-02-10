@@ -12,9 +12,9 @@ namespace Frankie.Saving
     public static class SavingSystem
     {
         // Constants
-        const string _saveFileExtension = ".sav";
-        const string _saveLastSceneBuildIndex = "lastSceneBuildIndex";
-        const bool _encryptionEnabled = true;
+        private const string _saveFileExtension = ".sav";
+        private const string _saveLastSceneBuildIndex = "lastSceneBuildIndex";
+        private const bool _encryptionEnabled = true;
 
         // Data Structures
         [System.Serializable]
@@ -30,6 +30,17 @@ namespace Frankie.Saving
             }
         }
 
+        private static string GetPathFromSaveFile(string saveFile) => Path.Combine(Application.persistentDataPath, saveFile + ".sav");
+        
+        public static IEnumerable<string> ListSaves()
+        {
+            List<string> saveFiles = Directory.EnumerateFiles(Application.persistentDataPath).ToList();
+            foreach (var path in saveFiles.Where(path => Path.GetExtension(path) == _saveFileExtension))
+            {
+                yield return Path.GetFileNameWithoutExtension(path);
+            }
+        }
+        
         private static List<SaveableEntity> GetAllSaveableEntities()
         {
             List<SaveableEntity> saveableEntities = Object.FindObjectsByType<SaveableEntity>(FindObjectsSortMode.None).ToList();
@@ -42,7 +53,7 @@ namespace Frankie.Saving
 
             return saveableEntities;
         }
-
+        
         public static IEnumerator LoadLastScene(string saveFile)
         {
             JObject state = LoadFile(saveFile);
@@ -109,18 +120,6 @@ namespace Frankie.Saving
         public static void Delete(string saveFile)
         {
             File.Delete(GetPathFromSaveFile(saveFile));
-        }
-
-        public static IEnumerable<string> ListSaves()
-        {
-            List<string> saveFiles = Directory.EnumerateFiles(Application.persistentDataPath).ToList();
-            foreach (string path in saveFiles)
-            {
-                if (Path.GetExtension(path) == _saveFileExtension)
-                {
-                    yield return Path.GetFileNameWithoutExtension(path);
-                }
-            }
         }
 
         private static JObject LoadFile(string saveFile)
@@ -198,7 +197,6 @@ namespace Frankie.Saving
         private static void CaptureState(JObject state, bool onlyCorePlayerState = false)
         {
             List<SaveableEntity> saveableEntities = GetAllSaveableEntities();
-
             foreach (SaveableEntity saveable in saveableEntities)
             {
                 if (!state.TryGetValue(saveable.GetUniqueIdentifier(), out JToken existingTokenState)) { existingTokenState = new JObject(); }
@@ -239,11 +237,6 @@ namespace Frankie.Saving
                     saveable.RestoreState(value, LoadPriority.ObjectProperty);
                 }
             }
-        }
-
-        private static string GetPathFromSaveFile(string saveFile)
-        {
-            return Path.Combine(Application.persistentDataPath, saveFile + ".sav");
         }
     }
 }

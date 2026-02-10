@@ -5,7 +5,7 @@ namespace Frankie.Rendering.UI
 {
     public class ResolutionMonitor : MonoBehaviour
     {
-        [SerializeField] TextMeshProUGUI resolutionTextElement = null;
+        [SerializeField] private TextMeshProUGUI resolutionTextElement;
 
         private void Update()
         {

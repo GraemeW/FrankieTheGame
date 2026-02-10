@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using Frankie.Saving;
 
@@ -8,7 +9,7 @@ namespace Frankie.World
     {
         // Tunables
         [SerializeField] private bool enabledOnAwake = false;
-        [NonReorderable][SerializeField] private FlickerEntry[] flickerEntries;
+        [NonReorderable][SerializeField] private List<FlickerEntry> flickerEntries = new();
 
         // State
         private bool childrenEnabled = false;
@@ -17,14 +18,16 @@ namespace Frankie.World
         private const float _minFlickerTime = 0f;
         private const float _maxFlickerTime = 5f;
 
-        // Data Structures
+        #region DataStructures
         [System.Serializable]
         public struct FlickerEntry
         {
             public float onTime;
             public float offTime;
         }
+        #endregion
 
+        #region UnityMethods
         private void Awake()
         {
             if (enabledOnAwake)
@@ -38,31 +41,32 @@ namespace Frankie.World
                 foreach (Transform child in transform) { child.gameObject.SetActive(false); }
             }
         }
+        #endregion
 
+        #region PublicMethods
         public void FlickerToEnable()
         {
-            if (flickerEntries == null || flickerEntries.Length == 0) { return; }
-
+            if (flickerEntries.Count == 0) { return; }
             StartCoroutine(TraverseFlickerEntries(true));
             childrenEnabled = true;
         }
 
         public void FlickerToDisable()
         {
-            if (flickerEntries == null || flickerEntries.Length == 0) { return; }
-
+            if (flickerEntries.Count == 0) { return; }
             StartCoroutine(TraverseFlickerEntries(false));
             childrenEnabled = false;
         }
 
         public void FlickerToDeletion()
         {
-            if (flickerEntries == null || flickerEntries.Length == 0) { return; }
-
+            if (flickerEntries.Count == 0) { return; }
             StartCoroutine(TraverseFlickerEntries(false, true));
         }
+        #endregion
 
-        IEnumerator TraverseFlickerEntries(bool settleEnable, bool deleteAfter = false)
+        #region PrivateMethods
+        private IEnumerator TraverseFlickerEntries(bool settleEnable, bool deleteAfter = false)
         {
             foreach (FlickerEntry flickerEntry in flickerEntries)
             {
@@ -75,8 +79,9 @@ namespace Frankie.World
 
             if (deleteAfter) { Destroy(gameObject); }
         }
+        #endregion
 
-        // Interface
+        #region SaveInterface
         public LoadPriority GetLoadPriority() => LoadPriority.ObjectProperty;
 
         public SaveState CaptureState()
@@ -89,5 +94,6 @@ namespace Frankie.World
             childrenEnabled = (bool)saveState.state;
             foreach (Transform child in transform) { child.gameObject.SetActive(childrenEnabled); }
         }
+        #endregion
     }
 }

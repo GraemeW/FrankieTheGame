@@ -26,6 +26,9 @@ namespace Frankie.Control
         [SerializeField] private float interactionDistance = 0.5f;
         [SerializeField] private Transform interactionCenterPoint;
 
+        // Const
+        private const string _tagInteractable = "Interactable";
+        
         // State
         private PlayerInputType currentDirectionalInput = PlayerInputType.DefaultNone;
         private bool allowComponentInteraction = true;
@@ -36,11 +39,15 @@ namespace Frankie.Control
         private PlayerMover playerMover;
         private PlayerStateMachine playerStateMachine;
 
-        // Static
-        private const string _tagInteractable = "Interactable";
-
         // Events
         public event Action<PlayerInputType> globalInput;
+        
+        #region Static
+        private static Vector2 GetMouseRay()
+        {
+            return Camera.main != null ? Camera.main.ScreenToWorldPoint(Mouse.current.position.ReadValue()) : Vector2.zero;
+        }
+        #endregion
 
         #region UnityMethods
         private void Awake()
@@ -98,7 +105,7 @@ namespace Frankie.Control
 
         public void VerifyUnique()
         {
-            PlayerController[] playerControllers = FindObjectsByType<PlayerController>(FindObjectsSortMode.None);
+            var playerControllers = FindObjectsByType<PlayerController>(FindObjectsSortMode.None);
             if (playerControllers.Length > 1)
             {
                 Destroy(gameObject);
@@ -122,17 +129,6 @@ namespace Frankie.Control
             }
             return cursorMappings[0];
         }
-
-        private static Vector2 GetMouseRay()
-        {
-            return Camera.main != null ? Camera.main.ScreenToWorldPoint(Mouse.current.position.ReadValue()) : Vector2.zero;
-        }
-
-        public PlayerInputType NavigationVectorToInputTypeTemplate(Vector2 navigationVector)
-        {
-            // Not evaluated -> IStandardPlayerInputCallerExtension
-            return PlayerInputType.DefaultNone;
-        }
         #endregion
         
         #region PrivateMethods
@@ -144,10 +140,10 @@ namespace Frankie.Control
 
             switch (playerStateType)
             {
-                case PlayerStateType.inWorld:
+                case PlayerStateType.InWorld:
                     allowComponentInteraction = true;
                     break;
-                case PlayerStateType.inTransition:
+                case PlayerStateType.InTransition:
                     inTransition = true;
                     break;
             }
@@ -163,15 +159,14 @@ namespace Frankie.Control
         private void HandleUserInput(PlayerInputType playerInputType)
         {
             if (inTransition) { return; }
-            
-            if (InteractWithGlobals(playerInputType)) return;
+            if (InteractWithGlobals(playerInputType)) { return; }
             
             if (allowComponentInteraction)
             {
-                if (InteractWithComponent(playerInputType)) return;
-                if (InteractWithComponentManual(playerInputType)) return;
+                if (InteractWithComponent(playerInputType)) { return; }
+                if (InteractWithComponentManual(playerInputType)) { return; }
             }
-            if (InteractWithMenusOptions(playerInputType)) return;
+            if (InteractWithMenusOptions(playerInputType)) { return; }
             SetCursor(CursorType.None);
         }
 
@@ -186,11 +181,8 @@ namespace Frankie.Control
         {
             RaycastHit2D hitInfo = RaycastToMouseLocation();
             if (hitInfo.collider == null) { return false; }
-
-            var raycastables = hitInfo.transform.GetComponentsInChildren<IRaycastable>();
-            if (raycastables == null) return false;
             
-            foreach (IRaycastable raycastable in raycastables)
+            foreach (IRaycastable raycastable in hitInfo.transform.GetComponentsInChildren<IRaycastable>())
             {
                 if (!raycastable.HandleRaycast(playerStateMachine, this, playerInputType, PlayerInputType.Execute)) { continue; }
                 SetCursor(raycastable.GetCursorType());
@@ -201,13 +193,11 @@ namespace Frankie.Control
 
         private bool InteractWithComponentManual(PlayerInputType playerInputType)
         {
-            if (playerInputType != PlayerInputType.Execute) return false;
+            if (playerInputType != PlayerInputType.Execute) { return false; }
             
             RaycastHit2D hitInfo = RaycastFromPlayerInLookDirection();
-            if (hitInfo.collider == null) { return false; }
-
-            var raycastables = hitInfo.transform.GetComponentsInChildren<IRaycastable>();
-            return raycastables != null && raycastables.Any(raycastable => raycastable.HandleRaycast(playerStateMachine, this, playerInputType, PlayerInputType.Execute));
+            return hitInfo.collider != null 
+                   && hitInfo.transform.GetComponentsInChildren<IRaycastable>().Any(raycastable => raycastable.HandleRaycast(playerStateMachine, this, playerInputType, PlayerInputType.Execute));
         }
 
         private bool InteractWithMenusOptions(PlayerInputType playerInputType)

@@ -16,12 +16,15 @@ namespace Frankie.World
         // Cached References
         private SpriteRenderer spriteRenderer;
 
+        #region UnityMethods
         private void Awake()
         {
             spriteRenderer = GetComponent<SpriteRenderer>();
             originalSprite = spriteRenderer.sprite;
         }
+        #endregion
 
+        #region PublicMethods
         public void ApplyAlternateSprite() // Called via Unity Events
         {
             isAlternateSprite = true;
@@ -39,22 +42,21 @@ namespace Frankie.World
             isAlternateSprite = !isAlternateSprite;
             UpdateSprite();
         }
+        #endregion
 
+        #region PrivateMethods
         private void UpdateSprite()
         {
             spriteRenderer.sprite = isAlternateSprite ? alternateSprite : originalSprite;
         }
+        #endregion
 
         #region SaveInterface
-        public LoadPriority GetLoadPriority()
-        {
-            return LoadPriority.ObjectProperty;
-        }
+        public LoadPriority GetLoadPriority() => LoadPriority.ObjectProperty;
 
         public SaveState CaptureState()
         {
-            var saveState = new SaveState(LoadPriority.ObjectProperty, isAlternateSprite);
-            return saveState;
+            return new SaveState(LoadPriority.ObjectProperty, isAlternateSprite);
         }
 
         public void RestoreState(SaveState saveState)

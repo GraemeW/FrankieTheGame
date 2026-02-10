@@ -7,12 +7,12 @@ namespace Frankie.Inventory.UI
     public class InventoryItemField : UIChoiceButton
     {
         // Tunables
-        [SerializeField] GameObject equippedMarker = null;
+        [SerializeField] private GameObject equippedMarker;
 
         // State
-        IUIItemHandler uiItemHandler = null;
-        Action<int> action = null;
-        int value = -1;
+        private IUIItemHandler uiItemHandler;
+        private Action<int> action;
+        private int value = -1;
 
         private void OnEnable()
         {
@@ -28,19 +28,15 @@ namespace Frankie.Inventory.UI
             if (uiItemHandler != null) { }
         }
 
-        public bool HasAction()
-        {
-            if (action != null) { return true; }
-            return false;
-        }
+        public bool HasAction() => action != null;
 
-        public void SetupButtonAction(IUIItemHandler uiItemHandler, Action<int> action, int value)
+        public void SetupButtonAction(IUIItemHandler setUIItemHandler, Action<int> setAction, int setValue)
         {
-            this.uiItemHandler = uiItemHandler;
+            uiItemHandler = setUIItemHandler;
             ListenToUIBoxState(true);
 
-            this.action = action;
-            this.value = value;
+            action = setAction;
+            value = setValue;
             ToggleButtonActive(true);
         }
 
@@ -91,7 +87,7 @@ namespace Frankie.Inventory.UI
         private void HandleInventoryBoxStateChange(Enum uiBoxState)
         {
             InventoryBoxState inventoryBoxState = (InventoryBoxState)uiBoxState;
-            if (inventoryBoxState == InventoryBoxState.inKnapsack || inventoryBoxState == InventoryBoxState.inCharacterSelection)
+            if (inventoryBoxState == InventoryBoxState.InKnapsack || inventoryBoxState == InventoryBoxState.InCharacterSelection)
             {
                 ToggleButtonActive(true);
             }
@@ -104,7 +100,7 @@ namespace Frankie.Inventory.UI
         private void HandleEquipmentBoxStateChange(Enum uiBoxState)
         {
             EquipmentBoxState equipmentBoxState = (EquipmentBoxState)uiBoxState;
-            if (equipmentBoxState == EquipmentBoxState.inEquipmentSelection || equipmentBoxState == EquipmentBoxState.inCharacterSelection)
+            if (equipmentBoxState == EquipmentBoxState.InEquipmentSelection || equipmentBoxState == EquipmentBoxState.InCharacterSelection)
             {
                 ToggleButtonActive(true);
             }

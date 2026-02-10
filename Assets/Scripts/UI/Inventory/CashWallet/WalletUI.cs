@@ -7,10 +7,10 @@ namespace Frankie.Inventory.UI
     public class WalletUI : MonoBehaviour
     {
         // Tunables
-        [SerializeField] TMP_Text walletField = null;
+        [SerializeField] private TMP_Text walletField;
 
         // State
-        Wallet wallet = null;
+        private Wallet wallet;
 
         #region UnityMethods
         private void Awake()
@@ -20,18 +20,14 @@ namespace Frankie.Inventory.UI
 
         private void OnEnable()
         {
-            if (wallet != null)
-            {
-                wallet.walletUpdated += RefreshUI;
-            }
+            if (wallet == null) { return;}
+            wallet.walletUpdated += RefreshUI;
         }
 
         private void OnDisable()
         {
-            if (wallet != null)
-            {
-                wallet.walletUpdated -= RefreshUI;
-            }
+            if (wallet == null) { return;}
+            wallet.walletUpdated -= RefreshUI;
         }
 
         private void Start()
@@ -42,10 +38,18 @@ namespace Frankie.Inventory.UI
 
         private void SetupWallet()
         {
-            wallet = Player.FindPlayerObject()?.GetComponent<Wallet>();
-            if (wallet == null) { Destroy(gameObject); }
-
-            wallet.walletUpdated += RefreshUI;
+            GameObject playerObject = Player.FindPlayerObject();
+            if (playerObject == null) { return; }
+            
+            wallet = playerObject.GetComponent<Wallet>();
+            if (wallet != null)
+            {
+                wallet.walletUpdated += RefreshUI;
+            }
+            else
+            { 
+                Destroy(gameObject);
+            }
         }
 
         private void RefreshUI()

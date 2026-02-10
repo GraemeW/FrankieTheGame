@@ -64,7 +64,7 @@ namespace Frankie.World
         {
             if (subwayRide == null || subwayRide.zoneHandler == null || subwayRide.path == null) { return; }
 
-            this.cachedPlayerStateMachine = playerStateMachine;
+            cachedPlayerStateMachine = playerStateMachine;
 
             var interactionEvent = new InteractionEvent();
             interactionEvent.AddListener((_) => HandleRideStart(subwayRide));

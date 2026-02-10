@@ -8,10 +8,8 @@ namespace Frankie.Core
     {
         public override bool? Evaluate(CombatParticipant combatParticipant)
         {
-            if (combatParticipant.IsDead())
-            {
-                return true;
-            }
+            if (combatParticipant == null) { return null; }
+            if (combatParticipant.IsDead()) { return true; }
             return null;
         }
     }

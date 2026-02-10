@@ -6,11 +6,11 @@ namespace Frankie.Saving
 {
     public static class SymmetricEncryptor
     {
-        static string code = "Doyoueverfeellikeaplasticbag";
+        private const string _code = "Doyoueverfeellikeaplasticbag";
 
         public static string EncryptString(string toEncrypt)
         {
-            byte[] key = GetKey(code);
+            byte[] key = GetKey(_code);
 
             using Aes aes = Aes.Create();
             using ICryptoTransform encryptor = aes.CreateEncryptor(key, key);
@@ -23,7 +23,7 @@ namespace Frankie.Saving
 
         public static string DecryptToString(string encodedString)
         {
-            byte[] key = GetKey(code);
+            byte[] key = GetKey(_code);
 
             byte[] encryptedData = Convert.FromBase64String(encodedString);
             using Aes aes = Aes.Create();

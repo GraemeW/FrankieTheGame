@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using UnityEngine;
@@ -12,17 +11,17 @@ namespace Frankie.Inventory
     {
         // Config Data
         [Tooltip("Auto-generated UUID for saving/loading -- clear to generate new, write to generate fixed")]
-        [SerializeField] string itemID = null;
+        [SerializeField] private string itemID;
         [Tooltip("Item name displayed in UI")]
-        [SerializeField] string displayName = null;
+        [SerializeField] private string displayName;
         [Tooltip("Item description on inspection")]
-        [SerializeField][TextArea] string description = null;
+        [SerializeField][TextArea] private string description;
         [SerializeField][Tooltip("Overwritten for Key Items")] protected bool droppable = true;
-        [SerializeField][Min(0)] int price = 0;
+        [SerializeField][Min(0)] private int price = 0;
 
         // State
-        static AsyncOperationHandle<IList<InventoryItem>> addressablesLoadHandle;
-        static Dictionary<string, InventoryItem> itemLookupCache;
+        private static AsyncOperationHandle<IList<InventoryItem>> _addressablesLoadHandle;
+        private static Dictionary<string, InventoryItem> _itemLookupCache;
 
         #region AddressablesCaching
         public static InventoryItem GetFromID(string itemID)
@@ -30,13 +29,12 @@ namespace Frankie.Inventory
             if (string.IsNullOrWhiteSpace(itemID)) { return null; }
 
             BuildCacheIfEmpty();
-            if (itemID == null || !itemLookupCache.ContainsKey(itemID)) return null;
-            return itemLookupCache[itemID];
+            return _itemLookupCache.GetValueOrDefault(itemID);
         }
 
         public static void BuildCacheIfEmpty()
         {
-            if (itemLookupCache == null)
+            if (_itemLookupCache == null)
             {
                 BuildInventoryItemCache();
             }
@@ -44,56 +42,33 @@ namespace Frankie.Inventory
 
         private static void BuildInventoryItemCache()
         {
-            itemLookupCache = new Dictionary<string, InventoryItem>();
-            addressablesLoadHandle = Addressables.LoadAssetsAsync(typeof(InventoryItem).Name, (InventoryItem item) =>
+            _itemLookupCache = new Dictionary<string, InventoryItem>();
+            _addressablesLoadHandle = Addressables.LoadAssetsAsync(nameof(InventoryItem), (InventoryItem inventoryItem) =>
             {
-                if (itemLookupCache.ContainsKey(item.itemID))
+                if (_itemLookupCache.TryGetValue(inventoryItem.itemID, out InventoryItem matchInventoryItem))
                 {
-                    Debug.LogError(string.Format("Looks like there's a duplicate ID for objects: {0} and {1}", itemLookupCache[item.itemID], item));
+                    Debug.LogError($"Looks like there's a duplicate ID for objects: {matchInventoryItem} and {inventoryItem}");
                 }
 
-                itemLookupCache[item.itemID] = item;
+                _itemLookupCache[inventoryItem.itemID] = inventoryItem;
             }
             );
-            addressablesLoadHandle.WaitForCompletion();
+            _addressablesLoadHandle.WaitForCompletion();
         }
 
         public static void ReleaseCache()
         {
-            Addressables.Release(addressablesLoadHandle);
+            Addressables.Release(_addressablesLoadHandle);
         }
         #endregion
 
         #region PublicMethods
-        public static string GetItemNamePretty(string itemName)
-        {
-            return Regex.Replace(itemName, "([a-z])_?([A-Z])", "$1 $2");
-        }
-
-        public string GetItemID()
-        {
-            return itemID;
-        }
-
-        public string GetDisplayName()
-        {
-            return displayName;
-        }
-
-        public string GetDescription()
-        {
-            return description;
-        }
-
-        public bool IsDroppable()
-        {
-            return droppable;
-        }
-
-        public int GetPrice()
-        {
-            return price;
-        }
+        public static string GetItemNamePretty(string itemName) => Regex.Replace(itemName, "([a-z])_?([A-Z])", "$1 $2");
+        public string GetItemID() => itemID;
+        public string GetDisplayName() => displayName;
+        public string GetDescription() => description;
+        public bool IsDroppable() => droppable;
+        public int GetPrice() => price;
         #endregion
 
         #region UnityMethods

@@ -6,20 +6,22 @@ namespace Frankie.Control
     {
         void SetPlayerState(IPlayerState playerState);
 
-        // Utility
+        #region Utility
         public void TogglePlayerVisibility(bool? enable = null);
         public void QueueActionUnderConsideration();
         public bool CanMoveInCutscene();
         public void ClearPlayerStateMemory();
+        #endregion
 
-        // Transition
+        #region Transition
         public void ConfirmTransitionType();
         public bool InZoneTransition();
         public bool IsZoneTransitionComplete();
         public bool InBattleEntryTransition();
         public bool InBattleExitTransition();
+        #endregion
 
-        // Combat
+        #region Combat
         public bool IsAnyPartyMemberAlive();
         public bool IsPlayerFearsome(CombatParticipant combatParticipant);
         public bool AreCombatParticipantsValid(bool announceCannotFight = false);
@@ -28,15 +30,19 @@ namespace Frankie.Control
         public bool StartBattleSequence();
         public bool IsCombatFadeComplete();
         public bool EndBattleSequence();
-
-        // Dialogue
+        #endregion
+        
+        #region Dialogue
         public void SetupDialogueController();
         public bool StartDialogueSequence();
+        #endregion
 
-        // Trade
+        #region Trade
         public bool StartTradeSequence();
+        #endregion
 
-        // Option
+        #region Option
         public bool StartOptionSequence();
+        #endregion
     }
 }

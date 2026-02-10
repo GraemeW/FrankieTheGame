@@ -67,12 +67,7 @@ namespace Frankie.Stats
         public int GetPartySize() => members.Count;
         public List<CharacterProperties> GetAvailableCharactersToAdd()
         {
-            List<CharacterProperties> charactersInParty = new List<CharacterProperties>();
-            foreach (BaseStats character in members)
-            {
-                charactersInParty.Add(character.GetCharacterProperties());
-            }
-
+            List<CharacterProperties> charactersInParty = members.Select(character => character.GetCharacterProperties()).ToList();
             return unlockedCharacters.Except(charactersInParty).ToList();
         }
         #endregion

@@ -195,7 +195,6 @@ namespace Frankie.ZoneManagement
                 default:
                     return;
             }
-
             if (transitionType != TransitionType.Zone) { fadingOut?.Invoke(); } // invoked separately for zone transitions
         }
         private void EndFade(TransitionType transitionType)
@@ -215,7 +214,6 @@ namespace Frankie.ZoneManagement
                 default:
                     return;
             }
-
             currentTransitionImage = null;
             fading = false;
         }

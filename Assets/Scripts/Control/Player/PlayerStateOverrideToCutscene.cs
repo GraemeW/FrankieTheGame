@@ -7,7 +7,7 @@ namespace Frankie.Control
     public class PlayerStateOverrideToCutscene : MonoBehaviour
     {
         // Cached Reference
-        ReInitLazyValue<PlayerStateMachine> playerStateMachine;
+        private ReInitLazyValue<PlayerStateMachine> playerStateMachine;
 
         #region UnityMethods
         private void Awake()

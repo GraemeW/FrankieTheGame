@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -8,23 +7,23 @@ namespace Frankie.Combat.UI
     {
         // Tunables
         [Header("Text Qualities")]
-        [SerializeField] Color loseHPTextColor = Color.red;
-        [SerializeField] Color gainHPTextColor = Color.green;
-        [SerializeField] Color loseAPTextColor = Color.magenta;
-        [SerializeField] Color gainAPTextColor = Color.blue;
-        [SerializeField] Color hitMissColor = Color.gray;
-        [SerializeField] string hitMissText = "miss";
-        [SerializeField] Color hitCritColor = Color.yellow;
-        [SerializeField] string hitCritText = "CRIT!";
-        [SerializeField] Color informationalTextColor = Color.gray;
+        [SerializeField] private Color loseHPTextColor = Color.red;
+        [SerializeField] private Color gainHPTextColor = Color.green;
+        [SerializeField] private Color loseAPTextColor = Color.magenta;
+        [SerializeField] private Color gainAPTextColor = Color.blue;
+        [SerializeField] private Color hitMissColor = Color.gray;
+        [SerializeField] private string hitMissText = "miss";
+        [SerializeField] private Color hitCritColor = Color.yellow;
+        [SerializeField] private string hitCritText = "CRIT!";
+        [SerializeField] private Color informationalTextColor = Color.gray;
 
         [Header("Other Tunables")]
-        [SerializeField] DamageText damageTextPrefab = null;
-        [SerializeField] float minimumTimeBetweenSpawns = 0.1f;
+        [SerializeField] private DamageText damageTextPrefab;
+        [SerializeField] private float minimumTimeBetweenSpawns = 0.1f;
 
         // State
-        float timeSinceLastSpawn = Mathf.Infinity;
-        Queue<DamageTextData> damageTextQueue = new Queue<DamageTextData>();
+        private float timeSinceLastSpawn = Mathf.Infinity;
+        private readonly Queue<DamageTextData> damageTextQueue = new();
 
         // Methods
         private void FixedUpdate()
@@ -33,21 +32,25 @@ namespace Frankie.Combat.UI
 
             if (timeSinceLastSpawn > minimumTimeBetweenSpawns)
             {
-                Spawn(damageTextQueue.Dequeue());
-
-                if (damageTextQueue.Count == 0) { timeSinceLastSpawn = Mathf.Infinity; }
-                else { timeSinceLastSpawn = 0f; }
+                if (Spawn(damageTextQueue.Dequeue()))
+                {
+                    timeSinceLastSpawn = damageTextQueue.Count == 0 ? Mathf.Infinity : 0f;
+                }
             }
             timeSinceLastSpawn += Time.deltaTime;
         }
 
         public void AddToQueue(DamageTextData damageTextData)
         {
-            // Sanity check on data validity
-            if (damageTextData.damageTextType == DamageTextType.HealthChanged && Mathf.Approximately(damageTextData.amount, 0f)) { return; }
-            else if (damageTextData.damageTextType == DamageTextType.APChanged && Mathf.Approximately(damageTextData.amount, 0f)) { return; }
-
-            damageTextQueue.Enqueue(damageTextData);
+            switch (damageTextData.damageTextType)
+            {
+                case DamageTextType.HealthChanged when Mathf.Approximately(damageTextData.amount, 0f):
+                case DamageTextType.APChanged when Mathf.Approximately(damageTextData.amount, 0f):
+                    return;
+                default:
+                    damageTextQueue.Enqueue(damageTextData);
+                    break;
+            }
         }
 
         private bool Spawn(DamageTextData damageTextData)

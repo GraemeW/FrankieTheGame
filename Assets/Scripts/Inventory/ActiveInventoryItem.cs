@@ -11,16 +11,12 @@ namespace Frankie.Inventory
             equipped = false;
         }
 
-        public InventoryItem GetInventoryItem()
-        {
-            return inventoryItem;
-        }
+        public InventoryItem GetInventoryItem() => inventoryItem;
+        public bool IsEquipped() => equipped;
 
         public void SetEquipped(bool setEquipped)
         {
             equipped = setEquipped;
         }
-
-        public bool IsEquipped() => equipped;
     }
 }

@@ -42,22 +42,19 @@ namespace Frankie.Combat
         protected override void HandleCombatState(StateAlteredInfo stateAlteredInfo)
         {
             base.HandleCombatState(stateAlteredInfo);
+            if (stateAlteredInfo.stateAlteredType != StateAlteredType.CooldownSet) { return; }
             
-            if (stateAlteredInfo.stateAlteredType == StateAlteredType.CooldownSet)
+            // In some cases an action is already queued, so re-pause after dequeue & cooldown set
+            if (isPaused && !float.IsPositiveInfinity(stateAlteredInfo.points))
             {
-                // In some cases an action is already queued, so re-pause after dequeue & cooldown set
-                if (isPaused && !float.IsPositiveInfinity(stateAlteredInfo.points))
-                {
-                    ToggleCooldownPause(true);
-                }
+                ToggleCooldownPause(true);
             }
         }
 
         protected override void OnDamage()
         {
             if (Mathf.Approximately(probabilityToRemoveWithDamage, 0f)) { return; }
-            if (Mathf.Approximately(probabilityToRemoveWithDamage, 1.0f) 
-                ||  UnityEngine.Random.Range(0.0f, 1.0f) < probabilityToRemoveWithDamage)
+            if (Mathf.Approximately(probabilityToRemoveWithDamage, 1.0f) || UnityEngine.Random.Range(0.0f, 1.0f) < probabilityToRemoveWithDamage)
             {
                 CancelEffect();
             }

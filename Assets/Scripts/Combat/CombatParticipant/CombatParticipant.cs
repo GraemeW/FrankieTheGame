@@ -2,12 +2,12 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.Events;
 using Frankie.Core;
 using Frankie.Utils;
 using Frankie.Stats;
 using Frankie.Saving;
 using Frankie.Inventory;
-using UnityEngine.Events;
 
 namespace Frankie.Combat
 {
@@ -157,11 +157,11 @@ namespace Frankie.Combat
         public float GetCalculatedStat(CalculatedStat calculatedStat) => baseStats.GetCalculatedStat(calculatedStat); // Simple no-contest
         public float GetCalculatedStat(CalculatedStat calculatedStat, CombatParticipant recipient) // Contested
         {
-            if (!baseStats.GetStatForCalculatedStat(calculatedStat, out Stat stat)) { return 0f; }
+            if (!BaseStats.GetStatForCalculatedStat(calculatedStat, out Stat stat)) { return 0f; }
             float statValue = baseStats.GetStat(stat);
             float opponentStatValue = recipient != null ? recipient.GetStat(stat) : 0f;
             int opponentLevel = recipient != null ? recipient.GetLevel() : 0;
-            return baseStats.GetCalculatedStat(calculatedStat, GetLevel(), statValue, opponentLevel, opponentStatValue);
+            return BaseStats.GetCalculatedStat(calculatedStat, GetLevel(), statValue, opponentLevel, opponentStatValue);
         }
         public float GetMaxHP() => baseStats.GetStat(Stat.HP);
         public float GetMaxAP() => usesAP ? baseStats.GetStat(Stat.AP) : Mathf.Infinity;
@@ -408,11 +408,10 @@ namespace Frankie.Combat
         
         private void SelfDestroyOnBattleComplete(BattleStateChangedEvent battleStateChangedEvent)
         {
-            if (battleStateChangedEvent.battleState == BattleState.Complete)
-            {
-                BattleEventBus<BattleStateChangedEvent>.UnsubscribeFromEvent(SelfDestroyOnBattleComplete);
-                Destroy(gameObject);
-            }
+            if (battleStateChangedEvent.battleState != BattleState.Complete) { return; }
+            
+            BattleEventBus<BattleStateChangedEvent>.UnsubscribeFromEvent(SelfDestroyOnBattleComplete);
+            Destroy(gameObject);
         }
 
         private float GetHoldOnModifiedHP(float unsafeHP)
@@ -445,14 +444,11 @@ namespace Frankie.Combat
 
         private void UpdateCooldown()
         {
-            if (IsInCooldown())
-            {
-                cooldownTimer -= Time.deltaTime;
-                if (!IsInCooldown()) // Immediately after adjustment to check if cooldown flipped
-                {
-                    AnnounceStateUpdate(StateAlteredType.CooldownExpired);
-                }
-            }
+            if (!IsInCooldown()) { return; }
+            
+            // Immediately after adjustment, re-check if cooldown flipped
+            cooldownTimer -= Time.deltaTime;
+            if (!IsInCooldown()) { AnnounceStateUpdate(StateAlteredType.CooldownExpired); }
         }
 
         private void ReconcileCooldownStore()
@@ -483,15 +479,21 @@ namespace Frankie.Combat
                 }
                 else { cooldownTimer = tryCooldown; cooldownStore = 0.0f; }
             }
-            //Debug.Log($"Post-Reconcile:  Cooldown @ {cooldownTimer}, Store @ {cooldownStore}");
         }
         
         private void ParseLevelUpMessage(BaseStats passBaseStats, int level, Dictionary<Stat, float> levelUpSheet)
         {
             foreach (KeyValuePair<Stat, float> entry in levelUpSheet)
             {
-                if (entry.Key == Stat.HP) { AdjustHPQuietly(entry.Value); }
-                if (entry.Key == Stat.AP) { AdjustAPQuietly(entry.Value); }
+                switch (entry.Key)
+                {
+                    case Stat.HP:
+                        AdjustHPQuietly(entry.Value);
+                        break;
+                    case Stat.AP:
+                        AdjustAPQuietly(entry.Value);
+                        break;
+                }
             }
         }
 

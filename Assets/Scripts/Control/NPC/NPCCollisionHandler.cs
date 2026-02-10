@@ -116,14 +116,12 @@ namespace Frankie.Control
         {
             if (playerCollisionMask == (playerCollisionMask | (1 << collisionGameObject.layer)))
             {
-                PlayerMover playerMover = collisionGameObject.GetComponentInParent<PlayerMover>();
+                var playerMover = collisionGameObject.GetComponentInParent<PlayerMover>();
                 if (playerMover != null && HandlePlayerCollisions(playerMover, npcPosition, playerPosition)) { return; }
             }
 
-            if (collisionGameObject.TryGetComponent(out NPCCollisionHandler collisionNPC))
-            {
-                if (HandleNPCCollisions(collisionNPC)) { return; }
-            }
+            if (!collisionGameObject.TryGetComponent(out NPCCollisionHandler collisionNPC)) { return; }
+            if (HandleNPCCollisions(collisionNPC)) { return; }
         }
 
         private void OnCollisionExit2D(Collision2D collision)
@@ -150,19 +148,20 @@ namespace Frankie.Control
         {
             touchingPlayer = true;
 
-            if (collisionsOverriddenToEnterCombat) // Applied for aggro situations
+            TransitionType battleEntryType;
+            // Applied for aggro situations
+            if (collisionsOverriddenToEnterCombat) 
             {
-                TransitionType battleEntryType = GetBattleEntryType(playerMover, playerPosition, npcPosition);
+                battleEntryType = GetBattleEntryType(playerMover, playerPosition, npcPosition);
                 npcStateHandler.InitiateCombat(battleEntryType, GetNPCMob());
                 return true;
             }
-            else if (collidedWithPlayer != null) // Event hooked up in Unity
-            {
-                TransitionType battleEntryType = GetBattleEntryType(playerMover, playerPosition, npcPosition);
-                collidedWithPlayer.Invoke(battleEntryType);
-                return true;
-            }
-            return false;
+            
+            // Event hooked up in Unity
+            if (collidedWithPlayer == null) { return false; }
+            battleEntryType = GetBattleEntryType(playerMover, playerPosition, npcPosition);
+            collidedWithPlayer.Invoke(battleEntryType);
+            return true;
         }
 
         private bool HandleNPCCollisions(NPCCollisionHandler collisionNPC)
@@ -171,7 +170,7 @@ namespace Frankie.Control
             if (!collisionsOverriddenToEnterCombat) { return false; }
 
             var npcCollisionHandler = collisionNPC.GetComponent<NPCCollisionHandler>();
-            if (!touchingPlayer && !npcCollisionHandler.IsNPCGraphTouchingPlayer()) return false;
+            if (!touchingPlayer && !npcCollisionHandler.IsNPCGraphTouchingPlayer()) { return false; }
             
             // If graph touching player, player is in transition -> pass Neutral transition since irrelevant (save on maths)
             npcStateHandler.InitiateCombat(TransitionType.BattleNeutral, GetNPCMob());
@@ -186,22 +185,16 @@ namespace Frankie.Control
 
         public List<NPCStateHandler> GetNPCMob()
         {
-            List<NPCCollisionHandler> npcCollisionGraph = new List<NPCCollisionHandler>();
+            var npcCollisionGraph = new List<NPCCollisionHandler>();
             GetNPCCollisionGraph(ref npcCollisionGraph);
-
-            List<NPCStateHandler> translatedNPCMob = new List<NPCStateHandler>();
-            foreach (NPCCollisionHandler npcCollisionHandler in npcCollisionGraph)
-            {
-                translatedNPCMob.Add(npcCollisionHandler.GetNPCStateHandler());
-            }
-            return translatedNPCMob;
+            return npcCollisionGraph.Select(npcCollisionHandler => npcCollisionHandler.GetNPCStateHandler()).ToList();
         }
 
         public bool IsNPCGraphTouchingPlayer()
         {
             if (touchingPlayer) { return true; } // short circuit on simple condition
 
-            List<NPCCollisionHandler> npcCollisionGraph = new List<NPCCollisionHandler>();
+            var npcCollisionGraph = new List<NPCCollisionHandler>();
             GetNPCCollisionGraph(ref npcCollisionGraph);
 
             return npcCollisionGraph.Any(x => x.IsTouchingPlayer());
@@ -213,11 +206,10 @@ namespace Frankie.Control
         {
             foreach (NPCCollisionHandler npcInContact in currentNPCMob)
             {
-                if (!npcCollisionGraph.Contains(npcInContact))
-                {
-                    npcCollisionGraph.Add(npcInContact);
-                    npcInContact.GetNPCCollisionGraph(ref npcCollisionGraph);
-                }
+                if (npcCollisionGraph.Contains(npcInContact)) { continue; }
+                
+                npcCollisionGraph.Add(npcInContact);
+                npcInContact.GetNPCCollisionGraph(ref npcCollisionGraph);
             }
         }
 
@@ -226,11 +218,8 @@ namespace Frankie.Control
             if (npcCollisionHandler == null) { return; }
             if (npcCollisionHandler == this) { return; }
 
-            if (!currentNPCMob.Contains(npcCollisionHandler))
-            {
-                currentNPCMob.Add(npcCollisionHandler);
-            }
-
+            if (!currentNPCMob.Contains(npcCollisionHandler)) { currentNPCMob.Add(npcCollisionHandler); }
+            
             // Bilateral first hit as triggers sometimes not occurring both ways
             if (triggerBilateral) { npcCollisionHandler.AddNPCMob(this, false); }
         }
@@ -240,10 +229,8 @@ namespace Frankie.Control
             if (npcCollisionHandler == null) { return; }
             if (npcCollisionHandler == this) { return; }
 
-            if (currentNPCMob.Contains(npcCollisionHandler))
-            {
-                currentNPCMob.Remove(npcCollisionHandler);
-            }
+            if (currentNPCMob.Contains(npcCollisionHandler)) { currentNPCMob.Remove(npcCollisionHandler); }
+
             // Bilateral first hit as triggers sometimes not occurring both ways
             if (triggerBilateral) { npcCollisionHandler.RemoveNPCMob(this, false); }
         }
@@ -257,14 +244,12 @@ namespace Frankie.Control
             {
                 return TransitionType.BattleGood;
             }
-            else if (npcLookMagnitudeToContact > 0 && playerLookMagnitudeToContact < 0)
+            if (npcLookMagnitudeToContact > 0 && playerLookMagnitudeToContact < 0)
             {
                 return TransitionType.BattleBad;
             }
-            else
-            {
-                return TransitionType.BattleNeutral;
-            }
+
+            return TransitionType.BattleNeutral;
         }
         #endregion
     }

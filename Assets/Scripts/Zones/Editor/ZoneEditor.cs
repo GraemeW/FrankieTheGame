@@ -261,10 +261,10 @@ namespace Frankie.ZoneManagement.UIEditor
 
         private void DrawConnections(ZoneNode zoneNode)
         {
-            Vector2 startPoint = new Vector2(zoneNode.GetRect().xMax, zoneNode.GetRect().center.y);
+            var startPoint = new Vector2(zoneNode.GetRect().xMax, zoneNode.GetRect().center.y);
             foreach (ZoneNode childNode in selectedZone.GetAllChildren(zoneNode))
             {
-                Vector2 endPoint = new Vector2(childNode.GetRect().xMin, childNode.GetRect().center.y);
+                var endPoint = new Vector2(childNode.GetRect().xMin, childNode.GetRect().center.y);
                 float connectionBezierOffset = (endPoint.x - startPoint.x) * _connectionBezierOffsetMultiplier;
                 Handles.DrawBezier(startPoint, endPoint,
                     startPoint + Vector2.right * connectionBezierOffset, endPoint + Vector2.left * connectionBezierOffset,
@@ -283,7 +283,7 @@ namespace Frankie.ZoneManagement.UIEditor
                     foundNode = zoneNode;
                 }
 
-                Rect draggingRect = new Rect(zoneNode.GetRect().position, zoneNode.GetDraggingRect().size);
+                var draggingRect = new Rect(zoneNode.GetRect().position, zoneNode.GetDraggingRect().size);
                 if (draggingRect.Contains(point))
                 {
                     getDraggable = true;

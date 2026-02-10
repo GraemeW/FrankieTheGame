@@ -35,7 +35,7 @@ namespace Frankie.Speech.UI
         private List<GameObject> printedJobs = new();
 
         // Cached References
-        protected DialogueController dialogueController = null;
+        protected DialogueController dialogueController;
 
         // Structures
         private struct ReceptacleTextPair
@@ -50,7 +50,6 @@ namespace Frankie.Speech.UI
         {
             dialogueController = DialogueController.FindDialogueController();
             controller = dialogueController;
-
             StoreOptionPanelConfigurables();
         }
 
@@ -178,7 +177,7 @@ namespace Frankie.Speech.UI
             }
             isWriting = enable;
 
-            OnUIBoxModified(UIBoxModifiedType.writingStateChanged, enable);
+            OnUIBoxModified(UIBoxModifiedType.WritingStateChanged, enable);
         }
 
         private void SetText()
@@ -257,7 +256,7 @@ namespace Frankie.Speech.UI
         private IEnumerator PrintPageBreak()
         {
             SetBusyWriting(true);
-            OnUIBoxModified(UIBoxModifiedType.writingStateChanged, false); // override printing to false, since not really printing -- wait for user input for next step
+            OnUIBoxModified(UIBoxModifiedType.WritingStateChanged, false); // override printing to false, since not really printing -- wait for user input for next step
 
             queuePageClear = true;
             yield break;
@@ -389,7 +388,7 @@ namespace Frankie.Speech.UI
             bool choose = PrepareChooseAction(PlayerInputType.Execute);
             if (choose)
             {
-                OnUIBoxModified(UIBoxModifiedType.itemSelected, true);
+                OnUIBoxModified(UIBoxModifiedType.ItemSelected, true);
                 dialogueController.NextWithID(nodeID);
             }
             return choose;
@@ -428,7 +427,6 @@ namespace Frankie.Speech.UI
                     return true;
                 }
             }
-
             return false;
         }
 
@@ -437,7 +435,5 @@ namespace Frankie.Speech.UI
             PrepareChooseAction(playerInputType);
         }
         #endregion
-
-
     }
 }

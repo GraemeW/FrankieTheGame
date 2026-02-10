@@ -13,10 +13,7 @@ namespace Frankie.Utils
             y = vector.y;
             z = vector.z;
         }
-
-        public Vector3 ToVector()
-        {
-            return new Vector3(x, y, z);
-        }
+        
+        public Vector3 ToVector() => new(x, y, z);
     }
 }

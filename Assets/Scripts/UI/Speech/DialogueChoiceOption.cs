@@ -5,10 +5,10 @@ namespace Frankie.Speech.UI
     public class DialogueChoiceOption : UIChoiceButton
     {
         // State
-        DialogueNode dialogueNode = null;
+        private DialogueNode dialogueNode;
 
         // Cached References
-        DialogueController dialogueController = null;
+        private DialogueController dialogueController;
 
         protected override void OnDestroy()
         {
@@ -19,22 +19,19 @@ namespace Frankie.Speech.UI
             }
         }
 
-        public void Setup(DialogueController dialogueController, DialogueNode dialogueNode)
+        public void Setup(DialogueController setDialogueController, DialogueNode setDialogueNode)
         {
-            this.dialogueController = dialogueController;
-            this.dialogueNode = dialogueNode;
-            dialogueController.highlightedNodeChanged += Highlight;
+            dialogueController = setDialogueController;
+            dialogueNode = setDialogueNode;
+            setDialogueController.highlightedNodeChanged += Highlight;
         }
 
-        public void Highlight(DialogueNode dialogueNode)
+        private void Highlight(DialogueNode dialogueNodeToHighlight)
         {
-            if (this.dialogueNode == dialogueNode)
+            if (dialogueNode == dialogueNodeToHighlight)
             {
                 selectionMarker.SetActive(true);
-                if (itemHighlighted != null)
-                {
-                    itemHighlighted.Invoke();
-                }
+                itemHighlighted?.Invoke();
             }
             else
             {

@@ -297,12 +297,11 @@ namespace Frankie.Control
         private void OnDrawGizmosSelected()
         {
             patrolPath?.OnDrawGizmosSelected();
-            if (canRandomWalk)
-            {
-                Gizmos.color = randomWalkGizmoColor;
-                var cubeCoordinates = new Vector3(randomWalkxLimitDistance * 2, randomWalkyLimitDistance * 2, 0f);
-                Gizmos.DrawWireCube(transform.position, cubeCoordinates);
-            }
+            if (!canRandomWalk) { return; }
+            
+            Gizmos.color = randomWalkGizmoColor;
+            var cubeCoordinates = new Vector3(randomWalkxLimitDistance * 2, randomWalkyLimitDistance * 2, 0f);
+            Gizmos.DrawWireCube(transform.position, cubeCoordinates);
         }
 #endif
     }

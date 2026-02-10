@@ -10,7 +10,7 @@ namespace Frankie.Utils
             this.action = action;
         }
 
-        public string choice;
-        public Action action;
+        public readonly string choice;
+        public readonly Action action;
     }
 }

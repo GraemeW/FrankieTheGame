@@ -8,10 +8,10 @@ namespace Frankie.Combat
     public class BattleAIPriority : ScriptableObject
     {
         // Tunables
-        [SerializeField] Skill[] skills = null; 
-        [SerializeField] BattleAICondition skillCondition = null;
-        [SerializeField] TargetPriority[] targetPriorities = null;
-        [SerializeField] bool defaultToRandomTarget = false;
+        [SerializeField] private Skill[] skills; 
+        [SerializeField] private BattleAICondition skillCondition;
+        [SerializeField] private TargetPriority[] targetPriorities;
+        [SerializeField] private bool defaultToRandomTarget = false;
 
         #region StaticMethods
         public static Skill GetRandomSkill(SkillHandler skillHandler, List<Skill> skillsToExclude, float probabilityToTraverseSkillTree)
@@ -25,14 +25,13 @@ namespace Frankie.Combat
             if (branchCount > 0)
             {
                 int branchIndex = Random.Range(0, branchCount);
-
                 float traverseChance = Random.Range(0f, 1f);
                 if (probabilityToTraverseSkillTree >= traverseChance)
                 {
                     SkillBranchMapping skillBranchMapping = availableBranches[branchIndex];
 
                     // Check if skills will exist on traversing
-                    List<Skill> pathSkills = new List<Skill>();
+                    var pathSkills = new List<Skill>();
                     skillHandler.GetPathSkills(skillBranchMapping, ref pathSkills);
                     List<Skill> filteredPathSkills = pathSkills.Except(skillsToExclude).ToList();
 
@@ -40,7 +39,7 @@ namespace Frankie.Combat
                     {
                         // Walk to next branch, recurse through tree
                         skillHandler.SetBranch(skillBranchMapping, SkillFilterType.None);
-                        return BattleAIPriority.GetRandomSkill(skillHandler, skillsToExclude, probabilityToTraverseSkillTree);
+                        return GetRandomSkill(skillHandler, skillsToExclude, probabilityToTraverseSkillTree);
                     }
                 }
             }
@@ -87,18 +86,24 @@ namespace Frankie.Combat
 
         public void SetTarget(BattleAI battleAI, BattleActionData battleActionData, Skill skill)
         {
+            // Early exit (i.e. set with skill condition, but no specific target)
             if (targetPriorities == null || targetPriorities.Length == 0)
             {
-                if (defaultToRandomTarget) { BattleAIPriority.SetRandomTarget(battleAI, battleActionData, skill); } // Early exit (i.e. set with skill condition, but no specific target)
+                if (defaultToRandomTarget) { SetRandomTarget(battleAI, battleActionData, skill); } 
                 return;
             }
 
-            foreach (TargetPriority targetPriority in targetPriorities)
+            // Specific target set (standard behaviour)
+            if (targetPriorities.Any(targetPriority => targetPriority.SetTarget(battleAI, battleActionData, skill)))
             {
-                if (targetPriority.SetTarget(battleAI, battleActionData, skill)) { return; }
+                return;
             }
 
-            if (defaultToRandomTarget) { BattleAIPriority.SetRandomTarget(battleAI, battleActionData, skill); } // Default fallback state
+            // Default fallback state
+            if (defaultToRandomTarget)
+            {
+                SetRandomTarget(battleAI, battleActionData, skill);
+            } 
         }
         #endregion
     }

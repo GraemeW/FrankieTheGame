@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
@@ -7,24 +6,22 @@ using UnityEngine.Tilemaps;
 public class RuleTileSibling : RuleTile<RuleTileSibling.Neighbor> {
     public List<TileBase> siblings;
 
-    public class Neighbor : RuleTile.TilingRule.Neighbor
+    // Must be declared non-abstract
+    // ReSharper disable once ClassNeverInstantiated.Global
+    public class Neighbor : RuleTile.TilingRuleOutput.Neighbor
     {
-        public const int Sibling = 3;
     }
+    
     public override bool RuleMatch(int neighbor, TileBase tile)
     {
-        RuleTileSibling ruleTileSibling = tile as RuleTileSibling;
+        var ruleTileSibling = tile as RuleTileSibling;
         if (ruleTileSibling == null) { return base.RuleMatch(neighbor, tile); }
 
-        switch (neighbor)
+        return neighbor switch
         {
-            case Neighbor.This:
-                return (siblings.Contains(tile)
-                    || base.RuleMatch(neighbor, tile));
-            case Neighbor.NotThis:
-                return (!siblings.Contains(tile)
-                    && base.RuleMatch(neighbor, tile));
-        }
-        return base.RuleMatch(neighbor, tile);
+            TilingRuleOutput.Neighbor.This => (siblings.Contains(tile) || base.RuleMatch(neighbor, tile)),
+            TilingRuleOutput.Neighbor.NotThis => (!siblings.Contains(tile) && base.RuleMatch(neighbor, tile)),
+            _ => base.RuleMatch(neighbor, tile)
+        };
     }
 }

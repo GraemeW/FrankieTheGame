@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Frankie.Core;
@@ -9,10 +8,10 @@ namespace Frankie.Control
     public class PlayerStateDependentToggler : MonoBehaviour
     {
         // Tunables
-        [SerializeField][Tooltip("Default behavior is disable for all other states")] List<PlayerStateType> playerStateForEnable = new List<PlayerStateType>();
+        [SerializeField][Tooltip("Default behavior is disable for all other states")] private List<PlayerStateType> playerStateForEnable = new();
 
         // Cached References
-        ReInitLazyValue<PlayerStateMachine> playerStateMachine = null;
+        private ReInitLazyValue<PlayerStateMachine> playerStateMachine;
 
         #region UnityMethods
         private void Awake()

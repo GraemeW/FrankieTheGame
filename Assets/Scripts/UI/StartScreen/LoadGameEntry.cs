@@ -8,9 +8,9 @@ namespace Frankie.Menu.UI
     public class LoadGameEntry : UIChoiceButton
     {
         // Tunables
-        [SerializeField] TMP_Text indexField = null;
-        [SerializeField] TMP_Text characterNameField = null;
-        [SerializeField] TMP_Text levelField = null;
+        [SerializeField] private TMP_Text indexField;
+        [SerializeField] private TMP_Text characterNameField;
+        [SerializeField] private TMP_Text levelField;
 
         public void Setup(int index, string characterName, int level, Action action)
         {
@@ -19,7 +19,7 @@ namespace Frankie.Menu.UI
             indexField.text = index.ToString();
             characterNameField.text = characterName;
             levelField.text = level.ToString();
-            button.onClick.AddListener(delegate { action.Invoke(); });
+            button.onClick.AddListener(action.Invoke);
         }
     }
 }

@@ -17,6 +17,9 @@ namespace Frankie.Core
         private const string _playerTag = "Player";
         private const string _playerMaskName = "Player";
         private const string _immunePlayerTag = "ImmunePlayer";
+        public static int GetPlayerLayer() => LayerMask.NameToLayer(_playerMaskName);
+        public static int GetImmunePlayerLayer() => LayerMask.NameToLayer(_immunePlayerTag);
+        
         public static GameObject FindPlayerObject() => GameObject.FindGameObjectWithTag(_playerTag);
         public static Player FindPlayer()
         {
@@ -34,9 +37,6 @@ namespace Frankie.Core
             var playerGameObject = FindPlayerObject();
             return playerGameObject != null ? playerGameObject.GetComponent<PlayerController>() : null;
         }
-        
-        public static int GetPlayerLayer() => LayerMask.NameToLayer(_playerMaskName);
-        public static int GetImmunePlayerLayer() => LayerMask.NameToLayer(_immunePlayerTag);
         #endregion
 
         #region UnityMethods
@@ -77,8 +77,9 @@ namespace Frankie.Core
         private void HandlePlayerStateChanged(PlayerStateType playerState, IPlayerStateContext playerStateContext)
         {
             // On player state change, load game over -- skip cutscene transition to allow for player locking
-            // Note:  Will naturally call on combat end during transition
-            if (playerState == PlayerStateType.inCutScene) { return; }
+                // Early return on cutscene required or endless loop b/w cutscene state change -> enter cutscene   
+            // Note:  This will naturally call on combat end during transition
+            if (playerState == PlayerStateType.InCutScene) { return; }
             if (partyCombatConduit.IsAnyMemberAlive()) { return; }
             
             playerStateMachine.EnterCutscene(true, false);

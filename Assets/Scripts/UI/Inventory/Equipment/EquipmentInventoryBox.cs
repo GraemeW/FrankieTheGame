@@ -19,7 +19,7 @@ namespace Frankie.Inventory.UI
         private EquipLocation equipLocation = EquipLocation.None;
         private Equipment equipment;
 
-        public void Setup(EquipmentBox setEquipmentBox, EquipLocation setEquipLocation, CombatParticipant setSelectedCharacter, List<CharacterSlide> setCharacterSlides = null)
+        public void Setup(EquipmentBox setEquipmentBox, EquipLocation setEquipLocation, CombatParticipant setSelectedCharacter, List<CharacterSlide> setCharacterSlides)
         {
             equipmentBox = setEquipmentBox;
             equipLocation = setEquipLocation;
@@ -31,7 +31,7 @@ namespace Frankie.Inventory.UI
         {
             var choiceActionPairs = new List<ChoiceActionPair>();
             var equipableItem = selectedKnapsack.GetItemInSlot(inventorySlot) as EquipableItem;
-            // Equip
+            
             if (equipableItem != null
                 && equipment != null && equipableItem.CanUseItem(equipment)
                 && equipLocation != EquipLocation.None && equipableItem.GetEquipLocation() == equipLocation)
@@ -41,14 +41,13 @@ namespace Frankie.Inventory.UI
             }
             else
             {
-                var inspectActionPair = new ChoiceActionPair(optionInspect, () => CannotEquip(inventorySlot));
+                var inspectActionPair = new ChoiceActionPair(optionInspect, CannotEquip);
                 choiceActionPairs.Add(inspectActionPair);
             }
-
             return choiceActionPairs;
         }
 
-        private void CannotEquip(int inventorySlot)
+        private void CannotEquip()
         {
             DialogueBox dialogueBox = Instantiate(dialogueBoxPrefab, transform.parent);
             dialogueBox.AddText(messageCannotEquip);
@@ -73,7 +72,8 @@ namespace Frankie.Inventory.UI
 
         public override bool HandleGlobalInput(PlayerInputType playerInputType)
         {
-            if (!handleGlobalInput) { return true; } // Spoof:  Cannot accept input, so treat as if global input already handled
+            // Spoof:  Cannot accept input, so treat as if global input already handled
+            if (!handleGlobalInput) { return true; }
 
             if (playerInputType == PlayerInputType.Option || playerInputType == PlayerInputType.Cancel)
             {

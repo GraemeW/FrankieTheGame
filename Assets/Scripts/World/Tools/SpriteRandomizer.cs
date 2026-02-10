@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace Frankie.World
@@ -7,35 +8,17 @@ namespace Frankie.World
     {
         // Tunables
         [SerializeField][Range(0.01f, 1f)] private float varietyFactor = 0.5f;
-        [SerializeField] private Sprite[] sprites;
+        [SerializeField] private List<Sprite> sprites = new();
 
         // State & Fixed Tunables
         private const float _minDenominator = 0.001f;
         [HideInInspector][SerializeField] private Vector3 oldPosition = Vector3.zero;
         
-        // Methods
-        private Sprite GetSpriteByPosition()
-        {
-            if (sprites is not { Length: > 1 }) { return null; }
-            float positionalFactor = 0.5f * (Mathf.Sin(100f * varietyFactor * ((transform.position.x % 1) / (transform.position.y % 1 + _minDenominator))) + 1f);
-            int chosenIndex = Mathf.FloorToInt(positionalFactor * sprites.Length);
-
-            return chosenIndex > sprites.Length ? null : sprites[chosenIndex];
-        }
-
-        private bool HasPositionShifted()
-        {
-            float squarePositionShift = (transform.position.x - oldPosition.x) * (transform.position.x - oldPosition.x) + (transform.position.y - oldPosition.y) * (transform.position.y - oldPosition.y);
-            if (squarePositionShift < Mathf.Epsilon) { return false; }
-
-            oldPosition = transform.position;
-            return true;
-        }
-
+        #region Serialization
         public void OnBeforeSerialize()
         {
 #if UNITY_EDITOR
-            if (sprites == null || sprites.Length <= 1) { return; }
+            if (sprites is not { Count: > 1 }) { return; }
             if (!HasPositionShifted()) { return; }
 
             var spriteRenderer = GetComponent<SpriteRenderer>();
@@ -47,5 +30,26 @@ namespace Frankie.World
         {
             // Unused, required for interface
         }
+        #endregion
+        
+        #region PrivateMethods
+        private Sprite GetSpriteByPosition()
+        {
+            if (sprites is not { Count: > 1 }) { return null; }
+            float positionalFactor = 0.5f * (Mathf.Sin(100f * varietyFactor * ((transform.position.x % 1) / (transform.position.y % 1 + _minDenominator))) + 1f);
+            int chosenIndex = Mathf.FloorToInt(positionalFactor * sprites.Count);
+
+            return chosenIndex > sprites.Count ? null : sprites[chosenIndex];
+        }
+
+        private bool HasPositionShifted()
+        {
+            float squarePositionShift = (transform.position.x - oldPosition.x) * (transform.position.x - oldPosition.x) + (transform.position.y - oldPosition.y) * (transform.position.y - oldPosition.y);
+            if (squarePositionShift < Mathf.Epsilon) { return false; }
+
+            oldPosition = transform.position;
+            return true;
+        }
+        #endregion
     }
 }

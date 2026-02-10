@@ -5,7 +5,7 @@ namespace Frankie.Core
 {
     public abstract class PredicateBaseStats : Predicate
     {
-        [SerializeField] [Tooltip("Optional, depending on implementation")] protected CharacterProperties character = null;
+        [SerializeField] [Tooltip("Optional, depending on implementation")] protected CharacterProperties character;
         public abstract bool? Evaluate(BaseStats baseStats);
     }
 }

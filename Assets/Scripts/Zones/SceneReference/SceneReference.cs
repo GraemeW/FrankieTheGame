@@ -21,6 +21,7 @@ namespace Frankie.ZoneManagement
             this.sceneName = sceneName;
         }
 
+        // ReSharper disable once InconsistentNaming
         public string SceneName
         {
             get => sceneName;
