@@ -8,23 +8,23 @@ Frankie's day-to-day monotony is interrupted by a near-death experience involvin
 
 Frankie has danger:
 
-![](./InfoTools/Images/HorseDanger.png)
+![](./InfoTools/Documentation/Root/HorseDanger.png)
 
 , it has friendship:
 
-![](./InfoTools/Images/FrankieFriendship.gif)
+![](./InfoTools/Documentation/Root/FrankieFriendship.gif)
 
 , it has vast landscapes:
 
-![](./InfoTools/Images/VastOverworld.png)
+![](./InfoTools/Documentation/Root/VastOverworld.png)
 
 , it has thrilling combat:
 
-![](./InfoTools/Images/ThrillingCombatToo.png)
+![](./InfoTools/Documentation/Root/ThrillingCombatToo.png)
 
 , and most of all, it has heart:
 
-![](./InfoTools/Images/LucySmooch.png)
+![](./InfoTools/Documentation/Root/LucySmooch.png)
 
 ## World Construction - Scenes
 

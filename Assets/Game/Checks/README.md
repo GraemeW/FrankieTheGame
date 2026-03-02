@@ -36,10 +36,10 @@ Notably, standard checks are brokebn into three different check types.
     * rejecting - via `Reject Interaction (PlayerStateMachine)` list
 
 Example checks can be found in:
-* [FrankieHomeDesk](../WorldObjects/Interior/SavePoints/FrankieHomeDesk.prefab): Used to trigger a [WorldSaver](../../Scripts/World/WorldSaver.cs) Save() call
-* [WaterCooler](../WorldObjects/Interior/Office/WaterCooler_0.prefab): Used to trigger a [WorldPointAdjuster](../../Scripts/World/WorldPointAdjuster.cs) to heal the party & restore AP
+* [FrankieHomeDesk](../WorldObjects/SavePoints/FrankieHomeDesk.prefab): Used to trigger a [WorldSaver](../../Scripts/World/Save/WorldSaver.cs) Save() call
+* [WaterCooler](../WorldObjects/Interior/Office/Misc/WaterCooler.prefab): Used to trigger a [WorldPointAdjuster](../../Scripts/World/StatsProperties/WorldPointAdjuster.cs) to heal the party & restore AP
 * [InfoSign](../WorldObjects/Signs/SignInfoBig.prefab): Used to prompt a UI message with th (arbitrary) sign content
-* [CoinMachine](../WorldObjects/Interior//VendingMachines/CoinMachine.prefab): Used to trigger a [WorldCashGiverTaker](../../Scripts/World/WorldCashGiverTaker.cs) to give add cash to the player's wallet
+* [CoinMachine](../WorldObjects/Interior//VendingMachines/CoinMachine.prefab): Used to trigger a [WorldCashGiverTaker](../../Scripts/World/Inventory/WorldCashGiverTaker.cs) to give add cash to the player's wallet
 * and so on…
 
 ## Complex Checks
@@ -90,7 +90,7 @@ Example checks can be found in:
 
 In some circumstances, the check options themselves may not be fixed/static, but may also vary as a function of the game state -- for these, one may employ the [CheckWithDynamicOptions](./CheckWithDynamicOptions.prefab) prefab.
 
-This prefab makes use of a Dynamic Check Object that has a component implementing the [ICheckDynamic](../../Scripts/CheckInteractions/ICheckDynamic.cs) interface to return [ChoiceActionPairs](../../Scripts/Utils/ChoiceActionPair.cs) that are used to populate a menu of choices.  One such example is the [SubwayTrain](../WorldObjects/Interior/Subway/SubwayTrain/SubwayTrain.prefab), which has the [WorldSubwayRider](../../Scripts/World/Subway/WorldSubwayRider.cs) component to generate viable subway travel options:
+This prefab makes use of a Dynamic Check Object that has a component implementing the [ICheckDynamic](../../Scripts/CheckInteractions/ICheckDynamic.cs) interface to return [ChoiceActionPairs](../../Scripts/Utils/ChoiceActionPair.cs) that are used to populate a menu of choices.  One such example is the [SubwayTrain](../WorldObjects/Interior/Subway/SubwayTrain/SubwayTrain.prefab), which has the [WorldSubwayRider](../../Scripts/World/Specialty/WorldSubwayRider.cs) component to generate viable subway travel options:
 
 <img src="../../../InfoTools/Documentation/Game/Checks/CheckWithDynamicOptionsSubwayTrain.png" width="1080">
 

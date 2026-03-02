@@ -191,11 +191,11 @@ In some cases, the default [BoxCollider2D](https://docs.unity3d.com/6000.2/Docum
 It may be necessary to grant additional functionality to the world object that can be triggered via the [Check's](../Checks/) UnityEvents.  
 
 These additional functionalities are typically provided by [World Scripts](../../Scripts/World/), which can be attached as components onto any given world object to provide the requisite public methods.  These scripts and their public methods include:
-* [WorldSaver](../../Scripts/World/WorldSaver.cs):  to save the game
-* [WorldPointAdjuster](../../Scripts/World/WorldPointAdjuster.cs):  to modify character HP/AP
-* [WorldPartyInterface](../../Scripts/World/WorldPartyInterface.cs):  to add/remove characters from the party
-* [WorldCashGiverTaker](../../Scripts/World/WorldCashGiverTaker.cs):  to add/remove cash from the wallet
-* [WorldItemGiverTaker](../../Scripts/World/WorldItemGiverTaker.cs):  to add/remove items from a character's knapsack
+* [WorldSaver](../../Scripts/World/Save/WorldSaver.cs):  to save the game
+* [WorldPointAdjuster](../../Scripts/World/StatsProperties/WorldPointAdjuster.cs):  to modify character HP/AP
+* [WorldPartyInterface](../../Scripts/World/StatsProperties/WorldPartyInterface.cs):  to add/remove characters from the party
+* [WorldCashGiverTaker](../../Scripts/World/Inventory/WorldCashGiverTaker.cs):  to add/remove cash from the wallet
+* [WorldItemGiverTaker](../../Scripts/World/Inventory/WorldItemGiverTaker.cs):  to add/remove items from a character's knapsack
 
 etc.
 
