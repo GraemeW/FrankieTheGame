@@ -38,7 +38,7 @@ namespace Frankie.Control
 
         public void VerifyUnique()
         {
-            var splashMenuControllers = FindObjectsByType<SplashMenuController>(FindObjectsSortMode.None);
+            var splashMenuControllers = FindObjectsByType<SplashMenuController>();
             if (splashMenuControllers.Length > 1)
             {
                 Destroy(gameObject);

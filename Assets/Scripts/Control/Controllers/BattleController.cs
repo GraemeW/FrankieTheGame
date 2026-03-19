@@ -639,7 +639,7 @@ namespace Frankie.Combat
         #region Interfaces
         public void VerifyUnique()
         {
-            var battleControllers = FindObjectsByType<BattleController>(FindObjectsSortMode.None);
+            var battleControllers = FindObjectsByType<BattleController>();
             if (battleControllers.Length > 1)
             {
                 Destroy(gameObject);
