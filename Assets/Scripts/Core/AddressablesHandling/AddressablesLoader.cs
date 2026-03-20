@@ -43,7 +43,7 @@ namespace Frankie.Core
         {
             // Singleton through standard approach -- do not use persistent object spawner for addressables loader
             // i.e. want assets loaded in Awake
-            int numberOfPlayers = FindObjectsByType<AddressablesLoader>(FindObjectsSortMode.None).Length;
+            int numberOfPlayers = FindObjectsByType<AddressablesLoader>().Length;
             if (numberOfPlayers > 1)
             {
                 isSingleton = false;

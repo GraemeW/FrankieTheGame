@@ -2,7 +2,7 @@
 
 ## Camera + World View
 
-### [Camera Controller](./CameraController.cs)
+### [Camera Controller](./CameraCinematics/CameraController.cs)
 
 This controller makes use of the [Unity Cinemachine](https://unity.com/unity/features/editor/art-and-design/cinemachine), keeping track of existing virtual cameras and allowing camera swapping/override.
 

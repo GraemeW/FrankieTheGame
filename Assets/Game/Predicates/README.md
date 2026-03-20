@@ -113,7 +113,7 @@ To configure either of the `QuestObjectiveCompleted` or `QuestCompleted` SOs, se
 * `Objective`: to the desired `QuestObjective` (childed to the Quest)
   * Note:  leave this parameter blank for `QuestCompleted`
 
-For example, see below to check if the objective `HorseReceivedTheDocuments` has been completed for the quest [OfficeInteriorHorse](../OnLoadAssets/Quests/OfficeInteriorHorse.asset):
+For example, see below to check if the objective `HorseReceivedTheDocuments` has been completed for the quest [OfficeInteriorHorse](../OnLoadAssets/Quests/z_Demo-Office/Demo_Office-InteriorHorse.asset):
 
 <img src="../../../InfoTools/Documentation/Game/Predicates/ConfigureQuestList.png" width="300">
 

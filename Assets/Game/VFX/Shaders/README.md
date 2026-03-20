@@ -76,9 +76,9 @@ For example, see the [CirclePopEffect](./BattleEffectShaders/CirclePopEffect.sha
 
 Beyond those standard use cases above, shaders can be (sparingly) used throughout the world as [BackgroundShaders](./BackgroundShaders/) in Frankie.
 
-For example, the [FrankiePC](./BackgroundShaders/FrankiePC.mat) material (derived from the [LateralMovementWavy](./BattleBackgrounds/BattleBackground_LateralMovementWavy.shadergraph) shader) is used on the [PCScreenSaver](../../WorldObjects/Interior/SavePoints/PCScreenSaver.prefab).  This screen saver is then attached to the computers on Frankie's desks:
-* [FrankieHomeDesk](../../WorldObjects/Interior/SavePoints/FrankieHomeDesk.prefab)
-* [FrankieOfficeDesk](../../WorldObjects/Interior/SavePoints/FrankieOfficeDesk.prefab)
+For example, the [FrankiePC](./BackgroundShaders/FrankiePC.mat) material (derived from the [LateralMovementWavy](./BattleBackgrounds/BattleBackground_LateralMovementWavy.shadergraph) shader) is used on the [PCScreenSaver](../../WorldObjects/SavePoints/PCScreenSaver.prefab).  This screen saver is then attached to the computers on Frankie's desks:
+* [FrankieHomeDesk](../../WorldObjects/SavePoints/FrankieHomeDesk.prefab)
+* [FrankieOfficeDesk](../../WorldObjects/SavePoints/FrankieOfficeDesk.prefab)
 
 , as below:
 

@@ -105,7 +105,7 @@ namespace Frankie.Control
 
         public void VerifyUnique()
         {
-            var playerControllers = FindObjectsByType<PlayerController>(FindObjectsSortMode.None);
+            var playerControllers = FindObjectsByType<PlayerController>();
             if (playerControllers.Length > 1)
             {
                 Destroy(gameObject);

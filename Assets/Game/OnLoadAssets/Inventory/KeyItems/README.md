@@ -18,7 +18,7 @@ Key items are a special class of items that are kept in a character's [knapsack]
 Set:
 * The standard [Inventory Item](../) parameters
 * Any relevant quest objectives from [Quests](../../Quests/)
-  * in the above [XTremeBurnHotSauce](./XTremeBurnHotSauce.asset) example, the attached quest objective is `PickedUpHotSauce` from the [OfficeInteriorRamen](../../Quests/OfficeInteriorRamen.asset) quest
+  * in the above [XTremeBurnHotSauce](./XTremeBurnHotSauce.asset) example, the attached quest objective is `PickedUpHotSauce` from the [OfficeInteriorRamen](../../Quests/z_Demo-Office/Demo_Office-OfficeInteriorRamen.asset) quest
 
 When a quest objective is attached to the key item (as above), it will be **completed** in the player's [Quest List](../../../../Scripts/Quests/QuestList.cs) as long as sed item remains in any active party member's inventory.  In this manner, one may use any [QuestObjectiveCompletedPredicate](../../../../Scripts/Predicates/QuestListPredicates/QuestObjectiveCompletedPredicate.cs) to conditionally trigger or toggle world events, objects, dialogue options, etc.  Continuing the above example, completion of `PickedUpHotSauce` is checked via the predicate [QuestObjCompleted_PickedUpHotSauce](../../../Predicates/QuestList/OfficeInterior/QuestObjCompleted_PickedUpHotSauce.asset).
 
