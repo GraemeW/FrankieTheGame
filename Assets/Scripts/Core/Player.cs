@@ -1,6 +1,7 @@
 using UnityEngine;
 using Frankie.Stats;
 using Frankie.Control;
+using Frankie.ZoneManagement;
 
 namespace Frankie.Core
 {
@@ -83,7 +84,7 @@ namespace Frankie.Core
             if (partyCombatConduit.IsAnyMemberAlive()) { return; }
             
             playerStateMachine.EnterCutscene(true, false);
-            SavingWrapper.LoadGameOverScene();
+            SceneLoader.QueueScene(SceneQueueType.GameOver, new SceneQueueData(true));
         }
         #endregion
     }

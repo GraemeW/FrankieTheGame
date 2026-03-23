@@ -1,4 +1,3 @@
-using System.Collections;
 using UnityEngine;
 using Frankie.Control;
 using Frankie.ZoneManagement;
@@ -23,7 +22,7 @@ namespace Frankie.World
         #region PublicMethods
         public void StartBlipFade(PlayerStateMachine playerStateMachine)
         {
-            var faderEventTriggers = new Fader.FaderEventTriggers(_ => playerStateMachine.EnterCutscene(true), null, playerStateMachine.EnterWorld, null);
+            var faderEventTriggers = new FaderEventTriggers(_ => playerStateMachine.EnterCutscene(true), null, playerStateMachine.EnterWorld, null);
             Fader.StartBlipFade(blipFadeHoldSeconds, faderEventTriggers);
         }
         #endregion

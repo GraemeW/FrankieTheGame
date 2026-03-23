@@ -20,7 +20,6 @@ namespace Frankie.Control
         private bool kickedOffNextScene = false;
 
         // Cached References
-        private SceneLoader sceneLoader;
         private PlayerInput playerInput;
 
         public event Action<PlayerInputType> globalInput;
@@ -122,9 +121,8 @@ namespace Frankie.Control
             if (kickedOffNextScene) { return; }
             
             kickedOffNextScene = true;
-            sceneLoader = SceneLoader.FindSceneLoader();
-            if (sceneLoader == null) { return; }
-            sceneLoader.QueueStartScreen();
+            
+            SceneLoader.QueueScene(SceneQueueType.Start, new SceneQueueData(false));
         }
         #endregion
 

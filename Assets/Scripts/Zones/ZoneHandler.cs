@@ -219,8 +219,10 @@ namespace Frankie.ZoneManagement
             if (!startZoneNode.HasLinkedSceneReference()) { return; }
 
             ZoneNode linkedZoneNode = startZoneNode.GetLinkedZoneNode();
+            if (linkedZoneNode == null) { return; }
             Zone linkedZone = linkedZoneNode.GetZone();
-
+            if (linkedZone == null) { return; }
+            
             // NOTE:  Exit inTransition done on queued move
             if (TransitionToNextScene(linkedZone, linkedZoneNode))
             {
@@ -241,7 +243,7 @@ namespace Frankie.ZoneManagement
         private bool TransitionToNextScene(Zone nextZone, ZoneNode nextNode)
         {
             queuedZoneNodeID = nextNode.GetNodeID();
-            var faderEventTriggers = new Fader.FaderEventTriggers(null, HandleFadingPeak, QueuedMoveToNextNode, null);
+            var faderEventTriggers = new FaderEventTriggers(null, HandleFadingPeak, QueuedMoveToNextNode, null);
             return Fader.StartZoneFade(nextZone, faderEventTriggers, true, false);
         }
 
