@@ -20,29 +20,85 @@ namespace Frankie.ZoneManagement
         [SerializeField] private float fadeOutTimer = 1.0f;
         [SerializeField] private float zoneFadeTimerMultiplier = 0.25f;
 
+        // Static State
+        private static Fader _activeFader;
+        
         // State
-        private bool fading = false;
+        private bool fading;
         private Coroutine activeFade;
         private Image currentTransitionImage;
-        private Action initiateBattleCallback;
-
-        // Cached References
-        private ReInitLazyValue<SceneLoader> sceneLoader;
-        private BattleEntryShaderControl battleEntryShaderControl;
 
         // Events
         public event Action<TransitionType> fadingIn;
-        public event Action fadingPeak;
-        public event Action fadingOut;
+        
+        // Cached References
+        private ReInitLazyValue<SceneLoader> sceneLoader;
+        private BattleEntryShaderControl battleEntryShaderControl;
+        
+        // Data Structures
+        public struct FaderEventTriggers
+        {
+            public readonly Action<TransitionType> onFadeIn;
+            public readonly Action onFadePeak;
+            public readonly Action onFadeOut;
+            public readonly Action onFadeComplete;
+
+            public FaderEventTriggers(Action<TransitionType> onFadeIn, Action onFadePeak, Action onFadeOut, Action onFadeComplete)
+            {
+                this.onFadeIn = onFadeIn;
+                this.onFadePeak = onFadePeak;
+                this.onFadeOut = onFadeOut;
+                this.onFadeComplete = onFadeComplete;
+            }
+        }
 
         #region StaticFind
         private const string _faderTag = "Fader";
-        public static Fader FindFader()
+        private static Fader FindFader()
         {
             var faderGameObject = GameObject.FindGameObjectWithTag(_faderTag);
             return faderGameObject != null ? faderGameObject.GetComponent<Fader>() : null;
         }
 
+        public static bool StartStandardFade(TransitionType transitionType, FaderEventTriggers faderEventTriggers, bool overrideActiveFade = true)
+        {
+            if (_activeFader == null) { _activeFader = FindFader(); }
+            if (_activeFader == null) { return false; }
+            if (!overrideActiveFade && _activeFader.IsFading()) { return false; }
+            if (transitionType == TransitionType.Zone) { Debug.Log("Notice:  Use StartZoneFade() instead!"); return false; }
+            
+            _activeFader.InitiateStandardFadeCoroutine(transitionType, faderEventTriggers);
+            return true;
+        }
+
+        public static bool StartBlipFade(float holdSeconds, FaderEventTriggers faderEventTriggers)
+        {
+            if (_activeFader == null) { _activeFader = FindFader(); }
+            if (_activeFader == null) { return false; }
+            if (_activeFader.IsFading()) { return false; }
+            
+            _activeFader.InitiateBlipFadeCoroutine(holdSeconds, faderEventTriggers);
+            return true;
+        }
+
+        public static bool StartZoneFade(Zone nextZone, FaderEventTriggers faderEventTriggers, bool saveSession = true, bool overrideActiveFade = true)
+        {
+            if (_activeFader == null) { _activeFader = FindFader(); }
+            if (_activeFader == null) { return false; }
+            if (!overrideActiveFade && _activeFader.IsFading()) { return false; }
+            
+            _activeFader.InitiateZoneFadeCoroutine(nextZone, faderEventTriggers, saveSession);
+            return true;
+        }
+
+        public static bool StartQuickZoneFade()
+        {
+            if (_activeFader == null) { _activeFader = FindFader(); }
+            if (_activeFader == null) { return false; }
+            
+            _activeFader.InitiateQuickZoneFadeCoroutine();
+            return true;
+        }
         #endregion
 
         #region UnityMethods
@@ -50,6 +106,10 @@ namespace Frankie.ZoneManagement
         {
             sceneLoader = new ReInitLazyValue<SceneLoader>(SceneLoader.FindSceneLoader);
             battleEntryShaderControl = GetComponent<BattleEntryShaderControl>();
+            
+            // Fader is included in PersistentObjects and thus a singleton by standard implementation
+            // So:  establish fader in static state for public method calls
+            _activeFader = this;
         }
 
         private void Start()
@@ -64,38 +124,87 @@ namespace Frankie.ZoneManagement
         }
         #endregion
 
-        #region PublicMethods
-        public bool IsFading() => fading;
-
-        public IEnumerator BlipFade(float holdSeconds)
+        #region Getters
+        private bool IsFading() => fading;
+        
+        private float GetFadeTime(bool isFadeIn, TransitionType transitionType)
         {
-            if (fading) { yield break; }
-            
-            // Re-use Zone-based fading (black screen)
-            yield return QueueFadeEntry(TransitionType.Zone);
-            yield return new WaitForSeconds(holdSeconds);
-            yield return QueueFadeExit(TransitionType.Zone);
+            float fadeTime = 1.0f;
+            if (isFadeIn) { fadeTime *= fadeInTimer; }
+            else { fadeTime *= fadeOutTimer; }
+            if (transitionType == TransitionType.Zone) { fadeTime *= zoneFadeTimerMultiplier; }
+
+            return fadeTime;
+        }
+        #endregion
+        
+        #region CoroutineInitiators
+        private void InitiateStandardFadeCoroutine(TransitionType transitionType, FaderEventTriggers faderEventTriggers)
+        {
+            if (activeFade != null) { StopCoroutine(activeFade); }
+            activeFade = StartCoroutine(StandardFade(transitionType, faderEventTriggers));
         }
         
-        public void UpdateFadeState(TransitionType transitionType, Zone nextZone, bool saveSession = true)
+        private void InitiateZoneFadeCoroutine(Zone nextZone, FaderEventTriggers faderEventTriggers, bool saveSession = true)
         {
-            // Non-IEnumerator Type for Scene Transitions:
-            // Coroutine needs to exist on an object that will persist between scenes
             if (activeFade != null) { StopCoroutine(activeFade); }
-            activeFade = StartCoroutine(ZoneFade(transitionType, nextZone, saveSession));
+            activeFade = StartCoroutine(ZoneFade(nextZone, faderEventTriggers, saveSession));
         }
 
-        public void UpdateFadeStateImmediate()
+        private void InitiateQuickZoneFadeCoroutine()
         {
-            // Coroutine needs to exist on an object that will persist between scenes
             if (activeFade != null) { StopCoroutine(activeFade); }
-            activeFade = StartCoroutine(FadeImmediate());
+            activeFade = StartCoroutine(QuickFade());
         }
 
-        public IEnumerator QueueFadeEntry(TransitionType transitionType)
+        private void InitiateBlipFadeCoroutine(float holdSeconds, FaderEventTriggers faderEventTriggers)
+        {
+            if (activeFade != null) { StopCoroutine(activeFade); }
+            activeFade = StartCoroutine(BlipFade(holdSeconds, faderEventTriggers));
+        }
+        #endregion
+
+        #region Coroutines
+        private IEnumerator StandardFade(TransitionType transitionType, FaderEventTriggers faderEventTriggers)
+        {
+            yield return QueueFadeEntry(transitionType, faderEventTriggers.onFadeIn, faderEventTriggers.onFadePeak);
+            yield return QueueFadeExit(transitionType, faderEventTriggers.onFadeOut, faderEventTriggers.onFadeComplete);
+        }
+        
+        private IEnumerator ZoneFade(Zone zone, FaderEventTriggers faderEventTriggers, bool saveSession = true)
         {
             fading = true;
+            yield return QueueFadeEntry(TransitionType.Zone, faderEventTriggers.onFadeIn, faderEventTriggers.onFadePeak);
+            if (saveSession) { SavingWrapper.SaveSession(); }
+            yield return sceneLoader.value.LoadNewSceneAsync(zone);
 
+            if (saveSession) { SavingWrapper.LoadSession(); }
+
+            yield return QueueFadeExit(TransitionType.Zone, faderEventTriggers.onFadeOut, faderEventTriggers.onFadeComplete);
+            if (saveSession) { SavingWrapper.SaveSession(); }
+        }
+
+        private IEnumerator QuickFade()
+        {
+            fading = true;
+            nodeEntry.gameObject.SetActive(true);
+            currentTransitionImage = nodeEntry;
+
+            if (currentTransitionImage != null) { currentTransitionImage.CrossFadeAlpha(1, 0f, true); }
+            yield return QueueFadeExit(TransitionType.Zone, null, null);
+        }
+
+        private IEnumerator BlipFade(float holdSeconds, FaderEventTriggers faderEventTriggers)
+        {
+            // Re-use Zone-based fading (black screen)
+            fading = true;
+            yield return QueueFadeEntry(TransitionType.Zone, faderEventTriggers.onFadeIn, faderEventTriggers.onFadePeak);
+            yield return new WaitForSeconds(holdSeconds);
+            yield return QueueFadeExit(TransitionType.Zone, faderEventTriggers.onFadeOut, faderEventTriggers.onFadeComplete);
+        }
+        
+        private IEnumerator QueueFadeEntry(TransitionType transitionType, Action<TransitionType> onFadeIn, Action onFadePeak)
+        {
             switch (transitionType)
             {
                 case TransitionType.Zone:
@@ -117,45 +226,34 @@ namespace Frankie.ZoneManagement
             }
 
             AlphaFadeIn(transitionType);
+            fadingIn?.Invoke(transitionType);
+            onFadeIn?.Invoke(transitionType);
             yield return new WaitForSeconds(GetFadeTime(true, transitionType));
-            fadingPeak?.Invoke();
+            onFadePeak?.Invoke();
         }
 
-        public IEnumerator QueueFadeExit(TransitionType transitionType)
+        private IEnumerator QueueFadeExit(TransitionType transitionType, Action onFadeOut, Action onFadeComplete)
         {
+            // Note:  order of operations for alpha fading slightly different on zone fades
+            if (transitionType == TransitionType.Zone) { onFadeOut?.Invoke(); }
             AlphaFadeOut(transitionType);
+            if (transitionType != TransitionType.Zone) { onFadeOut?.Invoke(); }
+            
             yield return new WaitForSeconds(GetFadeTime(false, transitionType));
-            EndFade(transitionType);
+            CleanUpTransitionBlends(transitionType);
+            fading = false;
+            onFadeComplete?.Invoke();
         }
         #endregion
 
-        #region PrivateMethods
-        private IEnumerator ZoneFade(TransitionType transitionType, Zone zone, bool saveSession = true)
+        #region AlphaBlends
+        private void ResetOverlays()
         {
-            if (transitionType != TransitionType.Zone) yield break;
-            
-            yield return QueueFadeEntry(transitionType);
-            if (saveSession) { SavingWrapper.SaveSession(); }
-            yield return sceneLoader.value.LoadNewSceneAsync(zone);
-
-            if (saveSession) { SavingWrapper.LoadSession(); }
-            fadingOut?.Invoke();
-
-            yield return QueueFadeExit(transitionType);
-            if (saveSession) { SavingWrapper.SaveSession(); }
+            nodeEntry?.gameObject.SetActive(false);
+            battleComplete?.gameObject.SetActive(false);
+            battleEntryShaderControl?.EndFade();
         }
-
-        private IEnumerator FadeImmediate()
-        {
-            fading = true;
-            nodeEntry.gameObject.SetActive(true);
-            currentTransitionImage = nodeEntry;
-
-            if (currentTransitionImage != null) { currentTransitionImage.CrossFadeAlpha(1, 0f, true); }
-            yield return QueueFadeExit(TransitionType.Zone);
-        }
-
-
+        
         private void AlphaFadeIn(TransitionType transitionType)
         {
             switch (transitionType)
@@ -175,7 +273,6 @@ namespace Frankie.ZoneManagement
                 case TransitionType.None:
                     return;
             }
-            fadingIn?.Invoke(transitionType);
         }
 
         private void AlphaFadeOut(TransitionType transitionType)
@@ -195,9 +292,8 @@ namespace Frankie.ZoneManagement
                 default:
                     return;
             }
-            if (transitionType != TransitionType.Zone) { fadingOut?.Invoke(); } // invoked separately for zone transitions
         }
-        private void EndFade(TransitionType transitionType)
+        private void CleanUpTransitionBlends(TransitionType transitionType)
         {
             switch (transitionType)
             {
@@ -215,24 +311,6 @@ namespace Frankie.ZoneManagement
                     return;
             }
             currentTransitionImage = null;
-            fading = false;
-        }
-
-        private void ResetOverlays()
-        {
-            nodeEntry?.gameObject.SetActive(false);
-            battleComplete?.gameObject.SetActive(false);
-            battleEntryShaderControl?.EndFade();
-        }
-
-        private float GetFadeTime(bool isFadeIn, TransitionType transitionType)
-        {
-            float fadeTime = 1.0f;
-            if (isFadeIn) { fadeTime *= fadeInTimer; }
-            else { fadeTime *= fadeOutTimer; }
-            if (transitionType == TransitionType.Zone) { fadeTime *= zoneFadeTimerMultiplier; }
-
-            return fadeTime;
         }
         #endregion
     }

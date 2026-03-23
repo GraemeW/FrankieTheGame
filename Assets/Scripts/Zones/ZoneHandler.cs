@@ -240,23 +240,13 @@ namespace Frankie.ZoneManagement
 
         private bool TransitionToNextScene(Zone nextZone, ZoneNode nextNode)
         {
-            if (fader == null) { fader = Fader.FindFader(); }
-            if (fader == null || fader.IsFading()) { return false; }
-
             queuedZoneNodeID = nextNode.GetNodeID();
-            fader.fadingOut += QueuedMoveToNextNode;
-            fader.fadingPeak += HandleFadingPeak;
-            fader.UpdateFadeState(TransitionType.Zone, nextZone);
-            return true;
+            var faderEventTriggers = new Fader.FaderEventTriggers(null, HandleFadingPeak, QueuedMoveToNextNode, null);
+            return Fader.StartZoneFade(nextZone, faderEventTriggers, true, false);
         }
 
         private void RemoveZoneHandler()
         {
-            if (fader == null) { fader = Fader.FindFader(); }
-            if (fader == null) { return; }
-
-            fader.fadingOut -= QueuedMoveToNextNode;
-            fader.fadingPeak -= HandleFadingPeak;
             Destroy(gameObject, delayToDestroyAfterSceneLoading);
         }
 

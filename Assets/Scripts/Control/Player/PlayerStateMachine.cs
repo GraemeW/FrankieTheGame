@@ -325,28 +325,28 @@ namespace Frankie.Control
 
         public bool StartBattleSequence()
         {
-            Fader fader = Fader.FindFader();
-            if (fader == null || fader.IsFading()) { return false; }
-            
             // Edge case on improper game exit, starting Coroutine on object if it's undergoing destruction throws error
-            if (this == null || gameObject == null) { return false; } 
+            if (this == null || gameObject == null) { return false; }
 
-            StartCoroutine(QueueBattleTransition(fader, currentTransitionType));
-            return true;
+            combatFadeComplete = false;
+            var faderEventTriggers = new Fader.FaderEventTriggers(null, () => OnBattleEntryPeak(currentTransitionType), null, () => OnBattleEntryComplete(currentTransitionType));
+            bool faderInitiated = Fader.StartStandardFade(currentTransitionType, faderEventTriggers, false);
+
+            if (!faderInitiated) { combatFadeComplete = true; }
+            return faderInitiated;
         }
 
         public bool IsCombatFadeComplete() => combatFadeComplete;
 
         public bool EndBattleSequence()
         {
-            Fader fader = Fader.FindFader();
-            if (fader == null || fader.IsFading()) { return false; }
-            
             // Edge case on improper game exit, starting Coroutine on object if it's undergoing destruction throws error
             if (this == null || gameObject == null) { return false; }
 
-            StartCoroutine(QueueExitCombat(fader));
-            return true;
+            currentTransitionType = TransitionType.BattleComplete;
+            var faderEventTriggers = new Fader.FaderEventTriggers(null, OnBattleExitPeak, null, OnBattleExitComplete);
+            
+            return Fader.StartStandardFade(currentTransitionType, faderEventTriggers, false);
         }
 
         private void HandleCombatMessages(BattleStateChangedEvent battleStateChangedEvent)
@@ -359,26 +359,28 @@ namespace Frankie.Control
             currentTransitionType = TransitionType.BattleComplete;
             currentPlayerState.EnterTransition(this);
         }
-
-        private IEnumerator QueueBattleTransition(Fader fader, TransitionType transitionType)
+        
+        private void OnBattleEntryPeak(TransitionType transitionType)
         {
-            combatFadeComplete = false;
-            yield return fader.QueueFadeEntry(transitionType);
             if (battleUIPrefab != null) { Instantiate(battleUIPrefab); }
             BattleEventBus<BattleFadeTransitionEvent>.Raise(new BattleFadeTransitionEvent(BattleFadePhase.EntryPeak, enemiesInTransition, transitionType));
-            yield return fader.QueueFadeExit(transitionType);
+        }
+
+        private void OnBattleEntryComplete(TransitionType transitionType)
+        {
             combatFadeComplete = true;
             currentPlayerState.EnterCombat(this);
             BattleEventBus<BattleFadeTransitionEvent>.Raise(new BattleFadeTransitionEvent(BattleFadePhase.EntryComplete, enemiesInTransition, transitionType));
         }
 
-        private IEnumerator QueueExitCombat(Fader fader)
+        private void OnBattleExitPeak()
         {
-            currentTransitionType = TransitionType.BattleComplete;
-            yield return fader.QueueFadeEntry(currentTransitionType);
             BattleEventBus<BattleFadeTransitionEvent>.Raise(new BattleFadeTransitionEvent(BattleFadePhase.ExitPeak));
             StartCoroutine(TimedCollisionDisable());
-            yield return fader.QueueFadeExit(currentTransitionType);
+        }
+
+        private void OnBattleExitComplete()
+        {
             BattleEventBus<BattleFadeTransitionEvent>.Raise(new BattleFadeTransitionEvent(BattleFadePhase.ExitComplete));
             currentPlayerState.EnterWorld(this);
         }

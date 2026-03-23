@@ -59,8 +59,7 @@ namespace Frankie.Core
             if (sceneLoader == null) { return; }
 
             sceneLoader.QueueStartScreen();
-            Fader fader = Fader.FindFader();
-            fader?.UpdateFadeStateImmediate();
+            Fader.StartQuickZoneFade();
         }
 
         public static void LoadGameOverScene()
@@ -70,9 +69,8 @@ namespace Frankie.Core
             
             SceneLoader sceneLoader = SceneLoader.FindSceneLoader();
             if (sceneLoader == null) { return; }
-
-            Fader fader = Fader.FindFader();
-            fader?.UpdateFadeState(TransitionType.Zone, sceneLoader.GetGameOverZone(), false);
+            
+            Fader.StartZoneFade(sceneLoader.GetGameOverZone(), new Fader.FaderEventTriggers(), false);
         }
 
         public static void LoadGameWinScreen()
@@ -80,8 +78,7 @@ namespace Frankie.Core
             SceneLoader sceneLoader = SceneLoader.FindSceneLoader();
             if (sceneLoader == null) { return; }
 
-            Fader fader = Fader.FindFader();
-            fader?.UpdateFadeState(TransitionType.Zone, sceneLoader.GetGameWinZone());
+            Fader.StartZoneFade(sceneLoader.GetGameWinZone(), new Fader.FaderEventTriggers());
         }
         #endregion
 
@@ -226,9 +223,7 @@ namespace Frankie.Core
             SceneLoader sceneLoader = SceneLoader.FindSceneLoader();
             if (sceneLoader == null) { yield break; }
             sceneLoader.SetCurrentZoneToCurrentScene();
-
-            Fader fader = Fader.FindFader();
-            fader?.UpdateFadeStateImmediate();
+            Fader.StartQuickZoneFade();
         }
         #endregion
     }
