@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -20,12 +21,12 @@ namespace Frankie.World
 
         // State
         private bool active = true;
-        private PlayerStateMachine cachedPlayerStateMachine;
-        private CameraController cameraController;
+        private Action handleRideEndDelegate;
 
         // Cached References
         private NPCMover npcMover;
         private Animator animator;
+        private CameraController cameraController;
 
         #region UnityMethods
         private void Awake()
@@ -64,19 +65,18 @@ namespace Frankie.World
         {
             if (subwayRide == null || subwayRide.zoneHandler == null || subwayRide.path == null) { return; }
 
-            cachedPlayerStateMachine = playerStateMachine;
-
             var interactionEvent = new InteractionEvent();
-            interactionEvent.AddListener((_) => HandleRideStart(subwayRide));
+            interactionEvent.AddListener((_) => HandleRideStart(subwayRide, playerStateMachine));
             playerStateMachine.SetPostDialogueCallbackActions(interactionEvent);
+            Debug.Log("Butts");
         }
 
-        private void HandleRideStart(SubwayRide subwayRide)
+        private void HandleRideStart(SubwayRide subwayRide, PlayerStateMachine playerStateMachine)
         {
             // Check for camera controller
             cameraController = CameraController.GetCameraController();
             if (cameraController == null) { return; }
-
+            
             // Disable Stuff
             ToggleConductor(false);
             if (sisterRidersToDisable is { Length: > 0 })
@@ -91,24 +91,25 @@ namespace Frankie.World
             cameraController.OverrideCameraFollower(animator, followTarget == null ? transform : followTarget);
 
             // Warp player -- must be called after camera on train to avoid camera jump
-            subwayRide.zoneHandler.AttemptToWarpPlayer(cachedPlayerStateMachine);
+            subwayRide.zoneHandler.AttemptToWarpPlayer(playerStateMachine);
 
-            // Start to move Train
+            // Start to move Train && set up delegate to handle end of ride
             npcMover.SetPatrolPath(subwayRide.path);
-            npcMover.arrivedAtFinalWaypoint += HandleRideEnd;
+            handleRideEndDelegate = () => HandleRideEnd(playerStateMachine);
+            npcMover.arrivedAtFinalWaypoint += handleRideEndDelegate;
 
             // Remove player control -- Call this after warping player, or ZoneHandler will force exit cutscene
-            cachedPlayerStateMachine.EnterCutscene(false);
+            playerStateMachine.EnterCutscene(false);
         }
-
-        private void HandleRideEnd()
+        
+        private void HandleRideEnd(PlayerStateMachine playerStateMachine)
         {
-            if (cachedPlayerStateMachine == null) { cachedPlayerStateMachine = Player.FindPlayerStateMachine(); }
             if (cameraController == null) { CameraController.GetCameraController(); }
+            UnityEngine.Debug.Log("So we're here now");
 
-            npcMover.arrivedAtFinalWaypoint -= HandleRideEnd;
+            npcMover.arrivedAtFinalWaypoint -= handleRideEndDelegate;
             cameraController.RefreshDefaultCameras();
-            cachedPlayerStateMachine.EnterWorld();
+            playerStateMachine.EnterWorld();
 
             active = false; // de-activate (cannot ride back on same train, need to leave/rejoin subway)
         }

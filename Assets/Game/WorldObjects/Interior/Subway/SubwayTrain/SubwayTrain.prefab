@@ -287,12 +287,20 @@ MonoBehaviour:
   movementSpeed: 2
   defaultLookDirection: {x: 0, y: -1}
   defaultTargetDistanceTolerance: 0.15
+  closeTargetThresholdSquared: 0.5625
   resetPositionOnEnable: 1
   targetMovementHistoryLength: 10
   interactionCenterPoint: {fileID: 851377592137554633}
   patrolPath: {fileID: 0}
+  canRandomWalk: 0
+  randomWalkStepDistance: 0.4
+  randomWalkxLimitDistance: 1.2
+  randomWalkyLimitDistance: 1.2
   waypointDwellTime: 0
-  giveUpOnPatrolTargetTime: 30
+  lookDirectionOnDwell: {x: 0, y: -1}
+  giveUpOnLocomotionTargetTime: 100
+  locomotionCollisionStayTime: 0.5
+  randomWalkGizmoColor: {r: 0.2745098, g: 0.509804, b: 0.7058824, a: 1}
 --- !u!114 &6853974573596150378
 MonoBehaviour:
   m_ObjectHideFlags: 0

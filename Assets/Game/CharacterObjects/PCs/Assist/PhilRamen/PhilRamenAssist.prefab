@@ -223,6 +223,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: RamenTrail
       objectReference: {fileID: 0}
+    - target: {fileID: 3687944564377297132, guid: 133997d20c6eb604a96255ccca9d1312, type: 3}
+      propertyPath: m_Layer
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 3687944564377297132, guid: 133997d20c6eb604a96255ccca9d1312, type: 3}
+      propertyPath: m_TagString
+      value: Untagged
+      objectReference: {fileID: 0}
     - target: {fileID: 3687944564377297133, guid: 133997d20c6eb604a96255ccca9d1312, type: 3}
       propertyPath: m_RootOrder
       value: 0
