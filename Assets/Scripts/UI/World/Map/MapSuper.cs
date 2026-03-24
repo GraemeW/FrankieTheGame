@@ -21,9 +21,8 @@ namespace Frankie.ZoneManagement.UI
             mapCamera.UpdateMap();
         }
 
-        protected override void OnDisable()
+        private void OnDestroy()
         {
-            base.OnDisable();
             if (mapCamera != null) { Destroy(mapCamera.gameObject); }
         }
     }

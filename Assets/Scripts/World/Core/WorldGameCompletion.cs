@@ -1,6 +1,6 @@
 using UnityEngine;
 using Frankie.Control;
-using Frankie.Core;
+using Frankie.ZoneManagement;
 
 namespace Frankie.World
 {
@@ -10,13 +10,13 @@ namespace Frankie.World
         public void TriggerGameOver(PlayerStateMachine playerStateMachine)
         {
             playerStateMachine.EnterCutscene();
-            SavingWrapper.LoadGameOverScene();
+            SceneLoader.QueueScene(SceneQueueType.GameOver, new SceneQueueData(true));
         }
 
         public void TriggerGameWin(PlayerStateMachine playerStateMachine)
         {
             playerStateMachine.EnterCutscene();
-            SavingWrapper.LoadGameWinScreen();
+            SceneLoader.QueueScene(SceneQueueType.GameWin, new SceneQueueData(true));
         }
         #endregion
     }

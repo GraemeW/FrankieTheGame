@@ -37,7 +37,7 @@ namespace Frankie.Combat
         {
             if (parentSkillBranch == null) { return null; }
             string childUniqueID = parentSkillBranch.GetBranch(skillBranchMapping);
-            return !string.IsNullOrWhiteSpace(childUniqueID) ? skillBranches.Select(skillBranch => skillBranch.name == childUniqueID ? skillBranch : null).FirstOrDefault() : null;
+            return string.IsNullOrWhiteSpace(childUniqueID) ? null : skillBranches.FirstOrDefault(skillBranch => skillBranch.name == childUniqueID);
         }
 
         // Dialogue editing functionality

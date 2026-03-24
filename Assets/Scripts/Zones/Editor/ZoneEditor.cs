@@ -39,7 +39,7 @@ namespace Frankie.ZoneManagement.UIEditor
         }
 
         [OnOpenAsset(1)]
-        public static bool OnOpenAsset(int instanceID, int line)
+        public static bool OnOpenAsset(EntityId instanceID, int line)
         {
             var zone = EditorUtility.EntityIdToObject(instanceID) as Zone;
             if (zone == null) return false;

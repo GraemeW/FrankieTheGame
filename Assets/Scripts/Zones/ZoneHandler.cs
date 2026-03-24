@@ -219,8 +219,10 @@ namespace Frankie.ZoneManagement
             if (!startZoneNode.HasLinkedSceneReference()) { return; }
 
             ZoneNode linkedZoneNode = startZoneNode.GetLinkedZoneNode();
+            if (linkedZoneNode == null) { return; }
             Zone linkedZone = linkedZoneNode.GetZone();
-
+            if (linkedZone == null) { return; }
+            
             // NOTE:  Exit inTransition done on queued move
             if (TransitionToNextScene(linkedZone, linkedZoneNode))
             {
@@ -240,23 +242,13 @@ namespace Frankie.ZoneManagement
 
         private bool TransitionToNextScene(Zone nextZone, ZoneNode nextNode)
         {
-            if (fader == null) { fader = Fader.FindFader(); }
-            if (fader == null || fader.IsFading()) { return false; }
-
             queuedZoneNodeID = nextNode.GetNodeID();
-            fader.fadingOut += QueuedMoveToNextNode;
-            fader.fadingPeak += HandleFadingPeak;
-            fader.UpdateFadeState(TransitionType.Zone, nextZone);
-            return true;
+            var faderEventTriggers = new FaderEventTriggers(null, HandleFadingPeak, QueuedMoveToNextNode, null);
+            return Fader.StartZoneFade(nextZone, faderEventTriggers, true);
         }
 
         private void RemoveZoneHandler()
         {
-            if (fader == null) { fader = Fader.FindFader(); }
-            if (fader == null) { return; }
-
-            fader.fadingOut -= QueuedMoveToNextNode;
-            fader.fadingPeak -= HandleFadingPeak;
             Destroy(gameObject, delayToDestroyAfterSceneLoading);
         }
 
