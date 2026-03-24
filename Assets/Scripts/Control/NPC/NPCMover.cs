@@ -153,7 +153,6 @@ namespace Frankie.Control
         #endregion
 
         #region PublicMethods
-        public Vector2 GetInteractionPosition() => interactionCenterPoint != null ? interactionCenterPoint.position : Vector2.zero;
         public void SetLookDirectionDown() => SetLookDirection(Vector2.down); // Called via Unity Events
         public void SetLookDirectionUp() => SetLookDirection(Vector2.up); // Called via Unity Events
         public void SetLookDirectionToPlayer(PlayerStateMachine playerStateHandler) // Called via Unity Events

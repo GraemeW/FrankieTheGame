@@ -421,6 +421,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 8263638854090363871}
     m_Modifications:
+    - target: {fileID: 1625290026206833066, guid: c08399674dab63349bf5a2c9c8ebbcaa, type: 3}
+      propertyPath: m_Layer
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 1625290026206833066, guid: c08399674dab63349bf5a2c9c8ebbcaa, type: 3}
+      propertyPath: m_TagString
+      value: Untagged
+      objectReference: {fileID: 0}
     - target: {fileID: 2366363061461443362, guid: c08399674dab63349bf5a2c9c8ebbcaa, type: 3}
       propertyPath: m_Name
       value: CombatParticipantSoundbox
@@ -428,6 +436,10 @@ PrefabInstance:
     - target: {fileID: 2366363061461443362, guid: c08399674dab63349bf5a2c9c8ebbcaa, type: 3}
       propertyPath: m_Layer
       value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 2366363061461443362, guid: c08399674dab63349bf5a2c9c8ebbcaa, type: 3}
+      propertyPath: m_TagString
+      value: Untagged
       objectReference: {fileID: 0}
     - target: {fileID: 2366363061461443363, guid: c08399674dab63349bf5a2c9c8ebbcaa, type: 3}
       propertyPath: m_RootOrder
@@ -472,6 +484,14 @@ PrefabInstance:
     - target: {fileID: 2366363061461443363, guid: c08399674dab63349bf5a2c9c8ebbcaa, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2408244801502569542, guid: c08399674dab63349bf5a2c9c8ebbcaa, type: 3}
+      propertyPath: m_Layer
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 2408244801502569542, guid: c08399674dab63349bf5a2c9c8ebbcaa, type: 3}
+      propertyPath: m_TagString
+      value: Untagged
       objectReference: {fileID: 0}
     - target: {fileID: 2748663006084487090, guid: c08399674dab63349bf5a2c9c8ebbcaa, type: 3}
       propertyPath: combatParticipant

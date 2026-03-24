@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Frankie.Core;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -22,6 +23,9 @@ namespace Frankie.Control
         // Tunables
         [Header("Interaction")]
         [SerializeField] private CursorMapping[] cursorMappings;
+        [SerializeField] private LayerMask raycastInteractionLayers;
+        [SerializeField] private float raycastInteractionDistanceAdder = 1.0f;
+        [SerializeField] private float raycastMouseDistance = 10.0f;
         [SerializeField] private float raycastRadius = 0.1f;
         [SerializeField] private float interactionDistance = 0.5f;
         [SerializeField] private Transform interactionCenterPoint;
@@ -30,6 +34,7 @@ namespace Frankie.Control
         private const string _tagInteractable = "Interactable";
         
         // State
+        private float raycastManualDistance = 1.5f;
         private PlayerInputType currentDirectionalInput = PlayerInputType.DefaultNone;
         private bool allowComponentInteraction = true;
         private bool inTransition = false;
@@ -70,6 +75,11 @@ namespace Frankie.Control
             playerInput.Player.Option.performed += _ => HandleUserInput(PlayerInputType.Option);
             
             playerInput.Player.Escape.performed += _  => HandleUserInput(PlayerInputType.Escape); 
+        }
+
+        private void Start()
+        {
+            raycastManualDistance = interactionDistance + raycastInteractionDistanceAdder;
         }
         
         private void OnEnable()
@@ -217,17 +227,14 @@ namespace Frankie.Control
 
         private RaycastHit2D RaycastToMouseLocation()
         {
-            RaycastHit2D[] hits = Physics2D.CircleCastAll(GetMouseRay(), raycastRadius, Vector2.zero);
-            RaycastHit2D[] nonPlayerHits = hits.Where(x => !x.collider.transform.gameObject.CompareTag("Player")).ToArray(); 
-            return nonPlayerHits.Length == 0 ? new RaycastHit2D() : nonPlayerHits[0]; // pass an empty hit
+            RaycastHit2D[] hits = Physics2D.CircleCastAll(GetMouseRay(), raycastRadius, Vector2.zero, raycastMouseDistance,raycastInteractionLayers);
+            return hits.Length == 0 ? new RaycastHit2D() : hits[0]; // pass an empty hit
         }
 
         private RaycastHit2D RaycastFromPlayerInLookDirection()
         {
-            RaycastHit2D[] hits = Physics2D.CircleCastAll(interactionCenterPoint.position, raycastRadius, playerMover.GetLookDirection());
-
-            RaycastHit2D[] nonPlayerHits = hits.Where(x => !x.collider.transform.gameObject.CompareTag("Player")).ToArray();
-            return nonPlayerHits.Length == 0 ? new RaycastHit2D() : nonPlayerHits[0]; // pass an empty hit
+            RaycastHit2D[] hits = Physics2D.CircleCastAll(interactionCenterPoint.position, raycastRadius, playerMover.GetLookDirection(), raycastManualDistance,raycastInteractionLayers);
+            return hits.Length == 0 ? new RaycastHit2D() : hits[0]; // pass an empty hit
         }
         #endregion
     }
