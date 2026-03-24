@@ -53,13 +53,56 @@ public static Player FindPlayer()
 
 The Player component should also include a method for handling player state changes, such as to check for game over criteria.
 
-### Persistent Objects
+#### Persistent Objects
 
-Aside from the [Player](#player), other singleton game objects must be childed to a PersistentObjects game object.  The PersistenObjects
+Other singleton game objects must be childed to a PersistentObjects game object.  The PersistentObjects
 
 ### Addressables
 
 ### Camera Cinematics
+
+## Zones (Scene Management)
+
+Zones are addressable scriptable objects that allow for referencing and transitioning between scenes during playtime.  They include ZoneNodes to define locations with the zone, and are manipulated by ZoneHandlers, which further employ the SceneLoader/Fader classes to allow traversal throughout sed locations.
+
+### Zone Class
+
+####  Properties:  Interfaces and Tunables
+
+Since they are scriptable objects, the Zone class must derive from the Unity ScriptableObject class.  It must furthermore implement the following interfaces:
+* IAddressablesCache:  to implement default addressables cache building methods
+* ISerializationCallbackReceiver:  to allow for custom editor properties
+
+A zone object must include the below properties:
+* Scene reference:  matching to the corresponding Unity Scene
+* Audio clip:  to play audio when the zone is active
+  * + any additional audio properties (such as looping behaviour, etc.)
+* Boolean map update flag:  to indicate if the minimap should update when in the zone
+
+, along with relevant public getter methods for each property.
+
+#### State:  ZoneNode Class
+
+A Zone must constain a serialized list of ZoneNodes, which are scriptable objects childed to the Zone that define various points of interest/travel within the Zone.  This is the master list of ZoneNodes within a given Zone.
+
+THe ZoneNode class in turn must contain:
+1. a list of linked ZoneNodes within the same Zone
+2. an optional reference to a ZoneNode in a different Zone
+
+, with corresponding public getter methods for each.
+
+#### Public Methods
+
+
+
+
+### Zone Handler
+
+
+
+### Transitions:  
+
+
 
 ## Rendering
 
@@ -83,7 +126,6 @@ The following controllers are required:
 
 ## Predicates
 
-## Zones
 
 ## Stats
 
