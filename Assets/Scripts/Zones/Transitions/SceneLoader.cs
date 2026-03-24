@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -24,7 +25,7 @@ namespace Frankie.ZoneManagement
         public static event Action<Zone> leavingZone;
         public static event Action<Zone> zoneUpdated;
 
-        #region PrivateStatic
+        #region StaticFind
         private const string _sceneLoaderTag = "SceneLoader";
         public static SceneLoader FindSceneLoader()
         {
@@ -82,6 +83,13 @@ namespace Frankie.ZoneManagement
             _activeSceneLoader.StartLoadScene(sceneQueueType, sceneQueueData);
         }
 
+        public static void QueueDelayedDestroy(IList<GameObject> entries)
+        {
+            if (_activeSceneLoader == null) { _activeSceneLoader = FindSceneLoader(); }
+            if (_activeSceneLoader == null) { return; }
+            _activeSceneLoader.StartDelayedDestroy(entries);
+        }
+
         public static void ExitGame()
         {
             Application.Quit();
@@ -133,6 +141,20 @@ namespace Frankie.ZoneManagement
             yield return SceneManager.LoadSceneAsync(zone.GetSceneReference().SceneName);
             SetCurrentZone(zone);
             sceneLoadedCallback?.Invoke();
+        }
+
+        private void StartDelayedDestroy(IList<GameObject> entries)
+        {
+            StartCoroutine(DelayedDestroy(entries));
+        }
+
+        private IEnumerator DelayedDestroy(IList<GameObject> entries)
+        {
+            yield return null;
+            foreach (GameObject entry in entries)
+            {
+                Destroy(entry);
+            }
         }
         #endregion
     }

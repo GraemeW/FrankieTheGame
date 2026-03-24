@@ -1,6 +1,9 @@
+using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using Frankie.Stats;
 using Frankie.Utils;
+using Frankie.ZoneManagement;
 
 namespace Frankie.Combat.Spawner
 {
@@ -16,6 +19,7 @@ namespace Frankie.Combat.Spawner
 
         // State
         private float timeUntilNextSpawn = -1f;
+        private readonly List<GameObject> spawnedEnemies = new();
 
         #region UnityMethods
         private void OnEnable()
@@ -25,7 +29,7 @@ namespace Frankie.Combat.Spawner
 
         private void OnDisable()
         {
-            DespawnEnemies();
+            SceneLoader.QueueDelayedDestroy(spawnedEnemies.ToList());
         }
 
         private void OnBecameVisible()
@@ -61,6 +65,8 @@ namespace Frankie.Combat.Spawner
                 float yJitter = UnityEngine.Random.Range(-yJitterDistance, yJitterDistance);
                 var jitterVector = new Vector3(xJitter, yJitter, 0f);
                 spawnedEnemy.transform.position += jitterVector;
+                
+                spawnedEnemies.Add(spawnedEnemy);
                 Debug.Log($"{spawnedEnemy.gameObject.name} has spawned at {spawnedEnemy.transform.position}.");
             }
             timeUntilNextSpawn = timeBetweenSpawns;
@@ -68,21 +74,21 @@ namespace Frankie.Combat.Spawner
 
         public void DespawnEnemies() // Callable by Unity Events
         {
-            foreach (Transform child in transform)
+            foreach (GameObject spawnedEnemy in spawnedEnemies.Where(spawnedEnemy => spawnedEnemy != null))
             {
-                Destroy(child.gameObject);
+                Destroy(spawnedEnemy);
             }
+            spawnedEnemies.Clear();
         }
         #endregion
 
-        #region PrivatMethods
+        #region PrivateMethods
         private SpawnConfiguration GetSpawnConfiguration()
         {
             SpawnConfiguration spawnConfiguration = ProbabilityPairOperation<SpawnConfiguration>.GetRandomObject(spawnConfigurations);
             return spawnConfiguration;
         }
         #endregion
-
 
 #if UNITY_EDITOR
         private void OnDrawGizmosSelected()
