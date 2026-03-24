@@ -41,7 +41,7 @@ namespace Frankie.Combat.UIEditor
         }
 
         [OnOpenAsset(1)]
-        public static bool OnOpenAsset(int instanceID, int line)
+        public static bool OnOpenAsset(EntityId instanceID, int line)
         {
             var skillTree = EditorUtility.EntityIdToObject(instanceID) as SkillTree;
             if (skillTree == null) { return false; }

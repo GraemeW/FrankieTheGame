@@ -45,7 +45,7 @@ namespace Frankie.Speech.UIEditor
         }
 
         [OnOpenAsset(1)]
-        public static bool OnOpenAsset(int instanceID, int line)
+        public static bool OnOpenAsset(EntityId instanceID, int line)
         {
             var dialogue = EditorUtility.EntityIdToObject(instanceID) as Dialogue;
             if (dialogue == null) return false;

@@ -55,33 +55,8 @@ namespace Frankie.Core
 
         public static void LoadStartScene()
         {
-            SceneLoader sceneLoader = SceneLoader.FindSceneLoader();
-            if (sceneLoader == null) { return; }
-
-            sceneLoader.QueueStartScreen();
-            Fader fader = Fader.FindFader();
-            fader?.UpdateFadeStateImmediate();
-        }
-
-        public static void LoadGameOverScene()
-        {
-            // Standard Behaviour:  Load to GameOver scene while skipping session saving
-            // From GameOver scene only player will be present, and we can save session to carry over player exp, etc.
-            
-            SceneLoader sceneLoader = SceneLoader.FindSceneLoader();
-            if (sceneLoader == null) { return; }
-
-            Fader fader = Fader.FindFader();
-            fader?.UpdateFadeState(TransitionType.Zone, sceneLoader.GetGameOverZone(), false);
-        }
-
-        public static void LoadGameWinScreen()
-        {
-            SceneLoader sceneLoader = SceneLoader.FindSceneLoader();
-            if (sceneLoader == null) { return; }
-
-            Fader fader = Fader.FindFader();
-            fader?.UpdateFadeState(TransitionType.Zone, sceneLoader.GetGameWinZone());
+            SceneLoader.QueueScene(SceneQueueType.Start, new SceneQueueData());
+            Fader.StartQuickZoneFade();
         }
         #endregion
 
@@ -104,10 +79,8 @@ namespace Frankie.Core
             Delete(_sessionFile); // Clear session before load - avoid conflict w/ save system
 
             SetCurrentSave(saveName);
-            SceneLoader sceneLoader = SceneLoader.FindSceneLoader();
-            if (sceneLoader == null) { return; }
-
-            sceneLoader.QueueNewGame(() => Save(), newGameZoneOverride);
+            var sceneQueueData = new SceneQueueData(newGameZoneOverride, () => Save(), 0f, false);
+            SceneLoader.QueueScene(SceneQueueType.New, sceneQueueData);
         }
 
         public static void LoadGame(string saveName)
@@ -128,8 +101,11 @@ namespace Frankie.Core
             
             Delete(_sessionFile); // Clear session before load - avoid conflict w/ save system
             
+            // Need a MonoBehaviour to kick off a Coroutine, SceneLoader is safe to use 
             SceneLoader sceneLoader = SceneLoader.FindSceneLoader();
+            if (sceneLoader == null) { return; }
             sceneLoader.StartCoroutine(LoadFromSave(saveName));
+            
             SavingSystem.CopySaveToSession(saveName, _sessionFile);
         }
 
@@ -222,13 +198,8 @@ namespace Frankie.Core
         private static IEnumerator LoadFromSave(string saveFile)
         {
             yield return SavingSystem.LoadLastScene(saveFile);
-
-            SceneLoader sceneLoader = SceneLoader.FindSceneLoader();
-            if (sceneLoader == null) { yield break; }
-            sceneLoader.SetCurrentZoneToCurrentScene();
-
-            Fader fader = Fader.FindFader();
-            fader?.UpdateFadeStateImmediate();
+            SceneLoader.SetCurrentZoneToCurrentScene();
+            Fader.StartQuickZoneFade();
         }
         #endregion
     }
