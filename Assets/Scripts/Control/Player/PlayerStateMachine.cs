@@ -330,7 +330,7 @@ namespace Frankie.Control
 
             combatFadeComplete = false;
             var faderEventTriggers = new FaderEventTriggers(null, () => OnBattleEntryPeak(currentTransitionType), null, () => OnBattleEntryComplete(currentTransitionType));
-            bool faderInitiated = Fader.StartStandardFade(currentTransitionType, faderEventTriggers, false);
+            bool faderInitiated = Fader.StartStandardFade(currentTransitionType, faderEventTriggers);
 
             if (!faderInitiated) { combatFadeComplete = true; }
             return faderInitiated;
@@ -346,7 +346,7 @@ namespace Frankie.Control
             currentTransitionType = TransitionType.BattleComplete;
             var faderEventTriggers = new FaderEventTriggers(null, OnBattleExitPeak, null, OnBattleExitComplete);
             
-            return Fader.StartStandardFade(currentTransitionType, faderEventTriggers, false);
+            return Fader.StartStandardFade(currentTransitionType, faderEventTriggers);
         }
 
         private void HandleCombatMessages(BattleStateChangedEvent battleStateChangedEvent)

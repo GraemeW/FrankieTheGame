@@ -244,7 +244,7 @@ namespace Frankie.ZoneManagement
         {
             queuedZoneNodeID = nextNode.GetNodeID();
             var faderEventTriggers = new FaderEventTriggers(null, HandleFadingPeak, QueuedMoveToNextNode, null);
-            return Fader.StartZoneFade(nextZone, faderEventTriggers, true, false);
+            return Fader.StartZoneFade(nextZone, faderEventTriggers, true);
         }
 
         private void RemoveZoneHandler()

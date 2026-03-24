@@ -41,11 +41,10 @@ namespace Frankie.ZoneManagement
             return faderGameObject != null ? faderGameObject.GetComponent<Fader>() : null;
         }
 
-        public static bool StartStandardFade(TransitionType transitionType, FaderEventTriggers faderEventTriggers, bool overrideActiveFade = true)
+        public static bool StartStandardFade(TransitionType transitionType, FaderEventTriggers faderEventTriggers)
         {
             if (_activeFader == null) { _activeFader = FindFader(); }
-            if (_activeFader == null) { return false; }
-            if (!overrideActiveFade && _activeFader.IsFading()) { return false; }
+            if (_activeFader == null || _activeFader.IsFading()) { return false; }
             if (transitionType == TransitionType.Zone) { Debug.Log("Notice:  Use StartZoneFade() instead!"); return false; }
             
             _activeFader.InitiateStandardFadeCoroutine(transitionType, faderEventTriggers);
@@ -55,18 +54,16 @@ namespace Frankie.ZoneManagement
         public static bool StartBlipFade(float holdSeconds, FaderEventTriggers faderEventTriggers)
         {
             if (_activeFader == null) { _activeFader = FindFader(); }
-            if (_activeFader == null) { return false; }
-            if (_activeFader.IsFading()) { return false; }
+            if (_activeFader == null || _activeFader.IsFading()) { return false; }
             
             _activeFader.InitiateBlipFadeCoroutine(holdSeconds, faderEventTriggers);
             return true;
         }
 
-        public static bool StartZoneFade(Zone nextZone, FaderEventTriggers faderEventTriggers, bool saveSession = true, bool overrideActiveFade = true)
+        public static bool StartZoneFade(Zone nextZone, FaderEventTriggers faderEventTriggers, bool saveSession = true)
         {
             if (_activeFader == null) { _activeFader = FindFader(); }
-            if (_activeFader == null) { return false; }
-            if (!overrideActiveFade && _activeFader.IsFading()) { return false; }
+            if (_activeFader == null || _activeFader.IsFading()) { return false; }
             
             _activeFader.InitiateZoneFadeCoroutine(nextZone, faderEventTriggers, saveSession);
             return true;
