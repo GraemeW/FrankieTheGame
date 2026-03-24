@@ -23,6 +23,8 @@ namespace Frankie.Control
     public class PlayerStateMachine : MonoBehaviour, IPlayerStateContext
     {
         // Tunables
+        [Header("Hookups")] 
+        [SerializeField] private GameObject interactionCenterPoint;
         [Header("Other Controller Prefabs")]
         [SerializeField] private BattleController battleControllerPrefab;
         [SerializeField] private DialogueController dialogueControllerPrefab;
@@ -168,13 +170,16 @@ namespace Frankie.Control
         
         private void SetPlayerImmunity(bool enablePlayerImmunity)
         {
-            int layer = enablePlayerImmunity ? Player.GetImmunePlayerLayer() :  Player.GetPlayerLayer();
-            gameObject.layer = layer;
+            int standardLayer = enablePlayerImmunity ? Player.GetImmunePlayerLayer() :  Player.GetPlayerLayer();
+            int probeLayer = enablePlayerImmunity ? Player.GetImmunePlayerLayer() : Player.GetPlayerInteractionProbeLayer();
+            gameObject.layer = standardLayer;
             foreach (Transform child in GetComponentsInChildren<Transform>())
             {
-                child.gameObject.layer = layer;
+                child.gameObject.layer = standardLayer;
             }
-            playerLayerChanged?.Invoke(layer, enablePlayerImmunity);
+            interactionCenterPoint.layer = probeLayer;
+            
+            playerLayerChanged?.Invoke(standardLayer, enablePlayerImmunity);
         }
         #endregion
 

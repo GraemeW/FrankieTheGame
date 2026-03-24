@@ -10,6 +10,8 @@ namespace Frankie.Control
     public class NPCChaser : MonoBehaviour
     {
         // Tunables
+        [Header("Hookups")]
+        [SerializeField] private NPCChaseProbe npcChaseProbe;
         [Header("Chase Parameters")]
         [SerializeField] private bool willChasePlayer = false;
         [SerializeField] private float chaseDistance = 3.0f;
@@ -22,7 +24,6 @@ namespace Frankie.Control
         [Tooltip("Set to nothing to aggro everything shoutable")][SerializeField] private NPCChaser[] shoutGroup;
 
         // State
-        private bool isPlayerImmune = false;
         private float timeSinceLastSawPlayer = Mathf.Infinity;
         private bool chasingActive = false;
         private bool skipAggressionUntilEnable = false;
@@ -31,22 +32,17 @@ namespace Frankie.Control
         // Cached References
         private NPCStateHandler npcStateHandler;
         private NPCMover npcMover;
-        private ReInitLazyValue<PlayerController> playerController;
-        private ReInitLazyValue<PlayerStateMachine> playerStateMachine;
 
         #region UnityMethods
         private void Awake()
         {
             npcStateHandler = GetComponent<NPCStateHandler>();
             npcMover = GetComponent<NPCMover>();
-            playerController = new ReInitLazyValue<PlayerController>(Player.FindPlayerController);
-            playerStateMachine = new ReInitLazyValue<PlayerStateMachine>(Player.FindPlayerStateMachine);
         }
 
         private void Start()
         {
-            playerController.ForceInit();
-            playerStateMachine.ForceInit();
+            npcChaseProbe.SetChaseRadius(chaseDistance);
         }
 
         private void OnEnable()
@@ -56,7 +52,6 @@ namespace Frankie.Control
             skipAggressionUntilEnable = false;
             shoutingActive = willShout;
             npcStateHandler.npcStateChanged += HandleNPCStateChange;
-            playerStateMachine.value.playerLayerChanged += HandlePlayerImmunity;
         }
 
         private void OnDisable()
@@ -66,7 +61,7 @@ namespace Frankie.Control
 
         private void Update()
         {
-            if (!chasingActive || isPlayerImmune) { return; }
+            if (!chasingActive) { return; }
 
             CheckForPlayerProximity();
             timeSinceLastSawPlayer += Time.deltaTime;
@@ -74,7 +69,7 @@ namespace Frankie.Control
         #endregion
 
         #region PublicMethods
-        public GameObject GetPlayer() => playerController.value != null ? playerController.value.gameObject : null;
+        public GameObject GetPlayer() => npcChaseProbe.GetPlayer();
         public void SetChaseDisposition(bool enable) // Called via Unity Methods
         {
             chasingActive = enable;
@@ -91,16 +86,10 @@ namespace Frankie.Control
 
         #region PrivateMethods
         private bool IsShoutable() => canBeShoutedAt;
-        
-        private bool CheckDistanceToPlayer(float distance)
-        {
-            Vector2 playerInteractionPosition = playerController.value != null ? playerController.value.GetInteractionPosition() : Vector2.zero;
-            return SmartVector2.CheckDistance(npcMover.GetInteractionPosition(), playerInteractionPosition, distance);
-        }
 
         private void CheckForPlayerProximity()
         {
-            if (CheckDistanceToPlayer(chaseDistance)) { timeSinceLastSawPlayer = 0f; }
+            if (npcChaseProbe.IsPlayerInRange()) { timeSinceLastSawPlayer = 0f; }
 
             if (timeSinceLastSawPlayer < aggravationTime)
             {
@@ -139,11 +128,6 @@ namespace Frankie.Control
                     chasingActive = false;
                     break;
             }
-        }
-
-        private void HandlePlayerImmunity(int layer, bool setIsPlayerImmune)
-        {
-            isPlayerImmune = setIsPlayerImmune;
         }
 
         private void ShoutToNearbyNPCs()
