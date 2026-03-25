@@ -13,6 +13,7 @@ namespace Frankie.Core
         // Tunables
         [SerializeField] private int fundsToAddToWallet = 100;
         [SerializeField] private bool resetSaveOnStart = false;
+        [SerializeField] private bool isCinematicAutoplayDisabled = false;
 
         // Cached References
         private PlayerInput playerInput;
@@ -21,8 +22,24 @@ namespace Frankie.Core
         private ReInitLazyValue<QuestList> questList;
         private ReInitLazyValue<Party> party;
         private ReInitLazyValue<Wallet> wallet;
+        
+        // Static/Const
+        private const string _debuggerTag = "Debugger";
 
         #region StaticMethods
+
+        public static bool IsCinematicAutoplayDisabled()
+        {
+            FrankieDebugger frankieDebugger = FindDebugger();
+            return frankieDebugger != null && frankieDebugger.isCinematicAutoplayDisabled;
+        }
+        
+        private static FrankieDebugger FindDebugger()
+        {
+            GameObject debuggerGameObject = GameObject.FindGameObjectWithTag(_debuggerTag);
+            return debuggerGameObject != null ? debuggerGameObject.GetComponent<FrankieDebugger>() : null;
+        }
+        
         private static QuestList SetupQuestList()
         {
             GameObject playerObject = Player.FindPlayerObject();

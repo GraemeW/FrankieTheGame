@@ -14,6 +14,7 @@ TagManager:
   - BackgroundMusic
   - Fader
   - CameraController
+  - Debugger
   layers:
   - Default
   - TransparentFX
