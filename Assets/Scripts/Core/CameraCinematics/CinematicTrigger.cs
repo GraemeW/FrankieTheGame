@@ -24,7 +24,15 @@ namespace Frankie.Core
         private void Start()
         {
             if (!playOnStart) { return; }
-            Play();
+
+            bool debugSkipPlay = false;
+#if UNITY_EDITOR
+            debugSkipPlay = FrankieDebugger.IsCinematicAutoplayDisabled();
+#endif
+            if (!debugSkipPlay)
+            {
+                Play();
+            }
         }
 
         public void Play() // Callable via Unity Events
