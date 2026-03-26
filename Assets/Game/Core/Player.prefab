@@ -210,7 +210,6 @@ MonoBehaviour:
   raycastInteractionLayers:
     serializedVersion: 2
     m_Bits: 4096
-  raycastInteractionDistanceAdder: 1
   raycastMouseDistance: 10
   raycastRadius: 0.1
   interactionDistance: 0.5

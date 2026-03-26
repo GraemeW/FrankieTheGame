@@ -22,14 +22,12 @@ namespace Frankie.Control
         [Header("Interaction")]
         [SerializeField] private CursorMapping[] cursorMappings;
         [SerializeField] private LayerMask raycastInteractionLayers;
-        [SerializeField] private float raycastInteractionDistanceAdder = 1.0f;
         [SerializeField] private float raycastMouseDistance = 10.0f;
         [SerializeField] private float raycastRadius = 0.1f;
         [SerializeField] private float interactionDistance = 0.5f;
         [SerializeField] private Transform interactionCenterPoint;
         
         // State
-        private float raycastManualDistance = 1.5f;
         private PlayerInputType currentDirectionalInput = PlayerInputType.DefaultNone;
         private bool allowComponentInteraction = true;
         private bool inTransition = false;
@@ -71,11 +69,6 @@ namespace Frankie.Control
             
             playerInput.Player.Escape.performed += _  => HandleUserInput(PlayerInputType.Escape); 
         }
-
-        private void Start()
-        {
-            raycastManualDistance = interactionDistance + raycastInteractionDistanceAdder;
-        }
         
         private void OnEnable()
         {
@@ -99,7 +92,7 @@ namespace Frankie.Control
         public RaycastHit2D PlayerCastToObject(Vector3 objectPosition)
         {
             Vector2 castDirection = objectPosition - interactionCenterPoint.position;
-            RaycastHit2D closestHit = Physics2D.CircleCast(interactionCenterPoint.position, raycastRadius, castDirection, raycastManualDistance, raycastInteractionLayers);
+            RaycastHit2D closestHit = Physics2D.CircleCast(interactionCenterPoint.position, raycastRadius, castDirection, interactionDistance, raycastInteractionLayers);
             return closestHit.collider == null ? new RaycastHit2D() : closestHit;
         }
 
@@ -225,7 +218,7 @@ namespace Frankie.Control
 
         private RaycastHit2D RaycastFromPlayerInLookDirection()
         {
-            RaycastHit2D closestHit = Physics2D.CircleCast(interactionCenterPoint.position, raycastRadius, playerMover.GetLookDirection(), raycastManualDistance,raycastInteractionLayers);
+            RaycastHit2D closestHit = Physics2D.CircleCast(interactionCenterPoint.position, raycastRadius, playerMover.GetLookDirection(), interactionDistance,raycastInteractionLayers);
             return closestHit.collider == null ? new RaycastHit2D() : closestHit; // pass an empty hit
         }
         #endregion

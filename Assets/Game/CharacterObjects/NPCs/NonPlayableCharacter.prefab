@@ -546,6 +546,9 @@ MonoBehaviour:
   aggravationTime: 3
   suspicionTime: 3
   willShout: 0
+  npcLayerMask:
+    serializedVersion: 2
+    m_Bits: 64
   canBeShoutedAt: 1
   shoutDistance: 2
   shoutGroup: []
