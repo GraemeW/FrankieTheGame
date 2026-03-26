@@ -43,9 +43,9 @@ GameObject:
   - component: {fileID: 8342028283336635980}
   - component: {fileID: 7718392173805193404}
   - component: {fileID: 8342028283336635981}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: SimpleNode
-  m_TagString: Interactable
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

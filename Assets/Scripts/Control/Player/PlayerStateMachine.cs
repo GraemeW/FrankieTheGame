@@ -173,12 +173,9 @@ namespace Frankie.Control
             int standardLayer = enablePlayerImmunity ? Player.GetImmunePlayerLayer() :  Player.GetPlayerLayer();
             int probeLayer = enablePlayerImmunity ? Player.GetImmunePlayerLayer() : Player.GetPlayerInteractionProbeLayer();
             gameObject.layer = standardLayer;
-            foreach (Transform child in GetComponentsInChildren<Transform>())
-            {
-                child.gameObject.layer = standardLayer;
-            }
             interactionCenterPoint.layer = probeLayer;
             
+            // Party member layer updates via event -> Party
             playerLayerChanged?.Invoke(standardLayer, enablePlayerImmunity);
         }
         #endregion

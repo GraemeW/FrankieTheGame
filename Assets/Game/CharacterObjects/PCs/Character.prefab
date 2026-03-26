@@ -301,7 +301,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8263638854299470657}
   - component: {fileID: 8263638854299470656}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: CharacterSprite
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -391,7 +391,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 9093274571750331754}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: AttachedObjects
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -422,20 +422,12 @@ PrefabInstance:
     m_TransformParent: {fileID: 8263638854090363871}
     m_Modifications:
     - target: {fileID: 1625290026206833066, guid: c08399674dab63349bf5a2c9c8ebbcaa, type: 3}
-      propertyPath: m_Layer
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 1625290026206833066, guid: c08399674dab63349bf5a2c9c8ebbcaa, type: 3}
       propertyPath: m_TagString
       value: Untagged
       objectReference: {fileID: 0}
     - target: {fileID: 2366363061461443362, guid: c08399674dab63349bf5a2c9c8ebbcaa, type: 3}
       propertyPath: m_Name
       value: CombatParticipantSoundbox
-      objectReference: {fileID: 0}
-    - target: {fileID: 2366363061461443362, guid: c08399674dab63349bf5a2c9c8ebbcaa, type: 3}
-      propertyPath: m_Layer
-      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 2366363061461443362, guid: c08399674dab63349bf5a2c9c8ebbcaa, type: 3}
       propertyPath: m_TagString
@@ -484,10 +476,6 @@ PrefabInstance:
     - target: {fileID: 2366363061461443363, guid: c08399674dab63349bf5a2c9c8ebbcaa, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2408244801502569542, guid: c08399674dab63349bf5a2c9c8ebbcaa, type: 3}
-      propertyPath: m_Layer
-      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 2408244801502569542, guid: c08399674dab63349bf5a2c9c8ebbcaa, type: 3}
       propertyPath: m_TagString

@@ -13,7 +13,7 @@ namespace Frankie.Stats
     {
         // Tunables
         [SerializeField][Range(1, 8)] protected int partyLimit = 4;
-        [SerializeField] protected List<BaseStats> members = new List<BaseStats>();
+        [SerializeField] protected List<BaseStats> members = new();
         [SerializeField] protected Transform container;
         [SerializeField] protected int partyOffset = 16;
         
@@ -21,7 +21,7 @@ namespace Frankie.Stats
         private const int _initialOffset = 0;
 
         // State
-        protected readonly Dictionary<BaseStats, CharacterSpriteLink> characterSpriteLinkLookup = new Dictionary<BaseStats, CharacterSpriteLink>();
+        protected readonly Dictionary<BaseStats, CharacterSpriteLink> characterSpriteLinkLookup = new();
         int lastMemberOffsetIndex = 0;
 
         // Cached References
@@ -202,6 +202,11 @@ namespace Frankie.Stats
         
         private void HandlePlayerLayerChanged(int layer, bool isPlayerImmune)
         {
+            foreach (BaseStats character in members)
+            {
+                character.gameObject.layer = layer;
+            }
+            
             foreach (var characterSpriteLink in characterSpriteLinkLookup)
             {
                 characterSpriteLink.Value.SetIsFlashing(isPlayerImmune);

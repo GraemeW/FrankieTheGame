@@ -1,7 +1,5 @@
 using System.Linq;
-using Frankie.Core;
 using UnityEngine;
-using Frankie.Utils;
 
 namespace Frankie.Control
 {

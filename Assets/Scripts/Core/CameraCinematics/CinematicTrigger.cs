@@ -26,8 +26,10 @@ namespace Frankie.Core
             if (!playOnStart) { return; }
 
             bool debugSkipPlay = false;
+            Debug.Log("HERE");
 #if UNITY_EDITOR
             debugSkipPlay = FrankieDebugger.IsCinematicAutoplayDisabled();
+            Debug.Log($"debugSkipPlay: {debugSkipPlay}");
 #endif
             if (!debugSkipPlay)
             {
