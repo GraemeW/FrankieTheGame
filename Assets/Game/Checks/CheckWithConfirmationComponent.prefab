@@ -12,9 +12,9 @@ GameObject:
   - component: {fileID: 6564381309038757639}
   - component: {fileID: 3909491133308750609}
   - component: {fileID: 4736094180608794019}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: CheckWithConfirmationComponent
-  m_TagString: Interactable
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

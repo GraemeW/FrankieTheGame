@@ -4,7 +4,6 @@
 TagManager:
   serializedVersion: 3
   tags:
-  - Interactable
   - BattleController
   - DialogueController
   - WorldCanvas
@@ -28,7 +27,7 @@ TagManager:
   - SpawnDespawn
   - PlayerInteractionProbe
   - NPCInteractionProbe
-  - 
+  - Interactable
   - 
   - 
   - 

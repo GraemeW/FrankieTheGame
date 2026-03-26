@@ -1,7 +1,5 @@
-using System.Linq;
-using Frankie.Core;
+using System.Collections.Generic;
 using UnityEngine;
-using Frankie.Utils;
 
 namespace Frankie.Control
 {
@@ -19,15 +17,18 @@ namespace Frankie.Control
         [SerializeField] private float suspicionTime = 3.0f;
         [Header("Shout Parameters")]
         [SerializeField] bool willShout = false;
+        [SerializeField] LayerMask npcLayerMask;
         [Tooltip("Must be true to be shouted at, regardless of group")][SerializeField] private bool canBeShoutedAt = true;
         [Tooltip("From interaction center point of NPC")][SerializeField] private float shoutDistance = 2.0f;
-        [Tooltip("Set to nothing to aggro everything shoutable")][SerializeField] private NPCChaser[] shoutGroup;
+        [Tooltip("Set to nothing to aggro everything shoutable")][SerializeField] private List<NPCChaser> shoutGroup = new();
 
         // State
         private float timeSinceLastSawPlayer = Mathf.Infinity;
         private bool chasingActive = false;
         private bool skipAggressionUntilEnable = false;
         private bool shoutingActive = false;
+        private ContactFilter2D npcContactFilter;
+        private readonly List<Collider2D> nearbyNPCs = new();
 
         // Cached References
         private NPCStateHandler npcStateHandler;
@@ -43,6 +44,11 @@ namespace Frankie.Control
         private void Start()
         {
             npcChaseProbe.SetChaseRadius(chaseDistance);
+            npcContactFilter = new ContactFilter2D
+            {
+                useLayerMask = true,
+                layerMask = npcLayerMask
+            };
         }
 
         private void OnEnable()
@@ -132,13 +138,17 @@ namespace Frankie.Control
 
         private void ShoutToNearbyNPCs()
         {
-            foreach (RaycastHit2D hit in npcMover.NPCCastFromSelf(shoutDistance))
+            nearbyNPCs.Clear();
+            int npcCount = Physics2D.OverlapCircle(npcMover.GetInteractionCenterPosition(), shoutDistance, npcContactFilter, nearbyNPCs);
+            if (npcCount == 0) { return; }
+            
+            foreach (Collider2D nearbyNPC in nearbyNPCs)
             {
-                if (!hit.collider.gameObject.TryGetComponent(out NPCChaser npcInRange)) continue;
+                if (!nearbyNPC.TryGetComponent(out NPCChaser npcInRange)) { continue; }
                 if (!npcInRange.IsShoutable() || npcInRange == this) { continue; }
                 
                 // Default behaviour, not set, aggro everything shoutable
-                if (shoutGroup.Length == 0 || shoutGroup.Contains(npcInRange)) 
+                if (shoutGroup.Count == 0 || shoutGroup.Contains(npcInRange)) 
                 {
                     npcInRange.SetFrenziedWithoutShout();
                 }

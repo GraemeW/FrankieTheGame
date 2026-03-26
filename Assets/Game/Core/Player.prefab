@@ -77,7 +77,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7318135599497131731}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: PartyAssistContainer
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -209,7 +209,8 @@ MonoBehaviour:
     hotspot: {x: 0, y: 0}
   raycastInteractionLayers:
     serializedVersion: 2
-    m_Bits: 65
+    m_Bits: 4096
+  raycastMouseDistance: 10
   raycastRadius: 0.1
   interactionDistance: 0.5
   interactionCenterPoint: {fileID: 1925579894594943436}
@@ -389,7 +390,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 9140000498835536796}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: PartyContainer
   m_TagString: Untagged
   m_Icon: {fileID: 0}

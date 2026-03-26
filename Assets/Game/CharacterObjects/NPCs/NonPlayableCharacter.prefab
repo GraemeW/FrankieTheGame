@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 346268109245782481}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: AttachedObjects
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -229,7 +229,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6761616658462586550}
   - component: {fileID: 6761616658462586549}
-  m_Layer: 6
+  m_Layer: 0
   m_Name: NPCSprite
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -546,6 +546,9 @@ MonoBehaviour:
   aggravationTime: 3
   suspicionTime: 3
   willShout: 0
+  npcLayerMask:
+    serializedVersion: 2
+    m_Bits: 64
   canBeShoutedAt: 1
   shoutDistance: 2
   shoutGroup: []
@@ -607,7 +610,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 851377592137554633}
-  m_Layer: 6
+  m_Layer: 0
   m_Name: InteractionCenterPoint
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -733,10 +736,6 @@ PrefabInstance:
     - target: {fileID: 6564381309038757640, guid: 3ba2ab0c1cea63442a5dec585154a263, type: 3}
       propertyPath: m_Name
       value: ConversantComponent
-      objectReference: {fileID: 0}
-    - target: {fileID: 6564381309038757640, guid: 3ba2ab0c1cea63442a5dec585154a263, type: 3}
-      propertyPath: m_Layer
-      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 6564381309038757641, guid: 3ba2ab0c1cea63442a5dec585154a263, type: 3}
       propertyPath: m_RootOrder

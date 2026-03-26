@@ -36,7 +36,7 @@ namespace Frankie.Control
         
         private void OnTriggerEnter2D(Collider2D other)
         {
-            if (other !=  null) { SetupPlayerReference(true, other.gameObject); }
+            if (other != null) { SetupPlayerReference(true, other.gameObject); }
         }
 
         private void OnTriggerExit2D(Collider2D other)
@@ -57,9 +57,14 @@ namespace Frankie.Control
         #region PrivateMethods
         private void SetupPlayerReference(bool enable, GameObject playerProbe)
         {
-            Transform playerTransform = playerProbe.transform.parent;
-            playerGameObject = playerTransform.gameObject;
             isPlayerInRange = enable;
+            if (!enable) { 
+                playerGameObject = null;
+                return;
+            }
+            
+            Transform playerTransform = playerProbe != null ? playerProbe.transform.parent : null;
+            playerGameObject = playerTransform != null ? playerTransform.gameObject : null;
         }
         #endregion
     }
