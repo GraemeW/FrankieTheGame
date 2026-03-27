@@ -13,7 +13,7 @@ namespace Frankie.Control
         private bool activeCheck = true;
 
         // Static
-        private const string _defaultLayerMask = "Default";
+        private const string _defaultLayerMask = "Interactable";
         private const string _inactiveLayerMask = "Ignore Raycast";
 
         protected bool IsInRange(PlayerController playerController)
