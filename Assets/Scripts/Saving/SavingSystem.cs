@@ -43,14 +43,8 @@ namespace Frankie.Saving
         
         private static List<SaveableEntity> GetAllSaveableEntities()
         {
-            List<SaveableEntity> saveableEntities = Object.FindObjectsByType<SaveableEntity>().ToList();
-            foreach (SaveableRoot saveableRoot in Object.FindObjectsByType<SaveableRoot>()) // Captures inactive game objects
-            {
-                List<SaveableEntity> rootSaveableEntities = saveableRoot.gameObject.GetComponentsInChildren<SaveableEntity>(true).ToList();
-                List<SaveableEntity> combinedSaveableEntities = saveableEntities.Union(rootSaveableEntities).ToList();
-                saveableEntities = combinedSaveableEntities;
-            }
-
+            List<SaveableEntity> saveableEntities = Object.FindObjectsByType<SaveableEntity>(FindObjectsInactive.Include).ToList();
+            Debug.Log($"Identified {saveableEntities.Count} SaveableEntities for saving.");
             return saveableEntities;
         }
         

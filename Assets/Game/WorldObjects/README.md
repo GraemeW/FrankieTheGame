@@ -25,8 +25,8 @@ The directories are structured as:
 
 ## Placement of World Objects
 
-World Objects should be placed in hierarchy under a parent-most GameObject with a [SaveableRoot](../../Scripts/Saving/SaveableRoot.cs) component attached to it.  This allows the Save System to identify any World Objects that are tagged as a [SaveableEntity](../../Scripts/Saving/SaveableEntity.cs) (for more detail on the Save System && Saveable Entity settings, see [Saving](../../Scripts/Saving/)).  In most [Scenes](../../Scenes/):
-* This parent-most GameObject is named `World`, and all Rooms/Exterior Maps are childed to it
+In most [Scenes](../../Scenes/):
+* The parent-most GameObject is named `World`, and all Rooms/Exterior Maps are childed to it
 * World Objects are further placed under their respective Room or Exterior Map
 
 Before placing any objects into the scene, ensure that Snapping is Enabled, with a `Grid Size` set to `0.01` (AKA 1/PPU used for sprite import settings), as below:
@@ -34,6 +34,8 @@ Before placing any objects into the scene, ensure that Snapping is Enabled, with
 <img src="../../../InfoTools/Documentation/Game/WorldObjects/WorldSnapping.png" width="300">
 
 If assets have been placed before snapping was enabled, they can be force-snapped to the grid by clicking on the `All Axes` button under `Align Selected`
+
+Note that the Save System will identify and save ISaveanle data from any World Objects that include the component [SaveableEntity](../../Scripts/Saving/SaveableEntity.cs) (for more detail on the Save System && Saveable Entity settings, see [Saving](../../Scripts/Saving/)).
 
 ### Interior Room and Exterior World Map Prefabs
 
