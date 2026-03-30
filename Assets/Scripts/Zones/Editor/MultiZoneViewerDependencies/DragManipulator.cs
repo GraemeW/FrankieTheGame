@@ -1,3 +1,4 @@
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -14,7 +15,7 @@ namespace Frankie.ZoneManagement.UIEditor
         public DragManipulator(ZoneView zoneView, VisualElement activeVisualElement)
         {
             this.zoneView = zoneView;
-            this.activeVisualElement   = activeVisualElement;
+            this.activeVisualElement = activeVisualElement;
             activators.Add(new ManipulatorActivationFilter { button = MouseButton.LeftMouse });
         }
 
@@ -37,9 +38,9 @@ namespace Frankie.ZoneManagement.UIEditor
             if (mouseDownEvent.altKey || !CanStartManipulation(mouseDownEvent)) { return; }
                 // Alt+left reserved for panning
 
-            dragging   = true;
+            dragging = true;
             startMouse = mouseDownEvent.mousePosition;
-            startPos   = zoneView.topLeftPosition;
+            startPos = zoneView.data.topLeftPosition;
 
             BringNodeToFront();
             target.CaptureMouse();
@@ -58,9 +59,9 @@ namespace Frankie.ZoneManagement.UIEditor
         private void OnMouseMove(MouseMoveEvent mouseMoveEvent)
         {
             if (!dragging) { return; }
-            zoneView.topLeftPosition = startPos + (mouseMoveEvent.mousePosition - startMouse);
-            activeVisualElement.style.left = zoneView.topLeftPosition.x;
-            activeVisualElement.style.top  = zoneView.topLeftPosition.y;
+            zoneView.data.topLeftPosition = startPos + (mouseMoveEvent.mousePosition - startMouse);
+            activeVisualElement.style.left = zoneView.data.topLeftPosition.x;
+            activeVisualElement.style.top = zoneView.data.topLeftPosition.y;
             mouseMoveEvent.StopPropagation();
         }
 
@@ -69,6 +70,10 @@ namespace Frankie.ZoneManagement.UIEditor
             if (!dragging || !CanStopManipulation(mouseUpEvent)) { return; }
             dragging = false;
             target.ReleaseMouse();
+            
+            EditorUtility.SetDirty(zoneView.data);
+            AssetDatabase.SaveAssetIfDirty(zoneView.data);
+            
             mouseUpEvent.StopPropagation();
         }
     }

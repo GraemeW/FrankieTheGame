@@ -7,6 +7,7 @@ using UnityEngine.UIElements;
 using UnityEditor;
 using UnityEditor.SceneManagement;
 using UnityEditor.Build.Profile;
+using UnityEditor.UIElements;
 
 namespace Frankie.ZoneManagement.UIEditor
 {
@@ -19,13 +20,20 @@ namespace Frankie.ZoneManagement.UIEditor
         private const int _snapshotWidth = 512;
         private const int _snapshotHeight = 288;
         private const float _zoneViewPadding  = 20f;
-        
-        private static readonly string _snapshotDirectory = Path.Combine(Directory.GetCurrentDirectory(), "MultiZoneViewer");
+
+        private const string _assetsFolder = "Assets";
+        private const string _multiZoneViewSubFolder = "MultiZoneViewer";
+        private static readonly string _multiZoneViewAssetsDirectory = Path.Combine(_assetsFolder, _multiZoneViewSubFolder);
+        private static readonly string _snapshotPNGDirectory = Path.Combine(Directory.GetCurrentDirectory(), _multiZoneViewSubFolder);
 
         // State
+        [SerializeField] private MultiZoneView activeMultiZoneView; 
         private readonly List<ZoneView> zoneViews = new();
+        
+        // UI State
         private VisualElement canvas;
         private VisualElement zoneViewLayer;
+        private ObjectField multiZoneViewField;
         private Label statusLabel;
         private Button clearButton;
         private Vector2 panOffset = Vector2.zero;
@@ -42,15 +50,16 @@ namespace Frankie.ZoneManagement.UIEditor
         private void OnEnable()
         {
             SubscribeCanvasToDrawGrid(true);
-            zoneViews.Clear();
-            TryLoadSnapshots();
-
+            if (activeMultiZoneView != null)
+            {
+                TryLoadSnapshots();
+            }
         }
 
         private void OnDisable()
         {
             SubscribeCanvasToDrawGrid(false);
-            DisposeSnapshots();
+            DisposeRuntimeTextures();
         }
         
         public void CreateGUI()
@@ -71,6 +80,13 @@ namespace Frankie.ZoneManagement.UIEditor
         {
             VisualElement toolbar = MakeEmptyToolbar();
             root.Add(toolbar);
+            
+            Label fieldLabel = MakeToolbarLabel("Snapshot:");
+            toolbar.Add(fieldLabel);
+
+            multiZoneViewField = MakeMultiZoneViewField(activeMultiZoneView);
+            multiZoneViewField.RegisterValueChangedCallback(OnSnapshotFieldChanged);
+            toolbar.Add(multiZoneViewField);
 
             var captureButton = new Button(OnCaptureClicked) { text = "Capture Zones" };
             StyleButton(captureButton);
@@ -80,10 +96,10 @@ namespace Frankie.ZoneManagement.UIEditor
             StyleButton(clearButton);
             toolbar.Add(clearButton);
 
-            var spacer = MakeSpacer();
+            VisualElement spacer = MakeSpacer();
             toolbar.Add(spacer);
 
-            statusLabel = MakeEmptyStatusLabel();
+            statusLabel = MakeToolbarLabel("");
             toolbar.Add(statusLabel);
         }
 
@@ -96,13 +112,37 @@ namespace Frankie.ZoneManagement.UIEditor
                 statusLabel.text = hasZoneViews ? $"{zoneViews.Count} scene(s)  —  middle-click or alt+drag to pan" : string.Empty;
             }
         }
+        
+        private void OnSnapshotFieldChanged(ChangeEvent<Object> evt)
+        {
+            var selected = evt.newValue as MultiZoneView;
+            SetActiveMultiZoneView(selected);
+        }
+        
+        private void SetActiveMultiZoneView(MultiZoneView multiZoneView)
+        {
+            ClearRenderedZoneViews();
+
+            activeMultiZoneView = multiZoneView;
+            if (activeMultiZoneView != null) { TryLoadSnapshots(); }
+            
+            AddAllZoneViews();
+            canvas?.MarkDirtyRepaint();
+            RefreshToolbarState();
+        }
 
         private void OnCaptureClicked()
         {
-            SnapshotAllZones();
+            if (activeMultiZoneView == null)
+            {
+                activeMultiZoneView = CreateMultiZoneViewAsset();
+                if (activeMultiZoneView == null) { return; }
+                multiZoneViewField?.SetValueWithoutNotify(activeMultiZoneView);
+            }
+            CaptureAllZones();
             
+            ClearRenderedZoneViews();
             TryLoadSnapshots();
-            
             AddAllZoneViews();
             canvas?.MarkDirtyRepaint();
             RefreshToolbarState();
@@ -110,16 +150,9 @@ namespace Frankie.ZoneManagement.UIEditor
 
         private void OnClearClicked()
         {
-            DisposeSnapshots();
-            zoneViews.Clear();
-            panOffset = Vector2.zero;
-
-            if (zoneViewLayer != null)
-            {
-                zoneViewLayer.Clear();
-                zoneViewLayer.style.left = 0; zoneViewLayer.style.top = 0;
-            }
-            
+            activeMultiZoneView = null;
+            multiZoneViewField?.SetValueWithoutNotify(null);
+            ClearRenderedZoneViews();
             canvas?.MarkDirtyRepaint();
             RefreshToolbarState();
         }
@@ -165,7 +198,10 @@ namespace Frankie.ZoneManagement.UIEditor
         
         private void AddZoneViewElement(ZoneView zoneView)
         {
-            var zoneViewElement = MakeEmptyZoneViewElement(zoneView.zoneName, zoneView.topLeftPosition.x, zoneView.topLeftPosition.y);
+            ZoneViewData zoneViewData = zoneView.data;
+            if (zoneViewData == null) { return; }
+            
+            VisualElement zoneViewElement = MakeEmptyZoneViewElement(zoneViewData.zoneName, zoneViewData.topLeftPosition.x, zoneViewData.topLeftPosition.y);
             
             AddImageToZoneViewElement(zoneView, zoneViewElement);
             zoneViewElement.AddManipulator(new DragManipulator(zoneView, zoneViewElement));
@@ -175,9 +211,9 @@ namespace Frankie.ZoneManagement.UIEditor
 
         private static void AddImageToZoneViewElement(ZoneView zoneView, VisualElement zoneViewElement)
         {
-            if (zoneView.snapshot != null)
+            if (zoneView.texture2D != null)
             {
-                Image zoneSnapshot = MakeImage(zoneView.snapshot);
+                Image zoneSnapshot = MakeImage(zoneView.texture2D);
                 zoneViewElement.Add(zoneSnapshot);
             }
             else
@@ -188,8 +224,12 @@ namespace Frankie.ZoneManagement.UIEditor
         }
         #endregion
         
-        private void SnapshotAllZones()
+        #region Capture
+        private void CaptureAllZones()
         {
+            if (activeMultiZoneView == null) { return; }
+            activeMultiZoneView.CleanDanglingZoneViewData();
+            
             List<string> scenePaths = GetBuildProfileScenePaths();
             if (scenePaths == null || scenePaths.Count == 0)
             {
@@ -199,16 +239,10 @@ namespace Frankie.ZoneManagement.UIEditor
             }
             if (!EditorSceneManager.SaveCurrentModifiedScenesIfUserWantsTo()) { return; }
 
-            DisposeSnapshots();
-            zoneViews.Clear();
-            zoneViewLayer?.Clear();
-            
-            panOffset = Vector2.zero;
-            if (zoneViewLayer != null) { zoneViewLayer.style.left = 0; zoneViewLayer.style.top = 0; }
-
-            Directory.CreateDirectory(_snapshotDirectory);
             string originalScene = SceneManager.GetActiveScene().path;
-
+            Directory.CreateDirectory(_snapshotPNGDirectory);
+            EnsureAssetFolder();
+            
             try
             {
                 for (int i = 0; i < scenePaths.Count; i++)
@@ -217,7 +251,12 @@ namespace Frankie.ZoneManagement.UIEditor
                     EditorUtility.DisplayProgressBar("Scene Snapshot Viewer",
                         $"Processing: {Path.GetFileNameWithoutExtension(path)}  ({i + 1}/{scenePaths.Count})",
                         (float)i / scenePaths.Count);
-                    SnapshotZone(path);
+                    
+                    Vector2 topLeftPosition = new Vector2(
+                        _zoneViewPadding + (i % 4) * (_zoneViewWidth + _zoneViewPadding),
+                        _zoneViewPadding + (i / 4) * (_zoneViewHeight + _zoneViewHeaderHeight + _zoneViewPadding));
+                    
+                    CaptureZone(path, topLeftPosition);
                 }
             }
             finally
@@ -232,17 +271,42 @@ namespace Frankie.ZoneManagement.UIEditor
                     EditorSceneManager.NewScene(NewSceneSetup.DefaultGameObjects, NewSceneMode.Single);
                 }
             }
+            
+            EditorUtility.SetDirty(activeMultiZoneView);
+            AssetDatabase.SaveAssetIfDirty(activeMultiZoneView);
         }
         
-        private static void SnapshotZone(string scenePath)
+        private void CaptureZone(string scenePath, Vector2 topLeftZoneViewPosition)
         {
+            if (activeMultiZoneView == null) { return; }
+            
             Scene scene = EditorSceneManager.OpenScene(scenePath, OpenSceneMode.Single);
 
             Camera captureCamera = Camera.main;
             if (captureCamera == null) { return; }
             
             PositionCameraToFrameScene(captureCamera, scene);
+            Texture2D snapshotTexture = CameraClick(captureCamera);
 
+            string zoneName = GetSafeNameFromPath(scenePath);
+            string snapshotPNGPath = GetSnapshotPathForScene(zoneName);
+            File.WriteAllBytes(snapshotPNGPath, snapshotTexture.EncodeToPNG());
+
+            activeMultiZoneView.CreateOrUpdateZoneViewData(zoneName, snapshotPNGPath, topLeftZoneViewPosition);
+        }
+
+        private static void PositionCameraToFrameScene(Camera camera, Scene scene)
+        {
+            // TODO:  Zoom camera out to fit bounds of scene
+            // General approach TBD, but could:
+            // - Find all tilemap renderers -> get tilemap -> squish
+            // - Get bounds of each in world space, find largest bounds
+            // - Get ortho size = divide largest bounds / 2
+            // - Set camera ortho -> capture -> reset ortho
+        }
+        
+        private static Texture2D CameraClick(Camera captureCamera)
+        {
             var renderTexture = new RenderTexture(_snapshotWidth, _snapshotHeight, 24, RenderTextureFormat.ARGB32);
             captureCamera.targetTexture = renderTexture;
             captureCamera.Render();
@@ -256,62 +320,59 @@ namespace Frankie.ZoneManagement.UIEditor
             captureCamera.targetTexture = null;
             renderTexture.Release();
             DestroyImmediate(renderTexture);
-
-            File.WriteAllBytes(SnapshotPathForScene(scenePath), snapshotTexture.EncodeToPNG());
-        }
-        
-        private static void PositionCameraToFrameScene(Camera camera, Scene scene)
-        {
-            // TODO:  Zoom camera out to fit bounds of scene
-            // General approach TBD, but could:
-            // - Find all tilemap renderers -> get tilemap -> squish
-            // - Get bounds of each in world space, find largest bounds
-            // - Get ortho size = divide largest bounds / 2
-            // - Set camera ortho -> capture -> reset ortho
+            return snapshotTexture;
         }
         
         private void TryLoadSnapshots()
         {
-            if (!Directory.Exists(_snapshotDirectory)) return;
+            zoneViews.Clear();
+            if (activeMultiZoneView == null) { return; }
 
-            var pngFiles = Directory.GetFiles(_snapshotDirectory, "Snapshot_*.png");
-            if (pngFiles.Length == 0) return;
-
-            System.Array.Sort(pngFiles);
-
-            for (int i = 0; i < pngFiles.Length; i++)
+            foreach (ZoneViewData zoneViewData in activeMultiZoneView.zoneViewDataSet)
             {
-                string file  = pngFiles[i];
-                byte[] bytes = File.ReadAllBytes(file);
-                var tex = new Texture2D(2, 2, TextureFormat.RGBA32, false);
-
-                if (!tex.LoadImage(bytes))
+                if (zoneViewData == null) { continue; }
+                if (string.IsNullOrEmpty(zoneViewData.snapshotPath) || !File.Exists(zoneViewData.snapshotPath)) { continue; }
+                
+                Texture2D texture2D = new Texture2D(2, 2,  TextureFormat.RGBA32, false);
+                if (!texture2D.LoadImage(File.ReadAllBytes(zoneViewData.snapshotPath)))
                 {
-                    DestroyImmediate(tex);
+                    DestroyImmediate(texture2D);
                     continue;
                 }
                 
-                string fileName  = Path.GetFileNameWithoutExtension(file);
-                string sceneName = fileName.Length > 9 ? fileName.Substring(9) : fileName;
-
-                zoneViews.Add(new ZoneView
-                {
-                    zoneName = sceneName,
-                    snapshot  = tex,
-                    topLeftPosition  = new Vector2(
-                        _zoneViewPadding + (i % 4) * (_zoneViewWidth + _zoneViewPadding),
-                        _zoneViewPadding + (i / 4) * (_zoneViewHeight + _zoneViewHeaderHeight + _zoneViewPadding))
-                });
+                zoneViews.Add(new ZoneView(zoneViewData, texture2D));
             }
         }
 
-        private void DisposeSnapshots()
+        private void DisposeRuntimeTextures()
         {
-            foreach (ZoneView zoneView in zoneViews.Where(zoneView => zoneView.snapshot != null))
+            foreach (ZoneView zoneView in zoneViews.Where(zoneView => zoneView.texture2D != null))
             {
-                DestroyImmediate(zoneView.snapshot);
+                DestroyImmediate(zoneView.texture2D);
             }
         }
+        #endregion
+        
+        #region AssetManagement
+        private static MultiZoneView CreateMultiZoneViewAsset()
+        {
+            EnsureAssetFolder();
+
+            string path = EditorUtility.SaveFilePanelInProject(
+                "Save MultiZone View",
+                "MultiZoneView",
+                "asset",
+                "Choose where to save the MultiZone View asset.",
+                _multiZoneViewAssetsDirectory);
+
+            if (string.IsNullOrEmpty(path)) { return null; }
+
+            var asset = CreateInstance<MultiZoneView>();
+            AssetDatabase.CreateAsset(asset, path);
+            AssetDatabase.SaveAssets();
+            return asset;
+        }
+        #endregion
         
         #region PathHandling
         private static List<string> GetBuildProfileScenePaths()
@@ -324,17 +385,44 @@ namespace Frankie.ZoneManagement.UIEditor
             paths.AddRange(from scene in profile.scenes where scene.enabled select scene.path);
             return paths;
         }
-        
-        private static string SnapshotPathForScene(string scenePath)
+
+        private static string GetSafeNameFromPath(string path)
         {
-            string safeName = Path.GetFileNameWithoutExtension(scenePath);
-            safeName = Path.GetInvalidFileNameChars().Aggregate(safeName, (current, c) => current.Replace(c, '_'));
-            return Path.Combine(_snapshotDirectory, $"Snapshot_{safeName}.png");
+            string safeName = Path.GetFileNameWithoutExtension(path);
+            return Path.GetInvalidFileNameChars().Aggregate(safeName, (current, c) => current.Replace(c, '_'));
+        }
+        
+        private static string GetSnapshotPathForScene(string sceneName)
+        {
+            return Path.Combine(_snapshotPNGDirectory, $"Snapshot_{sceneName}.png");
+        }
+        
+        private static void EnsureAssetFolder()
+        {
+            if (!AssetDatabase.IsValidFolder(_multiZoneViewAssetsDirectory))
+            {
+                AssetDatabase.CreateFolder(_assetsFolder, _multiZoneViewSubFolder);
+            }
         }
         #endregion
         
         #region UIHelpers
-
+        private void ClearRenderedZoneViews()
+        {
+            DisposeRuntimeTextures();
+            zoneViews.Clear();
+            zoneViewLayer?.Clear();
+            panOffset = Vector2.zero;
+            ApplyPanOffset();
+        }
+        
+        private void ApplyPanOffset()
+        {
+            if (zoneViews == null) { return; }
+            zoneViewLayer.style.left = panOffset.x;
+            zoneViewLayer.style.top  = panOffset.y;
+        }
+        
         private static VisualElement MakeEmptyCanvas()
         {
             return new VisualElement
@@ -413,6 +501,21 @@ namespace Frankie.ZoneManagement.UIEditor
                 }
             };
         }
+
+        private static ObjectField MakeMultiZoneViewField(MultiZoneView multiZoneView)
+        {
+            return new ObjectField
+            {
+                objectType = typeof(MultiZoneView),
+                allowSceneObjects = false,
+                value = multiZoneView,
+                style =
+                {
+                    width = 220,
+                    marginRight = 6,
+                }
+            };
+        }
         
         private static void StyleButton(Button button)
         {
@@ -442,10 +545,11 @@ namespace Frankie.ZoneManagement.UIEditor
             return new VisualElement { style = { flexGrow = 1 } };
         }
         
-        private static Label MakeEmptyStatusLabel()
+        private static Label MakeToolbarLabel(string labelText)
         {
             return new Label
             {
+                text = labelText,
                 style =
                 {
                     color = new StyleColor(new Color(0.6f, 0.6f, 0.6f)),

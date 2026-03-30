@@ -15,7 +15,7 @@ namespace Frankie.ZoneManagement.UIEditor
             activators.Add(new ManipulatorActivationFilter { button = MouseButton.MiddleMouse });
             activators.Add(new ManipulatorActivationFilter
             {
-                button    = MouseButton.LeftMouse,
+                button = MouseButton.LeftMouse,
                 modifiers = EventModifiers.Alt
             });
         }
@@ -37,7 +37,7 @@ namespace Frankie.ZoneManagement.UIEditor
         private void OnMouseDown(MouseDownEvent mouseDownEvent)
         {
             if (!CanStartManipulation(mouseDownEvent)) { return; }
-            active  = true;
+            active = true;
             lastPosition = mouseDownEvent.mousePosition;
             target.CaptureMouse();
             mouseDownEvent.StopPropagation();
