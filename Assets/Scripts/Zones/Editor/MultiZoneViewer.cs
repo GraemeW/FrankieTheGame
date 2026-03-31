@@ -8,6 +8,7 @@ using UnityEditor;
 using UnityEditor.SceneManagement;
 using UnityEditor.Build.Profile;
 using UnityEditor.UIElements;
+using UnityEngine.Tilemaps;
 
 namespace Frankie.ZoneManagement.UIEditor
 {
@@ -94,6 +95,10 @@ namespace Frankie.ZoneManagement.UIEditor
             StyleButton(captureButton);
             toolbar.Add(captureButton);
             
+            var refreshButton = new Button(OnRefreshClicked) { text = "Refresh" };
+            StyleButton(refreshButton);
+            toolbar.Add(refreshButton);
+            
             clearButton = new Button(OnClearClicked) { text = "Clear" };
             StyleButton(clearButton);
             toolbar.Add(clearButton);
@@ -157,6 +162,12 @@ namespace Frankie.ZoneManagement.UIEditor
             multiZoneViewField?.SetValueWithoutNotify(null);
             ClearRenderedZoneViews();
             canvas?.MarkDirtyRepaint();
+            RefreshToolbarState();
+        }
+
+        private void OnRefreshClicked()
+        {
+            RefreshZoneViews();
             RefreshToolbarState();
         }
         #endregion
@@ -334,12 +345,50 @@ namespace Frankie.ZoneManagement.UIEditor
 
         private static void PositionCameraToFrameScene(Camera camera, Scene scene)
         {
-            // TODO:  Zoom camera out to fit bounds of scene
-            // General approach TBD, but could:
-            // - Find all tilemap renderers -> get tilemap -> squish
-            // - Get bounds of each in world space, find largest bounds
-            // - Get ortho size = divide largest bounds / 2
-            // - Set camera ortho -> capture -> reset ortho
+            List<Tilemap> tilemaps = FindObjectsByType<Tilemap>().ToList();
+            Debug.Log($"On Scene: {scene.name}");
+            
+            Bounds maxBounds = new Bounds();
+            if (tilemaps.Count == 0)
+            {
+                List<Renderer> renderers = FindObjectsByType<Renderer>().ToList();
+                Debug.Log($"Using standard renderers to calculate bounds with {renderers.Count} renderers");
+                
+                bool maxBoundsSet = false;
+                foreach (Renderer renderer in renderers)
+                {
+                    if (!maxBoundsSet) { maxBounds = renderer.bounds; maxBoundsSet = true; }
+                    else { maxBounds.Encapsulate(renderer.bounds); }
+                }
+            }
+            else
+            {
+                Debug.Log($"Using tilemap renderers to calculate bounds with {tilemaps.Count} tilemaps");
+                bool maxBoundsSet = false;
+                foreach (Tilemap tilemap in tilemaps)
+                {
+                    tilemap.CompressBounds();
+
+                    BoundsInt cellBounds = tilemap.cellBounds;
+                    Vector2 minPosition = tilemap.CellToWorld(cellBounds.min);
+                    Vector2 maxPosition = tilemap.CellToWorld(cellBounds.max);
+
+                    if (!maxBoundsSet)
+                    {
+                        maxBounds.SetMinMax(minPosition, maxPosition); 
+                        maxBoundsSet = true;
+                    }
+                    else
+                    {
+                        Bounds newBounds = new Bounds();
+                        newBounds.SetMinMax(minPosition, maxPosition);
+                        maxBounds.Encapsulate(newBounds);
+                    }
+                }
+            }
+            
+            camera.transform.position = new Vector3(maxBounds.center.x, maxBounds.center.y, camera.transform.position.z);
+            camera.orthographicSize = Mathf.Max(maxBounds.extents.x, maxBounds.extents.y) / 1.5f;
         }
         
         private static Texture2D CameraClick(Camera captureCamera)
