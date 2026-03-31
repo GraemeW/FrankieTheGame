@@ -17,14 +17,15 @@ namespace Frankie.ZoneManagement.UIEditor
             zoneViewDataSet.RemoveAll(zoneViewData => zoneViewData == null);
         }
         
-        public void CreateOrUpdateZoneViewData(string zoneName, string scenePath, string snapshotPNGPath, Vector2 topLeftPosition)
+        public void CreateOrUpdateZoneViewData(string zoneName, string scenePath, string snapshotPNGPath, Vector2 topLeftPosition, bool keepExistingPosition)
         {
             foreach (ZoneViewData checkZoneViewData in zoneViewDataSet)
             {
                 if (checkZoneViewData == null) { continue; }
                 if (zoneName == checkZoneViewData.zoneName)
                 {
-                    checkZoneViewData.Setup(zoneName, scenePath, snapshotPNGPath, topLeftPosition);
+                    if (keepExistingPosition) { checkZoneViewData.Setup(zoneName, scenePath, snapshotPNGPath); }
+                    else { checkZoneViewData.Setup(zoneName, scenePath, snapshotPNGPath, topLeftPosition); }
                     return;
                 }
             }

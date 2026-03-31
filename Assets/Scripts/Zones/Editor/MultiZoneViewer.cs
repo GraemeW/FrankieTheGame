@@ -13,7 +13,7 @@ namespace Frankie.ZoneManagement.UIEditor
 {
     public class SceneSnapshotViewer : EditorWindow
     {
-        // Tunables
+        // UI Tunables
         private const int _zoneViewWidth = 260;
         private const int _zoneViewHeight = 200;
         private const int _zoneViewHeaderHeight = 24;
@@ -21,13 +21,15 @@ namespace Frankie.ZoneManagement.UIEditor
         private const int _snapshotHeight = 288;
         private const float _zoneViewPadding  = 20f;
         private const float _clickMoveThreshold = 4f;
-
+ 
+        // Path Tunables
         private const string _assetsFolder = "Assets";
         private const string _multiZoneViewSubFolder = "MultiZoneViewer";
         private static readonly string _multiZoneViewAssetsDirectory = Path.Combine(_assetsFolder, _multiZoneViewSubFolder);
         private static readonly string _snapshotPNGDirectory = Path.Combine(Directory.GetCurrentDirectory(), _multiZoneViewSubFolder);
 
-        // State
+        // State & Editable Configurations
+        [SerializeField] private bool _keepExistingPositions = true;
         [SerializeField] private MultiZoneView activeMultiZoneView; 
         private readonly List<ZoneView> zoneViews = new();
         
@@ -92,10 +94,14 @@ namespace Frankie.ZoneManagement.UIEditor
             var captureButton = new Button(OnCaptureClicked) { text = "Capture Zones" };
             StyleButton(captureButton);
             toolbar.Add(captureButton);
-
+            
             clearButton = new Button(OnClearClicked) { text = "Clear" };
             StyleButton(clearButton);
             toolbar.Add(clearButton);
+            
+            Toggle keepPositionToggle = MakeToggle("Keep positions", _keepExistingPositions);
+            keepPositionToggle.RegisterValueChangedCallback(changeEvent => _keepExistingPositions = changeEvent.newValue);
+            toolbar.Add(keepPositionToggle);
 
             VisualElement spacer = MakeSpacer();
             toolbar.Add(spacer);
@@ -282,11 +288,11 @@ namespace Frankie.ZoneManagement.UIEditor
                         $"Processing: {Path.GetFileNameWithoutExtension(path)}  ({i + 1}/{scenePaths.Count})",
                         (float)i / scenePaths.Count);
                     
-                    Vector2 topLeftPosition = new Vector2(
+                    Vector2 defaultPosition = new Vector2(
                         _zoneViewPadding + (i % 4) * (_zoneViewWidth + _zoneViewPadding),
                         _zoneViewPadding + (i / 4) * (_zoneViewHeight + _zoneViewHeaderHeight + _zoneViewPadding));
                     
-                    CaptureZone(path, topLeftPosition);
+                    CaptureZone(path, defaultPosition);
                 }
             }
             finally
@@ -306,7 +312,7 @@ namespace Frankie.ZoneManagement.UIEditor
             AssetDatabase.SaveAssetIfDirty(activeMultiZoneView);
         }
         
-        private void CaptureZone(string scenePath, Vector2 topLeftZoneViewPosition)
+        private void CaptureZone(string scenePath, Vector2 defaultPosition)
         {
             if (activeMultiZoneView == null) { return; }
             
@@ -322,7 +328,7 @@ namespace Frankie.ZoneManagement.UIEditor
             string snapshotPNGPath = GetSnapshotPathForScene(zoneName);
             File.WriteAllBytes(snapshotPNGPath, snapshotTexture.EncodeToPNG());
 
-            activeMultiZoneView.CreateOrUpdateZoneViewData(zoneName, scenePath, snapshotPNGPath, topLeftZoneViewPosition);
+            activeMultiZoneView.CreateOrUpdateZoneViewData(zoneName, scenePath, snapshotPNGPath, defaultPosition, _keepExistingPositions);
         }
 
         private static void PositionCameraToFrameScene(Camera camera, Scene scene)
@@ -568,6 +574,23 @@ namespace Frankie.ZoneManagement.UIEditor
             button.style.borderBottomColor = new StyleColor(new Color(0.15f, 0.15f, 0.15f));
             button.style.borderLeftColor = new StyleColor(new Color(0.15f, 0.15f, 0.15f));
             button.style.borderRightColor = new StyleColor(new Color(0.15f, 0.15f, 0.15f));
+        }
+
+        private static Toggle MakeToggle(string label, bool state)
+        {
+            return new Toggle
+            {
+                label = label,
+                value = state,
+                style =
+                {
+                    marginLeft = 8,
+                    marginRight = 4,
+                    fontSize = 11,
+                    color = new StyleColor(new Color(0.7f, 0.7f, 0.7f)),
+                    unityTextAlign = TextAnchor.MiddleRight,
+                }
+            };
         }
 
         private static VisualElement MakeSpacer()
