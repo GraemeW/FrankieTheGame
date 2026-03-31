@@ -8,14 +8,18 @@ namespace Frankie.ZoneManagement.UIEditor
     {
         private readonly ZoneView zoneView;
         private readonly VisualElement activeVisualElement;
+        private readonly System.Action onClicked; // short-click firing
         private bool dragging;
         private Vector2 startMouse;
         private Vector2 startPos;
 
-        public DragManipulator(ZoneView zoneView, VisualElement activeVisualElement)
+        private const float _clickMoveThreshold = 4f;
+
+        public DragManipulator(ZoneView zoneView, VisualElement activeVisualElement, System.Action onClicked)
         {
             this.zoneView = zoneView;
             this.activeVisualElement = activeVisualElement;
+            this.onClicked = onClicked;
             activators.Add(new ManipulatorActivationFilter { button = MouseButton.LeftMouse });
         }
 
@@ -71,9 +75,16 @@ namespace Frankie.ZoneManagement.UIEditor
             dragging = false;
             target.ReleaseMouse();
             
-            EditorUtility.SetDirty(zoneView.data);
-            AssetDatabase.SaveAssetIfDirty(zoneView.data);
-            
+            float travel = Vector2.Distance(mouseUpEvent.mousePosition, startMouse);
+            if (travel <= _clickMoveThreshold)
+            {
+                onClicked?.Invoke();
+            }
+            else
+            {
+                EditorUtility.SetDirty(zoneView.data);
+                AssetDatabase.SaveAssetIfDirty(zoneView.data);
+            }
             mouseUpEvent.StopPropagation();
         }
     }

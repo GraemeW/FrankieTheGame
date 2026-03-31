@@ -8,12 +8,14 @@ namespace Frankie.ZoneManagement.UIEditor
     {
         // Tunables
         public string zoneName;
+        public string scenePath;
         public string snapshotPath;
         public Vector2 topLeftPosition;
 
-        public void Setup(string setZoneName, string setSnapshotPath, Vector2 setTopLeftPosition)
+        public void Setup(string setZoneName, string setScenePath, string setSnapshotPath, Vector2 setTopLeftPosition)
         {
             name = setZoneName;
+            scenePath = setScenePath;
             zoneName = setZoneName;
             snapshotPath = setSnapshotPath;
             topLeftPosition = setTopLeftPosition;

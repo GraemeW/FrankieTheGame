@@ -20,6 +20,7 @@ namespace Frankie.ZoneManagement.UIEditor
         private const int _snapshotWidth = 512;
         private const int _snapshotHeight = 288;
         private const float _zoneViewPadding  = 20f;
+        private const float _clickMoveThreshold = 4f;
 
         private const string _assetsFolder = "Assets";
         private const string _multiZoneViewSubFolder = "MultiZoneViewer";
@@ -202,24 +203,53 @@ namespace Frankie.ZoneManagement.UIEditor
             if (zoneViewData == null) { return; }
             
             VisualElement zoneViewElement = MakeEmptyZoneViewElement(zoneViewData.zoneName, zoneViewData.topLeftPosition.x, zoneViewData.topLeftPosition.y);
+            Label zoneViewElementHeader = MakeZoneViewElementHeader(zoneViewData.zoneName);
+            zoneViewElementHeader.AddManipulator(new DragManipulator(zoneView, zoneViewElement, null));
+            zoneViewElement.Add(zoneViewElementHeader);
             
-            AddImageToZoneViewElement(zoneView, zoneViewElement);
-            zoneViewElement.AddManipulator(new DragManipulator(zoneView, zoneViewElement));
+            VisualElement imageArea = AddImageToZoneViewElement(zoneView, zoneViewElement);
+            System.Action onImageClicked = AddSceneLinkToImageArea(zoneView, imageArea);
+            imageArea.AddManipulator(new DragManipulator(zoneView, zoneViewElement, onImageClicked));
             
             zoneViewLayer.Add(zoneViewElement);
         }
 
-        private static void AddImageToZoneViewElement(ZoneView zoneView, VisualElement zoneViewElement)
+        private static VisualElement AddImageToZoneViewElement(ZoneView zoneView, VisualElement zoneViewElement)
         {
-            if (zoneView.texture2D != null)
+            // Returns a reference to the imageArea on the zoneViewElement
+            VisualElement imageArea;
+            
+            if (zoneView != null && zoneView.texture2D != null)
             {
                 Image zoneSnapshot = MakeImage(zoneView.texture2D);
                 zoneViewElement.Add(zoneSnapshot);
+                imageArea = zoneSnapshot;
             }
             else
             {
                 Label noSnapshotLabel = MakeImageLabel("No snapshot");
                 zoneViewElement.Add(noSnapshotLabel);
+                imageArea = noSnapshotLabel;
+            }
+            AddHoverOverStyle(imageArea);
+
+            return imageArea;
+        }
+
+        private static System.Action AddSceneLinkToImageArea(ZoneView zoneView, VisualElement imageArea)
+        {
+            string scenePath = zoneView?.data?.scenePath;
+            if (scenePath == null) { return null; }
+            return () => TryLoadScene(scenePath);
+        }
+
+        private static void TryLoadScene(string scenePath)
+        {
+            if (string.IsNullOrEmpty(scenePath) || !File.Exists(scenePath) || !scenePath.EndsWith(".unity")) { return; }
+
+            if (EditorSceneManager.SaveCurrentModifiedScenesIfUserWantsTo())
+            {
+                EditorSceneManager.OpenScene(scenePath, OpenSceneMode.Single);
             }
         }
         #endregion
@@ -292,7 +322,7 @@ namespace Frankie.ZoneManagement.UIEditor
             string snapshotPNGPath = GetSnapshotPathForScene(zoneName);
             File.WriteAllBytes(snapshotPNGPath, snapshotTexture.EncodeToPNG());
 
-            activeMultiZoneView.CreateOrUpdateZoneViewData(zoneName, snapshotPNGPath, topLeftZoneViewPosition);
+            activeMultiZoneView.CreateOrUpdateZoneViewData(zoneName, scenePath, snapshotPNGPath, topLeftZoneViewPosition);
         }
 
         private static void PositionCameraToFrameScene(Camera camera, Scene scene)
@@ -588,7 +618,12 @@ namespace Frankie.ZoneManagement.UIEditor
                 }
             };
             
-            var header = new Label(zoneName)
+            return zoneViewElement;
+        }
+
+        private static Label MakeZoneViewElementHeader(string zoneName)
+        {
+            return new Label(zoneName)
             {
                 style =
                 {
@@ -603,9 +638,6 @@ namespace Frankie.ZoneManagement.UIEditor
                     overflow = Overflow.Hidden
                 }
             };
-            zoneViewElement.Add(header);
-            
-            return zoneViewElement;
         }
 
         private static Image MakeImage(Texture2D texture2D)
@@ -633,6 +665,16 @@ namespace Frankie.ZoneManagement.UIEditor
                     backgroundColor = new StyleColor(new Color(0.12f, 0.12f, 0.12f))
                 }
             };
+        }
+
+        private static void AddHoverOverStyle(VisualElement visualElement)
+        {
+            var normalBg = new Color(0.12f, 0.12f, 0.12f);
+            var hoverBg  = new Color(0.20f, 0.30f, 0.38f);   // subtle blue tint
+            visualElement.RegisterCallback<MouseEnterEvent>(_ =>
+                visualElement.style.backgroundColor = new StyleColor(hoverBg));
+            visualElement.RegisterCallback<MouseLeaveEvent>(_ =>
+                visualElement.style.backgroundColor = new StyleColor(normalBg));
         }
         #endregion
     }

@@ -17,21 +17,21 @@ namespace Frankie.ZoneManagement.UIEditor
             zoneViewDataSet.RemoveAll(zoneViewData => zoneViewData == null);
         }
         
-        public void CreateOrUpdateZoneViewData(string zoneName, string snapshotPNGPath, Vector2 topLeftPosition)
+        public void CreateOrUpdateZoneViewData(string zoneName, string scenePath, string snapshotPNGPath, Vector2 topLeftPosition)
         {
             foreach (ZoneViewData checkZoneViewData in zoneViewDataSet)
             {
                 if (checkZoneViewData == null) { continue; }
                 if (zoneName == checkZoneViewData.zoneName)
                 {
-                    checkZoneViewData.Setup(zoneName, snapshotPNGPath, topLeftPosition);
+                    checkZoneViewData.Setup(zoneName, scenePath, snapshotPNGPath, topLeftPosition);
                     return;
                 }
             }
             
             ZoneViewData zoneViewData = CreateInstance<ZoneViewData>();
             zoneViewDataSet.Add(zoneViewData);
-            zoneViewData.Setup(zoneName, snapshotPNGPath, topLeftPosition);
+            zoneViewData.Setup(zoneName, scenePath, snapshotPNGPath, topLeftPosition);
             AssetDatabase.AddObjectToAsset(zoneViewData, this);
         }
         #endregion
