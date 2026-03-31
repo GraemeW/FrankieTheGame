@@ -224,7 +224,7 @@ namespace Frankie.ZoneManagement.UIEditor
             ZoneViewData zoneViewData = zoneView.data;
             if (zoneViewData == null) { return; }
             
-            VisualElement zoneViewElement = MakeEmptyZoneViewElement(zoneViewData.zoneName, zoneViewData.topLeftPosition.x, zoneViewData.topLeftPosition.y);
+            VisualElement zoneViewElement = MakeEmptyZoneViewElement(zoneViewData.topLeftPosition.x, zoneViewData.topLeftPosition.y);
             Label zoneViewElementHeader = MakeZoneViewElementHeader(zoneViewData.zoneName);
             zoneViewElementHeader.AddManipulator(new DragManipulator(zoneView, zoneViewElement, null));
             zoneViewElement.Add(zoneViewElementHeader);
@@ -386,9 +386,14 @@ namespace Frankie.ZoneManagement.UIEditor
                     }
                 }
             }
+            Debug.Log($"Max Bounding at {maxBounds.center} with extents: {maxBounds.extents}");
             
             camera.transform.position = new Vector3(maxBounds.center.x, maxBounds.center.y, camera.transform.position.z);
-            camera.orthographicSize = Mathf.Max(maxBounds.extents.x, maxBounds.extents.y) / 1.5f;
+            float aspectRatio = Screen.width / (float)Screen.height;
+            float orthoSize = aspectRatio > 1.0f ? 
+                Mathf.Max(maxBounds.extents.x / aspectRatio, maxBounds.extents.y) : 
+                Mathf.Max(maxBounds.extents.x, maxBounds.extents.y / aspectRatio);
+            camera.orthographicSize = orthoSize;
         }
         
         private static Texture2D CameraClick(Camera captureCamera)
@@ -663,7 +668,7 @@ namespace Frankie.ZoneManagement.UIEditor
             };
         }
 
-        private static VisualElement MakeEmptyZoneViewElement(string zoneName, float xPosition, float yPosition)
+        private static VisualElement MakeEmptyZoneViewElement(float xPosition, float yPosition)
         {
             var zoneViewElement = new VisualElement
             {
