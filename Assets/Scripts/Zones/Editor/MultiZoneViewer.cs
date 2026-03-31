@@ -20,7 +20,6 @@ namespace Frankie.ZoneManagement.UIEditor
         private const int _snapshotWidth = 512;
         private const int _snapshotHeight = 288;
         private const float _zoneViewPadding  = 20f;
-        private const float _clickMoveThreshold = 4f;
  
         // Path Tunables
         private const string _assetsFolder = "Assets";
@@ -29,7 +28,7 @@ namespace Frankie.ZoneManagement.UIEditor
         private static readonly string _snapshotPNGDirectory = Path.Combine(Directory.GetCurrentDirectory(), _multiZoneViewSubFolder);
 
         // State & Editable Configurations
-        [SerializeField] private bool _keepExistingPositions = true;
+        [SerializeField] private bool keepExistingPositions = true;
         [SerializeField] private MultiZoneView activeMultiZoneView; 
         private readonly List<ZoneView> zoneViews = new();
         
@@ -99,8 +98,8 @@ namespace Frankie.ZoneManagement.UIEditor
             StyleButton(clearButton);
             toolbar.Add(clearButton);
             
-            Toggle keepPositionToggle = MakeToggle("Keep positions", _keepExistingPositions);
-            keepPositionToggle.RegisterValueChangedCallback(changeEvent => _keepExistingPositions = changeEvent.newValue);
+            Toggle keepPositionToggle = MakeToggle("Keep positions", keepExistingPositions);
+            keepPositionToggle.RegisterValueChangedCallback(changeEvent => keepExistingPositions = changeEvent.newValue);
             toolbar.Add(keepPositionToggle);
 
             VisualElement spacer = MakeSpacer();
@@ -148,10 +147,7 @@ namespace Frankie.ZoneManagement.UIEditor
             }
             CaptureAllZones();
             
-            ClearRenderedZoneViews();
-            TryLoadSnapshots();
-            AddAllZoneViews();
-            canvas?.MarkDirtyRepaint();
+            RefreshZoneViews();
             RefreshToolbarState();
         }
 
@@ -195,6 +191,15 @@ namespace Frankie.ZoneManagement.UIEditor
         #endregion
         
         #region ZoneViews
+
+        private void RefreshZoneViews()
+        {
+            ClearRenderedZoneViews();
+            TryLoadSnapshots();
+            AddAllZoneViews();
+            canvas?.MarkDirtyRepaint();
+        }
+        
         private void AddAllZoneViews()
         {
             foreach (ZoneView zoneView in zoneViews)
@@ -214,8 +219,7 @@ namespace Frankie.ZoneManagement.UIEditor
             zoneViewElement.Add(zoneViewElementHeader);
             
             VisualElement imageArea = AddImageToZoneViewElement(zoneView, zoneViewElement);
-            System.Action onImageClicked = AddSceneLinkToImageArea(zoneView, imageArea);
-            imageArea.AddManipulator(new DragManipulator(zoneView, zoneViewElement, onImageClicked));
+            imageArea.AddManipulator(new DragManipulator(zoneView, zoneViewElement, () => TryLoadScene(zoneView)));
             
             zoneViewLayer.Add(zoneViewElement);
         }
@@ -242,20 +246,17 @@ namespace Frankie.ZoneManagement.UIEditor
             return imageArea;
         }
 
-        private static System.Action AddSceneLinkToImageArea(ZoneView zoneView, VisualElement imageArea)
+        private void TryLoadScene(ZoneView zoneView)
         {
             string scenePath = zoneView?.data?.scenePath;
-            if (scenePath == null) { return null; }
-            return () => TryLoadScene(scenePath);
-        }
-
-        private static void TryLoadScene(string scenePath)
-        {
+            if (scenePath == null) { return; }
+            
             if (string.IsNullOrEmpty(scenePath) || !File.Exists(scenePath) || !scenePath.EndsWith(".unity")) { return; }
 
             if (EditorSceneManager.SaveCurrentModifiedScenesIfUserWantsTo())
             {
                 EditorSceneManager.OpenScene(scenePath, OpenSceneMode.Single);
+                RefreshZoneViews();
             }
         }
         #endregion
@@ -328,7 +329,7 @@ namespace Frankie.ZoneManagement.UIEditor
             string snapshotPNGPath = GetSnapshotPathForScene(zoneName);
             File.WriteAllBytes(snapshotPNGPath, snapshotTexture.EncodeToPNG());
 
-            activeMultiZoneView.CreateOrUpdateZoneViewData(zoneName, scenePath, snapshotPNGPath, defaultPosition, _keepExistingPositions);
+            activeMultiZoneView.CreateOrUpdateZoneViewData(zoneName, scenePath, snapshotPNGPath, defaultPosition, keepExistingPositions);
         }
 
         private static void PositionCameraToFrameScene(Camera camera, Scene scene)
