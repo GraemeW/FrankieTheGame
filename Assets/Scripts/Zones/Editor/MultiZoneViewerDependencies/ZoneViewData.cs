@@ -11,13 +11,15 @@ namespace Frankie.ZoneManagement.UIEditor
         public string scenePath;
         public string snapshotPath;
         public Vector2 topLeftPosition;
+        public Vector2 dimensions;
 
-        public void Setup(string setZoneName, string setScenePath, string setSnapshotPath, Vector2 setTopLeftPosition)
+        public void Setup(string setZoneName, string setScenePath, string setSnapshotPath, Vector2 setDimensions, Vector2 setTopLeftPosition)
         {
             name = setZoneName;
             scenePath = setScenePath;
             zoneName = setZoneName;
             snapshotPath = setSnapshotPath;
+            dimensions = setDimensions;
             topLeftPosition = setTopLeftPosition;
             EditorUtility.SetDirty(this);
         }

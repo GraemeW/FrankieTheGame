@@ -17,7 +17,7 @@ namespace Frankie.ZoneManagement.UIEditor
             zoneViewDataSet.RemoveAll(zoneViewData => zoneViewData == null);
         }
         
-        public void CreateOrUpdateZoneViewData(string zoneName, string scenePath, string snapshotPNGPath, Vector2 topLeftPosition, bool keepExistingPosition)
+        public ZoneViewData CreateOrUpdateZoneViewData(string zoneName, string scenePath, string snapshotPNGPath, Vector2 dimensions, Vector2 topLeftPosition, bool keepExistingPosition)
         {
             foreach (ZoneViewData checkZoneViewData in zoneViewDataSet)
             {
@@ -25,15 +25,17 @@ namespace Frankie.ZoneManagement.UIEditor
                 if (zoneName == checkZoneViewData.zoneName)
                 {
                     if (keepExistingPosition) { checkZoneViewData.Setup(zoneName, scenePath, snapshotPNGPath); }
-                    else { checkZoneViewData.Setup(zoneName, scenePath, snapshotPNGPath, topLeftPosition); }
-                    return;
+                    else { checkZoneViewData.Setup(zoneName, scenePath, snapshotPNGPath, dimensions, topLeftPosition); }
+                    return checkZoneViewData;
                 }
             }
             
             ZoneViewData zoneViewData = CreateInstance<ZoneViewData>();
             zoneViewDataSet.Add(zoneViewData);
-            zoneViewData.Setup(zoneName, scenePath, snapshotPNGPath, topLeftPosition);
+            zoneViewData.Setup(zoneName, scenePath, snapshotPNGPath, dimensions, topLeftPosition);
             AssetDatabase.AddObjectToAsset(zoneViewData, this);
+            
+            return zoneViewData;
         }
         #endregion
     }

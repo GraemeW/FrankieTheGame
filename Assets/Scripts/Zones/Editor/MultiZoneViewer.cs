@@ -15,13 +15,14 @@ namespace Frankie.ZoneManagement.UIEditor
     public class SceneSnapshotViewer : EditorWindow
     {
         // UI Tunables
-        private const int _zoneViewWidth = 260;
-        private const int _zoneViewHeight = 200;
+        private static readonly float _snapshotToZoneViewScalingFactor = 0.20f;
+        private static readonly Vector2 _defaultZoneViewDimensions = new(260, 200);
         private const int _zoneViewHeaderHeight = 24;
         private static readonly float _worldToSnapshotScalingFactor = 80.0f;
         private static readonly Vector2 _minSnapshotDimensions = new(1920, 1080);
         private static readonly Vector2 _maxSnapshotDimensions = new(7680, 4320);
         private const float _zoneViewPadding  = 20f;
+        private const int _defaultNumberViewsPerRow = 4;
  
         // Path Tunables
         private const string _assetsFolder = "Assets";
@@ -225,9 +226,9 @@ namespace Frankie.ZoneManagement.UIEditor
             ZoneViewData zoneViewData = zoneView.data;
             if (zoneViewData == null) { return; }
             
-            VisualElement zoneViewElement = MakeEmptyZoneViewElement(zoneViewData.topLeftPosition.x, zoneViewData.topLeftPosition.y);
+            VisualElement zoneViewElement = MakeEmptyZoneViewElement(zoneViewData.topLeftPosition, zoneViewData.dimensions);
             Label zoneViewElementHeader = MakeZoneViewElementHeader(zoneViewData.zoneName);
-            zoneViewElementHeader.AddManipulator(new DragManipulator(zoneView, zoneViewElement, null));
+            zoneViewElementHeader.AddManipulator(new DragManipulator(zoneView, zoneViewElement, () => Selection.activeObject = zoneViewData));
             zoneViewElement.Add(zoneViewElementHeader);
             
             VisualElement imageArea = AddImageToZoneViewElement(zoneView, zoneViewElement);
@@ -294,18 +295,23 @@ namespace Frankie.ZoneManagement.UIEditor
             
             try
             {
+                Vector2 currentPosition = new Vector2(_zoneViewPadding, _zoneViewPadding);
+                bool isyOffset = false;
+                float yOffset = _zoneViewPadding;
+                
                 for (int i = 0; i < scenePaths.Count; i++)
                 {
                     string path = scenePaths[i];
                     EditorUtility.DisplayProgressBar("Scene Snapshot Viewer",
                         $"Processing: {Path.GetFileNameWithoutExtension(path)}  ({i + 1}/{scenePaths.Count})",
                         (float)i / scenePaths.Count);
+                    ZoneViewData zoneViewData = CaptureZone(path, currentPosition);
                     
-                    Vector2 defaultPosition = new Vector2(
-                        _zoneViewPadding + (i % 4) * (_zoneViewWidth + _zoneViewPadding),
-                        _zoneViewPadding + Mathf.FloorToInt(i / 4.0f) * (_zoneViewHeight + _zoneViewHeaderHeight + _zoneViewPadding));
-                    
-                    CaptureZone(path, defaultPosition);
+                    if (zoneViewData == null) { continue; }
+
+                    isyOffset = i % _defaultNumberViewsPerRow == (_defaultNumberViewsPerRow - 1);
+                    yOffset = Mathf.Max(yOffset, zoneViewData.topLeftPosition.y +  zoneViewData.dimensions.y + _zoneViewPadding);
+                    currentPosition = GetUpdatedZoneViewPosition(currentPosition, zoneViewData.dimensions, isyOffset, yOffset);
                 }
             }
             finally
@@ -324,24 +330,41 @@ namespace Frankie.ZoneManagement.UIEditor
             EditorUtility.SetDirty(activeMultiZoneView);
             AssetDatabase.SaveAssetIfDirty(activeMultiZoneView);
         }
-        
-        private void CaptureZone(string scenePath, Vector2 defaultPosition)
+
+        private static Vector2 GetUpdatedZoneViewPosition(Vector2 currentPosition, Vector2 lastZoneViewDimensions, bool isyOffset, float yOffset)
         {
-            if (activeMultiZoneView == null) { return; }
+            Vector2 newPosition = new Vector2(currentPosition.x, currentPosition.y);
+            newPosition.x += lastZoneViewDimensions.x + _zoneViewPadding;
+
+
+            if (isyOffset)
+            {
+                newPosition.x = _zoneViewPadding;
+                newPosition.y += yOffset;
+            }
+            return newPosition;
+        }
+        
+        private ZoneViewData CaptureZone(string scenePath, Vector2 defaultPosition)
+        {
+            if (activeMultiZoneView == null) { return null; }
             
             Scene scene = EditorSceneManager.OpenScene(scenePath, OpenSceneMode.Single);
 
             Camera captureCamera = Camera.main;
-            if (captureCamera == null) { return; }
+            if (captureCamera == null) { return null; }
             
             Vector2 snapshotDimensions = PositionCameraToFrameScene(captureCamera, scene);
             Texture2D snapshotTexture = CameraClick(captureCamera, snapshotDimensions);
+            Debug.Log($"Snapshot texture dimensions are {snapshotDimensions.x}, {snapshotDimensions.y}");
+            Vector2 zoneViewDimensions = GetIdealZoneViewDimensions(snapshotTexture);
 
             string zoneName = GetSafeNameFromPath(scenePath);
             string snapshotPNGPath = GetSnapshotPathForScene(zoneName);
             File.WriteAllBytes(snapshotPNGPath, snapshotTexture.EncodeToPNG());
 
-            activeMultiZoneView.CreateOrUpdateZoneViewData(zoneName, scenePath, snapshotPNGPath, defaultPosition, keepExistingPositions);
+            ZoneViewData zoneViewData = activeMultiZoneView.CreateOrUpdateZoneViewData(zoneName, scenePath, snapshotPNGPath, zoneViewDimensions, defaultPosition, keepExistingPositions);
+            return zoneViewData;
         }
 
         private static Vector2 PositionCameraToFrameScene(Camera camera, Scene scene)
@@ -400,6 +423,27 @@ namespace Frankie.ZoneManagement.UIEditor
             
             return snapshotDimensions;
         }
+        
+        private static Texture2D CameraClick(Camera captureCamera, Vector2 snapshotDimensions)
+        {
+            int snapshotWidth = Mathf.RoundToInt(snapshotDimensions.x);
+            int snapshotHeight = Mathf.RoundToInt(snapshotDimensions.y);
+            
+            var renderTexture = new RenderTexture(snapshotWidth, snapshotHeight, 24, RenderTextureFormat.ARGB32);
+            captureCamera.targetTexture = renderTexture;
+            captureCamera.Render();
+
+            RenderTexture.active = renderTexture;
+            var snapshotTexture = new Texture2D(snapshotWidth, snapshotHeight, TextureFormat.RGBA32, false);
+            snapshotTexture.ReadPixels(new Rect(0, 0, snapshotWidth, snapshotHeight), 0, 0);
+            snapshotTexture.Apply();
+
+            RenderTexture.active = null;
+            captureCamera.targetTexture = null;
+            renderTexture.Release();
+            DestroyImmediate(renderTexture);
+            return snapshotTexture;
+        }
 
         private static Vector2 GetIdealSnapshotDimensions(float xWorldSize, float yWorldSize)
         {
@@ -427,25 +471,17 @@ namespace Frankie.ZoneManagement.UIEditor
             return new Vector2(xScaled, yScaled);
         }
         
-        private static Texture2D CameraClick(Camera captureCamera, Vector2 snapshotDimensions)
+        private static Vector2 GetIdealZoneViewDimensions(Texture2D texture2D)
         {
-            int snapshotWidth = Mathf.RoundToInt(snapshotDimensions.x);
-            int snapshotHeight = Mathf.RoundToInt(snapshotDimensions.y);
+            if (texture2D == null) { return _defaultZoneViewDimensions; }
+            if (texture2D.width < _defaultZoneViewDimensions.x || texture2D.height < _defaultZoneViewDimensions.y) { return _defaultZoneViewDimensions; }
+
+            float tryWidth = texture2D.width * _snapshotToZoneViewScalingFactor;
+            float tryHeight = texture2D.height * _snapshotToZoneViewScalingFactor;
             
-            var renderTexture = new RenderTexture(snapshotWidth, snapshotHeight, 24, RenderTextureFormat.ARGB32);
-            captureCamera.targetTexture = renderTexture;
-            captureCamera.Render();
-
-            RenderTexture.active = renderTexture;
-            var snapshotTexture = new Texture2D(snapshotWidth, snapshotHeight, TextureFormat.RGBA32, false);
-            snapshotTexture.ReadPixels(new Rect(0, 0, snapshotWidth, snapshotHeight), 0, 0);
-            snapshotTexture.Apply();
-
-            RenderTexture.active = null;
-            captureCamera.targetTexture = null;
-            renderTexture.Release();
-            DestroyImmediate(renderTexture);
-            return snapshotTexture;
+            if (tryWidth < _defaultZoneViewDimensions.x || tryHeight < _defaultZoneViewDimensions.y) { return _defaultZoneViewDimensions; }
+            
+            return new Vector2(tryWidth, tryHeight);
         }
         
         private void TryLoadSnapshots()
@@ -702,17 +738,17 @@ namespace Frankie.ZoneManagement.UIEditor
             };
         }
 
-        private static VisualElement MakeEmptyZoneViewElement(float xPosition, float yPosition)
+        private static VisualElement MakeEmptyZoneViewElement(Vector2 position, Vector2 size)
         {
             var zoneViewElement = new VisualElement
             {
                 style =
                 {
                     position = Position.Absolute,
-                    left = xPosition,
-                    top = yPosition,
-                    width = _zoneViewWidth,
-                    height = _zoneViewHeaderHeight + _zoneViewHeight,
+                    left = position.x,
+                    top = position.y,
+                    width = (int)size.x,
+                    height = _zoneViewHeaderHeight + (int)size.y,
                     backgroundColor = new StyleColor(new Color(0.25f, 0.25f, 0.27f)),
                     borderTopLeftRadius = 4,
                     borderTopRightRadius = 4,
