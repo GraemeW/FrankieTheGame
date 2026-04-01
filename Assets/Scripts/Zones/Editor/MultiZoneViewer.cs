@@ -18,8 +18,9 @@ namespace Frankie.ZoneManagement.UIEditor
         private const int _zoneViewWidth = 260;
         private const int _zoneViewHeight = 200;
         private const int _zoneViewHeaderHeight = 24;
-        private const int _snapshotWidth = 512;
-        private const int _snapshotHeight = 288;
+        private static readonly float _worldToSnapshotScalingFactor = 80.0f;
+        private static readonly Vector2 _minSnapshotDimensions = new(1920, 1080);
+        private static readonly Vector2 _maxSnapshotDimensions = new(7680, 4320);
         private const float _zoneViewPadding  = 20f;
  
         // Path Tunables
@@ -302,7 +303,7 @@ namespace Frankie.ZoneManagement.UIEditor
                     
                     Vector2 defaultPosition = new Vector2(
                         _zoneViewPadding + (i % 4) * (_zoneViewWidth + _zoneViewPadding),
-                        _zoneViewPadding + (i / 4) * (_zoneViewHeight + _zoneViewHeaderHeight + _zoneViewPadding));
+                        _zoneViewPadding + Mathf.FloorToInt(i / 4.0f) * (_zoneViewHeight + _zoneViewHeaderHeight + _zoneViewPadding));
                     
                     CaptureZone(path, defaultPosition);
                 }
@@ -333,8 +334,8 @@ namespace Frankie.ZoneManagement.UIEditor
             Camera captureCamera = Camera.main;
             if (captureCamera == null) { return; }
             
-            PositionCameraToFrameScene(captureCamera, scene);
-            Texture2D snapshotTexture = CameraClick(captureCamera);
+            Vector2 snapshotDimensions = PositionCameraToFrameScene(captureCamera, scene);
+            Texture2D snapshotTexture = CameraClick(captureCamera, snapshotDimensions);
 
             string zoneName = GetSafeNameFromPath(scenePath);
             string snapshotPNGPath = GetSnapshotPathForScene(zoneName);
@@ -343,10 +344,10 @@ namespace Frankie.ZoneManagement.UIEditor
             activeMultiZoneView.CreateOrUpdateZoneViewData(zoneName, scenePath, snapshotPNGPath, defaultPosition, keepExistingPositions);
         }
 
-        private static void PositionCameraToFrameScene(Camera camera, Scene scene)
+        private static Vector2 PositionCameraToFrameScene(Camera camera, Scene scene)
         {
             List<Tilemap> tilemaps = FindObjectsByType<Tilemap>().ToList();
-            Debug.Log($"On Scene: {scene.name}");
+            Debug.Log($"Positioning camera on Scene: {scene.name}");
             
             Bounds maxBounds = new Bounds();
             if (tilemaps.Count == 0)
@@ -389,22 +390,55 @@ namespace Frankie.ZoneManagement.UIEditor
             Debug.Log($"Max Bounding at {maxBounds.center} with extents: {maxBounds.extents}");
             
             camera.transform.position = new Vector3(maxBounds.center.x, maxBounds.center.y, camera.transform.position.z);
-            float aspectRatio = Screen.width / (float)Screen.height;
+            Vector2 snapshotDimensions = GetIdealSnapshotDimensions(maxBounds.extents.x, maxBounds.extents.y);
+            
+            float aspectRatio = snapshotDimensions.x / snapshotDimensions.y;
             float orthoSize = aspectRatio > 1.0f ? 
                 Mathf.Max(maxBounds.extents.x / aspectRatio, maxBounds.extents.y) : 
                 Mathf.Max(maxBounds.extents.x, maxBounds.extents.y / aspectRatio);
             camera.orthographicSize = orthoSize;
+            
+            return snapshotDimensions;
+        }
+
+        private static Vector2 GetIdealSnapshotDimensions(float xWorldSize, float yWorldSize)
+        {
+            if (Mathf.Approximately(xWorldSize, 0f) || Mathf.Approximately(yWorldSize, 0f)) { return _minSnapshotDimensions; }
+            
+            float xScaled = xWorldSize * _worldToSnapshotScalingFactor;
+            float yScaled = yWorldSize * _worldToSnapshotScalingFactor;
+            
+            if (xScaled < _minSnapshotDimensions.x || yScaled < _minSnapshotDimensions.y)
+            {
+                float xMinMultiplier = _minSnapshotDimensions.x / xScaled;
+                float yMinMultiplier = _minSnapshotDimensions.y / yScaled;
+                
+                xScaled *= xMinMultiplier > yMinMultiplier ? xMinMultiplier : yMinMultiplier;
+                yScaled *= xMinMultiplier > yMinMultiplier ? xMinMultiplier : yMinMultiplier;
+            }
+
+            if (xScaled > _maxSnapshotDimensions.x || yScaled > _maxSnapshotDimensions.y)
+            {
+                // Straight floor, don't preserve aspect ratio (to be handled separately via ortho size)
+                xScaled = _maxSnapshotDimensions.x;
+                yScaled = _maxSnapshotDimensions.y;
+            }
+            
+            return new Vector2(xScaled, yScaled);
         }
         
-        private static Texture2D CameraClick(Camera captureCamera)
+        private static Texture2D CameraClick(Camera captureCamera, Vector2 snapshotDimensions)
         {
-            var renderTexture = new RenderTexture(_snapshotWidth, _snapshotHeight, 24, RenderTextureFormat.ARGB32);
+            int snapshotWidth = Mathf.RoundToInt(snapshotDimensions.x);
+            int snapshotHeight = Mathf.RoundToInt(snapshotDimensions.y);
+            
+            var renderTexture = new RenderTexture(snapshotWidth, snapshotHeight, 24, RenderTextureFormat.ARGB32);
             captureCamera.targetTexture = renderTexture;
             captureCamera.Render();
 
             RenderTexture.active = renderTexture;
-            var snapshotTexture = new Texture2D(_snapshotWidth, _snapshotHeight, TextureFormat.RGBA32, false);
-            snapshotTexture.ReadPixels(new Rect(0, 0, _snapshotWidth, _snapshotHeight), 0, 0);
+            var snapshotTexture = new Texture2D(snapshotWidth, snapshotHeight, TextureFormat.RGBA32, false);
+            snapshotTexture.ReadPixels(new Rect(0, 0, snapshotWidth, snapshotHeight), 0, 0);
             snapshotTexture.Apply();
 
             RenderTexture.active = null;
