@@ -15,12 +15,14 @@ namespace Frankie.ZoneManagement.UIEditor
     public class SceneSnapshotViewer : EditorWindow
     {
         // UI Tunables
-        private static readonly float _snapshotToZoneViewScalingFactor = 0.20f;
-        private static readonly Vector2 _defaultZoneViewDimensions = new(260, 200);
+        private static readonly float _snapshotToZoneViewScalingFactor = 0.15f;
+        private static readonly Vector2 _defaultZoneViewDimensions = new(130, 100);
         private const int _zoneViewHeaderHeight = 24;
         private static readonly float _worldToSnapshotScalingFactor = 80.0f;
-        private static readonly Vector2 _minSnapshotDimensions = new(1920, 1080);
-        private static readonly Vector2 _maxSnapshotDimensions = new(7680, 4320);
+        private static readonly float _additionalMaxScalingFactor = 3.0f;
+        private static readonly Vector2 _dummySnapshotDimensions = new(10, 10);
+        private static readonly Vector2 _targetMinSnapshotDimensions = new(1920, 1080);
+        private static readonly Vector2 _targetMaxSnapshotDimensions = new(7680, 4320);
         private const float _zoneViewPadding  = 20f;
         private const int _defaultNumberViewsPerRow = 4;
  
@@ -31,14 +33,17 @@ namespace Frankie.ZoneManagement.UIEditor
         private static readonly string _snapshotPNGDirectory = Path.Combine(Directory.GetCurrentDirectory(), _multiZoneViewSubFolder);
 
         // State & Editable Configurations
+        [SerializeField] private MultiZoneView activeMultiZoneView;
+        [SerializeField] private bool useZoneHandlerCrawl = false;
+        [SerializeField] private Zone startingZone;
         [SerializeField] private bool keepExistingPositions = true;
-        [SerializeField] private MultiZoneView activeMultiZoneView; 
         private readonly List<ZoneView> zoneViews = new();
         
         // UI State
         private VisualElement canvas;
         private VisualElement zoneViewLayer;
         private ObjectField multiZoneViewField;
+        private ObjectField startingZoneField;
         private Label statusLabel;
         private Button clearButton;
         private Vector2 panOffset = Vector2.zero;
@@ -86,34 +91,51 @@ namespace Frankie.ZoneManagement.UIEditor
             VisualElement toolbar = MakeEmptyToolbar();
             root.Add(toolbar);
             
+            VisualElement toolbarTopRow = MakeEmptyToolbarRow();
+            toolbar.Add(toolbarTopRow);
+            
             Label fieldLabel = MakeToolbarLabel("Snapshot:");
-            toolbar.Add(fieldLabel);
+            toolbarTopRow.Add(fieldLabel);
 
             multiZoneViewField = MakeMultiZoneViewField(activeMultiZoneView);
             multiZoneViewField.RegisterValueChangedCallback(OnSnapshotFieldChanged);
-            toolbar.Add(multiZoneViewField);
+            toolbarTopRow.Add(multiZoneViewField);
 
             var captureButton = new Button(OnCaptureClicked) { text = "Capture Zones" };
             StyleButton(captureButton);
-            toolbar.Add(captureButton);
+            toolbarTopRow.Add(captureButton);
             
             var refreshButton = new Button(OnRefreshClicked) { text = "Refresh" };
             StyleButton(refreshButton);
-            toolbar.Add(refreshButton);
+            toolbarTopRow.Add(refreshButton);
             
             clearButton = new Button(OnClearClicked) { text = "Clear" };
             StyleButton(clearButton);
-            toolbar.Add(clearButton);
+            toolbarTopRow.Add(clearButton);
             
-            Toggle keepPositionToggle = MakeToggle("Keep positions", keepExistingPositions);
-            keepPositionToggle.RegisterValueChangedCallback(changeEvent => keepExistingPositions = changeEvent.newValue);
-            toolbar.Add(keepPositionToggle);
-
-            VisualElement spacer = MakeSpacer();
-            toolbar.Add(spacer);
+            VisualElement topSpacer = MakeSpacer();
+            toolbarTopRow.Add(topSpacer);
 
             statusLabel = MakeToolbarLabel("");
-            toolbar.Add(statusLabel);
+            toolbarTopRow.Add(statusLabel);
+            
+            VisualElement toolbarBottomRow = MakeEmptyToolbarRow();
+            toolbar.Add(toolbarBottomRow);
+            
+            Toggle useZoneHandlerCrawlToggle = MakeToggle("Use Zone Handler Crawl", useZoneHandlerCrawl);
+            useZoneHandlerCrawlToggle.RegisterValueChangedCallback(changeEvent => useZoneHandlerCrawl = changeEvent.newValue);
+            toolbarBottomRow.Add(useZoneHandlerCrawlToggle);
+
+            startingZoneField = MakeZoneField(startingZone);
+            startingZoneField.RegisterValueChangedCallback(OnStartingZoneFieldChanged);
+            toolbarBottomRow.Add(startingZoneField);
+            
+            VisualElement bottomSpacer = MakeSpacer();
+            toolbarBottomRow.Add(bottomSpacer);
+            
+            Toggle keepPositionToggle = MakeToggle("Keep positions / dimensions", keepExistingPositions);
+            keepPositionToggle.RegisterValueChangedCallback(changeEvent => keepExistingPositions = changeEvent.newValue);
+            toolbarBottomRow.Add(keepPositionToggle);
         }
 
         private void RefreshToolbarState()
@@ -126,9 +148,9 @@ namespace Frankie.ZoneManagement.UIEditor
             }
         }
         
-        private void OnSnapshotFieldChanged(ChangeEvent<Object> evt)
+        private void OnSnapshotFieldChanged(ChangeEvent<Object> changeEvent)
         {
-            var selected = evt.newValue as MultiZoneView;
+            var selected = changeEvent.newValue as MultiZoneView;
             SetActiveMultiZoneView(selected);
         }
         
@@ -142,6 +164,12 @@ namespace Frankie.ZoneManagement.UIEditor
             AddAllZoneViews();
             canvas?.MarkDirtyRepaint();
             RefreshToolbarState();
+        }
+
+        private void OnStartingZoneFieldChanged(ChangeEvent<Object> changeEvent)
+        {
+            var selected = changeEvent.newValue as Zone;
+            startingZone = selected;
         }
 
         private void OnCaptureClicked()
@@ -296,7 +324,6 @@ namespace Frankie.ZoneManagement.UIEditor
             try
             {
                 Vector2 currentPosition = new Vector2(_zoneViewPadding, _zoneViewPadding);
-                bool isyOffset = false;
                 float yOffset = _zoneViewPadding;
                 
                 for (int i = 0; i < scenePaths.Count; i++)
@@ -309,7 +336,7 @@ namespace Frankie.ZoneManagement.UIEditor
                     
                     if (zoneViewData == null) { continue; }
 
-                    isyOffset = i % _defaultNumberViewsPerRow == (_defaultNumberViewsPerRow - 1);
+                    bool isyOffset = i % _defaultNumberViewsPerRow == (_defaultNumberViewsPerRow - 1);
                     yOffset = Mathf.Max(yOffset, zoneViewData.topLeftPosition.y +  zoneViewData.dimensions.y + _zoneViewPadding);
                     currentPosition = GetUpdatedZoneViewPosition(currentPosition, zoneViewData.dimensions, isyOffset, yOffset);
                 }
@@ -447,25 +474,25 @@ namespace Frankie.ZoneManagement.UIEditor
 
         private static Vector2 GetIdealSnapshotDimensions(float xWorldSize, float yWorldSize)
         {
-            if (Mathf.Approximately(xWorldSize, 0f) || Mathf.Approximately(yWorldSize, 0f)) { return _minSnapshotDimensions; }
+            if (Mathf.Approximately(xWorldSize, 0f) || Mathf.Approximately(yWorldSize, 0f)) { return _dummySnapshotDimensions; }
             
             float xScaled = xWorldSize * _worldToSnapshotScalingFactor;
             float yScaled = yWorldSize * _worldToSnapshotScalingFactor;
             
-            if (xScaled < _minSnapshotDimensions.x || yScaled < _minSnapshotDimensions.y)
+            if (xScaled < _targetMinSnapshotDimensions.x || yScaled < _targetMinSnapshotDimensions.y)
             {
-                float xMinMultiplier = _minSnapshotDimensions.x / xScaled;
-                float yMinMultiplier = _minSnapshotDimensions.y / yScaled;
+                float xMinMultiplier = Mathf.Min(_targetMinSnapshotDimensions.x / xScaled, _additionalMaxScalingFactor);
+                float yMinMultiplier = Mathf.Min(_targetMinSnapshotDimensions.y / yScaled, _additionalMaxScalingFactor);
                 
                 xScaled *= xMinMultiplier > yMinMultiplier ? xMinMultiplier : yMinMultiplier;
                 yScaled *= xMinMultiplier > yMinMultiplier ? xMinMultiplier : yMinMultiplier;
             }
 
-            if (xScaled > _maxSnapshotDimensions.x || yScaled > _maxSnapshotDimensions.y)
+            if (xScaled > _targetMaxSnapshotDimensions.x || yScaled > _targetMaxSnapshotDimensions.y)
             {
                 // Straight floor, don't preserve aspect ratio (to be handled separately via ortho size)
-                xScaled = _maxSnapshotDimensions.x;
-                yScaled = _maxSnapshotDimensions.y;
+                xScaled = _targetMaxSnapshotDimensions.x;
+                yScaled = _targetMaxSnapshotDimensions.y;
             }
             
             return new Vector2(xScaled, yScaled);
@@ -644,21 +671,37 @@ namespace Frankie.ZoneManagement.UIEditor
                 }
             };
         }
-        
+
         private static VisualElement MakeEmptyToolbar()
         {
             return new VisualElement
             {
                 style =
                 {
+                    flexDirection = FlexDirection.Column,
+                    alignSelf = Align.Stretch,
+                    alignItems = Align.FlexStart,
+                    height = 44,
+                    backgroundColor = new StyleColor(new Color(0.22f, 0.22f, 0.22f)),
+                    borderBottomWidth = 1,
+                    borderBottomColor = new StyleColor(new Color(0.1f, 0.1f, 0.1f))
+                }
+            };
+        }
+        
+        private static VisualElement MakeEmptyToolbarRow()
+        {
+            return new VisualElement
+            {
+                style =
+                {
                     flexDirection = FlexDirection.Row,
+                    flexGrow = 1,
                     alignItems = Align.Center,
                     height = 22,
                     paddingLeft = 4,
                     paddingRight = 4,
                     backgroundColor = new StyleColor(new Color(0.22f, 0.22f, 0.22f)),
-                    borderBottomWidth = 1,
-                    borderBottomColor = new StyleColor(new Color(0.1f, 0.1f, 0.1f))
                 }
             };
         }
@@ -670,6 +713,21 @@ namespace Frankie.ZoneManagement.UIEditor
                 objectType = typeof(MultiZoneView),
                 allowSceneObjects = false,
                 value = multiZoneView,
+                style =
+                {
+                    width = 220,
+                    marginRight = 6,
+                }
+            };
+        }
+        
+        private static ObjectField MakeZoneField(Zone zone)
+        {
+            return new ObjectField
+            {
+                objectType = typeof(Zone),
+                allowSceneObjects = false,
+                value = zone,
                 style =
                 {
                     width = 220,
@@ -713,7 +771,7 @@ namespace Frankie.ZoneManagement.UIEditor
                     marginRight = 4,
                     fontSize = 11,
                     color = new StyleColor(new Color(0.7f, 0.7f, 0.7f)),
-                    unityTextAlign = TextAnchor.MiddleRight,
+                    unityTextAlign = TextAnchor.MiddleLeft,
                 }
             };
         }
