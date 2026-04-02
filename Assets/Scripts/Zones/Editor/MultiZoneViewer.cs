@@ -15,17 +15,28 @@ namespace Frankie.ZoneManagement.UIEditor
     public class SceneSnapshotViewer : EditorWindow
     {
         // UI Tunables
-        private static readonly float _snapshotToZoneViewScalingFactor = 0.15f;
         private static readonly Vector2 _defaultZoneViewDimensions = new(130, 100);
         private const int _zoneViewHeaderHeight = 24;
-        private static readonly float _worldToSnapshotScalingFactor = 80.0f;
-        private static readonly float _additionalMaxScalingFactor = 3.0f;
         private static readonly Vector2 _dummySnapshotDimensions = new(10, 10);
         private static readonly Vector2 _targetMinSnapshotDimensions = new(1920, 1080);
         private static readonly Vector2 _targetMaxSnapshotDimensions = new(7680, 4320);
         private const float _zoneViewPadding  = 20f;
         private const int _defaultNumberViewsPerRow = 4;
  
+        // UI Colours
+        private static readonly StyleColor _uiCanvasBackgroundColour = new(new Color(0.18f, 0.18f, 0.18f));
+        private static readonly Color _uiGridLineMinorColour = new(1f, 1f, 1f, 0.05f);
+        private static readonly Color _uiGridLineMajorColour = new(1f, 1f, 1f, 0.10f);
+        private static readonly StyleColor _uiStandardBackgroundColour = new(new Color(0.22f, 0.22f, 0.22f));
+        private static readonly StyleColor _uiViewBackgroundColour = new(new Color(0.25f, 0.25f, 0.27f));
+        private static readonly StyleColor _uiViewHeaderColour = new(new Color(0.13f, 0.45f, 0.72f));
+        private static readonly StyleColor _uiImageBackgroundColour = new(new Color(0.12f, 0.12f, 0.12f));
+        private static readonly StyleColor _uiImageHoverBackgroundColour = new(new Color(0.20f, 0.30f, 0.38f));
+        private static readonly StyleColor _uiBorderDarkColour = new(new Color(0.125f, 0.125f, 0.125f));
+        private static readonly StyleColor _uiBorderBrightColour = new(new Color(0.5f, 0.5f, 0.5f, 0.5f));
+        private static readonly StyleColor _uiButtonColour = new(new Color(0.3f, 0.3f, 0.3f));
+        private static readonly StyleColor _uiLabelTextColour = new(new Color(0.6f, 0.6f, 0.6f));
+        
         // Path Tunables
         private const string _assetsFolder = "Assets";
         private const string _multiZoneViewSubFolder = "MultiZoneViewer";
@@ -37,6 +48,10 @@ namespace Frankie.ZoneManagement.UIEditor
         [SerializeField] private bool useZoneHandlerCrawl = false;
         [SerializeField] private Zone startingZone;
         [SerializeField] private bool keepExistingPositions = true;
+        [SerializeField] private float worldToSnapshotScalingFactor = 80.0f;
+        [SerializeField] private float snapshotToZoneViewScalingFactor = 0.15f;
+        [SerializeField] private float additionalMaxScalingFactor = 5.0f;
+        
         private readonly List<ZoneView> zoneViews = new();
         
         // UI State
@@ -80,6 +95,7 @@ namespace Frankie.ZoneManagement.UIEditor
 
             BuildToolbar(root);
             BuildCanvas(root);
+            BuildParametersPanel(canvas);
             AddAllZoneViews();
             RefreshToolbarState();
         }
@@ -201,6 +217,23 @@ namespace Frankie.ZoneManagement.UIEditor
             RefreshToolbarState();
         }
         #endregion
+        
+        #region ParametersPanel
+        private void BuildParametersPanel(VisualElement setCanvas)
+        {
+            VisualElement parametersPanel = MakeEmptyParametersPanel("Scaling Factors");
+            setCanvas.Add(parametersPanel);
+
+            VisualElement worldToSnapshotScalingField = MakeFloatInputField("World-to-Snapshot Scaling", worldToSnapshotScalingFactor, newValue => worldToSnapshotScalingFactor = newValue);
+            parametersPanel.Add(worldToSnapshotScalingField);
+
+            VisualElement snapshotToZoneViewScalingField = MakeFloatInputField("Snapshot-to-ZoneView Scaling", snapshotToZoneViewScalingFactor, newValue => snapshotToZoneViewScalingFactor = newValue);
+            parametersPanel.Add(snapshotToZoneViewScalingField);
+
+            VisualElement additionalMaxScalingField = MakeFloatInputField("Additional Max Scaling", additionalMaxScalingFactor, newValue => additionalMaxScalingFactor = newValue);
+            parametersPanel.Add(additionalMaxScalingField);
+        }
+        #endregion
 
         #region Canvas
         private void BuildCanvas(VisualElement root)
@@ -308,6 +341,10 @@ namespace Frankie.ZoneManagement.UIEditor
             if (activeMultiZoneView == null) { return; }
             activeMultiZoneView.CleanDanglingZoneViewData();
             
+            //TODO:
+            // Adjust scenePaths list based on zone crawling
+            // If crawling, do a first-pass run through and build up the list of all scenes 
+            
             List<string> scenePaths = GetBuildProfileScenePaths();
             if (scenePaths == null || scenePaths.Count == 0)
             {
@@ -329,9 +366,11 @@ namespace Frankie.ZoneManagement.UIEditor
                 for (int i = 0; i < scenePaths.Count; i++)
                 {
                     string path = scenePaths[i];
-                    EditorUtility.DisplayProgressBar("Scene Snapshot Viewer",
+                    EditorUtility.DisplayProgressBar("MultiZone Viewer",
                         $"Processing: {Path.GetFileNameWithoutExtension(path)}  ({i + 1}/{scenePaths.Count})",
                         (float)i / scenePaths.Count);
+                    
+                    // TODO:  We need to update CaptureZone below to store ZoneHandler info into ZoneViewData
                     ZoneViewData zoneViewData = CaptureZone(path, currentPosition);
                     
                     if (zoneViewData == null) { continue; }
@@ -381,6 +420,7 @@ namespace Frankie.ZoneManagement.UIEditor
             Camera captureCamera = Camera.main;
             if (captureCamera == null) { return null; }
             
+            // TODO:  Pull out world bounds/dimensions
             Vector2 snapshotDimensions = PositionCameraToFrameScene(captureCamera, scene);
             Texture2D snapshotTexture = CameraClick(captureCamera, snapshotDimensions);
             Debug.Log($"Snapshot texture dimensions are {snapshotDimensions.x}, {snapshotDimensions.y}");
@@ -390,11 +430,15 @@ namespace Frankie.ZoneManagement.UIEditor
             string snapshotPNGPath = GetSnapshotPathForScene(zoneName);
             File.WriteAllBytes(snapshotPNGPath, snapshotTexture.EncodeToPNG());
 
+            // TODO:  Find all zoneHandlers that link to external zones
+            // Store their fractional position vs. world dimensions on x/y (relative to top left)
+            // Use them in CreateOrUpdate below to store as a list of structs w/ zone/scene name + fractional position
+            
             ZoneViewData zoneViewData = activeMultiZoneView.CreateOrUpdateZoneViewData(zoneName, scenePath, snapshotPNGPath, zoneViewDimensions, defaultPosition, keepExistingPositions);
             return zoneViewData;
         }
 
-        private static Vector2 PositionCameraToFrameScene(Camera camera, Scene scene)
+        private Vector2 PositionCameraToFrameScene(Camera camera, Scene scene)
         {
             List<Tilemap> tilemaps = FindObjectsByType<Tilemap>().ToList();
             Debug.Log($"Positioning camera on Scene: {scene.name}");
@@ -472,17 +516,17 @@ namespace Frankie.ZoneManagement.UIEditor
             return snapshotTexture;
         }
 
-        private static Vector2 GetIdealSnapshotDimensions(float xWorldSize, float yWorldSize)
+        private Vector2 GetIdealSnapshotDimensions(float xWorldSize, float yWorldSize)
         {
             if (Mathf.Approximately(xWorldSize, 0f) || Mathf.Approximately(yWorldSize, 0f)) { return _dummySnapshotDimensions; }
             
-            float xScaled = xWorldSize * _worldToSnapshotScalingFactor;
-            float yScaled = yWorldSize * _worldToSnapshotScalingFactor;
+            float xScaled = xWorldSize * worldToSnapshotScalingFactor;
+            float yScaled = yWorldSize * worldToSnapshotScalingFactor;
             
             if (xScaled < _targetMinSnapshotDimensions.x || yScaled < _targetMinSnapshotDimensions.y)
             {
-                float xMinMultiplier = Mathf.Min(_targetMinSnapshotDimensions.x / xScaled, _additionalMaxScalingFactor);
-                float yMinMultiplier = Mathf.Min(_targetMinSnapshotDimensions.y / yScaled, _additionalMaxScalingFactor);
+                float xMinMultiplier = Mathf.Min(_targetMinSnapshotDimensions.x / xScaled, additionalMaxScalingFactor);
+                float yMinMultiplier = Mathf.Min(_targetMinSnapshotDimensions.y / yScaled, additionalMaxScalingFactor);
                 
                 xScaled *= xMinMultiplier > yMinMultiplier ? xMinMultiplier : yMinMultiplier;
                 yScaled *= xMinMultiplier > yMinMultiplier ? xMinMultiplier : yMinMultiplier;
@@ -498,13 +542,13 @@ namespace Frankie.ZoneManagement.UIEditor
             return new Vector2(xScaled, yScaled);
         }
         
-        private static Vector2 GetIdealZoneViewDimensions(Texture2D texture2D)
+        private Vector2 GetIdealZoneViewDimensions(Texture2D texture2D)
         {
             if (texture2D == null) { return _defaultZoneViewDimensions; }
             if (texture2D.width < _defaultZoneViewDimensions.x || texture2D.height < _defaultZoneViewDimensions.y) { return _defaultZoneViewDimensions; }
 
-            float tryWidth = texture2D.width * _snapshotToZoneViewScalingFactor;
-            float tryHeight = texture2D.height * _snapshotToZoneViewScalingFactor;
+            float tryWidth = texture2D.width * snapshotToZoneViewScalingFactor;
+            float tryHeight = texture2D.height * snapshotToZoneViewScalingFactor;
             
             if (tryWidth < _defaultZoneViewDimensions.x || tryHeight < _defaultZoneViewDimensions.y) { return _defaultZoneViewDimensions; }
             
@@ -619,7 +663,7 @@ namespace Frankie.ZoneManagement.UIEditor
                 {
                     flexGrow = 1,
                     overflow = Overflow.Hidden,
-                    backgroundColor = new StyleColor(new Color(0.18f, 0.18f, 0.18f))
+                    backgroundColor = _uiCanvasBackgroundColour
                 }
             };
         }
@@ -628,8 +672,8 @@ namespace Frankie.ZoneManagement.UIEditor
         {
             Painter2D painter = ctx.painter2D;
             Rect area = canvas.contentRect;
-            DrawGridLines(painter, area, 30f,  new Color(1f, 1f, 1f, 0.05f));
-            DrawGridLines(painter, area, 150f, new Color(1f, 1f, 1f, 0.10f));
+            DrawGridLines(painter, area, 30f,  _uiGridLineMinorColour);
+            DrawGridLines(painter, area, 150f, _uiGridLineMajorColour);
         }
 
         private void DrawGridLines(Painter2D painter, Rect area, float spacing, Color color)
@@ -682,9 +726,9 @@ namespace Frankie.ZoneManagement.UIEditor
                     alignSelf = Align.Stretch,
                     alignItems = Align.FlexStart,
                     height = 44,
-                    backgroundColor = new StyleColor(new Color(0.22f, 0.22f, 0.22f)),
+                    backgroundColor = _uiStandardBackgroundColour,
                     borderBottomWidth = 1,
-                    borderBottomColor = new StyleColor(new Color(0.1f, 0.1f, 0.1f))
+                    borderBottomColor = _uiBorderDarkColour
                 }
             };
         }
@@ -701,7 +745,7 @@ namespace Frankie.ZoneManagement.UIEditor
                     height = 22,
                     paddingLeft = 4,
                     paddingRight = 4,
-                    backgroundColor = new StyleColor(new Color(0.22f, 0.22f, 0.22f)),
+                    backgroundColor = _uiStandardBackgroundColour,
                 }
             };
         }
@@ -743,7 +787,7 @@ namespace Frankie.ZoneManagement.UIEditor
             button.style.paddingRight = 8;
             button.style.marginRight = 2;
             button.style.fontSize = 11;
-            button.style.backgroundColor = new StyleColor(new Color(0.3f, 0.3f, 0.3f));
+            button.style.backgroundColor = _uiButtonColour;
             button.style.color = new StyleColor(Color.white);
             button.style.borderTopLeftRadius = 3;
             button.style.borderTopRightRadius = 3;
@@ -753,10 +797,10 @@ namespace Frankie.ZoneManagement.UIEditor
             button.style.borderBottomWidth = 1;
             button.style.borderLeftWidth = 1;
             button.style.borderRightWidth = 1;
-            button.style.borderTopColor = new StyleColor(new Color(0.15f, 0.15f, 0.15f));
-            button.style.borderBottomColor = new StyleColor(new Color(0.15f, 0.15f, 0.15f));
-            button.style.borderLeftColor = new StyleColor(new Color(0.15f, 0.15f, 0.15f));
-            button.style.borderRightColor = new StyleColor(new Color(0.15f, 0.15f, 0.15f));
+            button.style.borderTopColor = _uiBorderDarkColour;
+            button.style.borderBottomColor = _uiBorderDarkColour;
+            button.style.borderLeftColor = _uiBorderDarkColour;
+            button.style.borderRightColor = _uiBorderDarkColour;
         }
 
         private static Toggle MakeToggle(string label, bool state)
@@ -770,7 +814,7 @@ namespace Frankie.ZoneManagement.UIEditor
                     marginLeft = 8,
                     marginRight = 4,
                     fontSize = 11,
-                    color = new StyleColor(new Color(0.7f, 0.7f, 0.7f)),
+                    color = _uiLabelTextColour,
                     unityTextAlign = TextAnchor.MiddleLeft,
                 }
             };
@@ -788,12 +832,104 @@ namespace Frankie.ZoneManagement.UIEditor
                 text = labelText,
                 style =
                 {
-                    color = new StyleColor(new Color(0.6f, 0.6f, 0.6f)),
+                    color = _uiLabelTextColour,
                     fontSize = 11,
                     unityTextAlign = TextAnchor.MiddleRight,
                     marginRight = 4
                 }
             };
+        }
+
+        private static VisualElement MakeEmptyParametersPanel(string panelTitle)
+        {
+            var parametersPanel = new VisualElement
+            {
+                style =
+                {
+                    position = Position.Absolute,
+                    right = 12,
+                    bottom = 12,
+                    paddingTop = 10,
+                    paddingBottom = 10,
+                    paddingLeft = 12,
+                    paddingRight = 12,
+                    backgroundColor = _uiStandardBackgroundColour,
+                    borderTopLeftRadius = 6,
+                    borderTopRightRadius = 6,
+                    borderBottomLeftRadius = 6,
+                    borderBottomRightRadius = 6,
+                    borderTopWidth = 1,
+                    borderBottomWidth = 1,
+                    borderLeftWidth = 1,
+                    borderRightWidth = 1,
+                    borderTopColor = _uiBorderBrightColour,
+                    borderBottomColor = _uiBorderBrightColour,
+                    borderLeftColor = _uiBorderBrightColour,
+                    borderRightColor = _uiBorderBrightColour,
+                }
+            };
+
+            var titleLabel = new Label
+            {
+                text = panelTitle,
+                style =
+                {
+                    fontSize = 11,
+                    unityFontStyleAndWeight = FontStyle.Bold,
+                    color = _uiLabelTextColour,
+                    marginBottom = 8,
+                    unityTextAlign = TextAnchor.MiddleLeft,
+                }
+            };
+            parametersPanel.Add(titleLabel);
+
+            var divider = new VisualElement
+            {
+                style =
+                {
+                    height = 1,
+                    marginBottom    = 8,
+                    backgroundColor = _uiBorderBrightColour,
+                }
+            };
+            parametersPanel.Add(divider);
+            
+            return parametersPanel;
+        }
+
+        private static VisualElement MakeFloatInputField(string labelText, float initialValue, System.Action<float> onChanged)
+        {
+            var floatInputField = new VisualElement
+            {
+                style =
+                {
+                    flexDirection = FlexDirection.Row,
+                    marginBottom = 6
+                }
+            };
+
+            var label = new Label(labelText)
+            {
+                style =
+                {
+                    fontSize = 11,
+                    color = _uiLabelTextColour,
+                    unityTextAlign = TextAnchor.MiddleLeft,
+                }
+            };
+            floatInputField.Add(label);
+
+            var spacer = new VisualElement { style = { flexGrow = 1 } };
+            floatInputField.Add(spacer);
+
+            var field = new FloatField
+            {
+                value = initialValue
+            };
+            field.RegisterValueChangedCallback(changedEvent => onChanged(changedEvent.newValue));
+            floatInputField.Add(field);
+            
+            return floatInputField;
         }
 
         private static VisualElement MakeEmptyZoneViewElement(Vector2 position, Vector2 size)
@@ -807,7 +943,7 @@ namespace Frankie.ZoneManagement.UIEditor
                     top = position.y,
                     width = (int)size.x,
                     height = _zoneViewHeaderHeight + (int)size.y,
-                    backgroundColor = new StyleColor(new Color(0.25f, 0.25f, 0.27f)),
+                    backgroundColor = _uiViewBackgroundColour,
                     borderTopLeftRadius = 4,
                     borderTopRightRadius = 4,
                     borderBottomLeftRadius = 4,
@@ -816,10 +952,10 @@ namespace Frankie.ZoneManagement.UIEditor
                     borderBottomWidth = 1,
                     borderLeftWidth = 1,
                     borderRightWidth = 1,
-                    borderTopColor = new StyleColor(new Color(0.5f, 0.5f, 0.5f, 0.5f)),
-                    borderBottomColor = new StyleColor(new Color(0.5f, 0.5f, 0.5f, 0.5f)),
-                    borderLeftColor = new StyleColor(new Color(0.5f, 0.5f, 0.5f, 0.5f)),
-                    borderRightColor = new StyleColor(new Color(0.5f, 0.5f, 0.5f, 0.5f)),
+                    borderTopColor = _uiBorderBrightColour,
+                    borderBottomColor = _uiBorderBrightColour,
+                    borderLeftColor = _uiBorderBrightColour,
+                    borderRightColor = _uiBorderBrightColour,
                     overflow = Overflow.Hidden
                 }
             };
@@ -834,7 +970,7 @@ namespace Frankie.ZoneManagement.UIEditor
                 style =
                 {
                     height = _zoneViewHeaderHeight,
-                    backgroundColor = new StyleColor(new Color(0.13f, 0.45f, 0.72f)),
+                    backgroundColor = _uiViewHeaderColour,
                     unityTextAlign = TextAnchor.MiddleCenter,
                     unityFontStyleAndWeight = FontStyle.Bold,
                     fontSize = 11,
@@ -854,7 +990,7 @@ namespace Frankie.ZoneManagement.UIEditor
                 style =
                 {
                     flexGrow = 1,
-                    backgroundColor = new StyleColor(new Color(0.12f, 0.12f, 0.12f))
+                    backgroundColor = _uiImageBackgroundColour
                 }
             };
         }
@@ -867,20 +1003,18 @@ namespace Frankie.ZoneManagement.UIEditor
                 {
                     flexGrow = 1,
                     unityTextAlign = TextAnchor.MiddleCenter,
-                    color = new StyleColor(new Color(0.5f, 0.5f, 0.5f)),
-                    backgroundColor = new StyleColor(new Color(0.12f, 0.12f, 0.12f))
+                    color = _uiLabelTextColour,
+                    backgroundColor = _uiImageBackgroundColour
                 }
             };
         }
 
         private static void AddHoverOverStyle(VisualElement visualElement)
         {
-            var normalBg = new Color(0.12f, 0.12f, 0.12f);
-            var hoverBg  = new Color(0.20f, 0.30f, 0.38f);   // subtle blue tint
             visualElement.RegisterCallback<MouseEnterEvent>(_ =>
-                visualElement.style.backgroundColor = new StyleColor(hoverBg));
+                visualElement.style.backgroundColor = _uiImageHoverBackgroundColour);
             visualElement.RegisterCallback<MouseLeaveEvent>(_ =>
-                visualElement.style.backgroundColor = new StyleColor(normalBg));
+                visualElement.style.backgroundColor = _uiImageBackgroundColour);
         }
         #endregion
     }
