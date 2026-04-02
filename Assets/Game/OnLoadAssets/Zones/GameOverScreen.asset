@@ -18,6 +18,7 @@ MonoBehaviour:
   sceneReference:
     sceneAsset: {fileID: 102900000, guid: c904f3148156b38488efe90bfa1101b6, type: 3}
     sceneName: GameOverScreen
+    scenePath: Assets/Scenes/GameOverScreen.unity
   updateMap: 0
   zoneAudio: {fileID: 8300000, guid: 5f5f2bd17ac13e04c8d5da1b8b92ab19, type: 3}
   isZoneAudioLooping: 1
@@ -36,7 +37,6 @@ MonoBehaviour:
   m_Name: d91c7f33-5d2a-491e-8013-9af610ede985
   m_EditorClassIdentifier: 
   children: []
-  linkedZone: {fileID: 0}
   linkedZoneNode: {fileID: 0}
   rect:
     serializedVersion: 2
@@ -51,3 +51,5 @@ MonoBehaviour:
     y: 0
     width: 430
     height: 45
+  condition:
+    and: []

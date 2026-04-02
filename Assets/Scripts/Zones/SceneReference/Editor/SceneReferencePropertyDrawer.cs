@@ -14,6 +14,7 @@ namespace Frankie.ZoneManagement.UIEditor
         // Constants
         private const string _propertySceneAsset = "sceneAsset";
         private const string _propertySceneName = "sceneName";
+        private const string _propertyScenePath = "scenePath";
 
         public override float GetPropertyHeight(SerializedProperty property, GUIContent label)
         {
@@ -29,6 +30,7 @@ namespace Frankie.ZoneManagement.UIEditor
 
             SerializedProperty sceneAssetProperty = property.FindPropertyRelative(_propertySceneAsset);
             SerializedProperty sceneNameProperty = property.FindPropertyRelative(_propertySceneName);
+            SerializedProperty scenePathProperty = property.FindPropertyRelative(_propertyScenePath);
 
             if (sceneAssetProperty.objectReferenceValue != null)
             {
@@ -38,6 +40,7 @@ namespace Frankie.ZoneManagement.UIEditor
                 {
                     var scene = sceneAssetProperty.objectReferenceValue as SceneAsset;
                     sceneNameProperty.stringValue = (scene != null) ? scene.name : string.Empty;
+                    scenePathProperty.stringValue = (scene != null) ? AssetDatabase.GetAssetPath(scene) : string.Empty;
                 }
             }
             else
@@ -48,6 +51,7 @@ namespace Frankie.ZoneManagement.UIEditor
                 EditorGUI.BeginChangeCheck();
                 sceneAssetProperty.objectReferenceValue = EditorGUI.ObjectField(dotRect, GUIContent.none, sceneAssetProperty.objectReferenceValue, typeof(SceneAsset), false);
                 sceneNameProperty.stringValue = EditorGUI.TextField(textRect, sceneNameProperty.stringValue);
+                scenePathProperty.stringValue = EditorGUI.TextField(textRect, scenePathProperty.stringValue);
 
                 Event interactionEvent = Event.current;
                 if (interactionEvent.type is EventType.DragUpdated or EventType.DragPerform)
@@ -61,6 +65,7 @@ namespace Frankie.ZoneManagement.UIEditor
                         {
                             sceneAssetProperty.objectReferenceValue = scene;
                             sceneNameProperty.stringValue = scene.name;
+                            scenePathProperty.stringValue = AssetDatabase.GetAssetPath(scene);
                         }
                     }
                 }
@@ -71,6 +76,7 @@ namespace Frankie.ZoneManagement.UIEditor
             {
                 sceneAssetProperty.objectReferenceValue = null;
                 sceneNameProperty.stringValue = string.Empty;
+                scenePathProperty.stringValue = string.Empty;
             }
 
             EditorGUI.EndProperty();

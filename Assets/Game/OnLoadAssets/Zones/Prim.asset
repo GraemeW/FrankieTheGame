@@ -13,7 +13,6 @@ MonoBehaviour:
   m_Name: PrimSouthPortaBankDoor
   m_EditorClassIdentifier: 
   children: []
-  linkedZone: {fileID: 11400000, guid: 4742afef1319b6e41b7fe953e2225f42, type: 2}
   linkedZoneNode: {fileID: 7113246731123188644, guid: 4742afef1319b6e41b7fe953e2225f42, type: 2}
   rect:
     serializedVersion: 2
@@ -43,7 +42,6 @@ MonoBehaviour:
   m_Name: PrimToTunnel
   m_EditorClassIdentifier: 
   children: []
-  linkedZone: {fileID: 11400000, guid: 6fbdf79e60fb835409a507cd244e2338, type: 2}
   linkedZoneNode: {fileID: 5391617951486560325, guid: 6fbdf79e60fb835409a507cd244e2338, type: 2}
   rect:
     serializedVersion: 2
@@ -73,7 +71,6 @@ MonoBehaviour:
   m_Name: PS_RedHouse_Exterior
   m_EditorClassIdentifier: 
   children: []
-  linkedZone: {fileID: 11400000, guid: dcf8cd616f6882b4399adff354f32bdc, type: 2}
   linkedZoneNode: {fileID: 7289975945558088822, guid: dcf8cd616f6882b4399adff354f32bdc, type: 2}
   rect:
     serializedVersion: 2
@@ -108,6 +105,7 @@ MonoBehaviour:
   sceneReference:
     sceneAsset: {fileID: 102900000, guid: 0011512185daf894d9a465659975d19d, type: 3}
     sceneName: Prim
+    scenePath: Assets/Scenes/Prim.unity
   updateMap: 1
   zoneAudio: {fileID: 8300000, guid: 840503d4a3e71484a94da9a50830ba88, type: 3}
   isZoneAudioLooping: 1
@@ -132,7 +130,6 @@ MonoBehaviour:
   m_Name: PS_TallestBuilding_Exterior
   m_EditorClassIdentifier: 
   children: []
-  linkedZone: {fileID: 11400000, guid: dcf8cd616f6882b4399adff354f32bdc, type: 2}
   linkedZoneNode: {fileID: 296886436859819959, guid: dcf8cd616f6882b4399adff354f32bdc, type: 2}
   rect:
     serializedVersion: 2
@@ -162,7 +159,6 @@ MonoBehaviour:
   m_Name: PS_YellowHouse_Exterior
   m_EditorClassIdentifier: 
   children: []
-  linkedZone: {fileID: 11400000, guid: dcf8cd616f6882b4399adff354f32bdc, type: 2}
   linkedZoneNode: {fileID: 2049896038868084311, guid: dcf8cd616f6882b4399adff354f32bdc, type: 2}
   rect:
     serializedVersion: 2
@@ -192,7 +188,6 @@ MonoBehaviour:
   m_Name: ApartmentDoor
   m_EditorClassIdentifier: 
   children: []
-  linkedZone: {fileID: 11400000, guid: c2792a31fdd8a5249bea668b45752dd0, type: 2}
   linkedZoneNode: {fileID: -5837764251287271127, guid: c2792a31fdd8a5249bea668b45752dd0, type: 2}
   rect:
     serializedVersion: 2
@@ -222,7 +217,6 @@ MonoBehaviour:
   m_Name: RootUnused
   m_EditorClassIdentifier: 
   children: []
-  linkedZone: {fileID: 0}
   linkedZoneNode: {fileID: 0}
   rect:
     serializedVersion: 2

@@ -47,6 +47,7 @@ MonoBehaviour:
   sceneReference:
     sceneAsset: {fileID: 102900000, guid: 00850a2bedb4a47a5b90b9b587036db6, type: 3}
     sceneName: Demo_Forest1to20-Portabank
+    scenePath: Assets/Scenes/_Demos/Forest_Level1to20/Demo_Forest1to20-Portabank.unity
   updateMap: 0
   zoneAudio: {fileID: 8300000, guid: d765a3c4e7ca20440a6992d69af9c87d, type: 3}
   isZoneAudioLooping: 1

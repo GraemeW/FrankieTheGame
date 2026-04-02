@@ -13,7 +13,6 @@ MonoBehaviour:
   m_Name: OfficePortaBankDoor
   m_EditorClassIdentifier: 
   children: []
-  linkedZone: {fileID: 11400000, guid: 4742afef1319b6e41b7fe953e2225f42, type: 2}
   linkedZoneNode: {fileID: -3574389237603949618, guid: 4742afef1319b6e41b7fe953e2225f42, type: 2}
   rect:
     serializedVersion: 2
@@ -43,7 +42,6 @@ MonoBehaviour:
   m_Name: SubwayApartmentDownstairs
   m_EditorClassIdentifier: 
   children: []
-  linkedZone: {fileID: 11400000, guid: 22c8250c01773ac4c97cd290e2f34c7a, type: 2}
   linkedZoneNode: {fileID: -3197550637124935898, guid: 22c8250c01773ac4c97cd290e2f34c7a, type: 2}
   rect:
     serializedVersion: 2
@@ -73,7 +71,6 @@ MonoBehaviour:
   m_Name: SubwayOfficeDownStairs
   m_EditorClassIdentifier: 
   children: []
-  linkedZone: {fileID: 11400000, guid: 22c8250c01773ac4c97cd290e2f34c7a, type: 2}
   linkedZoneNode: {fileID: 6018069334625240327, guid: 22c8250c01773ac4c97cd290e2f34c7a, type: 2}
   rect:
     serializedVersion: 2
@@ -108,6 +105,7 @@ MonoBehaviour:
   sceneReference:
     sceneAsset: {fileID: 102900000, guid: 12f7e76c252184d49b8c69c04f2c8c3e, type: 3}
     sceneName: OfficeExterior
+    scenePath: Assets/Scenes/OfficeExterior.unity
   updateMap: 1
   zoneAudio: {fileID: 8300000, guid: 840503d4a3e71484a94da9a50830ba88, type: 3}
   isZoneAudioLooping: 1
@@ -130,7 +128,6 @@ MonoBehaviour:
   m_Name: ApartmentDoor
   m_EditorClassIdentifier: 
   children: []
-  linkedZone: {fileID: 11400000, guid: c2792a31fdd8a5249bea668b45752dd0, type: 2}
   linkedZoneNode: {fileID: -5837764251287271127, guid: c2792a31fdd8a5249bea668b45752dd0, type: 2}
   rect:
     serializedVersion: 2
@@ -160,7 +157,6 @@ MonoBehaviour:
   m_Name: OfficeDoor
   m_EditorClassIdentifier: 
   children: []
-  linkedZone: {fileID: 11400000, guid: 26c6337203d60d64b876b87a573d7f08, type: 2}
   linkedZoneNode: {fileID: -581003641315174118, guid: 26c6337203d60d64b876b87a573d7f08, type: 2}
   rect:
     serializedVersion: 2

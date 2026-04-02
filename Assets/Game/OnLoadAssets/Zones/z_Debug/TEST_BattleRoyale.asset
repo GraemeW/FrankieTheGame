@@ -203,6 +203,7 @@ MonoBehaviour:
   sceneReference:
     sceneAsset: {fileID: 102900000, guid: 8b8eb4164910bda45acce09717d5064a, type: 3}
     sceneName: TEST_BattleRoyale
+    scenePath: Assets/Scenes/_Debug/TEST_BattleRoyale.unity
   updateMap: 1
   zoneAudio: {fileID: 8300000, guid: aa55708dfcc59db408b6c7ff1281c67e, type: 3}
   isZoneAudioLooping: 1

@@ -18,6 +18,7 @@ MonoBehaviour:
   sceneReference:
     sceneAsset: {fileID: 102900000, guid: bdbc1e0ce13a1f14ebbd17a6311fb5d4, type: 3}
     sceneName: SplashScreen
+    scenePath: Assets/Scenes/SplashScreen.unity
   updateMap: 0
   zoneAudio: {fileID: 8300000, guid: aacc40c19a73d174baf7f1f4b432fdf9, type: 3}
   isZoneAudioLooping: 0
@@ -36,7 +37,6 @@ MonoBehaviour:
   m_Name: 1dbab023-f9ef-4289-9884-649149c40a0a
   m_EditorClassIdentifier: 
   children: []
-  linkedZone: {fileID: 0}
   linkedZoneNode: {fileID: 0}
   rect:
     serializedVersion: 2
@@ -51,3 +51,5 @@ MonoBehaviour:
     y: 0
     width: 430
     height: 45
+  condition:
+    and: []

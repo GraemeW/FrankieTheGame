@@ -13,7 +13,6 @@ MonoBehaviour:
   m_Name: ProperToTunnel
   m_EditorClassIdentifier: 
   children: []
-  linkedZone: {fileID: 11400000, guid: 6fbdf79e60fb835409a507cd244e2338, type: 2}
   linkedZoneNode: {fileID: 3508818416795371724, guid: 6fbdf79e60fb835409a507cd244e2338, type: 2}
   rect:
     serializedVersion: 2
@@ -48,6 +47,7 @@ MonoBehaviour:
   sceneReference:
     sceneAsset: {fileID: 102900000, guid: 06f2222db45582245bb1d6aa64044d8e, type: 3}
     sceneName: Proper
+    scenePath: Assets/Scenes/Proper.unity
   updateMap: 1
   zoneAudio: {fileID: 8300000, guid: 3dc90c61b4c6f654e8835404e763733e, type: 3}
   isZoneAudioLooping: 1

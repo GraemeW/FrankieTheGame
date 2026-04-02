@@ -192,6 +192,7 @@ MonoBehaviour:
   sceneReference:
     sceneAsset: {fileID: 102900000, guid: fb6fba365500445ddbf566d4d36cff28, type: 3}
     sceneName: Demo_Forest1to20-Exterior
+    scenePath: Assets/Scenes/_Demos/Forest_Level1to20/Demo_Forest1to20-Exterior.unity
   updateMap: 1
   zoneAudio: {fileID: 8300000, guid: 840503d4a3e71484a94da9a50830ba88, type: 3}
   isZoneAudioLooping: 1
