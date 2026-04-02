@@ -3,17 +3,23 @@ using System.IO;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.Tilemaps;
 using UnityEngine.UIElements;
 using UnityEditor;
-using UnityEditor.SceneManagement;
 using UnityEditor.Build.Profile;
+using UnityEditor.SceneManagement;
 using UnityEditor.UIElements;
-using UnityEngine.Tilemaps;
 
 namespace Frankie.ZoneManagement.UIEditor
 {
-    public class SceneSnapshotViewer : EditorWindow
+    public class MultiZoneViewer : EditorWindow
     {
+        // Path Tunables
+        private const string _assetsFolder = "Assets";
+        private const string _multiZoneViewSubFolder = "MultiZoneViewer";
+        private static readonly string _multiZoneViewAssetsDirectory = Path.Combine(_assetsFolder, _multiZoneViewSubFolder);
+        private static readonly string _snapshotPNGDirectory = Path.Combine(Directory.GetCurrentDirectory(), _multiZoneViewSubFolder);
+        
         // UI Tunables
         private static readonly Vector2 _defaultZoneViewDimensions = new(156, 120);
         private const int _zoneViewHeaderHeight = 24;
@@ -23,7 +29,7 @@ namespace Frankie.ZoneManagement.UIEditor
         private const float _zoneViewPadding  = 20f;
         private const int _defaultNumberViewsPerRow = 4;
  
-        // UI Colours
+        // UI Styles
         private static readonly StyleColor _uiCanvasBackgroundColour = new(new Color(0.18f, 0.18f, 0.18f));
         private static readonly Color _uiGridLineMinorColour = new(1f, 1f, 1f, 0.05f);
         private static readonly Color _uiGridLineMajorColour = new(1f, 1f, 1f, 0.10f);
@@ -37,12 +43,8 @@ namespace Frankie.ZoneManagement.UIEditor
         private static readonly StyleColor _uiButtonColour = new(new Color(0.3f, 0.3f, 0.3f));
         private static readonly StyleColor _uiLabelTextColour = new(new Color(0.6f, 0.6f, 0.6f));
         private static readonly float _uiStandardFontSize = 11f;
-        
-        // Path Tunables
-        private const string _assetsFolder = "Assets";
-        private const string _multiZoneViewSubFolder = "MultiZoneViewer";
-        private static readonly string _multiZoneViewAssetsDirectory = Path.Combine(_assetsFolder, _multiZoneViewSubFolder);
-        private static readonly string _snapshotPNGDirectory = Path.Combine(Directory.GetCurrentDirectory(), _multiZoneViewSubFolder);
+        private static readonly float _uiBezierLineWidth = 1.5f;
+        private static readonly Color _uiBezierLineColour = new(0.55f, 0.75f, 1.00f, 0.60f); 
 
         // State & Editable Configurations
         [SerializeField] private MultiZoneView activeMultiZoneView;
@@ -52,12 +54,12 @@ namespace Frankie.ZoneManagement.UIEditor
         [SerializeField] private float worldToSnapshotScalingFactor = 80.0f;
         [SerializeField] private float snapshotToZoneViewScalingFactor = 0.15f;
         [SerializeField] private float additionalMaxScalingFactor = 5.0f;
-        
         private readonly List<ZoneView> zoneViews = new();
         
         // UI State
         private VisualElement canvas;
         private VisualElement zoneViewLayer;
+        private VisualElement curvesLayer;
         private ObjectField multiZoneViewField;
         private ObjectField startingZoneField;
         private Label statusLabel;
@@ -68,7 +70,7 @@ namespace Frankie.ZoneManagement.UIEditor
         [MenuItem("Tools/Multi-Zone Viewer")]
         public static void Open()
         {
-            var win = GetWindow<SceneSnapshotViewer>("Multi-Zone Viewer");
+            var win = GetWindow<MultiZoneViewer>("Multi-Zone Viewer");
             win.minSize = new Vector2(600, 400);
             win.Show();
         }
@@ -76,6 +78,7 @@ namespace Frankie.ZoneManagement.UIEditor
         private void OnEnable()
         {
             SubscribeCanvasToDrawGrid(true);
+            SubscribeCurvesLayerToDrawCurves(true);
             if (activeMultiZoneView != null)
             {
                 TryLoadSnapshots();
@@ -85,6 +88,7 @@ namespace Frankie.ZoneManagement.UIEditor
         private void OnDisable()
         {
             SubscribeCanvasToDrawGrid(false);
+            SubscribeCurvesLayerToDrawCurves(false);
             DisposeRuntimeTextures();
         }
         
@@ -179,6 +183,7 @@ namespace Frankie.ZoneManagement.UIEditor
             if (activeMultiZoneView != null) { TryLoadSnapshots(); }
             
             AddAllZoneViews();
+            curvesLayer?.MarkDirtyRepaint();
             canvas?.MarkDirtyRepaint();
             RefreshToolbarState();
         }
@@ -208,6 +213,7 @@ namespace Frankie.ZoneManagement.UIEditor
             activeMultiZoneView = null;
             multiZoneViewField?.SetValueWithoutNotify(null);
             ClearRenderedZoneViews();
+            curvesLayer?.MarkDirtyRepaint();
             canvas?.MarkDirtyRepaint();
             RefreshToolbarState();
         }
@@ -248,6 +254,10 @@ namespace Frankie.ZoneManagement.UIEditor
             canvas.AddManipulator(new PanManipulator(OnCanvasPanned));
             root.Add(canvas);
 
+            curvesLayer = MakeEmptyCurvesLayer();
+            SubscribeCurvesLayerToDrawCurves(true);
+            canvas.Add(curvesLayer);
+            
             zoneViewLayer = MakeEmptyZoneViewLayer();
             canvas.Add(zoneViewLayer);
         }
@@ -259,13 +269,22 @@ namespace Frankie.ZoneManagement.UIEditor
             canvas.generateVisualContent -= DrawGrid;
             if (enable) { canvas.generateVisualContent += DrawGrid; }
         }
+
+        private void SubscribeCurvesLayerToDrawCurves(bool enable)
+        {
+            if (curvesLayer == null) { return; }
+
+            curvesLayer.generateVisualContent -= DrawCurves;
+            if (enable) { curvesLayer.generateVisualContent += DrawCurves; }
+        }
         
         private void OnCanvasPanned(Vector2 delta)
         {
             panOffset += delta;
             zoneViewLayer.style.left = panOffset.x;
             zoneViewLayer.style.top = panOffset.y;
-            canvas.MarkDirtyRepaint();
+            curvesLayer?.MarkDirtyRepaint();
+            canvas?.MarkDirtyRepaint();
         }
         #endregion
         
@@ -276,6 +295,7 @@ namespace Frankie.ZoneManagement.UIEditor
             ClearRenderedZoneViews();
             TryLoadSnapshots();
             AddAllZoneViews();
+            curvesLayer?.MarkDirtyRepaint();
             canvas?.MarkDirtyRepaint();
         }
         
@@ -293,19 +313,22 @@ namespace Frankie.ZoneManagement.UIEditor
             if (zoneViewData == null) { return; }
             
             VisualElement zoneViewElement = MakeEmptyZoneViewElement(zoneViewData.topLeftPosition, zoneViewData.dimensions);
+            
             Label zoneViewElementHeader = MakeZoneViewElementHeader(zoneViewData.zoneName);
-            zoneViewElementHeader.AddManipulator(new DragManipulator(zoneView, zoneViewElement, () => Selection.activeObject = zoneViewData));
+            void OnClickedHeader() => Selection.activeObject = zoneViewData;
+            void OnDraggedCurveRepaint() => curvesLayer?.MarkDirtyRepaint();
+            zoneViewElementHeader.AddManipulator(new DragManipulator(zoneView, zoneViewElement, OnClickedHeader, OnDraggedCurveRepaint));
             zoneViewElement.Add(zoneViewElementHeader);
             
             VisualElement imageArea = AddImageToZoneViewElement(zoneView, zoneViewElement);
-            imageArea.AddManipulator(new DragManipulator(zoneView, zoneViewElement, () => TryLoadScene(zoneView)));
+            void OnClickedImage() => TryLoadScene(zoneView);
+            imageArea.AddManipulator(new DragManipulator(zoneView, zoneViewElement, OnClickedImage, OnDraggedCurveRepaint));
             
             zoneViewLayer.Add(zoneViewElement);
         }
 
         private static VisualElement AddImageToZoneViewElement(ZoneView zoneView, VisualElement zoneViewElement)
         {
-            // Returns a reference to the imageArea on the zoneViewElement
             VisualElement imageArea;
             
             if (zoneView != null && zoneView.texture2D != null)
@@ -681,9 +704,9 @@ namespace Frankie.ZoneManagement.UIEditor
             };
         }
         
-        private void DrawGrid(MeshGenerationContext ctx)
+        private void DrawGrid(MeshGenerationContext meshGenerationContext)
         {
-            Painter2D painter = ctx.painter2D;
+            Painter2D painter = meshGenerationContext.painter2D;
             Rect area = canvas.contentRect;
             DrawGridLines(painter, area, 30f,  _uiGridLineMinorColour);
             DrawGridLines(painter, area, 150f, _uiGridLineMajorColour);
@@ -712,6 +735,67 @@ namespace Frankie.ZoneManagement.UIEditor
                 painter.LineTo(new Vector2(area.width, y));
                 painter.Stroke();
             }
+        }
+
+        private static VisualElement MakeEmptyCurvesLayer()
+        {
+            return new VisualElement
+            {
+                style =
+                {
+                    position = Position.Absolute,
+                    top = 0,
+                    bottom = 0,
+                    left = 0,
+                    right = 0,
+                },
+                pickingMode = PickingMode.Ignore // Transparent to mouse events
+            };
+        }
+
+        private void DrawCurves(MeshGenerationContext meshGenerationContext)
+        {
+            if (zoneViews.Count < 2) { return; }
+            
+            var painter2D = meshGenerationContext.painter2D;
+            painter2D.strokeColor = _uiBezierLineColour;
+            painter2D.lineWidth   = _uiBezierLineWidth;
+
+            for (int i = 0; i < zoneViews.Count - 1; i++)
+            {
+                Vector2 start = NodeRightCentre(zoneViews[i].data);
+                Vector2 end   = NodeLeftCentre(zoneViews[i + 1].data);
+                
+                start += panOffset;
+                end += panOffset;
+
+                // Horizontal control-point offset: half the horizontal distance,
+                // clamped so the handles never collapse on tightly-placed nodes.
+                float clampedOffset = Mathf.Max(Mathf.Abs(end.x - start.x) * 0.5f, 60f);
+                Vector2 clampPoint1 = new Vector2(start.x + clampedOffset, start.y);
+                Vector2 clampPoint2 = new Vector2(end.x   - clampedOffset, end.y);
+
+                painter2D.BeginPath();
+                painter2D.MoveTo(start);
+                painter2D.BezierCurveTo(clampPoint1, clampPoint2, end);
+                painter2D.Stroke();
+                DrawEndDot(painter2D, end);
+            }
+        }
+        
+        private static Vector2 NodeRightCentre(ZoneViewData zoneViewData) =>
+            new(zoneViewData.topLeftPosition.x + zoneViewData.dimensions.x, zoneViewData.topLeftPosition.y + (_zoneViewHeaderHeight + zoneViewData.dimensions.y) * 0.5f);
+        
+        private static Vector2 NodeLeftCentre(ZoneViewData zoneViewData) =>
+            new(zoneViewData.topLeftPosition.x, zoneViewData.topLeftPosition.y + (_zoneViewHeaderHeight + zoneViewData.dimensions.y) * 0.5f);
+        
+        private static void DrawEndDot(Painter2D p, Vector2 centre)
+        {
+            const float r = 5f;
+            p.fillColor = _uiBezierLineColour;
+            p.BeginPath();
+            p.Arc(centre, r, 0f, 360f);
+            p.Fill();
         }
 
         private static VisualElement MakeEmptyZoneViewLayer()
