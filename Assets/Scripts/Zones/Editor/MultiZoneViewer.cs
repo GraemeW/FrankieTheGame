@@ -15,7 +15,7 @@ namespace Frankie.ZoneManagement.UIEditor
     public class SceneSnapshotViewer : EditorWindow
     {
         // UI Tunables
-        private static readonly Vector2 _defaultZoneViewDimensions = new(130, 100);
+        private static readonly Vector2 _defaultZoneViewDimensions = new(156, 120);
         private const int _zoneViewHeaderHeight = 24;
         private static readonly Vector2 _dummySnapshotDimensions = new(10, 10);
         private static readonly Vector2 _targetMinSnapshotDimensions = new(1920, 1080);
@@ -36,6 +36,7 @@ namespace Frankie.ZoneManagement.UIEditor
         private static readonly StyleColor _uiBorderBrightColour = new(new Color(0.5f, 0.5f, 0.5f, 0.5f));
         private static readonly StyleColor _uiButtonColour = new(new Color(0.3f, 0.3f, 0.3f));
         private static readonly StyleColor _uiLabelTextColour = new(new Color(0.6f, 0.6f, 0.6f));
+        private static readonly float _uiStandardFontSize = 11f;
         
         // Path Tunables
         private const string _assetsFolder = "Assets";
@@ -46,7 +47,7 @@ namespace Frankie.ZoneManagement.UIEditor
         // State & Editable Configurations
         [SerializeField] private MultiZoneView activeMultiZoneView;
         [SerializeField] private bool useZoneHandlerCrawl = false;
-        [SerializeField] private Zone startingZone;
+        [SerializeField] private Zone rootZone;
         [SerializeField] private bool keepExistingPositions = true;
         [SerializeField] private float worldToSnapshotScalingFactor = 80.0f;
         [SerializeField] private float snapshotToZoneViewScalingFactor = 0.15f;
@@ -142,14 +143,14 @@ namespace Frankie.ZoneManagement.UIEditor
             useZoneHandlerCrawlToggle.RegisterValueChangedCallback(changeEvent => useZoneHandlerCrawl = changeEvent.newValue);
             toolbarBottomRow.Add(useZoneHandlerCrawlToggle);
 
-            startingZoneField = MakeZoneField(startingZone);
+            startingZoneField = MakeZoneField(rootZone);
             startingZoneField.RegisterValueChangedCallback(OnStartingZoneFieldChanged);
             toolbarBottomRow.Add(startingZoneField);
             
             VisualElement bottomSpacer = MakeSpacer();
             toolbarBottomRow.Add(bottomSpacer);
             
-            Toggle keepPositionToggle = MakeToggle("Keep positions / dimensions", keepExistingPositions);
+            Toggle keepPositionToggle = MakeToggle("Keep positions / dimensions on capture", keepExistingPositions);
             keepPositionToggle.RegisterValueChangedCallback(changeEvent => keepExistingPositions = changeEvent.newValue);
             toolbarBottomRow.Add(keepPositionToggle);
         }
@@ -185,7 +186,7 @@ namespace Frankie.ZoneManagement.UIEditor
         private void OnStartingZoneFieldChanged(ChangeEvent<Object> changeEvent)
         {
             var selected = changeEvent.newValue as Zone;
-            startingZone = selected;
+            rootZone = selected;
         }
 
         private void OnCaptureClicked()
@@ -232,6 +233,10 @@ namespace Frankie.ZoneManagement.UIEditor
 
             VisualElement additionalMaxScalingField = MakeFloatInputField("Additional Max Scaling", additionalMaxScalingFactor, newValue => additionalMaxScalingFactor = newValue);
             parametersPanel.Add(additionalMaxScalingField);
+            
+            Button bonusButton = new Button(() => ZoneHandlerConduit.Bonus(rootZone)) { text = "Bonus" };
+            StyleButton(bonusButton);
+            parametersPanel.Add(bonusButton);
         }
         #endregion
 
@@ -340,20 +345,11 @@ namespace Frankie.ZoneManagement.UIEditor
         {
             if (activeMultiZoneView == null) { return; }
             activeMultiZoneView.CleanDanglingZoneViewData();
-            
-            //TODO:
-            // Adjust scenePaths list based on zone crawling
-            // If crawling, do a first-pass run through and build up the list of all scenes 
-            
-            List<string> scenePaths = GetBuildProfileScenePaths();
-            if (scenePaths == null || scenePaths.Count == 0)
-            {
-                EditorUtility.DisplayDialog("Scene Snapshot Viewer",
-                    "No scenes found in the active build profile / build settings.", "OK");
-                return;
-            }
-            if (!EditorSceneManager.SaveCurrentModifiedScenesIfUserWantsTo()) { return; }
 
+            List<string> scenePaths = GetViableScenePaths();
+            if (scenePaths.Count == 0) { return; }
+            
+            if (!EditorSceneManager.SaveCurrentModifiedScenesIfUserWantsTo()) { return; }
             string originalScene = SceneManager.GetActiveScene().path;
             Directory.CreateDirectory(_snapshotPNGDirectory);
             EnsureAssetFolder();
@@ -395,6 +391,23 @@ namespace Frankie.ZoneManagement.UIEditor
             
             EditorUtility.SetDirty(activeMultiZoneView);
             AssetDatabase.SaveAssetIfDirty(activeMultiZoneView);
+        }
+
+        private List<string> GetViableScenePaths()
+        {
+            List<string> scenePaths = GetBuildProfileScenePaths();
+            if (useZoneHandlerCrawl)
+            {
+                int maxZoneCount = scenePaths.Count;
+                scenePaths.Clear();
+                scenePaths.AddRange(ZoneHandlerConduit.GetLinkedScenePaths(rootZone, maxZoneCount));
+            }
+            if (scenePaths == null || scenePaths.Count == 0)
+            {
+                EditorUtility.DisplayDialog("Scene Snapshot Viewer",
+                    "No scenes found in the active build profile / build settings.", "OK");
+            }
+            return scenePaths;
         }
 
         private static Vector2 GetUpdatedZoneViewPosition(Vector2 currentPosition, Vector2 lastZoneViewDimensions, bool isyOffset, float yOffset)
@@ -786,7 +799,7 @@ namespace Frankie.ZoneManagement.UIEditor
             button.style.paddingLeft = 8;
             button.style.paddingRight = 8;
             button.style.marginRight = 2;
-            button.style.fontSize = 11;
+            button.style.fontSize = _uiStandardFontSize;
             button.style.backgroundColor = _uiButtonColour;
             button.style.color = new StyleColor(Color.white);
             button.style.borderTopLeftRadius = 3;
@@ -813,7 +826,7 @@ namespace Frankie.ZoneManagement.UIEditor
                 {
                     marginLeft = 8,
                     marginRight = 4,
-                    fontSize = 11,
+                    fontSize = _uiStandardFontSize,
                     color = _uiLabelTextColour,
                     unityTextAlign = TextAnchor.MiddleLeft,
                 }
@@ -833,7 +846,7 @@ namespace Frankie.ZoneManagement.UIEditor
                 style =
                 {
                     color = _uiLabelTextColour,
-                    fontSize = 11,
+                    fontSize = _uiStandardFontSize,
                     unityTextAlign = TextAnchor.MiddleRight,
                     marginRight = 4
                 }
@@ -874,7 +887,7 @@ namespace Frankie.ZoneManagement.UIEditor
                 text = panelTitle,
                 style =
                 {
-                    fontSize = 11,
+                    fontSize = _uiStandardFontSize,
                     unityFontStyleAndWeight = FontStyle.Bold,
                     color = _uiLabelTextColour,
                     marginBottom = 8,
@@ -912,7 +925,7 @@ namespace Frankie.ZoneManagement.UIEditor
             {
                 style =
                 {
-                    fontSize = 11,
+                    fontSize = _uiStandardFontSize,
                     color = _uiLabelTextColour,
                     unityTextAlign = TextAnchor.MiddleLeft,
                 }
@@ -973,7 +986,7 @@ namespace Frankie.ZoneManagement.UIEditor
                     backgroundColor = _uiViewHeaderColour,
                     unityTextAlign = TextAnchor.MiddleCenter,
                     unityFontStyleAndWeight = FontStyle.Bold,
-                    fontSize = 11,
+                    fontSize = _uiStandardFontSize,
                     color = new StyleColor(Color.white),
                     paddingLeft = 4,
                     paddingRight = 4,
