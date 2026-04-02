@@ -37,6 +37,18 @@ namespace Frankie.ZoneManagement.UIEditor
             
             return zoneViewData;
         }
+
+        public HashSet<string> GetScenePaths()
+        {
+            HashSet<string> scenePaths = new();
+            foreach (ZoneViewData zoneViewData in zoneViewDataSet)
+            {
+                if (zoneViewData == null) { continue; }
+                if (string.IsNullOrWhiteSpace(zoneViewData.scenePath)) { continue; }
+                scenePaths.Add(zoneViewData.scenePath);
+            }
+            return scenePaths;
+        }
         #endregion
     }
 }

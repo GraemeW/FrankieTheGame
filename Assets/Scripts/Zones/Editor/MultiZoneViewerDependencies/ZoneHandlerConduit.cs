@@ -3,36 +3,37 @@ using System.Linq;
 using UnityEngine;
 using UnityEditor;
 using UnityEditor.SceneManagement;
-using UnityEngine.SceneManagement;
 
 namespace Frankie.ZoneManagement.UIEditor
 {
     public static class ZoneHandlerConduit
     {
-        public static HashSet<string> GetLinkedScenePaths(Zone rootZone, int maxZoneCount)
+        public static IEnumerable<string> OpenLinkedScenePaths(Zone rootZone, int maxZoneCount, HashSet<string> existingViewScenePaths)
         {
-            HashSet<string> linkedScenePaths = new();
-            Queue<string> scenePathsToTraverse = new();
-            
-            if (rootZone == null || rootZone.GetSceneReference().SceneName == null) { return linkedScenePaths; }
-            
+            if (rootZone == null || rootZone.GetSceneReference().SceneName == null) { yield break; }
             string rootScenePath = rootZone.GetSceneReference().GetScenePath();
-            if (string.IsNullOrEmpty(rootScenePath)) { return linkedScenePaths; }
-            if (!EditorSceneManager.SaveCurrentModifiedScenesIfUserWantsTo()) { return  linkedScenePaths; }
-            
-            string originalScenePath = SceneManager.GetActiveScene().path;
+            if (string.IsNullOrEmpty(rootScenePath)) { yield break;  }
+         
+            HashSet<string> uniqueScenePaths = new();
+            Queue<string> scenePathsToTraverse = new();
+            foreach (string existingScenePath in existingViewScenePaths) { scenePathsToTraverse.Enqueue(existingScenePath); }
+            if (!existingViewScenePaths.Contains(rootScenePath)) { scenePathsToTraverse.Enqueue(rootScenePath); }
 
-            scenePathsToTraverse.Enqueue(rootScenePath);
             int currentZoneCount = 0;
             while (scenePathsToTraverse.Count > 0)
             {
                 string currentScenePath = scenePathsToTraverse.Dequeue();
-                if (string.IsNullOrEmpty(currentScenePath) || linkedScenePaths.Contains(currentScenePath)) { continue; }
+                
+                // Skip any scenes we've already been on -- needed since existingSceneViews can cause dupes with ZoneHandler-added scenes
+                if (string.IsNullOrEmpty(currentScenePath) || uniqueScenePaths.Contains(currentScenePath)) { continue; }
                 EditorUtility.DisplayProgressBar("MultiZone Viewer", "Capturing all linked zones", (float)currentZoneCount / maxZoneCount);
                 
-                linkedScenePaths.Add(currentScenePath);
+                // Open scene, then yield back for camera capture 
                 EditorSceneManager.OpenScene(currentScenePath, OpenSceneMode.Single);
+                uniqueScenePaths.Add(currentScenePath);
+                yield return currentScenePath;
                 
+                // Finally, crawl to expand the list of viable scenes and iterate back up
                 List<ZoneHandler> zoneHandlers = Object.FindObjectsByType<ZoneHandler>().ToList();
                 foreach (ZoneHandler zoneHandler in zoneHandlers)
                 {
@@ -45,15 +46,14 @@ namespace Frankie.ZoneManagement.UIEditor
                     
                     SceneReference sceneReference = linkedZone.GetSceneReference();
                     string scenePath = sceneReference.GetScenePath();
-                    if (linkedScenePaths.Contains(scenePath)) { continue; }
                     
+                    // TODO:  Pass back by ref
+                    
+                    if (uniqueScenePaths.Contains(scenePath)) { continue; }
                     scenePathsToTraverse.Enqueue(scenePath);
                 }
                 currentZoneCount++;
             }
-            
-            EditorSceneManager.OpenScene(originalScenePath, OpenSceneMode.Single);
-            return linkedScenePaths;
         }
 
         public static void Bonus(Zone rootZone)

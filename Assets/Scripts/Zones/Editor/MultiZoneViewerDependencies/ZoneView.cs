@@ -4,8 +4,8 @@ namespace Frankie.ZoneManagement.UIEditor
 {
     public class ZoneView
     {
-        public ZoneViewData data;
-        public Texture2D texture2D;
+        public readonly ZoneViewData data;
+        public readonly Texture2D texture2D;
 
         public ZoneView(ZoneViewData zoneViewData, Texture2D texture2D)
         {

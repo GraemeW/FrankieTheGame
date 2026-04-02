@@ -46,14 +46,16 @@ namespace Frankie.ZoneManagement.UIEditor
         private static readonly float _uiBezierLineWidth = 1.5f;
         private static readonly Color _uiBezierLineColour = new(0.55f, 0.75f, 1.00f, 0.60f); 
 
-        // State & Editable Configurations
+        // Editable Configurations
         [SerializeField] private MultiZoneView activeMultiZoneView;
-        [SerializeField] private bool useZoneHandlerCrawl = false;
+        [SerializeField] private bool useZoneHandlerCrawl = true;
         [SerializeField] private Zone rootZone;
         [SerializeField] private bool keepExistingPositions = true;
         [SerializeField] private float worldToSnapshotScalingFactor = 80.0f;
         [SerializeField] private float snapshotToZoneViewScalingFactor = 0.15f;
         [SerializeField] private float additionalMaxScalingFactor = 5.0f;
+        
+        // State
         private readonly List<ZoneView> zoneViews = new();
         
         // UI State
@@ -369,11 +371,9 @@ namespace Frankie.ZoneManagement.UIEditor
             if (activeMultiZoneView == null) { return; }
             activeMultiZoneView.CleanDanglingZoneViewData();
 
-            List<string> scenePaths = GetViableScenePaths();
-            if (scenePaths.Count == 0) { return; }
-            
             if (!EditorSceneManager.SaveCurrentModifiedScenesIfUserWantsTo()) { return; }
-            string originalScene = SceneManager.GetActiveScene().path;
+
+            string originalScenePath = SceneManager.GetActiveScene().path;
             Directory.CreateDirectory(_snapshotPNGDirectory);
             EnsureAssetFolder();
             
@@ -381,30 +381,40 @@ namespace Frankie.ZoneManagement.UIEditor
             {
                 Vector2 currentPosition = new Vector2(_zoneViewPadding, _zoneViewPadding);
                 float yOffset = _zoneViewPadding;
-                
-                for (int i = 0; i < scenePaths.Count; i++)
-                {
-                    string path = scenePaths[i];
-                    EditorUtility.DisplayProgressBar("MultiZone Viewer",
-                        $"Processing: {Path.GetFileNameWithoutExtension(path)}  ({i + 1}/{scenePaths.Count})",
-                        (float)i / scenePaths.Count);
-                    
-                    // TODO:  We need to update CaptureZone below to store ZoneHandler info into ZoneViewData
-                    ZoneViewData zoneViewData = CaptureZone(path, currentPosition);
-                    
-                    if (zoneViewData == null) { continue; }
 
-                    bool isyOffset = i % _defaultNumberViewsPerRow == (_defaultNumberViewsPerRow - 1);
+                int sceneCount = 1;
+                foreach (string scenePath in OpenNextViableScenePath())
+                {
+                    // TODO:  We need to update below to store ZoneHandler info into ZoneViewData
+                    
+                    string zoneName = GetSafeNameFromPath(scenePath);
+                    Debug.Log($"Positioning camera on Scene: {zoneName}");
+                    
+                    Texture2D texture2D = CaptureZone();
+                    string snapshotPNGPath = GetSnapshotPathForScene(zoneName);
+                    File.WriteAllBytes(snapshotPNGPath, texture2D.EncodeToPNG());
+                    
+                    Vector2 zoneViewDimensions = GetIdealZoneViewDimensions(texture2D);
+                    
+                    // TODO:  Find all zoneHandlers that link to external zones
+                    // Store their fractional position vs. world dimensions on x/y (relative to top left)
+                    // Use them in CreateOrUpdate below to store as a list of structs w/ zone/scene name + fractional position
+                    
+                    ZoneViewData zoneViewData = activeMultiZoneView.CreateOrUpdateZoneViewData(zoneName, scenePath, snapshotPNGPath, zoneViewDimensions, currentPosition, keepExistingPositions);
+
+                    bool isyOffset = sceneCount % _defaultNumberViewsPerRow == 0;
                     yOffset = Mathf.Max(yOffset, zoneViewData.topLeftPosition.y +  zoneViewData.dimensions.y + _zoneViewPadding);
                     currentPosition = GetUpdatedZoneViewPosition(currentPosition, zoneViewData.dimensions, isyOffset, yOffset);
+                    
+                    sceneCount++;
                 }
             }
             finally
             {
                 EditorUtility.ClearProgressBar();
-                if (!string.IsNullOrEmpty(originalScene) && File.Exists(originalScene))
+                if (!string.IsNullOrEmpty(originalScenePath) && File.Exists(originalScenePath))
                 {
-                    EditorSceneManager.OpenScene(originalScene, OpenSceneMode.Single);
+                    EditorSceneManager.OpenScene(originalScenePath, OpenSceneMode.Single);
                 }
                 else
                 {
@@ -416,21 +426,33 @@ namespace Frankie.ZoneManagement.UIEditor
             AssetDatabase.SaveAssetIfDirty(activeMultiZoneView);
         }
 
-        private List<string> GetViableScenePaths()
+        private IEnumerable<string> OpenNextViableScenePath()
         {
-            List<string> scenePaths = GetBuildProfileScenePaths();
-            if (useZoneHandlerCrawl)
+            List<string> allScenePaths = GetBuildProfileScenePaths();
+            
+            // Pass existing scene placement if we want to place those views first, then we can place new views after to check for overlaps
+            HashSet<string> existingViewScenePaths = new HashSet<string>();
+            if (keepExistingPositions) { existingViewScenePaths = activeMultiZoneView.GetScenePaths(); }
+            
+            return !useZoneHandlerCrawl ? OpenBuildScenePaths(allScenePaths, allScenePaths.Count, existingViewScenePaths) : ZoneHandlerConduit.OpenLinkedScenePaths(rootZone, allScenePaths.Count, existingViewScenePaths);
+        }
+
+        private static IEnumerable<string> OpenBuildScenePaths(List<string> buildScenePaths, int maxZoneCount, HashSet<string> existingViewScenePaths)
+        {
+            Queue<string> scenePaths = new();
+            foreach (string existingScenePath in existingViewScenePaths) { scenePaths.Enqueue(existingScenePath); }
+            foreach (var buildScenePath in buildScenePaths.Where(buildScenePath => !existingViewScenePaths.Contains(buildScenePath))) { scenePaths.Enqueue(buildScenePath); }
+            
+            int currentZoneCount = 0;
+            while (scenePaths.Count > 0)
             {
-                int maxZoneCount = scenePaths.Count;
-                scenePaths.Clear();
-                scenePaths.AddRange(ZoneHandlerConduit.GetLinkedScenePaths(rootZone, maxZoneCount));
+                string currentScenePath = scenePaths.Dequeue();
+                EditorUtility.DisplayProgressBar("MultiZone Viewer", "Capturing all build profile zones", (float)currentZoneCount / maxZoneCount);
+                EditorSceneManager.OpenScene(currentScenePath, OpenSceneMode.Single);
+                yield return currentScenePath;
+
+                currentZoneCount++;
             }
-            if (scenePaths == null || scenePaths.Count == 0)
-            {
-                EditorUtility.DisplayDialog("Scene Snapshot Viewer",
-                    "No scenes found in the active build profile / build settings.", "OK");
-            }
-            return scenePaths;
         }
 
         private static Vector2 GetUpdatedZoneViewPosition(Vector2 currentPosition, Vector2 lastZoneViewDimensions, bool isyOffset, float yOffset)
@@ -447,37 +469,23 @@ namespace Frankie.ZoneManagement.UIEditor
             return newPosition;
         }
         
-        private ZoneViewData CaptureZone(string scenePath, Vector2 defaultPosition)
+        private Texture2D CaptureZone()
         {
             if (activeMultiZoneView == null) { return null; }
-            
-            Scene scene = EditorSceneManager.OpenScene(scenePath, OpenSceneMode.Single);
 
             Camera captureCamera = Camera.main;
             if (captureCamera == null) { return null; }
             
-            // TODO:  Pull out world bounds/dimensions
-            Vector2 snapshotDimensions = PositionCameraToFrameScene(captureCamera, scene);
+            Vector2 snapshotDimensions = PositionCameraToFrameScene(captureCamera);
             Texture2D snapshotTexture = CameraClick(captureCamera, snapshotDimensions);
-            Debug.Log($"Snapshot texture dimensions are {snapshotDimensions.x}, {snapshotDimensions.y}");
-            Vector2 zoneViewDimensions = GetIdealZoneViewDimensions(snapshotTexture);
+            Debug.Log($"Snapshot texture dimensions are {snapshotTexture.width}, {snapshotTexture.height}");
 
-            string zoneName = GetSafeNameFromPath(scenePath);
-            string snapshotPNGPath = GetSnapshotPathForScene(zoneName);
-            File.WriteAllBytes(snapshotPNGPath, snapshotTexture.EncodeToPNG());
-
-            // TODO:  Find all zoneHandlers that link to external zones
-            // Store their fractional position vs. world dimensions on x/y (relative to top left)
-            // Use them in CreateOrUpdate below to store as a list of structs w/ zone/scene name + fractional position
-            
-            ZoneViewData zoneViewData = activeMultiZoneView.CreateOrUpdateZoneViewData(zoneName, scenePath, snapshotPNGPath, zoneViewDimensions, defaultPosition, keepExistingPositions);
-            return zoneViewData;
+            return snapshotTexture;
         }
 
-        private Vector2 PositionCameraToFrameScene(Camera camera, Scene scene)
+        private Vector2 PositionCameraToFrameScene(Camera camera)
         {
             List<Tilemap> tilemaps = FindObjectsByType<Tilemap>().ToList();
-            Debug.Log($"Positioning camera on Scene: {scene.name}");
             
             Bounds maxBounds = new Bounds();
             if (tilemaps.Count == 0)
