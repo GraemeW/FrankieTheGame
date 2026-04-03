@@ -15,7 +15,7 @@ namespace Frankie.ZoneManagement
         [SerializeField] private ZoneNode zoneNode;
         [SerializeField] private bool overrideDefaultInteractionDistance = false;
         [SerializeField] private float interactionDistance = 0.3f;
-        [SerializeField] private Transform warpPosition;
+        [SerializeField] private Transform warpTransform;
         [SerializeField] private float delayToDestroyAfterSceneLoading = 0.1f;
         [Header("Game Object (Dis)Enablement")]
         [SerializeField] [Tooltip("If left null, will attempt to auto-populate from parent")] private Room roomParent;
@@ -69,7 +69,8 @@ namespace Frankie.ZoneManagement
 
         #region PublicMethods
         public ZoneNode GetZoneNode() => zoneNode;
-        public Transform GetWarpPosition() => warpPosition;
+        public bool HasWarpPosition() => warpTransform != null;
+        public Vector3 GetWarpPosition() => warpTransform != null ? warpTransform.position : transform.position; 
 
         public void ToggleRoomParent(bool enable)
         {
@@ -166,20 +167,16 @@ namespace Frankie.ZoneManagement
             {
                 if (nextNodeID != zoneHandler.GetZoneNode()?.GetNodeID()) { continue; }
                 
-                Transform warpTransform = zoneHandler.GetWarpPosition();
-                if (warpTransform != null)
+                Vector3 warpPosition = zoneHandler.GetWarpPosition();
+                cachedPlayerController.gameObject.transform.position = warpPosition;
+                
+                if (zoneHandler.HasWarpPosition())
                 {
-                    cachedPlayerController.gameObject.transform.position = warpTransform.position;
-                    Vector2 lookDirection = warpTransform.position - zoneHandler.transform.position;
+                    Vector2 lookDirection = warpPosition - zoneHandler.transform.position;
                     lookDirection.Normalize();
                     cachedPlayerController.GetPlayerMover().SetLookDirection(lookDirection);
-                    cachedPlayerController.GetPlayerMover().ResetHistory(warpTransform.position);
                 }
-                else
-                {
-                    cachedPlayerController.gameObject.transform.position = zoneHandler.transform.position;
-                    cachedPlayerController.GetPlayerMover().ResetHistory(zoneHandler.transform.position);
-                }
+                cachedPlayerController.GetPlayerMover().ResetHistory(warpPosition);
 
                 SwapActiveRoomParents(zoneHandler);
                 zoneInteraction?.Invoke();

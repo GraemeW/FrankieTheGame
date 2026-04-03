@@ -43,13 +43,14 @@ namespace Frankie.ZoneManagement.UIEditor
         private static readonly StyleColor _uiButtonColour = new(new Color(0.3f, 0.3f, 0.3f));
         private static readonly StyleColor _uiLabelTextColour = new(new Color(0.6f, 0.6f, 0.6f));
         private static readonly float _uiStandardFontSize = 11f;
-        private static readonly float _uiBezierLineWidth = 1.5f;
-        private static readonly Color _uiBezierLineColour = new(0.55f, 0.75f, 1.00f, 0.60f); 
+        private static readonly float _uiBezierLineWidth = 0.8f;
+        private static readonly Color _uiBezierLineColour = new(1.0f, 0f, 0f, 0.8f); 
 
         // Editable Configurations
         [SerializeField] private MultiZoneView activeMultiZoneView;
         [SerializeField] private bool useZoneHandlerCrawl = true;
         [SerializeField] private Zone rootZone;
+        [SerializeField] private bool drawConnections = true;
         [SerializeField] private bool keepExistingPositions = true;
         [SerializeField] private float worldToSnapshotScalingFactor = 80.0f;
         [SerializeField] private float snapshotToZoneViewScalingFactor = 0.15f;
@@ -57,6 +58,7 @@ namespace Frankie.ZoneManagement.UIEditor
         
         // State
         private readonly List<ZoneView> zoneViews = new();
+        private readonly Dictionary<string, ZoneView> zoneViewLookup = new();
         
         // UI State
         private VisualElement canvas;
@@ -124,6 +126,9 @@ namespace Frankie.ZoneManagement.UIEditor
             multiZoneViewField.RegisterValueChangedCallback(OnSnapshotFieldChanged);
             toolbarTopRow.Add(multiZoneViewField);
 
+            VisualElement fieldToButtonSpacer = MakeSpacer(20f, 0f);
+            toolbarTopRow.Add(fieldToButtonSpacer);
+            
             var captureButton = new Button(OnCaptureClicked) { text = "Capture Zones" };
             StyleButton(captureButton);
             toolbarTopRow.Add(captureButton);
@@ -145,13 +150,17 @@ namespace Frankie.ZoneManagement.UIEditor
             VisualElement toolbarBottomRow = MakeEmptyToolbarRow();
             toolbar.Add(toolbarBottomRow);
             
-            Toggle useZoneHandlerCrawlToggle = MakeToggle("Use Zone Handler Crawl", useZoneHandlerCrawl);
+            Toggle useZoneHandlerCrawlToggle = MakeToggle("Crawl ZoneHandlers", useZoneHandlerCrawl);
             useZoneHandlerCrawlToggle.RegisterValueChangedCallback(changeEvent => useZoneHandlerCrawl = changeEvent.newValue);
             toolbarBottomRow.Add(useZoneHandlerCrawlToggle);
 
             startingZoneField = MakeZoneField(rootZone);
             startingZoneField.RegisterValueChangedCallback(OnStartingZoneFieldChanged);
             toolbarBottomRow.Add(startingZoneField);
+            
+            Toggle drawConnectionsToggle = MakeToggle("Draw Connections", drawConnections, TextAnchor.MiddleRight);
+            drawConnectionsToggle.RegisterValueChangedCallback(changeEvent => drawConnections = changeEvent.newValue);
+            toolbarBottomRow.Add(drawConnectionsToggle);
             
             VisualElement bottomSpacer = MakeSpacer();
             toolbarBottomRow.Add(bottomSpacer);
@@ -255,13 +264,13 @@ namespace Frankie.ZoneManagement.UIEditor
             SubscribeCanvasToDrawGrid(true);
             canvas.AddManipulator(new PanManipulator(OnCanvasPanned));
             root.Add(canvas);
-
-            curvesLayer = MakeEmptyCurvesLayer();
-            SubscribeCurvesLayerToDrawCurves(true);
-            canvas.Add(curvesLayer);
             
             zoneViewLayer = MakeEmptyZoneViewLayer();
             canvas.Add(zoneViewLayer);
+            
+            curvesLayer = MakeEmptyCurvesLayer();
+            SubscribeCurvesLayerToDrawCurves(true);
+            canvas.Add(curvesLayer);
         }
         
         private void SubscribeCanvasToDrawGrid(bool enable)
@@ -370,8 +379,10 @@ namespace Frankie.ZoneManagement.UIEditor
         {
             if (activeMultiZoneView == null) { return; }
             activeMultiZoneView.CleanDanglingZoneViewData();
-
             if (!EditorSceneManager.SaveCurrentModifiedScenesIfUserWantsTo()) { return; }
+
+            Dictionary<string, Bounds> zoneDimensionsLookup = new();
+            List<ZoneHandlerNodeData> zoneHandlerNodeDataSet = new();
 
             string originalScenePath = SceneManager.GetActiveScene().path;
             Directory.CreateDirectory(_snapshotPNGDirectory);
@@ -385,21 +396,18 @@ namespace Frankie.ZoneManagement.UIEditor
                 int sceneCount = 1;
                 foreach (string scenePath in OpenNextViableScenePath())
                 {
-                    // TODO:  We need to update below to store ZoneHandler info into ZoneViewData
-                    
                     string zoneName = GetSafeNameFromPath(scenePath);
-                    Debug.Log($"Positioning camera on Scene: {zoneName}");
+                    Bounds zoneBounds = CalculateZoneBounds();
+                    zoneDimensionsLookup[zoneName] = zoneBounds;
                     
-                    Texture2D texture2D = CaptureZone();
+                    Debug.Log($"Positioning camera on Scene: {zoneName}");
+                    Texture2D texture2D = CaptureZone(zoneBounds);
                     string snapshotPNGPath = GetSnapshotPathForScene(zoneName);
                     File.WriteAllBytes(snapshotPNGPath, texture2D.EncodeToPNG());
+
+                    if (useZoneHandlerCrawl) { zoneHandlerNodeDataSet.AddRange(ZoneHandlerConduit.BuildZoneHandlerNodeData()); }
                     
                     Vector2 zoneViewDimensions = GetIdealZoneViewDimensions(texture2D);
-                    
-                    // TODO:  Find all zoneHandlers that link to external zones
-                    // Store their fractional position vs. world dimensions on x/y (relative to top left)
-                    // Use them in CreateOrUpdate below to store as a list of structs w/ zone/scene name + fractional position
-                    
                     ZoneViewData zoneViewData = activeMultiZoneView.CreateOrUpdateZoneViewData(zoneName, scenePath, snapshotPNGPath, zoneViewDimensions, currentPosition, keepExistingPositions);
 
                     bool isyOffset = sceneCount % _defaultNumberViewsPerRow == 0;
@@ -421,6 +429,13 @@ namespace Frankie.ZoneManagement.UIEditor
                     EditorSceneManager.NewScene(NewSceneSetup.DefaultGameObjects, NewSceneMode.Single);
                 }
             }
+
+            if (useZoneHandlerCrawl && activeMultiZoneView != null)
+            {
+                List<ZoneHandlerLinkData> zoneHandlerLinkData = ZoneHandlerConduit.GenerateZoneHandlerLinks(zoneHandlerNodeDataSet, zoneDimensionsLookup);
+                Debug.Log($"count of zone handler link data is {zoneHandlerLinkData.Count}");
+                activeMultiZoneView.UpdateZoneHandlerLinkData(zoneHandlerLinkData);
+            }
             
             EditorUtility.SetDirty(activeMultiZoneView);
             AssetDatabase.SaveAssetIfDirty(activeMultiZoneView);
@@ -436,7 +451,7 @@ namespace Frankie.ZoneManagement.UIEditor
             
             return !useZoneHandlerCrawl ? OpenBuildScenePaths(allScenePaths, allScenePaths.Count, existingViewScenePaths) : ZoneHandlerConduit.OpenLinkedScenePaths(rootZone, allScenePaths.Count, existingViewScenePaths);
         }
-
+        
         private static IEnumerable<string> OpenBuildScenePaths(List<string> buildScenePaths, int maxZoneCount, HashSet<string> existingViewScenePaths)
         {
             Queue<string> scenePaths = new();
@@ -469,25 +484,11 @@ namespace Frankie.ZoneManagement.UIEditor
             return newPosition;
         }
         
-        private Texture2D CaptureZone()
+        private Bounds CalculateZoneBounds()
         {
-            if (activeMultiZoneView == null) { return null; }
-
-            Camera captureCamera = Camera.main;
-            if (captureCamera == null) { return null; }
+            Bounds zoneBounds = new Bounds();
             
-            Vector2 snapshotDimensions = PositionCameraToFrameScene(captureCamera);
-            Texture2D snapshotTexture = CameraClick(captureCamera, snapshotDimensions);
-            Debug.Log($"Snapshot texture dimensions are {snapshotTexture.width}, {snapshotTexture.height}");
-
-            return snapshotTexture;
-        }
-
-        private Vector2 PositionCameraToFrameScene(Camera camera)
-        {
             List<Tilemap> tilemaps = FindObjectsByType<Tilemap>().ToList();
-            
-            Bounds maxBounds = new Bounds();
             if (tilemaps.Count == 0)
             {
                 List<Renderer> renderers = FindObjectsByType<Renderer>().ToList();
@@ -496,8 +497,8 @@ namespace Frankie.ZoneManagement.UIEditor
                 bool maxBoundsSet = false;
                 foreach (Renderer renderer in renderers)
                 {
-                    if (!maxBoundsSet) { maxBounds = renderer.bounds; maxBoundsSet = true; }
-                    else { maxBounds.Encapsulate(renderer.bounds); }
+                    if (!maxBoundsSet) { zoneBounds = renderer.bounds; maxBoundsSet = true; }
+                    else { zoneBounds.Encapsulate(renderer.bounds); }
                 }
             }
             else
@@ -514,26 +515,44 @@ namespace Frankie.ZoneManagement.UIEditor
 
                     if (!maxBoundsSet)
                     {
-                        maxBounds.SetMinMax(minPosition, maxPosition); 
+                        zoneBounds.SetMinMax(minPosition, maxPosition); 
                         maxBoundsSet = true;
                     }
                     else
                     {
                         Bounds newBounds = new Bounds();
                         newBounds.SetMinMax(minPosition, maxPosition);
-                        maxBounds.Encapsulate(newBounds);
+                        zoneBounds.Encapsulate(newBounds);
                     }
                 }
             }
-            Debug.Log($"Max Bounding at {maxBounds.center} with extents: {maxBounds.extents}");
+            Debug.Log($"Max Bounding at {zoneBounds.center} with extents: {zoneBounds.extents}");
+            return zoneBounds;
+        }
+        
+        private Texture2D CaptureZone(Bounds zoneBounds)
+        {
+            if (activeMultiZoneView == null) { return null; }
+
+            Camera captureCamera = Camera.main;
+            if (captureCamera == null) { return null; }
             
-            camera.transform.position = new Vector3(maxBounds.center.x, maxBounds.center.y, camera.transform.position.z);
-            Vector2 snapshotDimensions = GetIdealSnapshotDimensions(maxBounds.extents.x, maxBounds.extents.y);
+            Vector2 snapshotDimensions = PositionCameraToFrameScene(captureCamera, zoneBounds);
+            Texture2D snapshotTexture = CameraClick(captureCamera, snapshotDimensions);
+            Debug.Log($"Snapshot texture dimensions are {snapshotTexture.width}, {snapshotTexture.height}");
+
+            return snapshotTexture;
+        }
+
+        private Vector2 PositionCameraToFrameScene(Camera camera, Bounds zoneBounds)
+        {
+            camera.transform.position = new Vector3(zoneBounds.center.x, zoneBounds.center.y, camera.transform.position.z);
+            Vector2 snapshotDimensions = GetIdealSnapshotDimensions(zoneBounds.extents.x, zoneBounds.extents.y);
             
             float aspectRatio = snapshotDimensions.x / snapshotDimensions.y;
             float orthoSize = aspectRatio > 1.0f ? 
-                Mathf.Max(maxBounds.extents.x / aspectRatio, maxBounds.extents.y) : 
-                Mathf.Max(maxBounds.extents.x, maxBounds.extents.y / aspectRatio);
+                Mathf.Max(zoneBounds.extents.x / aspectRatio, zoneBounds.extents.y) : 
+                Mathf.Max(zoneBounds.extents.x, zoneBounds.extents.y / aspectRatio);
             camera.orthographicSize = orthoSize;
             
             return snapshotDimensions;
@@ -615,8 +634,10 @@ namespace Frankie.ZoneManagement.UIEditor
                     DestroyImmediate(texture2D);
                     continue;
                 }
-                
-                zoneViews.Add(new ZoneView(zoneViewData, texture2D));
+
+                ZoneView zoneView = new ZoneView(zoneViewData, texture2D); 
+                zoneViews.Add(zoneView);
+                zoneViewLookup[zoneViewData.zoneName] = zoneView;
             }
         }
 
@@ -687,6 +708,7 @@ namespace Frankie.ZoneManagement.UIEditor
         {
             DisposeRuntimeTextures();
             zoneViews.Clear();
+            zoneViewLookup.Clear();
             zoneViewLayer?.Clear();
             panOffset = Vector2.zero;
             ApplyPanOffset();
@@ -763,31 +785,38 @@ namespace Frankie.ZoneManagement.UIEditor
 
         private void DrawCurves(MeshGenerationContext meshGenerationContext)
         {
-            if (zoneViews.Count < 2) { return; }
+            if (!drawConnections || !useZoneHandlerCrawl) { return; }
             
             var painter2D = meshGenerationContext.painter2D;
             painter2D.strokeColor = _uiBezierLineColour;
             painter2D.lineWidth   = _uiBezierLineWidth;
 
-            for (int i = 0; i < zoneViews.Count - 1; i++)
+            foreach (ZoneView zoneView in zoneViews)
             {
-                Vector2 start = NodeRightCentre(zoneViews[i].data);
-                Vector2 end   = NodeLeftCentre(zoneViews[i + 1].data);
+                if (zoneView == null) { continue; }
                 
-                start += panOffset;
-                end += panOffset;
+                foreach (ZoneHandlerLinkData zoneHandlerLinkData in zoneView.data.zoneHandlerLinkDataSet)
+                {
+                    ZoneView sourceZoneView = zoneView;
+                    if (!zoneViewLookup.TryGetValue(zoneHandlerLinkData.targetZoneName, out ZoneView targetZoneView)) { continue; }
 
-                // Horizontal control-point offset: half the horizontal distance,
-                // clamped so the handles never collapse on tightly-placed nodes.
-                float clampedOffset = Mathf.Max(Mathf.Abs(end.x - start.x) * 0.5f, 60f);
-                Vector2 clampPoint1 = new Vector2(start.x + clampedOffset, start.y);
-                Vector2 clampPoint2 = new Vector2(end.x   - clampedOffset, end.y);
+                    Vector2 start = NodeRelativePosition(sourceZoneView.data, zoneHandlerLinkData.sourceNodeRelativePosition);
+                    Vector2 end = NodeRelativePosition(targetZoneView.data, zoneHandlerLinkData.targetNodeRelativePosition); 
+                
+                    start += panOffset;
+                    end += panOffset;
 
-                painter2D.BeginPath();
-                painter2D.MoveTo(start);
-                painter2D.BezierCurveTo(clampPoint1, clampPoint2, end);
-                painter2D.Stroke();
-                DrawEndDot(painter2D, end);
+                    // Horizontal control-point offsets so the handles never collapse on tightly-placed nodes.
+                    float clampedOffset = Mathf.Max(Mathf.Abs(end.x - start.x) * 0.15f, 60f);
+                    Vector2 clampPoint1 = new Vector2(start.x + clampedOffset, start.y);
+                    Vector2 clampPoint2 = new Vector2(end.x   - clampedOffset, end.y);
+
+                    painter2D.BeginPath();
+                    painter2D.MoveTo(start);
+                    painter2D.BezierCurveTo(clampPoint1, clampPoint2, end);
+                    painter2D.Stroke();
+                    DrawEndDot(painter2D, end);
+                }
             }
         }
         
@@ -796,6 +825,9 @@ namespace Frankie.ZoneManagement.UIEditor
         
         private static Vector2 NodeLeftCentre(ZoneViewData zoneViewData) =>
             new(zoneViewData.topLeftPosition.x, zoneViewData.topLeftPosition.y + (_zoneViewHeaderHeight + zoneViewData.dimensions.y) * 0.5f);
+        
+        private static Vector2 NodeRelativePosition(ZoneViewData zoneViewData, Vector2 relativePosition) =>
+            new(zoneViewData.topLeftPosition.x + zoneViewData.dimensions.x * relativePosition.x, zoneViewData.topLeftPosition.y + zoneViewData.dimensions.y * relativePosition.y + _zoneViewHeaderHeight );
         
         private static void DrawEndDot(Painter2D p, Vector2 centre)
         {
@@ -908,7 +940,7 @@ namespace Frankie.ZoneManagement.UIEditor
             button.style.borderRightColor = _uiBorderDarkColour;
         }
 
-        private static Toggle MakeToggle(string label, bool state)
+        private static Toggle MakeToggle(string label, bool state, TextAnchor textAnchor = TextAnchor.MiddleLeft)
         {
             return new Toggle
             {
@@ -920,14 +952,18 @@ namespace Frankie.ZoneManagement.UIEditor
                     marginRight = 4,
                     fontSize = _uiStandardFontSize,
                     color = _uiLabelTextColour,
-                    unityTextAlign = TextAnchor.MiddleLeft,
+                    unityTextAlign = textAnchor,
                 }
             };
         }
 
-        private static VisualElement MakeSpacer()
+        private static VisualElement MakeSpacer(float minWidth = 0.0f, float flexGrow = 1.0f)
         {
-            return new VisualElement { style = { flexGrow = 1 } };
+            return new VisualElement { style =
+            {
+                minWidth = minWidth,
+                flexGrow = flexGrow
+            } };
         }
         
         private static Label MakeToolbarLabel(string labelText)

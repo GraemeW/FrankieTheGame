@@ -205,6 +205,15 @@ namespace Frankie.ZoneManagement
             }
             OnValidate();
         }
+
+        [ContextMenu("Match Zone Name to Scene")]
+        public void ForceUpdateZoneNameToMatchScene()
+        {
+            // Ensure Zone name always matches scene name exactly
+            var path = AssetDatabase.GetAssetPath(this);
+            AssetDatabase.RenameAsset(path, sceneReference.SceneName);
+            name = sceneReference.SceneName;
+        }
 #endif
         #endregion
 
@@ -212,7 +221,13 @@ namespace Frankie.ZoneManagement
         void ISerializationCallbackReceiver.OnBeforeSerialize()
         {
 #if UNITY_EDITOR
-            if (AssetDatabase.GetAssetPath(this) == "") return;
+            if (AssetDatabase.GetAssetPath(this) == "") { return; }
+
+            if (sceneReference.IsSet() && name != sceneReference.SceneName)
+            {
+                Debug.LogWarning($"Warning!  Zone Name {name} does not match scene reference {sceneReference.SceneName}!  Use Zone context menu to auto-match.");
+            }
+            
             foreach (ZoneNode zoneNode in GetAllNodes())
             {
                 zoneNode.SetZoneName(name);
