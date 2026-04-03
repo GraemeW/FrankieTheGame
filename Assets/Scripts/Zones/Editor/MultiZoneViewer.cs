@@ -328,13 +328,14 @@ namespace Frankie.ZoneManagement.UIEditor
             zoneViewElement.Add(zoneViewElementHeader);
             
             VisualElement imageArea = AddImageToZoneViewElement(zoneView, zoneViewElement);
+            
             void OnClickedImage() => TryLoadScene(zoneView);
             imageArea.AddManipulator(new DragManipulator(zoneView, zoneViewElement, OnClickedImage, OnDraggedCurveRepaint));
             
             zoneViewLayer.Add(zoneViewElement);
         }
 
-        private static VisualElement AddImageToZoneViewElement(ZoneView zoneView, VisualElement zoneViewElement)
+        private VisualElement AddImageToZoneViewElement(ZoneView zoneView, VisualElement zoneViewElement)
         {
             VisualElement imageArea;
             
@@ -343,6 +344,14 @@ namespace Frankie.ZoneManagement.UIEditor
                 Image zoneSnapshot = MakeImage(zoneView.texture2D);
                 zoneViewElement.Add(zoneSnapshot);
                 imageArea = zoneSnapshot;
+                
+                // When the image doesn't fill the zone view completely, we need to account and offset
+                Vector2 idealZoneViewDimensions = GetIdealZoneViewDimensions(zoneView.texture2D, true);
+                float xOffset = (zoneView.data.dimensions.x - idealZoneViewDimensions.x) / 4;
+                xOffset = xOffset > 0f ? xOffset : 0f;
+                float yOffset =  (zoneView.data.dimensions.y - idealZoneViewDimensions.y) / 4;
+                yOffset = yOffset > 0f ? yOffset : 0f;
+                zoneView.SetLocalImagePosition(new Vector2(xOffset, yOffset));
             }
             else
             {
@@ -351,7 +360,7 @@ namespace Frankie.ZoneManagement.UIEditor
                 imageArea = noSnapshotLabel;
             }
             AddHoverOverStyle(imageArea);
-
+            
             return imageArea;
         }
 
@@ -403,7 +412,7 @@ namespace Frankie.ZoneManagement.UIEditor
 
                     if (useZoneHandlerCrawl) { zoneHandlerNodeDataSet.AddRange(ZoneHandlerConduit.BuildZoneHandlerNodeData()); }
                     
-                    Vector2 zoneViewDimensions = GetIdealZoneViewDimensions(texture2D);
+                    Vector2 zoneViewDimensions = GetIdealZoneViewDimensions(texture2D, false);
                     ZoneViewData zoneViewData = activeMultiZoneView.CreateOrUpdateZoneViewData(zoneName, scenePath, snapshotPNGPath, zoneViewDimensions, currentPosition, keepExistingPositions);
 
                     bool isyOffset = sceneCount % _defaultNumberViewsPerRow == 0;
@@ -480,7 +489,7 @@ namespace Frankie.ZoneManagement.UIEditor
             return newPosition;
         }
         
-        private Bounds CalculateZoneBounds()
+        private static Bounds CalculateZoneBounds()
         {
             Bounds zoneBounds = new Bounds();
             
@@ -548,7 +557,7 @@ namespace Frankie.ZoneManagement.UIEditor
             float aspectRatio = snapshotDimensions.x / snapshotDimensions.y;
             float orthoSize = aspectRatio > 1.0f ? 
                 Mathf.Max(zoneBounds.extents.x / aspectRatio, zoneBounds.extents.y) : 
-                Mathf.Max(zoneBounds.extents.x, zoneBounds.extents.y / aspectRatio);
+                Mathf.Max(zoneBounds.extents.x, zoneBounds.extents.y);
             camera.orthographicSize = orthoSize;
             
             return snapshotDimensions;
@@ -601,14 +610,15 @@ namespace Frankie.ZoneManagement.UIEditor
             return new Vector2(xScaled, yScaled);
         }
         
-        private Vector2 GetIdealZoneViewDimensions(Texture2D texture2D)
+        private Vector2 GetIdealZoneViewDimensions(Texture2D texture2D, bool bypassChecks)
         {
             if (texture2D == null) { return _defaultZoneViewDimensions; }
-            if (texture2D.width < _defaultZoneViewDimensions.x || texture2D.height < _defaultZoneViewDimensions.y) { return _defaultZoneViewDimensions; }
-
+            
             float tryWidth = texture2D.width * snapshotToZoneViewScalingFactor;
             float tryHeight = texture2D.height * snapshotToZoneViewScalingFactor;
+            if (bypassChecks) { return new Vector2(tryWidth, tryHeight); }
             
+            if (texture2D.width < _defaultZoneViewDimensions.x || texture2D.height < _defaultZoneViewDimensions.y) { return _defaultZoneViewDimensions; }
             if (tryWidth < _defaultZoneViewDimensions.x || tryHeight < _defaultZoneViewDimensions.y) { return _defaultZoneViewDimensions; }
             
             return new Vector2(tryWidth, tryHeight);
@@ -796,8 +806,8 @@ namespace Frankie.ZoneManagement.UIEditor
                     ZoneView sourceZoneView = zoneView;
                     if (!zoneViewLookup.TryGetValue(zoneHandlerLinkData.targetZoneName, out ZoneView targetZoneView)) { continue; }
 
-                    Vector2 start = NodeRelativePosition(sourceZoneView.data, zoneHandlerLinkData.sourceNodeRelativePosition);
-                    Vector2 end = NodeRelativePosition(targetZoneView.data, zoneHandlerLinkData.targetNodeRelativePosition); 
+                    Vector2 start = NodeRelativePosition(sourceZoneView.data, zoneHandlerLinkData.sourceNodeRelativePosition, sourceZoneView.localImagePosition);
+                    Vector2 end = NodeRelativePosition(targetZoneView.data, zoneHandlerLinkData.targetNodeRelativePosition, targetZoneView.localImagePosition); 
                 
                     start += panOffset;
                     end += panOffset;
@@ -822,8 +832,8 @@ namespace Frankie.ZoneManagement.UIEditor
         private static Vector2 NodeLeftCentre(ZoneViewData zoneViewData) =>
             new(zoneViewData.topLeftPosition.x, zoneViewData.topLeftPosition.y + (_zoneViewHeaderHeight + zoneViewData.dimensions.y) * 0.5f);
         
-        private static Vector2 NodeRelativePosition(ZoneViewData zoneViewData, Vector2 relativePosition) =>
-            new(zoneViewData.topLeftPosition.x + zoneViewData.dimensions.x * relativePosition.x, zoneViewData.topLeftPosition.y + zoneViewData.dimensions.y * relativePosition.y + _zoneViewHeaderHeight );
+        private static Vector2 NodeRelativePosition(ZoneViewData zoneViewData, Vector2 relativePosition, Vector2 imageOffset) =>
+            new(zoneViewData.topLeftPosition.x + zoneViewData.dimensions.x * relativePosition.x - imageOffset.x, zoneViewData.topLeftPosition.y + zoneViewData.dimensions.y * relativePosition.y - imageOffset.y + _zoneViewHeaderHeight );
         
         private static void DrawEndDot(Painter2D p, Vector2 centre)
         {
