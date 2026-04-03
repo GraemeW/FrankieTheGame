@@ -48,6 +48,7 @@ namespace Frankie.ZoneManagement.UIEditor
 
         // Editable Configurations
         [SerializeField] private MultiZoneView activeMultiZoneView;
+        [SerializeField] private Vector2 panOffset = Vector2.zero;
         [SerializeField] private bool useZoneHandlerCrawl = true;
         [SerializeField] private Zone rootZone;
         [SerializeField] private bool drawConnections = true;
@@ -68,7 +69,6 @@ namespace Frankie.ZoneManagement.UIEditor
         private ObjectField startingZoneField;
         private Label statusLabel;
         private Button clearButton;
-        private Vector2 panOffset = Vector2.zero;
         
         #region UnityMethods
         [MenuItem("Tools/Multi-Zone Viewer")]
