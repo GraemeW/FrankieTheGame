@@ -297,9 +297,9 @@ namespace Frankie.ZoneManagement.UIEditor
         
         #region ZoneViews
 
-        private void RefreshZoneViews()
+        private void RefreshZoneViews(bool clearPanOffset = true)
         {
-            ClearRenderedZoneViews();
+            ClearRenderedZoneViews(clearPanOffset);
             TryLoadSnapshots();
             AddAllZoneViews();
             curvesLayer?.MarkDirtyRepaint();
@@ -374,7 +374,7 @@ namespace Frankie.ZoneManagement.UIEditor
             if (EditorSceneManager.SaveCurrentModifiedScenesIfUserWantsTo())
             {
                 EditorSceneManager.OpenScene(scenePath, OpenSceneMode.Single);
-                RefreshZoneViews();
+                RefreshZoneViews(false);
             }
         }
         #endregion
@@ -416,8 +416,9 @@ namespace Frankie.ZoneManagement.UIEditor
                     ZoneViewData zoneViewData = activeMultiZoneView.CreateOrUpdateZoneViewData(zoneName, scenePath, snapshotPNGPath, zoneViewDimensions, currentPosition, keepExistingPositions);
 
                     bool isyOffset = sceneCount % _defaultNumberViewsPerRow == 0;
-                    yOffset = Mathf.Max(yOffset, zoneViewData.topLeftPosition.y +  zoneViewData.dimensions.y + _zoneViewPadding);
-                    currentPosition = GetUpdatedZoneViewPosition(currentPosition, zoneViewData.dimensions, isyOffset, yOffset);
+                    yOffset = Mathf.Max(yOffset, zoneViewData.dimensions.y + _zoneViewPadding); // EditorWindow Top Padding
+                    currentPosition = GetUpdatedZoneViewPosition(currentPosition, zoneViewData.dimensions.x, isyOffset, yOffset);
+                    if (isyOffset) { yOffset = _zoneViewPadding; }
                     
                     sceneCount++;
                 }
@@ -475,16 +476,15 @@ namespace Frankie.ZoneManagement.UIEditor
             }
         }
 
-        private static Vector2 GetUpdatedZoneViewPosition(Vector2 currentPosition, Vector2 lastZoneViewDimensions, bool isyOffset, float yOffset)
+        private static Vector2 GetUpdatedZoneViewPosition(Vector2 currentPosition, float lastZoneViewWidth, bool isyOffset, float yOffset)
         {
             Vector2 newPosition = new Vector2(currentPosition.x, currentPosition.y);
-            newPosition.x += lastZoneViewDimensions.x + _zoneViewPadding;
-
-
+            newPosition.x += lastZoneViewWidth + _zoneViewPadding;
+            
             if (isyOffset)
             {
-                newPosition.x = _zoneViewPadding;
-                newPosition.y += yOffset;
+                newPosition.x = _zoneViewPadding; 
+                newPosition.y += yOffset + _zoneViewPadding; // ZoneView-to-ZoneView padding
             }
             return newPosition;
         }
@@ -710,14 +710,18 @@ namespace Frankie.ZoneManagement.UIEditor
         #endregion
         
         #region UIHelpers
-        private void ClearRenderedZoneViews()
+        private void ClearRenderedZoneViews(bool clearPanOffset = true)
         {
             DisposeRuntimeTextures();
             zoneViews.Clear();
             zoneViewLookup.Clear();
             zoneViewLayer?.Clear();
-            panOffset = Vector2.zero;
-            ApplyPanOffset();
+
+            if (clearPanOffset)
+            {
+                panOffset = Vector2.zero;
+                ApplyPanOffset();
+            }
         }
         
         private void ApplyPanOffset()
