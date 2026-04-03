@@ -83,7 +83,7 @@ MonoBehaviour:
   zoneNode: {fileID: 0}
   overrideDefaultInteractionDistance: 0
   interactionDistance: 0.1
-  warpPosition: {fileID: 8342028284851336959}
+  warpTransform: {fileID: 8342028284851336959}
   delayToDestroyAfterSceneLoading: 0.1
   roomParent: {fileID: 0}
   disableOnExit: 1

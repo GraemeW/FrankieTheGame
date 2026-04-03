@@ -18,6 +18,7 @@ MonoBehaviour:
   sceneReference:
     sceneAsset: {fileID: 102900000, guid: eccdfd585cec2fe4881a93b6d688f3c7, type: 3}
     sceneName: Tunnels
+    scenePath: Assets/Scenes/Tunnels.unity
   updateMap: 0
   zoneAudio: {fileID: 8300000, guid: 02a1d586795fd324280aca37a80a748c, type: 3}
   isZoneAudioLooping: 1
@@ -37,7 +38,6 @@ MonoBehaviour:
   m_Name: TunnelToProper
   m_EditorClassIdentifier: 
   children: []
-  linkedZone: {fileID: 11400000, guid: df1bace79a73e8843906b4ce6b0295ae, type: 2}
   linkedZoneNode: {fileID: -9213467749597982465, guid: df1bace79a73e8843906b4ce6b0295ae, type: 2}
   rect:
     serializedVersion: 2
@@ -67,7 +67,6 @@ MonoBehaviour:
   m_Name: TunnelToPrim
   m_EditorClassIdentifier: 
   children: []
-  linkedZone: {fileID: 11400000, guid: 210ece264cb0156468d645ecaa434255, type: 2}
   linkedZoneNode: {fileID: -3744593269575087478, guid: 210ece264cb0156468d645ecaa434255, type: 2}
   rect:
     serializedVersion: 2

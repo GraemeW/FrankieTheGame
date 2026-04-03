@@ -14,7 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   children:
   - LobbyToApartment
-  linkedZone: {fileID: 0}
   linkedZoneNode: {fileID: 0}
   rect:
     serializedVersion: 2
@@ -45,7 +44,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   children:
   - LivingRoomToKitchen
-  linkedZone: {fileID: 0}
   linkedZoneNode: {fileID: 0}
   rect:
     serializedVersion: 2
@@ -77,7 +75,6 @@ MonoBehaviour:
   children:
   - SceneToApartmentExterior
   - SceneToPrim
-  linkedZone: {fileID: 0}
   linkedZoneNode: {fileID: 0}
   rect:
     serializedVersion: 2
@@ -107,7 +104,6 @@ MonoBehaviour:
   m_Name: SceneToPrim
   m_EditorClassIdentifier: 
   children: []
-  linkedZone: {fileID: 11400000, guid: 210ece264cb0156468d645ecaa434255, type: 2}
   linkedZoneNode: {fileID: 7420601607016574253, guid: 210ece264cb0156468d645ecaa434255, type: 2}
   rect:
     serializedVersion: 2
@@ -140,7 +136,6 @@ MonoBehaviour:
   m_Name: SceneToApartmentBed
   m_EditorClassIdentifier: 
   children: []
-  linkedZone: {fileID: 11400000}
   linkedZoneNode: {fileID: 3520509955692951049}
   rect:
     serializedVersion: 2
@@ -171,7 +166,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   children:
   - SceneToApartmentBed
-  linkedZone: {fileID: 0}
   linkedZoneNode: {fileID: 0}
   rect:
     serializedVersion: 2
@@ -202,7 +196,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   children:
   - Kitchen
-  linkedZone: {fileID: 0}
   linkedZoneNode: {fileID: 0}
   rect:
     serializedVersion: 2
@@ -237,6 +230,7 @@ MonoBehaviour:
   sceneReference:
     sceneAsset: {fileID: 102900000, guid: 52222d36ecfd3de48ba0a6a7086a4d38, type: 3}
     sceneName: ApartmentInterior
+    scenePath: Assets/Scenes/ApartmentInterior.unity
   updateMap: 0
   zoneAudio: {fileID: 8300000, guid: aa55708dfcc59db408b6c7ff1281c67e, type: 3}
   isZoneAudioLooping: 1
@@ -269,7 +263,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   children:
   - LivingRoomToBathRoom
-  linkedZone: {fileID: 0}
   linkedZoneNode: {fileID: 0}
   rect:
     serializedVersion: 2
@@ -300,7 +293,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   children:
   - BedRoom
-  linkedZone: {fileID: 0}
   linkedZoneNode: {fileID: 0}
   rect:
     serializedVersion: 2
@@ -330,7 +322,6 @@ MonoBehaviour:
   m_Name: ApartmentBed
   m_EditorClassIdentifier: 
   children: []
-  linkedZone: {fileID: 0}
   linkedZoneNode: {fileID: 0}
   rect:
     serializedVersion: 2
@@ -360,7 +351,6 @@ MonoBehaviour:
   m_Name: SceneToApartmentExterior
   m_EditorClassIdentifier: 
   children: []
-  linkedZone: {fileID: 11400000, guid: e8f676a48128f694795863b89db2b92d, type: 2}
   linkedZoneNode: {fileID: 7420601607016574253, guid: e8f676a48128f694795863b89db2b92d, type: 2}
   rect:
     serializedVersion: 2
@@ -394,7 +384,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   children:
   - LivingRoomToBedRoom
-  linkedZone: {fileID: 0}
   linkedZoneNode: {fileID: 0}
   rect:
     serializedVersion: 2
@@ -425,7 +414,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   children:
   - ApartmentToLobby
-  linkedZone: {fileID: 0}
   linkedZoneNode: {fileID: 0}
   rect:
     serializedVersion: 2
@@ -456,7 +444,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   children:
   - BathRoom
-  linkedZone: {fileID: 0}
   linkedZoneNode: {fileID: 0}
   rect:
     serializedVersion: 2

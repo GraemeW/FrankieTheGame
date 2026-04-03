@@ -18,6 +18,7 @@ MonoBehaviour:
   sceneReference:
     sceneAsset: {fileID: 102900000, guid: 651f6a80cb1b1bd40ab16e2d1e5f7eda, type: 3}
     sceneName: StartScreen
+    scenePath: Assets/Scenes/StartScreen.unity
   updateMap: 0
   zoneAudio: {fileID: 8300000, guid: ba92d5d763b7df04d8fc87688acc6a05, type: 3}
   isZoneAudioLooping: 1
@@ -36,7 +37,6 @@ MonoBehaviour:
   m_Name: 15b2c8d5-5e63-462e-88ce-67505c0189cb
   m_EditorClassIdentifier: 
   children: []
-  linkedZone: {fileID: 0}
   linkedZoneNode: {fileID: 0}
   rect:
     serializedVersion: 2
@@ -51,3 +51,5 @@ MonoBehaviour:
     y: 0
     width: 430
     height: 45
+  condition:
+    and: []
