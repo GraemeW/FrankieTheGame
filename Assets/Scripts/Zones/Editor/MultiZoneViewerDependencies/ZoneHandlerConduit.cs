@@ -113,20 +113,5 @@ namespace Frankie.ZoneManagement.UIEditor
             return zoneHandlerNodeDataLookup;
         }
         #endregion
-
-        // TEMP
-        public static void Bonus(Zone rootZone)
-        {
-            if (rootZone == null || rootZone.GetSceneReference().SceneName == null) { return;}
-            
-            string rootScenePath = rootZone.GetSceneReference().GetScenePath();
-            if (string.IsNullOrEmpty(rootScenePath)) { return; }
-            
-            if (!EditorSceneManager.SaveCurrentModifiedScenesIfUserWantsTo()) { return; }
-            
-            EditorSceneManager.OpenScene(rootScenePath, OpenSceneMode.Single);
-            List<ZoneHandler> zoneHandlers = Object.FindObjectsByType<ZoneHandler>().ToList();
-            Debug.Log($"Zone Handler Count: {zoneHandlers.Count}");
-        }
     }
 }

@@ -250,10 +250,6 @@ namespace Frankie.ZoneManagement.UIEditor
 
             VisualElement additionalMaxScalingField = MakeFloatInputField("Additional Max Scaling", additionalMaxScalingFactor, newValue => additionalMaxScalingFactor = newValue);
             parametersPanel.Add(additionalMaxScalingField);
-            
-            Button bonusButton = new Button(() => ZoneHandlerConduit.Bonus(rootZone)) { text = "Bonus" };
-            StyleButton(bonusButton);
-            parametersPanel.Add(bonusButton);
         }
         #endregion
 
@@ -1127,7 +1123,8 @@ namespace Frankie.ZoneManagement.UIEditor
         {
             return new Image
             {
-                image = texture2D, scaleMode = ScaleMode.ScaleToFit,
+                image = texture2D, 
+                scaleMode = ScaleMode.ScaleToFit,
                 style =
                 {
                     flexGrow = 1,
