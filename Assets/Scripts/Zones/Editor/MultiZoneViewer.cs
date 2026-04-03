@@ -9,6 +9,7 @@ using UnityEditor;
 using UnityEditor.Build.Profile;
 using UnityEditor.SceneManagement;
 using UnityEditor.UIElements;
+using Object = UnityEngine.Object;
 
 namespace Frankie.ZoneManagement.UIEditor
 {
@@ -83,10 +84,6 @@ namespace Frankie.ZoneManagement.UIEditor
         {
             SubscribeCanvasToDrawGrid(true);
             SubscribeCurvesLayerToDrawCurves(true);
-            if (activeMultiZoneView != null)
-            {
-                TryLoadSnapshots();
-            }
         }
 
         private void OnDisable()
@@ -102,6 +99,11 @@ namespace Frankie.ZoneManagement.UIEditor
             root.style.flexDirection = FlexDirection.Column;
             root.style.flexGrow = 1;
 
+            if (activeMultiZoneView != null)
+            {
+                TryLoadSnapshots();
+            }
+            
             BuildToolbar(root);
             BuildCanvas(root);
             BuildParametersPanel(canvas);
@@ -214,7 +216,6 @@ namespace Frankie.ZoneManagement.UIEditor
                 multiZoneViewField?.SetValueWithoutNotify(activeMultiZoneView);
             }
             CaptureAllZones();
-            
             RefreshZoneViews();
             RefreshToolbarState();
         }
@@ -829,12 +830,6 @@ namespace Frankie.ZoneManagement.UIEditor
                 }
             }
         }
-        
-        private static Vector2 NodeRightCentre(ZoneViewData zoneViewData) =>
-            new(zoneViewData.topLeftPosition.x + zoneViewData.dimensions.x, zoneViewData.topLeftPosition.y + (_zoneViewHeaderHeight + zoneViewData.dimensions.y) * 0.5f);
-        
-        private static Vector2 NodeLeftCentre(ZoneViewData zoneViewData) =>
-            new(zoneViewData.topLeftPosition.x, zoneViewData.topLeftPosition.y + (_zoneViewHeaderHeight + zoneViewData.dimensions.y) * 0.5f);
         
         private static Vector2 NodeRelativePosition(ZoneViewData zoneViewData, Vector2 relativePosition, Vector2 imageOffset) =>
             new(zoneViewData.topLeftPosition.x + zoneViewData.dimensions.x * relativePosition.x - imageOffset.x, zoneViewData.topLeftPosition.y + zoneViewData.dimensions.y * relativePosition.y - imageOffset.y + _zoneViewHeaderHeight );

@@ -4,7 +4,7 @@ namespace Frankie.ZoneManagement.UIEditor
 {
     public struct ZoneHandlerNodeData
     {
-        public ZoneNode zoneNode;
+        public readonly ZoneNode zoneNode;
         public Vector2 position;
 
         public ZoneHandlerNodeData(ZoneNode zoneNode, Vector2 position)
