@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: PortaNF-to-Forest
   m_EditorClassIdentifier: Assembly-CSharp::Frankie.ZoneManagement.ZoneNode
   children: []
-  linkedZoneNode: {fileID: 1597822732919002936, guid: 56bcb0733fa024bf5b983792663e12bb, type: 2}
+  externalZoneLinkToZoneNode: {fileID: 1597822732919002936, guid: 56bcb0733fa024bf5b983792663e12bb, type: 2}
   rect:
     serializedVersion: 2
     x: 24
@@ -45,7 +45,7 @@ MonoBehaviour:
   nodeWidth: 430
   nodeHeight: 150
   sceneReference:
-    sceneAsset: {fileID: 102900000, guid: 00850a2bedb4a47a5b90b9b587036db6, type: 3}
+    sceneAsset: {fileID: 102900000, guid: fb6fba365500445ddbf566d4d36cff28, type: 3}
     sceneName: Demo_Forest1to20-Portabank
     scenePath: Assets/Scenes/_Demos/Forest_Level1to20/Demo_Forest1to20-Portabank.unity
   updateMap: 0
@@ -68,7 +68,7 @@ MonoBehaviour:
   m_Name: PortaSF-to-Forest
   m_EditorClassIdentifier: Assembly-CSharp::Frankie.ZoneManagement.ZoneNode
   children: []
-  linkedZoneNode: {fileID: -7167530607634530552, guid: 56bcb0733fa024bf5b983792663e12bb, type: 2}
+  externalZoneLinkToZoneNode: {fileID: -7167530607634530552, guid: 56bcb0733fa024bf5b983792663e12bb, type: 2}
   rect:
     serializedVersion: 2
     x: 30
@@ -97,7 +97,7 @@ MonoBehaviour:
   m_Name: PortaE-to-Forest
   m_EditorClassIdentifier: Assembly-CSharp::Frankie.ZoneManagement.ZoneNode
   children: []
-  linkedZoneNode: {fileID: -8229641933190378029, guid: 56bcb0733fa024bf5b983792663e12bb, type: 2}
+  externalZoneLinkToZoneNode: {fileID: -8229641933190378029, guid: 56bcb0733fa024bf5b983792663e12bb, type: 2}
   rect:
     serializedVersion: 2
     x: 23

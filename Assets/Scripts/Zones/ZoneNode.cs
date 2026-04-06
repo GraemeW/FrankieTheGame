@@ -11,23 +11,23 @@ namespace Frankie.ZoneManagement
         // Tunables
         [Header("Zone Node Properties")]
         [SerializeField] private List<string> children = new();
-        [SerializeField] private ZoneNode linkedZoneNode;
+        [SerializeField] private ZoneNode externalZoneLinkToZoneNode;
         [SerializeField] private Rect rect = new(30, 30, 430, 150);
         [HideInInspector][SerializeField] private string zoneName;
         [HideInInspector][SerializeField] private Rect draggingRect = new(0, 0, 430, 45);
         [Header("Additional Properties")]
         [SerializeField] private Condition condition;
-
+        
         #region Getters
         public string GetZoneName() => zoneName;
         public Zone GetZone() => Zone.GetFromName(zoneName);
         public string GetNodeID() => name;
         public List<string> GetChildren() => children.Count == 0 ? null : children;
-        public ZoneNode GetLinkedZoneNode() => linkedZoneNode;
+        public ZoneNode GetLinkedZoneNode() => externalZoneLinkToZoneNode;
         public bool HasLinkedSceneReference()
         {
-            if (linkedZoneNode == null) { return false; }
-            Zone linkedZone = linkedZoneNode.GetZone();
+            if (externalZoneLinkToZoneNode == null) { return false; }
+            Zone linkedZone = externalZoneLinkToZoneNode.GetZone();
             return linkedZone != null && linkedZone.GetSceneReference().IsSet();
         }
         #endregion

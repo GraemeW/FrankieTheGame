@@ -16,7 +16,7 @@ MonoBehaviour:
   nodeWidth: 430
   nodeHeight: 150
   sceneReference:
-    sceneAsset: {fileID: 102900000, guid: e494b574f37534540b7b1adee3863d96, type: 3}
+    sceneAsset: {fileID: 102900000, guid: bdbc1e0ce13a1f14ebbd17a6311fb5d4, type: 3}
     sceneName: GameWinScreen
     scenePath: Assets/Scenes/GameWinScreen.unity
   updateMap: 0
@@ -37,7 +37,7 @@ MonoBehaviour:
   m_Name: 690033ec-5caa-4755-abed-c50504002ce4
   m_EditorClassIdentifier: 
   children: []
-  linkedZoneNode: {fileID: 0}
+  externalZoneLinkToZoneNode: {fileID: 0}
   rect:
     serializedVersion: 2
     x: 30

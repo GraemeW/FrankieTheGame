@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   children:
   - BasementOrangeLeft
-  linkedZoneNode: {fileID: 0}
+  externalZoneLinkToZoneNode: {fileID: 0}
   rect:
     serializedVersion: 2
     x: 453
@@ -46,7 +46,7 @@ MonoBehaviour:
   - Office
   - VendingMachines
   - Kitchen
-  linkedZoneNode: {fileID: 0}
+  externalZoneLinkToZoneNode: {fileID: 0}
   rect:
     serializedVersion: 2
     x: 450
@@ -76,7 +76,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   children:
   - BasementOrangeRight
-  linkedZoneNode: {fileID: 0}
+  externalZoneLinkToZoneNode: {fileID: 0}
   rect:
     serializedVersion: 2
     x: 0
@@ -106,7 +106,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   children:
   - OpenRoomDoor
-  linkedZoneNode: {fileID: 0}
+  externalZoneLinkToZoneNode: {fileID: 0}
   rect:
     serializedVersion: 2
     x: 14
@@ -135,7 +135,7 @@ MonoBehaviour:
   m_Name: 51c6c652-4b21-4e91-94bc-9d9d12170694
   m_EditorClassIdentifier: 
   children: []
-  linkedZoneNode: {fileID: 0}
+  externalZoneLinkToZoneNode: {fileID: 0}
   rect:
     serializedVersion: 2
     x: 1104
@@ -164,7 +164,7 @@ MonoBehaviour:
   m_Name: BasementGreenRoyalePole
   m_EditorClassIdentifier: 
   children: []
-  linkedZoneNode: {fileID: 0}
+  externalZoneLinkToZoneNode: {fileID: 0}
   rect:
     serializedVersion: 2
     x: 20
@@ -197,7 +197,7 @@ MonoBehaviour:
   - Kitchen
   - VendingMachines
   - Basement
-  linkedZoneNode: {fileID: 0}
+  externalZoneLinkToZoneNode: {fileID: 0}
   rect:
     serializedVersion: 2
     x: 446
@@ -227,7 +227,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   children:
   - BasementRedRight
-  linkedZoneNode: {fileID: 0}
+  externalZoneLinkToZoneNode: {fileID: 0}
   rect:
     serializedVersion: 2
     x: -1
@@ -298,7 +298,7 @@ MonoBehaviour:
   m_Name: Outdoor
   m_EditorClassIdentifier: 
   children: []
-  linkedZoneNode: {fileID: 7904139768458627740, guid: 5a0924c0ea437e84497c373520a361f8, type: 2}
+  externalZoneLinkToZoneNode: {fileID: 7904139768458627740, guid: 5a0924c0ea437e84497c373520a361f8, type: 2}
   rect:
     serializedVersion: 2
     x: 1189
@@ -328,7 +328,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   children:
   - HallwayRight
-  linkedZoneNode: {fileID: 0}
+  externalZoneLinkToZoneNode: {fileID: 0}
   rect:
     serializedVersion: 2
     x: 1604
@@ -358,7 +358,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   children:
   - BasementGreenRoyalePole
-  linkedZoneNode: {fileID: 0}
+  externalZoneLinkToZoneNode: {fileID: 0}
   rect:
     serializedVersion: 2
     x: 591
@@ -388,7 +388,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   children:
   - RightDoor
-  linkedZoneNode: {fileID: 0}
+  externalZoneLinkToZoneNode: {fileID: 0}
   rect:
     serializedVersion: 2
     x: 1086
@@ -420,7 +420,7 @@ MonoBehaviour:
   - Kitchen
   - Office
   - Basement
-  linkedZoneNode: {fileID: 0}
+  externalZoneLinkToZoneNode: {fileID: 0}
   rect:
     serializedVersion: 2
     x: 154
@@ -450,7 +450,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   children:
   - Closet
-  linkedZoneNode: {fileID: 0}
+  externalZoneLinkToZoneNode: {fileID: 0}
   rect:
     serializedVersion: 2
     x: 1082
@@ -482,7 +482,7 @@ MonoBehaviour:
   - Office
   - VendingMachines
   - Basement
-  linkedZoneNode: {fileID: 0}
+  externalZoneLinkToZoneNode: {fileID: 0}
   rect:
     serializedVersion: 2
     x: 759
@@ -512,7 +512,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   children:
   - BasementYellowLeft
-  linkedZoneNode: {fileID: 0}
+  externalZoneLinkToZoneNode: {fileID: 0}
   rect:
     serializedVersion: 2
     x: 449
@@ -542,7 +542,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   children:
   - BasementRedLeft
-  linkedZoneNode: {fileID: 0}
+  externalZoneLinkToZoneNode: {fileID: 0}
   rect:
     serializedVersion: 2
     x: 7
@@ -572,7 +572,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   children:
   - HallwayLeft
-  linkedZoneNode: {fileID: 0}
+  externalZoneLinkToZoneNode: {fileID: 0}
   rect:
     serializedVersion: 2
     x: 546
@@ -602,7 +602,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   children:
   - BasementGreenRoyaleDoor
-  linkedZoneNode: {fileID: 0}
+  externalZoneLinkToZoneNode: {fileID: 0}
   rect:
     serializedVersion: 2
     x: 4
@@ -632,7 +632,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   children:
   - LeftDoor
-  linkedZoneNode: {fileID: 0}
+  externalZoneLinkToZoneNode: {fileID: 0}
   rect:
     serializedVersion: 2
     x: 17

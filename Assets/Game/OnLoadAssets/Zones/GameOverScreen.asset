@@ -16,7 +16,7 @@ MonoBehaviour:
   nodeWidth: 430
   nodeHeight: 150
   sceneReference:
-    sceneAsset: {fileID: 102900000, guid: c904f3148156b38488efe90bfa1101b6, type: 3}
+    sceneAsset: {fileID: 102900000, guid: bdbc1e0ce13a1f14ebbd17a6311fb5d4, type: 3}
     sceneName: GameOverScreen
     scenePath: Assets/Scenes/GameOverScreen.unity
   updateMap: 0
@@ -37,7 +37,7 @@ MonoBehaviour:
   m_Name: d91c7f33-5d2a-491e-8013-9af610ede985
   m_EditorClassIdentifier: 
   children: []
-  linkedZoneNode: {fileID: 0}
+  externalZoneLinkToZoneNode: {fileID: 0}
   rect:
     serializedVersion: 2
     x: 30

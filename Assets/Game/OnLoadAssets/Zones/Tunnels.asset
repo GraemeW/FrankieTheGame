@@ -16,7 +16,7 @@ MonoBehaviour:
   nodeWidth: 430
   nodeHeight: 150
   sceneReference:
-    sceneAsset: {fileID: 102900000, guid: eccdfd585cec2fe4881a93b6d688f3c7, type: 3}
+    sceneAsset: {fileID: 102900000, guid: bdbc1e0ce13a1f14ebbd17a6311fb5d4, type: 3}
     sceneName: Tunnels
     scenePath: Assets/Scenes/Tunnels.unity
   updateMap: 0
@@ -38,7 +38,7 @@ MonoBehaviour:
   m_Name: TunnelToProper
   m_EditorClassIdentifier: 
   children: []
-  linkedZoneNode: {fileID: -9213467749597982465, guid: df1bace79a73e8843906b4ce6b0295ae, type: 2}
+  externalZoneLinkToZoneNode: {fileID: -9213467749597982465, guid: df1bace79a73e8843906b4ce6b0295ae, type: 2}
   rect:
     serializedVersion: 2
     x: 31.999985
@@ -67,7 +67,7 @@ MonoBehaviour:
   m_Name: TunnelToPrim
   m_EditorClassIdentifier: 
   children: []
-  linkedZoneNode: {fileID: -3744593269575087478, guid: 210ece264cb0156468d645ecaa434255, type: 2}
+  externalZoneLinkToZoneNode: {fileID: -3744593269575087478, guid: 210ece264cb0156468d645ecaa434255, type: 2}
   rect:
     serializedVersion: 2
     x: 30
