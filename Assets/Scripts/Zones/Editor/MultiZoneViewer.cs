@@ -59,6 +59,7 @@ namespace Frankie.ZoneManagement.UIEditor
         [SerializeField] private float additionalMaxScalingFactor = 5.0f;
         
         // State
+        private bool isToolAvailable = true;
         private readonly List<ZoneView> zoneViews = new();
         private readonly Dictionary<string, ZoneView> zoneViewLookup = new();
         
@@ -84,12 +85,14 @@ namespace Frankie.ZoneManagement.UIEditor
         {
             SubscribeCanvasToDrawGrid(true);
             SubscribeCurvesLayerToDrawCurves(true);
+            SubscribeToPlayModeStateChanges(true);
         }
 
         private void OnDisable()
         {
             SubscribeCanvasToDrawGrid(false);
             SubscribeCurvesLayerToDrawCurves(false);
+            SubscribeToPlayModeStateChanges(false);
             DisposeRuntimeTextures();
         }
         
@@ -99,16 +102,49 @@ namespace Frankie.ZoneManagement.UIEditor
             root.style.flexDirection = FlexDirection.Column;
             root.style.flexGrow = 1;
 
-            if (activeMultiZoneView != null)
-            {
-                TryLoadSnapshots();
-            }
-            
+            if (activeMultiZoneView != null) { TryLoadSnapshots(); }
             BuildToolbar(root);
             BuildCanvas(root);
             BuildParametersPanel(canvas);
             AddAllZoneViews();
             RefreshToolbarState();
+        }
+
+        private void OnPlayModeStateChanged(PlayModeStateChange state)
+        {
+            switch (state)
+            {
+                case PlayModeStateChange.EnteredEditMode:
+                    isToolAvailable = true;
+                    OnRefreshClicked(false);
+                    break;
+                case PlayModeStateChange.EnteredPlayMode:
+                    OnRefreshClicked(false);
+                    isToolAvailable = false;
+                    break;
+            }
+        }
+        
+        private void SubscribeCanvasToDrawGrid(bool enable)
+        {
+            if (canvas == null) { return; }
+            
+            canvas.generateVisualContent -= DrawGrid;
+            if (enable) { canvas.generateVisualContent += DrawGrid; }
+        }
+
+        private void SubscribeCurvesLayerToDrawCurves(bool enable)
+        {
+            if (curvesLayer == null) { return; }
+
+            curvesLayer.generateVisualContent -= DrawCurves;
+            if (enable) { curvesLayer.generateVisualContent += DrawCurves; }
+        }
+
+        private void SubscribeToPlayModeStateChanges(bool enable)
+        {
+            EditorApplication.playModeStateChanged -= OnPlayModeStateChanged;
+            if (enable) { EditorApplication.playModeStateChanged += OnPlayModeStateChanged; }
         }
         #endregion
         
@@ -184,17 +220,24 @@ namespace Frankie.ZoneManagement.UIEditor
         
         private void OnSnapshotFieldChanged(ChangeEvent<Object> changeEvent)
         {
+            if (!isToolAvailable)
+            {
+                multiZoneViewField.SetValueWithoutNotify(changeEvent.previousValue);
+                return;
+            }
+            
             var selected = changeEvent.newValue as MultiZoneView;
             SetActiveMultiZoneView(selected);
         }
         
         private void SetActiveMultiZoneView(MultiZoneView multiZoneView)
         {
+            if (!isToolAvailable) { return; }
             ClearRenderedZoneViews();
 
             activeMultiZoneView = multiZoneView;
-            if (activeMultiZoneView != null) { TryLoadSnapshots(); }
             
+            if (activeMultiZoneView != null) { TryLoadSnapshots(); }
             AddAllZoneViews();
             curvesLayer?.MarkDirtyRepaint();
             canvas?.MarkDirtyRepaint();
@@ -209,6 +252,7 @@ namespace Frankie.ZoneManagement.UIEditor
 
         private void OnCaptureClicked()
         {
+            if (!isToolAvailable) { return; }
             if (activeMultiZoneView == null)
             {
                 activeMultiZoneView = CreateMultiZoneViewAsset();
@@ -222,6 +266,7 @@ namespace Frankie.ZoneManagement.UIEditor
 
         private void OnClearClicked()
         {
+            if (!isToolAvailable) { return; }
             activeMultiZoneView = null;
             multiZoneViewField?.SetValueWithoutNotify(null);
             ClearRenderedZoneViews();
@@ -232,7 +277,15 @@ namespace Frankie.ZoneManagement.UIEditor
 
         private void OnRefreshClicked()
         {
+            if (!isToolAvailable) { return; }
             RefreshZoneViews();
+            RefreshToolbarState();
+        }
+
+        private void OnRefreshClicked(bool clearPanOffset)
+        {
+            if (!isToolAvailable) { return; }
+            RefreshZoneViews(clearPanOffset);
             RefreshToolbarState();
         }
         #endregion
@@ -270,22 +323,6 @@ namespace Frankie.ZoneManagement.UIEditor
             canvas.Add(curvesLayer);
         }
         
-        private void SubscribeCanvasToDrawGrid(bool enable)
-        {
-            if (canvas == null) { return; }
-            
-            canvas.generateVisualContent -= DrawGrid;
-            if (enable) { canvas.generateVisualContent += DrawGrid; }
-        }
-
-        private void SubscribeCurvesLayerToDrawCurves(bool enable)
-        {
-            if (curvesLayer == null) { return; }
-
-            curvesLayer.generateVisualContent -= DrawCurves;
-            if (enable) { curvesLayer.generateVisualContent += DrawCurves; }
-        }
-        
         private void OnCanvasPanned(Vector2 delta)
         {
             panOffset += delta;
@@ -309,6 +346,7 @@ namespace Frankie.ZoneManagement.UIEditor
         
         private void AddAllZoneViews()
         {
+            ApplyPanOffset();
             foreach (ZoneView zoneView in zoneViews)
             {
                 AddZoneViewElement(zoneView);
@@ -367,6 +405,7 @@ namespace Frankie.ZoneManagement.UIEditor
 
         private void TryLoadScene(ZoneView zoneView)
         {
+            if (!isToolAvailable) { return; }
             string scenePath = zoneView?.data?.scenePath;
             if (scenePath == null) { return; }
             
@@ -713,6 +752,8 @@ namespace Frankie.ZoneManagement.UIEditor
         #region UIHelpers
         private void ClearRenderedZoneViews(bool clearPanOffset = true)
         {
+            Debug.Log($"Clearing rendered zone views with clearPanOffset: {clearPanOffset}");
+            Debug.Log($"Pan offset: {panOffset}");
             DisposeRuntimeTextures();
             zoneViews.Clear();
             zoneViewLookup.Clear();
