@@ -37,7 +37,7 @@ MonoBehaviour:
   m_Name: 1dbab023-f9ef-4289-9884-649149c40a0a
   m_EditorClassIdentifier: 
   children: []
-  linkedZoneNode: {fileID: 0}
+  externalZoneLinkToZoneNode: {fileID: 0}
   rect:
     serializedVersion: 2
     x: 30

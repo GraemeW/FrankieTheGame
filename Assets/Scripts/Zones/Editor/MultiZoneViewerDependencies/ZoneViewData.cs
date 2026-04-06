@@ -27,16 +27,6 @@ namespace Frankie.ZoneManagement.UIEditor
             EditorUtility.SetDirty(this);
         }
 
-        public void Setup(string setZoneName, string setScenePath, string setSnapshotPath)
-        {
-            name = setZoneName;
-            scenePath = setScenePath;
-            zoneName = setZoneName;
-            snapshotPath = setSnapshotPath;
-            zoneHandlerLinkDataSet = new List<ZoneHandlerLinkData>();
-            EditorUtility.SetDirty(this);
-        }
-
         public void CreateOrUpdateZoneLinkData(ZoneHandlerLinkData zoneHandlerLinkData)
         {
             bool matchFound = false;

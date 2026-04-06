@@ -1,0 +1,186 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-6639289524968347009
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b50d75eee75b4903a733d25929b0299a, type: 3}
+  m_Name: Demo_Forest1to20-Portabank
+  m_EditorClassIdentifier: Assembly-CSharp-Editor::Frankie.ZoneManagement.UIEditor.ZoneViewData
+  <zoneName>k__BackingField: Demo_Forest1to20-Portabank
+  <scenePath>k__BackingField: Assets/Scenes/_Demos/Forest_Level1to20/Demo_Forest1to20-Portabank.unity
+  <snapshotPath>k__BackingField: /Users/graemewilliams/G/GitHub/FrankieTheGame/MultiZoneViewer/Snapshot_Demo_Forest1to20-Portabank.png
+  topLeftPosition: {x: 62, y: 23}
+  dimensions: {x: 156, y: 120}
+  <zoneHandlerLinkDataSet>k__BackingField:
+  - sourceZoneName: Demo_Forest1to20-Portabank
+    sourceZoneNodeID: PortaNF-to-Forest
+    sourceNodeRelativePosition: {x: 0.2725281, y: 0.37095267}
+    targetZoneName: Demo_Forest1to20-Exterior
+    targetZoneNodeID: Forest-to-PortaNF
+    targetNodeRelativePosition: {x: 0.22082701, y: 0.3244291}
+  - sourceZoneName: Demo_Forest1to20-Portabank
+    sourceZoneNodeID: PortaE-to-Forest
+    sourceNodeRelativePosition: {x: 0.9230332, y: 0.5819353}
+    targetZoneName: Demo_Forest1to20-Exterior
+    targetZoneNodeID: Forest-to-PortaE
+    targetNodeRelativePosition: {x: 0.76830494, y: 0.3769237}
+  - sourceZoneName: Demo_Forest1to20-Portabank
+    sourceZoneNodeID: PortaSF-to-Forest
+    sourceNodeRelativePosition: {x: 0.2725281, y: 0.96343815}
+    targetZoneName: Demo_Forest1to20-Exterior
+    targetZoneNodeID: Forest-to-PortaSF
+    targetNodeRelativePosition: {x: 0.1952865, y: 0.75932056}
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5fb1993dc64a4ad099547778d9321e5b, type: 3}
+  m_Name: DemoCapture
+  m_EditorClassIdentifier: Assembly-CSharp-Editor::Frankie.ZoneManagement.UIEditor.MultiZoneView
+  <zoneViewDataSet>k__BackingField:
+  - {fileID: 2221160777855930734}
+  - {fileID: -6639289524968347009}
+  - {fileID: 6087734912170097188}
+--- !u!114 &2221160777855930734
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b50d75eee75b4903a733d25929b0299a, type: 3}
+  m_Name: Demo_Forest1to20-Exterior
+  m_EditorClassIdentifier: Assembly-CSharp-Editor::Frankie.ZoneManagement.UIEditor.ZoneViewData
+  <zoneName>k__BackingField: Demo_Forest1to20-Exterior
+  <scenePath>k__BackingField: Assets/Scenes/_Demos/Forest_Level1to20/Demo_Forest1to20-Exterior.unity
+  <snapshotPath>k__BackingField: /Users/graemewilliams/G/GitHub/FrankieTheGame/MultiZoneViewer/Snapshot_Demo_Forest1to20-Exterior.png
+  topLeftPosition: {x: 275, y: 167}
+  dimensions: {x: 561, y: 342}
+  <zoneHandlerLinkDataSet>k__BackingField:
+  - sourceZoneName: Demo_Forest1to20-Exterior
+    sourceZoneNodeID: Forest-to-PortaE
+    sourceNodeRelativePosition: {x: 0.76830494, y: 0.3769237}
+    targetZoneName: Demo_Forest1to20-Portabank
+    targetZoneNodeID: PortaE-to-Forest
+    targetNodeRelativePosition: {x: 0.9230332, y: 0.5819353}
+  - sourceZoneName: Demo_Forest1to20-Exterior
+    sourceZoneNodeID: Forest-to-ChurchLobby
+    sourceNodeRelativePosition: {x: 0.8564721, y: 0.3903113}
+    targetZoneName: Demo_Forest1to20-Interior
+    targetZoneNodeID: ChurchLobbyToForest
+    targetNodeRelativePosition: {x: 0.9527559, y: 0.45640528}
+  - sourceZoneName: Demo_Forest1to20-Exterior
+    sourceZoneNodeID: Forest-to-LacklustreVideo
+    sourceNodeRelativePosition: {x: 0.24307992, y: 0.8258575}
+    targetZoneName: Demo_Forest1to20-Interior
+    targetZoneNodeID: LacklustreVideoToForest
+    targetNodeRelativePosition: {x: 0.22409448, y: 0.6722807}
+  - sourceZoneName: Demo_Forest1to20-Exterior
+    sourceZoneNodeID: Forest-to-TunnelEast
+    sourceNodeRelativePosition: {x: 0.78348637, y: 0.3756802}
+    targetZoneName: Demo_Forest1to20-Interior
+    targetZoneNodeID: TunnelEastToForest
+    targetNodeRelativePosition: {x: 0.70362204, y: 0.06210528}
+  - sourceZoneName: Demo_Forest1to20-Exterior
+    sourceZoneNodeID: Forest-to-PortaSF
+    sourceNodeRelativePosition: {x: 0.1952865, y: 0.75932056}
+    targetZoneName: Demo_Forest1to20-Portabank
+    targetZoneNodeID: PortaSF-to-Forest
+    targetNodeRelativePosition: {x: 0.2725281, y: 0.96343815}
+  - sourceZoneName: Demo_Forest1to20-Exterior
+    sourceZoneNodeID: Forest-to-OrangeHouse
+    sourceNodeRelativePosition: {x: 0.09513327, y: 0.90054137}
+    targetZoneName: Demo_Forest1to20-Interior
+    targetZoneNodeID: OrangeHouseToForest
+    targetNodeRelativePosition: {x: 0.07574803, y: 0.79473686}
+  - sourceZoneName: Demo_Forest1to20-Exterior
+    sourceZoneNodeID: Forest-to-TunnelWest
+    sourceNodeRelativePosition: {x: 0.37975726, y: 0.8089467}
+    targetZoneName: Demo_Forest1to20-Interior
+    targetZoneNodeID: TunnelWestToForest
+    targetNodeRelativePosition: {x: 0.3335433, y: 0.23368424}
+  - sourceZoneName: Demo_Forest1to20-Exterior
+    sourceZoneNodeID: Forest-to-PortaNF
+    sourceNodeRelativePosition: {x: 0.22082701, y: 0.3244291}
+    targetZoneName: Demo_Forest1to20-Portabank
+    targetZoneNodeID: PortaNF-to-Forest
+    targetNodeRelativePosition: {x: 0.2725281, y: 0.37095267}
+  - sourceZoneName: Demo_Forest1to20-Exterior
+    sourceZoneNodeID: Forest-to-ChugNSlurp
+    sourceNodeRelativePosition: {x: 0.24815972, y: 0.3374339}
+    targetZoneName: Demo_Forest1to20-Interior
+    targetZoneNodeID: ChugNSlurpToForest
+    targetNodeRelativePosition: {x: 0.099921264, y: 0.39403507}
+--- !u!114 &6087734912170097188
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b50d75eee75b4903a733d25929b0299a, type: 3}
+  m_Name: Demo_Forest1to20-Interior
+  m_EditorClassIdentifier: Assembly-CSharp-Editor::Frankie.ZoneManagement.UIEditor.ZoneViewData
+  <zoneName>k__BackingField: Demo_Forest1to20-Interior
+  <scenePath>k__BackingField: Assets/Scenes/_Demos/Forest_Level1to20/Demo_Forest1to20-Interior.unity
+  <snapshotPath>k__BackingField: /Users/graemewilliams/G/GitHub/FrankieTheGame/MultiZoneViewer/Snapshot_Demo_Forest1to20-Interior.png
+  topLeftPosition: {x: 676, y: 554}
+  dimensions: {x: 381, y: 171}
+  <zoneHandlerLinkDataSet>k__BackingField:
+  - sourceZoneName: Demo_Forest1to20-Interior
+    sourceZoneNodeID: LacklustreVideoToForest
+    sourceNodeRelativePosition: {x: 0.22409448, y: 0.6722807}
+    targetZoneName: Demo_Forest1to20-Exterior
+    targetZoneNodeID: Forest-to-LacklustreVideo
+    targetNodeRelativePosition: {x: 0.24307992, y: 0.8258575}
+  - sourceZoneName: Demo_Forest1to20-Interior
+    sourceZoneNodeID: OrangeHouseToForest
+    sourceNodeRelativePosition: {x: 0.07574803, y: 0.79473686}
+    targetZoneName: Demo_Forest1to20-Exterior
+    targetZoneNodeID: Forest-to-OrangeHouse
+    targetNodeRelativePosition: {x: 0.09513327, y: 0.90054137}
+  - sourceZoneName: Demo_Forest1to20-Interior
+    sourceZoneNodeID: ChurchLobbyToPortaE
+    sourceNodeRelativePosition: {x: 0.94973844, y: 0.44017053}
+    targetZoneName: Demo_Forest1to20-Exterior
+    targetZoneNodeID: Forest-to-PortaE
+    targetNodeRelativePosition: {x: 0.76830494, y: 0.3769237}
+  - sourceZoneName: Demo_Forest1to20-Interior
+    sourceZoneNodeID: ChurchLobbyToForest
+    sourceNodeRelativePosition: {x: 0.9527559, y: 0.45640528}
+    targetZoneName: Demo_Forest1to20-Exterior
+    targetZoneNodeID: Forest-to-ChurchLobby
+    targetNodeRelativePosition: {x: 0.8564721, y: 0.3903113}
+  - sourceZoneName: Demo_Forest1to20-Interior
+    sourceZoneNodeID: ChugNSlurpToForest
+    sourceNodeRelativePosition: {x: 0.099921264, y: 0.39403507}
+    targetZoneName: Demo_Forest1to20-Exterior
+    targetZoneNodeID: Forest-to-ChugNSlurp
+    targetNodeRelativePosition: {x: 0.24815972, y: 0.3374339}
+  - sourceZoneName: Demo_Forest1to20-Interior
+    sourceZoneNodeID: TunnelWestToForest
+    sourceNodeRelativePosition: {x: 0.3335433, y: 0.23368424}
+    targetZoneName: Demo_Forest1to20-Exterior
+    targetZoneNodeID: Forest-to-TunnelWest
+    targetNodeRelativePosition: {x: 0.37975726, y: 0.8089467}
+  - sourceZoneName: Demo_Forest1to20-Interior
+    sourceZoneNodeID: TunnelEastToForest
+    sourceNodeRelativePosition: {x: 0.70362204, y: 0.06210528}
+    targetZoneName: Demo_Forest1to20-Exterior
+    targetZoneNodeID: Forest-to-TunnelEast
+    targetNodeRelativePosition: {x: 0.78348637, y: 0.3756802}

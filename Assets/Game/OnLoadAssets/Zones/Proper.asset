@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: ProperToTunnel
   m_EditorClassIdentifier: 
   children: []
-  linkedZoneNode: {fileID: 3508818416795371724, guid: 6fbdf79e60fb835409a507cd244e2338, type: 2}
+  externalZoneLinkToZoneNode: {fileID: 3508818416795371724, guid: 6fbdf79e60fb835409a507cd244e2338, type: 2}
   rect:
     serializedVersion: 2
     x: 30
@@ -45,7 +45,7 @@ MonoBehaviour:
   nodeWidth: 430
   nodeHeight: 150
   sceneReference:
-    sceneAsset: {fileID: 102900000, guid: 06f2222db45582245bb1d6aa64044d8e, type: 3}
+    sceneAsset: {fileID: 102900000, guid: bdbc1e0ce13a1f14ebbd17a6311fb5d4, type: 3}
     sceneName: Proper
     scenePath: Assets/Scenes/Proper.unity
   updateMap: 1

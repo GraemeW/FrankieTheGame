@@ -111,6 +111,10 @@ $RECYCLE.BIN/
 *.lnk
 
 # Other Ignores
+.DS_Store
+*.pyc
+Assets/UnityConfigurables/AddressableAssetsData/link.xml
+Assets/UnityConfigurables/AddressableAssetsData/link.xml.meta
 Assets/z_MadeAssets/
 Assets/z_ImportedAssets/
 InfoTools/TilemapPacking/Input/
@@ -119,10 +123,6 @@ InfoTools/TilemapPacking/__pycache__/
 InfoTools/ImagePreImportTool/Input/
 InfoTools/ImagePreImportTool/Output/
 InfoTools/CreateImageTool/Output/
-.DS_Store
-*.pyc
-Assets/UnityConfigurables/AddressableAssetsData/link.xml
-Assets/UnityConfigurables/AddressableAssetsData/link.xml.meta
 InfoTools/ImagePreImportTool/InputDirectory
 InfoTools/PyTools/ImagePreImportTool/InputDirectory
-MultiZoneViewer
+/MultiZoneViewer

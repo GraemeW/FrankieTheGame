@@ -8,11 +8,11 @@ Zone scriptable objects serve three primary purposes:
 
 Naturally it should be understood that any time a new Scene is created, a new Zone should be created to pair with it.  
 
-## Zones:  Quest Start Guide
+## Zones:  Quick Start Guide
 
 ### Make the Zone
 
-1. Navigate to this [Zones](./) directory (or any sub-directories within)
+1. Navigate to this [Zones](./) directory (or any subdirectories within)
 2. Right click and select `Create` -> `Zones` -> `New Zone`
 
 <img src="../../../../InfoTools/Documentation/Game/OnLoadAssets/Zones/NewZoneMenu.png" width="500">
@@ -41,11 +41,11 @@ An example Zone configuration is shown below for the Office Interior scene:
 
 ## Zone Editor
 
-Double click on the Zone scriptable object to open up the Zone Editor.  An example new zone is shown below:
+Double-click on the Zone scriptable object to open up the Zone Editor.  An example new zone is shown below:
 
 <img src="../../../../InfoTools/Documentation/Game/OnLoadAssets/Zones/ExampleZoneA.png" width="600">
 
-Upon opening the zone in the zone editor and saving, a child ZoneNode will be created, as shown above.  We will refer to this as the `root` ZoneNode.  The `root` ZoneNode's ID is auto-populated, but it can be overridden for descriptive clarity, as below:
+Upon opening the zone in the zone editor and saving, a child ZoneNode will be created, as shown above.  We will refer to this as the `root` ZoneNode.  The `root` ZoneNode's ID is autopopulated, but it can be overridden for descriptive clarity, as below:
 
 <img src="../../../../InfoTools/Documentation/Game/OnLoadAssets/Zones/ExampleZoneB.png" width="300">
 
@@ -71,13 +71,13 @@ This effectively sets the logic to exit the `ExampleZone` scene -- by interactin
 
 ### Setting up Within-Zone Nodes
 
-ZoneNodes are also used for travel **within** a zone.  For example, consider if we want to have Frankie enter a door to travel from the living room to the bathroom -- in this case, we don't want separate scenes for each room, but we do want to move from the living room into the bathroom within the scene (and to toggle game objects accordingly).  This is zone via simple zone nodes without populating the `Linked Zone/Node` fields noted above.
+ZoneNodes are also used for travel **within** a zone.  For example, consider if we want to have Frankie enter a door to travel from the living room to the bathroom.  In this case, we don't want separate scenes for each room, but we do want to move from the living room into the bathroom within the scene (and to toggle game objects accordingly).  This is zone via simple zone nodes without populating the `Linked Zone/Node` fields noted above.
 
 Continuing the above example, let's add a new *orphan* zone node by:
 * once again, click on the `+` sign on the `root` ZoneNode
   * this will generate a third ZoneNode, which we will name `LivingRoomDoor`
 * click `link` on the `root` ZoneNode
-* click `unlink` on the the `LivingRoomDoor` ZoneNode
+* click `unlink` on the `LivingRoomDoor` ZoneNode
 , as below:
 
 <img src="../../../../InfoTools/Documentation/Game/OnLoadAssets/Zones/ExampleZoneE.png" width="600">
@@ -90,7 +90,7 @@ From here we can link this new ZoneNode to a new `BathroomDoor` ZoneNode by clic
 
 <img src="../../../../InfoTools/Documentation/Game/OnLoadAssets/Zones/ExampleZoneG.png" width="600">
 
-We usually want bi-directional movement between ZoneNodes (it would be weird if Frankie could travel from the living room to the bathroom, but could not travel back from the bathroom to the living room).  To enable this:
+We usually want bidirectional movement between ZoneNodes (it would be weird if Frankie could travel from the living room to the bathroom, but could not travel back from the bathroom to the living room).  To enable this:
 * click `link` on the `BathroomDoor` ZoneNode
 * click `child` on the `LivingRoomDoor` ZoneNode
 , as below:
@@ -101,7 +101,7 @@ Finally, note that a single ZoneNode **can** access multiple other ZoneNodes -- 
 * re-name the `LivingRoomDoor` ZoneNode to `ElevatorDoor`
 * click the `+` sign on the `LivingRoomDoor` ZoneNode twice
 * name the new ZoneNodes (e.g. `BasementDoor` and `RoofDoor`)
-* back-link the new ZoneNodes to enable bi-directional travel
+* back-link the new ZoneNodes to enable bidirectional travel
 
 The final zone as mapped out then looks like:
 
@@ -120,6 +120,38 @@ Continuing the above example, we can restrict access to the `Bathroom` ZoneNode 
 
 As discussed above, Zones are effectively wrappers to the scenes, and ZoneNodes help to map the interior of the scene.  Functionally, ZoneNodes are consumed by a ZoneHandler component to physically warp Frankie and his team around the game.  
 
-Standard implementations of the ZoneHandler component can be found on the prefabs in [WorldObjects/_ZoneNodes/](../../WorldObjects/_ZoneNodes/).  These prefabs include interaction components/colliders (i.e. so Frankie can trigger the ZoneHandler->ZoneNode), sound boxes (e.g. a opening door sound) and other relevant tunables -- such as with the SimpleZoneNode below:
+Standard implementations of the ZoneHandler component can be found on the prefabs in [WorldObjects/_ZoneNodes/](../../WorldObjects/_ZoneNodes/).  These prefabs include interaction components/colliders (i.e. so Frankie can trigger the ZoneHandler→ZoneNode), sound boxes (e.g. an opening door sound) and other relevant tunables -- such as with the SimpleZoneNode below:
 
 <img src="../../../../InfoTools/Documentation/Game/OnLoadAssets/Zones/SimpleZoneNode.png" width="600">
+
+## Multi-Zone Viewer
+
+The Multi-Zone Viewer Tool was created in order to better visualize Zones at a glance, including how they connect to each other with ZoneHandlers.  It can be opened from the main Unity toolbar under `Tools -> Multi-Zone Viewer` as below:
+
+<img src="../../../../InfoTools/Documentation/Game/OnLoadAssets/Zones/MultiZoneViewerOpenMenu.png" width="110">
+
+The tool creates snapshots of each Zone (via the build profile scene list, or by crawling through Zones connected via ZoneHandler→ZoneNodes), with each snapshot displayed in a card/node called a ZoneView.  When generating snapshots by crawling through ZoneHandlers, Bézier curves are painted on the ZoneViews to illustrate the ZoneNode connections. 
+
+A Zone's scene can be opened directly in the Unity Editor by clicking on the Zone's corresponding ZoneView image.  ZoneViews can be dragged around the Tool by clicking and dragging the ZoneView headers, and their positions will be saved in the MultiZoneView asset.  Dimensional information can be modified by clicking on the header, and then updating the ZoneViewData asset in the Unity inspector.
+
+An example snapshot of the Multi-Zone Viewer tool in action is provided below.
+
+<img src="../../../../InfoTools/Documentation/Game/OnLoadAssets/Zones/MultiZoneViewerExample.png" width="800">
+
+Basic usage of the tool is as follows:
+* If an existing snapshot exists, select its MultiZoneView asset under `Snapshot`
+  * Otherwise, click `Capture Zones` to generate a new MultiZoneView asset
+  * Click clear to clear the selected MultiZoneView asset and to clear the painted canvas
+* In order to
+  * A) use Build Profiles to select scenes to generate the asset:
+    * deselect `Crawl ZoneHandlers`
+  * B) use ZoneHandler crawling to select scenes to generate the asset:
+    * select `Crawl ZoneHandlers`
+    * select the starting `Zone` to crawl
+    * select `Draw Connections` to draw the Bézier curve connections among the ZoneHandlers
+
+In order to update an existing capture:
+* Ensure the MultiZoneView asset is selected under `Snapshot`
+* Select `Keep positions` if you wish to retain ZoneView positional information
+* Select `Keep dimensions` if you wish to retain ZoneView dimensional information
+* Click `Capture Zones`

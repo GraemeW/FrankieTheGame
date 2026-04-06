@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   children:
   - PS_YellowHouse_2F
-  linkedZoneNode: {fileID: 0}
+  externalZoneLinkToZoneNode: {fileID: 0}
   rect:
     serializedVersion: 2
     x: 157
@@ -44,7 +44,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   children:
   - PS_TallestBuilding_3f-down
-  linkedZoneNode: {fileID: 0}
+  externalZoneLinkToZoneNode: {fileID: 0}
   rect:
     serializedVersion: 2
     x: 161
@@ -74,7 +74,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   children:
   - PS_TallestBuilding_4f-down
-  linkedZoneNode: {fileID: 0}
+  externalZoneLinkToZoneNode: {fileID: 0}
   rect:
     serializedVersion: 2
     x: 179
@@ -104,7 +104,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   children:
   - PS_TallestBuilding_2f-down
-  linkedZoneNode: {fileID: 0}
+  externalZoneLinkToZoneNode: {fileID: 0}
   rect:
     serializedVersion: 2
     x: 157
@@ -134,7 +134,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   children:
   - PS_TallestBuilding_4f-up
-  linkedZoneNode: {fileID: 0}
+  externalZoneLinkToZoneNode: {fileID: 0}
   rect:
     serializedVersion: 2
     x: 658
@@ -164,7 +164,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   children:
   - PS_YellowHouse_1F
-  linkedZoneNode: {fileID: 0}
+  externalZoneLinkToZoneNode: {fileID: 0}
   rect:
     serializedVersion: 2
     x: 608
@@ -196,7 +196,7 @@ MonoBehaviour:
   nodeWidth: 430
   nodeHeight: 150
   sceneReference:
-    sceneAsset: {fileID: 102900000, guid: a0d0d2d6d43c51843a58bdb193f8e175, type: 3}
+    sceneAsset: {fileID: 102900000, guid: bdbc1e0ce13a1f14ebbd17a6311fb5d4, type: 3}
     sceneName: PrimInterior
     scenePath: Assets/Scenes/PrimInterior.unity
   updateMap: 0
@@ -229,7 +229,7 @@ MonoBehaviour:
   m_Name: PS_TallestBuilding_Interior
   m_EditorClassIdentifier: 
   children: []
-  linkedZoneNode: {fileID: 2939076438721492088, guid: 210ece264cb0156468d645ecaa434255, type: 2}
+  externalZoneLinkToZoneNode: {fileID: 2939076438721492088, guid: 210ece264cb0156468d645ecaa434255, type: 2}
   rect:
     serializedVersion: 2
     x: 41
@@ -259,7 +259,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   children:
   - SceneToPrim
-  linkedZoneNode: {fileID: 3617544309863132449, guid: 210ece264cb0156468d645ecaa434255, type: 2}
+  externalZoneLinkToZoneNode: {fileID: 3617544309863132449, guid: 210ece264cb0156468d645ecaa434255, type: 2}
   rect:
     serializedVersion: 2
     x: 30
@@ -289,7 +289,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   children:
   - PS_TallestBuilding_2f-up
-  linkedZoneNode: {fileID: 0}
+  externalZoneLinkToZoneNode: {fileID: 0}
   rect:
     serializedVersion: 2
     x: 631
@@ -319,7 +319,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   children:
   - PS_TallestBuilding_3f-up
-  linkedZoneNode: {fileID: 0}
+  externalZoneLinkToZoneNode: {fileID: 0}
   rect:
     serializedVersion: 2
     x: 647
@@ -349,7 +349,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   children:
   - PS_TallestBuilding_1f
-  linkedZoneNode: {fileID: 0}
+  externalZoneLinkToZoneNode: {fileID: 0}
   rect:
     serializedVersion: 2
     x: 621
@@ -379,7 +379,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   children:
   - PS_TallestBuilding_5f
-  linkedZoneNode: {fileID: 0}
+  externalZoneLinkToZoneNode: {fileID: 0}
   rect:
     serializedVersion: 2
     x: 183
@@ -408,7 +408,7 @@ MonoBehaviour:
   m_Name: PS_RedHouse_Interior
   m_EditorClassIdentifier: 
   children: []
-  linkedZoneNode: {fileID: -665902458594080065, guid: 210ece264cb0156468d645ecaa434255, type: 2}
+  externalZoneLinkToZoneNode: {fileID: -665902458594080065, guid: 210ece264cb0156468d645ecaa434255, type: 2}
   rect:
     serializedVersion: 2
     x: 45

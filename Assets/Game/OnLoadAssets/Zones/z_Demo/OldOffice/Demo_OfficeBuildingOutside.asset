@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   children:
   - SceneToPortaBank
-  linkedZoneNode: {fileID: 0}
+  externalZoneLinkToZoneNode: {fileID: 0}
   rect:
     serializedVersion: 2
     x: 34
@@ -43,7 +43,7 @@ MonoBehaviour:
   m_Name: SceneToSubway
   m_EditorClassIdentifier: 
   children: []
-  linkedZoneNode: {fileID: 6018069334625240327, guid: 22c8250c01773ac4c97cd290e2f34c7a, type: 2}
+  externalZoneLinkToZoneNode: {fileID: 6018069334625240327, guid: 22c8250c01773ac4c97cd290e2f34c7a, type: 2}
   rect:
     serializedVersion: 2
     x: 545
@@ -73,7 +73,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   children:
   - SceneToSubway
-  linkedZoneNode: {fileID: 0}
+  externalZoneLinkToZoneNode: {fileID: 0}
   rect:
     serializedVersion: 2
     x: 45.99997
@@ -102,7 +102,7 @@ MonoBehaviour:
   m_Name: SceneToOffice
   m_EditorClassIdentifier: 
   children: []
-  linkedZoneNode: {fileID: -581003641315174118, guid: 26c6337203d60d64b876b87a573d7f08, type: 2}
+  externalZoneLinkToZoneNode: {fileID: -581003641315174118, guid: 26c6337203d60d64b876b87a573d7f08, type: 2}
   rect:
     serializedVersion: 2
     x: 560
@@ -131,7 +131,7 @@ MonoBehaviour:
   m_Name: SceneToPortaBank
   m_EditorClassIdentifier: 
   children: []
-  linkedZoneNode: {fileID: -3574389237603949618, guid: 4742afef1319b6e41b7fe953e2225f42, type: 2}
+  externalZoneLinkToZoneNode: {fileID: -3574389237603949618, guid: 4742afef1319b6e41b7fe953e2225f42, type: 2}
   rect:
     serializedVersion: 2
     x: 564
@@ -163,7 +163,7 @@ MonoBehaviour:
   nodeWidth: 430
   nodeHeight: 150
   sceneReference:
-    sceneAsset: {fileID: 102900000, guid: 2711c36e71bc89a4083f2a005e848602, type: 3}
+    sceneAsset: {fileID: 102900000, guid: 2cda990e2423bbf4892e6590ba056729, type: 3}
     sceneName: Demo_OfficeBuildingOutside
     scenePath: Assets/Scenes/_Demos/z_Old_OfficeDemo/Demo_OfficeBuildingOutside.unity
   updateMap: 1
@@ -190,7 +190,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   children:
   - SceneToOffice
-  linkedZoneNode: {fileID: 0}
+  externalZoneLinkToZoneNode: {fileID: 0}
   rect:
     serializedVersion: 2
     x: 30

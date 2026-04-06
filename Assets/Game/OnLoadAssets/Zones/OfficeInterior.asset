@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   children:
   - OfficeBElevator
-  linkedZoneNode: {fileID: 0}
+  externalZoneLinkToZoneNode: {fileID: 0}
   rect:
     serializedVersion: 2
     x: 2030
@@ -43,7 +43,7 @@ MonoBehaviour:
   m_Name: BasementAPole
   m_EditorClassIdentifier: 
   children: []
-  linkedZoneNode: {fileID: 0}
+  externalZoneLinkToZoneNode: {fileID: 0}
   rect:
     serializedVersion: 2
     x: 2101
@@ -75,7 +75,7 @@ MonoBehaviour:
   - Lobby
   - Kitchen
   - EntranceHallway
-  linkedZoneNode: {fileID: 0}
+  externalZoneLinkToZoneNode: {fileID: 0}
   rect:
     serializedVersion: 2
     x: 576
@@ -105,7 +105,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   children:
   - OfficeBDoorRight
-  linkedZoneNode: {fileID: 0}
+  externalZoneLinkToZoneNode: {fileID: 0}
   rect:
     serializedVersion: 2
     x: 1609
@@ -135,7 +135,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   children:
   - OfficeADoorLeft
-  linkedZoneNode: {fileID: 0}
+  externalZoneLinkToZoneNode: {fileID: 0}
   rect:
     serializedVersion: 2
     x: 2103
@@ -165,7 +165,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   children:
   - BasementCDoorBottom
-  linkedZoneNode: {fileID: 0}
+  externalZoneLinkToZoneNode: {fileID: 0}
   rect:
     serializedVersion: 2
     x: 3157
@@ -195,7 +195,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   children:
   - BasementADoorRight
-  linkedZoneNode: {fileID: 0}
+  externalZoneLinkToZoneNode: {fileID: 0}
   rect:
     serializedVersion: 2
     x: 3161
@@ -227,7 +227,7 @@ MonoBehaviour:
   - EntranceHallway
   - VendingMachineRoom
   - Kitchen
-  linkedZoneNode: {fileID: 0}
+  externalZoneLinkToZoneNode: {fileID: 0}
   rect:
     serializedVersion: 2
     x: 46
@@ -256,7 +256,7 @@ MonoBehaviour:
   m_Name: OfficeBElevator
   m_EditorClassIdentifier: 
   children: []
-  linkedZoneNode: {fileID: 0}
+  externalZoneLinkToZoneNode: {fileID: 0}
   rect:
     serializedVersion: 2
     x: 1652
@@ -285,7 +285,7 @@ MonoBehaviour:
   m_Name: OfficeInteriorDoor
   m_EditorClassIdentifier: 
   children: []
-  linkedZoneNode: {fileID: 7904139768458627740, guid: e8f676a48128f694795863b89db2b92d, type: 2}
+  externalZoneLinkToZoneNode: {fileID: 7904139768458627740, guid: e8f676a48128f694795863b89db2b92d, type: 2}
   rect:
     serializedVersion: 2
     x: 44
@@ -315,7 +315,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   children:
   - OfficeADoorRight
-  linkedZoneNode: {fileID: 0}
+  externalZoneLinkToZoneNode: {fileID: 0}
   rect:
     serializedVersion: 2
     x: 1077
@@ -347,7 +347,7 @@ MonoBehaviour:
   nodeWidth: 430
   nodeHeight: 150
   sceneReference:
-    sceneAsset: {fileID: 102900000, guid: 813f104c01953014ba595875d499ada2, type: 3}
+    sceneAsset: {fileID: 102900000, guid: bdbc1e0ce13a1f14ebbd17a6311fb5d4, type: 3}
     sceneName: OfficeInterior
     scenePath: Assets/Scenes/OfficeInterior.unity
   updateMap: 0
@@ -389,7 +389,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   children:
   - BasementAPole
-  linkedZoneNode: {fileID: 0}
+  externalZoneLinkToZoneNode: {fileID: 0}
   rect:
     serializedVersion: 2
     x: 2102
@@ -422,7 +422,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   children:
   - BasementDDoorRight
-  linkedZoneNode: {fileID: 0}
+  externalZoneLinkToZoneNode: {fileID: 0}
   rect:
     serializedVersion: 2
     x: 2626
@@ -452,7 +452,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   children:
   - EntranceHallwayDoor
-  linkedZoneNode: {fileID: 0}
+  externalZoneLinkToZoneNode: {fileID: 0}
   rect:
     serializedVersion: 2
     x: 1607
@@ -482,7 +482,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   children:
   - BasementBDoorLeft
-  linkedZoneNode: {fileID: 0}
+  externalZoneLinkToZoneNode: {fileID: 0}
   rect:
     serializedVersion: 2
     x: 2631
@@ -512,7 +512,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   children:
   - BasementBDoorRight
-  linkedZoneNode: {fileID: 0}
+  externalZoneLinkToZoneNode: {fileID: 0}
   rect:
     serializedVersion: 2
     x: 3161
@@ -544,7 +544,7 @@ MonoBehaviour:
   - Lobby
   - VendingMachineRoom
   - Kitchen
-  linkedZoneNode: {fileID: 0}
+  externalZoneLinkToZoneNode: {fileID: 0}
   rect:
     serializedVersion: 2
     x: 576
@@ -574,7 +574,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   children:
   - DankGreenDoorRight
-  linkedZoneNode: {fileID: 0}
+  externalZoneLinkToZoneNode: {fileID: 0}
   rect:
     serializedVersion: 2
     x: 2634
@@ -604,7 +604,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   children:
   - BasementDDoorLeft
-  linkedZoneNode: {fileID: 0}
+  externalZoneLinkToZoneNode: {fileID: 0}
   rect:
     serializedVersion: 2
     x: 2182
@@ -636,7 +636,7 @@ MonoBehaviour:
   - Lobby
   - VendingMachineRoom
   - EntranceHallway
-  linkedZoneNode: {fileID: 0}
+  externalZoneLinkToZoneNode: {fileID: 0}
   rect:
     serializedVersion: 2
     x: 576
@@ -669,7 +669,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   children:
   - BasementCDoorTop
-  linkedZoneNode: {fileID: 0}
+  externalZoneLinkToZoneNode: {fileID: 0}
   rect:
     serializedVersion: 2
     x: 2628

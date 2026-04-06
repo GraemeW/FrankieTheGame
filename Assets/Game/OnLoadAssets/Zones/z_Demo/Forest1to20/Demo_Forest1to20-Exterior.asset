@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Forest-to-PortaE
   m_EditorClassIdentifier: Assembly-CSharp::Frankie.ZoneManagement.ZoneNode
   children: []
-  linkedZoneNode: {fileID: 8123045737310385565, guid: 50937849c44484409a1da01cfe66ba8c, type: 2}
+  externalZoneLinkToZoneNode: {fileID: 8123045737310385565, guid: 50937849c44484409a1da01cfe66ba8c, type: 2}
   rect:
     serializedVersion: 2
     x: 503
@@ -42,7 +42,7 @@ MonoBehaviour:
   m_Name: Forest-to-PortaSF
   m_EditorClassIdentifier: Assembly-CSharp::Frankie.ZoneManagement.ZoneNode
   children: []
-  linkedZoneNode: {fileID: 5741578906310247025, guid: 50937849c44484409a1da01cfe66ba8c, type: 2}
+  externalZoneLinkToZoneNode: {fileID: 5741578906310247025, guid: 50937849c44484409a1da01cfe66ba8c, type: 2}
   rect:
     serializedVersion: 2
     x: 21
@@ -71,7 +71,7 @@ MonoBehaviour:
   m_Name: Forest-to-ChugNSlurp
   m_EditorClassIdentifier: Assembly-CSharp::Frankie.ZoneManagement.ZoneNode
   children: []
-  linkedZoneNode: {fileID: -672308436306324658, guid: f4fe026e5041d4556bdc413cb4a52663, type: 2}
+  externalZoneLinkToZoneNode: {fileID: -672308436306324658, guid: f4fe026e5041d4556bdc413cb4a52663, type: 2}
   rect:
     serializedVersion: 2
     x: 486
@@ -100,7 +100,7 @@ MonoBehaviour:
   m_Name: Forest-to-ChurchLobby
   m_EditorClassIdentifier: Assembly-CSharp::Frankie.ZoneManagement.ZoneNode
   children: []
-  linkedZoneNode: {fileID: 2255921866329858734, guid: f4fe026e5041d4556bdc413cb4a52663, type: 2}
+  externalZoneLinkToZoneNode: {fileID: 2255921866329858734, guid: f4fe026e5041d4556bdc413cb4a52663, type: 2}
   rect:
     serializedVersion: 2
     x: 25
@@ -129,7 +129,7 @@ MonoBehaviour:
   m_Name: Forest-to-LacklustreVideo
   m_EditorClassIdentifier: Assembly-CSharp::Frankie.ZoneManagement.ZoneNode
   children: []
-  linkedZoneNode: {fileID: -6172440473415268556, guid: f4fe026e5041d4556bdc413cb4a52663, type: 2}
+  externalZoneLinkToZoneNode: {fileID: -6172440473415268556, guid: f4fe026e5041d4556bdc413cb4a52663, type: 2}
   rect:
     serializedVersion: 2
     x: 32
@@ -158,7 +158,7 @@ MonoBehaviour:
   m_Name: Forest-to-OrangeHouse
   m_EditorClassIdentifier: Assembly-CSharp::Frankie.ZoneManagement.ZoneNode
   children: []
-  linkedZoneNode: {fileID: -5860749958356787099, guid: f4fe026e5041d4556bdc413cb4a52663, type: 2}
+  externalZoneLinkToZoneNode: {fileID: -5860749958356787099, guid: f4fe026e5041d4556bdc413cb4a52663, type: 2}
   rect:
     serializedVersion: 2
     x: 30
@@ -219,7 +219,7 @@ MonoBehaviour:
   m_Name: Forest-to-PortaNF
   m_EditorClassIdentifier: Assembly-CSharp::Frankie.ZoneManagement.ZoneNode
   children: []
-  linkedZoneNode: {fileID: -6787401506896633538, guid: 50937849c44484409a1da01cfe66ba8c, type: 2}
+  externalZoneLinkToZoneNode: {fileID: -6787401506896633538, guid: 50937849c44484409a1da01cfe66ba8c, type: 2}
   rect:
     serializedVersion: 2
     x: 20
@@ -248,7 +248,7 @@ MonoBehaviour:
   m_Name: Forest-to-TunnelWest
   m_EditorClassIdentifier: Assembly-CSharp::Frankie.ZoneManagement.ZoneNode
   children: []
-  linkedZoneNode: {fileID: -7063803505146773663, guid: f4fe026e5041d4556bdc413cb4a52663, type: 2}
+  externalZoneLinkToZoneNode: {fileID: -7063803505146773663, guid: f4fe026e5041d4556bdc413cb4a52663, type: 2}
   rect:
     serializedVersion: 2
     x: 23
@@ -277,7 +277,7 @@ MonoBehaviour:
   m_Name: Forest-to-TunnelEast
   m_EditorClassIdentifier: Assembly-CSharp::Frankie.ZoneManagement.ZoneNode
   children: []
-  linkedZoneNode: {fileID: -3620146734966675443, guid: f4fe026e5041d4556bdc413cb4a52663, type: 2}
+  externalZoneLinkToZoneNode: {fileID: -3620146734966675443, guid: f4fe026e5041d4556bdc413cb4a52663, type: 2}
   rect:
     serializedVersion: 2
     x: 470
