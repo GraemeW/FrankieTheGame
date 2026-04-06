@@ -36,15 +36,16 @@ namespace Frankie.ZoneManagement.UIEditor
             zoneViewDataSet.RemoveAll(zoneViewData => zoneViewData == null);
         }
         
-        public ZoneViewData CreateOrUpdateZoneViewData(string zoneName, string scenePath, string snapshotPNGPath, Vector2 dimensions, Vector2 topLeftPosition, bool keepExistingPosition)
+        public ZoneViewData CreateOrUpdateZoneViewData(string zoneName, string scenePath, string snapshotPNGPath, Vector2 dimensions, Vector2 topLeftPosition, bool keepExistingPosition, bool keepExistingDimensions)
         {
             foreach (ZoneViewData checkZoneViewData in zoneViewDataSet)
             {
                 if (checkZoneViewData == null) { continue; }
                 if (zoneName == checkZoneViewData.zoneName)
                 {
-                    if (keepExistingPosition) { checkZoneViewData.Setup(zoneName, scenePath, snapshotPNGPath); }
-                    else { checkZoneViewData.Setup(zoneName, scenePath, snapshotPNGPath, dimensions, topLeftPosition); }
+                    if (keepExistingPosition) { topLeftPosition = checkZoneViewData.topLeftPosition; }
+                    if (keepExistingDimensions) { dimensions = checkZoneViewData.dimensions; }
+                    checkZoneViewData.Setup(zoneName, scenePath, snapshotPNGPath, dimensions, topLeftPosition);
                     return checkZoneViewData;
                 }
             }

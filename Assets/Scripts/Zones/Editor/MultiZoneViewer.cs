@@ -54,6 +54,7 @@ namespace Frankie.ZoneManagement.UIEditor
         [SerializeField] private Zone rootZone;
         [SerializeField] private bool drawConnections = true;
         [SerializeField] private bool keepExistingPositions = true;
+        [SerializeField] private bool keepExistingDimensions = true;
         [SerializeField] private float worldToSnapshotScalingFactor = 80.0f;
         [SerializeField] private float snapshotToZoneViewScalingFactor = 0.15f;
         [SerializeField] private float additionalMaxScalingFactor = 5.0f;
@@ -203,9 +204,13 @@ namespace Frankie.ZoneManagement.UIEditor
             VisualElement bottomSpacer = MakeSpacer();
             toolbarBottomRow.Add(bottomSpacer);
             
-            Toggle keepPositionToggle = MakeToggle("Keep positions / dimensions on capture", keepExistingPositions);
+            Toggle keepPositionToggle = MakeToggle("Keep positions", keepExistingPositions, TextAnchor.MiddleRight);
             keepPositionToggle.RegisterValueChangedCallback(changeEvent => keepExistingPositions = changeEvent.newValue);
             toolbarBottomRow.Add(keepPositionToggle);
+            
+            Toggle keepDimensionsToggle = MakeToggle("Keep dimensions", keepExistingDimensions, TextAnchor.MiddleRight);
+            keepDimensionsToggle.RegisterValueChangedCallback(changeEvent => keepExistingDimensions = changeEvent.newValue);
+            toolbarBottomRow.Add(keepDimensionsToggle);
         }
 
         private void RefreshToolbarState()
@@ -277,9 +282,7 @@ namespace Frankie.ZoneManagement.UIEditor
 
         private void OnRefreshClicked()
         {
-            if (!isToolAvailable) { return; }
-            RefreshZoneViews();
-            RefreshToolbarState();
+            OnRefreshClicked(true);
         }
 
         private void OnRefreshClicked(bool clearPanOffset)
@@ -383,14 +386,6 @@ namespace Frankie.ZoneManagement.UIEditor
                 Image zoneSnapshot = MakeImage(zoneView.texture2D);
                 zoneViewElement.Add(zoneSnapshot);
                 imageArea = zoneSnapshot;
-                
-                // When the image doesn't fill the zone view completely, we need to account and offset
-                Vector2 idealZoneViewDimensions = GetIdealZoneViewDimensions(zoneView.texture2D, true);
-                float xOffset = (zoneView.data.dimensions.x - idealZoneViewDimensions.x) / 4;
-                xOffset = xOffset > 0f ? xOffset : 0f;
-                float yOffset =  (zoneView.data.dimensions.y - idealZoneViewDimensions.y) / 4;
-                yOffset = yOffset > 0f ? yOffset : 0f;
-                zoneView.SetLocalImagePosition(new Vector2(xOffset, yOffset));
             }
             else
             {
@@ -453,7 +448,7 @@ namespace Frankie.ZoneManagement.UIEditor
                     if (useZoneHandlerCrawl) { zoneHandlerNodeDataSet.AddRange(ZoneHandlerConduit.BuildZoneHandlerNodeData()); }
                     
                     Vector2 zoneViewDimensions = GetIdealZoneViewDimensions(texture2D, false);
-                    ZoneViewData zoneViewData = activeMultiZoneView.CreateOrUpdateZoneViewData(zoneName, scenePath, snapshotPNGPath, zoneViewDimensions, currentPosition, keepExistingPositions);
+                    ZoneViewData zoneViewData = activeMultiZoneView.CreateOrUpdateZoneViewData(zoneName, scenePath, snapshotPNGPath, zoneViewDimensions, currentPosition, keepExistingPositions, keepExistingDimensions);
 
                     bool isyOffset = sceneCount % _defaultNumberViewsPerRow == 0;
                     yOffset = Mathf.Max(yOffset, zoneViewData.dimensions.y + _zoneViewPadding); // EditorWindow Top Padding
@@ -681,10 +676,42 @@ namespace Frankie.ZoneManagement.UIEditor
                     continue;
                 }
 
-                ZoneView zoneView = new ZoneView(zoneViewData, texture2D); 
+                // When the image doesn't fill the zone view completely, we need to account and offset
+                Vector2 targetImageDimensions = GetIdealZoneViewDimensions(texture2D, true);
+                Vector2 renderedImageDimensions = ScaleToFit(zoneViewData.dimensions, targetImageDimensions);
+                Vector2 imageOffset = GetRenderedImageOffset(zoneViewData.dimensions, renderedImageDimensions);
+                
+                ZoneView zoneView = new ZoneView(zoneViewData, texture2D, renderedImageDimensions, imageOffset);
                 zoneViews.Add(zoneView);
                 zoneViewLookup[zoneViewData.zoneName] = zoneView;
             }
+        }
+
+        private Vector2 ScaleToFit(Vector2 zoneViewDimensions, Vector2 targetImageDimensions)
+        {
+            float imageAspectRatio = targetImageDimensions.x / targetImageDimensions.y;
+            float zoneViewAspectRatio = zoneViewDimensions.x / zoneViewDimensions.y;
+            if (zoneViewAspectRatio > imageAspectRatio)
+            {
+                float aspectRatioRatio = imageAspectRatio / zoneViewAspectRatio;
+                return new Vector2(aspectRatioRatio * zoneViewDimensions.x, zoneViewDimensions.y);
+            }
+            else
+            {
+                float aspectRatioRatio = zoneViewAspectRatio / imageAspectRatio;
+                return new Vector2(zoneViewDimensions.x, aspectRatioRatio * zoneViewDimensions.y);
+            }
+        }
+
+        private Vector2 GetRenderedImageOffset(Vector2 zoneViewDimensions, Vector2 renderedImageDimensions)
+        {
+            float xOffset = (zoneViewDimensions.x - renderedImageDimensions.x) / 2;
+            xOffset = xOffset > 0f ? xOffset : 0f;
+            float yOffset =  (zoneViewDimensions.y - renderedImageDimensions.y) / 2;
+            yOffset = yOffset > 0f ? yOffset : 0f;
+            Vector2 imageOffset = new Vector2(xOffset, yOffset);
+                
+            return imageOffset;
         }
 
         private void DisposeRuntimeTextures()
@@ -752,8 +779,6 @@ namespace Frankie.ZoneManagement.UIEditor
         #region UIHelpers
         private void ClearRenderedZoneViews(bool clearPanOffset = true)
         {
-            Debug.Log($"Clearing rendered zone views with clearPanOffset: {clearPanOffset}");
-            Debug.Log($"Pan offset: {panOffset}");
             DisposeRuntimeTextures();
             zoneViews.Clear();
             zoneViewLookup.Clear();
@@ -852,8 +877,8 @@ namespace Frankie.ZoneManagement.UIEditor
                     ZoneView sourceZoneView = zoneView;
                     if (!zoneViewLookup.TryGetValue(zoneHandlerLinkData.targetZoneName, out ZoneView targetZoneView)) { continue; }
 
-                    Vector2 start = NodeRelativePosition(sourceZoneView.data, zoneHandlerLinkData.sourceNodeRelativePosition, sourceZoneView.localImagePosition);
-                    Vector2 end = NodeRelativePosition(targetZoneView.data, zoneHandlerLinkData.targetNodeRelativePosition, targetZoneView.localImagePosition); 
+                    Vector2 start = NodeRelativePosition(sourceZoneView, zoneHandlerLinkData.sourceNodeRelativePosition);
+                    Vector2 end = NodeRelativePosition(targetZoneView, zoneHandlerLinkData.targetNodeRelativePosition); 
                 
                     start += panOffset;
                     end += panOffset;
@@ -872,8 +897,8 @@ namespace Frankie.ZoneManagement.UIEditor
             }
         }
         
-        private static Vector2 NodeRelativePosition(ZoneViewData zoneViewData, Vector2 relativePosition, Vector2 imageOffset) =>
-            new(zoneViewData.topLeftPosition.x + zoneViewData.dimensions.x * relativePosition.x - imageOffset.x, zoneViewData.topLeftPosition.y + zoneViewData.dimensions.y * relativePosition.y - imageOffset.y + _zoneViewHeaderHeight );
+        private static Vector2 NodeRelativePosition(ZoneView zoneView, Vector2 relativePosition) =>
+            new(zoneView.data.topLeftPosition.x + zoneView.renderedImageOffset.x + zoneView.renderedImageDimensions.x * relativePosition.x, zoneView.data.topLeftPosition.y + _zoneViewHeaderHeight + zoneView.renderedImageOffset.y + zoneView.renderedImageDimensions.y * relativePosition.y);
         
         private static void DrawEndDot(Painter2D p, Vector2 centre)
         {
