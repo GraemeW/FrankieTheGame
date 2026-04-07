@@ -2,6 +2,7 @@
 using System.Linq;
 using Frankie.ZoneManagement;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEditor;
 using UnityEditor.SceneManagement;
 
@@ -73,6 +74,7 @@ namespace Frankie.Core.GameStateModifiers
             
             EditorGUILayout.Space(4);
             DrawAddRemoveButtons();
+            DrawCleanUpButton();
         }
 
         private void DrawList()
@@ -105,14 +107,15 @@ namespace Frankie.Core.GameStateModifiers
             {
                 string zoneName = zoneNameProperty.stringValue;
                 string gameObjectName = gameObjectNameProperty.stringValue;
-                bool skipRenderingElement = AddEntryHeaderRow(index, zoneName, gameObjectName);
+                string guid = guidProperty.stringValue;
+                bool skipRenderingElement = AddEntryHeaderRow(index, zoneName, gameObjectName, guid);
                 if (skipRenderingElement) { return; }
                 
                 AddEntryFields(zoneNameProperty, gameObjectNameProperty, guidProperty);
             }
         }
 
-        private bool AddEntryHeaderRow(int index, string zoneName, string gameObjectName)
+        private bool AddEntryHeaderRow(int index, string zoneName, string gameObjectName, string guid)
         {
             bool skipRenderingElement = false;
             
@@ -122,19 +125,19 @@ namespace Frankie.Core.GameStateModifiers
                 EditorGUILayout.LabelField($"[{index}]", GUILayout.Width(28));
                 EditorGUILayout.LabelField(displayName, objectLabelStyle, GUILayout.ExpandWidth(true));
                 bool viableSceneLoad = !string.IsNullOrWhiteSpace(zoneName) && !string.IsNullOrWhiteSpace(gameObjectName);
-                AddLoadZoneButton(viableSceneLoad, zoneName, gameObjectName);
+                AddLoadZoneButton(viableSceneLoad, zoneName, gameObjectName, guid);
                 if (AddDeleteButton(index)) { skipRenderingElement = true; }
             }
 
             return skipRenderingElement;
         }
 
-        private void AddLoadZoneButton(bool enabled, string zoneName, string gameObjectName)
+        private void AddLoadZoneButton(bool enabled, string zoneName, string gameObjectName, string guid)
         {
             GUI.enabled = enabled;
             if (GUILayout.Button("Open & Select", jumpButtonStyle, GUILayout.Width(100)))
             {
-                EditorApplication.delayCall += () => OpenSceneAndSelect(zoneName, gameObjectName);
+                EditorApplication.delayCall += () => OpenSceneAndSelect(zoneName, gameObjectName, guid);
             }
             GUI.enabled = true;
         }
@@ -164,7 +167,7 @@ namespace Frankie.Core.GameStateModifiers
             EditorGUILayout.Space(2);
             using (new EditorGUI.DisabledScope(!isEditingEnabled))
             {
-                EditorGUILayout.PropertyField(zoneNameProperty, new GUIContent("Scene Name"));
+                EditorGUILayout.PropertyField(zoneNameProperty, new GUIContent("Zone Name"));
                 EditorGUILayout.PropertyField(gameObjectNameProperty, new GUIContent("Object Name"));
                 EditorGUILayout.PropertyField(guidProperty, new GUIContent("GUID"));
             }
@@ -190,10 +193,23 @@ namespace Frankie.Core.GameStateModifiers
                 if (GUILayout.Button("- Remove Last", GUILayout.Width(110))) { gameStateModifierHandlerDataProperty.arraySize--; }
             }
         }
+
+        private void DrawCleanUpButton()
+        {
+            EditorGUILayout.Space(2);
+            using (new EditorGUILayout.HorizontalScope())
+            {
+                GUILayout.FlexibleSpace();
+                if (GUILayout.Button("Remove Invalid Entries", GUILayout.Width(180)))
+                {
+                    RemoveInvalidEntries();
+                }
+            }
+        }
         #endregion
 
         #region ButtonFunctionality
-        private static void OpenSceneAndSelect(string zoneName, string gameObjectName)
+        private static void OpenSceneAndSelect(string zoneName, string gameObjectName, string guid)
         {
             if (!EditorSceneManager.SaveCurrentModifiedScenesIfUserWantsTo()) { return; }
             
@@ -234,6 +250,69 @@ namespace Frankie.Core.GameStateModifiers
             SceneView sceneView = SceneView.lastActiveSceneView;
             if (sceneView != null) { sceneView.FrameSelected(); }
             Debug.Log($"{gameObjectName} found and selected.");
+        }
+        
+        private void RemoveInvalidEntries()
+        {
+            if (gameStateModifierHandlerDataProperty == null) { return; }
+            int removedCount = 0;
+            
+            for (int i = gameStateModifierHandlerDataProperty.arraySize - 1; i >= 0; i--)
+            {
+                SerializedProperty currentElement = gameStateModifierHandlerDataProperty.GetArrayElementAtIndex(i);
+                SerializedProperty zoneNameProperty = currentElement.FindPropertyRelative(ZoneToGameObjectLinkData.GetZoneNameRef());
+                SerializedProperty gameObjectNameProperty = currentElement.FindPropertyRelative(ZoneToGameObjectLinkData.GetGameObjectNameRef());
+                SerializedProperty guidProperty = currentElement.FindPropertyRelative(ZoneToGameObjectLinkData.GetGuidRef());
+                
+                string zoneName = zoneNameProperty.stringValue;
+                string gameObjectName = gameObjectNameProperty.stringValue;
+                string guid = guidProperty.stringValue;
+
+                bool sceneFound = false;
+                Zone zone = Zone.GetFromName(zoneName);
+                string scenePath = string.Empty;
+                if (zone != null)
+                {
+                    scenePath = zone.GetSceneReference().GetScenePath();
+                    sceneFound = !string.IsNullOrWhiteSpace(scenePath);
+                }
+                
+                // TODO:  Replace game object selection with GUID-based search instead of name-based search
+                bool objectFound = sceneFound && !string.IsNullOrWhiteSpace(gameObjectName) && GameObjectExistsInScene(scenePath, gameObjectName);
+                if (sceneFound && objectFound) { continue; }
+                
+                string reason = !sceneFound ? $"Zone {zoneName} not found" : $"object {gameObjectName} not found";
+                Debug.Log($"[SceneObjectPair] Removing entry [{i}] — {reason}.");
+                gameStateModifierHandlerDataProperty.DeleteArrayElementAtIndex(i);
+                removedCount++;
+            }
+            serializedObject.ApplyModifiedProperties();
+
+            string summary = removedCount == 0 ? "All entries are valid, nothing removed." : $"{removedCount} invalid entries removed.";
+            EditorUtility.DisplayDialog("Remove Invalid Entries", summary, "OK");
+        }
+        
+        private static bool GameObjectExistsInScene(string scenePath, string objectName)
+        {
+            if (string.IsNullOrEmpty(scenePath)) { return false; }
+            
+            Scene checkScene = SceneManager.GetSceneByPath(scenePath);
+            bool isSceneAlreadyLoaded = checkScene.isLoaded;
+
+            // Open additively -- avoid save prompt / disturbing other open scenes
+            Scene scene = EditorSceneManager.OpenScene(scenePath, OpenSceneMode.Additive);
+
+            bool found;
+            try
+            {
+                found = System.Array.Exists( FindObjectsByType<GameObject>(FindObjectsInactive.Include, FindObjectsSortMode.None), go => go.scene == scene && go.name == objectName);
+            }
+            finally
+            {
+                if (!isSceneAlreadyLoaded) { EditorSceneManager.CloseScene(scene, true); }
+            }
+
+            return found;
         }
         #endregion
 
