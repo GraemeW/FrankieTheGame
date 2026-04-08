@@ -5,11 +5,11 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.Tilemaps;
 using UnityEngine.UIElements;
+using Object = UnityEngine.Object;
 using UnityEditor;
 using UnityEditor.Build.Profile;
 using UnityEditor.SceneManagement;
 using UnityEditor.UIElements;
-using Object = UnityEngine.Object;
 
 namespace Frankie.ZoneManagement.UIEditor
 {
@@ -86,6 +86,7 @@ namespace Frankie.ZoneManagement.UIEditor
         {
             SubscribeCanvasToDrawGrid(true);
             SubscribeCurvesLayerToDrawCurves(true);
+            SubscribeToOnSceneLoaded(true);
             SubscribeToPlayModeStateChanges(true);
         }
 
@@ -93,6 +94,7 @@ namespace Frankie.ZoneManagement.UIEditor
         {
             SubscribeCanvasToDrawGrid(false);
             SubscribeCurvesLayerToDrawCurves(false);
+            SubscribeToOnSceneLoaded(false);
             SubscribeToPlayModeStateChanges(false);
             DisposeRuntimeTextures();
         }
@@ -125,6 +127,11 @@ namespace Frankie.ZoneManagement.UIEditor
                     break;
             }
         }
+
+        private void OnSceneOpened(Scene scene, OpenSceneMode mode)
+        {
+            OnRefreshClicked(false);
+        }
         
         private void SubscribeCanvasToDrawGrid(bool enable)
         {
@@ -146,6 +153,12 @@ namespace Frankie.ZoneManagement.UIEditor
         {
             EditorApplication.playModeStateChanged -= OnPlayModeStateChanged;
             if (enable) { EditorApplication.playModeStateChanged += OnPlayModeStateChanged; }
+        }
+
+        private void SubscribeToOnSceneLoaded(bool enable)
+        {
+            EditorSceneManager.sceneOpened += OnSceneOpened;
+            if (enable) { EditorSceneManager.sceneOpened  += OnSceneOpened; }
         }
         #endregion
         
