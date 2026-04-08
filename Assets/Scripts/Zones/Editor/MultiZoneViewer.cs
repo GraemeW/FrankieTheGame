@@ -86,7 +86,7 @@ namespace Frankie.ZoneManagement.UIEditor
         {
             SubscribeCanvasToDrawGrid(true);
             SubscribeCurvesLayerToDrawCurves(true);
-            SubscribeToOnSceneLoaded(true);
+            SubscribeToOnSceneOpened(true);
             SubscribeToPlayModeStateChanges(true);
         }
 
@@ -94,7 +94,7 @@ namespace Frankie.ZoneManagement.UIEditor
         {
             SubscribeCanvasToDrawGrid(false);
             SubscribeCurvesLayerToDrawCurves(false);
-            SubscribeToOnSceneLoaded(false);
+            SubscribeToOnSceneOpened(false);
             SubscribeToPlayModeStateChanges(false);
             DisposeRuntimeTextures();
         }
@@ -112,6 +112,8 @@ namespace Frankie.ZoneManagement.UIEditor
             AddAllZoneViews();
             RefreshToolbarState();
         }
+        
+        private void OnSceneOpened(Scene scene, OpenSceneMode mode) => OnRefreshClicked(false);
 
         private void OnPlayModeStateChanged(PlayModeStateChange state)
         {
@@ -126,11 +128,6 @@ namespace Frankie.ZoneManagement.UIEditor
                     isToolAvailable = false;
                     break;
             }
-        }
-
-        private void OnSceneOpened(Scene scene, OpenSceneMode mode)
-        {
-            OnRefreshClicked(false);
         }
         
         private void SubscribeCanvasToDrawGrid(bool enable)
@@ -155,9 +152,9 @@ namespace Frankie.ZoneManagement.UIEditor
             if (enable) { EditorApplication.playModeStateChanged += OnPlayModeStateChanged; }
         }
 
-        private void SubscribeToOnSceneLoaded(bool enable)
+        private void SubscribeToOnSceneOpened(bool enable)
         {
-            EditorSceneManager.sceneOpened += OnSceneOpened;
+            EditorSceneManager.sceneOpened -= OnSceneOpened;
             if (enable) { EditorSceneManager.sceneOpened  += OnSceneOpened; }
         }
         #endregion
