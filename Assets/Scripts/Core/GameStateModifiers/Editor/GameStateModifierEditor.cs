@@ -2,7 +2,6 @@
 using System.Linq;
 using Frankie.ZoneManagement;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using UnityEditor;
 using UnityEditor.SceneManagement;
 
@@ -12,6 +11,7 @@ namespace Frankie.Core.GameStateModifiers
     public class GameStateModifierEditor : Editor
     {
         // Functional State
+        private GameStateModifier selectedGameStateModifier;
         private SerializedProperty gameStateModifierHandlerDataProperty;
         
         // Editor State
@@ -30,6 +30,7 @@ namespace Frankie.Core.GameStateModifiers
         #region UnityMethods
         private void OnEnable()
         {
+            selectedGameStateModifier = target as GameStateModifier;
             gameStateModifierHandlerDataProperty = serializedObject.FindProperty(GameStateModifier.GetGameStateModifierHandlerDataRef());
         }
 
@@ -255,64 +256,13 @@ namespace Frankie.Core.GameStateModifiers
         private void RemoveInvalidEntries()
         {
             if (gameStateModifierHandlerDataProperty == null) { return; }
-            int removedCount = 0;
-            
-            for (int i = gameStateModifierHandlerDataProperty.arraySize - 1; i >= 0; i--)
-            {
-                SerializedProperty currentElement = gameStateModifierHandlerDataProperty.GetArrayElementAtIndex(i);
-                SerializedProperty zoneNameProperty = currentElement.FindPropertyRelative(ZoneToGameObjectLinkData.GetZoneNameRef());
-                SerializedProperty gameObjectNameProperty = currentElement.FindPropertyRelative(ZoneToGameObjectLinkData.GetGameObjectNameRef());
-                SerializedProperty guidProperty = currentElement.FindPropertyRelative(ZoneToGameObjectLinkData.GetGuidRef());
-                
-                string zoneName = zoneNameProperty.stringValue;
-                string gameObjectName = gameObjectNameProperty.stringValue;
-                string guid = guidProperty.stringValue;
+            if (selectedGameStateModifier == null) { return; }
 
-                bool sceneFound = false;
-                Zone zone = Zone.GetFromName(zoneName);
-                string scenePath = string.Empty;
-                if (zone != null)
-                {
-                    scenePath = zone.GetSceneReference().GetScenePath();
-                    sceneFound = !string.IsNullOrWhiteSpace(scenePath);
-                }
-                
-                // TODO:  Replace game object selection with GUID-based search instead of name-based search
-                bool objectFound = sceneFound && !string.IsNullOrWhiteSpace(gameObjectName) && GameObjectExistsInScene(scenePath, gameObjectName);
-                if (sceneFound && objectFound) { continue; }
-                
-                string reason = !sceneFound ? $"Zone {zoneName} not found" : $"object {gameObjectName} not found";
-                Debug.Log($"[SceneObjectPair] Removing entry [{i}] — {reason}.");
-                gameStateModifierHandlerDataProperty.DeleteArrayElementAtIndex(i);
-                removedCount++;
-            }
+            int removedCount = selectedGameStateModifier.RemoveNonExistentEntries();
             serializedObject.ApplyModifiedProperties();
 
             string summary = removedCount == 0 ? "All entries are valid, nothing removed." : $"{removedCount} invalid entries removed.";
             EditorUtility.DisplayDialog("Remove Invalid Entries", summary, "OK");
-        }
-        
-        private static bool GameObjectExistsInScene(string scenePath, string objectName)
-        {
-            if (string.IsNullOrEmpty(scenePath)) { return false; }
-            
-            Scene checkScene = SceneManager.GetSceneByPath(scenePath);
-            bool isSceneAlreadyLoaded = checkScene.isLoaded;
-
-            // Open additively -- avoid save prompt / disturbing other open scenes
-            Scene scene = EditorSceneManager.OpenScene(scenePath, OpenSceneMode.Additive);
-
-            bool found;
-            try
-            {
-                found = System.Array.Exists( FindObjectsByType<GameObject>(FindObjectsInactive.Include, FindObjectsSortMode.None), go => go.scene == scene && go.name == objectName);
-            }
-            finally
-            {
-                if (!isSceneAlreadyLoaded) { EditorSceneManager.CloseScene(scene, true); }
-            }
-
-            return found;
         }
         #endregion
 

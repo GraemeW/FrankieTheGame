@@ -17,5 +17,12 @@ namespace Frankie.Core.GameStateModifiers
             this.gameObjectName = gameObjectName;
             this.guid = guid;
         }
+
+        public void UpdateRecord(string setZoneName, string setGameObjectName)
+        {
+            // Note:  no update for GUID, since this is the only way to practically identify the record
+            zoneName = setZoneName;
+            gameObjectName = setGameObjectName;
+        }
     }
 }
