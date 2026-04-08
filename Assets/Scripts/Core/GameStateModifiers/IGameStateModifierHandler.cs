@@ -10,23 +10,38 @@ namespace Frankie.Core.GameStateModifiers
     {
         #region Properties
         public GameObject gameObject { get; } // Don't need to define, auto-inherits as long as hooked to MonoBehaviour
-        public string gameStateGUID { get; set; }
+        public string handlerGUID { get; set; }
         public int modifierListHashCheck { get; set; }
         #endregion
 
-        #region Methods
+        #region CustomComparer
+        private static readonly IEqualityComparer<GameStateModifier> _gameStateModifierComparer = new GameStateModifierComparer();
+        class GameStateModifierComparer : IEqualityComparer<GameStateModifier>
+        {
+            public bool Equals(GameStateModifier x, GameStateModifier y)
+            {
+                if (x == null && y == null) { return true; }
+                if (x == null || y == null) { return false; }
+                return x.GetGUID() == y.GetGUID();
+            }
+            public int GetHashCode(GameStateModifier obj) => obj == null ? 0 : obj.GetGUID().GetHashCode();
+        }
+        #endregion
+        
+        #region PublicMethods
         public IList<GameStateModifier> GetGameStateModifiers();
         #endregion
         
-        #region StaticMethods
-        public static int GetModifierListHashCheck(IGameStateModifierHandler gameStateModifierHandler)
+        #region PrivateMethods
+        private int GetModifierListHashCheck(string zoneName, string gameObjectName)
         {
-            if (gameStateModifierHandler == null) { return 0; }
-            
             var hash = new HashCode();
-            foreach (GameStateModifier gameStateModifier in gameStateModifierHandler.GetGameStateModifiers())
+            hash.Add(zoneName);
+            hash.Add(gameObjectName);
+            hash.Add(handlerGUID);
+            foreach (GameStateModifier gameStateModifier in GetGameStateModifiers())
             {
-                hash.Add(gameStateModifier);
+                hash.Add(gameStateModifier, _gameStateModifierComparer);
             }
             return hash.ToHashCode();
         }
@@ -36,31 +51,27 @@ namespace Frankie.Core.GameStateModifiers
         void ISerializationCallbackReceiver.OnBeforeSerialize()
         {
 #if UNITY_EDITOR
-            // ReSharper disable once ConditionIsAlwaysTrueOrFalse
-            // Need to check on this because serialization code can enter a state where Mono's link breaks
-            if (this == null) {  return; }
             if (gameObject == null) { return; }
             
             // Avoid GUID generation and link set-up for prefabs
             if (EditorUtility.IsPersistent(gameObject)) { return; }
-
-            int newModifierListHashCheck = GetModifierListHashCheck(this);
+            
+            // Note: Must ensure zoneName == sceneName
+            string zoneName = SceneManager.GetActiveScene().name;
+            string gameObjectName = gameObject != null ? gameObject.name : "";
+            if (string.IsNullOrWhiteSpace(handlerGUID)) { handlerGUID = Guid.NewGuid().ToString(); }
+            
+            // Check for changes to asset
+            int newModifierListHashCheck = GetModifierListHashCheck(zoneName, gameObjectName);
             if (modifierListHashCheck == newModifierListHashCheck) { return; }
             modifierListHashCheck = newModifierListHashCheck;
             
-            // Generate and save a new UUID if this is blank
-            if (string.IsNullOrWhiteSpace(gameStateGUID)) { gameStateGUID = Guid.NewGuid().ToString(); }
-            
-            // Note: Must ensure zoneName == sceneName
-            // A warning is present in Zone class' SerializationCallbackReceiver if this is not true
-            string zoneName = SceneManager.GetActiveScene().name;
-            string gameObjectName = gameObject != null ? gameObject.name : "";
-            
-            var zoneToGameObjectLinkData = new ZoneToGameObjectLinkData(zoneName, gameObjectName, gameStateGUID);
+            var zoneToGameObjectLinkData = new ZoneToGameObjectLinkData(zoneName, gameObjectName, handlerGUID);
             foreach (GameStateModifier gameStateModifier in GetGameStateModifiers())
             {
                 if (gameStateModifier == null) { continue; }
                 gameStateModifier.AddOrUpdateGameStateModifierHandler(zoneToGameObjectLinkData);
+                gameStateModifier.CleanDanglingModifierHandlerData();
             }
 #endif
         }

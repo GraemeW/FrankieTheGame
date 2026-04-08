@@ -7,11 +7,40 @@ using Frankie.ZoneManagement;
 
 namespace Frankie.Core.GameStateModifiers
 {
-    public abstract class GameStateModifier : ScriptableObject
+    public abstract class GameStateModifier : ScriptableObject, ISerializationCallbackReceiver
     {
+        #region Properties
+        [SerializeField] private string guid;
+        public List<ZoneToGameObjectLinkData> gameStateModifierHandlerData = new(); // Custom view in GameStateModifierEditor
+        #endregion
+        
+        #region StaticMethods
         public static string GetGameStateModifierHandlerDataRef() => nameof(gameStateModifierHandlerData);
-        public List<ZoneToGameObjectLinkData> gameStateModifierHandlerData = new();
+        
+        private static bool DoesGameStateModifierHandlerExist(string scenePath, string handlerGUID)
+        {
+            if (string.IsNullOrEmpty(scenePath)) { return false; }
+            
+            Scene checkScene = SceneManager.GetSceneByPath(scenePath);
+            bool isSceneAlreadyLoaded = checkScene.isLoaded;
+            Scene scene = EditorSceneManager.OpenScene(scenePath, OpenSceneMode.Additive);
+                // Open additively -- avoid save prompt / disturbing other open scenes
 
+            bool objectFound;
+            try
+            {
+                objectFound = FindObjectsByType<MonoBehaviour>(FindObjectsInactive.Include).OfType<IGameStateModifierHandler>().Any(gameStateModifierHandler => gameStateModifierHandler.handlerGUID == handlerGUID);
+            }
+            finally
+            {
+                if (!isSceneAlreadyLoaded) { EditorSceneManager.CloseScene(scene, true); }
+            }
+            return objectFound;
+        }
+        #endregion
+        
+        #region PublicMethods
+        public string GetGUID() => guid;
         public void AddOrUpdateGameStateModifierHandler(ZoneToGameObjectLinkData zoneToGameObjectLinkData)
         {
             foreach (ZoneToGameObjectLinkData checkLinkData in gameStateModifierHandlerData.Where(checkLinkData => checkLinkData.guid == zoneToGameObjectLinkData.guid))
@@ -22,37 +51,49 @@ namespace Frankie.Core.GameStateModifiers
             gameStateModifierHandlerData.Add(zoneToGameObjectLinkData);
         }
 
-        public void CleanDanglingModifierHandlerData()
+        public int CleanDanglingModifierHandlerData()
         {
-            RemoveNonExistentEntries();
-            RemoveDuplicateEntries();
+            int removedCount = 0;
+            removedCount += RemoveNonExistentEntries();
+            removedCount += RemoveDuplicateEntries();
+            return removedCount;
         }
+        #endregion
 
-        public int RemoveNonExistentEntries()
+        #region PrivateMethods
+        private int RemoveNonExistentEntries()
         {
             int removedCount = 0;
             for (int i = gameStateModifierHandlerData.Count - 1; i >= 0; i--)
             {
-                ZoneToGameObjectLinkData zoneToGameObjectLinkData = gameStateModifierHandlerData[i];
-                string zoneName = zoneToGameObjectLinkData.zoneName;
-                string gameObjectName = zoneToGameObjectLinkData.gameObjectName;
-                string guid = zoneToGameObjectLinkData.guid;
-                
+                ZoneToGameObjectLinkData handlerLinkData = gameStateModifierHandlerData[i];
+                string zoneName = handlerLinkData.zoneName;
+                string handlerName = handlerLinkData.gameObjectName;
+                string handlerGUID = handlerLinkData.guid;
+
                 bool sceneFound = false;
-                Zone zone = Zone.GetFromName(zoneName);
-                string scenePath = string.Empty;
-                if (zone != null)
+                if (string.IsNullOrEmpty(handlerGUID))
                 {
-                    scenePath = zone.GetSceneReference().GetScenePath();
-                    sceneFound = !string.IsNullOrWhiteSpace(scenePath);
+                    Debug.Log($"[SceneObjectPair] Removing entry {zoneName}/{handlerName} — Empty GUID.");
                 }
-                
-                // TODO:  Replace game object selection with GUID-based search instead of name-based search
-                bool objectFound = sceneFound && !string.IsNullOrWhiteSpace(gameObjectName) && DoesGameStateModifierHandlerExist(scenePath, gameObjectName);
-                if (sceneFound && objectFound) { continue; }
-                
-                string reason = !sceneFound ? $"Zone {zoneName} not found" : $"object {gameObjectName} not found";
-                Debug.Log($"[SceneObjectPair] Removing entry {zoneName}/{gameObjectName} — {reason}.");
+                else
+                {
+                    Zone zone = Zone.GetFromName(zoneName);
+                    string scenePath = string.Empty;
+                    if (zone != null)
+                    {
+                        scenePath = zone.GetSceneReference().GetScenePath();
+                        sceneFound = !string.IsNullOrWhiteSpace(scenePath);
+                    }
+                    bool objectFound = sceneFound && !string.IsNullOrWhiteSpace(handlerName) && DoesGameStateModifierHandlerExist(scenePath, handlerGUID);
+                    
+                    // Found -- Skip Removal
+                    if (sceneFound && objectFound) { continue; }
+                    
+                    
+                    string reason = !sceneFound ? $"Zone {zoneName} not found" : $"object {handlerName} not found";
+                    Debug.Log($"[SceneObjectPair] Removing entry {zoneName}/{handlerName} — {reason}.");
+                }
                 gameStateModifierHandlerData.RemoveAt(i);
                 
                 removedCount++;
@@ -60,32 +101,30 @@ namespace Frankie.Core.GameStateModifiers
             return removedCount;
         }
         
-        private static bool DoesGameStateModifierHandlerExist(string scenePath, string objectName)
+        private int RemoveDuplicateEntries()
         {
-            if (string.IsNullOrEmpty(scenePath)) { return false; }
+            int initialCount = gameStateModifierHandlerData.Count;
+            gameStateModifierHandlerData = gameStateModifierHandlerData.Distinct().ToList();
+            int removedCount = initialCount - gameStateModifierHandlerData.Count;
             
-            Scene checkScene = SceneManager.GetSceneByPath(scenePath);
-            bool isSceneAlreadyLoaded = checkScene.isLoaded;
-
-            // Open additively -- avoid save prompt / disturbing other open scenes
-            Scene scene = EditorSceneManager.OpenScene(scenePath, OpenSceneMode.Additive);
-
-            bool found;
-            try
+            if (removedCount > 0) { Debug.Log($"Duplicate GUIDs found!  Removed {removedCount} entries."); }
+            return removedCount;
+        }
+        #endregion
+        
+        #region InterfaceMethods
+        void ISerializationCallbackReceiver.OnBeforeSerialize()
+        {
+            if (string.IsNullOrWhiteSpace(guid))
             {
-                found = System.Array.Exists( FindObjectsByType<GameObject>(FindObjectsInactive.Include, FindObjectsSortMode.None), go => go.scene == scene && go.name == objectName);
+                guid = System.Guid.NewGuid().ToString();
             }
-            finally
-            {
-                if (!isSceneAlreadyLoaded) { EditorSceneManager.CloseScene(scene, true); }
-            }
-
-            return found;
         }
 
-        public void RemoveDuplicateEntries()
+        void ISerializationCallbackReceiver.OnAfterDeserialize()
         {
-            
+            // Unused, required for interface
         }
+        #endregion
     }
 }

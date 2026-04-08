@@ -60,7 +60,7 @@ namespace Frankie.Core.GameStateModifiers
                 isEditingEnabled = GUILayout.Toggle(isEditingEnabled, isEditingEnabled ? "🔓 Editing" : "🔒 Locked", GUI.skin.button, GUILayout.Width(90));
                 GUI.contentColor = prevColor;
             }
-            EditorGUILayout.HelpBox( isEditingEnabled ? "Manual editing enabled." : "Manual editing locked.", isEditingEnabled ? MessageType.Warning : MessageType.Info);
+            EditorGUILayout.HelpBox( isEditingEnabled ? "Manual editing enabled.  Warning:  Does NOT update assets in scene, edit at your discretion." : "Manual editing locked.", isEditingEnabled ? MessageType.Warning : MessageType.Info);
             EditorGUILayout.Space(4);
         }
 
@@ -258,7 +258,7 @@ namespace Frankie.Core.GameStateModifiers
             if (gameStateModifierHandlerDataProperty == null) { return; }
             if (selectedGameStateModifier == null) { return; }
 
-            int removedCount = selectedGameStateModifier.RemoveNonExistentEntries();
+            int removedCount = selectedGameStateModifier.CleanDanglingModifierHandlerData();
             serializedObject.ApplyModifiedProperties();
 
             string summary = removedCount == 0 ? "All entries are valid, nothing removed." : $"{removedCount} invalid entries removed.";

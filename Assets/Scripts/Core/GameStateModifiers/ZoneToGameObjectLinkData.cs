@@ -1,7 +1,9 @@
+using System;
+
 namespace Frankie.Core.GameStateModifiers
 {
-    [System.Serializable]
-    public struct ZoneToGameObjectLinkData
+    [Serializable]
+    public struct ZoneToGameObjectLinkData : IEquatable<ZoneToGameObjectLinkData>
     {
         public string zoneName;
         public string gameObjectName;
@@ -20,9 +22,12 @@ namespace Frankie.Core.GameStateModifiers
 
         public void UpdateRecord(string setZoneName, string setGameObjectName)
         {
-            // Note:  no update for GUID, since this is the only way to practically identify the record
             zoneName = setZoneName;
             gameObjectName = setGameObjectName;
         }
+
+        public bool Equals(ZoneToGameObjectLinkData other) => guid == other.guid;
+        public override bool Equals(object obj) => obj is ZoneToGameObjectLinkData other && Equals(other); 
+        public override int GetHashCode() => guid.GetHashCode();
     }
 }
