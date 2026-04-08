@@ -51,6 +51,11 @@ namespace Frankie.Core.GameStateModifiers
             gameStateModifierHandlerData.Add(zoneToGameObjectLinkData);
         }
 
+        public void RemoveGameStateModifierHandler(string handlerGUID)
+        {
+            gameStateModifierHandlerData.RemoveAll(match => match.guid == handlerGUID);
+        }
+
         public int CleanDanglingModifierHandlerData()
         {
             int removedCount = 0;
@@ -63,6 +68,8 @@ namespace Frankie.Core.GameStateModifiers
         #region PrivateMethods
         private int RemoveNonExistentEntries()
         {
+            Zone.BuildCacheIfEmpty();
+            
             int removedCount = 0;
             for (int i = gameStateModifierHandlerData.Count - 1; i >= 0; i--)
             {
