@@ -8,6 +8,12 @@ namespace Frankie.Core.GameStateModifiers
 {
     public interface IGameStateModifierHandler : ISerializationCallbackReceiver
     {
+        // CRITICAL NOTE ON CONFIGURATION ::
+        // This interface can ONLY be used for classes derived from MonoBehaviours
+        // Then, due to the nature MonoBehaviour event functions, you must:
+        // 1 - Add [ExecuteInEditMode] attribute to the class
+        // 2 - Include `IGameStateModifierHandler.TriggerOnDestroy(this)` to the OnDestroy() method
+        
         #region Properties
         public GameObject gameObject { get; } // Don't need to define, auto-inherits as long as hooked to MonoBehaviour
         public string handlerGUID { get; set; }
@@ -30,17 +36,20 @@ namespace Frankie.Core.GameStateModifiers
         
         #region PublicMethods
         public IList<GameStateModifier> GetGameStateModifiers();
-        
+
+        public static void TriggerOnDestroy(IGameStateModifierHandler gameStateModifierHandler)
+        {
+            if (!gameStateModifierHandler.IsStandardEditorState()) { return; }
+            
+            gameStateModifierHandler.RemoveSelfFromGameStateModifiers();
+        }
         #endregion
         
         #region InterfaceMethods
         void ISerializationCallbackReceiver.OnBeforeSerialize()
         {
 #if UNITY_EDITOR
-            // Avoid GUID generation and link set-up for prefabs
-            if (gameObject == null) { return; }
-            if (!Application.isEditor || EditorApplication.isPlaying || EditorApplication.isPlayingOrWillChangePlaymode) { return; }
-            if (EditorUtility.IsPersistent(gameObject)) { return; }
+            if (!IsStandardEditorState()) { return; }
             
             ZoneToGameObjectLinkData zoneToGameObjectLinkData = MakeZoneToGameObjectLinkData();
             
@@ -65,6 +74,17 @@ namespace Frankie.Core.GameStateModifiers
         #endregion
         
         #region PrivateMethods
+        private bool IsStandardEditorState()
+        {
+            if (gameObject == null) { return false; } // Avoid calls due to mis-configuration
+            if (!Application.isEditor) { return false; } // Avoid calls outside editor
+            if (EditorApplication.isPlaying || EditorApplication.isPlayingOrWillChangePlaymode) { return false; } // Avoid calls due to play mode start/stop
+            if (!gameObject.scene.isLoaded) { return false; } // Avoid calls due to scene changes
+            if (EditorUtility.IsPersistent(gameObject)) { return false; } // Avoid calls due to prefab deletion
+
+            return true;
+        }
+        
         private ZoneToGameObjectLinkData MakeZoneToGameObjectLinkData()
         {
             // Note: Must ensure zoneName == sceneName
@@ -88,11 +108,8 @@ namespace Frankie.Core.GameStateModifiers
             return hash.ToHashCode();
         }
         
-        // Option to implement for OnDestroy, but no effective way to discriminate types of destruction
         private void RemoveSelfFromGameStateModifiers()
         {
-            if (gameObject == null || EditorUtility.IsPersistent(gameObject)) { return; }
-            
             foreach (GameStateModifier gameStateModifier in GetGameStateModifiers())
             {
                 if (gameStateModifier == null) { continue; }

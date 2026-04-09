@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEditor.SceneManagement;
 using Frankie.ZoneManagement;
+using UnityEditor;
 
 namespace Frankie.Core.GameStateModifiers
 {
@@ -43,24 +44,36 @@ namespace Frankie.Core.GameStateModifiers
         public string GetGUID() => guid;
         public void AddOrUpdateGameStateModifierHandler(ZoneToGameObjectLinkData zoneToGameObjectLinkData)
         {
+#if UNITY_EDITOR
             foreach (ZoneToGameObjectLinkData checkLinkData in gameStateModifierHandlerData.Where(checkLinkData => checkLinkData.guid == zoneToGameObjectLinkData.guid))
             {
                 checkLinkData.UpdateRecord(zoneToGameObjectLinkData.zoneName, zoneToGameObjectLinkData.gameObjectName);
+                Debug.Log($"GameStateModifier {name} :: Updating GameStateModifierHandler - {zoneToGameObjectLinkData.zoneName}/{zoneToGameObjectLinkData.gameObjectName}.");
                 return;
             }
+            Debug.Log($"GameStateModifier {name} :: Adding new GameStateModifierHandler - {zoneToGameObjectLinkData.zoneName}/{zoneToGameObjectLinkData.gameObjectName}.");
             gameStateModifierHandlerData.Add(zoneToGameObjectLinkData);
+            EditorUtility.SetDirty(this);
+#endif
         }
 
         public void RemoveGameStateModifierHandler(string handlerGUID)
         {
+#if UNITY_EDITOR
+            Debug.Log($"GameStateModifier {name} :: Removing GameStateHandler with GUID {handlerGUID} due to Object Deletion.");
             gameStateModifierHandlerData.RemoveAll(match => match.guid == handlerGUID);
+            EditorUtility.SetDirty(this);
+#endif
         }
 
         public int CleanDanglingModifierHandlerData()
         {
             int removedCount = 0;
+#if UNITY_EDITOR
             removedCount += RemoveNonExistentEntries();
             removedCount += RemoveDuplicateEntries();
+            EditorUtility.SetDirty(this);
+#endif
             return removedCount;
         }
         #endregion
@@ -68,9 +81,8 @@ namespace Frankie.Core.GameStateModifiers
         #region PrivateMethods
         private int RemoveNonExistentEntries()
         {
-            Zone.BuildCacheIfEmpty();
-            
             int removedCount = 0;
+            Zone.BuildCacheIfEmpty();
             for (int i = gameStateModifierHandlerData.Count - 1; i >= 0; i--)
             {
                 ZoneToGameObjectLinkData handlerLinkData = gameStateModifierHandlerData[i];
@@ -81,7 +93,7 @@ namespace Frankie.Core.GameStateModifiers
                 bool sceneFound = false;
                 if (string.IsNullOrEmpty(handlerGUID))
                 {
-                    Debug.Log($"[SceneObjectPair] Removing entry {zoneName}/{handlerName} — Empty GUID.");
+                    Debug.Log($"GameStateModifier {name} :: Removing entry {zoneName}/{handlerName} — Empty GUID.");
                 }
                 else
                 {
@@ -92,17 +104,22 @@ namespace Frankie.Core.GameStateModifiers
                         scenePath = zone.GetSceneReference().GetScenePath();
                         sceneFound = !string.IsNullOrWhiteSpace(scenePath);
                     }
+
                     bool objectFound = sceneFound && !string.IsNullOrWhiteSpace(handlerName) && DoesGameStateModifierHandlerExist(scenePath, handlerGUID);
-                    
+
                     // Found -- Skip Removal
-                    if (sceneFound && objectFound) { continue; }
-                    
-                    
+                    if (sceneFound && objectFound)
+                    {
+                        continue;
+                    }
+
+
                     string reason = !sceneFound ? $"Zone {zoneName} not found" : $"object {handlerName} not found";
-                    Debug.Log($"[SceneObjectPair] Removing entry {zoneName}/{handlerName} — {reason}.");
+                    Debug.Log($"GameStateModifier {name} ::  Removing entry {zoneName}/{handlerName} — {reason}.");
                 }
+
                 gameStateModifierHandlerData.RemoveAt(i);
-                
+
                 removedCount++;
             }
             return removedCount;
@@ -114,7 +131,7 @@ namespace Frankie.Core.GameStateModifiers
             gameStateModifierHandlerData = gameStateModifierHandlerData.Distinct().ToList();
             int removedCount = initialCount - gameStateModifierHandlerData.Count;
             
-            if (removedCount > 0) { Debug.Log($"Duplicate GUIDs found!  Removed {removedCount} entries."); }
+            if (removedCount > 0) { Debug.Log($"GameStateModifier {name} :: Duplicate GUIDs found!  Removed {removedCount} entries."); }
             return removedCount;
         }
         #endregion
@@ -122,10 +139,12 @@ namespace Frankie.Core.GameStateModifiers
         #region InterfaceMethods
         void ISerializationCallbackReceiver.OnBeforeSerialize()
         {
+#if UNITY_EDITOR
             if (string.IsNullOrWhiteSpace(guid))
             {
                 guid = System.Guid.NewGuid().ToString();
             }
+#endif
         }
 
         void ISerializationCallbackReceiver.OnAfterDeserialize()
