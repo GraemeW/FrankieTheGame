@@ -103,7 +103,7 @@ MonoBehaviour:
   nodeWidth: 430
   nodeHeight: 150
   sceneReference:
-    sceneAsset: {fileID: 102900000, guid: bdbc1e0ce13a1f14ebbd17a6311fb5d4, type: 3}
+    sceneAsset: {fileID: 102900000, guid: 12f7e76c252184d49b8c69c04f2c8c3e, type: 3}
     sceneName: OfficeExterior
     scenePath: Assets/Scenes/OfficeExterior.unity
   updateMap: 1

@@ -347,7 +347,7 @@ MonoBehaviour:
   nodeWidth: 430
   nodeHeight: 150
   sceneReference:
-    sceneAsset: {fileID: 102900000, guid: bdbc1e0ce13a1f14ebbd17a6311fb5d4, type: 3}
+    sceneAsset: {fileID: 102900000, guid: 813f104c01953014ba595875d499ada2, type: 3}
     sceneName: OfficeInterior
     scenePath: Assets/Scenes/OfficeInterior.unity
   updateMap: 0

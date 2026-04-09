@@ -184,7 +184,7 @@ namespace Frankie.Control
         protected override void UpdateAnimator()
         {
             // Safety on accessing controller properties before setup complete (OnEnable calls)
-            if (animator.runtimeAnimatorController == null) { return; }
+            if (animator == null || animator.runtimeAnimatorController == null) { return; }
 
             SetAnimatorSpeed(animator, currentSpeed);
             SetAnimatorXLook(animator, lookDirection.x);
