@@ -1,8 +1,10 @@
 using System;
 using System.Collections.Generic;
-using UnityEditor;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
 
 namespace Frankie.Core.GameStateModifiers
 {
@@ -14,37 +16,20 @@ namespace Frankie.Core.GameStateModifiers
         // 1 - Add [ExecuteInEditMode] attribute to the class
         // 2 - Include `IGameStateModifierHandler.TriggerOnDestroy(this)` to the OnDestroy() method
         
-        #region Properties
+        #region StandardPropertiesAndMethods
         public GameObject gameObject { get; } // Don't need to define, auto-inherits as long as hooked to MonoBehaviour
         public string handlerGUID { get; set; }
         public int modifierListHashCheck { get; set; }
-        #endregion
-
-        #region CustomComparer
-        private static readonly IEqualityComparer<GameStateModifier> _gameStateModifierComparer = new GameStateModifierComparer();
-        class GameStateModifierComparer : IEqualityComparer<GameStateModifier>
-        {
-            public bool Equals(GameStateModifier x, GameStateModifier y)
-            {
-                if (x == null && y == null) { return true; }
-                if (x == null || y == null) { return false; }
-                return x.GetGUID() == y.GetGUID();
-            }
-            public int GetHashCode(GameStateModifier obj) => obj == null ? 0 : obj.GetGUID().GetHashCode();
-        }
-        #endregion
         
-        #region PublicMethods
-        public IList<GameStateModifier> GetGameStateModifiers();
-
         public static void TriggerOnDestroy(IGameStateModifierHandler gameStateModifierHandler)
         {
+#if UNITY_EDITOR
             if (!gameStateModifierHandler.IsStandardEditorState()) { return; }
-            
             gameStateModifierHandler.RemoveSelfFromGameStateModifiers();
+#endif
         }
         #endregion
-        
+
         #region InterfaceMethods
         void ISerializationCallbackReceiver.OnBeforeSerialize()
         {
@@ -73,7 +58,24 @@ namespace Frankie.Core.GameStateModifiers
         }
         #endregion
         
-        #region PrivateMethods
+#if UNITY_EDITOR
+        #region CustomComparer
+        private static readonly IEqualityComparer<GameStateModifier> _gameStateModifierComparer = new GameStateModifierComparer();
+        class GameStateModifierComparer : IEqualityComparer<GameStateModifier>
+        {
+            public bool Equals(GameStateModifier x, GameStateModifier y)
+            {
+                if (x == null && y == null) { return true; }
+                if (x == null || y == null) { return false; }
+                return x.GetGUID() == y.GetGUID();
+            }
+            public int GetHashCode(GameStateModifier obj) => obj == null ? 0 : obj.GetGUID().GetHashCode();
+        }
+        #endregion
+        
+        #region EditorMethods
+        public IList<GameStateModifier> GetGameStateModifiers();
+        
         private bool IsStandardEditorState()
         {
             if (gameObject == null) { return false; } // Avoid calls due to mis-configuration
@@ -118,5 +120,6 @@ namespace Frankie.Core.GameStateModifiers
             }
         }
         #endregion
+#endif
     }
 }

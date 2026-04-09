@@ -2,23 +2,45 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using UnityEditor.SceneManagement;
-using Frankie.ZoneManagement;
+#if UNITY_EDITOR
 using UnityEditor;
+using UnityEditor.SceneManagement;
+#endif
+using Frankie.ZoneManagement;
 
 namespace Frankie.Core.GameStateModifiers
 {
     public abstract class GameStateModifier : ScriptableObject, ISerializationCallbackReceiver
     {
-        #region Properties
+        #region StandardPropertiesMethods
         [Tooltip("Auto-generated UUID for saving/loading. Clear this field if you want to generate a new one.")]
         [SerializeField] protected string guid;
         
         public List<ZoneToGameObjectLinkData> gameStateModifierHandlerData = new(); // Custom view in GameStateModifierEditor
+
+        public string GetGUID() => guid;
+        #endregion
+        
+        #region InterfaceMethods
+        public virtual void OnBeforeSerialize()
+        {
+#if UNITY_EDITOR
+            if (string.IsNullOrWhiteSpace(guid))
+            {
+                guid = System.Guid.NewGuid().ToString();
+            }
+#endif
+        }
+
+        public virtual void OnAfterDeserialize()
+        {
+            // Unused, required for interface
+        }
         #endregion
         
         
-        #region StaticMethods
+#if UNITY_EDITOR
+        #region EditorStaticMethods
         public static string GetGameStateModifierHandlerDataRef() => nameof(gameStateModifierHandlerData);
         
         private static bool DoesGameStateModifierHandlerExist(string scenePath, string handlerGUID)
@@ -43,11 +65,9 @@ namespace Frankie.Core.GameStateModifiers
         }
         #endregion
         
-        #region PublicMethods
-        public string GetGUID() => guid;
+        #region EditorPublicMethods
         public void AddOrUpdateGameStateModifierHandler(ZoneToGameObjectLinkData zoneToGameObjectLinkData)
         {
-#if UNITY_EDITOR
             foreach (ZoneToGameObjectLinkData checkLinkData in gameStateModifierHandlerData.Where(checkLinkData => checkLinkData.guid == zoneToGameObjectLinkData.guid))
             {
                 checkLinkData.UpdateRecord(zoneToGameObjectLinkData.zoneName, zoneToGameObjectLinkData.gameObjectName);
@@ -57,31 +77,26 @@ namespace Frankie.Core.GameStateModifiers
             Debug.Log($"GameStateModifier {name} :: Adding new GameStateModifierHandler - {zoneToGameObjectLinkData.zoneName}/{zoneToGameObjectLinkData.gameObjectName}.");
             gameStateModifierHandlerData.Add(zoneToGameObjectLinkData);
             EditorUtility.SetDirty(this);
-#endif
         }
 
         public void RemoveGameStateModifierHandler(string handlerGUID)
         {
-#if UNITY_EDITOR
             Debug.Log($"GameStateModifier {name} :: Removing GameStateHandler with GUID {handlerGUID} due to Object Deletion.");
             gameStateModifierHandlerData.RemoveAll(match => match.guid == handlerGUID);
             EditorUtility.SetDirty(this);
-#endif
         }
 
         public int CleanDanglingModifierHandlerData()
         {
             int removedCount = 0;
-#if UNITY_EDITOR
             removedCount += RemoveNonExistentEntries();
             removedCount += RemoveDuplicateEntries();
             EditorUtility.SetDirty(this);
-#endif
             return removedCount;
         }
         #endregion
 
-        #region PrivateMethods
+        #region EditorPrivateMethods
         private int RemoveNonExistentEntries()
         {
             int removedCount = 0;
@@ -138,22 +153,6 @@ namespace Frankie.Core.GameStateModifiers
             return removedCount;
         }
         #endregion
-        
-        #region InterfaceMethods
-        public virtual void OnBeforeSerialize()
-        {
-#if UNITY_EDITOR
-            if (string.IsNullOrWhiteSpace(guid))
-            {
-                guid = System.Guid.NewGuid().ToString();
-            }
 #endif
-        }
-
-        public virtual void OnAfterDeserialize()
-        {
-            // Unused, required for interface
-        }
-        #endregion
     }
 }
