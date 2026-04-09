@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e5a52bc8039beea4f88b438257c47f35, type: 3}
   m_Name: CasioWatch
   m_EditorClassIdentifier: 
-  itemID: bb6684e6-d732-4641-a275-3c94e9c6c66c
+  guid: bb6684e6-d732-4641-a275-3c94e9c6c66c
   displayName: Casio Watch
   description: Wow, offers some protection and it looks cool!
   droppable: 1

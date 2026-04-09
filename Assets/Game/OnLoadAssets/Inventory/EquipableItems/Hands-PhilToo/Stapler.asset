@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e5a52bc8039beea4f88b438257c47f35, type: 3}
   m_Name: Stapler
   m_EditorClassIdentifier: 
-  itemID: d873894d-f7f9-4da8-bd25-011879603a4e
+  guid: d873894d-f7f9-4da8-bd25-011879603a4e
   displayName: Stapler
   description: Clicky clicky.  It doesn't hurt much, but it's red and pretty, good
     for fashion.  Only usable by Phil Too.

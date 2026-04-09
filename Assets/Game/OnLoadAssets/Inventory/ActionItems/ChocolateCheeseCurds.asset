@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 75a8e8b21386c444d8c573cdb7c263f6, type: 3}
   m_Name: ChocolateCheeseCurds
   m_EditorClassIdentifier: 
-  itemID: b03c0139-809f-4783-8a90-8eb88631e3c4
+  guid: b03c0139-809f-4783-8a90-8eb88631e3c4
   displayName: Chocolate Cheese Curds
   description: Chocolatey cheesey goodness (TM).  Heals some HP.
   droppable: 1

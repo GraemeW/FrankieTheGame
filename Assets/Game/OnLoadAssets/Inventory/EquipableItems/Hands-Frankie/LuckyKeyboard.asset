@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e5a52bc8039beea4f88b438257c47f35, type: 3}
   m_Name: LuckyKeyboard
   m_EditorClassIdentifier: Assembly-CSharp::Frankie.Inventory.EquipableItem
-  itemID: 99d3c7aa-275a-421e-9c8c-42328d773b45
+  guid: 99d3c7aa-275a-421e-9c8c-42328d773b45
   displayName: Lucky Keyboard
   description: It has a neat shamrock decal on it!  Only usable by Frankie.
   droppable: 1

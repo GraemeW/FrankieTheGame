@@ -12,7 +12,7 @@ namespace Frankie.Quests
     public class Quest : ScriptableObject, ISerializationCallbackReceiver, IAddressablesCache
     {
         // Tunables
-        [SerializeField] [Tooltip("Auto-generated UUID for saving/loading. Clear this field if you want to generate a new one.")] private string questID;
+        [SerializeField] [Tooltip("Auto-generated UUID for saving/loading. Clear this field if you want to generate a new one.")] private string guid;
         [SerializeField] private string detail = "";
         [SerializeField] private List<string> questObjectiveNames = new();
         [SerializeField] private List<Reward> rewards = new();
@@ -46,11 +46,11 @@ namespace Frankie.Quests
             _questLookupCache = new Dictionary<string, Quest>();
             _addressablesLoadHandle = Addressables.LoadAssetsAsync(nameof(Quest), (Quest quest) =>
             {
-                if (_questLookupCache.TryGetValue(quest.questID, out Quest tryQuest))
+                if (_questLookupCache.TryGetValue(quest.guid, out Quest tryQuest))
                 {
                     Debug.LogError($"Looks like there's a duplicate ID for objects: {tryQuest} and {quest}");
                 }
-                _questLookupCache[quest.questID] = quest;
+                _questLookupCache[quest.guid] = quest;
             }
             );
             _addressablesLoadHandle.WaitForCompletion();
@@ -63,7 +63,7 @@ namespace Frankie.Quests
         #endregion
 
         #region PublicMethods
-        public string GetQuestID() => questID;
+        public string GetGUID() => guid;
         public string GetDetail() => detail;
         public QuestObjective GetObjectiveFromID(string objectiveID) => questObjectives.FirstOrDefault(questObjective => questObjective.GetObjectiveID() == objectiveID);
         public bool HasObjective(QuestObjective matchObjective) => questObjectives.Any(questObjective => questObjective.GetObjectiveID() == matchObjective.GetObjectiveID());
@@ -94,7 +94,7 @@ namespace Frankie.Quests
 
             questObjective.name = objectiveName;
             questObjective.SetObjectiveID(System.Guid.NewGuid().ToString());
-            questObjective.SetQuestID(GetQuestID());
+            questObjective.SetQuestID(GetGUID());
 
             Undo.RecordObject(this, "Add Quest Objective");
             questObjectives.Add(questObjective);
@@ -166,9 +166,9 @@ namespace Frankie.Quests
         {
 #if UNITY_EDITOR
             // Generate and save a new UUID if this is blank
-            if (string.IsNullOrWhiteSpace(questID))
+            if (string.IsNullOrWhiteSpace(guid))
             {
-                questID = System.Guid.NewGuid().ToString();
+                guid = System.Guid.NewGuid().ToString();
             }
 
             // Serialize quest objectives as childed

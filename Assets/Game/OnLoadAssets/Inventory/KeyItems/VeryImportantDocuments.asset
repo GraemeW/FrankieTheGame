@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5daf945d483bd7e4cad35b3b31d4b5f5, type: 3}
   m_Name: VeryImportantDocuments
   m_EditorClassIdentifier: 
-  itemID: c1d8eed3-dd46-4da5-b1de-fe77153bed5e
+  guid: c1d8eed3-dd46-4da5-b1de-fe77153bed5e
   displayName: Very Imp. Docs
   description: It's hay.  It's just hay in a binder.
   droppable: 0

@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5daf945d483bd7e4cad35b3b31d4b5f5, type: 3}
   m_Name: Chopsticks
   m_EditorClassIdentifier: 
-  itemID: ce52abf0-68ce-4d57-9be8-589004547c0e
+  guid: ce52abf0-68ce-4d57-9be8-589004547c0e
   displayName: Chopsticks
   description: They're covered in Orange Chicken sauce.  Gross.
   droppable: 0

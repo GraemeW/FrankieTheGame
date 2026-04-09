@@ -11,9 +11,12 @@ namespace Frankie.Core.GameStateModifiers
     public abstract class GameStateModifier : ScriptableObject, ISerializationCallbackReceiver
     {
         #region Properties
+        [Tooltip("Auto-generated UUID for saving/loading. Clear this field if you want to generate a new one.")]
         [SerializeField] private string guid;
+        
         public List<ZoneToGameObjectLinkData> gameStateModifierHandlerData = new(); // Custom view in GameStateModifierEditor
         #endregion
+        
         
         #region StaticMethods
         public static string GetGameStateModifierHandlerDataRef() => nameof(gameStateModifierHandlerData);
@@ -137,7 +140,7 @@ namespace Frankie.Core.GameStateModifiers
         #endregion
         
         #region InterfaceMethods
-        void ISerializationCallbackReceiver.OnBeforeSerialize()
+        public virtual void OnBeforeSerialize()
         {
 #if UNITY_EDITOR
             if (string.IsNullOrWhiteSpace(guid))
@@ -147,7 +150,7 @@ namespace Frankie.Core.GameStateModifiers
 #endif
         }
 
-        void ISerializationCallbackReceiver.OnAfterDeserialize()
+        public virtual void OnAfterDeserialize()
         {
             // Unused, required for interface
         }

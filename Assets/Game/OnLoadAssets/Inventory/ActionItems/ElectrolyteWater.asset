@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 75a8e8b21386c444d8c573cdb7c263f6, type: 3}
   m_Name: ElectrolyteWater
   m_EditorClassIdentifier: 
-  itemID: 1505af13-4f5e-46f3-b6fa-e23b91428cd9
+  guid: 1505af13-4f5e-46f3-b6fa-e23b91428cd9
   displayName: Electrolyte Water
   description: Full of SODIUM and ENERGY.  Heals a good chunk of AP.
   droppable: 1

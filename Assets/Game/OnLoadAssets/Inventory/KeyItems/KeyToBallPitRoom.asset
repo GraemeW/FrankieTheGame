@@ -12,10 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5daf945d483bd7e4cad35b3b31d4b5f5, type: 3}
   m_Name: KeyToBallPitRoom
   m_EditorClassIdentifier: 
-  itemID: 129d479f-80bd-40a9-9dc4-74fc3238f074
+  guid: 129d479f-80bd-40a9-9dc4-74fc3238f074
   displayName: Key to Ball Pit
   description: Extremely valuable -- only handed out to senior engineers.  Don't
     lose it.
   droppable: 0
   price: 0
-  questObjectivePairs: []
+  questObjectives: []

@@ -114,7 +114,7 @@ namespace Frankie.Inventory
             var equippedItemsForSerialization = new Dictionary<EquipLocation, string>();
             foreach (KeyValuePair<EquipLocation, EquipableItem> pair in equippedItems)
             {
-                equippedItemsForSerialization[pair.Key] = pair.Value.GetItemID();
+                equippedItemsForSerialization[pair.Key] = pair.Value.GetGUID();
             }
             return new SaveState(GetLoadPriority(), equippedItemsForSerialization);
         }

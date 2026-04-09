@@ -32,7 +32,7 @@ namespace Frankie.Inventory
 
         public bool IsWearingItem(WearableItem wearableItem)
         {
-            string wearableItemID = wearableItem.GetItemID();
+            string wearableItemID = wearableItem.GetGUID();
 
             foreach (Transform checkWearableObject in attachedObjectsRoot)
             {
@@ -41,7 +41,7 @@ namespace Frankie.Inventory
                 WearableItem checkWearableItem = checkWearable.GetWearableItem();
                 if (checkWearableItem == null) { continue; }
 
-                if (checkWearableItem.GetItemID() == wearableItemID) { return true; }
+                if (checkWearableItem.GetGUID() == wearableItemID) { return true; }
             }
             return false;
         }
@@ -76,7 +76,7 @@ namespace Frankie.Inventory
                 WearableItem wearableItem = wearable.GetWearableItem();
                 if (wearableItem == null) { continue; }
 
-                wearableItemIDs.Add(wearableItem.GetItemID());
+                wearableItemIDs.Add(wearableItem.GetGUID());
             }
             return new SaveState(GetLoadPriority(), wearableItemIDs);
         }

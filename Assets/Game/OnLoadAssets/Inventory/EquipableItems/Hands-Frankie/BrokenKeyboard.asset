@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e5a52bc8039beea4f88b438257c47f35, type: 3}
   m_Name: BrokenKeyboard
   m_EditorClassIdentifier: 
-  itemID: ed10e07a-adbf-4a2c-b083-0e6f2881de2e
+  guid: ed10e07a-adbf-4a2c-b083-0e6f2881de2e
   displayName: Broken Keyboard
   description: The F key sticks and the space bar fell off.  Only usable by Frankie.
   droppable: 1

@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5daf945d483bd7e4cad35b3b31d4b5f5, type: 3}
   m_Name: XTremeBurnHotSauce
   m_EditorClassIdentifier: 
-  itemID: cd49f4f6-aae4-4e08-9130-c8b45d011dc5
+  guid: cd49f4f6-aae4-4e08-9130-c8b45d011dc5
   displayName: X-Treme Burn Sauce
   description: Hotter than hell.  Don't eat this.
   droppable: 0

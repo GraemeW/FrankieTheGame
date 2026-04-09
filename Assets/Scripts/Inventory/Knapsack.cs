@@ -68,7 +68,7 @@ namespace Frankie.Inventory
         public bool HasFreeSpace() => GetNumberOfFreeSlots() > 0;
         public bool HasItem(InventoryItem inventoryItem)
         {
-            return slots.Where(t => t != null).Any(t => t.GetInventoryItem().GetItemID() == inventoryItem.GetItemID());
+            return slots.Where(t => t != null).Any(t => t.GetInventoryItem().GetGUID() == inventoryItem.GetGUID());
         }
         public bool HasItemInSlot(int slot) =>  slots[slot] != null;
         public bool IsItemInSlotEquipped(int slot) => slots[slot] != null && slots[slot].IsEquipped();
@@ -109,7 +109,7 @@ namespace Frankie.Inventory
             for (int i = 0; i < slots.Length; i++)
             {
                 if (slots[i] == null) { continue; }
-                if (slots[i].GetInventoryItem().GetItemID() == inventoryItem.GetItemID()) { return i; }
+                if (slots[i].GetInventoryItem().GetGUID() == inventoryItem.GetGUID()) { return i; }
             }
             return -1;
         }
@@ -120,7 +120,7 @@ namespace Frankie.Inventory
             for (int i = 0; i < slots.Length; i++)
             {
                 if (slots[i] == null) { continue; }
-                if (slots[i].GetInventoryItem().GetItemID() == inventoryItem.GetItemID()) { matchedSlots.Add(i); }
+                if (slots[i].GetInventoryItem().GetGUID() == inventoryItem.GetGUID()) { matchedSlots.Add(i); }
             }
             return matchedSlots;
         }
@@ -317,7 +317,7 @@ namespace Frankie.Inventory
                 
                 var saveableActiveItem = new SaveableActiveItem
                 {
-                    inventoryItemID = slots[i].GetInventoryItem().GetItemID(),
+                    inventoryItemID = slots[i].GetInventoryItem().GetGUID(),
                     equipped = slots[i].IsEquipped()
                 };
                 slotsActiveItemStrings[i] = saveableActiveItem;

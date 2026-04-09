@@ -12,10 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5daf945d483bd7e4cad35b3b31d4b5f5, type: 3}
   m_Name: TestKeyItem
   m_EditorClassIdentifier: 
-  itemID: db655e61-d8e8-4e7a-8546-041d7013d84c
+  guid: db655e61-d8e8-4e7a-8546-041d7013d84c
   displayName: Subway Card
   description: Can't get around without it
   droppable: 0
-  questObjectivePairs:
-  - quest: {fileID: 11400000, guid: 2b823bbc411efb64f8ea840e07c3e7c2, type: 2}
-    objective: {fileID: 11400000, guid: a2c1f6c6e7325794da424a506739bdca, type: 2}
+  price: 0
+  questObjectives: []

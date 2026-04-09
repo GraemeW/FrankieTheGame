@@ -11,7 +11,7 @@ namespace Frankie.Inventory
     {
         // Config Data
         [Tooltip("Auto-generated UUID for saving/loading -- clear to generate new, write to generate fixed")]
-        [SerializeField] private string itemID;
+        [SerializeField] private string guid;
         [Tooltip("Item name displayed in UI")]
         [SerializeField] private string displayName;
         [Tooltip("Item description on inspection")]
@@ -45,12 +45,12 @@ namespace Frankie.Inventory
             _itemLookupCache = new Dictionary<string, InventoryItem>();
             _addressablesLoadHandle = Addressables.LoadAssetsAsync(nameof(InventoryItem), (InventoryItem inventoryItem) =>
             {
-                if (_itemLookupCache.TryGetValue(inventoryItem.itemID, out InventoryItem matchInventoryItem))
+                if (_itemLookupCache.TryGetValue(inventoryItem.guid, out InventoryItem matchInventoryItem))
                 {
                     Debug.LogError($"Looks like there's a duplicate ID for objects: {matchInventoryItem} and {inventoryItem}");
                 }
 
-                _itemLookupCache[inventoryItem.itemID] = inventoryItem;
+                _itemLookupCache[inventoryItem.guid] = inventoryItem;
             }
             );
             _addressablesLoadHandle.WaitForCompletion();
@@ -64,7 +64,7 @@ namespace Frankie.Inventory
 
         #region PublicMethods
         public static string GetItemNamePretty(string itemName) => Regex.Replace(itemName, "([a-z])_?([A-Z])", "$1 $2");
-        public string GetItemID() => itemID;
+        public string GetGUID() => guid;
         public string GetDisplayName() => displayName;
         public string GetDescription() => description;
         public bool IsDroppable() => droppable;
@@ -75,9 +75,9 @@ namespace Frankie.Inventory
         void ISerializationCallbackReceiver.OnBeforeSerialize()
         {
             // Generate and save a new UUID if this is blank
-            if (string.IsNullOrWhiteSpace(itemID))
+            if (string.IsNullOrWhiteSpace(guid))
             {
-                itemID = System.Guid.NewGuid().ToString();
+                guid = System.Guid.NewGuid().ToString();
             }
         }
 
