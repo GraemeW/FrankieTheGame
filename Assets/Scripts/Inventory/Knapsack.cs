@@ -12,7 +12,7 @@ namespace Frankie.Inventory
 {
     [RequireComponent(typeof(Equipment))]
     [RequireComponent(typeof(CombatParticipant))]
-    public class Knapsack : MonoBehaviour, ISaveable, IQuestEvaluator
+    public class Knapsack : MonoBehaviour, ISaveable
     {
         // Tunables
         [SerializeField] private int inventorySize = 16;
