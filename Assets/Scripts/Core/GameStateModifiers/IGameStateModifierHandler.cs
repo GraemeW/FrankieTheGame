@@ -79,6 +79,7 @@ namespace Frankie.Core.GameStateModifiers
             if (gameObject == null) { return false; } // Avoid calls due to mis-configuration
             if (!Application.isEditor) { return false; } // Avoid calls outside editor
             if (EditorApplication.isPlaying || EditorApplication.isPlayingOrWillChangePlaymode) { return false; } // Avoid calls due to play mode start/stop
+            if (EditorApplication.isCompiling || EditorApplication.isUpdating) { return false; } // Avoid calls during Unity domain backup
             if (!gameObject.scene.isLoaded) { return false; } // Avoid calls due to scene changes
             if (EditorUtility.IsPersistent(gameObject)) { return false; } // Avoid calls due to prefab deletion
 

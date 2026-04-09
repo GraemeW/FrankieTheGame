@@ -4,14 +4,13 @@ using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement.AsyncOperations;
 using Frankie.Core;
+using Frankie.Core.GameStateModifiers;
 
 namespace Frankie.Inventory
 {
-    public abstract class InventoryItem : ScriptableObject, ISerializationCallbackReceiver, IAddressablesCache
+    public abstract class InventoryItem : GameStateModifier, IAddressablesCache
     {
         // Config Data
-        [Tooltip("Auto-generated UUID for saving/loading -- clear to generate new, write to generate fixed")]
-        [SerializeField] private string guid;
         [Tooltip("Item name displayed in UI")]
         [SerializeField] private string displayName;
         [Tooltip("Item description on inspection")]
@@ -64,27 +63,10 @@ namespace Frankie.Inventory
 
         #region PublicMethods
         public static string GetItemNamePretty(string itemName) => Regex.Replace(itemName, "([a-z])_?([A-Z])", "$1 $2");
-        public string GetGUID() => guid;
         public string GetDisplayName() => displayName;
         public string GetDescription() => description;
         public bool IsDroppable() => droppable;
         public int GetPrice() => price;
-        #endregion
-
-        #region UnityMethods
-        void ISerializationCallbackReceiver.OnBeforeSerialize()
-        {
-            // Generate and save a new UUID if this is blank
-            if (string.IsNullOrWhiteSpace(guid))
-            {
-                guid = System.Guid.NewGuid().ToString();
-            }
-        }
-
-        void ISerializationCallbackReceiver.OnAfterDeserialize()
-        {
-            // Unused, required for interface
-        }
         #endregion
     }
 }

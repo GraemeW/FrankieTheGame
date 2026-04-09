@@ -12,7 +12,7 @@ namespace Frankie.Core.GameStateModifiers
     {
         #region Properties
         [Tooltip("Auto-generated UUID for saving/loading. Clear this field if you want to generate a new one.")]
-        [SerializeField] private string guid;
+        [SerializeField] protected string guid;
         
         public List<ZoneToGameObjectLinkData> gameStateModifierHandlerData = new(); // Custom view in GameStateModifierEditor
         #endregion

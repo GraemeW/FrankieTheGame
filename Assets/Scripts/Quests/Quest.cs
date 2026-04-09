@@ -5,14 +5,14 @@ using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement.AsyncOperations;
 using Frankie.Core;
+using Frankie.Core.GameStateModifiers;
 
 namespace Frankie.Quests
 {
     [CreateAssetMenu(fileName = "Quest", menuName = "Quests/New Quest")]
-    public class Quest : ScriptableObject, ISerializationCallbackReceiver, IAddressablesCache
+    public class Quest : GameStateModifier, IAddressablesCache
     {
         // Tunables
-        [SerializeField] [Tooltip("Auto-generated UUID for saving/loading. Clear this field if you want to generate a new one.")] private string guid;
         [SerializeField] private string detail = "";
         [SerializeField] private List<string> questObjectiveNames = new();
         [SerializeField] private List<Reward> rewards = new();
@@ -63,7 +63,6 @@ namespace Frankie.Quests
         #endregion
 
         #region PublicMethods
-        public string GetGUID() => guid;
         public string GetDetail() => detail;
         public QuestObjective GetObjectiveFromID(string objectiveID) => questObjectives.FirstOrDefault(questObjective => questObjective.GetObjectiveID() == objectiveID);
         public bool HasObjective(QuestObjective matchObjective) => questObjectives.Any(questObjective => questObjective.GetObjectiveID() == matchObjective.GetObjectiveID());
@@ -162,14 +161,10 @@ namespace Frankie.Quests
 #endif
         }
 
-        void ISerializationCallbackReceiver.OnBeforeSerialize()
+        public override void OnBeforeSerialize()
         {
 #if UNITY_EDITOR
-            // Generate and save a new UUID if this is blank
-            if (string.IsNullOrWhiteSpace(guid))
-            {
-                guid = System.Guid.NewGuid().ToString();
-            }
+            base.OnBeforeSerialize();
 
             // Serialize quest objectives as childed
             if (AssetDatabase.GetAssetPath(this) == "") { return; }
@@ -181,11 +176,6 @@ namespace Frankie.Quests
                 }
             }
 #endif
-        }
-
-        void ISerializationCallbackReceiver.OnAfterDeserialize()
-        {
-            // Unused, required for interface
         }
         #endregion
     }
