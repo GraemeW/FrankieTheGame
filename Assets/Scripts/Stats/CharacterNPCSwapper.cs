@@ -57,6 +57,7 @@ namespace Frankie.Stats
 
         private void Start()
         {
+            party ??= new ReInitLazyValue<Party>(SetupPartyReference);
             party.ForceInit();
             DeleteNPCIfInParty();
         }

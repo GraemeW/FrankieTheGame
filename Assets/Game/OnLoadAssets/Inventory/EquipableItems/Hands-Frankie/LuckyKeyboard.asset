@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: LuckyKeyboard
   m_EditorClassIdentifier: Assembly-CSharp::Frankie.Inventory.EquipableItem
   guid: 99d3c7aa-275a-421e-9c8c-42328d773b45
+  gameStateModifierHandlerData: []
   displayName: Lucky Keyboard
   description: It has a neat shamrock decal on it!  Only usable by Frankie.
   droppable: 1

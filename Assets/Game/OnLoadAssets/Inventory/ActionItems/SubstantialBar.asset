@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: SubstantialBar
   m_EditorClassIdentifier: 
   guid: ecb33b9b-c1c1-4c5e-bccf-03eb6bc9560f
+  gameStateModifierHandlerData: []
   displayName: Substantial Bar
   description: It's a substantial bar.  Made of substantial ingredients.  Heals a
     good chunk of HP.

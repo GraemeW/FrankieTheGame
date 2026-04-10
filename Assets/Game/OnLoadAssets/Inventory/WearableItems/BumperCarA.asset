@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: BumperCarA
   m_EditorClassIdentifier: 
   guid: d15ac71b-a8d7-418b-aeb2-56835326c4c3
+  gameStateModifierHandlerData: []
   displayName: BumperGreen
   description: The rubber base bounces with great vigor
   droppable: 1

@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: CasioWatch
   m_EditorClassIdentifier: 
   guid: bb6684e6-d732-4641-a275-3c94e9c6c66c
+  gameStateModifierHandlerData: []
   displayName: Casio Watch
   description: Wow, offers some protection and it looks cool!
   droppable: 1

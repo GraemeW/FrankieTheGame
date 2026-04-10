@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: ChocolateCheeseCurds
   m_EditorClassIdentifier: 
   guid: b03c0139-809f-4783-8a90-8eb88631e3c4
+  gameStateModifierHandlerData: []
   displayName: Chocolate Cheese Curds
   description: Chocolatey cheesey goodness (TM).  Heals some HP.
   droppable: 1

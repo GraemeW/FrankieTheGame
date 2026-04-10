@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: ElectrolyteWater
   m_EditorClassIdentifier: 
   guid: 1505af13-4f5e-46f3-b6fa-e23b91428cd9
+  gameStateModifierHandlerData: []
   displayName: Electrolyte Water
   description: Full of SODIUM and ENERGY.  Heals a good chunk of AP.
   droppable: 1

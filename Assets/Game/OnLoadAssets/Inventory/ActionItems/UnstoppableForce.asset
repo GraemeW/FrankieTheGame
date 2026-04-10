@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: UnstoppableForce
   m_EditorClassIdentifier: Assembly-CSharp::Frankie.Inventory.ActionItem
   guid: de6b51b1-993e-4816-b20d-4465a0317c29
+  gameStateModifierHandlerData: []
   displayName: Unstoppable Force
   description: If only you could find an immovable object.
   droppable: 1

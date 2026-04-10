@@ -209,6 +209,14 @@ PrefabInstance:
       propertyPath: overrideDefaultInteractionDistance
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 6410608619545107928, guid: 0933637bb54f1cb4480c3b6eaceeee40, type: 3}
+      propertyPath: backingHandlerGUID
+      value: e58467b4-9a7b-4a74-b8d5-b87db8f7e2af
+      objectReference: {fileID: 0}
+    - target: {fileID: 6410608619545107928, guid: 0933637bb54f1cb4480c3b6eaceeee40, type: 3}
+      propertyPath: backingListHashCheck
+      value: -1918681112
+      objectReference: {fileID: 0}
     - target: {fileID: 7819299255556850876, guid: 0933637bb54f1cb4480c3b6eaceeee40, type: 3}
       propertyPath: m_RootOrder
       value: 4
@@ -1915,6 +1923,14 @@ PrefabInstance:
       propertyPath: overrideDefaultInteractionDistance
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 6410608619545107928, guid: 0933637bb54f1cb4480c3b6eaceeee40, type: 3}
+      propertyPath: backingHandlerGUID
+      value: d240f7e7-56d5-48a6-b7a1-6d07bd36fe0f
+      objectReference: {fileID: 0}
+    - target: {fileID: 6410608619545107928, guid: 0933637bb54f1cb4480c3b6eaceeee40, type: 3}
+      propertyPath: backingListHashCheck
+      value: 1987616147
+      objectReference: {fileID: 0}
     - target: {fileID: 7819299255556850876, guid: 0933637bb54f1cb4480c3b6eaceeee40, type: 3}
       propertyPath: m_RootOrder
       value: 4
@@ -2714,6 +2730,14 @@ PrefabInstance:
     - target: {fileID: 3450367177837436829, guid: 0933637bb54f1cb4480c3b6eaceeee40, type: 3}
       propertyPath: overrideDefaultInteractionDistance
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6410608619545107928, guid: 0933637bb54f1cb4480c3b6eaceeee40, type: 3}
+      propertyPath: backingHandlerGUID
+      value: 61f174f5-a69c-4811-bebf-febe1f3351be
+      objectReference: {fileID: 0}
+    - target: {fileID: 6410608619545107928, guid: 0933637bb54f1cb4480c3b6eaceeee40, type: 3}
+      propertyPath: backingListHashCheck
+      value: 138354597
       objectReference: {fileID: 0}
     - target: {fileID: 7819299255556850876, guid: 0933637bb54f1cb4480c3b6eaceeee40, type: 3}
       propertyPath: m_RootOrder

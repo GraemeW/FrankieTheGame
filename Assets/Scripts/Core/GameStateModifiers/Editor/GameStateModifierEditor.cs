@@ -22,7 +22,7 @@ namespace Frankie.Core.GameStateModifiers
         private bool stylesInitialised;
         private readonly Color editingActiveColour = new Color(1f, 0.55f, 0.1f);
         private readonly Color editingInactiveColour = new Color(0.5f, 0.9f, 0.5f);
-        private GUIStyle headerStyle;
+        protected GUIStyle headerStyle;
         private GUIStyle entryBoxStyle;
         private GUIStyle objectLabelStyle;
         private GUIStyle jumpButtonStyle;
@@ -101,44 +101,44 @@ namespace Frankie.Core.GameStateModifiers
             if (currentElement == null) { return;}
             
             SerializedProperty zoneNameProperty = currentElement.FindPropertyRelative(ZoneToGameObjectLinkData.GetZoneNameRef());
-            SerializedProperty gameObjectNameProperty = currentElement.FindPropertyRelative(ZoneToGameObjectLinkData.GetGameObjectNameRef());
-            SerializedProperty guidProperty = currentElement.FindPropertyRelative(ZoneToGameObjectLinkData.GetGuidRef());
+            SerializedProperty handlerGameObjectNameProperty = currentElement.FindPropertyRelative(ZoneToGameObjectLinkData.GetGameObjectNameRef());
+            SerializedProperty handlerGUIDProperty = currentElement.FindPropertyRelative(ZoneToGameObjectLinkData.GetGuidRef());
 
             using (new EditorGUILayout.VerticalScope(entryBoxStyle))
             {
                 string zoneName = zoneNameProperty.stringValue;
-                string gameObjectName = gameObjectNameProperty.stringValue;
-                string guid = guidProperty.stringValue;
-                bool skipRenderingElement = AddEntryHeaderRow(index, zoneName, gameObjectName, guid);
+                string handlerGameObjectName = handlerGameObjectNameProperty.stringValue;
+                string handlerGUID = handlerGUIDProperty.stringValue;
+                bool skipRenderingElement = AddEntryHeaderRow(index, zoneName, handlerGameObjectName, handlerGUID);
                 if (skipRenderingElement) { return; }
                 
-                AddEntryFields(zoneNameProperty, gameObjectNameProperty, guidProperty);
+                AddEntryFields(zoneNameProperty, handlerGameObjectNameProperty, handlerGUIDProperty);
             }
         }
 
-        private bool AddEntryHeaderRow(int index, string zoneName, string gameObjectName, string guid)
+        private bool AddEntryHeaderRow(int index, string zoneName, string handlerGameObjectName, string handlerGUID)
         {
             bool skipRenderingElement = false;
             
-            string displayName = string.IsNullOrWhiteSpace(gameObjectName) || string.IsNullOrWhiteSpace(zoneName) ? $"Entry {index}" : $"{zoneName}/{gameObjectName}";
+            string displayName = string.IsNullOrWhiteSpace(handlerGameObjectName) || string.IsNullOrWhiteSpace(zoneName) ? $"Entry {index}" : $"{zoneName}/{handlerGameObjectName}";
             using (new EditorGUILayout.HorizontalScope())
             {
                 EditorGUILayout.LabelField($"[{index}]", GUILayout.Width(28));
                 EditorGUILayout.LabelField(displayName, objectLabelStyle, GUILayout.ExpandWidth(true));
-                bool viableSceneLoad = !string.IsNullOrWhiteSpace(zoneName) && !string.IsNullOrWhiteSpace(gameObjectName);
-                AddLoadZoneButton(viableSceneLoad, zoneName, gameObjectName, guid);
+                bool viableSceneLoad = !string.IsNullOrWhiteSpace(zoneName) && !string.IsNullOrWhiteSpace(handlerGameObjectName);
+                AddLoadZoneButton(viableSceneLoad, zoneName, handlerGameObjectName, handlerGUID);
                 if (AddDeleteButton(index)) { skipRenderingElement = true; }
             }
 
             return skipRenderingElement;
         }
 
-        private void AddLoadZoneButton(bool enabled, string zoneName, string gameObjectName, string guid)
+        private void AddLoadZoneButton(bool enabled, string zoneName, string handlerGameObjectName, string handlerGUID)
         {
             GUI.enabled = enabled;
             if (GUILayout.Button("Open & Select", jumpButtonStyle, GUILayout.Width(100)))
             {
-                EditorApplication.delayCall += () => OpenSceneAndSelect(zoneName, gameObjectName, guid);
+                EditorApplication.delayCall += () => OpenSceneAndSelect(zoneName, handlerGameObjectName, handlerGUID);
             }
             GUI.enabled = true;
         }
@@ -210,7 +210,7 @@ namespace Frankie.Core.GameStateModifiers
         #endregion
 
         #region ButtonFunctionality
-        private static void OpenSceneAndSelect(string zoneName, string gameObjectName, string guid)
+        private static void OpenSceneAndSelect(string zoneName, string handlerGameObjectName, string handlerGUID)
         {
             if (!EditorSceneManager.SaveCurrentModifiedScenesIfUserWantsTo()) { return; }
             
@@ -218,9 +218,7 @@ namespace Frankie.Core.GameStateModifiers
             bool didZoneOpen = OpenZone(zone);
             if (!didZoneOpen) { return; }
             
-            // TODO:  Replace game object selection with GUID-based search instead of name-based search
-            // Pending - implementation of IGameStateModifierHandler and GUID look-up
-            SelectGameObject(gameObjectName);
+            SelectGameObject(handlerGUID, handlerGameObjectName);
         }
 
         private static bool OpenZone(Zone zone)
@@ -238,19 +236,26 @@ namespace Frankie.Core.GameStateModifiers
             return true;
         }
 
-        private static void SelectGameObject(string gameObjectName)
+        private static void SelectGameObject(string handlerGUID, string handlerGameObjectName)
         {
-            GameObject foundGameObject = FindObjectsByType<GameObject>(FindObjectsInactive.Include).FirstOrDefault(go => go.name == gameObjectName);
+            // Try first by GUID, back-up approach using game object name (though could be faulty, so send warning)
+            GameObject foundGameObject = (from gameStateModifierHandler in FindObjectsByType<MonoBehaviour>(FindObjectsInactive.Include).OfType<IGameStateModifierHandler>() where gameStateModifierHandler.handlerGUID == handlerGUID select gameStateModifierHandler.gameObject).FirstOrDefault();
+            if (foundGameObject == null)
+            {
+                Debug.LogWarning($"Warning:  GameStateModifierHandler GUID not found.  Attempting to find by name -- check GUID hook-up!");
+                foundGameObject = FindObjectsByType<GameObject>(FindObjectsInactive.Include).FirstOrDefault(go => go.name == handlerGameObjectName);
+            }
+            
             if (foundGameObject == null) 
             { 
-                Debug.LogWarning($"No GameObject {gameObjectName} found.");
+                Debug.LogWarning($"No GameObject {handlerGameObjectName} found.");
                 return;
             }
 
             Selection.activeGameObject = foundGameObject;
             SceneView sceneView = SceneView.lastActiveSceneView;
             if (sceneView != null) { sceneView.FrameSelected(); }
-            Debug.Log($"{gameObjectName} found and selected.");
+            Debug.Log($"{handlerGameObjectName} found and selected.");
         }
         
         private void RemoveInvalidEntries()
@@ -273,7 +278,7 @@ namespace Frankie.Core.GameStateModifiers
 
             headerStyle = new GUIStyle(EditorStyles.boldLabel)
             {
-                fontSize = 11,
+                fontSize = 14,
                 alignment = TextAnchor.MiddleLeft
             };
 

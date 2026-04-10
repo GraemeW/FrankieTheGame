@@ -88,6 +88,10 @@ MonoBehaviour:
   m_Name: Demo_Office-MainQuestCurio
   m_EditorClassIdentifier: 
   guid: 61c08901-2fd9-403b-833e-f22949c8d448
+  gameStateModifierHandlerData:
+  - zoneName: OfficeInterior
+    gameObjectName: TrashBin
+    guid: 2b6d94f5-ccce-434d-bd75-51ce1e4d7c8d
   detail: Main Quest Tracker
   questObjectiveNames:
   - CurioOne

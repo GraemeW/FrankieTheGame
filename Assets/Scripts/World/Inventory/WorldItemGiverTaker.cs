@@ -1,14 +1,27 @@
+using System.Collections.Generic;
 using UnityEngine;
+using Frankie.Utils;
+using Frankie.Core.GameStateModifiers;
 using Frankie.Control;
 using Frankie.Saving;
 using Frankie.Combat;
 using Frankie.Inventory;
-using Frankie.Utils;
 
 namespace Frankie.World
 {
-    public class WorldItemGiverTaker : MonoBehaviour, ISaveable
+    [ExecuteInEditMode]
+    public class WorldItemGiverTaker : MonoBehaviour, IGameStateModifierHandler, ISaveable
     {
+        // Interface Properties
+        [SerializeField] private string backingHandlerGUID;
+        public string handlerGUID { get => backingHandlerGUID; set => backingHandlerGUID = value; }
+        
+        [SerializeField][HideInInspector] private int backingListHashCheck;
+        public int modifierListHashCheck { get => backingListHashCheck; set => backingListHashCheck = value; }
+        
+        [SerializeField][HideInInspector] private bool backingHasGameStateModifiers;
+        public bool hasGameStateModifiers { get => backingHasGameStateModifiers; set => backingHasGameStateModifiers = value; }
+        
         // Tunables
         [SerializeField] private InventoryItem inventoryItem;
         [SerializeField] private int itemQuantity = 1;
@@ -32,6 +45,16 @@ namespace Frankie.World
         private void Start()
         {
             currentItemQuantity.ForceInit();
+        }
+
+        private void OnDestroy()
+        {
+            IGameStateModifierHandler.TriggerOnDestroy(this);
+        }
+        
+        private void OnDrawGizmos()
+        {
+            IGameStateModifierHandler.TriggerOnGizmos(this);
         }
         #endregion
 
@@ -79,6 +102,17 @@ namespace Frankie.World
         }
         #endregion
 
+        #region GameStateModifierHandlerInterface
+
+        public IList<GameStateModifier> GetGameStateModifiers()
+        {
+            List<GameStateModifier> gameStateModifiers = new();
+            var keyItem = inventoryItem as KeyItem;
+            if (keyItem != null)  { gameStateModifiers.Add(keyItem); }
+            return gameStateModifiers;
+        }
+        #endregion
+        
         #region SaveInterface
         public LoadPriority GetLoadPriority() => LoadPriority.ObjectProperty;
 

@@ -368,6 +368,8 @@ namespace Frankie.ZoneManagement.UIEditor
         
         private void AddZoneViewElement(ZoneView zoneView)
         {
+            if (zoneViewLayer == null) { return; }
+            
             ZoneViewData zoneViewData = zoneView.data;
             if (zoneViewData == null) { return; }
             
@@ -804,6 +806,7 @@ namespace Frankie.ZoneManagement.UIEditor
         private void ApplyPanOffset()
         {
             if (zoneViews == null) { return; }
+            if (zoneViewLayer == null) { return; }
             zoneViewLayer.style.left = panOffset.x;
             zoneViewLayer.style.top  = panOffset.y;
         }

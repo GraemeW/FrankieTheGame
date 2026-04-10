@@ -12,14 +12,10 @@ namespace Frankie.Core.GameStateModifiers
 {
     public abstract class GameStateModifier : ScriptableObject, ISerializationCallbackReceiver
     {
-        #region StandardPropertiesMethods
-        [Tooltip("Auto-generated UUID for saving/loading. Clear this field if you want to generate a new one.")]
-        [SerializeField] protected string guid;
-        
-        public List<ZoneToGameObjectLinkData> gameStateModifierHandlerData = new(); // Custom view in GameStateModifierEditor
-
+        // Standard Properties
+        [Tooltip("Auto-generated GUID. Clear to generate a new one.")] [SerializeField] protected string guid;
         public string GetGUID() => guid;
-        #endregion
+        public List<ZoneToGameObjectLinkData> gameStateModifierHandlerData = new(); // Custom view in GameStateModifierEditor
         
         #region InterfaceMethods
         public virtual void OnBeforeSerialize()
@@ -71,7 +67,6 @@ namespace Frankie.Core.GameStateModifiers
             foreach (ZoneToGameObjectLinkData checkLinkData in gameStateModifierHandlerData.Where(checkLinkData => checkLinkData.guid == zoneToGameObjectLinkData.guid))
             {
                 checkLinkData.UpdateRecord(zoneToGameObjectLinkData.zoneName, zoneToGameObjectLinkData.gameObjectName);
-                Debug.Log($"GameStateModifier {name} :: Updating GameStateModifierHandler - {zoneToGameObjectLinkData.zoneName}/{zoneToGameObjectLinkData.gameObjectName}.");
                 return;
             }
             Debug.Log($"GameStateModifier {name} :: Adding new GameStateModifierHandler - {zoneToGameObjectLinkData.zoneName}/{zoneToGameObjectLinkData.gameObjectName}.");

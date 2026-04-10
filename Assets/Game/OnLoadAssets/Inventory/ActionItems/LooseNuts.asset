@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: LooseNuts
   m_EditorClassIdentifier: Assembly-CSharp::Frankie.Inventory.ActionItem
   guid: 5848902d-0f1c-4222-8abf-7d527c89461e
+  gameStateModifierHandlerData: []
   displayName: Loose Nuts
   description: Mix of macadia and beer nuts . . . and some twine?
   droppable: 1

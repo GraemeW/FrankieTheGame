@@ -22196,6 +22196,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b29a3a98a34c59448ad553101362c476, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  backingHandlerGUID: 32cd30ad-e5ae-41a7-a2df-58c48eacde3c
+  backingListHashCheck: 1661823929
+  backingHasGameStateModifiers: 1
   quest: {fileID: 11400000, guid: 98a6da0c49e5fa9439b9e5e008389337, type: 2}
   questObjective: {fileID: 6232503200084316110, guid: 98a6da0c49e5fa9439b9e5e008389337, type: 2}
 --- !u!114 &1532315463

@@ -13,6 +13,13 @@ MonoBehaviour:
   m_Name: Chopsticks
   m_EditorClassIdentifier: 
   guid: ce52abf0-68ce-4d57-9be8-589004547c0e
+  gameStateModifierHandlerData:
+  - zoneName: OfficeInterior
+    gameObjectName: Microwave (1)
+    guid: 2ddf7be3-bd9e-4beb-a8d6-78b4a1873aa4
+  - zoneName: OfficeInterior
+    gameObjectName: RemoveChopsticks
+    guid: d05d4872-1138-4c0e-a078-e58f93a84bf4
   displayName: Chopsticks
   description: They're covered in Orange Chicken sauce.  Gross.
   droppable: 0

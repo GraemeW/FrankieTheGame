@@ -28,6 +28,10 @@ MonoBehaviour:
   m_Name: Demo_Office-InteriorHipster
   m_EditorClassIdentifier: 
   guid: a5a603ce-7ce9-41e5-982f-f3a64f2594e7
+  gameStateModifierHandlerData:
+  - zoneName: OfficeInterior
+    gameObjectName: HipsterOfficeWorker (1)
+    guid: 151435e9-c7b7-478f-a9cf-7aaad03e4487
   detail: Tracker for chatting with the hipster in Office
   questObjectiveNames:
   - HipsterChattedOnce

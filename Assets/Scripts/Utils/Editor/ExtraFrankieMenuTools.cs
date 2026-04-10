@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Frankie.Utils.Editor
 {
-    public class ExtraFrankieMenuTools
+    public static class ExtraFrankieMenuTools
     {
         [MenuItem("Tools/Make Selection Dirty")]
         private static void MakeSelectionDirty()
@@ -14,6 +14,12 @@ namespace Frankie.Utils.Editor
                 Debug.Log($"Dirtying {selectedObject.name}");
                 EditorUtility.SetDirty(selectedObject);
             }
+        }
+
+        [MenuItem("Tools/Force Reserialize Assets")]
+        private static void ForceReserializeAssets()
+        {
+            AssetDatabase.ForceReserializeAssets();
         }
     }
 }

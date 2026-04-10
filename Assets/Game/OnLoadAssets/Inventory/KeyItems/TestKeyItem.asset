@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: TestKeyItem
   m_EditorClassIdentifier: 
   guid: db655e61-d8e8-4e7a-8546-041d7013d84c
+  gameStateModifierHandlerData: []
   displayName: Subway Card
   description: Can't get around without it
   droppable: 0

@@ -21,6 +21,7 @@ namespace Frankie.Control
 
         private void Start()
         {
+            playerStateMachine ??= new ReInitLazyValue<PlayerStateMachine>(Player.FindPlayerStateMachine);
             playerStateMachine.ForceInit();
         }
 

@@ -13,6 +13,13 @@ MonoBehaviour:
   m_Name: XTremeBurnHotSauce
   m_EditorClassIdentifier: 
   guid: cd49f4f6-aae4-4e08-9130-c8b45d011dc5
+  gameStateModifierHandlerData:
+  - zoneName: OfficeInterior
+    gameObjectName: RemoveHotSauce
+    guid: 5daabd65-22cf-448c-add1-26867fd137ae
+  - zoneName: OfficeInterior
+    gameObjectName: VendingMachineWithPredicate (1)
+    guid: 085ca723-32a5-4238-8083-c59f60032993
   displayName: X-Treme Burn Sauce
   description: Hotter than hell.  Don't eat this.
   droppable: 0

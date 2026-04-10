@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: BrokenKeyboard
   m_EditorClassIdentifier: 
   guid: ed10e07a-adbf-4a2c-b083-0e6f2881de2e
+  gameStateModifierHandlerData: []
   displayName: Broken Keyboard
   description: The F key sticks and the space bar fell off.  Only usable by Frankie.
   droppable: 1

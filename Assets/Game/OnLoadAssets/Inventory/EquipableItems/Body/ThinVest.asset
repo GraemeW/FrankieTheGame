@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: ThinVest
   m_EditorClassIdentifier: Assembly-CSharp::Frankie.Inventory.EquipableItem
   guid: 785b13eb-97eb-4afe-bd05-6fcdf82de1e5
+  gameStateModifierHandlerData: []
   displayName: Thin Vest
   description: It's a very thin vest, offers minimal protection
   droppable: 1

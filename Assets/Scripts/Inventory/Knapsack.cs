@@ -40,6 +40,7 @@ namespace Frankie.Inventory
 
         private void Start()
         {
+            questList ??= new ReInitLazyValue<QuestList>(SetupQuestList);
             questList.ForceInit();
         }
 

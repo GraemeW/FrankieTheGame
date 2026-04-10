@@ -4134,6 +4134,14 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 8654748381369162415, guid: 30c6f3f30a3216e41bbc8a6ac45c57e0, type: 3}
+      propertyPath: backingHandlerGUID
+      value: 96aae745-c9e9-4ff4-9362-a9108256566c
+      objectReference: {fileID: 0}
+    - target: {fileID: 8654748381369162415, guid: 30c6f3f30a3216e41bbc8a6ac45c57e0, type: 3}
+      propertyPath: backingListHashCheck
+      value: 1719843506
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -6082,6 +6090,14 @@ PrefabInstance:
     - target: {fileID: 2819359886622569768, guid: a87622f06df9ac54e90516e57e833835, type: 3}
       propertyPath: uniqueIdentifier
       value: a879aa96-6518-4c0c-a6b3-3c68ab82b9cd
+      objectReference: {fileID: 0}
+    - target: {fileID: 5946803103528515112, guid: a87622f06df9ac54e90516e57e833835, type: 3}
+      propertyPath: backingHandlerGUID
+      value: 22024c4f-af0c-4fc1-9ce8-ffcc946a2b79
+      objectReference: {fileID: 0}
+    - target: {fileID: 5946803103528515112, guid: a87622f06df9ac54e90516e57e833835, type: 3}
+      propertyPath: backingListHashCheck
+      value: -1951483248
       objectReference: {fileID: 0}
     - target: {fileID: 7418550396487708492, guid: a87622f06df9ac54e90516e57e833835, type: 3}
       propertyPath: m_RootOrder
@@ -10293,6 +10309,14 @@ PrefabInstance:
     - target: {fileID: 3911318286878746148, guid: 04f5506a3c6980342b86a87faa9be780, type: 3}
       propertyPath: uniqueIdentifier
       value: a7f31d5a-7d65-4351-b2aa-9aa006123a57
+      objectReference: {fileID: 0}
+    - target: {fileID: 4891157998954341668, guid: 04f5506a3c6980342b86a87faa9be780, type: 3}
+      propertyPath: backingHandlerGUID
+      value: 423da61b-7bec-4352-b877-1a2231508d74
+      objectReference: {fileID: 0}
+    - target: {fileID: 4891157998954341668, guid: 04f5506a3c6980342b86a87faa9be780, type: 3}
+      propertyPath: backingListHashCheck
+      value: -1964433073
       objectReference: {fileID: 0}
     - target: {fileID: 7525764789776728579, guid: 04f5506a3c6980342b86a87faa9be780, type: 3}
       propertyPath: m_IsActive
@@ -15235,6 +15259,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: CleverOfficeWorker (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 2648853192062587444, guid: b755f1c23f46b2a4fba44873acc4a9d8, type: 3}
+      propertyPath: backingHandlerGUID
+      value: 64fe695e-2c44-43e9-ab96-d409296aa2b7
+      objectReference: {fileID: 0}
+    - target: {fileID: 2648853192062587444, guid: b755f1c23f46b2a4fba44873acc4a9d8, type: 3}
+      propertyPath: backingListHashCheck
+      value: 1508308105
+      objectReference: {fileID: 0}
     - target: {fileID: 4613052352910209963, guid: b755f1c23f46b2a4fba44873acc4a9d8, type: 3}
       propertyPath: patrolPath
       value: 
@@ -16538,7 +16570,19 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2684243016978345562, guid: 68fc39e15d6aac647a45438aaa59a974, type: 3}
+      propertyPath: backingHandlerGUID
+      value: 5fddb528-cd60-4f94-a12e-9b185fe5c4f8
+      objectReference: {fileID: 0}
+    - target: {fileID: 2684243016978345562, guid: 68fc39e15d6aac647a45438aaa59a974, type: 3}
+      propertyPath: backingListHashCheck
+      value: -382688082
+      objectReference: {fileID: 0}
+    - target: {fileID: 2684243016978345562, guid: 68fc39e15d6aac647a45438aaa59a974, type: 3}
       propertyPath: lootEntries.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2684243016978345562, guid: 68fc39e15d6aac647a45438aaa59a974, type: 3}
+      propertyPath: backingHasGameStateModifiers
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2684243016978345562, guid: 68fc39e15d6aac647a45438aaa59a974, type: 3}
@@ -54304,6 +54348,14 @@ PrefabInstance:
       propertyPath: dialogue
       value: 
       objectReference: {fileID: 11400000, guid: b946db02fd5d3594983f0dc1b23d67c4, type: 2}
+    - target: {fileID: 6410608619545107928, guid: 0933637bb54f1cb4480c3b6eaceeee40, type: 3}
+      propertyPath: backingHandlerGUID
+      value: a0569edf-4c1c-4c1f-87c5-f562d85531f9
+      objectReference: {fileID: 0}
+    - target: {fileID: 6410608619545107928, guid: 0933637bb54f1cb4480c3b6eaceeee40, type: 3}
+      propertyPath: backingListHashCheck
+      value: -408977856
+      objectReference: {fileID: 0}
     - target: {fileID: 7819299255556850876, guid: 0933637bb54f1cb4480c3b6eaceeee40, type: 3}
       propertyPath: m_RootOrder
       value: -1

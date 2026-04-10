@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: RoughHay
   m_EditorClassIdentifier: 
   guid: 09c14207-b932-45d7-a461-02734a56a96b
+  gameStateModifierHandlerData: []
   displayName: Rough Hay
   description: For chewing I guess?  This is the only healthy food (?) available
     in the office.

@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: GiantTurkeyLeg
   m_EditorClassIdentifier: 
   guid: 5cd80040-f5c7-48d3-9796-557cabe3ad90
+  gameStateModifierHandlerData: []
   displayName: GiantTurkeyLeg
   description: It's a massive turkey leg.  It's really, really big.  No, really.
   droppable: 1

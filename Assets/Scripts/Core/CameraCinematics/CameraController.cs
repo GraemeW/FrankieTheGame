@@ -75,6 +75,9 @@ namespace Frankie.Core
 
         private void Start()
         {
+            player ??= new ReInitLazyValue<Player>(Player.FindPlayer);
+            party ??= new ReInitLazyValue<Party>(GetPartyReference);
+            
             player.ForceInit();
             party.ForceInit();
             RefreshDefaultCameras();

@@ -13,6 +13,10 @@ MonoBehaviour:
   m_Name: Demo_Office-IntroQuestComplete
   m_EditorClassIdentifier: 
   guid: b3f7fb4a-3295-4b70-95ac-59a716a281b2
+  gameStateModifierHandlerData:
+  - zoneName: ApartmentInterior
+    gameObjectName: Bed
+    guid: 32cd30ad-e5ae-41a7-a2df-58c48eacde3c
   detail: Track intro quest (use to trigger main plot)
   questObjectiveNames:
   - GoToBed
