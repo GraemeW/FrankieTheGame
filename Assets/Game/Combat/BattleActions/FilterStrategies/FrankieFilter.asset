@@ -14,3 +14,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   characterPropertiesToFilter:
   - {fileID: 11400000, guid: b50f84a2f36107a44825b11881f88adf, type: 2}
+  negate: 0

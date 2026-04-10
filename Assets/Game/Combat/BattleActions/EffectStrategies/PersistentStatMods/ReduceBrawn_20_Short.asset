@@ -14,6 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Frankie.Combat.ApplyPersistentStatEffect
   effectGUID: b78ece40-7617-4643-910c-00f53ff48f3f
   fractionProbabilityToApply: 1
+  useStatContestProbabilityToApply: 0
+  statForContest: 8
   duration: 6
   stat: 4
   value: -20

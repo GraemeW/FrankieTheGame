@@ -22,18 +22,26 @@ MonoBehaviour:
   m_Scenes:
   - m_enabled: 1
     m_path: Assets/Scenes/Prim.unity
+    m_guid: 0011512185daf894d9a465659975d19d
   - m_enabled: 1
     m_path: Assets/Scenes/ApartmentInterior.unity
+    m_guid: 52222d36ecfd3de48ba0a6a7086a4d38
   - m_enabled: 1
     m_path: Assets/Scenes/PrimInterior.unity
+    m_guid: a0d0d2d6d43c51843a58bdb193f8e175
   - m_enabled: 1
     m_path: Assets/Scenes/Tunnels.unity
+    m_guid: eccdfd585cec2fe4881a93b6d688f3c7
   - m_enabled: 1
     m_path: Assets/Scenes/Proper.unity
+    m_guid: 06f2222db45582245bb1d6aa64044d8e
   - m_enabled: 1
     m_path: Assets/Scenes/Subway.unity
+    m_guid: 1adce6d662c0b0b47abecc5d8e178aab
   - m_enabled: 1
     m_path: Assets/Scenes/PortaBank.unity
+    m_guid: bd5507673954fb8449f66ea595f9f98e
+  m_HasScriptingDefines: 0
   m_ScriptingDefines: []
   m_PlayerSettingsYaml:
     m_Settings: []
@@ -56,6 +64,7 @@ MonoBehaviour:
         m_InstallInBuildFolder: 0
         m_InsightsSettingsContainer:
           m_BuildProfileEngineDiagnosticsState: 2
+        m_AdaptivePerformanceEnabled: 0
         m_WindowsBuildAndRunDeployTarget: 0
         m_Architecture: 0
         m_CreateSolution: 0

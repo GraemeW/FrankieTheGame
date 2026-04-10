@@ -37,6 +37,7 @@ MonoBehaviour:
   rightBranch: 
   downSkillReference: 
   downBranch: 
+  mappedFromBranch: 0
   rect:
     serializedVersion: 2
     x: 30
@@ -49,4 +50,3 @@ MonoBehaviour:
     y: 0
     width: 250
     height: 45
-  mappedFromBranch: 0

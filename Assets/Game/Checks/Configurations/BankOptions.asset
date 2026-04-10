@@ -15,7 +15,5 @@ MonoBehaviour:
   messageBankOptions: What would you like to do?
   toggleDeposit: 1
   optionDeposit: Deposit
-  depositConfiguration: {fileID: 0}
   toggleWithdraw: 1
   optionWithdraw: Withdraw
-  withdrawConfiguration: {fileID: 0}

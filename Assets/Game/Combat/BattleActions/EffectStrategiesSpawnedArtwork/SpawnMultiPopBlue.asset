@@ -12,6 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 657af6c019b489c439a1b94b2c53e4f7, type: 3}
   m_Name: SpawnMultiPopBlue
   m_EditorClassIdentifier: 
+  effectGUID: b916b237-8284-4597-b160-c98bdeabbb3d
   graphicToSpawn: {fileID: 1975674204431004401, guid: eafcbd1520bac04489f48fb49104c4d3, type: 3}
   isGlobalEffect: 0
+  delayAfterSeconds: 0.5
   destroyAfterSeconds: 2

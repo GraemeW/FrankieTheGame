@@ -7,7 +7,7 @@ AnimationClip:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: TillyIdleDownNPC
-  serializedVersion: 6
+  serializedVersion: 7
   m_Legacy: 0
   m_Compressed: 0
   m_UseHighQualityCurve: 1
@@ -18,7 +18,8 @@ AnimationClip:
   m_ScaleCurves: []
   m_FloatCurves: []
   m_PPtrCurves:
-  - curve:
+  - serializedVersion: 2
+    curve:
     - time: 0
       value: {fileID: 21300000, guid: c401c1d42cda36042b3142524aba6449, type: 3}
     - time: 1
@@ -27,6 +28,7 @@ AnimationClip:
     path: CharacterSprite
     classID: 212
     script: {fileID: 0}
+    flags: 2
   m_SampleRate: 1
   m_WrapMode: 0
   m_Bounds:
@@ -41,6 +43,8 @@ AnimationClip:
       typeID: 212
       customType: 23
       isPPtrCurve: 1
+      isIntCurve: 0
+      isSerializeReferenceCurve: 0
     pptrCurveMapping:
     - {fileID: 21300000, guid: c401c1d42cda36042b3142524aba6449, type: 3}
     - {fileID: 21300000, guid: fc99a4518d1ba6649a1b366ed4ed0f4c, type: 3}

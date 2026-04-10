@@ -14,6 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   effectGUID: 8efaf1f4-b604-4287-8568-9c6df3a4d297
   fractionProbabilityToApply: 1
+  useStatContestProbabilityToApply: 0
+  statForContest: 8
   duration: 20
   stat: 6
   value: -4

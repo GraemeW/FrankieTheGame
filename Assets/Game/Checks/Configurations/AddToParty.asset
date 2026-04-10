@@ -13,3 +13,4 @@ MonoBehaviour:
   m_Name: AddToParty
   m_EditorClassIdentifier: 
   messageAddToParty: Who do you want to tag along?
+  messagePartyFull: Hey Neve, this isn't a party of five

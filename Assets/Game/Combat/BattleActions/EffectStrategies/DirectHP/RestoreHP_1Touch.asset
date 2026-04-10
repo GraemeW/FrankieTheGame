@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2296a696ff7b80140ab1509f2d4bc48a, type: 3}
   m_Name: RestoreHP_1Touch
   m_EditorClassIdentifier: 
+  effectGUID: 51576dc7-5f64-423a-8f13-00d8ebf6029b
   healthChange: 1
   jitter: 0
   applyDamageTypeModifiers: 0

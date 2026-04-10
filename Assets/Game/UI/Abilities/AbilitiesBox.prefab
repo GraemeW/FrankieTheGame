@@ -811,6 +811,7 @@ MonoBehaviour:
   dialogueBoxPrefab: {fileID: 4320783885461854465, guid: a9829c1cb69a159479cbe82e68a5c629, type: 3}
   messageUseSkillInWorld: '{0} used {1} on {2}'
   messageNotEnoughAP: Not enough AP.
+  messageNoValidTarget: No valid target.
 --- !u!1 &6580744005983360694
 GameObject:
   m_ObjectHideFlags: 0

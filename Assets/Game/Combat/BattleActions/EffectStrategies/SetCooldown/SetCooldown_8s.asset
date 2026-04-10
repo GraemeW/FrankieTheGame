@@ -12,4 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a8dba856e40de69439a630619accf95b, type: 3}
   m_Name: SetCooldown_8s
   m_EditorClassIdentifier: 
+  effectGUID: b5ccabdf-d4f2-48e6-bf55-1fd22b645932
   cooldown: 8

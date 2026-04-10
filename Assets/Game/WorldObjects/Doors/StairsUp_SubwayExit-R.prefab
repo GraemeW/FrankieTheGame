@@ -177,7 +177,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5228769113122635331, guid: bf2cabe3a90f5cb40be2ff404cc1f3b0, type: 3}
       propertyPath: m_Name
-      value: StairsSubway-R
+      value: StairsUp_SubwayExit-R
       objectReference: {fileID: 0}
     - target: {fileID: 5228769113122635332, guid: bf2cabe3a90f5cb40be2ff404cc1f3b0, type: 3}
       propertyPath: disableOnExit

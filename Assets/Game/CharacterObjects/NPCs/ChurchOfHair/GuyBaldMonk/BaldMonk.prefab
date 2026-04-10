@@ -16,6 +16,10 @@ PrefabInstance:
       propertyPath: minCash
       value: 8
       objectReference: {fileID: 0}
+    - target: {fileID: -6302713147965282841, guid: e4be3ce2d5464c3498c884ae5d9223d4, type: 3}
+      propertyPath: modifierListHashCheck
+      value: -752712735
+      objectReference: {fileID: 0}
     - target: {fileID: 1182436157161314237, guid: e4be3ce2d5464c3498c884ae5d9223d4, type: 3}
       propertyPath: combatAudio
       value: 

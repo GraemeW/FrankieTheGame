@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 24d36376087b7164285845d555086b00, type: 3}
   m_Name: ClearStatus_All
   m_EditorClassIdentifier: 
+  effectGUID: 95f7a968-e982-4773-9445-0654b833b9f6
   removePersistentRecurring: 1
   removePersistentStatModifier: 1
   fractionProbabilityToRemove: 1
   numberOfEffectsToRemove: 0
-  statusType: 0

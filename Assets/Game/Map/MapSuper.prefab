@@ -26,9 +26,9 @@ RectTransform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 6046279554098339099}
-  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -62,11 +62,11 @@ RectTransform:
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 6957845317587921376}
   - {fileID: 6405053344212698481}
   m_Father: {fileID: 0}
-  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
@@ -90,13 +90,16 @@ MonoBehaviour:
   clearVolatileOptionsOnEnable: 1
   preventEscapeOptionExit: 0
   optionParent: {fileID: 6405053344212698481}
-  optionPrefab: {fileID: 3358873790910023875, guid: 9193413aa0e976e439049a2689f4fa41, type: 3}
+  optionButtonPrefab: {fileID: 0}
+  optionSliderPrefab: {fileID: 0}
+  sliderAdjustmentStep: 0.1
   mapCameraPrefab: {fileID: 2978751928550116831, guid: 0b05880436c040c4094508809c945da0, type: 3}
 --- !u!1001 &2365520809306714582
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 6046279554098339099}
     m_Modifications:
     - target: {fileID: 4637370434620495926, guid: ea2d139047823144193aa0540e4774ba, type: 3}
@@ -188,15 +191,16 @@ PrefabInstance:
       value: MapDisplay
       objectReference: {fileID: 0}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 4680750292209306405, guid: ea2d139047823144193aa0540e4774ba, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 5522855836536396411}
   m_SourcePrefab: {fileID: 100100000, guid: ea2d139047823144193aa0540e4774ba, type: 3}
 --- !u!1 &6926915780855757555 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 4680750292209306405, guid: ea2d139047823144193aa0540e4774ba, type: 3}
-  m_PrefabInstance: {fileID: 2365520809306714582}
-  m_PrefabAsset: {fileID: 0}
---- !u!224 &6957845317587921376 stripped
-RectTransform:
-  m_CorrespondingSourceObject: {fileID: 4637370434620495926, guid: ea2d139047823144193aa0540e4774ba, type: 3}
   m_PrefabInstance: {fileID: 2365520809306714582}
   m_PrefabAsset: {fileID: 0}
 --- !u!225 &5522855836536396411
@@ -211,3 +215,8 @@ CanvasGroup:
   m_Interactable: 1
   m_BlocksRaycasts: 1
   m_IgnoreParentGroups: 0
+--- !u!224 &6957845317587921376 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 4637370434620495926, guid: ea2d139047823144193aa0540e4774ba, type: 3}
+  m_PrefabInstance: {fileID: 2365520809306714582}
+  m_PrefabAsset: {fileID: 0}

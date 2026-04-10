@@ -12,6 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 657af6c019b489c439a1b94b2c53e4f7, type: 3}
   m_Name: SpawnMultiPopYellow
   m_EditorClassIdentifier: 
+  effectGUID: cf183958-e1eb-448b-90b5-54240d8e0815
   graphicToSpawn: {fileID: 1975674204431004401, guid: e61ddea27ebfb534cbc98ce63eb88d26, type: 3}
   isGlobalEffect: 0
+  delayAfterSeconds: 0.5
   destroyAfterSeconds: 2

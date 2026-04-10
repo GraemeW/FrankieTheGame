@@ -12,5 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 903d546fb0b67294296a45c1d3b8e556, type: 3}
   m_Name: TargetFrankie
   m_EditorClassIdentifier: 
-  defaultToRandomTarget: 0
   characterProperties: {fileID: 11400000, guid: b50f84a2f36107a44825b11881f88adf, type: 2}

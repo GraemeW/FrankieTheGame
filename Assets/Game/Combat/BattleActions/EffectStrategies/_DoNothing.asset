@@ -12,3 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1673a7feb9c74f42af9f255ac40e848c, type: 3}
   m_Name: _DoNothing
   m_EditorClassIdentifier: Assembly-CSharp::Frankie.Combat.DoNothingEffect
+  effectGUID: 65d9243e-4adb-4bcd-b1fa-36d74578c44c

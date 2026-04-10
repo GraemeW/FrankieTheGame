@@ -216,6 +216,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6daecbbaa8a734a45b4e8615ccc7cda5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Frankie.Control.Specialization.WorldItemGiverTaker
+  backingHandlerGUID: 
+  backingListHashCheck: 0
   inventoryItem: {fileID: 0}
   itemQuantity: 1
   messageFoundItem: Wow!  Looks like {0} found {1}.

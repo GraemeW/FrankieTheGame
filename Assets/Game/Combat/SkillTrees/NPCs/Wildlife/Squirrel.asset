@@ -20,6 +20,7 @@ MonoBehaviour:
   rightBranch: 
   downSkillReference: Bite
   downBranch: 
+  mappedFromBranch: 0
   rect:
     serializedVersion: 2
     x: 30
@@ -32,7 +33,6 @@ MonoBehaviour:
     y: 0
     width: 250
     height: 45
-  mappedFromBranch: 0
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0

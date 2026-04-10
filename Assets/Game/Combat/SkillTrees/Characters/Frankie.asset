@@ -20,6 +20,7 @@ MonoBehaviour:
   rightBranch: e79f0bb1-b9a0-47d7-bb4e-32cdba311620
   downSkillReference: SpitTake
   downBranch: 32d6c799-07e8-4f41-9dbb-5cdee40049ab
+  mappedFromBranch: 0
   rect:
     serializedVersion: 2
     x: 375
@@ -32,7 +33,6 @@ MonoBehaviour:
     y: 0
     width: 250
     height: 45
-  mappedFromBranch: 0
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -73,6 +73,7 @@ MonoBehaviour:
   rightBranch: 
   downSkillReference: 
   downBranch: 
+  mappedFromBranch: 3
   rect:
     serializedVersion: 2
     x: 375
@@ -85,7 +86,6 @@ MonoBehaviour:
     y: 0
     width: 250
     height: 45
-  mappedFromBranch: 3
 --- !u!114 &2417977989957955819
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -106,6 +106,7 @@ MonoBehaviour:
   rightBranch: 
   downSkillReference: 
   downBranch: 
+  mappedFromBranch: 2
   rect:
     serializedVersion: 2
     x: 775
@@ -118,7 +119,6 @@ MonoBehaviour:
     y: 0
     width: 250
     height: 45
-  mappedFromBranch: 2
 --- !u!114 &7585638719868435716
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -139,6 +139,7 @@ MonoBehaviour:
   rightBranch: 
   downSkillReference: 
   downBranch: 
+  mappedFromBranch: 1
   rect:
     serializedVersion: 2
     x: 0
@@ -151,4 +152,3 @@ MonoBehaviour:
     y: 0
     width: 250
     height: 45
-  mappedFromBranch: 1

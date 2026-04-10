@@ -13,4 +13,4 @@ MonoBehaviour:
   m_Name: HasQuest_TestQuest
   m_EditorClassIdentifier: 
   quest: {fileID: 11400000, guid: 2b823bbc411efb64f8ea840e07c3e7c2, type: 2}
-  objective: 
+  objective: {fileID: 0}

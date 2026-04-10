@@ -22,6 +22,8 @@ MonoBehaviour:
   m_Scenes:
   - m_enabled: 1
     m_path: Assets/Scenes/_Debug/TEST_BattleRoyale.unity
+    m_guid: 8b8eb4164910bda45acce09717d5064a
+  m_HasScriptingDefines: 0
   m_ScriptingDefines: []
   m_PlayerSettingsYaml:
     m_Settings: []
@@ -44,6 +46,7 @@ MonoBehaviour:
         m_InstallInBuildFolder: 0
         m_InsightsSettingsContainer:
           m_BuildProfileEngineDiagnosticsState: 2
+        m_AdaptivePerformanceEnabled: 0
         m_MacOSXcodeBuildConfig: 1
         m_Architecture: 2
         m_CreateXcodeProject: 0

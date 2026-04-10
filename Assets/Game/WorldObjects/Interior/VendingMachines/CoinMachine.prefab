@@ -190,6 +190,9 @@ MonoBehaviour:
   messageWalletEmpty: '{0} is already broke, can''t get more broke.'
   announceNothing: 1
   messageNothing: Oh, looks like it's NOTHING.
+  transactionSuccessful:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!114 &791367639294811858
 MonoBehaviour:
   m_ObjectHideFlags: 0

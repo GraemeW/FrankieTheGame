@@ -219,6 +219,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 73fd0205c870ba141996d7b6636a97ab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  backingHandlerGUID: 
+  backingListHashCheck: -1
   minItems: 0
   maxItems: 1
   lootEntries: []

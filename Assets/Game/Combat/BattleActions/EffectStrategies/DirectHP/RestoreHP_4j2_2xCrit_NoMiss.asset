@@ -12,8 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2296a696ff7b80140ab1509f2d4bc48a, type: 3}
   m_Name: RestoreHP_4j2_2xCrit_NoMiss
   m_EditorClassIdentifier: 
+  effectGUID: b3969696-b0b3-471c-af97-6f0259cfe3fc
   healthChange: 4
   jitter: 2
+  applyDamageTypeModifiers: 1
   canMiss: 0
   canCrit: 1
   critMultiplier: 2

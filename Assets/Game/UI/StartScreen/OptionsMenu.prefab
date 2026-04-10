@@ -375,10 +375,6 @@ MonoBehaviour:
   defaultMasterVolume: 0.8
   defaultBackgroundVolume: 0.5
   defaultSoundEffectsVolume: 0.3
-  targetDefaultResolution:
-    fullScreenMode: 3
-    width: 800
-    height: 600
   windowedResolutionOptionCount: 3
 --- !u!1 &6997677242198584292
 GameObject:

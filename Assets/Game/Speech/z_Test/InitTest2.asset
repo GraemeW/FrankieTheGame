@@ -55,10 +55,8 @@ MonoBehaviour:
   condition:
     and:
     - or:
-      - predicate: 
+      - predicate: {fileID: 0}
         negate: 0
-        parameters:
-        - 
 --- !u!114 &1987251324777001120
 MonoBehaviour:
   m_ObjectHideFlags: 0
