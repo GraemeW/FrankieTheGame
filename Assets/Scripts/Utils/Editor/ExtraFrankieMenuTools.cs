@@ -5,7 +5,7 @@ namespace Frankie.Utils.Editor
 {
     public static class ExtraFrankieMenuTools
     {
-        [MenuItem("Tools/Make Selection Dirty")]
+        [MenuItem("Tools/Make Selection Dirty", false, 100)]
         private static void MakeSelectionDirty()
         {
             foreach (Object selectedObject in Selection.objects) 
@@ -16,7 +16,7 @@ namespace Frankie.Utils.Editor
             }
         }
 
-        [MenuItem("Tools/Force Reserialize Assets")]
+        [MenuItem("Tools/Force Reserialize Assets", false, 101)]
         private static void ForceReserializeAssets()
         {
             AssetDatabase.ForceReserializeAssets();
