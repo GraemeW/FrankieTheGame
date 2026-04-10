@@ -1,13 +1,14 @@
 using UnityEngine;
-using Frankie.Combat;
+using UnityEngine.Events;
 
-namespace Frankie.Quests
+namespace Frankie.Combat
 {
     [RequireComponent(typeof(CombatParticipant))]
-    public class CombatParticipantQuestCompleter : QuestCompleter
+    public class CombatParticipantStateListener : MonoBehaviour
     {
         // Tunables
         [SerializeField] private StateAlteredType typeToMatch = StateAlteredType.Dead;
+        [SerializeField] private UnityEvent matchInteractionEvent;
 
         // Cached References
         private CombatParticipant combatParticipant;
@@ -33,7 +34,7 @@ namespace Frankie.Quests
         private void CompleteObjective(StateAlteredInfo stateAlteredInfo)
         {
             if (stateAlteredInfo.stateAlteredType != typeToMatch) { return; }
-            CompleteObjective();
+            matchInteractionEvent.Invoke();
         }
         #endregion
     }

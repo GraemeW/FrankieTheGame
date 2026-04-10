@@ -12,5 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8ba5e8eff1da65148869c08ad2464249, type: 3}
   m_Name: PermIncreaseBeauty_15
   m_EditorClassIdentifier: 
+  effectGUID: 938cb072-61c1-46ad-bc1f-dddb533b8a5b
   stat: 5
   value: 15

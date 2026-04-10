@@ -22,20 +22,28 @@ MonoBehaviour:
   m_Scenes:
   - m_enabled: 1
     m_path: Assets/Scenes/SplashScreen.unity
+    m_guid: bdbc1e0ce13a1f14ebbd17a6311fb5d4
   - m_enabled: 1
     m_path: Assets/Scenes/StartScreen.unity
+    m_guid: 651f6a80cb1b1bd40ab16e2d1e5f7eda
   - m_enabled: 1
     m_path: Assets/Scenes/_Demos/Forest_Level1to20/Demo_Forest1to20-Exterior.unity
+    m_guid: fb6fba365500445ddbf566d4d36cff28
   - m_enabled: 1
     m_path: Assets/Scenes/_Demos/Forest_Level1to20/Demo_Forest1to20-Interior.unity
+    m_guid: 459a7e37de9764a9dbcd64b0f6164578
   - m_enabled: 1
     m_path: Assets/Scenes/_Demos/Forest_Level1to20/Demo_Forest1to20-Portabank.unity
+    m_guid: 00850a2bedb4a47a5b90b9b587036db6
   - m_enabled: 1
     m_path: Assets/Scenes/_Debug/TEST_BattleRoyale.unity
+    m_guid: 8b8eb4164910bda45acce09717d5064a
   - m_enabled: 1
     m_path: Assets/Scenes/GameOverScreen.unity
+    m_guid: c904f3148156b38488efe90bfa1101b6
   - m_enabled: 1
     m_path: Assets/Scenes/GameWinScreen.unity
+    m_guid: e494b574f37534540b7b1adee3863d96
   m_HasScriptingDefines: 0
   m_ScriptingDefines: []
   m_PlayerSettingsYaml:

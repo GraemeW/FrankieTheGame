@@ -137,6 +137,7 @@ Canvas:
   m_OverridePixelPerfect: 0
   m_SortingBucketNormalizedSize: 0
   m_VertexColorAlwaysGammaSpace: 0
+  m_UseReflectionProbes: 0
   m_AdditionalShaderChannelsFlag: -1
   m_UpdateRectTransformForStandalone: 0
   m_SortingLayerID: 0
@@ -194,7 +195,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 97796894fa2300243a3483ae1795c892, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  battleUIPrefab: {fileID: 877524597382831827, guid: 4a9e93a3ac9fb5243a42c837677d7fd0, type: 3}
   nodeEntry: {fileID: 8528937459681249331}
   battleComplete: {fileID: 8453829634185128961}
   fadeInTimer: 3.5

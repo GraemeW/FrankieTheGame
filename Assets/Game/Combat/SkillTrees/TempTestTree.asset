@@ -20,6 +20,7 @@ MonoBehaviour:
   rightBranch: 
   downSkillReference: 
   downBranch: 
+  mappedFromBranch: 1
   rect:
     serializedVersion: 2
     x: 96
@@ -32,7 +33,6 @@ MonoBehaviour:
     y: 0
     width: 250
     height: 45
-  mappedFromBranch: 1
 --- !u!114 &-9056755904045281000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -53,6 +53,7 @@ MonoBehaviour:
   rightBranch: 
   downSkillReference: 
   downBranch: 
+  mappedFromBranch: 2
   rect:
     serializedVersion: 2
     x: 681
@@ -65,7 +66,6 @@ MonoBehaviour:
     y: 0
     width: 250
     height: 45
-  mappedFromBranch: 2
 --- !u!114 &-4615079321139129808
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -86,6 +86,7 @@ MonoBehaviour:
   rightBranch: 
   downSkillReference: 
   downBranch: 
+  mappedFromBranch: 2
   rect:
     serializedVersion: 2
     x: 962
@@ -98,7 +99,6 @@ MonoBehaviour:
     y: 0
     width: 250
     height: 45
-  mappedFromBranch: 2
 --- !u!114 &-4480384712336328033
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -119,6 +119,7 @@ MonoBehaviour:
   rightBranch: 
   downSkillReference: Bite
   downBranch: 
+  mappedFromBranch: 3
   rect:
     serializedVersion: 2
     x: 95
@@ -131,7 +132,6 @@ MonoBehaviour:
     y: 0
     width: 250
     height: 45
-  mappedFromBranch: 3
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -178,6 +178,7 @@ MonoBehaviour:
   rightBranch: be25e349-70f1-4fd0-bd33-49c8eab6c37a
   downSkillReference: ShowOffCode
   downBranch: 198dd545-f6e8-4dc2-856c-cb701f358153
+  mappedFromBranch: 0
   rect:
     serializedVersion: 2
     x: 375
@@ -190,7 +191,6 @@ MonoBehaviour:
     y: 0
     width: 250
     height: 45
-  mappedFromBranch: 0
 --- !u!114 &144419427195672160
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -211,6 +211,7 @@ MonoBehaviour:
   rightBranch: 
   downSkillReference: 
   downBranch: 
+  mappedFromBranch: 0
   rect:
     serializedVersion: 2
     x: 95
@@ -223,7 +224,6 @@ MonoBehaviour:
     y: 0
     width: 250
     height: 45
-  mappedFromBranch: 0
 --- !u!114 &4022898975218183734
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -244,6 +244,7 @@ MonoBehaviour:
   rightBranch: 4f004b3a-69b2-4536-93f9-3adc0b74f7eb
   downSkillReference: ShootTheShit
   downBranch: 
+  mappedFromBranch: 3
   rect:
     serializedVersion: 2
     x: 562
@@ -256,7 +257,6 @@ MonoBehaviour:
     y: 0
     width: 250
     height: 45
-  mappedFromBranch: 3
 --- !u!114 &5768682653990731831
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -277,6 +277,7 @@ MonoBehaviour:
   rightBranch: 
   downSkillReference: BlatherOn
   downBranch: 039f279a-ece3-481c-a4ea-2fcc69aeae92
+  mappedFromBranch: 1
   rect:
     serializedVersion: 2
     x: 95
@@ -289,7 +290,6 @@ MonoBehaviour:
     y: 0
     width: 250
     height: 45
-  mappedFromBranch: 1
 --- !u!114 &5921272211179918813
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -310,6 +310,7 @@ MonoBehaviour:
   rightBranch: 
   downSkillReference: SpillHotCoffee
   downBranch: 3ebee649-7552-4d4d-a440-8601fb3fe4a2
+  mappedFromBranch: 0
   rect:
     serializedVersion: 2
     x: 375
@@ -322,7 +323,6 @@ MonoBehaviour:
     y: 0
     width: 250
     height: 45
-  mappedFromBranch: 0
 --- !u!114 &8885085004548582250
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -343,6 +343,7 @@ MonoBehaviour:
   rightBranch: 
   downSkillReference: Whinny
   downBranch: 
+  mappedFromBranch: 3
   rect:
     serializedVersion: 2
     x: 376
@@ -355,4 +356,3 @@ MonoBehaviour:
     y: 0
     width: 250
     height: 45
-  mappedFromBranch: 3

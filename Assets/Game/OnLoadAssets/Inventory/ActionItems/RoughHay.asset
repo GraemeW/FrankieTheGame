@@ -12,7 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 75a8e8b21386c444d8c573cdb7c263f6, type: 3}
   m_Name: RoughHay
   m_EditorClassIdentifier: 
-  itemID: 09c14207-b932-45d7-a461-02734a56a96b
+  guid: 09c14207-b932-45d7-a461-02734a56a96b
+  gameStateModifierHandlerData: []
   displayName: Rough Hay
   description: For chewing I guess?  This is the only healthy food (?) available
     in the office.

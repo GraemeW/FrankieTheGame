@@ -12,5 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 518f18a73d22d824ea813c1a3fcc73e2, type: 3}
   m_Name: RestoreAP_3j3
   m_EditorClassIdentifier: 
+  effectGUID: fce9112e-2f66-439d-920c-b6e04e338f61
   apChange: 3
   jitter: 3

@@ -62,7 +62,6 @@ MonoBehaviour:
   cooldownImage: {fileID: 5552476172121903378}
   backgroundImage: {fileID: 8120386327257242941}
   pauseColor: {r: 0.5294118, g: 0.8078432, b: 0.9803922, a: 0.49803922}
-  pauseAlpha: 0.25
 --- !u!1 &4124199078869844911
 GameObject:
   m_ObjectHideFlags: 0

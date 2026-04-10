@@ -27,7 +27,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dbd8cf865509ead44b7c06cc9699edc8, type: 3}
   m_Name: Demo_Forest-FlipElectricalBreaker
   m_EditorClassIdentifier: Assembly-CSharp::Frankie.Quests.Quest
-  questID: abdd068f-73ad-4dd6-8f79-01482c553468
+  guid: abdd068f-73ad-4dd6-8f79-01482c553468
+  gameStateModifierHandlerData:
+  - zoneName: Demo_Forest1to20-Interior
+    gameObjectName: ElectricalBreaker
+    guid: c0e04e1f-9605-470d-929f-3d44288d4306
   detail: Turn on power to the elevator in the Lacklustre Video
   questObjectiveNames:
   - Flip the electrical breaker

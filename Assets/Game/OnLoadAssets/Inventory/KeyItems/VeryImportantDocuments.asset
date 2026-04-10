@@ -12,7 +12,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5daf945d483bd7e4cad35b3b31d4b5f5, type: 3}
   m_Name: VeryImportantDocuments
   m_EditorClassIdentifier: 
-  itemID: c1d8eed3-dd46-4da5-b1de-fe77153bed5e
+  guid: c1d8eed3-dd46-4da5-b1de-fe77153bed5e
+  gameStateModifierHandlerData:
+  - zoneName: OfficeInterior
+    gameObjectName: Horse (1)
+    guid: 9cbe34a6-475e-497c-a1f3-d2558cb8cffb
+  - zoneName: OfficeInterior
+    gameObjectName: Maya (1)
+    guid: d99a8646-835a-4748-8e85-55488e67d89f
   displayName: Very Imp. Docs
   description: It's hay.  It's just hay in a binder.
   droppable: 0

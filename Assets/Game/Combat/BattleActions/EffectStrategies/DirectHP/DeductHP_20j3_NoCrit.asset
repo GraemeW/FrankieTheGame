@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2296a696ff7b80140ab1509f2d4bc48a, type: 3}
   m_Name: DeductHP_20j3_NoCrit
   m_EditorClassIdentifier: 
+  effectGUID: c2b040d7-9e11-4ce2-95ff-5edf5531b02e
   healthChange: -20
   jitter: 3
   applyDamageTypeModifiers: 1

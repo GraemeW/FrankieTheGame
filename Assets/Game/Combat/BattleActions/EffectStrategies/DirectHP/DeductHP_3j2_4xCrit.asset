@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2296a696ff7b80140ab1509f2d4bc48a, type: 3}
   m_Name: DeductHP_3j2_4xCrit
   m_EditorClassIdentifier: 
+  effectGUID: 3538c1c1-14fe-4402-821b-99534fb2c2c1
   healthChange: -3
   jitter: 2
   applyDamageTypeModifiers: 1

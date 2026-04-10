@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2296a696ff7b80140ab1509f2d4bc48a, type: 3}
   m_Name: DeductHP_1Touch
   m_EditorClassIdentifier: 
+  effectGUID: 5840b368-3223-4e2e-b425-60974ec88484
   healthChange: -1
   jitter: 0
   applyDamageTypeModifiers: 0

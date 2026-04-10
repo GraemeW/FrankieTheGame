@@ -161,6 +161,7 @@ MonoBehaviour:
   m_VerticalAlignment: 512
   m_textAlignment: 65535
   m_characterSpacing: 0
+  m_characterHorizontalScale: 1
   m_wordSpacing: 0
   m_lineSpacing: 0
   m_lineSpacingMax: 0
@@ -385,6 +386,7 @@ MonoBehaviour:
   sliderAdjustmentStep: 0.1
   optionsPrefab: {fileID: 7923113534490889839, guid: ad042c32a9c9fdd4a80f11ae49d15a20, type: 3}
   loadGamePrefab: {fileID: 8289910384818935068, guid: 0d0cc8cd45c352f45b6711238aa9527f, type: 3}
+  newGameZoneOverride: {fileID: 0}
 --- !u!1 &3600794541413893226
 GameObject:
   m_ObjectHideFlags: 0

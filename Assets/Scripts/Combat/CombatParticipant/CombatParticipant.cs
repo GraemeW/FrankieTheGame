@@ -96,6 +96,7 @@ namespace Frankie.Combat
         private void SetupLazyState()
         {
             if (lazyStateSet) { return; }
+            if (baseStats == null) { baseStats = GetComponent<BaseStats>(); }
             
             currentHP = new LazyValue<float>(GetMaxHP);
             currentAP = new LazyValue<float>(GetMaxAP);
@@ -163,6 +164,7 @@ namespace Frankie.Combat
             int opponentLevel = recipient != null ? recipient.GetLevel() : 0;
             return BaseStats.GetCalculatedStat(calculatedStat, GetLevel(), statValue, opponentLevel, opponentStatValue);
         }
+
         public float GetMaxHP() => baseStats.GetStat(Stat.HP);
         public float GetMaxAP() => usesAP ? baseStats.GetStat(Stat.AP) : Mathf.Infinity;
         public int GetLevel() => baseStats.GetLevel();

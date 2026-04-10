@@ -12,9 +12,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5daf945d483bd7e4cad35b3b31d4b5f5, type: 3}
   m_Name: KeyCardToOffice
   m_EditorClassIdentifier: 
-  itemID: 9d635e5c-212b-4f95-9c86-76458b9a363f
+  guid: 9d635e5c-212b-4f95-9c86-76458b9a363f
+  gameStateModifierHandlerData:
+  - zoneName: OfficeExterior
+    gameObjectName: Steve5000
+    guid: 5fddb528-cd60-4f94-a12e-9b185fe5c4f8
   displayName: Steve's Key Card
   description: Steve5000's key card.  This'll get you into the office.
   droppable: 0
   price: 0
-  questObjectivePairs: []
+  questObjectives: []

@@ -30,7 +30,7 @@ namespace Frankie.Quests
         #region PublicMethods
         public QuestStatus GetQuestStatus(Quest quest)
         {
-            return quest != null ? questStatuses.FirstOrDefault(questStatus => questStatus.GetQuest().GetQuestID() == quest.GetQuestID()) : null;
+            return quest != null ? questStatuses.FirstOrDefault(questStatus => questStatus.GetQuest().GetGUID() == quest.GetGUID()) : null;
         }
         
         public bool HasQuest(Quest quest) => (GetQuestStatus(quest) != null);

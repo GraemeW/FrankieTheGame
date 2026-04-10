@@ -1,20 +1,33 @@
+using Frankie.Core.GameStateModifiers;
 using UnityEngine;
 using UnityEditor;
 
 namespace Frankie.Quests.UIEditor
 {
     [CustomEditor(typeof(Quest))]
-    public class QuestEditor : Editor
+    public class QuestEditor : GameStateModifierEditor
     {
         public override void OnInspectorGUI()
         {
-            DrawDefaultInspector();
-
+            base.OnInspectorGUI();
+            MakeQuestHeader("Quest Functionality");
+            
             Quest quest = (Quest)target;
             if (GUILayout.Button("Generate Objectives (Save to Take Effect)"))
             {
                 quest.GenerateObjectiveFromNames();
             }
+        }
+
+        private void MakeQuestHeader(string headerTitle)
+        {
+            EditorGUILayout.Space(8);
+            using (new EditorGUILayout.HorizontalScope())
+            {
+                EditorGUILayout.LabelField(headerTitle, headerStyle);
+
+            }
+            EditorGUILayout.Space(4);
         }
     }
 }

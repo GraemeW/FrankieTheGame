@@ -47,7 +47,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   disableOnStart: 1
-  backgroundMusicOverride: {fileID: 0}
 --- !u!114 &7136313676525689285
 MonoBehaviour:
   m_ObjectHideFlags: 0

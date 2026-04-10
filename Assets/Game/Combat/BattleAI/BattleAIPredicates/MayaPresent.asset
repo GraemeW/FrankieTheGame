@@ -12,5 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7bcc18ecf0eaee946aafd3184f9eabd3, type: 3}
   m_Name: MayaPresent
   m_EditorClassIdentifier: 
-  checkAllies: 0
   characterProperties: {fileID: 11400000, guid: c8752c77bccb9f145aea101a1d9673a5, type: 2}

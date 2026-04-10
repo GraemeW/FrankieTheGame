@@ -11,8 +11,8 @@ GameObject:
   - component: {fileID: 7704979872744781372}
   - component: {fileID: 7704979872744781373}
   - component: {fileID: 754560642422094635}
-  - component: {fileID: 959397612366829791}
   - component: {fileID: 3357532452125171776}
+  - component: {fileID: 4422221637006192079}
   m_Layer: 2
   m_Name: ElectricalBreaker
   m_TagString: Untagged
@@ -108,19 +108,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Frankie.Control.Specialization.WorldSpriteChanger
   alternateSprite: {fileID: 21300000, guid: 73984e55a00034a5f856655db59130aa, type: 3}
---- !u!114 &959397612366829791
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7704979872744781370}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 150976398f981a94ebab2b787e92fa26, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Frankie.Quests.QuestCompleter
-  questObjective: {fileID: 0}
 --- !u!114 &3357532452125171776
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -134,6 +121,22 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Frankie.Saving.SaveableEntity
   uniqueIdentifier: 
+--- !u!114 &4422221637006192079
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7704979872744781370}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b29a3a98a34c59448ad553101362c476, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Frankie.Quests.QuestHandler
+  backingHandlerGUID: 
+  backingListHashCheck: 0
+  quest: {fileID: 0}
+  questObjective: {fileID: 0}
 --- !u!1001 &1127771178729956631
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -169,7 +172,7 @@ PrefabInstance:
     - target: {fileID: 2308409281053914736, guid: 3ea47d49370c98e4e8dda14fd66b947b, type: 3}
       propertyPath: checkInteraction.m_PersistentCalls.m_Calls.Array.data[1].m_Target
       value: 
-      objectReference: {fileID: 959397612366829791}
+      objectReference: {fileID: 4422221637006192079}
     - target: {fileID: 2308409281053914736, guid: 3ea47d49370c98e4e8dda14fd66b947b, type: 3}
       propertyPath: checkInteraction.m_PersistentCalls.m_Calls.Array.data[2].m_Target
       value: 
@@ -192,7 +195,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2308409281053914736, guid: 3ea47d49370c98e4e8dda14fd66b947b, type: 3}
       propertyPath: checkInteraction.m_PersistentCalls.m_Calls.Array.data[1].m_MethodName
-      value: CompleteObjective
+      value: CompleteConfiguredObjective
       objectReference: {fileID: 0}
     - target: {fileID: 2308409281053914736, guid: 3ea47d49370c98e4e8dda14fd66b947b, type: 3}
       propertyPath: checkInteraction.m_PersistentCalls.m_Calls.Array.data[2].m_MethodName
@@ -204,7 +207,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2308409281053914736, guid: 3ea47d49370c98e4e8dda14fd66b947b, type: 3}
       propertyPath: checkInteraction.m_PersistentCalls.m_Calls.Array.data[1].m_TargetAssemblyTypeName
-      value: Frankie.Quests.QuestCompleter, Assembly-CSharp
+      value: Frankie.Quests.QuestHandler, Assembly-CSharp
       objectReference: {fileID: 0}
     - target: {fileID: 2308409281053914736, guid: 3ea47d49370c98e4e8dda14fd66b947b, type: 3}
       propertyPath: checkInteraction.m_PersistentCalls.m_Calls.Array.data[2].m_TargetAssemblyTypeName

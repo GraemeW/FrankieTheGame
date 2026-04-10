@@ -5,11 +5,11 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.Tilemaps;
 using UnityEngine.UIElements;
+using Object = UnityEngine.Object;
 using UnityEditor;
 using UnityEditor.Build.Profile;
 using UnityEditor.SceneManagement;
 using UnityEditor.UIElements;
-using Object = UnityEngine.Object;
 
 namespace Frankie.ZoneManagement.UIEditor
 {
@@ -86,6 +86,7 @@ namespace Frankie.ZoneManagement.UIEditor
         {
             SubscribeCanvasToDrawGrid(true);
             SubscribeCurvesLayerToDrawCurves(true);
+            SubscribeToOnSceneOpened(true);
             SubscribeToPlayModeStateChanges(true);
         }
 
@@ -93,6 +94,7 @@ namespace Frankie.ZoneManagement.UIEditor
         {
             SubscribeCanvasToDrawGrid(false);
             SubscribeCurvesLayerToDrawCurves(false);
+            SubscribeToOnSceneOpened(false);
             SubscribeToPlayModeStateChanges(false);
             DisposeRuntimeTextures();
         }
@@ -110,6 +112,8 @@ namespace Frankie.ZoneManagement.UIEditor
             AddAllZoneViews();
             RefreshToolbarState();
         }
+        
+        private void OnSceneOpened(Scene scene, OpenSceneMode mode) => OnRefreshClicked(false);
 
         private void OnPlayModeStateChanged(PlayModeStateChange state)
         {
@@ -146,6 +150,12 @@ namespace Frankie.ZoneManagement.UIEditor
         {
             EditorApplication.playModeStateChanged -= OnPlayModeStateChanged;
             if (enable) { EditorApplication.playModeStateChanged += OnPlayModeStateChanged; }
+        }
+
+        private void SubscribeToOnSceneOpened(bool enable)
+        {
+            EditorSceneManager.sceneOpened -= OnSceneOpened;
+            if (enable) { EditorSceneManager.sceneOpened  += OnSceneOpened; }
         }
         #endregion
         
@@ -358,6 +368,8 @@ namespace Frankie.ZoneManagement.UIEditor
         
         private void AddZoneViewElement(ZoneView zoneView)
         {
+            if (zoneViewLayer == null) { return; }
+            
             ZoneViewData zoneViewData = zoneView.data;
             if (zoneViewData == null) { return; }
             
@@ -794,6 +806,7 @@ namespace Frankie.ZoneManagement.UIEditor
         private void ApplyPanOffset()
         {
             if (zoneViews == null) { return; }
+            if (zoneViewLayer == null) { return; }
             zoneViewLayer.style.left = panOffset.x;
             zoneViewLayer.style.top  = panOffset.y;
         }

@@ -80,6 +80,10 @@ namespace Frankie.Core
 
         private void Start()
         {
+            questList ??= new ReInitLazyValue<QuestList>(SetupQuestList);
+            party ??= new ReInitLazyValue<Party>(SetupParty);
+            wallet ??= new ReInitLazyValue<Wallet>(SetupWallet);
+            
             questList.ForceInit();
             party.ForceInit();
             wallet.ForceInit();

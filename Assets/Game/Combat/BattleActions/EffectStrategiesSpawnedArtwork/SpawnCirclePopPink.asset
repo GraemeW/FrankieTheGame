@@ -12,6 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 657af6c019b489c439a1b94b2c53e4f7, type: 3}
   m_Name: SpawnCirclePopPink
   m_EditorClassIdentifier: 
+  effectGUID: 2821570d-f3ad-4c61-920d-da063dd6f01b
   graphicToSpawn: {fileID: 1975674204431004401, guid: 1788f1b239f1df44daf9d9bf25b6e8d3, type: 3}
   isGlobalEffect: 0
+  delayAfterSeconds: 0.5
   destroyAfterSeconds: 2

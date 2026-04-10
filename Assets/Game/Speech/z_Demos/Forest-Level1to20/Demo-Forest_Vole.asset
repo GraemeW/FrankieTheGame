@@ -177,7 +177,8 @@ MonoBehaviour:
   newNodeOffset: {x: 100, y: 25}
   nodeWidth: 400
   nodeHeight: 225
-  activeNPCs: []
+  activeNPCs:
+  - {fileID: 11400000, guid: b50f84a2f36107a44825b11881f88adf, type: 2}
   dialogueNodes:
   - {fileID: 692184580612614459}
   - {fileID: -5981676583016608299}

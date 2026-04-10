@@ -2,11 +2,23 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 using Frankie.Control;
+using Frankie.Core.GameStateModifiers;
 
 namespace Frankie.Inventory
 {
-    public class Shop : MonoBehaviour
+    [ExecuteInEditMode]
+    public class Shop : MonoBehaviour, IGameStateModifierHandler
     {
+        // Interface Properties
+        [SerializeField] private string backingHandlerGUID;
+        public string handlerGUID { get => backingHandlerGUID; set => backingHandlerGUID = value; }
+        
+        [SerializeField][HideInInspector] private int backingListHashCheck;
+        public int modifierListHashCheck { get => backingListHashCheck; set => backingListHashCheck = value; }
+        
+        [SerializeField][HideInInspector] private bool backingHasGameStateModifiers;
+        public bool hasGameStateModifiers { get => backingHasGameStateModifiers; set => backingHasGameStateModifiers = value; }
+        
         // Tunables
         [Header("Base Attributes")]
         [SerializeField] private List<InventoryItem> stock = new();
@@ -39,6 +51,18 @@ namespace Frankie.Inventory
         public float GetSaleDiscount() => saleDiscount;
         #endregion
         
+        #region UnityMethods
+        private void OnDestroy()
+        {
+            IGameStateModifierHandler.TriggerOnDestroy(this);
+        }
+        
+        private void OnDrawGizmos()
+        {
+            IGameStateModifierHandler.TriggerOnGizmos(this);
+        }
+        #endregion
+        
         #region PublicUtility
         public void InitiateBargain(PlayerStateMachine setPlayerStateMachine) // Called via Unity events
         {
@@ -68,6 +92,21 @@ namespace Frankie.Inventory
         private void HandleTransaction()
         {
             transactionCompleted.Invoke();
+        }
+        #endregion
+        
+        #region InterfaceMethods
+
+        public IList<GameStateModifier> GetGameStateModifiers()
+        {
+            List<GameStateModifier> gameStateModifiers = new();
+            foreach (InventoryItem item in stock)
+            {
+                KeyItem keyItem = item as KeyItem;
+                if (keyItem == null) { continue; }
+                gameStateModifiers.Add(keyItem);
+            }
+            return gameStateModifiers;
         }
         #endregion
     }

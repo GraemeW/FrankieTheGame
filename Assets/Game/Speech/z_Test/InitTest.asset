@@ -29,8 +29,6 @@ MonoBehaviour:
     y: 0
     width: 400
     height: 45
-  onEnterAction: 
-  onExitAction: 
   condition:
     and: []
 --- !u!114 &11400000
@@ -88,8 +86,6 @@ MonoBehaviour:
     y: 0
     width: 400
     height: 45
-  onEnterAction: 
-  onExitAction: fight
   condition:
     and: []
 --- !u!114 &3512824541218326437
@@ -122,8 +118,6 @@ MonoBehaviour:
     y: 0
     width: 400
     height: 45
-  onEnterAction: 
-  onExitAction: 
   condition:
     and: []
 --- !u!114 &3905423182183052059
@@ -157,8 +151,6 @@ MonoBehaviour:
     y: 0
     width: 400
     height: 45
-  onEnterAction: 
-  onExitAction: 
   condition:
     and: []
 --- !u!114 &6303746657202670022
@@ -191,8 +183,6 @@ MonoBehaviour:
     y: 0
     width: 400
     height: 45
-  onEnterAction: 
-  onExitAction: 
   condition:
     and: []
 --- !u!114 &7841665877052730249
@@ -225,7 +215,5 @@ MonoBehaviour:
     y: 0
     width: 400
     height: 45
-  onEnterAction: 
-  onExitAction: 
   condition:
     and: []

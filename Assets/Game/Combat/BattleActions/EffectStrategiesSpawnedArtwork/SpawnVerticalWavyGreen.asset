@@ -12,6 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 657af6c019b489c439a1b94b2c53e4f7, type: 3}
   m_Name: SpawnVerticalWavyGreen
   m_EditorClassIdentifier: 
+  effectGUID: 21af3d6a-4a67-413a-b52c-2761c3b1b2ed
   graphicToSpawn: {fileID: 1975674204431004401, guid: dfb9c26fcde9de54eb9727ac3b4da322, type: 3}
   isGlobalEffect: 0
+  delayAfterSeconds: 0.5
   destroyAfterSeconds: 5

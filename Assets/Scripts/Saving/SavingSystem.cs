@@ -44,6 +44,12 @@ namespace Frankie.Saving
         private static List<SaveableEntity> GetAllSaveableEntities()
         {
             List<SaveableEntity> saveableEntities = Object.FindObjectsByType<SaveableEntity>(FindObjectsInactive.Include).ToList();
+            foreach (SaveableEntity saveableEntity in saveableEntities.Where(saveableEntity => !saveableEntity.gameObject.activeSelf))
+            {
+                // Manually toggle enable/disable to ensure base properties set
+                saveableEntity.gameObject.SetActive(true);
+                saveableEntity.gameObject.SetActive(false);
+            }
             Debug.Log($"Identified {saveableEntities.Count} SaveableEntities for saving.");
             return saveableEntities;
         }

@@ -12,8 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0e30d0381f78b344394e8c35b72a4583, type: 3}
   m_Name: DoTHP_6p3s_over12s
   m_EditorClassIdentifier: 
+  effectGUID: fbe86fb8-2168-4ca0-b440-6aaeacf57940
   fractionProbabilityToApply: 1
+  useStatContestProbabilityToApply: 0
+  statForContest: 8
   duration: 12
   tickPeriod: 3
   healthChangePerTick: -6
   persistAfterCombat: 0
+  numberOfDuplicateEffectsAllowed: 1

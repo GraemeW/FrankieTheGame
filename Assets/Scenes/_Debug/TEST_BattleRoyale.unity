@@ -159,6 +159,14 @@ PrefabInstance:
       propertyPath: checkInteraction.m_PersistentCalls.m_Calls.Array.data[1].m_TargetAssemblyTypeName
       value: Frankie.Sound.BackgroundMusicOverride, Assembly-CSharp
       objectReference: {fileID: 0}
+    - target: {fileID: 4422221637006192079, guid: 50d998db9e15747698c2724acd97381f, type: 3}
+      propertyPath: backingHandlerGUID
+      value: 07bc2582-fd09-404d-98cb-a90e00a4da0f
+      objectReference: {fileID: 0}
+    - target: {fileID: 4422221637006192079, guid: 50d998db9e15747698c2724acd97381f, type: 3}
+      propertyPath: backingListHashCheck
+      value: -1424307434
+      objectReference: {fileID: 0}
     - target: {fileID: 7704979872744781370, guid: 50d998db9e15747698c2724acd97381f, type: 3}
       propertyPath: m_Name
       value: SoundToggle (2)
@@ -461,6 +469,18 @@ PrefabInstance:
     - target: {fileID: 6688109099148215688, guid: 73abebb9364d02b44886802930dfc1f8, type: 3}
       propertyPath: shouldDestroySelfOnDeath
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7219401495844517842, guid: 73abebb9364d02b44886802930dfc1f8, type: 3}
+      propertyPath: backingHandlerGUID
+      value: c1918053-1273-4752-bfa9-cab0daeea184
+      objectReference: {fileID: 0}
+    - target: {fileID: 7219401495844517842, guid: 73abebb9364d02b44886802930dfc1f8, type: 3}
+      propertyPath: backingListHashCheck
+      value: 1678759157
+      objectReference: {fileID: 0}
+    - target: {fileID: 7219401495844517842, guid: 73abebb9364d02b44886802930dfc1f8, type: 3}
+      propertyPath: modifierListHashCheck
+      value: -1833379384
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -938,6 +958,10 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7800942803558028165, guid: 8252584bd86ddec408582ff28d4f7db6, type: 3}
+      propertyPath: backingHandlerGUID
+      value: 20fc5349-5522-4140-9470-1ad5caee1446
+      objectReference: {fileID: 0}
+    - target: {fileID: 7800942803558028165, guid: 8252584bd86ddec408582ff28d4f7db6, type: 3}
       propertyPath: 'stock.Array.data[0]'
       value: 
       objectReference: {fileID: 11400000, guid: 3adf66ab62b95ad47b2fd0277eedce88, type: 2}
@@ -965,6 +989,10 @@ PrefabInstance:
       propertyPath: 'stock.Array.data[6]'
       value: 
       objectReference: {fileID: 11400000, guid: 49534f9b5e5cf1f41bbaf4c527d4a255, type: 2}
+    - target: {fileID: 7800942803558028165, guid: 8252584bd86ddec408582ff28d4f7db6, type: 3}
+      propertyPath: backingListHashCheck
+      value: 209252790
+      objectReference: {fileID: 0}
     - target: {fileID: 8531870645628414307, guid: 8252584bd86ddec408582ff28d4f7db6, type: 3}
       propertyPath: m_StaticEditorFlags
       value: 2147483647
@@ -10842,6 +10870,18 @@ PrefabInstance:
       propertyPath: uniqueIdentifier
       value: c6c08bb4-926b-4a67-ac5a-358a735a30b1
       objectReference: {fileID: 0}
+    - target: {fileID: 5946803103528515112, guid: a87622f06df9ac54e90516e57e833835, type: 3}
+      propertyPath: backingHandlerGUID
+      value: dae00c00-ce6f-476d-99f5-4df144cdea38
+      objectReference: {fileID: 0}
+    - target: {fileID: 5946803103528515112, guid: a87622f06df9ac54e90516e57e833835, type: 3}
+      propertyPath: backingListHashCheck
+      value: 1600936906
+      objectReference: {fileID: 0}
+    - target: {fileID: 5946803103528515112, guid: a87622f06df9ac54e90516e57e833835, type: 3}
+      propertyPath: modifierListHashCheck
+      value: -1943928547
+      objectReference: {fileID: 0}
     - target: {fileID: 7222611955684808543, guid: a87622f06df9ac54e90516e57e833835, type: 3}
       propertyPath: willForceCombat
       value: 0
@@ -10983,6 +11023,14 @@ PrefabInstance:
     - target: {fileID: 3436171662078350183, guid: 50d998db9e15747698c2724acd97381f, type: 3}
       propertyPath: checkInteraction.m_PersistentCalls.m_Calls.Array.data[1].m_TargetAssemblyTypeName
       value: Frankie.Sound.BackgroundMusicOverride, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 4422221637006192079, guid: 50d998db9e15747698c2724acd97381f, type: 3}
+      propertyPath: backingHandlerGUID
+      value: 6248d88f-c357-49bf-a4da-1d8ea4cb9481
+      objectReference: {fileID: 0}
+    - target: {fileID: 4422221637006192079, guid: 50d998db9e15747698c2724acd97381f, type: 3}
+      propertyPath: backingListHashCheck
+      value: -2022766931
       objectReference: {fileID: 0}
     - target: {fileID: 7704979872744781370, guid: 50d998db9e15747698c2724acd97381f, type: 3}
       propertyPath: m_Name
@@ -11453,6 +11501,14 @@ PrefabInstance:
     - target: {fileID: 3436171662078350183, guid: 50d998db9e15747698c2724acd97381f, type: 3}
       propertyPath: checkInteraction.m_PersistentCalls.m_Calls.Array.data[1].m_TargetAssemblyTypeName
       value: Frankie.Sound.BackgroundMusicOverride, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 4422221637006192079, guid: 50d998db9e15747698c2724acd97381f, type: 3}
+      propertyPath: backingHandlerGUID
+      value: 62856f93-e768-4f06-aebc-71b5f5975e04
+      objectReference: {fileID: 0}
+    - target: {fileID: 4422221637006192079, guid: 50d998db9e15747698c2724acd97381f, type: 3}
+      propertyPath: backingListHashCheck
+      value: 1362418836
       objectReference: {fileID: 0}
     - target: {fileID: 7704979872744781370, guid: 50d998db9e15747698c2724acd97381f, type: 3}
       propertyPath: m_Name
@@ -17369,6 +17425,18 @@ PrefabInstance:
       propertyPath: uniqueIdentifier
       value: 42f062cb-5dc4-40fb-afb2-9ffad4d4102d
       objectReference: {fileID: 0}
+    - target: {fileID: 5948652017889585877, guid: 6253a2d4b9cf44b45b95c47141d9f8d0, type: 3}
+      propertyPath: backingHandlerGUID
+      value: 733252e9-791c-4a2b-b4c2-86a6df3f9499
+      objectReference: {fileID: 0}
+    - target: {fileID: 5948652017889585877, guid: 6253a2d4b9cf44b45b95c47141d9f8d0, type: 3}
+      propertyPath: backingListHashCheck
+      value: 1995335111
+      objectReference: {fileID: 0}
+    - target: {fileID: 5948652017889585877, guid: 6253a2d4b9cf44b45b95c47141d9f8d0, type: 3}
+      propertyPath: modifierListHashCheck
+      value: -2084500763
+      objectReference: {fileID: 0}
     - target: {fileID: 7219637280454790050, guid: 6253a2d4b9cf44b45b95c47141d9f8d0, type: 3}
       propertyPath: willForceCombat
       value: 0
@@ -17652,6 +17720,18 @@ PrefabInstance:
       propertyPath: willDestroySelfOnDeath
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2648853192062587444, guid: b755f1c23f46b2a4fba44873acc4a9d8, type: 3}
+      propertyPath: backingHandlerGUID
+      value: 2a283186-3d95-46ce-b553-85e0661694c8
+      objectReference: {fileID: 0}
+    - target: {fileID: 2648853192062587444, guid: b755f1c23f46b2a4fba44873acc4a9d8, type: 3}
+      propertyPath: backingListHashCheck
+      value: -1515998172
+      objectReference: {fileID: 0}
+    - target: {fileID: 2648853192062587444, guid: b755f1c23f46b2a4fba44873acc4a9d8, type: 3}
+      propertyPath: modifierListHashCheck
+      value: 338847770
+      objectReference: {fileID: 0}
     - target: {fileID: 5865293079716729140, guid: b755f1c23f46b2a4fba44873acc4a9d8, type: 3}
       propertyPath: uniqueIdentifier
       value: e05df0fa-774e-42e2-8376-f95e98c34b6c
@@ -17713,6 +17793,18 @@ PrefabInstance:
     - target: {fileID: 3911318286878746148, guid: 04f5506a3c6980342b86a87faa9be780, type: 3}
       propertyPath: uniqueIdentifier
       value: d38bf096-704f-4dc3-8184-6643977d7387
+      objectReference: {fileID: 0}
+    - target: {fileID: 4891157998954341668, guid: 04f5506a3c6980342b86a87faa9be780, type: 3}
+      propertyPath: backingHandlerGUID
+      value: 1f21ea50-4bdb-4d96-b8b0-4b648b44ad43
+      objectReference: {fileID: 0}
+    - target: {fileID: 4891157998954341668, guid: 04f5506a3c6980342b86a87faa9be780, type: 3}
+      propertyPath: backingListHashCheck
+      value: -89351041
+      objectReference: {fileID: 0}
+    - target: {fileID: 4891157998954341668, guid: 04f5506a3c6980342b86a87faa9be780, type: 3}
+      propertyPath: modifierListHashCheck
+      value: -1118608289
       objectReference: {fileID: 0}
     - target: {fileID: 8616608626347457600, guid: 04f5506a3c6980342b86a87faa9be780, type: 3}
       propertyPath: m_LocalPosition.x
@@ -18014,6 +18106,18 @@ PrefabInstance:
       propertyPath: shouldDestroySelfOnDeath
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7219401495844517842, guid: f11fb3d93df053e40af1074609ecd08f, type: 3}
+      propertyPath: backingHandlerGUID
+      value: eaa70daa-f7a3-4530-b99b-d2270371ca7a
+      objectReference: {fileID: 0}
+    - target: {fileID: 7219401495844517842, guid: f11fb3d93df053e40af1074609ecd08f, type: 3}
+      propertyPath: backingListHashCheck
+      value: 357838230
+      objectReference: {fileID: 0}
+    - target: {fileID: 7219401495844517842, guid: f11fb3d93df053e40af1074609ecd08f, type: 3}
+      propertyPath: modifierListHashCheck
+      value: 738787504
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects:
@@ -18263,6 +18367,14 @@ PrefabInstance:
     - target: {fileID: 3436171662078350183, guid: 50d998db9e15747698c2724acd97381f, type: 3}
       propertyPath: checkInteraction.m_PersistentCalls.m_Calls.Array.data[1].m_TargetAssemblyTypeName
       value: Frankie.Sound.BackgroundMusicOverride, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 4422221637006192079, guid: 50d998db9e15747698c2724acd97381f, type: 3}
+      propertyPath: backingHandlerGUID
+      value: a4b08ce9-34df-4bf6-8630-71bf93838ef5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4422221637006192079, guid: 50d998db9e15747698c2724acd97381f, type: 3}
+      propertyPath: backingListHashCheck
+      value: 491175611
       objectReference: {fileID: 0}
     - target: {fileID: 7704979872744781370, guid: 50d998db9e15747698c2724acd97381f, type: 3}
       propertyPath: m_Name
@@ -18724,6 +18836,18 @@ PrefabInstance:
       propertyPath: uniqueIdentifier
       value: 9d7b274e-6a7d-4a17-bb38-ab2bc851a83e
       objectReference: {fileID: 0}
+    - target: {fileID: 5382405958698368555, guid: e5b2dd736debcc24a83caba30bd0c03f, type: 3}
+      propertyPath: backingHandlerGUID
+      value: 54391ab1-16d7-4b2c-a7c1-996b73d85a61
+      objectReference: {fileID: 0}
+    - target: {fileID: 5382405958698368555, guid: e5b2dd736debcc24a83caba30bd0c03f, type: 3}
+      propertyPath: backingListHashCheck
+      value: -218874675
+      objectReference: {fileID: 0}
+    - target: {fileID: 5382405958698368555, guid: e5b2dd736debcc24a83caba30bd0c03f, type: 3}
+      propertyPath: modifierListHashCheck
+      value: -1481723933
+      objectReference: {fileID: 0}
     - target: {fileID: 6999197217183127820, guid: e5b2dd736debcc24a83caba30bd0c03f, type: 3}
       propertyPath: m_IsActive
       value: 0
@@ -19066,6 +19190,18 @@ PrefabInstance:
       propertyPath: shouldDestroySelfOnDeath
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7219401495844517842, guid: 85e454fc5088ab64cbf94d522f93ecc7, type: 3}
+      propertyPath: backingHandlerGUID
+      value: 0c0791b4-0edc-480e-8d0e-24b892863ab8
+      objectReference: {fileID: 0}
+    - target: {fileID: 7219401495844517842, guid: 85e454fc5088ab64cbf94d522f93ecc7, type: 3}
+      propertyPath: backingListHashCheck
+      value: -1654313040
+      objectReference: {fileID: 0}
+    - target: {fileID: 7219401495844517842, guid: 85e454fc5088ab64cbf94d522f93ecc7, type: 3}
+      propertyPath: modifierListHashCheck
+      value: -1374336926
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects:
@@ -19192,6 +19328,18 @@ PrefabInstance:
       propertyPath: shouldDestroySelfOnDeath
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6966841689018701608, guid: d03dd34cf927349baabdfaa7bd5642d9, type: 3}
+      propertyPath: backingHandlerGUID
+      value: 27767972-2fd1-4785-a19c-070f4c2ee48d
+      objectReference: {fileID: 0}
+    - target: {fileID: 6966841689018701608, guid: d03dd34cf927349baabdfaa7bd5642d9, type: 3}
+      propertyPath: backingListHashCheck
+      value: -608592810
+      objectReference: {fileID: 0}
+    - target: {fileID: 6966841689018701608, guid: d03dd34cf927349baabdfaa7bd5642d9, type: 3}
+      propertyPath: modifierListHashCheck
+      value: 936954150
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects:
@@ -19307,6 +19455,10 @@ PrefabInstance:
       value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 7800942803558028165, guid: 8252584bd86ddec408582ff28d4f7db6, type: 3}
+      propertyPath: backingHandlerGUID
+      value: a84cd514-cd24-4077-b89b-77e189a3b9c8
+      objectReference: {fileID: 0}
+    - target: {fileID: 7800942803558028165, guid: 8252584bd86ddec408582ff28d4f7db6, type: 3}
       propertyPath: 'stock.Array.data[0]'
       value: 
       objectReference: {fileID: 11400000, guid: 3adf66ab62b95ad47b2fd0277eedce88, type: 2}
@@ -19334,6 +19486,10 @@ PrefabInstance:
       propertyPath: 'stock.Array.data[6]'
       value: 
       objectReference: {fileID: 11400000, guid: ffede2cb998d0458f847bfa0d449e576, type: 2}
+    - target: {fileID: 7800942803558028165, guid: 8252584bd86ddec408582ff28d4f7db6, type: 3}
+      propertyPath: backingListHashCheck
+      value: -638534018
+      objectReference: {fileID: 0}
     - target: {fileID: 8531870645628414307, guid: 8252584bd86ddec408582ff28d4f7db6, type: 3}
       propertyPath: m_StaticEditorFlags
       value: 2147483647
@@ -19876,6 +20032,14 @@ PrefabInstance:
       propertyPath: checkInteraction.m_PersistentCalls.m_Calls.Array.data[1].m_TargetAssemblyTypeName
       value: Frankie.Sound.BackgroundMusicOverride, Assembly-CSharp
       objectReference: {fileID: 0}
+    - target: {fileID: 4422221637006192079, guid: 50d998db9e15747698c2724acd97381f, type: 3}
+      propertyPath: backingHandlerGUID
+      value: f97c3520-4658-42c6-8ba5-b5b57054bd67
+      objectReference: {fileID: 0}
+    - target: {fileID: 4422221637006192079, guid: 50d998db9e15747698c2724acd97381f, type: 3}
+      propertyPath: backingListHashCheck
+      value: 662795386
+      objectReference: {fileID: 0}
     - target: {fileID: 7704979872744781370, guid: 50d998db9e15747698c2724acd97381f, type: 3}
       propertyPath: m_Name
       value: SoundToggle (4)
@@ -20021,6 +20185,10 @@ PrefabInstance:
       value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 7800942803558028165, guid: 8252584bd86ddec408582ff28d4f7db6, type: 3}
+      propertyPath: backingHandlerGUID
+      value: bb9759d3-0973-4586-ab29-568fb363692d
+      objectReference: {fileID: 0}
+    - target: {fileID: 7800942803558028165, guid: 8252584bd86ddec408582ff28d4f7db6, type: 3}
       propertyPath: 'stock.Array.data[0]'
       value: 
       objectReference: {fileID: 11400000, guid: a4bc75f4802bcf24fb78d4fe3084b398, type: 2}
@@ -20048,6 +20216,10 @@ PrefabInstance:
       propertyPath: 'stock.Array.data[6]'
       value: 
       objectReference: {fileID: 11400000, guid: 49534f9b5e5cf1f41bbaf4c527d4a255, type: 2}
+    - target: {fileID: 7800942803558028165, guid: 8252584bd86ddec408582ff28d4f7db6, type: 3}
+      propertyPath: backingListHashCheck
+      value: 550418252
+      objectReference: {fileID: 0}
     - target: {fileID: 8531870645628414307, guid: 8252584bd86ddec408582ff28d4f7db6, type: 3}
       propertyPath: m_StaticEditorFlags
       value: 2147483647
@@ -20194,6 +20366,18 @@ PrefabInstance:
     - target: {fileID: 1440252933832036141, guid: 68fc39e15d6aac647a45438aaa59a974, type: 3}
       propertyPath: willDestroyIfInvisible
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2684243016978345562, guid: 68fc39e15d6aac647a45438aaa59a974, type: 3}
+      propertyPath: backingHandlerGUID
+      value: 79ad1b7d-7521-4c4c-8808-f9596200de24
+      objectReference: {fileID: 0}
+    - target: {fileID: 2684243016978345562, guid: 68fc39e15d6aac647a45438aaa59a974, type: 3}
+      propertyPath: backingListHashCheck
+      value: -1175593733
+      objectReference: {fileID: 0}
+    - target: {fileID: 2684243016978345562, guid: 68fc39e15d6aac647a45438aaa59a974, type: 3}
+      propertyPath: modifierListHashCheck
+      value: -619136138
       objectReference: {fileID: 0}
     - target: {fileID: 5829753337919008090, guid: 68fc39e15d6aac647a45438aaa59a974, type: 3}
       propertyPath: uniqueIdentifier
@@ -20566,6 +20750,14 @@ PrefabInstance:
       propertyPath: inventoryItem
       value: 
       objectReference: {fileID: 11400000, guid: 9105dfbd6e6afbe4ea13b4836a1a23a8, type: 2}
+    - target: {fileID: 7943186074068910809, guid: 97fd51601b36348728b0fd1031f074b3, type: 3}
+      propertyPath: backingHandlerGUID
+      value: 18b44997-2333-4123-9d8d-8c72e4fc3684
+      objectReference: {fileID: 0}
+    - target: {fileID: 7943186074068910809, guid: 97fd51601b36348728b0fd1031f074b3, type: 3}
+      propertyPath: backingListHashCheck
+      value: 107077789
+      objectReference: {fileID: 0}
     - target: {fileID: 8085769299947576033, guid: 97fd51601b36348728b0fd1031f074b3, type: 3}
       propertyPath: uniqueIdentifier
       value: 54b6c747-6379-4e5c-ba7e-d31e332eb5b6
@@ -20967,6 +21159,18 @@ PrefabInstance:
       propertyPath: uniqueIdentifier
       value: 7143d7ab-8f4e-4344-ba76-c458a08921d9
       objectReference: {fileID: 0}
+    - target: {fileID: 6410608619545107928, guid: 0933637bb54f1cb4480c3b6eaceeee40, type: 3}
+      propertyPath: backingHandlerGUID
+      value: 98eb3964-d801-4d3f-a177-b4ce013dcabd
+      objectReference: {fileID: 0}
+    - target: {fileID: 6410608619545107928, guid: 0933637bb54f1cb4480c3b6eaceeee40, type: 3}
+      propertyPath: backingListHashCheck
+      value: 1392806242
+      objectReference: {fileID: 0}
+    - target: {fileID: 6410608619545107928, guid: 0933637bb54f1cb4480c3b6eaceeee40, type: 3}
+      propertyPath: modifierListHashCheck
+      value: 120459443
+      objectReference: {fileID: 0}
     - target: {fileID: 7819299255556850876, guid: 0933637bb54f1cb4480c3b6eaceeee40, type: 3}
       propertyPath: m_RootOrder
       value: 5
@@ -21320,6 +21524,18 @@ PrefabInstance:
       propertyPath: uniqueIdentifier
       value: 058267b2-7a71-4f05-af13-ec27883ada86
       objectReference: {fileID: 0}
+    - target: {fileID: 6343533402929611642, guid: 986151938f05142699a0b5962f318b19, type: 3}
+      propertyPath: backingHandlerGUID
+      value: 0198c9d6-3cbc-4b1a-8474-aeeb8c3dd54b
+      objectReference: {fileID: 0}
+    - target: {fileID: 6343533402929611642, guid: 986151938f05142699a0b5962f318b19, type: 3}
+      propertyPath: backingListHashCheck
+      value: 1895927767
+      objectReference: {fileID: 0}
+    - target: {fileID: 6343533402929611642, guid: 986151938f05142699a0b5962f318b19, type: 3}
+      propertyPath: modifierListHashCheck
+      value: 10650858
+      objectReference: {fileID: 0}
     - target: {fileID: 6982930892541145376, guid: 986151938f05142699a0b5962f318b19, type: 3}
       propertyPath: shouldDestroySelfOnDeath
       value: 0
@@ -21420,6 +21636,18 @@ PrefabInstance:
     - target: {fileID: 2818356934732082273, guid: 31c56ea2c6541ba4ea2b24f200152e2c, type: 3}
       propertyPath: uniqueIdentifier
       value: 5784383a-66ef-490d-8b0d-98c1fc7f75cb
+      objectReference: {fileID: 0}
+    - target: {fileID: 5961633102436020065, guid: 31c56ea2c6541ba4ea2b24f200152e2c, type: 3}
+      propertyPath: backingHandlerGUID
+      value: 7009b982-36f4-458e-a93e-16c61a59a2ba
+      objectReference: {fileID: 0}
+    - target: {fileID: 5961633102436020065, guid: 31c56ea2c6541ba4ea2b24f200152e2c, type: 3}
+      propertyPath: backingListHashCheck
+      value: 768486381
+      objectReference: {fileID: 0}
+    - target: {fileID: 5961633102436020065, guid: 31c56ea2c6541ba4ea2b24f200152e2c, type: 3}
+      propertyPath: modifierListHashCheck
+      value: -487774304
       objectReference: {fileID: 0}
     - target: {fileID: 7207851897665637910, guid: 31c56ea2c6541ba4ea2b24f200152e2c, type: 3}
       propertyPath: willForceCombat
@@ -21532,6 +21760,14 @@ PrefabInstance:
     - target: {fileID: 3436171662078350183, guid: 50d998db9e15747698c2724acd97381f, type: 3}
       propertyPath: checkInteraction.m_PersistentCalls.m_Calls.Array.data[1].m_TargetAssemblyTypeName
       value: Frankie.Sound.BackgroundMusicOverride, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 4422221637006192079, guid: 50d998db9e15747698c2724acd97381f, type: 3}
+      propertyPath: backingHandlerGUID
+      value: 647a5a16-ffa2-4948-b417-5782af7776bc
+      objectReference: {fileID: 0}
+    - target: {fileID: 4422221637006192079, guid: 50d998db9e15747698c2724acd97381f, type: 3}
+      propertyPath: backingListHashCheck
+      value: 889889565
       objectReference: {fileID: 0}
     - target: {fileID: 7704979872744781370, guid: 50d998db9e15747698c2724acd97381f, type: 3}
       propertyPath: m_Name
@@ -22011,6 +22247,18 @@ PrefabInstance:
       propertyPath: shouldDestroySelfOnDeath
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8326638319341906613, guid: a54e983b6ddf64fe4a03236cfe391a6a, type: 3}
+      propertyPath: backingHandlerGUID
+      value: 5bf6923c-946e-41fd-985a-60a8f45e2631
+      objectReference: {fileID: 0}
+    - target: {fileID: 8326638319341906613, guid: a54e983b6ddf64fe4a03236cfe391a6a, type: 3}
+      propertyPath: backingListHashCheck
+      value: 1060669714
+      objectReference: {fileID: 0}
+    - target: {fileID: 8326638319341906613, guid: a54e983b6ddf64fe4a03236cfe391a6a, type: 3}
+      propertyPath: modifierListHashCheck
+      value: 1225368473
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects:
@@ -22353,6 +22601,18 @@ PrefabInstance:
       propertyPath: uniqueIdentifier
       value: 0240f138-91ca-4e16-b437-a2397fd17f3a
       objectReference: {fileID: 0}
+    - target: {fileID: 6628713571605411169, guid: c4f8fcca6e0ef4ebfb68c039b782d836, type: 3}
+      propertyPath: backingHandlerGUID
+      value: 1a71d0d4-dffb-4506-aebf-0279bdcc2986
+      objectReference: {fileID: 0}
+    - target: {fileID: 6628713571605411169, guid: c4f8fcca6e0ef4ebfb68c039b782d836, type: 3}
+      propertyPath: backingListHashCheck
+      value: -2091621617
+      objectReference: {fileID: 0}
+    - target: {fileID: 6628713571605411169, guid: c4f8fcca6e0ef4ebfb68c039b782d836, type: 3}
+      propertyPath: modifierListHashCheck
+      value: 1931938778
+      objectReference: {fileID: 0}
     - target: {fileID: 7141991560663271227, guid: c4f8fcca6e0ef4ebfb68c039b782d836, type: 3}
       propertyPath: shouldDestroySelfOnDeath
       value: 0
@@ -22529,6 +22789,18 @@ PrefabInstance:
     - target: {fileID: 6020141406999707016, guid: 30c6f3f30a3216e41bbc8a6ac45c57e0, type: 3}
       propertyPath: m_IsActive
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8654748381369162415, guid: 30c6f3f30a3216e41bbc8a6ac45c57e0, type: 3}
+      propertyPath: backingHandlerGUID
+      value: 680cb681-2c12-447e-ad26-15994fa61454
+      objectReference: {fileID: 0}
+    - target: {fileID: 8654748381369162415, guid: 30c6f3f30a3216e41bbc8a6ac45c57e0, type: 3}
+      propertyPath: backingListHashCheck
+      value: -504623910
+      objectReference: {fileID: 0}
+    - target: {fileID: 8654748381369162415, guid: 30c6f3f30a3216e41bbc8a6ac45c57e0, type: 3}
+      propertyPath: modifierListHashCheck
+      value: 1725750127
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -33515,6 +33787,14 @@ PrefabInstance:
       propertyPath: checkInteraction.m_PersistentCalls.m_Calls.Array.data[1].m_TargetAssemblyTypeName
       value: Frankie.Sound.BackgroundMusicOverride, Assembly-CSharp
       objectReference: {fileID: 0}
+    - target: {fileID: 4422221637006192079, guid: 50d998db9e15747698c2724acd97381f, type: 3}
+      propertyPath: backingHandlerGUID
+      value: 8a2371bd-eea9-450d-b2fd-08f54e16fb58
+      objectReference: {fileID: 0}
+    - target: {fileID: 4422221637006192079, guid: 50d998db9e15747698c2724acd97381f, type: 3}
+      propertyPath: backingListHashCheck
+      value: -1590522909
+      objectReference: {fileID: 0}
     - target: {fileID: 7704979872744781370, guid: 50d998db9e15747698c2724acd97381f, type: 3}
       propertyPath: m_Name
       value: SoundToggle (11)
@@ -33772,6 +34052,14 @@ PrefabInstance:
       propertyPath: checkInteraction.m_PersistentCalls.m_Calls.Array.data[1].m_TargetAssemblyTypeName
       value: Frankie.Sound.BackgroundMusicOverride, Assembly-CSharp
       objectReference: {fileID: 0}
+    - target: {fileID: 4422221637006192079, guid: 50d998db9e15747698c2724acd97381f, type: 3}
+      propertyPath: backingHandlerGUID
+      value: 829b1015-ccad-4482-b242-97db6e99bcd6
+      objectReference: {fileID: 0}
+    - target: {fileID: 4422221637006192079, guid: 50d998db9e15747698c2724acd97381f, type: 3}
+      propertyPath: backingListHashCheck
+      value: -283264502
+      objectReference: {fileID: 0}
     - target: {fileID: 7704979872744781370, guid: 50d998db9e15747698c2724acd97381f, type: 3}
       propertyPath: m_Name
       value: SoundToggle (7)
@@ -33917,6 +34205,14 @@ PrefabInstance:
     - target: {fileID: 3436171662078350183, guid: 50d998db9e15747698c2724acd97381f, type: 3}
       propertyPath: checkInteraction.m_PersistentCalls.m_Calls.Array.data[1].m_TargetAssemblyTypeName
       value: Frankie.Sound.BackgroundMusicOverride, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 4422221637006192079, guid: 50d998db9e15747698c2724acd97381f, type: 3}
+      propertyPath: backingHandlerGUID
+      value: 2977d5ca-ca47-43e2-b284-74c5e6f781fd
+      objectReference: {fileID: 0}
+    - target: {fileID: 4422221637006192079, guid: 50d998db9e15747698c2724acd97381f, type: 3}
+      propertyPath: backingListHashCheck
+      value: 1917900811
       objectReference: {fileID: 0}
     - target: {fileID: 7704979872744781370, guid: 50d998db9e15747698c2724acd97381f, type: 3}
       propertyPath: m_Name
@@ -34098,6 +34394,18 @@ PrefabInstance:
       propertyPath: shouldDestroySelfOnDeath
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7219401495844517842, guid: 3e8aa571b6fd5cd4c83d58166eabf29c, type: 3}
+      propertyPath: backingHandlerGUID
+      value: 9fef8cb4-6c7c-4538-84a5-ed1297a8a7ba
+      objectReference: {fileID: 0}
+    - target: {fileID: 7219401495844517842, guid: 3e8aa571b6fd5cd4c83d58166eabf29c, type: 3}
+      propertyPath: backingListHashCheck
+      value: 945638240
+      objectReference: {fileID: 0}
+    - target: {fileID: 7219401495844517842, guid: 3e8aa571b6fd5cd4c83d58166eabf29c, type: 3}
+      propertyPath: modifierListHashCheck
+      value: -362686697
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects:
@@ -34188,6 +34496,14 @@ PrefabInstance:
     - target: {fileID: 3436171662078350183, guid: 50d998db9e15747698c2724acd97381f, type: 3}
       propertyPath: checkInteraction.m_PersistentCalls.m_Calls.Array.data[1].m_TargetAssemblyTypeName
       value: Frankie.Sound.BackgroundMusicOverride, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 4422221637006192079, guid: 50d998db9e15747698c2724acd97381f, type: 3}
+      propertyPath: backingHandlerGUID
+      value: c50a89a5-afd8-410f-9e47-bcc07d82af51
+      objectReference: {fileID: 0}
+    - target: {fileID: 4422221637006192079, guid: 50d998db9e15747698c2724acd97381f, type: 3}
+      propertyPath: backingListHashCheck
+      value: -215049905
       objectReference: {fileID: 0}
     - target: {fileID: 7704979872744781370, guid: 50d998db9e15747698c2724acd97381f, type: 3}
       propertyPath: m_Name
@@ -34907,6 +35223,14 @@ PrefabInstance:
       propertyPath: checkInteraction.m_PersistentCalls.m_Calls.Array.data[1].m_TargetAssemblyTypeName
       value: Frankie.Sound.BackgroundMusicOverride, Assembly-CSharp
       objectReference: {fileID: 0}
+    - target: {fileID: 4422221637006192079, guid: 50d998db9e15747698c2724acd97381f, type: 3}
+      propertyPath: backingHandlerGUID
+      value: 50a5a001-18ae-4915-be24-78e7e28bd6d0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4422221637006192079, guid: 50d998db9e15747698c2724acd97381f, type: 3}
+      propertyPath: backingListHashCheck
+      value: -928246560
+      objectReference: {fileID: 0}
     - target: {fileID: 7704979872744781370, guid: 50d998db9e15747698c2724acd97381f, type: 3}
       propertyPath: m_Name
       value: SoundToggle (3)
@@ -35006,6 +35330,18 @@ PrefabInstance:
     - target: {fileID: 3707906691507339086, guid: 9db400b1c758c4a2ba866c8e88a18672, type: 3}
       propertyPath: uniqueIdentifier
       value: 1c974ee8-d593-4a8f-b066-199257847f41
+      objectReference: {fileID: 0}
+    - target: {fileID: 5103150634027777102, guid: 9db400b1c758c4a2ba866c8e88a18672, type: 3}
+      propertyPath: backingHandlerGUID
+      value: 91bba011-b0e7-4da0-943a-c31b3ee3d11b
+      objectReference: {fileID: 0}
+    - target: {fileID: 5103150634027777102, guid: 9db400b1c758c4a2ba866c8e88a18672, type: 3}
+      propertyPath: backingListHashCheck
+      value: 618537900
+      objectReference: {fileID: 0}
+    - target: {fileID: 5103150634027777102, guid: 9db400b1c758c4a2ba866c8e88a18672, type: 3}
+      propertyPath: modifierListHashCheck
+      value: -752712735
       objectReference: {fileID: 0}
     - target: {fileID: 8101587404711533881, guid: 9db400b1c758c4a2ba866c8e88a18672, type: 3}
       propertyPath: willForceCombat
@@ -35149,6 +35485,14 @@ PrefabInstance:
       propertyPath: checkInteraction.m_PersistentCalls.m_Calls.Array.data[1].m_TargetAssemblyTypeName
       value: Frankie.Sound.BackgroundMusicOverride, Assembly-CSharp
       objectReference: {fileID: 0}
+    - target: {fileID: 4422221637006192079, guid: 50d998db9e15747698c2724acd97381f, type: 3}
+      propertyPath: backingHandlerGUID
+      value: 7927c92c-d169-4fc0-8253-85317fdb872f
+      objectReference: {fileID: 0}
+    - target: {fileID: 4422221637006192079, guid: 50d998db9e15747698c2724acd97381f, type: 3}
+      propertyPath: backingListHashCheck
+      value: -1528047009
+      objectReference: {fileID: 0}
     - target: {fileID: 7704979872744781370, guid: 50d998db9e15747698c2724acd97381f, type: 3}
       propertyPath: m_Name
       value: SoundToggle (8)
@@ -35252,6 +35596,18 @@ PrefabInstance:
     - target: {fileID: 4498655328982077198, guid: a302ff6507ed14488bebd51f773a7426, type: 3}
       propertyPath: movementSpeed
       value: 1.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6532515733830102673, guid: a302ff6507ed14488bebd51f773a7426, type: 3}
+      propertyPath: backingHandlerGUID
+      value: 3312ee47-f2cf-463b-a06e-a82bf53a6342
+      objectReference: {fileID: 0}
+    - target: {fileID: 6532515733830102673, guid: a302ff6507ed14488bebd51f773a7426, type: 3}
+      propertyPath: backingListHashCheck
+      value: -2052114532
+      objectReference: {fileID: 0}
+    - target: {fileID: 6532515733830102673, guid: a302ff6507ed14488bebd51f773a7426, type: 3}
+      propertyPath: modifierListHashCheck
+      value: 1887038118
       objectReference: {fileID: 0}
     - target: {fileID: 7082104828148718795, guid: a302ff6507ed14488bebd51f773a7426, type: 3}
       propertyPath: shouldDestroySelfOnDeath

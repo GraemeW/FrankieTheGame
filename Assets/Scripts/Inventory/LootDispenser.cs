@@ -1,11 +1,24 @@
 using System.Collections.Generic;
 using UnityEngine;
+using Random = UnityEngine.Random;
 using Frankie.Utils;
+using Frankie.Core.GameStateModifiers;
 
 namespace Frankie.Inventory
 {
-    public class LootDispenser : MonoBehaviour
+    [ExecuteInEditMode]
+    public class LootDispenser : MonoBehaviour, IGameStateModifierHandler
     {
+        // Interface Properties
+        [SerializeField] private string backingHandlerGUID;
+        public string handlerGUID { get => backingHandlerGUID; set => backingHandlerGUID = value; }
+        
+        [SerializeField][HideInInspector] private int backingListHashCheck;
+        public int modifierListHashCheck { get => backingListHashCheck; set => backingListHashCheck = value; }
+        
+        [SerializeField][HideInInspector] private bool backingHasGameStateModifiers;
+        public bool hasGameStateModifiers { get => backingHasGameStateModifiers; set => backingHasGameStateModifiers = value; }
+        
         // Tunables
         [Header("Item Loot")]
         [SerializeField][Range(0, 10)] private int minItems = 0;
@@ -35,6 +48,19 @@ namespace Frankie.Inventory
         }
         #endregion
 
+        #region UnityMethods
+
+        private void OnDestroy()
+        {
+            IGameStateModifierHandler.TriggerOnDestroy(this);
+        }
+        
+        private void OnDrawGizmos()
+        {
+            IGameStateModifierHandler.TriggerOnGizmos(this);
+        }
+        #endregion
+        
         #region PublicMethods
         public bool HasLootReward() => lootEntries.Count > 0 || maxCash > 0;
         public InventoryItem GetInventoryItemFromLootTable() => lootEntries.Count > 0 ? ProbabilityPairOperation<InventoryItem>.GetRandomObject(lootEntries) : null;
@@ -67,6 +93,23 @@ namespace Frankie.Inventory
             if (maximum == 0) { return 0; }
 
             return Random.Range(minimum, maximum + 1); // +1 offset since random exclusive w/ ints
+        }
+        #endregion
+
+        #region InterfaceMethods
+        public IList<GameStateModifier> GetGameStateModifiers()
+        {
+            List<GameStateModifier> gameStateModifiers = new();
+            foreach (LootEntry<InventoryItem> lootEntry in lootEntries)
+            {
+                if (lootEntry.inventoryItem == null) { continue; }
+                
+                var keyItem = lootEntry.inventoryItem as KeyItem;
+                if (keyItem == null) { continue; }
+                
+                gameStateModifiers.Add(keyItem);
+            }
+            return gameStateModifiers;
         }
         #endregion
     }
