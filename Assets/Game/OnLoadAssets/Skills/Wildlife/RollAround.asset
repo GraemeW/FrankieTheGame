@@ -13,5 +13,6 @@ MonoBehaviour:
   m_Name: RollAround
   m_EditorClassIdentifier: Assembly-CSharp::Frankie.Combat.Skill
   stat: 0
+  skillStat: 4
   battleAction: {fileID: 11400000, guid: 6af0ec46b214c7941acbe7c471aeb303, type: 2}
   detail: Easy for the foe to stub a toe when rolling around like this.

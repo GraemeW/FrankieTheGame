@@ -13,5 +13,6 @@ MonoBehaviour:
   m_Name: ColdMonkBrew
   m_EditorClassIdentifier: Assembly-CSharp::Frankie.Combat.Skill
   stat: 1
+  skillStat: 5
   battleAction: {fileID: 11400000, guid: d796599717d284dfbaf0d78eeb4b01f9, type: 2}
   detail: How do the monks get it so cold?  Heals some HP

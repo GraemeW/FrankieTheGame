@@ -13,5 +13,6 @@ MonoBehaviour:
   m_Name: TwiddleThumbs
   m_EditorClassIdentifier: Assembly-CSharp::Frankie.Combat.Skill
   stat: 4
+  skillStat: 8
   battleAction: {fileID: 11400000, guid: 2bf1f6521eb534cd7bae3c09f1af5649, type: 2}
   detail: They're doing it!  They're really doing it!

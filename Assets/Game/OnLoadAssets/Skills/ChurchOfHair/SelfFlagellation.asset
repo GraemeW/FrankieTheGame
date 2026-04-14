@@ -13,5 +13,6 @@ MonoBehaviour:
   m_Name: SelfFlagellation
   m_EditorClassIdentifier: Assembly-CSharp::Frankie.Combat.Skill
   stat: 4
+  skillStat: 8
   battleAction: {fileID: 11400000, guid: 1162bc7c71a77412194ba06aa0333180, type: 2}
   detail: The pain makes you stronger, and offers a buff to stoic

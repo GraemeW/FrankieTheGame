@@ -13,5 +13,6 @@ MonoBehaviour:
   m_Name: WarmMeal
   m_EditorClassIdentifier: 
   stat: 2
+  skillStat: 6
   battleAction: {fileID: 11400000, guid: 483a804652610a5418aaf3cd9a8ba3be, type: 2}
   detail: Home cooked meal heals some amount of HP

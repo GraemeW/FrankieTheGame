@@ -26,7 +26,7 @@ namespace Frankie.Stats
         public SkillStatAttribute() : base(Array.ConvertAll(_nonSkillStats, v => (int)v)) { }
         
         #region PublicMethods
-        public IList<Stat> GetSkillStats() => _skillStats.ToList();
+        public static IList<Stat> GetSkillStats() => _skillStats.ToList();
         #endregion
     }
 }

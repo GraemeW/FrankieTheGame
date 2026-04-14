@@ -13,5 +13,6 @@ MonoBehaviour:
   m_Name: PiercingMonkChant
   m_EditorClassIdentifier: Assembly-CSharp::Frankie.Combat.Skill
   stat: 2
+  skillStat: 6
   battleAction: {fileID: 11400000, guid: 4dc2fda71b9f746d980b090cdb7a04f6, type: 2}
   detail: Very loud, and very powerful, causing a significant boost to brawn

@@ -13,5 +13,6 @@ MonoBehaviour:
   m_Name: ChirpLoudly
   m_EditorClassIdentifier: Assembly-CSharp::Frankie.Combat.Skill
   stat: 4
+  skillStat: 8
   battleAction: {fileID: 11400000, guid: e34e018931d3e5b478b359f468bc90de, type: 2}
   detail: Very high-pitched.  Lose some pluck.

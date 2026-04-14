@@ -13,5 +13,6 @@ MonoBehaviour:
   m_Name: DoubleSlap
   m_EditorClassIdentifier: Assembly-CSharp::Frankie.Combat.Skill
   stat: 0
+  skillStat: 4
   battleAction: {fileID: 11400000, guid: 3a192a620f5b64388bdb651fe917ddc8, type: 2}
   detail: Slap, and then slap again, for some real damage

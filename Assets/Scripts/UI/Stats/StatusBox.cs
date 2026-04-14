@@ -84,14 +84,11 @@ namespace Frankie.Stats.UI
 
         private void GenerateSkillStats(CombatParticipant character)
         {
-            Array skillStats = Enum.GetValues(typeof(SkillStat));
-            foreach (SkillStat skillStat in skillStats)
+            foreach (Stat skillStat in SkillStatAttribute.GetSkillStats())
             {
-                if (!Enum.TryParse(skillStat.ToString(), out Stat stat)) continue;
-                
                 StatField statField = Instantiate(statFieldPrefab, leftStatParent);
-                float statValue = character.GetStat(stat);
-                statField.Setup(stat, statValue);
+                float statValue = character.GetStat(skillStat);
+                statField.Setup(skillStat, statValue);
             }
         }
     }

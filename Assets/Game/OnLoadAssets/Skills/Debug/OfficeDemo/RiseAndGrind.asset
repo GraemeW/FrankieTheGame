@@ -13,5 +13,6 @@ MonoBehaviour:
   m_Name: RiseAndGrind
   m_EditorClassIdentifier: Assembly-CSharp::Frankie.Combat.Skill
   stat: 1
+  skillStat: 5
   battleAction: {fileID: 11400000, guid: 65707b815d67741848328354f60c4b20, type: 2}
   detail: 

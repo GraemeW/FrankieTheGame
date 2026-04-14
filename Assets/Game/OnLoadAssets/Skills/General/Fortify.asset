@@ -13,5 +13,6 @@ MonoBehaviour:
   m_Name: Fortify
   m_EditorClassIdentifier: Assembly-CSharp::Frankie.Combat.Skill
   stat: 1
+  skillStat: 5
   battleAction: {fileID: 11400000, guid: fe3f7c82cb7d90b41ae6973f67d4587b, type: 2}
   detail: Yes!  Yes!  Fortify!  Stand strong!

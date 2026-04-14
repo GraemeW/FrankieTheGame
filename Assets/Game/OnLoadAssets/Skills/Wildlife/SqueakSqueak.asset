@@ -13,5 +13,6 @@ MonoBehaviour:
   m_Name: SqueakSqueak
   m_EditorClassIdentifier: 
   stat: 4
+  skillStat: 8
   battleAction: {fileID: 11400000, guid: 668ef3b23aa29d849a9e87c58aaeedaa, type: 2}
   detail: A call to action

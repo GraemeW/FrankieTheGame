@@ -13,5 +13,6 @@ MonoBehaviour:
   m_Name: AveragePraise
   m_EditorClassIdentifier: Assembly-CSharp::Frankie.Combat.Skill
   stat: 2
+  skillStat: 6
   battleAction: {fileID: 11400000, guid: 74bce32169c444279a0d7df4ac445091, type: 2}
   detail: Heals a little more than gentle praise.
