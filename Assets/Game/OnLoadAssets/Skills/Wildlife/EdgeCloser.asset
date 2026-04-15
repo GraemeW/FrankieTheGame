@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: EdgeCloser
   m_EditorClassIdentifier: Assembly-CSharp::Frankie.Combat.Skill
   stat: 2
+  skillStat: 6
   battleAction: {fileID: 11400000, guid: 67d55ef5ad5d049d0b0a71578bbe8b59, type: 2}
   detail: It's a lot easier to see and hit the target when you're right beside them! 
     Buffs brawn and pluck.

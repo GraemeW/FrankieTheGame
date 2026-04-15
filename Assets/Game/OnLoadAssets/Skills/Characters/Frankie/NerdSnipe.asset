@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: NerdSnipe
   m_EditorClassIdentifier: Assembly-CSharp::Frankie.Combat.Skill
   stat: 4
+  skillStat: 8
   battleAction: {fileID: 11400000, guid: 6246e392b9caa476d9652367ec532dcb, type: 2}
   detail: Your foe fixates.  Stops action until damage taken.  May not always be
     successful, dependent on Luck.

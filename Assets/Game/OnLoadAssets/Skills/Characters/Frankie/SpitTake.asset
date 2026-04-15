@@ -13,5 +13,6 @@ MonoBehaviour:
   m_Name: SpitTake
   m_EditorClassIdentifier: Assembly-CSharp::Frankie.Combat.Skill
   stat: 1
+  skillStat: 5
   battleAction: {fileID: 11400000, guid: ce25447af61924cd289f2a63350579ac, type: 2}
   detail: Take a slug of your water and spit it out.  Hits all enemies.

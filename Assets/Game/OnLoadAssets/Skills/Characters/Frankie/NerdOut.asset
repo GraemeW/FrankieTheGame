@@ -13,5 +13,6 @@ MonoBehaviour:
   m_Name: NerdOut
   m_EditorClassIdentifier: Assembly-CSharp::Frankie.Combat.Skill
   stat: 4
+  skillStat: 8
   battleAction: {fileID: 11400000, guid: a1e9275b473ba4e0d8b039fc34974547, type: 2}
   detail: Nerd out to distract a foe.  Reduce their nimble attribute!

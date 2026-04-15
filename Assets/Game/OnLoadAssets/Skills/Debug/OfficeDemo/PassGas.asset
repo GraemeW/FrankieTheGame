@@ -13,5 +13,6 @@ MonoBehaviour:
   m_Name: PassGas
   m_EditorClassIdentifier: Assembly-CSharp::Frankie.Combat.Skill
   stat: 4
+  skillStat: 8
   battleAction: {fileID: 11400000, guid: 8b8e44a2e5f3741edb831241ca4c27e4, type: 2}
   detail: 

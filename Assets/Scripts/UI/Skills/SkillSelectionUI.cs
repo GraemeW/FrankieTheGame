@@ -3,6 +3,7 @@ using System.Linq;
 using UnityEngine;
 using TMPro;
 using Frankie.Control;
+using Frankie.Stats;
 using Frankie.Utils.UI;
 
 namespace Frankie.Combat.UI
@@ -80,7 +81,7 @@ namespace Frankie.Combat.UI
         #endregion
 
         #region ProtectedMethods
-        protected virtual void PassSkillFlavour(SkillStat skillStat, string detail, float apCost)
+        protected virtual void PassSkillFlavour(Stat skillStat, string detail, float apCost)
         {
             // Null implementation, for parsing in alternate context
         }

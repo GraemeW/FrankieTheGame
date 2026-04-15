@@ -13,5 +13,6 @@ MonoBehaviour:
   m_Name: HypnoticBaldSpot
   m_EditorClassIdentifier: Assembly-CSharp::Frankie.Combat.Skill
   stat: 1
+  skillStat: 5
   battleAction: {fileID: 11400000, guid: 8f06520a7e219478bb48aa2cfbd7cd95, type: 2}
   detail: Beautiful bald head makes one lose focus and thus lose AP

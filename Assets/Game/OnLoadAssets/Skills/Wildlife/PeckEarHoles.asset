@@ -13,5 +13,6 @@ MonoBehaviour:
   m_Name: PeckEarHoles
   m_EditorClassIdentifier: Assembly-CSharp::Frankie.Combat.Skill
   stat: 0
+  skillStat: 4
   battleAction: {fileID: 11400000, guid: 6a1d86312bcc04435aacddf5124be168, type: 2}
   detail: Ouch!  Causes damage and damage over time.

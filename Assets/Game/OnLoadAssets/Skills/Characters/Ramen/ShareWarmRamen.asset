@@ -13,5 +13,6 @@ MonoBehaviour:
   m_Name: ShareWarmRamen
   m_EditorClassIdentifier: 
   stat: 2
+  skillStat: 6
   battleAction: {fileID: 11400000, guid: fe3f7c82cb7d90b41ae6973f67d4587b, type: 2}
   detail: Delicious ramen, nice to share, nice.

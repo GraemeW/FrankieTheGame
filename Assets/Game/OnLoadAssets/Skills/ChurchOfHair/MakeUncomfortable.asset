@@ -13,5 +13,6 @@ MonoBehaviour:
   m_Name: MakeUncomfortable
   m_EditorClassIdentifier: Assembly-CSharp::Frankie.Combat.Skill
   stat: 4
+  skillStat: 8
   battleAction: {fileID: 11400000, guid: c691959b2098c4f6d9665d6496628a40, type: 2}
   detail: This disturbing presence reduces brawn and beauty, but raises nimble substantially.

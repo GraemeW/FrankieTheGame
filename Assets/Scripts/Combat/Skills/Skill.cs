@@ -5,6 +5,7 @@ using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement.AsyncOperations;
 using Frankie.Core;
+using Frankie.Stats;
 
 namespace Frankie.Combat
 {
@@ -12,7 +13,7 @@ namespace Frankie.Combat
     public class Skill : ScriptableObject, IBattleActionSuper, IAddressablesCache
     {
         // Tunables
-        [SerializeField] private SkillStat stat;
+        [SerializeField] [SkillStat] private Stat skillStat;
         [SerializeField] private BattleAction battleAction;
         [SerializeField] private string detail = "";
 
@@ -53,7 +54,7 @@ namespace Frankie.Combat
 
         #region Getters
         public static string GetSkillNamePretty(string name) => Regex.Replace(name, "([a-z])_?([A-Z])", "$1 $2"); 
-        public SkillStat GetStat() => stat;
+        public Stat GetStat() => skillStat;
         public bool IsItem() => false;
         public string GetName() => GetSkillNamePretty(name);
         public string GetDetail() => detail;

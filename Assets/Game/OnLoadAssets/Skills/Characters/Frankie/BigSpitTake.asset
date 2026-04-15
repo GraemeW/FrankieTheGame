@@ -13,5 +13,6 @@ MonoBehaviour:
   m_Name: BigSpitTake
   m_EditorClassIdentifier: Assembly-CSharp::Frankie.Combat.Skill
   stat: 1
+  skillStat: 5
   battleAction: {fileID: 11400000, guid: db492873287474d88b633c37a0f40df7, type: 2}
   detail: Bigger chug of water, bigger damage.
