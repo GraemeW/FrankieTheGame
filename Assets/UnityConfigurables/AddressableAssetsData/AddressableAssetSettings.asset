@@ -15,7 +15,7 @@ MonoBehaviour:
   m_DefaultGroup: 1e004e8090b2d674a8e91942df4050ab
   m_currentHash:
     serializedVersion: 2
-    Hash: 585258d085c3c6a0a004385fb25990d5
+    Hash: e5aa2d1aea6441ff81e7690771491cd3
   m_OptimizeCatalogSize: 0
   m_BuildRemoteCatalog: 0
   m_CatalogRequestsTimeout: 0
@@ -65,9 +65,13 @@ MonoBehaviour:
   - {fileID: 11400000, guid: ddf0970a9c4455f4a957399b7ee344b4, type: 2}
   - {fileID: 11400000, guid: 7369d84da20600944aa86e66b8e3bcf4, type: 2}
   - {fileID: 11400000, guid: ff81d41eb8dce354aa948fc8fa0730cb, type: 2}
+  - {fileID: 11400000, guid: 0683969b634b84cac93f30cab188925a, type: 2}
   - {fileID: 11400000, guid: 1aa181d59d3ba2c40bf513f3768b526d, type: 2}
+  - {fileID: 11400000, guid: 079824d09b0264607a2e246ea62113d6, type: 2}
   - {fileID: 11400000, guid: d7d253e952d47914292feec9ee3506c5, type: 2}
   - {fileID: 11400000, guid: 36c0d426c70e9ac4a9c17db4aa2bc2e0, type: 2}
+  - {fileID: 11400000, guid: b0922d9a468b2440493979995d49d545, type: 2}
+  - {fileID: 11400000, guid: e3fa78bee328649e8a7d19b41167da3c, type: 2}
   - {fileID: 11400000, guid: 04cc7d7b43540f64395e29e880b4a2aa, type: 2}
   m_BuildSettings:
     m_LogResourceManagerExceptions: 1
@@ -115,6 +119,10 @@ MonoBehaviour:
     - QuestObjective
     - Skill
     - Zone
+    - Locale
+    - Locale-en
+    - Locale-fr
+    - Preload
   m_SchemaTemplates: []
   m_GroupTemplateObjects:
   - {fileID: 11400000, guid: 77bfda22bc1383247a4afdc2029698ce, type: 2}

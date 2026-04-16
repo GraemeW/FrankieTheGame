@@ -1,0 +1,64 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bbb281ee3bf0b054c82ac2347e9e782c, type: 3}
+  m_Name: Localization-Assets-Shared
+  m_EditorClassIdentifier: Unity.Addressables.Editor::UnityEditor.AddressableAssets.Settings.AddressableAssetGroup
+  m_GroupName: Localization-Assets-Shared
+  m_GUID: 41891f434a8ed430291f2744fc4b92ac
+  m_SerializeEntries:
+  - m_GUID: 8137acf3076d245cf991f948822c95ba
+    m_Address: Assets/Localization/Table_Zones/Zones Shared Data.asset
+    m_ReadOnly: 1
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 991c04154cea34203a64a5fe4f5e097e
+    m_Address: Assets/Localization/Tables/Speech Shared Data.asset
+    m_ReadOnly: 1
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: b9dd45143ecd64476b4827b4d45c6003
+    m_Address: Assets/Localization/Table_Quests/Quests Shared Data.asset
+    m_ReadOnly: 1
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: bb484015a3d7647bfba6919a6815d5b0
+    m_Address: Assets/Localization/Table_Core/Core Shared Data.asset
+    m_ReadOnly: 1
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: ce27b23b7b85d4bec8b522b6105befc9
+    m_Address: Assets/Localization/Table_Skills/Skills Shared Data.asset
+    m_ReadOnly: 1
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: ce7f667b432574cb1832328f600c1082
+    m_Address: Assets/Localization/Table_UI/UI Shared Data.asset
+    m_ReadOnly: 1
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: d96a34ea508fa423b93190524b5b4af1
+    m_Address: Assets/Localization/Table_Inventory/Inventory Shared Data.asset
+    m_ReadOnly: 1
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: e01518a4d82d5485e9b0e7f466ecf01d
+    m_Address: Assets/Localization/Table_ChecksWorldObjects/ChecksWorldObjects Shared
+      Data.asset
+    m_ReadOnly: 1
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  m_ReadOnly: 1
+  m_Settings: {fileID: 11400000, guid: 486580c8fbd153c4dac30d33c738074e, type: 2}
+  m_SchemaSet:
+    m_Schemas:
+    - {fileID: 11400000, guid: 035097f3ddb6d453a9f42cb3531379c4, type: 2}
+    - {fileID: 11400000, guid: 32f8e25d487db4d53a367d30f2ed69cd, type: 2}
