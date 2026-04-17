@@ -16,6 +16,8 @@ MonoBehaviour:
   characterProperties: {fileID: 11400000, guid: f40bbc80ce4dd604292488bdf07bc4e1, type: 2}
   speakerName: Lucy
   text: What are they called again?  Vwoomba?
+  nodeDepth: 2
+  nodeBreadth: 2
   children: []
   rect:
     serializedVersion: 2
@@ -47,6 +49,8 @@ MonoBehaviour:
   characterProperties: {fileID: 11400000, guid: f40bbc80ce4dd604292488bdf07bc4e1, type: 2}
   speakerName: Lucy
   text: Good morning, sleepyhead!  Are you going to head into town today?
+  nodeDepth: 1
+  nodeBreadth: 1
   children:
   - db8107ae-7956-4be7-abb0-9cfd988d2bf7
   rect:
@@ -82,6 +86,8 @@ MonoBehaviour:
   characterProperties: {fileID: 11400000, guid: f40bbc80ce4dd604292488bdf07bc4e1, type: 2}
   speakerName: Lucy
   text: Root Node to Skip
+  nodeDepth: 0
+  nodeBreadth: 0
   children:
   - d31d7b2b-df86-4c36-b25d-289a8b613c06
   - 041515b6-8b85-4157-ae87-346e8620db72
@@ -144,6 +150,8 @@ MonoBehaviour:
   characterProperties: {fileID: 11400000, guid: f40bbc80ce4dd604292488bdf07bc4e1, type: 2}
   speakerName: Lucy
   text: Why don't you have a bite to eat and head to bed?
+  nodeDepth: 2
+  nodeBreadth: 0
   children: []
   rect:
     serializedVersion: 2
@@ -175,6 +183,8 @@ MonoBehaviour:
   characterProperties: {fileID: 11400000, guid: f40bbc80ce4dd604292488bdf07bc4e1, type: 2}
   speakerName: Lucy
   text: '*Smooch* I''m so happy to see you.  You must have had a long day.'
+  nodeDepth: 1
+  nodeBreadth: 0
   children:
   - 9536b659-798f-4541-9a01-c718a2c760d2
   rect:
@@ -211,6 +221,8 @@ MonoBehaviour:
   speakerName: Lucy
   text: I heard a cute new coffee shop opened up in town.  We should check it out
     sometime!
+  nodeDepth: 1
+  nodeBreadth: 3
   children: []
   rect:
     serializedVersion: 2
@@ -245,6 +257,8 @@ MonoBehaviour:
   characterProperties: {fileID: 11400000, guid: f40bbc80ce4dd604292488bdf07bc4e1, type: 2}
   speakerName: Lucy
   text: I'm thinking of getting one of those little robots to clean the house.
+  nodeDepth: 1
+  nodeBreadth: 2
   children:
   - efbfac96-f2c3-495f-bf54-bb0ac1144c63
   rect:
@@ -281,6 +295,8 @@ MonoBehaviour:
   speakerName: Lucy
   text: Make sure you watch out for wild animals.  They've been straying closer to
     the paths lately.  Scary!
+  nodeDepth: 2
+  nodeBreadth: 1
   children: []
   rect:
     serializedVersion: 2

@@ -16,6 +16,8 @@ MonoBehaviour:
   characterProperties: {fileID: 11400000, guid: c8752c77bccb9f145aea101a1d9673a5, type: 2}
   speakerName: Maya
   text: I guess it can get pretty lonely down here sometimes.
+  nodeDepth: 1
+  nodeBreadth: 1
   children: []
   rect:
     serializedVersion: 2
@@ -52,6 +54,8 @@ MonoBehaviour:
   characterProperties: {fileID: 11400000, guid: c8752c77bccb9f145aea101a1d9673a5, type: 2}
   speakerName: Maya
   text: Default Text to Overwrite
+  nodeDepth: 0
+  nodeBreadth: 0
   children:
   - f38be2e2-9714-432b-b423-0c414b7e9b0b
   - 71ebc98a-ab8d-4120-b383-2ad034176ca7
@@ -110,6 +114,8 @@ MonoBehaviour:
   characterProperties: {fileID: 11400000, guid: c8752c77bccb9f145aea101a1d9673a5, type: 2}
   speakerName: Maya
   text: Oh.  How did you get down here?
+  nodeDepth: 1
+  nodeBreadth: 2
   children: []
   rect:
     serializedVersion: 2
@@ -144,6 +150,8 @@ MonoBehaviour:
   characterProperties: {fileID: 11400000, guid: c8752c77bccb9f145aea101a1d9673a5, type: 2}
   speakerName: Maya
   text: Let me guess, Horse asked you to come down here for his *ahem* documents?
+  nodeDepth: 1
+  nodeBreadth: 0
   children:
   - ce09e94c-ee45-43ac-a410-bccab8b19599
   rect:
@@ -182,6 +190,8 @@ MonoBehaviour:
   characterProperties: {fileID: 11400000, guid: c8752c77bccb9f145aea101a1d9673a5, type: 2}
   speakerName: Maya
   text: Here -- I think this is what he wants.
+  nodeDepth: 2
+  nodeBreadth: 0
   children: []
   rect:
     serializedVersion: 2

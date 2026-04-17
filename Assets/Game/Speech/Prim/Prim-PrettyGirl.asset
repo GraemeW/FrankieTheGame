@@ -36,6 +36,8 @@ MonoBehaviour:
   characterProperties: {fileID: 0}
   speakerName: Pretty Girl
   text: Wow!  You actually made it through the forest?
+  nodeDepth: 0
+  nodeBreadth: 0
   children:
   - 015c4851-a223-4944-a818-c61129fcb196
   rect:
@@ -68,6 +70,8 @@ MonoBehaviour:
   characterProperties: {fileID: 0}
   speakerName: Pretty Girl
   text: A squirrel looked at me weird.  Now I'm too scared to even step foot in there.
+  nodeDepth: 1
+  nodeBreadth: 0
   children: []
   rect:
     serializedVersion: 2

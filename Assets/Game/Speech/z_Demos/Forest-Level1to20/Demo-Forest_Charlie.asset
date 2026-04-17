@@ -38,6 +38,8 @@ MonoBehaviour:
   characterProperties: {fileID: 11400000, guid: b50f84a2f36107a44825b11881f88adf, type: 2}
   speakerName: Frankie
   text: Ok!
+  nodeDepth: 1
+  nodeBreadth: 0
   children: []
   rect:
     serializedVersion: 2
@@ -69,6 +71,8 @@ MonoBehaviour:
   characterProperties: {fileID: 0}
   speakerName: Charlie
   text: It's a little cramped, but you can have a nap in our bed with us if you want?
+  nodeDepth: 0
+  nodeBreadth: 0
   children:
   - 8f46e465-a8ca-4f60-9dd7-29e63416f469
   - 8cf38f94-aee4-4b7a-a110-b8e229c920ce
@@ -102,6 +106,8 @@ MonoBehaviour:
   characterProperties: {fileID: 11400000, guid: b50f84a2f36107a44825b11881f88adf, type: 2}
   speakerName: Frankie
   text: Nah.
+  nodeDepth: 1
+  nodeBreadth: 1
   children: []
   rect:
     serializedVersion: 2

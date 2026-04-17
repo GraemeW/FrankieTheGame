@@ -16,6 +16,8 @@ MonoBehaviour:
   characterProperties: {fileID: 0}
   speakerName: Ice Cream Lover
   text: This place is world renowned for its ice cream
+  nodeDepth: 0
+  nodeBreadth: 0
   children:
   - 7edfd908-c84d-4c5e-a49e-c4d6c263b151
   rect:
@@ -68,6 +70,8 @@ MonoBehaviour:
   characterProperties: {fileID: 0}
   speakerName: Ice Cream Lover
   text: Too bad it doesn't open for another 4 hours
+  nodeDepth: 1
+  nodeBreadth: 0
   children: []
   rect:
     serializedVersion: 2

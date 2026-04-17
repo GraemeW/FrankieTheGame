@@ -16,6 +16,8 @@ MonoBehaviour:
   characterProperties: {fileID: 0}
   speakerName: News Dude
   text: Excuse me, could you hold on a minute?
+  nodeDepth: 2
+  nodeBreadth: 0
   children:
   - 8f739c82-40bf-4607-bba0-5fa6384b8593
   rect:
@@ -48,6 +50,8 @@ MonoBehaviour:
   characterProperties: {fileID: 0}
   speakerName: News Dude
   text: Hey you - yeah, you - mind your own business!
+  nodeDepth: 4
+  nodeBreadth: 0
   children:
   - 7d40758c-3fe2-4a86-8c9e-6f7faa111c9e
   rect:
@@ -80,6 +84,8 @@ MonoBehaviour:
   characterProperties: {fileID: 0}
   speakerName: News Dude
   text: Some brat is listening to my conversation
+  nodeDepth: 3
+  nodeBreadth: 0
   children:
   - 14bfcac2-0043-4d2f-b339-259a8b2adf5e
   rect:
@@ -112,6 +118,8 @@ MonoBehaviour:
   characterProperties: {fileID: 0}
   speakerName: News Dude
   text: OK, where was I?  Uh huh, yeah, uhhh nuh uh, yeah huh.
+  nodeDepth: 5
+  nodeBreadth: 0
   children: []
   rect:
     serializedVersion: 2
@@ -167,6 +175,8 @@ MonoBehaviour:
   characterProperties: {fileID: 0}
   speakerName: News Dude
   text: Uh huh, uh huh, ok, uh huh
+  nodeDepth: 0
+  nodeBreadth: 0
   children:
   - 062d6ee2-7c18-4add-b6c4-602b2d0282ab
   rect:
@@ -199,6 +209,8 @@ MonoBehaviour:
   characterProperties: {fileID: 0}
   speakerName: News Dude
   text: Yeah, uh huh, nuh uh, uh, huh, nuh uh
+  nodeDepth: 1
+  nodeBreadth: 0
   children:
   - ddae337a-ea08-4d0b-9cba-45357f13e95e
   rect:

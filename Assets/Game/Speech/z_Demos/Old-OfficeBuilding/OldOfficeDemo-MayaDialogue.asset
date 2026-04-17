@@ -16,6 +16,8 @@ MonoBehaviour:
   characterProperties: {fileID: 0}
   speakerName: Default
   text: Root Node Skipped
+  nodeDepth: 0
+  nodeBreadth: 0
   children:
   - cdac874a-b3fc-4ac5-bfa1-725930ae6ef6
   - e1b519de-b573-447f-a6bf-e9d7f1b230e5
@@ -52,6 +54,8 @@ MonoBehaviour:
   speakerName: Maya
   text: What's that?  You say you saw me at the PortaBank (TM)?  I don't know what
     you're talking about, I work here.
+  nodeDepth: 1
+  nodeBreadth: 0
   children: []
   rect:
     serializedVersion: 2
@@ -84,6 +88,8 @@ MonoBehaviour:
   speakerName: Maya
   text: Hi Tilly, nice hair, I mean, nice outfit, I mean . . . anyway, did you want
     to hang out this weekend?
+  nodeDepth: 1
+  nodeBreadth: 3
   children: []
   rect:
     serializedVersion: 2
@@ -142,6 +148,8 @@ MonoBehaviour:
   characterProperties: {fileID: 11400000, guid: c8752c77bccb9f145aea101a1d9673a5, type: 2}
   speakerName: Maya
   text: You want the key to the ballpit?  Alright, let's tango.
+  nodeDepth: 1
+  nodeBreadth: 2
   children: []
   rect:
     serializedVersion: 2
@@ -177,6 +185,8 @@ MonoBehaviour:
   speakerName: Maya
   text: Aside from you and Horse, I'm literally the only person who does work around
     here
+  nodeDepth: 1
+  nodeBreadth: 1
   children: []
   rect:
     serializedVersion: 2

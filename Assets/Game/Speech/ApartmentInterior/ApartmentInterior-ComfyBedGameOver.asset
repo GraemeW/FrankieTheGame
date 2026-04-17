@@ -16,6 +16,8 @@ MonoBehaviour:
   characterProperties: {fileID: 0}
   speakerName: Comfy Bed
   text: Ok.  See you.
+  nodeDepth: 8
+  nodeBreadth: 0
   children:
   - 71701f5a-52cb-4fe4-9b07-4ccdc581c0fc
   rect:
@@ -48,6 +50,8 @@ MonoBehaviour:
   characterProperties: {fileID: 11400000, guid: b50f84a2f36107a44825b11881f88adf, type: 2}
   speakerName: Frankie
   text: Yeah, I'm sure.
+  nodeDepth: 5
+  nodeBreadth: 1
   children:
   - 395d04f1-59c3-476a-9cdf-e0615fc59504
   rect:
@@ -80,6 +84,8 @@ MonoBehaviour:
   characterProperties: {fileID: 11400000, guid: b50f84a2f36107a44825b11881f88adf, type: 2}
   speakerName: Frankie
   text: No, I have work to do
+  nodeDepth: 3
+  nodeBreadth: 1
   children:
   - 6f8bc804-6ac4-4b46-8543-a2dc13aaa182
   rect:
@@ -112,6 +118,8 @@ MonoBehaviour:
   characterProperties: {fileID: 0}
   speakerName: Comfy Bed
   text: See you next time.
+  nodeDepth: 4
+  nodeBreadth: 1
   children: []
   rect:
     serializedVersion: 2
@@ -143,6 +151,8 @@ MonoBehaviour:
   characterProperties: {fileID: 0}
   speakerName: Comfy Bed
   text: Really?
+  nodeDepth: 4
+  nodeBreadth: 0
   children:
   - 3b71e1db-b158-477a-be80-1f4f04f7a78c
   - 57f8ca70-faee-4540-8eb7-faf8430d7628
@@ -176,6 +186,8 @@ MonoBehaviour:
   characterProperties: {fileID: 0}
   speakerName: Comfy Bed
   text: The comfy bed beckons . . . .
+  nodeDepth: 0
+  nodeBreadth: 0
   children:
   - d21e0058-3e40-4c11-adce-ccfcc16adfba
   rect:
@@ -208,6 +220,8 @@ MonoBehaviour:
   characterProperties: {fileID: 11400000, guid: b50f84a2f36107a44825b11881f88adf, type: 2}
   speakerName: Frankie
   text: Wait, I didn't mean it!
+  nodeDepth: 7
+  nodeBreadth: 1
   children:
   - 6f8bc804-6ac4-4b46-8543-a2dc13aaa182
   rect:
@@ -240,6 +254,8 @@ MonoBehaviour:
   characterProperties: {fileID: 11400000, guid: b50f84a2f36107a44825b11881f88adf, type: 2}
   speakerName: Frankie
   text: I know.
+  nodeDepth: 7
+  nodeBreadth: 0
   children:
   - f69f53c6-9843-47bc-9abd-e3f67d486a2b
   rect:
@@ -305,6 +321,8 @@ MonoBehaviour:
   characterProperties: {fileID: 11400000, guid: b50f84a2f36107a44825b11881f88adf, type: 2}
   speakerName: Frankie
   text: Yeah
+  nodeDepth: 3
+  nodeBreadth: 0
   children:
   - ddc04e15-fd3b-4bab-97fa-a349117cd6b7
   rect:
@@ -337,6 +355,8 @@ MonoBehaviour:
   characterProperties: {fileID: 11400000, guid: b50f84a2f36107a44825b11881f88adf, type: 2}
   speakerName: Frankie
   text: Hello, comfy bed.
+  nodeDepth: 1
+  nodeBreadth: 0
   children:
   - 19ce6355-32ad-4d38-b32d-28131ecc98cb
   rect:
@@ -369,6 +389,8 @@ MonoBehaviour:
   characterProperties: {fileID: 0}
   speakerName: Comfy Bed
   text: You can't take this back, you know?
+  nodeDepth: 6
+  nodeBreadth: 1
   children:
   - cc3de5ea-fae8-419b-b25f-ab849db66238
   - 1b81515b-9d6a-4730-a70c-57953bf83837
@@ -402,6 +424,8 @@ MonoBehaviour:
   characterProperties: {fileID: 0}
   speakerName: Comfy Bed
   text: Are you sure you want to go to sleep?
+  nodeDepth: 2
+  nodeBreadth: 0
   children:
   - b47d021b-a460-445d-86d1-023fff8af194
   - 7013ee5d-a7aa-4231-b4f1-dc9cd647e8da
@@ -435,6 +459,8 @@ MonoBehaviour:
   characterProperties: {fileID: 11400000, guid: b50f84a2f36107a44825b11881f88adf, type: 2}
   speakerName: Frankie
   text: 'On second thought . . . '
+  nodeDepth: 5
+  nodeBreadth: 0
   children:
   - 6f8bc804-6ac4-4b46-8543-a2dc13aaa182
   rect:
@@ -467,6 +493,8 @@ MonoBehaviour:
   characterProperties: {fileID: 0}
   speakerName: Comfy Bed
   text: Frankie.
+  nodeDepth: 9
+  nodeBreadth: 0
   children: []
   rect:
     serializedVersion: 2

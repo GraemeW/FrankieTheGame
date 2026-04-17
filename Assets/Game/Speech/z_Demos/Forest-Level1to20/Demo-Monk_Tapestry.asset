@@ -16,6 +16,8 @@ MonoBehaviour:
   characterProperties: {fileID: 11400000, guid: b50f84a2f36107a44825b11881f88adf, type: 2}
   speakerName: Frankie
   text: Yes
+  nodeDepth: 5
+  nodeBreadth: 2
   children:
   - 3a990215-735f-44e4-a1b8-ce92e0769581
   rect:
@@ -48,6 +50,8 @@ MonoBehaviour:
   characterProperties: {fileID: 11400000, guid: b50f84a2f36107a44825b11881f88adf, type: 2}
   speakerName: Frankie
   text: Uhhh
+  nodeDepth: 4
+  nodeBreadth: 2
   children:
   - fa89f089-aa13-4003-813b-1ffe1a57fb9b
   rect:
@@ -80,6 +84,8 @@ MonoBehaviour:
   characterProperties: {fileID: 11400000, guid: b50f84a2f36107a44825b11881f88adf, type: 2}
   speakerName: Frankie
   text: Bald
+  nodeDepth: 6
+  nodeBreadth: 1
   children:
   - efe87992-ccab-47c0-a4a0-bfe5d8e2befc
   rect:
@@ -112,6 +118,8 @@ MonoBehaviour:
   characterProperties: {fileID: 11400000, guid: b50f84a2f36107a44825b11881f88adf, type: 2}
   speakerName: Frankie
   text: Are you speaking to me?
+  nodeDepth: 1
+  nodeBreadth: 0
   children:
   - a7f72020-2bd9-4694-a578-2df707a45d9e
   rect:
@@ -144,6 +152,8 @@ MonoBehaviour:
   characterProperties: {fileID: 0}
   speakerName: Beautiful Tapestry
   text: Who else?
+  nodeDepth: 2
+  nodeBreadth: 0
   children:
   - b8f742a0-060c-45dc-b814-b53b8064e34c
   rect:
@@ -176,6 +186,8 @@ MonoBehaviour:
   characterProperties: {fileID: 11400000, guid: b50f84a2f36107a44825b11881f88adf, type: 2}
   speakerName: Frankie
   text: Of course
+  nodeDepth: 4
+  nodeBreadth: 1
   children:
   - 3a990215-735f-44e4-a1b8-ce92e0769581
   rect:
@@ -239,6 +251,8 @@ MonoBehaviour:
   characterProperties: {fileID: 11400000, guid: b50f84a2f36107a44825b11881f88adf, type: 2}
   speakerName: Frankie
   text: Bald is beautiful.
+  nodeDepth: 8
+  nodeBreadth: 1
   children: []
   rect:
     serializedVersion: 2
@@ -270,6 +284,8 @@ MonoBehaviour:
   characterProperties: {fileID: 0}
   speakerName: Beautiful Tapestry
   text: Hello Francis
+  nodeDepth: 0
+  nodeBreadth: 0
   children:
   - 87760bf2-b9a7-4dc7-9b10-905db4441646
   rect:
@@ -302,6 +318,8 @@ MonoBehaviour:
   characterProperties: {fileID: 11400000, guid: b50f84a2f36107a44825b11881f88adf, type: 2}
   speakerName: Frankie
   text: Bald is
+  nodeDepth: 7
+  nodeBreadth: 1
   children:
   - 81203474-0d37-4972-8013-c2e2dba43c6c
   rect:
@@ -334,6 +352,8 @@ MonoBehaviour:
   characterProperties: {fileID: 0}
   speakerName: Beautiful Tapestry
   text: Do you want to join me, Francis??
+  nodeDepth: 3
+  nodeBreadth: 0
   children:
   - 50ac7990-b7ae-4c4d-a8a8-f27ad2423f67
   - 6c5cada7-5c3f-4313-9336-19ac524bb580
@@ -368,6 +388,8 @@ MonoBehaviour:
   characterProperties: {fileID: 11400000, guid: b50f84a2f36107a44825b11881f88adf, type: 2}
   speakerName: Frankie
   text: Yes
+  nodeDepth: 4
+  nodeBreadth: 0
   children:
   - 3a990215-735f-44e4-a1b8-ce92e0769581
   rect:
@@ -400,6 +422,8 @@ MonoBehaviour:
   characterProperties: {fileID: 0}
   speakerName: Beautiful Tapestry
   text: Bald is beautiful.
+  nodeDepth: 5
+  nodeBreadth: 1
   children:
   - 052c651a-53fe-4c4c-a4a2-dcaf7ed5f0ad
   rect:

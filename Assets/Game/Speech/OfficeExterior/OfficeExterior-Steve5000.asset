@@ -16,6 +16,8 @@ MonoBehaviour:
   characterProperties: {fileID: 11400000, guid: ec6ec75df6f1e3e4ea3cf0953f1b4eab, type: 2}
   speakerName: Steve5000
   text: Let's brush up your combat skills, I don't want you to get embarrassed.
+  nodeDepth: 4
+  nodeBreadth: 0
   children: []
   rect:
     serializedVersion: 2
@@ -47,6 +49,8 @@ MonoBehaviour:
   characterProperties: {fileID: 11400000, guid: ec6ec75df6f1e3e4ea3cf0953f1b4eab, type: 2}
   speakerName: Steve5000
   text: Root Node Skipped
+  nodeDepth: 0
+  nodeBreadth: 0
   children:
   - bc3fdfb8-ef8b-4789-b958-5c2b9d36a458
   - d84612ca-8aeb-4f95-9f06-dfdadc8f419f
@@ -81,6 +85,8 @@ MonoBehaviour:
   speakerName: Steve5000
   text: Not sure what you're talkin' about buddy!  Why don't you get in there and
     show them who's boss?
+  nodeDepth: 2
+  nodeBreadth: 1
   children: []
   rect:
     serializedVersion: 2
@@ -113,6 +119,8 @@ MonoBehaviour:
   speakerName: Steve5000
   text: Hey, look -- before you go in there, you should know -- the interns have
     been acting really weird.
+  nodeDepth: 3
+  nodeBreadth: 0
   children:
   - 80e92ca4-aa0a-4ac7-aecf-eab776aad139
   rect:
@@ -145,6 +153,8 @@ MonoBehaviour:
   characterProperties: {fileID: 11400000, guid: b50f84a2f36107a44825b11881f88adf, type: 2}
   speakerName: Frankie
   text: Uh . . . what the hell was that?  What ARE you?
+  nodeDepth: 1
+  nodeBreadth: 1
   children:
   - 96e057d8-d143-41a3-8fb7-e5fb0dac9308
   rect:
@@ -207,6 +217,8 @@ MonoBehaviour:
   characterProperties: {fileID: 11400000, guid: ec6ec75df6f1e3e4ea3cf0953f1b4eab, type: 2}
   speakerName: Steve5000
   text: Oh, hey Francis . . . err, Frankie.
+  nodeDepth: 1
+  nodeBreadth: 0
   children:
   - 0f451692-e105-427a-a628-68d1abbcb70b
   rect:
@@ -243,6 +255,8 @@ MonoBehaviour:
   speakerName: Steve5000
   text: Did you forget your key card again?  You can borrow mine, I'm just on my
     way out.
+  nodeDepth: 2
+  nodeBreadth: 0
   children:
   - 889d5a8c-f5aa-4e60-9a01-4d9018f5714c
   rect:

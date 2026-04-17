@@ -16,6 +16,8 @@ MonoBehaviour:
   characterProperties: {fileID: 11400000, guid: df2799c36af32ce4d8fd6788f660323d, type: 2}
   speakerName: Skilled Office Worker
   text: . . . Just kidding.
+  nodeDepth: 2
+  nodeBreadth: 0
   children:
   - 36c699a5-d210-4061-b339-84d143123e72
   - 6d39ab23-31c6-4b09-96ab-9b60bdd15a06
@@ -49,6 +51,8 @@ MonoBehaviour:
   characterProperties: {fileID: 11400000, guid: df2799c36af32ce4d8fd6788f660323d, type: 2}
   speakerName: Skilled Office Worker
   text: 'Didja fart?  . . . '
+  nodeDepth: 0
+  nodeBreadth: 0
   children:
   - a8a2b2ee-740f-4000-9a9f-22206794ea9f
   rect:
@@ -81,6 +85,8 @@ MonoBehaviour:
   characterProperties: {fileID: 11400000, guid: df2799c36af32ce4d8fd6788f660323d, type: 2}
   speakerName: Skilled Office Worker
   text: '*HYUK* Got some Hay on ya?  Well done.'
+  nodeDepth: 3
+  nodeBreadth: 1
   children:
   - 91ae2b65-d118-4423-9c10-ea06187d5399
   rect:
@@ -142,6 +148,8 @@ MonoBehaviour:
   speakerName: Skilled Office Worker
   text: '*SNORT* By the way, Horse is in a really bad mood *HYUK*.  He probably won''t
     even talk to you if you aren''t carrying Hay.'
+  nodeDepth: 3
+  nodeBreadth: 0
   children:
   - 91ae2b65-d118-4423-9c10-ea06187d5399
   rect:
@@ -177,6 +185,8 @@ MonoBehaviour:
   characterProperties: {fileID: 11400000, guid: df2799c36af32ce4d8fd6788f660323d, type: 2}
   speakerName: Skilled Office Worker
   text: Spankety spankety.  *SNORT*  Now get.
+  nodeDepth: 4
+  nodeBreadth: 1
   children: []
   rect:
     serializedVersion: 2
@@ -208,6 +218,8 @@ MonoBehaviour:
   characterProperties: {fileID: 11400000, guid: df2799c36af32ce4d8fd6788f660323d, type: 2}
   speakerName: Skilled Office Worker
   text: . . .
+  nodeDepth: 1
+  nodeBreadth: 0
   children:
   - 3bfc6745-5e76-4734-abd4-258a8183e17a
   rect:

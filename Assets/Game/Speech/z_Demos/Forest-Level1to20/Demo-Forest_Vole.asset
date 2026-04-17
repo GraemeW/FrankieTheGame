@@ -17,6 +17,8 @@ MonoBehaviour:
   speakerName: Helpful Vole
   text: In this demo you will face enemies of varying difficulty in order to gauge
     your combat prowess
+  nodeDepth: 1
+  nodeBreadth: 0
   children:
   - 2466319b-2236-4fe6-9942-dbb55aac33b8
   rect:
@@ -49,6 +51,8 @@ MonoBehaviour:
   characterProperties: {fileID: 11400000, guid: b50f84a2f36107a44825b11881f88adf, type: 2}
   speakerName: Frankie
   text: Yes
+  nodeDepth: 8
+  nodeBreadth: 1
   children:
   - 9acdd827-4ced-40d3-ab82-f1b455018003
   rect:
@@ -81,6 +85,8 @@ MonoBehaviour:
   characterProperties: {fileID: 11400000, guid: b50f84a2f36107a44825b11881f88adf, type: 2}
   speakerName: Frankie
   text: Uh huh.
+  nodeDepth: 2
+  nodeBreadth: 0
   children:
   - 25d3c557-74cb-4745-9a28-53ebd928e216
   rect:
@@ -114,6 +120,8 @@ MonoBehaviour:
   speakerName: Helpful Vole
   text: Yes, well, be warned!  Combat does not pause in Frankie!  Once an enemy can
     attack, they will!
+  nodeDepth: 3
+  nodeBreadth: 0
   children:
   - 9acdd827-4ced-40d3-ab82-f1b455018003
   rect:
@@ -146,6 +154,8 @@ MonoBehaviour:
   characterProperties: {fileID: 11400000, guid: b50f84a2f36107a44825b11881f88adf, type: 2}
   speakerName: Frankie
   text: No
+  nodeDepth: 8
+  nodeBreadth: 0
   children: []
   rect:
     serializedVersion: 2
@@ -206,6 +216,8 @@ MonoBehaviour:
   characterProperties: {fileID: 0}
   speakerName: Helpful Vole
   text: Hi there!  I'm not your enemy, merely a vole who wants to give you some advice!
+  nodeDepth: 0
+  nodeBreadth: 0
   children:
   - d4549e51-028a-4f16-9670-4618dcaacd92
   rect:
@@ -238,6 +250,8 @@ MonoBehaviour:
   characterProperties: {fileID: 0}
   speakerName: Helpful Vole
   text: OK!  That's it.  That's all, did you need me to repeat these instructions?
+  nodeDepth: 7
+  nodeBreadth: 0
   children:
   - a888c5a8-5231-4d10-8208-2662e48ec485
   - 444822ff-3ee0-464b-a189-bed72827e8c7
@@ -271,6 +285,8 @@ MonoBehaviour:
   characterProperties: {fileID: 11400000, guid: b50f84a2f36107a44825b11881f88adf, type: 2}
   speakerName: Frankie
   text: Mmmm.
+  nodeDepth: 6
+  nodeBreadth: 0
   children:
   - 74310a29-934b-4fd5-8878-73478ee343dc
   rect:
@@ -305,6 +321,8 @@ MonoBehaviour:
   text: To defeat your enemy, quickly select a skill using the directional UP-DOWN-LEFT-RIGHT
     or W-A-S-D keys, and lock it in using 'E'.  Then simply select your target and
     press 'E' again!
+  nodeDepth: 4
+  nodeBreadth: 0
   children:
   - 18d6e0c8-b8ab-4260-8b5e-3d80368f6b4b
   rect:
@@ -338,6 +356,8 @@ MonoBehaviour:
   speakerName: Helpful Vole
   text: As you gain new skills, you'll need to traverse deeper into your skill tree
     using the same directional keys.  Let's cross that bridge when we get there though!
+  nodeDepth: 5
+  nodeBreadth: 0
   children:
   - 51fc3d14-fda8-4081-a6e6-249259265309
   rect:

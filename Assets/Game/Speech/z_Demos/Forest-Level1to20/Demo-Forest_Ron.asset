@@ -16,6 +16,8 @@ MonoBehaviour:
   characterProperties: {fileID: 0}
   speakerName: Ron
   text: Whoa whoa whoa, don't hurt me!
+  nodeDepth: 1
+  nodeBreadth: 0
   children:
   - 042433a9-6345-4257-a760-0131878a7a97
   rect:
@@ -51,6 +53,8 @@ MonoBehaviour:
   characterProperties: {fileID: 11400000, guid: b50f84a2f36107a44825b11881f88adf, type: 2}
   speakerName: Frankie
   text: Yes, let's do it!
+  nodeDepth: 4
+  nodeBreadth: 0
   children: []
   rect:
     serializedVersion: 2
@@ -82,6 +86,8 @@ MonoBehaviour:
   characterProperties: {fileID: 0}
   speakerName: Ron
   text: Want me to shuttle you back to the PortaBank?
+  nodeDepth: 2
+  nodeBreadth: 1
   children:
   - 6a8b4557-d43b-443b-b8d5-419fd37c0066
   - 05de6722-68b1-427d-b3d9-fe0ec06949b3
@@ -115,6 +121,8 @@ MonoBehaviour:
   characterProperties: {fileID: 11400000, guid: b50f84a2f36107a44825b11881f88adf, type: 2}
   speakerName: Frankie
   text: Nah, no thanks.
+  nodeDepth: 3
+  nodeBreadth: 1
   children: []
   rect:
     serializedVersion: 2
@@ -175,6 +183,8 @@ MonoBehaviour:
   characterProperties: {fileID: 0}
   speakerName: Ron
   text: Anyway, want to save your progress so far?
+  nodeDepth: 3
+  nodeBreadth: 0
   children:
   - 1fb6b6b5-25db-447d-8105-9e37833e5e94
   - 21a1c313-9189-484d-88aa-29b8bbe1f702
@@ -208,6 +218,8 @@ MonoBehaviour:
   characterProperties: {fileID: 0}
   speakerName: Ron
   text: Root
+  nodeDepth: 0
+  nodeBreadth: 0
   children:
   - 3f563ff3-22fa-4e27-ac1c-80f2bb2a7c7c
   - ffd0c302-80ea-4207-ba9b-444ae2e0d1e1
@@ -241,6 +253,8 @@ MonoBehaviour:
   characterProperties: {fileID: 11400000, guid: b50f84a2f36107a44825b11881f88adf, type: 2}
   speakerName: Frankie
   text: Nah, no thanks.
+  nodeDepth: 4
+  nodeBreadth: 1
   children: []
   rect:
     serializedVersion: 2
@@ -272,6 +286,8 @@ MonoBehaviour:
   characterProperties: {fileID: 0}
   speakerName: Ron
   text: I may be bald, but I'm not one of these FREAKS.
+  nodeDepth: 2
+  nodeBreadth: 0
   children:
   - 0064e539-dbfd-40d4-b212-46f83cc318ff
   rect:
@@ -304,6 +320,8 @@ MonoBehaviour:
   characterProperties: {fileID: 11400000, guid: b50f84a2f36107a44825b11881f88adf, type: 2}
   speakerName: Frankie
   text: Yes, get me out of here!
+  nodeDepth: 3
+  nodeBreadth: 2
   children: []
   rect:
     serializedVersion: 2
@@ -336,6 +354,8 @@ MonoBehaviour:
   speakerName: Ron
   text: Hey, listen, if you need a way out of here, I can get you back to the PortaBank
     just outside the church.
+  nodeDepth: 1
+  nodeBreadth: 1
   children:
   - 924c83ed-74d4-4e4d-ba58-cdadc15b5c44
   rect:

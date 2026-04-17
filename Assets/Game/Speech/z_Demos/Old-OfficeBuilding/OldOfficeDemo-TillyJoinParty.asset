@@ -16,6 +16,8 @@ MonoBehaviour:
   characterProperties: {fileID: 11400000, guid: b10029ac6f311c441a516db78ca01efd, type: 2}
   speakerName: Tilly
   text: Huh?  No, I don't need rescuing.
+  nodeDepth: 0
+  nodeBreadth: 0
   children:
   - 5af9e51e-e53a-48c3-b642-c1a7de7e2f32
   rect:
@@ -48,6 +50,8 @@ MonoBehaviour:
   characterProperties: {fileID: 11400000, guid: b10029ac6f311c441a516db78ca01efd, type: 2}
   speakerName: Tilly
   text: I've just been trying to show these nerds how to do their job.
+  nodeDepth: 1
+  nodeBreadth: 0
   children:
   - 308b98b7-742f-4b9b-8ca9-1be49cd7c3bb
   rect:
@@ -103,6 +107,8 @@ MonoBehaviour:
   speakerName: Tilly
   text: Anyway, let's get out of here Frankie, we have some work to do with Maya
     upstairs.
+  nodeDepth: 2
+  nodeBreadth: 0
   children: []
   rect:
     serializedVersion: 2

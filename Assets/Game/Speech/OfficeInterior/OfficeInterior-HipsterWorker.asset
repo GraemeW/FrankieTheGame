@@ -16,6 +16,8 @@ MonoBehaviour:
   characterProperties: {fileID: 11400000, guid: 56186947ccacc0a4598067f4b80c5c25, type: 2}
   speakerName: Hipster Office Worker
   text: I remember what I needed to tell you now, but it wasn't that important.
+  nodeDepth: 1
+  nodeBreadth: 1
   children: []
   rect:
     serializedVersion: 2
@@ -50,6 +52,8 @@ MonoBehaviour:
   characterProperties: {fileID: 11400000, guid: 56186947ccacc0a4598067f4b80c5c25, type: 2}
   speakerName: Hipster Office Worker
   text: Oh, oh, oh, oh, oh, oh!
+  nodeDepth: 1
+  nodeBreadth: 0
   children:
   - 2fb08eca-5775-4481-a359-f07f3c8de7ba
   rect:
@@ -85,6 +89,8 @@ MonoBehaviour:
   characterProperties: {fileID: 11400000, guid: 56186947ccacc0a4598067f4b80c5c25, type: 2}
   speakerName: Hipster Office Worker
   text: I need to tell you something urgently!
+  nodeDepth: 2
+  nodeBreadth: 0
   children:
   - fd17b49d-abe9-4167-8aeb-bae32bd5da62
   rect:
@@ -117,6 +123,8 @@ MonoBehaviour:
   characterProperties: {fileID: 11400000, guid: 56186947ccacc0a4598067f4b80c5c25, type: 2}
   speakerName: Hipster Office Worker
   text: Uh.  Hmmm...
+  nodeDepth: 3
+  nodeBreadth: 0
   children:
   - 9d536412-2383-4fe2-86ce-12dd7be3f40f
   rect:
@@ -174,6 +182,8 @@ MonoBehaviour:
   characterProperties: {fileID: 11400000, guid: 56186947ccacc0a4598067f4b80c5c25, type: 2}
   speakerName: Hipster Office Worker
   text: I forgot.
+  nodeDepth: 4
+  nodeBreadth: 0
   children: []
   rect:
     serializedVersion: 2
@@ -205,6 +215,8 @@ MonoBehaviour:
   characterProperties: {fileID: 0}
   speakerName: Default
   text: Default Text to Overwrite
+  nodeDepth: 0
+  nodeBreadth: 0
   children:
   - 243ef45e-f546-41b7-803b-3b45262463d4
   - f94d29cb-ec97-4c49-8caa-59537226dcf1

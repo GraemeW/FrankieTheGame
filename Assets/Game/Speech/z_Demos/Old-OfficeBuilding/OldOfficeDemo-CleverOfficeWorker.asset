@@ -16,6 +16,8 @@ MonoBehaviour:
   characterProperties: {fileID: 11400000, guid: b10029ac6f311c441a516db78ca01efd, type: 2}
   speakerName: Tilly
   text: Nah.
+  nodeDepth: 3
+  nodeBreadth: 2
   children: []
   rect:
     serializedVersion: 2
@@ -47,6 +49,8 @@ MonoBehaviour:
   characterProperties: {fileID: 11400000, guid: 90d76accd2678ec4a831bc862fdccb8c, type: 2}
   speakerName: Clever Office Worker
   text: Question is, think you can take me?
+  nodeDepth: 2
+  nodeBreadth: 0
   children:
   - e26cb30f-683e-44c0-9713-d7344833727c
   - b9c7e26f-bf00-49de-90cf-3bbc79295b71
@@ -82,6 +86,8 @@ MonoBehaviour:
   characterProperties: {fileID: 11400000, guid: b10029ac6f311c441a516db78ca01efd, type: 2}
   speakerName: Tilly
   text: Yes?
+  nodeDepth: 3
+  nodeBreadth: 1
   children: []
   rect:
     serializedVersion: 2
@@ -143,6 +149,8 @@ MonoBehaviour:
   characterProperties: {fileID: 11400000, guid: b10029ac6f311c441a516db78ca01efd, type: 2}
   speakerName: Tilly
   text: Nope.
+  nodeDepth: 3
+  nodeBreadth: 0
   children: []
   rect:
     serializedVersion: 2
@@ -174,6 +182,8 @@ MonoBehaviour:
   characterProperties: {fileID: 11400000, guid: 90d76accd2678ec4a831bc862fdccb8c, type: 2}
   speakerName: Clever Office Worker
   text: There's a PortaBank (TM) just outside this very office building.
+  nodeDepth: 3
+  nodeBreadth: 4
   children: []
   rect:
     serializedVersion: 2
@@ -206,6 +216,8 @@ MonoBehaviour:
   speakerName: Clever Office Worker
   text: After you've adventured a little, check your bank account.  You may be surprised
     to see your stocks have paid some dividends.
+  nodeDepth: 2
+  nodeBreadth: 1
   children:
   - 40911b7f-e1ea-4aab-a530-accb51017056
   rect:
@@ -238,6 +250,8 @@ MonoBehaviour:
   characterProperties: {fileID: 11400000, guid: 90d76accd2678ec4a831bc862fdccb8c, type: 2}
   speakerName: Clever Office Worker
   text: Root node skipped
+  nodeDepth: 0
+  nodeBreadth: 0
   children:
   - 0643a067-81a1-4d7e-8327-951356097f15
   - b5d4d788-a7dd-496f-8a88-2214d6c2a90c
@@ -271,6 +285,8 @@ MonoBehaviour:
   characterProperties: {fileID: 11400000, guid: 90d76accd2678ec4a831bc862fdccb8c, type: 2}
   speakerName: Clever Office Worker
   text: Beat me and I'll tell you a secret.  *hue hue hue hue hue hue hue*
+  nodeDepth: 1
+  nodeBreadth: 0
   children:
   - 4890d74e-5321-464c-91f6-944a613bbff9
   rect:
@@ -306,6 +322,8 @@ MonoBehaviour:
   characterProperties: {fileID: 11400000, guid: 90d76accd2678ec4a831bc862fdccb8c, type: 2}
   speakerName: Clever Office Worker
   text: Hngh.  You really got me.  Alright, here's my secret.
+  nodeDepth: 1
+  nodeBreadth: 1
   children:
   - 5b286816-f426-41c1-8d96-4b4e06835ebd
   rect:
@@ -341,6 +359,8 @@ MonoBehaviour:
   characterProperties: {fileID: 11400000, guid: b10029ac6f311c441a516db78ca01efd, type: 2}
   speakerName: Tilly
   text: Definitely not.
+  nodeDepth: 3
+  nodeBreadth: 3
   children: []
   rect:
     serializedVersion: 2

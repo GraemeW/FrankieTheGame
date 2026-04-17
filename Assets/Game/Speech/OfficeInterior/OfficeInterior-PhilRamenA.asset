@@ -16,6 +16,8 @@ MonoBehaviour:
   characterProperties: {fileID: 11400000, guid: e97120b87e74eee4f9d9d8659f0bddf5, type: 2}
   speakerName: Phil Ramen
   text: '. . . '
+  nodeDepth: 5
+  nodeBreadth: 0
   children:
   - a83d1f52-a0a4-4835-a526-2ee61016d4e4
   rect:
@@ -48,6 +50,8 @@ MonoBehaviour:
   characterProperties: {fileID: 11400000, guid: b50f84a2f36107a44825b11881f88adf, type: 2}
   speakerName: Frankie
   text: Are you a talking cup of noodles?
+  nodeDepth: 1
+  nodeBreadth: 0
   children:
   - a348d81c-f93d-41d2-8601-27e207405c0c
   rect:
@@ -80,6 +84,8 @@ MonoBehaviour:
   characterProperties: {fileID: 11400000, guid: b50f84a2f36107a44825b11881f88adf, type: 2}
   speakerName: Frankie
   text: Ok?
+  nodeDepth: 6
+  nodeBreadth: 2
   children:
   - fe551145-ee51-4ef7-bc78-ca64214d87b5
   rect:
@@ -112,6 +118,8 @@ MonoBehaviour:
   characterProperties: {fileID: 11400000, guid: e97120b87e74eee4f9d9d8659f0bddf5, type: 2}
   speakerName: Phil Ramen
   text: Finally you've arrived.  My name is Phil, and I come bearing an urgent message.
+  nodeDepth: 0
+  nodeBreadth: 0
   children:
   - 67690123-2f1b-4042-b254-eb5d5a9cee0e
   rect:
@@ -145,6 +153,8 @@ MonoBehaviour:
   speakerName: Phil Ramen
   text: They must be moving faster than I thought.  We need to find some chopsticks
     immediately.
+  nodeDepth: 4
+  nodeBreadth: 1
   children:
   - e32a3d0e-b9c4-4b06-bcd2-bf3f2d3762d6
   rect:
@@ -177,6 +187,8 @@ MonoBehaviour:
   characterProperties: {fileID: 11400000, guid: e97120b87e74eee4f9d9d8659f0bddf5, type: 2}
   speakerName: Phil Ramen
   text: '. . . '
+  nodeDepth: 3
+  nodeBreadth: 1
   children:
   - a83d1f52-a0a4-4835-a526-2ee61016d4e4
   rect:
@@ -213,6 +225,8 @@ MonoBehaviour:
   speakerName: Phil Ramen
   text: 'I may look like a delicious cup of noodles, but I''m actually a sophisticated
     artificial intelligence.  '
+  nodeDepth: 2
+  nodeBreadth: 0
   children:
   - ec0fd725-12ed-45aa-9b3f-6b5186fe5944
   - d652d09a-7d4c-48a5-be65-643aecfb617e
@@ -278,6 +292,8 @@ MonoBehaviour:
   characterProperties: {fileID: 11400000, guid: b50f84a2f36107a44825b11881f88adf, type: 2}
   speakerName: Frankie
   text: What was that?
+  nodeDepth: 4
+  nodeBreadth: 0
   children:
   - 5cb51a8b-f380-42ae-a53d-891dfc310e94
   rect:
@@ -310,6 +326,8 @@ MonoBehaviour:
   characterProperties: {fileID: 11400000, guid: e97120b87e74eee4f9d9d8659f0bddf5, type: 2}
   speakerName: Phil Ramen
   text: Wait . . . . .
+  nodeDepth: 3
+  nodeBreadth: 0
   children:
   - 5dd08894-04a1-4b55-9f80-27eb5c4979b1
   rect:
@@ -345,6 +363,8 @@ MonoBehaviour:
   characterProperties: {fileID: 11400000, guid: e97120b87e74eee4f9d9d8659f0bddf5, type: 2}
   speakerName: Phil Ramen
   text: I'm sorry, but now isn't the time to explain.  Quickly!
+  nodeDepth: 7
+  nodeBreadth: 1
   children: []
   rect:
     serializedVersion: 2
@@ -377,6 +397,8 @@ MonoBehaviour:
   speakerName: Phil Ramen
   text: Once you find the chopsticks, you need to pour some hot water onto me and
     mush my noodles around.
+  nodeDepth: 5
+  nodeBreadth: 1
   children:
   - 6e594654-a441-44ad-ad9f-3913c3c70a26
   - 652341a2-8c0a-450c-ae14-21da7deda5a7
@@ -410,6 +432,8 @@ MonoBehaviour:
   characterProperties: {fileID: 11400000, guid: b50f84a2f36107a44825b11881f88adf, type: 2}
   speakerName: Frankie
   text: Errr?
+  nodeDepth: 6
+  nodeBreadth: 1
   children:
   - fe551145-ee51-4ef7-bc78-ca64214d87b5
   rect:

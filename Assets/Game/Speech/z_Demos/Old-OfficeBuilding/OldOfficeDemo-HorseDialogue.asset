@@ -16,6 +16,8 @@ MonoBehaviour:
   characterProperties: {fileID: 11400000, guid: bb8eacf5d6e151548ae677e3ff4d1109, type: 2}
   speakerName: Horse
   text: Skip Root Node
+  nodeDepth: 0
+  nodeBreadth: 0
   children:
   - c755254a-7a4c-4c57-a9dc-2f511decc438
   - 0d89d2f7-e66c-473a-938b-58e365c55c52
@@ -50,6 +52,8 @@ MonoBehaviour:
   characterProperties: {fileID: 11400000, guid: bb8eacf5d6e151548ae677e3ff4d1109, type: 2}
   speakerName: Horse
   text: Neigh. (go away, I'm busy)
+  nodeDepth: 1
+  nodeBreadth: 0
   children: []
   rect:
     serializedVersion: 2
@@ -88,6 +92,8 @@ MonoBehaviour:
   speakerName: Horse
   text: Whinny.  Neigh. (congratulations Frankie, you did it, you really did it,
     you son of a bitch)
+  nodeDepth: 1
+  nodeBreadth: 2
   children: []
   rect:
     serializedVersion: 2
@@ -146,6 +152,8 @@ MonoBehaviour:
   characterProperties: {fileID: 11400000, guid: bb8eacf5d6e151548ae677e3ff4d1109, type: 2}
   speakerName: Horse
   text: Neeeeiiiigh. (is that Hay I smell?)
+  nodeDepth: 1
+  nodeBreadth: 1
   children:
   - a98197fc-bd0b-49d1-8083-a98d7c242431
   rect:
@@ -184,6 +192,8 @@ MonoBehaviour:
   characterProperties: {fileID: 11400000, guid: bb8eacf5d6e151548ae677e3ff4d1109, type: 2}
   speakerName: Horse
   text: 'Snort. (give it to me, it''s mine) '
+  nodeDepth: 2
+  nodeBreadth: 0
   children: []
   rect:
     serializedVersion: 2

@@ -17,6 +17,8 @@ MonoBehaviour:
   speakerName: Porta Attendant
   text: I got these neat refurbished portable sheds on discount!  Can you believe
     it?
+  nodeDepth: 1
+  nodeBreadth: 1
   children: []
   rect:
     serializedVersion: 2
@@ -48,6 +50,8 @@ MonoBehaviour:
   characterProperties: {fileID: 0}
   speakerName: Porta Attendant
   text: Skip Root
+  nodeDepth: 0
+  nodeBreadth: 0
   children:
   - c47fdf5f-076e-4e2e-b46a-0a8b6f83149d
   - 5db65f99-fa46-40ad-b253-574ec3bf457a
@@ -106,6 +110,8 @@ MonoBehaviour:
   characterProperties: {fileID: 0}
   speakerName: Porta Attendant
   text: Oh, the smell?  It was like that when we bought the fleet of these.
+  nodeDepth: 1
+  nodeBreadth: 2
   children:
   - 7507ee3b-cbf9-4eab-9f7a-d6d5dc043ef3
   rect:
@@ -138,6 +144,8 @@ MonoBehaviour:
   characterProperties: {fileID: 0}
   speakerName: Porta Attendant
   text: ' I got this car freshener tree here to help freshen things up!'
+  nodeDepth: 2
+  nodeBreadth: 1
   children: []
   rect:
     serializedVersion: 2
@@ -169,6 +177,8 @@ MonoBehaviour:
   characterProperties: {fileID: 0}
   speakerName: Porta Attendant
   text: HI!  Welcome to PortaBank (TM)!  Your number one portable banking solution!
+  nodeDepth: 1
+  nodeBreadth: 0
   children:
   - b6c77fd4-1ad0-480b-a5c8-9a8431ac3232
   rect:
@@ -201,6 +211,8 @@ MonoBehaviour:
   characterProperties: {fileID: 0}
   speakerName: Porta Attendant
   text: Let me know if you have any questions!
+  nodeDepth: 2
+  nodeBreadth: 0
   children: []
   rect:
     serializedVersion: 2

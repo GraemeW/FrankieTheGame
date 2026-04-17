@@ -16,6 +16,8 @@ MonoBehaviour:
   characterProperties: {fileID: 11400000, guid: b50f84a2f36107a44825b11881f88adf, type: 2}
   speakerName: Frankie
   text: Yes, please!
+  nodeDepth: 1
+  nodeBreadth: 0
   children: []
   rect:
     serializedVersion: 2
@@ -47,6 +49,8 @@ MonoBehaviour:
   characterProperties: {fileID: 11400000, guid: b50f84a2f36107a44825b11881f88adf, type: 2}
   speakerName: Frankie
   text: No, thank you.
+  nodeDepth: 1
+  nodeBreadth: 1
   children: []
   rect:
     serializedVersion: 2
@@ -100,6 +104,8 @@ MonoBehaviour:
   characterProperties: {fileID: 0}
   speakerName: Theo
   text: Hey Francis!  Looking to save your progress so far?
+  nodeDepth: 0
+  nodeBreadth: 0
   children:
   - ceaa933f-cf43-4c3a-831d-8ca103c36df3
   - cd91c323-1b59-44ed-a1fe-fa6705607c1d

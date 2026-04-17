@@ -16,6 +16,8 @@ MonoBehaviour:
   characterProperties: {fileID: 11400000, guid: bb8eacf5d6e151548ae677e3ff4d1109, type: 2}
   speakerName: Horse
   text: I must now further examine these *VERY IMPORTANT DOCUMENTS*.
+  nodeDepth: 2
+  nodeBreadth: 1
   children:
   - b9791967-394d-4ffa-809c-8f5b22be660f
   rect:
@@ -48,6 +50,8 @@ MonoBehaviour:
   characterProperties: {fileID: 11400000, guid: bb8eacf5d6e151548ae677e3ff4d1109, type: 2}
   speakerName: Horse
   text: Thanks for deliverying these *VERY IMPORTANT DOCUMENTS*.
+  nodeDepth: 1
+  nodeBreadth: 2
   children:
   - 76da9b8b-7211-4be4-9d50-45930bc39752
   rect:
@@ -86,6 +90,8 @@ MonoBehaviour:
   characterProperties: {fileID: 11400000, guid: bb8eacf5d6e151548ae677e3ff4d1109, type: 2}
   speakerName: Horse
   text: We're so proud of what you've accomplished here.  You're really an A++ Worker.
+  nodeDepth: 1
+  nodeBreadth: 0
   children:
   - fe2dfc4b-4f9d-4ee3-a67c-f76d89101291
   rect:
@@ -150,6 +156,8 @@ MonoBehaviour:
   speakerName: Horse
   text: Now that I've sufficiently complimented you, I need you to do me a favor. 
     Maya has some *VERY IMPORTANT DOCUMENTS*.
+  nodeDepth: 2
+  nodeBreadth: 0
   children:
   - de8bf94c-2c55-4513-8e63-50561d25940f
   rect:
@@ -183,6 +191,8 @@ MonoBehaviour:
   speakerName: Horse
   text: Please hop down that firepole -- yes, the one that says DANGER on it -- and
     find the documents.
+  nodeDepth: 3
+  nodeBreadth: 0
   children: []
   rect:
     serializedVersion: 2
@@ -214,6 +224,8 @@ MonoBehaviour:
   characterProperties: {fileID: 11400000, guid: bb8eacf5d6e151548ae677e3ff4d1109, type: 2}
   speakerName: Horse
   text: Any luck?
+  nodeDepth: 1
+  nodeBreadth: 3
   children: []
   rect:
     serializedVersion: 2
@@ -254,6 +266,8 @@ MonoBehaviour:
   characterProperties: {fileID: 0}
   speakerName: Default
   text: Default Text to Overwrite
+  nodeDepth: 0
+  nodeBreadth: 0
   children:
   - 949599c8-f091-4a66-991a-fc84ee32a77c
   - 41be6de7-b2de-49d5-b9b7-62ddd42901d5
@@ -290,6 +304,8 @@ MonoBehaviour:
   speakerName: Horse
   text: You may take your 15 minute break -- I've enabled elevator access to the
     kitchen.
+  nodeDepth: 3
+  nodeBreadth: 1
   children: []
   rect:
     serializedVersion: 2
@@ -321,6 +337,8 @@ MonoBehaviour:
   characterProperties: {fileID: 11400000, guid: bb8eacf5d6e151548ae677e3ff4d1109, type: 2}
   speakerName: Horse
   text: We can't wait to see what you'll do next.  Keep on truckin'!
+  nodeDepth: 1
+  nodeBreadth: 1
   children: []
   rect:
     serializedVersion: 2

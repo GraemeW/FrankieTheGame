@@ -16,6 +16,8 @@ MonoBehaviour:
   characterProperties: {fileID: 11400000, guid: 336237e6ae4959340b7902131ce0e59d, type: 2}
   speakerName: Phil Too
   text: Lookin' fly!  Let me vibe with you.
+  nodeDepth: 1
+  nodeBreadth: 1
   children:
   - 448f6ce9-dde5-43dd-bf0f-5cfcf490b134
   rect:
@@ -54,6 +56,8 @@ MonoBehaviour:
   characterProperties: {fileID: 11400000, guid: 336237e6ae4959340b7902131ce0e59d, type: 2}
   speakerName: Phil Too
   text: Root Node Skipped
+  nodeDepth: 0
+  nodeBreadth: 0
   children:
   - 2c056123-882f-44f2-bcea-1a19f331badd
   - 803de682-305a-4534-9bf9-d5dd5f623e77
@@ -88,6 +92,8 @@ MonoBehaviour:
   speakerName: Phil Too
   text: As you your stat values increase, you might unlock new abilities.  I bet
     you have a new ability to check out right now.
+  nodeDepth: 3
+  nodeBreadth: 0
   children:
   - ffd22329-9619-4890-9d7f-9dba6c3e6862
   rect:
@@ -121,6 +127,8 @@ MonoBehaviour:
   speakerName: Phil Too
   text: 'I''m going to tell you this since you don''t already know:  pay attention
     to your stats!  '
+  nodeDepth: 2
+  nodeBreadth: 0
   children:
   - de48985a-6733-4d2e-b4d7-09c866882886
   rect:
@@ -153,6 +161,8 @@ MonoBehaviour:
   characterProperties: {fileID: 11400000, guid: 336237e6ae4959340b7902131ce0e59d, type: 2}
   speakerName: Phil Too
   text: Alright, let's get goin'.
+  nodeDepth: 4
+  nodeBreadth: 0
   children: []
   rect:
     serializedVersion: 2
@@ -209,6 +219,8 @@ MonoBehaviour:
   characterProperties: {fileID: 11400000, guid: 336237e6ae4959340b7902131ce0e59d, type: 2}
   speakerName: Phil Too
   text: Your vibe is pretty gnarled isn't it?  Try improving your Beauty, Frankie!
+  nodeDepth: 1
+  nodeBreadth: 0
   children: []
   rect:
     serializedVersion: 2

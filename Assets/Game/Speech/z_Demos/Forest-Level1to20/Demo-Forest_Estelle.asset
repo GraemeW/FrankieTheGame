@@ -39,6 +39,8 @@ MonoBehaviour:
   characterProperties: {fileID: 0}
   speakerName: Estelle
   text: 'Hey, if you find yourself with a new piece for your outfit . . . '
+  nodeDepth: 0
+  nodeBreadth: 0
   children:
   - 8a69f012-1d5e-4d25-a3e3-0d290454b2ac
   rect:
@@ -71,6 +73,8 @@ MonoBehaviour:
   characterProperties: {fileID: 0}
   speakerName: Default
   text: Errr?
+  nodeDepth: 3
+  nodeBreadth: 0
   children:
   - 49d18f75-2e0c-480a-9174-e01a7ec2650f
   rect:
@@ -103,6 +107,8 @@ MonoBehaviour:
   characterProperties: {fileID: 0}
   speakerName: Estelle
   text: Ya know, like a keyboard?  Or a vest?  Or a watch?
+  nodeDepth: 1
+  nodeBreadth: 0
   children:
   - 38cd23dd-3f36-4116-9df6-e75936f82cb3
   rect:
@@ -136,6 +142,8 @@ MonoBehaviour:
   speakerName: Estelle
   text: Oh, you're really fresh aren't you.  Access player menus by pressing the
     `TAB` key.
+  nodeDepth: 4
+  nodeBreadth: 0
   children: []
   rect:
     serializedVersion: 2
@@ -168,6 +176,8 @@ MonoBehaviour:
   speakerName: Estelle
   text: Make sure you equip it in the Outfit menu!  It won't do any good just sitting
     in your knapsack unequipped!
+  nodeDepth: 2
+  nodeBreadth: 0
   children:
   - 1418b4b4-4cc1-4e7f-a92c-87d130479c0b
   rect:

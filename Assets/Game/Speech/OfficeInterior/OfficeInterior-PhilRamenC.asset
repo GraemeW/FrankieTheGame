@@ -17,6 +17,8 @@ MonoBehaviour:
   speakerName: Phil Ramen
   text: Listen, this world - your world - is not what it appears to be.  You must
     have noticed by now.
+  nodeDepth: 5
+  nodeBreadth: 0
   children:
   - 70bd6022-adec-4ef0-8532-cd10c6dcf130
   rect:
@@ -49,6 +51,8 @@ MonoBehaviour:
   characterProperties: {fileID: 11400000, guid: b50f84a2f36107a44825b11881f88adf, type: 2}
   speakerName: Frankie
   text: No
+  nodeDepth: 12
+  nodeBreadth: 1
   children:
   - 2278720f-76f1-4c32-944b-cb697771eb95
   rect:
@@ -82,6 +86,8 @@ MonoBehaviour:
   speakerName: Phil Ramen
   text: Oh man, oh boy, I see the light.  This is really it now.  Before I go, did
     you listen closely enough, or do you want me to repeat this?
+  nodeDepth: 11
+  nodeBreadth: 0
   children:
   - b9f4c4d7-181a-4d6e-976f-a4d07d6ea2b3
   - f876e474-adc2-4af7-8970-6de5e533b96d
@@ -116,6 +122,8 @@ MonoBehaviour:
   speakerName: Phil Ramen
   text: Oh . . . really?  Honestly, I'm barely holding on here.  Ok, I guess, here
     goes.
+  nodeDepth: 13
+  nodeBreadth: 0
   children:
   - 9e068db2-d7f0-4bb8-9add-2a3ac4e7f5fa
   rect:
@@ -149,6 +157,8 @@ MonoBehaviour:
   speakerName: Phil Ramen
   text: The subway should take you there.  Wait, you should know this, you live in
     Prim, DON'T YOU?
+  nodeDepth: 10
+  nodeBreadth: 0
   children:
   - 49565221-75f2-410a-adda-91c9cdc3f0e1
   rect:
@@ -182,6 +192,8 @@ MonoBehaviour:
   speakerName: Phil Ramen
   text: Alright.  Well, you're a smart, capable, and brave man, Frankie.  Remember
     that.
+  nodeDepth: 13
+  nodeBreadth: 1
   children:
   - 4480abc7-245b-4370-9ff1-243f257acc3c
   rect:
@@ -214,6 +226,8 @@ MonoBehaviour:
   characterProperties: {fileID: 11400000, guid: e97120b87e74eee4f9d9d8659f0bddf5, type: 2}
   speakerName: Phil Ramen
   text: 'Oh, I almost forgot -- my dying words:'
+  nodeDepth: 4
+  nodeBreadth: 0
   children:
   - 9e068db2-d7f0-4bb8-9add-2a3ac4e7f5fa
   rect:
@@ -246,6 +260,8 @@ MonoBehaviour:
   characterProperties: {fileID: 11400000, guid: b50f84a2f36107a44825b11881f88adf, type: 2}
   speakerName: Frankie
   text: Yes
+  nodeDepth: 12
+  nodeBreadth: 0
   children:
   - 836985ab-f8fb-4973-8ba7-2650af9f6e19
   rect:
@@ -278,6 +294,8 @@ MonoBehaviour:
   characterProperties: {fileID: 11400000, guid: e97120b87e74eee4f9d9d8659f0bddf5, type: 2}
   speakerName: Phil Ramen
   text: I guess I'm just a cup of ramen after all.
+  nodeDepth: 3
+  nodeBreadth: 0
   children:
   - d3f89ae4-39c8-4677-82ca-ed96a43b22fd
   rect:
@@ -350,6 +368,8 @@ MonoBehaviour:
   speakerName: Phil Ramen
   text: Go now.  Your first curio, I sense that it is close.  Somewhere in the nearby
     suburb of Prim.
+  nodeDepth: 9
+  nodeBreadth: 0
   children:
   - 979da53c-71d4-4622-a561-9520986c56f4
   rect:
@@ -382,6 +402,8 @@ MonoBehaviour:
   characterProperties: {fileID: 11400000, guid: e97120b87e74eee4f9d9d8659f0bddf5, type: 2}
   speakerName: Phil Ramen
   text: Looks like this is it for me.  I hoped I could bring you further.
+  nodeDepth: 2
+  nodeBreadth: 0
   children:
   - fa0a7d23-17e9-4220-8369-21f18565fba6
   rect:
@@ -415,6 +437,8 @@ MonoBehaviour:
   speakerName: Phil Ramen
   text: You'll meet many friends along the way.  Trust in them, rely on them.  You
     need their help to make it through this.
+  nodeDepth: 8
+  nodeBreadth: 0
   children:
   - e75daa85-3844-411c-8200-6c55167cab2f
   rect:
@@ -447,6 +471,8 @@ MonoBehaviour:
   characterProperties: {fileID: 11400000, guid: e97120b87e74eee4f9d9d8659f0bddf5, type: 2}
   speakerName: Phil Ramen
   text: '*cough* *hrkkk* Well . . . '
+  nodeDepth: 1
+  nodeBreadth: 0
   children:
   - 9bc54724-c665-43aa-8a5e-7cf2ad66013f
   rect:
@@ -486,6 +512,8 @@ MonoBehaviour:
   speakerName: Phil Ramen
   text: This miasma threatens everything you know.  You must find out what, or who,
     is behind it.
+  nodeDepth: 6
+  nodeBreadth: 0
   children:
   - aba91918-8808-4594-b3ad-4eef66a73a0d
   rect:
@@ -518,6 +546,8 @@ MonoBehaviour:
   characterProperties: {fileID: 11400000, guid: b50f84a2f36107a44825b11881f88adf, type: 2}
   speakerName: Frankie
   text: Looks like plain old ordinary trash.
+  nodeDepth: 1
+  nodeBreadth: 2
   children: []
   rect:
     serializedVersion: 2
@@ -555,6 +585,8 @@ MonoBehaviour:
   characterProperties: {fileID: 11400000, guid: b50f84a2f36107a44825b11881f88adf, type: 2}
   speakerName: Frankie
   text: There's nothing left to do here . . . Goodbye Phil.
+  nodeDepth: 1
+  nodeBreadth: 1
   children: []
   rect:
     serializedVersion: 2
@@ -590,6 +622,8 @@ MonoBehaviour:
   speakerName: Phil Ramen
   text: The answer lies in your own memories.  You must go on a journey in search
     of your 10 curios of power to unlock the truth.
+  nodeDepth: 7
+  nodeBreadth: 0
   children:
   - 753db396-1276-4401-89f9-055bbb732f3a
   rect:
@@ -622,6 +656,8 @@ MonoBehaviour:
   characterProperties: {fileID: 11400000, guid: e97120b87e74eee4f9d9d8659f0bddf5, type: 2}
   speakerName: Phil Ramen
   text: root node
+  nodeDepth: 0
+  nodeBreadth: 0
   children:
   - 91eb0e44-8509-4d32-b20a-edbc944ad1c2
   - e47d801e-4cb1-4f53-aac3-0ee4f527b4d6
@@ -656,6 +692,8 @@ MonoBehaviour:
   characterProperties: {fileID: 11400000, guid: e97120b87e74eee4f9d9d8659f0bddf5, type: 2}
   speakerName: Phil Ramen
   text: I'm glad I got to meet you.  *squish* *slurp* *bye*
+  nodeDepth: 14
+  nodeBreadth: 1
   children: []
   rect:
     serializedVersion: 2

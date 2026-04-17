@@ -16,6 +16,8 @@ MonoBehaviour:
   characterProperties: {fileID: 11400000, guid: b50f84a2f36107a44825b11881f88adf, type: 2}
   speakerName: Frankie
   text: Mmmhmm?
+  nodeDepth: 1
+  nodeBreadth: 0
   children:
   - d8e5ad2d-5165-4532-bbb8-4c7e3db560fa
   rect:
@@ -48,6 +50,8 @@ MonoBehaviour:
   characterProperties: {fileID: 0}
   speakerName: Fashionable Girl
   text: What's it to ya anyway?
+  nodeDepth: 3
+  nodeBreadth: 0
   children: []
   rect:
     serializedVersion: 2
@@ -102,6 +106,8 @@ MonoBehaviour:
   characterProperties: {fileID: 0}
   speakerName: Fashionable Girl
   text: Looks like I locked myself out again
+  nodeDepth: 0
+  nodeBreadth: 0
   children:
   - e10becb5-b2f0-4da1-8682-2a4a7a3ae66f
   rect:
@@ -134,6 +140,8 @@ MonoBehaviour:
   characterProperties: {fileID: 0}
   speakerName: Fashionable Girl
   text: Yeah, I mean, I swear this is my place
+  nodeDepth: 2
+  nodeBreadth: 0
   children:
   - de88bfbe-a3e2-4e3d-9418-3ac90d7af7ee
   rect:

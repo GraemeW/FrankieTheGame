@@ -16,6 +16,8 @@ MonoBehaviour:
   characterProperties: {fileID: 0}
   speakerName: Counting Guy
   text: One one thousand, two one thousand, three one thousand
+  nodeDepth: 1
+  nodeBreadth: 0
   children: []
   rect:
     serializedVersion: 2
@@ -75,6 +77,8 @@ MonoBehaviour:
   characterProperties: {fileID: 0}
   speakerName: Counting Guy
   text: . . . seven one thousand, eight one thousand, nine one thousand
+  nodeDepth: 1
+  nodeBreadth: 2
   children: []
   rect:
     serializedVersion: 2
@@ -109,6 +113,8 @@ MonoBehaviour:
   characterProperties: {fileID: 0}
   speakerName: Counting Guy
   text: Root Node
+  nodeDepth: 0
+  nodeBreadth: 0
   children:
   - df72365b-6074-4831-9db3-fb02a06986ef
   - 95b30614-a5fc-45fe-844b-230b7304d46b
@@ -145,6 +151,8 @@ MonoBehaviour:
   characterProperties: {fileID: 0}
   speakerName: Counting Guy
   text: Shoot, you made me mess up, now I have to start all over again!
+  nodeDepth: 2
+  nodeBreadth: 0
   children: []
   rect:
     serializedVersion: 2
@@ -176,6 +184,8 @@ MonoBehaviour:
   characterProperties: {fileID: 0}
   speakerName: Counting Guy
   text: . . . seventeen one thousand . . . wait, where was I?
+  nodeDepth: 1
+  nodeBreadth: 4
   children:
   - 8fb58e93-b26b-4a61-8561-7caff1d03db6
   rect:
@@ -211,6 +221,8 @@ MonoBehaviour:
   characterProperties: {fileID: 0}
   speakerName: Counting Guy
   text: . . . ten one thousand, eleven one thousand, twelve one thousand
+  nodeDepth: 1
+  nodeBreadth: 3
   children: []
   rect:
     serializedVersion: 2
@@ -245,6 +257,8 @@ MonoBehaviour:
   characterProperties: {fileID: 0}
   speakerName: Counting Guy
   text: . . . four one thousand, five one thousand, six one thousand
+  nodeDepth: 1
+  nodeBreadth: 1
   children: []
   rect:
     serializedVersion: 2

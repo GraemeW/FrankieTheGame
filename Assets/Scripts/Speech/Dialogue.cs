@@ -14,7 +14,7 @@ namespace Frankie.Speech
 
 #if UNITY_EDITOR
         [Header("Editor Settings")]
-        [SerializeField] private Vector2 newNodeOffset = new Vector2(100f, 25f);
+        [SerializeField] private Vector2 newNodeOffset = new(100f, 25f);
         [SerializeField] private int nodeWidth = 400;
         [SerializeField] private int nodeHeight = 225;
 #endif
@@ -69,7 +69,7 @@ namespace Frankie.Speech
         #region GettersSetters
         public IEnumerable<DialogueNode> GetAllNodes() => dialogueNodes;
 
-        public DialogueNode GetRootNode(bool withSkip = true) => dialogueNodes[0];
+        public DialogueNode GetRootNode(bool withSkip = true) => dialogueNodes is { Count: > 0 } ? dialogueNodes[0] : null;
         public DialogueNode GetNodeFromID(string nodeID) => dialogueNodes.FirstOrDefault(dialogueNode => dialogueNode.name == nodeID);
         public List<CharacterProperties> GetActiveCharacters() => activeNPCs;
 
@@ -117,9 +117,15 @@ namespace Frankie.Speech
         {
             if (parentNode == null) { return null; }
 
+            int childDepth = parentNode.GetNodeDepth() + 1;
+            int checkBreadth = GetAllNodes().Where(checkNode => checkNode.GetNodeDepth() == childDepth).DefaultIfEmpty().Max(checkNode => checkNode.GetNodeBreadth());
+            int childBreadth = checkBreadth + 1;
+            Debug.Log($"Adding new node with depth: {childDepth}, Breadth: {childBreadth}");
+            
             DialogueNode childNode = CreateNode();
             childNode.SetSpeakerType(parentNode.GetSpeakerType() == SpeakerType.PlayerSpeaker ? SpeakerType.AISpeaker : SpeakerType.PlayerSpeaker);
             parentNode.AddChild(childNode.name);
+            childNode.SetNodeDepthBreadth(childDepth, childBreadth);
 
             var offsetPosition = new Vector2(parentNode.GetRect().xMax + newNodeOffset.x,
                 parentNode.GetRect().yMin + (parentNode.GetRect().height + newNodeOffset.y) * (parentNode.GetChildren().Count - 1));  // Offset position by 1 since child just added
@@ -198,6 +204,40 @@ namespace Frankie.Speech
             }
             EditorUtility.SetDirty(this);
         }
+
+        public void ReserializeNodeDepthBreadth()
+        {
+            var nodesToTraverse = new Queue<DialogueNode>();
+            HashSet<string> visitedNodes = new HashSet<string>();
+            
+            DialogueNode rootNode = GetRootNode();
+            if (rootNode == null) { return; }
+            nodesToTraverse.Enqueue(rootNode);
+
+            int currentDepth = 0;
+            int currentBreadth = 0;
+            while (nodesToTraverse.Count > 0)
+            {
+                DialogueNode currentNode = nodesToTraverse.Dequeue();
+                visitedNodes.Add(currentNode.name);
+                
+                int checkDepth = currentNode.GetNodeDepth();
+                if (checkDepth > currentDepth) { currentBreadth = 0; } 
+                currentDepth = checkDepth;
+                
+                foreach (DialogueNode childNode in GetAllChildren(currentNode))
+                {
+                    if (childNode == null) { continue; }
+                    
+                    if (!visitedNodes.Contains(childNode.name))
+                    {
+                        childNode.SetNodeDepthBreadth(currentDepth + 1, currentBreadth);
+                        nodesToTraverse.Enqueue(childNode);
+                    }
+                    currentBreadth++;
+                }
+            }
+        }
 #endif
         #endregion
 
@@ -206,6 +246,7 @@ namespace Frankie.Speech
         {
 #if UNITY_EDITOR
             if (AssetDatabase.GetAssetPath(this) == "") return;
+            
             foreach (DialogueNode dialogueNode in GetAllNodes())
             {
                 if (AssetDatabase.GetAssetPath(dialogueNode) == "")

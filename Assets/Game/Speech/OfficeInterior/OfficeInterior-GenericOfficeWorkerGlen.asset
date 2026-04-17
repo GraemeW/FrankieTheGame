@@ -16,6 +16,8 @@ MonoBehaviour:
   characterProperties: {fileID: 11400000, guid: 530bc654984fc6b478566ee056083f8b, type: 2}
   speakerName: Generic Office Worker Glen
   text: Maya is a really harsh boss, but I'd do anything for her approval.
+  nodeDepth: 0
+  nodeBreadth: 0
   children:
   - 58e28544-e40c-4ac4-b092-67aa69c64179
   rect:
@@ -73,6 +75,8 @@ MonoBehaviour:
   characterProperties: {fileID: 11400000, guid: 530bc654984fc6b478566ee056083f8b, type: 2}
   speakerName: Generic Office Worker Glen
   text: Wait, you would never tell her I said that, would you?
+  nodeDepth: 1
+  nodeBreadth: 0
   children:
   - 9f507b17-fdd7-4c4e-8d26-3a9475531b75
   - c1dc503f-e244-4186-a6e4-13449bfe18fd
@@ -106,6 +110,8 @@ MonoBehaviour:
   characterProperties: {fileID: 11400000, guid: b50f84a2f36107a44825b11881f88adf, type: 2}
   speakerName: Frankie
   text: Yes
+  nodeDepth: 2
+  nodeBreadth: 0
   children:
   - 932125e7-0407-49ea-a5f0-d9143cfe448f
   rect:
@@ -138,6 +144,8 @@ MonoBehaviour:
   characterProperties: {fileID: 11400000, guid: b50f84a2f36107a44825b11881f88adf, type: 2}
   speakerName: Frankie
   text: Maybe
+  nodeDepth: 2
+  nodeBreadth: 1
   children:
   - 932125e7-0407-49ea-a5f0-d9143cfe448f
   rect:
@@ -170,6 +178,8 @@ MonoBehaviour:
   characterProperties: {fileID: 11400000, guid: 530bc654984fc6b478566ee056083f8b, type: 2}
   speakerName: Generic Office Worker Glen
   text: Ahhhhhhhhhhhh, ooooooohhh.
+  nodeDepth: 3
+  nodeBreadth: 1
   children: []
   rect:
     serializedVersion: 2

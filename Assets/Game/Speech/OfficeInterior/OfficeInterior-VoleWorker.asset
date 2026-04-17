@@ -16,6 +16,8 @@ MonoBehaviour:
   characterProperties: {fileID: 11400000, guid: c1f59cbc742f6294d98c52ee45fb4fd6, type: 2}
   speakerName: Helpful Vole
   text: It's like nobody even noticed the power went out.  Weird.
+  nodeDepth: 2
+  nodeBreadth: 2
   children:
   - 88b2c889-8469-428c-a5ef-da3f80b4593c
   rect:
@@ -48,6 +50,8 @@ MonoBehaviour:
   characterProperties: {fileID: 11400000, guid: c1f59cbc742f6294d98c52ee45fb4fd6, type: 2}
   speakerName: Helpful Vole
   text: Default Text to Overwrite
+  nodeDepth: 0
+  nodeBreadth: 0
   children:
   - 3e2257bc-8807-4791-87ea-c693a4960a1f
   - a1b7e71c-2df8-4c85-aae6-eb059d238a81
@@ -82,6 +86,8 @@ MonoBehaviour:
   characterProperties: {fileID: 11400000, guid: c1f59cbc742f6294d98c52ee45fb4fd6, type: 2}
   speakerName: Helpful Vole
   text: The power flickered, and then the interns went insane.
+  nodeDepth: 2
+  nodeBreadth: 1
   children:
   - 9b089919-5081-4a30-8690-8ecc8c2a4889
   rect:
@@ -114,6 +120,8 @@ MonoBehaviour:
   characterProperties: {fileID: 11400000, guid: b50f84a2f36107a44825b11881f88adf, type: 2}
   speakerName: Frankie
   text: Uhhh
+  nodeDepth: 6
+  nodeBreadth: 3
   children:
   - cfff4c7d-443c-49a7-9b4a-dd967b4533a3
   rect:
@@ -146,6 +154,8 @@ MonoBehaviour:
   characterProperties: {fileID: 11400000, guid: c1f59cbc742f6294d98c52ee45fb4fd6, type: 2}
   speakerName: Helpful Vole
   text: 'It looks like everything is back to normal.  '
+  nodeDepth: 1
+  nodeBreadth: 2
   children:
   - a1063f5b-53f5-41c7-8741-8d6d772ff91b
   rect:
@@ -181,6 +191,8 @@ MonoBehaviour:
   characterProperties: {fileID: 11400000, guid: c1f59cbc742f6294d98c52ee45fb4fd6, type: 2}
   speakerName: Helpful Vole
   text: '*squeak* I agree, Frankie.  We need to overthrow our capitalist overlords.  '
+  nodeDepth: 5
+  nodeBreadth: 1
   children:
   - 5b1f450e-b8bb-49e5-96a2-f605d37fa686
   - 83419b8c-1eab-4552-a413-c5503b20fbc2
@@ -214,6 +226,8 @@ MonoBehaviour:
   characterProperties: {fileID: 11400000, guid: c1f59cbc742f6294d98c52ee45fb4fd6, type: 2}
   speakerName: Helpful Vole
   text: How am I ever going to support my family like this? *desperate squeak*
+  nodeDepth: 3
+  nodeBreadth: 0
   children:
   - edf8395c-f5ef-4854-9577-66ca74808da2
   - 085534d7-60b2-46a9-9ac1-ec9fa94a323b
@@ -247,6 +261,8 @@ MonoBehaviour:
   characterProperties: {fileID: 11400000, guid: c1f59cbc742f6294d98c52ee45fb4fd6, type: 2}
   speakerName: Helpful Vole
   text: '*spooky squeak*'
+  nodeDepth: 3
+  nodeBreadth: 2
   children: []
   rect:
     serializedVersion: 2
@@ -278,6 +294,8 @@ MonoBehaviour:
   characterProperties: {fileID: 11400000, guid: c1f59cbc742f6294d98c52ee45fb4fd6, type: 2}
   speakerName: Helpful Vole
   text: '*squeak* I''m so stressed *squeak* these due dates are insane.'
+  nodeDepth: 1
+  nodeBreadth: 0
   children:
   - a79fe484-3dbd-4579-86aa-2c6f73bad3a4
   rect:
@@ -313,6 +331,8 @@ MonoBehaviour:
   characterProperties: {fileID: 11400000, guid: c1f59cbc742f6294d98c52ee45fb4fd6, type: 2}
   speakerName: Helpful Vole
   text: '*squeak* Oh, I''m so happy to see you.'
+  nodeDepth: 1
+  nodeBreadth: 1
   children:
   - 1a72d257-499e-4af8-821d-3cb3ed8d66c9
   rect:
@@ -387,6 +407,8 @@ MonoBehaviour:
   characterProperties: {fileID: 11400000, guid: c1f59cbc742f6294d98c52ee45fb4fd6, type: 2}
   speakerName: Helpful Vole
   text: And my 401k is tanking . . . *sad squeak*
+  nodeDepth: 2
+  nodeBreadth: 0
   children:
   - d70b0a8d-18ff-48d1-9579-bc10f518ba8c
   rect:
@@ -419,6 +441,8 @@ MonoBehaviour:
   characterProperties: {fileID: 11400000, guid: b50f84a2f36107a44825b11881f88adf, type: 2}
   speakerName: Frankie
   text: Erk
+  nodeDepth: 6
+  nodeBreadth: 2
   children:
   - cfff4c7d-443c-49a7-9b4a-dd967b4533a3
   rect:
@@ -451,6 +475,8 @@ MonoBehaviour:
   characterProperties: {fileID: 11400000, guid: b50f84a2f36107a44825b11881f88adf, type: 2}
   speakerName: Frankie
   text: Hmm
+  nodeDepth: 4
+  nodeBreadth: 0
   children:
   - ebdafd34-b75e-4be3-a235-165464238a31
   rect:
@@ -483,6 +509,8 @@ MonoBehaviour:
   characterProperties: {fileID: 11400000, guid: b50f84a2f36107a44825b11881f88adf, type: 2}
   speakerName: Frankie
   text: Uhh
+  nodeDepth: 4
+  nodeBreadth: 1
   children:
   - ebdafd34-b75e-4be3-a235-165464238a31
   rect:
@@ -515,6 +543,8 @@ MonoBehaviour:
   characterProperties: {fileID: 11400000, guid: c1f59cbc742f6294d98c52ee45fb4fd6, type: 2}
   speakerName: Helpful Vole
   text: Thanks for giving me this great advice.  *happy squeak* You're a real pal.
+  nodeDepth: 7
+  nodeBreadth: 3
   children: []
   rect:
     serializedVersion: 2
@@ -546,6 +576,8 @@ MonoBehaviour:
   characterProperties: {fileID: 11400000, guid: c1f59cbc742f6294d98c52ee45fb4fd6, type: 2}
   speakerName: Helpful Vole
   text: If anyone can sort this out, it's you.  Be careful! *inspiring squeak*
+  nodeDepth: 3
+  nodeBreadth: 1
   children: []
   rect:
     serializedVersion: 2

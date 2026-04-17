@@ -16,6 +16,8 @@ MonoBehaviour:
   characterProperties: {fileID: 0}
   speakerName: Bald Man
   text: Wow, you really trekked all the way up here?
+  nodeDepth: 0
+  nodeBreadth: 0
   children:
   - 6fee9d91-3a93-4b57-8de4-e0febe72602a
   rect:
@@ -68,6 +70,8 @@ MonoBehaviour:
   characterProperties: {fileID: 0}
   speakerName: Bald Man
   text: I'm not going to give you a prize or anything
+  nodeDepth: 1
+  nodeBreadth: 0
   children: []
   rect:
     serializedVersion: 2

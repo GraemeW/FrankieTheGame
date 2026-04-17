@@ -16,6 +16,8 @@ MonoBehaviour:
   characterProperties: {fileID: 0}
   speakerName: Some Guy
   text: They seem nice, but they'll eat right through your electrical wiring
+  nodeDepth: 2
+  nodeBreadth: 1
   children: []
   rect:
     serializedVersion: 2
@@ -47,6 +49,8 @@ MonoBehaviour:
   characterProperties: {fileID: 0}
   speakerName: Some Guy
   text: Hey
+  nodeDepth: 1
+  nodeBreadth: 0
   children:
   - 3823e340-23a6-4ee8-8037-13128185d987
   rect:
@@ -79,6 +83,8 @@ MonoBehaviour:
   characterProperties: {fileID: 0}
   speakerName: Some Guy
   text: Don't let the voles into your house
+  nodeDepth: 1
+  nodeBreadth: 2
   children:
   - 4d56e358-aa73-4d4c-9601-408189c89786
   rect:
@@ -112,6 +118,8 @@ MonoBehaviour:
   speakerName: Some Guy
   text: My parents said I'd grow up to be famous.  I only have a modest social media
     presence though.
+  nodeDepth: 1
+  nodeBreadth: 1
   children: []
   rect:
     serializedVersion: 2
@@ -167,6 +175,8 @@ MonoBehaviour:
   characterProperties: {fileID: 0}
   speakerName: Some Guy
   text: I really like your style
+  nodeDepth: 2
+  nodeBreadth: 0
   children: []
   rect:
     serializedVersion: 2
@@ -198,6 +208,8 @@ MonoBehaviour:
   characterProperties: {fileID: 0}
   speakerName: Some Guy
   text: Root Node
+  nodeDepth: 0
+  nodeBreadth: 0
   children:
   - 39b596fa-0b70-4835-bab8-6f4cc3f4d8d7
   - 339172f8-4734-43ba-8c2e-6ba4c2ac06db

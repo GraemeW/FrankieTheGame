@@ -17,6 +17,8 @@ MonoBehaviour:
   speakerName: Helpful Vole
   text: Here's another tip!  You can change party order and add or remove party members
     by using the restroom in the office!
+  nodeDepth: 1
+  nodeBreadth: 0
   children:
   - 3722e7ca-56f6-4be9-bf37-07168fa0351f
   rect:
@@ -49,6 +51,8 @@ MonoBehaviour:
   characterProperties: {fileID: 11400000, guid: c1f59cbc742f6294d98c52ee45fb4fd6, type: 2}
   speakerName: Helpful Vole
   text: Squeak!
+  nodeDepth: 4
+  nodeBreadth: 0
   children: []
   rect:
     serializedVersion: 2
@@ -104,6 +108,8 @@ MonoBehaviour:
   characterProperties: {fileID: 11400000, guid: c1f59cbc742f6294d98c52ee45fb4fd6, type: 2}
   speakerName: Helpful Vole
   text: That's all for now!
+  nodeDepth: 3
+  nodeBreadth: 0
   children:
   - 7dc293ce-6952-4c34-a532-4c43664841e9
   rect:
@@ -136,6 +142,8 @@ MonoBehaviour:
   characterProperties: {fileID: 11400000, guid: c1f59cbc742f6294d98c52ee45fb4fd6, type: 2}
   speakerName: Helpful Vole
   text: It's me, your favourite friendly neighbourhood helpful vole!
+  nodeDepth: 0
+  nodeBreadth: 0
   children:
   - d5b95793-535a-4b84-9e5a-fcd37962de88
   rect:
@@ -168,6 +176,8 @@ MonoBehaviour:
   characterProperties: {fileID: 11400000, guid: c1f59cbc742f6294d98c52ee45fb4fd6, type: 2}
   speakerName: Helpful Vole
   text: Of course, you need to have more than just YOU in the party, Frankie!
+  nodeDepth: 2
+  nodeBreadth: 0
   children:
   - de02f58e-b93a-4d3c-a560-f5acebb39bd9
   rect:

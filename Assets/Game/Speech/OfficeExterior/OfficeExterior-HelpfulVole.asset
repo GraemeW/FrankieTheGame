@@ -17,6 +17,8 @@ MonoBehaviour:
   speakerName: Helpful Vole
   text: So study up before your fights -- you can see what you can do by pressing
     Tab and selecting Abilities.
+  nodeDepth: 3
+  nodeBreadth: 0
   children:
   - dac1a358-9107-410d-a3f3-36c9a145c787
   rect:
@@ -49,6 +51,8 @@ MonoBehaviour:
   characterProperties: {fileID: 11400000, guid: c1f59cbc742f6294d98c52ee45fb4fd6, type: 2}
   speakerName: Helpful Vole
   text: This is the last sentence I memorized.
+  nodeDepth: 6
+  nodeBreadth: 0
   children:
   - 7f65acad-1aa6-499c-aba2-b2515c77863f
   rect:
@@ -81,6 +85,8 @@ MonoBehaviour:
   characterProperties: {fileID: 11400000, guid: c1f59cbc742f6294d98c52ee45fb4fd6, type: 2}
   speakerName: Helpful Vole
   text: Wait!  Don't hurt me, I'm not your average Vole!
+  nodeDepth: 0
+  nodeBreadth: 0
   children:
   - f600840a-7eaf-4fc2-978b-df9ec8455de7
   rect:
@@ -113,6 +119,8 @@ MonoBehaviour:
   characterProperties: {fileID: 11400000, guid: c1f59cbc742f6294d98c52ee45fb4fd6, type: 2}
   speakerName: Helpful Vole
   text: Squeak.
+  nodeDepth: 7
+  nodeBreadth: 0
   children: []
   rect:
     serializedVersion: 2
@@ -145,6 +153,8 @@ MonoBehaviour:
   speakerName: Helpful Vole
   text: Now, down to business.  You -- yes YOU, behind the keyboard -- you should
     be aware that your enemies won't wait for their turn.
+  nodeDepth: 2
+  nodeBreadth: 0
   children:
   - 0051f721-7177-446e-b7d9-edecb7176eea
   rect:
@@ -205,6 +215,8 @@ MonoBehaviour:
   speakerName: Helpful Vole
   text: 'I hope this makes sense -- I don''t actually speak your language.  I''m
     just reciting what I read by reading the Official Frankie Game Manual (TM).  '
+  nodeDepth: 5
+  nodeBreadth: 0
   children:
   - c458866f-8fb4-4775-8025-e6b3bf8dd98b
   rect:
@@ -238,6 +250,8 @@ MonoBehaviour:
   speakerName: Helpful Vole
   text: In battle, select which ability you want with your "W-A-S-D" keys and then
     lock it in with "E".
+  nodeDepth: 4
+  nodeBreadth: 0
   children:
   - 3ae36a74-1b54-46c6-b3c8-af6fa113d289
   rect:
@@ -270,6 +284,8 @@ MonoBehaviour:
   characterProperties: {fileID: 11400000, guid: c1f59cbc742f6294d98c52ee45fb4fd6, type: 2}
   speakerName: Helpful Vole
   text: I may be a small rodent, but my mind is vast and my experiences multitudinous.
+  nodeDepth: 1
+  nodeBreadth: 0
   children:
   - 5ab1907e-492a-42c1-b37b-c7886605e70e
   rect:

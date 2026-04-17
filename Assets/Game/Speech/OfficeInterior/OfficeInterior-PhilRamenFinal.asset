@@ -16,6 +16,8 @@ MonoBehaviour:
   characterProperties: {fileID: 11400000, guid: e97120b87e74eee4f9d9d8659f0bddf5, type: 2}
   speakerName: Phil Ramen
   text: Good luck, Frankie.
+  nodeDepth: 4
+  nodeBreadth: 0
   children: []
   rect:
     serializedVersion: 2
@@ -47,6 +49,8 @@ MonoBehaviour:
   characterProperties: {fileID: 11400000, guid: e97120b87e74eee4f9d9d8659f0bddf5, type: 2}
   speakerName: Phil Ramen
   text: I have to know . . . are you team edward or team jacob?
+  nodeDepth: 1
+  nodeBreadth: 0
   children:
   - ea28e3aa-edeb-4553-9535-0fbbd9ef83e3
   rect:
@@ -79,6 +83,8 @@ MonoBehaviour:
   characterProperties: {fileID: 11400000, guid: e97120b87e74eee4f9d9d8659f0bddf5, type: 2}
   speakerName: Phil Ramen
   text: Oh.  Oh.
+  nodeDepth: 2
+  nodeBreadth: 0
   children:
   - 5e3cc147-fd31-46c8-a6d5-5cae84e944cc
   rect:
@@ -111,6 +117,8 @@ MonoBehaviour:
   characterProperties: {fileID: 11400000, guid: e97120b87e74eee4f9d9d8659f0bddf5, type: 2}
   speakerName: Phil Ramen
   text: Wait!  I'm not gone yet.
+  nodeDepth: 0
+  nodeBreadth: 0
   children:
   - 0f24e333-9c86-4d9e-996a-30635c5fe7d9
   rect:
@@ -167,6 +175,8 @@ MonoBehaviour:
   characterProperties: {fileID: 11400000, guid: e97120b87e74eee4f9d9d8659f0bddf5, type: 2}
   speakerName: Phil Ramen
   text: Nevermind, here it comes.  The great beyond.
+  nodeDepth: 3
+  nodeBreadth: 0
   children:
   - e0d975d4-0723-4d95-9a5e-050aeb584194
   rect:

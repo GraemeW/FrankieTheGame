@@ -16,6 +16,8 @@ MonoBehaviour:
   characterProperties: {fileID: 11400000, guid: b50f84a2f36107a44825b11881f88adf, type: 2}
   speakerName: Frankie
   text: Yes
+  nodeDepth: 1
+  nodeBreadth: 0
   children: []
   rect:
     serializedVersion: 2
@@ -47,6 +49,8 @@ MonoBehaviour:
   characterProperties: {fileID: 0}
   speakerName: Sunbather
   text: Can you move?  You're blocking my sun
+  nodeDepth: 0
+  nodeBreadth: 0
   children:
   - 168b8abd-53f2-4dea-8994-dc0585bb9e21
   - 4bee33b6-4aab-4101-9d8e-802147ca158f
@@ -80,6 +84,8 @@ MonoBehaviour:
   characterProperties: {fileID: 11400000, guid: b50f84a2f36107a44825b11881f88adf, type: 2}
   speakerName: Frankie
   text: No
+  nodeDepth: 1
+  nodeBreadth: 1
   children: []
   rect:
     serializedVersion: 2

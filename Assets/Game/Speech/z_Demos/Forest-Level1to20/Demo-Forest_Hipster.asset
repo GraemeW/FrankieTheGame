@@ -16,6 +16,8 @@ MonoBehaviour:
   characterProperties: {fileID: 0}
   speakerName: Hipster
   text: Maybe you could go check it out?
+  nodeDepth: 3
+  nodeBreadth: 0
   children: []
   rect:
     serializedVersion: 2
@@ -47,6 +49,8 @@ MonoBehaviour:
   characterProperties: {fileID: 0}
   speakerName: Hipster
   text: Skip
+  nodeDepth: 0
+  nodeBreadth: 0
   children:
   - c200f42e-eda1-4cef-af9a-4c13ee05d3f8
   - 9fbf5639-d576-433f-981d-bba097be5de6
@@ -81,6 +85,8 @@ MonoBehaviour:
   speakerName: Hipster
   text: I think the electrical breaker tripped and needs to be reset, but it's in
     the basement and the workers here have kinda gone mad.
+  nodeDepth: 2
+  nodeBreadth: 0
   children:
   - 03f5a47a-4555-4d71-8150-db9e4486c89a
   rect:
@@ -136,6 +142,8 @@ MonoBehaviour:
   characterProperties: {fileID: 0}
   speakerName: Hipster
   text: Yeehaw, you did it!  You madman, you really gosh darn did it!
+  nodeDepth: 1
+  nodeBreadth: 1
   children: []
   rect:
     serializedVersion: 2
@@ -170,6 +178,8 @@ MonoBehaviour:
   characterProperties: {fileID: 0}
   speakerName: Hipster
   text: This elevator is broken.
+  nodeDepth: 1
+  nodeBreadth: 0
   children:
   - fe69df77-fc26-4f7c-b200-23bb4e713cd7
   rect:

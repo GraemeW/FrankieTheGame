@@ -16,6 +16,8 @@ MonoBehaviour:
   characterProperties: {fileID: 11400000, guid: c8752c77bccb9f145aea101a1d9673a5, type: 2}
   speakerName: Maya
   text: Root
+  nodeDepth: 0
+  nodeBreadth: 0
   children:
   - 64b33792-176f-475b-a2c8-5310ea72ff0d
   - f5d6b640-d924-4990-b58f-be1a89d0c2be
@@ -49,6 +51,8 @@ MonoBehaviour:
   characterProperties: {fileID: 11400000, guid: c8752c77bccb9f145aea101a1d9673a5, type: 2}
   speakerName: Maya
   text: Oh, did you want me to save your progress so far?
+  nodeDepth: 1
+  nodeBreadth: 1
   children:
   - c5a3857f-96f5-4768-85a3-b78e6f2a6f5e
   - ca7676b7-36a3-4bd4-be9c-8f2b8df4fb2a
@@ -110,6 +114,8 @@ MonoBehaviour:
   characterProperties: {fileID: 11400000, guid: b50f84a2f36107a44825b11881f88adf, type: 2}
   speakerName: Frankie
   text: Sure!
+  nodeDepth: 2
+  nodeBreadth: 0
   children: []
   rect:
     serializedVersion: 2
@@ -141,6 +147,8 @@ MonoBehaviour:
   characterProperties: {fileID: 11400000, guid: b50f84a2f36107a44825b11881f88adf, type: 2}
   speakerName: Frankie
   text: Nah, not today
+  nodeDepth: 2
+  nodeBreadth: 1
   children: []
   rect:
     serializedVersion: 2
@@ -173,6 +181,8 @@ MonoBehaviour:
   speakerName: Maya
   text: I got these neat refurbished portable sheds on discount!  Can you believe
     it?
+  nodeDepth: 1
+  nodeBreadth: 0
   children: []
   rect:
     serializedVersion: 2

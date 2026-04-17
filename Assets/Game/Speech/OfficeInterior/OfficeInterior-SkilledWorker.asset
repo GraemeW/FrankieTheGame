@@ -16,6 +16,8 @@ MonoBehaviour:
   characterProperties: {fileID: 11400000, guid: df2799c36af32ce4d8fd6788f660323d, type: 2}
   speakerName: Skilled Office Worker
   text: '*thwrp* Don''t get too close. *pfft*'
+  nodeDepth: 0
+  nodeBreadth: 0
   children:
   - 24a7d49c-dd49-4c17-9f7d-988b87e60a5a
   rect:
@@ -48,6 +50,8 @@ MonoBehaviour:
   characterProperties: {fileID: 11400000, guid: df2799c36af32ce4d8fd6788f660323d, type: 2}
   speakerName: Skilled Office Worker
   text: '*pbbbt* Maybe the chili last night was a bad idea. *poot*'
+  nodeDepth: 2
+  nodeBreadth: 0
   children: []
   rect:
     serializedVersion: 2
@@ -101,6 +105,8 @@ MonoBehaviour:
   characterProperties: {fileID: 11400000, guid: df2799c36af32ce4d8fd6788f660323d, type: 2}
   speakerName: Skilled Office Worker
   text: I just farted . . . *blaaat*
+  nodeDepth: 1
+  nodeBreadth: 0
   children:
   - d542bd08-0bf2-415a-9c36-a912f76ef720
   rect:

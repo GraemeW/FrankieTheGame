@@ -17,6 +17,8 @@ MonoBehaviour:
   speakerName: Bro Office Worker
   text: I'm really hungry from all that cardio!  Luckily someone made this delicious
     ramen and just left it here!
+  nodeDepth: 3
+  nodeBreadth: 0
   children:
   - 45093e13-9d8c-41f6-bc7f-a541ec5945a4
   rect:
@@ -49,6 +51,8 @@ MonoBehaviour:
   characterProperties: {fileID: 11400000, guid: 15a456ac7051b7946ba9d4575fddb1ba, type: 2}
   speakerName: Bro Office Worker
   text: '*sluuuuurp* *chomp* *toss*'
+  nodeDepth: 8
+  nodeBreadth: 0
   children: []
   rect:
     serializedVersion: 2
@@ -80,6 +84,8 @@ MonoBehaviour:
   characterProperties: {fileID: 11400000, guid: 15a456ac7051b7946ba9d4575fddb1ba, type: 2}
   speakerName: Bro Office Worker
   text: '*rip* *pour* *swish* *sluuuuuuuurrrp*'
+  nodeDepth: 5
+  nodeBreadth: 0
   children:
   - 2c8c1618-8fa5-4bb3-93df-cb2a52ee24df
   rect:
@@ -112,6 +118,8 @@ MonoBehaviour:
   characterProperties: {fileID: 11400000, guid: 15a456ac7051b7946ba9d4575fddb1ba, type: 2}
   speakerName: Bro Office Worker
   text: I'm soooo full.
+  nodeDepth: 1
+  nodeBreadth: 1
   children: []
   rect:
     serializedVersion: 2
@@ -146,6 +154,8 @@ MonoBehaviour:
   characterProperties: {fileID: 11400000, guid: 15a456ac7051b7946ba9d4575fddb1ba, type: 2}
   speakerName: Bro Office Worker
   text: Root Node
+  nodeDepth: 0
+  nodeBreadth: 0
   children:
   - 0c30b05a-ed1b-424d-b35b-d71d95ac5358
   - ce235bf7-f164-4c19-976b-42c592758b44
@@ -179,6 +189,8 @@ MonoBehaviour:
   characterProperties: {fileID: 11400000, guid: b50f84a2f36107a44825b11881f88adf, type: 2}
   speakerName: Frankie
   text: No, you'-
+  nodeDepth: 4
+  nodeBreadth: 0
   children:
   - bf23750e-5e1a-40ff-b7e7-ca8b30daec74
   rect:
@@ -241,6 +253,8 @@ MonoBehaviour:
   characterProperties: {fileID: 11400000, guid: b50f84a2f36107a44825b11881f88adf, type: 2}
   speakerName: Frankie
   text: Wai-  *he grabs the chopsticks and hot sauce*
+  nodeDepth: 2
+  nodeBreadth: 0
   children:
   - 5ef79b6d-7b86-4ce8-8124-1db3be13b3c8
   rect:
@@ -273,6 +287,8 @@ MonoBehaviour:
   characterProperties: {fileID: 11400000, guid: 15a456ac7051b7946ba9d4575fddb1ba, type: 2}
   speakerName: Bro Office Worker
   text: Team work is the dream work, am I right?
+  nodeDepth: 7
+  nodeBreadth: 0
   children:
   - 223e761d-5904-4269-8a1f-eab191fc2b40
   rect:
@@ -305,6 +321,8 @@ MonoBehaviour:
   characterProperties: {fileID: 11400000, guid: b50f84a2f36107a44825b11881f88adf, type: 2}
   speakerName: Frankie
   text: Oh my go-
+  nodeDepth: 6
+  nodeBreadth: 0
   children:
   - 5100bd56-d3ce-403f-98a1-868ecf85a44a
   rect:
@@ -337,6 +355,8 @@ MonoBehaviour:
   characterProperties: {fileID: 11400000, guid: 15a456ac7051b7946ba9d4575fddb1ba, type: 2}
   speakerName: Bro Office Worker
   text: You brought me hot sauce and chopsticks!  Great!
+  nodeDepth: 1
+  nodeBreadth: 0
   children:
   - 2d396af7-6d1b-4707-9092-d167896c8035
   rect:

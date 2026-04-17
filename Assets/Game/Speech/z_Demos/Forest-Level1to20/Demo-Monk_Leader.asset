@@ -16,6 +16,8 @@ MonoBehaviour:
   characterProperties: {fileID: 0}
   speakerName: Monk Leader
   text: No no no, this isn't right.  You have far too much hair!
+  nodeDepth: 0
+  nodeBreadth: 0
   children:
   - 3f42aa25-6efb-4a89-b707-0ec35e2c83b1
   rect:
@@ -70,6 +72,8 @@ MonoBehaviour:
   characterProperties: {fileID: 0}
   speakerName: Monk Leader
   text: SO WHY ARE YOU HERE?!
+  nodeDepth: 2
+  nodeBreadth: 0
   children: []
   rect:
     serializedVersion: 2
@@ -101,6 +105,8 @@ MonoBehaviour:
   characterProperties: {fileID: 11400000, guid: b50f84a2f36107a44825b11881f88adf, type: 2}
   speakerName: Frankie
   text: Erk.
+  nodeDepth: 1
+  nodeBreadth: 0
   children:
   - 733e9383-48cf-41e7-a1a3-73eb8d427563
   rect:

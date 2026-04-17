@@ -16,6 +16,8 @@ MonoBehaviour:
   characterProperties: {fileID: 11400000, guid: 15a456ac7051b7946ba9d4575fddb1ba, type: 2}
   speakerName: Bro Office Worker
   text: Watch out for the interns, they're really riled up about something.
+  nodeDepth: 5
+  nodeBreadth: 0
   children: []
   rect:
     serializedVersion: 2
@@ -47,6 +49,8 @@ MonoBehaviour:
   characterProperties: {fileID: 11400000, guid: 15a456ac7051b7946ba9d4575fddb1ba, type: 2}
   speakerName: Bro Office Worker
   text: Oh no oh no oh no oh no.
+  nodeDepth: 1
+  nodeBreadth: 0
   children:
   - 7cced6a7-aa14-43da-af92-b6f683e0cc1e
   rect:
@@ -85,6 +89,8 @@ MonoBehaviour:
   characterProperties: {fileID: 11400000, guid: 15a456ac7051b7946ba9d4575fddb1ba, type: 2}
   speakerName: Bro Office Worker
   text: Thanks Frankie, I really owe ya one.
+  nodeDepth: 1
+  nodeBreadth: 3
   children: []
   rect:
     serializedVersion: 2
@@ -123,6 +129,8 @@ MonoBehaviour:
   speakerName: Bro Office Worker
   text: Look, Horse locked the door to the ballpit room, but you can make your way
     down to Tilly in the basement with the elevator.
+  nodeDepth: 4
+  nodeBreadth: 0
   children:
   - a91dee97-2e66-4384-b770-eabce050f541
   rect:
@@ -183,6 +191,8 @@ MonoBehaviour:
   characterProperties: {fileID: 11400000, guid: 15a456ac7051b7946ba9d4575fddb1ba, type: 2}
   speakerName: Bro Office Worker
   text: Oh, uh, hi Tilly.  Good to uh . . . see you again . . . in good spirits.
+  nodeDepth: 1
+  nodeBreadth: 2
   children: []
   rect:
     serializedVersion: 2
@@ -217,6 +227,8 @@ MonoBehaviour:
   characterProperties: {fileID: 11400000, guid: 15a456ac7051b7946ba9d4575fddb1ba, type: 2}
   speakerName: Bro Office Worker
   text: Frankie!  I need your help, I really messed up this time.
+  nodeDepth: 2
+  nodeBreadth: 0
   children:
   - e74ee188-b77d-4267-a3a2-d15f64bf9aa3
   rect:
@@ -250,6 +262,8 @@ MonoBehaviour:
   speakerName: Bro Office Worker
   text: Come on Frankie, please go find Tilly.  She'll kill me if we just leave her
     down there.
+  nodeDepth: 1
+  nodeBreadth: 1
   children: []
   rect:
     serializedVersion: 2
@@ -287,6 +301,8 @@ MonoBehaviour:
   characterProperties: {fileID: 11400000, guid: 15a456ac7051b7946ba9d4575fddb1ba, type: 2}
   speakerName: Bro Office Worker
   text: Skip Root
+  nodeDepth: 0
+  nodeBreadth: 0
   children:
   - ca545322-7018-421c-92f2-847e398c6744
   - 5a466fa7-6db9-4d91-88c6-e462fe16dfd3
@@ -323,6 +339,8 @@ MonoBehaviour:
   speakerName: Bro Office Worker
   text: I dared Tilly to hop down the fireman's pole in the ballpit room and SHE
     DID.  Now she's trapped with the interns.
+  nodeDepth: 3
+  nodeBreadth: 0
   children:
   - 3212fdaf-29d8-4955-88ef-217f0293681b
   rect:

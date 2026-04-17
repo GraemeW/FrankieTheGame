@@ -3,6 +3,7 @@ using UnityEditor;
 using UnityEngine;
 using Frankie.Core;
 using Frankie.Stats;
+using Frankie.Utils;
 
 namespace Frankie.Speech
 {
@@ -14,6 +15,8 @@ namespace Frankie.Speech
         [SerializeField] private CharacterProperties characterProperties;
         [SerializeField] private string speakerName = ""; // value gets over-written at runtime w/ value defined by aiConversant
         [SerializeField] private string text = "";
+        [SerializeField, ReadOnly] private int nodeDepth = 0;
+        [SerializeField, ReadOnly] private int nodeBreadth = 0;
         [SerializeField] private List<string> children = new();
         [SerializeField] private Rect rect = new(30, 30, 400, 200);
         [HideInInspector][SerializeField] private Rect draggingRect = new(0, 0, 400, 45);
@@ -26,7 +29,10 @@ namespace Frankie.Speech
         public SpeakerType GetSpeakerType() => speakerType;
         public string GetSpeakerName() => speakerName;
         public string GetText() => text;
+        public int GetNodeDepth() => nodeDepth;
+        public int GetNodeBreadth() => nodeBreadth;
         public List<string> GetChildren() => children;
+        public int GetChildrenCount() => children?.Count ?? 0;
         public Vector2 GetPosition() => rect.position; 
         public Rect GetRect() => rect;
         public Rect GetDraggingRect() => draggingRect;
@@ -46,6 +52,18 @@ namespace Frankie.Speech
             EditorUtility.SetDirty(this);
 #endif
             return true;
+        }
+
+        public void SetNodeDepthBreadth(int setNodeDepth, int setNodeBreadth)
+        {
+#if UNITY_EDITOR
+            Undo.RecordObject(this, "Update Dialogue Node Depth/Breadth");            
+#endif
+            nodeDepth = setNodeDepth;
+            nodeBreadth = setNodeBreadth;
+#if UNITY_EDITOR
+            EditorUtility.SetDirty(this);
+#endif
         }
         #endregion
 

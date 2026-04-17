@@ -16,6 +16,8 @@ MonoBehaviour:
   characterProperties: {fileID: 0}
   speakerName: Skilled Office Worker
   text: Ah, my back!  You totally f***ed up my back!
+  nodeDepth: 1
+  nodeBreadth: 1
   children: []
   rect:
     serializedVersion: 2
@@ -50,6 +52,8 @@ MonoBehaviour:
   characterProperties: {fileID: 11400000, guid: b50f84a2f36107a44825b11881f88adf, type: 2}
   speakerName: Frankie
   text: Thanks, um, I'll pass for now.
+  nodeDepth: 3
+  nodeBreadth: 1
   children: []
   rect:
     serializedVersion: 2
@@ -82,6 +86,8 @@ MonoBehaviour:
   speakerName: Skilled Office Worker
   text: Hey, uh, if you want down those stairs to the electrical room, you're gonna
     have to wrastle me.
+  nodeDepth: 1
+  nodeBreadth: 0
   children:
   - 8768a1b1-9794-41a2-93c3-69a14c5d6b2a
   rect:
@@ -117,6 +123,8 @@ MonoBehaviour:
   characterProperties: {fileID: 11400000, guid: b50f84a2f36107a44825b11881f88adf, type: 2}
   speakerName: Frankie
   text: Absolutely I do!
+  nodeDepth: 3
+  nodeBreadth: 0
   children: []
   rect:
     serializedVersion: 2
@@ -173,6 +181,8 @@ MonoBehaviour:
   characterProperties: {fileID: 0}
   speakerName: Skilled Office Worker
   text: Root
+  nodeDepth: 0
+  nodeBreadth: 0
   children:
   - 2b2c3221-4ca7-4255-8284-0078bc5ed893
   - 159286fd-ad17-4f1c-8eec-7298f98899db
@@ -206,6 +216,8 @@ MonoBehaviour:
   characterProperties: {fileID: 0}
   speakerName: Skilled Office Worker
   text: Do you want to wrastle me?
+  nodeDepth: 2
+  nodeBreadth: 0
   children:
   - 6fc166eb-1c06-4756-8fff-5e38e0e3106a
   - 3a02e637-5562-4dfd-b511-59e164aa3879

@@ -16,6 +16,8 @@ MonoBehaviour:
   characterProperties: {fileID: 11400000, guid: c1f59cbc742f6294d98c52ee45fb4fd6, type: 2}
   speakerName: Helpful Vole
   text: Have you ever been in combat and noticed you lost access to certain skills?
+  nodeDepth: 3
+  nodeBreadth: 0
   children:
   - ec62e4c9-f9eb-46f1-8326-32f31ba6b74c
   rect:
@@ -49,6 +51,8 @@ MonoBehaviour:
   speakerName: Helpful Vole
   text: That's because every skill is tied to a STAT, and requires a certain STAT
     VALUE to use.
+  nodeDepth: 4
+  nodeBreadth: 0
   children:
   - 0c8e706c-9ed7-4b34-9396-22a8b2b6c618
   rect:
@@ -81,6 +85,8 @@ MonoBehaviour:
   characterProperties: {fileID: 11400000, guid: c1f59cbc742f6294d98c52ee45fb4fd6, type: 2}
   speakerName: Helpful Vole
   text: Wait!  Don't hurt me, I'm not your average Vole!
+  nodeDepth: 0
+  nodeBreadth: 0
   children:
   - fbfd2c2b-bbae-493d-92be-15d8f5267ef7
   rect:
@@ -141,6 +147,8 @@ MonoBehaviour:
   speakerName: Helpful Vole
   text: Keep an eye on the STATUS EFFECTS being applied to your character.  Use a
     RESTORATIVE SKILL or ITEM if you need.
+  nodeDepth: 6
+  nodeBreadth: 0
   children:
   - 2676e5dc-4cdf-485a-a23e-954ba872ec4f
   rect:
@@ -174,6 +182,8 @@ MonoBehaviour:
   speakerName: Helpful Vole
   text: I hope this makes sense -- I learned all this from the Official Frankie Game
     Manual (TM).  You should check it out!
+  nodeDepth: 7
+  nodeBreadth: 0
   children: []
   rect:
     serializedVersion: 2
@@ -206,6 +216,8 @@ MonoBehaviour:
   speakerName: Helpful Vole
   text: If your enemy lowers the STAT linked to your skill, it can lock that skill
     out until your STAT recovers!
+  nodeDepth: 5
+  nodeBreadth: 0
   children:
   - f9c40b90-ebdc-4133-be6d-1c75d369769c
   rect:
@@ -238,6 +250,8 @@ MonoBehaviour:
   characterProperties: {fileID: 11400000, guid: c1f59cbc742f6294d98c52ee45fb4fd6, type: 2}
   speakerName: Helpful Vole
   text: It's time for a new lesson!
+  nodeDepth: 2
+  nodeBreadth: 0
   children:
   - bdd30178-4e30-470c-a113-fb178377b71e
   rect:
@@ -270,6 +284,8 @@ MonoBehaviour:
   characterProperties: {fileID: 11400000, guid: c1f59cbc742f6294d98c52ee45fb4fd6, type: 2}
   speakerName: Helpful Vole
   text: I may not look like much, but I'm really a COMBAT EXPERT
+  nodeDepth: 1
+  nodeBreadth: 0
   children:
   - 510f0cfc-7f2e-48be-9a45-22801138c3ed
   rect:

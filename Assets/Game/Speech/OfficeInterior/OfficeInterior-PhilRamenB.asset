@@ -16,6 +16,8 @@ MonoBehaviour:
   characterProperties: {fileID: 11400000, guid: e97120b87e74eee4f9d9d8659f0bddf5, type: 2}
   speakerName: Phil Ramen
   text: 'You have the hot sauce -- quick, squirt it into me.  '
+  nodeDepth: 1
+  nodeBreadth: 1
   children:
   - 9ba5162d-1dc2-4e7a-92e0-1084ded4146c
   rect:
@@ -51,6 +53,8 @@ MonoBehaviour:
   characterProperties: {fileID: 11400000, guid: b50f84a2f36107a44825b11881f88adf, type: 2}
   speakerName: Frankie
   text: Uhhh
+  nodeDepth: 2
+  nodeBreadth: 1
   children:
   - 135de0c1-c5a4-47e0-8bb2-cdc04cb6ffa1
   rect:
@@ -109,6 +113,8 @@ MonoBehaviour:
   characterProperties: {fileID: 11400000, guid: e97120b87e74eee4f9d9d8659f0bddf5, type: 2}
   speakerName: Phil Ramen
   text: Default Text to Overwrite
+  nodeDepth: 0
+  nodeBreadth: 0
   children:
   - 39dc8a5a-5c71-418f-aacb-dbf9b1e2c33b
   - 1056c931-78f8-4130-9325-ce40322b0e16
@@ -142,6 +148,8 @@ MonoBehaviour:
   characterProperties: {fileID: 11400000, guid: e97120b87e74eee4f9d9d8659f0bddf5, type: 2}
   speakerName: Phil Ramen
   text: I think they have some stocked in the convenience machines.
+  nodeDepth: 2
+  nodeBreadth: 0
   children: []
   rect:
     serializedVersion: 2
@@ -173,6 +181,8 @@ MonoBehaviour:
   characterProperties: {fileID: 11400000, guid: e97120b87e74eee4f9d9d8659f0bddf5, type: 2}
   speakerName: Phil Ramen
   text: Gross, no, not that way.  Just do it.
+  nodeDepth: 3
+  nodeBreadth: 0
   children: []
   rect:
     serializedVersion: 2
@@ -205,6 +215,8 @@ MonoBehaviour:
   speakerName: Phil Ramen
   text: There's one last step to the incantation.  You must find some extremely spicy
     hot sauce.
+  nodeDepth: 1
+  nodeBreadth: 0
   children:
   - ea90a28f-7a59-4c9e-8e52-1cfc439ca99a
   rect:
