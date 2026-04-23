@@ -12,10 +12,29 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 09c07c7c6f4c666429a0bbc8d18232b2, type: 3}
   m_Name: 168b8abd-53f2-4dea-8994-dc0585bb9e21
   m_EditorClassIdentifier: 
+  dialogueName: 
   speakerType: 0
   characterProperties: {fileID: 11400000, guid: b50f84a2f36107a44825b11881f88adf, type: 2}
   speakerName: Frankie
+  localizedSpeakerName:
+    m_TableReference:
+      m_TableCollectionName: 
+    m_TableEntryReference:
+      m_KeyId: 0
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
   text: Yes
+  localizedText:
+    m_TableReference:
+      m_TableCollectionName: 
+    m_TableEntryReference:
+      m_KeyId: 0
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
   nodeDepth: 1
   nodeBreadth: 0
   children: []
@@ -33,6 +52,9 @@ MonoBehaviour:
     height: 45
   condition:
     and: []
+  references:
+    version: 2
+    RefIds: []
 --- !u!114 &-3453924750481420961
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -45,10 +67,29 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 09c07c7c6f4c666429a0bbc8d18232b2, type: 3}
   m_Name: 6167ef32-e682-4792-80a9-b945ac753589
   m_EditorClassIdentifier: 
+  dialogueName: 
   speakerType: 1
   characterProperties: {fileID: 0}
   speakerName: Sunbather
+  localizedSpeakerName:
+    m_TableReference:
+      m_TableCollectionName: 
+    m_TableEntryReference:
+      m_KeyId: 0
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
   text: Can you move?  You're blocking my sun
+  localizedText:
+    m_TableReference:
+      m_TableCollectionName: 
+    m_TableEntryReference:
+      m_KeyId: 0
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
   nodeDepth: 0
   nodeBreadth: 0
   children:
@@ -68,6 +109,9 @@ MonoBehaviour:
     height: 45
   condition:
     and: []
+  references:
+    version: 2
+    RefIds: []
 --- !u!114 &-2531251401273844353
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -80,10 +124,29 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 09c07c7c6f4c666429a0bbc8d18232b2, type: 3}
   m_Name: 4bee33b6-4aab-4101-9d8e-802147ca158f
   m_EditorClassIdentifier: 
+  dialogueName: 
   speakerType: 0
   characterProperties: {fileID: 11400000, guid: b50f84a2f36107a44825b11881f88adf, type: 2}
   speakerName: Frankie
+  localizedSpeakerName:
+    m_TableReference:
+      m_TableCollectionName: 
+    m_TableEntryReference:
+      m_KeyId: 0
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
   text: No
+  localizedText:
+    m_TableReference:
+      m_TableCollectionName: 
+    m_TableEntryReference:
+      m_KeyId: 0
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
   nodeDepth: 1
   nodeBreadth: 1
   children: []
@@ -101,6 +164,9 @@ MonoBehaviour:
     height: 45
   condition:
     and: []
+  references:
+    version: 2
+    RefIds: []
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -114,6 +180,7 @@ MonoBehaviour:
   m_Name: PrimSouth-Sunbather
   m_EditorClassIdentifier: 
   skipRootNode: 0
+  cachedDialogueName: PrimSouth-Sunbather
   newNodeOffset: {x: 100, y: 25}
   nodeWidth: 400
   nodeHeight: 225

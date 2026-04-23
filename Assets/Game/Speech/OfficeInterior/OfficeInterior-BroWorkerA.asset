@@ -12,11 +12,32 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 09c07c7c6f4c666429a0bbc8d18232b2, type: 3}
   m_Name: 08bb27fb-00bc-4a9e-9cd9-f9410d2740ba
   m_EditorClassIdentifier: 
+  dialogueName: 
   speakerType: 1
   characterProperties: {fileID: 11400000, guid: 15a456ac7051b7946ba9d4575fddb1ba, type: 2}
   speakerName: Bro Office Worker
+  localizedSpeakerName:
+    m_TableReference:
+      m_TableCollectionName: 
+    m_TableEntryReference:
+      m_KeyId: 0
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
   text: This hallway is a great place to get your cardio in.  I'm really building
     up an appetite.
+  localizedText:
+    m_TableReference:
+      m_TableCollectionName: 
+    m_TableEntryReference:
+      m_KeyId: 0
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  nodeDepth: 0
+  nodeBreadth: 0
   children: []
   rect:
     serializedVersion: 2
@@ -32,6 +53,9 @@ MonoBehaviour:
     height: 45
   condition:
     and: []
+  references:
+    version: 2
+    RefIds: []
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -45,6 +69,7 @@ MonoBehaviour:
   m_Name: OfficeInterior-BroWorkerA
   m_EditorClassIdentifier: 
   skipRootNode: 0
+  cachedDialogueName: OfficeInterior-BroWorkerA
   newNodeOffset: {x: 100, y: 25}
   nodeWidth: 400
   nodeHeight: 225

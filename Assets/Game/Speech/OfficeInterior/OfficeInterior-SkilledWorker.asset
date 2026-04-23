@@ -12,10 +12,29 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 09c07c7c6f4c666429a0bbc8d18232b2, type: 3}
   m_Name: f1a9e822-edaf-404b-8b63-c3c924c79600
   m_EditorClassIdentifier: 
+  dialogueName: OfficeInterior-SkilledWorker
   speakerType: 1
   characterProperties: {fileID: 11400000, guid: df2799c36af32ce4d8fd6788f660323d, type: 2}
   speakerName: Skilled Office Worker
+  localizedSpeakerName:
+    m_TableReference:
+      m_TableCollectionName: 
+    m_TableEntryReference:
+      m_KeyId: 0
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
   text: '*thwrp* Don''t get too close. *pfft*'
+  localizedText:
+    m_TableReference:
+      m_TableCollectionName: 
+    m_TableEntryReference:
+      m_KeyId: 0
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
   nodeDepth: 0
   nodeBreadth: 0
   children:
@@ -34,6 +53,9 @@ MonoBehaviour:
     height: 45
   condition:
     and: []
+  references:
+    version: 2
+    RefIds: []
 --- !u!114 &-1892443619028704532
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -46,10 +68,29 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 09c07c7c6f4c666429a0bbc8d18232b2, type: 3}
   m_Name: d542bd08-0bf2-415a-9c36-a912f76ef720
   m_EditorClassIdentifier: 
+  dialogueName: OfficeInterior-SkilledWorker
   speakerType: 1
   characterProperties: {fileID: 11400000, guid: df2799c36af32ce4d8fd6788f660323d, type: 2}
   speakerName: Skilled Office Worker
+  localizedSpeakerName:
+    m_TableReference:
+      m_TableCollectionName: 
+    m_TableEntryReference:
+      m_KeyId: 0
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
   text: '*pbbbt* Maybe the chili last night was a bad idea. *poot*'
+  localizedText:
+    m_TableReference:
+      m_TableCollectionName: 
+    m_TableEntryReference:
+      m_KeyId: 0
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
   nodeDepth: 2
   nodeBreadth: 0
   children: []
@@ -67,6 +108,9 @@ MonoBehaviour:
     height: 45
   condition:
     and: []
+  references:
+    version: 2
+    RefIds: []
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -80,6 +124,7 @@ MonoBehaviour:
   m_Name: OfficeInterior-SkilledWorker
   m_EditorClassIdentifier: 
   skipRootNode: 0
+  cachedDialogueName: OfficeInterior-SkilledWorker
   newNodeOffset: {x: 100, y: 25}
   nodeWidth: 400
   nodeHeight: 225
@@ -101,10 +146,29 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 09c07c7c6f4c666429a0bbc8d18232b2, type: 3}
   m_Name: 24a7d49c-dd49-4c17-9f7d-988b87e60a5a
   m_EditorClassIdentifier: 
+  dialogueName: 
   speakerType: 1
   characterProperties: {fileID: 11400000, guid: df2799c36af32ce4d8fd6788f660323d, type: 2}
   speakerName: Skilled Office Worker
+  localizedSpeakerName:
+    m_TableReference:
+      m_TableCollectionName: 
+    m_TableEntryReference:
+      m_KeyId: 0
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
   text: I just farted . . . *blaaat*
+  localizedText:
+    m_TableReference:
+      m_TableCollectionName: 
+    m_TableEntryReference:
+      m_KeyId: 0
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
   nodeDepth: 1
   nodeBreadth: 0
   children:
@@ -123,3 +187,6 @@ MonoBehaviour:
     height: 45
   condition:
     and: []
+  references:
+    version: 2
+    RefIds: []

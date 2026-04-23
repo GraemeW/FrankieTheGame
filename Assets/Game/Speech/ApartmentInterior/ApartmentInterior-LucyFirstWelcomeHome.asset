@@ -12,10 +12,29 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 09c07c7c6f4c666429a0bbc8d18232b2, type: 3}
   m_Name: efbfac96-f2c3-495f-bf54-bb0ac1144c63
   m_EditorClassIdentifier: 
+  dialogueName: ApartmentInterior-LucyFirstWelcomeHome
   speakerType: 1
   characterProperties: {fileID: 11400000, guid: f40bbc80ce4dd604292488bdf07bc4e1, type: 2}
   speakerName: Lucy
+  localizedSpeakerName:
+    m_TableReference:
+      m_TableCollectionName: 
+    m_TableEntryReference:
+      m_KeyId: 0
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
   text: What are they called again?  Vwoomba?
+  localizedText:
+    m_TableReference:
+      m_TableCollectionName: 
+    m_TableEntryReference:
+      m_KeyId: 0
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
   nodeDepth: 2
   nodeBreadth: 2
   children: []
@@ -33,6 +52,9 @@ MonoBehaviour:
     height: 45
   condition:
     and: []
+  references:
+    version: 2
+    RefIds: []
 --- !u!114 &-3181056160746472679
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -45,10 +67,29 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 09c07c7c6f4c666429a0bbc8d18232b2, type: 3}
   m_Name: 041515b6-8b85-4157-ae87-346e8620db72
   m_EditorClassIdentifier: 
+  dialogueName: ApartmentInterior-LucyFirstWelcomeHome
   speakerType: 1
   characterProperties: {fileID: 11400000, guid: f40bbc80ce4dd604292488bdf07bc4e1, type: 2}
   speakerName: Lucy
+  localizedSpeakerName:
+    m_TableReference:
+      m_TableCollectionName: 
+    m_TableEntryReference:
+      m_KeyId: 0
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
   text: Good morning, sleepyhead!  Are you going to head into town today?
+  localizedText:
+    m_TableReference:
+      m_TableCollectionName: 
+    m_TableEntryReference:
+      m_KeyId: 0
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
   nodeDepth: 1
   nodeBreadth: 1
   children:
@@ -70,6 +111,9 @@ MonoBehaviour:
     - or:
       - predicate: {fileID: 11400000, guid: 9f0337f74ac62b947a2295f4757659ec, type: 2}
         negate: 0
+  references:
+    version: 2
+    RefIds: []
 --- !u!114 &-1834528741749507592
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -82,10 +126,29 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 09c07c7c6f4c666429a0bbc8d18232b2, type: 3}
   m_Name: b1c1a04e-aa1f-4ddb-acdf-44aa2705c1a1
   m_EditorClassIdentifier: 
+  dialogueName: ApartmentInterior-LucyFirstWelcomeHome
   speakerType: 1
   characterProperties: {fileID: 11400000, guid: f40bbc80ce4dd604292488bdf07bc4e1, type: 2}
   speakerName: Lucy
+  localizedSpeakerName:
+    m_TableReference:
+      m_TableCollectionName: 
+    m_TableEntryReference:
+      m_KeyId: 0
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
   text: Root Node to Skip
+  localizedText:
+    m_TableReference:
+      m_TableCollectionName: 
+    m_TableEntryReference:
+      m_KeyId: 0
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
   nodeDepth: 0
   nodeBreadth: 0
   children:
@@ -107,6 +170,9 @@ MonoBehaviour:
     height: 45
   condition:
     and: []
+  references:
+    version: 2
+    RefIds: []
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -120,6 +186,7 @@ MonoBehaviour:
   m_Name: ApartmentInterior-LucyFirstWelcomeHome
   m_EditorClassIdentifier: 
   skipRootNode: 1
+  cachedDialogueName: ApartmentInterior-LucyFirstWelcomeHome
   newNodeOffset: {x: 100, y: 25}
   nodeWidth: 400
   nodeHeight: 225
@@ -146,10 +213,29 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 09c07c7c6f4c666429a0bbc8d18232b2, type: 3}
   m_Name: 9536b659-798f-4541-9a01-c718a2c760d2
   m_EditorClassIdentifier: 
+  dialogueName: ApartmentInterior-LucyFirstWelcomeHome
   speakerType: 1
   characterProperties: {fileID: 11400000, guid: f40bbc80ce4dd604292488bdf07bc4e1, type: 2}
   speakerName: Lucy
+  localizedSpeakerName:
+    m_TableReference:
+      m_TableCollectionName: 
+    m_TableEntryReference:
+      m_KeyId: 0
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
   text: Why don't you have a bite to eat and head to bed?
+  localizedText:
+    m_TableReference:
+      m_TableCollectionName: 
+    m_TableEntryReference:
+      m_KeyId: 0
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
   nodeDepth: 2
   nodeBreadth: 0
   children: []
@@ -167,6 +253,9 @@ MonoBehaviour:
     height: 45
   condition:
     and: []
+  references:
+    version: 2
+    RefIds: []
 --- !u!114 &5360189485827318091
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -179,10 +268,29 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 09c07c7c6f4c666429a0bbc8d18232b2, type: 3}
   m_Name: d31d7b2b-df86-4c36-b25d-289a8b613c06
   m_EditorClassIdentifier: 
+  dialogueName: ApartmentInterior-LucyFirstWelcomeHome
   speakerType: 1
   characterProperties: {fileID: 11400000, guid: f40bbc80ce4dd604292488bdf07bc4e1, type: 2}
   speakerName: Lucy
+  localizedSpeakerName:
+    m_TableReference:
+      m_TableCollectionName: 
+    m_TableEntryReference:
+      m_KeyId: 0
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
   text: '*Smooch* I''m so happy to see you.  You must have had a long day.'
+  localizedText:
+    m_TableReference:
+      m_TableCollectionName: 
+    m_TableEntryReference:
+      m_KeyId: 0
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
   nodeDepth: 1
   nodeBreadth: 0
   children:
@@ -204,6 +312,9 @@ MonoBehaviour:
     - or:
       - predicate: {fileID: 11400000, guid: 9f0337f74ac62b947a2295f4757659ec, type: 2}
         negate: 1
+  references:
+    version: 2
+    RefIds: []
 --- !u!114 &6439459893909431935
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -216,11 +327,30 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 09c07c7c6f4c666429a0bbc8d18232b2, type: 3}
   m_Name: cf547fb2-3d79-450a-9748-5d8abbd3ec41
   m_EditorClassIdentifier: 
+  dialogueName: ApartmentInterior-LucyFirstWelcomeHome
   speakerType: 1
   characterProperties: {fileID: 11400000, guid: f40bbc80ce4dd604292488bdf07bc4e1, type: 2}
   speakerName: Lucy
+  localizedSpeakerName:
+    m_TableReference:
+      m_TableCollectionName: 
+    m_TableEntryReference:
+      m_KeyId: 0
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
   text: I heard a cute new coffee shop opened up in town.  We should check it out
     sometime!
+  localizedText:
+    m_TableReference:
+      m_TableCollectionName: 
+    m_TableEntryReference:
+      m_KeyId: 0
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
   nodeDepth: 1
   nodeBreadth: 3
   children: []
@@ -241,6 +371,9 @@ MonoBehaviour:
     - or:
       - predicate: {fileID: 11400000, guid: 9f0337f74ac62b947a2295f4757659ec, type: 2}
         negate: 0
+  references:
+    version: 2
+    RefIds: []
 --- !u!114 &7468067193038578340
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -253,10 +386,29 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 09c07c7c6f4c666429a0bbc8d18232b2, type: 3}
   m_Name: 4748363e-cd2e-410d-9bc5-80eaff0e24b2
   m_EditorClassIdentifier: 
+  dialogueName: ApartmentInterior-LucyFirstWelcomeHome
   speakerType: 1
   characterProperties: {fileID: 11400000, guid: f40bbc80ce4dd604292488bdf07bc4e1, type: 2}
   speakerName: Lucy
+  localizedSpeakerName:
+    m_TableReference:
+      m_TableCollectionName: 
+    m_TableEntryReference:
+      m_KeyId: 0
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
   text: I'm thinking of getting one of those little robots to clean the house.
+  localizedText:
+    m_TableReference:
+      m_TableCollectionName: 
+    m_TableEntryReference:
+      m_KeyId: 0
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
   nodeDepth: 1
   nodeBreadth: 2
   children:
@@ -278,6 +430,9 @@ MonoBehaviour:
     - or:
       - predicate: {fileID: 11400000, guid: 9f0337f74ac62b947a2295f4757659ec, type: 2}
         negate: 0
+  references:
+    version: 2
+    RefIds: []
 --- !u!114 &8833588446042177969
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -290,11 +445,30 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 09c07c7c6f4c666429a0bbc8d18232b2, type: 3}
   m_Name: db8107ae-7956-4be7-abb0-9cfd988d2bf7
   m_EditorClassIdentifier: 
+  dialogueName: ApartmentInterior-LucyFirstWelcomeHome
   speakerType: 1
   characterProperties: {fileID: 11400000, guid: f40bbc80ce4dd604292488bdf07bc4e1, type: 2}
   speakerName: Lucy
+  localizedSpeakerName:
+    m_TableReference:
+      m_TableCollectionName: 
+    m_TableEntryReference:
+      m_KeyId: 0
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
   text: Make sure you watch out for wild animals.  They've been straying closer to
     the paths lately.  Scary!
+  localizedText:
+    m_TableReference:
+      m_TableCollectionName: 
+    m_TableEntryReference:
+      m_KeyId: 0
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
   nodeDepth: 2
   nodeBreadth: 1
   children: []
@@ -312,3 +486,6 @@ MonoBehaviour:
     height: 45
   condition:
     and: []
+  references:
+    version: 2
+    RefIds: []
