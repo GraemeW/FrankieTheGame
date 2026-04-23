@@ -4,6 +4,7 @@ using UnityEditor;
 using UnityEditor.Callbacks;
 using UnityEngine;
 using Frankie.Stats;
+using Frankie.Utils;
 
 namespace Frankie.Speech.UIEditor
 {
@@ -22,7 +23,7 @@ namespace Frankie.Speech.UIEditor
         private const string _backgroundName = "background";
         private const float _backgroundSize = 50f;
 
-        // State
+        // UI State
         [NonSerialized] private GUIStyle nodeStyle;
         [NonSerialized] private DialogueNode selectedNode;
         [NonSerialized] private bool draggable = false;
@@ -34,7 +35,7 @@ namespace Frankie.Speech.UIEditor
         [NonSerialized] private float scrollMaxX = 1;
         [NonSerialized] private float scrollMaxY = 1;
 
-        // Class States
+        // State
         private string speakerNameToFill = "";
         
         #region UnityMethods
@@ -56,14 +57,144 @@ namespace Frankie.Speech.UIEditor
 
         private void OnEnable()
         {
+            LocalizationTool.InitializeEnglishLocale();
             Selection.selectionChanged += OnSelectionChanged;
             SetupNodeStyle();
         }
+        
+        private void OnGUI()
+        {
+            if (selectedDialogue == null)
+            {
+                EditorGUILayout.LabelField("No dialogue selected.");
+            }
+            else
+            {
+                ProcessEvents();
+                EditorGUILayout.LabelField(selectedDialogue.name);
+
+                scrollPosition = EditorGUILayout.BeginScrollView(scrollPosition);
+                DrawBackground();
+                foreach (DialogueNode dialogueNode in selectedDialogue.GetAllNodes())
+                {
+                    DrawConnections(dialogueNode);
+                }
+                foreach (DialogueNode dialogueNode in selectedDialogue.GetAllNodes())
+                {
+                    DrawNode(dialogueNode);
+                }
+                EditorGUILayout.EndScrollView();
+
+                if (deletingNode != null)
+                {
+                    selectedDialogue.DeleteNode(deletingNode);
+                    deletingNode = null;
+                }
+                if (creatingNode != null)
+                {
+                    selectedDialogue.CreateChildNode(creatingNode);
+                    creatingNode = null;
+                }
+            }
+        }
         #endregion
 
+        #region MouseInteraction
+        private void ProcessEvents()
+        {
+            switch (Event.current.type)
+            {
+                case EventType.MouseDown:
+                {
+                    selectedNode = null;
+                    draggable = false;
+                    draggingOffset = new Vector2();
+
+                    Vector2 mousePosition = Event.current.mousePosition;
+
+                    selectedNode = GetNodeAtPoint(mousePosition + scrollPosition, out draggable);
+                    if (selectedNode != null)
+                    {
+                        Selection.activeObject = selectedNode;
+                        draggingOffset = selectedNode.GetPosition() - mousePosition;
+                    }
+                    else
+                    {
+                        Selection.activeObject = selectedDialogue;
+                        draggingOffset = mousePosition + scrollPosition;
+                    }
+
+                    break;
+                }
+                case EventType.MouseDrag when selectedNode != null:
+                {
+                    if (draggable)
+                    {
+                        Vector2 currentMousePosition = Event.current.mousePosition;
+                        selectedNode.SetPosition(currentMousePosition + draggingOffset);
+                        GUI.changed = true;
+                    }
+
+                    break;
+                }
+                case EventType.MouseDrag when selectedNode == null:
+                    scrollPosition = draggingOffset - Event.current.mousePosition;
+                    GUI.changed = true;
+                    break;
+                case EventType.MouseUp:
+                    selectedNode = null;
+                    draggingOffset = new Vector2();
+                    break;
+            }
+        }
+        
+        private DialogueNode GetNodeAtPoint(Vector2 point, out bool getDraggable)
+        {
+            DialogueNode foundNode = null;
+            getDraggable = false;
+            foreach (DialogueNode dialogueNode in selectedDialogue.GetAllNodes())
+            {
+                if (dialogueNode.GetRect().Contains(point)) { foundNode = dialogueNode; }
+                var draggingRect = new Rect(dialogueNode.GetRect().position, dialogueNode.GetDraggingRect().size);
+                if (draggingRect.Contains(point)) { getDraggable = true; }
+            }
+            return foundNode;
+        }
+        #endregion
+        
+        #region UtilityMethods
+        private void OnSelectionChanged()
+        {
+            var newDialogue = Selection.activeObject as Dialogue;
+            if (newDialogue == null) return;
+            selectedDialogue = newDialogue;
+            ResetSpeakerNames();
+            Repaint();
+        }
+        
         private void ResetSpeakerNames()
         {
             speakerNameToFill = "";
+        }
+        
+        private void UpdateMaxScrollViewDimensions(DialogueNode dialogueNode)
+        {
+            scrollMaxX = Mathf.Max(scrollMaxX, dialogueNode.GetRect().xMax);
+            scrollMaxY = Mathf.Max(scrollMaxY, dialogueNode.GetRect().yMax);
+        }
+        #endregion
+        
+        #region DrawingMethods
+        private void DrawBackground()
+        {
+            Rect canvas = GUILayoutUtility.GetRect(scrollMaxX, scrollMaxY);
+            var backgroundTexture = Resources.Load(_backgroundName) as Texture2D;
+            if (backgroundTexture == null) { return; }
+            GUI.DrawTextureWithTexCoords(canvas, backgroundTexture, new Rect(0, 0, canvas.width / _backgroundSize, canvas.height / _backgroundSize));
+
+            // Reset scrolling limits, to be updated after draw nodes
+            scrollMaxX = 1f;
+            scrollMaxX = 1f;
         }
         
         private void SetupNodeStyle()
@@ -113,109 +244,9 @@ namespace Frankie.Speech.UIEditor
             return speakerNameToFill;
         }
 
-        private void OnSelectionChanged()
-        {
-            var newDialogue = Selection.activeObject as Dialogue;
-            if (newDialogue == null) return;
-            selectedDialogue = newDialogue;
-            ResetSpeakerNames();
-            Repaint();
-        }
-
-        private void OnGUI()
-        {
-            if (selectedDialogue == null)
-            {
-                EditorGUILayout.LabelField("No dialogue selected.");
-            }
-            else
-            {
-                ProcessEvents();
-                EditorGUILayout.LabelField(selectedDialogue.name);
-
-                scrollPosition = EditorGUILayout.BeginScrollView(scrollPosition);
-                DrawBackground();
-                foreach (DialogueNode dialogueNode in selectedDialogue.GetAllNodes())
-                {
-                    DrawConnections(dialogueNode);
-                }
-                foreach (DialogueNode dialogueNode in selectedDialogue.GetAllNodes())
-                {
-                    DrawNode(dialogueNode);
-                }
-                EditorGUILayout.EndScrollView();
-
-                if (deletingNode != null)
-                {
-                    selectedDialogue.DeleteNode(deletingNode);
-                    deletingNode = null;
-                }
-                if (creatingNode != null)
-                {
-                    selectedDialogue.CreateChildNode(creatingNode);
-                    creatingNode = null;
-                }
-            }
-        }
-
-        private void DrawBackground()
-        {
-            Rect canvas = GUILayoutUtility.GetRect(scrollMaxX, scrollMaxY);
-            var backgroundTexture = Resources.Load(_backgroundName) as Texture2D;
-            if (backgroundTexture == null) { return; }
-            GUI.DrawTextureWithTexCoords(canvas, backgroundTexture, new Rect(0, 0, canvas.width / _backgroundSize, canvas.height / _backgroundSize));
-
-            // Reset scrolling limits, to be updated after draw nodes
-            scrollMaxX = 1f;
-            scrollMaxX = 1f;
-        }
-
-        private void ProcessEvents()
-        {
-            if (Event.current.type == EventType.MouseDown)
-            {
-                selectedNode = null;
-                draggable = false;
-                draggingOffset = new Vector2();
-
-                Vector2 mousePosition = Event.current.mousePosition;
-
-                selectedNode = GetNodeAtPoint(mousePosition + scrollPosition, out draggable);
-                if (selectedNode != null)
-                {
-                    Selection.activeObject = selectedNode;
-                    draggingOffset = selectedNode.GetPosition() - mousePosition;
-                }
-                else
-                {
-                    Selection.activeObject = selectedDialogue;
-                    draggingOffset = mousePosition + scrollPosition;
-                }
-            }
-            else if (Event.current.type == EventType.MouseDrag && selectedNode != null)
-            {
-                if (draggable)
-                {
-                    Vector2 currentMousePosition = Event.current.mousePosition;
-                    selectedNode.SetPosition(currentMousePosition + draggingOffset);
-                    GUI.changed = true;
-                }
-            }
-            else if (Event.current.type == EventType.MouseDrag && selectedNode == null)
-            {
-                scrollPosition = draggingOffset - Event.current.mousePosition;
-                GUI.changed = true;
-            }
-            else if (Event.current.type == EventType.MouseUp)
-            {
-                selectedNode = null;
-                draggingOffset = new Vector2();
-            }
-        }
-
         private void DrawNode(DialogueNode dialogueNode)
         {
-            SetupNodeSpeaker(dialogueNode, dialogueNode.GetSpeakerType(), dialogueNode.GetSpeakerName());
+            SetupNodeSpeaker(dialogueNode, dialogueNode.GetSpeakerType(), dialogueNode.GetSpeakerName(false));
             GUILayout.BeginArea(dialogueNode.GetRect(), nodeStyle);
 
             // Dragging Header
@@ -229,9 +260,15 @@ namespace Frankie.Speech.UIEditor
 
             // Speaker Selection
             EditorGUILayout.BeginHorizontal();
+
+            bool speakerNameChanged = false;
+            EditorGUI.BeginChangeCheck();
             string newSpeakerName = EditorGUILayout.TextField("Speaker:", speakerNameToFill,
                 GUILayout.Width((dialogueNode.GetRect().width - _nodePadding * 2) / 2));
-            bool speakerNameChanged = dialogueNode.SetSpeakerName(newSpeakerName);
+            if (EditorGUI.EndChangeCheck())
+            {
+                speakerNameChanged = dialogueNode.SetSpeakerName(newSpeakerName);
+            }
 
             EditorGUILayout.Space(0f, true);
             Enum newSpeakerTypeEnum = EditorGUILayout.EnumPopup(dialogueNode.GetSpeakerType(),
@@ -245,7 +282,7 @@ namespace Frankie.Speech.UIEditor
 
             if (newSpeakerType != SpeakerType.PlayerSpeaker && speakerNameChanged)
             {
-                selectedDialogue.UpdateSpeakerName(dialogueNode.GetCharacterName(), newSpeakerName);
+                selectedDialogue.UpdateSpeakerName(dialogueNode.GetSpeakerName(false), newSpeakerName);
             }
             EditorGUILayout.Space(_nodeBorder, false);
             EditorGUILayout.EndHorizontal();
@@ -253,11 +290,15 @@ namespace Frankie.Speech.UIEditor
             // Text Input
             EditorGUILayout.Space((float)_nodeBorder / 2, false);
             EditorStyles.textField.wordWrap = true;
+            
+            EditorGUI.BeginChangeCheck();
             string newText = EditorGUILayout.TextArea(dialogueNode.GetText(),
                 GUILayout.Width(dialogueNode.GetRect().width - _nodePadding * 2),
                 GUILayout.Height(_textAreaHeight));
-
-            dialogueNode.SetText(newText);
+            if (EditorGUI.EndChangeCheck())
+            {
+                dialogueNode.SetText(newText);
+            }
 
             // Additional Functionality
             GUILayout.FlexibleSpace();
@@ -267,12 +308,6 @@ namespace Frankie.Speech.UIEditor
             GUILayout.EndArea();
 
             UpdateMaxScrollViewDimensions(dialogueNode);
-        }
-
-        private void UpdateMaxScrollViewDimensions(DialogueNode dialogueNode)
-        {
-            scrollMaxX = Mathf.Max(scrollMaxX, dialogueNode.GetRect().xMax);
-            scrollMaxY = Mathf.Max(scrollMaxY, dialogueNode.GetRect().yMax);
         }
 
         private void DrawAddRemoveButtons(DialogueNode dialogueNode)
@@ -324,18 +359,6 @@ namespace Frankie.Speech.UIEditor
                     Color.white, null, _connectionBezierWidth);
             }
         }
-
-        private DialogueNode GetNodeAtPoint(Vector2 point, out bool getDraggable)
-        {
-            DialogueNode foundNode = null;
-            getDraggable = false;
-            foreach (DialogueNode dialogueNode in selectedDialogue.GetAllNodes())
-            {
-                if (dialogueNode.GetRect().Contains(point)) { foundNode = dialogueNode; }
-                var draggingRect = new Rect(dialogueNode.GetRect().position, dialogueNode.GetDraggingRect().size);
-                if (draggingRect.Contains(point)) { getDraggable = true; }
-            }
-            return foundNode;
-        }
+        #endregion
     }
 }

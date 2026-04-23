@@ -3,17 +3,21 @@ using System.Linq;
 using UnityEditor;
 using UnityEngine;
 using Frankie.Stats;
+using Frankie.Utils;
 
 namespace Frankie.Speech
 {
     [CreateAssetMenu(fileName = "New Dialogue", menuName = "Dialogue/New Dialogue")]
-    public class Dialogue : ScriptableObject, ISerializationCallbackReceiver
+    public class Dialogue : ScriptableObject, ISerializationCallbackReceiver, ILocalizable
     {
         // Tunables
         [SerializeField] public bool skipRootNode = false;
+        [SerializeField] private string defaultSpeakerName = "DefaultSpeaker";
+        [SerializeField] private string defaultText = "Default Text to Overwrite";
 
 #if UNITY_EDITOR
         [Header("Editor Settings")]
+        [SerializeField, HideInInspector] private string cachedDialogueName = "";
         [SerializeField] private Vector2 newNodeOffset = new(100f, 25f);
         [SerializeField] private int nodeWidth = 400;
         [SerializeField] private int nodeHeight = 225;
@@ -29,12 +33,7 @@ namespace Frankie.Speech
         #region StaticMethods
         public static bool IsRelated(DialogueNode parentNode, DialogueNode childNode) => parentNode.GetChildren() != null && parentNode.GetChildren().Contains(childNode.name);
         private static bool IsPlayerNameOverrideable(string playerName) => !string.IsNullOrWhiteSpace(playerName);
-        private static bool IsSpeakerNameOverrideable(SpeakerType speakerType, DialogueNode dialogueNode)
-        {
-            if (speakerType != SpeakerType.AISpeaker) { return false; }
-            return dialogueNode.GetCharacterName() != null
-                   && !string.IsNullOrWhiteSpace(CharacterProperties.GetStaticCharacterNamePretty(dialogueNode.GetCharacterName()));
-        }
+        private static bool IsSpeakerNameOverrideable(SpeakerType speakerType, DialogueNode dialogueNode) => speakerType == SpeakerType.AISpeaker && dialogueNode.HasValidCharacterProperties();
         #endregion
         
         #region UnityMethods
@@ -68,7 +67,6 @@ namespace Frankie.Speech
 
         #region GettersSetters
         public IEnumerable<DialogueNode> GetAllNodes() => dialogueNodes;
-
         public DialogueNode GetRootNode(bool withSkip = true) => dialogueNodes is { Count: > 0 } ? dialogueNodes[0] : null;
         public DialogueNode GetNodeFromID(string nodeID) => dialogueNodes.FirstOrDefault(dialogueNode => dialogueNode.name == nodeID);
         public List<CharacterProperties> GetActiveCharacters() => activeNPCs;
@@ -78,15 +76,11 @@ namespace Frankie.Speech
             foreach (DialogueNode dialogueNode in dialogueNodes)
             {
                 SpeakerType speakerType = dialogueNode.GetSpeakerType();
-                if (speakerType == SpeakerType.PlayerSpeaker && IsPlayerNameOverrideable(playerName)) { dialogueNode.SetSpeakerName(playerName); }
-                else if (speakerType == SpeakerType.AISpeaker && IsSpeakerNameOverrideable(speakerType, dialogueNode))
-                {
-                    dialogueNode.SetSpeakerName(CharacterProperties.GetStaticCharacterNamePretty(dialogueNode.GetCharacterName()));
-                }
+                if (speakerType == SpeakerType.PlayerSpeaker && IsPlayerNameOverrideable(playerName)) { dialogueNode.OverrideSpeakerName(playerName); }
+                else if (speakerType == SpeakerType.AISpeaker && IsSpeakerNameOverrideable(speakerType, dialogueNode)) { dialogueNode.OverrideSpeakerName(); }
             }
         }
         #endregion
-        
 
         #region EditorMethods
 #if UNITY_EDITOR
@@ -99,13 +93,16 @@ namespace Frankie.Speech
             }
         }
         
-        private DialogueNode CreateNode()
+        private DialogueNode CreateNode(int depth, int breadth)
         {
             DialogueNode dialogueNode = CreateInstance<DialogueNode>();
             Undo.RegisterCreatedObjectUndo(dialogueNode, "Created Dialogue Node Object");
             dialogueNode.Initialize(nodeWidth, nodeHeight);
             dialogueNode.name = System.Guid.NewGuid().ToString();
-            dialogueNode.SetText("Default Text to Overwrite");
+            dialogueNode.SetDialogueName(name);
+            dialogueNode.SetNodeDepthBreadth(depth, breadth);
+            dialogueNode.SetSpeakerName(defaultSpeakerName);
+            dialogueNode.SetText(defaultText);
 
             Undo.RecordObject(this, "Add Dialogue Node");
             dialogueNodes.Add(dialogueNode);
@@ -118,14 +115,17 @@ namespace Frankie.Speech
             if (parentNode == null) { return null; }
 
             int childDepth = parentNode.GetNodeDepth() + 1;
-            int checkBreadth = GetAllNodes().Where(checkNode => checkNode.GetNodeDepth() == childDepth).DefaultIfEmpty().Max(checkNode => checkNode.GetNodeBreadth());
+            int checkBreadth = -1;
+            foreach (DialogueNode checkNode in GetAllNodes().Where(checkNode => checkNode.GetNodeDepth() == childDepth))
+            {
+                checkBreadth = Mathf.Max(checkBreadth, checkNode.GetNodeBreadth());
+            }
             int childBreadth = checkBreadth + 1;
             Debug.Log($"Adding new node with depth: {childDepth}, Breadth: {childBreadth}");
             
-            DialogueNode childNode = CreateNode();
+            DialogueNode childNode = CreateNode(childDepth, childBreadth);
             childNode.SetSpeakerType(parentNode.GetSpeakerType() == SpeakerType.PlayerSpeaker ? SpeakerType.AISpeaker : SpeakerType.PlayerSpeaker);
             parentNode.AddChild(childNode.name);
-            childNode.SetNodeDepthBreadth(childDepth, childBreadth);
 
             var offsetPosition = new Vector2(parentNode.GetRect().xMax + newNodeOffset.x,
                 parentNode.GetRect().yMin + (parentNode.GetRect().height + newNodeOffset.y) * (parentNode.GetChildren().Count - 1));  // Offset position by 1 since child just added
@@ -139,7 +139,7 @@ namespace Frankie.Speech
         public void CreateRootNodeIfMissing()
         {
             if (dialogueNodes.Count != 0) return;
-            CreateNode();
+            CreateNode(0,0);
             OnValidate();
         }
 
@@ -148,6 +148,7 @@ namespace Frankie.Speech
             if (nodeToDelete == null) { return; }
 
             Undo.RecordObject(this, "Delete Dialogue Node");
+            nodeToDelete.DeleteLocalizationEntries();
             dialogueNodes.Remove(nodeToDelete);
             CleanDanglingChildren(nodeToDelete);
             OnValidate();
@@ -178,7 +179,7 @@ namespace Frankie.Speech
 
         public void UpdateSpeakerName(string speaker, string newSpeakerName)
         {
-            foreach (DialogueNode dialogueNode in dialogueNodes.Where(dialogueNode => dialogueNode.GetCharacterName() == speaker))
+            foreach (DialogueNode dialogueNode in dialogueNodes.Where(dialogueNode => dialogueNode.GetSpeakerName(false) == speaker))
             {
                 dialogueNode.SetSpeakerName(newSpeakerName);
             }
@@ -197,7 +198,7 @@ namespace Frankie.Speech
             {
                 dialogueNode.name = guidSwapCache[dialogueNode.name];
                 List<string> childNodes = dialogueNode.GetChildren().ToList();
-                foreach (string childNode in childNodes.Where(childNode => guidSwapCache.ContainsKey(childNode)))
+                foreach (string childNode in childNodes.Where(guidSwapCache.ContainsKey))
                 {
                     dialogueNode.SwapChild(childNode, guidSwapCache[childNode], false);
                 }
@@ -247,10 +248,17 @@ namespace Frankie.Speech
 #if UNITY_EDITOR
             if (AssetDatabase.GetAssetPath(this) == "") return;
             
+            bool updateDialogueName = cachedDialogueName != name;
+            if (updateDialogueName) { cachedDialogueName = name; }
+            
             foreach (DialogueNode dialogueNode in GetAllNodes())
             {
+                if (dialogueNode == null) { continue; }
+                if (updateDialogueName) { dialogueNode.SetDialogueName(name); }
+                
                 if (AssetDatabase.GetAssetPath(dialogueNode) == "")
                 {
+                    dialogueNode.SetDialogueName(name);
                     AssetDatabase.AddObjectToAsset(dialogueNode, this);
                 }
             }

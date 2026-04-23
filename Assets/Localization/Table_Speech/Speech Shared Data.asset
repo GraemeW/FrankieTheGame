@@ -14,7 +14,23 @@ MonoBehaviour:
   m_EditorClassIdentifier: Unity.Localization::UnityEngine.Localization.Tables.SharedTableData
   m_TableCollectionName: Speech
   m_TableCollectionNameGuidString: 991c04154cea34203a64a5fe4f5e097e
-  m_Entries: []
+  m_Entries:
+  - m_Id: 2529182356594688
+    m_Key: Test123.0.0.Speaker
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2529198236229632
+    m_Key: Test123.0.0.Text
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2576219542380544
+    m_Key: Test123.1.0.Speaker
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2576220213469184
+    m_Key: Test123.1.0.Text
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:

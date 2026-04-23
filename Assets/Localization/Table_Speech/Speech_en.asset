@@ -17,7 +17,23 @@ MonoBehaviour:
   m_SharedData: {fileID: 11400000, guid: 991c04154cea34203a64a5fe4f5e097e, type: 2}
   m_Metadata:
     m_Items: []
-  m_TableData: []
+  m_TableData:
+  - m_Id: 2529198236229632
+    m_Localized: Moto...????
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2529182356594688
+    m_Localized: HelloJobo
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2576219542380544
+    m_Localized: DefaultSpeaker
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2576220213469184
+    m_Localized: Default Text to Overwrite
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []
