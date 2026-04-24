@@ -14,6 +14,7 @@ namespace Frankie.Utils
         // State
         private static bool _isLocaleInitialized = false;
         private static readonly Dictionary<LocalizationTableType, StringTable> _cachedEnglishTables = new();
+        private static readonly Dictionary<LocalizationTableType, StringTableCollection> _cachedTableCollections = new();
         
         #region StringReferences
         private const string _englishRef = "en";
@@ -77,7 +78,7 @@ namespace Frankie.Utils
         public static bool GetOrMakeTableCollection(LocalizationTableType localizationTableType, out StringTableCollection stringTableCollection)
         {
             stringTableCollection = null;
-            if (TryGetTableCollection(localizationTableType, out stringTableCollection)) { return true; }
+            if (GetCachedTableCollection(localizationTableType, out stringTableCollection)) { return true; }
             
             VerifyLocalizationDirectoryExistence();
             
@@ -119,9 +120,7 @@ namespace Frankie.Utils
                     return false;
             }
             
-            EditorUtility.SetDirty(englishStringTable);
-            EditorUtility.SetDirty(englishStringTable.SharedData);
-            AssetDatabase.SaveAssetIfDirty(englishStringTable);
+            DirtyStringTable(englishStringTable);
             return true;
         }
 
@@ -174,49 +173,44 @@ namespace Frankie.Utils
                     return false;
             }
             
-            EditorUtility.SetDirty(englishStringTable);
-            EditorUtility.SetDirty(englishStringTable.SharedData);
-            AssetDatabase.SaveAssetIfDirty(englishStringTable);
+            DirtyStringTable(englishStringTable);
             return true;
         }
 
         public static bool RemoveEntry(LocalizationTableType localizationTableType, TableEntryReference tableEntryReference)
         {
-            if (!GetCachedEnglishTable(localizationTableType, out StringTable englishStringTable)) { return false; }
+            if (!GetCachedTableCollection(localizationTableType, out StringTableCollection stringTableCollection)) { return false; }
             
-            Undo.RecordObject(englishStringTable, "Remove Localization Entry");
-            Undo.RecordObject(englishStringTable.SharedData, "Remove Localization Entry");
+            Undo.RecordObject(stringTableCollection, "Remove Localization Entry");
+            Undo.RecordObject(stringTableCollection.SharedData, "Remove Localization Entry");
             long keyID;
             switch (tableEntryReference.ReferenceType)
             {
                 case TableEntryReference.Type.Name:
                 {
-                    keyID = englishStringTable.SharedData.GetId(tableEntryReference);
+                    keyID = stringTableCollection.SharedData.GetId(tableEntryReference);
                     if (keyID == SharedTableData.EmptyId && !string.IsNullOrWhiteSpace(tableEntryReference.Key))
                     {
-                        englishStringTable.SharedData.RemoveKey(tableEntryReference.Key);
+                        stringTableCollection.RemoveEntry(tableEntryReference.Key);
                         break;
                     }
                     if (keyID == SharedTableData.EmptyId) { return false; }
                     
-                    englishStringTable.SharedData.RemoveKey(keyID);
+                    stringTableCollection.RemoveEntry(keyID);
                     break;
                 }
                 case TableEntryReference.Type.Id:
                     keyID = tableEntryReference.KeyId;
-                    englishStringTable.SharedData.RemoveKey(keyID);
+                    stringTableCollection.RemoveEntry(keyID);
                     break;
                 case TableEntryReference.Type.Empty:
                 default:
                     return false;
             }
             
-            EditorUtility.SetDirty(englishStringTable);
-            EditorUtility.SetDirty(englishStringTable.SharedData);
-            AssetDatabase.SaveAssetIfDirty(englishStringTable);
+            DirtyStringTableCollection(stringTableCollection);
             return true;
         }
-
         #endregion
         
         #region LocalizedStringSimplifiers
@@ -264,15 +258,22 @@ namespace Frankie.Utils
         #endregion
         
         #region PrivateMethods
-        private static bool GetCachedEnglishTable(LocalizationTableType localizationTableType, out StringTable englishStringTable)
+        private static void DirtyStringTable(StringTable stringTable)
         {
-            if (_cachedEnglishTables.TryGetValue(localizationTableType, out englishStringTable)) { return true; }
-            
-            if (!TryGetTableCollection(localizationTableType, out StringTableCollection stringTableCollection)) { return false; }
-            if (!TryGetEnglishTable(stringTableCollection, out englishStringTable)) { return false; }
-            
-            _cachedEnglishTables.Add(localizationTableType, englishStringTable);
-            return true;
+            EditorUtility.SetDirty(stringTable);
+            EditorUtility.SetDirty(stringTable.SharedData);
+            AssetDatabase.SaveAssetIfDirty(stringTable);
+        }
+
+        private static void DirtyStringTableCollection(StringTableCollection stringTableCollection)
+        {
+            EditorUtility.SetDirty(stringTableCollection);
+            foreach (StringTable stringTable in stringTableCollection.StringTables)
+            {
+                EditorUtility.SetDirty(stringTable);
+            }
+            EditorUtility.SetDirty(stringTableCollection.SharedData);
+            AssetDatabase.SaveAssetIfDirty(stringTableCollection);
         }
         
         private static bool EnsureTableEntryReferencedByID(SharedTableData sharedTableData, ref TableEntryReference tableEntryReference)
@@ -288,6 +289,26 @@ namespace Frankie.Utils
                 default:
                     return false;
             }
+        }
+        
+        private static bool GetCachedEnglishTable(LocalizationTableType localizationTableType, out StringTable englishStringTable)
+        {
+            if (_cachedEnglishTables.TryGetValue(localizationTableType, out englishStringTable)) { return true; }
+            
+            if (!GetCachedTableCollection(localizationTableType, out StringTableCollection stringTableCollection)) { return false; }
+            if (!TryGetEnglishTable(stringTableCollection, out englishStringTable)) { return false; }
+            
+            _cachedEnglishTables.Add(localizationTableType, englishStringTable);
+            return true;
+        }
+
+        private static bool GetCachedTableCollection(LocalizationTableType localizationTableType, out StringTableCollection stringTableCollection)
+        {
+            if (_cachedTableCollections.TryGetValue(localizationTableType, out stringTableCollection)) { return true; }
+            
+            if (!TryGetTableCollection(localizationTableType, out stringTableCollection)) { return false; }
+            _cachedTableCollections.Add(localizationTableType, stringTableCollection);
+            return true;
         }
         
         private static bool TryGetTableCollection(LocalizationTableType localizationTableType, out StringTableCollection stringTableCollection)

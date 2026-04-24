@@ -269,6 +269,11 @@ namespace Frankie.Speech
         {
             // Unused, required for interface
         }
+        
+        public void HandleDeletion()
+        {
+            throw new System.NotImplementedException();
+        }
         #endregion
     }
 }

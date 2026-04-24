@@ -26,14 +26,6 @@ MonoBehaviour:
     m_Localized: HelloJobo
     m_Metadata:
       m_Items: []
-  - m_Id: 2576219542380544
-    m_Localized: DefaultSpeaker
-    m_Metadata:
-      m_Items: []
-  - m_Id: 2576220213469184
-    m_Localized: Default Text to Overwrite
-    m_Metadata:
-      m_Items: []
   references:
     version: 2
     RefIds: []
