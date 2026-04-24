@@ -18,9 +18,9 @@ MonoBehaviour:
   speakerName: Horse
   localizedSpeakerName:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 0
+      m_KeyId: 2884795125194752
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -28,9 +28,9 @@ MonoBehaviour:
   text: I must now further examine these *VERY IMPORTANT DOCUMENTS*.
   localizedText:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 0
+      m_KeyId: 2884795225858048
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -53,6 +53,8 @@ MonoBehaviour:
     height: 45
   condition:
     and: []
+  cachedSpeakerName: Horse
+  cachedText: I must now further examine these *VERY IMPORTANT DOCUMENTS*.
   references:
     version: 2
     RefIds: []
@@ -74,9 +76,9 @@ MonoBehaviour:
   speakerName: Horse
   localizedSpeakerName:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 0
+      m_KeyId: 2884794919673856
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -84,9 +86,9 @@ MonoBehaviour:
   text: Thanks for deliverying these *VERY IMPORTANT DOCUMENTS*.
   localizedText:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 0
+      m_KeyId: 2884795024531456
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -115,6 +117,8 @@ MonoBehaviour:
     - or:
       - predicate: {fileID: 11400000, guid: 10a3393cd2305524095c422c3eb86dd3, type: 2}
         negate: 1
+  cachedSpeakerName: Horse
+  cachedText: Thanks for deliverying these *VERY IMPORTANT DOCUMENTS*.
   references:
     version: 2
     RefIds: []
@@ -136,9 +140,9 @@ MonoBehaviour:
   speakerName: Horse
   localizedSpeakerName:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 0
+      m_KeyId: 2884794307305472
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -146,9 +150,9 @@ MonoBehaviour:
   text: We're so proud of what you've accomplished here.  You're really an A++ Worker.
   localizedText:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 0
+      m_KeyId: 2884794407968768
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -174,6 +178,9 @@ MonoBehaviour:
     - or:
       - predicate: {fileID: 11400000, guid: ae4edaf74c20eda49816fbfc752a4ee1, type: 2}
         negate: 1
+  cachedSpeakerName: Horse
+  cachedText: We're so proud of what you've accomplished here.  You're really an
+    A++ Worker.
   references:
     version: 2
     RefIds: []
@@ -190,6 +197,8 @@ MonoBehaviour:
   m_Name: OfficeInterior-HorseWorker
   m_EditorClassIdentifier: 
   skipRootNode: 1
+  defaultSpeakerName: DefaultSpeaker
+  defaultText: Default Text to Overwrite
   cachedDialogueName: OfficeInterior-HorseWorker
   newNodeOffset: {x: 100, y: 25}
   nodeWidth: 400
@@ -224,9 +233,9 @@ MonoBehaviour:
   speakerName: Horse
   localizedSpeakerName:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 0
+      m_KeyId: 2884732957220864
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -235,9 +244,9 @@ MonoBehaviour:
     Maya has some *VERY IMPORTANT DOCUMENTS*.
   localizedText:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 0
+      m_KeyId: 2884733057884160
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -260,6 +269,9 @@ MonoBehaviour:
     height: 45
   condition:
     and: []
+  cachedSpeakerName: Horse
+  cachedText: Now that I've sufficiently complimented you, I need you to do me a
+    favor.  Maya has some *VERY IMPORTANT DOCUMENTS*.
   references:
     version: 2
     RefIds: []
@@ -281,9 +293,9 @@ MonoBehaviour:
   speakerName: Horse
   localizedSpeakerName:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 0
+      m_KeyId: 2884734580416512
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -292,9 +304,9 @@ MonoBehaviour:
     find the documents.
   localizedText:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 0
+      m_KeyId: 2884734685274112
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -316,6 +328,9 @@ MonoBehaviour:
     height: 45
   condition:
     and: []
+  cachedSpeakerName: Horse
+  cachedText: Please hop down that firepole -- yes, the one that says DANGER on it
+    -- and find the documents.
   references:
     version: 2
     RefIds: []
@@ -337,9 +352,9 @@ MonoBehaviour:
   speakerName: Horse
   localizedSpeakerName:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 0
+      m_KeyId: 2884795733368832
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -347,9 +362,9 @@ MonoBehaviour:
   text: Any luck?
   localizedText:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 0
+      m_KeyId: 2884795838226432
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -380,6 +395,8 @@ MonoBehaviour:
     - or:
       - predicate: {fileID: 11400000, guid: 2fcd91b1d6fd4e746b99bd02991d9d5d, type: 2}
         negate: 1
+  cachedSpeakerName: Horse
+  cachedText: Any luck?
   references:
     version: 2
     RefIds: []
@@ -401,9 +418,9 @@ MonoBehaviour:
   speakerName: Default
   localizedSpeakerName:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 0
+      m_KeyId: 2884730478387200
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -411,9 +428,9 @@ MonoBehaviour:
   text: Default Text to Overwrite
   localizedText:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 0
+      m_KeyId: 2884730792960000
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -439,6 +456,8 @@ MonoBehaviour:
     height: 45
   condition:
     and: []
+  cachedSpeakerName: Default
+  cachedText: Default Text to Overwrite
   references:
     version: 2
     RefIds: []
@@ -460,9 +479,9 @@ MonoBehaviour:
   speakerName: Horse
   localizedSpeakerName:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 0
+      m_KeyId: 2884795326521344
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -471,9 +490,9 @@ MonoBehaviour:
     kitchen.
   localizedText:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 0
+      m_KeyId: 2884795427184640
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -495,6 +514,9 @@ MonoBehaviour:
     height: 45
   condition:
     and: []
+  cachedSpeakerName: Horse
+  cachedText: You may take your 15 minute break -- I've enabled elevator access to
+    the kitchen.
   references:
     version: 2
     RefIds: []
@@ -516,9 +538,9 @@ MonoBehaviour:
   speakerName: Horse
   localizedSpeakerName:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 0
+      m_KeyId: 2884731107532800
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -526,9 +548,9 @@ MonoBehaviour:
   text: We can't wait to see what you'll do next.  Keep on truckin'!
   localizedText:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 0
+      m_KeyId: 2884731224973312
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -553,6 +575,8 @@ MonoBehaviour:
     - or:
       - predicate: {fileID: 11400000, guid: 10a3393cd2305524095c422c3eb86dd3, type: 2}
         negate: 0
+  cachedSpeakerName: Horse
+  cachedText: We can't wait to see what you'll do next.  Keep on truckin'!
   references:
     version: 2
     RefIds: []

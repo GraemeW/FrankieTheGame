@@ -18,9 +18,9 @@ MonoBehaviour:
   speakerName: Monk Leader
   localizedSpeakerName:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 0
+      m_KeyId: 2884730478387200
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -28,9 +28,9 @@ MonoBehaviour:
   text: No no no, this isn't right.  You have far too much hair!
   localizedText:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 0
+      m_KeyId: 2884730792960000
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -53,6 +53,8 @@ MonoBehaviour:
     height: 45
   condition:
     and: []
+  cachedSpeakerName: Monk Leader
+  cachedText: No no no, this isn't right.  You have far too much hair!
   references:
     version: 2
     RefIds: []
@@ -69,6 +71,8 @@ MonoBehaviour:
   m_Name: Demo-Monk_Leader
   m_EditorClassIdentifier: Assembly-CSharp::Frankie.Speech.Dialogue
   skipRootNode: 0
+  defaultSpeakerName: DefaultSpeaker
+  defaultText: Default Text to Overwrite
   cachedDialogueName: Demo-Monk_Leader
   newNodeOffset: {x: 100, y: 25}
   nodeWidth: 400
@@ -97,9 +101,9 @@ MonoBehaviour:
   speakerName: Monk Leader
   localizedSpeakerName:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 0
+      m_KeyId: 2884732957220864
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -107,9 +111,9 @@ MonoBehaviour:
   text: SO WHY ARE YOU HERE?!
   localizedText:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 0
+      m_KeyId: 2884733057884160
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -131,6 +135,8 @@ MonoBehaviour:
     height: 45
   condition:
     and: []
+  cachedSpeakerName: Monk Leader
+  cachedText: SO WHY ARE YOU HERE?!
   references:
     version: 2
     RefIds: []
@@ -152,9 +158,9 @@ MonoBehaviour:
   speakerName: Frankie
   localizedSpeakerName:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 0
+      m_KeyId: 2884730897817600
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -162,9 +168,9 @@ MonoBehaviour:
   text: Erk.
   localizedText:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 0
+      m_KeyId: 2884731002675200
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -187,6 +193,8 @@ MonoBehaviour:
     height: 45
   condition:
     and: []
+  cachedSpeakerName: Frankie
+  cachedText: Erk.
   references:
     version: 2
     RefIds: []

@@ -18,9 +18,9 @@ MonoBehaviour:
   speakerName: Lil Slugger
   localizedSpeakerName:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 0
+      m_KeyId: 2884730478387200
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -29,9 +29,9 @@ MonoBehaviour:
     is too dangerous
   localizedText:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 0
+      m_KeyId: 2884730792960000
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -53,6 +53,9 @@ MonoBehaviour:
     height: 45
   condition:
     and: []
+  cachedSpeakerName: Lil Slugger
+  cachedText: I wanna get a slushie from the Chug'n'Slurp (TM), but mom says the
+    forest is too dangerous
   references:
     version: 2
     RefIds: []
@@ -69,6 +72,8 @@ MonoBehaviour:
   m_Name: PrimSouth-LilSlugger
   m_EditorClassIdentifier: 
   skipRootNode: 0
+  defaultSpeakerName: DefaultSpeaker
+  defaultText: Default Text to Overwrite
   cachedDialogueName: PrimSouth-LilSlugger
   newNodeOffset: {x: 100, y: 25}
   nodeWidth: 400

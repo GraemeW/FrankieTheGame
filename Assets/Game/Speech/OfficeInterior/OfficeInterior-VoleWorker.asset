@@ -18,9 +18,9 @@ MonoBehaviour:
   speakerName: Helpful Vole
   localizedSpeakerName:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 0
+      m_KeyId: 2884778368950272
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -28,9 +28,9 @@ MonoBehaviour:
   text: It's like nobody even noticed the power went out.  Weird.
   localizedText:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 0
+      m_KeyId: 2884778473807872
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -53,6 +53,8 @@ MonoBehaviour:
     height: 45
   condition:
     and: []
+  cachedSpeakerName: Helpful Vole
+  cachedText: It's like nobody even noticed the power went out.  Weird.
   references:
     version: 2
     RefIds: []
@@ -74,9 +76,9 @@ MonoBehaviour:
   speakerName: Helpful Vole
   localizedSpeakerName:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 0
+      m_KeyId: 2884775458103296
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -84,9 +86,9 @@ MonoBehaviour:
   text: Default Text to Overwrite
   localizedText:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 0
+      m_KeyId: 2884775562960896
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -111,6 +113,8 @@ MonoBehaviour:
     height: 45
   condition:
     and: []
+  cachedSpeakerName: Helpful Vole
+  cachedText: Default Text to Overwrite
   references:
     version: 2
     RefIds: []
@@ -132,9 +136,9 @@ MonoBehaviour:
   speakerName: Helpful Vole
   localizedSpeakerName:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 0
+      m_KeyId: 2884733565394944
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -142,9 +146,9 @@ MonoBehaviour:
   text: The power flickered, and then the interns went insane.
   localizedText:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 0
+      m_KeyId: 2884733666058240
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -167,6 +171,8 @@ MonoBehaviour:
     height: 45
   condition:
     and: []
+  cachedSpeakerName: Helpful Vole
+  cachedText: The power flickered, and then the interns went insane.
   references:
     version: 2
     RefIds: []
@@ -188,9 +194,9 @@ MonoBehaviour:
   speakerName: Frankie
   localizedSpeakerName:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 0
+      m_KeyId: 2884777517506560
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -198,9 +204,9 @@ MonoBehaviour:
   text: Uhhh
   localizedText:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 0
+      m_KeyId: 2884777622364160
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -223,6 +229,8 @@ MonoBehaviour:
     height: 45
   condition:
     and: []
+  cachedSpeakerName: Frankie
+  cachedText: Uhhh
   references:
     version: 2
     RefIds: []
@@ -244,9 +252,9 @@ MonoBehaviour:
   speakerName: Helpful Vole
   localizedSpeakerName:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 0
+      m_KeyId: 2884776083054592
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -254,9 +262,9 @@ MonoBehaviour:
   text: 'It looks like everything is back to normal.  '
   localizedText:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 0
+      m_KeyId: 2884776187912192
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -282,6 +290,8 @@ MonoBehaviour:
     - or:
       - predicate: {fileID: 11400000, guid: a48c43480dda43d4d8b83892d0569110, type: 2}
         negate: 0
+  cachedSpeakerName: Helpful Vole
+  cachedText: 'It looks like everything is back to normal.  '
   references:
     version: 2
     RefIds: []
@@ -303,9 +313,9 @@ MonoBehaviour:
   speakerName: Helpful Vole
   localizedSpeakerName:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 0
+      m_KeyId: 2884777093881856
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -313,9 +323,9 @@ MonoBehaviour:
   text: '*squeak* I agree, Frankie.  We need to overthrow our capitalist overlords.  '
   localizedText:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 0
+      m_KeyId: 2884777198739456
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -339,6 +349,8 @@ MonoBehaviour:
     height: 45
   condition:
     and: []
+  cachedSpeakerName: Helpful Vole
+  cachedText: '*squeak* I agree, Frankie.  We need to overthrow our capitalist overlords.  '
   references:
     version: 2
     RefIds: []
@@ -360,9 +372,9 @@ MonoBehaviour:
   speakerName: Helpful Vole
   localizedSpeakerName:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 0
+      m_KeyId: 2884776502484992
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -370,9 +382,9 @@ MonoBehaviour:
   text: How am I ever going to support my family like this? *desperate squeak*
   localizedText:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 0
+      m_KeyId: 2884776607342592
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -396,6 +408,8 @@ MonoBehaviour:
     height: 45
   condition:
     and: []
+  cachedSpeakerName: Helpful Vole
+  cachedText: How am I ever going to support my family like this? *desperate squeak*
   references:
     version: 2
     RefIds: []
@@ -417,9 +431,9 @@ MonoBehaviour:
   speakerName: Helpful Vole
   localizedSpeakerName:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 0
+      m_KeyId: 2884778582859776
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -427,9 +441,9 @@ MonoBehaviour:
   text: '*spooky squeak*'
   localizedText:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 0
+      m_KeyId: 2884778687717376
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -451,6 +465,8 @@ MonoBehaviour:
     height: 45
   condition:
     and: []
+  cachedSpeakerName: Helpful Vole
+  cachedText: '*spooky squeak*'
   references:
     version: 2
     RefIds: []
@@ -472,9 +488,9 @@ MonoBehaviour:
   speakerName: Helpful Vole
   localizedSpeakerName:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 0
+      m_KeyId: 2884730897817600
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -482,9 +498,9 @@ MonoBehaviour:
   text: '*squeak* I''m so stressed *squeak* these due dates are insane.'
   localizedText:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 0
+      m_KeyId: 2884731002675200
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -510,6 +526,8 @@ MonoBehaviour:
     - or:
       - predicate: {fileID: 11400000, guid: b7c51f1b2153ddb4f8fe44aa9e60ffe3, type: 2}
         negate: 1
+  cachedSpeakerName: Helpful Vole
+  cachedText: '*squeak* I''m so stressed *squeak* these due dates are insane.'
   references:
     version: 2
     RefIds: []
@@ -531,9 +549,9 @@ MonoBehaviour:
   speakerName: Helpful Vole
   localizedSpeakerName:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 0
+      m_KeyId: 2884731107532800
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -541,9 +559,9 @@ MonoBehaviour:
   text: '*squeak* Oh, I''m so happy to see you.'
   localizedText:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 0
+      m_KeyId: 2884731224973312
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -572,6 +590,8 @@ MonoBehaviour:
     - or:
       - predicate: {fileID: 11400000, guid: a48c43480dda43d4d8b83892d0569110, type: 2}
         negate: 1
+  cachedSpeakerName: Helpful Vole
+  cachedText: '*squeak* Oh, I''m so happy to see you.'
   references:
     version: 2
     RefIds: []
@@ -588,6 +608,8 @@ MonoBehaviour:
   m_Name: OfficeInterior-VoleWorker
   m_EditorClassIdentifier: 
   skipRootNode: 1
+  defaultSpeakerName: DefaultSpeaker
+  defaultText: Default Text to Overwrite
   cachedDialogueName: OfficeInterior-VoleWorker
   newNodeOffset: {x: 100, y: 25}
   nodeWidth: 400
@@ -630,9 +652,9 @@ MonoBehaviour:
   speakerName: Helpful Vole
   localizedSpeakerName:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 0
+      m_KeyId: 2884776292769792
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -640,9 +662,9 @@ MonoBehaviour:
   text: And my 401k is tanking . . . *sad squeak*
   localizedText:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 0
+      m_KeyId: 2884776397627392
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -665,6 +687,8 @@ MonoBehaviour:
     height: 45
   condition:
     and: []
+  cachedSpeakerName: Helpful Vole
+  cachedText: And my 401k is tanking . . . *sad squeak*
   references:
     version: 2
     RefIds: []
@@ -686,9 +710,9 @@ MonoBehaviour:
   speakerName: Frankie
   localizedSpeakerName:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 0
+      m_KeyId: 2884777307791360
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -696,9 +720,9 @@ MonoBehaviour:
   text: Erk
   localizedText:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 0
+      m_KeyId: 2884777412648960
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -721,6 +745,8 @@ MonoBehaviour:
     height: 45
   condition:
     and: []
+  cachedSpeakerName: Frankie
+  cachedText: Erk
   references:
     version: 2
     RefIds: []
@@ -742,9 +768,9 @@ MonoBehaviour:
   speakerName: Frankie
   localizedSpeakerName:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 0
+      m_KeyId: 2884733359874048
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -752,9 +778,9 @@ MonoBehaviour:
   text: Hmm
   localizedText:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 0
+      m_KeyId: 2884733464731648
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -777,6 +803,8 @@ MonoBehaviour:
     height: 45
   condition:
     and: []
+  cachedSpeakerName: Frankie
+  cachedText: Hmm
   references:
     version: 2
     RefIds: []
@@ -798,9 +826,9 @@ MonoBehaviour:
   speakerName: Frankie
   localizedSpeakerName:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 0
+      m_KeyId: 2884776871583744
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -808,9 +836,9 @@ MonoBehaviour:
   text: Uhh
   localizedText:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 0
+      m_KeyId: 2884776984829952
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -833,6 +861,8 @@ MonoBehaviour:
     height: 45
   condition:
     and: []
+  cachedSpeakerName: Frankie
+  cachedText: Uhh
   references:
     version: 2
     RefIds: []
@@ -854,9 +884,9 @@ MonoBehaviour:
   speakerName: Helpful Vole
   localizedSpeakerName:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 0
+      m_KeyId: 2884777727221760
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -864,9 +894,9 @@ MonoBehaviour:
   text: Thanks for giving me this great advice.  *happy squeak* You're a real pal.
   localizedText:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 0
+      m_KeyId: 2884777836273664
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -888,6 +918,9 @@ MonoBehaviour:
     height: 45
   condition:
     and: []
+  cachedSpeakerName: Helpful Vole
+  cachedText: Thanks for giving me this great advice.  *happy squeak* You're a real
+    pal.
   references:
     version: 2
     RefIds: []
@@ -909,9 +942,9 @@ MonoBehaviour:
   speakerName: Helpful Vole
   localizedSpeakerName:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 0
+      m_KeyId: 2884778155040768
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -919,9 +952,9 @@ MonoBehaviour:
   text: If anyone can sort this out, it's you.  Be careful! *inspiring squeak*
   localizedText:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 0
+      m_KeyId: 2884778264092672
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -943,6 +976,8 @@ MonoBehaviour:
     height: 45
   condition:
     and: []
+  cachedSpeakerName: Helpful Vole
+  cachedText: If anyone can sort this out, it's you.  Be careful! *inspiring squeak*
   references:
     version: 2
     RefIds: []

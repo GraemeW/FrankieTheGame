@@ -18,9 +18,9 @@ MonoBehaviour:
   speakerName: Bald Man
   localizedSpeakerName:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 0
+      m_KeyId: 2884730478387200
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -28,9 +28,9 @@ MonoBehaviour:
   text: Wow, you really trekked all the way up here?
   localizedText:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 0
+      m_KeyId: 2884730792960000
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -53,6 +53,8 @@ MonoBehaviour:
     height: 45
   condition:
     and: []
+  cachedSpeakerName: Bald Man
+  cachedText: Wow, you really trekked all the way up here?
   references:
     version: 2
     RefIds: []
@@ -69,6 +71,8 @@ MonoBehaviour:
   m_Name: PrimSouth-YellowHouse-BaldGuy
   m_EditorClassIdentifier: 
   skipRootNode: 0
+  defaultSpeakerName: DefaultSpeaker
+  defaultText: Default Text to Overwrite
   cachedDialogueName: PrimSouth-YellowHouse-BaldGuy
   newNodeOffset: {x: 100, y: 25}
   nodeWidth: 400
@@ -95,9 +99,9 @@ MonoBehaviour:
   speakerName: Bald Man
   localizedSpeakerName:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 0
+      m_KeyId: 2884730897817600
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -105,9 +109,9 @@ MonoBehaviour:
   text: I'm not going to give you a prize or anything
   localizedText:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 0
+      m_KeyId: 2884731002675200
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -129,6 +133,8 @@ MonoBehaviour:
     height: 45
   condition:
     and: []
+  cachedSpeakerName: Bald Man
+  cachedText: I'm not going to give you a prize or anything
   references:
     version: 2
     RefIds: []

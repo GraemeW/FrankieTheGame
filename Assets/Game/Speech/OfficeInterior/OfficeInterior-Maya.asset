@@ -18,9 +18,9 @@ MonoBehaviour:
   speakerName: Maya
   localizedSpeakerName:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 0
+      m_KeyId: 2884750468440064
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -28,9 +28,9 @@ MonoBehaviour:
   text: I guess it can get pretty lonely down here sometimes.
   localizedText:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 0
+      m_KeyId: 2884750573297664
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -57,6 +57,8 @@ MonoBehaviour:
         negate: 0
       - predicate: {fileID: 11400000, guid: 5e4643209b194da4785f2a087052b2b2, type: 2}
         negate: 0
+  cachedSpeakerName: Maya
+  cachedText: I guess it can get pretty lonely down here sometimes.
   references:
     version: 2
     RefIds: []
@@ -78,9 +80,9 @@ MonoBehaviour:
   speakerName: Maya
   localizedSpeakerName:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 0
+      m_KeyId: 2884750049009664
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -88,9 +90,9 @@ MonoBehaviour:
   text: Default Text to Overwrite
   localizedText:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 0
+      m_KeyId: 2884750153867264
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -115,6 +117,8 @@ MonoBehaviour:
     height: 45
   condition:
     and: []
+  cachedSpeakerName: Maya
+  cachedText: Default Text to Overwrite
   references:
     version: 2
     RefIds: []
@@ -131,6 +135,8 @@ MonoBehaviour:
   m_Name: OfficeInterior-Maya
   m_EditorClassIdentifier: 
   skipRootNode: 1
+  defaultSpeakerName: DefaultSpeaker
+  defaultText: Default Text to Overwrite
   cachedDialogueName: OfficeInterior-Maya
   newNodeOffset: {x: 100, y: 25}
   nodeWidth: 400
@@ -161,9 +167,9 @@ MonoBehaviour:
   speakerName: Maya
   localizedSpeakerName:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 0
+      m_KeyId: 2884750879481856
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -171,9 +177,9 @@ MonoBehaviour:
   text: Oh.  How did you get down here?
   localizedText:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 0
+      m_KeyId: 2884750984339456
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -198,6 +204,8 @@ MonoBehaviour:
     - or:
       - predicate: {fileID: 11400000, guid: ae4edaf74c20eda49816fbfc752a4ee1, type: 2}
         negate: 1
+  cachedSpeakerName: Maya
+  cachedText: Oh.  How did you get down here?
   references:
     version: 2
     RefIds: []
@@ -219,9 +227,9 @@ MonoBehaviour:
   speakerName: Maya
   localizedSpeakerName:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 0
+      m_KeyId: 2884750258724864
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -229,9 +237,9 @@ MonoBehaviour:
   text: Let me guess, Horse asked you to come down here for his *ahem* documents?
   localizedText:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 0
+      m_KeyId: 2884750363582464
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -260,6 +268,8 @@ MonoBehaviour:
     - or:
       - predicate: {fileID: 11400000, guid: 5e4643209b194da4785f2a087052b2b2, type: 2}
         negate: 1
+  cachedSpeakerName: Maya
+  cachedText: Let me guess, Horse asked you to come down here for his *ahem* documents?
   references:
     version: 2
     RefIds: []
@@ -281,9 +291,9 @@ MonoBehaviour:
   speakerName: Maya
   localizedSpeakerName:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 0
+      m_KeyId: 2884750673960960
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -291,9 +301,9 @@ MonoBehaviour:
   text: Here -- I think this is what he wants.
   localizedText:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 0
+      m_KeyId: 2884750778818560
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -315,6 +325,8 @@ MonoBehaviour:
     height: 45
   condition:
     and: []
+  cachedSpeakerName: Maya
+  cachedText: Here -- I think this is what he wants.
   references:
     version: 2
     RefIds: []

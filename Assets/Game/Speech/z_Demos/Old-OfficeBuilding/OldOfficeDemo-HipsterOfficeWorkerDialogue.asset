@@ -18,9 +18,9 @@ MonoBehaviour:
   speakerName: Hipster Office Worker
   localizedSpeakerName:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 0
+      m_KeyId: 2884749629579264
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -28,9 +28,9 @@ MonoBehaviour:
   text: Wait, where's Tilly?  Go get Tilly first!
   localizedText:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 0
+      m_KeyId: 2884749734436864
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -55,6 +55,8 @@ MonoBehaviour:
     - or:
       - predicate: {fileID: 11400000, guid: a7bbc4f4f2f05314088fea20cb40007e, type: 2}
         negate: 1
+  cachedSpeakerName: Hipster Office Worker
+  cachedText: Wait, where's Tilly?  Go get Tilly first!
   references:
     version: 2
     RefIds: []
@@ -76,9 +78,9 @@ MonoBehaviour:
   speakerName: Hipster Office Worker
   localizedSpeakerName:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 0
+      m_KeyId: 2884748597780480
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -86,9 +88,9 @@ MonoBehaviour:
   text: Cool presentation, let's do this again some time.
   localizedText:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 0
+      m_KeyId: 2884748702638080
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -114,6 +116,8 @@ MonoBehaviour:
     - or:
       - predicate: {fileID: 11400000, guid: b4f4212310cc3474e8a46849d61d2456, type: 2}
         negate: 0
+  cachedSpeakerName: Hipster Office Worker
+  cachedText: Cool presentation, let's do this again some time.
   references:
     version: 2
     RefIds: []
@@ -135,9 +139,9 @@ MonoBehaviour:
   speakerName: Hipster Office Worker
   localizedSpeakerName:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 0
+      m_KeyId: 2884748392259584
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -145,9 +149,9 @@ MonoBehaviour:
   text: Hey, I need you to present to the SVP on this issue in 10 minutes!
   localizedText:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 0
+      m_KeyId: 2884748497117184
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -174,6 +178,8 @@ MonoBehaviour:
     - or:
       - predicate: {fileID: 11400000, guid: b4f4212310cc3474e8a46849d61d2456, type: 2}
         negate: 1
+  cachedSpeakerName: Hipster Office Worker
+  cachedText: Hey, I need you to present to the SVP on this issue in 10 minutes!
   references:
     version: 2
     RefIds: []
@@ -190,6 +196,8 @@ MonoBehaviour:
   m_Name: OldOfficeDemo-HipsterOfficeWorkerDialogue
   m_EditorClassIdentifier: 
   skipRootNode: 1
+  defaultSpeakerName: DefaultSpeaker
+  defaultText: Default Text to Overwrite
   cachedDialogueName: OldOfficeDemo-HipsterOfficeWorkerDialogue
   newNodeOffset: {x: 100, y: 25}
   nodeWidth: 400
@@ -225,9 +233,9 @@ MonoBehaviour:
   speakerName: Default
   localizedSpeakerName:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 0
+      m_KeyId: 2884748182544384
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -235,9 +243,9 @@ MonoBehaviour:
   text: Root Node Skipped
   localizedText:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 0
+      m_KeyId: 2884748287401984
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -261,6 +269,8 @@ MonoBehaviour:
     height: 45
   condition:
     and: []
+  cachedSpeakerName: Default
+  cachedText: Root Node Skipped
   references:
     version: 2
     RefIds: []
@@ -282,9 +292,9 @@ MonoBehaviour:
   speakerName: Hipster Office Worker
   localizedSpeakerName:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 0
+      m_KeyId: 2884749424058368
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -292,9 +302,9 @@ MonoBehaviour:
   text: Oh great, you have Tilly with you, let's see what you got.
   localizedText:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 0
+      m_KeyId: 2884749528915968
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -319,6 +329,8 @@ MonoBehaviour:
     - or:
       - predicate: {fileID: 11400000, guid: a7bbc4f4f2f05314088fea20cb40007e, type: 2}
         negate: 0
+  cachedSpeakerName: Hipster Office Worker
+  cachedText: Oh great, you have Tilly with you, let's see what you got.
   references:
     version: 2
     RefIds: []
@@ -340,9 +352,9 @@ MonoBehaviour:
   speakerName: Frankie
   localizedSpeakerName:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 0
+      m_KeyId: 2884749218537472
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -350,9 +362,9 @@ MonoBehaviour:
   text: Unhuh.
   localizedText:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 0
+      m_KeyId: 2884749323395072
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -374,6 +386,8 @@ MonoBehaviour:
     height: 45
   condition:
     and: []
+  cachedSpeakerName: Frankie
+  cachedText: Unhuh.
   references:
     version: 2
     RefIds: []
@@ -395,9 +409,9 @@ MonoBehaviour:
   speakerName: Frankie
   localizedSpeakerName:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 0
+      m_KeyId: 2884749013016576
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -405,9 +419,9 @@ MonoBehaviour:
   text: Erk!
   localizedText:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 0
+      m_KeyId: 2884749117874176
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -430,6 +444,8 @@ MonoBehaviour:
     height: 45
   condition:
     and: []
+  cachedSpeakerName: Frankie
+  cachedText: Erk!
   references:
     version: 2
     RefIds: []
@@ -451,9 +467,9 @@ MonoBehaviour:
   speakerName: Hipster Office Worker
   localizedSpeakerName:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 0
+      m_KeyId: 2884749839294464
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -461,9 +477,9 @@ MonoBehaviour:
   text: That's the attitude!
   localizedText:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 0
+      m_KeyId: 2884749944152064
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -487,6 +503,8 @@ MonoBehaviour:
     height: 45
   condition:
     and: []
+  cachedSpeakerName: Hipster Office Worker
+  cachedText: That's the attitude!
   references:
     version: 2
     RefIds: []
@@ -508,9 +526,9 @@ MonoBehaviour:
   speakerName: Frankie
   localizedSpeakerName:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 0
+      m_KeyId: 2884732957220864
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -518,9 +536,9 @@ MonoBehaviour:
   text: Yow!
   localizedText:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 0
+      m_KeyId: 2884733057884160
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -543,6 +561,8 @@ MonoBehaviour:
     height: 45
   condition:
     and: []
+  cachedSpeakerName: Frankie
+  cachedText: Yow!
   references:
     version: 2
     RefIds: []

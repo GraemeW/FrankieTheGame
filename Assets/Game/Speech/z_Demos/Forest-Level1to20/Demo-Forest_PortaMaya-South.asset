@@ -18,9 +18,9 @@ MonoBehaviour:
   speakerName: Frankie
   localizedSpeakerName:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 0
+      m_KeyId: 2884733565394944
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -28,9 +28,9 @@ MonoBehaviour:
   text: Nah, not today
   localizedText:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 0
+      m_KeyId: 2884733666058240
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -52,6 +52,8 @@ MonoBehaviour:
     height: 45
   condition:
     and: []
+  cachedSpeakerName: Frankie
+  cachedText: Nah, not today
   references:
     version: 2
     RefIds: []
@@ -73,9 +75,9 @@ MonoBehaviour:
   speakerName: Frankie
   localizedSpeakerName:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 0
+      m_KeyId: 2884732957220864
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -83,9 +85,9 @@ MonoBehaviour:
   text: Sure!
   localizedText:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 0
+      m_KeyId: 2884733057884160
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -107,6 +109,8 @@ MonoBehaviour:
     height: 45
   condition:
     and: []
+  cachedSpeakerName: Frankie
+  cachedText: Sure!
   references:
     version: 2
     RefIds: []
@@ -128,9 +132,9 @@ MonoBehaviour:
   speakerName: Maya
   localizedSpeakerName:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 0
+      m_KeyId: 2884730478387200
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -138,9 +142,9 @@ MonoBehaviour:
   text: Root
   localizedText:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 0
+      m_KeyId: 2884730792960000
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -164,6 +168,8 @@ MonoBehaviour:
     height: 45
   condition:
     and: []
+  cachedSpeakerName: Maya
+  cachedText: Root
   references:
     version: 2
     RefIds: []
@@ -180,6 +186,8 @@ MonoBehaviour:
   m_Name: Demo-Forest_PortaMaya-South
   m_EditorClassIdentifier: Assembly-CSharp::Frankie.Speech.Dialogue
   skipRootNode: 1
+  defaultSpeakerName: DefaultSpeaker
+  defaultText: Default Text to Overwrite
   cachedDialogueName: Demo-Forest_PortaMaya-South
   newNodeOffset: {x: 100, y: 25}
   nodeWidth: 400
@@ -211,9 +219,9 @@ MonoBehaviour:
   speakerName: Maya
   localizedSpeakerName:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 0
+      m_KeyId: 2884730897817600
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -221,9 +229,9 @@ MonoBehaviour:
   text: HI!  Welcome to PortaBank (TM)!  Your number one portable banking solution!
   localizedText:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 0
+      m_KeyId: 2884731002675200
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -248,6 +256,8 @@ MonoBehaviour:
     - or:
       - predicate: {fileID: 11400000, guid: b7efe8af9f2d9445cade3c50c9614a57, type: 2}
         negate: 0
+  cachedSpeakerName: Maya
+  cachedText: HI!  Welcome to PortaBank (TM)!  Your number one portable banking solution!
   references:
     version: 2
     RefIds: []
@@ -269,9 +279,9 @@ MonoBehaviour:
   speakerName: Maya
   localizedSpeakerName:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 0
+      m_KeyId: 2884731107532800
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -279,9 +289,9 @@ MonoBehaviour:
   text: Oh, did you want me to save your progress so far?
   localizedText:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 0
+      m_KeyId: 2884731224973312
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -308,6 +318,8 @@ MonoBehaviour:
     - or:
       - predicate: {fileID: 11400000, guid: 05a207001b6cf42d182a27d4ae0e3078, type: 2}
         negate: 0
+  cachedSpeakerName: Maya
+  cachedText: Oh, did you want me to save your progress so far?
   references:
     version: 2
     RefIds: []

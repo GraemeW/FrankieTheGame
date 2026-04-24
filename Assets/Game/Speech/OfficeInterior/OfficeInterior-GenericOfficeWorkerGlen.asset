@@ -18,9 +18,9 @@ MonoBehaviour:
   speakerName: Generic Office Worker Glen
   localizedSpeakerName:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 0
+      m_KeyId: 2884730478387200
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -28,9 +28,9 @@ MonoBehaviour:
   text: Maya is a really harsh boss, but I'd do anything for her approval.
   localizedText:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 0
+      m_KeyId: 2884730792960000
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -53,6 +53,8 @@ MonoBehaviour:
     height: 45
   condition:
     and: []
+  cachedSpeakerName: Generic Office Worker Glen
+  cachedText: Maya is a really harsh boss, but I'd do anything for her approval.
   references:
     version: 2
     RefIds: []
@@ -69,6 +71,8 @@ MonoBehaviour:
   m_Name: OfficeInterior-GenericOfficeWorkerGlen
   m_EditorClassIdentifier: 
   skipRootNode: 0
+  defaultSpeakerName: DefaultSpeaker
+  defaultText: Default Text to Overwrite
   cachedDialogueName: OfficeInterior-GenericOfficeWorkerGlen
   newNodeOffset: {x: 100, y: 25}
   nodeWidth: 400
@@ -100,9 +104,9 @@ MonoBehaviour:
   speakerName: Generic Office Worker Glen
   localizedSpeakerName:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 0
+      m_KeyId: 2884730897817600
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -110,9 +114,9 @@ MonoBehaviour:
   text: Wait, you would never tell her I said that, would you?
   localizedText:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 0
+      m_KeyId: 2884731002675200
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -136,6 +140,8 @@ MonoBehaviour:
     height: 45
   condition:
     and: []
+  cachedSpeakerName: Generic Office Worker Glen
+  cachedText: Wait, you would never tell her I said that, would you?
   references:
     version: 2
     RefIds: []
@@ -157,9 +163,9 @@ MonoBehaviour:
   speakerName: Frankie
   localizedSpeakerName:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 0
+      m_KeyId: 2884732957220864
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -167,9 +173,9 @@ MonoBehaviour:
   text: Yes
   localizedText:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 0
+      m_KeyId: 2884733057884160
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -192,6 +198,8 @@ MonoBehaviour:
     height: 45
   condition:
     and: []
+  cachedSpeakerName: Frankie
+  cachedText: Yes
   references:
     version: 2
     RefIds: []
@@ -213,9 +221,9 @@ MonoBehaviour:
   speakerName: Frankie
   localizedSpeakerName:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 0
+      m_KeyId: 2884733565394944
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -223,9 +231,9 @@ MonoBehaviour:
   text: Maybe
   localizedText:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 0
+      m_KeyId: 2884733666058240
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -248,6 +256,8 @@ MonoBehaviour:
     height: 45
   condition:
     and: []
+  cachedSpeakerName: Frankie
+  cachedText: Maybe
   references:
     version: 2
     RefIds: []
@@ -269,9 +279,9 @@ MonoBehaviour:
   speakerName: Generic Office Worker Glen
   localizedSpeakerName:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 0
+      m_KeyId: 2884753786134528
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -279,9 +289,9 @@ MonoBehaviour:
   text: Ahhhhhhhhhhhh, ooooooohhh.
   localizedText:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 0
+      m_KeyId: 2884753890992128
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -303,6 +313,8 @@ MonoBehaviour:
     height: 45
   condition:
     and: []
+  cachedSpeakerName: Generic Office Worker Glen
+  cachedText: Ahhhhhhhhhhhh, ooooooohhh.
   references:
     version: 2
     RefIds: []

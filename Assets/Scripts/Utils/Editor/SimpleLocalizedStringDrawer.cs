@@ -24,6 +24,8 @@ namespace Frankie.Utils.Editor
         {
             var simpleLocalizedStringAttribute = (SimpleLocalizedStringAttribute)attribute;
             LocalizationTableType localizationTableType = simpleLocalizedStringAttribute.localizationTableType;
+            bool isKeyEditable = simpleLocalizedStringAttribute.isKeyEditable;
+            
             if (property.boxedValue is not LocalizedString localizedString)
             {
                 EditorGUI.HelpBox(position, "Property is not a LocalizedString.", MessageType.Error);
@@ -42,7 +44,7 @@ namespace Frankie.Utils.Editor
             EditorGUI.LabelField(headerRow, label, EditorStyles.boldLabel);
             
             var keyRow = new Rect(position.x, headerRow.yMax + _rowSpacing, position.width, _rowHeight);
-            DrawKeyRow(keyRow, property, localizedString, localizationTableType);
+            DrawKeyRow(keyRow, property, localizedString, localizationTableType, isKeyEditable);
             
             var textRow = new Rect(position.x, keyRow.yMax + _rowSpacing, position.width, _rowHeight);
             DrawTextRow(textRow, localizedString, localizationTableType);
@@ -52,7 +54,7 @@ namespace Frankie.Utils.Editor
         #endregion
 
         #region DrawMethods
-        private static void DrawKeyRow(Rect keyRow, SerializedProperty property, LocalizedString localizedString, LocalizationTableType localizationTableType)
+        private static void DrawKeyRow(Rect keyRow, SerializedProperty property, LocalizedString localizedString, LocalizationTableType localizationTableType, bool isKeyEditable)
         {
             if (localizedString == null) { return; }
             
@@ -62,11 +64,15 @@ namespace Frankie.Utils.Editor
             
             // Use DelayedTextField to only when the user commits (i.e. hits return || focus-loss)
             string oldKey = LocalizationTool.ResolveKeyName(localizationTableType, localizedString, out TableEntryReference tableEntryReference);
-            string newKey = EditorGUI.DelayedTextField(fieldRect, oldKey);
-            if (newKey == oldKey || string.IsNullOrWhiteSpace(newKey)) { return; }
             
-            if (!LocalizationTool.MakeOrRenameKey(localizationTableType, tableEntryReference, newKey)) { return; }
-            if (!LocalizationTool.SafelyUpdateReference(localizationTableType, localizedString, newKey)) { return; }
+            using (new EditorGUI.DisabledScope(!isKeyEditable)) // Disable control if key cannot be edited
+            {
+                string newKey = EditorGUI.DelayedTextField(fieldRect, oldKey);
+                if (newKey == oldKey || string.IsNullOrWhiteSpace(newKey)) { return; }
+                
+                if (!LocalizationTool.MakeOrRenameKey(localizationTableType, tableEntryReference, newKey)) { return; }
+                if (!LocalizationTool.SafelyUpdateReference(localizationTableType, localizedString, newKey)) { return; }
+            }
             property.boxedValue = localizedString;
             property.serializedObject.ApplyModifiedProperties();
         }

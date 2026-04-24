@@ -18,9 +18,9 @@ MonoBehaviour:
   speakerName: Frankie
   localizedSpeakerName:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 0
+      m_KeyId: 2884766910111744
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -28,9 +28,9 @@ MonoBehaviour:
   text: Mmmhmm?
   localizedText:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 0
+      m_KeyId: 2884767014969344
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -53,6 +53,8 @@ MonoBehaviour:
     height: 45
   condition:
     and: []
+  cachedSpeakerName: Frankie
+  cachedText: Mmmhmm?
   references:
     version: 2
     RefIds: []
@@ -74,9 +76,9 @@ MonoBehaviour:
   speakerName: Fashionable Girl
   localizedSpeakerName:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 0
+      m_KeyId: 2884767329542144
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -84,9 +86,9 @@ MonoBehaviour:
   text: What's it to ya anyway?
   localizedText:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 0
+      m_KeyId: 2884767438594048
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -108,6 +110,8 @@ MonoBehaviour:
     height: 45
   condition:
     and: []
+  cachedSpeakerName: Fashionable Girl
+  cachedText: What's it to ya anyway?
   references:
     version: 2
     RefIds: []
@@ -124,6 +128,8 @@ MonoBehaviour:
   m_Name: PrimSouth-TallestBuilding-BubbleBlowGirl
   m_EditorClassIdentifier: 
   skipRootNode: 0
+  defaultSpeakerName: DefaultSpeaker
+  defaultText: Default Text to Overwrite
   cachedDialogueName: PrimSouth-TallestBuilding-BubbleBlowGirl
   newNodeOffset: {x: 100, y: 25}
   nodeWidth: 400
@@ -153,9 +159,9 @@ MonoBehaviour:
   speakerName: Fashionable Girl
   localizedSpeakerName:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 0
+      m_KeyId: 2884730478387200
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -163,9 +169,9 @@ MonoBehaviour:
   text: Looks like I locked myself out again
   localizedText:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 0
+      m_KeyId: 2884730792960000
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -188,6 +194,8 @@ MonoBehaviour:
     height: 45
   condition:
     and: []
+  cachedSpeakerName: Fashionable Girl
+  cachedText: Looks like I locked myself out again
   references:
     version: 2
     RefIds: []
@@ -209,9 +217,9 @@ MonoBehaviour:
   speakerName: Fashionable Girl
   localizedSpeakerName:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 0
+      m_KeyId: 2884767119826944
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -219,9 +227,9 @@ MonoBehaviour:
   text: Yeah, I mean, I swear this is my place
   localizedText:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 0
+      m_KeyId: 2884767224684544
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -244,6 +252,8 @@ MonoBehaviour:
     height: 45
   condition:
     and: []
+  cachedSpeakerName: Fashionable Girl
+  cachedText: Yeah, I mean, I swear this is my place
   references:
     version: 2
     RefIds: []

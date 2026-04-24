@@ -18,9 +18,9 @@ MonoBehaviour:
   speakerName: Phil Ramen
   localizedSpeakerName:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 0
+      m_KeyId: 2884738250432512
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -29,9 +29,9 @@ MonoBehaviour:
     have noticed by now.
   localizedText:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 0
+      m_KeyId: 2884738346901504
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -54,6 +54,9 @@ MonoBehaviour:
     height: 45
   condition:
     and: []
+  cachedSpeakerName: Phil Ramen
+  cachedText: Listen, this world - your world - is not what it appears to be.  You
+    must have noticed by now.
   references:
     version: 2
     RefIds: []
@@ -75,9 +78,9 @@ MonoBehaviour:
   speakerName: Frankie
   localizedSpeakerName:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 0
+      m_KeyId: 2884744671911936
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -85,9 +88,9 @@ MonoBehaviour:
   text: No
   localizedText:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 0
+      m_KeyId: 2884744776769536
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -110,6 +113,8 @@ MonoBehaviour:
     height: 45
   condition:
     and: []
+  cachedSpeakerName: Frankie
+  cachedText: No
   references:
     version: 2
     RefIds: []
@@ -131,9 +136,9 @@ MonoBehaviour:
   speakerName: Phil Ramen
   localizedSpeakerName:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 0
+      m_KeyId: 2884744256675840
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -142,9 +147,9 @@ MonoBehaviour:
     you listen closely enough, or do you want me to repeat this?
   localizedText:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 0
+      m_KeyId: 2884744361533440
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -168,6 +173,9 @@ MonoBehaviour:
     height: 45
   condition:
     and: []
+  cachedSpeakerName: Phil Ramen
+  cachedText: Oh man, oh boy, I see the light.  This is really it now.  Before I
+    go, did you listen closely enough, or do you want me to repeat this?
   references:
     version: 2
     RefIds: []
@@ -189,9 +197,9 @@ MonoBehaviour:
   speakerName: Phil Ramen
   localizedSpeakerName:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 0
+      m_KeyId: 2884744877432832
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -200,9 +208,9 @@ MonoBehaviour:
     goes.
   localizedText:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 0
+      m_KeyId: 2884744978096128
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -225,6 +233,9 @@ MonoBehaviour:
     height: 45
   condition:
     and: []
+  cachedSpeakerName: Phil Ramen
+  cachedText: Oh . . . really?  Honestly, I'm barely holding on here.  Ok, I guess,
+    here goes.
   references:
     version: 2
     RefIds: []
@@ -246,9 +257,9 @@ MonoBehaviour:
   speakerName: Phil Ramen
   localizedSpeakerName:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 0
+      m_KeyId: 2884744046960640
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -257,9 +268,9 @@ MonoBehaviour:
     Prim, DON'T YOU?
   localizedText:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 0
+      m_KeyId: 2884744151818240
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -282,6 +293,9 @@ MonoBehaviour:
     height: 45
   condition:
     and: []
+  cachedSpeakerName: Phil Ramen
+  cachedText: The subway should take you there.  Wait, you should know this, you
+    live in Prim, DON'T YOU?
   references:
     version: 2
     RefIds: []
@@ -303,9 +317,9 @@ MonoBehaviour:
   speakerName: Phil Ramen
   localizedSpeakerName:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 0
+      m_KeyId: 2884745095536640
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -314,9 +328,9 @@ MonoBehaviour:
     that.
   localizedText:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 0
+      m_KeyId: 2884745200394240
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -339,6 +353,9 @@ MonoBehaviour:
     height: 45
   condition:
     and: []
+  cachedSpeakerName: Phil Ramen
+  cachedText: Alright.  Well, you're a smart, capable, and brave man, Frankie.  Remember
+    that.
   references:
     version: 2
     RefIds: []
@@ -360,9 +377,9 @@ MonoBehaviour:
   speakerName: Phil Ramen
   localizedSpeakerName:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 0
+      m_KeyId: 2884742818029568
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -370,9 +387,9 @@ MonoBehaviour:
   text: 'Oh, I almost forgot -- my dying words:'
   localizedText:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 0
+      m_KeyId: 2884742918692864
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -395,6 +412,8 @@ MonoBehaviour:
     height: 45
   condition:
     and: []
+  cachedSpeakerName: Phil Ramen
+  cachedText: 'Oh, I almost forgot -- my dying words:'
   references:
     version: 2
     RefIds: []
@@ -416,9 +435,9 @@ MonoBehaviour:
   speakerName: Frankie
   localizedSpeakerName:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 0
+      m_KeyId: 2884744466391040
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -426,9 +445,9 @@ MonoBehaviour:
   text: Yes
   localizedText:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 0
+      m_KeyId: 2884744567054336
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -451,6 +470,8 @@ MonoBehaviour:
     height: 45
   condition:
     and: []
+  cachedSpeakerName: Frankie
+  cachedText: Yes
   references:
     version: 2
     RefIds: []
@@ -472,9 +493,9 @@ MonoBehaviour:
   speakerName: Phil Ramen
   localizedSpeakerName:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 0
+      m_KeyId: 2884734580416512
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -482,9 +503,9 @@ MonoBehaviour:
   text: I guess I'm just a cup of ramen after all.
   localizedText:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 0
+      m_KeyId: 2884734685274112
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -507,6 +528,8 @@ MonoBehaviour:
     height: 45
   condition:
     and: []
+  cachedSpeakerName: Phil Ramen
+  cachedText: I guess I'm just a cup of ramen after all.
   references:
     version: 2
     RefIds: []
@@ -523,6 +546,8 @@ MonoBehaviour:
   m_Name: OfficeInterior-PhilRamenC
   m_EditorClassIdentifier: 
   skipRootNode: 1
+  defaultSpeakerName: DefaultSpeaker
+  defaultText: Default Text to Overwrite
   cachedDialogueName: OfficeInterior-PhilRamenC
   newNodeOffset: {x: 100, y: 25}
   nodeWidth: 400
@@ -568,9 +593,9 @@ MonoBehaviour:
   speakerName: Phil Ramen
   localizedSpeakerName:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 0
+      m_KeyId: 2884743841439744
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -579,9 +604,9 @@ MonoBehaviour:
     suburb of Prim.
   localizedText:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 0
+      m_KeyId: 2884743942103040
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -604,6 +629,9 @@ MonoBehaviour:
     height: 45
   condition:
     and: []
+  cachedSpeakerName: Phil Ramen
+  cachedText: Go now.  Your first curio, I sense that it is close.  Somewhere in
+    the nearby suburb of Prim.
   references:
     version: 2
     RefIds: []
@@ -625,9 +653,9 @@ MonoBehaviour:
   speakerName: Phil Ramen
   localizedSpeakerName:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 0
+      m_KeyId: 2884732957220864
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -635,9 +663,9 @@ MonoBehaviour:
   text: Looks like this is it for me.  I hoped I could bring you further.
   localizedText:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 0
+      m_KeyId: 2884733057884160
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -660,6 +688,8 @@ MonoBehaviour:
     height: 45
   condition:
     and: []
+  cachedSpeakerName: Phil Ramen
+  cachedText: Looks like this is it for me.  I hoped I could bring you further.
   references:
     version: 2
     RefIds: []
@@ -681,9 +711,9 @@ MonoBehaviour:
   speakerName: Phil Ramen
   localizedSpeakerName:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 0
+      m_KeyId: 2884743635918848
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -692,9 +722,9 @@ MonoBehaviour:
     need their help to make it through this.
   localizedText:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 0
+      m_KeyId: 2884743736582144
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -717,6 +747,9 @@ MonoBehaviour:
     height: 45
   condition:
     and: []
+  cachedSpeakerName: Phil Ramen
+  cachedText: You'll meet many friends along the way.  Trust in them, rely on them. 
+    You need their help to make it through this.
   references:
     version: 2
     RefIds: []
@@ -738,9 +771,9 @@ MonoBehaviour:
   speakerName: Phil Ramen
   localizedSpeakerName:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 0
+      m_KeyId: 2884741790425088
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -748,9 +781,9 @@ MonoBehaviour:
   text: '*cough* *hrkkk* Well . . . '
   localizedText:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 0
+      m_KeyId: 2884741891088384
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -779,6 +812,8 @@ MonoBehaviour:
     - or:
       - predicate: {fileID: 11400000, guid: 50a87e8ab60f320449b6b01b02b28b79, type: 2}
         negate: 0
+  cachedSpeakerName: Phil Ramen
+  cachedText: '*cough* *hrkkk* Well . . . '
   references:
     version: 2
     RefIds: []
@@ -800,9 +835,9 @@ MonoBehaviour:
   speakerName: Phil Ramen
   localizedSpeakerName:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 0
+      m_KeyId: 2884743224877056
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -811,9 +846,9 @@ MonoBehaviour:
     is behind it.
   localizedText:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 0
+      m_KeyId: 2884743325540352
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -836,6 +871,9 @@ MonoBehaviour:
     height: 45
   condition:
     and: []
+  cachedSpeakerName: Phil Ramen
+  cachedText: This miasma threatens everything you know.  You must find out what,
+    or who, is behind it.
   references:
     version: 2
     RefIds: []
@@ -857,9 +895,9 @@ MonoBehaviour:
   speakerName: Frankie
   localizedSpeakerName:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 0
+      m_KeyId: 2884736623042560
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -867,9 +905,9 @@ MonoBehaviour:
   text: Looks like plain old ordinary trash.
   localizedText:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 0
+      m_KeyId: 2884736719511552
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -897,6 +935,8 @@ MonoBehaviour:
     - or:
       - predicate: {fileID: 11400000, guid: a48c43480dda43d4d8b83892d0569110, type: 2}
         negate: 1
+  cachedSpeakerName: Frankie
+  cachedText: Looks like plain old ordinary trash.
   references:
     version: 2
     RefIds: []
@@ -918,9 +958,9 @@ MonoBehaviour:
   speakerName: Frankie
   localizedSpeakerName:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 0
+      m_KeyId: 2884731107532800
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -928,9 +968,9 @@ MonoBehaviour:
   text: There's nothing left to do here . . . Goodbye Phil.
   localizedText:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 0
+      m_KeyId: 2884731224973312
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -955,6 +995,8 @@ MonoBehaviour:
     - or:
       - predicate: {fileID: 11400000, guid: a48c43480dda43d4d8b83892d0569110, type: 2}
         negate: 0
+  cachedSpeakerName: Frankie
+  cachedText: There's nothing left to do here . . . Goodbye Phil.
   references:
     version: 2
     RefIds: []
@@ -976,9 +1018,9 @@ MonoBehaviour:
   speakerName: Phil Ramen
   localizedSpeakerName:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 0
+      m_KeyId: 2884743430397952
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -987,9 +1029,9 @@ MonoBehaviour:
     of your 10 curios of power to unlock the truth.
   localizedText:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 0
+      m_KeyId: 2884743531061248
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -1012,6 +1054,9 @@ MonoBehaviour:
     height: 45
   condition:
     and: []
+  cachedSpeakerName: Phil Ramen
+  cachedText: The answer lies in your own memories.  You must go on a journey in
+    search of your 10 curios of power to unlock the truth.
   references:
     version: 2
     RefIds: []
@@ -1033,9 +1078,9 @@ MonoBehaviour:
   speakerName: Phil Ramen
   localizedSpeakerName:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 0
+      m_KeyId: 2884730478387200
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -1043,9 +1088,9 @@ MonoBehaviour:
   text: root node
   localizedText:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 0
+      m_KeyId: 2884730792960000
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -1070,6 +1115,8 @@ MonoBehaviour:
     height: 45
   condition:
     and: []
+  cachedSpeakerName: Phil Ramen
+  cachedText: root node
   references:
     version: 2
     RefIds: []
@@ -1091,9 +1138,9 @@ MonoBehaviour:
   speakerName: Phil Ramen
   localizedSpeakerName:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 0
+      m_KeyId: 2884745301057536
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -1101,9 +1148,9 @@ MonoBehaviour:
   text: I'm glad I got to meet you.  *squish* *slurp* *bye*
   localizedText:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 0
+      m_KeyId: 2884745401720832
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -1125,6 +1172,8 @@ MonoBehaviour:
     height: 45
   condition:
     and: []
+  cachedSpeakerName: Phil Ramen
+  cachedText: I'm glad I got to meet you.  *squish* *slurp* *bye*
   references:
     version: 2
     RefIds: []

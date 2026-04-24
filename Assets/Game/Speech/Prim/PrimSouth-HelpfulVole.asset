@@ -18,9 +18,9 @@ MonoBehaviour:
   speakerName: Helpful Vole
   localizedSpeakerName:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 0
+      m_KeyId: 2884734580416512
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -28,9 +28,9 @@ MonoBehaviour:
   text: Have you ever been in combat and noticed you lost access to certain skills?
   localizedText:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 0
+      m_KeyId: 2884734685274112
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -53,6 +53,9 @@ MonoBehaviour:
     height: 45
   condition:
     and: []
+  cachedSpeakerName: Helpful Vole
+  cachedText: Have you ever been in combat and noticed you lost access to certain
+    skills?
   references:
     version: 2
     RefIds: []
@@ -74,9 +77,9 @@ MonoBehaviour:
   speakerName: Helpful Vole
   localizedSpeakerName:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 0
+      m_KeyId: 2884733359874048
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -85,9 +88,9 @@ MonoBehaviour:
     VALUE to use.
   localizedText:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 0
+      m_KeyId: 2884733464731648
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -110,6 +113,9 @@ MonoBehaviour:
     height: 45
   condition:
     and: []
+  cachedSpeakerName: Helpful Vole
+  cachedText: That's because every skill is tied to a STAT, and requires a certain
+    STAT VALUE to use.
   references:
     version: 2
     RefIds: []
@@ -131,9 +137,9 @@ MonoBehaviour:
   speakerName: Helpful Vole
   localizedSpeakerName:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 0
+      m_KeyId: 2884730478387200
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -141,9 +147,9 @@ MonoBehaviour:
   text: Wait!  Don't hurt me, I'm not your average Vole!
   localizedText:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 0
+      m_KeyId: 2884730792960000
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -166,6 +172,8 @@ MonoBehaviour:
     height: 45
   condition:
     and: []
+  cachedSpeakerName: Helpful Vole
+  cachedText: Wait!  Don't hurt me, I'm not your average Vole!
   references:
     version: 2
     RefIds: []
@@ -182,6 +190,8 @@ MonoBehaviour:
   m_Name: PrimSouth-HelpfulVole
   m_EditorClassIdentifier: 
   skipRootNode: 0
+  defaultSpeakerName: DefaultSpeaker
+  defaultText: Default Text to Overwrite
   cachedDialogueName: PrimSouth-HelpfulVole
   newNodeOffset: {x: 100, y: 25}
   nodeWidth: 400
@@ -215,9 +225,9 @@ MonoBehaviour:
   speakerName: Helpful Vole
   localizedSpeakerName:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 0
+      m_KeyId: 2884755228975104
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -226,9 +236,9 @@ MonoBehaviour:
     RESTORATIVE SKILL or ITEM if you need.
   localizedText:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 0
+      m_KeyId: 2884755329638400
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -251,6 +261,9 @@ MonoBehaviour:
     height: 45
   condition:
     and: []
+  cachedSpeakerName: Helpful Vole
+  cachedText: Keep an eye on the STATUS EFFECTS being applied to your character. 
+    Use a RESTORATIVE SKILL or ITEM if you need.
   references:
     version: 2
     RefIds: []
@@ -272,9 +285,9 @@ MonoBehaviour:
   speakerName: Helpful Vole
   localizedSpeakerName:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 0
+      m_KeyId: 2884755434496000
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -283,9 +296,9 @@ MonoBehaviour:
     Manual (TM).  You should check it out!
   localizedText:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 0
+      m_KeyId: 2884755539353600
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -307,6 +320,9 @@ MonoBehaviour:
     height: 45
   condition:
     and: []
+  cachedSpeakerName: Helpful Vole
+  cachedText: I hope this makes sense -- I learned all this from the Official Frankie
+    Game Manual (TM).  You should check it out!
   references:
     version: 2
     RefIds: []
@@ -328,9 +344,9 @@ MonoBehaviour:
   speakerName: Helpful Vole
   localizedSpeakerName:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 0
+      m_KeyId: 2884738250432512
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -339,9 +355,9 @@ MonoBehaviour:
     out until your STAT recovers!
   localizedText:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 0
+      m_KeyId: 2884738346901504
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -364,6 +380,9 @@ MonoBehaviour:
     height: 45
   condition:
     and: []
+  cachedSpeakerName: Helpful Vole
+  cachedText: If your enemy lowers the STAT linked to your skill, it can lock that
+    skill out until your STAT recovers!
   references:
     version: 2
     RefIds: []
@@ -385,9 +404,9 @@ MonoBehaviour:
   speakerName: Helpful Vole
   localizedSpeakerName:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 0
+      m_KeyId: 2884732957220864
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -395,9 +414,9 @@ MonoBehaviour:
   text: It's time for a new lesson!
   localizedText:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 0
+      m_KeyId: 2884733057884160
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -420,6 +439,8 @@ MonoBehaviour:
     height: 45
   condition:
     and: []
+  cachedSpeakerName: Helpful Vole
+  cachedText: It's time for a new lesson!
   references:
     version: 2
     RefIds: []
@@ -441,9 +462,9 @@ MonoBehaviour:
   speakerName: Helpful Vole
   localizedSpeakerName:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 0
+      m_KeyId: 2884730897817600
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -451,9 +472,9 @@ MonoBehaviour:
   text: I may not look like much, but I'm really a COMBAT EXPERT
   localizedText:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 0
+      m_KeyId: 2884731002675200
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -476,6 +497,8 @@ MonoBehaviour:
     height: 45
   condition:
     and: []
+  cachedSpeakerName: Helpful Vole
+  cachedText: I may not look like much, but I'm really a COMBAT EXPERT
   references:
     version: 2
     RefIds: []

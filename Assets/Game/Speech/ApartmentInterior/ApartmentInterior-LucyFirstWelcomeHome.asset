@@ -18,9 +18,9 @@ MonoBehaviour:
   speakerName: Lucy
   localizedSpeakerName:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 0
+      m_KeyId: 2884766067056640
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -28,9 +28,9 @@ MonoBehaviour:
   text: What are they called again?  Vwoomba?
   localizedText:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 0
+      m_KeyId: 2884766176108544
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -52,6 +52,8 @@ MonoBehaviour:
     height: 45
   condition:
     and: []
+  cachedSpeakerName: Lucy
+  cachedText: What are they called again?  Vwoomba?
   references:
     version: 2
     RefIds: []
@@ -73,9 +75,9 @@ MonoBehaviour:
   speakerName: Lucy
   localizedSpeakerName:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 0
+      m_KeyId: 2884765643431936
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -83,9 +85,9 @@ MonoBehaviour:
   text: Good morning, sleepyhead!  Are you going to head into town today?
   localizedText:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 0
+      m_KeyId: 2884765748289536
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -111,6 +113,8 @@ MonoBehaviour:
     - or:
       - predicate: {fileID: 11400000, guid: 9f0337f74ac62b947a2295f4757659ec, type: 2}
         negate: 0
+  cachedSpeakerName: Lucy
+  cachedText: Good morning, sleepyhead!  Are you going to head into town today?
   references:
     version: 2
     RefIds: []
@@ -132,9 +136,9 @@ MonoBehaviour:
   speakerName: Lucy
   localizedSpeakerName:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 0
+      m_KeyId: 2884765018480640
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -142,9 +146,9 @@ MonoBehaviour:
   text: Root Node to Skip
   localizedText:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 0
+      m_KeyId: 2884765123338240
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -170,6 +174,8 @@ MonoBehaviour:
     height: 45
   condition:
     and: []
+  cachedSpeakerName: Lucy
+  cachedText: Root Node to Skip
   references:
     version: 2
     RefIds: []
@@ -186,6 +192,8 @@ MonoBehaviour:
   m_Name: ApartmentInterior-LucyFirstWelcomeHome
   m_EditorClassIdentifier: 
   skipRootNode: 1
+  defaultSpeakerName: DefaultSpeaker
+  defaultText: Default Text to Overwrite
   cachedDialogueName: ApartmentInterior-LucyFirstWelcomeHome
   newNodeOffset: {x: 100, y: 25}
   nodeWidth: 400
@@ -219,9 +227,9 @@ MonoBehaviour:
   speakerName: Lucy
   localizedSpeakerName:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 0
+      m_KeyId: 2884765437911040
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -229,9 +237,9 @@ MonoBehaviour:
   text: Why don't you have a bite to eat and head to bed?
   localizedText:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 0
+      m_KeyId: 2884765538574336
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -253,6 +261,8 @@ MonoBehaviour:
     height: 45
   condition:
     and: []
+  cachedSpeakerName: Lucy
+  cachedText: Why don't you have a bite to eat and head to bed?
   references:
     version: 2
     RefIds: []
@@ -274,9 +284,9 @@ MonoBehaviour:
   speakerName: Lucy
   localizedSpeakerName:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 0
+      m_KeyId: 2884765228195840
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -284,9 +294,9 @@ MonoBehaviour:
   text: '*Smooch* I''m so happy to see you.  You must have had a long day.'
   localizedText:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 0
+      m_KeyId: 2884765333053440
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -312,6 +322,8 @@ MonoBehaviour:
     - or:
       - predicate: {fileID: 11400000, guid: 9f0337f74ac62b947a2295f4757659ec, type: 2}
         negate: 1
+  cachedSpeakerName: Lucy
+  cachedText: '*Smooch* I''m so happy to see you.  You must have had a long day.'
   references:
     version: 2
     RefIds: []
@@ -333,9 +345,9 @@ MonoBehaviour:
   speakerName: Lucy
   localizedSpeakerName:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 0
+      m_KeyId: 2884766280966144
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -344,9 +356,9 @@ MonoBehaviour:
     sometime!
   localizedText:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 0
+      m_KeyId: 2884766385823744
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -371,6 +383,9 @@ MonoBehaviour:
     - or:
       - predicate: {fileID: 11400000, guid: 9f0337f74ac62b947a2295f4757659ec, type: 2}
         negate: 0
+  cachedSpeakerName: Lucy
+  cachedText: I heard a cute new coffee shop opened up in town.  We should check
+    it out sometime!
   references:
     version: 2
     RefIds: []
@@ -392,9 +407,9 @@ MonoBehaviour:
   speakerName: Lucy
   localizedSpeakerName:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 0
+      m_KeyId: 2884765857341440
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -402,9 +417,9 @@ MonoBehaviour:
   text: I'm thinking of getting one of those little robots to clean the house.
   localizedText:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 0
+      m_KeyId: 2884765962199040
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -430,6 +445,8 @@ MonoBehaviour:
     - or:
       - predicate: {fileID: 11400000, guid: 9f0337f74ac62b947a2295f4757659ec, type: 2}
         negate: 0
+  cachedSpeakerName: Lucy
+  cachedText: I'm thinking of getting one of those little robots to clean the house.
   references:
     version: 2
     RefIds: []
@@ -451,9 +468,9 @@ MonoBehaviour:
   speakerName: Lucy
   localizedSpeakerName:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 0
+      m_KeyId: 2884766490681344
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -462,9 +479,9 @@ MonoBehaviour:
     the paths lately.  Scary!
   localizedText:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 0
+      m_KeyId: 2884766595538944
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -486,6 +503,9 @@ MonoBehaviour:
     height: 45
   condition:
     and: []
+  cachedSpeakerName: Lucy
+  cachedText: Make sure you watch out for wild animals.  They've been straying closer
+    to the paths lately.  Scary!
   references:
     version: 2
     RefIds: []

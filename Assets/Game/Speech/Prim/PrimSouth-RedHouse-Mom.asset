@@ -18,9 +18,9 @@ MonoBehaviour:
   speakerName: Fancy Lady
   localizedSpeakerName:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 0
+      m_KeyId: 2884746123141120
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -28,9 +28,9 @@ MonoBehaviour:
   text: What a bother
   localizedText:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 0
+      m_KeyId: 2884746227998720
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -52,6 +52,8 @@ MonoBehaviour:
     height: 45
   condition:
     and: []
+  cachedSpeakerName: Fancy Lady
+  cachedText: What a bother
   references:
     version: 2
     RefIds: []
@@ -73,9 +75,9 @@ MonoBehaviour:
   speakerName: Default
   localizedSpeakerName:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 0
+      m_KeyId: 2884745506578432
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -83,9 +85,9 @@ MonoBehaviour:
   text: Default Text to Overwrite
   localizedText:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 0
+      m_KeyId: 2884745607241728
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -110,6 +112,8 @@ MonoBehaviour:
     height: 45
   condition:
     and: []
+  cachedSpeakerName: Default
+  cachedText: Default Text to Overwrite
   references:
     version: 2
     RefIds: []
@@ -131,9 +135,9 @@ MonoBehaviour:
   speakerName: Fancy Lady
   localizedSpeakerName:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 0
+      m_KeyId: 2884745921814528
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -141,9 +145,9 @@ MonoBehaviour:
   text: I'm his mom, but to be honest, I wish he'd just leave me alone
   localizedText:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 0
+      m_KeyId: 2884746022477824
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -165,6 +169,8 @@ MonoBehaviour:
     height: 45
   condition:
     and: []
+  cachedSpeakerName: Fancy Lady
+  cachedText: I'm his mom, but to be honest, I wish he'd just leave me alone
   references:
     version: 2
     RefIds: []
@@ -186,9 +192,9 @@ MonoBehaviour:
   speakerName: Fancy Lady
   localizedSpeakerName:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 0
+      m_KeyId: 2884745712099328
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -196,9 +202,9 @@ MonoBehaviour:
   text: Is that boy still hanging around my house?
   localizedText:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 0
+      m_KeyId: 2884745812762624
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -220,6 +226,8 @@ MonoBehaviour:
     height: 45
   condition:
     and: []
+  cachedSpeakerName: Fancy Lady
+  cachedText: Is that boy still hanging around my house?
   references:
     version: 2
     RefIds: []
@@ -236,6 +244,8 @@ MonoBehaviour:
   m_Name: PrimSouth-RedHouse-Mom
   m_EditorClassIdentifier: 
   skipRootNode: 1
+  defaultSpeakerName: DefaultSpeaker
+  defaultText: Default Text to Overwrite
   cachedDialogueName: PrimSouth-RedHouse-Mom
   newNodeOffset: {x: 100, y: 25}
   nodeWidth: 400

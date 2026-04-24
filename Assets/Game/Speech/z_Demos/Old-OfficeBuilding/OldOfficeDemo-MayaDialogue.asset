@@ -18,9 +18,9 @@ MonoBehaviour:
   speakerName: Default
   localizedSpeakerName:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 0
+      m_KeyId: 2884730478387200
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -28,9 +28,9 @@ MonoBehaviour:
   text: Root Node Skipped
   localizedText:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 0
+      m_KeyId: 2884730792960000
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -56,6 +56,8 @@ MonoBehaviour:
     height: 45
   condition:
     and: []
+  cachedSpeakerName: Default
+  cachedText: Root Node Skipped
   references:
     version: 2
     RefIds: []
@@ -77,9 +79,9 @@ MonoBehaviour:
   speakerName: Maya
   localizedSpeakerName:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 0
+      m_KeyId: 2884731531157504
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -88,9 +90,9 @@ MonoBehaviour:
     you're talking about, I work here.
   localizedText:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 0
+      m_KeyId: 2884731631820800
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -112,6 +114,9 @@ MonoBehaviour:
     height: 45
   condition:
     and: []
+  cachedSpeakerName: Maya
+  cachedText: What's that?  You say you saw me at the PortaBank (TM)?  I don't know
+    what you're talking about, I work here.
   references:
     version: 2
     RefIds: []
@@ -133,9 +138,9 @@ MonoBehaviour:
   speakerName: Maya
   localizedSpeakerName:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 0
+      m_KeyId: 2884732139331584
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -144,9 +149,9 @@ MonoBehaviour:
     to hang out this weekend?
   localizedText:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 0
+      m_KeyId: 2884732239994880
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -171,6 +176,9 @@ MonoBehaviour:
     - or:
       - predicate: {fileID: 11400000, guid: a7bbc4f4f2f05314088fea20cb40007e, type: 2}
         negate: 0
+  cachedSpeakerName: Maya
+  cachedText: Hi Tilly, nice hair, I mean, nice outfit, I mean . . . anyway, did
+    you want to hang out this weekend?
   references:
     version: 2
     RefIds: []
@@ -187,6 +195,8 @@ MonoBehaviour:
   m_Name: OldOfficeDemo-MayaDialogue
   m_EditorClassIdentifier: 
   skipRootNode: 1
+  defaultSpeakerName: DefaultSpeaker
+  defaultText: Default Text to Overwrite
   cachedDialogueName: OldOfficeDemo-MayaDialogue
   newNodeOffset: {x: 100, y: 25}
   nodeWidth: 400
@@ -217,9 +227,9 @@ MonoBehaviour:
   speakerName: Maya
   localizedSpeakerName:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 0
+      m_KeyId: 2884731933810688
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -227,9 +237,9 @@ MonoBehaviour:
   text: You want the key to the ballpit?  Alright, let's tango.
   localizedText:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 0
+      m_KeyId: 2884732034473984
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -254,6 +264,8 @@ MonoBehaviour:
     - or:
       - predicate: {fileID: 11400000, guid: 909f3f55c1621084b86a62ae4a8ac0bd, type: 2}
         negate: 1
+  cachedSpeakerName: Maya
+  cachedText: You want the key to the ballpit?  Alright, let's tango.
   references:
     version: 2
     RefIds: []
@@ -275,9 +287,9 @@ MonoBehaviour:
   speakerName: Maya
   localizedSpeakerName:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 0
+      m_KeyId: 2884731732484096
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -286,9 +298,9 @@ MonoBehaviour:
     here
   localizedText:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 0
+      m_KeyId: 2884731833147392
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -310,6 +322,9 @@ MonoBehaviour:
     height: 45
   condition:
     and: []
+  cachedSpeakerName: Maya
+  cachedText: Aside from you and Horse, I'm literally the only person who does work
+    around here
   references:
     version: 2
     RefIds: []

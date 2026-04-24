@@ -18,9 +18,9 @@ MonoBehaviour:
   speakerName: L'il Slugger
   localizedSpeakerName:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 0
+      m_KeyId: 2884736623042560
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -28,9 +28,9 @@ MonoBehaviour:
   text: Get bent.
   localizedText:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 0
+      m_KeyId: 2884736719511552
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -52,6 +52,8 @@ MonoBehaviour:
     height: 45
   condition:
     and: []
+  cachedSpeakerName: L'il Slugger
+  cachedText: Get bent.
   references:
     version: 2
     RefIds: []
@@ -73,9 +75,9 @@ MonoBehaviour:
   speakerName: L'il Slugger
   localizedSpeakerName:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 0
+      m_KeyId: 2884730478387200
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -83,9 +85,9 @@ MonoBehaviour:
   text: Root
   localizedText:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 0
+      m_KeyId: 2884730792960000
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -111,6 +113,8 @@ MonoBehaviour:
     height: 45
   condition:
     and: []
+  cachedSpeakerName: L'il Slugger
+  cachedText: Root
   references:
     version: 2
     RefIds: []
@@ -132,9 +136,9 @@ MonoBehaviour:
   speakerName: L'il Slugger
   localizedSpeakerName:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 0
+      m_KeyId: 2884736421715968
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -142,9 +146,9 @@ MonoBehaviour:
   text: So what?
   localizedText:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 0
+      m_KeyId: 2884736518184960
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -166,6 +170,8 @@ MonoBehaviour:
     height: 45
   condition:
     and: []
+  cachedSpeakerName: L'il Slugger
+  cachedText: So what?
   references:
     version: 2
     RefIds: []
@@ -182,6 +188,8 @@ MonoBehaviour:
   m_Name: Demo-Forest_LilSlugger
   m_EditorClassIdentifier: Assembly-CSharp::Frankie.Speech.Dialogue
   skipRootNode: 1
+  defaultSpeakerName: DefaultSpeaker
+  defaultText: Default Text to Overwrite
   cachedDialogueName: Demo-Forest_LilSlugger
   newNodeOffset: {x: 100, y: 25}
   nodeWidth: 400
@@ -211,9 +219,9 @@ MonoBehaviour:
   speakerName: L'il Slugger
   localizedSpeakerName:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 0
+      m_KeyId: 2884736216195072
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -221,9 +229,9 @@ MonoBehaviour:
   text: What?
   localizedText:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 0
+      m_KeyId: 2884736316858368
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -245,6 +253,8 @@ MonoBehaviour:
     height: 45
   condition:
     and: []
+  cachedSpeakerName: L'il Slugger
+  cachedText: What?
   references:
     version: 2
     RefIds: []
@@ -266,9 +276,9 @@ MonoBehaviour:
   speakerName: L'il Slugger
   localizedSpeakerName:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 0
+      m_KeyId: 2884736824369152
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -276,9 +286,9 @@ MonoBehaviour:
   text: Friggin' nerd!
   localizedText:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 0
+      m_KeyId: 2884736925032448
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -300,6 +310,8 @@ MonoBehaviour:
     height: 45
   condition:
     and: []
+  cachedSpeakerName: L'il Slugger
+  cachedText: Friggin' nerd!
   references:
     version: 2
     RefIds: []

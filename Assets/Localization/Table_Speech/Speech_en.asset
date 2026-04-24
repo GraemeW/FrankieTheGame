@@ -19,11 +19,1520 @@ MonoBehaviour:
     m_Items: []
   m_TableData:
   - m_Id: 2529198236229632
-    m_Localized: Moto...????
+    m_Localized: 
     m_Metadata:
       m_Items: []
   - m_Id: 2529182356594688
-    m_Localized: HelloJobo
+    m_Localized: 
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2882818806898688
+    m_Localized: Comfy Bed
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2882819079528448
+    m_Localized: The comfy bed beckons . . . .
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2882819180191744
+    m_Localized: Frankie
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2882819276660736
+    m_Localized: Hello, comfy bed.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2882819377324032
+    m_Localized: Comfy Bed
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2882819473793024
+    m_Localized: Are you sure you want to go to sleep?
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2882819570262016
+    m_Localized: Frankie
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2882819666731008
+    m_Localized: Yeah
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2882819763200000
+    m_Localized: Frankie
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2882819859668992
+    m_Localized: No, I have work to do
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2882819956137984
+    m_Localized: Comfy Bed
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2882820052606976
+    m_Localized: See you next time.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2882820144881664
+    m_Localized: Comfy Bed
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2882820241350656
+    m_Localized: Really?
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2882820337819648
+    m_Localized: Frankie
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2882820434288640
+    m_Localized: 'On second thought . . . '
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2882820530757632
+    m_Localized: Frankie
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2882820627226624
+    m_Localized: Yeah, I'm sure.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2882820719501312
+    m_Localized: Comfy Bed
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2882820820164608
+    m_Localized: You can't take this back, you know?
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2882820912439296
+    m_Localized: Frankie
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2882821008908288
+    m_Localized: I know.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2882821101182976
+    m_Localized: Frankie
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2882821197651968
+    m_Localized: Wait, I didn't mean it!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2882821294120960
+    m_Localized: Comfy Bed
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2882821386395648
+    m_Localized: Ok.  See you.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2882821487058944
+    m_Localized: Comfy Bed
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2882821579333632
+    m_Localized: Frankie.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884730478387200
+    m_Localized: Bro Office Worker
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884730792960000
+    m_Localized: Skip Root
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884730897817600
+    m_Localized: Bro Office Worker
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884731002675200
+    m_Localized: Oh no oh no oh no oh no.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884731107532800
+    m_Localized: Bro Office Worker
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884731224973312
+    m_Localized: Come on Frankie, please go find Tilly.  She'll kill me if we just
+      leave her down there.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884731531157504
+    m_Localized: Maya
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884731631820800
+    m_Localized: What's that?  You say you saw me at the PortaBank (TM)?  I don't
+      know what you're talking about, I work here.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884731732484096
+    m_Localized: Maya
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884731833147392
+    m_Localized: Aside from you and Horse, I'm literally the only person who does
+      work around here
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884731933810688
+    m_Localized: Maya
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884732034473984
+    m_Localized: You want the key to the ballpit?  Alright, let's tango.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884732139331584
+    m_Localized: Bro Office Worker
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884732239994880
+    m_Localized: Thanks Frankie, I really owe ya one.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884732340658176
+    m_Localized: Steve5000
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884732441321472
+    m_Localized: Root Node Skipped
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884732546179072
+    m_Localized: Steve5000
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884732646842368
+    m_Localized: Oh, hey Francis . . . err, Frankie.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884732751699968
+    m_Localized: Frankie
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884732856557568
+    m_Localized: Uh . . . what the hell was that?  What ARE you?
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884732957220864
+    m_Localized: Bro Office Worker
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884733057884160
+    m_Localized: Frankie!  I need your help, I really messed up this time.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884733162741760
+    m_Localized: Steve5000
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884733259210752
+    m_Localized: Hey, look -- before you go in there, you should know -- the interns
+      have been acting really weird.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884733359874048
+    m_Localized: Bro Office Worker
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884733464731648
+    m_Localized: Look, Horse locked the door to the ballpit room, but you can make
+      your way down to Tilly in the basement with the elevator.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884733565394944
+    m_Localized: Clever Office Worker
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884733666058240
+    m_Localized: After you've adventured a little, check your bank account.  You
+      may be surprised to see your stocks have paid some dividends.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884734173569024
+    m_Localized: Hipster
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884734274232320
+    m_Localized: I think the electrical breaker tripped and needs to be reset, but
+      it's in the basement and the workers here have kinda gone mad.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884734580416512
+    m_Localized: Bro Office Worker
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884734685274112
+    m_Localized: I dared Tilly to hop down the fireman's pole in the ballpit room
+      and SHE DID.  Now she's trapped with the interns.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884734790131712
+    m_Localized: Maya
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884734890795008
+    m_Localized: Root
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884734991458304
+    m_Localized: Maya
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884735092121600
+    m_Localized: I got these neat refurbished portable sheds on discount!  Can you
+      believe it?
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884735192784896
+    m_Localized: Maya
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884735297642496
+    m_Localized: Oh, did you want me to save your progress so far?
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884735402500096
+    m_Localized: Frankie
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884735503163392
+    m_Localized: Sure!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884735608020992
+    m_Localized: Frankie
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884735708684288
+    m_Localized: Nah, not today
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884736216195072
+    m_Localized: L'il Slugger
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884736316858368
+    m_Localized: What?
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884736421715968
+    m_Localized: L'il Slugger
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884736518184960
+    m_Localized: So what?
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884736623042560
+    m_Localized: Bro Office Worker
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884736719511552
+    m_Localized: Oh, uh, hi Tilly.  Good to uh . . . see you again . . . in good
+      spirits.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884736824369152
+    m_Localized: L'il Slugger
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884736925032448
+    m_Localized: Friggin' nerd!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884737231216640
+    m_Localized: Helpful Vole
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884737331879936
+    m_Localized: Wait!  Don't hurt me, I'm not your average Vole!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884737843585024
+    m_Localized: Helpful Vole
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884737948442624
+    m_Localized: So study up before your fights -- you can see what you can do by
+      pressing Tab and selecting Abilities.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884738049105920
+    m_Localized: Helpful Vole
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884738149769216
+    m_Localized: In battle, select which ability you want with your "W-A-S-D" keys
+      and then lock it in with "E".
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884738250432512
+    m_Localized: Bro Office Worker
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884738346901504
+    m_Localized: Watch out for the interns, they're really riled up about something.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884738451759104
+    m_Localized: Helpful Vole
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884738552422400
+    m_Localized: This is the last sentence I memorized.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884738653085696
+    m_Localized: Helpful Vole
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884738753748992
+    m_Localized: Squeak.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884738854412288
+    m_Localized: Maya
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884738963464192
+    m_Localized: Root
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884739882016768
+    m_Localized: Skilled Office Worker
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884739982680064
+    m_Localized: '*thwrp* Don''t get too close. *pfft*'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884740288864256
+    m_Localized: Skilled Office Worker
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884740389527552
+    m_Localized: '*pbbbt* Maybe the chili last night was a bad idea. *poot*'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884741178056704
+    m_Localized: Pretty Girl
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884741282914304
+    m_Localized: Wow!  You actually made it through the forest?
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884741790425088
+    m_Localized: Phil Ramen
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884741891088384
+    m_Localized: '*cough* *hrkkk* Well . . . '
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884742818029568
+    m_Localized: Phil Ramen
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884742918692864
+    m_Localized: 'Oh, I almost forgot -- my dying words:'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884743224877056
+    m_Localized: Frankie
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884743325540352
+    m_Localized: Oh my go-
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884743430397952
+    m_Localized: Phil Ramen
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884743531061248
+    m_Localized: The answer lies in your own memories.  You must go on a journey
+      in search of your 10 curios of power to unlock the truth.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884743635918848
+    m_Localized: Phil Ramen
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884743736582144
+    m_Localized: You'll meet many friends along the way.  Trust in them, rely on
+      them.  You need their help to make it through this.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884743841439744
+    m_Localized: Phil Ramen
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884743942103040
+    m_Localized: Go now.  Your first curio, I sense that it is close.  Somewhere
+      in the nearby suburb of Prim.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884744046960640
+    m_Localized: Phil Ramen
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884744151818240
+    m_Localized: The subway should take you there.  Wait, you should know this, you
+      live in Prim, DON'T YOU?
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884744256675840
+    m_Localized: Phil Ramen
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884744361533440
+    m_Localized: Oh man, oh boy, I see the light.  This is really it now.  Before
+      I go, did you listen closely enough, or do you want me to repeat this?
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884744466391040
+    m_Localized: Frankie
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884744567054336
+    m_Localized: Yes
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884744671911936
+    m_Localized: Frankie
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884744776769536
+    m_Localized: No
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884744877432832
+    m_Localized: Phil Ramen
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884744978096128
+    m_Localized: Oh . . . really?  Honestly, I'm barely holding on here.  Ok, I guess,
+      here goes.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884745095536640
+    m_Localized: Phil Ramen
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884745200394240
+    m_Localized: Alright.  Well, you're a smart, capable, and brave man, Frankie. 
+      Remember that.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884745301057536
+    m_Localized: Phil Ramen
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884745401720832
+    m_Localized: I'm glad I got to meet you.  *squish* *slurp* *bye*
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884745506578432
+    m_Localized: Default
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884745607241728
+    m_Localized: Default Text to Overwrite
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884745712099328
+    m_Localized: Fancy Lady
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884745812762624
+    m_Localized: Is that boy still hanging around my house?
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884745921814528
+    m_Localized: Fancy Lady
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884746022477824
+    m_Localized: I'm his mom, but to be honest, I wish he'd just leave me alone
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884746123141120
+    m_Localized: Fancy Lady
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884746227998720
+    m_Localized: What a bother
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884746945224704
+    m_Localized: Some Guy
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884747050082304
+    m_Localized: Don't let the voles into your house
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884748182544384
+    m_Localized: Default
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884748287401984
+    m_Localized: Root Node Skipped
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884748392259584
+    m_Localized: Hipster Office Worker
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884748497117184
+    m_Localized: Hey, I need you to present to the SVP on this issue in 10 minutes!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884748597780480
+    m_Localized: Hipster Office Worker
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884748702638080
+    m_Localized: Cool presentation, let's do this again some time.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884749013016576
+    m_Localized: Frankie
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884749117874176
+    m_Localized: Erk!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884749218537472
+    m_Localized: Frankie
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884749323395072
+    m_Localized: Unhuh.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884749424058368
+    m_Localized: Hipster Office Worker
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884749528915968
+    m_Localized: Oh great, you have Tilly with you, let's see what you got.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884749629579264
+    m_Localized: Hipster Office Worker
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884749734436864
+    m_Localized: Wait, where's Tilly?  Go get Tilly first!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884749839294464
+    m_Localized: Hipster Office Worker
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884749944152064
+    m_Localized: That's the attitude!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884750049009664
+    m_Localized: Maya
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884750153867264
+    m_Localized: Default Text to Overwrite
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884750258724864
+    m_Localized: Maya
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884750363582464
+    m_Localized: Let me guess, Horse asked you to come down here for his *ahem* documents?
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884750468440064
+    m_Localized: Maya
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884750573297664
+    m_Localized: I guess it can get pretty lonely down here sometimes.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884750673960960
+    m_Localized: Maya
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884750778818560
+    m_Localized: Here -- I think this is what he wants.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884750879481856
+    m_Localized: Maya
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884750984339456
+    m_Localized: Oh.  How did you get down here?
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884751294717952
+    m_Localized: Skilled Office Worker
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884751399575552
+    m_Localized: 'Didja fart?  . . . '
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884751504433152
+    m_Localized: Skilled Office Worker
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884751605096448
+    m_Localized: . . .
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884751915474944
+    m_Localized: Skilled Office Worker
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884752020332544
+    m_Localized: '*SNORT* By the way, Horse is in a really bad mood *HYUK*.  He probably
+      won''t even talk to you if you aren''t carrying Hay.'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884752120995840
+    m_Localized: Skilled Office Worker
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884752225853440
+    m_Localized: '*HYUK* Got some Hay on ya?  Well done.'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884752326516736
+    m_Localized: Skilled Office Worker
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884752435568640
+    m_Localized: Spankety spankety.  *SNORT*  Now get.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884753786134528
+    m_Localized: Tilly
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884753890992128
+    m_Localized: Yes?
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884755228975104
+    m_Localized: Helpful Vole
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884755329638400
+    m_Localized: Keep an eye on the STATUS EFFECTS being applied to your character. 
+      Use a RESTORATIVE SKILL or ITEM if you need.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884755434496000
+    m_Localized: Bro Office Worker
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884755539353600
+    m_Localized: Team work is the dream work, am I right?
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884755849732096
+    m_Localized: Phil Too
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884755954589696
+    m_Localized: Root Node Skipped
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884756055252992
+    m_Localized: Phil Too
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884756168499200
+    m_Localized: Your vibe is pretty gnarled isn't it?  Try improving your Beauty,
+      Frankie!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884756273356800
+    m_Localized: Phil Too
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884756382408704
+    m_Localized: Lookin' fly!  Let me vibe with you.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884756487266304
+    m_Localized: Phil Too
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884756592123904
+    m_Localized: 'I''m going to tell you this since you don''t already know:  pay
+      attention to your stats!  '
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884756705370112
+    m_Localized: Phil Too
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884756827004928
+    m_Localized: As you your stat values increase, you might unlock new abilities. 
+      I bet you have a new ability to check out right now.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884756944445440
+    m_Localized: Phil Too
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884757070274560
+    m_Localized: Alright, let's get goin'.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884758827687936
+    m_Localized: Default
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884758949322752
+    m_Localized: Default Text to Overwrite
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884759293255680
+    m_Localized: Hipster Office Worker
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884759402307584
+    m_Localized: I remember what I needed to tell you now, but it wasn't that important.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884759742046208
+    m_Localized: Hipster Office Worker
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884759851098112
+    m_Localized: Uh.  Hmmm...
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884761851781120
+    m_Localized: Frankie
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884761952444416
+    m_Localized: No, you'-
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884762904551424
+    m_Localized: Bro Office Worker
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884763005214720
+    m_Localized: '*sluuuuurp* *chomp* *toss*'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884763319787520
+    m_Localized: Porta Attendant
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884763424645120
+    m_Localized: HI!  Welcome to PortaBank (TM)!  Your number one portable banking
+      solution!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884763542085632
+    m_Localized: Porta Attendant
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884763646943232
+    m_Localized: Let me know if you have any questions!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884765018480640
+    m_Localized: Lucy
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884765123338240
+    m_Localized: Root Node to Skip
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884765228195840
+    m_Localized: Lucy
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884765333053440
+    m_Localized: '*Smooch* I''m so happy to see you.  You must have had a long day.'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884765437911040
+    m_Localized: Lucy
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884765538574336
+    m_Localized: Why don't you have a bite to eat and head to bed?
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884765643431936
+    m_Localized: Lucy
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884765748289536
+    m_Localized: Good morning, sleepyhead!  Are you going to head into town today?
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884765857341440
+    m_Localized: Lucy
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884765962199040
+    m_Localized: I'm thinking of getting one of those little robots to clean the
+      house.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884766067056640
+    m_Localized: Lucy
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884766176108544
+    m_Localized: What are they called again?  Vwoomba?
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884766280966144
+    m_Localized: Lucy
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884766385823744
+    m_Localized: I heard a cute new coffee shop opened up in town.  We should check
+      it out sometime!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884766490681344
+    m_Localized: Lucy
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884766595538944
+    m_Localized: Make sure you watch out for wild animals.  They've been straying
+      closer to the paths lately.  Scary!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884766910111744
+    m_Localized: Frankie
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884767014969344
+    m_Localized: Mmmhmm?
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884767119826944
+    m_Localized: Fashionable Girl
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884767224684544
+    m_Localized: Yeah, I mean, I swear this is my place
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884767329542144
+    m_Localized: Fashionable Girl
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884767438594048
+    m_Localized: What's it to ya anyway?
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884768604610560
+    m_Localized: Counting Guy
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884768709468160
+    m_Localized: . . . seventeen one thousand . . . wait, where was I?
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884769028235264
+    m_Localized: Phil Ramen
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884769137287168
+    m_Localized: Finally you've arrived.  My name is Phil, and I come bearing an
+      urgent message.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884769242144768
+    m_Localized: Frankie
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884769355390976
+    m_Localized: Are you a talking cup of noodles?
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884769460248576
+    m_Localized: Phil Ramen
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884769569300480
+    m_Localized: 'I may look like a delicious cup of noodles, but I''m actually a
+      sophisticated artificial intelligence.  '
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884769678352384
+    m_Localized: Phil Ramen
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884769783209984
+    m_Localized: Wait . . . . .
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884770315886592
+    m_Localized: Phil Ramen
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884770420744192
+    m_Localized: They must be moving faster than I thought.  We need to find some
+      chopsticks immediately.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884770529796096
+    m_Localized: Phil Ramen
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884770638848000
+    m_Localized: Once you find the chopsticks, you need to pour some hot water onto
+      me and mush my noodles around.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884770961809408
+    m_Localized: Frankie
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884771066667008
+    m_Localized: Errr?
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884771171524608
+    m_Localized: Frankie
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884771276382208
+    m_Localized: Ok?
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884771381239808
+    m_Localized: Phil Ramen
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884771494486016
+    m_Localized: I'm sorry, but now isn't the time to explain.  Quickly!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884772664696832
+    m_Localized: Phil Ramen
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884772773748736
+    m_Localized: I think they have some stocked in the convenience machines.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884774199812096
+    m_Localized: Skilled Office Worker
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884774304669696
+    m_Localized: Root
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884775248388096
+    m_Localized: Skilled Office Worker
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884775353245696
+    m_Localized: Ah, my back!  You totally f***ed up my back!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884775458103296
+    m_Localized: Helpful Vole
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884775562960896
+    m_Localized: Default Text to Overwrite
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884776083054592
+    m_Localized: Helpful Vole
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884776187912192
+    m_Localized: 'It looks like everything is back to normal.  '
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884776292769792
+    m_Localized: Helpful Vole
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884776397627392
+    m_Localized: And my 401k is tanking . . . *sad squeak*
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884776502484992
+    m_Localized: Helpful Vole
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884776607342592
+    m_Localized: How am I ever going to support my family like this? *desperate squeak*
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884776871583744
+    m_Localized: Frankie
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884776984829952
+    m_Localized: Uhh
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884777093881856
+    m_Localized: Helpful Vole
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884777198739456
+    m_Localized: '*squeak* I agree, Frankie.  We need to overthrow our capitalist
+      overlords.  '
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884777307791360
+    m_Localized: Frankie
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884777412648960
+    m_Localized: Erk
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884777517506560
+    m_Localized: Frankie
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884777622364160
+    m_Localized: Uhhh
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884777727221760
+    m_Localized: Helpful Vole
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884777836273664
+    m_Localized: Thanks for giving me this great advice.  *happy squeak* You're a
+      real pal.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884778155040768
+    m_Localized: Helpful Vole
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884778264092672
+    m_Localized: If anyone can sort this out, it's you.  Be careful! *inspiring squeak*
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884778368950272
+    m_Localized: Helpful Vole
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884778473807872
+    m_Localized: It's like nobody even noticed the power went out.  Weird.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884778582859776
+    m_Localized: Helpful Vole
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884778687717376
+    m_Localized: '*spooky squeak*'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884779639824384
+    m_Localized: Ron
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884779744681984
+    m_Localized: Anyway, want to save your progress so far?
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884780008923136
+    m_Localized: Frankie
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884780113780736
+    m_Localized: Nah, no thanks.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884780214444032
+    m_Localized: Ron
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884780315107328
+    m_Localized: Want me to shuttle you back to the PortaBank?
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884780570959872
+    m_Localized: Tilly
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884780671623168
+    m_Localized: Nah.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884780772286464
+    m_Localized: Clever Office Worker
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884780877144064
+    m_Localized: Can you help me out with this problem?
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884780982001664
+    m_Localized: Frankie
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884781082664960
+    m_Localized: Okay
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884781183328256
+    m_Localized: Frankie
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884781283991552
+    m_Localized: No
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884781388849152
+    m_Localized: Clever Office Worker
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884781489512448
+    m_Localized: You shouldn't spoil me too much, I'll never build up a real work
+      ethic if you keep going on like this.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884781594370048
+    m_Localized: Clever Office Worker
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884781695033344
+    m_Localized: You're right.  I really need to take care of this myself.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884781997023232
+    m_Localized: Helpful Vole
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884782101880832
+    m_Localized: Hi there!  I'm not your enemy, merely a vole who wants to give you
+      some advice!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884782202544128
+    m_Localized: Helpful Vole
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884782303207424
+    m_Localized: In this demo you will face enemies of varying difficulty in order
+      to gauge your combat prowess
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884782613585920
+    m_Localized: Helpful Vole
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884782714249216
+    m_Localized: Yes, well, be warned!  Combat does not pause in Frankie!  Once an
+      enemy can attack, they will!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884783020433408
+    m_Localized: Helpful Vole
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884783121096704
+    m_Localized: As you gain new skills, you'll need to traverse deeper into your
+      skill tree using the same directional keys.  Let's cross that bridge when we
+      get there though!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884783225954304
+    m_Localized: Frankie
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884783326617600
+    m_Localized: Mmmm.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884783431475200
+    m_Localized: Helpful Vole
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884783532138496
+    m_Localized: OK!  That's it.  That's all, did you need me to repeat these instructions?
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884783636996096
+    m_Localized: Frankie
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884783737659392
+    m_Localized: No
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884783838322688
+    m_Localized: Frankie
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884783938985984
+    m_Localized: Yes
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884784240975872
+    m_Localized: Beautiful Tapestry
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884784341639168
+    m_Localized: Hello Francis
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884784446496768
+    m_Localized: Frankie
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884784547160064
+    m_Localized: Are you speaking to me?
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884784849149952
+    m_Localized: Beautiful Tapestry
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884784954007552
+    m_Localized: Do you want to join me, Francis??
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884785054670848
+    m_Localized: Frankie
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884785155334144
+    m_Localized: Yes
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884785260191744
+    m_Localized: Frankie
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884785360855040
+    m_Localized: Of course
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884785461518336
+    m_Localized: Frankie
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884785562181632
+    m_Localized: Uhhh
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884785662844928
+    m_Localized: Frankie
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884785763508224
+    m_Localized: Yes
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884785864171520
+    m_Localized: Beautiful Tapestry
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884785969029120
+    m_Localized: Bald is beautiful.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884786069692416
+    m_Localized: Frankie
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884786178744320
+    m_Localized: Bald
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884786287796224
+    m_Localized: Frankie
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884786396848128
+    m_Localized: Bald is
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884786505900032
+    m_Localized: Frankie
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884786610757632
+    m_Localized: Bald is beautiful.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884787160211456
+    m_Localized: Phil Ramen
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884787260874752
+    m_Localized: Oh.  Oh.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884787776774144
+    m_Localized: Estelle
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884787877437440
+    m_Localized: 'Hey, if you find yourself with a new piece for your outfit . .
+      . '
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884788384948224
+    m_Localized: Default
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884788485611520
+    m_Localized: Errr?
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884788586274816
+    m_Localized: Estelle
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884788686938112
+    m_Localized: Oh, you're really fresh aren't you.  Access player menus by pressing
+      the `TAB` key.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884788791795712
+    m_Localized: Comfy Bed
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884788896653312
+    m_Localized: Hello again, Frankie
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884788997316608
+    m_Localized: Frankie
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884789097979904
+    m_Localized: Hello, comfy bed
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884789202837504
+    m_Localized: Comfy Bed
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884789303500800
+    m_Localized: Shall we?
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884789408358400
+    m_Localized: Frankie
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884789509021696
+    m_Localized: Yes please
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884790020726784
+    m_Localized: Clever Office Worker
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884790125584384
+    m_Localized: Hngh.  You really got me.  Alright, here's my secret.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884790431768576
+    m_Localized: Clever Office Worker
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884790532431872
+    m_Localized: There's a PortaBank (TM) just outside this very office building.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884791450984448
+    m_Localized: Tilly
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884791555842048
+    m_Localized: Definitely not.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884793292283904
+    m_Localized: Helpful Vole
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884793392947200
+    m_Localized: Here's another tip!  You can change party order and add or remove
+      party members by using the restroom in the office!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884793699131392
+    m_Localized: Helpful Vole
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884793799794688
+    m_Localized: That's all for now!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884794307305472
+    m_Localized: Horse
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884794407968768
+    m_Localized: We're so proud of what you've accomplished here.  You're really
+      an A++ Worker.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884794919673856
+    m_Localized: Horse
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884795024531456
+    m_Localized: Thanks for deliverying these *VERY IMPORTANT DOCUMENTS*.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884795125194752
+    m_Localized: Horse
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884795225858048
+    m_Localized: I must now further examine these *VERY IMPORTANT DOCUMENTS*.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884795326521344
+    m_Localized: Horse
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884795427184640
+    m_Localized: You may take your 15 minute break -- I've enabled elevator access
+      to the kitchen.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884795733368832
+    m_Localized: Horse
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884795838226432
+    m_Localized: Any luck?
     m_Metadata:
       m_Items: []
   references:

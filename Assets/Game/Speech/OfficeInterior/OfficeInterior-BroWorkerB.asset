@@ -18,9 +18,9 @@ MonoBehaviour:
   speakerName: Bro Office Worker
   localizedSpeakerName:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 0
+      m_KeyId: 2884734580416512
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -29,9 +29,9 @@ MonoBehaviour:
     ramen and just left it here!
   localizedText:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 0
+      m_KeyId: 2884734685274112
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -54,6 +54,9 @@ MonoBehaviour:
     height: 45
   condition:
     and: []
+  cachedSpeakerName: Bro Office Worker
+  cachedText: I'm really hungry from all that cardio!  Luckily someone made this
+    delicious ramen and just left it here!
   references:
     version: 2
     RefIds: []
@@ -75,9 +78,9 @@ MonoBehaviour:
   speakerName: Bro Office Worker
   localizedSpeakerName:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 0
+      m_KeyId: 2884762904551424
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -85,9 +88,9 @@ MonoBehaviour:
   text: '*sluuuuurp* *chomp* *toss*'
   localizedText:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 0
+      m_KeyId: 2884763005214720
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -109,6 +112,8 @@ MonoBehaviour:
     height: 45
   condition:
     and: []
+  cachedSpeakerName: Bro Office Worker
+  cachedText: '*sluuuuurp* *chomp* *toss*'
   references:
     version: 2
     RefIds: []
@@ -130,9 +135,9 @@ MonoBehaviour:
   speakerName: Bro Office Worker
   localizedSpeakerName:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 0
+      m_KeyId: 2884738250432512
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -140,9 +145,9 @@ MonoBehaviour:
   text: '*rip* *pour* *swish* *sluuuuuuuurrrp*'
   localizedText:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 0
+      m_KeyId: 2884738346901504
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -165,6 +170,8 @@ MonoBehaviour:
     height: 45
   condition:
     and: []
+  cachedSpeakerName: Bro Office Worker
+  cachedText: '*rip* *pour* *swish* *sluuuuuuuurrrp*'
   references:
     version: 2
     RefIds: []
@@ -186,9 +193,9 @@ MonoBehaviour:
   speakerName: Bro Office Worker
   localizedSpeakerName:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 0
+      m_KeyId: 2884731107532800
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -196,9 +203,9 @@ MonoBehaviour:
   text: I'm soooo full.
   localizedText:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 0
+      m_KeyId: 2884731224973312
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -223,6 +230,8 @@ MonoBehaviour:
     - or:
       - predicate: {fileID: 11400000, guid: 50a87e8ab60f320449b6b01b02b28b79, type: 2}
         negate: 0
+  cachedSpeakerName: Bro Office Worker
+  cachedText: I'm soooo full.
   references:
     version: 2
     RefIds: []
@@ -244,9 +253,9 @@ MonoBehaviour:
   speakerName: Bro Office Worker
   localizedSpeakerName:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 0
+      m_KeyId: 2884730478387200
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -254,9 +263,9 @@ MonoBehaviour:
   text: Root Node
   localizedText:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 0
+      m_KeyId: 2884730792960000
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -280,6 +289,8 @@ MonoBehaviour:
     height: 45
   condition:
     and: []
+  cachedSpeakerName: Bro Office Worker
+  cachedText: Root Node
   references:
     version: 2
     RefIds: []
@@ -301,9 +312,9 @@ MonoBehaviour:
   speakerName: Frankie
   localizedSpeakerName:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 0
+      m_KeyId: 2884761851781120
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -311,9 +322,9 @@ MonoBehaviour:
   text: No, you'-
   localizedText:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 0
+      m_KeyId: 2884761952444416
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -336,6 +347,8 @@ MonoBehaviour:
     height: 45
   condition:
     and: []
+  cachedSpeakerName: Frankie
+  cachedText: No, you'-
   references:
     version: 2
     RefIds: []
@@ -352,6 +365,8 @@ MonoBehaviour:
   m_Name: OfficeInterior-BroWorkerB
   m_EditorClassIdentifier: 
   skipRootNode: 1
+  defaultSpeakerName: DefaultSpeaker
+  defaultText: Default Text to Overwrite
   cachedDialogueName: OfficeInterior-BroWorkerB
   newNodeOffset: {x: 100, y: 25}
   nodeWidth: 400
@@ -388,9 +403,9 @@ MonoBehaviour:
   speakerName: Frankie
   localizedSpeakerName:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 0
+      m_KeyId: 2884732957220864
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -398,9 +413,9 @@ MonoBehaviour:
   text: Wai-  *he grabs the chopsticks and hot sauce*
   localizedText:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 0
+      m_KeyId: 2884733057884160
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -423,6 +438,8 @@ MonoBehaviour:
     height: 45
   condition:
     and: []
+  cachedSpeakerName: Frankie
+  cachedText: Wai-  *he grabs the chopsticks and hot sauce*
   references:
     version: 2
     RefIds: []
@@ -444,9 +461,9 @@ MonoBehaviour:
   speakerName: Bro Office Worker
   localizedSpeakerName:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 0
+      m_KeyId: 2884755434496000
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -454,9 +471,9 @@ MonoBehaviour:
   text: Team work is the dream work, am I right?
   localizedText:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 0
+      m_KeyId: 2884755539353600
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -479,6 +496,8 @@ MonoBehaviour:
     height: 45
   condition:
     and: []
+  cachedSpeakerName: Bro Office Worker
+  cachedText: Team work is the dream work, am I right?
   references:
     version: 2
     RefIds: []
@@ -500,9 +519,9 @@ MonoBehaviour:
   speakerName: Frankie
   localizedSpeakerName:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 0
+      m_KeyId: 2884743224877056
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -510,9 +529,9 @@ MonoBehaviour:
   text: Oh my go-
   localizedText:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 0
+      m_KeyId: 2884743325540352
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -535,6 +554,8 @@ MonoBehaviour:
     height: 45
   condition:
     and: []
+  cachedSpeakerName: Frankie
+  cachedText: Oh my go-
   references:
     version: 2
     RefIds: []
@@ -556,9 +577,9 @@ MonoBehaviour:
   speakerName: Bro Office Worker
   localizedSpeakerName:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 0
+      m_KeyId: 2884730897817600
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -566,9 +587,9 @@ MonoBehaviour:
   text: You brought me hot sauce and chopsticks!  Great!
   localizedText:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 0
+      m_KeyId: 2884731002675200
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -597,6 +618,8 @@ MonoBehaviour:
     - or:
       - predicate: {fileID: 11400000, guid: 50a87e8ab60f320449b6b01b02b28b79, type: 2}
         negate: 1
+  cachedSpeakerName: Bro Office Worker
+  cachedText: You brought me hot sauce and chopsticks!  Great!
   references:
     version: 2
     RefIds: []

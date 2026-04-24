@@ -18,9 +18,9 @@ MonoBehaviour:
   speakerName: Horse
   localizedSpeakerName:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 0
+      m_KeyId: 2884730478387200
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -28,9 +28,9 @@ MonoBehaviour:
   text: Skip Root Node
   localizedText:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 0
+      m_KeyId: 2884730792960000
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -55,6 +55,8 @@ MonoBehaviour:
     height: 45
   condition:
     and: []
+  cachedSpeakerName: Horse
+  cachedText: Skip Root Node
   references:
     version: 2
     RefIds: []
@@ -76,9 +78,9 @@ MonoBehaviour:
   speakerName: Horse
   localizedSpeakerName:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 0
+      m_KeyId: 2884730897817600
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -86,9 +88,9 @@ MonoBehaviour:
   text: Neigh. (go away, I'm busy)
   localizedText:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 0
+      m_KeyId: 2884731002675200
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -116,6 +118,8 @@ MonoBehaviour:
     - or:
       - predicate: {fileID: 11400000, guid: a0b51cdc601d47943a191dae2924e75a, type: 2}
         negate: 1
+  cachedSpeakerName: Horse
+  cachedText: Neigh. (go away, I'm busy)
   references:
     version: 2
     RefIds: []
@@ -137,9 +141,9 @@ MonoBehaviour:
   speakerName: Horse
   localizedSpeakerName:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 0
+      m_KeyId: 2884736623042560
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -148,9 +152,9 @@ MonoBehaviour:
     you son of a bitch)
   localizedText:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 0
+      m_KeyId: 2884736719511552
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -175,6 +179,9 @@ MonoBehaviour:
     - or:
       - predicate: {fileID: 11400000, guid: 69e801767cf748441b9658a6c1d8345c, type: 2}
         negate: 0
+  cachedSpeakerName: Horse
+  cachedText: Whinny.  Neigh. (congratulations Frankie, you did it, you really did
+    it, you son of a bitch)
   references:
     version: 2
     RefIds: []
@@ -191,6 +198,8 @@ MonoBehaviour:
   m_Name: OldOfficeDemo-HorseDialogue
   m_EditorClassIdentifier: 
   skipRootNode: 1
+  defaultSpeakerName: DefaultSpeaker
+  defaultText: Default Text to Overwrite
   cachedDialogueName: OldOfficeDemo-HorseDialogue
   newNodeOffset: {x: 100, y: 25}
   nodeWidth: 400
@@ -221,9 +230,9 @@ MonoBehaviour:
   speakerName: Horse
   localizedSpeakerName:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 0
+      m_KeyId: 2884731107532800
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -231,9 +240,9 @@ MonoBehaviour:
   text: Neeeeiiiigh. (is that Hay I smell?)
   localizedText:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 0
+      m_KeyId: 2884731224973312
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -262,6 +271,8 @@ MonoBehaviour:
     - or:
       - predicate: {fileID: 11400000, guid: a0b51cdc601d47943a191dae2924e75a, type: 2}
         negate: 0
+  cachedSpeakerName: Horse
+  cachedText: Neeeeiiiigh. (is that Hay I smell?)
   references:
     version: 2
     RefIds: []
@@ -283,9 +294,9 @@ MonoBehaviour:
   speakerName: Horse
   localizedSpeakerName:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 0
+      m_KeyId: 2884732957220864
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -293,9 +304,9 @@ MonoBehaviour:
   text: 'Snort. (give it to me, it''s mine) '
   localizedText:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 0
+      m_KeyId: 2884733057884160
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -317,6 +328,8 @@ MonoBehaviour:
     height: 45
   condition:
     and: []
+  cachedSpeakerName: Horse
+  cachedText: 'Snort. (give it to me, it''s mine) '
   references:
     version: 2
     RefIds: []

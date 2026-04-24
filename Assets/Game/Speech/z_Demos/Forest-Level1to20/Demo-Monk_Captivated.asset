@@ -13,6 +13,8 @@ MonoBehaviour:
   m_Name: Demo-Monk_Captivated
   m_EditorClassIdentifier: Assembly-CSharp::Frankie.Speech.Dialogue
   skipRootNode: 0
+  defaultSpeakerName: DefaultSpeaker
+  defaultText: Default Text to Overwrite
   cachedDialogueName: Demo-Monk_Captivated
   newNodeOffset: {x: 100, y: 25}
   nodeWidth: 400
@@ -38,9 +40,9 @@ MonoBehaviour:
   speakerName: Captivated Monk
   localizedSpeakerName:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 0
+      m_KeyId: 2884730478387200
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -48,9 +50,9 @@ MonoBehaviour:
   text: I've embraced my destiny.  Bald is power!
   localizedText:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 0
+      m_KeyId: 2884730792960000
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -72,6 +74,8 @@ MonoBehaviour:
     height: 45
   condition:
     and: []
+  cachedSpeakerName: Captivated Monk
+  cachedText: I've embraced my destiny.  Bald is power!
   references:
     version: 2
     RefIds: []

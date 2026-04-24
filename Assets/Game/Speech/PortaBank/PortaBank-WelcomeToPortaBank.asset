@@ -18,9 +18,9 @@ MonoBehaviour:
   speakerName: Porta Attendant
   localizedSpeakerName:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 0
+      m_KeyId: 2884731107532800
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -29,9 +29,9 @@ MonoBehaviour:
     it?
   localizedText:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 0
+      m_KeyId: 2884731224973312
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -53,6 +53,9 @@ MonoBehaviour:
     height: 45
   condition:
     and: []
+  cachedSpeakerName: Porta Attendant
+  cachedText: I got these neat refurbished portable sheds on discount!  Can you believe
+    it?
   references:
     version: 2
     RefIds: []
@@ -74,9 +77,9 @@ MonoBehaviour:
   speakerName: Porta Attendant
   localizedSpeakerName:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 0
+      m_KeyId: 2884730478387200
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -84,9 +87,9 @@ MonoBehaviour:
   text: Skip Root
   localizedText:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 0
+      m_KeyId: 2884730792960000
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -111,6 +114,8 @@ MonoBehaviour:
     height: 45
   condition:
     and: []
+  cachedSpeakerName: Porta Attendant
+  cachedText: Skip Root
   references:
     version: 2
     RefIds: []
@@ -127,6 +132,8 @@ MonoBehaviour:
   m_Name: PortaBank-WelcomeToPortaBank
   m_EditorClassIdentifier: 
   skipRootNode: 1
+  defaultSpeakerName: DefaultSpeaker
+  defaultText: Default Text to Overwrite
   cachedDialogueName: PortaBank-WelcomeToPortaBank
   newNodeOffset: {x: 100, y: 25}
   nodeWidth: 400
@@ -157,9 +164,9 @@ MonoBehaviour:
   speakerName: Porta Attendant
   localizedSpeakerName:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 0
+      m_KeyId: 2884736623042560
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -167,9 +174,9 @@ MonoBehaviour:
   text: Oh, the smell?  It was like that when we bought the fleet of these.
   localizedText:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 0
+      m_KeyId: 2884736719511552
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -192,6 +199,8 @@ MonoBehaviour:
     height: 45
   condition:
     and: []
+  cachedSpeakerName: Porta Attendant
+  cachedText: Oh, the smell?  It was like that when we bought the fleet of these.
   references:
     version: 2
     RefIds: []
@@ -213,9 +222,9 @@ MonoBehaviour:
   speakerName: Porta Attendant
   localizedSpeakerName:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 0
+      m_KeyId: 2884733565394944
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -223,9 +232,9 @@ MonoBehaviour:
   text: ' I got this car freshener tree here to help freshen things up!'
   localizedText:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 0
+      m_KeyId: 2884733666058240
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -247,6 +256,8 @@ MonoBehaviour:
     height: 45
   condition:
     and: []
+  cachedSpeakerName: Porta Attendant
+  cachedText: ' I got this car freshener tree here to help freshen things up!'
   references:
     version: 2
     RefIds: []
@@ -268,9 +279,9 @@ MonoBehaviour:
   speakerName: Porta Attendant
   localizedSpeakerName:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 0
+      m_KeyId: 2884763319787520
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -278,9 +289,9 @@ MonoBehaviour:
   text: HI!  Welcome to PortaBank (TM)!  Your number one portable banking solution!
   localizedText:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 0
+      m_KeyId: 2884763424645120
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -303,6 +314,8 @@ MonoBehaviour:
     height: 45
   condition:
     and: []
+  cachedSpeakerName: Porta Attendant
+  cachedText: HI!  Welcome to PortaBank (TM)!  Your number one portable banking solution!
   references:
     version: 2
     RefIds: []
@@ -324,9 +337,9 @@ MonoBehaviour:
   speakerName: Porta Attendant
   localizedSpeakerName:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 0
+      m_KeyId: 2884763542085632
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -334,9 +347,9 @@ MonoBehaviour:
   text: Let me know if you have any questions!
   localizedText:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 0
+      m_KeyId: 2884763646943232
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -358,6 +371,8 @@ MonoBehaviour:
     height: 45
   condition:
     and: []
+  cachedSpeakerName: Porta Attendant
+  cachedText: Let me know if you have any questions!
   references:
     version: 2
     RefIds: []

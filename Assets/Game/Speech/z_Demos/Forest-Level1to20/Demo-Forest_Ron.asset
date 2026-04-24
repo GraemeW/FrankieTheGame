@@ -18,9 +18,9 @@ MonoBehaviour:
   speakerName: Ron
   localizedSpeakerName:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 0
+      m_KeyId: 2884730897817600
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -28,9 +28,9 @@ MonoBehaviour:
   text: Whoa whoa whoa, don't hurt me!
   localizedText:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 0
+      m_KeyId: 2884731002675200
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -56,6 +56,8 @@ MonoBehaviour:
     - or:
       - predicate: {fileID: 11400000, guid: 05a207001b6cf42d182a27d4ae0e3078, type: 2}
         negate: 0
+  cachedSpeakerName: Ron
+  cachedText: Whoa whoa whoa, don't hurt me!
   references:
     version: 2
     RefIds: []
@@ -77,9 +79,9 @@ MonoBehaviour:
   speakerName: Frankie
   localizedSpeakerName:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 0
+      m_KeyId: 2884733359874048
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -87,9 +89,9 @@ MonoBehaviour:
   text: Yes, let's do it!
   localizedText:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 0
+      m_KeyId: 2884733464731648
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -111,6 +113,8 @@ MonoBehaviour:
     height: 45
   condition:
     and: []
+  cachedSpeakerName: Frankie
+  cachedText: Yes, let's do it!
   references:
     version: 2
     RefIds: []
@@ -132,9 +136,9 @@ MonoBehaviour:
   speakerName: Ron
   localizedSpeakerName:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 0
+      m_KeyId: 2884780214444032
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -142,9 +146,9 @@ MonoBehaviour:
   text: Want me to shuttle you back to the PortaBank?
   localizedText:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 0
+      m_KeyId: 2884780315107328
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -168,6 +172,8 @@ MonoBehaviour:
     height: 45
   condition:
     and: []
+  cachedSpeakerName: Ron
+  cachedText: Want me to shuttle you back to the PortaBank?
   references:
     version: 2
     RefIds: []
@@ -189,9 +195,9 @@ MonoBehaviour:
   speakerName: Frankie
   localizedSpeakerName:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 0
+      m_KeyId: 2884753786134528
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -199,9 +205,9 @@ MonoBehaviour:
   text: Nah, no thanks.
   localizedText:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 0
+      m_KeyId: 2884753890992128
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -223,6 +229,8 @@ MonoBehaviour:
     height: 45
   condition:
     and: []
+  cachedSpeakerName: Frankie
+  cachedText: Nah, no thanks.
   references:
     version: 2
     RefIds: []
@@ -239,6 +247,8 @@ MonoBehaviour:
   m_Name: Demo-Forest_Ron
   m_EditorClassIdentifier: Assembly-CSharp::Frankie.Speech.Dialogue
   skipRootNode: 1
+  defaultSpeakerName: DefaultSpeaker
+  defaultText: Default Text to Overwrite
   cachedDialogueName: Demo-Forest_Ron
   newNodeOffset: {x: 100, y: 25}
   nodeWidth: 400
@@ -274,9 +284,9 @@ MonoBehaviour:
   speakerName: Ron
   localizedSpeakerName:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 0
+      m_KeyId: 2884779639824384
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -284,9 +294,9 @@ MonoBehaviour:
   text: Anyway, want to save your progress so far?
   localizedText:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 0
+      m_KeyId: 2884779744681984
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -310,6 +320,8 @@ MonoBehaviour:
     height: 45
   condition:
     and: []
+  cachedSpeakerName: Ron
+  cachedText: Anyway, want to save your progress so far?
   references:
     version: 2
     RefIds: []
@@ -331,9 +343,9 @@ MonoBehaviour:
   speakerName: Ron
   localizedSpeakerName:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 0
+      m_KeyId: 2884730478387200
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -341,9 +353,9 @@ MonoBehaviour:
   text: Root
   localizedText:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 0
+      m_KeyId: 2884730792960000
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -367,6 +379,8 @@ MonoBehaviour:
     height: 45
   condition:
     and: []
+  cachedSpeakerName: Ron
+  cachedText: Root
   references:
     version: 2
     RefIds: []
@@ -388,9 +402,9 @@ MonoBehaviour:
   speakerName: Frankie
   localizedSpeakerName:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 0
+      m_KeyId: 2884780008923136
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -398,9 +412,9 @@ MonoBehaviour:
   text: Nah, no thanks.
   localizedText:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 0
+      m_KeyId: 2884780113780736
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -422,6 +436,8 @@ MonoBehaviour:
     height: 45
   condition:
     and: []
+  cachedSpeakerName: Frankie
+  cachedText: Nah, no thanks.
   references:
     version: 2
     RefIds: []
@@ -443,9 +459,9 @@ MonoBehaviour:
   speakerName: Ron
   localizedSpeakerName:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 0
+      m_KeyId: 2884732957220864
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -453,9 +469,9 @@ MonoBehaviour:
   text: I may be bald, but I'm not one of these FREAKS.
   localizedText:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 0
+      m_KeyId: 2884733057884160
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -478,6 +494,8 @@ MonoBehaviour:
     height: 45
   condition:
     and: []
+  cachedSpeakerName: Ron
+  cachedText: I may be bald, but I'm not one of these FREAKS.
   references:
     version: 2
     RefIds: []
@@ -499,9 +517,9 @@ MonoBehaviour:
   speakerName: Frankie
   localizedSpeakerName:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 0
+      m_KeyId: 2884780570959872
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -509,9 +527,9 @@ MonoBehaviour:
   text: Yes, get me out of here!
   localizedText:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 0
+      m_KeyId: 2884780671623168
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -533,6 +551,8 @@ MonoBehaviour:
     height: 45
   condition:
     and: []
+  cachedSpeakerName: Frankie
+  cachedText: Yes, get me out of here!
   references:
     version: 2
     RefIds: []
@@ -554,9 +574,9 @@ MonoBehaviour:
   speakerName: Ron
   localizedSpeakerName:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 0
+      m_KeyId: 2884731107532800
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -565,9 +585,9 @@ MonoBehaviour:
     just outside the church.
   localizedText:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 0
+      m_KeyId: 2884731224973312
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -593,6 +613,9 @@ MonoBehaviour:
     - or:
       - predicate: {fileID: 11400000, guid: b7efe8af9f2d9445cade3c50c9614a57, type: 2}
         negate: 0
+  cachedSpeakerName: Ron
+  cachedText: Hey, listen, if you need a way out of here, I can get you back to the
+    PortaBank just outside the church.
   references:
     version: 2
     RefIds: []

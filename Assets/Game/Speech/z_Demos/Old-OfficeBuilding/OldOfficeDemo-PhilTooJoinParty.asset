@@ -18,9 +18,9 @@ MonoBehaviour:
   speakerName: Phil Too
   localizedSpeakerName:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 0
+      m_KeyId: 2884756273356800
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -28,9 +28,9 @@ MonoBehaviour:
   text: Lookin' fly!  Let me vibe with you.
   localizedText:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 0
+      m_KeyId: 2884756382408704
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -59,6 +59,8 @@ MonoBehaviour:
     - or:
       - predicate: {fileID: 11400000, guid: 21ecd55eb4f8de14281c44324ae4a6b4, type: 2}
         negate: 0
+  cachedSpeakerName: Phil Too
+  cachedText: Lookin' fly!  Let me vibe with you.
   references:
     version: 2
     RefIds: []
@@ -80,9 +82,9 @@ MonoBehaviour:
   speakerName: Phil Too
   localizedSpeakerName:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 0
+      m_KeyId: 2884755849732096
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -90,9 +92,9 @@ MonoBehaviour:
   text: Root Node Skipped
   localizedText:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 0
+      m_KeyId: 2884755954589696
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -116,6 +118,8 @@ MonoBehaviour:
     height: 45
   condition:
     and: []
+  cachedSpeakerName: Phil Too
+  cachedText: Root Node Skipped
   references:
     version: 2
     RefIds: []
@@ -137,9 +141,9 @@ MonoBehaviour:
   speakerName: Phil Too
   localizedSpeakerName:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 0
+      m_KeyId: 2884756705370112
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -148,9 +152,9 @@ MonoBehaviour:
     you have a new ability to check out right now.
   localizedText:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 0
+      m_KeyId: 2884756827004928
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -173,6 +177,9 @@ MonoBehaviour:
     height: 45
   condition:
     and: []
+  cachedSpeakerName: Phil Too
+  cachedText: As you your stat values increase, you might unlock new abilities. 
+    I bet you have a new ability to check out right now.
   references:
     version: 2
     RefIds: []
@@ -194,9 +201,9 @@ MonoBehaviour:
   speakerName: Phil Too
   localizedSpeakerName:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 0
+      m_KeyId: 2884756487266304
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -205,9 +212,9 @@ MonoBehaviour:
     to your stats!  '
   localizedText:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 0
+      m_KeyId: 2884756592123904
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -230,6 +237,9 @@ MonoBehaviour:
     height: 45
   condition:
     and: []
+  cachedSpeakerName: Phil Too
+  cachedText: 'I''m going to tell you this since you don''t already know:  pay attention
+    to your stats!  '
   references:
     version: 2
     RefIds: []
@@ -251,9 +261,9 @@ MonoBehaviour:
   speakerName: Phil Too
   localizedSpeakerName:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 0
+      m_KeyId: 2884756944445440
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -261,9 +271,9 @@ MonoBehaviour:
   text: Alright, let's get goin'.
   localizedText:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 0
+      m_KeyId: 2884757070274560
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -285,6 +295,8 @@ MonoBehaviour:
     height: 45
   condition:
     and: []
+  cachedSpeakerName: Phil Too
+  cachedText: Alright, let's get goin'.
   references:
     version: 2
     RefIds: []
@@ -301,6 +313,8 @@ MonoBehaviour:
   m_Name: OldOfficeDemo-PhilTooJoinParty
   m_EditorClassIdentifier: 
   skipRootNode: 1
+  defaultSpeakerName: DefaultSpeaker
+  defaultText: Default Text to Overwrite
   cachedDialogueName: OldOfficeDemo-PhilTooJoinParty
   newNodeOffset: {x: 100, y: 25}
   nodeWidth: 400
@@ -332,9 +346,9 @@ MonoBehaviour:
   speakerName: Phil Too
   localizedSpeakerName:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 0
+      m_KeyId: 2884756055252992
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -342,9 +356,9 @@ MonoBehaviour:
   text: Your vibe is pretty gnarled isn't it?  Try improving your Beauty, Frankie!
   localizedText:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 0
+      m_KeyId: 2884756168499200
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -371,6 +385,8 @@ MonoBehaviour:
         negate: 1
       - predicate: {fileID: 11400000, guid: 21ecd55eb4f8de14281c44324ae4a6b4, type: 2}
         negate: 1
+  cachedSpeakerName: Phil Too
+  cachedText: Your vibe is pretty gnarled isn't it?  Try improving your Beauty, Frankie!
   references:
     version: 2
     RefIds: []

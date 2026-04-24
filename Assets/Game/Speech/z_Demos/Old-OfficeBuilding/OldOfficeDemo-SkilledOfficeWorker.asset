@@ -18,9 +18,9 @@ MonoBehaviour:
   speakerName: Skilled Office Worker
   localizedSpeakerName:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 0
+      m_KeyId: 2884732957220864
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -28,9 +28,9 @@ MonoBehaviour:
   text: . . . Just kidding.
   localizedText:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 0
+      m_KeyId: 2884733057884160
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -54,6 +54,8 @@ MonoBehaviour:
     height: 45
   condition:
     and: []
+  cachedSpeakerName: Skilled Office Worker
+  cachedText: . . . Just kidding.
   references:
     version: 2
     RefIds: []
@@ -75,9 +77,9 @@ MonoBehaviour:
   speakerName: Skilled Office Worker
   localizedSpeakerName:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 0
+      m_KeyId: 2884751294717952
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -85,9 +87,9 @@ MonoBehaviour:
   text: 'Didja fart?  . . . '
   localizedText:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 0
+      m_KeyId: 2884751399575552
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -110,6 +112,8 @@ MonoBehaviour:
     height: 45
   condition:
     and: []
+  cachedSpeakerName: Skilled Office Worker
+  cachedText: 'Didja fart?  . . . '
   references:
     version: 2
     RefIds: []
@@ -131,9 +135,9 @@ MonoBehaviour:
   speakerName: Skilled Office Worker
   localizedSpeakerName:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 0
+      m_KeyId: 2884752120995840
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -141,9 +145,9 @@ MonoBehaviour:
   text: '*HYUK* Got some Hay on ya?  Well done.'
   localizedText:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 0
+      m_KeyId: 2884752225853440
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -169,6 +173,8 @@ MonoBehaviour:
     - or:
       - predicate: {fileID: 11400000, guid: a0b51cdc601d47943a191dae2924e75a, type: 2}
         negate: 0
+  cachedSpeakerName: Skilled Office Worker
+  cachedText: '*HYUK* Got some Hay on ya?  Well done.'
   references:
     version: 2
     RefIds: []
@@ -185,6 +191,8 @@ MonoBehaviour:
   m_Name: OldOfficeDemo-SkilledOfficeWorker
   m_EditorClassIdentifier: 
   skipRootNode: 0
+  defaultSpeakerName: DefaultSpeaker
+  defaultText: Default Text to Overwrite
   cachedDialogueName: OldOfficeDemo-SkilledOfficeWorker
   newNodeOffset: {x: 100, y: 25}
   nodeWidth: 400
@@ -216,9 +224,9 @@ MonoBehaviour:
   speakerName: Skilled Office Worker
   localizedSpeakerName:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 0
+      m_KeyId: 2884751915474944
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -227,9 +235,9 @@ MonoBehaviour:
     even talk to you if you aren''t carrying Hay.'
   localizedText:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 0
+      m_KeyId: 2884752020332544
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -255,6 +263,9 @@ MonoBehaviour:
     - or:
       - predicate: {fileID: 11400000, guid: a0b51cdc601d47943a191dae2924e75a, type: 2}
         negate: 1
+  cachedSpeakerName: Skilled Office Worker
+  cachedText: '*SNORT* By the way, Horse is in a really bad mood *HYUK*.  He probably
+    won''t even talk to you if you aren''t carrying Hay.'
   references:
     version: 2
     RefIds: []
@@ -276,9 +287,9 @@ MonoBehaviour:
   speakerName: Skilled Office Worker
   localizedSpeakerName:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 0
+      m_KeyId: 2884752326516736
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -286,9 +297,9 @@ MonoBehaviour:
   text: Spankety spankety.  *SNORT*  Now get.
   localizedText:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 0
+      m_KeyId: 2884752435568640
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -310,6 +321,8 @@ MonoBehaviour:
     height: 45
   condition:
     and: []
+  cachedSpeakerName: Skilled Office Worker
+  cachedText: Spankety spankety.  *SNORT*  Now get.
   references:
     version: 2
     RefIds: []
@@ -331,9 +344,9 @@ MonoBehaviour:
   speakerName: Skilled Office Worker
   localizedSpeakerName:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 0
+      m_KeyId: 2884751504433152
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -341,9 +354,9 @@ MonoBehaviour:
   text: . . .
   localizedText:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 0
+      m_KeyId: 2884751605096448
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -366,6 +379,8 @@ MonoBehaviour:
     height: 45
   condition:
     and: []
+  cachedSpeakerName: Skilled Office Worker
+  cachedText: . . .
   references:
     version: 2
     RefIds: []

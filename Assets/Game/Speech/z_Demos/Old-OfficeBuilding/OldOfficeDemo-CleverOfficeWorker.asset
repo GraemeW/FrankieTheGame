@@ -18,9 +18,9 @@ MonoBehaviour:
   speakerName: Tilly
   localizedSpeakerName:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 0
+      m_KeyId: 2884780570959872
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -28,9 +28,9 @@ MonoBehaviour:
   text: Nah.
   localizedText:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 0
+      m_KeyId: 2884780671623168
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -52,6 +52,8 @@ MonoBehaviour:
     height: 45
   condition:
     and: []
+  cachedSpeakerName: Tilly
+  cachedText: Nah.
   references:
     version: 2
     RefIds: []
@@ -73,9 +75,9 @@ MonoBehaviour:
   speakerName: Clever Office Worker
   localizedSpeakerName:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 0
+      m_KeyId: 2884732957220864
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -83,9 +85,9 @@ MonoBehaviour:
   text: Question is, think you can take me?
   localizedText:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 0
+      m_KeyId: 2884733057884160
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -111,6 +113,8 @@ MonoBehaviour:
     height: 45
   condition:
     and: []
+  cachedSpeakerName: Clever Office Worker
+  cachedText: Question is, think you can take me?
   references:
     version: 2
     RefIds: []
@@ -132,9 +136,9 @@ MonoBehaviour:
   speakerName: Tilly
   localizedSpeakerName:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 0
+      m_KeyId: 2884753786134528
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -142,9 +146,9 @@ MonoBehaviour:
   text: Yes?
   localizedText:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 0
+      m_KeyId: 2884753890992128
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -166,6 +170,8 @@ MonoBehaviour:
     height: 45
   condition:
     and: []
+  cachedSpeakerName: Tilly
+  cachedText: Yes?
   references:
     version: 2
     RefIds: []
@@ -182,6 +188,8 @@ MonoBehaviour:
   m_Name: OldOfficeDemo-CleverOfficeWorker
   m_EditorClassIdentifier: 
   skipRootNode: 1
+  defaultSpeakerName: DefaultSpeaker
+  defaultText: Default Text to Overwrite
   cachedDialogueName: OldOfficeDemo-CleverOfficeWorker
   newNodeOffset: {x: 100, y: 25}
   nodeWidth: 400
@@ -218,9 +226,9 @@ MonoBehaviour:
   speakerName: Tilly
   localizedSpeakerName:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 0
+      m_KeyId: 2884734580416512
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -228,9 +236,9 @@ MonoBehaviour:
   text: Nope.
   localizedText:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 0
+      m_KeyId: 2884734685274112
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -252,6 +260,8 @@ MonoBehaviour:
     height: 45
   condition:
     and: []
+  cachedSpeakerName: Tilly
+  cachedText: Nope.
   references:
     version: 2
     RefIds: []
@@ -273,9 +283,9 @@ MonoBehaviour:
   speakerName: Clever Office Worker
   localizedSpeakerName:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 0
+      m_KeyId: 2884790431768576
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -283,9 +293,9 @@ MonoBehaviour:
   text: There's a PortaBank (TM) just outside this very office building.
   localizedText:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 0
+      m_KeyId: 2884790532431872
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -307,6 +317,8 @@ MonoBehaviour:
     height: 45
   condition:
     and: []
+  cachedSpeakerName: Clever Office Worker
+  cachedText: There's a PortaBank (TM) just outside this very office building.
   references:
     version: 2
     RefIds: []
@@ -328,9 +340,9 @@ MonoBehaviour:
   speakerName: Clever Office Worker
   localizedSpeakerName:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 0
+      m_KeyId: 2884733565394944
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -339,9 +351,9 @@ MonoBehaviour:
     to see your stocks have paid some dividends.
   localizedText:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 0
+      m_KeyId: 2884733666058240
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -364,6 +376,9 @@ MonoBehaviour:
     height: 45
   condition:
     and: []
+  cachedSpeakerName: Clever Office Worker
+  cachedText: After you've adventured a little, check your bank account.  You may
+    be surprised to see your stocks have paid some dividends.
   references:
     version: 2
     RefIds: []
@@ -385,9 +400,9 @@ MonoBehaviour:
   speakerName: Clever Office Worker
   localizedSpeakerName:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 0
+      m_KeyId: 2884730478387200
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -395,9 +410,9 @@ MonoBehaviour:
   text: Root node skipped
   localizedText:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 0
+      m_KeyId: 2884730792960000
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -421,6 +436,8 @@ MonoBehaviour:
     height: 45
   condition:
     and: []
+  cachedSpeakerName: Clever Office Worker
+  cachedText: Root node skipped
   references:
     version: 2
     RefIds: []
@@ -442,9 +459,9 @@ MonoBehaviour:
   speakerName: Clever Office Worker
   localizedSpeakerName:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 0
+      m_KeyId: 2884730897817600
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -452,9 +469,9 @@ MonoBehaviour:
   text: Beat me and I'll tell you a secret.  *hue hue hue hue hue hue hue*
   localizedText:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 0
+      m_KeyId: 2884731002675200
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -480,6 +497,8 @@ MonoBehaviour:
     - or:
       - predicate: {fileID: 11400000, guid: 5543b1768f9e22b478c39e62e76c4918, type: 2}
         negate: 1
+  cachedSpeakerName: Clever Office Worker
+  cachedText: Beat me and I'll tell you a secret.  *hue hue hue hue hue hue hue*
   references:
     version: 2
     RefIds: []
@@ -501,9 +520,9 @@ MonoBehaviour:
   speakerName: Clever Office Worker
   localizedSpeakerName:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 0
+      m_KeyId: 2884790020726784
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -511,9 +530,9 @@ MonoBehaviour:
   text: Hngh.  You really got me.  Alright, here's my secret.
   localizedText:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 0
+      m_KeyId: 2884790125584384
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -539,6 +558,8 @@ MonoBehaviour:
     - or:
       - predicate: {fileID: 11400000, guid: 5543b1768f9e22b478c39e62e76c4918, type: 2}
         negate: 0
+  cachedSpeakerName: Clever Office Worker
+  cachedText: Hngh.  You really got me.  Alright, here's my secret.
   references:
     version: 2
     RefIds: []
@@ -560,9 +581,9 @@ MonoBehaviour:
   speakerName: Tilly
   localizedSpeakerName:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 0
+      m_KeyId: 2884791450984448
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -570,9 +591,9 @@ MonoBehaviour:
   text: Definitely not.
   localizedText:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 0
+      m_KeyId: 2884791555842048
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -594,6 +615,8 @@ MonoBehaviour:
     height: 45
   condition:
     and: []
+  cachedSpeakerName: Tilly
+  cachedText: Definitely not.
   references:
     version: 2
     RefIds: []

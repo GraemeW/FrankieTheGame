@@ -13,6 +13,8 @@ MonoBehaviour:
   m_Name: Demo-Forest_Estelle
   m_EditorClassIdentifier: Assembly-CSharp::Frankie.Speech.Dialogue
   skipRootNode: 0
+  defaultSpeakerName: DefaultSpeaker
+  defaultText: Default Text to Overwrite
   cachedDialogueName: Demo-Forest_Estelle
   newNodeOffset: {x: 100, y: 25}
   nodeWidth: 400
@@ -42,9 +44,9 @@ MonoBehaviour:
   speakerName: Estelle
   localizedSpeakerName:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 0
+      m_KeyId: 2884787776774144
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -52,9 +54,9 @@ MonoBehaviour:
   text: 'Hey, if you find yourself with a new piece for your outfit . . . '
   localizedText:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 0
+      m_KeyId: 2884787877437440
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -77,6 +79,8 @@ MonoBehaviour:
     height: 45
   condition:
     and: []
+  cachedSpeakerName: Estelle
+  cachedText: 'Hey, if you find yourself with a new piece for your outfit . . . '
   references:
     version: 2
     RefIds: []
@@ -98,9 +102,9 @@ MonoBehaviour:
   speakerName: Default
   localizedSpeakerName:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 0
+      m_KeyId: 2884788384948224
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -108,9 +112,9 @@ MonoBehaviour:
   text: Errr?
   localizedText:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 0
+      m_KeyId: 2884788485611520
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -133,6 +137,8 @@ MonoBehaviour:
     height: 45
   condition:
     and: []
+  cachedSpeakerName: Default
+  cachedText: Errr?
   references:
     version: 2
     RefIds: []
@@ -154,9 +160,9 @@ MonoBehaviour:
   speakerName: Estelle
   localizedSpeakerName:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 0
+      m_KeyId: 2884730897817600
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -164,9 +170,9 @@ MonoBehaviour:
   text: Ya know, like a keyboard?  Or a vest?  Or a watch?
   localizedText:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 0
+      m_KeyId: 2884731002675200
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -189,6 +195,8 @@ MonoBehaviour:
     height: 45
   condition:
     and: []
+  cachedSpeakerName: Estelle
+  cachedText: Ya know, like a keyboard?  Or a vest?  Or a watch?
   references:
     version: 2
     RefIds: []
@@ -210,9 +218,9 @@ MonoBehaviour:
   speakerName: Estelle
   localizedSpeakerName:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 0
+      m_KeyId: 2884788586274816
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -221,9 +229,9 @@ MonoBehaviour:
     `TAB` key.
   localizedText:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 0
+      m_KeyId: 2884788686938112
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -245,6 +253,9 @@ MonoBehaviour:
     height: 45
   condition:
     and: []
+  cachedSpeakerName: Estelle
+  cachedText: Oh, you're really fresh aren't you.  Access player menus by pressing
+    the `TAB` key.
   references:
     version: 2
     RefIds: []
@@ -266,9 +277,9 @@ MonoBehaviour:
   speakerName: Estelle
   localizedSpeakerName:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 0
+      m_KeyId: 2884732957220864
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -277,9 +288,9 @@ MonoBehaviour:
     in your knapsack unequipped!
   localizedText:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 0
+      m_KeyId: 2884733057884160
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -302,6 +313,9 @@ MonoBehaviour:
     height: 45
   condition:
     and: []
+  cachedSpeakerName: Estelle
+  cachedText: Make sure you equip it in the Outfit menu!  It won't do any good just
+    sitting in your knapsack unequipped!
   references:
     version: 2
     RefIds: []

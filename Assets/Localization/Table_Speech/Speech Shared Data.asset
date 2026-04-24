@@ -23,6 +23,1470 @@ MonoBehaviour:
     m_Key: Test123.0.0.Text
     m_Metadata:
       m_Items: []
+  - m_Id: 2882818806898688
+    m_Key: ApartmentInterior-ComfyBedGameOver.0.0.Speaker
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2882819079528448
+    m_Key: ApartmentInterior-ComfyBedGameOver.0.0.Text
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2882819180191744
+    m_Key: ApartmentInterior-ComfyBedGameOver.1.0.Speaker
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2882819276660736
+    m_Key: ApartmentInterior-ComfyBedGameOver.1.0.Text
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2882819377324032
+    m_Key: ApartmentInterior-ComfyBedGameOver.2.0.Speaker
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2882819473793024
+    m_Key: ApartmentInterior-ComfyBedGameOver.2.0.Text
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2882819570262016
+    m_Key: ApartmentInterior-ComfyBedGameOver.3.0.Speaker
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2882819666731008
+    m_Key: ApartmentInterior-ComfyBedGameOver.3.0.Text
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2882819763200000
+    m_Key: ApartmentInterior-ComfyBedGameOver.3.1.Speaker
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2882819859668992
+    m_Key: ApartmentInterior-ComfyBedGameOver.3.1.Text
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2882819956137984
+    m_Key: ApartmentInterior-ComfyBedGameOver.4.1.Speaker
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2882820052606976
+    m_Key: ApartmentInterior-ComfyBedGameOver.4.1.Text
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2882820144881664
+    m_Key: ApartmentInterior-ComfyBedGameOver.4.0.Speaker
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2882820241350656
+    m_Key: ApartmentInterior-ComfyBedGameOver.4.0.Text
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2882820337819648
+    m_Key: ApartmentInterior-ComfyBedGameOver.5.0.Speaker
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2882820434288640
+    m_Key: ApartmentInterior-ComfyBedGameOver.5.0.Text
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2882820530757632
+    m_Key: ApartmentInterior-ComfyBedGameOver.5.1.Speaker
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2882820627226624
+    m_Key: ApartmentInterior-ComfyBedGameOver.5.1.Text
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2882820719501312
+    m_Key: ApartmentInterior-ComfyBedGameOver.6.1.Speaker
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2882820820164608
+    m_Key: ApartmentInterior-ComfyBedGameOver.6.1.Text
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2882820912439296
+    m_Key: ApartmentInterior-ComfyBedGameOver.7.0.Speaker
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2882821008908288
+    m_Key: ApartmentInterior-ComfyBedGameOver.7.0.Text
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2882821101182976
+    m_Key: ApartmentInterior-ComfyBedGameOver.7.1.Speaker
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2882821197651968
+    m_Key: ApartmentInterior-ComfyBedGameOver.7.1.Text
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2882821294120960
+    m_Key: ApartmentInterior-ComfyBedGameOver.8.0.Speaker
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2882821386395648
+    m_Key: ApartmentInterior-ComfyBedGameOver.8.0.Text
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2882821487058944
+    m_Key: ApartmentInterior-ComfyBedGameOver.9.0.Speaker
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2882821579333632
+    m_Key: ApartmentInterior-ComfyBedGameOver.9.0.Text
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884730478387200
+    m_Key: .0.0.Speaker
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884730792960000
+    m_Key: .0.0.Text
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884730897817600
+    m_Key: .1.0.Speaker
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884731002675200
+    m_Key: .1.0.Text
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884731107532800
+    m_Key: .1.1.Speaker
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884731224973312
+    m_Key: .1.1.Text
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884731531157504
+    m_Key: OldOfficeDemo-MayaDialogue.1.0.Speaker
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884731631820800
+    m_Key: OldOfficeDemo-MayaDialogue.1.0.Text
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884731732484096
+    m_Key: OldOfficeDemo-MayaDialogue.1.1.Speaker
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884731833147392
+    m_Key: OldOfficeDemo-MayaDialogue.1.1.Text
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884731933810688
+    m_Key: OldOfficeDemo-MayaDialogue.1.2.Speaker
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884732034473984
+    m_Key: OldOfficeDemo-MayaDialogue.1.2.Text
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884732139331584
+    m_Key: .1.3.Speaker
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884732239994880
+    m_Key: .1.3.Text
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884732340658176
+    m_Key: OfficeExterior-Steve5000.0.0.Speaker
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884732441321472
+    m_Key: OfficeExterior-Steve5000.0.0.Text
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884732546179072
+    m_Key: OfficeExterior-Steve5000.1.0.Speaker
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884732646842368
+    m_Key: OfficeExterior-Steve5000.1.0.Text
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884732751699968
+    m_Key: OfficeExterior-Steve5000.1.1.Speaker
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884732856557568
+    m_Key: OfficeExterior-Steve5000.1.1.Text
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884732957220864
+    m_Key: .2.0.Speaker
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884733057884160
+    m_Key: .2.0.Text
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884733162741760
+    m_Key: OfficeExterior-Steve5000.3.0.Speaker
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884733259210752
+    m_Key: OfficeExterior-Steve5000.3.0.Text
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884733359874048
+    m_Key: .4.0.Speaker
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884733464731648
+    m_Key: .4.0.Text
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884733565394944
+    m_Key: .2.1.Speaker
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884733666058240
+    m_Key: .2.1.Text
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884734173569024
+    m_Key: Demo-Forest_Hipster.2.0.Speaker
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884734274232320
+    m_Key: Demo-Forest_Hipster.2.0.Text
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884734580416512
+    m_Key: .3.0.Speaker
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884734685274112
+    m_Key: .3.0.Text
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884734790131712
+    m_Key: Demo-Forest_PortaMaya-North.0.0.Speaker
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884734890795008
+    m_Key: Demo-Forest_PortaMaya-North.0.0.Text
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884734991458304
+    m_Key: Demo-Forest_PortaMaya-North.1.0.Speaker
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884735092121600
+    m_Key: Demo-Forest_PortaMaya-North.1.0.Text
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884735192784896
+    m_Key: Demo-Forest_PortaMaya-North.1.1.Speaker
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884735297642496
+    m_Key: Demo-Forest_PortaMaya-North.1.1.Text
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884735402500096
+    m_Key: Demo-Forest_PortaMaya-North.2.0.Speaker
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884735503163392
+    m_Key: Demo-Forest_PortaMaya-North.2.0.Text
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884735608020992
+    m_Key: Demo-Forest_PortaMaya-North.2.1.Speaker
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884735708684288
+    m_Key: Demo-Forest_PortaMaya-North.2.1.Text
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884736216195072
+    m_Key: Demo-Forest_LilSlugger.1.0.Speaker
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884736316858368
+    m_Key: Demo-Forest_LilSlugger.1.0.Text
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884736421715968
+    m_Key: Demo-Forest_LilSlugger.1.1.Speaker
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884736518184960
+    m_Key: Demo-Forest_LilSlugger.1.1.Text
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884736623042560
+    m_Key: .1.2.Speaker
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884736719511552
+    m_Key: .1.2.Text
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884736824369152
+    m_Key: Demo-Forest_LilSlugger.1.3.Speaker
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884736925032448
+    m_Key: Demo-Forest_LilSlugger.1.3.Text
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884737231216640
+    m_Key: OfficeExterior-HelpfulVole.0.0.Speaker
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884737331879936
+    m_Key: OfficeExterior-HelpfulVole.0.0.Text
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884737843585024
+    m_Key: OfficeExterior-HelpfulVole.3.0.Speaker
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884737948442624
+    m_Key: OfficeExterior-HelpfulVole.3.0.Text
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884738049105920
+    m_Key: OfficeExterior-HelpfulVole.4.0.Speaker
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884738149769216
+    m_Key: OfficeExterior-HelpfulVole.4.0.Text
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884738250432512
+    m_Key: .5.0.Speaker
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884738346901504
+    m_Key: .5.0.Text
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884738451759104
+    m_Key: OfficeExterior-HelpfulVole.6.0.Speaker
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884738552422400
+    m_Key: OfficeExterior-HelpfulVole.6.0.Text
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884738653085696
+    m_Key: OfficeExterior-HelpfulVole.7.0.Speaker
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884738753748992
+    m_Key: OfficeExterior-HelpfulVole.7.0.Text
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884738854412288
+    m_Key: Demo-Forest_PortaMaya-East.0.0.Speaker
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884738963464192
+    m_Key: Demo-Forest_PortaMaya-East.0.0.Text
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884739882016768
+    m_Key: OfficeInterior-SkilledWorker.0.0.Speaker
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884739982680064
+    m_Key: OfficeInterior-SkilledWorker.0.0.Text
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884740288864256
+    m_Key: OfficeInterior-SkilledWorker.2.0.Speaker
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884740389527552
+    m_Key: OfficeInterior-SkilledWorker.2.0.Text
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884741178056704
+    m_Key: Prim-PrettyGirl.0.0.Speaker
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884741282914304
+    m_Key: Prim-PrettyGirl.0.0.Text
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884741790425088
+    m_Key: OfficeInterior-PhilRamenC.1.0.Speaker
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884741891088384
+    m_Key: OfficeInterior-PhilRamenC.1.0.Text
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884742818029568
+    m_Key: OfficeInterior-PhilRamenC.4.0.Speaker
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884742918692864
+    m_Key: OfficeInterior-PhilRamenC.4.0.Text
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884743224877056
+    m_Key: .6.0.Speaker
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884743325540352
+    m_Key: .6.0.Text
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884743430397952
+    m_Key: OfficeInterior-PhilRamenC.7.0.Speaker
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884743531061248
+    m_Key: OfficeInterior-PhilRamenC.7.0.Text
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884743635918848
+    m_Key: OfficeInterior-PhilRamenC.8.0.Speaker
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884743736582144
+    m_Key: OfficeInterior-PhilRamenC.8.0.Text
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884743841439744
+    m_Key: .9.0.Speaker
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884743942103040
+    m_Key: .9.0.Text
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884744046960640
+    m_Key: OfficeInterior-PhilRamenC.10.0.Speaker
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884744151818240
+    m_Key: OfficeInterior-PhilRamenC.10.0.Text
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884744256675840
+    m_Key: .11.0.Speaker
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884744361533440
+    m_Key: .11.0.Text
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884744466391040
+    m_Key: OfficeInterior-PhilRamenC.12.0.Speaker
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884744567054336
+    m_Key: OfficeInterior-PhilRamenC.12.0.Text
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884744671911936
+    m_Key: .12.1.Speaker
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884744776769536
+    m_Key: .12.1.Text
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884744877432832
+    m_Key: .13.0.Speaker
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884744978096128
+    m_Key: .13.0.Text
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884745095536640
+    m_Key: .13.1.Speaker
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884745200394240
+    m_Key: .13.1.Text
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884745301057536
+    m_Key: .14.1.Speaker
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884745401720832
+    m_Key: .14.1.Text
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884745506578432
+    m_Key: PrimSouth-RedHouse-Mom.0.0.Speaker
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884745607241728
+    m_Key: PrimSouth-RedHouse-Mom.0.0.Text
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884745712099328
+    m_Key: PrimSouth-RedHouse-Mom.1.0.Speaker
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884745812762624
+    m_Key: PrimSouth-RedHouse-Mom.1.0.Text
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884745921814528
+    m_Key: PrimSouth-RedHouse-Mom.1.1.Speaker
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884746022477824
+    m_Key: PrimSouth-RedHouse-Mom.1.1.Text
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884746123141120
+    m_Key: PrimSouth-RedHouse-Mom.1.2.Speaker
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884746227998720
+    m_Key: PrimSouth-RedHouse-Mom.1.2.Text
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884746945224704
+    m_Key: PrimSouth-SomeGuy.1.2.Speaker
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884747050082304
+    m_Key: PrimSouth-SomeGuy.1.2.Text
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884748182544384
+    m_Key: OldOfficeDemo-HipsterOfficeWorkerDialogue.0.0.Speaker
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884748287401984
+    m_Key: OldOfficeDemo-HipsterOfficeWorkerDialogue.0.0.Text
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884748392259584
+    m_Key: OldOfficeDemo-HipsterOfficeWorkerDialogue.1.0.Speaker
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884748497117184
+    m_Key: OldOfficeDemo-HipsterOfficeWorkerDialogue.1.0.Text
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884748597780480
+    m_Key: OldOfficeDemo-HipsterOfficeWorkerDialogue.1.1.Speaker
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884748702638080
+    m_Key: OldOfficeDemo-HipsterOfficeWorkerDialogue.1.1.Text
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884749013016576
+    m_Key: OldOfficeDemo-HipsterOfficeWorkerDialogue.2.1.Speaker
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884749117874176
+    m_Key: OldOfficeDemo-HipsterOfficeWorkerDialogue.2.1.Text
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884749218537472
+    m_Key: OldOfficeDemo-HipsterOfficeWorkerDialogue.2.2.Speaker
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884749323395072
+    m_Key: OldOfficeDemo-HipsterOfficeWorkerDialogue.2.2.Text
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884749424058368
+    m_Key: OldOfficeDemo-HipsterOfficeWorkerDialogue.4.2.Speaker
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884749528915968
+    m_Key: OldOfficeDemo-HipsterOfficeWorkerDialogue.4.2.Text
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884749629579264
+    m_Key: OldOfficeDemo-HipsterOfficeWorkerDialogue.4.3.Speaker
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884749734436864
+    m_Key: OldOfficeDemo-HipsterOfficeWorkerDialogue.4.3.Text
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884749839294464
+    m_Key: OldOfficeDemo-HipsterOfficeWorkerDialogue.3.1.Speaker
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884749944152064
+    m_Key: OldOfficeDemo-HipsterOfficeWorkerDialogue.3.1.Text
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884750049009664
+    m_Key: OfficeInterior-Maya.0.0.Speaker
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884750153867264
+    m_Key: OfficeInterior-Maya.0.0.Text
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884750258724864
+    m_Key: OfficeInterior-Maya.1.0.Speaker
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884750363582464
+    m_Key: OfficeInterior-Maya.1.0.Text
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884750468440064
+    m_Key: OfficeInterior-Maya.1.1.Speaker
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884750573297664
+    m_Key: OfficeInterior-Maya.1.1.Text
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884750673960960
+    m_Key: OfficeInterior-Maya.2.0.Speaker
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884750778818560
+    m_Key: OfficeInterior-Maya.2.0.Text
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884750879481856
+    m_Key: OfficeInterior-Maya.1.2.Speaker
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884750984339456
+    m_Key: OfficeInterior-Maya.1.2.Text
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884751294717952
+    m_Key: OldOfficeDemo-SkilledOfficeWorker.0.0.Speaker
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884751399575552
+    m_Key: OldOfficeDemo-SkilledOfficeWorker.0.0.Text
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884751504433152
+    m_Key: OldOfficeDemo-SkilledOfficeWorker.1.0.Speaker
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884751605096448
+    m_Key: OldOfficeDemo-SkilledOfficeWorker.1.0.Text
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884751915474944
+    m_Key: OldOfficeDemo-SkilledOfficeWorker.3.0.Speaker
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884752020332544
+    m_Key: OldOfficeDemo-SkilledOfficeWorker.3.0.Text
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884752120995840
+    m_Key: OldOfficeDemo-SkilledOfficeWorker.3.1.Speaker
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884752225853440
+    m_Key: OldOfficeDemo-SkilledOfficeWorker.3.1.Text
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884752326516736
+    m_Key: OldOfficeDemo-SkilledOfficeWorker.4.1.Speaker
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884752435568640
+    m_Key: OldOfficeDemo-SkilledOfficeWorker.4.1.Text
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884753786134528
+    m_Key: .3.1.Speaker
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884753890992128
+    m_Key: .3.1.Text
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884755228975104
+    m_Key: PrimSouth-HelpfulVole.6.0.Speaker
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884755329638400
+    m_Key: PrimSouth-HelpfulVole.6.0.Text
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884755434496000
+    m_Key: .7.0.Speaker
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884755539353600
+    m_Key: .7.0.Text
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884755849732096
+    m_Key: OldOfficeDemo-PhilTooJoinParty.0.0.Speaker
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884755954589696
+    m_Key: OldOfficeDemo-PhilTooJoinParty.0.0.Text
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884756055252992
+    m_Key: OldOfficeDemo-PhilTooJoinParty.1.0.Speaker
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884756168499200
+    m_Key: OldOfficeDemo-PhilTooJoinParty.1.0.Text
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884756273356800
+    m_Key: OldOfficeDemo-PhilTooJoinParty.1.1.Speaker
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884756382408704
+    m_Key: OldOfficeDemo-PhilTooJoinParty.1.1.Text
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884756487266304
+    m_Key: OldOfficeDemo-PhilTooJoinParty.2.0.Speaker
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884756592123904
+    m_Key: OldOfficeDemo-PhilTooJoinParty.2.0.Text
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884756705370112
+    m_Key: OldOfficeDemo-PhilTooJoinParty.3.0.Speaker
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884756827004928
+    m_Key: OldOfficeDemo-PhilTooJoinParty.3.0.Text
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884756944445440
+    m_Key: OldOfficeDemo-PhilTooJoinParty.4.0.Speaker
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884757070274560
+    m_Key: OldOfficeDemo-PhilTooJoinParty.4.0.Text
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884758827687936
+    m_Key: OfficeInterior-HipsterWorker.0.0.Speaker
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884758949322752
+    m_Key: OfficeInterior-HipsterWorker.0.0.Text
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884759293255680
+    m_Key: OfficeInterior-HipsterWorker.1.1.Speaker
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884759402307584
+    m_Key: OfficeInterior-HipsterWorker.1.1.Text
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884759742046208
+    m_Key: OfficeInterior-HipsterWorker.3.0.Speaker
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884759851098112
+    m_Key: OfficeInterior-HipsterWorker.3.0.Text
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884761851781120
+    m_Key: OfficeInterior-BroWorkerB.4.0.Speaker
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884761952444416
+    m_Key: OfficeInterior-BroWorkerB.4.0.Text
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884762904551424
+    m_Key: .8.0.Speaker
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884763005214720
+    m_Key: .8.0.Text
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884763319787520
+    m_Key: PortaBank-WelcomeToPortaBank.1.0.Speaker
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884763424645120
+    m_Key: PortaBank-WelcomeToPortaBank.1.0.Text
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884763542085632
+    m_Key: PortaBank-WelcomeToPortaBank.2.0.Speaker
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884763646943232
+    m_Key: PortaBank-WelcomeToPortaBank.2.0.Text
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884765018480640
+    m_Key: ApartmentInterior-LucyFirstWelcomeHome.0.0.Speaker
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884765123338240
+    m_Key: ApartmentInterior-LucyFirstWelcomeHome.0.0.Text
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884765228195840
+    m_Key: ApartmentInterior-LucyFirstWelcomeHome.1.0.Speaker
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884765333053440
+    m_Key: ApartmentInterior-LucyFirstWelcomeHome.1.0.Text
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884765437911040
+    m_Key: ApartmentInterior-LucyFirstWelcomeHome.2.0.Speaker
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884765538574336
+    m_Key: ApartmentInterior-LucyFirstWelcomeHome.2.0.Text
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884765643431936
+    m_Key: ApartmentInterior-LucyFirstWelcomeHome.1.1.Speaker
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884765748289536
+    m_Key: ApartmentInterior-LucyFirstWelcomeHome.1.1.Text
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884765857341440
+    m_Key: ApartmentInterior-LucyFirstWelcomeHome.1.2.Speaker
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884765962199040
+    m_Key: ApartmentInterior-LucyFirstWelcomeHome.1.2.Text
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884766067056640
+    m_Key: ApartmentInterior-LucyFirstWelcomeHome.2.2.Speaker
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884766176108544
+    m_Key: ApartmentInterior-LucyFirstWelcomeHome.2.2.Text
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884766280966144
+    m_Key: ApartmentInterior-LucyFirstWelcomeHome.1.3.Speaker
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884766385823744
+    m_Key: ApartmentInterior-LucyFirstWelcomeHome.1.3.Text
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884766490681344
+    m_Key: ApartmentInterior-LucyFirstWelcomeHome.2.1.Speaker
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884766595538944
+    m_Key: ApartmentInterior-LucyFirstWelcomeHome.2.1.Text
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884766910111744
+    m_Key: PrimSouth-TallestBuilding-BubbleBlowGirl.1.0.Speaker
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884767014969344
+    m_Key: PrimSouth-TallestBuilding-BubbleBlowGirl.1.0.Text
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884767119826944
+    m_Key: PrimSouth-TallestBuilding-BubbleBlowGirl.2.0.Speaker
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884767224684544
+    m_Key: PrimSouth-TallestBuilding-BubbleBlowGirl.2.0.Text
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884767329542144
+    m_Key: PrimSouth-TallestBuilding-BubbleBlowGirl.3.0.Speaker
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884767438594048
+    m_Key: PrimSouth-TallestBuilding-BubbleBlowGirl.3.0.Text
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884768604610560
+    m_Key: .1.4.Speaker
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884768709468160
+    m_Key: .1.4.Text
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884769028235264
+    m_Key: OfficeInterior-PhilRamenA.0.0.Speaker
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884769137287168
+    m_Key: OfficeInterior-PhilRamenA.0.0.Text
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884769242144768
+    m_Key: OfficeInterior-PhilRamenA.1.0.Speaker
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884769355390976
+    m_Key: OfficeInterior-PhilRamenA.1.0.Text
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884769460248576
+    m_Key: OfficeInterior-PhilRamenA.2.0.Speaker
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884769569300480
+    m_Key: OfficeInterior-PhilRamenA.2.0.Text
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884769678352384
+    m_Key: OfficeInterior-PhilRamenA.3.0.Speaker
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884769783209984
+    m_Key: OfficeInterior-PhilRamenA.3.0.Text
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884770315886592
+    m_Key: OfficeInterior-PhilRamenA.4.1.Speaker
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884770420744192
+    m_Key: OfficeInterior-PhilRamenA.4.1.Text
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884770529796096
+    m_Key: .5.1.Speaker
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884770638848000
+    m_Key: .5.1.Text
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884770961809408
+    m_Key: OfficeInterior-PhilRamenA.6.1.Speaker
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884771066667008
+    m_Key: OfficeInterior-PhilRamenA.6.1.Text
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884771171524608
+    m_Key: OfficeInterior-PhilRamenA.6.2.Speaker
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884771276382208
+    m_Key: OfficeInterior-PhilRamenA.6.2.Text
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884771381239808
+    m_Key: OfficeInterior-PhilRamenA.7.1.Speaker
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884771494486016
+    m_Key: OfficeInterior-PhilRamenA.7.1.Text
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884772664696832
+    m_Key: OfficeInterior-PhilRamenB.2.0.Speaker
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884772773748736
+    m_Key: OfficeInterior-PhilRamenB.2.0.Text
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884774199812096
+    m_Key: Demo-Forest_SkilledOfficeWorker.0.0.Speaker
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884774304669696
+    m_Key: Demo-Forest_SkilledOfficeWorker.0.0.Text
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884775248388096
+    m_Key: Demo-Forest_SkilledOfficeWorker.1.1.Speaker
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884775353245696
+    m_Key: Demo-Forest_SkilledOfficeWorker.1.1.Text
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884775458103296
+    m_Key: OfficeInterior-VoleWorker.0.0.Speaker
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884775562960896
+    m_Key: OfficeInterior-VoleWorker.0.0.Text
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884776083054592
+    m_Key: OfficeInterior-VoleWorker.1.2.Speaker
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884776187912192
+    m_Key: OfficeInterior-VoleWorker.1.2.Text
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884776292769792
+    m_Key: OfficeInterior-VoleWorker.2.0.Speaker
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884776397627392
+    m_Key: OfficeInterior-VoleWorker.2.0.Text
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884776502484992
+    m_Key: OfficeInterior-VoleWorker.3.0.Speaker
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884776607342592
+    m_Key: OfficeInterior-VoleWorker.3.0.Text
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884776871583744
+    m_Key: .4.1.Speaker
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884776984829952
+    m_Key: .4.1.Text
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884777093881856
+    m_Key: OfficeInterior-VoleWorker.5.1.Speaker
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884777198739456
+    m_Key: OfficeInterior-VoleWorker.5.1.Text
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884777307791360
+    m_Key: .6.2.Speaker
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884777412648960
+    m_Key: .6.2.Text
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884777517506560
+    m_Key: .6.3.Speaker
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884777622364160
+    m_Key: .6.3.Text
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884777727221760
+    m_Key: OfficeInterior-VoleWorker.7.3.Speaker
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884777836273664
+    m_Key: OfficeInterior-VoleWorker.7.3.Text
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884778155040768
+    m_Key: OfficeInterior-VoleWorker.3.1.Speaker
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884778264092672
+    m_Key: OfficeInterior-VoleWorker.3.1.Text
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884778368950272
+    m_Key: OfficeInterior-VoleWorker.2.2.Speaker
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884778473807872
+    m_Key: OfficeInterior-VoleWorker.2.2.Text
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884778582859776
+    m_Key: OfficeInterior-VoleWorker.3.2.Speaker
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884778687717376
+    m_Key: OfficeInterior-VoleWorker.3.2.Text
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884779639824384
+    m_Key: Demo-Forest_Ron.3.0.Speaker
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884779744681984
+    m_Key: Demo-Forest_Ron.3.0.Text
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884780008923136
+    m_Key: Demo-Forest_Ron.4.1.Speaker
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884780113780736
+    m_Key: Demo-Forest_Ron.4.1.Text
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884780214444032
+    m_Key: Demo-Forest_Ron.2.1.Speaker
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884780315107328
+    m_Key: Demo-Forest_Ron.2.1.Text
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884780570959872
+    m_Key: .3.2.Speaker
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884780671623168
+    m_Key: .3.2.Text
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884780772286464
+    m_Key: OfficeInterior-CleverWorker.0.0.Speaker
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884780877144064
+    m_Key: OfficeInterior-CleverWorker.0.0.Text
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884780982001664
+    m_Key: OfficeInterior-CleverWorker.1.0.Speaker
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884781082664960
+    m_Key: OfficeInterior-CleverWorker.1.0.Text
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884781183328256
+    m_Key: OfficeInterior-CleverWorker.1.1.Speaker
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884781283991552
+    m_Key: OfficeInterior-CleverWorker.1.1.Text
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884781388849152
+    m_Key: OfficeInterior-CleverWorker.2.0.Speaker
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884781489512448
+    m_Key: OfficeInterior-CleverWorker.2.0.Text
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884781594370048
+    m_Key: OfficeInterior-CleverWorker.2.1.Speaker
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884781695033344
+    m_Key: OfficeInterior-CleverWorker.2.1.Text
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884781997023232
+    m_Key: Demo-Forest_Vole.0.0.Speaker
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884782101880832
+    m_Key: Demo-Forest_Vole.0.0.Text
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884782202544128
+    m_Key: Demo-Forest_Vole.1.0.Speaker
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884782303207424
+    m_Key: Demo-Forest_Vole.1.0.Text
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884782613585920
+    m_Key: Demo-Forest_Vole.3.0.Speaker
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884782714249216
+    m_Key: Demo-Forest_Vole.3.0.Text
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884783020433408
+    m_Key: Demo-Forest_Vole.5.0.Speaker
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884783121096704
+    m_Key: Demo-Forest_Vole.5.0.Text
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884783225954304
+    m_Key: Demo-Forest_Vole.6.0.Speaker
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884783326617600
+    m_Key: Demo-Forest_Vole.6.0.Text
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884783431475200
+    m_Key: Demo-Forest_Vole.7.0.Speaker
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884783532138496
+    m_Key: Demo-Forest_Vole.7.0.Text
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884783636996096
+    m_Key: Demo-Forest_Vole.8.0.Speaker
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884783737659392
+    m_Key: Demo-Forest_Vole.8.0.Text
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884783838322688
+    m_Key: Demo-Forest_Vole.8.1.Speaker
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884783938985984
+    m_Key: Demo-Forest_Vole.8.1.Text
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884784240975872
+    m_Key: Demo-Monk_Tapestry.0.0.Speaker
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884784341639168
+    m_Key: Demo-Monk_Tapestry.0.0.Text
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884784446496768
+    m_Key: Demo-Monk_Tapestry.1.0.Speaker
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884784547160064
+    m_Key: Demo-Monk_Tapestry.1.0.Text
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884784849149952
+    m_Key: Demo-Monk_Tapestry.3.0.Speaker
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884784954007552
+    m_Key: Demo-Monk_Tapestry.3.0.Text
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884785054670848
+    m_Key: Demo-Monk_Tapestry.4.0.Speaker
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884785155334144
+    m_Key: Demo-Monk_Tapestry.4.0.Text
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884785260191744
+    m_Key: Demo-Monk_Tapestry.4.1.Speaker
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884785360855040
+    m_Key: Demo-Monk_Tapestry.4.1.Text
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884785461518336
+    m_Key: Demo-Monk_Tapestry.4.2.Speaker
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884785562181632
+    m_Key: Demo-Monk_Tapestry.4.2.Text
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884785662844928
+    m_Key: Demo-Monk_Tapestry.5.2.Speaker
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884785763508224
+    m_Key: Demo-Monk_Tapestry.5.2.Text
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884785864171520
+    m_Key: Demo-Monk_Tapestry.5.1.Speaker
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884785969029120
+    m_Key: Demo-Monk_Tapestry.5.1.Text
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884786069692416
+    m_Key: Demo-Monk_Tapestry.6.1.Speaker
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884786178744320
+    m_Key: Demo-Monk_Tapestry.6.1.Text
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884786287796224
+    m_Key: Demo-Monk_Tapestry.7.1.Speaker
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884786396848128
+    m_Key: Demo-Monk_Tapestry.7.1.Text
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884786505900032
+    m_Key: Demo-Monk_Tapestry.8.1.Speaker
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884786610757632
+    m_Key: Demo-Monk_Tapestry.8.1.Text
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884787160211456
+    m_Key: OfficeInterior-PhilRamenFinal.2.0.Speaker
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884787260874752
+    m_Key: OfficeInterior-PhilRamenFinal.2.0.Text
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884787776774144
+    m_Key: Demo-Forest_Estelle.0.0.Speaker
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884787877437440
+    m_Key: Demo-Forest_Estelle.0.0.Text
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884788384948224
+    m_Key: Demo-Forest_Estelle.3.0.Speaker
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884788485611520
+    m_Key: Demo-Forest_Estelle.3.0.Text
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884788586274816
+    m_Key: Demo-Forest_Estelle.4.0.Speaker
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884788686938112
+    m_Key: Demo-Forest_Estelle.4.0.Text
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884788791795712
+    m_Key: ApartmentInterior-ComfyBedUntilTomorrow.0.0.Speaker
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884788896653312
+    m_Key: ApartmentInterior-ComfyBedUntilTomorrow.0.0.Text
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884788997316608
+    m_Key: ApartmentInterior-ComfyBedUntilTomorrow.1.0.Speaker
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884789097979904
+    m_Key: ApartmentInterior-ComfyBedUntilTomorrow.1.0.Text
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884789202837504
+    m_Key: ApartmentInterior-ComfyBedUntilTomorrow.2.0.Speaker
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884789303500800
+    m_Key: ApartmentInterior-ComfyBedUntilTomorrow.2.0.Text
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884789408358400
+    m_Key: ApartmentInterior-ComfyBedUntilTomorrow.3.0.Speaker
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884789509021696
+    m_Key: ApartmentInterior-ComfyBedUntilTomorrow.3.0.Text
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884790020726784
+    m_Key: OldOfficeDemo-CleverOfficeWorker.1.1.Speaker
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884790125584384
+    m_Key: OldOfficeDemo-CleverOfficeWorker.1.1.Text
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884790431768576
+    m_Key: OldOfficeDemo-CleverOfficeWorker.3.4.Speaker
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884790532431872
+    m_Key: OldOfficeDemo-CleverOfficeWorker.3.4.Text
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884791450984448
+    m_Key: OldOfficeDemo-CleverOfficeWorker.3.3.Speaker
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884791555842048
+    m_Key: OldOfficeDemo-CleverOfficeWorker.3.3.Text
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884793292283904
+    m_Key: OldOfficeDemo-HelpfulVoleInOffice.1.0.Speaker
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884793392947200
+    m_Key: OldOfficeDemo-HelpfulVoleInOffice.1.0.Text
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884793699131392
+    m_Key: OldOfficeDemo-HelpfulVoleInOffice.3.0.Speaker
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884793799794688
+    m_Key: OldOfficeDemo-HelpfulVoleInOffice.3.0.Text
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884794307305472
+    m_Key: OfficeInterior-HorseWorker.1.0.Speaker
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884794407968768
+    m_Key: OfficeInterior-HorseWorker.1.0.Text
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884794919673856
+    m_Key: OfficeInterior-HorseWorker.1.2.Speaker
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884795024531456
+    m_Key: OfficeInterior-HorseWorker.1.2.Text
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884795125194752
+    m_Key: OfficeInterior-HorseWorker.2.1.Speaker
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884795225858048
+    m_Key: OfficeInterior-HorseWorker.2.1.Text
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884795326521344
+    m_Key: OfficeInterior-HorseWorker.3.1.Speaker
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884795427184640
+    m_Key: OfficeInterior-HorseWorker.3.1.Text
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884795733368832
+    m_Key: OfficeInterior-HorseWorker.1.3.Speaker
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2884795838226432
+    m_Key: OfficeInterior-HorseWorker.1.3.Text
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:

@@ -18,9 +18,9 @@ MonoBehaviour:
   speakerName: Skilled Office Worker
   localizedSpeakerName:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 0
+      m_KeyId: 2884775248388096
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -28,9 +28,9 @@ MonoBehaviour:
   text: Ah, my back!  You totally f***ed up my back!
   localizedText:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 0
+      m_KeyId: 2884775353245696
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -55,6 +55,8 @@ MonoBehaviour:
     - or:
       - predicate: {fileID: 11400000, guid: 5e55f4d07f59e4257b1d10b625744d61, type: 2}
         negate: 0
+  cachedSpeakerName: Skilled Office Worker
+  cachedText: Ah, my back!  You totally f***ed up my back!
   references:
     version: 2
     RefIds: []
@@ -76,9 +78,9 @@ MonoBehaviour:
   speakerName: Frankie
   localizedSpeakerName:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 0
+      m_KeyId: 2884753786134528
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -86,9 +88,9 @@ MonoBehaviour:
   text: Thanks, um, I'll pass for now.
   localizedText:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 0
+      m_KeyId: 2884753890992128
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -110,6 +112,8 @@ MonoBehaviour:
     height: 45
   condition:
     and: []
+  cachedSpeakerName: Frankie
+  cachedText: Thanks, um, I'll pass for now.
   references:
     version: 2
     RefIds: []
@@ -131,9 +135,9 @@ MonoBehaviour:
   speakerName: Skilled Office Worker
   localizedSpeakerName:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 0
+      m_KeyId: 2884730897817600
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -142,9 +146,9 @@ MonoBehaviour:
     have to wrastle me.
   localizedText:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 0
+      m_KeyId: 2884731002675200
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -170,6 +174,9 @@ MonoBehaviour:
     - or:
       - predicate: {fileID: 11400000, guid: 5e55f4d07f59e4257b1d10b625744d61, type: 2}
         negate: 1
+  cachedSpeakerName: Skilled Office Worker
+  cachedText: Hey, uh, if you want down those stairs to the electrical room, you're
+    gonna have to wrastle me.
   references:
     version: 2
     RefIds: []
@@ -191,9 +198,9 @@ MonoBehaviour:
   speakerName: Frankie
   localizedSpeakerName:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 0
+      m_KeyId: 2884734580416512
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -201,9 +208,9 @@ MonoBehaviour:
   text: Absolutely I do!
   localizedText:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 0
+      m_KeyId: 2884734685274112
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -225,6 +232,8 @@ MonoBehaviour:
     height: 45
   condition:
     and: []
+  cachedSpeakerName: Frankie
+  cachedText: Absolutely I do!
   references:
     version: 2
     RefIds: []
@@ -241,6 +250,8 @@ MonoBehaviour:
   m_Name: Demo-Forest_SkilledOfficeWorker
   m_EditorClassIdentifier: Assembly-CSharp::Frankie.Speech.Dialogue
   skipRootNode: 1
+  defaultSpeakerName: DefaultSpeaker
+  defaultText: Default Text to Overwrite
   cachedDialogueName: Demo-Forest_SkilledOfficeWorker
   newNodeOffset: {x: 100, y: 25}
   nodeWidth: 400
@@ -272,9 +283,9 @@ MonoBehaviour:
   speakerName: Skilled Office Worker
   localizedSpeakerName:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 0
+      m_KeyId: 2884774199812096
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -282,9 +293,9 @@ MonoBehaviour:
   text: Root
   localizedText:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 0
+      m_KeyId: 2884774304669696
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -308,6 +319,8 @@ MonoBehaviour:
     height: 45
   condition:
     and: []
+  cachedSpeakerName: Skilled Office Worker
+  cachedText: Root
   references:
     version: 2
     RefIds: []
@@ -329,9 +342,9 @@ MonoBehaviour:
   speakerName: Skilled Office Worker
   localizedSpeakerName:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 0
+      m_KeyId: 2884732957220864
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -339,9 +352,9 @@ MonoBehaviour:
   text: Do you want to wrastle me?
   localizedText:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 0
+      m_KeyId: 2884733057884160
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -365,6 +378,8 @@ MonoBehaviour:
     height: 45
   condition:
     and: []
+  cachedSpeakerName: Skilled Office Worker
+  cachedText: Do you want to wrastle me?
   references:
     version: 2
     RefIds: []

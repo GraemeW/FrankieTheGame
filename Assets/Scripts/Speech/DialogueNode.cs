@@ -16,9 +16,9 @@ namespace Frankie.Speech
         [SerializeField] private SpeakerType speakerType = SpeakerType.AISpeaker;
         [SerializeField] private CharacterProperties characterProperties;
         [SerializeField] private string speakerName = ""; // value gets over-written at runtime w/ value defined by aiConversant
-        [SerializeField][SimpleLocalizedString(LocalizationTableType.Speech)] private LocalizedString localizedSpeakerName;
+        [SerializeField][SimpleLocalizedString(LocalizationTableType.Speech, false)] private LocalizedString localizedSpeakerName;
         [SerializeField] private string text = "";
-        [SerializeField][SimpleLocalizedString(LocalizationTableType.Speech)] private LocalizedString localizedText;
+        [SerializeField][SimpleLocalizedString(LocalizationTableType.Speech, false)] private LocalizedString localizedText;
         [SerializeField, ReadOnly] private int nodeDepth = 0;
         [SerializeField, ReadOnly] private int nodeBreadth = 0;
         [SerializeField] private List<string> children = new();

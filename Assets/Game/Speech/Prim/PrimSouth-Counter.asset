@@ -18,9 +18,9 @@ MonoBehaviour:
   speakerName: Counting Guy
   localizedSpeakerName:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 0
+      m_KeyId: 2884730897817600
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -28,9 +28,9 @@ MonoBehaviour:
   text: One one thousand, two one thousand, three one thousand
   localizedText:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 0
+      m_KeyId: 2884731002675200
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -55,6 +55,8 @@ MonoBehaviour:
     - or:
       - predicate: {fileID: 11400000, guid: 3b47b1d393a291842aa3b950024f549a, type: 2}
         negate: 0
+  cachedSpeakerName: Counting Guy
+  cachedText: One one thousand, two one thousand, three one thousand
   references:
     version: 2
     RefIds: []
@@ -71,6 +73,8 @@ MonoBehaviour:
   m_Name: PrimSouth-Counter
   m_EditorClassIdentifier: 
   skipRootNode: 1
+  defaultSpeakerName: DefaultSpeaker
+  defaultText: Default Text to Overwrite
   cachedDialogueName: PrimSouth-Counter
   newNodeOffset: {x: 100, y: 25}
   nodeWidth: 400
@@ -102,9 +106,9 @@ MonoBehaviour:
   speakerName: Counting Guy
   localizedSpeakerName:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 0
+      m_KeyId: 2884736623042560
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -112,9 +116,9 @@ MonoBehaviour:
   text: . . . seven one thousand, eight one thousand, nine one thousand
   localizedText:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 0
+      m_KeyId: 2884736719511552
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -139,6 +143,8 @@ MonoBehaviour:
     - or:
       - predicate: {fileID: 11400000, guid: f13be6ce07aec1d4d9002c9b11306742, type: 2}
         negate: 0
+  cachedSpeakerName: Counting Guy
+  cachedText: . . . seven one thousand, eight one thousand, nine one thousand
   references:
     version: 2
     RefIds: []
@@ -160,9 +166,9 @@ MonoBehaviour:
   speakerName: Counting Guy
   localizedSpeakerName:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 0
+      m_KeyId: 2884730478387200
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -170,9 +176,9 @@ MonoBehaviour:
   text: Root Node
   localizedText:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 0
+      m_KeyId: 2884730792960000
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -199,6 +205,8 @@ MonoBehaviour:
     height: 45
   condition:
     and: []
+  cachedSpeakerName: Counting Guy
+  cachedText: Root Node
   references:
     version: 2
     RefIds: []
@@ -220,9 +228,9 @@ MonoBehaviour:
   speakerName: Counting Guy
   localizedSpeakerName:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 0
+      m_KeyId: 2884732957220864
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -230,9 +238,9 @@ MonoBehaviour:
   text: Shoot, you made me mess up, now I have to start all over again!
   localizedText:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 0
+      m_KeyId: 2884733057884160
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -254,6 +262,8 @@ MonoBehaviour:
     height: 45
   condition:
     and: []
+  cachedSpeakerName: Counting Guy
+  cachedText: Shoot, you made me mess up, now I have to start all over again!
   references:
     version: 2
     RefIds: []
@@ -275,9 +285,9 @@ MonoBehaviour:
   speakerName: Counting Guy
   localizedSpeakerName:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 0
+      m_KeyId: 2884768604610560
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -285,9 +295,9 @@ MonoBehaviour:
   text: . . . seventeen one thousand . . . wait, where was I?
   localizedText:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 0
+      m_KeyId: 2884768709468160
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -313,6 +323,8 @@ MonoBehaviour:
     - or:
       - predicate: {fileID: 11400000, guid: d934c9fdb10e0624f8de19980cbbe3d7, type: 2}
         negate: 0
+  cachedSpeakerName: Counting Guy
+  cachedText: . . . seventeen one thousand . . . wait, where was I?
   references:
     version: 2
     RefIds: []
@@ -334,9 +346,9 @@ MonoBehaviour:
   speakerName: Counting Guy
   localizedSpeakerName:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 0
+      m_KeyId: 2884732139331584
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -344,9 +356,9 @@ MonoBehaviour:
   text: . . . ten one thousand, eleven one thousand, twelve one thousand
   localizedText:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 0
+      m_KeyId: 2884732239994880
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -371,6 +383,8 @@ MonoBehaviour:
     - or:
       - predicate: {fileID: 11400000, guid: f40b8d50dac9d5c4c8090c11830639e7, type: 2}
         negate: 0
+  cachedSpeakerName: Counting Guy
+  cachedText: . . . ten one thousand, eleven one thousand, twelve one thousand
   references:
     version: 2
     RefIds: []
@@ -392,9 +406,9 @@ MonoBehaviour:
   speakerName: Counting Guy
   localizedSpeakerName:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 0
+      m_KeyId: 2884731107532800
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -402,9 +416,9 @@ MonoBehaviour:
   text: . . . four one thousand, five one thousand, six one thousand
   localizedText:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 0
+      m_KeyId: 2884731224973312
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -429,6 +443,8 @@ MonoBehaviour:
     - or:
       - predicate: {fileID: 11400000, guid: 92ab281ed65bb0046bd33a31863538a9, type: 2}
         negate: 0
+  cachedSpeakerName: Counting Guy
+  cachedText: . . . four one thousand, five one thousand, six one thousand
   references:
     version: 2
     RefIds: []

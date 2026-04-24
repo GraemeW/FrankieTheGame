@@ -18,9 +18,9 @@ MonoBehaviour:
   speakerName: Bro Office Worker
   localizedSpeakerName:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 0
+      m_KeyId: 2884738250432512
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -28,9 +28,9 @@ MonoBehaviour:
   text: Watch out for the interns, they're really riled up about something.
   localizedText:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 0
+      m_KeyId: 2884738346901504
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -52,6 +52,8 @@ MonoBehaviour:
     height: 45
   condition:
     and: []
+  cachedSpeakerName: Bro Office Worker
+  cachedText: Watch out for the interns, they're really riled up about something.
   references:
     version: 2
     RefIds: []
@@ -73,9 +75,9 @@ MonoBehaviour:
   speakerName: Bro Office Worker
   localizedSpeakerName:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 0
+      m_KeyId: 2884730897817600
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -83,9 +85,9 @@ MonoBehaviour:
   text: Oh no oh no oh no oh no.
   localizedText:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 0
+      m_KeyId: 2884731002675200
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -114,6 +116,8 @@ MonoBehaviour:
     - or:
       - predicate: {fileID: 11400000, guid: a7bbc4f4f2f05314088fea20cb40007e, type: 2}
         negate: 1
+  cachedSpeakerName: Bro Office Worker
+  cachedText: Oh no oh no oh no oh no.
   references:
     version: 2
     RefIds: []
@@ -135,9 +139,9 @@ MonoBehaviour:
   speakerName: Bro Office Worker
   localizedSpeakerName:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 0
+      m_KeyId: 2884732139331584
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -145,9 +149,9 @@ MonoBehaviour:
   text: Thanks Frankie, I really owe ya one.
   localizedText:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 0
+      m_KeyId: 2884732239994880
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -175,6 +179,8 @@ MonoBehaviour:
     - or:
       - predicate: {fileID: 11400000, guid: a7bbc4f4f2f05314088fea20cb40007e, type: 2}
         negate: 1
+  cachedSpeakerName: Bro Office Worker
+  cachedText: Thanks Frankie, I really owe ya one.
   references:
     version: 2
     RefIds: []
@@ -196,9 +202,9 @@ MonoBehaviour:
   speakerName: Bro Office Worker
   localizedSpeakerName:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 0
+      m_KeyId: 2884733359874048
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -207,9 +213,9 @@ MonoBehaviour:
     down to Tilly in the basement with the elevator.
   localizedText:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 0
+      m_KeyId: 2884733464731648
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -232,6 +238,9 @@ MonoBehaviour:
     height: 45
   condition:
     and: []
+  cachedSpeakerName: Bro Office Worker
+  cachedText: Look, Horse locked the door to the ballpit room, but you can make your
+    way down to Tilly in the basement with the elevator.
   references:
     version: 2
     RefIds: []
@@ -248,6 +257,8 @@ MonoBehaviour:
   m_Name: OldOfficeDemo-BroOfficeWorker
   m_EditorClassIdentifier: 
   skipRootNode: 1
+  defaultSpeakerName: DefaultSpeaker
+  defaultText: Default Text to Overwrite
   cachedDialogueName: OldOfficeDemo-BroOfficeWorker
   newNodeOffset: {x: 100, y: 25}
   nodeWidth: 400
@@ -282,9 +293,9 @@ MonoBehaviour:
   speakerName: Bro Office Worker
   localizedSpeakerName:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 0
+      m_KeyId: 2884736623042560
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -292,9 +303,9 @@ MonoBehaviour:
   text: Oh, uh, hi Tilly.  Good to uh . . . see you again . . . in good spirits.
   localizedText:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 0
+      m_KeyId: 2884736719511552
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -319,6 +330,8 @@ MonoBehaviour:
     - or:
       - predicate: {fileID: 11400000, guid: a7bbc4f4f2f05314088fea20cb40007e, type: 2}
         negate: 0
+  cachedSpeakerName: Bro Office Worker
+  cachedText: Oh, uh, hi Tilly.  Good to uh . . . see you again . . . in good spirits.
   references:
     version: 2
     RefIds: []
@@ -340,9 +353,9 @@ MonoBehaviour:
   speakerName: Bro Office Worker
   localizedSpeakerName:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 0
+      m_KeyId: 2884732957220864
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -350,9 +363,9 @@ MonoBehaviour:
   text: Frankie!  I need your help, I really messed up this time.
   localizedText:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 0
+      m_KeyId: 2884733057884160
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -375,6 +388,8 @@ MonoBehaviour:
     height: 45
   condition:
     and: []
+  cachedSpeakerName: Bro Office Worker
+  cachedText: Frankie!  I need your help, I really messed up this time.
   references:
     version: 2
     RefIds: []
@@ -396,9 +411,9 @@ MonoBehaviour:
   speakerName: Bro Office Worker
   localizedSpeakerName:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 0
+      m_KeyId: 2884731107532800
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -407,9 +422,9 @@ MonoBehaviour:
     down there.
   localizedText:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 0
+      m_KeyId: 2884731224973312
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -437,6 +452,9 @@ MonoBehaviour:
     - or:
       - predicate: {fileID: 11400000, guid: 155aad549decfe04794ff6d113eb9221, type: 2}
         negate: 1
+  cachedSpeakerName: Bro Office Worker
+  cachedText: Come on Frankie, please go find Tilly.  She'll kill me if we just leave
+    her down there.
   references:
     version: 2
     RefIds: []
@@ -458,9 +476,9 @@ MonoBehaviour:
   speakerName: Bro Office Worker
   localizedSpeakerName:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 0
+      m_KeyId: 2884730478387200
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -468,9 +486,9 @@ MonoBehaviour:
   text: Skip Root
   localizedText:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 0
+      m_KeyId: 2884730792960000
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -496,6 +514,8 @@ MonoBehaviour:
     height: 45
   condition:
     and: []
+  cachedSpeakerName: Bro Office Worker
+  cachedText: Skip Root
   references:
     version: 2
     RefIds: []
@@ -517,9 +537,9 @@ MonoBehaviour:
   speakerName: Bro Office Worker
   localizedSpeakerName:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 0
+      m_KeyId: 2884734580416512
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -528,9 +548,9 @@ MonoBehaviour:
     DID.  Now she's trapped with the interns.
   localizedText:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 0
+      m_KeyId: 2884734685274112
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -553,6 +573,9 @@ MonoBehaviour:
     height: 45
   condition:
     and: []
+  cachedSpeakerName: Bro Office Worker
+  cachedText: I dared Tilly to hop down the fireman's pole in the ballpit room and
+    SHE DID.  Now she's trapped with the interns.
   references:
     version: 2
     RefIds: []

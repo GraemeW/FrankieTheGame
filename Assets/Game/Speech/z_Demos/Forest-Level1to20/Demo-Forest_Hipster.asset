@@ -18,9 +18,9 @@ MonoBehaviour:
   speakerName: Hipster
   localizedSpeakerName:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 0
+      m_KeyId: 2884734580416512
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -28,9 +28,9 @@ MonoBehaviour:
   text: Maybe you could go check it out?
   localizedText:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 0
+      m_KeyId: 2884734685274112
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -52,6 +52,8 @@ MonoBehaviour:
     height: 45
   condition:
     and: []
+  cachedSpeakerName: Hipster
+  cachedText: Maybe you could go check it out?
   references:
     version: 2
     RefIds: []
@@ -73,9 +75,9 @@ MonoBehaviour:
   speakerName: Hipster
   localizedSpeakerName:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 0
+      m_KeyId: 2884730478387200
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -83,9 +85,9 @@ MonoBehaviour:
   text: Skip
   localizedText:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 0
+      m_KeyId: 2884730792960000
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -109,6 +111,8 @@ MonoBehaviour:
     height: 45
   condition:
     and: []
+  cachedSpeakerName: Hipster
+  cachedText: Skip
   references:
     version: 2
     RefIds: []
@@ -130,9 +134,9 @@ MonoBehaviour:
   speakerName: Hipster
   localizedSpeakerName:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 0
+      m_KeyId: 2884734173569024
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -141,9 +145,9 @@ MonoBehaviour:
     the basement and the workers here have kinda gone mad.
   localizedText:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 0
+      m_KeyId: 2884734274232320
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -166,6 +170,9 @@ MonoBehaviour:
     height: 45
   condition:
     and: []
+  cachedSpeakerName: Hipster
+  cachedText: I think the electrical breaker tripped and needs to be reset, but it's
+    in the basement and the workers here have kinda gone mad.
   references:
     version: 2
     RefIds: []
@@ -182,6 +189,8 @@ MonoBehaviour:
   m_Name: Demo-Forest_Hipster
   m_EditorClassIdentifier: Assembly-CSharp::Frankie.Speech.Dialogue
   skipRootNode: 1
+  defaultSpeakerName: DefaultSpeaker
+  defaultText: Default Text to Overwrite
   cachedDialogueName: Demo-Forest_Hipster
   newNodeOffset: {x: 100, y: 25}
   nodeWidth: 400
@@ -211,9 +220,9 @@ MonoBehaviour:
   speakerName: Hipster
   localizedSpeakerName:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 0
+      m_KeyId: 2884731107532800
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -221,9 +230,9 @@ MonoBehaviour:
   text: Yeehaw, you did it!  You madman, you really gosh darn did it!
   localizedText:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 0
+      m_KeyId: 2884731224973312
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -248,6 +257,8 @@ MonoBehaviour:
     - or:
       - predicate: {fileID: 11400000, guid: 35b2cade12aee4b72b634a8e869dd5c2, type: 2}
         negate: 0
+  cachedSpeakerName: Hipster
+  cachedText: Yeehaw, you did it!  You madman, you really gosh darn did it!
   references:
     version: 2
     RefIds: []
@@ -269,9 +280,9 @@ MonoBehaviour:
   speakerName: Hipster
   localizedSpeakerName:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 0
+      m_KeyId: 2884730897817600
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -279,9 +290,9 @@ MonoBehaviour:
   text: This elevator is broken.
   localizedText:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 0
+      m_KeyId: 2884731002675200
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -307,6 +318,8 @@ MonoBehaviour:
     - or:
       - predicate: {fileID: 11400000, guid: 35b2cade12aee4b72b634a8e869dd5c2, type: 2}
         negate: 1
+  cachedSpeakerName: Hipster
+  cachedText: This elevator is broken.
   references:
     version: 2
     RefIds: []

@@ -18,9 +18,9 @@ MonoBehaviour:
   speakerName: Helpful Vole
   localizedSpeakerName:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 0
+      m_KeyId: 2884793292283904
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -29,9 +29,9 @@ MonoBehaviour:
     by using the restroom in the office!
   localizedText:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 0
+      m_KeyId: 2884793392947200
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -54,6 +54,9 @@ MonoBehaviour:
     height: 45
   condition:
     and: []
+  cachedSpeakerName: Helpful Vole
+  cachedText: Here's another tip!  You can change party order and add or remove party
+    members by using the restroom in the office!
   references:
     version: 2
     RefIds: []
@@ -75,9 +78,9 @@ MonoBehaviour:
   speakerName: Helpful Vole
   localizedSpeakerName:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 0
+      m_KeyId: 2884733359874048
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -85,9 +88,9 @@ MonoBehaviour:
   text: Squeak!
   localizedText:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 0
+      m_KeyId: 2884733464731648
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -109,6 +112,8 @@ MonoBehaviour:
     height: 45
   condition:
     and: []
+  cachedSpeakerName: Helpful Vole
+  cachedText: Squeak!
   references:
     version: 2
     RefIds: []
@@ -125,6 +130,8 @@ MonoBehaviour:
   m_Name: OldOfficeDemo-HelpfulVoleInOffice
   m_EditorClassIdentifier: 
   skipRootNode: 0
+  defaultSpeakerName: DefaultSpeaker
+  defaultText: Default Text to Overwrite
   cachedDialogueName: OldOfficeDemo-HelpfulVoleInOffice
   newNodeOffset: {x: 100, y: 25}
   nodeWidth: 400
@@ -155,9 +162,9 @@ MonoBehaviour:
   speakerName: Helpful Vole
   localizedSpeakerName:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 0
+      m_KeyId: 2884793699131392
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -165,9 +172,9 @@ MonoBehaviour:
   text: That's all for now!
   localizedText:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 0
+      m_KeyId: 2884793799794688
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -190,6 +197,8 @@ MonoBehaviour:
     height: 45
   condition:
     and: []
+  cachedSpeakerName: Helpful Vole
+  cachedText: That's all for now!
   references:
     version: 2
     RefIds: []
@@ -211,9 +220,9 @@ MonoBehaviour:
   speakerName: Helpful Vole
   localizedSpeakerName:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 0
+      m_KeyId: 2884730478387200
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -221,9 +230,9 @@ MonoBehaviour:
   text: It's me, your favourite friendly neighbourhood helpful vole!
   localizedText:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 0
+      m_KeyId: 2884730792960000
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -246,6 +255,8 @@ MonoBehaviour:
     height: 45
   condition:
     and: []
+  cachedSpeakerName: Helpful Vole
+  cachedText: It's me, your favourite friendly neighbourhood helpful vole!
   references:
     version: 2
     RefIds: []
@@ -267,9 +278,9 @@ MonoBehaviour:
   speakerName: Helpful Vole
   localizedSpeakerName:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 0
+      m_KeyId: 2884732957220864
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -277,9 +288,9 @@ MonoBehaviour:
   text: Of course, you need to have more than just YOU in the party, Frankie!
   localizedText:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 0
+      m_KeyId: 2884733057884160
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -302,6 +313,8 @@ MonoBehaviour:
     height: 45
   condition:
     and: []
+  cachedSpeakerName: Helpful Vole
+  cachedText: Of course, you need to have more than just YOU in the party, Frankie!
   references:
     version: 2
     RefIds: []
