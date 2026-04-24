@@ -3,13 +3,13 @@ using UnityEngine.UIElements;
 
 namespace Frankie.ZoneManagement.UIEditor
 {
-    public class PanManipulator : MouseManipulator
+    public class MultiZonePanManipulator : MouseManipulator
     {
         private readonly System.Action<Vector2> onDelta;
         private bool active;
         private Vector2 lastPosition;
 
-        public PanManipulator(System.Action<Vector2> onDelta)
+        public MultiZonePanManipulator(System.Action<Vector2> onDelta)
         {
             this.onDelta = onDelta;
             activators.Add(new ManipulatorActivationFilter { button = MouseButton.MiddleMouse });

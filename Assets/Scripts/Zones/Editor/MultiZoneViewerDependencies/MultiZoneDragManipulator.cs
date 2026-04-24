@@ -4,7 +4,7 @@ using UnityEngine.UIElements;
 
 namespace Frankie.ZoneManagement.UIEditor
 {
-    public class DragManipulator : MouseManipulator
+    public class MultiZoneDragManipulator : MouseManipulator
     {
         private readonly ZoneView zoneView;
         private readonly VisualElement activeVisualElement;
@@ -16,7 +16,7 @@ namespace Frankie.ZoneManagement.UIEditor
 
         private const float _clickMoveThreshold = 4f;
 
-        public DragManipulator(ZoneView zoneView, VisualElement activeVisualElement, System.Action onClicked, System.Action onDragged)
+        public MultiZoneDragManipulator(ZoneView zoneView, VisualElement activeVisualElement, System.Action onClicked, System.Action onDragged)
         {
             this.zoneView = zoneView;
             this.activeVisualElement = activeVisualElement;
