@@ -20,7 +20,7 @@ MonoBehaviour:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 2884738854412288
+      m_KeyId: 2889056684859392
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -30,7 +30,7 @@ MonoBehaviour:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 2884738963464192
+      m_KeyId: 2889056798105600
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -71,7 +71,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 09c07c7c6f4c666429a0bbc8d18232b2, type: 3}
   m_Name: 5f9cc375-dffc-4f29-a66e-1c51e73a8a85
   m_EditorClassIdentifier: Assembly-CSharp::Frankie.Speech.DialogueNode
-  dialogueName: 
+  dialogueName: Demo-Forest_PortaMaya-East
   speakerType: 1
   characterProperties: {fileID: 11400000, guid: c8752c77bccb9f145aea101a1d9673a5, type: 2}
   speakerName: Maya
@@ -79,7 +79,7 @@ MonoBehaviour:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 2884731107532800
+      m_KeyId: 2889057133649920
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -89,7 +89,7 @@ MonoBehaviour:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 2884731224973312
+      m_KeyId: 2889057242701824
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -161,7 +161,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 09c07c7c6f4c666429a0bbc8d18232b2, type: 3}
   m_Name: 4f35bc35-bc64-4dbf-8092-ea0ec994222a
   m_EditorClassIdentifier: Assembly-CSharp::Frankie.Speech.DialogueNode
-  dialogueName: 
+  dialogueName: Demo-Forest_PortaMaya-East
   speakerType: 0
   characterProperties: {fileID: 11400000, guid: b50f84a2f36107a44825b11881f88adf, type: 2}
   speakerName: Frankie
@@ -169,7 +169,7 @@ MonoBehaviour:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 2884732957220864
+      m_KeyId: 2889057355948032
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -179,7 +179,7 @@ MonoBehaviour:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 2884733057884160
+      m_KeyId: 2889057460805632
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -218,7 +218,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 09c07c7c6f4c666429a0bbc8d18232b2, type: 3}
   m_Name: 7e7fc216-ca44-4d0a-a33f-05a4b5d36c89
   m_EditorClassIdentifier: Assembly-CSharp::Frankie.Speech.DialogueNode
-  dialogueName: 
+  dialogueName: Demo-Forest_PortaMaya-East
   speakerType: 0
   characterProperties: {fileID: 11400000, guid: b50f84a2f36107a44825b11881f88adf, type: 2}
   speakerName: Frankie
@@ -226,7 +226,7 @@ MonoBehaviour:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 2884733565394944
+      m_KeyId: 2889057569857536
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -236,7 +236,7 @@ MonoBehaviour:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 2884733666058240
+      m_KeyId: 2889057674715136
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -275,7 +275,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 09c07c7c6f4c666429a0bbc8d18232b2, type: 3}
   m_Name: 0b0e8237-1f39-47b6-b886-1edcc51370b2
   m_EditorClassIdentifier: Assembly-CSharp::Frankie.Speech.DialogueNode
-  dialogueName: 
+  dialogueName: Demo-Forest_PortaMaya-East
   speakerType: 1
   characterProperties: {fileID: 11400000, guid: c8752c77bccb9f145aea101a1d9673a5, type: 2}
   speakerName: Maya
@@ -283,7 +283,7 @@ MonoBehaviour:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 2884730897817600
+      m_KeyId: 2889056911351808
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -294,7 +294,7 @@ MonoBehaviour:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 2884731002675200
+      m_KeyId: 2889057020403712
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0

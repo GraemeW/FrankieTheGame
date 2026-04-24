@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 09c07c7c6f4c666429a0bbc8d18232b2, type: 3}
   m_Name: 5ef79b6d-7b86-4ce8-8124-1db3be13b3c8
   m_EditorClassIdentifier: 
-  dialogueName: 
+  dialogueName: OfficeInterior-BroWorkerB
   speakerType: 1
   characterProperties: {fileID: 11400000, guid: 15a456ac7051b7946ba9d4575fddb1ba, type: 2}
   speakerName: Bro Office Worker
@@ -20,7 +20,7 @@ MonoBehaviour:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 2884734580416512
+      m_KeyId: 2889079074054144
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -31,7 +31,7 @@ MonoBehaviour:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 2884734685274112
+      m_KeyId: 2889079174717440
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -72,7 +72,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 09c07c7c6f4c666429a0bbc8d18232b2, type: 3}
   m_Name: 223e761d-5904-4269-8a1f-eab191fc2b40
   m_EditorClassIdentifier: 
-  dialogueName: 
+  dialogueName: OfficeInterior-BroWorkerB
   speakerType: 1
   characterProperties: {fileID: 11400000, guid: 15a456ac7051b7946ba9d4575fddb1ba, type: 2}
   speakerName: Bro Office Worker
@@ -80,7 +80,7 @@ MonoBehaviour:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 2884762904551424
+      m_KeyId: 2889080286208000
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -90,7 +90,7 @@ MonoBehaviour:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 2884763005214720
+      m_KeyId: 2889080386871296
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -129,7 +129,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 09c07c7c6f4c666429a0bbc8d18232b2, type: 3}
   m_Name: bf23750e-5e1a-40ff-b7e7-ca8b30daec74
   m_EditorClassIdentifier: 
-  dialogueName: 
+  dialogueName: OfficeInterior-BroWorkerB
   speakerType: 1
   characterProperties: {fileID: 11400000, guid: 15a456ac7051b7946ba9d4575fddb1ba, type: 2}
   speakerName: Bro Office Worker
@@ -137,7 +137,7 @@ MonoBehaviour:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 2884738250432512
+      m_KeyId: 2889079480901632
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -147,7 +147,7 @@ MonoBehaviour:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 2884738346901504
+      m_KeyId: 2889079581564928
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -187,7 +187,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 09c07c7c6f4c666429a0bbc8d18232b2, type: 3}
   m_Name: ce235bf7-f164-4c19-976b-42c592758b44
   m_EditorClassIdentifier: 
-  dialogueName: 
+  dialogueName: OfficeInterior-BroWorkerB
   speakerType: 1
   characterProperties: {fileID: 11400000, guid: 15a456ac7051b7946ba9d4575fddb1ba, type: 2}
   speakerName: Bro Office Worker
@@ -195,7 +195,7 @@ MonoBehaviour:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 2884731107532800
+      m_KeyId: 2889080084881408
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -205,7 +205,7 @@ MonoBehaviour:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 2884731224973312
+      m_KeyId: 2889080185544704
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -247,7 +247,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 09c07c7c6f4c666429a0bbc8d18232b2, type: 3}
   m_Name: fffed05f-40f4-4d51-8f6e-f916e1424c8e
   m_EditorClassIdentifier: 
-  dialogueName: 
+  dialogueName: OfficeInterior-BroWorkerB
   speakerType: 1
   characterProperties: {fileID: 11400000, guid: 15a456ac7051b7946ba9d4575fddb1ba, type: 2}
   speakerName: Bro Office Worker
@@ -255,7 +255,7 @@ MonoBehaviour:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 2884730478387200
+      m_KeyId: 2889078453297152
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -265,7 +265,7 @@ MonoBehaviour:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 2884730792960000
+      m_KeyId: 2889078553960448
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -314,7 +314,7 @@ MonoBehaviour:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 2884761851781120
+      m_KeyId: 2889079275380736
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -324,7 +324,7 @@ MonoBehaviour:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 2884761952444416
+      m_KeyId: 2889079376044032
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -397,7 +397,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 09c07c7c6f4c666429a0bbc8d18232b2, type: 3}
   m_Name: 2d396af7-6d1b-4707-9092-d167896c8035
   m_EditorClassIdentifier: 
-  dialogueName: 
+  dialogueName: OfficeInterior-BroWorkerB
   speakerType: 0
   characterProperties: {fileID: 11400000, guid: b50f84a2f36107a44825b11881f88adf, type: 2}
   speakerName: Frankie
@@ -405,7 +405,7 @@ MonoBehaviour:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 2884732957220864
+      m_KeyId: 2889078868533248
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -415,7 +415,7 @@ MonoBehaviour:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 2884733057884160
+      m_KeyId: 2889078973390848
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -455,7 +455,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 09c07c7c6f4c666429a0bbc8d18232b2, type: 3}
   m_Name: 5100bd56-d3ce-403f-98a1-868ecf85a44a
   m_EditorClassIdentifier: 
-  dialogueName: 
+  dialogueName: OfficeInterior-BroWorkerB
   speakerType: 1
   characterProperties: {fileID: 11400000, guid: 15a456ac7051b7946ba9d4575fddb1ba, type: 2}
   speakerName: Bro Office Worker
@@ -463,7 +463,7 @@ MonoBehaviour:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 2884755434496000
+      m_KeyId: 2889079883554816
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -473,7 +473,7 @@ MonoBehaviour:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 2884755539353600
+      m_KeyId: 2889079984218112
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -513,7 +513,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 09c07c7c6f4c666429a0bbc8d18232b2, type: 3}
   m_Name: 2c8c1618-8fa5-4bb3-93df-cb2a52ee24df
   m_EditorClassIdentifier: 
-  dialogueName: 
+  dialogueName: OfficeInterior-BroWorkerB
   speakerType: 0
   characterProperties: {fileID: 11400000, guid: b50f84a2f36107a44825b11881f88adf, type: 2}
   speakerName: Frankie
@@ -521,7 +521,7 @@ MonoBehaviour:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 2884743224877056
+      m_KeyId: 2889079678033920
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -531,7 +531,7 @@ MonoBehaviour:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 2884743325540352
+      m_KeyId: 2889079782891520
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -571,7 +571,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 09c07c7c6f4c666429a0bbc8d18232b2, type: 3}
   m_Name: 0c30b05a-ed1b-424d-b35b-d71d95ac5358
   m_EditorClassIdentifier: 
-  dialogueName: 
+  dialogueName: OfficeInterior-BroWorkerB
   speakerType: 1
   characterProperties: {fileID: 11400000, guid: 15a456ac7051b7946ba9d4575fddb1ba, type: 2}
   speakerName: Bro Office Worker
@@ -579,7 +579,7 @@ MonoBehaviour:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 2884730897817600
+      m_KeyId: 2889078667206656
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -589,7 +589,7 @@ MonoBehaviour:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 2884731002675200
+      m_KeyId: 2889078767869952
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0

@@ -20,7 +20,7 @@ MonoBehaviour:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 2884775248388096
+      m_KeyId: 2889092680376320
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -30,7 +30,7 @@ MonoBehaviour:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 2884775353245696
+      m_KeyId: 2889092781039616
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -72,7 +72,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 09c07c7c6f4c666429a0bbc8d18232b2, type: 3}
   m_Name: 3a02e637-5562-4dfd-b511-59e164aa3879
   m_EditorClassIdentifier: Assembly-CSharp::Frankie.Speech.DialogueNode
-  dialogueName: 
+  dialogueName: Demo-Forest_SkilledOfficeWorker
   speakerType: 0
   characterProperties: {fileID: 11400000, guid: b50f84a2f36107a44825b11881f88adf, type: 2}
   speakerName: Frankie
@@ -80,7 +80,7 @@ MonoBehaviour:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 2884753786134528
+      m_KeyId: 2889092470661120
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -90,7 +90,7 @@ MonoBehaviour:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 2884753890992128
+      m_KeyId: 2889092575518720
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -129,7 +129,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 09c07c7c6f4c666429a0bbc8d18232b2, type: 3}
   m_Name: 2b2c3221-4ca7-4255-8284-0078bc5ed893
   m_EditorClassIdentifier: Assembly-CSharp::Frankie.Speech.DialogueNode
-  dialogueName: 
+  dialogueName: Demo-Forest_SkilledOfficeWorker
   speakerType: 1
   characterProperties: {fileID: 0}
   speakerName: Skilled Office Worker
@@ -137,7 +137,7 @@ MonoBehaviour:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 2884730897817600
+      m_KeyId: 2889091849904128
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -148,7 +148,7 @@ MonoBehaviour:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 2884731002675200
+      m_KeyId: 2889091954761728
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -192,7 +192,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 09c07c7c6f4c666429a0bbc8d18232b2, type: 3}
   m_Name: 6fc166eb-1c06-4756-8fff-5e38e0e3106a
   m_EditorClassIdentifier: Assembly-CSharp::Frankie.Speech.DialogueNode
-  dialogueName: 
+  dialogueName: Demo-Forest_SkilledOfficeWorker
   speakerType: 0
   characterProperties: {fileID: 11400000, guid: b50f84a2f36107a44825b11881f88adf, type: 2}
   speakerName: Frankie
@@ -200,7 +200,7 @@ MonoBehaviour:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 2884734580416512
+      m_KeyId: 2889092265140224
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -210,7 +210,7 @@ MonoBehaviour:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 2884734685274112
+      m_KeyId: 2889092365803520
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -285,7 +285,7 @@ MonoBehaviour:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 2884774199812096
+      m_KeyId: 2889091644383232
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -295,7 +295,7 @@ MonoBehaviour:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 2884774304669696
+      m_KeyId: 2889091749240832
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -336,7 +336,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 09c07c7c6f4c666429a0bbc8d18232b2, type: 3}
   m_Name: 8768a1b1-9794-41a2-93c3-69a14c5d6b2a
   m_EditorClassIdentifier: Assembly-CSharp::Frankie.Speech.DialogueNode
-  dialogueName: 
+  dialogueName: Demo-Forest_SkilledOfficeWorker
   speakerType: 1
   characterProperties: {fileID: 0}
   speakerName: Skilled Office Worker
@@ -344,7 +344,7 @@ MonoBehaviour:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 2884732957220864
+      m_KeyId: 2889092059619328
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -354,7 +354,7 @@ MonoBehaviour:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 2884733057884160
+      m_KeyId: 2889092164476928
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0

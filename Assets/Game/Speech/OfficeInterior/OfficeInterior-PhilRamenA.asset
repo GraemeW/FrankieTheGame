@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 09c07c7c6f4c666429a0bbc8d18232b2, type: 3}
   m_Name: 5cb51a8b-f380-42ae-a53d-891dfc310e94
   m_EditorClassIdentifier: 
-  dialogueName: 
+  dialogueName: OfficeInterior-PhilRamenA
   speakerType: 1
   characterProperties: {fileID: 11400000, guid: e97120b87e74eee4f9d9d8659f0bddf5, type: 2}
   speakerName: Phil Ramen
@@ -20,7 +20,7 @@ MonoBehaviour:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 2884738250432512
+      m_KeyId: 2889087643017216
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -30,7 +30,7 @@ MonoBehaviour:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 2884738346901504
+      m_KeyId: 2889087760457728
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -78,7 +78,7 @@ MonoBehaviour:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 2884769242144768
+      m_KeyId: 2889086716076032
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -88,7 +88,7 @@ MonoBehaviour:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 2884769355390976
+      m_KeyId: 2889086837710848
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -136,7 +136,7 @@ MonoBehaviour:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 2884771171524608
+      m_KeyId: 2889088737730560
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -146,7 +146,7 @@ MonoBehaviour:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 2884771276382208
+      m_KeyId: 2889088842588160
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -194,7 +194,7 @@ MonoBehaviour:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 2884769028235264
+      m_KeyId: 2889086502166528
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -204,7 +204,7 @@ MonoBehaviour:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 2884769137287168
+      m_KeyId: 2889086607024128
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -253,7 +253,7 @@ MonoBehaviour:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 2884770315886592
+      m_KeyId: 2889087869509632
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -264,7 +264,7 @@ MonoBehaviour:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 2884770420744192
+      m_KeyId: 2889087974367232
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -305,7 +305,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 09c07c7c6f4c666429a0bbc8d18232b2, type: 3}
   m_Name: d652d09a-7d4c-48a5-be65-643aecfb617e
   m_EditorClassIdentifier: 
-  dialogueName: 
+  dialogueName: OfficeInterior-PhilRamenA
   speakerType: 1
   characterProperties: {fileID: 11400000, guid: e97120b87e74eee4f9d9d8659f0bddf5, type: 2}
   speakerName: Phil Ramen
@@ -313,7 +313,7 @@ MonoBehaviour:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 2884753786134528
+      m_KeyId: 2889088314105856
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -323,7 +323,7 @@ MonoBehaviour:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 2884753890992128
+      m_KeyId: 2889088423157760
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -374,7 +374,7 @@ MonoBehaviour:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 2884769460248576
+      m_KeyId: 2889086959345664
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -385,7 +385,7 @@ MonoBehaviour:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 2884769569300480
+      m_KeyId: 2889087080980480
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -462,7 +462,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 09c07c7c6f4c666429a0bbc8d18232b2, type: 3}
   m_Name: 5dd08894-04a1-4b55-9f80-27eb5c4979b1
   m_EditorClassIdentifier: 
-  dialogueName: 
+  dialogueName: OfficeInterior-PhilRamenA
   speakerType: 0
   characterProperties: {fileID: 11400000, guid: b50f84a2f36107a44825b11881f88adf, type: 2}
   speakerName: Frankie
@@ -470,7 +470,7 @@ MonoBehaviour:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 2884733359874048
+      m_KeyId: 2889087424913408
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -480,7 +480,7 @@ MonoBehaviour:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 2884733464731648
+      m_KeyId: 2889087533965312
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -528,7 +528,7 @@ MonoBehaviour:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 2884769678352384
+      m_KeyId: 2889087198420992
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -538,7 +538,7 @@ MonoBehaviour:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 2884769783209984
+      m_KeyId: 2889087315861504
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -589,7 +589,7 @@ MonoBehaviour:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 2884771381239808
+      m_KeyId: 2889088947445760
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -599,7 +599,7 @@ MonoBehaviour:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 2884771494486016
+      m_KeyId: 2889089052303360
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -638,7 +638,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 09c07c7c6f4c666429a0bbc8d18232b2, type: 3}
   m_Name: e32a3d0e-b9c4-4b06-bcd2-bf3f2d3762d6
   m_EditorClassIdentifier: 
-  dialogueName: 
+  dialogueName: OfficeInterior-PhilRamenA
   speakerType: 1
   characterProperties: {fileID: 11400000, guid: e97120b87e74eee4f9d9d8659f0bddf5, type: 2}
   speakerName: Phil Ramen
@@ -646,7 +646,7 @@ MonoBehaviour:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 2884770529796096
+      m_KeyId: 2889088087613440
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -657,7 +657,7 @@ MonoBehaviour:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 2884770638848000
+      m_KeyId: 2889088196665344
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -707,7 +707,7 @@ MonoBehaviour:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 2884770961809408
+      m_KeyId: 2889088528015360
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -717,7 +717,7 @@ MonoBehaviour:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 2884771066667008
+      m_KeyId: 2889088632872960
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0

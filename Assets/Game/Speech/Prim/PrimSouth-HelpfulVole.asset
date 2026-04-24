@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 09c07c7c6f4c666429a0bbc8d18232b2, type: 3}
   m_Name: bdd30178-4e30-470c-a113-fb178377b71e
   m_EditorClassIdentifier: 
-  dialogueName: 
+  dialogueName: PrimSouth-HelpfulVole
   speakerType: 1
   characterProperties: {fileID: 11400000, guid: c1f59cbc742f6294d98c52ee45fb4fd6, type: 2}
   speakerName: Helpful Vole
@@ -20,7 +20,7 @@ MonoBehaviour:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 2884734580416512
+      m_KeyId: 2889072598048768
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -30,7 +30,7 @@ MonoBehaviour:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 2884734685274112
+      m_KeyId: 2889072698712064
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -71,7 +71,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 09c07c7c6f4c666429a0bbc8d18232b2, type: 3}
   m_Name: ec62e4c9-f9eb-46f1-8326-32f31ba6b74c
   m_EditorClassIdentifier: 
-  dialogueName: 
+  dialogueName: PrimSouth-HelpfulVole
   speakerType: 1
   characterProperties: {fileID: 11400000, guid: c1f59cbc742f6294d98c52ee45fb4fd6, type: 2}
   speakerName: Helpful Vole
@@ -79,7 +79,7 @@ MonoBehaviour:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 2884733359874048
+      m_KeyId: 2889072799375360
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -90,7 +90,7 @@ MonoBehaviour:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 2884733464731648
+      m_KeyId: 2889072900038656
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -131,7 +131,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 09c07c7c6f4c666429a0bbc8d18232b2, type: 3}
   m_Name: 321940ed-e814-4fd1-8a37-6d95f7debdcb
   m_EditorClassIdentifier: 
-  dialogueName: 
+  dialogueName: PrimSouth-HelpfulVole
   speakerType: 1
   characterProperties: {fileID: 11400000, guid: c1f59cbc742f6294d98c52ee45fb4fd6, type: 2}
   speakerName: Helpful Vole
@@ -139,7 +139,7 @@ MonoBehaviour:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 2884730478387200
+      m_KeyId: 2889071998263296
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -149,7 +149,7 @@ MonoBehaviour:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 2884730792960000
+      m_KeyId: 2889072098926592
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -227,7 +227,7 @@ MonoBehaviour:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 2884755228975104
+      m_KeyId: 2889073202028544
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -238,7 +238,7 @@ MonoBehaviour:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 2884755329638400
+      m_KeyId: 2889073306886144
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -279,7 +279,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 09c07c7c6f4c666429a0bbc8d18232b2, type: 3}
   m_Name: 2676e5dc-4cdf-485a-a23e-954ba872ec4f
   m_EditorClassIdentifier: 
-  dialogueName: 
+  dialogueName: PrimSouth-HelpfulVole
   speakerType: 1
   characterProperties: {fileID: 11400000, guid: c1f59cbc742f6294d98c52ee45fb4fd6, type: 2}
   speakerName: Helpful Vole
@@ -287,7 +287,7 @@ MonoBehaviour:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 2884755434496000
+      m_KeyId: 2889073403355136
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -298,7 +298,7 @@ MonoBehaviour:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 2884755539353600
+      m_KeyId: 2889073504018432
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -338,7 +338,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 09c07c7c6f4c666429a0bbc8d18232b2, type: 3}
   m_Name: 0c8e706c-9ed7-4b34-9396-22a8b2b6c618
   m_EditorClassIdentifier: 
-  dialogueName: 
+  dialogueName: PrimSouth-HelpfulVole
   speakerType: 1
   characterProperties: {fileID: 11400000, guid: c1f59cbc742f6294d98c52ee45fb4fd6, type: 2}
   speakerName: Helpful Vole
@@ -346,7 +346,7 @@ MonoBehaviour:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 2884738250432512
+      m_KeyId: 2889073000701952
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -357,7 +357,7 @@ MonoBehaviour:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 2884738346901504
+      m_KeyId: 2889073101365248
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -398,7 +398,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 09c07c7c6f4c666429a0bbc8d18232b2, type: 3}
   m_Name: 510f0cfc-7f2e-48be-9a45-22801138c3ed
   m_EditorClassIdentifier: 
-  dialogueName: 
+  dialogueName: PrimSouth-HelpfulVole
   speakerType: 1
   characterProperties: {fileID: 11400000, guid: c1f59cbc742f6294d98c52ee45fb4fd6, type: 2}
   speakerName: Helpful Vole
@@ -406,7 +406,7 @@ MonoBehaviour:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 2884732957220864
+      m_KeyId: 2889072396722176
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -416,7 +416,7 @@ MonoBehaviour:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 2884733057884160
+      m_KeyId: 2889072497385472
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -456,7 +456,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 09c07c7c6f4c666429a0bbc8d18232b2, type: 3}
   m_Name: fbfd2c2b-bbae-493d-92be-15d8f5267ef7
   m_EditorClassIdentifier: 
-  dialogueName: 
+  dialogueName: PrimSouth-HelpfulVole
   speakerType: 1
   characterProperties: {fileID: 11400000, guid: c1f59cbc742f6294d98c52ee45fb4fd6, type: 2}
   speakerName: Helpful Vole
@@ -464,7 +464,7 @@ MonoBehaviour:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 2884730897817600
+      m_KeyId: 2889072195395584
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -474,7 +474,7 @@ MonoBehaviour:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 2884731002675200
+      m_KeyId: 2889072296058880
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0

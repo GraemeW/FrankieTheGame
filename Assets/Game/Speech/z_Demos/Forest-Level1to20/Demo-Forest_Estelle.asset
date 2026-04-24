@@ -46,7 +46,7 @@ MonoBehaviour:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 2884787776774144
+      m_KeyId: 2889108450959360
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -56,7 +56,7 @@ MonoBehaviour:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 2884787877437440
+      m_KeyId: 2889108560011264
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -104,7 +104,7 @@ MonoBehaviour:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 2884788384948224
+      m_KeyId: 2889109105270784
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -114,7 +114,7 @@ MonoBehaviour:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 2884788485611520
+      m_KeyId: 2889109214322688
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -154,7 +154,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 09c07c7c6f4c666429a0bbc8d18232b2, type: 3}
   m_Name: 8a69f012-1d5e-4d25-a3e3-0d290454b2ac
   m_EditorClassIdentifier: Assembly-CSharp::Frankie.Speech.DialogueNode
-  dialogueName: 
+  dialogueName: Demo-Forest_Estelle
   speakerType: 1
   characterProperties: {fileID: 0}
   speakerName: Estelle
@@ -162,7 +162,7 @@ MonoBehaviour:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 2884730897817600
+      m_KeyId: 2889108669063168
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -172,7 +172,7 @@ MonoBehaviour:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 2884731002675200
+      m_KeyId: 2889108778115072
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -220,7 +220,7 @@ MonoBehaviour:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 2884788586274816
+      m_KeyId: 2889109323374592
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -231,7 +231,7 @@ MonoBehaviour:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 2884788686938112
+      m_KeyId: 2889109432426496
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -271,7 +271,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 09c07c7c6f4c666429a0bbc8d18232b2, type: 3}
   m_Name: 38cd23dd-3f36-4116-9df6-e75936f82cb3
   m_EditorClassIdentifier: Assembly-CSharp::Frankie.Speech.DialogueNode
-  dialogueName: 
+  dialogueName: Demo-Forest_Estelle
   speakerType: 1
   characterProperties: {fileID: 0}
   speakerName: Estelle
@@ -279,7 +279,7 @@ MonoBehaviour:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 2884732957220864
+      m_KeyId: 2889108887166976
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -290,7 +290,7 @@ MonoBehaviour:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 2884733057884160
+      m_KeyId: 2889108996218880
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0

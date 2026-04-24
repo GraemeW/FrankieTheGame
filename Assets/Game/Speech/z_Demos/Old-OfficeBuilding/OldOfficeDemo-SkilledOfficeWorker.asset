@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 09c07c7c6f4c666429a0bbc8d18232b2, type: 3}
   m_Name: 3bfc6745-5e76-4734-abd4-258a8183e17a
   m_EditorClassIdentifier: 
-  dialogueName: 
+  dialogueName: OldOfficeDemo-SkilledOfficeWorker
   speakerType: 1
   characterProperties: {fileID: 11400000, guid: df2799c36af32ce4d8fd6788f660323d, type: 2}
   speakerName: Skilled Office Worker
@@ -20,7 +20,7 @@ MonoBehaviour:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 2884732957220864
+      m_KeyId: 2889069792059392
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -30,7 +30,7 @@ MonoBehaviour:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 2884733057884160
+      m_KeyId: 2889069892722688
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -79,7 +79,7 @@ MonoBehaviour:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 2884751294717952
+      m_KeyId: 2889069397794816
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -89,7 +89,7 @@ MonoBehaviour:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 2884751399575552
+      m_KeyId: 2889069498458112
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -137,7 +137,7 @@ MonoBehaviour:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 2884752120995840
+      m_KeyId: 2889070190518272
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -147,7 +147,7 @@ MonoBehaviour:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 2884752225853440
+      m_KeyId: 2889070291181568
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -226,7 +226,7 @@ MonoBehaviour:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 2884751915474944
+      m_KeyId: 2889069993385984
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -237,7 +237,7 @@ MonoBehaviour:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 2884752020332544
+      m_KeyId: 2889070094049280
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -289,7 +289,7 @@ MonoBehaviour:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 2884752326516736
+      m_KeyId: 2889070391844864
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -299,7 +299,7 @@ MonoBehaviour:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 2884752435568640
+      m_KeyId: 2889070492508160
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -346,7 +346,7 @@ MonoBehaviour:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 2884751504433152
+      m_KeyId: 2889069594927104
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -356,7 +356,7 @@ MonoBehaviour:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
     m_TableEntryReference:
-      m_KeyId: 2884751605096448
+      m_KeyId: 2889069695590400
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
