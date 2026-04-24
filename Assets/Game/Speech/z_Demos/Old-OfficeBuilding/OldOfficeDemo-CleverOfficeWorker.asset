@@ -1,0 +1,601 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-3553405648418209642
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 09c07c7c6f4c666429a0bbc8d18232b2, type: 3}
+  m_Name: da933559-f556-4dc5-a152-6c81e16e771b
+  m_EditorClassIdentifier: 
+  dialogueName: OldOfficeDemo-CleverOfficeWorker
+  speakerType: 0
+  characterProperties: {fileID: 11400000, guid: b10029ac6f311c441a516db78ca01efd, type: 2}
+  localizedSpeakerName:
+    m_TableReference:
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
+    m_TableEntryReference:
+      m_KeyId: 2889112158724096
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  localizedText:
+    m_TableReference:
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
+    m_TableEntryReference:
+      m_KeyId: 2889112267776000
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  nodeDepth: 3
+  nodeBreadth: 2
+  children: []
+  rect:
+    serializedVersion: 2
+    x: 1530
+    y: 530
+    width: 400
+    height: 225
+  draggingRect:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 400
+    height: 45
+  condition:
+    and: []
+  cachedSpeakerName: Tilly
+  cachedText: Nah.
+  references:
+    version: 2
+    RefIds: []
+--- !u!114 &-1968904644555803108
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 09c07c7c6f4c666429a0bbc8d18232b2, type: 3}
+  m_Name: 4890d74e-5321-464c-91f6-944a613bbff9
+  m_EditorClassIdentifier: 
+  dialogueName: OldOfficeDemo-CleverOfficeWorker
+  speakerType: 1
+  characterProperties: {fileID: 11400000, guid: 90d76accd2678ec4a831bc862fdccb8c, type: 2}
+  localizedSpeakerName:
+    m_TableReference:
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
+    m_TableEntryReference:
+      m_KeyId: 2889111500218368
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  localizedText:
+    m_TableReference:
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
+    m_TableEntryReference:
+      m_KeyId: 2889111609270272
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  nodeDepth: 2
+  nodeBreadth: 0
+  children:
+  - e26cb30f-683e-44c0-9713-d7344833727c
+  - b9c7e26f-bf00-49de-90cf-3bbc79295b71
+  - da933559-f556-4dc5-a152-6c81e16e771b
+  - ad6f048a-a720-48ed-a8ee-03a6bfcec636
+  rect:
+    serializedVersion: 2
+    x: 1030
+    y: 30
+    width: 400
+    height: 225
+  draggingRect:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 400
+    height: 45
+  condition:
+    and: []
+  cachedSpeakerName: Clever Office Worker
+  cachedText: Question is, think you can take me?
+  references:
+    version: 2
+    RefIds: []
+--- !u!114 &-834032429813830620
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 09c07c7c6f4c666429a0bbc8d18232b2, type: 3}
+  m_Name: b9c7e26f-bf00-49de-90cf-3bbc79295b71
+  m_EditorClassIdentifier: 
+  dialogueName: OldOfficeDemo-CleverOfficeWorker
+  speakerType: 0
+  characterProperties: {fileID: 11400000, guid: b10029ac6f311c441a516db78ca01efd, type: 2}
+  localizedSpeakerName:
+    m_TableReference:
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
+    m_TableEntryReference:
+      m_KeyId: 2889111936425984
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  localizedText:
+    m_TableReference:
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
+    m_TableEntryReference:
+      m_KeyId: 2889112045477888
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  nodeDepth: 3
+  nodeBreadth: 1
+  children: []
+  rect:
+    serializedVersion: 2
+    x: 1530
+    y: 280
+    width: 400
+    height: 225
+  draggingRect:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 400
+    height: 45
+  condition:
+    and: []
+  cachedSpeakerName: Tilly
+  cachedText: Yes?
+  references:
+    version: 2
+    RefIds: []
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aac27b8e802ced743b3f275e283ab9df, type: 3}
+  m_Name: OldOfficeDemo-CleverOfficeWorker
+  m_EditorClassIdentifier: 
+  skipRootNode: 1
+  defaultSpeakerName: DefaultSpeaker
+  defaultText: Default Text to Overwrite
+  cachedDialogueName: OldOfficeDemo-CleverOfficeWorker
+  newNodeOffset: {x: 100, y: 25}
+  nodeWidth: 400
+  nodeHeight: 225
+  activeNPCs:
+  - {fileID: 11400000, guid: 90d76accd2678ec4a831bc862fdccb8c, type: 2}
+  - {fileID: 11400000, guid: b10029ac6f311c441a516db78ca01efd, type: 2}
+  dialogueNodes:
+  - {fileID: 3876667673261360452}
+  - {fileID: 4572544580911562930}
+  - {fileID: 6323805947047870502}
+  - {fileID: 2291621687641431320}
+  - {fileID: 1831348114004609732}
+  - {fileID: -1968904644555803108}
+  - {fileID: 317426869790424634}
+  - {fileID: -834032429813830620}
+  - {fileID: -3553405648418209642}
+  - {fileID: 6785959663042862364}
+--- !u!114 &317426869790424634
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 09c07c7c6f4c666429a0bbc8d18232b2, type: 3}
+  m_Name: e26cb30f-683e-44c0-9713-d7344833727c
+  m_EditorClassIdentifier: 
+  dialogueName: OldOfficeDemo-CleverOfficeWorker
+  speakerType: 0
+  characterProperties: {fileID: 11400000, guid: b10029ac6f311c441a516db78ca01efd, type: 2}
+  localizedSpeakerName:
+    m_TableReference:
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
+    m_TableEntryReference:
+      m_KeyId: 2889111718322176
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  localizedText:
+    m_TableReference:
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
+    m_TableEntryReference:
+      m_KeyId: 2889111827374080
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  nodeDepth: 3
+  nodeBreadth: 0
+  children: []
+  rect:
+    serializedVersion: 2
+    x: 1530
+    y: 30
+    width: 400
+    height: 225
+  draggingRect:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 400
+    height: 45
+  condition:
+    and: []
+  cachedSpeakerName: Tilly
+  cachedText: Nope.
+  references:
+    version: 2
+    RefIds: []
+--- !u!114 &1831348114004609732
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 09c07c7c6f4c666429a0bbc8d18232b2, type: 3}
+  m_Name: 40911b7f-e1ea-4aab-a530-accb51017056
+  m_EditorClassIdentifier: 
+  dialogueName: OldOfficeDemo-CleverOfficeWorker
+  speakerType: 1
+  characterProperties: {fileID: 11400000, guid: 90d76accd2678ec4a831bc862fdccb8c, type: 2}
+  localizedSpeakerName:
+    m_TableReference:
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
+    m_TableEntryReference:
+      m_KeyId: 2889111277920256
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  localizedText:
+    m_TableReference:
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
+    m_TableEntryReference:
+      m_KeyId: 2889111391166464
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  nodeDepth: 3
+  nodeBreadth: 4
+  children: []
+  rect:
+    serializedVersion: 2
+    x: 965
+    y: 523
+    width: 400
+    height: 225
+  draggingRect:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 400
+    height: 45
+  condition:
+    and: []
+  cachedSpeakerName: Clever Office Worker
+  cachedText: There's a PortaBank (TM) just outside this very office building.
+  references:
+    version: 2
+    RefIds: []
+--- !u!114 &2291621687641431320
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 09c07c7c6f4c666429a0bbc8d18232b2, type: 3}
+  m_Name: 5b286816-f426-41c1-8d96-4b4e06835ebd
+  m_EditorClassIdentifier: 
+  dialogueName: OldOfficeDemo-CleverOfficeWorker
+  speakerType: 1
+  characterProperties: {fileID: 11400000, guid: 90d76accd2678ec4a831bc862fdccb8c, type: 2}
+  localizedSpeakerName:
+    m_TableReference:
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
+    m_TableEntryReference:
+      m_KeyId: 2889111064010752
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  localizedText:
+    m_TableReference:
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
+    m_TableEntryReference:
+      m_KeyId: 2889111173062656
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  nodeDepth: 2
+  nodeBreadth: 1
+  children:
+  - 40911b7f-e1ea-4aab-a530-accb51017056
+  rect:
+    serializedVersion: 2
+    x: 951
+    y: 276
+    width: 400
+    height: 225
+  draggingRect:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 400
+    height: 45
+  condition:
+    and: []
+  cachedSpeakerName: Clever Office Worker
+  cachedText: After you've adventured a little, check your bank account.  You may
+    be surprised to see your stocks have paid some dividends.
+  references:
+    version: 2
+    RefIds: []
+--- !u!114 &3876667673261360452
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 09c07c7c6f4c666429a0bbc8d18232b2, type: 3}
+  m_Name: 898ee491-face-4d8d-b974-1bd571c458d7
+  m_EditorClassIdentifier: 
+  dialogueName: OldOfficeDemo-CleverOfficeWorker
+  speakerType: 1
+  characterProperties: {fileID: 11400000, guid: 90d76accd2678ec4a831bc862fdccb8c, type: 2}
+  localizedSpeakerName:
+    m_TableReference:
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
+    m_TableEntryReference:
+      m_KeyId: 2889110409699328
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  localizedText:
+    m_TableReference:
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
+    m_TableEntryReference:
+      m_KeyId: 2889110518751232
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  nodeDepth: 0
+  nodeBreadth: 0
+  children:
+  - 0643a067-81a1-4d7e-8327-951356097f15
+  - b5d4d788-a7dd-496f-8a88-2214d6c2a90c
+  rect:
+    serializedVersion: 2
+    x: 30
+    y: 30
+    width: 400
+    height: 225
+  draggingRect:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 400
+    height: 45
+  condition:
+    and: []
+  cachedSpeakerName: Clever Office Worker
+  cachedText: Root node skipped
+  references:
+    version: 2
+    RefIds: []
+--- !u!114 &4572544580911562930
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 09c07c7c6f4c666429a0bbc8d18232b2, type: 3}
+  m_Name: 0643a067-81a1-4d7e-8327-951356097f15
+  m_EditorClassIdentifier: 
+  dialogueName: OldOfficeDemo-CleverOfficeWorker
+  speakerType: 1
+  characterProperties: {fileID: 11400000, guid: 90d76accd2678ec4a831bc862fdccb8c, type: 2}
+  localizedSpeakerName:
+    m_TableReference:
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
+    m_TableEntryReference:
+      m_KeyId: 2889110627803136
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  localizedText:
+    m_TableReference:
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
+    m_TableEntryReference:
+      m_KeyId: 2889110736855040
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  nodeDepth: 1
+  nodeBreadth: 0
+  children:
+  - 4890d74e-5321-464c-91f6-944a613bbff9
+  rect:
+    serializedVersion: 2
+    x: 530
+    y: 30
+    width: 400
+    height: 225
+  draggingRect:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 400
+    height: 45
+  condition:
+    and:
+    - or:
+      - predicate: {fileID: 11400000, guid: 5543b1768f9e22b478c39e62e76c4918, type: 2}
+        negate: 1
+  cachedSpeakerName: Clever Office Worker
+  cachedText: Beat me and I'll tell you a secret.  *hue hue hue hue hue hue hue*
+  references:
+    version: 2
+    RefIds: []
+--- !u!114 &6323805947047870502
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 09c07c7c6f4c666429a0bbc8d18232b2, type: 3}
+  m_Name: b5d4d788-a7dd-496f-8a88-2214d6c2a90c
+  m_EditorClassIdentifier: 
+  dialogueName: OldOfficeDemo-CleverOfficeWorker
+  speakerType: 1
+  characterProperties: {fileID: 11400000, guid: 90d76accd2678ec4a831bc862fdccb8c, type: 2}
+  localizedSpeakerName:
+    m_TableReference:
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
+    m_TableEntryReference:
+      m_KeyId: 2889110845906944
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  localizedText:
+    m_TableReference:
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
+    m_TableEntryReference:
+      m_KeyId: 2889110954958848
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  nodeDepth: 1
+  nodeBreadth: 1
+  children:
+  - 5b286816-f426-41c1-8d96-4b4e06835ebd
+  rect:
+    serializedVersion: 2
+    x: 530
+    y: 280
+    width: 400
+    height: 225
+  draggingRect:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 400
+    height: 45
+  condition:
+    and:
+    - or:
+      - predicate: {fileID: 11400000, guid: 5543b1768f9e22b478c39e62e76c4918, type: 2}
+        negate: 0
+  cachedSpeakerName: Clever Office Worker
+  cachedText: Hngh.  You really got me.  Alright, here's my secret.
+  references:
+    version: 2
+    RefIds: []
+--- !u!114 &6785959663042862364
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 09c07c7c6f4c666429a0bbc8d18232b2, type: 3}
+  m_Name: ad6f048a-a720-48ed-a8ee-03a6bfcec636
+  m_EditorClassIdentifier: 
+  dialogueName: OldOfficeDemo-CleverOfficeWorker
+  speakerType: 0
+  characterProperties: {fileID: 11400000, guid: b10029ac6f311c441a516db78ca01efd, type: 2}
+  localizedSpeakerName:
+    m_TableReference:
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
+    m_TableEntryReference:
+      m_KeyId: 2889112376827904
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  localizedText:
+    m_TableReference:
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
+    m_TableEntryReference:
+      m_KeyId: 2889112485879808
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  nodeDepth: 3
+  nodeBreadth: 3
+  children: []
+  rect:
+    serializedVersion: 2
+    x: 1530
+    y: 780
+    width: 400
+    height: 225
+  draggingRect:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 400
+    height: 45
+  condition:
+    and: []
+  cachedSpeakerName: Tilly
+  cachedText: Definitely not.
+  references:
+    version: 2
+    RefIds: []

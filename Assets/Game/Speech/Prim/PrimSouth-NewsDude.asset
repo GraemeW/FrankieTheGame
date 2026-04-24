@@ -12,10 +12,29 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 09c07c7c6f4c666429a0bbc8d18232b2, type: 3}
   m_Name: ddae337a-ea08-4d0b-9cba-45357f13e95e
   m_EditorClassIdentifier: 
+  dialogueName: PrimSouth-NewsDude
   speakerType: 1
   characterProperties: {fileID: 0}
-  speakerName: News Dude
-  text: Excuse me, could you hold on a minute?
+  localizedSpeakerName:
+    m_TableReference:
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
+    m_TableEntryReference:
+      m_KeyId: 2889113240854528
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  localizedText:
+    m_TableReference:
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
+    m_TableEntryReference:
+      m_KeyId: 2889113354100736
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  nodeDepth: 2
+  nodeBreadth: 0
   children:
   - 8f739c82-40bf-4607-bba0-5fa6384b8593
   rect:
@@ -32,6 +51,11 @@ MonoBehaviour:
     height: 45
   condition:
     and: []
+  cachedSpeakerName: News Dude
+  cachedText: Excuse me, could you hold on a minute?
+  references:
+    version: 2
+    RefIds: []
 --- !u!114 &-6847516271169434276
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -44,10 +68,29 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 09c07c7c6f4c666429a0bbc8d18232b2, type: 3}
   m_Name: 14bfcac2-0043-4d2f-b339-259a8b2adf5e
   m_EditorClassIdentifier: 
+  dialogueName: PrimSouth-NewsDude
   speakerType: 1
   characterProperties: {fileID: 0}
-  speakerName: News Dude
-  text: Hey you - yeah, you - mind your own business!
+  localizedSpeakerName:
+    m_TableReference:
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
+    m_TableEntryReference:
+      m_KeyId: 2889113681256448
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  localizedText:
+    m_TableReference:
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
+    m_TableEntryReference:
+      m_KeyId: 2889113790308352
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  nodeDepth: 4
+  nodeBreadth: 0
   children:
   - 7d40758c-3fe2-4a86-8c9e-6f7faa111c9e
   rect:
@@ -64,6 +107,11 @@ MonoBehaviour:
     height: 45
   condition:
     and: []
+  cachedSpeakerName: News Dude
+  cachedText: Hey you - yeah, you - mind your own business!
+  references:
+    version: 2
+    RefIds: []
 --- !u!114 &-6032712285421479690
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -76,10 +124,29 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 09c07c7c6f4c666429a0bbc8d18232b2, type: 3}
   m_Name: 8f739c82-40bf-4607-bba0-5fa6384b8593
   m_EditorClassIdentifier: 
+  dialogueName: PrimSouth-NewsDude
   speakerType: 1
   characterProperties: {fileID: 0}
-  speakerName: News Dude
-  text: Some brat is listening to my conversation
+  localizedSpeakerName:
+    m_TableReference:
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
+    m_TableEntryReference:
+      m_KeyId: 2889113463152640
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  localizedText:
+    m_TableReference:
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
+    m_TableEntryReference:
+      m_KeyId: 2889113572204544
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  nodeDepth: 3
+  nodeBreadth: 0
   children:
   - 14bfcac2-0043-4d2f-b339-259a8b2adf5e
   rect:
@@ -96,6 +163,11 @@ MonoBehaviour:
     height: 45
   condition:
     and: []
+  cachedSpeakerName: News Dude
+  cachedText: Some brat is listening to my conversation
+  references:
+    version: 2
+    RefIds: []
 --- !u!114 &-979030320492880006
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -108,10 +180,29 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 09c07c7c6f4c666429a0bbc8d18232b2, type: 3}
   m_Name: 7d40758c-3fe2-4a86-8c9e-6f7faa111c9e
   m_EditorClassIdentifier: 
+  dialogueName: PrimSouth-NewsDude
   speakerType: 1
   characterProperties: {fileID: 0}
-  speakerName: News Dude
-  text: OK, where was I?  Uh huh, yeah, uhhh nuh uh, yeah huh.
+  localizedSpeakerName:
+    m_TableReference:
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
+    m_TableEntryReference:
+      m_KeyId: 2889113903554560
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  localizedText:
+    m_TableReference:
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
+    m_TableEntryReference:
+      m_KeyId: 2889114012606464
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  nodeDepth: 5
+  nodeBreadth: 0
   children: []
   rect:
     serializedVersion: 2
@@ -127,6 +218,11 @@ MonoBehaviour:
     height: 45
   condition:
     and: []
+  cachedSpeakerName: News Dude
+  cachedText: OK, where was I?  Uh huh, yeah, uhhh nuh uh, yeah huh.
+  references:
+    version: 2
+    RefIds: []
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -140,6 +236,9 @@ MonoBehaviour:
   m_Name: PrimSouth-NewsDude
   m_EditorClassIdentifier: 
   skipRootNode: 0
+  defaultSpeakerName: DefaultSpeaker
+  defaultText: Default Text to Overwrite
+  cachedDialogueName: PrimSouth-NewsDude
   newNodeOffset: {x: 100, y: 25}
   nodeWidth: 400
   nodeHeight: 225
@@ -163,10 +262,29 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 09c07c7c6f4c666429a0bbc8d18232b2, type: 3}
   m_Name: f640e623-8ee0-4970-a1fd-8d846e4e4963
   m_EditorClassIdentifier: 
+  dialogueName: PrimSouth-NewsDude
   speakerType: 1
   characterProperties: {fileID: 0}
-  speakerName: News Dude
-  text: Uh huh, uh huh, ok, uh huh
+  localizedSpeakerName:
+    m_TableReference:
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
+    m_TableEntryReference:
+      m_KeyId: 2889112808841216
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  localizedText:
+    m_TableReference:
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
+    m_TableEntryReference:
+      m_KeyId: 2889112917893120
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  nodeDepth: 0
+  nodeBreadth: 0
   children:
   - 062d6ee2-7c18-4add-b6c4-602b2d0282ab
   rect:
@@ -183,6 +301,11 @@ MonoBehaviour:
     height: 45
   condition:
     and: []
+  cachedSpeakerName: News Dude
+  cachedText: Uh huh, uh huh, ok, uh huh
+  references:
+    version: 2
+    RefIds: []
 --- !u!114 &8475084730468457896
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -195,10 +318,29 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 09c07c7c6f4c666429a0bbc8d18232b2, type: 3}
   m_Name: 062d6ee2-7c18-4add-b6c4-602b2d0282ab
   m_EditorClassIdentifier: 
+  dialogueName: PrimSouth-NewsDude
   speakerType: 1
   characterProperties: {fileID: 0}
-  speakerName: News Dude
-  text: Yeah, uh huh, nuh uh, uh, huh, nuh uh
+  localizedSpeakerName:
+    m_TableReference:
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
+    m_TableEntryReference:
+      m_KeyId: 2889113026945024
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  localizedText:
+    m_TableReference:
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
+    m_TableEntryReference:
+      m_KeyId: 2889113135996928
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  nodeDepth: 1
+  nodeBreadth: 0
   children:
   - ddae337a-ea08-4d0b-9cba-45357f13e95e
   rect:
@@ -215,3 +357,8 @@ MonoBehaviour:
     height: 45
   condition:
     and: []
+  cachedSpeakerName: News Dude
+  cachedText: Yeah, uh huh, nuh uh, uh, huh, nuh uh
+  references:
+    version: 2
+    RefIds: []

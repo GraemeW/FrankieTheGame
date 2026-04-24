@@ -13,6 +13,9 @@ MonoBehaviour:
   m_Name: Demo-Forest_Estelle
   m_EditorClassIdentifier: Assembly-CSharp::Frankie.Speech.Dialogue
   skipRootNode: 0
+  defaultSpeakerName: DefaultSpeaker
+  defaultText: Default Text to Overwrite
+  cachedDialogueName: Demo-Forest_Estelle
   newNodeOffset: {x: 100, y: 25}
   nodeWidth: 400
   nodeHeight: 225
@@ -35,10 +38,29 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 09c07c7c6f4c666429a0bbc8d18232b2, type: 3}
   m_Name: c0d24b64-de59-485c-93fc-f54508684775
   m_EditorClassIdentifier: Assembly-CSharp::Frankie.Speech.DialogueNode
+  dialogueName: Demo-Forest_Estelle
   speakerType: 1
   characterProperties: {fileID: 0}
-  speakerName: Estelle
-  text: 'Hey, if you find yourself with a new piece for your outfit . . . '
+  localizedSpeakerName:
+    m_TableReference:
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
+    m_TableEntryReference:
+      m_KeyId: 2889108450959360
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  localizedText:
+    m_TableReference:
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
+    m_TableEntryReference:
+      m_KeyId: 2889108560011264
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  nodeDepth: 0
+  nodeBreadth: 0
   children:
   - 8a69f012-1d5e-4d25-a3e3-0d290454b2ac
   rect:
@@ -55,6 +77,11 @@ MonoBehaviour:
     height: 45
   condition:
     and: []
+  cachedSpeakerName: Estelle
+  cachedText: 'Hey, if you find yourself with a new piece for your outfit . . . '
+  references:
+    version: 2
+    RefIds: []
 --- !u!114 &2394730427162354467
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -67,10 +94,29 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 09c07c7c6f4c666429a0bbc8d18232b2, type: 3}
   m_Name: 1418b4b4-4cc1-4e7f-a92c-87d130479c0b
   m_EditorClassIdentifier: Assembly-CSharp::Frankie.Speech.DialogueNode
+  dialogueName: Demo-Forest_Estelle
   speakerType: 0
   characterProperties: {fileID: 0}
-  speakerName: Default
-  text: Errr?
+  localizedSpeakerName:
+    m_TableReference:
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
+    m_TableEntryReference:
+      m_KeyId: 2889109105270784
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  localizedText:
+    m_TableReference:
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
+    m_TableEntryReference:
+      m_KeyId: 2889109214322688
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  nodeDepth: 3
+  nodeBreadth: 0
   children:
   - 49d18f75-2e0c-480a-9174-e01a7ec2650f
   rect:
@@ -87,6 +133,11 @@ MonoBehaviour:
     height: 45
   condition:
     and: []
+  cachedSpeakerName: Default
+  cachedText: Errr?
+  references:
+    version: 2
+    RefIds: []
 --- !u!114 &4062275580588585445
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -99,10 +150,29 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 09c07c7c6f4c666429a0bbc8d18232b2, type: 3}
   m_Name: 8a69f012-1d5e-4d25-a3e3-0d290454b2ac
   m_EditorClassIdentifier: Assembly-CSharp::Frankie.Speech.DialogueNode
+  dialogueName: Demo-Forest_Estelle
   speakerType: 1
   characterProperties: {fileID: 0}
-  speakerName: Estelle
-  text: Ya know, like a keyboard?  Or a vest?  Or a watch?
+  localizedSpeakerName:
+    m_TableReference:
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
+    m_TableEntryReference:
+      m_KeyId: 2889108669063168
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  localizedText:
+    m_TableReference:
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
+    m_TableEntryReference:
+      m_KeyId: 2889108778115072
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  nodeDepth: 1
+  nodeBreadth: 0
   children:
   - 38cd23dd-3f36-4116-9df6-e75936f82cb3
   rect:
@@ -119,6 +189,11 @@ MonoBehaviour:
     height: 45
   condition:
     and: []
+  cachedSpeakerName: Estelle
+  cachedText: Ya know, like a keyboard?  Or a vest?  Or a watch?
+  references:
+    version: 2
+    RefIds: []
 --- !u!114 &7394740696366814319
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -131,11 +206,29 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 09c07c7c6f4c666429a0bbc8d18232b2, type: 3}
   m_Name: 49d18f75-2e0c-480a-9174-e01a7ec2650f
   m_EditorClassIdentifier: Assembly-CSharp::Frankie.Speech.DialogueNode
+  dialogueName: Demo-Forest_Estelle
   speakerType: 1
   characterProperties: {fileID: 0}
-  speakerName: Estelle
-  text: Oh, you're really fresh aren't you.  Access player menus by pressing the
-    `TAB` key.
+  localizedSpeakerName:
+    m_TableReference:
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
+    m_TableEntryReference:
+      m_KeyId: 2889109323374592
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  localizedText:
+    m_TableReference:
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
+    m_TableEntryReference:
+      m_KeyId: 2889109432426496
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  nodeDepth: 4
+  nodeBreadth: 0
   children: []
   rect:
     serializedVersion: 2
@@ -151,6 +244,12 @@ MonoBehaviour:
     height: 45
   condition:
     and: []
+  cachedSpeakerName: Estelle
+  cachedText: Oh, you're really fresh aren't you.  Access player menus by pressing
+    the `TAB` key.
+  references:
+    version: 2
+    RefIds: []
 --- !u!114 &7473009762662665428
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -163,11 +262,29 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 09c07c7c6f4c666429a0bbc8d18232b2, type: 3}
   m_Name: 38cd23dd-3f36-4116-9df6-e75936f82cb3
   m_EditorClassIdentifier: Assembly-CSharp::Frankie.Speech.DialogueNode
+  dialogueName: Demo-Forest_Estelle
   speakerType: 1
   characterProperties: {fileID: 0}
-  speakerName: Estelle
-  text: Make sure you equip it in the Outfit menu!  It won't do any good just sitting
-    in your knapsack unequipped!
+  localizedSpeakerName:
+    m_TableReference:
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
+    m_TableEntryReference:
+      m_KeyId: 2889108887166976
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  localizedText:
+    m_TableReference:
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
+    m_TableEntryReference:
+      m_KeyId: 2889108996218880
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  nodeDepth: 2
+  nodeBreadth: 0
   children:
   - 1418b4b4-4cc1-4e7f-a92c-87d130479c0b
   rect:
@@ -184,3 +301,9 @@ MonoBehaviour:
     height: 45
   condition:
     and: []
+  cachedSpeakerName: Estelle
+  cachedText: Make sure you equip it in the Outfit menu!  It won't do any good just
+    sitting in your knapsack unequipped!
+  references:
+    version: 2
+    RefIds: []

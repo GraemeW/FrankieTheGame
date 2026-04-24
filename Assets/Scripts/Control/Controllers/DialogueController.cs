@@ -167,6 +167,8 @@ namespace Frankie.Speech
             SetupDialogueTriggers();
 
             currentNode = currentDialogue.GetRootNode();
+            if (currentNode == null) { EndConversation(); }
+            
             // Call without announcing, dialogue not (officially) existing
             // Note:  No triggers on root node entry, but on dialogue entry
             if (currentDialogue.skipRootNode) { Next(); }

@@ -12,10 +12,29 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 09c07c7c6f4c666429a0bbc8d18232b2, type: 3}
   m_Name: 1a2b666a-169d-4c42-8647-b7acfcedb457
   m_EditorClassIdentifier: 
+  dialogueName: PrimSouth-RedHouse-Mom
   speakerType: 1
   characterProperties: {fileID: 0}
-  speakerName: Fancy Lady
-  text: What a bother
+  localizedSpeakerName:
+    m_TableReference:
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
+    m_TableEntryReference:
+      m_KeyId: 2889064293326848
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  localizedText:
+    m_TableReference:
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
+    m_TableEntryReference:
+      m_KeyId: 2889064398184448
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  nodeDepth: 1
+  nodeBreadth: 2
   children: []
   rect:
     serializedVersion: 2
@@ -31,6 +50,11 @@ MonoBehaviour:
     height: 45
   condition:
     and: []
+  cachedSpeakerName: Fancy Lady
+  cachedText: What a bother
+  references:
+    version: 2
+    RefIds: []
 --- !u!114 &-5276269108488132515
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -43,10 +67,29 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 09c07c7c6f4c666429a0bbc8d18232b2, type: 3}
   m_Name: 75d6710f-3c77-40a3-b7c6-b574d713207e
   m_EditorClassIdentifier: 
+  dialogueName: PrimSouth-RedHouse-Mom
   speakerType: 1
   characterProperties: {fileID: 0}
-  speakerName: Default
-  text: Default Text to Overwrite
+  localizedSpeakerName:
+    m_TableReference:
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
+    m_TableEntryReference:
+      m_KeyId: 2889063655792640
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  localizedText:
+    m_TableReference:
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
+    m_TableEntryReference:
+      m_KeyId: 2889063760650240
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  nodeDepth: 0
+  nodeBreadth: 0
   children:
   - 47808bd8-bc4a-40f7-8827-d64036cf7602
   - 3f450b8c-4a91-4298-bc05-9a734a9e1362
@@ -65,6 +108,11 @@ MonoBehaviour:
     height: 45
   condition:
     and: []
+  cachedSpeakerName: Default
+  cachedText: Default Text to Overwrite
+  references:
+    version: 2
+    RefIds: []
 --- !u!114 &-4156287836146137032
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -77,10 +125,29 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 09c07c7c6f4c666429a0bbc8d18232b2, type: 3}
   m_Name: 3f450b8c-4a91-4298-bc05-9a734a9e1362
   m_EditorClassIdentifier: 
+  dialogueName: PrimSouth-RedHouse-Mom
   speakerType: 1
   characterProperties: {fileID: 0}
-  speakerName: Fancy Lady
-  text: I'm his mom, but to be honest, I wish he'd just leave me alone
+  localizedSpeakerName:
+    m_TableReference:
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
+    m_TableEntryReference:
+      m_KeyId: 2889064079417344
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  localizedText:
+    m_TableReference:
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
+    m_TableEntryReference:
+      m_KeyId: 2889064180080640
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  nodeDepth: 1
+  nodeBreadth: 1
   children: []
   rect:
     serializedVersion: 2
@@ -96,6 +163,11 @@ MonoBehaviour:
     height: 45
   condition:
     and: []
+  cachedSpeakerName: Fancy Lady
+  cachedText: I'm his mom, but to be honest, I wish he'd just leave me alone
+  references:
+    version: 2
+    RefIds: []
 --- !u!114 &-2651640080905754529
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -108,10 +180,29 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 09c07c7c6f4c666429a0bbc8d18232b2, type: 3}
   m_Name: 47808bd8-bc4a-40f7-8827-d64036cf7602
   m_EditorClassIdentifier: 
+  dialogueName: PrimSouth-RedHouse-Mom
   speakerType: 1
   characterProperties: {fileID: 0}
-  speakerName: Fancy Lady
-  text: Is that boy still hanging around my house?
+  localizedSpeakerName:
+    m_TableReference:
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
+    m_TableEntryReference:
+      m_KeyId: 2889063865507840
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  localizedText:
+    m_TableReference:
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
+    m_TableEntryReference:
+      m_KeyId: 2889063970365440
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  nodeDepth: 1
+  nodeBreadth: 0
   children: []
   rect:
     serializedVersion: 2
@@ -127,6 +218,11 @@ MonoBehaviour:
     height: 45
   condition:
     and: []
+  cachedSpeakerName: Fancy Lady
+  cachedText: Is that boy still hanging around my house?
+  references:
+    version: 2
+    RefIds: []
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -140,6 +236,9 @@ MonoBehaviour:
   m_Name: PrimSouth-RedHouse-Mom
   m_EditorClassIdentifier: 
   skipRootNode: 1
+  defaultSpeakerName: DefaultSpeaker
+  defaultText: Default Text to Overwrite
+  cachedDialogueName: PrimSouth-RedHouse-Mom
   newNodeOffset: {x: 100, y: 25}
   nodeWidth: 400
   nodeHeight: 225

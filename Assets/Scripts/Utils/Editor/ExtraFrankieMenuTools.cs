@@ -1,3 +1,4 @@
+using Frankie.Speech;
 using UnityEditor;
 using UnityEditor.SceneManagement;
 using UnityEngine;
@@ -13,11 +14,7 @@ namespace Frankie.Utils.Editor
         {
             foreach (Object selectedObject in Selection.objects)
             {
-                if (selectedObject == null)
-                {
-                    continue;
-                }
-
+                if (selectedObject == null) { continue; }
                 Debug.Log($"Dirtying {selectedObject.name}");
                 EditorUtility.SetDirty(selectedObject);
             }

@@ -12,10 +12,29 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 09c07c7c6f4c666429a0bbc8d18232b2, type: 3}
   m_Name: 159286fd-ad17-4f1c-8eec-7298f98899db
   m_EditorClassIdentifier: Assembly-CSharp::Frankie.Speech.DialogueNode
+  dialogueName: Demo-Forest_SkilledOfficeWorker
   speakerType: 1
   characterProperties: {fileID: 0}
-  speakerName: Skilled Office Worker
-  text: Ah, my back!  You totally f***ed up my back!
+  localizedSpeakerName:
+    m_TableReference:
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
+    m_TableEntryReference:
+      m_KeyId: 2889092680376320
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  localizedText:
+    m_TableReference:
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
+    m_TableEntryReference:
+      m_KeyId: 2889092781039616
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  nodeDepth: 1
+  nodeBreadth: 1
   children: []
   rect:
     serializedVersion: 2
@@ -34,6 +53,11 @@ MonoBehaviour:
     - or:
       - predicate: {fileID: 11400000, guid: 5e55f4d07f59e4257b1d10b625744d61, type: 2}
         negate: 0
+  cachedSpeakerName: Skilled Office Worker
+  cachedText: Ah, my back!  You totally f***ed up my back!
+  references:
+    version: 2
+    RefIds: []
 --- !u!114 &-6589871279477661056
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -46,10 +70,29 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 09c07c7c6f4c666429a0bbc8d18232b2, type: 3}
   m_Name: 3a02e637-5562-4dfd-b511-59e164aa3879
   m_EditorClassIdentifier: Assembly-CSharp::Frankie.Speech.DialogueNode
+  dialogueName: Demo-Forest_SkilledOfficeWorker
   speakerType: 0
   characterProperties: {fileID: 11400000, guid: b50f84a2f36107a44825b11881f88adf, type: 2}
-  speakerName: Frankie
-  text: Thanks, um, I'll pass for now.
+  localizedSpeakerName:
+    m_TableReference:
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
+    m_TableEntryReference:
+      m_KeyId: 2889092470661120
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  localizedText:
+    m_TableReference:
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
+    m_TableEntryReference:
+      m_KeyId: 2889092575518720
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  nodeDepth: 3
+  nodeBreadth: 1
   children: []
   rect:
     serializedVersion: 2
@@ -65,6 +108,11 @@ MonoBehaviour:
     height: 45
   condition:
     and: []
+  cachedSpeakerName: Frankie
+  cachedText: Thanks, um, I'll pass for now.
+  references:
+    version: 2
+    RefIds: []
 --- !u!114 &-5937402629048263021
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -77,11 +125,29 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 09c07c7c6f4c666429a0bbc8d18232b2, type: 3}
   m_Name: 2b2c3221-4ca7-4255-8284-0078bc5ed893
   m_EditorClassIdentifier: Assembly-CSharp::Frankie.Speech.DialogueNode
+  dialogueName: Demo-Forest_SkilledOfficeWorker
   speakerType: 1
   characterProperties: {fileID: 0}
-  speakerName: Skilled Office Worker
-  text: Hey, uh, if you want down those stairs to the electrical room, you're gonna
-    have to wrastle me.
+  localizedSpeakerName:
+    m_TableReference:
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
+    m_TableEntryReference:
+      m_KeyId: 2889091849904128
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  localizedText:
+    m_TableReference:
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
+    m_TableEntryReference:
+      m_KeyId: 2889091954761728
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  nodeDepth: 1
+  nodeBreadth: 0
   children:
   - 8768a1b1-9794-41a2-93c3-69a14c5d6b2a
   rect:
@@ -101,6 +167,12 @@ MonoBehaviour:
     - or:
       - predicate: {fileID: 11400000, guid: 5e55f4d07f59e4257b1d10b625744d61, type: 2}
         negate: 1
+  cachedSpeakerName: Skilled Office Worker
+  cachedText: Hey, uh, if you want down those stairs to the electrical room, you're
+    gonna have to wrastle me.
+  references:
+    version: 2
+    RefIds: []
 --- !u!114 &-830439454295646491
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -113,10 +185,29 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 09c07c7c6f4c666429a0bbc8d18232b2, type: 3}
   m_Name: 6fc166eb-1c06-4756-8fff-5e38e0e3106a
   m_EditorClassIdentifier: Assembly-CSharp::Frankie.Speech.DialogueNode
+  dialogueName: Demo-Forest_SkilledOfficeWorker
   speakerType: 0
   characterProperties: {fileID: 11400000, guid: b50f84a2f36107a44825b11881f88adf, type: 2}
-  speakerName: Frankie
-  text: Absolutely I do!
+  localizedSpeakerName:
+    m_TableReference:
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
+    m_TableEntryReference:
+      m_KeyId: 2889092265140224
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  localizedText:
+    m_TableReference:
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
+    m_TableEntryReference:
+      m_KeyId: 2889092365803520
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  nodeDepth: 3
+  nodeBreadth: 0
   children: []
   rect:
     serializedVersion: 2
@@ -132,6 +223,11 @@ MonoBehaviour:
     height: 45
   condition:
     and: []
+  cachedSpeakerName: Frankie
+  cachedText: Absolutely I do!
+  references:
+    version: 2
+    RefIds: []
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -145,6 +241,9 @@ MonoBehaviour:
   m_Name: Demo-Forest_SkilledOfficeWorker
   m_EditorClassIdentifier: Assembly-CSharp::Frankie.Speech.Dialogue
   skipRootNode: 1
+  defaultSpeakerName: DefaultSpeaker
+  defaultText: Default Text to Overwrite
+  cachedDialogueName: Demo-Forest_SkilledOfficeWorker
   newNodeOffset: {x: 100, y: 25}
   nodeWidth: 400
   nodeHeight: 225
@@ -169,10 +268,29 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 09c07c7c6f4c666429a0bbc8d18232b2, type: 3}
   m_Name: a9007bc7-f3c7-419f-a9a5-efe6215fa371
   m_EditorClassIdentifier: Assembly-CSharp::Frankie.Speech.DialogueNode
+  dialogueName: Demo-Forest_SkilledOfficeWorker
   speakerType: 1
   characterProperties: {fileID: 0}
-  speakerName: Skilled Office Worker
-  text: Root
+  localizedSpeakerName:
+    m_TableReference:
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
+    m_TableEntryReference:
+      m_KeyId: 2889091644383232
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  localizedText:
+    m_TableReference:
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
+    m_TableEntryReference:
+      m_KeyId: 2889091749240832
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  nodeDepth: 0
+  nodeBreadth: 0
   children:
   - 2b2c3221-4ca7-4255-8284-0078bc5ed893
   - 159286fd-ad17-4f1c-8eec-7298f98899db
@@ -190,6 +308,11 @@ MonoBehaviour:
     height: 45
   condition:
     and: []
+  cachedSpeakerName: Skilled Office Worker
+  cachedText: Root
+  references:
+    version: 2
+    RefIds: []
 --- !u!114 &6630475238037841287
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -202,10 +325,29 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 09c07c7c6f4c666429a0bbc8d18232b2, type: 3}
   m_Name: 8768a1b1-9794-41a2-93c3-69a14c5d6b2a
   m_EditorClassIdentifier: Assembly-CSharp::Frankie.Speech.DialogueNode
+  dialogueName: Demo-Forest_SkilledOfficeWorker
   speakerType: 1
   characterProperties: {fileID: 0}
-  speakerName: Skilled Office Worker
-  text: Do you want to wrastle me?
+  localizedSpeakerName:
+    m_TableReference:
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
+    m_TableEntryReference:
+      m_KeyId: 2889092059619328
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  localizedText:
+    m_TableReference:
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
+    m_TableEntryReference:
+      m_KeyId: 2889092164476928
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  nodeDepth: 2
+  nodeBreadth: 0
   children:
   - 6fc166eb-1c06-4756-8fff-5e38e0e3106a
   - 3a02e637-5562-4dfd-b511-59e164aa3879
@@ -223,3 +365,8 @@ MonoBehaviour:
     height: 45
   condition:
     and: []
+  cachedSpeakerName: Skilled Office Worker
+  cachedText: Do you want to wrastle me?
+  references:
+    version: 2
+    RefIds: []
