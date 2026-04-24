@@ -272,10 +272,12 @@ namespace Frankie.Speech
         
         public void HandleDeletion()
         {
+#if UNITY_EDITOR
             foreach (DialogueNode dialogueNode in dialogueNodes)
             {
                 dialogueNode.DeleteLocalizationEntries();
             }
+#endif
         }
         #endregion
     }
