@@ -40,7 +40,6 @@ MonoBehaviour:
   dialogueName: Demo-Forest_Charlie
   speakerType: 0
   characterProperties: {fileID: 11400000, guid: b50f84a2f36107a44825b11881f88adf, type: 2}
-  speakerName: Frankie
   localizedSpeakerName:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -50,7 +49,6 @@ MonoBehaviour:
     m_FallbackState: 0
     m_WaitForCompletion: 0
     m_LocalVariables: []
-  text: Ok!
   localizedText:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -97,7 +95,6 @@ MonoBehaviour:
   dialogueName: Demo-Forest_Charlie
   speakerType: 1
   characterProperties: {fileID: 0}
-  speakerName: Charlie
   localizedSpeakerName:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -107,7 +104,6 @@ MonoBehaviour:
     m_FallbackState: 0
     m_WaitForCompletion: 0
     m_LocalVariables: []
-  text: It's a little cramped, but you can have a nap in our bed with us if you want?
   localizedText:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -157,7 +153,6 @@ MonoBehaviour:
   dialogueName: Demo-Forest_Charlie
   speakerType: 0
   characterProperties: {fileID: 11400000, guid: b50f84a2f36107a44825b11881f88adf, type: 2}
-  speakerName: Frankie
   localizedSpeakerName:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -167,7 +162,6 @@ MonoBehaviour:
     m_FallbackState: 0
     m_WaitForCompletion: 0
     m_LocalVariables: []
-  text: Nah.
   localizedText:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e

@@ -15,7 +15,6 @@ MonoBehaviour:
   dialogueName: OldOfficeDemo-TillyJoinParty
   speakerType: 1
   characterProperties: {fileID: 11400000, guid: b10029ac6f311c441a516db78ca01efd, type: 2}
-  speakerName: Tilly
   localizedSpeakerName:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -25,7 +24,6 @@ MonoBehaviour:
     m_FallbackState: 0
     m_WaitForCompletion: 0
     m_LocalVariables: []
-  text: Huh?  No, I don't need rescuing.
   localizedText:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -73,7 +71,6 @@ MonoBehaviour:
   dialogueName: OldOfficeDemo-TillyJoinParty
   speakerType: 1
   characterProperties: {fileID: 11400000, guid: b10029ac6f311c441a516db78ca01efd, type: 2}
-  speakerName: Tilly
   localizedSpeakerName:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -83,7 +80,6 @@ MonoBehaviour:
     m_FallbackState: 0
     m_WaitForCompletion: 0
     m_LocalVariables: []
-  text: I've just been trying to show these nerds how to do their job.
   localizedText:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -156,7 +152,6 @@ MonoBehaviour:
   dialogueName: OldOfficeDemo-TillyJoinParty
   speakerType: 1
   characterProperties: {fileID: 11400000, guid: b10029ac6f311c441a516db78ca01efd, type: 2}
-  speakerName: Tilly
   localizedSpeakerName:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -166,8 +161,6 @@ MonoBehaviour:
     m_FallbackState: 0
     m_WaitForCompletion: 0
     m_LocalVariables: []
-  text: Anyway, let's get out of here Frankie, we have some work to do with Maya
-    upstairs.
   localizedText:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e

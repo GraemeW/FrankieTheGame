@@ -15,7 +15,6 @@ MonoBehaviour:
   dialogueName: PortaBank-WelcomeToPortaBank
   speakerType: 1
   characterProperties: {fileID: 0}
-  speakerName: Porta Attendant
   localizedSpeakerName:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -25,8 +24,6 @@ MonoBehaviour:
     m_FallbackState: 0
     m_WaitForCompletion: 0
     m_LocalVariables: []
-  text: I got these neat refurbished portable sheds on discount!  Can you believe
-    it?
   localizedText:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -74,7 +71,6 @@ MonoBehaviour:
   dialogueName: PortaBank-WelcomeToPortaBank
   speakerType: 1
   characterProperties: {fileID: 0}
-  speakerName: Porta Attendant
   localizedSpeakerName:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -84,7 +80,6 @@ MonoBehaviour:
     m_FallbackState: 0
     m_WaitForCompletion: 0
     m_LocalVariables: []
-  text: Skip Root
   localizedText:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -161,7 +156,6 @@ MonoBehaviour:
   dialogueName: PortaBank-WelcomeToPortaBank
   speakerType: 1
   characterProperties: {fileID: 0}
-  speakerName: Porta Attendant
   localizedSpeakerName:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -171,7 +165,6 @@ MonoBehaviour:
     m_FallbackState: 0
     m_WaitForCompletion: 0
     m_LocalVariables: []
-  text: Oh, the smell?  It was like that when we bought the fleet of these.
   localizedText:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -219,7 +212,6 @@ MonoBehaviour:
   dialogueName: PortaBank-WelcomeToPortaBank
   speakerType: 1
   characterProperties: {fileID: 0}
-  speakerName: Porta Attendant
   localizedSpeakerName:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -229,7 +221,6 @@ MonoBehaviour:
     m_FallbackState: 0
     m_WaitForCompletion: 0
     m_LocalVariables: []
-  text: ' I got this car freshener tree here to help freshen things up!'
   localizedText:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -276,7 +267,6 @@ MonoBehaviour:
   dialogueName: PortaBank-WelcomeToPortaBank
   speakerType: 1
   characterProperties: {fileID: 0}
-  speakerName: Porta Attendant
   localizedSpeakerName:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -286,7 +276,6 @@ MonoBehaviour:
     m_FallbackState: 0
     m_WaitForCompletion: 0
     m_LocalVariables: []
-  text: HI!  Welcome to PortaBank (TM)!  Your number one portable banking solution!
   localizedText:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -334,7 +323,6 @@ MonoBehaviour:
   dialogueName: PortaBank-WelcomeToPortaBank
   speakerType: 1
   characterProperties: {fileID: 0}
-  speakerName: Porta Attendant
   localizedSpeakerName:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -344,7 +332,6 @@ MonoBehaviour:
     m_FallbackState: 0
     m_WaitForCompletion: 0
     m_LocalVariables: []
-  text: Let me know if you have any questions!
   localizedText:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e

@@ -15,7 +15,6 @@ MonoBehaviour:
   dialogueName: Demo-Monk_Tapestry
   speakerType: 0
   characterProperties: {fileID: 11400000, guid: b50f84a2f36107a44825b11881f88adf, type: 2}
-  speakerName: Frankie
   localizedSpeakerName:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -25,7 +24,6 @@ MonoBehaviour:
     m_FallbackState: 0
     m_WaitForCompletion: 0
     m_LocalVariables: []
-  text: Yes
   localizedText:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -73,7 +71,6 @@ MonoBehaviour:
   dialogueName: Demo-Monk_Tapestry
   speakerType: 0
   characterProperties: {fileID: 11400000, guid: b50f84a2f36107a44825b11881f88adf, type: 2}
-  speakerName: Frankie
   localizedSpeakerName:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -83,7 +80,6 @@ MonoBehaviour:
     m_FallbackState: 0
     m_WaitForCompletion: 0
     m_LocalVariables: []
-  text: Uhhh
   localizedText:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -131,7 +127,6 @@ MonoBehaviour:
   dialogueName: Demo-Monk_Tapestry
   speakerType: 0
   characterProperties: {fileID: 11400000, guid: b50f84a2f36107a44825b11881f88adf, type: 2}
-  speakerName: Frankie
   localizedSpeakerName:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -141,7 +136,6 @@ MonoBehaviour:
     m_FallbackState: 0
     m_WaitForCompletion: 0
     m_LocalVariables: []
-  text: Bald
   localizedText:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -189,7 +183,6 @@ MonoBehaviour:
   dialogueName: Demo-Monk_Tapestry
   speakerType: 0
   characterProperties: {fileID: 11400000, guid: b50f84a2f36107a44825b11881f88adf, type: 2}
-  speakerName: Frankie
   localizedSpeakerName:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -199,7 +192,6 @@ MonoBehaviour:
     m_FallbackState: 0
     m_WaitForCompletion: 0
     m_LocalVariables: []
-  text: Are you speaking to me?
   localizedText:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -247,7 +239,6 @@ MonoBehaviour:
   dialogueName: Demo-Monk_Tapestry
   speakerType: 1
   characterProperties: {fileID: 0}
-  speakerName: Beautiful Tapestry
   localizedSpeakerName:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -257,7 +248,6 @@ MonoBehaviour:
     m_FallbackState: 0
     m_WaitForCompletion: 0
     m_LocalVariables: []
-  text: Who else?
   localizedText:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -305,7 +295,6 @@ MonoBehaviour:
   dialogueName: Demo-Monk_Tapestry
   speakerType: 0
   characterProperties: {fileID: 11400000, guid: b50f84a2f36107a44825b11881f88adf, type: 2}
-  speakerName: Frankie
   localizedSpeakerName:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -315,7 +304,6 @@ MonoBehaviour:
     m_FallbackState: 0
     m_WaitForCompletion: 0
     m_LocalVariables: []
-  text: Of course
   localizedText:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -397,7 +385,6 @@ MonoBehaviour:
   dialogueName: Demo-Monk_Tapestry
   speakerType: 0
   characterProperties: {fileID: 11400000, guid: b50f84a2f36107a44825b11881f88adf, type: 2}
-  speakerName: Frankie
   localizedSpeakerName:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -407,7 +394,6 @@ MonoBehaviour:
     m_FallbackState: 0
     m_WaitForCompletion: 0
     m_LocalVariables: []
-  text: Bald is beautiful.
   localizedText:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -454,7 +440,6 @@ MonoBehaviour:
   dialogueName: Demo-Monk_Tapestry
   speakerType: 1
   characterProperties: {fileID: 0}
-  speakerName: Beautiful Tapestry
   localizedSpeakerName:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -464,7 +449,6 @@ MonoBehaviour:
     m_FallbackState: 0
     m_WaitForCompletion: 0
     m_LocalVariables: []
-  text: Hello Francis
   localizedText:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -512,7 +496,6 @@ MonoBehaviour:
   dialogueName: Demo-Monk_Tapestry
   speakerType: 0
   characterProperties: {fileID: 11400000, guid: b50f84a2f36107a44825b11881f88adf, type: 2}
-  speakerName: Frankie
   localizedSpeakerName:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -522,7 +505,6 @@ MonoBehaviour:
     m_FallbackState: 0
     m_WaitForCompletion: 0
     m_LocalVariables: []
-  text: Bald is
   localizedText:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -570,7 +552,6 @@ MonoBehaviour:
   dialogueName: Demo-Monk_Tapestry
   speakerType: 1
   characterProperties: {fileID: 0}
-  speakerName: Beautiful Tapestry
   localizedSpeakerName:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -580,7 +561,6 @@ MonoBehaviour:
     m_FallbackState: 0
     m_WaitForCompletion: 0
     m_LocalVariables: []
-  text: Do you want to join me, Francis??
   localizedText:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -630,7 +610,6 @@ MonoBehaviour:
   dialogueName: Demo-Monk_Tapestry
   speakerType: 0
   characterProperties: {fileID: 11400000, guid: b50f84a2f36107a44825b11881f88adf, type: 2}
-  speakerName: Frankie
   localizedSpeakerName:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -640,7 +619,6 @@ MonoBehaviour:
     m_FallbackState: 0
     m_WaitForCompletion: 0
     m_LocalVariables: []
-  text: Yes
   localizedText:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -688,7 +666,6 @@ MonoBehaviour:
   dialogueName: Demo-Monk_Tapestry
   speakerType: 1
   characterProperties: {fileID: 0}
-  speakerName: Beautiful Tapestry
   localizedSpeakerName:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -698,7 +675,6 @@ MonoBehaviour:
     m_FallbackState: 0
     m_WaitForCompletion: 0
     m_LocalVariables: []
-  text: Bald is beautiful.
   localizedText:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e

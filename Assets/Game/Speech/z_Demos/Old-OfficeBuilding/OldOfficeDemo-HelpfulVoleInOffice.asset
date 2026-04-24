@@ -15,7 +15,6 @@ MonoBehaviour:
   dialogueName: OldOfficeDemo-HelpfulVoleInOffice
   speakerType: 1
   characterProperties: {fileID: 11400000, guid: c1f59cbc742f6294d98c52ee45fb4fd6, type: 2}
-  speakerName: Helpful Vole
   localizedSpeakerName:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -25,8 +24,6 @@ MonoBehaviour:
     m_FallbackState: 0
     m_WaitForCompletion: 0
     m_LocalVariables: []
-  text: Here's another tip!  You can change party order and add or remove party members
-    by using the restroom in the office!
   localizedText:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -75,7 +72,6 @@ MonoBehaviour:
   dialogueName: OldOfficeDemo-HelpfulVoleInOffice
   speakerType: 1
   characterProperties: {fileID: 11400000, guid: c1f59cbc742f6294d98c52ee45fb4fd6, type: 2}
-  speakerName: Helpful Vole
   localizedSpeakerName:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -85,7 +81,6 @@ MonoBehaviour:
     m_FallbackState: 0
     m_WaitForCompletion: 0
     m_LocalVariables: []
-  text: Squeak!
   localizedText:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -159,7 +154,6 @@ MonoBehaviour:
   dialogueName: OldOfficeDemo-HelpfulVoleInOffice
   speakerType: 1
   characterProperties: {fileID: 11400000, guid: c1f59cbc742f6294d98c52ee45fb4fd6, type: 2}
-  speakerName: Helpful Vole
   localizedSpeakerName:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -169,7 +163,6 @@ MonoBehaviour:
     m_FallbackState: 0
     m_WaitForCompletion: 0
     m_LocalVariables: []
-  text: That's all for now!
   localizedText:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -217,7 +210,6 @@ MonoBehaviour:
   dialogueName: OldOfficeDemo-HelpfulVoleInOffice
   speakerType: 1
   characterProperties: {fileID: 11400000, guid: c1f59cbc742f6294d98c52ee45fb4fd6, type: 2}
-  speakerName: Helpful Vole
   localizedSpeakerName:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -227,7 +219,6 @@ MonoBehaviour:
     m_FallbackState: 0
     m_WaitForCompletion: 0
     m_LocalVariables: []
-  text: It's me, your favourite friendly neighbourhood helpful vole!
   localizedText:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -275,7 +266,6 @@ MonoBehaviour:
   dialogueName: OldOfficeDemo-HelpfulVoleInOffice
   speakerType: 1
   characterProperties: {fileID: 11400000, guid: c1f59cbc742f6294d98c52ee45fb4fd6, type: 2}
-  speakerName: Helpful Vole
   localizedSpeakerName:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -285,7 +275,6 @@ MonoBehaviour:
     m_FallbackState: 0
     m_WaitForCompletion: 0
     m_LocalVariables: []
-  text: Of course, you need to have more than just YOU in the party, Frankie!
   localizedText:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e

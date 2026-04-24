@@ -15,7 +15,6 @@ MonoBehaviour:
   dialogueName: ApartmentInterior-ComfyBedUntilTomorrow
   speakerType: 0
   characterProperties: {fileID: 11400000, guid: b50f84a2f36107a44825b11881f88adf, type: 2}
-  speakerName: Frankie
   localizedSpeakerName:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -25,7 +24,6 @@ MonoBehaviour:
     m_FallbackState: 0
     m_WaitForCompletion: 0
     m_LocalVariables: []
-  text: Yes please
   localizedText:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -72,7 +70,6 @@ MonoBehaviour:
   dialogueName: ApartmentInterior-ComfyBedUntilTomorrow
   speakerType: 1
   characterProperties: {fileID: 0}
-  speakerName: Comfy Bed
   localizedSpeakerName:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -82,7 +79,6 @@ MonoBehaviour:
     m_FallbackState: 0
     m_WaitForCompletion: 0
     m_LocalVariables: []
-  text: Shall we?
   localizedText:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -130,7 +126,6 @@ MonoBehaviour:
   dialogueName: ApartmentInterior-ComfyBedUntilTomorrow
   speakerType: 1
   characterProperties: {fileID: 0}
-  speakerName: Comfy Bed
   localizedSpeakerName:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -140,7 +135,6 @@ MonoBehaviour:
     m_FallbackState: 0
     m_WaitForCompletion: 0
     m_LocalVariables: []
-  text: Hello again, Frankie
   localizedText:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -214,7 +208,6 @@ MonoBehaviour:
   dialogueName: ApartmentInterior-ComfyBedUntilTomorrow
   speakerType: 0
   characterProperties: {fileID: 11400000, guid: b50f84a2f36107a44825b11881f88adf, type: 2}
-  speakerName: Frankie
   localizedSpeakerName:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -224,7 +217,6 @@ MonoBehaviour:
     m_FallbackState: 0
     m_WaitForCompletion: 0
     m_LocalVariables: []
-  text: Hello, comfy bed
   localizedText:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e

@@ -15,7 +15,6 @@ MonoBehaviour:
   dialogueName: OfficeInterior-HipsterWorker
   speakerType: 1
   characterProperties: {fileID: 11400000, guid: 56186947ccacc0a4598067f4b80c5c25, type: 2}
-  speakerName: Hipster Office Worker
   localizedSpeakerName:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -25,7 +24,6 @@ MonoBehaviour:
     m_FallbackState: 0
     m_WaitForCompletion: 0
     m_LocalVariables: []
-  text: I remember what I needed to tell you now, but it wasn't that important.
   localizedText:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -75,7 +73,6 @@ MonoBehaviour:
   dialogueName: OfficeInterior-HipsterWorker
   speakerType: 1
   characterProperties: {fileID: 11400000, guid: 56186947ccacc0a4598067f4b80c5c25, type: 2}
-  speakerName: Hipster Office Worker
   localizedSpeakerName:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -85,7 +82,6 @@ MonoBehaviour:
     m_FallbackState: 0
     m_WaitForCompletion: 0
     m_LocalVariables: []
-  text: Oh, oh, oh, oh, oh, oh!
   localizedText:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -136,7 +132,6 @@ MonoBehaviour:
   dialogueName: OfficeInterior-HipsterWorker
   speakerType: 1
   characterProperties: {fileID: 11400000, guid: 56186947ccacc0a4598067f4b80c5c25, type: 2}
-  speakerName: Hipster Office Worker
   localizedSpeakerName:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -146,7 +141,6 @@ MonoBehaviour:
     m_FallbackState: 0
     m_WaitForCompletion: 0
     m_LocalVariables: []
-  text: I need to tell you something urgently!
   localizedText:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -194,7 +188,6 @@ MonoBehaviour:
   dialogueName: OfficeInterior-HipsterWorker
   speakerType: 1
   characterProperties: {fileID: 11400000, guid: 56186947ccacc0a4598067f4b80c5c25, type: 2}
-  speakerName: Hipster Office Worker
   localizedSpeakerName:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -204,7 +197,6 @@ MonoBehaviour:
     m_FallbackState: 0
     m_WaitForCompletion: 0
     m_LocalVariables: []
-  text: Uh.  Hmmm...
   localizedText:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -280,7 +272,6 @@ MonoBehaviour:
   dialogueName: OfficeInterior-HipsterWorker
   speakerType: 1
   characterProperties: {fileID: 11400000, guid: 56186947ccacc0a4598067f4b80c5c25, type: 2}
-  speakerName: Hipster Office Worker
   localizedSpeakerName:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -290,7 +281,6 @@ MonoBehaviour:
     m_FallbackState: 0
     m_WaitForCompletion: 0
     m_LocalVariables: []
-  text: I forgot.
   localizedText:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -337,7 +327,6 @@ MonoBehaviour:
   dialogueName: OfficeInterior-HipsterWorker
   speakerType: 1
   characterProperties: {fileID: 0}
-  speakerName: Default
   localizedSpeakerName:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -347,7 +336,6 @@ MonoBehaviour:
     m_FallbackState: 0
     m_WaitForCompletion: 0
     m_LocalVariables: []
-  text: Default Text to Overwrite
   localizedText:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e

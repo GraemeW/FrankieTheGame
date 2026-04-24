@@ -15,7 +15,6 @@ MonoBehaviour:
   dialogueName: Demo-Forest_LilSlugger
   speakerType: 1
   characterProperties: {fileID: 0}
-  speakerName: L'il Slugger
   localizedSpeakerName:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -25,7 +24,6 @@ MonoBehaviour:
     m_FallbackState: 0
     m_WaitForCompletion: 0
     m_LocalVariables: []
-  text: Get bent.
   localizedText:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -72,7 +70,6 @@ MonoBehaviour:
   dialogueName: Demo-Forest_LilSlugger
   speakerType: 1
   characterProperties: {fileID: 0}
-  speakerName: L'il Slugger
   localizedSpeakerName:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -82,7 +79,6 @@ MonoBehaviour:
     m_FallbackState: 0
     m_WaitForCompletion: 0
     m_LocalVariables: []
-  text: Root
   localizedText:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -133,7 +129,6 @@ MonoBehaviour:
   dialogueName: Demo-Forest_LilSlugger
   speakerType: 1
   characterProperties: {fileID: 0}
-  speakerName: L'il Slugger
   localizedSpeakerName:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -143,7 +138,6 @@ MonoBehaviour:
     m_FallbackState: 0
     m_WaitForCompletion: 0
     m_LocalVariables: []
-  text: So what?
   localizedText:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -216,7 +210,6 @@ MonoBehaviour:
   dialogueName: Demo-Forest_LilSlugger
   speakerType: 1
   characterProperties: {fileID: 0}
-  speakerName: L'il Slugger
   localizedSpeakerName:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -226,7 +219,6 @@ MonoBehaviour:
     m_FallbackState: 0
     m_WaitForCompletion: 0
     m_LocalVariables: []
-  text: What?
   localizedText:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -273,7 +265,6 @@ MonoBehaviour:
   dialogueName: Demo-Forest_LilSlugger
   speakerType: 1
   characterProperties: {fileID: 0}
-  speakerName: L'il Slugger
   localizedSpeakerName:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -283,7 +274,6 @@ MonoBehaviour:
     m_FallbackState: 0
     m_WaitForCompletion: 0
     m_LocalVariables: []
-  text: Friggin' nerd!
   localizedText:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e

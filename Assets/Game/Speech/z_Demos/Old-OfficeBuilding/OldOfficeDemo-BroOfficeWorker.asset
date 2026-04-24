@@ -15,7 +15,6 @@ MonoBehaviour:
   dialogueName: OldOfficeDemo-BroOfficeWorker
   speakerType: 1
   characterProperties: {fileID: 11400000, guid: 15a456ac7051b7946ba9d4575fddb1ba, type: 2}
-  speakerName: Bro Office Worker
   localizedSpeakerName:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -25,7 +24,6 @@ MonoBehaviour:
     m_FallbackState: 0
     m_WaitForCompletion: 0
     m_LocalVariables: []
-  text: Watch out for the interns, they're really riled up about something.
   localizedText:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -72,7 +70,6 @@ MonoBehaviour:
   dialogueName: OldOfficeDemo-BroOfficeWorker
   speakerType: 1
   characterProperties: {fileID: 11400000, guid: 15a456ac7051b7946ba9d4575fddb1ba, type: 2}
-  speakerName: Bro Office Worker
   localizedSpeakerName:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -82,7 +79,6 @@ MonoBehaviour:
     m_FallbackState: 0
     m_WaitForCompletion: 0
     m_LocalVariables: []
-  text: Oh no oh no oh no oh no.
   localizedText:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -136,7 +132,6 @@ MonoBehaviour:
   dialogueName: OldOfficeDemo-BroOfficeWorker
   speakerType: 1
   characterProperties: {fileID: 11400000, guid: 15a456ac7051b7946ba9d4575fddb1ba, type: 2}
-  speakerName: Bro Office Worker
   localizedSpeakerName:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -146,7 +141,6 @@ MonoBehaviour:
     m_FallbackState: 0
     m_WaitForCompletion: 0
     m_LocalVariables: []
-  text: Thanks Frankie, I really owe ya one.
   localizedText:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -199,7 +193,6 @@ MonoBehaviour:
   dialogueName: OldOfficeDemo-BroOfficeWorker
   speakerType: 1
   characterProperties: {fileID: 11400000, guid: 15a456ac7051b7946ba9d4575fddb1ba, type: 2}
-  speakerName: Bro Office Worker
   localizedSpeakerName:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -209,8 +202,6 @@ MonoBehaviour:
     m_FallbackState: 0
     m_WaitForCompletion: 0
     m_LocalVariables: []
-  text: Look, Horse locked the door to the ballpit room, but you can make your way
-    down to Tilly in the basement with the elevator.
   localizedText:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -290,7 +281,6 @@ MonoBehaviour:
   dialogueName: OldOfficeDemo-BroOfficeWorker
   speakerType: 1
   characterProperties: {fileID: 11400000, guid: 15a456ac7051b7946ba9d4575fddb1ba, type: 2}
-  speakerName: Bro Office Worker
   localizedSpeakerName:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -300,7 +290,6 @@ MonoBehaviour:
     m_FallbackState: 0
     m_WaitForCompletion: 0
     m_LocalVariables: []
-  text: Oh, uh, hi Tilly.  Good to uh . . . see you again . . . in good spirits.
   localizedText:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -350,7 +339,6 @@ MonoBehaviour:
   dialogueName: OldOfficeDemo-BroOfficeWorker
   speakerType: 1
   characterProperties: {fileID: 11400000, guid: 15a456ac7051b7946ba9d4575fddb1ba, type: 2}
-  speakerName: Bro Office Worker
   localizedSpeakerName:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -360,7 +348,6 @@ MonoBehaviour:
     m_FallbackState: 0
     m_WaitForCompletion: 0
     m_LocalVariables: []
-  text: Frankie!  I need your help, I really messed up this time.
   localizedText:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -408,7 +395,6 @@ MonoBehaviour:
   dialogueName: OldOfficeDemo-BroOfficeWorker
   speakerType: 1
   characterProperties: {fileID: 11400000, guid: 15a456ac7051b7946ba9d4575fddb1ba, type: 2}
-  speakerName: Bro Office Worker
   localizedSpeakerName:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -418,8 +404,6 @@ MonoBehaviour:
     m_FallbackState: 0
     m_WaitForCompletion: 0
     m_LocalVariables: []
-  text: Come on Frankie, please go find Tilly.  She'll kill me if we just leave her
-    down there.
   localizedText:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -473,7 +457,6 @@ MonoBehaviour:
   dialogueName: OldOfficeDemo-BroOfficeWorker
   speakerType: 1
   characterProperties: {fileID: 11400000, guid: 15a456ac7051b7946ba9d4575fddb1ba, type: 2}
-  speakerName: Bro Office Worker
   localizedSpeakerName:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -483,7 +466,6 @@ MonoBehaviour:
     m_FallbackState: 0
     m_WaitForCompletion: 0
     m_LocalVariables: []
-  text: Skip Root
   localizedText:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -534,7 +516,6 @@ MonoBehaviour:
   dialogueName: OldOfficeDemo-BroOfficeWorker
   speakerType: 1
   characterProperties: {fileID: 11400000, guid: 15a456ac7051b7946ba9d4575fddb1ba, type: 2}
-  speakerName: Bro Office Worker
   localizedSpeakerName:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -544,8 +525,6 @@ MonoBehaviour:
     m_FallbackState: 0
     m_WaitForCompletion: 0
     m_LocalVariables: []
-  text: I dared Tilly to hop down the fireman's pole in the ballpit room and SHE
-    DID.  Now she's trapped with the interns.
   localizedText:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e

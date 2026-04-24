@@ -15,7 +15,6 @@ MonoBehaviour:
   dialogueName: OfficeInterior-PhilRamenFinal
   speakerType: 1
   characterProperties: {fileID: 11400000, guid: e97120b87e74eee4f9d9d8659f0bddf5, type: 2}
-  speakerName: Phil Ramen
   localizedSpeakerName:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -25,7 +24,6 @@ MonoBehaviour:
     m_FallbackState: 0
     m_WaitForCompletion: 0
     m_LocalVariables: []
-  text: Good luck, Frankie.
   localizedText:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -72,7 +70,6 @@ MonoBehaviour:
   dialogueName: OfficeInterior-PhilRamenFinal
   speakerType: 1
   characterProperties: {fileID: 11400000, guid: e97120b87e74eee4f9d9d8659f0bddf5, type: 2}
-  speakerName: Phil Ramen
   localizedSpeakerName:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -82,7 +79,6 @@ MonoBehaviour:
     m_FallbackState: 0
     m_WaitForCompletion: 0
     m_LocalVariables: []
-  text: I have to know . . . are you team edward or team jacob?
   localizedText:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -130,7 +126,6 @@ MonoBehaviour:
   dialogueName: OfficeInterior-PhilRamenFinal
   speakerType: 1
   characterProperties: {fileID: 11400000, guid: e97120b87e74eee4f9d9d8659f0bddf5, type: 2}
-  speakerName: Phil Ramen
   localizedSpeakerName:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -140,7 +135,6 @@ MonoBehaviour:
     m_FallbackState: 0
     m_WaitForCompletion: 0
     m_LocalVariables: []
-  text: Oh.  Oh.
   localizedText:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -188,7 +182,6 @@ MonoBehaviour:
   dialogueName: OfficeInterior-PhilRamenFinal
   speakerType: 1
   characterProperties: {fileID: 11400000, guid: e97120b87e74eee4f9d9d8659f0bddf5, type: 2}
-  speakerName: Phil Ramen
   localizedSpeakerName:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -198,7 +191,6 @@ MonoBehaviour:
     m_FallbackState: 0
     m_WaitForCompletion: 0
     m_LocalVariables: []
-  text: Wait!  I'm not gone yet.
   localizedText:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -273,7 +265,6 @@ MonoBehaviour:
   dialogueName: OfficeInterior-PhilRamenFinal
   speakerType: 1
   characterProperties: {fileID: 11400000, guid: e97120b87e74eee4f9d9d8659f0bddf5, type: 2}
-  speakerName: Phil Ramen
   localizedSpeakerName:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -283,7 +274,6 @@ MonoBehaviour:
     m_FallbackState: 0
     m_WaitForCompletion: 0
     m_LocalVariables: []
-  text: Nevermind, here it comes.  The great beyond.
   localizedText:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e

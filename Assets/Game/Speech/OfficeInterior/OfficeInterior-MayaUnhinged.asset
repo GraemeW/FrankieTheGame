@@ -38,7 +38,6 @@ MonoBehaviour:
   dialogueName: OfficeInterior-MayaUnhinged
   speakerType: 1
   characterProperties: {fileID: 11400000, guid: c8752c77bccb9f145aea101a1d9673a5, type: 2}
-  speakerName: Maya
   localizedSpeakerName:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -48,7 +47,6 @@ MonoBehaviour:
     m_FallbackState: 0
     m_WaitForCompletion: 0
     m_LocalVariables: []
-  text: GET.AWAY.FROM.MY.MICROWAVE.FRANKIE.
   localizedText:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e

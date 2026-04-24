@@ -15,7 +15,6 @@ MonoBehaviour:
   dialogueName: OfficeInterior-PhilRamenB
   speakerType: 1
   characterProperties: {fileID: 11400000, guid: e97120b87e74eee4f9d9d8659f0bddf5, type: 2}
-  speakerName: Phil Ramen
   localizedSpeakerName:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -25,7 +24,6 @@ MonoBehaviour:
     m_FallbackState: 0
     m_WaitForCompletion: 0
     m_LocalVariables: []
-  text: 'You have the hot sauce -- quick, squirt it into me.  '
   localizedText:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -76,7 +74,6 @@ MonoBehaviour:
   dialogueName: OfficeInterior-PhilRamenB
   speakerType: 0
   characterProperties: {fileID: 11400000, guid: b50f84a2f36107a44825b11881f88adf, type: 2}
-  speakerName: Frankie
   localizedSpeakerName:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -86,7 +83,6 @@ MonoBehaviour:
     m_FallbackState: 0
     m_WaitForCompletion: 0
     m_LocalVariables: []
-  text: Uhhh
   localizedText:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -163,7 +159,6 @@ MonoBehaviour:
   dialogueName: OfficeInterior-PhilRamenB
   speakerType: 1
   characterProperties: {fileID: 11400000, guid: e97120b87e74eee4f9d9d8659f0bddf5, type: 2}
-  speakerName: Phil Ramen
   localizedSpeakerName:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -173,7 +168,6 @@ MonoBehaviour:
     m_FallbackState: 0
     m_WaitForCompletion: 0
     m_LocalVariables: []
-  text: Default Text to Overwrite
   localizedText:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -222,7 +216,6 @@ MonoBehaviour:
   dialogueName: OfficeInterior-PhilRamenB
   speakerType: 1
   characterProperties: {fileID: 11400000, guid: e97120b87e74eee4f9d9d8659f0bddf5, type: 2}
-  speakerName: Phil Ramen
   localizedSpeakerName:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -232,7 +225,6 @@ MonoBehaviour:
     m_FallbackState: 0
     m_WaitForCompletion: 0
     m_LocalVariables: []
-  text: I think they have some stocked in the convenience machines.
   localizedText:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -279,7 +271,6 @@ MonoBehaviour:
   dialogueName: OfficeInterior-PhilRamenB
   speakerType: 1
   characterProperties: {fileID: 11400000, guid: e97120b87e74eee4f9d9d8659f0bddf5, type: 2}
-  speakerName: Phil Ramen
   localizedSpeakerName:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -289,7 +280,6 @@ MonoBehaviour:
     m_FallbackState: 0
     m_WaitForCompletion: 0
     m_LocalVariables: []
-  text: Gross, no, not that way.  Just do it.
   localizedText:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -336,7 +326,6 @@ MonoBehaviour:
   dialogueName: OfficeInterior-PhilRamenB
   speakerType: 1
   characterProperties: {fileID: 11400000, guid: e97120b87e74eee4f9d9d8659f0bddf5, type: 2}
-  speakerName: Phil Ramen
   localizedSpeakerName:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -346,8 +335,6 @@ MonoBehaviour:
     m_FallbackState: 0
     m_WaitForCompletion: 0
     m_LocalVariables: []
-  text: There's one last step to the incantation.  You must find some extremely spicy
-    hot sauce.
   localizedText:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e

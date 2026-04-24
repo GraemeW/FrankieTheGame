@@ -15,7 +15,6 @@ MonoBehaviour:
   dialogueName: Demo-Forest_Hipster
   speakerType: 1
   characterProperties: {fileID: 0}
-  speakerName: Hipster
   localizedSpeakerName:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -25,7 +24,6 @@ MonoBehaviour:
     m_FallbackState: 0
     m_WaitForCompletion: 0
     m_LocalVariables: []
-  text: Maybe you could go check it out?
   localizedText:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -72,7 +70,6 @@ MonoBehaviour:
   dialogueName: Demo-Forest_Hipster
   speakerType: 1
   characterProperties: {fileID: 0}
-  speakerName: Hipster
   localizedSpeakerName:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -82,7 +79,6 @@ MonoBehaviour:
     m_FallbackState: 0
     m_WaitForCompletion: 0
     m_LocalVariables: []
-  text: Skip
   localizedText:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -131,7 +127,6 @@ MonoBehaviour:
   dialogueName: Demo-Forest_Hipster
   speakerType: 1
   characterProperties: {fileID: 0}
-  speakerName: Hipster
   localizedSpeakerName:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -141,8 +136,6 @@ MonoBehaviour:
     m_FallbackState: 0
     m_WaitForCompletion: 0
     m_LocalVariables: []
-  text: I think the electrical breaker tripped and needs to be reset, but it's in
-    the basement and the workers here have kinda gone mad.
   localizedText:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -217,7 +210,6 @@ MonoBehaviour:
   dialogueName: Demo-Forest_Hipster
   speakerType: 1
   characterProperties: {fileID: 0}
-  speakerName: Hipster
   localizedSpeakerName:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -227,7 +219,6 @@ MonoBehaviour:
     m_FallbackState: 0
     m_WaitForCompletion: 0
     m_LocalVariables: []
-  text: Yeehaw, you did it!  You madman, you really gosh darn did it!
   localizedText:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -277,7 +268,6 @@ MonoBehaviour:
   dialogueName: Demo-Forest_Hipster
   speakerType: 1
   characterProperties: {fileID: 0}
-  speakerName: Hipster
   localizedSpeakerName:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -287,7 +277,6 @@ MonoBehaviour:
     m_FallbackState: 0
     m_WaitForCompletion: 0
     m_LocalVariables: []
-  text: This elevator is broken.
   localizedText:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e

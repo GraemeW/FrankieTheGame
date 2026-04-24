@@ -15,7 +15,6 @@ MonoBehaviour:
   dialogueName: OfficeInterior-GenericOfficeWorkerGlen
   speakerType: 1
   characterProperties: {fileID: 11400000, guid: 530bc654984fc6b478566ee056083f8b, type: 2}
-  speakerName: Generic Office Worker Glen
   localizedSpeakerName:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -25,7 +24,6 @@ MonoBehaviour:
     m_FallbackState: 0
     m_WaitForCompletion: 0
     m_LocalVariables: []
-  text: Maya is a really harsh boss, but I'd do anything for her approval.
   localizedText:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -101,7 +99,6 @@ MonoBehaviour:
   dialogueName: OfficeInterior-GenericOfficeWorkerGlen
   speakerType: 1
   characterProperties: {fileID: 11400000, guid: 530bc654984fc6b478566ee056083f8b, type: 2}
-  speakerName: Generic Office Worker Glen
   localizedSpeakerName:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -111,7 +108,6 @@ MonoBehaviour:
     m_FallbackState: 0
     m_WaitForCompletion: 0
     m_LocalVariables: []
-  text: Wait, you would never tell her I said that, would you?
   localizedText:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -160,7 +156,6 @@ MonoBehaviour:
   dialogueName: OfficeInterior-GenericOfficeWorkerGlen
   speakerType: 0
   characterProperties: {fileID: 11400000, guid: b50f84a2f36107a44825b11881f88adf, type: 2}
-  speakerName: Frankie
   localizedSpeakerName:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -170,7 +165,6 @@ MonoBehaviour:
     m_FallbackState: 0
     m_WaitForCompletion: 0
     m_LocalVariables: []
-  text: Yes
   localizedText:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -218,7 +212,6 @@ MonoBehaviour:
   dialogueName: OfficeInterior-GenericOfficeWorkerGlen
   speakerType: 0
   characterProperties: {fileID: 11400000, guid: b50f84a2f36107a44825b11881f88adf, type: 2}
-  speakerName: Frankie
   localizedSpeakerName:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -228,7 +221,6 @@ MonoBehaviour:
     m_FallbackState: 0
     m_WaitForCompletion: 0
     m_LocalVariables: []
-  text: Maybe
   localizedText:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -276,7 +268,6 @@ MonoBehaviour:
   dialogueName: OfficeInterior-GenericOfficeWorkerGlen
   speakerType: 1
   characterProperties: {fileID: 11400000, guid: 530bc654984fc6b478566ee056083f8b, type: 2}
-  speakerName: Generic Office Worker Glen
   localizedSpeakerName:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -286,7 +277,6 @@ MonoBehaviour:
     m_FallbackState: 0
     m_WaitForCompletion: 0
     m_LocalVariables: []
-  text: Ahhhhhhhhhhhh, ooooooohhh.
   localizedText:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e

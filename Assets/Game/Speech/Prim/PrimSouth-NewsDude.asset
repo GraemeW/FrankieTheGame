@@ -15,7 +15,6 @@ MonoBehaviour:
   dialogueName: PrimSouth-NewsDude
   speakerType: 1
   characterProperties: {fileID: 0}
-  speakerName: News Dude
   localizedSpeakerName:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -25,7 +24,6 @@ MonoBehaviour:
     m_FallbackState: 0
     m_WaitForCompletion: 0
     m_LocalVariables: []
-  text: Excuse me, could you hold on a minute?
   localizedText:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -73,7 +71,6 @@ MonoBehaviour:
   dialogueName: PrimSouth-NewsDude
   speakerType: 1
   characterProperties: {fileID: 0}
-  speakerName: News Dude
   localizedSpeakerName:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -83,7 +80,6 @@ MonoBehaviour:
     m_FallbackState: 0
     m_WaitForCompletion: 0
     m_LocalVariables: []
-  text: Hey you - yeah, you - mind your own business!
   localizedText:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -131,7 +127,6 @@ MonoBehaviour:
   dialogueName: PrimSouth-NewsDude
   speakerType: 1
   characterProperties: {fileID: 0}
-  speakerName: News Dude
   localizedSpeakerName:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -141,7 +136,6 @@ MonoBehaviour:
     m_FallbackState: 0
     m_WaitForCompletion: 0
     m_LocalVariables: []
-  text: Some brat is listening to my conversation
   localizedText:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -189,7 +183,6 @@ MonoBehaviour:
   dialogueName: PrimSouth-NewsDude
   speakerType: 1
   characterProperties: {fileID: 0}
-  speakerName: News Dude
   localizedSpeakerName:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -199,7 +192,6 @@ MonoBehaviour:
     m_FallbackState: 0
     m_WaitForCompletion: 0
     m_LocalVariables: []
-  text: OK, where was I?  Uh huh, yeah, uhhh nuh uh, yeah huh.
   localizedText:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -273,7 +265,6 @@ MonoBehaviour:
   dialogueName: PrimSouth-NewsDude
   speakerType: 1
   characterProperties: {fileID: 0}
-  speakerName: News Dude
   localizedSpeakerName:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -283,7 +274,6 @@ MonoBehaviour:
     m_FallbackState: 0
     m_WaitForCompletion: 0
     m_LocalVariables: []
-  text: Uh huh, uh huh, ok, uh huh
   localizedText:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -331,7 +321,6 @@ MonoBehaviour:
   dialogueName: PrimSouth-NewsDude
   speakerType: 1
   characterProperties: {fileID: 0}
-  speakerName: News Dude
   localizedSpeakerName:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -341,7 +330,6 @@ MonoBehaviour:
     m_FallbackState: 0
     m_WaitForCompletion: 0
     m_LocalVariables: []
-  text: Yeah, uh huh, nuh uh, uh, huh, nuh uh
   localizedText:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e

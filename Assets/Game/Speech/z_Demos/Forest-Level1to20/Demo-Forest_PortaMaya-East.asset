@@ -15,7 +15,6 @@ MonoBehaviour:
   dialogueName: Demo-Forest_PortaMaya-East
   speakerType: 1
   characterProperties: {fileID: 11400000, guid: c8752c77bccb9f145aea101a1d9673a5, type: 2}
-  speakerName: Maya
   localizedSpeakerName:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -25,7 +24,6 @@ MonoBehaviour:
     m_FallbackState: 0
     m_WaitForCompletion: 0
     m_LocalVariables: []
-  text: Root
   localizedText:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -74,7 +72,6 @@ MonoBehaviour:
   dialogueName: Demo-Forest_PortaMaya-East
   speakerType: 1
   characterProperties: {fileID: 11400000, guid: c8752c77bccb9f145aea101a1d9673a5, type: 2}
-  speakerName: Maya
   localizedSpeakerName:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -84,7 +81,6 @@ MonoBehaviour:
     m_FallbackState: 0
     m_WaitForCompletion: 0
     m_LocalVariables: []
-  text: Oh, did you want me to save your progress so far?
   localizedText:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -164,7 +160,6 @@ MonoBehaviour:
   dialogueName: Demo-Forest_PortaMaya-East
   speakerType: 0
   characterProperties: {fileID: 11400000, guid: b50f84a2f36107a44825b11881f88adf, type: 2}
-  speakerName: Frankie
   localizedSpeakerName:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -174,7 +169,6 @@ MonoBehaviour:
     m_FallbackState: 0
     m_WaitForCompletion: 0
     m_LocalVariables: []
-  text: Sure!
   localizedText:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -221,7 +215,6 @@ MonoBehaviour:
   dialogueName: Demo-Forest_PortaMaya-East
   speakerType: 0
   characterProperties: {fileID: 11400000, guid: b50f84a2f36107a44825b11881f88adf, type: 2}
-  speakerName: Frankie
   localizedSpeakerName:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -231,7 +224,6 @@ MonoBehaviour:
     m_FallbackState: 0
     m_WaitForCompletion: 0
     m_LocalVariables: []
-  text: Nah, not today
   localizedText:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -278,7 +270,6 @@ MonoBehaviour:
   dialogueName: Demo-Forest_PortaMaya-East
   speakerType: 1
   characterProperties: {fileID: 11400000, guid: c8752c77bccb9f145aea101a1d9673a5, type: 2}
-  speakerName: Maya
   localizedSpeakerName:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -288,8 +279,6 @@ MonoBehaviour:
     m_FallbackState: 0
     m_WaitForCompletion: 0
     m_LocalVariables: []
-  text: ' I got this car freshener tree here to help freshen things up!  So, do you
-    feel FRESH?'
   localizedText:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e

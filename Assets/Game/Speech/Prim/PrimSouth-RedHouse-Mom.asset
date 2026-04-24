@@ -15,7 +15,6 @@ MonoBehaviour:
   dialogueName: PrimSouth-RedHouse-Mom
   speakerType: 1
   characterProperties: {fileID: 0}
-  speakerName: Fancy Lady
   localizedSpeakerName:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -25,7 +24,6 @@ MonoBehaviour:
     m_FallbackState: 0
     m_WaitForCompletion: 0
     m_LocalVariables: []
-  text: What a bother
   localizedText:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -72,7 +70,6 @@ MonoBehaviour:
   dialogueName: PrimSouth-RedHouse-Mom
   speakerType: 1
   characterProperties: {fileID: 0}
-  speakerName: Default
   localizedSpeakerName:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -82,7 +79,6 @@ MonoBehaviour:
     m_FallbackState: 0
     m_WaitForCompletion: 0
     m_LocalVariables: []
-  text: Default Text to Overwrite
   localizedText:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -132,7 +128,6 @@ MonoBehaviour:
   dialogueName: PrimSouth-RedHouse-Mom
   speakerType: 1
   characterProperties: {fileID: 0}
-  speakerName: Fancy Lady
   localizedSpeakerName:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -142,7 +137,6 @@ MonoBehaviour:
     m_FallbackState: 0
     m_WaitForCompletion: 0
     m_LocalVariables: []
-  text: I'm his mom, but to be honest, I wish he'd just leave me alone
   localizedText:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -189,7 +183,6 @@ MonoBehaviour:
   dialogueName: PrimSouth-RedHouse-Mom
   speakerType: 1
   characterProperties: {fileID: 0}
-  speakerName: Fancy Lady
   localizedSpeakerName:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -199,7 +192,6 @@ MonoBehaviour:
     m_FallbackState: 0
     m_WaitForCompletion: 0
     m_LocalVariables: []
-  text: Is that boy still hanging around my house?
   localizedText:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e

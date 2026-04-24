@@ -15,7 +15,6 @@ MonoBehaviour:
   dialogueName: OfficeInterior-SkilledWorker
   speakerType: 1
   characterProperties: {fileID: 11400000, guid: df2799c36af32ce4d8fd6788f660323d, type: 2}
-  speakerName: Skilled Office Worker
   localizedSpeakerName:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -25,7 +24,6 @@ MonoBehaviour:
     m_FallbackState: 0
     m_WaitForCompletion: 0
     m_LocalVariables: []
-  text: '*thwrp* Don''t get too close. *pfft*'
   localizedText:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -73,7 +71,6 @@ MonoBehaviour:
   dialogueName: OfficeInterior-SkilledWorker
   speakerType: 1
   characterProperties: {fileID: 11400000, guid: df2799c36af32ce4d8fd6788f660323d, type: 2}
-  speakerName: Skilled Office Worker
   localizedSpeakerName:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -83,7 +80,6 @@ MonoBehaviour:
     m_FallbackState: 0
     m_WaitForCompletion: 0
     m_LocalVariables: []
-  text: '*pbbbt* Maybe the chili last night was a bad idea. *poot*'
   localizedText:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -155,7 +151,6 @@ MonoBehaviour:
   dialogueName: OfficeInterior-SkilledWorker
   speakerType: 1
   characterProperties: {fileID: 11400000, guid: df2799c36af32ce4d8fd6788f660323d, type: 2}
-  speakerName: Skilled Office Worker
   localizedSpeakerName:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -165,7 +160,6 @@ MonoBehaviour:
     m_FallbackState: 0
     m_WaitForCompletion: 0
     m_LocalVariables: []
-  text: I just farted . . . *blaaat*
   localizedText:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e

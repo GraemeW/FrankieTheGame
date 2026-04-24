@@ -15,7 +15,6 @@ MonoBehaviour:
   dialogueName: OldOfficeDemo-HorseDialogue
   speakerType: 1
   characterProperties: {fileID: 11400000, guid: bb8eacf5d6e151548ae677e3ff4d1109, type: 2}
-  speakerName: Horse
   localizedSpeakerName:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -25,7 +24,6 @@ MonoBehaviour:
     m_FallbackState: 0
     m_WaitForCompletion: 0
     m_LocalVariables: []
-  text: Skip Root Node
   localizedText:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -75,7 +73,6 @@ MonoBehaviour:
   dialogueName: OldOfficeDemo-HorseDialogue
   speakerType: 1
   characterProperties: {fileID: 11400000, guid: bb8eacf5d6e151548ae677e3ff4d1109, type: 2}
-  speakerName: Horse
   localizedSpeakerName:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -85,7 +82,6 @@ MonoBehaviour:
     m_FallbackState: 0
     m_WaitForCompletion: 0
     m_LocalVariables: []
-  text: Neigh. (go away, I'm busy)
   localizedText:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -138,7 +134,6 @@ MonoBehaviour:
   dialogueName: OldOfficeDemo-HorseDialogue
   speakerType: 1
   characterProperties: {fileID: 11400000, guid: bb8eacf5d6e151548ae677e3ff4d1109, type: 2}
-  speakerName: Horse
   localizedSpeakerName:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -148,8 +143,6 @@ MonoBehaviour:
     m_FallbackState: 0
     m_WaitForCompletion: 0
     m_LocalVariables: []
-  text: Whinny.  Neigh. (congratulations Frankie, you did it, you really did it,
-    you son of a bitch)
   localizedText:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -227,7 +220,6 @@ MonoBehaviour:
   dialogueName: OldOfficeDemo-HorseDialogue
   speakerType: 1
   characterProperties: {fileID: 11400000, guid: bb8eacf5d6e151548ae677e3ff4d1109, type: 2}
-  speakerName: Horse
   localizedSpeakerName:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -237,7 +229,6 @@ MonoBehaviour:
     m_FallbackState: 0
     m_WaitForCompletion: 0
     m_LocalVariables: []
-  text: Neeeeiiiigh. (is that Hay I smell?)
   localizedText:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -291,7 +282,6 @@ MonoBehaviour:
   dialogueName: OldOfficeDemo-HorseDialogue
   speakerType: 1
   characterProperties: {fileID: 11400000, guid: bb8eacf5d6e151548ae677e3ff4d1109, type: 2}
-  speakerName: Horse
   localizedSpeakerName:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -301,7 +291,6 @@ MonoBehaviour:
     m_FallbackState: 0
     m_WaitForCompletion: 0
     m_LocalVariables: []
-  text: 'Snort. (give it to me, it''s mine) '
   localizedText:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e

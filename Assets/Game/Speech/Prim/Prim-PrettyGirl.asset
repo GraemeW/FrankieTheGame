@@ -38,7 +38,6 @@ MonoBehaviour:
   dialogueName: Prim-PrettyGirl
   speakerType: 1
   characterProperties: {fileID: 0}
-  speakerName: Pretty Girl
   localizedSpeakerName:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -48,7 +47,6 @@ MonoBehaviour:
     m_FallbackState: 0
     m_WaitForCompletion: 0
     m_LocalVariables: []
-  text: Wow!  You actually made it through the forest?
   localizedText:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -96,7 +94,6 @@ MonoBehaviour:
   dialogueName: Prim-PrettyGirl
   speakerType: 1
   characterProperties: {fileID: 0}
-  speakerName: Pretty Girl
   localizedSpeakerName:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -106,7 +103,6 @@ MonoBehaviour:
     m_FallbackState: 0
     m_WaitForCompletion: 0
     m_LocalVariables: []
-  text: A squirrel looked at me weird.  Now I'm too scared to even step foot in there.
   localizedText:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e

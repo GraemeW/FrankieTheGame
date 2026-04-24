@@ -15,7 +15,6 @@ MonoBehaviour:
   dialogueName: OfficeInterior-CleverWorker
   speakerType: 1
   characterProperties: {fileID: 11400000, guid: 90d76accd2678ec4a831bc862fdccb8c, type: 2}
-  speakerName: Clever Office Worker
   localizedSpeakerName:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -25,8 +24,6 @@ MonoBehaviour:
     m_FallbackState: 0
     m_WaitForCompletion: 0
     m_LocalVariables: []
-  text: You shouldn't spoil me too much, I'll never build up a real work ethic if
-    you keep going on like this.
   localizedText:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -74,7 +71,6 @@ MonoBehaviour:
   dialogueName: OfficeInterior-CleverWorker
   speakerType: 1
   characterProperties: {fileID: 11400000, guid: 90d76accd2678ec4a831bc862fdccb8c, type: 2}
-  speakerName: Clever Office Worker
   localizedSpeakerName:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -84,7 +80,6 @@ MonoBehaviour:
     m_FallbackState: 0
     m_WaitForCompletion: 0
     m_LocalVariables: []
-  text: You're right.  I really need to take care of this myself.
   localizedText:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -159,7 +154,6 @@ MonoBehaviour:
   dialogueName: OfficeInterior-CleverWorker
   speakerType: 0
   characterProperties: {fileID: 11400000, guid: b50f84a2f36107a44825b11881f88adf, type: 2}
-  speakerName: Frankie
   localizedSpeakerName:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -169,7 +163,6 @@ MonoBehaviour:
     m_FallbackState: 0
     m_WaitForCompletion: 0
     m_LocalVariables: []
-  text: Okay
   localizedText:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -217,7 +210,6 @@ MonoBehaviour:
   dialogueName: OfficeInterior-CleverWorker
   speakerType: 1
   characterProperties: {fileID: 11400000, guid: 90d76accd2678ec4a831bc862fdccb8c, type: 2}
-  speakerName: Clever Office Worker
   localizedSpeakerName:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -227,7 +219,6 @@ MonoBehaviour:
     m_FallbackState: 0
     m_WaitForCompletion: 0
     m_LocalVariables: []
-  text: Can you help me out with this problem?
   localizedText:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -276,7 +267,6 @@ MonoBehaviour:
   dialogueName: OfficeInterior-CleverWorker
   speakerType: 0
   characterProperties: {fileID: 11400000, guid: b50f84a2f36107a44825b11881f88adf, type: 2}
-  speakerName: Frankie
   localizedSpeakerName:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -286,7 +276,6 @@ MonoBehaviour:
     m_FallbackState: 0
     m_WaitForCompletion: 0
     m_LocalVariables: []
-  text: No
   localizedText:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e

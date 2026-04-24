@@ -15,7 +15,6 @@ MonoBehaviour:
   dialogueName: OfficeInterior-PhilRamenC
   speakerType: 1
   characterProperties: {fileID: 11400000, guid: e97120b87e74eee4f9d9d8659f0bddf5, type: 2}
-  speakerName: Phil Ramen
   localizedSpeakerName:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -25,8 +24,6 @@ MonoBehaviour:
     m_FallbackState: 0
     m_WaitForCompletion: 0
     m_LocalVariables: []
-  text: Listen, this world - your world - is not what it appears to be.  You must
-    have noticed by now.
   localizedText:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -75,7 +72,6 @@ MonoBehaviour:
   dialogueName: OfficeInterior-PhilRamenC
   speakerType: 0
   characterProperties: {fileID: 11400000, guid: b50f84a2f36107a44825b11881f88adf, type: 2}
-  speakerName: Frankie
   localizedSpeakerName:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -85,7 +81,6 @@ MonoBehaviour:
     m_FallbackState: 0
     m_WaitForCompletion: 0
     m_LocalVariables: []
-  text: No
   localizedText:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -133,7 +128,6 @@ MonoBehaviour:
   dialogueName: OfficeInterior-PhilRamenC
   speakerType: 1
   characterProperties: {fileID: 11400000, guid: e97120b87e74eee4f9d9d8659f0bddf5, type: 2}
-  speakerName: Phil Ramen
   localizedSpeakerName:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -143,8 +137,6 @@ MonoBehaviour:
     m_FallbackState: 0
     m_WaitForCompletion: 0
     m_LocalVariables: []
-  text: Oh man, oh boy, I see the light.  This is really it now.  Before I go, did
-    you listen closely enough, or do you want me to repeat this?
   localizedText:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -194,7 +186,6 @@ MonoBehaviour:
   dialogueName: OfficeInterior-PhilRamenC
   speakerType: 1
   characterProperties: {fileID: 11400000, guid: e97120b87e74eee4f9d9d8659f0bddf5, type: 2}
-  speakerName: Phil Ramen
   localizedSpeakerName:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -204,8 +195,6 @@ MonoBehaviour:
     m_FallbackState: 0
     m_WaitForCompletion: 0
     m_LocalVariables: []
-  text: Oh . . . really?  Honestly, I'm barely holding on here.  Ok, I guess, here
-    goes.
   localizedText:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -254,7 +243,6 @@ MonoBehaviour:
   dialogueName: OfficeInterior-PhilRamenC
   speakerType: 1
   characterProperties: {fileID: 11400000, guid: e97120b87e74eee4f9d9d8659f0bddf5, type: 2}
-  speakerName: Phil Ramen
   localizedSpeakerName:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -264,8 +252,6 @@ MonoBehaviour:
     m_FallbackState: 0
     m_WaitForCompletion: 0
     m_LocalVariables: []
-  text: The subway should take you there.  Wait, you should know this, you live in
-    Prim, DON'T YOU?
   localizedText:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -314,7 +300,6 @@ MonoBehaviour:
   dialogueName: OfficeInterior-PhilRamenC
   speakerType: 1
   characterProperties: {fileID: 11400000, guid: e97120b87e74eee4f9d9d8659f0bddf5, type: 2}
-  speakerName: Phil Ramen
   localizedSpeakerName:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -324,8 +309,6 @@ MonoBehaviour:
     m_FallbackState: 0
     m_WaitForCompletion: 0
     m_LocalVariables: []
-  text: Alright.  Well, you're a smart, capable, and brave man, Frankie.  Remember
-    that.
   localizedText:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -374,7 +357,6 @@ MonoBehaviour:
   dialogueName: OfficeInterior-PhilRamenC
   speakerType: 1
   characterProperties: {fileID: 11400000, guid: e97120b87e74eee4f9d9d8659f0bddf5, type: 2}
-  speakerName: Phil Ramen
   localizedSpeakerName:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -384,7 +366,6 @@ MonoBehaviour:
     m_FallbackState: 0
     m_WaitForCompletion: 0
     m_LocalVariables: []
-  text: 'Oh, I almost forgot -- my dying words:'
   localizedText:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -432,7 +413,6 @@ MonoBehaviour:
   dialogueName: OfficeInterior-PhilRamenC
   speakerType: 0
   characterProperties: {fileID: 11400000, guid: b50f84a2f36107a44825b11881f88adf, type: 2}
-  speakerName: Frankie
   localizedSpeakerName:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -442,7 +422,6 @@ MonoBehaviour:
     m_FallbackState: 0
     m_WaitForCompletion: 0
     m_LocalVariables: []
-  text: Yes
   localizedText:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -490,7 +469,6 @@ MonoBehaviour:
   dialogueName: OfficeInterior-PhilRamenC
   speakerType: 1
   characterProperties: {fileID: 11400000, guid: e97120b87e74eee4f9d9d8659f0bddf5, type: 2}
-  speakerName: Phil Ramen
   localizedSpeakerName:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -500,7 +478,6 @@ MonoBehaviour:
     m_FallbackState: 0
     m_WaitForCompletion: 0
     m_LocalVariables: []
-  text: I guess I'm just a cup of ramen after all.
   localizedText:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -590,7 +567,6 @@ MonoBehaviour:
   dialogueName: OfficeInterior-PhilRamenC
   speakerType: 1
   characterProperties: {fileID: 11400000, guid: e97120b87e74eee4f9d9d8659f0bddf5, type: 2}
-  speakerName: Phil Ramen
   localizedSpeakerName:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -600,8 +576,6 @@ MonoBehaviour:
     m_FallbackState: 0
     m_WaitForCompletion: 0
     m_LocalVariables: []
-  text: Go now.  Your first curio, I sense that it is close.  Somewhere in the nearby
-    suburb of Prim.
   localizedText:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -650,7 +624,6 @@ MonoBehaviour:
   dialogueName: OfficeInterior-PhilRamenC
   speakerType: 1
   characterProperties: {fileID: 11400000, guid: e97120b87e74eee4f9d9d8659f0bddf5, type: 2}
-  speakerName: Phil Ramen
   localizedSpeakerName:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -660,7 +633,6 @@ MonoBehaviour:
     m_FallbackState: 0
     m_WaitForCompletion: 0
     m_LocalVariables: []
-  text: Looks like this is it for me.  I hoped I could bring you further.
   localizedText:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -708,7 +680,6 @@ MonoBehaviour:
   dialogueName: OfficeInterior-PhilRamenC
   speakerType: 1
   characterProperties: {fileID: 11400000, guid: e97120b87e74eee4f9d9d8659f0bddf5, type: 2}
-  speakerName: Phil Ramen
   localizedSpeakerName:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -718,8 +689,6 @@ MonoBehaviour:
     m_FallbackState: 0
     m_WaitForCompletion: 0
     m_LocalVariables: []
-  text: You'll meet many friends along the way.  Trust in them, rely on them.  You
-    need their help to make it through this.
   localizedText:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -768,7 +737,6 @@ MonoBehaviour:
   dialogueName: OfficeInterior-PhilRamenC
   speakerType: 1
   characterProperties: {fileID: 11400000, guid: e97120b87e74eee4f9d9d8659f0bddf5, type: 2}
-  speakerName: Phil Ramen
   localizedSpeakerName:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -778,7 +746,6 @@ MonoBehaviour:
     m_FallbackState: 0
     m_WaitForCompletion: 0
     m_LocalVariables: []
-  text: '*cough* *hrkkk* Well . . . '
   localizedText:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -832,7 +799,6 @@ MonoBehaviour:
   dialogueName: OfficeInterior-PhilRamenC
   speakerType: 1
   characterProperties: {fileID: 11400000, guid: e97120b87e74eee4f9d9d8659f0bddf5, type: 2}
-  speakerName: Phil Ramen
   localizedSpeakerName:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -842,8 +808,6 @@ MonoBehaviour:
     m_FallbackState: 0
     m_WaitForCompletion: 0
     m_LocalVariables: []
-  text: This miasma threatens everything you know.  You must find out what, or who,
-    is behind it.
   localizedText:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -892,7 +856,6 @@ MonoBehaviour:
   dialogueName: OfficeInterior-PhilRamenC
   speakerType: 0
   characterProperties: {fileID: 11400000, guid: b50f84a2f36107a44825b11881f88adf, type: 2}
-  speakerName: Frankie
   localizedSpeakerName:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -902,7 +865,6 @@ MonoBehaviour:
     m_FallbackState: 0
     m_WaitForCompletion: 0
     m_LocalVariables: []
-  text: Looks like plain old ordinary trash.
   localizedText:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -955,7 +917,6 @@ MonoBehaviour:
   dialogueName: OfficeInterior-PhilRamenC
   speakerType: 0
   characterProperties: {fileID: 11400000, guid: b50f84a2f36107a44825b11881f88adf, type: 2}
-  speakerName: Frankie
   localizedSpeakerName:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -965,7 +926,6 @@ MonoBehaviour:
     m_FallbackState: 0
     m_WaitForCompletion: 0
     m_LocalVariables: []
-  text: There's nothing left to do here . . . Goodbye Phil.
   localizedText:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -1015,7 +975,6 @@ MonoBehaviour:
   dialogueName: OfficeInterior-PhilRamenC
   speakerType: 1
   characterProperties: {fileID: 11400000, guid: e97120b87e74eee4f9d9d8659f0bddf5, type: 2}
-  speakerName: Phil Ramen
   localizedSpeakerName:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -1025,8 +984,6 @@ MonoBehaviour:
     m_FallbackState: 0
     m_WaitForCompletion: 0
     m_LocalVariables: []
-  text: The answer lies in your own memories.  You must go on a journey in search
-    of your 10 curios of power to unlock the truth.
   localizedText:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -1075,7 +1032,6 @@ MonoBehaviour:
   dialogueName: OfficeInterior-PhilRamenC
   speakerType: 1
   characterProperties: {fileID: 11400000, guid: e97120b87e74eee4f9d9d8659f0bddf5, type: 2}
-  speakerName: Phil Ramen
   localizedSpeakerName:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -1085,7 +1041,6 @@ MonoBehaviour:
     m_FallbackState: 0
     m_WaitForCompletion: 0
     m_LocalVariables: []
-  text: root node
   localizedText:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -1135,7 +1090,6 @@ MonoBehaviour:
   dialogueName: OfficeInterior-PhilRamenC
   speakerType: 1
   characterProperties: {fileID: 11400000, guid: e97120b87e74eee4f9d9d8659f0bddf5, type: 2}
-  speakerName: Phil Ramen
   localizedSpeakerName:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -1145,7 +1099,6 @@ MonoBehaviour:
     m_FallbackState: 0
     m_WaitForCompletion: 0
     m_LocalVariables: []
-  text: I'm glad I got to meet you.  *squish* *slurp* *bye*
   localizedText:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e

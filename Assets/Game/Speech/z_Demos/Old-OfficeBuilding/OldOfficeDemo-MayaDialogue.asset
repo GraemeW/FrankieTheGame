@@ -15,7 +15,6 @@ MonoBehaviour:
   dialogueName: OldOfficeDemo-MayaDialogue
   speakerType: 1
   characterProperties: {fileID: 0}
-  speakerName: Default
   localizedSpeakerName:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -25,7 +24,6 @@ MonoBehaviour:
     m_FallbackState: 0
     m_WaitForCompletion: 0
     m_LocalVariables: []
-  text: Root Node Skipped
   localizedText:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -76,7 +74,6 @@ MonoBehaviour:
   dialogueName: OldOfficeDemo-MayaDialogue
   speakerType: 1
   characterProperties: {fileID: 11400000, guid: c8752c77bccb9f145aea101a1d9673a5, type: 2}
-  speakerName: Maya
   localizedSpeakerName:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -86,8 +83,6 @@ MonoBehaviour:
     m_FallbackState: 0
     m_WaitForCompletion: 0
     m_LocalVariables: []
-  text: What's that?  You say you saw me at the PortaBank (TM)?  I don't know what
-    you're talking about, I work here.
   localizedText:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -135,7 +130,6 @@ MonoBehaviour:
   dialogueName: OldOfficeDemo-MayaDialogue
   speakerType: 1
   characterProperties: {fileID: 11400000, guid: c8752c77bccb9f145aea101a1d9673a5, type: 2}
-  speakerName: Maya
   localizedSpeakerName:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -145,8 +139,6 @@ MonoBehaviour:
     m_FallbackState: 0
     m_WaitForCompletion: 0
     m_LocalVariables: []
-  text: Hi Tilly, nice hair, I mean, nice outfit, I mean . . . anyway, did you want
-    to hang out this weekend?
   localizedText:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -224,7 +216,6 @@ MonoBehaviour:
   dialogueName: OldOfficeDemo-MayaDialogue
   speakerType: 1
   characterProperties: {fileID: 11400000, guid: c8752c77bccb9f145aea101a1d9673a5, type: 2}
-  speakerName: Maya
   localizedSpeakerName:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -234,7 +225,6 @@ MonoBehaviour:
     m_FallbackState: 0
     m_WaitForCompletion: 0
     m_LocalVariables: []
-  text: You want the key to the ballpit?  Alright, let's tango.
   localizedText:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -284,7 +274,6 @@ MonoBehaviour:
   dialogueName: OldOfficeDemo-MayaDialogue
   speakerType: 1
   characterProperties: {fileID: 11400000, guid: c8752c77bccb9f145aea101a1d9673a5, type: 2}
-  speakerName: Maya
   localizedSpeakerName:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -294,8 +283,6 @@ MonoBehaviour:
     m_FallbackState: 0
     m_WaitForCompletion: 0
     m_LocalVariables: []
-  text: Aside from you and Horse, I'm literally the only person who does work around
-    here
   localizedText:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e

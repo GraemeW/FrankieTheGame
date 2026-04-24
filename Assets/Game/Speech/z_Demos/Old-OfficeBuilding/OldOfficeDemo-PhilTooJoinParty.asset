@@ -15,7 +15,6 @@ MonoBehaviour:
   dialogueName: OldOfficeDemo-PhilTooJoinParty
   speakerType: 1
   characterProperties: {fileID: 11400000, guid: 336237e6ae4959340b7902131ce0e59d, type: 2}
-  speakerName: Phil Too
   localizedSpeakerName:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -25,7 +24,6 @@ MonoBehaviour:
     m_FallbackState: 0
     m_WaitForCompletion: 0
     m_LocalVariables: []
-  text: Lookin' fly!  Let me vibe with you.
   localizedText:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -79,7 +77,6 @@ MonoBehaviour:
   dialogueName: OldOfficeDemo-PhilTooJoinParty
   speakerType: 1
   characterProperties: {fileID: 11400000, guid: 336237e6ae4959340b7902131ce0e59d, type: 2}
-  speakerName: Phil Too
   localizedSpeakerName:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -89,7 +86,6 @@ MonoBehaviour:
     m_FallbackState: 0
     m_WaitForCompletion: 0
     m_LocalVariables: []
-  text: Root Node Skipped
   localizedText:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -138,7 +134,6 @@ MonoBehaviour:
   dialogueName: OldOfficeDemo-PhilTooJoinParty
   speakerType: 1
   characterProperties: {fileID: 11400000, guid: 336237e6ae4959340b7902131ce0e59d, type: 2}
-  speakerName: Phil Too
   localizedSpeakerName:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -148,8 +143,6 @@ MonoBehaviour:
     m_FallbackState: 0
     m_WaitForCompletion: 0
     m_LocalVariables: []
-  text: As you your stat values increase, you might unlock new abilities.  I bet
-    you have a new ability to check out right now.
   localizedText:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -198,7 +191,6 @@ MonoBehaviour:
   dialogueName: OldOfficeDemo-PhilTooJoinParty
   speakerType: 1
   characterProperties: {fileID: 11400000, guid: 336237e6ae4959340b7902131ce0e59d, type: 2}
-  speakerName: Phil Too
   localizedSpeakerName:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -208,8 +200,6 @@ MonoBehaviour:
     m_FallbackState: 0
     m_WaitForCompletion: 0
     m_LocalVariables: []
-  text: 'I''m going to tell you this since you don''t already know:  pay attention
-    to your stats!  '
   localizedText:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -258,7 +248,6 @@ MonoBehaviour:
   dialogueName: OldOfficeDemo-PhilTooJoinParty
   speakerType: 1
   characterProperties: {fileID: 11400000, guid: 336237e6ae4959340b7902131ce0e59d, type: 2}
-  speakerName: Phil Too
   localizedSpeakerName:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -268,7 +257,6 @@ MonoBehaviour:
     m_FallbackState: 0
     m_WaitForCompletion: 0
     m_LocalVariables: []
-  text: Alright, let's get goin'.
   localizedText:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -343,7 +331,6 @@ MonoBehaviour:
   dialogueName: OldOfficeDemo-PhilTooJoinParty
   speakerType: 1
   characterProperties: {fileID: 11400000, guid: 336237e6ae4959340b7902131ce0e59d, type: 2}
-  speakerName: Phil Too
   localizedSpeakerName:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -353,7 +340,6 @@ MonoBehaviour:
     m_FallbackState: 0
     m_WaitForCompletion: 0
     m_LocalVariables: []
-  text: Your vibe is pretty gnarled isn't it?  Try improving your Beauty, Frankie!
   localizedText:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e

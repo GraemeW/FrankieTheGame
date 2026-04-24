@@ -15,7 +15,6 @@ MonoBehaviour:
   dialogueName: OfficeInterior-BroWorkerA
   speakerType: 1
   characterProperties: {fileID: 11400000, guid: 15a456ac7051b7946ba9d4575fddb1ba, type: 2}
-  speakerName: Bro Office Worker
   localizedSpeakerName:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -25,8 +24,6 @@ MonoBehaviour:
     m_FallbackState: 0
     m_WaitForCompletion: 0
     m_LocalVariables: []
-  text: This hallway is a great place to get your cardio in.  I'm really building
-    up an appetite.
   localizedText:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e

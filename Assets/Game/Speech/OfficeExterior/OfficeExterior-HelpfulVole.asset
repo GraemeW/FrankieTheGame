@@ -15,7 +15,6 @@ MonoBehaviour:
   dialogueName: OfficeExterior-HelpfulVole
   speakerType: 1
   characterProperties: {fileID: 11400000, guid: c1f59cbc742f6294d98c52ee45fb4fd6, type: 2}
-  speakerName: Helpful Vole
   localizedSpeakerName:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -25,8 +24,6 @@ MonoBehaviour:
     m_FallbackState: 0
     m_WaitForCompletion: 0
     m_LocalVariables: []
-  text: So study up before your fights -- you can see what you can do by pressing
-    Tab and selecting Abilities.
   localizedText:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -75,7 +72,6 @@ MonoBehaviour:
   dialogueName: OfficeExterior-HelpfulVole
   speakerType: 1
   characterProperties: {fileID: 11400000, guid: c1f59cbc742f6294d98c52ee45fb4fd6, type: 2}
-  speakerName: Helpful Vole
   localizedSpeakerName:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -85,7 +81,6 @@ MonoBehaviour:
     m_FallbackState: 0
     m_WaitForCompletion: 0
     m_LocalVariables: []
-  text: This is the last sentence I memorized.
   localizedText:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -133,7 +128,6 @@ MonoBehaviour:
   dialogueName: OfficeExterior-HelpfulVole
   speakerType: 1
   characterProperties: {fileID: 11400000, guid: c1f59cbc742f6294d98c52ee45fb4fd6, type: 2}
-  speakerName: Helpful Vole
   localizedSpeakerName:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -143,7 +137,6 @@ MonoBehaviour:
     m_FallbackState: 0
     m_WaitForCompletion: 0
     m_LocalVariables: []
-  text: Wait!  Don't hurt me, I'm not your average Vole!
   localizedText:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -191,7 +184,6 @@ MonoBehaviour:
   dialogueName: OfficeExterior-HelpfulVole
   speakerType: 1
   characterProperties: {fileID: 11400000, guid: c1f59cbc742f6294d98c52ee45fb4fd6, type: 2}
-  speakerName: Helpful Vole
   localizedSpeakerName:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -201,7 +193,6 @@ MonoBehaviour:
     m_FallbackState: 0
     m_WaitForCompletion: 0
     m_LocalVariables: []
-  text: Squeak.
   localizedText:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -248,7 +239,6 @@ MonoBehaviour:
   dialogueName: OfficeExterior-HelpfulVole
   speakerType: 1
   characterProperties: {fileID: 11400000, guid: c1f59cbc742f6294d98c52ee45fb4fd6, type: 2}
-  speakerName: Helpful Vole
   localizedSpeakerName:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -258,8 +248,6 @@ MonoBehaviour:
     m_FallbackState: 0
     m_WaitForCompletion: 0
     m_LocalVariables: []
-  text: Now, down to business.  You -- yes YOU, behind the keyboard -- you should
-    be aware that your enemies won't wait for their turn.
   localizedText:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -338,7 +326,6 @@ MonoBehaviour:
   dialogueName: OfficeExterior-HelpfulVole
   speakerType: 1
   characterProperties: {fileID: 11400000, guid: c1f59cbc742f6294d98c52ee45fb4fd6, type: 2}
-  speakerName: Helpful Vole
   localizedSpeakerName:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -348,8 +335,6 @@ MonoBehaviour:
     m_FallbackState: 0
     m_WaitForCompletion: 0
     m_LocalVariables: []
-  text: 'I hope this makes sense -- I don''t actually speak your language.  I''m
-    just reciting what I read by reading the Official Frankie Game Manual (TM).  '
   localizedText:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -398,7 +383,6 @@ MonoBehaviour:
   dialogueName: OfficeExterior-HelpfulVole
   speakerType: 1
   characterProperties: {fileID: 11400000, guid: c1f59cbc742f6294d98c52ee45fb4fd6, type: 2}
-  speakerName: Helpful Vole
   localizedSpeakerName:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -408,8 +392,6 @@ MonoBehaviour:
     m_FallbackState: 0
     m_WaitForCompletion: 0
     m_LocalVariables: []
-  text: In battle, select which ability you want with your "W-A-S-D" keys and then
-    lock it in with "E".
   localizedText:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -458,7 +440,6 @@ MonoBehaviour:
   dialogueName: OfficeExterior-HelpfulVole
   speakerType: 1
   characterProperties: {fileID: 11400000, guid: c1f59cbc742f6294d98c52ee45fb4fd6, type: 2}
-  speakerName: Helpful Vole
   localizedSpeakerName:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -468,7 +449,6 @@ MonoBehaviour:
     m_FallbackState: 0
     m_WaitForCompletion: 0
     m_LocalVariables: []
-  text: I may be a small rodent, but my mind is vast and my experiences multitudinous.
   localizedText:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e

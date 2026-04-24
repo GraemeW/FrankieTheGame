@@ -15,7 +15,6 @@ MonoBehaviour:
   dialogueName: OfficeInterior-PhilRamenA
   speakerType: 1
   characterProperties: {fileID: 11400000, guid: e97120b87e74eee4f9d9d8659f0bddf5, type: 2}
-  speakerName: Phil Ramen
   localizedSpeakerName:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -25,7 +24,6 @@ MonoBehaviour:
     m_FallbackState: 0
     m_WaitForCompletion: 0
     m_LocalVariables: []
-  text: '. . . '
   localizedText:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -73,7 +71,6 @@ MonoBehaviour:
   dialogueName: OfficeInterior-PhilRamenA
   speakerType: 0
   characterProperties: {fileID: 11400000, guid: b50f84a2f36107a44825b11881f88adf, type: 2}
-  speakerName: Frankie
   localizedSpeakerName:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -83,7 +80,6 @@ MonoBehaviour:
     m_FallbackState: 0
     m_WaitForCompletion: 0
     m_LocalVariables: []
-  text: Are you a talking cup of noodles?
   localizedText:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -131,7 +127,6 @@ MonoBehaviour:
   dialogueName: OfficeInterior-PhilRamenA
   speakerType: 0
   characterProperties: {fileID: 11400000, guid: b50f84a2f36107a44825b11881f88adf, type: 2}
-  speakerName: Frankie
   localizedSpeakerName:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -141,7 +136,6 @@ MonoBehaviour:
     m_FallbackState: 0
     m_WaitForCompletion: 0
     m_LocalVariables: []
-  text: Ok?
   localizedText:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -189,7 +183,6 @@ MonoBehaviour:
   dialogueName: OfficeInterior-PhilRamenA
   speakerType: 1
   characterProperties: {fileID: 11400000, guid: e97120b87e74eee4f9d9d8659f0bddf5, type: 2}
-  speakerName: Phil Ramen
   localizedSpeakerName:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -199,7 +192,6 @@ MonoBehaviour:
     m_FallbackState: 0
     m_WaitForCompletion: 0
     m_LocalVariables: []
-  text: Finally you've arrived.  My name is Phil, and I come bearing an urgent message.
   localizedText:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -248,7 +240,6 @@ MonoBehaviour:
   dialogueName: OfficeInterior-PhilRamenA
   speakerType: 1
   characterProperties: {fileID: 11400000, guid: e97120b87e74eee4f9d9d8659f0bddf5, type: 2}
-  speakerName: Phil Ramen
   localizedSpeakerName:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -258,8 +249,6 @@ MonoBehaviour:
     m_FallbackState: 0
     m_WaitForCompletion: 0
     m_LocalVariables: []
-  text: They must be moving faster than I thought.  We need to find some chopsticks
-    immediately.
   localizedText:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -308,7 +297,6 @@ MonoBehaviour:
   dialogueName: OfficeInterior-PhilRamenA
   speakerType: 1
   characterProperties: {fileID: 11400000, guid: e97120b87e74eee4f9d9d8659f0bddf5, type: 2}
-  speakerName: Phil Ramen
   localizedSpeakerName:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -318,7 +306,6 @@ MonoBehaviour:
     m_FallbackState: 0
     m_WaitForCompletion: 0
     m_LocalVariables: []
-  text: '. . . '
   localizedText:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -369,7 +356,6 @@ MonoBehaviour:
   dialogueName: OfficeInterior-PhilRamenA
   speakerType: 1
   characterProperties: {fileID: 11400000, guid: e97120b87e74eee4f9d9d8659f0bddf5, type: 2}
-  speakerName: Phil Ramen
   localizedSpeakerName:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -379,8 +365,6 @@ MonoBehaviour:
     m_FallbackState: 0
     m_WaitForCompletion: 0
     m_LocalVariables: []
-  text: 'I may look like a delicious cup of noodles, but I''m actually a sophisticated
-    artificial intelligence.  '
   localizedText:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -465,7 +449,6 @@ MonoBehaviour:
   dialogueName: OfficeInterior-PhilRamenA
   speakerType: 0
   characterProperties: {fileID: 11400000, guid: b50f84a2f36107a44825b11881f88adf, type: 2}
-  speakerName: Frankie
   localizedSpeakerName:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -475,7 +458,6 @@ MonoBehaviour:
     m_FallbackState: 0
     m_WaitForCompletion: 0
     m_LocalVariables: []
-  text: What was that?
   localizedText:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -523,7 +505,6 @@ MonoBehaviour:
   dialogueName: OfficeInterior-PhilRamenA
   speakerType: 1
   characterProperties: {fileID: 11400000, guid: e97120b87e74eee4f9d9d8659f0bddf5, type: 2}
-  speakerName: Phil Ramen
   localizedSpeakerName:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -533,7 +514,6 @@ MonoBehaviour:
     m_FallbackState: 0
     m_WaitForCompletion: 0
     m_LocalVariables: []
-  text: Wait . . . . .
   localizedText:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -584,7 +564,6 @@ MonoBehaviour:
   dialogueName: OfficeInterior-PhilRamenA
   speakerType: 1
   characterProperties: {fileID: 11400000, guid: e97120b87e74eee4f9d9d8659f0bddf5, type: 2}
-  speakerName: Phil Ramen
   localizedSpeakerName:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -594,7 +573,6 @@ MonoBehaviour:
     m_FallbackState: 0
     m_WaitForCompletion: 0
     m_LocalVariables: []
-  text: I'm sorry, but now isn't the time to explain.  Quickly!
   localizedText:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -641,7 +619,6 @@ MonoBehaviour:
   dialogueName: OfficeInterior-PhilRamenA
   speakerType: 1
   characterProperties: {fileID: 11400000, guid: e97120b87e74eee4f9d9d8659f0bddf5, type: 2}
-  speakerName: Phil Ramen
   localizedSpeakerName:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -651,8 +628,6 @@ MonoBehaviour:
     m_FallbackState: 0
     m_WaitForCompletion: 0
     m_LocalVariables: []
-  text: Once you find the chopsticks, you need to pour some hot water onto me and
-    mush my noodles around.
   localizedText:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -702,7 +677,6 @@ MonoBehaviour:
   dialogueName: OfficeInterior-PhilRamenA
   speakerType: 0
   characterProperties: {fileID: 11400000, guid: b50f84a2f36107a44825b11881f88adf, type: 2}
-  speakerName: Frankie
   localizedSpeakerName:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -712,7 +686,6 @@ MonoBehaviour:
     m_FallbackState: 0
     m_WaitForCompletion: 0
     m_LocalVariables: []
-  text: Errr?
   localizedText:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e

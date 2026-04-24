@@ -15,7 +15,6 @@ MonoBehaviour:
   dialogueName: OfficeInterior-VoleWorker
   speakerType: 1
   characterProperties: {fileID: 11400000, guid: c1f59cbc742f6294d98c52ee45fb4fd6, type: 2}
-  speakerName: Helpful Vole
   localizedSpeakerName:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -25,7 +24,6 @@ MonoBehaviour:
     m_FallbackState: 0
     m_WaitForCompletion: 0
     m_LocalVariables: []
-  text: It's like nobody even noticed the power went out.  Weird.
   localizedText:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -73,7 +71,6 @@ MonoBehaviour:
   dialogueName: OfficeInterior-VoleWorker
   speakerType: 1
   characterProperties: {fileID: 11400000, guid: c1f59cbc742f6294d98c52ee45fb4fd6, type: 2}
-  speakerName: Helpful Vole
   localizedSpeakerName:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -83,7 +80,6 @@ MonoBehaviour:
     m_FallbackState: 0
     m_WaitForCompletion: 0
     m_LocalVariables: []
-  text: Default Text to Overwrite
   localizedText:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -133,7 +129,6 @@ MonoBehaviour:
   dialogueName: OfficeInterior-VoleWorker
   speakerType: 1
   characterProperties: {fileID: 11400000, guid: c1f59cbc742f6294d98c52ee45fb4fd6, type: 2}
-  speakerName: Helpful Vole
   localizedSpeakerName:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -143,7 +138,6 @@ MonoBehaviour:
     m_FallbackState: 0
     m_WaitForCompletion: 0
     m_LocalVariables: []
-  text: The power flickered, and then the interns went insane.
   localizedText:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -191,7 +185,6 @@ MonoBehaviour:
   dialogueName: OfficeInterior-VoleWorker
   speakerType: 0
   characterProperties: {fileID: 11400000, guid: b50f84a2f36107a44825b11881f88adf, type: 2}
-  speakerName: Frankie
   localizedSpeakerName:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -201,7 +194,6 @@ MonoBehaviour:
     m_FallbackState: 0
     m_WaitForCompletion: 0
     m_LocalVariables: []
-  text: Uhhh
   localizedText:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -249,7 +241,6 @@ MonoBehaviour:
   dialogueName: OfficeInterior-VoleWorker
   speakerType: 1
   characterProperties: {fileID: 11400000, guid: c1f59cbc742f6294d98c52ee45fb4fd6, type: 2}
-  speakerName: Helpful Vole
   localizedSpeakerName:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -259,7 +250,6 @@ MonoBehaviour:
     m_FallbackState: 0
     m_WaitForCompletion: 0
     m_LocalVariables: []
-  text: 'It looks like everything is back to normal.  '
   localizedText:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -310,7 +300,6 @@ MonoBehaviour:
   dialogueName: OfficeInterior-VoleWorker
   speakerType: 1
   characterProperties: {fileID: 11400000, guid: c1f59cbc742f6294d98c52ee45fb4fd6, type: 2}
-  speakerName: Helpful Vole
   localizedSpeakerName:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -320,7 +309,6 @@ MonoBehaviour:
     m_FallbackState: 0
     m_WaitForCompletion: 0
     m_LocalVariables: []
-  text: '*squeak* I agree, Frankie.  We need to overthrow our capitalist overlords.  '
   localizedText:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -369,7 +357,6 @@ MonoBehaviour:
   dialogueName: OfficeInterior-VoleWorker
   speakerType: 1
   characterProperties: {fileID: 11400000, guid: c1f59cbc742f6294d98c52ee45fb4fd6, type: 2}
-  speakerName: Helpful Vole
   localizedSpeakerName:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -379,7 +366,6 @@ MonoBehaviour:
     m_FallbackState: 0
     m_WaitForCompletion: 0
     m_LocalVariables: []
-  text: How am I ever going to support my family like this? *desperate squeak*
   localizedText:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -428,7 +414,6 @@ MonoBehaviour:
   dialogueName: OfficeInterior-VoleWorker
   speakerType: 1
   characterProperties: {fileID: 11400000, guid: c1f59cbc742f6294d98c52ee45fb4fd6, type: 2}
-  speakerName: Helpful Vole
   localizedSpeakerName:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -438,7 +423,6 @@ MonoBehaviour:
     m_FallbackState: 0
     m_WaitForCompletion: 0
     m_LocalVariables: []
-  text: '*spooky squeak*'
   localizedText:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -485,7 +469,6 @@ MonoBehaviour:
   dialogueName: OfficeInterior-VoleWorker
   speakerType: 1
   characterProperties: {fileID: 11400000, guid: c1f59cbc742f6294d98c52ee45fb4fd6, type: 2}
-  speakerName: Helpful Vole
   localizedSpeakerName:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -495,7 +478,6 @@ MonoBehaviour:
     m_FallbackState: 0
     m_WaitForCompletion: 0
     m_LocalVariables: []
-  text: '*squeak* I''m so stressed *squeak* these due dates are insane.'
   localizedText:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -546,7 +528,6 @@ MonoBehaviour:
   dialogueName: OfficeInterior-VoleWorker
   speakerType: 1
   characterProperties: {fileID: 11400000, guid: c1f59cbc742f6294d98c52ee45fb4fd6, type: 2}
-  speakerName: Helpful Vole
   localizedSpeakerName:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -556,7 +537,6 @@ MonoBehaviour:
     m_FallbackState: 0
     m_WaitForCompletion: 0
     m_LocalVariables: []
-  text: '*squeak* Oh, I''m so happy to see you.'
   localizedText:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -649,7 +629,6 @@ MonoBehaviour:
   dialogueName: OfficeInterior-VoleWorker
   speakerType: 1
   characterProperties: {fileID: 11400000, guid: c1f59cbc742f6294d98c52ee45fb4fd6, type: 2}
-  speakerName: Helpful Vole
   localizedSpeakerName:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -659,7 +638,6 @@ MonoBehaviour:
     m_FallbackState: 0
     m_WaitForCompletion: 0
     m_LocalVariables: []
-  text: And my 401k is tanking . . . *sad squeak*
   localizedText:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -707,7 +685,6 @@ MonoBehaviour:
   dialogueName: OfficeInterior-VoleWorker
   speakerType: 0
   characterProperties: {fileID: 11400000, guid: b50f84a2f36107a44825b11881f88adf, type: 2}
-  speakerName: Frankie
   localizedSpeakerName:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -717,7 +694,6 @@ MonoBehaviour:
     m_FallbackState: 0
     m_WaitForCompletion: 0
     m_LocalVariables: []
-  text: Erk
   localizedText:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -765,7 +741,6 @@ MonoBehaviour:
   dialogueName: OfficeInterior-VoleWorker
   speakerType: 0
   characterProperties: {fileID: 11400000, guid: b50f84a2f36107a44825b11881f88adf, type: 2}
-  speakerName: Frankie
   localizedSpeakerName:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -775,7 +750,6 @@ MonoBehaviour:
     m_FallbackState: 0
     m_WaitForCompletion: 0
     m_LocalVariables: []
-  text: Hmm
   localizedText:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -823,7 +797,6 @@ MonoBehaviour:
   dialogueName: OfficeInterior-VoleWorker
   speakerType: 0
   characterProperties: {fileID: 11400000, guid: b50f84a2f36107a44825b11881f88adf, type: 2}
-  speakerName: Frankie
   localizedSpeakerName:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -833,7 +806,6 @@ MonoBehaviour:
     m_FallbackState: 0
     m_WaitForCompletion: 0
     m_LocalVariables: []
-  text: Uhh
   localizedText:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -881,7 +853,6 @@ MonoBehaviour:
   dialogueName: OfficeInterior-VoleWorker
   speakerType: 1
   characterProperties: {fileID: 11400000, guid: c1f59cbc742f6294d98c52ee45fb4fd6, type: 2}
-  speakerName: Helpful Vole
   localizedSpeakerName:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -891,7 +862,6 @@ MonoBehaviour:
     m_FallbackState: 0
     m_WaitForCompletion: 0
     m_LocalVariables: []
-  text: Thanks for giving me this great advice.  *happy squeak* You're a real pal.
   localizedText:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -939,7 +909,6 @@ MonoBehaviour:
   dialogueName: OfficeInterior-VoleWorker
   speakerType: 1
   characterProperties: {fileID: 11400000, guid: c1f59cbc742f6294d98c52ee45fb4fd6, type: 2}
-  speakerName: Helpful Vole
   localizedSpeakerName:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -949,7 +918,6 @@ MonoBehaviour:
     m_FallbackState: 0
     m_WaitForCompletion: 0
     m_LocalVariables: []
-  text: If anyone can sort this out, it's you.  Be careful! *inspiring squeak*
   localizedText:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e

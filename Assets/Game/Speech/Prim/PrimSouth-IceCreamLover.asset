@@ -15,7 +15,6 @@ MonoBehaviour:
   dialogueName: PrimSouth-IceCreamLover
   speakerType: 1
   characterProperties: {fileID: 0}
-  speakerName: Ice Cream Lover
   localizedSpeakerName:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -25,7 +24,6 @@ MonoBehaviour:
     m_FallbackState: 0
     m_WaitForCompletion: 0
     m_LocalVariables: []
-  text: This place is world renowned for its ice cream
   localizedText:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -96,7 +94,6 @@ MonoBehaviour:
   dialogueName: PrimSouth-IceCreamLover
   speakerType: 1
   characterProperties: {fileID: 0}
-  speakerName: Ice Cream Lover
   localizedSpeakerName:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -106,7 +103,6 @@ MonoBehaviour:
     m_FallbackState: 0
     m_WaitForCompletion: 0
     m_LocalVariables: []
-  text: Too bad it doesn't open for another 4 hours
   localizedText:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e

@@ -15,7 +15,6 @@ MonoBehaviour:
   dialogueName: OfficeInterior-HorseWorker
   speakerType: 1
   characterProperties: {fileID: 11400000, guid: bb8eacf5d6e151548ae677e3ff4d1109, type: 2}
-  speakerName: Horse
   localizedSpeakerName:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -25,7 +24,6 @@ MonoBehaviour:
     m_FallbackState: 0
     m_WaitForCompletion: 0
     m_LocalVariables: []
-  text: I must now further examine these *VERY IMPORTANT DOCUMENTS*.
   localizedText:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -73,7 +71,6 @@ MonoBehaviour:
   dialogueName: OfficeInterior-HorseWorker
   speakerType: 1
   characterProperties: {fileID: 11400000, guid: bb8eacf5d6e151548ae677e3ff4d1109, type: 2}
-  speakerName: Horse
   localizedSpeakerName:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -83,7 +80,6 @@ MonoBehaviour:
     m_FallbackState: 0
     m_WaitForCompletion: 0
     m_LocalVariables: []
-  text: Thanks for deliverying these *VERY IMPORTANT DOCUMENTS*.
   localizedText:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -137,7 +133,6 @@ MonoBehaviour:
   dialogueName: OfficeInterior-HorseWorker
   speakerType: 1
   characterProperties: {fileID: 11400000, guid: bb8eacf5d6e151548ae677e3ff4d1109, type: 2}
-  speakerName: Horse
   localizedSpeakerName:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -147,7 +142,6 @@ MonoBehaviour:
     m_FallbackState: 0
     m_WaitForCompletion: 0
     m_LocalVariables: []
-  text: We're so proud of what you've accomplished here.  You're really an A++ Worker.
   localizedText:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -230,7 +224,6 @@ MonoBehaviour:
   dialogueName: OfficeInterior-HorseWorker
   speakerType: 1
   characterProperties: {fileID: 11400000, guid: bb8eacf5d6e151548ae677e3ff4d1109, type: 2}
-  speakerName: Horse
   localizedSpeakerName:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -240,8 +233,6 @@ MonoBehaviour:
     m_FallbackState: 0
     m_WaitForCompletion: 0
     m_LocalVariables: []
-  text: Now that I've sufficiently complimented you, I need you to do me a favor. 
-    Maya has some *VERY IMPORTANT DOCUMENTS*.
   localizedText:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -290,7 +281,6 @@ MonoBehaviour:
   dialogueName: OfficeInterior-HorseWorker
   speakerType: 1
   characterProperties: {fileID: 11400000, guid: bb8eacf5d6e151548ae677e3ff4d1109, type: 2}
-  speakerName: Horse
   localizedSpeakerName:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -300,8 +290,6 @@ MonoBehaviour:
     m_FallbackState: 0
     m_WaitForCompletion: 0
     m_LocalVariables: []
-  text: Please hop down that firepole -- yes, the one that says DANGER on it -- and
-    find the documents.
   localizedText:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -349,7 +337,6 @@ MonoBehaviour:
   dialogueName: OfficeInterior-HorseWorker
   speakerType: 1
   characterProperties: {fileID: 11400000, guid: bb8eacf5d6e151548ae677e3ff4d1109, type: 2}
-  speakerName: Horse
   localizedSpeakerName:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -359,7 +346,6 @@ MonoBehaviour:
     m_FallbackState: 0
     m_WaitForCompletion: 0
     m_LocalVariables: []
-  text: Any luck?
   localizedText:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -415,7 +401,6 @@ MonoBehaviour:
   dialogueName: OfficeInterior-HorseWorker
   speakerType: 1
   characterProperties: {fileID: 0}
-  speakerName: Default
   localizedSpeakerName:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -425,7 +410,6 @@ MonoBehaviour:
     m_FallbackState: 0
     m_WaitForCompletion: 0
     m_LocalVariables: []
-  text: Default Text to Overwrite
   localizedText:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -476,7 +460,6 @@ MonoBehaviour:
   dialogueName: OfficeInterior-HorseWorker
   speakerType: 1
   characterProperties: {fileID: 11400000, guid: bb8eacf5d6e151548ae677e3ff4d1109, type: 2}
-  speakerName: Horse
   localizedSpeakerName:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -486,8 +469,6 @@ MonoBehaviour:
     m_FallbackState: 0
     m_WaitForCompletion: 0
     m_LocalVariables: []
-  text: You may take your 15 minute break -- I've enabled elevator access to the
-    kitchen.
   localizedText:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -535,7 +516,6 @@ MonoBehaviour:
   dialogueName: OfficeInterior-HorseWorker
   speakerType: 1
   characterProperties: {fileID: 11400000, guid: bb8eacf5d6e151548ae677e3ff4d1109, type: 2}
-  speakerName: Horse
   localizedSpeakerName:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -545,7 +525,6 @@ MonoBehaviour:
     m_FallbackState: 0
     m_WaitForCompletion: 0
     m_LocalVariables: []
-  text: We can't wait to see what you'll do next.  Keep on truckin'!
   localizedText:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e

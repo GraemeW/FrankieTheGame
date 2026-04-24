@@ -15,7 +15,6 @@ MonoBehaviour:
   dialogueName: PrimSouth-Counter
   speakerType: 1
   characterProperties: {fileID: 0}
-  speakerName: Counting Guy
   localizedSpeakerName:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -25,7 +24,6 @@ MonoBehaviour:
     m_FallbackState: 0
     m_WaitForCompletion: 0
     m_LocalVariables: []
-  text: One one thousand, two one thousand, three one thousand
   localizedText:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -103,7 +101,6 @@ MonoBehaviour:
   dialogueName: PrimSouth-Counter
   speakerType: 1
   characterProperties: {fileID: 0}
-  speakerName: Counting Guy
   localizedSpeakerName:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -113,7 +110,6 @@ MonoBehaviour:
     m_FallbackState: 0
     m_WaitForCompletion: 0
     m_LocalVariables: []
-  text: . . . seven one thousand, eight one thousand, nine one thousand
   localizedText:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -163,7 +159,6 @@ MonoBehaviour:
   dialogueName: PrimSouth-Counter
   speakerType: 1
   characterProperties: {fileID: 0}
-  speakerName: Counting Guy
   localizedSpeakerName:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -173,7 +168,6 @@ MonoBehaviour:
     m_FallbackState: 0
     m_WaitForCompletion: 0
     m_LocalVariables: []
-  text: Root Node
   localizedText:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -225,7 +219,6 @@ MonoBehaviour:
   dialogueName: PrimSouth-Counter
   speakerType: 1
   characterProperties: {fileID: 0}
-  speakerName: Counting Guy
   localizedSpeakerName:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -235,7 +228,6 @@ MonoBehaviour:
     m_FallbackState: 0
     m_WaitForCompletion: 0
     m_LocalVariables: []
-  text: Shoot, you made me mess up, now I have to start all over again!
   localizedText:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -282,7 +274,6 @@ MonoBehaviour:
   dialogueName: PrimSouth-Counter
   speakerType: 1
   characterProperties: {fileID: 0}
-  speakerName: Counting Guy
   localizedSpeakerName:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -292,7 +283,6 @@ MonoBehaviour:
     m_FallbackState: 0
     m_WaitForCompletion: 0
     m_LocalVariables: []
-  text: . . . seventeen one thousand . . . wait, where was I?
   localizedText:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -343,7 +333,6 @@ MonoBehaviour:
   dialogueName: PrimSouth-Counter
   speakerType: 1
   characterProperties: {fileID: 0}
-  speakerName: Counting Guy
   localizedSpeakerName:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -353,7 +342,6 @@ MonoBehaviour:
     m_FallbackState: 0
     m_WaitForCompletion: 0
     m_LocalVariables: []
-  text: . . . ten one thousand, eleven one thousand, twelve one thousand
   localizedText:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -403,7 +391,6 @@ MonoBehaviour:
   dialogueName: PrimSouth-Counter
   speakerType: 1
   characterProperties: {fileID: 0}
-  speakerName: Counting Guy
   localizedSpeakerName:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -413,7 +400,6 @@ MonoBehaviour:
     m_FallbackState: 0
     m_WaitForCompletion: 0
     m_LocalVariables: []
-  text: . . . four one thousand, five one thousand, six one thousand
   localizedText:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e

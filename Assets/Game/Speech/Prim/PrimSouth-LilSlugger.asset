@@ -15,7 +15,6 @@ MonoBehaviour:
   dialogueName: PrimSouth-LilSlugger
   speakerType: 1
   characterProperties: {fileID: 0}
-  speakerName: Lil Slugger
   localizedSpeakerName:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -25,8 +24,6 @@ MonoBehaviour:
     m_FallbackState: 0
     m_WaitForCompletion: 0
     m_LocalVariables: []
-  text: I wanna get a slushie from the Chug'n'Slurp (TM), but mom says the forest
-    is too dangerous
   localizedText:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e

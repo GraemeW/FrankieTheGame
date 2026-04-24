@@ -15,7 +15,6 @@ MonoBehaviour:
   dialogueName: PrimSouth-TallestBuilding-BubbleBlowGirl
   speakerType: 0
   characterProperties: {fileID: 11400000, guid: b50f84a2f36107a44825b11881f88adf, type: 2}
-  speakerName: Frankie
   localizedSpeakerName:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -25,7 +24,6 @@ MonoBehaviour:
     m_FallbackState: 0
     m_WaitForCompletion: 0
     m_LocalVariables: []
-  text: Mmmhmm?
   localizedText:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -73,7 +71,6 @@ MonoBehaviour:
   dialogueName: PrimSouth-TallestBuilding-BubbleBlowGirl
   speakerType: 1
   characterProperties: {fileID: 0}
-  speakerName: Fashionable Girl
   localizedSpeakerName:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -83,7 +80,6 @@ MonoBehaviour:
     m_FallbackState: 0
     m_WaitForCompletion: 0
     m_LocalVariables: []
-  text: What's it to ya anyway?
   localizedText:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -156,7 +152,6 @@ MonoBehaviour:
   dialogueName: PrimSouth-TallestBuilding-BubbleBlowGirl
   speakerType: 1
   characterProperties: {fileID: 0}
-  speakerName: Fashionable Girl
   localizedSpeakerName:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -166,7 +161,6 @@ MonoBehaviour:
     m_FallbackState: 0
     m_WaitForCompletion: 0
     m_LocalVariables: []
-  text: Looks like I locked myself out again
   localizedText:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -214,7 +208,6 @@ MonoBehaviour:
   dialogueName: PrimSouth-TallestBuilding-BubbleBlowGirl
   speakerType: 1
   characterProperties: {fileID: 0}
-  speakerName: Fashionable Girl
   localizedSpeakerName:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -224,7 +217,6 @@ MonoBehaviour:
     m_FallbackState: 0
     m_WaitForCompletion: 0
     m_LocalVariables: []
-  text: Yeah, I mean, I swear this is my place
   localizedText:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e

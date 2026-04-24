@@ -37,7 +37,6 @@ MonoBehaviour:
   dialogueName: Demo-Monk_Enchanted
   speakerType: 1
   characterProperties: {fileID: 0}
-  speakerName: Enchanted Monk
   localizedSpeakerName:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -47,7 +46,6 @@ MonoBehaviour:
     m_FallbackState: 0
     m_WaitForCompletion: 0
     m_LocalVariables: []
-  text: I'm saving a fortune on shampoo.
   localizedText:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e

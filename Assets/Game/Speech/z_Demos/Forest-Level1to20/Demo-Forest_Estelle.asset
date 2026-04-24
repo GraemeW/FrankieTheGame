@@ -41,7 +41,6 @@ MonoBehaviour:
   dialogueName: Demo-Forest_Estelle
   speakerType: 1
   characterProperties: {fileID: 0}
-  speakerName: Estelle
   localizedSpeakerName:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -51,7 +50,6 @@ MonoBehaviour:
     m_FallbackState: 0
     m_WaitForCompletion: 0
     m_LocalVariables: []
-  text: 'Hey, if you find yourself with a new piece for your outfit . . . '
   localizedText:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -99,7 +97,6 @@ MonoBehaviour:
   dialogueName: Demo-Forest_Estelle
   speakerType: 0
   characterProperties: {fileID: 0}
-  speakerName: Default
   localizedSpeakerName:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -109,7 +106,6 @@ MonoBehaviour:
     m_FallbackState: 0
     m_WaitForCompletion: 0
     m_LocalVariables: []
-  text: Errr?
   localizedText:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -157,7 +153,6 @@ MonoBehaviour:
   dialogueName: Demo-Forest_Estelle
   speakerType: 1
   characterProperties: {fileID: 0}
-  speakerName: Estelle
   localizedSpeakerName:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -167,7 +162,6 @@ MonoBehaviour:
     m_FallbackState: 0
     m_WaitForCompletion: 0
     m_LocalVariables: []
-  text: Ya know, like a keyboard?  Or a vest?  Or a watch?
   localizedText:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -215,7 +209,6 @@ MonoBehaviour:
   dialogueName: Demo-Forest_Estelle
   speakerType: 1
   characterProperties: {fileID: 0}
-  speakerName: Estelle
   localizedSpeakerName:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -225,8 +218,6 @@ MonoBehaviour:
     m_FallbackState: 0
     m_WaitForCompletion: 0
     m_LocalVariables: []
-  text: Oh, you're really fresh aren't you.  Access player menus by pressing the
-    `TAB` key.
   localizedText:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -274,7 +265,6 @@ MonoBehaviour:
   dialogueName: Demo-Forest_Estelle
   speakerType: 1
   characterProperties: {fileID: 0}
-  speakerName: Estelle
   localizedSpeakerName:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -284,8 +274,6 @@ MonoBehaviour:
     m_FallbackState: 0
     m_WaitForCompletion: 0
     m_LocalVariables: []
-  text: Make sure you equip it in the Outfit menu!  It won't do any good just sitting
-    in your knapsack unequipped!
   localizedText:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e

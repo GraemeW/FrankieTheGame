@@ -15,7 +15,6 @@ MonoBehaviour:
   dialogueName: ApartmentInterior-LucyFirstWelcomeHome
   speakerType: 1
   characterProperties: {fileID: 11400000, guid: f40bbc80ce4dd604292488bdf07bc4e1, type: 2}
-  speakerName: Lucy
   localizedSpeakerName:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -25,7 +24,6 @@ MonoBehaviour:
     m_FallbackState: 0
     m_WaitForCompletion: 0
     m_LocalVariables: []
-  text: What are they called again?  Vwoomba?
   localizedText:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -72,7 +70,6 @@ MonoBehaviour:
   dialogueName: ApartmentInterior-LucyFirstWelcomeHome
   speakerType: 1
   characterProperties: {fileID: 11400000, guid: f40bbc80ce4dd604292488bdf07bc4e1, type: 2}
-  speakerName: Lucy
   localizedSpeakerName:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -82,7 +79,6 @@ MonoBehaviour:
     m_FallbackState: 0
     m_WaitForCompletion: 0
     m_LocalVariables: []
-  text: Good morning, sleepyhead!  Are you going to head into town today?
   localizedText:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -133,7 +129,6 @@ MonoBehaviour:
   dialogueName: ApartmentInterior-LucyFirstWelcomeHome
   speakerType: 1
   characterProperties: {fileID: 11400000, guid: f40bbc80ce4dd604292488bdf07bc4e1, type: 2}
-  speakerName: Lucy
   localizedSpeakerName:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -143,7 +138,6 @@ MonoBehaviour:
     m_FallbackState: 0
     m_WaitForCompletion: 0
     m_LocalVariables: []
-  text: Root Node to Skip
   localizedText:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -224,7 +218,6 @@ MonoBehaviour:
   dialogueName: ApartmentInterior-LucyFirstWelcomeHome
   speakerType: 1
   characterProperties: {fileID: 11400000, guid: f40bbc80ce4dd604292488bdf07bc4e1, type: 2}
-  speakerName: Lucy
   localizedSpeakerName:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -234,7 +227,6 @@ MonoBehaviour:
     m_FallbackState: 0
     m_WaitForCompletion: 0
     m_LocalVariables: []
-  text: Why don't you have a bite to eat and head to bed?
   localizedText:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -281,7 +273,6 @@ MonoBehaviour:
   dialogueName: ApartmentInterior-LucyFirstWelcomeHome
   speakerType: 1
   characterProperties: {fileID: 11400000, guid: f40bbc80ce4dd604292488bdf07bc4e1, type: 2}
-  speakerName: Lucy
   localizedSpeakerName:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -291,7 +282,6 @@ MonoBehaviour:
     m_FallbackState: 0
     m_WaitForCompletion: 0
     m_LocalVariables: []
-  text: '*Smooch* I''m so happy to see you.  You must have had a long day.'
   localizedText:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -342,7 +332,6 @@ MonoBehaviour:
   dialogueName: ApartmentInterior-LucyFirstWelcomeHome
   speakerType: 1
   characterProperties: {fileID: 11400000, guid: f40bbc80ce4dd604292488bdf07bc4e1, type: 2}
-  speakerName: Lucy
   localizedSpeakerName:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -352,8 +341,6 @@ MonoBehaviour:
     m_FallbackState: 0
     m_WaitForCompletion: 0
     m_LocalVariables: []
-  text: I heard a cute new coffee shop opened up in town.  We should check it out
-    sometime!
   localizedText:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -404,7 +391,6 @@ MonoBehaviour:
   dialogueName: ApartmentInterior-LucyFirstWelcomeHome
   speakerType: 1
   characterProperties: {fileID: 11400000, guid: f40bbc80ce4dd604292488bdf07bc4e1, type: 2}
-  speakerName: Lucy
   localizedSpeakerName:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -414,7 +400,6 @@ MonoBehaviour:
     m_FallbackState: 0
     m_WaitForCompletion: 0
     m_LocalVariables: []
-  text: I'm thinking of getting one of those little robots to clean the house.
   localizedText:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -465,7 +450,6 @@ MonoBehaviour:
   dialogueName: ApartmentInterior-LucyFirstWelcomeHome
   speakerType: 1
   characterProperties: {fileID: 11400000, guid: f40bbc80ce4dd604292488bdf07bc4e1, type: 2}
-  speakerName: Lucy
   localizedSpeakerName:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -475,8 +459,6 @@ MonoBehaviour:
     m_FallbackState: 0
     m_WaitForCompletion: 0
     m_LocalVariables: []
-  text: Make sure you watch out for wild animals.  They've been straying closer to
-    the paths lately.  Scary!
   localizedText:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e

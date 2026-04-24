@@ -15,7 +15,6 @@ MonoBehaviour:
   dialogueName: OldOfficeDemo-CleverOfficeWorker
   speakerType: 0
   characterProperties: {fileID: 11400000, guid: b10029ac6f311c441a516db78ca01efd, type: 2}
-  speakerName: Tilly
   localizedSpeakerName:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -25,7 +24,6 @@ MonoBehaviour:
     m_FallbackState: 0
     m_WaitForCompletion: 0
     m_LocalVariables: []
-  text: Nah.
   localizedText:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -72,7 +70,6 @@ MonoBehaviour:
   dialogueName: OldOfficeDemo-CleverOfficeWorker
   speakerType: 1
   characterProperties: {fileID: 11400000, guid: 90d76accd2678ec4a831bc862fdccb8c, type: 2}
-  speakerName: Clever Office Worker
   localizedSpeakerName:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -82,7 +79,6 @@ MonoBehaviour:
     m_FallbackState: 0
     m_WaitForCompletion: 0
     m_LocalVariables: []
-  text: Question is, think you can take me?
   localizedText:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -133,7 +129,6 @@ MonoBehaviour:
   dialogueName: OldOfficeDemo-CleverOfficeWorker
   speakerType: 0
   characterProperties: {fileID: 11400000, guid: b10029ac6f311c441a516db78ca01efd, type: 2}
-  speakerName: Tilly
   localizedSpeakerName:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -143,7 +138,6 @@ MonoBehaviour:
     m_FallbackState: 0
     m_WaitForCompletion: 0
     m_LocalVariables: []
-  text: Yes?
   localizedText:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -223,7 +217,6 @@ MonoBehaviour:
   dialogueName: OldOfficeDemo-CleverOfficeWorker
   speakerType: 0
   characterProperties: {fileID: 11400000, guid: b10029ac6f311c441a516db78ca01efd, type: 2}
-  speakerName: Tilly
   localizedSpeakerName:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -233,7 +226,6 @@ MonoBehaviour:
     m_FallbackState: 0
     m_WaitForCompletion: 0
     m_LocalVariables: []
-  text: Nope.
   localizedText:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -280,7 +272,6 @@ MonoBehaviour:
   dialogueName: OldOfficeDemo-CleverOfficeWorker
   speakerType: 1
   characterProperties: {fileID: 11400000, guid: 90d76accd2678ec4a831bc862fdccb8c, type: 2}
-  speakerName: Clever Office Worker
   localizedSpeakerName:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -290,7 +281,6 @@ MonoBehaviour:
     m_FallbackState: 0
     m_WaitForCompletion: 0
     m_LocalVariables: []
-  text: There's a PortaBank (TM) just outside this very office building.
   localizedText:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -337,7 +327,6 @@ MonoBehaviour:
   dialogueName: OldOfficeDemo-CleverOfficeWorker
   speakerType: 1
   characterProperties: {fileID: 11400000, guid: 90d76accd2678ec4a831bc862fdccb8c, type: 2}
-  speakerName: Clever Office Worker
   localizedSpeakerName:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -347,8 +336,6 @@ MonoBehaviour:
     m_FallbackState: 0
     m_WaitForCompletion: 0
     m_LocalVariables: []
-  text: After you've adventured a little, check your bank account.  You may be surprised
-    to see your stocks have paid some dividends.
   localizedText:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -397,7 +384,6 @@ MonoBehaviour:
   dialogueName: OldOfficeDemo-CleverOfficeWorker
   speakerType: 1
   characterProperties: {fileID: 11400000, guid: 90d76accd2678ec4a831bc862fdccb8c, type: 2}
-  speakerName: Clever Office Worker
   localizedSpeakerName:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -407,7 +393,6 @@ MonoBehaviour:
     m_FallbackState: 0
     m_WaitForCompletion: 0
     m_LocalVariables: []
-  text: Root node skipped
   localizedText:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -456,7 +441,6 @@ MonoBehaviour:
   dialogueName: OldOfficeDemo-CleverOfficeWorker
   speakerType: 1
   characterProperties: {fileID: 11400000, guid: 90d76accd2678ec4a831bc862fdccb8c, type: 2}
-  speakerName: Clever Office Worker
   localizedSpeakerName:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -466,7 +450,6 @@ MonoBehaviour:
     m_FallbackState: 0
     m_WaitForCompletion: 0
     m_LocalVariables: []
-  text: Beat me and I'll tell you a secret.  *hue hue hue hue hue hue hue*
   localizedText:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -517,7 +500,6 @@ MonoBehaviour:
   dialogueName: OldOfficeDemo-CleverOfficeWorker
   speakerType: 1
   characterProperties: {fileID: 11400000, guid: 90d76accd2678ec4a831bc862fdccb8c, type: 2}
-  speakerName: Clever Office Worker
   localizedSpeakerName:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -527,7 +509,6 @@ MonoBehaviour:
     m_FallbackState: 0
     m_WaitForCompletion: 0
     m_LocalVariables: []
-  text: Hngh.  You really got me.  Alright, here's my secret.
   localizedText:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -578,7 +559,6 @@ MonoBehaviour:
   dialogueName: OldOfficeDemo-CleverOfficeWorker
   speakerType: 0
   characterProperties: {fileID: 11400000, guid: b10029ac6f311c441a516db78ca01efd, type: 2}
-  speakerName: Tilly
   localizedSpeakerName:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -588,7 +568,6 @@ MonoBehaviour:
     m_FallbackState: 0
     m_WaitForCompletion: 0
     m_LocalVariables: []
-  text: Definitely not.
   localizedText:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e

@@ -15,7 +15,6 @@ MonoBehaviour:
   dialogueName: OfficeExterior-Steve5000
   speakerType: 1
   characterProperties: {fileID: 11400000, guid: ec6ec75df6f1e3e4ea3cf0953f1b4eab, type: 2}
-  speakerName: Steve5000
   localizedSpeakerName:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -25,7 +24,6 @@ MonoBehaviour:
     m_FallbackState: 0
     m_WaitForCompletion: 0
     m_LocalVariables: []
-  text: Let's brush up your combat skills, I don't want you to get embarrassed.
   localizedText:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -72,7 +70,6 @@ MonoBehaviour:
   dialogueName: OfficeExterior-Steve5000
   speakerType: 1
   characterProperties: {fileID: 11400000, guid: ec6ec75df6f1e3e4ea3cf0953f1b4eab, type: 2}
-  speakerName: Steve5000
   localizedSpeakerName:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -82,7 +79,6 @@ MonoBehaviour:
     m_FallbackState: 0
     m_WaitForCompletion: 0
     m_LocalVariables: []
-  text: Root Node Skipped
   localizedText:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -131,7 +127,6 @@ MonoBehaviour:
   dialogueName: OfficeExterior-Steve5000
   speakerType: 1
   characterProperties: {fileID: 11400000, guid: ec6ec75df6f1e3e4ea3cf0953f1b4eab, type: 2}
-  speakerName: Steve5000
   localizedSpeakerName:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -141,8 +136,6 @@ MonoBehaviour:
     m_FallbackState: 0
     m_WaitForCompletion: 0
     m_LocalVariables: []
-  text: Not sure what you're talkin' about buddy!  Why don't you get in there and
-    show them who's boss?
   localizedText:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -190,7 +183,6 @@ MonoBehaviour:
   dialogueName: OfficeExterior-Steve5000
   speakerType: 1
   characterProperties: {fileID: 11400000, guid: ec6ec75df6f1e3e4ea3cf0953f1b4eab, type: 2}
-  speakerName: Steve5000
   localizedSpeakerName:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -200,8 +192,6 @@ MonoBehaviour:
     m_FallbackState: 0
     m_WaitForCompletion: 0
     m_LocalVariables: []
-  text: Hey, look -- before you go in there, you should know -- the interns have
-    been acting really weird.
   localizedText:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -250,7 +240,6 @@ MonoBehaviour:
   dialogueName: OfficeExterior-Steve5000
   speakerType: 0
   characterProperties: {fileID: 11400000, guid: b50f84a2f36107a44825b11881f88adf, type: 2}
-  speakerName: Frankie
   localizedSpeakerName:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -260,7 +249,6 @@ MonoBehaviour:
     m_FallbackState: 0
     m_WaitForCompletion: 0
     m_LocalVariables: []
-  text: Uh . . . what the hell was that?  What ARE you?
   localizedText:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -341,7 +329,6 @@ MonoBehaviour:
   dialogueName: OfficeExterior-Steve5000
   speakerType: 1
   characterProperties: {fileID: 11400000, guid: ec6ec75df6f1e3e4ea3cf0953f1b4eab, type: 2}
-  speakerName: Steve5000
   localizedSpeakerName:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -351,7 +338,6 @@ MonoBehaviour:
     m_FallbackState: 0
     m_WaitForCompletion: 0
     m_LocalVariables: []
-  text: Oh, hey Francis . . . err, Frankie.
   localizedText:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -402,7 +388,6 @@ MonoBehaviour:
   dialogueName: OfficeExterior-Steve5000
   speakerType: 1
   characterProperties: {fileID: 11400000, guid: ec6ec75df6f1e3e4ea3cf0953f1b4eab, type: 2}
-  speakerName: Steve5000
   localizedSpeakerName:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -412,8 +397,6 @@ MonoBehaviour:
     m_FallbackState: 0
     m_WaitForCompletion: 0
     m_LocalVariables: []
-  text: Did you forget your key card again?  You can borrow mine, I'm just on my
-    way out.
   localizedText:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e

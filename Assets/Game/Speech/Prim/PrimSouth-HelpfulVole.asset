@@ -15,7 +15,6 @@ MonoBehaviour:
   dialogueName: PrimSouth-HelpfulVole
   speakerType: 1
   characterProperties: {fileID: 11400000, guid: c1f59cbc742f6294d98c52ee45fb4fd6, type: 2}
-  speakerName: Helpful Vole
   localizedSpeakerName:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -25,7 +24,6 @@ MonoBehaviour:
     m_FallbackState: 0
     m_WaitForCompletion: 0
     m_LocalVariables: []
-  text: Have you ever been in combat and noticed you lost access to certain skills?
   localizedText:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -74,7 +72,6 @@ MonoBehaviour:
   dialogueName: PrimSouth-HelpfulVole
   speakerType: 1
   characterProperties: {fileID: 11400000, guid: c1f59cbc742f6294d98c52ee45fb4fd6, type: 2}
-  speakerName: Helpful Vole
   localizedSpeakerName:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -84,8 +81,6 @@ MonoBehaviour:
     m_FallbackState: 0
     m_WaitForCompletion: 0
     m_LocalVariables: []
-  text: That's because every skill is tied to a STAT, and requires a certain STAT
-    VALUE to use.
   localizedText:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -134,7 +129,6 @@ MonoBehaviour:
   dialogueName: PrimSouth-HelpfulVole
   speakerType: 1
   characterProperties: {fileID: 11400000, guid: c1f59cbc742f6294d98c52ee45fb4fd6, type: 2}
-  speakerName: Helpful Vole
   localizedSpeakerName:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -144,7 +138,6 @@ MonoBehaviour:
     m_FallbackState: 0
     m_WaitForCompletion: 0
     m_LocalVariables: []
-  text: Wait!  Don't hurt me, I'm not your average Vole!
   localizedText:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -222,7 +215,6 @@ MonoBehaviour:
   dialogueName: PrimSouth-HelpfulVole
   speakerType: 1
   characterProperties: {fileID: 11400000, guid: c1f59cbc742f6294d98c52ee45fb4fd6, type: 2}
-  speakerName: Helpful Vole
   localizedSpeakerName:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -232,8 +224,6 @@ MonoBehaviour:
     m_FallbackState: 0
     m_WaitForCompletion: 0
     m_LocalVariables: []
-  text: Keep an eye on the STATUS EFFECTS being applied to your character.  Use a
-    RESTORATIVE SKILL or ITEM if you need.
   localizedText:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -282,7 +272,6 @@ MonoBehaviour:
   dialogueName: PrimSouth-HelpfulVole
   speakerType: 1
   characterProperties: {fileID: 11400000, guid: c1f59cbc742f6294d98c52ee45fb4fd6, type: 2}
-  speakerName: Helpful Vole
   localizedSpeakerName:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -292,8 +281,6 @@ MonoBehaviour:
     m_FallbackState: 0
     m_WaitForCompletion: 0
     m_LocalVariables: []
-  text: I hope this makes sense -- I learned all this from the Official Frankie Game
-    Manual (TM).  You should check it out!
   localizedText:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -341,7 +328,6 @@ MonoBehaviour:
   dialogueName: PrimSouth-HelpfulVole
   speakerType: 1
   characterProperties: {fileID: 11400000, guid: c1f59cbc742f6294d98c52ee45fb4fd6, type: 2}
-  speakerName: Helpful Vole
   localizedSpeakerName:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -351,8 +337,6 @@ MonoBehaviour:
     m_FallbackState: 0
     m_WaitForCompletion: 0
     m_LocalVariables: []
-  text: If your enemy lowers the STAT linked to your skill, it can lock that skill
-    out until your STAT recovers!
   localizedText:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -401,7 +385,6 @@ MonoBehaviour:
   dialogueName: PrimSouth-HelpfulVole
   speakerType: 1
   characterProperties: {fileID: 11400000, guid: c1f59cbc742f6294d98c52ee45fb4fd6, type: 2}
-  speakerName: Helpful Vole
   localizedSpeakerName:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -411,7 +394,6 @@ MonoBehaviour:
     m_FallbackState: 0
     m_WaitForCompletion: 0
     m_LocalVariables: []
-  text: It's time for a new lesson!
   localizedText:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -459,7 +441,6 @@ MonoBehaviour:
   dialogueName: PrimSouth-HelpfulVole
   speakerType: 1
   characterProperties: {fileID: 11400000, guid: c1f59cbc742f6294d98c52ee45fb4fd6, type: 2}
-  speakerName: Helpful Vole
   localizedSpeakerName:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -469,7 +450,6 @@ MonoBehaviour:
     m_FallbackState: 0
     m_WaitForCompletion: 0
     m_LocalVariables: []
-  text: I may not look like much, but I'm really a COMBAT EXPERT
   localizedText:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e

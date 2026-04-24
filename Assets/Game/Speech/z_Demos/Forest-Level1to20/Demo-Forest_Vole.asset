@@ -15,7 +15,6 @@ MonoBehaviour:
   dialogueName: Demo-Forest_Vole
   speakerType: 1
   characterProperties: {fileID: 0}
-  speakerName: Helpful Vole
   localizedSpeakerName:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -25,8 +24,6 @@ MonoBehaviour:
     m_FallbackState: 0
     m_WaitForCompletion: 0
     m_LocalVariables: []
-  text: In this demo you will face enemies of varying difficulty in order to gauge
-    your combat prowess
   localizedText:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -75,7 +72,6 @@ MonoBehaviour:
   dialogueName: Demo-Forest_Vole
   speakerType: 0
   characterProperties: {fileID: 11400000, guid: b50f84a2f36107a44825b11881f88adf, type: 2}
-  speakerName: Frankie
   localizedSpeakerName:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -85,7 +81,6 @@ MonoBehaviour:
     m_FallbackState: 0
     m_WaitForCompletion: 0
     m_LocalVariables: []
-  text: Yes
   localizedText:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -133,7 +128,6 @@ MonoBehaviour:
   dialogueName: Demo-Forest_Vole
   speakerType: 0
   characterProperties: {fileID: 11400000, guid: b50f84a2f36107a44825b11881f88adf, type: 2}
-  speakerName: Frankie
   localizedSpeakerName:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -143,7 +137,6 @@ MonoBehaviour:
     m_FallbackState: 0
     m_WaitForCompletion: 0
     m_LocalVariables: []
-  text: Uh huh.
   localizedText:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -191,7 +184,6 @@ MonoBehaviour:
   dialogueName: Demo-Forest_Vole
   speakerType: 1
   characterProperties: {fileID: 0}
-  speakerName: Helpful Vole
   localizedSpeakerName:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -201,8 +193,6 @@ MonoBehaviour:
     m_FallbackState: 0
     m_WaitForCompletion: 0
     m_LocalVariables: []
-  text: Yes, well, be warned!  Combat does not pause in Frankie!  Once an enemy can
-    attack, they will!
   localizedText:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -251,7 +241,6 @@ MonoBehaviour:
   dialogueName: Demo-Forest_Vole
   speakerType: 0
   characterProperties: {fileID: 11400000, guid: b50f84a2f36107a44825b11881f88adf, type: 2}
-  speakerName: Frankie
   localizedSpeakerName:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -261,7 +250,6 @@ MonoBehaviour:
     m_FallbackState: 0
     m_WaitForCompletion: 0
     m_LocalVariables: []
-  text: No
   localizedText:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -340,7 +328,6 @@ MonoBehaviour:
   dialogueName: Demo-Forest_Vole
   speakerType: 1
   characterProperties: {fileID: 0}
-  speakerName: Helpful Vole
   localizedSpeakerName:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -350,7 +337,6 @@ MonoBehaviour:
     m_FallbackState: 0
     m_WaitForCompletion: 0
     m_LocalVariables: []
-  text: Hi there!  I'm not your enemy, merely a vole who wants to give you some advice!
   localizedText:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -399,7 +385,6 @@ MonoBehaviour:
   dialogueName: Demo-Forest_Vole
   speakerType: 1
   characterProperties: {fileID: 0}
-  speakerName: Helpful Vole
   localizedSpeakerName:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -409,7 +394,6 @@ MonoBehaviour:
     m_FallbackState: 0
     m_WaitForCompletion: 0
     m_LocalVariables: []
-  text: OK!  That's it.  That's all, did you need me to repeat these instructions?
   localizedText:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -458,7 +442,6 @@ MonoBehaviour:
   dialogueName: Demo-Forest_Vole
   speakerType: 0
   characterProperties: {fileID: 11400000, guid: b50f84a2f36107a44825b11881f88adf, type: 2}
-  speakerName: Frankie
   localizedSpeakerName:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -468,7 +451,6 @@ MonoBehaviour:
     m_FallbackState: 0
     m_WaitForCompletion: 0
     m_LocalVariables: []
-  text: Mmmm.
   localizedText:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -516,7 +498,6 @@ MonoBehaviour:
   dialogueName: Demo-Forest_Vole
   speakerType: 1
   characterProperties: {fileID: 0}
-  speakerName: Helpful Vole
   localizedSpeakerName:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -526,9 +507,6 @@ MonoBehaviour:
     m_FallbackState: 0
     m_WaitForCompletion: 0
     m_LocalVariables: []
-  text: To defeat your enemy, quickly select a skill using the directional UP-DOWN-LEFT-RIGHT
-    or W-A-S-D keys, and lock it in using 'E'.  Then simply select your target and
-    press 'E' again!
   localizedText:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -578,7 +556,6 @@ MonoBehaviour:
   dialogueName: Demo-Forest_Vole
   speakerType: 1
   characterProperties: {fileID: 0}
-  speakerName: Helpful Vole
   localizedSpeakerName:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -588,8 +565,6 @@ MonoBehaviour:
     m_FallbackState: 0
     m_WaitForCompletion: 0
     m_LocalVariables: []
-  text: As you gain new skills, you'll need to traverse deeper into your skill tree
-    using the same directional keys.  Let's cross that bridge when we get there though!
   localizedText:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e

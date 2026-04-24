@@ -15,7 +15,6 @@ MonoBehaviour:
   dialogueName: OldOfficeDemo-SkilledOfficeWorker
   speakerType: 1
   characterProperties: {fileID: 11400000, guid: df2799c36af32ce4d8fd6788f660323d, type: 2}
-  speakerName: Skilled Office Worker
   localizedSpeakerName:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -25,7 +24,6 @@ MonoBehaviour:
     m_FallbackState: 0
     m_WaitForCompletion: 0
     m_LocalVariables: []
-  text: . . . Just kidding.
   localizedText:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -74,7 +72,6 @@ MonoBehaviour:
   dialogueName: OldOfficeDemo-SkilledOfficeWorker
   speakerType: 1
   characterProperties: {fileID: 11400000, guid: df2799c36af32ce4d8fd6788f660323d, type: 2}
-  speakerName: Skilled Office Worker
   localizedSpeakerName:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -84,7 +81,6 @@ MonoBehaviour:
     m_FallbackState: 0
     m_WaitForCompletion: 0
     m_LocalVariables: []
-  text: 'Didja fart?  . . . '
   localizedText:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -132,7 +128,6 @@ MonoBehaviour:
   dialogueName: OldOfficeDemo-SkilledOfficeWorker
   speakerType: 1
   characterProperties: {fileID: 11400000, guid: df2799c36af32ce4d8fd6788f660323d, type: 2}
-  speakerName: Skilled Office Worker
   localizedSpeakerName:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -142,7 +137,6 @@ MonoBehaviour:
     m_FallbackState: 0
     m_WaitForCompletion: 0
     m_LocalVariables: []
-  text: '*HYUK* Got some Hay on ya?  Well done.'
   localizedText:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -221,7 +215,6 @@ MonoBehaviour:
   dialogueName: OldOfficeDemo-SkilledOfficeWorker
   speakerType: 1
   characterProperties: {fileID: 11400000, guid: df2799c36af32ce4d8fd6788f660323d, type: 2}
-  speakerName: Skilled Office Worker
   localizedSpeakerName:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -231,8 +224,6 @@ MonoBehaviour:
     m_FallbackState: 0
     m_WaitForCompletion: 0
     m_LocalVariables: []
-  text: '*SNORT* By the way, Horse is in a really bad mood *HYUK*.  He probably won''t
-    even talk to you if you aren''t carrying Hay.'
   localizedText:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -284,7 +275,6 @@ MonoBehaviour:
   dialogueName: OldOfficeDemo-SkilledOfficeWorker
   speakerType: 1
   characterProperties: {fileID: 11400000, guid: df2799c36af32ce4d8fd6788f660323d, type: 2}
-  speakerName: Skilled Office Worker
   localizedSpeakerName:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -294,7 +284,6 @@ MonoBehaviour:
     m_FallbackState: 0
     m_WaitForCompletion: 0
     m_LocalVariables: []
-  text: Spankety spankety.  *SNORT*  Now get.
   localizedText:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -341,7 +330,6 @@ MonoBehaviour:
   dialogueName: OldOfficeDemo-SkilledOfficeWorker
   speakerType: 1
   characterProperties: {fileID: 11400000, guid: df2799c36af32ce4d8fd6788f660323d, type: 2}
-  speakerName: Skilled Office Worker
   localizedSpeakerName:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
@@ -351,7 +339,6 @@ MonoBehaviour:
     m_FallbackState: 0
     m_WaitForCompletion: 0
     m_LocalVariables: []
-  text: . . .
   localizedText:
     m_TableReference:
       m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
