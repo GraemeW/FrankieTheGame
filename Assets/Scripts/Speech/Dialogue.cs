@@ -116,7 +116,7 @@ namespace Frankie.Speech
 
             int childDepth = parentNode.GetNodeDepth() + 1;
             int checkBreadth = -1;
-            foreach (DialogueNode checkNode in GetAllNodes().Where(checkNode => checkNode.GetNodeDepth() == childDepth))
+            foreach (DialogueNode checkNode in dialogueNodes.Where(checkNode => checkNode.GetNodeDepth() == childDepth))
             {
                 checkBreadth = Mathf.Max(checkBreadth, checkNode.GetNodeBreadth());
             }
@@ -251,7 +251,7 @@ namespace Frankie.Speech
             bool updateDialogueName = cachedDialogueName != name;
             if (updateDialogueName) { cachedDialogueName = name; }
             
-            foreach (DialogueNode dialogueNode in GetAllNodes())
+            foreach (DialogueNode dialogueNode in dialogueNodes)
             {
                 if (dialogueNode == null) { continue; }
                 if (updateDialogueName) { dialogueNode.SetDialogueName(name); }
@@ -272,7 +272,10 @@ namespace Frankie.Speech
         
         public void HandleDeletion()
         {
-            throw new System.NotImplementedException();
+            foreach (DialogueNode dialogueNode in dialogueNodes)
+            {
+                dialogueNode.DeleteLocalizationEntries();
+            }
         }
         #endregion
     }

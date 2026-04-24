@@ -9,10 +9,10 @@ namespace Frankie.Utils.Editor
         static AssetDeleteResult OnWillDeleteAsset(string assetPath, RemoveAssetOptions options)
         {
             var asset = AssetDatabase.LoadAssetAtPath<Object>(assetPath);
-            if (asset != null && asset is ILocalizable localizable)
+            if (asset is ILocalizable localizable)
             {
-                Debug.Log($"ScriptableObject at {assetPath} is about to be deleted!");
-                // TODO:  Special handling here
+                Debug.Log($"ScriptableObject at {assetPath} is about to be deleted.  Deleting localization entries.");
+                localizable.HandleDeletion();
             }
             
             // Pass back to Unity to continue deletion

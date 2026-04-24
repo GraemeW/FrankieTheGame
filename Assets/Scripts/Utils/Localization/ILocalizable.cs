@@ -12,10 +12,11 @@ namespace Frankie.Utils
         // 1 - For Scriptable Objects, ILocalizable should be placed on the parent-most object
         //     The LocalizationDeletionHandler does not trigger for scriptable objects that are childed to other scriptable objects!
         // 2 - For MonoBehaviours, the following must be manually configured:
-        //     A) Add [ExecuteInEditMode] attribute to the class
-        //     B) Include `ILocalizable.TriggerOnDestroy(this)` to the OnDestroy() method
+        //     A. Add [ExecuteInEditMode] attribute to the class
+        //     B. Include `ILocalizable.TriggerOnDestroy(this)` to the OnDestroy() method
+        // Note that in the case of MonoBehaviours, cleanup for prefabs is handled by LocalizationDeletionHandler, while cleanup for game objects in scenes is handled by OnDestroy() 
         //
-        // HandleDeletion() must be implemented to clean up any localized entries in the 
+        // HandleDeletion() must be implemented to clean up any localized entries in the associated StringTables 
         // ---------------------CRITICAL NOTES ON CONFIGURATION---------------------
         
         #region StandardPropertiesAndMethods
