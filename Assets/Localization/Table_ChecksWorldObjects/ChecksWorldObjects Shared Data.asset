@@ -14,15 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Unity.Localization::UnityEngine.Localization.Tables.SharedTableData
   m_TableCollectionName: ChecksWorldObjects
   m_TableCollectionNameGuidString: e01518a4d82d5485e9b0e7f466ecf01d
-  m_Entries:
-  - m_Id: 3911237531328512
-    m_Key: asdf
-    m_Metadata:
-      m_Items: []
-  - m_Id: 3921082225516544
-    m_Key: ggg
-    m_Metadata:
-      m_Items: []
+  m_Entries: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:

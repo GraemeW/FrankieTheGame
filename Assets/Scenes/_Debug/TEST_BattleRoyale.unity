@@ -22848,51 +22848,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   hpToAdjust: 0
   apToAdjust: 0
---- !u!1 &1431634415
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1431634417}
-  - component: {fileID: 1431634416}
-  m_Layer: 0
-  m_Name: Temp
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &1431634416
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1431634415}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6b1df360098443a2b26346b10bfae910, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Frankie.Stats.TempRestrictedStatTest
-  skillStat: 5
---- !u!4 &1431634417
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1431634415}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -4.52638, y: -2.00373, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &1432906762 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6564381309038757641, guid: 71d598481a579c2448140b70660e15c0, type: 3}
@@ -34225,7 +34180,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5911111898172062454, guid: 39d8967ccafbd0445919bceb2c78a8b4, type: 3}
       propertyPath: localizedCheckMessage.m_TableEntryReference.m_KeyId
-      value: 3911237531328512
+      value: 3983777184342016
       objectReference: {fileID: 0}
     - target: {fileID: 5911111898172062454, guid: 39d8967ccafbd0445919bceb2c78a8b4, type: 3}
       propertyPath: localizedCheckMessage.m_TableReference.m_TableCollectionName
@@ -50794,5 +50749,4 @@ SceneRoots:
   - {fileID: 1731055645}
   - {fileID: 1659071564}
   - {fileID: 1040580543}
-  - {fileID: 1431634417}
   - {fileID: 1535195236}

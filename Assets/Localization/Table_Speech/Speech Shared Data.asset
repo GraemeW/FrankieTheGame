@@ -2743,6 +2743,14 @@ MonoBehaviour:
     m_Key: OldOfficeDemo-BroOfficeWorker.5.0.Text
     m_Metadata:
       m_Items: []
+  - m_Id: 3974678958825472
+    m_Key: Test456.0.0.Speaker
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3974679680245760
+    m_Key: Test456.0.0.Text
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:
