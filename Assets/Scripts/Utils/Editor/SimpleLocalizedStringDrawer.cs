@@ -4,99 +4,307 @@ using UnityEditor.Localization;
 using UnityEngine;
 using UnityEngine.Localization;
 using UnityEngine.Localization.Tables;
+using UnityEngine.UIElements;
 
 namespace Frankie.Utils.Editor
 {
     [CustomPropertyDrawer(typeof(SimpleLocalizedStringAttribute))]
     public class SimpleLocalizedStringDrawer : PropertyDrawer
     {
-        // Editor Properties
+        #region UIProperties
         private const string _keyLabel = "Key";
         private const string _textLabel = "Content";
-        private const float _rowHeight  = 20f;
-        private const float _rowSpacing = 2f;
-        private const float _labelWidth = 56f;
-
-        #region UnityMethods
-        public override float GetPropertyHeight(SerializedProperty property, GUIContent label) => (_rowHeight + _rowSpacing) * 3 + _rowSpacing;
+        private const string _newKeyButtonLabel = "Make New Key : StringTable Entry";
+        private const string _lockLabel = "🔒";
+        private const string _unlockLabel = "🔓";
+        private const string _lockTooltip = "Unlock to allow editing the localization key.";
         
-        public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
+        private const int _labelFontSize = 12;
+        private const int _headerFontSize = 13;
+        private static readonly Color _errorTextColour = new(0.9f, 0.3f, 0.3f);
+        private static readonly Color _disabledTextColour = new(0.5f, 0.5f, 0.5f);
+        
+        private const float _labelWidth = 56f;
+        private const float _buttonWidth = 220f;
+        private const float _rowHeight = 20f;
+        private const float _lockToggleHeight = 20f;
+        private const float _lockToggleLabelWidth = 20f;
+        private const int _rowSpacingTop  = 2;
+        private const int _rowSpacingBottom  = 2;
+        private const int _sectionPaddingLeft = 4;
+        #endregion
+        
+        #region UnityMethods
+        private bool isKeyUnlocked;
+
+        public override VisualElement CreatePropertyGUI(SerializedProperty property)
         {
             var simpleLocalizedStringAttribute = (SimpleLocalizedStringAttribute)attribute;
             LocalizationTableType localizationTableType = simpleLocalizedStringAttribute.localizationTableType;
             bool isKeyEditable = simpleLocalizedStringAttribute.isKeyEditable;
+            isKeyUnlocked = false;
             
-            if (property.boxedValue is not LocalizedString localizedString)
-            {
-                EditorGUI.HelpBox(position, "Property is not a LocalizedString.", MessageType.Error);
-                return;
-            }
-            
-            if (!LocalizationTool.GetOrMakeTableCollection(localizationTableType, out StringTableCollection _))
-            {
-                EditorGUI.HelpBox(position, $"Could not find or create StringTableCollection of type: '{simpleLocalizedStringAttribute.localizationTableType}'.", MessageType.Error);
-                return;
-            }
+            if (property.boxedValue is not LocalizedString localizedString) { return MakeErrorBox("Property is not a LocalizedString."); }
+            if (!LocalizationTool.GetOrMakeTableCollection(localizationTableType, out StringTableCollection _)) { return MakeErrorBox($"Could not find or create StringTableCollection of type: '{localizationTableType}'."); }
 
-            EditorGUI.BeginProperty(position, label, property);
-            
-            var headerRow = new Rect(position.x, position.y + _rowSpacing, position.width, _rowHeight);
-            EditorGUI.LabelField(headerRow, label, EditorStyles.boldLabel);
-            
-            var keyRow = new Rect(position.x, headerRow.yMax + _rowSpacing, position.width, _rowHeight);
-            DrawKeyRow(keyRow, property, localizedString, localizationTableType, isKeyEditable);
-            
-            var textRow = new Rect(position.x, keyRow.yMax + _rowSpacing, position.width, _rowHeight);
-            DrawTextRow(textRow, localizedString, localizationTableType);
 
-            EditorGUI.EndProperty();
+            VisualElement root = MakeRoot(property.displayName);
+            (VisualElement keyRow, TextField keyTextField) = BuildKeyRow(localizedString, localizationTableType, isKeyEditable, isKeyUnlocked);
+            root.Add(keyRow);
+            (VisualElement lockToggleRow, Toggle lockToggle) = BuildLockToggleRow(isKeyEditable, isKeyUnlocked); 
+            root.Add(lockToggleRow);
+            (VisualElement contentsRow, TextField contentsTextField) =  BuildContentsRow(localizedString, localizationTableType);
+            root.Add(contentsRow);
+            VisualElement newKeyButtonRow = BuildNewKeyButtonRow(property, localizedString, localizationTableType, isKeyEditable && isKeyUnlocked); 
+            root.Add(newKeyButtonRow);
+            
+            contentsTextField.RegisterValueChangedCallback(changeEvent => OnContentsChanged(localizationTableType, localizedString.TableEntryReference, changeEvent.newValue));
+            keyTextField.RegisterValueChangedCallback(changeEvent => OnKeyChanged(property, localizedString, localizationTableType, changeEvent.newValue, contentsTextField));
+            lockToggle.RegisterValueChangedCallback(evt =>
+            {
+                isKeyUnlocked = evt.newValue;
+                Label toggleLabel = lockToggleRow.Q<Label>();
+                if (toggleLabel != null) { toggleLabel.text = isKeyUnlocked ? _unlockLabel : _lockLabel; }
+                keyTextField.SetEnabled(isKeyEditable && isKeyUnlocked);
+            });
+            
+            return root;
         }
         #endregion
+        
+        #region RowBuilders
+        private static (VisualElement keyRow, TextField keyTextField) BuildKeyRow(LocalizedString localizedString, LocalizationTableType localizationTableType, bool isKeyEditable, bool isKeyUnlocked)
+        {
+            (VisualElement keyRow, TextField keyTextField) = MakeLabeledRow(_keyLabel);
+            
+            string oldKey = LocalizationTool.ResolveKeyName(localizationTableType, localizedString, out TableEntryReference _);
+            keyTextField.value = oldKey;
+            keyTextField.isDelayed = true;
+            keyTextField.SetEnabled(isKeyEditable && isKeyUnlocked);
 
-        #region DrawMethods
-        private static void DrawKeyRow(Rect keyRow, SerializedProperty property, LocalizedString localizedString, LocalizationTableType localizationTableType, bool isKeyEditable)
+            return (keyRow, keyTextField);
+        }
+        
+        private static (VisualElement lockToggleRow, Toggle lockToggle) BuildLockToggleRow(bool isKeyEditable, bool isKeyUnlocked)
+        {
+            VisualElement lockToggleRow = MakeLockToggleBaseRow();
+            Toggle lockToggle = MakeToggle(isKeyUnlocked);
+            lockToggle.SetEnabled(isKeyEditable);
+
+            lockToggleRow.Add(lockToggle);
+            return (lockToggleRow, lockToggle);
+        }
+
+        private static (VisualElement contentsRow, TextField contentsTextField) BuildContentsRow(LocalizedString localizedString, LocalizationTableType localizationTableType)
+        {
+            (VisualElement contentsRow, TextField contentsTextField) = MakeLabeledRow(_textLabel);
+
+            bool isKeyCurrentlyEmpty = IsKeyEmpty(localizedString, localizationTableType, out TableEntryReference tableEntryReference);
+            string oldText = LocalizationTool.GetEnglishEntry(localizationTableType, tableEntryReference);
+            contentsTextField.value = oldText;
+            contentsTextField.isDelayed = true;
+            SetContentsEnabled(contentsTextField, isKeyCurrentlyEmpty);
+
+            return (contentsRow, contentsTextField);
+        }
+
+        private static VisualElement BuildNewKeyButtonRow(SerializedProperty property, LocalizedString localizedString, LocalizationTableType localizationTableType, bool isEnabled)
+        {
+            VisualElement buttonBaseRow = MakeButtonBaseRow();
+            var button = new Button(() => HandleNewKeyButtonClick(property, localizedString, localizationTableType))
+            {
+                text = _newKeyButtonLabel,
+                style = { width = _buttonWidth }
+            };
+            button.SetEnabled(isEnabled);
+
+            buttonBaseRow.Add(button);
+            return buttonBaseRow;
+        }
+
+        private static void SetContentsEnabled(TextField contentsTextField, bool isKeyCurrentlyEmpty)
+        {
+            contentsTextField.SetEnabled(!isKeyCurrentlyEmpty);
+            if (isKeyCurrentlyEmpty) { contentsTextField.style.color = new StyleColor(_disabledTextColour); }
+        }
+        #endregion
+        
+        #region ButtonHandlers
+        private static void HandleNewKeyButtonClick(
+            SerializedProperty property,
+            LocalizedString localizedString,
+            LocalizationTableType localizationTableType)
         {
             if (localizedString == null) { return; }
-            
-            var labelRect = new Rect(keyRow.x, keyRow.y, _labelWidth, keyRow.height);
-            var fieldRect = new Rect(keyRow.x + _labelWidth, keyRow.y, keyRow.width - _labelWidth, keyRow.height);
-            EditorGUI.LabelField(labelRect, _keyLabel);
-            
-            // Use DelayedTextField to only when the user commits (i.e. hits return || focus-loss)
-            string oldKey = LocalizationTool.ResolveKeyName(localizationTableType, localizedString, out TableEntryReference tableEntryReference);
-            
-            using (new EditorGUI.DisabledScope(!isKeyEditable)) // Disable control if key cannot be edited
+
+            LocalizationTool.ResolveKeyName( localizationTableType, localizedString, out TableEntryReference currentTableEntryReference);
+
+            string currentContents = "";
+            if (currentTableEntryReference.ReferenceType != TableEntryReference.Type.Empty)
             {
-                string newKey = EditorGUI.DelayedTextField(fieldRect, oldKey);
-                if (newKey == oldKey || string.IsNullOrWhiteSpace(newKey)) { return; }
-                
-                if (!LocalizationTool.MakeOrRenameKey(localizationTableType, tableEntryReference, newKey)) { return; }
-                if (!LocalizationTool.SafelyUpdateReference(localizationTableType, localizedString, newKey)) { return; }
+                currentContents = LocalizationTool.GetEnglishEntry(localizationTableType, currentTableEntryReference);
             }
+
+            string newKey = System.Guid.NewGuid().ToString();
+            if (!LocalizationTool.AddUpdateEnglishEntry(localizationTableType, newKey, currentContents)) { return; }
+            if (!LocalizationTool.SafelyUpdateReference(localizationTableType, localizedString, newKey)) { return; }
+
             property.boxedValue = localizedString;
             property.serializedObject.ApplyModifiedProperties();
         }
+        #endregion
         
-        private static void DrawTextRow(Rect textRow, LocalizedString localizedString, LocalizationTableType localizationTableType)
+        #region Callbacks
+        private static void OnKeyChanged(SerializedProperty property, LocalizedString localizedString, LocalizationTableType localizationTableType, string newKey, TextField contentsTextField)
         {
-            var labelRect = new Rect(textRow.x, textRow.y, _labelWidth, textRow.height);
-            var fieldRect = new Rect(textRow.x + _labelWidth, textRow.y, textRow.width - _labelWidth, textRow.height);
+            string oldKey = LocalizationTool.ResolveKeyName(localizationTableType, localizedString, out TableEntryReference tableEntryReference);
+            if (newKey == oldKey || string.IsNullOrWhiteSpace(newKey)) { return; }
 
-            EditorGUI.LabelField(labelRect, _textLabel);
+            if (!LocalizationTool.MakeOrRenameKey(localizationTableType, tableEntryReference, newKey)) { return; }
+            if (!LocalizationTool.SafelyUpdateReference(localizationTableType, localizedString, newKey)) { return; }
 
-            string currentKey = LocalizationTool.ResolveKeyName(localizationTableType, localizedString, out TableEntryReference tableEntryReference); 
-            bool keyIsEmpty = tableEntryReference.ReferenceType == TableEntryReference.Type.Empty || string.IsNullOrWhiteSpace(currentKey);
+            property.boxedValue = localizedString;
+            property.serializedObject.ApplyModifiedProperties();
             
-            string oldText = LocalizationTool.GetEnglishEntry(localizationTableType, tableEntryReference);
-            using (new EditorGUI.DisabledScope(keyIsEmpty)) // Disable control if key is invalid
+            bool isKeyCurrentlyEmpty = IsKeyEmpty(localizedString, localizationTableType, out _);
+            SetContentsEnabled(contentsTextField, isKeyCurrentlyEmpty);
+        }
+
+        private static void OnContentsChanged(LocalizationTableType localizationTableType, TableEntryReference tableEntryReference, string newContents)
+        {
+            string oldContents = LocalizationTool.GetEnglishEntry(localizationTableType, tableEntryReference);
+            if (newContents == oldContents) { return; }
+            LocalizationTool.AddUpdateEnglishEntry(localizationTableType, tableEntryReference, newContents);
+        }
+
+        private static bool IsKeyEmpty(LocalizedString localizedString, LocalizationTableType localizationTableType, out TableEntryReference tableEntryReference)
+        {
+            string currentKey = LocalizationTool.ResolveKeyName(localizationTableType, localizedString, out tableEntryReference);
+            return tableEntryReference.ReferenceType == TableEntryReference.Type.Empty || string.IsNullOrWhiteSpace(currentKey);
+        }
+        #endregion
+        
+        #region BaseUIElements
+
+        private static VisualElement MakeRoot(string headerDisplayName)
+        {
+            var root = new VisualElement
             {
-                // Use DelayedTextField to only when the user commits (i.e. hits return || focus-loss)
-                string newText = EditorGUI.DelayedTextField(fieldRect, oldText);
-                if (!keyIsEmpty && newText != oldText)
+                style = { paddingLeft = _sectionPaddingLeft }
+            };
+            
+            var header = new Label(headerDisplayName)
+            {
+                style =
                 {
-                    LocalizationTool.AddUpdateEnglishEntry(localizationTableType, localizedString.TableEntryReference, newText);
+                    unityFontStyleAndWeight = FontStyle.Bold,
+                    fontSize = _headerFontSize,
+                    marginTop = _rowSpacingTop,
+                    marginBottom = _rowSpacingBottom
                 }
-            }
+            };
+            root.Add(header);
+            return root;
+        }
+        
+        private static (VisualElement row, TextField field) MakeLabeledRow(string labelText)
+        {
+            var labeledRow = new VisualElement
+            {
+                style =
+                {
+                    flexDirection = FlexDirection.Row,
+                    marginTop = _rowSpacingTop,
+                    marginBottom = _rowSpacingBottom,
+                    height = _rowHeight
+                }
+            };
+
+            var label = new Label(labelText)
+            {
+                style =
+                {
+                    width = _labelWidth,
+                    fontSize = _labelFontSize,
+                    unityTextAlign = TextAnchor.MiddleLeft
+                }
+            };
+
+            var field = new TextField
+            {
+                isDelayed = true,
+                style = { flexGrow = 1 }
+            };
+
+            labeledRow.Add(label);
+            labeledRow.Add(field);
+            return (labeledRow, field);
+        }
+
+        private static VisualElement MakeButtonBaseRow()
+        {
+            var buttonBaseRow = new VisualElement
+            {
+                style =
+                {
+                    flexDirection = FlexDirection.Row,
+                    marginTop = _rowSpacingTop,
+                    marginBottom = _rowSpacingBottom,
+                    height = _rowHeight
+                }
+            };
+            return buttonBaseRow;
+        }
+
+        private static VisualElement MakeLockToggleBaseRow()
+        {
+            var lockToggleBaseRow = new VisualElement
+            {
+                style =
+                {
+                    flexDirection = FlexDirection.Row,
+                    marginTop = _rowSpacingTop,
+                    marginBottom = _rowSpacingBottom,
+                    height = _rowHeight,
+                }
+            };
+
+            var spacer = new VisualElement
+            {
+                style = { width = _labelWidth }
+            };
+            lockToggleBaseRow.Add(spacer);
+            return lockToggleBaseRow;
+        }
+
+        private static Toggle MakeToggle(bool isUnlocked)
+        {
+            return new Toggle
+            {
+                label = isUnlocked ? _unlockLabel : _lockLabel,
+                labelElement = { 
+                    style =
+                    {
+                        minWidth = _lockToggleLabelWidth,
+                        unityTextAlign = TextAnchor.MiddleLeft
+                    } 
+                },
+                value = isUnlocked,
+                tooltip = _lockTooltip,
+                style =
+                {
+                    height = _lockToggleHeight,
+                }
+            };
+        }
+
+        private static VisualElement MakeErrorBox(string message)
+        {
+            var errorBox = new HelpBox(message, HelpBoxMessageType.Error)
+            {
+                style = { color = new StyleColor(_errorTextColour) }
+            };
+            return errorBox;
         }
         #endregion
     }

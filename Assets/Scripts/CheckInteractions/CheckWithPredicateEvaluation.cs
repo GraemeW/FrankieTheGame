@@ -1,9 +1,11 @@
 using UnityEngine;
 using Frankie.Core;
+using Frankie.Utils;
 
 namespace Frankie.Control
 {
-    public class CheckWithPredicateEvaluation : CheckBase
+    [ExecuteInEditMode]
+    public class CheckWithPredicateEvaluation : CheckBase, ILocalizable
     {
         [SerializeField] private Condition condition;
         [SerializeField] private string defaultPartyLeaderName = "Frankie";
@@ -14,6 +16,16 @@ namespace Frankie.Control
         [SerializeField][Tooltip("Use {0} for party leader")] private string messageForConditionFailed = "{0} failed to check the object.";
         [SerializeField] private protected InteractionEvent checkInteractionConditionFailed;
 
+        public void HandleDeletion()
+        {
+            // TODO:  Implement
+        }
+        
+        protected void OnDestroy()
+        {
+            ILocalizable.TriggerOnDestroy(this);
+        }
+        
         public override bool HandleRaycast(PlayerStateMachine playerStateHandler, PlayerController playerController, PlayerInputType inputType, PlayerInputType matchType)
         {
             if (!IsInRange(playerController)) { return false; }

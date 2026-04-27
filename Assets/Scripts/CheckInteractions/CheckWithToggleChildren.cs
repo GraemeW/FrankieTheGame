@@ -3,10 +3,12 @@ using UnityEngine;
 using Frankie.Core;
 using Frankie.Saving;
 using Frankie.Stats;
+using Frankie.Utils;
 
 namespace Frankie.Control
 {
-    public class CheckWithToggleChildren : CheckBase
+    [ExecuteInEditMode]
+    public class CheckWithToggleChildren : CheckBase, ILocalizable
     {
         // Tunables
         [Header("Hookups")]
@@ -93,6 +95,18 @@ namespace Frankie.Control
         }
         #endregion
 
+        #region LocalizationInterface
+        public void HandleDeletion()
+        {
+            // TODO:  Implement
+        }
+        
+        protected void OnDestroy()
+        {
+            ILocalizable.TriggerOnDestroy(this);
+        }
+        #endregion
+        
         #region SaveInterface
         public override void RestoreState(SaveState state)
         {

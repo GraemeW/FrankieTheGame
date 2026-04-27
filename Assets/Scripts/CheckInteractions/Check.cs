@@ -1,11 +1,13 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Localization;
 using Frankie.Utils;
 
 namespace Frankie.Control
 {
+    [ExecuteInEditMode]
     [RequireComponent(typeof(Collider2D))]
-    public class Check : CheckBase, IRaycastable
+    public class Check : CheckBase, ILocalizable
     {
         // Events
         [Header("Base Check Behaviour")]
@@ -14,10 +16,14 @@ namespace Frankie.Control
         [Header("Message Behaviour")]
         [SerializeField][Tooltip("Otherwise, checks at end of interaction")] private bool checkAtStartOfInteraction = false;
         [SerializeField][Tooltip("Use {0} for party leader")] protected string checkMessage = "{0} has checked this object";
+        [SerializeField][SimpleLocalizedString(LocalizationTableType.ChecksWorldObjects, true)] protected LocalizedString localizedCheckMessage;
         [SerializeField] private string defaultPartyLeaderName = "Frankie";
+        [SerializeField] [SimpleLocalizedString(LocalizationTableType.ChecksWorldObjects, true)] private LocalizedString localizedDefaultPartyLeaderName;
         [Header("Choice Behaviour")]
         [SerializeField] private string messageAccept = "OK!";
+        [SerializeField] [SimpleLocalizedString(LocalizationTableType.ChecksWorldObjects, true)] private LocalizedString localizedMessageAccept;
         [SerializeField] private string messageReject = "Nah";
+        [SerializeField] [SimpleLocalizedString(LocalizationTableType.ChecksWorldObjects, true)] private LocalizedString localizedMessageReject;
         [SerializeField][Tooltip("Optional action on reject choice")] private InteractionEvent rejectInteraction;
 
         #region Interfaces
@@ -30,6 +36,16 @@ namespace Frankie.Control
                 CheckType.ChoiceConfirmation => ChoiceConfirmationCheck(playerStateHandler, playerController, inputType, matchType),
                 _ => SimpleCheck(playerStateHandler, playerController, inputType, matchType),
             };
+        }
+
+        public void HandleDeletion()
+        {
+            // TODO:  Implement
+        }
+        
+        protected void OnDestroy()
+        {
+            ILocalizable.TriggerOnDestroy(this);
         }
         #endregion
 

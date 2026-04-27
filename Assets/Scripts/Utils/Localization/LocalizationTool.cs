@@ -150,6 +150,7 @@ namespace Frankie.Utils
             {
                 case TableEntryReference.Type.Name:
                 {
+                    if (string.IsNullOrWhiteSpace(tableEntryReference)) { return false; }
                     keyID = englishStringTable.SharedData.GetId(tableEntryReference);
                     if (keyID == SharedTableData.EmptyId && !string.IsNullOrWhiteSpace(tableEntryReference.Key))
                     {
