@@ -53,6 +53,8 @@ namespace Frankie.Utils.Editor
             string niceSanitizedPropertyName = property.displayName.Replace("Localized", "");
             isKeyUnlocked = false;
             
+            LocalizationTool.InitializeEnglishLocale();
+            
             if (property.boxedValue is not LocalizedString localizedString) { return MakeErrorBox("Property is not LocalizedString."); }
             if (!LocalizationTool.GetOrMakeTableCollection(localizationTableType, out StringTableCollection _)) { return MakeErrorBox($"Could not find or create StringTableCollection of type: '{localizationTableType}'."); }
 

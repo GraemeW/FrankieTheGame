@@ -11,7 +11,14 @@ namespace Frankie.Utils.Editor
             var asset = AssetDatabase.LoadAssetAtPath<Object>(assetPath);
             if (asset is ILocalizable localizable)
             {
-                Debug.Log($"ScriptableObject at {assetPath} is about to be deleted.  Deleting localization entries.");
+                Debug.Log($"Scriptable Object at {assetPath} is about to be deleted.  Deleting localization entries.");
+                localizable.HandleDeletion();
+            }
+            else if (asset is GameObject gameObject)
+            {
+                if (gameObject == null || !gameObject.TryGetComponent(out localizable)) { return AssetDeleteResult.DidNotDelete; }
+                
+                Debug.Log($"Prefab at {assetPath} is about to be deleted.  Deleting localization entries.");
                 localizable.HandleDeletion();
             }
             

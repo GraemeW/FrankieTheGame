@@ -17,6 +17,7 @@ namespace Frankie.Utils
         // Note that in the case of MonoBehaviours, cleanup for prefabs is handled by LocalizationDeletionHandler, while cleanup for game objects in scenes is handled by OnDestroy() 
         //
         // HandleDeletion() must be implemented to clean up any localized entries in the associated StringTables 
+        // In most cases, HandleDeletion() should be wrapped in #if UNITY_EDITOR ~ #endif pragma
         // ---------------------CRITICAL NOTES ON CONFIGURATION---------------------
         
         #region StandardPropertiesAndMethods
