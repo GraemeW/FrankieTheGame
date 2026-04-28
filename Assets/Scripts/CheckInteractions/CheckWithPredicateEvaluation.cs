@@ -5,7 +5,7 @@ using Frankie.Utils;
 namespace Frankie.Control
 {
     [ExecuteInEditMode]
-    public class CheckWithPredicateEvaluation : CheckBase, ILocalizable
+    public class CheckWithPredicateEvaluation : CheckBase
     {
         [SerializeField] private Condition condition;
         [SerializeField] private string defaultPartyLeaderName = "Frankie";
@@ -15,16 +15,6 @@ namespace Frankie.Control
         [SerializeField] private bool useMessageOnConditionFailed = false;
         [SerializeField][Tooltip("Use {0} for party leader")] private string messageForConditionFailed = "{0} failed to check the object.";
         [SerializeField] private protected InteractionEvent checkInteractionConditionFailed;
-
-        public void HandleDeletion()
-        {
-            // TODO:  Implement
-        }
-        
-        protected void OnDestroy()
-        {
-            ILocalizable.TriggerOnDestroy(this);
-        }
         
         public override bool HandleRaycast(PlayerStateMachine playerStateHandler, PlayerController playerController, PlayerInputType inputType, PlayerInputType matchType)
         {

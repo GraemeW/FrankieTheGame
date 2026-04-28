@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEditor;
 using UnityEditor.Localization;
+using UnityEditor.SceneManagement;
 using UnityEngine;
 using UnityEngine.Localization;
 using UnityEngine.Localization.Settings;
@@ -13,8 +14,14 @@ namespace Frankie.Utils
     {
         // State
         private static bool _isLocaleInitialized = false;
+        private static readonly System.Random _random = new();
         private static readonly Dictionary<LocalizationTableType, StringTable> _cachedEnglishTables = new();
         private static readonly Dictionary<LocalizationTableType, StringTableCollection> _cachedTableCollections = new();
+        
+        #region LocalizedStringSerializedProperties
+        private const string _localizedStringSerializedKeyID = "m_TableEntryReference.m_KeyId";
+        private const string _localizedStringSerializedKeyName = "m_TableEntryReference.m_Key";
+        #endregion
         
         #region StringReferences
         private const string _englishRef = "en";
@@ -65,7 +72,6 @@ namespace Frankie.Utils
         #endregion
         
         #region PublicMethods
-
         public static void InitializeEnglishLocale(bool forceInitialization = false)
         {
             if (_isLocaleInitialized && !forceInitialization) { return; }
@@ -73,6 +79,66 @@ namespace Frankie.Utils
             LocalizationSettings.InitializationOperation.WaitForCompletion();
             LocalizationSettings.SelectedLocale = LocalizationSettings.AvailableLocales.GetLocale(_englishRef);
             _isLocaleInitialized = true;
+        }
+        
+        public static string GenerateKindaUniqueKey(System.Type declaringType, Object targetObject, string propertyName)
+        {
+            string componentStem = declaringType != null ? $"{declaringType.Name}." : "";
+            string targetStem = "";
+            if (targetObject != null)
+            {
+                switch (targetObject)
+                {
+                    case ScriptableObject:
+                        targetStem += $"SO.{targetObject.name}.";
+                        break;
+                    case MonoBehaviour targetMonoBehaviour when PrefabUtility.IsPartOfPrefabAsset(targetMonoBehaviour):
+                        targetStem += $"Prefab.{targetObject.name}.";
+                        break;
+                    case MonoBehaviour targetMonoBehaviour:
+                    {
+                        GameObject targetGameObject =  targetMonoBehaviour.gameObject;
+                        PrefabStage prefabStage = PrefabStageUtility.GetCurrentPrefabStage();
+                        if (prefabStage != null && prefabStage.IsPartOfPrefabContents(targetGameObject))
+                        {
+                            targetStem += $"Prefab.{targetObject.name}.";
+                            break;
+                        }
+                        
+                        targetStem += "GO.";
+                        if (targetGameObject != null) { targetStem += $"{targetGameObject.scene.name}.{targetObject.name}."; }
+                        else { targetStem += $"{targetObject.name}."; }
+                        break;
+                    }
+                }
+            }
+            string propertyNameStem = propertyName != null ? $"{propertyName}." : "";
+            string semiUniqueShortKey = _random.Next().ToString("x");
+            return $"{componentStem}{targetStem}{propertyNameStem}{semiUniqueShortKey}";
+        }
+
+        public static TableEntryReference GetTableEntryReferencedByID(LocalizationTableType localizationTableType, TableEntryReference ambiguousTableEntryReference)
+        {
+            if (!GetCachedTableCollection(localizationTableType, out StringTableCollection stringTableCollection)) { return SharedTableData.EmptyId; }
+            return GetTableEntryReferencedByID(stringTableCollection.SharedData, ambiguousTableEntryReference);
+        }
+
+        public static TableEntryReference GetSerializedTableEntryKeyID(LocalizationTableType localizationTableType, SerializedProperty serializedProperty)
+        {
+            // KeyID Route
+            SerializedProperty keyIDProperty = serializedProperty.FindPropertyRelative(_localizedStringSerializedKeyID);
+            if (keyIDProperty == null) { return SharedTableData.EmptyId; }
+            long keyID = keyIDProperty.longValue; 
+            if (keyID != SharedTableData.EmptyId) { return keyID; }
+            
+            // Key Route
+            SerializedProperty keyProperty = serializedProperty.FindPropertyRelative(_localizedStringSerializedKeyName);
+            if (keyProperty == null) { return SharedTableData.EmptyId; }
+            string key = keyProperty.stringValue;
+            if (string.IsNullOrWhiteSpace(key)) { return SharedTableData.EmptyId; }
+
+            TableEntryReference tableEntryReference = key;
+            return GetTableEntryReferencedByID(localizationTableType, tableEntryReference);
         }
         
         public static bool GetOrMakeTableCollection(LocalizationTableType localizationTableType, out StringTableCollection stringTableCollection)
@@ -127,7 +193,8 @@ namespace Frankie.Utils
         public static string GetEnglishEntry(LocalizationTableType localizationTableType, TableEntryReference tableEntryReference)
         {
             if (!GetCachedEnglishTable(localizationTableType, out StringTable englishStringTable)) { return ""; }
-            if (!EnsureTableEntryReferencedByID(englishStringTable.SharedData, ref tableEntryReference)) { return ""; }
+            tableEntryReference = GetTableEntryReferencedByID(englishStringTable.SharedData, tableEntryReference);
+            if (tableEntryReference.ReferenceType != TableEntryReference.Type.Empty) { return ""; }
             
             StringTableEntry stringTableEntry = englishStringTable.GetEntry(tableEntryReference.KeyId);
             return stringTableEntry?.Value ?? "";
@@ -226,7 +293,7 @@ namespace Frankie.Utils
                 keyName = tableEntryReference.ResolveKeyName(englishStringTable.SharedData);
                 if (keyName != null)
                 {
-                    EnsureTableEntryReferencedByID(englishStringTable.SharedData, ref tableEntryReference);
+                    tableEntryReference = GetTableEntryReferencedByID(englishStringTable.SharedData, tableEntryReference);
                     return keyName;
                 }
             }
@@ -277,19 +344,20 @@ namespace Frankie.Utils
             AssetDatabase.SaveAssetIfDirty(stringTableCollection);
         }
         
-        private static bool EnsureTableEntryReferencedByID(SharedTableData sharedTableData, ref TableEntryReference tableEntryReference)
+        private static TableEntryReference GetTableEntryReferencedByID(SharedTableData sharedTableData, TableEntryReference ambiguousTableEntryReference)
         {
-            switch (tableEntryReference.ReferenceType)
+            TableEntryReference tableEntryReferencedByID = new();
+            switch (ambiguousTableEntryReference.ReferenceType)
             {
                 case TableEntryReference.Type.Name:
-                    tableEntryReference = sharedTableData.GetId(tableEntryReference.Key);
-                    return tableEntryReference.KeyId != SharedTableData.EmptyId;
+                    tableEntryReferencedByID = sharedTableData.GetId(ambiguousTableEntryReference.Key);
+                    if (tableEntryReferencedByID.KeyId ==  SharedTableData.EmptyId) { return new TableEntryReference(); }
+                    break;
                 case TableEntryReference.Type.Id:
-                    return tableEntryReference.KeyId != SharedTableData.EmptyId;
-                case TableEntryReference.Type.Empty: 
-                default:
-                    return false;
+                    tableEntryReferencedByID = ambiguousTableEntryReference.KeyId;
+                    break;
             }
+            return tableEntryReferencedByID;
         }
         
         private static bool GetCachedEnglishTable(LocalizationTableType localizationTableType, out StringTable englishStringTable)

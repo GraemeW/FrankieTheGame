@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.Localization.Tables;
 using Frankie.Stats;
 using Frankie.Utils;
 
@@ -14,7 +15,8 @@ namespace Frankie.Speech
         [SerializeField] public bool skipRootNode = false;
         [SerializeField] private string defaultSpeakerName = "DefaultSpeaker";
         [SerializeField] private string defaultText = "Default Text to Overwrite";
-
+        public LocalizationTableType localizationTableType { get; set; } = LocalizationTableType.Speech;
+        
 #if UNITY_EDITOR
         [Header("Editor Settings")]
         [SerializeField, HideInInspector] private string cachedDialogueName = "";
@@ -269,15 +271,15 @@ namespace Frankie.Speech
         {
             // Unused, required for interface
         }
-        
-        public void HandleDeletion()
+
+        public List<TableEntryReference> GetLocalizationEntries()
         {
-#if UNITY_EDITOR
+            var entries = new List<TableEntryReference>();
             foreach (DialogueNode dialogueNode in dialogueNodes)
             {
-                dialogueNode.DeleteLocalizationEntries();
+                entries.AddRange(dialogueNode.GetLocalizationEntries());
             }
-#endif
+            return entries;
         }
         #endregion
     }

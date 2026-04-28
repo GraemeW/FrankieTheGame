@@ -8,7 +8,7 @@ using Frankie.Utils;
 namespace Frankie.Control
 {
     [ExecuteInEditMode]
-    public class CheckWithToggleChildren : CheckBase, ILocalizable
+    public class CheckWithToggleChildren : CheckBase
     {
         // Tunables
         [Header("Hookups")]
@@ -92,18 +92,6 @@ namespace Frankie.Control
                 checkInteractionOnConditionNotMet?.Invoke(playerStateHandler);
                 playerStateHandler.EnterDialogue(string.Format(messageOnConditionNotMet, partyLeaderName));
             }
-        }
-        #endregion
-
-        #region LocalizationInterface
-        public void HandleDeletion()
-        {
-            // TODO:  Implement
-        }
-        
-        protected void OnDestroy()
-        {
-            ILocalizable.TriggerOnDestroy(this);
         }
         #endregion
         

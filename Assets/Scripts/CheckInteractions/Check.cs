@@ -1,8 +1,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Localization;
+using UnityEngine.Localization.Tables;
 using Frankie.Utils;
-using UnityEditor;
 
 namespace Frankie.Control
 {
@@ -43,23 +43,26 @@ namespace Frankie.Control
                 _ => SimpleCheck(playerStateHandler, playerController, inputType, matchType),
             };
         }
+        
+        public LocalizationTableType localizationTableType { get; set; } = LocalizationTableType.ChecksWorldObjects;
 
-        public void HandleDeletion()
+        public List<TableEntryReference> GetLocalizationEntries()
         {
-#if UNITY_EDITOR
-            if (!PrefabUtility.IsPartOfPrefabAsset(gameObject)) { Debug.Log($"{gameObject.name} is being deleted.  Deleting localization entries."); }
-            LocalizationTool.RemoveEntry(LocalizationTableType.ChecksWorldObjects, localizedCheckMessage.TableEntryReference);
-            localizedCheckMessage.SetReference("", "");
-            LocalizationTool.RemoveEntry(LocalizationTableType.ChecksWorldObjects, localizedDefaultPartyLeaderName.TableEntryReference);
-            localizedDefaultPartyLeaderName.SetReference("", "");
-            LocalizationTool.RemoveEntry(LocalizationTableType.ChecksWorldObjects, localizedMessageAccept.TableEntryReference);
-            localizedMessageAccept.SetReference("", "");
-            LocalizationTool.RemoveEntry(LocalizationTableType.ChecksWorldObjects, localizedMessageReject.TableEntryReference);
-            localizedMessageReject.SetReference("", "");
-#endif
+            return new List<TableEntryReference>
+            {
+                localizedCheckMessage.TableEntryReference,
+                localizedDefaultPartyLeaderName.TableEntryReference,
+                localizedMessageAccept.TableEntryReference,
+                localizedMessageReject.TableEntryReference
+            };
         }
         
         protected void OnDestroy()
+        {
+            ILocalizable.TriggerOnDestroy(this);
+        }
+
+        public void TriggerThing()
         {
             ILocalizable.TriggerOnDestroy(this);
         }

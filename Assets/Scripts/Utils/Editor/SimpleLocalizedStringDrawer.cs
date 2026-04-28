@@ -15,7 +15,6 @@ namespace Frankie.Utils.Editor
     {
         // State
         private bool isKeyUnlocked;
-        private static readonly System.Random _random = new();
         private TextField keyTextField;
         private TextField contentsTextField;
         
@@ -89,34 +88,6 @@ namespace Frankie.Utils.Editor
         #endregion
         
         #region UtilityMethodsAndCallbacks
-        private static string GenerateKindaUniqueKey(Type declaringType, Object targetObject, string propertyName)
-        {
-            string componentStem = declaringType != null ? $"{declaringType.Name}." : "";
-            string targetStem = "";
-            if (targetObject != null)
-            {
-                switch (targetObject)
-                {
-                    case ScriptableObject:
-                        targetStem += $"SO.{targetObject.name}.";
-                        break;
-                    case MonoBehaviour targetMonoBehaviour when PrefabUtility.IsPartOfPrefabAsset(targetMonoBehaviour):
-                        targetStem += $"Prefab.{targetObject.name}.";
-                        break;
-                    case MonoBehaviour targetMonoBehaviour:
-                    {
-                        targetStem += "GO.";
-                        GameObject targetGameObject =  targetMonoBehaviour.gameObject;
-                        if (targetGameObject != null) { targetStem += $"{targetGameObject.scene.name}.{targetObject.name}."; }
-                        else { targetStem += $"{targetObject.name}."; }
-                        break;
-                    }
-                }
-            }
-            string propertyNameStem = propertyName != null ? $"{propertyName}." : "";
-            string semiUniqueShortKey = _random.Next().ToString("x");
-            return $"{componentStem}{targetStem}{propertyNameStem}{semiUniqueShortKey}";
-        }
 
         private static void OnContentsChanged(LocalizationTableType localizationTableType, TableEntryReference tableEntryReference, string newContents)
         {
@@ -157,7 +128,7 @@ namespace Frankie.Utils.Editor
                 currentContents = LocalizationTool.GetEnglishEntry(localizationTableType, currentTableEntryReference);
             }
 
-            string newKey = GenerateKindaUniqueKey(declaringType, parentObject, propertyName);
+            string newKey = LocalizationTool.GenerateKindaUniqueKey(declaringType, parentObject, propertyName);
             if (!LocalizationTool.AddUpdateEnglishEntry(localizationTableType, newKey, currentContents)) { return; }
             if (!LocalizationTool.SafelyUpdateReference(localizationTableType, localizedString, newKey)) { return; }
             
