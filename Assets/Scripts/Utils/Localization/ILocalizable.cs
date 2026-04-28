@@ -24,7 +24,7 @@ namespace Frankie.Utils
         //     - cleanup for instanced objects in scenes is handled by OnDestroy()
         // ---------------------CRITICAL NOTES ON CONFIGURATION---------------------
         
-        #region StandardPropertiesAndMethods
+        #region PublicMethodsProperties
         public LocalizationTableType localizationTableType { get; }
         public List<TableEntryReference> GetLocalizationEntries();
         public static event Action<LocalizationTableType, Object, ILocalizable> onBeforeDestroyedInEditor;
@@ -39,7 +39,7 @@ namespace Frankie.Utils
         }
         #endregion
         
-        #region EditorExclusiveMethods
+        #region PrivateMethods
 #if UNITY_EDITOR
         private bool IsStandardEditorState(GameObject gameObject)
         {

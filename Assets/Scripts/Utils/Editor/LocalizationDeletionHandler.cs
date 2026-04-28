@@ -10,6 +10,13 @@ namespace Frankie.Utils.Editor
     [InitializeOnLoad]
     public class LocalizationDeletionHandler : AssetModificationProcessor
     {
+        static LocalizationDeletionHandler()
+        {
+            ILocalizable.onBeforeDestroyedInEditor -= HandleDeletion;
+            ILocalizable.onBeforeDestroyedInEditor += HandleDeletion;
+        }
+        
+        #region UnityMethods
         private static AssetDeleteResult OnWillDeleteAsset(string assetPath, RemoveAssetOptions options)
         {
             var asset = AssetDatabase.LoadAssetAtPath<Object>(assetPath);
@@ -25,13 +32,9 @@ namespace Frankie.Utils.Editor
             // Pass back to Unity to continue deletion
             return AssetDeleteResult.DidNotDelete;
         }
+        #endregion
 
-        static LocalizationDeletionHandler()
-        {
-            ILocalizable.onBeforeDestroyedInEditor -= HandleDeletion;
-            ILocalizable.onBeforeDestroyedInEditor += HandleDeletion;
-        }
-
+        #region PrivateMethods
         private static void HandleDeletion(LocalizationTableType localizationTableType, Object targetObject, ILocalizable localizable)
         {
             HandleDeletion(localizationTableType, targetObject, localizable, true);
@@ -93,6 +96,7 @@ namespace Frankie.Utils.Editor
             Component prefabComponent = PrefabUtility.GetCorrespondingObjectFromSource(targetMonoBehaviour);
             return prefabComponent != null && prefabComponent.TryGetComponent(out prefabLocalizable);
         }
+        #endregion
     }
 }
 #endif
