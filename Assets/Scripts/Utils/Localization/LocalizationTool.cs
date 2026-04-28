@@ -71,7 +71,7 @@ namespace Frankie.Utils
         }
         #endregion
         
-        #region PublicMethods
+        #region LocalizationTableInteraction
         public static void InitializeEnglishLocale(bool forceInitialization = false)
         {
             if (_isLocaleInitialized && !forceInitialization) { return; }
@@ -194,7 +194,7 @@ namespace Frankie.Utils
         {
             if (!GetCachedEnglishTable(localizationTableType, out StringTable englishStringTable)) { return ""; }
             tableEntryReference = GetTableEntryReferencedByID(englishStringTable.SharedData, tableEntryReference);
-            if (tableEntryReference.ReferenceType != TableEntryReference.Type.Empty) { return ""; }
+            if (tableEntryReference.ReferenceType == TableEntryReference.Type.Empty) { return ""; }
             
             StringTableEntry stringTableEntry = englishStringTable.GetEntry(tableEntryReference.KeyId);
             return stringTableEntry?.Value ?? "";
@@ -281,7 +281,7 @@ namespace Frankie.Utils
         }
         #endregion
         
-        #region LocalizedStringSimplifiers
+        #region LocalizedStringInteraction
         public static string ResolveKeyName(LocalizationTableType localizationTableType, LocalizedString localizedString, out TableEntryReference tableEntryReference)
         {
             bool englishTableFound = GetCachedEnglishTable(localizationTableType, out StringTable englishStringTable);
@@ -322,6 +322,30 @@ namespace Frankie.Utils
             
             localizedString.SetReference(englishStringTable.SharedData.TableCollectionNameGuid, newKeyID);
             return true;
+        }
+        #endregion
+        
+        #region ILocalizableInteraction
+        public static List<TableEntryReference> GetStandardTableEntryReferences(LocalizationTableType localizationTableType, ILocalizable localizable)
+        {
+            List<TableEntryReference> tableEntryReferences = new();
+            foreach (TableEntryReference ambiguousTableEntryReference in localizable.GetLocalizationEntries())
+            {
+                switch (ambiguousTableEntryReference.ReferenceType)
+                {
+                    case TableEntryReference.Type.Empty:
+                    case TableEntryReference.Type.Id when ambiguousTableEntryReference.KeyId == SharedTableData.EmptyId:
+                    case TableEntryReference.Type.Name when string.IsNullOrWhiteSpace(ambiguousTableEntryReference.Key):
+                        continue;
+                    default:
+                    {
+                        TableEntryReference tableEntryReference = LocalizationTool.GetTableEntryReferencedByID(localizationTableType, ambiguousTableEntryReference);
+                        tableEntryReferences.Add(tableEntryReference);
+                        break;
+                    }
+                }
+            }
+            return tableEntryReferences;
         }
         #endregion
         

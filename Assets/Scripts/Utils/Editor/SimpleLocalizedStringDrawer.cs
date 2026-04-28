@@ -88,7 +88,6 @@ namespace Frankie.Utils.Editor
         #endregion
         
         #region UtilityMethodsAndCallbacks
-
         private static void OnContentsChanged(LocalizationTableType localizationTableType, TableEntryReference tableEntryReference, string newContents)
         {
             string oldContents = LocalizationTool.GetEnglishEntry(localizationTableType, tableEntryReference);

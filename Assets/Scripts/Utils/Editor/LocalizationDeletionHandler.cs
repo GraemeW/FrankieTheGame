@@ -15,11 +15,11 @@ namespace Frankie.Utils.Editor
             var asset = AssetDatabase.LoadAssetAtPath<Object>(assetPath);
             if (asset is ScriptableObject scriptableObject and ILocalizable localizable)
             {
-                HandleDeletion(localizable.localizationTableType, scriptableObject, localizable);
+                HandleDeletion(localizable.localizationTableType, scriptableObject, localizable, false);
             }
             else if (asset is GameObject gameObject && gameObject != null && gameObject.TryGetComponent(out localizable))
             {
-                HandleDeletion(localizable.localizationTableType, gameObject,  localizable);
+                HandleDeletion(localizable.localizationTableType, gameObject,  localizable, false);
             }
             
             // Pass back to Unity to continue deletion
@@ -34,9 +34,14 @@ namespace Frankie.Utils.Editor
 
         private static void HandleDeletion(LocalizationTableType localizationTableType, Object targetObject, ILocalizable localizable)
         {
+            HandleDeletion(localizationTableType, targetObject, localizable, true);
+        }
+
+        private static void HandleDeletion(LocalizationTableType localizationTableType, Object targetObject, ILocalizable localizable, bool isSceneInstance)
+        {
             Debug.Log($"{targetObject.name} is being deleted.  Deleting localization entries.");
             int deletionCount = 0;
-            foreach (TableEntryReference tableEntryReference in FilterLocalizationEntries(localizationTableType, targetObject, localizable))
+            foreach (TableEntryReference tableEntryReference in FilterLocalizationEntries(localizationTableType, targetObject, localizable, isSceneInstance))
             {
                 //LocalizationTool.RemoveEntry(localizationTableType, tableEntryReference);
                 Debug.Log($"Removing entry {tableEntryReference.KeyId}");
@@ -46,18 +51,19 @@ namespace Frankie.Utils.Editor
             Debug.Log($"{deletionCount} localization entries deleted.");
         }
         
-        private static List<TableEntryReference> FilterLocalizationEntries(LocalizationTableType localizationTableType, Object targetObject, ILocalizable targetLocalizable)
+        private static List<TableEntryReference> FilterLocalizationEntries(LocalizationTableType localizationTableType, Object targetObject, ILocalizable targetLocalizable, bool isSceneInstance = true)
         {
             var deletableEntries = new List<TableEntryReference>();
             if (targetLocalizable == null) { return deletableEntries; }
+
+            List<TableEntryReference> tableEntryReferences = LocalizationTool.GetStandardTableEntryReferences(localizationTableType, targetLocalizable);
             
-            List<TableEntryReference> tableEntryReferences = targetLocalizable.GetLocalizationEntries().ToList();
             if (targetObject is ScriptableObject || targetLocalizable is not MonoBehaviour targetMonoBehaviour) { return tableEntryReferences; }
-            if (!IsPrefabLocalizable(targetMonoBehaviour, out ILocalizable prefabLocalizable)) { return tableEntryReferences; }
+            if (!IsPrefabLocalizable(targetMonoBehaviour, out ILocalizable prefabLocalizable, isSceneInstance)) { return tableEntryReferences; }
 
             // Note:  We cannot use standard prefab utility methods (e.g. GetPropertyModifications()) to check
             //        --> for reasons? these are not valid if this function is called from OnDestroy() or OnDisable()
-            //        Approach is thus to manually compare GUID entries
+            //        Approach is thus to manually compare keyID entries ~ don't expect conflicts given the use case
             HashSet<long> uniqueTargetKeyIDs = GetUniqueKeyIDs(localizationTableType, tableEntryReferences);
             HashSet<long> uniquePrefabKeyIDs = GetUniqueKeyIDs(localizationTableType, prefabLocalizable.GetLocalizationEntries());
 
@@ -78,10 +84,12 @@ namespace Frankie.Utils.Editor
             return keyIDs;
         }
         
-        private static bool IsPrefabLocalizable(MonoBehaviour targetMonoBehaviour, out ILocalizable prefabLocalizable)
+        private static bool IsPrefabLocalizable(MonoBehaviour targetMonoBehaviour, out ILocalizable prefabLocalizable, bool isSceneInstance)
         {
             prefabLocalizable = null;
-            if (PrefabUtility.GetPrefabInstanceStatus(targetMonoBehaviour) != PrefabInstanceStatus.Connected) { return false; }
+            if (!isSceneInstance && !PrefabUtility.IsPartOfVariantPrefab(targetMonoBehaviour)) { return false; }
+            if (isSceneInstance && PrefabUtility.GetPrefabInstanceStatus(targetMonoBehaviour) != PrefabInstanceStatus.Connected) { return false; }
+            
             Component prefabComponent = PrefabUtility.GetCorrespondingObjectFromSource(targetMonoBehaviour);
             return prefabComponent != null && prefabComponent.TryGetComponent(out prefabLocalizable);
         }
