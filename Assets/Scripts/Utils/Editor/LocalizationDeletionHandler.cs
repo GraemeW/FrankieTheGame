@@ -43,9 +43,9 @@ namespace Frankie.Utils.Editor
             int deletionCount = 0;
             foreach (TableEntryReference tableEntryReference in FilterLocalizationEntries(localizationTableType, targetObject, localizable, isSceneInstance))
             {
-                //LocalizationTool.RemoveEntry(localizationTableType, tableEntryReference);
-                Debug.Log($"Removing entry {tableEntryReference.KeyId}");
                 // TODO:  Uncomment, actually remove
+                Debug.Log($"Removing entry:  {tableEntryReference.KeyId}");
+                //LocalizationTool.RemoveEntry(localizationTableType, tableEntryReference);
                 deletionCount++;
             }
             Debug.Log($"{deletionCount} localization entries deleted.");
