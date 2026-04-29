@@ -14,7 +14,23 @@ MonoBehaviour:
   m_EditorClassIdentifier: Unity.Localization::UnityEngine.Localization.Tables.SharedTableData
   m_TableCollectionName: ChecksWorldObjects
   m_TableCollectionNameGuidString: e01518a4d82d5485e9b0e7f466ecf01d
-  m_Entries: []
+  m_Entries:
+  - m_Id: 4739375303745536
+    m_Key: Check.CheckMessage.75340e5a
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4739375731564544
+    m_Key: Check.DefaultPartyLeaderName.ae33b7f
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4739375836422144
+    m_Key: Check.MessageAccept.5a108e5a
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4739375932891136
+    m_Key: Check.MessageReject.53672624
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:

@@ -1,7 +1,9 @@
-using Frankie.Speech;
+using System.Collections.Generic;
 using UnityEditor;
 using UnityEditor.SceneManagement;
 using UnityEngine;
+using Object = UnityEngine.Object;
+using Frankie.Control;
 
 namespace Frankie.Utils.Editor
 {
@@ -30,6 +32,58 @@ namespace Frankie.Utils.Editor
         private static void OpenDebugScene()
         {
             EditorSceneManager.OpenScene(_debugSceneRef);
+        }
+
+        [MenuItem("Tools/TempLinkCheckPrefabs")]
+        private static void TempLinkCheckPrefabs()
+        {
+            List<Check> prefabChecks = new List<Check>();
+            List<Check> prefabVariantChecks = new List<Check>();
+            foreach (Object selectedObject in Selection.objects)
+            {
+                if (selectedObject is not GameObject gameObject) {  continue; }
+                if (!gameObject.TryGetComponent(out Check check)) { continue; }
+                PrefabAssetType type = PrefabUtility.GetPrefabAssetType(gameObject);
+                switch (type)
+                {
+                    case PrefabAssetType.Regular:
+                        prefabChecks.Add(check);
+                        break;
+                    case PrefabAssetType.Variant:
+                        prefabVariantChecks.Add(check);
+                        break;
+                    case PrefabAssetType.NotAPrefab:
+                    case PrefabAssetType.MissingAsset:
+                    case PrefabAssetType.Model:
+                    default:
+                        break;
+                }
+            }
+
+            foreach (Check prefabCheck in prefabChecks)
+            {
+                // Comment/uncomment for prefabs
+                prefabCheck.TempCreateCheckEntries();
+            }
+
+            foreach (Check prefabVariantCheck in prefabVariantChecks)
+            {
+                // Comment/uncomment for variants
+                //prefabVariantCheck.TempCreateCheckEntries();
+            }
+        }
+        
+        [MenuItem("Tools/TempLinkCheckTheRest")]
+        private static void TempLinkCheckTheRest()
+        {
+            foreach (Object selectedObject in Selection.objects)
+            {
+                if (selectedObject is not GameObject gameObject) {  continue; }
+                if (!gameObject.TryGetComponent(out Check check)) { continue; }
+                
+                check.TempCreateCheckEntries();
+                
+            }
         }
     }
 }

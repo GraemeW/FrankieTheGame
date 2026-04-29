@@ -15,7 +15,7 @@ namespace Frankie.Utils.Editor
     public class SimpleLocalizedStringDrawer : PropertyDrawer
     {
         // State
-        LocalizedString localizedString;
+        private LocalizedString localizedString;
         private bool isKeyUnlocked;
         private TextField keyTextField;
         private TextField contentsTextField;

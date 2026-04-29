@@ -85,6 +85,8 @@ namespace Frankie.Utils
         {
             string componentStem = declaringType != null ? $"{declaringType.Name}." : "";
             string targetStem = "";
+            
+            if (targetObject is GameObject castingGameObject) { targetObject = castingGameObject.GetComponent<MonoBehaviour>();}
             if (targetObject != null)
             {
                 switch (targetObject)

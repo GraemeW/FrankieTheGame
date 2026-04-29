@@ -61,11 +61,6 @@ namespace Frankie.Control
         {
             ILocalizable.TriggerOnDestroy(this);
         }
-
-        public void TriggerThing()
-        {
-            ILocalizable.TriggerOnDestroy(this);
-        }
         #endregion
 
         #region SpecificImplementation
@@ -117,5 +112,48 @@ namespace Frankie.Control
             return true;
         }
         #endregion
+
+        public void TempCreateCheckEntries()
+        {
+            string keyStem;
+            string key;
+            TableEntryReference tableEntryReference;
+            
+            keyStem = nameof(localizedCheckMessage).Replace("localized", "");
+            key = LocalizationTool.GenerateKindaUniqueKey(GetType(), gameObject, keyStem);
+            tableEntryReference = key;
+            if (localizedCheckMessage == null || LocalizationTool.GetEnglishEntry(localizationTableType, localizedCheckMessage.TableEntryReference) != checkMessage)
+            {
+                LocalizationTool.AddUpdateEnglishEntry(localizationTableType, tableEntryReference, checkMessage);
+                LocalizationTool.SafelyUpdateReference(localizationTableType, localizedCheckMessage, key);
+            }
+            
+            keyStem = nameof(localizedDefaultPartyLeaderName).Replace("localized", "");
+            key = LocalizationTool.GenerateKindaUniqueKey(GetType(), gameObject, keyStem);
+            tableEntryReference = key;
+            if (localizedDefaultPartyLeaderName == null || LocalizationTool.GetEnglishEntry(localizationTableType, localizedDefaultPartyLeaderName.TableEntryReference) != defaultPartyLeaderName)
+            {
+                LocalizationTool.AddUpdateEnglishEntry(localizationTableType, tableEntryReference, defaultPartyLeaderName);
+                LocalizationTool.SafelyUpdateReference(localizationTableType, localizedDefaultPartyLeaderName, key);
+            }
+            
+            keyStem = nameof(localizedMessageAccept).Replace("localized", "");
+            key = LocalizationTool.GenerateKindaUniqueKey(GetType(), gameObject, keyStem);
+            tableEntryReference = key;
+            if (localizedMessageAccept == null || LocalizationTool.GetEnglishEntry(localizationTableType, localizedMessageAccept.TableEntryReference) != messageAccept)
+            {
+                LocalizationTool.AddUpdateEnglishEntry(localizationTableType, tableEntryReference, messageAccept);
+                LocalizationTool.SafelyUpdateReference(localizationTableType, localizedMessageAccept, key);
+            }
+            
+            keyStem = nameof(localizedMessageReject).Replace("localized", "");
+            key = LocalizationTool.GenerateKindaUniqueKey(GetType(), gameObject, keyStem);
+            tableEntryReference = key;
+            if (localizedMessageReject == null || LocalizationTool.GetEnglishEntry(localizationTableType, localizedMessageReject.TableEntryReference) != messageReject)
+            {
+                LocalizationTool.AddUpdateEnglishEntry(localizationTableType, tableEntryReference, messageReject);
+                LocalizationTool.SafelyUpdateReference(localizationTableType, localizedMessageReject, key);
+            }
+        }
     }
 }
