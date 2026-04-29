@@ -179,6 +179,10 @@ PrefabInstance:
       propertyPath: checkMessage
       value: Primton News - The latest beat, comin' to ya hunky snarky
       objectReference: {fileID: 0}
+    - target: {fileID: 2308409281053914736, guid: 3ea47d49370c98e4e8dda14fd66b947b, type: 3}
+      propertyPath: localizedCheckMessage.m_TableEntryReference.m_KeyId
+      value: 4764658958327808
+      objectReference: {fileID: 0}
     - target: {fileID: 6564381309038757639, guid: 3ea47d49370c98e4e8dda14fd66b947b, type: 3}
       propertyPath: m_Size.x
       value: 1.0918252

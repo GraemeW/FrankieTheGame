@@ -99,13 +99,52 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   checkAtStartOfInteraction: 0
+  localizedCheckMessage:
+    m_TableReference:
+      m_TableCollectionName: GUID:e01518a4d82d5485e9b0e7f466ecf01d
+    m_TableEntryReference:
+      m_KeyId: 4761391968804864
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  localizedDefaultPartyLeaderName:
+    m_TableReference:
+      m_TableCollectionName: GUID:e01518a4d82d5485e9b0e7f466ecf01d
+    m_TableEntryReference:
+      m_KeyId: 4761392224657408
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  localizedMessageAccept:
+    m_TableReference:
+      m_TableCollectionName: GUID:e01518a4d82d5485e9b0e7f466ecf01d
+    m_TableEntryReference:
+      m_KeyId: 4761392354680832
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  localizedMessageReject:
+    m_TableReference:
+      m_TableCollectionName: GUID:e01518a4d82d5485e9b0e7f466ecf01d
+    m_TableEntryReference:
+      m_KeyId: 4761392472121344
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  rejectInteraction:
+    m_PersistentCalls:
+      m_Calls: []
   checkMessage: '{0} has checked this object'
   defaultPartyLeaderName: Frankie
   messageAccept: OK!
   messageReject: Nah
-  rejectInteraction:
-    m_PersistentCalls:
-      m_Calls: []
+  references:
+    version: 2
+    RefIds: []
 --- !u!114 &3691375639142348268
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -81,21 +81,26 @@ namespace Frankie.Utils
             _isLocaleInitialized = true;
         }
         
-        public static string GenerateKindaUniqueKey(System.Type declaringType, Object targetObject, string propertyName)
+        public static string GenerateKindaUniqueKey(System.Type declaringType, Object targetObject, string propertyName, bool useParentNameStem = true)
         {
             string componentStem = declaringType != null ? $"{declaringType.Name}." : "";
             string targetStem = "";
-            
-            if (targetObject is GameObject castingGameObject) { targetObject = castingGameObject.GetComponent<MonoBehaviour>();}
+            string nameStem = targetObject.name;
+
+            if (targetObject is GameObject castingGameObject)
+            {
+                targetObject = castingGameObject.GetComponent<MonoBehaviour>();
+                if (useParentNameStem && castingGameObject.transform.parent != null) { nameStem = castingGameObject.transform.parent.name; }
+            }
             if (targetObject != null)
             {
                 switch (targetObject)
                 {
                     case ScriptableObject:
-                        targetStem += $"SO.{targetObject.name}.";
+                        targetStem += $"SO.{nameStem}.";
                         break;
                     case MonoBehaviour targetMonoBehaviour when PrefabUtility.IsPartOfPrefabAsset(targetMonoBehaviour):
-                        targetStem += $"Prefab.{targetObject.name}.";
+                        targetStem += $"Prefab.{nameStem}.";
                         break;
                     case MonoBehaviour targetMonoBehaviour:
                     {
@@ -103,13 +108,13 @@ namespace Frankie.Utils
                         PrefabStage prefabStage = PrefabStageUtility.GetCurrentPrefabStage();
                         if (prefabStage != null && prefabStage.IsPartOfPrefabContents(targetGameObject))
                         {
-                            targetStem += $"Prefab.{targetObject.name}.";
+                            targetStem += $"Prefab.{nameStem}.";
                             break;
                         }
                         
                         targetStem += "GO.";
-                        if (targetGameObject != null) { targetStem += $"{targetGameObject.scene.name}.{targetObject.name}."; }
-                        else { targetStem += $"{targetObject.name}."; }
+                        if (targetGameObject != null) { targetStem += $"{targetGameObject.scene.name}.{nameStem}."; }
+                        else { targetStem += $"{nameStem}."; }
                         break;
                     }
                 }

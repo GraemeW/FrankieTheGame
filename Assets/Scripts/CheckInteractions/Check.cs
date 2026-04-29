@@ -3,6 +3,7 @@ using UnityEngine;
 using UnityEngine.Localization;
 using UnityEngine.Localization.Tables;
 using Frankie.Utils;
+using UnityEditor;
 
 namespace Frankie.Control
 {
@@ -154,6 +155,9 @@ namespace Frankie.Control
                 LocalizationTool.AddUpdateEnglishEntry(localizationTableType, tableEntryReference, messageReject);
                 LocalizationTool.SafelyUpdateReference(localizationTableType, localizedMessageReject, key);
             }
+            
+            EditorUtility.SetDirty(this);
+            AssetDatabase.SaveAssetIfDirty(this);
         }
     }
 }

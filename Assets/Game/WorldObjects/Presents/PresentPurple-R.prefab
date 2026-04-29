@@ -218,6 +218,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Frankie.Control.Specialization.WorldItemGiverTaker
   backingHandlerGUID: 
   backingListHashCheck: 0
+  backingHasGameStateModifiers: 0
   inventoryItem: {fileID: 0}
   itemQuantity: 1
   messageFoundItem: Wow!  Looks like {0} found {1}.

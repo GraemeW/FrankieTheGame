@@ -186,6 +186,10 @@ PrefabInstance:
       value: It's {0}'s desk.  Do you want to save your progress?
       objectReference: {fileID: 0}
     - target: {fileID: 5911111898172062454, guid: 39d8967ccafbd0445919bceb2c78a8b4, type: 3}
+      propertyPath: localizedCheckMessage.m_TableEntryReference.m_KeyId
+      value: 4764664331231232
+      objectReference: {fileID: 0}
+    - target: {fileID: 5911111898172062454, guid: 39d8967ccafbd0445919bceb2c78a8b4, type: 3}
       propertyPath: checkInteraction.m_PersistentCalls.m_Calls.Array.size
       value: 1
       objectReference: {fileID: 0}

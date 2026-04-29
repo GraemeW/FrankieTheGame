@@ -183,6 +183,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   backingHandlerGUID: 
   backingListHashCheck: 0
+  backingHasGameStateModifiers: 0
   stock: []
   shopType: 2
   saleDiscount: 0.7

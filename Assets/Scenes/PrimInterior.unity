@@ -237,6 +237,10 @@ PrefabInstance:
       propertyPath: checkMessage
       value: . . . {0} hears the sound of distant chattering
       objectReference: {fileID: 0}
+    - target: {fileID: 6058051812645225909, guid: af1d0b70acffc4212aab77edc5d3883e, type: 3}
+      propertyPath: localizedCheckMessage.m_TableEntryReference.m_KeyId
+      value: 4766979079528448
+      objectReference: {fileID: 0}
     - target: {fileID: 7348070497417896851, guid: af1d0b70acffc4212aab77edc5d3883e, type: 3}
       propertyPath: uniqueIdentifier
       value: 6bad0331-0c55-4827-8cfe-502859c3ffbf
@@ -8152,6 +8156,10 @@ PrefabInstance:
       propertyPath: checkMessage
       value: . . . {0} hears bossa nova playing gently through the door
       objectReference: {fileID: 0}
+    - target: {fileID: 6058051812645225909, guid: af1d0b70acffc4212aab77edc5d3883e, type: 3}
+      propertyPath: localizedCheckMessage.m_TableEntryReference.m_KeyId
+      value: 4766979670925312
+      objectReference: {fileID: 0}
     - target: {fileID: 7348070497417896851, guid: af1d0b70acffc4212aab77edc5d3883e, type: 3}
       propertyPath: uniqueIdentifier
       value: fdbf72d7-ef60-449c-af1f-6b7c54a22233
@@ -9015,6 +9023,10 @@ PrefabInstance:
       propertyPath: checkMessage
       value: The elevator is out of service
       objectReference: {fileID: 0}
+    - target: {fileID: 6058051812645225909, guid: 3057e4426124d42bd8af615b59e4718b, type: 3}
+      propertyPath: localizedCheckMessage.m_TableEntryReference.m_KeyId
+      value: 4766979377324032
+      objectReference: {fileID: 0}
     - target: {fileID: 7348070497417896851, guid: 3057e4426124d42bd8af615b59e4718b, type: 3}
       propertyPath: uniqueIdentifier
       value: ecd350e0-977d-40be-980a-62d0d05e99f2
@@ -9084,6 +9096,10 @@ PrefabInstance:
     - target: {fileID: 6058051812645225909, guid: af1d0b70acffc4212aab77edc5d3883e, type: 3}
       propertyPath: checkMessage
       value: . . . no answer
+      objectReference: {fileID: 0}
+    - target: {fileID: 6058051812645225909, guid: af1d0b70acffc4212aab77edc5d3883e, type: 3}
+      propertyPath: localizedCheckMessage.m_TableEntryReference.m_KeyId
+      value: 4766979276660736
       objectReference: {fileID: 0}
     - target: {fileID: 7348070497417896851, guid: af1d0b70acffc4212aab77edc5d3883e, type: 3}
       propertyPath: uniqueIdentifier
@@ -9268,6 +9284,10 @@ PrefabInstance:
     - target: {fileID: 6058051812645225909, guid: 3057e4426124d42bd8af615b59e4718b, type: 3}
       propertyPath: checkMessage
       value: The elevator is out of service
+      objectReference: {fileID: 0}
+    - target: {fileID: 6058051812645225909, guid: 3057e4426124d42bd8af615b59e4718b, type: 3}
+      propertyPath: localizedCheckMessage.m_TableEntryReference.m_KeyId
+      value: 4766979180191744
       objectReference: {fileID: 0}
     - target: {fileID: 7348070497417896851, guid: 3057e4426124d42bd8af615b59e4718b, type: 3}
       propertyPath: uniqueIdentifier
@@ -19578,6 +19598,10 @@ PrefabInstance:
       propertyPath: checkMessage
       value: The elevator is out of service
       objectReference: {fileID: 0}
+    - target: {fileID: 6058051812645225909, guid: 3057e4426124d42bd8af615b59e4718b, type: 3}
+      propertyPath: localizedCheckMessage.m_TableEntryReference.m_KeyId
+      value: 4766978743984128
+      objectReference: {fileID: 0}
     - target: {fileID: 7348070497417896851, guid: 3057e4426124d42bd8af615b59e4718b, type: 3}
       propertyPath: uniqueIdentifier
       value: 061aec21-d418-44d9-b4e6-36e5a23b1d5d
@@ -19709,6 +19733,10 @@ PrefabInstance:
     - target: {fileID: 6058051812645225909, guid: af1d0b70acffc4212aab77edc5d3883e, type: 3}
       propertyPath: checkMessage
       value: . . . a fire alarm is chirping inside
+      objectReference: {fileID: 0}
+    - target: {fileID: 6058051812645225909, guid: af1d0b70acffc4212aab77edc5d3883e, type: 3}
+      propertyPath: localizedCheckMessage.m_TableEntryReference.m_KeyId
+      value: 4766979473793024
       objectReference: {fileID: 0}
     - target: {fileID: 7348070497417896851, guid: af1d0b70acffc4212aab77edc5d3883e, type: 3}
       propertyPath: uniqueIdentifier
@@ -30500,6 +30528,10 @@ PrefabInstance:
       propertyPath: checkMessage
       value: The elevator is out of service
       objectReference: {fileID: 0}
+    - target: {fileID: 6058051812645225909, guid: 3057e4426124d42bd8af615b59e4718b, type: 3}
+      propertyPath: localizedCheckMessage.m_TableEntryReference.m_KeyId
+      value: 4766979574456320
+      objectReference: {fileID: 0}
     - target: {fileID: 7348070497417896851, guid: 3057e4426124d42bd8af615b59e4718b, type: 3}
       propertyPath: uniqueIdentifier
       value: 30005da0-f87f-45f4-ad44-63e42fa20376
@@ -38802,6 +38834,10 @@ PrefabInstance:
       propertyPath: checkMessage
       value: The elevator is out of service
       objectReference: {fileID: 0}
+    - target: {fileID: 6058051812645225909, guid: 3057e4426124d42bd8af615b59e4718b, type: 3}
+      propertyPath: localizedCheckMessage.m_TableEntryReference.m_KeyId
+      value: 4766978966282240
+      objectReference: {fileID: 0}
     - target: {fileID: 7348070497417896851, guid: 3057e4426124d42bd8af615b59e4718b, type: 3}
       propertyPath: uniqueIdentifier
       value: ff8e4c3e-dade-456f-9956-46ab2d05ba4d
@@ -44249,6 +44285,10 @@ PrefabInstance:
       propertyPath: checkMessage
       value: Congratulations!  You have reached the top of the tallest building in
         Prim.  Please enjoy this view.
+      objectReference: {fileID: 0}
+    - target: {fileID: 3388110098072078902, guid: 8adaabdeb3231364f9419b18bfbf028d, type: 3}
+      propertyPath: localizedCheckMessage.m_TableEntryReference.m_KeyId
+      value: 4766979771588608
       objectReference: {fileID: 0}
     - target: {fileID: 3388110098072078902, guid: 8adaabdeb3231364f9419b18bfbf028d, type: 3}
       propertyPath: checkInteraction.m_PersistentCalls.m_Calls.Array.size

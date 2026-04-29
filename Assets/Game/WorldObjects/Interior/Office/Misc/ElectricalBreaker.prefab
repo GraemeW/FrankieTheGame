@@ -135,6 +135,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Frankie.Quests.QuestHandler
   backingHandlerGUID: 
   backingListHashCheck: 0
+  backingHasGameStateModifiers: 0
   quest: {fileID: 0}
   questObjective: {fileID: 0}
 --- !u!1001 &1127771178729956631
@@ -148,6 +149,10 @@ PrefabInstance:
     - target: {fileID: 2308409281053914736, guid: 3ea47d49370c98e4e8dda14fd66b947b, type: 3}
       propertyPath: checkMessage
       value: '{0} flipped the breaker.  An electrical humming  can be heard.'
+      objectReference: {fileID: 0}
+    - target: {fileID: 2308409281053914736, guid: 3ea47d49370c98e4e8dda14fd66b947b, type: 3}
+      propertyPath: localizedCheckMessage.m_TableEntryReference.m_KeyId
+      value: 4764657192525824
       objectReference: {fileID: 0}
     - target: {fileID: 2308409281053914736, guid: 3ea47d49370c98e4e8dda14fd66b947b, type: 3}
       propertyPath: checkInteraction.m_PersistentCalls.m_Calls.Array.size
