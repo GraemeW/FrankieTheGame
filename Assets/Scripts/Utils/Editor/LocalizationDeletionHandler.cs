@@ -42,13 +42,12 @@ namespace Frankie.Utils.Editor
 
         private static void HandleDeletion(LocalizationTableType localizationTableType, Object targetObject, ILocalizable localizable, bool isSceneInstance)
         {
-            Debug.Log($"{targetObject.name} is being deleted.  Deleting localization entries.");
+            Debug.Log($"{targetObject.name} is being deleted.  Deleting unique localization entries.");
             int deletionCount = 0;
             foreach (TableEntryReference tableEntryReference in FilterLocalizationEntries(localizationTableType, targetObject, localizable, isSceneInstance))
             {
-                // TODO:  Uncomment, actually remove
                 Debug.Log($"Removing entry:  {tableEntryReference.KeyId}");
-                //LocalizationTool.RemoveEntry(localizationTableType, tableEntryReference);
+                LocalizationTool.RemoveEntry(localizationTableType, tableEntryReference);
                 deletionCount++;
             }
             Debug.Log($"{deletionCount} localization entries deleted.");
@@ -91,7 +90,7 @@ namespace Frankie.Utils.Editor
         {
             prefabLocalizable = null;
             if (!isSceneInstance && !PrefabUtility.IsPartOfVariantPrefab(targetMonoBehaviour)) { return false; }
-            if (isSceneInstance && PrefabUtility.GetPrefabInstanceStatus(targetMonoBehaviour) != PrefabInstanceStatus.Connected) { return false; }
+            if (isSceneInstance && !PrefabUtility.IsPartOfPrefabInstance(targetMonoBehaviour)) { return false; }
             
             Component prefabComponent = PrefabUtility.GetCorrespondingObjectFromSource(targetMonoBehaviour);
             return prefabComponent != null && prefabComponent.TryGetComponent(out prefabLocalizable);
