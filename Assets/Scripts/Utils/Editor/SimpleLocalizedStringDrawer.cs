@@ -20,13 +20,15 @@ namespace Frankie.Utils.Editor
         private TextField keyTextField;
         private TextField contentsTextField;
         private Toggle lockToggle;
+        private Button renameKeyButton;
         private Button deleteKeyButton;
         
         #region UIProperties
         private const string _keyLabel = "Key";
         private const string _textLabel = "Content";
-        private const string _newKeyButtonLabel = "Make New Key-Entry";
-        private const string _deleteKeyButtonLabel = "Delete Current Key-Entry";
+        private const string _newKeyButtonLabel = "Generate New Key-Entry";
+        private const string _renameKeyButtonLabel = "Auto-Rename Key-Entry";
+        private const string _deleteKeyButtonLabel = "Delete Key-Entry";
         private const string _lockLabel = "🔒";
         private const string _unlockLabel = "🔓";
         private const string _lockTooltip = "Unlock to allow editing the localization key.";
@@ -77,6 +79,8 @@ namespace Frankie.Utils.Editor
             root.Add(contentsRow);
             VisualElement newKeyButtonRow = BuildButtonRow(_newKeyButtonLabel, isKeyEditable && isKeyUnlocked, out Button newKeyButton); 
             root.Add(newKeyButtonRow);
+            VisualElement renameKeyButtonRow = BuildButtonRow(_renameKeyButtonLabel, isKeyEditable && isKeyUnlocked, out renameKeyButton);
+            root.Add(renameKeyButtonRow);
             VisualElement deleteKeyButtonRow = BuildButtonRow(_deleteKeyButtonLabel, isKeyEditable && isKeyUnlocked, out deleteKeyButton);
             root.Add(deleteKeyButtonRow);
             
@@ -88,11 +92,15 @@ namespace Frankie.Utils.Editor
                 isKeyUnlocked = evt.newValue;
                 Label toggleLabel = lockToggleRow.Q<Label>();
                 if (toggleLabel != null) { toggleLabel.text = isKeyUnlocked ? _unlockLabel : _lockLabel; }
+                
+                bool isKeyEmpty = IsKeyEmpty(localizedString, localizationTableType, out _);
                 keyTextField.SetEnabled(isKeyEditable && isKeyUnlocked);
                 newKeyButton.SetEnabled(isKeyEditable && isKeyUnlocked);
-                ReconcileDeleteButtonState(property, localizationTableType, isKeyEditable && isKeyUnlocked);
+                renameKeyButton.SetEnabled(isKeyEditable && isKeyUnlocked && !isKeyEmpty);
+                ReconcileDeleteButtonState(property, localizationTableType, isKeyEditable && isKeyUnlocked && !isKeyEmpty);
             });
             newKeyButton.RegisterCallback<ClickEvent>(_ => HandleNewKeyButtonClick(property, localizationTableType, fieldInfo.DeclaringType, sanitizedPropertyName));
+            renameKeyButton.RegisterCallback<ClickEvent>(_ => HandleRenameKeyButtonClick(property, localizationTableType, fieldInfo.DeclaringType, sanitizedPropertyName));
             deleteKeyButton.RegisterCallback<ClickEvent>(_ => HandleDeleteButtonClick(property, localizationTableType));
             
             return root;
@@ -180,8 +188,10 @@ namespace Frankie.Utils.Editor
             property.serializedObject.ApplyModifiedProperties();
             property.serializedObject.Update();
             
-            bool isKeyCurrentlyEmpty = IsKeyEmpty(localizedString, localizationTableType, out _);
-            DisableContentsForEmptyKey(contentsTextField, isKeyCurrentlyEmpty);
+            bool isKeyEmpty = IsKeyEmpty(localizedString, localizationTableType, out _);
+            renameKeyButton.SetEnabled(!isKeyEmpty);
+            DisableContentsForEmptyKey(contentsTextField, isKeyEmpty);
+            ReconcileDeleteButtonState(property, localizationTableType, !isKeyEmpty);
         }
         
         private void HandleNewKeyButtonClick(SerializedProperty property, LocalizationTableType localizationTableType, Type declaringType, string propertyName)
@@ -206,9 +216,23 @@ namespace Frankie.Utils.Editor
             property.serializedObject.Update();
 
             keyTextField?.SetValueWithoutNotify(newKey);
-            bool isKeyCurrentlyEmpty = IsKeyEmpty(localizedString, localizationTableType, out _);
-            DisableContentsForEmptyKey(contentsTextField, isKeyCurrentlyEmpty);
-            ReconcileDeleteButtonState(property, localizationTableType, !isKeyCurrentlyEmpty);
+            bool isKeyEmpty = IsKeyEmpty(localizedString, localizationTableType, out _);
+            renameKeyButton.SetEnabled(!isKeyEmpty);
+            DisableContentsForEmptyKey(contentsTextField, isKeyEmpty);
+            ReconcileDeleteButtonState(property, localizationTableType, !isKeyEmpty);
+        }
+        
+        private void HandleRenameKeyButtonClick(SerializedProperty property, LocalizationTableType localizationTableType, Type declaringType, string propertyName)
+        {
+            Object targetObject = property.serializedObject.targetObject;
+            if (targetObject == null || localizedString == null || IsKeyEmpty(localizedString, localizationTableType, out TableEntryReference _))
+            {
+                Debug.Log("Localized string is not configured, cannot rename.");
+                return;
+            }
+            
+            string newKey = LocalizationTool.GenerateKindaUniqueKey(declaringType, targetObject, propertyName);
+            keyTextField.value = newKey;
         }
 
         private void HandleDeleteButtonClick(SerializedProperty property, LocalizationTableType localizationTableType)
@@ -237,11 +261,11 @@ namespace Frankie.Utils.Editor
             lockToggle.value = false;
             DisableContentsForEmptyKey(contentsTextField, isKeyCurrentlyEmpty);
         }
-
+        
         private void ReconcileDeleteButtonState(SerializedProperty property, LocalizationTableType localizationTableType, bool isEnabled)
         {
             if (deleteKeyButton == null) { return; }
-            if (!isEnabled || localizedString == null || localizedString.IsEmpty || IsKeyEmpty(localizedString, localizationTableType, out _))
+            if (!isEnabled)
             {
                 deleteKeyButton.SetEnabled(false); 
                 return;
@@ -251,6 +275,7 @@ namespace Frankie.Utils.Editor
                 deleteKeyButton.SetEnabled(true); 
                 return;
             }
+            deleteKeyButton.SetEnabled(false); 
         }
 
         private void TryResetToPrefab(SerializedProperty property)
