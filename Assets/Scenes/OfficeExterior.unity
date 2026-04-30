@@ -58790,15 +58790,6 @@ MonoBehaviour:
     m_FallbackState: 0
     m_WaitForCompletion: 0
     m_LocalVariables: []
-  localizedDefaultPartyLeaderName:
-    m_TableReference:
-      m_TableCollectionName: GUID:e01518a4d82d5485e9b0e7f466ecf01d
-    m_TableEntryReference:
-      m_KeyId: 4766547158491136
-      m_Key: 
-    m_FallbackState: 0
-    m_WaitForCompletion: 0
-    m_LocalVariables: []
   localizedMessageAccept:
     m_TableReference:
       m_TableCollectionName: GUID:e01518a4d82d5485e9b0e7f466ecf01d
@@ -58821,7 +58812,6 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   checkMessage: Can't go home yet, full day of work ahead
-  defaultPartyLeaderName: Frankie
   messageAccept: OK!
   messageReject: Nah
   references:

@@ -540,8 +540,16 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 96ba814fed4a69d479e7207c49225eb2, type: 2}
     - target: {fileID: 4971948613120259957, guid: 6e662329e84c3754da3e251380722378, type: 3}
+      propertyPath: localizedMessageOnToggle.m_TableEntryReference.m_KeyId
+      value: 5043902401732608
+      objectReference: {fileID: 0}
+    - target: {fileID: 4971948613120259957, guid: 6e662329e84c3754da3e251380722378, type: 3}
       propertyPath: checkInteraction.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4971948613120259957, guid: 6e662329e84c3754da3e251380722378, type: 3}
+      propertyPath: localizedMessageOnConditionNotMet.m_TableEntryReference.m_KeyId
+      value: 5043902624030720
       objectReference: {fileID: 0}
     - target: {fileID: 4971948613120259957, guid: 6e662329e84c3754da3e251380722378, type: 3}
       propertyPath: checkInteraction.m_PersistentCalls.m_Calls.Array.data[0].m_Target

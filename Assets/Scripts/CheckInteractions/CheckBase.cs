@@ -20,10 +20,11 @@ namespace Frankie.Control
         // State
         private bool activeCheck = true;
 
-        // Static
+        // Static + Const
         private const string _defaultLayerMask = "Interactable";
         private const string _inactiveLayerMask = "Ignore Raycast";
-
+        protected const string defaultPartyLeaderName = "Frankie";
+        
         protected void OnDestroy()
         {
             ILocalizable.TriggerOnDestroy(this);

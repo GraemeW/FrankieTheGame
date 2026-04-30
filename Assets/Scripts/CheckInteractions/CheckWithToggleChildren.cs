@@ -1,5 +1,8 @@
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
+using UnityEngine.Localization;
+using UnityEngine.Localization.Tables;
 using Frankie.Core;
 using Frankie.Saving;
 using Frankie.Stats;
@@ -16,9 +19,11 @@ namespace Frankie.Control
         [SerializeField][Tooltip("True for enable, false for disable")] private bool toggleToConditionMet = true;
         [SerializeField] private Condition condition;
         [Header("Messages")]
+        [SerializeField][SimpleLocalizedString(LocalizationTableType.ChecksWorldObjects, true)] private LocalizedString localizedMessageOnToggle;
+        [SerializeField][SimpleLocalizedString(LocalizationTableType.ChecksWorldObjects, true)] private LocalizedString localizedMessageOnConditionNotMet;
+        [Header("TODO: Remove these after copying")]
         [SerializeField][Tooltip("Use {0} for party leader")] private string messageOnToggle = "*CLICK* Oh, it looks like {0} got the door open";
         [SerializeField][Tooltip("Use {0} for party leader")] private string messageOnConditionNotMet = "Huh, it appears to be locked";
-        [SerializeField] private string defaultPartyLeaderName = "Frankie";
 
         // Events
         [Header("Events")]
@@ -42,7 +47,7 @@ namespace Frankie.Control
         }
         #endregion
 
-        #region PublicMethods
+        #region OtherInterfaces
         public override bool HandleRaycast(PlayerStateMachine playerStateHandler, PlayerController playerController, PlayerInputType inputType, PlayerInputType matchType)
         {
             if (!IsInRange(playerController)) { return false; }
@@ -54,6 +59,17 @@ namespace Frankie.Control
             return true;
         }
         
+        public override List<TableEntryReference> GetLocalizationEntries()
+        {
+            return new List<TableEntryReference>
+            {
+                localizedMessageOnToggle.TableEntryReference,
+                localizedMessageOnConditionNotMet.TableEntryReference
+            };
+        }
+        #endregion
+        
+        #region PublicMethods
         public void BypassCheckCondition(PlayerStateMachine playerStateHandler) // Also called via Unity Events
         {
             BypassCheckConditionWithNoInteractionEvents();
@@ -113,5 +129,34 @@ namespace Frankie.Control
             base.RestoreState(state);
         }
         #endregion
+
+
+        public void TempCreateCheckEntries()
+        {
+            string keyStem;
+            string key;
+            TableEntryReference tableEntryReference;
+
+            keyStem = nameof(localizedMessageOnToggle).Replace("localized", "");
+            key = LocalizationTool.GenerateKindaUniqueKey(GetType(), gameObject, keyStem);
+            tableEntryReference = key;
+            if (localizedMessageOnToggle == null || LocalizationTool.GetEnglishEntry(localizationTableType, localizedMessageOnToggle.TableEntryReference) != messageOnToggle)
+            {
+                LocalizationTool.AddUpdateEnglishEntry(localizationTableType, tableEntryReference, messageOnToggle);
+                LocalizationTool.SafelyUpdateReference(localizationTableType, localizedMessageOnToggle, key);
+            }
+            
+            keyStem = nameof(localizedMessageOnConditionNotMet).Replace("localized", "");
+            key = LocalizationTool.GenerateKindaUniqueKey(GetType(), gameObject, keyStem);
+            tableEntryReference = key;
+            if (localizedMessageOnConditionNotMet == null || LocalizationTool.GetEnglishEntry(localizationTableType, localizedMessageOnConditionNotMet.TableEntryReference) != messageOnConditionNotMet)
+            {
+                LocalizationTool.AddUpdateEnglishEntry(localizationTableType, tableEntryReference, messageOnConditionNotMet);
+                LocalizationTool.SafelyUpdateReference(localizationTableType, localizedMessageOnConditionNotMet, key);
+            }
+            
+            EditorUtility.SetDirty(this);
+            AssetDatabase.SaveAssetIfDirty(this);
+        }
     }
 }

@@ -183,6 +183,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   backingHandlerGUID: 
   backingListHashCheck: 0
+  backingHasGameStateModifiers: 0
   stock: []
   shopType: 2
   saleDiscount: 0.7
@@ -222,6 +223,10 @@ PrefabInstance:
     - target: {fileID: -2326240535357467552, guid: af6951be3c7cb1640b1d11519ef4b65d, type: 3}
       propertyPath: useMessageOnConditionFailed
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -2326240535357467552, guid: af6951be3c7cb1640b1d11519ef4b65d, type: 3}
+      propertyPath: localizedMessageForConditionFailed.m_TableEntryReference.m_KeyId
+      value: 5041965862215680
       objectReference: {fileID: 0}
     - target: {fileID: -2326240535357467552, guid: af6951be3c7cb1640b1d11519ef4b65d, type: 3}
       propertyPath: checkInteractionConditionMet.m_PersistentCalls.m_Calls.Array.size

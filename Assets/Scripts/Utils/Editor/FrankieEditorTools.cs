@@ -41,7 +41,7 @@ namespace Frankie.Utils.Editor
             foreach (Object selectedObject in Selection.objects)
             {
                 if (selectedObject is not GameObject gameObject) {  continue; }
-                if (!gameObject.TryGetComponent(out Check check)) { continue; }
+                if (!gameObject.TryGetComponent(out CheckWithToggleChildren check)) { continue; }
                 
                 check.TempCreateCheckEntries();
             }

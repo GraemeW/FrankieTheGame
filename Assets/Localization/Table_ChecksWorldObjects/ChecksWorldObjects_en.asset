@@ -26,10 +26,6 @@ MonoBehaviour:
     m_Localized: '{0} has checked this object'
     m_Metadata:
       m_Items: []
-  - m_Id: 4764190643314688
-    m_Localized: Frankie
-    m_Metadata:
-      m_Items: []
   - m_Id: 4764190773338112
     m_Localized: OK!
     m_Metadata:
@@ -46,16 +42,13 @@ MonoBehaviour:
     m_Localized: OK!
     m_Metadata:
       m_Items: []
-  - m_Id: 4761392224657408
-    m_Localized: Frankie
-    m_Metadata:
-      m_Items: []
   - m_Id: 4761391968804864
     m_Localized: '{0} has checked this object'
     m_Metadata:
       m_Items: []
-  - m_Id: 4764210440429568
-    m_Localized: Frankie
+  - m_Id: 5043163763826688
+    m_Localized: '{0} poured the hot water onto Phil Ramen, mushed his noodles around
+      and placed him on the table.'
     m_Metadata:
       m_Items: []
   - m_Id: 4764210545287168
@@ -193,8 +186,8 @@ MonoBehaviour:
     m_Localized: Can't go home yet, full day of work ahead
     m_Metadata:
       m_Items: []
-  - m_Id: 4766547158491136
-    m_Localized: Frankie
+  - m_Id: 5043164174868480
+    m_Localized: 'Maybe if {0} had something to pour this hot water onto . . . '
     m_Metadata:
       m_Items: []
   - m_Id: 4766547263348736
@@ -701,6 +694,64 @@ MonoBehaviour:
       m_Items: []
   - m_Id: 4767794393505792
     m_Localized: '{0} flipped the breaker.  A new song is queued'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 5042679980220416
+    m_Localized: Gross.  Ok, let's look through this muck.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 5042679833419776
+    m_Localized: It's a mess in here . . . chopsticks buried in old slimey food. 
+      Better not open it.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 5031161611935744
+    m_Localized: Sony Trinitron.  Nice.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 5041938053980160
+    m_Localized: '{0} checked the object.'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 5041938263695360
+    m_Localized: '{0} failed to check the object.'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 5041965862215680
+    m_Localized: It doesn't seem to be working at the moment.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 5043802816372736
+    m_Localized: '*CLICK* Oh, it looks like {0} got the door open'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 5043803030282240
+    m_Localized: Huh, it appears to be locked
+    m_Metadata:
+      m_Items: []
+  - m_Id: 5043902401732608
+    m_Localized: ' {0} used the key card.  The door unlocked.'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 5043902624030720
+    m_Localized: Crud, {0} forgot his key card at home.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 5044616368742400
+    m_Localized: Ah!  The step we have fits perfectly!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 5044616532320256
+    m_Localized: There's a step missing in this staircase!  It would be dangerous
+      to go down!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 5044852419977216
+    m_Localized: '*CLICK* Oh, it looks like {0} got the lock open'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 5044852642275328
+    m_Localized: Huh, there's a chain lock over the entrance to the fireman's pole
     m_Metadata:
       m_Items: []
   references:

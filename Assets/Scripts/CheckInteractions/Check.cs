@@ -16,19 +16,16 @@ namespace Frankie.Control
         [Header("Message Behaviour")]
         [SerializeField][Tooltip("Otherwise, checks at end of interaction")] private bool checkAtStartOfInteraction = false;
         [SerializeField][SimpleLocalizedString(LocalizationTableType.ChecksWorldObjects, true)] protected LocalizedString localizedCheckMessage;
-        [SerializeField][SimpleLocalizedString(LocalizationTableType.ChecksWorldObjects, true)] private LocalizedString localizedDefaultPartyLeaderName;
         [Header("Choice Behaviour")]
         [SerializeField][SimpleLocalizedString(LocalizationTableType.ChecksWorldObjects, true)] private LocalizedString localizedMessageAccept;
         [SerializeField][SimpleLocalizedString(LocalizationTableType.ChecksWorldObjects, true)] private LocalizedString localizedMessageReject;
         [SerializeField][Tooltip("Optional action on reject choice")] private InteractionEvent rejectInteraction;
         [Header("TODO: Remove these after copying")]
         [SerializeField][Tooltip("Use {0} for party leader")] protected string checkMessage = "{0} has checked this object";
-        [SerializeField] private string defaultPartyLeaderName = "Frankie";
         [SerializeField] private string messageAccept = "OK!";
         [SerializeField] private string messageReject = "Nah";
         
         // Const Failsafe
-        private const string _failsafePartyLeaderName = "Frankie";
         private const string _failsafeMessageAccept = "OK!";
         private const string _failsafeMessageReject = "Nah";
 
@@ -49,7 +46,6 @@ namespace Frankie.Control
             return new List<TableEntryReference>
             {
                 localizedCheckMessage.TableEntryReference,
-                localizedDefaultPartyLeaderName.TableEntryReference,
                 localizedMessageAccept.TableEntryReference,
                 localizedMessageReject.TableEntryReference
             };
@@ -72,7 +68,7 @@ namespace Frankie.Control
             if (inputType == matchType)
             {
                 string partyLeaderName = playerStateHandler.GetParty().GetPartyLeaderName();
-                if (string.IsNullOrWhiteSpace(partyLeaderName)) { partyLeaderName = !localizedDefaultPartyLeaderName.IsEmpty ?  localizedDefaultPartyLeaderName.GetLocalizedString() : _failsafePartyLeaderName; }
+                if (string.IsNullOrWhiteSpace(partyLeaderName)) { partyLeaderName = defaultPartyLeaderName; }
 
                 playerStateHandler.EnterDialogue(string.Format(localizedCheckMessage.GetLocalizedString(), partyLeaderName));
                 
@@ -98,7 +94,7 @@ namespace Frankie.Control
                 };
 
                 string partyLeaderName = playerStateHandler.GetParty().GetPartyLeaderName();
-                if (string.IsNullOrWhiteSpace(partyLeaderName)) { partyLeaderName = !localizedDefaultPartyLeaderName.IsEmpty ?  localizedDefaultPartyLeaderName.GetLocalizedString() : _failsafePartyLeaderName; }
+                if (string.IsNullOrWhiteSpace(partyLeaderName)) { partyLeaderName = defaultPartyLeaderName; }
                 
                 playerStateHandler.EnterDialogue(string.Format(localizedCheckMessage.GetLocalizedString(), partyLeaderName), interactActions);
             }
@@ -106,6 +102,7 @@ namespace Frankie.Control
         }
         #endregion
 
+        // TODO:  Remove
         public void TempCreateCheckEntries()
         {
             string keyStem;
@@ -119,15 +116,6 @@ namespace Frankie.Control
             {
                 LocalizationTool.AddUpdateEnglishEntry(localizationTableType, tableEntryReference, checkMessage);
                 LocalizationTool.SafelyUpdateReference(localizationTableType, localizedCheckMessage, key);
-            }
-            
-            keyStem = nameof(localizedDefaultPartyLeaderName).Replace("localized", "");
-            key = LocalizationTool.GenerateKindaUniqueKey(GetType(), gameObject, keyStem);
-            tableEntryReference = key;
-            if (localizedDefaultPartyLeaderName == null || LocalizationTool.GetEnglishEntry(localizationTableType, localizedDefaultPartyLeaderName.TableEntryReference) != defaultPartyLeaderName)
-            {
-                LocalizationTool.AddUpdateEnglishEntry(localizationTableType, tableEntryReference, defaultPartyLeaderName);
-                LocalizationTool.SafelyUpdateReference(localizationTableType, localizedDefaultPartyLeaderName, key);
             }
             
             keyStem = nameof(localizedMessageAccept).Replace("localized", "");
