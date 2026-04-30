@@ -138,8 +138,6 @@ MonoBehaviour:
   checkInteractionConditionFailed:
     m_PersistentCalls:
       m_Calls: []
-  messageForConditionMet: '{0} checked the object.'
-  messageForConditionFailed: '{0} failed to check the object.'
   references:
     version: 2
     RefIds: []

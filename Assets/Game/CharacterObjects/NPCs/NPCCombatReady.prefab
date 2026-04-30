@@ -221,6 +221,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   backingHandlerGUID: 
   backingListHashCheck: -1
+  backingHasGameStateModifiers: 0
   minItems: 0
   maxItems: 1
   lootEntries: []

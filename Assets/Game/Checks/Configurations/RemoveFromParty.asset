@@ -41,10 +41,6 @@ MonoBehaviour:
     m_FallbackState: 0
     m_WaitForCompletion: 0
     m_LocalVariables: []
-  messageRemoveFromParty: Who you want to abandon?
-  messageCannotRemove: '{0} can''t be removed from the party at this time'
-  messageMinimumParty: Er, what is consciousness without a vessel in which it can
-    exist?
   references:
     version: 2
     RefIds: []

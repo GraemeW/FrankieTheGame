@@ -30,8 +30,6 @@ MonoBehaviour:
     m_FallbackState: 0
     m_WaitForCompletion: 0
     m_LocalVariables: []
-  messageAddToParty: Who do you want to tag along?
-  messagePartyFull: Hey Neve, this isn't a party of five
   references:
     version: 2
     RefIds: []

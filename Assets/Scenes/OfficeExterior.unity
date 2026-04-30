@@ -58811,9 +58811,6 @@ MonoBehaviour:
   rejectInteraction:
     m_PersistentCalls:
       m_Calls: []
-  checkMessage: Can't go home yet, full day of work ahead
-  messageAccept: OK!
-  messageReject: Nah
   references:
     version: 2
     RefIds: []

@@ -129,9 +129,6 @@ MonoBehaviour:
   rejectInteraction:
     m_PersistentCalls:
       m_Calls: []
-  checkMessage: '{0} has checked this object'
-  messageAccept: OK!
-  messageReject: Nah
   references:
     version: 2
     RefIds: []

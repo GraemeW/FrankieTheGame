@@ -21,7 +21,6 @@ MonoBehaviour:
     m_FallbackState: 0
     m_WaitForCompletion: 0
     m_LocalVariables: []
-  messageAdjustLeader: Who you want to take over?
   references:
     version: 2
     RefIds: []

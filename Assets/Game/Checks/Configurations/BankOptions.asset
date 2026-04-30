@@ -41,9 +41,6 @@ MonoBehaviour:
     m_FallbackState: 0
     m_WaitForCompletion: 0
     m_LocalVariables: []
-  messageBankOptions: What would you like to do?
-  optionDeposit: Deposit
-  optionWithdraw: Withdraw
   references:
     version: 2
     RefIds: []
