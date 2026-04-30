@@ -1,14 +1,17 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Frankie.Utils;
+using UnityEngine.Localization.Tables;
 
 namespace Frankie.Control
 {
-    public abstract class CheckConfiguration : ScriptableObject
+    public abstract class CheckConfiguration : ScriptableObject, ILocalizable
     {
         public abstract string GetMessage();
         public abstract List<ChoiceActionPair> GetChoiceActionPairs(PlayerStateMachine playerStateHandler, CheckWithConfiguration callingCheck);
-
+        public LocalizationTableType localizationTableType { get; } = LocalizationTableType.ChecksWorldObjects;
+        public virtual List<TableEntryReference> GetLocalizationEntries() => new();
+        
         protected static void AddDialogueSpawnOptionForConfiguration(ref List<ChoiceActionPair> interactActions, PlayerStateMachine playerStateHandler, 
             CheckWithConfiguration callingCheck, string choiceOption, CheckConfiguration checkConfiguration)
         {

@@ -45,9 +45,15 @@ namespace Frankie.Speech
         public string GetSpeakerName(bool useOverriden = true)
         {
             if (useOverriden && isSpeakerOverridden) { return overriddenSpeakerName; }
-            return !localizedSpeakerName.IsEmpty ? localizedSpeakerName.GetLocalizedString() : "Speaker";
+            string speakerName = localizedSpeakerName.GetSafeLocalizedString();
+            return !string.IsNullOrWhiteSpace(speakerName) ? speakerName : "Speaker";
         }
-        public string GetText() => !localizedText.IsEmpty ? localizedText.GetLocalizedString() : "Text";
+
+        public string GetText()
+        {
+            string text = localizedText.GetSafeLocalizedString();
+            return !string.IsNullOrWhiteSpace(text) ? text : "Text";
+        }
         public int GetNodeDepth() => nodeDepth;
         public int GetNodeBreadth() => nodeBreadth;
         public List<string> GetChildren() => children;

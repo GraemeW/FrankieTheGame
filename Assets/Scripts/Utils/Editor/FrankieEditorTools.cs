@@ -34,7 +34,7 @@ namespace Frankie.Utils.Editor
             EditorSceneManager.OpenScene(_debugSceneRef);
         }
         
-        // TODO:  Remove
+        /*
         [MenuItem("Tools/TempLinkCheck")]
         private static void TempLinkCheck()
         {
@@ -46,6 +46,23 @@ namespace Frankie.Utils.Editor
                 check.TempCreateCheckEntries();
             }
         }
+        
+        public void TempCreateCheckEntries()
+        {
+           string keyStem;
+           string key;
+           TableEntryReference tableEntryReference;
+           
+           keyStem = nameof(localizedCheckMessage).Replace("localized", "");
+           key = LocalizationTool.GenerateKindaUniqueKey(GetType(), gameObject, keyStem);
+           tableEntryReference = key;
+           if (localizedCheckMessage == null || LocalizationTool.GetEnglishEntry(localizationTableType, localizedCheckMessage.TableEntryReference) != checkMessage)
+           {
+               LocalizationTool.AddUpdateEnglishEntry(localizationTableType, tableEntryReference, checkMessage);
+               LocalizationTool.SafelyUpdateReference(localizationTableType, localizedCheckMessage, key);
+           }
+        }
+        */
     }
 }
 #endif

@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using UnityEditor;
 using UnityEngine;
 using UnityEngine.Localization;
 using UnityEngine.Localization.Tables;
@@ -21,9 +20,6 @@ namespace Frankie.Control
         [Header("Messages")]
         [SerializeField][SimpleLocalizedString(LocalizationTableType.ChecksWorldObjects, true)] private LocalizedString localizedMessageOnToggle;
         [SerializeField][SimpleLocalizedString(LocalizationTableType.ChecksWorldObjects, true)] private LocalizedString localizedMessageOnConditionNotMet;
-        [Header("TODO: Remove these after copying")]
-        [SerializeField][Tooltip("Use {0} for party leader")] private string messageOnToggle = "*CLICK* Oh, it looks like {0} got the door open";
-        [SerializeField][Tooltip("Use {0} for party leader")] private string messageOnConditionNotMet = "Huh, it appears to be locked";
 
         // Events
         [Header("Events")]
@@ -101,12 +97,12 @@ namespace Frankie.Control
             if (CheckCondition(playerStateHandler))
             {
                 BypassCheckCondition(playerStateHandler);
-                playerStateHandler.EnterDialogue(string.Format(messageOnToggle, partyLeaderName));
+                playerStateHandler.EnterDialogue(string.Format(localizedMessageOnToggle.GetSafeLocalizedString(), partyLeaderName));
             }
             else
             {
                 checkInteractionOnConditionNotMet?.Invoke(playerStateHandler);
-                playerStateHandler.EnterDialogue(string.Format(messageOnConditionNotMet, partyLeaderName));
+                playerStateHandler.EnterDialogue(string.Format(localizedMessageOnConditionNotMet.GetSafeLocalizedString(), partyLeaderName));
             }
         }
         #endregion
@@ -129,34 +125,5 @@ namespace Frankie.Control
             base.RestoreState(state);
         }
         #endregion
-
-
-        public void TempCreateCheckEntries()
-        {
-            string keyStem;
-            string key;
-            TableEntryReference tableEntryReference;
-
-            keyStem = nameof(localizedMessageOnToggle).Replace("localized", "");
-            key = LocalizationTool.GenerateKindaUniqueKey(GetType(), gameObject, keyStem);
-            tableEntryReference = key;
-            if (localizedMessageOnToggle == null || LocalizationTool.GetEnglishEntry(localizationTableType, localizedMessageOnToggle.TableEntryReference) != messageOnToggle)
-            {
-                LocalizationTool.AddUpdateEnglishEntry(localizationTableType, tableEntryReference, messageOnToggle);
-                LocalizationTool.SafelyUpdateReference(localizationTableType, localizedMessageOnToggle, key);
-            }
-            
-            keyStem = nameof(localizedMessageOnConditionNotMet).Replace("localized", "");
-            key = LocalizationTool.GenerateKindaUniqueKey(GetType(), gameObject, keyStem);
-            tableEntryReference = key;
-            if (localizedMessageOnConditionNotMet == null || LocalizationTool.GetEnglishEntry(localizationTableType, localizedMessageOnConditionNotMet.TableEntryReference) != messageOnConditionNotMet)
-            {
-                LocalizationTool.AddUpdateEnglishEntry(localizationTableType, tableEntryReference, messageOnConditionNotMet);
-                LocalizationTool.SafelyUpdateReference(localizationTableType, localizedMessageOnConditionNotMet, key);
-            }
-            
-            EditorUtility.SetDirty(this);
-            AssetDatabase.SaveAssetIfDirty(this);
-        }
     }
 }

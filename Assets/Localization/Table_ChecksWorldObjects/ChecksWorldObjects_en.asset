@@ -754,6 +754,58 @@ MonoBehaviour:
     m_Localized: Huh, there's a chain lock over the entrance to the fireman's pole
     m_Metadata:
       m_Items: []
+  - m_Id: 5081826824544256
+    m_Localized: Who do you want to tag along?
+    m_Metadata:
+      m_Items: []
+  - m_Id: 5081856201449472
+    m_Localized: Hey Neve, this isn't a party of five
+    m_Metadata:
+      m_Items: []
+  - m_Id: 5081948102844416
+    m_Localized: Who you want to take over?
+    m_Metadata:
+      m_Items: []
+  - m_Id: 5082001647329280
+    m_Localized: What would you like to do?
+    m_Metadata:
+      m_Items: []
+  - m_Id: 5082038263603200
+    m_Localized: Deposit
+    m_Metadata:
+      m_Items: []
+  - m_Id: 5082125471571968
+    m_Localized: Withdraw
+    m_Metadata:
+      m_Items: []
+  - m_Id: 5082812314017792
+    m_Localized: Who you want to abandon?
+    m_Metadata:
+      m_Items: []
+  - m_Id: 5082876797247488
+    m_Localized: '{0} can''t be removed from the party at this time'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 5082984565694464
+    m_Localized: Er, what is consciousness without a vessel in which it can exist?
+    m_Metadata:
+      m_Items: []
+  - m_Id: 5083248819429376
+    m_Localized: What do you want to do?
+    m_Metadata:
+      m_Items: []
+  - m_Id: 5083286815629312
+    m_Localized: Change leader
+    m_Metadata:
+      m_Items: []
+  - m_Id: 5083338745307136
+    m_Localized: Add
+    m_Metadata:
+      m_Items: []
+  - m_Id: 5083402268041216
+    m_Localized: Remove
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

@@ -3,7 +3,6 @@ using UnityEngine;
 using UnityEngine.Localization;
 using UnityEngine.Localization.Tables;
 using Frankie.Utils;
-using UnityEditor;
 
 namespace Frankie.Control
 {
@@ -20,10 +19,6 @@ namespace Frankie.Control
         [SerializeField][SimpleLocalizedString(LocalizationTableType.ChecksWorldObjects, true)] private LocalizedString localizedMessageAccept;
         [SerializeField][SimpleLocalizedString(LocalizationTableType.ChecksWorldObjects, true)] private LocalizedString localizedMessageReject;
         [SerializeField][Tooltip("Optional action on reject choice")] private InteractionEvent rejectInteraction;
-        [Header("TODO: Remove these after copying")]
-        [SerializeField][Tooltip("Use {0} for party leader")] protected string checkMessage = "{0} has checked this object";
-        [SerializeField] private string messageAccept = "OK!";
-        [SerializeField] private string messageReject = "Nah";
         
         // Const Failsafe
         private const string _failsafeMessageAccept = "OK!";
@@ -70,7 +65,7 @@ namespace Frankie.Control
                 string partyLeaderName = playerStateHandler.GetParty().GetPartyLeaderName();
                 if (string.IsNullOrWhiteSpace(partyLeaderName)) { partyLeaderName = defaultPartyLeaderName; }
 
-                playerStateHandler.EnterDialogue(string.Format(localizedCheckMessage.GetLocalizedString(), partyLeaderName));
+                playerStateHandler.EnterDialogue(string.Format(localizedCheckMessage.GetSafeLocalizedString(), partyLeaderName));
                 
                 if (checkAtStartOfInteraction) { checkInteraction?.Invoke(playerStateHandler); }
                 else { playerStateHandler.SetPostDialogueCallbackActions(checkInteraction); }
@@ -82,9 +77,11 @@ namespace Frankie.Control
         {
             if (localizedCheckMessage.IsEmpty) { return false; }
             if (!IsInRange(playerController)) { return false; }
-
-            string localMessageAccept = !localizedMessageAccept.IsEmpty ? localizedMessageAccept.GetLocalizedString() : _failsafeMessageAccept;
-            string localMessageReject = !localizedMessageReject.IsEmpty ? localizedMessageReject.GetLocalizedString() : _failsafeMessageReject;
+            
+            string localMessageAccept = localizedMessageAccept.GetSafeLocalizedString();
+            if (string.IsNullOrWhiteSpace(localMessageAccept)) { localMessageAccept = _failsafeMessageAccept; }
+            string localMessageReject = localizedMessageReject.GetSafeLocalizedString();
+            if (string.IsNullOrWhiteSpace(localMessageReject)) { localMessageReject = _failsafeMessageReject; }
             if (inputType == matchType)
             {
                 var interactActions = new List<ChoiceActionPair>
@@ -96,48 +93,10 @@ namespace Frankie.Control
                 string partyLeaderName = playerStateHandler.GetParty().GetPartyLeaderName();
                 if (string.IsNullOrWhiteSpace(partyLeaderName)) { partyLeaderName = defaultPartyLeaderName; }
                 
-                playerStateHandler.EnterDialogue(string.Format(localizedCheckMessage.GetLocalizedString(), partyLeaderName), interactActions);
+                playerStateHandler.EnterDialogue(string.Format(localizedCheckMessage.GetSafeLocalizedString(), partyLeaderName), interactActions);
             }
             return true;
         }
         #endregion
-
-        // TODO:  Remove
-        public void TempCreateCheckEntries()
-        {
-            string keyStem;
-            string key;
-            TableEntryReference tableEntryReference;
-            
-            keyStem = nameof(localizedCheckMessage).Replace("localized", "");
-            key = LocalizationTool.GenerateKindaUniqueKey(GetType(), gameObject, keyStem);
-            tableEntryReference = key;
-            if (localizedCheckMessage == null || LocalizationTool.GetEnglishEntry(localizationTableType, localizedCheckMessage.TableEntryReference) != checkMessage)
-            {
-                LocalizationTool.AddUpdateEnglishEntry(localizationTableType, tableEntryReference, checkMessage);
-                LocalizationTool.SafelyUpdateReference(localizationTableType, localizedCheckMessage, key);
-            }
-            
-            keyStem = nameof(localizedMessageAccept).Replace("localized", "");
-            key = LocalizationTool.GenerateKindaUniqueKey(GetType(), gameObject, keyStem);
-            tableEntryReference = key;
-            if (localizedMessageAccept == null || LocalizationTool.GetEnglishEntry(localizationTableType, localizedMessageAccept.TableEntryReference) != messageAccept)
-            {
-                LocalizationTool.AddUpdateEnglishEntry(localizationTableType, tableEntryReference, messageAccept);
-                LocalizationTool.SafelyUpdateReference(localizationTableType, localizedMessageAccept, key);
-            }
-            
-            keyStem = nameof(localizedMessageReject).Replace("localized", "");
-            key = LocalizationTool.GenerateKindaUniqueKey(GetType(), gameObject, keyStem);
-            tableEntryReference = key;
-            if (localizedMessageReject == null || LocalizationTool.GetEnglishEntry(localizationTableType, localizedMessageReject.TableEntryReference) != messageReject)
-            {
-                LocalizationTool.AddUpdateEnglishEntry(localizationTableType, tableEntryReference, messageReject);
-                LocalizationTool.SafelyUpdateReference(localizationTableType, localizedMessageReject, key);
-            }
-            
-            EditorUtility.SetDirty(this);
-            AssetDatabase.SaveAssetIfDirty(this);
-        }
     }
 }

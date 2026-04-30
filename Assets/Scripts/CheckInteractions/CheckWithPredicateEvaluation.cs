@@ -2,7 +2,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Localization;
 using UnityEngine.Localization.Tables;
-using UnityEditor;
 using Frankie.Core;
 using Frankie.Utils;
 
@@ -18,9 +17,6 @@ namespace Frankie.Control
         [SerializeField] private bool useMessageOnConditionFailed = false;
         [SerializeField][SimpleLocalizedString(LocalizationTableType.ChecksWorldObjects, true)] private LocalizedString localizedMessageForConditionFailed;
         [SerializeField] private protected InteractionEvent checkInteractionConditionFailed;
-        [Header("TODO: Remove these after copying")]
-        [SerializeField][Tooltip("Use {0} for party leader")] private string messageForConditionMet = "{0} checked the object.";
-        [SerializeField][Tooltip("Use {0} for party leader")] private string messageForConditionFailed = "{0} failed to check the object.";
         
         #region Interfaces
         public override bool HandleRaycast(PlayerStateMachine playerStateHandler, PlayerController playerController, PlayerInputType inputType, PlayerInputType matchType)
@@ -59,7 +55,7 @@ namespace Frankie.Control
                 string partyLeaderName = playerStateHandler.GetParty().GetPartyLeaderName();
                 if (string.IsNullOrWhiteSpace(partyLeaderName)) { partyLeaderName = defaultPartyLeaderName; }
 
-                playerStateHandler.EnterDialogue(string.Format(messageForConditionMet, partyLeaderName));
+                playerStateHandler.EnterDialogue(string.Format(localizedMessageForConditionMet.GetSafeLocalizedString(), partyLeaderName));
                 playerStateHandler.SetPostDialogueCallbackActions(checkInteractionConditionMet);
             }
             else
@@ -74,7 +70,7 @@ namespace Frankie.Control
                 string partyLeaderName = playerStateHandler.GetParty().GetPartyLeaderName();
                 if (string.IsNullOrWhiteSpace(partyLeaderName)) { partyLeaderName = defaultPartyLeaderName; }
 
-                playerStateHandler.EnterDialogue(string.Format(messageForConditionFailed, partyLeaderName));
+                playerStateHandler.EnterDialogue(string.Format(localizedMessageForConditionFailed.GetSafeLocalizedString(), partyLeaderName));
                 playerStateHandler.SetPostDialogueCallbackActions(checkInteractionConditionFailed);
             }
             else
@@ -83,34 +79,5 @@ namespace Frankie.Control
             }
         }
         #endregion
-        
-        // TODO:  Remove
-        public void TempCreateCheckEntries()
-        {
-            string keyStem;
-            string key;
-            TableEntryReference tableEntryReference;
-            
-            keyStem = nameof(localizedMessageForConditionMet).Replace("localized", "");
-            key = LocalizationTool.GenerateKindaUniqueKey(GetType(), gameObject, keyStem);
-            tableEntryReference = key;
-            if (localizedMessageForConditionMet == null || LocalizationTool.GetEnglishEntry(localizationTableType, localizedMessageForConditionMet.TableEntryReference) != messageForConditionMet)
-            {
-                LocalizationTool.AddUpdateEnglishEntry(localizationTableType, tableEntryReference, messageForConditionMet);
-                LocalizationTool.SafelyUpdateReference(localizationTableType, localizedMessageForConditionMet, key);
-            }
-            
-            keyStem = nameof(localizedMessageForConditionFailed).Replace("localized", "");
-            key = LocalizationTool.GenerateKindaUniqueKey(GetType(), gameObject, keyStem);
-            tableEntryReference = key;
-            if (localizedMessageForConditionFailed == null || LocalizationTool.GetEnglishEntry(localizationTableType, localizedMessageForConditionFailed.TableEntryReference) != messageForConditionFailed)
-            {
-                LocalizationTool.AddUpdateEnglishEntry(localizationTableType, tableEntryReference, messageForConditionFailed);
-                LocalizationTool.SafelyUpdateReference(localizationTableType, localizedMessageForConditionFailed, key);
-            }
-            
-            EditorUtility.SetDirty(this);
-            AssetDatabase.SaveAssetIfDirty(this);
-        }
     }
 }
