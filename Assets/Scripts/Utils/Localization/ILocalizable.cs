@@ -3,10 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Localization.Tables;
 using Object = UnityEngine.Object;
-#if UNITY_EDITOR
-using UnityEditor;
-using UnityEditor.SceneManagement;
-#endif
 
 namespace Frankie.Utils
 {
@@ -33,7 +29,7 @@ namespace Frankie.Utils
         {
 #if UNITY_EDITOR
             if (localizable is not MonoBehaviour monoBehaviour) { return; }
-            if (!localizable.IsStandardEditorState(monoBehaviour.gameObject)) { return; }
+            if (!FrankieNonEditorEditorTools.IsStandardEditorState(monoBehaviour.gameObject)) { return; }
             onBeforeDestroyedInEditor?.Invoke(localizable.localizationTableType, monoBehaviour.gameObject, localizable);
 #endif
         }
@@ -41,18 +37,7 @@ namespace Frankie.Utils
         
         #region PrivateMethods
 #if UNITY_EDITOR
-        private bool IsStandardEditorState(GameObject gameObject)
-        {
-            if (!Application.isEditor || Application.isPlaying) { return false; } // Avoid calls outside editor
-            if (EditorApplication.isPlaying || EditorApplication.isPlayingOrWillChangePlaymode) { return false; } // Avoid calls due to play mode start/stop
-            if (EditorApplication.isCompiling || EditorApplication.isUpdating) { return false; } // Avoid calls during Unity domain backup
-            if (gameObject == null) { return false; } // Avoid calls due to mis-configuration
-            if (EditorUtility.IsPersistent(gameObject)) { return false; } // Avoid calls due to prefab deletion
-            if (PrefabStageUtility.GetCurrentPrefabStage() != null) { return false; } // Avoid calls while in prefab editor
-            if (!gameObject.scene.isLoaded) { return false; } // Avoid calls due to scene changes
-            
-            return true;
-        }
+
 #endif
         #endregion
     }

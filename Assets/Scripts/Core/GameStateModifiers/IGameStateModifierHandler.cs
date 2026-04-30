@@ -4,8 +4,8 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 #if UNITY_EDITOR
 using UnityEditor;
-using UnityEditor.SceneManagement;
 #endif
+using Frankie.Utils;
 
 namespace Frankie.Core.GameStateModifiers
 {
@@ -43,7 +43,8 @@ namespace Frankie.Core.GameStateModifiers
         public static void TriggerOnDestroy(IGameStateModifierHandler gameStateModifierHandler)
         {
 #if UNITY_EDITOR
-            if (!gameStateModifierHandler.IsStandardEditorState()) { return; }
+            if (gameStateModifierHandler is not MonoBehaviour monoBehaviour) { return; }
+            if (!FrankieNonEditorEditorTools.IsStandardEditorState(monoBehaviour.gameObject)) { return; }
             gameStateModifierHandler.RemoveSelfFromGameStateModifiers();
 #endif
         }
@@ -70,7 +71,9 @@ namespace Frankie.Core.GameStateModifiers
         void ISerializationCallbackReceiver.OnBeforeSerialize()
         {
 #if UNITY_EDITOR
-            if (!IsStandardEditorState()) { return; }
+            var component = this as Component;
+            if (component == null) { return;} // Avoid gameObject null reference for OnBeforeSerialize() in isolation mode
+            if (!FrankieNonEditorEditorTools.IsStandardEditorState(gameObject)) { return; }
             
             ZoneToGameObjectLinkData zoneToGameObjectLinkData = MakeZoneToGameObjectLinkData();
             
@@ -115,19 +118,6 @@ namespace Frankie.Core.GameStateModifiers
         
         #region EditorMethods
         public IList<GameStateModifier> GetGameStateModifiers();
-        
-        private bool IsStandardEditorState()
-        {
-            if (!Application.isEditor) { return false; } // Avoid calls outside editor
-            if (EditorApplication.isPlaying || EditorApplication.isPlayingOrWillChangePlaymode) { return false; } // Avoid calls due to play mode start/stop
-            if (EditorApplication.isCompiling || EditorApplication.isUpdating) { return false; } // Avoid calls during Unity domain backup
-            if (gameObject == null) { return false; } // Avoid calls due to mis-configuration
-            if (EditorUtility.IsPersistent(gameObject)) { return false; } // Avoid calls due to prefab deletion
-            if (PrefabStageUtility.GetCurrentPrefabStage() != null) { return false; } // Avoid calls while in prefab editor
-            if (!gameObject.scene.isLoaded) { return false; } // Avoid calls due to scene changes
-
-            return true;
-        }
 
         private void ForceSerializeGameObject()
         {
