@@ -7,9 +7,8 @@ using UnityEditor;
 
 namespace Frankie.Control
 {
-    [ExecuteInEditMode]
     [RequireComponent(typeof(Collider2D))]
-    public class Check : CheckBase, ILocalizable
+    public class Check : CheckBase
     {
         [Header("Base Check Behaviour")]
         [SerializeField] private CheckType checkType = CheckType.Simple;
@@ -44,10 +43,8 @@ namespace Frankie.Control
                 _ => SimpleCheck(playerStateHandler, playerController, inputType, matchType),
             };
         }
-        
-        public LocalizationTableType localizationTableType { get; set; } = LocalizationTableType.ChecksWorldObjects;
 
-        public List<TableEntryReference> GetLocalizationEntries()
+        public override List<TableEntryReference> GetLocalizationEntries()
         {
             return new List<TableEntryReference>
             {
@@ -56,11 +53,6 @@ namespace Frankie.Control
                 localizedMessageAccept.TableEntryReference,
                 localizedMessageReject.TableEntryReference
             };
-        }
-        
-        protected void OnDestroy()
-        {
-            ILocalizable.TriggerOnDestroy(this);
         }
         #endregion
 

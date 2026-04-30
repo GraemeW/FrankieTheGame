@@ -42,6 +42,8 @@ namespace Frankie.Utils.Editor
 
         private static void HandleDeletion(LocalizationTableType localizationTableType, Object targetObject, ILocalizable localizable, bool isSceneInstance)
         {
+            if (localizable.GetLocalizationEntries().Count == 0) { return; }
+            
             Debug.Log($"{targetObject.name} is being deleted.  Deleting unique localization entries.");
             int deletionCount = 0;
             foreach (TableEntryReference tableEntryReference in FilterLocalizationEntries(localizationTableType, targetObject, localizable, isSceneInstance))

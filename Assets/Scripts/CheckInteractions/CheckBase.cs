@@ -1,13 +1,21 @@
+using System.Collections.Generic;
 using UnityEngine;
 using Frankie.Saving;
+using Frankie.Utils;
+using UnityEngine.Localization.Tables;
 
 namespace Frankie.Control
 {
-    public abstract class CheckBase : MonoBehaviour, IRaycastable, ISaveable
+    [ExecuteInEditMode]
+    public abstract class CheckBase : MonoBehaviour, IRaycastable, ISaveable, ILocalizable
     {
         // Tunables
         [SerializeField] protected bool overrideDefaultInteractionDistance = false;
         [SerializeField] protected float interactionDistance = 0.3f;
+        
+        // Localizable Parameters
+        public LocalizationTableType localizationTableType { get; } = LocalizationTableType.ChecksWorldObjects;
+        public virtual List<TableEntryReference> GetLocalizationEntries() => new();
 
         // State
         private bool activeCheck = true;
@@ -16,6 +24,11 @@ namespace Frankie.Control
         private const string _defaultLayerMask = "Interactable";
         private const string _inactiveLayerMask = "Ignore Raycast";
 
+        protected void OnDestroy()
+        {
+            ILocalizable.TriggerOnDestroy(this);
+        }
+        
         protected bool IsInRange(PlayerController playerController)
         {
             return activeCheck && IRaycastable.CheckDistance(gameObject, transform.position, playerController, overrideDefaultInteractionDistance, interactionDistance);
