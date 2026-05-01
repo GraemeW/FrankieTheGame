@@ -78,15 +78,6 @@ namespace Frankie.Core.GameStateModifiers
             
             ZoneToGameObjectLinkData zoneToGameObjectLinkData = MakeZoneToGameObjectLinkData();
             
-            // TEMP, TO DELETE
-            if (hasGameStateModifiers && (gameStateModifierGUIDs == null || gameStateModifierGUIDs.Count == 0))
-            {
-                var temp = AddUpdateGameStateModifiers(zoneToGameObjectLinkData);
-                gameStateModifierGUIDs = temp;
-                ForceSerializeGameObject();
-                return;
-            }
-            
             int newModifierListHashCheck = GetModifierListHashCheck(zoneToGameObjectLinkData.zoneName, zoneToGameObjectLinkData.gameObjectName);
             if (modifierListHashCheck == newModifierListHashCheck) { return; }
             modifierListHashCheck = newModifierListHashCheck;

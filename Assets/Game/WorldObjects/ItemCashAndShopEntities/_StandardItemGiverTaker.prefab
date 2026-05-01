@@ -48,6 +48,7 @@ MonoBehaviour:
   backingHandlerGUID: 
   backingListHashCheck: 0
   backingHasGameStateModifiers: 0
+  backingGameStateModifierGUIDs: []
   inventoryItem: {fileID: 0}
   itemQuantity: 1
   announceNothing: 1
@@ -81,9 +82,6 @@ MonoBehaviour:
     m_FallbackState: 0
     m_WaitForCompletion: 0
     m_LocalVariables: []
-  messageFoundItem: Wow!  Looks like {0} found {1}.
-  messageInventoryFull: Whoops, looks like all the knapsacks are full.
-  messageNothing: There's nothing in here.
   references:
     version: 2
     RefIds: []

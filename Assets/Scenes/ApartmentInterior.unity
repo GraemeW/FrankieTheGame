@@ -22217,8 +22217,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   backingHandlerGUID: 32cd30ad-e5ae-41a7-a2df-58c48eacde3c
-  backingListHashCheck: -2141592630
+  backingListHashCheck: 926228814
   backingHasGameStateModifiers: 1
+  backingGameStateModifierGUIDs:
+  - b3f7fb4a-3295-4b70-95ac-59a716a281b2
   quest: {fileID: 11400000, guid: 98a6da0c49e5fa9439b9e5e008389337, type: 2}
   questObjective: {fileID: 6232503200084316110, guid: 98a6da0c49e5fa9439b9e5e008389337, type: 2}
 --- !u!114 &1532315463

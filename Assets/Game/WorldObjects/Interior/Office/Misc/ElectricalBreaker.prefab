@@ -136,6 +136,7 @@ MonoBehaviour:
   backingHandlerGUID: 
   backingListHashCheck: 0
   backingHasGameStateModifiers: 0
+  backingGameStateModifierGUIDs: []
   quest: {fileID: 0}
   questObjective: {fileID: 0}
 --- !u!1001 &1127771178729956631

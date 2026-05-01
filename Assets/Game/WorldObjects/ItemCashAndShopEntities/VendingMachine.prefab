@@ -184,6 +184,7 @@ MonoBehaviour:
   backingHandlerGUID: 
   backingListHashCheck: 0
   backingHasGameStateModifiers: 0
+  backingGameStateModifierGUIDs: []
   stock: []
   shopType: 2
   saleDiscount: 0.7

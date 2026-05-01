@@ -61,7 +61,7 @@ namespace Frankie.ZoneManagement
         {
             _zoneLookupCache = new Dictionary<string, Zone>();
             _sceneReferenceCache = new Dictionary<string, Zone>();
-            Debug.Log("Building zone cache");
+            //Debug.Log("Zone:  Building static Zone cache");
             _addressablesLoadHandle = Addressables.LoadAssetsAsync(nameof(Zone), (Zone zone) =>
             {
                 if (_zoneLookupCache.ContainsKey(zone.name) || _sceneReferenceCache.ContainsKey(zone.GetSceneReference().SceneName))

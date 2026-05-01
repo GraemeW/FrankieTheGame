@@ -65,7 +65,7 @@ namespace Frankie.Core.GameStateModifiers
             string[] assetGuids = AssetDatabase.FindAssets("t:" + nameof(GameStateModifier));
             if (assetGuids == null || assetGuids.Length == 0) { return newGameStateModifierCache; }
 
-            Debug.Log($"GameStateModifier:  Building static cache for {assetGuids.Length} guids.");
+            //Debug.Log($"GameStateModifier:  Building static cache for {assetGuids.Length} guids.");
             foreach (string assetGUID in assetGuids)
             {
                 string path = AssetDatabase.GUIDToAssetPath(assetGUID);
