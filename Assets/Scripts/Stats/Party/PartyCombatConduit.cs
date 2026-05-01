@@ -11,12 +11,12 @@ namespace Frankie.Stats
     {
         // State
         // Note:  Caching to avoid having to translate BaseStats -> CombatParticipant on every call (often)
-        List<CombatParticipant> combatParticipantCache = new List<CombatParticipant>();
-        List<CombatParticipant> combatAssistCache = new List<CombatParticipant>();
+        private readonly List<CombatParticipant> combatParticipantCache = new();
+        private readonly List<CombatParticipant> combatAssistCache = new();
 
         // Cached References
-        Party party = null;
-        PartyAssist partyAssist = null;
+        private Party party;
+        private PartyAssist partyAssist;
 
         #region UnityMethods
         private void Awake()
@@ -45,7 +45,7 @@ namespace Frankie.Stats
         public List<CombatParticipant> GetPartyCombatParticipants() => combatParticipantCache;
         public List<CombatParticipant> GetPartyAssistParticipants() => combatAssistCache;
 
-        public string GetPartyLeaderName() => party.GetPartyLeaderName();
+        public string GetPartyLeaderName() => party?.GetPartyLeaderName() ?? "";
 
         public bool IsAnyMemberAlive()
         {

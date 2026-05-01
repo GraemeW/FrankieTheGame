@@ -115,6 +115,10 @@ MonoBehaviour:
     m_Key: CharacterProperties.Lucy
     m_Metadata:
       m_Items: []
+  - m_Id: 5452253379944448
+    m_Key: PlayerStateMachine.Prefab.Player.MessageCannotFight
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:

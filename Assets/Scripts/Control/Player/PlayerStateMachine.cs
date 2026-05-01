@@ -4,23 +4,27 @@ using System.Collections;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.Localization;
+using Frankie.Core;
 using Frankie.Control.PlayerStates;
 using Frankie.Combat;
-using Frankie.Core;
-using Frankie.ZoneManagement;
 using Frankie.Speech;
 using Frankie.Stats;
 using Frankie.Inventory;
 using Frankie.World;
+using Frankie.ZoneManagement;
 using Frankie.Utils;
+using Frankie.Utils.Localization;
+using UnityEngine.Localization.Tables;
 
 namespace Frankie.Control
 {
+    [ExecuteInEditMode]
     [RequireComponent(typeof(Party))]
     [RequireComponent(typeof(PartyAssist))]
     [RequireComponent(typeof(PartyCombatConduit))]
     [RequireComponent(typeof(Shopper))]
-    public class PlayerStateMachine : MonoBehaviour, IPlayerStateContext
+    public class PlayerStateMachine : MonoBehaviour, IPlayerStateContext, ILocalizable
     {
         // Tunables
         [Header("Hookups")] 
@@ -34,12 +38,22 @@ namespace Frankie.Control
         [SerializeField] private GameObject cashTransferPrefab;
         [SerializeField] private GameObject worldOptionsPrefab;
         [SerializeField] private GameObject escapeMenuPrefab;
-        [Header("Messages")]
-        [SerializeField] private string messageCannotFight = "You are wounded and cannot fight.";
+        [Header("Messages : {0} for character name")]
+        [SerializeField][SimpleLocalizedString(LocalizationTableType.Core, true)] private LocalizedString localizedMessageCannotFight;
         [Header("Parameters")]
         [SerializeField] private int maxEnemiesPerCombat = 12;
         [Tooltip("seconds, incl. battle fade-out time")][SerializeField] private float immunityTimePostCombat = 3.5f;
 
+        // Localization Properties
+        public LocalizationTableType localizationTableType { get; } = LocalizationTableType.Core;
+        public List<TableEntryReference> GetLocalizationEntries()
+        {
+            return new List<TableEntryReference>
+            {
+                localizedMessageCannotFight.TableEntryReference
+            };
+        }
+        
         // State Information
         // Player
         private IPlayerState currentPlayerState = new WorldState();
@@ -127,11 +141,15 @@ namespace Frankie.Control
 
         private void Update()
         {
-            if (readyToPopQueue)
-            {
-                readyToPopQueue = false; // Either popped queue will change state, or queue invalidated -- clear state
-                PopQueuedAction();
-            }
+            if (!readyToPopQueue) { return; }
+            
+            readyToPopQueue = false; // Either popped queue will change state, or queue invalidated -- clear state
+            PopQueuedAction();
+        }
+        
+        private void OnDestroy()
+        {
+            ILocalizable.TriggerOnDestroy(this);
         }
         #endregion
 
@@ -298,8 +316,13 @@ namespace Frankie.Control
 
         public bool AreCombatParticipantsValid(bool announceCannotFight = false)
         {
-            if (!partyCombatConduit.IsAnyMemberAlive()) { if (announceCannotFight) { EnterDialogue(messageCannotFight); } return false; }
+            if (!partyCombatConduit.IsAnyMemberAlive()) { if (announceCannotFight) { SetupCannotFightPrompt(partyCombatConduit.GetPartyLeaderName()); } return false; }
             return !enemiesUnderConsideration.All(x => x.IsDead());
+        }
+
+        public void SetupCannotFightPrompt(string entityName)
+        {
+            EnterDialogue(string.Format(localizedMessageCannotFight.GetSafeLocalizedString(), entityName));
         }
 
         public void AddEnemiesUnderConsideration()

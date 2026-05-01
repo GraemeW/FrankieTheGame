@@ -14,7 +14,6 @@ namespace Frankie.Control
         [SerializeField] private bool willForceCombat = false;
         [SerializeField] private bool willDestroyIfInvisible = false;
         [Min(0)][Tooltip("in seconds")][SerializeField] private float delayToDestroyAfterInvisible = 2f;
-        [Tooltip("Include {0} for enemy name")][SerializeField] private string messageCannotFight = "{0} is wounded and cannot fight.";
 
         // State
         private NPCStateType npcState = NPCStateType.Idle;
@@ -173,7 +172,7 @@ namespace Frankie.Control
 
             if (combatParticipant.IsDead())
             {
-                playerStateMachine.EnterDialogue(string.Format(messageCannotFight, combatParticipant.GetCombatName()));
+                playerStateMachine.SetupCannotFightPrompt(combatParticipant.GetCombatName());
                 SetNPCState(NPCStateType.Occupied);
             }
             else

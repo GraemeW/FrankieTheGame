@@ -118,6 +118,10 @@ MonoBehaviour:
     m_Localized: Lucy
     m_Metadata:
       m_Items: []
+  - m_Id: 5452253379944448
+    m_Localized: '{0} is wounded and cannot fight.'
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []
