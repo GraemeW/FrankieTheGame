@@ -16,6 +16,7 @@ MonoBehaviour:
   gameStateModifierHandlerData:
   - zoneName: Demo_Forest1to20-Interior
     gameObjectName: SkilledOfficeWorker
+    parentObjectName: 
     guid: c21cfe0b-b9ed-4c8e-b0bc-704a47b86215
   detail: The skilled worker blocks the way to the basement
   questObjectiveNames:

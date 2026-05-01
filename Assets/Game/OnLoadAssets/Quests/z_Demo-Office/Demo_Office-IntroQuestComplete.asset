@@ -16,6 +16,7 @@ MonoBehaviour:
   gameStateModifierHandlerData:
   - zoneName: ApartmentInterior
     gameObjectName: Bed
+    parentObjectName: 
     guid: 32cd30ad-e5ae-41a7-a2df-58c48eacde3c
   detail: Track intro quest (use to trigger main plot)
   questObjectiveNames:

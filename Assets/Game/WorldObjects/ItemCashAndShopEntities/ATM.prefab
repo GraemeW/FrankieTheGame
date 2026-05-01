@@ -12,7 +12,6 @@ GameObject:
   - component: {fileID: 4484117035451051339}
   - component: {fileID: 4484117035451051700}
   - component: {fileID: 4484117035451051701}
-  - component: {fileID: 791367639294811858}
   m_Layer: 2
   m_Name: ATM
   m_TagString: Untagged
@@ -168,19 +167,6 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 0.41713274, y: 0.15617487}
   m_EdgeRadius: 0
---- !u!114 &791367639294811858
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4484117035451051703}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c708eed4772dbc14e95f0fb9be8bb48e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  uniqueIdentifier: 3a9cb237-073b-4628-b220-c11d2b16a821
 --- !u!1001 &1748611171206221468
 PrefabInstance:
   m_ObjectHideFlags: 0

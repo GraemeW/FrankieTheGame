@@ -1,26 +1,36 @@
+using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Localization;
+using UnityEngine.Localization.Tables;
 using Frankie.Control;
 using Frankie.Saving;
 using Frankie.Inventory;
 using Frankie.Stats;
 using Frankie.Utils;
 
-
 namespace Frankie.World
 {
-    public class WorldCashGiverTaker : MonoBehaviour, ISaveable
+    [ExecuteInEditMode]
+    public class WorldCashGiverTaker : MonoBehaviour, ISaveable, ILocalizable
     {
+        // Localization Properties
+        public LocalizationTableType localizationTableType { get; } = LocalizationTableType.ChecksWorldObjects;
+        
         // Tunables
+        [Header("Configuration")]
         [SerializeField] private int transactionCash = 10;
         [SerializeField] private bool infiniteTransactions = false;
         [SerializeField][Tooltip("Ignored if infiniteTransactions set to true")][Min(1)] private int numberTransactions = 1;
-        [SerializeField][Tooltip("{0} for character name, {1} for cash quantity")] private string messageTransactionPositive = "Wow!  Looks like {0} found ${1}.";
-        [SerializeField][Tooltip("{0} for character name, {1} for cash quantity")] private string messageTransactionNegative = "Yikes!  {0} just lost ${1}.";
-        [SerializeField][Tooltip("{0} for character name")] private string messageWalletFull = "Doesn't look like {0} can hold any more cash.";
-        [SerializeField][Tooltip("{0} for character name")] private string messageWalletEmpty = "{0} is already broke, can't get more broke.";
         [SerializeField] private bool announceNothing = true;
-        [SerializeField] private string messageNothing = "Oh, looks like it's NOTHING.";
         [SerializeField] private InteractionEvent transactionSuccessful;
+        [Header("Messages - {0}: name, {1}: cash qty")]
+        [SerializeField][SimpleLocalizedString(LocalizationTableType.ChecksWorldObjects, true)] protected LocalizedString localizedMessageTransactionPositive;
+        [SerializeField][SimpleLocalizedString(LocalizationTableType.ChecksWorldObjects, true)] protected LocalizedString localizedMessageTransactionNegative;
+        [Header("Messages - {0}: name")]
+        [SerializeField][SimpleLocalizedString(LocalizationTableType.ChecksWorldObjects, true)] protected LocalizedString localizedMessageWalletFull;
+        [SerializeField][SimpleLocalizedString(LocalizationTableType.ChecksWorldObjects, true)] protected LocalizedString localizedMessageWalletEmpty;
+        [Header("Other Messages")]
+        [SerializeField][SimpleLocalizedString(LocalizationTableType.ChecksWorldObjects, true)] protected LocalizedString localizedMessageNothing;
 
         // State
         private LazyValue<int> numberTransactionsLeft;
@@ -30,12 +40,17 @@ namespace Frankie.World
         {
             numberTransactionsLeft = new LazyValue<int>(GetInitialTransactionCount);
         }
+        private int GetInitialTransactionCount() => numberTransactions;
 
         private void Start()
         {
             numberTransactionsLeft.ForceInit();
         }
-        private int GetInitialTransactionCount() => numberTransactions;
+        
+        private void OnDestroy()
+        {
+            ILocalizable.TriggerOnDestroy(this);
+        }
         #endregion
 
         #region PublicMethods
@@ -52,10 +67,10 @@ namespace Frankie.World
             switch (transactionCash)
             {
                 case > 0:
-                    playerStateHandler.EnterDialogue(string.Format(messageTransactionPositive, partyLeaderName, transactionCash.ToString()));
+                    playerStateHandler.EnterDialogue(string.Format(localizedMessageTransactionPositive.GetSafeLocalizedString(), partyLeaderName, transactionCash.ToString()));
                     break;
                 case < 0:
-                    playerStateHandler.EnterDialogue(string.Format(messageTransactionNegative, partyLeaderName, Mathf.Abs(transactionCash).ToString()));
+                    playerStateHandler.EnterDialogue(string.Format(localizedMessageTransactionNegative.GetSafeLocalizedString(), partyLeaderName, Mathf.Abs(transactionCash).ToString()));
                     break;
             }
             wallet.UpdateCash(transactionCash);
@@ -70,7 +85,7 @@ namespace Frankie.World
             if (transactionCash == 0) { return true; }
             if (infiniteTransactions || numberTransactionsLeft.value > 0) { return false; }
             
-            if (announceNothing) { playerStateHandler.EnterDialogue(messageNothing); }
+            if (announceNothing) { playerStateHandler.EnterDialogue(localizedMessageNothing.GetSafeLocalizedString()); }
             return true;
         }
 
@@ -79,14 +94,28 @@ namespace Frankie.World
             switch (transactionCash)
             {
                 case > 0 when wallet.IsWalletFull():
-                    playerStateHandler.EnterDialogue(string.Format(messageWalletFull, recipient));
+                    playerStateHandler.EnterDialogue(string.Format(localizedMessageWalletFull.GetSafeLocalizedString(), recipient));
                     return true;
                 case < 0 when wallet.IsWalletEmpty():
-                    playerStateHandler.EnterDialogue(string.Format(messageWalletEmpty, recipient));
+                    playerStateHandler.EnterDialogue(string.Format(localizedMessageWalletFull.GetSafeLocalizedString(), recipient));
                     return true;
                 default:
                     return false;
             }
+        }
+        #endregion
+        
+        #region LocalizationInterface
+        public List<TableEntryReference> GetLocalizationEntries()
+        {
+            return new List<TableEntryReference>
+            {
+                localizedMessageTransactionPositive.TableEntryReference,
+                localizedMessageTransactionNegative.TableEntryReference,
+                localizedMessageWalletFull.TableEntryReference,
+                localizedMessageWalletEmpty.TableEntryReference,
+                localizedMessageNothing.TableEntryReference
+            };
         }
         #endregion
 

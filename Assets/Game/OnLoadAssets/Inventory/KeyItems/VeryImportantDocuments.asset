@@ -15,11 +15,13 @@ MonoBehaviour:
   guid: c1d8eed3-dd46-4da5-b1de-fe77153bed5e
   gameStateModifierHandlerData:
   - zoneName: OfficeInterior
-    gameObjectName: Horse (1)
-    guid: 9cbe34a6-475e-497c-a1f3-d2558cb8cffb
+    gameObjectName: _StandardItemGiverTaker
+    parentObjectName: Maya (1)
+    guid: fd1e14e3-5807-4f78-839f-ece00cb2127e
   - zoneName: OfficeInterior
-    gameObjectName: Maya (1)
-    guid: d99a8646-835a-4748-8e85-55488e67d89f
+    gameObjectName: _StandardItemGiverTaker
+    parentObjectName: Horse (1)
+    guid: dcc58567-5355-4bcd-8b66-b636426bb765
   displayName: Very Imp. Docs
   description: It's hay.  It's just hay in a binder.
   droppable: 0

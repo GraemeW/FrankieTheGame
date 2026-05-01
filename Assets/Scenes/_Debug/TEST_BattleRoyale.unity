@@ -10788,7 +10788,7 @@ PrefabInstance:
     - target: {fileID: 2506811659634152605, guid: 50a0956d9c45bee489e989971722cdeb, type: 3}
       propertyPath: checkInteraction.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 240783497}
+      objectReference: {fileID: 0}
     - target: {fileID: 2506811659634152605, guid: 50a0956d9c45bee489e989971722cdeb, type: 3}
       propertyPath: checkInteraction.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
       value: 2
@@ -10804,6 +10804,14 @@ PrefabInstance:
     - target: {fileID: 2506811659634152605, guid: 50a0956d9c45bee489e989971722cdeb, type: 3}
       propertyPath: checkInteraction.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
       value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
+    - target: {fileID: 4309562479532742186, guid: 50a0956d9c45bee489e989971722cdeb, type: 3}
+      propertyPath: transactionCash
+      value: 500
+      objectReference: {fileID: 0}
+    - target: {fileID: 4309562479532742186, guid: 50a0956d9c45bee489e989971722cdeb, type: 3}
+      propertyPath: infiniteTransactions
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4484117035451051702, guid: 50a0956d9c45bee489e989971722cdeb, type: 3}
       propertyPath: m_RootOrder
@@ -10879,17 +10887,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 4484117035451051702, guid: 50a0956d9c45bee489e989971722cdeb, type: 3}
   m_PrefabInstance: {fileID: 240783495}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &240783497 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 8046040528659215491, guid: 50a0956d9c45bee489e989971722cdeb, type: 3}
-  m_PrefabInstance: {fileID: 240783495}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 933b5099f968b914f87aaf35e5812d29, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1001 &280933330
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -11171,7 +11168,7 @@ PrefabInstance:
     - target: {fileID: 2506811659634152605, guid: 50a0956d9c45bee489e989971722cdeb, type: 3}
       propertyPath: checkInteraction.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 310047736}
+      objectReference: {fileID: 0}
     - target: {fileID: 2506811659634152605, guid: 50a0956d9c45bee489e989971722cdeb, type: 3}
       propertyPath: checkInteraction.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
       value: 2
@@ -11187,6 +11184,14 @@ PrefabInstance:
     - target: {fileID: 2506811659634152605, guid: 50a0956d9c45bee489e989971722cdeb, type: 3}
       propertyPath: checkInteraction.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
       value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
+    - target: {fileID: 4309562479532742186, guid: 50a0956d9c45bee489e989971722cdeb, type: 3}
+      propertyPath: transactionCash
+      value: 500
+      objectReference: {fileID: 0}
+    - target: {fileID: 4309562479532742186, guid: 50a0956d9c45bee489e989971722cdeb, type: 3}
+      propertyPath: infiniteTransactions
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4484117035451051702, guid: 50a0956d9c45bee489e989971722cdeb, type: 3}
       propertyPath: m_RootOrder
@@ -11262,17 +11267,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 4484117035451051702, guid: 50a0956d9c45bee489e989971722cdeb, type: 3}
   m_PrefabInstance: {fileID: 310047734}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &310047736 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 8046040528659215491, guid: 50a0956d9c45bee489e989971722cdeb, type: 3}
-  m_PrefabInstance: {fileID: 310047734}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 933b5099f968b914f87aaf35e5812d29, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!4 &325160513 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6564381309038757641, guid: 71d598481a579c2448140b70660e15c0, type: 3}
@@ -17615,17 +17609,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Frankie.Control.Specialization.WorldPointAdjuster
   hpToAdjust: 0
   apToAdjust: 0
---- !u!114 &615476252 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 8046040528659215491, guid: 50a0956d9c45bee489e989971722cdeb, type: 3}
-  m_PrefabInstance: {fileID: 1367931729}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 933b5099f968b914f87aaf35e5812d29, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1001 &623371989
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -19953,6 +19936,10 @@ PrefabInstance:
       propertyPath: uniqueIdentifier
       value: eb212d44-c0e7-422e-bc33-946e9a8c083b
       objectReference: {fileID: 0}
+    - target: {fileID: 868385970891400403, guid: dc6f573b6cebd422ca86ed8d3fa4abba, type: 3}
+      propertyPath: transactionCash
+      value: 35
+      objectReference: {fileID: 0}
     - target: {fileID: 8085769299947576033, guid: dc6f573b6cebd422ca86ed8d3fa4abba, type: 3}
       propertyPath: uniqueIdentifier
       value: 829a7d66-d3b7-4945-bd00-eb44cc2746ed
@@ -20881,6 +20868,18 @@ PrefabInstance:
     - target: {fileID: 55258893672351774, guid: 97fd51601b36348728b0fd1031f074b3, type: 3}
       propertyPath: uniqueIdentifier
       value: 2f4094e1-df52-44dd-a03a-ad6282e65ffd
+      objectReference: {fileID: 0}
+    - target: {fileID: 5602464021947922644, guid: 97fd51601b36348728b0fd1031f074b3, type: 3}
+      propertyPath: inventoryItem
+      value: 
+      objectReference: {fileID: 11400000, guid: 9105dfbd6e6afbe4ea13b4836a1a23a8, type: 2}
+    - target: {fileID: 5602464021947922644, guid: 97fd51601b36348728b0fd1031f074b3, type: 3}
+      propertyPath: backingHandlerGUID
+      value: 74d613af-262e-4587-901c-8b8c2f704a43
+      objectReference: {fileID: 0}
+    - target: {fileID: 5602464021947922644, guid: 97fd51601b36348728b0fd1031f074b3, type: 3}
+      propertyPath: backingListHashCheck
+      value: -2126266613
       objectReference: {fileID: 0}
     - target: {fileID: 7943186074068910809, guid: 97fd51601b36348728b0fd1031f074b3, type: 3}
       propertyPath: inventoryItem
@@ -22240,7 +22239,7 @@ PrefabInstance:
     - target: {fileID: 2506811659634152605, guid: 50a0956d9c45bee489e989971722cdeb, type: 3}
       propertyPath: checkInteraction.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 615476252}
+      objectReference: {fileID: 0}
     - target: {fileID: 2506811659634152605, guid: 50a0956d9c45bee489e989971722cdeb, type: 3}
       propertyPath: checkInteraction.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
       value: 2
@@ -22256,6 +22255,14 @@ PrefabInstance:
     - target: {fileID: 2506811659634152605, guid: 50a0956d9c45bee489e989971722cdeb, type: 3}
       propertyPath: checkInteraction.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
       value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
+    - target: {fileID: 4309562479532742186, guid: 50a0956d9c45bee489e989971722cdeb, type: 3}
+      propertyPath: transactionCash
+      value: 500
+      objectReference: {fileID: 0}
+    - target: {fileID: 4309562479532742186, guid: 50a0956d9c45bee489e989971722cdeb, type: 3}
+      propertyPath: infiniteTransactions
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4484117035451051702, guid: 50a0956d9c45bee489e989971722cdeb, type: 3}
       propertyPath: m_RootOrder

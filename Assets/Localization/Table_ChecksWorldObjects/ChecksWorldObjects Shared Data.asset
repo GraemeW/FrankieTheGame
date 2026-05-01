@@ -783,6 +783,38 @@ MonoBehaviour:
     m_Key: PartyOptionCheckConfiguration.SO.StandardPartyOptions.OptionRemoveFromParty.1c85bd8
     m_Metadata:
       m_Items: []
+  - m_Id: 5104716185853952
+    m_Key: WorldItemGiverTaker.Prefab._StandardItemGiverTaker.MessageFoundItem.3fbb7e2b
+    m_Metadata:
+      m_Items: []
+  - m_Id: 5104716479455232
+    m_Key: WorldItemGiverTaker.Prefab._StandardItemGiverTaker.MessageInventoryFull.691a0fea
+    m_Metadata:
+      m_Items: []
+  - m_Id: 5104716592701440
+    m_Key: WorldItemGiverTaker.Prefab._StandardItemGiverTaker.MessageNothing.4bbe2b37
+    m_Metadata:
+      m_Items: []
+  - m_Id: 5154525752057856
+    m_Key: WorldCashGiverTaker.Prefab._StandardCashGiverTaker.MessageTransactionPositive.b134ceb
+    m_Metadata:
+      m_Items: []
+  - m_Id: 5154602067419136
+    m_Key: WorldCashGiverTaker.Prefab._StandardCashGiverTaker.MessageTransactionNegative.228177de
+    m_Metadata:
+      m_Items: []
+  - m_Id: 5154657977491456
+    m_Key: WorldCashGiverTaker.Prefab._StandardCashGiverTaker.MessageWalletEmpty.608d3af7
+    m_Metadata:
+      m_Items: []
+  - m_Id: 5154795131232256
+    m_Key: WorldCashGiverTaker.Prefab._StandardCashGiverTaker.MessageNothing.37b5a0ad
+    m_Metadata:
+      m_Items: []
+  - m_Id: 5154909962887168
+    m_Key: WorldCashGiverTaker.Prefab._StandardCashGiverTaker.MessageWalletFull.41a71307
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:

@@ -14,7 +14,6 @@ GameObject:
   - component: {fileID: 2509519702947311613}
   - component: {fileID: 55258893672351774}
   - component: {fileID: 4239551647755043406}
-  - component: {fileID: -4935661625177251354}
   m_Layer: 2
   m_Name: PresentPurple-L_Cash
   m_TagString: Untagged
@@ -37,6 +36,7 @@ Transform:
   m_Children:
   - {fileID: 1735386440059480068}
   - {fileID: 5151515617335416087}
+  - {fileID: 718653659306487603}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &8896237604876974602
@@ -204,103 +204,79 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Frankie.Control.Specialization.WorldSpriteChanger
   alternateSprite: {fileID: 21300000, guid: bb3c5a174faf74b54be47a28ac2ff23d, type: 3}
---- !u!114 &-4935661625177251354
-MonoBehaviour:
+--- !u!1001 &1382405244291978276
+PrefabInstance:
   m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 8896237604876974607}
+    m_Modifications:
+    - target: {fileID: 1933840347664120599, guid: 16bdc6bf699a840cdb777c02b06f580a, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1933840347664120599, guid: 16bdc6bf699a840cdb777c02b06f580a, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1933840347664120599, guid: 16bdc6bf699a840cdb777c02b06f580a, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1933840347664120599, guid: 16bdc6bf699a840cdb777c02b06f580a, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1933840347664120599, guid: 16bdc6bf699a840cdb777c02b06f580a, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1933840347664120599, guid: 16bdc6bf699a840cdb777c02b06f580a, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1933840347664120599, guid: 16bdc6bf699a840cdb777c02b06f580a, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1933840347664120599, guid: 16bdc6bf699a840cdb777c02b06f580a, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1933840347664120599, guid: 16bdc6bf699a840cdb777c02b06f580a, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1933840347664120599, guid: 16bdc6bf699a840cdb777c02b06f580a, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2543512604207244465, guid: 16bdc6bf699a840cdb777c02b06f580a, type: 3}
+      propertyPath: m_Name
+      value: _StandardCashGiverTaker
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 16bdc6bf699a840cdb777c02b06f580a, type: 3}
+--- !u!4 &718653659306487603 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 1933840347664120599, guid: 16bdc6bf699a840cdb777c02b06f580a, type: 3}
+  m_PrefabInstance: {fileID: 1382405244291978276}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8896237604876974606}
+--- !u!114 &868385970891400403 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2243472449155051767, guid: 16bdc6bf699a840cdb777c02b06f580a, type: 3}
+  m_PrefabInstance: {fileID: 1382405244291978276}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 933b5099f968b914f87aaf35e5812d29, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Frankie.Control.Specialization.WorldCashGiverTaker
-  transactionCash: 10
-  infiniteTransactions: 0
-  numberTransactions: 1
-  announceNothing: 1
-  transactionSuccessful:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 5151515617335416088}
-        m_TargetAssemblyTypeName: Frankie.Sound.SoundEffects, Assembly-CSharp
-        m_MethodName: PlayClip
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 4239551647755043406}
-        m_TargetAssemblyTypeName: Frankie.Control.Specialization.WorldSpriteChanger,
-          Assembly-CSharp
-        m_MethodName: ApplyAlternateSprite
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-  localizedMessageTransactionPositive:
-    m_TableReference:
-      m_TableCollectionName: GUID:e01518a4d82d5485e9b0e7f466ecf01d
-    m_TableEntryReference:
-      m_KeyId: 5092947409231872
-      m_Key: 
-    m_FallbackState: 0
-    m_WaitForCompletion: 0
-    m_LocalVariables: []
-  localizedMessageTransactionNegative:
-    m_TableReference:
-      m_TableCollectionName: GUID:e01518a4d82d5485e9b0e7f466ecf01d
-    m_TableEntryReference:
-      m_KeyId: 5092947702833152
-      m_Key: 
-    m_FallbackState: 0
-    m_WaitForCompletion: 0
-    m_LocalVariables: []
-  localizedMessageWalletFull:
-    m_TableReference:
-      m_TableCollectionName: GUID:e01518a4d82d5485e9b0e7f466ecf01d
-    m_TableEntryReference:
-      m_KeyId: 5092947820273664
-      m_Key: 
-    m_FallbackState: 0
-    m_WaitForCompletion: 0
-    m_LocalVariables: []
-  localizedMessageWalletEmpty:
-    m_TableReference:
-      m_TableCollectionName: GUID:e01518a4d82d5485e9b0e7f466ecf01d
-    m_TableEntryReference:
-      m_KeyId: 5092947929325568
-      m_Key: 
-    m_FallbackState: 0
-    m_WaitForCompletion: 0
-    m_LocalVariables: []
-  localizedMessageNothing:
-    m_TableReference:
-      m_TableCollectionName: GUID:e01518a4d82d5485e9b0e7f466ecf01d
-    m_TableEntryReference:
-      m_KeyId: 5092948042571776
-      m_Key: 
-    m_FallbackState: 0
-    m_WaitForCompletion: 0
-    m_LocalVariables: []
-  messageTransactionPositive: Wow!  Looks like {0} found ${1}.
-  messageTransactionNegative: Yikes!  {0} just lost ${1}.
-  messageWalletFull: Doesn't look like {0} can hold any more cash.
-  messageWalletEmpty: '{0} is already broke, can''t get more broke.'
-  messageNothing: There's nothing in here.
-  references:
-    version: 2
-    RefIds: []
+  m_EditorClassIdentifier: Assembly-CSharp::Frankie.World.WorldCashGiverTaker
 --- !u!1001 &4831248322372988685
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -324,7 +300,7 @@ PrefabInstance:
     - target: {fileID: 5911111898172062454, guid: 39d8967ccafbd0445919bceb2c78a8b4, type: 3}
       propertyPath: checkInteraction.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: -4935661625177251354}
+      objectReference: {fileID: 868385970891400403}
     - target: {fileID: 5911111898172062454, guid: 39d8967ccafbd0445919bceb2c78a8b4, type: 3}
       propertyPath: checkInteraction.m_PersistentCalls.m_Calls.Array.data[1].m_Target
       value: 
@@ -359,7 +335,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5911111898172062454, guid: 39d8967ccafbd0445919bceb2c78a8b4, type: 3}
       propertyPath: checkInteraction.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: Frankie.Control.Specialization.WorldCashGiverTaker, Assembly-CSharp
+      value: Frankie.World.WorldCashGiverTaker, Assembly-CSharp
       objectReference: {fileID: 0}
     - target: {fileID: 5911111898172062454, guid: 39d8967ccafbd0445919bceb2c78a8b4, type: 3}
       propertyPath: checkInteraction.m_PersistentCalls.m_Calls.Array.data[1].m_TargetAssemblyTypeName

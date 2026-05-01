@@ -16,6 +16,7 @@ MonoBehaviour:
   gameStateModifierHandlerData:
   - zoneName: OfficeExterior
     gameObjectName: Steve5000
+    parentObjectName: 
     guid: 5fddb528-cd60-4f94-a12e-9b185fe5c4f8
   displayName: Steve's Key Card
   description: Steve5000's key card.  This'll get you into the office.

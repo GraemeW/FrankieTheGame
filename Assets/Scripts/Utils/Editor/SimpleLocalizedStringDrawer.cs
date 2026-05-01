@@ -33,8 +33,8 @@ namespace Frankie.Utils.Editor
         private const string _unlockLabel = "🔓";
         private const string _lockTooltip = "Unlock to allow editing the localization key.";
         
-        private const int _labelFontSize = 12;
-        private const int _headerFontSize = 13;
+        private const int _labelFontSize = 10;
+        private const int _headerFontSize = 11;
         private static readonly Color _errorTextColour = new(0.9f, 0.3f, 0.3f);
         private static readonly Color _disabledTextColour = new(0.5f, 0.5f, 0.5f);
         

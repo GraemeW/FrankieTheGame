@@ -16,6 +16,7 @@ MonoBehaviour:
   gameStateModifierHandlerData:
   - zoneName: Demo_OfficeBuilding
     gameObjectName: Maya
+    parentObjectName: 
     guid: 64c5af42-be9b-4b5d-9724-5759923e210d
   displayName: Key to Ball Pit
   description: Extremely valuable -- only handed out to senior engineers.  Don't

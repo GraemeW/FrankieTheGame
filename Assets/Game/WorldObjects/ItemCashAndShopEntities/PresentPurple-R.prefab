@@ -14,7 +14,6 @@ GameObject:
   - component: {fileID: 2509519702947311613}
   - component: {fileID: 55258893672351774}
   - component: {fileID: 4239551647755043406}
-  - component: {fileID: 7943186074068910809}
   m_Layer: 2
   m_Name: PresentPurple-R
   m_TagString: Untagged
@@ -37,6 +36,7 @@ Transform:
   m_Children:
   - {fileID: 1735386440059480068}
   - {fileID: 5151515617335416087}
+  - {fileID: 1944903107319612088}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &8896237604876974602
@@ -204,85 +204,119 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Frankie.Control.Specialization.WorldSpriteChanger
   alternateSprite: {fileID: 21300000, guid: c29841775320d471586bf3dd859ffc76, type: 3}
---- !u!114 &7943186074068910809
-MonoBehaviour:
+--- !u!1001 &4504470600975618035
+PrefabInstance:
   m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 8896237604876974607}
+    m_Modifications:
+    - target: {fileID: 543145750272412158, guid: 9e14addd6ba384cc4b7c3c929f1dc434, type: 3}
+      propertyPath: m_Name
+      value: _StandardItemGiverTaker
+      objectReference: {fileID: 0}
+    - target: {fileID: 2629740679449890123, guid: 9e14addd6ba384cc4b7c3c929f1dc434, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2629740679449890123, guid: 9e14addd6ba384cc4b7c3c929f1dc434, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2629740679449890123, guid: 9e14addd6ba384cc4b7c3c929f1dc434, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2629740679449890123, guid: 9e14addd6ba384cc4b7c3c929f1dc434, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2629740679449890123, guid: 9e14addd6ba384cc4b7c3c929f1dc434, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2629740679449890123, guid: 9e14addd6ba384cc4b7c3c929f1dc434, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2629740679449890123, guid: 9e14addd6ba384cc4b7c3c929f1dc434, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4639605854424719098, guid: 9e14addd6ba384cc4b7c3c929f1dc434, type: 3}
+      propertyPath: itemFound.m_PersistentCalls.m_Calls.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4639605854424719098, guid: 9e14addd6ba384cc4b7c3c929f1dc434, type: 3}
+      propertyPath: itemFound.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4639605854424719098, guid: 9e14addd6ba384cc4b7c3c929f1dc434, type: 3}
+      propertyPath: itemFound.m_PersistentCalls.m_Calls.Array.data[1].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4639605854424719098, guid: 9e14addd6ba384cc4b7c3c929f1dc434, type: 3}
+      propertyPath: itemFound.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 5151515617335416088}
+    - target: {fileID: 4639605854424719098, guid: 9e14addd6ba384cc4b7c3c929f1dc434, type: 3}
+      propertyPath: itemFound.m_PersistentCalls.m_Calls.Array.data[1].m_Target
+      value: 
+      objectReference: {fileID: 4239551647755043406}
+    - target: {fileID: 4639605854424719098, guid: 9e14addd6ba384cc4b7c3c929f1dc434, type: 3}
+      propertyPath: itemFound.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4639605854424719098, guid: 9e14addd6ba384cc4b7c3c929f1dc434, type: 3}
+      propertyPath: itemFound.m_PersistentCalls.m_Calls.Array.data[1].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4639605854424719098, guid: 9e14addd6ba384cc4b7c3c929f1dc434, type: 3}
+      propertyPath: itemFound.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: PlayClip
+      objectReference: {fileID: 0}
+    - target: {fileID: 4639605854424719098, guid: 9e14addd6ba384cc4b7c3c929f1dc434, type: 3}
+      propertyPath: itemFound.m_PersistentCalls.m_Calls.Array.data[1].m_MethodName
+      value: ApplyAlternateSprite
+      objectReference: {fileID: 0}
+    - target: {fileID: 4639605854424719098, guid: 9e14addd6ba384cc4b7c3c929f1dc434, type: 3}
+      propertyPath: itemFound.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: Frankie.Sound.SoundEffects, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 4639605854424719098, guid: 9e14addd6ba384cc4b7c3c929f1dc434, type: 3}
+      propertyPath: itemFound.m_PersistentCalls.m_Calls.Array.data[1].m_TargetAssemblyTypeName
+      value: Frankie.World.WorldSpriteChanger, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 4639605854424719098, guid: 9e14addd6ba384cc4b7c3c929f1dc434, type: 3}
+      propertyPath: itemFound.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
+    - target: {fileID: 4639605854424719098, guid: 9e14addd6ba384cc4b7c3c929f1dc434, type: 3}
+      propertyPath: itemFound.m_PersistentCalls.m_Calls.Array.data[1].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 9e14addd6ba384cc4b7c3c929f1dc434, type: 3}
+--- !u!4 &1944903107319612088 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 2629740679449890123, guid: 9e14addd6ba384cc4b7c3c929f1dc434, type: 3}
+  m_PrefabInstance: {fileID: 4504470600975618035}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8896237604876974606}
+--- !u!114 &9142352135543410953 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4639605854424719098, guid: 9e14addd6ba384cc4b7c3c929f1dc434, type: 3}
+  m_PrefabInstance: {fileID: 4504470600975618035}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 6daecbbaa8a734a45b4e8615ccc7cda5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Frankie.Control.Specialization.WorldItemGiverTaker
-  backingHandlerGUID: 
-  backingListHashCheck: 0
-  backingHasGameStateModifiers: 0
-  inventoryItem: {fileID: 0}
-  itemQuantity: 1
-  announceNothing: 1
-  itemFound:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 5151515617335416088}
-        m_TargetAssemblyTypeName: Frankie.Sound.SoundEffects, Assembly-CSharp
-        m_MethodName: PlayClip
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 4239551647755043406}
-        m_TargetAssemblyTypeName: Frankie.Control.Specialization.WorldSpriteChanger,
-          Assembly-CSharp
-        m_MethodName: ApplyAlternateSprite
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-  localizedMessageFoundItem:
-    m_TableReference:
-      m_TableCollectionName: GUID:e01518a4d82d5485e9b0e7f466ecf01d
-    m_TableEntryReference:
-      m_KeyId: 5097842489155584
-      m_Key: 
-    m_FallbackState: 0
-    m_WaitForCompletion: 0
-    m_LocalVariables: []
-  localizedMessageInventoryFull:
-    m_TableReference:
-      m_TableCollectionName: GUID:e01518a4d82d5485e9b0e7f466ecf01d
-    m_TableEntryReference:
-      m_KeyId: 5097842786951168
-      m_Key: 
-    m_FallbackState: 0
-    m_WaitForCompletion: 0
-    m_LocalVariables: []
-  localizedMessageNothing:
-    m_TableReference:
-      m_TableCollectionName: GUID:e01518a4d82d5485e9b0e7f466ecf01d
-    m_TableEntryReference:
-      m_KeyId: 5097842900197376
-      m_Key: 
-    m_FallbackState: 0
-    m_WaitForCompletion: 0
-    m_LocalVariables: []
-  messageFoundItem: Wow!  Looks like {0} found {1}.
-  messageInventoryFull: Whoops, looks like all the knapsacks are full.
-  messageNothing: There's nothing in here.
-  references:
-    version: 2
-    RefIds: []
 --- !u!1001 &4831248322372988685
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -306,7 +340,7 @@ PrefabInstance:
     - target: {fileID: 5911111898172062454, guid: 39d8967ccafbd0445919bceb2c78a8b4, type: 3}
       propertyPath: checkInteraction.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 7943186074068910809}
+      objectReference: {fileID: 9142352135543410953}
     - target: {fileID: 5911111898172062454, guid: 39d8967ccafbd0445919bceb2c78a8b4, type: 3}
       propertyPath: checkInteraction.m_PersistentCalls.m_Calls.Array.data[1].m_Target
       value: 
@@ -341,7 +375,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5911111898172062454, guid: 39d8967ccafbd0445919bceb2c78a8b4, type: 3}
       propertyPath: checkInteraction.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: Frankie.Control.Specialization.WorldItemGiverTaker, Assembly-CSharp
+      value: Frankie.World.WorldItemGiverTaker, Assembly-CSharp
       objectReference: {fileID: 0}
     - target: {fileID: 5911111898172062454, guid: 39d8967ccafbd0445919bceb2c78a8b4, type: 3}
       propertyPath: checkInteraction.m_PersistentCalls.m_Calls.Array.data[1].m_TargetAssemblyTypeName

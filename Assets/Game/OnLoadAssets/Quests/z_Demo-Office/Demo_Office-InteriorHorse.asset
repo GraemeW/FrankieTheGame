@@ -46,12 +46,15 @@ MonoBehaviour:
   gameStateModifierHandlerData:
   - zoneName: OfficeInterior
     gameObjectName: Horse (1)
+    parentObjectName: 
     guid: 34f6cd88-0481-4d84-b034-4d8db70384ad
   - zoneName: OfficeInterior
     gameObjectName: QuestOpenFirepole
+    parentObjectName: 
     guid: c90051c8-6375-4741-a956-7d60c667db5d
   - zoneName: OfficeInterior
     gameObjectName: QuestReceivedDocuments
+    parentObjectName: 
     guid: c2a3aed0-a937-43f5-b032-5871ed446b2a
   detail: Tracker for chatting with the horse in Office
   questObjectiveNames:

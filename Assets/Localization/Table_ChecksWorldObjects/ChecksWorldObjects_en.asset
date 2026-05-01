@@ -806,6 +806,38 @@ MonoBehaviour:
     m_Localized: Remove
     m_Metadata:
       m_Items: []
+  - m_Id: 5104716185853952
+    m_Localized: Wow!  Looks like {0} found {1}.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 5104716479455232
+    m_Localized: Whoops, looks like all the knapsacks are full.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 5104716592701440
+    m_Localized: There's nothing in here.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 5154525752057856
+    m_Localized: Wow!  Looks like {0} found ${1}.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 5154602067419136
+    m_Localized: Yikes!  {0} just lost ${1}.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 5154657977491456
+    m_Localized: '{0} is already broke, can''t get more broke.'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 5154795131232256
+    m_Localized: There's nothing in here.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 5154909962887168
+    m_Localized: Doesn't look like {0} can hold any more cash.
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

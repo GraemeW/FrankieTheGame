@@ -12,8 +12,6 @@ GameObject:
   - component: {fileID: 4484117035451051339}
   - component: {fileID: 4484117035451051700}
   - component: {fileID: 4484117035451051701}
-  - component: {fileID: 8046040528659215491}
-  - component: {fileID: 791367639294811858}
   m_Layer: 2
   m_Name: CoinMachine
   m_TagString: Untagged
@@ -35,6 +33,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 6474412561027294692}
+  - {fileID: 4484089890840239562}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &4484117035451051339
@@ -169,91 +168,6 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 0.24667868, y: 0.09529841}
   m_EdgeRadius: 0
---- !u!114 &8046040528659215491
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4484117035451051703}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 933b5099f968b914f87aaf35e5812d29, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  transactionCash: 3
-  infiniteTransactions: 0
-  numberTransactions: 5
-  announceNothing: 1
-  transactionSuccessful:
-    m_PersistentCalls:
-      m_Calls: []
-  localizedMessageTransactionPositive:
-    m_TableReference:
-      m_TableCollectionName: GUID:e01518a4d82d5485e9b0e7f466ecf01d
-    m_TableEntryReference:
-      m_KeyId: 5093102992744448
-      m_Key: 
-    m_FallbackState: 0
-    m_WaitForCompletion: 0
-    m_LocalVariables: []
-  localizedMessageTransactionNegative:
-    m_TableReference:
-      m_TableCollectionName: GUID:e01518a4d82d5485e9b0e7f466ecf01d
-    m_TableEntryReference:
-      m_KeyId: 5093103177293824
-      m_Key: 
-    m_FallbackState: 0
-    m_WaitForCompletion: 0
-    m_LocalVariables: []
-  localizedMessageWalletFull:
-    m_TableReference:
-      m_TableCollectionName: GUID:e01518a4d82d5485e9b0e7f466ecf01d
-    m_TableEntryReference:
-      m_KeyId: 5093103290540032
-      m_Key: 
-    m_FallbackState: 0
-    m_WaitForCompletion: 0
-    m_LocalVariables: []
-  localizedMessageWalletEmpty:
-    m_TableReference:
-      m_TableCollectionName: GUID:e01518a4d82d5485e9b0e7f466ecf01d
-    m_TableEntryReference:
-      m_KeyId: 5093103407980544
-      m_Key: 
-    m_FallbackState: 0
-    m_WaitForCompletion: 0
-    m_LocalVariables: []
-  localizedMessageNothing:
-    m_TableReference:
-      m_TableCollectionName: GUID:e01518a4d82d5485e9b0e7f466ecf01d
-    m_TableEntryReference:
-      m_KeyId: 5093103517032448
-      m_Key: 
-    m_FallbackState: 0
-    m_WaitForCompletion: 0
-    m_LocalVariables: []
-  messageTransactionPositive: Wow!  Looks like {0} found ${1}.
-  messageTransactionNegative: Yikes!  {0} just lost ${1}.
-  messageWalletFull: Doesn't look like {0} can hold any more cash.
-  messageWalletEmpty: '{0} is already broke, can''t get more broke.'
-  messageNothing: Oh, looks like it's NOTHING.
-  references:
-    version: 2
-    RefIds: []
---- !u!114 &791367639294811858
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4484117035451051703}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c708eed4772dbc14e95f0fb9be8bb48e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  uniqueIdentifier: 91f88dfd-0522-412b-b62b-de17e19bfd42
 --- !u!1001 &198411196152668909
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -277,7 +191,7 @@ PrefabInstance:
     - target: {fileID: 2308409281053914736, guid: 3ea47d49370c98e4e8dda14fd66b947b, type: 3}
       propertyPath: checkInteraction.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 8046040528659215491}
+      objectReference: {fileID: 4309562479532742186}
     - target: {fileID: 2308409281053914736, guid: 3ea47d49370c98e4e8dda14fd66b947b, type: 3}
       propertyPath: checkInteraction.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
       value: 2
@@ -288,7 +202,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2308409281053914736, guid: 3ea47d49370c98e4e8dda14fd66b947b, type: 3}
       propertyPath: checkInteraction.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: Frankie.Control.Specialization.WorldCashGiverTaker, Assembly-CSharp
+      value: Frankie.World.WorldCashGiverTaker, Assembly-CSharp
       objectReference: {fileID: 0}
     - target: {fileID: 2308409281053914736, guid: 3ea47d49370c98e4e8dda14fd66b947b, type: 3}
       propertyPath: checkInteraction.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
@@ -306,10 +220,6 @@ PrefabInstance:
       propertyPath: checkInteraction.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 5226738402773197790, guid: 3ea47d49370c98e4e8dda14fd66b947b, type: 3}
-      propertyPath: checkInteraction.m_PersistentCalls.m_Calls.Array.data[0].m_Target
-      value: 
-      objectReference: {fileID: 8046040528659215491}
     - target: {fileID: 5226738402773197790, guid: 3ea47d49370c98e4e8dda14fd66b947b, type: 3}
       propertyPath: checkInteraction.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
       value: 2
@@ -403,4 +313,85 @@ PrefabInstance:
 Transform:
   m_CorrespondingSourceObject: {fileID: 6564381309038757641, guid: 3ea47d49370c98e4e8dda14fd66b947b, type: 3}
   m_PrefabInstance: {fileID: 198411196152668909}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1001 &2660728475914446557
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 4484117035451051702}
+    m_Modifications:
+    - target: {fileID: 1933840347664120599, guid: 16bdc6bf699a840cdb777c02b06f580a, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1933840347664120599, guid: 16bdc6bf699a840cdb777c02b06f580a, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1933840347664120599, guid: 16bdc6bf699a840cdb777c02b06f580a, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1933840347664120599, guid: 16bdc6bf699a840cdb777c02b06f580a, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1933840347664120599, guid: 16bdc6bf699a840cdb777c02b06f580a, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1933840347664120599, guid: 16bdc6bf699a840cdb777c02b06f580a, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1933840347664120599, guid: 16bdc6bf699a840cdb777c02b06f580a, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1933840347664120599, guid: 16bdc6bf699a840cdb777c02b06f580a, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1933840347664120599, guid: 16bdc6bf699a840cdb777c02b06f580a, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1933840347664120599, guid: 16bdc6bf699a840cdb777c02b06f580a, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2243472449155051767, guid: 16bdc6bf699a840cdb777c02b06f580a, type: 3}
+      propertyPath: transactionCash
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 2243472449155051767, guid: 16bdc6bf699a840cdb777c02b06f580a, type: 3}
+      propertyPath: numberTransactions
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 2543512604207244465, guid: 16bdc6bf699a840cdb777c02b06f580a, type: 3}
+      propertyPath: m_Name
+      value: _StandardCashGiverTaker
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 16bdc6bf699a840cdb777c02b06f580a, type: 3}
+--- !u!114 &4309562479532742186 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2243472449155051767, guid: 16bdc6bf699a840cdb777c02b06f580a, type: 3}
+  m_PrefabInstance: {fileID: 2660728475914446557}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 933b5099f968b914f87aaf35e5812d29, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Frankie.World.WorldCashGiverTaker
+--- !u!4 &4484089890840239562 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 1933840347664120599, guid: 16bdc6bf699a840cdb777c02b06f580a, type: 3}
+  m_PrefabInstance: {fileID: 2660728475914446557}
   m_PrefabAsset: {fileID: 0}

@@ -4,6 +4,7 @@ using UnityEditor.SceneManagement;
 using UnityEngine;
 using Object = UnityEngine.Object;
 using Frankie.Control;
+using Frankie.World;
 
 namespace Frankie.Utils.Editor
 {
@@ -34,20 +35,20 @@ namespace Frankie.Utils.Editor
             EditorSceneManager.OpenScene(_debugSceneRef);
         }
         
-        /*
-        [MenuItem("Tools/TempLinkCheck")]
-        private static void TempLinkCheck()
+        [MenuItem("Tools/TempLocalizedLinker")]
+        private static void TempLocalizedLinker()
         {
             foreach (Object selectedObject in Selection.objects)
             {
                 if (selectedObject is not GameObject gameObject) {  continue; }
-                if (!gameObject.TryGetComponent(out CheckWithToggleChildren check)) { continue; }
-                
-                check.TempCreateCheckEntries();
+                if (!gameObject.TryGetComponent(out WorldItemGiverTaker localizedLinker)) { continue; }
+
+                //localizedLinker.TempLinkStrings();
             }
         }
         
-        public void TempCreateCheckEntries()
+        /*
+        public void TempLinkStrings()
         {
            string keyStem;
            string key;
@@ -61,6 +62,9 @@ namespace Frankie.Utils.Editor
                LocalizationTool.AddUpdateEnglishEntry(localizationTableType, tableEntryReference, checkMessage);
                LocalizationTool.SafelyUpdateReference(localizationTableType, localizedCheckMessage, key);
            }
+           
+            EditorUtility.SetDirty(this);
+           AssetDatabase.SaveAssetIfDirty(this);
         }
         */
     }

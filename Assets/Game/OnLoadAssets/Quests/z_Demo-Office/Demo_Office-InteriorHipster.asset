@@ -31,6 +31,7 @@ MonoBehaviour:
   gameStateModifierHandlerData:
   - zoneName: OfficeInterior
     gameObjectName: HipsterOfficeWorker (1)
+    parentObjectName: 
     guid: 151435e9-c7b7-478f-a9cf-7aaad03e4487
   detail: Tracker for chatting with the hipster in Office
   questObjectiveNames:
