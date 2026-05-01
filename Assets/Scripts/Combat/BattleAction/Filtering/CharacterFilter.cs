@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using Frankie.Stats;
 
@@ -18,17 +19,9 @@ namespace Frankie.Combat
             {
                 CharacterProperties characterProperties = battleEntity.combatParticipant.GetCharacterProperties();
                 if (characterProperties == null) { continue; }
-
-                bool filteredListContainsCharacter = false;
+                
                 // Check via name comparison for compatibility with addressables system
-                foreach (CharacterProperties filterCharacter in characterPropertiesToFilter)
-                {
-                    if (filterCharacter.GetCharacterNameID() == characterProperties.GetCharacterNameID())
-                    {
-                        filteredListContainsCharacter = true;
-                    }
-                }
-
+                bool filteredListContainsCharacter = characterPropertiesToFilter.Any(filterCharacter => CharacterProperties.AreCharacterPropertiesMatched(characterProperties, filterCharacter));
                 if ((!negate && filteredListContainsCharacter) || (negate && !filteredListContainsCharacter))
                 {
                     yield return battleEntity;

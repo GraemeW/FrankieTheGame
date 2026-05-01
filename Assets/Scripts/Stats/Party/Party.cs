@@ -62,7 +62,7 @@ namespace Frankie.Stats
 
         #region PublicGetters
         public BaseStats GetPartyLeader() => members[0];
-        public string GetPartyLeaderName() => members[0].GetCharacterProperties().GetCharacterNamePretty();
+        public string GetPartyLeaderName() => members[0].GetCharacterProperties().GetCharacterDisplayName();
         public Animator GetLeadCharacterAnimator() => members.Count > 0 ? characterSpriteLinkLookup[members[0]].GetAnimator() : null;
         public int GetPartySize() => members.Count;
         public List<CharacterProperties> GetAvailableCharactersToAdd()

@@ -12,7 +12,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 00fbef4dec9dc7846811859f8a74c138, type: 3}
   m_Name: Tilly
   m_EditorClassIdentifier: 
+  localizedDisplayName:
+    m_TableReference:
+      m_TableCollectionName: GUID:bb484015a3d7647bfba6919a6815d5b0
+    m_TableEntryReference:
+      m_KeyId: 5426197751128064
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
   characterPrefab: {fileID: 6731012523550855050, guid: 0556de498fd05e247980b8376415a392, type: 3}
   characterNPCPrefab: {fileID: 2398833644461657395, guid: cf0c598dcc5acb140ad2c34c48d6aa9c, type: 3}
   hasProgressionStats: 1
   incrementsStatsOnLevelUp: 1
+  references:
+    version: 2
+    RefIds: []

@@ -159,7 +159,7 @@ namespace Frankie.Inventory.UI
 
         protected override void SetUpChoiceOptions()
         {
-            if (inventoryBoxState == InventoryBoxState.InKnapsack || inventoryBoxState == InventoryBoxState.InCharacterSelection)
+            if (inventoryBoxState is InventoryBoxState.InKnapsack or InventoryBoxState.InCharacterSelection)
             {
                 choiceOptions.Clear();
                 selectedItemSlot = -1;

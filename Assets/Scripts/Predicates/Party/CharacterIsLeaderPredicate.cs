@@ -10,13 +10,8 @@ namespace Frankie.Core.Predicates
         public override bool? Evaluate(Party party)
         {
             if (charactersToMatch.Count == 0) { return false; }
-
             BaseStats leader = party.GetPartyLeader();
-            if (leader == null) { return false; }
-            CharacterProperties leaderCharacterProperties = leader.GetCharacterProperties();
-            if (leaderCharacterProperties == null) { return false; }
-            
-            return charactersToMatch.Any(character => character.GetCharacterNameID() == leaderCharacterProperties.GetCharacterNameID());
+            return leader != null && charactersToMatch.Any(characterToMatch => CharacterProperties.AreCharacterPropertiesMatched(characterToMatch, leader.GetCharacterProperties()));
         }
     }
 }

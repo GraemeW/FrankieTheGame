@@ -12,9 +12,7 @@ namespace Frankie.Core.Predicates
         {
             if (combatParticipant == null) { return null; }
             var baseStats = combatParticipant.GetComponent<BaseStats>();
-            CharacterProperties characterProperties = baseStats.GetCharacterProperties();
-
-            if (characters.Any(characterPropertiesToCompare => characterProperties.GetCharacterNameID() == characterPropertiesToCompare.GetCharacterNameID()))
+            if (characters.Any(characterToMatch => CharacterProperties.AreCharacterPropertiesMatched(characterToMatch, baseStats.GetCharacterProperties())))
             {
                 return combatParticipant.IsDead();
             }

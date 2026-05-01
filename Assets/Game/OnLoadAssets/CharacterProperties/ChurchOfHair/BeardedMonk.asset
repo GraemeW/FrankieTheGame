@@ -12,7 +12,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 00fbef4dec9dc7846811859f8a74c138, type: 3}
   m_Name: BeardedMonk
   m_EditorClassIdentifier: Assembly-CSharp::Frankie.Stats.CharacterProperties
+  localizedDisplayName:
+    m_TableReference:
+      m_TableCollectionName: GUID:bb484015a3d7647bfba6919a6815d5b0
+    m_TableEntryReference:
+      m_KeyId: 5426197537218560
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
   characterPrefab: {fileID: 0}
   characterNPCPrefab: {fileID: 5186630281406051282, guid: a54e983b6ddf64fe4a03236cfe391a6a, type: 3}
   hasProgressionStats: 1
   incrementsStatsOnLevelUp: 0
+  references:
+    version: 2
+    RefIds: []

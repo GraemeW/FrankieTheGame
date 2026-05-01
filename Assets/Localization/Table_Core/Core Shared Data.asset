@@ -14,7 +14,107 @@ MonoBehaviour:
   m_EditorClassIdentifier: Unity.Localization::UnityEngine.Localization.Tables.SharedTableData
   m_TableCollectionName: Core
   m_TableCollectionNameGuidString: bb484015a3d7647bfba6919a6815d5b0
-  m_Entries: []
+  m_Entries:
+  - m_Id: 5426194815115264
+    m_Key: CharacterProperties.BroOfficeWorker
+    m_Metadata:
+      m_Items: []
+  - m_Id: 5426195180019712
+    m_Key: CharacterProperties.PhilToo
+    m_Metadata:
+      m_Items: []
+  - m_Id: 5426195398123520
+    m_Key: CharacterProperties.GenericOfficeWorkerFran
+    m_Metadata:
+      m_Items: []
+  - m_Id: 5426195612033024
+    m_Key: CharacterProperties.GenericOfficeWorkerGlen
+    m_Metadata:
+      m_Items: []
+  - m_Id: 5426195825942528
+    m_Key: CharacterProperties.Rock
+    m_Metadata:
+      m_Items: []
+  - m_Id: 5426196044046336
+    m_Key: CharacterProperties.HipsterOfficeWorker
+    m_Metadata:
+      m_Items: []
+  - m_Id: 5426196253761536
+    m_Key: CharacterProperties.BaldMonk
+    m_Metadata:
+      m_Items: []
+  - m_Id: 5426196471865344
+    m_Key: CharacterProperties.NewMonk
+    m_Metadata:
+      m_Items: []
+  - m_Id: 5426196681580544
+    m_Key: CharacterProperties.GenericOfficeWorkerDan
+    m_Metadata:
+      m_Items: []
+  - m_Id: 5426196895490048
+    m_Key: CharacterProperties.FlatMonk
+    m_Metadata:
+      m_Items: []
+  - m_Id: 5426197109399552
+    m_Key: CharacterProperties.CleverOfficeWorker
+    m_Metadata:
+      m_Items: []
+  - m_Id: 5426197323309056
+    m_Key: CharacterProperties.GenericOfficeWorkerStan
+    m_Metadata:
+      m_Items: []
+  - m_Id: 5426197537218560
+    m_Key: CharacterProperties.BeardedMonk
+    m_Metadata:
+      m_Items: []
+  - m_Id: 5426197751128064
+    m_Key: CharacterProperties.Tilly
+    m_Metadata:
+      m_Items: []
+  - m_Id: 5426197960843264
+    m_Key: CharacterProperties.Frankie
+    m_Metadata:
+      m_Items: []
+  - m_Id: 5426198178947072
+    m_Key: CharacterProperties.Snail
+    m_Metadata:
+      m_Items: []
+  - m_Id: 5426198388662272
+    m_Key: CharacterProperties.SongBird
+    m_Metadata:
+      m_Items: []
+  - m_Id: 5426198602571776
+    m_Key: CharacterProperties.Horse
+    m_Metadata:
+      m_Items: []
+  - m_Id: 5426198829064192
+    m_Key: CharacterProperties.HelpfulVole
+    m_Metadata:
+      m_Items: []
+  - m_Id: 5426199042973696
+    m_Key: CharacterProperties.Maya
+    m_Metadata:
+      m_Items: []
+  - m_Id: 5426199256883200
+    m_Key: CharacterProperties.SkilledOfficeWorker
+    m_Metadata:
+      m_Items: []
+  - m_Id: 5426199470792704
+    m_Key: CharacterProperties.Squirrel
+    m_Metadata:
+      m_Items: []
+  - m_Id: 5426199688896512
+    m_Key: CharacterProperties.PhilRamen
+    m_Metadata:
+      m_Items: []
+  - m_Id: 5426199902806016
+    m_Key: CharacterProperties.Steve5000
+    m_Metadata:
+      m_Items: []
+  - m_Id: 5426200116715520
+    m_Key: CharacterProperties.Lucy
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:

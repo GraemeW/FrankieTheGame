@@ -357,7 +357,7 @@ namespace Frankie.Combat.UI
             {
                 dialogueBox.AddPageBreak();
 
-                dialogueBox.AddText(string.Format(messageCharacterLevelUp, characterLevelUpSheetPair.baseStats.GetCharacterProperties().GetCharacterNamePretty(), characterLevelUpSheetPair.level.ToString()));
+                dialogueBox.AddText(string.Format(messageCharacterLevelUp, characterLevelUpSheetPair.baseStats.GetCharacterProperties().GetCharacterDisplayName(), characterLevelUpSheetPair.level.ToString()));
                 int pageClearReset = 0;
 
                 foreach (Tuple<string, int> statNameValuePair in characterLevelUpSheetPair.statNameValuePairs)

@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using Frankie.Control;
 using Frankie.Core;
@@ -103,62 +104,16 @@ namespace Frankie.Stats
         public List<BaseStats> GetParty() => members;
         public int GetLastMemberOffsetIndex() => lastMemberOffsetIndex;
 
-        public BaseStats GetMember(CharacterProperties member)
+        public BaseStats GetMember(CharacterProperties matchCharacterProperties)
         {
-            foreach (BaseStats character in members)
-            {
-                CharacterProperties characterProperties = character.GetCharacterProperties();
-                if (characterProperties.GetCharacterNameID() == member.GetCharacterNameID())
-                {
-                    return character;
-                }
-            }
-            return null;
-        }
-
-        public BaseStats GetNextMember(BaseStats currentMember, bool traverseForward)
-        {
-            BaseStats nextMember = null;
-
-            // Simple case
-            if (currentMember == null || members.Count == 1)
-            {
-                nextMember = members[0];
-            }
-            else
-            {
-                // Normal handling
-                for (int index = 0; index < members.Count; index++)
-                {
-                    if (currentMember != members[index]) { continue; }
-
-                    if (traverseForward)
-                    {
-                        nextMember = index == members.Count - 1 ? members[0] : members[index + 1];
-                    }
-                    else
-                    {
-                        nextMember = index == 0 ? members[^1] : members[index - 1];
-                    }
-                }
-            }
-
-            return nextMember;
+            return members.FirstOrDefault(baseStats => CharacterProperties.AreCharacterPropertiesMatched(matchCharacterProperties, baseStats.GetCharacterProperties()));
         }
         #endregion
         
         #region PrivateMethods
-        private bool HasMember(CharacterProperties member)
+        private bool HasMember(CharacterProperties matchCharacterProperties)
         {
-            foreach (BaseStats character in members)
-            {
-                CharacterProperties characterProperties = character.GetCharacterProperties();
-                if (characterProperties.GetCharacterNameID() == member.GetCharacterNameID())
-                {
-                    return true;
-                }
-            }
-            return false;
+            return members.Any(baseStats => CharacterProperties.AreCharacterPropertiesMatched(matchCharacterProperties, baseStats.GetCharacterProperties()));
         }
         
         private void UpdatePartyOffsets(CircularBuffer<Tuple<Vector2, Vector2>> movementHistory)

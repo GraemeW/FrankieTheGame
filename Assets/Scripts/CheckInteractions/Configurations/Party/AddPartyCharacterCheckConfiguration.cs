@@ -21,7 +21,7 @@ namespace Frankie.Control
         {
             Party party = playerStateHandler.GetParty();
             return party.GetAvailableCharactersToAdd().Select(character => 
-                new ChoiceActionPair(character.GetCharacterNamePretty(), () => AddToPartyWithErrorHandling(playerStateHandler, party, character))).ToList();
+                new ChoiceActionPair(character.GetCharacterDisplayName(), () => AddToPartyWithErrorHandling(playerStateHandler, party, character))).ToList();
         }
 
         public override List<TableEntryReference> GetLocalizationEntries()

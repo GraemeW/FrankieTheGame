@@ -11,12 +11,10 @@ namespace Frankie.Core.Predicates
         {
             if (charactersToMatch.Count == 0) { return false; }
 
-            foreach (BaseStats character in party.GetParty())
+            foreach (BaseStats baseStats in party.GetParty())
             {
-                CharacterProperties characterProperties = character.GetCharacterProperties();
-                if (characterProperties == null) { continue; }
-
-                if (charactersToMatch.Any(characterToMatch => characterProperties.GetCharacterNameID() == characterToMatch.GetCharacterNameID()))
+                if (baseStats == null) { continue; }
+                if (charactersToMatch.Any(characterToMatch => CharacterProperties.AreCharacterPropertiesMatched(characterToMatch, baseStats.GetCharacterProperties())))
                 {
                     return true;
                 }

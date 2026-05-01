@@ -13,7 +13,7 @@ namespace Frankie.Control
         [SerializeField] protected bool overrideDefaultInteractionDistance = false;
         [SerializeField] protected float interactionDistance = 0.3f;
         
-        // Localizable Parameters
+        // Localization Parameters
         public LocalizationTableType localizationTableType { get; } = LocalizationTableType.ChecksWorldObjects;
         public virtual List<TableEntryReference> GetLocalizationEntries() => new();
 

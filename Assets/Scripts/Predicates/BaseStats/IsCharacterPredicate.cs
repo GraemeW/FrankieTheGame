@@ -9,8 +9,7 @@ namespace Frankie.Core.Predicates
         public override bool? Evaluate(BaseStats baseStats)
         {
             if (character == null || baseStats == null) { return null; }
-            CharacterProperties characterProperties = baseStats.GetCharacterProperties();
-            return (character.GetCharacterNameID() == characterProperties.GetCharacterNameID());
+            return CharacterProperties.AreCharacterPropertiesMatched(character, baseStats.GetCharacterProperties());
         }
     }
 }

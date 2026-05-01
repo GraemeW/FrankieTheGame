@@ -3,8 +3,7 @@ using UnityEditor;
 using UnityEditor.SceneManagement;
 using UnityEngine;
 using Object = UnityEngine.Object;
-using Frankie.Control;
-using Frankie.World;
+using Frankie.Stats;
 
 namespace Frankie.Utils.Editor
 {
@@ -40,9 +39,10 @@ namespace Frankie.Utils.Editor
         {
             foreach (Object selectedObject in Selection.objects)
             {
-                if (selectedObject is not GameObject gameObject) {  continue; }
-                if (!gameObject.TryGetComponent(out WorldItemGiverTaker localizedLinker)) { continue; }
+                //if (selectedObject is not GameObject gameObject) {  continue; }
+                //if (!gameObject.TryGetComponent(out Temp localizedLinker)) { continue; }
 
+                if (selectedObject is not CharacterProperties localizedLinker) { continue; }
                 //localizedLinker.TempLinkStrings();
             }
         }
@@ -67,6 +67,23 @@ namespace Frankie.Utils.Editor
            AssetDatabase.SaveAssetIfDirty(this);
         }
         */
+        
+        /*
+           string key;
+           TableEntryReference tableEntryReference;
+
+           key = $"CharacterProperties.{name}";
+           tableEntryReference = key;
+           if (localizedDisplayName == null || LocalizationTool.GetEnglishEntry(localizationTableType, localizedDisplayName.TableEntryReference) != name)
+           {
+               LocalizationTool.AddUpdateEnglishEntry(localizationTableType, tableEntryReference, name);
+               LocalizationTool.SafelyUpdateReference(localizationTableType, localizedDisplayName, key);
+           }
+           
+           EditorUtility.SetDirty(this);
+           AssetDatabase.SaveAssetIfDirty(this);
+         
+         */
     }
 }
 #endif

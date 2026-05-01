@@ -27,7 +27,7 @@ namespace Frankie.Control
             if (party.GetPartySize() == 1) { return interactActions; } // throw empty list to prevent option from triggering
 
             interactActions.AddRange(party.GetParty().Select(character => 
-                new ChoiceActionPair(character.GetCharacterProperties().GetCharacterNamePretty(), () => RemoveFromPartyWithErrorHandling(playerStateHandler, party, character))));
+                new ChoiceActionPair(character.GetCharacterProperties().GetCharacterDisplayName(), () => RemoveFromPartyWithErrorHandling(playerStateHandler, party, character))));
             return interactActions;
         }
         
@@ -46,7 +46,7 @@ namespace Frankie.Control
             if (unremovableCharacters != null)
             {
                 CharacterProperties selectedCharacter = character.GetCharacterProperties();
-                if (unremovableCharacters.Any(unremovableCharacter => selectedCharacter.GetCharacterNameID() == unremovableCharacter.GetCharacterNameID()))
+                if (unremovableCharacters.Any(unremovableCharacter => CharacterProperties.AreCharacterPropertiesMatched(selectedCharacter, unremovableCharacter)))
                 {
                     playerStateHandler.EnterDialogue(string.Format(localizedMessageCannotRemove.GetSafeLocalizedString(), selectedCharacter.name));
                     return;

@@ -39,7 +39,7 @@ namespace Frankie.Speech
 
         #region Getters
 
-        public bool HasValidCharacterProperties() => characterProperties != null && !string.IsNullOrWhiteSpace(characterProperties.GetCharacterNameID()); 
+        public bool HasValidCharacterProperties() => characterProperties != null && !string.IsNullOrWhiteSpace(characterProperties.GetCharacterID()); 
         public CharacterProperties GetCharacterProperties() => characterProperties;
         public SpeakerType GetSpeakerType() => speakerType;
 
@@ -87,7 +87,7 @@ namespace Frankie.Speech
         {
             if (characterProperties == null) { return; }
             isSpeakerOverridden = true;
-            overriddenSpeakerName = characterProperties.GetCharacterNameID();
+            overriddenSpeakerName = characterProperties.GetCharacterID();
         }
         #endregion
 
