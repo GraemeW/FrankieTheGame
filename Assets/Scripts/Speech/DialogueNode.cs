@@ -64,6 +64,15 @@ namespace Frankie.Speech
 
         private string GetSpeakerNameLocalizationKey() => $"{dialogueName}.{nodeDepth}.{nodeBreadth}.Speaker";
         private string GetTextLocalizationKey() => $"{dialogueName}.{nodeDepth}.{nodeBreadth}.Text";
+        
+        public List<TableEntryReference> GetLocalizationEntries()
+        {
+            return new List<TableEntryReference>
+            {
+                localizedSpeakerName.TableEntryReference,
+                localizedText.TableEntryReference
+            };
+        }
         #endregion
         
         #region Setters
@@ -137,15 +146,6 @@ namespace Frankie.Speech
             
             cachedText = setText;
             EditorUtility.SetDirty(this);
-        }
-
-        public List<TableEntryReference> GetLocalizationEntries()
-        {
-            return new List<TableEntryReference>
-            {
-                localizedSpeakerName.TableEntryReference,
-                localizedText.TableEntryReference
-            };
         }
 
         public void DeleteLocalizationEntries()

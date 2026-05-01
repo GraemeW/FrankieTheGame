@@ -10777,6 +10777,10 @@ PrefabInstance:
       propertyPath: uniqueIdentifier
       value: 4151f2d2-feaa-40ce-b44c-351eee3ddb40
       objectReference: {fileID: 0}
+    - target: {fileID: 1784306010668943859, guid: 50a0956d9c45bee489e989971722cdeb, type: 3}
+      propertyPath: uniqueIdentifier
+      value: 4d4e115c-4834-4c4c-8883-4fc16c5456fa
+      objectReference: {fileID: 0}
     - target: {fileID: 2506811659634152605, guid: 50a0956d9c45bee489e989971722cdeb, type: 3}
       propertyPath: checkInteraction.m_PersistentCalls.m_Calls.Array.size
       value: 1
@@ -11156,6 +11160,10 @@ PrefabInstance:
     - target: {fileID: 1378922569636475579, guid: 50a0956d9c45bee489e989971722cdeb, type: 3}
       propertyPath: uniqueIdentifier
       value: 534c779b-de73-4efa-88c1-5770830bcf84
+      objectReference: {fileID: 0}
+    - target: {fileID: 1784306010668943859, guid: 50a0956d9c45bee489e989971722cdeb, type: 3}
+      propertyPath: uniqueIdentifier
+      value: e41020e2-3587-4128-84d0-42be1c7e03e3
       objectReference: {fileID: 0}
     - target: {fileID: 2506811659634152605, guid: 50a0956d9c45bee489e989971722cdeb, type: 3}
       propertyPath: checkInteraction.m_PersistentCalls.m_Calls.Array.size
@@ -19940,6 +19948,10 @@ PrefabInstance:
       propertyPath: transactionCash
       value: 35
       objectReference: {fileID: 0}
+    - target: {fileID: 3386887864666618634, guid: dc6f573b6cebd422ca86ed8d3fa4abba, type: 3}
+      propertyPath: uniqueIdentifier
+      value: baed092e-6b8b-45a1-b5df-e9fb5650ee59
+      objectReference: {fileID: 0}
     - target: {fileID: 8085769299947576033, guid: dc6f573b6cebd422ca86ed8d3fa4abba, type: 3}
       propertyPath: uniqueIdentifier
       value: 829a7d66-d3b7-4945-bd00-eb44cc2746ed
@@ -20892,6 +20904,10 @@ PrefabInstance:
     - target: {fileID: 7943186074068910809, guid: 97fd51601b36348728b0fd1031f074b3, type: 3}
       propertyPath: backingListHashCheck
       value: -1586158953
+      objectReference: {fileID: 0}
+    - target: {fileID: 8039291272604402414, guid: 97fd51601b36348728b0fd1031f074b3, type: 3}
+      propertyPath: uniqueIdentifier
+      value: a97e3e7d-b82d-4457-9182-b858697beaa3
       objectReference: {fileID: 0}
     - target: {fileID: 8085769299947576033, guid: 97fd51601b36348728b0fd1031f074b3, type: 3}
       propertyPath: uniqueIdentifier
@@ -22227,6 +22243,10 @@ PrefabInstance:
     - target: {fileID: 1378922569636475579, guid: 50a0956d9c45bee489e989971722cdeb, type: 3}
       propertyPath: uniqueIdentifier
       value: f55b2ef3-3070-4e18-be8d-1bda06c565b3
+      objectReference: {fileID: 0}
+    - target: {fileID: 1784306010668943859, guid: 50a0956d9c45bee489e989971722cdeb, type: 3}
+      propertyPath: uniqueIdentifier
+      value: 992ad4da-d7db-4981-8024-f6915271661a
       objectReference: {fileID: 0}
     - target: {fileID: 2506811659634152605, guid: 50a0956d9c45bee489e989971722cdeb, type: 3}
       propertyPath: checkInteraction.m_PersistentCalls.m_Calls.Array.size
