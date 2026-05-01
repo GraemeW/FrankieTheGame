@@ -17,6 +17,11 @@ namespace Frankie.Core.GameStateModifiers
         public string GetGUID() => guid;
         public List<ZoneToGameObjectLinkData> gameStateModifierHandlerData = new(); // Custom view in GameStateModifierEditor
         
+        // Static State
+#if UNITY_EDITOR
+        private static Dictionary<string, GameStateModifier> _gameStateModifierCache;
+#endif
+        
         #region InterfaceMethods
         public virtual void OnBeforeSerialize()
         {
@@ -37,6 +42,45 @@ namespace Frankie.Core.GameStateModifiers
         
 #if UNITY_EDITOR
         #region EditorStaticMethods
+        public static GameStateModifier GetGameStateModifier(string guid)
+        {
+            bool wasCacheBuiltThisRequest = false;
+            if (_gameStateModifierCache == null)
+            {
+                wasCacheBuiltThisRequest = true;
+                _gameStateModifierCache = BuildCache();
+            }
+            
+            if (_gameStateModifierCache.TryGetValue(guid, out GameStateModifier gameStateModifier)) { return gameStateModifier; }
+            if (wasCacheBuiltThisRequest) { return null;}
+            
+            // Cache may be stale, so re-build
+            BuildCache();
+            return _gameStateModifierCache.TryGetValue(guid, out gameStateModifier) ? gameStateModifier : null;
+        }
+        
+        private static Dictionary<string, GameStateModifier> BuildCache()
+        {
+            var newGameStateModifierCache = new Dictionary<string, GameStateModifier>();
+            string[] assetGuids = AssetDatabase.FindAssets("t:" + nameof(GameStateModifier));
+            if (assetGuids == null || assetGuids.Length == 0) { return newGameStateModifierCache; }
+
+            Debug.Log($"GameStateModifier:  Building static cache for {assetGuids.Length} guids.");
+            foreach (string assetGUID in assetGuids)
+            {
+                string path = AssetDatabase.GUIDToAssetPath(assetGUID);
+                GameStateModifier gameStateModifier = AssetDatabase.LoadAssetAtPath<GameStateModifier>(path);
+                if (gameStateModifier == null) { continue; }
+
+                string gameStateModifierGUID = gameStateModifier.GetGUID();
+                if (!newGameStateModifierCache.TryAdd(gameStateModifierGUID, gameStateModifier))
+                {
+                    Debug.LogWarning($"GameStateModifier - Duplicate guid found for {gameStateModifier.name} w/ GUID: {gameStateModifierGUID}");
+                }
+            }
+            return newGameStateModifierCache;
+        }
+        
         public static string GetGameStateModifierHandlerDataRef() => nameof(gameStateModifierHandlerData);
         
         private static bool DoesGameStateModifierHandlerExist(string scenePath, string handlerGUID, out IGameStateModifierHandler gameStateModifierHandler)

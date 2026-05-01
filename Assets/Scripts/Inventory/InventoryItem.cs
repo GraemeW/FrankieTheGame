@@ -62,7 +62,6 @@ namespace Frankie.Inventory
         #endregion
 
         #region PublicMethods
-        public static string GetItemNamePretty(string itemName) => Regex.Replace(itemName, "([a-z])_?([A-Z])", "$1 $2");
         public string GetDisplayName() => displayName;
         public string GetDescription() => description;
         public bool IsDroppable() => droppable;

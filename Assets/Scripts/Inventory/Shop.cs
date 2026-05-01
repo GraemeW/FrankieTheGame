@@ -19,6 +19,9 @@ namespace Frankie.Inventory
         [SerializeField][HideInInspector] private bool backingHasGameStateModifiers;
         public bool hasGameStateModifiers { get => backingHasGameStateModifiers; set => backingHasGameStateModifiers = value; }
         
+        [SerializeField] [HideInInspector] private List<string> backingGameStateModifierGUIDs;
+        public List<string> gameStateModifierGUIDs { get => backingGameStateModifierGUIDs; set => backingGameStateModifierGUIDs = value ?? new List<string>(); } 
+        
         // Tunables
         [Header("Base Attributes")]
         [SerializeField] private List<InventoryItem> stock = new();

@@ -14,7 +14,7 @@ namespace Frankie.Inventory
 
         private bool IsConsumable() => consumable;
         public bool IsItem() => true;
-        public string GetName() => GetItemNamePretty(name);
+        public string GetName() => GetDisplayName();
 
         public bool Use(BattleActionData battleActionData, Action finished)
         {

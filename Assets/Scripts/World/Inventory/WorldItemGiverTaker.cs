@@ -27,6 +27,9 @@ namespace Frankie.World
         [SerializeField][HideInInspector] private bool backingHasGameStateModifiers;
         public bool hasGameStateModifiers { get => backingHasGameStateModifiers; set => backingHasGameStateModifiers = value; }
         
+        [SerializeField] [HideInInspector] private List<string> backingGameStateModifierGUIDs;
+        public List<string> gameStateModifierGUIDs { get => backingGameStateModifierGUIDs; set => backingGameStateModifierGUIDs = value ?? new List<string>(); } 
+        
         // Tunables
         [SerializeField] private InventoryItem inventoryItem;
         [SerializeField] private int itemQuantity = 1;

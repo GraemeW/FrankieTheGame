@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 #if UNITY_EDITOR
@@ -38,6 +39,7 @@ namespace Frankie.Core.GameStateModifiers
         public string handlerGUID { get; set; } // Must include explicit backing field in implementation
         public int modifierListHashCheck { get; set; } // Must include explicit backing field in implementation
         public bool hasGameStateModifiers { get; set; } // Must include explicit backing field in implementation
+        public List<string> gameStateModifierGUIDs { get; set; } // Must include explicit backing field in implementation
         
         public static void TriggerOnDestroy(IGameStateModifierHandler gameStateModifierHandler)
         {
@@ -76,20 +78,21 @@ namespace Frankie.Core.GameStateModifiers
             
             ZoneToGameObjectLinkData zoneToGameObjectLinkData = MakeZoneToGameObjectLinkData();
             
-            // Check for changes to asset
-            int newModifierListHashCheck = GetModifierListHashCheck(zoneToGameObjectLinkData.zoneName, zoneToGameObjectLinkData.gameObjectName);
+            // TEMP, TO DELETE
+            if (hasGameStateModifiers && (gameStateModifierGUIDs == null || gameStateModifierGUIDs.Count == 0))
+            {
+                var temp = AddUpdateGameStateModifiers(zoneToGameObjectLinkData);
+                gameStateModifierGUIDs = temp;
+                ForceSerializeGameObject();
+                return;
+            }
             
+            int newModifierListHashCheck = GetModifierListHashCheck(zoneToGameObjectLinkData.zoneName, zoneToGameObjectLinkData.gameObjectName);
             if (modifierListHashCheck == newModifierListHashCheck) { return; }
             modifierListHashCheck = newModifierListHashCheck;
-
-            hasGameStateModifiers = false;
-            foreach (GameStateModifier gameStateModifier in GetGameStateModifiers())
-            {
-                if (gameStateModifier == null) { continue; }
-                gameStateModifier.AddOrUpdateGameStateModifierHandler(zoneToGameObjectLinkData);
-                gameStateModifier.CleanDanglingModifierHandlerData();
-                hasGameStateModifiers = true;
-            }
+            
+            var newGameStateModifierGUIDs = AddUpdateGameStateModifiers(zoneToGameObjectLinkData);
+            RemoveStateGameStateModifiers(newGameStateModifierGUIDs);
             
             ForceSerializeGameObject();
 #endif
@@ -135,6 +138,38 @@ namespace Frankie.Core.GameStateModifiers
             if (string.IsNullOrWhiteSpace(handlerGUID)) { handlerGUID = Guid.NewGuid().ToString(); }
             
             return new ZoneToGameObjectLinkData(zoneName, gameObjectName, parentObjectName, handlerGUID);
+        }
+        
+        private List<string> AddUpdateGameStateModifiers(ZoneToGameObjectLinkData zoneToGameObjectLinkData)
+        {
+            hasGameStateModifiers = false;
+            var newGameStateModifierGUIDs = new List<string>();
+            foreach (GameStateModifier gameStateModifier in GetGameStateModifiers())
+            {
+                if (gameStateModifier == null) { continue; }
+                gameStateModifier.AddOrUpdateGameStateModifierHandler(zoneToGameObjectLinkData);
+                gameStateModifier.CleanDanglingModifierHandlerData();
+                newGameStateModifierGUIDs.Add(gameStateModifier.GetGUID());
+                hasGameStateModifiers = true;
+            }
+
+            return newGameStateModifierGUIDs;
+        }
+        
+        private void RemoveStateGameStateModifiers(List<string> newGameStateModifierGUIDs)
+        {
+            if (gameStateModifierGUIDs == null) { gameStateModifierGUIDs = newGameStateModifierGUIDs; }
+            else
+            {
+                List<string> missingGUIDs = gameStateModifierGUIDs.Except(newGameStateModifierGUIDs).ToList();
+                gameStateModifierGUIDs.Clear();
+                gameStateModifierGUIDs.AddRange(newGameStateModifierGUIDs);
+
+                foreach (GameStateModifier gameStateModifier in missingGUIDs.Select(GameStateModifier.GetGameStateModifier).Where(gameStateModifier => gameStateModifier != null))
+                {
+                    gameStateModifier.CleanDanglingModifierHandlerData();
+                }
+            }
         }
         
         private int GetModifierListHashCheck(string zoneName, string gameObjectName)
