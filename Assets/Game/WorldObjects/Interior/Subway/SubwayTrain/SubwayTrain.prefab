@@ -329,11 +329,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 87ada95f1f55a394c868098a68cef5c6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  message: Where do you want to ride?
+  localizedRideMessage:
+    m_TableReference:
+      m_TableCollectionName: GUID:e01518a4d82d5485e9b0e7f466ecf01d
+    m_TableEntryReference:
+      m_KeyId: 5167281624571904
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
   conductorToggleObject: {fileID: 2672582828315926417}
   followTarget: {fileID: 1938221001236323898}
   subwayRides: []
   sisterRidersToDisable: []
+  references:
+    version: 2
+    RefIds: []
 --- !u!1 &8104238108682320541
 GameObject:
   m_ObjectHideFlags: 0

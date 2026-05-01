@@ -2,23 +2,29 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.Localization;
+using UnityEngine.Localization.Tables;
 using Frankie.Core;
 using Frankie.Control;
 using Frankie.Utils;
 
 namespace Frankie.World
 {
+    [ExecuteInEditMode]
     [RequireComponent(typeof(NPCMover))]
     [RequireComponent(typeof(Animator))]
-    public class WorldSubwayRider : MonoBehaviour, ICheckDynamic
+    public class WorldSubwayRider : MonoBehaviour, ICheckDynamic, ILocalizable
     {
+        // Localization Properties
+        public LocalizationTableType localizationTableType { get; } = LocalizationTableType.ChecksWorldObjects;
+        
         // Tunables
-        [SerializeField] private string message = "Where do you want to ride?";
+        [SerializeField][SimpleLocalizedString(LocalizationTableType.ChecksWorldObjects, true)] private LocalizedString localizedRideMessage;
         [SerializeField] private GameObject conductorToggleObject;
         [SerializeField] private Transform followTarget;
-        [SerializeField] private SubwayRide[] subwayRides;
-        [SerializeField] private WorldSubwayRider[] sisterRidersToDisable;
-
+        [SerializeField] private List<SubwayRide> subwayRides = new();
+        [SerializeField] private List<WorldSubwayRider> sisterRidersToDisable = new();
+        
         // State
         private bool active = true;
         private Action handleRideEndDelegate;
@@ -39,17 +45,29 @@ namespace Frankie.World
         {
             active = true;
         }
+        
+        protected void OnDestroy()
+        {
+            ILocalizable.TriggerOnDestroy(this);
+        }
         #endregion
 
         #region InterfaceMethods
-        public string GetMessage() => message;
+        public string GetMessage() => localizedRideMessage.GetSafeLocalizedString();
         public List<ChoiceActionPair> GetChoiceActionPairs(PlayerStateMachine playerStateMachine)
         {
             var rideOptions = new List<ChoiceActionPair>();
-            if (subwayRides == null || subwayRides.Length == 0 || !active) { return rideOptions; }
+            if (subwayRides.Count == 0 || !active) { return rideOptions; }
 
-            rideOptions.AddRange(from subwayRide in subwayRides where subwayRide.zoneHandler != null && subwayRide.path != null select new ChoiceActionPair(subwayRide.rideName, () => StartRide(playerStateMachine, subwayRide)));
+            rideOptions.AddRange(from subwayRide in subwayRides where subwayRide.zoneHandler != null && subwayRide.path != null select new ChoiceActionPair(subwayRide.localizedRideName.GetSafeLocalizedString(), () => StartRide(playerStateMachine, subwayRide)));
             return rideOptions;
+        }
+        
+        public List<TableEntryReference> GetLocalizationEntries()
+        {
+            List<TableEntryReference> localizationEntries = new() { localizedRideMessage.TableEntryReference };
+            localizationEntries.AddRange(from subwayRide in subwayRides where subwayRide?.localizedRideName is { IsEmpty: false } select subwayRide.localizedRideName.TableEntryReference);
+            return localizationEntries;
         }
         #endregion
 
@@ -79,7 +97,7 @@ namespace Frankie.World
             
             // Disable Stuff
             ToggleConductor(false);
-            if (sisterRidersToDisable is { Length: > 0 })
+            if (sisterRidersToDisable is { Count: > 0 })
             {
                 foreach (WorldSubwayRider sisterRider in sisterRidersToDisable)
                 {
@@ -105,7 +123,7 @@ namespace Frankie.World
         private void HandleRideEnd(PlayerStateMachine playerStateMachine)
         {
             if (cameraController == null) { CameraController.GetCameraController(); }
-            UnityEngine.Debug.Log("So we're here now");
+            Debug.Log("So we're here now");
 
             npcMover.arrivedAtFinalWaypoint -= handleRideEndDelegate;
             cameraController.RefreshDefaultCameras();

@@ -838,6 +838,18 @@ MonoBehaviour:
     m_Localized: Doesn't look like {0} can hold any more cash.
     m_Metadata:
       m_Items: []
+  - m_Id: 5167281624571904
+    m_Localized: Where do you want to ride?
+    m_Metadata:
+      m_Items: []
+  - m_Id: 5168358289825792
+    m_Localized: to the office
+    m_Metadata:
+      m_Items: []
+  - m_Id: 5168433816657920
+    m_Localized: to the apartments
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

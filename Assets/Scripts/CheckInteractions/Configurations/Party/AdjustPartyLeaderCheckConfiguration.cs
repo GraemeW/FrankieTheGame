@@ -11,7 +11,7 @@ namespace Frankie.Control
     [CreateAssetMenu(fileName = "New Adjust Party Leader Check Configuration", menuName = "CheckConfigurations/AdjustLeader")]
     public class AdjustPartyLeaderCheckConfiguration : CheckConfiguration
     {
-        [SerializeField][SimpleLocalizedString(LocalizationTableType.ChecksWorldObjects, true)] protected LocalizedString localizedMessageAdjustLeader;
+        [SerializeField][SimpleLocalizedString(LocalizationTableType.ChecksWorldObjects, true)] private LocalizedString localizedMessageAdjustLeader;
 
         public override string GetMessage() => localizedMessageAdjustLeader.GetSafeLocalizedString();
         

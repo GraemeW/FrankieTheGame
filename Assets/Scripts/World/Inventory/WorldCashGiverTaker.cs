@@ -24,13 +24,13 @@ namespace Frankie.World
         [SerializeField] private bool announceNothing = true;
         [SerializeField] private InteractionEvent transactionSuccessful;
         [Header("Messages - {0}: name, {1}: cash qty")]
-        [SerializeField][SimpleLocalizedString(LocalizationTableType.ChecksWorldObjects, true)] protected LocalizedString localizedMessageTransactionPositive;
-        [SerializeField][SimpleLocalizedString(LocalizationTableType.ChecksWorldObjects, true)] protected LocalizedString localizedMessageTransactionNegative;
+        [SerializeField][SimpleLocalizedString(LocalizationTableType.ChecksWorldObjects, true)] private LocalizedString localizedMessageTransactionPositive;
+        [SerializeField][SimpleLocalizedString(LocalizationTableType.ChecksWorldObjects, true)] private LocalizedString localizedMessageTransactionNegative;
         [Header("Messages - {0}: name")]
-        [SerializeField][SimpleLocalizedString(LocalizationTableType.ChecksWorldObjects, true)] protected LocalizedString localizedMessageWalletFull;
-        [SerializeField][SimpleLocalizedString(LocalizationTableType.ChecksWorldObjects, true)] protected LocalizedString localizedMessageWalletEmpty;
+        [SerializeField][SimpleLocalizedString(LocalizationTableType.ChecksWorldObjects, true)] private LocalizedString localizedMessageWalletFull;
+        [SerializeField][SimpleLocalizedString(LocalizationTableType.ChecksWorldObjects, true)] private LocalizedString localizedMessageWalletEmpty;
         [Header("Other Messages")]
-        [SerializeField][SimpleLocalizedString(LocalizationTableType.ChecksWorldObjects, true)] protected LocalizedString localizedMessageNothing;
+        [SerializeField][SimpleLocalizedString(LocalizationTableType.ChecksWorldObjects, true)] private LocalizedString localizedMessageNothing;
 
         // State
         private LazyValue<int> numberTransactionsLeft;

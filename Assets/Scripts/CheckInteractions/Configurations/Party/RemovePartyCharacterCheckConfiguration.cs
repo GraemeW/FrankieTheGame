@@ -11,10 +11,10 @@ namespace Frankie.Control
     [CreateAssetMenu(fileName = "New Remove from Party Check Configuration", menuName = "CheckConfigurations/RemoveParty")]
     public class RemovePartyCharacterCheckConfiguration : CheckConfiguration
     {
-        [SerializeField][SimpleLocalizedString(LocalizationTableType.ChecksWorldObjects, true)] protected LocalizedString localizedMessageRemoveFromParty;
-        [SerializeField][SimpleLocalizedString(LocalizationTableType.ChecksWorldObjects, true)] protected LocalizedString localizedMessageCannotRemove;
+        [SerializeField][SimpleLocalizedString(LocalizationTableType.ChecksWorldObjects, true)] private LocalizedString localizedMessageRemoveFromParty;
+        [SerializeField][SimpleLocalizedString(LocalizationTableType.ChecksWorldObjects, true)] private LocalizedString localizedMessageCannotRemove;
         [SerializeField] private List<CharacterProperties> unremovableCharacters = new();
-        [SerializeField][SimpleLocalizedString(LocalizationTableType.ChecksWorldObjects, true)] protected LocalizedString localizedMessageMinimumParty;
+        [SerializeField][SimpleLocalizedString(LocalizationTableType.ChecksWorldObjects, true)] private LocalizedString localizedMessageMinimumParty;
 
         public override string GetMessage() => localizedMessageRemoveFromParty.GetSafeLocalizedString();
         

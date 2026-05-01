@@ -9,15 +9,15 @@ namespace Frankie.Control
     [CreateAssetMenu(fileName = "New Party Option Check Configuration", menuName = "CheckConfigurations/PartyOptions")]
     public class PartyOptionCheckConfiguration : CheckConfiguration
     {
-        [SerializeField][SimpleLocalizedString(LocalizationTableType.ChecksWorldObjects, true)] protected LocalizedString localizedMessagePartyOptions;
+        [SerializeField][SimpleLocalizedString(LocalizationTableType.ChecksWorldObjects, true)] private LocalizedString localizedMessagePartyOptions;
         [SerializeField] private bool toggleLeaderAdjust = true;
-        [SerializeField][SimpleLocalizedString(LocalizationTableType.ChecksWorldObjects, true)] protected LocalizedString localizedOptionLeaderAdjust;
+        [SerializeField][SimpleLocalizedString(LocalizationTableType.ChecksWorldObjects, true)] private LocalizedString localizedOptionLeaderAdjust;
         [SerializeField] private CheckConfiguration partyLeaderConfiguration;
         [SerializeField] private bool toggleAddToParty = true;
-        [SerializeField][SimpleLocalizedString(LocalizationTableType.ChecksWorldObjects, true)] protected LocalizedString localizedOptionAddToParty;
+        [SerializeField][SimpleLocalizedString(LocalizationTableType.ChecksWorldObjects, true)] private LocalizedString localizedOptionAddToParty;
         [SerializeField] private CheckConfiguration addToPartyConfiguration;
         [SerializeField] private bool toggleRemoveFromParty = true;
-        [SerializeField][SimpleLocalizedString(LocalizationTableType.ChecksWorldObjects, true)] protected LocalizedString localizedOptionRemoveFromParty;
+        [SerializeField][SimpleLocalizedString(LocalizationTableType.ChecksWorldObjects, true)] private LocalizedString localizedOptionRemoveFromParty;
         [SerializeField] private CheckConfiguration removeFromPartyConfiguration;
 
         public override string GetMessage() => localizedMessagePartyOptions.GetSafeLocalizedString();

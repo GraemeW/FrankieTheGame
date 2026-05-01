@@ -11,11 +11,11 @@ namespace Frankie.Control
     public class BankOptionCheckConfiguration : CheckConfiguration
     {
         // Tunables
-        [SerializeField][SimpleLocalizedString(LocalizationTableType.ChecksWorldObjects, true)] protected LocalizedString localizedMessageBankOptions;
+        [SerializeField][SimpleLocalizedString(LocalizationTableType.ChecksWorldObjects, true)] private LocalizedString localizedMessageBankOptions;
         [SerializeField] private bool toggleDeposit = true;
-        [SerializeField][SimpleLocalizedString(LocalizationTableType.ChecksWorldObjects, true)] protected LocalizedString localizedOptionDeposit;
+        [SerializeField][SimpleLocalizedString(LocalizationTableType.ChecksWorldObjects, true)] private LocalizedString localizedOptionDeposit;
         [SerializeField] private bool toggleWithdraw = true;
-        [SerializeField][SimpleLocalizedString(LocalizationTableType.ChecksWorldObjects, true)] protected LocalizedString localizedOptionWithdraw;
+        [SerializeField][SimpleLocalizedString(LocalizationTableType.ChecksWorldObjects, true)] private LocalizedString localizedOptionWithdraw;
         
         // Implementation
         public override string GetMessage() => localizedMessageBankOptions.GetSafeLocalizedString();

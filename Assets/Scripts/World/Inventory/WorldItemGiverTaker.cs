@@ -33,10 +33,10 @@ namespace Frankie.World
         [SerializeField] private bool announceNothing = true;
         [SerializeField] private InteractionEvent itemFound;
         [Header("Messages - {0}: name, {1}: item")]
-        [SerializeField][SimpleLocalizedString(LocalizationTableType.ChecksWorldObjects, true)] protected LocalizedString localizedMessageFoundItem;
+        [SerializeField][SimpleLocalizedString(LocalizationTableType.ChecksWorldObjects, true)] private LocalizedString localizedMessageFoundItem;
         [Header("Other Messages")]
-        [SerializeField][SimpleLocalizedString(LocalizationTableType.ChecksWorldObjects, true)] protected LocalizedString localizedMessageInventoryFull;
-        [SerializeField][SimpleLocalizedString(LocalizationTableType.ChecksWorldObjects, true)] protected LocalizedString localizedMessageNothing;
+        [SerializeField][SimpleLocalizedString(LocalizationTableType.ChecksWorldObjects, true)] private LocalizedString localizedMessageInventoryFull;
+        [SerializeField][SimpleLocalizedString(LocalizationTableType.ChecksWorldObjects, true)] private LocalizedString localizedMessageNothing;
         
         // State
         private LazyValue<int> currentItemQuantity;
