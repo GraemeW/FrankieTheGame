@@ -39,15 +39,13 @@ namespace Frankie.Utils.Editor
         {
             foreach (Object selectedObject in Selection.objects)
             {
-                //if (selectedObject is not GameObject gameObject) {  continue; }
+                if (selectedObject is not GameObject gameObject) {  continue; }
                 //if (!gameObject.TryGetComponent(out Temp localizedLinker)) { continue; }
-
-                if (selectedObject is not CharacterProperties localizedLinker) { continue; }
                 //localizedLinker.TempLinkStrings();
             }
         }
         
-        /*
+        /* GameObject Base
         public void TempLinkStrings()
         {
            string keyStem;
@@ -68,7 +66,7 @@ namespace Frankie.Utils.Editor
         }
         */
         
-        /*
+        /* Scriptable Object Base
            string key;
            TableEntryReference tableEntryReference;
 
@@ -82,7 +80,6 @@ namespace Frankie.Utils.Editor
            
            EditorUtility.SetDirty(this);
            AssetDatabase.SaveAssetIfDirty(this);
-         
          */
     }
 }

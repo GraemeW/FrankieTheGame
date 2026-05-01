@@ -1,27 +1,23 @@
-#if UNITY_EDITOR
 using System.Collections.Generic;
-using UnityEditor;
-using UnityEditor.Localization;
-using UnityEditor.SceneManagement;
 using UnityEngine;
 using UnityEngine.Localization;
 using UnityEngine.Localization.Settings;
 using UnityEngine.Localization.Tables;
+#if UNITY_EDITOR
+using UnityEditor;
+using UnityEditor.Localization;
+using UnityEditor.SceneManagement;
+#endif
 using Frankie.Stats;
 
 namespace Frankie.Utils.Localization
 {
     public static class LocalizationTool
     {
-        // State
-        private static bool _isLocaleInitialized = false;
-        private static readonly System.Random _random = new();
-        private static readonly Dictionary<LocalizationTableType, StringTable> _cachedEnglishTables = new();
-        private static readonly Dictionary<LocalizationTableType, StringTableCollection> _cachedTableCollections = new();
-        
         #region LocalizedStringSerializedProperties
         private const string _localizedStringSerializedKeyID = "m_TableEntryReference.m_KeyId";
         private const string _localizedStringSerializedKeyName = "m_TableEntryReference.m_Key";
+        private const string _localizationFolder = "Assets/Localization";
         #endregion
         
         #region StringReferences
@@ -36,8 +32,16 @@ namespace Frankie.Utils.Localization
         private const string _tableZonesRef = "Zones";
         #endregion
         
-        #region DirectoryManipulationMethods
-        private const string _localizationFolder = "Assets/Localization";
+        #region RuntimeCompliant
+        public static LocalizedString GetLocalizedString(LocalizationTableType localizationTableType, string key)
+        {
+            // Note: No safety on Localization Table loading, must be ensured via Unity settings
+            var localizedString = new LocalizedString();
+            string tableName = GetTableCollectionName(localizationTableType);
+            localizedString.SetReference(tableName, key);
+            return localizedString;
+        }
+        
         private static string GetTableCollectionName(LocalizationTableType localizationTableType)
         {
             return localizationTableType switch
@@ -53,13 +57,22 @@ namespace Frankie.Utils.Localization
                 _ => ""
             };
         }
+        #endregion
+        
+#if UNITY_EDITOR
+        // State
+        private static bool _isLocaleInitialized = false;
+        private static readonly System.Random _random = new();
+        private static readonly Dictionary<LocalizationTableType, StringTable> _cachedEnglishTables = new();
+        private static readonly Dictionary<LocalizationTableType, StringTableCollection> _cachedTableCollections = new();
+        
+        #region DirectoryManipulationMethods
         private static string GetTableCollectionPath(string tableCollectionName) => $"{_localizationFolder}/Table_{tableCollectionName}";
         private static void VerifyDirectoryExistence(string path)
         {
             if (!System.IO.Directory.Exists(path)) { System.IO.Directory.CreateDirectory(path); }
         }
         private static void VerifyLocalizationDirectoryExistence() => VerifyDirectoryExistence(_localizationFolder);
-        
 
         private static StringTableCollection MakeLocalizationTable(string tableCollectionName, string tableCollectionPath)
         {
@@ -450,6 +463,6 @@ namespace Frankie.Utils.Localization
             return $"{componentStem}{nameStem}";
         }
         #endregion
+#endif
     }
 }
-#endif

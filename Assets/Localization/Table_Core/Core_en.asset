@@ -122,6 +122,54 @@ MonoBehaviour:
     m_Localized: '{0} is wounded and cannot fight.'
     m_Metadata:
       m_Items: []
+  - m_Id: 5481021502906368
+    m_Localized: HP
+    m_Metadata:
+      m_Items: []
+  - m_Id: 5481021830062080
+    m_Localized: AP
+    m_Metadata:
+      m_Items: []
+  - m_Id: 5481021943308288
+    m_Localized: ExperienceReward
+    m_Metadata:
+      m_Items: []
+  - m_Id: 5481022048165888
+    m_Localized: ExperienceToLevelUp
+    m_Metadata:
+      m_Items: []
+  - m_Id: 5481022157217792
+    m_Localized: Brawn
+    m_Metadata:
+      m_Items: []
+  - m_Id: 5481022262075392
+    m_Localized: Beauty
+    m_Metadata:
+      m_Items: []
+  - m_Id: 5481022366932992
+    m_Localized: Smarts
+    m_Metadata:
+      m_Items: []
+  - m_Id: 5481022475984896
+    m_Localized: Nimble
+    m_Metadata:
+      m_Items: []
+  - m_Id: 5481022580842496
+    m_Localized: Luck
+    m_Metadata:
+      m_Items: []
+  - m_Id: 5481022685700096
+    m_Localized: Pluck
+    m_Metadata:
+      m_Items: []
+  - m_Id: 5481022790557696
+    m_Localized: Stoic
+    m_Metadata:
+      m_Items: []
+  - m_Id: 5481022895415296
+    m_Localized: Level
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

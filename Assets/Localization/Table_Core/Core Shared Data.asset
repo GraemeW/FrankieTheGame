@@ -119,6 +119,54 @@ MonoBehaviour:
     m_Key: PlayerStateMachine.Prefab.Player.MessageCannotFight
     m_Metadata:
       m_Items: []
+  - m_Id: 5481021502906368
+    m_Key: Stat.HP
+    m_Metadata:
+      m_Items: []
+  - m_Id: 5481021830062080
+    m_Key: Stat.AP
+    m_Metadata:
+      m_Items: []
+  - m_Id: 5481021943308288
+    m_Key: Stat.ExperienceReward
+    m_Metadata:
+      m_Items: []
+  - m_Id: 5481022048165888
+    m_Key: Stat.ExperienceToLevelUp
+    m_Metadata:
+      m_Items: []
+  - m_Id: 5481022157217792
+    m_Key: Stat.Brawn
+    m_Metadata:
+      m_Items: []
+  - m_Id: 5481022262075392
+    m_Key: Stat.Beauty
+    m_Metadata:
+      m_Items: []
+  - m_Id: 5481022366932992
+    m_Key: Stat.Smarts
+    m_Metadata:
+      m_Items: []
+  - m_Id: 5481022475984896
+    m_Key: Stat.Nimble
+    m_Metadata:
+      m_Items: []
+  - m_Id: 5481022580842496
+    m_Key: Stat.Luck
+    m_Metadata:
+      m_Items: []
+  - m_Id: 5481022685700096
+    m_Key: Stat.Pluck
+    m_Metadata:
+      m_Items: []
+  - m_Id: 5481022790557696
+    m_Key: Stat.Stoic
+    m_Metadata:
+      m_Items: []
+  - m_Id: 5481022895415296
+    m_Key: Stat.InitialLevel
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:

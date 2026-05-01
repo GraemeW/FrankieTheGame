@@ -15,7 +15,7 @@ namespace Frankie.Inventory.UI
 
         public void Setup(Stat stat, float oldValue, float newValue)
         {
-            statField.text = stat.ToString();
+            statField.text = StatDisplay.GetStatDisplayName(stat);
             int oldValueRounded = Mathf.RoundToInt(oldValue);
             oldValueField.text = oldValueRounded.ToString();
             int newValueRounded = Mathf.RoundToInt(newValue);

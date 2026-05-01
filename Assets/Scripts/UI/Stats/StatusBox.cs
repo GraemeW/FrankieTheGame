@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 using TMPro;
 using Frankie.Combat;
@@ -70,16 +69,16 @@ namespace Frankie.Stats.UI
         private void GenerateLevel(CombatParticipant character)
         {
             StatField levelFieldObject = Instantiate(statFieldPrefab, leftStatParent);
-            levelFieldObject.Setup("Level", character.GetLevel());
+            levelFieldObject.Setup(Stat.InitialLevel, character.GetLevel());
         }
 
         private void GenerateHPAP(CombatParticipant character)
         {
             StatField hpFieldObject = Instantiate(statFieldPrefab, rightStatParent);
-            hpFieldObject.Setup("HP", character.GetHP(), character.GetMaxHP());
+            hpFieldObject.Setup(Stat.HP, character.GetHP(), character.GetMaxHP());
 
             StatField apFieldObject = Instantiate(statFieldPrefab, rightStatParent);
-            apFieldObject.Setup("AP", character.GetAP(), character.GetMaxAP());
+            apFieldObject.Setup(Stat.AP, character.GetAP(), character.GetMaxAP());
         }
 
         private void GenerateSkillStats(CombatParticipant character)

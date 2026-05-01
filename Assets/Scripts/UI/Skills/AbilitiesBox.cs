@@ -263,7 +263,7 @@ namespace Frankie.Combat.UI
 
         protected override void PassSkillFlavour(Stat skillStat, string detail, float apCost)
         {
-            statText.text = Enum.GetName(typeof(Stat), skillStat);
+            statText.text = StatDisplay.GetStatDisplayName(skillStat);
             if (detail != null)
             {
                 skillDetailText.text = detail;
