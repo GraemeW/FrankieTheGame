@@ -245,6 +245,16 @@ namespace Frankie.Speech
         #endregion
 
         #region InterfaceMethods
+        public List<TableEntryReference> GetLocalizationEntries()
+        {
+            var entries = new List<TableEntryReference>();
+            foreach (DialogueNode dialogueNode in dialogueNodes)
+            {
+                entries.AddRange(dialogueNode.GetLocalizationEntries());
+            }
+            return entries;
+        }
+        
         void ISerializationCallbackReceiver.OnBeforeSerialize()
         {
 #if UNITY_EDITOR
@@ -270,16 +280,6 @@ namespace Frankie.Speech
         void ISerializationCallbackReceiver.OnAfterDeserialize()
         {
             // Unused, required for interface
-        }
-
-        public List<TableEntryReference> GetLocalizationEntries()
-        {
-            var entries = new List<TableEntryReference>();
-            foreach (DialogueNode dialogueNode in dialogueNodes)
-            {
-                entries.AddRange(dialogueNode.GetLocalizationEntries());
-            }
-            return entries;
         }
         #endregion
     }

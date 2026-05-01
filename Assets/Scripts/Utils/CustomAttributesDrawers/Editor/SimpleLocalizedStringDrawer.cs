@@ -206,7 +206,7 @@ namespace Frankie.Utils.Localization.Editor
                 currentContents = LocalizationTool.GetEnglishEntry(localizationTableType, currentTableEntryReference);
             }
 
-            string newKey = LocalizationTool.GenerateKindaUniqueKey(declaringType, targetObject, propertyName);
+            string newKey = LocalizationTool.GenerateTypeSpecificKey(declaringType, targetObject, propertyName);
             if (!LocalizationTool.AddUpdateEnglishEntry(localizationTableType, newKey, currentContents)) { return; }
             if (!LocalizationTool.SafelyUpdateReference(localizationTableType, localizedString, newKey)) { return; }
             
@@ -231,7 +231,7 @@ namespace Frankie.Utils.Localization.Editor
                 return;
             }
             
-            string newKey = LocalizationTool.GenerateKindaUniqueKey(declaringType, targetObject, propertyName);
+            string newKey = LocalizationTool.GenerateTypeSpecificKey(declaringType, targetObject, propertyName);
             keyTextField.value = newKey;
         }
 

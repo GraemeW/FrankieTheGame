@@ -7,6 +7,7 @@ using UnityEngine;
 using UnityEngine.Localization;
 using UnityEngine.Localization.Settings;
 using UnityEngine.Localization.Tables;
+using Frankie.Stats;
 
 namespace Frankie.Utils.Localization
 {
@@ -80,48 +81,14 @@ namespace Frankie.Utils.Localization
             LocalizationSettings.SelectedLocale = LocalizationSettings.AvailableLocales.GetLocale(_englishRef);
             _isLocaleInitialized = true;
         }
-        
-        public static string GenerateKindaUniqueKey(System.Type declaringType, Object targetObject, string propertyName, bool useParentNameStem = true)
-        {
-            string componentStem = declaringType != null ? $"{declaringType.Name}." : "";
-            string targetStem = "";
-            string nameStem = targetObject.name;
 
-            if (targetObject is GameObject castingGameObject)
+        public static string GenerateTypeSpecificKey(System.Type declaringType, Object targetObject, string propertyName, bool useParentNameStem = true)
+        {
+            if (declaringType == typeof(CharacterProperties))
             {
-                targetObject = castingGameObject.GetComponent<MonoBehaviour>();
-                if (useParentNameStem && castingGameObject.transform.parent != null) { nameStem = castingGameObject.transform.parent.name; }
+                return GenerateSimpleKey(declaringType, targetObject);
             }
-            if (targetObject != null)
-            {
-                switch (targetObject)
-                {
-                    case ScriptableObject:
-                        targetStem += $"SO.{nameStem}.";
-                        break;
-                    case MonoBehaviour targetMonoBehaviour when PrefabUtility.IsPartOfPrefabAsset(targetMonoBehaviour):
-                        targetStem += $"Prefab.{nameStem}.";
-                        break;
-                    case MonoBehaviour targetMonoBehaviour:
-                    {
-                        GameObject targetGameObject =  targetMonoBehaviour.gameObject;
-                        PrefabStage prefabStage = PrefabStageUtility.GetCurrentPrefabStage();
-                        if (prefabStage != null && prefabStage.IsPartOfPrefabContents(targetGameObject))
-                        {
-                            targetStem += $"Prefab.{nameStem}.";
-                            break;
-                        }
-                        
-                        targetStem += "GO.";
-                        if (targetGameObject != null) { targetStem += $"{targetGameObject.scene.name}.{nameStem}."; }
-                        else { targetStem += $"{nameStem}."; }
-                        break;
-                    }
-                }
-            }
-            string propertyNameStem = propertyName != null ? $"{propertyName}." : "";
-            string semiUniqueShortKey = _random.Next().ToString("x");
-            return $"{componentStem}{targetStem}{propertyNameStem}{semiUniqueShortKey}";
+            return GenerateKindaUniqueKey(declaringType, targetObject, propertyName, useParentNameStem);
         }
 
         public static TableEntryReference GetTableEntryReferencedByID(LocalizationTableType localizationTableType, TableEntryReference ambiguousTableEntryReference)
@@ -431,6 +398,56 @@ namespace Frankie.Utils.Localization
             
             englishStringTable = stringTableCollection.GetTable(_englishRef) as StringTable;
             return englishStringTable != null;
+        }
+        
+        private static string GenerateKindaUniqueKey(System.Type declaringType, Object targetObject, string propertyName, bool useParentNameStem = true)
+        {
+            string componentStem = declaringType != null ? $"{declaringType.Name}." : "";
+            string targetStem = "";
+            string nameStem = targetObject.name;
+
+            if (targetObject is GameObject castingGameObject)
+            {
+                targetObject = castingGameObject.GetComponent<MonoBehaviour>();
+                if (useParentNameStem && castingGameObject.transform.parent != null) { nameStem = castingGameObject.transform.parent.name; }
+            }
+            if (targetObject != null)
+            {
+                switch (targetObject)
+                {
+                    case ScriptableObject:
+                        targetStem += $"SO.{nameStem}.";
+                        break;
+                    case MonoBehaviour targetMonoBehaviour when PrefabUtility.IsPartOfPrefabAsset(targetMonoBehaviour):
+                        targetStem += $"Prefab.{nameStem}.";
+                        break;
+                    case MonoBehaviour targetMonoBehaviour:
+                    {
+                        GameObject targetGameObject =  targetMonoBehaviour.gameObject;
+                        PrefabStage prefabStage = PrefabStageUtility.GetCurrentPrefabStage();
+                        if (prefabStage != null && prefabStage.IsPartOfPrefabContents(targetGameObject))
+                        {
+                            targetStem += $"Prefab.{nameStem}.";
+                            break;
+                        }
+                        
+                        targetStem += "GO.";
+                        if (targetGameObject != null) { targetStem += $"{targetGameObject.scene.name}.{nameStem}."; }
+                        else { targetStem += $"{nameStem}."; }
+                        break;
+                    }
+                }
+            }
+            string propertyNameStem = propertyName != null ? $"{propertyName}." : "";
+            string semiUniqueShortKey = _random.Next().ToString("x");
+            return $"{componentStem}{targetStem}{propertyNameStem}{semiUniqueShortKey}";
+        }
+
+        private static string GenerateSimpleKey(System.Type declaringType, Object targetObject)
+        {
+            string componentStem = declaringType != null ? $"{declaringType.Name}." : "";
+            string nameStem = targetObject.name;
+            return $"{componentStem}{nameStem}";
         }
         #endregion
     }
