@@ -2,7 +2,7 @@ using System.Linq;
 using UnityEngine;
 using Frankie.Stats;
 
-namespace Frankie.Core
+namespace Frankie.Core.Predicates
 {
     [CreateAssetMenu(fileName = "New Character Is Leader Predicate", menuName = "Predicates/Party/IsLeader")]
     public class CharacterIsLeaderPredicate : PredicateParty

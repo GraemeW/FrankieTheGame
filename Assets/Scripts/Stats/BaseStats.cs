@@ -4,7 +4,7 @@ using System.Linq;
 using UnityEngine;
 using Frankie.Utils;
 using Frankie.Saving;
-using Frankie.Core;
+using Frankie.Core.Predicates;
 
 namespace Frankie.Stats
 {

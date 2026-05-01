@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace Frankie.Core
+namespace Frankie.Core.Predicates
 {
     public abstract class Predicate : ScriptableObject
     {

@@ -2,7 +2,7 @@ using System.Linq;
 using UnityEngine;
 using Frankie.Stats;
 
-namespace Frankie.Core
+namespace Frankie.Core.Predicates
 {
     [CreateAssetMenu(fileName = "New Any Character In Party Predicate", menuName = "Predicates/Party/ContainsAnyCharacter")]
     public class AnyCharacterInPartyPredicate : PredicateParty

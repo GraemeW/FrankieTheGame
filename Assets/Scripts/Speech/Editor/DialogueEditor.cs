@@ -4,7 +4,7 @@ using UnityEditor;
 using UnityEditor.Callbacks;
 using UnityEngine;
 using Frankie.Stats;
-using Frankie.Utils;
+using Frankie.Utils.Localization;
 
 namespace Frankie.Speech.UIEditor
 {

@@ -1,6 +1,6 @@
 using UnityEngine.Localization;
 
-namespace Frankie.Utils
+namespace Frankie.Utils.Localization
 {
     public static class LocalizedStringExtensions
     {

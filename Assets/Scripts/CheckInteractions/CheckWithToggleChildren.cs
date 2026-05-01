@@ -2,10 +2,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Localization;
 using UnityEngine.Localization.Tables;
-using Frankie.Core;
+using Frankie.Core.Predicates;
 using Frankie.Saving;
 using Frankie.Stats;
-using Frankie.Utils;
+using Frankie.Utils.Localization;
 
 namespace Frankie.Control
 {

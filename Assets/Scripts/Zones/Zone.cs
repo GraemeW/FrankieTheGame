@@ -4,7 +4,7 @@ using UnityEditor;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement.AsyncOperations;
-using Frankie.Core;
+using Frankie.Utils.Addressables;
 
 namespace Frankie.ZoneManagement
 {

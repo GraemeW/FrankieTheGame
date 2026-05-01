@@ -2,7 +2,7 @@ using UnityEngine;
 using UnityEngine.Localization;
 using Frankie.Control;
 using Frankie.ZoneManagement;
-using Frankie.Utils;
+using Frankie.Utils.Localization;
 
 namespace Frankie.World
 {

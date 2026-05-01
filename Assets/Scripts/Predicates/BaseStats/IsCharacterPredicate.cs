@@ -1,7 +1,7 @@
 using UnityEngine;
 using Frankie.Stats;
 
-namespace Frankie.Core
+namespace Frankie.Core.Predicates
 {
     [CreateAssetMenu(fileName = "New Is Character Predicate", menuName = "Predicates/BaseStats/Is Character")]
     public class IsCharacterPredicate : PredicateBaseStats

@@ -5,6 +5,7 @@ using UnityEngine.Localization;
 using UnityEngine.Localization.Tables;
 using Frankie.Stats;
 using Frankie.Utils;
+using Frankie.Utils.Localization;
 
 namespace Frankie.Control
 {

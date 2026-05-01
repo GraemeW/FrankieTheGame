@@ -7,6 +7,7 @@ using UnityEngine.Localization.Tables;
 using Frankie.Core;
 using Frankie.Control;
 using Frankie.Utils;
+using Frankie.Utils.Localization;
 
 namespace Frankie.World
 {

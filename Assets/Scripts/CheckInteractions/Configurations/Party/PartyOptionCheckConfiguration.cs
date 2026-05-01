@@ -3,6 +3,7 @@ using UnityEngine;
 using UnityEngine.Localization;
 using UnityEngine.Localization.Tables;
 using Frankie.Utils;
+using Frankie.Utils.Localization;
 
 namespace Frankie.Control
 {

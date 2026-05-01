@@ -1,7 +1,7 @@
 using UnityEngine;
 using Frankie.Quests;
 
-namespace Frankie.Core
+namespace Frankie.Core.Predicates
 {
     [CreateAssetMenu(fileName = "New Quest Objective Completed Predicate", menuName = "Predicates/QuestList/Quest Objective Completed")]
     public class QuestObjectiveCompletedPredicate : PredicateQuestList

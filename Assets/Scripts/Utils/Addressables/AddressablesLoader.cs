@@ -5,7 +5,7 @@ using Frankie.Quests;
 using Frankie.Stats;
 using Frankie.ZoneManagement;
 
-namespace Frankie.Core
+namespace Frankie.Utils.Addressables
 {
     public class AddressablesLoader : MonoBehaviour
     {

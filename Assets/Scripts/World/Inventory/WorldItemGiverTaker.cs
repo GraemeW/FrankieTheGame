@@ -2,12 +2,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Localization;
 using UnityEngine.Localization.Tables;
-using Frankie.Utils;
 using Frankie.Core.GameStateModifiers;
 using Frankie.Control;
 using Frankie.Saving;
 using Frankie.Combat;
 using Frankie.Inventory;
+using Frankie.Utils;
+using Frankie.Utils.Localization;
 
 namespace Frankie.World
 {

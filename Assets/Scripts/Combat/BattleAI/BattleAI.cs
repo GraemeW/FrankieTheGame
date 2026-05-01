@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
-using Frankie.Core;
+using Frankie.Core.Predicates;
 
 namespace Frankie.Combat
 {

@@ -4,8 +4,8 @@ using UnityEditor;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement.AsyncOperations;
-using Frankie.Core;
 using Frankie.Core.GameStateModifiers;
+using Frankie.Utils.Addressables;
 
 namespace Frankie.Quests
 {

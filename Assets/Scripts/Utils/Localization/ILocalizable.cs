@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.Localization.Tables;
 using Object = UnityEngine.Object;
 
-namespace Frankie.Utils
+namespace Frankie.Utils.Localization
 {
     public interface ILocalizable
     {

@@ -7,6 +7,7 @@ using Frankie.Saving;
 using Frankie.Inventory;
 using Frankie.Stats;
 using Frankie.Utils;
+using Frankie.Utils.Localization;
 
 namespace Frankie.World
 {

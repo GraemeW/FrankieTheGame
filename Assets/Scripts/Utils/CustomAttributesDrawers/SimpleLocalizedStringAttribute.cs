@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace Frankie.Utils
+namespace Frankie.Utils.Localization
 {
     public class SimpleLocalizedStringAttribute : PropertyAttribute
     {

@@ -3,7 +3,7 @@ using System.Text.RegularExpressions;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement.AsyncOperations;
-using Frankie.Core;
+using Frankie.Utils.Addressables;
 
 namespace Frankie.Stats
 {
@@ -21,7 +21,6 @@ namespace Frankie.Stats
         private static Dictionary<string, CharacterProperties> _characterLookupCache;
 
         #region SimpleGetters
-        public static string GetStaticCharacterNamePretty(string characterName) => Regex.Replace(characterName, "([a-z])_?([A-Z])", "$1 $2");
         public string GetCharacterNamePretty() => Regex.Replace(name, "([a-z])_?([A-Z])", "$1 $2");
         public string GetCharacterNameID() => name;
         #endregion

@@ -9,7 +9,7 @@ using UnityEngine.Localization.Tables;
 using UnityEngine.UIElements;
 using Object = UnityEngine.Object;
 
-namespace Frankie.Utils.Editor
+namespace Frankie.Utils.Localization.Editor
 {
     [CustomPropertyDrawer(typeof(SimpleLocalizedStringAttribute))]
     public class SimpleLocalizedStringDrawer : PropertyDrawer

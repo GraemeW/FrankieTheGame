@@ -1,6 +1,6 @@
 using System;
 
-namespace Frankie.Core
+namespace Frankie.Utils.Addressables
 {
     public interface IAddressablesCache
     {

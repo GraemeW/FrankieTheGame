@@ -5,7 +5,7 @@ using UnityEditor;
 using UnityEngine;
 using UnityEngine.Localization.Tables;
 
-namespace Frankie.Utils.Editor
+namespace Frankie.Utils.Localization.Editor
 {
     [InitializeOnLoad]
     public class LocalizationDeletionHandler : AssetModificationProcessor

@@ -3,7 +3,7 @@ using System.Linq;
 using System.Text.RegularExpressions;
 using UnityEngine;
 using UnityEngine.Events;
-using Frankie.Core;
+using Frankie.Core.Predicates;
 using Frankie.Utils;
 using Frankie.Control;
 

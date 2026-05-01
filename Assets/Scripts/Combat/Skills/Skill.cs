@@ -4,8 +4,8 @@ using System.Text.RegularExpressions;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement.AsyncOperations;
-using Frankie.Core;
 using Frankie.Stats;
+using Frankie.Utils.Addressables;
 
 namespace Frankie.Combat
 {

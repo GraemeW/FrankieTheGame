@@ -3,7 +3,7 @@ using UnityEngine;
 using Frankie.Combat;
 using Frankie.Stats;
 
-namespace Frankie.Core
+namespace Frankie.Core.Predicates
 {
     [CreateAssetMenu(fileName = "New Is Character Dead Predicate", menuName = "Predicates/CombatParticipant/Is Character Dead")]
     public class IsCharacterDeadPredicate : PredicateCombatParticipant

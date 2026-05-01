@@ -1,7 +1,7 @@
 using UnityEngine;
 using Frankie.Stats;
 
-namespace Frankie.Core
+namespace Frankie.Core.Predicates
 {
     [CreateAssetMenu(fileName = "New Character Stat Exceeds Value Predicate", menuName = "Predicates/BaseStats/Character Stat Exceeds Value")]
     public class CharacterStatExceedsValuePredicate : PredicateBaseStats

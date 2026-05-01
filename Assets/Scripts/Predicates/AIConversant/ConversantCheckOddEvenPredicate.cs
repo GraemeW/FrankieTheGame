@@ -1,7 +1,7 @@
 using UnityEngine;
 using Frankie.Speech;
 
-namespace Frankie.Core
+namespace Frankie.Core.Predicates
 {
     [CreateAssetMenu(fileName = "New Conversant Check Odd Even Predicate", menuName = "Predicates/AIConversant/ConversantCheckOddEven")]
     public class ConversantCheckOddEvenPredicate : PredicateAIConversant

@@ -1,4 +1,4 @@
-namespace Frankie.Utils
+namespace Frankie.Utils.Localization
 {
     public enum LocalizationTableType
     {

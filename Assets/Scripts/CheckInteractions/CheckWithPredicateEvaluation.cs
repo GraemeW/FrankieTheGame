@@ -2,8 +2,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Localization;
 using UnityEngine.Localization.Tables;
-using Frankie.Core;
-using Frankie.Utils;
+using Frankie.Core.Predicates;
+using Frankie.Utils.Localization;
 
 namespace Frankie.Control
 {

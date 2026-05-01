@@ -3,9 +3,10 @@ using UnityEngine;
 using UnityEngine.Localization;
 using UnityEngine.Localization.Tables;
 using UnityEditor;
-using Frankie.Core;
+using Frankie.Core.Predicates;
 using Frankie.Stats;
 using Frankie.Utils;
+using Frankie.Utils.Localization;
 
 namespace Frankie.Speech
 {
