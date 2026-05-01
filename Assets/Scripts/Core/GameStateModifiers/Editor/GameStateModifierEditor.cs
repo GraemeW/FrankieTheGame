@@ -101,26 +101,29 @@ namespace Frankie.Core.GameStateModifiers
             if (currentElement == null) { return;}
             
             SerializedProperty zoneNameProperty = currentElement.FindPropertyRelative(ZoneToGameObjectLinkData.GetZoneNameRef());
+            SerializedProperty handlerParentObjectNameProperty = currentElement.FindPropertyRelative(ZoneToGameObjectLinkData.GetParentObjectNameRef());
             SerializedProperty handlerGameObjectNameProperty = currentElement.FindPropertyRelative(ZoneToGameObjectLinkData.GetGameObjectNameRef());
             SerializedProperty handlerGUIDProperty = currentElement.FindPropertyRelative(ZoneToGameObjectLinkData.GetGuidRef());
 
             using (new EditorGUILayout.VerticalScope(entryBoxStyle))
             {
                 string zoneName = zoneNameProperty.stringValue;
+                string handlerParentObjectName = handlerParentObjectNameProperty.stringValue;
                 string handlerGameObjectName = handlerGameObjectNameProperty.stringValue;
                 string handlerGUID = handlerGUIDProperty.stringValue;
-                bool skipRenderingElement = AddEntryHeaderRow(index, zoneName, handlerGameObjectName, handlerGUID);
+                bool skipRenderingElement = AddEntryHeaderRow(index, zoneName, handlerGameObjectName, handlerParentObjectName, handlerGUID);
                 if (skipRenderingElement) { return; }
                 
                 AddEntryFields(zoneNameProperty, handlerGameObjectNameProperty, handlerGUIDProperty);
             }
         }
 
-        private bool AddEntryHeaderRow(int index, string zoneName, string handlerGameObjectName, string handlerGUID)
+        private bool AddEntryHeaderRow(int index, string zoneName, string handlerGameObjectName, string handlerParentObjectName, string handlerGUID)
         {
             bool skipRenderingElement = false;
             
-            string displayName = string.IsNullOrWhiteSpace(handlerGameObjectName) || string.IsNullOrWhiteSpace(zoneName) ? $"Entry {index}" : $"{zoneName}/{handlerGameObjectName}";
+            string parentStem = handlerParentObjectName != null ? $"{handlerParentObjectName}." : "";
+            string displayName = string.IsNullOrWhiteSpace(handlerGameObjectName) || string.IsNullOrWhiteSpace(zoneName) ? $"Entry {index}" : $"{zoneName}/{parentStem}{handlerGameObjectName}";
             using (new EditorGUILayout.HorizontalScope())
             {
                 EditorGUILayout.LabelField($"[{index}]", GUILayout.Width(28));

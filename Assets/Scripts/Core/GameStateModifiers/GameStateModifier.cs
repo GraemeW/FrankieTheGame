@@ -39,8 +39,9 @@ namespace Frankie.Core.GameStateModifiers
         #region EditorStaticMethods
         public static string GetGameStateModifierHandlerDataRef() => nameof(gameStateModifierHandlerData);
         
-        private static bool DoesGameStateModifierHandlerExist(string scenePath, string handlerGUID)
+        private static bool DoesGameStateModifierHandlerExist(string scenePath, string handlerGUID, out IGameStateModifierHandler gameStateModifierHandler)
         {
+            gameStateModifierHandler = null;
             if (string.IsNullOrEmpty(scenePath)) { return false; }
             
             Scene checkScene = SceneManager.GetSceneByPath(scenePath);
@@ -51,7 +52,8 @@ namespace Frankie.Core.GameStateModifiers
             bool objectFound;
             try
             {
-                objectFound = FindObjectsByType<MonoBehaviour>(FindObjectsInactive.Include).OfType<IGameStateModifierHandler>().Any(gameStateModifierHandler => gameStateModifierHandler.handlerGUID == handlerGUID);
+                gameStateModifierHandler = FindObjectsByType<MonoBehaviour>(FindObjectsInactive.Include).OfType<IGameStateModifierHandler>().FirstOrDefault(gameStateModifierHandler => gameStateModifierHandler.handlerGUID == handlerGUID); 
+                objectFound = gameStateModifierHandler != null;
             }
             finally
             {
@@ -66,10 +68,12 @@ namespace Frankie.Core.GameStateModifiers
         {
             foreach (ZoneToGameObjectLinkData checkLinkData in gameStateModifierHandlerData.Where(checkLinkData => checkLinkData.guid == zoneToGameObjectLinkData.guid))
             {
-                checkLinkData.UpdateRecord(zoneToGameObjectLinkData.zoneName, zoneToGameObjectLinkData.gameObjectName);
+                checkLinkData.UpdateRecord(zoneToGameObjectLinkData.zoneName, zoneToGameObjectLinkData.gameObjectName, zoneToGameObjectLinkData.parentObjectName);
                 return;
             }
-            Debug.Log($"GameStateModifier {name} :: Adding new GameStateModifierHandler - {zoneToGameObjectLinkData.zoneName}/{zoneToGameObjectLinkData.gameObjectName}.");
+
+            string parentStem = zoneToGameObjectLinkData.GetParentLabelStem();
+            Debug.Log($"GameStateModifier {name} :: Adding new GameStateModifierHandler - {zoneToGameObjectLinkData.zoneName ?? ""}/{parentStem}{zoneToGameObjectLinkData.gameObjectName ?? ""}.");
             gameStateModifierHandlerData.Add(zoneToGameObjectLinkData);
             EditorUtility.SetDirty(this);
         }
@@ -100,13 +104,14 @@ namespace Frankie.Core.GameStateModifiers
             {
                 ZoneToGameObjectLinkData handlerLinkData = gameStateModifierHandlerData[i];
                 string zoneName = handlerLinkData.zoneName;
+                string parentStem = handlerLinkData.GetParentLabelStem();
                 string handlerName = handlerLinkData.gameObjectName;
                 string handlerGUID = handlerLinkData.guid;
 
                 bool sceneFound = false;
                 if (string.IsNullOrEmpty(handlerGUID))
                 {
-                    Debug.Log($"GameStateModifier {name} :: Removing entry {zoneName}/{handlerName} — Empty GUID.");
+                    Debug.Log($"GameStateModifier {name} :: Removing entry {zoneName ?? ""}/{parentStem}{handlerName ?? ""} — Empty GUID.");
                 }
                 else
                 {
@@ -118,17 +123,15 @@ namespace Frankie.Core.GameStateModifiers
                         sceneFound = !string.IsNullOrWhiteSpace(scenePath);
                     }
 
-                    bool objectFound = sceneFound && !string.IsNullOrWhiteSpace(handlerName) && DoesGameStateModifierHandlerExist(scenePath, handlerGUID);
+                    IGameStateModifierHandler gameStateModifierHandler = null;
+                    bool objectFound = sceneFound && !string.IsNullOrWhiteSpace(handlerName) && DoesGameStateModifierHandlerExist(scenePath, handlerGUID, out gameStateModifierHandler);
+                    bool isModifierLinked = objectFound && gameStateModifierHandler != null && gameStateModifierHandler.GetGameStateModifiers().Any(checkModifier => checkModifier.guid == guid);
 
                     // Found -- Skip Removal
-                    if (sceneFound && objectFound)
-                    {
-                        continue;
-                    }
+                    if (isModifierLinked) { continue; }
 
-
-                    string reason = !sceneFound ? $"Zone {zoneName} not found" : $"object {handlerName} not found";
-                    Debug.Log($"GameStateModifier {name} ::  Removing entry {zoneName}/{handlerName} — {reason}.");
+                    string reason = !sceneFound ? $"Zone {zoneName ?? ""} not found" : !objectFound ? $"Object {parentStem}{handlerName ?? ""} not found" : $"{name} not linked to handler {parentStem}{handlerName}";
+                    Debug.Log($"GameStateModifier {name} ::  Removing entry {zoneName ?? ""}/{parentStem}{handlerName ?? ""} — {reason}.");
                 }
 
                 gameStateModifierHandlerData.RemoveAt(i);

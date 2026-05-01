@@ -39,7 +39,6 @@ namespace Frankie.Core.GameStateModifiers
         public int modifierListHashCheck { get; set; } // Must include explicit backing field in implementation
         public bool hasGameStateModifiers { get; set; } // Must include explicit backing field in implementation
         
-        
         public static void TriggerOnDestroy(IGameStateModifierHandler gameStateModifierHandler)
         {
 #if UNITY_EDITOR
@@ -79,6 +78,7 @@ namespace Frankie.Core.GameStateModifiers
             
             // Check for changes to asset
             int newModifierListHashCheck = GetModifierListHashCheck(zoneToGameObjectLinkData.zoneName, zoneToGameObjectLinkData.gameObjectName);
+            
             if (modifierListHashCheck == newModifierListHashCheck) { return; }
             modifierListHashCheck = newModifierListHashCheck;
 
@@ -122,7 +122,7 @@ namespace Frankie.Core.GameStateModifiers
         private void ForceSerializeGameObject()
         {
             if (gameObject == null) { return; }
-            SerializedObject serializedObject = new SerializedObject(gameObject);
+            using var serializedObject = new SerializedObject(gameObject);
             serializedObject.ApplyModifiedPropertiesWithoutUndo();
         }
         
@@ -131,9 +131,10 @@ namespace Frankie.Core.GameStateModifiers
             // Note: Must ensure zoneName == sceneName
             string zoneName = SceneManager.GetActiveScene().name;
             string gameObjectName = gameObject != null ? gameObject.name : "";
+            string parentObjectName = gameObject.transform.parent != null ? gameObject.transform.parent.name : "";
             if (string.IsNullOrWhiteSpace(handlerGUID)) { handlerGUID = Guid.NewGuid().ToString(); }
             
-            return new ZoneToGameObjectLinkData(zoneName, gameObjectName, handlerGUID);
+            return new ZoneToGameObjectLinkData(zoneName, gameObjectName, parentObjectName, handlerGUID);
         }
         
         private int GetModifierListHashCheck(string zoneName, string gameObjectName)
