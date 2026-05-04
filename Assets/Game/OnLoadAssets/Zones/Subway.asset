@@ -12,6 +12,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3268536af8903a64da82aa6872733d1d, type: 3}
   m_Name: UpStairsApartment
   m_EditorClassIdentifier: 
+  localizedDisplayName:
+    m_TableReference:
+      m_TableCollectionName: GUID:8137acf3076d245cf991f948822c95ba
+    m_TableEntryReference:
+      m_KeyId: 6549732271841280
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
   children: []
   externalZoneLinkToZoneNode: {fileID: -8137509927413381033, guid: e8f676a48128f694795863b89db2b92d, type: 2}
   rect:
@@ -29,6 +38,9 @@ MonoBehaviour:
     height: 45
   condition:
     and: []
+  references:
+    version: 2
+    RefIds: []
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -44,6 +56,15 @@ MonoBehaviour:
   newNodeOffset: {x: 100, y: 25}
   nodeWidth: 430
   nodeHeight: 150
+  localizedDisplayName:
+    m_TableReference:
+      m_TableCollectionName: GUID:8137acf3076d245cf991f948822c95ba
+    m_TableEntryReference:
+      m_KeyId: 6549731600752640
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
   sceneReference:
     sceneAsset: {fileID: 102900000, guid: 1adce6d662c0b0b47abecc5d8e178aab, type: 3}
     sceneName: Subway
@@ -51,11 +72,15 @@ MonoBehaviour:
   updateMap: 0
   zoneAudio: {fileID: 8300000, guid: 02a1d586795fd324280aca37a80a748c, type: 3}
   isZoneAudioLooping: 1
+  cachedZoneName: Subway
   zoneNodes:
   - {fileID: 6018069334625240327}
   - {fileID: 2324849428199590013}
   - {fileID: 5121720584565814803}
   - {fileID: -3197550637124935898}
+  references:
+    version: 2
+    RefIds: []
 --- !u!114 &2324849428199590013
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -68,6 +93,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3268536af8903a64da82aa6872733d1d, type: 3}
   m_Name: PlatformOffice
   m_EditorClassIdentifier: 
+  localizedDisplayName:
+    m_TableReference:
+      m_TableCollectionName: GUID:8137acf3076d245cf991f948822c95ba
+    m_TableEntryReference:
+      m_KeyId: 6549731894353920
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
   children:
   - PlatformApartment
   externalZoneLinkToZoneNode: {fileID: 0}
@@ -86,6 +120,9 @@ MonoBehaviour:
     height: 45
   condition:
     and: []
+  references:
+    version: 2
+    RefIds: []
 --- !u!114 &5121720584565814803
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -98,6 +135,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3268536af8903a64da82aa6872733d1d, type: 3}
   m_Name: PlatformApartment
   m_EditorClassIdentifier: 
+  localizedDisplayName:
+    m_TableReference:
+      m_TableCollectionName: GUID:8137acf3076d245cf991f948822c95ba
+    m_TableEntryReference:
+      m_KeyId: 6549732083097600
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
   children:
   - PlatformOffice
   externalZoneLinkToZoneNode: {fileID: 0}
@@ -116,6 +162,9 @@ MonoBehaviour:
     height: 45
   condition:
     and: []
+  references:
+    version: 2
+    RefIds: []
 --- !u!114 &6018069334625240327
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -128,6 +177,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3268536af8903a64da82aa6872733d1d, type: 3}
   m_Name: UpStairsOffice
   m_EditorClassIdentifier: 
+  localizedDisplayName:
+    m_TableReference:
+      m_TableCollectionName: GUID:8137acf3076d245cf991f948822c95ba
+    m_TableEntryReference:
+      m_KeyId: 6549731697221632
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
   children: []
   externalZoneLinkToZoneNode: {fileID: -4912669020652922926, guid: e8f676a48128f694795863b89db2b92d, type: 2}
   rect:
@@ -145,3 +203,6 @@ MonoBehaviour:
     height: 45
   condition:
     and: []
+  references:
+    version: 2
+    RefIds: []

@@ -38,7 +38,6 @@ namespace Frankie.Speech
 #endif
 
         #region Getters
-
         public bool HasValidCharacterProperties() => characterProperties != null && !string.IsNullOrWhiteSpace(characterProperties.GetCharacterID()); 
         public CharacterProperties GetCharacterProperties() => characterProperties;
         public SpeakerType GetSpeakerType() => speakerType;

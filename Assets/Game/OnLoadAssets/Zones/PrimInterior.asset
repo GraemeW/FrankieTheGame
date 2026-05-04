@@ -12,6 +12,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3268536af8903a64da82aa6872733d1d, type: 3}
   m_Name: PS_YellowHouse_1F
   m_EditorClassIdentifier: 
+  localizedDisplayName:
+    m_TableReference:
+      m_TableCollectionName: GUID:8137acf3076d245cf991f948822c95ba
+    m_TableEntryReference:
+      m_KeyId: 6549750173130752
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
   children:
   - PS_YellowHouse_2F
   externalZoneLinkToZoneNode: {fileID: 0}
@@ -30,6 +39,9 @@ MonoBehaviour:
     height: 45
   condition:
     and: []
+  references:
+    version: 2
+    RefIds: []
 --- !u!114 &-6234494646451676272
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -42,6 +54,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3268536af8903a64da82aa6872733d1d, type: 3}
   m_Name: PS_TallestBuilding_2f-up
   m_EditorClassIdentifier: 
+  localizedDisplayName:
+    m_TableReference:
+      m_TableCollectionName: GUID:8137acf3076d245cf991f948822c95ba
+    m_TableEntryReference:
+      m_KeyId: 6549751397867520
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
   children:
   - PS_TallestBuilding_3f-down
   externalZoneLinkToZoneNode: {fileID: 0}
@@ -60,6 +81,9 @@ MonoBehaviour:
     height: 45
   condition:
     and: []
+  references:
+    version: 2
+    RefIds: []
 --- !u!114 &-6062400560420923640
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -72,6 +96,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3268536af8903a64da82aa6872733d1d, type: 3}
   m_Name: PS_TallestBuilding_3f-up
   m_EditorClassIdentifier: 
+  localizedDisplayName:
+    m_TableReference:
+      m_TableCollectionName: GUID:8137acf3076d245cf991f948822c95ba
+    m_TableEntryReference:
+      m_KeyId: 6549751800520704
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
   children:
   - PS_TallestBuilding_4f-down
   externalZoneLinkToZoneNode: {fileID: 0}
@@ -90,6 +123,9 @@ MonoBehaviour:
     height: 45
   condition:
     and: []
+  references:
+    version: 2
+    RefIds: []
 --- !u!114 &-3991698516110125794
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -102,6 +138,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3268536af8903a64da82aa6872733d1d, type: 3}
   m_Name: PS_TallestBuilding_1f
   m_EditorClassIdentifier: 
+  localizedDisplayName:
+    m_TableReference:
+      m_TableCollectionName: GUID:8137acf3076d245cf991f948822c95ba
+    m_TableEntryReference:
+      m_KeyId: 6549750991020032
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
   children:
   - PS_TallestBuilding_2f-down
   externalZoneLinkToZoneNode: {fileID: 0}
@@ -120,6 +165,9 @@ MonoBehaviour:
     height: 45
   condition:
     and: []
+  references:
+    version: 2
+    RefIds: []
 --- !u!114 &-3171499022531737784
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -132,6 +180,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3268536af8903a64da82aa6872733d1d, type: 3}
   m_Name: PS_TallestBuilding_5f
   m_EditorClassIdentifier: 
+  localizedDisplayName:
+    m_TableReference:
+      m_TableCollectionName: GUID:8137acf3076d245cf991f948822c95ba
+    m_TableEntryReference:
+      m_KeyId: 6549752412889088
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
   children:
   - PS_TallestBuilding_4f-up
   externalZoneLinkToZoneNode: {fileID: 0}
@@ -150,6 +207,9 @@ MonoBehaviour:
     height: 45
   condition:
     and: []
+  references:
+    version: 2
+    RefIds: []
 --- !u!114 &-671006030455914041
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -162,6 +222,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3268536af8903a64da82aa6872733d1d, type: 3}
   m_Name: PS_YellowHouse_2F
   m_EditorClassIdentifier: 
+  localizedDisplayName:
+    m_TableReference:
+      m_TableCollectionName: GUID:8137acf3076d245cf991f948822c95ba
+    m_TableEntryReference:
+      m_KeyId: 6549750370263040
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
   children:
   - PS_YellowHouse_1F
   externalZoneLinkToZoneNode: {fileID: 0}
@@ -180,6 +249,9 @@ MonoBehaviour:
     height: 45
   condition:
     and: []
+  references:
+    version: 2
+    RefIds: []
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -195,6 +267,15 @@ MonoBehaviour:
   newNodeOffset: {x: 100, y: 25}
   nodeWidth: 430
   nodeHeight: 150
+  localizedDisplayName:
+    m_TableReference:
+      m_TableCollectionName: GUID:8137acf3076d245cf991f948822c95ba
+    m_TableEntryReference:
+      m_KeyId: 6549749871140864
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
   sceneReference:
     sceneAsset: {fileID: 102900000, guid: a0d0d2d6d43c51843a58bdb193f8e175, type: 3}
     sceneName: PrimInterior
@@ -202,6 +283,7 @@ MonoBehaviour:
   updateMap: 0
   zoneAudio: {fileID: 8300000, guid: d4e4bde858823b94c9912bb9d8201687, type: 3}
   isZoneAudioLooping: 1
+  cachedZoneName: PrimInterior
   zoneNodes:
   - {fileID: 2049896038868084311}
   - {fileID: -8325163169649529663}
@@ -216,6 +298,9 @@ MonoBehaviour:
   - {fileID: 5135494956085885973}
   - {fileID: 6970873215068010641}
   - {fileID: -3171499022531737784}
+  references:
+    version: 2
+    RefIds: []
 --- !u!114 &296886436859819959
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -228,6 +313,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3268536af8903a64da82aa6872733d1d, type: 3}
   m_Name: PS_TallestBuilding_Interior
   m_EditorClassIdentifier: 
+  localizedDisplayName:
+    m_TableReference:
+      m_TableCollectionName: GUID:8137acf3076d245cf991f948822c95ba
+    m_TableEntryReference:
+      m_KeyId: 6549750789693440
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
   children: []
   externalZoneLinkToZoneNode: {fileID: 2939076438721492088, guid: 210ece264cb0156468d645ecaa434255, type: 2}
   rect:
@@ -245,6 +339,9 @@ MonoBehaviour:
     height: 45
   condition:
     and: []
+  references:
+    version: 2
+    RefIds: []
 --- !u!114 &2049896038868084311
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -257,6 +354,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3268536af8903a64da82aa6872733d1d, type: 3}
   m_Name: PS_YellowHouse_Interior
   m_EditorClassIdentifier: 
+  localizedDisplayName:
+    m_TableReference:
+      m_TableCollectionName: GUID:8137acf3076d245cf991f948822c95ba
+    m_TableEntryReference:
+      m_KeyId: 6549749971804160
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
   children:
   - SceneToPrim
   externalZoneLinkToZoneNode: {fileID: 3617544309863132449, guid: 210ece264cb0156468d645ecaa434255, type: 2}
@@ -275,6 +381,9 @@ MonoBehaviour:
     height: 45
   condition:
     and: []
+  references:
+    version: 2
+    RefIds: []
 --- !u!114 &4148862028422109678
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -287,6 +396,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3268536af8903a64da82aa6872733d1d, type: 3}
   m_Name: PS_TallestBuilding_3f-down
   m_EditorClassIdentifier: 
+  localizedDisplayName:
+    m_TableReference:
+      m_TableCollectionName: GUID:8137acf3076d245cf991f948822c95ba
+    m_TableEntryReference:
+      m_KeyId: 6549751599194112
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
   children:
   - PS_TallestBuilding_2f-up
   externalZoneLinkToZoneNode: {fileID: 0}
@@ -305,6 +423,9 @@ MonoBehaviour:
     height: 45
   condition:
     and: []
+  references:
+    version: 2
+    RefIds: []
 --- !u!114 &5135494956085885973
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -317,6 +438,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3268536af8903a64da82aa6872733d1d, type: 3}
   m_Name: PS_TallestBuilding_4f-down
   m_EditorClassIdentifier: 
+  localizedDisplayName:
+    m_TableReference:
+      m_TableCollectionName: GUID:8137acf3076d245cf991f948822c95ba
+    m_TableEntryReference:
+      m_KeyId: 6549752001847296
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
   children:
   - PS_TallestBuilding_3f-up
   externalZoneLinkToZoneNode: {fileID: 0}
@@ -335,6 +465,9 @@ MonoBehaviour:
     height: 45
   condition:
     and: []
+  references:
+    version: 2
+    RefIds: []
 --- !u!114 &6839764431400945554
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -347,6 +480,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3268536af8903a64da82aa6872733d1d, type: 3}
   m_Name: PS_TallestBuilding_2f-down
   m_EditorClassIdentifier: 
+  localizedDisplayName:
+    m_TableReference:
+      m_TableCollectionName: GUID:8137acf3076d245cf991f948822c95ba
+    m_TableEntryReference:
+      m_KeyId: 6549751196540928
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
   children:
   - PS_TallestBuilding_1f
   externalZoneLinkToZoneNode: {fileID: 0}
@@ -365,6 +507,9 @@ MonoBehaviour:
     height: 45
   condition:
     and: []
+  references:
+    version: 2
+    RefIds: []
 --- !u!114 &6970873215068010641
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -377,6 +522,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3268536af8903a64da82aa6872733d1d, type: 3}
   m_Name: PS_TallestBuilding_4f-up
   m_EditorClassIdentifier: 
+  localizedDisplayName:
+    m_TableReference:
+      m_TableCollectionName: GUID:8137acf3076d245cf991f948822c95ba
+    m_TableEntryReference:
+      m_KeyId: 6549752203173888
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
   children:
   - PS_TallestBuilding_5f
   externalZoneLinkToZoneNode: {fileID: 0}
@@ -395,6 +549,9 @@ MonoBehaviour:
     height: 45
   condition:
     and: []
+  references:
+    version: 2
+    RefIds: []
 --- !u!114 &7289975945558088822
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -407,6 +564,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3268536af8903a64da82aa6872733d1d, type: 3}
   m_Name: PS_RedHouse_Interior
   m_EditorClassIdentifier: 
+  localizedDisplayName:
+    m_TableReference:
+      m_TableCollectionName: GUID:8137acf3076d245cf991f948822c95ba
+    m_TableEntryReference:
+      m_KeyId: 6549750571589632
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
   children: []
   externalZoneLinkToZoneNode: {fileID: -665902458594080065, guid: 210ece264cb0156468d645ecaa434255, type: 2}
   rect:
@@ -424,3 +590,6 @@ MonoBehaviour:
     height: 45
   condition:
     and: []
+  references:
+    version: 2
+    RefIds: []

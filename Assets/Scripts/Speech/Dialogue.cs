@@ -15,7 +15,7 @@ namespace Frankie.Speech
         [SerializeField] public bool skipRootNode = false;
         [SerializeField] private string defaultSpeakerName = "DefaultSpeaker";
         [SerializeField] private string defaultText = "Default Text to Overwrite";
-        public LocalizationTableType localizationTableType { get; set; } = LocalizationTableType.Speech;
+        public LocalizationTableType localizationTableType { get; } = LocalizationTableType.Speech;
         
 #if UNITY_EDITOR
         [Header("Editor Settings")]
@@ -248,7 +248,7 @@ namespace Frankie.Speech
         public List<TableEntryReference> GetLocalizationEntries()
         {
             var entries = new List<TableEntryReference>();
-            foreach (DialogueNode dialogueNode in dialogueNodes)
+            foreach (DialogueNode dialogueNode in dialogueNodes.Where(dialogueNode => dialogueNode != null))
             {
                 entries.AddRange(dialogueNode.GetLocalizationEntries());
             }

@@ -34,11 +34,5 @@ namespace Frankie.Utils.Localization
 #endif
         }
         #endregion
-        
-        #region PrivateMethods
-#if UNITY_EDITOR
-
-#endif
-        #endregion
     }
 }

@@ -15,6 +15,15 @@ MonoBehaviour:
   newNodeOffset: {x: 100, y: 25}
   nodeWidth: 430
   nodeHeight: 150
+  localizedDisplayName:
+    m_TableReference:
+      m_TableCollectionName: GUID:8137acf3076d245cf991f948822c95ba
+    m_TableEntryReference:
+      m_KeyId: 6549729625235456
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
   sceneReference:
     sceneAsset: {fileID: 102900000, guid: c904f3148156b38488efe90bfa1101b6, type: 3}
     sceneName: GameOverScreen
@@ -22,8 +31,12 @@ MonoBehaviour:
   updateMap: 0
   zoneAudio: {fileID: 8300000, guid: 5f5f2bd17ac13e04c8d5da1b8b92ab19, type: 3}
   isZoneAudioLooping: 1
+  cachedZoneName: GameOverScreen
   zoneNodes:
   - {fileID: 7004222880900461513}
+  references:
+    version: 2
+    RefIds: []
 --- !u!114 &7004222880900461513
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -36,6 +49,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3268536af8903a64da82aa6872733d1d, type: 3}
   m_Name: d91c7f33-5d2a-491e-8013-9af610ede985
   m_EditorClassIdentifier: 
+  localizedDisplayName:
+    m_TableReference:
+      m_TableCollectionName: GUID:8137acf3076d245cf991f948822c95ba
+    m_TableEntryReference:
+      m_KeyId: 6549729843339264
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
   children: []
   externalZoneLinkToZoneNode: {fileID: 0}
   rect:
@@ -53,3 +75,6 @@ MonoBehaviour:
     height: 45
   condition:
     and: []
+  references:
+    version: 2
+    RefIds: []

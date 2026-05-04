@@ -164,7 +164,7 @@ namespace Frankie.Utils.Localization
                     if (!englishStringTable.SharedData.Contains(newKey))
                     {
                         englishStringTable.SharedData.AddKey(newKey);
-                        return true;
+                        break;
                     }
                     Debug.LogWarning($"Key '{newKey}' already exists in StringTableCollection.");
                     return false;

@@ -3,7 +3,7 @@ using UnityEditor;
 using UnityEditor.SceneManagement;
 using UnityEngine;
 using Object = UnityEngine.Object;
-using Frankie.Stats;
+using Frankie.ZoneManagement;
 
 namespace Frankie.Utils.Editor
 {
@@ -39,9 +39,12 @@ namespace Frankie.Utils.Editor
         {
             foreach (Object selectedObject in Selection.objects)
             {
-                if (selectedObject is not GameObject gameObject) {  continue; }
+                //if (selectedObject is not GameObject gameObject) {  continue; }
                 //if (!gameObject.TryGetComponent(out Temp localizedLinker)) { continue; }
                 //localizedLinker.TempLinkStrings();
+                
+                //if (selectedObject is not Zone zone) { continue; }
+                //zone.TempLinkStrings();
             }
         }
         
@@ -67,6 +70,8 @@ namespace Frankie.Utils.Editor
         */
         
         /* Scriptable Object Base
+        public void TempLinkStrings()
+        {
            string key;
            TableEntryReference tableEntryReference;
 
@@ -80,6 +85,7 @@ namespace Frankie.Utils.Editor
            
            EditorUtility.SetDirty(this);
            AssetDatabase.SaveAssetIfDirty(this);
+        }
          */
     }
 }

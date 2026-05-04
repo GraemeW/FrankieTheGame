@@ -15,6 +15,15 @@ MonoBehaviour:
   newNodeOffset: {x: 100, y: 25}
   nodeWidth: 430
   nodeHeight: 150
+  localizedDisplayName:
+    m_TableReference:
+      m_TableCollectionName: GUID:8137acf3076d245cf991f948822c95ba
+    m_TableEntryReference:
+      m_KeyId: 6549745655865344
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
   sceneReference:
     sceneAsset: {fileID: 102900000, guid: eccdfd585cec2fe4881a93b6d688f3c7, type: 3}
     sceneName: Tunnels
@@ -22,9 +31,13 @@ MonoBehaviour:
   updateMap: 0
   zoneAudio: {fileID: 8300000, guid: 02a1d586795fd324280aca37a80a748c, type: 3}
   isZoneAudioLooping: 1
+  cachedZoneName: Tunnels
   zoneNodes:
   - {fileID: 5391617951486560325}
   - {fileID: 3508818416795371724}
+  references:
+    version: 2
+    RefIds: []
 --- !u!114 &3508818416795371724
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -37,6 +50,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3268536af8903a64da82aa6872733d1d, type: 3}
   m_Name: TunnelToProper
   m_EditorClassIdentifier: 
+  localizedDisplayName:
+    m_TableReference:
+      m_TableCollectionName: GUID:8137acf3076d245cf991f948822c95ba
+    m_TableEntryReference:
+      m_KeyId: 6549745957855232
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
   children: []
   externalZoneLinkToZoneNode: {fileID: -9213467749597982465, guid: df1bace79a73e8843906b4ce6b0295ae, type: 2}
   rect:
@@ -54,6 +76,9 @@ MonoBehaviour:
     height: 45
   condition:
     and: []
+  references:
+    version: 2
+    RefIds: []
 --- !u!114 &5391617951486560325
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -66,6 +91,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3268536af8903a64da82aa6872733d1d, type: 3}
   m_Name: TunnelToPrim
   m_EditorClassIdentifier: 
+  localizedDisplayName:
+    m_TableReference:
+      m_TableCollectionName: GUID:8137acf3076d245cf991f948822c95ba
+    m_TableEntryReference:
+      m_KeyId: 6549745756528640
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
   children: []
   externalZoneLinkToZoneNode: {fileID: -3744593269575087478, guid: 210ece264cb0156468d645ecaa434255, type: 2}
   rect:
@@ -83,3 +117,6 @@ MonoBehaviour:
     height: 45
   condition:
     and: []
+  references:
+    version: 2
+    RefIds: []
