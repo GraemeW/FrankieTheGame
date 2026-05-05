@@ -10,9 +10,7 @@ namespace Frankie.Inventory
     public abstract class InventoryItem : GameStateModifier, IAddressablesCache
     {
         // Config Data
-        [Tooltip("Item name displayed in UI")]
         [SerializeField] private string displayName;
-        [Tooltip("Item description on inspection")]
         [SerializeField][TextArea] private string description;
         [SerializeField][Tooltip("Overwritten for Key Items")] protected bool droppable = true;
         [SerializeField][Min(0)] private int price = 0;
