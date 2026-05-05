@@ -2,7 +2,7 @@ using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-namespace Frankie.ZoneManagement.UIEditor
+namespace Frankie.ZoneManagement.Editor
 {
     public class MultiZoneDragManipulator : MouseManipulator
     {

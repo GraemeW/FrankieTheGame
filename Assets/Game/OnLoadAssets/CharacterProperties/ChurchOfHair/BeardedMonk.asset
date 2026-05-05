@@ -25,6 +25,7 @@ MonoBehaviour:
   characterNPCPrefab: {fileID: 5186630281406051282, guid: a54e983b6ddf64fe4a03236cfe391a6a, type: 3}
   hasProgressionStats: 1
   incrementsStatsOnLevelUp: 0
+  cachedName: BeardedMonk
   references:
     version: 2
     RefIds: []

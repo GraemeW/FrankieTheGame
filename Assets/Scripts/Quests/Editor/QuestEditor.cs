@@ -2,7 +2,7 @@ using Frankie.Core.GameStateModifiers;
 using UnityEngine;
 using UnityEditor;
 
-namespace Frankie.Quests.UIEditor
+namespace Frankie.Quests.Editor
 {
     [CustomEditor(typeof(Quest))]
     public class QuestEditor : GameStateModifierEditor

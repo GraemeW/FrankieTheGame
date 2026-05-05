@@ -25,6 +25,7 @@ MonoBehaviour:
   characterNPCPrefab: {fileID: 2398833644461657395, guid: cf0c598dcc5acb140ad2c34c48d6aa9c, type: 3}
   hasProgressionStats: 1
   incrementsStatsOnLevelUp: 1
+  cachedName: Tilly
   references:
     version: 2
     RefIds: []

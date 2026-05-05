@@ -25,6 +25,7 @@ MonoBehaviour:
   characterNPCPrefab: {fileID: 8261499315918382377, guid: 9db400b1c758c4a2ba866c8e88a18672, type: 3}
   hasProgressionStats: 1
   incrementsStatsOnLevelUp: 0
+  cachedName: BaldMonk
   references:
     version: 2
     RefIds: []

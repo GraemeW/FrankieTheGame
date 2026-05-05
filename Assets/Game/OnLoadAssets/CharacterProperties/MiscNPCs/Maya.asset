@@ -25,6 +25,7 @@ MonoBehaviour:
   characterNPCPrefab: {fileID: 7819299255556850879, guid: 0933637bb54f1cb4480c3b6eaceeee40, type: 3}
   hasProgressionStats: 1
   incrementsStatsOnLevelUp: 0
+  cachedName: Maya
   references:
     version: 2
     RefIds: []

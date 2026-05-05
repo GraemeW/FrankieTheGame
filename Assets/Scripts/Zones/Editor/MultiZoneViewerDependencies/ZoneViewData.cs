@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 
-namespace Frankie.ZoneManagement.UIEditor
+namespace Frankie.ZoneManagement.Editor
 {
     [System.Serializable]
     public class ZoneViewData : ScriptableObject

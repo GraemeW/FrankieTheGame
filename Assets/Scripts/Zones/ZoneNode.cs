@@ -13,7 +13,7 @@ namespace Frankie.ZoneManagement
     {
         // Tunables
         [Header("Zone Node Properties")]
-        [SerializeField] private LocalizedString localizedDisplayName;
+        [SerializeField][SimpleLocalizedString(LocalizationTableType.Zones, false)] private LocalizedString localizedDisplayName;
         [SerializeField] private List<string> children = new();
         [SerializeField] private ZoneNode externalZoneLinkToZoneNode;
         [SerializeField] private Rect rect = new(30, 30, 430, 150);
@@ -85,7 +85,9 @@ namespace Frankie.ZoneManagement
             
             TryRenameExistingKey(id);
             name = id;
-            TryLocalizeName();
+            
+            string key = GetNameLocalizationKey();
+            LocalizationTool.TryLocalizeEntry(localizationTableType, localizedDisplayName, key, name);
             EditorUtility.SetDirty(this);
             return true;
         }
@@ -139,17 +141,6 @@ namespace Frankie.ZoneManagement
             TableEntryReference oldKey = GetNameLocalizationKey();
             string newKey = GetNameLocalizationKey(id);
             LocalizationTool.MakeOrRenameKey(localizationTableType, oldKey, newKey);
-        }
-        
-        private void TryLocalizeName()
-        {
-            string key = GetNameLocalizationKey();
-            TableEntryReference tableEntryReference = key;
-            if (localizedDisplayName == null || LocalizationTool.GetEnglishEntry(localizationTableType, localizedDisplayName.TableEntryReference) != name)
-            {
-                LocalizationTool.AddUpdateEnglishEntry(localizationTableType, tableEntryReference, name);
-                LocalizationTool.SafelyUpdateReference(localizationTableType, localizedDisplayName, key);
-            }
         }
         
         private void TryDeleteLocalization()

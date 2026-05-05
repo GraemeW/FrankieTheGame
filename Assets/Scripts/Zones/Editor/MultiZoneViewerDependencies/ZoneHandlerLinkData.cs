@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace Frankie.ZoneManagement.UIEditor
+namespace Frankie.ZoneManagement.Editor
 {
     [System.Serializable]
     public struct ZoneHandlerLinkData

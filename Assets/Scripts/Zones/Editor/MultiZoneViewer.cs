@@ -11,7 +11,7 @@ using UnityEditor.Build.Profile;
 using UnityEditor.SceneManagement;
 using UnityEditor.UIElements;
 
-namespace Frankie.ZoneManagement.UIEditor
+namespace Frankie.ZoneManagement.Editor
 {
     public class MultiZoneViewer : EditorWindow
     {

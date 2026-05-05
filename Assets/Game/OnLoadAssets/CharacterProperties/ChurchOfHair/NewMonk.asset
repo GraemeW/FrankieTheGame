@@ -25,6 +25,7 @@ MonoBehaviour:
   characterNPCPrefab: {fileID: 6114626291878448719, guid: d03dd34cf927349baabdfaa7bd5642d9, type: 3}
   hasProgressionStats: 1
   incrementsStatsOnLevelUp: 0
+  cachedName: NewMonk
   references:
     version: 2
     RefIds: []

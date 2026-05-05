@@ -25,6 +25,7 @@ MonoBehaviour:
   characterNPCPrefab: {fileID: 7817254619658820125, guid: 986151938f05142699a0b5962f318b19, type: 3}
   hasProgressionStats: 1
   incrementsStatsOnLevelUp: 0
+  cachedName: Rock
   references:
     version: 2
     RefIds: []

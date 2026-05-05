@@ -25,6 +25,7 @@ MonoBehaviour:
   characterNPCPrefab: {fileID: 0}
   hasProgressionStats: 1
   incrementsStatsOnLevelUp: 1
+  cachedName: Frankie
   references:
     version: 2
     RefIds: []

@@ -15,9 +15,6 @@ namespace Frankie.World
     [ExecuteInEditMode]
     public class WorldItemGiverTaker : MonoBehaviour, IGameStateModifierHandler, ISaveable, ILocalizable
     {
-        // Localization Properties
-        public LocalizationTableType localizationTableType { get; } = LocalizationTableType.ChecksWorldObjects;
-        
         // GameState Modifier Properties
         [SerializeField] private string backingHandlerGUID;
         public string handlerGUID { get => backingHandlerGUID; set => backingHandlerGUID = value; }
@@ -41,6 +38,9 @@ namespace Frankie.World
         [Header("Other Messages")]
         [SerializeField][SimpleLocalizedString(LocalizationTableType.ChecksWorldObjects, true)] private LocalizedString localizedMessageInventoryFull;
         [SerializeField][SimpleLocalizedString(LocalizationTableType.ChecksWorldObjects, true)] private LocalizedString localizedMessageNothing;
+        
+        // Localization Properties
+        public LocalizationTableType localizationTableType { get; } = LocalizationTableType.ChecksWorldObjects;
         
         // State
         private LazyValue<int> currentItemQuantity;

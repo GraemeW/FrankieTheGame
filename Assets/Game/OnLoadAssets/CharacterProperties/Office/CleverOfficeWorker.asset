@@ -25,6 +25,7 @@ MonoBehaviour:
   characterNPCPrefab: {fileID: 1204194326691089235, guid: b755f1c23f46b2a4fba44873acc4a9d8, type: 3}
   hasProgressionStats: 1
   incrementsStatsOnLevelUp: 0
+  cachedName: CleverOfficeWorker
   references:
     version: 2
     RefIds: []

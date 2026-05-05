@@ -3,10 +3,10 @@ using UnityEditor.UIElements;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-namespace Frankie.Speech.UIEditor
+namespace Frankie.Speech.Editor
 {
     [CustomEditor(typeof(Dialogue))]
-    public class DialogueInspectorEditor : Editor
+    public class DialogueInspectorEditor : UnityEditor.Editor
     {
         // Const UI
         private const float _rowHeight = 20f;

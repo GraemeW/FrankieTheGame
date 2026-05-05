@@ -6,7 +6,7 @@ using UnityEngine;
 using Frankie.Stats;
 using Frankie.Utils.Localization;
 
-namespace Frankie.Speech.UIEditor
+namespace Frankie.Speech.Editor
 {
     public class DialogueEditor : EditorWindow
     {

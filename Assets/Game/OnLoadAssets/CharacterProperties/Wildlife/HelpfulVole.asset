@@ -25,6 +25,7 @@ MonoBehaviour:
   characterNPCPrefab: {fileID: 3386044621720643084, guid: bfa8cb7cfccd24c40943b48ac4aa332d, type: 3}
   hasProgressionStats: 0
   incrementsStatsOnLevelUp: 0
+  cachedName: HelpfulVole
   references:
     version: 2
     RefIds: []

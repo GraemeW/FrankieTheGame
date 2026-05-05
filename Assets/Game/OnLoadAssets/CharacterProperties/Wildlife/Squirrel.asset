@@ -25,6 +25,7 @@ MonoBehaviour:
   characterNPCPrefab: {fileID: 7408223569321326086, guid: 31c56ea2c6541ba4ea2b24f200152e2c, type: 3}
   hasProgressionStats: 1
   incrementsStatsOnLevelUp: 0
+  cachedName: Squirrel
   references:
     version: 2
     RefIds: []

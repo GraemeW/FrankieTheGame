@@ -25,6 +25,7 @@ MonoBehaviour:
   characterNPCPrefab: {fileID: 8037058857843010566, guid: c4f8fcca6e0ef4ebfb68c039b782d836, type: 3}
   hasProgressionStats: 1
   incrementsStatsOnLevelUp: 0
+  cachedName: Snail
   references:
     version: 2
     RefIds: []

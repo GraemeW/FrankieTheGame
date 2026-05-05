@@ -16,15 +16,15 @@ namespace Frankie.World
     [RequireComponent(typeof(Animator))]
     public class WorldSubwayRider : MonoBehaviour, ICheckDynamic, ILocalizable
     {
-        // Localization Properties
-        public LocalizationTableType localizationTableType { get; } = LocalizationTableType.ChecksWorldObjects;
-        
         // Tunables
         [SerializeField][SimpleLocalizedString(LocalizationTableType.ChecksWorldObjects, true)] private LocalizedString localizedRideMessage;
         [SerializeField] private GameObject conductorToggleObject;
         [SerializeField] private Transform followTarget;
         [SerializeField] private List<SubwayRide> subwayRides = new();
         [SerializeField] private List<WorldSubwayRider> sisterRidersToDisable = new();
+        
+        // Localization Properties
+        public LocalizationTableType localizationTableType { get; } = LocalizationTableType.ChecksWorldObjects;
         
         // State
         private bool active = true;

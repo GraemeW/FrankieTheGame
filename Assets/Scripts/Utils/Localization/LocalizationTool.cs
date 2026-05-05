@@ -290,22 +290,22 @@ namespace Frankie.Utils.Localization
             return keyName;
         }
 
+        public static bool TryLocalizeEntry(LocalizationTableType localizationTableType, LocalizedString localizedString, string key, string value)
+        {
+            TableEntryReference tableEntryReference = key;
+            if (localizedString != null && GetEnglishEntry(localizationTableType, localizedString.TableEntryReference) == value) { return false; }
+            
+            AddUpdateEnglishEntry(localizationTableType, tableEntryReference, value);
+            SafelyUpdateReference(localizationTableType, localizedString, key);
+            return true;
+        }
+
         public static bool SafelyUpdateReference(LocalizationTableType localizationTableType, LocalizedString localizedString, string newKey)
         {
             // Safely : Verify existence of entry, and update using long keyID only
             if (!GetCachedEnglishTable(localizationTableType, out StringTable englishStringTable)) {return false; }
             long newKeyID = englishStringTable.SharedData.GetId(newKey);
             if (newKeyID == SharedTableData.EmptyId) { return false; }
-            
-            localizedString.SetReference(englishStringTable.SharedData.TableCollectionNameGuid, newKeyID);
-            return true;
-        }
-
-        public static bool SafelyUpdateReference(LocalizationTableType localizationTableType, LocalizedString localizedString, long newKeyID)
-        {
-            // Safely : Verify existence of entry, and update using long keyID only
-            if (!GetCachedEnglishTable(localizationTableType, out StringTable englishStringTable)) {return false; }
-            if (!englishStringTable.SharedData.Contains(newKeyID)) { return false; }
             
             localizedString.SetReference(englishStringTable.SharedData.TableCollectionNameGuid, newKeyID);
             return true;

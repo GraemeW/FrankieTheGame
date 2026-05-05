@@ -23,7 +23,7 @@ namespace Frankie.ZoneManagement
         [SerializeField] private int nodeHeight = 150;
 #endif
         [Header("Zone Properties")]
-        [SerializeField] private LocalizedString localizedDisplayName;
+        [SerializeField][SimpleLocalizedString(LocalizationTableType.Zones, false)] private LocalizedString localizedDisplayName;
         [SerializeField] private SceneReference sceneReference;
         [SerializeField] private bool updateMap = false;
         [SerializeField] private AudioClip zoneAudio;
@@ -240,14 +240,9 @@ namespace Frankie.ZoneManagement
             ReconcileCachedZoneName();
             
             string key = GetNameLocalizationKey();
-            TableEntryReference tableEntryReference = key;
-            if (localizedDisplayName == null || LocalizationTool.GetEnglishEntry(localizationTableType, localizedDisplayName.TableEntryReference) != name)
-            {
-                LocalizationTool.AddUpdateEnglishEntry(localizationTableType, tableEntryReference, name);
-                LocalizationTool.SafelyUpdateReference(localizationTableType, localizedDisplayName, key);
-                EditorUtility.SetDirty(this);
-                AssetDatabase.SaveAssetIfDirty(this);
-            }
+            if (!LocalizationTool.TryLocalizeEntry(localizationTableType, localizedDisplayName, key, name)) { return; }
+            EditorUtility.SetDirty(this);
+            AssetDatabase.SaveAssetIfDirty(this);
         }
 
         private void ReconcileCachedZoneName()

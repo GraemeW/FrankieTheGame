@@ -25,6 +25,7 @@ MonoBehaviour:
   characterNPCPrefab: {fileID: 7988433422054701046, guid: a302ff6507ed14488bebd51f773a7426, type: 3}
   hasProgressionStats: 1
   incrementsStatsOnLevelUp: 0
+  cachedName: SongBird
   references:
     version: 2
     RefIds: []

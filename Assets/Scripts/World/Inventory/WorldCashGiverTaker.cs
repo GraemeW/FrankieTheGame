@@ -14,9 +14,6 @@ namespace Frankie.World
     [ExecuteInEditMode]
     public class WorldCashGiverTaker : MonoBehaviour, ISaveable, ILocalizable
     {
-        // Localization Properties
-        public LocalizationTableType localizationTableType { get; } = LocalizationTableType.ChecksWorldObjects;
-        
         // Tunables
         [Header("Configuration")]
         [SerializeField] private int transactionCash = 10;
@@ -33,6 +30,9 @@ namespace Frankie.World
         [Header("Other Messages")]
         [SerializeField][SimpleLocalizedString(LocalizationTableType.ChecksWorldObjects, true)] private LocalizedString localizedMessageNothing;
 
+        // Localization Properties
+        public LocalizationTableType localizationTableType { get; } = LocalizationTableType.ChecksWorldObjects;
+        
         // State
         private LazyValue<int> numberTransactionsLeft;
 

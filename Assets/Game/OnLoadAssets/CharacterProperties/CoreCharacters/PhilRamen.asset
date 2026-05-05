@@ -25,6 +25,7 @@ MonoBehaviour:
   characterNPCPrefab: {fileID: 6561608828159424076, guid: cf37675f8add8ca4dadb8829377d5cb7, type: 3}
   hasProgressionStats: 1
   incrementsStatsOnLevelUp: 0
+  cachedName: PhilRamen
   references:
     version: 2
     RefIds: []

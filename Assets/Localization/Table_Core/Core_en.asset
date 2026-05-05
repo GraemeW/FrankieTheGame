@@ -19,19 +19,19 @@ MonoBehaviour:
     m_Items: []
   m_TableData:
   - m_Id: 5426194815115264
-    m_Localized: Bro Office Worker
+    m_Localized: BroOfficeWorker
     m_Metadata:
       m_Items: []
   - m_Id: 5426195180019712
-    m_Localized: Phil Too
+    m_Localized: PhilToo
     m_Metadata:
       m_Items: []
   - m_Id: 5426195398123520
-    m_Localized: Generic Office Worker Fran
+    m_Localized: GenericOfficeWorkerFran
     m_Metadata:
       m_Items: []
   - m_Id: 5426195612033024
-    m_Localized: Generic Office Worker Glen
+    m_Localized: GenericOfficeWorkerGlen
     m_Metadata:
       m_Items: []
   - m_Id: 5426195825942528
@@ -39,35 +39,35 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 5426196044046336
-    m_Localized: Hipster Office Worker
+    m_Localized: HipsterOfficeWorker
     m_Metadata:
       m_Items: []
   - m_Id: 5426196253761536
-    m_Localized: Bald Monk
+    m_Localized: BaldMonk
     m_Metadata:
       m_Items: []
   - m_Id: 5426196471865344
-    m_Localized: New Monk
+    m_Localized: NewMonk
     m_Metadata:
       m_Items: []
   - m_Id: 5426196681580544
-    m_Localized: Generic Office Worker Dan
+    m_Localized: GenericOfficeWorkerDan
     m_Metadata:
       m_Items: []
   - m_Id: 5426196895490048
-    m_Localized: Flat Monk
+    m_Localized: FlatMonk
     m_Metadata:
       m_Items: []
   - m_Id: 5426197109399552
-    m_Localized: Clever Office Worker
+    m_Localized: CleverOfficeWorker
     m_Metadata:
       m_Items: []
   - m_Id: 5426197323309056
-    m_Localized: Generic Office Worker Stan
+    m_Localized: GenericOfficeWorkerStan
     m_Metadata:
       m_Items: []
   - m_Id: 5426197537218560
-    m_Localized: Bearded Monk
+    m_Localized: BeardedMonk
     m_Metadata:
       m_Items: []
   - m_Id: 5426197751128064
@@ -83,7 +83,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 5426198388662272
-    m_Localized: Song Bird
+    m_Localized: SongBird
     m_Metadata:
       m_Items: []
   - m_Id: 5426198602571776
@@ -91,7 +91,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 5426198829064192
-    m_Localized: Helpful Vole
+    m_Localized: HelpfulVole
     m_Metadata:
       m_Items: []
   - m_Id: 5426199042973696
@@ -99,7 +99,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 5426199256883200
-    m_Localized: Skilled Office Worker
+    m_Localized: SkilledOfficeWorker
     m_Metadata:
       m_Items: []
   - m_Id: 5426199470792704
@@ -107,11 +107,11 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 5426199688896512
-    m_Localized: Phil Ramen
+    m_Localized: PhilRamen
     m_Metadata:
       m_Items: []
   - m_Id: 5426199902806016
-    m_Localized: Steve 5000
+    m_Localized: Steve5000
     m_Metadata:
       m_Items: []
   - m_Id: 5426200116715520

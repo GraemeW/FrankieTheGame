@@ -131,7 +131,8 @@ namespace Frankie.Speech
             if (setSpeakerName == cachedSpeakerName) { return false; }
             
             Undo.RecordObject(this, "Update Dialogue Speaker Name");
-            TryLocalizeParameter(DialogueNodeLocalizationType.Name, setSpeakerName);
+            string key = GetSpeakerNameLocalizationKey();
+            LocalizationTool.TryLocalizeEntry(localizationTableType, localizedSpeakerName, key, setSpeakerName);
             if (CharacterProperties.GetCharacterPropertiesFromName(setSpeakerName) != null) { characterProperties = CharacterProperties.GetCharacterPropertiesFromName(setSpeakerName); }
             cachedSpeakerName = setSpeakerName;
             EditorUtility.SetDirty(this);
@@ -144,7 +145,8 @@ namespace Frankie.Speech
             if (setText == cachedText) { return; }
             
             Undo.RecordObject(this, "Update Dialogue");
-            TryLocalizeParameter(DialogueNodeLocalizationType.Name, setText);
+            string key = GetTextLocalizationKey();
+            LocalizationTool.TryLocalizeEntry(localizationTableType, localizedText, key, setText);
             cachedText = setText;
             EditorUtility.SetDirty(this);
         }
@@ -221,27 +223,6 @@ namespace Frankie.Speech
             string newTextKey = GetTextLocalizationKey();
             LocalizationTool.MakeOrRenameKey(localizationTableType, oldSpeakerKey, newSpeakerKey);
             LocalizationTool.MakeOrRenameKey(localizationTableType, oldTextKey, newTextKey);
-        }
-        
-        private void TryLocalizeParameter(DialogueNodeLocalizationType dialogueNodeLocalizationType, string setValue)
-        {
-            string key;
-            TableEntryReference tableEntryReference;
-            switch (dialogueNodeLocalizationType)
-            {
-                case DialogueNodeLocalizationType.Name:
-                    tableEntryReference = key = GetSpeakerNameLocalizationKey();
-                    if (localizedSpeakerName != null && setValue == LocalizationTool.GetEnglishEntry(localizationTableType, localizedSpeakerName.TableEntryReference)) { return; }
-                    LocalizationTool.AddUpdateEnglishEntry(localizationTableType, tableEntryReference, setValue);
-                    LocalizationTool.SafelyUpdateReference(localizationTableType, localizedSpeakerName, key);
-                    break;
-                case DialogueNodeLocalizationType.Text:
-                    tableEntryReference = key = GetTextLocalizationKey();
-                    if (localizedText != null && setValue == LocalizationTool.GetEnglishEntry(localizationTableType, localizedText.TableEntryReference)) { return; }
-                    LocalizationTool.AddUpdateEnglishEntry(localizationTableType, tableEntryReference, setValue);
-                    LocalizationTool.SafelyUpdateReference(localizationTableType, localizedText, key);
-                    break;
-            }
         }
 
         private void TryDeleteLocalization()

@@ -25,6 +25,7 @@ MonoBehaviour:
   characterNPCPrefab: {fileID: 5783961971192114869, guid: f11fb3d93df053e40af1074609ecd08f, type: 3}
   hasProgressionStats: 1
   incrementsStatsOnLevelUp: 0
+  cachedName: GenericOfficeWorkerStan
   references:
     version: 2
     RefIds: []
