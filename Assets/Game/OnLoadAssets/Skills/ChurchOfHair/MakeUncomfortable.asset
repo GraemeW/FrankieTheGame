@@ -12,6 +12,28 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2d638f604ff65db4f9e75a2cc6eb7bd3, type: 3}
   m_Name: MakeUncomfortable
   m_EditorClassIdentifier: Assembly-CSharp::Frankie.Combat.Skill
+  localizedDisplayName:
+    m_TableReference:
+      m_TableCollectionName: GUID:ce27b23b7b85d4bec8b522b6105befc9
+    m_TableEntryReference:
+      m_KeyId: 6901489766227968
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
   skillStat: 8
   battleAction: {fileID: 11400000, guid: c691959b2098c4f6d9665d6496628a40, type: 2}
+  localizedDetail:
+    m_TableReference:
+      m_TableCollectionName: GUID:ce27b23b7b85d4bec8b522b6105befc9
+    m_TableEntryReference:
+      m_KeyId: 6901489875279872
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
   detail: This disturbing presence reduces brawn and beauty, but raises nimble substantially.
+  cachedName: MakeUncomfortable
+  references:
+    version: 2
+    RefIds: []

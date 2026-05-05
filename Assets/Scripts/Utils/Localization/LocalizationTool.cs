@@ -3,12 +3,13 @@ using UnityEngine;
 using UnityEngine.Localization;
 using UnityEngine.Localization.Settings;
 using UnityEngine.Localization.Tables;
+using Frankie.Combat;
+using Frankie.Stats;
 #if UNITY_EDITOR
 using UnityEditor;
 using UnityEditor.Localization;
 using UnityEditor.SceneManagement;
 #endif
-using Frankie.Stats;
 
 namespace Frankie.Utils.Localization
 {
@@ -22,6 +23,7 @@ namespace Frankie.Utils.Localization
         
         #region StringReferences
         private const string _englishRef = "en";
+        private const string _initialOverwriteText = "Initial dummy text - to be replaced";
         private const string _tableChecksWorldObjectsRef = "ChecksWorldObjects";
         private const string _tableCoreRef = "Core";
         private const string _tableInventoryRef = "Inventory";
@@ -100,6 +102,11 @@ namespace Frankie.Utils.Localization
             if (declaringType == typeof(CharacterProperties))
             {
                 return GenerateSimpleKey(declaringType, targetObject);
+            }
+            if (declaringType == typeof(Skill))
+            {
+                if (propertyName.Contains("Name")) { return GenerateSimpleKey(declaringType, targetObject); }
+                return GenerateSimpleKey(declaringType, targetObject, propertyName);
             }
             return GenerateKindaUniqueKey(declaringType, targetObject, propertyName, useParentNameStem);
         }
@@ -300,8 +307,21 @@ namespace Frankie.Utils.Localization
             return true;
         }
 
+        public static bool InitializeLocalEntry(LocalizationTableType localizationTableType, LocalizedString localizedString, string key)
+        {
+            localizedString ??= GetLocalizedString(localizationTableType, key);
+            if (!localizedString.IsEmpty && !string.IsNullOrWhiteSpace(GetEnglishEntry(localizationTableType, localizedString.TableEntryReference))) { return false; }
+            
+            TableEntryReference tableEntryReference = key;
+            AddUpdateEnglishEntry(localizationTableType, tableEntryReference, _initialOverwriteText);
+            SafelyUpdateReference(localizationTableType, localizedString, key);
+            return true;
+        }
+
         public static bool SafelyUpdateReference(LocalizationTableType localizationTableType, LocalizedString localizedString, string newKey)
         {
+            if (localizedString == null) { return false; }
+            
             // Safely : Verify existence of entry, and update using long keyID only
             if (!GetCachedEnglishTable(localizationTableType, out StringTable englishStringTable)) {return false; }
             long newKeyID = englishStringTable.SharedData.GetId(newKey);
@@ -456,11 +476,11 @@ namespace Frankie.Utils.Localization
             return $"{componentStem}{targetStem}{propertyNameStem}{semiUniqueShortKey}";
         }
 
-        private static string GenerateSimpleKey(System.Type declaringType, Object targetObject)
+        private static string GenerateSimpleKey(System.Type declaringType, Object targetObject, string propertyName = null)
         {
             string componentStem = declaringType != null ? $"{declaringType.Name}." : "";
             string nameStem = targetObject.name;
-            return $"{componentStem}{nameStem}";
+            return propertyName != null ? $"{componentStem}{nameStem}.{propertyName}" : $"{componentStem}{nameStem}";
         }
         #endregion
 #endif

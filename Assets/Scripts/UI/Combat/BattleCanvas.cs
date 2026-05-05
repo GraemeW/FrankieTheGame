@@ -322,7 +322,7 @@ namespace Frankie.Combat.UI
 
         private void HandleLevelUp(BaseStats baseStats, int level, Dictionary<Stat, float> levelUpSheet)
         {
-            var statNameValuePairs = levelUpSheet.Select(entry => new Tuple<string, int>(entry.Key.ToString(), Mathf.RoundToInt(entry.Value))).ToList();
+            var statNameValuePairs = levelUpSheet.Select(entry => new Tuple<string, int>(StatDisplay.GetStatDisplayName(entry.Key), Mathf.RoundToInt(entry.Value))).ToList();
             var characterLevelUpSheetPair = new CharacterLevelUpSheetPair
             {
                 baseStats = baseStats,

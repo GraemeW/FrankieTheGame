@@ -235,7 +235,7 @@ namespace Frankie.ZoneManagement
         #endregion
       
         #region LocalizationUtility
-        public void TryLocalizeName()
+        public void TryLocalizeDefaults()
         {
             ReconcileCachedZoneName();
             

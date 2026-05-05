@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Text.RegularExpressions;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement.AsyncOperations;
@@ -23,7 +22,6 @@ namespace Frankie.Combat
         [SerializeField][SkillStat] private Stat skillStat;
         [SerializeField] private BattleAction battleAction;
         [SerializeField][SimpleLocalizedString(LocalizationTableType.Skills, true)] private LocalizedString localizedDetail;
-        [SerializeField] private string detail = "";
 
         // State
         [HideInInspector][SerializeField] private string cachedName;
@@ -31,17 +29,21 @@ namespace Frankie.Combat
         private static Dictionary<string, Skill> _skillLookupCache;
 
         #region Getters
-        public static string GetSkillNamePretty(string name) => Regex.Replace(name, "([a-z])_?([A-Z])", "$1 $2"); 
+        public string GetDisplayName() => localizedDisplayName.GetSafeLocalizedString(); 
+        public string GetName() => GetDisplayName(); // BattleAction Interface
         public Stat GetStat() => skillStat;
         public bool IsItem() => false;
-        public string GetName() => GetSkillNamePretty(name);
-        public string GetDetail() => detail;
+        public string GetDetail() => localizedDetail.GetSafeLocalizedString();
         public float GetAPCost() => battleAction == null ? 0f : battleAction.GetAPCost();
         
         public LocalizationTableType localizationTableType { get; } = LocalizationTableType.Skills;
         public List<TableEntryReference> GetLocalizationEntries()
         {
-            throw new NotImplementedException();
+            return new List<TableEntryReference>
+            {
+                localizedDisplayName.TableEntryReference,
+                localizedDetail.TableEntryReference
+            };
         }
         #endregion
 
@@ -61,26 +63,34 @@ namespace Frankie.Combat
         #region LocalizationUtility
         private string GetNameLocalizationKey() => GetNameLocalizationKey(name);
         private static string GetNameLocalizationKey(string id) => $"{nameof(Skill)}.{id}";
+        private string GetDetailLocalizationKey() => $"{GetNameLocalizationKey()}.Detail";
+        private static string GetDetailLocalizationKey(string id) =>  $"{GetNameLocalizationKey(id)}.Detail";
         
         private void ReconcileCachedName()
         {
             if (name == cachedName) { return; }
 
-            TableEntryReference oldKey = GetNameLocalizationKey(cachedName);
+            TableEntryReference oldNameKey = GetNameLocalizationKey(cachedName);
+            TableEntryReference oldDetailKey = GetDetailLocalizationKey(cachedName);
             cachedName = name;
-            string newKey = GetNameLocalizationKey();
-            LocalizationTool.MakeOrRenameKey(localizationTableType, oldKey, newKey);
+            string newNameKey = GetNameLocalizationKey();
+            string newDetailKey = GetDetailLocalizationKey();
+            LocalizationTool.MakeOrRenameKey(localizationTableType, oldNameKey, newNameKey);
+            LocalizationTool.MakeOrRenameKey(localizationTableType, oldDetailKey, newDetailKey);
             
             EditorUtility.SetDirty(this);
             AssetDatabase.SaveAssetIfDirty(this);
         }
 
-        public void TryLocalizedName()
+        public void TryLocalizeDefaults()
         {
             ReconcileCachedName();
+            string nameKey = GetNameLocalizationKey();
+            string detailKey = GetDetailLocalizationKey();
+            bool wasNameLocalizationUpdated = LocalizationTool.TryLocalizeEntry(localizationTableType, localizedDisplayName, nameKey, name);
+            bool wasDetailKeyLinked = LocalizationTool.InitializeLocalEntry(localizationTableType, localizedDetail, detailKey);
+            if (!wasNameLocalizationUpdated && !wasDetailKeyLinked) { return; }
             
-            string key = GetNameLocalizationKey();
-            if (!LocalizationTool.TryLocalizeEntry(localizationTableType, localizedDisplayName, key, name)) { return; }
             EditorUtility.SetDirty(this);
             AssetDatabase.SaveAssetIfDirty(this);
         }

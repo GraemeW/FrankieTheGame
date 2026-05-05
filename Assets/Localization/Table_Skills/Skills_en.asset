@@ -17,7 +17,378 @@ MonoBehaviour:
   m_SharedData: {fileID: 11400000, guid: ce27b23b7b85d4bec8b522b6105befc9, type: 2}
   m_Metadata:
     m_Items: []
-  m_TableData: []
+  m_TableData:
+  - m_Id: 6901159775166464
+    m_Localized: BlatherOn
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6901402398875648
+    m_Localized: PresentDashboard
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6901423366201344
+    m_Localized: Gunk up the works and slow your foe down.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6901443050070016
+    m_Localized: DoActualWork
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6901477409808384
+    m_Localized: EdgeCloser
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6901477669855232
+    m_Localized: It's a lot easier to see and hit the target when you're right beside
+      them!  Buffs brawn and pluck.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6901478005399552
+    m_Localized: IgnoreYou
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6901478160588800
+    m_Localized: The most aggressive aggression is passive. Reduces nimble temporarily.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6901478475161600
+    m_Localized: AveragePraise
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6901478634545152
+    m_Localized: Heals a little more than gentle praise.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6901478949117952
+    m_Localized: PeckEarHoles
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6901479112695808
+    m_Localized: Ouch!  Causes damage and damage over time.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6901479427268608
+    m_Localized: LoudlyProclaim
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6901479586652160
+    m_Localized: Unplug your EarPods and take the call live. Reduces nimble temporarily.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6901479897030656
+    m_Localized: PassGas
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6901480215797760
+    m_Localized: Preen
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6901480370987008
+    m_Localized: These feathers look so shiny.  Heal a small amount.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6901480685559808
+    m_Localized: zz_TestAction
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6901480844943360
+    m_Localized: Test 1234
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6901481163710464
+    m_Localized: Working hard pays in dividends -- your foe takes damage over time.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6901481478283264
+    m_Localized: TwiddleThumbs
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6901481633472512
+    m_Localized: They're doing it!  They're really doing it!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6901481948045312
+    m_Localized: WarmMeal
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6901482107428864
+    m_Localized: Home cooked meal heals some amount of HP
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6901482417807360
+    m_Localized: Wallop
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6901482572996608
+    m_Localized: It's just a light wallop to a single target.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6901482891763712
+    m_Localized: BigSpitTake
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6901483046952960
+    m_Localized: Bigger chug of water, bigger damage.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6901483361525760
+    m_Localized: SpillHotRamen
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6901483520909312
+    m_Localized: Shoot!  This burns.  Causes damage over time.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6901483789344768
+    m_Localized: ChirpLoudly
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6901483890008064
+    m_Localized: Very high-pitched.  Lose some pluck.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6901484091334656
+    m_Localized: WordsOfEncouragement
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6901484191997952
+    m_Localized: These kind words heal your foe
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6901484397518848
+    m_Localized: NerdSnipe
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6901484498182144
+    m_Localized: Your foe fixates.  Stops action until damage taken.  May not always
+      be successful, dependent on Luck.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6901484699508736
+    m_Localized: Fortify
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6901484795977728
+    m_Localized: Yes!  Yes!  Fortify!  Stand strong!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6901485001498624
+    m_Localized: GutturalMonkChant
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6901485102161920
+    m_Localized: This makes quite a racket - nearby monks are alerted
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6901485303488512
+    m_Localized: ShareWarmRamen
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6901485404151808
+    m_Localized: Delicious ramen, nice to share, nice.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6901485605478400
+    m_Localized: RollAround
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6901485706141696
+    m_Localized: Easy for the foe to stub a toe when rolling around like this.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6901485915856896
+    m_Localized: NerdOut
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6901486020714496
+    m_Localized: Nerd out to distract a foe.  Reduce their nimble attribute!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6901486238818304
+    m_Localized: And on slide 5 you can see
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6901486444339200
+    m_Localized: Whinny
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6901486545002496
+    m_Localized: The OTHER natural horse sound
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6901486754717696
+    m_Localized: RequestETC
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6901486855380992
+    m_Localized: We need it yesterday!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6901487060901888
+    m_Localized: PiercingMonkChant
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6901487161565184
+    m_Localized: Very loud, and very powerful, causing a significant boost to brawn
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6901487367086080
+    m_Localized: Bite
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6901487467749376
+    m_Localized: The little teeth are so cute
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6901487673270272
+    m_Localized: DoubleSlap
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6901487773933568
+    m_Localized: Slap, and then slap again, for some real damage
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6901487979454464
+    m_Localized: RiseAndGrind
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6901488184975360
+    m_Localized: InstillSelfDoubt
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6901488285638656
+    m_Localized: Hit'em with the one-two-imposter syndrome for single-hit damage
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6901488491159552
+    m_Localized: ShootTheShit
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6901488596017152
+    m_Localized: Seems to make your office mates happy.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6901488801538048
+    m_Localized: ColdMonkBrew
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6901488906395648
+    m_Localized: How do the monks get it so cold?  Heals some HP
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6901489111916544
+    m_Localized: ShowOffCode
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6901489216774144
+    m_Localized: It's all on one line -- single hit damage that can crit.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6901489434877952
+    m_Localized: ShakeTail
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6901489543929856
+    m_Localized: The shaking of the tail is almost hypnotic
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6901489766227968
+    m_Localized: MakeUncomfortable
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6901489875279872
+    m_Localized: This disturbing presence reduces brawn and beauty, but raises nimble
+      substantially.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6901490093383680
+    m_Localized: HypnoticBaldSpot
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6901490202435584
+    m_Localized: Beautiful bald head makes one lose focus and thus lose AP
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6901490416345088
+    m_Localized: SpillHotCoffee
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6901490525396992
+    m_Localized: Shoot!  This burns.  Causes damage over time.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6901490739306496
+    m_Localized: SqueakSqueak
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6901490844164096
+    m_Localized: A call to action
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6901491049684992
+    m_Localized: Trample
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6901491150348288
+    m_Localized: Stompie stompie
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6901491360063488
+    m_Localized: Neigh
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6901491460726784
+    m_Localized: The natural horse sound
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6901491666247680
+    m_Localized: SmileMenacingly
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6901491766910976
+    m_Localized: Glimmer glimmer. Reduces pluck temporarily.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6901491976626176
+    m_Localized: SpitTake
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6901492077289472
+    m_Localized: Take a slug of your water and spit it out.  Hits all enemies.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6901492328947712
+    m_Localized: SelfFlagellation
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6901492433805312
+    m_Localized: The pain makes you stronger, and offers a buff to stoic
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6901492635131904
+    m_Localized: GentlePraise
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6901492735795200
+    m_Localized: Heal a small amount of hit points for one ally.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6908811896938496
+    m_Localized: Initial dummy text - to be replaced
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6908204796600320
+    m_Localized: Coffee grinders on discount.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6908335059099648
+    m_Localized: Thwrrrp
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6908863298134016
+    m_Localized: asdfasdf
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

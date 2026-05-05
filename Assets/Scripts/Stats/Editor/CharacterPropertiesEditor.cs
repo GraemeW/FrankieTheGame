@@ -11,7 +11,7 @@ namespace Frankie.Stats.Editor
         {
             var characterProperties = (CharacterProperties)target;
             if (characterProperties == null) { return; }
-            characterProperties.TryLocalizedName();
+            characterProperties.TryLocalizeDefaults();
         }
 
         public override VisualElement CreateInspectorGUI() 

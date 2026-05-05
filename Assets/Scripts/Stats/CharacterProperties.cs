@@ -69,12 +69,12 @@ namespace Frankie.Stats
             AssetDatabase.SaveAssetIfDirty(this);
         }
 
-        public void TryLocalizedName()
+        public void TryLocalizeDefaults()
         {
             ReconcileCachedName();
-            
             string key = GetNameLocalizationKey();
             if (!LocalizationTool.TryLocalizeEntry(localizationTableType, localizedDisplayName, key, name)) { return; }
+            
             EditorUtility.SetDirty(this);
             AssetDatabase.SaveAssetIfDirty(this);
         }

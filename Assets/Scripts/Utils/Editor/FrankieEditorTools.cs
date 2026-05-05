@@ -1,4 +1,5 @@
 #if UNITY_EDITOR
+using Frankie.Combat;
 using UnityEditor;
 using UnityEditor.SceneManagement;
 using UnityEngine;
@@ -43,8 +44,8 @@ namespace Frankie.Utils.Editor
                 //if (!gameObject.TryGetComponent(out Temp localizedLinker)) { continue; }
                 //localizedLinker.TempLinkStrings();
                 
-                //if (selectedObject is not Zone zone) { continue; }
-                //zone.TempLinkStrings();
+                //if (selectedObject is not Skill skill) { continue; }
+                //skill.TempLinkStrings();
             }
         }
         
@@ -72,16 +73,10 @@ namespace Frankie.Utils.Editor
         /* Scriptable Object Base
         public void TempLinkStrings()
         {
-           string key;
-           TableEntryReference tableEntryReference;
+            string key;
 
-           key = $"CharacterProperties.{name}";
-           tableEntryReference = key;
-           if (localizedDisplayName == null || LocalizationTool.GetEnglishEntry(localizationTableType, localizedDisplayName.TableEntryReference) != name)
-           {
-               LocalizationTool.AddUpdateEnglishEntry(localizationTableType, tableEntryReference, name);
-               LocalizationTool.SafelyUpdateReference(localizationTableType, localizedDisplayName, key);
-           }
+           key = GetNameLocalizationKey();
+           LocalizationTool.TryLocalizeEntry(localizationTableType, localizedDisplayName, key, name);
            
            EditorUtility.SetDirty(this);
            AssetDatabase.SaveAssetIfDirty(this);

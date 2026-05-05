@@ -173,15 +173,15 @@ namespace Frankie.Combat.UI
         private void UpdateSkills(SkillHandler skillHandler)
         {
             skillHandler.GetPlayerSkillsForCurrentBranch(out Skill up, out Skill left, out Skill right, out Skill down);
-            upField.text = up != null ? Skill.GetSkillNamePretty(up.name) : defaultNoText;
-            leftField.text = left != null ? Skill.GetSkillNamePretty(left.name) : defaultNoText;
-            rightField.text = right != null ? Skill.GetSkillNamePretty(right.name) : defaultNoText;
-            downField.text = down != null ? Skill.GetSkillNamePretty(down.name) : defaultNoText;
+            upField.text = up != null ? up.GetDisplayName() : defaultNoText;
+            leftField.text = left != null ? left.GetDisplayName() : defaultNoText;
+            rightField.text = right != null ? right.GetDisplayName() : defaultNoText;
+            downField.text = down != null ? down.GetDisplayName() : defaultNoText;
 
             Skill activeSkill = skillHandler.GetActiveSkill();
             if (activeSkill != null)
             { 
-                skillField.text = Skill.GetSkillNamePretty(activeSkill.name);
+                skillField.text = activeSkill.GetDisplayName();
                 if (battleController != null) { battleController.SetActiveBattleAction(activeSkill); }
                 OnUIBoxModified(UIBoxModifiedType.ItemSelected, true);
             } 

@@ -11,7 +11,7 @@ namespace Frankie.Combat.Editor
         {
             var skill = (Skill)target;
             if (skill == null) { return; }
-            skill.TryLocalizedName();
+            skill.TryLocalizeDefaults();
         }
 
         public override VisualElement CreateInspectorGUI() 
