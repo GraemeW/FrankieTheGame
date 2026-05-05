@@ -375,14 +375,6 @@ MonoBehaviour:
     m_Key: Skill.PassGas.Detail
     m_Metadata:
       m_Items: []
-  - m_Id: 6908811896938496
-    m_Key: Skill.asdfasdf.Detail
-    m_Metadata:
-      m_Items: []
-  - m_Id: 6908863298134016
-    m_Key: Skill.asdfasdf
-    m_Metadata:
-      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:

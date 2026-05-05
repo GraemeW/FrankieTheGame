@@ -252,6 +252,58 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2243472449155051767, guid: 16bdc6bf699a840cdb777c02b06f580a, type: 3}
+      propertyPath: transactionSuccessful.m_PersistentCalls.m_Calls.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2243472449155051767, guid: 16bdc6bf699a840cdb777c02b06f580a, type: 3}
+      propertyPath: transactionSuccessful.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2243472449155051767, guid: 16bdc6bf699a840cdb777c02b06f580a, type: 3}
+      propertyPath: transactionSuccessful.m_PersistentCalls.m_Calls.Array.data[1].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2243472449155051767, guid: 16bdc6bf699a840cdb777c02b06f580a, type: 3}
+      propertyPath: transactionSuccessful.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 5151515617335416088}
+    - target: {fileID: 2243472449155051767, guid: 16bdc6bf699a840cdb777c02b06f580a, type: 3}
+      propertyPath: transactionSuccessful.m_PersistentCalls.m_Calls.Array.data[1].m_Target
+      value: 
+      objectReference: {fileID: 4239551647755043406}
+    - target: {fileID: 2243472449155051767, guid: 16bdc6bf699a840cdb777c02b06f580a, type: 3}
+      propertyPath: transactionSuccessful.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2243472449155051767, guid: 16bdc6bf699a840cdb777c02b06f580a, type: 3}
+      propertyPath: transactionSuccessful.m_PersistentCalls.m_Calls.Array.data[1].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2243472449155051767, guid: 16bdc6bf699a840cdb777c02b06f580a, type: 3}
+      propertyPath: transactionSuccessful.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: PlayClip
+      objectReference: {fileID: 0}
+    - target: {fileID: 2243472449155051767, guid: 16bdc6bf699a840cdb777c02b06f580a, type: 3}
+      propertyPath: transactionSuccessful.m_PersistentCalls.m_Calls.Array.data[1].m_MethodName
+      value: ApplyAlternateSprite
+      objectReference: {fileID: 0}
+    - target: {fileID: 2243472449155051767, guid: 16bdc6bf699a840cdb777c02b06f580a, type: 3}
+      propertyPath: transactionSuccessful.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: Frankie.Sound.SoundEffects, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 2243472449155051767, guid: 16bdc6bf699a840cdb777c02b06f580a, type: 3}
+      propertyPath: transactionSuccessful.m_PersistentCalls.m_Calls.Array.data[1].m_TargetAssemblyTypeName
+      value: Frankie.World.WorldSpriteChanger, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 2243472449155051767, guid: 16bdc6bf699a840cdb777c02b06f580a, type: 3}
+      propertyPath: transactionSuccessful.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
+    - target: {fileID: 2243472449155051767, guid: 16bdc6bf699a840cdb777c02b06f580a, type: 3}
+      propertyPath: transactionSuccessful.m_PersistentCalls.m_Calls.Array.data[1].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
     - target: {fileID: 2543512604207244465, guid: 16bdc6bf699a840cdb777c02b06f580a, type: 3}
       propertyPath: m_Name
       value: _StandardCashGiverTaker

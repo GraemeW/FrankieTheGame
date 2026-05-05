@@ -373,20 +373,12 @@ MonoBehaviour:
     m_Localized: Heal a small amount of hit points for one ally.
     m_Metadata:
       m_Items: []
-  - m_Id: 6908811896938496
-    m_Localized: Initial dummy text - to be replaced
-    m_Metadata:
-      m_Items: []
   - m_Id: 6908204796600320
     m_Localized: Coffee grinders on discount.
     m_Metadata:
       m_Items: []
   - m_Id: 6908335059099648
     m_Localized: Thwrrrp
-    m_Metadata:
-      m_Items: []
-  - m_Id: 6908863298134016
-    m_Localized: asdfasdf
     m_Metadata:
       m_Items: []
   references:
