@@ -29,8 +29,7 @@ namespace Frankie.Combat
         private static Dictionary<string, Skill> _skillLookupCache;
 
         #region Getters
-        public string GetDisplayName() => localizedDisplayName.GetSafeLocalizedString(); 
-        public string GetName() => GetDisplayName(); // BattleAction Interface
+        public string GetName() => localizedDisplayName.GetSafeLocalizedString();
         public Stat GetStat() => skillStat;
         public bool IsItem() => false;
         public string GetDetail() => localizedDetail.GetSafeLocalizedString();
