@@ -50,6 +50,7 @@ namespace Frankie.Speech.UIEditor
         {
             var dialogue = EditorUtility.EntityIdToObject(instanceID) as Dialogue;
             if (dialogue == null) return false;
+            dialogue.ReconcileCachedDialogueName();
             dialogue.CreateRootNodeIfMissing();
             ShowEditorWindow();
             return true;
@@ -58,8 +59,14 @@ namespace Frankie.Speech.UIEditor
         private void OnEnable()
         {
             LocalizationTool.InitializeEnglishLocale();
+            Selection.selectionChanged -= OnSelectionChanged;
             Selection.selectionChanged += OnSelectionChanged;
             SetupNodeStyle();
+        }
+
+        private void OnDisable()
+        {
+            Selection.selectionChanged -= OnSelectionChanged;
         }
         
         private void OnGUI()

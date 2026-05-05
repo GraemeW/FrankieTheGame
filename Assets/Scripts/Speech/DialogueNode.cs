@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Localization;
@@ -64,7 +65,7 @@ namespace Frankie.Speech
 
         private string GetSpeakerNameLocalizationKey() => $"{dialogueName}.{nodeDepth}.{nodeBreadth}.Speaker";
         private string GetTextLocalizationKey() => $"{dialogueName}.{nodeDepth}.{nodeBreadth}.Text";
-        
+        public LocalizationTableType localizationTableType { get; } = LocalizationTableType.Speech;
         public List<TableEntryReference> GetLocalizationEntries()
         {
             return new List<TableEntryReference>
@@ -97,8 +98,8 @@ namespace Frankie.Speech
         }
         #endregion
 
-        #region EditorMethods
 #if UNITY_EDITOR
+        #region EditorMethods
         public void Initialize(int width, int height)
         {
             rect.width = width;
@@ -108,9 +109,13 @@ namespace Frankie.Speech
         
         public void SetDialogueName(string setDialogueName)
         {
-            Undo.RecordObject(this, "Update Dialogue Name");            
-            dialogueName = setDialogueName;
+            Undo.RecordObject(this, "Update Dialogue Name");
+            TryRenameExistingKeys(UpdateDialogueName);
+            
             EditorUtility.SetDirty(this);
+            return;
+            
+            void UpdateDialogueName() => dialogueName = setDialogueName;
         }
 
         public void SetSpeakerType(SpeakerType setSpeakerType)
@@ -126,9 +131,7 @@ namespace Frankie.Speech
             if (setSpeakerName == cachedSpeakerName) { return false; }
             
             Undo.RecordObject(this, "Update Dialogue Speaker Name");
-            LocalizationTool.AddUpdateEnglishEntry(LocalizationTableType.Speech, GetSpeakerNameLocalizationKey(), setSpeakerName);
-            if (localizedSpeakerName.IsEmpty) { LocalizationTool.SafelyUpdateReference(LocalizationTableType.Speech, localizedSpeakerName, GetSpeakerNameLocalizationKey()); }
-            
+            TryLocalizeParameter(DialogueNodeLocalizationType.Name, setSpeakerName);
             if (CharacterProperties.GetCharacterPropertiesFromName(setSpeakerName) != null) { characterProperties = CharacterProperties.GetCharacterPropertiesFromName(setSpeakerName); }
             cachedSpeakerName = setSpeakerName;
             EditorUtility.SetDirty(this);
@@ -141,29 +144,23 @@ namespace Frankie.Speech
             if (setText == cachedText) { return; }
             
             Undo.RecordObject(this, "Update Dialogue");
-            LocalizationTool.AddUpdateEnglishEntry(LocalizationTableType.Speech, GetTextLocalizationKey(), setText);
-            if (localizedText.IsEmpty) { LocalizationTool.SafelyUpdateReference(LocalizationTableType.Speech, localizedText, GetTextLocalizationKey()); }
-            
+            TryLocalizeParameter(DialogueNodeLocalizationType.Name, setText);
             cachedText = setText;
-            EditorUtility.SetDirty(this);
-        }
-
-        public void DeleteLocalizationEntries()
-        {
-            Undo.RecordObject(this, "Delete Localization Entries");
-            LocalizationTool.RemoveEntry(LocalizationTableType.Speech, GetSpeakerNameLocalizationKey());
-            LocalizationTool.RemoveEntry(LocalizationTableType.Speech, GetTextLocalizationKey());
-            localizedSpeakerName.SetReference("", "");
-            localizedText.SetReference("", "");
             EditorUtility.SetDirty(this);
         }
         
         public void SetNodeDepthBreadth(int setNodeDepth, int setNodeBreadth)
         {
-            Undo.RecordObject(this, "Update Dialogue Node Depth/Breadth");            
-            nodeDepth = setNodeDepth;
-            nodeBreadth = setNodeBreadth;
+            Undo.RecordObject(this, "Update Dialogue Node Depth/Breadth");
+            TryRenameExistingKeys(UpdateNodeDepthBreadth);
             EditorUtility.SetDirty(this);
+            return;
+
+            void UpdateNodeDepthBreadth()
+            {
+                nodeDepth = setNodeDepth;
+                nodeBreadth = setNodeBreadth;
+            }
         }
 
         public void AddChild(string childID)
@@ -201,7 +198,60 @@ namespace Frankie.Speech
             draggingRect = setDraggingRect;
             EditorUtility.SetDirty(this);
         }
-#endif
+        
+        public void DeleteLocalizationEntries()
+        {
+            Undo.RecordObject(this, "Delete Localization Entries");
+            TryDeleteLocalization();
+            EditorUtility.SetDirty(this);
+        }
         #endregion
+        
+        #region LocalizationUtility
+        private void TryRenameExistingKeys(Action updateAction)
+        {
+            if (updateAction == null) { return; }
+            
+            TableEntryReference oldSpeakerKey = GetSpeakerNameLocalizationKey();
+            TableEntryReference oldTextKey = GetTextLocalizationKey();
+            
+            updateAction.Invoke();
+            
+            string newSpeakerKey = GetSpeakerNameLocalizationKey();
+            string newTextKey = GetTextLocalizationKey();
+            LocalizationTool.MakeOrRenameKey(localizationTableType, oldSpeakerKey, newSpeakerKey);
+            LocalizationTool.MakeOrRenameKey(localizationTableType, oldTextKey, newTextKey);
+        }
+        
+        private void TryLocalizeParameter(DialogueNodeLocalizationType dialogueNodeLocalizationType, string setValue)
+        {
+            string key;
+            TableEntryReference tableEntryReference;
+            switch (dialogueNodeLocalizationType)
+            {
+                case DialogueNodeLocalizationType.Name:
+                    tableEntryReference = key = GetSpeakerNameLocalizationKey();
+                    if (localizedSpeakerName != null && setValue == LocalizationTool.GetEnglishEntry(localizationTableType, localizedSpeakerName.TableEntryReference)) { return; }
+                    LocalizationTool.AddUpdateEnglishEntry(localizationTableType, tableEntryReference, setValue);
+                    LocalizationTool.SafelyUpdateReference(localizationTableType, localizedSpeakerName, key);
+                    break;
+                case DialogueNodeLocalizationType.Text:
+                    tableEntryReference = key = GetTextLocalizationKey();
+                    if (localizedText != null && setValue == LocalizationTool.GetEnglishEntry(localizationTableType, localizedText.TableEntryReference)) { return; }
+                    LocalizationTool.AddUpdateEnglishEntry(localizationTableType, tableEntryReference, setValue);
+                    LocalizationTool.SafelyUpdateReference(localizationTableType, localizedText, key);
+                    break;
+            }
+        }
+
+        private void TryDeleteLocalization()
+        {
+            LocalizationTool.RemoveEntry(localizationTableType, GetSpeakerNameLocalizationKey());
+            LocalizationTool.RemoveEntry(localizationTableType, GetTextLocalizationKey());
+            localizedSpeakerName.SetReference("", "");
+            localizedText.SetReference("", "");
+        }
+        #endregion
+#endif
     }
 }

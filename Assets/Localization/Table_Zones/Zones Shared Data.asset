@@ -707,14 +707,6 @@ MonoBehaviour:
     m_Key: ZoneHandler.Prefab.SimpleNode.ChoiceMessage.6818789
     m_Metadata:
       m_Items: []
-  - m_Id: 6587645533609984
-    m_Key: Zone.MostTemp
-    m_Metadata:
-      m_Items: []
-  - m_Id: 6589294893326336
-    m_Key: Zone.MostTemp.Node.ggg
-    m_Metadata:
-      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:

@@ -28,7 +28,6 @@ namespace Frankie.ZoneManagement
         [SerializeField] private bool updateMap = false;
         [SerializeField] private AudioClip zoneAudio;
         [SerializeField] private bool isZoneAudioLooping = true;
-        public LocalizationTableType localizationTableType { get; } = LocalizationTableType.Zones;
 
         // State
         [HideInInspector][SerializeField] private string cachedZoneName = "";
@@ -125,6 +124,16 @@ namespace Frankie.ZoneManagement
 
         private string GetNameLocalizationKey() => GetNameLocalizationKey(name);
         private static string GetNameLocalizationKey(string id) => $"Zone.{id}"; 
+        public LocalizationTableType localizationTableType { get; } = LocalizationTableType.Zones;
+        public List<TableEntryReference> GetLocalizationEntries()
+        {
+            var entries = new List<TableEntryReference> { localizedDisplayName.TableEntryReference };
+            foreach (ZoneNode zoneNode in zoneNodes.Where(zoneNode => zoneNode != null))
+            {
+                entries.AddRange(zoneNode.GetLocalizationEntries());
+            }
+            return entries;
+        }
         #endregion
         
 #if UNITY_EDITOR
@@ -261,17 +270,7 @@ namespace Frankie.ZoneManagement
         #endregion
 #endif
 
-        #region Interfaces
-        public List<TableEntryReference> GetLocalizationEntries()
-        {
-            var entries = new List<TableEntryReference> { localizedDisplayName.TableEntryReference };
-            foreach (ZoneNode zoneNode in zoneNodes.Where(zoneNode => zoneNode != null))
-            {
-                entries.AddRange(zoneNode.GetLocalizationEntries());
-            }
-            return entries;
-        }
-        
+        #region SerializationInterface
         void ISerializationCallbackReceiver.OnBeforeSerialize()
         {
 #if UNITY_EDITOR

@@ -38,11 +38,7 @@ namespace Frankie.ZoneManagement
         
         private string GetNameLocalizationKey() => GetNameLocalizationKey(name);
         private string GetNameLocalizationKey(string id) => $"Zone.{zoneName ?? ""}.Node.{id}";
-        #endregion
-
-        #region PublicMethods
-        public bool CheckCondition(IEnumerable<IPredicateEvaluator> evaluators) => condition.Check(evaluators);
-        
+        public LocalizationTableType localizationTableType { get; } = LocalizationTableType.Zones;
         public List<TableEntryReference> GetLocalizationEntries()
         {
             return new List<TableEntryReference>
@@ -50,6 +46,10 @@ namespace Frankie.ZoneManagement
                 localizedDisplayName.TableEntryReference,
             };
         }
+        #endregion
+
+        #region PublicMethods
+        public bool CheckCondition(IEnumerable<IPredicateEvaluator> evaluators) => condition.Check(evaluators);
         #endregion
 
 #if UNITY_EDITOR
@@ -73,7 +73,7 @@ namespace Frankie.ZoneManagement
             TableEntryReference oldKey =  GetNameLocalizationKey();
             zoneName = setZoneName;
             string newKey = GetNameLocalizationKey();
-            LocalizationTool.MakeOrRenameKey(LocalizationTableType.Zones, oldKey, newKey);
+            LocalizationTool.MakeOrRenameKey(localizationTableType, oldKey, newKey);
 
             EditorUtility.SetDirty(this);
         }
@@ -86,7 +86,6 @@ namespace Frankie.ZoneManagement
             TryRenameExistingKey(id);
             name = id;
             TryLocalizeName();
-            
             EditorUtility.SetDirty(this);
             return true;
         }
@@ -125,34 +124,38 @@ namespace Frankie.ZoneManagement
             draggingRect = setDraggingRect;
             EditorUtility.SetDirty(this);
         }
+
+        public void DeleteLocalizationEntries()
+        {
+            Undo.RecordObject(this, "Delete Localization Entries");
+            TryDeleteLocalization();
+            EditorUtility.SetDirty(this);
+        }
         #endregion
         
         #region LocalizationUtility
-
         private void TryRenameExistingKey(string id)
         {
             TableEntryReference oldKey = GetNameLocalizationKey();
             string newKey = GetNameLocalizationKey(id);
-            LocalizationTool.MakeOrRenameKey(LocalizationTableType.Zones, oldKey, newKey);
+            LocalizationTool.MakeOrRenameKey(localizationTableType, oldKey, newKey);
         }
         
         private void TryLocalizeName()
         {
             string key = GetNameLocalizationKey();
             TableEntryReference tableEntryReference = key;
-            if (localizedDisplayName == null || LocalizationTool.GetEnglishEntry(LocalizationTableType.Zones, localizedDisplayName.TableEntryReference) != name)
+            if (localizedDisplayName == null || LocalizationTool.GetEnglishEntry(localizationTableType, localizedDisplayName.TableEntryReference) != name)
             {
-                LocalizationTool.AddUpdateEnglishEntry(LocalizationTableType.Zones, tableEntryReference, name);
-                LocalizationTool.SafelyUpdateReference(LocalizationTableType.Zones, localizedDisplayName, key);
+                LocalizationTool.AddUpdateEnglishEntry(localizationTableType, tableEntryReference, name);
+                LocalizationTool.SafelyUpdateReference(localizationTableType, localizedDisplayName, key);
             }
         }
         
-        public void DeleteLocalizationEntries()
+        private void TryDeleteLocalization()
         {
-            Undo.RecordObject(this, "Delete Localization Entries");
-            LocalizationTool.RemoveEntry(LocalizationTableType.Zones, GetNameLocalizationKey());
+            LocalizationTool.RemoveEntry(localizationTableType, GetNameLocalizationKey());
             localizedDisplayName.SetReference("", "");
-            EditorUtility.SetDirty(this);
         }
         #endregion
 #endif

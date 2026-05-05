@@ -710,14 +710,6 @@ MonoBehaviour:
     m_Localized: Where do you want to go?
     m_Metadata:
       m_Items: []
-  - m_Id: 6587645533609984
-    m_Localized: MostTemp
-    m_Metadata:
-      m_Items: []
-  - m_Id: 6589294893326336
-    m_Localized: ggg
-    m_Metadata:
-      m_Items: []
   references:
     version: 2
     RefIds: []

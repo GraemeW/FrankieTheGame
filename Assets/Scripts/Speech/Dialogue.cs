@@ -15,7 +15,6 @@ namespace Frankie.Speech
         [SerializeField] public bool skipRootNode = false;
         [SerializeField] private string defaultSpeakerName = "DefaultSpeaker";
         [SerializeField] private string defaultText = "Default Text to Overwrite";
-        public LocalizationTableType localizationTableType { get; } = LocalizationTableType.Speech;
         
 #if UNITY_EDITOR
         [Header("Editor Settings")]
@@ -82,10 +81,21 @@ namespace Frankie.Speech
                 else if (speakerType == SpeakerType.AISpeaker && IsSpeakerNameOverrideable(speakerType, dialogueNode)) { dialogueNode.OverrideSpeakerName(); }
             }
         }
+        
+        public LocalizationTableType localizationTableType { get; } = LocalizationTableType.Speech;
+        public List<TableEntryReference> GetLocalizationEntries()
+        {
+            var entries = new List<TableEntryReference>();
+            foreach (DialogueNode dialogueNode in dialogueNodes.Where(dialogueNode => dialogueNode != null))
+            {
+                entries.AddRange(dialogueNode.GetLocalizationEntries());
+            }
+            return entries;
+        }
         #endregion
 
-        #region EditorMethods
 #if UNITY_EDITOR
+        #region EditorMethods
         public IEnumerable<DialogueNode> GetAllChildren(DialogueNode parentNode)
         {
             if (parentNode == null || parentNode.GetChildren() == null || parentNode.GetChildren().Count == 0) { yield break; }
@@ -241,36 +251,36 @@ namespace Frankie.Speech
                 }
             }
         }
-#endif
         #endregion
-
-        #region InterfaceMethods
-        public List<TableEntryReference> GetLocalizationEntries()
+      
+        #region LocalizationUtility
+        public void ReconcileCachedDialogueName()
         {
-            var entries = new List<TableEntryReference>();
-            foreach (DialogueNode dialogueNode in dialogueNodes.Where(dialogueNode => dialogueNode != null))
+            if (name == cachedDialogueName) { return; }
+
+            cachedDialogueName = name;
+            foreach (DialogueNode dialogueNode in dialogueNodes)
             {
-                entries.AddRange(dialogueNode.GetLocalizationEntries());
+                dialogueNode.SetDialogueName(name);
             }
-            return entries;
+            
+            EditorUtility.SetDirty(this);
+            AssetDatabase.SaveAssetIfDirty(this);
         }
-        
+        #endregion
+#endif
+
+        #region SerializationInterface
         void ISerializationCallbackReceiver.OnBeforeSerialize()
         {
 #if UNITY_EDITOR
             if (AssetDatabase.GetAssetPath(this) == "") return;
             
-            bool updateDialogueName = cachedDialogueName != name;
-            if (updateDialogueName) { cachedDialogueName = name; }
-            
             foreach (DialogueNode dialogueNode in dialogueNodes)
             {
                 if (dialogueNode == null) { continue; }
-                if (updateDialogueName) { dialogueNode.SetDialogueName(name); }
-                
                 if (AssetDatabase.GetAssetPath(dialogueNode) == "")
                 {
-                    dialogueNode.SetDialogueName(name);
                     AssetDatabase.AddObjectToAsset(dialogueNode, this);
                 }
             }

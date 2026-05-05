@@ -53,8 +53,14 @@ namespace Frankie.ZoneManagement.UIEditor
         private void OnEnable()
         {
             LocalizationTool.InitializeEnglishLocale();
+            Selection.selectionChanged -= OnSelectionChanged;
             Selection.selectionChanged += OnSelectionChanged;
             SetupNodeStyle();
+        }
+
+        private void OnDisable()
+        {
+            Selection.selectionChanged -= OnSelectionChanged;
         }
 
         private void SetupNodeStyle()
