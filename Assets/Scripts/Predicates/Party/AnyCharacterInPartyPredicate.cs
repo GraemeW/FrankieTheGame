@@ -4,7 +4,7 @@ using Frankie.Stats;
 
 namespace Frankie.Core.Predicates
 {
-    [CreateAssetMenu(fileName = "New Any Character In Party Predicate", menuName = "Predicates/Party/ContainsAnyCharacter")]
+    [CreateAssetMenu(fileName = "New Any Character In Party Predicate", menuName = "Predicates/Party/ContainsAnyCharacter", order = 5)]
     public class AnyCharacterInPartyPredicate : PredicateParty
     {
         public override bool? Evaluate(Party party)

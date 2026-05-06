@@ -3,7 +3,7 @@ using Frankie.Quests;
 
 namespace Frankie.Core.Predicates
 {
-    [CreateAssetMenu(fileName = "New Quest Completed Predicate", menuName = "Predicates/QuestList/Quest Completed")]
+    [CreateAssetMenu(fileName = "New Quest Completed Predicate", menuName = "Predicates/QuestList/Quest Completed", order = 5)]
     public class QuestCompletedPredicate : PredicateQuestList
     {
         public override bool? Evaluate(QuestList questList)

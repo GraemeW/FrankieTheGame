@@ -8,7 +8,7 @@ using Frankie.Utils.Addressables;
 
 namespace Frankie.Combat
 {
-    [CreateAssetMenu(fileName = "New Battle Action", menuName = "BattleAction/New Battle Action")]
+    [CreateAssetMenu(fileName = "New Battle Action", menuName = "BattleAction/New Battle Action", order = 15)]
     public class BattleAction : ScriptableObject, IAddressablesCache
     {
         [Header("Scriptable Object Inputs")]

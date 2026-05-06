@@ -14,9 +14,29 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   guid: b03c0139-809f-4783-8a90-8eb88631e3c4
   gameStateModifierHandlerData: []
-  displayName: Chocolate Cheese Curds
-  description: Chocolatey cheesey goodness (TM).  Heals some HP.
+  localizedDisplayName:
+    m_TableReference:
+      m_TableCollectionName: GUID:d96a34ea508fa423b93190524b5b4af1
+    m_TableEntryReference:
+      m_KeyId: 7257227176960000
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  localizedDetail:
+    m_TableReference:
+      m_TableCollectionName: GUID:d96a34ea508fa423b93190524b5b4af1
+    m_TableEntryReference:
+      m_KeyId: 7257227273428992
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
   droppable: 1
   price: 17
+  cachedName: ChocolateCheeseCurds
   consumable: 1
   battleAction: {fileID: 11400000, guid: 81fec7ccc57d205409e6ed7f75602679, type: 2}
+  references:
+    version: 2
+    RefIds: []

@@ -22,9 +22,31 @@ MonoBehaviour:
     gameObjectName: _StandardItemGiverTaker
     parentObjectName: Microwave (1)
     guid: 990762b9-0a2c-44d5-bcda-d2547edd383e
+  localizedDisplayName:
+    m_TableReference:
+      m_TableCollectionName: GUID:d96a34ea508fa423b93190524b5b4af1
+    m_TableEntryReference:
+      m_KeyId: 7257230129750016
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
   displayName: Chopsticks
+  localizedDetail:
+    m_TableReference:
+      m_TableCollectionName: GUID:d96a34ea508fa423b93190524b5b4af1
+    m_TableEntryReference:
+      m_KeyId: 7257230226219008
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
   description: They're covered in Orange Chicken sauce.  Gross.
   droppable: 0
   price: 0
+  cachedName: Chopsticks
   questObjectives:
   - {fileID: 225375821655883534, guid: 21448c66f5c436e4e97f39885ea7ed02, type: 2}
+  references:
+    version: 2
+    RefIds: []

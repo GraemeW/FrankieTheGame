@@ -14,11 +14,27 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   guid: d873894d-f7f9-4da8-bd25-011879603a4e
   gameStateModifierHandlerData: []
-  displayName: Stapler
-  description: Clicky clicky.  It doesn't hurt much, but it's red and pretty, good
-    for fashion.  Only usable by Phil Too.
+  localizedDisplayName:
+    m_TableReference:
+      m_TableCollectionName: GUID:d96a34ea508fa423b93190524b5b4af1
+    m_TableEntryReference:
+      m_KeyId: 7257226296156160
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  localizedDetail:
+    m_TableReference:
+      m_TableCollectionName: GUID:d96a34ea508fa423b93190524b5b4af1
+    m_TableEntryReference:
+      m_KeyId: 7257226392625152
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
   droppable: 1
   price: 35
+  cachedName: Stapler
   equipLocation: 1
   baseStatModifiers:
   - stat: 5
@@ -29,3 +45,6 @@ MonoBehaviour:
     - or:
       - predicate: {fileID: 11400000, guid: c9e679a245b933d458515c889e883a84, type: 2}
         negate: 0
+  references:
+    version: 2
+    RefIds: []

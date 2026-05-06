@@ -17,7 +17,285 @@ MonoBehaviour:
   m_SharedData: {fileID: 11400000, guid: d96a34ea508fa423b93190524b5b4af1, type: 2}
   m_Metadata:
     m_Items: []
-  m_TableData: []
+  m_TableData:
+  - m_Id: 7257224400330752
+    m_Localized: GiantTurkeyLeg
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7257224605851648
+    m_Localized: It's a massive turkey leg.  It's really, really big.  No, really.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7257224811372544
+    m_Localized: LooseNuts
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7257224912035840
+    m_Localized: Mix of macadia and beer nuts . . . and some twine?
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7257225113362432
+    m_Localized: TestKeyItem
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7257225209831424
+    m_Localized: Can't get around without it
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7257225411158016
+    m_Localized: BumperCarA
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7257225507627008
+    m_Localized: The rubber base bounces with great vigor
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7257225704759296
+    m_Localized: BrokenKeyboard
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7257225801228288
+    m_Localized: The F key sticks and the space bar fell off.  Only usable by Frankie.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7257226002554880
+    m_Localized: CasioWatch
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7257226094829568
+    m_Localized: Wow, offers some protection and it looks cool!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7257226296156160
+    m_Localized: Stapler
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7257226392625152
+    m_Localized: Clicky clicky.  It doesn't hurt much, but it's red and pretty, good
+      for fashion.  Only usable by Phil Too.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7257226589757440
+    m_Localized: UnstoppableForce
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7257226686226432
+    m_Localized: If only you could find an immovable object.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7257226883358720
+    m_Localized: ElectrolyteWater
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7257226979827712
+    m_Localized: Full of SODIUM and ENERGY.  Heals a good chunk of AP.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7257227176960000
+    m_Localized: ChocolateCheeseCurds
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7257227273428992
+    m_Localized: Chocolatey cheesey goodness (TM).  Heals some HP.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7257227470561280
+    m_Localized: RoughHay
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7257227579613184
+    m_Localized: For chewing I guess?  This is the only healthy food (?) available
+      in the office.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7257227776745472
+    m_Localized: SimpleKeyboard
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7257227873214464
+    m_Localized: It's a really basic keyboard.  No numpad.  Only usable by Frankie.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7257228070346752
+    m_Localized: OneFootRuler
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7257228166815744
+    m_Localized: It's exactly 12 inches and it SNAPs.  Only usable by Tilly.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7257228363948032
+    m_Localized: SubstantialBar
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7257228460417024
+    m_Localized: It's a substantial bar.  Made of substantial ingredients.  Heals
+      a good chunk of HP.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7257228657549312
+    m_Localized: ThinVest
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7257228749824000
+    m_Localized: It's a very thin vest, offers minimal protection
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7257228946956288
+    m_Localized: LuckyKeyboard
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7257229047619584
+    m_Localized: It has a neat shamrock decal on it!  Only usable by Frankie.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7257229240557568
+    m_Localized: XTremeBurnHotSauce
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7257229341220864
+    m_Localized: Hotter than hell.  Don't eat this.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7257229538353152
+    m_Localized: KeyToBallPitRoom
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7257229639016448
+    m_Localized: Extremely valuable -- only handed out to senior engineers.  Don't
+      lose it.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7257229836148736
+    m_Localized: VeryImportantDocuments
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7257229936812032
+    m_Localized: It's hay.  It's just hay in a binder.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7257230129750016
+    m_Localized: Chopsticks
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7257230226219008
+    m_Localized: They're covered in Orange Chicken sauce.  Gross.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7257230423351296
+    m_Localized: LooseStep
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7257230519820288
+    m_Localized: Wow, it's the exact step missing from the staircase to the basement
+      in Lacklustre Video!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7257230716952576
+    m_Localized: KeyCardToOffice
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7257230813421568
+    m_Localized: Steve5000's key card.  This'll get you into the office.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7262404923613184
+    m_Localized: None
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7262405137522688
+    m_Localized: Hands
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7262405238185984
+    m_Localized: Arms
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7262405334654976
+    m_Localized: Body
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7262405435318272
+    m_Localized: Other
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7267079722885120
+    m_Localized: What'cha want to buy?
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7267122433482752
+    m_Localized: Thanks, want anything else?
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7267153697824768
+    m_Localized: Whoops, looks like you don't have enough cash for that
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7267823708528640
+    m_Localized: Whoops, looks like you don't have enough space for that
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7267237508407296
+    m_Localized: I can give you ${0} for that
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7267276448325632
+    m_Localized: I can't accept that item
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7272520821497856
+    m_Localized: BZZZT ** BUY SOMETHING ? **
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7277301694717952
+    m_Localized: BZZZZT ** THANKS, ANYTHING ELSE? **
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7277317922480128
+    m_Localized: BZT ** INSUFFICIENT FUNDS **
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7277331583328256
+    m_Localized: BZZT ** INSUFFICIENT SPACE **
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7277346045288448
+    m_Localized: PHWOON ** {0} COINS PROCESSED **
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7277361329332224
+    m_Localized: BZZZZZT ** SORRY NO **
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7280701010337792
+    m_Localized: Holmes, sup, wanna buy somethin'?
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7280756438065152
+    m_Localized: Niiiiiice, anything else?
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7280815208652800
+    m_Localized: I'm afraid you're low on funds buddy.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7280905679790080
+    m_Localized: You expect me to sell you this, when you're already carrying all
+      that?!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7281028736475136
+    m_Localized: No-can-do, bud.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7286311491723264
+    m_Localized: TestBoyTestUhhh
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7286311617552384
+    m_Localized: Initial dummy text - to be replaced
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

@@ -5,7 +5,7 @@ using Frankie.Combat;
 
 namespace Frankie.Inventory
 {
-    [CreateAssetMenu(menuName = ("Inventory/Action Item"))]
+    [CreateAssetMenu(fileName = "ActionItem", menuName = "Inventory/Action Item", order = 10)]
     public class ActionItem : InventoryItem, IBattleActionSuper
     {
         // Config Data

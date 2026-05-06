@@ -57,7 +57,7 @@ namespace Frankie.Combat.Spawner
             
             foreach (CharacterProperties characterProperties in SpawnConfiguration.GetEnemies(enemyConfigurations, maxQuantity))
             {
-                GameObject enemyPrefab = characterProperties.characterNPCPrefab;
+                GameObject enemyPrefab = characterProperties.GetCharacterNPCPrefab();
                 if (enemyPrefab == null) { continue; }
 
                 GameObject spawnedEnemy = Instantiate(enemyPrefab, transform);

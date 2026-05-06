@@ -9,7 +9,7 @@ using Frankie.Utils.Addressables;
 
 namespace Frankie.Quests
 {
-    [CreateAssetMenu(fileName = "Quest", menuName = "Quests/New Quest")]
+    [CreateAssetMenu(fileName = "Quest", menuName = "Quests/New Quest", order = 10)]
     public class Quest : GameStateModifier, IAddressablesCache
     {
         // Tunables

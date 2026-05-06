@@ -1,0 +1,205 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &6839642612281292503
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8087358887692114265}
+  - component: {fileID: 7038800583860656243}
+  m_Layer: 0
+  m_Name: _StandardShop
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &8087358887692114265
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6839642612281292503}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 696323243145357026}
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &7038800583860656243
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6839642612281292503}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dfd71e6d15e959a4faaf09bc70b94f96, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Frankie.Inventory.Shop
+  backingHandlerGUID: 
+  backingListHashCheck: 0
+  backingHasGameStateModifiers: 0
+  backingGameStateModifierGUIDs: []
+  stock: []
+  shopType: 2
+  saleDiscount: 0.7
+  localizedMessageIntro:
+    m_TableReference:
+      m_TableCollectionName: GUID:d96a34ea508fa423b93190524b5b4af1
+    m_TableEntryReference:
+      m_KeyId: 7267079722885120
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  messageIntro: What'cha want to buy?
+  localizedMessageSuccess:
+    m_TableReference:
+      m_TableCollectionName: GUID:d96a34ea508fa423b93190524b5b4af1
+    m_TableEntryReference:
+      m_KeyId: 7267122433482752
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  messageSuccess: Thanks, want anything else?
+  localizedMessageNoFunds:
+    m_TableReference:
+      m_TableCollectionName: GUID:d96a34ea508fa423b93190524b5b4af1
+    m_TableEntryReference:
+      m_KeyId: 7267153697824768
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  messageNoFunds: Whoops, looks like you don't have enough cash for that
+  localizedMessageNoSpace:
+    m_TableReference:
+      m_TableCollectionName: GUID:d96a34ea508fa423b93190524b5b4af1
+    m_TableEntryReference:
+      m_KeyId: 7267823708528640
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  messageNoSpace: Whoops, looks like you don't have enough space for that
+  localizedMessageForSale:
+    m_TableReference:
+      m_TableCollectionName: GUID:d96a34ea508fa423b93190524b5b4af1
+    m_TableEntryReference:
+      m_KeyId: 7267237508407296
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  messageForSale: I can give you {0} for that
+  localizedMessageCannotSell:
+    m_TableReference:
+      m_TableCollectionName: GUID:d96a34ea508fa423b93190524b5b4af1
+    m_TableEntryReference:
+      m_KeyId: 7267276448325632
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  messageCannotSell: I can't accept that item
+  transactionCompleted:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 696323243145357037}
+        m_TargetAssemblyTypeName: Frankie.Sound.SoundEffects, Assembly-CSharp
+        m_MethodName: PlayClip
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  references:
+    version: 2
+    RefIds: []
+--- !u!1001 &115247217832133768
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 8087358887692114265}
+    m_Modifications:
+    - target: {fileID: 590155131186209386, guid: b9629a652978b8945b9c872d85045827, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 590155131186209386, guid: b9629a652978b8945b9c872d85045827, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 590155131186209386, guid: b9629a652978b8945b9c872d85045827, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 590155131186209386, guid: b9629a652978b8945b9c872d85045827, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 590155131186209386, guid: b9629a652978b8945b9c872d85045827, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 590155131186209386, guid: b9629a652978b8945b9c872d85045827, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 590155131186209386, guid: b9629a652978b8945b9c872d85045827, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 590155131186209386, guid: b9629a652978b8945b9c872d85045827, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 590155131186209386, guid: b9629a652978b8945b9c872d85045827, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 590155131186209386, guid: b9629a652978b8945b9c872d85045827, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 590155131186209387, guid: b9629a652978b8945b9c872d85045827, type: 3}
+      propertyPath: m_Name
+      value: ShopSoundbox
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: b9629a652978b8945b9c872d85045827, type: 3}
+--- !u!4 &696323243145357026 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 590155131186209386, guid: b9629a652978b8945b9c872d85045827, type: 3}
+  m_PrefabInstance: {fileID: 115247217832133768}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &696323243145357037 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 590155131186209381, guid: b9629a652978b8945b9c872d85045827, type: 3}
+  m_PrefabInstance: {fileID: 115247217832133768}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7d92abaff543d4a4498f7173bd00113e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

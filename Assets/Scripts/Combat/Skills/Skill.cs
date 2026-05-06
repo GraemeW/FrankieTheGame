@@ -14,7 +14,7 @@ using UnityEditor;
 
 namespace Frankie.Combat
 {
-    [CreateAssetMenu(fileName = "New Skill", menuName = "Skills/New Skill")]
+    [CreateAssetMenu(fileName = "New Skill", menuName = "Skills/New Skill", order = 10)]
     public class Skill : ScriptableObject, IBattleActionSuper, IAddressablesCache, ILocalizable
     {
         // Tunables
@@ -61,9 +61,9 @@ namespace Frankie.Combat
 #if UNITY_EDITOR
         #region LocalizationUtility
         private string GetNameLocalizationKey() => GetNameLocalizationKey(name);
-        private static string GetNameLocalizationKey(string id) => $"{nameof(Skill)}.{id}";
+        public static string GetNameLocalizationKey(string id) => $"{nameof(Skill)}.{id}";
         private string GetDetailLocalizationKey() => $"{GetNameLocalizationKey()}.Detail";
-        private static string GetDetailLocalizationKey(string id) =>  $"{GetNameLocalizationKey(id)}.Detail";
+        public static string GetDetailLocalizationKey(string id) =>  $"{GetNameLocalizationKey(id)}.Detail";
         
         private void ReconcileCachedName()
         {

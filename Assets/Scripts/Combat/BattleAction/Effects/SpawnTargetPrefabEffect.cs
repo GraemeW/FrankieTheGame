@@ -6,7 +6,7 @@ using Frankie.Combat.UI;
 
 namespace Frankie.Combat
 {
-    [CreateAssetMenu(fileName = "New Spawn Target Prefab Effect", menuName = "BattleAction/Effects/Spawn Target Prefab Effect")]
+    [CreateAssetMenu(fileName = "New Spawn Target Prefab Effect", menuName = "BattleAction/Effects/Spawn Target Prefab Effect", order = 15)]
     public class SpawnTargetPrefabEffect : EffectStrategy
     {
         [SerializeField] private Image graphicToSpawn;

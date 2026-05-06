@@ -22,9 +22,31 @@ MonoBehaviour:
     gameObjectName: _StandardItemGiverTaker
     parentObjectName: Horse (1)
     guid: dcc58567-5355-4bcd-8b66-b636426bb765
+  localizedDisplayName:
+    m_TableReference:
+      m_TableCollectionName: GUID:d96a34ea508fa423b93190524b5b4af1
+    m_TableEntryReference:
+      m_KeyId: 7257229836148736
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
   displayName: Very Imp. Docs
+  localizedDetail:
+    m_TableReference:
+      m_TableCollectionName: GUID:d96a34ea508fa423b93190524b5b4af1
+    m_TableEntryReference:
+      m_KeyId: 7257229936812032
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
   description: It's hay.  It's just hay in a binder.
   droppable: 0
   price: 0
+  cachedName: VeryImportantDocuments
   questObjectives:
   - {fileID: -8720720264288702615, guid: 2f938ee49fb6a5042b36b02b3d3c7619, type: 2}
+  references:
+    version: 2
+    RefIds: []

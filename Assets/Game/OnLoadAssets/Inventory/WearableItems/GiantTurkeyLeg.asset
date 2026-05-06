@@ -14,9 +14,31 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   guid: 5cd80040-f5c7-48d3-9796-557cabe3ad90
   gameStateModifierHandlerData: []
+  localizedDisplayName:
+    m_TableReference:
+      m_TableCollectionName: GUID:d96a34ea508fa423b93190524b5b4af1
+    m_TableEntryReference:
+      m_KeyId: 7257224400330752
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
   displayName: GiantTurkeyLeg
+  localizedDetail:
+    m_TableReference:
+      m_TableCollectionName: GUID:d96a34ea508fa423b93190524b5b4af1
+    m_TableEntryReference:
+      m_KeyId: 7257224605851648
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
   description: It's a massive turkey leg.  It's really, really big.  No, really.
   droppable: 1
   price: 50
+  cachedName: GiantTurkeyLeg
   wearablePrefab: {fileID: 1159683955107447311, guid: 7844872dab18fe04bab1ddc3424f2c2e, type: 3}
   isUnique: 1
+  references:
+    version: 2
+    RefIds: []

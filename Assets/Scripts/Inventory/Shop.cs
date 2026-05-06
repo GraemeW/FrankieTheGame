@@ -1,13 +1,16 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.Localization;
+using UnityEngine.Localization.Tables;
 using Frankie.Control;
 using Frankie.Core.GameStateModifiers;
+using Frankie.Utils.Localization;
 
 namespace Frankie.Inventory
 {
     [ExecuteInEditMode]
-    public class Shop : MonoBehaviour, IGameStateModifierHandler
+    public class Shop : MonoBehaviour, IGameStateModifierHandler, ILocalizable
     {
         // Interface Properties
         [SerializeField] private string backingHandlerGUID;
@@ -28,12 +31,12 @@ namespace Frankie.Inventory
         [SerializeField] private ShopType shopType = ShopType.Both;
         [SerializeField] private float saleDiscount = 0.7f;
         [Header("Interaction Texts")]
-        [SerializeField] private string messageIntro = "What'cha want to buy?";
-        [SerializeField] private string messageSuccess = "Thanks, want anything else?";
-        [SerializeField] private string messageNoFunds = "Whoops, looks like you don't have enough cash for that";
-        [SerializeField] private string messageNoSpace = "Whoops, looks like you don't have enough space for that";
-        [Tooltip("{0} for sale amount")][SerializeField] private string messageForSale = "I can give you {0} for that";
-        [SerializeField] private string messageCannotSell = "I can't accept that item";
+        [SerializeField][SimpleLocalizedString(LocalizationTableType.Inventory, true)] private LocalizedString localizedMessageIntro;
+        [SerializeField][SimpleLocalizedString(LocalizationTableType.Inventory, true)] private LocalizedString localizedMessageSuccess;
+        [SerializeField][SimpleLocalizedString(LocalizationTableType.Inventory, true)] private LocalizedString localizedMessageNoFunds;
+        [SerializeField][SimpleLocalizedString(LocalizationTableType.Inventory, true)] private LocalizedString localizedMessageNoSpace;
+        [SerializeField][SimpleLocalizedString(LocalizationTableType.Inventory, true)] private LocalizedString localizedMessageForSale;
+        [SerializeField][SimpleLocalizedString(LocalizationTableType.Inventory, true)] private LocalizedString localizedMessageCannotSell;
         [Header("Transaction Events")]
         [SerializeField] private UnityEvent transactionCompleted;
 
@@ -42,12 +45,12 @@ namespace Frankie.Inventory
         private Shopper shopper;
 
         #region PublicGetters
-        public string GetMessageIntro() => messageIntro;
-        public string GetMessageSuccess() => messageSuccess;
-        public string GetMessageNoFunds() => messageNoFunds;
-        public string GetMessageNoSpace() => messageNoSpace;
-        public string GetMessageForSale() => messageForSale;
-        public string GetMessageCannotSell() => messageCannotSell;
+        public string GetMessageIntro() => localizedMessageIntro.GetSafeLocalizedString();
+        public string GetMessageSuccess() => localizedMessageSuccess.GetSafeLocalizedString();
+        public string GetMessageNoFunds() => localizedMessageNoFunds.GetSafeLocalizedString();
+        public string GetMessageNoSpace() => localizedMessageNoSpace.GetSafeLocalizedString();
+        public string GetMessageForSale() => localizedMessageForSale.GetSafeLocalizedString();
+        public string GetMessageCannotSell() => localizedMessageCannotSell.GetSafeLocalizedString();
         public bool HasInventory() => stock.Count > 0;
         public IList<InventoryItem> GetShopStock() => stock;
         public ShopType GetShopType() => shopType;
@@ -57,6 +60,7 @@ namespace Frankie.Inventory
         #region UnityMethods
         private void OnDestroy()
         {
+            ILocalizable.TriggerOnDestroy(this);
             IGameStateModifierHandler.TriggerOnDestroy(this);
         }
         
@@ -81,6 +85,34 @@ namespace Frankie.Inventory
         }
         #endregion
         
+        #region InterfaceMethods
+        public LocalizationTableType localizationTableType { get; } =  LocalizationTableType.Inventory;
+        public List<TableEntryReference> GetLocalizationEntries()
+        {
+            return new List<TableEntryReference>
+            {
+                localizedMessageIntro.TableEntryReference,
+                localizedMessageSuccess.TableEntryReference,
+                localizedMessageNoFunds.TableEntryReference,
+                localizedMessageNoSpace.TableEntryReference,
+                localizedMessageForSale.TableEntryReference,
+                localizedMessageCannotSell.TableEntryReference,
+            };
+        }
+
+        public IList<GameStateModifier> GetGameStateModifiers()
+        {
+            List<GameStateModifier> gameStateModifiers = new();
+            foreach (InventoryItem item in stock)
+            {
+                KeyItem keyItem = item as KeyItem;
+                if (keyItem == null) { continue; }
+                gameStateModifiers.Add(keyItem);
+            }
+            return gameStateModifiers;
+        }
+        #endregion
+        
         #region PrivateMethods
         private void HandlePlayerState(PlayerStateType playerState, IPlayerStateContext playerStateContext)
         {
@@ -95,21 +127,6 @@ namespace Frankie.Inventory
         private void HandleTransaction()
         {
             transactionCompleted.Invoke();
-        }
-        #endregion
-        
-        #region InterfaceMethods
-
-        public IList<GameStateModifier> GetGameStateModifiers()
-        {
-            List<GameStateModifier> gameStateModifiers = new();
-            foreach (InventoryItem item in stock)
-            {
-                KeyItem keyItem = item as KeyItem;
-                if (keyItem == null) { continue; }
-                gameStateModifiers.Add(keyItem);
-            }
-            return gameStateModifiers;
         }
         #endregion
     }

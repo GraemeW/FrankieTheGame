@@ -14,9 +14,29 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   guid: 1505af13-4f5e-46f3-b6fa-e23b91428cd9
   gameStateModifierHandlerData: []
-  displayName: Electrolyte Water
-  description: Full of SODIUM and ENERGY.  Heals a good chunk of AP.
+  localizedDisplayName:
+    m_TableReference:
+      m_TableCollectionName: GUID:d96a34ea508fa423b93190524b5b4af1
+    m_TableEntryReference:
+      m_KeyId: 7257226883358720
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  localizedDetail:
+    m_TableReference:
+      m_TableCollectionName: GUID:d96a34ea508fa423b93190524b5b4af1
+    m_TableEntryReference:
+      m_KeyId: 7257226979827712
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
   droppable: 1
   price: 150
+  cachedName: ElectrolyteWater
   consumable: 1
   battleAction: {fileID: 11400000, guid: 4b39fdaa299574fe5bafbf2d452540af, type: 2}
+  references:
+    version: 2
+    RefIds: []

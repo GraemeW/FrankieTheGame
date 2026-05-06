@@ -1,5 +1,4 @@
 #if UNITY_EDITOR
-using System;
 using System.Linq;
 using UnityEditor;
 using UnityEditor.Localization;
@@ -75,7 +74,7 @@ namespace Frankie.Utils.Localization.Editor
             root.Add(keyRow);
             VisualElement lockToggleRow = BuildLockToggleRow(isKeyEditable, isKeyUnlocked, out lockToggle); 
             root.Add(lockToggleRow);
-            VisualElement contentsRow =  BuildContentsRow(localizedString, localizationTableType, out contentsTextField);
+            VisualElement contentsRow = BuildContentsRow(localizedString, localizationTableType, out contentsTextField);
             root.Add(contentsRow);
             VisualElement newKeyButtonRow = BuildButtonRow(_newKeyButtonLabel, isKeyEditable && isKeyUnlocked, out Button newKeyButton); 
             root.Add(newKeyButtonRow);
@@ -99,8 +98,8 @@ namespace Frankie.Utils.Localization.Editor
                 renameKeyButton.SetEnabled(isKeyEditable && isKeyUnlocked && !isKeyEmpty);
                 ReconcileDeleteButtonState(property, localizationTableType, isKeyEditable && isKeyUnlocked && !isKeyEmpty);
             });
-            newKeyButton.RegisterCallback<ClickEvent>(_ => HandleNewKeyButtonClick(property, localizationTableType, fieldInfo.DeclaringType, sanitizedPropertyName));
-            renameKeyButton.RegisterCallback<ClickEvent>(_ => HandleRenameKeyButtonClick(property, localizationTableType, fieldInfo.DeclaringType, sanitizedPropertyName));
+            newKeyButton.RegisterCallback<ClickEvent>(_ => HandleNewKeyButtonClick(property, localizationTableType, sanitizedPropertyName));
+            renameKeyButton.RegisterCallback<ClickEvent>(_ => HandleRenameKeyButtonClick(property, localizationTableType, sanitizedPropertyName));
             deleteKeyButton.RegisterCallback<ClickEvent>(_ => HandleDeleteButtonClick(property, localizationTableType));
             
             return root;
@@ -194,7 +193,7 @@ namespace Frankie.Utils.Localization.Editor
             ReconcileDeleteButtonState(property, localizationTableType, !isKeyEmpty);
         }
         
-        private void HandleNewKeyButtonClick(SerializedProperty property, LocalizationTableType localizationTableType, Type declaringType, string propertyName)
+        private void HandleNewKeyButtonClick(SerializedProperty property, LocalizationTableType localizationTableType, string propertyName)
         {
             Object targetObject = property.serializedObject.targetObject;
             if (localizedString == null || targetObject == null) { return; }
@@ -206,7 +205,7 @@ namespace Frankie.Utils.Localization.Editor
                 currentContents = LocalizationTool.GetEnglishEntry(localizationTableType, currentTableEntryReference);
             }
 
-            string newKey = LocalizationTool.GenerateTypeSpecificKey(declaringType, targetObject, propertyName);
+            string newKey = LocalizationTool.GenerateTypeSpecificKey(targetObject, propertyName, fieldInfo.DeclaringType);
             if (!LocalizationTool.AddUpdateEnglishEntry(localizationTableType, newKey, currentContents)) { return; }
             if (!LocalizationTool.SafelyUpdateReference(localizationTableType, localizedString, newKey)) { return; }
             
@@ -222,7 +221,7 @@ namespace Frankie.Utils.Localization.Editor
             ReconcileDeleteButtonState(property, localizationTableType, !isKeyEmpty);
         }
         
-        private void HandleRenameKeyButtonClick(SerializedProperty property, LocalizationTableType localizationTableType, Type declaringType, string propertyName)
+        private void HandleRenameKeyButtonClick(SerializedProperty property, LocalizationTableType localizationTableType, string propertyName)
         {
             Object targetObject = property.serializedObject.targetObject;
             if (targetObject == null || localizedString == null || IsKeyEmpty(localizedString, localizationTableType, out TableEntryReference _))
@@ -231,7 +230,7 @@ namespace Frankie.Utils.Localization.Editor
                 return;
             }
             
-            string newKey = LocalizationTool.GenerateTypeSpecificKey(declaringType, targetObject, propertyName);
+            string newKey = LocalizationTool.GenerateTypeSpecificKey(targetObject, propertyName, fieldInfo.DeclaringType);
             keyTextField.value = newKey;
         }
 

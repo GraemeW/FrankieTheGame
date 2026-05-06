@@ -8,7 +8,7 @@ using Frankie.Utils;
 
 namespace Frankie.Combat
 {
-    [CreateAssetMenu(fileName = "New Call For Help Effect", menuName = "BattleAction/Effects/Call For Help Effect")]
+    [CreateAssetMenu(fileName = "New Call For Help Effect", menuName = "BattleAction/Effects/Call For Help Effect", order = 15)]
     public class CallForHelp : EffectStrategy
     {
         // Tunables
@@ -33,7 +33,7 @@ namespace Frankie.Combat
             bool friendFound = false;
             foreach (CharacterProperties characterProperties in SpawnConfiguration.GetEnemies(spawnConfiguration.enemyConfigurations, spawnConfiguration.maxQuantity))
             {
-                GameObject enemyPrefab = characterProperties.characterNPCPrefab;
+                GameObject enemyPrefab = characterProperties.GetCharacterNPCPrefab();
                 if (enemyPrefab == null) { continue; }
 
                 GameObject spawnedEnemy = Instantiate(enemyPrefab);

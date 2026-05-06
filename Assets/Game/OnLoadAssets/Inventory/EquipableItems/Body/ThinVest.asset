@@ -14,10 +14,27 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Frankie.Inventory.EquipableItem
   guid: 785b13eb-97eb-4afe-bd05-6fcdf82de1e5
   gameStateModifierHandlerData: []
-  displayName: Thin Vest
-  description: It's a very thin vest, offers minimal protection
+  localizedDisplayName:
+    m_TableReference:
+      m_TableCollectionName: GUID:d96a34ea508fa423b93190524b5b4af1
+    m_TableEntryReference:
+      m_KeyId: 7257228657549312
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  localizedDetail:
+    m_TableReference:
+      m_TableCollectionName: GUID:d96a34ea508fa423b93190524b5b4af1
+    m_TableEntryReference:
+      m_KeyId: 7257228749824000
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
   droppable: 1
   price: 65
+  cachedName: ThinVest
   equipLocation: 3
   baseStatModifiers:
   - stat: 10
@@ -25,3 +42,6 @@ MonoBehaviour:
     maxValue: 6
   condition:
     and: []
+  references:
+    version: 2
+    RefIds: []

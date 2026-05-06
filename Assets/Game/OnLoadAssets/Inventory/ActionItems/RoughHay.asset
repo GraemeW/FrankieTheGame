@@ -14,10 +14,29 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   guid: 09c14207-b932-45d7-a461-02734a56a96b
   gameStateModifierHandlerData: []
-  displayName: Rough Hay
-  description: For chewing I guess?  This is the only healthy food (?) available
-    in the office.
+  localizedDisplayName:
+    m_TableReference:
+      m_TableCollectionName: GUID:d96a34ea508fa423b93190524b5b4af1
+    m_TableEntryReference:
+      m_KeyId: 7257227470561280
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  localizedDetail:
+    m_TableReference:
+      m_TableCollectionName: GUID:d96a34ea508fa423b93190524b5b4af1
+    m_TableEntryReference:
+      m_KeyId: 7257227579613184
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
   droppable: 1
   price: 7
+  cachedName: RoughHay
   consumable: 1
   battleAction: {fileID: 11400000, guid: 8b9903ce68496a24b8280a50ce67aa86, type: 2}
+  references:
+    version: 2
+    RefIds: []

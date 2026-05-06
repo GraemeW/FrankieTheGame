@@ -12,15 +12,15 @@ using UnityEditor;
 
 namespace Frankie.Stats
 {
-    [CreateAssetMenu(fileName = "New Character", menuName = "Characters/New Character")]
+    [CreateAssetMenu(fileName = "New Character", menuName = "Characters/New Character", order = 1)]
     public class CharacterProperties : ScriptableObject, IAddressablesCache, ILocalizable
     {
         // Properties
-        [SerializeField][SimpleLocalizedString(LocalizationTableType.Core, true)] public LocalizedString localizedDisplayName;
-        [SerializeField] public GameObject characterPrefab;
-        [SerializeField] public GameObject characterNPCPrefab;
-        [SerializeField] public bool hasProgressionStats = true;
-        [SerializeField] public bool incrementsStatsOnLevelUp = false;
+        [SerializeField][SimpleLocalizedString(LocalizationTableType.Core, true)] private LocalizedString localizedDisplayName;
+        [SerializeField] private GameObject characterPrefab;
+        [SerializeField] private GameObject characterNPCPrefab;
+        [SerializeField] private bool hasProgressionStats = true;
+        [SerializeField] private bool incrementsStatsOnLevelUp = false;
         
         // State
         [HideInInspector][SerializeField] private string cachedName;
@@ -32,6 +32,10 @@ namespace Frankie.Stats
         public string GetCharacterID() => name;
         // Note:  Using name as ID for simplicity
         // Previously scoped separate GUID for this, found it overkill ++ hindered look-up functionality
+        public GameObject GetCharacterPrefab() => characterPrefab;
+        public GameObject GetCharacterNPCPrefab() => characterNPCPrefab;
+        public bool HasProgressionStats() => hasProgressionStats;
+        public bool ShouldIncrementsStatsOnLevelUp() => incrementsStatsOnLevelUp;
         
         public LocalizationTableType localizationTableType { get; } = LocalizationTableType.Core;
         public List<TableEntryReference> GetLocalizationEntries()
@@ -54,7 +58,7 @@ namespace Frankie.Stats
 #if UNITY_EDITOR
         #region LocalizationUtility
         private string GetNameLocalizationKey() => GetNameLocalizationKey(name);
-        private static string GetNameLocalizationKey(string id) => $"{nameof(CharacterProperties)}.{id}";
+        public static string GetNameLocalizationKey(string id) => $"{nameof(CharacterProperties)}.{id}";
         
         private void ReconcileCachedName()
         {

@@ -14,9 +14,31 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   guid: d15ac71b-a8d7-418b-aeb2-56835326c4c3
   gameStateModifierHandlerData: []
+  localizedDisplayName:
+    m_TableReference:
+      m_TableCollectionName: GUID:d96a34ea508fa423b93190524b5b4af1
+    m_TableEntryReference:
+      m_KeyId: 7257225411158016
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
   displayName: BumperGreen
+  localizedDetail:
+    m_TableReference:
+      m_TableCollectionName: GUID:d96a34ea508fa423b93190524b5b4af1
+    m_TableEntryReference:
+      m_KeyId: 7257225507627008
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
   description: The rubber base bounces with great vigor
   droppable: 1
   price: 0
+  cachedName: BumperCarA
   wearablePrefab: {fileID: 4431856632854766482, guid: 2c8781e0f4e13814e80ef8437afd668c, type: 3}
   isUnique: 1
+  references:
+    version: 2
+    RefIds: []

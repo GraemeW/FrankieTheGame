@@ -14,31 +14,31 @@ namespace Frankie.Stats
         // State
         private static Dictionary<Stat, LocalizedString> _statNameCache;
 
-        public static string GetStatDisplayName(Stat stat)
+        public static string GetLocalizedName(Stat stat)
         {
-            _statNameCache ??= BuildStatNameCache();
+            _statNameCache ??= BuildCache();
             return _statNameCache.ContainsKey(stat) ? _statNameCache[stat].GetSafeLocalizedString() : stat.ToString();
         }
 
-        private static Dictionary<Stat, LocalizedString> BuildStatNameCache()
+        private static Dictionary<Stat, LocalizedString> BuildCache()
         {
             var newStatNameCache = new Dictionary<Stat, LocalizedString>();
             foreach (Stat stat in Enum.GetValues(typeof(Stat)))
             {
-                newStatNameCache.Add(stat, LocalizationTool.GetLocalizedString(_localizationTableType, GetStatKey(stat)));
+                newStatNameCache.Add(stat, LocalizationTool.GetLocalizedString(_localizationTableType, GetKey(stat)));
             }
             return newStatNameCache;
         }
         
-        private static string GetStatKey(Stat stat) => $"{nameof(Stat)}.{stat.ToString()}";
+        private static string GetKey(Stat stat) => $"{nameof(Stat)}.{stat.ToString()}";
 
-        public static void GenerateDefaultStatLocalizedEntries()
+        public static void GenerateDefaultEntries()
         {
             // For generating default English entries (if ever need re-generation)
 #if UNITY_EDITOR 
             foreach (Stat stat in Enum.GetValues(typeof(Stat)))
             {
-                TableEntryReference tableEntryReference = GetStatKey(stat);
+                TableEntryReference tableEntryReference = GetKey(stat);
                 string englishStatName = stat.ToString();
                 if (stat == Stat.InitialLevel) { englishStatName = "Level"; }
                 LocalizationTool.AddUpdateEnglishEntry(_localizationTableType, tableEntryReference, englishStatName);

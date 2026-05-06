@@ -1,10 +1,8 @@
 #if UNITY_EDITOR
-using Frankie.Combat;
 using UnityEditor;
 using UnityEditor.SceneManagement;
 using UnityEngine;
 using Object = UnityEngine.Object;
-using Frankie.ZoneManagement;
 
 namespace Frankie.Utils.Editor
 {
@@ -41,32 +39,24 @@ namespace Frankie.Utils.Editor
             foreach (Object selectedObject in Selection.objects)
             {
                 //if (selectedObject is not GameObject gameObject) {  continue; }
-                //if (!gameObject.TryGetComponent(out Temp localizedLinker)) { continue; }
+                //if (!gameObject.TryGetComponent(out Shop localizedLinker)) { continue; }
                 //localizedLinker.TempLinkStrings();
                 
-                //if (selectedObject is not Skill skill) { continue; }
-                //skill.TempLinkStrings();
+                //if (selectedObject is not InventoryItem inventoryItem) { continue; }
+                //inventoryItem.TempLinkStrings();
             }
         }
         
         /* GameObject Base
         public void TempLinkStrings()
         {
-           string keyStem;
-           string key;
-           TableEntryReference tableEntryReference;
+            string key;
            
-           keyStem = nameof(localizedCheckMessage).Replace("localized", "");
-           key = LocalizationTool.GenerateKindaUniqueKey(GetType(), gameObject, keyStem);
-           tableEntryReference = key;
-           if (localizedCheckMessage == null || LocalizationTool.GetEnglishEntry(localizationTableType, localizedCheckMessage.TableEntryReference) != checkMessage)
-           {
-               LocalizationTool.AddUpdateEnglishEntry(localizationTableType, tableEntryReference, checkMessage);
-               LocalizationTool.SafelyUpdateReference(localizationTableType, localizedCheckMessage, key);
-           }
+            key = LocalizationTool.GenerateTypeSpecificKey(gameObject, nameof(localizedMessageIntro).Replace("localized", ""));
+            LocalizationTool.TryLocalizeEntry(localizationTableType, localizedMessageIntro, key, name);
            
             EditorUtility.SetDirty(this);
-           AssetDatabase.SaveAssetIfDirty(this);
+            AssetDatabase.SaveAssetIfDirty(this);
         }
         */
         

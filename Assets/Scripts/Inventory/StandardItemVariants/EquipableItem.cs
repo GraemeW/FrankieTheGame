@@ -6,7 +6,7 @@ using Frankie.Stats;
 
 namespace Frankie.Inventory
 {
-    [CreateAssetMenu(menuName = ("Inventory/Equipable Item"))]
+    [CreateAssetMenu(fileName = "EquipableItem", menuName = "Inventory/Equipable Item", order = 10)]
     public class EquipableItem : InventoryItem, IModifierProvider
     {
         // Config Data

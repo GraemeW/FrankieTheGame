@@ -14,10 +14,27 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Frankie.Inventory.EquipableItem
   guid: 99d3c7aa-275a-421e-9c8c-42328d773b45
   gameStateModifierHandlerData: []
-  displayName: Lucky Keyboard
-  description: It has a neat shamrock decal on it!  Only usable by Frankie.
+  localizedDisplayName:
+    m_TableReference:
+      m_TableCollectionName: GUID:d96a34ea508fa423b93190524b5b4af1
+    m_TableEntryReference:
+      m_KeyId: 7257228946956288
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  localizedDetail:
+    m_TableReference:
+      m_TableCollectionName: GUID:d96a34ea508fa423b93190524b5b4af1
+    m_TableEntryReference:
+      m_KeyId: 7257229047619584
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
   droppable: 1
   price: 300
+  cachedName: LuckyKeyboard
   equipLocation: 1
   baseStatModifiers:
   - stat: 4
@@ -31,3 +48,6 @@ MonoBehaviour:
     - or:
       - predicate: {fileID: 11400000, guid: 15db1ab05612f6a4e81f88eebfaa735a, type: 2}
         negate: 0
+  references:
+    version: 2
+    RefIds: []

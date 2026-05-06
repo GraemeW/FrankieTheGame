@@ -12,7 +12,7 @@ using Frankie.Utils.Localization;
 
 namespace Frankie.ZoneManagement
 {
-    [CreateAssetMenu(fileName = "New Zone", menuName = "Zone/New Zone")]
+    [CreateAssetMenu(fileName = "New Zone", menuName = "Zone/New Zone", order = 2)]
     public class Zone : ScriptableObject, ISerializationCallbackReceiver, IAddressablesCache, ILocalizable
     {
         // Tunables

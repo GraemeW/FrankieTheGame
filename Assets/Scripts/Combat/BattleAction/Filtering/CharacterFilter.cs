@@ -5,7 +5,7 @@ using Frankie.Stats;
 
 namespace Frankie.Combat
 {
-    [CreateAssetMenu(fileName = "New Character Filtering", menuName = "BattleAction/Filters/Character")]
+    [CreateAssetMenu(fileName = "New Character Filtering", menuName = "BattleAction/Filters/Character", order = 15)]
     public class CharacterFilter : FilterStrategy
     {
         [SerializeField] private List<CharacterProperties> characterPropertiesToFilter = new();

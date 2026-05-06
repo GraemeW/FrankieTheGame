@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Frankie.Combat
 {
-    [CreateAssetMenu(fileName = "New Remove Status Effect", menuName = "BattleAction/Effects/Remove Status Effect")]
+    [CreateAssetMenu(fileName = "New Remove Status Effect", menuName = "BattleAction/Effects/Remove Status Effect", order = 15)]
     public class RemovePersistentStatusEffect : EffectStrategy
     {
         // Tunables

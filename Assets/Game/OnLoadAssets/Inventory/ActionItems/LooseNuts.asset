@@ -14,9 +14,29 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Frankie.Inventory.ActionItem
   guid: 5848902d-0f1c-4222-8abf-7d527c89461e
   gameStateModifierHandlerData: []
-  displayName: Loose Nuts
-  description: Mix of macadia and beer nuts . . . and some twine?
+  localizedDisplayName:
+    m_TableReference:
+      m_TableCollectionName: GUID:d96a34ea508fa423b93190524b5b4af1
+    m_TableEntryReference:
+      m_KeyId: 7257224811372544
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  localizedDetail:
+    m_TableReference:
+      m_TableCollectionName: GUID:d96a34ea508fa423b93190524b5b4af1
+    m_TableEntryReference:
+      m_KeyId: 7257224912035840
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
   droppable: 1
   price: 8
+  cachedName: LooseNuts
   consumable: 1
   battleAction: {fileID: 11400000, guid: 8b9903ce68496a24b8280a50ce67aa86, type: 2}
+  references:
+    version: 2
+    RefIds: []

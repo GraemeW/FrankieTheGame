@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace Frankie.Stats
 {
-    [CreateAssetMenu(fileName = "Progression", menuName = "Stats/New Progression", order = 0)]
+    [CreateAssetMenu(fileName = "Progression", menuName = "Stats/New Progression", order = 1)]
     public class Progression : ScriptableObject
     {
         // Tunables
@@ -253,7 +253,7 @@ namespace Frankie.Stats
 #endif
             Debug.Log("Rebuilding Level Charts");
             levelAveragedCharts.Clear();
-            foreach (var characterEntry in CharacterProperties.GetCharacterPropertiesLookup().Where(entry => entry.Value != null && entry.Value.incrementsStatsOnLevelUp))
+            foreach (var characterEntry in CharacterProperties.GetCharacterPropertiesLookup().Where(entry => entry.Value != null && entry.Value.ShouldIncrementsStatsOnLevelUp()))
             {
                 CharacterProperties characterProperties = characterEntry.Value;
                 var progressionLevelChart = new ProgressionLevelChart { characterProperties = characterProperties };

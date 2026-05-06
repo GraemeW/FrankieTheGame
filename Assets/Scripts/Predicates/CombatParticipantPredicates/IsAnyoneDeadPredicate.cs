@@ -3,7 +3,7 @@ using Frankie.Combat;
 
 namespace Frankie.Core.Predicates
 {
-    [CreateAssetMenu(fileName = "New Is Anyone Dead Predicate", menuName = "Predicates/CombatParticipant/Is Anyone Dead")]
+    [CreateAssetMenu(fileName = "New Is Anyone Dead Predicate", menuName = "Predicates/CombatParticipant/Is Anyone Dead", order = 5)]
     public class IsAnyoneDeadPredicate : PredicateCombatParticipant
     {
         public override bool? Evaluate(CombatParticipant combatParticipant)

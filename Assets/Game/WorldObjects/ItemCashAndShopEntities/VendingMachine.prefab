@@ -12,7 +12,6 @@ GameObject:
   - component: {fileID: 4484117035451051339}
   - component: {fileID: 4484117035451051700}
   - component: {fileID: 4484117035451051701}
-  - component: {fileID: 7800942803558028165}
   m_Layer: 2
   m_Name: VendingMachine
   m_TagString: Untagged
@@ -34,7 +33,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1503146279309485216}
-  - {fileID: 8531870645628414306}
+  - {fileID: 535108466394805989}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &4484117035451051339
@@ -169,46 +168,6 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 0.28014386, y: 0.17209956}
   m_EdgeRadius: 0
---- !u!114 &7800942803558028165
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4484117035451051703}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dfd71e6d15e959a4faaf09bc70b94f96, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  backingHandlerGUID: 
-  backingListHashCheck: 0
-  backingHasGameStateModifiers: 0
-  backingGameStateModifierGUIDs: []
-  stock: []
-  shopType: 2
-  saleDiscount: 0.7
-  messageIntro: BZZZT ** BUY SOMETHING ? **
-  messageSuccess: BZZZZT ** THANKS, ANYTHING ELSE? **
-  messageNoFunds: BZT ** INSUFFICIENT FUNDS **
-  messageNoSpace: BZZT ** INSUFFICIENT SPACE **
-  messageForSale: PHWOON ** {0} COINS PROCESSED **
-  messageCannotSell: BZZZZZT ** SORRY NO **
-  transactionCompleted:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 8531870645628414317}
-        m_TargetAssemblyTypeName: Frankie.Sound.SoundEffects, Assembly-CSharp
-        m_MethodName: PlayClip
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
 --- !u!1001 &5748107800186790825
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -228,7 +187,7 @@ PrefabInstance:
     - target: {fileID: 5911111898172062454, guid: 39d8967ccafbd0445919bceb2c78a8b4, type: 3}
       propertyPath: checkInteraction.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 7800942803558028165}
+      objectReference: {fileID: 1657275775909050319}
     - target: {fileID: 5911111898172062454, guid: 39d8967ccafbd0445919bceb2c78a8b4, type: 3}
       propertyPath: checkInteraction.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
       value: 2
@@ -323,7 +282,7 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 6564381309038757641, guid: 39d8967ccafbd0445919bceb2c78a8b4, type: 3}
   m_PrefabInstance: {fileID: 5748107800186790825}
   m_PrefabAsset: {fileID: 0}
---- !u!1001 &9104006662028118792
+--- !u!1001 &8597657973457203132
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
@@ -331,72 +290,80 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 4484117035451051702}
     m_Modifications:
-    - target: {fileID: 590155131186209386, guid: b9629a652978b8945b9c872d85045827, type: 3}
-      propertyPath: m_RootOrder
+    - target: {fileID: 6839642612281292503, guid: 45ba95bdcf9274859a84509a127d4fe0, type: 3}
+      propertyPath: m_Name
+      value: _StandardShop
+      objectReference: {fileID: 0}
+    - target: {fileID: 7038800583860656243, guid: 45ba95bdcf9274859a84509a127d4fe0, type: 3}
+      propertyPath: localizedMessageIntro.m_TableEntryReference.m_KeyId
+      value: 7272520821497856
+      objectReference: {fileID: 0}
+    - target: {fileID: 7038800583860656243, guid: 45ba95bdcf9274859a84509a127d4fe0, type: 3}
+      propertyPath: localizedMessageForSale.m_TableEntryReference.m_KeyId
+      value: 7277346045288448
+      objectReference: {fileID: 0}
+    - target: {fileID: 7038800583860656243, guid: 45ba95bdcf9274859a84509a127d4fe0, type: 3}
+      propertyPath: localizedMessageNoFunds.m_TableEntryReference.m_KeyId
+      value: 7277317922480128
+      objectReference: {fileID: 0}
+    - target: {fileID: 7038800583860656243, guid: 45ba95bdcf9274859a84509a127d4fe0, type: 3}
+      propertyPath: localizedMessageNoSpace.m_TableEntryReference.m_KeyId
+      value: 7277331583328256
+      objectReference: {fileID: 0}
+    - target: {fileID: 7038800583860656243, guid: 45ba95bdcf9274859a84509a127d4fe0, type: 3}
+      propertyPath: localizedMessageSuccess.m_TableEntryReference.m_KeyId
+      value: 7277301694717952
+      objectReference: {fileID: 0}
+    - target: {fileID: 7038800583860656243, guid: 45ba95bdcf9274859a84509a127d4fe0, type: 3}
+      propertyPath: localizedMessageCannotSell.m_TableEntryReference.m_KeyId
+      value: 7277361329332224
+      objectReference: {fileID: 0}
+    - target: {fileID: 7038800583860656243, guid: 45ba95bdcf9274859a84509a127d4fe0, type: 3}
+      propertyPath: transactionCompleted.m_PersistentCalls.m_Calls.Array.size
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 590155131186209386, guid: b9629a652978b8945b9c872d85045827, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 590155131186209386, guid: b9629a652978b8945b9c872d85045827, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 590155131186209386, guid: b9629a652978b8945b9c872d85045827, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 590155131186209386, guid: b9629a652978b8945b9c872d85045827, type: 3}
-      propertyPath: m_LocalRotation.w
+    - target: {fileID: 7038800583860656243, guid: 45ba95bdcf9274859a84509a127d4fe0, type: 3}
+      propertyPath: transactionCompleted.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 590155131186209386, guid: b9629a652978b8945b9c872d85045827, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
+    - target: {fileID: 7038800583860656243, guid: 45ba95bdcf9274859a84509a127d4fe0, type: 3}
+      propertyPath: transactionCompleted.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: Frankie.Sound.SoundEffects, Assembly-CSharp
       objectReference: {fileID: 0}
-    - target: {fileID: 590155131186209386, guid: b9629a652978b8945b9c872d85045827, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
+    - target: {fileID: 7038800583860656243, guid: 45ba95bdcf9274859a84509a127d4fe0, type: 3}
+      propertyPath: transactionCompleted.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
-    - target: {fileID: 590155131186209386, guid: b9629a652978b8945b9c872d85045827, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 590155131186209386, guid: b9629a652978b8945b9c872d85045827, type: 3}
+    - target: {fileID: 8087358887692114265, guid: 45ba95bdcf9274859a84509a127d4fe0, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 590155131186209386, guid: b9629a652978b8945b9c872d85045827, type: 3}
+    - target: {fileID: 8087358887692114265, guid: 45ba95bdcf9274859a84509a127d4fe0, type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 590155131186209386, guid: b9629a652978b8945b9c872d85045827, type: 3}
+    - target: {fileID: 8087358887692114265, guid: 45ba95bdcf9274859a84509a127d4fe0, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 590155131186209387, guid: b9629a652978b8945b9c872d85045827, type: 3}
-      propertyPath: m_Name
-      value: ShopSoundbox
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: b9629a652978b8945b9c872d85045827, type: 3}
---- !u!4 &8531870645628414306 stripped
+  m_SourcePrefab: {fileID: 100100000, guid: 45ba95bdcf9274859a84509a127d4fe0, type: 3}
+--- !u!4 &535108466394805989 stripped
 Transform:
-  m_CorrespondingSourceObject: {fileID: 590155131186209386, guid: b9629a652978b8945b9c872d85045827, type: 3}
-  m_PrefabInstance: {fileID: 9104006662028118792}
+  m_CorrespondingSourceObject: {fileID: 8087358887692114265, guid: 45ba95bdcf9274859a84509a127d4fe0, type: 3}
+  m_PrefabInstance: {fileID: 8597657973457203132}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &8531870645628414317 stripped
+--- !u!114 &1657275775909050319 stripped
 MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 590155131186209381, guid: b9629a652978b8945b9c872d85045827, type: 3}
-  m_PrefabInstance: {fileID: 9104006662028118792}
+  m_CorrespondingSourceObject: {fileID: 7038800583860656243, guid: 45ba95bdcf9274859a84509a127d4fe0, type: 3}
+  m_PrefabInstance: {fileID: 8597657973457203132}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7d92abaff543d4a4498f7173bd00113e, type: 3}
+  m_Script: {fileID: 11500000, guid: dfd71e6d15e959a4faaf09bc70b94f96, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: 
+  m_EditorClassIdentifier: Assembly-CSharp::Frankie.Inventory.Shop

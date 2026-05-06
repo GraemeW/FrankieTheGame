@@ -26,7 +26,7 @@ namespace Frankie.Stats
             CharacterProperties characterProperties = CharacterProperties.GetCharacterPropertiesFromName(characterName);
             if (characterProperties == null) { return null; }
             
-            GameObject characterPrefab = characterProperties.characterPrefab;
+            GameObject characterPrefab = characterProperties.GetCharacterPrefab();
             if (characterPrefab == null) { return null; }
             
             GameObject character = Instantiate(characterPrefab, partyTransform);
@@ -40,7 +40,7 @@ namespace Frankie.Stats
             CharacterProperties characterProperties = CharacterProperties.GetCharacterPropertiesFromName(characterName);
             if (characterProperties == null) { return null; }
             
-            GameObject characterNPCPrefab = characterProperties.characterNPCPrefab;
+            GameObject characterNPCPrefab = characterProperties.GetCharacterNPCPrefab();
             if (characterNPCPrefab == null) { return null; }
             
             GameObject characterNPC = Instantiate(characterNPCPrefab, worldContainer);

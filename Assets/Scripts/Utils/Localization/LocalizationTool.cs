@@ -1,10 +1,13 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Localization;
 using UnityEngine.Localization.Settings;
 using UnityEngine.Localization.Tables;
+using Object = UnityEngine.Object;
 using Frankie.Combat;
 using Frankie.Stats;
+using Frankie.Inventory;
 #if UNITY_EDITOR
 using UnityEditor;
 using UnityEditor.Localization;
@@ -97,18 +100,21 @@ namespace Frankie.Utils.Localization
             _isLocaleInitialized = true;
         }
 
-        public static string GenerateTypeSpecificKey(System.Type declaringType, Object targetObject, string propertyName, bool useParentNameStem = true)
+        public static string GenerateTypeSpecificKey(Object targetObject, string propertyName, Type declaringType = null, bool useParentNameStem = true)
         {
-            if (declaringType == typeof(CharacterProperties))
+            switch (targetObject)
             {
-                return GenerateSimpleKey(declaringType, targetObject);
+                case CharacterProperties:
+                    return CharacterProperties.GetNameLocalizationKey(targetObject.name);
+                case Skill:
+                    if (propertyName.Contains("Name")) { return Skill.GetNameLocalizationKey(targetObject.name); }
+                    return Skill.GetDetailLocalizationKey(targetObject.name);
+                case InventoryItem:
+                    if (propertyName.Contains("Name")) { return InventoryItem.GetNameLocalizationKey(targetObject, targetObject.name); }
+                    return InventoryItem.GetDetailLocalizationKey(targetObject, targetObject.name);
+                default:
+                    return GenerateKindaUniqueKey(targetObject, propertyName, declaringType, useParentNameStem);
             }
-            if (declaringType == typeof(Skill))
-            {
-                if (propertyName.Contains("Name")) { return GenerateSimpleKey(declaringType, targetObject); }
-                return GenerateSimpleKey(declaringType, targetObject, propertyName);
-            }
-            return GenerateKindaUniqueKey(declaringType, targetObject, propertyName, useParentNameStem);
         }
 
         public static TableEntryReference GetTableEntryReferencedByID(LocalizationTableType localizationTableType, TableEntryReference ambiguousTableEntryReference)
@@ -433,17 +439,18 @@ namespace Frankie.Utils.Localization
             return englishStringTable != null;
         }
         
-        private static string GenerateKindaUniqueKey(System.Type declaringType, Object targetObject, string propertyName, bool useParentNameStem = true)
+        private static string GenerateKindaUniqueKey(Object targetObject, string propertyName, Type declaringType = null,  bool useParentNameStem = true)
         {
-            string componentStem = declaringType != null ? $"{declaringType.Name}." : "";
+            string componentStem = declaringType != null ? $"{declaringType.Name}." : $"{targetObject.GetType().Name}.";
             string targetStem = "";
             string nameStem = targetObject.name;
-
-            if (targetObject is GameObject castingGameObject)
+            
+            if (targetObject is GameObject castGameObject) { targetObject = castGameObject.GetComponent<MonoBehaviour>(); }
+            if (useParentNameStem && targetObject is MonoBehaviour castMonoBehaviour && castMonoBehaviour.transform.parent != null)
             {
-                targetObject = castingGameObject.GetComponent<MonoBehaviour>();
-                if (useParentNameStem && castingGameObject.transform.parent != null) { nameStem = castingGameObject.transform.parent.name; }
+                nameStem = castMonoBehaviour.transform.parent.name;
             }
+            
             if (targetObject != null)
             {
                 switch (targetObject)
@@ -474,13 +481,6 @@ namespace Frankie.Utils.Localization
             string propertyNameStem = propertyName != null ? $"{propertyName}." : "";
             string semiUniqueShortKey = _random.Next().ToString("x");
             return $"{componentStem}{targetStem}{propertyNameStem}{semiUniqueShortKey}";
-        }
-
-        private static string GenerateSimpleKey(System.Type declaringType, Object targetObject, string propertyName = null)
-        {
-            string componentStem = declaringType != null ? $"{declaringType.Name}." : "";
-            string nameStem = targetObject.name;
-            return propertyName != null ? $"{componentStem}{nameStem}.{propertyName}" : $"{componentStem}{nameStem}";
         }
         #endregion
 #endif

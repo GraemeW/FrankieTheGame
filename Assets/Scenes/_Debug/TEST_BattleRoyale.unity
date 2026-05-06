@@ -933,6 +933,22 @@ PrefabInstance:
       propertyPath: m_StaticEditorFlags
       value: 2147483647
       objectReference: {fileID: 0}
+    - target: {fileID: 1657275775909050319, guid: 8252584bd86ddec408582ff28d4f7db6, type: 3}
+      propertyPath: stock.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1657275775909050319, guid: 8252584bd86ddec408582ff28d4f7db6, type: 3}
+      propertyPath: backingHandlerGUID
+      value: 58a7701d-5169-467a-ba6c-6dd9815f9c10
+      objectReference: {fileID: 0}
+    - target: {fileID: 1657275775909050319, guid: 8252584bd86ddec408582ff28d4f7db6, type: 3}
+      propertyPath: 'stock.Array.data[0]'
+      value: 
+      objectReference: {fileID: 11400000, guid: 3adf66ab62b95ad47b2fd0277eedce88, type: 2}
+    - target: {fileID: 1657275775909050319, guid: 8252584bd86ddec408582ff28d4f7db6, type: 3}
+      propertyPath: backingListHashCheck
+      value: 883307786
+      objectReference: {fileID: 0}
     - target: {fileID: 4484117035451051702, guid: 8252584bd86ddec408582ff28d4f7db6, type: 3}
       propertyPath: m_RootOrder
       value: 1
@@ -19485,6 +19501,46 @@ PrefabInstance:
       propertyPath: m_StaticEditorFlags
       value: 2147483647
       objectReference: {fileID: 0}
+    - target: {fileID: 1657275775909050319, guid: 8252584bd86ddec408582ff28d4f7db6, type: 3}
+      propertyPath: stock.Array.size
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 1657275775909050319, guid: 8252584bd86ddec408582ff28d4f7db6, type: 3}
+      propertyPath: backingHandlerGUID
+      value: b67db004-da1f-4d96-9ea2-be2fa2889cc3
+      objectReference: {fileID: 0}
+    - target: {fileID: 1657275775909050319, guid: 8252584bd86ddec408582ff28d4f7db6, type: 3}
+      propertyPath: 'stock.Array.data[0]'
+      value: 
+      objectReference: {fileID: 11400000, guid: 3adf66ab62b95ad47b2fd0277eedce88, type: 2}
+    - target: {fileID: 1657275775909050319, guid: 8252584bd86ddec408582ff28d4f7db6, type: 3}
+      propertyPath: 'stock.Array.data[1]'
+      value: 
+      objectReference: {fileID: 11400000, guid: e066880485ffe40e689266484fc39132, type: 2}
+    - target: {fileID: 1657275775909050319, guid: 8252584bd86ddec408582ff28d4f7db6, type: 3}
+      propertyPath: 'stock.Array.data[2]'
+      value: 
+      objectReference: {fileID: 11400000, guid: fd7b37394ba0e437e939b19f04c0d120, type: 2}
+    - target: {fileID: 1657275775909050319, guid: 8252584bd86ddec408582ff28d4f7db6, type: 3}
+      propertyPath: 'stock.Array.data[3]'
+      value: 
+      objectReference: {fileID: 11400000, guid: 49534f9b5e5cf1f41bbaf4c527d4a255, type: 2}
+    - target: {fileID: 1657275775909050319, guid: 8252584bd86ddec408582ff28d4f7db6, type: 3}
+      propertyPath: 'stock.Array.data[4]'
+      value: 
+      objectReference: {fileID: 11400000, guid: 192c078e096f74eaeab7ab1e879839fe, type: 2}
+    - target: {fileID: 1657275775909050319, guid: 8252584bd86ddec408582ff28d4f7db6, type: 3}
+      propertyPath: 'stock.Array.data[5]'
+      value: 
+      objectReference: {fileID: 11400000, guid: 584dcaaeab1944aa898017ba70d712f3, type: 2}
+    - target: {fileID: 1657275775909050319, guid: 8252584bd86ddec408582ff28d4f7db6, type: 3}
+      propertyPath: 'stock.Array.data[6]'
+      value: 
+      objectReference: {fileID: 11400000, guid: ffede2cb998d0458f847bfa0d449e576, type: 2}
+    - target: {fileID: 1657275775909050319, guid: 8252584bd86ddec408582ff28d4f7db6, type: 3}
+      propertyPath: backingListHashCheck
+      value: -1441446018
+      objectReference: {fileID: 0}
     - target: {fileID: 4484117035451051702, guid: 8252584bd86ddec408582ff28d4f7db6, type: 3}
       propertyPath: m_RootOrder
       value: 1
@@ -20238,6 +20294,42 @@ PrefabInstance:
     - target: {fileID: 1503146279309485217, guid: 8252584bd86ddec408582ff28d4f7db6, type: 3}
       propertyPath: m_StaticEditorFlags
       value: 2147483647
+      objectReference: {fileID: 0}
+    - target: {fileID: 1657275775909050319, guid: 8252584bd86ddec408582ff28d4f7db6, type: 3}
+      propertyPath: stock.Array.size
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 1657275775909050319, guid: 8252584bd86ddec408582ff28d4f7db6, type: 3}
+      propertyPath: backingHandlerGUID
+      value: 2a29bcb0-0fe0-4dc1-b2ce-0dafc1613695
+      objectReference: {fileID: 0}
+    - target: {fileID: 1657275775909050319, guid: 8252584bd86ddec408582ff28d4f7db6, type: 3}
+      propertyPath: 'stock.Array.data[0]'
+      value: 
+      objectReference: {fileID: 11400000, guid: a4bc75f4802bcf24fb78d4fe3084b398, type: 2}
+    - target: {fileID: 1657275775909050319, guid: 8252584bd86ddec408582ff28d4f7db6, type: 3}
+      propertyPath: 'stock.Array.data[1]'
+      value: 
+      objectReference: {fileID: 11400000, guid: 9105dfbd6e6afbe4ea13b4836a1a23a8, type: 2}
+    - target: {fileID: 1657275775909050319, guid: 8252584bd86ddec408582ff28d4f7db6, type: 3}
+      propertyPath: 'stock.Array.data[3]'
+      value: 
+      objectReference: {fileID: 11400000, guid: 541c313117f0c0c42bdf6216e09c2d52, type: 2}
+    - target: {fileID: 1657275775909050319, guid: 8252584bd86ddec408582ff28d4f7db6, type: 3}
+      propertyPath: 'stock.Array.data[4]'
+      value: 
+      objectReference: {fileID: 11400000, guid: e082da1c66f0e8a4183108f66daef8b9, type: 2}
+    - target: {fileID: 1657275775909050319, guid: 8252584bd86ddec408582ff28d4f7db6, type: 3}
+      propertyPath: 'stock.Array.data[5]'
+      value: 
+      objectReference: {fileID: 11400000, guid: 3adf66ab62b95ad47b2fd0277eedce88, type: 2}
+    - target: {fileID: 1657275775909050319, guid: 8252584bd86ddec408582ff28d4f7db6, type: 3}
+      propertyPath: 'stock.Array.data[6]'
+      value: 
+      objectReference: {fileID: 11400000, guid: 49534f9b5e5cf1f41bbaf4c527d4a255, type: 2}
+    - target: {fileID: 1657275775909050319, guid: 8252584bd86ddec408582ff28d4f7db6, type: 3}
+      propertyPath: backingListHashCheck
+      value: 630505578
       objectReference: {fileID: 0}
     - target: {fileID: 4484117035451051702, guid: 8252584bd86ddec408582ff28d4f7db6, type: 3}
       propertyPath: m_RootOrder

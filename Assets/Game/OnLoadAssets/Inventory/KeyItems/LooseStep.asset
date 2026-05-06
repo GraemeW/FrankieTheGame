@@ -22,9 +22,28 @@ MonoBehaviour:
     gameObjectName: _StandardItemGiverTaker
     parentObjectName: LockedStairs-CheckWithItemToUnlock
     guid: ea43393b-cf63-4555-9133-e3bc35cd6510
-  displayName: Loose Step
-  description: Wow, it's the exact step missing from the staircase to the basement
-    in Lacklustre Video!
+  localizedDisplayName:
+    m_TableReference:
+      m_TableCollectionName: GUID:d96a34ea508fa423b93190524b5b4af1
+    m_TableEntryReference:
+      m_KeyId: 7257230423351296
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  localizedDetail:
+    m_TableReference:
+      m_TableCollectionName: GUID:d96a34ea508fa423b93190524b5b4af1
+    m_TableEntryReference:
+      m_KeyId: 7257230519820288
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
   droppable: 0
   price: 0
+  cachedName: LooseStep
   questObjectives: []
+  references:
+    version: 2
+    RefIds: []

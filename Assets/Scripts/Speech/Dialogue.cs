@@ -8,7 +8,7 @@ using Frankie.Utils.Localization;
 
 namespace Frankie.Speech
 {
-    [CreateAssetMenu(fileName = "New Dialogue", menuName = "Dialogue/New Dialogue")]
+    [CreateAssetMenu(fileName = "New Dialogue", menuName = "Dialogue/New Dialogue", order = 10)]
     public class Dialogue : ScriptableObject, ISerializationCallbackReceiver, ILocalizable
     {
         // Tunables

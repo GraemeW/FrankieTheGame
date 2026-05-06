@@ -402,7 +402,7 @@ namespace Frankie.Inventory.UI
             {
                 itemName = selectedEquipment.GetItemInSlot(equipLocation).GetDisplayName();
             }
-            string fieldName = $"{equipLocation.ToString()}:  {itemName}";
+            string fieldName = $"{EquipLocationDisplay.GetLocalizedName(equipLocation)}:  {itemName}";
 
             InventoryItemField inventoryItemField = Instantiate(setInventoryItemFieldPrefab, container);
             inventoryItemField.SetText(fieldName);

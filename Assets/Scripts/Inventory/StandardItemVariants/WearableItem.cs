@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace Frankie.Inventory
 {
-    [CreateAssetMenu(menuName = ("Inventory/Wearable Item"))]
+    [CreateAssetMenu(fileName = "WearableItem", menuName = "Inventory/Wearable Item", order = 10)]
     public class WearableItem : InventoryItem
     {
         // Tunables

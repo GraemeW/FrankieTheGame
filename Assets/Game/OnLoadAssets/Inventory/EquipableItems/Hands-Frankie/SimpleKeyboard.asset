@@ -14,10 +14,27 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   guid: 688bb913-f371-4834-add4-1468c4e2e466
   gameStateModifierHandlerData: []
-  displayName: Simple Keyboard
-  description: It's a really basic keyboard.  No numpad.  Only usable by Frankie.
+  localizedDisplayName:
+    m_TableReference:
+      m_TableCollectionName: GUID:d96a34ea508fa423b93190524b5b4af1
+    m_TableEntryReference:
+      m_KeyId: 7257227776745472
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  localizedDetail:
+    m_TableReference:
+      m_TableCollectionName: GUID:d96a34ea508fa423b93190524b5b4af1
+    m_TableEntryReference:
+      m_KeyId: 7257227873214464
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
   droppable: 1
   price: 75
+  cachedName: SimpleKeyboard
   equipLocation: 1
   baseStatModifiers:
   - stat: 4
@@ -28,3 +45,6 @@ MonoBehaviour:
     - or:
       - predicate: {fileID: 11400000, guid: 15db1ab05612f6a4e81f88eebfaa735a, type: 2}
         negate: 0
+  references:
+    version: 2
+    RefIds: []

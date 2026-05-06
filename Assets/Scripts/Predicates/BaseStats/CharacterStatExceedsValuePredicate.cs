@@ -3,7 +3,7 @@ using Frankie.Stats;
 
 namespace Frankie.Core.Predicates
 {
-    [CreateAssetMenu(fileName = "New Character Stat Exceeds Value Predicate", menuName = "Predicates/BaseStats/Character Stat Exceeds Value")]
+    [CreateAssetMenu(fileName = "New Character Stat Exceeds Value Predicate", menuName = "Predicates/BaseStats/Character Stat Exceeds Value", order = 5)]
     public class CharacterStatExceedsValuePredicate : PredicateBaseStats
     {
         [SerializeField][Tooltip("Optional, depending on implementation")] protected Stat stat;

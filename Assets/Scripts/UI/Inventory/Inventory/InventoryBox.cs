@@ -437,7 +437,7 @@ namespace Frankie.Inventory.UI
             if (selectedKnapsack == null) { return; }
 
             DialogueBox dialogueBox = Instantiate(dialogueBoxPrefab, transform.parent);
-            dialogueBox.AddText(selectedKnapsack.GetItemInSlot(inventorySlot).GetDescription());
+            dialogueBox.AddText(selectedKnapsack.GetItemInSlot(inventorySlot).GetDetail());
             PassControl(dialogueBox);
         }
 

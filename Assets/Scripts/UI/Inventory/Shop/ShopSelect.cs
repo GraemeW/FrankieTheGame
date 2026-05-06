@@ -5,7 +5,6 @@ using Frankie.Stats;
 using Frankie.World;
 using Frankie.Utils.UI;
 
-
 namespace Frankie.Inventory.UI
 {
     public class ShopSelect : UIBox
