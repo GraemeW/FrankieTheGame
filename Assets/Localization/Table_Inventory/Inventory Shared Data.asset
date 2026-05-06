@@ -279,14 +279,6 @@ MonoBehaviour:
     m_Key: Shop.GO.Demo_Forest1to20-Interior.Chad.MessageCannotSell.108fa5f7
     m_Metadata:
       m_Items: []
-  - m_Id: 7286311491723264
-    m_Key: KeyItem.TestBoyTestUhhh
-    m_Metadata:
-      m_Items: []
-  - m_Id: 7286311617552384
-    m_Key: KeyItem.TestBoyTestUhhh.Detail
-    m_Metadata:
-      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:
