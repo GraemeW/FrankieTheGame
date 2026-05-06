@@ -32,8 +32,6 @@ MonoBehaviour:
     m_FallbackState: 0
     m_WaitForCompletion: 0
     m_LocalVariables: []
-  detail: It's a lot easier to see and hit the target when you're right beside them! 
-    Buffs brawn and pluck.
   cachedName: EdgeCloser
   references:
     version: 2

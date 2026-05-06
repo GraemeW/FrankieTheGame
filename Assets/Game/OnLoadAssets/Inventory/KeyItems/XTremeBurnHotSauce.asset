@@ -31,7 +31,6 @@ MonoBehaviour:
     m_FallbackState: 0
     m_WaitForCompletion: 0
     m_LocalVariables: []
-  displayName: X-Treme Burn Sauce
   localizedDetail:
     m_TableReference:
       m_TableCollectionName: GUID:d96a34ea508fa423b93190524b5b4af1
@@ -41,7 +40,6 @@ MonoBehaviour:
     m_FallbackState: 0
     m_WaitForCompletion: 0
     m_LocalVariables: []
-  description: Hotter than hell.  Don't eat this.
   droppable: 0
   price: 5
   cachedName: XTremeBurnHotSauce

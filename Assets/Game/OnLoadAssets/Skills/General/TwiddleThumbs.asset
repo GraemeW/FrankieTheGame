@@ -32,7 +32,6 @@ MonoBehaviour:
     m_FallbackState: 0
     m_WaitForCompletion: 0
     m_LocalVariables: []
-  detail: They're doing it!  They're really doing it!
   cachedName: TwiddleThumbs
   references:
     version: 2

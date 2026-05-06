@@ -32,7 +32,6 @@ MonoBehaviour:
     m_FallbackState: 0
     m_WaitForCompletion: 0
     m_LocalVariables: []
-  detail: Delicious ramen, nice to share, nice.
   cachedName: ShareWarmRamen
   references:
     version: 2

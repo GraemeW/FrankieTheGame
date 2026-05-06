@@ -32,7 +32,6 @@ MonoBehaviour:
     m_FallbackState: 0
     m_WaitForCompletion: 0
     m_LocalVariables: []
-  detail: A call to action
   cachedName: SqueakSqueak
   references:
     version: 2

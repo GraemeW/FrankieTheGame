@@ -32,7 +32,6 @@ MonoBehaviour:
     m_FallbackState: 0
     m_WaitForCompletion: 0
     m_LocalVariables: []
-  detail: Easy for the foe to stub a toe when rolling around like this.
   cachedName: RollAround
   references:
     version: 2

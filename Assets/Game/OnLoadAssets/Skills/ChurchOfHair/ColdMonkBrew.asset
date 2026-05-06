@@ -32,7 +32,6 @@ MonoBehaviour:
     m_FallbackState: 0
     m_WaitForCompletion: 0
     m_LocalVariables: []
-  detail: How do the monks get it so cold?  Heals some HP
   cachedName: ColdMonkBrew
   references:
     version: 2

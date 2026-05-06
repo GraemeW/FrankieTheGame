@@ -32,8 +32,6 @@ MonoBehaviour:
     m_FallbackState: 0
     m_WaitForCompletion: 0
     m_LocalVariables: []
-  detail: Your foe fixates.  Stops action until damage taken.  May not always be
-    successful, dependent on Luck.
   cachedName: NerdSnipe
   references:
     version: 2

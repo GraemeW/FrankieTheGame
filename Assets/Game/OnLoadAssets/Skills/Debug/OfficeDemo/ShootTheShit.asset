@@ -32,7 +32,6 @@ MonoBehaviour:
     m_FallbackState: 0
     m_WaitForCompletion: 0
     m_LocalVariables: []
-  detail: Seems to make your office mates happy.
   cachedName: ShootTheShit
   references:
     version: 2

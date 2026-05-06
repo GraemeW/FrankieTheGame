@@ -32,7 +32,6 @@ MonoBehaviour:
     m_FallbackState: 0
     m_WaitForCompletion: 0
     m_LocalVariables: []
-  detail: The OTHER natural horse sound
   cachedName: Whinny
   references:
     version: 2

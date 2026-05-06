@@ -32,7 +32,6 @@ MonoBehaviour:
     m_FallbackState: 0
     m_WaitForCompletion: 0
     m_LocalVariables: []
-  detail: Very high-pitched.  Lose some pluck.
   cachedName: ChirpLoudly
   references:
     version: 2

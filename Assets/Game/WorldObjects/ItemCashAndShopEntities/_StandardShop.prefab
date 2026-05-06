@@ -61,7 +61,6 @@ MonoBehaviour:
     m_FallbackState: 0
     m_WaitForCompletion: 0
     m_LocalVariables: []
-  messageIntro: What'cha want to buy?
   localizedMessageSuccess:
     m_TableReference:
       m_TableCollectionName: GUID:d96a34ea508fa423b93190524b5b4af1
@@ -71,7 +70,6 @@ MonoBehaviour:
     m_FallbackState: 0
     m_WaitForCompletion: 0
     m_LocalVariables: []
-  messageSuccess: Thanks, want anything else?
   localizedMessageNoFunds:
     m_TableReference:
       m_TableCollectionName: GUID:d96a34ea508fa423b93190524b5b4af1
@@ -81,7 +79,6 @@ MonoBehaviour:
     m_FallbackState: 0
     m_WaitForCompletion: 0
     m_LocalVariables: []
-  messageNoFunds: Whoops, looks like you don't have enough cash for that
   localizedMessageNoSpace:
     m_TableReference:
       m_TableCollectionName: GUID:d96a34ea508fa423b93190524b5b4af1
@@ -91,7 +88,6 @@ MonoBehaviour:
     m_FallbackState: 0
     m_WaitForCompletion: 0
     m_LocalVariables: []
-  messageNoSpace: Whoops, looks like you don't have enough space for that
   localizedMessageForSale:
     m_TableReference:
       m_TableCollectionName: GUID:d96a34ea508fa423b93190524b5b4af1
@@ -101,7 +97,6 @@ MonoBehaviour:
     m_FallbackState: 0
     m_WaitForCompletion: 0
     m_LocalVariables: []
-  messageForSale: I can give you {0} for that
   localizedMessageCannotSell:
     m_TableReference:
       m_TableCollectionName: GUID:d96a34ea508fa423b93190524b5b4af1
@@ -111,7 +106,6 @@ MonoBehaviour:
     m_FallbackState: 0
     m_WaitForCompletion: 0
     m_LocalVariables: []
-  messageCannotSell: I can't accept that item
   transactionCompleted:
     m_PersistentCalls:
       m_Calls:

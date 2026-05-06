@@ -32,7 +32,6 @@ MonoBehaviour:
     m_FallbackState: 0
     m_WaitForCompletion: 0
     m_LocalVariables: []
-  detail: Slap, and then slap again, for some real damage
   cachedName: DoubleSlap
   references:
     version: 2

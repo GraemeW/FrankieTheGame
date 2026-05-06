@@ -32,7 +32,6 @@ MonoBehaviour:
     m_FallbackState: 0
     m_WaitForCompletion: 0
     m_LocalVariables: []
-  detail: Very loud, and very powerful, causing a significant boost to brawn
   cachedName: PiercingMonkChant
   references:
     version: 2

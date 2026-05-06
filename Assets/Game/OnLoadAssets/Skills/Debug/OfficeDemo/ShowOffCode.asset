@@ -32,7 +32,6 @@ MonoBehaviour:
     m_FallbackState: 0
     m_WaitForCompletion: 0
     m_LocalVariables: []
-  detail: It's all on one line -- single hit damage that can crit.
   cachedName: ShowOffCode
   references:
     version: 2

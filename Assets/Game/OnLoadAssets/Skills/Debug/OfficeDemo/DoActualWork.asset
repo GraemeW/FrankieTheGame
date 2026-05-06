@@ -32,7 +32,6 @@ MonoBehaviour:
     m_FallbackState: 0
     m_WaitForCompletion: 0
     m_LocalVariables: []
-  detail: Working hard pays in dividends -- your foe takes damage over time.
   cachedName: DoActualWork
   references:
     version: 2

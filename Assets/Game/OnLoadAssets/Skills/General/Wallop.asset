@@ -32,7 +32,6 @@ MonoBehaviour:
     m_FallbackState: 0
     m_WaitForCompletion: 0
     m_LocalVariables: []
-  detail: It's just a light wallop to a single target.
   cachedName: Wallop
   references:
     version: 2

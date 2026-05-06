@@ -32,7 +32,6 @@ MonoBehaviour:
     m_FallbackState: 0
     m_WaitForCompletion: 0
     m_LocalVariables: []
-  detail: We need it yesterday!
   cachedName: RequestETC
   references:
     version: 2

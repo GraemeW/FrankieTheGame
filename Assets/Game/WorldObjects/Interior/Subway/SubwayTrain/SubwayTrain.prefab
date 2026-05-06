@@ -316,7 +316,6 @@ MonoBehaviour:
   willForceCombat: 0
   willDestroyIfInvisible: 0
   delayToDestroyAfterInvisible: 2
-  messageCannotFight: '{0} is wounded and cannot fight.'
 --- !u!114 &999296917510441045
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -32,7 +32,6 @@ MonoBehaviour:
     m_FallbackState: 0
     m_WaitForCompletion: 0
     m_LocalVariables: []
-  detail: Unplug your EarPods and take the call live. Reduces nimble temporarily.
   cachedName: LoudlyProclaim
   references:
     version: 2

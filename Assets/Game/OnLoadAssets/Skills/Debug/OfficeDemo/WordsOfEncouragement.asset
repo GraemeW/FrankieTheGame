@@ -32,7 +32,6 @@ MonoBehaviour:
     m_FallbackState: 0
     m_WaitForCompletion: 0
     m_LocalVariables: []
-  detail: These kind words heal your foe
   cachedName: WordsOfEncouragement
   references:
     version: 2

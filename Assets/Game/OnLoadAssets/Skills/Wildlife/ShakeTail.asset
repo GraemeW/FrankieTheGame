@@ -32,7 +32,6 @@ MonoBehaviour:
     m_FallbackState: 0
     m_WaitForCompletion: 0
     m_LocalVariables: []
-  detail: The shaking of the tail is almost hypnotic
   cachedName: ShakeTail
   references:
     version: 2

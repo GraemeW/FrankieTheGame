@@ -97,7 +97,6 @@ MonoBehaviour:
     m_FallbackState: 0
     m_WaitForCompletion: 0
     m_LocalVariables: []
-  choiceMessage: Where do you want to go?
   zoneInteraction:
     m_PersistentCalls:
       m_Calls:

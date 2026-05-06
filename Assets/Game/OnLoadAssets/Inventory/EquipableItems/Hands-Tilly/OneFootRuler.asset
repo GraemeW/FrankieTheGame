@@ -23,7 +23,6 @@ MonoBehaviour:
     m_FallbackState: 0
     m_WaitForCompletion: 0
     m_LocalVariables: []
-  displayName: One Foot Ruler
   localizedDetail:
     m_TableReference:
       m_TableCollectionName: GUID:d96a34ea508fa423b93190524b5b4af1
@@ -33,7 +32,6 @@ MonoBehaviour:
     m_FallbackState: 0
     m_WaitForCompletion: 0
     m_LocalVariables: []
-  description: It's exactly 12 inches and it SNAPs.  Only usable by Tilly.
   droppable: 1
   price: 40
   cachedName: OneFootRuler

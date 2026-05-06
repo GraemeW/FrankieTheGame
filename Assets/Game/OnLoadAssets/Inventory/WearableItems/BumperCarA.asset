@@ -23,7 +23,6 @@ MonoBehaviour:
     m_FallbackState: 0
     m_WaitForCompletion: 0
     m_LocalVariables: []
-  displayName: BumperGreen
   localizedDetail:
     m_TableReference:
       m_TableCollectionName: GUID:d96a34ea508fa423b93190524b5b4af1
@@ -33,7 +32,6 @@ MonoBehaviour:
     m_FallbackState: 0
     m_WaitForCompletion: 0
     m_LocalVariables: []
-  description: The rubber base bounces with great vigor
   droppable: 1
   price: 0
   cachedName: BumperCarA

@@ -31,7 +31,6 @@ MonoBehaviour:
     m_FallbackState: 0
     m_WaitForCompletion: 0
     m_LocalVariables: []
-  displayName: Chopsticks
   localizedDetail:
     m_TableReference:
       m_TableCollectionName: GUID:d96a34ea508fa423b93190524b5b4af1
@@ -41,7 +40,6 @@ MonoBehaviour:
     m_FallbackState: 0
     m_WaitForCompletion: 0
     m_LocalVariables: []
-  description: They're covered in Orange Chicken sauce.  Gross.
   droppable: 0
   price: 0
   cachedName: Chopsticks

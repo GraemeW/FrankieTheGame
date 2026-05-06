@@ -32,7 +32,6 @@ MonoBehaviour:
     m_FallbackState: 0
     m_WaitForCompletion: 0
     m_LocalVariables: []
-  detail: Heal a small amount of hit points for one ally.
   cachedName: GentlePraise
   references:
     version: 2

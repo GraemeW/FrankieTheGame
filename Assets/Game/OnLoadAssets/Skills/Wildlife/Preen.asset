@@ -32,7 +32,6 @@ MonoBehaviour:
     m_FallbackState: 0
     m_WaitForCompletion: 0
     m_LocalVariables: []
-  detail: These feathers look so shiny.  Heal a small amount.
   cachedName: Preen
   references:
     version: 2

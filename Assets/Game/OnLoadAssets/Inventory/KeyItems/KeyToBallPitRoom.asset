@@ -27,7 +27,6 @@ MonoBehaviour:
     m_FallbackState: 0
     m_WaitForCompletion: 0
     m_LocalVariables: []
-  displayName: Key to Ball Pit
   localizedDetail:
     m_TableReference:
       m_TableCollectionName: GUID:d96a34ea508fa423b93190524b5b4af1
@@ -37,8 +36,6 @@ MonoBehaviour:
     m_FallbackState: 0
     m_WaitForCompletion: 0
     m_LocalVariables: []
-  description: Extremely valuable -- only handed out to senior engineers.  Don't
-    lose it.
   droppable: 0
   price: 0
   cachedName: KeyToBallPitRoom

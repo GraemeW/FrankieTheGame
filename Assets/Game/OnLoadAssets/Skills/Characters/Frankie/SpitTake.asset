@@ -32,7 +32,6 @@ MonoBehaviour:
     m_FallbackState: 0
     m_WaitForCompletion: 0
     m_LocalVariables: []
-  detail: Take a slug of your water and spit it out.  Hits all enemies.
   cachedName: SpitTake
   references:
     version: 2

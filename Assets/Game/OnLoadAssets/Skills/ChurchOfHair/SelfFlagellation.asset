@@ -32,7 +32,6 @@ MonoBehaviour:
     m_FallbackState: 0
     m_WaitForCompletion: 0
     m_LocalVariables: []
-  detail: The pain makes you stronger, and offers a buff to stoic
   cachedName: SelfFlagellation
   references:
     version: 2

@@ -32,7 +32,6 @@ MonoBehaviour:
     m_FallbackState: 0
     m_WaitForCompletion: 0
     m_LocalVariables: []
-  detail: Nerd out to distract a foe.  Reduce their nimble attribute!
   cachedName: NerdOut
   references:
     version: 2

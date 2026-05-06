@@ -32,7 +32,6 @@ MonoBehaviour:
     m_FallbackState: 0
     m_WaitForCompletion: 0
     m_LocalVariables: []
-  detail: Shoot!  This burns.  Causes damage over time.
   cachedName: SpillHotCoffee
   references:
     version: 2

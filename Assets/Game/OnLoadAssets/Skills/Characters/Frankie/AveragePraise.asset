@@ -32,7 +32,6 @@ MonoBehaviour:
     m_FallbackState: 0
     m_WaitForCompletion: 0
     m_LocalVariables: []
-  detail: Heals a little more than gentle praise.
   cachedName: AveragePraise
   references:
     version: 2
