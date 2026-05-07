@@ -871,7 +871,7 @@ MonoBehaviour:
   updateMap: 0
   zoneAudio: {fileID: 8300000, guid: d4e4bde858823b94c9912bb9d8201687, type: 3}
   isZoneAudioLooping: 1
-  cachedZoneName: Demo_Forest1to20-Interior
+  cachedName: Demo_Forest1to20-Interior
   zoneNodes:
   - {fileID: -5860749958356787099}
   - {fileID: -6172440473415268556}

@@ -7,6 +7,7 @@ using Frankie.Control;
 using Frankie.Speech.UI;
 using Frankie.Stats;
 using Frankie.Utils.UI;
+using Frankie.Utils.Localization;
 
 namespace Frankie.Combat.UI
 {
@@ -263,7 +264,7 @@ namespace Frankie.Combat.UI
 
         protected override void PassSkillFlavour(Stat skillStat, string detail, float apCost)
         {
-            statText.text = StatDisplay.GetLocalizedName(skillStat);
+            statText.text = LocalizationNames.GetLocalizedName(skillStat);
             if (detail != null)
             {
                 skillDetailText.text = detail;

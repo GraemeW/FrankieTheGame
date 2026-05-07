@@ -23,6 +23,7 @@ namespace Frankie.Inventory
 
         // State
         [HideInInspector] [SerializeField] private string cachedName;
+        public string iCachedName { get => cachedName; set => cachedName = value; }
         private static AsyncOperationHandle<IList<InventoryItem>> _addressablesLoadHandle;
         private static Dictionary<string, InventoryItem> _itemLookupCache;
 
@@ -41,45 +42,16 @@ namespace Frankie.Inventory
                 localizedDetail.TableEntryReference
             };
         }
-        #endregion
         
-#if UNITY_EDITOR
-        #region LocalizationUtility
-        private string GetNameLocalizationKey() => GetNameLocalizationKey(this, name);
-        public static string GetNameLocalizationKey(Object targetObject, string id) => $"{targetObject.GetType().Name}.{id}";
-        private string GetDetailLocalizationKey() => $"{GetNameLocalizationKey()}.Detail";
-        public static string GetDetailLocalizationKey(Object targetObject, string id) => $"{GetNameLocalizationKey(targetObject, id)}.Detail";
-        
-        private void ReconcileCachedName()
+        public List<(string propertyName, LocalizedString localizedString, bool setToName)> GetPropertyLinkedLocalizationEntries()
         {
-            if (name == cachedName) { return; }
-
-            TableEntryReference oldNameKey = GetNameLocalizationKey(this, cachedName);
-            TableEntryReference oldDetailKey = GetDetailLocalizationKey(this, cachedName);
-            cachedName = name;
-            string newNameKey = GetNameLocalizationKey();
-            string newDetailKey = GetDetailLocalizationKey();
-            LocalizationTool.MakeOrRenameKey(localizationTableType, oldNameKey, newNameKey);
-            LocalizationTool.MakeOrRenameKey(localizationTableType, oldDetailKey, newDetailKey);
-            
-            EditorUtility.SetDirty(this);
-            AssetDatabase.SaveAssetIfDirty(this);
-        }
-
-        public void TryLocalizeDefaults()
-        {
-            ReconcileCachedName();
-            string nameKey = GetNameLocalizationKey();
-            string detailKey = GetDetailLocalizationKey();
-            bool wasNameLocalizationUpdated = LocalizationTool.TryLocalizeEntry(localizationTableType, localizedDisplayName, nameKey, name);
-            bool wasDetailKeyLinked = LocalizationTool.InitializeLocalEntry(localizationTableType, localizedDetail, detailKey);
-            if (!wasNameLocalizationUpdated && !wasDetailKeyLinked) { return; }
-            
-            EditorUtility.SetDirty(this);
-            AssetDatabase.SaveAssetIfDirty(this);
+            return new List<(string propertyName, LocalizedString localizedString, bool setToName)>
+            {
+                (nameof(localizedDisplayName), localizedDisplayName, true),
+                (nameof(localizedDetail), localizedDetail, false)
+            };
         }
         #endregion
-#endif
         
         #region AddressablesCaching
         public static InventoryItem GetFromID(string itemID)

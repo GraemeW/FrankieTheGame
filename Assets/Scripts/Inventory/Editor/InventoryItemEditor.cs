@@ -1,24 +1,20 @@
-using UnityEngine.UIElements;
+using Frankie.Core.GameStateModifiers;
+using Frankie.Utils.Localization;
 using UnityEditor;
-using UnityEditor.UIElements;
 
 namespace Frankie.Inventory.Editor
 {
     [CustomEditor(typeof(InventoryItem), true)]
-    public class InventoryItemEditor : UnityEditor.Editor
+    public class InventoryItemEditor : GameStateModifierEditor
     {
-        private void OnEnable()
+        protected override void OnEnable()
         {
+            base.OnEnable();
+            
+            LocalizationTool.InitializeEnglishLocale();
             var inventoryItem = (InventoryItem)target;
-            if (inventoryItem == null) { return; }
-            inventoryItem.TryLocalizeDefaults();
-        }
-
-        public override VisualElement CreateInspectorGUI()
-        {
-            var root = new VisualElement();
-            InspectorElement.FillDefaultInspector(root, serializedObject, this);
-            return root;
+            if (inventoryItem is not ILocalizable localizable) { return; }
+            localizable.TryLocalizeStandardEntries(inventoryItem, inventoryItem.GetPropertyLinkedLocalizationEntries());
         }
     }
 }

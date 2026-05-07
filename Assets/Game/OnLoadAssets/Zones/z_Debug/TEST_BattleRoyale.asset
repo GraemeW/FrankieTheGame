@@ -288,7 +288,7 @@ MonoBehaviour:
   updateMap: 1
   zoneAudio: {fileID: 8300000, guid: aa55708dfcc59db408b6c7ff1281c67e, type: 3}
   isZoneAudioLooping: 1
-  cachedZoneName: TEST_BattleRoyale
+  cachedName: TEST_BattleRoyale
   zoneNodes:
   - {fileID: -7290602620797478354}
   - {fileID: -1339242037192576979}

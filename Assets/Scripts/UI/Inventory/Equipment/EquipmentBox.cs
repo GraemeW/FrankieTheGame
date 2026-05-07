@@ -7,9 +7,10 @@ using Frankie.Combat;
 using Frankie.Control;
 using Frankie.Stats;
 using Frankie.Utils;
-using Frankie.Utils.UI;
-using Frankie.Speech.UI;
 using Frankie.Combat.UI;
+using Frankie.Speech.UI;
+using Frankie.Utils.UI;
+using Frankie.Utils.Localization;
 
 namespace Frankie.Inventory.UI
 {
@@ -402,7 +403,7 @@ namespace Frankie.Inventory.UI
             {
                 itemName = selectedEquipment.GetItemInSlot(equipLocation).GetDisplayName();
             }
-            string fieldName = $"{EquipLocationDisplay.GetLocalizedName(equipLocation)}:  {itemName}";
+            string fieldName = $"{LocalizationNames.GetLocalizedName(equipLocation)}:  {itemName}";
 
             InventoryItemField inventoryItemField = Instantiate(setInventoryItemFieldPrefab, container);
             inventoryItemField.SetText(fieldName);

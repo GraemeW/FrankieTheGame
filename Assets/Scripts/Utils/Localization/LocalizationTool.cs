@@ -67,7 +67,6 @@ namespace Frankie.Utils.Localization
 #if UNITY_EDITOR
         // State
         private static bool _isLocaleInitialized = false;
-        private static readonly System.Random _random = new();
         private static readonly Dictionary<LocalizationTableType, StringTable> _cachedEnglishTables = new();
         private static readonly Dictionary<LocalizationTableType, StringTableCollection> _cachedTableCollections = new();
         
@@ -98,23 +97,6 @@ namespace Frankie.Utils.Localization
             LocalizationSettings.InitializationOperation.WaitForCompletion();
             LocalizationSettings.SelectedLocale = LocalizationSettings.AvailableLocales.GetLocale(_englishRef);
             _isLocaleInitialized = true;
-        }
-
-        public static string GenerateTypeSpecificKey(Object targetObject, string propertyName, Type declaringType = null, bool useParentNameStem = true)
-        {
-            switch (targetObject)
-            {
-                case CharacterProperties:
-                    return CharacterProperties.GetNameLocalizationKey(targetObject.name);
-                case Skill:
-                    if (propertyName.Contains("Name")) { return Skill.GetNameLocalizationKey(targetObject.name); }
-                    return Skill.GetDetailLocalizationKey(targetObject.name);
-                case InventoryItem:
-                    if (propertyName.Contains("Name")) { return InventoryItem.GetNameLocalizationKey(targetObject, targetObject.name); }
-                    return InventoryItem.GetDetailLocalizationKey(targetObject, targetObject.name);
-                default:
-                    return GenerateKindaUniqueKey(targetObject, propertyName, declaringType, useParentNameStem);
-            }
         }
 
         public static TableEntryReference GetTableEntryReferencedByID(LocalizationTableType localizationTableType, TableEntryReference ambiguousTableEntryReference)
@@ -437,50 +419,6 @@ namespace Frankie.Utils.Localization
             
             englishStringTable = stringTableCollection.GetTable(_englishRef) as StringTable;
             return englishStringTable != null;
-        }
-        
-        private static string GenerateKindaUniqueKey(Object targetObject, string propertyName, Type declaringType = null,  bool useParentNameStem = true)
-        {
-            string componentStem = declaringType != null ? $"{declaringType.Name}." : $"{targetObject.GetType().Name}.";
-            string targetStem = "";
-            string nameStem = targetObject.name;
-            
-            if (targetObject is GameObject castGameObject) { targetObject = castGameObject.GetComponent<MonoBehaviour>(); }
-            if (useParentNameStem && targetObject is MonoBehaviour castMonoBehaviour && castMonoBehaviour.transform.parent != null)
-            {
-                nameStem = castMonoBehaviour.transform.parent.name;
-            }
-            
-            if (targetObject != null)
-            {
-                switch (targetObject)
-                {
-                    case ScriptableObject:
-                        targetStem += $"SO.{nameStem}.";
-                        break;
-                    case MonoBehaviour targetMonoBehaviour when PrefabUtility.IsPartOfPrefabAsset(targetMonoBehaviour):
-                        targetStem += $"Prefab.{nameStem}.";
-                        break;
-                    case MonoBehaviour targetMonoBehaviour:
-                    {
-                        GameObject targetGameObject =  targetMonoBehaviour.gameObject;
-                        PrefabStage prefabStage = PrefabStageUtility.GetCurrentPrefabStage();
-                        if (prefabStage != null && prefabStage.IsPartOfPrefabContents(targetGameObject))
-                        {
-                            targetStem += $"Prefab.{nameStem}.";
-                            break;
-                        }
-                        
-                        targetStem += "GO.";
-                        if (targetGameObject != null) { targetStem += $"{targetGameObject.scene.name}.{nameStem}."; }
-                        else { targetStem += $"{nameStem}."; }
-                        break;
-                    }
-                }
-            }
-            string propertyNameStem = propertyName != null ? $"{propertyName}." : "";
-            string semiUniqueShortKey = _random.Next().ToString("x");
-            return $"{componentStem}{targetStem}{propertyNameStem}{semiUniqueShortKey}";
         }
         #endregion
 #endif

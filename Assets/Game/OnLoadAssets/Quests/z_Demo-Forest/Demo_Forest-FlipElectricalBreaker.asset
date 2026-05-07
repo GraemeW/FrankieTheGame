@@ -33,9 +33,32 @@ MonoBehaviour:
     gameObjectName: ElectricalBreaker
     parentObjectName: 
     guid: c0e04e1f-9605-470d-929f-3d44288d4306
+  localizedDisplayName:
+    m_TableReference:
+      m_TableCollectionName: 
+    m_TableEntryReference:
+      m_KeyId: 0
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
   detail: Turn on power to the elevator in the Lacklustre Video
+  localizedDetail:
+    m_TableReference:
+      m_TableCollectionName: 
+    m_TableEntryReference:
+      m_KeyId: 0
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
   questObjectiveNames:
   - Flip the electrical breaker
+  localizedQuestObjectiveNames: []
   rewards: []
+  cachedName: 
   questObjectives:
   - {fileID: -1157696598057115107}
+  references:
+    version: 2
+    RefIds: []

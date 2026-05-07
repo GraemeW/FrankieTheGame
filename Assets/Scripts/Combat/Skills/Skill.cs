@@ -25,6 +25,7 @@ namespace Frankie.Combat
 
         // State
         [HideInInspector][SerializeField] private string cachedName;
+        public string iCachedName { get => cachedName; set => cachedName = value; }
         private static AsyncOperationHandle<IList<Skill>> _addressablesLoadHandle;
         private static Dictionary<string, Skill> _skillLookupCache;
 
@@ -44,6 +45,15 @@ namespace Frankie.Combat
                 localizedDetail.TableEntryReference
             };
         }
+
+        public List<(string propertyName, LocalizedString localizedString, bool setToName)> GetPropertyLinkedLocalizationEntries()
+        {
+            return new List<(string propertyName, LocalizedString localizedString, bool setToName)>
+            {
+                (nameof(localizedDisplayName), localizedDisplayName, true),
+                (nameof(localizedDetail), localizedDetail, false)
+            };
+        }
         #endregion
 
         #region PublicMethods
@@ -57,44 +67,6 @@ namespace Frankie.Combat
             battleAction?.SetTargets(targetingNavigationType, battleActionData, activeCharacters, activeEnemies);
         }
         #endregion
-        
-#if UNITY_EDITOR
-        #region LocalizationUtility
-        private string GetNameLocalizationKey() => GetNameLocalizationKey(name);
-        public static string GetNameLocalizationKey(string id) => $"{nameof(Skill)}.{id}";
-        private string GetDetailLocalizationKey() => $"{GetNameLocalizationKey()}.Detail";
-        public static string GetDetailLocalizationKey(string id) =>  $"{GetNameLocalizationKey(id)}.Detail";
-        
-        private void ReconcileCachedName()
-        {
-            if (name == cachedName) { return; }
-
-            TableEntryReference oldNameKey = GetNameLocalizationKey(cachedName);
-            TableEntryReference oldDetailKey = GetDetailLocalizationKey(cachedName);
-            cachedName = name;
-            string newNameKey = GetNameLocalizationKey();
-            string newDetailKey = GetDetailLocalizationKey();
-            LocalizationTool.MakeOrRenameKey(localizationTableType, oldNameKey, newNameKey);
-            LocalizationTool.MakeOrRenameKey(localizationTableType, oldDetailKey, newDetailKey);
-            
-            EditorUtility.SetDirty(this);
-            AssetDatabase.SaveAssetIfDirty(this);
-        }
-
-        public void TryLocalizeDefaults()
-        {
-            ReconcileCachedName();
-            string nameKey = GetNameLocalizationKey();
-            string detailKey = GetDetailLocalizationKey();
-            bool wasNameLocalizationUpdated = LocalizationTool.TryLocalizeEntry(localizationTableType, localizedDisplayName, nameKey, name);
-            bool wasDetailKeyLinked = LocalizationTool.InitializeLocalEntry(localizationTableType, localizedDetail, detailKey);
-            if (!wasNameLocalizationUpdated && !wasDetailKeyLinked) { return; }
-            
-            EditorUtility.SetDirty(this);
-            AssetDatabase.SaveAssetIfDirty(this);
-        }
-        #endregion
-#endif
         
         #region AddressablesCaching
         public static Skill GetSkillFromName(string name)

@@ -18,12 +18,35 @@ MonoBehaviour:
     gameObjectName: Bed
     parentObjectName: 
     guid: 32cd30ad-e5ae-41a7-a2df-58c48eacde3c
+  localizedDisplayName:
+    m_TableReference:
+      m_TableCollectionName: 
+    m_TableEntryReference:
+      m_KeyId: 0
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
   detail: Track intro quest (use to trigger main plot)
+  localizedDetail:
+    m_TableReference:
+      m_TableCollectionName: 
+    m_TableEntryReference:
+      m_KeyId: 0
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
   questObjectiveNames:
   - GoToBed
+  localizedQuestObjectiveNames: []
   rewards: []
+  cachedName: 
   questObjectives:
   - {fileID: 6232503200084316110}
+  references:
+    version: 2
+    RefIds: []
 --- !u!114 &6232503200084316110
 MonoBehaviour:
   m_ObjectHideFlags: 0

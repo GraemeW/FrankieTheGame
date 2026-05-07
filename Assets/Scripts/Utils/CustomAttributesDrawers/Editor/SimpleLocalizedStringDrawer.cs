@@ -1,11 +1,11 @@
 #if UNITY_EDITOR
 using System.Linq;
-using UnityEditor;
-using UnityEditor.Localization;
 using UnityEngine;
 using UnityEngine.Localization;
 using UnityEngine.Localization.Tables;
 using UnityEngine.UIElements;
+using UnityEditor;
+using UnityEditor.Localization;
 using Object = UnityEngine.Object;
 
 namespace Frankie.Utils.Localization.Editor
@@ -54,8 +54,7 @@ namespace Frankie.Utils.Localization.Editor
             var simpleLocalizedStringAttribute = (SimpleLocalizedStringAttribute)attribute;
             LocalizationTableType localizationTableType = simpleLocalizedStringAttribute.localizationTableType;
             bool isKeyEditable = simpleLocalizedStringAttribute.isKeyEditable;
-            string sanitizedPropertyName = property.name.Replace("localized","");
-            string niceSanitizedPropertyName = property.displayName.Replace("Localized", "");
+            string nicePropertyName = property.displayName.Replace("Localized", "");
             
             // State
             LocalizationTool.InitializeEnglishLocale();
@@ -69,7 +68,7 @@ namespace Frankie.Utils.Localization.Editor
             }
             
             // Build UI Elements
-            VisualElement root = MakeRoot(niceSanitizedPropertyName);
+            VisualElement root = MakeRoot(nicePropertyName);
             VisualElement keyRow = BuildKeyRow(localizedString, localizationTableType, isKeyEditable && isKeyUnlocked, out keyTextField);
             root.Add(keyRow);
             VisualElement lockToggleRow = BuildLockToggleRow(isKeyEditable, isKeyUnlocked, out lockToggle); 
@@ -98,8 +97,8 @@ namespace Frankie.Utils.Localization.Editor
                 renameKeyButton.SetEnabled(isKeyEditable && isKeyUnlocked && !isKeyEmpty);
                 ReconcileDeleteButtonState(property, localizationTableType, isKeyEditable && isKeyUnlocked && !isKeyEmpty);
             });
-            newKeyButton.RegisterCallback<ClickEvent>(_ => HandleNewKeyButtonClick(property, localizationTableType, sanitizedPropertyName));
-            renameKeyButton.RegisterCallback<ClickEvent>(_ => HandleRenameKeyButtonClick(property, localizationTableType, sanitizedPropertyName));
+            newKeyButton.RegisterCallback<ClickEvent>(_ => HandleNewKeyButtonClick(property, localizationTableType, property.name));
+            renameKeyButton.RegisterCallback<ClickEvent>(_ => HandleRenameKeyButtonClick(property, localizationTableType, property.name));
             deleteKeyButton.RegisterCallback<ClickEvent>(_ => HandleDeleteButtonClick(property, localizationTableType));
             
             return root;
@@ -205,7 +204,7 @@ namespace Frankie.Utils.Localization.Editor
                 currentContents = LocalizationTool.GetEnglishEntry(localizationTableType, currentTableEntryReference);
             }
 
-            string newKey = LocalizationTool.GenerateTypeSpecificKey(targetObject, propertyName, fieldInfo.DeclaringType);
+            string newKey = LocalizationNames.GenerateTypeSpecificKey(targetObject, propertyName, fieldInfo.DeclaringType);
             if (!LocalizationTool.AddUpdateEnglishEntry(localizationTableType, newKey, currentContents)) { return; }
             if (!LocalizationTool.SafelyUpdateReference(localizationTableType, localizedString, newKey)) { return; }
             
@@ -230,7 +229,7 @@ namespace Frankie.Utils.Localization.Editor
                 return;
             }
             
-            string newKey = LocalizationTool.GenerateTypeSpecificKey(targetObject, propertyName, fieldInfo.DeclaringType);
+            string newKey = LocalizationNames.GenerateTypeSpecificKey(targetObject, propertyName, fieldInfo.DeclaringType);
             keyTextField.value = newKey;
         }
 

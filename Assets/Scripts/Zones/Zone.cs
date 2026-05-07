@@ -9,7 +9,6 @@ using UnityEngine.Localization.Tables;
 using Frankie.Utils.Addressables;
 using Frankie.Utils.Localization;
 
-
 namespace Frankie.ZoneManagement
 {
     [CreateAssetMenu(fileName = "New Zone", menuName = "Zone/New Zone", order = 2)]
@@ -30,7 +29,8 @@ namespace Frankie.ZoneManagement
         [SerializeField] private bool isZoneAudioLooping = true;
 
         // State
-        [HideInInspector][SerializeField] private string cachedZoneName = "";
+        [HideInInspector][SerializeField] private string cachedName = "";
+        public string iCachedName { get => cachedName; set => cachedName = value; }
         [HideInInspector][SerializeField] private List<ZoneNode> zoneNodes = new();
 #if UNITY_EDITOR
         private Dictionary<string, ZoneNode> nodeEditorLookup = new();
@@ -134,6 +134,22 @@ namespace Frankie.ZoneManagement
             }
             return entries;
         }
+        
+        public List<(string propertyName, LocalizedString localizedString, bool setToName)> GetPropertyLinkedLocalizationEntries()
+        {
+            return new List<(string propertyName, LocalizedString localizedString, bool setToName)>
+            {
+                (nameof(localizedDisplayName), localizedDisplayName, true)
+            };
+        }
+
+        public void TriggerOnRename()
+        {
+            foreach (ZoneNode zoneNode in zoneNodes)
+            {
+                zoneNode.SetZoneName(name);
+            }
+        }
         #endregion
         
 #if UNITY_EDITOR
@@ -231,36 +247,6 @@ namespace Frankie.ZoneManagement
             {
                 zoneNode.RemoveChild(nodeToDelete.name);
             }
-        }
-        #endregion
-      
-        #region LocalizationUtility
-        public void TryLocalizeDefaults()
-        {
-            ReconcileCachedZoneName();
-            
-            string key = GetNameLocalizationKey();
-            if (!LocalizationTool.TryLocalizeEntry(localizationTableType, localizedDisplayName, key, name)) { return; }
-            EditorUtility.SetDirty(this);
-            AssetDatabase.SaveAssetIfDirty(this);
-        }
-
-        private void ReconcileCachedZoneName()
-        {
-            if (name == cachedZoneName) { return; }
-            
-            TableEntryReference oldKey = GetNameLocalizationKey(cachedZoneName);
-            cachedZoneName = name;
-            string newKey = GetNameLocalizationKey();
-            LocalizationTool.MakeOrRenameKey(localizationTableType, oldKey, newKey);
-
-            foreach (ZoneNode zoneNode in zoneNodes)
-            {
-                zoneNode.SetZoneName(name);
-            }
-
-            EditorUtility.SetDirty(this);
-            AssetDatabase.SaveAssetIfDirty(this);
         }
         #endregion
 #endif

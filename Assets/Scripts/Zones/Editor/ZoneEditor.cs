@@ -44,7 +44,12 @@ namespace Frankie.ZoneManagement.Editor
         {
             var zone = EditorUtility.EntityIdToObject(instanceID) as Zone;
             if (zone == null) { return false; }
-            zone.TryLocalizeDefaults();
+
+            if (zone is ILocalizable localizable)
+            {
+                localizable.TryLocalizeStandardEntries(zone, zone.GetPropertyLinkedLocalizationEntries(), zone.TriggerOnRename);
+            }
+            
             zone.CreateRootNodeIfMissing();
             ShowEditorWindow();
             return true;

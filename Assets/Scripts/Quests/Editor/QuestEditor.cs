@@ -1,6 +1,7 @@
 using UnityEditor;
-using Frankie.Core.GameStateModifiers;
 using UnityEngine.UIElements;
+using Frankie.Core.GameStateModifiers;
+using Frankie.Utils.Localization;
 
 namespace Frankie.Quests.Editor
 {
@@ -13,6 +14,16 @@ namespace Frankie.Quests.Editor
         private const float _fontSize = 14;
         private const float _headerMarginTop = 8;
         private const float _headerMarginBottom = 4;
+        
+        protected override void OnEnable()
+        {
+            base.OnEnable();
+            
+            LocalizationTool.InitializeEnglishLocale();
+            var quest = (Quest)target;
+            if (quest is not ILocalizable localizable) { return; }
+            localizable.TryLocalizeStandardEntries(quest, quest.GetPropertyLinkedLocalizationEntries());
+        }
         
         public override VisualElement CreateInspectorGUI()
         {

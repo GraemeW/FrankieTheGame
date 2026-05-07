@@ -277,13 +277,13 @@ MonoBehaviour:
     m_WaitForCompletion: 0
     m_LocalVariables: []
   sceneReference:
-    sceneAsset: {fileID: 102900000, guid: a0d0d2d6d43c51843a58bdb193f8e175, type: 3}
+    sceneAsset: {fileID: 102900000, guid: bdbc1e0ce13a1f14ebbd17a6311fb5d4, type: 3}
     sceneName: PrimInterior
     scenePath: Assets/Scenes/PrimInterior.unity
   updateMap: 0
   zoneAudio: {fileID: 8300000, guid: d4e4bde858823b94c9912bb9d8201687, type: 3}
   isZoneAudioLooping: 1
-  cachedZoneName: PrimInterior
+  cachedName: PrimInterior
   zoneNodes:
   - {fileID: 2049896038868084311}
   - {fileID: -8325163169649529663}

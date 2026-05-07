@@ -321,13 +321,13 @@ MonoBehaviour:
     m_WaitForCompletion: 0
     m_LocalVariables: []
   sceneReference:
-    sceneAsset: {fileID: 102900000, guid: 52222d36ecfd3de48ba0a6a7086a4d38, type: 3}
+    sceneAsset: {fileID: 102900000, guid: bdbc1e0ce13a1f14ebbd17a6311fb5d4, type: 3}
     sceneName: ApartmentInterior
     scenePath: Assets/Scenes/ApartmentInterior.unity
   updateMap: 0
   zoneAudio: {fileID: 8300000, guid: aa55708dfcc59db408b6c7ff1281c67e, type: 3}
   isZoneAudioLooping: 1
-  cachedZoneName: ApartmentInterior
+  cachedName: ApartmentInterior
   zoneNodes:
   - {fileID: -5837764251287271127}
   - {fileID: 5291146569498224961}

@@ -70,7 +70,7 @@ namespace Frankie.Core.GameStateModifiers
         private Label linkedHandlersLabel;
         
         #region UnityMethods
-        private void OnEnable()
+        protected virtual void OnEnable()
         {
             selectedGameStateModifier = target as GameStateModifier;
             gameStateModifierHandlerDataProperty = serializedObject.FindProperty(GameStateModifier.GetGameStateModifierHandlerDataRef());

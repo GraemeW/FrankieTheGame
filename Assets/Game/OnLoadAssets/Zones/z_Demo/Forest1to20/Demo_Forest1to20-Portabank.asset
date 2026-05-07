@@ -72,7 +72,7 @@ MonoBehaviour:
   updateMap: 0
   zoneAudio: {fileID: 8300000, guid: d765a3c4e7ca20440a6992d69af9c87d, type: 3}
   isZoneAudioLooping: 1
-  cachedZoneName: Demo_Forest1to20-Portabank
+  cachedName: Demo_Forest1to20-Portabank
   zoneNodes:
   - {fileID: 5741578906310247025}
   - {fileID: -6787401506896633538}

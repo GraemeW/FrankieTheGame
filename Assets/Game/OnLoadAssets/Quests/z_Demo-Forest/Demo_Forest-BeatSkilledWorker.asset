@@ -21,9 +21,22 @@ MonoBehaviour:
   detail: The skilled worker blocks the way to the basement
   questObjectiveNames:
   - Frankie proves himself in a wrastle
+  localizedQuestObjectiveNames:
+  - entry:
+      m_TableReference:
+        m_TableCollectionName: 
+      m_TableEntryReference:
+        m_KeyId: 0
+        m_Key: 
+      m_FallbackState: 0
+      m_WaitForCompletion: 0
+      m_LocalVariables: []
   rewards: []
   questObjectives:
   - {fileID: 1537804001862270314}
+  references:
+    version: 2
+    RefIds: []
 --- !u!114 &1537804001862270314
 MonoBehaviour:
   m_ObjectHideFlags: 0

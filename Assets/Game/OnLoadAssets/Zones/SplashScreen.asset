@@ -31,7 +31,7 @@ MonoBehaviour:
   updateMap: 0
   zoneAudio: {fileID: 8300000, guid: aacc40c19a73d174baf7f1f4b432fdf9, type: 3}
   isZoneAudioLooping: 0
-  cachedZoneName: SplashScreen
+  cachedName: SplashScreen
   zoneNodes:
   - {fileID: 6442850709047324980}
   references:

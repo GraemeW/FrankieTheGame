@@ -3,13 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
-using Frankie.Utils.UI;
-using Frankie.Speech.UI;
+using Frankie.Core;
 using Frankie.Stats;
 using Frankie.Inventory;
-using Frankie.Inventory.UI;
 using Frankie.Utils;
-using Frankie.Core;
+using Frankie.Speech.UI;
+using Frankie.Inventory.UI;
+using Frankie.Utils.UI;
+using Frankie.Utils.Localization;
 
 namespace Frankie.Combat.UI
 {
@@ -322,7 +323,7 @@ namespace Frankie.Combat.UI
 
         private void HandleLevelUp(BaseStats baseStats, int level, Dictionary<Stat, float> levelUpSheet)
         {
-            var statNameValuePairs = levelUpSheet.Select(entry => new Tuple<string, int>(StatDisplay.GetLocalizedName(entry.Key), Mathf.RoundToInt(entry.Value))).ToList();
+            var statNameValuePairs = levelUpSheet.Select(entry => new Tuple<string, int>(LocalizationNames.GetLocalizedName(entry.Key), Mathf.RoundToInt(entry.Value))).ToList();
             var characterLevelUpSheetPair = new CharacterLevelUpSheetPair
             {
                 baseStats = baseStats,

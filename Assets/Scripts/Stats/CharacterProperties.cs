@@ -24,6 +24,7 @@ namespace Frankie.Stats
         
         // State
         [HideInInspector][SerializeField] private string cachedName;
+        public string iCachedName { get => cachedName; set => cachedName = value; }
         private static AsyncOperationHandle<IList<CharacterProperties>> _addressablesLoadHandle;
         private static Dictionary<string, CharacterProperties> _characterLookupCache;
 
@@ -45,6 +46,14 @@ namespace Frankie.Stats
                 localizedDisplayName.TableEntryReference
             };
         }
+        
+        public List<(string propertyName, LocalizedString localizedString, bool setToName)> GetPropertyLinkedLocalizationEntries()
+        {
+            return new List<(string propertyName, LocalizedString localizedString, bool setToName)>
+            {
+                (nameof(localizedDisplayName), localizedDisplayName, true)
+            };
+        }
         #endregion
         
         #region StaticMethods
@@ -54,36 +63,6 @@ namespace Frankie.Stats
             return entryA.GetCharacterID() == entryB.GetCharacterID();
         }
         #endregion
-        
-#if UNITY_EDITOR
-        #region LocalizationUtility
-        private string GetNameLocalizationKey() => GetNameLocalizationKey(name);
-        public static string GetNameLocalizationKey(string id) => $"{nameof(CharacterProperties)}.{id}";
-        
-        private void ReconcileCachedName()
-        {
-            if (name == cachedName) { return; }
-
-            TableEntryReference oldKey = GetNameLocalizationKey(cachedName);
-            cachedName = name;
-            string newKey = GetNameLocalizationKey();
-            LocalizationTool.MakeOrRenameKey(localizationTableType, oldKey, newKey);
-            
-            EditorUtility.SetDirty(this);
-            AssetDatabase.SaveAssetIfDirty(this);
-        }
-
-        public void TryLocalizeDefaults()
-        {
-            ReconcileCachedName();
-            string key = GetNameLocalizationKey();
-            if (!LocalizationTool.TryLocalizeEntry(localizationTableType, localizedDisplayName, key, name)) { return; }
-            
-            EditorUtility.SetDirty(this);
-            AssetDatabase.SaveAssetIfDirty(this);
-        }
-        #endregion
-#endif
         
         #region AddressablesCaching
         public static CharacterProperties GetCharacterPropertiesFromName(string name)

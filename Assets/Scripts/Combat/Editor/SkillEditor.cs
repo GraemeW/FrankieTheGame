@@ -1,6 +1,7 @@
 using UnityEngine.UIElements;
 using UnityEditor;
 using UnityEditor.UIElements;
+using Frankie.Utils.Localization;
 
 namespace Frankie.Combat.Editor
 {
@@ -9,9 +10,10 @@ namespace Frankie.Combat.Editor
     {
         private void OnEnable()
         {
+            LocalizationTool.InitializeEnglishLocale();
             var skill = (Skill)target;
-            if (skill == null) { return; }
-            skill.TryLocalizeDefaults();
+            if (skill is not ILocalizable localizable) { return; }
+            localizable.TryLocalizeStandardEntries(skill, skill.GetPropertyLinkedLocalizationEntries());
         }
 
         public override VisualElement CreateInspectorGUI() 
