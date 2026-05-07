@@ -15,6 +15,7 @@ namespace Frankie.Quests
         // Tunables
         [SerializeField] private string detail = "";
         [SerializeField] private List<string> questObjectiveNames = new();
+        [SerializeField] private List<LocalizedQuestString> localizedQuestObjectiveNames = new();
         [SerializeField] private List<Reward> rewards = new();
 
         // State
