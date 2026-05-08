@@ -96,6 +96,26 @@ namespace Frankie.Utils.Localization
         }
         #endregion
         
+        #region StatusEffectEnglish
+        private static bool HasStatusEffectText(Stat stat, bool isIncrease) => !string.IsNullOrWhiteSpace(GetEnglishStatusEffectText(stat, isIncrease));
+        private static string GetEnglishStatusEffectText(Stat stat, bool isIncrease)
+        {
+            return stat switch
+            {
+                Stat.HP => isIncrease ? "+HP" : "-HP",
+                Stat.AP => isIncrease ? "+AP" : "-AP",
+                Stat.Brawn => isIncrease ? "STRONG" : "WEAK",
+                Stat.Beauty => isIncrease ? "FETCHING" : "FOUL",
+                Stat.Smarts => isIncrease ? "BRIGHT" : "DIM",
+                Stat.Nimble => isIncrease ? "FAST" : "SLOW",
+                Stat.Luck => isIncrease ? "BLESSED" : "JINXED",
+                Stat.Pluck => isIncrease ? "BRAVE" : "COWARD",
+                Stat.Stoic => isIncrease? "STURDY" : "FRAIL",
+                _ => ""
+            };
+        }
+        #endregion
+        
 #if UNITY_EDITOR
         #region KeyGeneration
         public static string GenerateTypeSpecificKey(Object targetObject, string propertyName, Type declaringType = null, bool useParentNameStem = true)
@@ -157,26 +177,6 @@ namespace Frankie.Utils.Localization
             string propertyNameStem = $"{(propertyName ?? "").Replace("localized", "")}.";
             string semiUniqueShortKey = _random.Next().ToString("x");
             return $"{componentStem}{targetStem}{propertyNameStem}{semiUniqueShortKey}";
-        }
-        #endregion
-        
-        #region StatusEffectEnglish
-        private static bool HasStatusEffectText(Stat stat, bool isIncrease) => !string.IsNullOrWhiteSpace(GetEnglishStatusEffectText(stat, isIncrease));
-        private static string GetEnglishStatusEffectText(Stat stat, bool isIncrease)
-        {
-            return stat switch
-            {
-                Stat.HP => isIncrease ? "+HP" : "-HP",
-                Stat.AP => isIncrease ? "+AP" : "-AP",
-                Stat.Brawn => isIncrease ? "STRONG" : "WEAK",
-                Stat.Beauty => isIncrease ? "FETCHING" : "FOUL",
-                Stat.Smarts => isIncrease ? "BRIGHT" : "DIM",
-                Stat.Nimble => isIncrease ? "FAST" : "SLOW",
-                Stat.Luck => isIncrease ? "BLESSED" : "JINXED",
-                Stat.Pluck => isIncrease ? "BRAVE" : "COWARD",
-                Stat.Stoic => isIncrease? "STURDY" : "FRAIL",
-                _ => ""
-            };
         }
         #endregion
         

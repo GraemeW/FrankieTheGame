@@ -29,6 +29,14 @@ namespace Frankie.Quests
         #region Getters
         public string GetObjectiveID() => objectiveID;
         public string GetQuestID() => questID;
+        public List<TableEntryReference> GetLocalizationEntries()
+        {
+            return new List<TableEntryReference>
+            {
+                localizedDisplayName.TableEntryReference,
+                localizedDetail.TableEntryReference
+            };
+        }
         #endregion
 
 #if UNITY_EDITOR
@@ -78,15 +86,6 @@ namespace Frankie.Quests
         #endregion
         
         #region LocalizationUtility
-        public List<TableEntryReference> GetLocalizationEntries()
-        {
-            return new List<TableEntryReference>
-            {
-                localizedDisplayName.TableEntryReference,
-                localizedDetail.TableEntryReference
-            };
-        }
-        
         private string GetNameLocalizationKey() => GetNameLocalizationKey(name);
         private string GetNameLocalizationKey(string id) => $"Quest.{questName ?? ""}.Objective.{id}";
         private string GetDetailLocalizationKey() => GetDetailLocalizationKey(name);
