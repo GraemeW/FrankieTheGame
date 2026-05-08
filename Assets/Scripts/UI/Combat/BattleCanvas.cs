@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.Localization;
+using UnityEngine.Localization.Tables;
 using Frankie.Core;
 using Frankie.Stats;
 using Frankie.Inventory;
@@ -14,7 +16,7 @@ using Frankie.Utils.Localization;
 
 namespace Frankie.Combat.UI
 {
-    public class BattleCanvas : MonoBehaviour, IUIBoxCallbackReceiver
+    public class BattleCanvas : MonoBehaviour, IUIBoxCallbackReceiver, ILocalizable
     {
         // Tunables
         [Header("Parents")]
@@ -40,23 +42,33 @@ namespace Frankie.Combat.UI
         [SerializeField] private DialogueOptionBox dialogueOptionBoxPrefab;
         [SerializeField] private InventorySwapBox inventorySwapBoxPrefab;
 
-        [Header("Messages")]
-        [Tooltip("Include {0} for enemy name")][SerializeField] private string messageEncounterSingle = "You have encountered {0}.";
-        [Tooltip("Include {0} for enemy name")][SerializeField] private string messageEncounterMultiple = "You have encountered {0} and its cohort.";
-        [Tooltip("Called after encounter message")] [SerializeField] private string messageEncounterPreHype = "What do you want to do?";
-        [Tooltip("Include {0} for experience value")][SerializeField] private string messageGainedExperience = "Your party has gained {0} experience.";
-        [Tooltip("Include {0} for character name, {1} for level")][SerializeField] private string messageCharacterLevelUp = "{0} has leveled up to level {1}!";
-        [Tooltip("Include {0} for stat name, {1} for value")] [SerializeField] private string messageCharacterStatGained = "{0} has increased by {1}.";
-        [Tooltip("Include {0} for leader character name")] [SerializeField] private string messageGainedLoot = "Wait, {0} found something.";
-        [Tooltip("Include {0} for enemy name, {1} for item name")] [SerializeField] private string messageEnemyDroppedLoot = "{0} dropped {1}, and you stashed it in your knapsack.";
-        [Tooltip("Include {0} for enemy name, {1} for item name")] [SerializeField] private string messageEnemyDroppedLootNoRoom = "{0} dropped {1}, but you don't have any room.  Do you want to throw something out?";
-        [SerializeField] private string optionChuckItemAffirmative = "Yeah";
-        [SerializeField] private string optionChuckItemNegative = "Nah";
-        [Tooltip("Include {0} for item name")] [SerializeField] private string messageConfirmThrowOut = "Are you sure you want to abandon {0}?";
-        [SerializeField] private string messageBattleCompleteWon = "You Won!  Congratulations!";
-        [SerializeField] private string messageBattleCompleteLost = "Looks like things didn't quite go to plan.";
-        [SerializeField] private string messageBattleCompleteRan = "You ran away.";
-
+        [Header("Encounter Messages")]
+        [Header("{0} for enemy name")]
+        [SerializeField][SimpleLocalizedString(LocalizationTableType.UI, true)] private LocalizedString localizedMessageEncounterSingle;
+        [SerializeField][SimpleLocalizedString(LocalizationTableType.UI, true)] private LocalizedString localizedMessageEncounterMultiple;
+        [SerializeField][SimpleLocalizedString(LocalizationTableType.UI, true)] private LocalizedString localizedMessageEncounterPreHype;
+        [Header("Post-Combat Messages")]
+        [Header("Include {0} for experience value")]
+        [SerializeField][SimpleLocalizedString(LocalizationTableType.UI, true)] private LocalizedString localizedMessageGainedExperience;
+        [Header("Include {0} for character name, {1} for level")]
+        [SerializeField][SimpleLocalizedString(LocalizationTableType.UI, true)] private LocalizedString localizedMessageCharacterLevelUp;
+        [Header("Include {0} for stat name, {1} for value")]
+        [SerializeField][SimpleLocalizedString(LocalizationTableType.UI, true)] private LocalizedString localizedMessageCharacterStatGained;
+        [Header("Loot Messages")]
+        [Header("Include {0} for leader character name")]
+        [SerializeField][SimpleLocalizedString(LocalizationTableType.UI, true)] private LocalizedString localizedMessageGainedLoot;
+        [Header("Include {0} for enemy name, {1} for item name")]
+        [SerializeField][SimpleLocalizedString(LocalizationTableType.UI, true)] private LocalizedString localizedMessageEnemyDroppedLoot;
+        [SerializeField][SimpleLocalizedString(LocalizationTableType.UI, true)] private LocalizedString localizedMessageEnemyDroppedLootNoRoom;
+        [Header("Include {0} for item name")] 
+        [SerializeField][SimpleLocalizedString(LocalizationTableType.UI, true)] private LocalizedString localizedMessageConfirmThrowOut;
+        [SerializeField][SimpleLocalizedString(LocalizationTableType.UI, true)] private LocalizedString localizedOptionChuckItemAffirmative;
+        [SerializeField][SimpleLocalizedString(LocalizationTableType.UI, true)] private LocalizedString localizedOptionChuckItemNegative;
+        [Header("Exit Combat Messages")]
+        [SerializeField][SimpleLocalizedString(LocalizationTableType.UI, true)] private LocalizedString localizedMessageBattleCompleteWon;
+        [SerializeField][SimpleLocalizedString(LocalizationTableType.UI, true)] private LocalizedString localizedMessageBattleCompleteLost;
+        [SerializeField][SimpleLocalizedString(LocalizationTableType.UI, true)] private LocalizedString localizedMessageBattleCompleteRan;
+        
         // State
         private readonly Dictionary<BattleEntity, EnemySlide> enemySlideLookup = new();
         private BattleState lastBattleState = BattleState.Inactive;
@@ -143,6 +155,29 @@ namespace Frankie.Combat.UI
             dialogueBox.TakeControl(battleController, callbackReceiver, actions);
 
             return dialogueBox;
+        }
+
+        public LocalizationTableType localizationTableType { get; } = LocalizationTableType.UI;
+        public List<TableEntryReference> GetLocalizationEntries()
+        {
+            return new List<TableEntryReference>
+            {
+                localizedMessageEncounterSingle.TableEntryReference,
+                localizedMessageEncounterMultiple.TableEntryReference,
+                localizedMessageEncounterPreHype.TableEntryReference,
+                localizedMessageGainedExperience.TableEntryReference,
+                localizedMessageCharacterLevelUp.TableEntryReference,
+                localizedMessageCharacterStatGained.TableEntryReference,
+                localizedMessageGainedLoot.TableEntryReference,
+                localizedMessageEnemyDroppedLoot.TableEntryReference,
+                localizedMessageEnemyDroppedLootNoRoom.TableEntryReference,
+                localizedMessageConfirmThrowOut.TableEntryReference,
+                localizedOptionChuckItemAffirmative.TableEntryReference,
+                localizedOptionChuckItemNegative.TableEntryReference,
+                localizedMessageBattleCompleteWon.TableEntryReference,
+                localizedMessageBattleCompleteLost.TableEntryReference,
+                localizedMessageBattleCompleteRan.TableEntryReference
+            };
         }
         #endregion
 
@@ -338,12 +373,14 @@ namespace Frankie.Combat.UI
             BattleEntity enemy = enemies.FirstOrDefault();
             if (enemy == null) { return; }
             
-            var entryMessage = (enemies.Count > 1) ? string.Format(messageEncounterMultiple, enemy.combatParticipant.GetCombatName()) : string.Format(messageEncounterSingle, enemy.combatParticipant.GetCombatName());
+            var entryMessage = (enemies.Count > 1) ? 
+                string.Format(localizedMessageEncounterMultiple.GetSafeLocalizedString(), enemy.combatParticipant.GetCombatName()) : 
+                string.Format(localizedMessageEncounterSingle.GetSafeLocalizedString(), enemy.combatParticipant.GetCombatName());
 
             DialogueBox dialogueBox = Instantiate(dialogueBoxPrefab, infoChooseParent);
             dialogueBox.AddText(entryMessage);
             dialogueBox.AddPageBreak();
-            dialogueBox.AddText(messageEncounterPreHype);
+            dialogueBox.AddText(localizedMessageEncounterPreHype.GetSafeLocalizedString());
             dialogueBox.TakeControl(battleController, this, new Action[] { () => battleController.SetBattleState(BattleState.PreCombat, BattleOutcome.Undetermined) });
         }
 
@@ -352,13 +389,13 @@ namespace Frankie.Combat.UI
             if (battleOutcome != BattleOutcome.Won) { busyWithSerialAction = false; return; }
 
             DialogueBox dialogueBox = Instantiate(dialogueBoxPrefab, infoChooseParent);
-            dialogueBox.AddText(string.Format(messageGainedExperience, Mathf.RoundToInt(battleRewards.GetBattleExperienceReward()).ToString()));
+            dialogueBox.AddText(string.Format(localizedMessageGainedExperience.GetSafeLocalizedString(), Mathf.RoundToInt(battleRewards.GetBattleExperienceReward()).ToString()));
 
             foreach (CharacterLevelUpSheetPair characterLevelUpSheetPair in queuedLevelUps)
             {
                 dialogueBox.AddPageBreak();
 
-                dialogueBox.AddText(string.Format(messageCharacterLevelUp, characterLevelUpSheetPair.baseStats.GetCharacterProperties().GetCharacterDisplayName(), characterLevelUpSheetPair.level.ToString()));
+                dialogueBox.AddText(string.Format(localizedMessageCharacterLevelUp.GetSafeLocalizedString(), characterLevelUpSheetPair.baseStats.GetCharacterProperties().GetCharacterDisplayName(), characterLevelUpSheetPair.level.ToString()));
                 int pageClearReset = 0;
 
                 foreach (Tuple<string, int> statNameValuePair in characterLevelUpSheetPair.statNameValuePairs)
@@ -371,7 +408,7 @@ namespace Frankie.Combat.UI
                         pageClearReset = 0;
                     }
 
-                    dialogueBox.AddText(string.Format(messageCharacterStatGained, statNameValuePair.Item1, statNameValuePair.Item2.ToString()));
+                    dialogueBox.AddText(string.Format(localizedMessageCharacterStatGained.GetSafeLocalizedString(), statNameValuePair.Item1, statNameValuePair.Item2.ToString()));
                     pageClearReset++;
                 }
 
@@ -397,7 +434,7 @@ namespace Frankie.Combat.UI
             if (battleOutcome != BattleOutcome.Won || !battleRewards.HasLootCart()) { busyWithSerialAction = false; return; }
 
             DialogueBox dialogueBox = Instantiate(dialogueBoxPrefab, infoChooseParent);
-            dialogueBox.AddText(string.Format(messageGainedLoot, partyCombatConduit.GetPartyLeaderName()));
+            dialogueBox.AddText(string.Format(localizedMessageGainedLoot.GetSafeLocalizedString(), partyCombatConduit.GetPartyLeaderName()));
 
             dialogueBox.TakeControl(battleController, this, new Action[] { () => busyWithSerialAction = false });
         }
@@ -412,7 +449,7 @@ namespace Frankie.Combat.UI
 
             foreach (Tuple<string, InventoryItem> enemyItemPair in battleRewards.GetAllocatedLootCart())
             {
-                dialogueBox.AddText(string.Format(messageEnemyDroppedLoot, enemyItemPair.Item1, enemyItemPair.Item2.GetDisplayName()));
+                dialogueBox.AddText(string.Format(localizedMessageEnemyDroppedLoot.GetSafeLocalizedString(), enemyItemPair.Item1, enemyItemPair.Item2.GetDisplayName()));
                 dialogueBox.AddPageBreak();
             }
 
@@ -429,12 +466,12 @@ namespace Frankie.Combat.UI
             if (!battleRewards.HasUnallocatedLootCart()) { busyWithSerialAction = false; return; }
 
             DialogueOptionBox dialogueOptionBox = Instantiate(dialogueOptionBoxPrefab, infoChooseParent);
-            dialogueOptionBox.Setup(string.Format(messageEnemyDroppedLootNoRoom, enemyName, inventoryItem.GetDisplayName()));
+            dialogueOptionBox.Setup(string.Format(localizedMessageEnemyDroppedLootNoRoom.GetSafeLocalizedString(), enemyName, inventoryItem.GetDisplayName()));
 
             var choiceActionPairs = new List<ChoiceActionPair>
             {
-                new(optionChuckItemAffirmative, () => { SetupInventorySwapBox(enemyName, inventoryItem, battleOutcome); Destroy(dialogueOptionBox.gameObject); } ),
-                new(optionChuckItemNegative, () => { SetupConfirmThrowOutItemMessage(enemyName, inventoryItem, battleOutcome); Destroy(dialogueOptionBox.gameObject); } )
+                new(localizedOptionChuckItemAffirmative.GetSafeLocalizedString(), () => { SetupInventorySwapBox(enemyName, inventoryItem, battleOutcome); Destroy(dialogueOptionBox.gameObject); } ),
+                new(localizedOptionChuckItemNegative.GetSafeLocalizedString(), () => { SetupConfirmThrowOutItemMessage(enemyName, inventoryItem, battleOutcome); Destroy(dialogueOptionBox.gameObject); } )
             };
             dialogueOptionBox.OverrideChoiceOptions(choiceActionPairs);
 
@@ -455,12 +492,12 @@ namespace Frankie.Combat.UI
         private void SetupConfirmThrowOutItemMessage(string enemyName, InventoryItem inventoryItem, BattleOutcome battleOutcome)
         {
             DialogueOptionBox dialogueOptionBox = Instantiate(dialogueOptionBoxPrefab, infoChooseParent);
-            dialogueOptionBox.Setup(string.Format(messageConfirmThrowOut, inventoryItem.GetDisplayName()));
+            dialogueOptionBox.Setup(string.Format(localizedMessageConfirmThrowOut.GetSafeLocalizedString(), inventoryItem.GetDisplayName()));
 
             var choiceActionPairs = new List<ChoiceActionPair>
             {
-                new(optionChuckItemAffirmative, () => { dialogueOptionBox.ClearDisableCallbacks(); busyWithSerialAction = false; Destroy(dialogueOptionBox); }), // Exit and close out serial action
-                new(optionChuckItemNegative, () => { Destroy(dialogueOptionBox); }) // Otherwise loop back & re-spawn
+                new(localizedOptionChuckItemAffirmative.GetSafeLocalizedString(), () => { dialogueOptionBox.ClearDisableCallbacks(); busyWithSerialAction = false; Destroy(dialogueOptionBox); }), // Exit and close out serial action
+                new(localizedOptionChuckItemNegative.GetSafeLocalizedString(), () => { Destroy(dialogueOptionBox); }) // Otherwise loop back & re-spawn
             };
             dialogueOptionBox.OverrideChoiceOptions(choiceActionPairs);
 
@@ -471,9 +508,9 @@ namespace Frankie.Combat.UI
         {
             string exitMessage = battleOutcome switch
             {
-                BattleOutcome.Won => messageBattleCompleteWon,
-                BattleOutcome.Lost => messageBattleCompleteLost,
-                BattleOutcome.Ran => messageBattleCompleteRan,
+                BattleOutcome.Won => localizedMessageBattleCompleteWon.GetSafeLocalizedString(),
+                BattleOutcome.Lost => localizedMessageBattleCompleteLost.GetSafeLocalizedString(),
+                BattleOutcome.Ran => localizedMessageBattleCompleteRan.GetSafeLocalizedString(),
                 _ => ""
             };
 

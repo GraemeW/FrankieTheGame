@@ -21,8 +21,12 @@ namespace Frankie.Utils.Localization
     {
         // State
         private static readonly System.Random _random = new();
+        // Enum Translation Layer
         private static Dictionary<Stat, LocalizedString> _statNameCache;
         private static Dictionary<EquipLocation, LocalizedString> _equipLocationNameCache;
+        // Status Effect Translation Layer
+        private static Dictionary<Stat, LocalizedString> _statusEffectIncreaseNameCache;
+        private static Dictionary<Stat, LocalizedString> _statusEffectDecreaseNameCache;
         
         #region PublicMethods
         public static string GetStandardLocalizationKey(string id, string typeName, string propertyName)
@@ -31,6 +35,7 @@ namespace Frankie.Utils.Localization
             return sanitizedPropertyName.Contains("Name") ? $"{typeName}.{id}" : $"{typeName}.{id}.{sanitizedPropertyName}";
         }
         
+        // Enum Translations
         public static string GetLocalizedName(Stat stat)
         {
             _statNameCache ??= BuildStatCache();
@@ -42,11 +47,22 @@ namespace Frankie.Utils.Localization
             _equipLocationNameCache ??= BuildEquipLocationCache();
             return _equipLocationNameCache.ContainsKey(equipLocation) ? _equipLocationNameCache[equipLocation].GetSafeLocalizedString() : equipLocation.ToString();
         }
+        
+        // Enum Derivatives
+        public static string GetStatusEffectText(Stat stat, bool isBuff)
+        {
+            _statusEffectIncreaseNameCache ??= BuildStatusEffectCache(true);
+            _statusEffectDecreaseNameCache ??= BuildStatusEffectCache(false);
+            
+            if (isBuff) { return _statusEffectIncreaseNameCache.ContainsKey(stat) ? _statusEffectIncreaseNameCache[stat].GetSafeLocalizedString() : ""; }
+            else { return _statusEffectDecreaseNameCache.ContainsKey(stat) ? _statusEffectDecreaseNameCache[stat].GetSafeLocalizedString() : ""; } 
+        }
         #endregion
         
         #region PrivateMethods
         private static string GetStatKey(Stat stat) => $"{nameof(Stat)}.{stat.ToString()}";
         private static string GetEquipLocationKey(EquipLocation equipLocation) => $"{nameof(EquipLocation)}.{equipLocation.ToString()}";
+        private static string GetStatusEffectKey(Stat stat, bool isIncrease) => isIncrease ? $"StatusEffect.Buff.{stat.ToString()}" : $"StatusEffect.Debuff.{stat.ToString()}"; 
         
         private static Dictionary<Stat, LocalizedString> BuildStatCache()
         {
@@ -67,10 +83,21 @@ namespace Frankie.Utils.Localization
             }
             return newEquipLocationNameCache;
         }
+
+        private static Dictionary<Stat, LocalizedString> BuildStatusEffectCache(bool isIncrease)
+        {
+            var newStatusEffectNameCache = new Dictionary<Stat, LocalizedString>();
+            foreach (Stat stat in Enum.GetValues(typeof(Stat)))
+            {
+                if (!HasStatusEffectText(stat, isIncrease)) { continue; }
+                newStatusEffectNameCache.Add(stat, LocalizationTool.MakeLocalizedString(LocalizationTableType.Core, GetStatusEffectKey(stat, isIncrease)));
+            }
+            return newStatusEffectNameCache;
+        }
         #endregion
         
 #if UNITY_EDITOR
-        #region EditorMethods
+        #region KeyGeneration
         public static string GenerateTypeSpecificKey(Object targetObject, string propertyName, Type declaringType = null, bool useParentNameStem = true)
         {
             switch (targetObject)
@@ -92,7 +119,11 @@ namespace Frankie.Utils.Localization
             if (targetObject is GameObject castGameObject) { targetObject = castGameObject.GetComponent<MonoBehaviour>(); }
             if (useParentNameStem && targetObject is MonoBehaviour castMonoBehaviour && castMonoBehaviour.transform.parent != null)
             {
-                nameStem = castMonoBehaviour.transform.parent.name;
+                string parentName = castMonoBehaviour.transform.parent.name;
+                if (!parentName.Contains("Canvas")) // Skip UI-most parent name
+                {
+                    nameStem = castMonoBehaviour.transform.parent.name;
+                }
             }
             
             if (targetObject != null)
@@ -122,19 +153,41 @@ namespace Frankie.Utils.Localization
                     }
                 }
             }
-            string propertyNameStem = propertyName != null ? $"{propertyName}." : "";
+
+            string propertyNameStem = $"{(propertyName ?? "").Replace("localized", "")}.";
             string semiUniqueShortKey = _random.Next().ToString("x");
             return $"{componentStem}{targetStem}{propertyNameStem}{semiUniqueShortKey}";
         }
+        #endregion
         
-        public static void GenerateDefaultEntries(LocalizationTableType localizationTableType)
+        #region StatusEffectEnglish
+        private static bool HasStatusEffectText(Stat stat, bool isIncrease) => !string.IsNullOrWhiteSpace(GetEnglishStatusEffectText(stat, isIncrease));
+        private static string GetEnglishStatusEffectText(Stat stat, bool isIncrease)
+        {
+            return stat switch
+            {
+                Stat.HP => isIncrease ? "+HP" : "-HP",
+                Stat.AP => isIncrease ? "+AP" : "-AP",
+                Stat.Brawn => isIncrease ? "STRONG" : "WEAK",
+                Stat.Beauty => isIncrease ? "FETCHING" : "FOUL",
+                Stat.Smarts => isIncrease ? "BRIGHT" : "DIM",
+                Stat.Nimble => isIncrease ? "FAST" : "SLOW",
+                Stat.Luck => isIncrease ? "BLESSED" : "JINXED",
+                Stat.Pluck => isIncrease ? "BRAVE" : "COWARD",
+                Stat.Stoic => isIncrease? "STURDY" : "FRAIL",
+                _ => ""
+            };
+        }
+        #endregion
+        
+        #region DefaultGeneration
+        public static void GenerateDefaultEnumEntries(LocalizationTableType localizationTableType)
         {
             // For generating default English entries (if ever need re-generation)   
             switch (localizationTableType)
             {
                 case LocalizationTableType.Core:
                 {
-                    
                     foreach (Stat stat in Enum.GetValues(typeof(Stat)))
                     {
                         TableEntryReference tableEntryReference = GetStatKey(stat);
@@ -153,6 +206,26 @@ namespace Frankie.Utils.Localization
                         LocalizationTool.AddUpdateEnglishEntry(localizationTableType, tableEntryReference, englishEquipLocationName);
                     }
                     break;
+                }
+            }
+        }
+
+        public static void GenerateDefaultStatusEffectEntries()
+        {
+            foreach (Stat stat in Enum.GetValues(typeof(Stat)))
+            {
+                if (HasStatusEffectText(stat, true))
+                {
+                    TableEntryReference tableEntryReferenceIncrease = GetStatusEffectKey(stat, true);
+                    string englishStatNameIncrease = GetEnglishStatusEffectText(stat, true);
+                    LocalizationTool.AddUpdateEnglishEntry(LocalizationTableType.Core, tableEntryReferenceIncrease, englishStatNameIncrease);
+                }
+
+                if (HasStatusEffectText(stat, false))
+                {
+                    TableEntryReference tableEntryReferenceDecrease = GetStatusEffectKey(stat, false);
+                    string englishStatNameDecrease = GetEnglishStatusEffectText(stat, false);
+                    LocalizationTool.AddUpdateEnglishEntry(LocalizationTableType.Core, tableEntryReferenceDecrease, englishStatNameDecrease);
                 }
             }
         }

@@ -19,9 +19,11 @@ namespace Frankie.Utils.Localization
         //       - override iCachedName to link to a serialized cachedName backing field
         //       - create a custom inspector editor that calls TryLocalizedStandardEntries() during the editor's OnEnable()
         //       - pass all relevant propertyName-localizedString pairs to this method
-        // 2 - For MonoBehaviours, the following must be manually configured:
+        // 2 - For MonoBehaviours, the following can be manually configured:
         //     A. Add [ExecuteInEditMode] attribute to the class
         //     B. Include `ILocalizable.TriggerOnDestroy(this)` to the OnDestroy() method
+        //     , in order to allow the localization entries to automatically delete on game object deletion
+        //         ** if this is not necessary (e.g. for fixed UI elements), don't do it
         // Note that in the case of MonoBehaviours:
         //     - cleanup for prefabs/prefab variants is handled by LocalizationDeletionHandler.OnWillDeleteAsset()
         //     - cleanup for instanced objects in scenes is handled by OnDestroy()

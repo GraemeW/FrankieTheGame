@@ -207,7 +207,6 @@ MonoBehaviour:
     m_FallbackState: 0
     m_WaitForCompletion: 0
     m_LocalVariables: []
-  detail: Main Quest Tracker
   localizedDetail:
     m_TableReference:
       m_TableCollectionName: GUID:b9dd45143ecd64476b4827b4d45c6003
@@ -228,7 +227,6 @@ MonoBehaviour:
   - CurioEight
   - CurioNine
   - CurioTen
-  localizedQuestObjectiveNames: []
   rewards: []
   cachedName: 
   questObjectives:

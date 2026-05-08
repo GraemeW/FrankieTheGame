@@ -53,9 +53,28 @@ MonoBehaviour:
   loseAPTextColor: {r: 0.8113208, g: 0.45464578, b: 0.8113208, a: 1}
   gainAPTextColor: {r: 0.48490566, g: 0.48490566, b: 1, a: 1}
   hitMissColor: {r: 0.735849, g: 0.735849, b: 0.735849, a: 1}
-  hitMissText: miss
+  localizedHitMissText:
+    m_TableReference:
+      m_TableCollectionName: GUID:ce7f667b432574cb1832328f600c1082
+    m_TableEntryReference:
+      m_KeyId: 7991831638827008
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
   hitCritColor: {r: 1, g: 0.95519805, b: 0.4377358, a: 1}
-  hitCritText: CRIT!
+  localizedHitCritText:
+    m_TableReference:
+      m_TableCollectionName: GUID:ce7f667b432574cb1832328f600c1082
+    m_TableEntryReference:
+      m_KeyId: 7991869383368704
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
   informationalTextColor: {r: 0.49057993, g: 0.22739409, b: 0.6603774, a: 1}
   damageTextPrefab: {fileID: 8544329954415844552, guid: cbbccf30c3a1c394daaf8bd29c53eeea, type: 3}
   minimumTimeBetweenSpawns: 0.2
+  references:
+    version: 2
+    RefIds: []

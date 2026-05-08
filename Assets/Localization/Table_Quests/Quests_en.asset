@@ -250,38 +250,6 @@ MonoBehaviour:
     m_Localized: Initial dummy text - to be replaced
     m_Metadata:
       m_Items: []
-  - m_Id: 7962367634694144
-    m_Localized: TempQuestMan
-    m_Metadata:
-      m_Items: []
-  - m_Id: 7962367844409344
-    m_Localized: Initial dummy text - to be replaced
-    m_Metadata:
-      m_Items: []
-  - m_Id: 7962487126220800
-    m_Localized: asdf
-    m_Metadata:
-      m_Items: []
-  - m_Id: 7962487239467008
-    m_Localized: Initial dummy text - to be replaced
-    m_Metadata:
-      m_Items: []
-  - m_Id: 7962487562428416
-    m_Localized: oooo
-    m_Metadata:
-      m_Items: []
-  - m_Id: 7962487671480320
-    m_Localized: Initial dummy text - to be replaced
-    m_Metadata:
-      m_Items: []
-  - m_Id: 7962743498858496
-    m_Localized: aaaabb
-    m_Metadata:
-      m_Items: []
-  - m_Id: 7962743607910400
-    m_Localized: Initial dummy text - to be replaced
-    m_Metadata:
-      m_Items: []
   references:
     version: 2
     RefIds: []

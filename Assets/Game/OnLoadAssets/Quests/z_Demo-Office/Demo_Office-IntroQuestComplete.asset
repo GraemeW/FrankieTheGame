@@ -27,7 +27,6 @@ MonoBehaviour:
     m_FallbackState: 0
     m_WaitForCompletion: 0
     m_LocalVariables: []
-  detail: Track intro quest (use to trigger main plot)
   localizedDetail:
     m_TableReference:
       m_TableCollectionName: GUID:b9dd45143ecd64476b4827b4d45c6003
@@ -39,7 +38,6 @@ MonoBehaviour:
     m_LocalVariables: []
   questObjectiveNames:
   - GoToBed
-  localizedQuestObjectiveNames: []
   rewards: []
   cachedName: 
   questObjectives:

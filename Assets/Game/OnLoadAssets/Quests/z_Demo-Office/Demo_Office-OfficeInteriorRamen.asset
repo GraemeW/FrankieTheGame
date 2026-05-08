@@ -111,7 +111,6 @@ MonoBehaviour:
     m_FallbackState: 0
     m_WaitForCompletion: 0
     m_LocalVariables: []
-  detail: Tracking overall phil ramen quest chain in Office
   localizedDetail:
     m_TableReference:
       m_TableCollectionName: GUID:b9dd45143ecd64476b4827b4d45c6003
@@ -127,7 +126,6 @@ MonoBehaviour:
   - PouredWaterOnRamen
   - RamenMeetsItsFate
   - RamenSaysGoodbye
-  localizedQuestObjectiveNames: []
   rewards: []
   cachedName: 
   questObjectives:

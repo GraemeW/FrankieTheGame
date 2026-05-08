@@ -251,38 +251,6 @@ MonoBehaviour:
     m_Key: Quest.Demo_Office-OfficeInteriorRamen.Objective.RamenSaysGoodbye.Detail
     m_Metadata:
       m_Items: []
-  - m_Id: 7962367634694144
-    m_Key: Quest.TempQuestMan
-    m_Metadata:
-      m_Items: []
-  - m_Id: 7962367844409344
-    m_Key: Quest.TempQuestMan.Detail
-    m_Metadata:
-      m_Items: []
-  - m_Id: 7962487126220800
-    m_Key: Quest.TempQuestMan.Objective.asdf
-    m_Metadata:
-      m_Items: []
-  - m_Id: 7962487239467008
-    m_Key: Quest.TempQuestMan.Objective.asdf.Detail
-    m_Metadata:
-      m_Items: []
-  - m_Id: 7962487562428416
-    m_Key: Quest.TempQuestMan.Objective.oooo
-    m_Metadata:
-      m_Items: []
-  - m_Id: 7962487671480320
-    m_Key: Quest.TempQuestMan.Objective.oooo.Detail
-    m_Metadata:
-      m_Items: []
-  - m_Id: 7962743498858496
-    m_Key: Quest.TempQuestMan.Objective.aaaabb
-    m_Metadata:
-      m_Items: []
-  - m_Id: 7962743607910400
-    m_Key: Quest.TempQuestMan.Objective.aaaabb.Detail
-    m_Metadata:
-      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:

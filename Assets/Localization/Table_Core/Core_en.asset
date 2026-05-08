@@ -170,6 +170,78 @@ MonoBehaviour:
     m_Localized: Level
     m_Metadata:
       m_Items: []
+  - m_Id: 7990097931657216
+    m_Localized: +HP
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7990098288173056
+    m_Localized: -HP
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7990098405613568
+    m_Localized: +AP
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7990098514665472
+    m_Localized: -AP
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7990098623717376
+    m_Localized: STRONG
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7990098732769280
+    m_Localized: WEAK
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7990098841821184
+    m_Localized: FETCHING
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7990098950873088
+    m_Localized: FOUL
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7990099064119296
+    m_Localized: BRIGHT
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7990099173171200
+    m_Localized: DIM
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7990099282223104
+    m_Localized: FAST
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7990099391275008
+    m_Localized: SLOW
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7990099496132608
+    m_Localized: BLESSED
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7990099605184512
+    m_Localized: JINXED
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7990099718430720
+    m_Localized: BRAVE
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7990099823288320
+    m_Localized: COWARD
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7990099932340224
+    m_Localized: STURDY
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7990100041392128
+    m_Localized: FRAIL
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

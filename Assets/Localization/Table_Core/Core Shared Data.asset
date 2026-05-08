@@ -167,6 +167,78 @@ MonoBehaviour:
     m_Key: Stat.InitialLevel
     m_Metadata:
       m_Items: []
+  - m_Id: 7990097931657216
+    m_Key: StatusEffect.Buff.HP
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7990098288173056
+    m_Key: StatusEffect.Debuff.HP
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7990098405613568
+    m_Key: StatusEffect.Buff.AP
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7990098514665472
+    m_Key: StatusEffect.Debuff.AP
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7990098623717376
+    m_Key: StatusEffect.Buff.Brawn
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7990098732769280
+    m_Key: StatusEffect.Debuff.Brawn
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7990098841821184
+    m_Key: StatusEffect.Buff.Beauty
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7990098950873088
+    m_Key: StatusEffect.Debuff.Beauty
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7990099064119296
+    m_Key: StatusEffect.Buff.Smarts
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7990099173171200
+    m_Key: StatusEffect.Debuff.Smarts
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7990099282223104
+    m_Key: StatusEffect.Buff.Nimble
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7990099391275008
+    m_Key: StatusEffect.Debuff.Nimble
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7990099496132608
+    m_Key: StatusEffect.Buff.Luck
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7990099605184512
+    m_Key: StatusEffect.Debuff.Luck
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7990099718430720
+    m_Key: StatusEffect.Buff.Pluck
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7990099823288320
+    m_Key: StatusEffect.Debuff.Pluck
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7990099932340224
+    m_Key: StatusEffect.Buff.Stoic
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7990100041392128
+    m_Key: StatusEffect.Debuff.Stoic
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:

@@ -14,7 +14,111 @@ MonoBehaviour:
   m_EditorClassIdentifier: Unity.Localization::UnityEngine.Localization.Tables.SharedTableData
   m_TableCollectionName: UI
   m_TableCollectionNameGuidString: ce7f667b432574cb1832328f600c1082
-  m_Entries: []
+  m_Entries:
+  - m_Id: 7976973233020928
+    m_Key: CharacterSlide.Prefab.CharacterSlide.HPText.1ae8fff3
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7978808543010816
+    m_Key: CharacterSlide.Prefab.CharacterSlide.APText.599a6103
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7991831638827008
+    m_Key: DamageTextSpawner.Prefab.DamageTextSpawner.HitMissText.2c7a3200
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7991869383368704
+    m_Key: DamageTextSpawner.Prefab.DamageTextSpawner.HitCritText.546e4ecd
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7997758593032192
+    m_Key: BattleCanvas.Prefab.Battle Canvas.MessageEncounterSingle.67757a2c
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7997790486519808
+    m_Key: BattleCanvas.Prefab.Battle Canvas.MessageEncounterMultiple.4f82e0fb
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7997814947700736
+    m_Key: BattleCanvas.Prefab.Battle Canvas.MessageEncounterPreHype.20b16490
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7997834627375104
+    m_Key: BattleCanvas.Prefab.Battle Canvas.MessageGainedExperience.33a98cc
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7997860300709888
+    m_Key: BattleCanvas.Prefab.Battle Canvas.MessageCharacterLevelUp.5e7045cd
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7997880118796288
+    m_Key: BattleCanvas.Prefab.Battle Canvas.MessageCharacterStatGained.635aaa57
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7997902138892288
+    m_Key: BattleCanvas.Prefab.Battle Canvas.MessageGainedLoot.3aca2da4
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7997925174009856
+    m_Key: BattleCanvas.Prefab.Battle Canvas.MessageEnemyDroppedLoot.30d60d70
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7997945612853248
+    m_Key: BattleCanvas.Prefab.Battle Canvas.MessageEnemyDroppedLootNoRoom.53d1bba6
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7997972309598208
+    m_Key: BattleCanvas.Prefab.Battle Canvas.MessageConfirmThrowOut.238cd2fe
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7997998792433664
+    m_Key: BattleCanvas.Prefab.Battle Canvas.OptionChuckItemAffirmative.49491efc
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7998019667484672
+    m_Key: BattleCanvas.Prefab.Battle Canvas.OptionChuckItemNegative.46300cb7
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7998039489765376
+    m_Key: BattleCanvas.Prefab.Battle Canvas.MessageBattleCompleteWon.2e418f2d
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7998057474940928
+    m_Key: BattleCanvas.Prefab.Battle Canvas.MessageBattleCompleteLost.1f653cd
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7998077553074176
+    m_Key: BattleCanvas.Prefab.Battle Canvas.MessageBattleCompleteRan.1c6b729
+    m_Metadata:
+      m_Items: []
+  - m_Id: 8003262832697344
+    m_Key: CombatLog.Prefab.CombatLog.MessageIncreaseHP.6e9532f8
+    m_Metadata:
+      m_Items: []
+  - m_Id: 8003284227842048
+    m_Key: CombatLog.Prefab.CombatLog.MessageDecreaseHP.3357cc65
+    m_Metadata:
+      m_Items: []
+  - m_Id: 8003305111281664
+    m_Key: CombatLog.Prefab.CombatLog.MessageIncreaseAP.378236a3
+    m_Metadata:
+      m_Items: []
+  - m_Id: 8003344688734208
+    m_Key: CombatLog.Prefab.CombatLog.MessageDecreaseAP.5b304bb4
+    m_Metadata:
+      m_Items: []
+  - m_Id: 8003359918252032
+    m_Key: CombatLog.Prefab.CombatLog.MessageDead.48742732
+    m_Metadata:
+      m_Items: []
+  - m_Id: 8003382676545536
+    m_Key: CombatLog.Prefab.CombatLog.MessageResurrected.395bc143
+    m_Metadata:
+      m_Items: []
+  - m_Id: 8004517357412352
+    m_Key: CombatMessages.Prefab.CombatMessages.MessageItemToBeUsed.31fec086
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:

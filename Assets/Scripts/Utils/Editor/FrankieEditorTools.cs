@@ -3,6 +3,7 @@ using UnityEditor;
 using UnityEditor.SceneManagement;
 using UnityEngine;
 using Object = UnityEngine.Object;
+using Frankie.Utils.Localization;
 
 namespace Frankie.Utils.Editor
 {
@@ -45,6 +46,8 @@ namespace Frankie.Utils.Editor
                 //if (selectedObject is not Quest quest) { continue; }
                 //quest.TempLinkStrings();
             }
+
+            LocalizationNames.GenerateDefaultStatusEffectEntries();
         }
         
         /* GameObject Base
