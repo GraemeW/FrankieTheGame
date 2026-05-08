@@ -182,9 +182,7 @@ MonoBehaviour:
   m_Name: OldOfficeDemo-CleverOfficeWorker
   m_EditorClassIdentifier: 
   skipRootNode: 1
-  defaultSpeakerName: DefaultSpeaker
-  defaultText: Default Text to Overwrite
-  cachedDialogueName: OldOfficeDemo-CleverOfficeWorker
+  cachedName: OldOfficeDemo-CleverOfficeWorker
   newNodeOffset: {x: 100, y: 25}
   nodeWidth: 400
   nodeHeight: 225

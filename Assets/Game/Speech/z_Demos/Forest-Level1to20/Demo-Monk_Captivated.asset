@@ -13,9 +13,7 @@ MonoBehaviour:
   m_Name: Demo-Monk_Captivated
   m_EditorClassIdentifier: Assembly-CSharp::Frankie.Speech.Dialogue
   skipRootNode: 0
-  defaultSpeakerName: DefaultSpeaker
-  defaultText: Default Text to Overwrite
-  cachedDialogueName: Demo-Monk_Captivated
+  cachedName: Demo-Monk_Captivated
   newNodeOffset: {x: 100, y: 25}
   nodeWidth: 400
   nodeHeight: 225

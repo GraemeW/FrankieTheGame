@@ -180,9 +180,7 @@ MonoBehaviour:
   m_Name: ApartmentInterior-ComfyBedUntilTomorrow
   m_EditorClassIdentifier: 
   skipRootNode: 0
-  defaultSpeakerName: DefaultSpeaker
-  defaultText: Default Text to Overwrite
-  cachedDialogueName: ApartmentInterior-ComfyBedUntilTomorrow
+  cachedName: ApartmentInterior-ComfyBedUntilTomorrow
   newNodeOffset: {x: 100, y: 25}
   nodeWidth: 400
   nodeHeight: 225

@@ -69,9 +69,7 @@ MonoBehaviour:
   m_Name: PrimSouth-LilSlugger
   m_EditorClassIdentifier: 
   skipRootNode: 0
-  defaultSpeakerName: DefaultSpeaker
-  defaultText: Default Text to Overwrite
-  cachedDialogueName: PrimSouth-LilSlugger
+  cachedName: PrimSouth-LilSlugger
   newNodeOffset: {x: 100, y: 25}
   nodeWidth: 400
   nodeHeight: 225

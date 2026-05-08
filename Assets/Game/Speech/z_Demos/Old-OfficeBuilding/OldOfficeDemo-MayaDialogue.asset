@@ -187,9 +187,7 @@ MonoBehaviour:
   m_Name: OldOfficeDemo-MayaDialogue
   m_EditorClassIdentifier: 
   skipRootNode: 1
-  defaultSpeakerName: DefaultSpeaker
-  defaultText: Default Text to Overwrite
-  cachedDialogueName: OldOfficeDemo-MayaDialogue
+  cachedName: OldOfficeDemo-MayaDialogue
   newNodeOffset: {x: 100, y: 25}
   nodeWidth: 400
   nodeHeight: 225

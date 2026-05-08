@@ -121,9 +121,6 @@ namespace Frankie.ZoneManagement
         public ZoneNode GetRootNode() => zoneNodes[0];
         public static bool IsRelated(ZoneNode parentNode, ZoneNode childNode) => parentNode.GetChildren() != null && parentNode.GetChildren().Contains(childNode.name);
         public ZoneNode GetNodeFromID(string zoneNodeName) => zoneNodes.FirstOrDefault(zoneNode => zoneNode.name == zoneNodeName);
-
-        private string GetNameLocalizationKey() => GetNameLocalizationKey(name);
-        private static string GetNameLocalizationKey(string id) => $"Zone.{id}"; 
         public LocalizationTableType localizationTableType { get; } = LocalizationTableType.Zones;
         public List<TableEntryReference> GetLocalizationEntries()
         {

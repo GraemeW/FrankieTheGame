@@ -124,9 +124,7 @@ MonoBehaviour:
   m_Name: OfficeInterior-CleverWorker
   m_EditorClassIdentifier: 
   skipRootNode: 0
-  defaultSpeakerName: DefaultSpeaker
-  defaultText: Default Text to Overwrite
-  cachedDialogueName: OfficeInterior-CleverWorker
+  cachedName: OfficeInterior-CleverWorker
   newNodeOffset: {x: 100, y: 25}
   nodeWidth: 400
   nodeHeight: 225

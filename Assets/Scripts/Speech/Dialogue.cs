@@ -5,6 +5,7 @@ using UnityEngine;
 using UnityEngine.Localization.Tables;
 using Frankie.Stats;
 using Frankie.Utils.Localization;
+using UnityEngine.Serialization;
 
 namespace Frankie.Speech
 {
@@ -13,12 +14,16 @@ namespace Frankie.Speech
     {
         // Tunables
         [SerializeField] public bool skipRootNode = false;
-        [SerializeField] private string defaultSpeakerName = "DefaultSpeaker";
-        [SerializeField] private string defaultText = "Default Text to Overwrite";
+
+     
+        // Const
+        private const string _defaultSpeakerName = "DefaultSpeaker";
+        private const string _defaultText = "Default Text to Overwrite";
         
 #if UNITY_EDITOR
         [Header("Editor Settings")]
-        [SerializeField, HideInInspector] private string cachedDialogueName = "";
+        [HideInInspector][SerializeField] private string cachedName = "";
+        public string iCachedName { get => cachedName; set => cachedName = value; }
         [SerializeField] private Vector2 newNodeOffset = new(100f, 25f);
         [SerializeField] private int nodeWidth = 400;
         [SerializeField] private int nodeHeight = 225;
@@ -113,8 +118,8 @@ namespace Frankie.Speech
             dialogueNode.name = System.Guid.NewGuid().ToString();
             dialogueNode.SetDialogueName(name);
             dialogueNode.SetNodeDepthBreadth(depth, breadth);
-            dialogueNode.SetSpeakerName(defaultSpeakerName);
-            dialogueNode.SetText(defaultText);
+            dialogueNode.SetSpeakerName(_defaultSpeakerName);
+            dialogueNode.SetText(_defaultText);
 
             Undo.RecordObject(this, "Add Dialogue Node");
             dialogueNodes.Add(dialogueNode);
@@ -251,21 +256,13 @@ namespace Frankie.Speech
                 }
             }
         }
-        #endregion
-      
-        #region LocalizationUtility
-        public void ReconcileCachedDialogueName()
-        {
-            if (name == cachedDialogueName) { return; }
 
-            cachedDialogueName = name;
+        public void TriggerOnRename()
+        {
             foreach (DialogueNode dialogueNode in dialogueNodes)
             {
                 dialogueNode.SetDialogueName(name);
             }
-            
-            EditorUtility.SetDirty(this);
-            AssetDatabase.SaveAssetIfDirty(this);
         }
         #endregion
 #endif

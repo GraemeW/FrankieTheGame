@@ -5,6 +5,7 @@ using UnityEditor.Callbacks;
 using UnityEngine;
 using Frankie.Stats;
 using Frankie.Utils.Localization;
+using UnityEngine.Localization;
 
 namespace Frankie.Speech.Editor
 {
@@ -50,7 +51,14 @@ namespace Frankie.Speech.Editor
         {
             var dialogue = EditorUtility.EntityIdToObject(instanceID) as Dialogue;
             if (dialogue == null) return false;
-            dialogue.ReconcileCachedDialogueName();
+
+            if (dialogue is ILocalizable localizable)
+            {
+                // Note:  No standard entries on dialogue itself, but needed for triggering node re-name on dialogue asset re-name
+                var emptyStandardEntryList = new List<(string propertyName, LocalizedString localizedString, bool setToName)>();
+                localizable.TryLocalizeStandardEntries(dialogue, emptyStandardEntryList, dialogue.TriggerOnRename);
+            }
+            
             dialogue.CreateRootNodeIfMissing();
             ShowEditorWindow();
             return true;

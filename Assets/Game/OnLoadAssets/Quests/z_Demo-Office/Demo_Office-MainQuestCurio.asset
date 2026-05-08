@@ -13,8 +13,29 @@ MonoBehaviour:
   m_Name: CurioNine
   m_EditorClassIdentifier: 
   objectiveID: 5abdbc4e-c3e4-4c1c-b146-0824fd59bdd2
-  description: 
+  localizedDisplayName:
+    m_TableReference:
+      m_TableCollectionName: GUID:b9dd45143ecd64476b4827b4d45c6003
+    m_TableEntryReference:
+      m_KeyId: 7959510831325184
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  localizedDetail:
+    m_TableReference:
+      m_TableCollectionName: GUID:b9dd45143ecd64476b4827b4d45c6003
+    m_TableEntryReference:
+      m_KeyId: 7959510931988480
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  questName: Demo_Office-MainQuestCurio
   questID: 61c08901-2fd9-403b-833e-f22949c8d448
+  references:
+    version: 2
+    RefIds: []
 --- !u!114 &-4510697727763330271
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -28,8 +49,29 @@ MonoBehaviour:
   m_Name: CurioThree
   m_EditorClassIdentifier: 
   objectiveID: 87ec90d5-4760-4064-a269-d5278241c077
-  description: 
+  localizedDisplayName:
+    m_TableReference:
+      m_TableCollectionName: GUID:b9dd45143ecd64476b4827b4d45c6003
+    m_TableEntryReference:
+      m_KeyId: 7959508994220032
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  localizedDetail:
+    m_TableReference:
+      m_TableCollectionName: GUID:b9dd45143ecd64476b4827b4d45c6003
+    m_TableEntryReference:
+      m_KeyId: 7959509099077632
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  questName: Demo_Office-MainQuestCurio
   questID: 61c08901-2fd9-403b-833e-f22949c8d448
+  references:
+    version: 2
+    RefIds: []
 --- !u!114 &-4184183761088310349
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -43,8 +85,29 @@ MonoBehaviour:
   m_Name: CurioFive
   m_EditorClassIdentifier: 
   objectiveID: 425c5a25-f7e1-45e2-8f72-66dc3f02c04a
-  description: 
+  localizedDisplayName:
+    m_TableReference:
+      m_TableCollectionName: GUID:b9dd45143ecd64476b4827b4d45c6003
+    m_TableEntryReference:
+      m_KeyId: 7959509602394112
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  localizedDetail:
+    m_TableReference:
+      m_TableCollectionName: GUID:b9dd45143ecd64476b4827b4d45c6003
+    m_TableEntryReference:
+      m_KeyId: 7959509703057408
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  questName: Demo_Office-MainQuestCurio
   questID: 61c08901-2fd9-403b-833e-f22949c8d448
+  references:
+    version: 2
+    RefIds: []
 --- !u!114 &-1606810816014409339
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -58,8 +121,29 @@ MonoBehaviour:
   m_Name: CurioOne
   m_EditorClassIdentifier: 
   objectiveID: 387e6004-4957-4374-9b2c-71923c08b84f
-  description: 
+  localizedDisplayName:
+    m_TableReference:
+      m_TableCollectionName: GUID:b9dd45143ecd64476b4827b4d45c6003
+    m_TableEntryReference:
+      m_KeyId: 7959508369268736
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  localizedDetail:
+    m_TableReference:
+      m_TableCollectionName: GUID:b9dd45143ecd64476b4827b4d45c6003
+    m_TableEntryReference:
+      m_KeyId: 7959508469932032
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  questName: Demo_Office-MainQuestCurio
   questID: 61c08901-2fd9-403b-833e-f22949c8d448
+  references:
+    version: 2
+    RefIds: []
 --- !u!114 &-262292152810515008
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -73,8 +157,29 @@ MonoBehaviour:
   m_Name: CurioSeven
   m_EditorClassIdentifier: 
   objectiveID: 0133a28c-1db6-4b3c-82fb-67e62f07978e
-  description: 
+  localizedDisplayName:
+    m_TableReference:
+      m_TableCollectionName: GUID:b9dd45143ecd64476b4827b4d45c6003
+    m_TableEntryReference:
+      m_KeyId: 7959510214762496
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  localizedDetail:
+    m_TableReference:
+      m_TableCollectionName: GUID:b9dd45143ecd64476b4827b4d45c6003
+    m_TableEntryReference:
+      m_KeyId: 7959510332203008
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  questName: Demo_Office-MainQuestCurio
   questID: 61c08901-2fd9-403b-833e-f22949c8d448
+  references:
+    version: 2
+    RefIds: []
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -95,9 +200,9 @@ MonoBehaviour:
     guid: 2b6d94f5-ccce-434d-bd75-51ce1e4d7c8d
   localizedDisplayName:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName: GUID:b9dd45143ecd64476b4827b4d45c6003
     m_TableEntryReference:
-      m_KeyId: 0
+      m_KeyId: 7959508071473152
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -105,9 +210,9 @@ MonoBehaviour:
   detail: Main Quest Tracker
   localizedDetail:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName: GUID:b9dd45143ecd64476b4827b4d45c6003
     m_TableEntryReference:
-      m_KeyId: 0
+      m_KeyId: 7959508172136448
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -153,8 +258,29 @@ MonoBehaviour:
   m_Name: CurioEight
   m_EditorClassIdentifier: 
   objectiveID: 638e36d4-f676-4a6b-85b7-a83523632926
-  description: 
+  localizedDisplayName:
+    m_TableReference:
+      m_TableCollectionName: GUID:b9dd45143ecd64476b4827b4d45c6003
+    m_TableEntryReference:
+      m_KeyId: 7959510533529600
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  localizedDetail:
+    m_TableReference:
+      m_TableCollectionName: GUID:b9dd45143ecd64476b4827b4d45c6003
+    m_TableEntryReference:
+      m_KeyId: 7959510634192896
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  questName: Demo_Office-MainQuestCurio
   questID: 61c08901-2fd9-403b-833e-f22949c8d448
+  references:
+    version: 2
+    RefIds: []
 --- !u!114 &1169059385696805003
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -168,8 +294,29 @@ MonoBehaviour:
   m_Name: CurioTen
   m_EditorClassIdentifier: 
   objectiveID: 03970be0-196c-48e8-b2a3-15aaeae5105d
-  description: 
+  localizedDisplayName:
+    m_TableReference:
+      m_TableCollectionName: GUID:b9dd45143ecd64476b4827b4d45c6003
+    m_TableEntryReference:
+      m_KeyId: 7959511133315072
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  localizedDetail:
+    m_TableReference:
+      m_TableCollectionName: GUID:b9dd45143ecd64476b4827b4d45c6003
+    m_TableEntryReference:
+      m_KeyId: 7959511233978368
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  questName: Demo_Office-MainQuestCurio
   questID: 61c08901-2fd9-403b-833e-f22949c8d448
+  references:
+    version: 2
+    RefIds: []
 --- !u!114 &4460678901540854653
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -183,8 +330,29 @@ MonoBehaviour:
   m_Name: CurioTwo
   m_EditorClassIdentifier: 
   objectiveID: d7debe8d-22e9-43a1-9b4e-ebb38d1b99aa
-  description: 
+  localizedDisplayName:
+    m_TableReference:
+      m_TableCollectionName: GUID:b9dd45143ecd64476b4827b4d45c6003
+    m_TableEntryReference:
+      m_KeyId: 7959508692230144
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  localizedDetail:
+    m_TableReference:
+      m_TableCollectionName: GUID:b9dd45143ecd64476b4827b4d45c6003
+    m_TableEntryReference:
+      m_KeyId: 7959508797087744
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  questName: Demo_Office-MainQuestCurio
   questID: 61c08901-2fd9-403b-833e-f22949c8d448
+  references:
+    version: 2
+    RefIds: []
 --- !u!114 &5958011448916513900
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -198,8 +366,29 @@ MonoBehaviour:
   m_Name: CurioSix
   m_EditorClassIdentifier: 
   objectiveID: 37f96aa7-c96c-46ba-8e17-1855dcd94052
-  description: 
+  localizedDisplayName:
+    m_TableReference:
+      m_TableCollectionName: GUID:b9dd45143ecd64476b4827b4d45c6003
+    m_TableEntryReference:
+      m_KeyId: 7959509900189696
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  localizedDetail:
+    m_TableReference:
+      m_TableCollectionName: GUID:b9dd45143ecd64476b4827b4d45c6003
+    m_TableEntryReference:
+      m_KeyId: 7959510000852992
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  questName: Demo_Office-MainQuestCurio
   questID: 61c08901-2fd9-403b-833e-f22949c8d448
+  references:
+    version: 2
+    RefIds: []
 --- !u!114 &8993746641356414668
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -213,5 +402,26 @@ MonoBehaviour:
   m_Name: CurioFour
   m_EditorClassIdentifier: 
   objectiveID: 9609fa99-71a0-41b3-82b2-e5e40c597222
-  description: 
+  localizedDisplayName:
+    m_TableReference:
+      m_TableCollectionName: GUID:b9dd45143ecd64476b4827b4d45c6003
+    m_TableEntryReference:
+      m_KeyId: 7959509300404224
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  localizedDetail:
+    m_TableReference:
+      m_TableCollectionName: GUID:b9dd45143ecd64476b4827b4d45c6003
+    m_TableEntryReference:
+      m_KeyId: 7959509401067520
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  questName: Demo_Office-MainQuestCurio
   questID: 61c08901-2fd9-403b-833e-f22949c8d448
+  references:
+    version: 2
+    RefIds: []

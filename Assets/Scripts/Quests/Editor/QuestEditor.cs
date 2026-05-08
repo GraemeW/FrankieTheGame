@@ -9,7 +9,7 @@ namespace Frankie.Quests.Editor
     public class QuestEditor : GameStateModifierEditor
     {
         private const string _questHeaderTitle = "Quest Functionality";
-        private const string _buttonGenerateObjectiveText = "Generate Objectives (Save to Take Effect)";
+        private const string _buttonGenerateObjectiveText = "Generate Objectives";
         
         private const float _fontSize = 14;
         private const float _headerMarginTop = 8;
@@ -22,7 +22,7 @@ namespace Frankie.Quests.Editor
             LocalizationTool.InitializeEnglishLocale();
             var quest = (Quest)target;
             if (quest is not ILocalizable localizable) { return; }
-            localizable.TryLocalizeStandardEntries(quest, quest.GetPropertyLinkedLocalizationEntries());
+            localizable.TryLocalizeStandardEntries(quest, quest.GetPropertyLinkedLocalizationEntries(), quest.TriggerOnRename);
         }
         
         public override VisualElement CreateInspectorGUI()

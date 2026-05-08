@@ -38,7 +38,7 @@ namespace Frankie.Utils.Localization
         #endregion
         
         #region RuntimeCompliant
-        public static LocalizedString GetLocalizedString(LocalizationTableType localizationTableType, string key)
+        public static LocalizedString MakeLocalizedString(LocalizationTableType localizationTableType, string key)
         {
             // Note: No safety on Localization Table loading, must be ensured via Unity settings
             var localizedString = new LocalizedString();
@@ -297,7 +297,7 @@ namespace Frankie.Utils.Localization
 
         public static bool InitializeLocalEntry(LocalizationTableType localizationTableType, LocalizedString localizedString, string key)
         {
-            localizedString ??= GetLocalizedString(localizationTableType, key);
+            localizedString ??= MakeLocalizedString(localizationTableType, key);
             if (!localizedString.IsEmpty && !string.IsNullOrWhiteSpace(GetEnglishEntry(localizationTableType, localizedString.TableEntryReference))) { return false; }
             
             TableEntryReference tableEntryReference = key;

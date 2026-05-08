@@ -71,9 +71,7 @@ MonoBehaviour:
   m_Name: PrimSouth-Counter
   m_EditorClassIdentifier: 
   skipRootNode: 1
-  defaultSpeakerName: DefaultSpeaker
-  defaultText: Default Text to Overwrite
-  cachedDialogueName: PrimSouth-Counter
+  cachedName: PrimSouth-Counter
   newNodeOffset: {x: 100, y: 25}
   nodeWidth: 400
   nodeHeight: 225

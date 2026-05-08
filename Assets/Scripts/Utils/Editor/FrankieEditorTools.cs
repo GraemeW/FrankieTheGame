@@ -42,8 +42,8 @@ namespace Frankie.Utils.Editor
                 //if (!gameObject.TryGetComponent(out Shop localizedLinker)) { continue; }
                 //localizedLinker.TempLinkStrings();
                 
-                //if (selectedObject is not InventoryItem inventoryItem) { continue; }
-                //inventoryItem.TempLinkStrings();
+                //if (selectedObject is not Quest quest) { continue; }
+                //quest.TempLinkStrings();
             }
         }
         

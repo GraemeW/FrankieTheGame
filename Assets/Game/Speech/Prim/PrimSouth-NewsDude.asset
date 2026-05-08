@@ -236,9 +236,7 @@ MonoBehaviour:
   m_Name: PrimSouth-NewsDude
   m_EditorClassIdentifier: 
   skipRootNode: 0
-  defaultSpeakerName: DefaultSpeaker
-  defaultText: Default Text to Overwrite
-  cachedDialogueName: PrimSouth-NewsDude
+  cachedName: PrimSouth-NewsDude
   newNodeOffset: {x: 100, y: 25}
   nodeWidth: 400
   nodeHeight: 225

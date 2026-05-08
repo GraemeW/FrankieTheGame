@@ -523,9 +523,7 @@ MonoBehaviour:
   m_Name: OfficeInterior-PhilRamenC
   m_EditorClassIdentifier: 
   skipRootNode: 1
-  defaultSpeakerName: DefaultSpeaker
-  defaultText: Default Text to Overwrite
-  cachedDialogueName: OfficeInterior-PhilRamenC
+  cachedName: OfficeInterior-PhilRamenC
   newNodeOffset: {x: 100, y: 25}
   nodeWidth: 400
   nodeHeight: 225

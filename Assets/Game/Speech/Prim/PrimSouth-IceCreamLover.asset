@@ -69,9 +69,7 @@ MonoBehaviour:
   m_Name: PrimSouth-IceCreamLover
   m_EditorClassIdentifier: 
   skipRootNode: 0
-  defaultSpeakerName: DefaultSpeaker
-  defaultText: Default Text to Overwrite
-  cachedDialogueName: PrimSouth-IceCreamLover
+  cachedName: PrimSouth-IceCreamLover
   newNodeOffset: {x: 100, y: 25}
   nodeWidth: 400
   nodeHeight: 225

@@ -180,9 +180,7 @@ MonoBehaviour:
   m_Name: Demo-Forest_PortaMaya-South
   m_EditorClassIdentifier: Assembly-CSharp::Frankie.Speech.Dialogue
   skipRootNode: 1
-  defaultSpeakerName: DefaultSpeaker
-  defaultText: Default Text to Overwrite
-  cachedDialogueName: Demo-Forest_PortaMaya-South
+  cachedName: Demo-Forest_PortaMaya-South
   newNodeOffset: {x: 100, y: 25}
   nodeWidth: 400
   nodeHeight: 225

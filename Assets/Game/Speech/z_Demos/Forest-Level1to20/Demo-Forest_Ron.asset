@@ -239,9 +239,7 @@ MonoBehaviour:
   m_Name: Demo-Forest_Ron
   m_EditorClassIdentifier: Assembly-CSharp::Frankie.Speech.Dialogue
   skipRootNode: 1
-  defaultSpeakerName: DefaultSpeaker
-  defaultText: Default Text to Overwrite
-  cachedDialogueName: Demo-Forest_Ron
+  cachedName: Demo-Forest_Ron
   newNodeOffset: {x: 100, y: 25}
   nodeWidth: 400
   nodeHeight: 225

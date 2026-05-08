@@ -349,9 +349,7 @@ MonoBehaviour:
   m_Name: Demo-Monk_Tapestry
   m_EditorClassIdentifier: Assembly-CSharp::Frankie.Speech.Dialogue
   skipRootNode: 0
-  defaultSpeakerName: DefaultSpeaker
-  defaultText: Default Text to Overwrite
-  cachedDialogueName: Demo-Monk_Tapestry
+  cachedName: Demo-Monk_Tapestry
   newNodeOffset: {x: 100, y: 25}
   nodeWidth: 400
   nodeHeight: 225

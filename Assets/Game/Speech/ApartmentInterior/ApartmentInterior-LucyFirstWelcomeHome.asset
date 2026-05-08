@@ -186,9 +186,7 @@ MonoBehaviour:
   m_Name: ApartmentInterior-LucyFirstWelcomeHome
   m_EditorClassIdentifier: 
   skipRootNode: 1
-  defaultSpeakerName: DefaultSpeaker
-  defaultText: Default Text to Overwrite
-  cachedDialogueName: ApartmentInterior-LucyFirstWelcomeHome
+  cachedName: ApartmentInterior-LucyFirstWelcomeHome
   newNodeOffset: {x: 100, y: 25}
   nodeWidth: 400
   nodeHeight: 225

@@ -8,10 +8,12 @@ using Object = UnityEngine.Object;
 using UnityEditor;
 using UnityEditor.SceneManagement;
 #endif
+using Frankie.Stats;
+using Frankie.ZoneManagement;
+using Frankie.Speech;
 using Frankie.Combat;
 using Frankie.Inventory;
 using Frankie.Quests;
-using Frankie.Stats;
 
 namespace Frankie.Utils.Localization
 {
@@ -23,6 +25,12 @@ namespace Frankie.Utils.Localization
         private static Dictionary<EquipLocation, LocalizedString> _equipLocationNameCache;
         
         #region PublicMethods
+        public static string GetStandardLocalizationKey(string id, string typeName, string propertyName)
+        {
+            string sanitizedPropertyName = (propertyName ?? "").Replace("localized", "");
+            return sanitizedPropertyName.Contains("Name") ? $"{typeName}.{id}" : $"{typeName}.{id}.{sanitizedPropertyName}";
+        }
+        
         public static string GetLocalizedName(Stat stat)
         {
             _statNameCache ??= BuildStatCache();
@@ -45,7 +53,7 @@ namespace Frankie.Utils.Localization
             var newStatNameCache = new Dictionary<Stat, LocalizedString>();
             foreach (Stat stat in Enum.GetValues(typeof(Stat)))
             {
-                newStatNameCache.Add(stat, LocalizationTool.GetLocalizedString(LocalizationTableType.Core, GetStatKey(stat)));
+                newStatNameCache.Add(stat, LocalizationTool.MakeLocalizedString(LocalizationTableType.Core, GetStatKey(stat)));
             }
             return newStatNameCache;
         }
@@ -55,7 +63,7 @@ namespace Frankie.Utils.Localization
             var newEquipLocationNameCache = new Dictionary<EquipLocation, LocalizedString>();
             foreach (EquipLocation equipLocation in Enum.GetValues(typeof(EquipLocation)))
             {
-                newEquipLocationNameCache.Add(equipLocation, LocalizationTool.GetLocalizedString(LocalizationTableType.Inventory, GetEquipLocationKey(equipLocation)));
+                newEquipLocationNameCache.Add(equipLocation, LocalizationTool.MakeLocalizedString(LocalizationTableType.Inventory, GetEquipLocationKey(equipLocation)));
             }
             return newEquipLocationNameCache;
         }
@@ -67,9 +75,9 @@ namespace Frankie.Utils.Localization
         {
             switch (targetObject)
             {
-                case CharacterProperties or Skill or InventoryItem or Quest:
+                case CharacterProperties or Zone or Dialogue or Skill or InventoryItem or Quest:
                     string typeName = declaringType != null ? declaringType.Name : targetObject.GetType().Name;
-                    return ILocalizable.GetStandardLocalizationKey(targetObject.name, typeName, propertyName);
+                    return GetStandardLocalizationKey(targetObject.name, typeName, propertyName);
                 default:
                     return GenerateKindaUniqueKey(targetObject, propertyName, declaringType, useParentNameStem);
             }

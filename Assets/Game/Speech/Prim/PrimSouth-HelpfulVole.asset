@@ -183,9 +183,7 @@ MonoBehaviour:
   m_Name: PrimSouth-HelpfulVole
   m_EditorClassIdentifier: 
   skipRootNode: 0
-  defaultSpeakerName: DefaultSpeaker
-  defaultText: Default Text to Overwrite
-  cachedDialogueName: PrimSouth-HelpfulVole
+  cachedName: PrimSouth-HelpfulVole
   newNodeOffset: {x: 100, y: 25}
   nodeWidth: 400
   nodeHeight: 225

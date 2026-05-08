@@ -56,7 +56,7 @@ namespace Frankie.Utils.Localization
             
             foreach ((string propertyName, LocalizedString localizedString, bool setToName) standardEntry in standardEntries)
             {
-                string key = GetStandardLocalizationKey(id, typeName, standardEntry.propertyName);
+                string key = LocalizationNames.GetStandardLocalizationKey(id, typeName, standardEntry.propertyName);
                 if (standardEntry.setToName)
                 {
                     wasObjectDirtied = wasObjectDirtied || LocalizationTool.TryLocalizeEntry(localizationTableType, standardEntry.localizedString, key, targetObject.name);
@@ -83,8 +83,8 @@ namespace Frankie.Utils.Localization
             foreach ((string propertyName, LocalizedString _, bool __) standardEntry in standardEntries)
             {
                 string typeName = targetObject.GetType().Name;
-                TableEntryReference oldKey = GetStandardLocalizationKey(iCachedName, typeName, standardEntry.propertyName);
-                string newKey = GetStandardLocalizationKey(targetObject.name, typeName, standardEntry.propertyName);
+                TableEntryReference oldKey = LocalizationNames.GetStandardLocalizationKey(iCachedName, typeName, standardEntry.propertyName);
+                string newKey = LocalizationNames.GetStandardLocalizationKey(targetObject.name, typeName, standardEntry.propertyName);
                 LocalizationTool.MakeOrRenameKey(localizationTableType, oldKey, newKey);
             }
             
@@ -94,12 +94,6 @@ namespace Frankie.Utils.Localization
             EditorUtility.SetDirty(targetObject);
             AssetDatabase.SaveAssetIfDirty(targetObject);
 #endif
-        }
-
-        public static string GetStandardLocalizationKey(string id, string typeName, string propertyName)
-        {
-            string sanitizedPropertyName = (propertyName ?? "").Replace("localized", "");
-            return sanitizedPropertyName.Contains("Name") ? $"{typeName}.{id}" : $"{typeName}.{id}.{sanitizedPropertyName}";
         }
         #endregion
     }

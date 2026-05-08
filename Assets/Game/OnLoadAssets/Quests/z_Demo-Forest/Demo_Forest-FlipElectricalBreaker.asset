@@ -13,8 +13,29 @@ MonoBehaviour:
   m_Name: Flip the electrical breaker
   m_EditorClassIdentifier: Assembly-CSharp::Frankie.Quests.QuestObjective
   objectiveID: 1fb7ae48-3703-4ced-ac11-e02a942dfe34
-  description: 
+  localizedDisplayName:
+    m_TableReference:
+      m_TableCollectionName: GUID:b9dd45143ecd64476b4827b4d45c6003
+    m_TableEntryReference:
+      m_KeyId: 7959505311621120
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  localizedDetail:
+    m_TableReference:
+      m_TableCollectionName: GUID:b9dd45143ecd64476b4827b4d45c6003
+    m_TableEntryReference:
+      m_KeyId: 7959505416478720
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  questName: Demo_Forest-FlipElectricalBreaker
   questID: abdd068f-73ad-4dd6-8f79-01482c553468
+  references:
+    version: 2
+    RefIds: []
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -35,9 +56,9 @@ MonoBehaviour:
     guid: c0e04e1f-9605-470d-929f-3d44288d4306
   localizedDisplayName:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName: GUID:b9dd45143ecd64476b4827b4d45c6003
     m_TableEntryReference:
-      m_KeyId: 0
+      m_KeyId: 7959504988659712
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -45,9 +66,9 @@ MonoBehaviour:
   detail: Turn on power to the elevator in the Lacklustre Video
   localizedDetail:
     m_TableReference:
-      m_TableCollectionName: 
+      m_TableCollectionName: GUID:b9dd45143ecd64476b4827b4d45c6003
     m_TableEntryReference:
-      m_KeyId: 0
+      m_KeyId: 7959505106100224
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -56,7 +77,7 @@ MonoBehaviour:
   - Flip the electrical breaker
   localizedQuestObjectiveNames: []
   rewards: []
-  cachedName: 
+  cachedName: Demo_Forest-FlipElectricalBreaker
   questObjectives:
   - {fileID: -1157696598057115107}
   references:

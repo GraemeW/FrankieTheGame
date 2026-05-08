@@ -17,7 +17,271 @@ MonoBehaviour:
   m_SharedData: {fileID: 11400000, guid: b9dd45143ecd64476b4827b4d45c6003, type: 2}
   m_Metadata:
     m_Items: []
-  m_TableData: []
+  m_TableData:
+  - m_Id: 7959387413929984
+    m_Localized: Demo_Forest-BeatSkilledWorker
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7959388114378752
+    m_Localized: The skilled worker blocks the way to the basement
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7959406074388480
+    m_Localized: Frankie proves himself in a wrastle
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7959406183440384
+    m_Localized: Initial dummy text - to be replaced
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7959504988659712
+    m_Localized: Demo_Forest-FlipElectricalBreaker
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7959505106100224
+    m_Localized: Turn on power to the elevator in the Lacklustre Video
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7959505311621120
+    m_Localized: Flip the electrical breaker
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7959505416478720
+    m_Localized: Initial dummy text - to be replaced
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7959505626193920
+    m_Localized: Demo_Office-InteriorHipster
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7959505726857216
+    m_Localized: Tracker for chatting with the hipster in Office
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7959505928183808
+    m_Localized: HipsterChattedOnce
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7959506028847104
+    m_Localized: Initial dummy text - to be replaced
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7959506238562304
+    m_Localized: Demo_Office-InteriorHorse
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7959506339225600
+    m_Localized: Tracker for chatting with the horse in Office
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7959506540552192
+    m_Localized: HorseOpenedFirepole
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7959506645409792
+    m_Localized: Initial dummy text - to be replaced
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7959506846736384
+    m_Localized: HorsePickedUpTheDocuments
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7959506947399680
+    m_Localized: Initial dummy text - to be replaced
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7959507148726272
+    m_Localized: HorseReceivedTheDocuments
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7959507249389568
+    m_Localized: Initial dummy text - to be replaced
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7959507454910464
+    m_Localized: Demo_Office-IntroQuestComplete
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7959507559768064
+    m_Localized: Track intro quest (use to trigger main plot)
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7959507765288960
+    m_Localized: GoToBed
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7959507865952256
+    m_Localized: Initial dummy text - to be replaced
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7959508071473152
+    m_Localized: Demo_Office-MainQuestCurio
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7959508172136448
+    m_Localized: Main Quest Tracker
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7959508369268736
+    m_Localized: CurioOne
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7959508469932032
+    m_Localized: Initial dummy text - to be replaced
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7959508692230144
+    m_Localized: CurioTwo
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7959508797087744
+    m_Localized: Initial dummy text - to be replaced
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7959508994220032
+    m_Localized: CurioThree
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7959509099077632
+    m_Localized: Initial dummy text - to be replaced
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7959509300404224
+    m_Localized: CurioFour
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7959509401067520
+    m_Localized: Initial dummy text - to be replaced
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7959509602394112
+    m_Localized: CurioFive
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7959509703057408
+    m_Localized: Initial dummy text - to be replaced
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7959509900189696
+    m_Localized: CurioSix
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7959510000852992
+    m_Localized: Initial dummy text - to be replaced
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7959510214762496
+    m_Localized: CurioSeven
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7959510332203008
+    m_Localized: Initial dummy text - to be replaced
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7959510533529600
+    m_Localized: CurioEight
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7959510634192896
+    m_Localized: Initial dummy text - to be replaced
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7959510831325184
+    m_Localized: CurioNine
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7959510931988480
+    m_Localized: Initial dummy text - to be replaced
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7959511133315072
+    m_Localized: CurioTen
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7959511233978368
+    m_Localized: Initial dummy text - to be replaced
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7959511439499264
+    m_Localized: Demo_Office-OfficeInteriorRamen
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7959511540162560
+    m_Localized: Tracking overall phil ramen quest chain in Office
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7959511741489152
+    m_Localized: PickedUpChopsticks
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7959511842152448
+    m_Localized: Initial dummy text - to be replaced
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7959512043479040
+    m_Localized: PickedUpHotSauce
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7959512144142336
+    m_Localized: Initial dummy text - to be replaced
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7959512345468928
+    m_Localized: PouredWaterOnRamen
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7959512446132224
+    m_Localized: Initial dummy text - to be replaced
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7959512643264512
+    m_Localized: RamenMeetsItsFate
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7959512743927808
+    m_Localized: Initial dummy text - to be replaced
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7959512945254400
+    m_Localized: RamenSaysGoodbye
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7959513045917696
+    m_Localized: Initial dummy text - to be replaced
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7962367634694144
+    m_Localized: TempQuestMan
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7962367844409344
+    m_Localized: Initial dummy text - to be replaced
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7962487126220800
+    m_Localized: asdf
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7962487239467008
+    m_Localized: Initial dummy text - to be replaced
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7962487562428416
+    m_Localized: oooo
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7962487671480320
+    m_Localized: Initial dummy text - to be replaced
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7962743498858496
+    m_Localized: aaaabb
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7962743607910400
+    m_Localized: Initial dummy text - to be replaced
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

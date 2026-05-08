@@ -297,9 +297,7 @@ MonoBehaviour:
   m_Name: OfficeExterior-Steve5000
   m_EditorClassIdentifier: 
   skipRootNode: 1
-  defaultSpeakerName: DefaultSpeaker
-  defaultText: Default Text to Overwrite
-  cachedDialogueName: OfficeExterior-Steve5000
+  cachedName: OfficeExterior-Steve5000
   newNodeOffset: {x: 100, y: 25}
   nodeWidth: 400
   nodeHeight: 225
