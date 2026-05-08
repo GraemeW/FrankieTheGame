@@ -57,7 +57,6 @@ namespace Frankie.Utils.Localization
             foreach ((string propertyName, LocalizedString localizedString, bool setToName) standardEntry in standardEntries)
             {
                 string key = GetStandardLocalizationKey(id, typeName, standardEntry.propertyName);
-                Debug.Log($"id is {id}, key is {key}");
                 if (standardEntry.setToName)
                 {
                     wasObjectDirtied = wasObjectDirtied || LocalizationTool.TryLocalizeEntry(localizationTableType, standardEntry.localizedString, key, targetObject.name);

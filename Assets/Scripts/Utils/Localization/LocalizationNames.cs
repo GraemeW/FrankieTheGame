@@ -23,18 +23,6 @@ namespace Frankie.Utils.Localization
         private static Dictionary<EquipLocation, LocalizedString> _equipLocationNameCache;
         
         #region PublicMethods
-        public static string GenerateTypeSpecificKey(Object targetObject, string propertyName, Type declaringType = null, bool useParentNameStem = true)
-        {
-            switch (targetObject)
-            {
-                case CharacterProperties or Skill or InventoryItem or Quest:
-                    string typeName = declaringType != null ? declaringType.Name : targetObject.GetType().Name;
-                    return ILocalizable.GetStandardLocalizationKey(targetObject.name, typeName, propertyName);
-                default:
-                    return GenerateKindaUniqueKey(targetObject, propertyName, declaringType, useParentNameStem);
-            }
-        }
-        
         public static string GetLocalizedName(Stat stat)
         {
             _statNameCache ??= BuildStatCache();
@@ -75,6 +63,18 @@ namespace Frankie.Utils.Localization
         
 #if UNITY_EDITOR
         #region EditorMethods
+        public static string GenerateTypeSpecificKey(Object targetObject, string propertyName, Type declaringType = null, bool useParentNameStem = true)
+        {
+            switch (targetObject)
+            {
+                case CharacterProperties or Skill or InventoryItem or Quest:
+                    string typeName = declaringType != null ? declaringType.Name : targetObject.GetType().Name;
+                    return ILocalizable.GetStandardLocalizationKey(targetObject.name, typeName, propertyName);
+                default:
+                    return GenerateKindaUniqueKey(targetObject, propertyName, declaringType, useParentNameStem);
+            }
+        }
+        
         private static string GenerateKindaUniqueKey(Object targetObject, string propertyName, Type declaringType = null,  bool useParentNameStem = true)
         {
             string componentStem = declaringType != null ? $"{declaringType.Name}." : $"{targetObject.GetType().Name}.";

@@ -142,14 +142,6 @@ namespace Frankie.ZoneManagement
                 (nameof(localizedDisplayName), localizedDisplayName, true)
             };
         }
-
-        public void TriggerOnRename()
-        {
-            foreach (ZoneNode zoneNode in zoneNodes)
-            {
-                zoneNode.SetZoneName(name);
-            }
-        }
         #endregion
         
 #if UNITY_EDITOR
@@ -246,6 +238,14 @@ namespace Frankie.ZoneManagement
             foreach (ZoneNode zoneNode in zoneNodes)
             {
                 zoneNode.RemoveChild(nodeToDelete.name);
+            }
+        }
+        
+        public void TriggerOnRename()
+        {
+            foreach (ZoneNode zoneNode in zoneNodes)
+            {
+                zoneNode.SetZoneName(name);
             }
         }
         #endregion
