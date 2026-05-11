@@ -123,6 +123,50 @@ MonoBehaviour:
     m_Localized: Use the item {0} on which foe?
     m_Metadata:
       m_Items: []
+  - m_Id: 8994215747903488
+    m_Localized: Fight
+    m_Metadata:
+      m_Items: []
+  - m_Id: 8994259788095488
+    m_Localized: Item
+    m_Metadata:
+      m_Items: []
+  - m_Id: 8994292197482496
+    m_Localized: Stats
+    m_Metadata:
+      m_Items: []
+  - m_Id: 8994330206265344
+    m_Localized: Run Away
+    m_Metadata:
+      m_Items: []
+  - m_Id: 8999697510293504
+    m_Localized: No Selection
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9000291323076608
+    m_Localized: No Selection
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9002459291705344
+    m_Localized: 'Inclination:  '
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9002630037626880
+    m_Localized: 'AP Cost:  '
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9003945904037888
+    m_Localized: '{0} used {1} on {2}'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9004005794504704
+    m_Localized: Not enough AP.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9004072169365504
+    m_Localized: No valid target.
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

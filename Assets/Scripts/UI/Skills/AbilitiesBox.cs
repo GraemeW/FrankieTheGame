@@ -2,6 +2,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.Localization;
+using UnityEngine.Localization.Tables;
 using TMPro;
 using Frankie.Control;
 using Frankie.Speech.UI;
@@ -14,16 +16,21 @@ namespace Frankie.Combat.UI
     public class AbilitiesBox : SkillSelectionUI
     {
         // Tunables
-        [Header("Abilities Box Attributes")]
-        [SerializeField] private TMP_Text statText;
-        [SerializeField] private TMP_Text skillDetailText;
-        [SerializeField] private TMP_Text apCostText;
+        [Header("Abilities Box Text")]
+        [SerializeField][SimpleLocalizedString(LocalizationTableType.UI, true)] private LocalizedString localizedStatLabel;
+        [SerializeField][SimpleLocalizedString(LocalizationTableType.UI, true)] private LocalizedString localizedAPCostLabel;
+        [SerializeField][SimpleLocalizedString(LocalizationTableType.UI, true)] private LocalizedString localizedMessageNotEnoughAP;
+        [SerializeField][SimpleLocalizedString(LocalizationTableType.UI, true)] private LocalizedString localizedMessageNoValidTarget;
+        [Header("Include {0} for user, {1} for skill, {2} for target")]
+        [SerializeField][SimpleLocalizedString(LocalizationTableType.UI, true)] private LocalizedString localizedMessageUseSkillInWorld;
+        [Header("Abilities Box Hookups")]
+        [SerializeField] private TMP_Text statLabelField;
+        [SerializeField] private TMP_Text statTextField;
+        [SerializeField] private TMP_Text apCostLabelField;
+        [SerializeField] private TMP_Text apCostTextField;
+        [SerializeField] private TMP_Text skillDetailTextField;
         [Header("Prefabs")]
         [SerializeField] private DialogueBox dialogueBoxPrefab;
-        [Header("Messages")]
-        [Tooltip("Include {0} for user, {1} for skill, {2} for target")][SerializeField] private string messageUseSkillInWorld = "{0} used {1} on {2}.";
-        [SerializeField] private string messageNotEnoughAP = "Not enough AP.";
-        [SerializeField] private string messageNoValidTarget = "No valid target.";
 
         // State -- UI
         private List<BattleEntity> partyBattleEntities;
@@ -40,6 +47,31 @@ namespace Frankie.Combat.UI
         // Events
         public event Action<CombatParticipantType, IEnumerable<BattleEntity>> targetCharacterChanged;
 
+        #region UnityMethods
+
+        protected override void Start()
+        {
+            base.Start();
+            if (statLabelField != null) { statLabelField.SetText(localizedStatLabel.GetSafeLocalizedString());}
+            if (apCostLabelField != null) { apCostLabelField.SetText(localizedAPCostLabel.GetSafeLocalizedString()); }
+        }
+        #endregion
+        
+        #region LocalizationMethods
+        public override List<TableEntryReference> GetLocalizationEntries()
+        {
+            return new List<TableEntryReference>
+            {
+                localizedNoSkillSelectionText.TableEntryReference,
+                localizedStatLabel.TableEntryReference,
+                localizedAPCostLabel.TableEntryReference,
+                localizedMessageUseSkillInWorld.TableEntryReference,
+                localizedMessageNotEnoughAP.TableEntryReference,
+                localizedMessageNoValidTarget.TableEntryReference,
+            };
+        }
+        #endregion
+        
         #region PublicMethods
         public void Setup(IStandardPlayerInputCaller standardPlayerInputCaller, PartyCombatConduit setPartyCombatConduit, List<CharacterSlide> setCharacterSlides)
         {
@@ -123,7 +155,7 @@ namespace Frankie.Combat.UI
                     {
                         SetAbilitiesBoxState(AbilitiesBoxState.InAbilitiesSelection);
                         DialogueBox dialogueBox = Instantiate(dialogueBoxPrefab, transform.parent);
-                        dialogueBox.AddText(messageNoValidTarget);
+                        dialogueBox.AddText(localizedMessageNoValidTarget.GetSafeLocalizedString());
                         PassControl(dialogueBox);
                         return false;
                     }
@@ -183,13 +215,13 @@ namespace Frankie.Combat.UI
             DialogueBox dialogueBox = Instantiate(dialogueBoxPrefab, transform.parent);
             if (skillUsedSuccessfully)
             {
-                dialogueBox.AddText(string.Format(messageUseSkillInWorld, senderName, skillName, targetCharacterNames));
+                dialogueBox.AddText(string.Format(localizedMessageUseSkillInWorld.GetSafeLocalizedString(), senderName, skillName, targetCharacterNames));
                 PassControl(dialogueBox);
                 return true;
             }
             else
             {
-                dialogueBox.AddText(string.Format(messageNotEnoughAP, senderName, skillName, targetCharacterNames));
+                dialogueBox.AddText(string.Format(localizedMessageNotEnoughAP.GetSafeLocalizedString(), senderName, skillName, targetCharacterNames));
                 PassControl(dialogueBox);
                 return false;
             }
@@ -264,12 +296,12 @@ namespace Frankie.Combat.UI
 
         protected override void PassSkillFlavour(Stat skillStat, string detail, float apCost)
         {
-            statText.text = LocalizationNames.GetLocalizedName(skillStat);
+            statTextField.text = LocalizationNames.GetLocalizedName(skillStat);
             if (detail != null)
             {
-                skillDetailText.text = detail;
+                skillDetailTextField.text = detail;
             }
-            apCostText.text = $"{apCost:N0}";
+            apCostTextField.text = $"{apCost:N0}";
         }
         #endregion
 
@@ -317,10 +349,10 @@ namespace Frankie.Combat.UI
                     return true;
                 case AbilitiesBoxState.InAbilitiesSelection:
                     ResetSkillHandler(currentCombatParticipant);
-                    skillField.text = defaultNoText;
-                    statText.text = "";
-                    skillDetailText.text = "";
-                    apCostText.text = "";
+                    skillField.SetText(defaultNoText);
+                    statTextField.text = "";
+                    skillDetailTextField.text = "";
+                    apCostTextField.text = "";
                     SetAbilitiesBoxState(AbilitiesBoxState.InCharacterSelection);
                     return true;
                 default:
