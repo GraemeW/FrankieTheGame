@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Localization;
+using UnityEngine.Localization.Tables;
 using Frankie.Combat;
 using Frankie.Control;
 using Frankie.Stats;
@@ -14,7 +16,7 @@ using Frankie.Utils.Localization;
 
 namespace Frankie.Inventory.UI
 {
-    public class EquipmentBox : UIBox, IUIItemHandler
+    public class EquipmentBox : UIBox, IUIItemHandler, ILocalizable
     {
         // Tunables
         [Header("Data Links")]
@@ -25,6 +27,9 @@ namespace Frankie.Inventory.UI
         [SerializeField] private Transform rightEquipment;
         [SerializeField] private GameObject equipmentChangeMenu;
         [SerializeField] private Transform statSheetParent;
+        [Header("Hookups")] 
+        [SerializeField] private UIChoiceButton confirmEquipmentChange;
+        [SerializeField] private UIChoiceButton rejectEquipmentChange;
         [Header("Prefabs")]
         [SerializeField] private DialogueBox dialogueBoxPrefab;
         [SerializeField] private DialogueOptionBox dialogueOptionBoxPrefab;
@@ -32,11 +37,11 @@ namespace Frankie.Inventory.UI
         [SerializeField] private EquipmentInventoryBox equipmentInventoryBoxPrefab;
         [SerializeField] private StatChangeField statChangeFieldPrefab;
         [Header("Info/Messages")]
-        [SerializeField] private string messageNoValidItems = "There's nothing in the knapsack to equip.";
-        [SerializeField] private string messageUnequip = "Guess we're going nude";
-        [SerializeField] private string optionText = "What do you want to do?";
-        [SerializeField] private string optionEquip = "Put on";
-        [SerializeField] private string optionRemove = "Take off";
+        [SerializeField][SimpleLocalizedString(LocalizationTableType.UI, true)] private LocalizedString localizedMessageNoValidItems;
+        [SerializeField][SimpleLocalizedString(LocalizationTableType.UI, true)] private LocalizedString localizedMessageUnequip;
+        [SerializeField][SimpleLocalizedString(LocalizationTableType.UI, true)] private LocalizedString localizedOptionText;
+        [SerializeField][SimpleLocalizedString(LocalizationTableType.UI, true)] private LocalizedString localizedOptionEquip;
+        [SerializeField][SimpleLocalizedString(LocalizationTableType.UI, true)] private LocalizedString localizedOptionRemove;
 
         // State
         private EquipmentBoxState equipmentBoxState = EquipmentBoxState.InCharacterSelection;
@@ -53,6 +58,14 @@ namespace Frankie.Inventory.UI
         // Events
         public event Action<Enum> uiBoxStateChanged;
 
+        #region UnityMethods
+
+        private void Awake()
+        {
+            if (confirmEquipmentChange != null) { confirmEquipmentChange.AddOnClickListener(() => ConfirmEquipmentChange(true));}
+            if (rejectEquipmentChange != null) { rejectEquipmentChange.AddOnClickListener(() => ConfirmEquipmentChange(false)); }
+        }
+
         protected override void OnEnable()
         {
             base.OnEnable();
@@ -64,6 +77,23 @@ namespace Frankie.Inventory.UI
             base.OnDisable();
             ListenToSelectedEquipment(false);
         }
+        #endregion
+        
+        #region LocalizationMethods
+
+        public LocalizationTableType localizationTableType { get; } = LocalizationTableType.UI;
+        public List<TableEntryReference> GetLocalizationEntries()
+        {
+            return new List<TableEntryReference>
+            {
+                localizedMessageNoValidItems.TableEntryReference,
+                localizedMessageUnequip.TableEntryReference,
+                localizedOptionText.TableEntryReference,
+                localizedOptionEquip.TableEntryReference,
+                localizedOptionRemove.TableEntryReference,
+            };
+        }
+        #endregion
 
         #region Setup
         public void Setup(IStandardPlayerInputCaller standardPlayerInputCaller, PartyCombatConduit partyCombatConduit, List<CharacterSlide> setCharacterSlides)
@@ -294,13 +324,13 @@ namespace Frankie.Inventory.UI
             if (selectedEquipment.HasItemInSlot(equipLocation))
             {
                 var choiceActionPairs = new List<ChoiceActionPair>();
-                var equipActionPair = new ChoiceActionPair(optionEquip, () => ExecuteChooseEquipLocation(selector));
+                var equipActionPair = new ChoiceActionPair(localizedOptionEquip.GetSafeLocalizedString(), () => ExecuteChooseEquipLocation(selector));
                 choiceActionPairs.Add(equipActionPair);
-                var removeActionPair = new ChoiceActionPair(optionRemove, () => ExecuteRemoveEquipment(selector));
+                var removeActionPair = new ChoiceActionPair(localizedOptionRemove.GetSafeLocalizedString(), () => ExecuteRemoveEquipment(selector));
                 choiceActionPairs.Add(removeActionPair);
 
                 DialogueOptionBox equipmentOptionMenu = Instantiate(dialogueOptionBoxPrefab, transform.parent);
-                equipmentOptionMenu.Setup(optionText);
+                equipmentOptionMenu.Setup(localizedOptionText.GetSafeLocalizedString());
                 equipmentOptionMenu.OverrideChoiceOptions(choiceActionPairs);
 
                 PassControl(this, new Action[] { () => ResetEquipmentBox(false), () => EnableInput(true) }, equipmentOptionMenu, controller);
@@ -327,7 +357,7 @@ namespace Frankie.Inventory.UI
             else
             {
                 selectedEquipLocation = EquipLocation.None;
-                SpawnMessage(messageNoValidItems);
+                SpawnMessage(localizedMessageNoValidItems.GetSafeLocalizedString());
             }
         }
 
@@ -338,7 +368,7 @@ namespace Frankie.Inventory.UI
             var equipLocation = (EquipLocation)selector;
             selectedEquipment.RemoveEquipment(equipLocation, true);
 
-            SpawnMessage(messageUnequip);
+            SpawnMessage(localizedMessageUnequip.GetSafeLocalizedString());
         }
 
         private void SpawnMessage(string message)
@@ -360,7 +390,7 @@ namespace Frankie.Inventory.UI
             PassControl(this, new Action[] { () => EnableInput(true), () => SetVisible(true) }, inventoryBox, controller);
         }
 
-        public void ConfirmEquipmentChange(bool confirm) // Called via equipmentChangeConfirmOptions buttons, hooked up in Unity
+        private void ConfirmEquipmentChange(bool confirm)
         {
             if (confirm)
             {
@@ -368,7 +398,8 @@ namespace Frankie.Inventory.UI
             }
             else
             {
-                ChooseCharacter(selectedCharacter, true); // Resets chosen item & slot -> pulls to equipment selection
+                // Reset chosen item & slot -> pulls to equipment selection
+                ChooseCharacter(selectedCharacter, true);
             }
         }
         #endregion

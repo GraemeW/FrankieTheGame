@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using Frankie.Utils.UI;
@@ -5,13 +6,17 @@ using Frankie.Control;
 using Frankie.Stats;
 using Frankie.World;
 using Frankie.Speech.UI;
+using Frankie.Utils.Localization;
+using UnityEngine.Localization;
+using UnityEngine.Localization.Tables;
 
 namespace Frankie.Inventory.UI
 {
-    public class ShopBox : UIBox
+    public class ShopBox : UIBox, ILocalizable
     {
         // Tunables
         [Header("Shop Specific Details")]
+        [SerializeField][SimpleLocalizedString(LocalizationTableType.UI, true)] private LocalizedString localizedShopInfoDefault;
         [SerializeField] private TMP_Text shopInfoField;
         [Header("Prefabs")]
         [SerializeField] private ShopStockRow stockRowPrefab;
@@ -35,6 +40,7 @@ namespace Frankie.Inventory.UI
         private void Start()
         {
             SetupWalletUI();
+            if (shopInfoField != null) { shopInfoField.SetText(localizedShopInfoDefault.GetSafeLocalizedString()); }
         }
 
         private void SetupWalletUI()
@@ -51,6 +57,17 @@ namespace Frankie.Inventory.UI
         }
         #endregion
 
+        #region LocalizationMethods
+        public LocalizationTableType localizationTableType { get; } =  LocalizationTableType.UI;
+        public List<TableEntryReference> GetLocalizationEntries()
+        {
+            return new List<TableEntryReference>
+            {
+                localizedShopInfoDefault.TableEntryReference,
+            };
+        }
+        #endregion
+        
         #region PublicMethods
         public void Setup(WorldCanvas setWorldCanvas, PlayerStateMachine setPlayerStateMachine, PlayerController setPlayerController, PartyKnapsackConduit setPartyKnapsackConduit, Shopper setShopper)
         {

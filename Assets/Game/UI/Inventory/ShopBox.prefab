@@ -271,11 +271,23 @@ MonoBehaviour:
   optionButtonPrefab: {fileID: 3358873790910023875, guid: 9193413aa0e976e439049a2689f4fa41, type: 3}
   optionSliderPrefab: {fileID: 4136279713418740174, guid: 4a7bed0c126f347b0865033b4042eab0, type: 3}
   sliderAdjustmentStep: 0.1
+  localizedShopInfoDefault:
+    m_TableReference:
+      m_TableCollectionName: GUID:ce7f667b432574cb1832328f600c1082
+    m_TableEntryReference:
+      m_KeyId: 9100415357411328
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
   shopInfoField: {fileID: 5442080066330885235}
   stockRowPrefab: {fileID: 4402643301952536208, guid: b426e9614d255c043994f26d8057687c, type: 3}
   walletUIPrefab: {fileID: 3399884933549309670, guid: fa1c608bd62d3d94392523e931df8915, type: 3}
   inventoryShopBoxPrefab: {fileID: 6226882711923951055, guid: a00aa89767cf49543b8fc44068b93f08, type: 3}
   dialogueBoxPrefab: {fileID: 4320783885461854465, guid: a9829c1cb69a159479cbe82e68a5c629, type: 3}
+  references:
+    version: 2
+    RefIds: []
 --- !u!1001 &6451051398701878834
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -581,6 +593,10 @@ PrefabInstance:
     - target: {fileID: 4442584724333405627, guid: d9812907a2f6eac44ade16914c20d7a5, type: 3}
       propertyPath: m_text
       value: What do you want to buy?
+      objectReference: {fileID: 0}
+    - target: {fileID: 4442584724333405627, guid: d9812907a2f6eac44ade16914c20d7a5, type: 3}
+      propertyPath: 'm_ActiveFontFeatures.Array.data[0]'
+      value: 1801810542
       objectReference: {fileID: 0}
     - target: {fileID: 7764666934433544137, guid: d9812907a2f6eac44ade16914c20d7a5, type: 3}
       propertyPath: m_Pivot.x

@@ -98,6 +98,14 @@ namespace Frankie.Utils.Localization
             LocalizationSettings.SelectedLocale = LocalizationSettings.AvailableLocales.GetLocale(_englishRef);
             _isLocaleInitialized = true;
         }
+        
+        public static bool HasTableEntry(LocalizationTableType localizationTableType, ref TableEntryReference tableEntryReference) => HasTableEntry(localizationTableType, ref tableEntryReference, out _);
+
+        public static bool HasTableEntry(LocalizationTableType localizationTableType, string key)
+        {
+            TableEntryReference tableEntryReference = key;
+            return HasTableEntry(localizationTableType, ref tableEntryReference, out _);
+        }
 
         public static TableEntryReference GetTableEntryReferencedByID(LocalizationTableType localizationTableType, TableEntryReference ambiguousTableEntryReference)
         {
@@ -146,6 +154,10 @@ namespace Frankie.Utils.Localization
             
             Undo.RecordObject(englishStringTable, "Update Localization Key");
             Undo.RecordObject(englishStringTable.SharedData, "Update Localization Key");
+            
+            bool tableEntryExists = HasTableEntry(localizationTableType, ref tableEntryReference);
+            if (!tableEntryExists) { tableEntryReference = new TableEntryReference(); } // Invalid table entry reference, reset to empty
+            
             switch (tableEntryReference.ReferenceType)
             {
                 case TableEntryReference.Type.Id:
@@ -174,10 +186,7 @@ namespace Frankie.Utils.Localization
 
         public static string GetEnglishEntry(LocalizationTableType localizationTableType, TableEntryReference tableEntryReference)
         {
-            if (!GetCachedEnglishTable(localizationTableType, out StringTable englishStringTable)) { return ""; }
-            tableEntryReference = GetTableEntryReferencedByID(englishStringTable.SharedData, tableEntryReference);
-            if (tableEntryReference.ReferenceType == TableEntryReference.Type.Empty) { return ""; }
-            
+            if (!HasTableEntry(localizationTableType, ref tableEntryReference, out StringTable englishStringTable)) { return ""; }
             StringTableEntry stringTableEntry = englishStringTable.GetEntry(tableEntryReference.KeyId);
             return stringTableEntry?.Value ?? "";
         }
@@ -363,6 +372,15 @@ namespace Frankie.Utils.Localization
             }
             EditorUtility.SetDirty(stringTableCollection.SharedData);
             AssetDatabase.SaveAssetIfDirty(stringTableCollection);
+        }
+
+        private static bool HasTableEntry(LocalizationTableType localizationTableType, ref TableEntryReference tableEntryReference, out StringTable englishStringTable)
+        {
+            bool englishTableFound = GetCachedEnglishTable(localizationTableType, out englishStringTable);
+            if (!englishTableFound) { return false; }
+            
+            tableEntryReference = GetTableEntryReferencedByID(englishStringTable.SharedData, tableEntryReference);
+            return tableEntryReference.ReferenceType != TableEntryReference.Type.Empty && tableEntryReference.KeyId != SharedTableData.EmptyId;
         }
         
         private static TableEntryReference GetTableEntryReferencedByID(SharedTableData sharedTableData, TableEntryReference ambiguousTableEntryReference)

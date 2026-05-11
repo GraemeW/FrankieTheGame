@@ -139,10 +139,6 @@ MonoBehaviour:
     m_Key: SkillSelectionUI.Prefab.SkillSelection.NoSkillSelectionText.189c0169
     m_Metadata:
       m_Items: []
-  - m_Id: 9000291323076608
-    m_Key: SkillSelectionUI.Prefab.AbilitiesBox.NoSkillSelectionText.7025dedf
-    m_Metadata:
-      m_Items: []
   - m_Id: 9002459291705344
     m_Key: AbilitiesBox.Prefab.AbilitiesBox.StatLabel.43e2453f
     m_Metadata:
@@ -161,6 +157,122 @@ MonoBehaviour:
       m_Items: []
   - m_Id: 9004072169365504
     m_Key: AbilitiesBox.Prefab.AbilitiesBox.MessageNoValidTarget.60148d41
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9041979810766848
+    m_Key: CashTransferBox.Prefab.CashTransferBox.MessageDeposit.823ad22
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9042015114223616
+    m_Key: CashTransferBox.Prefab.CashTransferBox.MessageWithdraw.3d0471d4
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9043485888864256
+    m_Key: StandardConfirmation.Prefab.StandardConfirmationMenu.ConfirmText.6beb9ee4
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9043523323027456
+    m_Key: StandardConfirmation.Prefab.StandardConfirmationMenu.RejectText.52fe4e6d
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9045403184914432
+    m_Key: StandardConfirmation.Prefab.StandardEscapeMenu.RejectText.27ed8b5f
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9054858278592512
+    m_Key: EquipmentBox.Prefab.EquipmentBox.MessageNoValidItems.78adda50
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9054899747676160
+    m_Key: EquipmentBox.Prefab.EquipmentBox.MessageUnequip.3da575aa
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9054925978853376
+    m_Key: EquipmentBox.Prefab.EquipmentBox.OptionText.1dc0fa62
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9054948686815232
+    m_Key: EquipmentBox.Prefab.EquipmentBox.OptionEquip.5d0d6542
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9054970841128960
+    m_Key: EquipmentBox.Prefab.EquipmentBox.OptionRemove.46f79fed
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9090075731156992
+    m_Key: InventoryBox.Prefab.InventoryBox.OptionText.160f96cb
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9090105997254656
+    m_Key: InventoryBox.Prefab.InventoryBox.OptionInspect.7647e212
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9090135265107968
+    m_Key: InventoryBox.Prefab.InventoryBox.OptionUse.69e30307
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9090162431614976
+    m_Key: InventoryBox.Prefab.InventoryBox.OptionMove.4ae1421f
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9090191695273984
+    m_Key: InventoryBox.Prefab.InventoryBox.OptionDrop.3aaea9af
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9090224113049600
+    m_Key: InventoryBox.Prefab.InventoryBox.ConfirmChoiceAffirmative.2dbaca86
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9090250767851520
+    m_Key: InventoryBox.Prefab.InventoryBox.ConfirmChoiceNegative.330702d7
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9090282225131520
+    m_Key: InventoryBox.Prefab.InventoryBox.MessageBusyInCooldown.7bca5f14
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9090309425192960
+    m_Key: InventoryBox.Prefab.InventoryBox.MessageUseItemInWorld.355374d1
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9090354954362880
+    m_Key: InventoryBox.Prefab.InventoryBox.MessageDropItem.5578c030
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9096149108514816
+    m_Key: EquipmentInventoryBox.Prefab.EquipmentInventoryBox.OptionEquip.5201e724
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9096179089399808
+    m_Key: EquipmentInventoryBox.Prefab.EquipmentInventoryBox.MessageCannotEquip.2612f886
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9097773231104000
+    m_Key: InventorySwapBox.Prefab.InventorySwapBox.MessageCannotEquip.58946cdd
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9098989205970944
+    m_Key: InventoryShopBox.Prefab.InventoryShopBox.OptionSell.4edf5d26
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9099015562977280
+    m_Key: InventoryShopBox.Prefab.InventoryShopBox.OptionCancelSale.3ab1e51f
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9100415357411328
+    m_Key: ShopBox.Prefab.ShopBox.ShopInfoDefault.4b425830
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9101877613420544
+    m_Key: ShopSelect.Prefab.ShopSelect.MessageIntro.bee58cf
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9101914842062848
+    m_Key: ShopSelect.Prefab.ShopSelect.OptionBuy.6582dae0
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9101940683169792
+    m_Key: ShopSelect.Prefab.ShopSelect.OptionSell.6dcf8fa2
     m_Metadata:
       m_Items: []
   m_Metadata:

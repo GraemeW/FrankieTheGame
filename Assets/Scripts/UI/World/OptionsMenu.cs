@@ -17,8 +17,8 @@ namespace Frankie.Menu.UI
         [SerializeField] private SoundEffects soundUpdateConfirmEffect;
         [SerializeField] private UIChoiceToggle fullScreenWindowedToggle;
         [SerializeField] private Transform resolutionOptionsParent;
-        [SerializeField] private UIChoice confirmOption;
-        [SerializeField] private UIChoice cancelOption;
+        [SerializeField] private UIChoiceButton confirmOption;
+        [SerializeField] private UIChoiceButton cancelOption;
 
         [Header("Sound Settings")]
         [SerializeField] private float defaultMasterVolume = 0.8f;
@@ -53,9 +53,17 @@ namespace Frankie.Menu.UI
             int choiceIndex = 0;
             InitializeSoundEffectsSliders(ref choiceIndex);
             InitializeResolutions(ref choiceIndex);
-            confirmOption?.SetChoiceOrder(choiceIndex);
-            choiceIndex++;
-            cancelOption?.SetChoiceOrder(choiceIndex);
+            if (confirmOption != null)
+            {
+                confirmOption.SetChoiceOrder(choiceIndex);
+                confirmOption.AddOnClickListener(SaveAndExit);
+                choiceIndex++;
+            }
+            if (cancelOption != null)
+            {
+                cancelOption.SetChoiceOrder(choiceIndex);
+                cancelOption.AddOnClickListener(Cancel);
+            }
             SetUpChoiceOptions();
         }
 
@@ -79,21 +87,6 @@ namespace Frankie.Menu.UI
             if (gameObject.activeSelf) { SubscribeToEscapeMenu(true); }
         }
 
-        // Save/Exit & Cancel called via Unity Events -- Button Presses
-        public void SaveAndExit()
-        {
-            WriteScreenResolutionToPlayerPrefs();
-            WriteVolumeToPlayerPrefs();
-            PlayerPrefsController.SaveToDisk();
-            Destroy(gameObject);
-        }
-
-        public void Cancel()
-        {
-            // Since resolution updates done over several frames, need to kick off Coroutine
-            StartCoroutine(CancelRoutine());
-        }
-
         private IEnumerator CancelRoutine()
         {
             yield return ResetOptions(); 
@@ -102,7 +95,7 @@ namespace Frankie.Menu.UI
         }
         #endregion
 
-        #region InitializationMethods
+        #region PrivateMethods
         private void SubscribeToEscapeMenu(bool enable)
         {
             if (escapeMenu == null) { return; }
@@ -176,6 +169,20 @@ namespace Frankie.Menu.UI
             soundEffectsVolumeSlider.SetSliderValue(openingSoundEffectsVolume);
 
             yield return WaitForScreenChange(openingResolutionSetting);
+        }
+        
+        private void SaveAndExit()
+        {
+            WriteScreenResolutionToPlayerPrefs();
+            WriteVolumeToPlayerPrefs();
+            PlayerPrefsController.SaveToDisk();
+            Destroy(gameObject);
+        }
+
+        private void Cancel()
+        {
+            // Since resolution updates done over several frames, need to kick off Coroutine
+            StartCoroutine(CancelRoutine());
         }
         #endregion
 

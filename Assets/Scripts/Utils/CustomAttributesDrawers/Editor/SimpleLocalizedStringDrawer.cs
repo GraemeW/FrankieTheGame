@@ -177,9 +177,12 @@ namespace Frankie.Utils.Localization.Editor
             
             string oldKey = LocalizationTool.ResolveKeyName(localizationTableType, localizedString, out TableEntryReference tableEntryReference);
             if (newKey == oldKey || string.IsNullOrWhiteSpace(newKey)) { return; }
-            
-            if (!LocalizationTool.MakeOrRenameKey(localizationTableType, tableEntryReference, newKey)) { return; }
+
+            bool newKeyExists = LocalizationTool.HasTableEntry(localizationTableType, newKey); 
+            if (!newKeyExists) { if (!LocalizationTool.MakeOrRenameKey(localizationTableType, tableEntryReference, newKey)) { return; } }
             if (!LocalizationTool.SafelyUpdateReference(localizationTableType, localizedString, newKey)) { return; }
+
+            if (newKeyExists) { SetContentsFromLocalization(localizedString, localizationTableType, contentsTextField, false); }
 
             Undo.RecordObject(targetObject, "Bind localized string to updated key");
             property.boxedValue = localizedString;

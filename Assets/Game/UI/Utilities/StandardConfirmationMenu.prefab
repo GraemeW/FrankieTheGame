@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7974464204979540039}
   - component: {fileID: 3554778785427667542}
+  - component: {fileID: 2489743272388992297}
   m_Layer: 0
   m_Name: StandardConfirmationMenu
   m_TagString: Untagged
@@ -64,6 +65,41 @@ MonoBehaviour:
   m_ChildScaleWidth: 1
   m_ChildScaleHeight: 1
   m_ReverseArrangement: 0
+--- !u!114 &2489743272388992297
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6549570719733558465}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: feb89c93ce774b16a7d4eb16040bd473, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Frankie.Utils.UI.StandardConfirmation
+  localizedConfirmText:
+    m_TableReference:
+      m_TableCollectionName: GUID:ce7f667b432574cb1832328f600c1082
+    m_TableEntryReference:
+      m_KeyId: 9043485888864256
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  localizedRejectText:
+    m_TableReference:
+      m_TableCollectionName: GUID:ce7f667b432574cb1832328f600c1082
+    m_TableEntryReference:
+      m_KeyId: 9043523323027456
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  confirmChoice: {fileID: 5328102112612744987}
+  rejectChoice: {fileID: 8916026450083396300}
+  references:
+    version: 2
+    RefIds: []
 --- !u!1001 &2284414450451345530
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -82,11 +118,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3740176654272905581, guid: 9193413aa0e976e439049a2689f4fa41, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
-      value: 2
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3740176654272905581, guid: 9193413aa0e976e439049a2689f4fa41, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Mode
-      value: 6
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3740176654272905581, guid: 9193413aa0e976e439049a2689f4fa41, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Target
@@ -98,11 +134,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3740176654272905581, guid: 9193413aa0e976e439049a2689f4fa41, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_MethodName
-      value: ConfirmEquipmentChange
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 3740176654272905581, guid: 9193413aa0e976e439049a2689f4fa41, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_TargetAssemblyTypeName
-      value: Frankie.Inventory.UI.EquipmentBox, Assembly-CSharp
+      value: Frankie.Sound.SoundEffects, Assembly-CSharp
       objectReference: {fileID: 0}
     - target: {fileID: 3740176654272905581, guid: 9193413aa0e976e439049a2689f4fa41, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Arguments.m_BoolArgument
@@ -110,7 +146,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3740176654272905581, guid: 9193413aa0e976e439049a2689f4fa41, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Arguments.m_ObjectArgumentAssemblyTypeName
-      value: UnityEngine.Object, UnityEngine
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 5879544326553776133, guid: 9193413aa0e976e439049a2689f4fa41, type: 3}
       propertyPath: m_text
@@ -236,6 +272,10 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8589988555541508693, guid: 9193413aa0e976e439049a2689f4fa41, type: 3}
+      propertyPath: m_Name
+      value: RejectTextField
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -246,6 +286,17 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 7488898841496054785, guid: 9193413aa0e976e439049a2689f4fa41, type: 3}
   m_PrefabInstance: {fileID: 2284414450451345530}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &8916026450083396300 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7210201464791026358, guid: 9193413aa0e976e439049a2689f4fa41, type: 3}
+  m_PrefabInstance: {fileID: 2284414450451345530}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 460190f52a87c3e41a4dc3606bdc35d2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &3314350961859016109
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -264,11 +315,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3740176654272905581, guid: 9193413aa0e976e439049a2689f4fa41, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
-      value: 2
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3740176654272905581, guid: 9193413aa0e976e439049a2689f4fa41, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Mode
-      value: 6
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3740176654272905581, guid: 9193413aa0e976e439049a2689f4fa41, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Target
@@ -280,19 +331,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3740176654272905581, guid: 9193413aa0e976e439049a2689f4fa41, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_MethodName
-      value: ConfirmEquipmentChange
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 3740176654272905581, guid: 9193413aa0e976e439049a2689f4fa41, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_TargetAssemblyTypeName
-      value: Frankie.Inventory.UI.EquipmentBox, Assembly-CSharp
+      value: Frankie.Sound.SoundEffects, Assembly-CSharp
       objectReference: {fileID: 0}
     - target: {fileID: 3740176654272905581, guid: 9193413aa0e976e439049a2689f4fa41, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Arguments.m_BoolArgument
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3740176654272905581, guid: 9193413aa0e976e439049a2689f4fa41, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Arguments.m_ObjectArgumentAssemblyTypeName
-      value: UnityEngine.Object, UnityEngine
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 5879544326553776133, guid: 9193413aa0e976e439049a2689f4fa41, type: 3}
       propertyPath: m_text
@@ -414,11 +465,26 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8589988555541508693, guid: 9193413aa0e976e439049a2689f4fa41, type: 3}
+      propertyPath: m_Name
+      value: ConfirmTextField
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9193413aa0e976e439049a2689f4fa41, type: 3}
+--- !u!114 &5328102112612744987 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7210201464791026358, guid: 9193413aa0e976e439049a2689f4fa41, type: 3}
+  m_PrefabInstance: {fileID: 3314350961859016109}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 460190f52a87c3e41a4dc3606bdc35d2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!224 &5337637961731168684 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 7488898841496054785, guid: 9193413aa0e976e439049a2689f4fa41, type: 3}

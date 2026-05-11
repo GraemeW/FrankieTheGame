@@ -733,16 +733,61 @@ MonoBehaviour:
   rightEquipment: {fileID: 2017014464284531185}
   equipmentChangeMenu: {fileID: 7943404947919532540}
   statSheetParent: {fileID: 5521227728359719399}
+  confirmEquipmentChange: {fileID: 5807601753936285436}
+  rejectEquipmentChange: {fileID: 7121758309202365227}
   dialogueBoxPrefab: {fileID: 4320783885461854465, guid: a9829c1cb69a159479cbe82e68a5c629, type: 3}
   dialogueOptionBoxPrefab: {fileID: 3084176042462386772, guid: cfcc3c74158936342a4d3c72aa65bde0, type: 3}
   inventoryItemFieldPrefab: {fileID: -7229577654974374248, guid: e49114d2a61e8cc46bd0caffe110c05d, type: 3}
   equipmentInventoryBoxPrefab: {fileID: 1399885947647641316, guid: 4b7a6d86130957d46bf858c8779af887, type: 3}
   statChangeFieldPrefab: {fileID: 4895827502126253176, guid: de2b0f8d2f51c3e4da7f0b370ea24fa5, type: 3}
-  messageNoValidItems: There's nothing in the knapsack to equip.
-  messageUnequip: Guess we're goin' nude
-  optionText: What do you want to do?
-  optionEquip: Put on
-  optionRemove: Take off
+  localizedMessageNoValidItems:
+    m_TableReference:
+      m_TableCollectionName: GUID:ce7f667b432574cb1832328f600c1082
+    m_TableEntryReference:
+      m_KeyId: 9054858278592512
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  localizedMessageUnequip:
+    m_TableReference:
+      m_TableCollectionName: GUID:ce7f667b432574cb1832328f600c1082
+    m_TableEntryReference:
+      m_KeyId: 9054899747676160
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  localizedOptionText:
+    m_TableReference:
+      m_TableCollectionName: GUID:ce7f667b432574cb1832328f600c1082
+    m_TableEntryReference:
+      m_KeyId: 9054925978853376
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  localizedOptionEquip:
+    m_TableReference:
+      m_TableCollectionName: GUID:ce7f667b432574cb1832328f600c1082
+    m_TableEntryReference:
+      m_KeyId: 9054948686815232
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  localizedOptionRemove:
+    m_TableReference:
+      m_TableCollectionName: GUID:ce7f667b432574cb1832328f600c1082
+    m_TableEntryReference:
+      m_KeyId: 9054970841128960
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  references:
+    version: 2
+    RefIds: []
 --- !u!225 &7931030931547762203
 CanvasGroup:
   m_ObjectHideFlags: 0
@@ -1208,6 +1253,10 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6966918601778346747, guid: b6dd3a107332d9a4997641a9cf20db31, type: 3}
+      propertyPath: 'audioClips.Array.data[0]'
+      value: 
+      objectReference: {fileID: 8300000, guid: 958e521b6ddef4caaad78efc07d14142, type: 3}
     - target: {fileID: 7635585638523590927, guid: b6dd3a107332d9a4997641a9cf20db31, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -1509,6 +1558,10 @@ PrefabInstance:
     - target: {fileID: 379625121425935736, guid: 1c8b62c9f42ae8f419b0c29af9435146, type: 3}
       propertyPath: m_text
       value: Namefield
+      objectReference: {fileID: 0}
+    - target: {fileID: 379625121425935736, guid: 1c8b62c9f42ae8f419b0c29af9435146, type: 3}
+      propertyPath: 'm_ActiveFontFeatures.Array.data[0]'
+      value: 1801810542
       objectReference: {fileID: 0}
     - target: {fileID: 1078369046174692924, guid: 1c8b62c9f42ae8f419b0c29af9435146, type: 3}
       propertyPath: m_Name

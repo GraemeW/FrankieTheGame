@@ -143,10 +143,6 @@ MonoBehaviour:
     m_Localized: No Selection
     m_Metadata:
       m_Items: []
-  - m_Id: 9000291323076608
-    m_Localized: No Selection
-    m_Metadata:
-      m_Items: []
   - m_Id: 9002459291705344
     m_Localized: 'Inclination:  '
     m_Metadata:
@@ -165,6 +161,123 @@ MonoBehaviour:
       m_Items: []
   - m_Id: 9004072169365504
     m_Localized: No valid target.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9041979810766848
+    m_Localized: You currently have {0} funds.  How much do you want to deposit?
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9042015114223616
+    m_Localized: You currently have {0} in the bank.  How much do you want to take
+      out?
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9043485888864256
+    m_Localized: Okay
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9043523323027456
+    m_Localized: Nah
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9045403184914432
+    m_Localized: Nah
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9054858278592512
+    m_Localized: There's nothing in the knapsack to equip.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9054899747676160
+    m_Localized: Guess we're goin' nude
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9054925978853376
+    m_Localized: What do you want to do?
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9054948686815232
+    m_Localized: Put on
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9054970841128960
+    m_Localized: Take off
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9090075731156992
+    m_Localized: What do you want to do?
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9090105997254656
+    m_Localized: Inspect
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9090135265107968
+    m_Localized: Use
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9090162431614976
+    m_Localized: Move
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9090191695273984
+    m_Localized: Drop
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9090224113049600
+    m_Localized: Yes
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9090250767851520
+    m_Localized: No
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9090282225131520
+    m_Localized: '{0} is busy twirling, twirling.'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9090309425192960
+    m_Localized: '{0} used {1} on {2}'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9090354954362880
+    m_Localized: Are you sure you want to abandon {0}?
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9096149108514816
+    m_Localized: Equip
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9096179089399808
+    m_Localized: This item cannot be equipped here.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9097773231104000
+    m_Localized: Are you sure you want to pick up {0} and abandon {1}?
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9098989205970944
+    m_Localized: Sell
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9099015562977280
+    m_Localized: On second thought...
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9100415357411328
+    m_Localized: What do you want to buy?
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9101877613420544
+    m_Localized: What do you want to do?
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9101914842062848
+    m_Localized: Buy
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9101940683169792
+    m_Localized: Sell
     m_Metadata:
       m_Items: []
   references:

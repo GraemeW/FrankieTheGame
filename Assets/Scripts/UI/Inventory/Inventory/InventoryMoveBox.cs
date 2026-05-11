@@ -13,13 +13,29 @@ namespace Frankie.Inventory.UI
         // Cached References
         private Knapsack sourceKnapsack;
 
+        #region PublicMethods
         public void Setup(IStandardPlayerInputCaller standardPlayerInputCaller, PartyCombatConduit partyCombatConduit, Knapsack setSourceKnapsack, int setSourceSlot, List<CharacterSlide> characterSlides)
         {
             sourceKnapsack = setSourceKnapsack;
             sourceSlot = setSourceSlot;
             Setup(standardPlayerInputCaller, partyCombatConduit, characterSlides);
         }
+        
+        public override InventoryItemField SetupItem(InventoryItemField setInventoryItemFieldPrefab, Transform container, int selector)
+        {
+            InventoryItemField inventoryItemField = base.SetupItem(setInventoryItemFieldPrefab, container, selector);
+            if (!inventoryItemField.HasAction())
+            {
+                // Force setup actions -- even allow for choice if item does not exist (move to blank space)
+                inventoryItemField.SetupButtonAction(this, ChooseItem, selector);
+                inventoryItemChoiceOptions.Add(inventoryItemField);
+            }
 
+            return inventoryItemField;
+        }
+        #endregion
+
+        #region ProtectedPrivateMethods
         protected override void ChooseItem(int inventorySlot)
         {
             if (selectedKnapsack == null) { return; }
@@ -33,18 +49,8 @@ namespace Frankie.Inventory.UI
             // Skip listening to knapsack -- window only exists momentarily and then killed
             return;
         }
+        #endregion
 
-        public override InventoryItemField SetupItem(InventoryItemField inventoryItemFieldPrefab, Transform container, int selector)
-        {
-            InventoryItemField inventoryItemField = base.SetupItem(inventoryItemFieldPrefab, container, selector);
-            if (!inventoryItemField.HasAction())
-            {
-                // Force setup actions -- even allow for choice if item does not exist (move to blank space)
-                inventoryItemField.SetupButtonAction(this, ChooseItem, selector);
-                inventoryItemChoiceOptions.Add(inventoryItemField);
-            }
 
-            return inventoryItemField;
-        }
     }
 }
