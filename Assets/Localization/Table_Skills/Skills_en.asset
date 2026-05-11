@@ -19,11 +19,11 @@ MonoBehaviour:
     m_Items: []
   m_TableData:
   - m_Id: 6901159775166464
-    m_Localized: BlatherOn
+    m_Localized: Blather On
     m_Metadata:
       m_Items: []
   - m_Id: 6901402398875648
-    m_Localized: PresentDashboard
+    m_Localized: Present Dashboard
     m_Metadata:
       m_Items: []
   - m_Id: 6901423366201344
@@ -31,11 +31,11 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 6901443050070016
-    m_Localized: DoActualWork
+    m_Localized: Do Actual Work
     m_Metadata:
       m_Items: []
   - m_Id: 6901477409808384
-    m_Localized: EdgeCloser
+    m_Localized: Edge Closer
     m_Metadata:
       m_Items: []
   - m_Id: 6901477669855232
@@ -44,7 +44,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 6901478005399552
-    m_Localized: IgnoreYou
+    m_Localized: Ignore You
     m_Metadata:
       m_Items: []
   - m_Id: 6901478160588800
@@ -52,7 +52,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 6901478475161600
-    m_Localized: AveragePraise
+    m_Localized: Average Praise
     m_Metadata:
       m_Items: []
   - m_Id: 6901478634545152
@@ -60,7 +60,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 6901478949117952
-    m_Localized: PeckEarHoles
+    m_Localized: Peck Ear Holes
     m_Metadata:
       m_Items: []
   - m_Id: 6901479112695808
@@ -68,7 +68,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 6901479427268608
-    m_Localized: LoudlyProclaim
+    m_Localized: Loudly Proclaim
     m_Metadata:
       m_Items: []
   - m_Id: 6901479586652160
@@ -76,7 +76,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 6901479897030656
-    m_Localized: PassGas
+    m_Localized: Pass Gas
     m_Metadata:
       m_Items: []
   - m_Id: 6901480215797760
@@ -100,7 +100,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 6901481478283264
-    m_Localized: TwiddleThumbs
+    m_Localized: Twiddle Thumbs
     m_Metadata:
       m_Items: []
   - m_Id: 6901481633472512
@@ -108,7 +108,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 6901481948045312
-    m_Localized: WarmMeal
+    m_Localized: Warm Meal
     m_Metadata:
       m_Items: []
   - m_Id: 6901482107428864
@@ -124,7 +124,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 6901482891763712
-    m_Localized: BigSpitTake
+    m_Localized: Big Spit Take
     m_Metadata:
       m_Items: []
   - m_Id: 6901483046952960
@@ -132,7 +132,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 6901483361525760
-    m_Localized: SpillHotRamen
+    m_Localized: Spill Hot Ramen
     m_Metadata:
       m_Items: []
   - m_Id: 6901483520909312
@@ -140,7 +140,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 6901483789344768
-    m_Localized: ChirpLoudly
+    m_Localized: Chirp Loudly
     m_Metadata:
       m_Items: []
   - m_Id: 6901483890008064
@@ -148,7 +148,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 6901484091334656
-    m_Localized: WordsOfEncouragement
+    m_Localized: Words Of Encouragement
     m_Metadata:
       m_Items: []
   - m_Id: 6901484191997952
@@ -156,7 +156,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 6901484397518848
-    m_Localized: NerdSnipe
+    m_Localized: Nerd Snipe
     m_Metadata:
       m_Items: []
   - m_Id: 6901484498182144
@@ -173,7 +173,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 6901485001498624
-    m_Localized: GutturalMonkChant
+    m_Localized: Guttural Monk Chant
     m_Metadata:
       m_Items: []
   - m_Id: 6901485102161920
@@ -181,7 +181,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 6901485303488512
-    m_Localized: ShareWarmRamen
+    m_Localized: Share Warm Ramen
     m_Metadata:
       m_Items: []
   - m_Id: 6901485404151808
@@ -189,7 +189,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 6901485605478400
-    m_Localized: RollAround
+    m_Localized: Roll Around
     m_Metadata:
       m_Items: []
   - m_Id: 6901485706141696
@@ -197,7 +197,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 6901485915856896
-    m_Localized: NerdOut
+    m_Localized: Nerd Out
     m_Metadata:
       m_Items: []
   - m_Id: 6901486020714496
@@ -217,7 +217,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 6901486754717696
-    m_Localized: RequestETC
+    m_Localized: Request ETC
     m_Metadata:
       m_Items: []
   - m_Id: 6901486855380992
@@ -225,7 +225,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 6901487060901888
-    m_Localized: PiercingMonkChant
+    m_Localized: Piercing Monk Chant
     m_Metadata:
       m_Items: []
   - m_Id: 6901487161565184
@@ -241,7 +241,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 6901487673270272
-    m_Localized: DoubleSlap
+    m_Localized: Double Slap
     m_Metadata:
       m_Items: []
   - m_Id: 6901487773933568
@@ -249,11 +249,11 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 6901487979454464
-    m_Localized: RiseAndGrind
+    m_Localized: Rise And Grind
     m_Metadata:
       m_Items: []
   - m_Id: 6901488184975360
-    m_Localized: InstillSelfDoubt
+    m_Localized: Instill Self Doubt
     m_Metadata:
       m_Items: []
   - m_Id: 6901488285638656
@@ -261,7 +261,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 6901488491159552
-    m_Localized: ShootTheShit
+    m_Localized: Shoot The Shit
     m_Metadata:
       m_Items: []
   - m_Id: 6901488596017152
@@ -269,7 +269,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 6901488801538048
-    m_Localized: ColdMonkBrew
+    m_Localized: Cold Monk Brew
     m_Metadata:
       m_Items: []
   - m_Id: 6901488906395648
@@ -277,7 +277,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 6901489111916544
-    m_Localized: ShowOffCode
+    m_Localized: Show Off Code
     m_Metadata:
       m_Items: []
   - m_Id: 6901489216774144
@@ -285,7 +285,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 6901489434877952
-    m_Localized: ShakeTail
+    m_Localized: Shake Tail
     m_Metadata:
       m_Items: []
   - m_Id: 6901489543929856
@@ -293,7 +293,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 6901489766227968
-    m_Localized: MakeUncomfortable
+    m_Localized: Make Uncomfortable
     m_Metadata:
       m_Items: []
   - m_Id: 6901489875279872
@@ -302,7 +302,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 6901490093383680
-    m_Localized: HypnoticBaldSpot
+    m_Localized: Hypnotic Bald Spot
     m_Metadata:
       m_Items: []
   - m_Id: 6901490202435584
@@ -310,7 +310,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 6901490416345088
-    m_Localized: SpillHotCoffee
+    m_Localized: Spill Hot Coffee
     m_Metadata:
       m_Items: []
   - m_Id: 6901490525396992
@@ -318,7 +318,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 6901490739306496
-    m_Localized: SqueakSqueak
+    m_Localized: Squeak Squeak
     m_Metadata:
       m_Items: []
   - m_Id: 6901490844164096
@@ -342,7 +342,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 6901491666247680
-    m_Localized: SmileMenacingly
+    m_Localized: Smile Menacingly
     m_Metadata:
       m_Items: []
   - m_Id: 6901491766910976
@@ -350,7 +350,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 6901491976626176
-    m_Localized: SpitTake
+    m_Localized: Spit Take
     m_Metadata:
       m_Items: []
   - m_Id: 6901492077289472
@@ -358,7 +358,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 6901492328947712
-    m_Localized: SelfFlagellation
+    m_Localized: Self Flagellation
     m_Metadata:
       m_Items: []
   - m_Id: 6901492433805312
@@ -366,7 +366,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 6901492635131904
-    m_Localized: GentlePraise
+    m_Localized: Gentle Praise
     m_Metadata:
       m_Items: []
   - m_Id: 6901492735795200

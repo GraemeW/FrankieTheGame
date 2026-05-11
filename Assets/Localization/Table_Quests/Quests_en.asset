@@ -19,7 +19,7 @@ MonoBehaviour:
     m_Items: []
   m_TableData:
   - m_Id: 7959387413929984
-    m_Localized: Demo_Forest-BeatSkilledWorker
+    m_Localized: Beat the Skilled Worker
     m_Metadata:
       m_Items: []
   - m_Id: 7959388114378752
@@ -35,7 +35,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 7959504988659712
-    m_Localized: Demo_Forest-FlipElectricalBreaker
+    m_Localized: Flip the Electrical Breaker
     m_Metadata:
       m_Items: []
   - m_Id: 7959505106100224
@@ -51,7 +51,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 7959505626193920
-    m_Localized: Demo_Office-InteriorHipster
+    m_Localized: Chat with the Hipster
     m_Metadata:
       m_Items: []
   - m_Id: 7959505726857216
@@ -67,7 +67,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 7959506238562304
-    m_Localized: Demo_Office-InteriorHorse
+    m_Localized: Solve the Horse's tasks
     m_Metadata:
       m_Items: []
   - m_Id: 7959506339225600
@@ -99,7 +99,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 7959507454910464
-    m_Localized: Demo_Office-IntroQuestComplete
+    m_Localized: Complete the into quest
     m_Metadata:
       m_Items: []
   - m_Id: 7959507559768064
@@ -115,7 +115,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 7959508071473152
-    m_Localized: Demo_Office-MainQuestCurio
+    m_Localized: Main Curio Quest
     m_Metadata:
       m_Items: []
   - m_Id: 7959508172136448
@@ -203,7 +203,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 7959511439499264
-    m_Localized: Demo_Office-OfficeInteriorRamen
+    m_Localized: Complete Phil Ramen's tasks and listen to his story
     m_Metadata:
       m_Items: []
   - m_Id: 7959511540162560

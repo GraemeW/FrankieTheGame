@@ -182,6 +182,8 @@ namespace Frankie.Utils.Localization
             return stringTableEntry?.Value ?? "";
         }
         
+        public static bool HasEnglishEntry(LocalizationTableType localizationTableType, TableEntryReference tableEntryReference) => !string.IsNullOrWhiteSpace(GetEnglishEntry(localizationTableType, tableEntryReference));
+        
         public static bool AddUpdateEnglishEntry(LocalizationTableType localizationTableType, string keyName, string replacementText)
         {
             TableEntryReference tableEntryReference = keyName;

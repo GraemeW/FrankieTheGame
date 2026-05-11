@@ -19,7 +19,7 @@ MonoBehaviour:
     m_Items: []
   m_TableData:
   - m_Id: 7257224400330752
-    m_Localized: GiantTurkeyLeg
+    m_Localized: Giant Turkey Leg
     m_Metadata:
       m_Items: []
   - m_Id: 7257224605851648
@@ -27,7 +27,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 7257224811372544
-    m_Localized: LooseNuts
+    m_Localized: Loose Nuts
     m_Metadata:
       m_Items: []
   - m_Id: 7257224912035840
@@ -35,7 +35,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 7257225113362432
-    m_Localized: TestKeyItem
+    m_Localized: Test Key Item
     m_Metadata:
       m_Items: []
   - m_Id: 7257225209831424
@@ -43,7 +43,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 7257225411158016
-    m_Localized: BumperCarA
+    m_Localized: Bumper Car
     m_Metadata:
       m_Items: []
   - m_Id: 7257225507627008
@@ -51,7 +51,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 7257225704759296
-    m_Localized: BrokenKeyboard
+    m_Localized: Broken Keyboard
     m_Metadata:
       m_Items: []
   - m_Id: 7257225801228288
@@ -59,7 +59,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 7257226002554880
-    m_Localized: CasioWatch
+    m_Localized: Casio Watch
     m_Metadata:
       m_Items: []
   - m_Id: 7257226094829568
@@ -76,7 +76,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 7257226589757440
-    m_Localized: UnstoppableForce
+    m_Localized: Unstoppable Force
     m_Metadata:
       m_Items: []
   - m_Id: 7257226686226432
@@ -84,7 +84,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 7257226883358720
-    m_Localized: ElectrolyteWater
+    m_Localized: Electrolyte Water
     m_Metadata:
       m_Items: []
   - m_Id: 7257226979827712
@@ -92,7 +92,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 7257227176960000
-    m_Localized: ChocolateCheeseCurds
+    m_Localized: Chocolate Cheese Curds
     m_Metadata:
       m_Items: []
   - m_Id: 7257227273428992
@@ -100,7 +100,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 7257227470561280
-    m_Localized: RoughHay
+    m_Localized: Rough Hay
     m_Metadata:
       m_Items: []
   - m_Id: 7257227579613184
@@ -109,7 +109,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 7257227776745472
-    m_Localized: SimpleKeyboard
+    m_Localized: Simple Keyboard
     m_Metadata:
       m_Items: []
   - m_Id: 7257227873214464
@@ -117,7 +117,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 7257228070346752
-    m_Localized: OneFootRuler
+    m_Localized: One Foot Ruler
     m_Metadata:
       m_Items: []
   - m_Id: 7257228166815744
@@ -125,7 +125,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 7257228363948032
-    m_Localized: SubstantialBar
+    m_Localized: Substantial Bar
     m_Metadata:
       m_Items: []
   - m_Id: 7257228460417024
@@ -134,7 +134,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 7257228657549312
-    m_Localized: ThinVest
+    m_Localized: Thin Vest
     m_Metadata:
       m_Items: []
   - m_Id: 7257228749824000
@@ -142,7 +142,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 7257228946956288
-    m_Localized: LuckyKeyboard
+    m_Localized: Lucky Keyboard
     m_Metadata:
       m_Items: []
   - m_Id: 7257229047619584
@@ -150,7 +150,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 7257229240557568
-    m_Localized: XTremeBurnHotSauce
+    m_Localized: XTreme Burn Hot Sauce
     m_Metadata:
       m_Items: []
   - m_Id: 7257229341220864
@@ -158,7 +158,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 7257229538353152
-    m_Localized: KeyToBallPitRoom
+    m_Localized: Key To Ball Pit Room
     m_Metadata:
       m_Items: []
   - m_Id: 7257229639016448
@@ -167,7 +167,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 7257229836148736
-    m_Localized: VeryImportantDocuments
+    m_Localized: Very Important Documents
     m_Metadata:
       m_Items: []
   - m_Id: 7257229936812032
@@ -183,7 +183,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 7257230423351296
-    m_Localized: LooseStep
+    m_Localized: Loose Step
     m_Metadata:
       m_Items: []
   - m_Id: 7257230519820288
@@ -192,7 +192,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 7257230716952576
-    m_Localized: KeyCardToOffice
+    m_Localized: Key Card To Office
     m_Metadata:
       m_Items: []
   - m_Id: 7257230813421568
