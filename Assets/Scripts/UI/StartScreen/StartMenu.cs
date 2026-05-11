@@ -27,6 +27,7 @@ namespace Frankie.Menu.UI
 
         public void ReloadStartScreen() // Called via Unity Events
         {
+            EnableInput(false);
             SavingWrapper.LoadStartScene();
         }
 
@@ -34,17 +35,20 @@ namespace Frankie.Menu.UI
         {
             LoadGameMenu loadGameMenu = Instantiate(loadGamePrefab, startCanvas.transform);
             loadGameMenu.Setup(newGameZoneOverride);
+            
             EnableInput(false);
             PassControl(loadGameMenu);
         }
 
         public void Continue() // Called via Unity Events -- Standard Continue
         {
+            EnableInput(false);
             SavingWrapper.Continue();
         }
 
         public void SaveCorePlayerStateAndContinue() // Called via Unity Events -- GameOver Continue
         {
+            EnableInput(false);
             SavingWrapper.SaveCorePlayerStateToSave();
             SavingWrapper.Continue();
         }
@@ -57,6 +61,7 @@ namespace Frankie.Menu.UI
 
         public void ExitGame() // Called via Unity Events
         {
+            EnableInput(false);
             Application.Quit();
         }
     }

@@ -70,7 +70,11 @@ namespace Frankie.Menu.UI
                 }
                 else
                 {
-                    loadGameEntry.Setup(index, optionNewGameText, 0, () => SavingWrapper.NewGame(saveName, newGameZoneOverride));
+                    loadGameEntry.Setup(index, optionNewGameText, 0, () =>
+                    {
+                        EnableInput(false);
+                        SavingWrapper.NewGame(saveName, newGameZoneOverride);
+                    });
                 }
                 loadGameEntry.SetChoiceOrder(choiceOptions.Count + 1);
                 choiceOptions.Add(loadGameEntry);
@@ -86,7 +90,11 @@ namespace Frankie.Menu.UI
             dialogueOptionBox.Setup(messageGameSelectOptionText);
             var choiceActionPairs = new List<ChoiceActionPair>
             {
-                new(optionLoadGameText, () => SavingWrapper.LoadGame(saveName)),
+                new(optionLoadGameText, () =>
+                {
+                    EnableInput(false);
+                    SavingWrapper.LoadGame(saveName);
+                }),
                 new(optionDeleteGameText, () =>
                 {
                     SpawnConfirmDeletionOptions(saveName);

@@ -18,6 +18,7 @@ namespace Frankie.ZoneManagement
 
         // Static State
         private static SceneLoader _activeSceneLoader;
+        private static bool _isCurrentlyLoading = false;
         private static Zone _lastZone;
         private static Zone _currentZone;
 
@@ -71,13 +72,19 @@ namespace Frankie.ZoneManagement
         #region PublicMethods
         public static IEnumerator LoadNewSceneAsync(Zone zone)
         {
+            if (_isCurrentlyLoading) { yield break; }
+            
+            _isCurrentlyLoading = true;
             SetLastZone();
             yield return SceneManager.LoadSceneAsync(zone.GetSceneReference().SceneName);
             SetCurrentZone(zone);
+            _isCurrentlyLoading = false;
         }
 
         public static void QueueScene(SceneQueueType sceneQueueType, SceneQueueData sceneQueueData)
         {
+            if (_isCurrentlyLoading) { return; }
+            
             if (_activeSceneLoader == null) { _activeSceneLoader = FindSceneLoader(); }
             if (_activeSceneLoader == null) { return; }
             _activeSceneLoader.StartLoadScene(sceneQueueType, sceneQueueData);
@@ -136,10 +143,12 @@ namespace Frankie.ZoneManagement
         private IEnumerator LoadScene(Zone zone, float delayTime, Action sceneLoadedCallback)
         {
             if (zone == null) { yield break; }
-            
+
+            _isCurrentlyLoading = true;
             yield return new WaitForSeconds(delayTime);
             yield return SceneManager.LoadSceneAsync(zone.GetSceneReference().SceneName);
             SetCurrentZone(zone);
+            _isCurrentlyLoading = false;
             sceneLoadedCallback?.Invoke();
         }
 
