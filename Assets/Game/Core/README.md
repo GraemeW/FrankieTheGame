@@ -26,8 +26,8 @@ The key scripts attached to [PersistentObjects](./CoreDep/PersistentObjects.pref
 * [InputSystemUIInputModule](https://docs.unity3d.com/Packages/com.unity.inputsystem@1.0/manual/UISupport.html):  for use with Unity's new input system + UI elements
 
 The key objects childed to [PersistentObjects](./CoreDep/PersistentObjects.prefab) include:
-* [SceneLoader](./CoreDep/SceneLoader.prefab):  employs [SceneLoader](../../Scripts/Zones/SceneLoader.cs) script to transition across scenes (zones)
-* [Fader](./CoreDep/Fader.prefab):  employs [Fader](../../Scripts/Zones/Fader.cs) script to add fading screen/transition graphics when entering/exiting both scenes (zones) and combat battles
+* [SceneLoader](./CoreDep/SceneLoader.prefab):  employs [SceneLoader](../../Scripts/Zones/Transitions/SceneLoader.cs) script to transition across scenes (zones)
+* [Fader](./CoreDep/Fader.prefab):  employs [Fader](../../Scripts/Zones/Transitions/Fader.cs) script to add fading screen/transition graphics when entering/exiting both scenes (zones) and combat battles
 * [BackgroundMusic](../Sound/BackgroundMusic.prefab):  employs [BackgroundMusic](../../Scripts/Sound/BackgroundMusic.cs) script to add background music to the scene (zone)
 * [MapCamera](../Map/MapCamera.prefab):  includes a childed SubCamera and employs [MapCamera](../../Scripts/Zones/Map/MapCamera.cs) to generate the mini-map
 * [Debugger](./CoreDep/Debugger.prefab):  employs [FrankieDebugger](../../Scripts/Core/FrankieDebugger.cs) for debug functionality (not for release)
@@ -36,7 +36,7 @@ The key objects childed to [PersistentObjects](./CoreDep/PersistentObjects.prefa
 
 [AddressablesLoader](./CoreDep/AddressablesLoader.prefab) is a singleton tagged with `DontDestroyOnLoad()` ([ref](https://docs.unity3d.com/6000.1/Documentation/ScriptReference/Object.DontDestroyOnLoad.html)), such that it will persistent during transitions from scene (zone)-to-scene (zone).  Note that it is separate from the [PersistentObjects](#persistent-objects-singleton) prefab due to its strict load order requirements.
 
-[AddressablesLoader](./CoreDep/AddressablesLoader.prefab) employs the [AddressablesLoader](../../Scripts/Core/AddressablesHandling/AddressablesLoader.cs) script, which is used to build all the caches for the scriptable objects in [OnLoadAssets](../OnLoadAssets/).  In other words, [AddressablesLoader](./CoreDep/AddressablesLoader.prefab) serves to load into memory & establish references to any data that is **not** present in the active scene.
+[AddressablesLoader](./CoreDep/AddressablesLoader.prefab) employs the [AddressablesLoader](../../Scripts/Utils/Addressables/AddressablesLoader.cs) script, which is used to build all the caches for the scriptable objects in [OnLoadAssets](../OnLoadAssets/).  In other words, [AddressablesLoader](./CoreDep/AddressablesLoader.prefab) serves to load into memory & establish references to any data that is **not** present in the active scene.
 
 Thus, [AddressablesLoader](./CoreDep/AddressablesLoader.prefab) creates the caches to allow us to **dynamically** (i.e. during run-time):
 * [BattleActions](../OnLoadAssets/BattleActions/):  use arbitrary actions

@@ -199,14 +199,9 @@ These additional functionalities are typically provided by [World Scripts](../..
 * [WorldCashGiverTaker](../../Scripts/World/Inventory/WorldCashGiverTaker.cs):  to add/remove cash from the wallet
 * [WorldItemGiverTaker](../../Scripts/World/Inventory/WorldItemGiverTaker.cs):  to add/remove items from a character's knapsack
 
-etc.
+_etc._
 
-Another common functionality exercised by world objects is quest giving and quest completion, which are handled by the scripts:
-* [QuestGiver](../../Scripts/Quests/QuestGiver.cs):  to assign a quest to the player
-* [QuestCompleter](../../Scripts/Quests/QuestCompleters/QuestCompleter.cs):  to directly complete a quest or quest objective
-* [CombatParticipantQuestCompleter](../../Scripts/Quests/QuestCompleters/CombatParticipantQuestCompleter.cs):  to complete a quest or quest objective on the state change of a given CombatParticipant (e.g. after destroying a specific enemy)
-
-etc.
+Another common functionality exercised by world objects is quest giving and quest completion, which are handled by the [QuestHandler](../../Scripts/Quests/QuestHandler.cs) script.
 
 ## Buildings, Doors and ZoneHandlers
 

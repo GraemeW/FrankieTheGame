@@ -1,11 +1,11 @@
 # Assets:  Game - Map
 
-The game map is a UI element accessible from the [WorldOptions](../UI/World/WorldOptions.prefab) menu.  The map itself lives on an image in the [MapSuper](./MapSuper.prefab) prefab that is spawned when selected.  [MapSuper](./MapSuper.prefab) is itself an extension of the standard [UIBox](../../Scripts/UI/UIBox/) UI element.
+The game map is a UI element accessible from the [WorldOptions](../UI/MainMenus/InWorld/WorldOptions.prefab) menu.  The map itself lives on an image in the [MapSuper](./MapSuper.prefab) prefab that is spawned when selected.  [MapSuper](./MapSuper.prefab) is itself an extension of the standard [UIBox](../../Scripts/UI/UIBox/) UI element.
 
 ## Map Elements
 
 The key map elements in [this directory](./) include:
-* [MapSuper](./MapSuper.prefab):  UI box that displays the map, spawned on selection via [WorldOptions](../UI/World/WorldOptions.prefab) 
+* [MapSuper](./MapSuper.prefab):  UI box that displays the map, spawned on selection via [WorldOptions](../UI/MainMenus/InWorld/WorldOptions.prefab) 
   * [MapDisplay](./MapDisplay.prefab):  childed to [MapSuper](./MapSuper.prefab), includes UI elements living in the UIBox
   * [MapRenderTexture](./MapRenderTexture.renderTexture):  map texture loaded into the `Map` Raw Image (childed to [MapDisplay](./MapDisplay.prefab))
   * [FrankieIndicator](./FrankieIndicator.prefab):  flashing image of Frankie's face to indicate player location

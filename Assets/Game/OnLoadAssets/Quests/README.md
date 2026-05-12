@@ -1,6 +1,6 @@
 # Assets:  Game - Quests
 
-Quests are simple scriptable objects with brief detail on tasks that Frankie may complete.  Briefly, a [QuestGiver](../../../Scripts/Quests/QuestGiver.cs) will assign a quest, and after certain conditions are met (e.g. foe defeated, item delivered, etc.), a [QuestCompleter](../../../Scripts/Quests/QuestCompleters/QuestCompleter.cs) will mark the quest completed in the [QuestList](../../../Scripts/Quests/QuestList.cs) & disburse any relevant rewards/loot.
+Quests are simple scriptable objects with brief detail on tasks that Frankie may complete.  Briefly, a [QuestHandler](../../../Scripts/Quests/QuestHandler.cs) can assign a quest, and after certain conditions are met (e.g. foe defeated, item delivered, etc.), either the same or a different [QuestHandler](../../../Scripts/Quests/QuestHandler.cs) will mark the quest completed in the [QuestList](../../../Scripts/Quests/QuestList.cs) & disburse any relevant rewards/loot.
 
 ## Quests: Quick Start Guide
 

@@ -104,7 +104,7 @@ As detailed [above](#dialogue-editor--dialogue-node-configuration), a new dialog
 
 However, if the first dialogue node in a dialogue tree needs to be split/conditional, this can cause some issues -- how would we know which node to start on?  In order to address this issue, the Dialogue scriptable object has a parameter `Skip Root Node`, which effectively bypasses the first node, but otherwise traverses the dialogue tree as normal.
 
-For example, this parameter is set on the [HipsterWorker](./OfficeInterior/HipsterWorker.asset) dialogue:
+For example, this parameter is set on the [HipsterWorker](./OfficeInterior/OfficeInterior-HipsterWorker.asset) dialogue:
 
 <img src="../../../InfoTools/Documentation/Game/Speech/DialogueSkipRoot.png" width="300">
 
