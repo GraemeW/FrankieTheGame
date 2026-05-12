@@ -740,6 +740,15 @@ MonoBehaviour:
   inventoryItemFieldPrefab: {fileID: -7229577654974374248, guid: e49114d2a61e8cc46bd0caffe110c05d, type: 3}
   equipmentInventoryBoxPrefab: {fileID: 1399885947647641316, guid: 4b7a6d86130957d46bf858c8779af887, type: 3}
   statChangeFieldPrefab: {fileID: 4895827502126253176, guid: de2b0f8d2f51c3e4da7f0b370ea24fa5, type: 3}
+  localizedEmptyEquipmentItem:
+    m_TableReference:
+      m_TableCollectionName: GUID:ce7f667b432574cb1832328f600c1082
+    m_TableEntryReference:
+      m_KeyId: 9465625096216576
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
   localizedMessageNoValidItems:
     m_TableReference:
       m_TableCollectionName: GUID:ce7f667b432574cb1832328f600c1082

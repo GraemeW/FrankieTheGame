@@ -471,6 +471,10 @@ MonoBehaviour:
     m_Key: OptionsMenu.Prefab.OptionsMenu.LanguageSelectText.1e32868a
     m_Metadata:
       m_Items: []
+  - m_Id: 9465625096216576
+    m_Key: EquipmentBox.Prefab.EquipmentBox.EmptyEquipmentItem.4b1b20f
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:

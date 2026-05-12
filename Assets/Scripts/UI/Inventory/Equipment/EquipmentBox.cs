@@ -37,6 +37,7 @@ namespace Frankie.Inventory.UI
         [SerializeField] private EquipmentInventoryBox equipmentInventoryBoxPrefab;
         [SerializeField] private StatChangeField statChangeFieldPrefab;
         [Header("Info/Messages")]
+        [SerializeField][SimpleLocalizedString(LocalizationTableType.UI, true)] private LocalizedString localizedEmptyEquipmentItem;
         [SerializeField][SimpleLocalizedString(LocalizationTableType.UI, true)] private LocalizedString localizedMessageNoValidItems;
         [SerializeField][SimpleLocalizedString(LocalizationTableType.UI, true)] private LocalizedString localizedMessageUnequip;
         [SerializeField][SimpleLocalizedString(LocalizationTableType.UI, true)] private LocalizedString localizedOptionText;
@@ -86,6 +87,7 @@ namespace Frankie.Inventory.UI
         {
             return new List<TableEntryReference>
             {
+                localizedEmptyEquipmentItem.TableEntryReference,
                 localizedMessageNoValidItems.TableEntryReference,
                 localizedMessageUnequip.TableEntryReference,
                 localizedOptionText.TableEntryReference,
@@ -429,7 +431,7 @@ namespace Frankie.Inventory.UI
         public InventoryItemField SetupItem(InventoryItemField setInventoryItemFieldPrefab, Transform container, int selector)
         {
             var equipLocation = (EquipLocation)selector;
-            string itemName = "Empty";
+            string itemName = localizedEmptyEquipmentItem.GetSafeLocalizedString();
             if (selectedEquipment.HasItemInSlot(equipLocation))
             {
                 itemName = selectedEquipment.GetItemInSlot(equipLocation).GetDisplayName();
