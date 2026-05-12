@@ -24,8 +24,12 @@ namespace Frankie.Utils.Localization
         private const string _localizationFolder = "Assets/Localization";
         #endregion
         
-        #region StringReferences
+        #region SupportedLocalizationTypes
         private const string _englishRef = "en";
+        private const string _frenchRef = "fr";
+        #endregion
+        
+        #region StringReferences
         private const string _initialOverwriteText = "Initial dummy text - to be replaced";
         private const string _tableChecksWorldObjectsRef = "ChecksWorldObjects";
         private const string _tableCoreRef = "Core";
@@ -61,6 +65,34 @@ namespace Frankie.Utils.Localization
                 LocalizationTableType.Zones => _tableZonesRef,
                 _ => ""
             };
+        }
+        
+        public static SupportedLocalizationType GetCurrentLocalization()
+        {
+            string localeCode = LocalizationSettings.SelectedLocale.Identifier.Code;
+            return GetLocalizationByCode(localeCode);
+        }
+
+        public static SupportedLocalizationType GetLocalizationByCode(string localeCode)
+        {
+            if (localeCode.Contains(_englishRef)) { return SupportedLocalizationType.English; }
+            if (localeCode.Contains(_frenchRef)) { return SupportedLocalizationType.French; }
+            return SupportedLocalizationType.English;
+        }
+        
+        public static string GetLocaleCode(SupportedLocalizationType supportedLocalizationType)
+        {
+            return supportedLocalizationType switch
+            {
+                SupportedLocalizationType.English => _englishRef,
+                SupportedLocalizationType.French => _frenchRef,
+                _ => _englishRef
+            };
+        }
+        
+        public static void SetLocale(SupportedLocalizationType supportedLocalizationType)
+        {
+            LocalizationSettings.SelectedLocale = LocalizationSettings.AvailableLocales.GetLocale(GetLocaleCode(supportedLocalizationType));
         }
         #endregion
         

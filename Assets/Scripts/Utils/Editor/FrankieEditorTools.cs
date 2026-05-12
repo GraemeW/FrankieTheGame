@@ -9,8 +9,21 @@ namespace Frankie.Utils.Editor
 {
     public static class FrankieEditorTools
     {
+        private const string _startSceneRef = "Assets/Scenes/StartScreen.unity";
         private const string _debugSceneRef = "Assets/Scenes/_Debug/TEST_BattleRoyale.unity";
 
+        [MenuItem("Tools/Open Debug Scene", false, 1)]
+        private static void OpenDebugScene()
+        {
+            EditorSceneManager.OpenScene(_debugSceneRef);
+        }
+        
+        [MenuItem("Tools/Open Start Scene", false, 5)]
+        private static void OpenStartScene()
+        {
+            EditorSceneManager.OpenScene(_startSceneRef);
+        }
+        
         [MenuItem("Tools/Make Selection Dirty", false, 100)]
         private static void MakeSelectionDirty()
         {
@@ -27,14 +40,8 @@ namespace Frankie.Utils.Editor
         {
             AssetDatabase.ForceReserializeAssets();
         }
-
-        [MenuItem("Tools/Open Debug Scene", false)]
-        private static void OpenDebugScene()
-        {
-            EditorSceneManager.OpenScene(_debugSceneRef);
-        }
         
-        [MenuItem("Tools/TempLocalizedLinker")]
+        [MenuItem("Tools/TempLocalizedLinker", false, 105)]
         private static void TempLocalizedLinker()
         {
             foreach (Object selectedObject in Selection.objects)

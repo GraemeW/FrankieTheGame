@@ -1,17 +1,22 @@
+using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using Frankie.Combat;
+using Frankie.Utils.Localization;
 using Frankie.Utils.UI;
+using UnityEngine.Localization;
+using UnityEngine.Localization.Tables;
 
 namespace Frankie.Stats.UI
 {
-    public class StatusBox : UIBox
+    public class StatusBox : UIBox, ILocalizable
     {
-        // Tunables
-        [Header("Data Links")]
-        [SerializeField] private TextMeshProUGUI selectedCharacterNameField;
-        [SerializeField] private TextMeshProUGUI experienceToLevel;
-        [Header("Parents")]
+        [Header("Text")]
+        [SerializeField][SimpleLocalizedString(LocalizationTableType.UI, true)] private LocalizedString localizedExperienceFlavourText;
+        [Header("Hookups")]
+        [SerializeField] private TMP_Text selectedCharacterNameField;
+        [SerializeField] private TMP_Text experienceToLevelField;
+        [SerializeField] private TMP_Text experienceFlavourField;
         [SerializeField] private Transform leftStatParent;
         [SerializeField] private Transform rightStatParent;
         [Header("Prefabs")]
@@ -19,7 +24,27 @@ namespace Frankie.Stats.UI
 
         // State
         private CombatParticipant selectedCharacter;
+        
+        #region UnityMethods
 
+        private void Start()
+        {
+            if (experienceFlavourField != null) { experienceFlavourField.SetText(localizedExperienceFlavourText.GetSafeLocalizedString()); }
+        }
+        #endregion
+
+        #region LocalizationMethods
+        public LocalizationTableType localizationTableType { get; } = LocalizationTableType.UI;
+        public List<TableEntryReference> GetLocalizationEntries()
+        {
+            return new List<TableEntryReference>
+            {
+                localizedExperienceFlavourText.TableEntryReference,
+            };
+        }
+        #endregion
+        
+        #region PublicMethods
         public void Setup(PartyCombatConduit partyCombatConduit)
         {
             int choiceIndex = 0;
@@ -37,7 +62,9 @@ namespace Frankie.Stats.UI
             }
             SetUpChoiceOptions();
         }
+        #endregion
 
+        #region PrivateMethods
         private void ChooseCharacter(CombatParticipant character)
         {
             // No actions currently available in character choice -- replace to SoftChoose
@@ -53,7 +80,7 @@ namespace Frankie.Stats.UI
             CleanUpOldStats();
 
             selectedCharacterNameField.text = selectedCharacter.GetCombatName();
-            experienceToLevel.text = selectedCharacter.GetComponent<Experience>().GetExperienceRequiredToLevel().ToString();
+            experienceToLevelField.text = selectedCharacter.GetComponent<Experience>().GetExperienceRequiredToLevel().ToString();
 
             GenerateLevel(character);
             GenerateHPAP(character);
@@ -90,5 +117,6 @@ namespace Frankie.Stats.UI
                 statField.Setup(skillStat, statValue);
             }
         }
+        #endregion
     }
 }

@@ -25,9 +25,13 @@ namespace Frankie.Inventory.UI
         #region LocalizationMethods
         public override List<TableEntryReference> GetLocalizationEntries()
         {
-            List<TableEntryReference> entries = base.GetLocalizationEntries();
-            entries.Add(localizedMessageConfirmThrowOut.TableEntryReference);
-            return entries;
+            // Note:  Standard configuration re-uses localization keys from InventoryBox 
+            // Here we only return unique to this child script to prevent deletion of InventoryBox keys
+            // Overridden standard Inventory entries would need to be manually deleted
+            return new List<TableEntryReference>
+            {
+                localizedMessageConfirmThrowOut.TableEntryReference,
+            };
         }
         #endregion
         

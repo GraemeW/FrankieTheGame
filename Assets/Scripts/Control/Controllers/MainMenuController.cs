@@ -1,0 +1,76 @@
+using System;
+using UnityEngine;
+using Frankie.Menu.UI;
+using UnityEngine.Serialization;
+
+namespace Frankie.Control
+{
+    public class MainMenuController : MonoBehaviour, IStandardPlayerInputCaller
+    {
+        // Tunables
+        [Header("Links and Prefabs")]
+        [SerializeField] private Canvas startCanvas;
+        [FormerlySerializedAs("startMenu")] [SerializeField] private Launcher launcher;
+
+        // State
+        private PlayerInputType currentDirectionalInput = PlayerInputType.DefaultNone;
+        
+        // Cached References
+        private PlayerInput playerInput;
+
+        // Events
+        public event Action<PlayerInputType> globalInput;
+
+        private void Awake()
+        {
+            playerInput = new PlayerInput();
+
+            VerifyUnique();
+
+            playerInput.Menu.Navigate.performed += context => ParseDirectionalInput(context.ReadValue<Vector2>());
+            playerInput.Menu.Navigate.canceled += _ => ParseDirectionalInput(Vector2.zero);
+            
+            playerInput.Menu.Execute.performed += _ => HandleUserInput(PlayerInputType.Execute);
+            playerInput.Menu.Cancel.performed += _ => HandleUserInput(PlayerInputType.Cancel);
+            playerInput.Menu.Option.performed += _ => HandleUserInput(PlayerInputType.Option);
+        }
+
+        public void VerifyUnique()
+        {
+            var startMenuControllers = FindObjectsByType<MainMenuController>();
+            if (startMenuControllers.Length > 1)
+            {
+                Destroy(gameObject);
+            }
+        }
+
+        private void Start()
+        {
+            launcher.Setup(startCanvas);
+            launcher.TakeControl(this, launcher, null);
+        }
+
+        private void OnEnable()
+        {
+            playerInput.Menu.Enable();
+        }
+
+        private void OnDisable()
+        {
+            playerInput.Menu.Disable();
+        }
+        
+
+        private void ParseDirectionalInput(Vector2 directionalInput)
+        {
+            if (!IStandardPlayerInputCaller.ParseDirectionalInput(directionalInput, currentDirectionalInput, out PlayerInputType newPlayerInputType)) { return; }
+            currentDirectionalInput = newPlayerInputType;
+            HandleUserInput(newPlayerInputType);
+        }
+
+        private void HandleUserInput(PlayerInputType playerInputType)
+        {
+            globalInput?.Invoke(playerInputType);
+        }
+    }
+}

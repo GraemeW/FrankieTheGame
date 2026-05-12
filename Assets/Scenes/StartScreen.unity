@@ -432,6 +432,10 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 1593896549, guid: 260fdcc750a1b7b44b0f3332e6a57e6f, type: 3}
+      propertyPath: launcher
+      value: 
+      objectReference: {fileID: 557413009210381697}
+    - target: {fileID: 1593896549, guid: 260fdcc750a1b7b44b0f3332e6a57e6f, type: 3}
       propertyPath: startMenu
       value: 
       objectReference: {fileID: 557413009210381697}

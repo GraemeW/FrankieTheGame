@@ -93,7 +93,30 @@ MonoBehaviour:
   optionButtonPrefab: {fileID: 0}
   optionSliderPrefab: {fileID: 0}
   sliderAdjustmentStep: 0.1
+  localizedFlavourTopText:
+    m_TableReference:
+      m_TableCollectionName: GUID:ce7f667b432574cb1832328f600c1082
+    m_TableEntryReference:
+      m_KeyId: 9360196097794048
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  localizedFlavourBottomText:
+    m_TableReference:
+      m_TableCollectionName: GUID:ce7f667b432574cb1832328f600c1082
+    m_TableEntryReference:
+      m_KeyId: 9360247998111744
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  flavourTopField: {fileID: 8037308411488500998}
+  flavourBottomField: {fileID: 8037308411718521848}
   mapCameraPrefab: {fileID: 2978751928550116831, guid: 0b05880436c040c4094508809c945da0, type: 3}
+  references:
+    version: 2
+    RefIds: []
 --- !u!1001 &2365520809306714582
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -220,3 +243,25 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 4637370434620495926, guid: ea2d139047823144193aa0540e4774ba, type: 3}
   m_PrefabInstance: {fileID: 2365520809306714582}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &8037308411488500998 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5719085328585886928, guid: ea2d139047823144193aa0540e4774ba, type: 3}
+  m_PrefabInstance: {fileID: 2365520809306714582}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &8037308411718521848 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5719085328497156654, guid: ea2d139047823144193aa0540e4774ba, type: 3}
+  m_PrefabInstance: {fileID: 2365520809306714582}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

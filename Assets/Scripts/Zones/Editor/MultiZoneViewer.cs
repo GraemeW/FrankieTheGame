@@ -74,7 +74,7 @@ namespace Frankie.ZoneManagement.Editor
         private Button clearButton;
         
         #region UnityMethods
-        [MenuItem("Tools/Multi-Zone Viewer")]
+        [MenuItem("Tools/Multi-Zone Viewer", false, 200)]
         public static void Open()
         {
             var win = GetWindow<MultiZoneViewer>("Multi-Zone Viewer");

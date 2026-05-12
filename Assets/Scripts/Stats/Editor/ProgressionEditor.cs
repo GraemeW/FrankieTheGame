@@ -24,8 +24,8 @@ namespace Frankie.Stats.Editor
         private ListView progressionEntries;
         private ScrollView characterStatPane;
 
-        #region UIToolKitDraw
-        [MenuItem("Tools/Progression Editor")]
+        #region UnityMethods
+        [MenuItem("Tools/Progression Editor", false, 205)]
         private static void ShowWindow()
         {
             var window = GetWindow<ProgressionEditor>("Progression Editor");

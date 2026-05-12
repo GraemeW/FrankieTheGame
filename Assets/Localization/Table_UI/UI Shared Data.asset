@@ -275,6 +275,202 @@ MonoBehaviour:
     m_Key: ShopSelect.Prefab.ShopSelect.OptionSell.6dcf8fa2
     m_Metadata:
       m_Items: []
+  - m_Id: 9320795544215552
+    m_Key: EscapeMenu.Prefab.EscapeMenu.EscapeHeaderText.3bacf486
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9320825478963200
+    m_Key: EscapeMenu.Prefab.EscapeMenu.OptionOptionsText.20c7dd23
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9320874883670016
+    m_Key: EscapeMenu.Prefab.EscapeMenu.OptionQuitText.6d0cf35c
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9323037789773824
+    m_Key: LoadGameMenu.Prefab.LoadMenu.LoadHeaderText.6ef6a4e7
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9323126440583168
+    m_Key: LoadGameMenu.Prefab.LoadMenu.OptionNewGameText.5790a24a
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9323149391814656
+    m_Key: LoadGameMenu.Prefab.LoadMenu.OptionLoadGameText.48c9e809
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9323169398644736
+    m_Key: LoadGameMenu.Prefab.LoadMenu.OptionDeleteGameText.3e11d1bd
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9323189652938752
+    m_Key: LoadGameMenu.Prefab.LoadMenu.MessageGameSelectOptionText.629cf6e0
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9323210192445440
+    m_Key: LoadGameMenu.Prefab.LoadMenu.MessageConfirmDeletionText.103a05c8
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9323238176841728
+    m_Key: LoadGameMenu.Prefab.LoadMenu.MessageAffirmative.138a2e97
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9323263028092928
+    m_Key: LoadGameMenu.Prefab.LoadMenu.MessageNegative.211f9f14
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9325737801670656
+    m_Key: LoadGameEntry.Prefab.LoadGameEntry.LevelLabelText.2e58fdfd
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9340453617917952
+    m_Key: StartMenu.Prefab.StartMenu.HeaderText.455d878b
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9340490968195072
+    m_Key: StartMenu.Prefab.StartMenu.SubHeaderText.32f27fea
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9340512673718272
+    m_Key: StartMenu.Prefab.StartMenu.SubHeaderText.2984ceea
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9340612401684480
+    m_Key: StartMenu.Prefab.StartMenu.OptionStartText.69211a35
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9340671985967104
+    m_Key: StartMenu.Prefab.StartMenu.OptionContinueText.45bb4387
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9340740931936256
+    m_Key: StartMenu.Prefab.StartMenu.OptionOptionsText.4a845dc9
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9340774561865728
+    m_Key: StartMenu.Prefab.StartMenu.OptionQuitText.4664feff
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9345538951471104
+    m_Key: GameOverMenu.Prefab.GameOverMenu.GameOverText.4bad4a0e
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9345572526874624
+    m_Key: GameOverMenu.Prefab.GameOverMenu.DefaultName.6e7167f6
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9345612603449344
+    m_Key: GameOverMenu.Prefab.GameOverMenu.OptionContinue.27e3baf1
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9345647709773824
+    m_Key: GameOverMenu.Prefab.GameOverMenu.OptionQuit.1e1873c9
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9348140321726464
+    m_Key: GameWinMenu.Prefab.GameWinMenu.GameWinText.5a4e19bc
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9348173288955904
+    m_Key: GameWinMenu.Prefab.GameWinMenu.DefaultName.5691e358
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9348623979503616
+    m_Key: GameWinMenu.Prefab.GameWinMenu.OptionStartMenu.66ff002b
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9348682368409600
+    m_Key: GameWinMenu.Prefab.GameWinMenu.CreditsHeaderText.75ff5ce4
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9348738110709760
+    m_Key: GameWinMenu.Prefab.GameWinMenu.LeadProgrammerText.48a5383
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9348789197332480
+    m_Key: GameWinMenu.Prefab.GameWinMenu.GameDesignText.7d0b4489
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9348828321800192
+    m_Key: GameWinMenu.Prefab.GameWinMenu.ArtworkText.483d89
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9348856843067392
+    m_Key: GameWinMenu.Prefab.GameWinMenu.MusicText.6ba1aa58
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9355300174815232
+    m_Key: OptionsMenu.Prefab.OptionsMenu.OptionsHeader.17581c00
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9355337726418944
+    m_Key: OptionsMenu.Prefab.OptionsMenu.MasterVolumeText.41ab4053
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9355387995152384
+    m_Key: OptionsMenu.Prefab.OptionsMenu.BackgroundVolumeText.668d0d81
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9355425123131392
+    m_Key: OptionsMenu.Prefab.OptionsMenu.SoundEffectsVolumeText.1a628124
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9355460485308416
+    m_Key: OptionsMenu.Prefab.OptionsMenu.ResolutionHeader.20582bd7
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9355507172106240
+    m_Key: OptionsMenu.Prefab.OptionsMenu.FullScreenWindowedText.34982aa4
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9355555163332608
+    m_Key: OptionsMenu.Prefab.OptionsMenu.ConfirmText.3b26dcdc
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9355582094958592
+    m_Key: OptionsMenu.Prefab.OptionsMenu.CancelText.f46c813
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9356228923744256
+    m_Key: OptionsMenu.Prefab.OptionsMenu.DefaultText.693e0618
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9358617282076672
+    m_Key: WorldOptions.Prefab.WorldOptions.KnapsackText.110c588f
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9358650349969408
+    m_Key: WorldOptions.Prefab.WorldOptions.OutfitText.309c3cfb
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9358686777499648
+    m_Key: WorldOptions.Prefab.WorldOptions.AbilitiesText.1504c170
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9358719555985408
+    m_Key: WorldOptions.Prefab.WorldOptions.StatusText.7492c35d
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9358751956983808
+    m_Key: WorldOptions.Prefab.WorldOptions.MapText.56277255
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9360196097794048
+    m_Key: MapSuper.Prefab.MapSuper.FlavourTopText.10a444b3
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9360247998111744
+    m_Key: MapSuper.Prefab.MapSuper.FlavourBottomText.623a9970
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9404486387752960
+    m_Key: StatusBox.Prefab.StatusBox.ExperienceFlavourText.3c241c55
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9409976064794624
+    m_Key: OptionsMenu.Prefab.OptionsMenu.LanguageSelectText.1e32868a
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:

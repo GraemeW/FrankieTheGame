@@ -280,6 +280,202 @@ MonoBehaviour:
     m_Localized: Sell
     m_Metadata:
       m_Items: []
+  - m_Id: 9320795544215552
+    m_Localized: Escape Menu
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9320825478963200
+    m_Localized: Game Options
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9320874883670016
+    m_Localized: Quit
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9323037789773824
+    m_Localized: Load Game
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9323126440583168
+    m_Localized: New Game
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9323149391814656
+    m_Localized: Load Game
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9323169398644736
+    m_Localized: Delete Game
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9323189652938752
+    m_Localized: What do you want to do?
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9323210192445440
+    m_Localized: Are you really sure?
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9323238176841728
+    m_Localized: Yeah
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9323263028092928
+    m_Localized: Nah
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9325737801670656
+    m_Localized: Level
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9340453617917952
+    m_Localized: Frankie
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9340490968195072
+    m_Localized: 
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9340512673718272
+    m_Localized: Demo
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9340612401684480
+    m_Localized: Yow!  Let's go!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9340671985967104
+    m_Localized: Continue from Last Save
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9340740931936256
+    m_Localized: Options
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9340774561865728
+    m_Localized: Quit
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9345538951471104
+    m_Localized: Game Over,
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9345572526874624
+    m_Localized: Frankie
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9345612603449344
+    m_Localized: Don't give up!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9345647709773824
+    m_Localized: Quit game.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9348140321726464
+    m_Localized: Well Done,
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9348173288955904
+    m_Localized: Frankie
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9348623979503616
+    m_Localized: Start Menu
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9348682368409600
+    m_Localized: Credits
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9348738110709760
+    m_Localized: 'Lead Programmer:  '
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9348789197332480
+    m_Localized: 'Game Design:  '
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9348828321800192
+    m_Localized: 'Artwork:  '
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9348856843067392
+    m_Localized: 'Music:  '
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9355300174815232
+    m_Localized: Options Menu
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9355337726418944
+    m_Localized: Master Volume
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9355387995152384
+    m_Localized: Background Volume
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9355425123131392
+    m_Localized: SFX Volume
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9355460485308416
+    m_Localized: Windowed Resolutions
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9355507172106240
+    m_Localized: Windowed FullScreen
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9355555163332608
+    m_Localized: Okay
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9355582094958592
+    m_Localized: Nah
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9356228923744256
+    m_Localized: Default
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9358617282076672
+    m_Localized: Knapsack
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9358650349969408
+    m_Localized: Outfit
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9358686777499648
+    m_Localized: Abilities
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9358719555985408
+    m_Localized: Status
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9358751956983808
+    m_Localized: Map
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9360196097794048
+    m_Localized: If I remember right, it looked like...
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9360247998111744
+    m_Localized: Wait...
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9404486387752960
+    m_Localized: experience for next level
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9409976064794624
+    m_Localized: Language
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []
