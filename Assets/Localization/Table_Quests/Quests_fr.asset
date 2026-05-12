@@ -17,7 +17,240 @@ MonoBehaviour:
   m_SharedData: {fileID: 11400000, guid: b9dd45143ecd64476b4827b4d45c6003, type: 2}
   m_Metadata:
     m_Items: []
-  m_TableData: []
+  m_TableData:
+  - m_Id: 7959387413929984
+    m_Localized: "Vaincre le Travailleur Qualifi\xE9"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7959388114378752
+    m_Localized: "Le travailleur qualifi\xE9 bloque le chemin vers le sous-sol"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7959406074388480
+    m_Localized: Frankie fait ses preuves dans une lutte
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7959406183440384
+    m_Localized: "Texte temporaire initial - \xE0 remplacer"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7959504988659712
+    m_Localized: "Actionner le Disjoncteur \xC9lectrique"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7959505106100224
+    m_Localized: "Allumer l'\xE9lectricit\xE9 pour l'ascenseur de Lacklustre Video"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7959505311621120
+    m_Localized: "Actionner le disjoncteur \xE9lectrique"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7959505416478720
+    m_Localized: "Texte temporaire initial - \xE0 remplacer"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7959505626193920
+    m_Localized: Discuter avec le Hipster
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7959505726857216
+    m_Localized: Suivi de la discussion avec le hipster au bureau
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7959505928183808
+    m_Localized: Discussion avec le Hipster - Une fois
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7959506028847104
+    m_Localized: "Texte temporaire initial - \xE0 remplacer"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7959506238562304
+    m_Localized: "Accomplir les t\xE2ches du Cheval"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7959506339225600
+    m_Localized: Suivi de la discussion avec le cheval au bureau
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7959506540552192
+    m_Localized: Le Cheval a Ouvert le Toboggan de Pompier
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7959506645409792
+    m_Localized: "Texte temporaire initial - \xE0 remplacer"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7959506846736384
+    m_Localized: "Le Cheval a Ramass\xE9 les Documents"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7959506947399680
+    m_Localized: "Texte temporaire initial - \xE0 remplacer"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7959507148726272
+    m_Localized: "Le Cheval a Re\xE7u les Documents"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7959507249389568
+    m_Localized: "Texte temporaire initial - \xE0 remplacer"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7959507454910464
+    m_Localized: "Compl\xE9ter la qu\xEAte d'introduction"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7959507559768064
+    m_Localized: "Suivre la qu\xEAte d'intro (utiliser pour d\xE9clencher l'intrigue
+      principale)"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7959507765288960
+    m_Localized: Aller se Coucher
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7959507865952256
+    m_Localized: "Texte temporaire initial - \xE0 remplacer"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7959508071473152
+    m_Localized: "Qu\xEAte Principale des Curiosit\xE9s"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7959508172136448
+    m_Localized: "Suivi de la Qu\xEAte Principale"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7959508369268736
+    m_Localized: "Curiosit\xE9 Un"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7959508469932032
+    m_Localized: "Texte temporaire initial - \xE0 remplacer"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7959508692230144
+    m_Localized: "Curiosit\xE9 Deux"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7959508797087744
+    m_Localized: "Texte temporaire initial - \xE0 remplacer"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7959508994220032
+    m_Localized: "Curiosit\xE9 Trois"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7959509099077632
+    m_Localized: "Texte temporaire initial - \xE0 remplacer"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7959509300404224
+    m_Localized: "Curiosit\xE9 Quatre"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7959509401067520
+    m_Localized: "Texte temporaire initial - \xE0 remplacer"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7959509602394112
+    m_Localized: "Curiosit\xE9 Cinq"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7959509703057408
+    m_Localized: "Texte temporaire initial - \xE0 remplacer"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7959509900189696
+    m_Localized: "Curiosit\xE9 Six"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7959510000852992
+    m_Localized: "Texte temporaire initial - \xE0 remplacer"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7959510214762496
+    m_Localized: "Curiosit\xE9 Sept"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7959510332203008
+    m_Localized: "Texte temporaire initial - \xE0 remplacer"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7959510533529600
+    m_Localized: "Curiosit\xE9 Huit"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7959510634192896
+    m_Localized: "Texte temporaire initial - \xE0 remplacer"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7959510831325184
+    m_Localized: "Curiosit\xE9 Neuf"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7959510931988480
+    m_Localized: "Texte temporaire initial - \xE0 remplacer"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7959511133315072
+    m_Localized: "Curiosit\xE9 Dix"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7959511233978368
+    m_Localized: "Texte temporaire initial - \xE0 remplacer"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7959511439499264
+    m_Localized: "Accomplir les t\xE2ches de Phil Ramen et \xE9couter son histoire"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7959511540162560
+    m_Localized: "Suivi global de la cha\xEEne de qu\xEAtes de Phil Ramen au bureau"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7959511741489152
+    m_Localized: "Baguettes Ramass\xE9es"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7959511842152448
+    m_Localized: "Texte temporaire initial - \xE0 remplacer"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7959512043479040
+    m_Localized: "Sauce Piquante Ramass\xE9e"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7959512144142336
+    m_Localized: "Texte temporaire initial - \xE0 remplacer"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7959512345468928
+    m_Localized: "Eau Vers\xE9e sur le Ramen"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7959512446132224
+    m_Localized: "Texte temporaire initial - \xE0 remplacer"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7959512643264512
+    m_Localized: Le Ramen Rencontre Son Destin
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7959512743927808
+    m_Localized: "Texte temporaire initial - \xE0 remplacer"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7959512945254400
+    m_Localized: Le Ramen Dit Au Revoir
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7959513045917696
+    m_Localized: "Texte temporaire initial - \xE0 remplacer"
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

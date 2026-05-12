@@ -17,7 +17,281 @@ MonoBehaviour:
   m_SharedData: {fileID: 11400000, guid: d96a34ea508fa423b93190524b5b4af1, type: 2}
   m_Metadata:
     m_Items: []
-  m_TableData: []
+  m_TableData:
+  - m_Id: 7257224400330752
+    m_Localized: "Cuisse de Dinde G\xE9ante"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7257224605851648
+    m_Localized: C'est une cuisse de dinde massive. Elle est vraiment, vraiment grande.
+      Non, vraiment.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7257224811372544
+    m_Localized: Noix en Vrac
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7257224912035840
+    m_Localized: "M\xE9lange de noix de macadamia et de noix ap\xE9ritives... et
+      un peu de ficelle ?"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7257225113362432
+    m_Localized: "Objet Cl\xE9 de Test"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7257225209831424
+    m_Localized: Impossible de s'en passer
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7257225411158016
+    m_Localized: Auto Tamponneuse
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7257225507627008
+    m_Localized: La base en caoutchouc rebondit avec une grande vigueur
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7257225704759296
+    m_Localized: "Clavier Bris\xE9"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7257225801228288
+    m_Localized: "La touche F colle et la barre d'espace est tomb\xE9e. Utilisable
+      uniquement par Frankie."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7257226002554880
+    m_Localized: Montre Casio
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7257226094829568
+    m_Localized: "Wow, offre une certaine protection et c'est styl\xE9 !"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7257226296156160
+    m_Localized: Agrafeuse
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7257226392625152
+    m_Localized: "Clic clic. \xC7a ne fait pas trop mal, mais c'est rouge et joli,
+      bon pour la mode. Utilisable uniquement par Phil Too."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7257226589757440
+    m_Localized: "Force Irr\xE9sistible"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7257226686226432
+    m_Localized: Si seulement tu pouvais trouver un objet immovable.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7257226883358720
+    m_Localized: "Eau \xC9lectrolytique"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7257226979827712
+    m_Localized: "Pleine de SODIUM et d'\xC9NERGIE. Restaure une bonne portion de
+      PA."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7257227176960000
+    m_Localized: Grains de Fromage au Chocolat
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7257227273428992
+    m_Localized: "Bont\xE9 chocolat\xE9e et fromag\xE8re (MC). Restaure quelques
+      PV."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7257227470561280
+    m_Localized: Foin Grossier
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7257227579613184
+    m_Localized: "Pour m\xE2cher, j'imagine ? C'est le seul aliment sain (?) disponible
+      au bureau."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7257227776745472
+    m_Localized: Clavier Simple
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7257227873214464
+    m_Localized: "C'est un clavier vraiment basique. Pas de pav\xE9 num\xE9rique.
+      Utilisable uniquement par Frankie."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7257228070346752
+    m_Localized: "R\xE8gle de Trente Centim\xE8tres"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7257228166815744
+    m_Localized: Elle fait exactement 30 cm et elle CLAQUE. Utilisable uniquement
+      par Tilly.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7257228363948032
+    m_Localized: Barre Consistante
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7257228460417024
+    m_Localized: "C'est une barre consistante. Faite d'ingr\xE9dients consistants.
+      Restaure une bonne portion de PV."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7257228657549312
+    m_Localized: Gilet Fin
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7257228749824000
+    m_Localized: "C'est un gilet tr\xE8s fin, offre une protection minimale"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7257228946956288
+    m_Localized: Clavier Chanceux
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7257229047619584
+    m_Localized: "Il a un beau d\xE9calque de tr\xE8fle dessus ! Utilisable uniquement
+      par Frankie."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7257229240557568
+    m_Localized: Sauce Piquante XTreme Burn
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7257229341220864
+    m_Localized: "Plus br\xFBlant que l'enfer. Ne mangez pas \xE7a."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7257229538353152
+    m_Localized: "Cl\xE9 de la Salle \xE0 Balles"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7257229639016448
+    m_Localized: "Extr\xEAmement pr\xE9cieuse -- remise uniquement aux ing\xE9nieurs
+      seniors. Ne la perdez pas."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7257229836148736
+    m_Localized: "Documents Tr\xE8s Importants"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7257229936812032
+    m_Localized: C'est du foin. C'est juste du foin dans un classeur.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7257230129750016
+    m_Localized: Baguettes
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7257230226219008
+    m_Localized: "Elles sont couvertes de sauce au poulet \xE0 l'orange. Beurk."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7257230423351296
+    m_Localized: Marche Manquante
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7257230519820288
+    m_Localized: Wow, c'est exactement la marche manquante de l'escalier vers le
+      sous-sol de Lacklustre Video !
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7257230716952576
+    m_Localized: "Carte-Cl\xE9 du Bureau"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7257230813421568
+    m_Localized: "La carte-cl\xE9 de Steve5000. \xC7a te permettra d'entrer au bureau."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7262405137522688
+    m_Localized: Mains
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7262405238185984
+    m_Localized: Bras
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7262405334654976
+    m_Localized: Corps
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7262405435318272
+    m_Localized: Autre
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7267079722885120
+    m_Localized: Qu'est-ce que tu veux acheter ?
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7267122433482752
+    m_Localized: Merci, tu veux autre chose ?
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7267153697824768
+    m_Localized: "Oups, t'as pas assez d'argent pour \xE7a"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7267237508407296
+    m_Localized: "Je peux t'en donner {0} $ pour \xE7a"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7267276448325632
+    m_Localized: Je ne peux pas accepter cet article
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7267823708528640
+    m_Localized: "Oups, t'as pas assez de place pour \xE7a"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7272520821497856
+    m_Localized: BZZZT ** ACHETER QUELQUE CHOSE ? **
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7277301694717952
+    m_Localized: BZZZZT ** MERCI, AUTRE CHOSE ? **
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7277317922480128
+    m_Localized: BZT ** FONDS INSUFFISANTS **
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7277331583328256
+    m_Localized: BZZT ** ESPACE INSUFFISANT **
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7277346045288448
+    m_Localized: "PHWOON ** {0} PI\xC8CES TRAIT\xC9ES **"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7277361329332224
+    m_Localized: "BZZZZZT ** D\xC9SOL\xC9 NON **"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7280701010337792
+    m_Localized: "H\xE9 mec, quoi de neuf, t'as envie d'acheter quelque chose ?"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7280756438065152
+    m_Localized: Niiiiiice, autre chose ?
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7280815208652800
+    m_Localized: J'ai bien peur que t'aies pas assez d'argent, mon ami.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7280905679790080
+    m_Localized: "Tu t'attends \xE0 ce que je te vende \xE7a, alors que tu transportes
+      d\xE9j\xE0 tout \xE7a ?!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7281028736475136
+    m_Localized: Impossible, mon pote.
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

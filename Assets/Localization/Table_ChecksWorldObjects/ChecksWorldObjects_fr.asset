@@ -17,7 +17,857 @@ MonoBehaviour:
   m_SharedData: {fileID: 11400000, guid: e01518a4d82d5485e9b0e7f466ecf01d, type: 2}
   m_Metadata:
     m_Items: []
-  m_TableData: []
+  m_TableData:
+  - m_Id: 4761391968804864
+    m_Localized: "{0} a v\xE9rifi\xE9 cet objet"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4761392354680832
+    m_Localized: OK !
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4761392472121344
+    m_Localized: Non
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4764190362296320
+    m_Localized: "{0} a v\xE9rifi\xE9 cet objet"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4764190773338112
+    m_Localized: OK !
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4764190890778624
+    m_Localized: Non
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4764210314600448
+    m_Localized: "{0} a v\xE9rifi\xE9 cet objet"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4764210545287168
+    m_Localized: OK !
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4764210641756160
+    m_Localized: Non
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4764652905947136
+    m_Localized: P-comme-dans-P-I-Z-ZA pockets
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4764653417652224
+    m_Localized: "\xC7a ressemble exactement \xE0 celui que j'avais quand j'\xE9tais
+      petit"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4764654109712384
+    m_Localized: "*glou glou* {0} se sent HYDRAT\xC9. PV et PA du groupe restaur\xE9s."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4764654550114304
+    m_Localized: Il est hors service.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4764654994710528
+    m_Localized: "J'aimerais tellement que Judge Judy soit \xE0 l'antenne"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4764655435112448
+    m_Localized: Sony Trinitron. Pas mal.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4764655871320064
+    m_Localized: "Il est \xE9crit : \xAB Attention, trou d'effondrement \xBB. Bizarre,
+      je ne me souviens pas qu'il y avait un trou ici."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4764656307527680
+    m_Localized: "La bi\xE8re. Elle est en toi pour \xEAtre donn\xE9e."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4764656747929600
+    m_Localized: Attends, qu'est-ce que c'est ?!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4764657192525824
+    m_Localized: "{0} a actionn\xE9 le disjoncteur. Un bourdonnement \xE9lectrique
+      se fait entendre."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4764657641316352
+    m_Localized: "Occup\xE9 !"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4764658081718272
+    m_Localized: "Il n'y a qu'une prise et elle est occup\xE9e par le four \xE0 micro-ondes
+      en panne"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4764658517925888
+    m_Localized: Primton Nouvelles - Le dernier beat, direct pour vous, hunky snarky
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4764658958327808
+    m_Localized: Primton Nouvelles - Le dernier beat, direct pour vous, hunky snarky
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4764659671359488
+    m_Localized: C'est le bureau de {0}. Voulez-vous sauvegarder votre progression
+      ?
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4764660367613952
+    m_Localized: "Judge Judy est \xE0 l'antenne"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4764660812210176
+    m_Localized: "Occup\xE9 !"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4764661252612096
+    m_Localized: "Personne n'est l\xE0..."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4764661713985536
+    m_Localized: "All\xF4 ?"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4764662611566592
+    m_Localized: "Toujours en panne, ils ont d\xFB virer la maintenance"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4764663051968512
+    m_Localized: "Personne n'est l\xE0..."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4764663504953344
+    m_Localized: "{0} mange le ramen chaud et r\xE9cup\xE8re des PA."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4764664066990080
+    m_Localized: "Les cheveux, c'est le P\xC9CH\xC9"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4764664331231232
+    m_Localized: C'est le bureau de {0}. Voulez-vous sauvegarder votre progression
+      ?
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4765847351451648
+    m_Localized: Si seulement j'avais quelque chose dans quoi verser cette eau chaude
+      . . .
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4765847586332672
+    m_Localized: C'est une pub pour Sleep Mattress Canada. (Pourquoi acheter un matelas
+      ailleurs ?)
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4765847699578880
+    m_Localized: "Il est \xE9crit \xAB Je parie que tu aimerais savoir ce qu'il y
+      a derri\xE8re cette porte. \xBB En effet, {0} aussi."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4765847800242176
+    m_Localized: Givrant.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4765847900905472
+    m_Localized: . . .
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4765847997374464
+    m_Localized: Des affiches de groupes dans un bureau ? Sympa.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4766546927804416
+    m_Localized: "Impossible de rentrer, encore une journ\xE9e de travail devant
+      soi"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4766547263348736
+    m_Localized: OK !
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4766547364012032
+    m_Localized: Non
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4766547464675328
+    m_Localized: "Il est \xE9crit : Tacos du c\xE9l\xE8bre Zak - FERM\xC9, en raison
+      d'une infestation de campagnols"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4766547569532928
+    m_Localized: "Il y a une note : Veuillez commander \xE0 la fen\xEAtre !"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4766547674390528
+    m_Localized: Primm Nouvelles - Le dernier beat, direct pour vous, hunky snarky
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4766547775053824
+    m_Localized: 'Il y a une note : Pas ouvert ! Revenez plus tard !'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4766608105922560
+    m_Localized: ". . . pas de r\xE9ponse"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4766608340803584
+    m_Localized: "{0} entend de la musique forte \xE0 l'int\xE9rieur."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4766608449855488
+    m_Localized: Quand la pizza est sur un bagel, tu peux manger de la pizza n'importe
+      quand !
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4766608550518784
+    m_Localized: "*Chaaaasse d'eau* \xC7a doit aller dans l'autre sens au sud de
+      l'\xE9quateur."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4766608646987776
+    m_Localized: '*Plouf plouf*, je prenais un bain'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4766608747651072
+    m_Localized: "A\xEFe, c'est piquant"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4766698086326272
+    m_Localized: "Personne n'est l\xE0"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4766876562350080
+    m_Localized: Prim Nouvelles - Le dernier beat, direct pour vous, hunky snarky
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4766876734316544
+    m_Localized: "Prim Maisons de Luxe : \xAB Vivez dans le plus grand immeuble de
+      Prim, pourquoi pas ? \xBB - Prim Immobilier"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4766876839174144
+    m_Localized: "Venez visiter la PortaBank ! \\nMaintenant ouverte dans le sud
+      de Prim !  \\n\\n - ce message vous est pr\xE9sent\xE9 par le Comit\xE9 d'infrastructure
+      et de d\xE9veloppement \xE9conomique de Prim"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4766876944031744
+    m_Localized: "Ne sautez pas !  \\n\\n  - ce message vous est pr\xE9sent\xE9 par
+      le Comit\xE9 de sant\xE9 mentale et de sanctit\xE9 de la vie de Prim"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4766877044695040
+    m_Localized: "Personnel autoris\xE9 seulement ! Les contrevenants seront poursuivis.
+      - Prim Hydro\xE9lectrique"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4766877149552640
+    m_Localized: "Il y a une note : Veuillez commander \xE0 la fen\xEAtre !"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4766877250215936
+    m_Localized: 'Il y a une note : Pas ouvert ! Revenez plus tard !'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4766978743984128
+    m_Localized: L'ascenseur est hors service
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4766978966282240
+    m_Localized: L'ascenseur est hors service
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4766979079528448
+    m_Localized: . . . {0} entend le son de bavardages au loin
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4766979180191744
+    m_Localized: L'ascenseur est hors service
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4766979276660736
+    m_Localized: ". . . pas de r\xE9ponse"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4766979377324032
+    m_Localized: L'ascenseur est hors service
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4766979473793024
+    m_Localized: ". . . une alarme incendie bipe \xE0 l'int\xE9rieur"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4766979574456320
+    m_Localized: L'ascenseur est hors service
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4766979670925312
+    m_Localized: ". . . {0} entend de la bossa nova jouer doucement \xE0 travers
+      la porte"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4766979771588608
+    m_Localized: "F\xE9licitations ! Vous avez atteint le sommet du plus grand immeuble
+      de Prim. Profitez de cette vue."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4767071324856320
+    m_Localized: "{0} a trouv\xE9 une auto tamponneuse ?"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4767127406895104
+    m_Localized: Vous voulez une cuisse de dinde ?
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4767127612416000
+    m_Localized: "{0} a trouv\xE9 une auto tamponneuse ?"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4767217911586816
+    m_Localized: "Avertissement : Faune dangereuse en avant. Peut-\xEAtre regarder
+      d'abord la vid\xE9o Lacklustre ? \\n  -sign\xE9 Les Personnes En Charge (PEC)"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4767218112913408
+    m_Localized: "Profitez de ce distributeur automatique ! \\n  -offert par l'\xC9quipe
+      de modernisation de la for\xEAt"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4767218226159616
+    m_Localized: "Acc\xE8s interdit en raison d'affaires polici\xE8res officielles.
+      \\n  -sign\xE9 Les Personnes En Charge (PEC)"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4767218331017216
+    m_Localized: "Vos imp\xF4ts au travail ! Profitez de ce tunnel ! \\n  -offert
+      par l'\xC9quipe de modernisation de la for\xEAt"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4767218431680512
+    m_Localized: "Vos imp\xF4ts au travail ! Vous avez demand\xE9, nous avons \xE9cout\xE9
+      ! Cet arbre tomb\xE9 doit \xEAtre retir\xE9 en hiver 2014 ! \\n  -offert par
+      l'\xC9quipe de modernisation de la for\xEAt"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4767356197789696
+    m_Localized: "On dirait que les ouvriers ici ont griffonn\xE9 un plan de domination
+      mondiale. \xC7a commence par... les yeux de {0} se voilent."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4767356466225152
+    m_Localized: "Non merci ! Je veux dire, je suis occup\xE9 !"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4767356575277056
+    m_Localized: "Avant, c'\xE9tait vraiment difficile de respirer ici, alors on
+      a ajout\xE9 des ventilateurs en avant. \\n  -offert par les D\xE9fenseurs de
+      l'asthme en tunnel"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4767356675940352
+    m_Localized: Givrant.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4767785518358528
+    m_Localized: "Faire appara\xEEtre des trucs ?"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4767785702907904
+    m_Localized: "Faire appara\xEEtre des trucs ?"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4767785807765504
+    m_Localized: "Faire appara\xEEtre des trucs ?"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4767785908428800
+    m_Localized: Un adversaire redoutable se dresse devant {0}. Que fait {0} ?
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4767786013286400
+    m_Localized: Combattre
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4767786113949696
+    m_Localized: "R\xE9initialiser"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4767786218807296
+    m_Localized: "Faire appara\xEEtre des trucs ?"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4767786323664896
+    m_Localized: "Est-ce que Lucy devrait rejoindre l'\xE9quipe ?"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4767786428522496
+    m_Localized: Ouais
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4767786533380096
+    m_Localized: Un adversaire redoutable se dresse devant {0}. Que fait {0} ?
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4767786638237696
+    m_Localized: Combattre
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4767786743095296
+    m_Localized: "R\xE9initialiser"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4767786847952896
+    m_Localized: Un adversaire redoutable se dresse devant {0}. Que fait {0} ?
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4767786952810496
+    m_Localized: Combattre
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4767787053473792
+    m_Localized: "R\xE9initialiser"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4767787158331392
+    m_Localized: Un adversaire redoutable se dresse devant {0}. Que fait {0} ?
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4767787263188992
+    m_Localized: Combattre
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4767787363852288
+    m_Localized: "R\xE9initialiser"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4767787464515584
+    m_Localized: Un adversaire redoutable se dresse devant {0}. Que fait {0} ?
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4767787569373184
+    m_Localized: Combattre
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4767787674230784
+    m_Localized: "R\xE9initialiser"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4767787779088384
+    m_Localized: Un adversaire redoutable se dresse devant {0}. Que fait {0} ?
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4767787883945984
+    m_Localized: Combattre
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4767787984609280
+    m_Localized: "R\xE9initialiser"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4767788089466880
+    m_Localized: Un adversaire redoutable se dresse devant {0}. Que fait {0} ?
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4767788194324480
+    m_Localized: Combattre
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4767788294987776
+    m_Localized: "R\xE9initialiser"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4767788395651072
+    m_Localized: Un adversaire redoutable se dresse devant {0}. Que fait {0} ?
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4767788500508672
+    m_Localized: Combattre
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4767788605366272
+    m_Localized: "R\xE9initialiser"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4767788710223872
+    m_Localized: "Est-ce que Phil Ramen devrait rejoindre l'\xE9quipe ?"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4767788815081472
+    m_Localized: Oui
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4767788919939072
+    m_Localized: "Est-ce que Tilly devrait rejoindre l'\xE9quipe ?"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4767789028990976
+    m_Localized: Oui
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4767789133848576
+    m_Localized: Un adversaire redoutable se dresse devant {0}. Que fait {0} ?
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4767789234511872
+    m_Localized: Combattre
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4767789339369472
+    m_Localized: "R\xE9initialiser"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4767789440032768
+    m_Localized: Un adversaire redoutable se dresse devant {0}. Que fait {0} ?
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4767789540696064
+    m_Localized: Combattre
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4767789645553664
+    m_Localized: "R\xE9initialiser"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4767789750411264
+    m_Localized: "Est-ce que PhilToo devrait rejoindre l'\xE9quipe ?"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4767789855268864
+    m_Localized: Oui
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4767789960126464
+    m_Localized: Un adversaire redoutable se dresse devant {0}. Que fait {0} ?
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4767790060789760
+    m_Localized: Combattre
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4767790165647360
+    m_Localized: "R\xE9initialiser"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4767790278893568
+    m_Localized: Un adversaire redoutable se dresse devant {0}. Que fait {0} ?
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4767790383751168
+    m_Localized: Combattre
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4767790484414464
+    m_Localized: "R\xE9initialiser"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4767790589272064
+    m_Localized: Un adversaire redoutable se dresse devant {0}. Que fait {0} ?
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4767790694129664
+    m_Localized: Combattre
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4767790798987264
+    m_Localized: "R\xE9initialiser"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4767790916427776
+    m_Localized: Un adversaire redoutable se dresse devant {0}. Que fait {0} ?
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4767791038062592
+    m_Localized: Combattre
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4767791147114496
+    m_Localized: "R\xE9initialiser"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4767791260360704
+    m_Localized: Un adversaire redoutable se dresse devant {0}. Que fait {0} ?
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4767791377801216
+    m_Localized: Combattre
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4767791499436032
+    m_Localized: "R\xE9initialiser"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4767791629459456
+    m_Localized: Un adversaire redoutable se dresse devant {0}. Que fait {0} ?
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4767791759482880
+    m_Localized: Combattre
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4767791881117696
+    m_Localized: "R\xE9initialiser"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4767791998558208
+    m_Localized: Un adversaire redoutable se dresse devant {0}. Que fait {0} ?
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4767792111804416
+    m_Localized: Combattre
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4767792220856320
+    m_Localized: "R\xE9initialiser"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4767792329908224
+    m_Localized: Un adversaire redoutable se dresse devant {0}. Que fait {0} ?
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4767792447348736
+    m_Localized: Combattre
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4767792560594944
+    m_Localized: "R\xE9initialiser"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4767792665452544
+    m_Localized: Un adversaire redoutable se dresse devant {0}. Que fait {0} ?
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4767792774504448
+    m_Localized: Combattre
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4767792896139264
+    m_Localized: "R\xE9initialiser"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4767793017774080
+    m_Localized: "{0} a actionn\xE9 le disjoncteur. Une nouvelle chanson est en attente"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4767793139408896
+    m_Localized: "{0} a actionn\xE9 le disjoncteur. Une nouvelle chanson est en attente"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4767793252655104
+    m_Localized: "{0} a actionn\xE9 le disjoncteur. Une nouvelle chanson est en attente"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4767793378484224
+    m_Localized: "{0} a actionn\xE9 le disjoncteur. Une nouvelle chanson est en attente"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4767793508507648
+    m_Localized: "{0} a actionn\xE9 le disjoncteur. Une nouvelle chanson est en attente"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4767793630142464
+    m_Localized: "{0} a actionn\xE9 le disjoncteur. Une nouvelle chanson est en attente"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4767793760165888
+    m_Localized: "{0} a actionn\xE9 le disjoncteur. Une nouvelle chanson est en attente"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4767793881800704
+    m_Localized: "{0} a actionn\xE9 le disjoncteur. Une nouvelle chanson est en attente"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4767794011824128
+    m_Localized: "{0} a actionn\xE9 le disjoncteur. Une nouvelle chanson est en attente"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4767794137653248
+    m_Localized: "{0} a actionn\xE9 le disjoncteur. Une nouvelle chanson est en attente"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4767794267676672
+    m_Localized: "{0} a actionn\xE9 le disjoncteur. Une nouvelle chanson est en attente"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4767794393505792
+    m_Localized: "{0} a actionn\xE9 le disjoncteur. Une nouvelle chanson est en attente"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 5031161611935744
+    m_Localized: Sony Trinitron. Pas mal.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 5041938053980160
+    m_Localized: "{0} a v\xE9rifi\xE9 l'objet."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 5041938263695360
+    m_Localized: "{0} n'a pas r\xE9ussi \xE0 v\xE9rifier l'objet."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 5041965862215680
+    m_Localized: Il ne semble pas fonctionner pour le moment.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 5042679833419776
+    m_Localized: "C'est un fouillis l\xE0-dedans... des baguettes enfouies dans une
+      vieille nourriture gluante. Mieux vaut ne pas l'ouvrir."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 5042679980220416
+    m_Localized: Beurk. OK, fouillons dans ce bazar.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 5043163763826688
+    m_Localized: "{0} a vers\xE9 l'eau chaude sur Phil Ramen, a m\xE9lang\xE9 ses
+      nouilles et l'a plac\xE9 sur la table."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 5043164174868480
+    m_Localized: Si seulement {0} avait quelque chose sur quoi verser cette eau chaude
+      . . .
+    m_Metadata:
+      m_Items: []
+  - m_Id: 5043802816372736
+    m_Localized: "*CLIC* On dirait que {0} a r\xE9ussi \xE0 ouvrir la porte"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 5043803030282240
+    m_Localized: "Hmm, il semble \xEAtre verrouill\xE9"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 5043902401732608
+    m_Localized: "{0} a utilis\xE9 la carte-cl\xE9. La porte s'est d\xE9verrouill\xE9e."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 5043902624030720
+    m_Localized: "Zut, {0} a oubli\xE9 sa carte-cl\xE9 \xE0 la maison."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 5044616368742400
+    m_Localized: "Ah ! La marche qu'on a s'embo\xEEte parfaitement !"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 5044616532320256
+    m_Localized: Il manque une marche dans cet escalier ! Ce serait dangereux de
+      descendre !
+    m_Metadata:
+      m_Items: []
+  - m_Id: 5044852419977216
+    m_Localized: "*CLIC* On dirait que {0} a r\xE9ussi \xE0 ouvrir le cadenas"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 5044852642275328
+    m_Localized: "Hmm, il y a un verrou \xE0 cha\xEEne sur l'entr\xE9e du toboggan
+      de pompier"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 5081826824544256
+    m_Localized: Qui voulez-vous amener avec vous ?
+    m_Metadata:
+      m_Items: []
+  - m_Id: 5081856201449472
+    m_Localized: "Hey Neve, c'est pas une f\xEAte \xE0 cinq"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 5081948102844416
+    m_Localized: Qui voulez-vous mettre aux commandes ?
+    m_Metadata:
+      m_Items: []
+  - m_Id: 5082001647329280
+    m_Localized: Que souhaitez-vous faire ?
+    m_Metadata:
+      m_Items: []
+  - m_Id: 5082038263603200
+    m_Localized: "D\xE9poser"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 5082125471571968
+    m_Localized: Retirer
+    m_Metadata:
+      m_Items: []
+  - m_Id: 5082812314017792
+    m_Localized: Qui voulez-vous abandonner ?
+    m_Metadata:
+      m_Items: []
+  - m_Id: 5082876797247488
+    m_Localized: "{0} ne peut pas \xEAtre retir\xE9 de l'\xE9quipe pour le moment"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 5082984565694464
+    m_Localized: Euh, qu'est-ce que la conscience sans un corps pour exister ?
+    m_Metadata:
+      m_Items: []
+  - m_Id: 5083248819429376
+    m_Localized: Que voulez-vous faire ?
+    m_Metadata:
+      m_Items: []
+  - m_Id: 5083286815629312
+    m_Localized: Changer de chef
+    m_Metadata:
+      m_Items: []
+  - m_Id: 5083338745307136
+    m_Localized: Ajouter
+    m_Metadata:
+      m_Items: []
+  - m_Id: 5083402268041216
+    m_Localized: Retirer
+    m_Metadata:
+      m_Items: []
+  - m_Id: 5104716185853952
+    m_Localized: "Wow ! On dirait que {0} a trouv\xE9 {1}."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 5104716479455232
+    m_Localized: Oups, on dirait que tous les sacs sont pleins.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 5104716592701440
+    m_Localized: Il n'y a rien ici.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 5154525752057856
+    m_Localized: "Wow ! On dirait que {0} a trouv\xE9 {1} $."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 5154602067419136
+    m_Localized: "A\xEFe ! {0} vient de perdre {1} $."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 5154657977491456
+    m_Localized: "{0} est d\xE9j\xE0 fauch\xE9, \xE7a ne peut pas aller plus loin."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 5154795131232256
+    m_Localized: Il n'y a rien ici.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 5154909962887168
+    m_Localized: On dirait que {0} ne peut pas porter plus d'argent.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 5167281624571904
+    m_Localized: "O\xF9 voulez-vous aller ?"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 5168358289825792
+    m_Localized: vers le bureau
+    m_Metadata:
+      m_Items: []
+  - m_Id: 5168433816657920
+    m_Localized: vers les appartements
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7282524999901184
+    m_Localized: Il ne semble pas fonctionner pour le moment.
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

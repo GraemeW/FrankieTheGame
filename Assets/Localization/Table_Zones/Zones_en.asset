@@ -19,43 +19,43 @@ MonoBehaviour:
     m_Items: []
   m_TableData:
   - m_Id: 6549045823660032
-    m_Localized: TEST_BattleRoyale
+    m_Localized: Battle Royale
     m_Metadata:
       m_Items: []
   - m_Id: 6549046037569536
-    m_Localized: MiscDebugRoom_Elevator
+    m_Localized: Misc Debug Room Elevator
     m_Metadata:
       m_Items: []
   - m_Id: 6549046247284736
-    m_Localized: Level1to6_Elevator
+    m_Localized: Level 1 to 6
     m_Metadata:
       m_Items: []
   - m_Id: 6549046440222720
-    m_Localized: Level7to15_Elevator
+    m_Localized: Level 7 to 15
     m_Metadata:
       m_Items: []
   - m_Id: 6549046633160704
-    m_Localized: Level1to6_RightDoor
+    m_Localized: Level 1 to 6 - Right Entrance
     m_Metadata:
       m_Items: []
   - m_Id: 6549046826098688
-    m_Localized: Level7to15LeftDoor
+    m_Localized: Level 7 to 15 - Left Entrance
     m_Metadata:
       m_Items: []
   - m_Id: 6549047019036672
-    m_Localized: MusicSwitcher_Elevator
+    m_Localized: Music Switcher Room
     m_Metadata:
       m_Items: []
   - m_Id: 6549047211974656
-    m_Localized: MusicSwitchDoor_DebugToForestDemo
+    m_Localized: Music Switcher to Forest
     m_Metadata:
       m_Items: []
   - m_Id: 6549729625235456
-    m_Localized: GameOverScreen
+    m_Localized: Game Over Screen
     m_Metadata:
       m_Items: []
   - m_Id: 6549729843339264
-    m_Localized: d91c7f33-5d2a-491e-8013-9af610ede985
+    m_Localized: Game Over Node
     m_Metadata:
       m_Items: []
   - m_Id: 6549730099191808
@@ -63,31 +63,31 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 6549730195660800
-    m_Localized: RootUnused
+    m_Localized: Root Unused
     m_Metadata:
       m_Items: []
   - m_Id: 6549730392793088
-    m_Localized: ApartmentDoor
+    m_Localized: Apartment Door
     m_Metadata:
       m_Items: []
   - m_Id: 6549730585731072
-    m_Localized: PrimSouthPortaBankDoor
+    m_Localized: Prim South Porta Bank Door
     m_Metadata:
       m_Items: []
   - m_Id: 6549730778669056
-    m_Localized: PrimToTunnel
+    m_Localized: Prim To Tunnel
     m_Metadata:
       m_Items: []
   - m_Id: 6549730971607040
-    m_Localized: PS_YellowHouse_Exterior
+    m_Localized: Prim South - Yellow House Exterior
     m_Metadata:
       m_Items: []
   - m_Id: 6549731164545024
-    m_Localized: PS_RedHouse_Exterior
+    m_Localized: Prim South  - Red House Exterior
     m_Metadata:
       m_Items: []
   - m_Id: 6549731361677312
-    m_Localized: PS_TallestBuilding_Exterior
+    m_Localized: Prim South - Tallest Building Exterior
     m_Metadata:
       m_Items: []
   - m_Id: 6549731600752640
@@ -95,27 +95,27 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 6549731697221632
-    m_Localized: UpStairsOffice
+    m_Localized: Upstairs Office
     m_Metadata:
       m_Items: []
   - m_Id: 6549731894353920
-    m_Localized: PlatformOffice
+    m_Localized: Platform Office
     m_Metadata:
       m_Items: []
   - m_Id: 6549732083097600
-    m_Localized: PlatformApartment
+    m_Localized: Platform Apartment
     m_Metadata:
       m_Items: []
   - m_Id: 6549732271841280
-    m_Localized: UpStairsApartment
+    m_Localized: Upstairs Apartment
     m_Metadata:
       m_Items: []
   - m_Id: 6549732502528000
-    m_Localized: OfficeInterior
+    m_Localized: Office Interior
     m_Metadata:
       m_Items: []
   - m_Id: 6549732594802688
-    m_Localized: OfficeInteriorDoor
+    m_Localized: Office Interior Door
     m_Metadata:
       m_Items: []
   - m_Id: 6549732791934976
@@ -123,11 +123,11 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 6549732980678656
-    m_Localized: EntranceHallway
+    m_Localized: Entrance Hallway
     m_Metadata:
       m_Items: []
   - m_Id: 6549733173616640
-    m_Localized: VendingMachineRoom
+    m_Localized: Vending Machine Room
     m_Metadata:
       m_Items: []
   - m_Id: 6549733362360320
@@ -135,67 +135,67 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 6549733555298304
-    m_Localized: EntranceHallwayDoor
+    m_Localized: Entrance Hallway Door
     m_Metadata:
       m_Items: []
   - m_Id: 6549733748236288
-    m_Localized: OfficeADoorRight
+    m_Localized: Office A - Right Door
     m_Metadata:
       m_Items: []
   - m_Id: 6549733941174272
-    m_Localized: OfficeADoorLeft
+    m_Localized: Office A - Left Door
     m_Metadata:
       m_Items: []
   - m_Id: 6549734134112256
-    m_Localized: OfficeBDoorRight
+    m_Localized: Office B - Right Door
     m_Metadata:
       m_Items: []
   - m_Id: 6549734327050240
-    m_Localized: OfficeBPole
+    m_Localized: Office B - Pole
     m_Metadata:
       m_Items: []
   - m_Id: 6549734515793920
-    m_Localized: BasementAPole
+    m_Localized: Basement A - Pole
     m_Metadata:
       m_Items: []
   - m_Id: 6549734708731904
-    m_Localized: BasementADoorRight
+    m_Localized: Basement A - Right Door
     m_Metadata:
       m_Items: []
   - m_Id: 6549734901669888
-    m_Localized: BasementBDoorLeft
+    m_Localized: Basement B - Left Door
     m_Metadata:
       m_Items: []
   - m_Id: 6549735094607872
-    m_Localized: BasementBDoorRight
+    m_Localized: Basement B - Right Door
     m_Metadata:
       m_Items: []
   - m_Id: 6549735291740160
-    m_Localized: BasementCDoorTop
+    m_Localized: Basement C - Top Door
     m_Metadata:
       m_Items: []
   - m_Id: 6549735488872448
-    m_Localized: BasementCDoorBottom
+    m_Localized: Basement C - Bottom Door
     m_Metadata:
       m_Items: []
   - m_Id: 6549735681810432
-    m_Localized: BasementDDoorRight
+    m_Localized: Basement D - Right Door
     m_Metadata:
       m_Items: []
   - m_Id: 6549735874748416
-    m_Localized: BasementDDoorLeft
+    m_Localized: Basement D - Left Door
     m_Metadata:
       m_Items: []
   - m_Id: 6549736071880704
-    m_Localized: DankGreenDoorRight
+    m_Localized: Dank Green Room - Right Door
     m_Metadata:
       m_Items: []
   - m_Id: 6549736264818688
-    m_Localized: DankGreenElevator
+    m_Localized: Dank Green Room - Elevator
     m_Metadata:
       m_Items: []
   - m_Id: 6549736461950976
-    m_Localized: OfficeBElevator
+    m_Localized: Office B - Elevator
     m_Metadata:
       m_Items: []
   - m_Id: 6549736709414912
@@ -203,183 +203,59 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 6549736810078208
-    m_Localized: PortaBankOffice
+    m_Localized: PortaBank at Office
     m_Metadata:
       m_Items: []
   - m_Id: 6549737015599104
-    m_Localized: PortaBankPrimSouth
-    m_Metadata:
-      m_Items: []
-  - m_Id: 6549737263063040
-    m_Localized: Demo_OfficeBuilding
-    m_Metadata:
-      m_Items: []
-  - m_Id: 6549737359532032
-    m_Localized: LeftDoor
-    m_Metadata:
-      m_Items: []
-  - m_Id: 6549737565052928
-    m_Localized: RightDoor
-    m_Metadata:
-      m_Items: []
-  - m_Id: 6549737766379520
-    m_Localized: HallwayLeft
-    m_Metadata:
-      m_Items: []
-  - m_Id: 6549737967706112
-    m_Localized: OpenRoomDoor
-    m_Metadata:
-      m_Items: []
-  - m_Id: 6549738173227008
-    m_Localized: HallwayRight
-    m_Metadata:
-      m_Items: []
-  - m_Id: 6549738387136512
-    m_Localized: Closet
-    m_Metadata:
-      m_Items: []
-  - m_Id: 6549738592657408
-    m_Localized: Office
-    m_Metadata:
-      m_Items: []
-  - m_Id: 6549738798178304
-    m_Localized: Kitchen
-    m_Metadata:
-      m_Items: []
-  - m_Id: 6549738995310592
-    m_Localized: Outdoor
-    m_Metadata:
-      m_Items: []
-  - m_Id: 6549739200831488
-    m_Localized: VendingMachines
-    m_Metadata:
-      m_Items: []
-  - m_Id: 6549739402158080
-    m_Localized: Basement
-    m_Metadata:
-      m_Items: []
-  - m_Id: 6549739607678976
-    m_Localized: BasementYellowLeft
-    m_Metadata:
-      m_Items: []
-  - m_Id: 6549739809005568
-    m_Localized: BasementOrangeRight
-    m_Metadata:
-      m_Items: []
-  - m_Id: 6549740010332160
-    m_Localized: BasementOrangeLeft
-    m_Metadata:
-      m_Items: []
-  - m_Id: 6549740211658752
-    m_Localized: BasementRedRight
-    m_Metadata:
-      m_Items: []
-  - m_Id: 6549740412985344
-    m_Localized: BasementRedLeft
-    m_Metadata:
-      m_Items: []
-  - m_Id: 6549740622700544
-    m_Localized: BasementGreenRoyaleDoor
-    m_Metadata:
-      m_Items: []
-  - m_Id: 6549740824027136
-    m_Localized: BasementGreenRoyalePole
-    m_Metadata:
-      m_Items: []
-  - m_Id: 6549741025353728
-    m_Localized: OpenOfficePole
-    m_Metadata:
-      m_Items: []
-  - m_Id: 6549741277011968
-    m_Localized: Demo_Forest1to20-Portabank
-    m_Metadata:
-      m_Items: []
-  - m_Id: 6549741377675264
-    m_Localized: PortaSF-to-Forest
-    m_Metadata:
-      m_Items: []
-  - m_Id: 6549741583196160
-    m_Localized: PortaNF-to-Forest
-    m_Metadata:
-      m_Items: []
-  - m_Id: 6549741780328448
-    m_Localized: PortaE-to-Forest
+    m_Localized: Prim South PortaBank
     m_Metadata:
       m_Items: []
   - m_Id: 6549742027792384
-    m_Localized: StartScreen
+    m_Localized: Start Screen
     m_Metadata:
       m_Items: []
   - m_Id: 6549742128455680
-    m_Localized: 15b2c8d5-5e63-462e-88ce-67505c0189cb
+    m_Localized: Start Screen Node
     m_Metadata:
       m_Items: []
   - m_Id: 6549742371725312
-    m_Localized: Demo_Forest1to20-Exterior
+    m_Localized: Forest Exterior
     m_Metadata:
       m_Items: []
   - m_Id: 6549742472388608
-    m_Localized: Forest-to-OrangeHouse
+    m_Localized: Orange House
     m_Metadata:
       m_Items: []
   - m_Id: 6549742669520896
-    m_Localized: Forest-to-LacklustreVideo
+    m_Localized: Lacklustre Video
     m_Metadata:
       m_Items: []
   - m_Id: 6549742866653184
-    m_Localized: Forest-to-PortaSF
+    m_Localized: South Forest PortaBank
     m_Metadata:
       m_Items: []
   - m_Id: 6549743067979776
-    m_Localized: Forest-to-PortaNF
+    m_Localized: North Forest PortaBank
     m_Metadata:
       m_Items: []
   - m_Id: 6549743269306368
-    m_Localized: Forest-to-ChugNSlurp
+    m_Localized: Chug'N'Slurp
     m_Metadata:
       m_Items: []
   - m_Id: 6549743470632960
-    m_Localized: Forest-to-TunnelWest
+    m_Localized: West Tunnel
     m_Metadata:
       m_Items: []
   - m_Id: 6549743671959552
-    m_Localized: Forest-to-TunnelEast
+    m_Localized: East Tunnel
     m_Metadata:
       m_Items: []
   - m_Id: 6549743873286144
-    m_Localized: Forest-to-PortaE
+    m_Localized: East PortaBank
     m_Metadata:
       m_Items: []
   - m_Id: 6549744070418432
-    m_Localized: Forest-to-ChurchLobby
-    m_Metadata:
-      m_Items: []
-  - m_Id: 6549744317882368
-    m_Localized: Demo_OfficeBuildingOutside
-    m_Metadata:
-      m_Items: []
-  - m_Id: 6549744414351360
-    m_Localized: OfficeDoor
-    m_Metadata:
-      m_Items: []
-  - m_Id: 6549744615677952
-    m_Localized: SceneToOffice
-    m_Metadata:
-      m_Items: []
-  - m_Id: 6549744817004544
-    m_Localized: StreetPortaBankDoor
-    m_Metadata:
-      m_Items: []
-  - m_Id: 6549745014136832
-    m_Localized: SceneToPortaBank
-    m_Metadata:
-      m_Items: []
-  - m_Id: 6549745211269120
-    m_Localized: SceneToSubway
-    m_Metadata:
-      m_Items: []
-  - m_Id: 6549745408401408
-    m_Localized: SubwayDownStairs
+    m_Localized: Church Lobby
     m_Metadata:
       m_Items: []
   - m_Id: 6549745655865344
@@ -387,67 +263,67 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 6549745756528640
-    m_Localized: TunnelToPrim
+    m_Localized: Prim
     m_Metadata:
       m_Items: []
   - m_Id: 6549745957855232
-    m_Localized: TunnelToProper
+    m_Localized: Proper
     m_Metadata:
       m_Items: []
   - m_Id: 6549746201124864
-    m_Localized: GameWinScreen
+    m_Localized: Game Win Screen
     m_Metadata:
       m_Items: []
   - m_Id: 6549746301788160
-    m_Localized: 690033ec-5caa-4755-abed-c50504002ce4
+    m_Localized: Game Win Node
     m_Metadata:
       m_Items: []
   - m_Id: 6549746545057792
-    m_Localized: SplashScreen
+    m_Localized: Splash Screen
     m_Metadata:
       m_Items: []
   - m_Id: 6549746645721088
-    m_Localized: 1dbab023-f9ef-4289-9884-649149c40a0a
+    m_Localized: Splash Screen Node
     m_Metadata:
       m_Items: []
   - m_Id: 6549746888990720
-    m_Localized: ApartmentInterior
+    m_Localized: Apartment Interior
     m_Metadata:
       m_Items: []
   - m_Id: 6549746989654016
-    m_Localized: LobbyDoor
+    m_Localized: Lobby Door
     m_Metadata:
       m_Items: []
   - m_Id: 6549747190980608
-    m_Localized: SceneToApartmentExterior
+    m_Localized: Apartment Exterior
     m_Metadata:
       m_Items: []
   - m_Id: 6549747392307200
-    m_Localized: LobbyToApartment
+    m_Localized: Apartment Living Room
     m_Metadata:
       m_Items: []
   - m_Id: 6549747593633792
-    m_Localized: ApartmentToLobby
+    m_Localized: Lobby
     m_Metadata:
       m_Items: []
   - m_Id: 6549747794960384
-    m_Localized: LivingRoomToBedRoom
+    m_Localized: Bedroom
     m_Metadata:
       m_Items: []
   - m_Id: 6549747996286976
-    m_Localized: BedRoom
+    m_Localized: Bedroom
     m_Metadata:
       m_Items: []
   - m_Id: 6549748193419264
-    m_Localized: LivingRoomToBathRoom
+    m_Localized: Bathroom
     m_Metadata:
       m_Items: []
   - m_Id: 6549748398940160
-    m_Localized: BathRoom
+    m_Localized: Bathroom
     m_Metadata:
       m_Items: []
   - m_Id: 6549748600266752
-    m_Localized: LivingRoomToKitchen
+    m_Localized: Kitchen
     m_Metadata:
       m_Items: []
   - m_Id: 6549748801593344
@@ -455,75 +331,75 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 6549748998725632
-    m_Localized: BedToBedroomRefresh
+    m_Localized: Bedroom Refresh
     m_Metadata:
       m_Items: []
   - m_Id: 6549749212635136
-    m_Localized: SceneToApartmentBed
+    m_Localized: Apartment Bedroom
     m_Metadata:
       m_Items: []
   - m_Id: 6549749426544640
-    m_Localized: ApartmentBed
+    m_Localized: Apartment Bed
     m_Metadata:
       m_Items: []
   - m_Id: 6549749627871232
-    m_Localized: SceneToPrim
+    m_Localized: Prim
     m_Metadata:
       m_Items: []
   - m_Id: 6549749871140864
-    m_Localized: PrimInterior
+    m_Localized: Prim Interior
     m_Metadata:
       m_Items: []
   - m_Id: 6549749971804160
-    m_Localized: PS_YellowHouse_Interior
+    m_Localized: Prim South Yellow House
     m_Metadata:
       m_Items: []
   - m_Id: 6549750173130752
-    m_Localized: PS_YellowHouse_1F
+    m_Localized: Prim South Yellow House - 1F
     m_Metadata:
       m_Items: []
   - m_Id: 6549750370263040
-    m_Localized: PS_YellowHouse_2F
+    m_Localized: Prim South Yellow House - 2F
     m_Metadata:
       m_Items: []
   - m_Id: 6549750571589632
-    m_Localized: PS_RedHouse_Interior
+    m_Localized: Prim South Red House
     m_Metadata:
       m_Items: []
   - m_Id: 6549750789693440
-    m_Localized: PS_TallestBuilding_Interior
+    m_Localized: Prim South Tallest Building
     m_Metadata:
       m_Items: []
   - m_Id: 6549750991020032
-    m_Localized: PS_TallestBuilding_1f
+    m_Localized: Prim South Tallest Building - 1F
     m_Metadata:
       m_Items: []
   - m_Id: 6549751196540928
-    m_Localized: PS_TallestBuilding_2f-down
+    m_Localized: Prim South Tallest Building - 1F
     m_Metadata:
       m_Items: []
   - m_Id: 6549751397867520
-    m_Localized: PS_TallestBuilding_2f-up
+    m_Localized: Prim South Tallest Building - 3F
     m_Metadata:
       m_Items: []
   - m_Id: 6549751599194112
-    m_Localized: PS_TallestBuilding_3f-down
+    m_Localized: Prim South Tallest Building - 2F
     m_Metadata:
       m_Items: []
   - m_Id: 6549751800520704
-    m_Localized: PS_TallestBuilding_3f-up
+    m_Localized: Prim South Tallest Building - 4F
     m_Metadata:
       m_Items: []
   - m_Id: 6549752001847296
-    m_Localized: PS_TallestBuilding_4f-down
+    m_Localized: Prim South Tallest Building - 3F
     m_Metadata:
       m_Items: []
   - m_Id: 6549752203173888
-    m_Localized: PS_TallestBuilding_4f-up
+    m_Localized: Prim South Tallest Building - 5F
     m_Metadata:
       m_Items: []
   - m_Id: 6549752412889088
-    m_Localized: PS_TallestBuilding_5f
+    m_Localized: Prim South Tallest Building - 5F
     m_Metadata:
       m_Items: []
   - m_Id: 6549752664547328
@@ -531,179 +407,179 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 6549752765210624
-    m_Localized: ProperToTunnel
+    m_Localized: Tunnel
     m_Metadata:
       m_Items: []
   - m_Id: 6549753008480256
-    m_Localized: OfficeExterior
+    m_Localized: Office Exterior
     m_Metadata:
       m_Items: []
   - m_Id: 6549753109143552
-    m_Localized: OfficeDoor
+    m_Localized: Office Door
     m_Metadata:
       m_Items: []
   - m_Id: 6549753306275840
-    m_Localized: OfficePortaBankDoor
+    m_Localized: Office PortaBank Door
     m_Metadata:
       m_Items: []
   - m_Id: 6549753507602432
-    m_Localized: SubwayOfficeDownStairs
+    m_Localized: Subway Office Downstairs
     m_Metadata:
       m_Items: []
   - m_Id: 6549753704734720
-    m_Localized: SubwayApartmentDownstairs
+    m_Localized: Subway Apartment Downstairs
     m_Metadata:
       m_Items: []
   - m_Id: 6549753901867008
-    m_Localized: ApartmentDoor
+    m_Localized: Apartment Door
     m_Metadata:
       m_Items: []
   - m_Id: 6549754149330944
-    m_Localized: Demo_Forest1to20-Interior
+    m_Localized: Forest Interior
     m_Metadata:
       m_Items: []
   - m_Id: 6549754245799936
-    m_Localized: OrangeHouseToForest
+    m_Localized: Forest
     m_Metadata:
       m_Items: []
   - m_Id: 6549754451320832
-    m_Localized: LacklustreVideoToForest
+    m_Localized: Forest
     m_Metadata:
       m_Items: []
   - m_Id: 6549754656841728
-    m_Localized: LV_1f-to-B1
+    m_Localized: LackLustre Video - B1
     m_Metadata:
       m_Items: []
   - m_Id: 6549754853974016
-    m_Localized: LV_B1-to-1f
+    m_Localized: LackLustre Video - 1F
     m_Metadata:
       m_Items: []
   - m_Id: 6549755059494912
-    m_Localized: LV_B1-to-B1_SR
+    m_Localized: LackLustre Video - B1, Sub-Room
     m_Metadata:
       m_Items: []
   - m_Id: 6549755281793024
-    m_Localized: LV_B1_SR-to-B1
+    m_Localized: LackLustre Video - B1
     m_Metadata:
       m_Items: []
   - m_Id: 6549755487313920
-    m_Localized: LV_B1-to-B1_SR2
+    m_Localized: LackLustre Video - B1, Sub-Room 2
     m_Metadata:
       m_Items: []
   - m_Id: 6549755697029120
-    m_Localized: LV_B1_SR2-to-B1
+    m_Localized: LackLustre Video - B1
     m_Metadata:
       m_Items: []
   - m_Id: 6549755902550016
-    m_Localized: LV_B1_SR-to-B1_SR2
+    m_Localized: LackLustre Video - B1, Sub-Room 2
     m_Metadata:
       m_Items: []
   - m_Id: 6549756103876608
-    m_Localized: LV_B1_SR2-to-B1_SR
+    m_Localized: LackLustre Video - B1, Sub-Room
     m_Metadata:
       m_Items: []
   - m_Id: 6549756309397504
-    m_Localized: LV_B1-to-B2
+    m_Localized: LackLustre Video - B2
     m_Metadata:
       m_Items: []
   - m_Id: 6549756510724096
-    m_Localized: LV_B2-to-B1
+    m_Localized: LackLustre Video - B1
     m_Metadata:
       m_Items: []
   - m_Id: 6549756712050688
-    m_Localized: LV_B1_SR2-to-B2_SR
+    m_Localized: LackLustre Video - B2, Sub-Room
     m_Metadata:
       m_Items: []
   - m_Id: 6549756917571584
-    m_Localized: LV_B2_SR-to-B1_SR2
+    m_Localized: LackLustre Video - B1, Sub-Room 2
     m_Metadata:
       m_Items: []
   - m_Id: 6549757114703872
-    m_Localized: LV_B2_SR-to-B2
+    m_Localized: LackLustre Video - B2
     m_Metadata:
       m_Items: []
   - m_Id: 6549757320224768
-    m_Localized: LV_B2-to-B2_SR
+    m_Localized: LackLustre Video - B2, Sub-Room
     m_Metadata:
       m_Items: []
   - m_Id: 6549757525745664
-    m_Localized: LV_B2-to-B2_SR2
+    m_Localized: LackLustre Video - B2, Sub-Room 2
     m_Metadata:
       m_Items: []
   - m_Id: 6549757731266560
-    m_Localized: LV_B2_SR2-to-B2
+    m_Localized: LackLustre Video - B2
     m_Metadata:
       m_Items: []
   - m_Id: 6549757932593152
-    m_Localized: LV_B2_SR2-to-B3
+    m_Localized: LackLustre Video - B3
     m_Metadata:
       m_Items: []
   - m_Id: 6549758133919744
-    m_Localized: LV_B3-to-B2_SR2
+    m_Localized: LackLustre Video - B2, Sub-Room 2
     m_Metadata:
       m_Items: []
   - m_Id: 6549758335246336
-    m_Localized: LV_B3-to-B3_SR
+    m_Localized: LackLustre Video - B3, Sub-Room
     m_Metadata:
       m_Items: []
   - m_Id: 6549758540767232
-    m_Localized: LV_B3_SR-to-B3
+    m_Localized: LackLustre Video - B3
     m_Metadata:
       m_Items: []
   - m_Id: 6549758763065344
-    m_Localized: LV_1f-to-1f_SR
+    m_Localized: LackLustre Video - 1F, Sub-Room
     m_Metadata:
       m_Items: []
   - m_Id: 6549758989557760
-    m_Localized: LV_1f_SR-to-1f
+    m_Localized: LackLustre Video - 1F
     m_Metadata:
       m_Items: []
   - m_Id: 6549759228633088
-    m_Localized: LV_1f_SR-to-B4
+    m_Localized: LackLustre Video - B4
     m_Metadata:
       m_Items: []
   - m_Id: 6549759471902720
-    m_Localized: LV_B3_SR-to-B4
+    m_Localized: LackLustre Video - B4
     m_Metadata:
       m_Items: []
   - m_Id: 6549759702589440
-    m_Localized: LV_B4-to-B3_SR
+    m_Localized: LackLustre Video - B3, Sub-Room
     m_Metadata:
       m_Items: []
   - m_Id: 6549759941664768
-    m_Localized: LV_B4-to-1f_SR
+    m_Localized: LackLustre Video - 1F, Sub-Room
     m_Metadata:
       m_Items: []
   - m_Id: 6549760172351488
-    m_Localized: ChugNSlurpToForest
+    m_Localized: Forest
     m_Metadata:
       m_Items: []
   - m_Id: 6549760407232512
-    m_Localized: TunnelWestToForest
+    m_Localized: Forest
     m_Metadata:
       m_Items: []
   - m_Id: 6549760637919232
-    m_Localized: TunnelEastToForest
+    m_Localized: Forest
     m_Metadata:
       m_Items: []
   - m_Id: 6549760868605952
-    m_Localized: ChurchLobbyToForest
+    m_Localized: Forest
     m_Metadata:
       m_Items: []
   - m_Id: 6549761103486976
-    m_Localized: ChurchLobby1ToChurch
+    m_Localized: Church
     m_Metadata:
       m_Items: []
   - m_Id: 6549761342562304
-    m_Localized: ChurchToChurchLobby
+    m_Localized: Church Lobby
     m_Metadata:
       m_Items: []
   - m_Id: 6549761581637632
-    m_Localized: ChurchLobby2ToChurch
+    m_Localized: Church
     m_Metadata:
       m_Items: []
   - m_Id: 6549761824907264
-    m_Localized: ChurchLobbyToPortaE
+    m_Localized: East PortaBank
     m_Metadata:
       m_Items: []
   - m_Id: 6551018119618560

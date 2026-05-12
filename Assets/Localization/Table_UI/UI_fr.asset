@@ -17,7 +17,461 @@ MonoBehaviour:
   m_SharedData: {fileID: 11400000, guid: ce7f667b432574cb1832328f600c1082, type: 2}
   m_Metadata:
     m_Items: []
-  m_TableData: []
+  m_TableData:
+  - m_Id: 7976973233020928
+    m_Localized: PV
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7978808543010816
+    m_Localized: PA
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7991831638827008
+    m_Localized: "rat\xE9"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7991869383368704
+    m_Localized: CRITIQUE !
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7997758593032192
+    m_Localized: Tu rencontres {0}.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7997790486519808
+    m_Localized: Tu rencontres {0} et sa bande.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7997814947700736
+    m_Localized: Que veux-tu faire ?
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7997834627375104
+    m_Localized: "Ton groupe a gagn\xE9 {0} points d'exp\xE9rience."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7997860300709888
+    m_Localized: '{0} a atteint le niveau {1} !'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7997880118796288
+    m_Localized: "{0} a augment\xE9 de {1}."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7997902138892288
+    m_Localized: "Attends, {0} a trouv\xE9 quelque chose."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7997925174009856
+    m_Localized: "{0} a l\xE2ch\xE9 {1}, et tu l'as rang\xE9 dans ton sac \xE0 dos."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7997945612853248
+    m_Localized: "{0} a l\xE2ch\xE9 {1}, mais tu n'as plus de place. Tu veux jeter
+      quelque chose ?"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7997972309598208
+    m_Localized: "T'es s\xFBr de vouloir abandonner {0} ?"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7997998792433664
+    m_Localized: Ouais
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7998019667484672
+    m_Localized: Non
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7998039489765376
+    m_Localized: "T'as gagn\xE9 ! F\xE9licitations !"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7998057474940928
+    m_Localized: "On dirait que les choses ne se sont pas tout \xE0 fait pass\xE9es
+      comme pr\xE9vu."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7998077553074176
+    m_Localized: Tu as pris la fuite.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 8003262832697344
+    m_Localized: "{0} a r\xE9cup\xE9r\xE9 {1} PV."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 8003284227842048
+    m_Localized: "{0} a re\xE7u {1} points de d\xE9g\xE2ts."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 8003305111281664
+    m_Localized: "{0} a r\xE9cup\xE9r\xE9 {1} PA."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 8003344688734208
+    m_Localized: '{0} a perdu {1} PA.'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 8003359918252032
+    m_Localized: "{0} a \xE9t\xE9 mis hors combat."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 8003382676545536
+    m_Localized: "{0} a retrouv\xE9 la volont\xE9 de se battre."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 8004517357412352
+    m_Localized: Utiliser l'objet {0} sur quel ennemi ?
+    m_Metadata:
+      m_Items: []
+  - m_Id: 8994215747903488
+    m_Localized: Combattre
+    m_Metadata:
+      m_Items: []
+  - m_Id: 8994259788095488
+    m_Localized: Objet
+    m_Metadata:
+      m_Items: []
+  - m_Id: 8994292197482496
+    m_Localized: Stats
+    m_Metadata:
+      m_Items: []
+  - m_Id: 8994330206265344
+    m_Localized: Fuir
+    m_Metadata:
+      m_Items: []
+  - m_Id: 8999697510293504
+    m_Localized: "Aucune s\xE9lection"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9002459291705344
+    m_Localized: 'Inclination :'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9002630037626880
+    m_Localized: "Co\xFBt en PA :"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9003945904037888
+    m_Localized: "{0} a utilis\xE9 {1} sur {2}"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9004005794504704
+    m_Localized: Pas assez de PA.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9004072169365504
+    m_Localized: Aucune cible valide.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9041979810766848
+    m_Localized: "Tu as actuellement {0} en fonds. Combien veux-tu d\xE9poser ?"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9042015114223616
+    m_Localized: Tu as actuellement {0} en banque. Combien veux-tu retirer ?
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9043485888864256
+    m_Localized: Ok
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9043523323027456
+    m_Localized: Non
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9045403184914432
+    m_Localized: Non
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9054858278592512
+    m_Localized: "Il n'y a rien dans le sac \xE0 dos \xE0 \xE9quiper."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9054899747676160
+    m_Localized: "On dirait qu'on y va \xE0 poil"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9054925978853376
+    m_Localized: Que veux-tu faire ?
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9054948686815232
+    m_Localized: Mettre
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9054970841128960
+    m_Localized: Enlever
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9090075731156992
+    m_Localized: Que veux-tu faire ?
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9090105997254656
+    m_Localized: Inspecter
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9090135265107968
+    m_Localized: Utiliser
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9090162431614976
+    m_Localized: "D\xE9placer"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9090191695273984
+    m_Localized: Jeter
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9090224113049600
+    m_Localized: Oui
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9090250767851520
+    m_Localized: Non
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9090282225131520
+    m_Localized: '{0} est en train de tournoyer, tournoyer.'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9090309425192960
+    m_Localized: "{0} a utilis\xE9 {1} sur {2}"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9090354954362880
+    m_Localized: "T'es s\xFBr de vouloir abandonner {0} ?"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9096149108514816
+    m_Localized: "\xC9quiper"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9096179089399808
+    m_Localized: "Cet objet ne peut pas \xEAtre \xE9quip\xE9 ici."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9097773231104000
+    m_Localized: "T'es s\xFBr de vouloir ramasser {0} et abandonner {1} ?"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9098989205970944
+    m_Localized: Vendre
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9099015562977280
+    m_Localized: En y repensant...
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9100415357411328
+    m_Localized: Que veux-tu acheter ?
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9101877613420544
+    m_Localized: Que veux-tu faire ?
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9101914842062848
+    m_Localized: Acheter
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9101940683169792
+    m_Localized: Vendre
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9320795544215552
+    m_Localized: Menu Pause
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9320825478963200
+    m_Localized: Options de jeu
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9320874883670016
+    m_Localized: Quitter
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9323037789773824
+    m_Localized: Charger une partie
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9323126440583168
+    m_Localized: Nouvelle partie
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9323149391814656
+    m_Localized: Charger une partie
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9323169398644736
+    m_Localized: Supprimer la partie
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9323189652938752
+    m_Localized: Que veux-tu faire ?
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9323210192445440
+    m_Localized: "T'es vraiment s\xFBr ?"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9323238176841728
+    m_Localized: Ouais
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9323263028092928
+    m_Localized: Non
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9325737801670656
+    m_Localized: Niveau
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9340453617917952
+    m_Localized: Frankie
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9340512673718272
+    m_Localized: "D\xE9mo"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9340612401684480
+    m_Localized: "A\xEFe ! On y va !"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9340671985967104
+    m_Localized: "Continuer depuis la derni\xE8re sauvegarde"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9340740931936256
+    m_Localized: Options
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9340774561865728
+    m_Localized: Quitter
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9345538951471104
+    m_Localized: Game Over,
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9345572526874624
+    m_Localized: Frankie
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9345612603449344
+    m_Localized: "L\xE2che pas !"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9345647709773824
+    m_Localized: Quitter le jeu.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9348140321726464
+    m_Localized: Bravo,
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9348173288955904
+    m_Localized: Frankie
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9348623979503616
+    m_Localized: Menu principal
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9348682368409600
+    m_Localized: "Cr\xE9dits"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9348738110709760
+    m_Localized: 'Programmeur principal :'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9348789197332480
+    m_Localized: 'Conception du jeu :'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9348828321800192
+    m_Localized: 'Illustrations :'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9348856843067392
+    m_Localized: 'Musique :'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9355300174815232
+    m_Localized: Menu Options
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9355337726418944
+    m_Localized: Volume principal
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9355387995152384
+    m_Localized: Volume de fond
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9355425123131392
+    m_Localized: Volume des effets sonores
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9355460485308416
+    m_Localized: "R\xE9solutions fen\xEAtr\xE9es"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9355507172106240
+    m_Localized: "Plein \xE9cran fen\xEAtr\xE9"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9355555163332608
+    m_Localized: Ok
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9355582094958592
+    m_Localized: Non
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9356228923744256
+    m_Localized: "D\xE9faut"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9358617282076672
+    m_Localized: "Sac \xE0 dos"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9358650349969408
+    m_Localized: Tenue
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9358686777499648
+    m_Localized: "Capacit\xE9s"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9358719555985408
+    m_Localized: Statut
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9358751956983808
+    m_Localized: Carte
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9360196097794048
+    m_Localized: "Si je me souviens bien, \xE7a ressemblait \xE0..."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9360247998111744
+    m_Localized: Attends...
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9404486387752960
+    m_Localized: "exp\xE9rience pour le niveau suivant"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9409976064794624
+    m_Localized: Langue
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

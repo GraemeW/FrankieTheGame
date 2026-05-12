@@ -59,7 +59,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 7959505928183808
-    m_Localized: HipsterChattedOnce
+    m_Localized: Hipster Chatted Once
     m_Metadata:
       m_Items: []
   - m_Id: 7959506028847104
@@ -75,7 +75,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 7959506540552192
-    m_Localized: HorseOpenedFirepole
+    m_Localized: Horse Opened Firepole
     m_Metadata:
       m_Items: []
   - m_Id: 7959506645409792
@@ -83,7 +83,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 7959506846736384
-    m_Localized: HorsePickedUpTheDocuments
+    m_Localized: Horse Picked Up The Documents
     m_Metadata:
       m_Items: []
   - m_Id: 7959506947399680
@@ -91,7 +91,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 7959507148726272
-    m_Localized: HorseReceivedTheDocuments
+    m_Localized: Horse Received The Documents
     m_Metadata:
       m_Items: []
   - m_Id: 7959507249389568
@@ -107,7 +107,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 7959507765288960
-    m_Localized: GoToBed
+    m_Localized: Go To Bed
     m_Metadata:
       m_Items: []
   - m_Id: 7959507865952256
@@ -123,7 +123,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 7959508369268736
-    m_Localized: CurioOne
+    m_Localized: Curio One
     m_Metadata:
       m_Items: []
   - m_Id: 7959508469932032
@@ -131,7 +131,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 7959508692230144
-    m_Localized: CurioTwo
+    m_Localized: Curio Two
     m_Metadata:
       m_Items: []
   - m_Id: 7959508797087744
@@ -139,7 +139,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 7959508994220032
-    m_Localized: CurioThree
+    m_Localized: Curio Three
     m_Metadata:
       m_Items: []
   - m_Id: 7959509099077632
@@ -147,7 +147,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 7959509300404224
-    m_Localized: CurioFour
+    m_Localized: Curio Four
     m_Metadata:
       m_Items: []
   - m_Id: 7959509401067520
@@ -155,7 +155,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 7959509602394112
-    m_Localized: CurioFive
+    m_Localized: Curio Five
     m_Metadata:
       m_Items: []
   - m_Id: 7959509703057408
@@ -163,7 +163,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 7959509900189696
-    m_Localized: CurioSix
+    m_Localized: Curio Six
     m_Metadata:
       m_Items: []
   - m_Id: 7959510000852992
@@ -171,7 +171,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 7959510214762496
-    m_Localized: CurioSeven
+    m_Localized: Curio Seven
     m_Metadata:
       m_Items: []
   - m_Id: 7959510332203008
@@ -179,7 +179,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 7959510533529600
-    m_Localized: CurioEight
+    m_Localized: Curio Eight
     m_Metadata:
       m_Items: []
   - m_Id: 7959510634192896
@@ -187,7 +187,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 7959510831325184
-    m_Localized: CurioNine
+    m_Localized: Curio Nine
     m_Metadata:
       m_Items: []
   - m_Id: 7959510931988480
@@ -195,7 +195,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 7959511133315072
-    m_Localized: CurioTen
+    m_Localized: Curio Ten
     m_Metadata:
       m_Items: []
   - m_Id: 7959511233978368
@@ -211,7 +211,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 7959511741489152
-    m_Localized: PickedUpChopsticks
+    m_Localized: Picked Up Chopsticks
     m_Metadata:
       m_Items: []
   - m_Id: 7959511842152448
@@ -219,7 +219,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 7959512043479040
-    m_Localized: PickedUpHotSauce
+    m_Localized: Picked Up Hot Sauce
     m_Metadata:
       m_Items: []
   - m_Id: 7959512144142336
@@ -227,7 +227,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 7959512345468928
-    m_Localized: PouredWaterOnRamen
+    m_Localized: Poured Water On Ramen
     m_Metadata:
       m_Items: []
   - m_Id: 7959512446132224
@@ -235,7 +235,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 7959512643264512
-    m_Localized: RamenMeetsItsFate
+    m_Localized: Ramen Meets Its Fate
     m_Metadata:
       m_Items: []
   - m_Id: 7959512743927808
@@ -243,7 +243,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 7959512945254400
-    m_Localized: RamenSaysGoodbye
+    m_Localized: Ramen Says Goodbye
     m_Metadata:
       m_Items: []
   - m_Id: 7959513045917696
