@@ -14,8 +14,28 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   guid: db655e61-d8e8-4e7a-8546-041d7013d84c
   gameStateModifierHandlerData: []
-  displayName: Subway Card
-  description: Can't get around without it
+  localizedDisplayName:
+    m_TableReference:
+      m_TableCollectionName: GUID:d96a34ea508fa423b93190524b5b4af1
+    m_TableEntryReference:
+      m_KeyId: 7257225113362432
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  localizedDetail:
+    m_TableReference:
+      m_TableCollectionName: GUID:d96a34ea508fa423b93190524b5b4af1
+    m_TableEntryReference:
+      m_KeyId: 7257225209831424
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
   droppable: 0
   price: 0
+  cachedName: TestKeyItem
   questObjectives: []
+  references:
+    version: 2
+    RefIds: []

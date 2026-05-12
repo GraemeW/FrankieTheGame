@@ -1,21 +1,26 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.Localization;
+using UnityEngine.Localization.Tables;
 using TMPro;
 using Frankie.Core;
 using Frankie.Control;
+using Frankie.Utils.Localization;
 using Frankie.World;
 using Frankie.Utils.UI;
 
 namespace Frankie.Inventory.UI
 {
-    public class CashTransferBox : UIBox
+    public class CashTransferBox : UIBox, ILocalizable
     {
         // Tunables
-        [Header("")]
-        [SerializeField][Tooltip("Include {0} for funds amount")] private string messageDeposit = "You currently have {0} funds to deposit.  How much do you want to deposit?";
-        [SerializeField][Tooltip("Include {0} for funds amount")] private string messageWithdraw = "You currently have {0} in the bank to withdraw.  How much do you want to take out?";
-        [Header("Cash Transfer Fields")]
+        [Header("Text")]
+        [Header("Include {0} for funds amount")] 
+        [SerializeField][SimpleLocalizedString(LocalizationTableType.UI, true)] private LocalizedString localizedMessageDeposit;
+        [SerializeField][SimpleLocalizedString(LocalizationTableType.UI, true)] private LocalizedString localizedMessageWithdraw;
+        [Header("Cash Transfer Hookups")]
         [SerializeField] private TMP_Text messageField;
         [SerializeField] private CashTransferField hundredMillionField;
         [SerializeField] private CashTransferField tenMillionField;
@@ -28,7 +33,7 @@ namespace Frankie.Inventory.UI
         [SerializeField] private CashTransferField oneField;
         [SerializeField] private UIChoiceButton confirmField;
         [SerializeField] private UIChoiceButton rejectField;
-        [Header("Other Prefabs")]
+        [Header("Prefabs")]
         [SerializeField] private WalletUI walletUIPrefab;
 
         // State
@@ -88,6 +93,18 @@ namespace Frankie.Inventory.UI
         }
         #endregion
 
+        #region LocalizationMethods
+        public LocalizationTableType localizationTableType { get; } = LocalizationTableType.UI;
+        public List<TableEntryReference> GetLocalizationEntries()
+        {
+            return new List<TableEntryReference>
+            {
+                localizedMessageDeposit.TableEntryReference,
+                localizedMessageWithdraw.TableEntryReference,
+            };
+        }
+        #endregion
+        
         #region Initialization
         private void SetupCashTransferBoxUI()
         {
@@ -99,7 +116,7 @@ namespace Frankie.Inventory.UI
                     amountAvailable = wallet.GetCash();
                     amountToTransfer = 0;
 
-                    messageField.text = string.Format(messageDeposit, $"${amountAvailable:N0}");
+                    messageField.text = string.Format(localizedMessageDeposit.GetSafeLocalizedString(), $"${amountAvailable:N0}");
                     InitializeButtons(() =>
                     {
                         wallet.TransferToWallet(-GetPendingCashToTransfer());
@@ -112,7 +129,7 @@ namespace Frankie.Inventory.UI
                     amountAvailable = wallet.GetPendingCash();
                     amountToTransfer = 0;
 
-                    messageField.text = string.Format(messageWithdraw, $"${amountAvailable:N0}");
+                    messageField.text = string.Format(localizedMessageWithdraw.GetSafeLocalizedString(), $"${amountAvailable:N0}");
                     InitializeButtons(() =>
                     {
                         wallet.TransferToWallet(GetPendingCashToTransfer());
@@ -137,8 +154,8 @@ namespace Frankie.Inventory.UI
             }
             RefreshFieldsToTransferAmount();
 
-            if (actionOnConfirm != null) { confirmField.AddOnClickListener(actionOnConfirm.Invoke); }
-            rejectField.AddOnClickListener(() => Destroy(gameObject));
+            if (actionOnConfirm != null && confirmField != null) { confirmField.AddOnClickListener(actionOnConfirm.Invoke); }
+            if (rejectField) { rejectField.AddOnClickListener(() => Destroy(gameObject)); }
             SelectField(oneField);
         }
         #endregion
@@ -263,7 +280,7 @@ namespace Frankie.Inventory.UI
         }
         #endregion
 
-        #region Interfaces
+        #region InputInterface
         public override bool HandleGlobalInput(PlayerInputType playerInputType)
         {
             if (!handleGlobalInput) { return true; } // Spoof:  Cannot accept input, so treat as if global input already handled

@@ -13,8 +13,29 @@ MonoBehaviour:
   m_Name: HorsePickedUpTheDocuments
   m_EditorClassIdentifier: 
   objectiveID: 51f75380-92ae-4f3a-8882-f3403267d40f
-  description: Tracking pick up of the Important Documents
+  localizedDisplayName:
+    m_TableReference:
+      m_TableCollectionName: GUID:b9dd45143ecd64476b4827b4d45c6003
+    m_TableEntryReference:
+      m_KeyId: 7959506846736384
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  localizedDetail:
+    m_TableReference:
+      m_TableCollectionName: GUID:b9dd45143ecd64476b4827b4d45c6003
+    m_TableEntryReference:
+      m_KeyId: 7959506947399680
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  questName: Demo_Office-InteriorHorse
   questID: fd9ed298-c9f2-4c72-a440-4f02b469c9d7
+  references:
+    version: 2
+    RefIds: []
 --- !u!114 &-3951261914489077840
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -28,8 +49,29 @@ MonoBehaviour:
   m_Name: HorseReceivedTheDocuments
   m_EditorClassIdentifier: 
   objectiveID: 7f728074-4cb3-438a-8f02-83de74c61f95
-  description: Tracking receipt of important documents
+  localizedDisplayName:
+    m_TableReference:
+      m_TableCollectionName: GUID:b9dd45143ecd64476b4827b4d45c6003
+    m_TableEntryReference:
+      m_KeyId: 7959507148726272
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  localizedDetail:
+    m_TableReference:
+      m_TableCollectionName: GUID:b9dd45143ecd64476b4827b4d45c6003
+    m_TableEntryReference:
+      m_KeyId: 7959507249389568
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  questName: Demo_Office-InteriorHorse
   questID: fd9ed298-c9f2-4c72-a440-4f02b469c9d7
+  references:
+    version: 2
+    RefIds: []
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -46,23 +88,47 @@ MonoBehaviour:
   gameStateModifierHandlerData:
   - zoneName: OfficeInterior
     gameObjectName: Horse (1)
+    parentObjectName: 
     guid: 34f6cd88-0481-4d84-b034-4d8db70384ad
   - zoneName: OfficeInterior
     gameObjectName: QuestOpenFirepole
+    parentObjectName: 
     guid: c90051c8-6375-4741-a956-7d60c667db5d
   - zoneName: OfficeInterior
     gameObjectName: QuestReceivedDocuments
+    parentObjectName: 
     guid: c2a3aed0-a937-43f5-b032-5871ed446b2a
-  detail: Tracker for chatting with the horse in Office
+  localizedDisplayName:
+    m_TableReference:
+      m_TableCollectionName: GUID:b9dd45143ecd64476b4827b4d45c6003
+    m_TableEntryReference:
+      m_KeyId: 7959506238562304
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  localizedDetail:
+    m_TableReference:
+      m_TableCollectionName: GUID:b9dd45143ecd64476b4827b4d45c6003
+    m_TableEntryReference:
+      m_KeyId: 7959506339225600
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
   questObjectiveNames:
   - HorseOpenedFirepole
   - HorsePickedUpTheDocuments
   - HorseReceivedTheDocuments
   rewards: []
+  cachedName: 
   questObjectives:
   - {fileID: 3354754754222314555}
   - {fileID: -8720720264288702615}
   - {fileID: -3951261914489077840}
+  references:
+    version: 2
+    RefIds: []
 --- !u!114 &3354754754222314555
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -76,5 +142,26 @@ MonoBehaviour:
   m_Name: HorseOpenedFirepole
   m_EditorClassIdentifier: 
   objectiveID: 18bd53b3-744f-4951-ad09-774140811fa1
-  description: Tracker against horse opening the firepole lock
+  localizedDisplayName:
+    m_TableReference:
+      m_TableCollectionName: GUID:b9dd45143ecd64476b4827b4d45c6003
+    m_TableEntryReference:
+      m_KeyId: 7959506540552192
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  localizedDetail:
+    m_TableReference:
+      m_TableCollectionName: GUID:b9dd45143ecd64476b4827b4d45c6003
+    m_TableEntryReference:
+      m_KeyId: 7959506645409792
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  questName: Demo_Office-InteriorHorse
   questID: fd9ed298-c9f2-4c72-a440-4f02b469c9d7
+  references:
+    version: 2
+    RefIds: []

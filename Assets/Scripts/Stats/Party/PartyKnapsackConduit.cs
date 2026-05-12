@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using Frankie.Combat;
-using Frankie.Core;
+using Frankie.Core.Predicates;
 using Frankie.Stats;
 
 namespace Frankie.Inventory

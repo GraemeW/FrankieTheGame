@@ -37,7 +37,7 @@ The [BattleEntry](./BattleEntry/) shader is used to apply the 'swirl' animation 
 
 <img src="../../../../InfoTools/Documentation/Game/VFX/BattleEntryExample.gif" width="320">
 
-The type of swirl depends on if Frankie is facing the enemy (and vice versa) during contact, such that we have three different types of [TransitionTypes](../../../Scripts/Zones/TransitionType.cs) for battle entry:
+The type of swirl depends on if Frankie is facing the enemy (and vice versa) during contact, such that we have three different types of [TransitionTypes](../../../Scripts/Zones/Transitions/TransitionType.cs) for battle entry:
 * `BattleNeutral`:  when Frankie and the enemy are facing each other (purple swirl)
 * `BattleGood`:  when the enemy is facing away from Frankie (green swirl)
 * `BattleBad`:  when Frankie is facing away from the enemy (red swirl)

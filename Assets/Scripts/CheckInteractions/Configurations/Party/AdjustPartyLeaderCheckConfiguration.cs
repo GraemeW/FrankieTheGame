@@ -1,17 +1,20 @@
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.Localization;
+using UnityEngine.Localization.Tables;
 using Frankie.Stats;
 using Frankie.Utils;
+using Frankie.Utils.Localization;
 
 namespace Frankie.Control
 {
-    [CreateAssetMenu(fileName = "New Adjust Party Leader Check Configuration", menuName = "CheckConfigurations/AdjustLeader")]
+    [CreateAssetMenu(fileName = "New Adjust Party Leader Check Configuration", menuName = "CheckConfigurations/Party/AdjustLeader", order = 5)]
     public class AdjustPartyLeaderCheckConfiguration : CheckConfiguration
     {
-        [SerializeField] private string messageAdjustLeader = "Who you want to take over?";
+        [SerializeField][SimpleLocalizedString(LocalizationTableType.ChecksWorldObjects, true)] private LocalizedString localizedMessageAdjustLeader;
 
-        public override string GetMessage() => messageAdjustLeader;
+        public override string GetMessage() => localizedMessageAdjustLeader.GetSafeLocalizedString();
         
         public override List<ChoiceActionPair> GetChoiceActionPairs(PlayerStateMachine playerStateHandler, CheckWithConfiguration callingCheck)
         {
@@ -20,8 +23,16 @@ namespace Frankie.Control
             if (party.GetPartySize() == 1) { return interactActions; } // throw empty list to prevent option from triggering
 
             interactActions.AddRange(party.GetParty().Select(character => 
-                new ChoiceActionPair(character.GetCharacterProperties().GetCharacterNamePretty(), () => party.SetPartyLeader(character))));
+                new ChoiceActionPair(character.GetCharacterProperties().GetCharacterDisplayName(), () => party.SetPartyLeader(character))));
             return interactActions;
+        }
+        
+        public override List<TableEntryReference> GetLocalizationEntries()
+        {
+            return new List<TableEntryReference>
+            {
+                localizedMessageAdjustLeader.TableEntryReference
+            };
         }
     }
 }

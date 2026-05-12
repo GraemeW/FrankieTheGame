@@ -12,6 +12,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3268536af8903a64da82aa6872733d1d, type: 3}
   m_Name: MiscDebugRoom_Elevator
   m_EditorClassIdentifier: 
+  localizedDisplayName:
+    m_TableReference:
+      m_TableCollectionName: GUID:8137acf3076d245cf991f948822c95ba
+    m_TableEntryReference:
+      m_KeyId: 6549046037569536
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
   children:
   - Level1to6_Elevator
   - Level7to15_Elevator
@@ -32,6 +41,9 @@ MonoBehaviour:
     height: 45
   condition:
     and: []
+  references:
+    version: 2
+    RefIds: []
 --- !u!114 &-6814756869050355965
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -44,6 +56,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3268536af8903a64da82aa6872733d1d, type: 3}
   m_Name: Level1to6_RightDoor
   m_EditorClassIdentifier: Assembly-CSharp::Frankie.ZoneManagement.ZoneNode
+  localizedDisplayName:
+    m_TableReference:
+      m_TableCollectionName: GUID:8137acf3076d245cf991f948822c95ba
+    m_TableEntryReference:
+      m_KeyId: 6549046633160704
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
   children:
   - Level7to15LeftDoor
   externalZoneLinkToZoneNode: {fileID: 0}
@@ -62,6 +83,9 @@ MonoBehaviour:
     height: 45
   condition:
     and: []
+  references:
+    version: 2
+    RefIds: []
 --- !u!114 &-4745577074611816395
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -74,6 +98,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3268536af8903a64da82aa6872733d1d, type: 3}
   m_Name: MusicSwitchDoor_DebugToForestDemo
   m_EditorClassIdentifier: Assembly-CSharp::Frankie.ZoneManagement.ZoneNode
+  localizedDisplayName:
+    m_TableReference:
+      m_TableCollectionName: GUID:8137acf3076d245cf991f948822c95ba
+    m_TableEntryReference:
+      m_KeyId: 6549047211974656
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
   children: []
   externalZoneLinkToZoneNode: {fileID: -5860749958356787099, guid: f4fe026e5041d4556bdc413cb4a52663, type: 2}
   rect:
@@ -91,6 +124,9 @@ MonoBehaviour:
     height: 45
   condition:
     and: []
+  references:
+    version: 2
+    RefIds: []
 --- !u!114 &-2016518618887370586
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -103,6 +139,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3268536af8903a64da82aa6872733d1d, type: 3}
   m_Name: MusicSwitcher_Elevator
   m_EditorClassIdentifier: Assembly-CSharp::Frankie.ZoneManagement.ZoneNode
+  localizedDisplayName:
+    m_TableReference:
+      m_TableCollectionName: GUID:8137acf3076d245cf991f948822c95ba
+    m_TableEntryReference:
+      m_KeyId: 6549047019036672
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
   children:
   - MiscDebugRoom_Elevator
   - Level1to6_Elevator
@@ -123,6 +168,9 @@ MonoBehaviour:
     height: 45
   condition:
     and: []
+  references:
+    version: 2
+    RefIds: []
 --- !u!114 &-1654263137458809270
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -135,6 +183,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3268536af8903a64da82aa6872733d1d, type: 3}
   m_Name: Level7to15LeftDoor
   m_EditorClassIdentifier: Assembly-CSharp::Frankie.ZoneManagement.ZoneNode
+  localizedDisplayName:
+    m_TableReference:
+      m_TableCollectionName: GUID:8137acf3076d245cf991f948822c95ba
+    m_TableEntryReference:
+      m_KeyId: 6549046826098688
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
   children:
   - Level1to6_RightDoor
   externalZoneLinkToZoneNode: {fileID: 0}
@@ -153,6 +210,9 @@ MonoBehaviour:
     height: 45
   condition:
     and: []
+  references:
+    version: 2
+    RefIds: []
 --- !u!114 &-1339242037192576979
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -165,6 +225,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3268536af8903a64da82aa6872733d1d, type: 3}
   m_Name: Level1to6_Elevator
   m_EditorClassIdentifier: Assembly-CSharp::Frankie.ZoneManagement.ZoneNode
+  localizedDisplayName:
+    m_TableReference:
+      m_TableCollectionName: GUID:8137acf3076d245cf991f948822c95ba
+    m_TableEntryReference:
+      m_KeyId: 6549046247284736
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
   children:
   - MiscDebugRoom_Elevator
   - Level7to15_Elevator
@@ -185,6 +254,9 @@ MonoBehaviour:
     height: 45
   condition:
     and: []
+  references:
+    version: 2
+    RefIds: []
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -200,6 +272,15 @@ MonoBehaviour:
   newNodeOffset: {x: 100, y: 25}
   nodeWidth: 430
   nodeHeight: 150
+  localizedDisplayName:
+    m_TableReference:
+      m_TableCollectionName: GUID:8137acf3076d245cf991f948822c95ba
+    m_TableEntryReference:
+      m_KeyId: 6549045823660032
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
   sceneReference:
     sceneAsset: {fileID: 102900000, guid: 8b8eb4164910bda45acce09717d5064a, type: 3}
     sceneName: TEST_BattleRoyale
@@ -207,6 +288,7 @@ MonoBehaviour:
   updateMap: 1
   zoneAudio: {fileID: 8300000, guid: aa55708dfcc59db408b6c7ff1281c67e, type: 3}
   isZoneAudioLooping: 1
+  cachedName: TEST_BattleRoyale
   zoneNodes:
   - {fileID: -7290602620797478354}
   - {fileID: -1339242037192576979}
@@ -215,6 +297,9 @@ MonoBehaviour:
   - {fileID: -1654263137458809270}
   - {fileID: -2016518618887370586}
   - {fileID: -4745577074611816395}
+  references:
+    version: 2
+    RefIds: []
 --- !u!114 &7563563079468584752
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -227,6 +312,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3268536af8903a64da82aa6872733d1d, type: 3}
   m_Name: Level7to15_Elevator
   m_EditorClassIdentifier: Assembly-CSharp::Frankie.ZoneManagement.ZoneNode
+  localizedDisplayName:
+    m_TableReference:
+      m_TableCollectionName: GUID:8137acf3076d245cf991f948822c95ba
+    m_TableEntryReference:
+      m_KeyId: 6549046440222720
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
   children:
   - MiscDebugRoom_Elevator
   - Level1to6_Elevator
@@ -247,3 +341,6 @@ MonoBehaviour:
     height: 45
   condition:
     and: []
+  references:
+    version: 2
+    RefIds: []

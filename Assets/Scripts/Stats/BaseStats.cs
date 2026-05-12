@@ -4,7 +4,7 @@ using System.Linq;
 using UnityEngine;
 using Frankie.Utils;
 using Frankie.Saving;
-using Frankie.Core;
+using Frankie.Core.Predicates;
 
 namespace Frankie.Stats
 {
@@ -101,7 +101,7 @@ namespace Frankie.Stats
             if (currentLevel.value >= Progression.GetMaxLevel()) { return; }
             currentLevel.value++;
             
-            if (characterProperties == null || !characterProperties.incrementsStatsOnLevelUp) { return; }
+            if (characterProperties == null || !characterProperties.ShouldIncrementsStatsOnLevelUp()) { return; }
             Dictionary<Stat, float> levelUpSheet = IncrementStatsOnLevelUp();
             onLevelUp?.Invoke(this, GetLevel(), levelUpSheet);
         }

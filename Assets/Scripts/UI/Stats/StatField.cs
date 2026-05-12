@@ -1,5 +1,6 @@
 using UnityEngine;
 using TMPro;
+using Frankie.Utils.Localization;
 
 namespace Frankie.Stats.UI
 {
@@ -10,19 +11,13 @@ namespace Frankie.Stats.UI
 
         public void Setup(Stat stat, float value)
         {
-            statField.text = stat.ToString();
+            statField.text = LocalizationNames.GetLocalizedName(stat);
             valueField.text = Mathf.RoundToInt(value).ToString();
         }
 
-        public void Setup(string stat, float value)
+        public void Setup(Stat stat, float numerator, float denominator)
         {
-            statField.text = stat;
-            valueField.text = Mathf.RoundToInt(value).ToString();
-        }
-
-        public void Setup(string stat, float numerator, float denominator)
-        {
-            statField.text = stat;
+            statField.text = LocalizationNames.GetLocalizedName(stat);
             string parsedValue = $"{Mathf.RoundToInt(numerator)}/{Mathf.RoundToInt(denominator)}";
             valueField.text = parsedValue;
         }

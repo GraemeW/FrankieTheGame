@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-namespace Frankie.Core
+namespace Frankie.Core.Predicates
 {
     [System.Serializable]
     public class Condition

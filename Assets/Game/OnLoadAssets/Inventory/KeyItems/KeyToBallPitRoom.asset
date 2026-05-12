@@ -16,10 +16,30 @@ MonoBehaviour:
   gameStateModifierHandlerData:
   - zoneName: Demo_OfficeBuilding
     gameObjectName: Maya
+    parentObjectName: 
     guid: 64c5af42-be9b-4b5d-9724-5759923e210d
-  displayName: Key to Ball Pit
-  description: Extremely valuable -- only handed out to senior engineers.  Don't
-    lose it.
+  localizedDisplayName:
+    m_TableReference:
+      m_TableCollectionName: GUID:d96a34ea508fa423b93190524b5b4af1
+    m_TableEntryReference:
+      m_KeyId: 7257229538353152
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  localizedDetail:
+    m_TableReference:
+      m_TableCollectionName: GUID:d96a34ea508fa423b93190524b5b4af1
+    m_TableEntryReference:
+      m_KeyId: 7257229639016448
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
   droppable: 0
   price: 0
+  cachedName: KeyToBallPitRoom
   questObjectives: []
+  references:
+    version: 2
+    RefIds: []

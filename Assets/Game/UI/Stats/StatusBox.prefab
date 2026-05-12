@@ -56,7 +56,7 @@ MonoBehaviour:
     m_Top: 20
     m_Bottom: 0
   m_ChildAlignment: 0
-  m_Spacing: 0
+  m_Spacing: 10
   m_ChildForceExpandWidth: 0
   m_ChildForceExpandHeight: 0
   m_ChildControlWidth: 1
@@ -561,11 +561,24 @@ MonoBehaviour:
   optionButtonPrefab: {fileID: 3358873790910023875, guid: 9193413aa0e976e439049a2689f4fa41, type: 3}
   optionSliderPrefab: {fileID: 4136279713418740174, guid: 4a7bed0c126f347b0865033b4042eab0, type: 3}
   sliderAdjustmentStep: 0.1
+  localizedExperienceFlavourText:
+    m_TableReference:
+      m_TableCollectionName: GUID:ce7f667b432574cb1832328f600c1082
+    m_TableEntryReference:
+      m_KeyId: 9404486387752960
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
   selectedCharacterNameField: {fileID: 3299577515372848116}
-  experienceToLevel: {fileID: 9120243650038732359}
+  experienceToLevelField: {fileID: 9120243650038732359}
+  experienceFlavourField: {fileID: 2902576295788549873}
   leftStatParent: {fileID: 4808833409950686781}
   rightStatParent: {fileID: 2801211723359414022}
   statFieldPrefab: {fileID: 7507632006392117863, guid: e83dc3cde8a11c940a000c47ed81983c, type: 3}
+  references:
+    version: 2
+    RefIds: []
 --- !u!1 &7418628792628982881
 GameObject:
   m_ObjectHideFlags: 0
@@ -727,7 +740,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4442584724333405627, guid: d9812907a2f6eac44ade16914c20d7a5, type: 3}
       propertyPath: m_text
-      value: ' experience for next level.'
+      value: experience for next level.
       objectReference: {fileID: 0}
     - target: {fileID: 4442584724333405627, guid: d9812907a2f6eac44ade16914c20d7a5, type: 3}
       propertyPath: 'm_ActiveFontFeatures.Array.data[0]'
@@ -822,6 +835,17 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d9812907a2f6eac44ade16914c20d7a5, type: 3}
+--- !u!114 &2902576295788549873 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4442584724333405627, guid: d9812907a2f6eac44ade16914c20d7a5, type: 3}
+  m_PrefabInstance: {fileID: 1580550747689988938}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!224 &9092378385978213507 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 7764666934433544137, guid: d9812907a2f6eac44ade16914c20d7a5, type: 3}

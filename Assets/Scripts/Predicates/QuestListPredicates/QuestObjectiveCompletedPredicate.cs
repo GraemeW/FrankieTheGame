@@ -1,9 +1,9 @@
 using UnityEngine;
 using Frankie.Quests;
 
-namespace Frankie.Core
+namespace Frankie.Core.Predicates
 {
-    [CreateAssetMenu(fileName = "New Quest Objective Completed Predicate", menuName = "Predicates/QuestList/Quest Objective Completed")]
+    [CreateAssetMenu(fileName = "New Quest Objective Completed Predicate", menuName = "Predicates/QuestList/Quest Objective Completed", order = 5)]
     public class QuestObjectiveCompletedPredicate : PredicateQuestList
     {
         public override bool? Evaluate(QuestList questList)

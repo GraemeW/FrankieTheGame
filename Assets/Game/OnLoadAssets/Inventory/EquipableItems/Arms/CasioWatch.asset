@@ -14,10 +14,27 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   guid: bb6684e6-d732-4641-a275-3c94e9c6c66c
   gameStateModifierHandlerData: []
-  displayName: Casio Watch
-  description: Wow, offers some protection and it looks cool!
+  localizedDisplayName:
+    m_TableReference:
+      m_TableCollectionName: GUID:d96a34ea508fa423b93190524b5b4af1
+    m_TableEntryReference:
+      m_KeyId: 7257226002554880
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  localizedDetail:
+    m_TableReference:
+      m_TableCollectionName: GUID:d96a34ea508fa423b93190524b5b4af1
+    m_TableEntryReference:
+      m_KeyId: 7257226094829568
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
   droppable: 1
   price: 130
+  cachedName: CasioWatch
   equipLocation: 2
   baseStatModifiers:
   - stat: 6
@@ -28,3 +45,6 @@ MonoBehaviour:
     maxValue: 8
   condition:
     and: []
+  references:
+    version: 2
+    RefIds: []

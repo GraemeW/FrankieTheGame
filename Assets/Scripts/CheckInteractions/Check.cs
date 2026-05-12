@@ -1,24 +1,29 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Localization;
+using UnityEngine.Localization.Tables;
 using Frankie.Utils;
+using Frankie.Utils.Localization;
 
 namespace Frankie.Control
 {
     [RequireComponent(typeof(Collider2D))]
-    public class Check : CheckBase, IRaycastable
+    public class Check : CheckBase
     {
-        // Events
         [Header("Base Check Behaviour")]
         [SerializeField] private CheckType checkType = CheckType.Simple;
         [SerializeField] protected InteractionEvent checkInteraction;
         [Header("Message Behaviour")]
         [SerializeField][Tooltip("Otherwise, checks at end of interaction")] private bool checkAtStartOfInteraction = false;
-        [SerializeField][Tooltip("Use {0} for party leader")] protected string checkMessage = "{0} has checked this object";
-        [SerializeField] private string defaultPartyLeaderName = "Frankie";
+        [SerializeField][SimpleLocalizedString(LocalizationTableType.ChecksWorldObjects, true)] private LocalizedString localizedCheckMessage;
         [Header("Choice Behaviour")]
-        [SerializeField] private string messageAccept = "OK!";
-        [SerializeField] private string messageReject = "Nah";
+        [SerializeField][SimpleLocalizedString(LocalizationTableType.ChecksWorldObjects, true)] private LocalizedString localizedMessageAccept;
+        [SerializeField][SimpleLocalizedString(LocalizationTableType.ChecksWorldObjects, true)] private LocalizedString localizedMessageReject;
         [SerializeField][Tooltip("Optional action on reject choice")] private InteractionEvent rejectInteraction;
+        
+        // Const Failsafe
+        private const string _failsafeMessageAccept = "OK!";
+        private const string _failsafeMessageReject = "Nah";
 
         #region Interfaces
         public override bool HandleRaycast(PlayerStateMachine playerStateHandler, PlayerController playerController, PlayerInputType inputType, PlayerInputType matchType)
@@ -29,6 +34,16 @@ namespace Frankie.Control
                 CheckType.Message => MessageCheck(playerStateHandler, playerController, inputType, matchType),
                 CheckType.ChoiceConfirmation => ChoiceConfirmationCheck(playerStateHandler, playerController, inputType, matchType),
                 _ => SimpleCheck(playerStateHandler, playerController, inputType, matchType),
+            };
+        }
+
+        public override List<TableEntryReference> GetLocalizationEntries()
+        {
+            return new List<TableEntryReference>
+            {
+                localizedCheckMessage.TableEntryReference,
+                localizedMessageAccept.TableEntryReference,
+                localizedMessageReject.TableEntryReference
             };
         }
         #endregion
@@ -43,7 +58,7 @@ namespace Frankie.Control
 
         private bool MessageCheck(PlayerStateMachine playerStateHandler, PlayerController playerController, PlayerInputType inputType, PlayerInputType matchType)
         {
-            if (string.IsNullOrEmpty(checkMessage)) { return false; }
+            if (localizedCheckMessage.IsEmpty) { return false; }
             if (!IsInRange(playerController)) { return false; }
 
             if (inputType == matchType)
@@ -51,7 +66,7 @@ namespace Frankie.Control
                 string partyLeaderName = playerStateHandler.GetParty().GetPartyLeaderName();
                 if (string.IsNullOrWhiteSpace(partyLeaderName)) { partyLeaderName = defaultPartyLeaderName; }
 
-                playerStateHandler.EnterDialogue(string.Format(checkMessage, partyLeaderName));
+                playerStateHandler.EnterDialogue(string.Format(localizedCheckMessage.GetSafeLocalizedString(), partyLeaderName));
                 
                 if (checkAtStartOfInteraction) { checkInteraction?.Invoke(playerStateHandler); }
                 else { playerStateHandler.SetPostDialogueCallbackActions(checkInteraction); }
@@ -61,19 +76,25 @@ namespace Frankie.Control
 
         private bool ChoiceConfirmationCheck(PlayerStateMachine playerStateHandler, PlayerController playerController, PlayerInputType inputType, PlayerInputType matchType)
         {
-            if (string.IsNullOrEmpty(checkMessage)) { return false; }
+            if (localizedCheckMessage.IsEmpty) { return false; }
             if (!IsInRange(playerController)) { return false; }
-
+            
+            string localMessageAccept = localizedMessageAccept.GetSafeLocalizedString();
+            if (string.IsNullOrWhiteSpace(localMessageAccept)) { localMessageAccept = _failsafeMessageAccept; }
+            string localMessageReject = localizedMessageReject.GetSafeLocalizedString();
+            if (string.IsNullOrWhiteSpace(localMessageReject)) { localMessageReject = _failsafeMessageReject; }
             if (inputType == matchType)
             {
                 var interactActions = new List<ChoiceActionPair>
                 {
-                    new(messageAccept, () => checkInteraction.Invoke(playerStateHandler)),
-                    new(messageReject, () => rejectInteraction.Invoke(playerStateHandler))
+                    new(localMessageAccept, () => checkInteraction.Invoke(playerStateHandler)),
+                    new(localMessageReject, () => rejectInteraction.Invoke(playerStateHandler))
                 };
 
                 string partyLeaderName = playerStateHandler.GetParty().GetPartyLeaderName();
-                playerStateHandler.EnterDialogue(string.Format(checkMessage, partyLeaderName), interactActions);
+                if (string.IsNullOrWhiteSpace(partyLeaderName)) { partyLeaderName = defaultPartyLeaderName; }
+                
+                playerStateHandler.EnterDialogue(string.Format(localizedCheckMessage.GetSafeLocalizedString(), partyLeaderName), interactActions);
             }
             return true;
         }

@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Frankie.Combat
 {
-    [CreateAssetMenu(fileName = "New Health Effect", menuName = "BattleAction/Effects/Health Effect")]
+    [CreateAssetMenu(fileName = "New Health Effect", menuName = "BattleAction/Effects/Health Effect", order = 15)]
     public class HealthEffect : EffectStrategy
     {
         [Tooltip("Effective minimum change")][SerializeField] private float healthChange;

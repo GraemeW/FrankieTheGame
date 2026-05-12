@@ -1,12 +1,15 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Frankie.Utils.Localization;
 using UnityEngine;
 using Frankie.Utils.UI;
+using UnityEngine.Localization;
+using UnityEngine.Localization.Tables;
 
 namespace Frankie.Combat.UI
 {
-    public class CombatLog : UIBox
+    public class CombatLog : UIBox, ILocalizable
     {
         // Tunables
         [Header("Presentation")]
@@ -18,12 +21,14 @@ namespace Frankie.Combat.UI
         [SerializeField] private float delayBetweenCharactersNoNewMessage = 0.25f;
         [SerializeField] private SimpleTextLink textLink;
         [Header("Messages")]
-        [Tooltip("Include {0} for name, {1} for points")][SerializeField] private string messageIncreaseHP = "{0} restored {1} HP.";
-        [Tooltip("Include {0} for name, {1} for points")][SerializeField] private string messageDecreaseHP = "{0} was hit for {1} points.";
-        [Tooltip("Include {0} for name, {1} for points")][SerializeField] private string messageIncreaseAP = "{0} restored {1} HP.";
-        [Tooltip("Include {0} for name, {1} for points")][SerializeField] private string messageDecreaseAP = "{0} was drained for {1} AP.";
-        [Tooltip("Include {0} for name")][SerializeField] private string messageDead = "{0} was knocked unconscious.";
-        [Tooltip("Include {0} for name")][SerializeField] private string messageResurrected = "{0} gained the will to fight again.";
+        [Header("Include {0} for name, {1} for points")]
+        [SerializeField][SimpleLocalizedString(LocalizationTableType.UI, true)] private LocalizedString localizedMessageIncreaseHP;
+        [SerializeField][SimpleLocalizedString(LocalizationTableType.UI, true)] private LocalizedString localizedMessageDecreaseHP;
+        [SerializeField][SimpleLocalizedString(LocalizationTableType.UI, true)] private LocalizedString localizedMessageIncreaseAP;
+        [SerializeField][SimpleLocalizedString(LocalizationTableType.UI, true)] private LocalizedString localizedMessageDecreaseAP;
+        [Header("Include {0} for name")]
+        [SerializeField][SimpleLocalizedString(LocalizationTableType.UI, true)] private LocalizedString localizedMessageDead;
+        [SerializeField][SimpleLocalizedString(LocalizationTableType.UI, true)] private LocalizedString localizedMessageResurrected;
 
         // State
         private float combatLogDelay;
@@ -33,6 +38,7 @@ namespace Frankie.Combat.UI
         private bool isMarqueeActive = true;
         private Coroutine marquee;
 
+        #region UnityMethods
         private void Awake()
         {
             combatLogDelay = delayBetweenCharactersSlowDown;
@@ -55,7 +61,9 @@ namespace Frankie.Combat.UI
             BattleEventBus<StateAlteredInfo>.UnsubscribeFromEvent(ParseCombatParticipantState);
             StopCoroutine(marquee);
         }
+        #endregion
 
+        #region PublicMethods
         public void AddCombatListener(CombatParticipant combatParticipant)
         {
             if (!combatParticipants.Contains(combatParticipant))
@@ -68,7 +76,23 @@ namespace Frankie.Combat.UI
         {
             stringToPrint += text;
         }
+        
+        public LocalizationTableType localizationTableType { get; } = LocalizationTableType.UI;
+        public List<TableEntryReference> GetLocalizationEntries()
+        {
+            return new List<TableEntryReference>
+            {
+                localizedMessageIncreaseHP.TableEntryReference,
+                localizedMessageDecreaseHP.TableEntryReference,
+                localizedMessageIncreaseAP.TableEntryReference,
+                localizedMessageDecreaseAP.TableEntryReference,
+                localizedMessageDead.TableEntryReference,
+                localizedMessageResurrected.TableEntryReference
+            };
+        }
+        #endregion
 
+        #region PrivateMethods
         private IEnumerator MarqueeScroll()
         {
             while (isMarqueeActive)
@@ -124,35 +148,35 @@ namespace Frankie.Combat.UI
                 case StateAlteredType.IncreaseHP:
                 {
                     float points = stateAlteredInfo.points;
-                    combatText = string.Format(messageIncreaseHP, combatParticipantName, Mathf.RoundToInt(points).ToString());
+                    combatText = string.Format(localizedMessageIncreaseHP.GetSafeLocalizedString(), combatParticipantName, Mathf.RoundToInt(points).ToString());
                     break;
                 }
                 case StateAlteredType.DecreaseHP:
                 {
                     float points = stateAlteredInfo.points;
-                    combatText = string.Format(messageDecreaseHP, combatParticipantName, Mathf.RoundToInt(points).ToString());
+                    combatText = string.Format(localizedMessageDecreaseHP.GetSafeLocalizedString(), combatParticipantName, Mathf.RoundToInt(points).ToString());
                     break;
                 }
                 case StateAlteredType.IncreaseAP:
                 {
                     float points = stateAlteredInfo.points;
-                    combatText = string.Format(messageIncreaseAP, combatParticipantName, Mathf.RoundToInt(points).ToString());
+                    combatText = string.Format(localizedMessageIncreaseAP.GetSafeLocalizedString(), combatParticipantName, Mathf.RoundToInt(points).ToString());
                     break;
                 }
                 case StateAlteredType.DecreaseAP:
                 {
                     float points = stateAlteredInfo.points;
-                    combatText = string.Format(messageDecreaseAP, combatParticipantName, Mathf.RoundToInt(points).ToString());
+                    combatText = string.Format(localizedMessageDecreaseAP.GetSafeLocalizedString(), combatParticipantName, Mathf.RoundToInt(points).ToString());
                     break;
                 }
                 case StateAlteredType.Dead:
                 {
-                    combatText = string.Format(messageDead, combatParticipantName);
+                    combatText = string.Format(localizedMessageDead.GetSafeLocalizedString(), combatParticipantName);
                     break;
                 }
                 case StateAlteredType.Resurrected:
                 {
-                    combatText = string.Format(messageResurrected, combatParticipantName);
+                    combatText = string.Format(localizedMessageResurrected.GetSafeLocalizedString(), combatParticipantName);
                     break;
                 }
             }
@@ -174,5 +198,6 @@ namespace Frankie.Combat.UI
                 combatLogDelay = delayBetweenCharactersSlowDown;
             }
         }
+        #endregion
     }
 }

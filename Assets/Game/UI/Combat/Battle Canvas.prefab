@@ -2044,22 +2044,144 @@ MonoBehaviour:
   dialogueBoxPrefab: {fileID: 4320783885461854465, guid: a9829c1cb69a159479cbe82e68a5c629, type: 3}
   dialogueOptionBoxPrefab: {fileID: 3084176042462386772, guid: cfcc3c74158936342a4d3c72aa65bde0, type: 3}
   inventorySwapBoxPrefab: {fileID: 4084456244048047709, guid: 1eb72627d5c49a14f93d6ad39270faf1, type: 3}
-  messageEncounterSingle: You have encountered {0}.
-  messageEncounterMultiple: You have encountered {0} and its cohort.
-  messageEncounterPreHype: What do you want to do?
-  messageGainedExperience: Your party has gained {0} experience.
-  messageCharacterLevelUp: '{0} has leveled up to level {1}!'
-  messageCharacterStatGained: '{0} has increased by {1}.'
-  messageGainedLoot: Wait, {0} found something.
-  messageEnemyDroppedLoot: '{0} dropped {1}, and you stashed it in your knapsack.'
-  messageEnemyDroppedLootNoRoom: '{0} dropped {1}, but you don''t have any room. 
-    Do you want to throw something out?'
-  optionChuckItemAffirmative: Yeah
-  optionChuckItemNegative: Nah
-  messageConfirmThrowOut: Are you sure you want to abandon {0}?
-  messageBattleCompleteWon: You Won!  Congratulations!
-  messageBattleCompleteLost: Looks like things didn't quite go as planned.
-  messageBattleCompleteRan: You ran away.
+  localizedMessageEncounterSingle:
+    m_TableReference:
+      m_TableCollectionName: GUID:ce7f667b432574cb1832328f600c1082
+    m_TableEntryReference:
+      m_KeyId: 7997758593032192
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  localizedMessageEncounterMultiple:
+    m_TableReference:
+      m_TableCollectionName: GUID:ce7f667b432574cb1832328f600c1082
+    m_TableEntryReference:
+      m_KeyId: 7997790486519808
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  localizedMessageEncounterPreHype:
+    m_TableReference:
+      m_TableCollectionName: GUID:ce7f667b432574cb1832328f600c1082
+    m_TableEntryReference:
+      m_KeyId: 7997814947700736
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  localizedMessageGainedExperience:
+    m_TableReference:
+      m_TableCollectionName: GUID:ce7f667b432574cb1832328f600c1082
+    m_TableEntryReference:
+      m_KeyId: 7997834627375104
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  localizedMessageCharacterLevelUp:
+    m_TableReference:
+      m_TableCollectionName: GUID:ce7f667b432574cb1832328f600c1082
+    m_TableEntryReference:
+      m_KeyId: 7997860300709888
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  localizedMessageCharacterStatGained:
+    m_TableReference:
+      m_TableCollectionName: GUID:ce7f667b432574cb1832328f600c1082
+    m_TableEntryReference:
+      m_KeyId: 7997880118796288
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  localizedMessageGainedLoot:
+    m_TableReference:
+      m_TableCollectionName: GUID:ce7f667b432574cb1832328f600c1082
+    m_TableEntryReference:
+      m_KeyId: 7997902138892288
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  localizedMessageEnemyDroppedLoot:
+    m_TableReference:
+      m_TableCollectionName: GUID:ce7f667b432574cb1832328f600c1082
+    m_TableEntryReference:
+      m_KeyId: 7997925174009856
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  localizedMessageEnemyDroppedLootNoRoom:
+    m_TableReference:
+      m_TableCollectionName: GUID:ce7f667b432574cb1832328f600c1082
+    m_TableEntryReference:
+      m_KeyId: 7997945612853248
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  localizedMessageConfirmThrowOut:
+    m_TableReference:
+      m_TableCollectionName: GUID:ce7f667b432574cb1832328f600c1082
+    m_TableEntryReference:
+      m_KeyId: 7997972309598208
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  localizedOptionChuckItemAffirmative:
+    m_TableReference:
+      m_TableCollectionName: GUID:ce7f667b432574cb1832328f600c1082
+    m_TableEntryReference:
+      m_KeyId: 7997998792433664
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  localizedOptionChuckItemNegative:
+    m_TableReference:
+      m_TableCollectionName: GUID:ce7f667b432574cb1832328f600c1082
+    m_TableEntryReference:
+      m_KeyId: 7998019667484672
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  localizedMessageBattleCompleteWon:
+    m_TableReference:
+      m_TableCollectionName: GUID:ce7f667b432574cb1832328f600c1082
+    m_TableEntryReference:
+      m_KeyId: 7998039489765376
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  localizedMessageBattleCompleteLost:
+    m_TableReference:
+      m_TableCollectionName: GUID:ce7f667b432574cb1832328f600c1082
+    m_TableEntryReference:
+      m_KeyId: 7998057474940928
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  localizedMessageBattleCompleteRan:
+    m_TableReference:
+      m_TableCollectionName: GUID:ce7f667b432574cb1832328f600c1082
+    m_TableEntryReference:
+      m_KeyId: 7998077553074176
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  references:
+    version: 2
+    RefIds: []
 --- !u!114 &5882966035238493864
 MonoBehaviour:
   m_ObjectHideFlags: 0

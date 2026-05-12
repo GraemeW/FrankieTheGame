@@ -1,41 +1,55 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Localization;
+using UnityEngine.Localization.Tables;
 using Frankie.Utils;
+using Frankie.Utils.Localization;
 
 namespace Frankie.Control
 {
-    [CreateAssetMenu(fileName = "New Party Option Check Configuration", menuName = "CheckConfigurations/PartyOptions")]
+    [CreateAssetMenu(fileName = "New Party Option Check Configuration", menuName = "CheckConfigurations/Party/PartyOptions", order = 5)]
     public class PartyOptionCheckConfiguration : CheckConfiguration
     {
-        [SerializeField] private string messagePartyOptions = "What do you want to do?";
+        [SerializeField][SimpleLocalizedString(LocalizationTableType.ChecksWorldObjects, true)] private LocalizedString localizedMessagePartyOptions;
         [SerializeField] private bool toggleLeaderAdjust = true;
-        [SerializeField] private string optionLeaderAdjust = "Change party leader";
+        [SerializeField][SimpleLocalizedString(LocalizationTableType.ChecksWorldObjects, true)] private LocalizedString localizedOptionLeaderAdjust;
         [SerializeField] private CheckConfiguration partyLeaderConfiguration;
         [SerializeField] private bool toggleAddToParty = true;
-        [SerializeField] private string optionAddToParty = "Add to party";
+        [SerializeField][SimpleLocalizedString(LocalizationTableType.ChecksWorldObjects, true)] private LocalizedString localizedOptionAddToParty;
         [SerializeField] private CheckConfiguration addToPartyConfiguration;
         [SerializeField] private bool toggleRemoveFromParty = true;
-        [SerializeField] private string optionRemoveFromParty = "Remove from party";
+        [SerializeField][SimpleLocalizedString(LocalizationTableType.ChecksWorldObjects, true)] private LocalizedString localizedOptionRemoveFromParty;
         [SerializeField] private CheckConfiguration removeFromPartyConfiguration;
 
-        public override string GetMessage() => messagePartyOptions;
+        public override string GetMessage() => localizedMessagePartyOptions.GetSafeLocalizedString();
         
         public override List<ChoiceActionPair> GetChoiceActionPairs(PlayerStateMachine playerStateHandler, CheckWithConfiguration callingCheck)
         {
             var interactActions = new List<ChoiceActionPair>();
             if (toggleLeaderAdjust)
             {
-                AddDialogueSpawnOptionForConfiguration(ref interactActions, playerStateHandler, callingCheck, optionLeaderAdjust, partyLeaderConfiguration);
+                AddDialogueSpawnOptionForConfiguration(ref interactActions, playerStateHandler, callingCheck, localizedOptionLeaderAdjust.GetSafeLocalizedString(), partyLeaderConfiguration);
             }
             if (toggleAddToParty)
             {
-                AddDialogueSpawnOptionForConfiguration(ref interactActions, playerStateHandler, callingCheck, optionAddToParty, addToPartyConfiguration);
+                AddDialogueSpawnOptionForConfiguration(ref interactActions, playerStateHandler, callingCheck, localizedOptionAddToParty.GetSafeLocalizedString(), addToPartyConfiguration);
             }
             if (toggleRemoveFromParty)
             {
-                AddDialogueSpawnOptionForConfiguration(ref interactActions, playerStateHandler, callingCheck, optionRemoveFromParty, removeFromPartyConfiguration);
+                AddDialogueSpawnOptionForConfiguration(ref interactActions, playerStateHandler, callingCheck, localizedOptionRemoveFromParty.GetSafeLocalizedString(), removeFromPartyConfiguration);
             }
             return interactActions;
+        }
+        
+        public override List<TableEntryReference> GetLocalizationEntries()
+        {
+            return new List<TableEntryReference>
+            {
+                localizedMessagePartyOptions.TableEntryReference,
+                localizedOptionLeaderAdjust.TableEntryReference,
+                localizedOptionAddToParty.TableEntryReference,
+                localizedOptionRemoveFromParty.TableEntryReference,
+            };
         }
     }
 }

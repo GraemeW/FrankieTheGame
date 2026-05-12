@@ -88,7 +88,15 @@ MonoBehaviour:
   roomParent: {fileID: 0}
   disableOnExit: 1
   randomizeChoice: 1
-  choiceMessage: Where do you want to go?
+  localizedChoiceMessage:
+    m_TableReference:
+      m_TableCollectionName: GUID:8137acf3076d245cf991f948822c95ba
+    m_TableEntryReference:
+      m_KeyId: 6551018119618560
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
   zoneInteraction:
     m_PersistentCalls:
       m_Calls:
@@ -104,6 +112,9 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  references:
+    version: 2
+    RefIds: []
 --- !u!114 &7718392173805193404
 MonoBehaviour:
   m_ObjectHideFlags: 0

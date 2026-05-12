@@ -16,13 +16,35 @@ MonoBehaviour:
   gameStateModifierHandlerData:
   - zoneName: ApartmentInterior
     gameObjectName: Bed
+    parentObjectName: 
     guid: 32cd30ad-e5ae-41a7-a2df-58c48eacde3c
-  detail: Track intro quest (use to trigger main plot)
+  localizedDisplayName:
+    m_TableReference:
+      m_TableCollectionName: GUID:b9dd45143ecd64476b4827b4d45c6003
+    m_TableEntryReference:
+      m_KeyId: 7959507454910464
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  localizedDetail:
+    m_TableReference:
+      m_TableCollectionName: GUID:b9dd45143ecd64476b4827b4d45c6003
+    m_TableEntryReference:
+      m_KeyId: 7959507559768064
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
   questObjectiveNames:
   - GoToBed
   rewards: []
+  cachedName: 
   questObjectives:
   - {fileID: 6232503200084316110}
+  references:
+    version: 2
+    RefIds: []
 --- !u!114 &6232503200084316110
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -36,5 +58,26 @@ MonoBehaviour:
   m_Name: GoToBed
   m_EditorClassIdentifier: 
   objectiveID: 6a969fa5-3519-432f-a1ba-66f741185953
-  description: 
+  localizedDisplayName:
+    m_TableReference:
+      m_TableCollectionName: GUID:b9dd45143ecd64476b4827b4d45c6003
+    m_TableEntryReference:
+      m_KeyId: 7959507765288960
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  localizedDetail:
+    m_TableReference:
+      m_TableCollectionName: GUID:b9dd45143ecd64476b4827b4d45c6003
+    m_TableEntryReference:
+      m_KeyId: 7959507865952256
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  questName: Demo_Office-IntroQuestComplete
   questID: b3f7fb4a-3295-4b70-95ac-59a716a281b2
+  references:
+    version: 2
+    RefIds: []

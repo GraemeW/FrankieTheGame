@@ -3,9 +3,9 @@
 ## UI Canvases
 
 There are three UI canvases employed in Frankie:
-* [UICanvas](./World/UI%20Canvas.prefab):  The primary canvas used for all in-world UI elements (dialogue boxes, options menus, stat/ability screens, inventory, shops, equipment, etc.)
+* [UICanvas](./_Canvases/UI%20Canvas.prefab):  The primary canvas used for all in-world UI elements (dialogue boxes, options menus, stat/ability screens, inventory, shops, equipment, etc.)
 * [BattleCanvas](./Combat/Battle%20Canvas.prefab):  The secondary canvas used for instantiating and managing the battle UI during combat 
-* [BackingCanvas](./World/BackingCanvas.prefab):  A simple blank canvas that sits behind the UI/Battle canvases to display a backing image (for use when game objects may not be present/painted on the world)
+* [BackingCanvas](./_Canvases/BackingCanvas.prefab):  A simple blank canvas that sits behind the UI/Battle canvases to display a backing image (for use when game objects may not be present/painted on the world)
 
 ## UIBox UI Elements
 
@@ -23,31 +23,31 @@ The simplest example of the UIBox is the dialogue box, shown below:
 
 In order of (roughly) increasing categorical complexity:
 
-|      Category       |                 UI Element                 |       | Detail |
-| :-----------------: | :----------------------------------------: | :---: | :------------: |
-| [Speech](./Speech/) | [DialogueBox](./Speech/DialogueBox.prefab) |       |    Presents simple text to the user    |
-| | [DialogueOptionBox](./Speech/DialogueOptionBox.prefab) | | Presents text to the user with selectable options/choices (presented horizontally) |
-| | [DialogueOptionBoxFixedVert…](./Speech/DialogueOptionBoxFixedVerticalOptions.prefab) | | Same as [DialogueOptionBox](./Speech/DialogueOptionBox.prefab), but with choices presented vertically |
-| [World](./World/) | [WorldOptions](./World/WorldOptions.prefab) | | In-world options (access to inventory, equipment, skills, etc.) |
-| | [EscapeMenu](./World/EscapeMenu.prefab) | | Escape menu choices (options menu, quit) |
-| [StartScreen](./StartScreen/) | [StartMenu](./StartScreen/StartMenu.prefab) | | Game start choices (new/load game, options menu, quit) |
-|  | [LoadMenu](./StartScreen/LoadMenu.prefab) | | Load game menu choices (select game file, back) |
-|  | [OptionsMenu](./StartScreen/OptionsMenu.prefab) | | Player preferences settings (audio volume, display resolution, etc.) |
-|  | [GameOverMenu](./StartScreen/GameOverMenu.prefab) | | Game over choices (load game, quit) |
-|  | [GameWinMenu](./StartScreen/GameWinMenu.prefab) | | Game win text and choices |
-| [Combat](./Combat/) | [CombatLog](./Combat/MainBattleEntities/CombatLog.prefab) | | Presents game combat information stream (based on combat events) |
-|  | [CombatOptions](./Combat/MainBattleEntities/CombatOptions.prefab) | | High-level battle options (fight, run, inventory, stats) |
-|  | [SkillSelection](./Combat/MainBattleEntities/SkillSelection.prefab) | | In-combat skill selection menu |
-| [Abilities](./Abilities/) | [AbilitiesBox](./Abilities/AbilitiesBox.prefab) | | In-world skill selection menu (same as [SkillSelection](./Combat/MainBattleEntities/SkillSelection.prefab), but with added detail) |
-| [Stats](./Stats/) | [StatusBox](./Stats/StatusBox.prefab) | | Presents character stats (health, [BaseStats](../../Scripts/Stats/BaseStats.cs), experience, etc.) for (in-party) selectable character |
-| [Inventory](./Inventory/) | [InventoryBox](./Inventory/InventoryBox.prefab) | | Presents (usable/selectable) inventory items for (in-party) selectable characters |
-|  | [EquipmentBox](./Inventory/EquipmentBox.prefab) | | Presents (usable/selectable) equipment slots & equipped items for (in-party) selectable characters |
-|  | [ShopBox](./Inventory/ShopBox.prefab) | | Presents (purchasable) inventory items |
-|  | [CashTransferBox](./Inventory/CashTransferBox.prefab) | | Bank-to-wallet cash transfer menu |
-|  | [InventoryMoveBox](./Inventory/InventoryMoveBox.prefab) | | Duplicate [InventoryBox](./Inventory/InventoryBox.prefab) for transferring items from one (in-party) character to another |
-|  | [EquipmentInventoryBox](./Inventory/EquipmentInventoryBox.prefab) | | Duplicate [InventoryBox](./Inventory/InventoryBox.prefab) for selecting equipable items from the [EquipmentBox](./Inventory/EquipmentBox.prefab)  |
-|  | [InventoryShopBox](./Inventory/InventoryShopBox.prefab) | | Duplicate [InventoryBox](./Inventory/InventoryBox.prefab) for selecting an (in-party) character's knapsack for selling or purchasing an item |
-|  | [InventorySwapBox](./Inventory/InventorySwapBox.prefab) | | Duplicate [InventoryBox](./Inventory/InventoryBox.prefab) for reconciling loot drops when inventory is full |
+|         Category          |                                      UI Element                                      |       | Detail |
+|:-------------------------:|:------------------------------------------------------------------------------------:| :---: | :------------: |
+|    [Speech](./Speech/)    |                      [DialogueBox](./Speech/DialogueBox.prefab)                      |       |    Presents simple text to the user    |
+|                           |                [DialogueOptionBox](./Speech/DialogueOptionBox.prefab)                | | Presents text to the user with selectable options/choices (presented horizontally) |
+|                           | [DialogueOptionBoxFixedVert…](./Speech/DialogueOptionBoxFixedVerticalOptions.prefab) | | Same as [DialogueOptionBox](./Speech/DialogueOptionBox.prefab), but with choices presented vertically |
+| [MainMenus](./MainMenus/) |                 [StartMenu](./MainMenus/StartMenu/StartMenu.prefab)                  | | Game start choices (new/load game, options menu, quit) |
+|                           |                  [LoadMenu](./MainMenus/StartMenu/LoadMenu.prefab)                   | | Load game menu choices (select game file, back) |
+|                           |             [GameOverMenu](./MainMenus/GameWinLose/GameOverMenu.prefab)              | | Game over choices (load game, quit) |
+|                           |                   [GameWinMenu](./MainMenus/GameWinLose/GameWinMenu.prefab)                    | | Game win text and choices |
+|                           |                [OptionsMenu](./MainMenus/InWorld/OptionsMenu.prefab)                 | | Player preferences settings (audio volume, display resolution, etc.) |
+|                           |               [WorldOptions](./MainMenus/InWorld/WorldOptions.prefab)                | | In-world options (access to inventory, equipment, skills, etc.) |
+|                           |                 [EscapeMenu](./MainMenus/InWorld/EscapeMenu.prefab)                  | | Escape menu choices (options menu, quit) |
+|    [Combat](./Combat/)    |              [CombatLog](./Combat/MainBattleEntities/CombatLog.prefab)               | | Presents game combat information stream (based on combat events) |
+|                           |          [CombatOptions](./Combat/MainBattleEntities/CombatOptions.prefab)           | | High-level battle options (fight, run, inventory, stats) |
+|                           |         [SkillSelection](./Combat/MainBattleEntities/SkillSelection.prefab)          | | In-combat skill selection menu |
+| [Abilities](./Abilities/) |                   [AbilitiesBox](./Abilities/AbilitiesBox.prefab)                    | | In-world skill selection menu (same as [SkillSelection](./Combat/MainBattleEntities/SkillSelection.prefab), but with added detail) |
+|     [Stats](./Stats/)     |                        [StatusBox](./Stats/StatusBox.prefab)                         | | Presents character stats (health, [BaseStats](../../Scripts/Stats/BaseStats.cs), experience, etc.) for (in-party) selectable character |
+| [Inventory](./Inventory/) |                   [InventoryBox](./Inventory/InventoryBox.prefab)                    | | Presents (usable/selectable) inventory items for (in-party) selectable characters |
+|                           |                   [EquipmentBox](./Inventory/EquipmentBox.prefab)                    | | Presents (usable/selectable) equipment slots & equipped items for (in-party) selectable characters |
+|                           |                        [ShopBox](./Inventory/ShopBox.prefab)                         | | Presents (purchasable) inventory items |
+|                           |                [CashTransferBox](./Inventory/CashTransferBox.prefab)                 | | Bank-to-wallet cash transfer menu |
+|                           |               [InventoryMoveBox](./Inventory/InventoryMoveBox.prefab)                | | Duplicate [InventoryBox](./Inventory/InventoryBox.prefab) for transferring items from one (in-party) character to another |
+|                           |          [EquipmentInventoryBox](./Inventory/EquipmentInventoryBox.prefab)           | | Duplicate [InventoryBox](./Inventory/InventoryBox.prefab) for selecting equipable items from the [EquipmentBox](./Inventory/EquipmentBox.prefab)  |
+|                           |               [InventoryShopBox](./Inventory/InventoryShopBox.prefab)                | | Duplicate [InventoryBox](./Inventory/InventoryBox.prefab) for selecting an (in-party) character's knapsack for selling or purchasing an item |
+|                           |               [InventorySwapBox](./Inventory/InventorySwapBox.prefab)                | | Duplicate [InventoryBox](./Inventory/InventoryBox.prefab) for reconciling loot drops when inventory is full |
 
 ## Other Combat UI
 
@@ -59,7 +59,7 @@ As noted in [UI Canvases](#ui-canvases), the [BattleCanvas](./Combat/Battle%20Ca
 
 Each character in the active party has a [CharacterSlide](./Combat/CharacterEnemySlides/CharacterSlide.prefab) that indicates their name, HP, AP and overall status.  The latter is accomplished via slide color highlights, as well as [StatusEffectBobbles](./Combat/CharacterEnemySlides/StatusEffectBobble.prefab) that appear on the character slide when the character is afflicted by a status.  Each character slide operates independently by listening for `stateAltered` events from their character's [CombatParticipant](../../Scripts/Combat/CombatParticipant/CombatParticipant.cs) class.  The character slide also has a circular-fill symbol at its top-right to show the current cooldown until the given character is allowed to act again.
 
-*N.B.  The same character slides are also used in-world when the player opens the [WorldOptions](./World/WorldOptions.prefab).*
+*N.B.  The same character slides are also used in-world when the player opens the [WorldOptions](./MainMenus/InWorld/WorldOptions.prefab).*
 
 Each enemy in combat has an [EnemySlide](./Combat/CharacterEnemySlides/EnemySlide.prefab) that is used to display the enemy sprite.  When an enemy is defeated, their slide fades away and is then destroyed.  The enemy slide likewise displays [StatusEffectBobbles](./Combat/CharacterEnemySlides/StatusEffectBobble.prefab) for status afflictions, and has a circular-fill symbol at its bottom-left to indicate enemy cooldown.
 

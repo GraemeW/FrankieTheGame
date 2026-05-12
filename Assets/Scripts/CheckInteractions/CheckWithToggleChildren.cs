@@ -1,11 +1,15 @@
 using System.Collections.Generic;
 using UnityEngine;
-using Frankie.Core;
+using UnityEngine.Localization;
+using UnityEngine.Localization.Tables;
+using Frankie.Core.Predicates;
 using Frankie.Saving;
 using Frankie.Stats;
+using Frankie.Utils.Localization;
 
 namespace Frankie.Control
 {
+    [ExecuteInEditMode]
     public class CheckWithToggleChildren : CheckBase
     {
         // Tunables
@@ -14,9 +18,8 @@ namespace Frankie.Control
         [SerializeField][Tooltip("True for enable, false for disable")] private bool toggleToConditionMet = true;
         [SerializeField] private Condition condition;
         [Header("Messages")]
-        [SerializeField][Tooltip("Use {0} for party leader")] private string messageOnToggle = "*CLICK* Oh, it looks like {0} got the door open";
-        [SerializeField][Tooltip("Use {0} for party leader")] private string messageOnConditionNotMet = "Huh, it appears to be locked";
-        [SerializeField] private string defaultPartyLeaderName = "Frankie";
+        [SerializeField][SimpleLocalizedString(LocalizationTableType.ChecksWorldObjects, true)] private LocalizedString localizedMessageOnToggle;
+        [SerializeField][SimpleLocalizedString(LocalizationTableType.ChecksWorldObjects, true)] private LocalizedString localizedMessageOnConditionNotMet;
 
         // Events
         [Header("Events")]
@@ -40,7 +43,7 @@ namespace Frankie.Control
         }
         #endregion
 
-        #region PublicMethods
+        #region OtherInterfaces
         public override bool HandleRaycast(PlayerStateMachine playerStateHandler, PlayerController playerController, PlayerInputType inputType, PlayerInputType matchType)
         {
             if (!IsInRange(playerController)) { return false; }
@@ -52,6 +55,17 @@ namespace Frankie.Control
             return true;
         }
         
+        public override List<TableEntryReference> GetLocalizationEntries()
+        {
+            return new List<TableEntryReference>
+            {
+                localizedMessageOnToggle.TableEntryReference,
+                localizedMessageOnConditionNotMet.TableEntryReference
+            };
+        }
+        #endregion
+        
+        #region PublicMethods
         public void BypassCheckCondition(PlayerStateMachine playerStateHandler) // Also called via Unity Events
         {
             BypassCheckConditionWithNoInteractionEvents();
@@ -83,16 +97,16 @@ namespace Frankie.Control
             if (CheckCondition(playerStateHandler))
             {
                 BypassCheckCondition(playerStateHandler);
-                playerStateHandler.EnterDialogue(string.Format(messageOnToggle, partyLeaderName));
+                playerStateHandler.EnterDialogue(string.Format(localizedMessageOnToggle.GetSafeLocalizedString(), partyLeaderName));
             }
             else
             {
                 checkInteractionOnConditionNotMet?.Invoke(playerStateHandler);
-                playerStateHandler.EnterDialogue(string.Format(messageOnConditionNotMet, partyLeaderName));
+                playerStateHandler.EnterDialogue(string.Format(localizedMessageOnConditionNotMet.GetSafeLocalizedString(), partyLeaderName));
             }
         }
         #endregion
-
+        
         #region SaveInterface
         public override void RestoreState(SaveState state)
         {

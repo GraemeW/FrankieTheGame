@@ -1,0 +1,115 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &2543512604207244465
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1933840347664120599}
+  - component: {fileID: 2243472449155051767}
+  - component: {fileID: 4336947402945720110}
+  m_Layer: 0
+  m_Name: _StandardCashGiverTaker
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1933840347664120599
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2543512604207244465}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2243472449155051767
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2543512604207244465}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 933b5099f968b914f87aaf35e5812d29, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Frankie.World.WorldCashGiverTaker
+  transactionCash: 10
+  infiniteTransactions: 0
+  numberTransactions: 1
+  announceNothing: 1
+  transactionSuccessful:
+    m_PersistentCalls:
+      m_Calls: []
+  localizedMessageTransactionPositive:
+    m_TableReference:
+      m_TableCollectionName: GUID:e01518a4d82d5485e9b0e7f466ecf01d
+    m_TableEntryReference:
+      m_KeyId: 5154525752057856
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  localizedMessageTransactionNegative:
+    m_TableReference:
+      m_TableCollectionName: GUID:e01518a4d82d5485e9b0e7f466ecf01d
+    m_TableEntryReference:
+      m_KeyId: 5154602067419136
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  localizedMessageWalletFull:
+    m_TableReference:
+      m_TableCollectionName: GUID:e01518a4d82d5485e9b0e7f466ecf01d
+    m_TableEntryReference:
+      m_KeyId: 5154909962887168
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  localizedMessageWalletEmpty:
+    m_TableReference:
+      m_TableCollectionName: GUID:e01518a4d82d5485e9b0e7f466ecf01d
+    m_TableEntryReference:
+      m_KeyId: 5154657977491456
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  localizedMessageNothing:
+    m_TableReference:
+      m_TableCollectionName: GUID:e01518a4d82d5485e9b0e7f466ecf01d
+    m_TableEntryReference:
+      m_KeyId: 5154795131232256
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  references:
+    version: 2
+    RefIds: []
+--- !u!114 &4336947402945720110
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2543512604207244465}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c708eed4772dbc14e95f0fb9be8bb48e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Frankie.Saving.SaveableEntity
+  uniqueIdentifier: 

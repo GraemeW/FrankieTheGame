@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-using Frankie.Core;
+using Frankie.Core.Predicates;
 using Frankie.Stats;
 using Frankie.Control;
 using Frankie.World;
@@ -167,6 +167,8 @@ namespace Frankie.Speech
             SetupDialogueTriggers();
 
             currentNode = currentDialogue.GetRootNode();
+            if (currentNode == null) { EndConversation(); }
+            
             // Call without announcing, dialogue not (officially) existing
             // Note:  No triggers on root node entry, but on dialogue entry
             if (currentDialogue.skipRootNode) { Next(); }

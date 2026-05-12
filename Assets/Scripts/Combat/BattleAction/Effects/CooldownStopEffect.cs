@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace Frankie.Combat
 {
-    [CreateAssetMenu(fileName = "New Cooldown Stop Effect", menuName = "BattleAction/Effects/Cooldown Stop Effect")]
+    [CreateAssetMenu(fileName = "New Cooldown Stop Effect", menuName = "BattleAction/Effects/Cooldown Stop Effect", order = 15)]
     public class CooldownStopEffect : EffectStrategy, IPersistentStatusApplier
     {
         // Tunables

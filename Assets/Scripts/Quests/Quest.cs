@@ -4,158 +4,40 @@ using UnityEditor;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement.AsyncOperations;
-using Frankie.Core;
+using UnityEngine.Localization;
 using Frankie.Core.GameStateModifiers;
+using Frankie.Utils.Addressables;
+using Frankie.Utils.Localization;
+using UnityEngine.Localization.Tables;
 
 namespace Frankie.Quests
 {
-    [CreateAssetMenu(fileName = "Quest", menuName = "Quests/New Quest")]
-    public class Quest : GameStateModifier, IAddressablesCache
+    [CreateAssetMenu(fileName = "Quest", menuName = "Quests/New Quest", order = 10)]
+    public class Quest : GameStateModifier, IAddressablesCache, ILocalizable
     {
         // Tunables
-        [SerializeField] private string detail = "";
+        [SerializeField][SimpleLocalizedString(LocalizationTableType.Quests, true)] private LocalizedString localizedDisplayName; 
+        [SerializeField][SimpleLocalizedString(LocalizationTableType.Quests, true)] private LocalizedString localizedDetail;
         [SerializeField] private List<string> questObjectiveNames = new();
         [SerializeField] private List<Reward> rewards = new();
 
         // State
+        [HideInInspector][SerializeField] private string cachedName;
+        public string iCachedName { get => cachedName; set => cachedName = value; }
         // Objectives
         [HideInInspector][SerializeField] private List<QuestObjective> questObjectives = new();
-        private Dictionary<string, QuestObjective> objectiveIDEditorLookup = new();
         private Dictionary<string, QuestObjective> objectiveNameEditorLookup = new();
         // Quest
         private static AsyncOperationHandle<IList<Quest>> _addressablesLoadHandle;
         private static Dictionary<string, Quest> _questLookupCache;
 
-        #region AddressablesCaching
-        public static Quest GetFromID(string questID)
-        {
-            if (string.IsNullOrWhiteSpace(questID)) { return null; }
-            
-            BuildCacheIfEmpty();
-            return _questLookupCache.GetValueOrDefault(questID);
-        }
-
-        public static void BuildCacheIfEmpty()
-        {
-            if (_questLookupCache != null) { return; }
-            BuildQuestCache();
-        }
-
-        private static void BuildQuestCache()
-        {
-            _questLookupCache = new Dictionary<string, Quest>();
-            _addressablesLoadHandle = Addressables.LoadAssetsAsync(nameof(Quest), (Quest quest) =>
-            {
-                if (_questLookupCache.TryGetValue(quest.guid, out Quest tryQuest))
-                {
-                    Debug.LogError($"Looks like there's a duplicate ID for objects: {tryQuest} and {quest}");
-                }
-                _questLookupCache[quest.guid] = quest;
-            }
-            );
-            _addressablesLoadHandle.WaitForCompletion();
-        }
-
-        public static void ReleaseCache()
-        {
-            Addressables.Release(_addressablesLoadHandle);
-        }
-        #endregion
-
-        #region PublicMethods
-        public string GetDetail() => detail;
-        public QuestObjective GetObjectiveFromID(string objectiveID) => questObjectives.FirstOrDefault(questObjective => questObjective.GetObjectiveID() == objectiveID);
-        public bool HasObjective(QuestObjective matchObjective) => questObjectives.Any(questObjective => questObjective.GetObjectiveID() == matchObjective.GetObjectiveID());
-        public int GetObjectiveCount() => questObjectives.Count;
-        public bool HasReward() => (rewards.Count > 0);
-        public List<Reward> GetRewards() => rewards;
-        #endregion
-
-        #region EditorMethods
-#if UNITY_EDITOR
-        public void GenerateObjectiveFromNames()
-        {
-            foreach (string questObjectiveName in questObjectiveNames)
-            {
-                if (string.IsNullOrWhiteSpace(questObjectiveName)) { continue; }
-                if (objectiveNameEditorLookup.ContainsKey(questObjectiveName)) { continue; }
-                CreateObjective(questObjectiveName);
-            }
-            CleanUpObjectives();
-            OnValidate();
-            EditorUtility.SetDirty(this);
-        }
-
-        private void CreateObjective(string objectiveName)
-        {
-            QuestObjective questObjective = CreateInstance<QuestObjective>();
-            Undo.RegisterCreatedObjectUndo(questObjective, "Created Quest Objective");
-
-            questObjective.name = objectiveName;
-            questObjective.SetObjectiveID(System.Guid.NewGuid().ToString());
-            questObjective.SetQuestID(GetGUID());
-
-            Undo.RecordObject(this, "Add Quest Objective");
-            questObjectives.Add(questObjective);
-        }
-
-        private void CleanUpObjectives()
-        {
-            // Safety && Clean Up on Serialized Objective List
-            UniquifyObjectives(); // Strictly speaking, this should not be necessary (logic above won't lead to this scenario)
-
-            // Then delete any no-longer-existing items in the string list
-            HashSet<string> newObjectiveMap = UniquifyObjectiveNames();
-            DeleteMissingObjectiveNames(newObjectiveMap);
-        }
-
-        private void DeleteMissingObjectiveNames(HashSet<string> newObjectiveMap)
-        {
-            List<QuestObjective> objectivesToDelete
-                = questObjectives.Where(o => (o != null && !(newObjectiveMap.Contains(o.name)))).ToList();
-
-            foreach (QuestObjective questObjective in objectivesToDelete.Where(questObjective => questObjective != null))
-            {
-                questObjectives.Remove(questObjective);
-                Undo.DestroyObjectImmediate(questObjective);
-            }
-        }
-
-        private void UniquifyObjectives()
-        {
-            var objectiveMap = new HashSet<QuestObjective>();
-            foreach (QuestObjective questObjective in questObjectives)
-            {
-                objectiveMap.Add(questObjective);
-            }
-            objectiveMap.Remove(null);
-            questObjectives = objectiveMap.ToList();
-        }
-
-        private HashSet<string> UniquifyObjectiveNames()
-        {
-            var objectiveNameMap = new HashSet<string>();
-            foreach (string questObjectiveName in questObjectiveNames)
-            {
-                objectiveNameMap.Add(questObjectiveName);
-            }
-
-            questObjectiveNames = objectiveNameMap.ToList();
-            return objectiveNameMap;
-        }
-#endif
-        #endregion
-
         #region UnityMethods
         private void OnValidate()
         {
 #if UNITY_EDITOR
-            objectiveIDEditorLookup = new Dictionary<string, QuestObjective>();
             objectiveNameEditorLookup = new Dictionary<string, QuestObjective>();
             foreach (QuestObjective questObjective in questObjectives.Where(questObjective => questObjective != null))
             {
-                string objectiveID = questObjective.GetObjectiveID();
-                if (!objectiveIDEditorLookup.TryAdd(objectiveID, questObjective)) { continue; }
                 if (!objectiveNameEditorLookup.TryAdd(questObjective.name, questObjective)) { continue; }
             }
 #endif
@@ -176,6 +58,126 @@ namespace Frankie.Quests
                 }
             }
 #endif
+        }
+        #endregion
+
+        #region Getters
+
+        public string GetName() => localizedDisplayName.GetSafeLocalizedString();
+        public string GetDetail() => localizedDetail.GetSafeLocalizedString();
+        public QuestObjective GetObjectiveFromID(string objectiveID) => questObjectives.FirstOrDefault(questObjective => questObjective.GetObjectiveID() == objectiveID);
+        public bool HasObjective(QuestObjective matchObjective) => questObjectives.Any(questObjective => questObjective.GetObjectiveID() == matchObjective.GetObjectiveID());
+        public int GetObjectiveCount() => questObjectives.Count;
+        public bool HasReward() => (rewards.Count > 0);
+        public List<Reward> GetRewards() => rewards;
+        
+        public LocalizationTableType localizationTableType { get; } = LocalizationTableType.Quests;
+        public List<TableEntryReference> GetLocalizationEntries()
+        {
+            var entries = new List<TableEntryReference>
+            {
+                localizedDisplayName.TableEntryReference,
+                localizedDetail.TableEntryReference
+            };
+            foreach (QuestObjective questObjective in questObjectives)
+            {
+                entries.AddRange(questObjective.GetLocalizationEntries());
+            }
+            return entries;
+        }
+        
+        public List<(string propertyName, LocalizedString localizedString, bool setToName)> GetPropertyLinkedLocalizationEntries()
+        {
+            return new List<(string propertyName, LocalizedString localizedString, bool setToName)>
+            {
+                (nameof(localizedDisplayName), localizedDisplayName, true),
+                (nameof(localizedDetail), localizedDetail, false)
+            };
+        }
+        #endregion
+        
+#if UNITY_EDITOR
+        #region EditorMethods
+        public void GenerateObjectiveFromNames()
+        {
+            questObjectiveNames = questObjectiveNames.Distinct().ToList();
+            foreach (string questObjectiveName in questObjectiveNames)
+            {
+                if (string.IsNullOrWhiteSpace(questObjectiveName)) { continue; }
+                if (objectiveNameEditorLookup.ContainsKey(questObjectiveName)) { continue; }
+                
+                CreateObjective(questObjectiveName);
+            }
+            RemoveDanglingObjectives();
+            OnValidate();
+            EditorUtility.SetDirty(this);
+            AssetDatabase.SaveAssetIfDirty(this);
+        }
+
+        private void CreateObjective(string objectiveName)
+        {
+            var questObjective = CreateInstance<QuestObjective>();
+            Undo.RegisterCreatedObjectUndo(questObjective, "Created Quest Objective");
+            questObjective.Setup(name, GetGUID(), objectiveName);
+            Undo.RecordObject(this, "Add Quest Objective");
+            
+            questObjectives.Add(questObjective);
+        }
+
+        private void RemoveDanglingObjectives()
+        {
+            List<QuestObjective> questObjectivesToDelete = questObjectives.Where(questObjective => !questObjectiveNames.Contains(questObjective.name)).ToList();
+            foreach (QuestObjective questObjective in questObjectivesToDelete)
+            {
+                questObjective.DeleteLocalization();
+                questObjectives.Remove(questObjective);
+                Undo.DestroyObjectImmediate(questObjective);
+            }
+        }
+
+        public void TriggerOnRename()
+        {
+            foreach (QuestObjective questObjective in questObjectives)
+            {
+                questObjective.SetQuestName(name);
+            }
+        }
+        #endregion
+#endif
+
+        #region AddressablesCaching
+        public static Quest GetFromID(string questID)
+        {
+            if (string.IsNullOrWhiteSpace(questID)) { return null; }
+            
+            BuildCacheIfEmpty();
+            return _questLookupCache.GetValueOrDefault(questID);
+        }
+
+        public static void BuildCacheIfEmpty()
+        {
+            if (_questLookupCache != null) { return; }
+            BuildQuestCache();
+        }
+
+        private static void BuildQuestCache()
+        {
+            _questLookupCache = new Dictionary<string, Quest>();
+            _addressablesLoadHandle = Addressables.LoadAssetsAsync(nameof(Quest), (Quest quest) =>
+                {
+                    if (_questLookupCache.TryGetValue(quest.guid, out Quest tryQuest))
+                    {
+                        Debug.LogError($"Looks like there's a duplicate ID for objects: {tryQuest} and {quest}");
+                    }
+                    _questLookupCache[quest.guid] = quest;
+                }
+            );
+            _addressablesLoadHandle.WaitForCompletion();
+        }
+
+        public static void ReleaseCache()
+        {
+            Addressables.Release(_addressablesLoadHandle);
         }
         #endregion
     }

@@ -1,0 +1,2863 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e9620f8c34305754d8cc9a7e49e852d9, type: 3}
+  m_Name: Speech_fr
+  m_EditorClassIdentifier: Unity.Localization::UnityEngine.Localization.Tables.StringTable
+  m_LocaleId:
+    m_Code: fr
+  m_SharedData: {fileID: 11400000, guid: 991c04154cea34203a64a5fe4f5e097e, type: 2}
+  m_Metadata:
+    m_Items: []
+  m_TableData:
+  - m_Id: 2889047881015296
+    m_Localized: Theo
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889048443052032
+    m_Localized: "H\xE9 Francis ! Tu veux sauvegarder ta progression jusqu'ici ?"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889048552103936
+    m_Localized: Frankie
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889048648572928
+    m_Localized: "Oui, s'il te pla\xEEt !"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889048753430528
+    m_Localized: Frankie
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889048849899520
+    m_Localized: Non, merci.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889048950562816
+    m_Localized: "D\xE9faut"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889049051226112
+    m_Localized: "N\u0153ud racine ignor\xE9"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889049147695104
+    m_Localized: Maya
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889049244164096
+    m_Localized: "C'est quoi \xE7a ? Tu dis m'avoir vue \xE0 la PortaBank (MC) ?
+      Je ne vois pas de quoi tu parles, je travaille ici."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889049344827392
+    m_Localized: Maya
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889049441296384
+    m_Localized: "\xC0 part toi et Cheval, je suis litt\xE9ralement la seule personne
+      qui fait du travail ici"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889049541959680
+    m_Localized: Maya
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889049638428672
+    m_Localized: "Tu veux la cl\xE9 de la salle \xE0 balles ? Tr\xE8s bien, on danse."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889049739091968
+    m_Localized: Maya
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889049835560960
+    m_Localized: "Bonjour Tilly, belle coiffure, je veux dire, belle tenue, je veux
+      dire . . . bref, tu veux tra\xEEner ce week-end ?"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889049936224256
+    m_Localized: Steve5000
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889050032693248
+    m_Localized: "N\u0153ud racine ignor\xE9"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889050129162240
+    m_Localized: Steve5000
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889050229825536
+    m_Localized: Oh, salut Francis . . . euh, Frankie.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889050326294528
+    m_Localized: Frankie
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889050426957824
+    m_Localized: "Euh . . . c'\xE9tait quoi \xE7a ? T'es quoi, toi ?"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889050523426816
+    m_Localized: Steve5000
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889050624090112
+    m_Localized: "T'as encore oubli\xE9 ta carte-cl\xE9 ? Tu peux emprunter la mienne,
+      je suis justement en train de partir."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889050720559104
+    m_Localized: Steve5000
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889050821222400
+    m_Localized: "H\xE9, \xE9coute -- avant que t'entres l\xE0-dedans, tu devrais
+      savoir -- les stagiaires se comportent vraiment bizarrement."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889050917691392
+    m_Localized: Steve5000
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889051018354688
+    m_Localized: "R\xE9visons tes comp\xE9tences de combat, je veux pas que tu te
+      retrouves dans l'embarras."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889051119017984
+    m_Localized: Steve5000
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889051215486976
+    m_Localized: "Je vois pas de quoi tu parles, mon pote ! Pourquoi tu rentres pas
+      l\xE0-dedans et tu leur montres qui c'est le patron ?"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889051316150272
+    m_Localized: Hipster
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889051412619264
+    m_Localized: Ignorer
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889051513282560
+    m_Localized: Hipster
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889051609751552
+    m_Localized: Cet ascenseur est en panne.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889051706220544
+    m_Localized: Hipster
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889051806883840
+    m_Localized: "Je crois que le disjoncteur \xE9lectrique a saut\xE9 et doit \xEAtre
+      r\xE9initialis\xE9, mais il est au sous-sol et les employ\xE9s ici sont un
+      peu devenus fous."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889051903352832
+    m_Localized: Hipster
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889052004016128
+    m_Localized: "Yeehaw, t'as r\xE9ussi ! Esp\xE8ce de fou, t'as vraiment foutrement
+      r\xE9ussi !"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889052104679424
+    m_Localized: Hipster
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889052205342720
+    m_Localized: "Tu pourrais peut-\xEAtre aller v\xE9rifier \xE7a ?"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889052306006016
+    m_Localized: Maya
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889052419252224
+    m_Localized: Racine
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889052524109824
+    m_Localized: Maya
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889052628967424
+    m_Localized: "J'ai eu ces super remises sur des hangars portables remis \xE0
+      neuf ! Tu y crois ?"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889052729630720
+    m_Localized: Maya
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889052830294016
+    m_Localized: Oh, tu veux que je sauvegarde ta progression jusqu'ici ?
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889052930957312
+    m_Localized: Frankie
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889053031620608
+    m_Localized: "Bien s\xFBr !"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889053136478208
+    m_Localized: Frankie
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889053237141504
+    m_Localized: Non, pas aujourd'hui
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889053337804800
+    m_Localized: "Moine Ensorcel\xE9"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889053438468096
+    m_Localized: "Je suis tellement a\xE9rodynamique !"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889053539131392
+    m_Localized: L'il Slugger
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889053652377600
+    m_Localized: Racine
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889053761429504
+    m_Localized: L'il Slugger
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889053870481408
+    m_Localized: Quoi ?
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889053983727616
+    m_Localized: L'il Slugger
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889054088585216
+    m_Localized: Et alors ?
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889054206025728
+    m_Localized: L'il Slugger
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889054319271936
+    m_Localized: Va te faire voir.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889054432518144
+    m_Localized: L'il Slugger
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889054545764352
+    m_Localized: "Esp\xE8ce de nerd !"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889054659010560
+    m_Localized: "Moine Envo\xFBt\xE9"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889054776451072
+    m_Localized: Moins de cheveux, plus de neurones.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889054889697280
+    m_Localized: Campagnol Serviable
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889055002943488
+    m_Localized: Attends ! Ne me fais pas de mal, je ne suis pas un campagnol ordinaire
+      !
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889055116189696
+    m_Localized: Campagnol Serviable
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889055229435904
+    m_Localized: "J'ai beau \xEAtre un petit rongeur, mon esprit est vaste et mes
+      exp\xE9riences multitudinaires."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889055338487808
+    m_Localized: Campagnol Serviable
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889055451734016
+    m_Localized: "Maintenant, passons aux choses s\xE9rieuses. Toi -- oui TOI, derri\xE8re
+      le clavier -- tu devrais savoir que tes ennemis n'attendront pas leur tour."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889055564980224
+    m_Localized: Campagnol Serviable
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889055678226432
+    m_Localized: "Alors r\xE9vise avant tes combats -- tu peux voir ce que tu peux
+      faire en appuyant sur Tab et en s\xE9lectionnant Capacit\xE9s."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889055791472640
+    m_Localized: Campagnol Serviable
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889055900524544
+    m_Localized: "En combat, s\xE9lectionne la capacit\xE9 que tu veux avec tes touches
+      \xAB W-A-S-D \xBB puis confirme avec \xAB E \xBB."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889056017965056
+    m_Localized: Campagnol Serviable
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889056131211264
+    m_Localized: "J'esp\xE8re que c'est clair -- je ne parle pas vraiment ta langue.
+      Je r\xE9cite juste ce que j'ai lu dans le Manuel Officiel du Jeu Frankie (MC)."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889056248651776
+    m_Localized: Campagnol Serviable
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889056357703680
+    m_Localized: "C'est la derni\xE8re phrase que j'ai m\xE9moris\xE9e."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889056466755584
+    m_Localized: Campagnol Serviable
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889056575807488
+    m_Localized: Couic.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889056684859392
+    m_Localized: Maya
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889056798105600
+    m_Localized: Racine
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889056911351808
+    m_Localized: Maya
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889057020403712
+    m_Localized: "J'ai eu ce petit sapin d\xE9sodorisant pour aider \xE0 rafra\xEEchir
+      l'air ! Alors, tu te sens FRAIS ?"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889057133649920
+    m_Localized: Maya
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889057242701824
+    m_Localized: Oh, tu veux que je sauvegarde ta progression jusqu'ici ?
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889057355948032
+    m_Localized: Frankie
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889057460805632
+    m_Localized: "Bien s\xFBr !"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889057569857536
+    m_Localized: Frankie
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889057674715136
+    m_Localized: Non, pas aujourd'hui
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889057775378432
+    m_Localized: "Travailleur Qualifi\xE9"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889057880236032
+    m_Localized: '*prout* Pas trop s''approcher. *pfft*'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889057980899328
+    m_Localized: "Travailleur Qualifi\xE9"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889058085756928
+    m_Localized: "Je viens de p\xE9ter . . . *blaaaat*"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889058190614528
+    m_Localized: "Travailleur Qualifi\xE9"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889058291277824
+    m_Localized: "*pbbbt* Peut-\xEAtre que le chili d'hier soir \xE9tait une mauvaise
+      id\xE9e. *poot*"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889058391941120
+    m_Localized: Maya
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889058496798720
+    m_Localized: Racine
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889058597462016
+    m_Localized: Maya
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889058702319616
+    m_Localized: "BONJOUR ! Bienvenue \xE0 la PortaBank (MC) ! Votre solution bancaire
+      portable num\xE9ro un !"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889058802982912
+    m_Localized: Maya
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889058903646208
+    m_Localized: Oh, tu veux que je sauvegarde ta progression jusqu'ici ?
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889059004309504
+    m_Localized: Frankie
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889059109167104
+    m_Localized: "Bien s\xFBr !"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889059209830400
+    m_Localized: Frankie
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889059314688000
+    m_Localized: Non, pas aujourd'hui
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889059419545600
+    m_Localized: Jolie Fille
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889059520208896
+    m_Localized: "Wow ! T'as vraiment travers\xE9 toute la for\xEAt ?"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889059620872192
+    m_Localized: Jolie Fille
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889059717341184
+    m_Localized: "Un \xE9cureuil m'a regard\xE9e bizarrement. Maintenant j'ai trop
+      peur m\xEAme de mettre les pieds l\xE0-dedans."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889059818004480
+    m_Localized: Phil Ramen
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889059918667776
+    m_Localized: "n\u0153ud racine"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889060019331072
+    m_Localized: Phil Ramen
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889060115800064
+    m_Localized: '*toux* *hrrk* Eh bien . . .'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889060216463360
+    m_Localized: Frankie
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889060317126656
+    m_Localized: "Il n'y a plus rien \xE0 faire ici . . . Au revoir Phil."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889060417789952
+    m_Localized: Phil Ramen
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889060518453248
+    m_Localized: "On dirait que c'est la fin pour moi. J'esp\xE9rais pouvoir t'accompagner
+      plus loin."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889060614922240
+    m_Localized: Frankie
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889060715585536
+    m_Localized: On dirait juste de vieilles ordures ordinaires.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889060816248832
+    m_Localized: Phil Ramen
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889060912717824
+    m_Localized: "Je suppose que je ne suis qu'une tasse de ramen apr\xE8s tout."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889061013381120
+    m_Localized: Phil Ramen
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889061114044416
+    m_Localized: "Oh, j'avais presque oubli\xE9 -- mes derni\xE8res paroles :"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889061214707712
+    m_Localized: Phil Ramen
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889061311176704
+    m_Localized: "\xC9coute, ce monde -- ton monde -- n'est pas ce qu'il para\xEEt
+      \xEAtre. Tu as d\xFB t'en rendre compte maintenant."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889061411840000
+    m_Localized: Phil Ramen
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889061512503296
+    m_Localized: "Ce miasme menace tout ce que tu connais. Tu dois d\xE9couvrir ce
+      qui, ou qui, est derri\xE8re tout \xE7a."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889061613166592
+    m_Localized: Phil Ramen
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889061709635584
+    m_Localized: "La r\xE9ponse se trouve dans tes propres souvenirs. Tu dois entreprendre
+      un voyage \xE0 la recherche de tes 10 curiosit\xE9s de pouvoir pour d\xE9voiler
+      la v\xE9rit\xE9."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889061810298880
+    m_Localized: Phil Ramen
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889061915156480
+    m_Localized: "Tu rencontreras de nombreux amis en chemin. Fais-leur confiance,
+      compte sur eux. Tu as besoin de leur aide pour traverser \xE7a."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889062015819776
+    m_Localized: Phil Ramen
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889062116483072
+    m_Localized: "Pars maintenant. Ta premi\xE8re curiosit\xE9, je la sens proche.
+      Quelque part dans la banlieue voisine de Prim."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889062217146368
+    m_Localized: Phil Ramen
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889062317809664
+    m_Localized: "Le m\xE9tro devrait t'y emmener. Attends, tu devrais le savoir,
+      tu habites \xE0 Prim, N'EST-CE PAS ?"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889062418472960
+    m_Localized: Phil Ramen
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889062519136256
+    m_Localized: "Oh l\xE0 l\xE0, je vois la lumi\xE8re. C'est vraiment la fin maintenant.
+      Avant de partir, tu as bien \xE9cout\xE9, ou tu veux que je r\xE9p\xE8te ?"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889062623993856
+    m_Localized: Frankie
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889062728851456
+    m_Localized: Oui
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889062833709056
+    m_Localized: Frankie
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889062934372352
+    m_Localized: Non
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889063035035648
+    m_Localized: Phil Ramen
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889063139893248
+    m_Localized: "Oh . . . vraiment ? Honn\xEAtement, je tiens \xE0 peine. Ok, j'imagine,
+      voil\xE0."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889063240556544
+    m_Localized: Phil Ramen
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889063345414144
+    m_Localized: "D'accord. Eh bien, tu es un homme intelligent, capable et courageux,
+      Frankie. N'oublie pas \xE7a."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889063446077440
+    m_Localized: Phil Ramen
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889063550935040
+    m_Localized: "Je suis content de t'avoir rencontr\xE9. *squish* *slurp* *au revoir*"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889063655792640
+    m_Localized: "D\xE9faut"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889063760650240
+    m_Localized: "Texte par d\xE9faut \xE0 remplacer"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889063865507840
+    m_Localized: "Dame Distingu\xE9e"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889063970365440
+    m_Localized: "Ce gar\xE7on tra\xEEne encore autour de ma maison ?"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889064079417344
+    m_Localized: "Dame Distingu\xE9e"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889064180080640
+    m_Localized: "Je suis sa m\xE8re, mais pour \xEAtre honn\xEAte, j'aimerais qu'il
+      me fiche la paix"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889064293326848
+    m_Localized: "Dame Distingu\xE9e"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889064398184448
+    m_Localized: Quelle plaie
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889064503042048
+    m_Localized: Un Type
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889064612093952
+    m_Localized: "N\u0153ud Racine"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889064712757248
+    m_Localized: Un Type
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889064821809152
+    m_Localized: Salut
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889064926666752
+    m_Localized: Un Type
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889065035718656
+    m_Localized: "Mes parents disaient que je deviendrais c\xE9l\xE8bre. J'ai seulement
+      une pr\xE9sence modeste sur les r\xE9seaux sociaux cependant."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889065140576256
+    m_Localized: Un Type
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889065245433856
+    m_Localized: Ne laisse pas les campagnols entrer chez toi
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889065354485760
+    m_Localized: Un Type
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889065459343360
+    m_Localized: "Ils ont l'air sympa, mais ils vont ronger tous tes fils \xE9lectriques"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889065568395264
+    m_Localized: Un Type
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889065673252864
+    m_Localized: J'aime vraiment ton style
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889065782304768
+    m_Localized: Homme Chauve
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889065887162368
+    m_Localized: "Wow, t'as vraiment grimp\xE9 jusqu'ici ?"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889065996214272
+    m_Localized: Homme Chauve
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889066101071872
+    m_Localized: Je vais pas te donner un prix ou quoi que ce soit
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889066201735168
+    m_Localized: Moine Minimaliste
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889066302398464
+    m_Localized: Embrasser la calvitie, c'est embrasser le vrai minimalisme.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889066403061760
+    m_Localized: "D\xE9faut"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889066503725056
+    m_Localized: "N\u0153ud racine ignor\xE9"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889066600194048
+    m_Localized: Hipster Office Worker
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889066700857344
+    m_Localized: "H\xE9, j'ai besoin que tu fasses une pr\xE9sentation au SVP sur
+      ce sujet dans 10 minutes !"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889066801520640
+    m_Localized: Hipster Office Worker
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889066897989632
+    m_Localized: "Super pr\xE9sentation, on refera \xE7a un de ces jours."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889066998652928
+    m_Localized: Frankie
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889067099316224
+    m_Localized: "A\xEFe !"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889067195785216
+    m_Localized: Frankie
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889067296448512
+    m_Localized: Erk !
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889067397111808
+    m_Localized: Frankie
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889067497775104
+    m_Localized: Mmm-hmm.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889067594244096
+    m_Localized: Hipster Office Worker
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889067694907392
+    m_Localized: Super, t'as Tilly avec toi, voyons ce que t'as dans le ventre.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889067799764992
+    m_Localized: Hipster Office Worker
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889067896233984
+    m_Localized: "Attends, o\xF9 est Tilly ? Va chercher Tilly d'abord !"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889067996897280
+    m_Localized: Hipster Office Worker
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889068097560576
+    m_Localized: "Voil\xE0 l'attitude !"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889068198223872
+    m_Localized: Maya
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889068294692864
+    m_Localized: "Texte par d\xE9faut \xE0 remplacer"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889068395356160
+    m_Localized: Maya
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889068496019456
+    m_Localized: "Laisse-moi deviner, Cheval t'a demand\xE9 de venir ici pour ses
+      *ahem* documents ?"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889068596682752
+    m_Localized: Maya
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889068697346048
+    m_Localized: "Je suppose que \xE7a peut devenir assez solitaire ici parfois."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889068798009344
+    m_Localized: Maya
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889068894478336
+    m_Localized: Tiens -- je crois que c'est ce qu'il veut.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889068995141632
+    m_Localized: Maya
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889069095804928
+    m_Localized: Oh. Comment t'es descendu ici ?
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889069196468224
+    m_Localized: Cheveux en Pagaille
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889069297131520
+    m_Localized: "Mon p\xE8re peut vraiment \xEAtre un emmerdeur"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889069397794816
+    m_Localized: "Travailleur Qualifi\xE9"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889069498458112
+    m_Localized: "C'est toi qui as p\xE9t\xE9 ? . . ."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889069594927104
+    m_Localized: "Travailleur Qualifi\xE9"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889069695590400
+    m_Localized: . . .
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889069792059392
+    m_Localized: "Travailleur Qualifi\xE9"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889069892722688
+    m_Localized: . . . Je plaisantais.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889069993385984
+    m_Localized: "Travailleur Qualifi\xE9"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889070094049280
+    m_Localized: "*SNORT* Au fait, Cheval est vraiment de mauvaise humeur *HYUK*.
+      Il te parlera probablement m\xEAme pas si t'as pas de Foin."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889070190518272
+    m_Localized: "Travailleur Qualifi\xE9"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889070291181568
+    m_Localized: "*HYUK* T'as du Foin sur toi ? Bien jou\xE9."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889070391844864
+    m_Localized: "Travailleur Qualifi\xE9"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889070492508160
+    m_Localized: Bien fait. *SNORT* Maintenant file.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889070597365760
+    m_Localized: "Amateur de Cr\xE8me Glac\xE9e"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889070698029056
+    m_Localized: "Cet endroit est mondialement r\xE9put\xE9 pour sa cr\xE8me glac\xE9e"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889070794498048
+    m_Localized: "Amateur de Cr\xE8me Glac\xE9e"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889070899355648
+    m_Localized: "Dommage que \xE7a n'ouvre pas avant 4 heures"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889070995824640
+    m_Localized: Generic Office Worker Glen
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889071096487936
+    m_Localized: "Maya est une patronne vraiment s\xE9v\xE8re, mais je ferais n'importe
+      quoi pour avoir son approbation."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889071197151232
+    m_Localized: Generic Office Worker Glen
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889071293620224
+    m_Localized: "Attends, tu lui dirais jamais que j'ai dit \xE7a, hein ?"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889071398477824
+    m_Localized: Frankie
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889071494946816
+    m_Localized: Oui
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889071595610112
+    m_Localized: Frankie
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889071696273408
+    m_Localized: "Peut-\xEAtre"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889071796936704
+    m_Localized: Generic Office Worker Glen
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889071897600000
+    m_Localized: Ahhhhhhhhhhhh, ooooooohhh.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889071998263296
+    m_Localized: Campagnol Serviable
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889072098926592
+    m_Localized: Attends ! Ne me fais pas de mal, je ne suis pas un campagnol ordinaire
+      !
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889072195395584
+    m_Localized: Campagnol Serviable
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889072296058880
+    m_Localized: "J'ai peut-\xEAtre pas l'air de grand-chose, mais je suis vraiment
+      un EXPERT EN COMBAT"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889072396722176
+    m_Localized: Campagnol Serviable
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889072497385472
+    m_Localized: "C'est l'heure d'une nouvelle le\xE7on !"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889072598048768
+    m_Localized: Campagnol Serviable
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889072698712064
+    m_Localized: "T'es-tu d\xE9j\xE0 retrouv\xE9 en combat et remarqu\xE9 que tu
+      avais perdu l'acc\xE8s \xE0 certaines comp\xE9tences ?"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889072799375360
+    m_Localized: Campagnol Serviable
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889072900038656
+    m_Localized: "C'est parce que chaque comp\xE9tence est li\xE9e \xE0 une STATISTIQUE,
+      et n\xE9cessite une certaine VALEUR DE STATISTIQUE pour \xEAtre utilis\xE9e."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889073000701952
+    m_Localized: Campagnol Serviable
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889073101365248
+    m_Localized: "Si ton ennemi abaisse la STATISTIQUE li\xE9e \xE0 ta comp\xE9tence,
+      \xE7a peut bloquer cette comp\xE9tence jusqu'\xE0 ce que ta STATISTIQUE r\xE9cup\xE8re
+      !"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889073202028544
+    m_Localized: Campagnol Serviable
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889073306886144
+    m_Localized: "Garde un \u0153il sur les EFFETS DE STATUT appliqu\xE9s \xE0 ton
+      personnage. Utilise une COMP\xC9TENCE ou un OBJET RESTAURATEUR si besoin."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889073403355136
+    m_Localized: Campagnol Serviable
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889073504018432
+    m_Localized: "J'esp\xE8re que c'est clair -- j'ai tout appris du Manuel Officiel
+      du Jeu Frankie (MC). Tu devrais y jeter un \u0153il !"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889073604681728
+    m_Localized: "Moine Captiv\xE9"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889073701150720
+    m_Localized: Chauve c'est beau. Chauve c'est beau.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889073806008320
+    m_Localized: Phil Too
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889073902477312
+    m_Localized: "N\u0153ud racine ignor\xE9"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889074003140608
+    m_Localized: Phil Too
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889074103803904
+    m_Localized: "Ton vibe est plut\xF4t tordu, non ? Essaie d'am\xE9liorer ton Charme,
+      Frankie !"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889074204467200
+    m_Localized: Phil Too
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889074305130496
+    m_Localized: "T'as l'air styl\xE9 ! Laisse-moi vibe avec toi."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889074405793792
+    m_Localized: Phil Too
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889074502262784
+    m_Localized: "Je vais te dire \xE7a puisque tu le sais pas encore : fais attention
+      \xE0 tes stats !"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889074602926080
+    m_Localized: Phil Too
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889074703589376
+    m_Localized: "\xC0 mesure que tes valeurs de stats augmentent, tu pourrais d\xE9bloquer
+      de nouvelles capacit\xE9s. Je parie que t'as une nouvelle capacit\xE9 \xE0
+      d\xE9couvrir l\xE0 maintenant."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889074804252672
+    m_Localized: Phil Too
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889074909110272
+    m_Localized: Alright, on y va.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889075005579264
+    m_Localized: Cheval
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889075110436864
+    m_Localized: "Ignorer le n\u0153ud racine"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889075206905856
+    m_Localized: Cheval
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889075307569152
+    m_Localized: "Hin. (va-t'en, je suis occup\xE9)"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889075412426752
+    m_Localized: Cheval
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889075508895744
+    m_Localized: Hiiiiiin. (c'est du Foin que je sens ?)
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889075609559040
+    m_Localized: Cheval
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889075710222336
+    m_Localized: "Whinny. Hin. (f\xE9licitations Frankie, t'as r\xE9ussi, t'as vraiment
+      r\xE9ussi, fils de cheval)"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889075810885632
+    m_Localized: Cheval
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889075911548928
+    m_Localized: Snort. (donne-le moi, c'est le mien)
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889076008017920
+    m_Localized: "Moine Enchant\xE9"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889076108681216
+    m_Localized: "Je fais des \xE9conomies folles sur le shampoing."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889076209344512
+    m_Localized: Bro Office Worker
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889076310007808
+    m_Localized: "Ce couloir est un super endroit pour faire du cardio. Je me fais
+      vraiment creuser un app\xE9tit."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889076410671104
+    m_Localized: "D\xE9faut"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889076511334400
+    m_Localized: "Texte par d\xE9faut \xE0 remplacer"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889076611997696
+    m_Localized: Hipster Office Worker
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889076712660992
+    m_Localized: Oh, oh, oh, oh, oh, oh !
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889076813324288
+    m_Localized: Hipster Office Worker
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889076913987584
+    m_Localized: "Je me souviens de ce que je devais te dire maintenant, mais c'\xE9tait
+      pas si important."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889077014650880
+    m_Localized: Hipster Office Worker
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889077115314176
+    m_Localized: J'ai besoin de te dire quelque chose d'urgent !
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889077220171776
+    m_Localized: Hipster Office Worker
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889077333417984
+    m_Localized: Euh. Hmmm...
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889077442469888
+    m_Localized: Hipster Office Worker
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889077543133184
+    m_Localized: "J'ai oubli\xE9."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889077643796480
+    m_Localized: Lil Slugger
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889077744459776
+    m_Localized: "Je veux un slush du Chug'n'Slurp (MC), mais ma m\xE8re dit que
+      la for\xEAt est trop dangereuse"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889077845123072
+    m_Localized: Charlie
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889077945786368
+    m_Localized: "C'est un peu serr\xE9, mais tu peux faire une sieste dans notre
+      lit avec nous si tu veux ?"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889078046449664
+    m_Localized: Frankie
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889078147112960
+    m_Localized: Ok !
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889078251970560
+    m_Localized: Frankie
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889078352633856
+    m_Localized: Non.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889078453297152
+    m_Localized: Bro Office Worker
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889078553960448
+    m_Localized: "N\u0153ud Racine"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889078667206656
+    m_Localized: Bro Office Worker
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889078767869952
+    m_Localized: "T'as apport\xE9 de la sauce piquante et des baguettes ! Super !"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889078868533248
+    m_Localized: Frankie
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889078973390848
+    m_Localized: Atten- *il attrape les baguettes et la sauce piquante*
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889079074054144
+    m_Localized: Bro Office Worker
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889079174717440
+    m_Localized: "J'ai super faim apr\xE8s tout ce cardio ! Heureusement que quelqu'un
+      a pr\xE9par\xE9 ce d\xE9licieux ramen et l'a juste laiss\xE9 l\xE0 !"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889079275380736
+    m_Localized: Frankie
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889079376044032
+    m_Localized: Non, c'est pas-
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889079480901632
+    m_Localized: Bro Office Worker
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889079581564928
+    m_Localized: "*d\xE9chire* *verse* *m\xE9lange* *sluurrrp*"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889079678033920
+    m_Localized: Frankie
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889079782891520
+    m_Localized: Oh mon Die-
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889079883554816
+    m_Localized: Bro Office Worker
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889079984218112
+    m_Localized: "Le travail d'\xE9quipe, c'est le r\xEAve de l'\xE9quipe, pas vrai
+      ?"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889080084881408
+    m_Localized: Bro Office Worker
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889080185544704
+    m_Localized: Je suis tellement plein.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889080286208000
+    m_Localized: Bro Office Worker
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889080386871296
+    m_Localized: '*sluurrrp* *miam* *pouf*'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889080487534592
+    m_Localized: "Pr\xE9pos\xE9 Porta"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889080592392192
+    m_Localized: Ignorer la racine
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889080693055488
+    m_Localized: "Pr\xE9pos\xE9 Porta"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889080789524480
+    m_Localized: "BONJOUR ! Bienvenue \xE0 la PortaBank (MC) ! Votre solution bancaire
+      portable num\xE9ro un !"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889080894382080
+    m_Localized: "Pr\xE9pos\xE9 Porta"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889080990851072
+    m_Localized: Faites-moi signe si vous avez des questions !
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889081095708672
+    m_Localized: "Pr\xE9pos\xE9 Porta"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889081196371968
+    m_Localized: "J'ai eu ces super remises sur des hangars portables remis \xE0
+      neuf ! Tu y crois ?"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889081297035264
+    m_Localized: "Pr\xE9pos\xE9 Porta"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889081401892864
+    m_Localized: "Oh, l'odeur ? C'\xE9tait comme \xE7a quand on a achet\xE9 la flotte."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889081502556160
+    m_Localized: "Pr\xE9pos\xE9 Porta"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889081603219456
+    m_Localized: "J'ai eu ce petit sapin d\xE9sodorisant pour aider \xE0 rafra\xEEchir
+      l'air !"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889081703882752
+    m_Localized: Chef des Moines
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889081804546048
+    m_Localized: "Non non non, \xE7a ne va pas. T'as beaucoup trop de cheveux !"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889081905209344
+    m_Localized: Frankie
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889082005872640
+    m_Localized: Erk.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889082106535936
+    m_Localized: Chef des Moines
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889082207199232
+    m_Localized: ALORS POURQUOI ES-TU ICI ?!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889082312056832
+    m_Localized: Lucy
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889082412720128
+    m_Localized: "N\u0153ud racine \xE0 ignorer"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889082513383424
+    m_Localized: Lucy
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889082614046720
+    m_Localized: "*Bisou* Je suis tellement contente de te voir. Tu dois avoir eu
+      une longue journ\xE9e."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889082714710016
+    m_Localized: Lucy
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889082819567616
+    m_Localized: Pourquoi tu manges pas un petit quelque chose et tu vas te coucher
+      ?
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889082920230912
+    m_Localized: Lucy
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889083020894208
+    m_Localized: Bonjour, dormeur ! Tu vas aller en ville aujourd'hui ?
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889083121557504
+    m_Localized: Lucy
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889083222220800
+    m_Localized: "Je pense \xE0 me prendre un de ces petits robots pour nettoyer
+      la maison."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889083327078400
+    m_Localized: Lucy
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889083427741696
+    m_Localized: "Comment \xE7a s'appelle encore ? Vwoomba ?"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889083532599296
+    m_Localized: Lucy
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889083641651200
+    m_Localized: "J'ai entendu qu'un nouveau caf\xE9 mignon a ouvert en ville. On
+      devrait y aller un de ces jours !"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889083746508800
+    m_Localized: Lucy
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889083851366400
+    m_Localized: Fais attention aux animaux sauvages. Ils s'approchent de plus en
+      plus des sentiers ces derniers temps. Effrayant !
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889083956224000
+    m_Localized: "Fille Branch\xE9e"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889084061081600
+    m_Localized: "On dirait que je me suis encore enferm\xE9e dehors"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889084170133504
+    m_Localized: Frankie
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889084274991104
+    m_Localized: Mmm-hmm ?
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889084375654400
+    m_Localized: "Fille Branch\xE9e"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889084480512000
+    m_Localized: Ouais, je veux dire, je te jure que c'est chez moi
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889084589563904
+    m_Localized: "Fille Branch\xE9e"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889084719587328
+    m_Localized: "En quoi \xE7a te regarde de toute fa\xE7on ?"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889084837027840
+    m_Localized: Le Compteur
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889084967051264
+    m_Localized: "N\u0153ud Racine"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889085084491776
+    m_Localized: Le Compteur
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889085206126592
+    m_Localized: Un mille, deux mille, trois mille
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889085323567104
+    m_Localized: Le Compteur
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889085436813312
+    m_Localized: . . . quatre mille, cinq mille, six mille
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889085566836736
+    m_Localized: Le Compteur
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889085684277248
+    m_Localized: . . . sept mille, huit mille, neuf mille
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889085801717760
+    m_Localized: Le Compteur
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889085923352576
+    m_Localized: . . . dix mille, onze mille, douze mille
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889086040793088
+    m_Localized: Le Compteur
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889086158233600
+    m_Localized: ". . . dix-sept mille . . . attends, j'en \xE9tais o\xF9 ?"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889086275674112
+    m_Localized: Le Compteur
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889086393114624
+    m_Localized: "Mince, tu m'as fait me tromper, il faut que je recommence depuis
+      le d\xE9but !"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889086502166528
+    m_Localized: Phil Ramen
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889086607024128
+    m_Localized: "T'es enfin arriv\xE9. Je m'appelle Phil, et je viens avec un message
+      urgent."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889086716076032
+    m_Localized: Frankie
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889086837710848
+    m_Localized: T'es une tasse de nouilles qui parle ?
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889086959345664
+    m_Localized: Phil Ramen
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889087080980480
+    m_Localized: "J'ai peut-\xEAtre l'air d'une d\xE9licieuse tasse de nouilles,
+      mais je suis en r\xE9alit\xE9 une intelligence artificielle sophistiqu\xE9e."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889087198420992
+    m_Localized: Phil Ramen
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889087315861504
+    m_Localized: Attends . . . . .
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889087424913408
+    m_Localized: Frankie
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889087533965312
+    m_Localized: "C'\xE9tait quoi \xE7a ?"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889087643017216
+    m_Localized: Phil Ramen
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889087760457728
+    m_Localized: . . .
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889087869509632
+    m_Localized: Phil Ramen
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889087974367232
+    m_Localized: "Ils doivent avancer plus vite que je pensais. On doit trouver des
+      baguettes imm\xE9diatement."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889088087613440
+    m_Localized: Phil Ramen
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889088196665344
+    m_Localized: "Une fois que t'as les baguettes, tu dois verser de l'eau chaude
+      sur moi et m\xE9langer mes nouilles."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889088314105856
+    m_Localized: Phil Ramen
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889088423157760
+    m_Localized: . . .
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889088528015360
+    m_Localized: Frankie
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889088632872960
+    m_Localized: Euh ?
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889088737730560
+    m_Localized: Frankie
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889088842588160
+    m_Localized: Ok ?
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889088947445760
+    m_Localized: Phil Ramen
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889089052303360
+    m_Localized: "D\xE9sol\xE9, c'est pas le moment d'expliquer. Vite !"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889089152966656
+    m_Localized: Phil Ramen
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889089257824256
+    m_Localized: "Texte par d\xE9faut \xE0 remplacer"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889089362681856
+    m_Localized: Phil Ramen
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889089463345152
+    m_Localized: "Il reste une derni\xE8re \xE9tape pour l'incantation. Tu dois trouver
+      une sauce piquante extr\xEAmement \xE9pic\xE9e."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889089568202752
+    m_Localized: Phil Ramen
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889089668866048
+    m_Localized: T'as la sauce piquante -- vite, verse-la dans moi.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889089773723648
+    m_Localized: Frankie
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889089878581248
+    m_Localized: Euhh
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889089983438848
+    m_Localized: Phil Ramen
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889090088296448
+    m_Localized: "Beurk, non, pas comme \xE7a. Fais-le juste."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889090188959744
+    m_Localized: Phil Ramen
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889090289623040
+    m_Localized: Je crois qu'ils en ont en stock dans les distributeurs automatiques.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889090398674944
+    m_Localized: Bronzeur
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889090507726848
+    m_Localized: Tu peux bouger ? Tu bloques mon soleil
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889090612584448
+    m_Localized: Frankie
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889090713247744
+    m_Localized: Oui
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889090818105344
+    m_Localized: Frankie
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889090922962944
+    m_Localized: Non
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889091027820544
+    m_Localized: Tilly
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889091128483840
+    m_Localized: "Hein ? Non, j'ai pas besoin d'\xEAtre sauv\xE9e."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889091233341440
+    m_Localized: Tilly
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889091334004736
+    m_Localized: "J'essayais juste de montrer \xE0 ces nerds comment faire leur travail."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889091438862336
+    m_Localized: Tilly
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889091543719936
+    m_Localized: "Bref, on s'en va d'ici Frankie, on a du travail \xE0 faire avec
+      Maya en haut."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889091644383232
+    m_Localized: "Travailleur Qualifi\xE9"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889091749240832
+    m_Localized: Racine
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889091849904128
+    m_Localized: "Travailleur Qualifi\xE9"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889091954761728
+    m_Localized: "H\xE9, euh, si tu veux descendre ces escaliers vers la salle \xE9lectrique,
+      tu vas devoir m'affronter en lutte."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889092059619328
+    m_Localized: "Travailleur Qualifi\xE9"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889092164476928
+    m_Localized: "Tu veux te mesurer \xE0 moi ?"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889092265140224
+    m_Localized: Frankie
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889092365803520
+    m_Localized: Absolument !
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889092470661120
+    m_Localized: Frankie
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889092575518720
+    m_Localized: Merci, euh, je vais passer pour l'instant.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889092680376320
+    m_Localized: "Travailleur Qualifi\xE9"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889092781039616
+    m_Localized: "Ah, mon dos ! T'as compl\xE8tement f***\xE9 mon dos !"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889092881702912
+    m_Localized: Campagnol Serviable
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889092986560512
+    m_Localized: "Texte par d\xE9faut \xE0 remplacer"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889093091418112
+    m_Localized: Campagnol Serviable
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889093196275712
+    m_Localized: "*couic* Je suis tellement stress\xE9 *couic* ces d\xE9lais sont
+      insens\xE9s."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889093301133312
+    m_Localized: Campagnol Serviable
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889093405990912
+    m_Localized: '*couic* Oh, je suis tellement content de te voir.'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889093510848512
+    m_Localized: Campagnol Serviable
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889093615706112
+    m_Localized: "On dirait que tout est revenu \xE0 la normale."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889093716369408
+    m_Localized: Campagnol Serviable
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889093821227008
+    m_Localized: Et mon fonds de retraite coule . . . *couic triste*
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889093921890304
+    m_Localized: Campagnol Serviable
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889094026747904
+    m_Localized: "Comment je vais subvenir aux besoins de ma famille comme \xE7a
+      ? *couic d\xE9sesp\xE9r\xE9*"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889094127411200
+    m_Localized: Frankie
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889094232268800
+    m_Localized: Hmm
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889094337126400
+    m_Localized: Frankie
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889094437789696
+    m_Localized: Euhh
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889094542647296
+    m_Localized: Campagnol Serviable
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889094647504896
+    m_Localized: "*couic* Je suis d'accord, Frankie. On doit renverser nos ma\xEEtres
+      capitalistes."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889094748168192
+    m_Localized: Frankie
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889094848831488
+    m_Localized: Erk
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889094953689088
+    m_Localized: Frankie
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889095058546688
+    m_Localized: Euhh
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889095163404288
+    m_Localized: Campagnol Serviable
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889095268261888
+    m_Localized: "Merci de m'avoir donn\xE9 ce super conseil. *couic heureux* T'es
+      vraiment un bon ami."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889095373119488
+    m_Localized: Campagnol Serviable
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889095473782784
+    m_Localized: "L'\xE9lectricit\xE9 a vacill\xE9, et ensuite les stagiaires sont
+      devenus fous."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889095578640384
+    m_Localized: Campagnol Serviable
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889095683497984
+    m_Localized: "S'il y en a un qui peut r\xE9gler \xE7a, c'est toi. Fais attention
+      ! *couic inspirant*"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889095788355584
+    m_Localized: Campagnol Serviable
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889095893213184
+    m_Localized: "C'est comme si personne n'avait m\xEAme remarqu\xE9 que le courant
+      \xE9tait coup\xE9. Bizarre."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889096006459392
+    m_Localized: Campagnol Serviable
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889096115511296
+    m_Localized: '*couic effrayant*'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889096220368896
+    m_Localized: Ron
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889096329420800
+    m_Localized: Racine
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889096463638528
+    m_Localized: Ron
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889096568496128
+    m_Localized: "Hol\xE0 hol\xE0 hol\xE0, ne me fais pas de mal !"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889096673353728
+    m_Localized: Ron
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889096774017024
+    m_Localized: "Je suis peut-\xEAtre chauve, mais je suis pas un de ces FOUS."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889096878874624
+    m_Localized: Ron
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889096983732224
+    m_Localized: "H\xE9, \xE9coute, si t'as besoin d'un moyen de sortir d'ici, je
+      peux te ramener \xE0 la PortaBank juste en dehors de l'\xE9glise."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889097088589824
+    m_Localized: Ron
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889097193447424
+    m_Localized: Bref, tu veux sauvegarder ta progression jusqu'ici ?
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889097298305024
+    m_Localized: Frankie
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889097403162624
+    m_Localized: Oui, allons-y !
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889097508020224
+    m_Localized: Frankie
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889097617072128
+    m_Localized: Non, merci.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889097721929728
+    m_Localized: Ron
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889097826787328
+    m_Localized: "Tu veux que je te ram\xE8ne \xE0 la PortaBank ?"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889097927450624
+    m_Localized: Frankie
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889098036502528
+    m_Localized: Non, merci.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889098137165824
+    m_Localized: Frankie
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889098242023424
+    m_Localized: Oui, sors-moi d'ici !
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889098346881024
+    m_Localized: Lit Douillet
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889098455932928
+    m_Localized: Le lit douillet t'appelle . . . .
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889098556596224
+    m_Localized: Frankie
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889098665648128
+    m_Localized: Bonjour, lit douillet.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889098770505728
+    m_Localized: Lit Douillet
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889098875363328
+    m_Localized: "T'es s\xFBr de vouloir aller dormir ?"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889098980220928
+    m_Localized: Frankie
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889099085078528
+    m_Localized: Ouais
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889099189936128
+    m_Localized: Frankie
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889099294793728
+    m_Localized: "Non, j'ai du travail \xE0 faire"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889099399651328
+    m_Localized: Lit Douillet
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889099504508928
+    m_Localized: "\xC0 la prochaine."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889099609366528
+    m_Localized: Lit Douillet
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889099714224128
+    m_Localized: Vraiment ?
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889099819081728
+    m_Localized: Frankie
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889099923939328
+    m_Localized: En y repensant . . .
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889100028796928
+    m_Localized: Frankie
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889100137848832
+    m_Localized: "Ouais, j'en suis s\xFBr."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889100246900736
+    m_Localized: Lit Douillet
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889100351758336
+    m_Localized: "Tu peux pas revenir en arri\xE8re, tu sais ?"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889100456615936
+    m_Localized: Frankie
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889100561473536
+    m_Localized: Je sais.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889100666331136
+    m_Localized: Frankie
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889100775383040
+    m_Localized: Attends, je le pensais pas !
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889100880240640
+    m_Localized: Lit Douillet
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889100985098240
+    m_Localized: "Ok. \xC0 plus."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889101089955840
+    m_Localized: Lit Douillet
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889101199007744
+    m_Localized: Frankie.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889101303865344
+    m_Localized: Clever Office Worker
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889101412917248
+    m_Localized: "Tu peux m'aider avec ce probl\xE8me ?"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889101517774848
+    m_Localized: Frankie
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889101622632448
+    m_Localized: Ok
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889101727490048
+    m_Localized: Frankie
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889101836541952
+    m_Localized: Non
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889101941399552
+    m_Localized: Clever Office Worker
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889102046257152
+    m_Localized: "Tu devrais pas trop me g\xE2ter, je n'aurai jamais une vraie \xE9thique
+      de travail si tu continues comme \xE7a."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889102151114752
+    m_Localized: Clever Office Worker
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889102255972352
+    m_Localized: "T'as raison. Je dois vraiment m'en occuper moi-m\xEAme."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889102365024256
+    m_Localized: "Moine Captiv\xE9"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889102469881856
+    m_Localized: "J'ai embrass\xE9 mon destin. Chauve c'est le pouvoir !"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889102578933760
+    m_Localized: Campagnol Serviable
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889102683791360
+    m_Localized: Salut ! Je suis pas ton ennemi, juste un campagnol qui veut te donner
+      quelques conseils !
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889102788648960
+    m_Localized: Campagnol Serviable
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889102893506560
+    m_Localized: "Dans cette d\xE9mo tu affronteras des ennemis de difficult\xE9
+      vari\xE9e pour \xE9valuer tes aptitudes au combat"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889102998364160
+    m_Localized: Frankie
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889103103221760
+    m_Localized: Ouais ouais.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889103208079360
+    m_Localized: Campagnol Serviable
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889103312936960
+    m_Localized: Oui, eh bien, sois averti ! Le combat ne se met pas en pause dans
+      Frankie ! Une fois qu'un ennemi peut attaquer, il le fera !
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889103417794560
+    m_Localized: Campagnol Serviable
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889103526846464
+    m_Localized: "Pour vaincre ton ennemi, s\xE9lectionne rapidement une comp\xE9tence
+      avec les touches directionnelles HAUT-BAS-GAUCHE-DROITE ou W-A-S-D, et confirme
+      avec \xAB E \xBB. Ensuite s\xE9lectionne simplement ta cible et appuie \xE0
+      nouveau sur \xAB E \xBB !"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889103627509760
+    m_Localized: Campagnol Serviable
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889103736561664
+    m_Localized: "\xC0 mesure que tu acquiers de nouvelles comp\xE9tences, tu devras
+      naviguer plus profond\xE9ment dans ton arbre de comp\xE9tences avec les m\xEAmes
+      touches directionnelles. On traversera ce pont quand on y arrivera !"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889103841419264
+    m_Localized: Frankie
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889103946276864
+    m_Localized: Mmm.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889104051134464
+    m_Localized: Campagnol Serviable
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889104155992064
+    m_Localized: "OK ! C'est tout. C'est tout, tu veux que je r\xE9p\xE8te ces instructions
+      ?"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889104265043968
+    m_Localized: Frankie
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889104365707264
+    m_Localized: Non
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889104474759168
+    m_Localized: Frankie
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889104579616768
+    m_Localized: Oui
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889104692862976
+    m_Localized: Belle Tapisserie
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889104801914880
+    m_Localized: Bonjour Francis
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889104915161088
+    m_Localized: Frankie
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889105061961728
+    m_Localized: Tu me parles ?
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889105175207936
+    m_Localized: Belle Tapisserie
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889105280065536
+    m_Localized: "\xC0 qui d'autre ?"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889105389117440
+    m_Localized: Belle Tapisserie
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889105498169344
+    m_Localized: Tu veux me rejoindre, Francis ??
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889105615609856
+    m_Localized: Frankie
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889105728856064
+    m_Localized: Oui
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889105837907968
+    m_Localized: Frankie
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889105946959872
+    m_Localized: "Bien s\xFBr"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889106056011776
+    m_Localized: Frankie
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889106165063680
+    m_Localized: Euhh
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889106274115584
+    m_Localized: Frankie
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889106383167488
+    m_Localized: Oui
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889106496413696
+    m_Localized: Belle Tapisserie
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889106605465600
+    m_Localized: Chauve c'est beau.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889106714517504
+    m_Localized: Frankie
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889106823569408
+    m_Localized: Chauve
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889106932621312
+    m_Localized: Frankie
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889107041673216
+    m_Localized: Chauve c'est
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889107150725120
+    m_Localized: Frankie
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889107259777024
+    m_Localized: Chauve c'est beau.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889107368828928
+    m_Localized: Phil Ramen
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889107477880832
+    m_Localized: Attends ! Je suis pas encore parti.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889107586932736
+    m_Localized: Phil Ramen
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889107695984640
+    m_Localized: Je dois savoir . . . t'es team edward ou team jacob ?
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889107800842240
+    m_Localized: Phil Ramen
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889107909894144
+    m_Localized: Oh. Oh.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889108018946048
+    m_Localized: Phil Ramen
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889108127997952
+    m_Localized: "Peu importe, \xE7a arrive. L'au-del\xE0."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889108237049856
+    m_Localized: Phil Ramen
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889108341907456
+    m_Localized: Bonne chance, Frankie.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889108450959360
+    m_Localized: Estelle
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889108560011264
+    m_Localized: "H\xE9, si jamais tu trouves un nouvel \xE9l\xE9ment pour ta tenue
+      . . ."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889108669063168
+    m_Localized: Estelle
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889108778115072
+    m_Localized: Tu sais, comme un clavier ? Ou un gilet ? Ou une montre ?
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889108887166976
+    m_Localized: Estelle
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889108996218880
+    m_Localized: "Assure-toi de l'\xE9quiper dans le menu Tenue ! \xC7a sert \xE0
+      rien que \xE7a reste dans ton sac \xE0 dos sans \xEAtre \xE9quip\xE9 !"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889109105270784
+    m_Localized: "D\xE9faut"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889109214322688
+    m_Localized: Euh ?
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889109323374592
+    m_Localized: Estelle
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889109432426496
+    m_Localized: "Oh, t'es vraiment frais, toi. Acc\xE8de aux menus du joueur en
+      appuyant sur la touche `TAB`."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889109537284096
+    m_Localized: Lit Douillet
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889109646336000
+    m_Localized: Rebonjour, Frankie
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889109755387904
+    m_Localized: Frankie
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889109864439808
+    m_Localized: Bonjour, lit douillet
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889109973491712
+    m_Localized: Lit Douillet
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889110082543616
+    m_Localized: On y va ?
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889110191595520
+    m_Localized: Frankie
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889110300647424
+    m_Localized: "Oui s'il te pla\xEEt"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889110409699328
+    m_Localized: Clever Office Worker
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889110518751232
+    m_Localized: "N\u0153ud racine ignor\xE9"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889110627803136
+    m_Localized: Clever Office Worker
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889110736855040
+    m_Localized: Bats-moi et je te dirai un secret. *hue hue hue hue hue hue hue*
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889110845906944
+    m_Localized: Clever Office Worker
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889110954958848
+    m_Localized: "Hngh. T'as vraiment eu ma peau. Bon, voil\xE0 mon secret."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889111064010752
+    m_Localized: Clever Office Worker
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889111173062656
+    m_Localized: "Apr\xE8s avoir un peu aventur\xE9, v\xE9rifie ton compte en banque.
+      Tu pourrais \xEAtre surpris de voir que tes actions ont vers\xE9 quelques dividendes."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889111277920256
+    m_Localized: Clever Office Worker
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889111391166464
+    m_Localized: "Il y a une PortaBank (MC) juste \xE0 l'ext\xE9rieur de ce b\xE2timent
+      de bureaux."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889111500218368
+    m_Localized: Clever Office Worker
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889111609270272
+    m_Localized: La question est, tu crois que tu peux me battre ?
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889111718322176
+    m_Localized: Tilly
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889111827374080
+    m_Localized: Non.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889111936425984
+    m_Localized: Tilly
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889112045477888
+    m_Localized: Oui ?
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889112158724096
+    m_Localized: Tilly
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889112267776000
+    m_Localized: Nah.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889112376827904
+    m_Localized: Tilly
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889112485879808
+    m_Localized: Absolument pas.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889112590737408
+    m_Localized: Maya
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889112699789312
+    m_Localized: "\xC9LOIGNE-TOI.DE.MON.MICRO-ONDES.FRANKIE."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889112808841216
+    m_Localized: Gars des Nouvelles
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889112917893120
+    m_Localized: Ouais ouais, ok, ouais ouais
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889113026945024
+    m_Localized: Gars des Nouvelles
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889113135996928
+    m_Localized: Ouais, ouais, non ouais, euh, ouais, non ouais
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889113240854528
+    m_Localized: Gars des Nouvelles
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889113354100736
+    m_Localized: Excusez-moi, vous pouvez patienter une seconde ?
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889113463152640
+    m_Localized: Gars des Nouvelles
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889113572204544
+    m_Localized: "Un gamin \xE9coute ma conversation"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889113681256448
+    m_Localized: Gars des Nouvelles
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889113790308352
+    m_Localized: "H\xE9 toi -- ouais, toi -- occupe-toi de tes affaires !"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889113903554560
+    m_Localized: Gars des Nouvelles
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889114012606464
+    m_Localized: "Ok, j'en \xE9tais o\xF9 ? Ouais ouais, euhh non ouais, ouais ouais."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889114125852672
+    m_Localized: Campagnol Serviable
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889114234904576
+    m_Localized: "C'est moi, ton campagnol serviable du voisinage pr\xE9f\xE9r\xE9
+      !"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889114343956480
+    m_Localized: Campagnol Serviable
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889114453008384
+    m_Localized: Voici un autre conseil ! Tu peux changer l'ordre du groupe et ajouter
+      ou retirer des membres en utilisant les toilettes au bureau !
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889114562060288
+    m_Localized: Campagnol Serviable
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889114671112192
+    m_Localized: "Bien s\xFBr, tu dois avoir plus que juste TOI dans le groupe, Frankie
+      !"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889114780164096
+    m_Localized: Campagnol Serviable
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889114893410304
+    m_Localized: C'est tout pour l'instant !
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889115002462208
+    m_Localized: Campagnol Serviable
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889115111514112
+    m_Localized: Couic !
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889115224760320
+    m_Localized: "D\xE9faut"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889115338006528
+    m_Localized: "Texte par d\xE9faut \xE0 remplacer"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889115451252736
+    m_Localized: Cheval
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889115560304640
+    m_Localized: On est vraiment fiers de ce que t'as accompli ici. T'es vraiment
+      un Travailleur A++.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889115673550848
+    m_Localized: Cheval
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889115782602752
+    m_Localized: "On a h\xE2te de voir ce que tu feras ensuite. Continue comme \xE7a
+      !"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889115891654656
+    m_Localized: Cheval
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889116000706560
+    m_Localized: "Maintenant que je t'ai suffisamment compliment\xE9, j'ai besoin
+      que tu me rendes un service. Maya a des *DOCUMENTS TR\xC8S IMPORTANTS*."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889116109758464
+    m_Localized: Cheval
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889116218810368
+    m_Localized: "Merci d'avoir livr\xE9 ces *DOCUMENTS TR\xC8S IMPORTANTS*."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889116327862272
+    m_Localized: Cheval
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889116436914176
+    m_Localized: "Je dois maintenant examiner plus attentivement ces *DOCUMENTS TR\xC8S
+      IMPORTANTS*."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889116545966080
+    m_Localized: Cheval
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889116659212288
+    m_Localized: "Tu peux prendre ta pause de 15 minutes -- j'ai activ\xE9 l'acc\xE8s
+      \xE0 l'ascenseur pour la cuisine."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889116768264192
+    m_Localized: Cheval
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889116877316096
+    m_Localized: Descends ce toboggan de pompier -- oui, celui qui dit DANGER --
+      et trouve les documents.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889116990562304
+    m_Localized: Cheval
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889117099614208
+    m_Localized: Du nouveau ?
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889117208666112
+    m_Localized: Generic Office Worker Fran
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889117321912320
+    m_Localized: Frankie Frankie Frankie Frankie
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889117430964224
+    m_Localized: Generic Office Worker Fran
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889117540016128
+    m_Localized: Je m'appelle Fran
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889117649068032
+    m_Localized: Generic Office Worker Fran
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889117758119936
+    m_Localized: C'est un peu comme Frankie
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889117871366144
+    m_Localized: Generic Office Worker Fran
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889117980418048
+    m_Localized: Suis-je toi ? Es-tu moi ?
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889118089469952
+    m_Localized: Bro Office Worker
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889118198521856
+    m_Localized: Ignorer la racine
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889118307573760
+    m_Localized: Bro Office Worker
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889118416625664
+    m_Localized: Oh non oh non oh non oh non.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889118525677568
+    m_Localized: Bro Office Worker
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889118634729472
+    m_Localized: "Frankie ! J'ai besoin de ton aide, j'ai vraiment merd\xE9 cette
+      fois."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889118743781376
+    m_Localized: Bro Office Worker
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889118852833280
+    m_Localized: "J'ai d\xE9fi\xE9 Tilly de descendre le toboggan de pompier dans
+      la salle \xE0 balles et ELLE L'A FAIT. Maintenant elle est coinc\xE9e avec
+      les stagiaires."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889118961885184
+    m_Localized: Bro Office Worker
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889119075131392
+    m_Localized: "\xC9coute, Cheval a verrouill\xE9 la porte de la salle \xE0 balles,
+      mais tu peux rejoindre Tilly au sous-sol avec l'ascenseur."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889119184183296
+    m_Localized: Bro Office Worker
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889119293235200
+    m_Localized: "Allez Frankie, s'il te pla\xEEt va trouver Tilly. Elle va me tuer
+      si on la laisse l\xE0-dedans."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889119406481408
+    m_Localized: Bro Office Worker
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889119515533312
+    m_Localized: Oh, euh, salut Tilly. Content de, euh . . . te revoir . . . de bonne
+      humeur.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889119624585216
+    m_Localized: Bro Office Worker
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889119737831424
+    m_Localized: "Merci Frankie, je te dois vraiment une fi\xE8re chandelle."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889119846883328
+    m_Localized: Bro Office Worker
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2889119955935232
+    m_Localized: "Fais attention aux stagiaires, ils sont vraiment remont\xE9s \xE0
+      cause de quelque chose."
+    m_Metadata:
+      m_Items: []
+  references:
+    version: 2
+    RefIds: []

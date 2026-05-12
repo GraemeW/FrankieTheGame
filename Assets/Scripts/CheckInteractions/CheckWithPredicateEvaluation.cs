@@ -1,19 +1,24 @@
+using System.Collections.Generic;
 using UnityEngine;
-using Frankie.Core;
+using UnityEngine.Localization;
+using UnityEngine.Localization.Tables;
+using Frankie.Core.Predicates;
+using Frankie.Utils.Localization;
 
 namespace Frankie.Control
 {
+    [ExecuteInEditMode]
     public class CheckWithPredicateEvaluation : CheckBase
     {
         [SerializeField] private Condition condition;
-        [SerializeField] private string defaultPartyLeaderName = "Frankie";
         [SerializeField] private bool useMessageOnConditionMet = false;
-        [SerializeField][Tooltip("Use {0} for party leader")] private string messageForConditionMet = "{0} checked the object.";
+        [SerializeField][SimpleLocalizedString(LocalizationTableType.ChecksWorldObjects, true)] private LocalizedString localizedMessageForConditionMet;
         [SerializeField] private protected InteractionEvent checkInteractionConditionMet;
         [SerializeField] private bool useMessageOnConditionFailed = false;
-        [SerializeField][Tooltip("Use {0} for party leader")] private string messageForConditionFailed = "{0} failed to check the object.";
+        [SerializeField][SimpleLocalizedString(LocalizationTableType.ChecksWorldObjects, true)] private LocalizedString localizedMessageForConditionFailed;
         [SerializeField] private protected InteractionEvent checkInteractionConditionFailed;
-
+        
+        #region Interfaces
         public override bool HandleRaycast(PlayerStateMachine playerStateHandler, PlayerController playerController, PlayerInputType inputType, PlayerInputType matchType)
         {
             if (!IsInRange(playerController)) { return false; }
@@ -31,7 +36,18 @@ namespace Frankie.Control
             }
             return true;
         }
+        
+        public override List<TableEntryReference> GetLocalizationEntries()
+        {
+            return new List<TableEntryReference>
+            {
+                localizedMessageForConditionMet.TableEntryReference,
+                localizedMessageForConditionFailed.TableEntryReference
+            };
+        }
+        #endregion
 
+        #region PrivateMethods
         private void HandleConditionMet(PlayerStateMachine playerStateHandler)
         {
             if (useMessageOnConditionMet)
@@ -39,7 +55,7 @@ namespace Frankie.Control
                 string partyLeaderName = playerStateHandler.GetParty().GetPartyLeaderName();
                 if (string.IsNullOrWhiteSpace(partyLeaderName)) { partyLeaderName = defaultPartyLeaderName; }
 
-                playerStateHandler.EnterDialogue(string.Format(messageForConditionMet, partyLeaderName));
+                playerStateHandler.EnterDialogue(string.Format(localizedMessageForConditionMet.GetSafeLocalizedString(), partyLeaderName));
                 playerStateHandler.SetPostDialogueCallbackActions(checkInteractionConditionMet);
             }
             else
@@ -54,7 +70,7 @@ namespace Frankie.Control
                 string partyLeaderName = playerStateHandler.GetParty().GetPartyLeaderName();
                 if (string.IsNullOrWhiteSpace(partyLeaderName)) { partyLeaderName = defaultPartyLeaderName; }
 
-                playerStateHandler.EnterDialogue(string.Format(messageForConditionFailed, partyLeaderName));
+                playerStateHandler.EnterDialogue(string.Format(localizedMessageForConditionFailed.GetSafeLocalizedString(), partyLeaderName));
                 playerStateHandler.SetPostDialogueCallbackActions(checkInteractionConditionFailed);
             }
             else
@@ -62,5 +78,6 @@ namespace Frankie.Control
                 checkInteractionConditionMet?.Invoke(playerStateHandler);
             }
         }
+        #endregion
     }
 }

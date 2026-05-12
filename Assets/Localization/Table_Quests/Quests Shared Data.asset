@@ -1,0 +1,264 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5b11a58205ec3474ca216360e9fa74a8, type: 3}
+  m_Name: Quests Shared Data
+  m_EditorClassIdentifier: Unity.Localization::UnityEngine.Localization.Tables.SharedTableData
+  m_TableCollectionName: Quests
+  m_TableCollectionNameGuidString: b9dd45143ecd64476b4827b4d45c6003
+  m_Entries:
+  - m_Id: 7959387413929984
+    m_Key: Quest.Demo_Forest-BeatSkilledWorker
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7959388114378752
+    m_Key: Quest.Demo_Forest-BeatSkilledWorker.Detail
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7959406074388480
+    m_Key: Quest.Demo_Forest-BeatSkilledWorker.Objective.Frankie proves himself in
+      a wrastle
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7959406183440384
+    m_Key: Quest.Demo_Forest-BeatSkilledWorker.Objective.Frankie proves himself in
+      a wrastle.Detail
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7959504988659712
+    m_Key: Quest.Demo_Forest-FlipElectricalBreaker
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7959505106100224
+    m_Key: Quest.Demo_Forest-FlipElectricalBreaker.Detail
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7959505311621120
+    m_Key: Quest.Demo_Forest-FlipElectricalBreaker.Objective.Flip the electrical
+      breaker
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7959505416478720
+    m_Key: Quest.Demo_Forest-FlipElectricalBreaker.Objective.Flip the electrical
+      breaker.Detail
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7959505626193920
+    m_Key: Quest.Demo_Office-InteriorHipster
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7959505726857216
+    m_Key: Quest.Demo_Office-InteriorHipster.Detail
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7959505928183808
+    m_Key: Quest.Demo_Office-InteriorHipster.Objective.HipsterChattedOnce
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7959506028847104
+    m_Key: Quest.Demo_Office-InteriorHipster.Objective.HipsterChattedOnce.Detail
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7959506238562304
+    m_Key: Quest.Demo_Office-InteriorHorse
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7959506339225600
+    m_Key: Quest.Demo_Office-InteriorHorse.Detail
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7959506540552192
+    m_Key: Quest.Demo_Office-InteriorHorse.Objective.HorseOpenedFirepole
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7959506645409792
+    m_Key: Quest.Demo_Office-InteriorHorse.Objective.HorseOpenedFirepole.Detail
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7959506846736384
+    m_Key: Quest.Demo_Office-InteriorHorse.Objective.HorsePickedUpTheDocuments
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7959506947399680
+    m_Key: Quest.Demo_Office-InteriorHorse.Objective.HorsePickedUpTheDocuments.Detail
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7959507148726272
+    m_Key: Quest.Demo_Office-InteriorHorse.Objective.HorseReceivedTheDocuments
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7959507249389568
+    m_Key: Quest.Demo_Office-InteriorHorse.Objective.HorseReceivedTheDocuments.Detail
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7959507454910464
+    m_Key: Quest.Demo_Office-IntroQuestComplete
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7959507559768064
+    m_Key: Quest.Demo_Office-IntroQuestComplete.Detail
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7959507765288960
+    m_Key: Quest.Demo_Office-IntroQuestComplete.Objective.GoToBed
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7959507865952256
+    m_Key: Quest.Demo_Office-IntroQuestComplete.Objective.GoToBed.Detail
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7959508071473152
+    m_Key: Quest.Demo_Office-MainQuestCurio
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7959508172136448
+    m_Key: Quest.Demo_Office-MainQuestCurio.Detail
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7959508369268736
+    m_Key: Quest.Demo_Office-MainQuestCurio.Objective.CurioOne
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7959508469932032
+    m_Key: Quest.Demo_Office-MainQuestCurio.Objective.CurioOne.Detail
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7959508692230144
+    m_Key: Quest.Demo_Office-MainQuestCurio.Objective.CurioTwo
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7959508797087744
+    m_Key: Quest.Demo_Office-MainQuestCurio.Objective.CurioTwo.Detail
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7959508994220032
+    m_Key: Quest.Demo_Office-MainQuestCurio.Objective.CurioThree
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7959509099077632
+    m_Key: Quest.Demo_Office-MainQuestCurio.Objective.CurioThree.Detail
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7959509300404224
+    m_Key: Quest.Demo_Office-MainQuestCurio.Objective.CurioFour
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7959509401067520
+    m_Key: Quest.Demo_Office-MainQuestCurio.Objective.CurioFour.Detail
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7959509602394112
+    m_Key: Quest.Demo_Office-MainQuestCurio.Objective.CurioFive
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7959509703057408
+    m_Key: Quest.Demo_Office-MainQuestCurio.Objective.CurioFive.Detail
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7959509900189696
+    m_Key: Quest.Demo_Office-MainQuestCurio.Objective.CurioSix
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7959510000852992
+    m_Key: Quest.Demo_Office-MainQuestCurio.Objective.CurioSix.Detail
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7959510214762496
+    m_Key: Quest.Demo_Office-MainQuestCurio.Objective.CurioSeven
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7959510332203008
+    m_Key: Quest.Demo_Office-MainQuestCurio.Objective.CurioSeven.Detail
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7959510533529600
+    m_Key: Quest.Demo_Office-MainQuestCurio.Objective.CurioEight
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7959510634192896
+    m_Key: Quest.Demo_Office-MainQuestCurio.Objective.CurioEight.Detail
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7959510831325184
+    m_Key: Quest.Demo_Office-MainQuestCurio.Objective.CurioNine
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7959510931988480
+    m_Key: Quest.Demo_Office-MainQuestCurio.Objective.CurioNine.Detail
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7959511133315072
+    m_Key: Quest.Demo_Office-MainQuestCurio.Objective.CurioTen
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7959511233978368
+    m_Key: Quest.Demo_Office-MainQuestCurio.Objective.CurioTen.Detail
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7959511439499264
+    m_Key: Quest.Demo_Office-OfficeInteriorRamen
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7959511540162560
+    m_Key: Quest.Demo_Office-OfficeInteriorRamen.Detail
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7959511741489152
+    m_Key: Quest.Demo_Office-OfficeInteriorRamen.Objective.PickedUpChopsticks
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7959511842152448
+    m_Key: Quest.Demo_Office-OfficeInteriorRamen.Objective.PickedUpChopsticks.Detail
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7959512043479040
+    m_Key: Quest.Demo_Office-OfficeInteriorRamen.Objective.PickedUpHotSauce
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7959512144142336
+    m_Key: Quest.Demo_Office-OfficeInteriorRamen.Objective.PickedUpHotSauce.Detail
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7959512345468928
+    m_Key: Quest.Demo_Office-OfficeInteriorRamen.Objective.PouredWaterOnRamen
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7959512446132224
+    m_Key: Quest.Demo_Office-OfficeInteriorRamen.Objective.PouredWaterOnRamen.Detail
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7959512643264512
+    m_Key: Quest.Demo_Office-OfficeInteriorRamen.Objective.RamenMeetsItsFate
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7959512743927808
+    m_Key: Quest.Demo_Office-OfficeInteriorRamen.Objective.RamenMeetsItsFate.Detail
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7959512945254400
+    m_Key: Quest.Demo_Office-OfficeInteriorRamen.Objective.RamenSaysGoodbye
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7959513045917696
+    m_Key: Quest.Demo_Office-OfficeInteriorRamen.Objective.RamenSaysGoodbye.Detail
+    m_Metadata:
+      m_Items: []
+  m_Metadata:
+    m_Items: []
+  m_KeyGenerator:
+    rid: 4272943354391298263
+  references:
+    version: 2
+    RefIds:
+    - rid: 4272943354391298263
+      type: {class: DistributedUIDGenerator, ns: UnityEngine.Localization.Tables, asm: Unity.Localization}
+      data:
+        m_CustomEpoch: 1776366595752

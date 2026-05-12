@@ -1,16 +1,30 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Localization;
+using UnityEngine.Localization.Tables;
 using Frankie.Control;
 using Frankie.Stats;
 using Frankie.Utils.UI;
 using Frankie.Stats.UI;
 using Frankie.Inventory.UI;
+using Frankie.Utils.Localization;
 
 namespace Frankie.Combat.UI
 {
-    public class CombatOptions : UIBox
+    public class CombatOptions : UIBox, ILocalizable
     {
-        // Tunables 
+        [Header("Text")]
+        [SerializeField][SimpleLocalizedString(LocalizationTableType.UI, true)] private LocalizedString localizedFightText;
+        [SerializeField][SimpleLocalizedString(LocalizationTableType.UI, true)] private LocalizedString localizedItemText;
+        [SerializeField][SimpleLocalizedString(LocalizationTableType.UI, true)] private LocalizedString localizedStatsText;
+        [SerializeField][SimpleLocalizedString(LocalizationTableType.UI, true)] private LocalizedString localizedRunawayText;
+        [Header("Hookups")]
+        [SerializeField] private UIChoice fightChoiceOption;
+        [SerializeField] private UIChoice itemChoiceOption;
+        [SerializeField] private UIChoice statsChoiceOption;
+        [SerializeField] private UIChoice runawayChoiceOption;
+        [Header("Prefabs")]
         [SerializeField] private StatusBox statusBoxPrefab;
         [SerializeField] private InventoryBox inventoryBoxPrefab;
 
@@ -19,6 +33,17 @@ namespace Frankie.Combat.UI
         private BattleCanvas battleCanvas;
         private PartyCombatConduit partyCombatConduit;
 
+        #region UnityMethods
+        private void Start()
+        {
+            if (fightChoiceOption != null) { fightChoiceOption.SetText(localizedFightText.GetSafeLocalizedString()); }
+            if (itemChoiceOption != null) { itemChoiceOption.SetText(localizedItemText.GetSafeLocalizedString()); }
+            if (statsChoiceOption != null) { statsChoiceOption.SetText(localizedStatsText.GetSafeLocalizedString()); }
+            if (runawayChoiceOption != null) { runawayChoiceOption.SetText(localizedRunawayText.GetSafeLocalizedString()); }
+        }
+        #endregion
+        
+        #region PubicMethods
         public void Setup(BattleController setBattleController, BattleCanvas setBattleCanvas, PartyCombatConduit setPartyCombatConduit)
         {
             battleController = setBattleController;
@@ -65,7 +90,23 @@ namespace Frankie.Combat.UI
             gameObject.SetActive(true);
             EnableInput(true);
         }
+        #endregion
 
+        #region LocalizationMethods
+        public LocalizationTableType localizationTableType { get; } = LocalizationTableType.UI;
+        public List<TableEntryReference> GetLocalizationEntries()
+        {
+            return new List<TableEntryReference>
+            {
+                localizedFightText.TableEntryReference,
+                localizedItemText.TableEntryReference,
+                localizedStatsText.TableEntryReference,
+                localizedRunawayText.TableEntryReference
+            };
+        }
+        #endregion
+        
+        #region InterfaceMethods
         protected override bool MoveCursor(PlayerInputType playerInputType)
         {
             return MoveCursor2D(playerInputType);
@@ -82,5 +123,6 @@ namespace Frankie.Combat.UI
 
             return false;
         }
+        #endregion
     }
 }

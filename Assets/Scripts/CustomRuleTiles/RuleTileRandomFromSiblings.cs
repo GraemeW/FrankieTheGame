@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
-[CreateAssetMenu(fileName = "New Random From Siblings Tile", menuName = "CustomRuleTiles/New Random From Siblings Rule Tile")]
+[CreateAssetMenu(fileName = "New Random From Siblings Tile", menuName = "CustomRuleTiles/New Random From Siblings Rule Tile", order = 25)]
 public class RuleTileRandomFromSiblings : RuleTileSibling
 {
     // Note:  Parent rules will be ignored, only uses sibling rules

@@ -1,9 +1,10 @@
 using System;
+using Frankie.Utils.Localization;
 using UnityEditor;
 using UnityEditor.Callbacks;
 using UnityEngine;
 
-namespace Frankie.ZoneManagement.UIEditor
+namespace Frankie.ZoneManagement.Editor
 {
     public class ZoneEditor : EditorWindow
     {
@@ -42,7 +43,13 @@ namespace Frankie.ZoneManagement.UIEditor
         public static bool OnOpenAsset(EntityId instanceID, int line)
         {
             var zone = EditorUtility.EntityIdToObject(instanceID) as Zone;
-            if (zone == null) return false;
+            if (zone == null) { return false; }
+
+            if (zone is ILocalizable localizable)
+            {
+                localizable.TryLocalizeStandardEntries(zone, zone.GetPropertyLinkedLocalizationEntries(), zone.TriggerOnRename);
+            }
+            
             zone.CreateRootNodeIfMissing();
             ShowEditorWindow();
             return true;
@@ -50,8 +57,15 @@ namespace Frankie.ZoneManagement.UIEditor
 
         private void OnEnable()
         {
+            LocalizationTool.InitializeEnglishLocale();
+            Selection.selectionChanged -= OnSelectionChanged;
             Selection.selectionChanged += OnSelectionChanged;
             SetupNodeStyle();
+        }
+
+        private void OnDisable()
+        {
+            Selection.selectionChanged -= OnSelectionChanged;
         }
 
         private void SetupNodeStyle()
@@ -193,7 +207,7 @@ namespace Frankie.ZoneManagement.UIEditor
             // Detail
             EditorGUILayout.Space((float)_nodeBorder / 2, false);
             string oldID = zoneNode.GetNodeID();
-            string newID = EditorGUILayout.TextField("Override ID:", oldID);
+            string newID = EditorGUILayout.DelayedTextField("Override ID:", oldID);
             if (oldID != newID)
             {
                 nodeIDUpdate = new Tuple<ZoneNode, string>(zoneNode, newID);
@@ -248,7 +262,7 @@ namespace Frankie.ZoneManagement.UIEditor
                 else
                 {
                     string buttonText = "child";
-                    if (selectedZone.IsRelated(linkingParentNode, zoneNode)) { buttonText = "unlink"; }
+                    if (Zone.IsRelated(linkingParentNode, zoneNode)) { buttonText = "unlink"; }
 
                     if (GUILayout.Button(buttonText, GUILayout.Width(zoneNode.GetRect().width * _linkButtonMultiplier)))
                     {

@@ -12,6 +12,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3268536af8903a64da82aa6872733d1d, type: 3}
   m_Name: PortaNF-to-Forest
   m_EditorClassIdentifier: Assembly-CSharp::Frankie.ZoneManagement.ZoneNode
+  localizedDisplayName:
+    m_TableReference:
+      m_TableCollectionName: GUID:8137acf3076d245cf991f948822c95ba
+    m_TableEntryReference:
+      m_KeyId: 6549741583196160
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
   children: []
   externalZoneLinkToZoneNode: {fileID: 1597822732919002936, guid: 56bcb0733fa024bf5b983792663e12bb, type: 2}
   rect:
@@ -29,6 +38,9 @@ MonoBehaviour:
     height: 45
   condition:
     and: []
+  references:
+    version: 2
+    RefIds: []
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -44,6 +56,15 @@ MonoBehaviour:
   newNodeOffset: {x: 100, y: 25}
   nodeWidth: 430
   nodeHeight: 150
+  localizedDisplayName:
+    m_TableReference:
+      m_TableCollectionName: GUID:8137acf3076d245cf991f948822c95ba
+    m_TableEntryReference:
+      m_KeyId: 6549741277011968
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
   sceneReference:
     sceneAsset: {fileID: 102900000, guid: fb6fba365500445ddbf566d4d36cff28, type: 3}
     sceneName: Demo_Forest1to20-Portabank
@@ -51,10 +72,14 @@ MonoBehaviour:
   updateMap: 0
   zoneAudio: {fileID: 8300000, guid: d765a3c4e7ca20440a6992d69af9c87d, type: 3}
   isZoneAudioLooping: 1
+  cachedName: Demo_Forest1to20-Portabank
   zoneNodes:
   - {fileID: 5741578906310247025}
   - {fileID: -6787401506896633538}
   - {fileID: 8123045737310385565}
+  references:
+    version: 2
+    RefIds: []
 --- !u!114 &5741578906310247025
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -67,6 +92,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3268536af8903a64da82aa6872733d1d, type: 3}
   m_Name: PortaSF-to-Forest
   m_EditorClassIdentifier: Assembly-CSharp::Frankie.ZoneManagement.ZoneNode
+  localizedDisplayName:
+    m_TableReference:
+      m_TableCollectionName: GUID:8137acf3076d245cf991f948822c95ba
+    m_TableEntryReference:
+      m_KeyId: 6549741377675264
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
   children: []
   externalZoneLinkToZoneNode: {fileID: -7167530607634530552, guid: 56bcb0733fa024bf5b983792663e12bb, type: 2}
   rect:
@@ -84,6 +118,9 @@ MonoBehaviour:
     height: 45
   condition:
     and: []
+  references:
+    version: 2
+    RefIds: []
 --- !u!114 &8123045737310385565
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -96,6 +133,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3268536af8903a64da82aa6872733d1d, type: 3}
   m_Name: PortaE-to-Forest
   m_EditorClassIdentifier: Assembly-CSharp::Frankie.ZoneManagement.ZoneNode
+  localizedDisplayName:
+    m_TableReference:
+      m_TableCollectionName: GUID:8137acf3076d245cf991f948822c95ba
+    m_TableEntryReference:
+      m_KeyId: 6549741780328448
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
   children: []
   externalZoneLinkToZoneNode: {fileID: -8229641933190378029, guid: 56bcb0733fa024bf5b983792663e12bb, type: 2}
   rect:
@@ -113,3 +159,6 @@ MonoBehaviour:
     height: 45
   condition:
     and: []
+  references:
+    version: 2
+    RefIds: []

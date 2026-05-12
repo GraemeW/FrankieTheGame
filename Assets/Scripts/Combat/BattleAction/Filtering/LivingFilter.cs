@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Frankie.Combat
 {
-    [CreateAssetMenu(fileName = "New Living Filtering", menuName = "BattleAction/Filters/Living")]
+    [CreateAssetMenu(fileName = "New Living Filtering", menuName = "BattleAction/Filters/Living", order = 15)]
     public class LivingFilter : FilterStrategy
     {
         [SerializeField] private bool isAlive = true;

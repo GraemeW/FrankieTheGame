@@ -13,8 +13,29 @@ MonoBehaviour:
   m_Name: RamenMeetsItsFate
   m_EditorClassIdentifier: 
   objectiveID: d5fdb195-0466-471c-b309-4a9f25682938
-  description: Tracking ramen getting eaten
+  localizedDisplayName:
+    m_TableReference:
+      m_TableCollectionName: GUID:b9dd45143ecd64476b4827b4d45c6003
+    m_TableEntryReference:
+      m_KeyId: 7959512643264512
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  localizedDetail:
+    m_TableReference:
+      m_TableCollectionName: GUID:b9dd45143ecd64476b4827b4d45c6003
+    m_TableEntryReference:
+      m_KeyId: 7959512743927808
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  questName: Demo_Office-OfficeInteriorRamen
   questID: 9cabe581-e4e8-4e07-9148-8190abc5e8e6
+  references:
+    version: 2
+    RefIds: []
 --- !u!114 &-497091339795386844
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -28,8 +49,29 @@ MonoBehaviour:
   m_Name: PickedUpHotSauce
   m_EditorClassIdentifier: 
   objectiveID: bab8589b-ac6d-41cb-aed6-38c0da2abfbc
-  description: Tracking receipt of hot sauce
+  localizedDisplayName:
+    m_TableReference:
+      m_TableCollectionName: GUID:b9dd45143ecd64476b4827b4d45c6003
+    m_TableEntryReference:
+      m_KeyId: 7959512043479040
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  localizedDetail:
+    m_TableReference:
+      m_TableCollectionName: GUID:b9dd45143ecd64476b4827b4d45c6003
+    m_TableEntryReference:
+      m_KeyId: 7959512144142336
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  questName: Demo_Office-OfficeInteriorRamen
   questID: 9cabe581-e4e8-4e07-9148-8190abc5e8e6
+  references:
+    version: 2
+    RefIds: []
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -46,17 +88,38 @@ MonoBehaviour:
   gameStateModifierHandlerData:
   - zoneName: OfficeInterior
     gameObjectName: BroOfficeWorker (1)
+    parentObjectName: 
     guid: b12df4e9-c53d-47d3-9dfb-ddd969459176
   - zoneName: OfficeInterior
     gameObjectName: Kettle (1)
+    parentObjectName: 
     guid: 2eaac1ac-4ad8-4a08-b529-89406a48f682
   - zoneName: OfficeInterior
     gameObjectName: PhilRamenNPC
+    parentObjectName: 
     guid: e64e1b07-16e7-4f29-bad3-1f327b64370a
   - zoneName: OfficeInterior
     gameObjectName: TrashBin
+    parentObjectName: 
     guid: 2b6d94f5-ccce-434d-bd75-51ce1e4d7c8d
-  detail: Tracking overall phil ramen quest chain in Office
+  localizedDisplayName:
+    m_TableReference:
+      m_TableCollectionName: GUID:b9dd45143ecd64476b4827b4d45c6003
+    m_TableEntryReference:
+      m_KeyId: 7959511439499264
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  localizedDetail:
+    m_TableReference:
+      m_TableCollectionName: GUID:b9dd45143ecd64476b4827b4d45c6003
+    m_TableEntryReference:
+      m_KeyId: 7959511540162560
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
   questObjectiveNames:
   - PickedUpChopsticks
   - PickedUpHotSauce
@@ -64,12 +127,16 @@ MonoBehaviour:
   - RamenMeetsItsFate
   - RamenSaysGoodbye
   rewards: []
+  cachedName: 
   questObjectives:
   - {fileID: 225375821655883534}
   - {fileID: -497091339795386844}
   - {fileID: 5710568290941307482}
   - {fileID: -8702312306769958760}
   - {fileID: 6050609114553371195}
+  references:
+    version: 2
+    RefIds: []
 --- !u!114 &225375821655883534
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -83,8 +150,29 @@ MonoBehaviour:
   m_Name: PickedUpChopsticks
   m_EditorClassIdentifier: 
   objectiveID: 8ffbafa8-7deb-4d4c-9a7f-8d8c1647ca35
-  description: Tracking picking up chopsticks
+  localizedDisplayName:
+    m_TableReference:
+      m_TableCollectionName: GUID:b9dd45143ecd64476b4827b4d45c6003
+    m_TableEntryReference:
+      m_KeyId: 7959511741489152
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  localizedDetail:
+    m_TableReference:
+      m_TableCollectionName: GUID:b9dd45143ecd64476b4827b4d45c6003
+    m_TableEntryReference:
+      m_KeyId: 7959511842152448
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  questName: Demo_Office-OfficeInteriorRamen
   questID: 9cabe581-e4e8-4e07-9148-8190abc5e8e6
+  references:
+    version: 2
+    RefIds: []
 --- !u!114 &5710568290941307482
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -98,8 +186,29 @@ MonoBehaviour:
   m_Name: PouredWaterOnRamen
   m_EditorClassIdentifier: 
   objectiveID: fdd58127-c450-4173-be61-992cca92c245
-  description: Tracking placement of phil ramen in microwave
+  localizedDisplayName:
+    m_TableReference:
+      m_TableCollectionName: GUID:b9dd45143ecd64476b4827b4d45c6003
+    m_TableEntryReference:
+      m_KeyId: 7959512345468928
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  localizedDetail:
+    m_TableReference:
+      m_TableCollectionName: GUID:b9dd45143ecd64476b4827b4d45c6003
+    m_TableEntryReference:
+      m_KeyId: 7959512446132224
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  questName: Demo_Office-OfficeInteriorRamen
   questID: 9cabe581-e4e8-4e07-9148-8190abc5e8e6
+  references:
+    version: 2
+    RefIds: []
 --- !u!114 &6050609114553371195
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -113,5 +222,26 @@ MonoBehaviour:
   m_Name: RamenSaysGoodbye
   m_EditorClassIdentifier: 
   objectiveID: 4e9e800c-7cb4-4f36-a55e-bb51945842a1
-  description: Tracking ramen completion speech
+  localizedDisplayName:
+    m_TableReference:
+      m_TableCollectionName: GUID:b9dd45143ecd64476b4827b4d45c6003
+    m_TableEntryReference:
+      m_KeyId: 7959512945254400
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  localizedDetail:
+    m_TableReference:
+      m_TableCollectionName: GUID:b9dd45143ecd64476b4827b4d45c6003
+    m_TableEntryReference:
+      m_KeyId: 7959513045917696
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  questName: Demo_Office-OfficeInteriorRamen
   questID: 9cabe581-e4e8-4e07-9148-8190abc5e8e6
+  references:
+    version: 2
+    RefIds: []

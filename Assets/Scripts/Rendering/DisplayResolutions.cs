@@ -133,6 +133,13 @@ namespace Frankie.Rendering
             yield return new WaitForEndOfFrame();
         }
 
+        public static void ForceScreenResolution(ResolutionSetting resolutionSetting)
+        {
+            Debug.Log($"Resolution is updating to {resolutionSetting.width} x {resolutionSetting.height} on FSW: {resolutionSetting.fullScreenMode}");
+            Screen.fullScreenMode = resolutionSetting.fullScreenMode;
+            Screen.SetResolution(resolutionSetting.width, resolutionSetting.height, resolutionSetting.fullScreenMode);
+        }
+
         public static void SetWindowToCenter()
         {
             DisplayInfo displayInfo = Screen.mainWindowDisplayInfo;

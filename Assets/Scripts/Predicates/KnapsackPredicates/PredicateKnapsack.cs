@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Frankie.Inventory;
 
-namespace Frankie.Core
+namespace Frankie.Core.Predicates
 {
     public abstract class PredicateKnapsack : Predicate
     {

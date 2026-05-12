@@ -2,6 +2,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.Localization;
+using UnityEngine.Localization.Tables;
 using TMPro;
 using Frankie.Combat;
 using Frankie.Control;
@@ -10,10 +12,11 @@ using Frankie.Utils.UI;
 using Frankie.Speech.UI;
 using Frankie.Combat.UI;
 using Frankie.Stats;
+using Frankie.Utils.Localization;
 
 namespace Frankie.Inventory.UI
 {
-    public class InventoryBox : UIBox, IUIItemHandler
+    public class InventoryBox : UIBox, IUIItemHandler, ILocalizable
     {
         // Tunables
         [Header("Data Links")]
@@ -25,19 +28,22 @@ namespace Frankie.Inventory.UI
         [SerializeField] protected DialogueBox dialogueBoxPrefab;
         [SerializeField] protected DialogueOptionBox dialogueOptionBoxPrefab;
         [SerializeField] protected InventoryItemField inventoryItemFieldPrefab;
-        [SerializeField] GameObject inventoryMoveBoxPrefab;
+        [SerializeField] private GameObject inventoryMoveBoxPrefab;
         [Header("Info/Messages")]
-        [SerializeField] protected string optionText = "What do you want to do?";
-        [SerializeField] protected string optionInspect = "Inspect";
-        [SerializeField] protected string optionUse = "Use";
-        [SerializeField] protected string optionMove = "Move";
-        [SerializeField] protected string optionDrop = "Drop";
-        [SerializeField] protected string confirmChoiceAffirmative = "Yes";
-        [SerializeField] protected string confirmChoiceNegative = "No";
-        [Tooltip("Include {0} for character name")] [SerializeField] private string messageBusyInCooldown = "{0} is busy twirling, twirling.";
-        [Tooltip("Include {0} for user, {1} for item, {2} for target")] [SerializeField] private string messageUseItemInWorld = "{0} used {1} on {2}";
-        [Tooltip("Include {0} for item name")] [SerializeField] private string messageDropItem = "Are you sure you want to abandon {0}?"; 
-
+        [SerializeField][SimpleLocalizedString(LocalizationTableType.UI, true)] private LocalizedString localizedOptionText;
+        [SerializeField][SimpleLocalizedString(LocalizationTableType.UI, true)] protected LocalizedString localizedOptionInspect;
+        [SerializeField][SimpleLocalizedString(LocalizationTableType.UI, true)] protected LocalizedString localizedOptionUse;
+        [SerializeField][SimpleLocalizedString(LocalizationTableType.UI, true)] protected LocalizedString localizedOptionMove;
+        [SerializeField][SimpleLocalizedString(LocalizationTableType.UI, true)] protected LocalizedString localizedOptionDrop;
+        [SerializeField][SimpleLocalizedString(LocalizationTableType.UI, true)] protected LocalizedString localizedConfirmChoiceAffirmative;
+        [SerializeField][SimpleLocalizedString(LocalizationTableType.UI, true)] protected LocalizedString localizedConfirmChoiceNegative;
+        [Header("Include {0} for character name")]
+        [SerializeField][SimpleLocalizedString(LocalizationTableType.UI, true)] private LocalizedString localizedMessageBusyInCooldown;
+        [Header("Include {0} for user, {1} for item, {2} for target")]
+        [SerializeField][SimpleLocalizedString(LocalizationTableType.UI, true)] private LocalizedString localizedMessageUseItemInWorld;
+        [Header("Include {0} for item name")] 
+        [SerializeField][SimpleLocalizedString(LocalizationTableType.UI, true)] private LocalizedString localizedMessageDropItem;
+        
         // State
         private InventoryBoxState inventoryBoxState = InventoryBoxState.InCharacterSelection;
         private readonly List<UIChoiceButton> playerSelectChoiceOptions = new();
@@ -58,6 +64,7 @@ namespace Frankie.Inventory.UI
         public event Action<Enum> uiBoxStateChanged;
         public event Action<CombatParticipantType, IEnumerable<BattleEntity>> targetCharacterChanged;
 
+        #region UnityMethods
         protected override void OnEnable()
         {
             base.OnEnable();
@@ -71,6 +78,27 @@ namespace Frankie.Inventory.UI
             SubscribeCharacterSlides(false);
             ListenToKnapsack(false);
         }
+        #endregion
+        
+        #region LocalizationMethods
+        public LocalizationTableType localizationTableType { get; } = LocalizationTableType.UI;
+        public virtual List<TableEntryReference> GetLocalizationEntries()
+        {
+            return new List<TableEntryReference>
+            {
+                localizedOptionText.TableEntryReference,
+                localizedOptionInspect.TableEntryReference,
+                localizedOptionUse.TableEntryReference,
+                localizedOptionMove.TableEntryReference,
+                localizedOptionDrop.TableEntryReference,
+                localizedConfirmChoiceAffirmative.TableEntryReference,
+                localizedConfirmChoiceNegative.TableEntryReference,
+                localizedMessageBusyInCooldown.TableEntryReference,
+                localizedMessageUseItemInWorld.TableEntryReference,
+                localizedMessageDropItem.TableEntryReference,
+            };
+        }
+        #endregion
 
         #region Setup
         public void Setup(IStandardPlayerInputCaller standardPlayerInputCaller, PartyCombatConduit setPartyCombatConduit, List<CharacterSlide> setCharacterSlides)
@@ -159,7 +187,7 @@ namespace Frankie.Inventory.UI
 
         protected override void SetUpChoiceOptions()
         {
-            if (inventoryBoxState == InventoryBoxState.InKnapsack || inventoryBoxState == InventoryBoxState.InCharacterSelection)
+            if (inventoryBoxState is InventoryBoxState.InKnapsack or InventoryBoxState.InCharacterSelection)
             {
                 choiceOptions.Clear();
                 selectedItemSlot = -1;
@@ -250,7 +278,7 @@ namespace Frankie.Inventory.UI
             {
                 DialogueBox dialogueBox = Instantiate(dialogueBoxPrefab, transform.parent);
 
-                dialogueBox.AddText(string.Format(messageUseItemInWorld, senderName, itemName, targetCharacterNames));
+                dialogueBox.AddText(string.Format(localizedMessageUseItemInWorld.GetSafeLocalizedString(), senderName, itemName, targetCharacterNames));
                 PassControl(dialogueBox);
 
                 return true;
@@ -309,7 +337,7 @@ namespace Frankie.Inventory.UI
 
             SetInventoryBoxState(InventoryBoxState.InItemDetail);
             DialogueOptionBox dialogueOptionBox = Instantiate(dialogueOptionBoxPrefab, transform.parent);
-            dialogueOptionBox.Setup(optionText);
+            dialogueOptionBox.Setup(localizedOptionText.GetSafeLocalizedString());
             dialogueOptionBox.OverrideChoiceOptions(choiceActionPairs);
             PassControl(dialogueOptionBox);
             dialogueOptionBox.ClearDisableCallbacksOnChoose(true);
@@ -378,21 +406,21 @@ namespace Frankie.Inventory.UI
             // Use
             if (inventoryItem.GetType() == typeof(ActionItem))
             {
-                ChoiceActionPair useActionPair = new ChoiceActionPair(optionUse, () => Use(inventorySlot));
+                ChoiceActionPair useActionPair = new ChoiceActionPair(localizedOptionUse.GetSafeLocalizedString(), () => Use(inventorySlot));
                 choiceActionPairs.Add(useActionPair);
             }
             // Inspect
-            ChoiceActionPair inspectActionPair = new ChoiceActionPair(optionInspect, () => Inspect(inventorySlot));
+            ChoiceActionPair inspectActionPair = new ChoiceActionPair(localizedOptionInspect.GetSafeLocalizedString(), () => Inspect(inventorySlot));
             choiceActionPairs.Add(inspectActionPair);
 
             // Move
-            ChoiceActionPair moveActionPair = new ChoiceActionPair(optionMove, () => Move(inventorySlot));
+            ChoiceActionPair moveActionPair = new ChoiceActionPair(localizedOptionMove.GetSafeLocalizedString(), () => Move(inventorySlot));
             choiceActionPairs.Add(moveActionPair);
 
             // Drop
             if (inventoryItem.IsDroppable())
             {
-                ChoiceActionPair dropActionPair = new ChoiceActionPair(optionDrop, () => Drop(inventorySlot));
+                ChoiceActionPair dropActionPair = new ChoiceActionPair(localizedOptionDrop.GetSafeLocalizedString(), () => Drop(inventorySlot));
                 choiceActionPairs.Add(dropActionPair);
             }
 
@@ -437,7 +465,7 @@ namespace Frankie.Inventory.UI
             if (selectedKnapsack == null) { return; }
 
             DialogueBox dialogueBox = Instantiate(dialogueBoxPrefab, transform.parent);
-            dialogueBox.AddText(selectedKnapsack.GetItemInSlot(inventorySlot).GetDescription());
+            dialogueBox.AddText(selectedKnapsack.GetItemInSlot(inventorySlot).GetDetail());
             PassControl(dialogueBox);
         }
 
@@ -462,12 +490,12 @@ namespace Frankie.Inventory.UI
             DialogueOptionBox dialogueOptionBox = Instantiate(dialogueOptionBoxPrefab, transform.parent);
 
             List<ChoiceActionPair> choiceActionPairs = new List<ChoiceActionPair>();
-            ChoiceActionPair confirmDrop = new ChoiceActionPair(confirmChoiceAffirmative, () => ExecuteDrop(inventorySlot));
+            ChoiceActionPair confirmDrop = new ChoiceActionPair(localizedConfirmChoiceAffirmative.GetSafeLocalizedString(), () => ExecuteDrop(inventorySlot));
             choiceActionPairs.Add(confirmDrop);
-            ChoiceActionPair rejectDrop = new ChoiceActionPair(confirmChoiceNegative, () => ExecuteDrop(-1));
+            ChoiceActionPair rejectDrop = new ChoiceActionPair(localizedConfirmChoiceNegative.GetSafeLocalizedString(), () => ExecuteDrop(-1));
             choiceActionPairs.Add(rejectDrop);
 
-            dialogueOptionBox.Setup(string.Format(messageDropItem, selectedKnapsack.GetItemInSlot(inventorySlot).GetDisplayName()));
+            dialogueOptionBox.Setup(string.Format(localizedMessageDropItem.GetSafeLocalizedString(), selectedKnapsack.GetItemInSlot(inventorySlot).GetDisplayName()));
             dialogueOptionBox.OverrideChoiceOptions(choiceActionPairs);
             PassControl(dialogueOptionBox);
         }
@@ -538,12 +566,12 @@ namespace Frankie.Inventory.UI
         {
             handleGlobalInput = false;
             DialogueBox dialogueBox = Instantiate(dialogueBoxPrefab, transform.parent);
-            dialogueBox.AddText(string.Format(messageBusyInCooldown, character.GetCombatName()));
+            dialogueBox.AddText(string.Format(localizedMessageBusyInCooldown.GetSafeLocalizedString(), character.GetCombatName()));
             PassControl(dialogueBox);
         }
         #endregion
 
-        #region Interfaces
+        #region InputInterface
         public override bool HandleGlobalInput(PlayerInputType playerInputType)
         {
             if (!handleGlobalInput) { return true; } // Spoof:  Cannot accept input, so treat as if global input already handled

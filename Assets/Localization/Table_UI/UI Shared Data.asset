@@ -1,0 +1,488 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5b11a58205ec3474ca216360e9fa74a8, type: 3}
+  m_Name: UI Shared Data
+  m_EditorClassIdentifier: Unity.Localization::UnityEngine.Localization.Tables.SharedTableData
+  m_TableCollectionName: UI
+  m_TableCollectionNameGuidString: ce7f667b432574cb1832328f600c1082
+  m_Entries:
+  - m_Id: 7976973233020928
+    m_Key: CharacterSlide.Prefab.CharacterSlide.HPText.1ae8fff3
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7978808543010816
+    m_Key: CharacterSlide.Prefab.CharacterSlide.APText.599a6103
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7991831638827008
+    m_Key: DamageTextSpawner.Prefab.DamageTextSpawner.HitMissText.2c7a3200
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7991869383368704
+    m_Key: DamageTextSpawner.Prefab.DamageTextSpawner.HitCritText.546e4ecd
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7997758593032192
+    m_Key: BattleCanvas.Prefab.Battle Canvas.MessageEncounterSingle.67757a2c
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7997790486519808
+    m_Key: BattleCanvas.Prefab.Battle Canvas.MessageEncounterMultiple.4f82e0fb
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7997814947700736
+    m_Key: BattleCanvas.Prefab.Battle Canvas.MessageEncounterPreHype.20b16490
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7997834627375104
+    m_Key: BattleCanvas.Prefab.Battle Canvas.MessageGainedExperience.33a98cc
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7997860300709888
+    m_Key: BattleCanvas.Prefab.Battle Canvas.MessageCharacterLevelUp.5e7045cd
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7997880118796288
+    m_Key: BattleCanvas.Prefab.Battle Canvas.MessageCharacterStatGained.635aaa57
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7997902138892288
+    m_Key: BattleCanvas.Prefab.Battle Canvas.MessageGainedLoot.3aca2da4
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7997925174009856
+    m_Key: BattleCanvas.Prefab.Battle Canvas.MessageEnemyDroppedLoot.30d60d70
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7997945612853248
+    m_Key: BattleCanvas.Prefab.Battle Canvas.MessageEnemyDroppedLootNoRoom.53d1bba6
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7997972309598208
+    m_Key: BattleCanvas.Prefab.Battle Canvas.MessageConfirmThrowOut.238cd2fe
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7997998792433664
+    m_Key: BattleCanvas.Prefab.Battle Canvas.OptionChuckItemAffirmative.49491efc
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7998019667484672
+    m_Key: BattleCanvas.Prefab.Battle Canvas.OptionChuckItemNegative.46300cb7
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7998039489765376
+    m_Key: BattleCanvas.Prefab.Battle Canvas.MessageBattleCompleteWon.2e418f2d
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7998057474940928
+    m_Key: BattleCanvas.Prefab.Battle Canvas.MessageBattleCompleteLost.1f653cd
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7998077553074176
+    m_Key: BattleCanvas.Prefab.Battle Canvas.MessageBattleCompleteRan.1c6b729
+    m_Metadata:
+      m_Items: []
+  - m_Id: 8003262832697344
+    m_Key: CombatLog.Prefab.CombatLog.MessageIncreaseHP.6e9532f8
+    m_Metadata:
+      m_Items: []
+  - m_Id: 8003284227842048
+    m_Key: CombatLog.Prefab.CombatLog.MessageDecreaseHP.3357cc65
+    m_Metadata:
+      m_Items: []
+  - m_Id: 8003305111281664
+    m_Key: CombatLog.Prefab.CombatLog.MessageIncreaseAP.378236a3
+    m_Metadata:
+      m_Items: []
+  - m_Id: 8003344688734208
+    m_Key: CombatLog.Prefab.CombatLog.MessageDecreaseAP.5b304bb4
+    m_Metadata:
+      m_Items: []
+  - m_Id: 8003359918252032
+    m_Key: CombatLog.Prefab.CombatLog.MessageDead.48742732
+    m_Metadata:
+      m_Items: []
+  - m_Id: 8003382676545536
+    m_Key: CombatLog.Prefab.CombatLog.MessageResurrected.395bc143
+    m_Metadata:
+      m_Items: []
+  - m_Id: 8004517357412352
+    m_Key: CombatMessages.Prefab.CombatMessages.MessageItemToBeUsed.31fec086
+    m_Metadata:
+      m_Items: []
+  - m_Id: 8994215747903488
+    m_Key: CombatOptions.Prefab.CombatOptions.FightText.571f8d5f
+    m_Metadata:
+      m_Items: []
+  - m_Id: 8994259788095488
+    m_Key: CombatOptions.Prefab.CombatOptions.ItemText.20a96788
+    m_Metadata:
+      m_Items: []
+  - m_Id: 8994292197482496
+    m_Key: CombatOptions.Prefab.CombatOptions.StatsText.e50f1cc
+    m_Metadata:
+      m_Items: []
+  - m_Id: 8994330206265344
+    m_Key: CombatOptions.Prefab.CombatOptions.RunawayText.5c54e191
+    m_Metadata:
+      m_Items: []
+  - m_Id: 8999697510293504
+    m_Key: SkillSelectionUI.Prefab.SkillSelection.NoSkillSelectionText.189c0169
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9002459291705344
+    m_Key: AbilitiesBox.Prefab.AbilitiesBox.StatLabel.43e2453f
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9002630037626880
+    m_Key: AbilitiesBox.Prefab.AbilitiesBox.APCostLabel.2035e0c
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9003945904037888
+    m_Key: AbilitiesBox.Prefab.AbilitiesBox.MessageUseSkillInWorld.1095969c
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9004005794504704
+    m_Key: AbilitiesBox.Prefab.AbilitiesBox.MessageNotEnoughAP.5404f421
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9004072169365504
+    m_Key: AbilitiesBox.Prefab.AbilitiesBox.MessageNoValidTarget.60148d41
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9041979810766848
+    m_Key: CashTransferBox.Prefab.CashTransferBox.MessageDeposit.823ad22
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9042015114223616
+    m_Key: CashTransferBox.Prefab.CashTransferBox.MessageWithdraw.3d0471d4
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9043485888864256
+    m_Key: StandardConfirmation.Prefab.StandardConfirmationMenu.ConfirmText.6beb9ee4
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9043523323027456
+    m_Key: StandardConfirmation.Prefab.StandardConfirmationMenu.RejectText.52fe4e6d
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9045403184914432
+    m_Key: StandardConfirmation.Prefab.StandardEscapeMenu.RejectText.27ed8b5f
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9054858278592512
+    m_Key: EquipmentBox.Prefab.EquipmentBox.MessageNoValidItems.78adda50
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9054899747676160
+    m_Key: EquipmentBox.Prefab.EquipmentBox.MessageUnequip.3da575aa
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9054925978853376
+    m_Key: EquipmentBox.Prefab.EquipmentBox.OptionText.1dc0fa62
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9054948686815232
+    m_Key: EquipmentBox.Prefab.EquipmentBox.OptionEquip.5d0d6542
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9054970841128960
+    m_Key: EquipmentBox.Prefab.EquipmentBox.OptionRemove.46f79fed
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9090075731156992
+    m_Key: InventoryBox.Prefab.InventoryBox.OptionText.160f96cb
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9090105997254656
+    m_Key: InventoryBox.Prefab.InventoryBox.OptionInspect.7647e212
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9090135265107968
+    m_Key: InventoryBox.Prefab.InventoryBox.OptionUse.69e30307
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9090162431614976
+    m_Key: InventoryBox.Prefab.InventoryBox.OptionMove.4ae1421f
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9090191695273984
+    m_Key: InventoryBox.Prefab.InventoryBox.OptionDrop.3aaea9af
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9090224113049600
+    m_Key: InventoryBox.Prefab.InventoryBox.ConfirmChoiceAffirmative.2dbaca86
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9090250767851520
+    m_Key: InventoryBox.Prefab.InventoryBox.ConfirmChoiceNegative.330702d7
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9090282225131520
+    m_Key: InventoryBox.Prefab.InventoryBox.MessageBusyInCooldown.7bca5f14
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9090309425192960
+    m_Key: InventoryBox.Prefab.InventoryBox.MessageUseItemInWorld.355374d1
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9090354954362880
+    m_Key: InventoryBox.Prefab.InventoryBox.MessageDropItem.5578c030
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9096149108514816
+    m_Key: EquipmentInventoryBox.Prefab.EquipmentInventoryBox.OptionEquip.5201e724
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9096179089399808
+    m_Key: EquipmentInventoryBox.Prefab.EquipmentInventoryBox.MessageCannotEquip.2612f886
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9097773231104000
+    m_Key: InventorySwapBox.Prefab.InventorySwapBox.MessageCannotEquip.58946cdd
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9098989205970944
+    m_Key: InventoryShopBox.Prefab.InventoryShopBox.OptionSell.4edf5d26
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9099015562977280
+    m_Key: InventoryShopBox.Prefab.InventoryShopBox.OptionCancelSale.3ab1e51f
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9100415357411328
+    m_Key: ShopBox.Prefab.ShopBox.ShopInfoDefault.4b425830
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9101877613420544
+    m_Key: ShopSelect.Prefab.ShopSelect.MessageIntro.bee58cf
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9101914842062848
+    m_Key: ShopSelect.Prefab.ShopSelect.OptionBuy.6582dae0
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9101940683169792
+    m_Key: ShopSelect.Prefab.ShopSelect.OptionSell.6dcf8fa2
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9320795544215552
+    m_Key: EscapeMenu.Prefab.EscapeMenu.EscapeHeaderText.3bacf486
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9320825478963200
+    m_Key: EscapeMenu.Prefab.EscapeMenu.OptionOptionsText.20c7dd23
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9320874883670016
+    m_Key: EscapeMenu.Prefab.EscapeMenu.OptionQuitText.6d0cf35c
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9323037789773824
+    m_Key: LoadGameMenu.Prefab.LoadMenu.LoadHeaderText.6ef6a4e7
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9323126440583168
+    m_Key: LoadGameMenu.Prefab.LoadMenu.OptionNewGameText.5790a24a
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9323149391814656
+    m_Key: LoadGameMenu.Prefab.LoadMenu.OptionLoadGameText.48c9e809
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9323169398644736
+    m_Key: LoadGameMenu.Prefab.LoadMenu.OptionDeleteGameText.3e11d1bd
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9323189652938752
+    m_Key: LoadGameMenu.Prefab.LoadMenu.MessageGameSelectOptionText.629cf6e0
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9323210192445440
+    m_Key: LoadGameMenu.Prefab.LoadMenu.MessageConfirmDeletionText.103a05c8
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9323238176841728
+    m_Key: LoadGameMenu.Prefab.LoadMenu.MessageAffirmative.138a2e97
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9323263028092928
+    m_Key: LoadGameMenu.Prefab.LoadMenu.MessageNegative.211f9f14
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9325737801670656
+    m_Key: LoadGameEntry.Prefab.LoadGameEntry.LevelLabelText.2e58fdfd
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9340453617917952
+    m_Key: StartMenu.Prefab.StartMenu.HeaderText.455d878b
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9340490968195072
+    m_Key: StartMenu.Prefab.StartMenu.SubHeaderText.32f27fea
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9340512673718272
+    m_Key: StartMenu.Prefab.StartMenu.SubHeaderText.2984ceea
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9340612401684480
+    m_Key: StartMenu.Prefab.StartMenu.OptionStartText.69211a35
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9340671985967104
+    m_Key: StartMenu.Prefab.StartMenu.OptionContinueText.45bb4387
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9340740931936256
+    m_Key: StartMenu.Prefab.StartMenu.OptionOptionsText.4a845dc9
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9340774561865728
+    m_Key: StartMenu.Prefab.StartMenu.OptionQuitText.4664feff
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9345538951471104
+    m_Key: GameOverMenu.Prefab.GameOverMenu.GameOverText.4bad4a0e
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9345572526874624
+    m_Key: GameOverMenu.Prefab.GameOverMenu.DefaultName.6e7167f6
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9345612603449344
+    m_Key: GameOverMenu.Prefab.GameOverMenu.OptionContinue.27e3baf1
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9345647709773824
+    m_Key: GameOverMenu.Prefab.GameOverMenu.OptionQuit.1e1873c9
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9348140321726464
+    m_Key: GameWinMenu.Prefab.GameWinMenu.GameWinText.5a4e19bc
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9348173288955904
+    m_Key: GameWinMenu.Prefab.GameWinMenu.DefaultName.5691e358
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9348623979503616
+    m_Key: GameWinMenu.Prefab.GameWinMenu.OptionStartMenu.66ff002b
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9348682368409600
+    m_Key: GameWinMenu.Prefab.GameWinMenu.CreditsHeaderText.75ff5ce4
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9348738110709760
+    m_Key: GameWinMenu.Prefab.GameWinMenu.LeadProgrammerText.48a5383
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9348789197332480
+    m_Key: GameWinMenu.Prefab.GameWinMenu.GameDesignText.7d0b4489
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9348828321800192
+    m_Key: GameWinMenu.Prefab.GameWinMenu.ArtworkText.483d89
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9348856843067392
+    m_Key: GameWinMenu.Prefab.GameWinMenu.MusicText.6ba1aa58
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9355300174815232
+    m_Key: OptionsMenu.Prefab.OptionsMenu.OptionsHeader.17581c00
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9355337726418944
+    m_Key: OptionsMenu.Prefab.OptionsMenu.MasterVolumeText.41ab4053
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9355387995152384
+    m_Key: OptionsMenu.Prefab.OptionsMenu.BackgroundVolumeText.668d0d81
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9355425123131392
+    m_Key: OptionsMenu.Prefab.OptionsMenu.SoundEffectsVolumeText.1a628124
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9355460485308416
+    m_Key: OptionsMenu.Prefab.OptionsMenu.ResolutionHeader.20582bd7
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9355507172106240
+    m_Key: OptionsMenu.Prefab.OptionsMenu.FullScreenWindowedText.34982aa4
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9355555163332608
+    m_Key: OptionsMenu.Prefab.OptionsMenu.ConfirmText.3b26dcdc
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9355582094958592
+    m_Key: OptionsMenu.Prefab.OptionsMenu.CancelText.f46c813
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9356228923744256
+    m_Key: OptionsMenu.Prefab.OptionsMenu.DefaultText.693e0618
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9358617282076672
+    m_Key: WorldOptions.Prefab.WorldOptions.KnapsackText.110c588f
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9358650349969408
+    m_Key: WorldOptions.Prefab.WorldOptions.OutfitText.309c3cfb
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9358686777499648
+    m_Key: WorldOptions.Prefab.WorldOptions.AbilitiesText.1504c170
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9358719555985408
+    m_Key: WorldOptions.Prefab.WorldOptions.StatusText.7492c35d
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9358751956983808
+    m_Key: WorldOptions.Prefab.WorldOptions.MapText.56277255
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9360196097794048
+    m_Key: MapSuper.Prefab.MapSuper.FlavourTopText.10a444b3
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9360247998111744
+    m_Key: MapSuper.Prefab.MapSuper.FlavourBottomText.623a9970
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9404486387752960
+    m_Key: StatusBox.Prefab.StatusBox.ExperienceFlavourText.3c241c55
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9409976064794624
+    m_Key: OptionsMenu.Prefab.OptionsMenu.LanguageSelectText.1e32868a
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9465625096216576
+    m_Key: EquipmentBox.Prefab.EquipmentBox.EmptyEquipmentItem.4b1b20f
+    m_Metadata:
+      m_Items: []
+  m_Metadata:
+    m_Items: []
+  m_KeyGenerator:
+    rid: 4272943354391298265
+  references:
+    version: 2
+    RefIds:
+    - rid: 4272943354391298265
+      type: {class: DistributedUIDGenerator, ns: UnityEngine.Localization.Tables, asm: Unity.Localization}
+      data:
+        m_CustomEpoch: 1776366620701

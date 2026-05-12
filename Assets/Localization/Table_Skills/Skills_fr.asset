@@ -1,0 +1,397 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e9620f8c34305754d8cc9a7e49e852d9, type: 3}
+  m_Name: Skills_fr
+  m_EditorClassIdentifier: Unity.Localization::UnityEngine.Localization.Tables.StringTable
+  m_LocaleId:
+    m_Code: fr
+  m_SharedData: {fileID: 11400000, guid: ce27b23b7b85d4bec8b522b6105befc9, type: 2}
+  m_Metadata:
+    m_Items: []
+  m_TableData:
+  - m_Id: 6901159775166464
+    m_Localized: Blabla Interminable
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6901402398875648
+    m_Localized: "Pr\xE9senter le Tableau de Bord"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6901423366201344
+    m_Localized: Embrouiller les rouages et ralentir l'ennemi.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6901443050070016
+    m_Localized: Faire du Vrai Travail
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6901477409808384
+    m_Localized: Se Rapprocher
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6901477669855232
+    m_Localized: "C'est bien plus facile de voir et de frapper la cible quand on
+      est juste \xE0 c\xF4t\xE9 ! Augmente la Force et le Cran."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6901478005399552
+    m_Localized: T'Ignorer
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6901478160588800
+    m_Localized: "L'agression la plus agressive est passive. R\xE9duit l'Agilit\xE9
+      temporairement."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6901478475161600
+    m_Localized: "\xC9loge Ordinaire"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6901478634545152
+    m_Localized: "Soigne un peu plus que l'\xE9loge doux."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6901478949117952
+    m_Localized: Picoter les Oreilles
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6901479112695808
+    m_Localized: "A\xEFe ! Inflige des d\xE9g\xE2ts imm\xE9diats et des d\xE9g\xE2ts
+      continus."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6901479427268608
+    m_Localized: Proclamer Haut et Fort
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6901479586652160
+    m_Localized: "D\xE9brancher tes EarPods et prendre l'appel en direct. R\xE9duit
+      l'Agilit\xE9 temporairement."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6901479897030656
+    m_Localized: "L\xE2cher un Vent"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6901480215797760
+    m_Localized: Se Lisser les Plumes
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6901480370987008
+    m_Localized: "Ces plumes sont tellement brillantes. Soigne une petite quantit\xE9."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6901480685559808
+    m_Localized: zz_ActionTest
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6901480844943360
+    m_Localized: Test 1234
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6901481163710464
+    m_Localized: "Le travail acharn\xE9 porte ses fruits \u2014 l'ennemi subit des
+      d\xE9g\xE2ts continus."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6901481478283264
+    m_Localized: Se Tourner les Pouces
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6901481633472512
+    m_Localized: Ils le font ! Ils le font vraiment !
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6901481948045312
+    m_Localized: Repas Chaud
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6901482107428864
+    m_Localized: "Un repas fait maison soigne une certaine quantit\xE9 de PV."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6901482417807360
+    m_Localized: Rouste
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6901482572996608
+    m_Localized: "C'est juste une l\xE9g\xE8re rouste sur une cible unique."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6901482891763712
+    m_Localized: Grand Postillon
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6901483046952960
+    m_Localized: "Plus grande gorg\xE9e d'eau, plus grands d\xE9g\xE2ts."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6901483361525760
+    m_Localized: Renverser le Ramen Chaud
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6901483520909312
+    m_Localized: "Mince ! \xC7a br\xFBle. Inflige des d\xE9g\xE2ts continus."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6901483789344768
+    m_Localized: "P\xE9pier Bruyamment"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6901483890008064
+    m_Localized: "Tr\xE8s aigu. Perd un peu de Cran."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6901484091334656
+    m_Localized: Mots d'Encouragement
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6901484191997952
+    m_Localized: Ces mots bienveillants soignent l'ennemi
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6901484397518848
+    m_Localized: "Pi\xE8ge \xE0 Nerds"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6901484498182144
+    m_Localized: "L'ennemi se fixe. Arr\xEAte d'agir jusqu'\xE0 ce qu'il subisse
+      des d\xE9g\xE2ts. Pas toujours r\xE9ussi, d\xE9pend de la Chance."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6901484699508736
+    m_Localized: Fortifier
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6901484795977728
+    m_Localized: Oui ! Oui ! Fortifier ! Tenir bon !
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6901485001498624
+    m_Localized: Chant Guttural de Moine
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6901485102161920
+    m_Localized: "\xC7a fait pas mal de vacarme \u2014 les moines \xE0 proximit\xE9
+      sont alert\xE9s"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6901485303488512
+    m_Localized: Partager le Ramen Chaud
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6901485404151808
+    m_Localized: "Du ramen d\xE9licieux, c'est bon \xE0 partager, sympa."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6901485605478400
+    m_Localized: Se Rouler par Terre
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6901485706141696
+    m_Localized: "Facile pour l'ennemi de se cogner l'orteil quand on se roule par
+      terre comme \xE7a."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6901485915856896
+    m_Localized: "\xCAtre Geek"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6901486020714496
+    m_Localized: "Faire le geek pour distraire l'ennemi. R\xE9duit son attribut d'Agilit\xE9
+      !"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6901486238818304
+    m_Localized: Et sur la diapositive 5 vous pouvez voir
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6901486444339200
+    m_Localized: Hennissement
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6901486545002496
+    m_Localized: L'AUTRE son naturel du cheval
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6901486754717696
+    m_Localized: Demander une Estimation
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6901486855380992
+    m_Localized: Il nous le faut pour hier !
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6901487060901888
+    m_Localized: "Chant Per\xE7ant de Moine"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6901487161565184
+    m_Localized: "Tr\xE8s fort et tr\xE8s puissant, procurant un boost significatif
+      \xE0 la Force"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6901487367086080
+    m_Localized: Mordre
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6901487467749376
+    m_Localized: Les petites dents sont tellement mignonnes
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6901487673270272
+    m_Localized: Double Gifle
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6901487773933568
+    m_Localized: "Une gifle, puis une autre gifle, pour de vrais d\xE9g\xE2ts"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6901487979454464
+    m_Localized: Se Lever et Bosser
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6901488184975360
+    m_Localized: Instiller le Doute
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6901488285638656
+    m_Localized: "Frappe avec le syndrome de l'imposteur en un seul coup pour des
+      d\xE9g\xE2ts uniques"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6901488491159552
+    m_Localized: Tailler une Bavette
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6901488596017152
+    m_Localized: "Semble rendre tes coll\xE8gues de bureau heureux."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6901488801538048
+    m_Localized: Infusion Froide de Moine
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6901488906395648
+    m_Localized: Comment les moines la rendent-ils si froide ? Soigne quelques PV
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6901489111916544
+    m_Localized: Montrer Son Code
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6901489216774144
+    m_Localized: "Tout est sur une ligne \u2014 d\xE9g\xE2t unique qui peut faire
+      un coup critique."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6901489434877952
+    m_Localized: Remuer la Queue
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6901489543929856
+    m_Localized: Le remuement de la queue est presque hypnotique
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6901489766227968
+    m_Localized: "Mettre Mal \xE0 l'Aise"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6901489875279872
+    m_Localized: "Cette pr\xE9sence troublante r\xE9duit la Force et le Charme, mais
+      augmente consid\xE9rablement l'Agilit\xE9."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6901490093383680
+    m_Localized: "Cr\xE2ne Chauve Hypnotique"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6901490202435584
+    m_Localized: "Ce beau cr\xE2ne chauve fait perdre la concentration et donc des
+      PA"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6901490416345088
+    m_Localized: "Renverser le Caf\xE9 Chaud"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6901490525396992
+    m_Localized: "Mince ! \xC7a br\xFBle. Inflige des d\xE9g\xE2ts continus."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6901490739306496
+    m_Localized: Couic Couic
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6901490844164096
+    m_Localized: "Un appel \xE0 l'action"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6901491049684992
+    m_Localized: "Pi\xE9tiner"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6901491150348288
+    m_Localized: Stomp stomp
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6901491360063488
+    m_Localized: Hennir
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6901491460726784
+    m_Localized: Le son naturel du cheval
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6901491666247680
+    m_Localized: "Sourire d'un Air Mena\xE7ant"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6901491766910976
+    m_Localized: "Scintillement scintillement. R\xE9duit le Cran temporairement."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6901491976626176
+    m_Localized: Postillon
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6901492077289472
+    m_Localized: "Prends une gorg\xE9e d'eau et recrache-la. Touche tous les ennemis."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6901492328947712
+    m_Localized: Auto-Flagellation
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6901492433805312
+    m_Localized: "La douleur te rend plus fort et offre un bonus au Sto\xEFcisme"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6901492635131904
+    m_Localized: "\xC9loge Doux"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6901492735795200
+    m_Localized: "Soigne une petite quantit\xE9 de points de vie pour un alli\xE9."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6908204796600320
+    m_Localized: "Remises sur les moulins \xE0 caf\xE9."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6908335059099648
+    m_Localized: Pfffrrrt
+    m_Metadata:
+      m_Items: []
+  references:
+    version: 2
+    RefIds: []

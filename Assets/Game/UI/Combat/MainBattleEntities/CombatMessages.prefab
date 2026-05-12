@@ -92,4 +92,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   messageParent: {fileID: 5476277323413269905}
   dialogueBoxPrefab: {fileID: 4320783885461854465, guid: a9829c1cb69a159479cbe82e68a5c629, type: 3}
-  messageItemToBeUsed: Use the item {0} on which foe?
+  localizedMessageItemToBeUsed:
+    m_TableReference:
+      m_TableCollectionName: GUID:ce7f667b432574cb1832328f600c1082
+    m_TableEntryReference:
+      m_KeyId: 8004517357412352
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  references:
+    version: 2
+    RefIds: []

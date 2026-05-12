@@ -1,11 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using Frankie.Stats;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
 using Random = UnityEngine.Random;
+using Frankie.Utils.Localization;
 
 namespace Frankie.Combat.UI
 {
@@ -59,19 +59,7 @@ namespace Frankie.Combat.UI
         #region StaticMethods
         protected static string GetStatusEffectText(PersistentStatus persistentStatus)
         {
-            return persistentStatus.GetStatusEffectType() switch
-            {
-                Stat.HP => persistentStatus.IsIncrease() ? "+HP" : "-HP",
-                Stat.AP => persistentStatus.IsIncrease() ? "+AP" : "-AP",
-                Stat.Brawn => persistentStatus.IsIncrease() ? "STRONG" : "WEAK",
-                Stat.Beauty => persistentStatus.IsIncrease() ? "FETCHING" : "FOUL",
-                Stat.Smarts => persistentStatus.IsIncrease() ? "BRIGHT" : "DIM",
-                Stat.Nimble => persistentStatus.IsIncrease() ? "FAST" : "SLOW",
-                Stat.Luck => persistentStatus.IsIncrease() ? "BLESSED" : "JINXED",
-                Stat.Pluck => persistentStatus.IsIncrease() ? "BRAVE" : "COWARD",
-                Stat.Stoic => persistentStatus.IsIncrease() ? "STURDY" : "FRAIL",
-                _ => ""
-            };
+            return persistentStatus == null ? "" : LocalizationNames.GetStatusEffectText(persistentStatus.GetStatusEffectType(), persistentStatus.IsIncrease());
         }
         #endregion
         
@@ -106,9 +94,7 @@ namespace Frankie.Combat.UI
 
         #region AbstractMethods
         protected abstract void SetSelected(CombatParticipantType combatParticipantType, bool enable);
-
         protected abstract void ParseState(StateAlteredInfo stateAlteredInfo);
-
         #endregion
 
         #region PublicSettersGetters
@@ -207,7 +193,6 @@ namespace Frankie.Combat.UI
         #endregion
         
         #region PrivateMethods
-
         protected virtual bool HandleClickInBattle()
         {
             var targets = new List<BattleEntity> { battleEntity };

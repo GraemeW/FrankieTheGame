@@ -130,12 +130,63 @@ MonoBehaviour:
   delayBetweenCharactersSpedUp: 0.01
   delayBetweenCharactersNoNewMessage: 0.25
   textLink: {fileID: 8942616103029321123}
-  messageIncreaseHP: '{0} restored {1} HP.'
-  messageDecreaseHP: '{0} was hit for {1} points.'
-  messageIncreaseAP: '{0} restored {1} HP.'
-  messageDecreaseAP: '{0} was drained for {1} AP.'
-  messageDead: '{0} was knocked unconcious.'
-  messageResurrected: '{0} gained the will to fight again.'
+  localizedMessageIncreaseHP:
+    m_TableReference:
+      m_TableCollectionName: GUID:ce7f667b432574cb1832328f600c1082
+    m_TableEntryReference:
+      m_KeyId: 8003262832697344
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  localizedMessageDecreaseHP:
+    m_TableReference:
+      m_TableCollectionName: GUID:ce7f667b432574cb1832328f600c1082
+    m_TableEntryReference:
+      m_KeyId: 8003284227842048
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  localizedMessageIncreaseAP:
+    m_TableReference:
+      m_TableCollectionName: GUID:ce7f667b432574cb1832328f600c1082
+    m_TableEntryReference:
+      m_KeyId: 8003305111281664
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  localizedMessageDecreaseAP:
+    m_TableReference:
+      m_TableCollectionName: GUID:ce7f667b432574cb1832328f600c1082
+    m_TableEntryReference:
+      m_KeyId: 8003344688734208
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  localizedMessageDead:
+    m_TableReference:
+      m_TableCollectionName: GUID:ce7f667b432574cb1832328f600c1082
+    m_TableEntryReference:
+      m_KeyId: 8003359918252032
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  localizedMessageResurrected:
+    m_TableReference:
+      m_TableCollectionName: GUID:ce7f667b432574cb1832328f600c1082
+    m_TableEntryReference:
+      m_KeyId: 8003382676545536
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  references:
+    version: 2
+    RefIds: []
 --- !u!1 &8434480877701913591
 GameObject:
   m_ObjectHideFlags: 0

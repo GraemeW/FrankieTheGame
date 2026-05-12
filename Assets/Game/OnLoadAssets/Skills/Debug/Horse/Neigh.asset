@@ -12,7 +12,27 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2d638f604ff65db4f9e75a2cc6eb7bd3, type: 3}
   m_Name: Neigh
   m_EditorClassIdentifier: 
-  stat: 2
+  localizedDisplayName:
+    m_TableReference:
+      m_TableCollectionName: GUID:ce27b23b7b85d4bec8b522b6105befc9
+    m_TableEntryReference:
+      m_KeyId: 6901491360063488
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
   skillStat: 6
   battleAction: {fileID: 11400000, guid: 655cae16aeed9f24084a00856630125f, type: 2}
-  detail: The natural horse sound
+  localizedDetail:
+    m_TableReference:
+      m_TableCollectionName: GUID:ce27b23b7b85d4bec8b522b6105befc9
+    m_TableEntryReference:
+      m_KeyId: 6901491460726784
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  cachedName: Neigh
+  references:
+    version: 2
+    RefIds: []

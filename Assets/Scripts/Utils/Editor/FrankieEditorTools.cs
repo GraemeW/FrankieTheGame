@@ -1,0 +1,87 @@
+#if UNITY_EDITOR
+using UnityEditor;
+using UnityEditor.SceneManagement;
+using UnityEngine;
+using Object = UnityEngine.Object;
+using Frankie.Utils.Localization;
+
+namespace Frankie.Utils.Editor
+{
+    public static class FrankieEditorTools
+    {
+        private const string _startSceneRef = "Assets/Scenes/StartScreen.unity";
+        private const string _debugSceneRef = "Assets/Scenes/_Debug/TEST_BattleRoyale.unity";
+
+        [MenuItem("Tools/Open Debug Scene", false, 1)]
+        private static void OpenDebugScene()
+        {
+            EditorSceneManager.OpenScene(_debugSceneRef);
+        }
+        
+        [MenuItem("Tools/Open Start Scene", false, 5)]
+        private static void OpenStartScene()
+        {
+            EditorSceneManager.OpenScene(_startSceneRef);
+        }
+        
+        [MenuItem("Tools/Make Selection Dirty", false, 100)]
+        private static void MakeSelectionDirty()
+        {
+            foreach (Object selectedObject in Selection.objects)
+            {
+                if (selectedObject == null) { continue; }
+                Debug.Log($"Dirtying {selectedObject.name}");
+                EditorUtility.SetDirty(selectedObject);
+            }
+        }
+
+        [MenuItem("Tools/Force Reserialize Assets", false, 101)]
+        private static void ForceReserializeAssets()
+        {
+            AssetDatabase.ForceReserializeAssets();
+        }
+        
+        [MenuItem("Tools/TempLocalizedLinker", false, 105)]
+        private static void TempLocalizedLinker()
+        {
+            foreach (Object selectedObject in Selection.objects)
+            {
+                //if (selectedObject is not GameObject gameObject) {  continue; }
+                //if (!gameObject.TryGetComponent(out Shop localizedLinker)) { continue; }
+                //localizedLinker.TempLinkStrings();
+                
+                //if (selectedObject is not Quest quest) { continue; }
+                //quest.TempLinkStrings();
+            }
+
+            LocalizationNames.GenerateDefaultStatusEffectEntries();
+        }
+        
+        /* GameObject Base
+        public void TempLinkStrings()
+        {
+            string key;
+           
+            key = LocalizationTool.GenerateTypeSpecificKey(gameObject, nameof(localizedMessageIntro).Replace("localized", ""));
+            LocalizationTool.TryLocalizeEntry(localizationTableType, localizedMessageIntro, key, name);
+           
+            EditorUtility.SetDirty(this);
+            AssetDatabase.SaveAssetIfDirty(this);
+        }
+        */
+        
+        /* Scriptable Object Base
+        public void TempLinkStrings()
+        {
+            string key;
+
+           key = GetNameLocalizationKey();
+           LocalizationTool.TryLocalizeEntry(localizationTableType, localizedDisplayName, key, name);
+           
+           EditorUtility.SetDirty(this);
+           AssetDatabase.SaveAssetIfDirty(this);
+        }
+         */
+    }
+}
+#endif

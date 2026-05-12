@@ -154,7 +154,7 @@ namespace Frankie.Core
             foreach (QuestStatus questStatus in questList.value.GetActiveQuests())
             {
                 Quest quest = questStatus.GetQuest();
-                Debug.Log($"Quest: {quest.name} - {quest.GetDetail()}");
+                Debug.Log($"Quest: {quest.GetName()} - {quest.GetDetail()}");
                 Debug.Log($"Completed:  {questStatus.GetCompletedObjectiveCount()} of {quest.GetObjectiveCount()} objectives");
                 Debug.Log($"Status:  {questStatus.IsComplete()}, Reward Disposition:  {questStatus.IsRewardGiven()})");
                 Debug.Log("---Fin---");
@@ -168,7 +168,7 @@ namespace Frankie.Core
             Debug.Log("Leveling up party:");
             foreach (BaseStats character in party.value.GetParty())
             {
-                Debug.Log($"{character.GetCharacterProperties().GetCharacterNamePretty()} has gained a level");
+                Debug.Log($"{character.GetCharacterProperties().GetCharacterDisplayName()} has gained a level");
                 character.IncrementLevel();
             }
         }

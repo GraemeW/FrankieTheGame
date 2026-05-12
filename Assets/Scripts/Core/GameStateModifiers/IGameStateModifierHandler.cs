@@ -1,11 +1,12 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 #if UNITY_EDITOR
 using UnityEditor;
-using UnityEditor.SceneManagement;
 #endif
+using Frankie.Utils;
 
 namespace Frankie.Core.GameStateModifiers
 {
@@ -38,12 +39,13 @@ namespace Frankie.Core.GameStateModifiers
         public string handlerGUID { get; set; } // Must include explicit backing field in implementation
         public int modifierListHashCheck { get; set; } // Must include explicit backing field in implementation
         public bool hasGameStateModifiers { get; set; } // Must include explicit backing field in implementation
-        
+        public List<string> gameStateModifierGUIDs { get; set; } // Must include explicit backing field in implementation
         
         public static void TriggerOnDestroy(IGameStateModifierHandler gameStateModifierHandler)
         {
 #if UNITY_EDITOR
-            if (!gameStateModifierHandler.IsStandardEditorState()) { return; }
+            if (gameStateModifierHandler is not MonoBehaviour monoBehaviour) { return; }
+            if (!FrankieNonEditorEditorTools.IsStandardEditorState(monoBehaviour.gameObject)) { return; }
             gameStateModifierHandler.RemoveSelfFromGameStateModifiers();
 #endif
         }
@@ -70,23 +72,18 @@ namespace Frankie.Core.GameStateModifiers
         void ISerializationCallbackReceiver.OnBeforeSerialize()
         {
 #if UNITY_EDITOR
-            if (!IsStandardEditorState()) { return; }
+            var component = this as Component;
+            if (component == null) { return;} // Avoid gameObject null reference for OnBeforeSerialize() in isolation mode
+            if (!FrankieNonEditorEditorTools.IsStandardEditorState(gameObject)) { return; }
             
             ZoneToGameObjectLinkData zoneToGameObjectLinkData = MakeZoneToGameObjectLinkData();
             
-            // Check for changes to asset
             int newModifierListHashCheck = GetModifierListHashCheck(zoneToGameObjectLinkData.zoneName, zoneToGameObjectLinkData.gameObjectName);
             if (modifierListHashCheck == newModifierListHashCheck) { return; }
             modifierListHashCheck = newModifierListHashCheck;
-
-            hasGameStateModifiers = false;
-            foreach (GameStateModifier gameStateModifier in GetGameStateModifiers())
-            {
-                if (gameStateModifier == null) { continue; }
-                gameStateModifier.AddOrUpdateGameStateModifierHandler(zoneToGameObjectLinkData);
-                gameStateModifier.CleanDanglingModifierHandlerData();
-                hasGameStateModifiers = true;
-            }
+            
+            var newGameStateModifierGUIDs = AddUpdateGameStateModifiers(zoneToGameObjectLinkData);
+            RemoveStateGameStateModifiers(newGameStateModifierGUIDs);
             
             ForceSerializeGameObject();
 #endif
@@ -115,24 +112,11 @@ namespace Frankie.Core.GameStateModifiers
         
         #region EditorMethods
         public IList<GameStateModifier> GetGameStateModifiers();
-        
-        private bool IsStandardEditorState()
-        {
-            if (!Application.isEditor) { return false; } // Avoid calls outside editor
-            if (EditorApplication.isPlaying || EditorApplication.isPlayingOrWillChangePlaymode) { return false; } // Avoid calls due to play mode start/stop
-            if (EditorApplication.isCompiling || EditorApplication.isUpdating) { return false; } // Avoid calls during Unity domain backup
-            if (gameObject == null) { return false; } // Avoid calls due to mis-configuration
-            if (EditorUtility.IsPersistent(gameObject)) { return false; } // Avoid calls due to prefab deletion
-            if (PrefabStageUtility.GetCurrentPrefabStage() != null) { return false; } // Avoid calls while in prefab editor
-            if (!gameObject.scene.isLoaded) { return false; } // Avoid calls due to scene changes
-
-            return true;
-        }
 
         private void ForceSerializeGameObject()
         {
             if (gameObject == null) { return; }
-            SerializedObject serializedObject = new SerializedObject(gameObject);
+            using var serializedObject = new SerializedObject(gameObject);
             serializedObject.ApplyModifiedPropertiesWithoutUndo();
         }
         
@@ -141,9 +125,42 @@ namespace Frankie.Core.GameStateModifiers
             // Note: Must ensure zoneName == sceneName
             string zoneName = SceneManager.GetActiveScene().name;
             string gameObjectName = gameObject != null ? gameObject.name : "";
+            string parentObjectName = gameObject.transform.parent != null ? gameObject.transform.parent.name : "";
             if (string.IsNullOrWhiteSpace(handlerGUID)) { handlerGUID = Guid.NewGuid().ToString(); }
             
-            return new ZoneToGameObjectLinkData(zoneName, gameObjectName, handlerGUID);
+            return new ZoneToGameObjectLinkData(zoneName, gameObjectName, parentObjectName, handlerGUID);
+        }
+        
+        private List<string> AddUpdateGameStateModifiers(ZoneToGameObjectLinkData zoneToGameObjectLinkData)
+        {
+            hasGameStateModifiers = false;
+            var newGameStateModifierGUIDs = new List<string>();
+            foreach (GameStateModifier gameStateModifier in GetGameStateModifiers())
+            {
+                if (gameStateModifier == null) { continue; }
+                gameStateModifier.AddOrUpdateGameStateModifierHandler(zoneToGameObjectLinkData);
+                gameStateModifier.CleanDanglingModifierHandlerData();
+                newGameStateModifierGUIDs.Add(gameStateModifier.GetGUID());
+                hasGameStateModifiers = true;
+            }
+
+            return newGameStateModifierGUIDs;
+        }
+        
+        private void RemoveStateGameStateModifiers(List<string> newGameStateModifierGUIDs)
+        {
+            if (gameStateModifierGUIDs == null) { gameStateModifierGUIDs = newGameStateModifierGUIDs; }
+            else
+            {
+                List<string> missingGUIDs = gameStateModifierGUIDs.Except(newGameStateModifierGUIDs).ToList();
+                gameStateModifierGUIDs.Clear();
+                gameStateModifierGUIDs.AddRange(newGameStateModifierGUIDs);
+
+                foreach (GameStateModifier gameStateModifier in missingGUIDs.Select(GameStateModifier.GetGameStateModifier).Where(gameStateModifier => gameStateModifier != null))
+                {
+                    gameStateModifier.CleanDanglingModifierHandlerData();
+                }
+            }
         }
         
         private int GetModifierListHashCheck(string zoneName, string gameObjectName)

@@ -2,21 +2,19 @@ using System.Linq;
 using UnityEngine;
 using Frankie.Stats;
 
-namespace Frankie.Core
+namespace Frankie.Core.Predicates
 {
-    [CreateAssetMenu(fileName = "New Any Character In Party Predicate", menuName = "Predicates/Party/ContainsAnyCharacter")]
+    [CreateAssetMenu(fileName = "New Any Character In Party Predicate", menuName = "Predicates/Party/ContainsAnyCharacter", order = 5)]
     public class AnyCharacterInPartyPredicate : PredicateParty
     {
         public override bool? Evaluate(Party party)
         {
             if (charactersToMatch.Count == 0) { return false; }
 
-            foreach (BaseStats character in party.GetParty())
+            foreach (BaseStats baseStats in party.GetParty())
             {
-                CharacterProperties characterProperties = character.GetCharacterProperties();
-                if (characterProperties == null) { continue; }
-
-                if (charactersToMatch.Any(characterToMatch => characterProperties.GetCharacterNameID() == characterToMatch.GetCharacterNameID()))
+                if (baseStats == null) { continue; }
+                if (charactersToMatch.Any(characterToMatch => CharacterProperties.AreCharacterPropertiesMatched(characterToMatch, baseStats.GetCharacterProperties())))
                 {
                     return true;
                 }

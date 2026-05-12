@@ -3,7 +3,7 @@ using UnityEditor;
 using UnityEditor.Callbacks;
 using UnityEngine;
 
-namespace Frankie.Combat.UIEditor
+namespace Frankie.Combat.Editor
 {
     public class SkillTreeEditor : EditorWindow
     {

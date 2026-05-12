@@ -12,7 +12,27 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2d638f604ff65db4f9e75a2cc6eb7bd3, type: 3}
   m_Name: WordsOfEncouragement
   m_EditorClassIdentifier: 
-  stat: 2
+  localizedDisplayName:
+    m_TableReference:
+      m_TableCollectionName: GUID:ce27b23b7b85d4bec8b522b6105befc9
+    m_TableEntryReference:
+      m_KeyId: 6901484091334656
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
   skillStat: 6
   battleAction: {fileID: 11400000, guid: 8b9903ce68496a24b8280a50ce67aa86, type: 2}
-  detail: These kind words heal your foe
+  localizedDetail:
+    m_TableReference:
+      m_TableCollectionName: GUID:ce27b23b7b85d4bec8b522b6105befc9
+    m_TableEntryReference:
+      m_KeyId: 6901484191997952
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  cachedName: WordsOfEncouragement
+  references:
+    version: 2
+    RefIds: []

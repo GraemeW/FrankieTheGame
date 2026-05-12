@@ -12,5 +12,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 39f44b8ae01b3694fa4b963abef184d6, type: 3}
   m_Name: AddToParty
   m_EditorClassIdentifier: 
-  messageAddToParty: Who do you want to tag along?
-  messagePartyFull: Hey Neve, this isn't a party of five
+  localizedMessageAddToParty:
+    m_TableReference:
+      m_TableCollectionName: GUID:e01518a4d82d5485e9b0e7f466ecf01d
+    m_TableEntryReference:
+      m_KeyId: 5081826824544256
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  localizedMessagePartyFull:
+    m_TableReference:
+      m_TableCollectionName: GUID:e01518a4d82d5485e9b0e7f466ecf01d
+    m_TableEntryReference:
+      m_KeyId: 5081856201449472
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  references:
+    version: 2
+    RefIds: []

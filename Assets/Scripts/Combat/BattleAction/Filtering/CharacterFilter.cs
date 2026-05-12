@@ -1,10 +1,11 @@
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using Frankie.Stats;
 
 namespace Frankie.Combat
 {
-    [CreateAssetMenu(fileName = "New Character Filtering", menuName = "BattleAction/Filters/Character")]
+    [CreateAssetMenu(fileName = "New Character Filtering", menuName = "BattleAction/Filters/Character", order = 15)]
     public class CharacterFilter : FilterStrategy
     {
         [SerializeField] private List<CharacterProperties> characterPropertiesToFilter = new();
@@ -18,17 +19,9 @@ namespace Frankie.Combat
             {
                 CharacterProperties characterProperties = battleEntity.combatParticipant.GetCharacterProperties();
                 if (characterProperties == null) { continue; }
-
-                bool filteredListContainsCharacter = false;
+                
                 // Check via name comparison for compatibility with addressables system
-                foreach (CharacterProperties filterCharacter in characterPropertiesToFilter)
-                {
-                    if (filterCharacter.GetCharacterNameID() == characterProperties.GetCharacterNameID())
-                    {
-                        filteredListContainsCharacter = true;
-                    }
-                }
-
+                bool filteredListContainsCharacter = characterPropertiesToFilter.Any(filterCharacter => CharacterProperties.AreCharacterPropertiesMatched(characterProperties, filterCharacter));
                 if ((!negate && filteredListContainsCharacter) || (negate && !filteredListContainsCharacter))
                 {
                     yield return battleEntity;

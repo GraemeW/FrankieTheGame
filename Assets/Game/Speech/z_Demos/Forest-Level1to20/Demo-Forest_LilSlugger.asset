@@ -12,10 +12,29 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 09c07c7c6f4c666429a0bbc8d18232b2, type: 3}
   m_Name: 8cc209e2-badf-4d70-971a-65df6536d77a
   m_EditorClassIdentifier: Assembly-CSharp::Frankie.Speech.DialogueNode
+  dialogueName: Demo-Forest_LilSlugger
   speakerType: 1
   characterProperties: {fileID: 0}
-  speakerName: L'il Slugger
-  text: Get bent.
+  localizedSpeakerName:
+    m_TableReference:
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
+    m_TableEntryReference:
+      m_KeyId: 2889054206025728
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  localizedText:
+    m_TableReference:
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
+    m_TableEntryReference:
+      m_KeyId: 2889054319271936
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  nodeDepth: 1
+  nodeBreadth: 2
   children: []
   rect:
     serializedVersion: 2
@@ -31,6 +50,11 @@ MonoBehaviour:
     height: 45
   condition:
     and: []
+  cachedSpeakerName: L'il Slugger
+  cachedText: Get bent.
+  references:
+    version: 2
+    RefIds: []
 --- !u!114 &-5075779166608612909
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -43,10 +67,29 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 09c07c7c6f4c666429a0bbc8d18232b2, type: 3}
   m_Name: 2d3d69c6-742f-4116-911f-72d93000579b
   m_EditorClassIdentifier: Assembly-CSharp::Frankie.Speech.DialogueNode
+  dialogueName: Demo-Forest_LilSlugger
   speakerType: 1
   characterProperties: {fileID: 0}
-  speakerName: L'il Slugger
-  text: Root
+  localizedSpeakerName:
+    m_TableReference:
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
+    m_TableEntryReference:
+      m_KeyId: 2889053539131392
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  localizedText:
+    m_TableReference:
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
+    m_TableEntryReference:
+      m_KeyId: 2889053652377600
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  nodeDepth: 0
+  nodeBreadth: 0
   children:
   - cab7ece9-0c97-48fb-80b8-ea9014fc270f
   - f8298af6-3041-4344-99ec-a86474838399
@@ -66,6 +109,11 @@ MonoBehaviour:
     height: 45
   condition:
     and: []
+  cachedSpeakerName: L'il Slugger
+  cachedText: Root
+  references:
+    version: 2
+    RefIds: []
 --- !u!114 &-1947448320764053940
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -78,10 +126,29 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 09c07c7c6f4c666429a0bbc8d18232b2, type: 3}
   m_Name: f8298af6-3041-4344-99ec-a86474838399
   m_EditorClassIdentifier: Assembly-CSharp::Frankie.Speech.DialogueNode
+  dialogueName: Demo-Forest_LilSlugger
   speakerType: 1
   characterProperties: {fileID: 0}
-  speakerName: L'il Slugger
-  text: So what?
+  localizedSpeakerName:
+    m_TableReference:
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
+    m_TableEntryReference:
+      m_KeyId: 2889053983727616
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  localizedText:
+    m_TableReference:
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
+    m_TableEntryReference:
+      m_KeyId: 2889054088585216
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  nodeDepth: 1
+  nodeBreadth: 1
   children: []
   rect:
     serializedVersion: 2
@@ -97,6 +164,11 @@ MonoBehaviour:
     height: 45
   condition:
     and: []
+  cachedSpeakerName: L'il Slugger
+  cachedText: So what?
+  references:
+    version: 2
+    RefIds: []
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -110,6 +182,7 @@ MonoBehaviour:
   m_Name: Demo-Forest_LilSlugger
   m_EditorClassIdentifier: Assembly-CSharp::Frankie.Speech.Dialogue
   skipRootNode: 1
+  cachedName: Demo-Forest_LilSlugger
   newNodeOffset: {x: 100, y: 25}
   nodeWidth: 400
   nodeHeight: 225
@@ -132,10 +205,29 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 09c07c7c6f4c666429a0bbc8d18232b2, type: 3}
   m_Name: cab7ece9-0c97-48fb-80b8-ea9014fc270f
   m_EditorClassIdentifier: Assembly-CSharp::Frankie.Speech.DialogueNode
+  dialogueName: Demo-Forest_LilSlugger
   speakerType: 1
   characterProperties: {fileID: 0}
-  speakerName: L'il Slugger
-  text: What?
+  localizedSpeakerName:
+    m_TableReference:
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
+    m_TableEntryReference:
+      m_KeyId: 2889053761429504
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  localizedText:
+    m_TableReference:
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
+    m_TableEntryReference:
+      m_KeyId: 2889053870481408
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  nodeDepth: 1
+  nodeBreadth: 0
   children: []
   rect:
     serializedVersion: 2
@@ -151,6 +243,11 @@ MonoBehaviour:
     height: 45
   condition:
     and: []
+  cachedSpeakerName: L'il Slugger
+  cachedText: What?
+  references:
+    version: 2
+    RefIds: []
 --- !u!114 &8181338245101249011
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -163,10 +260,29 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 09c07c7c6f4c666429a0bbc8d18232b2, type: 3}
   m_Name: cc0664fa-7f9b-428a-869e-80413b172f7a
   m_EditorClassIdentifier: Assembly-CSharp::Frankie.Speech.DialogueNode
+  dialogueName: Demo-Forest_LilSlugger
   speakerType: 1
   characterProperties: {fileID: 0}
-  speakerName: L'il Slugger
-  text: Friggin' nerd!
+  localizedSpeakerName:
+    m_TableReference:
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
+    m_TableEntryReference:
+      m_KeyId: 2889054432518144
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  localizedText:
+    m_TableReference:
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
+    m_TableEntryReference:
+      m_KeyId: 2889054545764352
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  nodeDepth: 1
+  nodeBreadth: 3
   children: []
   rect:
     serializedVersion: 2
@@ -182,3 +298,8 @@ MonoBehaviour:
     height: 45
   condition:
     and: []
+  cachedSpeakerName: L'il Slugger
+  cachedText: Friggin' nerd!
+  references:
+    version: 2
+    RefIds: []

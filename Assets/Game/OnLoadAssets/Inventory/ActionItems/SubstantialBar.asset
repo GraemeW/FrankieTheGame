@@ -14,10 +14,29 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   guid: ecb33b9b-c1c1-4c5e-bccf-03eb6bc9560f
   gameStateModifierHandlerData: []
-  displayName: Substantial Bar
-  description: It's a substantial bar.  Made of substantial ingredients.  Heals a
-    good chunk of HP.
+  localizedDisplayName:
+    m_TableReference:
+      m_TableCollectionName: GUID:d96a34ea508fa423b93190524b5b4af1
+    m_TableEntryReference:
+      m_KeyId: 7257228363948032
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  localizedDetail:
+    m_TableReference:
+      m_TableCollectionName: GUID:d96a34ea508fa423b93190524b5b4af1
+    m_TableEntryReference:
+      m_KeyId: 7257228460417024
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
   droppable: 1
   price: 45
+  cachedName: SubstantialBar
   consumable: 1
   battleAction: {fileID: 11400000, guid: 74bce32169c444279a0d7df4ac445091, type: 2}
+  references:
+    version: 2
+    RefIds: []

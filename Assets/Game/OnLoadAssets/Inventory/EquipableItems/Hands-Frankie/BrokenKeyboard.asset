@@ -14,10 +14,27 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   guid: ed10e07a-adbf-4a2c-b083-0e6f2881de2e
   gameStateModifierHandlerData: []
-  displayName: Broken Keyboard
-  description: The F key sticks and the space bar fell off.  Only usable by Frankie.
+  localizedDisplayName:
+    m_TableReference:
+      m_TableCollectionName: GUID:d96a34ea508fa423b93190524b5b4af1
+    m_TableEntryReference:
+      m_KeyId: 7257225704759296
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  localizedDetail:
+    m_TableReference:
+      m_TableCollectionName: GUID:d96a34ea508fa423b93190524b5b4af1
+    m_TableEntryReference:
+      m_KeyId: 7257225801228288
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
   droppable: 1
   price: 12
+  cachedName: BrokenKeyboard
   equipLocation: 1
   baseStatModifiers:
   - stat: 4
@@ -28,3 +45,6 @@ MonoBehaviour:
     - or:
       - predicate: {fileID: 11400000, guid: 15db1ab05612f6a4e81f88eebfaa735a, type: 2}
         negate: 0
+  references:
+    version: 2
+    RefIds: []

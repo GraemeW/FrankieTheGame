@@ -140,6 +140,10 @@ PrefabInstance:
       value: '{0} flipped the breaker.  A new song is queued'
       objectReference: {fileID: 0}
     - target: {fileID: 3436171662078350183, guid: 50d998db9e15747698c2724acd97381f, type: 3}
+      propertyPath: localizedCheckMessage.m_TableEntryReference.m_KeyId
+      value: 4767794267676672
+      objectReference: {fileID: 0}
+    - target: {fileID: 3436171662078350183, guid: 50d998db9e15747698c2724acd97381f, type: 3}
       propertyPath: checkInteraction.m_PersistentCalls.m_Calls.Array.size
       value: 2
       objectReference: {fileID: 0}
@@ -165,7 +169,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4422221637006192079, guid: 50d998db9e15747698c2724acd97381f, type: 3}
       propertyPath: backingListHashCheck
-      value: -1424307434
+      value: 743650379
       objectReference: {fileID: 0}
     - target: {fileID: 7704979872744781370, guid: 50d998db9e15747698c2724acd97381f, type: 3}
       propertyPath: m_Name
@@ -258,6 +262,10 @@ PrefabInstance:
     - target: {fileID: 4736094180608794019, guid: 71d598481a579c2448140b70660e15c0, type: 3}
       propertyPath: checkMessage
       value: Spawn Stuff?
+      objectReference: {fileID: 0}
+    - target: {fileID: 4736094180608794019, guid: 71d598481a579c2448140b70660e15c0, type: 3}
+      propertyPath: localizedCheckMessage.m_TableEntryReference.m_KeyId
+      value: 4767785518358528
       objectReference: {fileID: 0}
     - target: {fileID: 4736094180608794019, guid: 71d598481a579c2448140b70660e15c0, type: 3}
       propertyPath: checkInteraction.m_PersistentCalls.m_Calls.Array.size
@@ -619,6 +627,18 @@ PrefabInstance:
       value: Reset
       objectReference: {fileID: 0}
     - target: {fileID: 4736094180608794019, guid: 71d598481a579c2448140b70660e15c0, type: 3}
+      propertyPath: localizedCheckMessage.m_TableEntryReference.m_KeyId
+      value: 4767791260360704
+      objectReference: {fileID: 0}
+    - target: {fileID: 4736094180608794019, guid: 71d598481a579c2448140b70660e15c0, type: 3}
+      propertyPath: localizedMessageAccept.m_TableEntryReference.m_KeyId
+      value: 4767791377801216
+      objectReference: {fileID: 0}
+    - target: {fileID: 4736094180608794019, guid: 71d598481a579c2448140b70660e15c0, type: 3}
+      propertyPath: localizedMessageReject.m_TableEntryReference.m_KeyId
+      value: 4767791499436032
+      objectReference: {fileID: 0}
+    - target: {fileID: 4736094180608794019, guid: 71d598481a579c2448140b70660e15c0, type: 3}
       propertyPath: checkInteraction.m_PersistentCalls.m_Calls.Array.size
       value: 1
       objectReference: {fileID: 0}
@@ -773,6 +793,18 @@ PrefabInstance:
       value: Reset
       objectReference: {fileID: 0}
     - target: {fileID: 4736094180608794019, guid: 71d598481a579c2448140b70660e15c0, type: 3}
+      propertyPath: localizedCheckMessage.m_TableEntryReference.m_KeyId
+      value: 4767788089466880
+      objectReference: {fileID: 0}
+    - target: {fileID: 4736094180608794019, guid: 71d598481a579c2448140b70660e15c0, type: 3}
+      propertyPath: localizedMessageAccept.m_TableEntryReference.m_KeyId
+      value: 4767788194324480
+      objectReference: {fileID: 0}
+    - target: {fileID: 4736094180608794019, guid: 71d598481a579c2448140b70660e15c0, type: 3}
+      propertyPath: localizedMessageReject.m_TableEntryReference.m_KeyId
+      value: 4767788294987776
+      objectReference: {fileID: 0}
+    - target: {fileID: 4736094180608794019, guid: 71d598481a579c2448140b70660e15c0, type: 3}
       propertyPath: checkInteraction.m_PersistentCalls.m_Calls.Array.size
       value: 1
       objectReference: {fileID: 0}
@@ -901,6 +933,22 @@ PrefabInstance:
       propertyPath: m_StaticEditorFlags
       value: 2147483647
       objectReference: {fileID: 0}
+    - target: {fileID: 1657275775909050319, guid: 8252584bd86ddec408582ff28d4f7db6, type: 3}
+      propertyPath: stock.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1657275775909050319, guid: 8252584bd86ddec408582ff28d4f7db6, type: 3}
+      propertyPath: backingHandlerGUID
+      value: 58a7701d-5169-467a-ba6c-6dd9815f9c10
+      objectReference: {fileID: 0}
+    - target: {fileID: 1657275775909050319, guid: 8252584bd86ddec408582ff28d4f7db6, type: 3}
+      propertyPath: 'stock.Array.data[0]'
+      value: 
+      objectReference: {fileID: 11400000, guid: 3adf66ab62b95ad47b2fd0277eedce88, type: 2}
+    - target: {fileID: 1657275775909050319, guid: 8252584bd86ddec408582ff28d4f7db6, type: 3}
+      propertyPath: backingListHashCheck
+      value: 883307786
+      objectReference: {fileID: 0}
     - target: {fileID: 4484117035451051702, guid: 8252584bd86ddec408582ff28d4f7db6, type: 3}
       propertyPath: m_RootOrder
       value: 1
@@ -991,7 +1039,7 @@ PrefabInstance:
       objectReference: {fileID: 11400000, guid: 49534f9b5e5cf1f41bbaf4c527d4a255, type: 2}
     - target: {fileID: 7800942803558028165, guid: 8252584bd86ddec408582ff28d4f7db6, type: 3}
       propertyPath: backingListHashCheck
-      value: 209252790
+      value: 352817681
       objectReference: {fileID: 0}
     - target: {fileID: 8531870645628414307, guid: 8252584bd86ddec408582ff28d4f7db6, type: 3}
       propertyPath: m_StaticEditorFlags
@@ -10745,6 +10793,10 @@ PrefabInstance:
       propertyPath: uniqueIdentifier
       value: 4151f2d2-feaa-40ce-b44c-351eee3ddb40
       objectReference: {fileID: 0}
+    - target: {fileID: 1784306010668943859, guid: 50a0956d9c45bee489e989971722cdeb, type: 3}
+      propertyPath: uniqueIdentifier
+      value: 4d4e115c-4834-4c4c-8883-4fc16c5456fa
+      objectReference: {fileID: 0}
     - target: {fileID: 2506811659634152605, guid: 50a0956d9c45bee489e989971722cdeb, type: 3}
       propertyPath: checkInteraction.m_PersistentCalls.m_Calls.Array.size
       value: 1
@@ -10756,7 +10808,7 @@ PrefabInstance:
     - target: {fileID: 2506811659634152605, guid: 50a0956d9c45bee489e989971722cdeb, type: 3}
       propertyPath: checkInteraction.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 240783497}
+      objectReference: {fileID: 0}
     - target: {fileID: 2506811659634152605, guid: 50a0956d9c45bee489e989971722cdeb, type: 3}
       propertyPath: checkInteraction.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
       value: 2
@@ -10772,6 +10824,14 @@ PrefabInstance:
     - target: {fileID: 2506811659634152605, guid: 50a0956d9c45bee489e989971722cdeb, type: 3}
       propertyPath: checkInteraction.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
       value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
+    - target: {fileID: 4309562479532742186, guid: 50a0956d9c45bee489e989971722cdeb, type: 3}
+      propertyPath: transactionCash
+      value: 500
+      objectReference: {fileID: 0}
+    - target: {fileID: 4309562479532742186, guid: 50a0956d9c45bee489e989971722cdeb, type: 3}
+      propertyPath: infiniteTransactions
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4484117035451051702, guid: 50a0956d9c45bee489e989971722cdeb, type: 3}
       propertyPath: m_RootOrder
@@ -10847,17 +10907,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 4484117035451051702, guid: 50a0956d9c45bee489e989971722cdeb, type: 3}
   m_PrefabInstance: {fileID: 240783495}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &240783497 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 8046040528659215491, guid: 50a0956d9c45bee489e989971722cdeb, type: 3}
-  m_PrefabInstance: {fileID: 240783495}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 933b5099f968b914f87aaf35e5812d29, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1001 &280933330
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -11005,6 +11054,10 @@ PrefabInstance:
       value: '{0} flipped the breaker.  A new song is queued'
       objectReference: {fileID: 0}
     - target: {fileID: 3436171662078350183, guid: 50d998db9e15747698c2724acd97381f, type: 3}
+      propertyPath: localizedCheckMessage.m_TableEntryReference.m_KeyId
+      value: 4767793508507648
+      objectReference: {fileID: 0}
+    - target: {fileID: 3436171662078350183, guid: 50d998db9e15747698c2724acd97381f, type: 3}
       propertyPath: checkInteraction.m_PersistentCalls.m_Calls.Array.size
       value: 2
       objectReference: {fileID: 0}
@@ -11030,7 +11083,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4422221637006192079, guid: 50d998db9e15747698c2724acd97381f, type: 3}
       propertyPath: backingListHashCheck
-      value: -2022766931
+      value: 94849787
       objectReference: {fileID: 0}
     - target: {fileID: 7704979872744781370, guid: 50d998db9e15747698c2724acd97381f, type: 3}
       propertyPath: m_Name
@@ -11124,6 +11177,10 @@ PrefabInstance:
       propertyPath: uniqueIdentifier
       value: 534c779b-de73-4efa-88c1-5770830bcf84
       objectReference: {fileID: 0}
+    - target: {fileID: 1784306010668943859, guid: 50a0956d9c45bee489e989971722cdeb, type: 3}
+      propertyPath: uniqueIdentifier
+      value: e41020e2-3587-4128-84d0-42be1c7e03e3
+      objectReference: {fileID: 0}
     - target: {fileID: 2506811659634152605, guid: 50a0956d9c45bee489e989971722cdeb, type: 3}
       propertyPath: checkInteraction.m_PersistentCalls.m_Calls.Array.size
       value: 1
@@ -11135,7 +11192,7 @@ PrefabInstance:
     - target: {fileID: 2506811659634152605, guid: 50a0956d9c45bee489e989971722cdeb, type: 3}
       propertyPath: checkInteraction.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 310047736}
+      objectReference: {fileID: 0}
     - target: {fileID: 2506811659634152605, guid: 50a0956d9c45bee489e989971722cdeb, type: 3}
       propertyPath: checkInteraction.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
       value: 2
@@ -11151,6 +11208,14 @@ PrefabInstance:
     - target: {fileID: 2506811659634152605, guid: 50a0956d9c45bee489e989971722cdeb, type: 3}
       propertyPath: checkInteraction.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
       value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
+    - target: {fileID: 4309562479532742186, guid: 50a0956d9c45bee489e989971722cdeb, type: 3}
+      propertyPath: transactionCash
+      value: 500
+      objectReference: {fileID: 0}
+    - target: {fileID: 4309562479532742186, guid: 50a0956d9c45bee489e989971722cdeb, type: 3}
+      propertyPath: infiniteTransactions
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4484117035451051702, guid: 50a0956d9c45bee489e989971722cdeb, type: 3}
       propertyPath: m_RootOrder
@@ -11226,17 +11291,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 4484117035451051702, guid: 50a0956d9c45bee489e989971722cdeb, type: 3}
   m_PrefabInstance: {fileID: 310047734}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &310047736 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 8046040528659215491, guid: 50a0956d9c45bee489e989971722cdeb, type: 3}
-  m_PrefabInstance: {fileID: 310047734}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 933b5099f968b914f87aaf35e5812d29, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!4 &325160513 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6564381309038757641, guid: 71d598481a579c2448140b70660e15c0, type: 3}
@@ -11331,6 +11385,18 @@ PrefabInstance:
     - target: {fileID: 4736094180608794019, guid: 71d598481a579c2448140b70660e15c0, type: 3}
       propertyPath: messageReject
       value: Reset
+      objectReference: {fileID: 0}
+    - target: {fileID: 4736094180608794019, guid: 71d598481a579c2448140b70660e15c0, type: 3}
+      propertyPath: localizedCheckMessage.m_TableEntryReference.m_KeyId
+      value: 4767790278893568
+      objectReference: {fileID: 0}
+    - target: {fileID: 4736094180608794019, guid: 71d598481a579c2448140b70660e15c0, type: 3}
+      propertyPath: localizedMessageAccept.m_TableEntryReference.m_KeyId
+      value: 4767790383751168
+      objectReference: {fileID: 0}
+    - target: {fileID: 4736094180608794019, guid: 71d598481a579c2448140b70660e15c0, type: 3}
+      propertyPath: localizedMessageReject.m_TableEntryReference.m_KeyId
+      value: 4767790484414464
       objectReference: {fileID: 0}
     - target: {fileID: 4736094180608794019, guid: 71d598481a579c2448140b70660e15c0, type: 3}
       propertyPath: checkInteraction.m_PersistentCalls.m_Calls.Array.size
@@ -11483,6 +11549,10 @@ PrefabInstance:
       value: '{0} flipped the breaker.  A new song is queued'
       objectReference: {fileID: 0}
     - target: {fileID: 3436171662078350183, guid: 50d998db9e15747698c2724acd97381f, type: 3}
+      propertyPath: localizedCheckMessage.m_TableEntryReference.m_KeyId
+      value: 4767793252655104
+      objectReference: {fileID: 0}
+    - target: {fileID: 3436171662078350183, guid: 50d998db9e15747698c2724acd97381f, type: 3}
       propertyPath: checkInteraction.m_PersistentCalls.m_Calls.Array.size
       value: 2
       objectReference: {fileID: 0}
@@ -11508,7 +11578,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4422221637006192079, guid: 50d998db9e15747698c2724acd97381f, type: 3}
       propertyPath: backingListHashCheck
-      value: 1362418836
+      value: -1646495589
       objectReference: {fileID: 0}
     - target: {fileID: 7704979872744781370, guid: 50d998db9e15747698c2724acd97381f, type: 3}
       propertyPath: m_Name
@@ -17063,6 +17133,18 @@ PrefabInstance:
       value: Reset
       objectReference: {fileID: 0}
     - target: {fileID: 4736094180608794019, guid: 71d598481a579c2448140b70660e15c0, type: 3}
+      propertyPath: localizedCheckMessage.m_TableEntryReference.m_KeyId
+      value: 4767789133848576
+      objectReference: {fileID: 0}
+    - target: {fileID: 4736094180608794019, guid: 71d598481a579c2448140b70660e15c0, type: 3}
+      propertyPath: localizedMessageAccept.m_TableEntryReference.m_KeyId
+      value: 4767789234511872
+      objectReference: {fileID: 0}
+    - target: {fileID: 4736094180608794019, guid: 71d598481a579c2448140b70660e15c0, type: 3}
+      propertyPath: localizedMessageReject.m_TableEntryReference.m_KeyId
+      value: 4767789339369472
+      objectReference: {fileID: 0}
+    - target: {fileID: 4736094180608794019, guid: 71d598481a579c2448140b70660e15c0, type: 3}
       propertyPath: checkInteraction.m_PersistentCalls.m_Calls.Array.size
       value: 1
       objectReference: {fileID: 0}
@@ -17207,6 +17289,18 @@ PrefabInstance:
     - target: {fileID: 4736094180608794019, guid: 71d598481a579c2448140b70660e15c0, type: 3}
       propertyPath: messageReject
       value: Reset
+      objectReference: {fileID: 0}
+    - target: {fileID: 4736094180608794019, guid: 71d598481a579c2448140b70660e15c0, type: 3}
+      propertyPath: localizedCheckMessage.m_TableEntryReference.m_KeyId
+      value: 4767791998558208
+      objectReference: {fileID: 0}
+    - target: {fileID: 4736094180608794019, guid: 71d598481a579c2448140b70660e15c0, type: 3}
+      propertyPath: localizedMessageAccept.m_TableEntryReference.m_KeyId
+      value: 4767792111804416
+      objectReference: {fileID: 0}
+    - target: {fileID: 4736094180608794019, guid: 71d598481a579c2448140b70660e15c0, type: 3}
+      propertyPath: localizedMessageReject.m_TableEntryReference.m_KeyId
+      value: 4767792220856320
       objectReference: {fileID: 0}
     - target: {fileID: 4736094180608794019, guid: 71d598481a579c2448140b70660e15c0, type: 3}
       propertyPath: checkInteraction.m_PersistentCalls.m_Calls.Array.size
@@ -17539,17 +17633,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Frankie.Control.Specialization.WorldPointAdjuster
   hpToAdjust: 0
   apToAdjust: 0
---- !u!114 &615476252 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 8046040528659215491, guid: 50a0956d9c45bee489e989971722cdeb, type: 3}
-  m_PrefabInstance: {fileID: 1367931729}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 933b5099f968b914f87aaf35e5812d29, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1001 &623371989
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -17884,6 +17967,18 @@ PrefabInstance:
     - target: {fileID: 4736094180608794019, guid: 71d598481a579c2448140b70660e15c0, type: 3}
       propertyPath: messageReject
       value: Reset
+      objectReference: {fileID: 0}
+    - target: {fileID: 4736094180608794019, guid: 71d598481a579c2448140b70660e15c0, type: 3}
+      propertyPath: localizedCheckMessage.m_TableEntryReference.m_KeyId
+      value: 4767786847952896
+      objectReference: {fileID: 0}
+    - target: {fileID: 4736094180608794019, guid: 71d598481a579c2448140b70660e15c0, type: 3}
+      propertyPath: localizedMessageAccept.m_TableEntryReference.m_KeyId
+      value: 4767786952810496
+      objectReference: {fileID: 0}
+    - target: {fileID: 4736094180608794019, guid: 71d598481a579c2448140b70660e15c0, type: 3}
+      propertyPath: localizedMessageReject.m_TableEntryReference.m_KeyId
+      value: 4767787053473792
       objectReference: {fileID: 0}
     - target: {fileID: 4736094180608794019, guid: 71d598481a579c2448140b70660e15c0, type: 3}
       propertyPath: checkInteraction.m_PersistentCalls.m_Calls.Array.size
@@ -18349,6 +18444,10 @@ PrefabInstance:
       value: '{0} flipped the breaker.  A new song is queued'
       objectReference: {fileID: 0}
     - target: {fileID: 3436171662078350183, guid: 50d998db9e15747698c2724acd97381f, type: 3}
+      propertyPath: localizedCheckMessage.m_TableEntryReference.m_KeyId
+      value: 4767793881800704
+      objectReference: {fileID: 0}
+    - target: {fileID: 3436171662078350183, guid: 50d998db9e15747698c2724acd97381f, type: 3}
       propertyPath: checkInteraction.m_PersistentCalls.m_Calls.Array.size
       value: 2
       objectReference: {fileID: 0}
@@ -18374,7 +18473,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4422221637006192079, guid: 50d998db9e15747698c2724acd97381f, type: 3}
       propertyPath: backingListHashCheck
-      value: 491175611
+      value: -528422285
       objectReference: {fileID: 0}
     - target: {fileID: 7704979872744781370, guid: 50d998db9e15747698c2724acd97381f, type: 3}
       propertyPath: m_Name
@@ -18985,6 +19084,10 @@ PrefabInstance:
       value: Spawn Stuff?
       objectReference: {fileID: 0}
     - target: {fileID: 4736094180608794019, guid: 71d598481a579c2448140b70660e15c0, type: 3}
+      propertyPath: localizedCheckMessage.m_TableEntryReference.m_KeyId
+      value: 4767785807765504
+      objectReference: {fileID: 0}
+    - target: {fileID: 4736094180608794019, guid: 71d598481a579c2448140b70660e15c0, type: 3}
       propertyPath: checkInteraction.m_PersistentCalls.m_Calls.Array.size
       value: 1
       objectReference: {fileID: 0}
@@ -19398,6 +19501,46 @@ PrefabInstance:
       propertyPath: m_StaticEditorFlags
       value: 2147483647
       objectReference: {fileID: 0}
+    - target: {fileID: 1657275775909050319, guid: 8252584bd86ddec408582ff28d4f7db6, type: 3}
+      propertyPath: stock.Array.size
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 1657275775909050319, guid: 8252584bd86ddec408582ff28d4f7db6, type: 3}
+      propertyPath: backingHandlerGUID
+      value: b67db004-da1f-4d96-9ea2-be2fa2889cc3
+      objectReference: {fileID: 0}
+    - target: {fileID: 1657275775909050319, guid: 8252584bd86ddec408582ff28d4f7db6, type: 3}
+      propertyPath: 'stock.Array.data[0]'
+      value: 
+      objectReference: {fileID: 11400000, guid: 3adf66ab62b95ad47b2fd0277eedce88, type: 2}
+    - target: {fileID: 1657275775909050319, guid: 8252584bd86ddec408582ff28d4f7db6, type: 3}
+      propertyPath: 'stock.Array.data[1]'
+      value: 
+      objectReference: {fileID: 11400000, guid: e066880485ffe40e689266484fc39132, type: 2}
+    - target: {fileID: 1657275775909050319, guid: 8252584bd86ddec408582ff28d4f7db6, type: 3}
+      propertyPath: 'stock.Array.data[2]'
+      value: 
+      objectReference: {fileID: 11400000, guid: fd7b37394ba0e437e939b19f04c0d120, type: 2}
+    - target: {fileID: 1657275775909050319, guid: 8252584bd86ddec408582ff28d4f7db6, type: 3}
+      propertyPath: 'stock.Array.data[3]'
+      value: 
+      objectReference: {fileID: 11400000, guid: 49534f9b5e5cf1f41bbaf4c527d4a255, type: 2}
+    - target: {fileID: 1657275775909050319, guid: 8252584bd86ddec408582ff28d4f7db6, type: 3}
+      propertyPath: 'stock.Array.data[4]'
+      value: 
+      objectReference: {fileID: 11400000, guid: 192c078e096f74eaeab7ab1e879839fe, type: 2}
+    - target: {fileID: 1657275775909050319, guid: 8252584bd86ddec408582ff28d4f7db6, type: 3}
+      propertyPath: 'stock.Array.data[5]'
+      value: 
+      objectReference: {fileID: 11400000, guid: 584dcaaeab1944aa898017ba70d712f3, type: 2}
+    - target: {fileID: 1657275775909050319, guid: 8252584bd86ddec408582ff28d4f7db6, type: 3}
+      propertyPath: 'stock.Array.data[6]'
+      value: 
+      objectReference: {fileID: 11400000, guid: ffede2cb998d0458f847bfa0d449e576, type: 2}
+    - target: {fileID: 1657275775909050319, guid: 8252584bd86ddec408582ff28d4f7db6, type: 3}
+      propertyPath: backingListHashCheck
+      value: -1441446018
+      objectReference: {fileID: 0}
     - target: {fileID: 4484117035451051702, guid: 8252584bd86ddec408582ff28d4f7db6, type: 3}
       propertyPath: m_RootOrder
       value: 1
@@ -19488,7 +19631,7 @@ PrefabInstance:
       objectReference: {fileID: 11400000, guid: ffede2cb998d0458f847bfa0d449e576, type: 2}
     - target: {fileID: 7800942803558028165, guid: 8252584bd86ddec408582ff28d4f7db6, type: 3}
       propertyPath: backingListHashCheck
-      value: -638534018
+      value: 1020251152
       objectReference: {fileID: 0}
     - target: {fileID: 8531870645628414307, guid: 8252584bd86ddec408582ff28d4f7db6, type: 3}
       propertyPath: m_StaticEditorFlags
@@ -19652,6 +19795,18 @@ PrefabInstance:
     - target: {fileID: 4736094180608794019, guid: 71d598481a579c2448140b70660e15c0, type: 3}
       propertyPath: messageReject
       value: Reset
+      objectReference: {fileID: 0}
+    - target: {fileID: 4736094180608794019, guid: 71d598481a579c2448140b70660e15c0, type: 3}
+      propertyPath: localizedCheckMessage.m_TableEntryReference.m_KeyId
+      value: 4767789440032768
+      objectReference: {fileID: 0}
+    - target: {fileID: 4736094180608794019, guid: 71d598481a579c2448140b70660e15c0, type: 3}
+      propertyPath: localizedMessageAccept.m_TableEntryReference.m_KeyId
+      value: 4767789540696064
+      objectReference: {fileID: 0}
+    - target: {fileID: 4736094180608794019, guid: 71d598481a579c2448140b70660e15c0, type: 3}
+      propertyPath: localizedMessageReject.m_TableEntryReference.m_KeyId
+      value: 4767789645553664
       objectReference: {fileID: 0}
     - target: {fileID: 4736094180608794019, guid: 71d598481a579c2448140b70660e15c0, type: 3}
       propertyPath: checkInteraction.m_PersistentCalls.m_Calls.Array.size
@@ -19845,6 +20000,14 @@ PrefabInstance:
       propertyPath: uniqueIdentifier
       value: eb212d44-c0e7-422e-bc33-946e9a8c083b
       objectReference: {fileID: 0}
+    - target: {fileID: 868385970891400403, guid: dc6f573b6cebd422ca86ed8d3fa4abba, type: 3}
+      propertyPath: transactionCash
+      value: 35
+      objectReference: {fileID: 0}
+    - target: {fileID: 3386887864666618634, guid: dc6f573b6cebd422ca86ed8d3fa4abba, type: 3}
+      propertyPath: uniqueIdentifier
+      value: baed092e-6b8b-45a1-b5df-e9fb5650ee59
+      objectReference: {fileID: 0}
     - target: {fileID: 8085769299947576033, guid: dc6f573b6cebd422ca86ed8d3fa4abba, type: 3}
       propertyPath: uniqueIdentifier
       value: 829a7d66-d3b7-4945-bd00-eb44cc2746ed
@@ -20013,6 +20176,10 @@ PrefabInstance:
       value: '{0} flipped the breaker.  A new song is queued'
       objectReference: {fileID: 0}
     - target: {fileID: 3436171662078350183, guid: 50d998db9e15747698c2724acd97381f, type: 3}
+      propertyPath: localizedCheckMessage.m_TableEntryReference.m_KeyId
+      value: 4767794137653248
+      objectReference: {fileID: 0}
+    - target: {fileID: 3436171662078350183, guid: 50d998db9e15747698c2724acd97381f, type: 3}
       propertyPath: checkInteraction.m_PersistentCalls.m_Calls.Array.size
       value: 2
       objectReference: {fileID: 0}
@@ -20038,7 +20205,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4422221637006192079, guid: 50d998db9e15747698c2724acd97381f, type: 3}
       propertyPath: backingListHashCheck
-      value: 662795386
+      value: 1186173882
       objectReference: {fileID: 0}
     - target: {fileID: 7704979872744781370, guid: 50d998db9e15747698c2724acd97381f, type: 3}
       propertyPath: m_Name
@@ -20127,6 +20294,42 @@ PrefabInstance:
     - target: {fileID: 1503146279309485217, guid: 8252584bd86ddec408582ff28d4f7db6, type: 3}
       propertyPath: m_StaticEditorFlags
       value: 2147483647
+      objectReference: {fileID: 0}
+    - target: {fileID: 1657275775909050319, guid: 8252584bd86ddec408582ff28d4f7db6, type: 3}
+      propertyPath: stock.Array.size
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 1657275775909050319, guid: 8252584bd86ddec408582ff28d4f7db6, type: 3}
+      propertyPath: backingHandlerGUID
+      value: 2a29bcb0-0fe0-4dc1-b2ce-0dafc1613695
+      objectReference: {fileID: 0}
+    - target: {fileID: 1657275775909050319, guid: 8252584bd86ddec408582ff28d4f7db6, type: 3}
+      propertyPath: 'stock.Array.data[0]'
+      value: 
+      objectReference: {fileID: 11400000, guid: a4bc75f4802bcf24fb78d4fe3084b398, type: 2}
+    - target: {fileID: 1657275775909050319, guid: 8252584bd86ddec408582ff28d4f7db6, type: 3}
+      propertyPath: 'stock.Array.data[1]'
+      value: 
+      objectReference: {fileID: 11400000, guid: 9105dfbd6e6afbe4ea13b4836a1a23a8, type: 2}
+    - target: {fileID: 1657275775909050319, guid: 8252584bd86ddec408582ff28d4f7db6, type: 3}
+      propertyPath: 'stock.Array.data[3]'
+      value: 
+      objectReference: {fileID: 11400000, guid: 541c313117f0c0c42bdf6216e09c2d52, type: 2}
+    - target: {fileID: 1657275775909050319, guid: 8252584bd86ddec408582ff28d4f7db6, type: 3}
+      propertyPath: 'stock.Array.data[4]'
+      value: 
+      objectReference: {fileID: 11400000, guid: e082da1c66f0e8a4183108f66daef8b9, type: 2}
+    - target: {fileID: 1657275775909050319, guid: 8252584bd86ddec408582ff28d4f7db6, type: 3}
+      propertyPath: 'stock.Array.data[5]'
+      value: 
+      objectReference: {fileID: 11400000, guid: 3adf66ab62b95ad47b2fd0277eedce88, type: 2}
+    - target: {fileID: 1657275775909050319, guid: 8252584bd86ddec408582ff28d4f7db6, type: 3}
+      propertyPath: 'stock.Array.data[6]'
+      value: 
+      objectReference: {fileID: 11400000, guid: 49534f9b5e5cf1f41bbaf4c527d4a255, type: 2}
+    - target: {fileID: 1657275775909050319, guid: 8252584bd86ddec408582ff28d4f7db6, type: 3}
+      propertyPath: backingListHashCheck
+      value: 630505578
       objectReference: {fileID: 0}
     - target: {fileID: 4484117035451051702, guid: 8252584bd86ddec408582ff28d4f7db6, type: 3}
       propertyPath: m_RootOrder
@@ -20218,7 +20421,7 @@ PrefabInstance:
       objectReference: {fileID: 11400000, guid: 49534f9b5e5cf1f41bbaf4c527d4a255, type: 2}
     - target: {fileID: 7800942803558028165, guid: 8252584bd86ddec408582ff28d4f7db6, type: 3}
       propertyPath: backingListHashCheck
-      value: 550418252
+      value: 411517061
       objectReference: {fileID: 0}
     - target: {fileID: 8531870645628414307, guid: 8252584bd86ddec408582ff28d4f7db6, type: 3}
       propertyPath: m_StaticEditorFlags
@@ -20454,6 +20657,18 @@ PrefabInstance:
       value: Reset
       objectReference: {fileID: 0}
     - target: {fileID: 4736094180608794019, guid: 71d598481a579c2448140b70660e15c0, type: 3}
+      propertyPath: localizedCheckMessage.m_TableEntryReference.m_KeyId
+      value: 4767790589272064
+      objectReference: {fileID: 0}
+    - target: {fileID: 4736094180608794019, guid: 71d598481a579c2448140b70660e15c0, type: 3}
+      propertyPath: localizedMessageAccept.m_TableEntryReference.m_KeyId
+      value: 4767790694129664
+      objectReference: {fileID: 0}
+    - target: {fileID: 4736094180608794019, guid: 71d598481a579c2448140b70660e15c0, type: 3}
+      propertyPath: localizedMessageReject.m_TableEntryReference.m_KeyId
+      value: 4767790798987264
+      objectReference: {fileID: 0}
+    - target: {fileID: 4736094180608794019, guid: 71d598481a579c2448140b70660e15c0, type: 3}
       propertyPath: checkInteraction.m_PersistentCalls.m_Calls.Array.size
       value: 1
       objectReference: {fileID: 0}
@@ -20613,6 +20828,18 @@ PrefabInstance:
       value: Reset
       objectReference: {fileID: 0}
     - target: {fileID: 4736094180608794019, guid: 71d598481a579c2448140b70660e15c0, type: 3}
+      propertyPath: localizedCheckMessage.m_TableEntryReference.m_KeyId
+      value: 4767788395651072
+      objectReference: {fileID: 0}
+    - target: {fileID: 4736094180608794019, guid: 71d598481a579c2448140b70660e15c0, type: 3}
+      propertyPath: localizedMessageAccept.m_TableEntryReference.m_KeyId
+      value: 4767788500508672
+      objectReference: {fileID: 0}
+    - target: {fileID: 4736094180608794019, guid: 71d598481a579c2448140b70660e15c0, type: 3}
+      propertyPath: localizedMessageReject.m_TableEntryReference.m_KeyId
+      value: 4767788605366272
+      objectReference: {fileID: 0}
+    - target: {fileID: 4736094180608794019, guid: 71d598481a579c2448140b70660e15c0, type: 3}
       propertyPath: checkInteraction.m_PersistentCalls.m_Calls.Array.size
       value: 1
       objectReference: {fileID: 0}
@@ -20746,6 +20973,18 @@ PrefabInstance:
       propertyPath: uniqueIdentifier
       value: 2f4094e1-df52-44dd-a03a-ad6282e65ffd
       objectReference: {fileID: 0}
+    - target: {fileID: 5602464021947922644, guid: 97fd51601b36348728b0fd1031f074b3, type: 3}
+      propertyPath: inventoryItem
+      value: 
+      objectReference: {fileID: 11400000, guid: 9105dfbd6e6afbe4ea13b4836a1a23a8, type: 2}
+    - target: {fileID: 5602464021947922644, guid: 97fd51601b36348728b0fd1031f074b3, type: 3}
+      propertyPath: backingHandlerGUID
+      value: 74d613af-262e-4587-901c-8b8c2f704a43
+      objectReference: {fileID: 0}
+    - target: {fileID: 5602464021947922644, guid: 97fd51601b36348728b0fd1031f074b3, type: 3}
+      propertyPath: backingListHashCheck
+      value: -2126266613
+      objectReference: {fileID: 0}
     - target: {fileID: 7943186074068910809, guid: 97fd51601b36348728b0fd1031f074b3, type: 3}
       propertyPath: inventoryItem
       value: 
@@ -20756,7 +20995,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7943186074068910809, guid: 97fd51601b36348728b0fd1031f074b3, type: 3}
       propertyPath: backingListHashCheck
-      value: 107077789
+      value: -1586158953
+      objectReference: {fileID: 0}
+    - target: {fileID: 8039291272604402414, guid: 97fd51601b36348728b0fd1031f074b3, type: 3}
+      propertyPath: uniqueIdentifier
+      value: a97e3e7d-b82d-4457-9182-b858697beaa3
       objectReference: {fileID: 0}
     - target: {fileID: 8085769299947576033, guid: 97fd51601b36348728b0fd1031f074b3, type: 3}
       propertyPath: uniqueIdentifier
@@ -20831,6 +21074,10 @@ PrefabInstance:
     - target: {fileID: 4736094180608794019, guid: 71d598481a579c2448140b70660e15c0, type: 3}
       propertyPath: checkMessage
       value: Spawn Stuff?
+      objectReference: {fileID: 0}
+    - target: {fileID: 4736094180608794019, guid: 71d598481a579c2448140b70660e15c0, type: 3}
+      propertyPath: localizedCheckMessage.m_TableEntryReference.m_KeyId
+      value: 4767786218807296
       objectReference: {fileID: 0}
     - target: {fileID: 4736094180608794019, guid: 71d598481a579c2448140b70660e15c0, type: 3}
       propertyPath: checkInteraction.m_PersistentCalls.m_Calls.Array.size
@@ -20957,6 +21204,14 @@ PrefabInstance:
     - target: {fileID: 4736094180608794019, guid: 71d598481a579c2448140b70660e15c0, type: 3}
       propertyPath: messageReject
       value: Nah
+      objectReference: {fileID: 0}
+    - target: {fileID: 4736094180608794019, guid: 71d598481a579c2448140b70660e15c0, type: 3}
+      propertyPath: localizedCheckMessage.m_TableEntryReference.m_KeyId
+      value: 4767789750411264
+      objectReference: {fileID: 0}
+    - target: {fileID: 4736094180608794019, guid: 71d598481a579c2448140b70660e15c0, type: 3}
+      propertyPath: localizedMessageAccept.m_TableEntryReference.m_KeyId
+      value: 4767789855268864
       objectReference: {fileID: 0}
     - target: {fileID: 4736094180608794019, guid: 71d598481a579c2448140b70660e15c0, type: 3}
       propertyPath: checkInteraction.m_PersistentCalls.m_Calls.Array.size
@@ -21343,6 +21598,18 @@ PrefabInstance:
     - target: {fileID: 4736094180608794019, guid: 71d598481a579c2448140b70660e15c0, type: 3}
       propertyPath: messageReject
       value: Reset
+      objectReference: {fileID: 0}
+    - target: {fileID: 4736094180608794019, guid: 71d598481a579c2448140b70660e15c0, type: 3}
+      propertyPath: localizedCheckMessage.m_TableEntryReference.m_KeyId
+      value: 4767791629459456
+      objectReference: {fileID: 0}
+    - target: {fileID: 4736094180608794019, guid: 71d598481a579c2448140b70660e15c0, type: 3}
+      propertyPath: localizedMessageAccept.m_TableEntryReference.m_KeyId
+      value: 4767791759482880
+      objectReference: {fileID: 0}
+    - target: {fileID: 4736094180608794019, guid: 71d598481a579c2448140b70660e15c0, type: 3}
+      propertyPath: localizedMessageReject.m_TableEntryReference.m_KeyId
+      value: 4767791881117696
       objectReference: {fileID: 0}
     - target: {fileID: 4736094180608794019, guid: 71d598481a579c2448140b70660e15c0, type: 3}
       propertyPath: checkInteraction.m_PersistentCalls.m_Calls.Array.size
@@ -21742,6 +22009,10 @@ PrefabInstance:
       value: '{0} flipped the breaker.  A new song is queued'
       objectReference: {fileID: 0}
     - target: {fileID: 3436171662078350183, guid: 50d998db9e15747698c2724acd97381f, type: 3}
+      propertyPath: localizedCheckMessage.m_TableEntryReference.m_KeyId
+      value: 4767794011824128
+      objectReference: {fileID: 0}
+    - target: {fileID: 3436171662078350183, guid: 50d998db9e15747698c2724acd97381f, type: 3}
       propertyPath: checkInteraction.m_PersistentCalls.m_Calls.Array.size
       value: 2
       objectReference: {fileID: 0}
@@ -21767,7 +22038,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4422221637006192079, guid: 50d998db9e15747698c2724acd97381f, type: 3}
       propertyPath: backingListHashCheck
-      value: 889889565
+      value: 2015666936
       objectReference: {fileID: 0}
     - target: {fileID: 7704979872744781370, guid: 50d998db9e15747698c2724acd97381f, type: 3}
       propertyPath: m_Name
@@ -22065,6 +22336,10 @@ PrefabInstance:
       propertyPath: uniqueIdentifier
       value: f55b2ef3-3070-4e18-be8d-1bda06c565b3
       objectReference: {fileID: 0}
+    - target: {fileID: 1784306010668943859, guid: 50a0956d9c45bee489e989971722cdeb, type: 3}
+      propertyPath: uniqueIdentifier
+      value: 992ad4da-d7db-4981-8024-f6915271661a
+      objectReference: {fileID: 0}
     - target: {fileID: 2506811659634152605, guid: 50a0956d9c45bee489e989971722cdeb, type: 3}
       propertyPath: checkInteraction.m_PersistentCalls.m_Calls.Array.size
       value: 1
@@ -22076,7 +22351,7 @@ PrefabInstance:
     - target: {fileID: 2506811659634152605, guid: 50a0956d9c45bee489e989971722cdeb, type: 3}
       propertyPath: checkInteraction.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 615476252}
+      objectReference: {fileID: 0}
     - target: {fileID: 2506811659634152605, guid: 50a0956d9c45bee489e989971722cdeb, type: 3}
       propertyPath: checkInteraction.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
       value: 2
@@ -22092,6 +22367,14 @@ PrefabInstance:
     - target: {fileID: 2506811659634152605, guid: 50a0956d9c45bee489e989971722cdeb, type: 3}
       propertyPath: checkInteraction.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
       value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
+    - target: {fileID: 4309562479532742186, guid: 50a0956d9c45bee489e989971722cdeb, type: 3}
+      propertyPath: transactionCash
+      value: 500
+      objectReference: {fileID: 0}
+    - target: {fileID: 4309562479532742186, guid: 50a0956d9c45bee489e989971722cdeb, type: 3}
+      propertyPath: infiniteTransactions
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4484117035451051702, guid: 50a0956d9c45bee489e989971722cdeb, type: 3}
       propertyPath: m_RootOrder
@@ -22330,6 +22613,18 @@ PrefabInstance:
       value: Reset
       objectReference: {fileID: 0}
     - target: {fileID: 4736094180608794019, guid: 71d598481a579c2448140b70660e15c0, type: 3}
+      propertyPath: localizedCheckMessage.m_TableEntryReference.m_KeyId
+      value: 4767790916427776
+      objectReference: {fileID: 0}
+    - target: {fileID: 4736094180608794019, guid: 71d598481a579c2448140b70660e15c0, type: 3}
+      propertyPath: localizedMessageAccept.m_TableEntryReference.m_KeyId
+      value: 4767791038062592
+      objectReference: {fileID: 0}
+    - target: {fileID: 4736094180608794019, guid: 71d598481a579c2448140b70660e15c0, type: 3}
+      propertyPath: localizedMessageReject.m_TableEntryReference.m_KeyId
+      value: 4767791147114496
+      objectReference: {fileID: 0}
+    - target: {fileID: 4736094180608794019, guid: 71d598481a579c2448140b70660e15c0, type: 3}
       propertyPath: checkInteraction.m_PersistentCalls.m_Calls.Array.size
       value: 1
       objectReference: {fileID: 0}
@@ -22474,6 +22769,10 @@ PrefabInstance:
     - target: {fileID: 4736094180608794019, guid: 71d598481a579c2448140b70660e15c0, type: 3}
       propertyPath: checkMessage
       value: Spawn Stuff?
+      objectReference: {fileID: 0}
+    - target: {fileID: 4736094180608794019, guid: 71d598481a579c2448140b70660e15c0, type: 3}
+      propertyPath: localizedCheckMessage.m_TableEntryReference.m_KeyId
+      value: 4767785702907904
       objectReference: {fileID: 0}
     - target: {fileID: 4736094180608794019, guid: 71d598481a579c2448140b70660e15c0, type: 3}
       propertyPath: checkInteraction.m_PersistentCalls.m_Calls.Array.size
@@ -22848,51 +23147,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   hpToAdjust: 0
   apToAdjust: 0
---- !u!1 &1431634415
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1431634417}
-  - component: {fileID: 1431634416}
-  m_Layer: 0
-  m_Name: Temp
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &1431634416
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1431634415}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6b1df360098443a2b26346b10bfae910, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Frankie.Stats.TempRestrictedStatTest
-  skillStat: 5
---- !u!4 &1431634417
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1431634415}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -4.52638, y: -2.00373, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &1432906762 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6564381309038757641, guid: 71d598481a579c2448140b70660e15c0, type: 3}
@@ -22921,6 +23175,18 @@ PrefabInstance:
     - target: {fileID: 4736094180608794019, guid: 71d598481a579c2448140b70660e15c0, type: 3}
       propertyPath: messageReject
       value: Reset
+      objectReference: {fileID: 0}
+    - target: {fileID: 4736094180608794019, guid: 71d598481a579c2448140b70660e15c0, type: 3}
+      propertyPath: localizedCheckMessage.m_TableEntryReference.m_KeyId
+      value: 4767792665452544
+      objectReference: {fileID: 0}
+    - target: {fileID: 4736094180608794019, guid: 71d598481a579c2448140b70660e15c0, type: 3}
+      propertyPath: localizedMessageAccept.m_TableEntryReference.m_KeyId
+      value: 4767792774504448
+      objectReference: {fileID: 0}
+    - target: {fileID: 4736094180608794019, guid: 71d598481a579c2448140b70660e15c0, type: 3}
+      propertyPath: localizedMessageReject.m_TableEntryReference.m_KeyId
+      value: 4767792896139264
       objectReference: {fileID: 0}
     - target: {fileID: 4736094180608794019, guid: 71d598481a579c2448140b70660e15c0, type: 3}
       propertyPath: checkInteraction.m_PersistentCalls.m_Calls.Array.size
@@ -23071,6 +23337,14 @@ PrefabInstance:
     - target: {fileID: 4736094180608794019, guid: 71d598481a579c2448140b70660e15c0, type: 3}
       propertyPath: messageAccept
       value: Yah
+      objectReference: {fileID: 0}
+    - target: {fileID: 4736094180608794019, guid: 71d598481a579c2448140b70660e15c0, type: 3}
+      propertyPath: localizedCheckMessage.m_TableEntryReference.m_KeyId
+      value: 4767786323664896
+      objectReference: {fileID: 0}
+    - target: {fileID: 4736094180608794019, guid: 71d598481a579c2448140b70660e15c0, type: 3}
+      propertyPath: localizedMessageAccept.m_TableEntryReference.m_KeyId
+      value: 4767786428522496
       objectReference: {fileID: 0}
     - target: {fileID: 4736094180608794019, guid: 71d598481a579c2448140b70660e15c0, type: 3}
       propertyPath: checkInteraction.m_PersistentCalls.m_Calls.Array.size
@@ -33676,6 +33950,18 @@ PrefabInstance:
       value: Reset
       objectReference: {fileID: 0}
     - target: {fileID: 4736094180608794019, guid: 71d598481a579c2448140b70660e15c0, type: 3}
+      propertyPath: localizedCheckMessage.m_TableEntryReference.m_KeyId
+      value: 4767789960126464
+      objectReference: {fileID: 0}
+    - target: {fileID: 4736094180608794019, guid: 71d598481a579c2448140b70660e15c0, type: 3}
+      propertyPath: localizedMessageAccept.m_TableEntryReference.m_KeyId
+      value: 4767790060789760
+      objectReference: {fileID: 0}
+    - target: {fileID: 4736094180608794019, guid: 71d598481a579c2448140b70660e15c0, type: 3}
+      propertyPath: localizedMessageReject.m_TableEntryReference.m_KeyId
+      value: 4767790165647360
+      objectReference: {fileID: 0}
+    - target: {fileID: 4736094180608794019, guid: 71d598481a579c2448140b70660e15c0, type: 3}
       propertyPath: checkInteraction.m_PersistentCalls.m_Calls.Array.size
       value: 1
       objectReference: {fileID: 0}
@@ -33813,6 +34099,10 @@ PrefabInstance:
       value: '{0} flipped the breaker.  A new song is queued'
       objectReference: {fileID: 0}
     - target: {fileID: 3436171662078350183, guid: 50d998db9e15747698c2724acd97381f, type: 3}
+      propertyPath: localizedCheckMessage.m_TableEntryReference.m_KeyId
+      value: 4767794393505792
+      objectReference: {fileID: 0}
+    - target: {fileID: 3436171662078350183, guid: 50d998db9e15747698c2724acd97381f, type: 3}
       propertyPath: checkInteraction.m_PersistentCalls.m_Calls.Array.size
       value: 2
       objectReference: {fileID: 0}
@@ -33838,7 +34128,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4422221637006192079, guid: 50d998db9e15747698c2724acd97381f, type: 3}
       propertyPath: backingListHashCheck
-      value: -1590522909
+      value: 1647785778
       objectReference: {fileID: 0}
     - target: {fileID: 7704979872744781370, guid: 50d998db9e15747698c2724acd97381f, type: 3}
       propertyPath: m_Name
@@ -33939,6 +34229,18 @@ PrefabInstance:
     - target: {fileID: 4736094180608794019, guid: 71d598481a579c2448140b70660e15c0, type: 3}
       propertyPath: messageReject
       value: Reset
+      objectReference: {fileID: 0}
+    - target: {fileID: 4736094180608794019, guid: 71d598481a579c2448140b70660e15c0, type: 3}
+      propertyPath: localizedCheckMessage.m_TableEntryReference.m_KeyId
+      value: 4767787158331392
+      objectReference: {fileID: 0}
+    - target: {fileID: 4736094180608794019, guid: 71d598481a579c2448140b70660e15c0, type: 3}
+      propertyPath: localizedMessageAccept.m_TableEntryReference.m_KeyId
+      value: 4767787263188992
+      objectReference: {fileID: 0}
+    - target: {fileID: 4736094180608794019, guid: 71d598481a579c2448140b70660e15c0, type: 3}
+      propertyPath: localizedMessageReject.m_TableEntryReference.m_KeyId
+      value: 4767787363852288
       objectReference: {fileID: 0}
     - target: {fileID: 4736094180608794019, guid: 71d598481a579c2448140b70660e15c0, type: 3}
       propertyPath: checkInteraction.m_PersistentCalls.m_Calls.Array.size
@@ -34078,6 +34380,10 @@ PrefabInstance:
       value: '{0} flipped the breaker.  A new song is queued'
       objectReference: {fileID: 0}
     - target: {fileID: 3436171662078350183, guid: 50d998db9e15747698c2724acd97381f, type: 3}
+      propertyPath: localizedCheckMessage.m_TableEntryReference.m_KeyId
+      value: 4767793760165888
+      objectReference: {fileID: 0}
+    - target: {fileID: 3436171662078350183, guid: 50d998db9e15747698c2724acd97381f, type: 3}
       propertyPath: checkInteraction.m_PersistentCalls.m_Calls.Array.size
       value: 2
       objectReference: {fileID: 0}
@@ -34103,7 +34409,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4422221637006192079, guid: 50d998db9e15747698c2724acd97381f, type: 3}
       propertyPath: backingListHashCheck
-      value: -283264502
+      value: -546441087
       objectReference: {fileID: 0}
     - target: {fileID: 7704979872744781370, guid: 50d998db9e15747698c2724acd97381f, type: 3}
       propertyPath: m_Name
@@ -34232,6 +34538,10 @@ PrefabInstance:
       value: '{0} flipped the breaker.  A new song is queued'
       objectReference: {fileID: 0}
     - target: {fileID: 3436171662078350183, guid: 50d998db9e15747698c2724acd97381f, type: 3}
+      propertyPath: localizedCheckMessage.m_TableEntryReference.m_KeyId
+      value: 4767793139408896
+      objectReference: {fileID: 0}
+    - target: {fileID: 3436171662078350183, guid: 50d998db9e15747698c2724acd97381f, type: 3}
       propertyPath: checkInteraction.m_PersistentCalls.m_Calls.Array.size
       value: 2
       objectReference: {fileID: 0}
@@ -34257,7 +34567,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4422221637006192079, guid: 50d998db9e15747698c2724acd97381f, type: 3}
       propertyPath: backingListHashCheck
-      value: 1917900811
+      value: -1507819758
       objectReference: {fileID: 0}
     - target: {fileID: 7704979872744781370, guid: 50d998db9e15747698c2724acd97381f, type: 3}
       propertyPath: m_Name
@@ -34523,6 +34833,10 @@ PrefabInstance:
       value: '{0} flipped the breaker.  A new song is queued'
       objectReference: {fileID: 0}
     - target: {fileID: 3436171662078350183, guid: 50d998db9e15747698c2724acd97381f, type: 3}
+      propertyPath: localizedCheckMessage.m_TableEntryReference.m_KeyId
+      value: 4767793378484224
+      objectReference: {fileID: 0}
+    - target: {fileID: 3436171662078350183, guid: 50d998db9e15747698c2724acd97381f, type: 3}
       propertyPath: checkInteraction.m_PersistentCalls.m_Calls.Array.size
       value: 2
       objectReference: {fileID: 0}
@@ -34548,7 +34862,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4422221637006192079, guid: 50d998db9e15747698c2724acd97381f, type: 3}
       propertyPath: backingListHashCheck
-      value: -215049905
+      value: 652519735
       objectReference: {fileID: 0}
     - target: {fileID: 7704979872744781370, guid: 50d998db9e15747698c2724acd97381f, type: 3}
       propertyPath: m_Name
@@ -34937,6 +35251,18 @@ PrefabInstance:
       value: Reset
       objectReference: {fileID: 0}
     - target: {fileID: 4736094180608794019, guid: 71d598481a579c2448140b70660e15c0, type: 3}
+      propertyPath: localizedCheckMessage.m_TableEntryReference.m_KeyId
+      value: 4767787779088384
+      objectReference: {fileID: 0}
+    - target: {fileID: 4736094180608794019, guid: 71d598481a579c2448140b70660e15c0, type: 3}
+      propertyPath: localizedMessageAccept.m_TableEntryReference.m_KeyId
+      value: 4767787883945984
+      objectReference: {fileID: 0}
+    - target: {fileID: 4736094180608794019, guid: 71d598481a579c2448140b70660e15c0, type: 3}
+      propertyPath: localizedMessageReject.m_TableEntryReference.m_KeyId
+      value: 4767787984609280
+      objectReference: {fileID: 0}
+    - target: {fileID: 4736094180608794019, guid: 71d598481a579c2448140b70660e15c0, type: 3}
       propertyPath: checkInteraction.m_PersistentCalls.m_Calls.Array.size
       value: 1
       objectReference: {fileID: 0}
@@ -35249,6 +35575,10 @@ PrefabInstance:
       value: '{0} flipped the breaker.  A new song is queued'
       objectReference: {fileID: 0}
     - target: {fileID: 3436171662078350183, guid: 50d998db9e15747698c2724acd97381f, type: 3}
+      propertyPath: localizedCheckMessage.m_TableEntryReference.m_KeyId
+      value: 4767793017774080
+      objectReference: {fileID: 0}
+    - target: {fileID: 3436171662078350183, guid: 50d998db9e15747698c2724acd97381f, type: 3}
       propertyPath: checkInteraction.m_PersistentCalls.m_Calls.Array.size
       value: 2
       objectReference: {fileID: 0}
@@ -35274,7 +35604,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4422221637006192079, guid: 50d998db9e15747698c2724acd97381f, type: 3}
       propertyPath: backingListHashCheck
-      value: -928246560
+      value: -705096792
       objectReference: {fileID: 0}
     - target: {fileID: 7704979872744781370, guid: 50d998db9e15747698c2724acd97381f, type: 3}
       propertyPath: m_Name
@@ -35511,6 +35841,10 @@ PrefabInstance:
       value: '{0} flipped the breaker.  A new song is queued'
       objectReference: {fileID: 0}
     - target: {fileID: 3436171662078350183, guid: 50d998db9e15747698c2724acd97381f, type: 3}
+      propertyPath: localizedCheckMessage.m_TableEntryReference.m_KeyId
+      value: 4767793630142464
+      objectReference: {fileID: 0}
+    - target: {fileID: 3436171662078350183, guid: 50d998db9e15747698c2724acd97381f, type: 3}
       propertyPath: checkInteraction.m_PersistentCalls.m_Calls.Array.size
       value: 2
       objectReference: {fileID: 0}
@@ -35536,7 +35870,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4422221637006192079, guid: 50d998db9e15747698c2724acd97381f, type: 3}
       propertyPath: backingListHashCheck
-      value: -1528047009
+      value: -191316257
       objectReference: {fileID: 0}
     - target: {fileID: 7704979872744781370, guid: 50d998db9e15747698c2724acd97381f, type: 3}
       propertyPath: m_Name
@@ -35751,6 +36085,18 @@ PrefabInstance:
       value: Reset
       objectReference: {fileID: 0}
     - target: {fileID: 4736094180608794019, guid: 71d598481a579c2448140b70660e15c0, type: 3}
+      propertyPath: localizedCheckMessage.m_TableEntryReference.m_KeyId
+      value: 4767785908428800
+      objectReference: {fileID: 0}
+    - target: {fileID: 4736094180608794019, guid: 71d598481a579c2448140b70660e15c0, type: 3}
+      propertyPath: localizedMessageAccept.m_TableEntryReference.m_KeyId
+      value: 4767786013286400
+      objectReference: {fileID: 0}
+    - target: {fileID: 4736094180608794019, guid: 71d598481a579c2448140b70660e15c0, type: 3}
+      propertyPath: localizedMessageReject.m_TableEntryReference.m_KeyId
+      value: 4767786113949696
+      objectReference: {fileID: 0}
+    - target: {fileID: 4736094180608794019, guid: 71d598481a579c2448140b70660e15c0, type: 3}
       propertyPath: checkInteraction.m_PersistentCalls.m_Calls.Array.size
       value: 1
       objectReference: {fileID: 0}
@@ -35922,6 +36268,18 @@ PrefabInstance:
       value: Reset
       objectReference: {fileID: 0}
     - target: {fileID: 4736094180608794019, guid: 71d598481a579c2448140b70660e15c0, type: 3}
+      propertyPath: localizedCheckMessage.m_TableEntryReference.m_KeyId
+      value: 4767792329908224
+      objectReference: {fileID: 0}
+    - target: {fileID: 4736094180608794019, guid: 71d598481a579c2448140b70660e15c0, type: 3}
+      propertyPath: localizedMessageAccept.m_TableEntryReference.m_KeyId
+      value: 4767792447348736
+      objectReference: {fileID: 0}
+    - target: {fileID: 4736094180608794019, guid: 71d598481a579c2448140b70660e15c0, type: 3}
+      propertyPath: localizedMessageReject.m_TableEntryReference.m_KeyId
+      value: 4767792560594944
+      objectReference: {fileID: 0}
+    - target: {fileID: 4736094180608794019, guid: 71d598481a579c2448140b70660e15c0, type: 3}
       propertyPath: checkInteraction.m_PersistentCalls.m_Calls.Array.size
       value: 1
       objectReference: {fileID: 0}
@@ -36074,6 +36432,14 @@ PrefabInstance:
     - target: {fileID: 4736094180608794019, guid: 71d598481a579c2448140b70660e15c0, type: 3}
       propertyPath: messageReject
       value: Nah
+      objectReference: {fileID: 0}
+    - target: {fileID: 4736094180608794019, guid: 71d598481a579c2448140b70660e15c0, type: 3}
+      propertyPath: localizedCheckMessage.m_TableEntryReference.m_KeyId
+      value: 4767788710223872
+      objectReference: {fileID: 0}
+    - target: {fileID: 4736094180608794019, guid: 71d598481a579c2448140b70660e15c0, type: 3}
+      propertyPath: localizedMessageAccept.m_TableEntryReference.m_KeyId
+      value: 4767788815081472
       objectReference: {fileID: 0}
     - target: {fileID: 4736094180608794019, guid: 71d598481a579c2448140b70660e15c0, type: 3}
       propertyPath: checkInteraction.m_PersistentCalls.m_Calls.Array.size
@@ -36296,6 +36662,14 @@ PrefabInstance:
       value: Nah
       objectReference: {fileID: 0}
     - target: {fileID: 4736094180608794019, guid: 71d598481a579c2448140b70660e15c0, type: 3}
+      propertyPath: localizedCheckMessage.m_TableEntryReference.m_KeyId
+      value: 4767788919939072
+      objectReference: {fileID: 0}
+    - target: {fileID: 4736094180608794019, guid: 71d598481a579c2448140b70660e15c0, type: 3}
+      propertyPath: localizedMessageAccept.m_TableEntryReference.m_KeyId
+      value: 4767789028990976
+      objectReference: {fileID: 0}
+    - target: {fileID: 4736094180608794019, guid: 71d598481a579c2448140b70660e15c0, type: 3}
       propertyPath: checkInteraction.m_PersistentCalls.m_Calls.Array.size
       value: 1
       objectReference: {fileID: 0}
@@ -36501,6 +36875,18 @@ PrefabInstance:
     - target: {fileID: 4736094180608794019, guid: 71d598481a579c2448140b70660e15c0, type: 3}
       propertyPath: messageReject
       value: Reset
+      objectReference: {fileID: 0}
+    - target: {fileID: 4736094180608794019, guid: 71d598481a579c2448140b70660e15c0, type: 3}
+      propertyPath: localizedCheckMessage.m_TableEntryReference.m_KeyId
+      value: 4767787464515584
+      objectReference: {fileID: 0}
+    - target: {fileID: 4736094180608794019, guid: 71d598481a579c2448140b70660e15c0, type: 3}
+      propertyPath: localizedMessageAccept.m_TableEntryReference.m_KeyId
+      value: 4767787569373184
+      objectReference: {fileID: 0}
+    - target: {fileID: 4736094180608794019, guid: 71d598481a579c2448140b70660e15c0, type: 3}
+      propertyPath: localizedMessageReject.m_TableEntryReference.m_KeyId
+      value: 4767787674230784
       objectReference: {fileID: 0}
     - target: {fileID: 4736094180608794019, guid: 71d598481a579c2448140b70660e15c0, type: 3}
       propertyPath: checkInteraction.m_PersistentCalls.m_Calls.Array.size
@@ -50415,6 +50801,18 @@ PrefabInstance:
       value: Reset
       objectReference: {fileID: 0}
     - target: {fileID: 4736094180608794019, guid: 71d598481a579c2448140b70660e15c0, type: 3}
+      propertyPath: localizedCheckMessage.m_TableEntryReference.m_KeyId
+      value: 4767786533380096
+      objectReference: {fileID: 0}
+    - target: {fileID: 4736094180608794019, guid: 71d598481a579c2448140b70660e15c0, type: 3}
+      propertyPath: localizedMessageAccept.m_TableEntryReference.m_KeyId
+      value: 4767786638237696
+      objectReference: {fileID: 0}
+    - target: {fileID: 4736094180608794019, guid: 71d598481a579c2448140b70660e15c0, type: 3}
+      propertyPath: localizedMessageReject.m_TableEntryReference.m_KeyId
+      value: 4767786743095296
+      objectReference: {fileID: 0}
+    - target: {fileID: 4736094180608794019, guid: 71d598481a579c2448140b70660e15c0, type: 3}
       propertyPath: checkInteraction.m_PersistentCalls.m_Calls.Array.size
       value: 1
       objectReference: {fileID: 0}
@@ -50717,4 +51115,3 @@ SceneRoots:
   - {fileID: 1731055645}
   - {fileID: 1659071564}
   - {fileID: 1040580543}
-  - {fileID: 1431634417}

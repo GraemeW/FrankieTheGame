@@ -1,6 +1,6 @@
 using Frankie.Speech;
 
-namespace Frankie.Core
+namespace Frankie.Core.Predicates
 {
     public abstract class PredicateAIConversant : Predicate
     {

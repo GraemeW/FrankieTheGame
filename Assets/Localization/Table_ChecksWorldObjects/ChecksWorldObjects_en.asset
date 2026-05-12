@@ -1,0 +1,859 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e9620f8c34305754d8cc9a7e49e852d9, type: 3}
+  m_Name: ChecksWorldObjects_en
+  m_EditorClassIdentifier: Unity.Localization::UnityEngine.Localization.Tables.StringTable
+  m_LocaleId:
+    m_Code: en
+  m_SharedData: {fileID: 11400000, guid: e01518a4d82d5485e9b0e7f466ecf01d, type: 2}
+  m_Metadata:
+    m_Items: []
+  m_TableData:
+  - m_Id: 4764210314600448
+    m_Localized: '{0} has checked this object'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4764190362296320
+    m_Localized: '{0} has checked this object'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4764190773338112
+    m_Localized: OK!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4764190890778624
+    m_Localized: Nah
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4761392472121344
+    m_Localized: Nah
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4761392354680832
+    m_Localized: OK!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4761391968804864
+    m_Localized: '{0} has checked this object'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 5043163763826688
+    m_Localized: '{0} poured the hot water onto Phil Ramen, mushed his noodles around
+      and placed him on the table.'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4764210545287168
+    m_Localized: OK!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4764210641756160
+    m_Localized: Nah
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4764652905947136
+    m_Localized: P-to-the-I-to-the-ZZA pockets
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4764653417652224
+    m_Localized: Looks just like the one I had as a kid
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4764654109712384
+    m_Localized: '*gulp* {0} feels HYDRATED.  Party HP and AP restored.'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4764654550114304
+    m_Localized: It's out of service.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4764654994710528
+    m_Localized: Really wish Judge Judy were playing
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4764655435112448
+    m_Localized: Sony Trinitron.  Nice.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4764655871320064
+    m_Localized: 'It says:  "Caution Sinkhole".  Weird, I don''t remember there being
+      a hole here.'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4764656307527680
+    m_Localized: Beer.  It's in you to give.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4764656747929600
+    m_Localized: Wait, what's this?!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4764657192525824
+    m_Localized: '{0} flipped the breaker.  An electrical humming  can be heard.'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4764657641316352
+    m_Localized: Occupied!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4764658081718272
+    m_Localized: There's only one outlet and it's occupied by the busted microwave
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4764658517925888
+    m_Localized: Primton News - The latest beat, comin' to ya hunky snarky
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4764658958327808
+    m_Localized: Primton News - The latest beat, comin' to ya hunky snarky
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4764659671359488
+    m_Localized: It's {0}'s desk.  Do you want to save your progress?
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4764660367613952
+    m_Localized: Judge Judy is playing
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4764660812210176
+    m_Localized: Occupied!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4764661252612096
+    m_Localized: Nobody's home...
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4764661713985536
+    m_Localized: Hello?
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4765847351451648
+    m_Localized: 'Maybe if I had something to pour this hot water into . . . '
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4764662611566592
+    m_Localized: Still busted, they must have fired maintenance
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4764663051968512
+    m_Localized: Nobody's home...
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4764663504953344
+    m_Localized: '{0} eats the warm ramen and recovers some AP.'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4764664066990080
+    m_Localized: Hair is SIN
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4764664331231232
+    m_Localized: It's {0}'s desk.  Do you want to save your progress?
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4765847586332672
+    m_Localized: It's an ad for a Sleep Mattress Canada.  (why buy a mattress anywhere
+      else?)
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4765847699578880
+    m_Localized: It says "I bet you wish you knew what's behind this door."  Indeed,
+      {0} does.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4765847800242176
+    m_Localized: Frosty.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4765847900905472
+    m_Localized: . . .
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4765847997374464
+    m_Localized: Band posters in an office?  Cool.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4766546927804416
+    m_Localized: Can't go home yet, full day of work ahead
+    m_Metadata:
+      m_Items: []
+  - m_Id: 5043164174868480
+    m_Localized: 'Maybe if {0} had something to pour this hot water onto . . . '
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4766547263348736
+    m_Localized: OK!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4766547364012032
+    m_Localized: Nah
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4766547464675328
+    m_Localized: 'It says:  Famous Zak''''s Tacos - CLOSED, due to vole infestation'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4766547569532928
+    m_Localized: 'There''s a note:  Please order from the window!'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4766547674390528
+    m_Localized: Primm News - The latest beat, comin' to ya hunky snarky
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4766547775053824
+    m_Localized: 'There''s a note:  Not open!  Come back later!'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4766608105922560
+    m_Localized: . . . no answer
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4766608340803584
+    m_Localized: '{0} hears loud music from inside.'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4766608449855488
+    m_Localized: When pizza's on a bagel, you can eat pizza any time!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4766608550518784
+    m_Localized: '*Fluuuuuuush*  It must go the other direction south of the equator.'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4766608646987776
+    m_Localized: Splish splash, I was takin' a bath
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4766608747651072
+    m_Localized: Ouch, it's pointy
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4766698086326272
+    m_Localized: Nobody's home
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4766876562350080
+    m_Localized: Prim News - The latest beat, comin' to ya hunky snarky
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4766876734316544
+    m_Localized: 'Prim Luxury Homes:  "Live in the tallest building in Prim, why
+      don''t''cha?"  - Prim Real Estate'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4766876839174144
+    m_Localized: Come visit the PortaBank! \nNow open in Prim South!  \n\n - this
+      message brought to you by the Prim Infrastructure and Economic Development
+      Committee
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4766876944031744
+    m_Localized: Don't jump!  \n\n  - this message brought to you by the Prim Mental
+      Health and Sanctity of Life Committee
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4766877044695040
+    m_Localized: Authorized Personnel Only!  Trespassers will be prosecuted. - Prim
+      Hydroelectric
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4766877149552640
+    m_Localized: 'There''s a note:  Please order from the window!'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4766877250215936
+    m_Localized: 'There''s a note:  Not open!  Come back later!'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4766978743984128
+    m_Localized: The elevator is out of service
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4766978966282240
+    m_Localized: The elevator is out of service
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4766979079528448
+    m_Localized: . . . {0} hears the sound of distant chattering
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4766979180191744
+    m_Localized: The elevator is out of service
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4766979276660736
+    m_Localized: . . . no answer
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4766979377324032
+    m_Localized: The elevator is out of service
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4766979473793024
+    m_Localized: . . . a fire alarm is chirping inside
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4766979574456320
+    m_Localized: The elevator is out of service
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4766979670925312
+    m_Localized: . . . {0} hears bossa nova playing gently through the door
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4766979771588608
+    m_Localized: Congratulations!  You have reached the top of the tallest building
+      in Prim.  Please enjoy this view.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4767071324856320
+    m_Localized: '{0} found a bumper car?'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4767127406895104
+    m_Localized: Want a turkey leg?
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4767127612416000
+    m_Localized: '{0} found a bumper car?'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4767217911586816
+    m_Localized: 'Warning:  Dangerous wildlife ahead.  Maybe check out the Lacklustre
+      Video first? \n  -signed People In Charge (PIC)'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4767218112913408
+    m_Localized: Enjoy this vending machine! \n  -courtesy of Forest Modernization
+      Team
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4767218226159616
+    m_Localized: No Entry due to Official Police Business Stuff. \n  -signed People
+      In Charge (PIC)
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4767218331017216
+    m_Localized: Your tax dollars at work!  Enjoy this tunnel! \n  -courtesy of Forest
+      Modernization Team
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4767218431680512
+    m_Localized: Your tax dollars at work!  You asked, we listened!  This fallen
+      tree slated to be removed in Winter 2014! \n  -courtesy of Forest Modernization
+      Team
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4767356197789696
+    m_Localized: It looks like the workers here have scrawled a plan to take over
+      the world.  It starts with . . . {0}'s eyes glaze over.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4767356466225152
+    m_Localized: No thanks!  I mean, I'm busy!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4767356575277056
+    m_Localized: It used to be really hard to breathe in here, so we added some fans
+      ahead. \n  -courtesy of Tunnel Asthma Advocates
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4767356675940352
+    m_Localized: Frosty.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4767785518358528
+    m_Localized: Spawn Stuff?
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4767785702907904
+    m_Localized: Spawn Stuff?
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4767785807765504
+    m_Localized: Spawn Stuff?
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4767785908428800
+    m_Localized: 'A formidable foe stands before {0}.  What does {0} do? '
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4767786013286400
+    m_Localized: Fight
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4767786113949696
+    m_Localized: Reset
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4767786218807296
+    m_Localized: Spawn Stuff?
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4767786323664896
+    m_Localized: Should Lucy join the party?
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4767786428522496
+    m_Localized: Yah
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4767786533380096
+    m_Localized: 'A formidable foe stands before {0}.  What does {0} do? '
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4767786638237696
+    m_Localized: Fight
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4767786743095296
+    m_Localized: Reset
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4767786847952896
+    m_Localized: 'A formidable foe stands before {0}.  What does {0} do? '
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4767786952810496
+    m_Localized: Fight
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4767787053473792
+    m_Localized: Reset
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4767787158331392
+    m_Localized: 'A formidable foe stands before {0}.  What does {0} do? '
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4767787263188992
+    m_Localized: Fight
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4767787363852288
+    m_Localized: Reset
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4767787464515584
+    m_Localized: 'A formidable foe stands before {0}.  What does {0} do? '
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4767787569373184
+    m_Localized: Fight
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4767787674230784
+    m_Localized: Reset
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4767787779088384
+    m_Localized: 'A formidable foe stands before {0}.  What does {0} do? '
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4767787883945984
+    m_Localized: Fight
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4767787984609280
+    m_Localized: Reset
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4767788089466880
+    m_Localized: 'A formidable foe stands before {0}.  What does {0} do? '
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4767788194324480
+    m_Localized: Fight
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4767788294987776
+    m_Localized: Reset
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4767788395651072
+    m_Localized: 'A formidable foe stands before {0}.  What does {0} do? '
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4767788500508672
+    m_Localized: Fight
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4767788605366272
+    m_Localized: Reset
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4767788710223872
+    m_Localized: Should Phil Ramen join the party?
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4767788815081472
+    m_Localized: Yes
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4767788919939072
+    m_Localized: Should Tilly join the party?
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4767789028990976
+    m_Localized: Yes
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4767789133848576
+    m_Localized: 'A formidable foe stands before {0}.  What does {0} do? '
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4767789234511872
+    m_Localized: Fight
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4767789339369472
+    m_Localized: Reset
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4767789440032768
+    m_Localized: 'A formidable foe stands before {0}.  What does {0} do? '
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4767789540696064
+    m_Localized: Fight
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4767789645553664
+    m_Localized: Reset
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4767789750411264
+    m_Localized: Should PhilToo join party?
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4767789855268864
+    m_Localized: Yes
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4767789960126464
+    m_Localized: 'A formidable foe stands before {0}.  What does {0} do? '
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4767790060789760
+    m_Localized: Fight
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4767790165647360
+    m_Localized: Reset
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4767790278893568
+    m_Localized: 'A formidable foe stands before {0}.  What does {0} do? '
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4767790383751168
+    m_Localized: Fight
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4767790484414464
+    m_Localized: Reset
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4767790589272064
+    m_Localized: 'A formidable foe stands before {0}.  What does {0} do? '
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4767790694129664
+    m_Localized: Fight
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4767790798987264
+    m_Localized: Reset
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4767790916427776
+    m_Localized: 'A formidable foe stands before {0}.  What does {0} do? '
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4767791038062592
+    m_Localized: Fight
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4767791147114496
+    m_Localized: Reset
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4767791260360704
+    m_Localized: 'A formidable foe stands before {0}.  What does {0} do? '
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4767791377801216
+    m_Localized: Fight
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4767791499436032
+    m_Localized: Reset
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4767791629459456
+    m_Localized: 'A formidable foe stands before {0}.  What does {0} do? '
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4767791759482880
+    m_Localized: Fight
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4767791881117696
+    m_Localized: Reset
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4767791998558208
+    m_Localized: 'A formidable foe stands before {0}.  What does {0} do? '
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4767792111804416
+    m_Localized: Fight
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4767792220856320
+    m_Localized: Reset
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4767792329908224
+    m_Localized: 'A formidable foe stands before {0}.  What does {0} do? '
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4767792447348736
+    m_Localized: Fight
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4767792560594944
+    m_Localized: Reset
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4767792665452544
+    m_Localized: 'A formidable foe stands before {0}.  What does {0} do? '
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4767792774504448
+    m_Localized: Fight
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4767792896139264
+    m_Localized: Reset
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4767793017774080
+    m_Localized: '{0} flipped the breaker.  A new song is queued'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4767793139408896
+    m_Localized: '{0} flipped the breaker.  A new song is queued'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4767793252655104
+    m_Localized: '{0} flipped the breaker.  A new song is queued'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4767793378484224
+    m_Localized: '{0} flipped the breaker.  A new song is queued'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4767793508507648
+    m_Localized: '{0} flipped the breaker.  A new song is queued'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4767793630142464
+    m_Localized: '{0} flipped the breaker.  A new song is queued'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4767793760165888
+    m_Localized: '{0} flipped the breaker.  A new song is queued'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4767793881800704
+    m_Localized: '{0} flipped the breaker.  A new song is queued'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4767794011824128
+    m_Localized: '{0} flipped the breaker.  A new song is queued'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4767794137653248
+    m_Localized: '{0} flipped the breaker.  A new song is queued'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4767794267676672
+    m_Localized: '{0} flipped the breaker.  A new song is queued'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4767794393505792
+    m_Localized: '{0} flipped the breaker.  A new song is queued'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 5042679980220416
+    m_Localized: Gross.  Ok, let's look through this muck.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 5042679833419776
+    m_Localized: It's a mess in here . . . chopsticks buried in old slimey food. 
+      Better not open it.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 5031161611935744
+    m_Localized: Sony Trinitron.  Nice.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 5041938053980160
+    m_Localized: '{0} checked the object.'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 5041938263695360
+    m_Localized: '{0} failed to check the object.'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 5041965862215680
+    m_Localized: It doesn't seem to be working at the moment.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 5043802816372736
+    m_Localized: '*CLICK* Oh, it looks like {0} got the door open'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 5043803030282240
+    m_Localized: Huh, it appears to be locked
+    m_Metadata:
+      m_Items: []
+  - m_Id: 5043902401732608
+    m_Localized: ' {0} used the key card.  The door unlocked.'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 5043902624030720
+    m_Localized: Crud, {0} forgot his key card at home.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 5044616368742400
+    m_Localized: Ah!  The step we have fits perfectly!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 5044616532320256
+    m_Localized: There's a step missing in this staircase!  It would be dangerous
+      to go down!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 5044852419977216
+    m_Localized: '*CLICK* Oh, it looks like {0} got the lock open'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 5044852642275328
+    m_Localized: Huh, there's a chain lock over the entrance to the fireman's pole
+    m_Metadata:
+      m_Items: []
+  - m_Id: 5081826824544256
+    m_Localized: Who do you want to tag along?
+    m_Metadata:
+      m_Items: []
+  - m_Id: 5081856201449472
+    m_Localized: Hey Neve, this isn't a party of five
+    m_Metadata:
+      m_Items: []
+  - m_Id: 5081948102844416
+    m_Localized: Who you want to take over?
+    m_Metadata:
+      m_Items: []
+  - m_Id: 5082001647329280
+    m_Localized: What would you like to do?
+    m_Metadata:
+      m_Items: []
+  - m_Id: 5082038263603200
+    m_Localized: Deposit
+    m_Metadata:
+      m_Items: []
+  - m_Id: 5082125471571968
+    m_Localized: Withdraw
+    m_Metadata:
+      m_Items: []
+  - m_Id: 5082812314017792
+    m_Localized: Who you want to abandon?
+    m_Metadata:
+      m_Items: []
+  - m_Id: 5082876797247488
+    m_Localized: '{0} can''t be removed from the party at this time'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 5082984565694464
+    m_Localized: Er, what is consciousness without a vessel in which it can exist?
+    m_Metadata:
+      m_Items: []
+  - m_Id: 5083248819429376
+    m_Localized: What do you want to do?
+    m_Metadata:
+      m_Items: []
+  - m_Id: 5083286815629312
+    m_Localized: Change leader
+    m_Metadata:
+      m_Items: []
+  - m_Id: 5083338745307136
+    m_Localized: Add
+    m_Metadata:
+      m_Items: []
+  - m_Id: 5083402268041216
+    m_Localized: Remove
+    m_Metadata:
+      m_Items: []
+  - m_Id: 5104716185853952
+    m_Localized: Wow!  Looks like {0} found {1}.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 5104716479455232
+    m_Localized: Whoops, looks like all the knapsacks are full.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 5104716592701440
+    m_Localized: There's nothing in here.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 5154525752057856
+    m_Localized: Wow!  Looks like {0} found ${1}.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 5154602067419136
+    m_Localized: Yikes!  {0} just lost ${1}.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 5154657977491456
+    m_Localized: '{0} is already broke, can''t get more broke.'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 5154795131232256
+    m_Localized: There's nothing in here.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 5154909962887168
+    m_Localized: Doesn't look like {0} can hold any more cash.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 5167281624571904
+    m_Localized: Where do you want to ride?
+    m_Metadata:
+      m_Items: []
+  - m_Id: 5168358289825792
+    m_Localized: to the office
+    m_Metadata:
+      m_Items: []
+  - m_Id: 5168433816657920
+    m_Localized: to the apartments
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7282524999901184
+    m_Localized: It doesn't seem to be working at the moment.
+    m_Metadata:
+      m_Items: []
+  references:
+    version: 2
+    RefIds: []

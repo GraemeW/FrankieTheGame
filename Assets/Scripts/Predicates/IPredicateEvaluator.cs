@@ -1,4 +1,4 @@
-namespace Frankie.Core
+namespace Frankie.Core.Predicates
 {
     public interface IPredicateEvaluator
     {

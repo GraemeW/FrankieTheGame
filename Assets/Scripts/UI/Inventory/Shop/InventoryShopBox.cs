@@ -1,19 +1,23 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Localization;
+using UnityEngine.Localization.Tables;
 using Frankie.Combat;
 using Frankie.Control;
 using Frankie.Speech.UI;
 using Frankie.Stats;
 using Frankie.Utils;
+using Frankie.Utils.Localization;
 
 namespace Frankie.Inventory.UI
 {
     public class InventoryShopBox : InventoryBox
     {
         // Tunables
-        [Header("Shop Specific")]
-        [SerializeField] private string messageOptionSell = "Sell";
-        [SerializeField] private string messageOptionCancelSale = "On second thought...";
+        [Header("Inventory-Shop Messages")]
+        [SerializeField][SimpleLocalizedString(LocalizationTableType.UI, true)] private LocalizedString localizedOptionSell;
+        [SerializeField][SimpleLocalizedString(LocalizationTableType.UI, true)] private LocalizedString localizedOptionCancelSale;
+        [Header("Inventory-Shop Prefabs")]
         [SerializeField] private WalletUI walletUIPrefab;
 
         // State
@@ -29,6 +33,20 @@ namespace Frankie.Inventory.UI
         private ShopBox shopBox;
         private Shopper shopper;
 
+        #region LocalizationMethods
+        public override List<TableEntryReference> GetLocalizationEntries()
+        {
+            // Note:  Standard configuration re-uses localization keys from InventoryBox 
+            // Here we only return unique to this child script to prevent deletion of InventoryBox keys
+            // Overridden standard Inventory entries would need to be manually deleted
+            return new List<TableEntryReference>
+            {
+                localizedOptionSell.TableEntryReference,
+                localizedOptionCancelSale.TableEntryReference,
+            };
+        }
+        #endregion
+        
         #region Initialization
         // Buy-specific
         public void Setup(IStandardPlayerInputCaller standardPlayerInputCaller, PartyCombatConduit partyCombatConduit, Shopper setShopper, ShopBox setShopBox, InventoryItem setBuyItem, string setMessageNoSpace)
@@ -135,12 +153,12 @@ namespace Frankie.Inventory.UI
                     // Sale
                     if (selectedCharacter.TryGetComponent(out Knapsack selectedCharacterKnapsack))
                     {
-                        var sellActionPair = new ChoiceActionPair(messageOptionSell, () => shopper.CompleteTransaction(ShopType.Sell, inventoryItem, selectedCharacterKnapsack));
+                        var sellActionPair = new ChoiceActionPair(localizedOptionSell.GetSafeLocalizedString(), () => shopper.CompleteTransaction(ShopType.Sell, inventoryItem, selectedCharacterKnapsack));
                         choiceActionPairs.Add(sellActionPair);
                     }
                     
                     // Cancel
-                    var cancelActionPair = new ChoiceActionPair(messageOptionCancelSale, () => { });
+                    var cancelActionPair = new ChoiceActionPair(localizedOptionCancelSale.GetSafeLocalizedString(), () => { });
                     choiceActionPairs.Add(cancelActionPair);
 
                     return choiceActionPairs;

@@ -55,7 +55,7 @@ All scenes need to have three key PreFabs to function:
    * has childed objects:
      * UICanvas -- for rendering UI elements over the scene
      * BackingCanvas -- black backing for the game
-     * AddressablesLoader -- for loading all addressables (key game memory/elements), located in [OnLoadAssets](../Game/OnLoadAssets/), per [Addressables](../Scripts/Core/AddressablesHandling/AddressablesLoader.cs)
+     * AddressablesLoader -- for loading all addressables (key game memory/elements), located in [OnLoadAssets](../Game/OnLoadAssets/), per [Addressables](../Scripts/Utils/Addressables/AddressablesLoader.cs)
 2. [Cameras](../Game/Core/Cameras.prefab): Includes the main camera, as well as a state-driven camera based on Frankie's state (idle vs. active)
 3. [Player](../Game/Core/Player.prefab), which:
    * includes all relevant player control scripts (e.g. [Player](../Scripts/Core/Player.cs), [PlayerStateMachine](../Scripts/Control/Player/PlayerStateMachine.cs), [PlayerController](../Scripts/Control/Player/PlayerController.cs), [PlayerMover](../Scripts/Control/Player/PlayerMover.cs), etc. )

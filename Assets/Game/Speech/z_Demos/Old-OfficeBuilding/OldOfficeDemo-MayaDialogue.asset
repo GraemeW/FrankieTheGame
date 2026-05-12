@@ -1,0 +1,315 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-7909195232646541824
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 09c07c7c6f4c666429a0bbc8d18232b2, type: 3}
+  m_Name: 43f29ce9-bff2-46f7-8890-29cabbf838f1
+  m_EditorClassIdentifier: 
+  dialogueName: OldOfficeDemo-MayaDialogue
+  speakerType: 1
+  characterProperties: {fileID: 0}
+  localizedSpeakerName:
+    m_TableReference:
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
+    m_TableEntryReference:
+      m_KeyId: 2889048950562816
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  localizedText:
+    m_TableReference:
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
+    m_TableEntryReference:
+      m_KeyId: 2889049051226112
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  nodeDepth: 0
+  nodeBreadth: 0
+  children:
+  - cdac874a-b3fc-4ac5-bfa1-725930ae6ef6
+  - e1b519de-b573-447f-a6bf-e9d7f1b230e5
+  - e58ef526-a236-4f6f-9b0b-e3aaf9d6a3b2
+  - 89af5048-d7d4-43b9-a6d0-78978f195179
+  rect:
+    serializedVersion: 2
+    x: 30
+    y: 30
+    width: 400
+    height: 225
+  draggingRect:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 400
+    height: 45
+  condition:
+    and: []
+  cachedSpeakerName: Default
+  cachedText: Root Node Skipped
+  references:
+    version: 2
+    RefIds: []
+--- !u!114 &-6761488399315501527
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 09c07c7c6f4c666429a0bbc8d18232b2, type: 3}
+  m_Name: cdac874a-b3fc-4ac5-bfa1-725930ae6ef6
+  m_EditorClassIdentifier: 
+  dialogueName: OldOfficeDemo-MayaDialogue
+  speakerType: 1
+  characterProperties: {fileID: 11400000, guid: c8752c77bccb9f145aea101a1d9673a5, type: 2}
+  localizedSpeakerName:
+    m_TableReference:
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
+    m_TableEntryReference:
+      m_KeyId: 2889049147695104
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  localizedText:
+    m_TableReference:
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
+    m_TableEntryReference:
+      m_KeyId: 2889049244164096
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  nodeDepth: 1
+  nodeBreadth: 0
+  children: []
+  rect:
+    serializedVersion: 2
+    x: 530
+    y: 30
+    width: 400
+    height: 225
+  draggingRect:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 400
+    height: 45
+  condition:
+    and: []
+  cachedSpeakerName: Maya
+  cachedText: What's that?  You say you saw me at the PortaBank (TM)?  I don't know
+    what you're talking about, I work here.
+  references:
+    version: 2
+    RefIds: []
+--- !u!114 &-3390296426863366547
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 09c07c7c6f4c666429a0bbc8d18232b2, type: 3}
+  m_Name: 89af5048-d7d4-43b9-a6d0-78978f195179
+  m_EditorClassIdentifier: 
+  dialogueName: OldOfficeDemo-MayaDialogue
+  speakerType: 1
+  characterProperties: {fileID: 11400000, guid: c8752c77bccb9f145aea101a1d9673a5, type: 2}
+  localizedSpeakerName:
+    m_TableReference:
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
+    m_TableEntryReference:
+      m_KeyId: 2889049739091968
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  localizedText:
+    m_TableReference:
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
+    m_TableEntryReference:
+      m_KeyId: 2889049835560960
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  nodeDepth: 1
+  nodeBreadth: 3
+  children: []
+  rect:
+    serializedVersion: 2
+    x: 530
+    y: 780
+    width: 400
+    height: 225
+  draggingRect:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 400
+    height: 45
+  condition:
+    and:
+    - or:
+      - predicate: {fileID: 11400000, guid: a7bbc4f4f2f05314088fea20cb40007e, type: 2}
+        negate: 0
+  cachedSpeakerName: Maya
+  cachedText: Hi Tilly, nice hair, I mean, nice outfit, I mean . . . anyway, did
+    you want to hang out this weekend?
+  references:
+    version: 2
+    RefIds: []
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aac27b8e802ced743b3f275e283ab9df, type: 3}
+  m_Name: OldOfficeDemo-MayaDialogue
+  m_EditorClassIdentifier: 
+  skipRootNode: 1
+  cachedName: OldOfficeDemo-MayaDialogue
+  newNodeOffset: {x: 100, y: 25}
+  nodeWidth: 400
+  nodeHeight: 225
+  activeNPCs:
+  - {fileID: 11400000, guid: c8752c77bccb9f145aea101a1d9673a5, type: 2}
+  dialogueNodes:
+  - {fileID: -7909195232646541824}
+  - {fileID: -6761488399315501527}
+  - {fileID: 7830810597490469308}
+  - {fileID: 1570589005771257271}
+  - {fileID: -3390296426863366547}
+--- !u!114 &1570589005771257271
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 09c07c7c6f4c666429a0bbc8d18232b2, type: 3}
+  m_Name: e58ef526-a236-4f6f-9b0b-e3aaf9d6a3b2
+  m_EditorClassIdentifier: 
+  dialogueName: OldOfficeDemo-MayaDialogue
+  speakerType: 1
+  characterProperties: {fileID: 11400000, guid: c8752c77bccb9f145aea101a1d9673a5, type: 2}
+  localizedSpeakerName:
+    m_TableReference:
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
+    m_TableEntryReference:
+      m_KeyId: 2889049541959680
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  localizedText:
+    m_TableReference:
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
+    m_TableEntryReference:
+      m_KeyId: 2889049638428672
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  nodeDepth: 1
+  nodeBreadth: 2
+  children: []
+  rect:
+    serializedVersion: 2
+    x: 530
+    y: 530
+    width: 400
+    height: 225
+  draggingRect:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 400
+    height: 45
+  condition:
+    and:
+    - or:
+      - predicate: {fileID: 11400000, guid: 909f3f55c1621084b86a62ae4a8ac0bd, type: 2}
+        negate: 1
+  cachedSpeakerName: Maya
+  cachedText: You want the key to the ballpit?  Alright, let's tango.
+  references:
+    version: 2
+    RefIds: []
+--- !u!114 &7830810597490469308
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 09c07c7c6f4c666429a0bbc8d18232b2, type: 3}
+  m_Name: e1b519de-b573-447f-a6bf-e9d7f1b230e5
+  m_EditorClassIdentifier: 
+  dialogueName: OldOfficeDemo-MayaDialogue
+  speakerType: 1
+  characterProperties: {fileID: 11400000, guid: c8752c77bccb9f145aea101a1d9673a5, type: 2}
+  localizedSpeakerName:
+    m_TableReference:
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
+    m_TableEntryReference:
+      m_KeyId: 2889049344827392
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  localizedText:
+    m_TableReference:
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
+    m_TableEntryReference:
+      m_KeyId: 2889049441296384
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  nodeDepth: 1
+  nodeBreadth: 1
+  children: []
+  rect:
+    serializedVersion: 2
+    x: 530
+    y: 280
+    width: 400
+    height: 225
+  draggingRect:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 400
+    height: 45
+  condition:
+    and: []
+  cachedSpeakerName: Maya
+  cachedText: Aside from you and Horse, I'm literally the only person who does work
+    around here
+  references:
+    version: 2
+    RefIds: []

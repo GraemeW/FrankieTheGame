@@ -12,8 +12,35 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b8cd9635163e99b459b7216c84732ee8, type: 3}
   m_Name: BankOptions
   m_EditorClassIdentifier: 
-  messageBankOptions: What would you like to do?
+  localizedMessageBankOptions:
+    m_TableReference:
+      m_TableCollectionName: GUID:e01518a4d82d5485e9b0e7f466ecf01d
+    m_TableEntryReference:
+      m_KeyId: 5082001647329280
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
   toggleDeposit: 1
-  optionDeposit: Deposit
+  localizedOptionDeposit:
+    m_TableReference:
+      m_TableCollectionName: GUID:e01518a4d82d5485e9b0e7f466ecf01d
+    m_TableEntryReference:
+      m_KeyId: 5082038263603200
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
   toggleWithdraw: 1
-  optionWithdraw: Withdraw
+  localizedOptionWithdraw:
+    m_TableReference:
+      m_TableCollectionName: GUID:e01518a4d82d5485e9b0e7f466ecf01d
+    m_TableEntryReference:
+      m_KeyId: 5082125471571968
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  references:
+    version: 2
+    RefIds: []

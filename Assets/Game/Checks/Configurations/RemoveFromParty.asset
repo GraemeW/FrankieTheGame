@@ -12,9 +12,35 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6fb7bef113b3522458bff256ad6848ba, type: 3}
   m_Name: RemoveFromParty
   m_EditorClassIdentifier: 
-  messageRemoveFromParty: Who you want to abandon?
-  messageCannotRemove: '{0} can''t be removed from the party at this time'
+  localizedMessageRemoveFromParty:
+    m_TableReference:
+      m_TableCollectionName: GUID:e01518a4d82d5485e9b0e7f466ecf01d
+    m_TableEntryReference:
+      m_KeyId: 5082812314017792
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  localizedMessageCannotRemove:
+    m_TableReference:
+      m_TableCollectionName: GUID:e01518a4d82d5485e9b0e7f466ecf01d
+    m_TableEntryReference:
+      m_KeyId: 5082876797247488
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
   unremovableCharacters:
   - {fileID: 11400000, guid: b50f84a2f36107a44825b11881f88adf, type: 2}
-  messageMinimumParty: Er, what is consciousness without a vessel in which it can
-    exist?
+  localizedMessageMinimumParty:
+    m_TableReference:
+      m_TableCollectionName: GUID:e01518a4d82d5485e9b0e7f466ecf01d
+    m_TableEntryReference:
+      m_KeyId: 5082984565694464
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  references:
+    version: 2
+    RefIds: []

@@ -16,13 +16,35 @@ MonoBehaviour:
   gameStateModifierHandlerData:
   - zoneName: Demo_Forest1to20-Interior
     gameObjectName: SkilledOfficeWorker
+    parentObjectName: 
     guid: c21cfe0b-b9ed-4c8e-b0bc-704a47b86215
-  detail: The skilled worker blocks the way to the basement
+  localizedDisplayName:
+    m_TableReference:
+      m_TableCollectionName: GUID:b9dd45143ecd64476b4827b4d45c6003
+    m_TableEntryReference:
+      m_KeyId: 7959387413929984
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  localizedDetail:
+    m_TableReference:
+      m_TableCollectionName: GUID:b9dd45143ecd64476b4827b4d45c6003
+    m_TableEntryReference:
+      m_KeyId: 7959388114378752
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
   questObjectiveNames:
   - Frankie proves himself in a wrastle
   rewards: []
+  cachedName: Demo_Forest-BeatSkilledWorker
   questObjectives:
   - {fileID: 1537804001862270314}
+  references:
+    version: 2
+    RefIds: []
 --- !u!114 &1537804001862270314
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -36,5 +58,26 @@ MonoBehaviour:
   m_Name: Frankie proves himself in a wrastle
   m_EditorClassIdentifier: Assembly-CSharp::Frankie.Quests.QuestObjective
   objectiveID: 48533c7a-7a09-43ba-bbdc-ad4c7695347e
-  description: 
+  localizedDisplayName:
+    m_TableReference:
+      m_TableCollectionName: GUID:b9dd45143ecd64476b4827b4d45c6003
+    m_TableEntryReference:
+      m_KeyId: 7959406074388480
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  localizedDetail:
+    m_TableReference:
+      m_TableCollectionName: GUID:b9dd45143ecd64476b4827b4d45c6003
+    m_TableEntryReference:
+      m_KeyId: 7959406183440384
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  questName: Demo_Forest-BeatSkilledWorker
   questID: 5e78e614-19df-4719-8a5e-bc16139e86ee
+  references:
+    version: 2
+    RefIds: []

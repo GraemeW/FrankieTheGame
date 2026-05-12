@@ -24,8 +24,8 @@ namespace Frankie.Stats.Editor
         private ListView progressionEntries;
         private ScrollView characterStatPane;
 
-        #region UIToolKitDraw
-        [MenuItem("Tools/Progression Editor")]
+        #region UnityMethods
+        [MenuItem("Tools/Progression Editor", false, 205)]
         private static void ShowWindow()
         {
             var window = GetWindow<ProgressionEditor>("Progression Editor");
@@ -233,7 +233,7 @@ namespace Frankie.Stats.Editor
             foreach (Progression.ProgressionCharacter selectedCharacter in selectedCharacters)
             {
                 Box characterStatCard = CreateCharacterStatCard(selectedCharacter);
-                if (!selectedCharacter.characterProperties.incrementsStatsOnLevelUp)
+                if (!selectedCharacter.characterProperties.ShouldIncrementsStatsOnLevelUp())
                 {
                     characterStatPane.Add(characterStatCard);
                 }
@@ -309,7 +309,7 @@ namespace Frankie.Stats.Editor
             foreach (var entry in CharacterProperties.GetCharacterPropertiesLookup()
                          .Where(entry => !characterPropertiesCrossReference.ContainsKey(entry.Value)))
             {
-                if (!entry.Value.hasProgressionStats) { continue; }
+                if (!entry.Value.HasProgressionStats()) { continue; }
                 
                 Debug.Log($"Missing character properties for {entry.Value}, adding entry to Progression.");
                 progression.AddToProgressionAsset(entry.Value);

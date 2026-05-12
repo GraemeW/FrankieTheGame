@@ -1,16 +1,28 @@
+using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
+using UnityEngine.Localization;
+using UnityEngine.Localization.Tables;
 using Frankie.Core;
 using Frankie.Control;
 using Frankie.Stats;
+using Frankie.Utils.Localization;
 using Frankie.World;
 using Frankie.Utils.UI;
 
-
 namespace Frankie.Inventory.UI
 {
-    public class ShopSelect : UIBox
+    public class ShopSelect : UIBox, ILocalizable
     {
-        // Prefabs
+        [Header("Text")]
+        [SerializeField][SimpleLocalizedString(LocalizationTableType.UI, true)] private LocalizedString localizedMessageIntro;
+        [SerializeField][SimpleLocalizedString(LocalizationTableType.UI, true)] private LocalizedString localizedOptionBuy;
+        [SerializeField][SimpleLocalizedString(LocalizationTableType.UI, true)] private LocalizedString localizedOptionSell;
+        [Header("Hookups")]
+        [SerializeField] private TMP_Text introTextField;
+        [SerializeField] private UIChoice choiceBuy;
+        [SerializeField] private UIChoice choiceSell;
+        
         [Header("Shop Prefabs")]
         [SerializeField] private ShopBox shopBoxPrefab;
         [SerializeField] private InventoryShopBox inventoryShopBoxPrefab;
@@ -40,6 +52,10 @@ namespace Frankie.Inventory.UI
 
             shop = shopper.GetCurrentShop();
             if (shop == null || !shop.HasInventory()) { Destroy(gameObject); }
+            
+            if (introTextField != null) { introTextField.SetText(localizedMessageIntro.GetSafeLocalizedString()); }
+            if (choiceBuy != null) { choiceBuy.SetText(localizedOptionBuy.GetLocalizedString()); }
+            if (choiceSell != null) { choiceSell.SetText(localizedOptionSell.GetLocalizedString()); }
 
             ShopType shopType = shop.GetShopType();
             switch (shopType)
@@ -51,7 +67,6 @@ namespace Frankie.Inventory.UI
                     SpawnSellScreen();
                     break;
             }
-            // Otherwise Both -> standard menu interaction, configured in Unity
         }
         
         private void OnDestroy()
@@ -71,6 +86,15 @@ namespace Frankie.Inventory.UI
             partyKnapsackConduit = playerStateMachine.GetComponent<PartyKnapsackConduit>();
             playerController = playerStateMachine.GetComponent<PlayerController>();
             shopper = playerStateMachine.GetComponent<Shopper>();
+        }
+        #endregion
+        
+        #region LocalizationMethods
+
+        public LocalizationTableType localizationTableType { get; } = LocalizationTableType.UI;
+        public List<TableEntryReference> GetLocalizationEntries()
+        {
+            throw new System.NotImplementedException();
         }
         #endregion
 

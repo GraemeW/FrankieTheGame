@@ -1,0 +1,292 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5b11a58205ec3474ca216360e9fa74a8, type: 3}
+  m_Name: Inventory Shared Data
+  m_EditorClassIdentifier: Unity.Localization::UnityEngine.Localization.Tables.SharedTableData
+  m_TableCollectionName: Inventory
+  m_TableCollectionNameGuidString: d96a34ea508fa423b93190524b5b4af1
+  m_Entries:
+  - m_Id: 7257224400330752
+    m_Key: WearableItem.GiantTurkeyLeg
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7257224605851648
+    m_Key: WearableItem.GiantTurkeyLeg.Detail
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7257224811372544
+    m_Key: ActionItem.LooseNuts
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7257224912035840
+    m_Key: ActionItem.LooseNuts.Detail
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7257225113362432
+    m_Key: KeyItem.TestKeyItem
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7257225209831424
+    m_Key: KeyItem.TestKeyItem.Detail
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7257225411158016
+    m_Key: WearableItem.BumperCarA
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7257225507627008
+    m_Key: WearableItem.BumperCarA.Detail
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7257225704759296
+    m_Key: EquipableItem.BrokenKeyboard
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7257225801228288
+    m_Key: EquipableItem.BrokenKeyboard.Detail
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7257226002554880
+    m_Key: EquipableItem.CasioWatch
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7257226094829568
+    m_Key: EquipableItem.CasioWatch.Detail
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7257226296156160
+    m_Key: EquipableItem.Stapler
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7257226392625152
+    m_Key: EquipableItem.Stapler.Detail
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7257226589757440
+    m_Key: ActionItem.UnstoppableForce
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7257226686226432
+    m_Key: ActionItem.UnstoppableForce.Detail
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7257226883358720
+    m_Key: ActionItem.ElectrolyteWater
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7257226979827712
+    m_Key: ActionItem.ElectrolyteWater.Detail
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7257227176960000
+    m_Key: ActionItem.ChocolateCheeseCurds
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7257227273428992
+    m_Key: ActionItem.ChocolateCheeseCurds.Detail
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7257227470561280
+    m_Key: ActionItem.RoughHay
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7257227579613184
+    m_Key: ActionItem.RoughHay.Detail
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7257227776745472
+    m_Key: EquipableItem.SimpleKeyboard
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7257227873214464
+    m_Key: EquipableItem.SimpleKeyboard.Detail
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7257228070346752
+    m_Key: EquipableItem.OneFootRuler
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7257228166815744
+    m_Key: EquipableItem.OneFootRuler.Detail
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7257228363948032
+    m_Key: ActionItem.SubstantialBar
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7257228460417024
+    m_Key: ActionItem.SubstantialBar.Detail
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7257228657549312
+    m_Key: EquipableItem.ThinVest
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7257228749824000
+    m_Key: EquipableItem.ThinVest.Detail
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7257228946956288
+    m_Key: EquipableItem.LuckyKeyboard
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7257229047619584
+    m_Key: EquipableItem.LuckyKeyboard.Detail
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7257229240557568
+    m_Key: KeyItem.XTremeBurnHotSauce
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7257229341220864
+    m_Key: KeyItem.XTremeBurnHotSauce.Detail
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7257229538353152
+    m_Key: KeyItem.KeyToBallPitRoom
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7257229639016448
+    m_Key: KeyItem.KeyToBallPitRoom.Detail
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7257229836148736
+    m_Key: KeyItem.VeryImportantDocuments
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7257229936812032
+    m_Key: KeyItem.VeryImportantDocuments.Detail
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7257230129750016
+    m_Key: KeyItem.Chopsticks
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7257230226219008
+    m_Key: KeyItem.Chopsticks.Detail
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7257230423351296
+    m_Key: KeyItem.LooseStep
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7257230519820288
+    m_Key: KeyItem.LooseStep.Detail
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7257230716952576
+    m_Key: KeyItem.KeyCardToOffice
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7257230813421568
+    m_Key: KeyItem.KeyCardToOffice.Detail
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7262404923613184
+    m_Key: EquipLocation.None
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7262405137522688
+    m_Key: EquipLocation.Hands
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7262405238185984
+    m_Key: EquipLocation.Arms
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7262405334654976
+    m_Key: EquipLocation.Body
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7262405435318272
+    m_Key: EquipLocation.Other
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7267079722885120
+    m_Key: Shop.Prefab._StandardShop.MessageIntro.63f39b81
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7267122433482752
+    m_Key: Shop.Prefab._StandardShop.MessageSuccess.6ec596a
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7267153697824768
+    m_Key: Shop.Prefab._StandardShop.MessageNoFunds.5c37fc32
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7267237508407296
+    m_Key: Shop.Prefab._StandardShop.MessageForSale.778ca766
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7267276448325632
+    m_Key: Shop.Prefab._StandardShop.MessageCannotSell.7e20cd7d
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7267823708528640
+    m_Key: Shop.Prefab._StandardShop.MessageNoSpace.7285327c
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7272520821497856
+    m_Key: Shop.Prefab.VendingMachine.MessageIntro.222ba871
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7277301694717952
+    m_Key: Shop.Prefab.VendingMachine.MessageSuccess.5fa96cdb
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7277317922480128
+    m_Key: Shop.Prefab.VendingMachine.MessageNoFunds.555a436a
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7277331583328256
+    m_Key: Shop.Prefab.VendingMachine.MessageNoSpace.1092ce9d
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7277346045288448
+    m_Key: Shop.Prefab.VendingMachine.MessageForSale.63c907b9
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7277361329332224
+    m_Key: Shop.Prefab.VendingMachine.MessageCannotSell.1dc7fd1b
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7280701010337792
+    m_Key: Shop.GO.Demo_Forest1to20-Interior.Chad.MessageIntro.15aaa959
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7280756438065152
+    m_Key: Shop.GO.Demo_Forest1to20-Interior.Chad.MessageSuccess.40a0c47d
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7280815208652800
+    m_Key: Shop.GO.Demo_Forest1to20-Interior.Chad.MessageNoFunds.75682b05
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7280905679790080
+    m_Key: Shop.GO.Demo_Forest1to20-Interior.Chad.MessageNoSpace.35ce4a3c
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7281028736475136
+    m_Key: Shop.GO.Demo_Forest1to20-Interior.Chad.MessageCannotSell.108fa5f7
+    m_Metadata:
+      m_Items: []
+  m_Metadata:
+    m_Items: []
+  m_KeyGenerator:
+    rid: 4272943354391298262
+  references:
+    version: 2
+    RefIds:
+    - rid: 4272943354391298262
+      type: {class: DistributedUIDGenerator, ns: UnityEngine.Localization.Tables, asm: Unity.Localization}
+      data:
+        m_CustomEpoch: 1776366552912

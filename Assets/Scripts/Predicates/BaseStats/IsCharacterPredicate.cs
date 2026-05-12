@@ -1,16 +1,15 @@
 using UnityEngine;
 using Frankie.Stats;
 
-namespace Frankie.Core
+namespace Frankie.Core.Predicates
 {
-    [CreateAssetMenu(fileName = "New Is Character Predicate", menuName = "Predicates/BaseStats/Is Character")]
+    [CreateAssetMenu(fileName = "New Is Character Predicate", menuName = "Predicates/BaseStats/Is Character", order = 5)]
     public class IsCharacterPredicate : PredicateBaseStats
     {
         public override bool? Evaluate(BaseStats baseStats)
         {
             if (character == null || baseStats == null) { return null; }
-            CharacterProperties characterProperties = baseStats.GetCharacterProperties();
-            return (character.GetCharacterNameID() == characterProperties.GetCharacterNameID());
+            return CharacterProperties.AreCharacterPropertiesMatched(character, baseStats.GetCharacterProperties());
         }
     }
 }

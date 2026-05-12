@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Frankie.Combat
 {
-    [CreateAssetMenu(fileName = "New Low Health Predicate", menuName = "BattleAI/Predicates/LowHealth")]
+    [CreateAssetMenu(fileName = "New Low Health Predicate", menuName = "BattleAI/Predicates/LowHealth", order = 15)]
     public class LowHealthBattleAIPredicate : BattleAIPredicate
     {
         [SerializeField][Tooltip("Enable for allies, disable for foes")] private bool checkAllies = true;

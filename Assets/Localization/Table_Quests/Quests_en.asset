@@ -1,0 +1,255 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e9620f8c34305754d8cc9a7e49e852d9, type: 3}
+  m_Name: Quests_en
+  m_EditorClassIdentifier: Unity.Localization::UnityEngine.Localization.Tables.StringTable
+  m_LocaleId:
+    m_Code: en
+  m_SharedData: {fileID: 11400000, guid: b9dd45143ecd64476b4827b4d45c6003, type: 2}
+  m_Metadata:
+    m_Items: []
+  m_TableData:
+  - m_Id: 7959387413929984
+    m_Localized: Beat the Skilled Worker
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7959388114378752
+    m_Localized: The skilled worker blocks the way to the basement
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7959406074388480
+    m_Localized: Frankie proves himself in a wrastle
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7959406183440384
+    m_Localized: Initial dummy text - to be replaced
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7959504988659712
+    m_Localized: Flip the Electrical Breaker
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7959505106100224
+    m_Localized: Turn on power to the elevator in the Lacklustre Video
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7959505311621120
+    m_Localized: Flip the electrical breaker
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7959505416478720
+    m_Localized: Initial dummy text - to be replaced
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7959505626193920
+    m_Localized: Chat with the Hipster
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7959505726857216
+    m_Localized: Tracker for chatting with the hipster in Office
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7959505928183808
+    m_Localized: Hipster Chatted Once
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7959506028847104
+    m_Localized: Initial dummy text - to be replaced
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7959506238562304
+    m_Localized: Solve the Horse's tasks
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7959506339225600
+    m_Localized: Tracker for chatting with the horse in Office
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7959506540552192
+    m_Localized: Horse Opened Firepole
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7959506645409792
+    m_Localized: Initial dummy text - to be replaced
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7959506846736384
+    m_Localized: Horse Picked Up The Documents
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7959506947399680
+    m_Localized: Initial dummy text - to be replaced
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7959507148726272
+    m_Localized: Horse Received The Documents
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7959507249389568
+    m_Localized: Initial dummy text - to be replaced
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7959507454910464
+    m_Localized: Complete the into quest
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7959507559768064
+    m_Localized: Track intro quest (use to trigger main plot)
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7959507765288960
+    m_Localized: Go To Bed
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7959507865952256
+    m_Localized: Initial dummy text - to be replaced
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7959508071473152
+    m_Localized: Main Curio Quest
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7959508172136448
+    m_Localized: Main Quest Tracker
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7959508369268736
+    m_Localized: Curio One
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7959508469932032
+    m_Localized: Initial dummy text - to be replaced
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7959508692230144
+    m_Localized: Curio Two
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7959508797087744
+    m_Localized: Initial dummy text - to be replaced
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7959508994220032
+    m_Localized: Curio Three
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7959509099077632
+    m_Localized: Initial dummy text - to be replaced
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7959509300404224
+    m_Localized: Curio Four
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7959509401067520
+    m_Localized: Initial dummy text - to be replaced
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7959509602394112
+    m_Localized: Curio Five
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7959509703057408
+    m_Localized: Initial dummy text - to be replaced
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7959509900189696
+    m_Localized: Curio Six
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7959510000852992
+    m_Localized: Initial dummy text - to be replaced
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7959510214762496
+    m_Localized: Curio Seven
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7959510332203008
+    m_Localized: Initial dummy text - to be replaced
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7959510533529600
+    m_Localized: Curio Eight
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7959510634192896
+    m_Localized: Initial dummy text - to be replaced
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7959510831325184
+    m_Localized: Curio Nine
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7959510931988480
+    m_Localized: Initial dummy text - to be replaced
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7959511133315072
+    m_Localized: Curio Ten
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7959511233978368
+    m_Localized: Initial dummy text - to be replaced
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7959511439499264
+    m_Localized: Complete Phil Ramen's tasks and listen to his story
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7959511540162560
+    m_Localized: Tracking overall phil ramen quest chain in Office
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7959511741489152
+    m_Localized: Picked Up Chopsticks
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7959511842152448
+    m_Localized: Initial dummy text - to be replaced
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7959512043479040
+    m_Localized: Picked Up Hot Sauce
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7959512144142336
+    m_Localized: Initial dummy text - to be replaced
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7959512345468928
+    m_Localized: Poured Water On Ramen
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7959512446132224
+    m_Localized: Initial dummy text - to be replaced
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7959512643264512
+    m_Localized: Ramen Meets Its Fate
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7959512743927808
+    m_Localized: Initial dummy text - to be replaced
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7959512945254400
+    m_Localized: Ramen Says Goodbye
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7959513045917696
+    m_Localized: Initial dummy text - to be replaced
+    m_Metadata:
+      m_Items: []
+  references:
+    version: 2
+    RefIds: []

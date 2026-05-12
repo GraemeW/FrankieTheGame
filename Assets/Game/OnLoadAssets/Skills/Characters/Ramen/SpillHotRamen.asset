@@ -12,7 +12,27 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2d638f604ff65db4f9e75a2cc6eb7bd3, type: 3}
   m_Name: SpillHotRamen
   m_EditorClassIdentifier: 
-  stat: 1
+  localizedDisplayName:
+    m_TableReference:
+      m_TableCollectionName: GUID:ce27b23b7b85d4bec8b522b6105befc9
+    m_TableEntryReference:
+      m_KeyId: 6901483361525760
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
   skillStat: 5
   battleAction: {fileID: 11400000, guid: 80728072f4c9ee74a949be9978fceae0, type: 2}
-  detail: Shoot!  This burns.  Causes damage over time.
+  localizedDetail:
+    m_TableReference:
+      m_TableCollectionName: GUID:ce27b23b7b85d4bec8b522b6105befc9
+    m_TableEntryReference:
+      m_KeyId: 6901483520909312
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  cachedName: SpillHotRamen
+  references:
+    version: 2
+    RefIds: []

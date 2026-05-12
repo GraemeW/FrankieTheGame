@@ -6708,6 +6708,10 @@ PrefabInstance:
       propertyPath: checkMessage
       value: '{0} hears loud music from inside.'
       objectReference: {fileID: 0}
+    - target: {fileID: 6058051812645225909, guid: af1d0b70acffc4212aab77edc5d3883e, type: 3}
+      propertyPath: localizedCheckMessage.m_TableEntryReference.m_KeyId
+      value: 4766608340803584
+      objectReference: {fileID: 0}
     - target: {fileID: 7348070497417896851, guid: af1d0b70acffc4212aab77edc5d3883e, type: 3}
       propertyPath: uniqueIdentifier
       value: 022c1a63-1090-4890-aae0-5f83017afa3b
@@ -21215,6 +21219,10 @@ PrefabInstance:
       propertyPath: checkMessage
       value: . . . no answer
       objectReference: {fileID: 0}
+    - target: {fileID: 6058051812645225909, guid: af1d0b70acffc4212aab77edc5d3883e, type: 3}
+      propertyPath: localizedCheckMessage.m_TableEntryReference.m_KeyId
+      value: 4766608105922560
+      objectReference: {fileID: 0}
     - target: {fileID: 7348070497417896851, guid: af1d0b70acffc4212aab77edc5d3883e, type: 3}
       propertyPath: uniqueIdentifier
       value: 1a105c5f-1bbe-478e-9af6-b0898f0f7e00
@@ -21438,6 +21446,10 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2308409281053914736, guid: 3ea47d49370c98e4e8dda14fd66b947b, type: 3}
+      propertyPath: localizedCheckMessage.m_TableEntryReference.m_KeyId
+      value: 4766608449855488
+      objectReference: {fileID: 0}
+    - target: {fileID: 2308409281053914736, guid: 3ea47d49370c98e4e8dda14fd66b947b, type: 3}
       propertyPath: checkInteraction.m_PersistentCalls.m_Calls.Array.size
       value: 2
       objectReference: {fileID: 0}
@@ -21566,6 +21578,10 @@ PrefabInstance:
     - target: {fileID: 2308409281053914736, guid: 3ea47d49370c98e4e8dda14fd66b947b, type: 3}
       propertyPath: checkAtStartOfInteraction
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2308409281053914736, guid: 3ea47d49370c98e4e8dda14fd66b947b, type: 3}
+      propertyPath: localizedCheckMessage.m_TableEntryReference.m_KeyId
+      value: 4766608747651072
       objectReference: {fileID: 0}
     - target: {fileID: 2308409281053914736, guid: 3ea47d49370c98e4e8dda14fd66b947b, type: 3}
       propertyPath: checkInteraction.m_PersistentCalls.m_Calls.Array.size
@@ -21739,6 +21755,10 @@ PrefabInstance:
     - target: {fileID: 2308409281053914736, guid: 3ea47d49370c98e4e8dda14fd66b947b, type: 3}
       propertyPath: checkMessage
       value: '*Fluuuuuuush*  It must go the other direction south of the equator.'
+      objectReference: {fileID: 0}
+    - target: {fileID: 2308409281053914736, guid: 3ea47d49370c98e4e8dda14fd66b947b, type: 3}
+      propertyPath: localizedCheckMessage.m_TableEntryReference.m_KeyId
+      value: 4766608550518784
       objectReference: {fileID: 0}
     - target: {fileID: 6564381309038757639, guid: 3ea47d49370c98e4e8dda14fd66b947b, type: 3}
       propertyPath: m_Size.x
@@ -22197,8 +22217,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   backingHandlerGUID: 32cd30ad-e5ae-41a7-a2df-58c48eacde3c
-  backingListHashCheck: 1661823929
+  backingListHashCheck: 1688839589
   backingHasGameStateModifiers: 1
+  backingGameStateModifierGUIDs:
+  - b3f7fb4a-3295-4b70-95ac-59a716a281b2
   quest: {fileID: 11400000, guid: 98a6da0c49e5fa9439b9e5e008389337, type: 2}
   questObjective: {fileID: 6232503200084316110, guid: 98a6da0c49e5fa9439b9e5e008389337, type: 2}
 --- !u!114 &1532315463
@@ -22611,6 +22633,10 @@ PrefabInstance:
     - target: {fileID: 2308409281053914736, guid: 3ea47d49370c98e4e8dda14fd66b947b, type: 3}
       propertyPath: checkMessage
       value: Splish splash, I was takin' a bath
+      objectReference: {fileID: 0}
+    - target: {fileID: 2308409281053914736, guid: 3ea47d49370c98e4e8dda14fd66b947b, type: 3}
+      propertyPath: localizedCheckMessage.m_TableEntryReference.m_KeyId
+      value: 4766608646987776
       objectReference: {fileID: 0}
     - target: {fileID: 6564381309038757639, guid: 3ea47d49370c98e4e8dda14fd66b947b, type: 3}
       propertyPath: m_Size.x

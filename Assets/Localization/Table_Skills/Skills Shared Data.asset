@@ -1,0 +1,388 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5b11a58205ec3474ca216360e9fa74a8, type: 3}
+  m_Name: Skills Shared Data
+  m_EditorClassIdentifier: Unity.Localization::UnityEngine.Localization.Tables.SharedTableData
+  m_TableCollectionName: Skills
+  m_TableCollectionNameGuidString: ce27b23b7b85d4bec8b522b6105befc9
+  m_Entries:
+  - m_Id: 6901159775166464
+    m_Key: Skill.BlatherOn
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6901402398875648
+    m_Key: Skill.PresentDashboard
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6901423366201344
+    m_Key: Skill.BlatherOn.Detail
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6901443050070016
+    m_Key: Skill.DoActualWork
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6901477409808384
+    m_Key: Skill.EdgeCloser
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6901477669855232
+    m_Key: Skill.EdgeCloser.Detail
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6901478005399552
+    m_Key: Skill.IgnoreYou
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6901478160588800
+    m_Key: Skill.IgnoreYou.Detail
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6901478475161600
+    m_Key: Skill.AveragePraise
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6901478634545152
+    m_Key: Skill.AveragePraise.Detail
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6901478949117952
+    m_Key: Skill.PeckEarHoles
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6901479112695808
+    m_Key: Skill.PeckEarHoles.Detail
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6901479427268608
+    m_Key: Skill.LoudlyProclaim
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6901479586652160
+    m_Key: Skill.LoudlyProclaim.Detail
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6901479897030656
+    m_Key: Skill.PassGas
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6901480215797760
+    m_Key: Skill.Preen
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6901480370987008
+    m_Key: Skill.Preen.Detail
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6901480685559808
+    m_Key: Skill.zz_TestAction
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6901480844943360
+    m_Key: Skill.zz_TestAction.Detail
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6901481163710464
+    m_Key: Skill.DoActualWork.Detail
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6901481478283264
+    m_Key: Skill.TwiddleThumbs
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6901481633472512
+    m_Key: Skill.TwiddleThumbs.Detail
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6901481948045312
+    m_Key: Skill.WarmMeal
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6901482107428864
+    m_Key: Skill.WarmMeal.Detail
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6901482417807360
+    m_Key: Skill.Wallop
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6901482572996608
+    m_Key: Skill.Wallop.Detail
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6901482891763712
+    m_Key: Skill.BigSpitTake
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6901483046952960
+    m_Key: Skill.BigSpitTake.Detail
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6901483361525760
+    m_Key: Skill.SpillHotRamen
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6901483520909312
+    m_Key: Skill.SpillHotRamen.Detail
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6901483789344768
+    m_Key: Skill.ChirpLoudly
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6901483890008064
+    m_Key: Skill.ChirpLoudly.Detail
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6901484091334656
+    m_Key: Skill.WordsOfEncouragement
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6901484191997952
+    m_Key: Skill.WordsOfEncouragement.Detail
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6901484397518848
+    m_Key: Skill.NerdSnipe
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6901484498182144
+    m_Key: Skill.NerdSnipe.Detail
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6901484699508736
+    m_Key: Skill.Fortify
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6901484795977728
+    m_Key: Skill.Fortify.Detail
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6901485001498624
+    m_Key: Skill.GutturalMonkChant
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6901485102161920
+    m_Key: Skill.GutturalMonkChant.Detail
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6901485303488512
+    m_Key: Skill.ShareWarmRamen
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6901485404151808
+    m_Key: Skill.ShareWarmRamen.Detail
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6901485605478400
+    m_Key: Skill.RollAround
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6901485706141696
+    m_Key: Skill.RollAround.Detail
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6901485915856896
+    m_Key: Skill.NerdOut
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6901486020714496
+    m_Key: Skill.NerdOut.Detail
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6901486238818304
+    m_Key: Skill.PresentDashboard.Detail
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6901486444339200
+    m_Key: Skill.Whinny
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6901486545002496
+    m_Key: Skill.Whinny.Detail
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6901486754717696
+    m_Key: Skill.RequestETC
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6901486855380992
+    m_Key: Skill.RequestETC.Detail
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6901487060901888
+    m_Key: Skill.PiercingMonkChant
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6901487161565184
+    m_Key: Skill.PiercingMonkChant.Detail
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6901487367086080
+    m_Key: Skill.Bite
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6901487467749376
+    m_Key: Skill.Bite.Detail
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6901487673270272
+    m_Key: Skill.DoubleSlap
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6901487773933568
+    m_Key: Skill.DoubleSlap.Detail
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6901487979454464
+    m_Key: Skill.RiseAndGrind
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6901488184975360
+    m_Key: Skill.InstillSelfDoubt
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6901488285638656
+    m_Key: Skill.InstillSelfDoubt.Detail
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6901488491159552
+    m_Key: Skill.ShootTheShit
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6901488596017152
+    m_Key: Skill.ShootTheShit.Detail
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6901488801538048
+    m_Key: Skill.ColdMonkBrew
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6901488906395648
+    m_Key: Skill.ColdMonkBrew.Detail
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6901489111916544
+    m_Key: Skill.ShowOffCode
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6901489216774144
+    m_Key: Skill.ShowOffCode.Detail
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6901489434877952
+    m_Key: Skill.ShakeTail
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6901489543929856
+    m_Key: Skill.ShakeTail.Detail
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6901489766227968
+    m_Key: Skill.MakeUncomfortable
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6901489875279872
+    m_Key: Skill.MakeUncomfortable.Detail
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6901490093383680
+    m_Key: Skill.HypnoticBaldSpot
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6901490202435584
+    m_Key: Skill.HypnoticBaldSpot.Detail
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6901490416345088
+    m_Key: Skill.SpillHotCoffee
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6901490525396992
+    m_Key: Skill.SpillHotCoffee.Detail
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6901490739306496
+    m_Key: Skill.SqueakSqueak
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6901490844164096
+    m_Key: Skill.SqueakSqueak.Detail
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6901491049684992
+    m_Key: Skill.Trample
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6901491150348288
+    m_Key: Skill.Trample.Detail
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6901491360063488
+    m_Key: Skill.Neigh
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6901491460726784
+    m_Key: Skill.Neigh.Detail
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6901491666247680
+    m_Key: Skill.SmileMenacingly
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6901491766910976
+    m_Key: Skill.SmileMenacingly.Detail
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6901491976626176
+    m_Key: Skill.SpitTake
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6901492077289472
+    m_Key: Skill.SpitTake.Detail
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6901492328947712
+    m_Key: Skill.SelfFlagellation
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6901492433805312
+    m_Key: Skill.SelfFlagellation.Detail
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6901492635131904
+    m_Key: Skill.GentlePraise
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6901492735795200
+    m_Key: Skill.GentlePraise.Detail
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6908204796600320
+    m_Key: Skill.RiseAndGrind.Detail
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6908335059099648
+    m_Key: Skill.PassGas.Detail
+    m_Metadata:
+      m_Items: []
+  m_Metadata:
+    m_Items: []
+  m_KeyGenerator:
+    rid: 4272943354391298264
+  references:
+    version: 2
+    RefIds:
+    - rid: 4272943354391298264
+      type: {class: DistributedUIDGenerator, ns: UnityEngine.Localization.Tables, asm: Unity.Localization}
+      data:
+        m_CustomEpoch: 1776366610428

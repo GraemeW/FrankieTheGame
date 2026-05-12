@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Frankie.Combat
 {
-    [CreateAssetMenu(fileName = "New Participant Count Predicate", menuName = "BattleAI/Predicates/ParticipantCount")]
+    [CreateAssetMenu(fileName = "New Participant Count Predicate", menuName = "BattleAI/Predicates/ParticipantCount", order = 15)]
     public class ParticipantCountBattleAIPredicate : BattleAIPredicate
     {
         [SerializeField] private bool countLocalAllies = true;

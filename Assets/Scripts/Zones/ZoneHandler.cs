@@ -1,16 +1,21 @@
 using System.Collections.Generic;
-using System.Linq;
-using System.Text.RegularExpressions;
 using UnityEngine;
 using UnityEngine.Events;
-using Frankie.Core;
+using UnityEngine.Localization;
+using UnityEngine.Localization.Tables;
+using Frankie.Core.Predicates;
 using Frankie.Utils;
 using Frankie.Control;
+using Frankie.Utils.Localization;
 
 namespace Frankie.ZoneManagement
 {
-    public class ZoneHandler : MonoBehaviour, IRaycastable
+    [ExecuteInEditMode]
+    public class ZoneHandler : MonoBehaviour, IRaycastable, ILocalizable
     {
+        // Localization Properties
+        public LocalizationTableType localizationTableType { get; } = LocalizationTableType.Zones;
+        
         // Tunables 
         [SerializeField] private ZoneNode zoneNode;
         [SerializeField] private bool overrideDefaultInteractionDistance = false;
@@ -22,7 +27,7 @@ namespace Frankie.ZoneManagement
         [SerializeField] private bool disableOnExit = true;
         [Header("Warp Properties")]
         [SerializeField] private bool randomizeChoice = true;
-        [SerializeField] private string choiceMessage = "Where do you want to go?";
+        [SerializeField][SimpleLocalizedString(LocalizationTableType.Zones, true)] private LocalizedString localizedChoiceMessage;
 
         // State
         private bool inTransitToNextScene = false;
@@ -48,6 +53,7 @@ namespace Frankie.ZoneManagement
         private void OnDestroy()
         {
             RemoveFromActiveZoneHandlers(this);
+            ILocalizable.TriggerOnDestroy(this);
         }
         #endregion
 
@@ -62,17 +68,15 @@ namespace Frankie.ZoneManagement
         {
             _activeZoneHandlers.Remove(zoneHandler);
         }
-        
-        private static string GetStaticZoneNamePretty(string zoneName) => Regex.Replace(zoneName, "([a-z])_?([A-Z])", "$1 $2");
         private static List<ZoneHandler> FindAllZoneHandlersInScene() => _activeZoneHandlers;
         #endregion
 
         #region PublicMethods
         public ZoneNode GetZoneNode() => zoneNode;
-        public bool HasWarpPosition() => warpTransform != null;
-        public Vector3 GetWarpPosition() => warpTransform != null ? warpTransform.position : transform.position; 
+        private bool HasWarpPosition() => warpTransform != null;
+        public Vector3 GetWarpPosition() => warpTransform != null ? warpTransform.position : transform.position;
 
-        public void ToggleRoomParent(bool enable)
+        private void ToggleRoomParent(bool enable)
         {
             if (roomParent == null)
             {
@@ -120,7 +124,7 @@ namespace Frankie.ZoneManagement
                 }
                 case false:
                 {
-                    setPlayerStateHandler.EnterDialogue(choiceMessage, GetZoneNameZoneNodePairs(setPlayerStateHandler));
+                    setPlayerStateHandler.EnterDialogue(localizedChoiceMessage.GetSafeLocalizedString(), GetZoneNameZoneNodePairs(setPlayerStateHandler));
                     break;
                 }
             }
@@ -129,10 +133,10 @@ namespace Frankie.ZoneManagement
         private List<ChoiceActionPair> GetZoneNameZoneNodePairs(PlayerStateMachine playerStateHandler)
         {
             var choiceActionPairs = new List<ChoiceActionPair>();
-            foreach (string childNode in GetFilteredZoneNodes(playerStateHandler))
+            foreach ((string childNodeID, ZoneNode childNode) in GetFilteredZoneNodes(playerStateHandler))
             {
-                string childNodeNamePretty = GetStaticZoneNamePretty(childNode);
-                ChoiceActionPair choiceActionPair = new ChoiceActionPair(childNodeNamePretty, () => WarpPlayerToSpecificNode(childNode));
+                if (childNodeID == null || string.IsNullOrEmpty(childNodeID) || childNode == null) { continue; }
+                var choiceActionPair = new ChoiceActionPair(childNode.GetDisplayName(), () => WarpPlayerToSpecificNode(childNodeID));
                 choiceActionPairs.Add(choiceActionPair);
             }
             return choiceActionPairs;
@@ -152,11 +156,12 @@ namespace Frankie.ZoneManagement
 
         private string SelectRandomChildNodeID(PlayerStateMachine passPlayerStateMachine)
         {
-            List<string> childNodeOptions = GetFilteredZoneNodes(passPlayerStateMachine);
-            if (zoneNode == null || childNodeOptions == null || childNodeOptions.Count == 0) { return null; }
+            List<(string, ZoneNode)> childNodeOptions = GetFilteredZoneNodes(passPlayerStateMachine);
+            if (zoneNode == null || childNodeOptions.Count == 0) { return null; }
 
             int nodeIndex = UnityEngine.Random.Range(0, childNodeOptions.Count);
-            return childNodeOptions[nodeIndex];
+            var (childNodeID, _) = childNodeOptions[nodeIndex];
+            return childNodeID;
         }
         #endregion
 
@@ -264,19 +269,23 @@ namespace Frankie.ZoneManagement
         #endregion
 
         #region NodeFilteringMethods
-        private List<string> GetFilteredZoneNodes(PlayerStateMachine passPlayerStateMachine)
+        private List<(string, ZoneNode)> GetFilteredZoneNodes(PlayerStateMachine passPlayerStateMachine)
         {
-            var filteredZoneNodes = new List<string>();
+            var filteredZoneNodes = new List<(string, ZoneNode)>();
             Zone zone = Zone.GetFromName(zoneNode.GetZoneName());
             if (zone == null) { return filteredZoneNodes; }
 
-            filteredZoneNodes.AddRange(zoneNode.GetChildren().Where(zoneNodeID => IsZoneNodeAvailable(passPlayerStateMachine, zone, zoneNodeID)));
+            foreach (string candidateNodeID in zoneNode.GetChildren())
+            {
+                if (!IsZoneNodeAvailable(passPlayerStateMachine, zone, candidateNodeID, out ZoneNode candidateNode)) { continue; }
+                filteredZoneNodes.Add((candidateNodeID, candidateNode));
+            }
             return filteredZoneNodes;
         }
 
-        private bool IsZoneNodeAvailable(PlayerStateMachine passPlayerStateMachine, Zone zone, string zoneNodeID)
+        private bool IsZoneNodeAvailable(PlayerStateMachine passPlayerStateMachine, Zone zone, string zoneNodeID, out ZoneNode candidateNode)
         {
-            ZoneNode candidateNode = zone.GetNodeFromID(zoneNodeID);
+            candidateNode = zone.GetNodeFromID(zoneNodeID);
             return candidateNode != null && candidateNode.CheckCondition(GetEvaluators(passPlayerStateMachine));
         }
 
@@ -301,6 +310,14 @@ namespace Frankie.ZoneManagement
                 AttemptToWarpPlayer(playerStateHandler, playerController);
             }
             return true;
+        }
+        
+        public List<TableEntryReference> GetLocalizationEntries()
+        {
+            return new List<TableEntryReference>
+            {
+                localizedChoiceMessage.TableEntryReference
+            };
         }
         #endregion
     }

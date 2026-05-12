@@ -12,10 +12,29 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 09c07c7c6f4c666429a0bbc8d18232b2, type: 3}
   m_Name: 9e328aa1-41fe-42e3-8a8c-5a24ffa25b5e
   m_EditorClassIdentifier: Assembly-CSharp::Frankie.Speech.DialogueNode
+  dialogueName: Demo-Monk_Leader
   speakerType: 1
   characterProperties: {fileID: 0}
-  speakerName: Monk Leader
-  text: No no no, this isn't right.  You have far too much hair!
+  localizedSpeakerName:
+    m_TableReference:
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
+    m_TableEntryReference:
+      m_KeyId: 2889081703882752
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  localizedText:
+    m_TableReference:
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
+    m_TableEntryReference:
+      m_KeyId: 2889081804546048
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  nodeDepth: 0
+  nodeBreadth: 0
   children:
   - 3f42aa25-6efb-4a89-b707-0ec35e2c83b1
   rect:
@@ -32,6 +51,11 @@ MonoBehaviour:
     height: 45
   condition:
     and: []
+  cachedSpeakerName: Monk Leader
+  cachedText: No no no, this isn't right.  You have far too much hair!
+  references:
+    version: 2
+    RefIds: []
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -45,6 +69,7 @@ MonoBehaviour:
   m_Name: Demo-Monk_Leader
   m_EditorClassIdentifier: Assembly-CSharp::Frankie.Speech.Dialogue
   skipRootNode: 0
+  cachedName: Demo-Monk_Leader
   newNodeOffset: {x: 100, y: 25}
   nodeWidth: 400
   nodeHeight: 225
@@ -66,10 +91,29 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 09c07c7c6f4c666429a0bbc8d18232b2, type: 3}
   m_Name: 733e9383-48cf-41e7-a1a3-73eb8d427563
   m_EditorClassIdentifier: Assembly-CSharp::Frankie.Speech.DialogueNode
+  dialogueName: Demo-Monk_Leader
   speakerType: 1
   characterProperties: {fileID: 0}
-  speakerName: Monk Leader
-  text: SO WHY ARE YOU HERE?!
+  localizedSpeakerName:
+    m_TableReference:
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
+    m_TableEntryReference:
+      m_KeyId: 2889082106535936
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  localizedText:
+    m_TableReference:
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
+    m_TableEntryReference:
+      m_KeyId: 2889082207199232
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  nodeDepth: 2
+  nodeBreadth: 0
   children: []
   rect:
     serializedVersion: 2
@@ -85,6 +129,11 @@ MonoBehaviour:
     height: 45
   condition:
     and: []
+  cachedSpeakerName: Monk Leader
+  cachedText: SO WHY ARE YOU HERE?!
+  references:
+    version: 2
+    RefIds: []
 --- !u!114 &8799748861340251189
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -97,10 +146,29 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 09c07c7c6f4c666429a0bbc8d18232b2, type: 3}
   m_Name: 3f42aa25-6efb-4a89-b707-0ec35e2c83b1
   m_EditorClassIdentifier: Assembly-CSharp::Frankie.Speech.DialogueNode
+  dialogueName: Demo-Monk_Leader
   speakerType: 0
   characterProperties: {fileID: 11400000, guid: b50f84a2f36107a44825b11881f88adf, type: 2}
-  speakerName: Frankie
-  text: Erk.
+  localizedSpeakerName:
+    m_TableReference:
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
+    m_TableEntryReference:
+      m_KeyId: 2889081905209344
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  localizedText:
+    m_TableReference:
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
+    m_TableEntryReference:
+      m_KeyId: 2889082005872640
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  nodeDepth: 1
+  nodeBreadth: 0
   children:
   - 733e9383-48cf-41e7-a1a3-73eb8d427563
   rect:
@@ -117,3 +185,8 @@ MonoBehaviour:
     height: 45
   condition:
     and: []
+  cachedSpeakerName: Frankie
+  cachedText: Erk.
+  references:
+    version: 2
+    RefIds: []

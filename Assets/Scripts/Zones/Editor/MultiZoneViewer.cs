@@ -11,7 +11,7 @@ using UnityEditor.Build.Profile;
 using UnityEditor.SceneManagement;
 using UnityEditor.UIElements;
 
-namespace Frankie.ZoneManagement.UIEditor
+namespace Frankie.ZoneManagement.Editor
 {
     public class MultiZoneViewer : EditorWindow
     {
@@ -74,7 +74,7 @@ namespace Frankie.ZoneManagement.UIEditor
         private Button clearButton;
         
         #region UnityMethods
-        [MenuItem("Tools/Multi-Zone Viewer")]
+        [MenuItem("Tools/Multi-Zone Viewer", false, 200)]
         public static void Open()
         {
             var win = GetWindow<MultiZoneViewer>("Multi-Zone Viewer");
@@ -325,7 +325,7 @@ namespace Frankie.ZoneManagement.UIEditor
         {
             canvas = MakeEmptyCanvas();
             SubscribeCanvasToDrawGrid(true);
-            canvas.AddManipulator(new PanManipulator(OnCanvasPanned));
+            canvas.AddManipulator(new MultiZonePanManipulator(OnCanvasPanned));
             root.Add(canvas);
             
             zoneViewLayer = MakeEmptyZoneViewLayer();
@@ -378,13 +378,13 @@ namespace Frankie.ZoneManagement.UIEditor
             Label zoneViewElementHeader = MakeZoneViewElementHeader(zoneViewData.zoneName);
             void OnClickedHeader() => Selection.activeObject = zoneViewData;
             void OnDraggedCurveRepaint() => curvesLayer?.MarkDirtyRepaint();
-            zoneViewElementHeader.AddManipulator(new DragManipulator(zoneView, zoneViewElement, OnClickedHeader, OnDraggedCurveRepaint));
+            zoneViewElementHeader.AddManipulator(new MultiZoneDragManipulator(zoneView, zoneViewElement, OnClickedHeader, OnDraggedCurveRepaint));
             zoneViewElement.Add(zoneViewElementHeader);
             
             VisualElement imageArea = AddImageToZoneViewElement(zoneView, zoneViewElement);
             
             void OnClickedImage() => TryLoadScene(zoneView);
-            imageArea.AddManipulator(new DragManipulator(zoneView, zoneViewElement, OnClickedImage, OnDraggedCurveRepaint));
+            imageArea.AddManipulator(new MultiZoneDragManipulator(zoneView, zoneViewElement, OnClickedImage, OnDraggedCurveRepaint));
             
             zoneViewLayer.Add(zoneViewElement);
         }

@@ -1,9 +1,9 @@
 using UnityEngine;
 using Frankie.Speech;
 
-namespace Frankie.Core
+namespace Frankie.Core.Predicates
 {
-    [CreateAssetMenu(fileName = "New Conversant Check Count Predicate", menuName = "Predicates/AIConversant/ConversantCheckCount")]
+    [CreateAssetMenu(fileName = "New Conversant Check Count Predicate", menuName = "Predicates/AIConversant/ConversantCheckCount", order = 5)]
     public class ConversantCheckCountPredicate : PredicateAIConversant
     {
         [SerializeField] protected int checkCount = 0;

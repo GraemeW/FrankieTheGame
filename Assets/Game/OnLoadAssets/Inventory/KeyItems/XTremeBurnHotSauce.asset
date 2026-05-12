@@ -15,14 +15,36 @@ MonoBehaviour:
   guid: cd49f4f6-aae4-4e08-9130-c8b45d011dc5
   gameStateModifierHandlerData:
   - zoneName: OfficeInterior
-    gameObjectName: RemoveHotSauce
-    guid: 5daabd65-22cf-448c-add1-26867fd137ae
+    gameObjectName: SIGT-RemoveHotSauce
+    parentObjectName: BroOfficeWorker (1)
+    guid: b4b9e1ad-30db-4cda-b7f8-3299eb812275
   - zoneName: OfficeInterior
-    gameObjectName: VendingMachineWithPredicate (1)
-    guid: 085ca723-32a5-4238-8083-c59f60032993
-  displayName: X-Treme Burn Sauce
-  description: Hotter than hell.  Don't eat this.
+    gameObjectName: _StandardShop
+    parentObjectName: VendingMachineWIthPredicate
+    guid: 82192dc9-0715-46f6-a8a0-47bee0c71a8b
+  localizedDisplayName:
+    m_TableReference:
+      m_TableCollectionName: GUID:d96a34ea508fa423b93190524b5b4af1
+    m_TableEntryReference:
+      m_KeyId: 7257229240557568
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  localizedDetail:
+    m_TableReference:
+      m_TableCollectionName: GUID:d96a34ea508fa423b93190524b5b4af1
+    m_TableEntryReference:
+      m_KeyId: 7257229341220864
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
   droppable: 0
   price: 5
+  cachedName: XTremeBurnHotSauce
   questObjectives:
   - {fileID: -497091339795386844, guid: 21448c66f5c436e4e97f39885ea7ed02, type: 2}
+  references:
+    version: 2
+    RefIds: []

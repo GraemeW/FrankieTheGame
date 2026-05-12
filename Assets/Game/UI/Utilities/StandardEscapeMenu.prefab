@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7974464204979540039}
   - component: {fileID: 3554778785427667542}
+  - component: {fileID: 2427067427373200350}
   m_Layer: 0
   m_Name: StandardEscapeMenu
   m_TagString: Untagged
@@ -63,6 +64,41 @@ MonoBehaviour:
   m_ChildScaleWidth: 1
   m_ChildScaleHeight: 1
   m_ReverseArrangement: 0
+--- !u!114 &2427067427373200350
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6549570719733558465}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: feb89c93ce774b16a7d4eb16040bd473, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Frankie.Utils.UI.StandardConfirmation
+  localizedConfirmText:
+    m_TableReference:
+      m_TableCollectionName: 
+    m_TableEntryReference:
+      m_KeyId: 0
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  localizedRejectText:
+    m_TableReference:
+      m_TableCollectionName: GUID:ce7f667b432574cb1832328f600c1082
+    m_TableEntryReference:
+      m_KeyId: 9045403184914432
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  confirmChoice: {fileID: 0}
+  rejectChoice: {fileID: 8916026450083396300}
+  references:
+    version: 2
+    RefIds: []
 --- !u!1001 &2284414450451345530
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -118,6 +154,10 @@ PrefabInstance:
     - target: {fileID: 5879544326553776133, guid: 9193413aa0e976e439049a2689f4fa41, type: 3}
       propertyPath: m_HorizontalAlignment
       value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5879544326553776133, guid: 9193413aa0e976e439049a2689f4fa41, type: 3}
+      propertyPath: 'm_ActiveFontFeatures.Array.data[0]'
+      value: 1801810542
       objectReference: {fileID: 0}
     - target: {fileID: 7488898841496054785, guid: 9193413aa0e976e439049a2689f4fa41, type: 3}
       propertyPath: m_Pivot.x
@@ -237,3 +277,14 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 7488898841496054785, guid: 9193413aa0e976e439049a2689f4fa41, type: 3}
   m_PrefabInstance: {fileID: 2284414450451345530}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &8916026450083396300 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7210201464791026358, guid: 9193413aa0e976e439049a2689f4fa41, type: 3}
+  m_PrefabInstance: {fileID: 2284414450451345530}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 460190f52a87c3e41a4dc3606bdc35d2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

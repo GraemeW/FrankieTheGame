@@ -1,0 +1,252 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5b11a58205ec3474ca216360e9fa74a8, type: 3}
+  m_Name: Core Shared Data
+  m_EditorClassIdentifier: Unity.Localization::UnityEngine.Localization.Tables.SharedTableData
+  m_TableCollectionName: Core
+  m_TableCollectionNameGuidString: bb484015a3d7647bfba6919a6815d5b0
+  m_Entries:
+  - m_Id: 5426194815115264
+    m_Key: CharacterProperties.BroOfficeWorker
+    m_Metadata:
+      m_Items: []
+  - m_Id: 5426195180019712
+    m_Key: CharacterProperties.PhilToo
+    m_Metadata:
+      m_Items: []
+  - m_Id: 5426195398123520
+    m_Key: CharacterProperties.GenericOfficeWorkerFran
+    m_Metadata:
+      m_Items: []
+  - m_Id: 5426195612033024
+    m_Key: CharacterProperties.GenericOfficeWorkerGlen
+    m_Metadata:
+      m_Items: []
+  - m_Id: 5426195825942528
+    m_Key: CharacterProperties.Rock
+    m_Metadata:
+      m_Items: []
+  - m_Id: 5426196044046336
+    m_Key: CharacterProperties.HipsterOfficeWorker
+    m_Metadata:
+      m_Items: []
+  - m_Id: 5426196253761536
+    m_Key: CharacterProperties.BaldMonk
+    m_Metadata:
+      m_Items: []
+  - m_Id: 5426196471865344
+    m_Key: CharacterProperties.NewMonk
+    m_Metadata:
+      m_Items: []
+  - m_Id: 5426196681580544
+    m_Key: CharacterProperties.GenericOfficeWorkerDan
+    m_Metadata:
+      m_Items: []
+  - m_Id: 5426196895490048
+    m_Key: CharacterProperties.FlatMonk
+    m_Metadata:
+      m_Items: []
+  - m_Id: 5426197109399552
+    m_Key: CharacterProperties.CleverOfficeWorker
+    m_Metadata:
+      m_Items: []
+  - m_Id: 5426197323309056
+    m_Key: CharacterProperties.GenericOfficeWorkerStan
+    m_Metadata:
+      m_Items: []
+  - m_Id: 5426197537218560
+    m_Key: CharacterProperties.BeardedMonk
+    m_Metadata:
+      m_Items: []
+  - m_Id: 5426197751128064
+    m_Key: CharacterProperties.Tilly
+    m_Metadata:
+      m_Items: []
+  - m_Id: 5426197960843264
+    m_Key: CharacterProperties.Frankie
+    m_Metadata:
+      m_Items: []
+  - m_Id: 5426198178947072
+    m_Key: CharacterProperties.Snail
+    m_Metadata:
+      m_Items: []
+  - m_Id: 5426198388662272
+    m_Key: CharacterProperties.SongBird
+    m_Metadata:
+      m_Items: []
+  - m_Id: 5426198602571776
+    m_Key: CharacterProperties.Horse
+    m_Metadata:
+      m_Items: []
+  - m_Id: 5426198829064192
+    m_Key: CharacterProperties.HelpfulVole
+    m_Metadata:
+      m_Items: []
+  - m_Id: 5426199042973696
+    m_Key: CharacterProperties.Maya
+    m_Metadata:
+      m_Items: []
+  - m_Id: 5426199256883200
+    m_Key: CharacterProperties.SkilledOfficeWorker
+    m_Metadata:
+      m_Items: []
+  - m_Id: 5426199470792704
+    m_Key: CharacterProperties.Squirrel
+    m_Metadata:
+      m_Items: []
+  - m_Id: 5426199688896512
+    m_Key: CharacterProperties.PhilRamen
+    m_Metadata:
+      m_Items: []
+  - m_Id: 5426199902806016
+    m_Key: CharacterProperties.Steve5000
+    m_Metadata:
+      m_Items: []
+  - m_Id: 5426200116715520
+    m_Key: CharacterProperties.Lucy
+    m_Metadata:
+      m_Items: []
+  - m_Id: 5452253379944448
+    m_Key: PlayerStateMachine.Prefab.Player.MessageCannotFight
+    m_Metadata:
+      m_Items: []
+  - m_Id: 5481021502906368
+    m_Key: Stat.HP
+    m_Metadata:
+      m_Items: []
+  - m_Id: 5481021830062080
+    m_Key: Stat.AP
+    m_Metadata:
+      m_Items: []
+  - m_Id: 5481021943308288
+    m_Key: Stat.ExperienceReward
+    m_Metadata:
+      m_Items: []
+  - m_Id: 5481022048165888
+    m_Key: Stat.ExperienceToLevelUp
+    m_Metadata:
+      m_Items: []
+  - m_Id: 5481022157217792
+    m_Key: Stat.Brawn
+    m_Metadata:
+      m_Items: []
+  - m_Id: 5481022262075392
+    m_Key: Stat.Beauty
+    m_Metadata:
+      m_Items: []
+  - m_Id: 5481022366932992
+    m_Key: Stat.Smarts
+    m_Metadata:
+      m_Items: []
+  - m_Id: 5481022475984896
+    m_Key: Stat.Nimble
+    m_Metadata:
+      m_Items: []
+  - m_Id: 5481022580842496
+    m_Key: Stat.Luck
+    m_Metadata:
+      m_Items: []
+  - m_Id: 5481022685700096
+    m_Key: Stat.Pluck
+    m_Metadata:
+      m_Items: []
+  - m_Id: 5481022790557696
+    m_Key: Stat.Stoic
+    m_Metadata:
+      m_Items: []
+  - m_Id: 5481022895415296
+    m_Key: Stat.InitialLevel
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7990097931657216
+    m_Key: StatusEffect.Buff.HP
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7990098288173056
+    m_Key: StatusEffect.Debuff.HP
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7990098405613568
+    m_Key: StatusEffect.Buff.AP
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7990098514665472
+    m_Key: StatusEffect.Debuff.AP
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7990098623717376
+    m_Key: StatusEffect.Buff.Brawn
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7990098732769280
+    m_Key: StatusEffect.Debuff.Brawn
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7990098841821184
+    m_Key: StatusEffect.Buff.Beauty
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7990098950873088
+    m_Key: StatusEffect.Debuff.Beauty
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7990099064119296
+    m_Key: StatusEffect.Buff.Smarts
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7990099173171200
+    m_Key: StatusEffect.Debuff.Smarts
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7990099282223104
+    m_Key: StatusEffect.Buff.Nimble
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7990099391275008
+    m_Key: StatusEffect.Debuff.Nimble
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7990099496132608
+    m_Key: StatusEffect.Buff.Luck
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7990099605184512
+    m_Key: StatusEffect.Debuff.Luck
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7990099718430720
+    m_Key: StatusEffect.Buff.Pluck
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7990099823288320
+    m_Key: StatusEffect.Debuff.Pluck
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7990099932340224
+    m_Key: StatusEffect.Buff.Stoic
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7990100041392128
+    m_Key: StatusEffect.Debuff.Stoic
+    m_Metadata:
+      m_Items: []
+  m_Metadata:
+    m_Items: []
+  m_KeyGenerator:
+    rid: 4272943354391298261
+  references:
+    version: 2
+    RefIds:
+    - rid: 4272943354391298261
+      type: {class: DistributedUIDGenerator, ns: UnityEngine.Localization.Tables, asm: Unity.Localization}
+      data:
+        m_CustomEpoch: 1776366538684

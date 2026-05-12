@@ -12,7 +12,27 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2d638f604ff65db4f9e75a2cc6eb7bd3, type: 3}
   m_Name: PassGas
   m_EditorClassIdentifier: Assembly-CSharp::Frankie.Combat.Skill
-  stat: 4
+  localizedDisplayName:
+    m_TableReference:
+      m_TableCollectionName: GUID:ce27b23b7b85d4bec8b522b6105befc9
+    m_TableEntryReference:
+      m_KeyId: 6901479897030656
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
   skillStat: 8
   battleAction: {fileID: 11400000, guid: 8b8e44a2e5f3741edb831241ca4c27e4, type: 2}
-  detail: 
+  localizedDetail:
+    m_TableReference:
+      m_TableCollectionName: GUID:ce27b23b7b85d4bec8b522b6105befc9
+    m_TableEntryReference:
+      m_KeyId: 6908335059099648
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  cachedName: PassGas
+  references:
+    version: 2
+    RefIds: []

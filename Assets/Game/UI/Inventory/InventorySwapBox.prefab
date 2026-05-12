@@ -566,19 +566,108 @@ MonoBehaviour:
   dialogueOptionBoxPrefab: {fileID: 3084176042462386772, guid: cfcc3c74158936342a4d3c72aa65bde0, type: 3}
   inventoryItemFieldPrefab: {fileID: -7229577654974374248, guid: e49114d2a61e8cc46bd0caffe110c05d, type: 3}
   inventoryMoveBoxPrefab: {fileID: 6413694501190794285, guid: c11a1f4a70caf0e4783fb042888f8799, type: 3}
-  optionText: What do you want to do?
-  optionInspect: Inspect
-  optionUse: Use
-  optionMove: Move
-  optionDrop: Drop
-  confirmChoiceAffirmative: Yes
-  confirmChoiceNegative: No
-  messageBusyInCooldown: '{0} is busy twirling, twirling.'
-  messageUseItemInWorld: '{0} used {1} on {2}'
-  messageDropItem: Are you sure you want to abandon {0}?
-  messageConfirmThrowOut: Are you sure you want to pick up {0} and abandon {1}?
-  optionSwapItemAffirmative: Yeah
-  optionSwapItemNegative: Nah
+  localizedOptionText:
+    m_TableReference:
+      m_TableCollectionName: GUID:ce7f667b432574cb1832328f600c1082
+    m_TableEntryReference:
+      m_KeyId: 9090075731156992
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  localizedOptionInspect:
+    m_TableReference:
+      m_TableCollectionName: GUID:ce7f667b432574cb1832328f600c1082
+    m_TableEntryReference:
+      m_KeyId: 9090105997254656
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  localizedOptionUse:
+    m_TableReference:
+      m_TableCollectionName: GUID:ce7f667b432574cb1832328f600c1082
+    m_TableEntryReference:
+      m_KeyId: 9090135265107968
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  localizedOptionMove:
+    m_TableReference:
+      m_TableCollectionName: GUID:ce7f667b432574cb1832328f600c1082
+    m_TableEntryReference:
+      m_KeyId: 9090162431614976
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  localizedOptionDrop:
+    m_TableReference:
+      m_TableCollectionName: GUID:ce7f667b432574cb1832328f600c1082
+    m_TableEntryReference:
+      m_KeyId: 9090191695273984
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  localizedConfirmChoiceAffirmative:
+    m_TableReference:
+      m_TableCollectionName: GUID:ce7f667b432574cb1832328f600c1082
+    m_TableEntryReference:
+      m_KeyId: 9090224113049600
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  localizedConfirmChoiceNegative:
+    m_TableReference:
+      m_TableCollectionName: GUID:ce7f667b432574cb1832328f600c1082
+    m_TableEntryReference:
+      m_KeyId: 9090250767851520
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  localizedMessageBusyInCooldown:
+    m_TableReference:
+      m_TableCollectionName: GUID:ce7f667b432574cb1832328f600c1082
+    m_TableEntryReference:
+      m_KeyId: 9090282225131520
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  localizedMessageUseItemInWorld:
+    m_TableReference:
+      m_TableCollectionName: GUID:ce7f667b432574cb1832328f600c1082
+    m_TableEntryReference:
+      m_KeyId: 9090309425192960
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  localizedMessageDropItem:
+    m_TableReference:
+      m_TableCollectionName: GUID:ce7f667b432574cb1832328f600c1082
+    m_TableEntryReference:
+      m_KeyId: 9090354954362880
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  localizedMessageConfirmThrowOut:
+    m_TableReference:
+      m_TableCollectionName: 
+    m_TableEntryReference:
+      m_KeyId: 0
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  references:
+    version: 2
+    RefIds: []
 --- !u!1 &7418628792628982881
 GameObject:
   m_ObjectHideFlags: 0
@@ -1015,6 +1104,10 @@ PrefabInstance:
     - target: {fileID: 379625121425935736, guid: 1c8b62c9f42ae8f419b0c29af9435146, type: 3}
       propertyPath: m_text
       value: Namefield
+      objectReference: {fileID: 0}
+    - target: {fileID: 379625121425935736, guid: 1c8b62c9f42ae8f419b0c29af9435146, type: 3}
+      propertyPath: 'm_ActiveFontFeatures.Array.data[0]'
+      value: 1801810542
       objectReference: {fileID: 0}
     - target: {fileID: 1078369046174692924, guid: 1c8b62c9f42ae8f419b0c29af9435146, type: 3}
       propertyPath: m_Name

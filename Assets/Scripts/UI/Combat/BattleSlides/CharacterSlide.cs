@@ -1,18 +1,27 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.Localization;
+using UnityEngine.Localization.Tables;
 using TMPro;
+using Frankie.Utils.Localization;
 
 namespace Frankie.Combat.UI
 {
-    public class CharacterSlide : BattleSlide
+    public class CharacterSlide : BattleSlide, ILocalizable
     {
+        [Header("Text")]
+        [SerializeField][SimpleLocalizedString(LocalizationTableType.UI, true)] private LocalizedString localizedHPText;
+        [SerializeField][SimpleLocalizedString(LocalizationTableType.UI, true)] private LocalizedString localizedAPText;
+        
         // Tunables
         [Header("Character Slide HookUps")]
         [SerializeField] private TextMeshProUGUI characterNameField;
+        [SerializeField] private TextMeshProUGUI hpTextField;
         [SerializeField] private TextMeshProUGUI currentHPHundreds;
         [SerializeField] private TextMeshProUGUI currentHPTens;
         [SerializeField] private TextMeshProUGUI currentHPOnes;
+        [SerializeField] private TextMeshProUGUI apTextField;
         [SerializeField] private TextMeshProUGUI currentAPHundreds;
         [SerializeField] private TextMeshProUGUI currentAPTens;
         [SerializeField] private TextMeshProUGUI currentAPOnes;
@@ -46,12 +55,30 @@ namespace Frankie.Combat.UI
             Target,
             Dead
         }
+        
+        #region Localization
+        public LocalizationTableType localizationTableType { get; } = LocalizationTableType.UI;
+        public List<TableEntryReference> GetLocalizationEntries()
+        {
+            return new List<TableEntryReference>
+            {
+                localizedHPText.TableEntryReference,
+                localizedAPText.TableEntryReference,
+            };
+        }
+        #endregion
 
         // Functions
         protected override void Awake()
         {
             base.Awake();
             defaultColor = selectHighlight.color;
+        }
+
+        private void Start()
+        {
+            if (hpTextField != null) { hpTextField.text = localizedHPText.GetSafeLocalizedString(); }
+            if (apTextField != null) { apTextField.text = localizedAPText.GetSafeLocalizedString(); }
         }
 
         public override void SetBattleEntity(BattleEntity setBattleEntity)

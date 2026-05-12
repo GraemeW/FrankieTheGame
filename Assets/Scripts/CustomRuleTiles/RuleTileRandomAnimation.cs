@@ -2,7 +2,7 @@ using UnityEngine;
 using UnityEngine.Tilemaps;
 using static UnityEngine.RuleTile.TilingRuleOutput;
 
-[CreateAssetMenu(fileName = "New Random Animation Rule Tile", menuName = "CustomRuleTiles/New Random Animation Rule Tile")]
+[CreateAssetMenu(fileName = "New Random Animation Rule Tile", menuName = "CustomRuleTiles/New Random Animation Rule Tile", order = 25)]
 public class RuleTileRandomAnimation : RuleTile<RuleTileRandomAnimation.Neighbor> {
     // ReSharper disable once InconsistentNaming
     public float m_PerlinScale = 0.5f;

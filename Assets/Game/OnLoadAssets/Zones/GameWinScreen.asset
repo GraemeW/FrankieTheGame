@@ -15,15 +15,28 @@ MonoBehaviour:
   newNodeOffset: {x: 100, y: 25}
   nodeWidth: 430
   nodeHeight: 150
+  localizedDisplayName:
+    m_TableReference:
+      m_TableCollectionName: GUID:8137acf3076d245cf991f948822c95ba
+    m_TableEntryReference:
+      m_KeyId: 6549746201124864
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
   sceneReference:
-    sceneAsset: {fileID: 102900000, guid: e494b574f37534540b7b1adee3863d96, type: 3}
+    sceneAsset: {fileID: 102900000, guid: bdbc1e0ce13a1f14ebbd17a6311fb5d4, type: 3}
     sceneName: GameWinScreen
     scenePath: Assets/Scenes/GameWinScreen.unity
   updateMap: 0
   zoneAudio: {fileID: 8300000, guid: 11384817f7314df46b0a2628844ada59, type: 3}
   isZoneAudioLooping: 1
+  cachedName: GameWinScreen
   zoneNodes:
   - {fileID: 6169853411949935699}
+  references:
+    version: 2
+    RefIds: []
 --- !u!114 &6169853411949935699
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -36,6 +49,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3268536af8903a64da82aa6872733d1d, type: 3}
   m_Name: 690033ec-5caa-4755-abed-c50504002ce4
   m_EditorClassIdentifier: 
+  localizedDisplayName:
+    m_TableReference:
+      m_TableCollectionName: GUID:8137acf3076d245cf991f948822c95ba
+    m_TableEntryReference:
+      m_KeyId: 6549746301788160
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
   children: []
   externalZoneLinkToZoneNode: {fileID: 0}
   rect:
@@ -53,3 +75,6 @@ MonoBehaviour:
     height: 45
   condition:
     and: []
+  references:
+    version: 2
+    RefIds: []

@@ -1,33 +1,69 @@
-using Frankie.Core.GameStateModifiers;
-using UnityEngine;
 using UnityEditor;
+using UnityEngine.UIElements;
+using Frankie.Core.GameStateModifiers;
+using Frankie.Utils.Localization;
 
-namespace Frankie.Quests.UIEditor
+namespace Frankie.Quests.Editor
 {
     [CustomEditor(typeof(Quest))]
     public class QuestEditor : GameStateModifierEditor
     {
-        public override void OnInspectorGUI()
+        private const string _questHeaderTitle = "Quest Functionality";
+        private const string _buttonGenerateObjectiveText = "Generate Objectives";
+        
+        private const float _fontSize = 14;
+        private const float _headerMarginTop = 8;
+        private const float _headerMarginBottom = 4;
+        
+        protected override void OnEnable()
         {
-            base.OnInspectorGUI();
-            MakeQuestHeader("Quest Functionality");
+            base.OnEnable();
             
-            Quest quest = (Quest)target;
-            if (GUILayout.Button("Generate Objectives (Save to Take Effect)"))
-            {
-                quest.GenerateObjectiveFromNames();
-            }
+            LocalizationTool.InitializeEnglishLocale();
+            var quest = (Quest)target;
+            if (quest is not ILocalizable localizable) { return; }
+            localizable.TryLocalizeStandardEntries(quest, quest.GetPropertyLinkedLocalizationEntries(), quest.TriggerOnRename);
+        }
+        
+        public override VisualElement CreateInspectorGUI()
+        {
+            VisualElement root = base.CreateInspectorGUI();
+            root.Add(MakeQuestHeader(_questHeaderTitle));
+
+            var generateButton = new Button { text = _buttonGenerateObjectiveText };
+            generateButton.RegisterCallback<ClickEvent>(OnGenerateObjectiveClick);
+            root.Add(generateButton);
+
+            return root;
         }
 
-        private void MakeQuestHeader(string headerTitle)
+        private void OnGenerateObjectiveClick(ClickEvent clickEvent)
         {
-            EditorGUILayout.Space(8);
-            using (new EditorGUILayout.HorizontalScope())
-            {
-                EditorGUILayout.LabelField(headerTitle, headerStyle);
+            var quest = (Quest)target;
+            if (quest == null) { return; }
+            quest.GenerateObjectiveFromNames();
+        }
 
-            }
-            EditorGUILayout.Space(4);
+        private static VisualElement MakeQuestHeader(string headerTitle)
+        {
+            var section = new VisualElement
+            {
+                style =
+                {
+                    marginTop = _headerMarginTop,
+                    marginBottom = _headerMarginBottom
+                }
+            };
+            var title = new Label(headerTitle)
+            {
+                style =
+                {
+                    fontSize = _fontSize,
+                    unityFontStyleAndWeight = UnityEngine.FontStyle.Bold
+                }
+            };
+            section.Add(title);
+            return section;
         }
     }
 }

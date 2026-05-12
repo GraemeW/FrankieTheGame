@@ -112,14 +112,32 @@ MonoBehaviour:
     - or:
       - predicate: {fileID: 0}
         negate: 0
-  defaultPartyLeaderName: Frankie
   useMessageOnConditionMet: 0
-  messageForConditionMet: '{0} checked the object.'
+  localizedMessageForConditionMet:
+    m_TableReference:
+      m_TableCollectionName: GUID:e01518a4d82d5485e9b0e7f466ecf01d
+    m_TableEntryReference:
+      m_KeyId: 5041938053980160
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
   checkInteractionConditionMet:
     m_PersistentCalls:
       m_Calls: []
   useMessageOnConditionFailed: 0
-  messageForConditionFailed: '{0} failed to check the object.'
+  localizedMessageForConditionFailed:
+    m_TableReference:
+      m_TableCollectionName: GUID:e01518a4d82d5485e9b0e7f466ecf01d
+    m_TableEntryReference:
+      m_KeyId: 5041938263695360
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
   checkInteractionConditionFailed:
     m_PersistentCalls:
       m_Calls: []
+  references:
+    version: 2
+    RefIds: []

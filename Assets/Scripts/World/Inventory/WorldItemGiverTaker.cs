@@ -1,18 +1,21 @@
 using System.Collections.Generic;
 using UnityEngine;
-using Frankie.Utils;
+using UnityEngine.Localization;
+using UnityEngine.Localization.Tables;
 using Frankie.Core.GameStateModifiers;
 using Frankie.Control;
 using Frankie.Saving;
 using Frankie.Combat;
 using Frankie.Inventory;
+using Frankie.Utils;
+using Frankie.Utils.Localization;
 
 namespace Frankie.World
 {
     [ExecuteInEditMode]
-    public class WorldItemGiverTaker : MonoBehaviour, IGameStateModifierHandler, ISaveable
+    public class WorldItemGiverTaker : MonoBehaviour, IGameStateModifierHandler, ISaveable, ILocalizable
     {
-        // Interface Properties
+        // GameState Modifier Properties
         [SerializeField] private string backingHandlerGUID;
         public string handlerGUID { get => backingHandlerGUID; set => backingHandlerGUID = value; }
         
@@ -22,15 +25,23 @@ namespace Frankie.World
         [SerializeField][HideInInspector] private bool backingHasGameStateModifiers;
         public bool hasGameStateModifiers { get => backingHasGameStateModifiers; set => backingHasGameStateModifiers = value; }
         
+        [SerializeField][HideInInspector] private List<string> backingGameStateModifierGUIDs;
+        public List<string> gameStateModifierGUIDs { get => backingGameStateModifierGUIDs; set => backingGameStateModifierGUIDs = value ?? new List<string>(); } 
+        
         // Tunables
         [SerializeField] private InventoryItem inventoryItem;
         [SerializeField] private int itemQuantity = 1;
-        [SerializeField][Tooltip("{0} for character name, {1} for item")] private string messageFoundItem = "Wow!  Looks like {0} found {1}.";
-        [SerializeField] private string messageInventoryFull = "Whoops, looks like all the knapsacks are full.";
         [SerializeField] private bool announceNothing = true;
-        [SerializeField] private string messageNothing = "Oh, looks like it's NOTHING.";
         [SerializeField] private InteractionEvent itemFound;
-
+        [Header("Messages - {0}: name, {1}: item")]
+        [SerializeField][SimpleLocalizedString(LocalizationTableType.ChecksWorldObjects, true)] private LocalizedString localizedMessageFoundItem;
+        [Header("Other Messages")]
+        [SerializeField][SimpleLocalizedString(LocalizationTableType.ChecksWorldObjects, true)] private LocalizedString localizedMessageInventoryFull;
+        [SerializeField][SimpleLocalizedString(LocalizationTableType.ChecksWorldObjects, true)] private LocalizedString localizedMessageNothing;
+        
+        // Localization Properties
+        public LocalizationTableType localizationTableType { get; } = LocalizationTableType.ChecksWorldObjects;
+        
         // State
         private LazyValue<int> currentItemQuantity;
 
@@ -49,6 +60,7 @@ namespace Frankie.World
 
         private void OnDestroy()
         {
+            ILocalizable.TriggerOnDestroy(this);
             IGameStateModifierHandler.TriggerOnDestroy(this);
         }
         
@@ -63,7 +75,7 @@ namespace Frankie.World
         {
             if (inventoryItem == null || currentItemQuantity.value <= 0)
             {
-                if (announceNothing) { playerStateMachine.EnterDialogue(messageNothing); }
+                if (announceNothing) { playerStateMachine.EnterDialogue(localizedMessageNothing.GetSafeLocalizedString()); }
                 return; 
             }
 
@@ -72,12 +84,12 @@ namespace Frankie.World
             
             if (!partyKnapsackConduit.AddToFirstEmptyPartySlot(inventoryItem, out CombatParticipant receivingCharacter))
             {
-                playerStateMachine.EnterDialogue(messageInventoryFull);
+                playerStateMachine.EnterDialogue(localizedMessageInventoryFull.GetSafeLocalizedString());
                 return;
             }
             
             currentItemQuantity.value--;
-            playerStateMachine.EnterDialogue(string.Format(messageFoundItem, receivingCharacter.GetCombatName(), inventoryItem.GetDisplayName()));
+            playerStateMachine.EnterDialogue(string.Format(localizedMessageFoundItem.GetSafeLocalizedString(), receivingCharacter.GetCombatName(), inventoryItem.GetDisplayName()));
             itemFound?.Invoke(playerStateMachine);
         }
 
@@ -102,8 +114,19 @@ namespace Frankie.World
         }
         #endregion
 
+        #region LocalizationInterface
+        public List<TableEntryReference> GetLocalizationEntries()
+        {
+            return new List<TableEntryReference>
+            {
+                localizedMessageFoundItem.TableEntryReference,
+                localizedMessageInventoryFull.TableEntryReference,
+                localizedMessageNothing.TableEntryReference,
+            };
+        }
+        #endregion
+        
         #region GameStateModifierHandlerInterface
-
         public IList<GameStateModifier> GetGameStateModifiers()
         {
             List<GameStateModifier> gameStateModifiers = new();

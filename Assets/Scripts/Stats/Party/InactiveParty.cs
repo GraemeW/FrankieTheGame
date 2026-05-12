@@ -20,7 +20,7 @@ namespace Frankie.Stats
 
             CharacterProperties characterProperties = character.GetCharacterProperties();
             if (characterProperties == null) { return; }
-            inactiveCharacterSaveStates[characterProperties.GetCharacterNameID()] = saveableEntity.CaptureState(null);
+            inactiveCharacterSaveStates[characterProperties.GetCharacterID()] = saveableEntity.CaptureState(null);
         }
 
         public void RestoreCharacterState(ref BaseStats character)
@@ -29,12 +29,12 @@ namespace Frankie.Stats
 
             CharacterProperties characterProperties = character.GetCharacterProperties();
             if (characterProperties == null) { return; }
-            if (!inactiveCharacterSaveStates.ContainsKey(characterProperties.GetCharacterNameID())) { return; }
+            if (!inactiveCharacterSaveStates.ContainsKey(characterProperties.GetCharacterID())) { return; }
 
             SaveableEntity saveableEntity = character.GetComponent<SaveableEntity>();
             if (saveableEntity == null) { return; }
 
-            saveableEntity.RestoreState(inactiveCharacterSaveStates[characterProperties.GetCharacterNameID()], LoadPriority.ObjectProperty);
+            saveableEntity.RestoreState(inactiveCharacterSaveStates[characterProperties.GetCharacterID()], LoadPriority.ObjectProperty);
         }
 
         public void RemoveFromInactiveStorage(BaseStats character)
@@ -48,7 +48,7 @@ namespace Frankie.Stats
         public void RemoveFromInactiveStorage(CharacterProperties characterProperties)
         {
             if (characterProperties == null) { return; }
-            inactiveCharacterSaveStates.Remove(characterProperties.GetCharacterNameID());
+            inactiveCharacterSaveStates.Remove(characterProperties.GetCharacterID());
         }
         #endregion
 

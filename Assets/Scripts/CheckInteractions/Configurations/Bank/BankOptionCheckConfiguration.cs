@@ -1,37 +1,50 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Localization;
+using UnityEngine.Localization.Tables;
 using Frankie.Inventory;
 using Frankie.Utils;
+using Frankie.Utils.Localization;
 
 namespace Frankie.Control
 {
-    [CreateAssetMenu(fileName = "New Bank Option Check Configuration", menuName = "CheckConfigurations/BankOptions")]
+    [CreateAssetMenu(fileName = "New Bank Option Check Configuration", menuName = "CheckConfigurations/Bank/BankOptions", order = 5)]
     public class BankOptionCheckConfiguration : CheckConfiguration
     {
         // Tunables
-        [SerializeField] private string messageBankOptions = "What would you like to do?";
+        [SerializeField][SimpleLocalizedString(LocalizationTableType.ChecksWorldObjects, true)] private LocalizedString localizedMessageBankOptions;
         [SerializeField] private bool toggleDeposit = true;
-        [SerializeField] private string optionDeposit = "Deposit";
+        [SerializeField][SimpleLocalizedString(LocalizationTableType.ChecksWorldObjects, true)] private LocalizedString localizedOptionDeposit;
         [SerializeField] private bool toggleWithdraw = true;
-        [SerializeField] private string optionWithdraw = "Withdraw";
-
+        [SerializeField][SimpleLocalizedString(LocalizationTableType.ChecksWorldObjects, true)] private LocalizedString localizedOptionWithdraw;
+        
         // Implementation
-        public override string GetMessage() => messageBankOptions;
+        public override string GetMessage() => localizedMessageBankOptions.GetSafeLocalizedString();
         
         public override List<ChoiceActionPair> GetChoiceActionPairs(PlayerStateMachine playerStateHandler, CheckWithConfiguration callingCheck)
         {
             var interactActions = new List<ChoiceActionPair>();
             if (toggleWithdraw)
             {
-                var withdrawAction = new ChoiceActionPair(optionWithdraw, () => playerStateHandler.EnterBank(BankType.Withdraw));
+                var withdrawAction = new ChoiceActionPair(localizedOptionWithdraw.GetSafeLocalizedString(), () => playerStateHandler.EnterBank(BankType.Withdraw));
                 interactActions.Add(withdrawAction);
             }
             if (toggleDeposit)
             {
-                var depositAction = new ChoiceActionPair(optionDeposit, () => playerStateHandler.EnterBank(BankType.Deposit));
+                var depositAction = new ChoiceActionPair(localizedOptionDeposit.GetSafeLocalizedString(), () => playerStateHandler.EnterBank(BankType.Deposit));
                 interactActions.Add(depositAction);
             }
             return interactActions;
+        }
+        
+        public override List<TableEntryReference> GetLocalizationEntries()
+        {
+            return new List<TableEntryReference>
+            {
+                localizedMessageBankOptions.TableEntryReference,
+                localizedOptionDeposit.TableEntryReference,
+                localizedOptionWithdraw.TableEntryReference
+            };
         }
     }
 }

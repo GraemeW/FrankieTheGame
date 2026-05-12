@@ -19,7 +19,7 @@ Set:
 
 As described in [Zones->Configuration](../OnLoadAssets/Zones/README.md#configure-the-zone), each zone (scene) has a specific `zoneAudio` (AKA world background music).  This music is played once the player enters the zone.
 
-In order to load the correct zone music, [BackgroundMusic](./BackgroundMusic.prefab) listens for `zoneUpdated` events from the [SceneLoader](../../Scripts/Zones/SceneLoader.cs), which carries a reference to the new zone.  That reference is used to pull the relevant audio clip to transition the audio accordingly.
+In order to load the correct zone music, [BackgroundMusic](./BackgroundMusic.prefab) listens for `zoneUpdated` events from the [SceneLoader](../../Scripts/Zones/Transitions/SceneLoader.cs), which carries a reference to the new zone.  That reference is used to pull the relevant audio clip to transition the audio accordingly.
 
 ### Handling Combat Music
 
@@ -73,7 +73,7 @@ Set:
 
 #### Fader Soundbox
 
-The [FaderSoundBox](./SpecializedSoundboxes/FaderSoundbox.prefab) is childed to the [Fader](../Core/CoreDep/Fader.prefab).  [FaderSoundBox](./SpecializedSoundboxes/FaderSoundbox.prefab) is specifically used to manage the sounds for fading in/out of combat, and thus listens for relevant [TransitionTypes](../../Scripts/Zones/TransitionType.cs) passed by the `fadingIn` event from the [Fader](../Core/CoreDep/Fader.prefab).  In this regard, a different sound effect can be applied for different battle entry transitions (e.g. player surprises enemy vs. neutral vs. enemy surprises player).
+The [FaderSoundBox](./SpecializedSoundboxes/FaderSoundbox.prefab) is childed to the [Fader](../Core/CoreDep/Fader.prefab).  [FaderSoundBox](./SpecializedSoundboxes/FaderSoundbox.prefab) is specifically used to manage the sounds for fading in/out of combat, and thus listens for relevant [TransitionTypes](../../Scripts/Zones/Transitions/TransitionType.cs) passed by the `fadingIn` event from the [Fader](../Core/CoreDep/Fader.prefab).  In this regard, a different sound effect can be applied for different battle entry transitions (e.g. player surprises enemy vs. neutral vs. enemy surprises player).
 
 *Note:  since we don't (yet) have sound effects generated for different battle transitions, the same neutral battle entry sound is currently applied for all transitions*
 

@@ -1,29 +1,67 @@
 using System.Collections.Generic;
-using System.Text.RegularExpressions;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement.AsyncOperations;
-using Frankie.Core;
+using UnityEngine.Localization;
+using UnityEngine.Localization.Tables;
+using Frankie.Utils.Addressables;
+using Frankie.Utils.Localization;
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
 
 namespace Frankie.Stats
 {
-    [CreateAssetMenu(fileName = "New Character", menuName = "Characters/New Character")]
-    public class CharacterProperties : ScriptableObject, IAddressablesCache
+    [CreateAssetMenu(fileName = "New Character", menuName = "Characters/New Character", order = 1)]
+    public class CharacterProperties : ScriptableObject, IAddressablesCache, ILocalizable
     {
         // Properties
-        public GameObject characterPrefab;
-        public GameObject characterNPCPrefab;
-        public bool hasProgressionStats = true;
-        public bool incrementsStatsOnLevelUp = false;
+        [SerializeField][SimpleLocalizedString(LocalizationTableType.Core, true)] private LocalizedString localizedDisplayName;
+        [SerializeField] private GameObject characterPrefab;
+        [SerializeField] private GameObject characterNPCPrefab;
+        [SerializeField] private bool hasProgressionStats = true;
+        [SerializeField] private bool incrementsStatsOnLevelUp = false;
         
         // State
+        [HideInInspector][SerializeField] private string cachedName;
+        public string iCachedName { get => cachedName; set => cachedName = value; }
         private static AsyncOperationHandle<IList<CharacterProperties>> _addressablesLoadHandle;
         private static Dictionary<string, CharacterProperties> _characterLookupCache;
 
-        #region SimpleGetters
-        public static string GetStaticCharacterNamePretty(string characterName) => Regex.Replace(characterName, "([a-z])_?([A-Z])", "$1 $2");
-        public string GetCharacterNamePretty() => Regex.Replace(name, "([a-z])_?([A-Z])", "$1 $2");
-        public string GetCharacterNameID() => name;
+        #region Getters
+        public string GetCharacterDisplayName() => localizedDisplayName.GetSafeLocalizedString();
+        public string GetCharacterID() => name;
+        // Note:  Using name as ID for simplicity
+        // Previously scoped separate GUID for this, found it overkill ++ hindered look-up functionality
+        public GameObject GetCharacterPrefab() => characterPrefab;
+        public GameObject GetCharacterNPCPrefab() => characterNPCPrefab;
+        public bool HasProgressionStats() => hasProgressionStats;
+        public bool ShouldIncrementsStatsOnLevelUp() => incrementsStatsOnLevelUp;
+        
+        public LocalizationTableType localizationTableType { get; } = LocalizationTableType.Core;
+        public List<TableEntryReference> GetLocalizationEntries()
+        {
+            return new List<TableEntryReference>
+            {
+                localizedDisplayName.TableEntryReference
+            };
+        }
+        
+        public List<(string propertyName, LocalizedString localizedString, bool setToName)> GetPropertyLinkedLocalizationEntries()
+        {
+            return new List<(string propertyName, LocalizedString localizedString, bool setToName)>
+            {
+                (nameof(localizedDisplayName), localizedDisplayName, true)
+            };
+        }
+        #endregion
+        
+        #region StaticMethods
+        public static bool AreCharacterPropertiesMatched(CharacterProperties entryA, CharacterProperties entryB)
+        {
+            if (entryA == null || entryB == null) { return false; }
+            return entryA.GetCharacterID() == entryB.GetCharacterID();
+        }
         #endregion
         
         #region AddressablesCaching

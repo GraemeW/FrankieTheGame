@@ -1,6 +1,6 @@
 # Assets: Game - OnLoadAssets
 
-OnLoadAssets are files loaded during run-time via the Unity [Addressables](../../Scripts/Core/AddressablesHandling/) system.  These are scriptable objects that are not necessarily present in a given scene, but are nonetheless critical for game functionality.
+OnLoadAssets are files loaded during run-time via the Unity [Addressables](../../Scripts/Utils/Addressables/) system.  These are scriptable objects that are not necessarily present in a given scene, but are nonetheless critical for game functionality.
 
 Generally, each category/directory of OnLoadAssets includes a dictionary look-up that is built during initial game loading.  In this manner, the full set of game data are available and addressable (ba-dum-chah) throughout any portion of the game.
 

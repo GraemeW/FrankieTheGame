@@ -12,7 +12,27 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2d638f604ff65db4f9e75a2cc6eb7bd3, type: 3}
   m_Name: PiercingMonkChant
   m_EditorClassIdentifier: Assembly-CSharp::Frankie.Combat.Skill
-  stat: 2
+  localizedDisplayName:
+    m_TableReference:
+      m_TableCollectionName: GUID:ce27b23b7b85d4bec8b522b6105befc9
+    m_TableEntryReference:
+      m_KeyId: 6901487060901888
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
   skillStat: 6
   battleAction: {fileID: 11400000, guid: 4dc2fda71b9f746d980b090cdb7a04f6, type: 2}
-  detail: Very loud, and very powerful, causing a significant boost to brawn
+  localizedDetail:
+    m_TableReference:
+      m_TableCollectionName: GUID:ce27b23b7b85d4bec8b522b6105befc9
+    m_TableEntryReference:
+      m_KeyId: 6901487161565184
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  cachedName: PiercingMonkChant
+  references:
+    version: 2
+    RefIds: []

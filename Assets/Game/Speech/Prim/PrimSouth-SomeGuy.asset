@@ -12,10 +12,29 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 09c07c7c6f4c666429a0bbc8d18232b2, type: 3}
   m_Name: 4d56e358-aa73-4d4c-9601-408189c89786
   m_EditorClassIdentifier: 
+  dialogueName: PrimSouth-SomeGuy
   speakerType: 1
   characterProperties: {fileID: 0}
-  speakerName: Some Guy
-  text: They seem nice, but they'll eat right through your electrical wiring
+  localizedSpeakerName:
+    m_TableReference:
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
+    m_TableEntryReference:
+      m_KeyId: 2889065354485760
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  localizedText:
+    m_TableReference:
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
+    m_TableEntryReference:
+      m_KeyId: 2889065459343360
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  nodeDepth: 2
+  nodeBreadth: 1
   children: []
   rect:
     serializedVersion: 2
@@ -31,6 +50,11 @@ MonoBehaviour:
     height: 45
   condition:
     and: []
+  cachedSpeakerName: Some Guy
+  cachedText: They seem nice, but they'll eat right through your electrical wiring
+  references:
+    version: 2
+    RefIds: []
 --- !u!114 &-5615058241581237205
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -43,10 +67,29 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 09c07c7c6f4c666429a0bbc8d18232b2, type: 3}
   m_Name: 39b596fa-0b70-4835-bab8-6f4cc3f4d8d7
   m_EditorClassIdentifier: 
+  dialogueName: PrimSouth-SomeGuy
   speakerType: 1
   characterProperties: {fileID: 0}
-  speakerName: Some Guy
-  text: Hey
+  localizedSpeakerName:
+    m_TableReference:
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
+    m_TableEntryReference:
+      m_KeyId: 2889064712757248
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  localizedText:
+    m_TableReference:
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
+    m_TableEntryReference:
+      m_KeyId: 2889064821809152
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  nodeDepth: 1
+  nodeBreadth: 0
   children:
   - 3823e340-23a6-4ee8-8037-13128185d987
   rect:
@@ -63,6 +106,11 @@ MonoBehaviour:
     height: 45
   condition:
     and: []
+  cachedSpeakerName: Some Guy
+  cachedText: Hey
+  references:
+    version: 2
+    RefIds: []
 --- !u!114 &-5416583546438356185
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -75,10 +123,29 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 09c07c7c6f4c666429a0bbc8d18232b2, type: 3}
   m_Name: a2268cfd-3f7b-4a47-9fae-f4d8726b5632
   m_EditorClassIdentifier: 
+  dialogueName: PrimSouth-SomeGuy
   speakerType: 1
   characterProperties: {fileID: 0}
-  speakerName: Some Guy
-  text: Don't let the voles into your house
+  localizedSpeakerName:
+    m_TableReference:
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
+    m_TableEntryReference:
+      m_KeyId: 2889065140576256
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  localizedText:
+    m_TableReference:
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
+    m_TableEntryReference:
+      m_KeyId: 2889065245433856
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  nodeDepth: 1
+  nodeBreadth: 2
   children:
   - 4d56e358-aa73-4d4c-9601-408189c89786
   rect:
@@ -95,6 +162,11 @@ MonoBehaviour:
     height: 45
   condition:
     and: []
+  cachedSpeakerName: Some Guy
+  cachedText: Don't let the voles into your house
+  references:
+    version: 2
+    RefIds: []
 --- !u!114 &-4446754628469022693
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -107,11 +179,29 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 09c07c7c6f4c666429a0bbc8d18232b2, type: 3}
   m_Name: 339172f8-4734-43ba-8c2e-6ba4c2ac06db
   m_EditorClassIdentifier: 
+  dialogueName: PrimSouth-SomeGuy
   speakerType: 1
   characterProperties: {fileID: 0}
-  speakerName: Some Guy
-  text: My parents said I'd grow up to be famous.  I only have a modest social media
-    presence though.
+  localizedSpeakerName:
+    m_TableReference:
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
+    m_TableEntryReference:
+      m_KeyId: 2889064926666752
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  localizedText:
+    m_TableReference:
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
+    m_TableEntryReference:
+      m_KeyId: 2889065035718656
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  nodeDepth: 1
+  nodeBreadth: 1
   children: []
   rect:
     serializedVersion: 2
@@ -127,6 +217,12 @@ MonoBehaviour:
     height: 45
   condition:
     and: []
+  cachedSpeakerName: Some Guy
+  cachedText: My parents said I'd grow up to be famous.  I only have a modest social
+    media presence though.
+  references:
+    version: 2
+    RefIds: []
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -140,6 +236,7 @@ MonoBehaviour:
   m_Name: PrimSouth-SomeGuy
   m_EditorClassIdentifier: 
   skipRootNode: 1
+  cachedName: PrimSouth-SomeGuy
   newNodeOffset: {x: 100, y: 25}
   nodeWidth: 400
   nodeHeight: 225
@@ -163,10 +260,29 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 09c07c7c6f4c666429a0bbc8d18232b2, type: 3}
   m_Name: 3823e340-23a6-4ee8-8037-13128185d987
   m_EditorClassIdentifier: 
+  dialogueName: PrimSouth-SomeGuy
   speakerType: 1
   characterProperties: {fileID: 0}
-  speakerName: Some Guy
-  text: I really like your style
+  localizedSpeakerName:
+    m_TableReference:
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
+    m_TableEntryReference:
+      m_KeyId: 2889065568395264
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  localizedText:
+    m_TableReference:
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
+    m_TableEntryReference:
+      m_KeyId: 2889065673252864
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  nodeDepth: 2
+  nodeBreadth: 0
   children: []
   rect:
     serializedVersion: 2
@@ -182,6 +298,11 @@ MonoBehaviour:
     height: 45
   condition:
     and: []
+  cachedSpeakerName: Some Guy
+  cachedText: I really like your style
+  references:
+    version: 2
+    RefIds: []
 --- !u!114 &4735843681984604126
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -194,10 +315,29 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 09c07c7c6f4c666429a0bbc8d18232b2, type: 3}
   m_Name: 1a1efb6a-68f8-4a15-9976-eec18814dfdc
   m_EditorClassIdentifier: 
+  dialogueName: PrimSouth-SomeGuy
   speakerType: 1
   characterProperties: {fileID: 0}
-  speakerName: Some Guy
-  text: Root Node
+  localizedSpeakerName:
+    m_TableReference:
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
+    m_TableEntryReference:
+      m_KeyId: 2889064503042048
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  localizedText:
+    m_TableReference:
+      m_TableCollectionName: GUID:991c04154cea34203a64a5fe4f5e097e
+    m_TableEntryReference:
+      m_KeyId: 2889064612093952
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  nodeDepth: 0
+  nodeBreadth: 0
   children:
   - 39b596fa-0b70-4835-bab8-6f4cc3f4d8d7
   - 339172f8-4734-43ba-8c2e-6ba4c2ac06db
@@ -216,3 +356,8 @@ MonoBehaviour:
     height: 45
   condition:
     and: []
+  cachedSpeakerName: Some Guy
+  cachedText: Root Node
+  references:
+    version: 2
+    RefIds: []

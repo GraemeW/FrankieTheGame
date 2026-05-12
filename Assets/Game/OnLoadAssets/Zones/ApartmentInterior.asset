@@ -12,6 +12,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3268536af8903a64da82aa6872733d1d, type: 3}
   m_Name: ApartmentToLobby
   m_EditorClassIdentifier: 
+  localizedDisplayName:
+    m_TableReference:
+      m_TableCollectionName: GUID:8137acf3076d245cf991f948822c95ba
+    m_TableEntryReference:
+      m_KeyId: 6549747593633792
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
   children:
   - LobbyToApartment
   externalZoneLinkToZoneNode: {fileID: 0}
@@ -30,6 +39,9 @@ MonoBehaviour:
     height: 45
   condition:
     and: []
+  references:
+    version: 2
+    RefIds: []
 --- !u!114 &-8071493759938592189
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -42,6 +54,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3268536af8903a64da82aa6872733d1d, type: 3}
   m_Name: Kitchen
   m_EditorClassIdentifier: 
+  localizedDisplayName:
+    m_TableReference:
+      m_TableCollectionName: GUID:8137acf3076d245cf991f948822c95ba
+    m_TableEntryReference:
+      m_KeyId: 6549748801593344
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
   children:
   - LivingRoomToKitchen
   externalZoneLinkToZoneNode: {fileID: 0}
@@ -60,6 +81,9 @@ MonoBehaviour:
     height: 45
   condition:
     and: []
+  references:
+    version: 2
+    RefIds: []
 --- !u!114 &-5837764251287271127
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -72,6 +96,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3268536af8903a64da82aa6872733d1d, type: 3}
   m_Name: LobbyDoor
   m_EditorClassIdentifier: 
+  localizedDisplayName:
+    m_TableReference:
+      m_TableCollectionName: GUID:8137acf3076d245cf991f948822c95ba
+    m_TableEntryReference:
+      m_KeyId: 6549746989654016
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
   children:
   - SceneToApartmentExterior
   - SceneToPrim
@@ -91,6 +124,9 @@ MonoBehaviour:
     height: 45
   condition:
     and: []
+  references:
+    version: 2
+    RefIds: []
 --- !u!114 &-5729600305271718786
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -103,6 +139,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3268536af8903a64da82aa6872733d1d, type: 3}
   m_Name: SceneToPrim
   m_EditorClassIdentifier: 
+  localizedDisplayName:
+    m_TableReference:
+      m_TableCollectionName: GUID:8137acf3076d245cf991f948822c95ba
+    m_TableEntryReference:
+      m_KeyId: 6549749627871232
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
   children: []
   externalZoneLinkToZoneNode: {fileID: 7420601607016574253, guid: 210ece264cb0156468d645ecaa434255, type: 2}
   rect:
@@ -123,6 +168,9 @@ MonoBehaviour:
     - or:
       - predicate: {fileID: 11400000, guid: 9f0337f74ac62b947a2295f4757659ec, type: 2}
         negate: 0
+  references:
+    version: 2
+    RefIds: []
 --- !u!114 &-2779898236315854942
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -135,6 +183,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3268536af8903a64da82aa6872733d1d, type: 3}
   m_Name: SceneToApartmentBed
   m_EditorClassIdentifier: 
+  localizedDisplayName:
+    m_TableReference:
+      m_TableCollectionName: GUID:8137acf3076d245cf991f948822c95ba
+    m_TableEntryReference:
+      m_KeyId: 6549749212635136
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
   children: []
   externalZoneLinkToZoneNode: {fileID: 3520509955692951049}
   rect:
@@ -152,6 +209,9 @@ MonoBehaviour:
     height: 45
   condition:
     and: []
+  references:
+    version: 2
+    RefIds: []
 --- !u!114 &-2592018651115338096
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -164,6 +224,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3268536af8903a64da82aa6872733d1d, type: 3}
   m_Name: BedToBedroomRefresh
   m_EditorClassIdentifier: 
+  localizedDisplayName:
+    m_TableReference:
+      m_TableCollectionName: GUID:8137acf3076d245cf991f948822c95ba
+    m_TableEntryReference:
+      m_KeyId: 6549748998725632
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
   children:
   - SceneToApartmentBed
   externalZoneLinkToZoneNode: {fileID: 0}
@@ -182,6 +251,9 @@ MonoBehaviour:
     height: 45
   condition:
     and: []
+  references:
+    version: 2
+    RefIds: []
 --- !u!114 &-1859928201582379330
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -194,6 +266,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3268536af8903a64da82aa6872733d1d, type: 3}
   m_Name: LivingRoomToKitchen
   m_EditorClassIdentifier: 
+  localizedDisplayName:
+    m_TableReference:
+      m_TableCollectionName: GUID:8137acf3076d245cf991f948822c95ba
+    m_TableEntryReference:
+      m_KeyId: 6549748600266752
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
   children:
   - Kitchen
   externalZoneLinkToZoneNode: {fileID: 0}
@@ -212,6 +293,9 @@ MonoBehaviour:
     height: 45
   condition:
     and: []
+  references:
+    version: 2
+    RefIds: []
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -227,13 +311,23 @@ MonoBehaviour:
   newNodeOffset: {x: 100, y: 25}
   nodeWidth: 430
   nodeHeight: 150
+  localizedDisplayName:
+    m_TableReference:
+      m_TableCollectionName: GUID:8137acf3076d245cf991f948822c95ba
+    m_TableEntryReference:
+      m_KeyId: 6549746888990720
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
   sceneReference:
-    sceneAsset: {fileID: 102900000, guid: 52222d36ecfd3de48ba0a6a7086a4d38, type: 3}
+    sceneAsset: {fileID: 102900000, guid: bdbc1e0ce13a1f14ebbd17a6311fb5d4, type: 3}
     sceneName: ApartmentInterior
     scenePath: Assets/Scenes/ApartmentInterior.unity
   updateMap: 0
   zoneAudio: {fileID: 8300000, guid: aa55708dfcc59db408b6c7ff1281c67e, type: 3}
   isZoneAudioLooping: 1
+  cachedName: ApartmentInterior
   zoneNodes:
   - {fileID: -5837764251287271127}
   - {fileID: 5291146569498224961}
@@ -249,6 +343,9 @@ MonoBehaviour:
   - {fileID: -2779898236315854942}
   - {fileID: 3520509955692951049}
   - {fileID: -5729600305271718786}
+  references:
+    version: 2
+    RefIds: []
 --- !u!114 &526659961691500239
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -261,6 +358,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3268536af8903a64da82aa6872733d1d, type: 3}
   m_Name: BathRoom
   m_EditorClassIdentifier: 
+  localizedDisplayName:
+    m_TableReference:
+      m_TableCollectionName: GUID:8137acf3076d245cf991f948822c95ba
+    m_TableEntryReference:
+      m_KeyId: 6549748398940160
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
   children:
   - LivingRoomToBathRoom
   externalZoneLinkToZoneNode: {fileID: 0}
@@ -279,6 +385,9 @@ MonoBehaviour:
     height: 45
   condition:
     and: []
+  references:
+    version: 2
+    RefIds: []
 --- !u!114 &894618589378588676
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -291,6 +400,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3268536af8903a64da82aa6872733d1d, type: 3}
   m_Name: LivingRoomToBedRoom
   m_EditorClassIdentifier: 
+  localizedDisplayName:
+    m_TableReference:
+      m_TableCollectionName: GUID:8137acf3076d245cf991f948822c95ba
+    m_TableEntryReference:
+      m_KeyId: 6549747794960384
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
   children:
   - BedRoom
   externalZoneLinkToZoneNode: {fileID: 0}
@@ -309,6 +427,9 @@ MonoBehaviour:
     height: 45
   condition:
     and: []
+  references:
+    version: 2
+    RefIds: []
 --- !u!114 &3520509955692951049
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -321,6 +442,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3268536af8903a64da82aa6872733d1d, type: 3}
   m_Name: ApartmentBed
   m_EditorClassIdentifier: 
+  localizedDisplayName:
+    m_TableReference:
+      m_TableCollectionName: GUID:8137acf3076d245cf991f948822c95ba
+    m_TableEntryReference:
+      m_KeyId: 6549749426544640
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
   children: []
   externalZoneLinkToZoneNode: {fileID: 0}
   rect:
@@ -338,6 +468,9 @@ MonoBehaviour:
     height: 45
   condition:
     and: []
+  references:
+    version: 2
+    RefIds: []
 --- !u!114 &5291146569498224961
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -350,6 +483,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3268536af8903a64da82aa6872733d1d, type: 3}
   m_Name: SceneToApartmentExterior
   m_EditorClassIdentifier: 
+  localizedDisplayName:
+    m_TableReference:
+      m_TableCollectionName: GUID:8137acf3076d245cf991f948822c95ba
+    m_TableEntryReference:
+      m_KeyId: 6549747190980608
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
   children: []
   externalZoneLinkToZoneNode: {fileID: 7420601607016574253, guid: e8f676a48128f694795863b89db2b92d, type: 2}
   rect:
@@ -370,6 +512,9 @@ MonoBehaviour:
     - or:
       - predicate: {fileID: 11400000, guid: 9f0337f74ac62b947a2295f4757659ec, type: 2}
         negate: 1
+  references:
+    version: 2
+    RefIds: []
 --- !u!114 &6282835250090300715
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -382,6 +527,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3268536af8903a64da82aa6872733d1d, type: 3}
   m_Name: BedRoom
   m_EditorClassIdentifier: 
+  localizedDisplayName:
+    m_TableReference:
+      m_TableCollectionName: GUID:8137acf3076d245cf991f948822c95ba
+    m_TableEntryReference:
+      m_KeyId: 6549747996286976
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
   children:
   - LivingRoomToBedRoom
   externalZoneLinkToZoneNode: {fileID: 0}
@@ -400,6 +554,9 @@ MonoBehaviour:
     height: 45
   condition:
     and: []
+  references:
+    version: 2
+    RefIds: []
 --- !u!114 &6620343842928409639
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -412,6 +569,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3268536af8903a64da82aa6872733d1d, type: 3}
   m_Name: LobbyToApartment
   m_EditorClassIdentifier: 
+  localizedDisplayName:
+    m_TableReference:
+      m_TableCollectionName: GUID:8137acf3076d245cf991f948822c95ba
+    m_TableEntryReference:
+      m_KeyId: 6549747392307200
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
   children:
   - ApartmentToLobby
   externalZoneLinkToZoneNode: {fileID: 0}
@@ -430,6 +596,9 @@ MonoBehaviour:
     height: 45
   condition:
     and: []
+  references:
+    version: 2
+    RefIds: []
 --- !u!114 &7201874376568132561
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -442,6 +611,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3268536af8903a64da82aa6872733d1d, type: 3}
   m_Name: LivingRoomToBathRoom
   m_EditorClassIdentifier: 
+  localizedDisplayName:
+    m_TableReference:
+      m_TableCollectionName: GUID:8137acf3076d245cf991f948822c95ba
+    m_TableEntryReference:
+      m_KeyId: 6549748193419264
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
   children:
   - BathRoom
   externalZoneLinkToZoneNode: {fileID: 0}
@@ -460,3 +638,6 @@ MonoBehaviour:
     height: 45
   condition:
     and: []
+  references:
+    version: 2
+    RefIds: []

@@ -23,8 +23,8 @@ namespace Frankie.Saving.Editor
         private ListView saveEntries;
         private Box saveControlBox;
         
-        #region UnityCore
-        [MenuItem("Tools/Save Editor")]
+        #region UnityMethods
+        [MenuItem("Tools/Save Editor", false, 205)]
         private static void ShowWindow()
         {
             var window = GetWindow<SaveEditor>("Save Editor");

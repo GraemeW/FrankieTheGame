@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.Events;
 using Frankie.Control;
-using Frankie.Core;
+using Frankie.Core.Predicates;
 
 namespace Frankie.Speech
 {

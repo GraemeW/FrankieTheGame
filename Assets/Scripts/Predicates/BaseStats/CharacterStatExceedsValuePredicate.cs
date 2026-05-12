@@ -1,9 +1,9 @@
 using UnityEngine;
 using Frankie.Stats;
 
-namespace Frankie.Core
+namespace Frankie.Core.Predicates
 {
-    [CreateAssetMenu(fileName = "New Character Stat Exceeds Value Predicate", menuName = "Predicates/BaseStats/Character Stat Exceeds Value")]
+    [CreateAssetMenu(fileName = "New Character Stat Exceeds Value Predicate", menuName = "Predicates/BaseStats/Character Stat Exceeds Value", order = 5)]
     public class CharacterStatExceedsValuePredicate : PredicateBaseStats
     {
         [SerializeField][Tooltip("Optional, depending on implementation")] protected Stat stat;
@@ -12,8 +12,7 @@ namespace Frankie.Core
         public override bool? Evaluate(BaseStats baseStats)
         {
             if (character == null || baseStats == null) { return null; }
-            CharacterProperties characterProperties = baseStats.GetCharacterProperties();
-            if (character.GetCharacterNameID() == characterProperties.GetCharacterNameID())
+            if (CharacterProperties.AreCharacterPropertiesMatched(character, baseStats.GetCharacterProperties()))
             {
                 return baseStats.GetStat(stat) >= value;
             }

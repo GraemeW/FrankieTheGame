@@ -4,12 +4,15 @@ using UnityEditor;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement.AsyncOperations;
-using Frankie.Core;
+using UnityEngine.Localization;
+using UnityEngine.Localization.Tables;
+using Frankie.Utils.Addressables;
+using Frankie.Utils.Localization;
 
 namespace Frankie.ZoneManagement
 {
-    [CreateAssetMenu(fileName = "New Zone", menuName = "Zone/New Zone")]
-    public class Zone : ScriptableObject, ISerializationCallbackReceiver, IAddressablesCache
+    [CreateAssetMenu(fileName = "New Zone", menuName = "Zone/New Zone", order = 2)]
+    public class Zone : ScriptableObject, ISerializationCallbackReceiver, IAddressablesCache, ILocalizable
     {
         // Tunables
 #if UNITY_EDITOR
@@ -19,13 +22,16 @@ namespace Frankie.ZoneManagement
         [SerializeField] private int nodeHeight = 150;
 #endif
         [Header("Zone Properties")]
+        [SerializeField][SimpleLocalizedString(LocalizationTableType.Zones, false)] private LocalizedString localizedDisplayName;
         [SerializeField] private SceneReference sceneReference;
         [SerializeField] private bool updateMap = false;
         [SerializeField] private AudioClip zoneAudio;
         [SerializeField] private bool isZoneAudioLooping = true;
 
         // State
-        [HideInInspector] [SerializeField] private List<ZoneNode> zoneNodes = new();
+        [HideInInspector][SerializeField] private string cachedName = "";
+        public string iCachedName { get => cachedName; set => cachedName = value; }
+        [HideInInspector][SerializeField] private List<ZoneNode> zoneNodes = new();
 #if UNITY_EDITOR
         private Dictionary<string, ZoneNode> nodeEditorLookup = new();
 #endif
@@ -61,7 +67,7 @@ namespace Frankie.ZoneManagement
         {
             _zoneLookupCache = new Dictionary<string, Zone>();
             _sceneReferenceCache = new Dictionary<string, Zone>();
-            Debug.Log("Building zone cache");
+            //Debug.Log("Zone:  Building static Zone cache");
             _addressablesLoadHandle = Addressables.LoadAssetsAsync(nameof(Zone), (Zone zone) =>
             {
                 if (_zoneLookupCache.ContainsKey(zone.name) || _sceneReferenceCache.ContainsKey(zone.GetSceneReference().SceneName))
@@ -106,20 +112,46 @@ namespace Frankie.ZoneManagement
         }
         #endregion
 
-        #region PublicMethods
+        #region Getters
         public SceneReference GetSceneReference() => sceneReference;
         public AudioClip GetZoneAudio() => zoneAudio;
         public bool IsZoneAudioLooping() => isZoneAudioLooping;
         public bool ShouldUpdateMap() => updateMap;
         public IEnumerable<ZoneNode> GetAllNodes() => zoneNodes;
         public ZoneNode GetRootNode() => zoneNodes[0];
-        public bool IsRelated(ZoneNode parentNode, ZoneNode childNode) => parentNode.GetChildren() != null && parentNode.GetChildren().Contains(childNode.name);
-        
+        public static bool IsRelated(ZoneNode parentNode, ZoneNode childNode) => parentNode.GetChildren() != null && parentNode.GetChildren().Contains(childNode.name);
         public ZoneNode GetNodeFromID(string zoneNodeName) => zoneNodes.FirstOrDefault(zoneNode => zoneNode.name == zoneNodeName);
+        public LocalizationTableType localizationTableType { get; } = LocalizationTableType.Zones;
+        public List<TableEntryReference> GetLocalizationEntries()
+        {
+            var entries = new List<TableEntryReference> { localizedDisplayName.TableEntryReference };
+            foreach (ZoneNode zoneNode in zoneNodes.Where(zoneNode => zoneNode != null))
+            {
+                entries.AddRange(zoneNode.GetLocalizationEntries());
+            }
+            return entries;
+        }
+        
+        public List<(string propertyName, LocalizedString localizedString, bool setToName)> GetPropertyLinkedLocalizationEntries()
+        {
+            return new List<(string propertyName, LocalizedString localizedString, bool setToName)>
+            {
+                (nameof(localizedDisplayName), localizedDisplayName, true)
+            };
+        }
         #endregion
         
-        #region EditorMethods
 #if UNITY_EDITOR
+        #region EditorMethods
+        [ContextMenu("Match Zone Name to Scene")]
+        public void ForceUpdateZoneNameToMatchScene()
+        {
+            // Ensure Zone name always matches scene name exactly
+            var path = AssetDatabase.GetAssetPath(this);
+            AssetDatabase.RenameAsset(path, sceneReference.SceneName);
+            name = sceneReference.SceneName;
+        }
+        
         public IEnumerable<ZoneNode> GetAllChildren(ZoneNode parentNode)
         {
             if (parentNode == null || parentNode.GetChildren() == null || parentNode.GetChildren().Count == 0) { yield break; }
@@ -134,8 +166,8 @@ namespace Frankie.ZoneManagement
             var zoneNode = CreateInstance<ZoneNode>();
             Undo.RegisterCreatedObjectUndo(zoneNode, "Created Zone Node Object");
             zoneNode.Initialize(nodeWidth, nodeHeight);
-            zoneNode.SetNodeID(System.Guid.NewGuid().ToString());
             zoneNode.SetZoneName(name);
+            zoneNode.SetNodeID(System.Guid.NewGuid().ToString());
 
             Undo.RecordObject(this, "Add Zone Node");
             zoneNodes.Add(zoneNode);
@@ -169,21 +201,13 @@ namespace Frankie.ZoneManagement
             if (nodeToDelete == null) { return; }
 
             Undo.RecordObject(this, "Delete Zone Node");
+            nodeToDelete.DeleteLocalizationEntries();
             zoneNodes.Remove(nodeToDelete);
             CleanDanglingChildren(nodeToDelete);
             OnValidate();
 
             Undo.DestroyObjectImmediate(nodeToDelete);
         }
-
-        private void CleanDanglingChildren(ZoneNode nodeToDelete)
-        {
-            foreach (ZoneNode zoneNode in zoneNodes)
-            {
-                zoneNode.RemoveChild(nodeToDelete.name);
-            }
-        }
-
         public void UpdateNodeID(string oldNodeID, string newNodeID)
         {
             foreach (ZoneNode zoneNode in zoneNodes.Where(zoneNode => zoneNode.GetChildren() != null))
@@ -205,19 +229,26 @@ namespace Frankie.ZoneManagement
             }
             OnValidate();
         }
-
-        [ContextMenu("Match Zone Name to Scene")]
-        public void ForceUpdateZoneNameToMatchScene()
+        
+        private void CleanDanglingChildren(ZoneNode nodeToDelete)
         {
-            // Ensure Zone name always matches scene name exactly
-            var path = AssetDatabase.GetAssetPath(this);
-            AssetDatabase.RenameAsset(path, sceneReference.SceneName);
-            name = sceneReference.SceneName;
+            foreach (ZoneNode zoneNode in zoneNodes)
+            {
+                zoneNode.RemoveChild(nodeToDelete.name);
+            }
         }
-#endif
+        
+        public void TriggerOnRename()
+        {
+            foreach (ZoneNode zoneNode in zoneNodes)
+            {
+                zoneNode.SetZoneName(name);
+            }
+        }
         #endregion
+#endif
 
-        #region Interfaces
+        #region SerializationInterface
         void ISerializationCallbackReceiver.OnBeforeSerialize()
         {
 #if UNITY_EDITOR
@@ -230,7 +261,6 @@ namespace Frankie.ZoneManagement
             
             foreach (ZoneNode zoneNode in GetAllNodes())
             {
-                zoneNode.SetZoneName(name);
                 if (AssetDatabase.GetAssetPath(zoneNode) == "")
                 {
                     AssetDatabase.AddObjectToAsset(zoneNode, this);

@@ -99,6 +99,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1464354940526025238}
     m_Modifications:
+    - target: {fileID: 1805854450624590715, guid: ced95d06413ae48bb94e4ed5114a5c84, type: 3}
+      propertyPath: localizedCheckMessage.m_TableEntryReference.m_KeyId
+      value: 4764661252612096
+      objectReference: {fileID: 0}
     - target: {fileID: 7718691200219196530, guid: ced95d06413ae48bb94e4ed5114a5c84, type: 3}
       propertyPath: m_Name
       value: CheckWithDoorKnock

@@ -13,8 +13,29 @@ MonoBehaviour:
   m_Name: HipsterChattedOnce
   m_EditorClassIdentifier: 
   objectiveID: 058f0569-9963-42ad-88c3-1d35128873f4
-  description: Chat once with the hipster office worker
+  localizedDisplayName:
+    m_TableReference:
+      m_TableCollectionName: GUID:b9dd45143ecd64476b4827b4d45c6003
+    m_TableEntryReference:
+      m_KeyId: 7959505928183808
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  localizedDetail:
+    m_TableReference:
+      m_TableCollectionName: GUID:b9dd45143ecd64476b4827b4d45c6003
+    m_TableEntryReference:
+      m_KeyId: 7959506028847104
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  questName: Demo_Office-InteriorHipster
   questID: a5a603ce-7ce9-41e5-982f-f3a64f2594e7
+  references:
+    version: 2
+    RefIds: []
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -31,10 +52,32 @@ MonoBehaviour:
   gameStateModifierHandlerData:
   - zoneName: OfficeInterior
     gameObjectName: HipsterOfficeWorker (1)
+    parentObjectName: 
     guid: 151435e9-c7b7-478f-a9cf-7aaad03e4487
-  detail: Tracker for chatting with the hipster in Office
+  localizedDisplayName:
+    m_TableReference:
+      m_TableCollectionName: GUID:b9dd45143ecd64476b4827b4d45c6003
+    m_TableEntryReference:
+      m_KeyId: 7959505626193920
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  localizedDetail:
+    m_TableReference:
+      m_TableCollectionName: GUID:b9dd45143ecd64476b4827b4d45c6003
+    m_TableEntryReference:
+      m_KeyId: 7959505726857216
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
   questObjectiveNames:
   - HipsterChattedOnce
   rewards: []
+  cachedName: 
   questObjectives:
   - {fileID: -8469063289627637362}
+  references:
+    version: 2
+    RefIds: []

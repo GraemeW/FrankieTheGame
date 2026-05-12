@@ -12,13 +12,48 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 33e95245631ceb240b5d1e9a125fb3a9, type: 3}
   m_Name: StandardPartyOptions
   m_EditorClassIdentifier: 
-  messagePartyOptions: What do you want to do?
+  localizedMessagePartyOptions:
+    m_TableReference:
+      m_TableCollectionName: GUID:e01518a4d82d5485e9b0e7f466ecf01d
+    m_TableEntryReference:
+      m_KeyId: 5083248819429376
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
   toggleLeaderAdjust: 1
-  optionLeaderAdjust: Change leader
+  localizedOptionLeaderAdjust:
+    m_TableReference:
+      m_TableCollectionName: GUID:e01518a4d82d5485e9b0e7f466ecf01d
+    m_TableEntryReference:
+      m_KeyId: 5083286815629312
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
   partyLeaderConfiguration: {fileID: 11400000, guid: 7dcd72710d6fb86428fe4b0a1aa6ee12, type: 2}
   toggleAddToParty: 1
-  optionAddToParty: Add
+  localizedOptionAddToParty:
+    m_TableReference:
+      m_TableCollectionName: GUID:e01518a4d82d5485e9b0e7f466ecf01d
+    m_TableEntryReference:
+      m_KeyId: 5083338745307136
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
   addToPartyConfiguration: {fileID: 11400000, guid: 8c1e4278a0ddc614cbe00e441b578d45, type: 2}
   toggleRemoveFromParty: 1
-  optionRemoveFromParty: Remove
+  localizedOptionRemoveFromParty:
+    m_TableReference:
+      m_TableCollectionName: GUID:e01518a4d82d5485e9b0e7f466ecf01d
+    m_TableEntryReference:
+      m_KeyId: 5083402268041216
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
   removeFromPartyConfiguration: {fileID: 11400000, guid: e564b2c96842cd7458237593516e0d7e, type: 2}
+  references:
+    version: 2
+    RefIds: []

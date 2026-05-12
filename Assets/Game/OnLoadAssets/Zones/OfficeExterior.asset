@@ -12,6 +12,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3268536af8903a64da82aa6872733d1d, type: 3}
   m_Name: OfficePortaBankDoor
   m_EditorClassIdentifier: 
+  localizedDisplayName:
+    m_TableReference:
+      m_TableCollectionName: GUID:8137acf3076d245cf991f948822c95ba
+    m_TableEntryReference:
+      m_KeyId: 6549753306275840
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
   children: []
   externalZoneLinkToZoneNode: {fileID: -3574389237603949618, guid: 4742afef1319b6e41b7fe953e2225f42, type: 2}
   rect:
@@ -29,6 +38,9 @@ MonoBehaviour:
     height: 45
   condition:
     and: []
+  references:
+    version: 2
+    RefIds: []
 --- !u!114 &-8137509927413381033
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -41,6 +53,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3268536af8903a64da82aa6872733d1d, type: 3}
   m_Name: SubwayApartmentDownstairs
   m_EditorClassIdentifier: 
+  localizedDisplayName:
+    m_TableReference:
+      m_TableCollectionName: GUID:8137acf3076d245cf991f948822c95ba
+    m_TableEntryReference:
+      m_KeyId: 6549753704734720
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
   children: []
   externalZoneLinkToZoneNode: {fileID: -3197550637124935898, guid: 22c8250c01773ac4c97cd290e2f34c7a, type: 2}
   rect:
@@ -58,6 +79,9 @@ MonoBehaviour:
     height: 45
   condition:
     and: []
+  references:
+    version: 2
+    RefIds: []
 --- !u!114 &-4912669020652922926
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -70,6 +94,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3268536af8903a64da82aa6872733d1d, type: 3}
   m_Name: SubwayOfficeDownStairs
   m_EditorClassIdentifier: 
+  localizedDisplayName:
+    m_TableReference:
+      m_TableCollectionName: GUID:8137acf3076d245cf991f948822c95ba
+    m_TableEntryReference:
+      m_KeyId: 6549753507602432
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
   children: []
   externalZoneLinkToZoneNode: {fileID: 6018069334625240327, guid: 22c8250c01773ac4c97cd290e2f34c7a, type: 2}
   rect:
@@ -87,6 +120,9 @@ MonoBehaviour:
     height: 45
   condition:
     and: []
+  references:
+    version: 2
+    RefIds: []
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -102,19 +138,32 @@ MonoBehaviour:
   newNodeOffset: {x: 100, y: 25}
   nodeWidth: 430
   nodeHeight: 150
+  localizedDisplayName:
+    m_TableReference:
+      m_TableCollectionName: GUID:8137acf3076d245cf991f948822c95ba
+    m_TableEntryReference:
+      m_KeyId: 6549753008480256
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
   sceneReference:
-    sceneAsset: {fileID: 102900000, guid: 12f7e76c252184d49b8c69c04f2c8c3e, type: 3}
+    sceneAsset: {fileID: 102900000, guid: bdbc1e0ce13a1f14ebbd17a6311fb5d4, type: 3}
     sceneName: OfficeExterior
     scenePath: Assets/Scenes/OfficeExterior.unity
   updateMap: 1
   zoneAudio: {fileID: 8300000, guid: 840503d4a3e71484a94da9a50830ba88, type: 3}
   isZoneAudioLooping: 1
+  cachedName: OfficeExterior
   zoneNodes:
   - {fileID: 7904139768458627740}
   - {fileID: -9218234244170276018}
   - {fileID: -4912669020652922926}
   - {fileID: -8137509927413381033}
   - {fileID: 7420601607016574253}
+  references:
+    version: 2
+    RefIds: []
 --- !u!114 &7420601607016574253
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -127,6 +176,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3268536af8903a64da82aa6872733d1d, type: 3}
   m_Name: ApartmentDoor
   m_EditorClassIdentifier: 
+  localizedDisplayName:
+    m_TableReference:
+      m_TableCollectionName: GUID:8137acf3076d245cf991f948822c95ba
+    m_TableEntryReference:
+      m_KeyId: 6549753901867008
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
   children: []
   externalZoneLinkToZoneNode: {fileID: -5837764251287271127, guid: c2792a31fdd8a5249bea668b45752dd0, type: 2}
   rect:
@@ -144,6 +202,9 @@ MonoBehaviour:
     height: 45
   condition:
     and: []
+  references:
+    version: 2
+    RefIds: []
 --- !u!114 &7904139768458627740
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -156,6 +217,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3268536af8903a64da82aa6872733d1d, type: 3}
   m_Name: OfficeDoor
   m_EditorClassIdentifier: 
+  localizedDisplayName:
+    m_TableReference:
+      m_TableCollectionName: GUID:8137acf3076d245cf991f948822c95ba
+    m_TableEntryReference:
+      m_KeyId: 6549753109143552
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
   children: []
   externalZoneLinkToZoneNode: {fileID: -581003641315174118, guid: 26c6337203d60d64b876b87a573d7f08, type: 2}
   rect:
@@ -173,3 +243,6 @@ MonoBehaviour:
     height: 45
   condition:
     and: []
+  references:
+    version: 2
+    RefIds: []

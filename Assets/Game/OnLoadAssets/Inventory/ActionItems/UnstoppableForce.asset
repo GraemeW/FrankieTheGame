@@ -14,9 +14,29 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Frankie.Inventory.ActionItem
   guid: de6b51b1-993e-4816-b20d-4465a0317c29
   gameStateModifierHandlerData: []
-  displayName: Unstoppable Force
-  description: If only you could find an immovable object.
+  localizedDisplayName:
+    m_TableReference:
+      m_TableCollectionName: GUID:d96a34ea508fa423b93190524b5b4af1
+    m_TableEntryReference:
+      m_KeyId: 7257226589757440
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  localizedDetail:
+    m_TableReference:
+      m_TableCollectionName: GUID:d96a34ea508fa423b93190524b5b4af1
+    m_TableEntryReference:
+      m_KeyId: 7257226686226432
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
   droppable: 1
   price: 50
+  cachedName: UnstoppableForce
   consumable: 1
   battleAction: {fileID: 11400000, guid: 369d3542d7ee3456ca04fdf341fcf1f3, type: 2}
+  references:
+    version: 2
+    RefIds: []

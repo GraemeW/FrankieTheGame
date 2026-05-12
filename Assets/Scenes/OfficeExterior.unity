@@ -1823,6 +1823,10 @@ PrefabInstance:
       propertyPath: checkMessage
       value: 'There''s a note:  Please order from the window!'
       objectReference: {fileID: 0}
+    - target: {fileID: 1805854450624590715, guid: ced95d06413ae48bb94e4ed5114a5c84, type: 3}
+      propertyPath: localizedCheckMessage.m_TableEntryReference.m_KeyId
+      value: 4766547569532928
+      objectReference: {fileID: 0}
     - target: {fileID: 2946689132014277981, guid: ced95d06413ae48bb94e4ed5114a5c84, type: 3}
       propertyPath: uniqueIdentifier
       value: adeeb4c4-f8cb-46e0-accb-c6ed7bb9840a
@@ -7459,6 +7463,10 @@ PrefabInstance:
       propertyPath: checkMessage
       value: Primm News - The latest beat, comin' to ya hunky snarky
       objectReference: {fileID: 0}
+    - target: {fileID: 4439310067753489194, guid: 73c30428461edd64290a85b10bf3e2e9, type: 3}
+      propertyPath: localizedCheckMessage.m_TableEntryReference.m_KeyId
+      value: 4766547674390528
+      objectReference: {fileID: 0}
     - target: {fileID: 8896237604876974606, guid: 73c30428461edd64290a85b10bf3e2e9, type: 3}
       propertyPath: m_Name
       value: InfoSignWide (1)
@@ -7679,6 +7687,10 @@ PrefabInstance:
     - target: {fileID: 3388110098072078902, guid: 8adaabdeb3231364f9419b18bfbf028d, type: 3}
       propertyPath: checkMessage
       value: 'It says:  Famous Zak''''s Tacos - CLOSED, due to vole infestation'
+      objectReference: {fileID: 0}
+    - target: {fileID: 3388110098072078902, guid: 8adaabdeb3231364f9419b18bfbf028d, type: 3}
+      propertyPath: localizedCheckMessage.m_TableEntryReference.m_KeyId
+      value: 4766547464675328
       objectReference: {fileID: 0}
     - target: {fileID: 5153517440920887192, guid: 8adaabdeb3231364f9419b18bfbf028d, type: 3}
       propertyPath: checkMessage
@@ -17729,6 +17741,10 @@ PrefabInstance:
     - target: {fileID: 5964536371822141673, guid: b25a85b6215affa4faee35048f1eb97c, type: 3}
       propertyPath: checkMessage
       value: 'There''s a note:  Not open!  Come back later!'
+      objectReference: {fileID: 0}
+    - target: {fileID: 5964536371822141673, guid: b25a85b6215affa4faee35048f1eb97c, type: 3}
+      propertyPath: localizedCheckMessage.m_TableEntryReference.m_KeyId
+      value: 4766547775053824
       objectReference: {fileID: 0}
     - target: {fileID: 6103623295133181606, guid: b25a85b6215affa4faee35048f1eb97c, type: 3}
       propertyPath: uniqueIdentifier
@@ -58462,6 +58478,10 @@ PrefabInstance:
       propertyPath: uniqueIdentifier
       value: fa7a09f5-3018-4e6d-aedb-07846e6bcf33
       objectReference: {fileID: 0}
+    - target: {fileID: 5599499100880795365, guid: 863f9e44ad692b94ea386a15c4336051, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -58761,13 +58781,39 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   checkAtStartOfInteraction: 0
-  checkMessage: Can't go home yet, full day of work ahead
-  defaultPartyLeaderName: Frankie
-  messageAccept: OK!
-  messageReject: Nah
+  localizedCheckMessage:
+    m_TableReference:
+      m_TableCollectionName: GUID:e01518a4d82d5485e9b0e7f466ecf01d
+    m_TableEntryReference:
+      m_KeyId: 4766546927804416
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  localizedMessageAccept:
+    m_TableReference:
+      m_TableCollectionName: GUID:e01518a4d82d5485e9b0e7f466ecf01d
+    m_TableEntryReference:
+      m_KeyId: 4766547263348736
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  localizedMessageReject:
+    m_TableReference:
+      m_TableCollectionName: GUID:e01518a4d82d5485e9b0e7f466ecf01d
+    m_TableEntryReference:
+      m_KeyId: 4766547364012032
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
   rejectInteraction:
     m_PersistentCalls:
       m_Calls: []
+  references:
+    version: 2
+    RefIds: []
 --- !u!1001 &6710720556761620040
 PrefabInstance:
   m_ObjectHideFlags: 0

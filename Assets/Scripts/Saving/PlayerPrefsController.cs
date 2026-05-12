@@ -17,6 +17,7 @@ namespace Frankie.Saving
         private const string _resolutionFSWHeightKey = "resolutionFSWHeight";
         private const string _resolutionWindowedWidthKey = "resolutionWindowedWidth";
         private const string _resolutionWindowedHeightKey = "resolutionWindowedHeight";
+        private const string _languageKey = "languageCode";
 
         // Parameters
         private const float _minVolume = 0f;
@@ -137,6 +138,16 @@ namespace Frankie.Saving
 
             DisplayInfo currentDisplay = Screen.mainWindowDisplayInfo;
             return currentDisplay.width != PlayerPrefs.GetInt(_displayWidth) || currentDisplay.height != PlayerPrefs.GetInt(_displayHeight);
+        }
+        #endregion
+        
+        #region LanguageSettings
+        public static bool LanguageKeyExists() => PlayerPrefs.HasKey(_languageKey);
+        public static string GetLanguageCode() => PlayerPrefs.GetString(_languageKey);
+
+        public static void SetLanguageCode(string languageCode)
+        {
+            PlayerPrefs.SetString(_languageKey, languageCode);
         }
         #endregion
     }

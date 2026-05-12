@@ -1,9 +1,12 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Localization;
+using UnityEngine.Localization.Tables;
+using Frankie.Utils.Localization;
 
 namespace Frankie.Combat.UI
 {
-    public class DamageTextSpawner : MonoBehaviour
+    public class DamageTextSpawner : MonoBehaviour, ILocalizable
     {
         // Tunables
         [Header("Text Qualities")]
@@ -12,9 +15,9 @@ namespace Frankie.Combat.UI
         [SerializeField] private Color loseAPTextColor = Color.magenta;
         [SerializeField] private Color gainAPTextColor = Color.blue;
         [SerializeField] private Color hitMissColor = Color.gray;
-        [SerializeField] private string hitMissText = "miss";
+        [SerializeField][SimpleLocalizedString(LocalizationTableType.UI, true)] private LocalizedString localizedHitMissText;
         [SerializeField] private Color hitCritColor = Color.yellow;
-        [SerializeField] private string hitCritText = "CRIT!";
+        [SerializeField][SimpleLocalizedString(LocalizationTableType.UI, true)] private LocalizedString localizedHitCritText;
         [SerializeField] private Color informationalTextColor = Color.gray;
 
         [Header("Other Tunables")]
@@ -25,7 +28,7 @@ namespace Frankie.Combat.UI
         private float timeSinceLastSpawn = Mathf.Infinity;
         private readonly Queue<DamageTextData> damageTextQueue = new();
 
-        // Methods
+        #region UnityMethods
         private void FixedUpdate()
         {
             if (damageTextQueue.Count == 0) { return; }
@@ -39,7 +42,9 @@ namespace Frankie.Combat.UI
             }
             timeSinceLastSpawn += Time.deltaTime;
         }
+        #endregion
 
+        #region PublicMethods
         public void AddToQueue(DamageTextData damageTextData)
         {
             switch (damageTextData.damageTextType)
@@ -53,6 +58,19 @@ namespace Frankie.Combat.UI
             }
         }
 
+        public LocalizationTableType localizationTableType { get; } = LocalizationTableType.UI;
+
+        public List<TableEntryReference> GetLocalizationEntries()
+        {
+            return new List<TableEntryReference>
+            {
+                localizedHitMissText.TableEntryReference,
+                localizedHitCritText.TableEntryReference,
+            };
+        }
+        #endregion
+
+        #region PrivateMethods
         private bool Spawn(DamageTextData damageTextData)
         {
             DamageText damageTextInstance = Instantiate(damageTextPrefab, transform);
@@ -100,14 +118,14 @@ namespace Frankie.Combat.UI
 
         private bool SpawnHitMiss(DamageText damageTextInstance)
         {
-            damageTextInstance.SetText(hitMissText);
+            damageTextInstance.SetText(localizedHitMissText.GetSafeLocalizedString());
             damageTextInstance.SetColor(hitMissColor);
             return true;
         }
 
         private bool SpawnHitCrit(DamageText damageTextInstance)
         {
-            damageTextInstance.SetText(hitCritText);
+            damageTextInstance.SetText(localizedHitCritText.GetSafeLocalizedString());
             damageTextInstance.SetColor(hitCritColor);
             return true;
         }
@@ -118,5 +136,6 @@ namespace Frankie.Combat.UI
             damageTextInstance.SetColor(informationalTextColor);
             return true;
         }
+        #endregion
     }
 }

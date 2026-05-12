@@ -1,0 +1,485 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e9620f8c34305754d8cc9a7e49e852d9, type: 3}
+  m_Name: UI_en
+  m_EditorClassIdentifier: Unity.Localization::UnityEngine.Localization.Tables.StringTable
+  m_LocaleId:
+    m_Code: en
+  m_SharedData: {fileID: 11400000, guid: ce7f667b432574cb1832328f600c1082, type: 2}
+  m_Metadata:
+    m_Items: []
+  m_TableData:
+  - m_Id: 7976973233020928
+    m_Localized: HP
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7978808543010816
+    m_Localized: AP
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7991831638827008
+    m_Localized: miss
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7991869383368704
+    m_Localized: CRIT!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7997758593032192
+    m_Localized: You have encountered {0}.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7997790486519808
+    m_Localized: You have encountered {0} and its cohort.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7997814947700736
+    m_Localized: What do you want to do?
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7997834627375104
+    m_Localized: Your party has gained {0} experience.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7997860300709888
+    m_Localized: '{0} has leveled up to level {1}!'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7997880118796288
+    m_Localized: '{0} has increased by {1}.'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7997902138892288
+    m_Localized: Wait, {0} found something.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7997925174009856
+    m_Localized: '{0} dropped {1}, and you stashed it in your knapsack.'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7997945612853248
+    m_Localized: '{0} dropped {1}, but you don''t have any room.  Do you want to
+      throw something out?'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7997972309598208
+    m_Localized: Are you sure you want to abandon {0}?
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7997998792433664
+    m_Localized: Yeah
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7998019667484672
+    m_Localized: Nah
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7998039489765376
+    m_Localized: You Won!  Congratulations!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7998057474940928
+    m_Localized: Looks like things didn't quite go as planned.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7998077553074176
+    m_Localized: You ran away.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 8003262832697344
+    m_Localized: '{0} restored {1} HP.'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 8003284227842048
+    m_Localized: '{0} was hit for {1} points.'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 8003305111281664
+    m_Localized: '{0} restored {1} AP.'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 8003344688734208
+    m_Localized: '{0} was drained for {1} AP.'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 8003359918252032
+    m_Localized: '{0} was knocked unconcious.'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 8003382676545536
+    m_Localized: '{0} gained the will to fight again.'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 8004517357412352
+    m_Localized: Use the item {0} on which foe?
+    m_Metadata:
+      m_Items: []
+  - m_Id: 8994215747903488
+    m_Localized: Fight
+    m_Metadata:
+      m_Items: []
+  - m_Id: 8994259788095488
+    m_Localized: Item
+    m_Metadata:
+      m_Items: []
+  - m_Id: 8994292197482496
+    m_Localized: Stats
+    m_Metadata:
+      m_Items: []
+  - m_Id: 8994330206265344
+    m_Localized: Run Away
+    m_Metadata:
+      m_Items: []
+  - m_Id: 8999697510293504
+    m_Localized: No Selection
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9002459291705344
+    m_Localized: 'Inclination:  '
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9002630037626880
+    m_Localized: 'AP Cost:  '
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9003945904037888
+    m_Localized: '{0} used {1} on {2}'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9004005794504704
+    m_Localized: Not enough AP.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9004072169365504
+    m_Localized: No valid target.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9041979810766848
+    m_Localized: You currently have {0} funds.  How much do you want to deposit?
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9042015114223616
+    m_Localized: You currently have {0} in the bank.  How much do you want to take
+      out?
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9043485888864256
+    m_Localized: Okay
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9043523323027456
+    m_Localized: Nah
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9045403184914432
+    m_Localized: Nah
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9054858278592512
+    m_Localized: There's nothing in the knapsack to equip.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9054899747676160
+    m_Localized: Guess we're goin' nude
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9054925978853376
+    m_Localized: What do you want to do?
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9054948686815232
+    m_Localized: Put on
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9054970841128960
+    m_Localized: Take off
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9090075731156992
+    m_Localized: What do you want to do?
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9090105997254656
+    m_Localized: Inspect
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9090135265107968
+    m_Localized: Use
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9090162431614976
+    m_Localized: Move
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9090191695273984
+    m_Localized: Drop
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9090224113049600
+    m_Localized: Yes
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9090250767851520
+    m_Localized: No
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9090282225131520
+    m_Localized: '{0} is busy twirling, twirling.'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9090309425192960
+    m_Localized: '{0} used {1} on {2}'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9090354954362880
+    m_Localized: Are you sure you want to abandon {0}?
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9096149108514816
+    m_Localized: Equip
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9096179089399808
+    m_Localized: This item cannot be equipped here.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9097773231104000
+    m_Localized: Are you sure you want to pick up {0} and abandon {1}?
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9098989205970944
+    m_Localized: Sell
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9099015562977280
+    m_Localized: On second thought...
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9100415357411328
+    m_Localized: What do you want to buy?
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9101877613420544
+    m_Localized: What do you want to do?
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9101914842062848
+    m_Localized: Buy
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9101940683169792
+    m_Localized: Sell
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9320795544215552
+    m_Localized: Escape Menu
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9320825478963200
+    m_Localized: Game Options
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9320874883670016
+    m_Localized: Quit
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9323037789773824
+    m_Localized: Load Game
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9323126440583168
+    m_Localized: New Game
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9323149391814656
+    m_Localized: Load Game
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9323169398644736
+    m_Localized: Delete Game
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9323189652938752
+    m_Localized: What do you want to do?
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9323210192445440
+    m_Localized: Are you really sure?
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9323238176841728
+    m_Localized: Yeah
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9323263028092928
+    m_Localized: Nah
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9325737801670656
+    m_Localized: Level
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9340453617917952
+    m_Localized: Frankie
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9340490968195072
+    m_Localized: 
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9340512673718272
+    m_Localized: Demo
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9340612401684480
+    m_Localized: Yow!  Let's go!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9340671985967104
+    m_Localized: Continue from Last Save
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9340740931936256
+    m_Localized: Options
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9340774561865728
+    m_Localized: Quit
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9345538951471104
+    m_Localized: Game Over,
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9345572526874624
+    m_Localized: Frankie
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9345612603449344
+    m_Localized: Don't give up!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9345647709773824
+    m_Localized: Quit game.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9348140321726464
+    m_Localized: Well Done,
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9348173288955904
+    m_Localized: Frankie
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9348623979503616
+    m_Localized: Start Menu
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9348682368409600
+    m_Localized: Credits
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9348738110709760
+    m_Localized: 'Lead Programmer:  '
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9348789197332480
+    m_Localized: 'Game Design:  '
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9348828321800192
+    m_Localized: 'Artwork:  '
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9348856843067392
+    m_Localized: 'Music:  '
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9355300174815232
+    m_Localized: Options Menu
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9355337726418944
+    m_Localized: Master Volume
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9355387995152384
+    m_Localized: Background Volume
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9355425123131392
+    m_Localized: SFX Volume
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9355460485308416
+    m_Localized: Windowed Resolutions
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9355507172106240
+    m_Localized: Windowed FullScreen
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9355555163332608
+    m_Localized: Okay
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9355582094958592
+    m_Localized: Nah
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9356228923744256
+    m_Localized: Default
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9358617282076672
+    m_Localized: Knapsack
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9358650349969408
+    m_Localized: Outfit
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9358686777499648
+    m_Localized: Abilities
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9358719555985408
+    m_Localized: Status
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9358751956983808
+    m_Localized: Map
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9360196097794048
+    m_Localized: If I remember right, it looked like...
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9360247998111744
+    m_Localized: Wait...
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9404486387752960
+    m_Localized: experience for next level
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9409976064794624
+    m_Localized: Language
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9465625096216576
+    m_Localized: Empty
+    m_Metadata:
+      m_Items: []
+  references:
+    version: 2
+    RefIds: []

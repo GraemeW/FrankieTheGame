@@ -1,13 +1,16 @@
+using UnityEngine;
+using UnityEngine.Localization;
 using Frankie.Control;
 using Frankie.ZoneManagement;
+using Frankie.Utils.Localization;
 
 namespace Frankie.World
 {
     [System.Serializable]
     public class SubwayRide
     {
-        public string rideName = "Subway Stop Name";
-        public ZoneHandler zoneHandler;
-        public PatrolPath path;
+        [SerializeField][SimpleLocalizedString(LocalizationTableType.ChecksWorldObjects, true)] public LocalizedString localizedRideName;
+        [SerializeField] public ZoneHandler zoneHandler;
+        [SerializeField] public PatrolPath path;
     }
 }
