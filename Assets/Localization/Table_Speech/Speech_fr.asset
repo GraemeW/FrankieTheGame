@@ -2858,6 +2858,35 @@ MonoBehaviour:
       cause de quelque chose."
     m_Metadata:
       m_Items: []
+  - m_Id: 10063431074832384
+    m_Localized: "Texte de Superposition par D\xE9faut"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 10064054797197312
+    m_Localized: Nous sommes en 201x.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 10064492942581760
+    m_Localized: "Prim, une petite banlieue dans \n Le Pays des Opportunit\xE9s"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 10064850876096512
+    m_Localized: "Frankie se sent inexplicablement attir\xE9 par la for\xEAt \n .
+      . . pour trouver et arr\xEAter le Culte des Moines Chauves"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 10122967047462912
+    m_Localized: Nous sommes en 201X
+    m_Metadata:
+      m_Items: []
+  - m_Id: 10123109607661568
+    m_Localized: "Prim, une petite banlieue dans \n Le Pays des Opportunit\xE9s"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 10123184790560768
+    m_Localized: Frankie, au boulot
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

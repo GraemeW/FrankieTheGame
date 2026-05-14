@@ -1,5 +1,4 @@
 #if UNITY_EDITOR
-using System.Linq;
 using UnityEngine;
 using UnityEngine.Localization;
 using UnityEngine.Localization.Tables;
@@ -19,6 +18,7 @@ namespace Frankie.Utils.Localization.Editor
         private TextField keyTextField;
         private TextField contentsTextField;
         private Toggle lockToggle;
+        private Button newKeyButton;
         private Button renameKeyButton;
         private Button deleteKeyButton;
         
@@ -62,9 +62,9 @@ namespace Frankie.Utils.Localization.Editor
             localizedString = property.boxedValue as LocalizedString;
             if (localizedString == null) { return MakeErrorBox("Property is not LocalizedString."); }
             if (!LocalizationTool.GetOrMakeTableCollection(localizationTableType, out StringTableCollection _)) { return MakeErrorBox($"Could not find or create StringTableCollection of type: '{localizationTableType}'."); }
-            if (IsKeyEmpty(localizedString, localizationTableType, out TableEntryReference _) && HasPrefab(property))
+            if (IsKeyEmpty(localizedString, localizationTableType, out TableEntryReference _) && HasPrefab(property, out Object prefabSource))
             {
-                TryResetToPrefab(property);
+                TryResetToPrefab(property, prefabSource);
             }
             
             // Build UI Elements
@@ -75,7 +75,7 @@ namespace Frankie.Utils.Localization.Editor
             root.Add(lockToggleRow);
             VisualElement contentsRow = BuildContentsRow(localizedString, localizationTableType, out contentsTextField);
             root.Add(contentsRow);
-            VisualElement newKeyButtonRow = BuildButtonRow(_newKeyButtonLabel, isKeyEditable && isKeyUnlocked, out Button newKeyButton); 
+            VisualElement newKeyButtonRow = BuildButtonRow(_newKeyButtonLabel, isKeyEditable && isKeyUnlocked, out newKeyButton); 
             root.Add(newKeyButtonRow);
             VisualElement renameKeyButtonRow = BuildButtonRow(_renameKeyButtonLabel, isKeyEditable && isKeyUnlocked, out renameKeyButton);
             root.Add(renameKeyButtonRow);
@@ -83,7 +83,7 @@ namespace Frankie.Utils.Localization.Editor
             root.Add(deleteKeyButtonRow);
             
             // Assign callbacks
-            contentsTextField.RegisterValueChangedCallback(changeEvent => OnContentsChanged(localizationTableType, changeEvent.newValue));
+            contentsTextField.RegisterValueChangedCallback(changeEvent => OnContentsChanged(property, localizationTableType, changeEvent.newValue));
             keyTextField.RegisterValueChangedCallback(changeEvent => OnKeyChanged(property, localizationTableType, changeEvent.newValue));
             lockToggle.RegisterValueChangedCallback(evt =>
             {
@@ -97,8 +97,8 @@ namespace Frankie.Utils.Localization.Editor
                 renameKeyButton.SetEnabled(isKeyEditable && isKeyUnlocked && !isKeyEmpty);
                 ReconcileDeleteButtonState(property, localizationTableType, isKeyEditable && isKeyUnlocked && !isKeyEmpty);
             });
-            newKeyButton.RegisterCallback<ClickEvent>(_ => HandleNewKeyButtonClick(property, localizationTableType, property.name));
-            renameKeyButton.RegisterCallback<ClickEvent>(_ => HandleRenameKeyButtonClick(property, localizationTableType, property.name));
+            newKeyButton.RegisterCallback<ClickEvent>(_ => HandleNewKeyButtonClick(property, localizationTableType));
+            renameKeyButton.RegisterCallback<ClickEvent>(_ => HandleRenameKeyButtonClick(property, localizationTableType));
             deleteKeyButton.RegisterCallback<ClickEvent>(_ => HandleDeleteButtonClick(property, localizationTableType));
             
             return root;
@@ -115,26 +115,23 @@ namespace Frankie.Utils.Localization.Editor
             return tableEntryReference.ReferenceType == TableEntryReference.Type.Empty || string.IsNullOrWhiteSpace(currentKey);
         }
         
-        private static bool HasPrefab(SerializedProperty property)
+        private static bool HasPrefab(SerializedProperty property, out Object prefabSource)
         {
-            Object targetObject = property.serializedObject.targetObject;
-            if (targetObject is not Component targetComponent) { return false; }
-            if (PrefabUtility.IsPartOfPrefabAsset(targetComponent)) { return PrefabUtility.GetCorrespondingObjectFromSource(targetComponent) != null; }
-            if (PrefabUtility.IsPartOfPrefabInstance(targetComponent)) { return IsPropertyOverridden(property); }
+            prefabSource = null;
+            if (!TryGetTargetComponent(property, out Component targetComponent)) { return false; }
+            if (PrefabUtility.IsPartOfPrefabAsset(targetComponent) || PrefabUtility.IsPartOfPrefabInstance(targetComponent))
+            {
+                prefabSource = PrefabUtility.GetCorrespondingObjectFromSource(targetComponent);
+                return prefabSource != null;
+            }
             return false;
         }
         
-        private static bool IsPropertyOverridden(SerializedProperty property)
+        private static bool TryGetTargetComponent(SerializedProperty property, out Component component)
         {
             Object targetObject = property.serializedObject.targetObject;
-            var component = targetObject as Component;
-            if (targetObject == null || component == null) { return false; }
-            
-            Object prefabSource = PrefabUtility.GetCorrespondingObjectFromSource(component);
-            if (prefabSource == null) { return false; }
-
-            PropertyModification[] propertyModifications = PrefabUtility.GetPropertyModifications(component.gameObject);
-            return propertyModifications != null && propertyModifications.Any(mod => mod.target == prefabSource && mod.propertyPath.StartsWith(property.propertyPath));
+            component = targetObject as Component;
+            return targetObject != null && component != null;
         }
         
         private static void SetKeyFromLocalization(LocalizedString localizedString, LocalizationTableType localizationTableType, TextField textField, bool isEnabled, bool shouldNotify)
@@ -158,16 +155,37 @@ namespace Frankie.Utils.Localization.Editor
             DisableContentsForEmptyKey(contentsTextField, isKeyCurrentlyEmpty);
         }
         
-        private void OnContentsChanged(LocalizationTableType localizationTableType, string newContents)
+        private void OnContentsChanged(SerializedProperty property, LocalizationTableType localizationTableType, string newContents)
         {
             if (localizedString == null) { return; }
             TableEntryReference tableEntryReference = localizedString.TableEntryReference;
             if (tableEntryReference.ReferenceType == TableEntryReference.Type.Empty) { return; }
             
+            Object targetObject = property.serializedObject.targetObject;
             string oldContents = LocalizationTool.GetEnglishEntry(localizationTableType, tableEntryReference);
             if (newContents == oldContents) { return; }
             
-            LocalizationTool.AddUpdateEnglishEntry(localizationTableType, tableEntryReference, newContents);
+            string newKey = null;
+            if (HasPrefab(property, out Object prefabSource) && !IsPropertyUniqueFromPrefab(property, localizationTableType, prefabSource))
+            {
+                // Avoid overwriting prefab entry, generate new key 
+                newKey = LocalizationNames.GenerateTypeSpecificKey(targetObject, property.name, fieldInfo.DeclaringType);
+                tableEntryReference = newKey;
+            }
+            
+            if (!LocalizationTool.AddUpdateEnglishEntry(localizationTableType, tableEntryReference, newContents)) { return; }
+            if (string.IsNullOrWhiteSpace(newKey)) { return; }
+            
+            LocalizationTool.SafelyUpdateReference(localizationTableType, localizedString, newKey);
+            Undo.RecordObject(targetObject, "Bind localized string to new key");
+            property.boxedValue = localizedString;
+            property.serializedObject.ApplyModifiedProperties();
+            property.serializedObject.Update();
+
+            keyTextField?.SetValueWithoutNotify(newKey);
+            newKeyButton?.SetEnabled(isKeyUnlocked);
+            renameKeyButton?.SetEnabled(isKeyUnlocked);
+            ReconcileDeleteButtonState(property, localizationTableType, isKeyUnlocked);
         }
         
         private void OnKeyChanged(SerializedProperty property, LocalizationTableType localizationTableType, string newKey)
@@ -195,19 +213,19 @@ namespace Frankie.Utils.Localization.Editor
             ReconcileDeleteButtonState(property, localizationTableType, !isKeyEmpty);
         }
         
-        private void HandleNewKeyButtonClick(SerializedProperty property, LocalizationTableType localizationTableType, string propertyName)
+        private void HandleNewKeyButtonClick(SerializedProperty property, LocalizationTableType localizationTableType)
         {
             Object targetObject = property.serializedObject.targetObject;
             if (localizedString == null || targetObject == null) { return; }
 
-            LocalizationTool.ResolveKeyName( localizationTableType, localizedString, out TableEntryReference currentTableEntryReference);
+            LocalizationTool.ResolveKeyName(localizationTableType, localizedString, out TableEntryReference currentTableEntryReference);
             string currentContents = "";
             if (currentTableEntryReference.ReferenceType != TableEntryReference.Type.Empty)
             {
                 currentContents = LocalizationTool.GetEnglishEntry(localizationTableType, currentTableEntryReference);
             }
-
-            string newKey = LocalizationNames.GenerateTypeSpecificKey(targetObject, propertyName, fieldInfo.DeclaringType);
+            
+            string newKey = LocalizationNames.GenerateTypeSpecificKey(targetObject, property.name, fieldInfo.DeclaringType);
             if (!LocalizationTool.AddUpdateEnglishEntry(localizationTableType, newKey, currentContents)) { return; }
             if (!LocalizationTool.SafelyUpdateReference(localizationTableType, localizedString, newKey)) { return; }
             
@@ -223,7 +241,7 @@ namespace Frankie.Utils.Localization.Editor
             ReconcileDeleteButtonState(property, localizationTableType, !isKeyEmpty);
         }
         
-        private void HandleRenameKeyButtonClick(SerializedProperty property, LocalizationTableType localizationTableType, string propertyName)
+        private void HandleRenameKeyButtonClick(SerializedProperty property, LocalizationTableType localizationTableType)
         {
             Object targetObject = property.serializedObject.targetObject;
             if (targetObject == null || localizedString == null || IsKeyEmpty(localizedString, localizationTableType, out TableEntryReference _))
@@ -232,7 +250,7 @@ namespace Frankie.Utils.Localization.Editor
                 return;
             }
             
-            string newKey = LocalizationNames.GenerateTypeSpecificKey(targetObject, propertyName, fieldInfo.DeclaringType);
+            string newKey = LocalizationNames.GenerateTypeSpecificKey(targetObject, property.name, fieldInfo.DeclaringType);
             keyTextField.value = newKey;
         }
 
@@ -246,9 +264,9 @@ namespace Frankie.Utils.Localization.Editor
             localizedString.SetReference("", "");
             property.serializedObject.Update();
 
-            if (HasPrefab(property))
+            if (HasPrefab(property, out Object prefabSource))
             {
-                TryResetToPrefab(property);
+                TryResetToPrefab(property, prefabSource);
                 SetKeyFromLocalization(localizedString, localizationTableType, keyTextField, true, false);
                 SetContentsFromLocalization(localizedString, localizationTableType, contentsTextField, false);
             }
@@ -271,7 +289,7 @@ namespace Frankie.Utils.Localization.Editor
                 deleteKeyButton.SetEnabled(false); 
                 return;
             }
-            if (!HasPrefab(property) || IsPropertyUniqueFromPrefab(property, localizationTableType))
+            if (!HasPrefab(property, out Object prefabSource) || IsPropertyUniqueFromPrefab(property, localizationTableType, prefabSource))
             {
                 deleteKeyButton.SetEnabled(true); 
                 return;
@@ -279,27 +297,24 @@ namespace Frankie.Utils.Localization.Editor
             deleteKeyButton.SetEnabled(false); 
         }
 
-        private void TryResetToPrefab(SerializedProperty property)
+        private void TryResetToPrefab(SerializedProperty property, Object prefabSource)
         {
-            Object targetObject = property.serializedObject.targetObject;
-            var targetComponent = targetObject as Component;
-            if (targetObject == null || targetComponent == null) { return; }
+            if (!TryGetTargetComponent(property, out Component targetComponent)) { return; }
             
             if (PrefabUtility.IsPartOfPrefabInstance(targetComponent))
             {
-                Undo.RecordObject(targetObject, "Reset localized string to prefab value");
+                Undo.RecordObject(targetComponent.gameObject, "Reset localized string to prefab value");
                 PrefabUtility.RevertPropertyOverride(property, InteractionMode.UserAction);
             }
             else if (PrefabUtility.IsPartOfPrefabAsset(targetComponent))
             {
-                Object prefabSource = PrefabUtility.GetCorrespondingObjectFromSource(targetComponent);
                 if (prefabSource == null) { return; }
-
+                
                 using var prefabSerializedObject = new SerializedObject(prefabSource);
                 SerializedProperty prefabProperty = prefabSerializedObject.FindProperty(property.propertyPath);
                 if (prefabProperty == null) { return; }
 
-                Undo.RecordObject(targetObject, "Reset localized string to prefab value");
+                Undo.RecordObject(targetComponent.gameObject, "Reset localized string to prefab value");
                 property.serializedObject.CopyFromSerializedPropertyIfDifferent(prefabProperty);
                 property.serializedObject.ApplyModifiedProperties();
             }
@@ -308,17 +323,16 @@ namespace Frankie.Utils.Localization.Editor
             localizedString = property.boxedValue as LocalizedString;
         }
 
-        private bool IsPropertyUniqueFromPrefab(SerializedProperty property, LocalizationTableType localizationTableType)
+        private bool IsPropertyUniqueFromPrefab(SerializedProperty property, LocalizationTableType localizationTableType, Object prefabSource)
         {
-            Object targetObject = property.serializedObject.targetObject;
-            var targetComponent = targetObject as Component;
-            // Unexpected Edge Cases
-            if (targetObject == null || targetComponent == null || localizedString == null) { return false; } 
+            // Input sanity checks
+            if (!TryGetTargetComponent(property, out Component _)) { return false; }
+            
+            if (localizedString == null) { return false; }
             TableEntryReference targetTableEntryReference = LocalizationTool.GetTableEntryReferencedByID(localizationTableType, localizedString.TableEntryReference);
             if (targetTableEntryReference.ReferenceType != TableEntryReference.Type.Id) { return false; }
             
             // Check for prefab existence
-            Object prefabSource = PrefabUtility.GetCorrespondingObjectFromSource(targetComponent);
             if (prefabSource == null) { return true; } // No prefab source found
             using var prefabSerializedObject = new SerializedObject(prefabSource);
             SerializedProperty prefabProperty = prefabSerializedObject.FindProperty(property.propertyPath);

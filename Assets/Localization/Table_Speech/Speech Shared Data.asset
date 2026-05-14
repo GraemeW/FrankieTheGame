@@ -15,6 +15,34 @@ MonoBehaviour:
   m_TableCollectionName: Speech
   m_TableCollectionNameGuidString: 991c04154cea34203a64a5fe4f5e097e
   m_Entries:
+  - m_Id: 10063431074832384
+    m_Key: CinematicOverlay.Prefab.CinematicOverlay.OverlayText.3ba9e764
+    m_Metadata:
+      m_Items: []
+  - m_Id: 10064054797197312
+    m_Key: CinematicOverlay.GO.Demo_Forest1to20-Exterior.CinematicOverlay (1).OverlayText.569f8e4f
+    m_Metadata:
+      m_Items: []
+  - m_Id: 10064492942581760
+    m_Key: CinematicOverlay.GO.Demo_Forest1to20-Exterior.CinematicOverlay (2).OverlayText.7adf4c30
+    m_Metadata:
+      m_Items: []
+  - m_Id: 10064850876096512
+    m_Key: CinematicOverlay.GO.Demo_Forest1to20-Exterior.CinematicOverlay (3).OverlayText.7aa96634
+    m_Metadata:
+      m_Items: []
+  - m_Id: 10122967047462912
+    m_Key: CinematicOverlay.GO.OfficeExterior.CinematicOverlay.OverlayText.18e40fe0
+    m_Metadata:
+      m_Items: []
+  - m_Id: 10123109607661568
+    m_Key: CinematicOverlay.GO.OfficeExterior.CinematicOverlay (1).OverlayText.505f78d7
+    m_Metadata:
+      m_Items: []
+  - m_Id: 10123184790560768
+    m_Key: CinematicOverlay.GO.OfficeExterior.CinematicOverlay (2).OverlayText.673ea61
+    m_Metadata:
+      m_Items: []
   - m_Id: 2889047881015296
     m_Key: Demo-Forest_Theo.0.0.Speaker
     m_Metadata:

@@ -8,6 +8,7 @@ using Frankie.Stats;
 using Frankie.Utils.UI;
 using Frankie.Stats.UI;
 using Frankie.Inventory.UI;
+using Frankie.Speech.UI;
 using Frankie.Utils.Localization;
 
 namespace Frankie.Combat.UI
@@ -74,14 +75,16 @@ namespace Frankie.Combat.UI
 
         public void AttemptToRun() // Called via unity events
         {
+            EnableInput(false);
             if (battleController.AttemptToRun())
             {
                 gameObject.SetActive(false);
             }
             else
             {
-                handleGlobalInput = false;
-                battleCanvas.SetupRunFailureMessage(this, new Action[] { InitiateCombat });
+                DialogueBox runFailureDialogue = battleCanvas.SetupRunFailureMessage(this);
+                PassControl(this, new Action[] { InitiateCombat }, runFailureDialogue, battleController);
+                gameObject.SetActive(false);
             }
         }
 

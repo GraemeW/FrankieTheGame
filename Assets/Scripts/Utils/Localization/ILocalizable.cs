@@ -33,7 +33,9 @@ namespace Frankie.Utils.Localization
         public string iCachedName { get => null; set => _ = value; } // Must include explicit backing field in implementation
         public LocalizationTableType localizationTableType { get; }
         public List<TableEntryReference> GetLocalizationEntries();
+#if UNITY_EDITOR
         public static event Action<LocalizationTableType, Object, ILocalizable> onBeforeDestroyedInEditor;
+#endif
 
         public static void TriggerOnDestroy(ILocalizable localizable)
         {

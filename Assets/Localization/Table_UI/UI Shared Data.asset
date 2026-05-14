@@ -475,6 +475,10 @@ MonoBehaviour:
     m_Key: EquipmentBox.Prefab.EquipmentBox.EmptyEquipmentItem.4b1b20f
     m_Metadata:
       m_Items: []
+  - m_Id: 10139031237398528
+    m_Key: BattleCanvas.Prefab.Battle Canvas.MessageFailedToRun.68c95a38
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:

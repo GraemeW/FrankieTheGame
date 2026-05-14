@@ -11,11 +11,21 @@ namespace Frankie.Utils.Editor
     {
         private const string _startSceneRef = "Assets/Scenes/StartScreen.unity";
         private const string _debugSceneRef = "Assets/Scenes/_Debug/TEST_BattleRoyale.unity";
+        private const string _debugPrefabRef = "Assets/Game/Core/CoreDep/Debugger.prefab";
 
         [MenuItem("Tools/Open Debug Scene", false, 1)]
         private static void OpenDebugScene()
         {
             EditorSceneManager.OpenScene(_debugSceneRef);
+        }
+
+        [MenuItem("Tools/Select Debugger Prefab", false, 2)]
+        private static void SelectDebugger()
+        {
+            var asset = AssetDatabase.LoadAssetAtPath<Object>(_debugPrefabRef);
+            if (asset == null) { return; }
+            EditorGUIUtility.PingObject(asset);
+            Selection.activeObject = asset;
         }
         
         [MenuItem("Tools/Open Start Scene", false, 5)]
