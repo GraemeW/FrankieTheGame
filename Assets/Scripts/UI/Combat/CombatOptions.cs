@@ -74,13 +74,13 @@ namespace Frankie.Combat.UI
 
         public void AttemptToRun() // Called via unity events
         {
+            EnableInput(false);
             if (battleController.AttemptToRun())
             {
                 gameObject.SetActive(false);
             }
             else
             {
-                handleGlobalInput = false;
                 battleCanvas.SetupRunFailureMessage(this, new Action[] { InitiateCombat });
             }
         }
