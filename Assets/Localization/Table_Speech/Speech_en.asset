@@ -2823,6 +2823,35 @@ MonoBehaviour:
     m_Localized: Watch out for the interns, they're really riled up about something.
     m_Metadata:
       m_Items: []
+  - m_Id: 10063431074832384
+    m_Localized: Default Overlay Text
+    m_Metadata:
+      m_Items: []
+  - m_Id: 10064054797197312
+    m_Localized: The year is 201x.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 10064492942581760
+    m_Localized: Prim, a small suburb in \n The Land of Opportunity
+    m_Metadata:
+      m_Items: []
+  - m_Id: 10064850876096512
+    m_Localized: Frankie is inexplicably drawn to the forest \n . . . to find and
+      stop the Bald Monk Cult
+    m_Metadata:
+      m_Items: []
+  - m_Id: 10122967047462912
+    m_Localized: The year is 201X
+    m_Metadata:
+      m_Items: []
+  - m_Id: 10123109607661568
+    m_Localized: Prim, a small suburb in \n The Land of Opportunity
+    m_Metadata:
+      m_Items: []
+  - m_Id: 10123184790560768
+    m_Localized: Frankie, get to work
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

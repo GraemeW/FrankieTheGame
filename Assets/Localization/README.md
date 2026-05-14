@@ -23,7 +23,9 @@ Any game object or scriptable object that uses [LocalizedStrings](https://docs.u
   * create a custom inspector editor that calls TryLocalizedStandardEntries() during the editor's OnEnable()
   * pass all relevant propertyName-localizedString pairs to this method
   
-### MonoBehaviour / Game Object - Configuration Notes  
+### MonoBehaviour / Game Object - Limitations and Configuration Notes
+
+#### Configuration Notes
 
 The following may be manually configured:
   * Add [ExecuteInEditMode] attribute to the class 
@@ -34,6 +36,12 @@ The following may be manually configured:
 Note:  this is not strictly necessary and not always configured (e.g. for fixed UI elements based solely on Prefabs).  With the above configuration, cleanup for prefabs/prefab variants is handled by `LocalizationDeletionHandler.OnWillDeleteAsset()`, while cleanup for instanced objects in scenes is handled by `OnDestroy()`.  Without the above configuration, only the cleanup for prefabs/prefab variants will occur.
 
 Also Note:  ILocalizable only cleans up localization entries for unique parent-most prefabs, and will not delete derived entries from prefabs variants / prefab instances (so don't worry).  
+
+#### Limitations
+
+The following limitations are acknowledged:
+* Disabled game objects placed in the scene will NOT trigger `OnDestroy()`, and thus will not automatically delete their corresponding localization table entries
+  * Workaround:  Ensure ILocalizble game obejcts are enabled before deleting them in the scene
 
 ## SimpleLocalizedString Editor Attribute
 
