@@ -68,7 +68,8 @@ namespace Frankie.Combat.UI
         [SerializeField][SimpleLocalizedString(LocalizationTableType.UI, true)] private LocalizedString localizedMessageBattleCompleteWon;
         [SerializeField][SimpleLocalizedString(LocalizationTableType.UI, true)] private LocalizedString localizedMessageBattleCompleteLost;
         [SerializeField][SimpleLocalizedString(LocalizationTableType.UI, true)] private LocalizedString localizedMessageBattleCompleteRan;
-        
+        [SerializeField][SimpleLocalizedString(LocalizationTableType.UI, true)] private LocalizedString localizedMessageFailedToRun;
+
         // State
         private readonly Dictionary<BattleEntity, EnemySlide> enemySlideLookup = new();
         private BattleState lastBattleState = BattleState.Inactive;
@@ -148,12 +149,10 @@ namespace Frankie.Combat.UI
         #region PublicMethods
         public Canvas GetCanvas() => canvas;
         public EnemySlide GetEnemySlide(BattleEntity combatParticipant) => enemySlideLookup.GetValueOrDefault(combatParticipant);
-        public DialogueBox SetupRunFailureMessage(IUIBoxCallbackReceiver callbackReceiver, Action[] actions)
+        public DialogueBox SetupRunFailureMessage(IUIBoxCallbackReceiver callbackReceiver)
         {
             DialogueBox dialogueBox = Instantiate(dialogueBoxPrefab, infoChooseParent);
-            dialogueBox.AddText("Failed to run away.");
-            dialogueBox.TakeControl(battleController, callbackReceiver, actions);
-
+            dialogueBox.AddText(localizedMessageFailedToRun.GetSafeLocalizedString());
             return dialogueBox;
         }
 
@@ -176,7 +175,8 @@ namespace Frankie.Combat.UI
                 localizedOptionChuckItemNegative.TableEntryReference,
                 localizedMessageBattleCompleteWon.TableEntryReference,
                 localizedMessageBattleCompleteLost.TableEntryReference,
-                localizedMessageBattleCompleteRan.TableEntryReference
+                localizedMessageBattleCompleteRan.TableEntryReference,
+                localizedMessageFailedToRun.TableEntryReference
             };
         }
         #endregion

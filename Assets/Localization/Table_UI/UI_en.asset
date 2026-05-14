@@ -480,6 +480,10 @@ MonoBehaviour:
     m_Localized: Empty
     m_Metadata:
       m_Items: []
+  - m_Id: 10139031237398528
+    m_Localized: Failed to run away.
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []
