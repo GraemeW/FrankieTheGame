@@ -1,6 +1,6 @@
 {
   "dependencies": {
-    "com.unity.2d.animation": "14.0.3",
+    "com.unity.2d.animation": "14.0.4",
     "com.unity.2d.pixel-perfect": "5.1.1",
     "com.unity.2d.tilemap": "1.0.0",
     "com.unity.2d.tilemap.extras": "7.0.1",
