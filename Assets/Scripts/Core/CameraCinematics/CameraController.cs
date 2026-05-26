@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 using UnityEngine.Rendering.Universal;
-using Cinemachine;
+using Unity.Cinemachine;
 using Frankie.Stats;
 using Frankie.Utils;
 using Frankie.Rendering;
@@ -15,8 +15,8 @@ namespace Frankie.Core
         [SerializeField] private Camera mainCamera;
         [SerializeField] private Camera spawnAssistCamera;
         [SerializeField] private CinemachineStateDrivenCamera stateCamera;
-        [SerializeField] private CinemachineVirtualCamera activeCamera;
-        [SerializeField] private CinemachineVirtualCamera idleCamera;
+        [SerializeField] private CinemachineCamera activeCamera;
+        [SerializeField] private CinemachineCamera idleCamera;
         [Header("Camera Parameters")]
         [SerializeField] private float defaultActiveOrthoSize = 3.6f;
         [SerializeField] private float defaultIdleOrthoSize = 1.8f;
@@ -132,15 +132,15 @@ namespace Frankie.Core
             currentActiveOrthoSize = (defaultActiveOrthoSize * resolutionScaler.numerator / resolutionScaler.denominator) / cameraScaling;
             currentIdleOrthoSize = (defaultIdleOrthoSize * resolutionScaler.numerator / resolutionScaler.denominator) / cameraScaling;
 
-            if (activeCamera != null) { activeCamera.m_Lens.OrthographicSize = currentActiveOrthoSize; }
-            if (idleCamera != null) { idleCamera.m_Lens.OrthographicSize = currentIdleOrthoSize; }
+            if (activeCamera != null) { activeCamera.Lens.OrthographicSize = currentActiveOrthoSize; }
+            if (idleCamera != null) { idleCamera.Lens.OrthographicSize = currentIdleOrthoSize; }
             
             activeOrthoSizeUpdated?.Invoke(currentActiveOrthoSize);
         }
 
         private void UpdateStateAnimator(Animator characterAnimator)
         {
-            stateCamera.m_AnimatedTarget = characterAnimator;
+            stateCamera.AnimatedTarget = characterAnimator;
         }
         #endregion
     }
