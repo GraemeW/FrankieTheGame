@@ -257,6 +257,10 @@ MonoBehaviour:
     Camera: {fileID: 4063751759704527553}
     ActivateAfter: 0
     MinDuration: 0
+  - FullHash: 624096633
+    Camera: {fileID: 4063751759704527553}
+    ActivateAfter: 0
+    MinDuration: 0
   - FullHash: 1432961145
     Camera: {fileID: 9012717395635033713}
     ActivateAfter: 5
@@ -298,6 +302,8 @@ MonoBehaviour:
     HashOfParent: 1718862356
   - Hash: 1412418791
     HashOfParent: 1718862356
+  - Hash: 624096633
+    HashOfParent: 756556552
   m_LegacyLookAt: {fileID: 0}
   m_LegacyFollow: {fileID: 0}
 --- !u!1 &6748405756263700698
@@ -457,7 +463,7 @@ Transform:
   m_GameObject: {fileID: 6748405756474271261}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -10}
+  m_LocalPosition: {x: 27.028643, y: 16.417393, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
