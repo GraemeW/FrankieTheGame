@@ -73,7 +73,7 @@ namespace Frankie.Utils.UI
             if (gameObject.activeSelf) { itemHighlighted.AddListener(unityAction); }
         }
 
-        public void Highlight(bool enable)
+        public virtual void Highlight(bool enable)
         {
             selectionMarker.SetActive(enable);
             if (enable && itemHighlighted != null) { itemHighlighted.Invoke(); }

@@ -18,7 +18,6 @@ namespace Frankie.Utils.UI
         [SerializeField] protected Transform optionParent;
         [SerializeField] protected GameObject optionButtonPrefab;
         [SerializeField] protected GameObject optionSliderPrefab;
-        [SerializeField] protected float sliderAdjustmentStep = 0.1f;
 
         // State -- Standard
         protected bool destroyQueued = false;
@@ -181,7 +180,10 @@ namespace Frankie.Utils.UI
         protected virtual void SetUpChoiceOptions()
         {
             if (clearVolatileOptionsOnEnable) { choiceOptions.Clear(); }
-            choiceOptions.AddRange(optionParent.gameObject.GetComponentsInChildren<UIChoice>().OrderBy(x => x.choiceOrder).ToList());
+
+            List<UIChoice> uiChoices = optionParent.gameObject.GetComponentsInChildren<UIChoice>().OrderBy(x => x.choiceOrder).ToList();
+            List<UIChoice> filteredUIChoices = FilterOutSubOptions(uiChoices);
+            choiceOptions.AddRange(filteredUIChoices);
 
             isChoiceAvailable = choiceOptions.Count > 0;
         }
@@ -212,6 +214,23 @@ namespace Frankie.Utils.UI
             uiChoiceOption.SetText(choiceText);
             choiceOptions.Add(uiChoiceOption);
             return uiChoiceOption;
+        }
+        
+        private List<UIChoice> FilterOutSubOptions(List<UIChoice> uiChoices)
+        {
+            List<UIChoice> filteredUIChoices = uiChoices.ToList();
+            
+            var subOptions = new List<UIChoice>();
+            foreach (UIChoice choice in filteredUIChoices)
+            {
+                if (choice is UIChoiceContainer uiChoiceContainer)
+                {
+                    subOptions.AddRange(uiChoiceContainer.GetSubOptions());
+                }
+            }
+
+            foreach (UIChoice choice in subOptions) { filteredUIChoices.Remove(choice); }
+            return filteredUIChoices;
         }
 
         protected virtual void ClearChoiceSelections()
@@ -273,9 +292,12 @@ namespace Frankie.Utils.UI
 
         protected virtual bool MoveCursor(PlayerInputType playerInputType)
         {
-            // Standard implementation
             if (!isChoiceAvailable || highlightedChoiceOption == null) { return false; }
 
+            // Special objects that require specialty input (sliders, etc.)
+            if (highlightedChoiceOption is IUIMoveInterceptor uiMoveInterceptor && uiMoveInterceptor.TryMove(playerInputType)) { return true; }
+            
+            // Standard choice handling
             int choiceIndex = choiceOptions.IndexOf(highlightedChoiceOption);
             bool validInput = MoveCursor(playerInputType, ref choiceIndex, choiceOptions.Count);
             if (validInput)
@@ -292,7 +314,11 @@ namespace Frankie.Utils.UI
         {
             // Standard implementation
             if (!isChoiceAvailable || highlightedChoiceOption == null) { return false; }
+
+            // Special objects that require specialty input (sliders, etc.)
+            if (highlightedChoiceOption is IUIMoveInterceptor uiMoveInterceptor && uiMoveInterceptor.TryMove(playerInputType)) { return true; }
             
+            // Standard choice handling
             int choiceIndex = choiceOptions.IndexOf(highlightedChoiceOption);
             bool validInput = MoveCursor2D(playerInputType, ref choiceIndex, choiceOptions.Count);
             if (validInput)
@@ -303,27 +329,6 @@ namespace Frankie.Utils.UI
                 return true;
             }
             return false;
-        }
-
-        private bool MoveSlider(PlayerInputType playerInputType)
-        {
-            // Standard implementation
-            if (!isChoiceAvailable || highlightedChoiceOption == null) { return false; }
-
-            var highlightedChoiceSlider = highlightedChoiceOption as UIChoiceSlider;
-            if (highlightedChoiceSlider == null) { return false; }
-
-            switch (playerInputType)
-            {
-                case PlayerInputType.NavigateLeft:
-                    highlightedChoiceSlider.AdjustValue(-sliderAdjustmentStep);
-                    return true;
-                case PlayerInputType.NavigateRight:
-                    highlightedChoiceSlider.AdjustValue(sliderAdjustmentStep);
-                    return true;
-                default:
-                    return false;
-            }
         }
         #endregion
 
@@ -417,7 +422,6 @@ namespace Frankie.Utils.UI
             if (!IsChoiceAvailable()) { return false; } // Childed objects can still accept input on no choices available
             if (ShowCursorOnAnyInteraction(playerInputType)) { return true; }
             if (PrepareChooseAction(playerInputType)) { return true; }
-            if (MoveSlider(playerInputType)) { return true; }
             if (MoveCursor(playerInputType)) { return true; }
 
             return false;

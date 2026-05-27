@@ -37,7 +37,7 @@ namespace Frankie.Menu.UI
         [SerializeField] private UIChoiceToggle fullScreenWindowedToggle;
         [SerializeField] private Transform resolutionOptionsParent;
         [SerializeField] private TMP_Text languageHeaderField;
-        [SerializeField] private Transform languageOptionsParent;
+        [SerializeField] private UIChoiceContainer languageOptionsContainer;
         [SerializeField] private UIChoiceButton confirmOption;
         [SerializeField] private UIChoiceButton cancelOption;
         [Header("Default Sound Settings")]
@@ -220,19 +220,22 @@ namespace Frankie.Menu.UI
         private void InitializeLanguageSelection(ref int choiceIndex)
         {
             openingLocalizationType = LocalizationTool.GetCurrentLocalization();
+            Transform languageOptionsTransform = languageOptionsContainer.transform;
             
             foreach (SupportedLocalizationType supportedLocalizationType in Enum.GetValues(typeof(SupportedLocalizationType)))
             {
-                GameObject languageOption = Instantiate(optionButtonPrefab, languageOptionsParent);
+                GameObject languageOption = Instantiate(optionButtonPrefab, languageOptionsTransform);
                 if (languageOption.TryGetComponent(out UIChoiceButton languageChoiceButton))
                 {
                     languageChoiceButton.SetText(LocalizationTool.GetLocaleCode(supportedLocalizationType));
                     languageChoiceButton.AddOnClickListener(delegate { ConfirmLocalizationChange(supportedLocalizationType); });
-                    languageChoiceButton.SetChoiceOrder(choiceIndex);
-                    choiceIndex++;
+                    languageOptionsContainer.Add(languageChoiceButton);
                 }
                 else { Destroy(languageOption); } // incorrect input type
             }
+            
+            languageOptionsContainer.SetChoiceOrder(choiceIndex);
+            choiceIndex++;
         }
 
         private IEnumerator ResetOptions()
