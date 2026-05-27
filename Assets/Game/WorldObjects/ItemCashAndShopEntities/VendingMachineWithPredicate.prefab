@@ -50,7 +50,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4484117035451051703, guid: 8252584bd86ddec408582ff28d4f7db6, type: 3}
       propertyPath: m_Name
-      value: VendingMachineWIthPredicate
+      value: VendingMachineWithPredicate
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects:

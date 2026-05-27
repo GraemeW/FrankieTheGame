@@ -1,4 +1,5 @@
 using UnityEngine;
+using Frankie.Core;
 using Frankie.Saving;
 using Frankie.Sound;
 using Frankie.Utils;
@@ -27,7 +28,12 @@ namespace Frankie.ZoneManagement
         private void Start()
         {
             isRoomInitialized.ForceInit();
-            if (disableOnStart && !isRoomInitialized.value) { ToggleRoom(false, false); }
+            bool debugForceEnable = false;
+#if UNITY_EDITOR
+            debugForceEnable = FrankieDebugger.ShouldEnableAllRooms();
+#endif
+            
+            if (disableOnStart && !isRoomInitialized.value && !debugForceEnable) { ToggleRoom(false, false); }
         }
 
         private void InitializeRoom()

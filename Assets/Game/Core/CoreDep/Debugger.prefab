@@ -47,3 +47,4 @@ MonoBehaviour:
   fundsToAddToWallet: 100
   resetSaveOnStart: 0
   isCinematicAutoplayDisabled: 1
+  shouldEnableAllRooms: 1

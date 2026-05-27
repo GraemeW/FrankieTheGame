@@ -14,6 +14,7 @@ namespace Frankie.Core
         [SerializeField] private int fundsToAddToWallet = 100;
         [SerializeField] private bool resetSaveOnStart = false;
         [SerializeField] private bool isCinematicAutoplayDisabled = false;
+        [SerializeField] private bool shouldEnableAllRooms = false;
 
         // Cached References
         private PlayerInput playerInput;
@@ -25,19 +26,30 @@ namespace Frankie.Core
         
         // Static/Const
         private const string _debuggerTag = "Debugger";
+        
+        // Static State
+        private static FrankieDebugger _frankieDebugger;
 
         #region StaticMethods
-
         public static bool IsCinematicAutoplayDisabled()
         {
             FrankieDebugger frankieDebugger = FindDebugger();
             return frankieDebugger != null && frankieDebugger.isCinematicAutoplayDisabled;
         }
+
+        public static bool ShouldEnableAllRooms()
+        {
+            FrankieDebugger frankieDebugger = FindDebugger();
+            return frankieDebugger != null && frankieDebugger.shouldEnableAllRooms;
+        }
         
         private static FrankieDebugger FindDebugger()
         {
-            GameObject debuggerGameObject = GameObject.FindGameObjectWithTag(_debuggerTag);
-            return debuggerGameObject != null ? debuggerGameObject.GetComponent<FrankieDebugger>() : null;
+            if (_frankieDebugger != null) { return _frankieDebugger; }
+            
+            var debuggerGameObject = GameObject.FindGameObjectWithTag(_debuggerTag);
+            _frankieDebugger = debuggerGameObject != null ? debuggerGameObject.GetComponent<FrankieDebugger>() : null;
+            return _frankieDebugger;
         }
         
         private static QuestList SetupQuestList()
