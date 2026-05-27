@@ -3,6 +3,7 @@ using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.Localization;
 using UnityEngine.Localization.Tables;
+using Frankie.Core;
 using Frankie.Core.Predicates;
 using Frankie.Utils;
 using Frankie.Control;
@@ -94,10 +95,18 @@ namespace Frankie.ZoneManagement
         #endregion
 
         #region WarpMethods
-        private void SetUpCurrentReferences(PlayerStateMachine setPlayerStateMachine, PlayerController setPlayerController)
+        private void SetUpPlayerReferences(PlayerStateMachine setPlayerStateMachine, PlayerController setPlayerController)
         {
             cachedPlayerStateMachine = setPlayerStateMachine;
             cachedPlayerController = setPlayerController;
+        }
+
+        private void SetupPlayerReferences()
+        {
+            GameObject playerObject = Player.FindPlayerObject();
+            if (playerObject == null) { return; }
+            cachedPlayerStateMachine = playerObject.GetComponent<PlayerStateMachine>();
+            cachedPlayerController = playerObject.GetComponent<PlayerController>();
         }
 
         private bool? IsSimpleWarp(PlayerStateMachine passPlayerStateMachine)
@@ -108,7 +117,8 @@ namespace Frankie.ZoneManagement
 
         private void AttemptToWarpPlayer(PlayerStateMachine setPlayerStateHandler, PlayerController setPlayerController)
         {
-            SetUpCurrentReferences(setPlayerStateHandler, setPlayerController);
+            if (setPlayerStateHandler == null || setPlayerController == null) { return; }
+            SetUpPlayerReferences(setPlayerStateHandler, setPlayerController);
             StartViableSceneTransition(zoneNode); // If scene setup on entry node, immediately kick off next scene load
 
             bool? isSimpleWarp = IsSimpleWarp(setPlayerStateHandler);
@@ -168,6 +178,9 @@ namespace Frankie.ZoneManagement
         #region NodeTraversalMethods
         private void ExecuteWarpToNode(string nextNodeID)
         {
+            if (cachedPlayerController == null) { SetupPlayerReferences(); }
+            if (cachedPlayerController == null) { return; }
+            
             foreach (ZoneHandler zoneHandler in FindAllZoneHandlersInScene())
             {
                 if (nextNodeID != zoneHandler.GetZoneNode()?.GetNodeID()) { continue; }
@@ -196,10 +209,13 @@ namespace Frankie.ZoneManagement
 
         private void ExitMove()
         {
+            if (cachedPlayerStateMachine == null) { SetupPlayerReferences(); }
+            if (cachedPlayerController == null) { return; }
+            
             cachedPlayerStateMachine.SetZoneTransitionStatus(true);
             cachedPlayerStateMachine.EnterWorld();
             if (inTransitToNextScene) { RemoveZoneHandler(); }
-            SetUpCurrentReferences(null, null);
+            SetUpPlayerReferences(null, null);
         }
 
         private void SwapActiveRoomParents(ZoneHandler nextZoneHandler)
@@ -224,6 +240,9 @@ namespace Frankie.ZoneManagement
             if (linkedZoneNode == null) { return; }
             Zone linkedZone = linkedZoneNode.GetZone();
             if (linkedZone == null) { return; }
+            
+            if (cachedPlayerStateMachine == null) { SetupPlayerReferences(); }
+            if (cachedPlayerStateMachine == null) { return; }
             
             // NOTE:  Exit inTransition done on queued move
             if (TransitionToNextScene(linkedZone, linkedZoneNode))
