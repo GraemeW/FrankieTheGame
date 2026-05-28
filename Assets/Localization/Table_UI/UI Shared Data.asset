@@ -479,6 +479,10 @@ MonoBehaviour:
     m_Key: BattleCanvas.Prefab.Battle Canvas.MessageFailedToRun.68c95a38
     m_Metadata:
       m_Items: []
+  - m_Id: 15133689565405184
+    m_Key: OptionsMenu.Prefab.OptionsMenu.ConfirmChangesText.2a77de74
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:

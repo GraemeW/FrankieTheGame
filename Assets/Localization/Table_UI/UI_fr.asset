@@ -480,6 +480,10 @@ MonoBehaviour:
     m_Localized: Impossible de prendre la fuite.
     m_Metadata:
       m_Items: []
+  - m_Id: 15133689565405184
+    m_Localized: Sauvegarder les modifications des options?
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

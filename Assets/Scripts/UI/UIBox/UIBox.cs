@@ -347,12 +347,20 @@ namespace Frankie.Utils.UI
         
         public virtual bool HandleGlobalInput(PlayerInputType playerInputType)
         {
+            // NOTE:  When overriding, ensure to handle the bool:  handleGlobalInput
+            // To disable input when disabled, return true on !handleGlobalInput, or otherwise use HandleGlobalInputSpoofAndExit()
+            
             return StandardHandleGlobalInput(playerInputType);
         }
 
         protected void PassControl(UIBox delegateUIBox)
         {
             PassControl(this, new Action[] { () => EnableInput(true) }, delegateUIBox, controller);
+        }
+        
+        protected void PassControlToClose(UIBox delegateUIBox)
+        {
+            PassControl(this, new Action[] { () => EnableInput(true), () => destroyQueued = true }, delegateUIBox, controller);
         }
 
         protected void PassControl(IUIBoxCallbackReceiver callbackReceiver, IEnumerable<Action> actions, UIBox delegateUIBox, IStandardPlayerInputCaller standardPlayerInputCaller)

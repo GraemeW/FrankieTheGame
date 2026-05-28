@@ -453,6 +453,15 @@ MonoBehaviour:
     m_FallbackState: 0
     m_WaitForCompletion: 0
     m_LocalVariables: []
+  localizedConfirmChangesText:
+    m_TableReference:
+      m_TableCollectionName: GUID:ce7f667b432574cb1832328f600c1082
+    m_TableEntryReference:
+      m_KeyId: 15133689565405184
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
   optionsHeaderField: {fileID: 444034996801310822}
   masterVolumeSlider: {fileID: 1304911131375114066}
   backgroundVolumeSlider: {fileID: 4815048910335752979}
@@ -465,6 +474,7 @@ MonoBehaviour:
   languageOptionsContainer: {fileID: 6782008398968980446}
   confirmOption: {fileID: 2741238634633839223}
   cancelOption: {fileID: 1461409793377961888}
+  dialogueOptionBoxPrefab: {fileID: 3084176042462386772, guid: cfcc3c74158936342a4d3c72aa65bde0, type: 3}
   defaultMasterVolume: 0.8
   defaultBackgroundVolume: 0.5
   defaultSoundEffectsVolume: 0.3

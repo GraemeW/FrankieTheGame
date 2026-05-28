@@ -1,14 +1,16 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using Frankie.Control;
 using UnityEngine;
 using UnityEngine.Localization;
 using UnityEngine.Localization.Tables;
 using TMPro;
-using Frankie.Sound;
 using Frankie.Rendering;
+using Frankie.Control;
+using Frankie.Speech.UI;
+using Frankie.Sound;
 using Frankie.Saving;
+using Frankie.Utils;
 using Frankie.Utils.Localization;
 using Frankie.Utils.UI;
 
@@ -27,6 +29,7 @@ namespace Frankie.Menu.UI
         [SerializeField][SimpleLocalizedString(LocalizationTableType.UI, true)] private LocalizedString localizedLanguageSelectText;
         [SerializeField][SimpleLocalizedString(LocalizationTableType.UI, true)] private LocalizedString localizedConfirmText;
         [SerializeField][SimpleLocalizedString(LocalizationTableType.UI, true)] private LocalizedString localizedCancelText;
+        [SerializeField][SimpleLocalizedString(LocalizationTableType.UI, true)] private LocalizedString localizedConfirmChangesText;
         [Header("Hookups")]
         [SerializeField] private TMP_Text optionsHeaderField;
         [SerializeField] private UIChoiceSlider masterVolumeSlider;
@@ -40,6 +43,8 @@ namespace Frankie.Menu.UI
         [SerializeField] private UIChoiceContainer languageOptionsContainer;
         [SerializeField] private UIChoiceButton confirmOption;
         [SerializeField] private UIChoiceButton cancelOption;
+        [Header("Prefabs")]
+        [SerializeField] private DialogueOptionBox dialogueOptionBoxPrefab;
         [Header("Default Sound Settings")]
         [SerializeField] private float defaultMasterVolume = 0.8f;
         [SerializeField] private float defaultBackgroundVolume = 0.5f;
@@ -52,6 +57,7 @@ namespace Frankie.Menu.UI
         private EscapeMenu escapeMenu;
 
         // State
+        private bool wasChangeMade = false;
         private float openingMasterVolume;
         private float openingBackgroundVolume;
         private float openingSoundEffectsVolume;
@@ -117,7 +123,8 @@ namespace Frankie.Menu.UI
                 localizedFullScreenWindowedText.TableEntryReference,
                 localizedLanguageSelectText.TableEntryReference,
                 localizedConfirmText.TableEntryReference,
-                localizedCancelText.TableEntryReference
+                localizedCancelText.TableEntryReference,
+                localizedConfirmChangesText.TableEntryReference,
             };
         }
         
@@ -146,7 +153,7 @@ namespace Frankie.Menu.UI
         {
             yield return ResetOptions(); 
             HandleClientExit();
-            Destroy(gameObject);
+            destroyQueued = true;
         }
         #endregion
 
@@ -244,12 +251,6 @@ namespace Frankie.Menu.UI
             yield return WaitForScreenChange(openingResolutionSetting);
         }
 
-        private void ForceResetOptions()
-        {
-            ResetNonDelayOptions();
-            ForceScreenChange(openingResolutionSetting);
-        }
-
         private void ResetNonDelayOptions()
         {
             masterVolumeSlider.SetSliderValue(openingMasterVolume);
@@ -257,13 +258,24 @@ namespace Frankie.Menu.UI
             soundEffectsVolumeSlider.SetSliderValue(openingSoundEffectsVolume);
             ConfirmLocalizationChange(openingLocalizationType);
         }
-        
-        private void SaveAndExit()
+
+        private void Save()
         {
             WriteScreenResolutionToPlayerPrefs();
             WriteVolumeToPlayerPrefs();
             PlayerPrefsController.SaveToDisk();
-            Destroy(gameObject);
+        }
+        
+        private void SaveAndExit()
+        {
+            Save();
+            destroyQueued = true;
+        }
+
+        private void ForceCancel()
+        {
+            ResetNonDelayOptions();
+            ForceScreenChange(openingResolutionSetting);
         }
 
         private void Cancel()
@@ -276,6 +288,7 @@ namespace Frankie.Menu.UI
         #region UIListenerMethods
         private void ConfirmSoundVolumes(bool playSoundEffect)
         {
+            wasChangeMade = true;
             float calculatedVolume = masterVolumeSlider.GetSliderValue() * backgroundVolumeSlider.GetSliderValue();
             backgroundMusic?.SetVolume(calculatedVolume);
 
@@ -286,6 +299,7 @@ namespace Frankie.Menu.UI
 
         private void ConfirmResolutionFullScreenWindowed(bool fullScreenWindowed)
         {
+            wasChangeMade = true;
             ResolutionSetting resolutionSetting;
 
             if (fullScreenWindowed)
@@ -303,6 +317,24 @@ namespace Frankie.Menu.UI
             }
             StartCoroutine(WaitForScreenChange(resolutionSetting));
         }
+        
+        private void ConfirmResolutionWindowed(ResolutionSetting resolutionSetting)
+        {
+            wasChangeMade = true;
+            fullScreenWindowedToggle.SetToggleValueSilently(false);
+            StartCoroutine(WaitForScreenChange(resolutionSetting));
+            WriteScreenResolutionToPlayerPrefs();
+        }
+        
+        private void ConfirmLocalizationChange(SupportedLocalizationType supportedLocalizationType)
+        {
+            wasChangeMade = true;
+            Debug.Log($"Current locale is {LocalizationTool.GetLocaleCode(LocalizationTool.GetCurrentLocalization())} - updating to {LocalizationTool.GetLocaleCode(supportedLocalizationType)}");
+            
+            LocalizationTool.SetLocale(supportedLocalizationType);
+            InitializeLocalization();
+            WriteLocalizationToPlayerPrefs(supportedLocalizationType);
+        }
 
         private IEnumerator WaitForScreenChange(ResolutionSetting resolutionSetting)
         {
@@ -315,27 +347,11 @@ namespace Frankie.Menu.UI
             DisplayResolutions.ForceScreenResolution(resolutionSetting);
             WriteScreenResolutionToPlayerPrefs();
         }
-
-        private void ConfirmResolutionWindowed(ResolutionSetting resolutionSetting)
-        {
-            fullScreenWindowedToggle.SetToggleValueSilently(false);
-            StartCoroutine(WaitForScreenChange(resolutionSetting));
-            WriteScreenResolutionToPlayerPrefs();
-        }
-
+        
         private void WriteLocalizationToPlayerPrefs(SupportedLocalizationType supportedLocalizationType)
         {
             string localeCode = LocalizationTool.GetLocaleCode(supportedLocalizationType);
             PlayerPrefsController.SetLanguageCode(localeCode);
-        }
-        
-        private void ConfirmLocalizationChange(SupportedLocalizationType supportedLocalizationType)
-        {
-            Debug.Log($"Current locale is {LocalizationTool.GetLocaleCode(LocalizationTool.GetCurrentLocalization())} - updating to {LocalizationTool.GetLocaleCode(supportedLocalizationType)}");
-            
-            LocalizationTool.SetLocale(supportedLocalizationType);
-            InitializeLocalization();
-            WriteLocalizationToPlayerPrefs(supportedLocalizationType);
         }
 
         private void WriteVolumeToPlayerPrefs()
@@ -344,14 +360,35 @@ namespace Frankie.Menu.UI
             PlayerPrefsController.SetBackgroundVolume(backgroundVolumeSlider.GetSliderValue());
             PlayerPrefsController.SetSoundEffectsVolume(soundEffectsVolumeSlider.GetSliderValue());
         }
+
+        private void SpawnConfirmationMenu()
+        {
+            var choiceActionPairs = new List<ChoiceActionPair>();
+            var equipActionPair = new ChoiceActionPair(localizedConfirmText.GetSafeLocalizedString(), Save);
+            choiceActionPairs.Add(equipActionPair);
+            var removeActionPair = new ChoiceActionPair(localizedCancelText.GetSafeLocalizedString(), ForceCancel);
+            choiceActionPairs.Add(removeActionPair);
+
+            DialogueOptionBox confirmChoiceOptionMenu = Instantiate(dialogueOptionBoxPrefab, transform.parent);
+            confirmChoiceOptionMenu.Setup(localizedConfirmChangesText.GetSafeLocalizedString());
+            confirmChoiceOptionMenu.OverrideChoiceOptions(choiceActionPairs);
+
+            PassControlToClose(confirmChoiceOptionMenu);
+        }
         #endregion
         
         #region InputHandling
         public override bool HandleGlobalInput(PlayerInputType playerInputType)
         {
+            if (!handleGlobalInput) { return true; } // Spoof:  Cannot accept input, so treat as if global input already handled
+            
             if (playerInputType is PlayerInputType.Cancel or PlayerInputType.Option or PlayerInputType.Escape)
             {
-                ForceResetOptions();
+                if (wasChangeMade)
+                {
+                    SpawnConfirmationMenu();
+                    return true;
+                }
             }
             return StandardHandleGlobalInput(playerInputType);
         }
