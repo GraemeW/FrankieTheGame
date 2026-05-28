@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -26,6 +25,10 @@ namespace Frankie.Combat.UI
         [SerializeField] private UIChoice rightField;
         [SerializeField] private UIChoice downField;
 
+        [Header("Configuration")] 
+        [SerializeField] private Color invalidSkillColor = Color.gray;
+        [SerializeField] private Color validSkillColor = Color.springGreen;
+        
         // State
         private bool usingBattleController = false;
         protected CombatParticipant currentCombatParticipant;
@@ -44,8 +47,12 @@ namespace Frankie.Combat.UI
         
         #region UnityMethods
         protected virtual void Start()
-        { 
-            if (skillField != null) { skillField.SetText(localizedNoSkillSelectionText.GetSafeLocalizedString()); }
+        {
+            if (skillField != null)
+            {
+                skillField.color = invalidSkillColor;
+                skillField.SetText(localizedNoSkillSelectionText.GetSafeLocalizedString());
+            }
         }
 
         protected override void OnEnable()
@@ -111,8 +118,13 @@ namespace Frankie.Combat.UI
 
         protected virtual void ResetUI()
         {
-            SetAllFields(defaultNoText);
-            canvasGroup.alpha = 0;
+            ResetUI(true);
+        }
+        
+        protected void ResetUI(bool resetAlpha)
+        {
+            ResetAllFields();
+            if (resetAlpha) { canvasGroup.alpha = 0; }
         }
         
         protected void RefreshUI(CombatParticipantType combatParticipantType, IEnumerable<BattleEntity> battleEntities)
@@ -139,16 +151,6 @@ namespace Frankie.Combat.UI
             var skillHandler = currentCombatParticipant.GetComponent<SkillHandler>();
             skillHandler.ResetCurrentBranch();
             UpdateSkills(skillHandler);
-        }
-        
-        protected void SetAllFields(string text)
-        {
-            selectedCharacterNameField.SetText(text);
-            upField.SetText(text);
-            leftField.SetText(text);
-            rightField.SetText(text);
-            downField.SetText(text);
-            skillField.SetText(text);
         }
         
         protected bool SetBranchOrSkill(CombatParticipant combatParticipant, PlayerInputType input)
@@ -193,6 +195,17 @@ namespace Frankie.Combat.UI
         #endregion
 
         #region PrivateUtility
+        private void ResetAllFields()
+        {
+            selectedCharacterNameField.SetText(defaultNoText);
+            upField.SetText(defaultNoText);
+            leftField.SetText(defaultNoText);
+            rightField.SetText(defaultNoText);
+            downField.SetText(defaultNoText);
+            skillField.color = invalidSkillColor;
+            skillField.SetText(defaultNoText);
+        }
+        
         private void UpdateSkills(SkillHandler skillHandler)
         {
             skillHandler.GetPlayerSkillsForCurrentBranch(out Skill up, out Skill left, out Skill right, out Skill down);
@@ -203,12 +216,17 @@ namespace Frankie.Combat.UI
 
             Skill activeSkill = skillHandler.GetActiveSkill();
             if (activeSkill != null)
-            { 
+            {
+                skillField.color = validSkillColor;
                 skillField.SetText(activeSkill.GetName());
                 if (battleController != null) { battleController.SetActiveBattleAction(activeSkill); }
                 OnUIBoxModified(UIBoxModifiedType.ItemSelected, true);
-            } 
-            else { skillField.SetText(defaultNoText); }
+            }
+            else
+            {
+                skillField.color = invalidSkillColor;
+                skillField.SetText(defaultNoText);
+            }
         }
         #endregion
     }

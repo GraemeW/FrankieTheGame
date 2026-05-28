@@ -331,7 +331,7 @@ namespace Frankie.Combat.UI
 
         protected override void ResetUI()
         {
-            SetAllFields(defaultNoText);
+            ResetUI(false);
         }
         #endregion
 
