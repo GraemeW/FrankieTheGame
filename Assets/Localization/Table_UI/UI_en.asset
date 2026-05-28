@@ -139,10 +139,6 @@ MonoBehaviour:
     m_Localized: Run Away
     m_Metadata:
       m_Items: []
-  - m_Id: 8999697510293504
-    m_Localized: No Selection
-    m_Metadata:
-      m_Items: []
   - m_Id: 9002459291705344
     m_Localized: 'Inclination:  '
     m_Metadata:
@@ -486,6 +482,10 @@ MonoBehaviour:
       m_Items: []
   - m_Id: 15133689565405184
     m_Localized: Save changes to options?
+    m_Metadata:
+      m_Items: []
+  - m_Id: 15233195644542976
+    m_Localized: Will you chuck {1} in order to pick up {0}?
     m_Metadata:
       m_Items: []
   references:

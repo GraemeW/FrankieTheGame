@@ -40,7 +40,7 @@ namespace Frankie.Inventory.UI
         {
             swapItem = setSwapItem;
             swapSuccessAction = setSwapSuccessAction;
-            Setup(standardPlayerInputCaller, partyCombatConduit);
+            Setup(standardPlayerInputCaller, partyCombatConduit, null);
         }
         #endregion
 

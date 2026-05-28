@@ -16,7 +16,6 @@ namespace Frankie.Combat.UI
         // Tunables
         [Header("Skill Selection Text")]
         [SerializeField] protected string defaultNoText = "--";
-        [SerializeField][SimpleLocalizedString(LocalizationTableType.UI, true)] protected LocalizedString localizedNoSkillSelectionText;
         [Header("Skill Selection Hookups")]
         [SerializeField] private TMP_Text selectedCharacterNameField;
         [SerializeField] protected TMP_Text skillField;
@@ -26,8 +25,8 @@ namespace Frankie.Combat.UI
         [SerializeField] private UIChoice downField;
 
         [Header("Configuration")] 
-        [SerializeField] private Color invalidSkillColor = Color.gray;
-        [SerializeField] private Color validSkillColor = Color.springGreen;
+        [SerializeField] private Color noSkillColor = Color.gray;
+        [SerializeField] private Color selectedSkillColor = Color.softYellow;
         
         // State
         private bool usingBattleController = false;
@@ -50,8 +49,8 @@ namespace Frankie.Combat.UI
         {
             if (skillField != null)
             {
-                skillField.color = invalidSkillColor;
-                skillField.SetText(localizedNoSkillSelectionText.GetSafeLocalizedString());
+                skillField.color = noSkillColor;
+                skillField.SetText(defaultNoText);
             }
         }
 
@@ -78,13 +77,7 @@ namespace Frankie.Combat.UI
         
         #region LocalizationMethods
         public LocalizationTableType localizationTableType { get; } = LocalizationTableType.UI;
-        public virtual List<TableEntryReference> GetLocalizationEntries()
-        {
-            return new List<TableEntryReference>
-            {
-                localizedNoSkillSelectionText.TableEntryReference,
-            };
-        }
+        public virtual List<TableEntryReference> GetLocalizationEntries() => new();
         #endregion
 
         #region InputHandlers
@@ -118,12 +111,13 @@ namespace Frankie.Combat.UI
 
         protected virtual void ResetUI()
         {
-            ResetUI(true);
+            ResetUI(true, true);
         }
         
-        protected void ResetUI(bool resetAlpha)
+        protected void ResetUI(bool resetAllFields, bool resetAlpha)
         {
-            ResetAllFields();
+            skillField.color = noSkillColor;
+            if (resetAllFields) { ResetAllFields(); }
             if (resetAlpha) { canvasGroup.alpha = 0; }
         }
         
@@ -202,7 +196,6 @@ namespace Frankie.Combat.UI
             leftField.SetText(defaultNoText);
             rightField.SetText(defaultNoText);
             downField.SetText(defaultNoText);
-            skillField.color = invalidSkillColor;
             skillField.SetText(defaultNoText);
         }
         
@@ -217,14 +210,14 @@ namespace Frankie.Combat.UI
             Skill activeSkill = skillHandler.GetActiveSkill();
             if (activeSkill != null)
             {
-                skillField.color = validSkillColor;
+                skillField.color = selectedSkillColor;
                 skillField.SetText(activeSkill.GetName());
                 if (battleController != null) { battleController.SetActiveBattleAction(activeSkill); }
                 OnUIBoxModified(UIBoxModifiedType.ItemSelected, true);
             }
             else
             {
-                skillField.color = invalidSkillColor;
+                skillField.color = noSkillColor;
                 skillField.SetText(defaultNoText);
             }
         }

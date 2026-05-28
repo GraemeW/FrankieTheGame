@@ -37,8 +37,8 @@ namespace Frankie.Combat.UI
         private AbilitiesBoxState abilitiesBoxState = AbilitiesBoxState.InCharacterSelection;
         private readonly List<UIChoiceButton> playerSelectChoiceOptions = new();
 
-        // State -- Objects
-        private PartyCombatConduit partyCombatConduit;
+        // State
+        private bool isPartySolo = false;
         private BattleActionData battleActionData;
 
         // Cached References
@@ -62,7 +62,6 @@ namespace Frankie.Combat.UI
         {
             return new List<TableEntryReference>
             {
-                localizedNoSkillSelectionText.TableEntryReference,
                 localizedStatLabel.TableEntryReference,
                 localizedAPCostLabel.TableEntryReference,
                 localizedMessageUseSkillInWorld.TableEntryReference,
@@ -72,12 +71,27 @@ namespace Frankie.Combat.UI
         }
         #endregion
         
-        #region PublicMethods
-        public void Setup(IStandardPlayerInputCaller standardPlayerInputCaller, PartyCombatConduit setPartyCombatConduit, List<CharacterSlide> setCharacterSlides)
+        #region Setup
+        public void Setup(IStandardPlayerInputCaller standardPlayerInputCaller, PartyCombatConduit partyCombatConduit, List<CharacterSlide> setCharacterSlides)
         {
+            if (standardPlayerInputCaller == null || partyCombatConduit == null) { destroyQueued = true;  return; }
+            
             controller = standardPlayerInputCaller;
-            partyCombatConduit = setPartyCombatConduit;
+            isPartySolo = partyCombatConduit.IsPartySolo();
 
+            SetupPartySelection(partyCombatConduit);
+            RefreshUI(CombatParticipantType.Friendly, partyBattleEntities);
+
+            characterSlides = setCharacterSlides;
+            SubscribeCharacterSlides(true);
+
+            SetAbilitiesBoxState(AbilitiesBoxState.InCharacterSelection, true);
+            ShowCursorOnAnyInteraction(PlayerInputType.Execute);
+            if (isPartySolo) { Choose(null); }
+        }
+
+        private void SetupPartySelection(PartyCombatConduit partyCombatConduit)
+        {
             int choiceIndex = 0;
             partyBattleEntities = new List<BattleEntity>();
             foreach (CombatParticipant combatParticipant in partyCombatConduit.GetPartyCombatParticipants())
@@ -85,21 +99,16 @@ namespace Frankie.Combat.UI
                 GameObject uiChoiceOptionObject = Instantiate(optionButtonPrefab, optionParent);
                 var uiChoiceOption = uiChoiceOptionObject.GetComponent<UIChoiceButton>();
                 uiChoiceOption.SetChoiceOrder(choiceIndex);
-                uiChoiceOption.SetText(combatParticipant.GetCombatName());
                 uiChoiceOption.AddOnClickListener(delegate { ChooseCharacter(combatParticipant); });
                 uiChoiceOption.AddOnHighlightListener(delegate { SoftChooseCharacter(combatParticipant); });
+                uiChoiceOption.SetText(combatParticipant.GetCombatName());
+                uiChoiceOption.SetValidColor(choiceIndex == 0);
+                uiChoiceOption.UseHighlightColor(true);
 
                 playerSelectChoiceOptions.Add(uiChoiceOption);
                 partyBattleEntities.Add(new BattleEntity(combatParticipant));
                 choiceIndex++;
             }
-            RefreshUI(CombatParticipantType.Friendly, partyBattleEntities);
-
-            characterSlides = setCharacterSlides;
-            SubscribeCharacterSlides(true);
-
-            SetAbilitiesBoxState(AbilitiesBoxState.InCharacterSelection);
-            ShowCursorOnAnyInteraction(PlayerInputType.Execute);
         }
 
         private void SubscribeCharacterSlides(bool enable)
@@ -193,7 +202,7 @@ namespace Frankie.Combat.UI
         private void SoftChooseCharacter(CombatParticipant character)
         {
             ChooseCharacter(character, false);
-            SetAbilitiesBoxState(AbilitiesBoxState.InCharacterSelection);
+            SetAbilitiesBoxState(AbilitiesBoxState.InCharacterSelection, true);
         }
 
         private bool ChooseSkill()
@@ -306,12 +315,17 @@ namespace Frankie.Combat.UI
         #endregion
 
         #region AbilitiesBehaviour
-        private void SetAbilitiesBoxState(AbilitiesBoxState setAbilitiesBoxState)
+        private void SetAbilitiesBoxState(AbilitiesBoxState setAbilitiesBoxState, bool bypassSoloCheck = false)
         {
             abilitiesBoxState = setAbilitiesBoxState;
             switch (abilitiesBoxState)
             {
                 case AbilitiesBoxState.InCharacterSelection:
+                    if (!bypassSoloCheck && isPartySolo)
+                    {
+                        destroyQueued = true;
+                        return;
+                    }
                     battleActionData = null; // Reset battle action data on selected character changed
                     ResetUI();
                     targetCharacterChanged?.Invoke(CombatParticipantType.Foe, null);
@@ -331,7 +345,7 @@ namespace Frankie.Combat.UI
 
         protected override void ResetUI()
         {
-            ResetUI(false);
+            ResetUI(true, false);
         }
         #endregion
 

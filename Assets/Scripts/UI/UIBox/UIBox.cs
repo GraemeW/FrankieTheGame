@@ -279,7 +279,7 @@ namespace Frankie.Utils.UI
         protected bool ShowCursorOnAnyInteraction(PlayerInputType playerInputType)
         {
             if (!isChoiceAvailable || choiceOptions.Count == 0) { return false; }
-            if (playerInputType == PlayerInputType.DefaultNone || playerInputType == PlayerInputType.Cancel || playerInputType == PlayerInputType.Option) { return false; }
+            if (playerInputType is PlayerInputType.DefaultNone or PlayerInputType.Cancel or PlayerInputType.Option) { return false; }
 
             if (highlightedChoiceOption == null)
             {

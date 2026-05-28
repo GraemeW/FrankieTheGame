@@ -140,10 +140,6 @@ MonoBehaviour:
     m_Localized: Fuir
     m_Metadata:
       m_Items: []
-  - m_Id: 8999697510293504
-    m_Localized: "Aucune s\xE9lection"
-    m_Metadata:
-      m_Items: []
   - m_Id: 9002459291705344
     m_Localized: 'Inclination :'
     m_Metadata:
@@ -482,6 +478,10 @@ MonoBehaviour:
       m_Items: []
   - m_Id: 15133689565405184
     m_Localized: Sauvegarder les modifications des options?
+    m_Metadata:
+      m_Items: []
+  - m_Id: 15233195644542976
+    m_Localized: Veux-tu jeter {1} pour ramasser {0} ?
     m_Metadata:
       m_Items: []
   references:
