@@ -44,10 +44,13 @@ namespace Frankie.Inventory.UI
         [SerializeField][SimpleLocalizedString(LocalizationTableType.UI, true)] private LocalizedString localizedOptionEquip;
         [SerializeField][SimpleLocalizedString(LocalizationTableType.UI, true)] private LocalizedString localizedOptionRemove;
 
-        // State
+        // State -- UI
         private EquipmentBoxState equipmentBoxState = EquipmentBoxState.InCharacterSelection;
         private readonly List<UIChoiceButton> playerSelectChoiceOptions = new();
         private readonly List<InventoryItemField> equipableItemChoiceOptions = new();
+        
+        // State
+        private bool isPartySolo = false;
         private CombatParticipant selectedCharacter;
         private Equipment selectedEquipment;
         private EquipLocation selectedEquipLocation = EquipLocation.None;
@@ -100,25 +103,38 @@ namespace Frankie.Inventory.UI
         #region Setup
         public void Setup(IStandardPlayerInputCaller standardPlayerInputCaller, PartyCombatConduit partyCombatConduit, List<CharacterSlide> setCharacterSlides)
         {
+            if (standardPlayerInputCaller == null || partyCombatConduit == null) { destroyQueued = true;  return; }
+            
             controller = standardPlayerInputCaller;
+            isPartySolo = partyCombatConduit.IsPartySolo();
+            
+            SetupPartySelection(partyCombatConduit);
+            
             characterSlides.Clear();
             foreach (CharacterSlide characterSlide in setCharacterSlides) { characterSlides.Add(characterSlide); }
+            
+            SetEquipmentBoxState(EquipmentBoxState.InCharacterSelection, true);
+            ShowCursorOnAnyInteraction(PlayerInputType.Execute);
+            if (isPartySolo) { Choose(null); }
+        }
 
+        private void SetupPartySelection(PartyCombatConduit partyCombatConduit)
+        {
             int choiceIndex = 0;
             foreach (CombatParticipant character in partyCombatConduit.GetPartyCombatParticipants())
             {
                 GameObject uiChoiceOptionObject = Instantiate(optionButtonPrefab, optionParent);
                 var uiChoiceOption = uiChoiceOptionObject.GetComponent<UIChoiceButton>();
                 uiChoiceOption.SetChoiceOrder(choiceIndex);
-                uiChoiceOption.SetText(character.GetCombatName());
                 uiChoiceOption.AddOnClickListener(delegate { ChooseCharacter(character, true); });
                 uiChoiceOption.AddOnHighlightListener(delegate { SoftChooseCharacter(character); });
+                uiChoiceOption.SetText(character.GetCombatName());
+                uiChoiceOption.SetValidColor(choiceIndex == 0);
+                uiChoiceOption.UseHighlightColor(true);
 
                 playerSelectChoiceOptions.Add(uiChoiceOption);
                 choiceIndex++;
             }
-            SetEquipmentBoxState(EquipmentBoxState.InCharacterSelection);
-            ShowCursorOnAnyInteraction(PlayerInputType.NavigateRight);
         }
 
         private void SetSelectedEquipment(Equipment equipment)
@@ -178,17 +194,17 @@ namespace Frankie.Inventory.UI
             }
             else
             {
-                ClearChoiceSelections();
+                ClearAllChoices();
                 ChooseCharacter(null);
             }
         }
 
-        protected override void ClearChoiceSelections()
+        private void ClearAllChoices()
         {
-            highlightedChoiceOption = null;
             foreach (UIChoiceButton dialogueChoiceOption in playerSelectChoiceOptions)
             {
                 dialogueChoiceOption.Highlight(false);
+                dialogueChoiceOption.SetValidColor(dialogueChoiceOption == highlightedChoiceOption);
             }
             foreach (InventoryItemField inventoryItemField in equipableItemChoiceOptions)
             {
@@ -198,10 +214,18 @@ namespace Frankie.Inventory.UI
             {
                 dialogueChoiceOption.Highlight(false);
             }
+            highlightedChoiceOption = null;
         }
 
-        private void SetEquipmentBoxState(EquipmentBoxState setEquipmentBoxState)
+        private void SetEquipmentBoxState(EquipmentBoxState setEquipmentBoxState, bool bypassSoloCheck = false)
         {
+            if (setEquipmentBoxState == EquipmentBoxState.InCharacterSelection && !bypassSoloCheck && isPartySolo)
+            {
+                // Skip character selection on solo character
+                destroyQueued = true;
+                return;
+            }
+            
             equipmentBoxState = setEquipmentBoxState;
             equipmentChangeMenu.SetActive(setEquipmentBoxState == EquipmentBoxState.InStatConfirmation);
             SetUpChoiceOptions();
@@ -252,7 +276,7 @@ namespace Frankie.Inventory.UI
         private void SoftChooseCharacter(CombatParticipant character)
         {
             ChooseCharacter(character, false, false);
-            SetEquipmentBoxState(EquipmentBoxState.InCharacterSelection);
+            SetEquipmentBoxState(EquipmentBoxState.InCharacterSelection, true);
         }
         #endregion
 

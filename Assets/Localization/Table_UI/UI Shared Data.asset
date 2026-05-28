@@ -135,10 +135,6 @@ MonoBehaviour:
     m_Key: CombatOptions.Prefab.CombatOptions.RunawayText.5c54e191
     m_Metadata:
       m_Items: []
-  - m_Id: 8999697510293504
-    m_Key: SkillSelectionUI.Prefab.SkillSelection.NoSkillSelectionText.189c0169
-    m_Metadata:
-      m_Items: []
   - m_Id: 9002459291705344
     m_Key: AbilitiesBox.Prefab.AbilitiesBox.StatLabel.43e2453f
     m_Metadata:
@@ -477,6 +473,14 @@ MonoBehaviour:
       m_Items: []
   - m_Id: 10139031237398528
     m_Key: BattleCanvas.Prefab.Battle Canvas.MessageFailedToRun.68c95a38
+    m_Metadata:
+      m_Items: []
+  - m_Id: 15133689565405184
+    m_Key: OptionsMenu.Prefab.OptionsMenu.ConfirmChangesText.2a77de74
+    m_Metadata:
+      m_Items: []
+  - m_Id: 15233195644542976
+    m_Key: InventorySwapBox.Prefab.InventorySwapBox.MessageConfirmThrowOut.179a247
     m_Metadata:
       m_Items: []
   m_Metadata:

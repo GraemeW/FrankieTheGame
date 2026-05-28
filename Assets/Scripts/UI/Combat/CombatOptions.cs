@@ -68,7 +68,7 @@ namespace Frankie.Combat.UI
         public void OpenKnapsack() // Called via unity events
         {
             InventoryBox inventoryBox = Instantiate(inventoryBoxPrefab, battleCanvas.transform);
-            inventoryBox.Setup(battleController, partyCombatConduit);
+            inventoryBox.Setup(battleController, partyCombatConduit, null);
             PassControl(this, new Action[] { EnableCombatOptions }, inventoryBox, battleController);
             gameObject.SetActive(false);
         }

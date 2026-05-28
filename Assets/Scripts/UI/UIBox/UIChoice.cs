@@ -16,6 +16,7 @@ namespace Frankie.Utils.UI
 
         // State
         private readonly List<UnityAction> onHighlightExtraListeners = new();
+        private bool useHighlightColor = false;
 
         // Unity Events
         public UnityEvent itemHighlighted;
@@ -65,6 +66,11 @@ namespace Frankie.Utils.UI
             textField.color = enable ? validChoiceColor : invalidChoiceColor;
         }
 
+        public void UseHighlightColor(bool enable)
+        {
+            useHighlightColor = enable;
+        }
+
         public void AddOnHighlightListener(UnityAction unityAction)
         {
             if (unityAction == null) { return; }
@@ -73,9 +79,10 @@ namespace Frankie.Utils.UI
             if (gameObject.activeSelf) { itemHighlighted.AddListener(unityAction); }
         }
 
-        public void Highlight(bool enable)
+        public virtual void Highlight(bool enable)
         {
             selectionMarker.SetActive(enable);
+            if (useHighlightColor) { textField.color = enable ? validChoiceColor : invalidChoiceColor; }
             if (enable && itemHighlighted != null) { itemHighlighted.Invoke(); }
         }
         #endregion

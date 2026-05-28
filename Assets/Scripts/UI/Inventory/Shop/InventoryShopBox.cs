@@ -53,7 +53,7 @@ namespace Frankie.Inventory.UI
         {
             transactionType = ShopType.Buy;
             
-            base.Setup(standardPlayerInputCaller, partyCombatConduit);
+            base.Setup(standardPlayerInputCaller, partyCombatConduit, null, false);
             shopper = setShopper;
             shopBox = setShopBox;
             buyItem = setBuyItem;
@@ -65,7 +65,7 @@ namespace Frankie.Inventory.UI
         {
             transactionType = ShopType.Sell;
 
-            base.Setup(standardPlayerInputCaller, partyCombatConduit);
+            base.Setup(standardPlayerInputCaller, partyCombatConduit, null, false);
             playerStateMachine = setPlayerStateMachine;
             shopper = setShopper;
             messageForSale = setMessageForSale;

@@ -46,6 +46,7 @@ namespace Frankie.Stats
         public List<CombatParticipant> GetPartyAssistParticipants() => combatAssistCache;
 
         public string GetPartyLeaderName() => party?.GetPartyLeaderName() ?? "";
+        public bool IsPartySolo() => party.GetPartySize() == 1;
 
         public bool IsAnyMemberAlive()
         {
