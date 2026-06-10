@@ -16,22 +16,26 @@ namespace Frankie.ZoneManagement
         [SerializeField, Tooltip("Number of segments to make circle to polygon")] private int circleSegments = 24;
         [Header("Gizmo Parameters")]
         [SerializeField] private Color gizmoColor = new(0.2f, 0.5f, 1.0f, 0.35f);
-        [Header("State")]
+        
+        // State
         [field: SerializeField, HideInInspector] public List<SerializablePolygon> enclosedRegions { get; private set; } = new();
         [field: SerializeField, HideInInspector] public List<SerializablePolygon> additionalColliderPolygons { get; private set; } = new();
         [NonSerialized] private readonly List<Mesh> regionMeshes = new();
-
+        private float currentProgress = 0.0f;
+        
         // Static
         private const string _gizmoMeshName = "EnclosedRegionGizmoMesh";
         
         #region PublicMethods
         public void RunDetection(Action<string, float> onProgress = null)
         {
-            onProgress?.Invoke("Clearing previous data...", 0f);
+            currentProgress = 0f;
+            onProgress?.Invoke("Clearing previous data...", currentProgress);
             enclosedRegions.Clear();
             additionalColliderPolygons.Clear();
 
-            onProgress?.Invoke("Gathering collider contours...", 0.05f);
+            currentProgress = 0.05f;
+            onProgress?.Invoke("Gathering collider contours...", currentProgress);
             var allContours = new List<List<Vector2>>();
             foreach (CompositeCollider2D compositeCollider2D in GetComponentsInChildren<CompositeCollider2D>())
             {
@@ -44,34 +48,43 @@ namespace Frankie.ZoneManagement
                 return;
             }
 
-            onProgress?.Invoke("Computing bounding box...", 0.1f);
+            currentProgress = 0.1f;
+            onProgress?.Invoke("Computing bounding box...", currentProgress);
             Rect bounds = ComputeBounds(allContours);
 
-            onProgress?.Invoke("Building occupancy grid...", 0.15f);
+            currentProgress = 0.2f;
+            onProgress?.Invoke("Building occupancy grid...", currentProgress);
             bool[] grid = BuildOccupancyGrid(allContours, bounds, out int cols, out int rows);
 
-            onProgress?.Invoke("Rasterising additional colliders...", 0.3f);
-            RasteriseAdditionalColliders(grid, cols, rows, bounds);
+            currentProgress = 0.3f;
+            onProgress?.Invoke("Rasterising additional colliders...", currentProgress);
+            RasteriseAdditionalColliders(grid, cols, rows, bounds, onProgress);
 
-            onProgress?.Invoke("Flood filling exterior...", 0.5f);
+            currentProgress = 0.8f;
+            onProgress?.Invoke("Flood filling exterior...", currentProgress);
             bool[] outside = FloodFillOutside(grid, cols, rows);
 
-            onProgress?.Invoke("Identifying enclosed cells...", 0.65f);
+            currentProgress = 0.85f;
+            onProgress?.Invoke("Identifying enclosed cells...", currentProgress);
             bool[] enclosed = BuildEnclosedGrid(grid, outside, cols, rows);
 
-            onProgress?.Invoke("Tracing region contours...", 0.75f);
+            currentProgress = 0.9f;
+            onProgress?.Invoke("Tracing region contours...", currentProgress);
             var regions = TraceRegionContours(enclosed, cols, rows, bounds);
 
-            onProgress?.Invoke("Storing results...", 0.88f);
+            currentProgress = 0.93f;
+            onProgress?.Invoke("Storing results...", currentProgress);
             foreach (var pts in regions.Where(pts => pts is { Count: >= 3 }))
             {
                 enclosedRegions.Add(new SerializablePolygon { points = pts });
             }
 
-            onProgress?.Invoke("Baking gizmo meshes...", 0.93f);
+            currentProgress = 0.98f;
+            onProgress?.Invoke("Baking gizmo meshes...", currentProgress);
             BakeGizmoMeshes();
 
-            onProgress?.Invoke("Done.", 1f);
+            currentProgress = 1.0f;
+            onProgress?.Invoke("Done.", currentProgress);
             Debug.Log($"[EnclosedRegionFinder] Found {enclosedRegions.Count} enclosed region(s).");
         }
         
@@ -182,14 +195,19 @@ namespace Frankie.ZoneManagement
             }
         } 
         
-        private void RasteriseAdditionalColliders(bool[] grid, int columns, int rows, Rect bounds)
+        private void RasteriseAdditionalColliders(bool[] grid, int columns, int rows, Rect bounds, Action<string, float> onProgress = null)
         {
             additionalColliderPolygons.Clear();
             if (additionalColliderSources == null) { return; }
-            
-            foreach (Collider2D col in additionalColliderSources.Where(source => source != null).SelectMany(source => source.GetComponentsInChildren<Collider2D>()))
+
+            List<Collider2D> additionalColliders = additionalColliderSources.Where(source => source != null).SelectMany(source => source.GetComponentsInChildren<Collider2D>()).ToList();
+
+            int colliderIndex = 1;
+            int totalColliders = additionalColliders.Count;
+            foreach (Collider2D additionalCollider in additionalColliders)
             {
-                switch (col)
+                onProgress?.Invoke($"Rasterising additional colliders... On:  {colliderIndex} of {totalColliders}", currentProgress);
+                switch (additionalCollider)
                 {
                     case BoxCollider2D boxCollider2D:
                         RasteriseBox(boxCollider2D, grid, columns, rows, bounds);
@@ -204,6 +222,7 @@ namespace Frankie.ZoneManagement
                         RasterisePolygon2D(polygonCollider2D, grid, columns, rows, bounds);
                         break;
                 }
+                colliderIndex++;
             }
         }
 
