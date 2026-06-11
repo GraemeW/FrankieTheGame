@@ -326,6 +326,7 @@ GameObject:
   - component: {fileID: 6762723866359945157}
   - component: {fileID: 1473610476277215348}
   - component: {fileID: 965147417343429250}
+  - component: {fileID: 7300133712395528484}
   - component: {fileID: 4118810327594443569}
   - component: {fileID: 6853974573596150378}
   - component: {fileID: 6372006413732983059}
@@ -528,6 +529,21 @@ MonoBehaviour:
   giveUpOnLocomotionTargetTime: 10
   locomotionCollisionStayTime: 0.5
   randomWalkGizmoColor: {r: 0.2745098, g: 0.509804, b: 0.7058824, a: 1}
+--- !u!114 &7300133712395528484
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6761616658632847994}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5632f62ca67f4acf910fe3207f574ff4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Frankie.Control.PathFinder
+  moveMeshProbeRadius: 0.1
+  initialHeapSizeDivider: 4
+  crossThreshold: 0.01
 --- !u!114 &4118810327594443569
 MonoBehaviour:
   m_ObjectHideFlags: 0

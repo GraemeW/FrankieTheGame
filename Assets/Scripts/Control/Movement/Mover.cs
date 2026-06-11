@@ -5,6 +5,7 @@ using Frankie.Utils;
 namespace Frankie.Control
 {
     [RequireComponent(typeof(Rigidbody2D))]
+    [RequireComponent(typeof(PathFinder))]
     public abstract class Mover : MonoBehaviour, ISaveable
     {
         // Tunables
@@ -26,6 +27,7 @@ namespace Frankie.Control
 
         // Cached References
         protected Rigidbody2D rigidBody2D;
+        private PathFinder pathFinder;
 
         #region Static
         private const float _signFloorThreshold = 0.1f;
@@ -44,6 +46,7 @@ namespace Frankie.Control
         protected virtual void Awake()
         {
             rigidBody2D = GetComponent<Rigidbody2D>();
+            pathFinder = GetComponent<PathFinder>();
             SetupInitialState();
         }
 

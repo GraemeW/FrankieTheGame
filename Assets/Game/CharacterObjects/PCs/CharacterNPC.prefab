@@ -280,6 +280,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 8263638854090363868, guid: b3d57c5ca0835dc44b0b91ac427342b7, type: 3}
       insertIndex: -1
       addedObject: {fileID: 8799100898494828469}
+    - targetCorrespondingSourceObject: {fileID: 8263638854090363868, guid: b3d57c5ca0835dc44b0b91ac427342b7, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 5604239651851639060}
   m_SourcePrefab: {fileID: 100100000, guid: b3d57c5ca0835dc44b0b91ac427342b7, type: 3}
 --- !u!4 &3268347881412759661 stripped
 Transform:
@@ -378,3 +381,18 @@ MonoBehaviour:
   probabilityToTraverseSkillTree: 0.8
   useRandomSelectionOnNoPriorities: 1
   battleAIPriorities: []
+--- !u!114 &5604239651851639060
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3268347881412759662}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5632f62ca67f4acf910fe3207f574ff4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Frankie.Control.PathFinder
+  moveMeshProbeRadius: 0.1
+  initialHeapSizeDivider: 4
+  crossThreshold: 0.01
