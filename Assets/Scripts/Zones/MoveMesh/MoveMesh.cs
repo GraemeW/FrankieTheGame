@@ -20,13 +20,48 @@ namespace Frankie.ZoneManagement
         // State
         [field: SerializeField, HideInInspector] public List<SerializablePolygon> enclosedRegions { get; private set; } = new();
         [field: SerializeField, HideInInspector] public List<SerializablePolygon> additionalColliderPolygons { get; private set; } = new();
+        [field: SerializeField, HideInInspector] public WalkabilityGrid walkabilityGrid { get; private set; } = new WalkabilityGrid();
         [NonSerialized] private readonly List<Mesh> regionMeshes = new();
-        private float currentProgress = 0.0f;
+        
+        // Capture State
+        private float currentProgress;
         
         // Static
         private const string _gizmoMeshName = "EnclosedRegionGizmoMesh";
         
-        #region PublicMethods
+        #region MeshAccessMethods
+        public bool WorldToCell(Vector2 worldPos, out int column, out int row)
+        {
+            if (walkabilityGrid == null)
+            {
+                column = 0;
+                row = 0;
+                return false;
+            }
+            
+            Vector2 local = transform.InverseTransformPoint(worldPos);
+            column = Mathf.FloorToInt((local.x - walkabilityGrid.originX) / walkabilityGrid.cellSize);
+            row = Mathf.FloorToInt((local.y - walkabilityGrid.originY) / walkabilityGrid.cellSize);
+            return column >= 0 && column < walkabilityGrid.columns && row >= 0 && row < walkabilityGrid.rows;
+        }
+        
+        public Vector2 CellToWorld(int col, int row)
+        {
+            if (walkabilityGrid == null) { return Vector2.zero; }
+            Vector2 local = walkabilityGrid.CellToLocal(col, row);
+            return transform.TransformPoint(local);
+        }
+        
+        public bool IsWalkable(Vector2 worldPos)
+        {
+            if (!WorldToCell(worldPos, out int col, out int row)) { return false; }
+            return walkabilityGrid?.GetCell(col, row) ?? false;
+        }
+        
+        public bool IsWalkable(int col, int row) => walkabilityGrid?.GetCell(col, row) ?? false;
+        #endregion
+        
+        #region MeshGenerationMethods
         public void RunDetection(Action<string, float> onProgress = null)
         {
             currentProgress = 0f;
@@ -78,6 +113,9 @@ namespace Frankie.ZoneManagement
             {
                 enclosedRegions.Add(new SerializablePolygon { points = pts });
             }
+            
+            onProgress?.Invoke("Baking walkability grid...", 0.95f);
+            BakeWalkabilityGrid(bounds);
 
             currentProgress = 0.98f;
             onProgress?.Invoke("Baking gizmo meshes...", currentProgress);
@@ -92,6 +130,7 @@ namespace Frankie.ZoneManagement
         {
             enclosedRegions.Clear();
             additionalColliderPolygons.Clear();
+            walkabilityGrid = new WalkabilityGrid();
             foreach (Mesh m in regionMeshes.Where(m => m != null))
             {
                 DestroyImmediate(m);
@@ -224,6 +263,59 @@ namespace Frankie.ZoneManagement
                 }
                 colliderIndex++;
             }
+        }
+        void BakeWalkabilityGrid(Rect bounds)
+        {
+            int columns = Mathf.CeilToInt(bounds.width  / cellSize);
+            int rows = Mathf.CeilToInt(bounds.height / cellSize);
+
+            walkabilityGrid.columns = columns;
+            walkabilityGrid.rows = rows;
+            walkabilityGrid.cellSize = cellSize;
+
+            // Store origin in local space so the grid moves with the GameObject
+            Vector2 localOrigin= transform.InverseTransformPoint(new Vector3(bounds.xMin, bounds.yMin, 0f));
+            walkabilityGrid.originX = localOrigin.x;
+            walkabilityGrid.originY = localOrigin.y;
+
+            var cells = new bool[columns * rows];
+
+            for (int row = 0; row < rows; row++)
+            {
+                float worldY = bounds.yMin + (row + 0.5f) * cellSize;
+
+                var regionSpans = new List<(float left, float right)>();
+                foreach (SerializablePolygon polygon in enclosedRegions)
+                {
+                    regionSpans.AddRange(GetScanlineSpans(polygon.points, worldY));
+                }
+                if (regionSpans.Count == 0) { continue; }
+
+                var carveSpans = new List<(float left, float right)>();
+                foreach (SerializablePolygon carvePoly in additionalColliderPolygons)
+                {
+                    carveSpans.AddRange(GetScanlineSpans(carvePoly.points, worldY));
+
+                }
+
+                var walkableSpans = SubtractSpans(regionSpans, carveSpans);
+
+                foreach (var (xLeft, xRight) in walkableSpans)
+                {
+                    // Convert world-space span extents to local space for column indexing
+                    float localXLeft = transform.InverseTransformPoint(new Vector3(xLeft,  worldY, 0f)).x;
+                    float localXRight = transform.InverseTransformPoint(new Vector3(xRight, worldY, 0f)).x;
+
+                    int startColumn = Mathf.Max(0, Mathf.FloorToInt((localXLeft  - walkabilityGrid.originX) / cellSize));
+                    int endColumn = Mathf.Min(columns - 1, Mathf.FloorToInt((localXRight - walkabilityGrid.originX) / cellSize));
+                    for (int column = startColumn; column <= endColumn; column++)
+                    {
+                        cells[row * columns + column] = true;
+                    }
+                }
+            }
+
+            walkabilityGrid.cells = new List<bool>(cells);
         }
 
         private void RasteriseBox(BoxCollider2D boxCollider2D, bool[] grid, int columns, int rows, Rect bounds)
