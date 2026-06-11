@@ -29,7 +29,7 @@ TagManager:
   - PlayerInteractionProbe
   - NPCInteractionProbe
   - Interactable
-  - 
+  - MoveMesh
   - 
   - 
   - 

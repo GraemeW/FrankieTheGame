@@ -5,6 +5,7 @@ using UnityEngine;
 
 namespace Frankie.ZoneManagement
 {
+    [RequireComponent(typeof(BoxCollider2D))]
     public class MoveMesh : MonoBehaviour
     {
         // Tunables
@@ -20,16 +21,43 @@ namespace Frankie.ZoneManagement
         // State
         [field: SerializeField, HideInInspector] public List<SerializablePolygon> enclosedRegions { get; private set; } = new();
         [field: SerializeField, HideInInspector] public List<SerializablePolygon> additionalColliderPolygons { get; private set; } = new();
-        [field: SerializeField, HideInInspector] public WalkabilityGrid walkabilityGrid { get; private set; } = new WalkabilityGrid();
+        [field: SerializeField, HideInInspector] public WalkabilityGrid walkabilityGrid { get; private set; } = new();
         [NonSerialized] private readonly List<Mesh> regionMeshes = new();
+        [field: SerializeField, HideInInspector] private bool isMeshOutlineInitialized;
         
         // Capture State
         private float currentProgress;
         
+        // Cached References
+        private BoxCollider2D meshOutline;
+        
         // Static
+        private const string _moveMeshLayer = "MoveMesh";
         private const string _gizmoMeshName = "EnclosedRegionGizmoMesh";
         
+        #region UnityMethods
+        private void Awake()
+        {
+            gameObject.layer = LayerMask.NameToLayer(_moveMeshLayer);
+            InitializeCollider(new Rect(0f, 0f, 1f, 1f), false);
+        }
+
+        private void InitializeCollider(Rect bounds, bool setInitialized = true)
+        {
+            if (meshOutline == null && !TryGetComponent(out meshOutline)) { return; }
+            if (isMeshOutlineInitialized) { return; }
+            
+            meshOutline.isTrigger = true;
+            meshOutline.size = new Vector2(bounds.width, bounds.height);
+            meshOutline.offset = bounds.center;
+            meshOutline.enabled = setInitialized;
+            isMeshOutlineInitialized = setInitialized;
+        }
+        #endregion
+        
         #region MeshAccessMethods
+        public static int GetMoveMeshLayerMask() => LayerMask.GetMask(_moveMeshLayer);
+        
         public bool WorldToCell(Vector2 worldPos, out int column, out int row)
         {
             if (walkabilityGrid == null)
@@ -45,20 +73,14 @@ namespace Frankie.ZoneManagement
             return column >= 0 && column < walkabilityGrid.columns && row >= 0 && row < walkabilityGrid.rows;
         }
         
-        public Vector2 CellToWorld(int col, int row)
+        public Vector2 CellToWorld(int column, int row)
         {
             if (walkabilityGrid == null) { return Vector2.zero; }
-            Vector2 local = walkabilityGrid.CellToLocal(col, row);
+            Vector2 local = walkabilityGrid.CellToLocal(column, row);
             return transform.TransformPoint(local);
         }
         
-        public bool IsWalkable(Vector2 worldPos)
-        {
-            if (!WorldToCell(worldPos, out int col, out int row)) { return false; }
-            return walkabilityGrid?.GetCell(col, row) ?? false;
-        }
-        
-        public bool IsWalkable(int col, int row) => walkabilityGrid?.GetCell(col, row) ?? false;
+        public bool IsWalkable(int column, int row) => walkabilityGrid?.GetCell(column, row) ?? false;
         #endregion
         
         #region MeshGenerationMethods
@@ -121,6 +143,10 @@ namespace Frankie.ZoneManagement
             onProgress?.Invoke("Baking gizmo meshes...", currentProgress);
             BakeGizmoMeshes();
 
+            currentProgress = 0.99f;
+            onProgress?.Invoke("Setting up collider bounds...", currentProgress);
+            InitializeCollider(bounds);
+            
             currentProgress = 1.0f;
             onProgress?.Invoke("Done.", currentProgress);
             Debug.Log($"[EnclosedRegionFinder] Found {enclosedRegions.Count} enclosed region(s).");
@@ -136,6 +162,7 @@ namespace Frankie.ZoneManagement
                 DestroyImmediate(m);
             }
             regionMeshes.Clear();
+            isMeshOutlineInitialized = false;
         }
         #endregion
         
@@ -264,7 +291,7 @@ namespace Frankie.ZoneManagement
                 colliderIndex++;
             }
         }
-        void BakeWalkabilityGrid(Rect bounds)
+        private void BakeWalkabilityGrid(Rect bounds)
         {
             int columns = Mathf.CeilToInt(bounds.width  / cellSize);
             int rows = Mathf.CeilToInt(bounds.height / cellSize);
