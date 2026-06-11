@@ -11,19 +11,19 @@ namespace Frankie.ZoneManagement
         // Tunables
         [Header("Functional Input")]
         [SerializeField, Tooltip("Add parent game objects to check for child colliders")] private List<GameObject> additionalColliderSources = new();
-        [SerializeField, Tooltip("World units per grid cell")] private float cellSize = 0.01f;
+        [SerializeField, Tooltip("World units per grid cell")] private float cellSize = 0.05f;
         [SerializeField, Tooltip("Extra grid margin around the collider bounding box.")] private float padding = 1f;
-        [SerializeField, Tooltip("Error allowance in polygon simplification")] private float polygonSimplificationEpsilon = 0.02f;
+        [SerializeField, Tooltip("Error allowance in polygon simplification")] private float polygonSimplificationEpsilon = 0.065f;
         [SerializeField, Tooltip("Number of segments to make circle to polygon")] private int circleSegments = 24;
         [Header("Gizmo Parameters")]
         [SerializeField] private Color gizmoColor = new(0.2f, 0.5f, 1.0f, 0.35f);
         
         // State
-        [field: SerializeField, HideInInspector] public List<SerializablePolygon> enclosedRegions { get; private set; } = new();
-        [field: SerializeField, HideInInspector] public List<SerializablePolygon> additionalColliderPolygons { get; private set; } = new();
         [field: SerializeField, HideInInspector] public WalkabilityGrid walkabilityGrid { get; private set; } = new();
-        [NonSerialized] private readonly List<Mesh> regionMeshes = new();
         [field: SerializeField, HideInInspector] private bool isMeshOutlineInitialized;
+        [NonSerialized] private readonly List<SerializablePolygon> enclosedRegions = new();
+        [NonSerialized] private readonly List<SerializablePolygon> additionalColliderPolygons = new();
+        [NonSerialized] private Mesh walkabilityMesh;
         
         // Capture State
         private float currentProgress;
@@ -49,7 +49,8 @@ namespace Frankie.ZoneManagement
             
             meshOutline.isTrigger = true;
             meshOutline.size = new Vector2(bounds.width, bounds.height);
-            meshOutline.offset = bounds.center;
+            Vector2 localCenter= transform.InverseTransformPoint(new Vector3(bounds.center.x, bounds.center.y, 0f));
+            meshOutline.offset = localCenter;
             meshOutline.enabled = setInitialized;
             isMeshOutlineInitialized = setInitialized;
         }
@@ -157,11 +158,7 @@ namespace Frankie.ZoneManagement
             enclosedRegions.Clear();
             additionalColliderPolygons.Clear();
             walkabilityGrid = new WalkabilityGrid();
-            foreach (Mesh m in regionMeshes.Where(m => m != null))
-            {
-                DestroyImmediate(m);
-            }
-            regionMeshes.Clear();
+            if (walkabilityMesh != null) { DestroyImmediate(walkabilityMesh); }
             isMeshOutlineInitialized = false;
         }
         #endregion
@@ -708,86 +705,41 @@ namespace Frankie.ZoneManagement
         #region Gizmos
         private void OnDrawGizmosSelected()
         {
-            if (enclosedRegions == null || enclosedRegions.Count == 0) { return; }
-            if (regionMeshes.Count != enclosedRegions.Count) { BakeGizmoMeshes(); }
-
-            var outlineColor = new Color(gizmoColor.r, gizmoColor.g, gizmoColor.b, 1f);
-            for (int i = 0; i < enclosedRegions.Count; i++)
-            {
-                SerializablePolygon region = enclosedRegions[i];
-                if (region.points == null || region.points.Count < 3) continue;
-
-                Mesh mesh = (i < regionMeshes.Count) ? regionMeshes[i] : null;
-                if (mesh != null)
-                {
-                    Gizmos.color = gizmoColor;
-                    Gizmos.DrawMesh(mesh, Vector3.zero, Quaternion.identity, Vector3.one);
-                }
-                
-                Gizmos.color = outlineColor;
-                var pts = region.points;
-                for (int j = 0; j < pts.Count; j++)
-                {
-                    int k = (j + 1) % pts.Count;
-                    Gizmos.DrawLine(new Vector3(pts[j].x, pts[j].y, 0f), new Vector3(pts[k].x, pts[k].y, 0f));
-                }
-            }
+            if (walkabilityGrid?.cells == null || walkabilityGrid.cells.Count == 0) { return; }
+            if (walkabilityMesh == null) { BakeGizmoMeshes(); }
+            
+            Gizmos.color = gizmoColor;
+            Gizmos.DrawMesh(walkabilityMesh, Vector3.zero, Quaternion.identity, Vector3.one);
         }
         
         private void BakeGizmoMeshes()
         {
-            foreach (Mesh mesh in regionMeshes.Where(mesh => mesh != null))
-            {
-                DestroyImmediate(mesh);
-            }
-            regionMeshes.Clear();
-
-            foreach (var region in enclosedRegions)
-            {
-                if (region.points == null || region.points.Count < 3)
-                {
-                    regionMeshes.Add(null);
-                    continue;
-                }
-                regionMeshes.Add(BuildRegionMesh(region.points));
-            }
+            if (walkabilityMesh != null) { DestroyImmediate(walkabilityMesh); }
+            walkabilityMesh = BuildRegionMesh();
         }
         
-        private Mesh BuildRegionMesh(List<Vector2> points)
+        private Mesh BuildRegionMesh()
         {
-            var vertices = new List<Vector3>();
+            var grid = walkabilityGrid;
+            var vertices  = new List<Vector3>();
             var triangles = new List<int>();
+            float halfCell = grid.cellSize * 0.5f;
 
-            float minY = float.MaxValue, maxY = float.MinValue;
-            foreach (var p in points)
+            for (int row = 0; row < grid.rows; row++)
             {
-                if (p.y < minY) { minY = p.y; }
-                if (p.y > maxY) { maxY = p.y; }
-            }
-
-            for (float y = minY + cellSize * 0.5f; y < maxY; y += cellSize)
-            {
-                List<(float left, float right)> regionSpans = GetScanlineSpans(points, y);
-                if (regionSpans.Count == 0) { continue; }
-                
-                var carveSpans = new List<(float left, float right)>();
-                foreach (var carvePoly in additionalColliderPolygons)
+                for (int column = 0; column < grid.columns; column++)
                 {
-                    carveSpans.AddRange(GetScanlineSpans(carvePoly.points, y));
-                }
-                
-                List<(float left, float right)> finalSpans = SubtractSpans(regionSpans, carveSpans);
+                    if (!grid.GetCell(column, row)) { continue; }
+                    
+                    Vector2 worldCentre = CellToWorld(column, row);
+                    float wx = worldCentre.x;
+                    float wy = worldCentre.y;
 
-                foreach (var (xLeft, xRight) in finalSpans)
-                {
-                    float yBot = y - cellSize * 0.5f;
-                    float yTop = y + cellSize * 0.5f;
-                    int baseIdx= vertices.Count;
-
-                    vertices.Add(new Vector3(xLeft, yBot, 0f));
-                    vertices.Add(new Vector3(xRight, yBot, 0f));
-                    vertices.Add(new Vector3(xRight, yTop, 0f));
-                    vertices.Add(new Vector3(xLeft, yTop, 0f));
+                    int baseIdx = vertices.Count;
+                    vertices.Add(new Vector3(wx - halfCell, wy - halfCell, 0f));
+                    vertices.Add(new Vector3(wx + halfCell, wy - halfCell, 0f));
+                    vertices.Add(new Vector3(wx + halfCell, wy + halfCell, 0f));
+                    vertices.Add(new Vector3(wx - halfCell, wy + halfCell, 0f));
 
                     triangles.Add(baseIdx + 0);
                     triangles.Add(baseIdx + 2);
@@ -797,6 +749,7 @@ namespace Frankie.ZoneManagement
                     triangles.Add(baseIdx + 2);
                 }
             }
+
             if (vertices.Count == 0) { return null; }
 
             var mesh = new Mesh
