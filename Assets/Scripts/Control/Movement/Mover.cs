@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using Frankie.Saving;
 using Frankie.Utils;
@@ -9,12 +11,13 @@ namespace Frankie.Control
     public abstract class Mover : MonoBehaviour, ISaveable
     {
         // Tunables
+        [SerializeField] private bool usingPathFinding = false;
         [SerializeField] protected float movementSpeed = 1.0f;
         [SerializeField] protected Vector2 defaultLookDirection = Vector2.down;
         [SerializeField] protected float defaultTargetDistanceTolerance = 0.15f;
         [SerializeField] private float closeTargetThresholdSquared = 0.5625f;
         [SerializeField] private bool resetPositionOnEnable = false;
-        [SerializeField][Tooltip("Sets the target position delay for chase")] private int targetMovementHistoryLength = 10;
+        [SerializeField][Tooltip("Sets the target position delay for chase")] private int targetMovementHistoryLength = 10; 
 
         // State
         protected Vector2 originalPosition;
@@ -132,10 +135,16 @@ namespace Frankie.Control
             if (SetStaticForNoTarget()) { return null; }
 
             Vector2 position = rigidBody2D.position;
-            Vector2 target = ReckonTarget(false, true);
-            
-            if (HasArrivedAtTarget(target, out float squareMagnitudeDelta)) { return false; }
-            target = ReckonTarget(squareMagnitudeDelta > closeTargetThresholdSquared, false);
+            Vector2 target = ReckonTarget(false, true, PathFindingCheckType.Check);
+
+            if (HasArrivedAtTarget(target, out float squareMagnitudeDelta))
+            {
+                if (!usingPathFinding) { return false; }
+                
+                Vector2 finalTarget = ReckonTarget(false, false, PathFindingCheckType.Skip);
+                if (HasArrivedAtTarget(finalTarget, out float finalSquareMagnitudeDelta)) { return false;}
+            }
+            target = ReckonTarget(squareMagnitudeDelta > closeTargetThresholdSquared, false, PathFindingCheckType.ForceCheck);
 
             Vector2 direction = target - position;
             lookDirection.Set(direction.x, direction.y);
@@ -150,16 +159,20 @@ namespace Frankie.Control
             return true;
         }
 
-        protected virtual Vector2 ReckonTarget(bool withOffsetting = true, bool addToHistory = true)
+        protected virtual Vector2 ReckonTarget(bool withOffsetting = true, bool addToHistory = true, PathFindingCheckType pathFindingCheckType = PathFindingCheckType.Check)
         {
             if (moveTargetCoordinate != null) { return moveTargetCoordinate.Value; }
             if (moveTargetObject == null) { return Vector2.zero; }
             
             Vector2 currentTargetPosition = moveTargetObject.transform.position;
             if (addToHistory) { targetMovementHistory.Add(currentTargetPosition); }
-            if (targetMovementHistory.GetCurrentSize() == 0) { return currentTargetPosition; }
+
+            Vector2 reckonedTarget = currentTargetPosition;
+            if (targetMovementHistory.GetCurrentSize() > 0) { reckonedTarget = withOffsetting ? targetMovementHistory.GetLastEntry() : targetMovementHistory.GetFirstEntry(); }
+            if (!usingPathFinding || !pathFinder.IsValidPathFinder() || pathFindingCheckType == PathFindingCheckType.Skip) { return reckonedTarget; }
             
-            return withOffsetting ? targetMovementHistory.GetLastEntry() : targetMovementHistory.GetFirstEntry();
+            pathFinder.FindPath(rigidBody2D.position, reckonedTarget, out List<Vector2> path, pathFindingCheckType);
+            return path.First();
         }
         #endregion
 

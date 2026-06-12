@@ -12,6 +12,7 @@ namespace Frankie.ZoneManagement
         [Header("Functional Input")]
         [SerializeField, Tooltip("Add parent game objects to check for child colliders")] private List<GameObject> additionalColliderSources = new();
         [SerializeField, Tooltip("World units per grid cell")] private float cellSize = 0.05f;
+        [SerializeField, Tooltip("Amount to erode inward from obstacle edges")] private float walkabilityErosionRadius = 0.07f;
         [SerializeField, Tooltip("Extra grid margin around the collider bounding box.")] private float padding = 1f;
         [SerializeField, Tooltip("Error allowance in polygon simplification")] private float polygonSimplificationEpsilon = 0.065f;
         [SerializeField, Tooltip("Number of segments to make circle to polygon")] private int circleSegments = 24;
@@ -80,8 +81,6 @@ namespace Frankie.ZoneManagement
             Vector2 local = walkabilityGrid.CellToLocal(column, row);
             return transform.TransformPoint(local);
         }
-        
-        public bool IsWalkable(int column, int row) => walkabilityGrid?.GetCell(column, row) ?? false;
         #endregion
         
         #region MeshGenerationMethods
@@ -339,7 +338,7 @@ namespace Frankie.ZoneManagement
                 }
             }
 
-            walkabilityGrid.cells = new List<bool>(cells);
+            walkabilityGrid.cells = new List<bool>(ErodeGrid(walkabilityGrid, walkabilityErosionRadius));
         }
 
         private void RasteriseBox(BoxCollider2D boxCollider2D, bool[] grid, int columns, int rows, Rect bounds)
@@ -577,6 +576,49 @@ namespace Frankie.ZoneManagement
         #endregion
 
         #region StaticMethods
+        public static bool[] ErodeGrid(WalkabilityGrid walkabilityGrid, float erosionRadius)
+        {
+            bool[] cells = walkabilityGrid.cells.ToArray();
+            if (erosionRadius <= 0f) { return cells; }
+            int rows = walkabilityGrid.rows;
+            int columns = walkabilityGrid.columns;
+
+            var erodedCells = new bool[cells.Length];
+            int radiusCells = Mathf.CeilToInt(erosionRadius / walkabilityGrid.cellSize);
+
+            for (int row = 0; row < rows; row++)
+            {
+                for (int column = 0; column < columns; column++)
+                {
+                    if (!walkabilityGrid.GetCell(column, row))
+                    {
+                        erodedCells[row * columns + column] = false;
+                        continue;
+                    }
+
+                    bool tooClose = false;
+                    for (int deltaRow = -radiusCells; deltaRow <= radiusCells && !tooClose; deltaRow++)
+                    {
+                        for (int deltaColumn = -radiusCells; deltaColumn <= radiusCells && !tooClose; deltaColumn++)
+                        {
+                            float worldDistance = Mathf.Sqrt(deltaColumn * deltaColumn + deltaRow * deltaRow) * walkabilityGrid.cellSize;
+                            if (worldDistance > erosionRadius) { continue; }
+
+                            int testColumn = column + deltaColumn;
+                            int testRow = row + deltaRow;
+
+                            if (testColumn < 0 || testColumn >= columns || testRow < 0 || testRow >= rows || !walkabilityGrid.GetCell(testColumn, testRow))
+                            {
+                                tooClose = true;
+                            }
+                        }
+                    }
+                    erodedCells[row * columns + column] = !tooClose;
+                }
+            }
+            return erodedCells;
+        }
+        
         private static Vector2 TransformPoint(Transform t, Vector2 localPoint) => t.TransformPoint(localPoint);
         
         private static (int dx, int dy) DirectionalDelta(int direction) => direction switch

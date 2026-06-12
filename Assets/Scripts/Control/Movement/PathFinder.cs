@@ -9,14 +9,20 @@ namespace Frankie.Control
     public class PathFinder : MonoBehaviour
     {
         // Tunables
-        [SerializeField] private float moveMeshProbeRadius = 0.1f;
+        [SerializeField][Tooltip("Approximate radius of entity's collider")] private float entitySize = 0.13f;
+        [SerializeField] private float pathPollingSeconds = 0.1f;
+        [SerializeField] private float moveMeshFinderSize = 0.1f;
         [SerializeField][Tooltip("Heap Size:  cell count / divider")] private int initialHeapSizeDivider = 4;
+        [SerializeField] private float deltaSquaredThreshold = 0.0016f;
         [SerializeField] private float crossThreshold = 0.01f;
 
         // State
         private bool isCacheInitialized = false;
-        private int cachedColumns;
-        private int cachedRows;
+        private bool hasPathed = false;
+        public List<Vector2> currentPath = new();
+        private float timeSinceLastPath;
+        
+        private bool[] erodedCells;
         private bool[] closed;
         private float[] goalCosts;
         private AStarNode[] nodeMap;
@@ -24,6 +30,8 @@ namespace Frankie.Control
 
         // Cached References
         private MoveMesh cachedMoveMesh;
+        private int cachedColumns;
+        private int cachedRows;
         
         // Static
         private static readonly (int dx, int dy, float cost)[] _directions =
@@ -65,6 +73,19 @@ namespace Frankie.Control
             InitialisePathfindingCache();
         }
 
+        private void OnEnable()
+        {
+            hasPathed = false;
+        }
+
+        private void Update()
+        {
+            if (timeSinceLastPath < pathPollingSeconds)
+            {
+                timeSinceLastPath += Time.deltaTime;
+            }
+        }
+
         private bool TryFindMoveMesh()
         {
             var contactFilter2D = new ContactFilter2D
@@ -74,7 +95,7 @@ namespace Frankie.Control
                 useTriggers = true
             };
             List<Collider2D> colliderHits = new List<Collider2D>();
-            int numberOfColliderHits = Physics2D.OverlapCircle(transform.position, moveMeshProbeRadius, contactFilter2D, colliderHits);
+            int numberOfColliderHits = Physics2D.OverlapCircle(transform.position, moveMeshFinderSize, contactFilter2D, colliderHits);
             return numberOfColliderHits > 0 && colliderHits.Any(colliderHit => colliderHit.transform.TryGetComponent(out cachedMoveMesh));
         }
         #endregion
@@ -82,16 +103,33 @@ namespace Frankie.Control
         #region PublicMethods
         public bool IsValidPathFinder() => isCacheInitialized;
         
-        public bool FindPath(Vector2 currentPosition, Vector2 targetPosition, out List<Vector2> path)
+        public bool FindPath(Vector2 currentPosition, Vector2 targetPosition, out List<Vector2> path, PathFindingCheckType pathFindingCheckType = PathFindingCheckType.Check)
         {
+            bool forcePathing = pathFindingCheckType == PathFindingCheckType.ForceCheck;
+            if (!forcePathing && hasPathed && timeSinceLastPath < pathPollingSeconds)
+            {
+                path = currentPath;
+                return true;
+            }
+            
+            hasPathed = true;
+            timeSinceLastPath = 0f;
+            currentPath.Clear();
             path = new List<Vector2> { currentPosition };
+            currentPath.AddRange(path);
+            
             if (!IsCacheValid()) { return false; }
             bool isStartCellValid = cachedMoveMesh.WorldToCell(currentPosition, out int startColumn, out int startRow);
-            if (!isStartCellValid || !cachedMoveMesh.IsWalkable(startColumn, startRow))  { return false; }
+            if (!isStartCellValid || !IsWalkableEroded(startColumn, startRow))  { return false; }
             bool isTargetCellValid = cachedMoveMesh.WorldToCell(targetPosition, out int targetColumn, out int targetRow);
-            if (!isTargetCellValid || !cachedMoveMesh.IsWalkable(targetColumn, targetRow)) { return false; }
+            if (!isTargetCellValid || !IsWalkableEroded(targetColumn, targetRow)) { return false; }
+
+            // --Heavy Lifting Here--
+            if (!RunAStar(startColumn, startRow, targetColumn, targetRow, out path)) { return false; }
             
-            return RunAStar(startColumn, startRow, targetColumn, targetRow, out path);
+            currentPath.Clear();
+            currentPath.AddRange(path);
+            return true;
         }
         #endregion
         
@@ -109,6 +147,8 @@ namespace Frankie.Control
             goalCosts = new float[cellCount];
             nodeMap = new AStarNode[cellCount];
             openHeap = new List<AStarNode>(cellCount / initialHeapSizeDivider);
+            
+            erodedCells = MoveMesh.ErodeGrid(grid, entitySize);
             isCacheInitialized = true;
         }
 
@@ -138,7 +178,7 @@ namespace Frankie.Control
                 // Early exit, success met
                 if (currentNode.column == targetColumn && currentNode.row == targetRow)
                 {
-                    path = ReconstructPath(currentNode);
+                    path = ReconstructPath(startColumn, startRow, currentNode);
                     return true;
                 }
 
@@ -150,13 +190,13 @@ namespace Frankie.Control
 
                     int neighbourIndex = testRow * cachedColumns + testColumn;
                     if (closed[neighbourIndex]) { continue; }
-                    if (!cachedMoveMesh.IsWalkable(testColumn, testRow)) { continue; }
+                    if (!IsWalkableEroded(testColumn, testRow)) { continue; }
 
                     if (dx != 0 && dy != 0)
                     {
                         // If angled direction, check for viability to walk each individual direction to avoid clipping
-                        bool xWalkViable = cachedMoveMesh.IsWalkable(currentNode.column + dx, currentNode.row);
-                        bool yWalkViable = cachedMoveMesh.IsWalkable(currentNode.column, currentNode.row + dy);
+                        bool xWalkViable = IsWalkableEroded(currentNode.column + dx, currentNode.row);
+                        bool yWalkViable = IsWalkableEroded(currentNode.column, currentNode.row + dy);
                         if (!xWalkViable || !yWalkViable) { continue; }
                     }
 
@@ -172,6 +212,12 @@ namespace Frankie.Control
 
             path = new List<Vector2> { cachedMoveMesh.CellToWorld(startColumn, startRow) };
             return false;
+        }
+        
+        private bool IsWalkableEroded(int column, int row)
+        {
+            if (column < 0 || column >= cachedColumns || row < 0 || row >= cachedRows) { return false; }
+            return erodedCells[row * cachedColumns + column];
         }
 
         private void ReinitializeGrid(int startColumn, int startRow, int targetColumn, int targetRow)
@@ -193,7 +239,7 @@ namespace Frankie.Control
             HeapPush(openHeap, startNode);
         }
         
-        private List<Vector2> ReconstructPath(AStarNode targetNode)
+        private List<Vector2> ReconstructPath(int startColumn, int startRow, AStarNode targetNode)
         {
             var cellPath = new List<AStarNode>();
             AStarNode currentNode = targetNode;
@@ -204,18 +250,20 @@ namespace Frankie.Control
             }
             cellPath.Reverse();
 
+            Vector2 initialPosition = cachedMoveMesh.CellToWorld(startColumn, startRow);
             var worldPath = new List<Vector2>(cellPath.Count);
             worldPath.AddRange(cellPath.Select(node => cachedMoveMesh.CellToWorld(node.column, node.row)));
 
-            return StringPull(worldPath, crossThreshold);
+            return StringPull(initialPosition, worldPath, deltaSquaredThreshold, crossThreshold);
         }
         #endregion
 
         #region StaticMethods
-        private static List<Vector2> StringPull(List<Vector2> path, float crossThreshold)
+        private static List<Vector2> StringPull(Vector2 initialPosition, List<Vector2> path, float deltaSquaredThreshold, float crossThreshold)
         {
             if (path.Count <= 2) { return path; }
 
+            path.Insert(0, initialPosition);
             var result = new List<Vector2> { path[0] };
             for (int i = 1; i < path.Count - 1; i++)
             {
@@ -224,10 +272,19 @@ namespace Frankie.Control
                 Vector2 next = path[i + 1];
                 Vector2 aDirection = (current - previous).normalized;
                 Vector2 bDirection = (next - current).normalized;
+                
                 float cross = Mathf.Abs(aDirection.x * bDirection.y - aDirection.y * bDirection.x);
-                if (cross > crossThreshold) { result.Add(current); }
+                if (cross < crossThreshold) { continue; }
+                
+                float deltaSquared = Mathf.Pow(aDirection.x - bDirection.x, 2) + Mathf.Pow(aDirection.y - bDirection.y, 2);
+                if (deltaSquared < deltaSquaredThreshold) { continue; }
+                
+                result.Add(current);
             }
+            
+            if (result.Count > 1) { result.RemoveAt(0); }
             result.Add(path[^1]);
+            
             return result;
         }
         
