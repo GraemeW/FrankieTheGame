@@ -33954,6 +33954,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Frankie.ZoneManagement.MoveMesh
   additionalColliderSources: []
   cellSize: 0.05
+  walkabilityErosionRadius: 0.07
+  edgeCostPenalty: 2
+  edgeCostFalloff: 1.5
   padding: 1
   polygonSimplificationEpsilon: 0.065
   circleSegments: 24

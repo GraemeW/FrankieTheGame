@@ -333,6 +333,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ae64d0078a8ee6e4d8bece5ce559d360, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  usingPathFinding: 0
   movementSpeed: 1
   defaultLookDirection: {x: 0, y: -1}
   defaultTargetDistanceTolerance: 0.035
@@ -340,6 +341,9 @@ MonoBehaviour:
   resetPositionOnEnable: 1
   targetMovementHistoryLength: 10
   interactionCenterPoint: {fileID: 2666196632901393418}
+  lookDirectionChangeDelay: 0.1
+  giveUpOnLocomotionTargetTime: 10
+  locomotionCollisionStayTime: 0.5
   patrolPath: {fileID: 0}
   canRandomWalk: 0
   randomWalkStepDistance: 0.4
@@ -347,8 +351,6 @@ MonoBehaviour:
   randomWalkyLimitDistance: 1.2
   waypointDwellTime: 2
   lookDirectionOnDwell: {x: 0, y: -1}
-  giveUpOnLocomotionTargetTime: 10
-  locomotionCollisionStayTime: 0.5
   randomWalkGizmoColor: {r: 0.2745098, g: 0.509804, b: 0.7058824, a: 1}
 --- !u!114 &5735266784123818870
 MonoBehaviour:
@@ -393,6 +395,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5632f62ca67f4acf910fe3207f574ff4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Frankie.Control.PathFinder
-  moveMeshProbeRadius: 0.1
+  moveMeshFinderSize: 0.1
+  entitySizeForNoCollider: 0.13
+  pathPollingSeconds: 0.1
+  lastTargetMemorySeconds: 2
   initialHeapSizeDivider: 4
   crossThreshold: 0.01
+  deltaSquaredThreshold: 0.0016

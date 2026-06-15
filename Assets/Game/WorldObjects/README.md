@@ -48,6 +48,22 @@ For:
 
 More detail on the tilemaps used in the prefabs can be found in [Tilemaps](../Tilemaps/README.md#reference-tilemap-prefabs).
 
+### MoveMesh:  PathFinding Mesh for Rooms and World Maps
+
+The [MoveMesh](../../Scripts/Zones/MoveMesh/MoveMesh.cs) component can be employed to support more complex movement types (e.g. teleporting) as well as [A* PathFinding](../CharacterObjects/README.md#npcmover-and-path-finding) for character movement.  
+
+[MoveMesh](../../Scripts/Zones/MoveMesh/MoveMesh.cs) should be placed upon a parent-most object containing the relevant tilemap composite colliders that define a scene's view.  Notably, the combination of the composite colliders must overlap to define an enclosed space (e.g. left, right, back and front colliders in a room define a room's enclosed space).  This is necessarily the case, as the player would otherwise be able to exit from the edges of the painted view.
+
+Any static/fixed world objects that should be carved out of the MoveMesh should be placed in the AdditionalColliderSources game object list, as below.  These can be parent game objects that include any number of standard/simple 2D colliders (box, circle, capsule, polygon).  A brief summary of some of the other relevant MoveMesh configurables is provided below:
+* `Cell Size`:  world-space spacing between grid points for the mesh
+* `Walkability Erosion Radius`:  world-space erosion to the grid, providing additional offsetting on grid-available positions
+* `Edge Cost Penalty`:  additional penalty for A* routing near the edges of walkable space (i.e. to encourage actors to walk in more open space)
+* `Edge Cost Falloff`:  falloff strength for this penalty from edge-to-walkable area
+
+Once the scene has been painted and the MoveMesh configured, click the `Run Detection` button to auto-detect enclosed areas and generate the mesh.  The mesh will be overlayed on the scene in blue, as below:
+
+<img src="../../../InfoTools/Documentation/Game/WorldObjects/MoveMeshSettings.png" width="800">
+
 ## Standard World Objects (Interior, Exterior, Signs)
 
 New world object prefabs should placed in their relevant sub-directory within this folder -- [Interior](./Interior/), [Exterior](./Exterior/) or [Signs](./Signs/), depending on which category they best fit into.  World Object prefabs should be made and setup in such a way that they can be dragged onto a Scene and require minimal configuration/adjustment.

@@ -259,14 +259,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5632f62ca67f4acf910fe3207f574ff4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Frankie.Control.PathFinder
-  entitySize: 0.13
+  moveMeshFinderSize: 0.1
+  entitySizeForNoCollider: 0.13
   pathPollingSeconds: 0.1
   lastTargetMemorySeconds: 2
-  moveMeshFinderSize: 0.1
   initialHeapSizeDivider: 4
-  deltaSquaredThreshold: 0.0016
   crossThreshold: 0.01
-  currentPath: []
+  deltaSquaredThreshold: 0.0016
 --- !u!114 &9140000498525693418
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -234,6 +234,20 @@ The character creation process for NPCs is nearly identical to that of playable 
     * `Will Force Combat`:  `Enable`
     * `Will Destroy If Invisible`:  `Enable`
 
+#### NPCMover and Path Finding
+
+Hostile NPCs will chase after the player when using `willChasePlayer` : `Enable` on the [NPCChaser](../../Scripts/Control/NPC/NPCChaser.cs) component.  The [NPCChaser](../../Scripts/Control/NPC/NPCChaser.cs) uses a probe game object as a physics-based trigger for when the player enters an NPC's aggro radius. By default, NPCs will move toward target objects using a simplistic approach, where the NPC will simply move directly in the direction of its target with some offsetting based on the target's movement history.  
+
+If the NPC in question should move more intelligently toward the player, enable the `usingPathFinding` setting on the [NPCMover](../../Scripts/Control/Movement/NPCMover.cs) component:
+
+<img src="../../../InfoTools/Documentation/Game/CharacterObjects/NPCMoverSettings.png" width="450">
+
+This will allow the NPC to use A* pathfinding to periodically generate an optimal path toward its target, based on the parameters in the [PathFinder](../../Scripts/Control/Movement/PathFinder.cs) component:
+
+<img src="../../../InfoTools/Documentation/Game/CharacterObjects/PathFinderSettings.png" width="450">
+
+Note that the PathFinder will check if the NPC is sitting on a configured [MoveMesh](../WorldObjects/README.md#movemesh-pathfinding-mesh-for-rooms-and-world-maps), and (if so) it will initialize a pathfinding grid.  The move mesh will be adjusted by the specific NPCMover's CircleCollider2D radius to ensure the NPC can properly fit as it traverses the grid.  If no MoveMesh has been created, the NPCMover will fall back to the default simplistic approach.
+
 ### Summary of Key Components
 
 A brief summary of the configurable components on the character prefabs noted above is provided below:
