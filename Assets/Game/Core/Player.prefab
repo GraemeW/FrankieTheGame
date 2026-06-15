@@ -238,6 +238,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cfb66abb30066404e974cd0255d37842, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  usingPathFinding: 0
   movementSpeed: 1
   defaultLookDirection: {x: 0, y: -1}
   defaultTargetDistanceTolerance: 0.15
@@ -258,9 +259,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5632f62ca67f4acf910fe3207f574ff4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Frankie.Control.PathFinder
-  moveMeshProbeRadius: 0.1
+  entitySize: 0.13
+  pathPollingSeconds: 0.1
+  lastTargetMemorySeconds: 2
+  moveMeshFinderSize: 0.1
   initialHeapSizeDivider: 4
+  deltaSquaredThreshold: 0.0016
   crossThreshold: 0.01
+  currentPath: []
 --- !u!114 &9140000498525693418
 MonoBehaviour:
   m_ObjectHideFlags: 0

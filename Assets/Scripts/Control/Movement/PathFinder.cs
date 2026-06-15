@@ -11,6 +11,7 @@ namespace Frankie.Control
         // Tunables
         [SerializeField][Tooltip("Approximate radius of entity's collider")] private float entitySize = 0.13f;
         [SerializeField] private float pathPollingSeconds = 0.1f;
+        [SerializeField] private float lastTargetMemorySeconds = 2.0f;
         [SerializeField] private float moveMeshFinderSize = 0.1f;
         [SerializeField][Tooltip("Heap Size:  cell count / divider")] private int initialHeapSizeDivider = 4;
         [SerializeField] private float deltaSquaredThreshold = 0.0016f;
@@ -21,6 +22,8 @@ namespace Frankie.Control
         private bool hasPathed = false;
         public List<Vector2> currentPath = new();
         private float timeSinceLastPath;
+        private float timeSinceLastTarget;
+        private Vector2? lastViableTarget = null;
         
         private bool[] erodedCells;
         private bool[] closed;
@@ -80,10 +83,8 @@ namespace Frankie.Control
 
         private void Update()
         {
-            if (timeSinceLastPath < pathPollingSeconds)
-            {
-                timeSinceLastPath += Time.deltaTime;
-            }
+            if (timeSinceLastPath < pathPollingSeconds) { timeSinceLastPath += Time.deltaTime; }
+            if (timeSinceLastTarget < lastTargetMemorySeconds) { timeSinceLastTarget += Time.deltaTime; }
         }
 
         private bool TryFindMoveMesh()
@@ -115,6 +116,7 @@ namespace Frankie.Control
             hasPathed = true;
             timeSinceLastPath = 0f;
             currentPath.Clear();
+            if (timeSinceLastTarget >= lastTargetMemorySeconds) { lastViableTarget = null; }
             path = new List<Vector2> { currentPosition };
             currentPath.AddRange(path);
             
@@ -122,8 +124,15 @@ namespace Frankie.Control
             bool isStartCellValid = cachedMoveMesh.WorldToCell(currentPosition, out int startColumn, out int startRow);
             if (!isStartCellValid || !IsWalkableEroded(startColumn, startRow))  { return false; }
             bool isTargetCellValid = cachedMoveMesh.WorldToCell(targetPosition, out int targetColumn, out int targetRow);
-            if (!isTargetCellValid || !IsWalkableEroded(targetColumn, targetRow)) { return false; }
 
+            // Keep memory of last viable location to move to in case target drops off grid
+            if (!isTargetCellValid || !IsWalkableEroded(targetColumn, targetRow))
+            {
+                if (lastViableTarget == null) { return false; }
+                cachedMoveMesh.WorldToCell((Vector2)lastViableTarget, out targetColumn, out targetRow);
+            }
+            else { lastViableTarget = targetPosition;}
+            
             // --Heavy Lifting Here--
             if (!RunAStar(startColumn, startRow, targetColumn, targetRow, out path)) { return false; }
             

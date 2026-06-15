@@ -170,8 +170,8 @@ namespace Frankie.Control
             Vector2 reckonedTarget = currentTargetPosition;
             if (targetMovementHistory.GetCurrentSize() > 0) { reckonedTarget = withOffsetting ? targetMovementHistory.GetLastEntry() : targetMovementHistory.GetFirstEntry(); }
             if (!usingPathFinding || !pathFinder.IsValidPathFinder() || pathFindingCheckType == PathFindingCheckType.Skip) { return reckonedTarget; }
+            if (!pathFinder.FindPath(rigidBody2D.position, reckonedTarget, out List<Vector2> path, pathFindingCheckType)) { return reckonedTarget; }
             
-            pathFinder.FindPath(rigidBody2D.position, reckonedTarget, out List<Vector2> path, pathFindingCheckType);
             return path.First();
         }
         #endregion
