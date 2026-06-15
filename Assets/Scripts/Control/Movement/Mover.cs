@@ -1,5 +1,3 @@
-using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 using Frankie.Saving;
 using Frankie.Utils;
@@ -122,54 +120,7 @@ namespace Frankie.Control
 
         #region AbstractProtectedMethods
         protected abstract void UpdateAnimator(bool useCardinalLookDelay = false);
-        protected bool? MoveToTarget()
-        {
-            if (SetStaticForNoTarget()) { return null; }
-
-            Vector2 position = rigidBody2D.position;
-            Vector2 target = ReckonTarget(false, true, PathFindingCheckType.Check);
-
-            if (HasArrivedAtTarget(target, out float squareMagnitudeDelta))
-            {
-                if (!usingPathFinding) { return false; }
-                
-                Vector2 finalTarget = ReckonTarget(false, false, PathFindingCheckType.Skip);
-                if (HasArrivedAtTarget(finalTarget, out float finalSquareMagnitudeDelta)) { return false;}
-            }
-            target = ReckonTarget(squareMagnitudeDelta > closeTargetThresholdSquared, false, PathFindingCheckType.ForceCheck);
-
-            currentSpeed = movementSpeed;
-            Vector2 direction = target - position;
-            SetLookDirection(direction, false);
-
-            position.x = Mathf.Round(pixelsPerUnit * (position.x + currentSpeed * SignFloored(lookDirection.x) * Time.deltaTime)) / pixelsPerUnit;
-            position.y = Mathf.Round(pixelsPerUnit * (position.y + currentSpeed * SignFloored(lookDirection.y) * Time.deltaTime)) / pixelsPerUnit;
-            rigidBody2D.MovePosition(position);
-            UpdateAnimator(true);
-
-            return true;
-        }
-
-        protected virtual Vector2 ReckonTarget(bool withOffsetting = true, bool addToHistory = true, PathFindingCheckType pathFindingCheckType = PathFindingCheckType.Check)
-        {
-            if (moveTargetCoordinate != null) { return moveTargetCoordinate.Value; }
-            if (moveTargetObject == null) { return Vector2.zero; }
-            
-            Vector2 currentTargetPosition = moveTargetObject.transform.position;
-            if (addToHistory) { targetMovementHistory.Add(currentTargetPosition); }
-
-            Vector2 reckonedTarget = currentTargetPosition;
-            if (targetMovementHistory.GetCurrentSize() > 0) { reckonedTarget = withOffsetting ? targetMovementHistory.GetLastEntry() : targetMovementHistory.GetFirstEntry(); }
-            if (!usingPathFinding || !pathFinder.IsValidPathFinder() || pathFindingCheckType == PathFindingCheckType.Skip) { return reckonedTarget; }
-            if (!pathFinder.FindPath(rigidBody2D.position, reckonedTarget, out List<Vector2> path, pathFindingCheckType)) { return reckonedTarget; }
-            
-            return path.First();
-        }
-        #endregion
-
-        #region  PrivateMethods
-        private bool HasMoveTarget() => (moveTargetCoordinate != null || moveTargetObject != null);
-        private bool HasArrivedAtTarget(Vector2 target, out float squareMagnitudeDelta) => SmartVector2.CheckDistance(rigidBody2D.position, target, targetDistanceTolerance, out squareMagnitudeDelta);
+        protected Vector2 GetCurrentPosition() => rigidBody2D.position;
         
         protected void SetLookDirection(Vector2 setLookDirection, bool includeAnimationUpdate)
         {
@@ -183,6 +134,56 @@ namespace Frankie.Control
         }
 
         protected virtual void OnLookDirectionUpdate() {}
+        
+        protected bool? MoveToTarget()
+        {
+            if (SetStaticForNoTarget()) { return null; }
+
+            Vector2 position = GetCurrentPosition();
+            Vector2 target = ReckonTarget(false, true, PathFindingCheckType.Check);
+            
+            if (HasArrivedAtTarget(target, out float squareMagnitudeDelta))
+            {
+                if (!usingPathFinding) { return false; }
+                
+                Vector2 finalTarget = ReckonTarget(false, false, PathFindingCheckType.Skip);
+                if (HasArrivedAtTarget(finalTarget, out float finalSquareMagnitudeDelta)) { return false;}
+            }
+            target = ReckonTarget(squareMagnitudeDelta > closeTargetThresholdSquared, false, PathFindingCheckType.ForceCheck);
+
+            currentSpeed = movementSpeed;
+            Vector2 direction = target - position;
+            SetLookDirection(direction, false);
+
+            var newPosition = new Vector2(
+                Mathf.Round(pixelsPerUnit * (position.x + currentSpeed * SignFloored(lookDirection.x) * Time.deltaTime)) / pixelsPerUnit, 
+                Mathf.Round(pixelsPerUnit * (position.y + currentSpeed * SignFloored(lookDirection.y) * Time.deltaTime)) / pixelsPerUnit);
+            rigidBody2D.MovePosition(newPosition);
+            UpdateAnimator(true);
+
+            return true;
+        }
+
+        protected virtual Vector2 ReckonTarget(bool withHistoryOffsetting = true, bool addToHistory = true, PathFindingCheckType pathFindingCheckType = PathFindingCheckType.Check)
+        {
+            if (moveTargetCoordinate != null) { return moveTargetCoordinate.Value; }
+            if (moveTargetObject == null) { return Vector2.zero; }
+            
+            Vector2 currentTargetPosition = moveTargetObject.transform.position;
+            if (addToHistory) { targetMovementHistory.Add(currentTargetPosition); }
+
+            Vector2 reckonedTarget = currentTargetPosition;
+            if (targetMovementHistory.GetCurrentSize() > 0) { reckonedTarget = withHistoryOffsetting ? targetMovementHistory.GetLastEntry() : targetMovementHistory.GetFirstEntry(); }
+            
+            if (!usingPathFinding || !pathFinder.IsValidPathFinder() || pathFindingCheckType == PathFindingCheckType.Skip) { return reckonedTarget; }
+            if (!pathFinder.FindPath(GetCurrentPosition(), reckonedTarget, pathFindingCheckType)) { return reckonedTarget; }
+            return pathFinder.GetNextPathTarget();
+        }
+        #endregion
+
+        #region  PrivateMethods
+        private bool HasMoveTarget() => (moveTargetCoordinate != null || moveTargetObject != null);
+        private bool HasArrivedAtTarget(Vector2 target, out float squareMagnitudeDelta) => SmartVector2.CheckDistance(GetCurrentPosition(), target, targetDistanceTolerance, out squareMagnitudeDelta);
         
         private bool SetStaticForNoTarget()
         {

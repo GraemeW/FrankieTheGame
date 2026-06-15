@@ -5,13 +5,12 @@ using Frankie.ZoneManagement;
 
 namespace Frankie.Control
 {
-
     public class PathFinder : MonoBehaviour
     {
         // Tunables
         [Header("Initialization and Mesh Setup")]
         [SerializeField][Tooltip("Circle cast to find move mesh that pathfinder sits on")] private float moveMeshFinderSize = 0.1f;
-        [SerializeField][Tooltip("Approximate radius of entity's collider")] private float entitySize = 0.13f;
+        [SerializeField][Tooltip("Approximate radius of entity's collider")] private float entitySizeForNoCollider = 0.13f;
         [Header("Polling and Volatile Memory Timing")]
         [SerializeField] private float pathPollingSeconds = 0.1f;
         [SerializeField] private float lastTargetMemorySeconds = 2.0f;
@@ -21,12 +20,14 @@ namespace Frankie.Control
         [SerializeField] private float deltaSquaredThreshold = 0.0016f;
 
         // State
+        private float entitySize = 0.13f;
+        
         private bool isCacheInitialized = false;
         private bool hasPathed = false;
-        public List<Vector2> currentPath = new();
         private float timeSinceLastPath;
         private float timeSinceLastTarget;
         private Vector2? lastViableTarget = null;
+        private readonly List<Vector2> currentPath = new();
         
         private bool[] erodedCells;
         private bool[] closed;
@@ -74,6 +75,11 @@ namespace Frankie.Control
         }
 
         #region UnityMethods
+        private void Awake()
+        {
+            entitySize = TryGetComponent(out CircleCollider2D circleCollider2D) ? circleCollider2D.radius : entitySizeForNoCollider;
+        }
+        
         private void Start()
         {
             InitialisePathfindingCache();
@@ -106,21 +112,23 @@ namespace Frankie.Control
         
         #region PublicMethods
         public bool IsValidPathFinder() => isCacheInitialized;
+
+        public Vector2 GetNextPathTarget()
+        {
+            if (currentPath.Count > 0) { return currentPath.First(); }
+            return transform.position;
+        }
         
-        public bool FindPath(Vector2 currentPosition, Vector2 targetPosition, out List<Vector2> path, PathFindingCheckType pathFindingCheckType = PathFindingCheckType.Check)
+        public bool FindPath(Vector2 currentPosition, Vector2 targetPosition, PathFindingCheckType pathFindingCheckType = PathFindingCheckType.Check)
         {
             bool forcePathing = pathFindingCheckType == PathFindingCheckType.ForceCheck;
-            if (!forcePathing && hasPathed && timeSinceLastPath < pathPollingSeconds)
-            {
-                path = currentPath;
-                return true;
-            }
+            if (!forcePathing && hasPathed && timeSinceLastPath < pathPollingSeconds) { return true; }
             
             hasPathed = true;
             timeSinceLastPath = 0f;
             currentPath.Clear();
             if (timeSinceLastTarget >= lastTargetMemorySeconds) { lastViableTarget = null; }
-            path = new List<Vector2> { currentPosition };
+            List<Vector2> path = new List<Vector2> { currentPosition };
             currentPath.AddRange(path);
             
             if (!IsCacheValid()) { return false; }

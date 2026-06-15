@@ -105,8 +105,7 @@ namespace Frankie.Control
 
         private void MovePlayer()
         {
-            Vector2 position = rigidBody2D.position;
-
+            Vector2 position = GetCurrentPosition();
             position.x = Mathf.Round(pixelsPerUnit * (position.x + GetPlayerMovementSpeed()  * SignFloored(lookDirection.x) * Time.deltaTime)) / pixelsPerUnit;
             position.y = Mathf.Round(pixelsPerUnit * (position.y + GetPlayerMovementSpeed()  * SignFloored(lookDirection.y) * Time.deltaTime)) / pixelsPerUnit;
             rigidBody2D.MovePosition(position);
