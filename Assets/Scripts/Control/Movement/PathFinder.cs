@@ -261,9 +261,12 @@ namespace Frankie.Control
         #region StaticMethods
         private static List<Vector2> StringPull(Vector2 initialPosition, List<Vector2> path, float deltaSquaredThreshold, float crossThreshold)
         {
-            if (path.Count <= 2) { return path; }
+            if (path.Count <= 1) { return path; }
 
+            // Insert initial position so we can check path and prevent returning a path entry immediately adjacent
+            // Note:  Next check below will be viable since path >=2 and we add a third entry here
             path.Insert(0, initialPosition);
+            
             var result = new List<Vector2> { path[0] };
             for (int i = 1; i < path.Count - 1; i++)
             {
@@ -276,14 +279,22 @@ namespace Frankie.Control
                 float cross = Mathf.Abs(aDirection.x * bDirection.y - aDirection.y * bDirection.x);
                 if (cross < crossThreshold) { continue; }
                 
-                float deltaSquared = Mathf.Pow(aDirection.x - bDirection.x, 2) + Mathf.Pow(aDirection.y - bDirection.y, 2);
+                float deltaSquared = Mathf.Pow(current.x - previous.x, 2) + Mathf.Pow(current.y - previous.y, 2);
                 if (deltaSquared < deltaSquaredThreshold) { continue; }
                 
                 result.Add(current);
             }
             
+            // Final entry check & add (distance only since no next directional viable)
+            Vector2 finalPrevious = result[^1];
+            Vector2 finalCurrent = path[^1];
+            if (Mathf.Pow(finalCurrent.x - finalPrevious.x, 2) + Mathf.Pow(finalCurrent.y - finalPrevious.y, 2) >= deltaSquaredThreshold)
+            {
+                result.Add(path[^1]);
+            }
+            
+            // Remove initial position out of results
             if (result.Count > 1) { result.RemoveAt(0); }
-            result.Add(path[^1]);
             
             return result;
         }
