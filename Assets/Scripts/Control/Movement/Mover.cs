@@ -68,11 +68,6 @@ namespace Frankie.Control
             SetLookDirection(defaultLookDirection); // Initialize look direction to avoid wonky
         }
 
-        protected virtual void FixedUpdate()
-        {
-            MoveToTarget();
-        }
-
         protected virtual void OnEnable()
         {
             if (!resetPositionOnEnable) return;
@@ -86,10 +81,7 @@ namespace Frankie.Control
         
         public void SetLookDirection(Vector2 setLookDirection)
         {
-            // Blend tree animation speed depends on magnitude of variable -- to avoid very quick animations, normalize
-            setLookDirection.Normalize(); 
-            lookDirection = setLookDirection;
-            UpdateAnimator();
+            SetLookDirection(setLookDirection, true);
         }
 
         public void SetMoveTarget(Vector2 target)
@@ -129,7 +121,7 @@ namespace Frankie.Control
         #endregion
 
         #region AbstractProtectedMethods
-        protected abstract void UpdateAnimator();
+        protected abstract void UpdateAnimator(bool useCardinalLookDelay = false);
         protected bool? MoveToTarget()
         {
             if (SetStaticForNoTarget()) { return null; }
@@ -146,15 +138,14 @@ namespace Frankie.Control
             }
             target = ReckonTarget(squareMagnitudeDelta > closeTargetThresholdSquared, false, PathFindingCheckType.ForceCheck);
 
-            Vector2 direction = target - position;
-            lookDirection.Set(direction.x, direction.y);
-            lookDirection.Normalize();
             currentSpeed = movementSpeed;
+            Vector2 direction = target - position;
+            SetLookDirection(direction, false);
 
             position.x = Mathf.Round(pixelsPerUnit * (position.x + currentSpeed * SignFloored(lookDirection.x) * Time.deltaTime)) / pixelsPerUnit;
             position.y = Mathf.Round(pixelsPerUnit * (position.y + currentSpeed * SignFloored(lookDirection.y) * Time.deltaTime)) / pixelsPerUnit;
             rigidBody2D.MovePosition(position);
-            UpdateAnimator();
+            UpdateAnimator(true);
 
             return true;
         }
@@ -179,6 +170,19 @@ namespace Frankie.Control
         #region  PrivateMethods
         private bool HasMoveTarget() => (moveTargetCoordinate != null || moveTargetObject != null);
         private bool HasArrivedAtTarget(Vector2 target, out float squareMagnitudeDelta) => SmartVector2.CheckDistance(rigidBody2D.position, target, targetDistanceTolerance, out squareMagnitudeDelta);
+        
+        protected void SetLookDirection(Vector2 setLookDirection, bool includeAnimationUpdate)
+        {
+            // Blend tree animation speed depends on magnitude of variable -- to avoid very quick animations, normalize
+            setLookDirection.Normalize(); 
+            lookDirection = setLookDirection;
+            
+            OnLookDirectionUpdate();
+            
+            if (includeAnimationUpdate) { UpdateAnimator(); }
+        }
+
+        protected virtual void OnLookDirectionUpdate() {}
         
         private bool SetStaticForNoTarget()
         {

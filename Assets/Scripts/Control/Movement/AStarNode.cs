@@ -4,17 +4,17 @@ namespace Frankie.Control
     {
         public int column;
         public int row;
-        public float goalCost;
+        public float gridCost;
         public float heuristicCost;
         public AStarNode parent;
 
-        public float GetFinalCost() => goalCost + heuristicCost;
+        public float GetFinalCost() => gridCost + heuristicCost;
 
-        public void Initialize(int setColumn, int setRow, float setGoalCost, float setHeuristicCost, AStarNode setParent)
+        public void Initialize(int setColumn, int setRow, float setGridCost, float setHeuristicCost, AStarNode setParent)
         {
             column = setColumn;
             row = setRow;
-            goalCost = setGoalCost;
+            gridCost = setGridCost;
             heuristicCost = setHeuristicCost;
             parent = setParent;
         }

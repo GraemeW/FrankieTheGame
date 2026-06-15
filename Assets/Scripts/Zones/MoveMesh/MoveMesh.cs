@@ -13,6 +13,8 @@ namespace Frankie.ZoneManagement
         [SerializeField, Tooltip("Add parent game objects to check for child colliders")] private List<GameObject> additionalColliderSources = new();
         [SerializeField, Tooltip("World units per grid cell")] private float cellSize = 0.05f;
         [SerializeField, Tooltip("Amount to erode inward from obstacle edges")] private float walkabilityErosionRadius = 0.07f;
+        [SerializeField][Tooltip("Max cost added to immediate unwalkable cells")] private float edgeCostPenalty = 2f;
+        [SerializeField][Tooltip("Cost falloff with distance from edge (higher == steeper falloff")] private float edgeCostFalloff = 1.5f;
         [SerializeField, Tooltip("Extra grid margin around the collider bounding box.")] private float padding = 1f;
         [SerializeField, Tooltip("Error allowance in polygon simplification")] private float polygonSimplificationEpsilon = 0.065f;
         [SerializeField, Tooltip("Number of segments to make circle to polygon")] private int circleSegments = 24;
@@ -41,6 +43,13 @@ namespace Frankie.ZoneManagement
         {
             gameObject.layer = LayerMask.NameToLayer(_moveMeshLayer);
             InitializeCollider(new Rect(0f, 0f, 1f, 1f), false);
+        }
+
+        private void Start()
+        {
+            if (walkabilityGrid == null || walkabilityGrid.IsEmpty()) { return; }
+            float[] traversalCosts = BakeTraversalCosts(walkabilityGrid, edgeCostPenalty, edgeCostFalloff);
+            walkabilityGrid.traversalCosts = traversalCosts.ToList();
         }
 
         private void InitializeCollider(Rect bounds, bool setInitialized = true)
@@ -337,8 +346,14 @@ namespace Frankie.ZoneManagement
                     }
                 }
             }
-
-            walkabilityGrid.cells = new List<bool>(ErodeGrid(walkabilityGrid, walkabilityErosionRadius));
+            walkabilityGrid.cells = cells.ToList();
+            
+            bool[] erodedGrid = BakeErodedGrid(walkabilityGrid, walkabilityErosionRadius);
+            walkabilityGrid.cells = erodedGrid.ToList();
+            
+            // Note:  Volatile, re-set on Start()
+            float[] traversalCosts = BakeTraversalCosts(walkabilityGrid, edgeCostPenalty, edgeCostFalloff);
+            walkabilityGrid.traversalCosts = traversalCosts.ToList();
         }
 
         private void RasteriseBox(BoxCollider2D boxCollider2D, bool[] grid, int columns, int rows, Rect bounds)
@@ -576,7 +591,7 @@ namespace Frankie.ZoneManagement
         #endregion
 
         #region StaticMethods
-        public static bool[] ErodeGrid(WalkabilityGrid walkabilityGrid, float erosionRadius)
+        public static bool[] BakeErodedGrid(WalkabilityGrid walkabilityGrid, float erosionRadius)
         {
             bool[] cells = walkabilityGrid.cells.ToArray();
             if (erosionRadius <= 0f) { return cells; }
@@ -617,6 +632,80 @@ namespace Frankie.ZoneManagement
                 }
             }
             return erodedCells;
+        }
+
+        private static float[] BakeTraversalCosts(WalkabilityGrid walkabilityGrid, float edgeCostPenalty, float edgeCostFalloff)
+        {
+            bool[] cells = walkabilityGrid.cells.ToArray();
+            int rows = walkabilityGrid.rows;
+            int columns = walkabilityGrid.columns;
+            
+            int cellCount = columns * rows;
+            var costs = new float[cellCount];
+            if (edgeCostPenalty <= 0f || edgeCostFalloff <= 0f) { return costs; }
+            
+            // Initialize based on walkability cell existence
+            var distanceCells = new float[cellCount];
+            var queue = new Queue<int>();
+            for (int row = 0; row < rows; row++)
+            {
+                for (int column = 0; column < columns; column++)
+                {
+                    int index = row * columns + column;
+                    if (!cells[index])
+                    {
+                        distanceCells[index] = 0f;
+                        queue.Enqueue(index);
+                    }
+                    else { distanceCells[index] = Mathf.Infinity; }
+                }
+            }
+            
+            // Generate distances
+            int[] deltaColumns = {0, 0,  1, -1};
+            int[] deltaRows = {1, -1, 0, 0};
+            while (queue.Count > 0)
+            {
+                int index = queue.Dequeue();
+                int row = index / columns;
+                int column = index % columns;
+
+                for (int delta = 0; delta < 4; delta++)
+                {
+                    int testColumn = column + deltaColumns[delta];
+                    int testRow = row + deltaRows[delta];
+                    if (testColumn < 0 || testColumn >= columns || testRow < 0 || testRow >= rows) { continue; }
+
+                    int testIndex = testRow * columns + testColumn;
+                    float tentative = distanceCells[index] + 1f;
+                    if (tentative >= distanceCells[testIndex]) continue;
+
+                    distanceCells[testIndex] = tentative;
+                    queue.Enqueue(testIndex);
+                }
+            }
+
+            // Max distance used for normalization
+            float maxDist = 0f;
+            for (int i = 0; i < cellCount; i++)
+            {
+                if (cells[i] && distanceCells[i] > maxDist) { maxDist = distanceCells[i]; }
+            }
+            
+            // Convert distance to traversal cost
+            for (int i = 0; i < cellCount; i++)
+            {
+                if (!cells[i])
+                {
+                    costs[i] = Mathf.Infinity;
+                    continue;
+                }
+
+                float normDist = maxDist > 0f ? Mathf.Clamp01(distanceCells[i] / maxDist) : 1f;
+                costs[i] = 1f + edgeCostPenalty * Mathf.Pow(1f - normDist, edgeCostFalloff);
+            }
+
+            return costs;
         }
         
         private static Vector2 TransformPoint(Transform t, Vector2 localPoint) => t.TransformPoint(localPoint);

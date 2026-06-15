@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -12,6 +13,7 @@ namespace Frankie.ZoneManagement
         public float originX;
         public float originY;
         public List<bool> cells = new();
+        [NonSerialized] public List<float> traversalCosts = new();
 
         public bool IsEmpty() => columns == 0 || rows == 0 || cells.Count == 0;
         
@@ -19,6 +21,12 @@ namespace Frankie.ZoneManagement
         {
             if (column < 0 || column >= columns || row < 0 || row >= rows) { return false; }
             return cells[row * columns + column];
+        }
+
+        public float GetTraversalCost(int column, int row)
+        {
+            if (column < 0 || column >= columns || row < 0 || row >= rows) { return Mathf.Infinity; }
+            return traversalCosts[row * columns + column];
         }
 
         // Local-space cell centre (no transform applied — used via MoveMesh)

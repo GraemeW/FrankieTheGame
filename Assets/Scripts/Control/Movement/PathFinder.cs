@@ -9,13 +9,16 @@ namespace Frankie.Control
     public class PathFinder : MonoBehaviour
     {
         // Tunables
+        [Header("Initialization and Mesh Setup")]
+        [SerializeField][Tooltip("Circle cast to find move mesh that pathfinder sits on")] private float moveMeshFinderSize = 0.1f;
         [SerializeField][Tooltip("Approximate radius of entity's collider")] private float entitySize = 0.13f;
+        [Header("Polling and Volatile Memory Timing")]
         [SerializeField] private float pathPollingSeconds = 0.1f;
         [SerializeField] private float lastTargetMemorySeconds = 2.0f;
-        [SerializeField] private float moveMeshFinderSize = 0.1f;
+        [Header("Pathfinding thresholds")]
         [SerializeField][Tooltip("Heap Size:  cell count / divider")] private int initialHeapSizeDivider = 4;
-        [SerializeField] private float deltaSquaredThreshold = 0.0016f;
         [SerializeField] private float crossThreshold = 0.01f;
+        [SerializeField] private float deltaSquaredThreshold = 0.0016f;
 
         // State
         private bool isCacheInitialized = false;
@@ -27,7 +30,7 @@ namespace Frankie.Control
         
         private bool[] erodedCells;
         private bool[] closed;
-        private float[] goalCosts;
+        private float[] gridCosts;
         private AStarNode[] nodeMap;
         private List<AStarNode> openHeap;
 
@@ -53,7 +56,7 @@ namespace Frankie.Control
         private readonly List<AStarNode> nodePool = new();
         private int nodePoolIndex = 0;
 
-        private AStarNode RentNode(int column, int row, float goalCost, float heuristicCost, AStarNode parent)
+        private AStarNode RentNode(int column, int row, float gridCost, float heuristicCost, AStarNode parent)
         {
             AStarNode node;
             if (nodePoolIndex < nodePool.Count)
@@ -66,7 +69,7 @@ namespace Frankie.Control
                 nodePool.Add(node);
             }
             nodePoolIndex++;
-            node.Initialize(column, row, goalCost, heuristicCost, parent);
+            node.Initialize(column, row, gridCost, heuristicCost, parent);
             return node;
         }
 
@@ -153,11 +156,11 @@ namespace Frankie.Control
             int cellCount = cachedColumns * cachedRows;
 
             closed = new bool[cellCount];
-            goalCosts = new float[cellCount];
+            gridCosts = new float[cellCount];
             nodeMap = new AStarNode[cellCount];
             openHeap = new List<AStarNode>(cellCount / initialHeapSizeDivider);
             
-            erodedCells = MoveMesh.ErodeGrid(grid, entitySize);
+            erodedCells = MoveMesh.BakeErodedGrid(grid, entitySize);
             isCacheInitialized = true;
         }
 
@@ -209,11 +212,12 @@ namespace Frankie.Control
                         if (!xWalkViable || !yWalkViable) { continue; }
                     }
 
-                    float tentativeGoalCost = currentNode.goalCost + moveCost;
-                    if (tentativeGoalCost >= goalCosts[neighbourIndex]) { continue; }
+                    float traversalCost = cachedMoveMesh.walkabilityGrid.GetTraversalCost(testColumn, testRow);
+                    float tentativeGridCost = currentNode.gridCost + moveCost * traversalCost;
+                    if (tentativeGridCost >= gridCosts[neighbourIndex]) { continue; }
 
-                    goalCosts[neighbourIndex] = tentativeGoalCost;
-                    AStarNode neighbourNode = RentNode(testColumn, testRow, tentativeGoalCost, DistanceEquivalentHeuristic(testColumn, testRow, targetColumn, targetRow), currentNode);
+                    gridCosts[neighbourIndex] = tentativeGridCost;
+                    AStarNode neighbourNode = RentNode(testColumn, testRow, tentativeGridCost, DistanceEquivalentHeuristic(testColumn, testRow, targetColumn, targetRow), currentNode);
                     nodeMap[neighbourIndex] = neighbourNode;
                     HeapPush(openHeap, neighbourNode);
                 }
@@ -235,13 +239,13 @@ namespace Frankie.Control
 
             // Reset per-call state without reallocating
             System.Array.Clear(closed, 0, cellCount);
-            System.Array.Fill (goalCosts, float.MaxValue, 0, cellCount);
+            System.Array.Fill (gridCosts, float.MaxValue, 0, cellCount);
             System.Array.Clear(nodeMap, 0, cellCount);
             openHeap.Clear();
             nodePoolIndex = 0;
 
             int startIndex = startRow * cachedColumns + startColumn;
-            goalCosts[startIndex] = 0f;
+            gridCosts[startIndex] = 0f;
 
             AStarNode startNode = RentNode(startColumn, startRow, 0f, DistanceEquivalentHeuristic(startColumn, startRow, targetColumn, targetRow), null);
             nodeMap[startIndex] = startNode;

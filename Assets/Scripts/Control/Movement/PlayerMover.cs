@@ -55,7 +55,7 @@ namespace Frankie.Control
             GetPlayerMovementSpeed(); // Called in parse player state change to avoid having to fetch modifiers on every move update call
         }
 
-        protected override void FixedUpdate()
+        private void FixedUpdate()
         {
             if (inWorld) { InteractWithMovement(); }
         }
@@ -96,12 +96,11 @@ namespace Frankie.Control
         private void SetMovementParameters()
         {
             var move = new Vector2(inputHorizontal, inputVertical);
+            currentSpeed = move.magnitude;
             if (!Mathf.Approximately(move.x, 0.0f) || !Mathf.Approximately(move.y, 0.0f))
             {
-                lookDirection.Set(move.x, move.y);
-                lookDirection.Normalize();
+                SetLookDirection(move, false);
             }
-            currentSpeed = move.magnitude;
         }
 
         private void MovePlayer()
@@ -116,7 +115,7 @@ namespace Frankie.Control
             playerMoved?.Invoke(movementHistory);
         }
 
-        protected override void UpdateAnimator()
+        protected override void UpdateAnimator(bool useCardinalLookDelay = false)
         {
             leaderAnimatorUpdated?.Invoke(currentSpeed, lookDirection.x, lookDirection.y);
         }
