@@ -43,8 +43,9 @@ namespace Frankie.Control
             playerStateMachine.playerStateChanged += ParsePlayerStateChange;
         }
 
-        private void OnDisable()
+        protected override void OnDisable()
         {
+            base.OnDisable();
             playerStateMachine.playerStateChanged -= ParsePlayerStateChange;
         }
 
@@ -52,11 +53,12 @@ namespace Frankie.Control
         {
             inWorld = (playerStateType == PlayerStateType.InWorld);
             if (playerStateType == PlayerStateType.InCutScene) { inWorld = playerStateContext.CanMoveInCutscene(); }
-            GetPlayerMovementSpeed(); // Called in parse player state change to avoid having to fetch modifiers on every move update call
+            GetCurrentSpeed(); // Called in parse player state change to avoid having to fetch modifiers on every move update call
         }
 
-        private void FixedUpdate()
+        protected override void FixedUpdate()
         {
+            base.FixedUpdate();
             if (inWorld) { InteractWithMovement(); }
         }
 
@@ -75,10 +77,10 @@ namespace Frankie.Control
             historyResetThisFrame = true;
         }
 
-        private float GetPlayerMovementSpeed()
+        public override float GetCurrentSpeed()
         {
             float modifier = party.GetPartyLeader().GetCalculatedStat(CalculatedStat.MoveSpeed);
-            return movementSpeed * modifier;
+            return movementConfiguration.baseMovementSpeed * modifier;
         }
 
         private void InteractWithMovement()
@@ -105,12 +107,10 @@ namespace Frankie.Control
 
         private void MovePlayer()
         {
-            Vector2 position = GetCurrentPosition();
-            position.x = Mathf.Round(pixelsPerUnit * (position.x + GetPlayerMovementSpeed()  * SignFloored(lookDirection.x) * Time.deltaTime)) / pixelsPerUnit;
-            position.y = Mathf.Round(pixelsPerUnit * (position.y + GetPlayerMovementSpeed()  * SignFloored(lookDirection.y) * Time.deltaTime)) / pixelsPerUnit;
-            rigidBody2D.MovePosition(position);
-
-            movementHistory.Add(new Tuple<Vector2, Vector2>(position, new Vector2(lookDirection.x, lookDirection.y)));
+            currentSpeed = GetCurrentSpeed();
+            if (!movementConfiguration.MoveToTarget(this, Time.deltaTime, out Vector2 newPosition)) { return; }
+            
+            movementHistory.Add(new Tuple<Vector2, Vector2>(newPosition, new Vector2(lookDirection.x, lookDirection.y)));
             playerMoved?.Invoke(movementHistory);
         }
 

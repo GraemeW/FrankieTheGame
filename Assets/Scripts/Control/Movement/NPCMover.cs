@@ -67,8 +67,9 @@ namespace Frankie.Control
             npcStateHandler.npcStateChanged += HandleNPCStateChange;
         }
 
-        private void OnDisable()
+        protected override void OnDisable()
         {
+            base.OnDisable();
             npcStateHandler.npcStateChanged -= HandleNPCStateChange;
         }
 
@@ -84,9 +85,10 @@ namespace Frankie.Control
             if (timeSinceNewLocomotionTarget > locomotionCollisionStayTime) { SetupNextLocomotionTarget(); }
         }
 
-        private void FixedUpdate()
+        protected override void FixedUpdate()
         {
             if (npcMoveFocus == NPCMoveFocus.Inactive) { return; }
+            base.FixedUpdate();
             
             timeSinceCardinalLookDirectionChange += Time.deltaTime;
             switch (MoveToTarget())
@@ -177,17 +179,8 @@ namespace Frankie.Control
         #endregion
 
         #region OverrideMethods
-        protected override Vector2 ReckonTarget(bool withHistoryOffsetting = true, bool addToHistory = true, PathFindingCheckType pathFindingCheckType = PathFindingCheckType.Check)
-        {
-            Vector2 target = base.ReckonTarget(withHistoryOffsetting, addToHistory, pathFindingCheckType);
-            if (npcMoveFocus != NPCMoveFocus.Fleeing) { return target; }
-
-            Vector2 currentPosition = GetCurrentPosition();
-            float offset = Vector2.Dot(currentPosition, target);
-            Vector2 direction = (currentPosition - target).normalized;
-            return offset * direction; // Run toward equally distant position away from target
-        }
-
+        public override float GetCurrentSpeed() => movementConfiguration.baseMovementSpeed;
+        
         protected override void UpdateAnimator(bool useCardinalLookDelay = false)
         {
             // Safety on accessing controller properties before setup complete (OnEnable calls)
@@ -198,6 +191,17 @@ namespace Frankie.Control
             if (useCardinalLookDelay && timeSinceCardinalLookDirectionChange < lookDirectionChangeDelay) { return; }
             SetAnimatorXLook(animator, lookDirection.x);
             SetAnimatorYLook(animator, lookDirection.y);
+        }
+        
+        protected override Vector2 ReckonTarget(bool withHistoryOffsetting = true, bool addToHistory = true, PathFindingCheckType pathFindingCheckType = PathFindingCheckType.Check)
+        {
+            Vector2 target = base.ReckonTarget(withHistoryOffsetting, addToHistory, pathFindingCheckType);
+            if (npcMoveFocus != NPCMoveFocus.Fleeing) { return target; }
+
+            Vector2 currentPosition = GetCurrentPosition();
+            float offset = Vector2.Dot(currentPosition, target);
+            Vector2 direction = (currentPosition - target).normalized;
+            return offset * direction; // Run toward equally distant position away from target
         }
 
         protected override void OnLookDirectionUpdate()

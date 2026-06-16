@@ -502,13 +502,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ae64d0078a8ee6e4d8bece5ce559d360, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  usingPathFinding: 0
-  movementSpeed: 1
+  movementConfiguration: {fileID: 11400000, guid: 639172fc87b564e4eb55cec8e11433aa, type: 2}
   defaultLookDirection: {x: 0, y: -1}
   defaultTargetDistanceTolerance: 0.035
   closeTargetThresholdSquared: 0.5625
   resetPositionOnEnable: 1
-  targetMovementHistoryLength: 15
   interactionCenterPoint: {fileID: 851377592137554633}
   lookDirectionChangeDelay: 0.1
   giveUpOnLocomotionTargetTime: 10

@@ -238,13 +238,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cfb66abb30066404e974cd0255d37842, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  usingPathFinding: 0
-  movementSpeed: 1
+  movementConfiguration: {fileID: 11400000, guid: be323c616e97e444380a1f871bc9a51a, type: 2}
   defaultLookDirection: {x: 0, y: -1}
   defaultTargetDistanceTolerance: 0.15
   closeTargetThresholdSquared: 0.5625
   resetPositionOnEnable: 0
-  targetMovementHistoryLength: 10
   speedMoveThreshold: 0.05
   playerMovementHistoryLength: 256
 --- !u!114 &1154256921353293705

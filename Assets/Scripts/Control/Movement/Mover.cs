@@ -1,3 +1,5 @@
+using System;
+using System.Collections;
 using UnityEngine;
 using Frankie.Saving;
 using Frankie.Utils;
@@ -9,38 +11,40 @@ namespace Frankie.Control
     public abstract class Mover : MonoBehaviour, ISaveable
     {
         // Tunables
-        [SerializeField] private bool usingPathFinding = false;
-        [SerializeField] protected float movementSpeed = 1.0f;
+        [SerializeField] protected MovementConfiguration movementConfiguration;
         [SerializeField] protected Vector2 defaultLookDirection = Vector2.down;
         [SerializeField] protected float defaultTargetDistanceTolerance = 0.15f;
         [SerializeField] private float closeTargetThresholdSquared = 0.5625f;
         [SerializeField] private bool resetPositionOnEnable = false;
-        [SerializeField][Tooltip("Sets the target position delay for chase")] private int targetMovementHistoryLength = 10; 
 
         // State
         protected Vector2 originalPosition;
+        protected Vector2 lookDirection = Vector2.down;
+        protected float currentSpeed;
+        private float timeSinceLastMove;
+        
         private Vector2? moveTargetCoordinate;
         private GameObject moveTargetObject;
         private CircularBuffer<Vector2> targetMovementHistory;
-        protected Vector2 lookDirection = Vector2.down;
-        protected float currentSpeed;
         private float targetDistanceTolerance = 0.025f;
+        private bool isQueuedCoroutineActive = false;
+        private Coroutine queuedMoveCoroutine;
 
         // Cached References
-        protected Rigidbody2D rigidBody2D;
+        private Rigidbody2D rigidBody2D;
         private PathFinder pathFinder;
 
         #region Static
-        private const float _signFloorThreshold = 0.1f;
-        protected const float pixelsPerUnit = 100.0f; // Align to pixel art setting, default: 100
-        protected static float SignFloored(float number) => Mathf.Abs(number) < _signFloorThreshold ? 0 : Mathf.Sign(number);
-        
-        private static readonly int _speed = Animator.StringToHash("Speed");
-        private static readonly int _xLook = Animator.StringToHash("xLook");
-        private static readonly int _yLook = Animator.StringToHash("yLook");
+        public const float pixelsPerUnit = 100.0f; // Align to pixel art setting, default: 100
+        public static float SignFloored(float number) => Mathf.Abs(number) < _signFloorThreshold ? 0 : Mathf.Sign(number);
         public static void SetAnimatorSpeed(Animator animator, float speed) => animator.SetFloat(_speed, speed);
         public static void SetAnimatorXLook(Animator animator, float xLookDirection) => animator.SetFloat(_xLook, xLookDirection);
         public static void SetAnimatorYLook(Animator animator, float yLookDirection) => animator.SetFloat(_yLook, yLookDirection);
+        
+        private const float _signFloorThreshold = 0.1f;
+        private static readonly int _speed = Animator.StringToHash("Speed");
+        private static readonly int _xLook = Animator.StringToHash("xLook");
+        private static readonly int _yLook = Animator.StringToHash("yLook");
         #endregion
 
         #region UnityMethods
@@ -49,13 +53,6 @@ namespace Frankie.Control
             rigidBody2D = GetComponent<Rigidbody2D>();
             pathFinder = GetComponent<PathFinder>();
             SetupInitialState();
-        }
-
-        private void SetupInitialState()
-        {
-            originalPosition = transform.position;
-            targetDistanceTolerance = defaultTargetDistanceTolerance;
-            targetMovementHistory = new CircularBuffer<Vector2>(targetMovementHistoryLength);
         }
 
         protected virtual void Start()
@@ -68,14 +65,50 @@ namespace Frankie.Control
 
         protected virtual void OnEnable()
         {
-            if (!resetPositionOnEnable) return;
+            if (!CheckForConfiguration()) { return; }
+            if (!resetPositionOnEnable) { return; }
             transform.position = originalPosition;
             SetLookDirection(defaultLookDirection);
+        }
+
+        protected virtual void OnDisable()
+        {
+            if (queuedMoveCoroutine != null) { StopCoroutine(queuedMoveCoroutine); }
+        }
+
+        protected virtual void FixedUpdate()
+        {
+            if (isQueuedCoroutineActive) { return; }
+            timeSinceLastMove += Time.deltaTime;
+        }
+        
+        private void SetupInitialState()
+        {
+            if (!CheckForConfiguration()) { return; }
+            originalPosition = transform.position;
+            targetDistanceTolerance = defaultTargetDistanceTolerance;
+            targetMovementHistory = new CircularBuffer<Vector2>(movementConfiguration.targetMovementHistoryLength);
+        }
+
+        private bool CheckForConfiguration()
+        {
+            if (movementConfiguration == null)
+            {
+                Debug.LogWarning($"{gameObject.name} Mover:  Movement configuration is missing");
+                gameObject.SetActive(false);
+                return false;
+            }
+            return true;
         }
         #endregion
 
         #region PublicMethods
+        public abstract float GetCurrentSpeed();
         public Vector2 GetLookDirection() => lookDirection;
+        public Vector2 GetCurrentPosition() => rigidBody2D.position;
+        public float GetTimeSinceLastMove() => timeSinceLastMove;
+        public void MoveRigidBody(Vector2 newPosition) => rigidBody2D.MovePosition(newPosition);
+        public void ResetTimeSinceLastMove() => timeSinceLastMove = 0;
         
         public void SetLookDirection(Vector2 setLookDirection)
         {
@@ -116,11 +149,16 @@ namespace Frankie.Control
             targetDistanceTolerance = defaultTargetDistanceTolerance;
             SetMoveTarget(originalPosition);
         }
+
+        public void QueueDelayedMoveExecution(Vector2 newPosition, float delayTime)
+        {
+            if (queuedMoveCoroutine != null) { StopCoroutine(queuedMoveCoroutine); }
+            queuedMoveCoroutine = StartCoroutine(DelayedMove(newPosition, delayTime));
+        }
         #endregion
 
         #region AbstractProtectedMethods
         protected abstract void UpdateAnimator(bool useCardinalLookDelay = false);
-        protected Vector2 GetCurrentPosition() => rigidBody2D.position;
         
         protected void SetLookDirection(Vector2 setLookDirection, bool includeAnimationUpdate)
         {
@@ -138,27 +176,25 @@ namespace Frankie.Control
         protected bool? MoveToTarget()
         {
             if (SetStaticForNoTarget()) { return null; }
+            if (isQueuedCoroutineActive) { return null; }
 
             Vector2 position = GetCurrentPosition();
             Vector2 target = ReckonTarget(false, true, PathFindingCheckType.Check);
             
             if (HasArrivedAtTarget(target, out float squareMagnitudeDelta))
             {
-                if (!usingPathFinding) { return false; }
+                if (!movementConfiguration.usingPathFinding) { return false; }
                 
                 Vector2 finalTarget = ReckonTarget(false, false, PathFindingCheckType.Skip);
                 if (HasArrivedAtTarget(finalTarget, out float finalSquareMagnitudeDelta)) { return false;}
             }
             target = ReckonTarget(squareMagnitudeDelta > closeTargetThresholdSquared, false, PathFindingCheckType.ForceCheck);
-
-            currentSpeed = movementSpeed;
+            
             Vector2 direction = target - position;
             SetLookDirection(direction, false);
-
-            var newPosition = new Vector2(
-                Mathf.Round(pixelsPerUnit * (position.x + currentSpeed * SignFloored(lookDirection.x) * Time.deltaTime)) / pixelsPerUnit, 
-                Mathf.Round(pixelsPerUnit * (position.y + currentSpeed * SignFloored(lookDirection.y) * Time.deltaTime)) / pixelsPerUnit);
-            rigidBody2D.MovePosition(newPosition);
+            
+            currentSpeed = GetCurrentSpeed();
+            if (!movementConfiguration.MoveToTarget(this, target, Time.deltaTime, out Vector2 _)) { currentSpeed = 0f; }
             UpdateAnimator(true);
 
             return true;
@@ -175,7 +211,7 @@ namespace Frankie.Control
             Vector2 reckonedTarget = currentTargetPosition;
             if (targetMovementHistory.GetCurrentSize() > 0) { reckonedTarget = withHistoryOffsetting ? targetMovementHistory.GetLastEntry() : targetMovementHistory.GetFirstEntry(); }
             
-            if (!usingPathFinding || !pathFinder.IsValidPathFinder() || pathFindingCheckType == PathFindingCheckType.Skip) { return reckonedTarget; }
+            if (!movementConfiguration.usingPathFinding || !pathFinder.IsValidPathFinder() || pathFindingCheckType == PathFindingCheckType.Skip) { return reckonedTarget; }
             if (!pathFinder.FindPath(GetCurrentPosition(), reckonedTarget, pathFindingCheckType)) { return reckonedTarget; }
             return pathFinder.GetNextPathTarget();
         }
@@ -202,6 +238,15 @@ namespace Frankie.Control
             SetLookDirection(defaultLookDirection);
             currentSpeed = 0f;
             UpdateAnimator();
+        }
+
+        private IEnumerator DelayedMove(Vector2 newPosition, float delayTime)
+        {
+            isQueuedCoroutineActive = true;
+            yield return new WaitForSeconds(delayTime);
+            movementConfiguration.ExecuteMove(this, newPosition);
+            queuedMoveCoroutine = null;
+            isQueuedCoroutineActive = false;
         }
         #endregion
 

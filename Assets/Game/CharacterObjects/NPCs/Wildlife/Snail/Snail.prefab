@@ -116,6 +116,10 @@ PrefabInstance:
       propertyPath: movementSpeed
       value: 0.5
       objectReference: {fileID: 0}
+    - target: {fileID: 5498337236555039864, guid: e4be3ce2d5464c3498c884ae5d9223d4, type: 3}
+      propertyPath: movementConfiguration
+      value: 
+      objectReference: {fileID: 11400000, guid: 1b1a2d1d2ea814a16ba72ac6452fdf22, type: 2}
     - target: {fileID: 6346925829285501531, guid: e4be3ce2d5464c3498c884ae5d9223d4, type: 3}
       propertyPath: skillTree
       value: 
