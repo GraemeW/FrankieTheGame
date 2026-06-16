@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -10,7 +11,7 @@ namespace Frankie.Control
         // Tunables
         [Header("Initialization and Mesh Setup")]
         [SerializeField][Tooltip("Circle cast to find move mesh that pathfinder sits on")] private float moveMeshFinderSize = 0.1f;
-        [SerializeField][Tooltip("Approximate radius of entity's collider")] private float entitySizeForNoCollider = 0.13f;
+        [SerializeField][Tooltip("Approximate radius of entity's collider")] private float entitySizeForNoCollider = 0.1f;
         [Header("Polling and Volatile Memory Timing")]
         [SerializeField] private float pathPollingSeconds = 0.1f;
         [SerializeField] private float lastTargetMemorySeconds = 2.0f;
@@ -78,7 +79,7 @@ namespace Frankie.Control
         #region UnityMethods
         private void Awake()
         {
-            entitySize = TryGetComponent(out CircleCollider2D circleCollider2D) ? circleCollider2D.radius : entitySizeForNoCollider;
+            SetupEntitySize();
         }
 
         private void OnEnable()
@@ -213,15 +214,6 @@ namespace Frankie.Control
         #endregion
 
         #region CoreAStarMethods
-        private bool IsCacheValid()
-        {
-            if (cachedMoveMesh == null || !isCacheInitialized) { InitialisePathfindingCache(); }
-            if (cachedMoveMesh == null) { return false; }
-            WalkabilityGrid walkabilityGrid = cachedMoveMesh.walkabilityGrid;
-            if (walkabilityGrid == null || walkabilityGrid.IsEmpty()) { return false; }
-            return cachedColumns == walkabilityGrid.columns && cachedRows == walkabilityGrid.rows;
-        }
-        
         private bool RunAStar(int startColumn, int startRow, int targetColumn, int targetRow, out List<Vector2> path)
         {
             ReinitializeGrid(startColumn, startRow, targetColumn, targetRow);
@@ -400,6 +392,38 @@ namespace Frankie.Control
                 i = smallest;
             }
             return top;
+        }
+        #endregion
+        
+        #region HelperMethods
+        private bool IsCacheValid()
+        {
+            if (cachedMoveMesh == null || !isCacheInitialized) { InitialisePathfindingCache(); }
+            if (cachedMoveMesh == null) { return false; }
+            WalkabilityGrid walkabilityGrid = cachedMoveMesh.walkabilityGrid;
+            if (walkabilityGrid == null || walkabilityGrid.IsEmpty()) { return false; }
+            return cachedColumns == walkabilityGrid.columns && cachedRows == walkabilityGrid.rows;
+        }
+        
+        private void SetupEntitySize()
+        {
+            if (TryGetComponent(out CircleCollider2D circleCollider2D))
+            {
+                entitySize = circleCollider2D.radius;
+            }
+            else if (TryGetComponent (out CapsuleCollider2D capsuleCollider2D))
+            {
+                entitySize = capsuleCollider2D.direction switch
+                {
+                    CapsuleDirection2D.Vertical => Mathf.Max(capsuleCollider2D.size.x, capsuleCollider2D.size.y / 2.0f),
+                    CapsuleDirection2D.Horizontal => Mathf.Max(capsuleCollider2D.size.x / 2.0f, capsuleCollider2D.size.y),
+                    _ => entitySizeForNoCollider
+                };
+            }
+            else
+            {
+                entitySize = entitySizeForNoCollider;
+            }
         }
         #endregion
     }

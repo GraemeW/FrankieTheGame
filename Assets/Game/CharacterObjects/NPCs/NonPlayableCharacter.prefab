@@ -66,7 +66,7 @@ Transform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &3652001598284316733
 SpriteRenderer:
-  serializedVersion: 2
+  serializedVersion: 3
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -123,6 +123,7 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
+  m_BlendShapeWeights: []
 --- !u!114 &4145049895503389082
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -253,7 +254,7 @@ Transform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &6761616658462586549
 SpriteRenderer:
-  serializedVersion: 2
+  serializedVersion: 3
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -310,6 +311,7 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 0
   m_SpriteSortPoint: 1
+  m_BlendShapeWeights: []
 --- !u!1 &6761616658632847994
 GameObject:
   m_ObjectHideFlags: 0
@@ -321,7 +323,7 @@ GameObject:
   - component: {fileID: 6761616658632847993}
   - component: {fileID: 6761616658632847992}
   - component: {fileID: 4362786997563127894}
-  - component: {fileID: 6039634409091955723}
+  - component: {fileID: 3689552598404359312}
   - component: {fileID: 2770910390378371091}
   - component: {fileID: 6762723866359945157}
   - component: {fileID: 1473610476277215348}
@@ -393,8 +395,8 @@ SortingGroup:
   m_SortingOrder: 0
   m_SortAtRoot: 0
   m_Sort3DAs2D: 0
---- !u!58 &6039634409091955723
-CircleCollider2D:
+--- !u!70 &3689552598404359312
+CapsuleCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -427,8 +429,9 @@ CircleCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 0, y: 0.15}
-  m_Radius: 0.125
+  m_Offset: {x: 0, y: 0.1}
+  m_Size: {x: 0.25, y: 0.08}
+  m_Direction: 1
 --- !u!50 &2770910390378371091
 Rigidbody2D:
   serializedVersion: 5
@@ -532,7 +535,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Frankie.Control.PathFinder
   moveMeshFinderSize: 0.1
-  entitySizeForNoCollider: 0.13
+  entitySizeForNoCollider: 0.1
   pathPollingSeconds: 0.1
   lastTargetMemorySeconds: 2
   initialHeapSizeDivider: 4
