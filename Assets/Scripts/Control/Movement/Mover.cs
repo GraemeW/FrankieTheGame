@@ -51,6 +51,8 @@ namespace Frankie.Control
         {
             rigidBody2D = GetComponent<Rigidbody2D>();
             pathFinder = GetComponent<PathFinder>();
+            if (!CheckForConfiguration()) { return; }
+            if (movementConfiguration.usingPathFinding) { pathFinder.InitialisePathfindingCache(); }
             SetupInitialState();
         }
 
@@ -83,7 +85,6 @@ namespace Frankie.Control
         
         private void SetupInitialState()
         {
-            if (!CheckForConfiguration()) { return; }
             originalPosition = transform.position;
             targetDistanceTolerance = defaultTargetDistanceTolerance;
             targetMovementHistory = new CircularBuffer<Vector2>(movementConfiguration.targetMovementHistoryLength);
