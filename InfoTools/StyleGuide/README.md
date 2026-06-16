@@ -75,7 +75,7 @@
     * [DialogueController](../../Assets/Scripts/Control/Controllers/DialogueController.cs):  dialogue input
   * Menus and Debuggers:
     * [SplashController](../../Assets/Scripts/Control/Controllers/SplashMenuController.cs)
-    * [StartMenuController](../../Assets/Scripts/Control/Controllers/StartMenuController.cs)
+    * [MainMenuController](../../Assets/Scripts/Control/Controllers/MainMenuController.cs)
     * [FrankieDebugger](../../Assets/Scripts/Core/FrankieDebugger.cs)
 
 ## Artwork
@@ -109,7 +109,7 @@ The [PixelArtShader](../../Assets/Scripts/Rendering/Shaders/_PixelArtShaders/Pix
 * Art must NOT have any content bordering the edges of its canvas
   * apply ≥1px border of alpha = 0, R/G/B = 0 to the edges of artwork
 
-*For simplicity, see [AlphaPreMultiply.py](../ImagePreImportTool/AlphaPreMultiply.py) python tool, which can be applied to any as-drawn artwork to ensure it adheres to requirements*
+*For simplicity, see [AlphaPreMultiply.py](../PyTools/ImagePreImportTool/AlphaPreMultiply.py) python tool, which can be applied to any as-drawn artwork to ensure it adheres to requirements*
 
 #### Tilemap Artwork Considerations
 

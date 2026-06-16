@@ -58,7 +58,7 @@ All scenes need to have three key PreFabs to function:
      * AddressablesLoader -- for loading all addressables (key game memory/elements), located in [OnLoadAssets](../Game/OnLoadAssets/), per [Addressables](../Scripts/Utils/Addressables/AddressablesLoader.cs)
 2. [Cameras](../Game/Core/Cameras.prefab): Includes the main camera, as well as a state-driven camera based on Frankie's state (idle vs. active)
 3. [Player](../Game/Core/Player.prefab), which:
-   * includes all relevant player control scripts (e.g. [Player](../Scripts/Core/Player.cs), [PlayerStateMachine](../Scripts/Control/Player/PlayerStateMachine.cs), [PlayerController](../Scripts/Control/Player/PlayerController.cs), [PlayerMover](../Scripts/Control/Player/PlayerMover.cs), etc. )
+   * includes all relevant player control scripts (e.g. [Player](../Scripts/Core/Player.cs), [PlayerStateMachine](../Scripts/Control/Player/PlayerStateMachine.cs), [PlayerController](../Scripts/Control/Player/PlayerController.cs), [PlayerMover](../Scripts/Control/Movement/PlayerMover.cs), etc. )
      * , as well as all other core scripts (e.g. [Party](../Scripts/Stats/Party/Party.cs) + affiliated conduits, [QuestList](../Scripts/Quests/QuestList.cs)), etc.
    * has childed objects -- interaction center point, and Party + PartyAssist containers
      * , where Party container includes Frankie as well as any active party members

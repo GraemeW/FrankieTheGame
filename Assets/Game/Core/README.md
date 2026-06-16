@@ -48,7 +48,7 @@ Thus, [AddressablesLoader](./CoreDep/AddressablesLoader.prefab) creates the cach
 
 ## Cameras Prefab
 
-[Cameras](./Cameras.prefab) employs the [CameraController](../../Scripts/Core/CameraCinematics/CameraController.cs) script, which interfaces with the Main Camera child game object and the State Driven Camera game object.  The Main Camera child object simply contains the main Unity [Camera](https://docs.unity3d.com/ScriptReference/Camera.html), as well as the [Cinemachine Brain](https://docs.unity3d.com/Packages/com.unity.cinemachine@3.1/manual/CinemachineBrain.html).  
+[Cameras](./Cameras.prefab) employs the [CameraController](../../Scripts/Core/CameraCinematics/CameraController.cs) script, which interfaces with the Main Camera child game object and the State Driven Camera game object.  The Main Camera child object simply contains the main Unity [Camera](https://docs.unity3d.com/6000.4/Documentation/ScriptReference/Camera.html), as well as the [Cinemachine Brain](https://docs.unity3d.com/Packages/com.unity.cinemachine@3.1/manual/CinemachineBrain.html).  
 
 The State Driven Camera child object employs a [Cinemachine State-Driven Camera](https://docs.unity3d.com/Packages/com.unity.cinemachine@3.1/manual/CinemachineStateDrivenCamera.html), which allows us to:
 * follow the player as they move around the map
@@ -61,7 +61,7 @@ The latter functionality is established using two separate virtual cameras (`VCa
 
 Pixel perfect rendering is accomplished by aligning the camera's PPU to the pixel art PPU settings.  
 
-This can be done automatically with Unity's [Pixel Perfect Camera](https://docs.unity3d.com/Packages/com.unity.2d.pixel-perfect@1.0/manual/index.html); however, you'll find that using any sort of character follower scripts (such as those used in [Cinemachine](https://docs.unity3d.com/Packages/com.unity.cinemachine@2.2/manual/CinemachineVirtualCamera.html)) in combination with the pixel perfect camera results in an unacceptable amount of character jitter.  Unity notes that the Cinemachine [pixel perfect extension](https://docs.unity3d.com/6000.2/Documentation/Manual/urp/pixel-cinemachine.html) can help to minimize fighting between the follower script and the pixel perfect camera, but this does not appear to be true -- or its effect is so minimal as to appear to do nothing to improve the jitter.
+This can be done automatically with Unity's [Pixel Perfect Camera](https://docs.unity3d.com/Packages/com.unity.2d.pixel-perfect@1.0/manual/index.html); however, you'll find that using any sort of character follower scripts (such as those used in [Cinemachine](https://docs.unity3d.com/Packages/com.unity.cinemachine@2.2/manual/CinemachineVirtualCamera.html)) in combination with the pixel perfect camera results in an unacceptable amount of character jitter.  Unity notes that the Cinemachine [pixel perfect extension](https://docs.unity3d.com/6000.4/Documentation/Manual/urp/2d-pixelperfect-ref.html) can help to minimize fighting between the follower script and the pixel perfect camera, but this does not appear to be true -- or its effect is so minimal as to appear to do nothing to improve the jitter.
 
 In any case, skipping the maths, one way to find the settings to achieve pixel perfect rendering is:
 * enable the perfect-pixel camera
@@ -105,7 +105,7 @@ The [Player](./Player.prefab) includes a number of important game/control compon
 * [PlayerController](../../Scripts/Control/Player/PlayerController.cs):  standard user input translation script (i.e. for [PlayerStateType](../../Scripts/Control/Player/PlayerStateMachine/PlayerStateType.cs) : inWorld)
 * [PlayerStateMachine](../../Scripts/Control/Player/PlayerStateMachine.cs):  primary game state machine for different [IPlayerState](../../Scripts/Control/Player/PlayerStateMachine/PlayerStates/IPlayerState.cs)
   * e.g. including hand-off from the [PlayerController](../../Scripts/Control/Player/PlayerController.cs) to alternate [Controllers](../Controllers/)
-* [PlayerMover](../../Scripts/Control/Player/PlayerMover.cs):  character movement through the world (based on input from [PlayerController](../../Scripts/Control/Player/PlayerController.cs))
+* [PlayerMover](../../Scripts/Control/Movement/PlayerMover.cs):  character movement through the world (based on input from [PlayerController](../../Scripts/Control/Player/PlayerController.cs))
 * [Party](../../Scripts/Stats/Party/Party.cs):  add/remove characters to active party & queries for associated party state
   * [InactiveParty](../../Scripts/Stats/Party/InactiveParty.cs):  manages save state for characters not currently in party
   * [PartyAssist](../../Scripts/Stats/Party/PartyAssist.cs):  handles add/remove for 'assisting' characters (i.e. not official party members)
@@ -113,7 +113,7 @@ The [Player](./Player.prefab) includes a number of important game/control compon
 * [Shopper](../../Scripts/Inventory/Shopper.cs):  interfacing with [Shops](../../Scripts/Inventory/Shop.cs) to purchase/sell [items](../OnLoadAssets/Inventory/)
 * [QuestList](../../Scripts/Quests/QuestList.cs):  add/remove quests, complete quest objectives/disburse rewards & queries for associated quest state
 * [SaveableEntity](../../Scripts/Saving/SaveableEntity.cs):  tags [Player](./Player.prefab) for saving with the [SaveSystem](../../Scripts/Saving/)
-* [RigidBody2D](https://docs.unity3d.com/6000.1/Documentation/ScriptReference/Rigidbody2D.html):  interfacing with Unity's physics system
+* [RigidBody2D](https://docs.unity3d.com/6000.4/Documentation/ScriptReference/Rigidbody2D.html):  interfacing with Unity's physics system
   * note that colliders are on individual characters in the party container (as below in [Key Children](#key-children))
 
 Note:

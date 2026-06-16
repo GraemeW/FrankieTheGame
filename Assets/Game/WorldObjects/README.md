@@ -5,7 +5,7 @@ The prefabs within this directory comprise all of the game objects that can be d
 The directories are structured as:
 
 |              Category              | Sprite |       |                                                                     Detail                                                                      |                                                     Attached Component/Object                                                      |
-| :--------------------------------: | :----: | :---: | :---------------------------------------------------------------------------------------------------------------------------------------------: | :--------------------------------------------------------------------------------------------------------------------------------: |
+| :--------------------------------: | :----: | :---: | :---------------------------------------------------------------------------------------------------------------------------------------------: |:----------------------------------------------------------------------------------------------------------------------------------:|
 |      [Exterior](./Exterior/)       |   √    |       |                   Assets to be placed outdoors, including trees, fences, outdoor furniture/props, graveyard, fall fair, etc.                    |                                          (optional) [World](../../Scripts/World/) scripts                                          |
 |      [Interior](./Interior/)       |   √    |       |                   Assets to be placed indoors, including indoor furniture, lighting, office, kitchen, bathroom, bedroom, etc.                   |                                          (optional) [World](../../Scripts/World/) scripts                                          |
 |         [Signs](./Signs/)          |   √    |       |                               Any signage/sign posts (agnostic to indoor/outdoor) presenting specific information                               |            [CheckWithMessage](../Checks/CheckWithMessage.prefab) via [Check](../../Scripts/CheckInteractions/Check.cs)             |
@@ -15,7 +15,7 @@ The directories are structured as:
 | [ExteriorWorld](./_ExteriorWorld/) |   ~    |       |                            Parent game object for any exterior world, to be unpacked in a given exterior Scene/Zone                             |                                                                 ~                                                                  |
 | [InteriorRooms](./_InteriorRooms/) |   ~    |       | Parent game object for any interior room containing [Doors](./Doors/), may include a [sprite renderer](./_InteriorRooms/TilemapRoomRoot.prefab) |                                             [Room](../../Scripts/Zones/Room.cs) script                                             |
 |      [Spawners](./_Spawners/)      |        |       |                                               Standard game object for spawning enemies/monsters                                                |                                [EnemySpawner](../../Scripts/Combat/Spawner/EnemySpawner.cs) script                                 |
-|         [Paths](./_Paths/)         |        |       |                         Standard game object for delineating a path for an [NPC](../CharacterObjects/NPCs/) to traverse                         |                                    [PatrolPath](../../Scripts/Control/NPC/PatrolPath.cs) script                                    |
+|         [Paths](./_Paths/)         |        |       |                         Standard game object for delineating a path for an [NPC](../CharacterObjects/NPCs/) to traverse                         |                              [PatrolPath](../../Scripts/Control/Movement/Patrol/PatrolPath.cs) script                              |
 
 #### Note on Document Scope
 
@@ -141,7 +141,7 @@ If a character should always appear in front of a given world object, the follow
 
 Any world object that should block or obstruct the player (i.e. if sorting layer is set to `PlayerEnemiesObjects` at `Order=0`, the world object necessarily into this category) should include the below components:
 * [Rigidbody2D](https://docs.unity3d.com/6000.2/Documentation/Manual/2d-physics/rigidbody/rigidbody-2d-landing.html)
-* [Collider2D](https://docs.unity3d.com/6000.2/Documentation/ScriptReference/Collider2D.html)
+* [Collider2D](https://docs.unity3d.com/Manual/2d-physics/collider/collider-2d-landing.html)
 
 #### Rigidbody for Fixed Objects
 
@@ -174,9 +174,9 @@ For example, see below settings for a low/zero friction rolling office chair:
 
 <img src="../../../InfoTools/Documentation/Game/WorldObjects/ExampleDynamicPhysicsSettings.png" width="350">
 
-#### On-Axis View Sprites - Box Collider
+#### On-Axis View Sprites - Circle/Box Collider
 
-For simple world objects with bottom-edge (or near-bottom) sprite anchors, a [BoxCollider2D](https://docs.unity3d.com/6000.2/Documentation/ScriptReference/BoxCollider2D.html) can be attached to the world object.  
+For simple world objects with bottom-edge (or near-bottom) sprite anchors, a [CircleCollider2D](https://docs.unity3d.com/Manual/2d-physics/collider/circle-collider-2d-reference.html) or a [BoxCollider2D](https://docs.unity3d.com/Manual/2d-physics/collider/box-collider-2d-reference.html) can be attached to the world object.  
 
 The collider should have `IsTrigger` set to `False`, and be configured to adequately cover the bottom portion of the sprite that should block player movement.  For example, see below collider outline for the grandfather clock:
 
@@ -293,7 +293,7 @@ Briefly:
 * Drag 'n' [Waypoint](./_Paths/Waypoint.prefab) prefab children under the patrol path
   * move each waypoint's transform to the desired location for the patrol path
   * note:  a series of blue/green spheres connected by lines are generated in Scene View to show the walking path
-* Configure the [Patrol Path Component](../../Scripts/Control/NPC/PatrolPath.cs), by setting:
+* Configure the [Patrol Path Component](../../Scripts/Control/Movement/Patrol/PatrolPath.cs), by setting:
   * `Waypoints`:  drag the array of waypoint children under the patrol path onto this field
   * `Looping`:  `Enabled` if the NPC should loop through the patrol path
   * `Return to First Waypoint`:  `Enabled` if the NPC should walk back to the first waypoint after reaching the final waypoint

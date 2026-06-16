@@ -111,7 +111,7 @@ Note that the parent Grid GameObject and all TileMap/TileMapRenderer children Ga
 ### Tilemap Renderer Settings
 
 A standard TileMap GameObject must include two components:
-* [TileMap](https://docs.unity3d.com/6000.2/Documentation/ScriptReference/Tilemaps.Tilemap.html)
+* [TileMap](https://docs.unity3d.com/6000.4/Documentation/ScriptReference/Tilemaps.Tilemap.html)
 * [TileMapRenderer](https://docs.unity3d.com/6000.2/Documentation/ScriptReference/Tilemaps.Tilemap.html)
 
 The TileMap must be configured with its appropriate `Animation Frame Rate` (if using animated tiles).
@@ -143,7 +143,7 @@ To this end, attach the below components with the following settings:
   * Set `Body Type` to `Static`
 * [TilemapCollider2D](https://docs.unity3d.com/6000.2/Documentation/Manual/tilemaps/work-with-tilemaps/tilemap-collider-2d-reference.html)
   * Set `Composite Operation` to `Merge`
-* [CompositeCollider2D](https://docs.unity3d.com/6000.2/Documentation/Manual/2d-physics/collider/composite-collider/composite-collider-2d-reference.html)
+* [CompositeCollider2D](https://docs.unity3d.com/Manual/2d-physics/collider/composite-collider/composite-collider-2d-reference.html)
   * Ensure `IsTrigger` is set to `False`
 
 ### Tile Placement Considerations
