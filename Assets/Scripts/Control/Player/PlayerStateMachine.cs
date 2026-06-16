@@ -5,6 +5,7 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.Localization;
+using UnityEngine.Localization.Tables;
 using Frankie.Core;
 using Frankie.Control.PlayerStates;
 using Frankie.Combat;
@@ -15,7 +16,6 @@ using Frankie.World;
 using Frankie.ZoneManagement;
 using Frankie.Utils;
 using Frankie.Utils.Localization;
-using UnityEngine.Localization.Tables;
 
 namespace Frankie.Control
 {

@@ -95,7 +95,7 @@ Note that the simulated values are calculated using the `levelChartAveraging` pa
 Character objects are broken down into:
 * [PCs](./PCs/): Playable characters, which can be added to the player's [Party](../../Scripts/Stats/Party/) and controlled by the player
 * [NPCs](./NPCs/): Non-playable characters, which notably have some form of intelligence to control themselves, whether in the world or in combat
-  * e.g. in fixed movements through [NPCMover](../../Scripts/Control/NPC/NPCMover.cs) via [patrol paths](../../Scripts/Control/NPC/PatrolPath.cs)
+  * e.g. in fixed movements through [NPCMover](../../Scripts/Control/Movement/NPCMover.cs) via [patrol paths](../../Scripts/Control/Movement/Patrol/PatrolPath.cs)
   * , or to chase the player through [NPCChaser](../../Scripts/Control/NPC/NPCChaser.cs)
   * , or in combat to attack the player with the [BattleAI](../../Scripts/Combat/BattleAI/BattleAI.cs) and [BattleAIPredicates](../../Scripts/Combat/BattleAI/BattleAIPredicates/)
 
@@ -234,12 +234,26 @@ The character creation process for NPCs is nearly identical to that of playable 
     * `Will Force Combat`:  `Enable`
     * `Will Destroy If Invisible`:  `Enable`
 
+#### NPCMover and Path Finding
+
+Hostile NPCs will chase after the player when using `willChasePlayer` : `Enable` on the [NPCChaser](../../Scripts/Control/NPC/NPCChaser.cs) component.  The [NPCChaser](../../Scripts/Control/NPC/NPCChaser.cs) uses a probe game object as a physics-based trigger for when the player enters an NPC's aggro radius. By default, NPCs will move toward target objects using a simplistic approach, where the NPC will simply move directly in the direction of its target with some offsetting based on the target's movement history.  
+
+If the NPC in question should move more intelligently toward the player, enable the `usingPathFinding` setting on the [NPCMover](../../Scripts/Control/Movement/NPCMover.cs)'s `MovementConfiguration`, as below.  Various standard movement configurations can be found in [Movement](./Movement), allowing for customization in either walk or warp-based movement.
+
+<img src="../../../InfoTools/Documentation/Game/CharacterObjects/NPCMoverSettings.png" width="700">
+
+Enabling `usingPathFinding` will allow the NPC to use A* pathfinding to periodically generate an optimal path toward its target, based on the parameters in the [PathFinder](../../Scripts/Control/Movement/PathFinder.cs):
+
+<img src="../../../InfoTools/Documentation/Game/CharacterObjects/PathFinderSettings.png" width="400">
+
+Note that the PathFinder will check if the NPC is sitting on a configured [MoveMesh](../WorldObjects/README.md#movemesh-pathfinding-mesh-for-rooms-and-world-maps), and (if so) it will initialize a pathfinding grid.  The move mesh will be adjusted by the specific NPCMover's CircleCollider2D radius to ensure the NPC can properly fit as it traverses the grid.  If no MoveMesh has been created, the NPCMover will fall back to the default simplistic approach.
+
 ### Summary of Key Components
 
 A brief summary of the configurable components on the character prefabs noted above is provided below:
 
 |                                    Component                                     |  PC   | PC-NPC |  NPC  | NPC-CR |       |                                                   Detail                                                    |
-| :------------------------------------------------------------------------------: | :---: | :----: | :---: | :----: | :---: | :---------------------------------------------------------------------------------------------------------: |
+|:--------------------------------------------------------------------------------:| :---: | :----: | :---: | :----: | :---: | :---------------------------------------------------------------------------------------------------------: |
 |        [CharacterSpriteLink](../../Scripts/Stats/CharacterSpriteLink.cs)         |   X   |   X    |   X   |   X    |       |        Root-level link to sprite/animator, for cached reference & announcing animation state updates        |
 |                  [BaseStats](../../Scripts/Stats/BaseStats.cs)                   |   X   |   X    |   X   |   X    |       |                Link to character properties, progression & interface to all character stats                 |
 | [CombatParticipant](../../Scripts/Combat/CombatParticipant/CombatParticipant.cs) |   X   |   X    |       |   X    |       |                          Combat behaviour/methods & interface to the battle system                          |
@@ -250,7 +264,7 @@ A brief summary of the configurable components on the character prefabs noted ab
 |        [CharacterNPCSwapper](../../Scripts/Stats/CharacterNPCSwapper.cs)         |   X   |   X    |       |        |       |                   Methods for swapping between character in party <-> character in world                    |
 |            [WearablesLink](../../Scripts/Inventory/WearablesLink.cs)             |   X   |   X    |       |        |       |              Methods for probing/interacting with wearables + link to wearables root transform              |
 |         [NPCStateHandler](../../Scripts/Control/NPC/NPCStateHandler.cs)          |       |   X    |   X   |   X    |       |                NPC state, with player state listeners and methods to adjust player/NPC state                |
-|                [NPCMover](../../Scripts/Control/NPC/NPCMover.cs)                 |       |   X    |   X   |   X    |       |           NPC world move properties / methods, including momvement along pre-defined patrol paths           |
+|              [NPCMover](../../Scripts/Control/Movement/NPCMover.cs)              |       |   X    |   X   |   X    |       |           NPC world move properties / methods, including momvement along pre-defined patrol paths           |
 |              [BattleAI](../../Scripts/Combat/BattleAI/BattleAI.cs)               |       |   X    |   X   |   X    |       |  Logic for NPCs during battle (i.e. skill selection, combat priorities), interfacing to the battle system   |
 |     [NPCCollisionHandler](../../Scripts/Control/NPC/NPCCollisionHandler.cs)      |       |        |   X   |   X    |       |     State changes as a function of character collisions, flesibility to trigger arbitrary Unity Events      |
 |            [LootDispenser](../../Scripts/Inventory/LootDispenser.cs)             |       |        |       |   X    |       |                            Loot tables & logic for randomly providing loot/cash                             |

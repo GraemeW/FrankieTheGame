@@ -112,6 +112,7 @@ GameObject:
   - component: {fileID: 7545476640367148252}
   - component: {fileID: 9140000498525693429}
   - component: {fileID: 6558820224858072559}
+  - component: {fileID: 1154256921353293705}
   - component: {fileID: 9140000498525693418}
   - component: {fileID: 4166409808191719099}
   - component: {fileID: 5876699349059018158}
@@ -237,14 +238,32 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cfb66abb30066404e974cd0255d37842, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  movementSpeed: 1
+  movementConfiguration: {fileID: 11400000, guid: be323c616e97e444380a1f871bc9a51a, type: 2}
   defaultLookDirection: {x: 0, y: -1}
   defaultTargetDistanceTolerance: 0.15
   closeTargetThresholdSquared: 0.5625
   resetPositionOnEnable: 0
-  targetMovementHistoryLength: 10
   speedMoveThreshold: 0.05
   playerMovementHistoryLength: 256
+--- !u!114 &1154256921353293705
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9140000498525693431}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5632f62ca67f4acf910fe3207f574ff4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Frankie.Control.PathFinder
+  moveMeshFinderSize: 0.1
+  entitySizeForNoCollider: 0.13
+  pathPollingSeconds: 0.1
+  lastTargetMemorySeconds: 2
+  initialHeapSizeDivider: 4
+  crossThreshold: 0.01
+  deltaSquaredThreshold: 0.0016
 --- !u!114 &9140000498525693418
 MonoBehaviour:
   m_ObjectHideFlags: 0

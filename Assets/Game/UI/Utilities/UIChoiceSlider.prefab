@@ -275,6 +275,7 @@ MonoBehaviour:
           m_BoolArgument: 0
         m_CallState: 2
   slider: {fileID: 7763422617688402497}
+  sliderAdjustmentStep: 0.1
 --- !u!1 &5791020053105200224
 GameObject:
   m_ObjectHideFlags: 0

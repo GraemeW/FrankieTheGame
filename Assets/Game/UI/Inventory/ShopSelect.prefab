@@ -272,7 +272,6 @@ MonoBehaviour:
   optionParent: {fileID: 2827520980706274898}
   optionButtonPrefab: {fileID: 3358873790910023875, guid: 9193413aa0e976e439049a2689f4fa41, type: 3}
   optionSliderPrefab: {fileID: 648355362501312909, guid: d568fe93320469d4e97d2b75d847f84b, type: 3}
-  sliderAdjustmentStep: 0.1
   localizedMessageIntro:
     m_TableReference:
       m_TableCollectionName: GUID:ce7f667b432574cb1832328f600c1082

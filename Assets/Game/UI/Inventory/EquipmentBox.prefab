@@ -724,7 +724,6 @@ MonoBehaviour:
   optionParent: {fileID: 2827520980706274898}
   optionButtonPrefab: {fileID: 3358873790910023875, guid: 9193413aa0e976e439049a2689f4fa41, type: 3}
   optionSliderPrefab: {fileID: 4136279713418740174, guid: 4a7bed0c126f347b0865033b4042eab0, type: 3}
-  sliderAdjustmentStep: 0.1
   selectedCharacterNameField: {fileID: 9194726771461153638}
   equipmentChangeConfirmOptions:
   - {fileID: 5807601753936285436}

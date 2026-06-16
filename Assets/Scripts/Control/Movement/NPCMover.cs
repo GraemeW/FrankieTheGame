@@ -10,6 +10,10 @@ namespace Frankie.Control
         // Tunables
         [Header("NPC Specific Behavior")]
         [SerializeField] private Transform interactionCenterPoint;
+        [SerializeField] private float lookDirectionChangeDelay = 0.1f;
+        [SerializeField] private float giveUpOnLocomotionTargetTime = 10.0f;
+        [SerializeField] private float locomotionCollisionStayTime = 0.5f;
+        [Header("Patrol and Random Walk Settings")]
         [SerializeField] [Tooltip("Takes priority over random walk")] private PatrolPath patrolPath;
         [SerializeField] [Tooltip("Default behaviour for no patrol path")] private bool canRandomWalk = false;
         [SerializeField] private float randomWalkStepDistance = 0.4f;
@@ -17,8 +21,6 @@ namespace Frankie.Control
         [SerializeField] private float randomWalkyLimitDistance = 1.2f;
         [SerializeField] private float waypointDwellTime = 2.0f;
         [SerializeField] private Vector2 lookDirectionOnDwell = Vector2.down;
-        [SerializeField] private float giveUpOnLocomotionTargetTime = 10.0f;
-        [SerializeField] private float locomotionCollisionStayTime = 0.5f;
 
         [Header("Editor Gizmos")]
 #if UNITY_EDITOR
@@ -31,6 +33,9 @@ namespace Frankie.Control
         private NPCChaser npcChaser;
 
         // State
+        private PlayerInputType cardinalLookDirection = PlayerInputType.DefaultNone;
+        private float timeSinceCardinalLookDirectionChange = 0f;
+        
         private NPCMoveFocus npcMoveFocus = NPCMoveFocus.Pending;
         private bool resetPositionOnNextIdle = false;
 
@@ -62,8 +67,9 @@ namespace Frankie.Control
             npcStateHandler.npcStateChanged += HandleNPCStateChange;
         }
 
-        private void OnDisable()
+        protected override void OnDisable()
         {
+            base.OnDisable();
             npcStateHandler.npcStateChanged -= HandleNPCStateChange;
         }
 
@@ -82,7 +88,9 @@ namespace Frankie.Control
         protected override void FixedUpdate()
         {
             if (npcMoveFocus == NPCMoveFocus.Inactive) { return; }
+            base.FixedUpdate();
             
+            timeSinceCardinalLookDirectionChange += Time.deltaTime;
             switch (MoveToTarget())
             {
                 case null:
@@ -126,6 +134,7 @@ namespace Frankie.Control
                 case NPCStateType.Aggravated:
                 case NPCStateType.Frenzied:
                 {
+                    timeSinceLastMove = 0f;
                     npcMoveFocus = isNPCAfraid ? NPCMoveFocus.Fleeing : NPCMoveFocus.Chasing;
                     SetMoveTarget(npcChaser.GetPlayer());
                     
@@ -171,28 +180,52 @@ namespace Frankie.Control
         #endregion
 
         #region OverrideMethods
-        protected override Vector2 ReckonTarget(bool withOffsetting = true, bool addToHistory = true)
-        {
-            Vector2 target = base.ReckonTarget(withOffsetting, addToHistory);
-            if (npcMoveFocus != NPCMoveFocus.Fleeing) { return target; }
-            
-            float offset = Vector2.Dot(rigidBody2D.position, target);
-            Vector2 direction = (rigidBody2D.position - target).normalized;
-            return offset * direction; // Run toward equally distant position away from target
-        }
-
-        protected override void UpdateAnimator()
+        public override float GetCurrentSpeed() => movementConfiguration.baseMovementSpeed;
+        
+        protected override void UpdateAnimator(bool useCardinalLookDelay = false)
         {
             // Safety on accessing controller properties before setup complete (OnEnable calls)
             if (animator == null || animator.runtimeAnimatorController == null) { return; }
 
             SetAnimatorSpeed(animator, currentSpeed);
+            
+            if (useCardinalLookDelay && timeSinceCardinalLookDirectionChange < lookDirectionChangeDelay) { return; }
             SetAnimatorXLook(animator, lookDirection.x);
             SetAnimatorYLook(animator, lookDirection.y);
+        }
+        
+        protected override Vector2 ReckonTarget(bool withHistoryOffsetting = true, bool addToHistory = true, PathFindingCheckType pathFindingCheckType = PathFindingCheckType.Check)
+        {
+            Vector2 target = base.ReckonTarget(withHistoryOffsetting, addToHistory, pathFindingCheckType);
+            if (npcMoveFocus != NPCMoveFocus.Fleeing) { return target; }
+
+            Vector2 currentPosition = GetCurrentPosition();
+            float offset = Vector2.Dot(currentPosition, target);
+            Vector2 direction = (currentPosition - target).normalized;
+            return offset * direction; // Run toward equally distant position away from target
+        }
+
+        protected override void OnLookDirectionUpdate()
+        {
+            PlayerInputType checkCardinalLookDirection = GetCardinalLookDirection();
+            if (cardinalLookDirection == checkCardinalLookDirection) { return; }
+            cardinalLookDirection = checkCardinalLookDirection;
+            timeSinceCardinalLookDirectionChange = 0f;
         }
         #endregion
 
         #region PrivateMethods
+        private PlayerInputType GetCardinalLookDirection()
+        {
+            if (Mathf.Approximately(lookDirection.x, 0) && Mathf.Approximately(lookDirection.y, 0)) { return PlayerInputType.DefaultNone; }
+            
+            if (Mathf.Abs(lookDirection.x) > Mathf.Abs(lookDirection.y))
+            {
+                return lookDirection.x > 0 ? PlayerInputType.NavigateRight : PlayerInputType.NavigateLeft;
+            }
+            return lookDirection.y > 0 ? PlayerInputType.NavigateUp : PlayerInputType.NavigateDown;
+        }
+        
         private bool CanLocomote() => patrolPath != null || canRandomWalk;
 
         private void StartLocomotion()

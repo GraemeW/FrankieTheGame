@@ -2,7 +2,7 @@
 
 ## Background Music
 
-All background music is played by the [BackgroundMusic](./BackgroundMusic.prefab) prefab, which is childed to the [PersistentObjects](../Core/README.md#persistent-objects-singleton) singleton.  [BackgroundMusic](./BackgroundMusic.prefab) employs a [Unity Audio Mixer](https://docs.unity3d.com/6000.1/Documentation/Manual/AudioMixer.html) in order to master all tracks as well as handle track transitions.
+All background music is played by the [BackgroundMusic](./BackgroundMusic.prefab) prefab, which is childed to the [PersistentObjects](../Core/README.md#persistent-objects-singleton) singleton.  [BackgroundMusic](./BackgroundMusic.prefab) employs a [Unity Audio Mixer](https://docs.unity3d.com/6000.4/Documentation/Manual/AudioMixerOverview.html) in order to master all tracks as well as handle track transitions.
 
 ### Configuration
 

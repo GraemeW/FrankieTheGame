@@ -446,7 +446,6 @@ MonoBehaviour:
   optionParent: {fileID: 8004034116448376830}
   optionButtonPrefab: {fileID: 3358873790910023875, guid: 9193413aa0e976e439049a2689f4fa41, type: 3}
   optionSliderPrefab: {fileID: 4136279713418740174, guid: 4a7bed0c126f347b0865033b4042eab0, type: 3}
-  sliderAdjustmentStep: 0.1
   optionsPrefab: {fileID: 7923113534490889839, guid: ad042c32a9c9fdd4a80f11ae49d15a20, type: 3}
   loadGamePrefab: {fileID: 8289910384818935068, guid: 0d0cc8cd45c352f45b6711238aa9527f, type: 3}
   newGameZoneOverride: {fileID: 0}

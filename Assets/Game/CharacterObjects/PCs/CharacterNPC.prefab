@@ -280,6 +280,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 8263638854090363868, guid: b3d57c5ca0835dc44b0b91ac427342b7, type: 3}
       insertIndex: -1
       addedObject: {fileID: 8799100898494828469}
+    - targetCorrespondingSourceObject: {fileID: 8263638854090363868, guid: b3d57c5ca0835dc44b0b91ac427342b7, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 5604239651851639060}
   m_SourcePrefab: {fileID: 100100000, guid: b3d57c5ca0835dc44b0b91ac427342b7, type: 3}
 --- !u!4 &3268347881412759661 stripped
 Transform:
@@ -330,13 +333,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ae64d0078a8ee6e4d8bece5ce559d360, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  movementSpeed: 1
+  movementConfiguration: {fileID: 11400000, guid: 639172fc87b564e4eb55cec8e11433aa, type: 2}
   defaultLookDirection: {x: 0, y: -1}
   defaultTargetDistanceTolerance: 0.035
   closeTargetThresholdSquared: 0.5625
   resetPositionOnEnable: 1
-  targetMovementHistoryLength: 10
   interactionCenterPoint: {fileID: 2666196632901393418}
+  lookDirectionChangeDelay: 0.1
+  giveUpOnLocomotionTargetTime: 10
+  locomotionCollisionStayTime: 0.5
   patrolPath: {fileID: 0}
   canRandomWalk: 0
   randomWalkStepDistance: 0.4
@@ -344,8 +349,6 @@ MonoBehaviour:
   randomWalkyLimitDistance: 1.2
   waypointDwellTime: 2
   lookDirectionOnDwell: {x: 0, y: -1}
-  giveUpOnLocomotionTargetTime: 10
-  locomotionCollisionStayTime: 0.5
   randomWalkGizmoColor: {r: 0.2745098, g: 0.509804, b: 0.7058824, a: 1}
 --- !u!114 &5735266784123818870
 MonoBehaviour:
@@ -378,3 +381,22 @@ MonoBehaviour:
   probabilityToTraverseSkillTree: 0.8
   useRandomSelectionOnNoPriorities: 1
   battleAIPriorities: []
+--- !u!114 &5604239651851639060
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3268347881412759662}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5632f62ca67f4acf910fe3207f574ff4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Frankie.Control.PathFinder
+  moveMeshFinderSize: 0.1
+  entitySizeForNoCollider: 0.13
+  pathPollingSeconds: 0.1
+  lastTargetMemorySeconds: 2
+  initialHeapSizeDivider: 4
+  crossThreshold: 0.01
+  deltaSquaredThreshold: 0.0016

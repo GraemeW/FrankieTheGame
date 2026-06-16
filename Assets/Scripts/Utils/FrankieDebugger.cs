@@ -1,12 +1,12 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using Frankie.Utils;
+using Frankie.Core;
 using Frankie.Quests;
 using Frankie.Stats;
 using Frankie.Inventory;
 using Frankie.Saving;
 
-namespace Frankie.Core
+namespace Frankie.Utils
 {
     public class FrankieDebugger : MonoBehaviour
     {

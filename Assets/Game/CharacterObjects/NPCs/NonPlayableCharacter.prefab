@@ -321,11 +321,12 @@ GameObject:
   - component: {fileID: 6761616658632847993}
   - component: {fileID: 6761616658632847992}
   - component: {fileID: 4362786997563127894}
-  - component: {fileID: 2829251969425687448}
+  - component: {fileID: 6039634409091955723}
   - component: {fileID: 2770910390378371091}
   - component: {fileID: 6762723866359945157}
   - component: {fileID: 1473610476277215348}
   - component: {fileID: 965147417343429250}
+  - component: {fileID: 7300133712395528484}
   - component: {fileID: 4118810327594443569}
   - component: {fileID: 6853974573596150378}
   - component: {fileID: 6372006413732983059}
@@ -392,8 +393,8 @@ SortingGroup:
   m_SortingOrder: 0
   m_SortAtRoot: 0
   m_Sort3DAs2D: 0
---- !u!61 &2829251969425687448
-BoxCollider2D:
+--- !u!58 &6039634409091955723
+CircleCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -426,18 +427,8 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: -0.009075403, y: 0.09606013}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0, y: 0}
-    oldSize: {x: 0, y: 0}
-    newSize: {x: 0, y: 0}
-    adaptiveTilingThreshold: 0
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  m_Size: {x: 0.23159075, y: 0.08034462}
-  m_EdgeRadius: 0
+  m_Offset: {x: 0, y: 0.15}
+  m_Radius: 0.125
 --- !u!50 &2770910390378371091
 Rigidbody2D:
   serializedVersion: 5
@@ -511,13 +502,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ae64d0078a8ee6e4d8bece5ce559d360, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  movementSpeed: 1
+  movementConfiguration: {fileID: 11400000, guid: 639172fc87b564e4eb55cec8e11433aa, type: 2}
   defaultLookDirection: {x: 0, y: -1}
   defaultTargetDistanceTolerance: 0.035
   closeTargetThresholdSquared: 0.5625
   resetPositionOnEnable: 1
-  targetMovementHistoryLength: 15
   interactionCenterPoint: {fileID: 851377592137554633}
+  lookDirectionChangeDelay: 0.1
+  giveUpOnLocomotionTargetTime: 10
+  locomotionCollisionStayTime: 0.5
   patrolPath: {fileID: 0}
   canRandomWalk: 0
   randomWalkStepDistance: 0.4
@@ -525,9 +518,26 @@ MonoBehaviour:
   randomWalkyLimitDistance: 1.2
   waypointDwellTime: 2
   lookDirectionOnDwell: {x: 0, y: -1}
-  giveUpOnLocomotionTargetTime: 10
-  locomotionCollisionStayTime: 0.5
   randomWalkGizmoColor: {r: 0.2745098, g: 0.509804, b: 0.7058824, a: 1}
+--- !u!114 &7300133712395528484
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6761616658632847994}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5632f62ca67f4acf910fe3207f574ff4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Frankie.Control.PathFinder
+  moveMeshFinderSize: 0.1
+  entitySizeForNoCollider: 0.13
+  pathPollingSeconds: 0.1
+  lastTargetMemorySeconds: 2
+  initialHeapSizeDivider: 4
+  crossThreshold: 0.01
+  deltaSquaredThreshold: 0.0016
 --- !u!114 &4118810327594443569
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -723,14 +733,6 @@ PrefabInstance:
     - target: {fileID: 6564381309038757639, guid: 3ba2ab0c1cea63442a5dec585154a263, type: 3}
       propertyPath: m_Size.y
       value: 0.41973686
-      objectReference: {fileID: 0}
-    - target: {fileID: 6564381309038757639, guid: 3ba2ab0c1cea63442a5dec585154a263, type: 3}
-      propertyPath: m_Offset.x
-      value: -0.021125793
-      objectReference: {fileID: 0}
-    - target: {fileID: 6564381309038757639, guid: 3ba2ab0c1cea63442a5dec585154a263, type: 3}
-      propertyPath: m_Offset.y
-      value: 0.3043173
       objectReference: {fileID: 0}
     - target: {fileID: 6564381309038757640, guid: 3ba2ab0c1cea63442a5dec585154a263, type: 3}
       propertyPath: m_Name
