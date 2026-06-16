@@ -241,7 +241,10 @@ namespace Frankie.Stats
         {
             public List<string> partyStrings;
             public List<string> unlockedCharacterStrings;
+#pragma warning disable UAC1009
+            // Unity serialization error, but serialization is OK by Newtonsoft
             public Dictionary<string, SceneParentPair> worldNPCLookup;
+#pragma warning restore UAC1009
 
             public PartySaveData(List<string> currentParty, List<string> unlockedCharacterStrings, Dictionary<string, SceneParentPair> worldNPCLookup)
             {
