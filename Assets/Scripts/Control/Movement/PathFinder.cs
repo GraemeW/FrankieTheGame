@@ -39,6 +39,7 @@ namespace Frankie.Control
         private MoveMesh cachedMoveMesh;
         private int cachedColumns;
         private int cachedRows;
+        private float cachedCellSize;
         
         // Static
         private static readonly (int dx, int dy, float cost)[] _directions =
@@ -115,12 +116,15 @@ namespace Frankie.Control
 
         public Vector2 GetNextPathTarget()
         {
+            if (!isCacheInitialized) { return Vector2.zero; }
             if (currentPath.Count > 0) { return currentPath.First(); }
             return transform.position;
         }
         
         public bool FindPath(Vector2 currentPosition, Vector2 targetPosition, PathFindingCheckType pathFindingCheckType = PathFindingCheckType.Check)
         {
+            if (!isCacheInitialized) { return false; }
+            
             bool forcePathing = pathFindingCheckType == PathFindingCheckType.ForceCheck;
             if (!forcePathing && hasPathed && timeSinceLastPath < pathPollingSeconds) { return true; }
             
@@ -151,6 +155,47 @@ namespace Frankie.Control
             currentPath.AddRange(path);
             return true;
         }
+        
+        public Vector2 FindBestReachablePosition(Vector2 currentPosition, Vector2 targetPosition, float allowableTravelDistance)
+        {
+            if (!isCacheInitialized) { return Vector2.zero; }
+            
+            cachedMoveMesh.WorldToCell(currentPosition, out int currentColumn, out int currentRow);
+            cachedMoveMesh.WorldToCell(targetPosition, out int targetColumn, out int targetRow);
+            
+            float allowableCellDistance = allowableTravelDistance / cachedCellSize;
+            
+            int searchRadius = Mathf.CeilToInt(allowableCellDistance);
+            int minColumn = Mathf.Max(0, currentColumn - searchRadius);
+            int maxColumn = Mathf.Min(cachedColumns -1, currentColumn + searchRadius);
+            int minRow = Mathf.Max(0, currentRow - searchRadius);
+            int maxRow = Mathf.Min(cachedRows -1, currentRow + searchRadius);
+
+            int bestColumn = -1;
+            int bestRow = -1;
+            float bestDistanceToIdeal = float.MaxValue;
+
+            for (int testRow = minRow; testRow <= maxRow; testRow++)
+            {
+                for (int testColumn = minColumn; testColumn <= maxColumn; testColumn++)
+                {
+                    if (!IsWalkableEroded(testColumn, testRow)) { continue; }
+                    
+                    Vector2 testVector = new Vector2(testColumn, testRow);
+                    float distanceFromCurrent = Vector2.Distance(testVector, new Vector2(currentColumn, currentRow));
+                    if (distanceFromCurrent > allowableCellDistance) { continue; }
+                    
+                    float distanceToIdeal = Vector2.Distance(testVector, new Vector2(targetColumn, targetRow));
+                    if (distanceToIdeal >= bestDistanceToIdeal) { continue; }
+
+                    bestDistanceToIdeal = distanceToIdeal;
+                    bestColumn = testColumn;
+                    bestRow = testRow;
+                }
+            }
+            
+            return bestColumn != -1 ? cachedMoveMesh.CellToWorld(bestColumn, bestRow) : currentPosition;
+        }
         #endregion
         
         #region InitializationMethods
@@ -161,6 +206,7 @@ namespace Frankie.Control
             WalkabilityGrid grid = cachedMoveMesh.walkabilityGrid;
             cachedColumns = grid.columns;
             cachedRows = grid.rows;
+            cachedCellSize = grid.cellSize;
             int cellCount = cachedColumns * cachedRows;
 
             closed = new bool[cellCount];

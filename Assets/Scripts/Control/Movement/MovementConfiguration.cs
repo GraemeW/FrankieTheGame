@@ -12,6 +12,7 @@ namespace Frankie.Control
         [field: SerializeField] public int targetMovementHistoryLength { get; private set; } = 15;
         [field: SerializeField] public float warpDelay { get; private set; } = 1.25f;
         [field: SerializeField] public float warpPostTargetDelay { get; private set; } = 0.25f;
+        [field: SerializeField] public float warpPathfindingTravelDistance { get; private set; } = 2f;
 
         // Call for no target (e.g. input movement)
         public bool MoveToTarget(Mover mover, float deltaTime, out Vector2 newPosition)
@@ -52,7 +53,7 @@ namespace Frankie.Control
             if (movementStyle == MovementStyle.Warp)
             {
                 if (mover.GetTimeSinceLastMove() < warpDelay) { return false; }
-                // Called on the mover itself since we need a Mono
+                // Called on the mover itself since we need a Mono to delay via coroutine or timer
                 mover.QueueDelayedMoveExecution(newPosition, warpPostTargetDelay);
                 mover.ResetTimeSinceLastMove();
                 return true;

@@ -134,6 +134,7 @@ namespace Frankie.Control
                 case NPCStateType.Aggravated:
                 case NPCStateType.Frenzied:
                 {
+                    timeSinceLastMove = 0f;
                     npcMoveFocus = isNPCAfraid ? NPCMoveFocus.Fleeing : NPCMoveFocus.Chasing;
                     SetMoveTarget(npcChaser.GetPlayer());
                     

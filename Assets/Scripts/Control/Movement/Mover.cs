@@ -1,4 +1,3 @@
-using System;
 using System.Collections;
 using UnityEngine;
 using Frankie.Saving;
@@ -21,7 +20,7 @@ namespace Frankie.Control
         protected Vector2 originalPosition;
         protected Vector2 lookDirection = Vector2.down;
         protected float currentSpeed;
-        private float timeSinceLastMove;
+        protected float timeSinceLastMove;
         
         private Vector2? moveTargetCoordinate;
         private GameObject moveTargetObject;
@@ -175,12 +174,13 @@ namespace Frankie.Control
         
         protected bool? MoveToTarget()
         {
-            if (SetStaticForNoTarget()) { return null; }
-            if (isQueuedCoroutineActive) { return null; }
-
+            // true:  a successful move to target was performed this call
+            // false:  the Mover stopped moving - i.e. due to arriving at target or an inability to move
+            // null:  no attempts were made to move this call
+            if (SetStaticForNoTarget() || isQueuedCoroutineActive) { return null; }
+            
             Vector2 position = GetCurrentPosition();
             Vector2 target = ReckonTarget(false, true, PathFindingCheckType.Check);
-            
             if (HasArrivedAtTarget(target, out float squareMagnitudeDelta))
             {
                 if (!movementConfiguration.usingPathFinding) { return false; }
@@ -212,8 +212,14 @@ namespace Frankie.Control
             if (targetMovementHistory.GetCurrentSize() > 0) { reckonedTarget = withHistoryOffsetting ? targetMovementHistory.GetLastEntry() : targetMovementHistory.GetFirstEntry(); }
             
             if (!movementConfiguration.usingPathFinding || !pathFinder.IsValidPathFinder() || pathFindingCheckType == PathFindingCheckType.Skip) { return reckonedTarget; }
-            if (!pathFinder.FindPath(GetCurrentPosition(), reckonedTarget, pathFindingCheckType)) { return reckonedTarget; }
-            return pathFinder.GetNextPathTarget();
+            switch (movementConfiguration.movementStyle)
+            {
+                case MovementStyle.Warp:
+                    return pathFinder.FindBestReachablePosition(GetCurrentPosition(), reckonedTarget, movementConfiguration.warpPathfindingTravelDistance);
+                case MovementStyle.Walk:
+                default:
+                    return !pathFinder.FindPath(GetCurrentPosition(), reckonedTarget, pathFindingCheckType) ? reckonedTarget : pathFinder.GetNextPathTarget();
+            }
         }
         #endregion
 
