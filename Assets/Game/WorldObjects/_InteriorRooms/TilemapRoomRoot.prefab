@@ -951,7 +951,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Frankie.ZoneManagement.MoveMesh
   additionalColliderSources: []
   cellSize: 0.05
-  walkabilityErosionRadius: 0.07
+  walkabilityErosionRadius: 0
   edgeCostPenalty: 2
   edgeCostFalloff: 1.5
   padding: 1

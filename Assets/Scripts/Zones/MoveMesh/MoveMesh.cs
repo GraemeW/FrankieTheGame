@@ -176,6 +176,7 @@ namespace Frankie.ZoneManagement
         {
             var result = new List<List<Vector2>>();
             Transform transform = compositeCollider2D.transform;
+            
             for (int i = 0; i < compositeCollider2D.pathCount; i++)
             {
                 int count = compositeCollider2D.GetPathPointCount(i);
