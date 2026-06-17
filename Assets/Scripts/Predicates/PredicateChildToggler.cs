@@ -55,7 +55,7 @@ namespace Frankie.Core.Predicates
 
         public void RestoreState(SaveState saveState)
         {
-            childrenEnabled = (bool)saveState.state;
+            childrenEnabled = (bool)saveState.GetState(typeof(bool));
             foreach (Transform child in transform) { child.gameObject.SetActive(childrenEnabled); }
         }
         #endregion

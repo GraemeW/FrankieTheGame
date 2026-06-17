@@ -258,7 +258,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Frankie.Control.PathFinder
   moveMeshFinderSize: 0.1
-  entitySizeForNoCollider: 0.13
+  entitySizeForNoCollider: 0.1
   pathPollingSeconds: 0.1
   lastTargetMemorySeconds: 2
   initialHeapSizeDivider: 4

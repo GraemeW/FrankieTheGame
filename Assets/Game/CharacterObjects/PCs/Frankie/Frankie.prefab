@@ -16,6 +16,10 @@ PrefabInstance:
       propertyPath: combatSprite
       value: 
       objectReference: {fileID: 21300000, guid: e54bb40dc3352e5478c548cc91ce4ae4, type: 3}
+    - target: {fileID: 7363073529246390527, guid: b3d57c5ca0835dc44b0b91ac427342b7, type: 3}
+      propertyPath: m_Offset.y
+      value: 0.08
+      objectReference: {fileID: 0}
     - target: {fileID: 7722166093997427972, guid: b3d57c5ca0835dc44b0b91ac427342b7, type: 3}
       propertyPath: uniqueIdentifier
       value: frankie

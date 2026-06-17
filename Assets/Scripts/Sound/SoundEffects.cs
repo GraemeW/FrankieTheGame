@@ -10,6 +10,7 @@ namespace Frankie.Sound
         // Note:  Functions called via Unity Events, ignore '0 references' messages
 
         // Tunables
+        [SerializeField][Range(0f,2f)] private float additionalVolumeScaler = 1.0f;
         [SerializeField] private List<AudioClip> audioClips = new();
         
         // Const
@@ -61,8 +62,9 @@ namespace Frankie.Sound
         {
             if (PlayerPrefsController.MasterVolumeKeyExists())
             {
-                volume = PlayerPrefsController.SoundEffectsVolumeKeyExists() ? 
-                    PlayerPrefsController.GetMasterVolume() * PlayerPrefsController.GetSoundEffectsVolume() : PlayerPrefsController.GetMasterVolume();
+                volume = PlayerPrefsController.SoundEffectsVolumeKeyExists() 
+                    ? PlayerPrefsController.GetMasterVolume() * PlayerPrefsController.GetSoundEffectsVolume() * additionalVolumeScaler
+                    : PlayerPrefsController.GetMasterVolume() * additionalVolumeScaler;
                 return;
             }
             volume = _defaultVolume; 

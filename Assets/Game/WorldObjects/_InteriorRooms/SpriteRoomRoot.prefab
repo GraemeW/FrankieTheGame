@@ -442,7 +442,7 @@ BoxCollider2D:
   m_EdgeRadius: 0
 --- !u!212 &7479024649926081710
 SpriteRenderer:
-  serializedVersion: 2
+  serializedVersion: 3
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -499,6 +499,7 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 0
   m_SpriteSortPoint: 0
+  m_BlendShapeWeights: []
 --- !u!1001 &1463482868577002885
 PrefabInstance:
   m_ObjectHideFlags: 0

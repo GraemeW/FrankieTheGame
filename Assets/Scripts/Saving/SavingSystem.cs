@@ -176,8 +176,6 @@ namespace Frankie.Saving
             */
 
             // JSON Method
-
-
             using (StreamWriter textWriter = File.CreateText(path))
             {
                 string payload = state.ToString();

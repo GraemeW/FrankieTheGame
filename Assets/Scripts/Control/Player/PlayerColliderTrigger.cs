@@ -45,7 +45,7 @@ namespace Frankie.Control
 
         public void RestoreState(SaveState saveState)
         {
-            triggered = (bool)saveState.state;
+            triggered = (bool)saveState.GetState(typeof(bool));
             ReconcileState();
         }
     }
