@@ -20,8 +20,8 @@ namespace Frankie.Saving
         private const string _languageKey = "languageCode";
 
         // Parameters
-        private const float _minVolume = 0f;
-        private const float _maxVolume = 1f;
+        private const float _audioMappingCurveFactor = 2.0f;
+        private static readonly float _audioMappingDenominator = Mathf.Exp(_audioMappingCurveFactor) - 1.0f;
 
         #region Admin
         public static void ClearPlayerPrefs()
@@ -40,22 +40,25 @@ namespace Frankie.Saving
         public static bool BackgroundVolumeKeyExists() => PlayerPrefs.HasKey(_backgroundVolumeKey);
         public static bool SoundEffectsVolumeKeyExists() => PlayerPrefs.HasKey(_soundEffectsVolumeKey);
         public static float GetMasterVolume() => PlayerPrefs.GetFloat(_masterVolumeKey);
+        public static float GetMasterUIVolume() => UnmapVolumeToUI(GetMasterVolume());
         public static float GetBackgroundVolume() => PlayerPrefs.GetFloat(_backgroundVolumeKey);
+        public static float GetBackgroundUIVolume() => UnmapVolumeToUI(GetBackgroundVolume());
         public static float GetSoundEffectsVolume() => PlayerPrefs.GetFloat(_soundEffectsVolumeKey);
+        public static float GetSoundEffectsUIVolume() => UnmapVolumeToUI(GetSoundEffectsVolume());
         
-        public static void SetMasterVolume(float volume)
+        public static void SetMasterVolume(float uiVolume)
         {
-            PlayerPrefs.SetFloat(_masterVolumeKey, Mathf.Clamp(volume, _minVolume, _maxVolume));
+            PlayerPrefs.SetFloat(_masterVolumeKey, MapUIToVolume(uiVolume));
         }
 
-        public static void SetBackgroundVolume(float volume)
+        public static void SetBackgroundVolume(float uiVolume)
         {
-            PlayerPrefs.SetFloat(_backgroundVolumeKey, Mathf.Clamp(volume, _minVolume, _maxVolume));
+            PlayerPrefs.SetFloat(_backgroundVolumeKey, MapUIToVolume(uiVolume));
         }
 
-        public static void SetSoundEffectsVolume(float volume)
+        public static void SetSoundEffectsVolume(float uiVolume)
         {
-            PlayerPrefs.SetFloat(_soundEffectsVolumeKey, Mathf.Clamp(volume, _minVolume, _maxVolume));
+            PlayerPrefs.SetFloat(_soundEffectsVolumeKey, MapUIToVolume(uiVolume));
         }
         #endregion
 
@@ -148,6 +151,20 @@ namespace Frankie.Saving
         public static void SetLanguageCode(string languageCode)
         {
             PlayerPrefs.SetString(_languageKey, languageCode);
+        }
+        #endregion
+        
+        #region HelperMethods
+        private static float MapUIToVolume(float uiVolume)
+        {
+            uiVolume = Mathf.Clamp(uiVolume, 0f, 1f);
+            return (Mathf.Exp(_audioMappingCurveFactor * uiVolume) - 1.0f) / _audioMappingDenominator;
+        }
+
+        private static float UnmapVolumeToUI(float volume)
+        {
+            volume = Mathf.Clamp(volume, 0f, 1f);
+            return Mathf.Log(volume * _audioMappingDenominator + 1.0f) / _audioMappingCurveFactor;
         }
         #endregion
     }

@@ -173,19 +173,19 @@ namespace Frankie.Menu.UI
 
         private void InitializeSoundEffectsSliders(ref int choiceIndex)
         {
-            masterVolumeSlider.SetSliderValue(PlayerPrefsController.MasterVolumeKeyExists() ? PlayerPrefsController.GetMasterVolume() : defaultMasterVolume);
+            masterVolumeSlider.SetSliderValue(PlayerPrefsController.MasterVolumeKeyExists() ? PlayerPrefsController.GetMasterUIVolume() : defaultMasterVolume);
             openingMasterVolume = masterVolumeSlider.GetSliderValue();
             masterVolumeSlider.AddOnValueChangeListener(delegate { ConfirmSoundVolumes(true); });
             masterVolumeSlider.SetChoiceOrder(choiceIndex);
             choiceIndex++;
 
-            backgroundVolumeSlider.SetSliderValue(PlayerPrefsController.BackgroundVolumeKeyExists() ? PlayerPrefsController.GetBackgroundVolume() : defaultBackgroundVolume);
+            backgroundVolumeSlider.SetSliderValue(PlayerPrefsController.BackgroundVolumeKeyExists() ? PlayerPrefsController.GetBackgroundUIVolume() : defaultBackgroundVolume);
             openingBackgroundVolume = backgroundVolumeSlider.GetSliderValue();
             backgroundVolumeSlider.AddOnValueChangeListener(delegate { ConfirmSoundVolumes(false); });
             backgroundVolumeSlider.SetChoiceOrder(choiceIndex);
             choiceIndex++;
 
-            soundEffectsVolumeSlider.SetSliderValue(PlayerPrefsController.SoundEffectsVolumeKeyExists() ? PlayerPrefsController.GetSoundEffectsVolume() : defaultSoundEffectsVolume);
+            soundEffectsVolumeSlider.SetSliderValue(PlayerPrefsController.SoundEffectsVolumeKeyExists() ? PlayerPrefsController.GetSoundEffectsUIVolume() : defaultSoundEffectsVolume);
             openingSoundEffectsVolume = soundEffectsVolumeSlider.GetSliderValue();
             soundEffectsVolumeSlider.AddOnValueChangeListener(delegate { ConfirmSoundVolumes(true); });
             soundEffectsVolumeSlider.SetChoiceOrder(choiceIndex);
