@@ -701,6 +701,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 83ec55ceb687ab74bbada214ac95dded, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  additionalVolumeScaler: 1
   audioClips: []
   uiBox: {fileID: 2147572037933916031}
   textScanAudioClip: {fileID: 8300000, guid: 1e6f82457a0ff384fa392747ebcd45e8, type: 3}

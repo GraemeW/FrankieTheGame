@@ -6,6 +6,7 @@ MemorySettings:
   m_EditorMemorySettings:
     m_MainAllocatorBlockSize: -1
     m_ThreadAllocatorBlockSize: -1
+    m_MainAllocatorMimallocEnabled: -1
     m_MainGfxBlockSize: -1
     m_ThreadGfxBlockSize: -1
     m_CacheBlockSize: -1

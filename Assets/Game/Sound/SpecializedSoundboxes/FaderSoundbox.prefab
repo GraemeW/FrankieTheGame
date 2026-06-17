@@ -142,6 +142,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cf70268eafcd7824c99ae37f60e26d9d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  additionalVolumeScaler: 1
   audioClips: []
   fader: {fileID: 0}
   battleEntryAudioClip: {fileID: 8300000, guid: 0537f1ffa687e8a4aaa4baa3ce578a7a, type: 3}

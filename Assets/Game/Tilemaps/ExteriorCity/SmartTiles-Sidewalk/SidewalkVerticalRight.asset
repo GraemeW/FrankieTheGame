@@ -33,6 +33,7 @@ MonoBehaviour:
     m_Output: 1
     m_ColliderType: 1
     m_RandomTransform: 3
+    m_Scroll: {x: 0.5, y: 0.5}
     m_Neighbors: 
     m_NeighborPositions:
     - {x: -1, y: 1, z: 0}

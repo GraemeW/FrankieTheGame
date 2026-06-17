@@ -17,3 +17,5 @@ MonoBehaviour:
   <baseMovementSpeed>k__BackingField: 1
   <targetMovementHistoryLength>k__BackingField: 15
   <warpDelay>k__BackingField: 1.25
+  <warpPostTargetDelay>k__BackingField: 0.25
+  <warpPathfindingTravelDistance>k__BackingField: 2

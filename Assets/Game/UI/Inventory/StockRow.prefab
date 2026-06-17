@@ -523,6 +523,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7d92abaff543d4a4498f7173bd00113e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  additionalVolumeScaler: 1
   audioClips:
   - {fileID: 8300000, guid: 46fd5fc62de75524796929d2c19975dc, type: 3}
 --- !u!1 &8156090553254295342
@@ -667,6 +668,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7d92abaff543d4a4498f7173bd00113e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  additionalVolumeScaler: 1
   audioClips:
   - {fileID: 8300000, guid: a8d807a7fc1c07643a42980dde1ffbdc, type: 3}
 --- !u!1 &8819244851289998567
