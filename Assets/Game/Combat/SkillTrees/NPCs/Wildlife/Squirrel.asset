@@ -18,7 +18,7 @@ MonoBehaviour:
   leftBranch: 
   rightSkillReference: SqueakSqueak
   rightBranch: 
-  downSkillReference: Bite
+  downSkillReference: 
   downBranch: 
   mappedFromBranch: 0
   rect:

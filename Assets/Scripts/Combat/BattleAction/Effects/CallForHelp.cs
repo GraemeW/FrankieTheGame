@@ -22,7 +22,11 @@ namespace Frankie.Combat
         {
             BattleController battleController = BattleController.FindBattleController();
             SpawnConfiguration spawnConfiguration = GetSpawnConfiguration();
-            if (battleController == null || spawnConfiguration == null || !HasViableSpawnConfiguration(spawnConfiguration)) { yield break; }
+            if (battleController == null || spawnConfiguration == null || !HasViableSpawnConfiguration(spawnConfiguration))
+            {
+                sender.AnnounceStateUpdate(StateAlteredType.FriendIgnored);
+                yield break;
+            }
 
             if (!battleController.IsEnemyPositionAvailable() || battleController.GetCountEnemiesAddedMidCombat() >= maxEnemiesAllowedToCallInCombat)
             {

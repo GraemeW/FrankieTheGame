@@ -11,7 +11,7 @@ namespace Frankie.Utils
             var iObjectProbabilityPairs = objectProbabilityPairs.ToList();
             int probabilityDenominator = iObjectProbabilityPairs.Sum(x => x.GetProbability());
             int randomRoll = Random.Range(0, probabilityDenominator);
-
+            
             int accumulatingProbability = 0;
             foreach (IObjectProbabilityPair<T> objectProbabilityPair in iObjectProbabilityPairs)
             {

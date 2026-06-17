@@ -18,7 +18,11 @@ MonoBehaviour:
   - spawnConfiguration:
       maxQuantity: 1
       enemyConfigurations:
-      - minimum: 0
+      - minimum: 1
         maximum: 1
         characterProperties: {fileID: 11400000, guid: e8ff4cd776c66f64b9f1e1196ef13434, type: 2}
+    probability: 2
+  - spawnConfiguration:
+      maxQuantity: 0
+      enemyConfigurations: []
     probability: 1
