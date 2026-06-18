@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Newtonsoft.Json.Linq;
 using UnityEngine;
 using UnityEditor;
@@ -24,6 +25,8 @@ namespace Frankie.Saving
             if (string.IsNullOrWhiteSpace(uniqueIdentifier)) { uniqueIdentifier = Guid.NewGuid().ToString(); }
             return uniqueIdentifier;
         }
+        
+        public List<ISaveable> GetSaveableComponents() => GetComponents<ISaveable>().ToList();
         
         public JToken CaptureState(JToken existingTokenState, bool onlyCorePlayerState = false)
         {

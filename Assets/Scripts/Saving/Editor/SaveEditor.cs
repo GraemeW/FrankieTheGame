@@ -1,9 +1,13 @@
 using System.Collections.Generic;
 using System.Linq;
 using UnityEditor;
+using UnityEditor.SceneManagement;
+using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UIElements;
 using Button = UnityEngine.UIElements.Button;
 using Frankie.Core;
+using Frankie.Stats;
 
 namespace Frankie.Saving.Editor
 {
@@ -12,16 +16,22 @@ namespace Frankie.Saving.Editor
         // Const
         private const string _noSaveLabel = "NoSave";
         private const int _maxSaves = 100;
+        private const string _controlBoxStatusUnloaded = "Unloaded";
+        private const string _controlBoxStatusLoaded = "Loaded";
         
         // State
         private string newSave;
         private string selectedSave;
+        private bool saveControlBoxLoaded = false;
+        private List<SaveableEntity> cachedSaveableEntities = null;
         
         // UI Cached References
         private Box saveHeaderBox;
         private Box selectionHeaderBox;
         private ListView saveEntries;
         private Box saveControlBox;
+        private Box saveControlHeaderBox;
+        private ScrollView saveControlEntityScrollView;
         
         #region UnityMethods
         [MenuItem("Tools/Save Editor", false, 205)]
@@ -33,14 +43,24 @@ namespace Frankie.Saving.Editor
 
         private void OnEnable()
         {
-            SavingWrapper.gameListUpdated += ReDrawUI;
-            if (saveEntries != null) { saveEntries.selectionChanged += OnSaveSelectionChanged; }
+            SubscribeListeners(true);
         }
 
         private void OnDisable()
         {
+            SubscribeListeners(false);
+        }
+
+        private void SubscribeListeners(bool enable)
+        {
             SavingWrapper.gameListUpdated -= ReDrawUI;
-            if (saveEntries != null) { saveEntries.selectionChanged -= OnSaveSelectionChanged; }
+            EditorSceneManager.sceneOpened -= OnSceneOpened;
+            if (saveEntries != null) { saveEntries.selectionChanged -= OnSaveSelectionChanged;  }
+            if (!enable) { return; }
+            
+            SavingWrapper.gameListUpdated += ReDrawUI;
+            EditorSceneManager.sceneOpened += OnSceneOpened;
+            if (saveEntries != null) { saveEntries.selectionChanged += OnSaveSelectionChanged;  }
         }
         #endregion
 
@@ -84,11 +104,12 @@ namespace Frankie.Saving.Editor
         private VisualElement CreateSaveSelectionPanel()
         {
             var saveSelectionPanel = new VisualElement();
-            var splitView = new TwoPaneSplitView(0, 80, TwoPaneSplitViewOrientation.Vertical);
+            var splitView = new TwoPaneSplitView(0, 110, TwoPaneSplitViewOrientation.Vertical);
             saveSelectionPanel.Add(splitView);
             
             selectionHeaderBox = new Box();
             splitView.Add(selectionHeaderBox);
+            DrawSelectionHeaderBox();
             
             if (saveEntries != null)
             {
@@ -105,7 +126,17 @@ namespace Frankie.Saving.Editor
         private Box CreateSaveControlBox()
         {
             saveControlBox = new Box();
-            DrawSaveControlBox();
+            
+            var splitView = new TwoPaneSplitView(0, 110, TwoPaneSplitViewOrientation.Vertical);
+            saveControlBox.Add(splitView);
+
+            saveControlHeaderBox = new Box();
+            splitView.Add(saveControlHeaderBox);
+            DrawSaveControlHeaderBox();
+
+            saveControlEntityScrollView = new ScrollView(ScrollViewMode.Vertical);
+            splitView.Add(saveControlEntityScrollView);
+            DrawSaveControlEntityList();
             
             return saveControlBox;
         }
@@ -117,7 +148,8 @@ namespace Frankie.Saving.Editor
             DrawSaveHeaderBox();
             DrawSelectionHeaderBox();
             DrawSaveList();
-            DrawSaveControlBox();
+            DrawSaveControlHeaderBox();
+            DrawSaveControlEntityList();
         }
 
         private void DrawSaveHeaderBox()
@@ -169,6 +201,18 @@ namespace Frankie.Saving.Editor
             
             string selectedSaveLabel = selectedSave ?? _noSaveLabel;
             selectionHeaderBox.Add(new Label($"Selected Save:  {selectedSaveLabel}"));
+
+            if (!string.IsNullOrWhiteSpace(selectedSave) && SavingWrapper.HasSave(selectedSave))
+            {
+                if (SavingWrapper.GetInfoFromName(selectedSave, out string characterName, out int level))
+                {
+                    selectionHeaderBox.Add(new Label($"Party Leader:   {characterName}"));
+                    selectionHeaderBox.Add(new Label($"Level:   {level}"));
+                }
+            }
+            
+            var spacer = new VisualElement { style = { height = 20 } };
+            selectionHeaderBox.Add(spacer);
             
             var setSelectedToCurrent = new Button { text = "Set To Current" };
             setSelectedToCurrent.RegisterCallback<ClickEvent>(SetSelectedSaveToCurrent);
@@ -196,19 +240,78 @@ namespace Frankie.Saving.Editor
             };
             saveEntries.itemsSource = saveList;
         }
-
-        private void DrawSaveControlBox()
+        
+        private void DrawSaveControlHeaderBox()
         {
-            if (saveControlBox == null) { return; }
-            saveControlBox.Clear();
-            
-            if (string.IsNullOrWhiteSpace(selectedSave) || !SavingWrapper.HasSave(selectedSave)) { return; }
+            if (saveControlHeaderBox == null) { return; }
+            saveControlHeaderBox.Clear();
 
-            if (SavingWrapper.GetInfoFromName(selectedSave, out string characterName, out int level))
+            string currentSaveName = SavingWrapper.GetCurrentSaveName() ?? _noSaveLabel;
+            saveControlHeaderBox.Add(new Label($"Save:  {currentSaveName}"));
+
+            string currentSceneName = SceneManager.GetActiveScene().name;
+            saveControlHeaderBox.Add(new Label($"Scene:  {currentSceneName}"));
+
+            string statusLabel = saveControlBoxLoaded ? _controlBoxStatusLoaded : _controlBoxStatusUnloaded;
+            saveControlHeaderBox.Add(new Label($"Status:  {statusLabel}"));
+
+            var buttonStack = new VisualElement { style = { width = 150 } };
+            saveControlHeaderBox.Add(buttonStack);
+
+            var loadDataButton = new Button { text = "Load Scene Data" };
+            loadDataButton.RegisterCallback<ClickEvent>(LoadSaveControlData);
+            buttonStack.Add(loadDataButton);
+
+            var applyDataButton = new Button { text = "Apply All Data" };
+            applyDataButton.SetEnabled(false);
+            buttonStack.Add(applyDataButton);
+        }
+
+        private void DrawSaveControlEntityList()
+        {
+            if (saveControlEntityScrollView == null) { return; }
+            saveControlEntityScrollView.Clear();
+
+            if (!saveControlBoxLoaded || cachedSaveableEntities == null) { return; }
+
+            foreach (SaveableEntity saveableEntity in cachedSaveableEntities)
             {
-                saveControlBox.Add(new Label($"Party Leader:   {characterName}"));
-                saveControlBox.Add(new Label($"Level:   {level}"));
+                Box entityCard = CreateSaveableEntityCard(saveableEntity);
+                saveControlEntityScrollView.Add(entityCard);
             }
+        }
+        
+        private Box CreateSaveableEntityCard(SaveableEntity saveableEntity)
+        {
+            var entityCard = new Box { style = { marginBottom = 4 } };
+            
+            var entitySubHeader = new Box();
+            entityCard.Add(entitySubHeader);
+
+            entitySubHeader.Add(new Label($"GameObject:  {saveableEntity.gameObject.name}"));
+            entitySubHeader.Add(new Label($"ID:  {saveableEntity.GetUniqueIdentifier()}"));
+
+            var saveEntityButton = new Button { text = "Save Entity" };
+            saveEntityButton.SetEnabled(false);
+            entitySubHeader.Add(saveEntityButton);
+            
+            foreach (ISaveable saveable in saveableEntity.GetSaveableComponents())
+            {
+                Box saveableSubCard = CreateISaveableSubCard(saveable);
+                entityCard.Add(saveableSubCard);
+            }
+            return entityCard;
+        }
+
+        private Box CreateISaveableSubCard(ISaveable saveable)
+        {
+            var saveableSubCard = new Box { style = { marginTop = 2, marginLeft = 8 } };
+            string typeName = saveable.GetType().Name;
+            saveableSubCard.Add(new Label($"Component:  {typeName}"));
+
+            // TODO:  Add editable properties per ISaveable type
+
+            return saveableSubCard;
         }
         #endregion
         
@@ -261,6 +364,41 @@ namespace Frankie.Saving.Editor
             
             SavingWrapper.Delete(selectedSave);
         }
+        
+        private void LoadSaveControlData(ClickEvent clickEvent)
+        {
+            cachedSaveableEntities = SavingSystem.GetAllSaveableEntities().OrderBy(GetEntitySortPriority).ThenBy(saveableEntity => saveableEntity.GetUniqueIdentifier()).ToList();
+            saveControlBoxLoaded = true;
+            DrawSaveControlHeaderBox();
+            DrawSaveControlEntityList();
+        }
+        
+        private void UnloadSaveControlData()
+        {
+            cachedSaveableEntities = null;
+            saveControlBoxLoaded = false;
+            DrawSaveControlHeaderBox();
+            DrawSaveControlEntityList();
+        }
+        
+        private static int GetEntitySortPriority(SaveableEntity saveableEntity)
+        {
+            GameObject go = saveableEntity.gameObject;
+            if (go.GetComponent<Player>() != null) { return 0; }
+            if (HasPlayerInParentHierarchy(go.transform.parent)) { return 1; }
+            if (go.GetComponent<BaseStats>() != null) { return 2; }
+            return 3;
+        }
+        
+        private static bool HasPlayerInParentHierarchy(Transform parent)
+        {
+            while (parent != null)
+            {
+                if (parent.GetComponent<Player>() != null) { return true; }
+                parent = parent.parent;
+            }
+            return false;
+        }
         #endregion
         
         #region EventHandlers
@@ -273,6 +411,11 @@ namespace Frankie.Saving.Editor
                 ReDrawUI();
                 return;
             }
+        }
+        
+        private void OnSceneOpened(Scene scene, OpenSceneMode mode)
+        {
+            UnloadSaveControlData();
         }
         #endregion
     }
