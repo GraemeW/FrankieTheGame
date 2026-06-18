@@ -43,16 +43,13 @@ namespace Frankie.Saving
 
         public void RestoreState(JToken state, LoadPriority loadPriority)
         {
-            if (state == null) { return; }
-
-            var stateDict = state.ToObject<JObject>();
-            if (stateDict == null) { Debug.LogError("Malformed data in save file"); return; }
+            if (!TryGetStateDictionary(state, out JObject stateDictionary)) { return; }
 
             foreach (ISaveable saveable in GetComponents<ISaveable>())
             {
                 var typeString = saveable.GetType().ToString();
-                if (!stateDict.ContainsKey(typeString)) continue;
-                var saveState = stateDict[typeString]?.ToObject<SaveState>();
+                if (!stateDictionary.ContainsKey(typeString)) continue;
+                var saveState = stateDictionary[typeString]?.ToObject<SaveState>();
                 if (saveState == null) { return; }
 
                 if (saveState.GetLoadPriority() == loadPriority)
@@ -60,6 +57,16 @@ namespace Frankie.Saving
                     saveable.RestoreState(saveState);
                 }
             }
+        }
+        
+        public static bool TryGetStateDictionary(JToken state, out JObject stateDictionary)
+        {
+            stateDictionary = null;
+            if (state == null) { return false; }
+
+            stateDictionary = state.ToObject<JObject>();
+            if (stateDictionary == null) { Debug.LogError("Malformed data in save file"); return false; }
+            return true;
         }
         
 #if UNITY_EDITOR

@@ -121,6 +121,8 @@ namespace Frankie.Saving
         {
             File.Delete(GetPathFromSaveFile(saveFile));
         }
+        
+        public static JObject ManualGetState(string saveFile) => LoadFile(saveFile);
 
         private static JObject LoadFile(string saveFile)
         {

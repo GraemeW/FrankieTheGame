@@ -132,8 +132,10 @@ namespace Frankie.Inventory
             Dictionary<EquipLocation, EquipableItem> dataSet = new Dictionary<EquipLocation, EquipableItem>();
             foreach (EquipLocation equipLocation in Enum.GetValues(typeof(EquipLocation)))
             {
+                if (equipLocation == EquipLocation.None) { continue; }
                 dataSet[equipLocation] = null;
             }
+            if (saveState == null) { return dataSet; }
             
             foreach (KeyValuePair<EquipLocation, EquipableItem> pair in UnpackSaveData(saveState))
             {

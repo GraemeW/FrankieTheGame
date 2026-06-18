@@ -1,13 +1,17 @@
 using System.Collections.Generic;
 using System.Linq;
-using UnityEditor;
-using UnityEditor.SceneManagement;
+using Newtonsoft.Json.Linq;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UIElements;
 using Button = UnityEngine.UIElements.Button;
+using UnityEditor;
+using UnityEditor.SceneManagement;
+using UnityEditor.UIElements;
 using Frankie.Core;
+using Frankie.Core.GameStateModifiers;
 using Frankie.Stats;
+using Frankie.Inventory;
 
 namespace Frankie.Saving.Editor
 {
@@ -23,6 +27,7 @@ namespace Frankie.Saving.Editor
         private string newSave;
         private string selectedSave;
         private bool saveControlBoxLoaded = false;
+        private JObject cachedSaveState;
         private List<SaveableEntity> cachedSaveableEntities = null;
         
         // UI Cached References
@@ -39,6 +44,11 @@ namespace Frankie.Saving.Editor
         {
             var window = GetWindow<SaveEditor>("Save Editor");
             window.Show();
+        }
+        
+        private void OnFocus()
+        {
+            if (saveControlBoxLoaded && cachedSaveState == null) { UnloadSaveControlData(); }
         }
 
         private void OnEnable()
@@ -253,7 +263,10 @@ namespace Frankie.Saving.Editor
             saveControlHeaderBox.Add(new Label($"Scene:  {currentSceneName}"));
 
             string statusLabel = saveControlBoxLoaded ? _controlBoxStatusLoaded : _controlBoxStatusUnloaded;
-            saveControlHeaderBox.Add(new Label($"Status:  {statusLabel}"));
+            saveControlHeaderBox.Add(new Label($"Status:  {statusLabel}")
+            {
+                style = { color = saveControlBoxLoaded ? Color.lightGreen : Color.softRed }
+            });
 
             var buttonStack = new VisualElement { style = { width = 150 } };
             saveControlHeaderBox.Add(buttonStack);
@@ -276,42 +289,73 @@ namespace Frankie.Saving.Editor
 
             foreach (SaveableEntity saveableEntity in cachedSaveableEntities)
             {
-                Box entityCard = CreateSaveableEntityCard(saveableEntity);
-                saveControlEntityScrollView.Add(entityCard);
+                var entityCardData = new SaveableEntityCardData(saveableEntity, cachedSaveState);
+                Box entityCardView = DrawSaveableEntityCard(entityCardData); 
+                saveControlEntityScrollView.Add(entityCardView);
             }
         }
-        
-        private Box CreateSaveableEntityCard(SaveableEntity saveableEntity)
+
+        private Box DrawSaveableEntityCard(SaveableEntityCardData saveableEntityCardData)
         {
-            var entityCard = new Box { style = { marginBottom = 4 } };
+            var cardView = new Box { style = { marginBottom = 4 } };
             
             var entitySubHeader = new Box();
-            entityCard.Add(entitySubHeader);
-
-            entitySubHeader.Add(new Label($"GameObject:  {saveableEntity.gameObject.name}"));
-            entitySubHeader.Add(new Label($"ID:  {saveableEntity.GetUniqueIdentifier()}"));
-
-            var saveEntityButton = new Button { text = "Save Entity" };
-            saveEntityButton.SetEnabled(false);
-            entitySubHeader.Add(saveEntityButton);
+            entitySubHeader.Add(new Label($"GameObject:  {saveableEntityCardData.entityName}"));
+            entitySubHeader.Add(new Label($"ID:  {saveableEntityCardData.entityID}"));
+            cardView.Add(entitySubHeader);
             
-            foreach (ISaveable saveable in saveableEntity.GetSaveableComponents())
+            var saveEntityButton = new Button { text = "Save Entity" };
+            entitySubHeader.Add(saveEntityButton);
+
+            foreach (KeyValuePair<string, SaveableSubCardData> keyValuePair in saveableEntityCardData.subCards)
             {
-                Box saveableSubCard = CreateISaveableSubCard(saveable);
-                entityCard.Add(saveableSubCard);
+                Box subCard = DrawISaveableSubCard(keyValuePair.Key, keyValuePair.Value);
+                cardView.Add(subCard);
             }
-            return entityCard;
+            
+            // TODO:  Add callback to use save button
+            //saveEntityButton.RegisterCallback<ClickEvent>(_ => )
+            
+            return cardView;
         }
 
-        private Box CreateISaveableSubCard(ISaveable saveable)
+        private Box DrawISaveableSubCard(string typeString, SaveableSubCardData saveableSubCardData)
         {
-            var saveableSubCard = new Box { style = { marginTop = 2, marginLeft = 8 } };
-            string typeName = saveable.GetType().Name;
-            saveableSubCard.Add(new Label($"Component:  {typeName}"));
-
+            var subCardView = new Box { style = { marginTop = 2, marginLeft = 8 } };
+            subCardView.Add(new Label($"Component:  {typeString}"));
+            
             // TODO:  Add editable properties per ISaveable type
+            
+            // Test run:  Do this with equipment
+            if (saveableSubCardData.saveable is Equipment equipment)
+            {
+                Dictionary<EquipLocation, EquipableItem> equippedItems = equipment.ManualGetDataFromState(saveableSubCardData.saveState);
+                foreach (KeyValuePair<EquipLocation, EquipableItem> item in equippedItems)
+                {
+                    var equipRow = new VisualElement { style = { flexDirection = FlexDirection.Row } };
+                    subCardView.Add(equipRow);
 
-            return saveableSubCard;
+                    equipRow.Add(new Label($"{item.Key}:") { style = { width = 120, unityTextAlign = TextAnchor.MiddleLeft } });
+
+                    var equipField = new ObjectField { objectType = typeof(EquipableItem), value = item.Value, style = { flexGrow = 1 } };
+                    equipRow.Add(equipField);
+                    
+                    equipField.RegisterValueChangedCallback(changeEvent =>
+                    {
+                        EquipableItem newEquipableItem = changeEvent.newValue as EquipableItem;
+                        if (newEquipableItem != null && newEquipableItem.GetEquipLocation() != item.Key)
+                        {
+                            Debug.Log($"Invalid item {newEquipableItem} :: EquipLocation[{newEquipableItem.GetEquipLocation()}] vs. Required[{item.Key}]");
+                            equipField.SetValueWithoutNotify(equippedItems[item.Key]);
+                            return;
+                        }
+                        equippedItems[item.Key] = newEquipableItem;
+                        saveableSubCardData.UpdateSaveState(equipment.ManualGetStateFromData(equippedItems));
+                    });
+                }
+                
+            }
+            return subCardView;
         }
         #endregion
         
@@ -342,6 +386,7 @@ namespace Frankie.Saving.Editor
             if (string.IsNullOrWhiteSpace(selectedSave) || !SavingWrapper.HasSave(selectedSave)) { return; }
             
             SavingWrapper.SetCurrentSave(selectedSave);
+            UnloadSaveControlData();
         }
 
         private void CopySelectedSaveToNextOpen(ClickEvent clickEvent)
@@ -367,6 +412,12 @@ namespace Frankie.Saving.Editor
         
         private void LoadSaveControlData(ClickEvent clickEvent)
         {
+            string currentSave = SavingWrapper.GetCurrentSaveName();
+            if (currentSave != null)
+            {
+                cachedSaveState = SavingSystem.ManualGetState(currentSave);
+            }
+            
             cachedSaveableEntities = SavingSystem.GetAllSaveableEntities().OrderBy(GetEntitySortPriority).ThenBy(saveableEntity => saveableEntity.GetUniqueIdentifier()).ToList();
             saveControlBoxLoaded = true;
             DrawSaveControlHeaderBox();
@@ -375,6 +426,7 @@ namespace Frankie.Saving.Editor
         
         private void UnloadSaveControlData()
         {
+            cachedSaveState = null;
             cachedSaveableEntities = null;
             saveControlBoxLoaded = false;
             DrawSaveControlHeaderBox();
@@ -384,10 +436,21 @@ namespace Frankie.Saving.Editor
         private static int GetEntitySortPriority(SaveableEntity saveableEntity)
         {
             GameObject go = saveableEntity.gameObject;
-            if (go.GetComponent<Player>() != null) { return 0; }
-            if (HasPlayerInParentHierarchy(go.transform.parent)) { return 1; }
-            if (go.GetComponent<BaseStats>() != null) { return 2; }
-            return 3;
+
+            int sortOrder = 0;
+            if (go.GetComponent<Player>() != null) { return sortOrder; }
+            sortOrder++;
+            
+            if (HasPlayerInParentHierarchy(go.transform.parent)) { return sortOrder; }
+            sortOrder++;
+
+            if (go.TryGetComponent(out IGameStateModifierHandler gameStateModifierHandler) && gameStateModifierHandler.hasGameStateModifiers) { return sortOrder; }
+            sortOrder++;
+            
+            if (go.GetComponent<BaseStats>() != null) { return sortOrder; }
+            sortOrder++;
+            
+            return sortOrder;
         }
         
         private static bool HasPlayerInParentHierarchy(Transform parent)
