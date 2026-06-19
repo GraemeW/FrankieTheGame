@@ -12,7 +12,7 @@ using Frankie.Utils.Localization;
 namespace Frankie.World
 {
     [ExecuteInEditMode]
-    public class WorldCashGiverTaker : MonoBehaviour, ISaveable, ILocalizable
+    public class WorldCashGiverTaker : MonoBehaviour, ISaveable<int>, ILocalizable
     {
         // Tunables
         [Header("Configuration")]
@@ -125,14 +125,27 @@ namespace Frankie.World
 
         public SaveState CaptureState()
         {
-            var saveState = new SaveState(GetLoadPriority(), numberTransactionsLeft.value);
-            return saveState;
+            numberTransactionsLeft ??= new LazyValue<int>(GetInitialTransactionCount);
+            return new SaveState(GetLoadPriority(), numberTransactionsLeft.value);
         }
 
-        public void RestoreState(SaveState state)
+        public void RestoreState(SaveState saveState)
         {
-            numberTransactionsLeft.value = (int)state.GetState(typeof(int));
+            numberTransactionsLeft ??= new LazyValue<int>(GetInitialTransactionCount);
+            numberTransactionsLeft.value = ManualGetDataFromState(saveState);
         }
         #endregion
+
+        public SaveState ManualGetStateFromData(int data)
+        {
+            if (data < 0) { data = GetInitialTransactionCount();}
+            return new SaveState(GetLoadPriority(), data);
+        }
+
+        public int ManualGetDataFromState(SaveState saveState)
+        {
+            int data = saveState != null ? (int)saveState.GetState(typeof(int)) : GetInitialTransactionCount();
+            return data >= 0 ? data : GetInitialTransactionCount();
+        }
     }
 }

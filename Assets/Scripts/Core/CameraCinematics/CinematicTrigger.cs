@@ -61,7 +61,11 @@ namespace Frankie.Core
         }
 
         public SaveState ManualGetStateFromData(bool data) => new(GetLoadPriority(), data);
-        
-        public bool ManualGetDataFromState(SaveState saveState) => (bool)saveState.GetState(typeof(bool));
+
+        public bool ManualGetDataFromState(SaveState saveState)
+        {
+            if (saveState == null) { return isTriggered; }
+            return (bool)saveState.GetState(typeof(bool));
+        }
     }
 }

@@ -13,7 +13,7 @@ using Frankie.Utils.Localization;
 namespace Frankie.World
 {
     [ExecuteInEditMode]
-    public class WorldItemGiverTaker : MonoBehaviour, IGameStateModifierHandler, ISaveable, ILocalizable
+    public class WorldItemGiverTaker : MonoBehaviour, IGameStateModifierHandler, ISaveable<int>, ILocalizable
     {
         // GameState Modifier Properties
         [SerializeField] private string backingHandlerGUID;
@@ -142,14 +142,25 @@ namespace Frankie.World
         public SaveState CaptureState()
         {
             currentItemQuantity ??= new LazyValue<int>(GetMaxItemQuantity);
-            var saveState = new SaveState(LoadPriority.ObjectProperty, currentItemQuantity.value);
-            return saveState;
+            return ManualGetStateFromData(currentItemQuantity.value);
         }
 
         public void RestoreState(SaveState state)
         {
             currentItemQuantity ??= new LazyValue<int>(GetMaxItemQuantity);
-            currentItemQuantity.value = (int)state.GetState(typeof(int));
+            currentItemQuantity.value = ManualGetDataFromState(state);
+        }
+        
+        public SaveState ManualGetStateFromData(int data)
+        {
+            if (data < 0) { data = GetMaxItemQuantity();}
+            return new SaveState(GetLoadPriority(), data);
+        }
+
+        public int ManualGetDataFromState(SaveState saveState)
+        {
+            int data = saveState != null ? (int)saveState.GetState(typeof(int)) : GetMaxItemQuantity();
+            return data >= 0 ? data : GetMaxItemQuantity();
         }
         #endregion
     }

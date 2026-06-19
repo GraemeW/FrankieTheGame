@@ -58,7 +58,11 @@ namespace Frankie.Core.Predicates
         
         public SaveState ManualGetStateFromData(bool data) => new(GetLoadPriority(), data);
         
-        public bool ManualGetDataFromState(SaveState saveState) => (bool)saveState.GetState(typeof(bool));
+        public bool ManualGetDataFromState(SaveState saveState)
+        {
+            if (saveState == null) { return childrenEnabled; }
+            return (bool)saveState.GetState(typeof(bool));
+        }
         #endregion
     }
 }

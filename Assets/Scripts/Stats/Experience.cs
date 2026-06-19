@@ -5,7 +5,7 @@ using Frankie.Saving;
 namespace Frankie.Stats
 {
     [RequireComponent(typeof(BaseStats))]
-    public class Experience : MonoBehaviour, ISaveable
+    public class Experience : MonoBehaviour, ISaveable<float>
     {
         // Tunables
         [SerializeField] private float initialPoints;
@@ -85,15 +85,25 @@ namespace Frankie.Stats
         public SaveState CaptureState()
         {
             currentPoints ??= new LazyValue<float>(GetInitialPoints);
-            var saveState = new SaveState(GetLoadPriority(), currentPoints.value);
-            return saveState;
+            return ManualGetStateFromData(currentPoints.value);
         }
 
         public void RestoreState(SaveState saveState)
         {
-            var points = (float)saveState.GetState(typeof(float));
             currentPoints ??= new LazyValue<float>(GetInitialPoints);
-            currentPoints.value = points;
+            currentPoints.value = ManualGetDataFromState(saveState);
+        }
+        
+        public SaveState ManualGetStateFromData(float data)
+        {
+            if (data < 0) { data = initialPoints; }
+            return new SaveState(GetLoadPriority(), data);
+        }
+
+        public float ManualGetDataFromState(SaveState saveState)
+        {
+            float points = saveState != null ? (float)saveState.GetState(typeof(float)) : initialPoints;
+            return points >= 0 ? points : initialPoints;
         }
         #endregion
     }

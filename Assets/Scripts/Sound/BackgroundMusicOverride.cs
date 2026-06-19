@@ -5,7 +5,7 @@ using Frankie.Saving;
 
 namespace Frankie.Sound
 {
-    public class BackgroundMusicOverride : MonoBehaviour, ISaveable
+    public class BackgroundMusicOverride : MonoBehaviour, ISaveable<bool>
     {
         // Tunables
         [SerializeField] private AudioClip audioClip;
@@ -114,10 +114,18 @@ namespace Frankie.Sound
 
         #region SaveSystem
         public LoadPriority GetLoadPriority() => LoadPriority.ObjectProperty; 
-        public SaveState CaptureState() => new(GetLoadPriority(), isOverrideActive);
-        public void RestoreState(SaveState state)
+        public SaveState CaptureState() => ManualGetStateFromData(isOverrideActive);
+        public void RestoreState(SaveState saveState)
         {
-            if ((bool)state.GetState(typeof(bool))) { queueTriggerInStart = true; }
+            queueTriggerInStart = ManualGetDataFromState(saveState);
+        }
+        
+        public SaveState ManualGetStateFromData(bool data) => new(GetLoadPriority(), data);
+        
+        public bool ManualGetDataFromState(SaveState saveState)
+        {
+            if (saveState == null) { return isOverrideActive; }
+            return (bool)saveState.GetState(typeof(bool));
         }
         #endregion
     }
