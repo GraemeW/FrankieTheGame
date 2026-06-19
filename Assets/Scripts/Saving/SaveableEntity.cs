@@ -28,6 +28,16 @@ namespace Frankie.Saving
         
         public List<ISaveable> GetSaveableComponents() => GetComponents<ISaveable>().ToList();
         
+        public static bool TryGetStateDictionary(JToken state, out JObject stateDictionary)
+        {
+            stateDictionary = null;
+            if (state == null) { return false; }
+
+            stateDictionary = state.ToObject<JObject>();
+            if (stateDictionary == null) { Debug.LogError("Malformed data in save file"); return false; }
+            return true;
+        }
+        
         public JToken CaptureState(JToken existingTokenState, bool onlyCorePlayerState = false)
         {
             JToken updatedTokenState = existingTokenState ?? new JObject();
@@ -59,14 +69,11 @@ namespace Frankie.Saving
             }
         }
         
-        public static bool TryGetStateDictionary(JToken state, out JObject stateDictionary)
+        public static JObject ManualCaptureSaveState(JObject existingTokenState, SaveState updatedSaveState, string typeString)
         {
-            stateDictionary = null;
-            if (state == null) { return false; }
-
-            stateDictionary = state.ToObject<JObject>();
-            if (stateDictionary == null) { Debug.LogError("Malformed data in save file"); return false; }
-            return true;
+            JObject updatedTokenState = existingTokenState ?? new JObject();
+            updatedTokenState[typeString] = JToken.FromObject(updatedSaveState);
+            return updatedTokenState;
         }
         
 #if UNITY_EDITOR

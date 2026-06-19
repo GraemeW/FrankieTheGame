@@ -7,7 +7,6 @@ using UnityEngine.UIElements;
 using Button = UnityEngine.UIElements.Button;
 using UnityEditor;
 using UnityEditor.SceneManagement;
-using UnityEditor.UIElements;
 using Frankie.Core;
 using Frankie.Core.GameStateModifiers;
 using Frankie.Stats;
@@ -28,7 +27,7 @@ namespace Frankie.Saving.Editor
         private string selectedSave;
         private bool saveControlBoxLoaded = false;
         private JObject cachedSaveState;
-        private List<SaveableEntity> cachedSaveableEntities = null;
+        private readonly List<SaveableEntityCardData> cachedSaveableEntityCardData = new();
         
         // UI Cached References
         private Box saveHeaderBox;
@@ -285,12 +284,11 @@ namespace Frankie.Saving.Editor
             if (saveControlEntityScrollView == null) { return; }
             saveControlEntityScrollView.Clear();
 
-            if (!saveControlBoxLoaded || cachedSaveableEntities == null) { return; }
+            if (!saveControlBoxLoaded || cachedSaveableEntityCardData == null) { return; }
 
-            foreach (SaveableEntity saveableEntity in cachedSaveableEntities)
+            foreach (SaveableEntityCardData saveableEntityCardData in cachedSaveableEntityCardData)
             {
-                var entityCardData = new SaveableEntityCardData(saveableEntity, cachedSaveState);
-                Box entityCardView = DrawSaveableEntityCard(entityCardData); 
+                Box entityCardView = DrawSaveableEntityCard(saveableEntityCardData); 
                 saveControlEntityScrollView.Add(entityCardView);
             }
         }
@@ -313,8 +311,7 @@ namespace Frankie.Saving.Editor
                 cardView.Add(subCard);
             }
             
-            // TODO:  Add callback to use save button
-            //saveEntityButton.RegisterCallback<ClickEvent>(_ => )
+            saveEntityButton.RegisterCallback<ClickEvent>(_ => SaveSaveableEntity(saveableEntityCardData));
             
             return cardView;
         }
@@ -323,43 +320,12 @@ namespace Frankie.Saving.Editor
         {
             var subCardView = new Box { style = { marginTop = 2, marginLeft = 8 } };
             subCardView.Add(new Label($"Component:  {typeString}"));
-            
-            // TODO:  Add editable properties per ISaveable type
-            
-            // Test run:  Do this with equipment
-            if (saveableSubCardData.saveable is Equipment equipment)
-            {
-                Dictionary<EquipLocation, EquipableItem> equippedItems = equipment.ManualGetDataFromState(saveableSubCardData.saveState);
-                foreach (KeyValuePair<EquipLocation, EquipableItem> item in equippedItems)
-                {
-                    var equipRow = new VisualElement { style = { flexDirection = FlexDirection.Row } };
-                    subCardView.Add(equipRow);
-
-                    equipRow.Add(new Label($"{item.Key}:") { style = { width = 120, unityTextAlign = TextAnchor.MiddleLeft } });
-
-                    var equipField = new ObjectField { objectType = typeof(EquipableItem), value = item.Value, style = { flexGrow = 1 } };
-                    equipRow.Add(equipField);
-                    
-                    equipField.RegisterValueChangedCallback(changeEvent =>
-                    {
-                        EquipableItem newEquipableItem = changeEvent.newValue as EquipableItem;
-                        if (newEquipableItem != null && newEquipableItem.GetEquipLocation() != item.Key)
-                        {
-                            Debug.Log($"Invalid item {newEquipableItem} :: EquipLocation[{newEquipableItem.GetEquipLocation()}] vs. Required[{item.Key}]");
-                            equipField.SetValueWithoutNotify(equippedItems[item.Key]);
-                            return;
-                        }
-                        equippedItems[item.Key] = newEquipableItem;
-                        saveableSubCardData.UpdateSaveState(equipment.ManualGetStateFromData(equippedItems));
-                    });
-                }
-                
-            }
+            saveableSubCardData.AddEditableFieldsToSubCardView(subCardView);
             return subCardView;
         }
         #endregion
         
-        #region UtilityMethods
+        #region SaveFileUtility
         private void RenameCurrentSave(ClickEvent clickEvent)
         {
             if (string.IsNullOrWhiteSpace(newSave)) { return; }
@@ -409,30 +375,9 @@ namespace Frankie.Saving.Editor
             
             SavingWrapper.Delete(selectedSave);
         }
+        #endregion
         
-        private void LoadSaveControlData(ClickEvent clickEvent)
-        {
-            string currentSave = SavingWrapper.GetCurrentSaveName();
-            if (currentSave != null)
-            {
-                cachedSaveState = SavingSystem.ManualGetState(currentSave);
-            }
-            
-            cachedSaveableEntities = SavingSystem.GetAllSaveableEntities().OrderBy(GetEntitySortPriority).ThenBy(saveableEntity => saveableEntity.GetUniqueIdentifier()).ToList();
-            saveControlBoxLoaded = true;
-            DrawSaveControlHeaderBox();
-            DrawSaveControlEntityList();
-        }
-        
-        private void UnloadSaveControlData()
-        {
-            cachedSaveState = null;
-            cachedSaveableEntities = null;
-            saveControlBoxLoaded = false;
-            DrawSaveControlHeaderBox();
-            DrawSaveControlEntityList();
-        }
-        
+        #region EditSaveUtility
         private static int GetEntitySortPriority(SaveableEntity saveableEntity)
         {
             GameObject go = saveableEntity.gameObject;
@@ -461,6 +406,66 @@ namespace Frankie.Saving.Editor
                 parent = parent.parent;
             }
             return false;
+        }
+        
+        private void LoadSaveControlData(ClickEvent clickEvent)
+        {
+            string currentSave = SavingWrapper.GetCurrentSaveName();
+            if (currentSave != null)
+            {
+                cachedSaveState = SavingSystem.ManualGetState(currentSave);
+            }
+            
+            cachedSaveableEntityCardData.Clear();
+            foreach (SaveableEntity saveableEntity in SavingSystem.GetAllSaveableEntities().OrderBy(GetEntitySortPriority).ThenBy(saveableEntity => saveableEntity.GetUniqueIdentifier()).ToList())
+            {
+                var saveableEntityCardData = new SaveableEntityCardData(saveableEntity, cachedSaveState);
+                saveableEntityCardData.SelfReferenceInSubCards();
+                cachedSaveableEntityCardData.Add(saveableEntityCardData);
+            }
+            saveControlBoxLoaded = true;
+            DrawSaveControlHeaderBox();
+            DrawSaveControlEntityList();
+        }
+        
+        private void UnloadSaveControlData()
+        {
+            cachedSaveState = null;
+            cachedSaveableEntityCardData.Clear();
+            saveControlBoxLoaded = false;
+            
+            DrawSaveControlHeaderBox();
+            DrawSaveControlEntityList();
+        }
+
+        private void SaveSaveableEntity(SaveableEntityCardData saveableEntityCardData)
+        {
+            if (cachedSaveState == null) { return; }
+            
+            JObject stateToAdd = saveableEntityCardData.saveableEntityStateDict;
+            string uniqueIdentifier = saveableEntityCardData.entityID;
+            if (stateToAdd == null || string.IsNullOrWhiteSpace(uniqueIdentifier)) { return; }
+            
+            UpdateSaveableEntityCardData(saveableEntityCardData);
+            SavingSystem.ManualAddOverWriteToState(cachedSaveState, stateToAdd, uniqueIdentifier);
+            SavingSystem.ManualSave( SavingWrapper.GetCurrentSaveName(), cachedSaveState);
+        }
+        
+        private static void UpdateSaveableEntityCardData(SaveableEntityCardData saveableEntityCardData)
+        {
+            JObject saveableEntityStateDict = saveableEntityCardData.saveableEntityStateDict;
+            saveableEntityStateDict ??= new JObject();
+            
+            Debug.Log($"Updating {saveableEntityCardData.entityName} ISaveable entries, count: {saveableEntityStateDict.Count}");
+            foreach (KeyValuePair<string, SaveableSubCardData> typeDataPair in saveableEntityCardData.subCards)
+            {
+                if (string.IsNullOrWhiteSpace(typeDataPair.Key)) { continue; }
+                
+                SaveState saveState = typeDataPair.Value.saveState;
+                if (saveState == null) { continue; }
+
+                saveableEntityCardData.UpdateStateDict(SaveableEntity.ManualCaptureSaveState(saveableEntityStateDict, saveState, typeDataPair.Key));
+            }
         }
         #endregion
         

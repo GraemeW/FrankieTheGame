@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using Newtonsoft.Json.Linq;
 
 namespace Frankie.Saving.Editor
@@ -16,10 +17,13 @@ namespace Frankie.Saving.Editor
         public SaveableEntityCardData(SaveableEntity saveableEntity, JObject cachedSaveState)
         {
             this.saveableEntity = saveableEntity;
-            
-            JObject setSaveableEntityStateDict = null;
-            if (cachedSaveState != null && cachedSaveState.TryGetValue(saveableEntity.GetUniqueIdentifier(), out JToken saveableEntityState)) { SaveableEntity.TryGetStateDictionary(saveableEntityState, out setSaveableEntityStateDict); }
-            saveableEntityStateDict = setSaveableEntityStateDict;
+
+            saveableEntityStateDict = new JObject();
+            if (cachedSaveState != null && cachedSaveState.TryGetValue(saveableEntity.GetUniqueIdentifier(), out JToken saveableEntityState))
+            {
+                SaveableEntity.TryGetStateDictionary(saveableEntityState, out JObject setSaveableEntityStateDict);
+                saveableEntityStateDict = setSaveableEntityStateDict;
+            }
             
             entityName = saveableEntity.gameObject.name;
             entityID = saveableEntity.GetUniqueIdentifier();
@@ -30,8 +34,43 @@ namespace Frankie.Saving.Editor
                 string typeString = saveable.GetType().ToString();
                 SaveState saveState = null;
                 if (saveableEntityStateDict != null && saveableEntityStateDict.ContainsKey(typeString)) { saveState = saveableEntityStateDict[typeString]?.ToObject<SaveState>(); }
-                subCards[typeString] = new SaveableSubCardData(saveable, saveState);
+                subCards[typeString] = SaveableSubCardData.CreateTypeSpecificSubCard(saveable, saveState);
             }
         }
+
+        #region Getters
+        public bool TryGetSaveableSubCardData<T>(out SaveableSubCardData matchTypeSubCardData)
+        {
+            matchTypeSubCardData = null;
+            foreach (SaveableSubCardData subCardData in subCards.Values.Where(subCardData => subCardData.saveable is T))
+            {
+                matchTypeSubCardData = subCardData;
+                return true;
+            }
+            return false;
+        }
+        #endregion
+        
+        #region Setters
+        public void SelfReferenceInSubCards()
+        {
+            // Call separately because doing so in construction is unsafe
+            foreach (SaveableSubCardData subCardData in subCards.Values)
+            {
+                subCardData.SetSaveableEntityCardData(this);
+            }
+        }
+        
+        public void UpdateStateDict(JObject updatedStateDict)
+        {
+            if (updatedStateDict == null) { return; }
+            saveableEntityStateDict = updatedStateDict;
+        }
+        
+        public void ClearStateDict()
+        {
+            saveableEntityStateDict = new JObject();
+        }
+        #endregion
     }
 }

@@ -45,9 +45,9 @@ namespace Frankie.Inventory
                 comparisonStatSheet[stat] = 0f;
             }
 
-            if (equippedItems.ContainsKey(equipLocation))
+            if (equippedItems.TryGetValue(equipLocation, out EquipableItem currentlyEquippedItem))
             {
-                foreach (BaseStatModifier baseStatModifier in equippedItems[equipLocation].GetBaseStatModifiers())
+                foreach (BaseStatModifier baseStatModifier in currentlyEquippedItem.GetBaseStatModifiers())
                 {
                     comparisonStatSheet[baseStatModifier.stat] -= (baseStatModifier.minValue + baseStatModifier.maxValue) / 2;
                 }
@@ -121,9 +121,9 @@ namespace Frankie.Inventory
             }
         }
 
-        public SaveState ManualGetStateFromData(Dictionary<EquipLocation, EquipableItem> fullDataSet)
+        public SaveState ManualGetStateFromData(Dictionary<EquipLocation, EquipableItem> data)
         {
-            Dictionary<EquipLocation, EquipableItem> filteredSaveData = fullDataSet.Where(pair => pair.Value != null).ToDictionary(pair => pair.Key, pair => pair.Value);
+            Dictionary<EquipLocation, EquipableItem> filteredSaveData = data.Where(pair => pair.Value != null).ToDictionary(pair => pair.Key, pair => pair.Value);
             return PackSaveData(filteredSaveData, GetLoadPriority());
         }
 

@@ -16,7 +16,7 @@ namespace Frankie.Saving
         private const string _saveLastSceneBuildIndex = "lastSceneBuildIndex";
         private const bool _encryptionEnabled = true;
 
-        // Data Structures
+        #region DataStructures
         [System.Serializable]
         private class SaveSuper
         {
@@ -29,7 +29,9 @@ namespace Frankie.Saving
                 this.payload = payload;
             }
         }
+        #endregion
 
+        #region Getters
         private static string GetPathFromSaveFile(string saveFile) => Path.Combine(Application.persistentDataPath, saveFile + ".sav");
         
         public static IEnumerable<string> ListSaves()
@@ -54,6 +56,10 @@ namespace Frankie.Saving
             return saveableEntities;
         }
         
+        public static JObject ManualGetState(string saveFile) => LoadFile(saveFile);
+        #endregion
+        
+        #region PublicMethods
         public static IEnumerator LoadLastScene(string saveFile)
         {
             JObject state = LoadFile(saveFile);
@@ -121,9 +127,21 @@ namespace Frankie.Saving
         {
             File.Delete(GetPathFromSaveFile(saveFile));
         }
-        
-        public static JObject ManualGetState(string saveFile) => LoadFile(saveFile);
 
+        public static void ManualAddOverWriteToState(JObject state, JToken stateToAdd, string uniqueIdentifier)
+        {
+            if (string.IsNullOrEmpty(uniqueIdentifier)) { return; }
+            stateToAdd ??= new JObject();
+            state[uniqueIdentifier] = stateToAdd;
+        }
+
+        public static void ManualSave(string saveFile, JObject state)
+        {
+            SaveFile(saveFile, state);
+        }
+        #endregion
+
+        #region PrivateMethods
         private static JObject LoadFile(string saveFile)
         {
             string path = GetPathFromSaveFile(saveFile);
@@ -238,5 +256,6 @@ namespace Frankie.Saving
                 }
             }
         }
+        #endregion
     }
 }
