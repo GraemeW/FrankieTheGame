@@ -29,7 +29,7 @@ namespace Frankie.Saving.Editor
             entityID = saveableEntity.GetUniqueIdentifier();
             if (saveableEntity.transform.parent != null) { entityName = $"{saveableEntity.transform.parent.gameObject.name}/{entityName}"; }
             
-            foreach (ISaveable saveable in saveableEntity.GetSaveableComponents())
+            foreach (ISaveableBase saveable in saveableEntity.GetSaveableComponents())
             {
                 string typeString = saveable.GetType().ToString();
                 SaveState saveState = null;

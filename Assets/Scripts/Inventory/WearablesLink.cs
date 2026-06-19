@@ -1,15 +1,19 @@
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using Frankie.Saving;
 using Frankie.Stats;
 
 namespace Frankie.Inventory
 {
-    public class WearablesLink : MonoBehaviour, IModifierProvider, ISaveable
+    public class WearablesLink : MonoBehaviour, IModifierProvider, ISaveable<List<WearableItem>>
     {
         // Tunables
         [SerializeField] private Transform attachedObjectsRoot;
 
+        // Static/Const
+        private const int minimumWearablesForSaveEditor = 5;
+        
         // Cached References
         private CharacterSpriteLink characterSpriteLink;
 
@@ -67,19 +71,7 @@ namespace Frankie.Inventory
         #region SaveInterface
         public LoadPriority GetLoadPriority() => LoadPriority.ObjectProperty;
 
-        public SaveState CaptureState()
-        {
-            var wearableItemIDs = new List<string>();
-            foreach (Transform wearableObject in attachedObjectsRoot)
-            {
-                if (!wearableObject.TryGetComponent(out Wearable wearable)) { continue; }
-                WearableItem wearableItem = wearable.GetWearableItem();
-                if (wearableItem == null) { continue; }
-
-                wearableItemIDs.Add(wearableItem.GetGUID());
-            }
-            return new SaveState(GetLoadPriority(), wearableItemIDs);
-        }
+        public SaveState CaptureState() => ManualGetStateFromData(GetAttachedWearableItems()); 
 
         public void RestoreState(SaveState saveState)
         {
@@ -98,6 +90,43 @@ namespace Frankie.Inventory
 
                 wearable.AttachToCharacter(this);
             }
+        }
+        
+        public SaveState ManualGetStateFromData(List<WearableItem> data)
+        {
+            var wearableItemIDs = new List<string>();
+            if (data != null)
+            {
+                wearableItemIDs.AddRange(from wearableItem in data where wearableItem != null select wearableItem.GetGUID());
+            }
+            return new SaveState(GetLoadPriority(), wearableItemIDs);
+        }
+
+        public List<WearableItem> ManualGetDataFromState(SaveState saveState)
+        {
+            var wearableItems = new List<WearableItem>();
+            if (saveState.GetState(typeof(List<string>)) is not List<string> wearableItemIDs) { return wearableItems; }
+
+            wearableItems.AddRange(wearableItemIDs.Select(InventoryItem.GetFromID).OfType<WearableItem>());
+            if (wearableItemIDs.Count < minimumWearablesForSaveEditor)
+            {
+                wearableItemIDs.AddRange(Enumerable.Repeat((string)null, minimumWearablesForSaveEditor - wearableItemIDs.Count));
+            }
+            return wearableItems;
+        }
+
+        private List<WearableItem> GetAttachedWearableItems()
+        {
+            var wearableItems = new List<WearableItem>();
+            foreach (Transform wearableObject in attachedObjectsRoot)
+            {
+                if (!wearableObject.TryGetComponent(out Wearable wearable)) { continue; }
+                WearableItem wearableItem = wearable.GetWearableItem();
+                if (wearableItem == null) { continue; }
+
+                wearableItems.Add(wearableItem);
+            }
+            return wearableItems;
         }
         #endregion
     }

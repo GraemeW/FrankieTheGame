@@ -26,7 +26,7 @@ namespace Frankie.Saving
             return uniqueIdentifier;
         }
         
-        public List<ISaveable> GetSaveableComponents() => GetComponents<ISaveable>().ToList();
+        public List<ISaveableBase> GetSaveableComponents() => GetComponents<ISaveableBase>().ToList();
         
         public static bool TryGetStateDictionary(JToken state, out JObject stateDictionary)
         {
@@ -41,7 +41,7 @@ namespace Frankie.Saving
         public JToken CaptureState(JToken existingTokenState, bool onlyCorePlayerState = false)
         {
             JToken updatedTokenState = existingTokenState ?? new JObject();
-            foreach (ISaveable saveable in GetComponents<ISaveable>())
+            foreach (ISaveableBase saveable in GetComponents<ISaveableBase>())
             {
                 // Core Player State captures, e.g. for GameOver saves (skip saving position, etc.)
                 if (onlyCorePlayerState && !saveable.IsCorePlayerState()) { continue; }
@@ -55,7 +55,7 @@ namespace Frankie.Saving
         {
             if (!TryGetStateDictionary(state, out JObject stateDictionary)) { return; }
 
-            foreach (ISaveable saveable in GetComponents<ISaveable>())
+            foreach (ISaveableBase saveable in GetComponents<ISaveableBase>())
             {
                 var typeString = saveable.GetType().ToString();
                 if (!stateDictionary.ContainsKey(typeString)) continue;

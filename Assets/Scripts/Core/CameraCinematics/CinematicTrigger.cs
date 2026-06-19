@@ -6,7 +6,7 @@ using Frankie.Utils;
 namespace Frankie.Core
 {
     [RequireComponent(typeof(PlayableDirector))]
-    public class CinematicTrigger : MonoBehaviour, ISaveable
+    public class CinematicTrigger : MonoBehaviour, ISaveable<bool>
     {
         [SerializeField] private bool playOnStart = false;
 
@@ -53,14 +53,15 @@ namespace Frankie.Core
         // Interface
         public LoadPriority GetLoadPriority() => LoadPriority.ObjectProperty;
 
-        public SaveState CaptureState()
-        {
-            return new SaveState(GetLoadPriority(), isTriggered);
-        }
+        public SaveState CaptureState() => ManualGetStateFromData(isTriggered);
 
         public void RestoreState(SaveState saveState)
         {
-            isTriggered = (bool)saveState.GetState(typeof(bool));
+            isTriggered = ManualGetDataFromState(saveState);
         }
+
+        public SaveState ManualGetStateFromData(bool data) => new(GetLoadPriority(), data);
+        
+        public bool ManualGetDataFromState(SaveState saveState) => (bool)saveState.GetState(typeof(bool));
     }
 }

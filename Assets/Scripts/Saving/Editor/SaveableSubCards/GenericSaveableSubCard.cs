@@ -1,10 +1,10 @@
 using UnityEngine.UIElements;
 
-namespace Frankie.Saving.Editor.SaveableSubCards
+namespace Frankie.Saving.Editor
 {
     public class GenericSaveableSubCard : SaveableSubCardData
     {
-        public GenericSaveableSubCard(ISaveable saveable, SaveState saveState)
+        public GenericSaveableSubCard(ISaveableBase saveable, SaveState saveState)
         {
             this.saveable = saveable;
             this.saveState = saveState;

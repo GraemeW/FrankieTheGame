@@ -4,11 +4,11 @@ using UnityEngine.UIElements;
 using UnityEditor.UIElements;
 using Frankie.Inventory;
 
-namespace Frankie.Saving.Editor.SaveableSubCards
+namespace Frankie.Saving.Editor
 {
     public class EquipmentSaveableSubCard : SaveableSubCardData
     {
-        public EquipmentSaveableSubCard(ISaveable saveable, SaveState saveState)
+        public EquipmentSaveableSubCard(ISaveableBase saveable, SaveState saveState)
         {
             this.saveable = saveable;
             this.saveState = saveState;
@@ -19,6 +19,12 @@ namespace Frankie.Saving.Editor.SaveableSubCards
             if (saveable is not Equipment equipment) { return; }
             
             Dictionary<EquipLocation, EquipableItem> equippedItems = equipment.ManualGetDataFromState(saveState);
+            if (equippedItems == null || equippedItems.Count == 0)
+            {
+                // TODO:  Add label to note issue in loading equipment save
+                return;
+            }
+            
             foreach (KeyValuePair<EquipLocation, EquipableItem> item in equippedItems)
             {
                 var equipRow = new VisualElement { style = { flexDirection = FlexDirection.Row } };

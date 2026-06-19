@@ -5,7 +5,7 @@ using Frankie.Utils;
 
 namespace Frankie.Inventory
 {
-    public class Wallet : MonoBehaviour, ISaveable
+    public class Wallet : MonoBehaviour, ISaveable<WalletSaveData>
     {
         // Tunables
         [SerializeField] private int initialCash = 50;
@@ -71,32 +71,25 @@ namespace Frankie.Inventory
         #endregion
 
         #region Interfaces
-        [Serializable]
-        private class WalletSaveData
-        {
-            public int cash;
-            public int pendingCash;
-        }
-
         public bool IsCorePlayerState() => true;
         
         public LoadPriority GetLoadPriority() => LoadPriority.ObjectProperty;
 
-        public SaveState CaptureState()
-        {
-            var walletSaveData = new WalletSaveData
-            {
-                cash = cash.value,
-                pendingCash = pendingCash
-            };
-            return new SaveState(GetLoadPriority(), walletSaveData);
-        }
+        public SaveState CaptureState() => ManualGetStateFromData(new WalletSaveData(cash.value, pendingCash)); 
 
-        public void RestoreState(SaveState state)
+        public void RestoreState(SaveState saveState)
         {
-            if (state.GetState(typeof(WalletSaveData)) is not WalletSaveData walletSaveData) { return; }
+            if (saveState.GetState(typeof(WalletSaveData)) is not WalletSaveData walletSaveData) { return; }
             cash.value = walletSaveData.cash;
             pendingCash = walletSaveData.pendingCash;
+        }
+        
+        public SaveState ManualGetStateFromData(WalletSaveData data) => new(GetLoadPriority(), data);
+
+        public WalletSaveData ManualGetDataFromState(SaveState saveState)
+        {
+            if (saveState.GetState(typeof(WalletSaveData)) is WalletSaveData walletSaveData) { return walletSaveData; }
+            return new WalletSaveData(initialCash, 0);
         }
         #endregion
     }

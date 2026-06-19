@@ -8,7 +8,7 @@ using Frankie.Stats;
 namespace Frankie.Inventory
 {
     [RequireComponent(typeof(Knapsack))]
-    public class Equipment : MonoBehaviour, ISaveable, IModifierProvider
+    public class Equipment : MonoBehaviour, ISaveable<Dictionary<EquipLocation, EquipableItem>>, IModifierProvider
     {
         // State
         private readonly Dictionary<EquipLocation, EquipableItem> equippedItems = new();
@@ -110,7 +110,7 @@ namespace Frankie.Inventory
 
         #region SaveInterface
         public LoadPriority GetLoadPriority() => LoadPriority.ObjectProperty;
-        public SaveState CaptureState() => PackSaveData(equippedItems, GetLoadPriority());
+        public SaveState CaptureState() => PackSaveData(GetLoadPriority(), equippedItems);
 
         public void RestoreState(SaveState saveState)
         {
@@ -124,7 +124,7 @@ namespace Frankie.Inventory
         public SaveState ManualGetStateFromData(Dictionary<EquipLocation, EquipableItem> data)
         {
             Dictionary<EquipLocation, EquipableItem> filteredSaveData = data.Where(pair => pair.Value != null).ToDictionary(pair => pair.Key, pair => pair.Value);
-            return PackSaveData(filteredSaveData, GetLoadPriority());
+            return PackSaveData(GetLoadPriority(), filteredSaveData);
         }
 
         public Dictionary<EquipLocation, EquipableItem> ManualGetDataFromState(SaveState saveState)
@@ -144,7 +144,7 @@ namespace Frankie.Inventory
             return dataSet;
         }
         
-        private static SaveState PackSaveData(Dictionary<EquipLocation, EquipableItem> saveData, LoadPriority loadPriority)
+        private static SaveState PackSaveData(LoadPriority loadPriority, Dictionary<EquipLocation, EquipableItem> saveData)
         {
             var equippedItemsForSerialization = new Dictionary<EquipLocation, string>();
             foreach (KeyValuePair<EquipLocation, EquipableItem> pair in saveData)
@@ -154,7 +154,7 @@ namespace Frankie.Inventory
             return new SaveState(loadPriority, equippedItemsForSerialization);
         }
 
-        private Dictionary<EquipLocation, EquipableItem> UnpackSaveData(SaveState saveState)
+        private static Dictionary<EquipLocation, EquipableItem> UnpackSaveData(SaveState saveState)
         {
             Dictionary<EquipLocation, EquipableItem> saveData = new Dictionary<EquipLocation, EquipableItem>();
             if (saveState.GetState(typeof(Dictionary<EquipLocation, string>)) is not Dictionary<EquipLocation, string> equippedItemsForSerialization) { return saveData; }

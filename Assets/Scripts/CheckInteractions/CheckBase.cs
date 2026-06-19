@@ -7,7 +7,7 @@ using Frankie.Utils.Localization;
 namespace Frankie.Control
 {
     [ExecuteInEditMode]
-    public abstract class CheckBase : MonoBehaviour, IRaycastable, ISaveable, ILocalizable
+    public abstract class CheckBase : MonoBehaviour, IRaycastable, ISaveable<bool>, ILocalizable
     {
         // Tunables
         [SerializeField] protected bool overrideDefaultInteractionDistance = false;
@@ -50,16 +50,16 @@ namespace Frankie.Control
         #region SaveInterface
         public LoadPriority GetLoadPriority() => LoadPriority.ObjectProperty;
 
-        public SaveState CaptureState()
-        {
-            var saveState = new SaveState(GetLoadPriority(), activeCheck);
-            return saveState;
-        }
+        public SaveState CaptureState() => ManualGetStateFromData(activeCheck);
 
-        public virtual void RestoreState(SaveState state)
+        public virtual void RestoreState(SaveState saveState)
         {
-            SetActiveCheck((bool)state.GetState(typeof(bool)));
+            SetActiveCheck(ManualGetDataFromState(saveState));
         }
         #endregion
+
+        public SaveState ManualGetStateFromData(bool data) => new(GetLoadPriority(), data);
+
+        public bool ManualGetDataFromState(SaveState saveState) => (bool)saveState.GetState(typeof(bool));
     }
 }

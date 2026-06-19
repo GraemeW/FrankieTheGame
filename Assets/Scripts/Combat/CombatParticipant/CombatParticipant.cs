@@ -13,7 +13,7 @@ using Frankie.Inventory;
 namespace Frankie.Combat
 {
     [RequireComponent(typeof(BaseStats))]
-    public class CombatParticipant : MonoBehaviour, ISaveable, IPredicateEvaluator
+    public class CombatParticipant : MonoBehaviour, ISaveable<CombatParticipantSaveData>, IPredicateEvaluator
     {
         // Tunables
         [Header("Behavior, Hookups")]
@@ -515,30 +515,16 @@ namespace Frankie.Combat
 
         #region Interfaces
         // Save State
-        [Serializable]
-        private class CombatParticipantSaveData
-        {
-            public bool isDead;
-            public float currentHP;
-            public float currentAP;
-        }
         public LoadPriority GetLoadPriority() => LoadPriority.ObjectProperty;
 
-        SaveState ISaveable.CaptureState()
+        public SaveState CaptureState()
         {
             SetupLazyState();
-            var combatParticipantSaveData = new CombatParticipantSaveData
-            {
-                isDead = isDead.value,
-                currentHP = currentHP.value,
-                currentAP = currentAP.value
-            };
-            var saveState = new SaveState(GetLoadPriority(), combatParticipantSaveData);
-
-            return saveState;
+            var combatParticipantSaveData = new CombatParticipantSaveData(isDead.value, currentHP.value, currentAP.value);
+            return ManualGetStateFromData(combatParticipantSaveData);
         }
-
-        void ISaveable.RestoreState(SaveState saveState)
+        
+        public void RestoreState(SaveState saveState)
         {
             if (saveState.GetState(typeof(CombatParticipantSaveData)) is not CombatParticipantSaveData combatParticipantSaveData) { return; }
 
@@ -553,6 +539,14 @@ namespace Frankie.Combat
                 isDestructionTriggeredBySave = true;
                 Destroy(gameObject);
             }
+        }
+        
+        public SaveState ManualGetStateFromData(CombatParticipantSaveData data) => new(GetLoadPriority(), data);
+
+        public CombatParticipantSaveData ManualGetDataFromState(SaveState saveState)
+        {
+            if (saveState.GetState(typeof(CombatParticipantSaveData)) is CombatParticipantSaveData saveData) { return saveData; }
+            return baseStats != null ? new CombatParticipantSaveData(false, GetMaxHP(), GetMaxAP()) : new CombatParticipantSaveData(false, 0f, 0f);
         }
 
         // Predicate Evaluation
