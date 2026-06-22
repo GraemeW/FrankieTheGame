@@ -21,7 +21,7 @@ namespace Frankie.Saving.Editor
             Dictionary<EquipLocation, EquipableItem> equippedItems = equipment.ManualGetDataFromState(saveState);
             if (equippedItems == null || equippedItems.Count == 0)
             {
-                // TODO:  Add label to note issue in loading equipment save
+                subCardView.Add(new Label("No Equipment save data found"));
                 return;
             }
             

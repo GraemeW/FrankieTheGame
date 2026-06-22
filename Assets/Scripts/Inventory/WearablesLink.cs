@@ -10,9 +10,6 @@ namespace Frankie.Inventory
     {
         // Tunables
         [SerializeField] private Transform attachedObjectsRoot;
-
-        // Static/Const
-        private const int minimumWearablesForSaveEditor = 5;
         
         // Cached References
         private CharacterSpriteLink characterSpriteLink;
@@ -108,10 +105,6 @@ namespace Frankie.Inventory
             if (saveState.GetState(typeof(List<string>)) is not List<string> wearableItemIDs) { return wearableItems; }
 
             wearableItems.AddRange(wearableItemIDs.Select(InventoryItem.GetFromID).OfType<WearableItem>());
-            if (wearableItemIDs.Count < minimumWearablesForSaveEditor)
-            {
-                wearableItemIDs.AddRange(Enumerable.Repeat((string)null, minimumWearablesForSaveEditor - wearableItemIDs.Count));
-            }
             return wearableItems;
         }
 

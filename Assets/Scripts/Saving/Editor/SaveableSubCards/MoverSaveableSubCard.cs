@@ -1,5 +1,7 @@
+using UnityEngine;
 using UnityEngine.UIElements;
 using Frankie.Control;
+using Frankie.Utils;
 
 namespace Frankie.Saving.Editor
 {
@@ -18,17 +20,42 @@ namespace Frankie.Saving.Editor
             SerializableVector2 savedPosition = mover.ManualGetDataFromState(saveState);
             if (savedPosition == null)
             {
-                // TODO:  Add label noting no position currently saved
-                // Note - slightly different behaviour for this component, because we don't want to have edit capabilities for Mover position if state not already set
+                // Note - slightly different behaviour for this component
+                // We don't want to have edit capabilities for Mover position if state not already set
+                subCardView.Add(new Label("No position currently saved"));
                 return;
             }
-            
-            // TODO:  Add editable fields
-            
-            // TODO:  Update editable field callback to update saveState via
-            // Vector3 updatedPosition = new(xUpdated, yUpdated, 0f);
-            // SerializableVector2 serializablePosition = new SerializableVector2(updatedPosition);
-            // saveState = vector2Saveable.ManualGetStateFromData(serializablePosition);
+
+            float xPosition = savedPosition.x;
+            float yPosition = savedPosition.y;
+
+            var xRow = new VisualElement { style = { flexDirection = FlexDirection.Row } };
+            subCardView.Add(xRow);
+            xRow.Add(new Label("X:") { style = { width = 120, unityTextAlign = TextAnchor.MiddleLeft } });
+            var xField = new FloatField { value = xPosition, style = { flexGrow = 1 } };
+            xRow.Add(xField);
+
+            var yRow = new VisualElement { style = { flexDirection = FlexDirection.Row } };
+            subCardView.Add(yRow);
+            yRow.Add(new Label("Y:") { style = { width = 120, unityTextAlign = TextAnchor.MiddleLeft } });
+            var yField = new FloatField { value = yPosition, style = { flexGrow = 1 } };
+            yRow.Add(yField);
+
+            xField.RegisterValueChangedCallback(changeEvent =>
+            {
+                xPosition = changeEvent.newValue;
+                Vector3 updatedPosition = new(xPosition, yPosition, 0f);
+                var serializablePosition = new SerializableVector2(updatedPosition);
+                saveState = mover.ManualGetStateFromData(serializablePosition);
+            });
+
+            yField.RegisterValueChangedCallback(changeEvent =>
+            {
+                yPosition = changeEvent.newValue;
+                Vector3 updatedPosition = new(xPosition, yPosition, 0f);
+                var serializablePosition = new SerializableVector2(updatedPosition);
+                saveState = mover.ManualGetStateFromData(serializablePosition);
+            });
         }
     }
 }

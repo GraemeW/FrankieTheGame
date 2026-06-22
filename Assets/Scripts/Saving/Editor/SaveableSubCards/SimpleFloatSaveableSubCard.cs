@@ -1,3 +1,4 @@
+using UnityEngine;
 using UnityEngine.UIElements;
 
 namespace Frankie.Saving.Editor
@@ -13,13 +14,20 @@ namespace Frankie.Saving.Editor
         public override void AddEditableFieldsToSubCardView(Box subCardView)
         {
             if (saveable is not ISaveable<float> floatSaveable) { return; }
-            
             float value = floatSaveable.ManualGetDataFromState(saveState);
             
-            // TODO:  Add simple float editable field
+            var floatRow = new VisualElement { style = { flexDirection = FlexDirection.Row } };
+            subCardView.Add(floatRow);
             
-            // Update editable field based on callback to update saveState via:
-            // saveState = floatSaveable.ManualGetStateFromData(newValue);
+            floatRow.Add(new Label("Value:") { style = { width = 120, unityTextAlign = TextAnchor.MiddleLeft } });
+            
+            var floatField = new FloatField { value = value, style = { flexGrow = 1 } };
+            floatRow.Add(floatField);
+
+            floatField.RegisterValueChangedCallback(changeEvent =>
+            {
+                saveState = floatSaveable.ManualGetStateFromData(changeEvent.newValue);
+            });
         }
     }
 }

@@ -1,5 +1,7 @@
 using UnityEngine.UIElements;
+using UnityEditor.UIElements;
 using Frankie.Inventory;
+using UnityEngine;
 
 namespace Frankie.Saving.Editor
 {
@@ -18,25 +20,53 @@ namespace Frankie.Saving.Editor
             ActiveInventoryItem[] itemsInKnapsack = knapsack.ManualGetDataFromState(saveState);
             if (itemsInKnapsack == null || itemsInKnapsack.Length == 0)
             {
-                // TODO:  Add label to note issue in loading knapsack save
+                subCardView.Add(new Label("No Knapsack save data found"));
                 return;
             }
             
             for (int i = 0; i < itemsInKnapsack.Length; i++)
             {
-                ActiveInventoryItem activeInventoryItem = itemsInKnapsack[i];
-                // TODO:  Add editable fields, w/ value set by:
+                int slotIndex = i;
+                ActiveInventoryItem activeInventoryItem = itemsInKnapsack[slotIndex];
+
+                InventoryItem inventoryItem = null;
+                bool isEquipped = false;
                 if (activeInventoryItem != null)
                 {
-                    InventoryItem inventoryItem = activeInventoryItem.GetInventoryItem();
-                    bool isEquipped = activeInventoryItem.IsEquipped();
-                    // set value for editable field
+                    inventoryItem = activeInventoryItem.GetInventoryItem();
+                    isEquipped = activeInventoryItem.IsEquipped();
                 }
-                
-                // TODO:  Update editable field callbacks to update saveState via
-                // itemsInKnapsack[i] = new ActiveInventoryItem(newInventoryItem);
-                // itemsInKnapsack[i].SetEquipped(newEquipState);
-                // saveState = knapsack.ManualGetStateFromData(itemsInKnapsack);
+
+                var slotRow = new VisualElement { style = { flexDirection = FlexDirection.Row } };
+                subCardView.Add(slotRow);
+
+                slotRow.Add(new Label($"Slot {slotIndex}:") { style = { width = 120, unityTextAlign = TextAnchor.MiddleLeft } });
+
+                var itemField = new ObjectField { objectType = typeof(InventoryItem), value = inventoryItem, style = { flexGrow = 1 } };
+                slotRow.Add(itemField);
+
+                var equippedField = new Toggle { value = isEquipped, style = { width = 80 } };
+                slotRow.Add(equippedField);
+
+                itemField.RegisterValueChangedCallback(changeEvent =>
+                {
+                    var newInventoryItem = changeEvent.newValue as InventoryItem;
+                    var updatedItem = newInventoryItem != null ? new ActiveInventoryItem(newInventoryItem) : null;
+                    if (updatedItem != null) { updatedItem.SetEquipped(equippedField.value); }
+                    itemsInKnapsack[slotIndex] = updatedItem;
+                    saveState = knapsack.ManualGetStateFromData(itemsInKnapsack);
+                });
+
+                equippedField.RegisterValueChangedCallback(changeEvent =>
+                {
+                    if (itemsInKnapsack[slotIndex] == null)
+                    {
+                        equippedField.SetValueWithoutNotify(false);
+                        return;
+                    }
+                    itemsInKnapsack[slotIndex].SetEquipped(changeEvent.newValue);
+                    saveState = knapsack.ManualGetStateFromData(itemsInKnapsack);
+                });
             }
         }
     }

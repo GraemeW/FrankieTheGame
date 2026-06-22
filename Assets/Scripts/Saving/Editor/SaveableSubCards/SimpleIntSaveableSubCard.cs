@@ -1,3 +1,4 @@
+using UnityEngine;
 using UnityEngine.UIElements;
 
 namespace Frankie.Saving.Editor
@@ -13,13 +14,20 @@ namespace Frankie.Saving.Editor
         public override void AddEditableFieldsToSubCardView(Box subCardView)
         {
             if (saveable is not ISaveable<int> intSaveable) { return; }
-            
             int value = intSaveable.ManualGetDataFromState(saveState);
             
-            // TODO:  Add simple int editable field
+            var intRow = new VisualElement { style = { flexDirection = FlexDirection.Row } };
+            subCardView.Add(intRow);
             
-            // Update editable field based on callback to update saveState via:
-            // saveState = intSaveable.ManualGetStateFromData(newValue);
+            intRow.Add(new Label("Value:") { style = { width = 120, unityTextAlign = TextAnchor.MiddleLeft } });
+            
+            var intField = new IntegerField { value = value, style = { flexGrow = 1 } };
+            intRow.Add(intField);
+            
+            intField.RegisterValueChangedCallback(changeEvent =>
+            {
+                saveState = intSaveable.ManualGetStateFromData(changeEvent.newValue);
+            });
         }
     }
 }
