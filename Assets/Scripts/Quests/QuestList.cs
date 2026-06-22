@@ -127,8 +127,7 @@ namespace Frankie.Quests
             }
             questListUpdated?.Invoke();
         }
-        #endregion
-
+        
         public SaveState ManualGetStateFromData(List<QuestStatus> data)
         {
             List<SerializableQuestStatus> serializableQuestStatuses = data != null ? data.Select(questStatus => questStatus.CaptureState()).ToList() : new List<SerializableQuestStatus>();
@@ -140,5 +139,6 @@ namespace Frankie.Quests
             if (saveState.GetState(typeof(List<SerializableQuestStatus>)) is not List<SerializableQuestStatus> serializableQuestStatuses) { return new List<QuestStatus>(); }
             return serializableQuestStatuses.Select(serializableQuestStatus => new QuestStatus(serializableQuestStatus)).ToList();
         }
+        #endregion
     }
 }

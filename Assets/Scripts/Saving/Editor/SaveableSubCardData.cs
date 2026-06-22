@@ -24,6 +24,7 @@ namespace Frankie.Saving.Editor
             {
                 Mover => new MoverSaveableSubCard(saveable, saveState),
                 PlayerColliderTrigger => new SimpleBoolSaveableSubCard(saveable, saveState),
+                BaseStats => new BaseStatsSubCard(saveable, saveState),
                 Experience => new SimpleFloatSaveableSubCard(saveable, saveState),
                 CombatParticipant => new CombatParticipantSaveableSubCard(saveable, saveState),
                 Knapsack => new KnapsackSaveableSubCard(saveable, saveState),

@@ -8,7 +8,7 @@ using Frankie.Core.Predicates;
 
 namespace Frankie.Stats
 {
-    public class BaseStats : MonoBehaviour, ISaveable, IPredicateEvaluator
+    public class BaseStats : MonoBehaviour, ISaveable<BaseStatsSaveData>, IPredicateEvaluator
     {
         // See:  Progression for behaviour detail
         // Progression defines 1) Stats at level 1 --> pulled to the active stat sheet, which is what is saved
@@ -24,6 +24,7 @@ namespace Frankie.Stats
 
         // Static/Const Parameters
         private const int _defaultLevelForNoCharacterProperties = 1;
+        private const float _defaultStatForEmptySheet = 1.0f;
         private static readonly Stat[] _nonModifyingStats = { Stat.InitialLevel, Stat.ExperienceReward, Stat.ExperienceToLevelUp };
         
         // State
@@ -120,6 +121,16 @@ namespace Frankie.Stats
                 IncrementLevel();
             }
         }
+        
+        private Dictionary<Stat, float> BuildBlankStatSheet()
+        {
+            Dictionary<Stat, float> blankStatSheet = new Dictionary<Stat, float>();
+            foreach (Stat stat in Enum.GetValues(typeof(Stat)))
+            {
+                blankStatSheet[stat] = _defaultStatForEmptySheet;
+            }
+            return blankStatSheet;
+        }
 
         private int GetInitialLevel()
         {
@@ -145,29 +156,22 @@ namespace Frankie.Stats
         }
         #endregion
 
-        #region Interfaces
-        // Save State
-        [Serializable]
-        private class BaseStatsSaveData
+        #region PredicateInterface
+        public bool? Evaluate(Predicate predicate)
         {
-            public int level;
-#pragma warning disable UAC1009
-            // Unity serialization error, but serialization is OK by Newtonsoft
-            public Dictionary<Stat, float> statSheet;
-#pragma warning restore UAC1009
+            var predicateCombatParticipant = predicate as PredicateBaseStats;
+            return predicateCombatParticipant != null ? predicateCombatParticipant.Evaluate(this) : null;
         }
+        #endregion
         
+        #region SaveInterface
         public bool IsCorePlayerState() => true;
         public LoadPriority GetLoadPriority() => LoadPriority.ObjectProperty;
 
         public SaveState CaptureState()
         {
             currentLevel ??= new LazyValue<int>(GetInitialLevel);
-            var baseStatsSaveData = new BaseStatsSaveData
-            {
-                level = currentLevel.value,
-                statSheet = activeStatSheet
-            };
+            var baseStatsSaveData = new BaseStatsSaveData(currentLevel.value, activeStatSheet);
             var saveState = new SaveState(GetLoadPriority(), baseStatsSaveData);
             return saveState;
         }
@@ -175,19 +179,20 @@ namespace Frankie.Stats
         public void RestoreState(SaveState saveState)
         {
             if (!useSavedStatsOnLoad) { return; }
-            
-            var baseStatsSaveData = saveState.GetState(typeof(BaseStatsSaveData)) as BaseStatsSaveData;
-            if (baseStatsSaveData == null) { return; }
+            if (saveState.GetState(typeof(BaseStatsSaveData)) is not BaseStatsSaveData baseStatsSaveData) { return; }
 
             currentLevel ??= new LazyValue<int>(GetInitialLevel);
             currentLevel.value = baseStatsSaveData.level;
             activeStatSheet = baseStatsSaveData.statSheet;
         }
-
-        public bool? Evaluate(Predicate predicate)
+        
+        public SaveState ManualGetStateFromData(BaseStatsSaveData data) => new(GetLoadPriority(), data);
+        
+        public BaseStatsSaveData ManualGetDataFromState(SaveState saveState)
         {
-            var predicateCombatParticipant = predicate as PredicateBaseStats;
-            return predicateCombatParticipant != null ? predicateCombatParticipant.Evaluate(this) : null;
+            var baseStatsSaveData = saveState.GetState(typeof(BaseStatsSaveData)) as BaseStatsSaveData;
+            baseStatsSaveData ??= new BaseStatsSaveData(_defaultLevelForNoCharacterProperties, BuildBlankStatSheet());
+            return baseStatsSaveData;
         }
         #endregion
     }
