@@ -6,6 +6,7 @@ using Frankie.Sound;
 using Frankie.Stats;
 using Frankie.Combat;
 using Frankie.Inventory;
+using Frankie.Quests;
 using Frankie.World;
 using Frankie.ZoneManagement;
 
@@ -29,6 +30,7 @@ namespace Frankie.Saving.Editor
                 Equipment => new EquipmentSaveableSubCard(saveable, saveState),
                 WearablesLink => new WearablesLinkSubCard(saveable, saveState),
                 Wallet => new WalletSaveableSubCard(saveable, saveState),
+                QuestList => new QuestListSubCard(saveable, saveState),
                 CheckBase => new SimpleBoolSaveableSubCard(saveable, saveState),
                 PredicateChildToggler => new SimpleBoolSaveableSubCard(saveable, saveState),
                 BackgroundMusicOverride => new SimpleBoolSaveableSubCard(saveable, saveState),

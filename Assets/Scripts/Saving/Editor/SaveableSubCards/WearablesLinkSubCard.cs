@@ -30,22 +30,11 @@ namespace Frankie.Saving.Editor
             var addButton = new Button { text = "+ Add Slot" };
             buttonRow.Add(addButton);
 
-            var removeButton = new Button { text = "- Remove Slot" };
-            buttonRow.Add(removeButton);
-
             DrawWearableItemList(listContainer, wearablesLink, wearableItems);
 
             addButton.RegisterCallback<ClickEvent>(_ =>
             {
                 wearableItems.Add(null);
-                saveState = wearablesLink.ManualGetStateFromData(wearableItems);
-                DrawWearableItemList(listContainer, wearablesLink, wearableItems);
-            });
-
-            removeButton.RegisterCallback<ClickEvent>(_ =>
-            {
-                if (wearableItems.Count == 0) { return; }
-                wearableItems.RemoveAt(wearableItems.Count - 1);
                 saveState = wearablesLink.ManualGetStateFromData(wearableItems);
                 DrawWearableItemList(listContainer, wearablesLink, wearableItems);
             });
@@ -74,11 +63,21 @@ namespace Frankie.Saving.Editor
                 var wornItemField = new ObjectField { objectType = typeof(WearableItem), value = wornItem, style = { flexGrow = 1 } };
                 slotRow.Add(wornItemField);
 
+                var removeSlotButton = new Button { text = "- Remove Slot" };
+                slotRow.Add(removeSlotButton);
+
                 wornItemField.RegisterValueChangedCallback(changeEvent =>
                 {
                     var newWearableItem = changeEvent.newValue as WearableItem;
                     wearableItems[slotIndex] = newWearableItem;
                     saveState = wearablesLink.ManualGetStateFromData(wearableItems);
+                });
+
+                removeSlotButton.RegisterCallback<ClickEvent>(_ =>
+                {
+                    wearableItems.RemoveAt(slotIndex);
+                    saveState = wearablesLink.ManualGetStateFromData(wearableItems);
+                    DrawWearableItemList(listContainer, wearablesLink, wearableItems);
                 });
             }
         }
