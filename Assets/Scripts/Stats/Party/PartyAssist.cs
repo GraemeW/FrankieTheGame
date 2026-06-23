@@ -1,5 +1,4 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -8,7 +7,7 @@ using Frankie.Saving;
 namespace Frankie.Stats
 {
     [RequireComponent(typeof(Party))]
-    public class PartyAssist : PartyBehaviour, ISaveable
+    public class PartyAssist : PartyBehaviour, ISaveable<List<CharacterProperties>>
     {
         // Cached References
         private Party party;
@@ -28,13 +27,13 @@ namespace Frankie.Stats
         protected override int GetInitialPartyOffset() => party.GetLastMemberOffsetIndex() + partyOffset;
         protected override bool ShouldSkipFirstEntryOffset() => false;
 
-        protected override bool AddToParty(BaseStats character)
+        protected override bool AddToParty(BaseStats characterBaseStats)
         {
             if (members.Count >= partyLimit) { return false; }
-            if (character == null) { return false; } // Failsafe
-            if (HasMember(character)) { return false; } // Verify no dupe characters to party
+            if (characterBaseStats == null) { return false; } // Failsafe
+            if (HasMember(characterBaseStats)) { return false; } // Verify no dupe characters to party
 
-            members.Add(character);
+            members.Add(characterBaseStats);
             RefreshAnimatorLookup();
 
             partyAssistUpdated?.Invoke();
@@ -48,9 +47,10 @@ namespace Frankie.Stats
             if (characterNPCSwapper == null) { return false; } // Failsafe
 
             CharacterNPCSwapper partyCharacter = characterNPCSwapper.SwapToCharacter(container);
+            if (partyCharacter == null) { return false; }
+            
             party.UpdateWorldLookup(false, partyCharacter);
             Destroy(characterNPCSwapper.gameObject);
-
             return AddToParty(partyCharacter.GetBaseStats());
         }
 
@@ -60,9 +60,10 @@ namespace Frankie.Stats
             if (members.Count >= partyLimit) { return false; }
             if (characterProperties == null) { return false; } // Failsafe
 
-            GameObject characterObject = CharacterNPCSwapper.SpawnCharacter(characterProperties.name, container);
+            GameObject characterObject = CharacterNPCSwapper.SpawnCharacter(characterProperties, container);
+            if (characterObject == null) { return false; }
 
-            BaseStats character = characterObject.GetComponent<BaseStats>();
+            var character = characterObject.GetComponent<BaseStats>();
             return AddToParty(character);
         }
 
@@ -96,6 +97,7 @@ namespace Frankie.Stats
             if (partyCharacter == null) { return false; }
 
             CharacterNPCSwapper worldNPC = partyCharacter.SwapToNPC(worldTransform);
+            if (worldNPC == null) { return false; }
             party.UpdateWorldLookup(true, worldNPC);
 
             return RemoveFromParty(character);
@@ -107,29 +109,43 @@ namespace Frankie.Stats
 
         public SaveState CaptureState()
         {
-            var currentPartyStrings = members.Select(character => character.GetCharacterProperties().name).ToList();
-            var saveState = new SaveState(GetLoadPriority(), currentPartyStrings);
-            return saveState;
+            members ??= new List<BaseStats>();
+            List<CharacterProperties> partyCharacters = members.Select(character => character.GetCharacterProperties()).ToList();
+            return ManualGetStateFromData(partyCharacters);
         }
 
         public void RestoreState(SaveState saveState)
         {
-            List<string> addPartyStrings = saveState.GetState(typeof(List<string>)) as List<string>;
-            if (addPartyStrings == null || addPartyStrings.Count == 0) { return; }
+            List<CharacterProperties> partyCharacters = ManualGetDataFromState(saveState);
+            RestorePartyMembers(partyCharacters);
+        }
+        
+        public SaveState ManualGetStateFromData(List<CharacterProperties> data)
+        {
+            List<string> partyNames = data.Select(character => character.name).ToList();
+            return new SaveState(GetLoadPriority(), partyNames);
+        }
 
+        public List<CharacterProperties> ManualGetDataFromState(SaveState saveState)
+        {
+            if (saveState.GetState(typeof(List<string>)) is not List<string> partyNames) { return new List<CharacterProperties>(); }
+            return partyNames.Select(CharacterProperties.GetCharacterPropertiesFromName).Where(partyCharacter => partyCharacter != null).ToList();
+        }
+        
+        private void RestorePartyMembers(List<CharacterProperties> partyCharacters)
+        {
+            if (partyCharacters == null) { return; }
+            
             // Clear characters in existing party in scene
-            foreach (BaseStats character in members)
-            {
-                Destroy(character.gameObject);
-            }
+            foreach (BaseStats character in members) { Destroy(character.gameObject); }
             members.Clear();
 
             // Pull characters from save
-            foreach (string characterName in addPartyStrings)
+            foreach (CharacterProperties partyCharacter in partyCharacters)
             {
                 if (members.Count > partyLimit) { break; } // Failsafe
 
-                GameObject characterObject = CharacterNPCSwapper.SpawnCharacter(characterName, container);
+                GameObject characterObject = CharacterNPCSwapper.SpawnCharacter(partyCharacter, container);
                 if (characterObject == null) { continue; }
 
                 var character = characterObject.GetComponent<BaseStats>();
@@ -140,7 +156,6 @@ namespace Frankie.Stats
                 if (members.Count > 1) { characterObject.GetComponent<Collider2D>().isTrigger = true; }
             }
             RefreshAnimatorLookup();
-
             partyAssistUpdated?.Invoke();
         }
         #endregion
