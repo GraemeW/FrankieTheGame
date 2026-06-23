@@ -88,7 +88,9 @@ namespace Frankie.Saving.Editor
                     
             if (saveableEntityCardData != null && saveableEntityCardData.TryGetSaveableSubCardData(out KnapsackSaveableSubCard knapsackSubCardData))
             {
-                return knapsackSubCardData.TryEquipItem(newEquipableItem);
+                bool couldEquipItem = knapsackSubCardData.TryEquipItem(newEquipableItem);
+                if (!couldEquipItem) { Debug.Log($"Could not find or add item {newEquipableItem} to inventory.");}
+                return couldEquipItem;
             }
             return true;
         }
