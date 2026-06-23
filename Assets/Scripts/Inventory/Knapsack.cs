@@ -337,10 +337,11 @@ namespace Frankie.Inventory
         {
             var data = new ActiveInventoryItem[inventorySize];
             if (saveState.GetState(typeof(SaveableActiveItem[])) is not SaveableActiveItem[] slotsActiveItemStrings) { return data; }
-
+            
             if (slotsActiveItemStrings.Length != inventorySize) { Array.Resize(ref slotsActiveItemStrings, inventorySize); }
             for (int i = 0; i < inventorySize; i++)
             {
+                if (slotsActiveItemStrings[i] == null) { continue; }
                 if (string.IsNullOrEmpty(slotsActiveItemStrings[i].inventoryItemID)) { continue; }
 
                 string inventoryItemID = slotsActiveItemStrings[i].inventoryItemID;

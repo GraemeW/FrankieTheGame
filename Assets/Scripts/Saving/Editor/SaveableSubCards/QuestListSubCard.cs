@@ -106,11 +106,10 @@ namespace Frankie.Saving.Editor
                 var objectiveRow = new VisualElement { style = { flexDirection = FlexDirection.Row } };
                 objectivesContainer.Add(objectiveRow);
 
-                objectiveRow.Add(new Label(questObjective.name) { style = { width = 120, unityTextAlign = TextAnchor.MiddleLeft } });
-
                 bool isComplete = questStatus.GetStatusForObjective(questObjective);
                 var completeField = new Toggle { value = isComplete };
                 objectiveRow.Add(completeField);
+                objectiveRow.Add(new Label(questObjective.name) { style = { unityTextAlign = TextAnchor.MiddleLeft } });
 
                 completeField.RegisterValueChangedCallback(changeEvent =>
                 {

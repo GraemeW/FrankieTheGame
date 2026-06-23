@@ -60,7 +60,7 @@ namespace Frankie.Quests
         #region Interface
         public SerializableQuestStatus CaptureState()
         {
-            var serializableQuestStatus = new SerializableQuestStatus { questID = quest.GetGUID() };
+            var serializableQuestStatus = new SerializableQuestStatus(quest != null ? quest.GetGUID() : string.Empty);
             List<string> completedObjectiveIDs = completedObjectives.Select(c => c.objectiveID).ToList();
             serializableQuestStatus.completedObjectiveIDs = completedObjectiveIDs;
             return serializableQuestStatus;
