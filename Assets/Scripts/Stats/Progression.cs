@@ -366,7 +366,7 @@ namespace Frankie.Stats
             var catchUpLevelUpSheet = new Dictionary<Stat, float>(levelUpSheet);
             if (!HasLevelAveragedChart(characterProperties, currentLevel, out Dictionary<Stat, float> levelAverageStatSheet))
             {
-                Debug.Log($"Could not find level-averaged chart for {characterProperties.name}.  Did you forget to generate it?");
+                Debug.Log($"Could not find level-averaged chart for {characterProperties.GetCharacterID()}.  Did you forget to generate it?");
                 return catchUpLevelUpSheet;
             }
             

@@ -1,0 +1,80 @@
+using System.Collections.Generic;
+using UnityEngine.UIElements;
+using UnityEditor.UIElements;
+using Frankie.Stats;
+
+namespace Frankie.Saving.Editor
+{
+    public class PartyAssistSubCard : SaveableSubCardData
+    {
+        public PartyAssistSubCard(ISaveableBase saveable, SaveState saveState)
+        {
+            this.saveable = saveable;
+            this.saveState = saveState;
+        }
+
+        public override void AddEditableFieldsToSubCardView(Box subCardView)
+        {
+            if (saveable is not PartyAssist partyAssist) { return; }
+            
+            List<CharacterProperties> partyAssistSaveData = partyAssist.ManualGetDataFromState(saveState);
+            if (partyAssistSaveData == null)
+            {
+                subCardView.Add(new Label("No PartyAssist save data found"));
+                return;
+            }
+
+            var partyAssistCharacters = new List<CharacterProperties>(partyAssistSaveData);
+            
+            var listContainer = new VisualElement();
+            subCardView.Add(listContainer);
+
+            var addButton = new Button { text = "+ Add Character" };
+            subCardView.Add(addButton);
+
+            DrawPartyAssistList(listContainer, partyAssist, partyAssistCharacters);
+
+            addButton.RegisterCallback<ClickEvent>(_ =>
+            {
+                partyAssistCharacters.Add(null);
+                saveState = partyAssist.ManualGetStateFromData(partyAssistCharacters);
+                RaiseSaveStateChanged();
+                DrawPartyAssistList(listContainer, partyAssist, partyAssistCharacters);
+            });
+        }
+
+        private void DrawPartyAssistList(VisualElement listContainer, PartyAssist partyAssist, List<CharacterProperties> partyAssistCharacters)
+        {
+            listContainer.Clear();
+
+            for (int i = 0; i < partyAssistCharacters.Count; i++)
+            {
+                int rowIndex = i;
+
+                var row = new VisualElement { style = { flexDirection = FlexDirection.Row } };
+                listContainer.Add(row);
+
+                var characterField = new ObjectField { objectType = typeof(CharacterProperties), value = partyAssistCharacters[rowIndex], style = { flexGrow = 1 } };
+                row.Add(characterField);
+
+                var removeButton = new Button { text = "- Remove" };
+                row.Add(removeButton);
+
+                characterField.RegisterValueChangedCallback(changeEvent =>
+                {
+                    partyAssistCharacters[rowIndex] = changeEvent.newValue as CharacterProperties;
+                    saveState = partyAssist.ManualGetStateFromData(partyAssistCharacters);
+                    RaiseSaveStateChanged();
+                });
+
+                removeButton.RegisterCallback<ClickEvent>(_ =>
+                {
+                    partyAssistCharacters.RemoveAt(rowIndex);
+                    saveState = partyAssist.ManualGetStateFromData(partyAssistCharacters);
+                    RaiseSaveStateChanged();
+                    DrawPartyAssistList(listContainer, partyAssist, partyAssistCharacters);
+                });
+            }
+        }
+    }
+}

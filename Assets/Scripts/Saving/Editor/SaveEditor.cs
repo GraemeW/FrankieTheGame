@@ -415,11 +415,20 @@ namespace Frankie.Saving.Editor
             {
                 cachedSaveState = SavingSystem.ManualGetState(currentSave);
             }
+            if (cachedSaveState == null) { return; }
             
             cachedSaveableEntityCardData.Clear();
             foreach (SaveableEntity saveableEntity in SavingSystem.GetAllSaveableEntities().OrderBy(GetEntitySortPriority).ThenBy(saveableEntity => saveableEntity.GetUniqueIdentifier()).ToList())
             {
-                var saveableEntityCardData = new SaveableEntityCardData(saveableEntity, cachedSaveState);
+                if (saveableEntity == null) { continue; }
+                
+                var saveableEntityStateDict = new JObject();
+                if (cachedSaveState.TryGetValue(saveableEntity.GetUniqueIdentifier(), out JToken saveableEntityState))
+                {
+                    SaveableEntity.TryGetStateDictionary(saveableEntityState, out saveableEntityStateDict);
+                }
+                
+                var saveableEntityCardData = new SaveableEntityCardData(saveableEntity, saveableEntityStateDict);
                 saveableEntityCardData.SelfReferenceInSubCards();
                 cachedSaveableEntityCardData.Add(saveableEntityCardData);
             }
@@ -464,7 +473,7 @@ namespace Frankie.Saving.Editor
                 SaveState saveState = typeDataPair.Value.saveState;
                 if (saveState == null) { continue; }
 
-                saveableEntityCardData.UpdateStateDict(SaveableEntity.ManualCaptureSaveState(saveableEntityStateDict, saveState, typeDataPair.Key));
+                saveableEntityCardData.UpdateStateDict(SaveableEntity.ManualCaptureSaveState(saveableEntityStateDict, typeDataPair.Key, saveState));
             }
         }
         #endregion

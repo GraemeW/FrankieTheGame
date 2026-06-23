@@ -27,6 +27,7 @@ namespace Frankie.Saving.Editor
             intField.RegisterValueChangedCallback(changeEvent =>
             {
                 saveState = intSaveable.ManualGetStateFromData(changeEvent.newValue);
+                RaiseSaveStateChanged();
             });
         }
     }

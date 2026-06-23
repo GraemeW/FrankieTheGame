@@ -47,6 +47,7 @@ namespace Frankie.Saving.Editor
                     }
                     equippedItems[item.Key] = newEquipableItem;
                     saveState = equipment.ManualGetStateFromData(equippedItems);
+                    RaiseSaveStateChanged();
                 });
             }
         }

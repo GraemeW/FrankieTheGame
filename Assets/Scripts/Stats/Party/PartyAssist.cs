@@ -122,7 +122,7 @@ namespace Frankie.Stats
         
         public SaveState ManualGetStateFromData(List<CharacterProperties> data)
         {
-            List<string> partyNames = data.Select(character => character.name).ToList();
+            List<string> partyNames = data.Select(character => character.GetCharacterID()).ToList();
             return new SaveState(GetLoadPriority(), partyNames);
         }
 

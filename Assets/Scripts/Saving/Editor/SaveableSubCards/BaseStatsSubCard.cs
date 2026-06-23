@@ -38,6 +38,7 @@ namespace Frankie.Saving.Editor
                 level = changeEvent.newValue;
                 var updatedSaveData = new BaseStatsSaveData(level, statSheet);
                 saveState = baseStats.ManualGetStateFromData(updatedSaveData);
+                RaiseSaveStateChanged();
             });
 
             foreach (Stat stat in new List<Stat>(statSheet.Keys))
@@ -55,6 +56,7 @@ namespace Frankie.Saving.Editor
                     statSheet[stat] = changeEvent.newValue;
                     var updatedSaveData = new BaseStatsSaveData(level, statSheet);
                     saveState = baseStats.ManualGetStateFromData(updatedSaveData);
+                    RaiseSaveStateChanged();
                 });
             }
         }

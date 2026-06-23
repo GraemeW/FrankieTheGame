@@ -55,6 +55,7 @@ namespace Frankie.Saving.Editor
                     if (updatedItem != null) { updatedItem.SetEquipped(equippedField.value); }
                     itemsInKnapsack[slotIndex] = updatedItem;
                     saveState = knapsack.ManualGetStateFromData(itemsInKnapsack);
+                    RaiseSaveStateChanged();
                 });
 
                 equippedField.RegisterValueChangedCallback(changeEvent =>
@@ -66,6 +67,7 @@ namespace Frankie.Saving.Editor
                     }
                     itemsInKnapsack[slotIndex].SetEquipped(changeEvent.newValue);
                     saveState = knapsack.ManualGetStateFromData(itemsInKnapsack);
+                    RaiseSaveStateChanged();
                 });
             }
         }

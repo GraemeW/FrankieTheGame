@@ -55,6 +55,7 @@ namespace Frankie.World
 
         private void Start()
         {
+            currentItemQuantity ??= new LazyValue<int>(GetMaxItemQuantity);
             currentItemQuantity.ForceInit();
         }
 

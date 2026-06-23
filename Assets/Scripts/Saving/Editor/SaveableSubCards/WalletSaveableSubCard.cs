@@ -42,6 +42,7 @@ namespace Frankie.Saving.Editor
                 cash = changeEvent.newValue;
                 var updatedSaveData = new WalletSaveData(cash, pendingCash);
                 saveState = wallet.ManualGetStateFromData(updatedSaveData);
+                RaiseSaveStateChanged();
             });
 
             pendingCashField.RegisterValueChangedCallback(changeEvent =>
@@ -49,6 +50,7 @@ namespace Frankie.Saving.Editor
                 pendingCash = changeEvent.newValue;
                 var updatedSaveData = new WalletSaveData(cash, pendingCash);
                 saveState = wallet.ManualGetStateFromData(updatedSaveData);
+                RaiseSaveStateChanged();
             });
         }
     }

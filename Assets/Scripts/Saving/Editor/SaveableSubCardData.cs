@@ -1,3 +1,4 @@
+using System;
 using UnityEngine.UIElements;
 using Frankie.Core;
 using Frankie.Core.Predicates;
@@ -17,6 +18,7 @@ namespace Frankie.Saving.Editor
         protected SaveableEntityCardData saveableEntityCardData { get; private set; }
         public ISaveableBase saveable { get; protected set; }
         public SaveState saveState { get; protected set; }
+        public event Action<string, SaveState> saveStateChanged;
 
         public static SaveableSubCardData CreateTypeSpecificSubCard(ISaveableBase saveable, SaveState saveState)
         {
@@ -28,6 +30,8 @@ namespace Frankie.Saving.Editor
                 Experience => new SimpleFloatSaveableSubCard(saveable, saveState),
                 CombatParticipant => new CombatParticipantSaveableSubCard(saveable, saveState),
                 Party => new PartySubCard(saveable, saveState),
+                PartyAssist => new PartyAssistSubCard(saveable, saveState),
+                InactiveParty => new InactivePartySubCard(saveable, saveState),
                 Knapsack => new KnapsackSaveableSubCard(saveable, saveState),
                 Equipment => new EquipmentSaveableSubCard(saveable, saveState),
                 WearablesLink => new WearablesLinkSubCard(saveable, saveState),
@@ -51,6 +55,17 @@ namespace Frankie.Saving.Editor
         public void SetSaveableEntityCardData(SaveableEntityCardData setSaveableEntityCardData)
         {
             saveableEntityCardData = setSaveableEntityCardData;
+        }
+
+        public void SubscribeToStateChangedEvent(bool enable, Action<string, SaveState> onStateChanged)
+        {
+            saveStateChanged -= onStateChanged;
+            if (enable) { saveStateChanged += onStateChanged; }
+        }
+
+        protected void RaiseSaveStateChanged()
+        {
+            saveStateChanged?.Invoke(saveable.GetType().ToString(), saveState);
         }
     }
 }

@@ -14,16 +14,13 @@ namespace Frankie.Saving.Editor
         public string entityName { get; private set; }
         public string entityID { get; private set; }
 
-        public SaveableEntityCardData(SaveableEntity saveableEntity, JObject cachedSaveState)
+        public SaveableEntityCardData(SaveableEntity saveableEntity, JObject saveableEntityStateDict)
         {
             this.saveableEntity = saveableEntity;
-
-            saveableEntityStateDict = new JObject();
-            if (cachedSaveState != null && cachedSaveState.TryGetValue(saveableEntity.GetUniqueIdentifier(), out JToken saveableEntityState))
-            {
-                SaveableEntity.TryGetStateDictionary(saveableEntityState, out JObject setSaveableEntityStateDict);
-                saveableEntityStateDict = setSaveableEntityStateDict;
-            }
+            saveableEntityStateDict ??= new JObject();
+            this.saveableEntityStateDict = saveableEntityStateDict;
+            
+            if (saveableEntity == null) { return; }
             
             entityName = saveableEntity.gameObject.name;
             entityID = saveableEntity.GetUniqueIdentifier();
@@ -33,7 +30,7 @@ namespace Frankie.Saving.Editor
             {
                 string typeString = saveable.GetType().ToString();
                 SaveState saveState = null;
-                if (saveableEntityStateDict != null && saveableEntityStateDict.ContainsKey(typeString)) { saveState = saveableEntityStateDict[typeString]?.ToObject<SaveState>(); }
+                if (saveableEntityStateDict.ContainsKey(typeString)) { saveState = saveableEntityStateDict[typeString]?.ToObject<SaveState>(); }
                 subCards[typeString] = SaveableSubCardData.CreateTypeSpecificSubCard(saveable, saveState);
             }
         }
@@ -65,6 +62,11 @@ namespace Frankie.Saving.Editor
         {
             if (updatedStateDict == null) { return; }
             saveableEntityStateDict = updatedStateDict;
+        }
+
+        public void UpdateSaveableEntry(string typeString, SaveState updatedSaveState)
+        {
+            SaveableEntity.ManualCaptureSaveState(saveableEntityStateDict, typeString, updatedSaveState);
         }
         
         public void ClearStateDict()

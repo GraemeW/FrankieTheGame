@@ -49,6 +49,7 @@ namespace Frankie.Saving.Editor
                 isDead = changeEvent.newValue;
                 var updatedSaveData = new CombatParticipantSaveData(isDead, currentHP, currentAP);
                 saveState = combatParticipant.ManualGetStateFromData(updatedSaveData);
+                RaiseSaveStateChanged();
             });
 
             currentHPField.RegisterValueChangedCallback(changeEvent =>
@@ -56,6 +57,7 @@ namespace Frankie.Saving.Editor
                 currentHP = changeEvent.newValue;
                 var updatedSaveData = new CombatParticipantSaveData(isDead, currentHP, currentAP);
                 saveState = combatParticipant.ManualGetStateFromData(updatedSaveData);
+                RaiseSaveStateChanged();
             });
 
             currentAPField.RegisterValueChangedCallback(changeEvent =>
@@ -63,6 +65,7 @@ namespace Frankie.Saving.Editor
                 currentAP = changeEvent.newValue;
                 var updatedSaveData = new CombatParticipantSaveData(isDead, currentHP, currentAP);
                 saveState = combatParticipant.ManualGetStateFromData(updatedSaveData);
+                RaiseSaveStateChanged();
             });
         }
     }

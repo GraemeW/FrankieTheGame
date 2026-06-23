@@ -55,25 +55,33 @@ namespace Frankie.Saving
         {
             if (!TryGetStateDictionary(state, out JObject stateDictionary)) { return; }
 
-            foreach (ISaveableBase saveable in GetComponents<ISaveableBase>())
+            foreach ((ISaveableBase saveable, SaveState saveState) in MatchSaveableToState(GetComponents<ISaveableBase>(), stateDictionary))
             {
-                var typeString = saveable.GetType().ToString();
-                if (!stateDictionary.ContainsKey(typeString)) continue;
-                var saveState = stateDictionary[typeString]?.ToObject<SaveState>();
-                if (saveState == null) { return; }
-
                 if (saveState.GetLoadPriority() == loadPriority)
                 {
                     saveable.RestoreState(saveState);
                 }
             }
         }
-        
-        public static JObject ManualCaptureSaveState(JObject existingTokenState, SaveState updatedSaveState, string typeString)
+
+        public static IEnumerable<(ISaveableBase, SaveState)> MatchSaveableToState(IEnumerable<ISaveableBase> saveableEntries, JObject stateDictionary)
         {
-            JObject updatedTokenState = existingTokenState ?? new JObject();
-            updatedTokenState[typeString] = JToken.FromObject(updatedSaveState);
-            return updatedTokenState;
+            foreach (ISaveableBase saveable in saveableEntries)
+            {
+                var typeString = saveable.GetType().ToString();
+                if (!stateDictionary.ContainsKey(typeString)) { continue; }
+                var saveState = stateDictionary[typeString]?.ToObject<SaveState>();
+                if (saveState == null) { continue; }
+
+                yield return (saveable, saveState);
+            }
+        }
+        
+        public static JObject ManualCaptureSaveState(JObject stateDictionary, string typeString, SaveState updatedSaveState)
+        {
+            JObject updatedStateDictionary = stateDictionary ?? new JObject();
+            updatedStateDictionary[typeString] = JToken.FromObject(updatedSaveState);
+            return updatedStateDictionary;
         }
         
 #if UNITY_EDITOR

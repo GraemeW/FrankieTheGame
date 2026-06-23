@@ -5,10 +5,10 @@ using Frankie.Saving;
 
 namespace Frankie.Stats
 {
-    public class InactiveParty : MonoBehaviour, ISaveable
+    public class InactiveParty : MonoBehaviour, ISaveable<Dictionary<CharacterProperties, JToken>>
     {
         // State
-        private readonly Dictionary<string, JToken> inactiveCharacterSaveStates = new();
+        private readonly Dictionary<CharacterProperties, JToken> inactiveCharacterSaveStates = new();
 
         #region PublicMethods
         public void CaptureCharacterState(BaseStats character)
@@ -20,7 +20,7 @@ namespace Frankie.Stats
 
             CharacterProperties characterProperties = character.GetCharacterProperties();
             if (characterProperties == null) { return; }
-            inactiveCharacterSaveStates[characterProperties.GetCharacterID()] = saveableEntity.CaptureState(null);
+            inactiveCharacterSaveStates[characterProperties] = saveableEntity.CaptureState(null);
         }
 
         public void RestoreCharacterState(ref BaseStats character)
@@ -29,12 +29,12 @@ namespace Frankie.Stats
 
             CharacterProperties characterProperties = character.GetCharacterProperties();
             if (characterProperties == null) { return; }
-            if (!inactiveCharacterSaveStates.ContainsKey(characterProperties.GetCharacterID())) { return; }
+            if (!inactiveCharacterSaveStates.ContainsKey(characterProperties)) { return; }
 
             SaveableEntity saveableEntity = character.GetComponent<SaveableEntity>();
             if (saveableEntity == null) { return; }
 
-            saveableEntity.RestoreState(inactiveCharacterSaveStates[characterProperties.GetCharacterID()], LoadPriority.ObjectProperty);
+            saveableEntity.RestoreState(inactiveCharacterSaveStates[characterProperties], LoadPriority.ObjectProperty);
         }
 
         public void RemoveFromInactiveStorage(BaseStats character)
@@ -48,31 +48,53 @@ namespace Frankie.Stats
         public void RemoveFromInactiveStorage(CharacterProperties characterProperties)
         {
             if (characterProperties == null) { return; }
-            inactiveCharacterSaveStates.Remove(characterProperties.GetCharacterID());
+            inactiveCharacterSaveStates.Remove(characterProperties);
         }
         #endregion
 
         #region SaveSystem
         public bool IsCorePlayerState() => true;
         public LoadPriority GetLoadPriority() => LoadPriority.ObjectProperty;
-        public SaveState CaptureState()
-        {
-            var saveState = new SaveState(GetLoadPriority(), inactiveCharacterSaveStates);
-            return saveState;
-        }
+        public SaveState CaptureState() => ManualGetStateFromData(inactiveCharacterSaveStates);
 
-        public void RestoreState(SaveState state)
+        public void RestoreState(SaveState saveState)
         {
-            if (state.GetState(typeof(Dictionary<string, JToken>)) is not Dictionary<string, JToken> inactiveCharacterSaveStateRecords) { return; }
+            if (saveState.GetState(typeof(Dictionary<string, JToken>)) is not Dictionary<string, JToken>) { return; }
             
             inactiveCharacterSaveStates.Clear();
+            foreach (KeyValuePair<CharacterProperties, JToken> characterPropertiesDataPair in ManualGetDataFromState(saveState))
+            {
+                inactiveCharacterSaveStates[characterPropertiesDataPair.Key] = characterPropertiesDataPair.Value;
+            }
+        }
+        
+        public SaveState ManualGetStateFromData(Dictionary<CharacterProperties, JToken> data)
+        {
+            data ??= new Dictionary<CharacterProperties, JToken>();
+            
+            Dictionary<string, JToken> inactiveCharacterSaveStateRecords = new Dictionary<string, JToken>();
+            foreach (KeyValuePair<CharacterProperties, JToken> keyValuePair in data)
+            {
+                inactiveCharacterSaveStateRecords[keyValuePair.Key.GetCharacterID()] = keyValuePair.Value;
+            }
+            return new SaveState(GetLoadPriority(), inactiveCharacterSaveStateRecords);
+        }
+
+        public Dictionary<CharacterProperties, JToken> ManualGetDataFromState(SaveState saveState)
+        {
+            if (saveState.GetState(typeof(Dictionary<string, JToken>)) is not Dictionary<string, JToken> inactiveCharacterSaveStateRecords) { return new Dictionary<CharacterProperties, JToken>(); }
+            
+            var data = new Dictionary<CharacterProperties, JToken>();
             foreach (KeyValuePair<string, JToken> keyValuePair in inactiveCharacterSaveStateRecords)
             {
                 string characterName = keyValuePair.Key;
                 if (string.IsNullOrWhiteSpace(characterName)) { continue; }
+                CharacterProperties characterProperties = CharacterProperties.GetCharacterPropertiesFromName(characterName);
+                if (characterProperties == null) { continue; }
 
-                inactiveCharacterSaveStates[characterName] = keyValuePair.Value;
+                data[characterProperties] = keyValuePair.Value;
             }
+            return data;
         }
         #endregion
     }

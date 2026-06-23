@@ -27,6 +27,7 @@ namespace Frankie.Saving.Editor
             boolField.RegisterValueChangedCallback(changeEvent =>
             {
                 saveState = boolSaveable.ManualGetStateFromData(changeEvent.newValue);
+                RaiseSaveStateChanged();
             });
         }
     }

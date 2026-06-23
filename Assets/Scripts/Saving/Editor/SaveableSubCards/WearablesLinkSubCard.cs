@@ -36,6 +36,7 @@ namespace Frankie.Saving.Editor
             {
                 wearableItems.Add(null);
                 saveState = wearablesLink.ManualGetStateFromData(wearableItems);
+                RaiseSaveStateChanged();
                 DrawWearableItemList(listContainer, wearablesLink, wearableItems);
             });
         }
@@ -71,12 +72,14 @@ namespace Frankie.Saving.Editor
                     var newWearableItem = changeEvent.newValue as WearableItem;
                     wearableItems[slotIndex] = newWearableItem;
                     saveState = wearablesLink.ManualGetStateFromData(wearableItems);
+                    RaiseSaveStateChanged();
                 });
 
                 removeSlotButton.RegisterCallback<ClickEvent>(_ =>
                 {
                     wearableItems.RemoveAt(slotIndex);
                     saveState = wearablesLink.ManualGetStateFromData(wearableItems);
+                    RaiseSaveStateChanged();
                     DrawWearableItemList(listContainer, wearablesLink, wearableItems);
                 });
             }

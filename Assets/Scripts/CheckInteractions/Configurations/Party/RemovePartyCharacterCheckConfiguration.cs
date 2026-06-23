@@ -48,7 +48,7 @@ namespace Frankie.Control
                 CharacterProperties selectedCharacter = character.GetCharacterProperties();
                 if (unremovableCharacters.Any(unremovableCharacter => CharacterProperties.AreCharacterPropertiesMatched(selectedCharacter, unremovableCharacter)))
                 {
-                    playerStateHandler.EnterDialogue(string.Format(localizedMessageCannotRemove.GetSafeLocalizedString(), selectedCharacter.name));
+                    playerStateHandler.EnterDialogue(string.Format(localizedMessageCannotRemove.GetSafeLocalizedString(), selectedCharacter.GetCharacterID()));
                     return;
                 }
             }

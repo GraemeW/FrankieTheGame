@@ -94,6 +94,7 @@ namespace Frankie.Saving.Editor
                 }
                 var updatedSaveData = new PartySaveData(partyCharacters, unlockedCharactersSet, worldNPCLookup);
                 saveState = party.ManualGetStateFromData(updatedSaveData);
+                RaiseSaveStateChanged();
             }
         }
         

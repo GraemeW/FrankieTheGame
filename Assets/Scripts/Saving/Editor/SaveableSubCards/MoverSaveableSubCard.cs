@@ -47,6 +47,7 @@ namespace Frankie.Saving.Editor
                 Vector3 updatedPosition = new(xPosition, yPosition, 0f);
                 var serializablePosition = new SerializableVector2(updatedPosition);
                 saveState = mover.ManualGetStateFromData(serializablePosition);
+                RaiseSaveStateChanged();
             });
 
             yField.RegisterValueChangedCallback(changeEvent =>
@@ -55,6 +56,7 @@ namespace Frankie.Saving.Editor
                 Vector3 updatedPosition = new(xPosition, yPosition, 0f);
                 var serializablePosition = new SerializableVector2(updatedPosition);
                 saveState = mover.ManualGetStateFromData(serializablePosition);
+                RaiseSaveStateChanged();
             });
         }
     }

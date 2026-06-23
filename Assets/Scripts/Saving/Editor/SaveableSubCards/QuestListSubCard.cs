@@ -36,6 +36,7 @@ namespace Frankie.Saving.Editor
             {
                 questStatuses.Add(new QuestStatus(null));
                 saveState = questList.ManualGetStateFromData(questStatuses);
+                RaiseSaveStateChanged();
                 DrawQuestStatusList(listContainer, questList, questStatuses);
             });
         }
@@ -78,6 +79,7 @@ namespace Frankie.Saving.Editor
                     var newQuest = changeEvent.newValue as Quest;
                     questStatuses[questIndex] = new QuestStatus(newQuest);
                     saveState = questList.ManualGetStateFromData(questStatuses);
+                    RaiseSaveStateChanged();
                     DrawObjectivesForQuestStatus(objectivesContainer, questList, questStatuses, questIndex);
                 });
 
@@ -85,6 +87,7 @@ namespace Frankie.Saving.Editor
                 {
                     questStatuses.RemoveAt(questIndex);
                     saveState = questList.ManualGetStateFromData(questStatuses);
+                    RaiseSaveStateChanged();
                     DrawQuestStatusList(listContainer, questList, questStatuses);
                 });
             }
@@ -113,6 +116,7 @@ namespace Frankie.Saving.Editor
                 {
                     questStatus.SetObjective(questObjective, changeEvent.newValue);
                     saveState = questList.ManualGetStateFromData(questStatuses);
+                    RaiseSaveStateChanged();
                 });
             }
         }
