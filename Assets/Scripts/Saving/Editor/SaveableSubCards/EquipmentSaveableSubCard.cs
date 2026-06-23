@@ -37,10 +37,10 @@ namespace Frankie.Saving.Editor
                 
                 equipField.RegisterValueChangedCallback(changeEvent =>
                 {
+                    var oldEquipableItem = changeEvent.previousValue as EquipableItem;
                     var newEquipableItem = changeEvent.newValue as EquipableItem;
                     
-                    Debug.Log($"Equipping {newEquipableItem} to {item.Key}");
-                    if (!CanUpdateEquipment(newEquipableItem, item.Key))
+                    if (!CanUpdateEquipment(oldEquipableItem, newEquipableItem, item.Key))
                     {
                         equipField.SetValueWithoutNotify(equippedItems[item.Key]);
                         return;
@@ -52,9 +52,33 @@ namespace Frankie.Saving.Editor
             }
         }
 
-        private bool CanUpdateEquipment(EquipableItem newEquipableItem, EquipLocation equipLocation)
+        public void UnequipItemFromLocation(EquipLocation equipLocation)
         {
-            if (newEquipableItem == null) { return true; } // Equip nothing
+            if (saveable is not Equipment equipment) { return; }
+            
+            Dictionary<EquipLocation, EquipableItem> equippedItems = equipment.ManualGetDataFromState(saveState);
+            equippedItems[equipLocation] = null;
+            
+            saveState = equipment.ManualGetStateFromData(equippedItems);
+            RaiseSaveStateChanged();
+            Redraw();
+        }
+
+        private void ReconcileKnapsackUnequip(EquipableItem equipableItemToRemove)
+        {
+            if (saveableEntityCardData == null) { return; }
+            if (!saveableEntityCardData.TryGetSaveableSubCardData(out KnapsackSaveableSubCard knapsackSaveableSubCard)) { return; }
+            
+            knapsackSaveableSubCard.UnequipItem(equipableItemToRemove);
+        }
+
+        private bool CanUpdateEquipment(EquipableItem oldEquipableItem, EquipableItem newEquipableItem, EquipLocation equipLocation)
+        {
+            if (newEquipableItem == null)
+            {
+                if (oldEquipableItem != null) { ReconcileKnapsackUnequip(oldEquipableItem); }
+                return true;
+            }
             
             if (newEquipableItem.GetEquipLocation() != equipLocation)
             {
@@ -62,10 +86,9 @@ namespace Frankie.Saving.Editor
                 return false;
             }
                     
-            if (saveableEntityCardData != null && saveableEntityCardData.TryGetSaveableSubCardData<Knapsack>(out SaveableSubCardData knapsackSubCardData))
+            if (saveableEntityCardData != null && saveableEntityCardData.TryGetSaveableSubCardData(out KnapsackSaveableSubCard knapsackSubCardData))
             {
-                // TODO:  Add inventory checks, pending inventory saveable subCard
-                Debug.Log("Found the inventory!");
+                return knapsackSubCardData.TryEquipItem(newEquipableItem);
             }
             return true;
         }

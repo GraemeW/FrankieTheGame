@@ -36,12 +36,13 @@ namespace Frankie.Saving.Editor
         }
 
         #region Getters
-        public bool TryGetSaveableSubCardData<T>(out SaveableSubCardData matchTypeSubCardData)
+        public bool TryGetSaveableSubCardData<T>(out T matchTypeSubCardData)
         {
-            matchTypeSubCardData = null;
-            foreach (SaveableSubCardData subCardData in subCards.Values.Where(subCardData => subCardData.saveable is T))
+            matchTypeSubCardData = default;
+            foreach (SaveableSubCardData subCardData in subCards.Values)
             {
-                matchTypeSubCardData = subCardData;
+                if (subCardData is not T matchedType) { continue; }
+                matchTypeSubCardData = matchedType;
                 return true;
             }
             return false;

@@ -15,10 +15,14 @@ namespace Frankie.Saving.Editor
 {
     public abstract class SaveableSubCardData
     {
+        // State
         protected SaveableEntityCardData saveableEntityCardData { get; private set; }
         public ISaveableBase saveable { get; protected set; }
         public SaveState saveState { get; protected set; }
+        // Events
         public event Action<string, SaveState> saveStateChanged;
+        // UI State
+        private Box contentContainer;
 
         public static SaveableSubCardData CreateTypeSpecificSubCard(ISaveableBase saveable, SaveState saveState)
         {
@@ -51,6 +55,21 @@ namespace Frankie.Saving.Editor
         }
         
         public abstract void AddEditableFieldsToSubCardView(Box subCardView);
+        
+        public void DrawIntoSubCardView(Box subCardView)
+        {
+            contentContainer = new Box();
+            subCardView.Add(contentContainer);
+            AddEditableFieldsToSubCardView(contentContainer);
+        }
+        
+        public void Redraw()
+        {
+            if (contentContainer == null) { return; }
+            contentContainer.Clear();
+            AddEditableFieldsToSubCardView(contentContainer);
+        }
+        
         
         public void SetSaveableEntityCardData(SaveableEntityCardData setSaveableEntityCardData)
         {

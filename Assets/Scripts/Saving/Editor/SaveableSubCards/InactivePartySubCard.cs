@@ -45,11 +45,8 @@ namespace Frankie.Saving.Editor
 
                     nestedSubCardBox.Add(new Label(inactiveCharacterSubCardEntry.saveable.GetType().ToString()));
                     inactiveCharacterSubCardEntry.AddEditableFieldsToSubCardView(nestedSubCardBox);
-
-                    inactiveCharacterSubCardEntry.SubscribeToStateChangedEvent(false, OnNestedSaveStateChanged);
                     inactiveCharacterSubCardEntry.SubscribeToStateChangedEvent(true, OnNestedSaveStateChanged);
                     continue;
-
                     
                     void OnNestedSaveStateChanged(string typeString, SaveState updatedSaveState)
                     {

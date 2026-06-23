@@ -274,7 +274,7 @@ namespace Frankie.Saving.Editor
             loadDataButton.RegisterCallback<ClickEvent>(LoadSaveControlData);
             buttonStack.Add(loadDataButton);
 
-            var applyDataButton = new Button { text = "Apply All Data", style = { backgroundColor = Color.midnightBlue, color = Color.white } };
+            var applyDataButton = new Button { text = "Apply All Data", style = { backgroundColor = Color.softRed, color = Color.white } };
             applyDataButton.RegisterCallback<ClickEvent>(ApplyAllSaveableEntityData);
             buttonStack.Add(applyDataButton);
         }
@@ -301,11 +301,20 @@ namespace Frankie.Saving.Editor
             var cardView = new Box { style = { marginBottom = 4 } };
             
             var entitySubHeader = new Box();
-            entitySubHeader.Add(new Label($"GameObject:  {saveableEntityCardData.entityName}"));
+            
+            var gameObjectRow = new VisualElement { style = { flexDirection = FlexDirection.Row, justifyContent = Justify.SpaceBetween } };
+            entitySubHeader.Add(gameObjectRow);
+            
+            gameObjectRow.Add(new Label($"GameObject:  {saveableEntityCardData.entityName}"));
+            
+            var focusGameObjectButton = new Button { text = "Select Entity", style = { backgroundColor = Color.cornflowerBlue, color = Color.white } };
+            focusGameObjectButton.RegisterCallback<ClickEvent>(_ => SelectAndFocusGameObject(saveableEntityCardData));
+            gameObjectRow.Add(focusGameObjectButton);
+            
             entitySubHeader.Add(new Label($"ID:  {saveableEntityCardData.entityID}"));
             cardView.Add(entitySubHeader);
             
-            var saveEntityButton = new Button { text = "Save Entity", style = { backgroundColor = Color.darkSlateBlue, color = Color.white } };
+            var saveEntityButton = new Button { text = "Save Entity", style = { backgroundColor = Color.chocolate, color = Color.white } };
             entitySubHeader.Add(saveEntityButton);
 
             foreach (KeyValuePair<string, SaveableSubCardData> keyValuePair in saveableEntityCardData.subCards)
@@ -323,7 +332,7 @@ namespace Frankie.Saving.Editor
         {
             var subCardView = new Box { style = { marginTop = 2, marginLeft = 8 } };
             subCardView.Add(new Label($"Component:  {typeString}"));
-            saveableSubCardData.AddEditableFieldsToSubCardView(subCardView);
+            saveableSubCardData.DrawIntoSubCardView(subCardView);
             return subCardView;
         }
         #endregion
@@ -470,6 +479,15 @@ namespace Frankie.Saving.Editor
                 SaveSaveableEntity(saveableEntityCardData, false);
             }
             SavingSystem.ManualSave(SavingWrapper.GetCurrentSaveName(), cachedSaveState);
+        }
+
+        private static void SelectAndFocusGameObject(SaveableEntityCardData saveableEntityCardData)
+        {
+            GameObject gameObject = saveableEntityCardData.saveableEntity?.gameObject;
+            if (gameObject == null) { return; }
+            
+            Selection.activeGameObject = gameObject;
+            SceneView.lastActiveSceneView?.FrameSelected();
         }
         
         private static void UpdateSaveableEntityCardData(SaveableEntityCardData saveableEntityCardData)
