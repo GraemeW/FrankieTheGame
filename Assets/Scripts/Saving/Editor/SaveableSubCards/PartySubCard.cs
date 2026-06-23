@@ -182,20 +182,21 @@ namespace Frankie.Saving.Editor
                 int rowIndex = i;
                 (CharacterProperties characterProperties, SceneParentReferencePair sceneParentReferencePair) = worldNPCRows[rowIndex];
 
-                var row = new VisualElement { style = { flexDirection = FlexDirection.Row } };
-                container.Add(row);
+                var column = new VisualElement { style = { flexDirection = FlexDirection.Column } };
+                container.Add(column);
 
+                var characterRow = new VisualElement { style = { flexDirection = FlexDirection.Row } };
                 var characterField = new ObjectField { objectType = typeof(CharacterProperties), value = characterProperties, style = { flexGrow = 1 } };
-                row.Add(characterField);
-
-                var sceneField = new TextField { value = sceneParentReferencePair.sceneName, isDelayed = true, style = { flexGrow = 1 } };
-                row.Add(sceneField);
-
-                var parentField = new TextField { value = sceneParentReferencePair.parentName, isDelayed = true, style = { flexGrow = 1 } };
-                row.Add(parentField);
-
+                characterRow.Add(characterField);
                 var removeButton = new Button { text = "- Remove" };
-                row.Add(removeButton);
+                characterRow.Add(removeButton);
+                column.Add(characterRow);
+                
+                var sceneField = new TextField { label ="Scene Name", value = sceneParentReferencePair.sceneName, isDelayed = true, style = { flexGrow = 1 }};
+                column.Add(sceneField);
+
+                var parentField = new TextField { label = "Parent Object Name", value = sceneParentReferencePair.parentName, isDelayed = true, style = { flexGrow = 1 } };
+                column.Add(parentField);
 
                 characterField.RegisterValueChangedCallback(changeEvent =>
                 {

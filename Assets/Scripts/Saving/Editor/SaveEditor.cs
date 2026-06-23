@@ -10,7 +10,6 @@ using UnityEditor.SceneManagement;
 using Frankie.Core;
 using Frankie.Core.GameStateModifiers;
 using Frankie.Stats;
-using Frankie.Inventory;
 
 namespace Frankie.Saving.Editor
 {
@@ -21,6 +20,7 @@ namespace Frankie.Saving.Editor
         private const int _maxSaves = 100;
         private const string _controlBoxStatusUnloaded = "Unloaded";
         private const string _controlBoxStatusLoaded = "Loaded";
+        private const float _entityCardSpacerHeight = 10f;
         
         // State
         private string newSave;
@@ -274,8 +274,8 @@ namespace Frankie.Saving.Editor
             loadDataButton.RegisterCallback<ClickEvent>(LoadSaveControlData);
             buttonStack.Add(loadDataButton);
 
-            var applyDataButton = new Button { text = "Apply All Data" };
-            applyDataButton.SetEnabled(false);
+            var applyDataButton = new Button { text = "Apply All Data", style = { backgroundColor = Color.midnightBlue, color = Color.white } };
+            applyDataButton.RegisterCallback<ClickEvent>(ApplyAllSaveableEntityData);
             buttonStack.Add(applyDataButton);
         }
 
@@ -290,6 +290,9 @@ namespace Frankie.Saving.Editor
             {
                 Box entityCardView = DrawSaveableEntityCard(saveableEntityCardData); 
                 saveControlEntityScrollView.Add(entityCardView);
+                
+                var spacer = new VisualElement { style = { height = _entityCardSpacerHeight } };
+                saveControlEntityScrollView.Add(spacer);
             }
         }
 
@@ -302,7 +305,7 @@ namespace Frankie.Saving.Editor
             entitySubHeader.Add(new Label($"ID:  {saveableEntityCardData.entityID}"));
             cardView.Add(entitySubHeader);
             
-            var saveEntityButton = new Button { text = "Save Entity" };
+            var saveEntityButton = new Button { text = "Save Entity", style = { backgroundColor = Color.darkSlateBlue, color = Color.white } };
             entitySubHeader.Add(saveEntityButton);
 
             foreach (KeyValuePair<string, SaveableSubCardData> keyValuePair in saveableEntityCardData.subCards)
@@ -447,7 +450,7 @@ namespace Frankie.Saving.Editor
             DrawSaveControlEntityList();
         }
 
-        private void SaveSaveableEntity(SaveableEntityCardData saveableEntityCardData)
+        private void SaveSaveableEntity(SaveableEntityCardData saveableEntityCardData, bool saveCachedStateToFile = true)
         {
             if (cachedSaveState == null) { return; }
             
@@ -457,7 +460,16 @@ namespace Frankie.Saving.Editor
             
             UpdateSaveableEntityCardData(saveableEntityCardData);
             SavingSystem.ManualAddOverWriteToState(cachedSaveState, stateToAdd, uniqueIdentifier);
-            SavingSystem.ManualSave( SavingWrapper.GetCurrentSaveName(), cachedSaveState);
+            if (saveCachedStateToFile) { SavingSystem.ManualSave(SavingWrapper.GetCurrentSaveName(), cachedSaveState); }
+        }
+
+        private void ApplyAllSaveableEntityData(ClickEvent clickEvent)
+        {
+            foreach (SaveableEntityCardData saveableEntityCardData in cachedSaveableEntityCardData)
+            {
+                SaveSaveableEntity(saveableEntityCardData, false);
+            }
+            SavingSystem.ManualSave(SavingWrapper.GetCurrentSaveName(), cachedSaveState);
         }
         
         private static void UpdateSaveableEntityCardData(SaveableEntityCardData saveableEntityCardData)

@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Frankie.Stats
 {
@@ -28,6 +29,16 @@ namespace Frankie.Stats
             partyCharacters = new List<CharacterProperties>();
             unlockedCharacters = new HashSet<CharacterProperties>();
             worldNPCLookup = new Dictionary<CharacterProperties, SceneParentReferencePair>();
+        }
+
+        public List<string> GetPartyCharacterNames()
+        {
+            return partyCharacters.Select(partyCharacter => partyCharacter != null ? partyCharacter.GetCharacterID() : string.Empty).ToList();
+        }
+
+        public List<string> GetUnlockedCharacterNames()
+        {
+            return unlockedCharacters.Select(character => character != null ? character.GetCharacterID() : string.Empty).ToList();
         }
     }
 }

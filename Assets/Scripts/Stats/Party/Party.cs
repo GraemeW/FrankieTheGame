@@ -257,8 +257,8 @@ namespace Frankie.Stats
         
         public SaveState ManualGetStateFromData(PartySaveData data)
         {
-            List<string> partyNames = data.partyCharacters.Select(character => character.GetCharacterID()).ToList();
-            List<string> unlockedCharacterNames = data.unlockedCharacters.Select(character => character.GetCharacterID()).ToList();
+            List<string> partyNames = data.GetPartyCharacterNames();
+            List<string> unlockedCharacterNames = data.GetUnlockedCharacterNames();
             
             Dictionary<CharacterProperties, SceneParentReferencePair> localNPCWorldLookup = data.worldNPCLookup;
             var worldNPCNameLookup = new Dictionary<string, SceneParentReferencePair>();
