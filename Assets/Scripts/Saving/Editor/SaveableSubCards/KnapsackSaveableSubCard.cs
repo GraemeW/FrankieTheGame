@@ -62,6 +62,8 @@ namespace Frankie.Saving.Editor
                     }
                     
                     updatedItem?.SetEquipped(false); // New item adds are always unequipped, can equip via Equipment
+                    equippedField.SetValueWithoutNotify(false);
+                    
                     itemsInKnapsack[slotIndex] = updatedItem;
                     saveState = knapsack.ManualGetStateFromData(itemsInKnapsack);
                     RaiseSaveStateChanged();
