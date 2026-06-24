@@ -29,7 +29,7 @@ namespace Frankie.Saving.Editor
         private const float _largeButtonWidth = 250f;
         private static readonly Color _selectEntityButtonColor = Color.cornflowerBlue;
         private static readonly Color _saveEntityButtonColor = Color.chocolate;
-        private static readonly Color _gameObjectSelectedColor = Color.darkOliveGreen;
+        private static readonly Color _gameObjectSelectedColor = Color.steelBlue / 1.5f;
 
         public SaveableEntityCardData(SaveableEntity saveableEntity, JObject saveableEntityStateDict)
         {
