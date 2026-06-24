@@ -35,13 +35,13 @@ namespace Frankie.Saving.Editor
             var currentHPRow = new VisualElement { style = { flexDirection = FlexDirection.Row } };
             subCardView.Add(currentHPRow);
             currentHPRow.Add(new Label("Current HP:") { style = { width = 120, unityTextAlign = TextAnchor.MiddleLeft } });
-            var currentHPField = new FloatField { value = currentHP, style = { flexGrow = 1 } };
+            var currentHPField = new FloatField { value = currentHP, isDelayed = true, style = { flexGrow = 1 } };
             currentHPRow.Add(currentHPField);
 
             var currentAPRow = new VisualElement { style = { flexDirection = FlexDirection.Row } };
             subCardView.Add(currentAPRow);
             currentAPRow.Add(new Label("Current AP:") { style = { width = 120, unityTextAlign = TextAnchor.MiddleLeft } });
-            var currentAPField = new FloatField { value = currentAP, style = { flexGrow = 1 } };
+            var currentAPField = new FloatField { value = currentAP, isDelayed = true, style = { flexGrow = 1 } };
             currentAPRow.Add(currentAPField);
 
             isDeadField.RegisterValueChangedCallback(changeEvent =>

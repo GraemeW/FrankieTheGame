@@ -28,13 +28,13 @@ namespace Frankie.Saving.Editor
             var cashRow = new VisualElement { style = { flexDirection = FlexDirection.Row } };
             subCardView.Add(cashRow);
             cashRow.Add(new Label("Cash:") { style = { width = 120, unityTextAlign = TextAnchor.MiddleLeft } });
-            var cashField = new IntegerField { value = cash, style = { flexGrow = 1 } };
+            var cashField = new IntegerField { value = cash, isDelayed = true, style = { flexGrow = 1 } };
             cashRow.Add(cashField);
 
             var pendingCashRow = new VisualElement { style = { flexDirection = FlexDirection.Row } };
             subCardView.Add(pendingCashRow);
             pendingCashRow.Add(new Label("Pending Cash:") { style = { width = 120, unityTextAlign = TextAnchor.MiddleLeft } });
-            var pendingCashField = new IntegerField { value = pendingCash, style = { flexGrow = 1 } };
+            var pendingCashField = new IntegerField { value = pendingCash, isDelayed = true, style = { flexGrow = 1 } };
             pendingCashRow.Add(pendingCashField);
 
             cashField.RegisterValueChangedCallback(changeEvent =>

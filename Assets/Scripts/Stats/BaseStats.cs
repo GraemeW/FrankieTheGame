@@ -121,16 +121,6 @@ namespace Frankie.Stats
                 IncrementLevel();
             }
         }
-        
-        private Dictionary<Stat, float> BuildBlankStatSheet()
-        {
-            Dictionary<Stat, float> blankStatSheet = new Dictionary<Stat, float>();
-            foreach (Stat stat in Enum.GetValues(typeof(Stat)))
-            {
-                blankStatSheet[stat] = _defaultStatForEmptySheet;
-            }
-            return blankStatSheet;
-        }
 
         private int GetInitialLevel()
         {
@@ -190,8 +180,7 @@ namespace Frankie.Stats
         
         public BaseStatsSaveData ManualGetDataFromState(SaveState saveState)
         {
-            var baseStatsSaveData = saveState.GetState(typeof(BaseStatsSaveData)) as BaseStatsSaveData;
-            baseStatsSaveData ??= new BaseStatsSaveData(_defaultLevelForNoCharacterProperties, BuildBlankStatSheet());
+            var baseStatsSaveData = saveState?.GetState(typeof(BaseStatsSaveData)) as BaseStatsSaveData;
             return baseStatsSaveData;
         }
         #endregion

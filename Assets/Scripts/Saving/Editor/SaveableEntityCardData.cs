@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using System.Linq;
 using Newtonsoft.Json.Linq;
 
 namespace Frankie.Saving.Editor
@@ -47,6 +46,18 @@ namespace Frankie.Saving.Editor
             }
             return false;
         }
+
+        public bool HasPlayerMoverWithAlteredPosition()
+        {
+            foreach (SaveableSubCardData subCardData in subCards.Values)
+            {
+                if (subCardData is not MoverSaveableSubCard moverSaveableSubCard || !moverSaveableSubCard.IsPlayerMoverSubCard()) { continue; }
+                if (moverSaveableSubCard.IsSaveStateSynced()) { continue; }
+                
+                return true;
+            }
+            return false;
+        }
         #endregion
         
         #region Setters
@@ -56,6 +67,15 @@ namespace Frankie.Saving.Editor
             foreach (SaveableSubCardData subCardData in subCards.Values)
             {
                 subCardData.SetSaveableEntityCardData(this);
+            }
+        }
+
+        public void ResetSaveableSyncFlag()
+        {
+            foreach (SaveableSubCardData subCardData in subCards.Values)
+            {
+                subCardData.ResetSyncFlag();
+                subCardData.Redraw();
             }
         }
         

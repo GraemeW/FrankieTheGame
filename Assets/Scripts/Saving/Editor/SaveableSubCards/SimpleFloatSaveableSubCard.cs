@@ -21,7 +21,7 @@ namespace Frankie.Saving.Editor
             
             floatRow.Add(new Label("Value:") { style = { width = 120, unityTextAlign = TextAnchor.MiddleLeft } });
             
-            var floatField = new FloatField { value = value, style = { flexGrow = 1 } };
+            var floatField = new FloatField { value = value, isDelayed = true, style = { flexGrow = 1 } };
             floatRow.Add(floatField);
 
             floatField.RegisterValueChangedCallback(changeEvent =>

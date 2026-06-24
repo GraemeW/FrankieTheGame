@@ -543,11 +543,7 @@ namespace Frankie.Combat
         
         public SaveState ManualGetStateFromData(CombatParticipantSaveData data) => new(GetLoadPriority(), data);
 
-        public CombatParticipantSaveData ManualGetDataFromState(SaveState saveState)
-        {
-            if (saveState.GetState(typeof(CombatParticipantSaveData)) is CombatParticipantSaveData saveData) { return saveData; }
-            return baseStats != null ? new CombatParticipantSaveData(false, GetMaxHP(), GetMaxAP()) : new CombatParticipantSaveData(false, 0f, 0f);
-        }
+        public CombatParticipantSaveData ManualGetDataFromState(SaveState saveState) => saveState?.GetState(typeof(CombatParticipantSaveData)) as CombatParticipantSaveData;
 
         // Predicate Evaluation
         public bool? Evaluate(Predicate predicate)

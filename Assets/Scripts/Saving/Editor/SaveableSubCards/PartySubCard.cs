@@ -152,7 +152,7 @@ namespace Frankie.Saving.Editor
                     var newCharacterProperties = changeEvent.newValue as CharacterProperties;
 
                     bool isDuplicate = newCharacterProperties != null && unlockedCharacters
-                        .Where((characterProperties, index) => index != rowIndex)
+                        .Where((_, index) => index != rowIndex)
                         .Any(characterProperties => characterProperties == newCharacterProperties);
                     if (isDuplicate)
                     {
@@ -203,7 +203,7 @@ namespace Frankie.Saving.Editor
                     var newCharacterProperties = changeEvent.newValue as CharacterProperties;
 
                     bool isDuplicateKey = newCharacterProperties != null && worldNPCRows
-                        .Where((entry, index) => index != rowIndex)
+                        .Where((_, index) => index != rowIndex)
                         .Any(entry => entry.characterProperties == newCharacterProperties);
                     if (isDuplicateKey)
                     {

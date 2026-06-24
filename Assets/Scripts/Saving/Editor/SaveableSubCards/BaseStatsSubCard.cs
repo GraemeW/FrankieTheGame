@@ -30,7 +30,7 @@ namespace Frankie.Saving.Editor
             var levelRow = new VisualElement { style = { flexDirection = FlexDirection.Row } };
             subCardView.Add(levelRow);
             levelRow.Add(new Label("Level:") { style = { width = 120, unityTextAlign = TextAnchor.MiddleLeft } });
-            var levelField = new IntegerField { value = level, style = { flexGrow = 1 } };
+            var levelField = new IntegerField { value = level, isDelayed = true, style = { flexGrow = 1 } };
             levelRow.Add(levelField);
 
             levelField.RegisterValueChangedCallback(changeEvent =>
@@ -48,7 +48,7 @@ namespace Frankie.Saving.Editor
 
                 statRow.Add(new Label($"{stat}:") { style = { width = 120, unityTextAlign = TextAnchor.MiddleLeft } });
 
-                var statField = new FloatField { value = statSheet[stat], style = { flexGrow = 1 } };
+                var statField = new FloatField { value = statSheet[stat], isDelayed = true, style = { flexGrow = 1 } };
                 statRow.Add(statField);
 
                 statField.RegisterValueChangedCallback(changeEvent =>

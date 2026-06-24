@@ -1,4 +1,5 @@
 using System;
+using UnityEngine;
 using UnityEngine.UIElements;
 using Frankie.Core;
 using Frankie.Core.Predicates;
@@ -15,14 +16,23 @@ namespace Frankie.Saving.Editor
 {
     public abstract class SaveableSubCardData
     {
+        // Const Tunables
+        private const string _statusSyncMessage = "Data Sync:  OK";
+        private const string _statusDesyncMessage = "Data Desync:  Volatile";
+        private static readonly Color _statusSyncColor = Color.lightGreen;
+        private static readonly Color _statusDesyncColor = Color.softRed;
+        
         // State
         protected SaveableEntityCardData saveableEntityCardData { get; private set; }
         public ISaveableBase saveable { get; protected set; }
         public SaveState saveState { get; protected set; }
         // Events
         public event Action<string, SaveState> saveStateChanged;
+        // ActiveState
+        private bool isSaveStateSynced = true;
         // UI State
         private Box contentContainer;
+        private Label syncStateLabel;
 
         public static SaveableSubCardData CreateTypeSpecificSubCard(ISaveableBase saveable, SaveState saveState)
         {
@@ -56,24 +66,26 @@ namespace Frankie.Saving.Editor
         
         public abstract void AddEditableFieldsToSubCardView(Box subCardView);
         
+        public bool IsSaveStateSynced() => isSaveStateSynced;
+        
+        public void SetSaveableEntityCardData(SaveableEntityCardData setSaveableEntityCardData) => saveableEntityCardData = setSaveableEntityCardData;
+        
+        public void ResetSyncFlag() => UpdateSyncState(true);
+        
         public void DrawIntoSubCardView(Box subCardView)
         {
             contentContainer = new Box();
             subCardView.Add(contentContainer);
-            AddEditableFieldsToSubCardView(contentContainer);
+            Redraw();
         }
         
         public void Redraw()
         {
             if (contentContainer == null) { return; }
             contentContainer.Clear();
+            syncStateLabel = new Label(isSaveStateSynced ? _statusSyncMessage : _statusDesyncMessage) { style = { color = isSaveStateSynced ? _statusSyncColor : _statusDesyncColor } };
+            contentContainer.Add(syncStateLabel);
             AddEditableFieldsToSubCardView(contentContainer);
-        }
-        
-        
-        public void SetSaveableEntityCardData(SaveableEntityCardData setSaveableEntityCardData)
-        {
-            saveableEntityCardData = setSaveableEntityCardData;
         }
 
         public void SubscribeToStateChangedEvent(bool enable, Action<string, SaveState> onStateChanged)
@@ -81,10 +93,20 @@ namespace Frankie.Saving.Editor
             saveStateChanged -= onStateChanged;
             if (enable) { saveStateChanged += onStateChanged; }
         }
-
+        
         protected void RaiseSaveStateChanged()
         {
+            UpdateSyncState(false);
             saveStateChanged?.Invoke(saveable.GetType().ToString(), saveState);
         }
+
+        private void UpdateSyncState(bool setIsSaveStateSynced)
+        {
+            isSaveStateSynced = setIsSaveStateSynced;
+            
+            if (syncStateLabel == null) { return; }
+            syncStateLabel.text = isSaveStateSynced ? _statusSyncMessage : _statusDesyncMessage;
+            syncStateLabel.style.color = isSaveStateSynced ? _statusSyncColor : _statusDesyncColor;
+        } 
     }
 }

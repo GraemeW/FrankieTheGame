@@ -6,6 +6,9 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
 
 namespace Frankie.Saving
 {
@@ -126,6 +129,24 @@ namespace Frankie.Saving
         public static void Delete(string saveFile)
         {
             File.Delete(GetPathFromSaveFile(saveFile));
+        }
+
+        public static string ManualGetLastScene(JObject state)
+        {
+            if (state == null) { return string.Empty; }
+            return state.ContainsKey(_saveLastSceneBuildIndex) ? state[_saveLastSceneBuildIndex]?.ToObject<string>() : string.Empty;
+        }
+
+        public static void ManualUpdateLastScene(JObject state, string sceneName)
+        {
+#if UNITY_EDITOR
+            if (!EditorBuildSettings.scenes.Any(scene => scene.path.Contains(sceneName)))
+            {
+                Debug.LogWarning($"Scene updated to {sceneName}, but not found in build profile!  Save may not load correctly.");
+            }
+#endif
+
+            state[_saveLastSceneBuildIndex] = sceneName;
         }
 
         public static void ManualAddOverWriteToState(JObject state, JToken stateToAdd, string uniqueIdentifier)

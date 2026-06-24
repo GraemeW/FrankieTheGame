@@ -280,7 +280,7 @@ namespace Frankie.Control
         }
 
         public SaveState ManualGetStateFromData(SerializableVector2 data) => new(GetLoadPriority(), data);
-        public SerializableVector2 ManualGetDataFromState(SaveState saveState) => saveState.GetState(typeof(SerializableVector2)) as SerializableVector2;
+        public SerializableVector2 ManualGetDataFromState(SaveState saveState) => saveState?.GetState(typeof(SerializableVector2)) as SerializableVector2;
         #endregion
     }
 }

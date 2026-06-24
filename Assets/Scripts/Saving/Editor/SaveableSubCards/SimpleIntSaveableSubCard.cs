@@ -21,7 +21,7 @@ namespace Frankie.Saving.Editor
             
             intRow.Add(new Label("Value:") { style = { width = 120, unityTextAlign = TextAnchor.MiddleLeft } });
             
-            var intField = new IntegerField { value = value, style = { flexGrow = 1 } };
+            var intField = new IntegerField { value = value, isDelayed = true, style = { flexGrow = 1 } };
             intRow.Add(intField);
             
             intField.RegisterValueChangedCallback(changeEvent =>

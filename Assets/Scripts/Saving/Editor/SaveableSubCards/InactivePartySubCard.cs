@@ -82,7 +82,7 @@ namespace Frankie.Saving.Editor
                 
                 if (!SaveableEntity.TryGetStateDictionary(characterPropertiesStateData.Value, out JObject saveableEntityStateDict)) { continue; }
 
-                SaveableEntityCardData inactiveCharacterSaveableEntityData = new SaveableEntityCardData(inactiveSaveableEntity, saveableEntityStateDict);
+                var inactiveCharacterSaveableEntityData = new SaveableEntityCardData(inactiveSaveableEntity, saveableEntityStateDict);
                 inactiveCharacterSaveableEntityData.SelfReferenceInSubCards();
                 inactivePartyEntries.Add((characterPropertiesStateData.Key, inactiveCharacterSaveableEntityData));
             }
