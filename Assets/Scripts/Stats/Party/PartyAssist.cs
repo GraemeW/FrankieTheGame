@@ -32,10 +32,11 @@ namespace Frankie.Stats
             if (members.Count >= partyLimit) { return false; }
             if (characterBaseStats == null) { return false; } // Failsafe
             if (HasMember(characterBaseStats)) { return false; } // Verify no dupe characters to party
-
+            
             members.Add(characterBaseStats);
             RefreshAnimatorLookup();
 
+            characterBaseStats.GetComponent<Collider2D>().isTrigger = true; // All party assist have disabled colliders
             partyAssistUpdated?.Invoke();
             return true;
         }
@@ -122,7 +123,8 @@ namespace Frankie.Stats
         
         public SaveState ManualGetStateFromData(List<CharacterProperties> data)
         {
-            List<string> partyNames = data.Select(character => character.GetCharacterID()).ToList();
+            data ??= new List<CharacterProperties>();
+            List<string> partyNames = data.Select(character => character != null ? character.GetCharacterID() : string.Empty).ToList();
             return new SaveState(GetLoadPriority(), partyNames);
         }
 
@@ -151,9 +153,8 @@ namespace Frankie.Stats
                 var character = characterObject.GetComponent<BaseStats>();
                 if (character == null) { Destroy(characterObject); continue; }
 
+                characterObject.GetComponent<Collider2D>().isTrigger = true; // All party assist have disabled colliders
                 members.Add(character);
-
-                if (members.Count > 1) { characterObject.GetComponent<Collider2D>().isTrigger = true; }
             }
             RefreshAnimatorLookup();
             partyAssistUpdated?.Invoke();

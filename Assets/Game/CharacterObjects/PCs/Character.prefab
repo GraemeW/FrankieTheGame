@@ -174,7 +174,7 @@ MonoBehaviour:
     tileSpriteImage: {fileID: 0}
     shaderMaterial: {fileID: 0}
   battlePropertiesPriority: 0
-  shouldDestroySelfOnDeath: 1
+  shouldDestroySelfOnDeath: 0
   shouldSaveStateOnDeath: 0
   onDeathEvent:
     m_PersistentCalls:

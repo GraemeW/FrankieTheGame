@@ -592,6 +592,7 @@ namespace Frankie.Combat
                 float subImposingStat = -1f;
                 foreach (BattleEntity character in battleMat.GetActivePlayerCharacters())
                 {
+                    if (character.combatParticipant != null && character.combatParticipant.IsDead()) { continue; }
                     float newImposingStat = character.combatParticipant.GetCalculatedStat(CalculatedStat.Imposing, enemy.combatParticipant);
                     subImposingStat = newImposingStat > subImposingStat ? newImposingStat : subImposingStat;
                     // Within single enemy, if any character is imposing, set is imposing (>0f) -- take the largest value

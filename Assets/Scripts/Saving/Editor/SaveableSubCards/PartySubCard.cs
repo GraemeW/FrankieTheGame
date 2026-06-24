@@ -1,8 +1,9 @@
 using System.Collections.Generic;
 using System.Linq;
-using Frankie.Stats;
+using UnityEngine;
 using UnityEngine.UIElements;
 using UnityEditor.UIElements;
+using Frankie.Stats;
 
 namespace Frankie.Saving.Editor
 {
@@ -117,6 +118,14 @@ namespace Frankie.Saving.Editor
 
                 characterField.RegisterValueChangedCallback(changeEvent =>
                 {
+                    var newCharacterProperties = changeEvent.newValue as CharacterProperties;
+                    if (newCharacterProperties != null && newCharacterProperties.GetCharacterPrefab() == null)
+                    {
+                        Debug.LogWarning("Invalid Character:  Select entry with a character prefab.");
+                        characterField.SetValueWithoutNotify(partyCharacters[rowIndex]);
+                        return;
+                    }
+                    
                     partyCharacters[rowIndex] = changeEvent.newValue as CharacterProperties;
                     pushSaveState?.Invoke();
                 });
@@ -150,6 +159,12 @@ namespace Frankie.Saving.Editor
                 characterField.RegisterValueChangedCallback(changeEvent =>
                 {
                     var newCharacterProperties = changeEvent.newValue as CharacterProperties;
+                    if (newCharacterProperties != null && newCharacterProperties.GetCharacterPrefab() == null)
+                    {
+                        Debug.LogWarning("Invalid Character:  Select entry with a character prefab.");
+                        characterField.SetValueWithoutNotify(unlockedCharacters[rowIndex]);
+                        return;
+                    }
 
                     bool isDuplicate = newCharacterProperties != null && unlockedCharacters
                         .Where((_, index) => index != rowIndex)

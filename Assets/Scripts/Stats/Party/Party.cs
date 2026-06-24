@@ -5,6 +5,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using Frankie.Saving;
 using Frankie.Core.Predicates;
+using Frankie.Combat;
 
 namespace Frankie.Stats
 {
@@ -16,6 +17,7 @@ namespace Frankie.Stats
         private readonly Dictionary<CharacterProperties, SceneParentReferencePair> worldNPCLookup = new();
 
         // Cached References
+        private CombatParticipant partyLeaderCombatParticipant;
         private InactiveParty inactiveParty;
 
         // Events
@@ -74,6 +76,7 @@ namespace Frankie.Stats
             }
             playerMover.ResetHistory(characterBaseStats.transform.position);
             RefreshAnimatorLookup();
+            SyncToPartyLeaderStatusUpdates();
             partyUpdated?.Invoke();
         }
 
@@ -224,6 +227,31 @@ namespace Frankie.Stats
             CharacterProperties characterProperties = character.GetCharacterProperties();
             RemoveFromUnlockedCharacters(characterProperties);
         }
+
+        private void SyncToPartyLeaderStatusUpdates()
+        {
+            if (partyLeaderCombatParticipant != null) { partyLeaderCombatParticipant.UnsubscribeToStateUpdates(HandlePartyLeaderStatusUpdate); }
+            if (members is not { Count: > 0 }) { return; }
+            
+            partyLeaderCombatParticipant = members[0].GetComponent<CombatParticipant>();
+            partyLeaderCombatParticipant.SubscribeToStateUpdates(HandlePartyLeaderStatusUpdate);
+        }
+
+        private void HandlePartyLeaderStatusUpdate(StateAlteredInfo stateAlteredInfo)
+        {
+            if (stateAlteredInfo == null) { return; }
+            if (stateAlteredInfo.stateAlteredType != StateAlteredType.Dead) { return; }
+            if (members is not { Count: > 1 }) { return; }
+
+            foreach (BaseStats member in members)
+            {
+                if (!member.TryGetComponent(out CombatParticipant combatParticipant)) { continue; }
+                if (combatParticipant.IsDead()) { continue; }
+                
+                SetPartyLeader(member);
+                return;
+            }
+        }
         #endregion
 
         #region PredicateInterface
@@ -314,6 +342,7 @@ namespace Frankie.Stats
                 if (members.Count > 1) { characterObject.GetComponent<Collider2D>().isTrigger = true; }
             }
             RefreshAnimatorLookup();
+            SyncToPartyLeaderStatusUpdates();
             partyUpdated?.Invoke();
         }
 

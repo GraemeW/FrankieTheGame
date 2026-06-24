@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using UnityEngine;
 using UnityEngine.UIElements;
 using UnityEditor.UIElements;
 using Frankie.Stats;
@@ -62,7 +63,15 @@ namespace Frankie.Saving.Editor
 
                 characterField.RegisterValueChangedCallback(changeEvent =>
                 {
-                    partyAssistCharacters[rowIndex] = changeEvent.newValue as CharacterProperties;
+                    var newCharacterProperties = changeEvent.newValue as CharacterProperties;
+                    if (newCharacterProperties != null && newCharacterProperties.GetCharacterPrefab() == null)
+                    {
+                        Debug.LogWarning("Invalid Character:  Select entry with a character prefab.");
+                        characterField.SetValueWithoutNotify(partyAssistCharacters[rowIndex]);
+                        return;
+                    }
+                    
+                    partyAssistCharacters[rowIndex] = newCharacterProperties;
                     saveState = partyAssist.ManualGetStateFromData(partyAssistCharacters);
                     RaiseSaveStateChanged();
                 });

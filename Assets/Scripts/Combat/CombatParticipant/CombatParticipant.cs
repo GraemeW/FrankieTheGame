@@ -534,10 +534,16 @@ namespace Frankie.Combat
             currentAP.value = combatParticipantSaveData.currentAP;
             targetHP = currentHP.value;
 
-            if (isDead.value && shouldDestroySelfOnDeath)
+            if (isDead.value)
             {
-                isDestructionTriggeredBySave = true;
-                Destroy(gameObject);
+                currentHP.value = 0f;
+                targetHP = 0f;
+                AnnounceStateUpdate(StateAlteredType.Dead);
+                if (shouldDestroySelfOnDeath)
+                {
+                    isDestructionTriggeredBySave = true;
+                    Destroy(gameObject);
+                }
             }
         }
         
