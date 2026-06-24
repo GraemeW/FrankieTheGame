@@ -272,7 +272,7 @@
       }
     },
     "com.unity.splines": {
-      "version": "2.8.4",
+      "version": "2.9.0",
       "depth": 1,
       "source": "registry",
       "dependencies": {
