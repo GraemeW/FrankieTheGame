@@ -17,13 +17,21 @@ namespace Frankie.Saving.Editor
         {
             if (saveable is not BaseStats baseStats) { return; }
             
+            // Level Increment
             BaseStatsSaveData baseStatsSaveData = baseStats.ManualGetDataFromState(saveState);
             if (baseStatsSaveData == null)
             {
                 subCardView.Add(new Label("No BaseStats save data found"));
                 return;
             }
-
+            
+            var incrementLevelButton = new Button{ text = "Increment Level" , style = { width = standardButtonWidth } };
+            subCardView.Add(incrementLevelButton);
+            
+            var spacer = new VisualElement { style = { height = 20 } };
+            subCardView.Add(spacer);
+            
+            // Stat Sheet
             int level = baseStatsSaveData.level;
             Dictionary<Stat, float> statSheet = baseStatsSaveData.statSheet ?? new Dictionary<Stat, float>();
 
@@ -41,6 +49,7 @@ namespace Frankie.Saving.Editor
                 RaiseSaveStateChanged();
             });
 
+            Dictionary<Stat, FloatField> statFloatFields = new Dictionary<Stat, FloatField>();
             foreach (Stat stat in new List<Stat>(statSheet.Keys))
             {
                 var statRow = new VisualElement { style = { flexDirection = FlexDirection.Row } };
@@ -48,10 +57,10 @@ namespace Frankie.Saving.Editor
 
                 statRow.Add(new Label($"{stat}:") { style = { width = 120, unityTextAlign = TextAnchor.MiddleLeft } });
 
-                var statField = new FloatField { value = statSheet[stat], isDelayed = true, style = { flexGrow = 1 } };
-                statRow.Add(statField);
+                statFloatFields[stat] = new FloatField { value = statSheet[stat], isDelayed = true, style = { flexGrow = 1 } };
+                statRow.Add(statFloatFields[stat]);
 
-                statField.RegisterValueChangedCallback(changeEvent =>
+                statFloatFields[stat].RegisterValueChangedCallback(changeEvent =>
                 {
                     statSheet[stat] = changeEvent.newValue;
                     var updatedSaveData = new BaseStatsSaveData(level, statSheet);
@@ -59,6 +68,24 @@ namespace Frankie.Saving.Editor
                     RaiseSaveStateChanged();
                 });
             }
+            
+            incrementLevelButton.RegisterCallback<ClickEvent>(_ =>
+            {
+                if (baseStats == null) { return; }
+                Dictionary<Stat, float> levelUpSheet = baseStats.ManualGetLevelUpSheet(level, statSheet);
+
+                level++;
+                levelField.SetValueWithoutNotify(level);
+                foreach (KeyValuePair<Stat, float> statValuePair in levelUpSheet)
+                {
+                    statSheet[statValuePair.Key] += statValuePair.Value;
+                    statFloatFields[statValuePair.Key].SetValueWithoutNotify(statSheet[statValuePair.Key]);
+                }
+                
+                var updatedSaveData = new BaseStatsSaveData(level, statSheet);
+                saveState = baseStats.ManualGetStateFromData(updatedSaveData);
+                RaiseSaveStateChanged();
+            });
         }
     }
 }

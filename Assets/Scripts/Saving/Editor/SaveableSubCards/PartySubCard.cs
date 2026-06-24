@@ -35,7 +35,7 @@ namespace Frankie.Saving.Editor
             var partyCharactersContainer = new VisualElement();
             subCardView.Add(partyCharactersContainer);
 
-            var addPartyCharacterButton = new Button { text = "+ Add Party Member" };
+            var addPartyCharacterButton = new Button { text = "+ Add Party Member", style = { width = standardButtonWidth }  };
             subCardView.Add(addPartyCharacterButton);
 
             DrawPartyCharacterList(partyCharactersContainer, partyCharacters, PushSaveState);
@@ -52,7 +52,7 @@ namespace Frankie.Saving.Editor
             var unlockedCharactersContainer = new VisualElement();
             subCardView.Add(unlockedCharactersContainer);
 
-            var addUnlockedCharacterButton = new Button { text = "+ Add Unlocked Character" };
+            var addUnlockedCharacterButton = new Button { text = "+ Add Unlocked Character", style = { width = standardButtonWidth }  };
             subCardView.Add(addUnlockedCharacterButton);
 
             DrawUnlockedCharacterList(unlockedCharactersContainer, unlockedCharacters, PushSaveState);
@@ -69,7 +69,7 @@ namespace Frankie.Saving.Editor
             var worldNPCContainer = new VisualElement();
             subCardView.Add(worldNPCContainer);
 
-            var addWorldNPCButton = new Button { text = "+ Add World NPC Entry" };
+            var addWorldNPCButton = new Button { text = "+ Add World NPC Entry", style = { width = standardButtonWidth } };
             subCardView.Add(addWorldNPCButton);
 
             DrawWorldNPCList(worldNPCContainer, worldNPCRows, PushSaveState);
@@ -112,7 +112,7 @@ namespace Frankie.Saving.Editor
                 var characterField = new ObjectField { objectType = typeof(CharacterProperties), value = partyCharacters[rowIndex], style = { flexGrow = 1 } };
                 row.Add(characterField);
 
-                var removeButton = new Button { text = "- Remove" };
+                var removeButton = new Button { text = "- Remove", style = { width = smallButtonWidth }  };
                 row.Add(removeButton);
 
                 characterField.RegisterValueChangedCallback(changeEvent =>
@@ -144,7 +144,7 @@ namespace Frankie.Saving.Editor
                 var characterField = new ObjectField { objectType = typeof(CharacterProperties), value = unlockedCharacters[rowIndex], style = { flexGrow = 1 } };
                 row.Add(characterField);
 
-                var removeButton = new Button { text = "- Remove" };
+                var removeButton = new Button { text = "- Remove", style = { width = smallButtonWidth }  };
                 row.Add(removeButton);
 
                 characterField.RegisterValueChangedCallback(changeEvent =>
@@ -188,7 +188,7 @@ namespace Frankie.Saving.Editor
                 var characterRow = new VisualElement { style = { flexDirection = FlexDirection.Row } };
                 var characterField = new ObjectField { objectType = typeof(CharacterProperties), value = characterProperties, style = { flexGrow = 1 } };
                 characterRow.Add(characterField);
-                var removeButton = new Button { text = "- Remove" };
+                var removeButton = new Button { text = "- Remove", style = { width = smallButtonWidth }  };
                 characterRow.Add(removeButton);
                 column.Add(characterRow);
                 

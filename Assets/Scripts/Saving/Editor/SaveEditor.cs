@@ -25,9 +25,10 @@ namespace Frankie.Saving.Editor
         private static readonly Color _controlBoxStatusUnloadedColor = Color.softRed;
         private static readonly Color _controlBoxStatusLoadedColor = Color.lightGreen;
         private static readonly Color _applyAllDataButtonColor = Color.softRed;
-        private static readonly Color _selectEntityButtonColor = Color.cornflowerBlue;
-        private static readonly Color _saveEntityButtonColor = Color.chocolate;
-        
+
+        private const float _smallButtonWidth = 100f;
+        private const float _standardButtonWidth = 175f;
+        private const float _largeButtonWidth = 250f;
         private const float _entityCardSpacerHeight = 10f;
         
         // State
@@ -197,7 +198,7 @@ namespace Frankie.Saving.Editor
             saveNameField.RegisterValueChangedCallback(x => newSave = x.newValue);
             saveHeaderBox.Add(saveNameField);
 
-            var buttonStack = new VisualElement { style = { width = 150 } };
+            var buttonStack = new VisualElement { style = { width = _standardButtonWidth } };
             saveHeaderBox.Add(buttonStack);
             
             var renameSave = new Button { text = "Rename Save" };
@@ -277,20 +278,21 @@ namespace Frankie.Saving.Editor
                 style = { color = saveControlBoxLoaded ? _controlBoxStatusLoadedColor : _controlBoxStatusUnloadedColor }
             });
 
-            var buttonStack = new VisualElement { style = { width = 150 } };
+            var buttonStack = new VisualElement { style = { width = _largeButtonWidth } };
             saveControlHeaderBox.Add(buttonStack);
 
-            var loadDataButton = new Button { text = "Load Scene Data" };
+            var loadDataButton = new Button { text = "Load Scene Data", style = { width = _standardButtonWidth } };
             loadDataButton.RegisterCallback<ClickEvent>(LoadSaveControlData);
             buttonStack.Add(loadDataButton);
 
-            var applyDataButton = new Button { text = "Apply All Data", style = { backgroundColor = _applyAllDataButtonColor, color = Color.white } };
+            var applyDataButton = new Button { text = "Apply All Data", style = { width = _standardButtonWidth, backgroundColor = _applyAllDataButtonColor, color = Color.white } };
             applyDataButton.SetEnabled(cachedSaveState != null);
             applyDataButton.RegisterCallback<ClickEvent>(ApplyAllSaveableEntityData);
             buttonStack.Add(applyDataButton);
             
             var spacer = new VisualElement { style = { height = _entityCardSpacerHeight } };
             saveControlHeaderBox.Add(spacer);
+            
             
             sceneSelectBox = new Box();
             saveControlHeaderBox.Add(sceneSelectBox);
@@ -306,11 +308,11 @@ namespace Frankie.Saving.Editor
             
             string currentLastScene = SavingSystem.ManualGetLastScene(cachedSaveState);
             Zone lastZone = Zone.GetFromName(currentLastScene);
-            var zoneField = new ObjectField { objectType = typeof(Zone), value = lastZone, style = { width = 250 } };
+            var zoneField = new ObjectField { objectType = typeof(Zone), value = lastZone, style = { width = _largeButtonWidth } };
             zoneField.SetEnabled(cachedSaveState != null);
             sceneSelectBox.Add(zoneField);
             
-            var openSceneButton = new Button { text = "Open Scene", style = { width = 250 } };
+            var openSceneButton = new Button { text = "Open Scene", style = { width = _largeButtonWidth } };
             openSceneButton.SetEnabled(lastZone != null);
             sceneSelectBox.Add(openSceneButton);
 
@@ -365,52 +367,13 @@ namespace Frankie.Saving.Editor
 
             foreach (SaveableEntityCardData saveableEntityCardData in cachedSaveableEntityCardData)
             {
-                Box entityCardView = DrawSaveableEntityCard(saveableEntityCardData); 
+                Box entityCardView = saveableEntityCardData.DrawSaveableEntityCard(SaveSaveableEntity);
                 saveControlEntityScrollView.Add(entityCardView);
+                saveableEntityCardData.SetSelectCallback(() => ScrollToTopEdge(saveControlEntityScrollView, entityCardView));
                 
                 var spacer = new VisualElement { style = { height = _entityCardSpacerHeight } };
                 saveControlEntityScrollView.Add(spacer);
             }
-        }
-
-        private Box DrawSaveableEntityCard(SaveableEntityCardData saveableEntityCardData)
-        {
-            var cardView = new Box { style = { marginBottom = 4 } };
-            
-            var entitySubHeader = new Box();
-            
-            var gameObjectRow = new VisualElement { style = { flexDirection = FlexDirection.Row, justifyContent = Justify.SpaceBetween } };
-            entitySubHeader.Add(gameObjectRow);
-            
-            gameObjectRow.Add(new Label($"GameObject:  {saveableEntityCardData.entityName}"));
-            
-            var focusGameObjectButton = new Button { text = "Select Entity", style = { backgroundColor = _selectEntityButtonColor, color = Color.white } };
-            focusGameObjectButton.RegisterCallback<ClickEvent>(_ => SelectAndFocusGameObject(saveableEntityCardData));
-            gameObjectRow.Add(focusGameObjectButton);
-            
-            entitySubHeader.Add(new Label($"ID:  {saveableEntityCardData.entityID}"));
-            cardView.Add(entitySubHeader);
-            
-            var saveEntityButton = new Button { text = "Save Entity", style = { backgroundColor = _saveEntityButtonColor, color = Color.white } };
-            entitySubHeader.Add(saveEntityButton);
-
-            foreach (KeyValuePair<string, SaveableSubCardData> keyValuePair in saveableEntityCardData.subCards)
-            {
-                Box subCard = DrawISaveableSubCard(keyValuePair.Key, keyValuePair.Value);
-                cardView.Add(subCard);
-            }
-            
-            saveEntityButton.RegisterCallback<ClickEvent>(_ => SaveSaveableEntity(saveableEntityCardData));
-            
-            return cardView;
-        }
-
-        private Box DrawISaveableSubCard(string typeString, SaveableSubCardData saveableSubCardData)
-        {
-            var subCardView = new Box { style = { marginTop = 2, marginLeft = 8 } };
-            subCardView.Add(new Label($"Component:  {typeString}"));
-            saveableSubCardData.DrawIntoSubCardView(subCardView);
-            return subCardView;
         }
         #endregion
         
@@ -551,7 +514,12 @@ namespace Frankie.Saving.Editor
             DrawSaveControlEntityList();
         }
 
-        private void SaveSaveableEntity(SaveableEntityCardData saveableEntityCardData, bool saveCachedStateToFile = true)
+        private void SaveSaveableEntity(SaveableEntityCardData saveableEntityCardData)
+        {
+            SaveSaveableEntity(saveableEntityCardData, true);
+        }
+
+        private void SaveSaveableEntity(SaveableEntityCardData saveableEntityCardData, bool saveCachedStateToFile)
         {
             if (cachedSaveState == null) { return; }
             
@@ -579,15 +547,6 @@ namespace Frankie.Saving.Editor
             }
             SavingSystem.ManualSave(SavingWrapper.GetCurrentSaveName(), cachedSaveState);
         }
-
-        private static void SelectAndFocusGameObject(SaveableEntityCardData saveableEntityCardData)
-        {
-            GameObject gameObject = saveableEntityCardData.saveableEntity?.gameObject;
-            if (gameObject == null) { return; }
-            
-            Selection.activeGameObject = gameObject;
-            SceneView.lastActiveSceneView?.FrameSelected();
-        }
         
         private static void UpdateSaveableEntityCardData(SaveableEntityCardData saveableEntityCardData)
         {
@@ -604,6 +563,13 @@ namespace Frankie.Saving.Editor
 
                 saveableEntityCardData.UpdateStateDict(SaveableEntity.ManualCaptureSaveState(saveableEntityStateDict, typeDataPair.Key, saveState));
             }
+        }
+
+        private static void ScrollToTopEdge(ScrollView scrollView, VisualElement visualElement)
+        {
+            if (scrollView == null || visualElement == null) { return; }
+            if (!scrollView.contentContainer.Contains(visualElement)) { return; }
+            scrollView.scrollOffset = new Vector2(scrollView.scrollOffset.x, visualElement.layout.y);
         }
         #endregion
         

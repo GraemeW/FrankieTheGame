@@ -27,7 +27,7 @@ namespace Frankie.Saving.Editor
             var buttonRow = new VisualElement { style = { flexDirection = FlexDirection.Row } };
             subCardView.Add(buttonRow);
 
-            var addButton = new Button { text = "+ Add Quest" };
+            var addButton = new Button { text = "+ Add Quest" , style = { width = standardButtonWidth } };
             buttonRow.Add(addButton);
 
             DrawQuestStatusList(listContainer, questList, questStatuses);
@@ -67,8 +67,8 @@ namespace Frankie.Saving.Editor
                 var questField = new ObjectField { objectType = typeof(Quest), value = questStatus.GetQuest(), style = { flexGrow = 1 } };
                 questRow.Add(questField);
 
-                var removeQuestButton = new Button { text = "- Remove Quest" };
-                questCard.Add(removeQuestButton);
+                var removeQuestButton = new Button { text = "- Remove Quest", style = { width = smallButtonWidth } };
+                questRow.Add(removeQuestButton);
 
                 var objectivesContainer = new VisualElement { style = { marginLeft = 8 } };
                 questCard.Add(objectivesContainer);

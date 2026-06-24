@@ -21,6 +21,9 @@ namespace Frankie.Saving.Editor
         private const string _statusDesyncMessage = "Data Desync:  Volatile";
         private static readonly Color _statusSyncColor = Color.lightGreen;
         private static readonly Color _statusDesyncColor = Color.softRed;
+        protected const float smallButtonWidth = 100f;
+        protected const float standardButtonWidth = 175f;
+        protected const float largeButtonWidth = 250f;
         
         // State
         protected SaveableEntityCardData saveableEntityCardData { get; private set; }
@@ -107,6 +110,6 @@ namespace Frankie.Saving.Editor
             if (syncStateLabel == null) { return; }
             syncStateLabel.text = isSaveStateSynced ? _statusSyncMessage : _statusDesyncMessage;
             syncStateLabel.style.color = isSaveStateSynced ? _statusSyncColor : _statusDesyncColor;
-        } 
+        }
     }
 }

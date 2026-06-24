@@ -24,7 +24,6 @@ namespace Frankie.Stats
 
         // Static/Const Parameters
         private const int _defaultLevelForNoCharacterProperties = 1;
-        private const float _defaultStatForEmptySheet = 1.0f;
         private static readonly Stat[] _nonModifyingStats = { Stat.InitialLevel, Stat.ExperienceReward, Stat.ExperienceToLevelUp };
         
         // State
@@ -81,6 +80,15 @@ namespace Frankie.Stats
         #endregion
 
         #region PublicFunctional
+        public bool HasStats() => progression.HasProgression(characterProperties);
+        
+        public Dictionary<Stat, float> ManualGetLevelUpSheet(int manualLevel, Dictionary<Stat, float> manualStatSheet)
+        {
+            if (progression == null || characterProperties == null || !HasStats()) { return new Dictionary<Stat, float>(); }
+            manualStatSheet ??= new Dictionary<Stat, float>();
+            return progression.GetLevelUpSheet(characterProperties, manualLevel, manualStatSheet);
+        }
+        
         public void OverrideLevel(int level)
         {
             currentLevel.value = level;

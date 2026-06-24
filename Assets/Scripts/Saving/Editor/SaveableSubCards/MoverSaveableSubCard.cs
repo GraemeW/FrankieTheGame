@@ -59,10 +59,10 @@ namespace Frankie.Saving.Editor
             subCardView.Add(buttonRow);
             
             buttonRow.Add(new Label(string.Empty) { style = { width = 120 } });
-            var moveButton = new Button { text = _moveEntityText, style = { flexGrow = 1 } }; 
+            var moveButton = new Button { text = _moveEntityText, style = { width = standardButtonWidth, flexGrow = 1 } }; 
             buttonRow.Add(moveButton);
             buttonRow.Add(new Label(string.Empty) { style = { width = 10 } });
-            var pickButton = new Button { text = _pickButtonIdleText, style = { flexGrow = 1 } };
+            var pickButton = new Button { text = _pickButtonIdleText, style = { width = standardButtonWidth, flexGrow = 1 } };
             buttonRow.Add(pickButton);
 
             xField.RegisterValueChangedCallback(changeEvent =>

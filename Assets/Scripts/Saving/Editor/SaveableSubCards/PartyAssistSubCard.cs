@@ -29,7 +29,7 @@ namespace Frankie.Saving.Editor
             var listContainer = new VisualElement();
             subCardView.Add(listContainer);
 
-            var addButton = new Button { text = "+ Add Character" };
+            var addButton = new Button { text = "+ Add Character", style = { width = standardButtonWidth } };
             subCardView.Add(addButton);
 
             DrawPartyAssistList(listContainer, partyAssist, partyAssistCharacters);
@@ -57,7 +57,7 @@ namespace Frankie.Saving.Editor
                 var characterField = new ObjectField { objectType = typeof(CharacterProperties), value = partyAssistCharacters[rowIndex], style = { flexGrow = 1 } };
                 row.Add(characterField);
 
-                var removeButton = new Button { text = "- Remove" };
+                var removeButton = new Button { text = "- Remove", style = { width = smallButtonWidth }  };
                 row.Add(removeButton);
 
                 characterField.RegisterValueChangedCallback(changeEvent =>

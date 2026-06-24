@@ -27,7 +27,7 @@ namespace Frankie.Saving.Editor
             var buttonRow = new VisualElement { style = { flexDirection = FlexDirection.Row } };
             subCardView.Add(buttonRow);
 
-            var addButton = new Button { text = "+ Add Slot" };
+            var addButton = new Button { text = "+ Add Slot", style = { width = standardButtonWidth} };
             buttonRow.Add(addButton);
 
             DrawWearableItemList(listContainer, wearablesLink, wearableItems);
@@ -64,7 +64,7 @@ namespace Frankie.Saving.Editor
                 var wornItemField = new ObjectField { objectType = typeof(WearableItem), value = wornItem, style = { flexGrow = 1 } };
                 slotRow.Add(wornItemField);
 
-                var removeSlotButton = new Button { text = "- Remove Slot" };
+                var removeSlotButton = new Button { text = "- Remove Slot",  style = { width = smallButtonWidth } };
                 slotRow.Add(removeSlotButton);
 
                 wornItemField.RegisterValueChangedCallback(changeEvent =>
