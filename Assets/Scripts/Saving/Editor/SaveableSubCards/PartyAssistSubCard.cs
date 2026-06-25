@@ -31,14 +31,12 @@ namespace Frankie.Saving.Editor
 
             var addButton = new Button { text = "+ Add Character", style = { width = standardButtonWidth } };
             subCardView.Add(addButton);
-            DrawBasicPartyList(listContainer, partyAssist, partyAssistCharacters, () => ReconcileEntityView(partyAssistCharacters));
+            DrawBasicPartyList(listContainer, partyAssist, partyAssistCharacters);
             
             // Section 2 -- Party Entity View
             subCardView.Add(new Label("Party Entity View"));
             characterEntityContainer = new VisualElement();
             subCardView.Add(characterEntityContainer);
-            
-            if (saveableEntityCardData == null) { return; }
             ReconcileEntityView(partyAssistCharacters);
             
             // Button Callbacks
@@ -47,7 +45,7 @@ namespace Frankie.Saving.Editor
                 partyAssistCharacters.Add(null);
                 saveState = partyAssist.ManualGetStateFromData(partyAssistCharacters.ToHashSet());
                 RaiseSaveStateChanged();
-                DrawBasicPartyList(listContainer, partyAssist, partyAssistCharacters, () => ReconcileEntityView(partyAssistCharacters));
+                DrawBasicPartyList(listContainer, partyAssist, partyAssistCharacters);
             });
         }
     }

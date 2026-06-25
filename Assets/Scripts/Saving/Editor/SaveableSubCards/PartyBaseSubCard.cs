@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -11,18 +10,19 @@ namespace Frankie.Saving.Editor
     public abstract class PartyBaseSubCard : SaveableSubCardData
     {
         // State
-        protected readonly Dictionary<CharacterProperties, SaveableEntityCardData> characterSaveableEntityCards = new();
+        private readonly Dictionary<CharacterProperties, SaveableEntityCardData> characterSaveableEntityCards = new();
         
         // UI State
         protected VisualElement characterEntityContainer;
         
         protected void ReconcileEntityView(List<CharacterProperties> updatedCharacterList)
         {
+            if (saveableEntityCardData == null) { return; }
             RebuildCharacterSaveableEntityCards(updatedCharacterList);
             DrawCharacterEntityView(characterEntityContainer);
         }
         
-        protected void DrawBasicPartyList(VisualElement listContainer, ISaveable<HashSet<CharacterProperties>> basicPartySaveable, List<CharacterProperties> partyCharacters, Action drawCallback)
+        protected void DrawBasicPartyList(VisualElement listContainer, ISaveable<HashSet<CharacterProperties>> basicPartySaveable, List<CharacterProperties> partyCharacters)
         {
             listContainer.Clear();
 
@@ -52,7 +52,7 @@ namespace Frankie.Saving.Editor
                     partyCharacters[rowIndex] = newCharacterProperties;
                     saveState = basicPartySaveable.ManualGetStateFromData(partyCharacters.ToHashSet());
                     RaiseSaveStateChanged();
-                    drawCallback?.Invoke();
+                    ReconcileEntityView(partyCharacters);
                 });
 
                 removeButton.RegisterCallback<ClickEvent>(_ =>
@@ -60,20 +60,34 @@ namespace Frankie.Saving.Editor
                     partyCharacters.RemoveAt(rowIndex);
                     saveState = basicPartySaveable.ManualGetStateFromData(partyCharacters.ToHashSet());
                     RaiseSaveStateChanged();
-                    drawCallback?.Invoke();
+                    DrawBasicPartyList(listContainer, basicPartySaveable, partyCharacters);
+                    ReconcileEntityView(partyCharacters);
                 });
             }
         }
         
         private void RebuildCharacterSaveableEntityCards(List<CharacterProperties> checkCharacterProperties)
         {
+            HashSet<CharacterProperties> charactersToRemove = characterSaveableEntityCards.Keys.Except(checkCharacterProperties).ToHashSet();
+            foreach (CharacterProperties characterProperties in charactersToRemove)
+            {
+                if (characterSaveableEntityCards.TryGetValue(characterProperties, out SaveableEntityCardData characterSaveableEntityCard))
+                {
+                    if (characterSaveableEntityCard != null) { saveableEntityCardData.RemoveFromGUIDs(characterSaveableEntityCard.entityID); }
+                }
+                characterSaveableEntityCards.Remove(characterProperties);
+                
+                saveableEntityCardData.SetShouldRepaint();
+            }
+            
             foreach (CharacterProperties characterProperties in checkCharacterProperties)
             {
                 if (characterProperties == null || characterProperties.GetCharacterPrefab() == null) { continue; }
                 if (characterSaveableEntityCards.ContainsKey(characterProperties)) { continue; }
                 
-                SaveableEntityCardData characterSaveableEntityCard = saveableEntityCardData.BuildFromCharacterPropertiesWithCache(characterProperties);
+                SaveableEntityCardData characterSaveableEntityCard = saveableEntityCardData?.BuildFromCharacterPropertiesWithCache(characterProperties);
                 if (characterSaveableEntityCard == null) { continue; }
+                
                 characterSaveableEntityCards[characterProperties] = characterSaveableEntityCard;
             }
         }

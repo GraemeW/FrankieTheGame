@@ -11,20 +11,25 @@ namespace Frankie.Saving.Editor
 {
     public class SaveableEntityCardData
     {
-        // State
+        // Cached References
+        private readonly SaveableEntity saveableEntity;
         private readonly JObject cachedFullSaveState;
         private readonly HashSet<string> saveableEntityGUIDs;
+        private readonly Action repaintCallback;
         
-        private readonly SaveableEntity saveableEntity;
-        private JObject saveableEntityStateDict;        
-        private readonly string entityID;
+        // State
         private readonly string entityName;
+        public string entityID { get; private set; }
+        private JObject saveableEntityStateDict;        
         private readonly Dictionary<string, SaveableSubCardData> subCards = new();
         
         // UI State
         private Box cardView;
-        private bool isGameObjectSelected = false;
         private Action cachedSelectCallback;
+        private bool isGameObjectSelected = false;
+        private bool isSaveStateSynced = true;
+        private bool shouldRepaintOnNextSave = false;
+        private bool isChildCard = false;
         
         // Const Tunables
         private const float _smallButtonWidth = 100f;
@@ -32,13 +37,17 @@ namespace Frankie.Saving.Editor
         private const float _largeButtonWidth = 250f;
         private static readonly Color _selectEntityButtonColor = Color.cornflowerBlue;
         private static readonly Color _saveEntityButtonColor = Color.chocolate;
+        private static readonly Color _childSaveEntityButtonColor = Color.darkGoldenRod;
         private static readonly Color _gameObjectSelectedColor = Color.steelBlue / 1.5f;
+        private static readonly Color _desyncColor = Color.paleVioletRed / 1.5f;
 
-        public SaveableEntityCardData(SaveableEntity saveableEntity, JObject cachedFullSaveState, HashSet<string> saveableEntityGUIDs)
+        public SaveableEntityCardData(SaveableEntity saveableEntity, JObject cachedFullSaveState, HashSet<string> saveableEntityGUIDs, Action repaintCallback)
         {
+            // Cached References
+            this.saveableEntity = saveableEntity;
             this.cachedFullSaveState = cachedFullSaveState;
             this.saveableEntityGUIDs = saveableEntityGUIDs;
-            this.saveableEntity = saveableEntity;
+            this.repaintCallback = repaintCallback;
             
             if (saveableEntity == null) { return; }
             saveableEntityStateDict = new JObject();
@@ -65,17 +74,21 @@ namespace Frankie.Saving.Editor
         }
         
         #region FactoryMethods
-        public SaveableEntityCardData BuildFromCharacterPropertiesWithCache(CharacterProperties characterProperties) => BuildFromCharacterProperties(characterProperties, cachedFullSaveState, saveableEntityGUIDs);
+        public SaveableEntityCardData BuildFromCharacterPropertiesWithCache(CharacterProperties characterProperties)
+        {
+            return BuildFromCharacterProperties(characterProperties, cachedFullSaveState, saveableEntityGUIDs, repaintCallback);
+        }
         
-        private static SaveableEntityCardData BuildFromCharacterProperties(CharacterProperties characterProperties, JObject cachedFullSaveState, HashSet<string> saveableEntityGUIDs)
+        private static SaveableEntityCardData BuildFromCharacterProperties(CharacterProperties characterProperties, JObject cachedFullSaveState, HashSet<string> saveableEntityGUIDs, Action repaintCallback)
         {
             GameObject characterPrefab = characterProperties.GetCharacterPrefab();
             if (characterPrefab == null) { return null; }
             var characterSaveableEntity = characterPrefab.GetComponent<SaveableEntity>();
             if (characterSaveableEntity == null || saveableEntityGUIDs.Contains(characterSaveableEntity.GetUniqueIdentifier())) { return null; }
             
-            var characterSaveableEntityCardData = new SaveableEntityCardData(characterSaveableEntity, cachedFullSaveState, saveableEntityGUIDs);
+            var characterSaveableEntityCardData = new SaveableEntityCardData(characterSaveableEntity, cachedFullSaveState, saveableEntityGUIDs, repaintCallback);
             characterSaveableEntityCardData.SelfReferenceInSubCards();
+            characterSaveableEntityCardData.isChildCard = true;
             return characterSaveableEntityCardData;
         }
         #endregion
@@ -116,10 +129,8 @@ namespace Frankie.Saving.Editor
             }
         }
         
-        public void SetSelectCallback(Action selectCallback)
-        {
-            cachedSelectCallback = selectCallback;
-        }
+        public void SetSelectCallback(Action selectCallback) => cachedSelectCallback = selectCallback;
+        public void SetShouldRepaint() => shouldRepaintOnNextSave = true;
 
         public void ResetSaveableSyncFlag()
         {
@@ -129,6 +140,8 @@ namespace Frankie.Saving.Editor
                 subCardData.Redraw();
             }
         }
+
+        public bool RemoveFromGUIDs(string saveableEntityID) => saveableEntityGUIDs.Remove(saveableEntityID);
         
         private void SelectAndFocusGameObject()
         {
@@ -157,6 +170,11 @@ namespace Frankie.Saving.Editor
             }
             
             if (HasPlayerMoverWithAlteredPosition()) { playerPositionChangeCallback?.Invoke(); }
+            if (saveCachedStateToFile && shouldRepaintOnNextSave)
+            {
+                repaintCallback?.Invoke();
+                shouldRepaintOnNextSave = false;
+            }
         }
         
         private void UpdateSaveableEntityCardData()
@@ -198,7 +216,7 @@ namespace Frankie.Saving.Editor
             entitySubHeader.Add(new Label($"ID:  {entityID}"));
             cardView.Add(entitySubHeader);
             
-            var saveEntityButton = new Button { text = "Save Entity", style = { width = _standardButtonWidth, backgroundColor = _saveEntityButtonColor, color = Color.white } };
+            var saveEntityButton = new Button { text = "Save Entity", style = { width = _standardButtonWidth, backgroundColor = isChildCard ? _childSaveEntityButtonColor : _saveEntityButtonColor, color = Color.white } };
             entitySubHeader.Add(saveEntityButton);
 
             foreach (KeyValuePair<string, SaveableSubCardData> keyValuePair in subCards)
@@ -232,7 +250,18 @@ namespace Frankie.Saving.Editor
 
         private void UpdateSelectedColor()
         {
+            if (!isSaveStateSynced)
+            {
+                cardView.style.backgroundColor = _desyncColor;
+                return;
+            }
             cardView.style.backgroundColor = isGameObjectSelected ? _gameObjectSelectedColor : StyleKeyword.Null;
+        }
+
+        public void SetIsDataSynced(bool isSynced)
+        {
+            isSaveStateSynced = isSynced;
+            UpdateSelectedColor();
         }
         #endregion
     }

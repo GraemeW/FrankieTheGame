@@ -63,8 +63,6 @@ namespace Frankie.Saving.Editor
             subCardView.Add(new Label("Party Entity View"));
             characterEntityContainer = new VisualElement();
             subCardView.Add(characterEntityContainer);
-            
-            if (saveableEntityCardData == null) { return; }
             ReconcileEntityView(partyCharacters);
             
             // Button Callbacks
@@ -91,6 +89,7 @@ namespace Frankie.Saving.Editor
             
             return;
 
+            
             // Local Functions
             void PushSaveState(bool redrawCharacterEntityView)
             {

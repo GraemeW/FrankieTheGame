@@ -196,6 +196,7 @@ namespace Frankie.Stats
         public BaseStatsSaveData ManualGetDataFromState(SaveState saveState)
         {
             if (saveState?.GetState(typeof(BaseStatsSaveData)) is BaseStatsSaveData baseStatsSaveData) { return baseStatsSaveData; }
+            if (!saveBaseStats) { return null; }
             if (progression == null || characterProperties == null || !progression.HasProgression(characterProperties)) { return null; }
             
             Dictionary<Stat, float> statSheet = progression.GetStatSheet(characterProperties);

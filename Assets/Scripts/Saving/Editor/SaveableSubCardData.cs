@@ -108,9 +108,12 @@ namespace Frankie.Saving.Editor
         {
             isSaveStateSynced = setIsSaveStateSynced;
             
-            if (syncStateLabel == null) { return; }
-            syncStateLabel.text = isSaveStateSynced ? _statusSyncMessage : _statusDesyncMessage;
-            syncStateLabel.style.color = isSaveStateSynced ? _statusSyncColor : _statusDesyncColor;
+            saveableEntityCardData?.SetIsDataSynced(isSaveStateSynced);
+            if (syncStateLabel != null)
+            {
+                syncStateLabel.text = isSaveStateSynced ? _statusSyncMessage : _statusDesyncMessage;
+                syncStateLabel.style.color = isSaveStateSynced ? _statusSyncColor : _statusDesyncColor;
+            }
         }
     }
 }

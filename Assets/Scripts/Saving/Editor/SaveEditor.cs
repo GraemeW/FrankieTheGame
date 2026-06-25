@@ -363,7 +363,7 @@ namespace Frankie.Saving.Editor
         {
             if (saveControlEntityScrollView == null) { return; }
             saveControlEntityScrollView.Clear();
-
+            
             if (!saveControlBoxLoaded || cachedSaveableEntityCardData == null) { return; }
 
             foreach (SaveableEntityCardData saveableEntityCardData in cachedSaveableEntityCardData)
@@ -481,13 +481,14 @@ namespace Frankie.Saving.Editor
             if (cachedFullSaveState == null) { return; }
             
             cachedSaveableEntityCardData.Clear();
+            saveableEntityGUIDs.Clear();
             foreach (SaveableEntity saveableEntity in SavingSystem.GetAllSaveableEntities().OrderBy(GetEntitySortPriority).ThenBy(saveableEntity => saveableEntity.GetUniqueIdentifier()).ToList())
             {
                 if (saveableEntity == null) { continue; }
                 if (HasPlayerInParentHierarchy(saveableEntity.transform.parent)) { continue; } // Avoid re-pulling entries e.g. in party container
                 if (saveableEntityGUIDs.Contains(saveableEntity.GetUniqueIdentifier())) { continue; } // Avoid re-drawing dupe elements
                 
-                var saveableEntityCardData = new SaveableEntityCardData(saveableEntity, cachedFullSaveState, saveableEntityGUIDs);
+                var saveableEntityCardData = new SaveableEntityCardData(saveableEntity, cachedFullSaveState, saveableEntityGUIDs, DrawSaveControlEntityList);
                 saveableEntityCardData.SelfReferenceInSubCards();
                 cachedSaveableEntityCardData.Add(saveableEntityCardData);
             }
@@ -501,6 +502,7 @@ namespace Frankie.Saving.Editor
         {
             cachedFullSaveState = null;
             cachedSaveableEntityCardData.Clear();
+            saveableEntityGUIDs.Clear();
             saveControlBoxLoaded = false;
             
             DrawSaveControlHeaderBox();
@@ -516,6 +518,7 @@ namespace Frankie.Saving.Editor
                 saveableEntityCardData.ResetSaveableSyncFlag();
             }
             SavingSystem.ManualSave(SavingWrapper.GetCurrentSaveName(), cachedFullSaveState);
+            DrawSaveControlEntityList(); // Safety to draw in case any updates triggering repaint (ignored otherwise)
         }
 
         private static void ScrollToTopEdge(ScrollView scrollView, VisualElement visualElement)
