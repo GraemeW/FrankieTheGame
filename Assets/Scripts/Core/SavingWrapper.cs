@@ -119,6 +119,12 @@ namespace Frankie.Core
             SavingSystem.Append(_sessionFile, saveableEntity);
         }
 
+        public static void RestorePropertiesFromSession(SaveableEntity saveableEntity)
+        {
+            if (saveableEntity == null) { return; }
+            saveableEntity.RestoreState(SavingSystem.ManualGetStateEntityToken(_sessionFile, saveableEntity), LoadPriority.ObjectProperty);
+        }
+
         public static void SaveCorePlayerStateToSave()
         {
             string saveName = GetCurrentSaveName();

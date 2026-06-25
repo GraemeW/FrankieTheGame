@@ -35,8 +35,9 @@ namespace Frankie.Saving.Editor
         private string newSave;
         private string selectedSave;
         private bool saveControlBoxLoaded = false;
-        private JObject cachedSaveState;
+        private JObject cachedFullSaveState;
         private readonly List<SaveableEntityCardData> cachedSaveableEntityCardData = new();
+        private readonly HashSet<string> saveableEntityGUIDs = new();
         
         // UI Cached References
         private Box saveHeaderBox;
@@ -57,7 +58,7 @@ namespace Frankie.Saving.Editor
         
         private void OnFocus()
         {
-            if (saveControlBoxLoaded && cachedSaveState == null) { UnloadSaveControlData(); }
+            if (saveControlBoxLoaded && cachedFullSaveState == null) { UnloadSaveControlData(); }
         }
 
         private void OnEnable()
@@ -286,7 +287,7 @@ namespace Frankie.Saving.Editor
             buttonStack.Add(loadDataButton);
 
             var applyDataButton = new Button { text = "Apply All Data", style = { width = _standardButtonWidth, backgroundColor = _applyAllDataButtonColor, color = Color.white } };
-            applyDataButton.SetEnabled(cachedSaveState != null);
+            applyDataButton.SetEnabled(cachedFullSaveState != null);
             applyDataButton.RegisterCallback<ClickEvent>(ApplyAllSaveableEntityData);
             buttonStack.Add(applyDataButton);
             
@@ -306,10 +307,10 @@ namespace Frankie.Saving.Editor
             
             sceneSelectBox.Add(new Label("Last Saved Scene:"));
             
-            string currentLastScene = SavingSystem.ManualGetLastScene(cachedSaveState);
+            string currentLastScene = SavingSystem.ManualGetLastScene(cachedFullSaveState);
             Zone lastZone = Zone.GetFromName(currentLastScene);
             var zoneField = new ObjectField { objectType = typeof(Zone), value = lastZone, style = { width = _largeButtonWidth } };
-            zoneField.SetEnabled(cachedSaveState != null);
+            zoneField.SetEnabled(cachedFullSaveState != null);
             sceneSelectBox.Add(zoneField);
             
             var openSceneButton = new Button { text = "Open Scene", style = { width = _largeButtonWidth } };
@@ -334,8 +335,8 @@ namespace Frankie.Saving.Editor
                 
                 lastZone = testZone;
                 openSceneButton.SetEnabled(lastZone != null);
-                SavingSystem.ManualUpdateLastScene(cachedSaveState, testSceneName);
-                SavingSystem.ManualSave(SavingWrapper.GetCurrentSaveName(), cachedSaveState);
+                SavingSystem.ManualUpdateLastScene(cachedFullSaveState, testSceneName);
+                SavingSystem.ManualSave(SavingWrapper.GetCurrentSaveName(), cachedFullSaveState);
                 
                 Debug.LogWarning($"Saved last scene updated to {lastZone} - ensure that player mover is updated!");
             });
@@ -461,11 +462,11 @@ namespace Frankie.Saving.Editor
         {
             string sceneName = SceneManager.GetActiveScene().name;
             if (string.IsNullOrEmpty(sceneName)) { return; }
-            if (sceneName == SavingSystem.ManualGetLastScene(cachedSaveState)) { return; }
+            if (sceneName == SavingSystem.ManualGetLastScene(cachedFullSaveState)) { return; }
             
             Debug.Log($"Saved last scene updated to {sceneName}.");
-            SavingSystem.ManualUpdateLastScene(cachedSaveState, sceneName);
-            SavingSystem.ManualSave(SavingWrapper.GetCurrentSaveName(), cachedSaveState);
+            SavingSystem.ManualUpdateLastScene(cachedFullSaveState, sceneName);
+            SavingSystem.ManualSave(SavingWrapper.GetCurrentSaveName(), cachedFullSaveState);
             
             DrawSceneSelectBox();
         }
@@ -475,23 +476,24 @@ namespace Frankie.Saving.Editor
             string currentSave = SavingWrapper.GetCurrentSaveName();
             if (currentSave != null)
             {
-                cachedSaveState = SavingSystem.ManualGetState(currentSave);
+                cachedFullSaveState = SavingSystem.ManualGetFullState(currentSave);
             }
-            if (cachedSaveState == null) { return; }
+            if (cachedFullSaveState == null) { return; }
             
             cachedSaveableEntityCardData.Clear();
             foreach (SaveableEntity saveableEntity in SavingSystem.GetAllSaveableEntities().OrderBy(GetEntitySortPriority).ThenBy(saveableEntity => saveableEntity.GetUniqueIdentifier()).ToList())
             {
                 if (saveableEntity == null) { continue; }
                 if (HasPlayerInParentHierarchy(saveableEntity.transform.parent)) { continue; } // Avoid re-pulling entries e.g. in party container
+                if (saveableEntityGUIDs.Contains(saveableEntity.GetUniqueIdentifier())) { continue; } // Avoid re-drawing dupe elements
                 
                 var saveableEntityStateDict = new JObject();
-                if (cachedSaveState.TryGetValue(saveableEntity.GetUniqueIdentifier(), out JToken saveableEntityState))
+                if (cachedFullSaveState.TryGetValue(saveableEntity.GetUniqueIdentifier(), out JToken saveableEntityState))
                 {
                     SaveableEntity.TryGetStateDictionary(saveableEntityState, out saveableEntityStateDict);
                 }
                 
-                var saveableEntityCardData = new SaveableEntityCardData(saveableEntity, saveableEntityStateDict, cachedSaveState);
+                var saveableEntityCardData = new SaveableEntityCardData(saveableEntity, saveableEntityStateDict, cachedFullSaveState, saveableEntityGUIDs);
                 saveableEntityCardData.SelfReferenceInSubCards();
                 cachedSaveableEntityCardData.Add(saveableEntityCardData);
             }
@@ -503,7 +505,7 @@ namespace Frankie.Saving.Editor
         
         private void UnloadSaveControlData()
         {
-            cachedSaveState = null;
+            cachedFullSaveState = null;
             cachedSaveableEntityCardData.Clear();
             saveControlBoxLoaded = false;
             
@@ -519,7 +521,7 @@ namespace Frankie.Saving.Editor
                 saveableEntityCardData.SaveSaveableEntity(false, SetLastSceneToCurrent);
                 saveableEntityCardData.ResetSaveableSyncFlag();
             }
-            SavingSystem.ManualSave(SavingWrapper.GetCurrentSaveName(), cachedSaveState);
+            SavingSystem.ManualSave(SavingWrapper.GetCurrentSaveName(), cachedFullSaveState);
         }
 
         private static void ScrollToTopEdge(ScrollView scrollView, VisualElement visualElement)

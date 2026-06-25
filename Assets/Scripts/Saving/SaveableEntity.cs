@@ -45,8 +45,10 @@ namespace Frankie.Saving
             {
                 // Core Player State captures, e.g. for GameOver saves (skip saving position, etc.)
                 if (onlyCorePlayerState && !saveable.IsCorePlayerState()) { continue; }
-                
-                updatedTokenState[saveable.GetType().ToString()] = JToken.FromObject(saveable.CaptureState());
+
+                SaveState saveState = saveable.CaptureState();
+                if (saveState == null) { continue; }
+                updatedTokenState[saveable.GetType().ToString()] = JToken.FromObject(saveState);
             }
             return updatedTokenState;
         }
@@ -64,7 +66,7 @@ namespace Frankie.Saving
             }
         }
 
-        public static IEnumerable<(ISaveableBase, SaveState)> MatchSaveableToState(IEnumerable<ISaveableBase> saveableEntries, JObject stateDictionary)
+        private static IEnumerable<(ISaveableBase, SaveState)> MatchSaveableToState(IEnumerable<ISaveableBase> saveableEntries, JObject stateDictionary)
         {
             foreach (ISaveableBase saveable in saveableEntries)
             {

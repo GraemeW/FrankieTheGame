@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
@@ -9,7 +8,7 @@ namespace Frankie.Saving.Editor
 {
     public class PartyAssistSubCard : SaveableSubCardData
     {
-        private SaveableEntityCardData parentSaveableEntityCardData;
+        private readonly SaveableEntityCardData parentSaveableEntityCardData;
         
         public PartyAssistSubCard(ISaveableBase saveable, SaveState saveState, SaveableEntityCardData parentSaveableEntityCardData)
         {

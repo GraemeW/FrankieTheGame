@@ -89,8 +89,7 @@ namespace Frankie.Stats
             members.Add(characterBaseStats);
             AddToUnlockedCharacters(characterBaseStats);
             RefreshAnimatorLookup();
-            inactiveParty.RestoreCharacterState(ref characterBaseStats); // Restore character stats, exp, equipment, inventory (if previously in party)
-            inactiveParty.RemoveFromInactiveStorage(characterBaseStats); // Stop tracking in inactive storage (i.e. since in active party)
+            inactiveParty.RestoreCharacterState(characterBaseStats); // Restore character stats, exp, equipment, inventory (if previously in party)
 
             if (members.Count > 1) { characterBaseStats.GetComponent<Collider2D>().isTrigger = true; }
             partyUpdated?.Invoke();

@@ -11,15 +11,15 @@ namespace Frankie.Saving.Editor
 {
     public class SaveableEntityCardData
     {
-        // Properties
-        public JObject saveableEntityStateDict { get; private set; }
-        public Dictionary<string, SaveableSubCardData> subCards { get; private set; } = new();
-        public string entityName { get; private set; }
-        
         // State
+        private readonly JObject cachedFullSaveState;
+        private readonly HashSet<string> saveableEntityGUIDs;
+        
         private readonly SaveableEntity saveableEntity;
-        private readonly JObject cachedSaveState;
+        private JObject saveableEntityStateDict;        
         private readonly string entityID;
+        private readonly string entityName;
+        private readonly Dictionary<string, SaveableSubCardData> subCards = new();
         
         // UI State
         private Box cardView;
@@ -34,9 +34,11 @@ namespace Frankie.Saving.Editor
         private static readonly Color _saveEntityButtonColor = Color.chocolate;
         private static readonly Color _gameObjectSelectedColor = Color.steelBlue / 1.5f;
 
-        public SaveableEntityCardData(SaveableEntity saveableEntity, JObject saveableEntityStateDict, JObject cachedSaveState)
+        public SaveableEntityCardData(SaveableEntity saveableEntity, JObject saveableEntityStateDict, JObject cachedFullSaveState, HashSet<string> saveableEntityGUIDs)
         {
-            this.cachedSaveState = cachedSaveState;
+            this.cachedFullSaveState = cachedFullSaveState;
+            this.saveableEntityGUIDs = saveableEntityGUIDs;
+            
             this.saveableEntity = saveableEntity;
             saveableEntityStateDict ??= new JObject();
             this.saveableEntityStateDict = saveableEntityStateDict;
@@ -57,24 +59,25 @@ namespace Frankie.Saving.Editor
             
             Selection.selectionChanged -= OnEntitySelected;
             Selection.selectionChanged += OnEntitySelected;
+            saveableEntityGUIDs.Add(entityID);
         }
         
-        #region StaticMethods
-        public static SaveableEntityCardData BuildFromCharacterProperties(CharacterProperties characterProperties, JObject saveableEntityStateDict)
+        #region FactoryMethods
+        public SaveableEntityCardData BuildFromCharacterPropertiesWithCache(CharacterProperties characterProperties) => BuildFromCharacterProperties(characterProperties, cachedFullSaveState, saveableEntityGUIDs);
+        
+        private static SaveableEntityCardData BuildFromCharacterProperties(CharacterProperties characterProperties, JObject saveableEntityStateDict, HashSet<string> saveableEntityGUIDs)
         {
             if (saveableEntityStateDict == null) { return null; }
             
             GameObject characterPrefab = characterProperties.GetCharacterPrefab();
             if (characterPrefab == null) { return null; }
-            var inactiveSaveableEntity = characterPrefab.GetComponent<SaveableEntity>();
-            if (inactiveSaveableEntity == null) { return null; }
-
-            var characterSaveableEntityCardData = new SaveableEntityCardData(inactiveSaveableEntity, saveableEntityStateDict, saveableEntityStateDict);
+            var characterSaveableEntity = characterPrefab.GetComponent<SaveableEntity>();
+            if (characterSaveableEntity == null || saveableEntityGUIDs.Contains(characterSaveableEntity.GetUniqueIdentifier())) { return null; }
+            
+            var characterSaveableEntityCardData = new SaveableEntityCardData(characterSaveableEntity, saveableEntityStateDict, saveableEntityStateDict, saveableEntityGUIDs);
             characterSaveableEntityCardData.SelfReferenceInSubCards();
             return characterSaveableEntityCardData;
         }
-
-        public SaveableEntityCardData BuildFromCharacterPropertiesWithCache(CharacterProperties characterProperties) => BuildFromCharacterProperties(characterProperties, cachedSaveState);
         #endregion
 
         #region Getters
@@ -137,25 +140,20 @@ namespace Frankie.Saving.Editor
         #endregion
         
         #region Saving
-        public void UpdateSaveableEntry(string typeString, SaveState updatedSaveState)
-        {
-            SaveableEntity.ManualCaptureSaveState(saveableEntityStateDict, typeString, updatedSaveState);
-        }
-        
         public void SaveSaveableEntity(bool saveCachedStateToFile, Action playerPositionChangeCallback = null)
         {
-            if (cachedSaveState == null) { return; }
+            if (cachedFullSaveState == null) { return; }
             
             JObject stateToAdd = saveableEntityStateDict;
             string uniqueIdentifier = entityID;
             if (stateToAdd == null || string.IsNullOrWhiteSpace(uniqueIdentifier)) { return; }
             
             UpdateSaveableEntityCardData();
-            SavingSystem.ManualAddOverWriteToState(cachedSaveState, stateToAdd, uniqueIdentifier);
+            SavingSystem.ManualAddOverWriteToState(cachedFullSaveState, stateToAdd, uniqueIdentifier);
             if (saveCachedStateToFile)
             {
                 ResetSaveableSyncFlag();
-                SavingSystem.ManualSave(SavingWrapper.GetCurrentSaveName(), cachedSaveState);
+                SavingSystem.ManualSave(SavingWrapper.GetCurrentSaveName(), cachedFullSaveState);
             }
             
             if (HasPlayerMoverWithAlteredPosition()) { playerPositionChangeCallback?.Invoke(); }

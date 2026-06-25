@@ -48,7 +48,7 @@ namespace Frankie.Saving.Editor
                 CombatParticipant => new CombatParticipantSaveableSubCard(saveable, saveState),
                 Party => new PartySubCard(saveable, saveState, parentSaveableEntityCardData),
                 PartyAssist => new PartyAssistSubCard(saveable, saveState, parentSaveableEntityCardData),
-                InactiveParty => new InactivePartySubCard(saveable, saveState),
+                InactiveParty => new InactivePartySubCard(saveable, saveState, parentSaveableEntityCardData),
                 Knapsack => new KnapsackSaveableSubCard(saveable, saveState),
                 Equipment => new EquipmentSaveableSubCard(saveable, saveState),
                 WearablesLink => new WearablesLinkSubCard(saveable, saveState),

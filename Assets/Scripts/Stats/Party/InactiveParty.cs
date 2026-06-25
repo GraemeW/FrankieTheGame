@@ -1,14 +1,15 @@
-using Newtonsoft.Json.Linq;
 using System.Collections.Generic;
+using System.Linq;
+using Frankie.Core;
 using UnityEngine;
 using Frankie.Saving;
 
 namespace Frankie.Stats
 {
-    public class InactiveParty : MonoBehaviour, ISaveable<Dictionary<CharacterProperties, JToken>>
+    public class InactiveParty : MonoBehaviour, ISaveable<HashSet<CharacterProperties>>
     {
         // State
-        private readonly Dictionary<CharacterProperties, JToken> inactiveCharacterSaveStates = new();
+        private readonly HashSet<CharacterProperties> inactiveCharacters = new();
 
         #region PublicMethods
         public void CaptureCharacterState(BaseStats character)
@@ -20,81 +21,51 @@ namespace Frankie.Stats
 
             CharacterProperties characterProperties = character.GetCharacterProperties();
             if (characterProperties == null) { return; }
-            inactiveCharacterSaveStates[characterProperties] = saveableEntity.CaptureState(null);
+            
+            SavingWrapper.AppendToSession(saveableEntity);
+            inactiveCharacters.Add(characterProperties);
         }
 
-        public void RestoreCharacterState(ref BaseStats character)
+        public void RestoreCharacterState(BaseStats character)
         {
             if (character == null) { return; }
 
             CharacterProperties characterProperties = character.GetCharacterProperties();
             if (characterProperties == null) { return; }
-            if (!inactiveCharacterSaveStates.ContainsKey(characterProperties)) { return; }
+            if (!inactiveCharacters.Contains(characterProperties)) { return; }
 
             SaveableEntity saveableEntity = character.GetComponent<SaveableEntity>();
             if (saveableEntity == null) { return; }
-
-            saveableEntity.RestoreState(inactiveCharacterSaveStates[characterProperties], LoadPriority.ObjectProperty);
-        }
-
-        public void RemoveFromInactiveStorage(BaseStats character)
-        {
-            if (character == null) { return; }
-
-            CharacterProperties characterProperties = character.GetCharacterProperties();
-            RemoveFromInactiveStorage(characterProperties);
-        }
-
-        public void RemoveFromInactiveStorage(CharacterProperties characterProperties)
-        {
-            if (characterProperties == null) { return; }
-            inactiveCharacterSaveStates.Remove(characterProperties);
+            
+            SavingWrapper.RestorePropertiesFromSession(saveableEntity);
+            inactiveCharacters.Remove(characterProperties);
         }
         #endregion
 
         #region SaveSystem
         public bool IsCorePlayerState() => true;
         public LoadPriority GetLoadPriority() => LoadPriority.ObjectProperty;
-        public SaveState CaptureState() => ManualGetStateFromData(inactiveCharacterSaveStates);
+        public SaveState CaptureState() => ManualGetStateFromData(inactiveCharacters);
 
         public void RestoreState(SaveState saveState)
         {
-            if (saveState.GetState(typeof(Dictionary<string, JToken>)) is not Dictionary<string, JToken>) { return; }
-            
-            inactiveCharacterSaveStates.Clear();
-            foreach (KeyValuePair<CharacterProperties, JToken> characterPropertiesDataPair in ManualGetDataFromState(saveState))
+            foreach (CharacterProperties characterProperties in ManualGetDataFromState(saveState))
             {
-                inactiveCharacterSaveStates[characterPropertiesDataPair.Key] = characterPropertiesDataPair.Value;
+                inactiveCharacters.Add(characterProperties);
             }
         }
         
-        public SaveState ManualGetStateFromData(Dictionary<CharacterProperties, JToken> data)
+        public SaveState ManualGetStateFromData(HashSet<CharacterProperties> data)
         {
-            data ??= new Dictionary<CharacterProperties, JToken>();
-            
-            Dictionary<string, JToken> inactiveCharacterSaveStateRecords = new Dictionary<string, JToken>();
-            foreach (KeyValuePair<CharacterProperties, JToken> keyValuePair in data)
-            {
-                inactiveCharacterSaveStateRecords[keyValuePair.Key.GetCharacterID()] = keyValuePair.Value;
-            }
-            return new SaveState(GetLoadPriority(), inactiveCharacterSaveStateRecords);
+            data ??= new HashSet<CharacterProperties>();
+            HashSet<string> partyNames = data.Select(character => character != null ? character.GetCharacterID() : string.Empty).ToHashSet();
+            return new SaveState(GetLoadPriority(), partyNames);
         }
 
-        public Dictionary<CharacterProperties, JToken> ManualGetDataFromState(SaveState saveState)
+        public HashSet<CharacterProperties> ManualGetDataFromState(SaveState saveState)
         {
-            if (saveState.GetState(typeof(Dictionary<string, JToken>)) is not Dictionary<string, JToken> inactiveCharacterSaveStateRecords) { return new Dictionary<CharacterProperties, JToken>(); }
-            
-            var data = new Dictionary<CharacterProperties, JToken>();
-            foreach (KeyValuePair<string, JToken> keyValuePair in inactiveCharacterSaveStateRecords)
-            {
-                string characterName = keyValuePair.Key;
-                if (string.IsNullOrWhiteSpace(characterName)) { continue; }
-                CharacterProperties characterProperties = CharacterProperties.GetCharacterPropertiesFromName(characterName);
-                if (characterProperties == null) { continue; }
-
-                data[characterProperties] = keyValuePair.Value;
-            }
-            return data;
+            if (saveState.GetState(typeof(List<string>)) is not List<string> partyNames) { return new HashSet<CharacterProperties>(); }
+            return partyNames.Select(CharacterProperties.GetCharacterPropertiesFromName).Where(partyCharacter => partyCharacter != null).ToHashSet();
         }
         #endregion
     }

@@ -17,7 +17,7 @@ namespace Frankie.Saving
         // Constants
         private const string _saveFileExtension = ".sav";
         private const string _saveLastSceneBuildIndex = "lastSceneBuildIndex";
-        private const bool _encryptionEnabled = true;
+        private const bool _encryptionEnabled = false;
 
         #region DataStructures
         [System.Serializable]
@@ -59,7 +59,14 @@ namespace Frankie.Saving
             return saveableEntities;
         }
         
-        public static JObject ManualGetState(string saveFile) => LoadFile(saveFile);
+        public static JObject ManualGetFullState(string saveFile) => LoadFile(saveFile);
+
+        public static JToken ManualGetStateEntityToken(string saveFile, SaveableEntity saveableEntity)
+        {
+            JObject fullState = LoadFile(saveFile);
+            string id = saveableEntity.GetUniqueIdentifier();
+            return fullState.TryGetValue(id, out JToken value) ? value : null;
+        }
         #endregion
         
         #region PublicMethods
@@ -116,6 +123,7 @@ namespace Frankie.Saving
         {
             JObject state = LoadFile(sessionFile);
             CaptureIndividualState(state, saveableEntity);
+            Debug.Log(state);
             SaveFile(sessionFile, state);
         }
 

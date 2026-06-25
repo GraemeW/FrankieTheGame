@@ -10,7 +10,7 @@ namespace Frankie.Saving.Editor
 {
     public class PartySubCard : SaveableSubCardData
     {
-        private SaveableEntityCardData parentSaveableEntityCardData;
+        private readonly SaveableEntityCardData parentSaveableEntityCardData;
         
         public PartySubCard(ISaveableBase saveable, SaveState saveState, SaveableEntityCardData parentSaveableEntityCardData)
         {

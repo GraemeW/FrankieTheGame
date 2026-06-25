@@ -18,7 +18,7 @@ namespace Frankie.Stats
         [Header("Parameters")]
         [SerializeField] private CharacterProperties characterProperties;
         [SerializeField] private bool levelUpOnInstantiation = false;
-        [SerializeField][Tooltip("Default true for PCs, false for NPCs")] private bool useSavedStatsOnLoad = true;
+        [SerializeField][Tooltip("Default true for PCs, false for NPCs")] private bool saveBaseStats = true;
         [Header("Hookups")]
         [SerializeField] private Progression progression;
 
@@ -168,6 +168,7 @@ namespace Frankie.Stats
 
         public SaveState CaptureState()
         {
+            if (!saveBaseStats) { return null; }
             currentLevel ??= new LazyValue<int>(GetInitialLevel);
             var baseStatsSaveData = new BaseStatsSaveData(currentLevel.value, activeStatSheet);
             var saveState = new SaveState(GetLoadPriority(), baseStatsSaveData);
@@ -176,7 +177,7 @@ namespace Frankie.Stats
 
         public void RestoreState(SaveState saveState)
         {
-            if (!useSavedStatsOnLoad) { return; }
+            if (!saveBaseStats) { return; }
             if (saveState.GetState(typeof(BaseStatsSaveData)) is not BaseStatsSaveData baseStatsSaveData) { return; }
 
             currentLevel ??= new LazyValue<int>(GetInitialLevel);
