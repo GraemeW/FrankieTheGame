@@ -2,8 +2,6 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine.UIElements;
 using Frankie.Stats;
-using UnityEditor.UIElements;
-using UnityEngine;
 
 namespace Frankie.Saving.Editor
 {
@@ -16,7 +14,7 @@ namespace Frankie.Saving.Editor
             this.parentSaveableEntityCardData = parentSaveableEntityCardData;
         }
 
-        public override void AddEditableFieldsToSubCardView(Box subCardView)
+        protected override void AddEditableFieldsToSubCardView(Box subCardView)
         {
             if (saveable is not InactiveParty inactiveParty) { return; }
             
@@ -29,82 +27,29 @@ namespace Frankie.Saving.Editor
 
             // Section 1 - Inactive Party Character Select
             var inactivePartyCharacters = new List<CharacterProperties>(inactivePartyData);
-            
             var listContainer = new VisualElement();
             subCardView.Add(listContainer);
 
             var addButton = new Button { text = "+ Add Character", style = { width = standardButtonWidth } };
             subCardView.Add(addButton);
-
-            DrawInactivePartyList(listContainer, inactiveParty, inactivePartyCharacters);
-
+            DrawBasicPartyList(listContainer, inactiveParty, inactivePartyCharacters, () => ReconcileEntityView(inactivePartyCharacters));
+            
+            // Section 2 -- Party Entity View
+            subCardView.Add(new Label("Party Entity View"));
+            characterEntityContainer = new VisualElement();
+            subCardView.Add(characterEntityContainer);
+            
+            if (parentSaveableEntityCardData == null) { return; }
+            ReconcileEntityView(inactivePartyCharacters);
+            
+            // Button Callbacks
             addButton.RegisterCallback<ClickEvent>(_ =>
             {
                 inactivePartyCharacters.Add(null);
                 saveState = inactiveParty.ManualGetStateFromData(inactivePartyCharacters.ToHashSet());
                 RaiseSaveStateChanged();
-                DrawInactivePartyList(listContainer, inactiveParty, inactivePartyCharacters);
+                DrawBasicPartyList(listContainer, inactiveParty, inactivePartyCharacters, () => ReconcileEntityView(inactivePartyCharacters));
             });
-            
-            // Section 2 - Party Entity View
-            if (parentSaveableEntityCardData == null) { return; }
-            RebuildCharacterSaveableEntityCards(inactivePartyCharacters);
-            DrawCharacterEntityView(subCardView);
-        }
-        
-        private void DrawInactivePartyList(VisualElement listContainer, InactiveParty inactiveParty, List<CharacterProperties> inactivePartyCharacters)
-        {
-            listContainer.Clear();
-
-            for (int i = 0; i < inactivePartyCharacters.Count; i++)
-            {
-                int rowIndex = i;
-
-                var row = new VisualElement { style = { flexDirection = FlexDirection.Row } };
-                listContainer.Add(row);
-
-                var characterField = new ObjectField { objectType = typeof(CharacterProperties), value = inactivePartyCharacters[rowIndex], style = { flexGrow = 1 } };
-                row.Add(characterField);
-
-                var removeButton = new Button { text = "- Remove", style = { width = smallButtonWidth }  };
-                row.Add(removeButton);
-
-                characterField.RegisterValueChangedCallback(changeEvent =>
-                {
-                    var newCharacterProperties = changeEvent.newValue as CharacterProperties;
-                    if (newCharacterProperties != null && newCharacterProperties.GetCharacterPrefab() == null)
-                    {
-                        Debug.LogWarning("Invalid Character:  Select entry with a character prefab.");
-                        characterField.SetValueWithoutNotify(inactivePartyCharacters[rowIndex]);
-                        return;
-                    }
-                    
-                    inactivePartyCharacters[rowIndex] = newCharacterProperties;
-                    saveState = inactiveParty.ManualGetStateFromData(inactivePartyCharacters.ToHashSet());
-                    RaiseSaveStateChanged();
-                });
-
-                removeButton.RegisterCallback<ClickEvent>(_ =>
-                {
-                    inactivePartyCharacters.RemoveAt(rowIndex);
-                    saveState = inactiveParty.ManualGetStateFromData(inactivePartyCharacters.ToHashSet());
-                    RaiseSaveStateChanged();
-                    DrawInactivePartyList(listContainer, inactiveParty, inactivePartyCharacters);
-                });
-            }
-        }
-        
-        private List<(CharacterProperties characterProperties, SaveableEntityCardData entityCardData)> BuildInactivePartySaveableEntityData(HashSet<CharacterProperties> inactivePartyData)
-        {
-            var inactivePartyEntries = new List<(CharacterProperties characterProperties, SaveableEntityCardData entityCardData)>();
-            if (parentSaveableEntityCardData == null) { return inactivePartyEntries; }
-            
-            foreach (CharacterProperties characterProperties in inactivePartyData)
-            {
-                SaveableEntityCardData characterSaveableEntityData = parentSaveableEntityCardData.BuildFromCharacterPropertiesWithCache(characterProperties);
-                inactivePartyEntries.Add((characterProperties, characterSaveableEntityData));
-            }
-            return inactivePartyEntries;
         }
     }
 }

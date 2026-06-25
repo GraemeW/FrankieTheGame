@@ -16,8 +16,8 @@ namespace Frankie.Saving.Editor
             this.saveState = saveState;
             this.parentSaveableEntityCardData = parentSaveableEntityCardData;
         }
-        
-        public override void AddEditableFieldsToSubCardView(Box subCardView)
+
+        protected override void AddEditableFieldsToSubCardView(Box subCardView)
         {
             if (saveable is not Party party) { return; }
             
@@ -37,19 +37,11 @@ namespace Frankie.Saving.Editor
             subCardView.Add(new Label("Party Members"));
             var partyCharactersContainer = new VisualElement();
             subCardView.Add(partyCharactersContainer);
-
+            
             var addPartyCharacterButton = new Button { text = "+ Add Party Member", style = { width = standardButtonWidth }  };
             subCardView.Add(addPartyCharacterButton);
-
             DrawPartyCharacterList(partyCharactersContainer, partyCharacters, PushSaveState);
-
-            addPartyCharacterButton.RegisterCallback<ClickEvent>(_ =>
-            {
-                partyCharacters.Add(null);
-                PushSaveState();
-                DrawPartyCharacterList(partyCharactersContainer, partyCharacters, PushSaveState);
-            });
-
+            
             // Section 2 -- Unlocked Characters
             subCardView.Add(new Label("Unlocked Characters"));
             var unlockedCharactersContainer = new VisualElement();
@@ -57,16 +49,8 @@ namespace Frankie.Saving.Editor
 
             var addUnlockedCharacterButton = new Button { text = "+ Add Unlocked Character", style = { width = standardButtonWidth }  };
             subCardView.Add(addUnlockedCharacterButton);
-
             DrawUnlockedCharacterList(unlockedCharactersContainer, unlockedCharacters, PushSaveState);
-
-            addUnlockedCharacterButton.RegisterCallback<ClickEvent>(_ =>
-            {
-                unlockedCharacters.Add(null);
-                PushSaveState();
-                DrawUnlockedCharacterList(unlockedCharactersContainer, unlockedCharacters, PushSaveState);
-            });
-
+            
             // Section 3 -- World NPC Lookup
             subCardView.Add(new Label("World NPC Lookup"));
             var worldNPCContainer = new VisualElement();
@@ -74,24 +58,42 @@ namespace Frankie.Saving.Editor
 
             var addWorldNPCButton = new Button { text = "+ Add World NPC Entry", style = { width = standardButtonWidth } };
             subCardView.Add(addWorldNPCButton);
-
             DrawWorldNPCList(worldNPCContainer, worldNPCRows, PushSaveState);
-
+            
+            // Section 4 -- Party Entity View
+            subCardView.Add(new Label("Party Entity View"));
+            characterEntityContainer = new VisualElement();
+            subCardView.Add(characterEntityContainer);
+            
+            if (parentSaveableEntityCardData == null) { return; }
+            ReconcileEntityView(partyCharacters);
+            
+            // Button Callbacks
+            addPartyCharacterButton.RegisterCallback<ClickEvent>(_ =>
+            {
+                partyCharacters.Add(null);
+                PushSaveState(true);
+                DrawPartyCharacterList(partyCharactersContainer, partyCharacters, PushSaveState);
+            });
+            
+            addUnlockedCharacterButton.RegisterCallback<ClickEvent>(_ =>
+            {
+                unlockedCharacters.Add(null);
+                PushSaveState(false);
+                DrawUnlockedCharacterList(unlockedCharactersContainer, unlockedCharacters, PushSaveState);
+            });
+            
             addWorldNPCButton.RegisterCallback<ClickEvent>(_ =>
             {
                 worldNPCRows.Add((null, new SceneParentReferencePair(string.Empty, string.Empty)));
-                PushSaveState();
+                PushSaveState(false);
                 DrawWorldNPCList(worldNPCContainer, worldNPCRows, PushSaveState);
             });
             
-            // Section 4 -- Party Entity View
-            if (parentSaveableEntityCardData == null) { return; }
-            RebuildCharacterSaveableEntityCards(partyCharacters);
-            DrawCharacterEntityView(subCardView);
             return;
 
             // Local Functions
-            void PushSaveState()
+            void PushSaveState(bool redrawCharacterEntityView)
             {
                 var unlockedCharactersSet = new HashSet<CharacterProperties>(unlockedCharacters);
                 var worldNPCLookup = new Dictionary<CharacterProperties, SceneParentReferencePair>();
@@ -103,10 +105,13 @@ namespace Frankie.Saving.Editor
                 var updatedSaveData = new PartySaveData(partyCharacters, unlockedCharactersSet, worldNPCLookup);
                 saveState = party.ManualGetStateFromData(updatedSaveData);
                 RaiseSaveStateChanged();
+
+                if (!redrawCharacterEntityView) { return; }
+                ReconcileEntityView(partyCharacters);
             }
         }
         
-        private static void DrawPartyCharacterList(VisualElement container, List<CharacterProperties> partyCharacters, Action pushSaveState)
+        private static void DrawPartyCharacterList(VisualElement container, List<CharacterProperties> partyCharacters, Action<bool> pushSaveState)
         {
             container.Clear();
 
@@ -134,19 +139,19 @@ namespace Frankie.Saving.Editor
                     }
                     
                     partyCharacters[rowIndex] = changeEvent.newValue as CharacterProperties;
-                    pushSaveState?.Invoke();
+                    pushSaveState?.Invoke(true);
                 });
 
                 removeButton.RegisterCallback<ClickEvent>(_ =>
                 {
                     partyCharacters.RemoveAt(rowIndex);
-                    pushSaveState?.Invoke();
+                    pushSaveState?.Invoke(true);
                     DrawPartyCharacterList(container, partyCharacters, pushSaveState);
                 });
             }
         }
         
-        private static void DrawUnlockedCharacterList(VisualElement container, List<CharacterProperties> unlockedCharacters, Action pushSaveState)
+        private static void DrawUnlockedCharacterList(VisualElement container, List<CharacterProperties> unlockedCharacters, Action<bool> pushSaveState)
         {
             container.Clear();
 
@@ -183,19 +188,19 @@ namespace Frankie.Saving.Editor
                     }
 
                     unlockedCharacters[rowIndex] = newCharacterProperties;
-                    pushSaveState?.Invoke();
+                    pushSaveState?.Invoke(false);
                 });
 
                 removeButton.RegisterCallback<ClickEvent>(_ =>
                 {
                     unlockedCharacters.RemoveAt(rowIndex);
-                    pushSaveState?.Invoke();
+                    pushSaveState?.Invoke(false);
                     DrawUnlockedCharacterList(container, unlockedCharacters, pushSaveState);
                 });
             }
         }
         
-        private void DrawWorldNPCList(VisualElement container, List<(CharacterProperties characterProperties, SceneParentReferencePair sceneParentReferencePair)> worldNPCRows, Action pushSaveState)
+        private static void DrawWorldNPCList(VisualElement container, List<(CharacterProperties characterProperties, SceneParentReferencePair sceneParentReferencePair)> worldNPCRows, Action<bool> pushSaveState)
         {
             container.Clear();
 
@@ -234,7 +239,7 @@ namespace Frankie.Saving.Editor
                     }
 
                     worldNPCRows[rowIndex] = (newCharacterProperties, worldNPCRows[rowIndex].sceneParentReferencePair);
-                    pushSaveState?.Invoke();
+                    pushSaveState?.Invoke(false);
                 });
 
                 sceneField.RegisterValueChangedCallback(changeEvent =>
@@ -242,7 +247,7 @@ namespace Frankie.Saving.Editor
                     SceneParentReferencePair updatedPair = worldNPCRows[rowIndex].sceneParentReferencePair;
                     updatedPair.sceneName = changeEvent.newValue;
                     worldNPCRows[rowIndex] = (worldNPCRows[rowIndex].characterProperties, updatedPair);
-                    pushSaveState?.Invoke();
+                    pushSaveState?.Invoke(false);
                 });
 
                 parentField.RegisterValueChangedCallback(changeEvent =>
@@ -250,13 +255,13 @@ namespace Frankie.Saving.Editor
                     SceneParentReferencePair updatedPair = worldNPCRows[rowIndex].sceneParentReferencePair;
                     updatedPair.parentName = changeEvent.newValue;
                     worldNPCRows[rowIndex] = (worldNPCRows[rowIndex].characterProperties, updatedPair);
-                    pushSaveState?.Invoke();
+                    pushSaveState?.Invoke(false);
                 });
 
                 removeButton.RegisterCallback<ClickEvent>(_ =>
                 {
                     worldNPCRows.RemoveAt(rowIndex);
-                    pushSaveState?.Invoke();
+                    pushSaveState?.Invoke(false);
                     DrawWorldNPCList(container, worldNPCRows, pushSaveState);
                 });
             }

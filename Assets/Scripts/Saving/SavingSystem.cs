@@ -17,7 +17,7 @@ namespace Frankie.Saving
         // Constants
         private const string _saveFileExtension = ".sav";
         private const string _saveLastSceneBuildIndex = "lastSceneBuildIndex";
-        private const bool _encryptionEnabled = false;
+        private const bool _encryptionEnabled = true;
 
         #region DataStructures
         [System.Serializable]

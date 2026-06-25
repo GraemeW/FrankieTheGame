@@ -11,7 +11,7 @@ namespace Frankie.Saving.Editor
             this.saveState = saveState;
         }
 
-        public override void AddEditableFieldsToSubCardView(Box subCardView)
+        protected override void AddEditableFieldsToSubCardView(Box subCardView)
         {
             if (saveable is not ISaveable<int> intSaveable) { return; }
             int value = intSaveable.ManualGetDataFromState(saveState);

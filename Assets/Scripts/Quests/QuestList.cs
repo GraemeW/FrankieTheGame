@@ -136,7 +136,7 @@ namespace Frankie.Quests
 
         public List<QuestStatus> ManualGetDataFromState(SaveState saveState)
         {
-            if (saveState.GetState(typeof(List<SerializableQuestStatus>)) is not List<SerializableQuestStatus> serializableQuestStatuses) { return new List<QuestStatus>(); }
+            if (saveState?.GetState(typeof(List<SerializableQuestStatus>)) is not List<SerializableQuestStatus> serializableQuestStatuses) { return new List<QuestStatus>(); }
             return serializableQuestStatuses.Select(serializableQuestStatus => new QuestStatus(serializableQuestStatus)).ToList();
         }
         #endregion

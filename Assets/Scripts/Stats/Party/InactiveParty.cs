@@ -64,7 +64,7 @@ namespace Frankie.Stats
 
         public HashSet<CharacterProperties> ManualGetDataFromState(SaveState saveState)
         {
-            if (saveState.GetState(typeof(List<string>)) is not List<string> partyNames) { return new HashSet<CharacterProperties>(); }
+            if (saveState?.GetState(typeof(List<string>)) is not List<string> partyNames) { return new HashSet<CharacterProperties>(); }
             return partyNames.Select(CharacterProperties.GetCharacterPropertiesFromName).Where(partyCharacter => partyCharacter != null).ToHashSet();
         }
         #endregion

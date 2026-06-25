@@ -10,7 +10,7 @@ namespace Frankie.Saving.Editor
             this.saveState = saveState;
         }
 
-        public override void AddEditableFieldsToSubCardView(Box subCardView)
+        protected override void AddEditableFieldsToSubCardView(Box subCardView)
         {
             subCardView.Add(new Label("SubCardView not implemented"));
         }

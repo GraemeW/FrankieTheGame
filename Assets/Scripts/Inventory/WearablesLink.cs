@@ -102,7 +102,7 @@ namespace Frankie.Inventory
         public List<WearableItem> ManualGetDataFromState(SaveState saveState)
         {
             var wearableItems = new List<WearableItem>();
-            if (saveState.GetState(typeof(List<string>)) is not List<string> wearableItemIDs) { return wearableItems; }
+            if (saveState?.GetState(typeof(List<string>)) is not List<string> wearableItemIDs) { return wearableItems; }
 
             wearableItems.AddRange(wearableItemIDs.Select(InventoryItem.GetFromID).OfType<WearableItem>());
             return wearableItems;

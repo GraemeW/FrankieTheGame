@@ -297,7 +297,7 @@ namespace Frankie.Stats
 
         public PartySaveData ManualGetDataFromState(SaveState saveState)
         {
-            return saveState.GetState(typeof(PartySerializableSaveData)) is PartySerializableSaveData partySerializableSaveData ? UnpackPartySerializableSaveData(partySerializableSaveData) : new PartySaveData();
+            return saveState?.GetState(typeof(PartySerializableSaveData)) is PartySerializableSaveData partySerializableSaveData ? UnpackPartySerializableSaveData(partySerializableSaveData) : new PartySaveData();
         }
         
         private static PartySaveData UnpackPartySerializableSaveData(PartySerializableSaveData partySerializableSaveData)

@@ -7,7 +7,7 @@ using Frankie.Saving;
 namespace Frankie.Stats
 {
     [RequireComponent(typeof(Party))]
-    public class PartyAssist : PartyBehaviour, ISaveable<List<CharacterProperties>>
+    public class PartyAssist : PartyBehaviour, ISaveable<HashSet<CharacterProperties>>
     {
         // Cached References
         private Party party;
@@ -111,30 +111,30 @@ namespace Frankie.Stats
         public SaveState CaptureState()
         {
             members ??= new List<BaseStats>();
-            List<CharacterProperties> partyCharacters = members.Select(character => character.GetCharacterProperties()).ToList();
+            HashSet<CharacterProperties> partyCharacters = members.Select(character => character.GetCharacterProperties()).ToHashSet();
             return ManualGetStateFromData(partyCharacters);
         }
 
         public void RestoreState(SaveState saveState)
         {
-            List<CharacterProperties> partyCharacters = ManualGetDataFromState(saveState);
+            HashSet<CharacterProperties> partyCharacters = ManualGetDataFromState(saveState);
             RestorePartyMembers(partyCharacters);
         }
         
-        public SaveState ManualGetStateFromData(List<CharacterProperties> data)
+        public SaveState ManualGetStateFromData(HashSet<CharacterProperties> data)
         {
-            data ??= new List<CharacterProperties>();
+            data ??= new HashSet<CharacterProperties>();
             List<string> partyNames = data.Select(character => character != null ? character.GetCharacterID() : string.Empty).ToList();
             return new SaveState(GetLoadPriority(), partyNames);
         }
 
-        public List<CharacterProperties> ManualGetDataFromState(SaveState saveState)
+        public HashSet<CharacterProperties> ManualGetDataFromState(SaveState saveState)
         {
-            if (saveState.GetState(typeof(List<string>)) is not List<string> partyNames) { return new List<CharacterProperties>(); }
-            return partyNames.Select(CharacterProperties.GetCharacterPropertiesFromName).Where(partyCharacter => partyCharacter != null).ToList();
+            if (saveState?.GetState(typeof(List<string>)) is not List<string> partyNames) { return new HashSet<CharacterProperties>(); }
+            return partyNames.Select(CharacterProperties.GetCharacterPropertiesFromName).Where(partyCharacter => partyCharacter != null).ToHashSet();
         }
         
-        private void RestorePartyMembers(List<CharacterProperties> partyCharacters)
+        private void RestorePartyMembers(HashSet<CharacterProperties> partyCharacters)
         {
             if (partyCharacters == null) { return; }
             

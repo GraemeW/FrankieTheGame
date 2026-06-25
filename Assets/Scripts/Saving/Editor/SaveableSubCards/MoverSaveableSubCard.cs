@@ -28,7 +28,7 @@ namespace Frankie.Saving.Editor
         
         public bool IsPlayerMoverSubCard() => saveable is PlayerMover;
 
-        public override void AddEditableFieldsToSubCardView(Box subCardView)
+        protected override void AddEditableFieldsToSubCardView(Box subCardView)
         {
             CancelPickingIfActive();
             if (saveable is not Mover mover) { return; }

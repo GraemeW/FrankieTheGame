@@ -27,9 +27,9 @@ namespace Frankie.Saving.Editor
         protected const float entityCardSpacerHeight = 10f;
         
         // State
-        protected SaveableEntityCardData saveableEntityCardData { get; private set; }
-        public ISaveableBase saveable { get; protected set; }
         public SaveState saveState { get; protected set; }
+        protected SaveableEntityCardData saveableEntityCardData;
+        protected ISaveableBase saveable;
         // Events
         public event Action<string, SaveState> saveStateChanged;
         // ActiveState
@@ -67,8 +67,8 @@ namespace Frankie.Saving.Editor
                 _ => new GenericSaveableSubCard(saveable, saveState)
             };
         }
-        
-        public abstract void AddEditableFieldsToSubCardView(Box subCardView);
+
+        protected abstract void AddEditableFieldsToSubCardView(Box subCardView);
         
         public bool IsSaveStateSynced() => isSaveStateSynced;
         
