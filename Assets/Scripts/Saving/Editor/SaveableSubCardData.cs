@@ -37,7 +37,7 @@ namespace Frankie.Saving.Editor
         private Box contentContainer;
         private Label syncStateLabel;
 
-        public static SaveableSubCardData CreateTypeSpecificSubCard(ISaveableBase saveable, SaveState saveState)
+        public static SaveableSubCardData CreateTypeSpecificSubCard(ISaveableBase saveable, SaveState saveState, SaveableEntityCardData parentSaveableEntityCardData = null)
         {
             return saveable switch
             {
@@ -46,8 +46,8 @@ namespace Frankie.Saving.Editor
                 BaseStats => new BaseStatsSubCard(saveable, saveState),
                 Experience => new SimpleFloatSaveableSubCard(saveable, saveState),
                 CombatParticipant => new CombatParticipantSaveableSubCard(saveable, saveState),
-                Party => new PartySubCard(saveable, saveState),
-                PartyAssist => new PartyAssistSubCard(saveable, saveState),
+                Party => new PartySubCard(saveable, saveState, parentSaveableEntityCardData),
+                PartyAssist => new PartyAssistSubCard(saveable, saveState, parentSaveableEntityCardData),
                 InactiveParty => new InactivePartySubCard(saveable, saveState),
                 Knapsack => new KnapsackSaveableSubCard(saveable, saveState),
                 Equipment => new EquipmentSaveableSubCard(saveable, saveState),

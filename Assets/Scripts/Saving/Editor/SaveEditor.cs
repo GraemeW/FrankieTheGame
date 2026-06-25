@@ -367,7 +367,7 @@ namespace Frankie.Saving.Editor
 
             foreach (SaveableEntityCardData saveableEntityCardData in cachedSaveableEntityCardData)
             {
-                Box entityCardView = saveableEntityCardData.DrawSaveableEntityCard(SaveSaveableEntity);
+                Box entityCardView = saveableEntityCardData.DrawSaveableEntityCard(() => saveableEntityCardData.SaveSaveableEntity(true, SetLastSceneToCurrent));
                 saveControlEntityScrollView.Add(entityCardView);
                 saveableEntityCardData.SetSelectCallback(() => ScrollToTopEdge(saveControlEntityScrollView, entityCardView));
                 
@@ -437,9 +437,6 @@ namespace Frankie.Saving.Editor
             int sortOrder = 0;
             if (go.GetComponent<Player>() != null) { return sortOrder; }
             sortOrder++;
-            
-            if (HasPlayerInParentHierarchy(go.transform.parent)) { return sortOrder; }
-            sortOrder++;
 
             if (go.TryGetComponent(out IGameStateModifierHandler gameStateModifierHandler) && gameStateModifierHandler.hasGameStateModifiers) { return sortOrder; }
             sortOrder++;
@@ -486,6 +483,7 @@ namespace Frankie.Saving.Editor
             foreach (SaveableEntity saveableEntity in SavingSystem.GetAllSaveableEntities().OrderBy(GetEntitySortPriority).ThenBy(saveableEntity => saveableEntity.GetUniqueIdentifier()).ToList())
             {
                 if (saveableEntity == null) { continue; }
+                if (HasPlayerInParentHierarchy(saveableEntity.transform.parent)) { continue; } // Avoid re-pulling entries e.g. in party container
                 
                 var saveableEntityStateDict = new JObject();
                 if (cachedSaveState.TryGetValue(saveableEntity.GetUniqueIdentifier(), out JToken saveableEntityState))
@@ -493,7 +491,7 @@ namespace Frankie.Saving.Editor
                     SaveableEntity.TryGetStateDictionary(saveableEntityState, out saveableEntityStateDict);
                 }
                 
-                var saveableEntityCardData = new SaveableEntityCardData(saveableEntity, saveableEntityStateDict);
+                var saveableEntityCardData = new SaveableEntityCardData(saveableEntity, saveableEntityStateDict, cachedSaveState);
                 saveableEntityCardData.SelfReferenceInSubCards();
                 cachedSaveableEntityCardData.Add(saveableEntityCardData);
             }
@@ -514,55 +512,14 @@ namespace Frankie.Saving.Editor
             DrawSaveControlEntityList();
         }
 
-        private void SaveSaveableEntity(SaveableEntityCardData saveableEntityCardData)
-        {
-            SaveSaveableEntity(saveableEntityCardData, true);
-        }
-
-        private void SaveSaveableEntity(SaveableEntityCardData saveableEntityCardData, bool saveCachedStateToFile)
-        {
-            if (cachedSaveState == null) { return; }
-            
-            JObject stateToAdd = saveableEntityCardData.saveableEntityStateDict;
-            string uniqueIdentifier = saveableEntityCardData.entityID;
-            if (stateToAdd == null || string.IsNullOrWhiteSpace(uniqueIdentifier)) { return; }
-            
-            UpdateSaveableEntityCardData(saveableEntityCardData);
-            SavingSystem.ManualAddOverWriteToState(cachedSaveState, stateToAdd, uniqueIdentifier);
-            if (saveCachedStateToFile)
-            {
-                if (saveableEntityCardData.HasPlayerMoverWithAlteredPosition()) { SetLastSceneToCurrent();}
-                saveableEntityCardData.ResetSaveableSyncFlag();
-                SavingSystem.ManualSave(SavingWrapper.GetCurrentSaveName(), cachedSaveState);
-            }
-        }
-
         private void ApplyAllSaveableEntityData(ClickEvent clickEvent)
         {
             foreach (SaveableEntityCardData saveableEntityCardData in cachedSaveableEntityCardData)
             {
-                SaveSaveableEntity(saveableEntityCardData, false);
-                if (saveableEntityCardData.HasPlayerMoverWithAlteredPosition()) { SetLastSceneToCurrent();}
+                saveableEntityCardData.SaveSaveableEntity(false, SetLastSceneToCurrent);
                 saveableEntityCardData.ResetSaveableSyncFlag();
             }
             SavingSystem.ManualSave(SavingWrapper.GetCurrentSaveName(), cachedSaveState);
-        }
-        
-        private static void UpdateSaveableEntityCardData(SaveableEntityCardData saveableEntityCardData)
-        {
-            JObject saveableEntityStateDict = saveableEntityCardData.saveableEntityStateDict;
-            saveableEntityStateDict ??= new JObject();
-            
-            Debug.Log($"Updating {saveableEntityCardData.entityName} ISaveable entries, count: {saveableEntityStateDict.Count}");
-            foreach (KeyValuePair<string, SaveableSubCardData> typeDataPair in saveableEntityCardData.subCards)
-            {
-                if (string.IsNullOrWhiteSpace(typeDataPair.Key)) { continue; }
-                
-                SaveState saveState = typeDataPair.Value.saveState;
-                if (saveState == null) { continue; }
-
-                saveableEntityCardData.UpdateStateDict(SaveableEntity.ManualCaptureSaveState(saveableEntityStateDict, typeDataPair.Key, saveState));
-            }
         }
 
         private static void ScrollToTopEdge(ScrollView scrollView, VisualElement visualElement)

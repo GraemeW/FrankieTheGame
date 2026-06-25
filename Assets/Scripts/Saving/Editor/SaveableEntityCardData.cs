@@ -4,19 +4,22 @@ using Newtonsoft.Json.Linq;
 using UnityEngine;
 using UnityEngine.UIElements;
 using UnityEditor;
+using Frankie.Core;
+using Frankie.Stats;
 
 namespace Frankie.Saving.Editor
 {
     public class SaveableEntityCardData
     {
-        // Core Data
-        public SaveableEntity saveableEntity { get; private set; }
+        // Properties
         public JObject saveableEntityStateDict { get; private set; }
         public Dictionary<string, SaveableSubCardData> subCards { get; private set; } = new();
-        
-        // Derived Data
         public string entityName { get; private set; }
-        public string entityID { get; private set; }
+        
+        // State
+        private readonly SaveableEntity saveableEntity;
+        private readonly JObject cachedSaveState;
+        private readonly string entityID;
         
         // UI State
         private Box cardView;
@@ -31,8 +34,9 @@ namespace Frankie.Saving.Editor
         private static readonly Color _saveEntityButtonColor = Color.chocolate;
         private static readonly Color _gameObjectSelectedColor = Color.steelBlue / 1.5f;
 
-        public SaveableEntityCardData(SaveableEntity saveableEntity, JObject saveableEntityStateDict)
+        public SaveableEntityCardData(SaveableEntity saveableEntity, JObject saveableEntityStateDict, JObject cachedSaveState)
         {
+            this.cachedSaveState = cachedSaveState;
             this.saveableEntity = saveableEntity;
             saveableEntityStateDict ??= new JObject();
             this.saveableEntityStateDict = saveableEntityStateDict;
@@ -48,12 +52,30 @@ namespace Frankie.Saving.Editor
                 string typeString = saveable.GetType().ToString();
                 SaveState saveState = null;
                 if (saveableEntityStateDict.ContainsKey(typeString)) { saveState = saveableEntityStateDict[typeString]?.ToObject<SaveState>(); }
-                subCards[typeString] = SaveableSubCardData.CreateTypeSpecificSubCard(saveable, saveState);
+                subCards[typeString] = SaveableSubCardData.CreateTypeSpecificSubCard(saveable, saveState, this);
             }
             
             Selection.selectionChanged -= OnEntitySelected;
             Selection.selectionChanged += OnEntitySelected;
         }
+        
+        #region StaticMethods
+        public static SaveableEntityCardData BuildFromCharacterProperties(CharacterProperties characterProperties, JObject saveableEntityStateDict)
+        {
+            if (saveableEntityStateDict == null) { return null; }
+            
+            GameObject characterPrefab = characterProperties.GetCharacterPrefab();
+            if (characterPrefab == null) { return null; }
+            var inactiveSaveableEntity = characterPrefab.GetComponent<SaveableEntity>();
+            if (inactiveSaveableEntity == null) { return null; }
+
+            var characterSaveableEntityCardData = new SaveableEntityCardData(inactiveSaveableEntity, saveableEntityStateDict, saveableEntityStateDict);
+            characterSaveableEntityCardData.SelfReferenceInSubCards();
+            return characterSaveableEntityCardData;
+        }
+
+        public SaveableEntityCardData BuildFromCharacterPropertiesWithCache(CharacterProperties characterProperties) => BuildFromCharacterProperties(characterProperties, cachedSaveState);
+        #endregion
 
         #region Getters
         public bool TryGetSaveableSubCardData<T>(out T matchTypeSubCardData)
@@ -68,7 +90,7 @@ namespace Frankie.Saving.Editor
             return false;
         }
 
-        public bool HasPlayerMoverWithAlteredPosition()
+        private bool HasPlayerMoverWithAlteredPosition()
         {
             foreach (SaveableSubCardData subCardData in subCards.Values)
             {
@@ -90,6 +112,11 @@ namespace Frankie.Saving.Editor
                 subCardData.SetSaveableEntityCardData(this);
             }
         }
+        
+        public void SetSelectCallback(Action selectCallback)
+        {
+            cachedSelectCallback = selectCallback;
+        }
 
         public void ResetSaveableSyncFlag()
         {
@@ -98,22 +125,6 @@ namespace Frankie.Saving.Editor
                 subCardData.ResetSyncFlag();
                 subCardData.Redraw();
             }
-        }
-        
-        public void UpdateStateDict(JObject updatedStateDict)
-        {
-            if (updatedStateDict == null) { return; }
-            saveableEntityStateDict = updatedStateDict;
-        }
-
-        public void UpdateSaveableEntry(string typeString, SaveState updatedSaveState)
-        {
-            SaveableEntity.ManualCaptureSaveState(saveableEntityStateDict, typeString, updatedSaveState);
-        }
-        
-        public void ClearStateDict()
-        {
-            saveableEntityStateDict = new JObject();
         }
         
         private void SelectAndFocusGameObject()
@@ -125,8 +136,48 @@ namespace Frankie.Saving.Editor
         }
         #endregion
         
+        #region Saving
+        public void UpdateSaveableEntry(string typeString, SaveState updatedSaveState)
+        {
+            SaveableEntity.ManualCaptureSaveState(saveableEntityStateDict, typeString, updatedSaveState);
+        }
+        
+        public void SaveSaveableEntity(bool saveCachedStateToFile, Action playerPositionChangeCallback = null)
+        {
+            if (cachedSaveState == null) { return; }
+            
+            JObject stateToAdd = saveableEntityStateDict;
+            string uniqueIdentifier = entityID;
+            if (stateToAdd == null || string.IsNullOrWhiteSpace(uniqueIdentifier)) { return; }
+            
+            UpdateSaveableEntityCardData();
+            SavingSystem.ManualAddOverWriteToState(cachedSaveState, stateToAdd, uniqueIdentifier);
+            if (saveCachedStateToFile)
+            {
+                ResetSaveableSyncFlag();
+                SavingSystem.ManualSave(SavingWrapper.GetCurrentSaveName(), cachedSaveState);
+            }
+            
+            if (HasPlayerMoverWithAlteredPosition()) { playerPositionChangeCallback?.Invoke(); }
+        }
+        
+        private void UpdateSaveableEntityCardData()
+        {
+            saveableEntityStateDict ??= new JObject();
+            Debug.Log($"Updating {entityName} ISaveable entries, count: {saveableEntityStateDict.Count}");
+            foreach (KeyValuePair<string, SaveableSubCardData> typeDataPair in subCards)
+            {
+                if (string.IsNullOrWhiteSpace(typeDataPair.Key)) { continue; }
+                SaveState saveState = typeDataPair.Value.saveState;
+                if (saveState == null) { continue; }
+                
+                saveableEntityStateDict = SaveableEntity.ManualCaptureSaveState(saveableEntityStateDict, typeDataPair.Key, saveState);
+            }
+        }
+        #endregion
+        
         #region DrawUIMethods
-        public Box DrawSaveableEntityCard(Action<SaveableEntityCardData> saveCallback)
+        public Box DrawSaveableEntityCard(Action saveCallback)
         {
             if (cardView != null)
             {
@@ -158,17 +209,11 @@ namespace Frankie.Saving.Editor
                 cardView.Add(subCard);
             }
             
-            if (saveCallback != null) { saveEntityButton.RegisterCallback<ClickEvent>(_ => saveCallback(this)); }
-            
+            saveEntityButton.RegisterCallback<ClickEvent>(_ => saveCallback?.Invoke());
             isGameObjectSelected = Selection.activeGameObject == saveableEntity.gameObject;
             UpdateSelectedColor();
             
             return cardView;
-        }
-
-        public void SetSelectCallback(Action selectCallback)
-        {
-            cachedSelectCallback = selectCallback;
         }
         
         private Box DrawISaveableSubCard(string typeString, SaveableSubCardData saveableSubCardData)

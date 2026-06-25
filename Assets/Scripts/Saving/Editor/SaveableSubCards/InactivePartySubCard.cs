@@ -2,7 +2,6 @@ using System.Collections.Generic;
 using Newtonsoft.Json.Linq;
 using UnityEngine.UIElements;
 using Frankie.Stats;
-using UnityEngine;
 
 namespace Frankie.Saving.Editor
 {
@@ -70,21 +69,14 @@ namespace Frankie.Saving.Editor
             }
         }
 
-        private List<(CharacterProperties characterProperties, SaveableEntityCardData entityCardData)> BuildInactivePartySaveableEntityData(Dictionary<CharacterProperties, JToken> inactivePartyData)
+        private static List<(CharacterProperties characterProperties, SaveableEntityCardData entityCardData)> BuildInactivePartySaveableEntityData(Dictionary<CharacterProperties, JToken> inactivePartyData)
         {
             var inactivePartyEntries = new List<(CharacterProperties characterProperties, SaveableEntityCardData entityCardData)>();
             foreach (KeyValuePair<CharacterProperties, JToken> characterPropertiesStateData in inactivePartyData)
             {
-                GameObject inactiveCharacterPrefab = characterPropertiesStateData.Key.GetCharacterPrefab();
-                if (inactiveCharacterPrefab == null) { continue; }
-                var inactiveSaveableEntity = inactiveCharacterPrefab.GetComponent<SaveableEntity>();
-                if (inactiveSaveableEntity == null) { continue; }
-                
                 if (!SaveableEntity.TryGetStateDictionary(characterPropertiesStateData.Value, out JObject saveableEntityStateDict)) { continue; }
-
-                var inactiveCharacterSaveableEntityData = new SaveableEntityCardData(inactiveSaveableEntity, saveableEntityStateDict);
-                inactiveCharacterSaveableEntityData.SelfReferenceInSubCards();
-                inactivePartyEntries.Add((characterPropertiesStateData.Key, inactiveCharacterSaveableEntityData));
+                SaveableEntityCardData characterSaveableEntityData = SaveableEntityCardData.BuildFromCharacterProperties(characterPropertiesStateData.Key, saveableEntityStateDict);
+                inactivePartyEntries.Add((characterPropertiesStateData.Key, characterSaveableEntityData));
             }
             return inactivePartyEntries;
         }

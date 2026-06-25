@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
@@ -8,10 +9,13 @@ namespace Frankie.Saving.Editor
 {
     public class PartyAssistSubCard : SaveableSubCardData
     {
-        public PartyAssistSubCard(ISaveableBase saveable, SaveState saveState)
+        private SaveableEntityCardData parentSaveableEntityCardData;
+        
+        public PartyAssistSubCard(ISaveableBase saveable, SaveState saveState, SaveableEntityCardData parentSaveableEntityCardData)
         {
             this.saveable = saveable;
             this.saveState = saveState;
+            this.parentSaveableEntityCardData = parentSaveableEntityCardData;
         }
 
         public override void AddEditableFieldsToSubCardView(Box subCardView)
@@ -25,6 +29,7 @@ namespace Frankie.Saving.Editor
                 return;
             }
 
+            // Section 1 - Party Assist Character Select
             var partyAssistCharacters = new List<CharacterProperties>(partyAssistSaveData);
             
             var listContainer = new VisualElement();
@@ -42,6 +47,23 @@ namespace Frankie.Saving.Editor
                 RaiseSaveStateChanged();
                 DrawPartyAssistList(listContainer, partyAssist, partyAssistCharacters);
             });
+            
+            // Section 2 - Party Entity View
+            if (parentSaveableEntityCardData == null) { return; }
+            var characterSaveableEntityCards = new List<SaveableEntityCardData>();
+            foreach (CharacterProperties partyCharacter in partyAssistCharacters)
+            {
+                if (partyCharacter == null || partyCharacter.GetCharacterPrefab() == null) { continue; }
+
+                SaveableEntityCardData characterSaveableEntityCard = parentSaveableEntityCardData.BuildFromCharacterPropertiesWithCache(partyCharacter);
+                if (characterSaveableEntityCard == null) { continue; }
+                characterSaveableEntityCards.Add(characterSaveableEntityCard);
+            }
+
+            foreach (SaveableEntityCardData characterSaveableEntityCard in characterSaveableEntityCards)
+            {
+                // TODO:  Draw view using methodology established in InactivePartySubCard
+            }
         }
 
         private void DrawPartyAssistList(VisualElement listContainer, PartyAssist partyAssist, List<CharacterProperties> partyAssistCharacters)

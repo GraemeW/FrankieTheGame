@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -9,10 +10,13 @@ namespace Frankie.Saving.Editor
 {
     public class PartySubCard : SaveableSubCardData
     {
-        public PartySubCard(ISaveableBase saveable, SaveState saveState)
+        private SaveableEntityCardData parentSaveableEntityCardData;
+        
+        public PartySubCard(ISaveableBase saveable, SaveState saveState, SaveableEntityCardData parentSaveableEntityCardData)
         {
             this.saveable = saveable;
             this.saveState = saveState;
+            this.parentSaveableEntityCardData = parentSaveableEntityCardData;
         }
         
         public override void AddEditableFieldsToSubCardView(Box subCardView)
@@ -31,7 +35,7 @@ namespace Frankie.Saving.Editor
             List<(CharacterProperties characterProperties, SceneParentReferencePair sceneParentReferencePair)> worldNPCRows =
                 partySaveData.worldNPCLookup.Select(pair => (pair.Key, pair.Value)).ToList();
 
-            // Section 1 -- Party Characters
+            // Section 1 -- Party Character Select
             subCardView.Add(new Label("Party Members"));
             var partyCharactersContainer = new VisualElement();
             subCardView.Add(partyCharactersContainer);
@@ -81,6 +85,23 @@ namespace Frankie.Saving.Editor
                 PushSaveState();
                 DrawWorldNPCList(worldNPCContainer, worldNPCRows, PushSaveState);
             });
+            
+            // Section 4 -- Party Entity View
+            if (parentSaveableEntityCardData == null) { return; }
+            var characterSaveableEntityCards = new List<SaveableEntityCardData>();
+            foreach (CharacterProperties partyCharacter in partyCharacters)
+            {
+                if (partyCharacter == null || partyCharacter.GetCharacterPrefab() == null) { continue; }
+                SaveableEntityCardData characterSaveableEntityCard = parentSaveableEntityCardData.BuildFromCharacterPropertiesWithCache(partyCharacter);
+                if (characterSaveableEntityCard == null) { continue; }
+                characterSaveableEntityCards.Add(characterSaveableEntityCard);
+            }
+
+            foreach (SaveableEntityCardData characterSaveableEntityCard in characterSaveableEntityCards)
+            {
+                // TODO:  Draw view using methodology established in InactivePartySubCard
+            }
+            
             return;
 
             // Local Functions
@@ -99,7 +120,7 @@ namespace Frankie.Saving.Editor
             }
         }
         
-        private static void DrawPartyCharacterList(VisualElement container, List<CharacterProperties> partyCharacters, System.Action pushSaveState)
+        private static void DrawPartyCharacterList(VisualElement container, List<CharacterProperties> partyCharacters, Action pushSaveState)
         {
             container.Clear();
 
@@ -139,7 +160,7 @@ namespace Frankie.Saving.Editor
             }
         }
         
-        private static void DrawUnlockedCharacterList(VisualElement container, List<CharacterProperties> unlockedCharacters, System.Action pushSaveState)
+        private static void DrawUnlockedCharacterList(VisualElement container, List<CharacterProperties> unlockedCharacters, Action pushSaveState)
         {
             container.Clear();
 
@@ -188,7 +209,7 @@ namespace Frankie.Saving.Editor
             }
         }
         
-        private void DrawWorldNPCList(VisualElement container, List<(CharacterProperties characterProperties, SceneParentReferencePair sceneParentReferencePair)> worldNPCRows, System.Action pushSaveState)
+        private void DrawWorldNPCList(VisualElement container, List<(CharacterProperties characterProperties, SceneParentReferencePair sceneParentReferencePair)> worldNPCRows, Action pushSaveState)
         {
             container.Clear();
 
