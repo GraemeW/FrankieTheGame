@@ -34,16 +34,18 @@ namespace Frankie.Saving.Editor
         private static readonly Color _saveEntityButtonColor = Color.chocolate;
         private static readonly Color _gameObjectSelectedColor = Color.steelBlue / 1.5f;
 
-        public SaveableEntityCardData(SaveableEntity saveableEntity, JObject saveableEntityStateDict, JObject cachedFullSaveState, HashSet<string> saveableEntityGUIDs)
+        public SaveableEntityCardData(SaveableEntity saveableEntity, JObject cachedFullSaveState, HashSet<string> saveableEntityGUIDs)
         {
             this.cachedFullSaveState = cachedFullSaveState;
             this.saveableEntityGUIDs = saveableEntityGUIDs;
-            
             this.saveableEntity = saveableEntity;
-            saveableEntityStateDict ??= new JObject();
-            this.saveableEntityStateDict = saveableEntityStateDict;
             
             if (saveableEntity == null) { return; }
+            saveableEntityStateDict = new JObject();
+            if (cachedFullSaveState.TryGetValue(saveableEntity.GetUniqueIdentifier(), out JToken saveableEntityState))
+            {
+                SaveableEntity.TryGetStateDictionary(saveableEntityState, out saveableEntityStateDict);
+            }
             
             entityName = saveableEntity.gameObject.name;
             entityID = saveableEntity.GetUniqueIdentifier();
@@ -65,16 +67,14 @@ namespace Frankie.Saving.Editor
         #region FactoryMethods
         public SaveableEntityCardData BuildFromCharacterPropertiesWithCache(CharacterProperties characterProperties) => BuildFromCharacterProperties(characterProperties, cachedFullSaveState, saveableEntityGUIDs);
         
-        private static SaveableEntityCardData BuildFromCharacterProperties(CharacterProperties characterProperties, JObject saveableEntityStateDict, HashSet<string> saveableEntityGUIDs)
+        private static SaveableEntityCardData BuildFromCharacterProperties(CharacterProperties characterProperties, JObject cachedFullSaveState, HashSet<string> saveableEntityGUIDs)
         {
-            if (saveableEntityStateDict == null) { return null; }
-            
             GameObject characterPrefab = characterProperties.GetCharacterPrefab();
             if (characterPrefab == null) { return null; }
             var characterSaveableEntity = characterPrefab.GetComponent<SaveableEntity>();
             if (characterSaveableEntity == null || saveableEntityGUIDs.Contains(characterSaveableEntity.GetUniqueIdentifier())) { return null; }
             
-            var characterSaveableEntityCardData = new SaveableEntityCardData(characterSaveableEntity, saveableEntityStateDict, saveableEntityStateDict, saveableEntityGUIDs);
+            var characterSaveableEntityCardData = new SaveableEntityCardData(characterSaveableEntity, cachedFullSaveState, saveableEntityGUIDs);
             characterSaveableEntityCardData.SelfReferenceInSubCards();
             return characterSaveableEntityCardData;
         }

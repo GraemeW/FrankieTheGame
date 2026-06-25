@@ -24,6 +24,7 @@ namespace Frankie.Saving.Editor
         protected const float smallButtonWidth = 100f;
         protected const float standardButtonWidth = 175f;
         protected const float largeButtonWidth = 250f;
+        protected const float entityCardSpacerHeight = 10f;
         
         // State
         protected SaveableEntityCardData saveableEntityCardData { get; private set; }

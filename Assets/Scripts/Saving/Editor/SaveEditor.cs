@@ -487,13 +487,7 @@ namespace Frankie.Saving.Editor
                 if (HasPlayerInParentHierarchy(saveableEntity.transform.parent)) { continue; } // Avoid re-pulling entries e.g. in party container
                 if (saveableEntityGUIDs.Contains(saveableEntity.GetUniqueIdentifier())) { continue; } // Avoid re-drawing dupe elements
                 
-                var saveableEntityStateDict = new JObject();
-                if (cachedFullSaveState.TryGetValue(saveableEntity.GetUniqueIdentifier(), out JToken saveableEntityState))
-                {
-                    SaveableEntity.TryGetStateDictionary(saveableEntityState, out saveableEntityStateDict);
-                }
-                
-                var saveableEntityCardData = new SaveableEntityCardData(saveableEntity, saveableEntityStateDict, cachedFullSaveState, saveableEntityGUIDs);
+                var saveableEntityCardData = new SaveableEntityCardData(saveableEntity, cachedFullSaveState, saveableEntityGUIDs);
                 saveableEntityCardData.SelfReferenceInSubCards();
                 cachedSaveableEntityCardData.Add(saveableEntityCardData);
             }

@@ -7,10 +7,8 @@ using UnityEngine;
 
 namespace Frankie.Saving.Editor
 {
-    public class InactivePartySubCard : SaveableSubCardData
+    public class InactivePartySubCard : PartyBaseSubCard
     {
-        private readonly SaveableEntityCardData parentSaveableEntityCardData;
-        
         public InactivePartySubCard(ISaveableBase saveable, SaveState saveState, SaveableEntityCardData parentSaveableEntityCardData)
         {
             this.saveable = saveable;
@@ -49,15 +47,10 @@ namespace Frankie.Saving.Editor
             });
             
             // Section 2 - Party Entity View
-            List<(CharacterProperties characterProperties, SaveableEntityCardData entityCardData)> inactivePartyEntries = BuildInactivePartySaveableEntityData(inactivePartyData);
-            foreach ((CharacterProperties characterProperties, SaveableEntityCardData inactiveCharacterEntry) in inactivePartyEntries)
-            {
-                var entityBox = new Box();
-                subCardView.Add(entityBox);
-                
-            }
+            if (parentSaveableEntityCardData == null) { return; }
+            RebuildCharacterSaveableEntityCards(inactivePartyCharacters);
+            DrawCharacterEntityView(subCardView);
         }
-
         
         private void DrawInactivePartyList(VisualElement listContainer, InactiveParty inactiveParty, List<CharacterProperties> inactivePartyCharacters)
         {

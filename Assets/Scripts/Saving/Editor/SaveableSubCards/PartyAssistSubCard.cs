@@ -6,10 +6,8 @@ using Frankie.Stats;
 
 namespace Frankie.Saving.Editor
 {
-    public class PartyAssistSubCard : SaveableSubCardData
+    public class PartyAssistSubCard : PartyBaseSubCard
     {
-        private readonly SaveableEntityCardData parentSaveableEntityCardData;
-        
         public PartyAssistSubCard(ISaveableBase saveable, SaveState saveState, SaveableEntityCardData parentSaveableEntityCardData)
         {
             this.saveable = saveable;
@@ -49,20 +47,8 @@ namespace Frankie.Saving.Editor
             
             // Section 2 - Party Entity View
             if (parentSaveableEntityCardData == null) { return; }
-            var characterSaveableEntityCards = new List<SaveableEntityCardData>();
-            foreach (CharacterProperties partyCharacter in partyAssistCharacters)
-            {
-                if (partyCharacter == null || partyCharacter.GetCharacterPrefab() == null) { continue; }
-
-                SaveableEntityCardData characterSaveableEntityCard = parentSaveableEntityCardData.BuildFromCharacterPropertiesWithCache(partyCharacter);
-                if (characterSaveableEntityCard == null) { continue; }
-                characterSaveableEntityCards.Add(characterSaveableEntityCard);
-            }
-
-            foreach (SaveableEntityCardData characterSaveableEntityCard in characterSaveableEntityCards)
-            {
-                // TODO:  Draw view using methodology established in InactivePartySubCard
-            }
+            RebuildCharacterSaveableEntityCards(partyAssistCharacters);
+            DrawCharacterEntityView(subCardView);
         }
 
         private void DrawPartyAssistList(VisualElement listContainer, PartyAssist partyAssist, List<CharacterProperties> partyAssistCharacters)
