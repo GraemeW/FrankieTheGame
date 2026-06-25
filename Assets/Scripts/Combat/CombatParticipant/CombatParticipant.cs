@@ -549,7 +549,16 @@ namespace Frankie.Combat
         
         public SaveState ManualGetStateFromData(CombatParticipantSaveData data) => new(GetLoadPriority(), data);
 
-        public CombatParticipantSaveData ManualGetDataFromState(SaveState saveState) => saveState?.GetState(typeof(CombatParticipantSaveData)) as CombatParticipantSaveData;
+        public CombatParticipantSaveData ManualGetDataFromState(SaveState saveState)
+        {
+            if (saveState?.GetState(typeof(CombatParticipantSaveData)) is CombatParticipantSaveData combatParticipantSaveData) { return combatParticipantSaveData; }
+            
+            if (!TryGetComponent(out BaseStats localBaseStats)) { return null; }
+            if (!localBaseStats.ManualTryGetDefaultStat(Stat.HP, out var hpValue)) { return null; }
+            if (!localBaseStats.ManualTryGetDefaultStat(Stat.AP, out var apValue)) { return null; }
+            
+            return new CombatParticipantSaveData(false, hpValue, apValue);
+        }
 
         // Predicate Evaluation
         public bool? Evaluate(Predicate predicate)

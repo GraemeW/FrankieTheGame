@@ -12,7 +12,7 @@ namespace Frankie.Saving.Editor
             this.saveable = saveable;
             this.saveState = saveState;
         }
-
+        
         protected override void AddEditableFieldsToSubCardView(Box subCardView)
         {
             if (saveable is not BaseStats baseStats) { return; }

@@ -77,18 +77,24 @@ namespace Frankie.Stats
         }
 
         public Dictionary<Stat, float> GetActiveStatSheet() => activeStatSheet; // NOTE:  Does NOT contain modifiers
-        #endregion
-
-        #region PublicFunctional
-        public bool HasStats() => progression.HasProgression(characterProperties);
         
         public Dictionary<Stat, float> ManualGetLevelUpSheet(int manualLevel, Dictionary<Stat, float> manualStatSheet)
         {
-            if (progression == null || characterProperties == null || !HasStats()) { return new Dictionary<Stat, float>(); }
+            if (progression == null || characterProperties == null || !progression.HasProgression(characterProperties)) { return new Dictionary<Stat, float>(); }
             manualStatSheet ??= new Dictionary<Stat, float>();
             return progression.GetLevelUpSheet(characterProperties, manualLevel, manualStatSheet);
         }
-        
+
+        public bool ManualTryGetDefaultStat(Stat stat, out float statValue)
+        {
+            statValue = 0f;
+            if (progression == null || characterProperties == null || !progression.HasProgression(characterProperties)) { return false; }
+            Dictionary<Stat, float> statSheet = progression.GetStatSheet(characterProperties);
+            return statSheet.TryGetValue(stat, out statValue);
+        }
+        #endregion
+
+        #region PublicFunctional
         public void OverrideLevel(int level)
         {
             currentLevel.value = level;
@@ -189,8 +195,12 @@ namespace Frankie.Stats
         
         public BaseStatsSaveData ManualGetDataFromState(SaveState saveState)
         {
-            var baseStatsSaveData = saveState?.GetState(typeof(BaseStatsSaveData)) as BaseStatsSaveData;
-            return baseStatsSaveData;
+            if (saveState?.GetState(typeof(BaseStatsSaveData)) is BaseStatsSaveData baseStatsSaveData) { return baseStatsSaveData; }
+            if (progression == null || characterProperties == null || !progression.HasProgression(characterProperties)) { return null; }
+            
+            Dictionary<Stat, float> statSheet = progression.GetStatSheet(characterProperties);
+            int initialLevel = statSheet.TryGetValue(Stat.InitialLevel, out var value) ? (int)value : 1;
+            return new BaseStatsSaveData(initialLevel, statSheet);
         }
         #endregion
     }

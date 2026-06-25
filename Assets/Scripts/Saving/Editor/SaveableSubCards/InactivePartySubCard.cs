@@ -7,11 +7,10 @@ namespace Frankie.Saving.Editor
 {
     public class InactivePartySubCard : PartyBaseSubCard
     {
-        public InactivePartySubCard(ISaveableBase saveable, SaveState saveState, SaveableEntityCardData parentSaveableEntityCardData)
+        public InactivePartySubCard(ISaveableBase saveable, SaveState saveState)
         {
             this.saveable = saveable;
             this.saveState = saveState;
-            this.parentSaveableEntityCardData = parentSaveableEntityCardData;
         }
 
         protected override void AddEditableFieldsToSubCardView(Box subCardView)
@@ -39,7 +38,7 @@ namespace Frankie.Saving.Editor
             characterEntityContainer = new VisualElement();
             subCardView.Add(characterEntityContainer);
             
-            if (parentSaveableEntityCardData == null) { return; }
+            if (saveableEntityCardData == null) { return; }
             ReconcileEntityView(inactivePartyCharacters);
             
             // Button Callbacks

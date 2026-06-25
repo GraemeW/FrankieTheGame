@@ -56,7 +56,7 @@ namespace Frankie.Saving.Editor
                 string typeString = saveable.GetType().ToString();
                 SaveState saveState = null;
                 if (saveableEntityStateDict.ContainsKey(typeString)) { saveState = saveableEntityStateDict[typeString]?.ToObject<SaveState>(); }
-                subCards[typeString] = SaveableSubCardData.CreateTypeSpecificSubCard(saveable, saveState, this);
+                subCards[typeString] = SaveableSubCardData.CreateTypeSpecificSubCard(saveable, saveState);
             }
             
             Selection.selectionChanged -= OnEntitySelected;

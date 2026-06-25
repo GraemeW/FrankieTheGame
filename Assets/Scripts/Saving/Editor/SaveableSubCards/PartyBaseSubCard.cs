@@ -11,7 +11,6 @@ namespace Frankie.Saving.Editor
     public abstract class PartyBaseSubCard : SaveableSubCardData
     {
         // State
-        protected SaveableEntityCardData parentSaveableEntityCardData;
         protected readonly Dictionary<CharacterProperties, SaveableEntityCardData> characterSaveableEntityCards = new();
         
         // UI State
@@ -73,7 +72,7 @@ namespace Frankie.Saving.Editor
                 if (characterProperties == null || characterProperties.GetCharacterPrefab() == null) { continue; }
                 if (characterSaveableEntityCards.ContainsKey(characterProperties)) { continue; }
                 
-                SaveableEntityCardData characterSaveableEntityCard = parentSaveableEntityCardData.BuildFromCharacterPropertiesWithCache(characterProperties);
+                SaveableEntityCardData characterSaveableEntityCard = saveableEntityCardData.BuildFromCharacterPropertiesWithCache(characterProperties);
                 if (characterSaveableEntityCard == null) { continue; }
                 characterSaveableEntityCards[characterProperties] = characterSaveableEntityCard;
             }
