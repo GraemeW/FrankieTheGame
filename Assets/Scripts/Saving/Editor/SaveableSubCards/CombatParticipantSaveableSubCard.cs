@@ -11,7 +11,7 @@ namespace Frankie.Saving.Editor
             this.saveable = saveable;
             this.saveState = saveState;
         }
-
+        
         protected override void AddEditableFieldsToSubCardView(Box subCardView)
         { 
             if (saveable is not CombatParticipant combatParticipant) { return; }
@@ -25,7 +25,7 @@ namespace Frankie.Saving.Editor
             bool isDead = saveData.isDead;
             float currentHP = saveData.currentHP;
             float currentAP = saveData.currentAP;
-
+            
             var isDeadRow = new VisualElement { style = { flexDirection = FlexDirection.Row } };
             subCardView.Add(isDeadRow);
             isDeadRow.Add(new Label("Is Dead:") { style = { width = 120, unityTextAlign = TextAnchor.MiddleLeft } });
@@ -43,7 +43,11 @@ namespace Frankie.Saving.Editor
             currentAPRow.Add(new Label("Current AP:") { style = { width = 120, unityTextAlign = TextAnchor.MiddleLeft } });
             var currentAPField = new FloatField { value = currentAP, isDelayed = true, style = { flexGrow = 1 } };
             currentAPRow.Add(currentAPField);
+            
+            var setHPAPToMaxButton = new Button { text = "HP/AP -> Max", style = { width = smallButtonWidth } };
+            subCardView.Add(setHPAPToMaxButton);
 
+            // Callbacks
             isDeadField.RegisterValueChangedCallback(changeEvent =>
             {
                 isDead = changeEvent.newValue;
@@ -63,6 +67,31 @@ namespace Frankie.Saving.Editor
             currentAPField.RegisterValueChangedCallback(changeEvent =>
             {
                 currentAP = changeEvent.newValue;
+                var updatedSaveData = new CombatParticipantSaveData(isDead, currentHP, currentAP);
+                saveState = combatParticipant.ManualGetStateFromData(updatedSaveData);
+                RaiseSaveStateChanged();
+            });
+            
+            setHPAPToMaxButton.RegisterCallback<ClickEvent>(_ =>
+            {
+                if (saveableEntityCardData == null || !saveableEntityCardData.TryGetSaveableSubCardData(out BaseStatsSubCard baseStatsSubCard)) { return; }
+                
+                float maxHP = baseStatsSubCard.GetMaxHP();
+                float maxAP = baseStatsSubCard.GetMaxAP();
+                if (Mathf.Approximately(currentHP, maxHP) && Mathf.Approximately(currentAP, maxAP)) { return; }
+                
+                if (maxHP > 0f)
+                {
+                    currentHP = maxHP;
+                    currentHPField.SetValueWithoutNotify(maxHP);
+                }
+                
+                if (maxAP > 0f)
+                {
+                    currentAP = maxAP;
+                    currentAPField.SetValueWithoutNotify(maxAP);
+                }
+                
                 var updatedSaveData = new CombatParticipantSaveData(isDead, currentHP, currentAP);
                 saveState = combatParticipant.ManualGetStateFromData(updatedSaveData);
                 RaiseSaveStateChanged();

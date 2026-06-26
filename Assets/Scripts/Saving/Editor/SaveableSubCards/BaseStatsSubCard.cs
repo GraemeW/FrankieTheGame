@@ -13,6 +13,10 @@ namespace Frankie.Saving.Editor
             this.saveState = saveState;
         }
         
+        private readonly Dictionary<Stat, float> statSheet = new();
+        public float GetMaxHP() => statSheet.GetValueOrDefault(Stat.HP, -1f);
+        public float GetMaxAP() => statSheet.GetValueOrDefault(Stat.AP, -1f);
+        
         protected override void AddEditableFieldsToSubCardView(Box subCardView)
         {
             if (saveable is not BaseStats baseStats) { return; }
@@ -25,7 +29,8 @@ namespace Frankie.Saving.Editor
             }
             
             int level = baseStatsSaveData.level;
-            Dictionary<Stat, float> statSheet = baseStatsSaveData.statSheet ?? new Dictionary<Stat, float>();
+            statSheet.Clear();
+            foreach (var pair in baseStatsSaveData.statSheet) { statSheet[pair.Key] = pair.Value; }
             
             // Level Adjustment
             int resetLevel = 1;
