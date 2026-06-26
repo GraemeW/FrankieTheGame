@@ -1,10 +1,12 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Newtonsoft.Json.Linq;
 using UnityEngine;
 using UnityEngine.UIElements;
 using UnityEditor;
 using Frankie.Core;
+using Frankie.Core.GameStateModifiers;
 using Frankie.Stats;
 
 namespace Frankie.Saving.Editor
@@ -59,8 +61,9 @@ namespace Frankie.Saving.Editor
             entityName = saveableEntity.gameObject.name;
             entityID = saveableEntity.GetUniqueIdentifier();
             if (saveableEntity.transform.parent != null) { entityName = $"{saveableEntity.transform.parent.gameObject.name}/{entityName}"; }
-            
-            foreach (ISaveableBase saveable in saveableEntity.GetSaveableComponents())
+
+            List<ISaveableBase> saveables = saveableEntity.GetSaveableComponents().OrderBy(SaveableSubCardData.GetEntitySortPriority).ThenBy(saveable => saveable.GetType().Name).ToList();
+            foreach (ISaveableBase saveable in saveables)
             {
                 string typeString = saveable.GetType().ToString();
                 SaveState saveState = null;
@@ -263,6 +266,23 @@ namespace Frankie.Saving.Editor
         {
             isSaveStateSynced = isSynced;
             UpdateSelectedColor();
+        }
+        
+        public static int GetEntitySortPriority(SaveableEntity saveableEntity)
+        {
+            GameObject go = saveableEntity.gameObject;
+
+            int sortOrder = 0;
+            if (go.TryGetComponent(out CinematicTrigger _)) { return sortOrder; }
+            sortOrder++;
+            if (go.TryGetComponent(out Player _)) { return sortOrder; }
+            sortOrder++;
+            if (go.TryGetComponent(out IGameStateModifierHandler gameStateModifierHandler) && gameStateModifierHandler.hasGameStateModifiers) { return sortOrder; }
+            sortOrder++;
+            if (go.TryGetComponent(out BaseStats _)) { return sortOrder; }
+            sortOrder++;
+            
+            return sortOrder;
         }
         #endregion
     }

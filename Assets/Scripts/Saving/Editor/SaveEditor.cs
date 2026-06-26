@@ -9,8 +9,6 @@ using UnityEditor;
 using UnityEditor.SceneManagement;
 using UnityEditor.UIElements;
 using Frankie.Core;
-using Frankie.Core.GameStateModifiers;
-using Frankie.Stats;
 using Frankie.ZoneManagement;
 
 namespace Frankie.Saving.Editor
@@ -431,23 +429,6 @@ namespace Frankie.Saving.Editor
         #endregion
         
         #region EditSaveUtility
-        private static int GetEntitySortPriority(SaveableEntity saveableEntity)
-        {
-            GameObject go = saveableEntity.gameObject;
-
-            int sortOrder = 0;
-            if (go.GetComponent<Player>() != null) { return sortOrder; }
-            sortOrder++;
-
-            if (go.TryGetComponent(out IGameStateModifierHandler gameStateModifierHandler) && gameStateModifierHandler.hasGameStateModifiers) { return sortOrder; }
-            sortOrder++;
-            
-            if (go.GetComponent<BaseStats>() != null) { return sortOrder; }
-            sortOrder++;
-            
-            return sortOrder;
-        }
-        
         private static bool HasPlayerInParentHierarchy(Transform parent)
         {
             while (parent != null)
@@ -482,7 +463,7 @@ namespace Frankie.Saving.Editor
             
             cachedSaveableEntityCardData.Clear();
             saveableEntityGUIDs.Clear();
-            foreach (SaveableEntity saveableEntity in SavingSystem.GetAllSaveableEntities().OrderBy(GetEntitySortPriority).ThenBy(saveableEntity => saveableEntity.GetUniqueIdentifier()).ToList())
+            foreach (SaveableEntity saveableEntity in SavingSystem.GetAllSaveableEntities().OrderBy(SaveableEntityCardData.GetEntitySortPriority).ThenBy(saveableEntity => saveableEntity.name).ToList())
             {
                 if (saveableEntity == null) { continue; }
                 if (HasPlayerInParentHierarchy(saveableEntity.transform.parent)) { continue; } // Avoid re-pulling entries e.g. in party container

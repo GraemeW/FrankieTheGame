@@ -57,8 +57,8 @@ namespace Frankie.Saving.Editor
                 QuestList => new QuestListSubCard(saveable, saveState),
                 CheckBase => new SimpleBoolSaveableSubCard(saveable, saveState),
                 PredicateChildToggler => new SimpleBoolSaveableSubCard(saveable, saveState),
-                BackgroundMusicOverride => new SimpleBoolSaveableSubCard(saveable, saveState),
                 CinematicTrigger => new SimpleBoolSaveableSubCard(saveable, saveState),
+                BackgroundMusicOverride => new SimpleBoolSaveableSubCard(saveable, saveState),
                 FlickerOverlay => new SimpleBoolSaveableSubCard(saveable, saveState),
                 WorldSpriteChanger => new SimpleBoolSaveableSubCard(saveable, saveState),
                 WorldCashGiverTaker => new SimpleIntSaveableSubCard(saveable, saveState),
@@ -114,6 +114,35 @@ namespace Frankie.Saving.Editor
                 syncStateLabel.text = isSaveStateSynced ? _statusSyncMessage : _statusDesyncMessage;
                 syncStateLabel.style.color = isSaveStateSynced ? _statusSyncColor : _statusDesyncColor;
             }
+        }
+        
+        public static int GetEntitySortPriority(ISaveableBase saveable)
+        {
+            int sortOrder = 0;
+            if (saveable is Mover) { return sortOrder; }
+            sortOrder++;
+            if (saveable is QuestList) { return sortOrder; }
+            sortOrder++;
+            if (saveable is Wallet) { return sortOrder; }
+            sortOrder++;
+            if (saveable is Party) { return sortOrder; }
+            sortOrder++;
+            if (saveable is PartyAssist) { return sortOrder; }
+            sortOrder++;
+            if (saveable is InactiveParty) { return sortOrder; }
+            sortOrder++;
+            if (saveable is CombatParticipant) { return sortOrder; }
+            sortOrder++;
+            if (saveable is BaseStats) { return sortOrder; }
+            sortOrder++;
+            if (saveable is Equipment) { return sortOrder; }
+            sortOrder++;
+            if (saveable is Knapsack) { return sortOrder; }
+            sortOrder++;
+            if (saveable is WearablesLink) { return sortOrder; }
+            sortOrder++;
+            
+            return sortOrder;
         }
     }
 }
