@@ -49,17 +49,23 @@ MonoBehaviour:
   dimensions: {x: 288, y: 187.65001}
   <zoneHandlerLinkDataSet>k__BackingField:
   - sourceZoneName: OfficeExterior
-    sourceZoneNodeID: SubwayOfficeDownStairs
-    sourceNodeRelativePosition: {x: 0.16434112, y: 0.9432288}
-    targetZoneName: Subway
-    targetZoneNodeID: UpStairsOffice
-    targetNodeRelativePosition: {x: 0.6796572, y: 0.83218944}
-  - sourceZoneName: OfficeExterior
     sourceZoneNodeID: ApartmentDoor
     sourceNodeRelativePosition: {x: 0.5961519, y: 0.34415895}
     targetZoneName: ApartmentInterior
     targetZoneNodeID: LobbyDoor
     targetNodeRelativePosition: {x: 0.46153846, y: 0.93142855}
+  - sourceZoneName: OfficeExterior
+    sourceZoneNodeID: SubwayApartmentDownstairs
+    sourceNodeRelativePosition: {x: 0.47122675, y: 0.46419755}
+    targetZoneName: Subway
+    targetZoneNodeID: UpStairsApartment
+    targetNodeRelativePosition: {x: 0.95154554, y: 0.15184961}
+  - sourceZoneName: OfficeExterior
+    sourceZoneNodeID: SubwayOfficeDownStairs
+    sourceNodeRelativePosition: {x: 0.16434112, y: 0.9432288}
+    targetZoneName: Subway
+    targetZoneNodeID: UpStairsOffice
+    targetNodeRelativePosition: {x: 0.6796572, y: 0.83218944}
   - sourceZoneName: OfficeExterior
     sourceZoneNodeID: OfficePortaBankDoor
     sourceNodeRelativePosition: {x: 0.07109827, y: 0.91342765}
@@ -67,11 +73,11 @@ MonoBehaviour:
     targetZoneNodeID: PortaBankOffice
     targetNodeRelativePosition: {x: 0.4785261, y: 0.21607684}
   - sourceZoneName: OfficeExterior
-    sourceZoneNodeID: SubwayApartmentDownstairs
-    sourceNodeRelativePosition: {x: 0.47122675, y: 0.46419755}
-    targetZoneName: Subway
-    targetZoneNodeID: UpStairsApartment
-    targetNodeRelativePosition: {x: 0.95154554, y: 0.15184961}
+    sourceZoneNodeID: OfficeDoor
+    sourceNodeRelativePosition: {x: 0.11387895, y: 0.7950465}
+    targetZoneName: OfficeInterior
+    targetZoneNodeID: OfficeInteriorDoor
+    targetNodeRelativePosition: {x: 0.89122957, y: 0.6624629}
 --- !u!114 &-295081468385737789
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -91,6 +97,18 @@ MonoBehaviour:
   dimensions: {x: 663, y: 303}
   <zoneHandlerLinkDataSet>k__BackingField:
   - sourceZoneName: Prim
+    sourceZoneNodeID: PS_RedHouse_Exterior
+    sourceNodeRelativePosition: {x: 0.3464322, y: 0.60978156}
+    targetZoneName: PrimInterior
+    targetZoneNodeID: PS_RedHouse_Interior
+    targetNodeRelativePosition: {x: 0.5605695, y: 0.95267487}
+  - sourceZoneName: Prim
+    sourceZoneNodeID: PrimSouthPortaBankDoor
+    sourceNodeRelativePosition: {x: 0.22780389, y: 0.53014815}
+    targetZoneName: PortaBank
+    targetZoneNodeID: PortaBankPrimSouth
+    targetNodeRelativePosition: {x: 0.86585003, y: 0.978703}
+  - sourceZoneName: Prim
     sourceZoneNodeID: PS_TallestBuilding_Exterior
     sourceNodeRelativePosition: {x: 0.15525351, y: 0.5949021}
     targetZoneName: PrimInterior
@@ -108,18 +126,6 @@ MonoBehaviour:
     targetZoneName: PrimInterior
     targetZoneNodeID: PS_YellowHouse_Interior
     targetNodeRelativePosition: {x: 0.94972974, y: 0.9653145}
-  - sourceZoneName: Prim
-    sourceZoneNodeID: PrimSouthPortaBankDoor
-    sourceNodeRelativePosition: {x: 0.22780389, y: 0.53014815}
-    targetZoneName: PortaBank
-    targetZoneNodeID: PortaBankPrimSouth
-    targetNodeRelativePosition: {x: 0.86585003, y: 0.978703}
-  - sourceZoneName: Prim
-    sourceZoneNodeID: PS_RedHouse_Exterior
-    sourceNodeRelativePosition: {x: 0.3464322, y: 0.60978156}
-    targetZoneName: PrimInterior
-    targetZoneNodeID: PS_RedHouse_Interior
-    targetNodeRelativePosition: {x: 0.5605695, y: 0.95267487}
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -157,9 +163,15 @@ MonoBehaviour:
   <zoneName>k__BackingField: OfficeInterior
   <scenePath>k__BackingField: Assets/Scenes/OfficeInterior.unity
   <snapshotPath>k__BackingField: /Users/graemewilliams/G/GitHub/FrankieTheGame/MultiZoneViewer/Snapshot_OfficeInterior.png
-  topLeftPosition: {x: 43, y: 51}
+  topLeftPosition: {x: 12, y: 3}
   dimensions: {x: 288, y: 169.95001}
-  <zoneHandlerLinkDataSet>k__BackingField: []
+  <zoneHandlerLinkDataSet>k__BackingField:
+  - sourceZoneName: OfficeInterior
+    sourceZoneNodeID: OfficeInteriorDoor
+    sourceNodeRelativePosition: {x: 0.89122957, y: 0.6624629}
+    targetZoneName: OfficeExterior
+    targetZoneNodeID: OfficeDoor
+    targetNodeRelativePosition: {x: 0.11387895, y: 0.7950465}
 --- !u!114 &4046600278263525652
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -233,17 +245,17 @@ MonoBehaviour:
   dimensions: {x: 288, y: 196.95001}
   <zoneHandlerLinkDataSet>k__BackingField:
   - sourceZoneName: Subway
-    sourceZoneNodeID: UpStairsOffice
-    sourceNodeRelativePosition: {x: 0.6796572, y: 0.83218944}
-    targetZoneName: OfficeExterior
-    targetZoneNodeID: SubwayOfficeDownStairs
-    targetNodeRelativePosition: {x: 0.16434112, y: 0.9432288}
-  - sourceZoneName: Subway
     sourceZoneNodeID: UpStairsApartment
     sourceNodeRelativePosition: {x: 0.95154554, y: 0.15184961}
     targetZoneName: OfficeExterior
     targetZoneNodeID: SubwayApartmentDownstairs
     targetNodeRelativePosition: {x: 0.47122675, y: 0.46419755}
+  - sourceZoneName: Subway
+    sourceZoneNodeID: UpStairsOffice
+    sourceNodeRelativePosition: {x: 0.6796572, y: 0.83218944}
+    targetZoneName: OfficeExterior
+    targetZoneNodeID: SubwayOfficeDownStairs
+    targetNodeRelativePosition: {x: 0.16434112, y: 0.9432288}
 --- !u!114 &7428295029717067675
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -281,6 +293,12 @@ MonoBehaviour:
   dimensions: {x: 288, y: 264.75}
   <zoneHandlerLinkDataSet>k__BackingField:
   - sourceZoneName: PrimInterior
+    sourceZoneNodeID: PS_YellowHouse_Interior
+    sourceNodeRelativePosition: {x: 0.94972974, y: 0.9653145}
+    targetZoneName: Prim
+    targetZoneNodeID: PS_YellowHouse_Exterior
+    targetNodeRelativePosition: {x: 0.26381487, y: 0.3048169}
+  - sourceZoneName: PrimInterior
     sourceZoneNodeID: PS_RedHouse_Interior
     sourceNodeRelativePosition: {x: 0.5605695, y: 0.95267487}
     targetZoneName: Prim
@@ -292,9 +310,3 @@ MonoBehaviour:
     targetZoneName: Prim
     targetZoneNodeID: PS_TallestBuilding_Exterior
     targetNodeRelativePosition: {x: 0.15525351, y: 0.5949021}
-  - sourceZoneName: PrimInterior
-    sourceZoneNodeID: PS_YellowHouse_Interior
-    sourceNodeRelativePosition: {x: 0.94972974, y: 0.9653145}
-    targetZoneName: Prim
-    targetZoneNodeID: PS_YellowHouse_Exterior
-    targetNodeRelativePosition: {x: 0.26381487, y: 0.3048169}

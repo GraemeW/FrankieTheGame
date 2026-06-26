@@ -160,7 +160,8 @@ namespace Frankie.Saving.Editor
             JObject stateToAdd = saveableEntityStateDict;
             string uniqueIdentifier = entityID;
             if (stateToAdd == null || string.IsNullOrWhiteSpace(uniqueIdentifier)) { return; }
-            
+
+            bool hasPlayerMoved = HasPlayerMoverWithAlteredPosition();
             UpdateSaveableEntityCardData();
             SavingSystem.ManualAddOverWriteToState(cachedFullSaveState, stateToAdd, uniqueIdentifier);
             if (saveCachedStateToFile)
@@ -169,7 +170,7 @@ namespace Frankie.Saving.Editor
                 SavingSystem.ManualSave(SavingWrapper.GetCurrentSaveName(), cachedFullSaveState);
             }
             
-            if (HasPlayerMoverWithAlteredPosition()) { playerPositionChangeCallback?.Invoke(); }
+            if (hasPlayerMoved) { playerPositionChangeCallback?.Invoke(); }
             if (saveCachedStateToFile && shouldRepaintOnNextSave)
             {
                 repaintCallback?.Invoke();
