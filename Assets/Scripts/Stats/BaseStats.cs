@@ -77,12 +77,24 @@ namespace Frankie.Stats
         }
 
         public Dictionary<Stat, float> GetActiveStatSheet() => activeStatSheet; // NOTE:  Does NOT contain modifiers
+
+        public Dictionary<Stat, float> ManualGetBaseStatSheet()
+        {
+            if (progression == null || characterProperties == null || !progression.HasProgression(characterProperties)) { return new Dictionary<Stat, float>(); }
+            
+            Dictionary<Stat, float> baseStatSheet = progression.GetStatSheet(characterProperties);
+            baseStatSheet ??= new Dictionary<Stat, float>();
+            return baseStatSheet;
+        }
         
         public Dictionary<Stat, float> ManualGetLevelUpSheet(int manualLevel, Dictionary<Stat, float> manualStatSheet)
         {
             if (progression == null || characterProperties == null || !progression.HasProgression(characterProperties)) { return new Dictionary<Stat, float>(); }
             manualStatSheet ??= new Dictionary<Stat, float>();
-            return progression.GetLevelUpSheet(characterProperties, manualLevel, manualStatSheet);
+
+            Dictionary<Stat, float> levelUpSheet = progression.GetLevelUpSheet(characterProperties, manualLevel, manualStatSheet);
+            levelUpSheet ??= new Dictionary<Stat, float>();
+            return levelUpSheet;
         }
 
         public bool ManualTryGetDefaultStat(Stat stat, out float statValue)

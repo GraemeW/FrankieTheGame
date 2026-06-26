@@ -106,7 +106,7 @@ namespace Frankie.Stats
 
         private static float GetMoveSpeed(int level, float modifier)
         {
-            float deltaModifier = modifier - 3.0f * level;
+            float deltaModifier = modifier - 2.2f * level;
             return deltaModifier switch
             {
                 < 0f => 1.0f + (1.0f - _moveSpeedMin) * (_moveSpeedNegativeSlope * deltaModifier) / Mathf.Sqrt(1 + Mathf.Pow(_moveSpeedNegativeSlope * deltaModifier, 2)),
