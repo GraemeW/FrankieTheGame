@@ -92,12 +92,12 @@ namespace Frankie.Stats
             _characterLookupCache = new Dictionary<string, CharacterProperties>();
             _addressablesLoadHandle = Addressables.LoadAssetsAsync(nameof(CharacterProperties), (CharacterProperties characterProperties) =>
             {
-                if (_characterLookupCache.TryGetValue(characterProperties.name, out CharacterProperties matchedProperties))
+                if (_characterLookupCache.TryGetValue(characterProperties.GetCharacterID(), out CharacterProperties matchedProperties))
                 {
                     Debug.LogError(string.Format($"Looks like there's a duplicate ID for objects: {matchedProperties} and {characterProperties}"));
                 }
 
-                _characterLookupCache[characterProperties.name] = characterProperties;
+                _characterLookupCache[characterProperties.GetCharacterID()] = characterProperties;
             }
             );
             _addressablesLoadHandle.WaitForCompletion();

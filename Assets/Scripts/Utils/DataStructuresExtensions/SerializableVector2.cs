@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace Frankie.Saving
+namespace Frankie.Utils
 {
     [System.Serializable]
     public class SerializableVector2

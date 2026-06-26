@@ -6,6 +6,9 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
 
 namespace Frankie.Saving
 {
@@ -16,7 +19,7 @@ namespace Frankie.Saving
         private const string _saveLastSceneBuildIndex = "lastSceneBuildIndex";
         private const bool _encryptionEnabled = true;
 
-        // Data Structures
+        #region DataStructures
         [System.Serializable]
         private class SaveSuper
         {
@@ -29,7 +32,9 @@ namespace Frankie.Saving
                 this.payload = payload;
             }
         }
+        #endregion
 
+        #region Getters
         private static string GetPathFromSaveFile(string saveFile) => Path.Combine(Application.persistentDataPath, saveFile + ".sav");
         
         public static IEnumerable<string> ListSaves()
@@ -41,7 +46,7 @@ namespace Frankie.Saving
             }
         }
         
-        private static List<SaveableEntity> GetAllSaveableEntities()
+        public static List<SaveableEntity> GetAllSaveableEntities()
         {
             List<SaveableEntity> saveableEntities = Object.FindObjectsByType<SaveableEntity>(FindObjectsInactive.Include).ToList();
             foreach (SaveableEntity saveableEntity in saveableEntities.Where(saveableEntity => !saveableEntity.gameObject.activeSelf))
@@ -50,10 +55,21 @@ namespace Frankie.Saving
                 saveableEntity.gameObject.SetActive(true);
                 saveableEntity.gameObject.SetActive(false);
             }
-            Debug.Log($"Identified {saveableEntities.Count} SaveableEntities for saving.");
+            Debug.Log($"Identified {saveableEntities.Count} SaveableEntities for SavingSystem.");
             return saveableEntities;
         }
         
+        public static JObject ManualGetFullState(string saveFile) => LoadFile(saveFile);
+
+        public static JToken ManualGetStateEntityToken(string saveFile, SaveableEntity saveableEntity)
+        {
+            JObject fullState = LoadFile(saveFile);
+            string id = saveableEntity.GetUniqueIdentifier();
+            return fullState.TryGetValue(id, out JToken value) ? value : null;
+        }
+        #endregion
+        
+        #region PublicMethods
         public static IEnumerator LoadLastScene(string saveFile)
         {
             JObject state = LoadFile(saveFile);
@@ -107,6 +123,7 @@ namespace Frankie.Saving
         {
             JObject state = LoadFile(sessionFile);
             CaptureIndividualState(state, saveableEntity);
+            Debug.Log(state);
             SaveFile(sessionFile, state);
         }
 
@@ -122,6 +139,38 @@ namespace Frankie.Saving
             File.Delete(GetPathFromSaveFile(saveFile));
         }
 
+        public static string ManualGetLastScene(JObject state)
+        {
+            if (state == null) { return string.Empty; }
+            return state.ContainsKey(_saveLastSceneBuildIndex) ? state[_saveLastSceneBuildIndex]?.ToObject<string>() : string.Empty;
+        }
+
+        public static void ManualUpdateLastScene(JObject state, string sceneName)
+        {
+#if UNITY_EDITOR
+            if (!EditorBuildSettings.scenes.Any(scene => scene.path.Contains(sceneName)))
+            {
+                Debug.LogWarning($"Scene updated to {sceneName}, but not found in build profile!  Save may not load correctly.");
+            }
+#endif
+
+            state[_saveLastSceneBuildIndex] = sceneName;
+        }
+
+        public static void ManualAddOverWriteToState(JObject state, JToken stateToAdd, string uniqueIdentifier)
+        {
+            if (string.IsNullOrEmpty(uniqueIdentifier)) { return; }
+            stateToAdd ??= new JObject();
+            state[uniqueIdentifier] = stateToAdd;
+        }
+
+        public static void ManualSave(string saveFile, JObject state)
+        {
+            SaveFile(saveFile, state);
+        }
+        #endregion
+
+        #region PrivateMethods
         private static JObject LoadFile(string saveFile)
         {
             string path = GetPathFromSaveFile(saveFile);
@@ -236,5 +285,6 @@ namespace Frankie.Saving
                 }
             }
         }
+        #endregion
     }
 }

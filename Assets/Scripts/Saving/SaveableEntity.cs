@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Newtonsoft.Json.Linq;
 using UnityEngine;
 using UnityEditor;
@@ -25,38 +26,64 @@ namespace Frankie.Saving
             return uniqueIdentifier;
         }
         
+        public List<ISaveableBase> GetSaveableComponents() => GetComponents<ISaveableBase>().ToList();
+        
+        public static bool TryGetStateDictionary(JToken state, out JObject stateDictionary)
+        {
+            stateDictionary = null;
+            if (state == null) { return false; }
+
+            stateDictionary = state.ToObject<JObject>();
+            if (stateDictionary == null) { Debug.LogError("Malformed data in save file"); return false; }
+            return true;
+        }
+        
         public JToken CaptureState(JToken existingTokenState, bool onlyCorePlayerState = false)
         {
             JToken updatedTokenState = existingTokenState ?? new JObject();
-            foreach (ISaveable saveable in GetComponents<ISaveable>())
+            foreach (ISaveableBase saveable in GetComponents<ISaveableBase>())
             {
                 // Core Player State captures, e.g. for GameOver saves (skip saving position, etc.)
                 if (onlyCorePlayerState && !saveable.IsCorePlayerState()) { continue; }
-                
-                updatedTokenState[saveable.GetType().ToString()] = JToken.FromObject(saveable.CaptureState());
+
+                SaveState saveState = saveable.CaptureState();
+                if (saveState == null) { continue; }
+                updatedTokenState[saveable.GetType().ToString()] = JToken.FromObject(saveState);
             }
             return updatedTokenState;
         }
 
         public void RestoreState(JToken state, LoadPriority loadPriority)
         {
-            if (state == null) { return; }
+            if (!TryGetStateDictionary(state, out JObject stateDictionary)) { return; }
 
-            var stateDict = state.ToObject<JObject>();
-            if (stateDict == null) { Debug.LogError("Malformed data in save file"); return; }
-
-            foreach (ISaveable saveable in GetComponents<ISaveable>())
+            foreach ((ISaveableBase saveable, SaveState saveState) in MatchSaveableToState(GetComponents<ISaveableBase>(), stateDictionary))
             {
-                var typeString = saveable.GetType().ToString();
-                if (!stateDict.ContainsKey(typeString)) continue;
-                var saveState = stateDict[typeString]?.ToObject<SaveState>();
-                if (saveState == null) { return; }
-
                 if (saveState.GetLoadPriority() == loadPriority)
                 {
                     saveable.RestoreState(saveState);
                 }
             }
+        }
+
+        private static IEnumerable<(ISaveableBase, SaveState)> MatchSaveableToState(IEnumerable<ISaveableBase> saveableEntries, JObject stateDictionary)
+        {
+            foreach (ISaveableBase saveable in saveableEntries)
+            {
+                var typeString = saveable.GetType().ToString();
+                if (!stateDictionary.ContainsKey(typeString)) { continue; }
+                var saveState = stateDictionary[typeString]?.ToObject<SaveState>();
+                if (saveState == null) { continue; }
+
+                yield return (saveable, saveState);
+            }
+        }
+        
+        public static JObject ManualCaptureSaveState(JObject stateDictionary, string typeString, SaveState updatedSaveState)
+        {
+            JObject updatedStateDictionary = stateDictionary ?? new JObject();
+            updatedStateDictionary[typeString] = JToken.FromObject(updatedSaveState);
+            return updatedStateDictionary;
         }
         
 #if UNITY_EDITOR

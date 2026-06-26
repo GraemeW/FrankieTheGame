@@ -192,7 +192,7 @@ namespace Frankie.Stats.Editor
             if (!isSimulatedStatCard)
             {
                 var headerSplit = new TwoPaneSplitView(0, (float)_panelSize/2, TwoPaneSplitViewOrientation.Horizontal);
-                headerSplit.Add(new Label($" {character.characterProperties.name}"));
+                headerSplit.Add(new Label($" {character.characterProperties.GetCharacterID()}"));
                 var initialLevel = new IntegerField
                 {
                     label = "Initial Level",
@@ -223,7 +223,7 @@ namespace Frankie.Stats.Editor
             progressionEntries.makeItem = () => new Label();
             progressionEntries.bindItem = (item, index) =>
             {
-                if (item is Label label && index < characters.Length) { label.text = characters[index].characterProperties.name; }
+                if (item is Label label && index < characters.Length) { label.text = characters[index].characterProperties.GetCharacterID(); }
             };
             progressionEntries.itemsSource = characters;
         }

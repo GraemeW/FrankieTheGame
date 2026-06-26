@@ -3,7 +3,7 @@ using Frankie.Saving;
 
 namespace Frankie.Control
 {
-    public class PlayerColliderTrigger : MonoBehaviour, ISaveable
+    public class PlayerColliderTrigger : MonoBehaviour, ISaveable<bool>
     {
         // Tunables
         [SerializeField] private LayerMask playerLayer;
@@ -38,15 +38,20 @@ namespace Frankie.Control
 
         public LoadPriority GetLoadPriority() => LoadPriority.ObjectProperty;
 
-        public SaveState CaptureState()
-        {
-            return new SaveState(GetLoadPriority(), triggered);
-        }
+        public SaveState CaptureState() => ManualGetStateFromData(triggered);
 
         public void RestoreState(SaveState saveState)
         {
-            triggered = (bool)saveState.GetState(typeof(bool));
+            triggered = ManualGetDataFromState(saveState);
             ReconcileState();
+        }
+
+        public SaveState ManualGetStateFromData(bool data) => new(GetLoadPriority(), data);
+
+        public bool ManualGetDataFromState(SaveState saveState)
+        {
+            if (saveState == null) { return triggered; }
+            return (bool)saveState.GetState(typeof(bool));
         }
     }
 }

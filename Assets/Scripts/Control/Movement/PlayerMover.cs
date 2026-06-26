@@ -10,11 +10,15 @@ namespace Frankie.Control
     public class PlayerMover : Mover
     {
         // Tunables
+        [SerializeField] private float speedPollingTime = 0.5f;
         [SerializeField] private float speedMoveThreshold = 0.05f;
         [SerializeField] private int playerMovementHistoryLength = 128;
 
         // State
         private bool inWorld = true;
+        private float cachedSpeed = 1.0f;
+        private float timeSinceSpeedPolled = Mathf.Infinity;
+        
         private float inputHorizontal;
         private float inputVertical;
         private CircularBuffer<Tuple<Vector2, Vector2>> movementHistory;
@@ -60,6 +64,7 @@ namespace Frankie.Control
         {
             base.FixedUpdate();
             if (inWorld) { InteractWithMovement(); }
+            timeSinceSpeedPolled += Time.deltaTime;
         }
 
         public void ParseMovement(Vector2 directionalInput)
@@ -79,8 +84,13 @@ namespace Frankie.Control
 
         public override float GetCurrentSpeed()
         {
+            if (timeSinceSpeedPolled < speedPollingTime) { return cachedSpeed; }
+            
             float modifier = party.GetPartyLeader().GetCalculatedStat(CalculatedStat.MoveSpeed);
-            return movementConfiguration.baseMovementSpeed * modifier;
+            cachedSpeed = movementConfiguration.baseMovementSpeed * modifier;
+            timeSinceSpeedPolled = 0f;
+
+            return cachedSpeed;
         }
 
         private void InteractWithMovement()

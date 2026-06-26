@@ -4,7 +4,7 @@ using Frankie.Saving;
 
 namespace Frankie.Core.Predicates
 {
-    public class PredicateChildToggler : MonoBehaviour, ISaveable
+    public class PredicateChildToggler : MonoBehaviour, ISaveable<bool>
     {
         // Tunables
         [SerializeField] private Condition condition;
@@ -48,15 +48,20 @@ namespace Frankie.Core.Predicates
         #region SaveInterface
         public LoadPriority GetLoadPriority() => LoadPriority.ObjectProperty;
 
-        public SaveState CaptureState()
-        {
-            return new SaveState(GetLoadPriority(), childrenEnabled);
-        }
+        public SaveState CaptureState() => ManualGetStateFromData(childrenEnabled);
 
         public void RestoreState(SaveState saveState)
         {
-            childrenEnabled = (bool)saveState.GetState(typeof(bool));
+            childrenEnabled = ManualGetDataFromState(saveState);
             foreach (Transform child in transform) { child.gameObject.SetActive(childrenEnabled); }
+        }
+        
+        public SaveState ManualGetStateFromData(bool data) => new(GetLoadPriority(), data);
+        
+        public bool ManualGetDataFromState(SaveState saveState)
+        {
+            if (saveState == null) { return childrenEnabled; }
+            return (bool)saveState.GetState(typeof(bool));
         }
         #endregion
     }

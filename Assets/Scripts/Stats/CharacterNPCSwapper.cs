@@ -19,12 +19,9 @@ namespace Frankie.Stats
             return playerObject == null ? null : playerObject.GetComponent<Party>();
         }
         
-        public static GameObject SpawnCharacter(string characterName, Transform partyTransform)
+        public static GameObject SpawnCharacter(CharacterProperties characterProperties, Transform partyTransform)
         {
-            if (characterName == null || partyTransform == null) { return null; }
-
-            CharacterProperties characterProperties = CharacterProperties.GetCharacterPropertiesFromName(characterName);
-            if (characterProperties == null) { return null; }
+            if (characterProperties == null || partyTransform == null) { return null; }
             
             GameObject characterPrefab = characterProperties.GetCharacterPrefab();
             if (characterPrefab == null) { return null; }
@@ -33,17 +30,13 @@ namespace Frankie.Stats
             return character;
         }
 
-        public static GameObject SpawnNPC(string characterName, Transform worldContainer)
+        public static GameObject SpawnNPC(CharacterProperties characterProperties, Transform worldContainer)
         {
-            if (characterName == null || worldContainer == null) { return null; }
-
-            CharacterProperties characterProperties = CharacterProperties.GetCharacterPropertiesFromName(characterName);
             if (characterProperties == null) { return null; }
-            
             GameObject characterNPCPrefab = characterProperties.GetCharacterNPCPrefab();
             if (characterNPCPrefab == null) { return null; }
             
-            GameObject characterNPC = Instantiate(characterNPCPrefab, worldContainer);
+            GameObject characterNPC = worldContainer != null ? Instantiate(characterNPCPrefab, worldContainer) :  Instantiate(characterNPCPrefab);
             return characterNPC;
         }
         #endregion
@@ -84,30 +77,28 @@ namespace Frankie.Stats
 
         public CharacterNPCSwapper SwapToCharacter(Transform partyContainer)
         {
-            string characterName = baseStats.GetCharacterProperties().GetCharacterID();
-            GameObject character = SpawnCharacter(characterName, partyContainer);
+            GameObject character = SpawnCharacter(baseStats.GetCharacterProperties(), partyContainer);
+            if (character == null) { return null; }
 
             // Pass stats back/forth NPC -> Character
             var characterBaseStats = character.GetComponent<BaseStats>();
             characterBaseStats.SetActiveStatSheet(baseStats.GetActiveStatSheet());
             characterBaseStats.OverrideLevel(baseStats.GetLevel());
-
-            var partyCharacter = character.GetComponent<CharacterNPCSwapper>();
-            return partyCharacter;
+            
+            return character.GetComponent<CharacterNPCSwapper>();
         }
 
         public CharacterNPCSwapper SwapToNPC(Transform worldContainer)
         {
-            string characterName = baseStats.GetCharacterProperties().GetCharacterID();
-            GameObject characterNPC = SpawnNPC(characterName, worldContainer);
+            GameObject characterNPC = SpawnNPC(baseStats.GetCharacterProperties(), worldContainer);
+            if (characterNPC == null) { return null; }
 
             // Pass stats back/forth Character -> NPC
             var characterNPCBaseStats = characterNPC.GetComponent<BaseStats>();
             characterNPCBaseStats.SetActiveStatSheet(baseStats.GetActiveStatSheet());
             characterNPCBaseStats.OverrideLevel(baseStats.GetLevel());
-
-            var worldNPC = characterNPC.GetComponent<CharacterNPCSwapper>();
-            return worldNPC;
+            
+            return characterNPC.GetComponent<CharacterNPCSwapper>();
         }
 
         public void JoinParty(PlayerStateMachine playerStateMachine) // Called via Unity Events

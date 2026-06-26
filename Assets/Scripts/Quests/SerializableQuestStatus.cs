@@ -7,5 +7,11 @@ namespace Frankie.Quests
     {
         public string questID;
         public List<string> completedObjectiveIDs;
+
+        public SerializableQuestStatus(string questID)
+        {
+            this.questID = questID;
+            completedObjectiveIDs = new List<string>();
+        }
     }
 }

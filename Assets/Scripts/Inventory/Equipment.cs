@@ -8,10 +8,10 @@ using Frankie.Stats;
 namespace Frankie.Inventory
 {
     [RequireComponent(typeof(Knapsack))]
-    public class Equipment : MonoBehaviour, ISaveable, IModifierProvider
+    public class Equipment : MonoBehaviour, ISaveable<Dictionary<EquipLocation, EquipableItem>>, IModifierProvider
     {
         // State
-        private Dictionary<EquipLocation, EquipableItem> equippedItems = new();
+        private readonly Dictionary<EquipLocation, EquipableItem> equippedItems = new();
 
         // Cached References
         private Knapsack knapsack;
@@ -45,9 +45,9 @@ namespace Frankie.Inventory
                 comparisonStatSheet[stat] = 0f;
             }
 
-            if (equippedItems.ContainsKey(equipLocation))
+            if (equippedItems.TryGetValue(equipLocation, out EquipableItem currentlyEquippedItem))
             {
-                foreach (BaseStatModifier baseStatModifier in equippedItems[equipLocation].GetBaseStatModifiers())
+                foreach (BaseStatModifier baseStatModifier in currentlyEquippedItem.GetBaseStatModifiers())
                 {
                     comparisonStatSheet[baseStatModifier.stat] -= (baseStatModifier.minValue + baseStatModifier.maxValue) / 2;
                 }
@@ -101,37 +101,73 @@ namespace Frankie.Inventory
         }
         #endregion
 
-        #region Interfaces
+        #region ModifierInterface
         public IEnumerable<float> GetAdditiveModifiers(Stat stat)
         {
             return GetAllPopulatedSlots().Select(GetItemInSlot).Where(item => (IModifierProvider)item != null).SelectMany(item => ((IModifierProvider)item).GetAdditiveModifiers(stat));
         }
+        #endregion
 
+        #region SaveInterface
         public LoadPriority GetLoadPriority() => LoadPriority.ObjectProperty;
-
-        public SaveState CaptureState()
-        {
-            var equippedItemsForSerialization = new Dictionary<EquipLocation, string>();
-            foreach (KeyValuePair<EquipLocation, EquipableItem> pair in equippedItems)
-            {
-                equippedItemsForSerialization[pair.Key] = pair.Value.GetGUID();
-            }
-            return new SaveState(GetLoadPriority(), equippedItemsForSerialization);
-        }
+        public SaveState CaptureState() => PackSaveData(GetLoadPriority(), equippedItems);
 
         public void RestoreState(SaveState saveState)
         {
-            equippedItems = new Dictionary<EquipLocation, EquipableItem>();
-            if (saveState.GetState(typeof(Dictionary<EquipLocation, string>)) is not Dictionary<EquipLocation, string> equippedItemsForSerialization) { return; }
+            equippedItems.Clear();
+            foreach (KeyValuePair<EquipLocation, EquipableItem> pair in UnpackSaveData(saveState))
+            {
+                equippedItems[pair.Key] = pair.Value;
+            }
+        }
+
+        public SaveState ManualGetStateFromData(Dictionary<EquipLocation, EquipableItem> data)
+        {
+            Dictionary<EquipLocation, EquipableItem> filteredSaveData = data.Where(pair => pair.Value != null).ToDictionary(pair => pair.Key, pair => pair.Value);
+            return PackSaveData(GetLoadPriority(), filteredSaveData);
+        }
+
+        public Dictionary<EquipLocation, EquipableItem> ManualGetDataFromState(SaveState saveState)
+        {
+            Dictionary<EquipLocation, EquipableItem> dataSet = new Dictionary<EquipLocation, EquipableItem>();
+            foreach (EquipLocation equipLocation in Enum.GetValues(typeof(EquipLocation)))
+            {
+                if (equipLocation == EquipLocation.None) { continue; }
+                dataSet[equipLocation] = null;
+            }
+            if (saveState == null) { return dataSet; }
+            
+            foreach (KeyValuePair<EquipLocation, EquipableItem> pair in UnpackSaveData(saveState))
+            {
+                dataSet[pair.Key] = pair.Value;
+            }
+            return dataSet;
+        }
+        
+        private static SaveState PackSaveData(LoadPriority loadPriority, Dictionary<EquipLocation, EquipableItem> saveData)
+        {
+            var equippedItemsForSerialization = new Dictionary<EquipLocation, string>();
+            foreach (KeyValuePair<EquipLocation, EquipableItem> pair in saveData)
+            {
+                equippedItemsForSerialization[pair.Key] = pair.Value.GetGUID();
+            }
+            return new SaveState(loadPriority, equippedItemsForSerialization);
+        }
+
+        private static Dictionary<EquipLocation, EquipableItem> UnpackSaveData(SaveState saveState)
+        {
+            Dictionary<EquipLocation, EquipableItem> saveData = new Dictionary<EquipLocation, EquipableItem>();
+            if (saveState?.GetState(typeof(Dictionary<EquipLocation, string>)) is not Dictionary<EquipLocation, string> equippedItemsForSerialization) { return saveData; }
 
             foreach (KeyValuePair<EquipLocation, string> pair in equippedItemsForSerialization)
             {
                 var equipableItem = InventoryItem.GetFromID(pair.Value) as EquipableItem;
                 if (equipableItem != null)
                 {
-                    equippedItems[pair.Key] = equipableItem;
+                    saveData[pair.Key] = equipableItem;
                 }
             }
+            return saveData;
         }
         #endregion
     }

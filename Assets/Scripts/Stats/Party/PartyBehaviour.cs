@@ -22,14 +22,14 @@ namespace Frankie.Stats
 
         // State
         protected readonly Dictionary<BaseStats, CharacterSpriteLink> characterSpriteLinkLookup = new();
-        int lastMemberOffsetIndex = 0;
+        private int lastMemberOffsetIndex = 0;
 
         // Cached References
         protected PlayerMover playerMover;
         private PlayerStateMachine playerStateMachine;
 
         // Abstract Methods
-        protected abstract bool AddToParty(BaseStats character); // AddToParty -- Parent
+        protected abstract bool AddToParty(BaseStats characterBaseStats); // AddToParty -- Parent
         public abstract bool AddToParty(CharacterNPCSwapper characterNPCSwapper); // AddToParty -- Derivative:  Add from character NPC Swapper
         public abstract bool AddToParty(CharacterProperties characterProperties); // AddToParty -- Derivative:  Add from nothing
         public abstract bool RemoveFromParty(BaseStats character); // RemoveFromParty -- Parent:  Instantiate nothing

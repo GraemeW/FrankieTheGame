@@ -8,7 +8,7 @@ using Frankie.Core.Predicates;
 
 namespace Frankie.Stats
 {
-    public class BaseStats : MonoBehaviour, ISaveable, IPredicateEvaluator
+    public class BaseStats : MonoBehaviour, ISaveable<BaseStatsSaveData>, IPredicateEvaluator
     {
         // See:  Progression for behaviour detail
         // Progression defines 1) Stats at level 1 --> pulled to the active stat sheet, which is what is saved
@@ -18,7 +18,7 @@ namespace Frankie.Stats
         [Header("Parameters")]
         [SerializeField] private CharacterProperties characterProperties;
         [SerializeField] private bool levelUpOnInstantiation = false;
-        [SerializeField][Tooltip("Default true for PCs, false for NPCs")] private bool useSavedStatsOnLoad = true;
+        [SerializeField][Tooltip("Default true for PCs, false for NPCs")] private bool saveBaseStats = true;
         [Header("Hookups")]
         [SerializeField] private Progression progression;
 
@@ -77,6 +77,33 @@ namespace Frankie.Stats
         }
 
         public Dictionary<Stat, float> GetActiveStatSheet() => activeStatSheet; // NOTE:  Does NOT contain modifiers
+
+        public Dictionary<Stat, float> ManualGetBaseStatSheet()
+        {
+            if (progression == null || characterProperties == null || !progression.HasProgression(characterProperties)) { return new Dictionary<Stat, float>(); }
+            
+            Dictionary<Stat, float> baseStatSheet = progression.GetStatSheet(characterProperties);
+            baseStatSheet ??= new Dictionary<Stat, float>();
+            return baseStatSheet;
+        }
+        
+        public Dictionary<Stat, float> ManualGetLevelUpSheet(int manualLevel, Dictionary<Stat, float> manualStatSheet)
+        {
+            if (progression == null || characterProperties == null || !progression.HasProgression(characterProperties)) { return new Dictionary<Stat, float>(); }
+            manualStatSheet ??= new Dictionary<Stat, float>();
+
+            Dictionary<Stat, float> levelUpSheet = progression.GetLevelUpSheet(characterProperties, manualLevel, manualStatSheet);
+            levelUpSheet ??= new Dictionary<Stat, float>();
+            return levelUpSheet;
+        }
+
+        public bool ManualTryGetDefaultStat(Stat stat, out float statValue)
+        {
+            statValue = 0f;
+            if (progression == null || characterProperties == null || !progression.HasProgression(characterProperties)) { return false; }
+            Dictionary<Stat, float> statSheet = progression.GetStatSheet(characterProperties);
+            return statSheet.TryGetValue(stat, out statValue);
+        }
         #endregion
 
         #region PublicFunctional
@@ -145,49 +172,48 @@ namespace Frankie.Stats
         }
         #endregion
 
-        #region Interfaces
-        // Save State
-        [Serializable]
-        private class BaseStatsSaveData
+        #region PredicateInterface
+        public bool? Evaluate(Predicate predicate)
         {
-            public int level;
-#pragma warning disable UAC1009
-            // Unity serialization error, but serialization is OK by Newtonsoft
-            public Dictionary<Stat, float> statSheet;
-#pragma warning restore UAC1009
+            var predicateCombatParticipant = predicate as PredicateBaseStats;
+            return predicateCombatParticipant != null ? predicateCombatParticipant.Evaluate(this) : null;
         }
+        #endregion
         
+        #region SaveInterface
         public bool IsCorePlayerState() => true;
         public LoadPriority GetLoadPriority() => LoadPriority.ObjectProperty;
 
         public SaveState CaptureState()
         {
+            if (!saveBaseStats) { return null; }
             currentLevel ??= new LazyValue<int>(GetInitialLevel);
-            var baseStatsSaveData = new BaseStatsSaveData
-            {
-                level = currentLevel.value,
-                statSheet = activeStatSheet
-            };
+            var baseStatsSaveData = new BaseStatsSaveData(currentLevel.value, activeStatSheet);
             var saveState = new SaveState(GetLoadPriority(), baseStatsSaveData);
             return saveState;
         }
 
         public void RestoreState(SaveState saveState)
         {
-            if (!useSavedStatsOnLoad) { return; }
-            
-            var baseStatsSaveData = saveState.GetState(typeof(BaseStatsSaveData)) as BaseStatsSaveData;
-            if (baseStatsSaveData == null) { return; }
+            if (!saveBaseStats) { return; }
+            if (saveState.GetState(typeof(BaseStatsSaveData)) is not BaseStatsSaveData baseStatsSaveData) { return; }
 
             currentLevel ??= new LazyValue<int>(GetInitialLevel);
             currentLevel.value = baseStatsSaveData.level;
             activeStatSheet = baseStatsSaveData.statSheet;
         }
-
-        public bool? Evaluate(Predicate predicate)
+        
+        public SaveState ManualGetStateFromData(BaseStatsSaveData data) => new(GetLoadPriority(), data);
+        
+        public BaseStatsSaveData ManualGetDataFromState(SaveState saveState)
         {
-            var predicateCombatParticipant = predicate as PredicateBaseStats;
-            return predicateCombatParticipant != null ? predicateCombatParticipant.Evaluate(this) : null;
+            if (saveState?.GetState(typeof(BaseStatsSaveData)) is BaseStatsSaveData baseStatsSaveData) { return baseStatsSaveData; }
+            if (!saveBaseStats) { return null; }
+            if (progression == null || characterProperties == null || !progression.HasProgression(characterProperties)) { return null; }
+            
+            Dictionary<Stat, float> statSheet = progression.GetStatSheet(characterProperties);
+            int initialLevel = statSheet.TryGetValue(Stat.InitialLevel, out var value) ? (int)value : 1;
+            return new BaseStatsSaveData(initialLevel, statSheet);
         }
         #endregion
     }

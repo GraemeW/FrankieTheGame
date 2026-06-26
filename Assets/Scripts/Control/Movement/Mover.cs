@@ -7,7 +7,7 @@ namespace Frankie.Control
 {
     [RequireComponent(typeof(Rigidbody2D))]
     [RequireComponent(typeof(PathFinder))]
-    public abstract class Mover : MonoBehaviour, ISaveable
+    public abstract class Mover : MonoBehaviour, ISaveable<SerializableVector2>
     {
         // Tunables
         [SerializeField] protected MovementConfiguration movementConfiguration;
@@ -259,23 +259,14 @@ namespace Frankie.Control
 
         #region Interfaces
         // Save State
-        [System.Serializable]
-        private class MoverSaveData
-        {
-            public SerializableVector2 position;
-        }
-
         public LoadPriority GetLoadPriority() => LoadPriority.ObjectProperty;
 
-        SaveState ISaveable.CaptureState()
+        public SaveState CaptureState() => ManualGetStateFromData(new SerializableVector2(transform.position));
+        
+        public void RestoreState(SaveState saveState)
         {
-            var data = new MoverSaveData { position = new SerializableVector2(transform.position) };
-            return new SaveState(GetLoadPriority(), data);
-        }
-
-        void ISaveable.RestoreState(SaveState saveState)
-        {
-            if (saveState.GetState(typeof(MoverSaveData)) is not MoverSaveData moverSaveData) { return; }
+            SerializableVector2 savedPosition = ManualGetDataFromState(saveState);
+            if (savedPosition == null) { return; }
 
             // Force initialization for objects set to disable
             if (rigidBody2D == null)
@@ -284,9 +275,12 @@ namespace Frankie.Control
                 SetupInitialState();
             }
             
-            transform.position = moverSaveData.position.ToVector();
+            transform.position = savedPosition.ToVector();
             SetLookDirection(Vector2.down);
         }
+
+        public SaveState ManualGetStateFromData(SerializableVector2 data) => new(GetLoadPriority(), data);
+        public SerializableVector2 ManualGetDataFromState(SaveState saveState) => saveState?.GetState(typeof(SerializableVector2)) as SerializableVector2;
         #endregion
     }
 }

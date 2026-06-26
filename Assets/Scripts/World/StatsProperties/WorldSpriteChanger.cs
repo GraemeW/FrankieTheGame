@@ -4,7 +4,7 @@ using UnityEngine;
 namespace Frankie.World
 {
     [RequireComponent(typeof(SpriteRenderer))]
-    public class WorldSpriteChanger : MonoBehaviour, ISaveable
+    public class WorldSpriteChanger : MonoBehaviour, ISaveable<bool>
     {
         // Tunables
         [SerializeField] private Sprite alternateSprite;
@@ -54,15 +54,20 @@ namespace Frankie.World
         #region SaveInterface
         public LoadPriority GetLoadPriority() => LoadPriority.ObjectProperty;
 
-        public SaveState CaptureState()
-        {
-            return new SaveState(LoadPriority.ObjectProperty, isAlternateSprite);
-        }
+        public SaveState CaptureState() => ManualGetStateFromData(isAlternateSprite);
 
         public void RestoreState(SaveState saveState)
         {
-            isAlternateSprite = (bool)saveState.GetState(typeof(bool));
+            isAlternateSprite = ManualGetDataFromState(saveState);
             UpdateSprite();
+        }
+        
+        public SaveState ManualGetStateFromData(bool data) => new(GetLoadPriority(), data);
+
+        public bool ManualGetDataFromState(SaveState saveState)
+        {
+            if (saveState == null) { return isAlternateSprite; }
+            return (bool)saveState.GetState(typeof(bool));
         }
         #endregion
     }

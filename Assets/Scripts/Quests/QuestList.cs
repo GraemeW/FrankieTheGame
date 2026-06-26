@@ -9,7 +9,7 @@ using Frankie.Saving;
 namespace Frankie.Quests
 {
     [RequireComponent(typeof(PartyKnapsackConduit))]
-    public class QuestList : MonoBehaviour, IPredicateEvaluator, ISaveable
+    public class QuestList : MonoBehaviour, IPredicateEvaluator, ISaveable<List<QuestStatus>>
     {
         // Tunables
         private readonly List<QuestStatus> questStatuses = new();
@@ -115,24 +115,29 @@ namespace Frankie.Quests
 
         // Save System
         public LoadPriority GetLoadPriority() => LoadPriority.ObjectProperty;
-        
-        public SaveState CaptureState()
-        {
-            List<SerializableQuestStatus> serializableQuestStatuses = questStatuses.Select(questStatus => questStatus.CaptureState()).ToList();
-            var saveState = new SaveState(GetLoadPriority(), serializableQuestStatuses);
-            return saveState;
-        }
+
+        public SaveState CaptureState() => ManualGetStateFromData(questStatuses);
 
         public void RestoreState(SaveState saveState)
         {
-            if (saveState.GetState(typeof(List<SerializableQuestStatus>)) is not List<SerializableQuestStatus> serializableQuestStatuses) { return; }
             questStatuses.Clear();
-
-            foreach (QuestStatus questStatus in serializableQuestStatuses.Select(serializableQuestStatus => new QuestStatus(serializableQuestStatus)))
+            foreach (QuestStatus questStatus in ManualGetDataFromState(saveState))
             {
                 questStatuses.Add(questStatus);
             }
             questListUpdated?.Invoke();
+        }
+        
+        public SaveState ManualGetStateFromData(List<QuestStatus> data)
+        {
+            List<SerializableQuestStatus> serializableQuestStatuses = data != null ? data.Select(questStatus => questStatus.CaptureState()).ToList() : new List<SerializableQuestStatus>();
+            return new SaveState(GetLoadPriority(), serializableQuestStatuses);
+        }
+
+        public List<QuestStatus> ManualGetDataFromState(SaveState saveState)
+        {
+            if (saveState?.GetState(typeof(List<SerializableQuestStatus>)) is not List<SerializableQuestStatus> serializableQuestStatuses) { return new List<QuestStatus>(); }
+            return serializableQuestStatuses.Select(serializableQuestStatus => new QuestStatus(serializableQuestStatus)).ToList();
         }
         #endregion
     }

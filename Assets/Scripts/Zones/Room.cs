@@ -1,5 +1,4 @@
 using UnityEngine;
-using Frankie.Core;
 using Frankie.Saving;
 using Frankie.Sound;
 using Frankie.Utils;
@@ -7,7 +6,7 @@ using Frankie.Utils;
 namespace Frankie.ZoneManagement
 {
     [RequireComponent(typeof(BackgroundMusicOverride))]
-    public class Room : MonoBehaviour, ISaveable
+    public class Room : MonoBehaviour, ISaveable<bool>
     {
         // Tunables
         [SerializeField] private bool disableOnStart = true;
@@ -63,20 +62,24 @@ namespace Frankie.ZoneManagement
 
         #region InterfaceMethods
         public LoadPriority GetLoadPriority() => LoadPriority.ObjectProperty;
-
-        SaveState ISaveable.CaptureState()
-        {
-            var saveState = new SaveState(GetLoadPriority(), isRoomActive);
-            return saveState;
-        }
-
-        void ISaveable.RestoreState(SaveState saveState)
+        
+        public SaveState CaptureState() => ManualGetStateFromData(isRoomActive);
+        
+        public void RestoreState(SaveState saveState)
         {
             if (saveState == null) { return; }
-            bool roomEnabled = (bool)saveState.GetState(typeof(bool));
+            bool roomEnabled = ManualGetDataFromState(saveState);
             
             InitializeRoom();
             ToggleRoom(roomEnabled, true);
+        }
+        
+        public SaveState ManualGetStateFromData(bool data) => new(GetLoadPriority(), data);
+        
+        public bool ManualGetDataFromState(SaveState saveState)
+        {
+            if (saveState == null) { return isRoomActive; }
+            return (bool)saveState.GetState(typeof(bool));
         }
         #endregion
     }

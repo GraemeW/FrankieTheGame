@@ -1,10 +1,8 @@
 namespace Frankie.Saving
 {
-    public interface ISaveable
+    public interface ISaveable<T> : ISaveableBase
     {
-        LoadPriority GetLoadPriority();
-        bool IsCorePlayerState() => false;
-        SaveState CaptureState();
-        void RestoreState(SaveState saveState);
+        SaveState ManualGetStateFromData(T data);
+        public T ManualGetDataFromState(SaveState saveState);
     }
 }

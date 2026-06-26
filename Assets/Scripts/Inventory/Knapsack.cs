@@ -12,7 +12,7 @@ namespace Frankie.Inventory
 {
     [RequireComponent(typeof(Equipment))]
     [RequireComponent(typeof(CombatParticipant))]
-    public class Knapsack : MonoBehaviour, ISaveable
+    public class Knapsack : MonoBehaviour, ISaveable<ActiveInventoryItem[]>
     {
         // Tunables
         [SerializeField] private int inventorySize = 16;
@@ -299,53 +299,62 @@ namespace Frankie.Inventory
         }
 
         // Saving System
-        [Serializable]
-        private struct SaveableActiveItem
-        {
-            public string inventoryItemID;
-            public bool equipped;
-        }
-
         public LoadPriority GetLoadPriority() => LoadPriority.ObjectProperty;
 
-        SaveState ISaveable.CaptureState()
+        public SaveState CaptureState()
         {
             slots ??= new ActiveInventoryItem[inventorySize];
-            SaveableActiveItem[] slotsActiveItemStrings = new SaveableActiveItem[inventorySize];
+            return ManualGetStateFromData(slots);
+        }
+        
+        public void RestoreState(SaveState saveState)
+        {
+            slots = ManualGetDataFromState(saveState);
+            knapsackUpdated?.Invoke();
+        }
+
+        public SaveState ManualGetStateFromData(ActiveInventoryItem[] data)
+        {
+            data ??= new ActiveInventoryItem[inventorySize];
+            if (data.Length != inventorySize) { Array.Resize(ref data, inventorySize); }
+            
+            var slotsActiveItemStrings = new SaveableActiveItem[inventorySize];
             for (int i = 0; i < inventorySize; i++)
             {
-                if (slots[i] == null) continue;
+                if (data[i] == null) { continue; }
                 
                 var saveableActiveItem = new SaveableActiveItem
                 {
-                    inventoryItemID = slots[i].GetInventoryItem().GetGUID(),
-                    equipped = slots[i].IsEquipped()
+                    inventoryItemID = data[i].GetInventoryItem().GetGUID(),
+                    equipped = data[i].IsEquipped()
                 };
                 slotsActiveItemStrings[i] = saveableActiveItem;
             }
-            var saveState = new SaveState(GetLoadPriority(), slotsActiveItemStrings);
-
-            return saveState;
+            return new SaveState(GetLoadPriority(), slotsActiveItemStrings);
         }
 
-        void ISaveable.RestoreState(SaveState saveState)
+        public ActiveInventoryItem[] ManualGetDataFromState(SaveState saveState)
         {
-            slots ??= new ActiveInventoryItem[inventorySize];
-            if (saveState.GetState(typeof(SaveableActiveItem[])) is not SaveableActiveItem[] slotsActiveItemStrings) { return; }
-
+            var data = new ActiveInventoryItem[inventorySize];
+            if (saveState?.GetState(typeof(SaveableActiveItem[])) is not SaveableActiveItem[] slotsActiveItemStrings) { return data; }
+            
+            if (slotsActiveItemStrings.Length != inventorySize) { Array.Resize(ref slotsActiveItemStrings, inventorySize); }
             for (int i = 0; i < inventorySize; i++)
             {
+                if (slotsActiveItemStrings[i] == null) { continue; }
                 if (string.IsNullOrEmpty(slotsActiveItemStrings[i].inventoryItemID)) { continue; }
 
                 string inventoryItemID = slotsActiveItemStrings[i].inventoryItemID;
                 var activeInventoryItem = new ActiveInventoryItem(InventoryItem.GetFromID(inventoryItemID));
                 activeInventoryItem.SetEquipped(slotsActiveItemStrings[i].equipped);
 
-                slots[i] = activeInventoryItem;
+                data[i] = activeInventoryItem;
             }
 
-            knapsackUpdated?.Invoke();
+            return data;
         }
         #endregion
+
+
     }
 }

@@ -53,7 +53,7 @@ namespace Frankie.ZoneManagement.Editor
         public static List<ZoneHandlerNodeData> BuildZoneHandlerNodeData()
         {
             List<ZoneHandlerNodeData> zoneHandlerNodeDataSet = new();
-            foreach (ZoneHandler zoneHandler in Object.FindObjectsByType<ZoneHandler>())
+            foreach (ZoneHandler zoneHandler in Object.FindObjectsByType<ZoneHandler>(FindObjectsInactive.Include))
             {
                 if (zoneHandler.GetZoneNode() == null) { continue; }
                 ZoneHandlerNodeData zoneHandlerNodeData = new ZoneHandlerNodeData(zoneHandler.GetZoneNode(), zoneHandler.GetWarpPosition());

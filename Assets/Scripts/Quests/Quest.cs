@@ -65,6 +65,7 @@ namespace Frankie.Quests
 
         public string GetName() => localizedDisplayName.GetSafeLocalizedString();
         public string GetDetail() => localizedDetail.GetSafeLocalizedString();
+        public IList<QuestObjective> GetObjectives() => questObjectives != null ? questObjectives.Where(questObjective => questObjective != null).ToList() : new List<QuestObjective>();
         public QuestObjective GetObjectiveFromID(string objectiveID) => questObjectives.FirstOrDefault(questObjective => questObjective.GetObjectiveID() == objectiveID);
         public bool HasObjective(QuestObjective matchObjective) => questObjectives.Any(questObjective => questObjective.GetObjectiveID() == matchObjective.GetObjectiveID());
         public int GetObjectiveCount() => questObjectives.Count;
