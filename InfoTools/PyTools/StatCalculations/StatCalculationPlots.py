@@ -8,8 +8,9 @@ class PlotType(Enum):
     RUN = auto()
     STATCONTEST = auto()
     FEARSOME = auto()
+    MOVESPEED = auto()
 
-plotSelector = PlotType.FEARSOME
+plotSelector = PlotType.MOVESPEED
 level = 6
 enemyLevel = 5
 
@@ -34,6 +35,22 @@ match(plotSelector):
     case PlotType.FEARSOME:
         t = np.arange(-50,50,0.1)
         s = t / (10 * enemyLevel / level) -1
+    case PlotType.MOVESPEED:
+        t = np.arange(-100,200,0.1)
+        s = np.zeros_like(t)
+        minMove = 0.5
+        maxMove = 2.0
+        negativeSlope = 0.025
+        positiveSlope = 0.0075
+
+        for i,x in enumerate(t):
+            if x < 0:
+                s[i] = 1.0 + (1.0 - minMove) * (negativeSlope * x) / np.sqrt(1 + (negativeSlope * x)**2)
+            elif x == 0:
+                s[i] = 1.0
+            else:
+                s[i] = 1.0 + (maxMove - 1.0) * (positiveSlope * x) / np.sqrt(1 + (positiveSlope * x)**2)
+
     case _:
         raise ValueError("Invalid plot type selected")
 

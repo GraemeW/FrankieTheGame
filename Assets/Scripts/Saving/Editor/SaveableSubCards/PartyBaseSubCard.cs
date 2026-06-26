@@ -68,6 +68,8 @@ namespace Frankie.Saving.Editor
         
         private void RebuildCharacterSaveableEntityCards(List<CharacterProperties> checkCharacterProperties)
         {
+            if (saveableEntityCardData == null) { return; }
+            
             HashSet<CharacterProperties> charactersToRemove = characterSaveableEntityCards.Keys.Except(checkCharacterProperties).ToHashSet();
             foreach (CharacterProperties characterProperties in charactersToRemove)
             {
@@ -76,8 +78,6 @@ namespace Frankie.Saving.Editor
                     if (characterSaveableEntityCard != null) { saveableEntityCardData.RemoveFromGUIDs(characterSaveableEntityCard.entityID); }
                 }
                 characterSaveableEntityCards.Remove(characterProperties);
-                
-                saveableEntityCardData.SetShouldRepaint();
             }
             
             foreach (CharacterProperties characterProperties in checkCharacterProperties)
@@ -85,11 +85,13 @@ namespace Frankie.Saving.Editor
                 if (characterProperties == null || characterProperties.GetCharacterPrefab() == null) { continue; }
                 if (characterSaveableEntityCards.ContainsKey(characterProperties)) { continue; }
                 
-                SaveableEntityCardData characterSaveableEntityCard = saveableEntityCardData?.BuildFromCharacterPropertiesWithCache(characterProperties);
+                SaveableEntityCardData characterSaveableEntityCard = saveableEntityCardData.BuildFromCharacterPropertiesWithCache(characterProperties);
                 if (characterSaveableEntityCard == null) { continue; }
                 
                 characterSaveableEntityCards[characterProperties] = characterSaveableEntityCard;
             }
+            
+            saveableEntityCardData.SetShouldRepaint();
         }
 
         private void DrawCharacterEntityView(VisualElement container)
