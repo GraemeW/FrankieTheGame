@@ -12,7 +12,7 @@ namespace Frankie.Stats
         private const float _hitChanceMax = 1.0f;
         private const float _critChanceMax = 0.5f;
         private const float _moveSpeedMin = 0.5f;
-        private const float _moveSpeedMax = 2.0f;
+        private const float _moveSpeedMax = 2.5f;
         private const float _moveSpeedNegativeSlope = 0.025f;
         private const float _moveSpeedPositiveSlope = 0.0075f;
 
@@ -106,7 +106,7 @@ namespace Frankie.Stats
 
         private static float GetMoveSpeed(int level, float modifier)
         {
-            float deltaModifier = modifier - 2.2f * level;
+            float deltaModifier = modifier - 2f * level;
             return deltaModifier switch
             {
                 < 0f => 1.0f + (1.0f - _moveSpeedMin) * (_moveSpeedNegativeSlope * deltaModifier) / Mathf.Sqrt(1 + Mathf.Pow(_moveSpeedNegativeSlope * deltaModifier, 2)),

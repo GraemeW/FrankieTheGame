@@ -133,6 +133,8 @@ namespace Frankie.Saving.Editor
             sortOrder++;
             if (saveable is CombatParticipant) { return sortOrder; }
             sortOrder++;
+            if (saveable is Experience) { return sortOrder; }
+            sortOrder++;
             if (saveable is BaseStats) { return sortOrder; }
             sortOrder++;
             if (saveable is Equipment) { return sortOrder; }
