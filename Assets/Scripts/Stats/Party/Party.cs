@@ -347,6 +347,9 @@ namespace Frankie.Stats
 
         private void RestoreUnlockedCharacters(HashSet<CharacterProperties> localUnlockedCharacters)
         {
+            unlockedCharacters.Clear();
+            if (localUnlockedCharacters == null) { return; }
+            
             foreach (CharacterProperties characterProperties in localUnlockedCharacters)
             {
                 AddToUnlockedCharacters(characterProperties);
@@ -355,7 +358,11 @@ namespace Frankie.Stats
 
         private void RestoreWorldNPCs(Dictionary<CharacterProperties, SceneParentReferencePair> localWorldNPCLookup)
         {
-            foreach (KeyValuePair<CharacterProperties, SceneParentReferencePair> worldNPCEntry in localWorldNPCLookup)
+            worldNPCLookup.Clear();
+            if (localWorldNPCLookup == null) { return; }
+            
+            foreach (var pair in localWorldNPCLookup.Where(pair => pair.Key != null)) { worldNPCLookup[pair.Key] = pair.Value; }
+            foreach (KeyValuePair<CharacterProperties, SceneParentReferencePair> worldNPCEntry in worldNPCLookup)
             {
                 if (worldNPCEntry.Value.sceneName != SceneManager.GetActiveScene().name) { continue; }
                     
