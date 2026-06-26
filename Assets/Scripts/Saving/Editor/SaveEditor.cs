@@ -85,7 +85,7 @@ namespace Frankie.Saving.Editor
         #region CreateUIElements
         private void CreateGUI()
         {
-            var splitView = new TwoPaneSplitView(0, 150, TwoPaneSplitViewOrientation.Vertical);
+            var splitView = new TwoPaneSplitView(0, 135, TwoPaneSplitViewOrientation.Vertical);
             rootVisualElement.Add(splitView);
 
             Box saveHeader = CreateSaveHeaderBox();
@@ -455,11 +455,18 @@ namespace Frankie.Saving.Editor
         private void LoadSaveControlData(ClickEvent _)
         {
             string currentSave = SavingWrapper.GetCurrentSaveName();
-            if (currentSave != null)
+            if (string.IsNullOrEmpty(currentSave) || !SavingWrapper.HasSave(currentSave))
             {
-                cachedFullSaveState = SavingSystem.ManualGetFullState(currentSave);
+                Debug.LogWarning($"Save file not found.");
+                return;
             }
-            if (cachedFullSaveState == null) { return; }
+            
+            cachedFullSaveState = SavingSystem.ManualGetFullState(currentSave);
+            if (cachedFullSaveState == null)
+            {
+                Debug.LogWarning($"Save file malformed.");
+                return;
+            }
             
             cachedSaveableEntityCardData.Clear();
             saveableEntityGUIDs.Clear();
