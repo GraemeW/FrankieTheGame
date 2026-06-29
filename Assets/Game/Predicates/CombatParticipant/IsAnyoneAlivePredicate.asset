@@ -12,4 +12,3 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 394dfa2801ac71740bd4445a57553041, type: 3}
   m_Name: IsAnyoneAlivePredicate
   m_EditorClassIdentifier: 
-  characters: []

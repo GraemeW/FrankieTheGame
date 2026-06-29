@@ -12,5 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7262af4d4c09b1c4d98d8b031f6bd152, type: 3}
   m_Name: QuestObjCompleted_ChattedWithOfficeHipsterOnce
   m_EditorClassIdentifier: 
-  quest: {fileID: 11400000, guid: 4f62449d7f6ea784e95c90e85913740e, type: 2}
   objective: {fileID: -8469063289627637362, guid: 4f62449d7f6ea784e95c90e85913740e, type: 2}

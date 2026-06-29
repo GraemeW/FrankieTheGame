@@ -13,4 +13,3 @@ MonoBehaviour:
   m_Name: ForestDemo_FlipElectricalSwitchComplete
   m_EditorClassIdentifier: Assembly-CSharp::Frankie.Core.QuestCompletedPredicate
   quest: {fileID: 11400000, guid: 2b2649a5a23204eb8b77a6c395ebe3f8, type: 2}
-  objective: {fileID: 0}

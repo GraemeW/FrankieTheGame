@@ -13,4 +13,3 @@ MonoBehaviour:
   m_Name: QuestCompleted_IntroSequence
   m_EditorClassIdentifier: 
   quest: {fileID: 11400000, guid: 98a6da0c49e5fa9439b9e5e008389337, type: 2}
-  objective: {fileID: 6232503200084316110, guid: 98a6da0c49e5fa9439b9e5e008389337, type: 2}
