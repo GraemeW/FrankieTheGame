@@ -1,3 +1,4 @@
+using System.Globalization;
 using UnityEngine;
 using TMPro;
 using Frankie.Utils.Localization;
@@ -12,7 +13,7 @@ namespace Frankie.Stats.UI
         public void Setup(Stat stat, float value)
         {
             statField.text = LocalizationNames.GetLocalizedName(stat);
-            valueField.text = Mathf.RoundToInt(value).ToString();
+            valueField.text = Mathf.RoundToInt(value).ToString(CultureInfo.InvariantCulture);
         }
 
         public void Setup(Stat stat, float numerator, float denominator)

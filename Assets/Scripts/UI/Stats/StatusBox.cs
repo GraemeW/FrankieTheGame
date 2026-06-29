@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Globalization;
 using UnityEngine;
 using TMPro;
 using Frankie.Combat;
@@ -80,7 +81,7 @@ namespace Frankie.Stats.UI
             CleanUpOldStats();
 
             selectedCharacterNameField.text = selectedCharacter.GetCombatName();
-            experienceToLevelField.text = selectedCharacter.GetComponent<Experience>().GetExperienceRequiredToLevel().ToString();
+            experienceToLevelField.text = selectedCharacter.GetComponent<Experience>().GetExperienceRequiredToLevel().ToString(CultureInfo.InvariantCulture);
 
             GenerateLevel(character);
             GenerateHPAP(character);

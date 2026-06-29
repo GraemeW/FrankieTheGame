@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using Frankie.Utils.Localization;
 using UnityEngine;
 using TMPro;
@@ -23,10 +24,10 @@ namespace Frankie.Menu.UI
         {
             if (action == null) { return; }
 
-            indexField.SetText(index.ToString());
+            indexField.SetText(index.ToString(CultureInfo.InvariantCulture));
             characterNameField.SetText(characterName);
             levelLabelField.SetText(localizedLevelLabelText.GetSafeLocalizedString());
-            levelField.SetText(level.ToString());
+            levelField.SetText(level.ToString(CultureInfo.InvariantCulture));
             button.onClick.AddListener(action.Invoke);
         }
 

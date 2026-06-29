@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.Localization;
@@ -260,23 +261,23 @@ namespace Frankie.Inventory.UI
         private void RefreshFieldsToTransferAmount()
         {
             int workingNumber = amountToTransfer;
-            oneField.SetText((workingNumber % 10).ToString());
+            oneField.SetText((workingNumber % 10).ToString(CultureInfo.InvariantCulture));
             workingNumber /= 10;
-            tenField.SetText((workingNumber % 10).ToString());
+            tenField.SetText((workingNumber % 10).ToString(CultureInfo.InvariantCulture));
             workingNumber /= 10;
-            hundredField.SetText((workingNumber % 10).ToString());
+            hundredField.SetText((workingNumber % 10).ToString(CultureInfo.InvariantCulture));
             workingNumber /= 10;
-            thousandField.SetText((workingNumber % 10).ToString());
+            thousandField.SetText((workingNumber % 10).ToString(CultureInfo.InvariantCulture));
             workingNumber /= 10;
-            tenThousandField.SetText((workingNumber % 10).ToString());
+            tenThousandField.SetText((workingNumber % 10).ToString(CultureInfo.InvariantCulture));
             workingNumber /= 10;
-            hundredThousandField.SetText((workingNumber % 10).ToString());
+            hundredThousandField.SetText((workingNumber % 10).ToString(CultureInfo.InvariantCulture));
             workingNumber /= 10;
-            millionField.SetText((workingNumber % 10).ToString());
+            millionField.SetText((workingNumber % 10).ToString(CultureInfo.InvariantCulture));
             workingNumber /= 10;
-            tenMillionField.SetText((workingNumber % 10).ToString());
+            tenMillionField.SetText((workingNumber % 10).ToString(CultureInfo.InvariantCulture));
             workingNumber /= 10;
-            hundredMillionField.SetText((workingNumber % 10).ToString());
+            hundredMillionField.SetText((workingNumber % 10).ToString(CultureInfo.InvariantCulture));
         }
         #endregion
 

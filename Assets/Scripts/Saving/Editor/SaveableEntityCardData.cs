@@ -65,7 +65,7 @@ namespace Frankie.Saving.Editor
             List<ISaveableBase> saveables = saveableEntity.GetSaveableComponents().OrderBy(SaveableSubCardData.GetEntitySortPriority).ThenBy(saveable => saveable.GetType().Name).ToList();
             foreach (ISaveableBase saveable in saveables)
             {
-                string typeString = saveable.GetType().ToString();
+                string typeString = saveable.GetType().ToString(); // Type ToString does not require CultureInvariant
                 SaveState saveState = null;
                 if (saveableEntityStateDict.ContainsKey(typeString)) { saveState = saveableEntityStateDict[typeString]?.ToObject<SaveState>(); }
                 subCards[typeString] = SaveableSubCardData.CreateTypeSpecificSubCard(saveable, saveState);

@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Globalization;
 using UnityEngine;
 using Frankie.Stats;
 
@@ -11,7 +12,7 @@ namespace Frankie.Combat
 
         private void OnValidate()
         {
-            if (string.IsNullOrWhiteSpace(effectGUID)) { effectGUID = System.Guid.NewGuid().ToString(); }
+            if (string.IsNullOrWhiteSpace(effectGUID)) { effectGUID = System.Guid.NewGuid().ToString("D", CultureInfo.InvariantCulture); }
         }
         
         public abstract IEnumerator StartEffect(CombatParticipant sender, IList<BattleEntity> recipients, DamageType damageType);

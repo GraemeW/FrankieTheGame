@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Globalization;
 using UnityEngine;
 using UnityEngine.Localization;
 using UnityEngine.Localization.Tables;
@@ -198,7 +199,7 @@ namespace Frankie.Inventory.UI
             if (inventoryItem == null || shop == null) { return; }
 
             int salePrice = Mathf.RoundToInt(inventoryItem.GetPrice() * shop.GetSaleDiscount());
-            string saleMessage = string.Format(messageForSale, salePrice.ToString());
+            string saleMessage = string.Format(messageForSale, salePrice.ToString(CultureInfo.InvariantCulture));
 
             List<ChoiceActionPair> choiceActionPairs = GetChoiceActionPairs(inventorySlot);
             if (choiceActionPairs == null || choiceActionPairs.Count == 0) { return; }

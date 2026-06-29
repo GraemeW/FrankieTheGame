@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Globalization;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Localization;
@@ -253,20 +254,20 @@ namespace Frankie.Combat.UI
             BreakApartNumber(hitPoints, out int hundreds, out int tens, out int ones);
             if (hundreds > 0)
             { 
-                currentHPHundreds.text = hundreds.ToString();
-                currentHPTens.text = tens.ToString();
+                currentHPHundreds.text = hundreds.ToString(CultureInfo.InvariantCulture);
+                currentHPTens.text = tens.ToString(CultureInfo.InvariantCulture);
             }
             else if (tens > 0)
             {
                 currentHPHundreds.text = "";
-                currentHPTens.text = tens.ToString();
+                currentHPTens.text = tens.ToString(CultureInfo.InvariantCulture);
             }
             else
             {
                 currentHPHundreds.text = "";
                 currentHPTens.text = "";
             }
-            currentHPOnes.text = ones.ToString();
+            currentHPOnes.text = ones.ToString(CultureInfo.InvariantCulture);
         }
 
         private void UpdateAP(float actionPoints)
@@ -274,20 +275,20 @@ namespace Frankie.Combat.UI
             BreakApartNumber(actionPoints, out int hundreds, out int tens, out int ones);
             if (hundreds > 0)
             {
-                currentAPHundreds.text = hundreds.ToString();
-                currentAPTens.text = tens.ToString();
+                currentAPHundreds.text = hundreds.ToString(CultureInfo.InvariantCulture);
+                currentAPTens.text = tens.ToString(CultureInfo.InvariantCulture);
             }
             else if (tens > 0)
             {
                 currentAPHundreds.text = "";
-                currentAPTens.text = tens.ToString();
+                currentAPTens.text = tens.ToString(CultureInfo.InvariantCulture);
             }
             else
             {
                 currentAPHundreds.text = "";
                 currentAPTens.text = "";
             }
-            currentAPOnes.text = ones.ToString();
+            currentAPOnes.text = ones.ToString(CultureInfo.InvariantCulture);
         }
     }
 }

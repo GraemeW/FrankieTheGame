@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using UnityEditor;
 using UnityEngine;
@@ -115,7 +116,7 @@ namespace Frankie.Speech
             DialogueNode dialogueNode = CreateInstance<DialogueNode>();
             Undo.RegisterCreatedObjectUndo(dialogueNode, "Created Dialogue Node Object");
             dialogueNode.Initialize(nodeWidth, nodeHeight);
-            dialogueNode.name = System.Guid.NewGuid().ToString();
+            dialogueNode.name = System.Guid.NewGuid().ToString("D", CultureInfo.InvariantCulture);
             dialogueNode.SetDialogueName(name);
             dialogueNode.SetNodeDepthBreadth(depth, breadth);
             dialogueNode.SetSpeakerName(_defaultSpeakerName);
@@ -207,7 +208,7 @@ namespace Frankie.Speech
             var guidSwapCache = new Dictionary<string, string>();
             foreach (DialogueNode dialogueNode in dialogueNodes)
             {
-                guidSwapCache[dialogueNode.name] = System.Guid.NewGuid().ToString();
+                guidSwapCache[dialogueNode.name] = System.Guid.NewGuid().ToString("D", CultureInfo.InvariantCulture);
             }
             
             Undo.RegisterCompleteObjectUndo(this, "Regenerate GUIDs");

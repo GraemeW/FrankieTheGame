@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
@@ -389,13 +390,13 @@ namespace Frankie.Combat.UI
             if (battleOutcome != BattleOutcome.Won) { busyWithSerialAction = false; return; }
 
             DialogueBox dialogueBox = Instantiate(dialogueBoxPrefab, infoChooseParent);
-            dialogueBox.AddText(string.Format(localizedMessageGainedExperience.GetSafeLocalizedString(), Mathf.RoundToInt(battleRewards.GetBattleExperienceReward()).ToString()));
+            dialogueBox.AddText(string.Format(localizedMessageGainedExperience.GetSafeLocalizedString(), Mathf.RoundToInt(battleRewards.GetBattleExperienceReward()).ToString(CultureInfo.InvariantCulture)));
 
             foreach (CharacterLevelUpSheetPair characterLevelUpSheetPair in queuedLevelUps)
             {
                 dialogueBox.AddPageBreak();
 
-                dialogueBox.AddText(string.Format(localizedMessageCharacterLevelUp.GetSafeLocalizedString(), characterLevelUpSheetPair.baseStats.GetCharacterProperties().GetCharacterDisplayName(), characterLevelUpSheetPair.level.ToString()));
+                dialogueBox.AddText(string.Format(localizedMessageCharacterLevelUp.GetSafeLocalizedString(), characterLevelUpSheetPair.baseStats.GetCharacterProperties().GetCharacterDisplayName(), characterLevelUpSheetPair.level.ToString(CultureInfo.InvariantCulture)));
                 int pageClearReset = 0;
 
                 foreach (Tuple<string, int> statNameValuePair in characterLevelUpSheetPair.statNameValuePairs)
@@ -408,7 +409,7 @@ namespace Frankie.Combat.UI
                         pageClearReset = 0;
                     }
 
-                    dialogueBox.AddText(string.Format(localizedMessageCharacterStatGained.GetSafeLocalizedString(), statNameValuePair.Item1, statNameValuePair.Item2.ToString()));
+                    dialogueBox.AddText(string.Format(localizedMessageCharacterStatGained.GetSafeLocalizedString(), statNameValuePair.Item1, statNameValuePair.Item2.ToString(CultureInfo.InvariantCulture)));
                     pageClearReset++;
                 }
 

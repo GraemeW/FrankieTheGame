@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using Newtonsoft.Json.Linq;
 using UnityEngine;
@@ -22,7 +23,7 @@ namespace Frankie.Saving
 
         public string GetUniqueIdentifier()
         {
-            if (string.IsNullOrWhiteSpace(uniqueIdentifier)) { uniqueIdentifier = Guid.NewGuid().ToString(); }
+            if (string.IsNullOrWhiteSpace(uniqueIdentifier)) { uniqueIdentifier = Guid.NewGuid().ToString("D", CultureInfo.InvariantCulture); }
             return uniqueIdentifier;
         }
         
@@ -48,7 +49,7 @@ namespace Frankie.Saving
 
                 SaveState saveState = saveable.CaptureState();
                 if (saveState == null) { continue; }
-                updatedTokenState[saveable.GetType().ToString()] = JToken.FromObject(saveState);
+                updatedTokenState[saveable.GetType().ToString()] = JToken.FromObject(saveState); // Type ToString does not require CultureInvariant
             }
             return updatedTokenState;
         }
@@ -70,7 +71,7 @@ namespace Frankie.Saving
         {
             foreach (ISaveableBase saveable in saveableEntries)
             {
-                var typeString = saveable.GetType().ToString();
+                var typeString = saveable.GetType().ToString(); // Type ToString does not require CultureInvariant
                 if (!stateDictionary.ContainsKey(typeString)) { continue; }
                 var saveState = stateDictionary[typeString]?.ToObject<SaveState>();
                 if (saveState == null) { continue; }
@@ -99,7 +100,7 @@ namespace Frankie.Saving
             if (string.IsNullOrWhiteSpace(uniqueIdentifier) || !IsUnique(property.stringValue))
             {
                 if (!IsUnique(property.stringValue)) { Debug.Log($"Warning:  Duplicate GUID identified for {gameObject.name} @ {uniqueIdentifier} -> Generating a new GUID"); }
-                property.stringValue = Guid.NewGuid().ToString();
+                property.stringValue = Guid.NewGuid().ToString("D", CultureInfo.InvariantCulture);
                 serializedObject.ApplyModifiedProperties();
             }
 
