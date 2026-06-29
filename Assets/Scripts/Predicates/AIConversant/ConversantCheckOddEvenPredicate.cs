@@ -3,7 +3,7 @@ using Frankie.Speech;
 
 namespace Frankie.Core.Predicates
 {
-    [CreateAssetMenu(fileName = "New Conversant Check Odd Even Predicate", menuName = "Predicates/AIConversant/ConversantCheckOddEven", order = 5)]
+    [CreateAssetMenu(fileName = "New Conversant Check Odd Even Predicate", menuName = "Predicates/AIConversant/Conversant Check Odd Even", order = 5)]
     public class ConversantCheckOddEvenPredicate : PredicateAIConversant
     {
         [SerializeField] protected bool checkCountOdd = true;

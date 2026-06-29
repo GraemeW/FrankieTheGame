@@ -9,8 +9,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: de1ed03b4f736f4478ebcf63a2476685, type: 3}
-  m_Name: HasQuest_TestQuest
-  m_EditorClassIdentifier: 
-  quest: {fileID: 11400000, guid: 2b823bbc411efb64f8ea840e07c3e7c2, type: 2}
-  objective: {fileID: 0}
+  m_Script: {fileID: 11500000, guid: 4a5b00523a624ab194dd0c8ec33f1c68, type: 3}
+  m_Name: IsPartyLeader
+  m_EditorClassIdentifier: Assembly-CSharp::Frankie.Core.Predicates.IsPartyLeaderPredicate
+  character: {fileID: 0}

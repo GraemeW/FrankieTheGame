@@ -62,7 +62,8 @@ namespace Frankie.Stats
         #endregion
 
         #region PublicGetters
-        public BaseStats GetPartyLeader() => members[0];
+        public BaseStats GetPartyLeader() => members?[0];
+        public bool IsPartyLeader(BaseStats checkMember) => checkMember != null && (members?[0] == checkMember);
         public string GetPartyLeaderName() => members[0]?.GetCharacterProperties()?.GetCharacterDisplayName() ?? "";
         public Animator GetLeadCharacterAnimator() => members.Count > 0 ? characterSpriteLinkLookup[members[0]].GetAnimator() : null;
         public int GetPartySize() => members.Count;
@@ -209,13 +210,11 @@ namespace Frankie.Stats
         #endregion
 
         #region PrivateMethods
-        private bool IsPartyLeader(BaseStats combatParticipant) => members[0] == combatParticipant;
-        
         private void InitializeUnlockedCharacters()
         {
-            foreach (BaseStats combatParticipant in members)
+            foreach (BaseStats baseStats in members)
             {
-                AddToUnlockedCharacters(combatParticipant);
+                AddToUnlockedCharacters(baseStats);
             }
         }
 

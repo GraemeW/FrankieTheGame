@@ -9,8 +9,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b5ea33b74dcca0240b5f6c1574a8256e, type: 3}
-  m_Name: QuestCompleted_RescueTilly
+  m_Script: {fileID: 11500000, guid: 7cb14c99e93adff4c870b0e4b182733b, type: 3}
+  m_Name: BeautySpec20
   m_EditorClassIdentifier: 
-  quest: {fileID: 11400000, guid: 1c384b154e472324cacb2381484bd3bc, type: 2}
-  objective: {fileID: 0}
+  character: {fileID: 11400000, guid: b50f84a2f36107a44825b11881f88adf, type: 2}
+  stat: 5
+  value: 20
