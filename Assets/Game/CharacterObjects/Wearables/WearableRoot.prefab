@@ -47,7 +47,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   wearableItem: {fileID: 0}
-  baseStatModifiers: []
 --- !u!95 &1837843006285845014
 Animator:
   serializedVersion: 7

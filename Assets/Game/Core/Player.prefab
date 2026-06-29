@@ -243,6 +243,7 @@ MonoBehaviour:
   defaultTargetDistanceTolerance: 0.15
   closeTargetThresholdSquared: 0.5625
   resetPositionOnEnable: 0
+  speedPollingTime: 0.5
   speedMoveThreshold: 0.05
   playerMovementHistoryLength: 256
 --- !u!114 &1154256921353293705

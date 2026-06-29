@@ -35,7 +35,6 @@ MonoBehaviour:
   droppable: 1
   price: 12
   cachedName: BrokenKeyboard
-  equipLocation: 1
   baseStatModifiers:
   - stat: 4
     minValue: 3
@@ -45,6 +44,7 @@ MonoBehaviour:
     - or:
       - predicate: {fileID: 11400000, guid: 15db1ab05612f6a4e81f88eebfaa735a, type: 2}
         negate: 0
+  equipLocation: 1
   references:
     version: 2
     RefIds: []

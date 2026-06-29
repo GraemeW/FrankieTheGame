@@ -35,7 +35,6 @@ MonoBehaviour:
   droppable: 1
   price: 130
   cachedName: CasioWatch
-  equipLocation: 2
   baseStatModifiers:
   - stat: 6
     minValue: 5
@@ -45,6 +44,7 @@ MonoBehaviour:
     maxValue: 8
   condition:
     and: []
+  equipLocation: 2
   references:
     version: 2
     RefIds: []

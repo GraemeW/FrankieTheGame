@@ -35,13 +35,13 @@ MonoBehaviour:
   droppable: 1
   price: 65
   cachedName: ThinVest
-  equipLocation: 3
   baseStatModifiers:
   - stat: 10
     minValue: 6
     maxValue: 6
   condition:
     and: []
+  equipLocation: 3
   references:
     version: 2
     RefIds: []

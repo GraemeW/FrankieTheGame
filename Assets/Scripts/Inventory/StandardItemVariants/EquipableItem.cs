@@ -5,7 +5,8 @@ namespace Frankie.Inventory
     [CreateAssetMenu(fileName = "EquipableItem", menuName = "Inventory/Equipable Item", order = 10)]
     public class EquipableItem : EquipableItemBase
     {
-        [SerializeField] protected EquipLocation equipLocation;
+        [Header("Equipable Item Properties")]
+        [SerializeField] private EquipLocation equipLocation;
         public override EquipLocation GetEquipLocation() => equipLocation;
     }
 }

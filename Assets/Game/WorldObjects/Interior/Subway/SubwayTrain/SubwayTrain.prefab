@@ -292,6 +292,7 @@ MonoBehaviour:
   defaultTargetDistanceTolerance: 0.15
   closeTargetThresholdSquared: 0.5625
   resetPositionOnEnable: 1
+  spriteRenderer: {fileID: 0}
   interactionCenterPoint: {fileID: 851377592137554633}
   lookDirectionChangeDelay: 0.1
   giveUpOnLocomotionTargetTime: 100

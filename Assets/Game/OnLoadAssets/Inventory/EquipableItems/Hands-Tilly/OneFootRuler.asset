@@ -35,7 +35,6 @@ MonoBehaviour:
   droppable: 1
   price: 40
   cachedName: OneFootRuler
-  equipLocation: 1
   baseStatModifiers:
   - stat: 4
     minValue: 4
@@ -45,6 +44,7 @@ MonoBehaviour:
     - or:
       - predicate: {fileID: 11400000, guid: 7d2fae1a1903fbe44909106ae7e1d612, type: 2}
         negate: 0
+  equipLocation: 1
   references:
     version: 2
     RefIds: []
