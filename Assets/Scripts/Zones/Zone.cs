@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using UnityEditor;
 using UnityEngine;
@@ -167,7 +168,7 @@ namespace Frankie.ZoneManagement
             Undo.RegisterCreatedObjectUndo(zoneNode, "Created Zone Node Object");
             zoneNode.Initialize(nodeWidth, nodeHeight);
             zoneNode.SetZoneName(name);
-            zoneNode.SetNodeID(System.Guid.NewGuid().ToString());
+            zoneNode.SetNodeID(System.Guid.NewGuid().ToString("D", CultureInfo.InvariantCulture));
 
             Undo.RecordObject(this, "Add Zone Node");
             zoneNodes.Add(zoneNode);

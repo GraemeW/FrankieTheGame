@@ -227,10 +227,13 @@ namespace Frankie.Saving
             // JSON Method
             using (StreamWriter textWriter = File.CreateText(path))
             {
-                string payload = state.ToString();
+                // Note - When using standard SerializeObject() methods, default setting for JsonSerializationSettings is:  InvariantCulture
+                // See:  https://www.newtonsoft.com/json/help/html/P_Newtonsoft_Json_JsonSerializerSettings_Culture.htm
+                
+                string payload = JsonConvert.SerializeObject(state, Formatting.None);
                 if (_encryptionEnabled)
                 {
-                    payload = SymmetricEncryptor.EncryptString(state.ToString());
+                    payload = SymmetricEncryptor.EncryptString(payload);
                 }
                 JToken saveSuper = JToken.FromObject(new SaveSuper(_encryptionEnabled, payload));
                 using (JsonTextWriter writer = new JsonTextWriter(textWriter))

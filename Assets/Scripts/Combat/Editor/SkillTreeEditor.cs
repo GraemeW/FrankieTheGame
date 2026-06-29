@@ -240,7 +240,7 @@ namespace Frankie.Combat.Editor
         {
             GUILayout.BeginHorizontal();
             EditorGUIUtility.labelWidth = 10;
-            EditorGUILayout.LabelField(skillBranchMapping.ToString(), GUILayout.Height(22));
+            EditorGUILayout.LabelField(skillBranchMapping.ToString(), GUILayout.Height(22)); // Enum ToString does not require CultureInvariant
 
             string equippedSkillName = "No Skill";
             if (skillBranch.GetSkill(skillBranchMapping) != null) { equippedSkillName = skillBranch.GetSkill(skillBranchMapping).name; }

@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using UnityEngine;
 using UnityEngine.Localization;
 using UnityEngine.Localization.Tables;
@@ -44,7 +45,7 @@ namespace Frankie.Quests
         public void Setup(string setQuestName, string setQuestID, string setObjectiveName)
         {
             questID = setQuestID;
-            objectiveID = System.Guid.NewGuid().ToString();
+            objectiveID = Guid.NewGuid().ToString("D", CultureInfo.InvariantCulture);
             
             questName = setQuestName;
             name = setObjectiveName;
@@ -122,7 +123,7 @@ namespace Frankie.Quests
             // Generate and save a new UUID if this is blank
             if (string.IsNullOrWhiteSpace(objectiveID))
             {
-                objectiveID = System.Guid.NewGuid().ToString();
+                objectiveID = Guid.NewGuid().ToString("D", CultureInfo.InvariantCulture);
             }
         }
 

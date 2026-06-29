@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using Frankie.Utils.Localization;
 using UnityEngine;
@@ -148,25 +149,25 @@ namespace Frankie.Combat.UI
                 case StateAlteredType.IncreaseHP:
                 {
                     float points = stateAlteredInfo.points;
-                    combatText = string.Format(localizedMessageIncreaseHP.GetSafeLocalizedString(), combatParticipantName, Mathf.RoundToInt(points).ToString());
+                    combatText = string.Format(localizedMessageIncreaseHP.GetSafeLocalizedString(), combatParticipantName, Mathf.RoundToInt(points).ToString(CultureInfo.InvariantCulture));
                     break;
                 }
                 case StateAlteredType.DecreaseHP:
                 {
                     float points = stateAlteredInfo.points;
-                    combatText = string.Format(localizedMessageDecreaseHP.GetSafeLocalizedString(), combatParticipantName, Mathf.RoundToInt(points).ToString());
+                    combatText = string.Format(localizedMessageDecreaseHP.GetSafeLocalizedString(), combatParticipantName, Mathf.RoundToInt(points).ToString(CultureInfo.InvariantCulture));
                     break;
                 }
                 case StateAlteredType.IncreaseAP:
                 {
                     float points = stateAlteredInfo.points;
-                    combatText = string.Format(localizedMessageIncreaseAP.GetSafeLocalizedString(), combatParticipantName, Mathf.RoundToInt(points).ToString());
+                    combatText = string.Format(localizedMessageIncreaseAP.GetSafeLocalizedString(), combatParticipantName, Mathf.RoundToInt(points).ToString(CultureInfo.InvariantCulture));
                     break;
                 }
                 case StateAlteredType.DecreaseAP:
                 {
                     float points = stateAlteredInfo.points;
-                    combatText = string.Format(localizedMessageDecreaseAP.GetSafeLocalizedString(), combatParticipantName, Mathf.RoundToInt(points).ToString());
+                    combatText = string.Format(localizedMessageDecreaseAP.GetSafeLocalizedString(), combatParticipantName, Mathf.RoundToInt(points).ToString(CultureInfo.InvariantCulture));
                     break;
                 }
                 case StateAlteredType.Dead:

@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using UnityEngine;
 using Frankie.Saving;
@@ -20,7 +21,7 @@ namespace Frankie.Core
         public static event Action gameListUpdated;
 
         #region StaticMethods
-        public static string GetSaveNameForIndex(int index) => string.Concat(_defaultSaveFile, "_", index.ToString());
+        public static string GetSaveNameForIndex(int index) => string.Concat(_defaultSaveFile, "_", index.ToString(CultureInfo.InvariantCulture));
 
         public static bool GetInfoFromName(string saveName, out string characterName, out int level)
         {

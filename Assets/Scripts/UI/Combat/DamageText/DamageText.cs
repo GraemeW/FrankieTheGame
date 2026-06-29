@@ -1,3 +1,4 @@
+using System.Globalization;
 using UnityEngine;
 using TMPro;
 
@@ -14,7 +15,7 @@ namespace Frankie.Combat.UI
 
         public void SetText(float damageAmount)
         {
-            damageTextElement.text = Mathf.Abs(Mathf.RoundToInt(damageAmount)).ToString();
+            damageTextElement.text = Mathf.Abs(Mathf.RoundToInt(damageAmount)).ToString(CultureInfo.InvariantCulture);
         }
 
         public void SetText(string text)

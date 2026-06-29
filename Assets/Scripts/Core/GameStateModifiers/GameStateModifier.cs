@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -28,7 +29,7 @@ namespace Frankie.Core.GameStateModifiers
 #if UNITY_EDITOR
             if (string.IsNullOrWhiteSpace(guid))
             {
-                guid = System.Guid.NewGuid().ToString();
+                guid = System.Guid.NewGuid().ToString("D", CultureInfo.InvariantCulture);
             }
 #endif
         }

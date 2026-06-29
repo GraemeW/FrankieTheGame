@@ -1,3 +1,4 @@
+using System.Globalization;
 using UnityEngine;
 using UnityEngine.Events;
 using TMPro;
@@ -15,7 +16,7 @@ namespace Frankie.Inventory.UI
         {
             SetText(inventoryItemName);
             SetChoiceOrder(setChoiceOrder);
-            priceField.text = price.ToString();
+            priceField.text = price.ToString(CultureInfo.InvariantCulture);
             AddOnClickListener(purchaseAction);
         }
     }

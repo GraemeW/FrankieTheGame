@@ -140,7 +140,7 @@ namespace Frankie.Stats.Editor
                 
                 var statEntry = new FloatField
                 {
-                    label = progressionStat.stat.ToString(),
+                    label = progressionStat.stat.ToString(), // Enum ToString does not require CultureInvariant
                     value = progressionStat.value
                 };
                 statEntry.RegisterValueChangedCallback(x => UpdateStat(character.characterProperties, progressionStat.stat, x.newValue));
@@ -378,7 +378,7 @@ namespace Frankie.Stats.Editor
                 
                 var statEntry = new FloatField
                 {
-                    label = progressionStat.stat.ToString(),
+                    label = progressionStat.stat.ToString(), // Enum ToString does not require CultureInvariant
                     value = Mathf.RoundToInt(activeStatSheet[progressionStat.stat]),
                     isReadOnly = true
                 };

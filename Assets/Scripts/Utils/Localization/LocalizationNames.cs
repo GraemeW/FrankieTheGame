@@ -39,13 +39,13 @@ namespace Frankie.Utils.Localization
         public static string GetLocalizedName(Stat stat)
         {
             _statNameCache ??= BuildStatCache();
-            return _statNameCache.ContainsKey(stat) ? _statNameCache[stat].GetSafeLocalizedString() : stat.ToString();
+            return _statNameCache.ContainsKey(stat) ? _statNameCache[stat].GetSafeLocalizedString() : stat.ToString(); // Enum ToString does not require CultureInvariant
         }
         
         public static string GetLocalizedName(EquipLocation equipLocation)
         {
             _equipLocationNameCache ??= BuildEquipLocationCache();
-            return _equipLocationNameCache.ContainsKey(equipLocation) ? _equipLocationNameCache[equipLocation].GetSafeLocalizedString() : equipLocation.ToString();
+            return _equipLocationNameCache.ContainsKey(equipLocation) ? _equipLocationNameCache[equipLocation].GetSafeLocalizedString() : equipLocation.ToString(); // Enum ToString does not require CultureInvariant
         }
         
         // Enum Derivatives
@@ -60,9 +60,9 @@ namespace Frankie.Utils.Localization
         #endregion
         
         #region PrivateMethods
-        private static string GetStatKey(Stat stat) => $"{nameof(Stat)}.{stat.ToString()}";
-        private static string GetEquipLocationKey(EquipLocation equipLocation) => $"{nameof(EquipLocation)}.{equipLocation.ToString()}";
-        private static string GetStatusEffectKey(Stat stat, bool isIncrease) => isIncrease ? $"StatusEffect.Buff.{stat.ToString()}" : $"StatusEffect.Debuff.{stat.ToString()}"; 
+        private static string GetStatKey(Stat stat) => $"{nameof(Stat)}.{stat.ToString()}"; // Enum ToString does not require CultureInvariant
+        private static string GetEquipLocationKey(EquipLocation equipLocation) => $"{nameof(EquipLocation)}.{equipLocation.ToString()}"; // Enum ToString does not require CultureInvariant
+        private static string GetStatusEffectKey(Stat stat, bool isIncrease) => isIncrease ? $"StatusEffect.Buff.{stat.ToString()}" : $"StatusEffect.Debuff.{stat.ToString()}";  // Enum ToString does not require CultureInvariant
         
         private static Dictionary<Stat, LocalizedString> BuildStatCache()
         {
@@ -191,7 +191,7 @@ namespace Frankie.Utils.Localization
                     foreach (Stat stat in Enum.GetValues(typeof(Stat)))
                     {
                         TableEntryReference tableEntryReference = GetStatKey(stat);
-                        string englishStatName = stat.ToString();
+                        string englishStatName = stat.ToString(); // Enum ToString does not require CultureInvariant
                         if (stat == Stat.InitialLevel) { englishStatName = "Level"; }
                         LocalizationTool.AddUpdateEnglishEntry(localizationTableType, tableEntryReference, englishStatName);
                     }
@@ -202,7 +202,7 @@ namespace Frankie.Utils.Localization
                     foreach (EquipLocation equipLocation in Enum.GetValues(typeof(EquipLocation)))
                     {
                         TableEntryReference tableEntryReference = GetEquipLocationKey(equipLocation);
-                        string englishEquipLocationName = equipLocation.ToString();
+                        string englishEquipLocationName = equipLocation.ToString(); // Enum ToString does not require CultureInvariant
                         LocalizationTool.AddUpdateEnglishEntry(localizationTableType, tableEntryReference, englishEquipLocationName);
                     }
                     break;

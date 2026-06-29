@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Globalization;
 using UnityEngine;
 using UnityEngine.Localization;
 using UnityEngine.Localization.Tables;
@@ -68,10 +69,10 @@ namespace Frankie.World
             switch (transactionCash)
             {
                 case > 0:
-                    playerStateHandler.EnterDialogue(string.Format(localizedMessageTransactionPositive.GetSafeLocalizedString(), partyLeaderName, transactionCash.ToString()));
+                    playerStateHandler.EnterDialogue(string.Format(localizedMessageTransactionPositive.GetSafeLocalizedString(), partyLeaderName, transactionCash.ToString(CultureInfo.InvariantCulture)));
                     break;
                 case < 0:
-                    playerStateHandler.EnterDialogue(string.Format(localizedMessageTransactionNegative.GetSafeLocalizedString(), partyLeaderName, Mathf.Abs(transactionCash).ToString()));
+                    playerStateHandler.EnterDialogue(string.Format(localizedMessageTransactionNegative.GetSafeLocalizedString(), partyLeaderName, Mathf.Abs(transactionCash).ToString(CultureInfo.InvariantCulture)));
                     break;
             }
             wallet.UpdateCash(transactionCash);

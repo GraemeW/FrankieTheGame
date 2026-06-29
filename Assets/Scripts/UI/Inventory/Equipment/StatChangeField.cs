@@ -1,3 +1,4 @@
+using System.Globalization;
 using UnityEngine;
 using TMPro;
 using Frankie.Stats;
@@ -18,9 +19,9 @@ namespace Frankie.Inventory.UI
         {
             statField.text = LocalizationNames.GetLocalizedName(stat);
             int oldValueRounded = Mathf.RoundToInt(oldValue);
-            oldValueField.text = oldValueRounded.ToString();
+            oldValueField.text = oldValueRounded.ToString(CultureInfo.InvariantCulture);
             int newValueRounded = Mathf.RoundToInt(newValue);
-            newValueField.text = newValueRounded.ToString();
+            newValueField.text = newValueRounded.ToString(CultureInfo.InvariantCulture);
             newValueField.color = neutralDeltaColor;
 
             if (oldValueRounded < newValueRounded)

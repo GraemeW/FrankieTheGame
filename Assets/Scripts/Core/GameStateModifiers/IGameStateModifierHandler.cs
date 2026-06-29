@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -126,7 +127,7 @@ namespace Frankie.Core.GameStateModifiers
             string zoneName = SceneManager.GetActiveScene().name;
             string gameObjectName = gameObject != null ? gameObject.name : "";
             string parentObjectName = gameObject.transform.parent != null ? gameObject.transform.parent.name : "";
-            if (string.IsNullOrWhiteSpace(handlerGUID)) { handlerGUID = Guid.NewGuid().ToString(); }
+            if (string.IsNullOrWhiteSpace(handlerGUID)) { handlerGUID = Guid.NewGuid().ToString("D", CultureInfo.InvariantCulture); }
             
             return new ZoneToGameObjectLinkData(zoneName, gameObjectName, parentObjectName, handlerGUID);
         }

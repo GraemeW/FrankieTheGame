@@ -101,7 +101,7 @@ namespace Frankie.Saving.Editor
         protected void RaiseSaveStateChanged()
         {
             UpdateSyncState(false);
-            saveStateChanged?.Invoke(saveable.GetType().ToString(), saveState);
+            saveStateChanged?.Invoke(saveable.GetType().ToString(), saveState); // Type ToString does not require CultureInvariant
         }
 
         private void UpdateSyncState(bool setIsSaveStateSynced)

@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using UnityEditor;
 using UnityEngine;
@@ -47,7 +48,7 @@ namespace Frankie.Combat
             var skillBranch = CreateInstance<SkillBranch>();
             Undo.RegisterCreatedObjectUndo(skillBranch, "Created Skill Branch Object");
             skillBranch.Initialize(branchWidth, branchHeight, skillBranchMapping);
-            skillBranch.name = System.Guid.NewGuid().ToString();
+            skillBranch.name = System.Guid.NewGuid().ToString("D", CultureInfo.InvariantCulture);
 
             Undo.RecordObject(this, "Add Skill Branch");
             skillBranches.Add(skillBranch);
