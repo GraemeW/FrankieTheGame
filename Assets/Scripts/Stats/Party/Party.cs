@@ -6,6 +6,7 @@ using UnityEngine.SceneManagement;
 using Frankie.Saving;
 using Frankie.Core.Predicates;
 using Frankie.Combat;
+using Frankie.Control;
 
 namespace Frankie.Stats
 {
@@ -45,6 +46,18 @@ namespace Frankie.Stats
         {
             base.OnDisable();
             playerMover.leaderAnimatorUpdated -= UpdateLeaderAnimation;
+        }
+        #endregion
+        
+        #region EventListeners
+        private void UpdateLeaderAnimation(MovementAnimationParameters movementAnimationParameters)
+        {
+            if (members.Count == 0) { return; }
+            
+            BaseStats character = members[0];
+            characterSpriteLinkLookup[character].UpdateCharacterAnimation(movementAnimationParameters);
+            UpdatePartySpeed(movementAnimationParameters.speed);
+            UpdatePartySpriteOffsets(movementAnimationParameters.pixelPerfectOffset);
         }
         #endregion
 
@@ -197,15 +210,6 @@ namespace Frankie.Stats
 
         #region PrivateMethods
         private bool IsPartyLeader(BaseStats combatParticipant) => members[0] == combatParticipant;
-        
-        private void UpdateLeaderAnimation(float speed, float xLookDirection, float yLookDirection)
-        {
-            if (members.Count == 0) { return; }
-
-            BaseStats character = members[0];
-            characterSpriteLinkLookup[character].UpdateCharacterAnimation(xLookDirection, yLookDirection, speed);
-            UpdatePartySpeed(speed);
-        }
         
         private void InitializeUnlockedCharacters()
         {

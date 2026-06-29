@@ -81,8 +81,8 @@ namespace Frankie.Control
         private static Vector2 GetNewPosition(Vector2 position, float speed, Vector2 lookDirection, float deltaTime)
         {
             return new Vector2(
-                Mathf.Round(Mover.pixelsPerUnit * (position.x + speed * Mover.SignFloored(lookDirection.x) * deltaTime)) / Mover.pixelsPerUnit, 
-                Mathf.Round(Mover.pixelsPerUnit * (position.y + speed * Mover.SignFloored(lookDirection.y) * deltaTime)) / Mover.pixelsPerUnit);
+                position.x + speed * Mover.SignFloored(lookDirection.x) * deltaTime, 
+                position.y + speed * Mover.SignFloored(lookDirection.y) * deltaTime);
         }
     }
 }

@@ -9,6 +9,7 @@ namespace Frankie.Control
     {
         // Tunables
         [Header("NPC Specific Behavior")]
+        [SerializeField] private SpriteRenderer spriteRenderer;
         [SerializeField] private Transform interactionCenterPoint;
         [SerializeField] private float lookDirectionChangeDelay = 0.1f;
         [SerializeField] private float giveUpOnLocomotionTargetTime = 10.0f;
@@ -188,6 +189,7 @@ namespace Frankie.Control
             if (animator == null || animator.runtimeAnimatorController == null) { return; }
 
             SetAnimatorSpeed(animator, currentSpeed);
+            if (spriteRenderer != null) { spriteRenderer.gameObject.transform.localPosition = GetSpritePositionOffset(); }
             
             if (useCardinalLookDelay && timeSinceCardinalLookDirectionChange < lookDirectionChangeDelay) { return; }
             SetAnimatorXLook(animator, lookDirection.x);

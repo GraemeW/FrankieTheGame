@@ -30,9 +30,10 @@ namespace Frankie.Control
 
         // Events
         public event Action movementHistoryReset;
-        public event Action<float, float, float> leaderAnimatorUpdated;
+        public event Action<MovementAnimationParameters> leaderAnimatorUpdated;
         public event Action<CircularBuffer<Tuple<Vector2, Vector2>>> playerMoved;
 
+        #region UnityMethods
         protected override void Awake()
         {
             base.Awake();
@@ -52,21 +53,25 @@ namespace Frankie.Control
             base.OnDisable();
             playerStateMachine.playerStateChanged -= ParsePlayerStateChange;
         }
-
-        private void ParsePlayerStateChange(PlayerStateType playerStateType, IPlayerStateContext playerStateContext)
-        {
-            inWorld = (playerStateType == PlayerStateType.InWorld);
-            if (playerStateType == PlayerStateType.InCutScene) { inWorld = playerStateContext.CanMoveInCutscene(); }
-            GetCurrentSpeed(); // Called in parse player state change to avoid having to fetch modifiers on every move update call
-        }
-
+        
         protected override void FixedUpdate()
         {
             base.FixedUpdate();
             if (inWorld) { InteractWithMovement(); }
             timeSinceSpeedPolled += Time.deltaTime;
         }
+        #endregion
 
+        #region EventListeners
+        private void ParsePlayerStateChange(PlayerStateType playerStateType, IPlayerStateContext playerStateContext)
+        {
+            inWorld = (playerStateType == PlayerStateType.InWorld);
+            if (playerStateType == PlayerStateType.InCutScene) { inWorld = playerStateContext.CanMoveInCutscene(); }
+            GetCurrentSpeed(); // Called in parse player state change to avoid having to fetch modifiers on every move update call
+        }
+        #endregion
+
+        #region PublicMethods
         public void ParseMovement(Vector2 directionalInput)
         {
             inputHorizontal = Vector2.Dot(directionalInput, Vector2.right);
@@ -76,7 +81,7 @@ namespace Frankie.Control
         public void ResetHistory(Vector2 newPosition)
         {
             movementHistory.Clear();
-            movementHistory.Add(new Tuple<Vector2, Vector2>(newPosition, new Vector2(lookDirection.x, lookDirection.y)));
+            AddToMovementHistory(newPosition);
             movementHistoryReset?.Invoke();
 
             historyResetThisFrame = true;
@@ -92,11 +97,18 @@ namespace Frankie.Control
 
             return cachedSpeed;
         }
-
+        #endregion
+        
+        #region ProtectedPrivateMethods
+        protected override void UpdateAnimator(bool useCardinalLookDelay = false)
+        {
+            leaderAnimatorUpdated?.Invoke(new MovementAnimationParameters(currentSpeed, lookDirection.x, lookDirection.y, GetSpritePositionOffset()));
+        }
+        
         private void InteractWithMovement()
         {
             if (historyResetThisFrame) { historyResetThisFrame = false; return; }
-
+            
             SetMovementParameters();
             UpdateAnimator();
             if (currentSpeed > speedMoveThreshold)
@@ -119,14 +131,14 @@ namespace Frankie.Control
         {
             currentSpeed = GetCurrentSpeed();
             if (!movementConfiguration.MoveToTarget(this, Time.deltaTime, out Vector2 newPosition)) { return; }
-            
-            movementHistory.Add(new Tuple<Vector2, Vector2>(newPosition, new Vector2(lookDirection.x, lookDirection.y)));
+            AddToMovementHistory(newPosition);
             playerMoved?.Invoke(movementHistory);
         }
 
-        protected override void UpdateAnimator(bool useCardinalLookDelay = false)
+        private void AddToMovementHistory(Vector2 newPosition)
         {
-            leaderAnimatorUpdated?.Invoke(currentSpeed, lookDirection.x, lookDirection.y);
+            movementHistory.Add(new Tuple<Vector2, Vector2>(RoundToPixelPerfect(newPosition), new Vector2(lookDirection.x, lookDirection.y)));
         }
+        #endregion
     }
 }

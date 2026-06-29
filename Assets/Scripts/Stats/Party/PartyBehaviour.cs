@@ -76,14 +76,11 @@ namespace Frankie.Stats
         {
             foreach (BaseStats member in members)
             {
-                if (member.TryGetComponent(out CharacterSpriteLink characterSpriteLink))
-                {
-                    SpriteRenderer spriteRenderer = characterSpriteLink.GetSpriteRenderer();
-                    if (spriteRenderer != null)
-                    {
-                        spriteRenderer.enabled = enable;
-                    }
-                }
+                if (!member.TryGetComponent(out CharacterSpriteLink characterSpriteLink)) { continue; }
+                SpriteRenderer spriteRenderer = characterSpriteLink.GetSpriteRenderer();
+                if (spriteRenderer == null) { continue; }
+                
+                spriteRenderer.enabled = enable;
             }
         }
 
@@ -93,7 +90,18 @@ namespace Frankie.Stats
             foreach (BaseStats character in members)
             {
                 if (characterIndex == 0) { characterIndex++; continue; }
-                characterSpriteLinkLookup[character].UpdateCharacterAnimation(speed);
+                characterSpriteLinkLookup[character].UpdateCharacterSpeed(speed);
+                characterIndex++;
+            }
+        }
+
+        protected void UpdatePartySpriteOffsets(Vector2 pixelPerfectOffset)
+        {
+            int characterIndex = 0;
+            foreach (BaseStats character in members)
+            {
+                if (characterIndex == 0) { characterIndex++; continue; }
+                characterSpriteLinkLookup[character].UpdateSpriteOffset(pixelPerfectOffset);
                 characterIndex++;
             }
         }
@@ -139,7 +147,7 @@ namespace Frankie.Stats
                     lookDirection = movementHistory.GetEntryAtPosition(bufferIndex).Item2;
                 }
                 character.gameObject.transform.localPosition = localPosition;
-                characterSpriteLinkLookup[character].UpdateCharacterAnimation(lookDirection.x, lookDirection.y);
+                characterSpriteLinkLookup[character].UpdateCharacterLook(lookDirection.x, lookDirection.y);
 
                 characterIndex++;
             }
