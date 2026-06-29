@@ -500,7 +500,7 @@ namespace Frankie.Combat
             }
         }
 
-        private void ReconcileHPAP(EquipableItem equipableItem)
+        private void ReconcileHPAP(EquipableItemBase equipableItem)
         {
             if (currentHP.value > baseStats.GetStat(Stat.HP))
             {

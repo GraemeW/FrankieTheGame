@@ -288,6 +288,14 @@ MonoBehaviour:
     m_Localized: No-can-do, bud.
     m_Metadata:
       m_Items: []
+  - m_Id: 26804935554228224
+    m_Localized: asdf
+    m_Metadata:
+      m_Items: []
+  - m_Id: 26804936409866240
+    m_Localized: Initial dummy text - to be replaced
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

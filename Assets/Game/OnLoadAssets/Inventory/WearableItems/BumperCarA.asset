@@ -35,8 +35,13 @@ MonoBehaviour:
   droppable: 1
   price: 0
   cachedName: BumperCarA
+  baseStatModifiers:
+  - stat: 7
+    minValue: 50
+    maxValue: 50
+  condition:
+    and: []
   wearablePrefab: {fileID: 4431856632854766482, guid: 2c8781e0f4e13814e80ef8437afd668c, type: 3}
-  isUnique: 1
   references:
     version: 2
     RefIds: []
