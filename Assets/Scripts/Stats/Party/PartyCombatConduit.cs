@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Frankie.Combat;
@@ -11,32 +10,34 @@ namespace Frankie.Stats
     {
         // State
         // Note:  Caching to avoid having to translate BaseStats -> CombatParticipant on every call (often)
+        string partyLeaderName = string.Empty;
         private readonly List<CombatParticipant> combatParticipantCache = new();
         private readonly List<CombatParticipant> combatAssistCache = new();
 
-        // Cached References
-        private Party party;
-        private PartyAssist partyAssist;
-
         #region UnityMethods
-        private void Awake()
-        {
-            party = GetComponent<Party>();
-            partyAssist = GetComponent<PartyAssist>();
-        }
-
         private void OnEnable()
         {
-            party.partyUpdated += RefreshCombatParticipantCache;
-            partyAssist.partyAssistUpdated += RefreshCombatAssistCache;
-            RefreshCombatParticipantCache();
-            RefreshCombatAssistCache();
+            if (TryGetComponent(out Party party))
+            {
+                party.SubscribeToMembersAlteredUpdates(true, RefreshCombatParticipantCache);
+                party.SubscribeToPartyLeaderAnnouncements(true, RefreshPartyLeaderCache);
+                RefreshCombatParticipantCache(party.GetMembers());
+            }
+            if (TryGetComponent(out PartyAssist partyAssist))
+            {
+                partyAssist.SubscribeToMembersAlteredUpdates(true, RefreshCombatAssistCache);
+                RefreshCombatAssistCache(partyAssist.GetMembers());
+            }
         }
 
         private void OnDisable()
         {
-            party.partyUpdated -= RefreshCombatParticipantCache;
-            partyAssist.partyAssistUpdated -= RefreshCombatAssistCache;
+            if (TryGetComponent(out Party party))
+            {
+                party.SubscribeToMembersAlteredUpdates(false, RefreshCombatParticipantCache);
+                party.SubscribeToPartyLeaderAnnouncements(false, RefreshPartyLeaderCache);
+            }
+            if (TryGetComponent(out PartyAssist partyAssist)) { partyAssist.SubscribeToMembersAlteredUpdates(true, RefreshCombatAssistCache); }
         }
         #endregion
 
@@ -45,8 +46,8 @@ namespace Frankie.Stats
         public List<CombatParticipant> GetPartyCombatParticipants() => combatParticipantCache;
         public List<CombatParticipant> GetPartyAssistParticipants() => combatAssistCache;
 
-        public string GetPartyLeaderName() => party?.GetPartyLeaderName() ?? "";
-        public bool IsPartySolo() => party.GetPartySize() == 1;
+        public string GetPartyLeaderName() => partyLeaderName;
+        public bool IsPartySolo() => combatParticipantCache.Count == 1;
 
         public bool IsAnyMemberAlive()
         {
@@ -93,8 +94,8 @@ namespace Frankie.Stats
             foreach (CombatParticipant character in combatParticipantCache)
             {
                 if (character.IsDead()) { continue; }
-                BaseStats baseStats = character.GetComponent<BaseStats>();
-                party.SetPartyLeader(baseStats);
+                var baseStats = character.GetComponent<BaseStats>();
+                baseStats.TrySetToPartyLeader();
                 break;
             }
         }
@@ -115,11 +116,12 @@ namespace Frankie.Stats
             }
         }
 
-        private void RefreshCombatParticipantCache()
+        private void RefreshCombatParticipantCache(List<BaseStats> members)
         {
+            members ??= new List<BaseStats>();
             SubscribeToLeaderStatusUpdates(false);
             combatParticipantCache.Clear();
-            foreach (BaseStats character in party.GetParty())
+            foreach (BaseStats character in members)
             {
                 if (character.TryGetComponent(out CombatParticipant combatParticipant))
                 {
@@ -129,10 +131,17 @@ namespace Frankie.Stats
             SubscribeToLeaderStatusUpdates(true);
         }
 
-        private void RefreshCombatAssistCache()
+        private void RefreshPartyLeaderCache(string newPartyLeaderName, Animator _)
         {
+            partyLeaderName = newPartyLeaderName;
+        }
+
+        private void RefreshCombatAssistCache(List<BaseStats> members)
+        {
+            members ??= new List<BaseStats>();
+            
             combatAssistCache.Clear();
-            foreach (BaseStats character in partyAssist.GetParty())
+            foreach (BaseStats character in members)
             {
                 if (character.TryGetComponent(out CombatParticipant combatParticipant))
                 {

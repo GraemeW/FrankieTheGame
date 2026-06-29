@@ -178,7 +178,7 @@ namespace Frankie.Utils
         private void LevelUpParty()
         {
             Debug.Log("Leveling up party:");
-            foreach (BaseStats character in party.value.GetParty())
+            foreach (BaseStats character in party.value.GetMembers())
             {
                 Debug.Log($"{character.GetCharacterProperties().GetCharacterDisplayName()} has gained a level");
                 character.IncrementLevel();

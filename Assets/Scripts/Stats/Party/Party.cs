@@ -20,9 +20,9 @@ namespace Frankie.Stats
         // Cached References
         private CombatParticipant partyLeaderCombatParticipant;
         private InactiveParty inactiveParty;
-
+        
         // Events
-        public event Action partyUpdated;
+        public event Action<string, Animator> announcePartyLeaderProperties;
 
         #region UnityMethods
         protected override void Awake()
@@ -39,17 +39,29 @@ namespace Frankie.Stats
         protected override void OnEnable()
         {
             base.OnEnable();
-            playerMover.leaderAnimatorUpdated += UpdateLeaderAnimation;
+            playerMover.leadAnimationParametersUpdated += UpdateLeaderAnimation;
         }
 
         protected override void OnDisable()
         {
             base.OnDisable();
-            playerMover.leaderAnimatorUpdated -= UpdateLeaderAnimation;
+            playerMover.leadAnimationParametersUpdated -= UpdateLeaderAnimation;
         }
         #endregion
         
-        #region EventListeners
+        #region EventHandling
+        public void SubscribeToPartyLeaderAnnouncements(bool enable, Action<string, Animator> callback)
+        {
+            announcePartyLeaderProperties -= callback;
+            if (enable) { announcePartyLeaderProperties += callback; }
+        }
+        
+        protected override void TriggerMembersAltered()
+        {
+            base.TriggerMembersAltered();
+            announcePartyLeaderProperties?.Invoke(GetPartyLeaderName(), GetLeadCharacterAnimator());
+        }
+        
         private void UpdateLeaderAnimation(MovementAnimationParameters movementAnimationParameters)
         {
             if (members.Count == 0) { return; }
@@ -65,7 +77,6 @@ namespace Frankie.Stats
         public BaseStats GetPartyLeader() => members?[0];
         public bool IsPartyLeader(BaseStats checkMember) => checkMember != null && (members?[0] == checkMember);
         public string GetPartyLeaderName() => members[0]?.GetCharacterProperties()?.GetCharacterDisplayName() ?? "";
-        public Animator GetLeadCharacterAnimator() => members.Count > 0 ? characterSpriteLinkLookup[members[0]].GetAnimator() : null;
         public int GetPartySize() => members.Count;
         public IList<CharacterProperties> GetAvailableCharactersToAdd()
         {
@@ -91,7 +102,7 @@ namespace Frankie.Stats
             playerMover.ResetHistory(characterBaseStats.transform.position);
             RefreshAnimatorLookup();
             SyncToPartyLeaderStatusUpdates();
-            partyUpdated?.Invoke();
+            TriggerMembersAltered();
         }
 
         protected override bool AddToParty(BaseStats characterBaseStats)
@@ -106,7 +117,7 @@ namespace Frankie.Stats
             inactiveParty.RestoreCharacterState(characterBaseStats); // Restore character stats, exp, equipment, inventory (if previously in party)
 
             if (members.Count > 1) { characterBaseStats.GetComponent<Collider2D>().isTrigger = true; }
-            partyUpdated?.Invoke();
+            TriggerMembersAltered();
             return true;
         }
 
@@ -158,7 +169,7 @@ namespace Frankie.Stats
             characterSpriteLinkLookup.Remove(character);
 
             Destroy(character.gameObject);
-            partyUpdated?.Invoke();
+            TriggerMembersAltered();
 
             return true;
         }
@@ -210,6 +221,8 @@ namespace Frankie.Stats
         #endregion
 
         #region PrivateMethods
+        private Animator GetLeadCharacterAnimator() => members.Count > 0 ? characterSpriteLinkLookup[members[0]].GetAnimator() : null;
+        
         private void InitializeUnlockedCharacters()
         {
             foreach (BaseStats baseStats in members)
@@ -345,7 +358,7 @@ namespace Frankie.Stats
             }
             RefreshAnimatorLookup();
             SyncToPartyLeaderStatusUpdates();
-            partyUpdated?.Invoke();
+            TriggerMembersAltered();
         }
 
         private void RestoreUnlockedCharacters(HashSet<CharacterProperties> localUnlockedCharacters)

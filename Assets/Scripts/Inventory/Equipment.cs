@@ -96,8 +96,8 @@ namespace Frankie.Inventory
             foreach (EquipLocation equipLocation in Enum.GetValues(typeof(EquipLocation)))
             {
                 if (equipLocation == EquipLocation.None) { continue; }
-                if (!equippedItems.TryGetValue(equipLocation, out EquipableItemBase item)) { continue; }
-                if (!knapsack.HasItem(item))
+                if (!equippedItems.TryGetValue(equipLocation, out EquipableItemBase equipableItem)) { continue; }
+                if (!knapsack.HasItem(equipableItem) || !equipableItem.CanUseItem(this))
                 {
                     RemoveEquipment(equipLocation, false);
                 }

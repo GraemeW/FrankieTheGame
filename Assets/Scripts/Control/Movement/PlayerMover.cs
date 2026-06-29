@@ -30,7 +30,7 @@ namespace Frankie.Control
 
         // Events
         public event Action movementHistoryReset;
-        public event Action<MovementAnimationParameters> leaderAnimatorUpdated;
+        public event Action<MovementAnimationParameters> leadAnimationParametersUpdated;
         public event Action<CircularBuffer<Tuple<Vector2, Vector2>>> playerMoved;
 
         #region UnityMethods
@@ -100,9 +100,9 @@ namespace Frankie.Control
         #endregion
         
         #region ProtectedPrivateMethods
-        protected override void UpdateAnimator(bool useCardinalLookDelay = false)
+        protected override void UpdateAnimatorParameters(bool useCardinalLookDelay = false)
         {
-            leaderAnimatorUpdated?.Invoke(new MovementAnimationParameters(currentSpeed, lookDirection.x, lookDirection.y, GetSpritePositionOffset()));
+            leadAnimationParametersUpdated?.Invoke(new MovementAnimationParameters(currentSpeed, lookDirection.x, lookDirection.y, GetSpritePositionOffset()));
         }
         
         private void InteractWithMovement()
@@ -110,7 +110,7 @@ namespace Frankie.Control
             if (historyResetThisFrame) { historyResetThisFrame = false; return; }
             
             SetMovementParameters();
-            UpdateAnimator();
+            UpdateAnimatorParameters();
             if (currentSpeed > speedMoveThreshold)
             {
                 MovePlayer();

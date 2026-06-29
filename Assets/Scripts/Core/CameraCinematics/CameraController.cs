@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Rendering.Universal;
 using Unity.Cinemachine;
@@ -23,7 +24,7 @@ namespace Frankie.Core
 
         // Cached References
         private ReInitLazyValue<Player> player;
-        private ReInitLazyValue<Party> party;
+        private Animator partyLeaderAnimator;
 
         // State
         private bool usingPixelPerfectCamera = false; // Default:  Not using due to many jank
@@ -41,45 +42,32 @@ namespace Frankie.Core
             var cameraControllerObject = GameObject.FindGameObjectWithTag(_cameraControllerTag);
             return cameraControllerObject != null ? cameraControllerObject.GetComponent<CameraController>() : null;
         }
-        
-        private static Party GetPartyReference()
-        {
-            GameObject playerObject = Player.FindPlayerObject();
-            return playerObject != null ? playerObject.GetComponent<Party>() : null;
-        }
         #endregion
 
         #region UnityMethods
         private void Awake()
         {
             player = new ReInitLazyValue<Player>(Player.FindPlayer);
-            party = new ReInitLazyValue<Party>(GetPartyReference);
-
-            if (TryGetComponent(out PixelPerfectCamera pixelPerfectCamera))
-            {
-                if (pixelPerfectCamera.isActiveAndEnabled) { usingPixelPerfectCamera = true; }
-            }
+            if (TryGetComponent(out PixelPerfectCamera pixelPerfectCamera) && pixelPerfectCamera.isActiveAndEnabled) { usingPixelPerfectCamera = true; }
         }
 
         private void OnEnable()
         {
-            if (party.value != null) { party.value.partyUpdated += RefreshDefaultCameras; }
+            if (player.value !=null && player.value.TryGetComponent(out Party party)) { party.SubscribeToPartyLeaderAnnouncements(true, HandlePartyLeaderAnnouncements); }
             DisplayResolutions.resolutionUpdated += UpdateCameraOrthoSizes;
         }
 
         private void OnDisable()
         {
-            if (party.value != null) { party.value.partyUpdated -= RefreshDefaultCameras; }
+            if (player.value !=null && player.value.TryGetComponent(out Party party)) { party.SubscribeToPartyLeaderAnnouncements(false, HandlePartyLeaderAnnouncements); }
             DisplayResolutions.resolutionUpdated -= UpdateCameraOrthoSizes;
         }
 
         private void Start()
         {
             player ??= new ReInitLazyValue<Player>(Player.FindPlayer);
-            party ??= new ReInitLazyValue<Party>(GetPartyReference);
             
             player.ForceInit();
-            party.ForceInit();
             RefreshDefaultCameras();
             SetupOverlayCameras();
         }
@@ -88,9 +76,9 @@ namespace Frankie.Core
         #region PublicMethods
         public float GetActiveOrthoSize() => currentActiveOrthoSize;
         
-        public void RefreshDefaultCameras()
+        public void RefreshDefaultCameras(List<BaseStats> _ = null)
         {
-            if (party.value != null) { SetUpStateDrivenCamera(party.value.GetLeadCharacterAnimator()); }
+            if (partyLeaderAnimator != null) { SetUpStateDrivenCamera(partyLeaderAnimator); }
             if (player.value != null) { SetUpVirtualCameraFollowers(player.value.transform); }
         }
 
@@ -136,6 +124,11 @@ namespace Frankie.Core
             if (idleCamera != null) { idleCamera.Lens.OrthographicSize = currentIdleOrthoSize; }
             
             activeOrthoSizeUpdated?.Invoke(currentActiveOrthoSize);
+        }
+
+        private void HandlePartyLeaderAnnouncements(string _, Animator newPartyLeaderAnimator)
+        {
+            partyLeaderAnimator = newPartyLeaderAnimator;
         }
 
         private void UpdateStateAnimator(Animator characterAnimator)

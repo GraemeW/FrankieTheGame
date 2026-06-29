@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -11,9 +10,6 @@ namespace Frankie.Stats
     {
         // Cached References
         private Party party;
-
-        // Events
-        public event Action partyAssistUpdated;
 
         #region UnityMethods
         protected override void Awake()
@@ -37,7 +33,7 @@ namespace Frankie.Stats
             RefreshAnimatorLookup();
 
             characterBaseStats.GetComponent<Collider2D>().isTrigger = true; // All party assist have disabled colliders
-            partyAssistUpdated?.Invoke();
+            TriggerMembersAltered();
             return true;
         }
 
@@ -76,7 +72,7 @@ namespace Frankie.Stats
             characterSpriteLinkLookup.Remove(character);
 
             Destroy(character.gameObject);
-            partyAssistUpdated?.Invoke();
+            TriggerMembersAltered();
 
             return true;
         }
@@ -157,7 +153,7 @@ namespace Frankie.Stats
                 members.Add(character);
             }
             RefreshAnimatorLookup();
-            partyAssistUpdated?.Invoke();
+            TriggerMembersAltered();
         }
         #endregion
     }

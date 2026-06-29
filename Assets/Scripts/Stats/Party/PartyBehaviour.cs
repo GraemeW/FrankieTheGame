@@ -27,17 +27,11 @@ namespace Frankie.Stats
         // Cached References
         protected PlayerMover playerMover;
         private PlayerStateMachine playerStateMachine;
-
-        // Abstract Methods
-        protected abstract bool AddToParty(BaseStats characterBaseStats); // AddToParty -- Parent
-        public abstract bool AddToParty(CharacterNPCSwapper characterNPCSwapper); // AddToParty -- Derivative:  Add from character NPC Swapper
-        public abstract bool AddToParty(CharacterProperties characterProperties); // AddToParty -- Derivative:  Add from nothing
-        public abstract bool RemoveFromParty(BaseStats character); // RemoveFromParty -- Parent:  Instantiate nothing
-        public abstract bool RemoveFromParty(CharacterProperties characterProperties); // RemoveFromParty -- Derivative:  In case no knowledge if member in party
-        public abstract bool RemoveFromParty(BaseStats character, Transform worldTransform); // RemoveFromParty -- Derivative:  Instantiate an NPC at the defined location
         
-        // Standard Behaviours
-        #region ProtectedMethods
+        // Events
+        public event Action<List<BaseStats>> membersAltered;
+        
+        #region UnityMethods
         protected virtual void Awake()
         {
             playerMover = GetComponent<PlayerMover>();
@@ -58,29 +52,36 @@ namespace Frankie.Stats
             playerMover.playerMoved -= UpdatePartyOffsets;
             playerStateMachine.playerLayerChanged -= HandlePlayerLayerChanged;
         }
+        #endregion
 
+        #region AbstractMethods
+        protected abstract bool AddToParty(BaseStats characterBaseStats); // AddToParty -- Parent
+        public abstract bool AddToParty(CharacterNPCSwapper characterNPCSwapper); // AddToParty -- Derivative:  Add from character NPC Swapper
+        public abstract bool AddToParty(CharacterProperties characterProperties); // AddToParty -- Derivative:  Add from nothing
+        public abstract bool RemoveFromParty(BaseStats character); // RemoveFromParty -- Parent:  Instantiate nothing
+        public abstract bool RemoveFromParty(CharacterProperties characterProperties); // RemoveFromParty -- Derivative:  In case no knowledge if member in party
+        public abstract bool RemoveFromParty(BaseStats character, Transform worldTransform); // RemoveFromParty -- Derivative:  Instantiate an NPC at the defined location
+        #endregion
+        
+        #region ProtectedMethods
         protected virtual int GetInitialPartyOffset() => _initialOffset;
         protected virtual bool ShouldSkipFirstEntryOffset() => true;
         protected bool HasMember(BaseStats member) => HasMember(member.GetCharacterProperties());
 
+        public void SubscribeToMembersAlteredUpdates(bool enable, Action<List<BaseStats>> onMembersAltered)
+        {
+            membersAltered -= onMembersAltered;
+            if (enable) { membersAltered += onMembersAltered; }
+        }
+        
+        protected virtual void TriggerMembersAltered() => membersAltered?.Invoke(members);
+        
         protected void RefreshAnimatorLookup()
         {
             characterSpriteLinkLookup.Clear();
             foreach (BaseStats character in members)
             {
                 characterSpriteLinkLookup.Add(character, character.GetComponent<CharacterSpriteLink>());
-            }
-        }
-
-        public void TogglePartyVisible(bool enable)
-        {
-            foreach (BaseStats member in members)
-            {
-                if (!member.TryGetComponent(out CharacterSpriteLink characterSpriteLink)) { continue; }
-                SpriteRenderer spriteRenderer = characterSpriteLink.GetSpriteRenderer();
-                if (spriteRenderer == null) { continue; }
-                
-                spriteRenderer.enabled = enable;
             }
         }
 
@@ -108,12 +109,24 @@ namespace Frankie.Stats
         #endregion
 
         #region PublicMethods
-        public List<BaseStats> GetParty() => members;
+        public List<BaseStats> GetMembers() => members;
         public int GetLastMemberOffsetIndex() => lastMemberOffsetIndex;
 
         public BaseStats GetMember(CharacterProperties matchCharacterProperties)
         {
             return members.FirstOrDefault(baseStats => CharacterProperties.AreCharacterPropertiesMatched(matchCharacterProperties, baseStats.GetCharacterProperties()));
+        }
+        
+        public void TogglePartyVisible(bool enable)
+        {
+            foreach (BaseStats member in members)
+            {
+                if (!member.TryGetComponent(out CharacterSpriteLink characterSpriteLink)) { continue; }
+                SpriteRenderer spriteRenderer = characterSpriteLink.GetSpriteRenderer();
+                if (spriteRenderer == null) { continue; }
+                
+                spriteRenderer.enabled = enable;
+            }
         }
         #endregion
         

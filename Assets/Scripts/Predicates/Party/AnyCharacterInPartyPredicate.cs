@@ -14,7 +14,7 @@ namespace Frankie.Core.Predicates
         {
             if (charactersToMatch.Count == 0) { return false; }
 
-            foreach (BaseStats baseStats in party.GetParty())
+            foreach (BaseStats baseStats in party.GetMembers())
             {
                 if (baseStats == null) { continue; }
                 if (charactersToMatch.Any(characterToMatch => CharacterProperties.AreCharacterPropertiesMatched(characterToMatch, baseStats.GetCharacterProperties())))

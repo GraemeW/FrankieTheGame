@@ -183,7 +183,7 @@ namespace Frankie.Control
         #region OverrideMethods
         public override float GetCurrentSpeed() => movementConfiguration.baseMovementSpeed;
         
-        protected override void UpdateAnimator(bool useCardinalLookDelay = false)
+        protected override void UpdateAnimatorParameters(bool useCardinalLookDelay = false)
         {
             // Safety on accessing controller properties before setup complete (OnEnable calls)
             if (animator == null || animator.runtimeAnimatorController == null) { return; }
@@ -239,7 +239,7 @@ namespace Frankie.Control
                 // Avoid idle animator state completely if no dwell
                 currentSpeed = 0f;
                 SetLookDirection(lookDirectionOnDwell);
-                UpdateAnimator();
+                UpdateAnimatorParameters();
             }
 
             if (timeSinceArrivedAtWaypoint > waypointDwellTime)

@@ -85,6 +85,12 @@ namespace Frankie.Stats
             party = transform.parent.GetComponentInParent<Party>();
             return party != null;
         }
+
+        public void TrySetToPartyLeader()
+        {
+            if (!IsInParty(out Party party)) { return; }
+            party.SetPartyLeader(this);
+        }
         
         public Dictionary<Stat, float> ManualGetBaseStatSheet()
         {
