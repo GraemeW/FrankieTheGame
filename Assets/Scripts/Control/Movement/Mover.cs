@@ -34,12 +34,11 @@ namespace Frankie.Control
         private PathFinder pathFinder;
 
         #region Static
-        public const float pixelsPerUnit = 100.0f; // Align to pixel art setting, default: 100
         public static float SignFloored(float number) => Mathf.Abs(number) < _signFloorThreshold ? 0 : Mathf.Sign(number);
         public static void SetAnimatorSpeed(Animator animator, float speed) => animator.SetFloat(_speed, speed);
         public static void SetAnimatorXLook(Animator animator, float xLookDirection) => animator.SetFloat(_xLook, xLookDirection);
         public static void SetAnimatorYLook(Animator animator, float yLookDirection) => animator.SetFloat(_yLook, yLookDirection);
-        
+        private const float _pixelsPerUnit = 100.0f; // Align to pixel art setting, default: 100
         private const float _signFloorThreshold = 0.1f;
         private static readonly int _speed = Animator.StringToHash("Speed");
         private static readonly int _xLook = Animator.StringToHash("xLook");
@@ -107,9 +106,9 @@ namespace Frankie.Control
         public Vector2 GetLookDirection() => lookDirection;
         public Vector2 GetCurrentPosition() => rigidBody2D.position;
         public float GetTimeSinceLastMove() => timeSinceLastMove;
-        public void MoveRigidBody(Vector2 newPosition) => rigidBody2D.MovePosition(newPosition);
         public void ResetTimeSinceLastMove() => timeSinceLastMove = 0;
         
+        public void MoveRigidBody(Vector2 newPosition) => rigidBody2D.MovePosition(newPosition);
         public void SetLookDirection(Vector2 setLookDirection)
         {
             SetLookDirection(setLookDirection, true);
@@ -170,6 +169,15 @@ namespace Frankie.Control
             
             if (includeAnimationUpdate) { UpdateAnimator(); }
         }
+
+        protected static Vector2 RoundToPixelPerfect(Vector2 position)
+        {
+            return new Vector2(
+                Mathf.Round(_pixelsPerUnit * position.x) / _pixelsPerUnit, 
+                Mathf.Round(_pixelsPerUnit * position.y) / _pixelsPerUnit);
+        }
+        
+        protected Vector2 GetSpritePositionOffset() => RoundToPixelPerfect(rigidBody2D.position) - rigidBody2D.position;
 
         protected virtual void OnLookDirectionUpdate() {}
         

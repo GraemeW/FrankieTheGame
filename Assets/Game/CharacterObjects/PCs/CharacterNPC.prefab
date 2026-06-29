@@ -284,6 +284,11 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 5604239651851639060}
   m_SourcePrefab: {fileID: 100100000, guid: b3d57c5ca0835dc44b0b91ac427342b7, type: 3}
+--- !u!212 &3268347881354742002 stripped
+SpriteRenderer:
+  m_CorrespondingSourceObject: {fileID: 8263638854299470656, guid: b3d57c5ca0835dc44b0b91ac427342b7, type: 3}
+  m_PrefabInstance: {fileID: 6914669016303666098}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &3268347881412759661 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8263638854090363871, guid: b3d57c5ca0835dc44b0b91ac427342b7, type: 3}
@@ -338,6 +343,7 @@ MonoBehaviour:
   defaultTargetDistanceTolerance: 0.035
   closeTargetThresholdSquared: 0.5625
   resetPositionOnEnable: 1
+  spriteRenderer: {fileID: 3268347881354742002}
   interactionCenterPoint: {fileID: 2666196632901393418}
   lookDirectionChangeDelay: 0.1
   giveUpOnLocomotionTargetTime: 10

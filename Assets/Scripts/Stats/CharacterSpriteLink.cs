@@ -45,23 +45,30 @@ namespace Frankie.Stats
         #endregion
         
         // Animator Setter Methods
-        public void UpdateCharacterAnimation(float xLook, float yLook, float speed)
+        public void UpdateCharacterAnimation(MovementAnimationParameters movementAnimationParameters)
         {
-            Mover.SetAnimatorSpeed(animator, speed);
+            Mover.SetAnimatorSpeed(animator, movementAnimationParameters.speed);
+            Mover.SetAnimatorXLook(animator, movementAnimationParameters.xLookDirection);
+            Mover.SetAnimatorYLook(animator, movementAnimationParameters.yLookDirection);
+            UpdateSpriteOffset(movementAnimationParameters.pixelPerfectOffset);
+            characterLookUpdated?.Invoke(movementAnimationParameters.xLookDirection, movementAnimationParameters.yLookDirection);
+            characterSpeedUpdated?.Invoke(movementAnimationParameters.speed);
+        }
+
+        public void UpdateSpriteOffset(Vector2 pixelPerfectOffset)
+        {
+            if (spriteRenderer == null) { return; }
+            spriteRenderer.gameObject.transform.localPosition = pixelPerfectOffset;
+        }
+
+        public void UpdateCharacterLook(float xLook, float yLook)
+        {
             Mover.SetAnimatorXLook(animator, xLook);
             Mover.SetAnimatorYLook(animator, yLook);
             characterLookUpdated?.Invoke(xLook, yLook);
-            characterSpeedUpdated?.Invoke(speed);
         }
 
-        public void UpdateCharacterAnimation(float xLook, float yLook)
-        {
-            Mover.SetAnimatorXLook(animator, xLook);
-            Mover.SetAnimatorYLook(animator, yLook);
-            characterLookUpdated?.Invoke(xLook, yLook);
-        }
-
-        public void UpdateCharacterAnimation(float speed)
+        public void UpdateCharacterSpeed(float speed)
         {
             Mover.SetAnimatorSpeed(animator, speed);
             characterSpeedUpdated?.Invoke(speed);
@@ -69,6 +76,8 @@ namespace Frankie.Stats
 
         public void SetIsFlashing(bool isFlashing)
         {
+            if (spriteRenderer == null) { return; }
+            
             isCharacterFlashing = isFlashing;
             currentImmunityFlashPeriod = startingImmunityFlashPeriod;
             flashTimer = 0f;
@@ -80,6 +89,7 @@ namespace Frankie.Stats
 
         private void UpdateCharacterFlash()
         {
+            if (spriteRenderer == null) { return; }
             if (!isCharacterFlashing) { return; }
             
             flashTimer += Time.deltaTime;
@@ -93,8 +103,8 @@ namespace Frankie.Stats
 
         private void ToggleCharacterAlpha()
         {
-            if (spriteRenderer == null) { return; }
-
+            if (spriteRenderer == null) { return; }   
+            
             float targetAlpha = Mathf.Approximately(spriteRenderer.color.a, immuneAlphaLow) ? immuneAlphaHigh : immuneAlphaLow;
             var color = new Color(spriteRenderer.color.r, spriteRenderer.color.g, spriteRenderer.color.b, targetAlpha);
             spriteRenderer.color = color;
