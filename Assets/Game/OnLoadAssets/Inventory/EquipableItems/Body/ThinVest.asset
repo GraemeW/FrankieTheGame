@@ -9,7 +9,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e5a52bc8039beea4f88b438257c47f35, type: 3}
+  m_Script: {fileID: 11500000, guid: 829b5f68bc66447ab9b92978f9e86534, type: 3}
   m_Name: ThinVest
   m_EditorClassIdentifier: Assembly-CSharp::Frankie.Inventory.EquipableItem
   guid: 785b13eb-97eb-4afe-bd05-6fcdf82de1e5
@@ -35,13 +35,13 @@ MonoBehaviour:
   droppable: 1
   price: 65
   cachedName: ThinVest
-  equipLocation: 3
   baseStatModifiers:
   - stat: 10
     minValue: 6
     maxValue: 6
   condition:
     and: []
+  equipLocation: 3
   references:
     version: 2
     RefIds: []

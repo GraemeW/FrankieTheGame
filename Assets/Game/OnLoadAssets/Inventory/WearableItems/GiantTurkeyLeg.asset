@@ -35,8 +35,16 @@ MonoBehaviour:
   droppable: 1
   price: 50
   cachedName: GiantTurkeyLeg
+  baseStatModifiers:
+  - stat: 0
+    minValue: 100
+    maxValue: 100
+  condition:
+    and:
+    - or:
+      - predicate: {fileID: 11400000, guid: 72a1f9130a1fe4325a39020ff84b5743, type: 2}
+        negate: 0
   wearablePrefab: {fileID: 1159683955107447311, guid: 7844872dab18fe04bab1ddc3424f2c2e, type: 3}
-  isUnique: 1
   references:
     version: 2
     RefIds: []

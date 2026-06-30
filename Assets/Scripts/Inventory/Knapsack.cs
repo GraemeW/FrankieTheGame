@@ -75,13 +75,13 @@ namespace Frankie.Inventory
         public bool IsItemInSlotEquipped(int slot) => slots[slot] != null && slots[slot].IsEquipped();
         public bool HasAnyEquipableItem(EquipLocation equipLocation)
         {
-            return (from inventoryItem in slots where inventoryItem != null select inventoryItem.GetInventoryItem()).OfType<EquipableItem>().Any(equipableItem => equipableItem.GetEquipLocation() == equipLocation);
+            return (from inventoryItem in slots where inventoryItem != null select inventoryItem.GetInventoryItem()).OfType<EquipableItemBase>().Any(equipableItem => equipableItem.GetEquipLocation() == equipLocation);
         }
 
         public bool HasEquipableItemInSlot(int slot, EquipLocation equipLocation)
         {
             if (slots[slot] == null) { return false; }
-            if (slots[slot].GetInventoryItem() is not EquipableItem equipableItem) { return false; }
+            if (slots[slot].GetInventoryItem() is not EquipableItemBase equipableItem) { return false; }
             return (equipableItem.GetEquipLocation() == equipLocation);
         }
         #endregion
@@ -152,7 +152,7 @@ namespace Frankie.Inventory
             if (slots[slot] == null) { return; }
             if (slots[slot].IsEquipped())
             {
-                var equipableItem = slots[slot].GetInventoryItem() as EquipableItem;
+                var equipableItem = slots[slot].GetInventoryItem() as EquipableItemBase;
                 if (equipableItem == null) { return; }
                 
                 EquipLocation equipLocation = equipableItem.GetEquipLocation();
@@ -238,14 +238,14 @@ namespace Frankie.Inventory
 
             // Add item to destination
             destinationKnapsack.AddToSlot(sourceItem, destinationSlot, false);
-            var sourceEquipableItem = sourceItem as EquipableItem;
+            var sourceEquipableItem = sourceItem as EquipableItemBase;
             if (sourceEquipableItem != null && preserveSourceEquippedState) { equipment.AddEquipment(sourceEquipableItem, false); }
 
             // Complete swap if swapping
             if (swapItem != null)
             {
                 AddToSlot(swapItem, sourceSlot, false);
-                var swapEquipableItem = swapItem as EquipableItem;
+                var swapEquipableItem = swapItem as EquipableItemBase;
                 if (swapEquipableItem != null && preserveDestinationEquippedState) { equipment.AddEquipment(swapEquipableItem, false); }
             }
 
@@ -261,12 +261,12 @@ namespace Frankie.Inventory
         #endregion
 
         #region ActionHandling
-        private void HandleEquipmentUpdated(EquipableItem itemUpdated)
+        private void HandleEquipmentUpdated(EquipableItemBase itemUpdated)
         {
             ResetEquippedFlags();
             foreach (EquipLocation equipLocation in equipment.GetAllPopulatedSlots())
             {
-                EquipableItem equipableItemInSlot = equipment.GetItemInSlot(equipLocation);
+                EquipableItemBase equipableItemInSlot = equipment.GetItemInSlot(equipLocation);
                 int equippedItemSlot = FindSlotWithItem(equipableItemInSlot); // First item in knapsack matching criteria
                 if (equippedItemSlot != -1) { slots[equippedItemSlot].SetEquipped(true); }
             }

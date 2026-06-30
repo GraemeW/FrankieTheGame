@@ -7,47 +7,42 @@ using Frankie.Stats;
 
 namespace Frankie.Inventory
 {
-    [RequireComponent(typeof(Party))]
     public class PartyKnapsackConduit : MonoBehaviour, IPredicateEvaluator
     {
         // State
         private readonly List<Knapsack> knapsacks = new();
-
-        // Cached References
-        private Party party;
+        private readonly List<Equipment> equipments = new();
 
         #region UnityMethods
-        private void Awake()
-        {
-            party = GetComponent<Party>();
-        }
-
-        private void Start()
-        {
-            RefreshKnapsacks();
-        }
-
         private void OnEnable()
         {
-            party.partyUpdated += RefreshKnapsacks;
+            if (TryGetComponent(out Party party))
+            {
+                party.SubscribeToMembersAlteredUpdates(true , RefreshCache);
+                RefreshCache(new PartyAlteredData(party.GetMembers()));
+            }
         }
 
         private void OnDisable()
         {
-            party.partyUpdated -= RefreshKnapsacks;
+            if (TryGetComponent(out Party party)) { party.SubscribeToMembersAlteredUpdates(false , RefreshCache); }
         }
 
         #endregion
 
         #region PrivateMethods
-        private void RefreshKnapsacks()
+        private void RefreshCache(PartyAlteredData partyAlteredData)
         {
             knapsacks.Clear();
-            foreach (BaseStats character in party.GetParty())
+            equipments.Clear();
+            foreach (BaseStats character in partyAlteredData.GetMembers())
             {
-                if (character.TryGetComponent(out Knapsack knapsack))
+                if (character.TryGetComponent(out Knapsack knapsack)) { knapsacks.Add(knapsack); }
+
+                if (character.TryGetComponent(out Equipment equipment))
                 {
-                    knapsacks.Add(knapsack);
+                    equipment.ReconcileEquipment(true);
+                    equipments.Add(equipment);
                 }
             }
         }
@@ -64,7 +59,7 @@ namespace Frankie.Inventory
         public int GetNumberOfFreeSlotsInParty() => knapsacks.Sum(knapsack => knapsack.GetNumberOfFreeSlots());
         public bool HasFreeSpace() => GetNumberOfFreeSlotsInParty() > 0;
 
-        public bool AddToFirstEmptyPartySlot(InventoryItem inventoryItem) => AddToFirstEmptyPartySlot(inventoryItem, out CombatParticipant receivingCharacter);
+        public bool AddToFirstEmptyPartySlot(InventoryItem inventoryItem) => AddToFirstEmptyPartySlot(inventoryItem, out CombatParticipant _);
         
         public bool AddToFirstEmptyPartySlot(InventoryItem inventoryItem, out CombatParticipant receivingCharacter)
         {

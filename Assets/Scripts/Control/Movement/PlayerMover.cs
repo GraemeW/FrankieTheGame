@@ -10,6 +10,7 @@ namespace Frankie.Control
     public class PlayerMover : Mover
     {
         // Tunables
+        [SerializeField] private bool snapPlayerToPixelPerfect = false;
         [SerializeField] private float speedPollingTime = 0.5f;
         [SerializeField] private float speedMoveThreshold = 0.05f;
         [SerializeField] private int playerMovementHistoryLength = 128;
@@ -30,16 +31,16 @@ namespace Frankie.Control
 
         // Events
         public event Action movementHistoryReset;
-        public event Action<MovementAnimationParameters> leaderAnimatorUpdated;
+        public event Action<MovementAnimationParameters> leadAnimationParametersUpdated;
         public event Action<CircularBuffer<Tuple<Vector2, Vector2>>> playerMoved;
 
         #region UnityMethods
         protected override void Awake()
         {
-            base.Awake();
             playerStateMachine = GetComponent<PlayerStateMachine>();
             party = GetComponent<Party>();
             movementHistory = new CircularBuffer<Tuple<Vector2, Vector2>>(playerMovementHistoryLength);
+            base.Awake();
         }
 
         protected override void OnEnable()
@@ -100,9 +101,9 @@ namespace Frankie.Control
         #endregion
         
         #region ProtectedPrivateMethods
-        protected override void UpdateAnimator(bool useCardinalLookDelay = false)
+        protected override void UpdateAnimatorParameters(bool useCardinalLookDelay = false)
         {
-            leaderAnimatorUpdated?.Invoke(new MovementAnimationParameters(currentSpeed, lookDirection.x, lookDirection.y, GetSpritePositionOffset()));
+            leadAnimationParametersUpdated?.Invoke(new MovementAnimationParameters(currentSpeed, lookDirection.x, lookDirection.y, snapPlayerToPixelPerfect ? GetSpritePositionOffset() : Vector2.zero));
         }
         
         private void InteractWithMovement()
@@ -110,7 +111,7 @@ namespace Frankie.Control
             if (historyResetThisFrame) { historyResetThisFrame = false; return; }
             
             SetMovementParameters();
-            UpdateAnimator();
+            UpdateAnimatorParameters();
             if (currentSpeed > speedMoveThreshold)
             {
                 MovePlayer();
@@ -137,7 +138,15 @@ namespace Frankie.Control
 
         private void AddToMovementHistory(Vector2 newPosition)
         {
-            movementHistory.Add(new Tuple<Vector2, Vector2>(RoundToPixelPerfect(newPosition), new Vector2(lookDirection.x, lookDirection.y)));
+            if (snapPlayerToPixelPerfect)
+            {
+                // Note:  We add SpritePositionOffset here so that party members track the lead character sprite visually to mitigate pixel snapping that appears as judder
+                movementHistory.Add(new Tuple<Vector2, Vector2>(RoundToPixelPerfect(newPosition + GetSpritePositionOffset()), new Vector2(lookDirection.x, lookDirection.y)));
+            }
+            else
+            {
+                movementHistory.Add(new Tuple<Vector2, Vector2>(newPosition, new Vector2(lookDirection.x, lookDirection.y)));
+            }
         }
         #endregion
     }

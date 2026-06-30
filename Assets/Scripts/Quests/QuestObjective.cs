@@ -28,8 +28,8 @@ namespace Frankie.Quests
         
         // Methods
         #region Getters
-        public string GetObjectiveID() => objectiveID;
-        public string GetQuestID() => questID;
+        public string GetObjectiveID() => objectiveID ?? string.Empty;
+        public string GetQuestID() => questID ?? string.Empty;
         public List<TableEntryReference> GetLocalizationEntries()
         {
             return new List<TableEntryReference>

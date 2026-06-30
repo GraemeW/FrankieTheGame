@@ -49,6 +49,12 @@ MonoBehaviour:
   - m_enabled: 1
     m_path: Assets/Scenes/OfficeInterior.unity
     m_guid: 813f104c01953014ba595875d499ada2
+  - m_enabled: 1
+    m_path: Assets/Scenes/GameWinScreen.unity
+    m_guid: e494b574f37534540b7b1adee3863d96
+  - m_enabled: 1
+    m_path: Assets/Scenes/GameOverScreen.unity
+    m_guid: c904f3148156b38488efe90bfa1101b6
   m_HasScriptingDefines: 0
   m_ScriptingDefines: []
   m_PlayerSettingsYaml:

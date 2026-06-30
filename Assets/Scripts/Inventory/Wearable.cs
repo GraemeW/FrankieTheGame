@@ -1,5 +1,3 @@
-using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 using Frankie.Control;
 using Frankie.Stats;
@@ -7,11 +5,10 @@ using Frankie.Stats;
 namespace Frankie.Inventory
 {
     [RequireComponent(typeof(Animator))]
-    public class Wearable : MonoBehaviour, IModifierProvider
+    public class Wearable : MonoBehaviour
     {
         // Tunables
         [SerializeField] private WearableItem wearableItem;
-        [SerializeField] private List<BaseStatModifier> baseStatModifiers =  new();
 
         // Cached References
         private Animator animator;
@@ -70,12 +67,6 @@ namespace Frankie.Inventory
         {
             if (animator.runtimeAnimatorController == null) { return; }
             Mover.SetAnimatorSpeed(animator, speed);
-        }
-
-        // Interface Methods
-        public IEnumerable<float> GetAdditiveModifiers(Stat stat)
-        {
-            return from baseStatModifier in baseStatModifiers where baseStatModifier.stat == stat select Random.Range(baseStatModifier.minValue, baseStatModifier.maxValue);
         }
     }
 }

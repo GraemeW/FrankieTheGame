@@ -57,7 +57,7 @@ namespace Frankie.Inventory.UI
         protected override List<ChoiceActionPair> GetChoiceActionPairs(int inventorySlot)
         {
             var choiceActionPairs = new List<ChoiceActionPair>();
-            var equipableItem = selectedKnapsack.GetItemInSlot(inventorySlot) as EquipableItem;
+            var equipableItem = selectedKnapsack.GetItemInSlot(inventorySlot) as EquipableItemBase;
             
             if (equipableItem != null
                 && equipment != null && equipableItem.CanUseItem(equipment)
@@ -83,7 +83,7 @@ namespace Frankie.Inventory.UI
 
         private void Equip(int inventorySlot)
         {
-            var equipableItem = selectedKnapsack.GetItemInSlot(inventorySlot) as EquipableItem;
+            var equipableItem = selectedKnapsack.GetItemInSlot(inventorySlot) as EquipableItemBase;
             if (equipableItem == null) { return; }
 
             equipmentBox.SetSelectedItem(equipableItem);

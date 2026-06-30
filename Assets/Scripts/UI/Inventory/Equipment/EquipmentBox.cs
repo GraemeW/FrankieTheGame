@@ -54,7 +54,7 @@ namespace Frankie.Inventory.UI
         private CombatParticipant selectedCharacter;
         private Equipment selectedEquipment;
         private EquipLocation selectedEquipLocation = EquipLocation.None;
-        private EquipableItem selectedItem;
+        private EquipableItemBase selectedItem;
 
         // Cached References
         private readonly List<CharacterSlide> characterSlides = new();
@@ -152,7 +152,7 @@ namespace Frankie.Inventory.UI
             else { selectedEquipment.equipmentUpdated -= HandleEquipmentUpdated; }
         }
 
-        public void SetSelectedItem(EquipableItem equipableItem)
+        public void SetSelectedItem(EquipableItemBase equipableItem)
         {
             if (equipableItem == null) { return; }
 
@@ -162,7 +162,7 @@ namespace Frankie.Inventory.UI
             MoveCursor(PlayerInputType.NavigateRight);
         }
 
-        private void HandleEquipmentUpdated(EquipableItem equipableItem)
+        private void HandleEquipmentUpdated(EquipableItemBase equipableItem)
         {
             ResetEquipmentBox(false);
         }

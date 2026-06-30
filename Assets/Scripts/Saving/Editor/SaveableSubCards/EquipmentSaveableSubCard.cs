@@ -18,27 +18,27 @@ namespace Frankie.Saving.Editor
         {
             if (saveable is not Equipment equipment) { return; }
             
-            Dictionary<EquipLocation, EquipableItem> equippedItems = equipment.ManualGetDataFromState(saveState);
+            Dictionary<EquipLocation, EquipableItemBase> equippedItems = equipment.ManualGetDataFromState(saveState);
             if (equippedItems == null || equippedItems.Count == 0)
             {
                 subCardView.Add(new Label("No Equipment save data found"));
                 return;
             }
             
-            foreach (KeyValuePair<EquipLocation, EquipableItem> item in equippedItems)
+            foreach (KeyValuePair<EquipLocation, EquipableItemBase> item in equippedItems)
             {
                 var equipRow = new VisualElement { style = { flexDirection = FlexDirection.Row } };
                 subCardView.Add(equipRow);
 
                 equipRow.Add(new Label($"{item.Key}:") { style = { width = 120, unityTextAlign = TextAnchor.MiddleLeft } });
 
-                var equipField = new ObjectField { objectType = typeof(EquipableItem), value = item.Value, style = { flexGrow = 1 } };
+                var equipField = new ObjectField { objectType = typeof(EquipableItemBase), value = item.Value, style = { flexGrow = 1 } };
                 equipRow.Add(equipField);
                 
                 equipField.RegisterValueChangedCallback(changeEvent =>
                 {
-                    var oldEquipableItem = changeEvent.previousValue as EquipableItem;
-                    var newEquipableItem = changeEvent.newValue as EquipableItem;
+                    var oldEquipableItem = changeEvent.previousValue as EquipableItemBase;
+                    var newEquipableItem = changeEvent.newValue as EquipableItemBase;
                     
                     if (!CanUpdateEquipment(oldEquipableItem, newEquipableItem, item.Key))
                     {
@@ -56,7 +56,7 @@ namespace Frankie.Saving.Editor
         {
             if (saveable is not Equipment equipment) { return; }
             
-            Dictionary<EquipLocation, EquipableItem> equippedItems = equipment.ManualGetDataFromState(saveState);
+            Dictionary<EquipLocation, EquipableItemBase> equippedItems = equipment.ManualGetDataFromState(saveState);
             equippedItems[equipLocation] = null;
             
             saveState = equipment.ManualGetStateFromData(equippedItems);
@@ -64,7 +64,7 @@ namespace Frankie.Saving.Editor
             Redraw();
         }
 
-        private void ReconcileKnapsackUnequip(EquipableItem equipableItemToRemove)
+        private void ReconcileKnapsackUnequip(EquipableItemBase equipableItemToRemove)
         {
             if (saveableEntityCardData == null) { return; }
             if (!saveableEntityCardData.TryGetSaveableSubCardData(out KnapsackSaveableSubCard knapsackSaveableSubCard)) { return; }
@@ -72,7 +72,7 @@ namespace Frankie.Saving.Editor
             knapsackSaveableSubCard.UnequipItem(equipableItemToRemove);
         }
 
-        private bool CanUpdateEquipment(EquipableItem oldEquipableItem, EquipableItem newEquipableItem, EquipLocation equipLocation)
+        private bool CanUpdateEquipment(EquipableItemBase oldEquipableItem, EquipableItemBase newEquipableItem, EquipLocation equipLocation)
         {
             if (newEquipableItem == null)
             {

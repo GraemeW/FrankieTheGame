@@ -57,7 +57,7 @@ namespace Frankie.Saving.Editor
                     if (equippedField.value)
                     {
                         // Unequip item from Equipment
-                        var oldInventoryItem = changeEvent.previousValue as EquipableItem;
+                        var oldInventoryItem = changeEvent.previousValue as EquipableItemBase;
                         if (oldInventoryItem != null) { ReconcileEquipmentRemoval(oldInventoryItem.GetEquipLocation()); }
                     }
                     
@@ -85,7 +85,7 @@ namespace Frankie.Saving.Editor
             }
         }
 
-        public void UnequipItem(EquipableItem equipableItem)
+        public void UnequipItem(EquipableItemBase equipableItem)
         {
             if (equipableItem == null) { return; }
             
@@ -95,7 +95,7 @@ namespace Frankie.Saving.Editor
             foreach (ActiveInventoryItem testItem in itemsInKnapsack)
             {
                 if (testItem == null || testItem.GetInventoryItem() == null) { continue; }
-                if (testItem.GetInventoryItem() is not EquipableItem testEquipableItem) { continue; }
+                if (testItem.GetInventoryItem() is not EquipableItemBase testEquipableItem) { continue; }
                 if (testEquipableItem.GetGUID() != equipableItem.GetGUID()) { continue;  }
                 
                 if (testItem.IsEquipped()) { testItem.SetEquipped(false); }
@@ -106,7 +106,7 @@ namespace Frankie.Saving.Editor
             Redraw();
         }
         
-        public bool TryEquipItem(EquipableItem equipableItem, bool addIfNotPresent = true)
+        public bool TryEquipItem(EquipableItemBase equipableItem, bool addIfNotPresent = true)
         {
             if (saveable is not Knapsack knapsack) { return false; }
             
@@ -142,7 +142,7 @@ namespace Frankie.Saving.Editor
             {
                 if (i == matchSlot) { continue; }
                 if (itemsInKnapsack[i] == null || itemsInKnapsack[i].GetInventoryItem() == null) { continue; }
-                if (itemsInKnapsack[i].GetInventoryItem() is not EquipableItem testEquipableItem) { continue; }
+                if (itemsInKnapsack[i].GetInventoryItem() is not EquipableItemBase testEquipableItem) { continue; }
 
                 if (testEquipableItem.GetEquipLocation() == equipLocation) { itemsInKnapsack[i].SetEquipped(false); }
             }

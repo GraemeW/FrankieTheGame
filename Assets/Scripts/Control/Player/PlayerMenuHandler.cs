@@ -44,7 +44,7 @@ namespace Frankie.Control
             Party party = playerStateMachine.GetParty();
             if (party == null) { return; }
             
-            foreach (BaseStats member in party.GetParty())
+            foreach (BaseStats member in party.GetMembers())
             {
                 if (member.TryGetComponent(out CombatParticipant combatParticipant))
                 {

@@ -12,5 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7262af4d4c09b1c4d98d8b031f6bd152, type: 3}
   m_Name: QuestObjCompleted_HorsePickedUpDocuments
   m_EditorClassIdentifier: 
-  quest: {fileID: 11400000, guid: 2f938ee49fb6a5042b36b02b3d3c7619, type: 2}
   objective: {fileID: -8720720264288702615, guid: 2f938ee49fb6a5042b36b02b3d3c7619, type: 2}

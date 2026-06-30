@@ -52,7 +52,6 @@ namespace Frankie.Saving.Editor
                 InactiveParty => new InactivePartySubCard(saveable, saveState),
                 Knapsack => new KnapsackSaveableSubCard(saveable, saveState),
                 Equipment => new EquipmentSaveableSubCard(saveable, saveState),
-                WearablesLink => new WearablesLinkSubCard(saveable, saveState),
                 Wallet => new WalletSaveableSubCard(saveable, saveState),
                 QuestList => new QuestListSubCard(saveable, saveState),
                 CheckBase => new SimpleBoolSaveableSubCard(saveable, saveState),
@@ -140,8 +139,6 @@ namespace Frankie.Saving.Editor
             if (saveable is Equipment) { return sortOrder; }
             sortOrder++;
             if (saveable is Knapsack) { return sortOrder; }
-            sortOrder++;
-            if (saveable is WearablesLink) { return sortOrder; }
             sortOrder++;
             
             return sortOrder;

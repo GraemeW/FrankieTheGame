@@ -27332,17 +27332,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 892264449097547216, guid: aef7f955d77f96b4694e2c655998b653, type: 3}
   m_PrefabInstance: {fileID: 1419909992}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &1419909996 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 892264449097547222, guid: aef7f955d77f96b4694e2c655998b653, type: 3}
-  m_PrefabInstance: {fileID: 1419909992}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b18b197bcf3e2d04aa24c146512e0f90, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1001 &1465224772
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -27625,7 +27614,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   backingHandlerGUID: 32cd30ad-e5ae-41a7-a2df-58c48eacde3c
-  backingListHashCheck: 513447990
+  backingListHashCheck: 1387546993
   backingHasGameStateModifiers: 1
   backingGameStateModifierGUIDs:
   - b3f7fb4a-3295-4b70-95ac-59a716a281b2
@@ -28014,9 +28003,9 @@ MonoBehaviour:
             m_StringArgument: 
             m_BoolArgument: 0
           m_CallState: 2
-        - m_Target: {fileID: 1419909996}
-          m_TargetAssemblyTypeName: Frankie.ZoneManagement.ZoneHandler, Assembly-CSharp
-          m_MethodName: AttemptToWarpPlayer
+        - m_Target: {fileID: 1532315463}
+          m_TargetAssemblyTypeName: Frankie.World.WorldGameCompletion, Assembly-CSharp
+          m_MethodName: TriggerGameWin
           m_Mode: 0
           m_Arguments:
             m_ObjectArgument: {fileID: 0}

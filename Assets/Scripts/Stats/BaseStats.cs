@@ -78,6 +78,20 @@ namespace Frankie.Stats
 
         public Dictionary<Stat, float> GetActiveStatSheet() => activeStatSheet; // NOTE:  Does NOT contain modifiers
 
+        public bool IsInParty(out Party party)
+        {
+            party = null;
+            if (transform.parent == null) { return false; }
+            party = transform.parent.GetComponentInParent<Party>();
+            return party != null;
+        }
+
+        public void TrySetToPartyLeader()
+        {
+            if (!IsInParty(out Party party)) { return; }
+            party.SetPartyLeader(this);
+        }
+        
         public Dictionary<Stat, float> ManualGetBaseStatSheet()
         {
             if (progression == null || characterProperties == null || !progression.HasProgression(characterProperties)) { return new Dictionary<Stat, float>(); }

@@ -157,7 +157,7 @@ namespace Frankie.Control
         #endregion
 
         #region AbstractProtectedMethods
-        protected abstract void UpdateAnimator(bool useCardinalLookDelay = false);
+        protected abstract void UpdateAnimatorParameters(bool useCardinalLookDelay = false);
         
         protected void SetLookDirection(Vector2 setLookDirection, bool includeAnimationUpdate)
         {
@@ -167,7 +167,7 @@ namespace Frankie.Control
             
             OnLookDirectionUpdate();
             
-            if (includeAnimationUpdate) { UpdateAnimator(); }
+            if (includeAnimationUpdate) { UpdateAnimatorParameters(); }
         }
 
         protected static Vector2 RoundToPixelPerfect(Vector2 position)
@@ -204,7 +204,7 @@ namespace Frankie.Control
             
             currentSpeed = GetCurrentSpeed();
             if (!movementConfiguration.MoveToTarget(this, target, Time.deltaTime, out Vector2 _)) { currentSpeed = 0f; }
-            UpdateAnimator(true);
+            UpdateAnimatorParameters(true);
 
             return true;
         }
@@ -252,7 +252,7 @@ namespace Frankie.Control
         {
             SetLookDirection(defaultLookDirection);
             currentSpeed = 0f;
-            UpdateAnimator();
+            UpdateAnimatorParameters();
         }
 
         private IEnumerator DelayedMove(Vector2 newPosition, float delayTime)
