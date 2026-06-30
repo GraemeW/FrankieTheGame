@@ -142,7 +142,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 99b3fb0faabc8634298ac927a36fbd12, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  volume: 0.4
+  volume: 0.1
   musicFadeDuration: 1.5
   audioMixer: {fileID: 24100000, guid: c9eb74919f363694fbbb45aa77e99ec3, type: 2}
   levelUpAudio: {fileID: 8300000, guid: f1890f85d50bc024697f01ce70e5f864, type: 3}

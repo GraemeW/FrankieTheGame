@@ -289,12 +289,9 @@ namespace Frankie.Menu.UI
         private void ConfirmSoundVolumes(bool playSoundEffect)
         {
             wasChangeMade = true;
-            float calculatedVolume = masterVolumeSlider.GetSliderValue() * backgroundVolumeSlider.GetSliderValue();
-            backgroundMusic?.SetVolume(calculatedVolume);
-
-            if (!playSoundEffect || soundUpdateConfirmEffect == null) return;
             WriteVolumeToPlayerPrefs();
-            soundUpdateConfirmEffect.PlayClip();
+            backgroundMusic?.RefreshVolume();
+            if (playSoundEffect && soundUpdateConfirmEffect != null) { soundUpdateConfirmEffect.PlayClip(); }
         }
 
         private void ConfirmResolutionFullScreenWindowed(bool fullScreenWindowed)

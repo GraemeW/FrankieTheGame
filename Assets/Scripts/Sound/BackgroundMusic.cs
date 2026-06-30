@@ -72,8 +72,7 @@ namespace Frankie.Sound
 
         private void OnEnable()
         {
-            InitializeVolume();
-
+            RefreshVolume();
             SceneLoader.zoneUpdated += ParseZoneUpdate;
             BattleEventBus<BattleStagingEvent>.SubscribeToEvent(HandleBattleStagingEvent);
         }
@@ -86,27 +85,13 @@ namespace Frankie.Sound
         #endregion
 
         #region PublicMethods
-        public void SetVolume(float setVolume)
-        {
-            setVolume = Mathf.Clamp(setVolume, 0f, 1.0f);
-            volume = setVolume;
-            audioSource.volume = setVolume;
-        }
-        #endregion
-
-        #region Initialization
-        private void InitializeVolume()
+        public void RefreshVolume()
         {
             if (PlayerPrefsController.MasterVolumeKeyExists())
             {
-                if (PlayerPrefsController.BackgroundVolumeKeyExists())
-                {
-                    volume = PlayerPrefsController.GetMasterVolume() * PlayerPrefsController.GetBackgroundVolume();
-                }
-                else
-                {
-                    volume = PlayerPrefsController.GetMasterVolume();
-                }
+                volume = PlayerPrefsController.BackgroundVolumeKeyExists() ? 
+                    Mathf.Clamp01(PlayerPrefsController.GetMasterVolume() * PlayerPrefsController.GetBackgroundVolume()) : 
+                    Mathf.Clamp01(PlayerPrefsController.GetMasterVolume());
             }
             audioSource.volume = volume;
         }
