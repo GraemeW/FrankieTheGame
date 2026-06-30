@@ -54,8 +54,7 @@ namespace Frankie.Stats
             
             BaseStats character = members[0];
             characterSpriteLinkLookup[character].UpdateCharacterAnimation(movementAnimationParameters);
-            UpdatePartySpeed(movementAnimationParameters.speed);
-            UpdatePartySpriteOffsets(movementAnimationParameters.pixelPerfectOffset);
+            UpdatePartySpeedAndOffsets(movementAnimationParameters.speed, movementAnimationParameters.pixelPerfectOffset);
         }
         #endregion
 

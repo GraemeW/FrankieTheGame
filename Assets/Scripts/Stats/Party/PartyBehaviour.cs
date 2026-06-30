@@ -86,23 +86,13 @@ namespace Frankie.Stats
             }
         }
 
-        protected void UpdatePartySpeed(float speed)
+        protected void UpdatePartySpeedAndOffsets(float speed, Vector2 pixelPerfectOffset)
         {
             int characterIndex = 0;
             foreach (BaseStats character in members)
             {
                 if (characterIndex == 0) { characterIndex++; continue; }
                 characterSpriteLinkLookup[character].UpdateCharacterSpeed(speed);
-                characterIndex++;
-            }
-        }
-
-        protected void UpdatePartySpriteOffsets(Vector2 pixelPerfectOffset)
-        {
-            int characterIndex = 0;
-            foreach (BaseStats character in members)
-            {
-                if (characterIndex == 0) { characterIndex++; continue; }
                 characterSpriteLinkLookup[character].UpdateSpriteOffset(pixelPerfectOffset);
                 characterIndex++;
             }

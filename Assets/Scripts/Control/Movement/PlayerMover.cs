@@ -137,7 +137,8 @@ namespace Frankie.Control
 
         private void AddToMovementHistory(Vector2 newPosition)
         {
-            movementHistory.Add(new Tuple<Vector2, Vector2>(RoundToPixelPerfect(newPosition), new Vector2(lookDirection.x, lookDirection.y)));
+            // Note:  We add SpritePositionOffset here so that party members track the lead character sprite visually to mitigate pixel snapping that appears as judder
+            movementHistory.Add(new Tuple<Vector2, Vector2>(RoundToPixelPerfect(newPosition + GetSpritePositionOffset()), new Vector2(lookDirection.x, lookDirection.y)));
         }
         #endregion
     }
