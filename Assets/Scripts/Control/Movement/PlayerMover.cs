@@ -10,6 +10,7 @@ namespace Frankie.Control
     public class PlayerMover : Mover
     {
         // Tunables
+        [SerializeField] private bool snapPlayerToPixelPerfect = false;
         [SerializeField] private float speedPollingTime = 0.5f;
         [SerializeField] private float speedMoveThreshold = 0.05f;
         [SerializeField] private int playerMovementHistoryLength = 128;
@@ -102,7 +103,7 @@ namespace Frankie.Control
         #region ProtectedPrivateMethods
         protected override void UpdateAnimatorParameters(bool useCardinalLookDelay = false)
         {
-            leadAnimationParametersUpdated?.Invoke(new MovementAnimationParameters(currentSpeed, lookDirection.x, lookDirection.y, GetSpritePositionOffset()));
+            leadAnimationParametersUpdated?.Invoke(new MovementAnimationParameters(currentSpeed, lookDirection.x, lookDirection.y, snapPlayerToPixelPerfect ? GetSpritePositionOffset() : Vector2.zero));
         }
         
         private void InteractWithMovement()
@@ -137,8 +138,15 @@ namespace Frankie.Control
 
         private void AddToMovementHistory(Vector2 newPosition)
         {
-            // Note:  We add SpritePositionOffset here so that party members track the lead character sprite visually to mitigate pixel snapping that appears as judder
-            movementHistory.Add(new Tuple<Vector2, Vector2>(RoundToPixelPerfect(newPosition + GetSpritePositionOffset()), new Vector2(lookDirection.x, lookDirection.y)));
+            if (snapPlayerToPixelPerfect)
+            {
+                // Note:  We add SpritePositionOffset here so that party members track the lead character sprite visually to mitigate pixel snapping that appears as judder
+                movementHistory.Add(new Tuple<Vector2, Vector2>(RoundToPixelPerfect(newPosition + GetSpritePositionOffset()), new Vector2(lookDirection.x, lookDirection.y)));
+            }
+            else
+            {
+                movementHistory.Add(new Tuple<Vector2, Vector2>(newPosition, new Vector2(lookDirection.x, lookDirection.y)));
+            }
         }
         #endregion
     }

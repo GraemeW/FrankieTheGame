@@ -37,8 +37,8 @@ MonoBehaviour:
   cachedName: BumperCarA
   baseStatModifiers:
   - stat: 7
-    minValue: 50
-    maxValue: 50
+    minValue: 150
+    maxValue: 150
   condition:
     and: []
   wearablePrefab: {fileID: 4431856632854766482, guid: 2c8781e0f4e13814e80ef8437afd668c, type: 3}
