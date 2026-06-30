@@ -35,6 +35,7 @@ namespace Frankie.Combat
         private BattleActionData battleActionData;
 
         private readonly Queue<BattleSequence> battleSequenceQueue = new();
+        private Coroutine battleSequenceCoroutine;
         private bool haltBattleQueue = false;
         private bool battleSequenceInProgress = false;
 
@@ -110,6 +111,7 @@ namespace Frankie.Combat
         private void OnDisable()
         {
             playerInput.Menu.Disable();
+            if (battleSequenceCoroutine != null) { StopCoroutine(battleSequenceCoroutine); }
             BattleEventBus<BattleFadeTransitionEvent>.UnsubscribeFromEvent(HandleBattleFadeTransitionEvent);
             BattleEventBus<BattleEntitySelectedEvent>.UnsubscribeFromEvent(HandleBattleEntitySelectedEvent);
             BattleEventBus<BattleQueueAddAttemptEvent>.UnsubscribeFromEvent(HandleBattleQueueAddAttemptEvent);
@@ -124,15 +126,24 @@ namespace Frankie.Combat
             {
                 case BattleState.Combat:
                 {
-                    if (!haltBattleQueue && !battleSequenceInProgress) { StartCoroutine(ProcessNextBattleSequence()); }
+                    if (!haltBattleQueue && !battleSequenceInProgress)
+                    {
+                        if (battleSequenceCoroutine != null) { StopCoroutine(battleSequenceCoroutine); }
+                        battleSequenceCoroutine = StartCoroutine(ProcessNextBattleSequence());
+                    }
                     break;
                 }
                 case BattleState.Outro:
                 {
                     if (!outroCleanupCalled)
                     {
-                        outroCleanupCalled = true;
+                        if (battleSequenceCoroutine != null)
+                        {
+                            StopCoroutine(battleSequenceCoroutine);
+                            battleSequenceCoroutine = null;
+                        }
                         CleanUpBattleBits();
+                        outroCleanupCalled = true;
                     }
                     break;
                 }
