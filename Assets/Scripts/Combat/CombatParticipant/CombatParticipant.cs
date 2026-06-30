@@ -533,18 +533,16 @@ namespace Frankie.Combat
             currentHP.value = combatParticipantSaveData.currentHP;
             currentAP.value = combatParticipantSaveData.currentAP;
             targetHP = currentHP.value;
-
-            if (isDead.value)
+            if (!isDead.value) { return; }
+            
+            
+            if (shouldDestroySelfOnDeath)
             {
-                currentHP.value = 0f;
-                targetHP = 0f;
-                AnnounceStateUpdate(StateAlteredType.Dead);
-                if (shouldDestroySelfOnDeath)
-                {
-                    isDestructionTriggeredBySave = true;
-                    Destroy(gameObject);
-                }
+                isDestructionTriggeredBySave = true;
+                Destroy(gameObject);
+                return;
             }
+            HandleCharacterDeathOnRestore();
         }
         
         public SaveState ManualGetStateFromData(CombatParticipantSaveData data) => new(GetLoadPriority(), data);
@@ -558,6 +556,16 @@ namespace Frankie.Combat
             if (!localBaseStats.ManualTryGetDefaultStat(Stat.AP, out var apValue)) { return null; }
             
             return new CombatParticipantSaveData(false, hpValue, apValue);
+        }
+
+        private void HandleCharacterDeathOnRestore()
+        {
+            currentHP.value = 0f;
+            targetHP = 0f; 
+            if (baseStats != null && baseStats.IsInParty(out Party party))
+            {
+                if (party.IsPartyLeader(baseStats)) { party.ReconcilePartyLeader(); }
+            }
         }
 
         // Predicate Evaluation

@@ -89,6 +89,18 @@ namespace Frankie.Stats
             SyncToPartyLeaderStatusUpdates();
             TriggerMembersAltered();
         }
+        
+        public void ReconcilePartyLeader()
+        {
+            foreach (BaseStats member in members)
+            {
+                if (!member.TryGetComponent(out CombatParticipant combatParticipant)) { continue; }
+                if (combatParticipant.IsDead()) { continue; }
+                
+                SetPartyLeader(member);
+                return;
+            }
+        }
 
         protected override bool AddToParty(BaseStats characterBaseStats)
         {
@@ -243,14 +255,7 @@ namespace Frankie.Stats
             if (stateAlteredInfo.stateAlteredType != StateAlteredType.Dead) { return; }
             if (members is not { Count: > 1 }) { return; }
 
-            foreach (BaseStats member in members)
-            {
-                if (!member.TryGetComponent(out CombatParticipant combatParticipant)) { continue; }
-                if (combatParticipant.IsDead()) { continue; }
-                
-                SetPartyLeader(member);
-                return;
-            }
+            ReconcilePartyLeader();
         }
         #endregion
 
