@@ -42,34 +42,11 @@ namespace Frankie.ZoneManagement
         // Events
         public UnityEvent zoneInteraction;
 
-        // Static State
-        private static readonly List<ZoneHandler> _activeZoneHandlers = new();
-
         #region UnityMethods
-        private void Awake()
-        {
-            AddToActiveZoneHandlers(this);
-        }
-
         private void OnDestroy()
         {
-            RemoveFromActiveZoneHandlers(this);
             ILocalizable.TriggerOnDestroy(this);
         }
-        #endregion
-
-        #region StaticMethods
-        private static void AddToActiveZoneHandlers(ZoneHandler zoneHandler)
-        {
-            if (_activeZoneHandlers.Contains(zoneHandler)) { return; }
-            _activeZoneHandlers.Add(zoneHandler);
-        }
-
-        private static void RemoveFromActiveZoneHandlers(ZoneHandler zoneHandler)
-        {
-            _activeZoneHandlers.Remove(zoneHandler);
-        }
-        private static List<ZoneHandler> FindAllZoneHandlersInScene() => _activeZoneHandlers;
         #endregion
 
         #region PublicMethods
@@ -181,7 +158,7 @@ namespace Frankie.ZoneManagement
             if (cachedPlayerController == null) { SetupPlayerReferences(); }
             if (cachedPlayerController == null) { return; }
             
-            foreach (ZoneHandler zoneHandler in FindAllZoneHandlersInScene())
+            foreach (ZoneHandler zoneHandler in FindObjectsByType<ZoneHandler>(FindObjectsInactive.Include))
             {
                 if (nextNodeID != zoneHandler.GetZoneNode()?.GetNodeID()) { continue; }
                 

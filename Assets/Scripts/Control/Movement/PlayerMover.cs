@@ -36,10 +36,10 @@ namespace Frankie.Control
         #region UnityMethods
         protected override void Awake()
         {
-            base.Awake();
             playerStateMachine = GetComponent<PlayerStateMachine>();
             party = GetComponent<Party>();
             movementHistory = new CircularBuffer<Tuple<Vector2, Vector2>>(playerMovementHistoryLength);
+            base.Awake();
         }
 
         protected override void OnEnable()

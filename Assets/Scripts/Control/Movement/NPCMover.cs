@@ -50,10 +50,10 @@ namespace Frankie.Control
         #region UnityMethods
         protected override void Awake()
         {
-            base.Awake();
             animator = GetComponent<Animator>();
             npcStateHandler = GetComponent<NPCStateHandler>();
             npcChaser = GetComponent<NPCChaser>();
+            base.Awake();
         }
 
         protected override void Start()
