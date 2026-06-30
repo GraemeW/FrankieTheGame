@@ -6,7 +6,7 @@ namespace Frankie.Stats
 {
     public class PartyAlteredData
     {
-        private List<BaseStats> members;
+        private readonly List<BaseStats> members;
         public bool isPartyLeaderDataSet { get; private set; } = false;
         public string partyLeaderName { get; private set; } = string.Empty;
         public Animator partyLeaderAnimator { get; private set; }
