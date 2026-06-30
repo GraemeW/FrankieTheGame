@@ -29,7 +29,7 @@ namespace Frankie.Stats
         private PlayerStateMachine playerStateMachine;
         
         // Events
-        public event Action<List<BaseStats>> membersAltered;
+        public event Action<PartyAlteredData> membersAltered;
         
         #region UnityMethods
         protected virtual void Awake()
@@ -68,13 +68,14 @@ namespace Frankie.Stats
         protected virtual bool ShouldSkipFirstEntryOffset() => true;
         protected bool HasMember(BaseStats member) => HasMember(member.GetCharacterProperties());
 
-        public void SubscribeToMembersAlteredUpdates(bool enable, Action<List<BaseStats>> onMembersAltered)
+        public void SubscribeToMembersAlteredUpdates(bool enable, Action<PartyAlteredData> onMembersAltered)
         {
             membersAltered -= onMembersAltered;
             if (enable) { membersAltered += onMembersAltered; }
         }
-        
-        protected virtual void TriggerMembersAltered() => membersAltered?.Invoke(members);
+
+        protected void TriggerMembersAltered() => membersAltered?.Invoke(PackPartyAlteredData());
+        protected virtual PartyAlteredData PackPartyAlteredData() => new(members);
         
         protected void RefreshAnimatorLookup()
         {

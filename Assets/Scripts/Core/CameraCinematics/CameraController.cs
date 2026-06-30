@@ -53,13 +53,13 @@ namespace Frankie.Core
 
         private void OnEnable()
         {
-            if (player.value !=null && player.value.TryGetComponent(out Party party)) { party.SubscribeToPartyLeaderAnnouncements(true, HandlePartyLeaderAnnouncements); }
+            if (player.value !=null && player.value.TryGetComponent(out Party party)) { party.SubscribeToMembersAlteredUpdates(true, HandlePartyLeaderAnnouncements); }
             DisplayResolutions.resolutionUpdated += UpdateCameraOrthoSizes;
         }
 
         private void OnDisable()
         {
-            if (player.value !=null && player.value.TryGetComponent(out Party party)) { party.SubscribeToPartyLeaderAnnouncements(false, HandlePartyLeaderAnnouncements); }
+            if (player.value !=null && player.value.TryGetComponent(out Party party)) { party.SubscribeToMembersAlteredUpdates(false, HandlePartyLeaderAnnouncements); }
             DisplayResolutions.resolutionUpdated -= UpdateCameraOrthoSizes;
         }
 
@@ -126,9 +126,10 @@ namespace Frankie.Core
             activeOrthoSizeUpdated?.Invoke(currentActiveOrthoSize);
         }
 
-        private void HandlePartyLeaderAnnouncements(string _, Animator newPartyLeaderAnimator)
+        private void HandlePartyLeaderAnnouncements(PartyAlteredData partyAlteredData)
         {
-            partyLeaderAnimator = newPartyLeaderAnimator;
+            if (!partyAlteredData.isPartyLeaderDataSet) { return; }
+            partyLeaderAnimator = partyAlteredData.partyLeaderAnimator;
         }
 
         private void UpdateStateAnimator(Animator characterAnimator)

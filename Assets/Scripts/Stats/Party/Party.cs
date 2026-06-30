@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -20,9 +19,6 @@ namespace Frankie.Stats
         // Cached References
         private CombatParticipant partyLeaderCombatParticipant;
         private InactiveParty inactiveParty;
-        
-        // Events
-        public event Action<string, Animator> announcePartyLeaderProperties;
 
         #region UnityMethods
         protected override void Awake()
@@ -50,17 +46,7 @@ namespace Frankie.Stats
         #endregion
         
         #region EventHandling
-        public void SubscribeToPartyLeaderAnnouncements(bool enable, Action<string, Animator> callback)
-        {
-            announcePartyLeaderProperties -= callback;
-            if (enable) { announcePartyLeaderProperties += callback; }
-        }
-        
-        protected override void TriggerMembersAltered()
-        {
-            base.TriggerMembersAltered();
-            announcePartyLeaderProperties?.Invoke(GetPartyLeaderName(), GetLeadCharacterAnimator());
-        }
+        protected override PartyAlteredData PackPartyAlteredData() => new(members, GetPartyLeaderName(), GetLeadCharacterAnimator());
         
         private void UpdateLeaderAnimation(MovementAnimationParameters movementAnimationParameters)
         {

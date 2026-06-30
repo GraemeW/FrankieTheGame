@@ -4,13 +4,11 @@ using Frankie.Combat;
 
 namespace Frankie.Stats
 {
-    [RequireComponent(typeof(Party))]
-    [RequireComponent(typeof(PartyAssist))]
     public class PartyCombatConduit : MonoBehaviour
     {
         // State
         // Note:  Caching to avoid having to translate BaseStats -> CombatParticipant on every call (often)
-        string partyLeaderName = string.Empty;
+        private string cachedPartyLeaderName = string.Empty;
         private readonly List<CombatParticipant> combatParticipantCache = new();
         private readonly List<CombatParticipant> combatAssistCache = new();
 
@@ -20,23 +18,18 @@ namespace Frankie.Stats
             if (TryGetComponent(out Party party))
             {
                 party.SubscribeToMembersAlteredUpdates(true, RefreshCombatParticipantCache);
-                party.SubscribeToPartyLeaderAnnouncements(true, RefreshPartyLeaderCache);
-                RefreshCombatParticipantCache(party.GetMembers());
+                RefreshCombatParticipantCache(new PartyAlteredData(party.GetMembers()));
             }
             if (TryGetComponent(out PartyAssist partyAssist))
             {
                 partyAssist.SubscribeToMembersAlteredUpdates(true, RefreshCombatAssistCache);
-                RefreshCombatAssistCache(partyAssist.GetMembers());
+                RefreshCombatAssistCache(new PartyAlteredData(partyAssist.GetMembers()));
             }
         }
 
         private void OnDisable()
         {
-            if (TryGetComponent(out Party party))
-            {
-                party.SubscribeToMembersAlteredUpdates(false, RefreshCombatParticipantCache);
-                party.SubscribeToPartyLeaderAnnouncements(false, RefreshPartyLeaderCache);
-            }
+            if (TryGetComponent(out Party party)) { party.SubscribeToMembersAlteredUpdates(false, RefreshCombatParticipantCache); }
             if (TryGetComponent(out PartyAssist partyAssist)) { partyAssist.SubscribeToMembersAlteredUpdates(true, RefreshCombatAssistCache); }
         }
         #endregion
@@ -46,7 +39,7 @@ namespace Frankie.Stats
         public List<CombatParticipant> GetPartyCombatParticipants() => combatParticipantCache;
         public List<CombatParticipant> GetPartyAssistParticipants() => combatAssistCache;
 
-        public string GetPartyLeaderName() => partyLeaderName;
+        public string GetPartyLeaderName() => cachedPartyLeaderName;
         public bool IsPartySolo() => combatParticipantCache.Count == 1;
 
         public bool IsAnyMemberAlive()
@@ -116,32 +109,26 @@ namespace Frankie.Stats
             }
         }
 
-        private void RefreshCombatParticipantCache(List<BaseStats> members)
+        private void RefreshCombatParticipantCache(PartyAlteredData partyAlteredData)
         {
-            members ??= new List<BaseStats>();
             SubscribeToLeaderStatusUpdates(false);
             combatParticipantCache.Clear();
-            foreach (BaseStats character in members)
+            foreach (BaseStats character in partyAlteredData.GetMembers())
             {
                 if (character.TryGetComponent(out CombatParticipant combatParticipant))
                 {
                     combatParticipantCache.Add(combatParticipant);
                 }
             }
+            
+            if (partyAlteredData.isPartyLeaderDataSet) { cachedPartyLeaderName = partyAlteredData.partyLeaderName;}
             SubscribeToLeaderStatusUpdates(true);
         }
 
-        private void RefreshPartyLeaderCache(string newPartyLeaderName, Animator _)
+        private void RefreshCombatAssistCache(PartyAlteredData partyAlteredData)
         {
-            partyLeaderName = newPartyLeaderName;
-        }
-
-        private void RefreshCombatAssistCache(List<BaseStats> members)
-        {
-            members ??= new List<BaseStats>();
-            
             combatAssistCache.Clear();
-            foreach (BaseStats character in members)
+            foreach (BaseStats character in partyAlteredData.GetMembers())
             {
                 if (character.TryGetComponent(out CombatParticipant combatParticipant))
                 {

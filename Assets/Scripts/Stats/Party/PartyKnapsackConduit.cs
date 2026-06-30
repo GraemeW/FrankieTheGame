@@ -19,7 +19,7 @@ namespace Frankie.Inventory
             if (TryGetComponent(out Party party))
             {
                 party.SubscribeToMembersAlteredUpdates(true , RefreshCache);
-                RefreshCache(party.GetMembers());
+                RefreshCache(new PartyAlteredData(party.GetMembers()));
             }
         }
 
@@ -31,11 +31,11 @@ namespace Frankie.Inventory
         #endregion
 
         #region PrivateMethods
-        private void RefreshCache(List<BaseStats> members)
+        private void RefreshCache(PartyAlteredData partyAlteredData)
         {
             knapsacks.Clear();
             equipments.Clear();
-            foreach (BaseStats character in members)
+            foreach (BaseStats character in partyAlteredData.GetMembers())
             {
                 if (character.TryGetComponent(out Knapsack knapsack)) { knapsacks.Add(knapsack); }
 
