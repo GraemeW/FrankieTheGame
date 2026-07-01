@@ -120,7 +120,7 @@ namespace Frankie.Control
         
         protected override void UpdateAnimatorParameters(bool useCardinalLookDelay = false)
         {
-            leadAnimationParametersUpdated?.Invoke(new MovementAnimationParameters(currentSpeed, lookDirection.x, lookDirection.y, snapPlayerToPixelPerfect ? GetSpritePositionOffset() : Vector2.zero));
+            leadAnimationParametersUpdated?.Invoke(new MovementAnimationParameters(currentSpeed, lookDirection, snapPlayerToPixelPerfect ? GetSpritePositionOffset() : Vector2.zero));
         }
         
         private void SetMoverToNewLeader(BaseStats newPartyLeader)

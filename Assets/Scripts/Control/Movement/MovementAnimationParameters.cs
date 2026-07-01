@@ -5,15 +5,13 @@ namespace Frankie.Control
     public struct MovementAnimationParameters
     {
         public readonly float speed;
-        public readonly float xLookDirection;
-        public readonly float yLookDirection;
+        public readonly Vector2 lookDirection;
         public Vector2 pixelPerfectOffset;
 
-        public MovementAnimationParameters(float speed, float xLookDirection, float yLookDirection, Vector2 pixelPerfectOffset)
+        public MovementAnimationParameters(float speed, Vector2 lookDirection, Vector2 pixelPerfectOffset)
         {
             this.speed = speed;
-            this.xLookDirection = xLookDirection;
-            this.yLookDirection = yLookDirection;
+            this.lookDirection = lookDirection;
             this.pixelPerfectOffset = pixelPerfectOffset;
         }
     }

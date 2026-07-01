@@ -1,5 +1,5 @@
 using UnityEngine;
-using Frankie.Stats;
+using Frankie.Control;
 
 namespace Frankie.Inventory
 {
@@ -9,17 +9,17 @@ namespace Frankie.Inventory
         [SerializeField] private Transform attachedObjectsRoot;
         
         // Cached References
-        private CharacterSpriteLink characterSpriteLink;
+        private CharacterMoveLink characterMoveLink;
 
         #region UnityMethods
         private void Awake()
         {
-            characterSpriteLink = GetComponent<CharacterSpriteLink>();
+            characterMoveLink = GetComponent<CharacterMoveLink>();
         }
         #endregion
 
         #region PublicMethods
-        public CharacterSpriteLink GetCharacterSpriteLink() => characterSpriteLink;
+        public CharacterMoveLink GetCharacterSpriteLink() => characterMoveLink;
         public Transform GetAttachedObjectsRoot() => attachedObjectsRoot;
         
         public void SpawnWearable(WearableItem wearableItem)

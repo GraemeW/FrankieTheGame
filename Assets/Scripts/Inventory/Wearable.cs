@@ -1,6 +1,5 @@
 using UnityEngine;
 using Frankie.Control;
-using Frankie.Stats;
 
 namespace Frankie.Inventory
 {
@@ -12,7 +11,7 @@ namespace Frankie.Inventory
 
         // Cached References
         private Animator animator;
-        private CharacterSpriteLink characterSpriteLink;
+        private CharacterMoveLink characterMoveLink;
 
         // Unity Methods
         private void Awake()
@@ -22,16 +21,16 @@ namespace Frankie.Inventory
 
         private void OnEnable()
         {
-            if (characterSpriteLink == null) { return; }
-            characterSpriteLink.characterLookUpdated += UpdateAnimatorLooks;
-            characterSpriteLink.characterSpeedUpdated += UpdateAnimatorSpeeds;
+            if (characterMoveLink == null) { return; }
+            characterMoveLink.characterLookUpdated += UpdateAnimatorLooks;
+            characterMoveLink.characterSpeedUpdated += UpdateAnimatorSpeeds;
         }
 
         private void OnDisable()
         {
-            if (characterSpriteLink == null) { return; }
-            characterSpriteLink.characterLookUpdated -= UpdateAnimatorLooks;
-            characterSpriteLink.characterSpeedUpdated -= UpdateAnimatorSpeeds;
+            if (characterMoveLink == null) { return; }
+            characterMoveLink.characterLookUpdated -= UpdateAnimatorLooks;
+            characterMoveLink.characterSpeedUpdated -= UpdateAnimatorSpeeds;
         }
 
         // Public Methods
@@ -42,11 +41,11 @@ namespace Frankie.Inventory
             Transform attachRoot = wearablesLink.GetAttachedObjectsRoot();
             transform.parent = attachRoot;
 
-            characterSpriteLink = wearablesLink.GetCharacterSpriteLink();
-            if (characterSpriteLink == null) { return; }
+            characterMoveLink = wearablesLink.GetCharacterSpriteLink();
+            if (characterMoveLink == null) { return; }
 
-            characterSpriteLink.characterLookUpdated += UpdateAnimatorLooks;
-            characterSpriteLink.characterSpeedUpdated += UpdateAnimatorSpeeds;
+            characterMoveLink.characterLookUpdated += UpdateAnimatorLooks;
+            characterMoveLink.characterSpeedUpdated += UpdateAnimatorSpeeds;
         }
 
         public void RemoveFromCharacter()
@@ -55,12 +54,12 @@ namespace Frankie.Inventory
         }
 
         // Private Methods
-        private void UpdateAnimatorLooks(float xLook, float yLook)
+        private void UpdateAnimatorLooks(Vector2 lookDirection)
         {
             if (animator.runtimeAnimatorController == null) { return; }
 
-            Mover.SetAnimatorXLook(animator, xLook);
-            Mover.SetAnimatorYLook(animator, yLook);
+            Mover.SetAnimatorXLook(animator, lookDirection.x);
+            Mover.SetAnimatorYLook(animator, lookDirection.y);
         }
 
         private void UpdateAnimatorSpeeds(float speed)

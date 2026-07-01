@@ -22,7 +22,7 @@ namespace Frankie.Stats
 
         // State
         private readonly Dictionary<BaseStats, Rigidbody2D> rigidBody2DLookup = new();
-        protected readonly Dictionary<BaseStats, CharacterSpriteLink> characterSpriteLinkLookup = new();
+        protected readonly Dictionary<BaseStats, CharacterMoveLink> characterSpriteLinkLookup = new();
         private int lastMemberOffsetIndex = 0;
 
         // Cached References
@@ -85,7 +85,7 @@ namespace Frankie.Stats
             foreach (BaseStats character in members.Where(character => character != null))
             {
                 if (character.TryGetComponent(out Rigidbody2D characterRigidBody)) { rigidBody2DLookup[character] = characterRigidBody; }
-                if (character.TryGetComponent(out CharacterSpriteLink characterSpriteLink)) { characterSpriteLinkLookup[character] = characterSpriteLink; }
+                if (character.TryGetComponent(out CharacterMoveLink characterSpriteLink)) { characterSpriteLinkLookup[character] = characterSpriteLink; }
             }
         }
 
@@ -115,7 +115,7 @@ namespace Frankie.Stats
         {
             foreach (BaseStats member in members)
             {
-                if (!member.TryGetComponent(out CharacterSpriteLink characterSpriteLink)) { continue; }
+                if (!member.TryGetComponent(out CharacterMoveLink characterSpriteLink)) { continue; }
                 SpriteRenderer spriteRenderer = characterSpriteLink.GetSpriteRenderer();
                 if (spriteRenderer == null) { continue; }
                 
@@ -152,7 +152,7 @@ namespace Frankie.Stats
                     lookDirection = movementHistory.GetEntryAtPosition(bufferIndex).Item2;
                 }
                 if (rigidBody2DLookup.TryGetValue(character, out Rigidbody2D characterRigidBody)) { characterRigidBody.MovePosition(position); }
-                if (characterSpriteLinkLookup.TryGetValue(character, out CharacterSpriteLink characterSpriteLink)) { characterSpriteLink.UpdateCharacterLook(lookDirection.x, lookDirection.y); }
+                if (characterSpriteLinkLookup.TryGetValue(character, out CharacterMoveLink characterSpriteLink)) { characterSpriteLink.UpdateCharacterLook(lookDirection); }
 
                 characterIndex++;
             }

@@ -1,10 +1,9 @@
 using System;
 using UnityEngine;
-using Frankie.Control;
 
-namespace Frankie.Stats
+namespace Frankie.Control
 {
-    public class CharacterSpriteLink : MonoBehaviour
+    public class CharacterMoveLink : MonoBehaviour
     {
         // Tunables - Hookups
         [SerializeField] private SpriteRenderer spriteRenderer;
@@ -21,8 +20,11 @@ namespace Frankie.Stats
         private float flashTimer;
         private float currentImmunityFlashPeriod;
         
+        // Cached
+        private Vector2 lookDirection;
+        
         // Events
-        public event Action<float, float> characterLookUpdated;
+        public event Action<Vector2> characterLookUpdated;
         public event Action<float> characterSpeedUpdated;
         
         #region UnityMethods
@@ -42,17 +44,15 @@ namespace Frankie.Stats
         #region Getters
         public SpriteRenderer GetSpriteRenderer() => spriteRenderer;
         public Animator GetAnimator() => animator;
+        public Vector2 GetLookDirection() => lookDirection;
         #endregion
         
         // Animator Setter Methods
         public void UpdateCharacterAnimation(MovementAnimationParameters movementAnimationParameters)
         {
-            Mover.SetAnimatorSpeed(animator, movementAnimationParameters.speed);
-            Mover.SetAnimatorXLook(animator, movementAnimationParameters.xLookDirection);
-            Mover.SetAnimatorYLook(animator, movementAnimationParameters.yLookDirection);
             UpdateSpriteOffset(movementAnimationParameters.pixelPerfectOffset);
-            characterLookUpdated?.Invoke(movementAnimationParameters.xLookDirection, movementAnimationParameters.yLookDirection);
-            characterSpeedUpdated?.Invoke(movementAnimationParameters.speed);
+            UpdateCharacterSpeed(movementAnimationParameters.speed);
+            UpdateCharacterLook(movementAnimationParameters.lookDirection);
         }
 
         public void UpdateSpriteOffset(Vector2 pixelPerfectOffset)
@@ -61,11 +61,12 @@ namespace Frankie.Stats
             spriteRenderer.gameObject.transform.localPosition = pixelPerfectOffset;
         }
 
-        public void UpdateCharacterLook(float xLook, float yLook)
+        public void UpdateCharacterLook(Vector2 newLookDirection)
         {
-            Mover.SetAnimatorXLook(animator, xLook);
-            Mover.SetAnimatorYLook(animator, yLook);
-            characterLookUpdated?.Invoke(xLook, yLook);
+            lookDirection = newLookDirection;
+            Mover.SetAnimatorXLook(animator, lookDirection.x);
+            Mover.SetAnimatorYLook(animator, lookDirection.y);
+            characterLookUpdated?.Invoke(lookDirection);
         }
 
         public void UpdateCharacterSpeed(float speed)

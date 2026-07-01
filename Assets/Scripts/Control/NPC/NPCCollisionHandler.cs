@@ -97,9 +97,9 @@ namespace Frankie.Control
             if (!collisionsActive) { return; }
             
             Vector2 npcPosition = collision.otherCollider.bounds.center;
-            Vector2 playerPosition = collision.collider.bounds.center;
+            Vector2 collisionObjectPosition = collision.collider.bounds.center;
 
-            HandleAllCollisionEntries(collision.gameObject, npcPosition, playerPosition);
+            HandleAllCollisionEntries(collision.gameObject, npcPosition, collisionObjectPosition);
         }
 
         private void OnTriggerEnter2D(Collider2D collision)
@@ -112,12 +112,12 @@ namespace Frankie.Control
             HandleAllCollisionEntries(collision.gameObject, npcPosition, playerPosition);
         }
 
-        private void HandleAllCollisionEntries(GameObject collisionGameObject, Vector2 npcPosition, Vector2 playerPosition)
+        private void HandleAllCollisionEntries(GameObject collisionGameObject, Vector2 npcPosition, Vector2 collisionObjectPosition)
         {
             if (playerCollisionMask == (playerCollisionMask | (1 << collisionGameObject.layer)))
             {
-                var playerMover = collisionGameObject.GetComponentInParent<PlayerMover>();
-                if (playerMover != null && HandlePlayerCollisions(playerMover, npcPosition, playerPosition)) { return; }
+                var characterMoveLink = collisionGameObject.GetComponent<CharacterMoveLink>();
+                if (characterMoveLink != null && HandlePlayerCollisions(characterMoveLink, npcPosition, collisionObjectPosition)) { return; }
             }
 
             if (!collisionGameObject.TryGetComponent(out NPCCollisionHandler collisionNPC)) { return; }
@@ -144,7 +144,7 @@ namespace Frankie.Control
             }
         }
 
-        private bool HandlePlayerCollisions(PlayerMover playerMover, Vector2 npcPosition, Vector2 playerPosition)
+        private bool HandlePlayerCollisions(CharacterMoveLink characterMoveLink, Vector2 npcPosition, Vector2 collisionObjectPosition)
         {
             touchingPlayer = true;
 
@@ -152,14 +152,14 @@ namespace Frankie.Control
             // Applied for aggro situations
             if (collisionsOverriddenToEnterCombat) 
             {
-                battleEntryType = GetBattleEntryType(playerMover, playerPosition, npcPosition);
+                battleEntryType = GetBattleEntryType(characterMoveLink, collisionObjectPosition, npcPosition);
                 npcStateHandler.InitiateCombat(battleEntryType, GetNPCMob());
                 return true;
             }
             
             // Event hooked up in Unity
             if (collidedWithPlayer == null) { return false; }
-            battleEntryType = GetBattleEntryType(playerMover, playerPosition, npcPosition);
+            battleEntryType = GetBattleEntryType(characterMoveLink, collisionObjectPosition, npcPosition);
             collidedWithPlayer.Invoke(battleEntryType);
             return true;
         }
@@ -235,10 +235,10 @@ namespace Frankie.Control
             if (triggerBilateral) { npcCollisionHandler.RemoveNPCMob(this, false); }
         }
 
-        private TransitionType GetBattleEntryType(PlayerMover playerMover, Vector2 playerPosition, Vector2 npcPosition)
+        private TransitionType GetBattleEntryType(CharacterMoveLink characterMoveLink, Vector2 playerPosition, Vector2 npcPosition)
         {
             float npcLookMagnitudeToContact = Vector2.Dot(playerPosition - npcPosition, npcMover.GetLookDirection());
-            float playerLookMagnitudeToContact = Vector2.Dot(npcPosition - playerPosition, playerMover.GetLookDirection());
+            float playerLookMagnitudeToContact = Vector2.Dot(npcPosition - playerPosition, characterMoveLink.GetLookDirection());
 
             if (playerLookMagnitudeToContact > 0 && npcLookMagnitudeToContact < 0)
             {
