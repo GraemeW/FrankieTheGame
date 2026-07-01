@@ -141,7 +141,7 @@ namespace Frankie.Control
                 {
                     timeSinceLastMove = 0f;
                     npcMoveFocus = isNPCAfraid ? NPCMoveFocus.Fleeing : NPCMoveFocus.Chasing;
-                    SetMoveTarget(npcChaser.GetPlayer());
+                    SetMoveTarget(npcChaser.GetChaseObject());
                     
                     if (!npcStateHandler.WillForceCombat())
                     {

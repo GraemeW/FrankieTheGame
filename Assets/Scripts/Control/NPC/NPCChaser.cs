@@ -75,7 +75,7 @@ namespace Frankie.Control
         #endregion
 
         #region PublicMethods
-        public GameObject GetPlayer() => npcChaseProbe.GetPlayer();
+        public GameObject GetChaseObject() => npcChaseProbe.GetChaseObject();
         public void SetChaseDisposition(bool enable) // Called via Unity Methods
         {
             chasingActive = enable;

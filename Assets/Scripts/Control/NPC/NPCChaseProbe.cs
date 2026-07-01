@@ -10,10 +10,10 @@ namespace Frankie.Control
         
         // State
         private bool isPlayerInRange;
-        private GameObject playerGameObject;
+        private GameObject chaseObject;
         
         // Cached References
-        CircleCollider2D circleCollider2D;
+        private CircleCollider2D circleCollider2D;
 
         #region UnityMethods
         private void Awake()
@@ -30,24 +30,24 @@ namespace Frankie.Control
 
         private void OnEnable()
         {
-            Collider2D playerProbeCollider = Physics2D.OverlapCircle(transform.position, circleCollider2D.radius, playerProbeLayerMask);
-            if (playerProbeCollider != null) { SetupPlayerReference(true, playerProbeCollider.gameObject); }
+            Collider2D probeCollider = Physics2D.OverlapCircle(transform.position, circleCollider2D.radius, playerProbeLayerMask);
+            if (probeCollider != null) { SetupChaseObjectReference(true, probeCollider.gameObject); }
         }
         
         private void OnTriggerEnter2D(Collider2D other)
         {
-            if (other != null) { SetupPlayerReference(true, other.gameObject); }
+            if (other != null) { SetupChaseObjectReference(true, other.gameObject); }
         }
 
         private void OnTriggerExit2D(Collider2D other)
         {
-            if (other != null) { SetupPlayerReference(false, other.gameObject); }
+            if (other != null) { SetupChaseObjectReference(false, other.gameObject); }
         }
         #endregion
         
         #region PublicMethods
         public bool IsPlayerInRange() => isPlayerInRange;
-        public GameObject GetPlayer() => playerGameObject;
+        public GameObject GetChaseObject() => chaseObject;
         public void SetChaseRadius(float setChaseRadius)
         {
             circleCollider2D.radius = setChaseRadius;
@@ -55,16 +55,19 @@ namespace Frankie.Control
         #endregion
         
         #region PrivateMethods
-        private void SetupPlayerReference(bool enable, GameObject playerProbe)
+        private void SetupChaseObjectReference(bool enable, GameObject playerProbe)
         {
             isPlayerInRange = enable;
             if (!enable) { 
-                playerGameObject = null;
+                chaseObject = null;
                 return;
             }
             
-            Transform playerTransform = playerProbe != null ? playerProbe.transform.parent : null;
-            playerGameObject = playerTransform != null ? playerTransform.gameObject : null;
+            // Avoid overwriting for multiple probe hits, since probe lives on character party members
+            if (chaseObject != null) { return; }
+            
+            Transform chaseObjectTransform = playerProbe != null ? playerProbe.transform.parent : null;
+            chaseObject = chaseObjectTransform != null ? chaseObjectTransform.gameObject : null;
         }
         #endregion
     }
