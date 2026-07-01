@@ -85,7 +85,7 @@ namespace Frankie.Control
             timeSinceLastMove += Time.deltaTime;
         }
         
-        private void SetupInitialState()
+        protected void SetupInitialState()
         {
             originalPosition = transform.position;
             targetDistanceTolerance = defaultTargetDistanceTolerance;
@@ -280,19 +280,9 @@ namespace Frankie.Control
         // Save State
         public LoadPriority GetLoadPriority() => LoadPriority.ObjectProperty;
 
-        public SaveState CaptureState() => ManualGetStateFromData(new SerializableVector2(transform.position));
-        
-        public void RestoreState(SaveState saveState)
-        {
-            SerializableVector2 savedPosition = ManualGetDataFromState(saveState);
-            if (savedPosition == null) { return; }
+        public abstract SaveState CaptureState();
 
-            // Force initialization for objects set to disable
-            SelfInitializeRigidBody();
-            SetupInitialState();
-            transform.position = savedPosition.ToVector();
-            SetLookDirection(Vector2.down);
-        }
+        public abstract void RestoreState(SaveState saveState);
 
         public SaveState ManualGetStateFromData(SerializableVector2 data) => new(GetLoadPriority(), data);
         public SerializableVector2 ManualGetDataFromState(SaveState saveState) => saveState?.GetState(typeof(SerializableVector2)) as SerializableVector2;

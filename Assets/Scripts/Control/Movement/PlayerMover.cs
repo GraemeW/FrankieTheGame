@@ -1,7 +1,8 @@
 using System;
 using UnityEngine;
-using Frankie.Utils;
 using Frankie.Stats;
+using Frankie.Saving;
+using Frankie.Utils;
 
 namespace Frankie.Control
 {
@@ -190,6 +191,26 @@ namespace Frankie.Control
             {
                 SetLookDirection(move, false);
             }
+        }
+        #endregion
+        
+        #region SaveInterface
+        public override SaveState CaptureState()
+        {
+            if (partyLeader == null) { ManualGetStateFromData(null); }
+            return ManualGetStateFromData(new SerializableVector2(partyLeader.transform.position));
+        }
+
+        public override void RestoreState(SaveState saveState)
+        {
+            SerializableVector2 savedPosition = ManualGetDataFromState(saveState);
+            if (savedPosition == null) { return; }
+
+            // Force initialization for objects set to disable
+            SelfInitializeRigidBody();
+            SetupInitialState();
+            if (partyLeader != null) { partyLeader.transform.position = savedPosition.ToVector(); }
+            SetLookDirection(Vector2.down);
         }
         #endregion
     }
