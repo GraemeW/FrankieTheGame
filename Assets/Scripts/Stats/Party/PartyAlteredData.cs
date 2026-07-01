@@ -26,5 +26,13 @@ namespace Frankie.Stats
         }
         
         public IList<BaseStats> GetMembers() => members;
+        
+        public BaseStats GetPartyLeader() => members.Count > 0 ? members[0] : null;
+
+        public GameObject GetPartyLeaderObject()
+        {
+            BaseStats partyLeader = GetPartyLeader();
+            return partyLeader != null ? partyLeader.gameObject : null;
+        }
     }
 }

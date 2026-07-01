@@ -21,6 +21,7 @@ namespace Frankie.Stats
         private const int _initialOffset = 0;
 
         // State
+        private readonly Dictionary<BaseStats, Rigidbody2D> rigidBody2DLookup = new();
         protected readonly Dictionary<BaseStats, CharacterSpriteLink> characterSpriteLinkLookup = new();
         private int lastMemberOffsetIndex = 0;
 
@@ -36,20 +37,20 @@ namespace Frankie.Stats
         {
             playerMover = GetComponent<PlayerMover>();
             playerStateMachine = GetComponent<PlayerStateMachine>();
-            RefreshAnimatorLookup();
+            RefreshLookups();
         }
 
         protected virtual void OnEnable()
         {
             playerMover.movementHistoryReset += ResetPartyOffsets;
-            playerMover.playerMoved += UpdatePartyOffsets;
+            playerMover.playerMoved += UpdatePartyPositions;
             playerStateMachine.playerLayerChanged += HandlePlayerLayerChanged;
         }
 
         protected virtual void OnDisable()
         {
             playerMover.movementHistoryReset -= ResetPartyOffsets;
-            playerMover.playerMoved -= UpdatePartyOffsets;
+            playerMover.playerMoved -= UpdatePartyPositions;
             playerStateMachine.playerLayerChanged -= HandlePlayerLayerChanged;
         }
         #endregion
@@ -77,12 +78,14 @@ namespace Frankie.Stats
         protected void TriggerMembersAltered() => membersAltered?.Invoke(PackPartyAlteredData());
         protected virtual PartyAlteredData PackPartyAlteredData() => new(members);
         
-        protected void RefreshAnimatorLookup()
+        protected void RefreshLookups()
         {
+            rigidBody2DLookup.Clear();
             characterSpriteLinkLookup.Clear();
-            foreach (BaseStats character in members)
+            foreach (BaseStats character in members.Where(character => character != null))
             {
-                characterSpriteLinkLookup.Add(character, character.GetComponent<CharacterSpriteLink>());
+                if (character.TryGetComponent(out Rigidbody2D characterRigidBody)) { rigidBody2DLookup[character] = characterRigidBody; }
+                if (character.TryGetComponent(out CharacterSpriteLink characterSpriteLink)) { characterSpriteLinkLookup[character] = characterSpriteLink; }
             }
         }
 
@@ -127,31 +130,29 @@ namespace Frankie.Stats
             return members.Any(baseStats => CharacterProperties.AreCharacterPropertiesMatched(matchCharacterProperties, baseStats.GetCharacterProperties()));
         }
         
-        private void UpdatePartyOffsets(CircularBuffer<Tuple<Vector2, Vector2>> movementHistory)
+        private void UpdatePartyPositions(CircularBuffer<Tuple<Vector2, Vector2>> movementHistory)
         {
-            Vector2 leaderPosition = movementHistory.GetFirstEntry().Item1;
-
             int characterIndex = 0;
             int bufferIndex = 0;
             foreach (BaseStats character in members)
             {
                 if (ShouldSkipFirstEntryOffset() && characterIndex == 0) { characterIndex++; continue; }
 
-                Vector2 localPosition;
+                Vector2 position;
                 Vector2 lookDirection;
                 bufferIndex = characterIndex * partyOffset + GetInitialPartyOffset();
                 if (bufferIndex >= movementHistory.GetCurrentSize())
                 {
-                    localPosition = movementHistory.GetLastEntry().Item1 - leaderPosition;
+                    position = movementHistory.GetLastEntry().Item1;
                     lookDirection = movementHistory.GetLastEntry().Item2;
                 }
                 else
                 {
-                    localPosition = movementHistory.GetEntryAtPosition(bufferIndex).Item1 - leaderPosition;
+                    position = movementHistory.GetEntryAtPosition(bufferIndex).Item1;
                     lookDirection = movementHistory.GetEntryAtPosition(bufferIndex).Item2;
                 }
-                character.gameObject.transform.localPosition = localPosition;
-                characterSpriteLinkLookup[character].UpdateCharacterLook(lookDirection.x, lookDirection.y);
+                if (rigidBody2DLookup.TryGetValue(character, out Rigidbody2D characterRigidBody)) { characterRigidBody.MovePosition(position); }
+                if (characterSpriteLinkLookup.TryGetValue(character, out CharacterSpriteLink characterSpriteLink)) { characterSpriteLink.UpdateCharacterLook(lookDirection.x, lookDirection.y); }
 
                 characterIndex++;
             }

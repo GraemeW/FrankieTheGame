@@ -59,8 +59,13 @@ namespace Frankie.Stats
         #endregion
 
         #region PublicGetters
-        public BaseStats GetPartyLeader() => members?[0];
         public bool IsPartyLeader(BaseStats checkMember) => checkMember != null && (members?[0] == checkMember);
+        public BaseStats GetPartyLeader() => members?[0];
+        public GameObject GetPartyLeaderObject()
+        {
+            BaseStats partyLeader = members[0];
+            return partyLeader != null ? partyLeader.gameObject : null;
+        }
         public string GetPartyLeaderName() => members[0]?.GetCharacterProperties()?.GetCharacterDisplayName() ?? "";
         public int GetPartySize() => members.Count;
         public IList<CharacterProperties> GetAvailableCharactersToAdd()
@@ -85,7 +90,7 @@ namespace Frankie.Stats
                 index++;
             }
             playerMover.ResetHistory(characterBaseStats.transform.position);
-            RefreshAnimatorLookup();
+            RefreshLookups();
             SyncToPartyLeaderStatusUpdates();
             TriggerMembersAltered();
         }
@@ -110,7 +115,7 @@ namespace Frankie.Stats
 
             members.Add(characterBaseStats);
             AddToUnlockedCharacters(characterBaseStats);
-            RefreshAnimatorLookup();
+            RefreshLookups();
             inactiveParty.RestoreCharacterState(characterBaseStats); // Restore character stats, exp, equipment, inventory (if previously in party)
 
             if (members.Count > 1) { characterBaseStats.GetComponent<Collider2D>().isTrigger = true; }
@@ -163,11 +168,10 @@ namespace Frankie.Stats
 
             inactiveParty.CaptureCharacterState(character);
             members.Remove(character);
-            characterSpriteLinkLookup.Remove(character);
-
+            RefreshLookups();
             Destroy(character.gameObject);
+            
             TriggerMembersAltered();
-
             return true;
         }
 
@@ -346,7 +350,7 @@ namespace Frankie.Stats
 
                 if (members.Count > 1) { characterObject.GetComponent<Collider2D>().isTrigger = true; }
             }
-            RefreshAnimatorLookup();
+            RefreshLookups();
             SyncToPartyLeaderStatusUpdates();
             TriggerMembersAltered();
         }

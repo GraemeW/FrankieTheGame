@@ -48,10 +48,6 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 548448797238944362, guid: 3ba2ab0c1cea63442a5dec585154a263, type: 3}
-      propertyPath: checkInteraction.m_PersistentCalls.m_Calls.Array.data[0].m_Target
-      value: 
-      objectReference: {fileID: 2189069832891847419}
-    - target: {fileID: 548448797238944362, guid: 3ba2ab0c1cea63442a5dec585154a263, type: 3}
       propertyPath: checkInteraction.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
       value: 2
       objectReference: {fileID: 0}
@@ -270,10 +266,7 @@ PrefabInstance:
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 8263638854090363868, guid: b3d57c5ca0835dc44b0b91ac427342b7, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 2192619549475451142}
-    - targetCorrespondingSourceObject: {fileID: 8263638854090363868, guid: b3d57c5ca0835dc44b0b91ac427342b7, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 2189069832891847419}
+      addedObject: {fileID: 1856739721445687293}
     - targetCorrespondingSourceObject: {fileID: 8263638854090363868, guid: b3d57c5ca0835dc44b0b91ac427342b7, type: 3}
       insertIndex: -1
       addedObject: {fileID: 5735266784123818870}
@@ -299,34 +292,7 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 8263638854090363868, guid: b3d57c5ca0835dc44b0b91ac427342b7, type: 3}
   m_PrefabInstance: {fileID: 6914669016303666098}
   m_PrefabAsset: {fileID: 0}
---- !u!50 &2192619549475451142
-Rigidbody2D:
-  serializedVersion: 5
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3268347881412759662}
-  m_BodyType: 0
-  m_Simulated: 1
-  m_UseFullKinematicContacts: 1
-  m_UseAutoMass: 0
-  m_Mass: 100000
-  m_LinearDamping: 1000000
-  m_AngularDamping: 1000000
-  m_GravityScale: 0
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_Interpolate: 1
-  m_SleepingMode: 1
-  m_CollisionDetection: 1
-  m_Constraints: 4
---- !u!114 &2189069832891847419
+--- !u!114 &1856739721445687293
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

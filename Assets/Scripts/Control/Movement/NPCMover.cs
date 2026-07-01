@@ -1,8 +1,11 @@
 using System;
 using UnityEngine;
+using Frankie.Saving;
+using Frankie.Utils;
 
 namespace Frankie.Control
 {
+    [RequireComponent(typeof(Rigidbody2D))]
     [RequireComponent(typeof(Animator))]
     [RequireComponent(typeof(NPCStateHandler))]
     public class NPCMover : Mover
@@ -88,6 +91,7 @@ namespace Frankie.Control
 
         protected override void FixedUpdate()
         {
+            if (!isRigidBodyInitialized) { return; }
             if (npcMoveFocus == NPCMoveFocus.Inactive) { return; }
             base.FixedUpdate();
             
@@ -182,7 +186,13 @@ namespace Frankie.Control
 
         #region OverrideMethods
         public override float GetCurrentSpeed() => movementConfiguration.baseMovementSpeed;
-        
+
+        protected override void SelfInitializeRigidBody()
+        {
+            rigidBody2D = GetComponent<Rigidbody2D>();
+            isRigidBodyInitialized = rigidBody2D != null;
+        }
+
         protected override void UpdateAnimatorParameters(bool useCardinalLookDelay = false)
         {
             // Safety on accessing controller properties before setup complete (OnEnable calls)
@@ -319,6 +329,22 @@ namespace Frankie.Control
                 nextWalkPosition = (Vector2)transform.position + moveDirection;
             }
             return nextWalkPosition;
+        }
+        #endregion
+        
+        #region SaveInterface
+        public override SaveState CaptureState() => ManualGetStateFromData(new SerializableVector2(transform.position));
+
+        public override void RestoreState(SaveState saveState)
+        {
+            SerializableVector2 savedPosition = ManualGetDataFromState(saveState);
+            if (savedPosition == null) { return; }
+
+            // Force initialization for objects set to disable
+            SelfInitializeRigidBody();
+            SetupInitialState();
+            transform.position = savedPosition.ToVector();
+            SetLookDirection(Vector2.down);
         }
         #endregion
 
