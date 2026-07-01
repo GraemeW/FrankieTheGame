@@ -3,6 +3,7 @@ using UnityEngine;
 
 namespace Frankie.Control
 {
+    [RequireComponent(typeof(Rigidbody2D))]
     [RequireComponent(typeof(Animator))]
     [RequireComponent(typeof(NPCStateHandler))]
     public class NPCMover : Mover
@@ -88,6 +89,7 @@ namespace Frankie.Control
 
         protected override void FixedUpdate()
         {
+            if (!isRigidBodyInitialized) { return; }
             if (npcMoveFocus == NPCMoveFocus.Inactive) { return; }
             base.FixedUpdate();
             
@@ -182,7 +184,13 @@ namespace Frankie.Control
 
         #region OverrideMethods
         public override float GetCurrentSpeed() => movementConfiguration.baseMovementSpeed;
-        
+
+        protected override void SelfInitializeRigidBody()
+        {
+            rigidBody2D = GetComponent<Rigidbody2D>();
+            isRigidBodyInitialized = rigidBody2D != null;
+        }
+
         protected override void UpdateAnimatorParameters(bool useCardinalLookDelay = false)
         {
             // Safety on accessing controller properties before setup complete (OnEnable calls)

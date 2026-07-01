@@ -7,18 +7,19 @@ namespace Frankie.Control
 {
     [RequireComponent(typeof(PlayerController))]
     [RequireComponent(typeof(PlayerStateMachine))]
+    [RequireComponent(typeof(Party))]
     public class PlayerMover : Mover
     {
         // Tunables
         [SerializeField] private bool snapPlayerToPixelPerfect = false;
-        [SerializeField] private float speedPollingTime = 0.5f;
         [SerializeField] private float speedMoveThreshold = 0.05f;
         [SerializeField] private int playerMovementHistoryLength = 128;
+        [SerializeField] private float speedPollingPeriod = 0.25f;
 
         // State
         private bool inWorld = true;
+        private float timeSinceSpeedRefreshed = Mathf.Infinity;
         private float cachedSpeed = 1.0f;
-        private float timeSinceSpeedPolled = Mathf.Infinity;
         
         private float inputHorizontal;
         private float inputVertical;
@@ -27,7 +28,7 @@ namespace Frankie.Control
 
         // Cached References
         private PlayerStateMachine playerStateMachine;
-        private Party party;
+        private BaseStats partyLeader;
 
         // Events
         public event Action movementHistoryReset;
@@ -38,8 +39,8 @@ namespace Frankie.Control
         protected override void Awake()
         {
             playerStateMachine = GetComponent<PlayerStateMachine>();
-            party = GetComponent<Party>();
             movementHistory = new CircularBuffer<Tuple<Vector2, Vector2>>(playerMovementHistoryLength);
+            
             base.Awake();
         }
 
@@ -47,19 +48,23 @@ namespace Frankie.Control
         {
             base.OnEnable();
             playerStateMachine.playerStateChanged += ParsePlayerStateChange;
+            SubscribeToPartyUpdates(true);
         }
 
         protected override void OnDisable()
         {
             base.OnDisable();
             playerStateMachine.playerStateChanged -= ParsePlayerStateChange;
+            SubscribeToPartyUpdates(false);
         }
         
         protected override void FixedUpdate()
         {
+            if (!isRigidBodyInitialized) { return; }
             base.FixedUpdate();
+            
             if (inWorld) { InteractWithMovement(); }
-            timeSinceSpeedPolled += Time.deltaTime;
+            PollForSpeedRefresh(Time.deltaTime);
         }
         #endregion
 
@@ -68,7 +73,20 @@ namespace Frankie.Control
         {
             inWorld = (playerStateType == PlayerStateType.InWorld);
             if (playerStateType == PlayerStateType.InCutScene) { inWorld = playerStateContext.CanMoveInCutscene(); }
-            GetCurrentSpeed(); // Called in parse player state change to avoid having to fetch modifiers on every move update call
+            RefreshMoverSpeed();
+        }
+
+        private void SubscribeToPartyUpdates(bool enable)
+        {
+            if (!TryGetComponent(out Party party)) { return; }
+            party.membersAltered -= HandlePartyUpdate;
+            if (enable) { party.membersAltered += HandlePartyUpdate; }
+        }
+
+        private void HandlePartyUpdate(PartyAlteredData partyAlteredData)
+        {
+            SetMoverToNewLeader(partyAlteredData.GetPartyLeader());
+            InitializeRigidBody();
         }
         #endregion
 
@@ -88,22 +106,33 @@ namespace Frankie.Control
             historyResetThisFrame = true;
         }
 
-        public override float GetCurrentSpeed()
-        {
-            if (timeSinceSpeedPolled < speedPollingTime) { return cachedSpeed; }
-            
-            float modifier = party.GetPartyLeader().GetCalculatedStat(CalculatedStat.MoveSpeed);
-            cachedSpeed = movementConfiguration.baseMovementSpeed * modifier;
-            timeSinceSpeedPolled = 0f;
-
-            return cachedSpeed;
-        }
+        public override float GetCurrentSpeed() => cachedSpeed;
         #endregion
         
         #region ProtectedPrivateMethods
+        protected override void SelfInitializeRigidBody()
+        {
+            if (!TryGetComponent(out Party party)) { return; }
+            SetMoverToNewLeader(party.GetPartyLeader());
+            InitializeRigidBody();
+        }
+        
         protected override void UpdateAnimatorParameters(bool useCardinalLookDelay = false)
         {
             leadAnimationParametersUpdated?.Invoke(new MovementAnimationParameters(currentSpeed, lookDirection.x, lookDirection.y, snapPlayerToPixelPerfect ? GetSpritePositionOffset() : Vector2.zero));
+        }
+        
+        private void SetMoverToNewLeader(BaseStats newPartyLeader)
+        {
+            partyLeader = newPartyLeader;
+            RefreshMoverSpeed();
+        }
+
+        private void InitializeRigidBody()
+        {
+            if (partyLeader == null) { return; }
+            rigidBody2D = partyLeader.GetComponent<Rigidbody2D>();
+            isRigidBodyInitialized = rigidBody2D != null;
         }
         
         private void InteractWithMovement()
@@ -117,17 +146,7 @@ namespace Frankie.Control
                 MovePlayer();
             }
         }
-
-        private void SetMovementParameters()
-        {
-            var move = new Vector2(inputHorizontal, inputVertical);
-            currentSpeed = move.magnitude;
-            if (!Mathf.Approximately(move.x, 0.0f) || !Mathf.Approximately(move.y, 0.0f))
-            {
-                SetLookDirection(move, false);
-            }
-        }
-
+        
         private void MovePlayer()
         {
             currentSpeed = GetCurrentSpeed();
@@ -146,6 +165,30 @@ namespace Frankie.Control
             else
             {
                 movementHistory.Add(new Tuple<Vector2, Vector2>(newPosition, new Vector2(lookDirection.x, lookDirection.y)));
+            }
+        }
+
+        private void PollForSpeedRefresh(float deltaTime)
+        {
+            timeSinceSpeedRefreshed += deltaTime;
+            if (timeSinceSpeedRefreshed < speedPollingPeriod) { return; }
+            RefreshMoverSpeed();
+        }
+
+        private void RefreshMoverSpeed()
+        {
+            if (partyLeader == null) { return; }
+            cachedSpeed = movementConfiguration.baseMovementSpeed * partyLeader.GetCalculatedStat(CalculatedStat.MoveSpeed);
+            timeSinceSpeedRefreshed = 0f;
+        }
+
+        private void SetMovementParameters()
+        {
+            var move = new Vector2(inputHorizontal, inputVertical);
+            currentSpeed = move.magnitude;
+            if (!Mathf.Approximately(move.x, 0.0f) || !Mathf.Approximately(move.y, 0.0f))
+            {
+                SetLookDirection(move, false);
             }
         }
         #endregion
