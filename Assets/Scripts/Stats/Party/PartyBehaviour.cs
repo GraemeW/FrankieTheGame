@@ -177,16 +177,15 @@ namespace Frankie.Stats
             }
         }
         
-        private void HandlePlayerLayerChanged(int layer, bool isPlayerImmune)
+        private void HandlePlayerLayerChanged(int playerLayer, int probeLayer, bool isPlayerImmune)
         {
-            foreach (BaseStats character in members)
+            foreach (BaseStats character in members.Where(character => character != null))
             {
-                character.gameObject.layer = layer;
-            }
-            
-            foreach (var characterSpriteLink in characterSpriteLinkLookup)
-            {
-                characterSpriteLink.Value.SetIsFlashing(isPlayerImmune);
+                character.gameObject.layer = playerLayer;
+                
+                if (!characterSpriteLinkLookup.TryGetValue(character, out CharacterMoveLink characterSpriteLink)) { continue; }
+                characterSpriteLink.SetInteractionProbeLayer(probeLayer);
+                characterSpriteLink.SetIsFlashing(isPlayerImmune);
             }
         }
         #endregion

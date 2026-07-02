@@ -81,8 +81,8 @@ GameObject:
   - component: {fileID: 2946358629567667514}
   - component: {fileID: 7363073529246390527}
   - component: {fileID: 8009215174624419040}
-  - component: {fileID: 7096031021457464581}
   - component: {fileID: 7770585857665752477}
+  - component: {fileID: 7096031021457464581}
   - component: {fileID: 1538271764270950872}
   - component: {fileID: 726526304575199942}
   - component: {fileID: -8535015448183063659}
@@ -216,6 +216,22 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 1
   m_Constraints: 4
+--- !u!114 &7770585857665752477
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8263638854090363868}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bc5fcb701043f594ca957befee143600, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  characterProperties: {fileID: 0}
+  levelUpOnInstantiation: 0
+  saveBaseStats: 1
+  progression: {fileID: 11400000, guid: 6d544ce8c0b2cd34badc52fee9ceccf9, type: 2}
 --- !u!114 &7096031021457464581
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -235,22 +251,6 @@ MonoBehaviour:
   immunityFlashPeriodGrowth: 1.15
   immuneAlphaLow: 0.4
   immuneAlphaHigh: 0.85
---- !u!114 &7770585857665752477
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8263638854090363868}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bc5fcb701043f594ca957befee143600, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  characterProperties: {fileID: 0}
-  levelUpOnInstantiation: 0
-  saveBaseStats: 1
-  progression: {fileID: 11400000, guid: 6d544ce8c0b2cd34badc52fee9ceccf9, type: 2}
 --- !u!114 &1538271764270950872
 MonoBehaviour:
   m_ObjectHideFlags: 0

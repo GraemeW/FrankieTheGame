@@ -77,6 +77,12 @@ namespace Frankie.Control
             characterSpeedUpdated?.Invoke(speed);
         }
 
+        public void SetInteractionProbeLayer(int probeLayer)
+        {
+            if (interactionCentrePoint == null) { return; }
+            interactionCentrePoint.gameObject.layer = probeLayer;
+        }
+
         public void SetIsFlashing(bool isFlashing)
         {
             if (spriteRenderer == null) { return; }

@@ -79,7 +79,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5841001187260921760}
   - component: {fileID: 7985907480482996339}
-  m_Layer: 3
+  m_Layer: 2
   m_Name: CharacterBackground
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -172,7 +172,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8740306805426083879}
   - component: {fileID: 2936467026885796938}
-  m_Layer: 3
+  m_Layer: 2
   m_Name: CharacterForeground
   m_TagString: Untagged
   m_Icon: {fileID: 0}

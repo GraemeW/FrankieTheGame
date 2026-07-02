@@ -27,8 +27,6 @@ namespace Frankie.Control
     public class PlayerStateMachine : MonoBehaviour, IPlayerStateContext, ILocalizable
     {
         // Tunables
-        [Header("Hookups")] 
-        [SerializeField] private GameObject interactionCenterPoint;
         [Header("Other Controller Prefabs")]
         [SerializeField] private BattleController battleControllerPrefab;
         [SerializeField] private DialogueController dialogueControllerPrefab;
@@ -92,7 +90,7 @@ namespace Frankie.Control
 
         // Events
         public event Action<PlayerStateType, IPlayerStateContext> playerStateChanged;
-        public event Action<int, bool> playerLayerChanged;
+        public event Action<int, int, bool> playerLayerChanged;
 
         // Data Structures
         private class PlayerStateTypeActionPair
@@ -191,10 +189,9 @@ namespace Frankie.Control
             int standardLayer = enablePlayerImmunity ? Player.GetImmunePlayerLayer() :  Player.GetPlayerLayer();
             int probeLayer = enablePlayerImmunity ? Player.GetImmunePlayerLayer() : Player.GetPlayerInteractionProbeLayer();
             gameObject.layer = standardLayer;
-            interactionCenterPoint.layer = probeLayer;
             
             // Party member layer updates via event -> Party
-            playerLayerChanged?.Invoke(standardLayer, enablePlayerImmunity);
+            playerLayerChanged?.Invoke(standardLayer, probeLayer, enablePlayerImmunity);
         }
         #endregion
 
