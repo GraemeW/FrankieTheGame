@@ -132,28 +132,36 @@ PrefabInstance:
       propertyPath: m_WasSpriteAssigned
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 8740306805426083879, guid: 41e772d0f3e3d6d499c7091581954c19, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0.005
+      objectReference: {fileID: 0}
+    - target: {fileID: 8740306805426083879, guid: 41e772d0f3e3d6d499c7091581954c19, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -0.071
+      objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 1927827449376671123, guid: 41e772d0f3e3d6d499c7091581954c19, type: 3}
     - {fileID: 4054485302031693437, guid: 41e772d0f3e3d6d499c7091581954c19, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 1764316831733976797, guid: 41e772d0f3e3d6d499c7091581954c19, type: 3}
+    - targetCorrespondingSourceObject: {fileID: 5394756780079248778, guid: 41e772d0f3e3d6d499c7091581954c19, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 7904281730913556246}
+      addedObject: {fileID: 4129881181764845373}
   m_SourcePrefab: {fileID: 100100000, guid: 41e772d0f3e3d6d499c7091581954c19, type: 3}
---- !u!1 &354604160437144091 stripped
+--- !u!1 &6217734819473043788 stripped
 GameObject:
-  m_CorrespondingSourceObject: {fileID: 1764316831733976797, guid: 41e772d0f3e3d6d499c7091581954c19, type: 3}
+  m_CorrespondingSourceObject: {fileID: 5394756780079248778, guid: 41e772d0f3e3d6d499c7091581954c19, type: 3}
   m_PrefabInstance: {fileID: 2060346618670236870}
   m_PrefabAsset: {fileID: 0}
---- !u!58 &7904281730913556246
+--- !u!58 &4129881181764845373
 CircleCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 354604160437144091}
+  m_GameObject: {fileID: 6217734819473043788}
   m_Enabled: 1
   serializedVersion: 3
   m_Density: 1

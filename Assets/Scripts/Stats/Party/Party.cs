@@ -257,8 +257,6 @@ namespace Frankie.Stats
             foreach (BaseStats member in members)
             {
                 if (!member.TryGetComponent(out CombatParticipant combatParticipant)) { continue; }
-
-                Debug.Log($"{member.gameObject.name} is {combatParticipant.IsDead()}");
                 if (combatParticipant.IsDead())
                 {
                     deadMembers.Add(member);

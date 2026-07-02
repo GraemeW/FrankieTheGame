@@ -95,11 +95,19 @@ namespace Frankie.Control
         private void OnCollisionEnter2D(Collision2D collision)
         {
             if (!collisionsActive) { return; }
+            if (collision.contacts.Length == 0) { return; }
+            
+            Collider2D hitChildCollider = collision.GetContact(0).collider;
+            GameObject hitObject = hitChildCollider.gameObject;
+            
+            // Traverse up hierarchy if in player layer
+            bool isPlayerLayer = playerCollisionMask == (playerCollisionMask | (1 << hitObject.layer)); 
+            if (isPlayerLayer) { hitObject = collision.gameObject; }
             
             Vector2 npcPosition = collision.otherCollider.bounds.center;
-            Vector2 collisionObjectPosition = collision.collider.bounds.center;
+            Vector2 collisionObjectPosition = isPlayerLayer ? collision.collider.bounds.center : hitChildCollider.bounds.center;
 
-            HandleAllCollisionEntries(collision.gameObject, npcPosition, collisionObjectPosition);
+            HandleAllCollisionEntries(hitObject, npcPosition, collisionObjectPosition);
         }
 
         private void OnTriggerEnter2D(Collider2D collision)

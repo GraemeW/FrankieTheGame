@@ -19,17 +19,27 @@ namespace Frankie.Inventory
         #endregion
 
         #region PublicMethods
-        public CharacterMoveLink GetCharacterSpriteLink() => characterMoveLink;
-        public Transform GetAttachedObjectsRoot() => attachedObjectsRoot;
+
+        public bool TryGetCharacterMoveLink(out CharacterMoveLink passCharacterMoveLink)
+        {
+            passCharacterMoveLink = characterMoveLink;
+            return passCharacterMoveLink != null;
+        }
+
+        public bool TryGetAttachedObjectsRoot(out Transform passAttachedObjectsRoot)
+        {
+            passAttachedObjectsRoot = attachedObjectsRoot;
+            return passAttachedObjectsRoot != null;
+        }
         
         public void SpawnWearable(WearableItem wearableItem)
         {
             if (wearableItem == null || IsWearingItem(wearableItem, out _)) { return; }
             Wearable wearablePrefab = wearableItem.GetWearablePrefab();
             if (wearablePrefab == null) { return; }
-
+            
             Wearable spawnedWearable = Instantiate(wearablePrefab, attachedObjectsRoot);
-            spawnedWearable.AttachToCharacter(this);
+            spawnedWearable.Setup(wearableItem, this);
         }
 
         public void RemoveWearable(WearableItem wearableItem)

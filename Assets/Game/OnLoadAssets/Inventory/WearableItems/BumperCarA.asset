@@ -42,6 +42,7 @@ MonoBehaviour:
   condition:
     and: []
   wearablePrefab: {fileID: 4431856632854766482, guid: 2c8781e0f4e13814e80ef8437afd668c, type: 3}
+  shouldColliderMatchPlayer: 1
   references:
     version: 2
     RefIds: []

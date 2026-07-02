@@ -18,9 +18,11 @@ namespace Frankie.Core
         private const string _playerTag = "Player";
         private const string _playerLayerName = "Player";
         private const string _immunePlayerLayerName = "ImmunePlayer";
+        private const string _ignoreRaycastLayerName = "Ignore Raycast";
         private const string _playerInteractionProbeLayerName = "PlayerInteractionProbe";
         public static int GetPlayerLayer() => LayerMask.NameToLayer(_playerLayerName);
         public static int GetImmunePlayerLayer() => LayerMask.NameToLayer(_immunePlayerLayerName);
+        public static int GetIgnoreRaycastLayer() => LayerMask.NameToLayer(_ignoreRaycastLayerName);
         public static int GetPlayerInteractionProbeLayer() => LayerMask.NameToLayer(_playerInteractionProbeLayerName);
         
         public static GameObject FindPlayerObject() => GameObject.FindGameObjectWithTag(_playerTag);
