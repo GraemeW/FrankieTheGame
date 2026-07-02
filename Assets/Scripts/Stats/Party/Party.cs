@@ -29,6 +29,8 @@ namespace Frankie.Stats
         private void Start()
         {
             InitializeUnlockedCharacters();
+            ReconcileTheDead();
+            TriggerMembersAltered();
         }
 
         protected override void OnEnable()
@@ -292,8 +294,9 @@ namespace Frankie.Stats
         public LoadPriority GetLoadPriority() => LoadPriority.ObjectInstantiation;
 
         public void ApplyFinishingTouches()
-        { 
-            if (ReconcileTheDead()) { TriggerMembersAltered(); }
+        {
+            ReconcileTheDead();
+            TriggerMembersAltered();
         }
 
         public SaveState CaptureState()

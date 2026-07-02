@@ -8,6 +8,7 @@ namespace Frankie.Control
         // Tunables - Hookups
         [SerializeField] private SpriteRenderer spriteRenderer;
         [SerializeField] private Animator animator;
+        [SerializeField] private Transform interactionCentrePoint;
         // Tunables - Parameters
         [SerializeField] private float startingImmunityFlashPeriod = 0.1f;
         [SerializeField] private float immunityFlashPeriodGrowth = 1.15f;
@@ -44,6 +45,7 @@ namespace Frankie.Control
         #region Getters
         public SpriteRenderer GetSpriteRenderer() => spriteRenderer;
         public Animator GetAnimator() => animator;
+        public Transform GetInteractionCentrePoint() => interactionCentrePoint != null ? interactionCentrePoint : transform;
         public Vector2 GetLookDirection() => lookDirection;
         #endregion
         

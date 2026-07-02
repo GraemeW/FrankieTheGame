@@ -230,6 +230,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   spriteRenderer: {fileID: 8263638854299470656}
   animator: {fileID: 8263638854090363870}
+  interactionCentrePoint: {fileID: 3434804237215099165}
   startingImmunityFlashPeriod: 0.2
   immunityFlashPeriodGrowth: 1.15
   immuneAlphaLow: 0.4
