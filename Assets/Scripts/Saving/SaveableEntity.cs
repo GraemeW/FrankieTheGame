@@ -67,6 +67,14 @@ namespace Frankie.Saving
             }
         }
 
+        public void ApplyFinishingTouches()
+        {
+            foreach (ISaveableBase saveable in GetComponents<ISaveableBase>())
+            {
+                saveable.ApplyFinishingTouches();
+            }
+        }
+
         private static IEnumerable<(ISaveableBase, SaveState)> MatchSaveableToState(IEnumerable<ISaveableBase> saveableEntries, JObject stateDictionary)
         {
             foreach (ISaveableBase saveable in saveableEntries)

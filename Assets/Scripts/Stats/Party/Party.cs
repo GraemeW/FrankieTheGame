@@ -17,7 +17,6 @@ namespace Frankie.Stats
         private readonly Dictionary<CharacterProperties, SceneParentReferencePair> worldNPCLookup = new();
 
         // Cached References
-        private CombatParticipant partyLeaderCombatParticipant;
         private InactiveParty inactiveParty;
 
         #region UnityMethods
@@ -35,18 +34,26 @@ namespace Frankie.Stats
         protected override void OnEnable()
         {
             base.OnEnable();
+            playerStateMachine.playerStateChanged += HandlePlayerStateUpdates;
             playerMover.leadAnimationParametersUpdated += UpdateLeaderAnimation;
         }
 
         protected override void OnDisable()
         {
             base.OnDisable();
+            playerStateMachine.playerStateChanged -= HandlePlayerStateUpdates;
             playerMover.leadAnimationParametersUpdated -= UpdateLeaderAnimation;
         }
         #endregion
         
         #region EventHandling
         protected override PartyAlteredData PackPartyAlteredData() => new(members, GetPartyLeaderName(), GetLeadCharacterAnimator());
+
+        private void HandlePlayerStateUpdates(PlayerStateType playerStateType, IPlayerStateContext playerStateContext)
+        {
+            if (playerStateType != PlayerStateType.InWorld) { return; }
+            if (ReconcileTheDead()) { TriggerMembersAltered(); }
+        }
         
         private void UpdateLeaderAnimation(MovementAnimationParameters movementAnimationParameters)
         {
@@ -76,49 +83,36 @@ namespace Frankie.Stats
         #endregion
 
         #region PublicMethodsOther
-        public void SetPartyLeader(BaseStats characterBaseStats)
+        public void SetPartyLeader(BaseStats characterBaseStats, bool announceUpdate = true)
         {
+            if (characterBaseStats == null) { return; }
+            if (characterBaseStats.TryGetComponent(out CombatParticipant combatParticipant) && combatParticipant.IsDead()) { return; }  
             if (!members.Contains(characterBaseStats)) { return; }
 
             members.Remove(characterBaseStats);
             members.Insert(0, characterBaseStats);
-
-            int index = 0;
-            foreach (Collider2D characterCollider2D in members.Select(partyCharacter => partyCharacter.GetComponent<Collider2D>()))
-            {
-                characterCollider2D.isTrigger = index != 0;
-                index++;
-            }
+            
             playerMover.ResetHistory(characterBaseStats.transform.position);
+            RefreshColliders();
             RefreshLookups();
-            SyncToPartyLeaderStatusUpdates();
-            TriggerMembersAltered();
-        }
-        
-        public void ReconcilePartyLeader()
-        {
-            foreach (BaseStats member in members)
-            {
-                if (!member.TryGetComponent(out CombatParticipant combatParticipant)) { continue; }
-                if (combatParticipant.IsDead()) { continue; }
-                
-                SetPartyLeader(member);
-                return;
-            }
+            if (announceUpdate) { TriggerMembersAltered(); }
         }
 
         protected override bool AddToParty(BaseStats characterBaseStats)
         {
+            if (characterBaseStats == null) { return false; }
             if (members.Count >= partyLimit) { return false; }
-            if (characterBaseStats == null) { return false; } // Failsafe
-            if (HasMember(characterBaseStats)) { return false; } // Verify no dupe characters to party
+            if (HasMember(characterBaseStats)) { return false; }
 
             members.Add(characterBaseStats);
             AddToUnlockedCharacters(characterBaseStats);
-            RefreshLookups();
-            inactiveParty.RestoreCharacterState(characterBaseStats); // Restore character stats, exp, equipment, inventory (if previously in party)
 
-            if (members.Count > 1) { characterBaseStats.GetComponent<Collider2D>().isTrigger = true; }
+            inactiveParty.RestoreCharacterState(characterBaseStats); // Restore character stats, exp, equipment, inventory (if previously in party)
+            
+            ReconcileTheDead();
+            RefreshLookups();
+            RefreshColliders();
+            
             TriggerMembersAltered();
             return true;
         }
@@ -126,8 +120,8 @@ namespace Frankie.Stats
         public override bool AddToParty(CharacterNPCSwapper characterNPCSwapper)
         {
             // For direct interaction with world NPCs -> characters
+            if (characterNPCSwapper == null) { return false; }
             if (members.Count >= partyLimit) { return false; }
-            if (characterNPCSwapper == null) { return false; } // Failsafe
 
             CharacterNPCSwapper partyCharacter = characterNPCSwapper.SwapToCharacter(container);
             UpdateWorldLookup(false, partyCharacter);
@@ -139,22 +133,13 @@ namespace Frankie.Stats
         public override bool AddToParty(CharacterProperties characterProperties)
         {
             // For instantiation through other means (i.e. no character exists on screen)
+            if (characterProperties == null) { return false; }
             if (members.Count >= partyLimit) { return false; }
-            if (characterProperties == null) { return false; } // Failsafe
 
             GameObject characterObject = CharacterNPCSwapper.SpawnCharacter(characterProperties, container);
             return characterObject != null && AddToParty(characterObject.GetComponent<BaseStats>());
         }
 
-        public override bool RemoveFromParty(CharacterProperties characterProperties)
-        {
-            if (members.Count <= 1) { return false; }
-            if (characterProperties == null) { return false; }
-
-            BaseStats member = GetMember(characterProperties);
-            return member != null && RemoveFromParty(member);
-        }
-        
         public override bool RemoveFromParty(BaseStats character)
         {
             if (members.Count <= 1) { return false; }
@@ -163,18 +148,26 @@ namespace Frankie.Stats
             // If character to remove is leader, swap leadership to second character first
             if (IsPartyLeader(character))
             {
-                SetPartyLeader(members[1]); // Guaranteed to exist because count > 1
+                foreach (BaseStats characterBaseStats in members.Where(characterBaseStats => characterBaseStats != character))
+                {
+                    if (characterBaseStats.TryGetComponent(out CombatParticipant combatParticipant) && combatParticipant.IsDead()) { continue; }
+                    SetPartyLeader(characterBaseStats, false);
+                    break;
+                }
             }
 
             inactiveParty.CaptureCharacterState(character);
             members.Remove(character);
-            RefreshLookups();
             Destroy(character.gameObject);
+            
+            ReconcileTheDead();
+            RefreshLookups();
+            RefreshColliders();
             
             TriggerMembersAltered();
             return true;
         }
-
+        
         public override bool RemoveFromParty(BaseStats character, Transform worldTransform)
         {
             if (members.Count <= 1) { return false; }
@@ -189,6 +182,15 @@ namespace Frankie.Stats
             UpdateWorldLookup(true, worldNPC);
 
             return RemoveFromParty(character);
+        }
+        
+        public override bool RemoveFromParty(CharacterProperties characterProperties)
+        {
+            if (members.Count <= 1) { return false; }
+            if (characterProperties == null) { return false; }
+
+            BaseStats member = GetMember(characterProperties);
+            return member != null && RemoveFromParty(member);
         }
 
         public void UpdateWorldLookup(bool addToLookUp, CharacterNPCSwapper characterNPCSwapper)
@@ -243,23 +245,38 @@ namespace Frankie.Stats
             CharacterProperties characterProperties = character.GetCharacterProperties();
             RemoveFromUnlockedCharacters(characterProperties);
         }
-
-        private void SyncToPartyLeaderStatusUpdates()
+        
+        private bool ReconcileTheDead()
         {
-            if (partyLeaderCombatParticipant != null) { partyLeaderCombatParticipant.UnsubscribeToStateUpdates(HandlePartyLeaderStatusUpdate); }
-            if (members is not { Count: > 0 }) { return; }
+            // N.B.  Does NOT trigger membersAltered event, must be triggered separately
             
-            partyLeaderCombatParticipant = members[0].GetComponent<CombatParticipant>();
-            partyLeaderCombatParticipant.SubscribeToStateUpdates(HandlePartyLeaderStatusUpdate);
-        }
+            BaseStats newLeader = null;
+            List<BaseStats> deadMembers = new List<BaseStats>();
+            foreach (BaseStats member in members)
+            {
+                if (!member.TryGetComponent(out CombatParticipant combatParticipant)) { continue; }
 
-        private void HandlePartyLeaderStatusUpdate(StateAlteredInfo stateAlteredInfo)
-        {
-            if (stateAlteredInfo == null) { return; }
-            if (stateAlteredInfo.stateAlteredType != StateAlteredType.Dead) { return; }
-            if (members is not { Count: > 1 }) { return; }
+                Debug.Log($"{member.gameObject.name} is {combatParticipant.IsDead()}");
+                if (combatParticipant.IsDead())
+                {
+                    deadMembers.Add(member);
+                    continue;
+                }
+                if (newLeader == null) { newLeader = member; }
+            }
 
-            ReconcilePartyLeader();
+            bool stateModified = false;
+            if (newLeader != null && newLeader != members[0])
+            {
+                stateModified = true;
+                SetPartyLeader(newLeader, false); }
+            if (deadMembers.Count > 0)
+            {
+                stateModified = true;
+                members.RemoveAll(deadMembers.Contains);
+                members.AddRange(deadMembers);
+            }
+            return stateModified;
         }
         #endregion
 
@@ -273,7 +290,12 @@ namespace Frankie.Stats
         
         #region SaveInterface
         public LoadPriority GetLoadPriority() => LoadPriority.ObjectInstantiation;
-        
+
+        public void ApplyFinishingTouches()
+        { 
+            if (ReconcileTheDead()) { TriggerMembersAltered(); }
+        }
+
         public SaveState CaptureState()
         {
             members ??= new List<BaseStats>();
@@ -351,7 +373,6 @@ namespace Frankie.Stats
                 if (members.Count > 1) { characterObject.GetComponent<Collider2D>().isTrigger = true; }
             }
             RefreshLookups();
-            SyncToPartyLeaderStatusUpdates();
             TriggerMembersAltered();
         }
 

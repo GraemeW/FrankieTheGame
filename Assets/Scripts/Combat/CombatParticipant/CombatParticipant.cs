@@ -520,7 +520,7 @@ namespace Frankie.Combat
         public SaveState CaptureState()
         {
             SetupLazyState();
-            var combatParticipantSaveData = new CombatParticipantSaveData(isDead.value, currentHP.value, currentAP.value);
+            var combatParticipantSaveData = new CombatParticipantSaveData(isDead.value, GetHP()/ GetMaxHP(), GetAP() / GetMaxAP());
             return ManualGetStateFromData(combatParticipantSaveData);
         }
         
@@ -530,19 +530,19 @@ namespace Frankie.Combat
 
             SetupLazyState();
             isDead.value = combatParticipantSaveData.isDead;
-            currentHP.value = combatParticipantSaveData.currentHP;
-            currentAP.value = combatParticipantSaveData.currentAP;
+            currentHP.value = Mathf.Clamp01(combatParticipantSaveData.hpRatio) * GetMaxHP();
+            currentAP.value = Mathf.Clamp01(combatParticipantSaveData.apRatio) * GetMaxAP();
             targetHP = currentHP.value;
             if (!isDead.value) { return; }
             
-            
+            currentHP.value = 0f;
+            targetHP = 0f; 
             if (shouldDestroySelfOnDeath)
             {
                 isDestructionTriggeredBySave = true;
                 Destroy(gameObject);
                 return;
             }
-            HandleCharacterDeathOnRestore();
         }
         
         public SaveState ManualGetStateFromData(CombatParticipantSaveData data) => new(GetLoadPriority(), data);
@@ -550,24 +550,8 @@ namespace Frankie.Combat
         public CombatParticipantSaveData ManualGetDataFromState(SaveState saveState)
         {
             if (saveState?.GetState(typeof(CombatParticipantSaveData)) is CombatParticipantSaveData combatParticipantSaveData) { return combatParticipantSaveData; }
-            
-            if (!TryGetComponent(out BaseStats localBaseStats)) { return null; }
-            if (!localBaseStats.ManualTryGetDefaultStat(Stat.HP, out var hpValue)) { return null; }
-            if (!localBaseStats.ManualTryGetDefaultStat(Stat.AP, out var apValue)) { return null; }
-            
-            return new CombatParticipantSaveData(false, hpValue, apValue);
+            return new CombatParticipantSaveData(false, 1.0f, 1.0f);
         }
-
-        private void HandleCharacterDeathOnRestore()
-        {
-            currentHP.value = 0f;
-            targetHP = 0f; 
-            if (baseStats != null && baseStats.IsInParty(out Party party))
-            {
-                if (party.IsPartyLeader(baseStats)) { party.ReconcilePartyLeader(); }
-            }
-        }
-
         // Predicate Evaluation
         public bool? Evaluate(Predicate predicate)
         {

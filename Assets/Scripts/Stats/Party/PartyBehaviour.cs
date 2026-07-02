@@ -27,7 +27,7 @@ namespace Frankie.Stats
 
         // Cached References
         protected PlayerMover playerMover;
-        private PlayerStateMachine playerStateMachine;
+        protected PlayerStateMachine playerStateMachine;
         
         // Events
         public event Action<PartyAlteredData> membersAltered;
@@ -86,6 +86,16 @@ namespace Frankie.Stats
             {
                 if (character.TryGetComponent(out Rigidbody2D characterRigidBody)) { rigidBody2DLookup[character] = characterRigidBody; }
                 if (character.TryGetComponent(out CharacterMoveLink characterSpriteLink)) { characterSpriteLinkLookup[character] = characterSpriteLink; }
+            }
+        }
+        
+        protected void RefreshColliders(bool setLeaderToCollide = true)
+        {
+            int index = 0;
+            foreach (Collider2D characterCollider2D in members.Select(partyCharacter => partyCharacter.GetComponent<Collider2D>()))
+            {
+                characterCollider2D.isTrigger = !(setLeaderToCollide && index == 0);
+                index++;
             }
         }
 

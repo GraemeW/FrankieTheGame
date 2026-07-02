@@ -287,6 +287,12 @@ namespace Frankie.Saving
                     saveable.RestoreState(value, LoadPriority.ObjectProperty);
                 }
             }
+            
+            // Finishing Touches -- Dependent on property loading
+            foreach (SaveableEntity saveable in saveableEntities)
+            {
+                saveable.ApplyFinishingTouches();
+            }
         }
         #endregion
     }
