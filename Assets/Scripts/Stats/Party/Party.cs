@@ -88,7 +88,7 @@ namespace Frankie.Stats
         public void SetPartyLeader(BaseStats characterBaseStats, bool announceUpdate = true)
         {
             if (characterBaseStats == null) { return; }
-            if (characterBaseStats.TryGetComponent(out CombatParticipant combatParticipant) && combatParticipant.IsDead()) { return; }  
+            if (combatParticipantLookup.TryGetValue(characterBaseStats, out CombatParticipant combatParticipant) && combatParticipant.IsDead()) { return; }  
             if (!members.Contains(characterBaseStats)) { return; }
 
             members.Remove(characterBaseStats);
@@ -152,7 +152,7 @@ namespace Frankie.Stats
             {
                 foreach (BaseStats characterBaseStats in members.Where(characterBaseStats => characterBaseStats != character))
                 {
-                    if (characterBaseStats.TryGetComponent(out CombatParticipant combatParticipant) && combatParticipant.IsDead()) { continue; }
+                    if (combatParticipantLookup.TryGetValue(characterBaseStats, out CombatParticipant combatParticipant) && combatParticipant.IsDead()) { continue; }
                     SetPartyLeader(characterBaseStats, false);
                     break;
                 }
@@ -256,7 +256,7 @@ namespace Frankie.Stats
             List<BaseStats> deadMembers = new List<BaseStats>();
             foreach (BaseStats member in members)
             {
-                if (!member.TryGetComponent(out CombatParticipant combatParticipant)) { continue; }
+                if (!combatParticipantLookup.TryGetValue(member, out CombatParticipant combatParticipant)) { continue; }
                 if (combatParticipant.IsDead())
                 {
                     deadMembers.Add(member);

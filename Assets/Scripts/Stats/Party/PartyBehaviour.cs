@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using Frankie.Control;
+using Frankie.Combat;
 using Frankie.Utils;
 
 namespace Frankie.Stats
@@ -23,6 +24,7 @@ namespace Frankie.Stats
         // State
         private readonly Dictionary<BaseStats, Rigidbody2D> rigidBody2DLookup = new();
         protected readonly Dictionary<BaseStats, CharacterMoveLink> characterSpriteLinkLookup = new();
+        protected readonly Dictionary<BaseStats, CombatParticipant> combatParticipantLookup = new();
         private int lastMemberOffsetIndex = 0;
 
         // Cached References
@@ -86,6 +88,7 @@ namespace Frankie.Stats
             {
                 if (character.TryGetComponent(out Rigidbody2D characterRigidBody)) { rigidBody2DLookup[character] = characterRigidBody; }
                 if (character.TryGetComponent(out CharacterMoveLink characterSpriteLink)) { characterSpriteLinkLookup[character] = characterSpriteLink; }
+                if (character.TryGetComponent(out CombatParticipant combatParticipant)) { combatParticipantLookup[character] = combatParticipant; }
             }
         }
         
