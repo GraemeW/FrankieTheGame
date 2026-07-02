@@ -47,6 +47,12 @@ namespace Frankie.Saving.Editor
             currentAPRow.Add(currentAPField);
             var currentAPSlider = new Slider(0f, 1f) { value = currentAP, style = { flexGrow = 2, marginLeft = 4 } };
             currentAPRow.Add(currentAPSlider);
+
+            if (float.IsPositiveInfinity(currentAP))
+            {
+                currentAPField.SetEnabled(false);
+                currentAPSlider.SetEnabled(false);
+            }
             
             var setHPAPToMaxButton = new Button { text = "HP/AP -> Max", style = { width = smallButtonWidth } };
             subCardView.Add(setHPAPToMaxButton);
@@ -123,7 +129,7 @@ namespace Frankie.Saving.Editor
                     currentHPSlider.SetValueWithoutNotify(currentHP);
                 }
                 
-                if (maxAP > 0f)
+                if (maxAP > 0f && !float.IsPositiveInfinity(currentAP))
                 {
                     currentAP = Mathf.Clamp01(maxAP);
                     currentAPField.SetValueWithoutNotify(currentAP);

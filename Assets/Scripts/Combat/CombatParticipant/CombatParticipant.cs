@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -55,10 +56,14 @@ namespace Frankie.Combat
         private bool inCombat = false;
         private bool isHealthRollActive = true;
         private bool isDestructionTriggeredBySave = false;
+        
         private float cooldownTimer;
         private float cooldownStore;
+        private Coroutine battleActionCoroutine;
+        
         private float targetHP = 1f;
         private float deltaHPTimeFraction;
+        
         private LazyValue<bool> isDead;
         private LazyValue<float> currentHP;
         private LazyValue<float> currentAP;
@@ -123,6 +128,7 @@ namespace Frankie.Combat
         {
             baseStats.onLevelUp -= ParseLevelUpMessage;
             if (equipment != null) { equipment.equipmentUpdated -= ReconcileHPAP; }
+            if (battleActionCoroutine != null) { StopCoroutine(battleActionCoroutine); }
         }
 
         private void Update()
@@ -181,8 +187,8 @@ namespace Frankie.Combat
         public float GetCooldown() => cooldownTimer;
         public bool IsDead() => isDead.value;
         public float GetHP() => currentHP.value;
-        public bool HasAP(float points) => currentAP.value >= points;
         public float GetAP() => usesAP ? currentAP.value : Mathf.Infinity;
+        public bool HasAP(float points) => GetAP() >= points;
         #endregion
 
         #region PublicUtility
@@ -238,6 +244,12 @@ namespace Frankie.Combat
         {
             cooldownStore += cooldownRunFailAdder;
             ReconcileCooldownStore();
+        }
+
+        public void StartBattleActionCoroutine(IEnumerator coroutine)
+        {
+            if (battleActionCoroutine != null) { StopCoroutine(battleActionCoroutine); }
+            battleActionCoroutine = StartCoroutine(AppendBattleActionCoroutineClear(coroutine));
         }
 
         public void AdjustHP(float points)
@@ -365,6 +377,12 @@ namespace Frankie.Combat
         #endregion
 
         #region PrivateUtility
+        private IEnumerator AppendBattleActionCoroutineClear(IEnumerator coroutine)
+        {
+            yield return coroutine;
+            battleActionCoroutine = null;
+        }
+        
         private void HandleBattleStateChangedEvent(BattleStateChangedEvent battleStateChangedEvent)
         {
             // Note:  Order of operations matters here since SetCombatActive also modifies isHealthRollActive
@@ -520,7 +538,9 @@ namespace Frankie.Combat
         public SaveState CaptureState()
         {
             SetupLazyState();
-            var combatParticipantSaveData = new CombatParticipantSaveData(isDead.value, GetHP()/ GetMaxHP(), GetAP() / GetMaxAP());
+            CombatParticipantSaveData combatParticipantSaveData = usesAP
+                ? new CombatParticipantSaveData(isDead.value, GetHP() / GetMaxHP(), GetAP() / GetMaxAP())
+                : new CombatParticipantSaveData(isDead.value, GetHP() / GetMaxHP(), Mathf.Infinity);
             return ManualGetStateFromData(combatParticipantSaveData);
         }
         
@@ -541,7 +561,6 @@ namespace Frankie.Combat
             {
                 isDestructionTriggeredBySave = true;
                 Destroy(gameObject);
-                return;
             }
         }
         
@@ -550,7 +569,11 @@ namespace Frankie.Combat
         public CombatParticipantSaveData ManualGetDataFromState(SaveState saveState)
         {
             if (saveState?.GetState(typeof(CombatParticipantSaveData)) is CombatParticipantSaveData combatParticipantSaveData) { return combatParticipantSaveData; }
-            return new CombatParticipantSaveData(false, 1.0f, 1.0f);
+            
+            combatParticipantSaveData = usesAP
+                ? new CombatParticipantSaveData(false, 1.0f, 1.0f)
+                : new CombatParticipantSaveData(false, 1.0f, Mathf.Infinity);
+            return combatParticipantSaveData;
         }
         // Predicate Evaluation
         public bool? Evaluate(Predicate predicate)

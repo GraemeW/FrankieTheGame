@@ -14,7 +14,7 @@ namespace Frankie.Combat
         {
             this.isDead = isDead;
             this.hpRatio = Mathf.Clamp01(hpRatio);
-            this.apRatio = Mathf.Clamp01(apRatio);
+            this.apRatio = apRatio; // No clamp due to possibility of Mathf.Infinity
         }
     }
 }
