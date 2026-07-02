@@ -520,14 +520,8 @@ namespace Frankie.Combat
 
         private void ReconcileHPAP(EquipableItemBase equipableItem)
         {
-            if (currentHP.value > baseStats.GetStat(Stat.HP))
-            {
-                currentHP.value = baseStats.GetStat(Stat.HP);
-            }
-            if (currentAP.value > baseStats.GetStat(Stat.AP))
-            {
-                currentAP.value = !usesAP ? Mathf.Infinity : baseStats.GetStat(Stat.AP);
-            }
+            if (currentHP.value > baseStats.GetStat(Stat.HP)) { currentHP.value = baseStats.GetStat(Stat.HP); }
+            if (currentAP.value > baseStats.GetStat(Stat.AP)) { currentAP.value = usesAP ? baseStats.GetStat(Stat.AP) : Mathf.Infinity; }
         }
         #endregion
 
