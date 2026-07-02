@@ -59,7 +59,7 @@ namespace Frankie.Stats
         #region PrivateMethods
         private void DeleteNPCIfInParty()
         {
-            if (party == null) { return; }
+            if (party.value == null) { return; }
 
             CharacterProperties characterProperties = baseStats.GetCharacterProperties();
             if (characterProperties == null) { return; }

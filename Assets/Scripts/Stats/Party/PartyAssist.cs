@@ -31,8 +31,9 @@ namespace Frankie.Stats
             
             members.Add(characterBaseStats);
             RefreshLookups();
-
             characterBaseStats.GetComponent<Collider2D>().isTrigger = true; // All party assist have disabled colliders
+            if (party.GetPartyLeader() != null) { characterBaseStats.transform.position = party.GetPartyLeader().transform.position; } // Overlap position on Add
+            
             TriggerMembersAltered();
             return true;
         }
@@ -59,7 +60,7 @@ namespace Frankie.Stats
 
             GameObject characterObject = CharacterNPCSwapper.SpawnCharacter(characterProperties, container);
             if (characterObject == null) { return false; }
-
+            
             var character = characterObject.GetComponent<BaseStats>();
             return AddToParty(character);
         }

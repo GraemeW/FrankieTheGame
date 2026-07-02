@@ -105,7 +105,7 @@ namespace Frankie.Stats
             if (characterBaseStats == null) { return false; }
             if (members.Count >= partyLimit) { return false; }
             if (HasMember(characterBaseStats)) { return false; }
-
+            
             members.Add(characterBaseStats);
             AddToUnlockedCharacters(characterBaseStats);
 
@@ -114,6 +114,7 @@ namespace Frankie.Stats
             ReconcileTheDead();
             RefreshLookups();
             RefreshColliders();
+            if (GetPartyLeader() != null) { characterBaseStats.transform.position = GetPartyLeader().transform.position; } // Overlap position on Add
             
             TriggerMembersAltered();
             return true;
@@ -139,7 +140,9 @@ namespace Frankie.Stats
             if (members.Count >= partyLimit) { return false; }
 
             GameObject characterObject = CharacterNPCSwapper.SpawnCharacter(characterProperties, container);
-            return characterObject != null && AddToParty(characterObject.GetComponent<BaseStats>());
+            if (characterObject == null) { return false; }
+            
+            return AddToParty(characterObject.GetComponent<BaseStats>());
         }
 
         public override bool RemoveFromParty(BaseStats character)

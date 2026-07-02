@@ -44,14 +44,14 @@ namespace Frankie.Stats
 
         protected virtual void OnEnable()
         {
-            playerMover.movementHistoryReset += ResetPartyOffsets;
+            playerMover.movementHistoryReset += ResetPartyPositions;
             playerMover.playerMoved += UpdatePartyPositions;
             playerStateMachine.playerLayerChanged += HandlePlayerLayerChanged;
         }
 
         protected virtual void OnDisable()
         {
-            playerMover.movementHistoryReset -= ResetPartyOffsets;
+            playerMover.movementHistoryReset -= ResetPartyPositions;
             playerMover.playerMoved -= UpdatePartyPositions;
             playerStateMachine.playerLayerChanged -= HandlePlayerLayerChanged;
         }
@@ -172,11 +172,11 @@ namespace Frankie.Stats
             lastMemberOffsetIndex = bufferIndex;
         }
         
-        private void ResetPartyOffsets()
+        private void ResetPartyPositions(Vector2 newPosition)
         {
             foreach (BaseStats character in members)
             {
-                character.gameObject.transform.localPosition = Vector2.zero;
+                character.transform.position = newPosition;
             }
         }
         

@@ -32,7 +32,7 @@ namespace Frankie.Control
         private BaseStats partyLeader;
 
         // Events
-        public event Action movementHistoryReset;
+        public event Action<Vector2> movementHistoryReset;
         public event Action<MovementAnimationParameters> leadAnimationParametersUpdated;
         public event Action<CircularBuffer<Tuple<Vector2, Vector2>>> playerMoved;
 
@@ -102,7 +102,7 @@ namespace Frankie.Control
         {
             movementHistory.Clear();
             AddToMovementHistory(newPosition);
-            movementHistoryReset?.Invoke();
+            movementHistoryReset?.Invoke(newPosition);
 
             historyResetThisFrame = true;
         }
