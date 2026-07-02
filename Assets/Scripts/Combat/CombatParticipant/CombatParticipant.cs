@@ -551,7 +551,7 @@ namespace Frankie.Combat
             SetupLazyState();
             isDead.value = combatParticipantSaveData.isDead;
             currentHP.value = Mathf.Clamp01(combatParticipantSaveData.hpRatio) * GetMaxHP();
-            currentAP.value = Mathf.Clamp01(combatParticipantSaveData.apRatio) * GetMaxAP();
+            currentAP.value = usesAP ? Mathf.Clamp01(combatParticipantSaveData.apRatio) * GetMaxAP() : Mathf.Infinity;
             targetHP = currentHP.value;
             if (!isDead.value) { return; }
             
