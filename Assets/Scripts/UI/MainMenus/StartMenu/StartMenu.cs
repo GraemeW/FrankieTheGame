@@ -26,8 +26,15 @@ namespace Frankie.Menu.UI
         [SerializeField] private UIChoiceButton quitOptionField;
 
         #region UnityMethods
-
         private void Start()
+        {
+            ResetAllTextElements();
+        }
+        #endregion
+        
+        #region PublicMethods
+
+        public void ResetAllTextElements()
         {
             if (headerField != null) { headerField.SetText(localizedHeaderText.GetSafeLocalizedString()); }
             if (subHeaderField != null) { subHeaderField.SetText(localizedSubHeaderText.GetSafeLocalizedString()); }

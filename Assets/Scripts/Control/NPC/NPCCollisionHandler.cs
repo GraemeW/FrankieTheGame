@@ -259,18 +259,18 @@ namespace Frankie.Control
             bool playerLooksTowardNpc = IsLooking(playerLook, playerToNpc, playerGoodLookCone, toward: true);
             bool npcLooksAwayFromPlayer = IsLooking(npcLook, npcToPlayer, npcGoodAwayCone, toward: false);
             if (playerLooksTowardNpc && npcLooksAwayFromPlayer) { return TransitionType.BattleGood; }
-
-            bool playerLooksAwayFromNpc = IsLooking(playerLook, playerToNpc, playerBadAwayCone, toward: false);
+            
             bool npcLooksTowardPlayer = IsLooking(npcLook, npcToPlayer, npcBadLookCone, toward: true);
+            bool playerLooksAwayFromNpc = IsLooking(playerLook, playerToNpc, playerBadAwayCone, toward: false);
             if (npcLooksTowardPlayer && playerLooksAwayFromNpc) { return TransitionType.BattleBad; }
 
             return TransitionType.BattleNeutral;
         }
         
-        private static bool IsLooking(Vector2 lookDir, Vector2 dirToTarget, float coneAngleDegrees, bool toward)
+        private static bool IsLooking(Vector2 lookDirection, Vector2 directionToTarget, float coneAngleDegrees, bool toward)
         {
             float cosHalfAngle = Mathf.Cos(0.5f * coneAngleDegrees * Mathf.Deg2Rad);
-            float dot = Vector2.Dot(lookDir.normalized, dirToTarget.normalized);
+            float dot = Vector2.Dot(lookDirection.normalized, directionToTarget.normalized);
             return toward ? dot > cosHalfAngle : dot < -cosHalfAngle;
         }
         #endregion

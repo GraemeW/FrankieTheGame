@@ -46,9 +46,7 @@ namespace Frankie.Menu.UI
 
         private void Start()
         {
-            if (escapeHeaderField != null) { escapeHeaderField.SetText(localizedEscapeHeaderText.GetSafeLocalizedString()); }
-            if (optionOptionsField != null) { optionOptionsField.SetText(localizedOptionOptionsText.GetSafeLocalizedString()); }
-            if (optionQuitField != null) { optionQuitField.SetText(localizedOptionQuitText.GetSafeLocalizedString()); }
+            ResetAllTextElements();
             HandleClientEntry();
         }
 
@@ -72,6 +70,14 @@ namespace Frankie.Menu.UI
         #endregion
         
         #region PublicMethods
+
+        public void ResetAllTextElements()
+        {
+            if (escapeHeaderField != null) { escapeHeaderField.SetText(localizedEscapeHeaderText.GetSafeLocalizedString()); }
+            if (optionOptionsField != null) { optionOptionsField.SetText(localizedOptionOptionsText.GetSafeLocalizedString()); }
+            if (optionQuitField != null) { optionQuitField.SetText(localizedOptionQuitText.GetSafeLocalizedString()); }
+        }
+        
         public void OpenOptionsMenu() // Called via Unity Events
         {
             // Front-load event calling -- despawns any open windows

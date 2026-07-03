@@ -54,7 +54,8 @@ namespace Frankie.Menu.UI
         
         // Cached References
         private BackgroundMusic backgroundMusic;
-        private EscapeMenu escapeMenu;
+        private StartMenu cachedStartMenu;
+        private EscapeMenu cachedEscapeMenu;
 
         // State
         private bool wasChangeMade = false;
@@ -75,6 +76,7 @@ namespace Frankie.Menu.UI
         private void Start()
         {
             backgroundMusic = BackgroundMusic.FindBackgroundMusic(); // find in Start since persistent object, spawned during Awake
+            cachedStartMenu = UnityEngine.Object.FindAnyObjectByType<StartMenu>();
 
             InitializeLocalization();
             
@@ -145,7 +147,7 @@ namespace Frankie.Menu.UI
         #region PublicMethods
         public void Setup(EscapeMenu setEscapeMenu)
         {
-            escapeMenu = setEscapeMenu;
+            cachedEscapeMenu = setEscapeMenu;
             if (gameObject.activeSelf) { SubscribeToEscapeMenu(true); }
         }
 
@@ -160,14 +162,14 @@ namespace Frankie.Menu.UI
         #region PrivateMethods
         private void SubscribeToEscapeMenu(bool enable)
         {
-            if (escapeMenu == null) { return; }
+            if (cachedEscapeMenu == null) { return; }
             if (enable)
             {
-                escapeMenu.escapeMenuItemSelected += Cancel;
+                cachedEscapeMenu.escapeMenuItemSelected += Cancel;
             }
             else
             {
-                escapeMenu.escapeMenuItemSelected -= Cancel;
+                cachedEscapeMenu.escapeMenuItemSelected -= Cancel;
             }
         }
 
@@ -290,7 +292,7 @@ namespace Frankie.Menu.UI
         {
             wasChangeMade = true;
             WriteVolumeToPlayerPrefs();
-            backgroundMusic?.RefreshVolume();
+            if (backgroundMusic != null) { backgroundMusic.RefreshVolume(); }
             if (playSoundEffect && soundUpdateConfirmEffect != null) { soundUpdateConfirmEffect.PlayClip(); }
         }
 
@@ -331,6 +333,9 @@ namespace Frankie.Menu.UI
             LocalizationTool.SetLocale(supportedLocalizationType);
             InitializeLocalization();
             WriteLocalizationToPlayerPrefs(supportedLocalizationType);
+            
+            if (cachedStartMenu != null) { cachedStartMenu.ResetAllTextElements(); }
+            if (cachedEscapeMenu != null) { { cachedEscapeMenu.ResetAllTextElements(); } }
         }
 
         private IEnumerator WaitForScreenChange(ResolutionSetting resolutionSetting)
