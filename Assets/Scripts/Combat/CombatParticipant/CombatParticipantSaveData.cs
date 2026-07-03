@@ -1,4 +1,5 @@
 using System;
+using UnityEngine;
 
 namespace Frankie.Combat
 {
@@ -6,14 +7,14 @@ namespace Frankie.Combat
     public class CombatParticipantSaveData
     {
         public bool isDead;
-        public float currentHP;
-        public float currentAP;
+        public float hpRatio;
+        public float apRatio;
 
-        public CombatParticipantSaveData(bool isDead, float currentHP, float currentAP)
+        public CombatParticipantSaveData(bool isDead, float hpRatio, float apRatio)
         {
             this.isDead = isDead;
-            this.currentHP = currentHP;
-            this.currentAP = currentAP;
+            this.hpRatio = Mathf.Clamp01(hpRatio);
+            this.apRatio = apRatio; // No clamp due to possibility of Mathf.Infinity
         }
     }
 }

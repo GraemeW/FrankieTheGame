@@ -8,8 +8,10 @@ namespace Frankie.Inventory
         // Tunables
         [Header("Wearable Item Properties - Note:  EquipLocation = Other")]
         [SerializeField] private Wearable wearablePrefab;
+        [SerializeField] private bool shouldColliderMatchPlayer = true;
 
         // Getters
+        public bool ShouldColliderMatchPlayer() => shouldColliderMatchPlayer;
         public Wearable GetWearablePrefab() => wearablePrefab;
         public override EquipLocation GetEquipLocation() => EquipLocation.Other;
     }

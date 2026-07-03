@@ -2,11 +2,13 @@ using System;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using Frankie.Stats;
 
 namespace Frankie.Control
 {
-    [RequireComponent(typeof(PlayerMover))]
     [RequireComponent(typeof(PlayerStateMachine))]
+    [RequireComponent(typeof(PlayerMover))]
+    [RequireComponent(typeof(Party))]
     public class PlayerController : MonoBehaviour, IStandardPlayerInputCaller
     {
         // Data Types
@@ -25,7 +27,6 @@ namespace Frankie.Control
         [SerializeField] private float raycastMouseDistance = 10.0f;
         [SerializeField] private float raycastRadius = 0.1f;
         [SerializeField] private float interactionDistance = 0.5f;
-        [SerializeField] private Transform interactionCenterPoint;
         
         // State
         private PlayerInputType currentDirectionalInput = PlayerInputType.DefaultNone;
@@ -34,8 +35,9 @@ namespace Frankie.Control
 
         // Cached References
         private PlayerInput playerInput;
-        private PlayerMover playerMover;
         private PlayerStateMachine playerStateMachine;
+        private PlayerMover playerMover;
+        private Transform interactionCentrePoint;
 
         // Events
         public event Action<PlayerInputType> globalInput;
@@ -50,6 +52,7 @@ namespace Frankie.Control
         #region UnityMethods
         private void Awake()
         {
+            interactionCentrePoint = transform; // Initialize for safety, but overridden by Party updates
             playerMover = GetComponent<PlayerMover>();
             playerStateMachine = GetComponent<PlayerStateMachine>();
             playerInput = new PlayerInput();
@@ -72,14 +75,23 @@ namespace Frankie.Control
         
         private void OnEnable()
         {
-            playerStateMachine.playerStateChanged += ParsePlayerStateChange;
             playerInput.Player.Enable();
+            playerStateMachine.playerStateChanged += ParsePlayerStateChange;
+            SubscribeToPartyUpdates(true);
         }
 
         private void OnDisable()
         {
-            playerStateMachine.playerStateChanged -= ParsePlayerStateChange;
             playerInput.Player.Disable();
+            playerStateMachine.playerStateChanged -= ParsePlayerStateChange;
+            SubscribeToPartyUpdates(false);
+        }
+        
+        private void SubscribeToPartyUpdates(bool enable)
+        {
+            if (!TryGetComponent(out Party party)) { return; }
+            party.membersAltered -= HandlePartyUpdate;
+            if (enable) { party.membersAltered += HandlePartyUpdate; }
         }
         #endregion
         
@@ -91,12 +103,12 @@ namespace Frankie.Control
         #region Interfaces
         public RaycastHit2D PlayerCastToObject(Vector3 objectPosition)
         {
-            Vector2 castDirection = objectPosition - interactionCenterPoint.position;
-            RaycastHit2D closestHit = Physics2D.CircleCast(interactionCenterPoint.position, raycastRadius, castDirection, interactionDistance, raycastInteractionLayers);
+            Vector2 castDirection = objectPosition - interactionCentrePoint.position;
+            RaycastHit2D closestHit = Physics2D.CircleCast(interactionCentrePoint.position, raycastRadius, castDirection, interactionDistance, raycastInteractionLayers);
             return closestHit.collider == null ? new RaycastHit2D() : closestHit;
         }
 
-        public Vector2 GetInteractionPosition() => interactionCenterPoint != null ? interactionCenterPoint.position : Vector2.zero;
+        public Vector2 GetInteractionPosition() => interactionCentrePoint != null ? interactionCentrePoint.position : Vector2.zero;
 
         public void VerifyUnique()
         {
@@ -127,6 +139,16 @@ namespace Frankie.Control
         #endregion
         
         #region PrivateMethods
+        private void HandlePartyUpdate(PartyAlteredData partyAlteredData)
+        {
+            if (partyAlteredData == null) { return; }
+
+            Transform newInteractionCentrePoint = partyAlteredData.GetPartyLeaderInteractionCentrePoint();
+            if (newInteractionCentrePoint == null) { return; }
+            
+            interactionCentrePoint = newInteractionCentrePoint;
+        }
+        
         private void ParsePlayerStateChange(PlayerStateType playerStateType, IPlayerStateContext playerStateContext)
         {
             SetCursor(CursorType.None);
@@ -218,7 +240,7 @@ namespace Frankie.Control
 
         private RaycastHit2D RaycastFromPlayerInLookDirection()
         {
-            RaycastHit2D closestHit = Physics2D.CircleCast(interactionCenterPoint.position, raycastRadius, playerMover.GetLookDirection(), interactionDistance,raycastInteractionLayers);
+            RaycastHit2D closestHit = Physics2D.CircleCast(interactionCentrePoint.position, raycastRadius, playerMover.GetLookDirection(), interactionDistance,raycastInteractionLayers);
             return closestHit.collider == null ? new RaycastHit2D() : closestHit; // pass an empty hit
         }
         #endregion

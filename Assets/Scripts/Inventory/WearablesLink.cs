@@ -1,5 +1,5 @@
 using UnityEngine;
-using Frankie.Stats;
+using Frankie.Control;
 
 namespace Frankie.Inventory
 {
@@ -9,27 +9,37 @@ namespace Frankie.Inventory
         [SerializeField] private Transform attachedObjectsRoot;
         
         // Cached References
-        private CharacterSpriteLink characterSpriteLink;
+        private CharacterMoveLink characterMoveLink;
 
         #region UnityMethods
         private void Awake()
         {
-            characterSpriteLink = GetComponent<CharacterSpriteLink>();
+            characterMoveLink = GetComponent<CharacterMoveLink>();
         }
         #endregion
 
         #region PublicMethods
-        public CharacterSpriteLink GetCharacterSpriteLink() => characterSpriteLink;
-        public Transform GetAttachedObjectsRoot() => attachedObjectsRoot;
+
+        public bool TryGetCharacterMoveLink(out CharacterMoveLink passCharacterMoveLink)
+        {
+            passCharacterMoveLink = characterMoveLink;
+            return passCharacterMoveLink != null;
+        }
+
+        public bool TryGetAttachedObjectsRoot(out Transform passAttachedObjectsRoot)
+        {
+            passAttachedObjectsRoot = attachedObjectsRoot;
+            return passAttachedObjectsRoot != null;
+        }
         
         public void SpawnWearable(WearableItem wearableItem)
         {
             if (wearableItem == null || IsWearingItem(wearableItem, out _)) { return; }
             Wearable wearablePrefab = wearableItem.GetWearablePrefab();
             if (wearablePrefab == null) { return; }
-
+            
             Wearable spawnedWearable = Instantiate(wearablePrefab, attachedObjectsRoot);
-            spawnedWearable.AttachToCharacter(this);
+            spawnedWearable.Setup(wearableItem, this);
         }
 
         public void RemoveWearable(WearableItem wearableItem)

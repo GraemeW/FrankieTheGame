@@ -4,7 +4,8 @@ namespace Frankie.Saving
     {
         LoadPriority GetLoadPriority();
         bool IsCorePlayerState() => false;
+        void ApplyFinishingTouches() { }
         SaveState CaptureState();
         void RestoreState(SaveState saveState);
-    }
+}
 }

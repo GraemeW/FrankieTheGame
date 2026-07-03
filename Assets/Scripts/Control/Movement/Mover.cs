@@ -5,7 +5,6 @@ using Frankie.Utils;
 
 namespace Frankie.Control
 {
-    [RequireComponent(typeof(Rigidbody2D))]
     [RequireComponent(typeof(PathFinder))]
     public abstract class Mover : MonoBehaviour, ISaveable<SerializableVector2>
     {
@@ -17,6 +16,7 @@ namespace Frankie.Control
         [SerializeField] private bool resetPositionOnEnable = false;
 
         // State
+        protected bool isRigidBodyInitialized = false;
         protected Vector2 originalPosition;
         protected Vector2 lookDirection = Vector2.down;
         protected float currentSpeed;
@@ -30,7 +30,7 @@ namespace Frankie.Control
         private Coroutine queuedMoveCoroutine;
 
         // Cached References
-        private Rigidbody2D rigidBody2D;
+        protected Rigidbody2D rigidBody2D;
         private PathFinder pathFinder;
 
         #region Static
@@ -48,19 +48,22 @@ namespace Frankie.Control
         #region UnityMethods
         protected virtual void Awake()
         {
-            rigidBody2D = GetComponent<Rigidbody2D>();
+            
             pathFinder = GetComponent<PathFinder>();
             if (!CheckForConfiguration()) { return; }
             if (movementConfiguration.usingPathFinding) { pathFinder.InitialisePathfindingCache(); }
             SetupInitialState();
         }
 
+        protected abstract void SelfInitializeRigidBody();
+
         protected virtual void Start()
         {
+            SelfInitializeRigidBody(); // Call in start to allow SaveState instantiation to run during Awake
+            SetLookDirection(defaultLookDirection); // Initialize look direction to avoid wonky
+            
             // N.B. Deliberately NOT calling clear move targets here to avoid order of operations issues
             // In some edge cases Start() can be called after Update(), which can cause shouts to fail
-
-            SetLookDirection(defaultLookDirection); // Initialize look direction to avoid wonky
         }
 
         protected virtual void OnEnable()
@@ -82,7 +85,7 @@ namespace Frankie.Control
             timeSinceLastMove += Time.deltaTime;
         }
         
-        private void SetupInitialState()
+        protected void SetupInitialState()
         {
             originalPosition = transform.position;
             targetDistanceTolerance = defaultTargetDistanceTolerance;
@@ -104,11 +107,14 @@ namespace Frankie.Control
         #region PublicMethods
         public abstract float GetCurrentSpeed();
         public Vector2 GetLookDirection() => lookDirection;
-        public Vector2 GetCurrentPosition() => rigidBody2D.position;
+        public Vector2 GetCurrentPosition() => isRigidBodyInitialized ? rigidBody2D.position : Vector2.zero;
         public float GetTimeSinceLastMove() => timeSinceLastMove;
         public void ResetTimeSinceLastMove() => timeSinceLastMove = 0;
         
-        public void MoveRigidBody(Vector2 newPosition) => rigidBody2D.MovePosition(newPosition);
+        public void MoveRigidBody(Vector2 newPosition)
+        {
+            if (isRigidBodyInitialized) { rigidBody2D.MovePosition(newPosition); }
+        }
         public void SetLookDirection(Vector2 setLookDirection)
         {
             SetLookDirection(setLookDirection, true);
@@ -176,8 +182,11 @@ namespace Frankie.Control
                 Mathf.Round(_pixelsPerUnit * position.x) / _pixelsPerUnit, 
                 Mathf.Round(_pixelsPerUnit * position.y) / _pixelsPerUnit);
         }
-        
-        protected Vector2 GetSpritePositionOffset() => RoundToPixelPerfect(rigidBody2D.position) - rigidBody2D.position;
+
+        protected Vector2 GetSpritePositionOffset()
+        {
+            return isRigidBodyInitialized ? (RoundToPixelPerfect(rigidBody2D.position) - rigidBody2D.position) : Vector2.zero;
+        }
 
         protected virtual void OnLookDirectionUpdate() {}
         
@@ -238,6 +247,8 @@ namespace Frankie.Control
         
         private bool SetStaticForNoTarget()
         {
+            if (!isRigidBodyInitialized) { return true; }
+            
             if (moveTargetCoordinate == null && moveTargetObject == null)
             {
                 rigidBody2D.bodyType = RigidbodyType2D.Static;
@@ -269,23 +280,9 @@ namespace Frankie.Control
         // Save State
         public LoadPriority GetLoadPriority() => LoadPriority.ObjectProperty;
 
-        public SaveState CaptureState() => ManualGetStateFromData(new SerializableVector2(transform.position));
-        
-        public void RestoreState(SaveState saveState)
-        {
-            SerializableVector2 savedPosition = ManualGetDataFromState(saveState);
-            if (savedPosition == null) { return; }
+        public abstract SaveState CaptureState();
 
-            // Force initialization for objects set to disable
-            if (rigidBody2D == null)
-            {
-                rigidBody2D = GetComponent<Rigidbody2D>();
-                SetupInitialState();
-            }
-            
-            transform.position = savedPosition.ToVector();
-            SetLookDirection(Vector2.down);
-        }
+        public abstract void RestoreState(SaveState saveState);
 
         public SaveState ManualGetStateFromData(SerializableVector2 data) => new(GetLoadPriority(), data);
         public SerializableVector2 ManualGetDataFromState(SaveState saveState) => saveState?.GetState(typeof(SerializableVector2)) as SerializableVector2;

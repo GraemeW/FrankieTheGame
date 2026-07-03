@@ -1,6 +1,6 @@
 using UnityEngine;
 using Frankie.Control;
-using Frankie.Stats;
+using Frankie.Core;
 
 namespace Frankie.Inventory
 {
@@ -8,13 +8,16 @@ namespace Frankie.Inventory
     public class Wearable : MonoBehaviour
     {
         // Tunables
-        [SerializeField] private WearableItem wearableItem;
-
+        [SerializeField] private GameObject colliderObject; 
+        
+        // State
+        private WearableItem wearableItem;
+        
         // Cached References
         private Animator animator;
-        private CharacterSpriteLink characterSpriteLink;
+        private CharacterMoveLink characterMoveLink;
 
-        // Unity Methods
+        #region UnityMethods
         private void Awake()
         {
             animator = GetComponent<Animator>();
@@ -22,45 +25,72 @@ namespace Frankie.Inventory
 
         private void OnEnable()
         {
-            if (characterSpriteLink == null) { return; }
-            characterSpriteLink.characterLookUpdated += UpdateAnimatorLooks;
-            characterSpriteLink.characterSpeedUpdated += UpdateAnimatorSpeeds;
+            SubscribeAnimatorToCharacterMoveLink(true);
         }
 
         private void OnDisable()
         {
-            if (characterSpriteLink == null) { return; }
-            characterSpriteLink.characterLookUpdated -= UpdateAnimatorLooks;
-            characterSpriteLink.characterSpeedUpdated -= UpdateAnimatorSpeeds;
+            SubscribeAnimatorToCharacterMoveLink(false);
         }
 
-        // Public Methods
+        private void SubscribeAnimatorToCharacterMoveLink(bool enable)
+        {
+            if (characterMoveLink == null) { return; }
+            characterMoveLink.characterLookUpdated -= UpdateAnimatorLooks;
+            characterMoveLink.characterSpeedUpdated -= UpdateAnimatorSpeeds;
+            if (enable)
+            {
+                characterMoveLink.characterLookUpdated += UpdateAnimatorLooks;
+                characterMoveLink.characterSpeedUpdated += UpdateAnimatorSpeeds;
+            }
+        }
+        #endregion
+
+        #region PublicMethods
         public WearableItem GetWearableItem() => wearableItem;
 
-        public void AttachToCharacter(WearablesLink wearablesLink)
+        public void Setup(WearableItem setWearableItem, WearablesLink wearablesLink)
         {
-            Transform attachRoot = wearablesLink.GetAttachedObjectsRoot();
-            transform.parent = attachRoot;
-
-            characterSpriteLink = wearablesLink.GetCharacterSpriteLink();
-            if (characterSpriteLink == null) { return; }
-
-            characterSpriteLink.characterLookUpdated += UpdateAnimatorLooks;
-            characterSpriteLink.characterSpeedUpdated += UpdateAnimatorSpeeds;
+            wearableItem = setWearableItem;
+            if (wearableItem == null)
+            {
+                Destroy(gameObject);
+                return;
+            }
+            
+            TrySetupAttachedObjectsRoot(wearablesLink);
+            if (wearablesLink.TryGetCharacterMoveLink(out characterMoveLink)) { SubscribeAnimatorToCharacterMoveLink(true);}
+            SetupCollisionLayer();
         }
-
-        public void RemoveFromCharacter()
-        {
-            Destroy(gameObject);
-        }
+        #endregion
 
         // Private Methods
-        private void UpdateAnimatorLooks(float xLook, float yLook)
+        private void TrySetupAttachedObjectsRoot(WearablesLink wearablesLink)
+        {
+            if (wearablesLink.TryGetAttachedObjectsRoot(out Transform attachedObjectsRoot))
+            {
+                transform.parent = attachedObjectsRoot;
+            }
+            else
+            {
+                Destroy(gameObject);
+            }
+        }
+
+        private void SetupCollisionLayer()
+        {
+            if (colliderObject == null || wearableItem == null) { return; }
+
+            bool shouldColliderMatchPlayer = wearableItem.ShouldColliderMatchPlayer();
+            colliderObject.layer = shouldColliderMatchPlayer ? Player.GetPlayerLayer() : Player.GetIgnoreRaycastLayer();
+        }
+        
+        private void UpdateAnimatorLooks(Vector2 lookDirection)
         {
             if (animator.runtimeAnimatorController == null) { return; }
 
-            Mover.SetAnimatorXLook(animator, xLook);
-            Mover.SetAnimatorYLook(animator, yLook);
+            Mover.SetAnimatorXLook(animator, lookDirection.x);
+            Mover.SetAnimatorYLook(animator, lookDirection.y);
         }
 
         private void UpdateAnimatorSpeeds(float speed)

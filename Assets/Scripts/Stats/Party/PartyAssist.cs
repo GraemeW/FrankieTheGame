@@ -30,9 +30,10 @@ namespace Frankie.Stats
             if (HasMember(characterBaseStats)) { return false; } // Verify no dupe characters to party
             
             members.Add(characterBaseStats);
-            RefreshAnimatorLookup();
-
+            RefreshLookups();
             characterBaseStats.GetComponent<Collider2D>().isTrigger = true; // All party assist have disabled colliders
+            if (party.GetPartyLeader() != null) { characterBaseStats.transform.position = party.GetPartyLeader().transform.position; } // Overlap position on Add
+            
             TriggerMembersAltered();
             return true;
         }
@@ -59,7 +60,7 @@ namespace Frankie.Stats
 
             GameObject characterObject = CharacterNPCSwapper.SpawnCharacter(characterProperties, container);
             if (characterObject == null) { return false; }
-
+            
             var character = characterObject.GetComponent<BaseStats>();
             return AddToParty(character);
         }
@@ -69,11 +70,10 @@ namespace Frankie.Stats
             if (character == null) { return false; } // Failsafe
 
             members.Remove(character);
-            characterSpriteLinkLookup.Remove(character);
-
+            RefreshLookups();
             Destroy(character.gameObject);
+            
             TriggerMembersAltered();
-
             return true;
         }
 
@@ -152,7 +152,7 @@ namespace Frankie.Stats
                 characterObject.GetComponent<Collider2D>().isTrigger = true; // All party assist have disabled colliders
                 members.Add(character);
             }
-            RefreshAnimatorLookup();
+            RefreshLookups();
             TriggerMembersAltered();
         }
         #endregion

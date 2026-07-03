@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using Frankie.Control;
 
 namespace Frankie.Stats
 {
@@ -26,5 +27,20 @@ namespace Frankie.Stats
         }
         
         public IList<BaseStats> GetMembers() => members;
+        
+        public BaseStats GetPartyLeader() => members.Count > 0 ? members[0] : null;
+
+        public GameObject GetPartyLeaderObject()
+        {
+            BaseStats partyLeader = GetPartyLeader();
+            return partyLeader != null ? partyLeader.gameObject : null;
+        }
+
+        public Transform GetPartyLeaderInteractionCentrePoint()
+        {
+            BaseStats partyLeader = GetPartyLeader();
+            if (partyLeader == null) { return null; }
+            return partyLeader.TryGetComponent(out CharacterMoveLink characterMoveLink) ? characterMoveLink.GetInteractionCentrePoint(): partyLeader.transform;
+        }
     }
 }

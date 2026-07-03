@@ -124,7 +124,6 @@ namespace Frankie.World
         private void HandleRideEnd(PlayerStateMachine playerStateMachine)
         {
             if (cameraController == null) { CameraController.GetCameraController(); }
-            Debug.Log("So we're here now");
 
             npcMover.arrivedAtFinalWaypoint -= handleRideEndDelegate;
             cameraController.RefreshDefaultCameras();

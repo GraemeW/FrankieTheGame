@@ -22,7 +22,7 @@ namespace Frankie.Saving.Editor
             if (saveable is not BaseStats baseStats) { return; }
             
             BaseStatsSaveData baseStatsSaveData = baseStats.ManualGetDataFromState(saveState);
-            if (baseStatsSaveData == null)
+            if (baseStatsSaveData?.statSheet == null)
             {
                 subCardView.Add(new Label("No BaseStats save data found"));
                 return;

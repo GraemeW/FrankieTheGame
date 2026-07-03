@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using Frankie.Control;
+using Frankie.Combat;
 using Frankie.Utils;
 
 namespace Frankie.Stats
@@ -21,12 +22,14 @@ namespace Frankie.Stats
         private const int _initialOffset = 0;
 
         // State
-        protected readonly Dictionary<BaseStats, CharacterSpriteLink> characterSpriteLinkLookup = new();
+        private readonly Dictionary<BaseStats, Rigidbody2D> rigidBody2DLookup = new();
+        protected readonly Dictionary<BaseStats, CharacterMoveLink> characterSpriteLinkLookup = new();
+        protected readonly Dictionary<BaseStats, CombatParticipant> combatParticipantLookup = new();
         private int lastMemberOffsetIndex = 0;
 
         // Cached References
         protected PlayerMover playerMover;
-        private PlayerStateMachine playerStateMachine;
+        protected PlayerStateMachine playerStateMachine;
         
         // Events
         public event Action<PartyAlteredData> membersAltered;
@@ -36,20 +39,20 @@ namespace Frankie.Stats
         {
             playerMover = GetComponent<PlayerMover>();
             playerStateMachine = GetComponent<PlayerStateMachine>();
-            RefreshAnimatorLookup();
+            RefreshLookups();
         }
 
         protected virtual void OnEnable()
         {
-            playerMover.movementHistoryReset += ResetPartyOffsets;
-            playerMover.playerMoved += UpdatePartyOffsets;
+            playerMover.movementHistoryReset += ResetPartyPositions;
+            playerMover.playerMoved += UpdatePartyPositions;
             playerStateMachine.playerLayerChanged += HandlePlayerLayerChanged;
         }
 
         protected virtual void OnDisable()
         {
-            playerMover.movementHistoryReset -= ResetPartyOffsets;
-            playerMover.playerMoved -= UpdatePartyOffsets;
+            playerMover.movementHistoryReset -= ResetPartyPositions;
+            playerMover.playerMoved -= UpdatePartyPositions;
             playerStateMachine.playerLayerChanged -= HandlePlayerLayerChanged;
         }
         #endregion
@@ -77,12 +80,25 @@ namespace Frankie.Stats
         protected void TriggerMembersAltered() => membersAltered?.Invoke(PackPartyAlteredData());
         protected virtual PartyAlteredData PackPartyAlteredData() => new(members);
         
-        protected void RefreshAnimatorLookup()
+        protected void RefreshLookups()
         {
+            rigidBody2DLookup.Clear();
             characterSpriteLinkLookup.Clear();
-            foreach (BaseStats character in members)
+            foreach (BaseStats character in members.Where(character => character != null))
             {
-                characterSpriteLinkLookup.Add(character, character.GetComponent<CharacterSpriteLink>());
+                if (character.TryGetComponent(out Rigidbody2D characterRigidBody)) { rigidBody2DLookup[character] = characterRigidBody; }
+                if (character.TryGetComponent(out CharacterMoveLink characterSpriteLink)) { characterSpriteLinkLookup[character] = characterSpriteLink; }
+                if (character.TryGetComponent(out CombatParticipant combatParticipant)) { combatParticipantLookup[character] = combatParticipant; }
+            }
+        }
+        
+        protected void RefreshColliders(bool setLeaderToCollide = true)
+        {
+            int index = 0;
+            foreach (Collider2D characterCollider2D in members.Select(partyCharacter => partyCharacter.GetComponent<Collider2D>()))
+            {
+                characterCollider2D.isTrigger = !(setLeaderToCollide && index == 0);
+                index++;
             }
         }
 
@@ -112,7 +128,7 @@ namespace Frankie.Stats
         {
             foreach (BaseStats member in members)
             {
-                if (!member.TryGetComponent(out CharacterSpriteLink characterSpriteLink)) { continue; }
+                if (!member.TryGetComponent(out CharacterMoveLink characterSpriteLink)) { continue; }
                 SpriteRenderer spriteRenderer = characterSpriteLink.GetSpriteRenderer();
                 if (spriteRenderer == null) { continue; }
                 
@@ -127,55 +143,52 @@ namespace Frankie.Stats
             return members.Any(baseStats => CharacterProperties.AreCharacterPropertiesMatched(matchCharacterProperties, baseStats.GetCharacterProperties()));
         }
         
-        private void UpdatePartyOffsets(CircularBuffer<Tuple<Vector2, Vector2>> movementHistory)
+        private void UpdatePartyPositions(CircularBuffer<Tuple<Vector2, Vector2>> movementHistory)
         {
-            Vector2 leaderPosition = movementHistory.GetFirstEntry().Item1;
-
             int characterIndex = 0;
             int bufferIndex = 0;
             foreach (BaseStats character in members)
             {
                 if (ShouldSkipFirstEntryOffset() && characterIndex == 0) { characterIndex++; continue; }
 
-                Vector2 localPosition;
+                Vector2 position;
                 Vector2 lookDirection;
                 bufferIndex = characterIndex * partyOffset + GetInitialPartyOffset();
                 if (bufferIndex >= movementHistory.GetCurrentSize())
                 {
-                    localPosition = movementHistory.GetLastEntry().Item1 - leaderPosition;
+                    position = movementHistory.GetLastEntry().Item1;
                     lookDirection = movementHistory.GetLastEntry().Item2;
                 }
                 else
                 {
-                    localPosition = movementHistory.GetEntryAtPosition(bufferIndex).Item1 - leaderPosition;
+                    position = movementHistory.GetEntryAtPosition(bufferIndex).Item1;
                     lookDirection = movementHistory.GetEntryAtPosition(bufferIndex).Item2;
                 }
-                character.gameObject.transform.localPosition = localPosition;
-                characterSpriteLinkLookup[character].UpdateCharacterLook(lookDirection.x, lookDirection.y);
+                if (rigidBody2DLookup.TryGetValue(character, out Rigidbody2D characterRigidBody)) { characterRigidBody.MovePosition(position); }
+                if (characterSpriteLinkLookup.TryGetValue(character, out CharacterMoveLink characterSpriteLink)) { characterSpriteLink.UpdateCharacterLook(lookDirection); }
 
                 characterIndex++;
             }
             lastMemberOffsetIndex = bufferIndex;
         }
         
-        private void ResetPartyOffsets()
+        private void ResetPartyPositions(Vector2 newPosition)
         {
             foreach (BaseStats character in members)
             {
-                character.gameObject.transform.localPosition = Vector2.zero;
+                character.transform.position = newPosition;
             }
         }
         
-        private void HandlePlayerLayerChanged(int layer, bool isPlayerImmune)
+        private void HandlePlayerLayerChanged(int playerLayer, int probeLayer, bool isPlayerImmune)
         {
-            foreach (BaseStats character in members)
+            foreach (BaseStats character in members.Where(character => character != null))
             {
-                character.gameObject.layer = layer;
-            }
-            
-            foreach (var characterSpriteLink in characterSpriteLinkLookup)
-            {
-                characterSpriteLink.Value.SetIsFlashing(isPlayerImmune);
+                character.gameObject.layer = playerLayer;
+                
+                if (!characterSpriteLinkLookup.TryGetValue(character, out CharacterMoveLink characterSpriteLink)) { continue; }
+                characterSpriteLink.SetInteractionProbeLayer(probeLayer);
+                characterSpriteLink.SetIsFlashing(isPlayerImmune);
             }
         }
         #endregion

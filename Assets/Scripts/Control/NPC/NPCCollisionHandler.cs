@@ -12,9 +12,15 @@ namespace Frankie.Control
     public class NPCCollisionHandler : MonoBehaviour
     {
         //Tunables
+        [Header("Standard Tunables")]
         [SerializeField] private LayerMask playerCollisionMask;
         [SerializeField] private bool defaultCollisionsWhenAggravated = true;
         [SerializeField] private bool disableCollisionEventsWhenDead = true;
+        [Header("Battle Entry Cone Angles (full width degrees)")]
+        [SerializeField] private float playerGoodLookCone = 90f;
+        [SerializeField] private float npcGoodAwayCone = 150f;
+        [SerializeField] private float npcBadLookCone = 60f;
+        [SerializeField] private float playerBadAwayCone = 120f;
 
         // State
         private bool collisionsActive = true;
@@ -95,11 +101,19 @@ namespace Frankie.Control
         private void OnCollisionEnter2D(Collision2D collision)
         {
             if (!collisionsActive) { return; }
+            if (collision.contacts.Length == 0) { return; }
+            
+            Collider2D hitChildCollider = collision.GetContact(0).collider;
+            GameObject hitObject = hitChildCollider.gameObject;
+            
+            // Traverse up hierarchy if in player layer
+            bool isPlayerLayer = playerCollisionMask == (playerCollisionMask | (1 << hitObject.layer)); 
+            if (isPlayerLayer) { hitObject = collision.gameObject; }
             
             Vector2 npcPosition = collision.otherCollider.bounds.center;
-            Vector2 playerPosition = collision.collider.bounds.center;
+            Vector2 collisionObjectPosition = isPlayerLayer ? collision.collider.bounds.center : hitChildCollider.bounds.center;
 
-            HandleAllCollisionEntries(collision.gameObject, npcPosition, playerPosition);
+            HandleAllCollisionEntries(hitObject, npcPosition, collisionObjectPosition);
         }
 
         private void OnTriggerEnter2D(Collider2D collision)
@@ -112,12 +126,12 @@ namespace Frankie.Control
             HandleAllCollisionEntries(collision.gameObject, npcPosition, playerPosition);
         }
 
-        private void HandleAllCollisionEntries(GameObject collisionGameObject, Vector2 npcPosition, Vector2 playerPosition)
+        private void HandleAllCollisionEntries(GameObject collisionGameObject, Vector2 npcPosition, Vector2 collisionObjectPosition)
         {
             if (playerCollisionMask == (playerCollisionMask | (1 << collisionGameObject.layer)))
             {
-                var playerMover = collisionGameObject.GetComponentInParent<PlayerMover>();
-                if (playerMover != null && HandlePlayerCollisions(playerMover, npcPosition, playerPosition)) { return; }
+                var characterMoveLink = collisionGameObject.GetComponent<CharacterMoveLink>();
+                if (characterMoveLink != null && HandlePlayerCollisions(characterMoveLink, npcPosition, collisionObjectPosition)) { return; }
             }
 
             if (!collisionGameObject.TryGetComponent(out NPCCollisionHandler collisionNPC)) { return; }
@@ -144,7 +158,7 @@ namespace Frankie.Control
             }
         }
 
-        private bool HandlePlayerCollisions(PlayerMover playerMover, Vector2 npcPosition, Vector2 playerPosition)
+        private bool HandlePlayerCollisions(CharacterMoveLink characterMoveLink, Vector2 npcPosition, Vector2 collisionObjectPosition)
         {
             touchingPlayer = true;
 
@@ -152,14 +166,14 @@ namespace Frankie.Control
             // Applied for aggro situations
             if (collisionsOverriddenToEnterCombat) 
             {
-                battleEntryType = GetBattleEntryType(playerMover, playerPosition, npcPosition);
+                battleEntryType = GetBattleEntryType(characterMoveLink, collisionObjectPosition, npcPosition);
                 npcStateHandler.InitiateCombat(battleEntryType, GetNPCMob());
                 return true;
             }
             
             // Event hooked up in Unity
             if (collidedWithPlayer == null) { return false; }
-            battleEntryType = GetBattleEntryType(playerMover, playerPosition, npcPosition);
+            battleEntryType = GetBattleEntryType(characterMoveLink, collisionObjectPosition, npcPosition);
             collidedWithPlayer.Invoke(battleEntryType);
             return true;
         }
@@ -235,21 +249,29 @@ namespace Frankie.Control
             if (triggerBilateral) { npcCollisionHandler.RemoveNPCMob(this, false); }
         }
 
-        private TransitionType GetBattleEntryType(PlayerMover playerMover, Vector2 playerPosition, Vector2 npcPosition)
+        private TransitionType GetBattleEntryType(CharacterMoveLink characterMoveLink, Vector2 playerPosition, Vector2 npcPosition)
         {
-            float npcLookMagnitudeToContact = Vector2.Dot(playerPosition - npcPosition, npcMover.GetLookDirection());
-            float playerLookMagnitudeToContact = Vector2.Dot(npcPosition - playerPosition, playerMover.GetLookDirection());
+            Vector2 npcToPlayer = playerPosition - npcPosition;
+            Vector2 playerToNpc = npcPosition - playerPosition;
+            Vector2 npcLook = npcMover.GetLookDirection();
+            Vector2 playerLook = characterMoveLink.GetLookDirection();
 
-            if (playerLookMagnitudeToContact > 0 && npcLookMagnitudeToContact < 0)
-            {
-                return TransitionType.BattleGood;
-            }
-            if (npcLookMagnitudeToContact > 0 && playerLookMagnitudeToContact < 0)
-            {
-                return TransitionType.BattleBad;
-            }
+            bool playerLooksTowardNpc = IsLooking(playerLook, playerToNpc, playerGoodLookCone, toward: true);
+            bool npcLooksAwayFromPlayer = IsLooking(npcLook, npcToPlayer, npcGoodAwayCone, toward: false);
+            if (playerLooksTowardNpc && npcLooksAwayFromPlayer) { return TransitionType.BattleGood; }
+            
+            bool npcLooksTowardPlayer = IsLooking(npcLook, npcToPlayer, npcBadLookCone, toward: true);
+            bool playerLooksAwayFromNpc = IsLooking(playerLook, playerToNpc, playerBadAwayCone, toward: false);
+            if (npcLooksTowardPlayer && playerLooksAwayFromNpc) { return TransitionType.BattleBad; }
 
             return TransitionType.BattleNeutral;
+        }
+        
+        private static bool IsLooking(Vector2 lookDirection, Vector2 directionToTarget, float coneAngleDegrees, bool toward)
+        {
+            float cosHalfAngle = Mathf.Cos(0.5f * coneAngleDegrees * Mathf.Deg2Rad);
+            float dot = Vector2.Dot(lookDirection.normalized, directionToTarget.normalized);
+            return toward ? dot > cosHalfAngle : dot < -cosHalfAngle;
         }
         #endregion
     }

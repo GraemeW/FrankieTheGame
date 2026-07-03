@@ -62,18 +62,22 @@ namespace Frankie.Combat
         
         public bool Use(BattleActionData battleActionData, bool useAP, Action finished)
         {
-            if (battleActionData.GetSender().IsDead()) { finished.Invoke(); return false; }
-            if (effectStrategies == null || (useAP && !battleActionData.GetSender().HasAP(apCost)) || !battleActionData.HasTargets())
+            CombatParticipant sender = battleActionData.GetSender();
+            if (sender == null || sender.IsDead())
             {
-                battleActionData.GetSender().SetCooldown(0f);
-                finished?.Invoke();
+                finished.Invoke(); 
                 return false;
             }
 
-            CombatParticipant sender = battleActionData.GetSender();
+            if (effectStrategies == null || (useAP && !sender.HasAP(apCost)) || !battleActionData.HasTargets())
+            {
+                sender.SetCooldown(0f);
+                finished?.Invoke();
+                return false;
+            }
+            
             IList<BattleEntity> recipients = battleActionData.GetTargets();
-            sender.StartCoroutine(EffectSequence(sender, recipients, useAP, finished));
-
+            sender.StartBattleActionCoroutine(EffectSequence(sender, recipients, useAP, finished));
             return true;
         }
 
