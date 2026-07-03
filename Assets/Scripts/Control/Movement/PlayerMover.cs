@@ -197,8 +197,7 @@ namespace Frankie.Control
         #region SaveInterface
         public override SaveState CaptureState()
         {
-            if (partyLeader == null) { ManualGetStateFromData(null); }
-            return ManualGetStateFromData(new SerializableVector2(partyLeader.transform.position));
+            return partyLeader == null ? null : ManualGetStateFromData(new SerializableVector2(partyLeader.transform.position));
         }
 
         public override void RestoreState(SaveState saveState)
