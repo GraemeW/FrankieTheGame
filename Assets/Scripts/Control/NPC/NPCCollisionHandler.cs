@@ -12,9 +12,15 @@ namespace Frankie.Control
     public class NPCCollisionHandler : MonoBehaviour
     {
         //Tunables
+        [Header("Standard Tunables")]
         [SerializeField] private LayerMask playerCollisionMask;
         [SerializeField] private bool defaultCollisionsWhenAggravated = true;
         [SerializeField] private bool disableCollisionEventsWhenDead = true;
+        [Header("Battle Entry Cone Angles (full width degrees)")]
+        [SerializeField] private float playerGoodLookCone = 90f;
+        [SerializeField] private float npcGoodAwayCone = 150f;
+        [SerializeField] private float npcBadLookCone = 60f;
+        [SerializeField] private float playerBadAwayCone = 120f;
 
         // State
         private bool collisionsActive = true;
@@ -245,19 +251,27 @@ namespace Frankie.Control
 
         private TransitionType GetBattleEntryType(CharacterMoveLink characterMoveLink, Vector2 playerPosition, Vector2 npcPosition)
         {
-            float npcLookMagnitudeToContact = Vector2.Dot(playerPosition - npcPosition, npcMover.GetLookDirection());
-            float playerLookMagnitudeToContact = Vector2.Dot(npcPosition - playerPosition, characterMoveLink.GetLookDirection());
+            Vector2 npcToPlayer = playerPosition - npcPosition;
+            Vector2 playerToNpc = npcPosition - playerPosition;
+            Vector2 npcLook = npcMover.GetLookDirection();
+            Vector2 playerLook = characterMoveLink.GetLookDirection();
 
-            if (playerLookMagnitudeToContact > 0 && npcLookMagnitudeToContact < 0)
-            {
-                return TransitionType.BattleGood;
-            }
-            if (npcLookMagnitudeToContact > 0 && playerLookMagnitudeToContact < 0)
-            {
-                return TransitionType.BattleBad;
-            }
+            bool playerLooksTowardNpc = IsLooking(playerLook, playerToNpc, playerGoodLookCone, toward: true);
+            bool npcLooksAwayFromPlayer = IsLooking(npcLook, npcToPlayer, npcGoodAwayCone, toward: false);
+            if (playerLooksTowardNpc && npcLooksAwayFromPlayer) { return TransitionType.BattleGood; }
+
+            bool playerLooksAwayFromNpc = IsLooking(playerLook, playerToNpc, playerBadAwayCone, toward: false);
+            bool npcLooksTowardPlayer = IsLooking(npcLook, npcToPlayer, npcBadLookCone, toward: true);
+            if (npcLooksTowardPlayer && playerLooksAwayFromNpc) { return TransitionType.BattleBad; }
 
             return TransitionType.BattleNeutral;
+        }
+        
+        private static bool IsLooking(Vector2 lookDir, Vector2 dirToTarget, float coneAngleDegrees, bool toward)
+        {
+            float cosHalfAngle = Mathf.Cos(0.5f * coneAngleDegrees * Mathf.Deg2Rad);
+            float dot = Vector2.Dot(lookDir.normalized, dirToTarget.normalized);
+            return toward ? dot > cosHalfAngle : dot < -cosHalfAngle;
         }
         #endregion
     }
