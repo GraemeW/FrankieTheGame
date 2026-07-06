@@ -113,12 +113,12 @@ namespace Frankie.Speech
         
         private DialogueNode CreateNode(int depth, int breadth)
         {
-            DialogueNode dialogueNode = CreateInstance<DialogueNode>();
+            var dialogueNode = CreateInstance<DialogueNode>();
             Undo.RegisterCreatedObjectUndo(dialogueNode, "Created Dialogue Node Object");
             dialogueNode.Initialize(nodeWidth, nodeHeight);
             dialogueNode.name = System.Guid.NewGuid().ToString("D", CultureInfo.InvariantCulture);
-            dialogueNode.SetDialogueName(name);
             dialogueNode.SetNodeDepthBreadth(depth, breadth);
+            dialogueNode.SetDialogueName(name, tryRename: false);
             dialogueNode.SetSpeakerName(_defaultSpeakerName);
             dialogueNode.SetText(_defaultText);
 
@@ -156,7 +156,7 @@ namespace Frankie.Speech
 
         public void CreateRootNodeIfMissing()
         {
-            if (dialogueNodes.Count != 0) return;
+            if (dialogueNodes.Count != 0) { return; }
             CreateNode(0,0);
             OnValidate();
         }
