@@ -117,7 +117,7 @@ namespace Frankie.Speech
             Undo.RegisterCreatedObjectUndo(dialogueNode, "Created Dialogue Node Object");
             dialogueNode.Initialize(nodeWidth, nodeHeight);
             dialogueNode.name = System.Guid.NewGuid().ToString("D", CultureInfo.InvariantCulture);
-            dialogueNode.SetNodeDepthBreadth(depth, breadth);
+            dialogueNode.SetNodeDepthBreadth(depth, breadth, forceRenameNode: false);
             dialogueNode.SetDialogueName(name, tryRename: false);
             dialogueNode.SetSpeakerName(_defaultSpeakerName);
             dialogueNode.SetText(_defaultText);
@@ -250,7 +250,7 @@ namespace Frankie.Speech
                     
                     if (!visitedNodes.Contains(childNode.name))
                     {
-                        childNode.SetNodeDepthBreadth(currentDepth + 1, currentBreadth);
+                        childNode.SetNodeDepthBreadth(currentDepth + 1, currentBreadth, forceRenameNode: true);
                         nodesToTraverse.Enqueue(childNode);
                     }
                     currentBreadth++;

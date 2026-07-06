@@ -151,13 +151,22 @@ namespace Frankie.Speech
             EditorUtility.SetDirty(this);
         }
         
-        public void SetNodeDepthBreadth(int setNodeDepth, int setNodeBreadth)
+        public void SetNodeDepthBreadth(int setNodeDepth, int setNodeBreadth, bool forceRenameNode)
         {
             Undo.RecordObject(this, "Update Dialogue Node Depth/Breadth");
-            MakeOrRenameExistingKeys(UpdateNodeDepthBreadth, tryRename: true);
+            if (forceRenameNode)
+            {
+                MakeOrRenameExistingKeys(UpdateNodeDepthBreadth, tryRename: true);
+            }
+            else
+            {
+                UpdateNodeDepthBreadth();
+            }
             EditorUtility.SetDirty(this);
             return;
 
+            
+            // Local Functions
             void UpdateNodeDepthBreadth()
             {
                 nodeDepth = setNodeDepth;
