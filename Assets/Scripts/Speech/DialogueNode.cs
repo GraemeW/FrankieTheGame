@@ -107,14 +107,14 @@ namespace Frankie.Speech
             EditorUtility.SetDirty(this);
         }
         
-        public void SetDialogueName(string setDialogueName)
+        public void SetDialogueName(string setDialogueName, bool tryRename = true)
         {
             Undo.RecordObject(this, "Update Dialogue Name");
-            TryRenameExistingKeys(UpdateDialogueName);
-            
+            MakeOrRenameExistingKeys(UpdateDialogueName, tryRename);
             EditorUtility.SetDirty(this);
             return;
             
+            // Local Functions
             void UpdateDialogueName() => dialogueName = setDialogueName;
         }
 
@@ -151,13 +151,22 @@ namespace Frankie.Speech
             EditorUtility.SetDirty(this);
         }
         
-        public void SetNodeDepthBreadth(int setNodeDepth, int setNodeBreadth)
+        public void SetNodeDepthBreadth(int setNodeDepth, int setNodeBreadth, bool forceRenameNode)
         {
             Undo.RecordObject(this, "Update Dialogue Node Depth/Breadth");
-            TryRenameExistingKeys(UpdateNodeDepthBreadth);
+            if (forceRenameNode)
+            {
+                MakeOrRenameExistingKeys(UpdateNodeDepthBreadth, tryRename: true);
+            }
+            else
+            {
+                UpdateNodeDepthBreadth();
+            }
             EditorUtility.SetDirty(this);
             return;
 
+            
+            // Local Functions
             void UpdateNodeDepthBreadth()
             {
                 nodeDepth = setNodeDepth;
@@ -210,12 +219,12 @@ namespace Frankie.Speech
         #endregion
         
         #region LocalizationUtility
-        private void TryRenameExistingKeys(Action updateAction)
+        private void MakeOrRenameExistingKeys(Action updateAction, bool tryRename)
         {
             if (updateAction == null) { return; }
             
-            TableEntryReference oldSpeakerKey = GetSpeakerNameLocalizationKey();
-            TableEntryReference oldTextKey = GetTextLocalizationKey();
+            TableEntryReference oldSpeakerKey = tryRename ? GetSpeakerNameLocalizationKey() : new TableEntryReference();
+            TableEntryReference oldTextKey = tryRename ? GetTextLocalizationKey() :  new TableEntryReference();
             
             updateAction.Invoke();
             

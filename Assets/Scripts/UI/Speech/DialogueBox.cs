@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -37,15 +38,16 @@ namespace Frankie.Speech.UI
         // Cached References
         protected DialogueController dialogueController;
 
-        // Structures
+        #region DataStructures
         private struct ReceptacleTextPair
         {
             public GameObject receptacle;
             public string text;
             public bool isChoice;
         }
-
-        #region StandardMethods
+        #endregion
+        
+        #region UnityMethods
         protected virtual void Awake()
         {
             dialogueController = DialogueController.FindDialogueController();
@@ -84,6 +86,7 @@ namespace Frankie.Speech.UI
                 dialogueController.dialogueInput -= HandleDialogueInput;
                 dialogueController.triggerUIUpdates -= UpdateUI;
             }
+            if (activeTextScan != null) { StopCoroutine(activeTextScan); }
             base.OnDisable();
         }
 
@@ -100,7 +103,9 @@ namespace Frankie.Speech.UI
                 dialogueController.EndConversation();
             }
         }
+        #endregion
 
+        #region SetupUpdateMethods
         public virtual void Setup(string optionText)
         {
             if (dialogueController != null && dialogueController.IsSimpleMessage())
@@ -269,13 +274,16 @@ namespace Frankie.Speech.UI
 
             SetBusyWriting(true);
             SimpleTextLink simpleTextLink = receptacleTextPair.receptacle.GetComponent<SimpleTextLink>();
+            if (simpleTextLink == null) { yield break; }
+            string fullText = UnescapeText(receptacleTextPair.text);
+            if (string.IsNullOrEmpty(fullText)) { yield break; }
 
             int letterIndex = 0;
             string textFragment = "";
-            while (letterIndex < receptacleTextPair.text.Length - 1)
+            while (letterIndex < fullText.Length - 1)
             {
                 if (interruptWriting) { break; }
-                textFragment += receptacleTextPair.text[letterIndex];
+                textFragment += fullText[letterIndex];
                 if (simpleTextLink == null) { break; }
                 simpleTextLink.Setup(textFragment);
                 letterIndex++;
@@ -405,6 +413,94 @@ namespace Frankie.Speech.UI
                 return true;
             }
             return false;
+        }
+        #endregion
+        
+        #region StringPreParse
+        private static string UnescapeText(string inputString)
+        {
+            if (string.IsNullOrEmpty(inputString)) { return inputString; }
+
+            var stringBuilder = new System.Text.StringBuilder(inputString.Length);
+            int i = 0;
+            while (i < inputString.Length)
+            {
+                char c = inputString[i];
+
+                if (c != '\\' || i == inputString.Length - 1)
+                {
+                    stringBuilder.Append(c);
+                    i++;
+                    continue;
+                }
+                
+                char next = inputString[i + 1];
+                switch (next)
+                {
+                    case 'n': stringBuilder.Append('\n'); i += 2; break;
+                    case 't': stringBuilder.Append('\t'); i += 2; break;
+                    case 'r': stringBuilder.Append('\r'); i += 2; break;
+                    case '\\': stringBuilder.Append('\\'); i += 2; break;
+                    case '"': stringBuilder.Append('"'); i += 2; break;
+                    case '\'': stringBuilder.Append('\''); i += 2; break;
+                    case '0': stringBuilder.Append('\0'); i += 2; break;
+                    case 'a': stringBuilder.Append('\a'); i += 2; break;
+                    case 'b': stringBuilder.Append('\b'); i += 2; break;
+                    case 'f': stringBuilder.Append('\f'); i += 2; break;
+                    case 'v': stringBuilder.Append('\v'); i += 2; break;
+                    case 'u':
+                        // \uXXXX - exactly 4 hex digits required.
+                        if (i + 5 < inputString.Length + 1 && i + 6 <= inputString.Length &&
+                            TryParseHex(inputString, i + 2, 4, out int codeUnit))
+                        {
+                            stringBuilder.Append((char)codeUnit);
+                            i += 6;
+                        }
+                        else
+                        {
+                            stringBuilder.Append(c);
+                            i++;
+                        }
+                        break;
+                    case 'x':
+                        // \xH, \xHH, \xHHH, or \xHHHH - variable length (1-4 hex digits), greedy.
+                        int hexLen = 0;
+                        while (hexLen < 4 && i + 2 + hexLen < inputString.Length &&
+                               Uri.IsHexDigit(inputString[i + 2 + hexLen]))
+                        {
+                            hexLen++;
+                        }
+                        if (hexLen > 0 && TryParseHex(inputString, i + 2, hexLen, out int hexVal))
+                        {
+                            stringBuilder.Append((char)hexVal);
+                            i += 2 + hexLen;
+                        }
+                        else
+                        {
+                            stringBuilder.Append(c);
+                            i++;
+                        }
+                        break;
+                    default:
+                        // Unrecognized escape (e.g. "\q") - pass through
+                        stringBuilder.Append(c);
+                        stringBuilder.Append(next);
+                        i += 2;
+                        break;
+                }
+            }
+            return stringBuilder.ToString();
+        }
+
+        private static bool TryParseHex(string inputString, int start, int length, out int value)
+        {
+            value = 0;
+            if (start + length > inputString.Length) { return false; }
+            for (int k = 0; k < length; k++)
+            {
+                if (!Uri.IsHexDigit(inputString[start + k])) { return false; }
+            }
+            return int.TryParse( inputString.Substring(start, length), System.Globalization.NumberStyles.HexNumber, System.Globalization.CultureInfo.InvariantCulture, out value);
         }
         #endregion
 

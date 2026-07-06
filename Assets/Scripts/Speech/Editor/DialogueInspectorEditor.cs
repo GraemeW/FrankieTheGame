@@ -8,7 +8,7 @@ namespace Frankie.Speech.Editor
     [CustomEditor(typeof(Dialogue))]
     public class DialogueInspectorEditor : UnityEditor.Editor
     {
-        // Const UI
+        // Const Tunables
         private const float _rowHeight = 20f;
         private const float _lockToggleHeight = 20f;
         private const float _lockToggleLabelWidth = 20f;

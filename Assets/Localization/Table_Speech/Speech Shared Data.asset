@@ -2771,6 +2771,46 @@ MonoBehaviour:
     m_Key: OldOfficeDemo-BroOfficeWorker.5.0.Text
     m_Metadata:
       m_Items: []
+  - m_Id: 29263053001318400
+    m_Key: DebugSpeech.1.0.Speaker
+    m_Metadata:
+      m_Items: []
+  - m_Id: 29263053328474112
+    m_Key: DebugSpeech.1.0.Text
+    m_Metadata:
+      m_Items: []
+  - m_Id: 29263639864139776
+    m_Key: DebugSpeech.0.0.Text
+    m_Metadata:
+      m_Items: []
+  - m_Id: 29279002790191104
+    m_Key: DebugSpeech.2.0.Speaker
+    m_Metadata:
+      m_Items: []
+  - m_Id: 29279003046043648
+    m_Key: DebugSpeech.2.0.Text
+    m_Metadata:
+      m_Items: []
+  - m_Id: 29384982865633280
+    m_Key: DebugSpeech.1.1.Speaker
+    m_Metadata:
+      m_Items: []
+  - m_Id: 29384983293452288
+    m_Key: DebugSpeech.1.1.Text
+    m_Metadata:
+      m_Items: []
+  - m_Id: 29385017456058368
+    m_Key: DebugSpeech.2.1.Speaker
+    m_Metadata:
+      m_Items: []
+  - m_Id: 29385017690939392
+    m_Key: DebugSpeech.2.1.Text
+    m_Metadata:
+      m_Items: []
+  - m_Id: 29385112645787648
+    m_Key: DebugSpeech.0.0.Speaker
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:
