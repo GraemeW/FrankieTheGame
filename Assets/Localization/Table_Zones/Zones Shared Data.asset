@@ -583,6 +583,10 @@ MonoBehaviour:
     m_Key: ZoneHandler.Prefab.SimpleNode.ChoiceMessage.6818789
     m_Metadata:
       m_Items: []
+  - m_Id: 29629481302876160
+    m_Key: Zone.Demo_Forest1to20-Portabank
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:

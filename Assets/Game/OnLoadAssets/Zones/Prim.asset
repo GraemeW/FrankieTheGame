@@ -27,15 +27,9 @@ MonoBehaviour:
     serializedVersion: 2
     x: 27
     y: 344
-    width: 430
-    height: 150
+    width: 350
+    height: 125
   zoneName: Prim
-  draggingRect:
-    serializedVersion: 2
-    x: 0
-    y: 0
-    width: 430
-    height: 45
   condition:
     and: []
   references:
@@ -68,15 +62,9 @@ MonoBehaviour:
     serializedVersion: 2
     x: 27
     y: 516
-    width: 430
-    height: 150
+    width: 350
+    height: 125
   zoneName: Prim
-  draggingRect:
-    serializedVersion: 2
-    x: 0
-    y: 0
-    width: 430
-    height: 45
   condition:
     and: []
   references:
@@ -109,15 +97,9 @@ MonoBehaviour:
     serializedVersion: 2
     x: 36
     y: 908
-    width: 430
-    height: 150
+    width: 350
+    height: 125
   zoneName: Prim
-  draggingRect:
-    serializedVersion: 2
-    x: 0
-    y: 0
-    width: 430
-    height: 45
   condition:
     and: []
   references:
@@ -193,15 +175,9 @@ MonoBehaviour:
     serializedVersion: 2
     x: 39
     y: 1091
-    width: 430
-    height: 150
+    width: 350
+    height: 125
   zoneName: Prim
-  draggingRect:
-    serializedVersion: 2
-    x: 0
-    y: 0
-    width: 430
-    height: 45
   condition:
     and: []
   references:
@@ -234,15 +210,9 @@ MonoBehaviour:
     serializedVersion: 2
     x: 34
     y: 709
-    width: 430
-    height: 150
+    width: 350
+    height: 125
   zoneName: Prim
-  draggingRect:
-    serializedVersion: 2
-    x: 0
-    y: 0
-    width: 430
-    height: 45
   condition:
     and: []
   references:
@@ -275,15 +245,9 @@ MonoBehaviour:
     serializedVersion: 2
     x: 27.999939
     y: 185
-    width: 430
-    height: 150
+    width: 350
+    height: 125
   zoneName: Prim
-  draggingRect:
-    serializedVersion: 2
-    x: 0
-    y: 0
-    width: 430
-    height: 45
   condition:
     and: []
   references:
@@ -316,15 +280,9 @@ MonoBehaviour:
     serializedVersion: 2
     x: 30
     y: 30
-    width: 430
-    height: 150
+    width: 350
+    height: 125
   zoneName: Prim
-  draggingRect:
-    serializedVersion: 2
-    x: 0
-    y: 0
-    width: 430
-    height: 45
   condition:
     and: []
   references:

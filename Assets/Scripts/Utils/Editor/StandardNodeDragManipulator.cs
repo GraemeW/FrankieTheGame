@@ -3,20 +3,25 @@ using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-namespace Frankie.Speech.Editor
+namespace Frankie.Utils.Editor
 {
-    public class DialogueNodeDragManipulator : MouseManipulator
+    public class StandardNodeDragManipulator : MouseManipulator
     {
+        // Const Tunables
+        private const float _moveThreshold = 0.25f;
+        
+        // State
         private readonly VisualElement nodeElement;
-        private readonly DialogueNode dialogueNode;
+        private readonly IStandardGraphNode activeNode;
         private readonly Action onPositionChanged;
         private readonly Func<float> zoomProvider;
         private bool isDragging;
+        private Vector2 initialPosition;
 
-        public DialogueNodeDragManipulator(VisualElement nodeElement, DialogueNode dialogueNode, Action onPositionChanged, Func<float> zoomProvider)
+        public StandardNodeDragManipulator(VisualElement nodeElement, IStandardGraphNode activeNode, Action onPositionChanged, Func<float> zoomProvider)
         {
             this.nodeElement = nodeElement;
-            this.dialogueNode = dialogueNode;
+            this.activeNode = activeNode;
             this.onPositionChanged = onPositionChanged;
             this.zoomProvider = zoomProvider;
             activators.Add(new ManipulatorActivationFilter { button = MouseButton.LeftMouse });
@@ -41,8 +46,7 @@ namespace Frankie.Speech.Editor
             if (isDragging || !CanStartManipulation(mouseDownEvent)) { return; }
 
             isDragging = true;
-            Selection.activeObject = dialogueNode;
-
+            initialPosition = mouseDownEvent.mousePosition;
             target.CaptureMouse();
             mouseDownEvent.StopPropagation();
         }
@@ -52,8 +56,8 @@ namespace Frankie.Speech.Editor
             if (!isDragging || !target.HasMouseCapture()) { return; }
 
             float zoom = Mathf.Max(zoomProvider?.Invoke() ?? 1f, 0.01f);
-            Vector2 newPosition = dialogueNode.GetPosition() + mouseMoveEvent.mouseDelta / zoom;
-            dialogueNode.SetPosition(newPosition);
+            Vector2 newPosition = activeNode.GetPosition() + mouseMoveEvent.mouseDelta / zoom;
+            activeNode.SetPosition(newPosition);
             nodeElement.style.left = newPosition.x;
             nodeElement.style.top = newPosition.y;
 
@@ -68,6 +72,8 @@ namespace Frankie.Speech.Editor
             isDragging = false;
             target.ReleaseMouse();
             mouseUpEvent.StopPropagation();
+            
+            if (Vector2.Distance(initialPosition, mouseUpEvent.mousePosition) < _moveThreshold) { Selection.activeObject = activeNode.scriptableObject; }
         }
     }
 }

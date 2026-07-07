@@ -27,16 +27,10 @@ MonoBehaviour:
   rect:
     serializedVersion: 2
     x: 560
-    y: 1319
-    width: 430
-    height: 150
+    y: 1321.0592
+    width: 350
+    height: 125
   zoneName: Demo_Forest1to20-Interior
-  draggingRect:
-    serializedVersion: 2
-    x: 0
-    y: 0
-    width: 430
-    height: 45
   condition:
     and: []
   references:
@@ -68,17 +62,11 @@ MonoBehaviour:
   externalZoneLinkToZoneNode: {fileID: 0}
   rect:
     serializedVersion: 2
-    x: 4174
-    y: 686
-    width: 430
-    height: 150
+    x: 4280.7188
+    y: 679.0021
+    width: 350
+    height: 125
   zoneName: Demo_Forest1to20-Interior
-  draggingRect:
-    serializedVersion: 2
-    x: 0
-    y: 0
-    width: 430
-    height: 45
   condition:
     and: []
   references:
@@ -111,15 +99,9 @@ MonoBehaviour:
     serializedVersion: 2
     x: 28
     y: 1131
-    width: 430
-    height: 150
+    width: 350
+    height: 125
   zoneName: Demo_Forest1to20-Interior
-  draggingRect:
-    serializedVersion: 2
-    x: 0
-    y: 0
-    width: 430
-    height: 45
   condition:
     and: []
   references:
@@ -152,15 +134,9 @@ MonoBehaviour:
     serializedVersion: 2
     x: 32
     y: 185
-    width: 430
-    height: 150
+    width: 350
+    height: 125
   zoneName: Demo_Forest1to20-Interior
-  draggingRect:
-    serializedVersion: 2
-    x: 0
-    y: 0
-    width: 430
-    height: 45
   condition:
     and: []
   references:
@@ -193,15 +169,9 @@ MonoBehaviour:
     serializedVersion: 2
     x: 30
     y: 30
-    width: 430
-    height: 150
+    width: 350
+    height: 125
   zoneName: Demo_Forest1to20-Interior
-  draggingRect:
-    serializedVersion: 2
-    x: 0
-    y: 0
-    width: 430
-    height: 45
   condition:
     and: []
   references:
@@ -233,17 +203,11 @@ MonoBehaviour:
   externalZoneLinkToZoneNode: {fileID: 0}
   rect:
     serializedVersion: 2
-    x: 2099
-    y: 516
-    width: 430
-    height: 150
+    x: 2096.8892
+    y: 518.11084
+    width: 350
+    height: 125
   zoneName: Demo_Forest1to20-Interior
-  draggingRect:
-    serializedVersion: 2
-    x: 0
-    y: 0
-    width: 430
-    height: 45
   condition:
     and: []
   references:
@@ -275,17 +239,11 @@ MonoBehaviour:
   externalZoneLinkToZoneNode: {fileID: 0}
   rect:
     serializedVersion: 2
-    x: 1107
-    y: 892
-    width: 430
-    height: 150
+    x: 1089.7336
+    y: 918.9046
+    width: 350
+    height: 125
   zoneName: Demo_Forest1to20-Interior
-  draggingRect:
-    serializedVersion: 2
-    x: 0
-    y: 0
-    width: 430
-    height: 45
   condition:
     and: []
   references:
@@ -317,17 +275,11 @@ MonoBehaviour:
   externalZoneLinkToZoneNode: {fileID: 0}
   rect:
     serializedVersion: 2
-    x: 578
-    y: 721
-    width: 430
-    height: 150
+    x: 650.2039
+    y: 722.56964
+    width: 350
+    height: 125
   zoneName: Demo_Forest1to20-Interior
-  draggingRect:
-    serializedVersion: 2
-    x: 0
-    y: 0
-    width: 430
-    height: 45
   condition:
     and: []
   references:
@@ -359,17 +311,11 @@ MonoBehaviour:
   externalZoneLinkToZoneNode: {fileID: 0}
   rect:
     serializedVersion: 2
-    x: 2147
-    y: 890
-    width: 430
-    height: 150
+    x: 2158.939
+    y: 893.4109
+    width: 350
+    height: 125
   zoneName: Demo_Forest1to20-Interior
-  draggingRect:
-    serializedVersion: 2
-    x: 0
-    y: 0
-    width: 430
-    height: 45
   condition:
     and: []
   references:
@@ -401,17 +347,11 @@ MonoBehaviour:
   externalZoneLinkToZoneNode: {fileID: 0}
   rect:
     serializedVersion: 2
-    x: 1624
-    y: 3
-    width: 430
-    height: 150
+    x: 1519.3105
+    y: -31.98977
+    width: 350
+    height: 125
   zoneName: Demo_Forest1to20-Interior
-  draggingRect:
-    serializedVersion: 2
-    x: 0
-    y: 0
-    width: 430
-    height: 45
   condition:
     and: []
   references:
@@ -444,17 +384,11 @@ MonoBehaviour:
   externalZoneLinkToZoneNode: {fileID: 0}
   rect:
     serializedVersion: 2
-    x: 2096
-    y: 350
-    width: 430
-    height: 150
+    x: 2098.1108
+    y: 365.8313
+    width: 350
+    height: 125
   zoneName: Demo_Forest1to20-Interior
-  draggingRect:
-    serializedVersion: 2
-    x: 0
-    y: 0
-    width: 430
-    height: 45
   condition:
     and: []
   references:
@@ -486,17 +420,11 @@ MonoBehaviour:
   externalZoneLinkToZoneNode: {fileID: 0}
   rect:
     serializedVersion: 2
-    x: 3175
-    y: 718
-    width: 430
-    height: 150
+    x: 3178.8027
+    y: 757.293
+    width: 350
+    height: 125
   zoneName: Demo_Forest1to20-Interior
-  draggingRect:
-    serializedVersion: 2
-    x: 0
-    y: 0
-    width: 430
-    height: 45
   condition:
     and: []
   references:
@@ -528,17 +456,11 @@ MonoBehaviour:
   externalZoneLinkToZoneNode: {fileID: 0}
   rect:
     serializedVersion: 2
-    x: 1622
-    y: 522
-    width: 430
-    height: 150
+    x: 1519.9716
+    y: 537.69653
+    width: 350
+    height: 125
   zoneName: Demo_Forest1to20-Interior
-  draggingRect:
-    serializedVersion: 2
-    x: 0
-    y: 0
-    width: 430
-    height: 45
   condition:
     and: []
   references:
@@ -570,16 +492,10 @@ MonoBehaviour:
   rect:
     serializedVersion: 2
     x: 558
-    y: 1131
-    width: 430
-    height: 150
+    y: 1133.0592
+    width: 350
+    height: 125
   zoneName: Demo_Forest1to20-Interior
-  draggingRect:
-    serializedVersion: 2
-    x: 0
-    y: 0
-    width: 430
-    height: 45
   condition:
     and: []
   references:
@@ -611,17 +527,11 @@ MonoBehaviour:
   externalZoneLinkToZoneNode: {fileID: 0}
   rect:
     serializedVersion: 2
-    x: 4178
-    y: 496
-    width: 430
-    height: 150
+    x: 4094.0234
+    y: 487.2526
+    width: 350
+    height: 125
   zoneName: Demo_Forest1to20-Interior
-  draggingRect:
-    serializedVersion: 2
-    x: 0
-    y: 0
-    width: 430
-    height: 45
   condition:
     and:
     - or:
@@ -656,17 +566,11 @@ MonoBehaviour:
   externalZoneLinkToZoneNode: {fileID: 0}
   rect:
     serializedVersion: 2
-    x: 1615
-    y: 716
-    width: 430
-    height: 150
+    x: 1714.8729
+    y: 754.436
+    width: 350
+    height: 125
   zoneName: Demo_Forest1to20-Interior
-  draggingRect:
-    serializedVersion: 2
-    x: 0
-    y: 0
-    width: 430
-    height: 45
   condition:
     and: []
   references:
@@ -698,17 +602,11 @@ MonoBehaviour:
   externalZoneLinkToZoneNode: {fileID: 0}
   rect:
     serializedVersion: 2
-    x: 2145
-    y: 716
-    width: 430
-    height: 150
+    x: 2155.2332
+    y: 719.4109
+    width: 350
+    height: 125
   zoneName: Demo_Forest1to20-Interior
-  draggingRect:
-    serializedVersion: 2
-    x: 0
-    y: 0
-    width: 430
-    height: 45
   condition:
     and: []
   references:
@@ -741,17 +639,11 @@ MonoBehaviour:
   externalZoneLinkToZoneNode: {fileID: 0}
   rect:
     serializedVersion: 2
-    x: 1090
-    y: 1319
-    width: 430
-    height: 150
+    x: 987.0403
+    y: 1399.309
+    width: 350
+    height: 125
   zoneName: Demo_Forest1to20-Interior
-  draggingRect:
-    serializedVersion: 2
-    x: 0
-    y: 0
-    width: 430
-    height: 45
   condition:
     and: []
   references:
@@ -784,15 +676,9 @@ MonoBehaviour:
     serializedVersion: 2
     x: 31
     y: 368
-    width: 430
-    height: 150
+    width: 350
+    height: 125
   zoneName: Demo_Forest1to20-Interior
-  draggingRect:
-    serializedVersion: 2
-    x: 0
-    y: 0
-    width: 430
-    height: 45
   condition:
     and: []
   references:
@@ -824,17 +710,11 @@ MonoBehaviour:
   externalZoneLinkToZoneNode: {fileID: 0}
   rect:
     serializedVersion: 2
-    x: 1091
-    y: 358
-    width: 430
-    height: 150
+    x: 1089.2063
+    y: 332.88904
+    width: 350
+    height: 125
   zoneName: Demo_Forest1to20-Interior
-  draggingRect:
-    serializedVersion: 2
-    x: 0
-    y: 0
-    width: 430
-    height: 45
   condition:
     and: []
   references:
@@ -853,8 +733,8 @@ MonoBehaviour:
   m_Name: Demo_Forest1to20-Interior
   m_EditorClassIdentifier: Assembly-CSharp::Frankie.ZoneManagement.Zone
   newNodeOffset: {x: 100, y: 25}
-  nodeWidth: 430
-  nodeHeight: 150
+  nodeWidth: 350
+  nodeHeight: 125
   localizedDisplayName:
     m_TableReference:
       m_TableCollectionName: GUID:8137acf3076d245cf991f948822c95ba
@@ -938,17 +818,11 @@ MonoBehaviour:
   externalZoneLinkToZoneNode: {fileID: 0}
   rect:
     serializedVersion: 2
-    x: 2645
-    y: 718
-    width: 430
-    height: 150
+    x: 2775.555
+    y: 715.46497
+    width: 350
+    height: 125
   zoneName: Demo_Forest1to20-Interior
-  draggingRect:
-    serializedVersion: 2
-    x: 0
-    y: 0
-    width: 430
-    height: 45
   condition:
     and: []
   references:
@@ -980,17 +854,11 @@ MonoBehaviour:
   externalZoneLinkToZoneNode: {fileID: 0}
   rect:
     serializedVersion: 2
-    x: 1092
-    y: 522
-    width: 430
-    height: 150
+    x: 1090.2063
+    y: 502.26996
+    width: 350
+    height: 125
   zoneName: Demo_Forest1to20-Interior
-  draggingRect:
-    serializedVersion: 2
-    x: 0
-    y: 0
-    width: 430
-    height: 45
   condition:
     and: []
   references:
@@ -1022,17 +890,11 @@ MonoBehaviour:
   externalZoneLinkToZoneNode: {fileID: 0}
   rect:
     serializedVersion: 2
-    x: 1092
-    y: 185
-    width: 430
-    height: 150
+    x: 1091.9996
+    y: 165.26996
+    width: 350
+    height: 125
   zoneName: Demo_Forest1to20-Interior
-  draggingRect:
-    serializedVersion: 2
-    x: 0
-    y: 0
-    width: 430
-    height: 45
   condition:
     and: []
   references:
@@ -1063,17 +925,11 @@ MonoBehaviour:
   externalZoneLinkToZoneNode: {fileID: -5194966613431474290, guid: 56bcb0733fa024bf5b983792663e12bb, type: 2}
   rect:
     serializedVersion: 2
-    x: 30
-    y: 1319
-    width: 430
-    height: 150
+    x: 44.804626
+    y: 1349.843
+    width: 350
+    height: 125
   zoneName: Demo_Forest1to20-Interior
-  draggingRect:
-    serializedVersion: 2
-    x: 0
-    y: 0
-    width: 430
-    height: 45
   condition:
     and: []
   references:
@@ -1105,17 +961,11 @@ MonoBehaviour:
   externalZoneLinkToZoneNode: {fileID: 0}
   rect:
     serializedVersion: 2
-    x: 1617
-    y: 890
-    width: 430
-    height: 150
+    x: 1714.8876
+    y: 913.4135
+    width: 350
+    height: 125
   zoneName: Demo_Forest1to20-Interior
-  draggingRect:
-    serializedVersion: 2
-    x: 0
-    y: 0
-    width: 430
-    height: 45
   condition:
     and: []
   references:
@@ -1147,17 +997,11 @@ MonoBehaviour:
   externalZoneLinkToZoneNode: {fileID: 0}
   rect:
     serializedVersion: 2
-    x: 4174
-    y: 892
-    width: 430
-    height: 150
+    x: 4142.508
+    y: 844.7645
+    width: 350
+    height: 125
   zoneName: Demo_Forest1to20-Interior
-  draggingRect:
-    serializedVersion: 2
-    x: 0
-    y: 0
-    width: 430
-    height: 45
   condition:
     and: []
   references:
@@ -1189,17 +1033,11 @@ MonoBehaviour:
   externalZoneLinkToZoneNode: {fileID: 0}
   rect:
     serializedVersion: 2
-    x: 3699
-    y: 892
-    width: 430
-    height: 150
+    x: 3657.1707
+    y: 837.49677
+    width: 350
+    height: 125
   zoneName: Demo_Forest1to20-Interior
-  draggingRect:
-    serializedVersion: 2
-    x: 0
-    y: 0
-    width: 430
-    height: 45
   condition:
     and: []
   references:
@@ -1230,17 +1068,11 @@ MonoBehaviour:
   externalZoneLinkToZoneNode: {fileID: -8229641933190378029, guid: 56bcb0733fa024bf5b983792663e12bb, type: 2}
   rect:
     serializedVersion: 2
-    x: 91
-    y: 1467
-    width: 430
-    height: 150
+    x: 152.68594
+    y: 1502.7783
+    width: 350
+    height: 125
   zoneName: Demo_Forest1to20-Interior
-  draggingRect:
-    serializedVersion: 2
-    x: 0
-    y: 0
-    width: 430
-    height: 45
   condition:
     and: []
   references:
@@ -1272,17 +1104,11 @@ MonoBehaviour:
   externalZoneLinkToZoneNode: {fileID: 0}
   rect:
     serializedVersion: 2
-    x: 3169
-    y: 892
-    width: 430
-    height: 150
+    x: 3200.687
+    y: 897.07007
+    width: 350
+    height: 125
   zoneName: Demo_Forest1to20-Interior
-  draggingRect:
-    serializedVersion: 2
-    x: 0
-    y: 0
-    width: 430
-    height: 45
   condition:
     and: []
   references:
@@ -1314,17 +1140,11 @@ MonoBehaviour:
   externalZoneLinkToZoneNode: {fileID: 0}
   rect:
     serializedVersion: 2
-    x: 563
+    x: 560.9408
     y: 1488
-    width: 430
-    height: 150
+    width: 350
+    height: 125
   zoneName: Demo_Forest1to20-Interior
-  draggingRect:
-    serializedVersion: 2
-    x: 0
-    y: 0
-    width: 430
-    height: 45
   condition:
     and: []
   references:
@@ -1356,17 +1176,11 @@ MonoBehaviour:
   externalZoneLinkToZoneNode: {fileID: 0}
   rect:
     serializedVersion: 2
-    x: 1621
-    y: 358
-    width: 430
-    height: 150
+    x: 1518.9724
+    y: 372.1269
+    width: 350
+    height: 125
   zoneName: Demo_Forest1to20-Interior
-  draggingRect:
-    serializedVersion: 2
-    x: 0
-    y: 0
-    width: 430
-    height: 45
   condition:
     and: []
   references:
@@ -1398,17 +1212,11 @@ MonoBehaviour:
   externalZoneLinkToZoneNode: {fileID: 0}
   rect:
     serializedVersion: 2
-    x: 577
-    y: 892
-    width: 430
-    height: 150
+    x: 658.62177
+    y: 879.4429
+    width: 350
+    height: 125
   zoneName: Demo_Forest1to20-Interior
-  draggingRect:
-    serializedVersion: 2
-    x: 0
-    y: 0
-    width: 430
-    height: 45
   condition:
     and: []
   references:
@@ -1440,17 +1248,11 @@ MonoBehaviour:
   externalZoneLinkToZoneNode: {fileID: 0}
   rect:
     serializedVersion: 2
-    x: 2121
-    y: 2
-    width: 430
-    height: 150
+    x: 1950.4092
+    y: -34.709183
+    width: 350
+    height: 125
   zoneName: Demo_Forest1to20-Interior
-  draggingRect:
-    serializedVersion: 2
-    x: 0
-    y: 0
-    width: 430
-    height: 45
   condition:
     and:
     - or:
@@ -1485,17 +1287,11 @@ MonoBehaviour:
   externalZoneLinkToZoneNode: {fileID: 0}
   rect:
     serializedVersion: 2
-    x: 1095
-    y: 721
-    width: 430
-    height: 150
+    x: 1082.4427
+    y: 670.5508
+    width: 350
+    height: 125
   zoneName: Demo_Forest1to20-Interior
-  draggingRect:
-    serializedVersion: 2
-    x: 0
-    y: 0
-    width: 430
-    height: 45
   condition:
     and: []
   references:
@@ -1527,17 +1323,11 @@ MonoBehaviour:
   externalZoneLinkToZoneNode: {fileID: 0}
   rect:
     serializedVersion: 2
-    x: 562
-    y: 185
-    width: 430
-    height: 150
+    x: 676.13635
+    y: 190.56763
+    width: 350
+    height: 125
   zoneName: Demo_Forest1to20-Interior
-  draggingRect:
-    serializedVersion: 2
-    x: 0
-    y: 0
-    width: 430
-    height: 45
   condition:
     and: []
   references:
@@ -1570,16 +1360,10 @@ MonoBehaviour:
   rect:
     serializedVersion: 2
     x: 1094
-    y: 3
-    width: 430
-    height: 150
+    y: 0.21618962
+    width: 350
+    height: 125
   zoneName: Demo_Forest1to20-Interior
-  draggingRect:
-    serializedVersion: 2
-    x: 0
-    y: 0
-    width: 430
-    height: 45
   condition:
     and: []
   references:

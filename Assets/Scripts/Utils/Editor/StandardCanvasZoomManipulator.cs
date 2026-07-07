@@ -2,9 +2,9 @@ using System;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-namespace Frankie.Speech.Editor
+namespace Frankie.Utils.Editor
 {
-    public class DialogueCanvasZoomManipulator : Manipulator
+    public class StandardCanvasZoomManipulator : Manipulator
     {
         // Const Tunables
         private const float _minZoom = 0.25f;
@@ -16,7 +16,7 @@ namespace Frankie.Speech.Editor
         public float zoomFactor { get; private set; } = 1f;
         public event Action<float> zoomChanged;
 
-        public DialogueCanvasZoomManipulator(VisualElement zoomTarget)
+        public StandardCanvasZoomManipulator(VisualElement zoomTarget)
         {
             this.zoomTarget = zoomTarget;
             zoomTarget.style.transformOrigin = new TransformOrigin(0, 0);

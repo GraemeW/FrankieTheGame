@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: StartScreen
   m_EditorClassIdentifier: 
   newNodeOffset: {x: 100, y: 25}
-  nodeWidth: 430
-  nodeHeight: 150
+  nodeWidth: 350
+  nodeHeight: 125
   localizedDisplayName:
     m_TableReference:
       m_TableCollectionName: GUID:8137acf3076d245cf991f948822c95ba
@@ -67,12 +67,6 @@ MonoBehaviour:
     width: 430
     height: 150
   zoneName: StartScreen
-  draggingRect:
-    serializedVersion: 2
-    x: 0
-    y: 0
-    width: 430
-    height: 45
   condition:
     and: []
   references:

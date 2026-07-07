@@ -10,18 +10,20 @@ namespace Frankie.ZoneManagement.Editor
         private readonly VisualElement activeVisualElement;
         private readonly System.Action onClicked; // short-click firing
         private readonly System.Action onDragged;
+        private readonly System.Func<float> getZoomScale;
         private bool dragging;
         private Vector2 startMouse;
         private Vector2 startPos;
 
         private const float _clickMoveThreshold = 4f;
 
-        public MultiZoneDragManipulator(ZoneView zoneView, VisualElement activeVisualElement, System.Action onClicked, System.Action onDragged)
+        public MultiZoneDragManipulator(ZoneView zoneView, VisualElement activeVisualElement, System.Action onClicked, System.Action onDragged, System.Func<float> getZoomScale = null)
         {
             this.zoneView = zoneView;
             this.activeVisualElement = activeVisualElement;
             this.onClicked = onClicked;
             this.onDragged = onDragged;
+            this.getZoomScale = getZoomScale ?? (() => 1f);
             activators.Add(new ManipulatorActivationFilter { button = MouseButton.LeftMouse });
         }
 
@@ -55,7 +57,6 @@ namespace Frankie.ZoneManagement.Editor
 
         private void BringNodeToFront()
         {
-            // Re-inserting at end of parent hack
             VisualElement parent = activeVisualElement.parent;
             if (parent == null) { return; }
             parent.Remove(activeVisualElement);
@@ -65,7 +66,10 @@ namespace Frankie.ZoneManagement.Editor
         private void OnMouseMove(MouseMoveEvent mouseMoveEvent)
         {
             if (!dragging) { return; }
-            zoneView.data.topLeftPosition = startPos + (mouseMoveEvent.mousePosition - startMouse);
+            
+            float zoomScale = Mathf.Max(getZoomScale(), 0.0001f);
+            Vector2 screenDelta = mouseMoveEvent.mousePosition - startMouse;
+            zoneView.data.topLeftPosition = startPos + screenDelta / zoomScale;
             activeVisualElement.style.left = zoneView.data.topLeftPosition.x;
             activeVisualElement.style.top = zoneView.data.topLeftPosition.y;
             onDragged?.Invoke();

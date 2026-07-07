@@ -65,15 +65,9 @@ MonoBehaviour:
     serializedVersion: 2
     x: 31.999985
     y: 193
-    width: 430
-    height: 150
+    width: 350
+    height: 125
   zoneName: Tunnels
-  draggingRect:
-    serializedVersion: 2
-    x: 0
-    y: 0
-    width: 430
-    height: 45
   condition:
     and: []
   references:
@@ -106,15 +100,9 @@ MonoBehaviour:
     serializedVersion: 2
     x: 30
     y: 30
-    width: 430
-    height: 150
+    width: 350
+    height: 125
   zoneName: Tunnels
-  draggingRect:
-    serializedVersion: 2
-    x: 0
-    y: 0
-    width: 430
-    height: 45
   condition:
     and: []
   references:

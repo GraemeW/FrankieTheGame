@@ -19,8 +19,8 @@ namespace Frankie.ZoneManagement
 #if UNITY_EDITOR
         [Header("Editor Settings")]
         [SerializeField] private Vector2 newNodeOffset = new(100f, 25f);
-        [SerializeField] private int nodeWidth = 430;
-        [SerializeField] private int nodeHeight = 150;
+        [SerializeField] private int nodeWidth = 350;
+        [SerializeField] private int nodeHeight = 125;
 #endif
         [Header("Zone Properties")]
         [SerializeField][SimpleLocalizedString(LocalizationTableType.Zones, false)] private LocalizedString localizedDisplayName;

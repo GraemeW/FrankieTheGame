@@ -4,21 +4,21 @@ using UnityEngine;
 using UnityEngine.Localization;
 using UnityEngine.Localization.Tables;
 using Frankie.Core.Predicates;
+using Frankie.Utils;
 using Frankie.Utils.Localization;
 
 namespace Frankie.ZoneManagement
 {
     [System.Serializable]
-    public class ZoneNode : ScriptableObject
+    public class ZoneNode : ScriptableObject, IStandardGraphNode
     {
         // Tunables
         [Header("Zone Node Properties")]
         [SerializeField][SimpleLocalizedString(LocalizationTableType.Zones, false)] private LocalizedString localizedDisplayName;
         [SerializeField] private List<string> children = new();
         [SerializeField] private ZoneNode externalZoneLinkToZoneNode;
-        [SerializeField] private Rect rect = new(30, 30, 430, 150);
+        [SerializeField] private Rect rect = new(30, 30, 350, 125);
         [HideInInspector][SerializeField] private string zoneName = "";
-        [HideInInspector][SerializeField] private Rect draggingRect = new(0, 0, 430, 45);
         [Header("Additional Properties")]
         [SerializeField] private Condition condition;
         
@@ -54,9 +54,15 @@ namespace Frankie.ZoneManagement
 
 #if UNITY_EDITOR
         #region ZoneEditorMethods
+        public ScriptableObject scriptableObject => this;
         public Vector2 GetPosition() => rect.position;
         public Rect GetRect() => rect;
-        public Rect GetDraggingRect() => draggingRect;
+        public void SetPosition(Vector2 position)
+        {
+            Undo.RecordObject(this, "Move Zone Node");
+            rect.position = position;
+            EditorUtility.SetDirty(this);
+        }
         
         public void Initialize(int width, int height)
         {
@@ -110,20 +116,6 @@ namespace Frankie.ZoneManagement
         {
             Undo.RecordObject(this, "Remove Node Relation");
             children.Remove(childID);
-            EditorUtility.SetDirty(this);
-        }
-
-        public void SetPosition(Vector2 position)
-        {
-            Undo.RecordObject(this, "Move Zone Node");
-            rect.position = position;
-            EditorUtility.SetDirty(this);
-        }
-
-        public void SetDraggingRect(Rect setDraggingRect)
-        {
-            if (setDraggingRect == draggingRect) return;
-            draggingRect = setDraggingRect;
             EditorUtility.SetDirty(this);
         }
 

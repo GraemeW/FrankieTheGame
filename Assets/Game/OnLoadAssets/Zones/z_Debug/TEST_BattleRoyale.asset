@@ -28,17 +28,11 @@ MonoBehaviour:
   externalZoneLinkToZoneNode: {fileID: 0}
   rect:
     serializedVersion: 2
-    x: 30
-    y: 30
-    width: 430
-    height: 150
+    x: -239.25537
+    y: -254.45331
+    width: 350
+    height: 125
   zoneName: TEST_BattleRoyale
-  draggingRect:
-    serializedVersion: 2
-    x: 0
-    y: 0
-    width: 430
-    height: 45
   condition:
     and: []
   references:
@@ -70,17 +64,11 @@ MonoBehaviour:
   externalZoneLinkToZoneNode: {fileID: 0}
   rect:
     serializedVersion: 2
-    x: 1090
-    y: 30
-    width: 430
-    height: 150
+    x: 1107.3469
+    y: -27.346695
+    width: 350
+    height: 125
   zoneName: TEST_BattleRoyale
-  draggingRect:
-    serializedVersion: 2
-    x: 0
-    y: 0
-    width: 430
-    height: 45
   condition:
     and: []
   references:
@@ -111,17 +99,11 @@ MonoBehaviour:
   externalZoneLinkToZoneNode: {fileID: -5860749958356787099, guid: f4fe026e5041d4556bdc413cb4a52663, type: 2}
   rect:
     serializedVersion: 2
-    x: 24
-    y: 364
-    width: 430
-    height: 150
+    x: -218.14793
+    y: 130.39845
+    width: 350
+    height: 125
   zoneName: TEST_BattleRoyale
-  draggingRect:
-    serializedVersion: 2
-    x: 0
-    y: 0
-    width: 430
-    height: 45
   condition:
     and: []
   references:
@@ -155,17 +137,11 @@ MonoBehaviour:
   externalZoneLinkToZoneNode: {fileID: 0}
   rect:
     serializedVersion: 2
-    x: 28
-    y: 186
-    width: 430
-    height: 150
+    x: -202.82797
+    y: -40.84019
+    width: 350
+    height: 125
   zoneName: TEST_BattleRoyale
-  draggingRect:
-    serializedVersion: 2
-    x: 0
-    y: 0
-    width: 430
-    height: 45
   condition:
     and: []
   references:
@@ -197,17 +173,11 @@ MonoBehaviour:
   externalZoneLinkToZoneNode: {fileID: 0}
   rect:
     serializedVersion: 2
-    x: 1568
-    y: 54
-    width: 430
-    height: 150
+    x: 1538.7234
+    y: 43.021408
+    width: 350
+    height: 125
   zoneName: TEST_BattleRoyale
-  draggingRect:
-    serializedVersion: 2
-    x: 0
-    y: 0
-    width: 430
-    height: 45
   condition:
     and: []
   references:
@@ -241,17 +211,11 @@ MonoBehaviour:
   externalZoneLinkToZoneNode: {fileID: 0}
   rect:
     serializedVersion: 2
-    x: 553
-    y: 3
-    width: 430
-    height: 150
+    x: 569.9985
+    y: -238.83636
+    width: 350
+    height: 125
   zoneName: TEST_BattleRoyale
-  draggingRect:
-    serializedVersion: 2
-    x: 0
-    y: 0
-    width: 430
-    height: 45
   condition:
     and: []
   references:
@@ -270,8 +234,8 @@ MonoBehaviour:
   m_Name: TEST_BattleRoyale
   m_EditorClassIdentifier: 
   newNodeOffset: {x: 100, y: 25}
-  nodeWidth: 430
-  nodeHeight: 150
+  nodeWidth: 350
+  nodeHeight: 125
   localizedDisplayName:
     m_TableReference:
       m_TableCollectionName: GUID:8137acf3076d245cf991f948822c95ba
@@ -328,17 +292,11 @@ MonoBehaviour:
   externalZoneLinkToZoneNode: {fileID: 0}
   rect:
     serializedVersion: 2
-    x: 551
-    y: 159
-    width: 430
-    height: 150
+    x: 533.314
+    y: -24.532745
+    width: 350
+    height: 125
   zoneName: TEST_BattleRoyale
-  draggingRect:
-    serializedVersion: 2
-    x: 0
-    y: 0
-    width: 430
-    height: 45
   condition:
     and: []
   references:

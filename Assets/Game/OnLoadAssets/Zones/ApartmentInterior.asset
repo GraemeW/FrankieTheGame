@@ -26,17 +26,11 @@ MonoBehaviour:
   externalZoneLinkToZoneNode: {fileID: 0}
   rect:
     serializedVersion: 2
-    x: 573
-    y: 390.99997
-    width: 430
-    height: 150
+    x: 567.27496
+    y: 408.17508
+    width: 350
+    height: 125
   zoneName: ApartmentInterior
-  draggingRect:
-    serializedVersion: 2
-    x: 0
-    y: 0
-    width: 430
-    height: 45
   condition:
     and: []
   references:
@@ -68,17 +62,11 @@ MonoBehaviour:
   externalZoneLinkToZoneNode: {fileID: 0}
   rect:
     serializedVersion: 2
-    x: 1588
-    y: 408
-    width: 430
-    height: 150
+    x: 1612.483
+    y: 402.84586
+    width: 350
+    height: 125
   zoneName: ApartmentInterior
-  draggingRect:
-    serializedVersion: 2
-    x: 0
-    y: 0
-    width: 430
-    height: 45
   condition:
     and: []
   references:
@@ -111,17 +99,11 @@ MonoBehaviour:
   externalZoneLinkToZoneNode: {fileID: 0}
   rect:
     serializedVersion: 2
-    x: 30
+    x: 112.05871
     y: 30
-    width: 430
-    height: 150
+    width: 350
+    height: 125
   zoneName: ApartmentInterior
-  draggingRect:
-    serializedVersion: 2
-    x: 0
-    y: 0
-    width: 430
-    height: 45
   condition:
     and: []
   references:
@@ -154,15 +136,9 @@ MonoBehaviour:
     serializedVersion: 2
     x: 560
     y: 197
-    width: 430
-    height: 150
+    width: 350
+    height: 125
   zoneName: ApartmentInterior
-  draggingRect:
-    serializedVersion: 2
-    x: 0
-    y: 0
-    width: 430
-    height: 45
   condition:
     and:
     - or:
@@ -196,17 +172,11 @@ MonoBehaviour:
   externalZoneLinkToZoneNode: {fileID: 3520509955692951049}
   rect:
     serializedVersion: 2
-    x: 523
-    y: 628
-    width: 430
-    height: 150
+    x: 503.47485
+    y: 665.0976
+    width: 350
+    height: 125
   zoneName: ApartmentInterior
-  draggingRect:
-    serializedVersion: 2
-    x: 0
-    y: 0
-    width: 430
-    height: 45
   condition:
     and: []
   references:
@@ -238,17 +208,11 @@ MonoBehaviour:
   externalZoneLinkToZoneNode: {fileID: 0}
   rect:
     serializedVersion: 2
-    x: 57
-    y: 556
-    width: 430
-    height: 150
+    x: 96.77062
+    y: 570.748
+    width: 350
+    height: 125
   zoneName: ApartmentInterior
-  draggingRect:
-    serializedVersion: 2
-    x: 0
-    y: 0
-    width: 430
-    height: 45
   condition:
     and: []
   references:
@@ -280,17 +244,11 @@ MonoBehaviour:
   externalZoneLinkToZoneNode: {fileID: 0}
   rect:
     serializedVersion: 2
-    x: 1058
-    y: 408
-    width: 430
-    height: 150
+    x: 1132.738
+    y: 348.7251
+    width: 350
+    height: 125
   zoneName: ApartmentInterior
-  draggingRect:
-    serializedVersion: 2
-    x: 0
-    y: 0
-    width: 430
-    height: 45
   condition:
     and: []
   references:
@@ -372,17 +330,11 @@ MonoBehaviour:
   externalZoneLinkToZoneNode: {fileID: 0}
   rect:
     serializedVersion: 2
-    x: 1587
-    y: 96
-    width: 430
-    height: 150
+    x: 1616.6378
+    y: -40.59036
+    width: 350
+    height: 125
   zoneName: ApartmentInterior
-  draggingRect:
-    serializedVersion: 2
-    x: 0
-    y: 0
-    width: 430
-    height: 45
   condition:
     and: []
   references:
@@ -414,17 +366,11 @@ MonoBehaviour:
   externalZoneLinkToZoneNode: {fileID: 0}
   rect:
     serializedVersion: 2
-    x: 1055
-    y: 248.99998
-    width: 430
-    height: 150
+    x: 1134.8925
+    y: 203.89935
+    width: 350
+    height: 125
   zoneName: ApartmentInterior
-  draggingRect:
-    serializedVersion: 2
-    x: 0
-    y: 0
-    width: 430
-    height: 45
   condition:
     and: []
   references:
@@ -455,17 +401,11 @@ MonoBehaviour:
   externalZoneLinkToZoneNode: {fileID: 0}
   rect:
     serializedVersion: 2
-    x: 56
-    y: 719
-    width: 430
-    height: 150
+    x: 90.99356
+    y: 745.91846
+    width: 350
+    height: 125
   zoneName: ApartmentInterior
-  draggingRect:
-    serializedVersion: 2
-    x: 0
-    y: 0
-    width: 430
-    height: 45
   condition:
     and: []
   references:
@@ -498,15 +438,9 @@ MonoBehaviour:
     serializedVersion: 2
     x: 560
     y: 30
-    width: 430
-    height: 150
+    width: 350
+    height: 125
   zoneName: ApartmentInterior
-  draggingRect:
-    serializedVersion: 2
-    x: 0
-    y: 0
-    width: 430
-    height: 45
   condition:
     and:
     - or:
@@ -541,17 +475,11 @@ MonoBehaviour:
   externalZoneLinkToZoneNode: {fileID: 0}
   rect:
     serializedVersion: 2
-    x: 1585
-    y: 248.99998
-    width: 430
-    height: 150
+    x: 1615.9259
+    y: 145.9129
+    width: 350
+    height: 125
   zoneName: ApartmentInterior
-  draggingRect:
-    serializedVersion: 2
-    x: 0
-    y: 0
-    width: 430
-    height: 45
   condition:
     and: []
   references:
@@ -583,17 +511,11 @@ MonoBehaviour:
   externalZoneLinkToZoneNode: {fileID: 0}
   rect:
     serializedVersion: 2
-    x: 61
-    y: 393
-    width: 430
-    height: 150
+    x: 135.42531
+    y: 343.38303
+    width: 350
+    height: 125
   zoneName: ApartmentInterior
-  draggingRect:
-    serializedVersion: 2
-    x: 0
-    y: 0
-    width: 430
-    height: 45
   condition:
     and: []
   references:
@@ -625,17 +547,11 @@ MonoBehaviour:
   externalZoneLinkToZoneNode: {fileID: 0}
   rect:
     serializedVersion: 2
-    x: 1057
-    y: 96
-    width: 430
-    height: 150
+    x: 1130.4497
+    y: 57.34233
+    width: 350
+    height: 125
   zoneName: ApartmentInterior
-  draggingRect:
-    serializedVersion: 2
-    x: 0
-    y: 0
-    width: 430
-    height: 45
   condition:
     and: []
   references:

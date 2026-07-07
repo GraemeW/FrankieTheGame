@@ -3,16 +3,18 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Localization;
 using UnityEngine.Localization.Tables;
-using UnityEditor;
 using Frankie.Core.Predicates;
 using Frankie.Stats;
 using Frankie.Utils;
 using Frankie.Utils.Localization;
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
 
 namespace Frankie.Speech
 {
-    [System.Serializable]
-    public class DialogueNode : ScriptableObject
+    [Serializable]
+    public class DialogueNode : ScriptableObject, IStandardGraphNode
     {
         [Header("Dialogue Properties")]
         [SerializeField, ReadOnly] private string dialogueName = "";
@@ -59,10 +61,6 @@ namespace Frankie.Speech
         public int GetNodeBreadth() => nodeBreadth;
         public List<string> GetChildren() => children;
         public int GetChildrenCount() => children?.Count ?? 0;
-        public Vector2 GetPosition() => rect.position; 
-        public Rect GetRect() => rect;
-        public Rect GetDraggingRect() => draggingRect;
-
         private string GetSpeakerNameLocalizationKey() => $"{dialogueName}.{nodeDepth}.{nodeBreadth}.Speaker";
         private string GetTextLocalizationKey() => $"{dialogueName}.{nodeDepth}.{nodeBreadth}.Text";
         public LocalizationTableType localizationTableType { get; } = LocalizationTableType.Speech;
@@ -100,6 +98,17 @@ namespace Frankie.Speech
 
 #if UNITY_EDITOR
         #region EditorMethods
+        public ScriptableObject scriptableObject => this;
+        public Vector2 GetPosition() => rect.position; 
+        public Rect GetRect() => rect;
+        public Rect GetDraggingRect() => draggingRect;
+        public void SetPosition(Vector2 position)
+        {
+            Undo.RecordObject(this, "Move Dialogue Node");
+            rect.position = position;
+            EditorUtility.SetDirty(this);
+        }
+        
         public void Initialize(int width, int height)
         {
             rect.width = width;
@@ -194,13 +203,6 @@ namespace Frankie.Speech
             children.Remove(childID1);
             children.Add(childID2);
             if (recordUndoHistory) { EditorUtility.SetDirty(this); }
-        }
-
-        public void SetPosition(Vector2 position)
-        {
-            Undo.RecordObject(this, "Move Dialogue Node");
-            rect.position = position;
-            EditorUtility.SetDirty(this);
         }
 
         public void SetDraggingRect(Rect setDraggingRect)
