@@ -19,7 +19,6 @@ namespace Frankie.Quests
         [SerializeField][SimpleLocalizedString(LocalizationTableType.Quests, true)] private LocalizedString localizedDisplayName; 
         [SerializeField][SimpleLocalizedString(LocalizationTableType.Quests, true)] private LocalizedString localizedDetail;
         [SerializeField] private List<string> questObjectiveNames = new();
-        [SerializeField] private List<Reward> rewards = new();
 
         // State
         [HideInInspector][SerializeField] private string cachedName;
@@ -38,7 +37,7 @@ namespace Frankie.Quests
             objectiveNameEditorLookup = new Dictionary<string, QuestObjective>();
             foreach (QuestObjective questObjective in questObjectives.Where(questObjective => questObjective != null))
             {
-                if (!objectiveNameEditorLookup.TryAdd(questObjective.name, questObjective)) { continue; }
+                objectiveNameEditorLookup.TryAdd(questObjective.name, questObjective);
             }
 #endif
         }
@@ -69,8 +68,6 @@ namespace Frankie.Quests
         public QuestObjective GetObjectiveFromID(string objectiveID) => questObjectives.FirstOrDefault(questObjective => questObjective.GetObjectiveID() == objectiveID);
         public bool HasObjective(QuestObjective matchObjective) => questObjectives.Any(questObjective => questObjective.GetObjectiveID() == matchObjective.GetObjectiveID());
         public int GetObjectiveCount() => questObjectives.Count;
-        public bool HasReward() => (rewards.Count > 0);
-        public List<Reward> GetRewards() => rewards;
         
         public LocalizationTableType localizationTableType { get; } = LocalizationTableType.Quests;
         public List<TableEntryReference> GetLocalizationEntries()

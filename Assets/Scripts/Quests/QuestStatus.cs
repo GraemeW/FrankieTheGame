@@ -8,7 +8,6 @@ namespace Frankie.Quests
         // State
         private readonly Quest quest;
         private readonly List<QuestObjective> completedObjectives = new();
-        private bool rewardGiven = false;
 
         // Methods
         #region Constructors
@@ -33,7 +32,6 @@ namespace Frankie.Quests
             return completedObjectives.Any(questObjective => questObjective.GetObjectiveID() == matchObjective.GetObjectiveID());
         }
         public bool IsComplete() => (completedObjectives.Count >= quest.GetObjectiveCount());
-        public bool IsRewardGiven() => rewardGiven;
         
         public void SetObjective(QuestObjective objective, bool isComplete)
         {
@@ -49,11 +47,6 @@ namespace Frankie.Quests
                     completedObjectives.Remove(objective);
                     break;
             }
-        }
-
-        public void SetRewardGiven(bool enable)
-        {
-            rewardGiven = enable;
         }
         #endregion
 
