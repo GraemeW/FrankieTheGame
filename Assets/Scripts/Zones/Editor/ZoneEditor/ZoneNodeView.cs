@@ -8,12 +8,10 @@ namespace Frankie.ZoneManagement.Editor
     {
         // Tunables
         private const float _headerHeight = 28f;
-        private const float _nodePaddingHorizontal = 20f;
-        private const float _nodePaddingVertical = 16f;
         private const float _borderWidth = 1f;
-        private const float _bodyPadding = 6f;
-        private static readonly Color _headerColor = Color.gray1;
+        private static readonly Color _headerColor = new(0f, 0f, 0f, 0.5f);
         private static readonly Color _bodyColor = Color.gray2;
+        private static readonly Color _externalZoneBodyColor = Color.cornflowerBlue * 0.75f;
 
         // State
         private readonly ZoneNode zoneNode;
@@ -69,6 +67,9 @@ namespace Frankie.ZoneManagement.Editor
             Button addButton = MakeAddRemoveButton(true);
             addButton.RegisterCallback<ClickEvent>(_ => this.graphView.RequestCreateChild(zoneNode));
             buttonRow.Add(addButton);
+            
+            var bottomSpacer = new VisualElement { style = { height = 5 } };
+            Add(bottomSpacer);
         }
 
         public void RefreshLinkButton()
@@ -120,7 +121,7 @@ namespace Frankie.ZoneManagement.Editor
             style.top = rect.y;
             style.width = rect.width;
             style.height = rect.height;
-            style.backgroundColor = _bodyColor;
+            style.backgroundColor = zoneNode.HasLinkedSceneReference() ? _externalZoneBodyColor : _bodyColor;
             style.borderTopWidth = style.borderBottomWidth = style.borderLeftWidth = style.borderRightWidth = _borderWidth;
             style.borderTopColor = style.borderBottomColor = style.borderLeftColor = style.borderRightColor = Color.black;
             style.backgroundSize = new BackgroundSize(Length.Percent(100), Length.Percent(100));
