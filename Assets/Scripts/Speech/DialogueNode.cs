@@ -39,7 +39,6 @@ namespace Frankie.Speech
         [HideInInspector][SerializeField] private string cachedSpeakerName = "";
         [HideInInspector][SerializeField] private string cachedText = "";
 #endif
-
         #region Getters
         public bool HasValidCharacterProperties() => characterProperties != null && !string.IsNullOrWhiteSpace(characterProperties.GetCharacterID()); 
         public CharacterProperties GetCharacterProperties() => characterProperties;
@@ -96,19 +95,24 @@ namespace Frankie.Speech
         }
         #endregion
 
-#if UNITY_EDITOR
-        #region EditorMethods
+        #region NodeInterface
+        // Note:  Must be outside pragma for compilation
         public ScriptableObject scriptableObject => this;
         public Vector2 GetPosition() => rect.position; 
-        public Rect GetRect() => rect;
-        public Rect GetDraggingRect() => draggingRect;
         public void SetPosition(Vector2 position)
         {
+#if UNITY_EDITOR
             Undo.RecordObject(this, "Move Dialogue Node");
             rect.position = position;
             EditorUtility.SetDirty(this);
+#endif
         }
+        #endregion
         
+#if UNITY_EDITOR
+        #region EditorMethods
+        public Rect GetRect() => rect;
+        public Rect GetDraggingRect() => draggingRect;
         public void Initialize(int width, int height)
         {
             rect.width = width;
