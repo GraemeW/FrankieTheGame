@@ -14,7 +14,7 @@ namespace Frankie.ZoneManagement.Editor
 
         // State
         private Zone selectedZone;
-        private ZoneGraphView graphView;
+        private ZoneGraphView zoneGraphView;
         private Label headerLabel;
         private Label noZoneMessage;
 
@@ -65,36 +65,57 @@ namespace Frankie.ZoneManagement.Editor
             noZoneMessage = new Label(_noZoneSelectedMessage) { style = { paddingLeft = 6 } };
             rootVisualElement.Add(noZoneMessage);
 
-            graphView = new ZoneGraphView { style = { flexGrow = 1, overflow = Overflow.Hidden } };
-            graphView.RegisterCallback<MouseDownEvent>(_ => Selection.activeObject = selectedZone);
-            rootVisualElement.Add(graphView);
+            zoneGraphView = new ZoneGraphView { style = { flexGrow = 1, overflow = Overflow.Hidden } };
+            zoneGraphView.RegisterCallback<MouseDownEvent>(_ => Selection.activeObject = selectedZone);
+            rootVisualElement.Add(zoneGraphView);
 
             RefreshFromSelection();
         }
         
         private void RefreshFromSelection()
         {
-            if (graphView == null) { return; } // CreateGUI has not yet run
+            if (zoneGraphView == null) { return; } // CreateGUI has not yet run
 
             bool hasZone = selectedZone != null;
             noZoneMessage.style.display = hasZone ? DisplayStyle.None : DisplayStyle.Flex;
             headerLabel.style.display = hasZone ? DisplayStyle.Flex : DisplayStyle.None;
-            graphView.style.display = hasZone ? DisplayStyle.Flex : DisplayStyle.None;
+            zoneGraphView.style.display = hasZone ? DisplayStyle.Flex : DisplayStyle.None;
 
             if (!hasZone) { return; }
 
             headerLabel.text = selectedZone.name;
-            graphView.SetZone(selectedZone);
+            zoneGraphView.SetZone(selectedZone);
         }
         #endregion
 
         #region EventHandlers
         private void OnSelectionChanged()
         {
-            var newZone = Selection.activeObject as Zone;
-            if (newZone == null) { return; }
-            selectedZone = newZone;
-            RefreshFromSelection();
+            switch (Selection.activeObject)
+            {
+                case Zone zone:
+                {
+                    if (zone == null) { return; }
+                    selectedZone = zone;
+                    RefreshFromSelection();
+                    break;
+                }
+                case ZoneNode zoneNode:
+                {
+                    if (zoneNode == null) { return; }
+                    Zone matchZone = zoneNode.GetZone();
+                    if (matchZone == null) { return; }
+                    
+                    if (selectedZone != matchZone)
+                    {
+                        selectedZone = matchZone;
+                        RefreshFromSelection();
+                    }
+                    zoneGraphView.FocusOnNode(zoneNode);
+                    break;
+                }
+            }
+
         }
         #endregion
         

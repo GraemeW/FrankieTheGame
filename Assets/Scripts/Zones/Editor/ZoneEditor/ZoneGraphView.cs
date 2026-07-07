@@ -10,15 +10,17 @@ namespace Frankie.ZoneManagement.Editor
     {
         // State
         private Zone zone;
+        private VisualElement canvasContent;
         private readonly ZoneEdgesLayer edgesLayer;
         private readonly VisualElement nodeLayer;
+        private readonly StandardCanvasPanManipulator panManipulator;
         private readonly StandardCanvasZoomManipulator zoomManipulator;
         private readonly Dictionary<string, ZoneNodeView> nodeViewLookup = new();
         private ZoneNode linkingParentNode;
         
         public ZoneGraphView()
         {
-            VisualElement canvasContent = MakeCanvas();
+            canvasContent = MakeCanvas();
             Add(canvasContent);
 
             var backgroundLayer = new ZoneBackgroundLayer();
@@ -30,7 +32,8 @@ namespace Frankie.ZoneManagement.Editor
             nodeLayer = MakeNodesLayer();
             canvasContent.Add(nodeLayer);
 
-            this.AddManipulator(new StandardCanvasPanManipulator(canvasContent));
+            panManipulator = new StandardCanvasPanManipulator(canvasContent);
+            this.AddManipulator(panManipulator);
             zoomManipulator = new StandardCanvasZoomManipulator(canvasContent);
             this.AddManipulator(zoomManipulator);
         }
@@ -96,6 +99,15 @@ namespace Frankie.ZoneManagement.Editor
             linkingParentNode = null;
             RefreshAllLinkButtons();
             RefreshEdges();
+        }
+
+        public void FocusOnNode(ZoneNode targetNode)
+        {
+            if (targetNode == null || panManipulator == null || canvasContent == null) { return; }
+            Vector2 targetPosition = targetNode.GetRect().center;
+            var offsetPosition = new Vector2(-targetPosition.x * zoomFactor + resolvedStyle.width * 0.5f, -targetPosition.y * zoomFactor + resolvedStyle.height * 0.5f);
+            canvasContent.style.left = offsetPosition.x;
+            canvasContent.style.top = offsetPosition.y;
         }
         #endregion
 
