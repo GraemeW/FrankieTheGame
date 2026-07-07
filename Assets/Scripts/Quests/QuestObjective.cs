@@ -11,7 +11,7 @@ using Frankie.Utils.Localization;
 
 namespace Frankie.Quests
 {
-    [System.Serializable]
+    [Serializable]
     public class QuestObjective : ScriptableObject, ISerializationCallbackReceiver
     {
         // Tunables

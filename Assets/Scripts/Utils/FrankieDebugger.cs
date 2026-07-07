@@ -168,7 +168,6 @@ namespace Frankie.Utils
                 Quest quest = questStatus.GetQuest();
                 Debug.Log($"Quest: {quest.GetName()} - {quest.GetDetail()}");
                 Debug.Log($"Completed:  {questStatus.GetCompletedObjectiveCount()} of {quest.GetObjectiveCount()} objectives");
-                Debug.Log($"Status:  {questStatus.IsComplete()}, Reward Disposition:  {questStatus.IsRewardGiven()})");
                 Debug.Log("---Fin---");
             }
         }

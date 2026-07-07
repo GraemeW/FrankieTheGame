@@ -60,42 +60,12 @@ namespace Frankie.Quests
             QuestStatus questStatus = TryAddQuest(quest);
             if (questStatus == null) { return; }
             
-            // Disallow completion of quests // disbursement of rewards multiple times
-            if (questStatus.IsComplete() && questStatus.IsRewardGiven()) { return; } 
-
-            // Complete Quest
             questStatus.SetObjective(questObjective, true);
-
-            // Standard reward handling otherwise
-            if (questStatus.IsComplete() && !questStatus.IsRewardGiven())
-            {
-                questStatus.SetRewardGiven(true); // Initially set reward given BEFORE giving reward to prevent knapsackUpdated loops
-                if (!TryGiveReward(quest))
-                {
-                    // Allow re-tries on giving awards if failing
-                    questStatus.SetRewardGiven(false); 
-                }
-            }
-
             questListUpdated?.Invoke();
         }
         #endregion
 
         #region PrivateMethods
-        private bool TryGiveReward(Quest quest)
-        {
-            if (partyKnapsackConduit == null) { return false; }
-
-            List<Reward> rewards = quest.GetRewards();
-            if (rewards.Count > partyKnapsackConduit.GetNumberOfFreeSlotsInParty()) { return false; }
-
-            foreach (Reward reward in quest.GetRewards())
-            {
-                partyKnapsackConduit.AddToFirstEmptyPartySlot(reward.item);
-            }
-            return true;
-        }
-
         private void CompleteObjectivesForItemsInKnapsack()
         {
             foreach (Knapsack knapsack in partyKnapsackConduit.GetKnapsacks())
