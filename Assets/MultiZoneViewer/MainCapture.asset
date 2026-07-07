@@ -289,7 +289,7 @@ MonoBehaviour:
   <zoneName>k__BackingField: PrimInterior
   <scenePath>k__BackingField: Assets/Scenes/PrimInterior.unity
   <snapshotPath>k__BackingField: /Users/graemewilliams/G/GitHub/FrankieTheGame/MultiZoneViewer/Snapshot_PrimInterior.png
-  topLeftPosition: {x: -11, y: 846.95}
+  topLeftPosition: {x: -19.122074, y: 838.82794}
   dimensions: {x: 288, y: 264.75}
   <zoneHandlerLinkDataSet>k__BackingField:
   - sourceZoneName: PrimInterior
