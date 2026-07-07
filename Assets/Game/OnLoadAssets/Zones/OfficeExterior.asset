@@ -27,15 +27,9 @@ MonoBehaviour:
     serializedVersion: 2
     x: 34
     y: 211
-    width: 430
-    height: 150
+    width: 350
+    height: 125
   zoneName: OfficeExterior
-  draggingRect:
-    serializedVersion: 2
-    x: 0
-    y: 0
-    width: 430
-    height: 45
   condition:
     and: []
   references:
@@ -68,15 +62,9 @@ MonoBehaviour:
     serializedVersion: 2
     x: 46
     y: 560
-    width: 430
-    height: 150
+    width: 350
+    height: 125
   zoneName: OfficeExterior
-  draggingRect:
-    serializedVersion: 2
-    x: 0
-    y: 0
-    width: 430
-    height: 45
   condition:
     and: []
   references:
@@ -109,15 +97,9 @@ MonoBehaviour:
     serializedVersion: 2
     x: 45.99997
     y: 375
-    width: 430
-    height: 150
+    width: 350
+    height: 125
   zoneName: OfficeExterior
-  draggingRect:
-    serializedVersion: 2
-    x: 0
-    y: 0
-    width: 430
-    height: 45
   condition:
     and: []
   references:
@@ -190,16 +172,10 @@ MonoBehaviour:
   rect:
     serializedVersion: 2
     x: 41.99997
-    y: 747
-    width: 430
-    height: 150
+    y: 741.6205
+    width: 350
+    height: 125
   zoneName: OfficeExterior
-  draggingRect:
-    serializedVersion: 2
-    x: 0
-    y: 0
-    width: 430
-    height: 45
   condition:
     and: []
   references:
@@ -232,15 +208,9 @@ MonoBehaviour:
     serializedVersion: 2
     x: 30
     y: 30
-    width: 430
-    height: 150
+    width: 350
+    height: 125
   zoneName: OfficeExterior
-  draggingRect:
-    serializedVersion: 2
-    x: 0
-    y: 0
-    width: 430
-    height: 45
   condition:
     and: []
   references:

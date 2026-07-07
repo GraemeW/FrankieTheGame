@@ -35,7 +35,12 @@ namespace Frankie.ZoneManagement.Editor
             var headerSpacer = new VisualElement { style = { height = 10 } };
             Add(headerSpacer);
             
-            var overrideIDField = new TextField("Override ID:") { value = zoneNode.GetNodeID(), isDelayed = true };
+            var overrideIDField = new TextField("Override ID:")
+            {
+                value = zoneNode.GetNodeID(), 
+                isDelayed = true,
+                labelElement = { style = { minWidth = 80, width = 80} }
+            };
             overrideIDField.RegisterValueChangedCallback(changeEvent =>
             {
                 if (changeEvent.newValue == zoneNode.GetNodeID()) { return; }

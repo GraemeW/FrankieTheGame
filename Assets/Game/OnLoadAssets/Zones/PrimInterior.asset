@@ -26,17 +26,11 @@ MonoBehaviour:
   externalZoneLinkToZoneNode: {fileID: 0}
   rect:
     serializedVersion: 2
-    x: 157
-    y: 171
-    width: 430
-    height: 150
+    x: 96.820366
+    y: 127.827644
+    width: 350
+    height: 125
   zoneName: PrimInterior
-  draggingRect:
-    serializedVersion: 2
-    x: 0
-    y: 0
-    width: 430
-    height: 45
   condition:
     and: []
   references:
@@ -70,15 +64,9 @@ MonoBehaviour:
     serializedVersion: 2
     x: 161
     y: 939
-    width: 430
-    height: 150
+    width: 350
+    height: 125
   zoneName: PrimInterior
-  draggingRect:
-    serializedVersion: 2
-    x: 0
-    y: 0
-    width: 430
-    height: 45
   condition:
     and: []
   references:
@@ -112,15 +100,9 @@ MonoBehaviour:
     serializedVersion: 2
     x: 179
     y: 1134
-    width: 430
-    height: 150
+    width: 350
+    height: 125
   zoneName: PrimInterior
-  draggingRect:
-    serializedVersion: 2
-    x: 0
-    y: 0
-    width: 430
-    height: 45
   condition:
     and: []
   references:
@@ -154,15 +136,9 @@ MonoBehaviour:
     serializedVersion: 2
     x: 157
     y: 779
-    width: 430
-    height: 150
+    width: 350
+    height: 125
   zoneName: PrimInterior
-  draggingRect:
-    serializedVersion: 2
-    x: 0
-    y: 0
-    width: 430
-    height: 45
   condition:
     and: []
   references:
@@ -196,15 +172,9 @@ MonoBehaviour:
     serializedVersion: 2
     x: 658
     y: 1360
-    width: 430
-    height: 150
+    width: 350
+    height: 125
   zoneName: PrimInterior
-  draggingRect:
-    serializedVersion: 2
-    x: 0
-    y: 0
-    width: 430
-    height: 45
   condition:
     and: []
   references:
@@ -236,17 +206,11 @@ MonoBehaviour:
   externalZoneLinkToZoneNode: {fileID: 0}
   rect:
     serializedVersion: 2
-    x: 608
-    y: 238
-    width: 430
-    height: 150
+    x: 494.18195
+    y: -9.259819
+    width: 350
+    height: 125
   zoneName: PrimInterior
-  draggingRect:
-    serializedVersion: 2
-    x: 0
-    y: 0
-    width: 430
-    height: 45
   condition:
     and: []
   references:
@@ -326,17 +290,11 @@ MonoBehaviour:
   externalZoneLinkToZoneNode: {fileID: 2939076438721492088, guid: 210ece264cb0156468d645ecaa434255, type: 2}
   rect:
     serializedVersion: 2
-    x: 41
-    y: 628
-    width: 430
-    height: 150
+    x: 46.233
+    y: 592.6777
+    width: 350
+    height: 125
   zoneName: PrimInterior
-  draggingRect:
-    serializedVersion: 2
-    x: 0
-    y: 0
-    width: 430
-    height: 45
   condition:
     and: []
   references:
@@ -368,17 +326,11 @@ MonoBehaviour:
   externalZoneLinkToZoneNode: {fileID: 3617544309863132449, guid: 210ece264cb0156468d645ecaa434255, type: 2}
   rect:
     serializedVersion: 2
-    x: 30
-    y: 30
-    width: 430
-    height: 150
+    x: -111.291275
+    y: -18.405354
+    width: 350
+    height: 125
   zoneName: PrimInterior
-  draggingRect:
-    serializedVersion: 2
-    x: 0
-    y: 0
-    width: 430
-    height: 45
   condition:
     and: []
   references:
@@ -412,15 +364,9 @@ MonoBehaviour:
     serializedVersion: 2
     x: 631
     y: 994
-    width: 430
-    height: 150
+    width: 350
+    height: 125
   zoneName: PrimInterior
-  draggingRect:
-    serializedVersion: 2
-    x: 0
-    y: 0
-    width: 430
-    height: 45
   condition:
     and: []
   references:
@@ -454,15 +400,9 @@ MonoBehaviour:
     serializedVersion: 2
     x: 647
     y: 1186
-    width: 430
-    height: 150
+    width: 350
+    height: 125
   zoneName: PrimInterior
-  draggingRect:
-    serializedVersion: 2
-    x: 0
-    y: 0
-    width: 430
-    height: 45
   condition:
     and: []
   references:
@@ -496,15 +436,9 @@ MonoBehaviour:
     serializedVersion: 2
     x: 621
     y: 819
-    width: 430
-    height: 150
+    width: 350
+    height: 125
   zoneName: PrimInterior
-  draggingRect:
-    serializedVersion: 2
-    x: 0
-    y: 0
-    width: 430
-    height: 45
   condition:
     and: []
   references:
@@ -538,15 +472,9 @@ MonoBehaviour:
     serializedVersion: 2
     x: 183
     y: 1318
-    width: 430
-    height: 150
+    width: 350
+    height: 125
   zoneName: PrimInterior
-  draggingRect:
-    serializedVersion: 2
-    x: 0
-    y: 0
-    width: 430
-    height: 45
   condition:
     and: []
   references:
@@ -579,15 +507,9 @@ MonoBehaviour:
     serializedVersion: 2
     x: 45
     y: 421
-    width: 430
-    height: 150
+    width: 350
+    height: 125
   zoneName: PrimInterior
-  draggingRect:
-    serializedVersion: 2
-    x: 0
-    y: 0
-    width: 430
-    height: 45
   condition:
     and: []
   references:

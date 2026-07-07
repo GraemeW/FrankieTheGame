@@ -17,9 +17,8 @@ namespace Frankie.ZoneManagement
         [SerializeField][SimpleLocalizedString(LocalizationTableType.Zones, false)] private LocalizedString localizedDisplayName;
         [SerializeField] private List<string> children = new();
         [SerializeField] private ZoneNode externalZoneLinkToZoneNode;
-        [SerializeField] private Rect rect = new(30, 30, 430, 150);
+        [SerializeField] private Rect rect = new(30, 30, 350, 125);
         [HideInInspector][SerializeField] private string zoneName = "";
-        [HideInInspector][SerializeField] private Rect draggingRect = new(0, 0, 430, 45);
         [Header("Additional Properties")]
         [SerializeField] private Condition condition;
         
@@ -58,7 +57,6 @@ namespace Frankie.ZoneManagement
         public ScriptableObject scriptableObject => this;
         public Vector2 GetPosition() => rect.position;
         public Rect GetRect() => rect;
-        public Rect GetDraggingRect() => draggingRect;
         public void SetPosition(Vector2 position)
         {
             Undo.RecordObject(this, "Move Zone Node");
@@ -118,13 +116,6 @@ namespace Frankie.ZoneManagement
         {
             Undo.RecordObject(this, "Remove Node Relation");
             children.Remove(childID);
-            EditorUtility.SetDirty(this);
-        }
-
-        public void SetDraggingRect(Rect setDraggingRect)
-        {
-            if (setDraggingRect == draggingRect) return;
-            draggingRect = setDraggingRect;
             EditorUtility.SetDirty(this);
         }
 

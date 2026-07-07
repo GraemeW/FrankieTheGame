@@ -27,15 +27,9 @@ MonoBehaviour:
     serializedVersion: 2
     x: 24
     y: 195
-    width: 430
-    height: 150
+    width: 350
+    height: 125
   zoneName: Demo_Forest1to20-Portabank
-  draggingRect:
-    serializedVersion: 2
-    x: 0
-    y: 0
-    width: 430
-    height: 45
   condition:
     and: []
   references:
@@ -60,7 +54,7 @@ MonoBehaviour:
     m_TableReference:
       m_TableCollectionName: GUID:8137acf3076d245cf991f948822c95ba
     m_TableEntryReference:
-      m_KeyId: 6549741277011968
+      m_KeyId: 29629481302876160
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -105,17 +99,11 @@ MonoBehaviour:
   externalZoneLinkToZoneNode: {fileID: -7167530607634530552, guid: 56bcb0733fa024bf5b983792663e12bb, type: 2}
   rect:
     serializedVersion: 2
-    x: 30
-    y: 30
-    width: 430
-    height: 150
+    x: 31.098118
+    y: 28.901882
+    width: 350
+    height: 125
   zoneName: Demo_Forest1to20-Portabank
-  draggingRect:
-    serializedVersion: 2
-    x: 0
-    y: 0
-    width: 430
-    height: 45
   condition:
     and: []
   references:
@@ -148,15 +136,9 @@ MonoBehaviour:
     serializedVersion: 2
     x: 23
     y: 363
-    width: 430
-    height: 150
+    width: 350
+    height: 125
   zoneName: Demo_Forest1to20-Portabank
-  draggingRect:
-    serializedVersion: 2
-    x: 0
-    y: 0
-    width: 430
-    height: 45
   condition:
     and: []
   references:
