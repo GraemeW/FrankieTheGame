@@ -74,7 +74,6 @@ MonoBehaviour:
     m_LocalVariables: []
   questObjectiveNames:
   - Flip the electrical breaker
-  rewards: []
   cachedName: Demo_Forest-FlipElectricalBreaker
   questObjectives:
   - {fileID: -1157696598057115107}

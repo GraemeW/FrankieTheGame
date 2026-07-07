@@ -120,7 +120,6 @@ MonoBehaviour:
   - HorseOpenedFirepole
   - HorsePickedUpTheDocuments
   - HorseReceivedTheDocuments
-  rewards: []
   cachedName: 
   questObjectives:
   - {fileID: 3354754754222314555}

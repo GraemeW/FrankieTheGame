@@ -227,7 +227,6 @@ MonoBehaviour:
   - CurioEight
   - CurioNine
   - CurioTen
-  rewards: []
   cachedName: 
   questObjectives:
   - {fileID: -1606810816014409339}

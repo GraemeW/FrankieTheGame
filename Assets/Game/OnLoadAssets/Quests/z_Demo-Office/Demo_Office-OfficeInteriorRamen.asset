@@ -126,7 +126,6 @@ MonoBehaviour:
   - PouredWaterOnRamen
   - RamenMeetsItsFate
   - RamenSaysGoodbye
-  rewards: []
   cachedName: 
   questObjectives:
   - {fileID: 225375821655883534}
