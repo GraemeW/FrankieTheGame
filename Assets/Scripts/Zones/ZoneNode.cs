@@ -4,12 +4,13 @@ using UnityEngine;
 using UnityEngine.Localization;
 using UnityEngine.Localization.Tables;
 using Frankie.Core.Predicates;
+using Frankie.Utils;
 using Frankie.Utils.Localization;
 
 namespace Frankie.ZoneManagement
 {
     [System.Serializable]
-    public class ZoneNode : ScriptableObject
+    public class ZoneNode : ScriptableObject, IStandardGraphNode
     {
         // Tunables
         [Header("Zone Node Properties")]
@@ -54,9 +55,16 @@ namespace Frankie.ZoneManagement
 
 #if UNITY_EDITOR
         #region ZoneEditorMethods
+        public ScriptableObject scriptableObject => this;
         public Vector2 GetPosition() => rect.position;
         public Rect GetRect() => rect;
         public Rect GetDraggingRect() => draggingRect;
+        public void SetPosition(Vector2 position)
+        {
+            Undo.RecordObject(this, "Move Zone Node");
+            rect.position = position;
+            EditorUtility.SetDirty(this);
+        }
         
         public void Initialize(int width, int height)
         {
@@ -110,13 +118,6 @@ namespace Frankie.ZoneManagement
         {
             Undo.RecordObject(this, "Remove Node Relation");
             children.Remove(childID);
-            EditorUtility.SetDirty(this);
-        }
-
-        public void SetPosition(Vector2 position)
-        {
-            Undo.RecordObject(this, "Move Zone Node");
-            rect.position = position;
             EditorUtility.SetDirty(this);
         }
 

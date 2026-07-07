@@ -1,9 +1,9 @@
 using UnityEngine;
 using UnityEngine.UIElements;
 
-namespace Frankie.Speech.Editor
+namespace Frankie.Utils.Editor
 {
-    public class DialogueCanvasPanManipulator : MouseManipulator
+    public class StandardCanvasPanManipulator : MouseManipulator
     {
         // State
         private readonly VisualElement panTarget;
@@ -11,7 +11,7 @@ namespace Frankie.Speech.Editor
         private Vector2 panStartOffset;
         private bool isPanning;
 
-        public DialogueCanvasPanManipulator(VisualElement panTarget)
+        public StandardCanvasPanManipulator(VisualElement panTarget)
         {
             this.panTarget = panTarget;
             activators.Add(new ManipulatorActivationFilter { button = MouseButton.LeftMouse });

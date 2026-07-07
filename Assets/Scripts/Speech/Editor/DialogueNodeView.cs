@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
 using Frankie.Stats;
+using Frankie.Utils.Editor;
 
 namespace Frankie.Speech.Editor
 {
@@ -44,7 +45,7 @@ namespace Frankie.Speech.Editor
             InitializeNodeStyle();
 
             VisualElement nodeHeader = MakeNodeHeader();
-            nodeHeader.AddManipulator(new DialogueNodeDragManipulator(this, dialogueNode, onPositionChanged, zoomProvider));
+            nodeHeader.AddManipulator(new StandardNodeDragManipulator(this, dialogueNode, onPositionChanged, zoomProvider));
             Add(nodeHeader);
 
             idLabel = new Label();
@@ -91,7 +92,6 @@ namespace Frankie.Speech.Editor
             Button createButton = MakeAddRemoveButton(true);
             createButton.RegisterCallback<ClickEvent>(_ => createChildRequested?.Invoke(dialogueNode));
             buttonRow.Add(createButton);
-
             
             speakerNameField.SetValueWithoutNotify(dialogueNode.GetSpeakerName(false));
             textField.SetValueWithoutNotify(dialogueNode.GetText());

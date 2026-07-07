@@ -3,8 +3,9 @@ using UnityEditor;
 using UnityEditor.Callbacks;
 using UnityEngine;
 using UnityEngine.UIElements;
-using Frankie.Utils.Localization;
 using UnityEngine.Localization;
+using Frankie.Utils.Localization;
+using Frankie.Utils.Editor;
 
 namespace Frankie.Speech.Editor
 {
@@ -27,7 +28,7 @@ namespace Frankie.Speech.Editor
         private Label noDialogueLabel;
         private VisualElement viewport;
         private VisualElement canvasContent;
-        private DialogueCanvasZoomManipulator zoomManipulator;
+        private StandardCanvasZoomManipulator zoomManipulator;
         private VisualElement backgroundLayer;
         private DialogueConnectionsLayer connectionsLayer;
         private VisualElement nodesLayer;
@@ -88,8 +89,8 @@ namespace Frankie.Speech.Editor
 
             canvasContent = MakeCanvas();
             viewport.Add(canvasContent);
-            viewport.AddManipulator(new DialogueCanvasPanManipulator(canvasContent));
-            zoomManipulator = new DialogueCanvasZoomManipulator(canvasContent);
+            viewport.AddManipulator(new StandardCanvasPanManipulator(canvasContent));
+            zoomManipulator = new StandardCanvasZoomManipulator(canvasContent);
             zoomManipulator.zoomChanged += zoom => connectionsLayer.SetZoomFactor(zoom);
             viewport.AddManipulator(zoomManipulator);
             
