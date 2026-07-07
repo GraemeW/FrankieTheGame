@@ -162,7 +162,7 @@ namespace Frankie.Inventory.UI
         #endregion
 
         #region UIBoxStandardInterface
-        protected override bool MoveCursor(PlayerInputType playerInputType)
+        protected override bool MoveCursor(PlayerInputType playerInputType, CursorMovementStyle cursorMovementStyle)
         {
             if (cashTransferState == CashTransferState.CashSelection)
             {
@@ -171,7 +171,7 @@ namespace Frankie.Inventory.UI
                     return AdjustNumber(playerInputType);
                 }
             }
-            return base.MoveCursor(playerInputType);
+            return base.MoveCursor(playerInputType, cursorMovementStyle);
         }
 
         protected override bool Choose(string nodeID)

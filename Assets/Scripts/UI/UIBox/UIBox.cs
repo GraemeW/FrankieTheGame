@@ -41,21 +41,21 @@ namespace Frankie.Utils.UI
         public event Action<UIBoxModifiedType, bool> uiBoxModified;
 
         #region StaticMethods
-        private static bool MoveCursor(PlayerInputType playerInputType, ref int currentSelectionIndex, int optionsCount)
+        private static bool MoveCursor(PlayerInputType playerInputType, ref int currentSelectionIndex, int optionsCount, CursorMovementStyle cursorMovementStyle)
         {
             bool validInput = false;
             switch (playerInputType)
             {
-                case PlayerInputType.NavigateRight:
-                case PlayerInputType.NavigateDown:
+                case PlayerInputType.NavigateRight when cursorMovementStyle is CursorMovementStyle.Combined or CursorMovementStyle.Horizontal:
+                case PlayerInputType.NavigateDown when cursorMovementStyle is CursorMovementStyle.Combined or CursorMovementStyle.Vertical:
                 {
                     if (currentSelectionIndex + 1 >= optionsCount) { currentSelectionIndex = 0; }
                     else { currentSelectionIndex++; }
                     validInput = true;
                     break;
                 }
-                case PlayerInputType.NavigateUp:
-                case PlayerInputType.NavigateLeft:
+                case PlayerInputType.NavigateUp when cursorMovementStyle is CursorMovementStyle.Combined or CursorMovementStyle.Vertical:
+                case PlayerInputType.NavigateLeft when cursorMovementStyle is CursorMovementStyle.Combined or CursorMovementStyle.Horizontal:
                 {
                     if (currentSelectionIndex <= 0) { currentSelectionIndex = optionsCount - 1; }
                     else { currentSelectionIndex--; }
@@ -290,7 +290,7 @@ namespace Frankie.Utils.UI
             return false;
         }
 
-        protected virtual bool MoveCursor(PlayerInputType playerInputType)
+        protected virtual bool MoveCursor(PlayerInputType playerInputType, CursorMovementStyle cursorMovementStyle)
         {
             if (!isChoiceAvailable || highlightedChoiceOption == null) { return false; }
 
@@ -299,7 +299,7 @@ namespace Frankie.Utils.UI
             
             // Standard choice handling
             int choiceIndex = choiceOptions.IndexOf(highlightedChoiceOption);
-            bool validInput = MoveCursor(playerInputType, ref choiceIndex, choiceOptions.Count);
+            bool validInput = MoveCursor(playerInputType, ref choiceIndex, choiceOptions.Count, cursorMovementStyle);
             if (validInput)
             {
                 ClearChoiceSelections();
@@ -430,7 +430,7 @@ namespace Frankie.Utils.UI
             if (!IsChoiceAvailable()) { return false; } // Childed objects can still accept input on no choices available
             if (ShowCursorOnAnyInteraction(playerInputType)) { return true; }
             if (PrepareChooseAction(playerInputType)) { return true; }
-            if (MoveCursor(playerInputType)) { return true; }
+            if (MoveCursor(playerInputType, CursorMovementStyle.Combined)) { return true; }
 
             return false;
         }
