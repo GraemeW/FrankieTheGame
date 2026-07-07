@@ -9,24 +9,24 @@ namespace Frankie.ZoneManagement.Editor
         // Tunables
         private const float _headerHeight = 28f;
         private const float _borderWidth = 1f;
-        private static readonly Color _headerColor = new(0f, 0f, 0f, 0.5f);
+        private static readonly Color _headerColor = Color.gray1;
         private static readonly Color _bodyColor = Color.gray2;
         private static readonly Color _externalZoneBodyColor = Color.cornflowerBlue * 0.75f;
 
         // State
         private readonly ZoneNode zoneNode;
-        private readonly ZoneGraphView graphView;
+        private readonly ZoneGraphView zoneGraphView;
         private readonly Button linkButton;
 
-        public ZoneNodeView(ZoneNode zoneNode, Zone _, ZoneGraphView graphView)
+        public ZoneNodeView(ZoneNode zoneNode, ZoneGraphView zoneGraphView)
         {
             this.zoneNode = zoneNode;
-            this.graphView = graphView;
+            this.zoneGraphView = zoneGraphView;
             
             InitializeNodeStyle();
 
             VisualElement nodeHeader = MakeNodeHeader();
-            nodeHeader.AddManipulator(new StandardNodeDragManipulator(this, zoneNode, OnPositionChanged, () => graphView.zoomFactor));
+            nodeHeader.AddManipulator(new StandardNodeDragManipulator(this, zoneNode, OnPositionChangedLive, OnPositionChangedComplete, () => zoneGraphView.zoomFactor));
             Add(nodeHeader);
             
             var idLabel = new Label($"--Unique ID: {zoneNode.GetNodeID()}--");
@@ -44,7 +44,7 @@ namespace Frankie.ZoneManagement.Editor
             overrideIDField.RegisterValueChangedCallback(changeEvent =>
             {
                 if (changeEvent.newValue == zoneNode.GetNodeID()) { return; }
-                this.graphView.RequestNodeIDChange(zoneNode, changeEvent.newValue);
+                this.zoneGraphView.RequestNodeIDChange(zoneNode, changeEvent.newValue);
             });
             Add(overrideIDField);
 
@@ -62,15 +62,15 @@ namespace Frankie.ZoneManagement.Editor
             var buttonSpacer = new VisualElement { style = { flexGrow = 1 } };
             buttonRow.Add(buttonSpacer);
 
-            if (!graphView.IsRootNode(zoneNode))
+            if (!zoneGraphView.IsRootNode(zoneNode))
             {
                 Button deleteButton = MakeAddRemoveButton(false);
-                deleteButton.RegisterCallback<ClickEvent>(_ => this.graphView.RequestDelete(zoneNode));
+                deleteButton.RegisterCallback<ClickEvent>(_ => this.zoneGraphView.RequestDelete(zoneNode));
                 buttonRow.Add(deleteButton);
             }
 
             Button addButton = MakeAddRemoveButton(true);
-            addButton.RegisterCallback<ClickEvent>(_ => this.graphView.RequestCreateChild(zoneNode));
+            addButton.RegisterCallback<ClickEvent>(_ => this.zoneGraphView.RequestCreateChild(zoneNode));
             buttonRow.Add(addButton);
             
             var bottomSpacer = new VisualElement { style = { height = 5 } };
@@ -79,39 +79,45 @@ namespace Frankie.ZoneManagement.Editor
 
         public void RefreshLinkButton()
         {
-            if (!graphView.isLinking)
+            if (!zoneGraphView.isLinking)
             {
                 linkButton.text = "link";
             }
-            else if (graphView.GetLinkingParentNode() == zoneNode)
+            else if (zoneGraphView.GetLinkingParentNode() == zoneNode)
             {
                 linkButton.text = "---";
             }
             else
             {
-                linkButton.text = Zone.IsRelated(graphView.GetLinkingParentNode(), zoneNode) ? "unlink" : "child";
+                linkButton.text = Zone.IsRelated(zoneGraphView.GetLinkingParentNode(), zoneNode) ? "unlink" : "child";
             }
         }
         
         #region EventHandling
-        private void OnPositionChanged()
+        private void OnPositionChangedLive()
         {
-            graphView.NotifyNodeMoved();
+            zoneGraphView.NotifyNodeMoved();
+            zoneGraphView.UpdateGroupsForNode(zoneNode);
+        }
+
+        private void OnPositionChangedComplete()
+        {
+            zoneGraphView.UpdateGroupsForNode(zoneNode, true);
         }
 
         private void OnLinkButtonClicked()
         {
-            if (!graphView.isLinking)
+            if (!zoneGraphView.isLinking)
             {
-                graphView.BeginLinking(zoneNode);
+                zoneGraphView.BeginLinking(zoneNode);
             }
-            else if (graphView.GetLinkingParentNode() == zoneNode)
+            else if (zoneGraphView.GetLinkingParentNode() == zoneNode)
             {
-                graphView.CancelLinking();
+                zoneGraphView.CancelLinking();
             }
             else
             {
-                graphView.CompleteLinking(zoneNode);
+                zoneGraphView.CompleteLinking(zoneNode);
             }
         }
         #endregion

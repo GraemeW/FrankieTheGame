@@ -1,30 +1,20 @@
 using System;
-using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-namespace Frankie.Utils.Editor
+namespace Frankie.ZoneManagement.Editor
 {
-    public class StandardNodeDragManipulator : MouseManipulator
+    public class ZoneGroupDragManipulator : MouseManipulator
     {
-        // Const Tunables
-        private const float _moveThreshold = 0.25f;
-        
-        // State
-        private readonly VisualElement nodeElement;
-        private readonly IStandardGraphNode activeNode;
-        private readonly Action onPositionChangedLive;
-        private readonly Action onPositionChangedComplete;
+        private readonly Func<Vector2> getPosition;
+        private readonly Action<Vector2> setPosition;
         private readonly Func<float> zoomProvider;
         private bool isDragging;
-        private Vector2 initialPosition;
 
-        public StandardNodeDragManipulator(VisualElement nodeElement, IStandardGraphNode activeNode, Action onPositionChangedLive, Action onPositionChangedComplete, Func<float> zoomProvider)
+        public ZoneGroupDragManipulator(Func<Vector2> getPosition, Action<Vector2> setPosition, Func<float> zoomProvider)
         {
-            this.nodeElement = nodeElement;
-            this.activeNode = activeNode;
-            this.onPositionChangedLive = onPositionChangedLive;
-            this.onPositionChangedComplete = onPositionChangedComplete;
+            this.getPosition = getPosition;
+            this.setPosition = setPosition;
             this.zoomProvider = zoomProvider;
             activators.Add(new ManipulatorActivationFilter { button = MouseButton.LeftMouse });
         }
@@ -48,7 +38,6 @@ namespace Frankie.Utils.Editor
             if (isDragging || !CanStartManipulation(mouseDownEvent)) { return; }
 
             isDragging = true;
-            initialPosition = mouseDownEvent.mousePosition;
             target.CaptureMouse();
             mouseDownEvent.StopPropagation();
         }
@@ -58,12 +47,8 @@ namespace Frankie.Utils.Editor
             if (!isDragging || !target.HasMouseCapture()) { return; }
 
             float zoom = Mathf.Max(zoomProvider?.Invoke() ?? 1f, 0.01f);
-            Vector2 newPosition = activeNode.GetPosition() + mouseMoveEvent.mouseDelta / zoom;
-            activeNode.SetPosition(newPosition);
-            nodeElement.style.left = newPosition.x;
-            nodeElement.style.top = newPosition.y;
-
-            onPositionChangedLive?.Invoke();
+            Vector2 newPosition = getPosition() + mouseMoveEvent.mouseDelta / zoom;
+            setPosition(newPosition);
             mouseMoveEvent.StopPropagation();
         }
 
@@ -74,15 +59,6 @@ namespace Frankie.Utils.Editor
             isDragging = false;
             target.ReleaseMouse();
             mouseUpEvent.StopPropagation();
-
-            if (Vector2.Distance(initialPosition, mouseUpEvent.mousePosition) < _moveThreshold)
-            {
-                Selection.activeObject = activeNode.scriptableObject;
-            }
-            else
-            {
-                onPositionChangedComplete?.Invoke();
-            }
         }
     }
 }

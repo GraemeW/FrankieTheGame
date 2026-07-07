@@ -17,6 +17,7 @@ namespace Frankie.ZoneManagement.Editor
         private ZoneGraphView zoneGraphView;
         private Label headerLabel;
         private Label noZoneMessage;
+        private Button addGroupButton;
 
         #region UnityMethods
         [MenuItem("Window/Zone Editor")]
@@ -65,6 +66,11 @@ namespace Frankie.ZoneManagement.Editor
             noZoneMessage = new Label(_noZoneSelectedMessage) { style = { paddingLeft = 6 } };
             rootVisualElement.Add(noZoneMessage);
 
+            var toolbar = new VisualElement { style = { flexDirection = FlexDirection.Row, paddingLeft = 4, paddingTop = 2, paddingBottom = 2 } };
+            addGroupButton = new Button(() => zoneGraphView.BeginPlacingGroup()) { text = "Add Group" };
+            toolbar.Add(addGroupButton);
+            rootVisualElement.Add(toolbar);
+            
             zoneGraphView = new ZoneGraphView { style = { flexGrow = 1, overflow = Overflow.Hidden } };
             zoneGraphView.RegisterCallback<MouseDownEvent>(_ => Selection.activeObject = selectedZone);
             rootVisualElement.Add(zoneGraphView);
@@ -80,6 +86,7 @@ namespace Frankie.ZoneManagement.Editor
             noZoneMessage.style.display = hasZone ? DisplayStyle.None : DisplayStyle.Flex;
             headerLabel.style.display = hasZone ? DisplayStyle.Flex : DisplayStyle.None;
             zoneGraphView.style.display = hasZone ? DisplayStyle.Flex : DisplayStyle.None;
+            addGroupButton.SetEnabled(hasZone);
 
             if (!hasZone) { return; }
 

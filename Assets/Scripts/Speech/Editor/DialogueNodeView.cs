@@ -45,7 +45,7 @@ namespace Frankie.Speech.Editor
             InitializeNodeStyle();
 
             VisualElement nodeHeader = MakeNodeHeader();
-            nodeHeader.AddManipulator(new StandardNodeDragManipulator(this, dialogueNode, onPositionChanged, zoomProvider));
+            nodeHeader.AddManipulator(new StandardNodeDragManipulator(this, dialogueNode, onPositionChanged, null, zoomProvider));
             Add(nodeHeader);
 
             idLabel = new Label();

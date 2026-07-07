@@ -110,8 +110,8 @@ namespace Frankie.Speech.Editor
 
         private void RebuildCanvas()
         {
-            nodesLayer.Clear();
-            nodeViews.Clear();
+            nodesLayer?.Clear();
+            nodeViews?.Clear();
             linkingParentNode = null;
 
             bool hasDialogue = selectedDialogue != null;

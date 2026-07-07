@@ -21,6 +21,9 @@ namespace Frankie.ZoneManagement
         [SerializeField] private Vector2 newNodeOffset = new(100f, 25f);
         [SerializeField] private int nodeWidth = 350;
         [SerializeField] private int nodeHeight = 125;
+        [SerializeField] private float zoneNodeGroupDefaultSize = 100f;
+        [SerializeField] [Range(0.5f, 1.5f)] private float rectCheckRatio = 0.5f;
+        [SerializeField] private List<ZoneNodeGroup> zoneNodeGroups = new();
 #endif
         [Header("Zone Properties")]
         [SerializeField][SimpleLocalizedString(LocalizationTableType.Zones, false)] private LocalizedString localizedDisplayName;
@@ -143,7 +146,7 @@ namespace Frankie.ZoneManagement
         #endregion
         
 #if UNITY_EDITOR
-        #region EditorMethods
+        #region StandardEditorMethods
         [ContextMenu("Match Zone Name to Scene")]
         public void ForceUpdateZoneNameToMatchScene()
         {
@@ -205,6 +208,7 @@ namespace Frankie.ZoneManagement
             nodeToDelete.DeleteLocalizationEntries();
             zoneNodes.Remove(nodeToDelete);
             CleanDanglingChildren(nodeToDelete);
+            RemoveNodeFromAllGroups(nodeToDelete.GetNodeID());
             OnValidate();
 
             Undo.DestroyObjectImmediate(nodeToDelete);
@@ -214,6 +218,11 @@ namespace Frankie.ZoneManagement
             foreach (ZoneNode zoneNode in zoneNodes.Where(zoneNode => zoneNode.GetChildren() != null))
             {
                 zoneNode.UpdateChildNodeID(oldNodeID, newNodeID);
+            }
+            foreach (ZoneNodeGroup group in zoneNodeGroups.Where(group => group.ContainsNodeID(oldNodeID)))
+            {
+                group.RemoveNodeID(oldNodeID);
+                group.AddNodeID(newNodeID);
             }
             OnValidate();
         }
@@ -244,6 +253,76 @@ namespace Frankie.ZoneManagement
             foreach (ZoneNode zoneNode in zoneNodes)
             {
                 zoneNode.SetZoneName(name);
+            }
+        }
+        #endregion
+        
+        #region NodeGroupMethods
+        public IEnumerable<ZoneNodeGroup> GetAllGroups() => zoneNodeGroups;
+
+        public ZoneNodeGroup CreateGroup(Vector2 position)
+        {
+            Undo.RecordObject(this, "Create Zone Node Group");
+            var group = new ZoneNodeGroup(name);
+            group.SetRect(new Rect(position, new Vector2(zoneNodeGroupDefaultSize, zoneNodeGroupDefaultSize)));
+            zoneNodeGroups.Add(group);
+            EditorUtility.SetDirty(this);
+            return group;
+        }
+
+        public void DeleteGroup(ZoneNodeGroup zoneNodeGroup)
+        {
+            Undo.RecordObject(this, "Delete Zone Node Group");
+            zoneNodeGroups.Remove(zoneNodeGroup);
+            EditorUtility.SetDirty(this);
+        }
+
+        public void SetGroupRect(ZoneNodeGroup zoneNodeGroup, Rect rect)
+        {
+            Undo.RecordObject(this, "Move Zone Node Group");
+            zoneNodeGroup.SetRect(rect);
+            EditorUtility.SetDirty(this);
+        }
+        
+        public void UpdateGroupsForNodeMove(ZoneNode movedNode)
+        {
+            Rect nodeRect = movedNode.GetRect();
+            var checkRect = new Rect(0f, 0f, nodeRect.width * rectCheckRatio, nodeRect.height * rectCheckRatio) { center = nodeRect.center };
+            bool changed = false;
+
+            foreach (ZoneNodeGroup zoneNodeGroup in zoneNodeGroups)
+            {
+                if (!zoneNodeGroup.ContainsNodeID(movedNode.GetNodeID())) { continue; }
+                if (zoneNodeGroup.GetRect().Overlaps(checkRect)) { continue; }
+
+                if (!changed) { Undo.RecordObject(this, "Update Zone Node Group"); }
+                changed = true;
+                zoneNodeGroup.RemoveNodeID(movedNode.GetNodeID());
+                zoneNodeGroup.RecomputeGroupRect();
+            }
+            
+            foreach (ZoneNodeGroup zoneNodeGroup in zoneNodeGroups)
+            {
+                if (zoneNodeGroup.ContainsNodeID(movedNode.GetNodeID())) { continue; }
+                if (!zoneNodeGroup.GetRect().Overlaps(checkRect)) { continue; }
+
+                if (!changed) { Undo.RecordObject(this, "Update Zone Node Group"); }
+                changed = true;
+                zoneNodeGroup.AddNodeID(movedNode.GetNodeID());
+                zoneNodeGroup.RecomputeGroupRect();
+                break;
+            }
+
+            if (changed) { EditorUtility.SetDirty(this); }
+        }
+
+        private void RemoveNodeFromAllGroups(string nodeID)
+        {
+            foreach (ZoneNodeGroup zoneNodeGroup in zoneNodeGroups)
+            {
+                if (!zoneNodeGroup.ContainsNodeID(nodeID)) { continue; }
+                zoneNodeGroup.RemoveNodeID(nodeID);
+                zoneNodeGroup.RecomputeGroupRect();
             }
         }
         #endregion

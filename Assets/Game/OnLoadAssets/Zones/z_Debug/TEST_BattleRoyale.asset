@@ -99,8 +99,8 @@ MonoBehaviour:
   externalZoneLinkToZoneNode: {fileID: -5860749958356787099, guid: f4fe026e5041d4556bdc413cb4a52663, type: 2}
   rect:
     serializedVersion: 2
-    x: -218.14793
-    y: 130.39845
+    x: -34.94246
+    y: 173.82025
     width: 350
     height: 125
   zoneName: TEST_BattleRoyale
@@ -137,8 +137,8 @@ MonoBehaviour:
   externalZoneLinkToZoneNode: {fileID: 0}
   rect:
     serializedVersion: 2
-    x: -202.82797
-    y: -40.84019
+    x: -310.8762
+    y: 30.229088
     width: 350
     height: 125
   zoneName: TEST_BattleRoyale
@@ -236,6 +236,19 @@ MonoBehaviour:
   newNodeOffset: {x: 100, y: 25}
   nodeWidth: 350
   nodeHeight: 125
+  zoneNodeGroupDefaultSize: 100
+  zoneNodeGroups:
+  - zoneNodeGroupPadding: 20
+    rect:
+      serializedVersion: 2
+      x: -330.8762
+      y: 10.229088
+      width: 665.9337
+      height: 308.59116
+    containedNodeIDs:
+    - MusicSwitchDoor_DebugToForestDemo
+    - MusicSwitcher_Elevator
+    zoneName: TEST_BattleRoyale
   localizedDisplayName:
     m_TableReference:
       m_TableCollectionName: GUID:8137acf3076d245cf991f948822c95ba
@@ -292,8 +305,8 @@ MonoBehaviour:
   externalZoneLinkToZoneNode: {fileID: 0}
   rect:
     serializedVersion: 2
-    x: 533.314
-    y: -24.532745
+    x: 509.95694
+    y: -6.4841194
     width: 350
     height: 125
   zoneName: TEST_BattleRoyale

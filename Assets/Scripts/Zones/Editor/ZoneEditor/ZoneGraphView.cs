@@ -10,14 +10,17 @@ namespace Frankie.ZoneManagement.Editor
     {
         // State
         private Zone zone;
-        private VisualElement canvasContent;
+        private readonly VisualElement canvasContent;
+        private readonly VisualElement groupLayer;
         private readonly ZoneEdgesLayer edgesLayer;
         private readonly VisualElement nodeLayer;
         private readonly StandardCanvasPanManipulator panManipulator;
         private readonly StandardCanvasZoomManipulator zoomManipulator;
         private readonly Dictionary<string, ZoneNodeView> nodeViewLookup = new();
+        private readonly Dictionary<ZoneNodeGroup, ZoneGroupView> groupViewLookup = new();
         private ZoneNode linkingParentNode;
-        
+        private bool isPlacingGroup;
+
         public ZoneGraphView()
         {
             canvasContent = MakeCanvas();
@@ -26,12 +29,16 @@ namespace Frankie.ZoneManagement.Editor
             var backgroundLayer = new ZoneBackgroundLayer();
             canvasContent.Add(backgroundLayer);
 
+            groupLayer = MakeGroupLayer();
+            canvasContent.Add(groupLayer);
+
             edgesLayer = new ZoneEdgesLayer();
             canvasContent.Add(edgesLayer);
 
             nodeLayer = MakeNodesLayer();
             canvasContent.Add(nodeLayer);
 
+            RegisterCallback<MouseDownEvent>(OnPossibleGroupPlacementClick);
             panManipulator = new StandardCanvasPanManipulator(canvasContent);
             this.AddManipulator(panManipulator);
             zoomManipulator = new StandardCanvasZoomManipulator(canvasContent);
@@ -50,7 +57,9 @@ namespace Frankie.ZoneManagement.Editor
         {
             zone = newZone;
             linkingParentNode = null;
+            isPlacingGroup = false;
             RebuildNodes();
+            RebuildGroups();
         }
         
         public void RequestNodeIDChange(ZoneNode zoneNode, string newID)
@@ -76,9 +85,33 @@ namespace Frankie.ZoneManagement.Editor
         {
             zone.DeleteNode(nodeToDelete);
             RebuildNodes();
+            RefreshGroupViews();
         }
         
         public void NotifyNodeMoved() => RefreshEdges();
+
+        public void UpdateGroupsForNode(ZoneNode movedNode, bool forceRecalculation = false)
+        {
+            zone.UpdateGroupsForNodeMove(movedNode);
+            RefreshGroupViews(forceRecalculation);
+        }
+
+        public void BeginPlacingGroup()
+        {
+            if (zone == null) { return; }
+            isPlacingGroup = true;
+        }
+
+        public void RequestDeleteGroup(ZoneNodeGroup group)
+        {
+            zone.DeleteGroup(group);
+            RebuildGroups();
+        }
+
+        public void SetGroupRect(ZoneNodeGroup group, Rect rect)
+        {
+            zone.SetGroupRect(group, rect);
+        }
 
         public void BeginLinking(ZoneNode parentNode)
         {
@@ -121,7 +154,7 @@ namespace Frankie.ZoneManagement.Editor
 
             foreach (ZoneNode zoneNode in zone.GetAllNodes())
             {
-                var nodeView = new ZoneNodeView(zoneNode, zone, this);
+                var nodeView = new ZoneNodeView(zoneNode, this);
                 nodeViewLookup[zoneNode.GetNodeID()] = nodeView;
                 nodeLayer.Add(nodeView);
             }
@@ -152,6 +185,44 @@ namespace Frankie.ZoneManagement.Editor
                 nodeView.RefreshLinkButton();
             }
         }
+
+        private void RebuildGroups()
+        {
+            groupLayer.Clear();
+            groupViewLookup.Clear();
+
+            if (zone == null) { return; }
+
+            foreach (ZoneNodeGroup zoneNodeGroup in zone.GetAllGroups())
+            {
+                var groupView = new ZoneGroupView(zoneNodeGroup, this);
+                groupViewLookup[zoneNodeGroup] = groupView;
+                groupLayer.Add(groupView);
+            }
+        }
+
+        private void RefreshGroupViews(bool forceRecalculation = false)
+        {
+            foreach (ZoneGroupView zoneGroupView in groupViewLookup.Values.Where(zoneGroupView => zoneGroupView?.zoneNodeGroup != null))
+            {
+                if (forceRecalculation) { zoneGroupView.zoneNodeGroup.RecomputeGroupRect(); }
+                zoneGroupView.ApplyRectFromData();
+            }
+        }
+
+        private void OnPossibleGroupPlacementClick(MouseDownEvent mouseDownEvent)
+        {
+            if (!isPlacingGroup) { return; }
+            if (mouseDownEvent.button != (int)MouseButton.LeftMouse) { return; }
+
+            isPlacingGroup = false;
+            
+            Vector2 contentPosition = canvasContent.WorldToLocal(mouseDownEvent.mousePosition);
+
+            zone.CreateGroup(contentPosition);
+            RebuildGroups();
+            mouseDownEvent.StopImmediatePropagation();
+        }
         #endregion
         
         #region StaticUIBuilders
@@ -160,6 +231,20 @@ namespace Frankie.ZoneManagement.Editor
             return new VisualElement
             {
                 name = "canvas-content",
+                style =
+                {
+                    position = Position.Absolute,
+                    left = 0,
+                    top = 0
+                }
+            };
+        }
+
+        private static VisualElement MakeGroupLayer()
+        {
+            return new VisualElement
+            {
+                name = "zone-group-layer",
                 style =
                 {
                     position = Position.Absolute,
