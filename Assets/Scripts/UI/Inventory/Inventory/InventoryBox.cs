@@ -252,12 +252,12 @@ namespace Frankie.Inventory.UI
         #endregion
 
         #region Interaction
-        protected override bool MoveCursor(PlayerInputType playerInputType)
+        protected override bool MoveCursor(PlayerInputType playerInputType, CursorMovementStyle cursorMovementStyle)
         {
             switch (inventoryBoxState)
             {
                 case InventoryBoxState.InCharacterSelection:
-                    return base.MoveCursor(playerInputType);
+                    return base.MoveCursor(playerInputType, CursorMovementStyle.Horizontal);
                 case InventoryBoxState.InKnapsack:
                     // Support for 2-D movement across the inventory items
                     MoveCursor2D(playerInputType);
@@ -305,7 +305,7 @@ namespace Frankie.Inventory.UI
             battleActionData = new BattleActionData(selectedCharacter);
             SetInventoryBoxState(InventoryBoxState.InKnapsack);
 
-            if (initializeCursor && IsChoiceAvailable()) { MoveCursor(PlayerInputType.NavigateRight); }
+            if (initializeCursor && IsChoiceAvailable()) { MoveCursor(PlayerInputType.NavigateRight, CursorMovementStyle.Combined); }
             if (!IsChoiceAvailable()) { SetInventoryBoxState(InventoryBoxState.InCharacterSelection, true); }
         }
 

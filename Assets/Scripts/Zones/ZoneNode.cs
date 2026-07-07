@@ -52,17 +52,25 @@ namespace Frankie.ZoneManagement
         public bool CheckCondition(IEnumerable<IPredicateEvaluator> evaluators) => condition.Check(evaluators);
         #endregion
 
-#if UNITY_EDITOR
-        #region ZoneEditorMethods
+        #region NodeInterface
+        // Note:  Must be outside pragma for compilation
         public ScriptableObject scriptableObject => this;
         public Vector2 GetPosition() => rect.position;
-        public Rect GetRect() => rect;
         public void SetPosition(Vector2 position)
         {
+#if UNITY_EDITOR
             Undo.RecordObject(this, "Move Zone Node");
             rect.position = position;
             EditorUtility.SetDirty(this);
+#endif
         }
+        #endregion
+        
+#if UNITY_EDITOR
+        #region ZoneEditorMethods
+
+        public Rect GetRect() => rect;
+
         
         public void Initialize(int width, int height)
         {

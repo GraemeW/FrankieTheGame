@@ -195,7 +195,7 @@ namespace Frankie.Combat.UI
 
             if (IsChoiceAvailable() && initializeCursor)
             {
-                MoveCursor(PlayerInputType.DefaultNone);
+                MoveCursor(PlayerInputType.DefaultNone, CursorMovementStyle.Combined);
             }
         }
 
@@ -236,12 +236,12 @@ namespace Frankie.Combat.UI
             }
         }
 
-        protected override bool MoveCursor(PlayerInputType playerInputType)
+        protected override bool MoveCursor(PlayerInputType playerInputType, CursorMovementStyle cursorMovementStyle)
         {
             switch (abilitiesBoxState)
             {
                 case AbilitiesBoxState.InCharacterSelection:
-                    return base.MoveCursor(playerInputType);
+                    return base.MoveCursor(playerInputType, CursorMovementStyle.Horizontal);
                 case AbilitiesBoxState.InAbilitiesSelection:
                     return HandleInputWithReturn(playerInputType);
                 case AbilitiesBoxState.InCharacterTargeting:

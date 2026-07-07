@@ -159,7 +159,7 @@ namespace Frankie.Inventory.UI
             selectedItem = equipableItem;
             GenerateStatConfirmationMenu();
             SetEquipmentBoxState(EquipmentBoxState.InStatConfirmation);
-            MoveCursor(PlayerInputType.NavigateRight);
+            MoveCursor(PlayerInputType.NavigateRight, CursorMovementStyle.Combined);
         }
 
         private void HandleEquipmentUpdated(EquipableItemBase equipableItem)
@@ -235,13 +235,14 @@ namespace Frankie.Inventory.UI
         #endregion
 
         #region Interaction
-        protected override bool MoveCursor(PlayerInputType playerInputType)
+        protected override bool MoveCursor(PlayerInputType playerInputType, CursorMovementStyle cursorMovementStyle)
         {
             switch (equipmentBoxState)
             {
                 case EquipmentBoxState.InCharacterSelection:
+                    return base.MoveCursor(playerInputType, CursorMovementStyle.Horizontal);
                 case EquipmentBoxState.InStatConfirmation:
-                    return base.MoveCursor(playerInputType);
+                    return base.MoveCursor(playerInputType, cursorMovementStyle);
                 case EquipmentBoxState.InEquipmentSelection:
                     MoveCursor2D(playerInputType);
                     break;
@@ -270,7 +271,7 @@ namespace Frankie.Inventory.UI
             }
             SetEquipmentBoxState(EquipmentBoxState.InEquipmentSelection);
 
-            if (initializeCursor) { MoveCursor(PlayerInputType.NavigateRight); }
+            if (initializeCursor) { MoveCursor(PlayerInputType.NavigateRight, CursorMovementStyle.Combined); }
         }
 
         private void SoftChooseCharacter(CombatParticipant character)
